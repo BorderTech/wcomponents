@@ -442,10 +442,10 @@ var attributesBoxes= new Array('attributes_radiobutton');
                            <div id="diagram_radiobutton" style="display:block"><img alt="Diagram" border="0" src="img/radioButton_xsd_Element_ui_radiobutton.png" usemap="#radioButton_xsd_Element_ui_radiobutton" /><map name="radioButton_xsd_Element_ui_radiobutton" id="radioButton_xsd_Element_ui_radiobutton">
                                  <area alt="attributeGroups_control_xsd.tmp#input.attributes" href="attributeGroups_control_xsd.html#input.attributes" coords="160,43,311,69" />
                                  <area alt="radioButton_xsd.tmp#radiobutton_groupName" href="radioButton_xsd.html#radiobutton_groupName" coords="157,114,268,138" />
-                                 <area alt="radioButton_xsd.tmp#radiobutton_value" href="radioButton_xsd.html#radiobutton_value" coords="157,191,233,215" />
-                                 <area alt="radioButton_xsd.tmp#radiobutton_selected" href="radioButton_xsd.html#radiobutton_selected" coords="157,255,249,279" />
-                                 <area alt="radioButton_xsd.tmp#radiobutton_isNull" href="radioButton_xsd.html#radiobutton_isNull" coords="157,345,235,369" />
-                                 <area alt="attributeGroups_control_xsd.tmp#submitOnChange.attributes" href="attributeGroups_control_xsd.html#submitOnChange.attributes" coords="160,438,377,464" /></map></div>
+                                 <area alt="radioButton_xsd.tmp#radiobutton_value" href="radioButton_xsd.html#radiobutton_value" coords="157,204,233,228" />
+                                 <area alt="radioButton_xsd.tmp#radiobutton_selected" href="radioButton_xsd.html#radiobutton_selected" coords="157,268,249,292" />
+                                 <area alt="radioButton_xsd.tmp#radiobutton_isNull" href="radioButton_xsd.html#radiobutton_isNull" coords="157,358,235,382" />
+                                 <area alt="attributeGroups_control_xsd.tmp#submitOnChange.attributes" href="attributeGroups_control_xsd.html#submitOnChange.attributes" coords="160,451,377,477" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -537,9 +537,12 @@ var attributesBoxes= new Array('attributes_radiobutton');
                                     <td class="firstColumn"><b><a href="radioButton_xsd.html#radiobutton_groupName" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for radioButton.xsd')">groupName</a></b></td>
                                     <td><b>xs:NMTOKEN</b></td>
                                     <td></td>
-                                    <td>required</td>
+                                    <td>optional</td>
                                     <td>
-                                       <div class="annotation">Used to group a set of WRadioButtons into a usable single-selection control.</div>
+                                       <div class="annotation">Used to group a set of WRadioButtons into a usable single-selection control. This
+                                          attribute is mandatory if the
+                                          						field is not in a read-only state.
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -725,9 +728,9 @@ var attributesBoxes= new Array('attributes_radiobutton');
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:complexType</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:attributeGroup</span><span class="tAN"> ref=</span><span class="tAV">"ui:input.attributes"</span><span class="tEl">/&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"groupName"</span><span class="tAN"> type=</span><span class="tAV">"xs:NMTOKEN"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"groupName"</span><span class="tAN"> type=</span><span class="tAV">"xs:NMTOKEN"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Used to group a set of WRadioButtons into a usable single-selection control.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Used to group a set of WRadioButtons into a usable single-selection control. This attribute is mandatory if the field is not in a read-only state.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"value"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
@@ -786,7 +789,10 @@ var attributesBoxes= new Array('attributes_radiobutton');
                         </td>
                         <td>
                            <div id="annotations_radiobutton_groupName" style="display:block">
-                              <div class="annotation">Used to group a set of WRadioButtons into a usable single-selection control.</div>
+                              <div class="annotation">Used to group a set of WRadioButtons into a usable single-selection control. This
+                                 attribute is mandatory if the
+                                 						field is not in a read-only state.
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -803,8 +809,8 @@ var attributesBoxes= new Array('attributes_radiobutton');
                            <div id="properties_radiobutton_groupName" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
-                                    <td class="firstColumn" style="white-space: nowrap;">use</td>
-                                    <td><b>required</b></td>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
                                  </tr>
                               </table>
                            </div>
@@ -835,9 +841,9 @@ var attributesBoxes= new Array('attributes_radiobutton');
                            <div id="source_radiobutton_groupName" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"groupName"</span><span class="tAN"> type=</span><span class="tAV">"xs:NMTOKEN"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"groupName"</span><span class="tAN"> type=</span><span class="tAV">"xs:NMTOKEN"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Used to group a set of WRadioButtons into a usable single-selection control.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Used to group a set of WRadioButtons into a usable single-selection control. This attribute is mandatory if the field is not in a read-only state.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>

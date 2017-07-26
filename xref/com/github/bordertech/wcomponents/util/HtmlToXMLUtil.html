@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>HtmlToXMLUtil xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../apidocs/com/github/bordertech/wcomponents/util/HtmlToXMLUtil.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> com.github.bordertech.wcomponents.util;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.WebUtilities;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> org.apache.commons.lang3.text.translate.AggregateTranslator;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> org.apache.commons.lang3.text.translate.CharSequenceTranslator;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> org.apache.commons.lang3.text.translate.EntityArrays;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> org.apache.commons.lang3.text.translate.LookupTranslator;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> org.apache.commons.lang3.text.translate.NumericEntityUnescaper;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <em class="jxr_javadoccomment"> * This utility class provides a mechanism to ensure HTML is XML valid. It does this by unescaping HTML entities but</em>
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_javadoccomment"> * &lt;strong&gt;not&lt;/strong&gt; unescaping valid XML entities: {@code &amp;lt;}, {@code &amp;gt;}, {@code &amp;quot;}, {@code &amp;apos;} and</em>
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_javadoccomment"> * {@code &amp;amp;}.</em>
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_javadoccomment"> * @author Mark Reeves</em>
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <em class="jxr_javadoccomment"> * @since 1.2.0</em>
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../com/github/bordertech/wcomponents/util/HtmlToXMLUtil.html">HtmlToXMLUtil</a> {
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <em class="jxr_javadoccomment">	 * The translator to unescape HTML entities and the (invalid) {@code &amp;apos;} to valid XML. This is based on the</em>
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <em class="jxr_javadoccomment">	 * apache-commons StringEscapeUtils UNESCAPE_HTML4 translator with the BASIC_UNESCAPE Entity array removed and the</em>
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <em class="jxr_javadoccomment">	 * APOS_UNESCAPE Entity array added.</em>
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> CharSequenceTranslator UNESCAPE_HTML_TO_XML
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  			= <strong class="jxr_keyword">new</strong> AggregateTranslator(
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  					<strong class="jxr_keyword">new</strong> LookupTranslator(EntityArrays.ISO8859_1_UNESCAPE()),
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  					<strong class="jxr_keyword">new</strong> LookupTranslator(EntityArrays.HTML40_EXTENDED_UNESCAPE()),
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  					<strong class="jxr_keyword">new</strong> LookupTranslator(EntityArrays.APOS_UNESCAPE()),
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  					<strong class="jxr_keyword">new</strong> NumericEntityUnescaper());
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <em class="jxr_javadoccomment">	 * Do not allow instantiation.</em>
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  	<strong class="jxr_keyword">private</strong> <a href="../../../../../com/github/bordertech/wcomponents/util/HtmlToXMLUtil.html">HtmlToXMLUtil</a>() {
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  	}
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  <em class="jxr_javadoccomment">	 * Unescape HTML entities to safe XML.</em>
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  <em class="jxr_javadoccomment">	 * &lt;p&gt;</em>
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment">	 * Example&lt;/p&gt;</em>
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment">	 * &lt;pre&gt;</em>
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment">	 * {@code StringEscapeHTMLToXMLUtil.unescapeToXML("&amp;bull;&amp;Dagger}"); // returns "•‡"}</em>
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment">	 * {@code StringEscapeHTMLToXMLUtil.unescapeToXML("&amp;lt;p&amp;gt;"); // returns "&amp;lt;p&amp;gt;" not "&lt;p&gt;"}</em>
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment">	 * &lt;/pre&gt;</em>
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment">	 * @param input The String to unescape.</em>
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_javadoccomment">	 * @return the input with all HTML4 character entities unescaped except those which are also XML entities.</em>
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> String unescapeToXML(<strong class="jxr_keyword">final</strong> String input) {
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  		<strong class="jxr_keyword">if</strong> (Util.empty(input)) {
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  			<strong class="jxr_keyword">return</strong> input;
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  		}
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  		<em class="jxr_comment">// Check if input has encoded brackets</em>
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  		String encoded = WebUtilities.doubleEncodeBrackets(input);
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  		String unescaped = UNESCAPE_HTML_TO_XML.translate(encoded);
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  		String decoded = WebUtilities.doubleDecodeBrackets(unescaped);
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  		<strong class="jxr_keyword">return</strong> decoded;
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>  	}
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2017. All rights reserved.</div>
+</body>
+</html>

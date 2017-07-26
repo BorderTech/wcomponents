@@ -11,14 +11,14 @@
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.Renderer;
 <a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.WComponent;
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.WTabGroup;
-<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.XmlStringBuilder;
-<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-<a class="jxr_linenumber" name="L8" href="#L8">8</a>   
-<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_javadoccomment"> * {@link Renderer} for the {@link WTabGroup} component.</em>
-<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <em class="jxr_javadoccomment"> *</em>
-<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_javadoccomment"> * @author Yiannis Paschalidis</em>
-<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_javadoccomment"> * @since 1.0.0</em>
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_javadoccomment"> * {@link Renderer} for the {@link WTabGroup} component.</em>
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <em class="jxr_javadoccomment"> * @author Yiannis Paschalidis</em>
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_javadoccomment"> * @since 1.0.0</em>
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_javadoccomment"> * @deprecated see {@link WTabGroup}</em>
 <a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../com/github/bordertech/wcomponents/render/webxml/WTabGroupRenderer.html">WTabGroupRenderer</a> <strong class="jxr_keyword">extends</strong> <a href="../../../../../../com/github/bordertech/wcomponents/render/webxml/AbstractWebXmlRenderer.html">AbstractWebXmlRenderer</a> {
 <a class="jxr_linenumber" name="L16" href="#L16">16</a>  
@@ -31,22 +31,11 @@
 <a class="jxr_linenumber" name="L23" href="#L23">23</a>  	@Override
 <a class="jxr_linenumber" name="L24" href="#L24">24</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> doRender(<strong class="jxr_keyword">final</strong> <a href="../../../../../../com/github/bordertech/wcomponents/WComponent.html">WComponent</a> component, <strong class="jxr_keyword">final</strong> <a href="../../../../../../com/github/bordertech/wcomponents/servlet/WebXmlRenderContext.html">WebXmlRenderContext</a> renderContext) {
 <a class="jxr_linenumber" name="L25" href="#L25">25</a>  		WTabGroup group = (WTabGroup) component;
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>  		XmlStringBuilder xml = renderContext.getWriter();
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>  
-<a class="jxr_linenumber" name="L28" href="#L28">28</a>  		xml.appendTagOpen(<span class="jxr_string">"ui:tabgroup"</span>);
-<a class="jxr_linenumber" name="L29" href="#L29">29</a>  		xml.appendAttribute(<span class="jxr_string">"id"</span>, component.getId());
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"class"</span>, component.getHtmlClass());
-<a class="jxr_linenumber" name="L31" href="#L31">31</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"track"</span>, component.isTracking(), <span class="jxr_string">"true"</span>);
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"disabled"</span>, group.isDisabled(), <span class="jxr_string">"true"</span>);
-<a class="jxr_linenumber" name="L33" href="#L33">33</a>  		xml.appendClose();
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>  
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>  		paintChildren(group, renderContext);
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>  
-<a class="jxr_linenumber" name="L37" href="#L37">37</a>  		xml.appendEndTag(<span class="jxr_string">"ui:tabgroup"</span>);
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>  	}
-<a class="jxr_linenumber" name="L39" href="#L39">39</a>  }
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  		paintChildren(group, renderContext);
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  	}
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2016. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2017. All rights reserved.</div>
 </body>
 </html>

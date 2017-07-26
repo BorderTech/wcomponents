@@ -182,54 +182,74 @@
 <a class="jxr_linenumber" name="L174" href="#L174">174</a> 	Set getFwkAttributeNames();
 <a class="jxr_linenumber" name="L175" href="#L175">175</a> 
 <a class="jxr_linenumber" name="L176" href="#L176">176</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L177" href="#L177">177</a> <em class="jxr_javadoccomment">	 * Reserved for internal framework use. Retrieves a scratch area, where data can be temporarily stored. WComponents</em>
-<a class="jxr_linenumber" name="L178" href="#L178">178</a> <em class="jxr_javadoccomment">	 * must not rely on data being available in the scratch area after each phase.</em>
+<a class="jxr_linenumber" name="L177" href="#L177">177</a> <em class="jxr_javadoccomment">	 * Reserved for internal framework use. Retrieves a scratch area with phse scope, where data can be temporarily</em>
+<a class="jxr_linenumber" name="L178" href="#L178">178</a> <em class="jxr_javadoccomment">	 * stored. WComponents must not rely on data being available in the scratch area after each phase.</em>
 <a class="jxr_linenumber" name="L179" href="#L179">179</a> <em class="jxr_javadoccomment">	 *</em>
 <a class="jxr_linenumber" name="L180" href="#L180">180</a> <em class="jxr_javadoccomment">	 * @param component the component to retrieve the scratch map for.</em>
-<a class="jxr_linenumber" name="L181" href="#L181">181</a> <em class="jxr_javadoccomment">	 * @return the scratch map for the given component.</em>
+<a class="jxr_linenumber" name="L181" href="#L181">181</a> <em class="jxr_javadoccomment">	 * @return the scratch map with phase scope for the given component.</em>
 <a class="jxr_linenumber" name="L182" href="#L182">182</a> <em class="jxr_javadoccomment">	 */</em>
 <a class="jxr_linenumber" name="L183" href="#L183">183</a> 	Map getScratchMap(<a href="../../../../com/github/bordertech/wcomponents/WComponent.html">WComponent</a> component);
 <a class="jxr_linenumber" name="L184" href="#L184">184</a> 
 <a class="jxr_linenumber" name="L185" href="#L185">185</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L186" href="#L186">186</a> <em class="jxr_javadoccomment">	 * Reserved for internal framework use. Clears the scratch map for the given component.</em>
+<a class="jxr_linenumber" name="L186" href="#L186">186</a> <em class="jxr_javadoccomment">	 * Reserved for internal framework use. Clears the scratch map with phase scope for the given component.</em>
 <a class="jxr_linenumber" name="L187" href="#L187">187</a> <em class="jxr_javadoccomment">	 *</em>
 <a class="jxr_linenumber" name="L188" href="#L188">188</a> <em class="jxr_javadoccomment">	 * @param component the component to clear the scratch map for.</em>
 <a class="jxr_linenumber" name="L189" href="#L189">189</a> <em class="jxr_javadoccomment">	 */</em>
 <a class="jxr_linenumber" name="L190" href="#L190">190</a> 	<strong class="jxr_keyword">void</strong> clearScratchMap(<a href="../../../../com/github/bordertech/wcomponents/WComponent.html">WComponent</a> component);
 <a class="jxr_linenumber" name="L191" href="#L191">191</a> 
 <a class="jxr_linenumber" name="L192" href="#L192">192</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L193" href="#L193">193</a> <em class="jxr_javadoccomment">	 * Reserved for internal framework use. Clears the scratch map.</em>
+<a class="jxr_linenumber" name="L193" href="#L193">193</a> <em class="jxr_javadoccomment">	 * Reserved for internal framework use. Clears the scratch map with phase scope.</em>
 <a class="jxr_linenumber" name="L194" href="#L194">194</a> <em class="jxr_javadoccomment">	 */</em>
 <a class="jxr_linenumber" name="L195" href="#L195">195</a> 	<strong class="jxr_keyword">void</strong> clearScratchMap();
 <a class="jxr_linenumber" name="L196" href="#L196">196</a> 
 <a class="jxr_linenumber" name="L197" href="#L197">197</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L198" href="#L198">198</a> <em class="jxr_javadoccomment">	 * Returns the creation time of this UIContext, which can be used to approximate the user session creation time.</em>
+<a class="jxr_linenumber" name="L198" href="#L198">198</a> <em class="jxr_javadoccomment">	 * Reserved for internal framework use. Get scratch map with request scope.</em>
 <a class="jxr_linenumber" name="L199" href="#L199">199</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L200" href="#L200">200</a> <em class="jxr_javadoccomment">	 * @return the creation time of this UIContext.</em>
-<a class="jxr_linenumber" name="L201" href="#L201">201</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L202" href="#L202">202</a> 	<strong class="jxr_keyword">long</strong> getCreationTime();
-<a class="jxr_linenumber" name="L203" href="#L203">203</a> 
-<a class="jxr_linenumber" name="L204" href="#L204">204</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L205" href="#L205">205</a> <em class="jxr_javadoccomment">	 * @return the headers instance for this UIContext.</em>
-<a class="jxr_linenumber" name="L206" href="#L206">206</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L207" href="#L207">207</a> 	Headers getHeaders();
-<a class="jxr_linenumber" name="L208" href="#L208">208</a> 
-<a class="jxr_linenumber" name="L209" href="#L209">209</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L210" href="#L210">210</a> <em class="jxr_javadoccomment">	 * Retrieves the locale for this context.</em>
-<a class="jxr_linenumber" name="L211" href="#L211">211</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L212" href="#L212">212</a> <em class="jxr_javadoccomment">	 * @return the Locale for this context, or null if no locale has been set.</em>
-<a class="jxr_linenumber" name="L213" href="#L213">213</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L214" href="#L214">214</a> 	Locale getLocale();
-<a class="jxr_linenumber" name="L215" href="#L215">215</a> 
-<a class="jxr_linenumber" name="L216" href="#L216">216</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L217" href="#L217">217</a> <em class="jxr_javadoccomment">	 * Sets the locale for this context.</em>
-<a class="jxr_linenumber" name="L218" href="#L218">218</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L219" href="#L219">219</a> <em class="jxr_javadoccomment">	 * @param locale the Locale to set, or null for the default locale.</em>
-<a class="jxr_linenumber" name="L220" href="#L220">220</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L221" href="#L221">221</a> 	<strong class="jxr_keyword">void</strong> setLocale(Locale locale);
-<a class="jxr_linenumber" name="L222" href="#L222">222</a> }
+<a class="jxr_linenumber" name="L200" href="#L200">200</a> <em class="jxr_javadoccomment">	 * @param component the component to retrieve the scratch map for.</em>
+<a class="jxr_linenumber" name="L201" href="#L201">201</a> <em class="jxr_javadoccomment">	 * @return the scratch map with request scope</em>
+<a class="jxr_linenumber" name="L202" href="#L202">202</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L203" href="#L203">203</a> 	Map&lt;Object, Object&gt; getRequestScratchMap(<a href="../../../../com/github/bordertech/wcomponents/WComponent.html">WComponent</a> component);
+<a class="jxr_linenumber" name="L204" href="#L204">204</a> 
+<a class="jxr_linenumber" name="L205" href="#L205">205</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L206" href="#L206">206</a> <em class="jxr_javadoccomment">	 * Reserved for internal framework use. Clears the scratch map with request scope.</em>
+<a class="jxr_linenumber" name="L207" href="#L207">207</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L208" href="#L208">208</a> <em class="jxr_javadoccomment">	 * @param component the component to clear the scratch map for.</em>
+<a class="jxr_linenumber" name="L209" href="#L209">209</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L210" href="#L210">210</a> 	<strong class="jxr_keyword">void</strong> clearRequestScratchMap(<a href="../../../../com/github/bordertech/wcomponents/WComponent.html">WComponent</a> component);
+<a class="jxr_linenumber" name="L211" href="#L211">211</a> 
+<a class="jxr_linenumber" name="L212" href="#L212">212</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L213" href="#L213">213</a> <em class="jxr_javadoccomment">	 * Reserved for internal framework use. Clears the scratch map with request scope.</em>
+<a class="jxr_linenumber" name="L214" href="#L214">214</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L215" href="#L215">215</a> 	<strong class="jxr_keyword">void</strong> clearRequestScratchMap();
+<a class="jxr_linenumber" name="L216" href="#L216">216</a> 
+<a class="jxr_linenumber" name="L217" href="#L217">217</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L218" href="#L218">218</a> <em class="jxr_javadoccomment">	 * Returns the creation time of this UIContext, which can be used to approximate the user session creation time.</em>
+<a class="jxr_linenumber" name="L219" href="#L219">219</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L220" href="#L220">220</a> <em class="jxr_javadoccomment">	 * @return the creation time of this UIContext.</em>
+<a class="jxr_linenumber" name="L221" href="#L221">221</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L222" href="#L222">222</a> 	<strong class="jxr_keyword">long</strong> getCreationTime();
+<a class="jxr_linenumber" name="L223" href="#L223">223</a> 
+<a class="jxr_linenumber" name="L224" href="#L224">224</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L225" href="#L225">225</a> <em class="jxr_javadoccomment">	 * @return the headers instance for this UIContext.</em>
+<a class="jxr_linenumber" name="L226" href="#L226">226</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L227" href="#L227">227</a> 	Headers getHeaders();
+<a class="jxr_linenumber" name="L228" href="#L228">228</a> 
+<a class="jxr_linenumber" name="L229" href="#L229">229</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L230" href="#L230">230</a> <em class="jxr_javadoccomment">	 * Retrieves the locale for this context.</em>
+<a class="jxr_linenumber" name="L231" href="#L231">231</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L232" href="#L232">232</a> <em class="jxr_javadoccomment">	 * @return the Locale for this context, or null if no locale has been set.</em>
+<a class="jxr_linenumber" name="L233" href="#L233">233</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L234" href="#L234">234</a> 	Locale getLocale();
+<a class="jxr_linenumber" name="L235" href="#L235">235</a> 
+<a class="jxr_linenumber" name="L236" href="#L236">236</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L237" href="#L237">237</a> <em class="jxr_javadoccomment">	 * Sets the locale for this context.</em>
+<a class="jxr_linenumber" name="L238" href="#L238">238</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L239" href="#L239">239</a> <em class="jxr_javadoccomment">	 * @param locale the Locale to set, or null for the default locale.</em>
+<a class="jxr_linenumber" name="L240" href="#L240">240</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L241" href="#L241">241</a> 	<strong class="jxr_keyword">void</strong> setLocale(Locale locale);
+<a class="jxr_linenumber" name="L242" href="#L242">242</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2016. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2017. All rights reserved.</div>
 </body>
 </html>

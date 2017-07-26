@@ -46,41 +46,44 @@
 <a class="jxr_linenumber" name="L38" href="#L38">38</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"single"</span>,
 <a class="jxr_linenumber" name="L39" href="#L39">39</a>  				TabSetType.ACCORDION.equals(tabSet.getType()) &amp;&amp; tabSet.isSingle(),
 <a class="jxr_linenumber" name="L40" href="#L40">40</a>  				<span class="jxr_string">"true"</span>);
-<a class="jxr_linenumber" name="L41" href="#L41">41</a>  		xml.appendClose();
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>  
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>  		<em class="jxr_comment">// Render margin</em>
-<a class="jxr_linenumber" name="L44" href="#L44">44</a>  		MarginRendererUtil.renderMargin(tabSet, renderContext);
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  		<strong class="jxr_keyword">if</strong> (WTabSet.TabSetType.ACCORDION.equals(tabSet.getType())) {
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  			xml.appendOptionalAttribute(<span class="jxr_string">"groupName"</span>, tabSet.getGroupName());
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  		}
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  		xml.appendClose();
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>  
-<a class="jxr_linenumber" name="L46" href="#L46">46</a>  		paintChildren(tabSet, renderContext);
-<a class="jxr_linenumber" name="L47" href="#L47">47</a>  
-<a class="jxr_linenumber" name="L48" href="#L48">48</a>  		xml.appendEndTag(<span class="jxr_string">"ui:tabset"</span>);
-<a class="jxr_linenumber" name="L49" href="#L49">49</a>  	}
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  		<em class="jxr_comment">// Render margin</em>
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  		MarginRendererUtil.renderMargin(tabSet, renderContext);
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  		paintChildren(tabSet, renderContext);
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>  
-<a class="jxr_linenumber" name="L51" href="#L51">51</a>  	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L52" href="#L52">52</a>  <em class="jxr_javadoccomment">	 * Determines the theme tabset type name for the given TabSetType.</em>
-<a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_javadoccomment">	 * @param type the TabSetType</em>
-<a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_javadoccomment">	 * @return the theme tabset type name for the given TabSetType.</em>
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L57" href="#L57">57</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> String getTypeAsString(<strong class="jxr_keyword">final</strong> WTabSet.TabSetType type) {
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>  		<strong class="jxr_keyword">switch</strong> (type) {
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>  			<strong class="jxr_keyword">case</strong> TOP:
-<a class="jxr_linenumber" name="L60" href="#L60">60</a>  				<strong class="jxr_keyword">return</strong> <span class="jxr_string">"top"</span>;
-<a class="jxr_linenumber" name="L61" href="#L61">61</a>  			<strong class="jxr_keyword">case</strong> LEFT:
-<a class="jxr_linenumber" name="L62" href="#L62">62</a>  				<strong class="jxr_keyword">return</strong> <span class="jxr_string">"left"</span>;
-<a class="jxr_linenumber" name="L63" href="#L63">63</a>  			<strong class="jxr_keyword">case</strong> RIGHT:
-<a class="jxr_linenumber" name="L64" href="#L64">64</a>  				<strong class="jxr_keyword">return</strong> <span class="jxr_string">"right"</span>;
-<a class="jxr_linenumber" name="L65" href="#L65">65</a>  			<strong class="jxr_keyword">case</strong> ACCORDION:
-<a class="jxr_linenumber" name="L66" href="#L66">66</a>  				<strong class="jxr_keyword">return</strong> <span class="jxr_string">"accordion"</span>;
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>  			<strong class="jxr_keyword">case</strong> APPLICATION:
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>  				<strong class="jxr_keyword">return</strong> <span class="jxr_string">"application"</span>;
-<a class="jxr_linenumber" name="L69" href="#L69">69</a>  			<strong class="jxr_keyword">default</strong>:
-<a class="jxr_linenumber" name="L70" href="#L70">70</a>  				<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(<span class="jxr_string">"Invalid tab set type: "</span> + type);
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>  		}
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>  	}
-<a class="jxr_linenumber" name="L73" href="#L73">73</a>  }
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  		xml.appendEndTag(<span class="jxr_string">"ui:tabset"</span>);
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  	}
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_javadoccomment">	 * Determines the theme tabset type name for the given TabSetType.</em>
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  <em class="jxr_javadoccomment">	 * @param type the TabSetType</em>
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  <em class="jxr_javadoccomment">	 * @return the theme tabset type name for the given TabSetType.</em>
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> String getTypeAsString(<strong class="jxr_keyword">final</strong> WTabSet.TabSetType type) {
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  		<strong class="jxr_keyword">switch</strong> (type) {
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>  			<strong class="jxr_keyword">case</strong> TOP:
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>  				<strong class="jxr_keyword">return</strong> <span class="jxr_string">"top"</span>;
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  			<strong class="jxr_keyword">case</strong> LEFT:
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>  				<strong class="jxr_keyword">return</strong> <span class="jxr_string">"left"</span>;
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  			<strong class="jxr_keyword">case</strong> RIGHT:
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>  				<strong class="jxr_keyword">return</strong> <span class="jxr_string">"right"</span>;
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  			<strong class="jxr_keyword">case</strong> ACCORDION:
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>  				<strong class="jxr_keyword">return</strong> <span class="jxr_string">"accordion"</span>;
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  			<strong class="jxr_keyword">case</strong> APPLICATION:
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>  				<strong class="jxr_keyword">return</strong> <span class="jxr_string">"application"</span>;
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>  			<strong class="jxr_keyword">default</strong>:
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  				<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(<span class="jxr_string">"Invalid tab set type: "</span> + type);
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>  		}
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>  	}
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>  }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2016. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2017. All rights reserved.</div>
 </body>
 </html>

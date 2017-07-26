@@ -10,24 +10,20 @@
 				'properties_collapsibletoggle', 
 				'properties_collapsibletoggle_id', 
 				'properties_collapsibletoggle_class', 
-				'properties_collapsibletoggle_groupName', 
-				'properties_collapsibletoggle_roundTrip');
+				'properties_collapsibletoggle_groupName');
 var usedByBoxes= new Array('usedBy_collapsibletoggle', 
 				'usedBy_collapsibletoggle_id', 
 				'usedBy_collapsibletoggle_class', 
-				'usedBy_collapsibletoggle_groupName', 
-				'usedBy_collapsibletoggle_roundTrip');
+				'usedBy_collapsibletoggle_groupName');
 var sourceBoxes= new Array('source_collapsibletoggle', 
 				'source_collapsibletoggle_id', 
 				'source_collapsibletoggle_class', 
-				'source_collapsibletoggle_groupName', 
-				'source_collapsibletoggle_roundTrip');
+				'source_collapsibletoggle_groupName');
 var diagramBoxes= new Array('diagram_collapsibletoggle');
 var annotationBoxes= new Array('annotations_collapsibletoggle', 
 				'annotations_collapsibletoggle_id', 
 				'annotations_collapsibletoggle_class', 
-				'annotations_collapsibletoggle_groupName', 
-				'annotations_collapsibletoggle_roundTrip');
+				'annotations_collapsibletoggle_groupName');
 var attributesBoxes= new Array('attributes_collapsibletoggle');
 
       
@@ -377,51 +373,6 @@ var attributesBoxes= new Array('attributes_collapsibletoggle');
                                  <p xmlns="">WCollapsibleToggle represents an interactive control used to expand and collapse a
                                     group of WCollapsibles.
                                  </p>
-                                 				
-                                 <p xmlns="">WCollapsibleToggle expects that the POSTed form data contains:</p>
-                                 				
-                                 <table xmlns="">
-                                    					
-                                    <thead>
-                                       						
-                                       <tr>
-                                          							
-                                          <th>Field name</th>
-                                          							
-                                          <th>Type</th>
-                                          							
-                                          <th>Mandatory</th>
-                                          							
-                                          <th>Value</th>
-                                          							
-                                          <th>Notes</th>
-                                          						
-                                       </tr>
-                                       					
-                                    </thead>
-                                    					
-                                    <tbody>
-                                       						
-                                       <tr>
-                                          							
-                                          <td>@id</td>
-                                          							
-                                          <td>String</td>
-                                          							
-                                          <td>no</td>
-                                          							
-                                          <td>"expand" or "collapse"</td>
-                                          							
-                                          <td>Used only when the WCollapsibleToggle has its roundTrip attribute "true"; "expand"
-                                             indicates that the controlled group of WCollapsibles should all
-                                             								be opened, "collapse" that they should all be closed.
-                                          </td>
-                                          						
-                                       </tr>
-                                       					
-                                    </tbody>
-                                    				
-                                 </table>
                                  			
                               </div>
                            </div>
@@ -436,8 +387,7 @@ var attributesBoxes= new Array('attributes_collapsibletoggle');
                            <div id="diagram_collapsibletoggle" style="display:block"><img alt="Diagram" border="0" src="img/collapsibleToggle_xsd_Element_ui_collapsibletoggle.png" usemap="#collapsibleToggle_xsd_Element_ui_collapsibletoggle" /><map name="collapsibleToggle_xsd_Element_ui_collapsibletoggle" id="collapsibleToggle_xsd_Element_ui_collapsibletoggle">
                                  <area alt="collapsibleToggle_xsd.tmp#collapsibletoggle_id" href="collapsibleToggle_xsd.html#collapsibletoggle_id" coords="184,40,252,64" />
                                  <area alt="collapsibleToggle_xsd.tmp#collapsibletoggle_class" href="collapsibleToggle_xsd.html#collapsibletoggle_class" coords="184,104,259,128" />
-                                 <area alt="collapsibleToggle_xsd.tmp#collapsibletoggle_groupName" href="collapsibleToggle_xsd.html#collapsibletoggle_groupName" coords="184,181,295,205" />
-                                 <area alt="collapsibleToggle_xsd.tmp#collapsibletoggle_roundTrip" href="collapsibleToggle_xsd.html#collapsibletoggle_roundTrip" coords="184,258,287,282" /></map></div>
+                                 <area alt="collapsibleToggle_xsd.tmp#collapsibletoggle_groupName" href="collapsibleToggle_xsd.html#collapsibletoggle_groupName" coords="184,181,295,205" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -512,18 +462,6 @@ var attributesBoxes= new Array('attributes_collapsibletoggle');
                                        <div class="annotation">The unique identifier for the component.</div>
                                     </td>
                                  </tr>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="collapsibleToggle_xsd.html#collapsibletoggle_roundTrip" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for collapsibleToggle.xsd')">roundTrip</a></b></td>
-                                    <td><b>xs:boolean</b></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation">Indicates that the expansion and collapsing of the WCollapsibleToggles should be done
-                                          in a server process and submits the entire application
-                                          						to the server. Not output if "false". 
-                                          <strong xmlns="">Deprecated</strong> you should avoid using this attribute.
-                                       </div>
-                                    </td>
-                                 </tr>
                               </table>
                            </div>
                         </td>
@@ -541,27 +479,6 @@ var attributesBoxes= new Array('attributes_collapsibletoggle');
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WCollapsibleToggle represents an interactive control used to expand and collapse a group of WCollapsibles.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WCollapsibleToggle expects that the POSTed form data contains:</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;table</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;thead</span><span class="tEl">&gt;</span><span class="tI">
-          </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
-            </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Field name</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
-            </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Type</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
-            </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Mandatory</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
-            </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Value</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
-            </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Notes</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
-          </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;/thead&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;tbody</span><span class="tEl">&gt;</span><span class="tI">
-          </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
-            </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">@id</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
-            </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">String</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
-            </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">no</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
-            </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">"expand" or "collapse"</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
-            </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Used only when the WCollapsibleToggle has its roundTrip attribute "true"; "expand" indicates that the controlled group of WCollapsibles should all be opened, "collapse" that they should all be closed.</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
-          </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;/tbody&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;/table&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:complexType</span><span class="tEl">&gt;</span><span class="tI">
@@ -578,12 +495,6 @@ var attributesBoxes= new Array('attributes_collapsibletoggle');
     </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"groupName"</span><span class="tAN"> type=</span><span class="tAV">"xs:NMTOKEN"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The name of the group of WCollapsibles which is controlled by the WCollapsibleToggle.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"roundTrip"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that the expansion and collapsing of the WCollapsibleToggles should be done in a server process and submits the entire application to the server. Not output if "false".</span><span class="tI">
-          </span><span class="tEl">&lt;strong</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Deprecated</span><span class="tEl">&lt;/strong&gt;</span><span class="tT" style="white-space:normal">you should avoid using this attribute.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:complexType&gt;</span><span class="tI">
@@ -862,103 +773,6 @@ var attributesBoxes= new Array('attributes_collapsibletoggle');
                                     <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"groupName"</span><span class="tAN"> type=</span><span class="tAV">"xs:NMTOKEN"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The name of the group of WCollapsibles which is controlled by the WCollapsibleToggle.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
-</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="collapsibletoggle_roundTrip"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="collapsibleToggle_xsd.html#collapsibletoggle" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for collapsibleToggle.xsd')">ui:collapsibletoggle</a></b> / @roundTrip</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn"><b>Namespace</b></td>
-                        <td>No namespace</td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_collapsibletoggle_roundTrip" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_collapsibletoggle_roundTrip');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_collapsibletoggle_roundTrip" style="display:block">
-                              <div class="annotation">Indicates that the expansion and collapsing of the WCollapsibleToggles should be done
-                                 in a server process and submits the entire application
-                                 						to the server. Not output if "false". 
-                                 <strong xmlns="">Deprecated</strong> you should avoid using this attribute.
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Type</b></td>
-                        <td><b>xs:boolean</b></td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_collapsibletoggle_roundTrip" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_collapsibletoggle_roundTrip');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_collapsibletoggle_roundTrip" style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
-                                    <td><b>simple</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Used by</b></div>
-                           <div class="floatRight"><input id="button_usedBy_collapsibletoggle_roundTrip" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_collapsibletoggle_roundTrip');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="usedBy_collapsibletoggle_roundTrip" style="display:block">
-                              <table class="usedByTable">
-                                 <tr>
-                                    <td class="firstColumn">Element </td>
-                                    <td><b><a href="collapsibleToggle_xsd.html#collapsibletoggle" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for collapsibleToggle.xsd')">ui:collapsibletoggle</a></b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Source</b></div>
-                           <div class="floatRight"><input id="button_source_collapsibletoggle_roundTrip" type="image" src="img/btM.gif" value="-" onclick="switchState('source_collapsibletoggle_roundTrip');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="source_collapsibletoggle_roundTrip" style="display:block">
-                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                 <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"roundTrip"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that the expansion and collapsing of the WCollapsibleToggles should be done in a server process and submits the entire application to the server. Not output if "false".</span><span class="tI">
-      </span><span class="tEl">&lt;strong</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Deprecated</span><span class="tEl">&lt;/strong&gt;</span><span class="tT" style="white-space:normal">you should avoid using this attribute.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>

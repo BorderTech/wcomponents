@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>SeleniumWSelectWebElement xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../../apidocs/com/github/bordertech/wcomponents/test/selenium/element/SeleniumWSelectWebElement.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> com.github.bordertech.wcomponents.test.selenium.element;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.util.SystemException;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.util.Util;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> java.util.Arrays;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> org.openqa.selenium.By;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> org.openqa.selenium.NoSuchElementException;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> org.openqa.selenium.WebDriver;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> org.openqa.selenium.WebElement;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> org.openqa.selenium.support.ui.Select;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_javadoccomment"> * Selenium WebElement class representing a WSelect.</em>
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <em class="jxr_javadoccomment"> * @author Joshua Barclay</em>
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <em class="jxr_javadoccomment"> * @author Mark Reeves</em>
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <em class="jxr_javadoccomment"> * @since 1.2.0</em>
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../../com/github/bordertech/wcomponents/test/selenium/element/SeleniumWSelectWebElement.html">SeleniumWSelectWebElement</a> <strong class="jxr_keyword">extends</strong> <a href="../../../../../../../com/github/bordertech/wcomponents/test/selenium/element/SeleniumWComponentInputWebElement.html">SeleniumWComponentInputWebElement</a> {
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <em class="jxr_javadoccomment">	 * HTML attributes applied to the input element.</em>
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> List&lt;String&gt; INPUT_ATTRIBUTES = Arrays.asList(<span class="jxr_string">"disabled"</span>, <span class="jxr_string">"required"</span>);
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <em class="jxr_javadoccomment">	 * The CSS Selector for a selected option.</em>
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String SELECTOR_SELECTED_OPTION = <span class="jxr_string">"option[selected]"</span>;
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <em class="jxr_javadoccomment">	 * The CSS Selector for the first option.</em>
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String SELECTOR_FIRST_OPTION = <span class="jxr_string">"option:first-of-type"</span>;
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  <em class="jxr_javadoccomment">	 * The CSS Selector for the last option.</em>
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String SELECTOR_LAST_OPTION = <span class="jxr_string">"option:last-of-type"</span>;
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment">	 * The CSS Selector for the Nth option.</em>
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String SELECTOR_NTH_OPTION = <span class="jxr_string">"option:nth-child(%s)"</span>;
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment">	 * HTML tagName for select elements.</em>
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String SELECT_TAG = <span class="jxr_string">"select"</span>;
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_javadoccomment">	 * HTML tagName for multi-select components in a read-only state.</em>
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String RO_MULTI_SELECT_TAG = <span class="jxr_string">"ul"</span>;
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  <em class="jxr_javadoccomment">	 * HTML tagName for the options in a multi-select component in a read-only state.</em>
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String RO_MULTI_OPTION_TAG = <span class="jxr_string">"li"</span>;
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>  <em class="jxr_javadoccomment">	 * Default constructor for this element.</em>
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>  <em class="jxr_javadoccomment">	 * @param element the WebElement</em>
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  <em class="jxr_javadoccomment">	 * @param driver the driver.</em>
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  	<strong class="jxr_keyword">public</strong> <a href="../../../../../../../com/github/bordertech/wcomponents/test/selenium/element/SeleniumWSelectWebElement.html">SeleniumWSelectWebElement</a>(<strong class="jxr_keyword">final</strong> WebElement element, <strong class="jxr_keyword">final</strong> WebDriver driver) {
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>  		<strong class="jxr_keyword">super</strong>(element, driver);
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>  		<strong class="jxr_keyword">final</strong> String tagName = element.getTagName();
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>  		<strong class="jxr_keyword">if</strong> (!(TOP_LEVEL_TAG.equals(tagName) || RO_MULTI_SELECT_TAG.equals(tagName))) {
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  			<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Element is not the expected wrapper. tag=["</span> + tagName + <span class="jxr_string">"]."</span>);
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>  		}
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>  	}
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>  
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>  <em class="jxr_javadoccomment">	 * @return the value of the selected option, or null if no selected option.</em>
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>  	@Override
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>  	<strong class="jxr_keyword">public</strong> String getValue() {
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>  		WebElement selected = getSelectedOption();
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>  		<strong class="jxr_keyword">return</strong> selected == <strong class="jxr_keyword">null</strong> ? <span class="jxr_string">""</span> : selected.getText();
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>  	}
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>  
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>  <em class="jxr_javadoccomment">	 * @return the selected option for this select, or null if none selected.</em>
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>  	<strong class="jxr_keyword">public</strong> WebElement getSelectedOption() {
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>  		<strong class="jxr_keyword">if</strong> (isReadOnly()) {
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>  			<strong class="jxr_keyword">if</strong> (isMultiSelect()) {
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>  				<strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>  					<strong class="jxr_keyword">return</strong> findElementImmediate(By.tagName(RO_MULTI_OPTION_TAG));
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>  				} <strong class="jxr_keyword">catch</strong> (<strong class="jxr_keyword">final</strong> NoSuchElementException nsee) {
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>  					<em class="jxr_comment">//There is not a selected element - return null.</em>
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>  					<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>  				}
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>  			}
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>  			String text = getText();
+<a class="jxr_linenumber" name="L100" href="#L100">100</a> 			<strong class="jxr_keyword">if</strong> (Util.empty(text)) {
+<a class="jxr_linenumber" name="L101" href="#L101">101</a> 				<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L102" href="#L102">102</a> 			}
+<a class="jxr_linenumber" name="L103" href="#L103">103</a> 			<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L104" href="#L104">104</a> 		}
+<a class="jxr_linenumber" name="L105" href="#L105">105</a> 
+<a class="jxr_linenumber" name="L106" href="#L106">106</a> 		SeleniumWComponentWebElement input = getInputField();
+<a class="jxr_linenumber" name="L107" href="#L107">107</a> 		Select se = <strong class="jxr_keyword">new</strong> Select(input);
+<a class="jxr_linenumber" name="L108" href="#L108">108</a> 		<strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L109" href="#L109">109</a> 			<strong class="jxr_keyword">return</strong> se.getFirstSelectedOption();
+<a class="jxr_linenumber" name="L110" href="#L110">110</a> 			<em class="jxr_comment">//return getInputField().findElement(By.cssSelector(SELECTOR_SELECTED_OPTION));</em>
+<a class="jxr_linenumber" name="L111" href="#L111">111</a> 		} <strong class="jxr_keyword">catch</strong> (<strong class="jxr_keyword">final</strong> NoSuchElementException nsee) {
+<a class="jxr_linenumber" name="L112" href="#L112">112</a> 			<em class="jxr_comment">//There is not a selected element - return null.</em>
+<a class="jxr_linenumber" name="L113" href="#L113">113</a> 			<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L114" href="#L114">114</a> 		}
+<a class="jxr_linenumber" name="L115" href="#L115">115</a> 	}
+<a class="jxr_linenumber" name="L116" href="#L116">116</a> 
+<a class="jxr_linenumber" name="L117" href="#L117">117</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L118" href="#L118">118</a> <em class="jxr_javadoccomment">	 * @return the last option for this select.</em>
+<a class="jxr_linenumber" name="L119" href="#L119">119</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L120" href="#L120">120</a> 	<strong class="jxr_keyword">public</strong> <a href="../../../../../../../com/github/bordertech/wcomponents/test/selenium/element/SeleniumWComponentWebElement.html">SeleniumWComponentWebElement</a> getFirstOption() {
+<a class="jxr_linenumber" name="L121" href="#L121">121</a> 		<strong class="jxr_keyword">return</strong> getInputField().findElementImmediate(By.cssSelector(SELECTOR_FIRST_OPTION));
+<a class="jxr_linenumber" name="L122" href="#L122">122</a> 	}
+<a class="jxr_linenumber" name="L123" href="#L123">123</a> 
+<a class="jxr_linenumber" name="L124" href="#L124">124</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L125" href="#L125">125</a> <em class="jxr_javadoccomment">	 * @return the last option for this select.</em>
+<a class="jxr_linenumber" name="L126" href="#L126">126</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L127" href="#L127">127</a> 	<strong class="jxr_keyword">public</strong> <a href="../../../../../../../com/github/bordertech/wcomponents/test/selenium/element/SeleniumWComponentWebElement.html">SeleniumWComponentWebElement</a> getLastOption() {
+<a class="jxr_linenumber" name="L128" href="#L128">128</a> 		<strong class="jxr_keyword">return</strong> getInputField().findElementImmediate(By.cssSelector(SELECTOR_LAST_OPTION));
+<a class="jxr_linenumber" name="L129" href="#L129">129</a> 	}
+<a class="jxr_linenumber" name="L130" href="#L130">130</a> 
+<a class="jxr_linenumber" name="L131" href="#L131">131</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L132" href="#L132">132</a> <em class="jxr_javadoccomment">	 * @return the Nth option for this select.</em>
+<a class="jxr_linenumber" name="L133" href="#L133">133</a> <em class="jxr_javadoccomment">	 * @param optionNumber - the</em>
+<a class="jxr_linenumber" name="L134" href="#L134">134</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L135" href="#L135">135</a> 	<strong class="jxr_keyword">public</strong> <a href="../../../../../../../com/github/bordertech/wcomponents/test/selenium/element/SeleniumWComponentWebElement.html">SeleniumWComponentWebElement</a> getNthOption(<strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> optionNumber) {
+<a class="jxr_linenumber" name="L136" href="#L136">136</a> 		<strong class="jxr_keyword">return</strong> getInputField().findElementImmediate(By.cssSelector(String.format(SELECTOR_NTH_OPTION, optionNumber)));
+<a class="jxr_linenumber" name="L137" href="#L137">137</a> 	}
+<a class="jxr_linenumber" name="L138" href="#L138">138</a> 
+<a class="jxr_linenumber" name="L139" href="#L139">139</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L140" href="#L140">140</a> <em class="jxr_javadoccomment">	 * Some attributes are applied to the wrapper, some to the input. This override sorts out which is which.</em>
+<a class="jxr_linenumber" name="L141" href="#L141">141</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L142" href="#L142">142</a> <em class="jxr_javadoccomment">	 * @param name the name of the attribute to find</em>
+<a class="jxr_linenumber" name="L143" href="#L143">143</a> <em class="jxr_javadoccomment">	 * @return the value of the attribute</em>
+<a class="jxr_linenumber" name="L144" href="#L144">144</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L145" href="#L145">145</a> 	@Override
+<a class="jxr_linenumber" name="L146" href="#L146">146</a> 	<strong class="jxr_keyword">public</strong> String getAttribute(<strong class="jxr_keyword">final</strong> String name) {
+<a class="jxr_linenumber" name="L147" href="#L147">147</a> 		<strong class="jxr_keyword">if</strong> (INPUT_ATTRIBUTES.contains(name)) {
+<a class="jxr_linenumber" name="L148" href="#L148">148</a> 			<strong class="jxr_keyword">if</strong> (isReadOnly()) {
+<a class="jxr_linenumber" name="L149" href="#L149">149</a> 				<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L150" href="#L150">150</a> 			}
+<a class="jxr_linenumber" name="L151" href="#L151">151</a> 			<strong class="jxr_keyword">return</strong> getInputField().getAttribute(name);
+<a class="jxr_linenumber" name="L152" href="#L152">152</a> 		}
+<a class="jxr_linenumber" name="L153" href="#L153">153</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">super</strong>.getAttribute(name);
+<a class="jxr_linenumber" name="L154" href="#L154">154</a> 	}
+<a class="jxr_linenumber" name="L155" href="#L155">155</a> 
+<a class="jxr_linenumber" name="L156" href="#L156">156</a> 	@Override
+<a class="jxr_linenumber" name="L157" href="#L157">157</a> 	<strong class="jxr_keyword">public</strong> <a href="../../../../../../../com/github/bordertech/wcomponents/test/selenium/element/SeleniumWComponentWebElement.html">SeleniumWComponentWebElement</a> getInputField() {
+<a class="jxr_linenumber" name="L158" href="#L158">158</a> 		<strong class="jxr_keyword">if</strong> (isReadOnly()) {
+<a class="jxr_linenumber" name="L159" href="#L159">159</a> 			<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L160" href="#L160">160</a> 		}
+<a class="jxr_linenumber" name="L161" href="#L161">161</a> 		<strong class="jxr_keyword">return</strong> findElementImmediate(By.tagName(SELECT_TAG));
+<a class="jxr_linenumber" name="L162" href="#L162">162</a> 	}
+<a class="jxr_linenumber" name="L163" href="#L163">163</a> 
+<a class="jxr_linenumber" name="L164" href="#L164">164</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L165" href="#L165">165</a> <em class="jxr_javadoccomment">	 * Is the component a multi-select list?</em>
+<a class="jxr_linenumber" name="L166" href="#L166">166</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L167" href="#L167">167</a> <em class="jxr_javadoccomment">	 * @return {@code true} if the component is a multi-select</em>
+<a class="jxr_linenumber" name="L168" href="#L168">168</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L169" href="#L169">169</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isMultiSelect() {
+<a class="jxr_linenumber" name="L170" href="#L170">170</a> 		<strong class="jxr_keyword">if</strong> (isReadOnly()) {
+<a class="jxr_linenumber" name="L171" href="#L171">171</a> 			<strong class="jxr_keyword">return</strong> RO_MULTI_SELECT_TAG.equals(getTagName());
+<a class="jxr_linenumber" name="L172" href="#L172">172</a> 		}
+<a class="jxr_linenumber" name="L173" href="#L173">173</a> 		<strong class="jxr_keyword">return</strong> <span class="jxr_string">"multiple"</span>.equals(getInputField().getAttribute(<span class="jxr_string">"multiple"</span>));
+<a class="jxr_linenumber" name="L174" href="#L174">174</a> 	}
+<a class="jxr_linenumber" name="L175" href="#L175">175</a> 
+<a class="jxr_linenumber" name="L176" href="#L176">176</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L177" href="#L177">177</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L178" href="#L178">178</a> <em class="jxr_javadoccomment">	 * @return all options</em>
+<a class="jxr_linenumber" name="L179" href="#L179">179</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L180" href="#L180">180</a> 	<strong class="jxr_keyword">public</strong> List&lt;WebElement&gt; getOptions() {
+<a class="jxr_linenumber" name="L181" href="#L181">181</a> 		<strong class="jxr_keyword">if</strong> (isReadOnly()) {
+<a class="jxr_linenumber" name="L182" href="#L182">182</a> 			<strong class="jxr_keyword">return</strong> findElementsImmediate(By.tagName(RO_MULTI_OPTION_TAG));
+<a class="jxr_linenumber" name="L183" href="#L183">183</a> 		}
+<a class="jxr_linenumber" name="L184" href="#L184">184</a> 		WebElement input = getInputField();
+<a class="jxr_linenumber" name="L185" href="#L185">185</a> 		Select se = <strong class="jxr_keyword">new</strong> Select(input);
+<a class="jxr_linenumber" name="L186" href="#L186">186</a> 		<strong class="jxr_keyword">return</strong> se.getOptions();
+<a class="jxr_linenumber" name="L187" href="#L187">187</a> 	}
+<a class="jxr_linenumber" name="L188" href="#L188">188</a> 
+<a class="jxr_linenumber" name="L189" href="#L189">189</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L190" href="#L190">190</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L191" href="#L191">191</a> <em class="jxr_javadoccomment">	 * @return all selected options</em>
+<a class="jxr_linenumber" name="L192" href="#L192">192</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L193" href="#L193">193</a> 	<strong class="jxr_keyword">public</strong> List&lt;WebElement&gt; getSelectedOptions() {
+<a class="jxr_linenumber" name="L194" href="#L194">194</a> 		<strong class="jxr_keyword">if</strong> (isReadOnly()) {
+<a class="jxr_linenumber" name="L195" href="#L195">195</a> 			<strong class="jxr_keyword">return</strong> getOptions();
+<a class="jxr_linenumber" name="L196" href="#L196">196</a> 		}
+<a class="jxr_linenumber" name="L197" href="#L197">197</a> 		WebElement input = getInputField();
+<a class="jxr_linenumber" name="L198" href="#L198">198</a> 		Select se = <strong class="jxr_keyword">new</strong> Select(input);
+<a class="jxr_linenumber" name="L199" href="#L199">199</a> 		<strong class="jxr_keyword">return</strong> se.getAllSelectedOptions();
+<a class="jxr_linenumber" name="L200" href="#L200">200</a> 	}
+<a class="jxr_linenumber" name="L201" href="#L201">201</a> 
+<a class="jxr_linenumber" name="L202" href="#L202">202</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L203" href="#L203">203</a> <em class="jxr_javadoccomment">	 * Get an option based on its visible text.</em>
+<a class="jxr_linenumber" name="L204" href="#L204">204</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L205" href="#L205">205</a> <em class="jxr_javadoccomment">	 * @param optionText the text of the option we are trying to find</em>
+<a class="jxr_linenumber" name="L206" href="#L206">206</a> <em class="jxr_javadoccomment">	 * @return the option</em>
+<a class="jxr_linenumber" name="L207" href="#L207">207</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L208" href="#L208">208</a> 	<strong class="jxr_keyword">public</strong> WebElement getOption(<strong class="jxr_keyword">final</strong> String optionText) {
+<a class="jxr_linenumber" name="L209" href="#L209">209</a> 		<strong class="jxr_keyword">if</strong> (optionText == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L210" href="#L210">210</a> 			<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../../../com/github/bordertech/wcomponents/util/SystemException.html">SystemException</a>(<span class="jxr_string">"option text must not be null"</span>);
+<a class="jxr_linenumber" name="L211" href="#L211">211</a> 		}
+<a class="jxr_linenumber" name="L212" href="#L212">212</a> 
+<a class="jxr_linenumber" name="L213" href="#L213">213</a> 		<strong class="jxr_keyword">if</strong> (isReadOnly()) {
+<a class="jxr_linenumber" name="L214" href="#L214">214</a> 			<strong class="jxr_keyword">if</strong> (isMultiSelect()) {
+<a class="jxr_linenumber" name="L215" href="#L215">215</a> 				<strong class="jxr_keyword">for</strong> (WebElement we : getOptions()) {
+<a class="jxr_linenumber" name="L216" href="#L216">216</a> 					<strong class="jxr_keyword">if</strong> (optionText.equals(we.getText())) {
+<a class="jxr_linenumber" name="L217" href="#L217">217</a> 						<strong class="jxr_keyword">return</strong> we;
+<a class="jxr_linenumber" name="L218" href="#L218">218</a> 					}
+<a class="jxr_linenumber" name="L219" href="#L219">219</a> 				}
+<a class="jxr_linenumber" name="L220" href="#L220">220</a> 				<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> NoSuchElementException(<span class="jxr_string">"No option with text provided"</span>);
+<a class="jxr_linenumber" name="L221" href="#L221">221</a> 			}
+<a class="jxr_linenumber" name="L222" href="#L222">222</a> 			<strong class="jxr_keyword">if</strong> (optionText.equals(getText())) {
+<a class="jxr_linenumber" name="L223" href="#L223">223</a> 				<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a class="jxr_linenumber" name="L224" href="#L224">224</a> 			}
+<a class="jxr_linenumber" name="L225" href="#L225">225</a> 			<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> NoSuchElementException(<span class="jxr_string">"No option with text provided"</span>);
+<a class="jxr_linenumber" name="L226" href="#L226">226</a> 		}
+<a class="jxr_linenumber" name="L227" href="#L227">227</a> 
+<a class="jxr_linenumber" name="L228" href="#L228">228</a> 		<strong class="jxr_keyword">for</strong> (WebElement we : getOptions()) {
+<a class="jxr_linenumber" name="L229" href="#L229">229</a> 			<strong class="jxr_keyword">if</strong> (optionText.equals(we.getText())) {
+<a class="jxr_linenumber" name="L230" href="#L230">230</a> 				<strong class="jxr_keyword">return</strong> we;
+<a class="jxr_linenumber" name="L231" href="#L231">231</a> 			}
+<a class="jxr_linenumber" name="L232" href="#L232">232</a> 		}
+<a class="jxr_linenumber" name="L233" href="#L233">233</a> 		<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> NoSuchElementException(<span class="jxr_string">"No option with text provided"</span>);
+<a class="jxr_linenumber" name="L234" href="#L234">234</a> 	}
+<a class="jxr_linenumber" name="L235" href="#L235">235</a> }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2017. All rights reserved.</div>
+</body>
+</html>

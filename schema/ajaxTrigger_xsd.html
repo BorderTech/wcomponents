@@ -11,18 +11,18 @@
 				'properties_ajaxtrigger_ajaxtargetid', 
 				'properties_ajaxtrigger_ajaxtrigger_ajaxtargetid_targetId', 
 				'properties_ajaxtrigger_triggerId', 
-				'properties_ajaxtrigger_allowedUses', 
+				'properties_ajaxtrigger_loadOnce', 
 				'properties_ajaxtrigger_delay');
 var usedByBoxes= new Array('usedBy_ajaxtrigger', 
 				'usedBy_ajaxtrigger_ajaxtrigger_ajaxtargetid_targetId', 
 				'usedBy_ajaxtrigger_triggerId', 
-				'usedBy_ajaxtrigger_allowedUses', 
+				'usedBy_ajaxtrigger_loadOnce', 
 				'usedBy_ajaxtrigger_delay');
 var sourceBoxes= new Array('source_ajaxtrigger', 
 				'source_ajaxtrigger_ajaxtargetid', 
 				'source_ajaxtrigger_ajaxtrigger_ajaxtargetid_targetId', 
 				'source_ajaxtrigger_triggerId', 
-				'source_ajaxtrigger_allowedUses', 
+				'source_ajaxtrigger_loadOnce', 
 				'source_ajaxtrigger_delay');
 var instanceBoxes= new Array('instance_ajaxtrigger');
 var diagramBoxes= new Array('diagram_ajaxtrigger', 
@@ -31,7 +31,7 @@ var annotationBoxes= new Array('annotations_ajaxtrigger',
 				'annotations_ajaxtrigger_ajaxtargetid', 
 				'annotations_ajaxtrigger_ajaxtrigger_ajaxtargetid_targetId', 
 				'annotations_ajaxtrigger_triggerId', 
-				'annotations_ajaxtrigger_allowedUses', 
+				'annotations_ajaxtrigger_loadOnce', 
 				'annotations_ajaxtrigger_delay');
 var attributesBoxes= new Array('attributes_ajaxtrigger', 
 				'attributes_ajaxtrigger_ajaxtargetid');
@@ -399,9 +399,9 @@ var modelBoxes= new Array('model_ajaxtrigger');
                         <td class="diagram">
                            <div id="diagram_ajaxtrigger" style="display:block"><img alt="Diagram" border="0" src="img/ajaxTrigger_xsd_Element_ui_ajaxtrigger.png" usemap="#ajaxTrigger_xsd_Element_ui_ajaxtrigger" /><map name="ajaxTrigger_xsd_Element_ui_ajaxtrigger" id="ajaxTrigger_xsd_Element_ui_ajaxtrigger">
                                  <area alt="ajaxTrigger_xsd.tmp#ajaxtrigger_triggerId" href="ajaxTrigger_xsd.html#ajaxtrigger_triggerId" coords="152,40,247,64" />
-                                 <area alt="ajaxTrigger_xsd.tmp#ajaxtrigger_allowedUses" href="ajaxTrigger_xsd.html#ajaxtrigger_allowedUses" coords="152,117,266,141" />
-                                 <area alt="ajaxTrigger_xsd.tmp#ajaxtrigger_delay" href="ajaxTrigger_xsd.html#ajaxtrigger_delay" coords="152,207,228,231" />
-                                 <area alt="ajaxTrigger_xsd.tmp#ajaxtrigger_ajaxtargetid" href="ajaxTrigger_xsd.html#ajaxtrigger_ajaxtargetid" coords="230,308,325,332" /></map></div>
+                                 <area alt="ajaxTrigger_xsd.tmp#ajaxtrigger_loadOnce" href="ajaxTrigger_xsd.html#ajaxtrigger_loadOnce" coords="152,117,251,141" />
+                                 <area alt="ajaxTrigger_xsd.tmp#ajaxtrigger_delay" href="ajaxTrigger_xsd.html#ajaxtrigger_delay" coords="152,194,228,218" />
+                                 <area alt="ajaxTrigger_xsd.tmp#ajaxtrigger_ajaxtargetid" href="ajaxTrigger_xsd.html#ajaxtrigger_ajaxtargetid" coords="230,295,325,319" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -460,7 +460,7 @@ var modelBoxes= new Array('model_ajaxtrigger');
                            <div id="instance_ajaxtrigger" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;ui:ajaxtrigger</span><span class="tT"> </span><span class="tAN">allowedUses=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">delay=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">triggerId=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;ui:ajaxtrigger</span><span class="tT"> </span><span class="tAN">delay=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">loadOnce=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">triggerId=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;ui:ajaxtargetid</span><span class="tT"> </span><span class="tAN">targetId=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,unbounded}</span><span class="tEl">&lt;/ui:ajaxtargetid&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/ui:ajaxtrigger&gt;</span></pre></td>
                                  </tr>
@@ -480,35 +480,45 @@ var modelBoxes= new Array('model_ajaxtrigger');
                                     <tr>
                                        <th>QName</th>
                                        <th width="10%">Type</th>
+                                       <th width="10%">Default</th>
                                        <th width="5%">Use</th>
                                        <th>Annotation</th>
                                     </tr>
                                  </thead>
                                  <tr>
-                                    <td class="firstColumn"><b><a href="ajaxTrigger_xsd.html#ajaxtrigger_allowedUses" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for ajaxTrigger.xsd')">allowedUses</a></b></td>
+                                    <td class="firstColumn"><b><a href="ajaxTrigger_xsd.html#ajaxtrigger_delay" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for ajaxTrigger.xsd')">delay</a></b></td>
                                     <td><b>xs:positiveInteger</b></td>
+                                    <td></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation"> The number of times a trigger can be used. If absent infinity assumed. Really only
-                                          useful for a value of "1" and by default this is the only
-                                          						supported value. 
+                                       <div class="annotation">
+                                          						This is a delay in MILLISECONDS after which the trigger will fire (without further
+                                          user 
+                                          						intervention). Users will probably not notice any delay &lt; 100 if there are no
+                                          other pending 
+                                          						ajax requests. 
+                                          					
                                        </div>
                                     </td>
                                  </tr>
                                  <tr>
-                                    <td class="firstColumn"><b><a href="ajaxTrigger_xsd.html#ajaxtrigger_delay" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for ajaxTrigger.xsd')">delay</a></b></td>
-                                    <td><b>xs:positiveInteger</b></td>
+                                    <td class="firstColumn"><b><a href="ajaxTrigger_xsd.html#ajaxtrigger_loadOnce" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for ajaxTrigger.xsd')">loadOnce</a></b></td>
+                                    <td><b>xs:boolean</b></td>
+                                    <td>false</td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">This is a delay in MILLISECONDS after which the trigger will fire (without further
-                                          user intervention). Users will probably not notice any
-                                          						delay &lt; 100 if there are no other pending ajax requests. 
+                                       <div class="annotation">
+                                          						Indicates the trigger may fire only once. If not true then the trigger may be
+                                          fired an 
+                                          						unlimited number of times.
+                                          					
                                        </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="ajaxTrigger_xsd.html#ajaxtrigger_triggerId" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for ajaxTrigger.xsd')">triggerId</a></b></td>
                                     <td><b>xs:NMTOKEN</b></td>
+                                    <td></td>
                                     <td>required</td>
                                     <td>
                                        <div class="annotation"> The id of the element which will trigger the AJAX request. </div>
@@ -551,9 +561,9 @@ var modelBoxes= new Array('model_ajaxtrigger');
         </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The id of the element which will trigger the AJAX request.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"allowedUses"</span><span class="tAN"> type=</span><span class="tAV">"xs:positiveInteger"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"loadOnce"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tAN"> default=</span><span class="tAV">"false"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The number of times a trigger can be used. If absent infinity assumed. Really only useful for a value of "1" and by default this is the only supported value.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates the trigger may fire only once. If not true then the trigger may be fired an unlimited number of times.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"delay"</span><span class="tAN"> type=</span><span class="tAV">"xs:positiveInteger"</span><span class="tEl">&gt;</span><span class="tI">
@@ -601,10 +611,13 @@ var modelBoxes= new Array('model_ajaxtrigger');
                         </td>
                         <td>
                            <div id="annotations_ajaxtrigger_ajaxtargetid" style="display:block">
-                              <div class="annotation"> Used to identify the components which will be targetted by the AJAX request's response.
-                                 This is required before the request is made so
-                                 							that the targets can be identified as WAI-ARIA live regions for improved accessibilty.
-                                 
+                              <div class="annotation"> 
+                                 							Used to identify the components which will be targetted by the AJAX request's
+                                 response. 
+                                 							This is required before the request is made so that the targets can be identified
+                                 as 
+                                 							WAI-ARIA live regions for improved accessibilty. 
+                                 						
                               </div>
                            </div>
                         </td>
@@ -664,7 +677,10 @@ var modelBoxes= new Array('model_ajaxtrigger');
                                     <td><b>xs:NMTOKEN</b></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation"> The value of the id attribute of the target component. </div>
+                                       <div class="annotation"> 
+                                          									The value of the id attribute of the target component. 
+                                          								
+                                       </div>
                                     </td>
                                  </tr>
                               </table>
@@ -730,7 +746,10 @@ var modelBoxes= new Array('model_ajaxtrigger');
                         </td>
                         <td>
                            <div id="annotations_ajaxtrigger_ajaxtrigger_ajaxtargetid_targetId" style="display:block">
-                              <div class="annotation"> The value of the id attribute of the target component. </div>
+                              <div class="annotation"> 
+                                 									The value of the id attribute of the target component. 
+                                 								
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -891,7 +910,7 @@ var modelBoxes= new Array('model_ajaxtrigger');
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
-      </table><a id="ajaxtrigger_allowedUses"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="ajaxTrigger_xsd.html#ajaxtrigger" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for ajaxTrigger.xsd')">ui:ajaxtrigger</a></b> / @allowedUses</span></div>
+      </table><a id="ajaxtrigger_loadOnce"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="ajaxTrigger_xsd.html#ajaxtrigger" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for ajaxTrigger.xsd')">ui:ajaxtrigger</a></b> / @loadOnce</span></div>
       <table class="rt">
          <tr>
             <td class="rt_cornerTopLeft"></td>
@@ -910,32 +929,34 @@ var modelBoxes= new Array('model_ajaxtrigger');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_ajaxtrigger_allowedUses" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_ajaxtrigger_allowedUses');" class="control" /></div>
+                           <div class="floatRight"><input id="button_annotations_ajaxtrigger_loadOnce" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_ajaxtrigger_loadOnce');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="annotations_ajaxtrigger_allowedUses" style="display:block">
-                              <div class="annotation"> The number of times a trigger can be used. If absent infinity assumed. Really only
-                                 useful for a value of "1" and by default this is the only
-                                 						supported value. 
+                           <div id="annotations_ajaxtrigger_loadOnce" style="display:block">
+                              <div class="annotation">
+                                 						Indicates the trigger may fire only once. If not true then the trigger may be
+                                 fired an 
+                                 						unlimited number of times.
+                                 					
                               </div>
                            </div>
                         </td>
                      </tr>
                      <tr>
                         <td class="firstColumn"><b>Type</b></td>
-                        <td><b>xs:positiveInteger</b></td>
+                        <td><b>xs:boolean</b></td>
                      </tr>
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_ajaxtrigger_allowedUses" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_ajaxtrigger_allowedUses');" class="control" /></div>
+                           <div class="floatRight"><input id="button_properties_ajaxtrigger_loadOnce" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_ajaxtrigger_loadOnce');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="properties_ajaxtrigger_allowedUses" style="display:block">
+                           <div id="properties_ajaxtrigger_loadOnce" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
-                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
-                                    <td><b>simple</b></td>
+                                    <td class="firstColumn" style="white-space: nowrap;">default</td>
+                                    <td><b>false</b></td>
                                  </tr>
                               </table>
                            </div>
@@ -944,10 +965,10 @@ var modelBoxes= new Array('model_ajaxtrigger');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Used by</b></div>
-                           <div class="floatRight"><input id="button_usedBy_ajaxtrigger_allowedUses" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_ajaxtrigger_allowedUses');" class="control" /></div>
+                           <div class="floatRight"><input id="button_usedBy_ajaxtrigger_loadOnce" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_ajaxtrigger_loadOnce');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="usedBy_ajaxtrigger_allowedUses" style="display:block">
+                           <div id="usedBy_ajaxtrigger_loadOnce" style="display:block">
                               <table class="usedByTable">
                                  <tr>
                                     <td class="firstColumn">Element </td>
@@ -960,15 +981,15 @@ var modelBoxes= new Array('model_ajaxtrigger');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Source</b></div>
-                           <div class="floatRight"><input id="button_source_ajaxtrigger_allowedUses" type="image" src="img/btM.gif" value="-" onclick="switchState('source_ajaxtrigger_allowedUses');" class="control" /></div>
+                           <div class="floatRight"><input id="button_source_ajaxtrigger_loadOnce" type="image" src="img/btM.gif" value="-" onclick="switchState('source_ajaxtrigger_loadOnce');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="source_ajaxtrigger_allowedUses" style="display:block">
+                           <div id="source_ajaxtrigger_loadOnce" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"allowedUses"</span><span class="tAN"> type=</span><span class="tAV">"xs:positiveInteger"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"loadOnce"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tAN"> default=</span><span class="tAV">"false"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The number of times a trigger can be used. If absent infinity assumed. Really only useful for a value of "1" and by default this is the only supported value.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates the trigger may fire only once. If not true then the trigger may be fired an unlimited number of times.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>
@@ -1009,9 +1030,13 @@ var modelBoxes= new Array('model_ajaxtrigger');
                         </td>
                         <td>
                            <div id="annotations_ajaxtrigger_delay" style="display:block">
-                              <div class="annotation">This is a delay in MILLISECONDS after which the trigger will fire (without further
-                                 user intervention). Users will probably not notice any
-                                 						delay &lt; 100 if there are no other pending ajax requests. 
+                              <div class="annotation">
+                                 						This is a delay in MILLISECONDS after which the trigger will fire (without further
+                                 user 
+                                 						intervention). Users will probably not notice any delay &lt; 100 if there are no
+                                 other pending 
+                                 						ajax requests. 
+                                 					
                               </div>
                            </div>
                         </td>

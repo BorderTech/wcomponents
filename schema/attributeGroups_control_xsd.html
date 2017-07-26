@@ -20,7 +20,9 @@
 				'properties_selectionWidgetWithLayout.attributes_frameless', 
 				'properties_multiSelect.constraints.attributes_min', 
 				'properties_multiSelect.constraints.attributes_max', 
+				'properties_autocomplete.attributes_autocomplete', 
 				'properties_selectList.attributes_data', 
+				'properties_placeholder.attributes_placeholder', 
 				'properties_text.input.attributes_size', 
 				'properties_text.input.attributes_minLength', 
 				'properties_text.input.attributes_maxLength', 
@@ -39,7 +41,9 @@ var usedByBoxes= new Array('usedBy_interaction.attributes_disabled',
 				'usedBy_selectionWidgetWithLayout.attributes_frameless', 
 				'usedBy_multiSelect.constraints.attributes_min', 
 				'usedBy_multiSelect.constraints.attributes_max', 
+				'usedBy_autocomplete.attributes_autocomplete', 
 				'usedBy_selectList.attributes_data', 
+				'usedBy_placeholder.attributes_placeholder', 
 				'usedBy_text.input.attributes_size', 
 				'usedBy_text.input.attributes_minLength', 
 				'usedBy_text.input.attributes_maxLength', 
@@ -51,7 +55,9 @@ var usedByBoxes= new Array('usedBy_interaction.attributes_disabled',
 				'usedBy_submitOnChange.attributes', 
 				'usedBy_selectionWidgetWithLayout.attributes', 
 				'usedBy_multiSelect.constraints.attributes', 
+				'usedBy_autocomplete.attributes', 
 				'usedBy_selectList.attributes', 
+				'usedBy_placeholder.attributes', 
 				'usedBy_text.input.attributes');
 var sourceBoxes= new Array('source_interaction.attributes_disabled', 
 				'source_control.attributes_toolTip', 
@@ -66,7 +72,9 @@ var sourceBoxes= new Array('source_interaction.attributes_disabled',
 				'source_selectionWidgetWithLayout.attributes_frameless', 
 				'source_multiSelect.constraints.attributes_min', 
 				'source_multiSelect.constraints.attributes_max', 
+				'source_autocomplete.attributes_autocomplete', 
 				'source_selectList.attributes_data', 
+				'source_placeholder.attributes_placeholder', 
 				'source_text.input.attributes_size', 
 				'source_text.input.attributes_minLength', 
 				'source_text.input.attributes_maxLength', 
@@ -78,7 +86,9 @@ var sourceBoxes= new Array('source_interaction.attributes_disabled',
 				'source_submitOnChange.attributes', 
 				'source_selectionWidgetWithLayout.attributes', 
 				'source_multiSelect.constraints.attributes', 
+				'source_autocomplete.attributes', 
 				'source_selectList.attributes', 
+				'source_placeholder.attributes', 
 				'source_text.input.attributes');
 var diagramBoxes= new Array('diagram_control.attributes', 
 				'diagram_interaction.attributes', 
@@ -87,7 +97,9 @@ var diagramBoxes= new Array('diagram_control.attributes',
 				'diagram_submitOnChange.attributes', 
 				'diagram_selectionWidgetWithLayout.attributes', 
 				'diagram_multiSelect.constraints.attributes', 
+				'diagram_autocomplete.attributes', 
 				'diagram_selectList.attributes', 
+				'diagram_placeholder.attributes', 
 				'diagram_text.input.attributes');
 var annotationBoxes= new Array('annotations_interaction.attributes_disabled', 
 				'annotations_control.attributes_toolTip', 
@@ -102,7 +114,9 @@ var annotationBoxes= new Array('annotations_interaction.attributes_disabled',
 				'annotations_selectionWidgetWithLayout.attributes_frameless', 
 				'annotations_multiSelect.constraints.attributes_min', 
 				'annotations_multiSelect.constraints.attributes_max', 
+				'annotations_autocomplete.attributes_autocomplete', 
 				'annotations_selectList.attributes_data', 
+				'annotations_placeholder.attributes_placeholder', 
 				'annotations_text.input.attributes_size', 
 				'annotations_text.input.attributes_minLength', 
 				'annotations_text.input.attributes_maxLength', 
@@ -111,6 +125,7 @@ var annotationBoxes= new Array('annotations_interaction.attributes_disabled',
 				'annotations_interaction.attributes', 
 				'annotations_submitting.input.attributes', 
 				'annotations_input.attributes', 
+				'annotations_placeholder.attributes', 
 				'annotations_text.input.attributes');
 var attributesBoxes= new Array('attributes_control.attributes', 
 				'attributes_interaction.attributes', 
@@ -119,7 +134,9 @@ var attributesBoxes= new Array('attributes_control.attributes',
 				'attributes_submitOnChange.attributes', 
 				'attributes_selectionWidgetWithLayout.attributes', 
 				'attributes_multiSelect.constraints.attributes', 
+				'attributes_autocomplete.attributes', 
 				'attributes_selectList.attributes', 
+				'attributes_placeholder.attributes', 
 				'attributes_text.input.attributes');
 
       
@@ -1790,6 +1807,106 @@ var attributesBoxes= new Array('attributes_control.attributes',
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
+      </table><a id="autocomplete.attributes_autocomplete"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="attributeGroups_control_xsd.html#autocomplete.attributes" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">ui:autocomplete.attributes</a></b> / @autocomplete</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_autocomplete.attributes_autocomplete" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_autocomplete.attributes_autocomplete');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_autocomplete.attributes_autocomplete" style="display:block">
+                              <div class="annotation">
+                                 					This is the autocomplete setting for a component. If not set then the user agent
+                                 can determine the autocomplete state. See 
+                                 					
+                                 <a xmlns="" href="https://html.spec.whatwg.org/multipage/forms.html#attr-fe-autocomplete">https://html.spec.whatwg.org/multipage/forms.html#attr-fe-autocomplete</a>
+                                 				
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_autocomplete.attributes_autocomplete" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_autocomplete.attributes_autocomplete');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_autocomplete.attributes_autocomplete" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_autocomplete.attributes_autocomplete" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_autocomplete.attributes_autocomplete');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_autocomplete.attributes_autocomplete" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="attributeGroups_control_xsd.html#autocomplete.attributes" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">ui:autocomplete.attributes</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_autocomplete.attributes_autocomplete" type="image" src="img/btM.gif" value="-" onclick="switchState('source_autocomplete.attributes_autocomplete');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_autocomplete.attributes_autocomplete" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"autocomplete"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">This is the autocomplete setting for a component. If not set then the user agent can determine the autocomplete state. See</span><span class="tI">
+      </span><span class="tEl">&lt;a</span><span class="tAN"> href=</span><span class="tAV">"https://html.spec.whatwg.org/multipage/forms.html#attr-fe-autocomplete"</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">https://html.spec.whatwg.org/multipage/forms.html#attr-fe-autocomplete</span><span class="tEl">&lt;/a&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
       </table><a id="selectList.attributes_data"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="attributeGroups_control_xsd.html#selectList.attributes" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">ui:selectList.attributes</a></b> / @data</span></div>
       <table class="rt">
          <tr>
@@ -1870,6 +1987,102 @@ var attributesBoxes= new Array('attributes_control.attributes',
                                     <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"data"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The key name for the datalist. If set then only the selected option[s] is/are included in the source XML and all options and optgroups are fetched in a separate transaction.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="placeholder.attributes_placeholder"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="attributeGroups_control_xsd.html#placeholder.attributes" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">ui:placeholder.attributes</a></b> / @placeholder</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_placeholder.attributes_placeholder" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_placeholder.attributes_placeholder');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_placeholder.attributes_placeholder" style="display:block">
+                              <div class="annotation">
+                                 					Used to provide an indication of the type of input expected. Not a replacement
+                                 for a label or title.
+                                 				
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_placeholder.attributes_placeholder" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_placeholder.attributes_placeholder');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_placeholder.attributes_placeholder" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_placeholder.attributes_placeholder" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_placeholder.attributes_placeholder');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_placeholder.attributes_placeholder" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="attributeGroups_control_xsd.html#placeholder.attributes" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">ui:placeholder.attributes</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_placeholder.attributes_placeholder" type="image" src="img/btM.gif" value="-" onclick="switchState('source_placeholder.attributes_placeholder');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_placeholder.attributes_placeholder" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"placeholder"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Used to provide an indication of the type of input expected. Not a replacement for a label or title.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>
@@ -2965,11 +3178,11 @@ var attributesBoxes= new Array('attributes_control.attributes',
                               <table class="usedByTable">
                                  <tr>
                                     <td class="firstColumn">Attribute Groups </td>
-                                    <td><b><a href="attributeGroups_control_xsd.html#selectList.attributes" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">ui:selectList.attributes</a></b>, <b><a href="attributeGroups_control_xsd.html#selectionWidgetWithLayout.attributes" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">ui:selectionWidgetWithLayout.attributes</a></b>, <b><a href="attributeGroups_control_xsd.html#submitting.input.attributes" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">ui:submitting.input.attributes</a></b></td>
+                                    <td><b><a href="fileUpload_xsd.html#fileupload.atttributes" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for fileUpload.xsd')">ui:fileupload.atttributes</a></b>, <b><a href="attributeGroups_control_xsd.html#selectList.attributes" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">ui:selectList.attributes</a></b>, <b><a href="attributeGroups_control_xsd.html#selectionWidgetWithLayout.attributes" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">ui:selectionWidgetWithLayout.attributes</a></b>, <b><a href="attributeGroups_control_xsd.html#submitting.input.attributes" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">ui:submitting.input.attributes</a></b></td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn">Elements </td>
-                                    <td><b><a href="fileUpload_xsd.html#fileupload" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for fileUpload.xsd')">ui:fileupload</a></b>, <b><a href="multiSelectPair_xsd.html#multiselectpair" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for multiSelectPair.xsd')">ui:multiselectpair</a></b>, <b><a href="multiTextField_xsd.html#multitextfield" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for multiTextField.xsd')">ui:multitextfield</a></b>, <b><a href="radioButton_xsd.html#radiobutton" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for radioButton.xsd')">ui:radiobutton</a></b>, <b><a href="shuffler_xsd.html#shuffler" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for shuffler.xsd')">ui:shuffler</a></b></td>
+                                    <td><b><a href="multiSelectPair_xsd.html#multiselectpair" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for multiSelectPair.xsd')">ui:multiselectpair</a></b>, <b><a href="multiTextField_xsd.html#multitextfield" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for multiTextField.xsd')">ui:multitextfield</a></b>, <b><a href="radioButton_xsd.html#radiobutton" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for radioButton.xsd')">ui:radiobutton</a></b>, <b><a href="shuffler_xsd.html#shuffler" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for shuffler.xsd')">ui:shuffler</a></b>, <b><a href="togglebutton_xsd.html#togglebutton" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for togglebutton.xsd')">ui:togglebutton</a></b></td>
                                  </tr>
                               </table>
                            </div>
@@ -3207,7 +3420,7 @@ var attributesBoxes= new Array('attributes_control.attributes',
                               <table class="usedByTable">
                                  <tr>
                                     <td class="firstColumn">Elements </td>
-                                    <td><b><a href="checkBox_xsd.html#checkbox" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for checkBox.xsd')">ui:checkbox</a></b>, <b><a href="radioButton_xsd.html#radiobutton" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for radioButton.xsd')">ui:radiobutton</a></b>, <b><a href="table_xsd.html#table_rowselection" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for table.xsd')">ui:table/ui:rowselection</a></b></td>
+                                    <td><b><a href="checkBox_xsd.html#checkbox" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for checkBox.xsd')">ui:checkbox</a></b>, <b><a href="radioButton_xsd.html#radiobutton" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for radioButton.xsd')">ui:radiobutton</a></b></td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn">Attribute Groups </td>
@@ -3736,6 +3949,119 @@ var attributesBoxes= new Array('attributes_control.attributes',
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
+      </table><a id="autocomplete.attributes"></a><div class="componentTitle">Attribute Group <span class="qname">ui:autocomplete.attributes</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>https://github.com/bordertech/wcomponents/namespace/ui/v1.0</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_autocomplete.attributes" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_autocomplete.attributes');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_autocomplete.attributes" style="display:block"><img alt="Diagram" border="0" src="img/attributeGroups_control_xsd_Attribute_Group_ui_autocomplete_attributes.png" usemap="#attributeGroups_control_xsd_Attribute_Group_ui_autocomplete_attributes" /><map name="attributeGroups_control_xsd_Attribute_Group_ui_autocomplete_attributes" id="attributeGroups_control_xsd_Attribute_Group_ui_autocomplete_attributes">
+                                 <area alt="attributeGroups_control_xsd.tmp#autocomplete.attributes_autocomplete" href="attributeGroups_control_xsd.html#autocomplete.attributes_autocomplete" coords="211,1,332,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_autocomplete.attributes" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_autocomplete.attributes');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_autocomplete.attributes" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Elements </td>
+                                    <td><b><a href="dateField_xsd.html#datefield" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for dateField.xsd')">ui:datefield</a></b>, <b><a href="emailField_xsd.html#emailfield" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for emailField.xsd')">ui:emailfield</a></b>, <b><a href="numberField_xsd.html#numberfield" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for numberField.xsd')">ui:numberfield</a></b>, <b><a href="textArea_xsd.html#textarea" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for textArea.xsd')">ui:textarea</a></b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">Attribute Groups </td>
+                                    <td><b><a href="attributeGroups_control_xsd.html#selectList.attributes" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">ui:selectList.attributes</a></b>, <b><a href="attributeGroups_control_xsd.html#text.input.attributes" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">ui:text.input.attributes</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_autocomplete.attributes" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_autocomplete.attributes');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_autocomplete.attributes" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th width="10%">Type</th>
+                                       <th width="5%">Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#autocomplete.attributes_autocomplete" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">autocomplete</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          					This is the autocomplete setting for a component. If not set then the user agent
+                                          can determine the autocomplete state. See 
+                                          					
+                                          <a xmlns="" href="https://html.spec.whatwg.org/multipage/forms.html#attr-fe-autocomplete">https://html.spec.whatwg.org/multipage/forms.html#attr-fe-autocomplete</a>
+                                          				
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_autocomplete.attributes" type="image" src="img/btM.gif" value="-" onclick="switchState('source_autocomplete.attributes');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_autocomplete.attributes" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attributeGroup</span><span class="tAN"> name=</span><span class="tAV">"autocomplete.attributes"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"autocomplete"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">This is the autocomplete setting for a component. If not set then the user agent can determine the autocomplete state. See</span><span class="tI">
+        </span><span class="tEl">&lt;a</span><span class="tAN"> href=</span><span class="tAV">"https://html.spec.whatwg.org/multipage/forms.html#attr-fe-autocomplete"</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">https://html.spec.whatwg.org/multipage/forms.html#attr-fe-autocomplete</span><span class="tEl">&lt;/a&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:attributeGroup&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
       </table><a id="selectList.attributes"></a><div class="componentTitle">Attribute Group <span class="qname">ui:selectList.attributes</span></div>
       <table class="rt">
          <tr>
@@ -3767,7 +4093,9 @@ var attributesBoxes= new Array('attributes_control.attributes',
                                  <area alt="attributeGroups_control_xsd.tmp#input.attributes" href="attributeGroups_control_xsd.html#input.attributes" coords="191,3,342,29" />
                                  <area alt="attributeGroups_control_xsd.tmp#submitOnChange.attributes_submitOnChange" href="attributeGroups_control_xsd.html#submitOnChange.attributes_submitOnChange" coords="202,494,344,518" />
                                  <area alt="attributeGroups_control_xsd.tmp#submitOnChange.attributes" href="attributeGroups_control_xsd.html#submitOnChange.attributes" coords="191,453,408,479" />
-                                 <area alt="attributeGroups_control_xsd.tmp#selectList.attributes_data" href="attributeGroups_control_xsd.html#selectList.attributes_data" coords="188,578,259,602" /></map></div>
+                                 <area alt="attributeGroups_control_xsd.tmp#autocomplete.attributes_autocomplete" href="attributeGroups_control_xsd.html#autocomplete.attributes_autocomplete" coords="202,622,323,646" />
+                                 <area alt="attributeGroups_control_xsd.tmp#autocomplete.attributes" href="attributeGroups_control_xsd.html#autocomplete.attributes" coords="191,581,387,607" />
+                                 <area alt="attributeGroups_control_xsd.tmp#selectList.attributes_data" href="attributeGroups_control_xsd.html#selectList.attributes_data" coords="188,706,259,730" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -3811,6 +4139,21 @@ var attributesBoxes= new Array('attributes_control.attributes',
                                     <td>
                                        <div class="annotation">
                                           					Deprecated. Use toolTip instead.
+                                          				
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#autocomplete.attributes_autocomplete" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">autocomplete</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          					This is the autocomplete setting for a component. If not set then the user agent
+                                          can determine the autocomplete state. See 
+                                          					
+                                          <a xmlns="" href="https://html.spec.whatwg.org/multipage/forms.html#attr-fe-autocomplete">https://html.spec.whatwg.org/multipage/forms.html#attr-fe-autocomplete</a>
                                           				
                                        </div>
                                     </td>
@@ -3974,9 +4317,133 @@ var attributesBoxes= new Array('attributes_control.attributes',
                                     <td width="100%"><pre><span class="tEl">&lt;xs:attributeGroup</span><span class="tAN"> name=</span><span class="tAV">"selectList.attributes"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:attributeGroup</span><span class="tAN"> ref=</span><span class="tAV">"ui:input.attributes"</span><span class="tEl">/&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:attributeGroup</span><span class="tAN"> ref=</span><span class="tAV">"ui:submitOnChange.attributes"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:attributeGroup</span><span class="tAN"> ref=</span><span class="tAV">"ui:autocomplete.attributes"</span><span class="tEl">/&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"data"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The key name for the datalist. If set then only the selected option[s] is/are included in the source XML and all options and optgroups are fetched in a separate transaction.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:attributeGroup&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="placeholder.attributes"></a><div class="componentTitle">Attribute Group <span class="qname">ui:placeholder.attributes</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>https://github.com/bordertech/wcomponents/namespace/ui/v1.0</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_placeholder.attributes" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_placeholder.attributes');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_placeholder.attributes" style="display:block">
+                              <div class="annotation">Placeholder is commonly used in text-like inputs.</div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_placeholder.attributes" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_placeholder.attributes');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_placeholder.attributes" style="display:block"><img alt="Diagram" border="0" src="img/attributeGroups_control_xsd_Attribute_Group_ui_placeholder_attributes.png" usemap="#attributeGroups_control_xsd_Attribute_Group_ui_placeholder_attributes" /><map name="attributeGroups_control_xsd_Attribute_Group_ui_placeholder_attributes" id="attributeGroups_control_xsd_Attribute_Group_ui_placeholder_attributes">
+                                 <area alt="attributeGroups_control_xsd.tmp#placeholder.attributes_placeholder" href="attributeGroups_control_xsd.html#placeholder.attributes_placeholder" coords="221,1,332,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_placeholder.attributes" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_placeholder.attributes');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_placeholder.attributes" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Elements </td>
+                                    <td><b><a href="emailField_xsd.html#emailfield" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for emailField.xsd')">ui:emailfield</a></b>, <b><a href="textArea_xsd.html#textarea" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for textArea.xsd')">ui:textarea</a></b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="attributeGroups_control_xsd.html#text.input.attributes" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">ui:text.input.attributes</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_placeholder.attributes" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_placeholder.attributes');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_placeholder.attributes" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th width="10%">Type</th>
+                                       <th width="5%">Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#placeholder.attributes_placeholder" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">placeholder</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          					Used to provide an indication of the type of input expected. Not a replacement
+                                          for a label or title.
+                                          				
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_placeholder.attributes" type="image" src="img/btM.gif" value="-" onclick="switchState('source_placeholder.attributes');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_placeholder.attributes" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attributeGroup</span><span class="tAN"> name=</span><span class="tAV">"placeholder.attributes"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Placeholder is commonly used in text-like inputs.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"placeholder"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Used to provide an indication of the type of input expected. Not a replacement for a label or title.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attributeGroup&gt;</span></pre></td>
@@ -4032,10 +4499,14 @@ var attributesBoxes= new Array('attributes_control.attributes',
                         </td>
                         <td class="diagram">
                            <div id="diagram_text.input.attributes" style="display:block"><img alt="Diagram" border="0" src="img/attributeGroups_control_xsd_Attribute_Group_ui_text_input_attributes.png" usemap="#attributeGroups_control_xsd_Attribute_Group_ui_text_input_attributes" /><map name="attributeGroups_control_xsd_Attribute_Group_ui_text_input_attributes" id="attributeGroups_control_xsd_Attribute_Group_ui_text_input_attributes">
-                                 <area alt="attributeGroups_control_xsd.tmp#text.input.attributes_size" href="attributeGroups_control_xsd.html#text.input.attributes_size" coords="210,0,279,24" />
-                                 <area alt="attributeGroups_control_xsd.tmp#text.input.attributes_minLength" href="attributeGroups_control_xsd.html#text.input.attributes_minLength" coords="210,77,315,101" />
-                                 <area alt="attributeGroups_control_xsd.tmp#text.input.attributes_maxLength" href="attributeGroups_control_xsd.html#text.input.attributes_maxLength" coords="210,167,318,191" />
-                                 <area alt="attributeGroups_control_xsd.tmp#text.input.attributes_pattern" href="attributeGroups_control_xsd.html#text.input.attributes_pattern" coords="210,257,297,281" /></map></div>
+                                 <area alt="attributeGroups_control_xsd.tmp#placeholder.attributes_placeholder" href="attributeGroups_control_xsd.html#placeholder.attributes_placeholder" coords="224,44,335,68" />
+                                 <area alt="attributeGroups_control_xsd.tmp#placeholder.attributes" href="attributeGroups_control_xsd.html#placeholder.attributes" coords="213,3,399,29" />
+                                 <area alt="attributeGroups_control_xsd.tmp#autocomplete.attributes_autocomplete" href="attributeGroups_control_xsd.html#autocomplete.attributes_autocomplete" coords="224,202,345,226" />
+                                 <area alt="attributeGroups_control_xsd.tmp#autocomplete.attributes" href="attributeGroups_control_xsd.html#autocomplete.attributes" coords="213,161,409,187" />
+                                 <area alt="attributeGroups_control_xsd.tmp#text.input.attributes_size" href="attributeGroups_control_xsd.html#text.input.attributes_size" coords="210,286,279,310" />
+                                 <area alt="attributeGroups_control_xsd.tmp#text.input.attributes_minLength" href="attributeGroups_control_xsd.html#text.input.attributes_minLength" coords="210,363,315,387" />
+                                 <area alt="attributeGroups_control_xsd.tmp#text.input.attributes_maxLength" href="attributeGroups_control_xsd.html#text.input.attributes_maxLength" coords="210,453,318,477" />
+                                 <area alt="attributeGroups_control_xsd.tmp#text.input.attributes_pattern" href="attributeGroups_control_xsd.html#text.input.attributes_pattern" coords="210,543,297,567" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -4070,6 +4541,20 @@ var attributesBoxes= new Array('attributes_control.attributes',
                                        <th>Annotation</th>
                                     </tr>
                                  </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#autocomplete.attributes_autocomplete" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">autocomplete</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          					This is the autocomplete setting for a component. If not set then the user agent
+                                          can determine the autocomplete state. See 
+                                          					
+                                          <a xmlns="" href="https://html.spec.whatwg.org/multipage/forms.html#attr-fe-autocomplete">https://html.spec.whatwg.org/multipage/forms.html#attr-fe-autocomplete</a>
+                                          				
+                                       </div>
+                                    </td>
+                                 </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#text.input.attributes_maxLength" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">maxLength</a></b></td>
                                     <td><b>xs:positiveInteger</b></td>
@@ -4113,6 +4598,18 @@ var attributesBoxes= new Array('attributes_control.attributes',
                                     </td>
                                  </tr>
                                  <tr>
+                                    <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#placeholder.attributes_placeholder" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">placeholder</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          					Used to provide an indication of the type of input expected. Not a replacement
+                                          for a label or title.
+                                          				
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#text.input.attributes_size" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">size</a></b></td>
                                     <td><b>xs:positiveInteger</b></td>
                                     <td>optional</td>
@@ -4140,6 +4637,8 @@ var attributesBoxes= new Array('attributes_control.attributes',
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Common attributes for text input components.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:attributeGroup</span><span class="tAN"> ref=</span><span class="tAV">"ui:placeholder.attributes"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:attributeGroup</span><span class="tAN"> ref=</span><span class="tAV">"ui:autocomplete.attributes"</span><span class="tEl">/&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"size"</span><span class="tAN"> type=</span><span class="tAV">"xs:positiveInteger"</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The visible size of the text input widget as determined by the renderer.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">

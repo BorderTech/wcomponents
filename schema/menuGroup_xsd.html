@@ -8,23 +8,32 @@
          <!--
         var propertiesBoxes= new Array('properties_menuGroup.xsd', 
 				'properties_menugroup', 
+				'properties_menuComponentGroup_separator', 
 				'properties_menugroup_id', 
-				'properties_menugroup_class');
+				'properties_menugroup_class', 
+				'properties_menuComponentGroup_menuComponentGroup_separator_class');
 var usedByBoxes= new Array('usedBy_menugroup', 
 				'usedBy_menugroup_id', 
 				'usedBy_menugroup_class', 
+				'usedBy_menuComponentGroup_menuComponentGroup_separator_class', 
 				'usedBy_menuComponentGroup');
 var sourceBoxes= new Array('source_menugroup', 
+				'source_menuComponentGroup_separator', 
 				'source_menugroup_id', 
 				'source_menugroup_class', 
+				'source_menuComponentGroup_menuComponentGroup_separator_class', 
 				'source_menuComponentGroup');
 var instanceBoxes= new Array('instance_menugroup');
 var diagramBoxes= new Array('diagram_menugroup', 
+				'diagram_menuComponentGroup_separator', 
 				'diagram_menuComponentGroup');
 var annotationBoxes= new Array('annotations_menugroup', 
+				'annotations_menuComponentGroup_separator', 
 				'annotations_menugroup_id', 
-				'annotations_menugroup_class');
-var attributesBoxes= new Array('attributes_menugroup');
+				'annotations_menugroup_class', 
+				'annotations_menuComponentGroup_menuComponentGroup_separator_class');
+var attributesBoxes= new Array('attributes_menugroup', 
+				'attributes_menuComponentGroup_separator');
 var modelBoxes= new Array('model_menugroup', 
 				'model_menuComponentGroup');
 
@@ -376,9 +385,16 @@ var modelBoxes= new Array('model_menugroup',
                         </td>
                         <td>
                            <div id="annotations_menugroup" style="display:block">
-                              <div class="annotation">Deprecated: avoid using this component. WMenuGroup represents a loose semantic or
-                                 functional group of controls with a WMenu. For most component
-                                 				grouping it is preferable to use WSubMenu.
+                              <div class="annotation">
+                                 				
+                                 <strong xmlns="">Deprecated: avoid using this component.</strong> 
+                                 				
+                                 <p xmlns="">WMenuGroup represents a loose semantic or functional group of controls with a WMenu.
+                                    
+                                    					For most component grouping it is preferable to use WSubMenu; otherwise separate
+                                    WMenuItems using WSeparator.
+                                 </p>
+                                 			
                               </div>
                            </div>
                         </td>
@@ -395,7 +411,7 @@ var modelBoxes= new Array('model_menugroup',
                                  <area alt="decoratedLabel_xsd.tmp#decoratedlabel" href="decoratedLabel_xsd.html#decoratedlabel" coords="234,201,357,225" />
                                  <area alt="menuItem_xsd.tmp#menuitem" href="menuItem_xsd.html#menuitem" coords="319,322,416,346" />
                                  <area alt="submenu_xsd.tmp#submenu" href="submenu_xsd.html#submenu" coords="319,356,413,380" />
-                                 <area alt="separator_xsd.tmp#separator" href="separator_xsd.html#separator" coords="319,446,415,470" />
+                                 <area alt="menuGroup_xsd.tmp#menuComponentGroup_separator" href="menuGroup_xsd.html#menuComponentGroup_separator" coords="319,446,402,470" />
                                  <area alt="menuGroup_xsd.tmp#menuComponentGroup" href="menuGroup_xsd.html#menuComponentGroup" coords="237,281,432,307" /></map></div>
                         </td>
                      </tr>
@@ -439,13 +455,13 @@ var modelBoxes= new Array('model_menugroup',
                         <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_menugroup" type="image" src="img/btM.gif" value="-" onclick="switchState('model_menugroup');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="model_menugroup" style="display:block"><b><a href="decoratedLabel_xsd.html#decoratedlabel" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for decoratedLabel.xsd')">ui:decoratedlabel</a></b> , (<b><a href="menuItem_xsd.html#menuitem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for menuItem.xsd')">ui:menuitem</a></b> | <b><a href="submenu_xsd.html#submenu" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for submenu.xsd')">ui:submenu</a></b> | <b><a href="separator_xsd.html#separator" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for separator.xsd')">ui:separator</a></b>)
+                           <div id="model_menugroup" style="display:block"><b><a href="decoratedLabel_xsd.html#decoratedlabel" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for decoratedLabel.xsd')">ui:decoratedlabel</a></b> , (<b><a href="menuItem_xsd.html#menuitem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for menuItem.xsd')">ui:menuitem</a></b> | <b><a href="submenu_xsd.html#submenu" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for submenu.xsd')">ui:submenu</a></b> | <b><a href="menuGroup_xsd.html#menuComponentGroup_separator" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for menuGroup.xsd')">ui:separator</a></b>)
                            </div>
                         </td>
                      </tr>
                      <tr>
                         <td class="firstColumn"><b>Children</b></td>
-                        <td><b><a href="decoratedLabel_xsd.html#decoratedlabel" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for decoratedLabel.xsd')">ui:decoratedlabel</a></b>, <b><a href="menuItem_xsd.html#menuitem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for menuItem.xsd')">ui:menuitem</a></b>, <b><a href="separator_xsd.html#separator" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for separator.xsd')">ui:separator</a></b>, <b><a href="submenu_xsd.html#submenu" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for submenu.xsd')">ui:submenu</a></b></td>
+                        <td><b><a href="decoratedLabel_xsd.html#decoratedlabel" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for decoratedLabel.xsd')">ui:decoratedlabel</a></b>, <b><a href="menuItem_xsd.html#menuitem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for menuItem.xsd')">ui:menuitem</a></b>, <b><a href="menuGroup_xsd.html#menuComponentGroup_separator" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for menuGroup.xsd')">ui:separator</a></b>, <b><a href="submenu_xsd.html#submenu" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for submenu.xsd')">ui:submenu</a></b></td>
                      </tr>
                      <tr>
                         <td class="firstColumn">
@@ -458,8 +474,8 @@ var modelBoxes= new Array('model_menugroup',
                                  <tr>
                                     <td width="100%"><pre><span class="tEl">&lt;ui:menugroup</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;ui:decoratedlabel</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">"false"</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:decoratedlabel&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;ui:menuitem</span><span class="tT"> </span><span class="tAN">accessKey=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">cancel=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">msg=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selectable=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selected=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">submit=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">targetWindow=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">url=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">validates=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:menuitem&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;ui:submenu</span><span class="tT"> </span><span class="tAN">accessKey=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">mode=</span><span class="tAV">"client"</span><span class="tT"> </span><span class="tAN">open=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selectable=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selected=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selectMode=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">"false"</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:submenu&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:menuitem</span><span class="tT"> </span><span class="tAN">accessKey=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">cancel=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">msg=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">role=</span><span class="tAV">"menuitem"</span><span class="tT"> </span><span class="tAN">selected=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">submit=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">targetWindow=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">url=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">validates=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:menuitem&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:submenu</span><span class="tT"> </span><span class="tAN">accessKey=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">mode=</span><span class="tAV">"client"</span><span class="tT"> </span><span class="tAN">nested=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">open=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:submenu&gt;</span><span class="tI">
   </span><span class="tEl">&lt;ui:separator</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:separator&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/ui:menugroup&gt;</span></pre></td>
                                  </tr>
@@ -514,7 +530,10 @@ var modelBoxes= new Array('model_menugroup',
                                  <tr>
                                     <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"menugroup"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Deprecated: avoid using this component. WMenuGroup represents a loose semantic or functional group of controls with a WMenu. For most component grouping it is preferable to use WSubMenu.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;strong</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Deprecated: avoid using this component.</span><span class="tEl">&lt;/strong&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WMenuGroup represents a loose semantic or functional group of controls with a WMenu. For most component grouping it is preferable to use WSubMenu; otherwise separate WMenuItems using WSeparator.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:complexType</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:sequence</span><span class="tEl">&gt;</span><span class="tI">
@@ -530,6 +549,125 @@ var modelBoxes= new Array('model_menugroup',
         </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Not implemented: no equivalent in WAI-ARIA menu widget descendants.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:complexType&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="menuComponentGroup_separator"></a><div class="componentTitle">Element <span class="qname"><b><a href="menuGroup_xsd.html#menuComponentGroup" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for menuGroup.xsd')">ui:menuComponentGroup</a></b> / ui:separator</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>https://github.com/bordertech/wcomponents/namespace/ui/v1.0</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_menuComponentGroup_separator" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_menuComponentGroup_separator');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_menuComponentGroup_separator" style="display:block">
+                              <div class="annotation">WSeparator represents a separator between components in a WMenu or between tabs in
+                                 a WTabSet.
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_menuComponentGroup_separator" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_menuComponentGroup_separator');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_menuComponentGroup_separator" style="display:block"><img alt="Diagram" border="0" src="img/menuGroup_xsd_Element_ui_separator.png" usemap="#menuGroup_xsd_Element_ui_separator" /><map name="menuGroup_xsd_Element_ui_separator" id="menuGroup_xsd_Element_ui_separator">
+                                 <area alt="menuGroup_xsd.tmp#menuComponentGroup_menuComponentGroup_separator_class" href="menuGroup_xsd.html#menuComponentGroup_menuComponentGroup_separator_class" coords="145,40,220,64" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_menuComponentGroup_separator" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_menuComponentGroup_separator');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_menuComponentGroup_separator" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_menuComponentGroup_separator" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_menuComponentGroup_separator');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_menuComponentGroup_separator" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th width="10%">Type</th>
+                                       <th width="5%">Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="menuGroup_xsd.html#menuComponentGroup_menuComponentGroup_separator_class" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for menuGroup.xsd')">class</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_menuComponentGroup_separator" type="image" src="img/btM.gif" value="-" onclick="switchState('source_menuComponentGroup_separator');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_menuComponentGroup_separator" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"separator"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WSeparator represents a separator between components in a WMenu or between tabs in a WTabSet.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:complexType</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
@@ -736,6 +874,98 @@ var modelBoxes= new Array('model_menugroup',
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
+      </table><a id="menuComponentGroup_menuComponentGroup_separator_class"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="menuGroup_xsd.html#menuComponentGroup" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for menuGroup.xsd')">ui:menuComponentGroup</a></b> / <b><a href="menuGroup_xsd.html#menuComponentGroup_separator" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for menuGroup.xsd')">ui:separator</a></b> / @class</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_menuComponentGroup_menuComponentGroup_separator_class" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_menuComponentGroup_menuComponentGroup_separator_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_menuComponentGroup_menuComponentGroup_separator_class" style="display:block">
+                              <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_menuComponentGroup_menuComponentGroup_separator_class" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_menuComponentGroup_menuComponentGroup_separator_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_menuComponentGroup_menuComponentGroup_separator_class" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_menuComponentGroup_menuComponentGroup_separator_class" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_menuComponentGroup_menuComponentGroup_separator_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_menuComponentGroup_menuComponentGroup_separator_class" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="menuGroup_xsd.html#menuComponentGroup_separator" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for menuGroup.xsd')">ui:menuComponentGroup/ui:separator</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_menuComponentGroup_menuComponentGroup_separator_class" type="image" src="img/btM.gif" value="-" onclick="switchState('source_menuComponentGroup_menuComponentGroup_separator_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_menuComponentGroup_menuComponentGroup_separator_class" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
       </table><a id="menuComponentGroup"></a><div class="componentTitle">Element Group <span class="qname">ui:menuComponentGroup</span></div>
       <table class="rt">
          <tr>
@@ -761,7 +991,7 @@ var modelBoxes= new Array('model_menugroup',
                            <div id="diagram_menuComponentGroup" style="display:block"><img alt="Diagram" border="0" src="img/menuGroup_xsd_Element_Group_ui_menuComponentGroup.png" usemap="#menuGroup_xsd_Element_Group_ui_menuComponentGroup" /><map name="menuGroup_xsd_Element_Group_ui_menuComponentGroup" id="menuGroup_xsd_Element_Group_ui_menuComponentGroup">
                                  <area alt="menuItem_xsd.tmp#menuitem" href="menuItem_xsd.html#menuitem" coords="281,0,378,24" />
                                  <area alt="submenu_xsd.tmp#submenu" href="submenu_xsd.html#submenu" coords="281,34,375,58" />
-                                 <area alt="separator_xsd.tmp#separator" href="separator_xsd.html#separator" coords="281,124,377,148" /></map></div>
+                                 <area alt="menuGroup_xsd.tmp#menuComponentGroup_separator" href="menuGroup_xsd.html#menuComponentGroup_separator" coords="281,124,364,148" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -784,12 +1014,12 @@ var modelBoxes= new Array('model_menugroup',
                         <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_menuComponentGroup" type="image" src="img/btM.gif" value="-" onclick="switchState('model_menuComponentGroup');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="model_menuComponentGroup" style="display:block"><b><a href="menuItem_xsd.html#menuitem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for menuItem.xsd')">ui:menuitem</a></b> | <b><a href="submenu_xsd.html#submenu" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for submenu.xsd')">ui:submenu</a></b> | <b><a href="separator_xsd.html#separator" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for separator.xsd')">ui:separator</a></b></div>
+                           <div id="model_menuComponentGroup" style="display:block"><b><a href="menuItem_xsd.html#menuitem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for menuItem.xsd')">ui:menuitem</a></b> | <b><a href="submenu_xsd.html#submenu" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for submenu.xsd')">ui:submenu</a></b> | <b><a href="menuGroup_xsd.html#menuComponentGroup_separator" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for menuGroup.xsd')">ui:separator</a></b></div>
                         </td>
                      </tr>
                      <tr>
                         <td class="firstColumn"><b>Children</b></td>
-                        <td><b><a href="menuItem_xsd.html#menuitem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for menuItem.xsd')">ui:menuitem</a></b>, <b><a href="separator_xsd.html#separator" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for separator.xsd')">ui:separator</a></b>, <b><a href="submenu_xsd.html#submenu" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for submenu.xsd')">ui:submenu</a></b></td>
+                        <td><b><a href="menuItem_xsd.html#menuitem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for menuItem.xsd')">ui:menuitem</a></b>, <b><a href="menuGroup_xsd.html#menuComponentGroup_separator" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for menuGroup.xsd')">ui:separator</a></b>, <b><a href="submenu_xsd.html#submenu" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for submenu.xsd')">ui:submenu</a></b></td>
                      </tr>
                      <tr>
                         <td class="firstColumn">
@@ -804,7 +1034,18 @@ var modelBoxes= new Array('model_menugroup',
   </span><span class="tEl">&lt;xs:choice</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:element</span><span class="tAN"> ref=</span><span class="tAV">"ui:menuitem"</span><span class="tEl">/&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:element</span><span class="tAN"> ref=</span><span class="tAV">"ui:submenu"</span><span class="tEl">/&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:element</span><span class="tAN"> ref=</span><span class="tAV">"ui:separator"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"separator"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WSeparator represents a separator between components in a WMenu or between tabs in a WTabSet.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:complexType</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:complexType&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:choice&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:group&gt;</span></pre></td>
                                  </tr>

@@ -292,39 +292,43 @@
 <a class="jxr_linenumber" name="L284" href="#L284">284</a> 	}
 <a class="jxr_linenumber" name="L285" href="#L285">285</a> 
 <a class="jxr_linenumber" name="L286" href="#L286">286</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L287" href="#L287">287</a> <em class="jxr_javadoccomment">	 * A utility function to iterate to the primary (top most) context and return it.</em>
-<a class="jxr_linenumber" name="L288" href="#L288">288</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L289" href="#L289">289</a> <em class="jxr_javadoccomment">	 * @param uic the UIContext to retrieve the primary context for.</em>
-<a class="jxr_linenumber" name="L290" href="#L290">290</a> <em class="jxr_javadoccomment">	 * @return the primary context for the given context.</em>
-<a class="jxr_linenumber" name="L291" href="#L291">291</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L292" href="#L292">292</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../com/github/bordertech/wcomponents/UIContext.html">UIContext</a> getPrimaryUIContext(<strong class="jxr_keyword">final</strong> <a href="../../../../com/github/bordertech/wcomponents/UIContext.html">UIContext</a> uic) {
-<a class="jxr_linenumber" name="L293" href="#L293">293</a> 		<strong class="jxr_keyword">if</strong> (uic == <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L294" href="#L294">294</a> 			<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L295" href="#L295">295</a> 		}
-<a class="jxr_linenumber" name="L296" href="#L296">296</a> 
-<a class="jxr_linenumber" name="L297" href="#L297">297</a> 		UIContext primary = <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L298" href="#L298">298</a> 		UIContext current = uic;
-<a class="jxr_linenumber" name="L299" href="#L299">299</a> 
-<a class="jxr_linenumber" name="L300" href="#L300">300</a> 		<strong class="jxr_keyword">while</strong> (primary == <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L301" href="#L301">301</a> 			<strong class="jxr_keyword">if</strong> (current instanceof UIContextDelegate) {
-<a class="jxr_linenumber" name="L302" href="#L302">302</a> 				UIContext backing = ((UIContextDelegate) current).getBacking();
-<a class="jxr_linenumber" name="L303" href="#L303">303</a> 				<strong class="jxr_keyword">if</strong> (backing != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L304" href="#L304">304</a> 					current = backing;
-<a class="jxr_linenumber" name="L305" href="#L305">305</a> 				} <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L306" href="#L306">306</a> 					<em class="jxr_comment">// This case should probably never happen.</em>
-<a class="jxr_linenumber" name="L307" href="#L307">307</a> 					primary = current;
-<a class="jxr_linenumber" name="L308" href="#L308">308</a> 					LOG.warn(<span class="jxr_string">"UIContextDelegate found without a backing context"</span>);
-<a class="jxr_linenumber" name="L309" href="#L309">309</a> 				}
-<a class="jxr_linenumber" name="L310" href="#L310">310</a> 			} <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L311" href="#L311">311</a> 				primary = current;
-<a class="jxr_linenumber" name="L312" href="#L312">312</a> 			}
-<a class="jxr_linenumber" name="L313" href="#L313">313</a> 		}
-<a class="jxr_linenumber" name="L314" href="#L314">314</a> 
-<a class="jxr_linenumber" name="L315" href="#L315">315</a> 		<strong class="jxr_keyword">return</strong> primary;
-<a class="jxr_linenumber" name="L316" href="#L316">316</a> 	}
-<a class="jxr_linenumber" name="L317" href="#L317">317</a> }
+<a class="jxr_linenumber" name="L287" href="#L287">287</a> <em class="jxr_javadoccomment">	 * {@inheritDoc}</em>
+<a class="jxr_linenumber" name="L288" href="#L288">288</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L289" href="#L289">289</a> 	@Override
+<a class="jxr_linenumber" name="L290" href="#L290">290</a> 	<strong class="jxr_keyword">public</strong> Map&lt;Object, Object&gt; getRequestScratchMap(<strong class="jxr_keyword">final</strong> <a href="../../../../com/github/bordertech/wcomponents/WComponent.html">WComponent</a> component) {
+<a class="jxr_linenumber" name="L291" href="#L291">291</a> 		<strong class="jxr_keyword">return</strong> backing.getRequestScratchMap(component);
+<a class="jxr_linenumber" name="L292" href="#L292">292</a> 	}
+<a class="jxr_linenumber" name="L293" href="#L293">293</a> 
+<a class="jxr_linenumber" name="L294" href="#L294">294</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L295" href="#L295">295</a> <em class="jxr_javadoccomment">	 * {@inheritDoc}</em>
+<a class="jxr_linenumber" name="L296" href="#L296">296</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L297" href="#L297">297</a> 	@Override
+<a class="jxr_linenumber" name="L298" href="#L298">298</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> clearRequestScratchMap(<strong class="jxr_keyword">final</strong> <a href="../../../../com/github/bordertech/wcomponents/WComponent.html">WComponent</a> component) {
+<a class="jxr_linenumber" name="L299" href="#L299">299</a> 		backing.clearRequestScratchMap(component);
+<a class="jxr_linenumber" name="L300" href="#L300">300</a> 	}
+<a class="jxr_linenumber" name="L301" href="#L301">301</a> 
+<a class="jxr_linenumber" name="L302" href="#L302">302</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L303" href="#L303">303</a> <em class="jxr_javadoccomment">	 * {@inheritDoc}</em>
+<a class="jxr_linenumber" name="L304" href="#L304">304</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L305" href="#L305">305</a> 	@Override
+<a class="jxr_linenumber" name="L306" href="#L306">306</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> clearRequestScratchMap() {
+<a class="jxr_linenumber" name="L307" href="#L307">307</a> 		backing.clearRequestScratchMap();
+<a class="jxr_linenumber" name="L308" href="#L308">308</a> 	}
+<a class="jxr_linenumber" name="L309" href="#L309">309</a> 
+<a class="jxr_linenumber" name="L310" href="#L310">310</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L311" href="#L311">311</a> <em class="jxr_javadoccomment">	 * A utility function to iterate to the primary (top most) context and return it.</em>
+<a class="jxr_linenumber" name="L312" href="#L312">312</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L313" href="#L313">313</a> <em class="jxr_javadoccomment">	 * @param uic the UIContext to retrieve the primary context for.</em>
+<a class="jxr_linenumber" name="L314" href="#L314">314</a> <em class="jxr_javadoccomment">	 * @return the primary context for the given context.</em>
+<a class="jxr_linenumber" name="L315" href="#L315">315</a> <em class="jxr_javadoccomment">	 * @deprecated Use {@link UIContextHolder#getPrimaryUIContext(com.github.bordertech.wcomponents.UIContext)} instead.</em>
+<a class="jxr_linenumber" name="L316" href="#L316">316</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L317" href="#L317">317</a> 	@Deprecated
+<a class="jxr_linenumber" name="L318" href="#L318">318</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../com/github/bordertech/wcomponents/UIContext.html">UIContext</a> getPrimaryUIContext(<strong class="jxr_keyword">final</strong> <a href="../../../../com/github/bordertech/wcomponents/UIContext.html">UIContext</a> uic) {
+<a class="jxr_linenumber" name="L319" href="#L319">319</a> 		<strong class="jxr_keyword">return</strong> UIContextHolder.getPrimaryUIContext(uic);
+<a class="jxr_linenumber" name="L320" href="#L320">320</a> 	}
+<a class="jxr_linenumber" name="L321" href="#L321">321</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2016. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2017. All rights reserved.</div>
 </body>
 </html>

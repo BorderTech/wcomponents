@@ -13,6 +13,11 @@
 				'properties_margin_east', 
 				'properties_margin_south', 
 				'properties_margin_west');
+var facetsBoxes= new Array('facets_margin_all', 
+				'facets_margin_north', 
+				'facets_margin_east', 
+				'facets_margin_south', 
+				'facets_margin_west');
 var usedByBoxes= new Array('usedBy_margin', 
 				'usedBy_margin_all', 
 				'usedBy_margin_north', 
@@ -26,8 +31,7 @@ var sourceBoxes= new Array('source_margin',
 				'source_margin_south', 
 				'source_margin_west');
 var diagramBoxes= new Array('diagram_margin');
-var annotationBoxes= new Array('annotations_margin', 
-				'annotations_margin_all');
+var annotationBoxes= new Array('annotations_margin');
 var attributesBoxes= new Array('attributes_margin');
 
       
@@ -284,6 +288,9 @@ var attributesBoxes= new Array('attributes_margin');
                         <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, diagramBoxes);" class="control" /></span><span class="globalControlName">Diagrams</span></td>
                      </tr>
                      <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, facetsBoxes);" class="control" /></span><span class="globalControlName">Facets </span></td>
+                     </tr>
+                     <tr>
                         <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, propertiesBoxes);" class="control" /></span><span class="globalControlName">Properties </span></td>
                      </tr>
                      <tr>
@@ -384,10 +391,10 @@ var attributesBoxes= new Array('attributes_margin');
                         <td class="diagram">
                            <div id="diagram_margin" style="display:block"><img alt="Diagram" border="0" src="img/margin_xsd_Element_ui_margin.png" usemap="#margin_xsd_Element_ui_margin" /><map name="margin_xsd_Element_ui_margin" id="margin_xsd_Element_ui_margin">
                                  <area alt="margin_xsd.tmp#margin_all" href="margin_xsd.html#margin_all" coords="131,40,199,64" />
-                                 <area alt="margin_xsd.tmp#margin_north" href="margin_xsd.html#margin_north" coords="131,130,209,154" />
-                                 <area alt="margin_xsd.tmp#margin_east" href="margin_xsd.html#margin_east" coords="131,164,201,188" />
-                                 <area alt="margin_xsd.tmp#margin_south" href="margin_xsd.html#margin_south" coords="131,198,210,222" />
-                                 <area alt="margin_xsd.tmp#margin_west" href="margin_xsd.html#margin_west" coords="131,232,203,256" /></map></div>
+                                 <area alt="margin_xsd.tmp#margin_north" href="margin_xsd.html#margin_north" coords="131,74,209,98" />
+                                 <area alt="margin_xsd.tmp#margin_east" href="margin_xsd.html#margin_east" coords="131,108,201,132" />
+                                 <area alt="margin_xsd.tmp#margin_south" href="margin_xsd.html#margin_south" coords="131,142,210,166" />
+                                 <area alt="margin_xsd.tmp#margin_west" href="margin_xsd.html#margin_west" coords="131,176,203,200" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -435,23 +442,20 @@ var attributesBoxes= new Array('attributes_margin');
                                        <th>QName</th>
                                        <th width="10%">Type</th>
                                        <th width="5%">Use</th>
-                                       <th>Annotation</th>
+                                       <th></th>
                                     </tr>
                                  </thead>
                                  <tr>
                                     <td class="firstColumn"><b><a href="margin_xsd.html#margin_all" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for margin.xsd')">all</a></b></td>
-                                    <td><b>xs:positiveInteger</b></td>
+                                    <td><b><a href="gaps_xsd.html#gaps" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for gaps.xsd')">ui:gaps</a></b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation"> Specify the "all" attribute to use the same margin size on all sides of the component
-                                          or include the specific margin sizes to be used on each
-                                          						side of the component. 
-                                       </div>
+                                       <div class="annotation"></div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="margin_xsd.html#margin_east" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for margin.xsd')">east</a></b></td>
-                                    <td><b>xs:unsignedInt</b></td>
+                                    <td><b><a href="gaps_xsd.html#gaps" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for gaps.xsd')">ui:gaps</a></b></td>
                                     <td>optional</td>
                                     <td>
                                        <div class="annotation"></div>
@@ -459,7 +463,7 @@ var attributesBoxes= new Array('attributes_margin');
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="margin_xsd.html#margin_north" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for margin.xsd')">north</a></b></td>
-                                    <td><b>xs:unsignedInt</b></td>
+                                    <td><b><a href="gaps_xsd.html#gaps" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for gaps.xsd')">ui:gaps</a></b></td>
                                     <td>optional</td>
                                     <td>
                                        <div class="annotation"></div>
@@ -467,7 +471,7 @@ var attributesBoxes= new Array('attributes_margin');
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="margin_xsd.html#margin_south" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for margin.xsd')">south</a></b></td>
-                                    <td><b>xs:unsignedInt</b></td>
+                                    <td><b><a href="gaps_xsd.html#gaps" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for gaps.xsd')">ui:gaps</a></b></td>
                                     <td>optional</td>
                                     <td>
                                        <div class="annotation"></div>
@@ -475,7 +479,7 @@ var attributesBoxes= new Array('attributes_margin');
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="margin_xsd.html#margin_west" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for margin.xsd')">west</a></b></td>
-                                    <td><b>xs:unsignedInt</b></td>
+                                    <td><b><a href="gaps_xsd.html#gaps" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for gaps.xsd')">ui:gaps</a></b></td>
                                     <td>optional</td>
                                     <td>
                                        <div class="annotation"></div>
@@ -499,15 +503,11 @@ var attributesBoxes= new Array('attributes_margin');
     </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Margin represents a mechanism to provide space around a component.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:complexType</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"all"</span><span class="tAN"> type=</span><span class="tAV">"xs:positiveInteger"</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Specify the "all" attribute to use the same margin size on all sides of the component or include the specific margin sizes to be used on each side of the component.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"north"</span><span class="tAN"> type=</span><span class="tAV">"xs:unsignedInt"</span><span class="tEl">/&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"east"</span><span class="tAN"> type=</span><span class="tAV">"xs:unsignedInt"</span><span class="tEl">/&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"south"</span><span class="tAN"> type=</span><span class="tAV">"xs:unsignedInt"</span><span class="tEl">/&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"west"</span><span class="tAN"> type=</span><span class="tAV">"xs:unsignedInt"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"all"</span><span class="tAN"> type=</span><span class="tAV">"ui:gaps"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"north"</span><span class="tAN"> type=</span><span class="tAV">"ui:gaps"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"east"</span><span class="tAN"> type=</span><span class="tAV">"ui:gaps"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"south"</span><span class="tAN"> type=</span><span class="tAV">"ui:gaps"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"west"</span><span class="tAN"> type=</span><span class="tAV">"ui:gaps"</span><span class="tEl">/&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:complexType&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:element&gt;</span></pre></td>
                                  </tr>
@@ -542,22 +542,8 @@ var attributesBoxes= new Array('attributes_margin');
                         <td>No namespace</td>
                      </tr>
                      <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_margin_all" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_margin_all');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_margin_all" style="display:block">
-                              <div class="annotation"> Specify the "all" attribute to use the same margin size on all sides of the component
-                                 or include the specific margin sizes to be used on each
-                                 						side of the component. 
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
                         <td class="firstColumn"><b>Type</b></td>
-                        <td><b>xs:positiveInteger</b></td>
+                        <td><b><a href="gaps_xsd.html#gaps" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for gaps.xsd')">ui:gaps</a></b></td>
                      </tr>
                      <tr>
                         <td class="firstColumn">
@@ -570,6 +556,53 @@ var attributesBoxes= new Array('attributes_margin');
                                  <tr>
                                     <td class="firstColumn" style="white-space: nowrap;">content</td>
                                     <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_margin_all" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_margin_all');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_margin_all" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>z</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>sm</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>med</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>lg</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>xl</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
                                  </tr>
                               </table>
                            </div>
@@ -600,11 +633,7 @@ var attributesBoxes= new Array('attributes_margin');
                            <div id="source_margin_all" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"all"</span><span class="tAN"> type=</span><span class="tAV">"xs:positiveInteger"</span><span class="tEl">&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Specify the "all" attribute to use the same margin size on all sides of the component or include the specific margin sizes to be used on each side of the component.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
-</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"all"</span><span class="tAN"> type=</span><span class="tAV">"ui:gaps"</span><span class="tEl">/&gt;</span></pre></td>
                                  </tr>
                               </table>
                            </div>
@@ -638,7 +667,7 @@ var attributesBoxes= new Array('attributes_margin');
                      </tr>
                      <tr>
                         <td class="firstColumn"><b>Type</b></td>
-                        <td><b>xs:unsignedInt</b></td>
+                        <td><b><a href="gaps_xsd.html#gaps" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for gaps.xsd')">ui:gaps</a></b></td>
                      </tr>
                      <tr>
                         <td class="firstColumn">
@@ -651,6 +680,53 @@ var attributesBoxes= new Array('attributes_margin');
                                  <tr>
                                     <td class="firstColumn" style="white-space: nowrap;">content</td>
                                     <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_margin_north" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_margin_north');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_margin_north" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>z</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>sm</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>med</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>lg</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>xl</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
                                  </tr>
                               </table>
                            </div>
@@ -681,7 +757,7 @@ var attributesBoxes= new Array('attributes_margin');
                            <div id="source_margin_north" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"north"</span><span class="tAN"> type=</span><span class="tAV">"xs:unsignedInt"</span><span class="tEl">/&gt;</span></pre></td>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"north"</span><span class="tAN"> type=</span><span class="tAV">"ui:gaps"</span><span class="tEl">/&gt;</span></pre></td>
                                  </tr>
                               </table>
                            </div>
@@ -715,7 +791,7 @@ var attributesBoxes= new Array('attributes_margin');
                      </tr>
                      <tr>
                         <td class="firstColumn"><b>Type</b></td>
-                        <td><b>xs:unsignedInt</b></td>
+                        <td><b><a href="gaps_xsd.html#gaps" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for gaps.xsd')">ui:gaps</a></b></td>
                      </tr>
                      <tr>
                         <td class="firstColumn">
@@ -728,6 +804,53 @@ var attributesBoxes= new Array('attributes_margin');
                                  <tr>
                                     <td class="firstColumn" style="white-space: nowrap;">content</td>
                                     <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_margin_east" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_margin_east');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_margin_east" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>z</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>sm</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>med</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>lg</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>xl</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
                                  </tr>
                               </table>
                            </div>
@@ -758,7 +881,7 @@ var attributesBoxes= new Array('attributes_margin');
                            <div id="source_margin_east" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"east"</span><span class="tAN"> type=</span><span class="tAV">"xs:unsignedInt"</span><span class="tEl">/&gt;</span></pre></td>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"east"</span><span class="tAN"> type=</span><span class="tAV">"ui:gaps"</span><span class="tEl">/&gt;</span></pre></td>
                                  </tr>
                               </table>
                            </div>
@@ -792,7 +915,7 @@ var attributesBoxes= new Array('attributes_margin');
                      </tr>
                      <tr>
                         <td class="firstColumn"><b>Type</b></td>
-                        <td><b>xs:unsignedInt</b></td>
+                        <td><b><a href="gaps_xsd.html#gaps" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for gaps.xsd')">ui:gaps</a></b></td>
                      </tr>
                      <tr>
                         <td class="firstColumn">
@@ -805,6 +928,53 @@ var attributesBoxes= new Array('attributes_margin');
                                  <tr>
                                     <td class="firstColumn" style="white-space: nowrap;">content</td>
                                     <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_margin_south" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_margin_south');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_margin_south" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>z</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>sm</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>med</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>lg</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>xl</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
                                  </tr>
                               </table>
                            </div>
@@ -835,7 +1005,7 @@ var attributesBoxes= new Array('attributes_margin');
                            <div id="source_margin_south" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"south"</span><span class="tAN"> type=</span><span class="tAV">"xs:unsignedInt"</span><span class="tEl">/&gt;</span></pre></td>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"south"</span><span class="tAN"> type=</span><span class="tAV">"ui:gaps"</span><span class="tEl">/&gt;</span></pre></td>
                                  </tr>
                               </table>
                            </div>
@@ -869,7 +1039,7 @@ var attributesBoxes= new Array('attributes_margin');
                      </tr>
                      <tr>
                         <td class="firstColumn"><b>Type</b></td>
-                        <td><b>xs:unsignedInt</b></td>
+                        <td><b><a href="gaps_xsd.html#gaps" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for gaps.xsd')">ui:gaps</a></b></td>
                      </tr>
                      <tr>
                         <td class="firstColumn">
@@ -882,6 +1052,53 @@ var attributesBoxes= new Array('attributes_margin');
                                  <tr>
                                     <td class="firstColumn" style="white-space: nowrap;">content</td>
                                     <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_margin_west" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_margin_west');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_margin_west" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>z</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>sm</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>med</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>lg</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>xl</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
                                  </tr>
                               </table>
                            </div>
@@ -912,7 +1129,7 @@ var attributesBoxes= new Array('attributes_margin');
                            <div id="source_margin_west" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"west"</span><span class="tAN"> type=</span><span class="tAV">"xs:unsignedInt"</span><span class="tEl">/&gt;</span></pre></td>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"west"</span><span class="tAN"> type=</span><span class="tAV">"ui:gaps"</span><span class="tEl">/&gt;</span></pre></td>
                                  </tr>
                               </table>
                            </div>

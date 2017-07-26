@@ -500,7 +500,7 @@ var modelBoxes= new Array('model_multidropdown');
                            <div id="instance_multidropdown" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;ui:multidropdown</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">data=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">max=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">min=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">readOnly=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">required=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">submitOnChange=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;ui:multidropdown</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">autocomplete=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">data=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">max=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">min=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">readOnly=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">required=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">submitOnChange=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;ui:option</span><span class="tT"> </span><span class="tAN">isNull=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selected=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">value=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:option&gt;</span><span class="tI">
   </span><span class="tEl">&lt;ui:optgroup</span><span class="tT"> </span><span class="tAN">label=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:optgroup&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/ui:multidropdown&gt;</span></pre></td>
@@ -534,6 +534,21 @@ var modelBoxes= new Array('model_multidropdown');
                                     <td>
                                        <div class="annotation">
                                           					Deprecated. Use toolTip instead.
+                                          				
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#autocomplete.attributes_autocomplete" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">autocomplete</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          					This is the autocomplete setting for a component. If not set then the user agent
+                                          can determine the autocomplete state. See 
+                                          					
+                                          <a xmlns="" href="https://html.spec.whatwg.org/multipage/forms.html#attr-fe-autocomplete">https://html.spec.whatwg.org/multipage/forms.html#attr-fe-autocomplete</a>
                                           				
                                        </div>
                                     </td>

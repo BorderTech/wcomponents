@@ -8,7 +8,7 @@
 <div id="overview"><a href="../../../../../apidocs/com/github/bordertech/wcomponents/Integrity.html">View Javadoc</a></div><pre>
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> com.github.bordertech.wcomponents;
 <a class="jxr_linenumber" name="L2" href="#L2">2</a>   
-<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.util.Config;
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.util.ConfigurationProperties;
 <a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> org.apache.commons.logging.LogFactory;
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   
 <a class="jxr_linenumber" name="L6" href="#L6">6</a>   <em class="jxr_javadoccomment">/**</em>
@@ -40,16 +40,15 @@
 <a class="jxr_linenumber" name="L32" href="#L32">32</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> issue(<strong class="jxr_keyword">final</strong> <a href="../../../../com/github/bordertech/wcomponents/WComponent.html">WComponent</a> comp, <strong class="jxr_keyword">final</strong> String message) {
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>  		String debugMessage = message + ' ' + comp;
 <a class="jxr_linenumber" name="L34" href="#L34">34</a>  
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>  		<strong class="jxr_keyword">if</strong> (Config.getInstance().
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>  				getBoolean(<span class="jxr_string">"bordertech.wcomponents.integrity.terminate.mode"</span>, false)) {
-<a class="jxr_linenumber" name="L37" href="#L37">37</a>  			<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../com/github/bordertech/wcomponents/IntegrityException.html">IntegrityException</a>(debugMessage);
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>  		} <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L39" href="#L39">39</a>  			LogFactory.getLog(Integrity.<strong class="jxr_keyword">class</strong>).warn(debugMessage);
-<a class="jxr_linenumber" name="L40" href="#L40">40</a>  		}
-<a class="jxr_linenumber" name="L41" href="#L41">41</a>  	}
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>  }
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  		<strong class="jxr_keyword">if</strong> (ConfigurationProperties.getIntegrityErrorMode()) {
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  			<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../com/github/bordertech/wcomponents/IntegrityException.html">IntegrityException</a>(debugMessage);
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  		} <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  			LogFactory.getLog(Integrity.<strong class="jxr_keyword">class</strong>).warn(debugMessage);
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  		}
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  	}
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2016. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2017. All rights reserved.</div>
 </body>
 </html>

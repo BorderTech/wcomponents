@@ -8,43 +8,34 @@
          <!--
         var propertiesBoxes= new Array('properties_tabset.xsd', 
 				'properties_tabset', 
-				'properties_tabset_tabgroup', 
-				'properties_tabset_tabset_tabgroup_id', 
-				'properties_tabset_tabset_tabgroup_disabled', 
 				'properties_tabset_type', 
 				'properties_tabset_single', 
 				'properties_tabset_showHeadOnly', 
-				'properties_tabset_contentHeight');
+				'properties_tabset_contentHeight', 
+				'properties_tabset_groupName');
 var facetsBoxes= new Array('facets_tabset_type');
 var usedByBoxes= new Array('usedBy_tabset', 
-				'usedBy_tabset_tabset_tabgroup_id', 
-				'usedBy_tabset_tabset_tabgroup_disabled', 
 				'usedBy_tabset_type', 
 				'usedBy_tabset_single', 
 				'usedBy_tabset_showHeadOnly', 
-				'usedBy_tabset_contentHeight');
+				'usedBy_tabset_contentHeight', 
+				'usedBy_tabset_groupName');
 var sourceBoxes= new Array('source_tabset', 
-				'source_tabset_tabgroup', 
-				'source_tabset_tabset_tabgroup_id', 
-				'source_tabset_tabset_tabgroup_disabled', 
 				'source_tabset_type', 
 				'source_tabset_single', 
 				'source_tabset_showHeadOnly', 
-				'source_tabset_contentHeight');
-var instanceBoxes= new Array('instance_tabset', 
-				'instance_tabset_tabgroup');
-var diagramBoxes= new Array('diagram_tabset', 
-				'diagram_tabset_tabgroup');
+				'source_tabset_contentHeight', 
+				'source_tabset_groupName');
+var instanceBoxes= new Array('instance_tabset');
+var diagramBoxes= new Array('diagram_tabset');
 var annotationBoxes= new Array('annotations_tabset', 
-				'annotations_tabset_tabgroup', 
 				'annotations_tabset_type', 
 				'annotations_tabset_single', 
 				'annotations_tabset_showHeadOnly', 
-				'annotations_tabset_contentHeight');
-var attributesBoxes= new Array('attributes_tabset', 
-				'attributes_tabset_tabgroup');
-var modelBoxes= new Array('model_tabset', 
-				'model_tabset_tabgroup');
+				'annotations_tabset_contentHeight', 
+				'annotations_tabset_groupName');
+var attributesBoxes= new Array('attributes_tabset');
+var modelBoxes= new Array('model_tabset');
 
       
         var button_prefix = 'button_';
@@ -469,10 +460,9 @@ var modelBoxes= new Array('model_tabset',
                                  <area alt="tabset_xsd.tmp#tabset_single" href="tabset_xsd.html#tabset_single" coords="126,204,206,228" />
                                  <area alt="tabset_xsd.tmp#tabset_showHeadOnly" href="tabset_xsd.html#tabset_showHeadOnly" coords="126,281,254,305" />
                                  <area alt="tabset_xsd.tmp#tabset_contentHeight" href="tabset_xsd.html#tabset_contentHeight" coords="126,345,250,369" />
-                                 <area alt="margin_xsd.tmp#margin" href="margin_xsd.html#margin" coords="204,429,286,453" />
-                                 <area alt="tab_xsd.tmp#tab" href="tab_xsd.html#tab" coords="275,506,336,530" />
-                                 <area alt="tabset_xsd.tmp#tabset_tabgroup" href="tabset_xsd.html#tabset_tabgroup" coords="275,540,356,564" />
-                                 <area alt="separator_xsd.tmp#separator" href="separator_xsd.html#separator" coords="275,604,371,628" /></map></div>
+                                 <area alt="tabset_xsd.tmp#tabset_groupName" href="tabset_xsd.html#tabset_groupName" coords="126,422,237,446" />
+                                 <area alt="margin_xsd.tmp#margin" href="margin_xsd.html#margin" coords="204,506,286,530" />
+                                 <area alt="tab_xsd.tmp#tab" href="tab_xsd.html#tab" coords="204,583,265,607" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -511,13 +501,12 @@ var modelBoxes= new Array('model_tabset',
                         <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_tabset" type="image" src="img/btM.gif" value="-" onclick="switchState('model_tabset');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="model_tabset" style="display:block"><b><a href="margin_xsd.html#margin" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for margin.xsd')">ui:margin{0,1}</a></b> , (<b><a href="tab_xsd.html#tab" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for tab.xsd')">ui:tab</a></b> | <b><a href="tabset_xsd.html#tabset_tabgroup" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for tabset.xsd')">ui:tabgroup</a></b> | <b><a href="separator_xsd.html#separator" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for separator.xsd')">ui:separator</a></b>)
-                           </div>
+                           <div id="model_tabset" style="display:block"><b><a href="margin_xsd.html#margin" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for margin.xsd')">ui:margin{0,1}</a></b> , <b><a href="tab_xsd.html#tab" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for tab.xsd')">ui:tab+</a></b></div>
                         </td>
                      </tr>
                      <tr>
                         <td class="firstColumn"><b>Children</b></td>
-                        <td><b><a href="margin_xsd.html#margin" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for margin.xsd')">ui:margin</a></b>, <b><a href="separator_xsd.html#separator" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for separator.xsd')">ui:separator</a></b>, <b><a href="tab_xsd.html#tab" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for tab.xsd')">ui:tab</a></b>, <b><a href="tabset_xsd.html#tabset_tabgroup" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for tabset.xsd')">ui:tabgroup</a></b></td>
+                        <td><b><a href="margin_xsd.html#margin" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for margin.xsd')">ui:margin</a></b>, <b><a href="tab_xsd.html#tab" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for tab.xsd')">ui:tab</a></b></td>
                      </tr>
                      <tr>
                         <td class="firstColumn">
@@ -528,11 +517,9 @@ var modelBoxes= new Array('model_tabset',
                            <div id="instance_tabset" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;ui:tabset</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">contentHeight=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">showHeadOnly=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">single=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;ui:tabset</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">contentHeight=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">groupName=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">showHeadOnly=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">single=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;ui:margin</span><span class="tT"> </span><span class="tAN">all=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">east=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">north=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">south=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">west=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/ui:margin&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;ui:tab</span><span class="tT"> </span><span class="tAN">accessKey=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">mode=</span><span class="tAV">"client"</span><span class="tT"> </span><span class="tAN">open=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">"false"</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:tab&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;ui:tabgroup</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:tabgroup&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;ui:separator</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:separator&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:tab</span><span class="tT"> </span><span class="tAN">accessKey=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">mode=</span><span class="tAV">"client"</span><span class="tT"> </span><span class="tAN">open=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">"false"</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,unbounded}</span><span class="tEl">&lt;/ui:tab&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/ui:tabset&gt;</span></pre></td>
                                  </tr>
                               </table>
@@ -591,6 +578,17 @@ var modelBoxes= new Array('model_tabset',
                                        <div class="annotation">
                                           					The component will be in a disabled state if "true".
                                           				
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="tabset_xsd.html#tabset_groupName" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for tabset.xsd')">groupName</a></b></td>
+                                    <td><b>xs:NMTOKEN</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">Indicates that the collapsible is part of a group of collapsibles the open state of
+                                          which is controlled by a WCollapsibleToggle.
                                        </div>
                                     </td>
                                  </tr>
@@ -706,26 +704,7 @@ var modelBoxes= new Array('model_tabset',
   </span><span class="tEl">&lt;xs:complexType</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:sequence</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:element</span><span class="tAN"> ref=</span><span class="tAV">"ui:margin"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;xs:choice</span><span class="tAN"> maxOccurs=</span><span class="tAV">"unbounded"</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> ref=</span><span class="tAV">"ui:tab"</span><span class="tEl">/&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"tabgroup"</span><span class="tEl">&gt;</span><span class="tI">
-          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Deprecated: do not use.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
-          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
-          </span><span class="tEl">&lt;xs:complexType</span><span class="tEl">&gt;</span><span class="tI">
-            </span><span class="tEl">&lt;xs:sequence</span><span class="tEl">&gt;</span><span class="tI">
-              </span><span class="tEl">&lt;xs:element</span><span class="tAN"> ref=</span><span class="tAV">"ui:decoratedlabel"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span><span class="tI">
-              </span><span class="tEl">&lt;xs:choice</span><span class="tAN"> maxOccurs=</span><span class="tAV">"unbounded"</span><span class="tEl">&gt;</span><span class="tI">
-                </span><span class="tEl">&lt;xs:element</span><span class="tAN"> ref=</span><span class="tAV">"ui:tab"</span><span class="tEl">/&gt;</span><span class="tI">
-                </span><span class="tEl">&lt;xs:element</span><span class="tAN"> ref=</span><span class="tAV">"ui:separator"</span><span class="tEl">/&gt;</span><span class="tI">
-              </span><span class="tEl">&lt;/xs:choice&gt;</span><span class="tI">
-            </span><span class="tEl">&lt;/xs:sequence&gt;</span><span class="tI">
-            </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"id"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tAN"> type=</span><span class="tAV">"xs:ID"</span><span class="tEl">/&gt;</span><span class="tI">
-            </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"disabled"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">/&gt;</span><span class="tI">
-          </span><span class="tEl">&lt;/xs:complexType&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> ref=</span><span class="tAV">"ui:separator"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;/xs:choice&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:element</span><span class="tAN"> ref=</span><span class="tAV">"ui:tab"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"unbounded"</span><span class="tEl">/&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:sequence&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:attributeGroup</span><span class="tAN"> ref=</span><span class="tAV">"ui:interaction.attributes"</span><span class="tEl">/&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"type"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
@@ -758,326 +737,13 @@ var modelBoxes= new Array('model_tabset',
         </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates the height of the content box for the tab content for all tabs in this tabset. If any tab's content exceeds this height it will provide a scroll mechanism for that tab's content. If not set then th eheight of the tab content is determined by the user agent so as to display all content without scrolling.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"groupName"</span><span class="tAN"> type=</span><span class="tAV">"xs:NMTOKEN"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that the collapsible is part of a group of collapsibles the open state of which is controlled by a WCollapsibleToggle.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:complexType&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:element&gt;</span></pre></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="tabset_tabgroup"></a><div class="componentTitle">Element <span class="qname"><b><a href="tabset_xsd.html#tabset" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for tabset.xsd')">ui:tabset</a></b> / ui:tabgroup</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn"><b>Namespace</b></td>
-                        <td>https://github.com/bordertech/wcomponents/namespace/ui/v1.0</td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_tabset_tabgroup" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_tabset_tabgroup');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_tabset_tabgroup" style="display:block">
-                              <div class="annotation">Deprecated: do not use.</div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_tabset_tabgroup" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_tabset_tabgroup');" class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_tabset_tabgroup" style="display:block"><img alt="Diagram" border="0" src="img/tabset_xsd_Element_ui_tabgroup.png" usemap="#tabset_xsd_Element_ui_tabgroup" /><map name="tabset_xsd_Element_ui_tabgroup" id="tabset_xsd_Element_ui_tabgroup">
-                                 <area alt="tabset_xsd.tmp#tabset_tabset_tabgroup_id" href="tabset_xsd.html#tabset_tabset_tabgroup_id" coords="143,40,211,64" />
-                                 <area alt="tabset_xsd.tmp#tabset_tabset_tabgroup_disabled" href="tabset_xsd.html#tabset_tabset_tabgroup_disabled" coords="143,74,236,98" />
-                                 <area alt="decoratedLabel_xsd.tmp#decoratedlabel" href="decoratedLabel_xsd.html#decoratedlabel" coords="221,115,344,139" />
-                                 <area alt="tab_xsd.tmp#tab" href="tab_xsd.html#tab" coords="292,205,353,229" />
-                                 <area alt="separator_xsd.tmp#separator" href="separator_xsd.html#separator" coords="292,239,388,263" /></map></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_tabset_tabgroup" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_tabset_tabgroup');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_tabset_tabgroup" style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
-                                    <td><b>complex</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_tabset_tabgroup" type="image" src="img/btM.gif" value="-" onclick="switchState('model_tabset_tabgroup');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="model_tabset_tabgroup" style="display:block"><b><a href="decoratedLabel_xsd.html#decoratedlabel" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for decoratedLabel.xsd')">ui:decoratedlabel{0,1}</a></b> , (<b><a href="tab_xsd.html#tab" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for tab.xsd')">ui:tab</a></b> | <b><a href="separator_xsd.html#separator" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for separator.xsd')">ui:separator</a></b>)
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Children</b></td>
-                        <td><b><a href="decoratedLabel_xsd.html#decoratedlabel" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for decoratedLabel.xsd')">ui:decoratedlabel</a></b>, <b><a href="separator_xsd.html#separator" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for separator.xsd')">ui:separator</a></b>, <b><a href="tab_xsd.html#tab" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for tab.xsd')">ui:tab</a></b></td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Instance</b></div>
-                           <div class="floatRight"><input id="button_instance_tabset_tabgroup" type="image" src="img/btM.gif" value="-" onclick="switchState('instance_tabset_tabgroup');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="instance_tabset_tabgroup" style="display:block">
-                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                 <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;ui:tabgroup</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;ui:decoratedlabel</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">"false"</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/ui:decoratedlabel&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;ui:tab</span><span class="tT"> </span><span class="tAN">accessKey=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">mode=</span><span class="tAV">"client"</span><span class="tT"> </span><span class="tAN">open=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">"false"</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:tab&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;ui:separator</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:separator&gt;</span><span class="tI">
-</span><span class="tEl">&lt;/ui:tabgroup&gt;</span></pre></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Attributes</b></div>
-                           <div class="floatRight"><input id="button_attributes_tabset_tabgroup" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_tabset_tabgroup');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="attributes_tabset_tabgroup" style="display:block">
-                              <table class="attributesTable">
-                                 <thead>
-                                    <tr>
-                                       <th>QName</th>
-                                       <th width="10%">Type</th>
-                                       <th width="5%">Use</th>
-                                       <th></th>
-                                    </tr>
-                                 </thead>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="tabset_xsd.html#tabset_tabset_tabgroup_disabled" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for tabset.xsd')">disabled</a></b></td>
-                                    <td><b>xs:boolean</b></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="tabset_xsd.html#tabset_tabset_tabgroup_id" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for tabset.xsd')">id</a></b></td>
-                                    <td><b>xs:ID</b></td>
-                                    <td>required</td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Source</b></div>
-                           <div class="floatRight"><input id="button_source_tabset_tabgroup" type="image" src="img/btM.gif" value="-" onclick="switchState('source_tabset_tabgroup');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="source_tabset_tabgroup" style="display:block">
-                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                 <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"tabgroup"</span><span class="tEl">&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Deprecated: do not use.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;xs:complexType</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:sequence</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;xs:element</span><span class="tAN"> ref=</span><span class="tAV">"ui:decoratedlabel"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;xs:choice</span><span class="tAN"> maxOccurs=</span><span class="tAV">"unbounded"</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> ref=</span><span class="tAV">"ui:tab"</span><span class="tEl">/&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:element</span><span class="tAN"> ref=</span><span class="tAV">"ui:separator"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;/xs:choice&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;/xs:sequence&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"id"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tAN"> type=</span><span class="tAV">"xs:ID"</span><span class="tEl">/&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"disabled"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">/&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;/xs:complexType&gt;</span><span class="tI">
-</span><span class="tEl">&lt;/xs:element&gt;</span></pre></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="tabset_tabset_tabgroup_id"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="tabset_xsd.html#tabset" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for tabset.xsd')">ui:tabset</a></b> / <b><a href="tabset_xsd.html#tabset_tabgroup" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for tabset.xsd')">ui:tabgroup</a></b> / @id</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn"><b>Namespace</b></td>
-                        <td>No namespace</td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Type</b></td>
-                        <td><b>xs:ID</b></td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_tabset_tabset_tabgroup_id" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_tabset_tabset_tabgroup_id');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_tabset_tabset_tabgroup_id" style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn" style="white-space: nowrap;">use</td>
-                                    <td><b>required</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Used by</b></div>
-                           <div class="floatRight"><input id="button_usedBy_tabset_tabset_tabgroup_id" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_tabset_tabset_tabgroup_id');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="usedBy_tabset_tabset_tabgroup_id" style="display:block">
-                              <table class="usedByTable">
-                                 <tr>
-                                    <td class="firstColumn">Element </td>
-                                    <td><b><a href="tabset_xsd.html#tabset_tabgroup" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for tabset.xsd')">ui:tabset/ui:tabgroup</a></b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Source</b></div>
-                           <div class="floatRight"><input id="button_source_tabset_tabset_tabgroup_id" type="image" src="img/btM.gif" value="-" onclick="switchState('source_tabset_tabset_tabgroup_id');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="source_tabset_tabset_tabgroup_id" style="display:block">
-                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                 <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"id"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tAN"> type=</span><span class="tAV">"xs:ID"</span><span class="tEl">/&gt;</span></pre></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="tabset_tabset_tabgroup_disabled"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="tabset_xsd.html#tabset" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for tabset.xsd')">ui:tabset</a></b> / <b><a href="tabset_xsd.html#tabset_tabgroup" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for tabset.xsd')">ui:tabgroup</a></b> / @disabled</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn"><b>Namespace</b></td>
-                        <td>No namespace</td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Type</b></td>
-                        <td><b>xs:boolean</b></td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_tabset_tabset_tabgroup_disabled" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_tabset_tabset_tabgroup_disabled');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_tabset_tabset_tabgroup_disabled" style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
-                                    <td><b>simple</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Used by</b></div>
-                           <div class="floatRight"><input id="button_usedBy_tabset_tabset_tabgroup_disabled" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_tabset_tabset_tabgroup_disabled');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="usedBy_tabset_tabset_tabgroup_disabled" style="display:block">
-                              <table class="usedByTable">
-                                 <tr>
-                                    <td class="firstColumn">Element </td>
-                                    <td><b><a href="tabset_xsd.html#tabset_tabgroup" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for tabset.xsd')">ui:tabset/ui:tabgroup</a></b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Source</b></div>
-                           <div class="floatRight"><input id="button_source_tabset_tabset_tabgroup_disabled" type="image" src="img/btM.gif" value="-" onclick="switchState('source_tabset_tabset_tabgroup_disabled');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="source_tabset_tabset_tabgroup_disabled" style="display:block">
-                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                 <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"disabled"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">/&gt;</span></pre></td>
                                  </tr>
                               </table>
                            </div>
@@ -1507,6 +1173,100 @@ var modelBoxes= new Array('model_tabset',
                                     <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"contentHeight"</span><span class="tAN"> type=</span><span class="tAV">"xs:token"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates the height of the content box for the tab content for all tabs in this tabset. If any tab's content exceeds this height it will provide a scroll mechanism for that tab's content. If not set then th eheight of the tab content is determined by the user agent so as to display all content without scrolling.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="tabset_groupName"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="tabset_xsd.html#tabset" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for tabset.xsd')">ui:tabset</a></b> / @groupName</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_tabset_groupName" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_tabset_groupName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_tabset_groupName" style="display:block">
+                              <div class="annotation">Indicates that the collapsible is part of a group of collapsibles the open state of
+                                 which is controlled by a WCollapsibleToggle.
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:NMTOKEN</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_tabset_groupName" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_tabset_groupName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_tabset_groupName" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_tabset_groupName" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_tabset_groupName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_tabset_groupName" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="tabset_xsd.html#tabset" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for tabset.xsd')">ui:tabset</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_tabset_groupName" type="image" src="img/btM.gif" value="-" onclick="switchState('source_tabset_groupName');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_tabset_groupName" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"groupName"</span><span class="tAN"> type=</span><span class="tAV">"xs:NMTOKEN"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that the collapsible is part of a group of collapsibles the open state of which is controlled by a WCollapsibleToggle.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>

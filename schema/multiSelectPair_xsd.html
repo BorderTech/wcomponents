@@ -467,12 +467,12 @@ var modelBoxes= new Array('model_multiselectpair');
                                  <area alt="attributeGroups_control_xsd.tmp#input.attributes" href="attributeGroups_control_xsd.html#input.attributes" coords="196,43,347,69" />
                                  <area alt="multiSelectPair_xsd.tmp#multiselectpair_size" href="multiSelectPair_xsd.html#multiselectpair_size" coords="193,114,262,138" />
                                  <area alt="multiSelectPair_xsd.tmp#multiselectpair_fromListName" href="multiSelectPair_xsd.html#multiselectpair_fromListName" coords="193,204,316,228" />
-                                 <area alt="multiSelectPair_xsd.tmp#multiselectpair_toListName" href="multiSelectPair_xsd.html#multiselectpair_toListName" coords="193,268,301,292" />
-                                 <area alt="multiSelectPair_xsd.tmp#multiselectpair_shuffle" href="multiSelectPair_xsd.html#multiselectpair_shuffle" coords="193,332,278,356" />
-                                 <area alt="attributeGroups_control_xsd.tmp#multiSelect.constraints.attributes" href="attributeGroups_control_xsd.html#multiSelect.constraints.attributes" coords="196,412,441,438" />
-                                 <area alt="option_xsd.tmp#option" href="option_xsd.html#option" coords="264,504,343,528" />
-                                 <area alt="optgroup_xsd.tmp#optgroup" href="optgroup_xsd.html#optgroup" coords="264,581,359,605" />
-                                 <area alt="optgroup_xsd.tmp#option.with.group" href="optgroup_xsd.html#option.with.group" coords="182,463,346,489" /></map></div>
+                                 <area alt="multiSelectPair_xsd.tmp#multiselectpair_toListName" href="multiSelectPair_xsd.html#multiselectpair_toListName" coords="193,281,301,305" />
+                                 <area alt="multiSelectPair_xsd.tmp#multiselectpair_shuffle" href="multiSelectPair_xsd.html#multiselectpair_shuffle" coords="193,371,278,395" />
+                                 <area alt="attributeGroups_control_xsd.tmp#multiSelect.constraints.attributes" href="attributeGroups_control_xsd.html#multiSelect.constraints.attributes" coords="196,451,441,477" />
+                                 <area alt="option_xsd.tmp#option" href="option_xsd.html#option" coords="264,543,343,567" />
+                                 <area alt="optgroup_xsd.tmp#optgroup" href="optgroup_xsd.html#optgroup" coords="264,620,359,644" />
+                                 <area alt="optgroup_xsd.tmp#option.with.group" href="optgroup_xsd.html#option.with.group" coords="182,502,346,528" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -593,9 +593,11 @@ var modelBoxes= new Array('model_multiselectpair');
                                     <td class="firstColumn"><b><a href="multiSelectPair_xsd.html#multiselectpair_fromListName" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for multiSelectPair.xsd')">fromListName</a></b></td>
                                     <td><b>xs:string</b></td>
                                     <td></td>
-                                    <td>required</td>
+                                    <td>optional</td>
                                     <td>
-                                       <div class="annotation">The label text for the list of unselected options.</div>
+                                       <div class="annotation">The label text for the list of unselected options. This attribute is mandatory if
+                                          the field is not in a read-only state.
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -693,11 +695,11 @@ var modelBoxes= new Array('model_multiselectpair');
                                     <td class="firstColumn"><b><a href="multiSelectPair_xsd.html#multiselectpair_size" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for multiSelectPair.xsd')">size</a></b></td>
                                     <td>restriction of <b>xs:int</b></td>
                                     <td></td>
-                                    <td>required</td>
+                                    <td>optional</td>
                                     <td>
                                        <div class="annotation">Indicates the number of options which should be visible in the component without scrolling.
                                           If not set then the display is determined by the
-                                          						user agent.
+                                          						user agent. This attribute is mandatory if the field is not in a read-only state.
                                        </div>
                                     </td>
                                  </tr>
@@ -719,9 +721,11 @@ var modelBoxes= new Array('model_multiselectpair');
                                     <td class="firstColumn"><b><a href="multiSelectPair_xsd.html#multiselectpair_toListName" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for multiSelectPair.xsd')">toListName</a></b></td>
                                     <td><b>xs:string</b></td>
                                     <td></td>
-                                    <td>required</td>
+                                    <td>optional</td>
                                     <td>
-                                       <div class="annotation">The label text for the list of selected options.</div>
+                                       <div class="annotation">The label text for the list of selected options. This attribute is mandatory if the
+                                          field is not in a read-only state.
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -802,9 +806,9 @@ var modelBoxes= new Array('model_multiselectpair');
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:group&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:attributeGroup</span><span class="tAN"> ref=</span><span class="tAV">"ui:input.attributes"</span><span class="tEl">/&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"size"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"size"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates the number of options which should be visible in the component without scrolling. If not set then the display is determined by the user agent.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates the number of options which should be visible in the component without scrolling. If not set then the display is determined by the user agent. This attribute is mandatory if the field is not in a read-only state.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:simpleType</span><span class="tEl">&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:restriction</span><span class="tAN"> base=</span><span class="tAV">"xs:int"</span><span class="tEl">&gt;</span><span class="tI">
@@ -813,14 +817,14 @@ var modelBoxes= new Array('model_multiselectpair');
       </span><span class="tEl">&lt;/xs:simpleType&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
     </span><span class="tC">&lt;!--  TODO: we could probably have the @fromListName and @toListName not required and default to theme determined values. --&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"fromListName"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"fromListName"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The label text for the list of unselected options.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The label text for the list of unselected options. This attribute is mandatory if the field is not in a read-only state.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"toListName"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"toListName"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The label text for the list of selected options.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The label text for the list of selected options. This attribute is mandatory if the field is not in a read-only state.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"shuffle"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
@@ -871,7 +875,7 @@ var modelBoxes= new Array('model_multiselectpair');
                            <div id="annotations_option.with.group_size" style="display:block">
                               <div class="annotation">Indicates the number of options which should be visible in the component without scrolling.
                                  If not set then the display is determined by the
-                                 						user agent.
+                                 						user agent. This attribute is mandatory if the field is not in a read-only state.
                               </div>
                            </div>
                         </td>
@@ -889,8 +893,8 @@ var modelBoxes= new Array('model_multiselectpair');
                            <div id="properties_option.with.group_size" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
-                                    <td class="firstColumn" style="white-space: nowrap;">use</td>
-                                    <td><b>required</b></td>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
                                  </tr>
                               </table>
                            </div>
@@ -940,9 +944,9 @@ var modelBoxes= new Array('model_multiselectpair');
                            <div id="source_option.with.group_size" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"size"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"size"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates the number of options which should be visible in the component without scrolling. If not set then the display is determined by the user agent.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates the number of options which should be visible in the component without scrolling. If not set then the display is determined by the user agent. This attribute is mandatory if the field is not in a read-only state.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:simpleType</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:restriction</span><span class="tAN"> base=</span><span class="tAV">"xs:int"</span><span class="tEl">&gt;</span><span class="tI">
@@ -988,7 +992,9 @@ var modelBoxes= new Array('model_multiselectpair');
                         </td>
                         <td>
                            <div id="annotations_option.with.group_fromListName" style="display:block">
-                              <div class="annotation">The label text for the list of unselected options.</div>
+                              <div class="annotation">The label text for the list of unselected options. This attribute is mandatory if
+                                 the field is not in a read-only state.
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -1005,8 +1011,8 @@ var modelBoxes= new Array('model_multiselectpair');
                            <div id="properties_option.with.group_fromListName" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
-                                    <td class="firstColumn" style="white-space: nowrap;">use</td>
-                                    <td><b>required</b></td>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
                                  </tr>
                               </table>
                            </div>
@@ -1037,9 +1043,9 @@ var modelBoxes= new Array('model_multiselectpair');
                            <div id="source_option.with.group_fromListName" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"fromListName"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"fromListName"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The label text for the list of unselected options.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The label text for the list of unselected options. This attribute is mandatory if the field is not in a read-only state.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>
@@ -1080,7 +1086,9 @@ var modelBoxes= new Array('model_multiselectpair');
                         </td>
                         <td>
                            <div id="annotations_option.with.group_toListName" style="display:block">
-                              <div class="annotation">The label text for the list of selected options.</div>
+                              <div class="annotation">The label text for the list of selected options. This attribute is mandatory if the
+                                 field is not in a read-only state.
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -1097,8 +1105,8 @@ var modelBoxes= new Array('model_multiselectpair');
                            <div id="properties_option.with.group_toListName" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
-                                    <td class="firstColumn" style="white-space: nowrap;">use</td>
-                                    <td><b>required</b></td>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
                                  </tr>
                               </table>
                            </div>
@@ -1129,9 +1137,9 @@ var modelBoxes= new Array('model_multiselectpair');
                            <div id="source_option.with.group_toListName" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"toListName"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"toListName"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The label text for the list of selected options.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The label text for the list of selected options. This attribute is mandatory if the field is not in a read-only state.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>
@@ -1266,7 +1274,9 @@ var modelBoxes= new Array('model_multiselectpair');
                         </td>
                         <td>
                            <div id="annotations_multiselectpair_fromListName" style="display:block">
-                              <div class="annotation">The label text for the list of unselected options.</div>
+                              <div class="annotation">The label text for the list of unselected options. This attribute is mandatory if
+                                 the field is not in a read-only state.
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -1283,8 +1293,8 @@ var modelBoxes= new Array('model_multiselectpair');
                            <div id="properties_multiselectpair_fromListName" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
-                                    <td class="firstColumn" style="white-space: nowrap;">use</td>
-                                    <td><b>required</b></td>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
                                  </tr>
                               </table>
                            </div>
@@ -1299,9 +1309,9 @@ var modelBoxes= new Array('model_multiselectpair');
                            <div id="source_multiselectpair_fromListName" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"fromListName"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"fromListName"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The label text for the list of unselected options.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The label text for the list of unselected options. This attribute is mandatory if the field is not in a read-only state.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>
@@ -1422,7 +1432,7 @@ var modelBoxes= new Array('model_multiselectpair');
                            <div id="annotations_multiselectpair_size" style="display:block">
                               <div class="annotation">Indicates the number of options which should be visible in the component without scrolling.
                                  If not set then the display is determined by the
-                                 						user agent.
+                                 						user agent. This attribute is mandatory if the field is not in a read-only state.
                               </div>
                            </div>
                         </td>
@@ -1440,8 +1450,8 @@ var modelBoxes= new Array('model_multiselectpair');
                            <div id="properties_multiselectpair_size" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
-                                    <td class="firstColumn" style="white-space: nowrap;">use</td>
-                                    <td><b>required</b></td>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
                                  </tr>
                               </table>
                            </div>
@@ -1475,9 +1485,9 @@ var modelBoxes= new Array('model_multiselectpair');
                            <div id="source_multiselectpair_size" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"size"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"size"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates the number of options which should be visible in the component without scrolling. If not set then the display is determined by the user agent.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates the number of options which should be visible in the component without scrolling. If not set then the display is determined by the user agent. This attribute is mandatory if the field is not in a read-only state.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:simpleType</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:restriction</span><span class="tAN"> base=</span><span class="tAV">"xs:int"</span><span class="tEl">&gt;</span><span class="tI">
@@ -1523,7 +1533,9 @@ var modelBoxes= new Array('model_multiselectpair');
                         </td>
                         <td>
                            <div id="annotations_multiselectpair_toListName" style="display:block">
-                              <div class="annotation">The label text for the list of selected options.</div>
+                              <div class="annotation">The label text for the list of selected options. This attribute is mandatory if the
+                                 field is not in a read-only state.
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -1540,8 +1552,8 @@ var modelBoxes= new Array('model_multiselectpair');
                            <div id="properties_multiselectpair_toListName" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
-                                    <td class="firstColumn" style="white-space: nowrap;">use</td>
-                                    <td><b>required</b></td>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
                                  </tr>
                               </table>
                            </div>
@@ -1556,9 +1568,9 @@ var modelBoxes= new Array('model_multiselectpair');
                            <div id="source_multiselectpair_toListName" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"toListName"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"toListName"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The label text for the list of selected options.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The label text for the list of selected options. This attribute is mandatory if the field is not in a read-only state.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>

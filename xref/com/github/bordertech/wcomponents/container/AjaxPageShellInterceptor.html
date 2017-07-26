@@ -67,20 +67,19 @@
 <a class="jxr_linenumber" name="L59" href="#L59">59</a>  		String focusId = uic.getFocussedId();
 <a class="jxr_linenumber" name="L60" href="#L60">60</a>  
 <a class="jxr_linenumber" name="L61" href="#L61">61</a>  		xml.append(XMLUtil.getXMLDeclarationWithThemeXslt(uic));
-<a class="jxr_linenumber" name="L62" href="#L62">62</a>  		xml.append(XMLUtil.DOC_TYPE);  <em class="jxr_comment">// It is possible that the AJAX response contains XHTML including &amp;nbsp;</em>
-<a class="jxr_linenumber" name="L63" href="#L63">63</a>  		xml.appendTagOpen(<span class="jxr_string">"ui:ajaxresponse"</span>);
-<a class="jxr_linenumber" name="L64" href="#L64">64</a>  		xml.append(XMLUtil.STANDARD_NAMESPACES);
-<a class="jxr_linenumber" name="L65" href="#L65">65</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"defaultFocusId"</span>, uic.isFocusRequired() &amp;&amp; !Util.empty(focusId),
-<a class="jxr_linenumber" name="L66" href="#L66">66</a>  				focusId);
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>  		xml.appendClose();
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>  
-<a class="jxr_linenumber" name="L69" href="#L69">69</a>  		getBackingComponent().paint(renderContext);
-<a class="jxr_linenumber" name="L70" href="#L70">70</a>  
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>  		xml.appendEndTag(<span class="jxr_string">"ui:ajaxresponse"</span>);
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>  	}
-<a class="jxr_linenumber" name="L73" href="#L73">73</a>  }
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>  		xml.appendTagOpen(<span class="jxr_string">"ui:ajaxresponse"</span>);
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>  		xml.append(XMLUtil.STANDARD_NAMESPACES);
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"defaultFocusId"</span>, uic.isFocusRequired() &amp;&amp; !Util.empty(focusId),
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>  				focusId);
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  		xml.appendClose();
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>  
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  		getBackingComponent().paint(renderContext);
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>  
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  		xml.appendEndTag(<span class="jxr_string">"ui:ajaxresponse"</span>);
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>  	}
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>  }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2016. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2017. All rights reserved.</div>
 </body>
 </html>

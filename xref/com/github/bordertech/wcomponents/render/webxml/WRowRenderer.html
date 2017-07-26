@@ -9,51 +9,54 @@
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> com.github.bordertech.wcomponents.render.webxml;
 <a class="jxr_linenumber" name="L2" href="#L2">2</a>   
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.Renderer;
-<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.WComponent;
-<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.WRow;
-<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.XmlStringBuilder;
-<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-<a class="jxr_linenumber" name="L8" href="#L8">8</a>   
-<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_javadoccomment"> * {@link Renderer} for the {@link WRow} component.</em>
-<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <em class="jxr_javadoccomment"> *</em>
-<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_javadoccomment"> * @author Yiannis Paschalidis</em>
-<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_javadoccomment"> * @since 1.0.0</em>
-<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../com/github/bordertech/wcomponents/render/webxml/WRowRenderer.html">WRowRenderer</a> <strong class="jxr_keyword">extends</strong> <a href="../../../../../../com/github/bordertech/wcomponents/render/webxml/AbstractWebXmlRenderer.html">AbstractWebXmlRenderer</a> {
-<a class="jxr_linenumber" name="L16" href="#L16">16</a>  
-<a class="jxr_linenumber" name="L17" href="#L17">17</a>  	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <em class="jxr_javadoccomment">	 * Paints the given WButton.</em>
-<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <em class="jxr_javadoccomment">	 * @param component the WRow to paint.</em>
-<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <em class="jxr_javadoccomment">	 * @param renderContext the RenderContext to paint to.</em>
-<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L23" href="#L23">23</a>  	@Override
-<a class="jxr_linenumber" name="L24" href="#L24">24</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> doRender(<strong class="jxr_keyword">final</strong> <a href="../../../../../../com/github/bordertech/wcomponents/WComponent.html">WComponent</a> component, <strong class="jxr_keyword">final</strong> <a href="../../../../../../com/github/bordertech/wcomponents/servlet/WebXmlRenderContext.html">WebXmlRenderContext</a> renderContext) {
-<a class="jxr_linenumber" name="L25" href="#L25">25</a>  		WRow row = (WRow) component;
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>  		XmlStringBuilder xml = renderContext.getWriter();
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>  		<strong class="jxr_keyword">int</strong> cols = row.getChildCount();
-<a class="jxr_linenumber" name="L28" href="#L28">28</a>  		<strong class="jxr_keyword">int</strong> hgap = row.getHgap();
-<a class="jxr_linenumber" name="L29" href="#L29">29</a>  
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>  		<strong class="jxr_keyword">if</strong> (cols &gt; 0) {
-<a class="jxr_linenumber" name="L31" href="#L31">31</a>  			xml.appendTagOpen(<span class="jxr_string">"ui:row"</span>);
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>  			xml.appendAttribute(<span class="jxr_string">"id"</span>, component.getId());
-<a class="jxr_linenumber" name="L33" href="#L33">33</a>  			xml.appendOptionalAttribute(<span class="jxr_string">"class"</span>, component.getHtmlClass());
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>  			xml.appendOptionalAttribute(<span class="jxr_string">"track"</span>, component.isTracking(), <span class="jxr_string">"true"</span>);
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>  			xml.appendOptionalAttribute(<span class="jxr_string">"hgap"</span>, hgap &gt; 0, hgap);
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>  			xml.appendClose();
-<a class="jxr_linenumber" name="L37" href="#L37">37</a>  
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>  			<em class="jxr_comment">// Render margin</em>
-<a class="jxr_linenumber" name="L39" href="#L39">39</a>  			MarginRendererUtil.renderMargin(row, renderContext);
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.Size;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.WComponent;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.WRow;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.XmlStringBuilder;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <em class="jxr_javadoccomment"> * {@link Renderer} for the {@link WRow} component.</em>
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_javadoccomment"> * @author Yiannis Paschalidis</em>
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_javadoccomment"> * @author Mark Reeves</em>
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_javadoccomment"> * @since 1.0.0</em>
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../com/github/bordertech/wcomponents/render/webxml/WRowRenderer.html">WRowRenderer</a> <strong class="jxr_keyword">extends</strong> <a href="../../../../../../com/github/bordertech/wcomponents/render/webxml/AbstractWebXmlRenderer.html">AbstractWebXmlRenderer</a> {
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <em class="jxr_javadoccomment">	 * Paints the given WButton.</em>
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <em class="jxr_javadoccomment">	 * @param component the WRow to paint.</em>
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <em class="jxr_javadoccomment">	 * @param renderContext the RenderContext to paint to.</em>
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  	@Override
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> doRender(<strong class="jxr_keyword">final</strong> <a href="../../../../../../com/github/bordertech/wcomponents/WComponent.html">WComponent</a> component, <strong class="jxr_keyword">final</strong> <a href="../../../../../../com/github/bordertech/wcomponents/servlet/WebXmlRenderContext.html">WebXmlRenderContext</a> renderContext) {
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  		WRow row = (WRow) component;
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  		XmlStringBuilder xml = renderContext.getWriter();
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  		<strong class="jxr_keyword">int</strong> cols = row.getChildCount();
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  		Size gap = row.getSpace();
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  		String gapString = gap != <strong class="jxr_keyword">null</strong> ? gap.toString() : <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  		<strong class="jxr_keyword">if</strong> (cols &gt; 0) {
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  			xml.appendTagOpen(<span class="jxr_string">"ui:row"</span>);
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  			xml.appendAttribute(<span class="jxr_string">"id"</span>, component.getId());
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  			xml.appendOptionalAttribute(<span class="jxr_string">"class"</span>, component.getHtmlClass());
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  			xml.appendOptionalAttribute(<span class="jxr_string">"track"</span>, component.isTracking(), <span class="jxr_string">"true"</span>);
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  			xml.appendOptionalAttribute(<span class="jxr_string">"gap"</span>, gapString);
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  			xml.appendClose();
 <a class="jxr_linenumber" name="L40" href="#L40">40</a>  
-<a class="jxr_linenumber" name="L41" href="#L41">41</a>  			paintChildren(row, renderContext);
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>  
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>  			xml.appendEndTag(<span class="jxr_string">"ui:row"</span>);
-<a class="jxr_linenumber" name="L44" href="#L44">44</a>  		}
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>  	}
-<a class="jxr_linenumber" name="L46" href="#L46">46</a>  }
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  			<em class="jxr_comment">// Render margin</em>
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  			MarginRendererUtil.renderMargin(row, renderContext);
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  			paintChildren(row, renderContext);
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  			xml.appendEndTag(<span class="jxr_string">"ui:row"</span>);
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  		}
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  	}
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2016. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2017. All rights reserved.</div>
 </body>
 </html>

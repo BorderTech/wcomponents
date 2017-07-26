@@ -9,20 +9,24 @@
         var propertiesBoxes= new Array('properties_button.xsd', 
 				'properties_button', 
 				'properties_buttonType_popup', 
-				'properties_buttonType_unsavedChanges');
+				'properties_buttonType_unsavedChanges', 
+				'properties_buttonType_client');
 var usedByBoxes= new Array('usedBy_button', 
 				'usedBy_buttonType', 
 				'usedBy_buttonType_popup', 
-				'usedBy_buttonType_unsavedChanges');
+				'usedBy_buttonType_unsavedChanges', 
+				'usedBy_buttonType_client');
 var sourceBoxes= new Array('source_button', 
 				'source_buttonType', 
 				'source_buttonType_popup', 
-				'source_buttonType_unsavedChanges');
+				'source_buttonType_unsavedChanges', 
+				'source_buttonType_client');
 var diagramBoxes= new Array('diagram_button', 
 				'diagram_buttonType');
 var annotationBoxes= new Array('annotations_buttonType', 
 				'annotations_buttonType_popup', 
-				'annotations_buttonType_unsavedChanges');
+				'annotations_buttonType_unsavedChanges', 
+				'annotations_buttonType_client');
 var attributesBoxes= new Array('attributes_button', 
 				'attributes_buttonType');
 
@@ -372,6 +376,7 @@ var attributesBoxes= new Array('attributes_button',
                                  <area alt="attributeGroups_button_xsd.tmp#button.menu.attributes" href="attributeGroups_button_xsd.html#button.menu.attributes" coords="126,234,318,260" />
                                  <area alt="button_xsd.tmp#buttonType_popup" href="button_xsd.html#buttonType_popup" coords="123,331,206,355" />
                                  <area alt="button_xsd.tmp#buttonType_unsavedChanges" href="button_xsd.html#buttonType_unsavedChanges" coords="123,408,263,432" />
+                                 <area alt="button_xsd.tmp#buttonType_client" href="button_xsd.html#buttonType_client" coords="123,485,200,509" />
                                  <area alt="button_xsd.tmp#buttonType" href="button_xsd.html#buttonType" coords="98,3,224,25" /></map></div>
                         </td>
                      </tr>
@@ -494,6 +499,17 @@ var attributesBoxes= new Array('attributes_button',
                                     </td>
                                  </tr>
                                  <tr>
+                                    <td class="firstColumn"><b><a href="button_xsd.html#buttonType_client" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for button.xsd')">client</a></b></td>
+                                    <td><b>xs:boolean</b></td>
+                                    <td>false</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">If set "true" then the button is expected to trigger a purely client side process
+                                          and will not submit to the server.
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#interaction.attributes_disabled" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">disabled</a></b></td>
                                     <td><b>xs:boolean</b></td>
                                     <td>false</td>
@@ -572,7 +588,7 @@ var attributesBoxes= new Array('attributes_button',
                                  <tr>
                                     <td class="firstColumn"><b><a href="button_xsd.html#buttonType_popup" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for button.xsd')">popup</a></b></td>
                                     <td><b>xs:boolean</b></td>
-                                    <td></td>
+                                    <td>false</td>
                                     <td>optional</td>
                                     <td>
                                        <div class="annotation">Indicates whether this button will trigger a WPopup. Required for WCAG2.0 level A
@@ -638,7 +654,7 @@ var attributesBoxes= new Array('attributes_button',
                                  <tr>
                                     <td class="firstColumn"><b><a href="button_xsd.html#buttonType_unsavedChanges" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for button.xsd')">unsavedChanges</a></b></td>
                                     <td><b>xs:boolean</b></td>
-                                    <td></td>
+                                    <td>false</td>
                                     <td>optional</td>
                                     <td>
                                        <div class="annotation">If set and @cancel is true the user will receive a warning even if they have not made
@@ -771,7 +787,8 @@ var attributesBoxes= new Array('attributes_button',
                                  <area alt="attributeGroups_button_xsd.tmp#button.link.attributes" href="attributeGroups_button_xsd.html#button.link.attributes" coords="182,120,363,146" />
                                  <area alt="attributeGroups_button_xsd.tmp#button.menu.attributes" href="attributeGroups_button_xsd.html#button.menu.attributes" coords="182,194,374,220" />
                                  <area alt="button_xsd.tmp#buttonType_popup" href="button_xsd.html#buttonType_popup" coords="179,291,262,315" />
-                                 <area alt="button_xsd.tmp#buttonType_unsavedChanges" href="button_xsd.html#buttonType_unsavedChanges" coords="179,368,319,392" /></map></div>
+                                 <area alt="button_xsd.tmp#buttonType_unsavedChanges" href="button_xsd.html#buttonType_unsavedChanges" coords="179,368,319,392" />
+                                 <area alt="button_xsd.tmp#buttonType_client" href="button_xsd.html#buttonType_client" coords="179,445,256,469" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -873,6 +890,17 @@ var attributesBoxes= new Array('attributes_button',
                                     </td>
                                  </tr>
                                  <tr>
+                                    <td class="firstColumn"><b><a href="button_xsd.html#buttonType_client" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for button.xsd')">client</a></b></td>
+                                    <td><b>xs:boolean</b></td>
+                                    <td>false</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">If set "true" then the button is expected to trigger a purely client side process
+                                          and will not submit to the server.
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#interaction.attributes_disabled" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">disabled</a></b></td>
                                     <td><b>xs:boolean</b></td>
                                     <td>false</td>
@@ -951,7 +979,7 @@ var attributesBoxes= new Array('attributes_button',
                                  <tr>
                                     <td class="firstColumn"><b><a href="button_xsd.html#buttonType_popup" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for button.xsd')">popup</a></b></td>
                                     <td><b>xs:boolean</b></td>
-                                    <td></td>
+                                    <td>false</td>
                                     <td>optional</td>
                                     <td>
                                        <div class="annotation">Indicates whether this button will trigger a WPopup. Required for WCAG2.0 level A
@@ -1017,7 +1045,7 @@ var attributesBoxes= new Array('attributes_button',
                                  <tr>
                                     <td class="firstColumn"><b><a href="button_xsd.html#buttonType_unsavedChanges" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for button.xsd')">unsavedChanges</a></b></td>
                                     <td><b>xs:boolean</b></td>
-                                    <td></td>
+                                    <td>false</td>
                                     <td>optional</td>
                                     <td>
                                        <div class="annotation">If set and @cancel is true the user will receive a warning even if they have not made
@@ -1082,14 +1110,19 @@ var attributesBoxes= new Array('attributes_button',
     </span><span class="tEl">&lt;xs:extension</span><span class="tAN"> base=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:attributeGroup</span><span class="tAN"> ref=</span><span class="tAV">"ui:button.link.attributes"</span><span class="tEl">/&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:attributeGroup</span><span class="tAN"> ref=</span><span class="tAV">"ui:button.menu.attributes"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"popup"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"popup"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tAN"> default=</span><span class="tAV">"false"</span><span class="tEl">&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
           </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates whether this button will trigger a WPopup. Required for WCAG2.0 level A compliance of WPopup.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
         </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"unsavedChanges"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"unsavedChanges"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tAN"> default=</span><span class="tAV">"false"</span><span class="tEl">&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
           </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">If set and @cancel is true the user will receive a warning even if they have not made changes on the current screen.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"client"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tAN"> default=</span><span class="tAV">"false"</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">If set "true" then the button is expected to trigger a purely client side process and will not submit to the server.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
         </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:extension&gt;</span><span class="tI">
@@ -1152,8 +1185,8 @@ var attributesBoxes= new Array('attributes_button',
                            <div id="properties_buttonType_popup" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
-                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
-                                    <td><b>simple</b></td>
+                                    <td class="firstColumn" style="white-space: nowrap;">default</td>
+                                    <td><b>false</b></td>
                                  </tr>
                               </table>
                            </div>
@@ -1184,7 +1217,7 @@ var attributesBoxes= new Array('attributes_button',
                            <div id="source_buttonType_popup" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"popup"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"popup"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tAN"> default=</span><span class="tAV">"false"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates whether this button will trigger a WPopup. Required for WCAG2.0 level A compliance of WPopup.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
@@ -1246,8 +1279,8 @@ var attributesBoxes= new Array('attributes_button',
                            <div id="properties_buttonType_unsavedChanges" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
-                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
-                                    <td><b>simple</b></td>
+                                    <td class="firstColumn" style="white-space: nowrap;">default</td>
+                                    <td><b>false</b></td>
                                  </tr>
                               </table>
                            </div>
@@ -1278,9 +1311,103 @@ var attributesBoxes= new Array('attributes_button',
                            <div id="source_buttonType_unsavedChanges" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"unsavedChanges"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"unsavedChanges"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tAN"> default=</span><span class="tAV">"false"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">If set and @cancel is true the user will receive a warning even if they have not made changes on the current screen.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="buttonType_client"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="button_xsd.html#buttonType" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for button.xsd')">ui:buttonType</a></b> / @client</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_buttonType_client" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_buttonType_client');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_buttonType_client" style="display:block">
+                              <div class="annotation">If set "true" then the button is expected to trigger a purely client side process
+                                 and will not submit to the server.
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:boolean</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_buttonType_client" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_buttonType_client');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_buttonType_client" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">default</td>
+                                    <td><b>false</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_buttonType_client" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_buttonType_client');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_buttonType_client" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Complex Type </td>
+                                    <td><b><a href="button_xsd.html#buttonType" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for button.xsd')">ui:buttonType</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_buttonType_client" type="image" src="img/btM.gif" value="-" onclick="switchState('source_buttonType_client');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_buttonType_client" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"client"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tAN"> default=</span><span class="tAV">"false"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">If set "true" then the button is expected to trigger a purely client side process and will not submit to the server.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>

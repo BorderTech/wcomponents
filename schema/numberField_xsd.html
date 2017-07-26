@@ -8,26 +8,22 @@
          <!--
         var propertiesBoxes= new Array('properties_numberField.xsd', 
 				'properties_numberfield', 
-				'properties_numberfield_size', 
 				'properties_numberfield_min', 
 				'properties_numberfield_max', 
 				'properties_numberfield_step', 
 				'properties_numberfield_decimals');
 var usedByBoxes= new Array('usedBy_numberfield', 
-				'usedBy_numberfield_size', 
 				'usedBy_numberfield_min', 
 				'usedBy_numberfield_max', 
 				'usedBy_numberfield_step', 
 				'usedBy_numberfield_decimals');
 var sourceBoxes= new Array('source_numberfield', 
-				'source_numberfield_size', 
 				'source_numberfield_min', 
 				'source_numberfield_max', 
 				'source_numberfield_step', 
 				'source_numberfield_decimals');
 var diagramBoxes= new Array('diagram_numberfield');
 var annotationBoxes= new Array('annotations_numberfield', 
-				'annotations_numberfield_size', 
 				'annotations_numberfield_min', 
 				'annotations_numberfield_max', 
 				'annotations_numberfield_step', 
@@ -430,11 +426,11 @@ var attributesBoxes= new Array('attributes_numberfield');
                         <td class="diagram">
                            <div id="diagram_numberfield" style="display:block"><img alt="Diagram" border="0" src="img/numberField_xsd_Element_ui_numberfield.png" usemap="#numberField_xsd_Element_ui_numberfield" /><map name="numberField_xsd_Element_ui_numberfield" id="numberField_xsd_Element_ui_numberfield">
                                  <area alt="attributeGroups_control_xsd.tmp#submitting.input.attributes" href="attributeGroups_control_xsd.html#submitting.input.attributes" coords="161,122,373,148" />
-                                 <area alt="numberField_xsd.tmp#numberfield_size" href="numberField_xsd.html#numberfield_size" coords="158,206,227,230" />
-                                 <area alt="numberField_xsd.tmp#numberfield_min" href="numberField_xsd.html#numberfield_min" coords="158,296,226,320" />
-                                 <area alt="numberField_xsd.tmp#numberfield_max" href="numberField_xsd.html#numberfield_max" coords="158,386,229,410" />
-                                 <area alt="numberField_xsd.tmp#numberfield_step" href="numberField_xsd.html#numberfield_step" coords="158,476,229,500" />
-                                 <area alt="numberField_xsd.tmp#numberfield_decimals" href="numberField_xsd.html#numberfield_decimals" coords="158,566,253,590" /></map></div>
+                                 <area alt="attributeGroups_control_xsd.tmp#autocomplete.attributes" href="attributeGroups_control_xsd.html#autocomplete.attributes" coords="161,209,357,235" />
+                                 <area alt="numberField_xsd.tmp#numberfield_min" href="numberField_xsd.html#numberfield_min" coords="158,250,226,274" />
+                                 <area alt="numberField_xsd.tmp#numberfield_max" href="numberField_xsd.html#numberfield_max" coords="158,340,229,364" />
+                                 <area alt="numberField_xsd.tmp#numberfield_step" href="numberField_xsd.html#numberfield_step" coords="158,430,229,454" />
+                                 <area alt="numberField_xsd.tmp#numberfield_decimals" href="numberField_xsd.html#numberfield_decimals" coords="158,520,253,544" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -498,6 +494,21 @@ var attributesBoxes= new Array('attributes_numberfield');
                                     <td>
                                        <div class="annotation">
                                           					Deprecated. Use toolTip instead.
+                                          				
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#autocomplete.attributes_autocomplete" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">autocomplete</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          					This is the autocomplete setting for a component. If not set then the user agent
+                                          can determine the autocomplete state. See 
+                                          					
+                                          <a xmlns="" href="https://html.spec.whatwg.org/multipage/forms.html#attr-fe-autocomplete">https://html.spec.whatwg.org/multipage/forms.html#attr-fe-autocomplete</a>
                                           				
                                        </div>
                                     </td>
@@ -625,18 +636,6 @@ var attributesBoxes= new Array('attributes_numberfield');
                                     </td>
                                  </tr>
                                  <tr>
-                                    <td class="firstColumn"><b><a href="numberField_xsd.html#numberfield_size" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for numberField.xsd')">size</a></b></td>
-                                    <td><b>xs:positiveInteger</b></td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation">The rendered width of the field in units determined by the usr agent but generally
-                                          at least as large as the same number of digits. This attribute has no bearing on the
-                                          number of digits which can be entered into the field.
-                                       </div>
-                                    </td>
-                                 </tr>
-                                 <tr>
                                     <td class="firstColumn"><b><a href="numberField_xsd.html#numberfield_step" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for numberField.xsd')">step</a></b></td>
                                     <td><b>xs:decimal</b></td>
                                     <td></td>
@@ -730,11 +729,7 @@ var attributesBoxes= new Array('attributes_numberfield');
     </span><span class="tEl">&lt;xs:simpleContent</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:extension</span><span class="tAN"> base=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:attributeGroup</span><span class="tAN"> ref=</span><span class="tAV">"ui:submitting.input.attributes"</span><span class="tEl">/&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"size"</span><span class="tAN"> type=</span><span class="tAV">"xs:positiveInteger"</span><span class="tEl">&gt;</span><span class="tI">
-          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The rendered width of the field in units determined by the usr agent but generally at least as large as the same number of digits. This attribute has no bearing on the number of digits which can be entered into the field.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
-          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:attributeGroup</span><span class="tAN"> ref=</span><span class="tAV">"ui:autocomplete.attributes"</span><span class="tEl">/&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"min"</span><span class="tAN"> type=</span><span class="tAV">"xs:decimal"</span><span class="tEl">&gt;</span><span class="tI">
           </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
             </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The minimum allowed value in the field. Determined by the user agent if not specified and generally in the region of 0 - &lt;largest supported long integer&gt;. Note that if @step is not an integer then @min must also be not an integer.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
@@ -759,101 +754,6 @@ var attributesBoxes= new Array('attributes_numberfield');
     </span><span class="tEl">&lt;/xs:simpleContent&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:complexType&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:element&gt;</span></pre></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="numberfield_size"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="numberField_xsd.html#numberfield" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for numberField.xsd')">ui:numberfield</a></b> / @size</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn"><b>Namespace</b></td>
-                        <td>No namespace</td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_numberfield_size" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_numberfield_size');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_numberfield_size" style="display:block">
-                              <div class="annotation">The rendered width of the field in units determined by the usr agent but generally
-                                 at least as large as the same number of digits. This attribute has no bearing on the
-                                 number of digits which can be entered into the field.
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Type</b></td>
-                        <td><b>xs:positiveInteger</b></td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_numberfield_size" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_numberfield_size');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_numberfield_size" style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
-                                    <td><b>simple</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Used by</b></div>
-                           <div class="floatRight"><input id="button_usedBy_numberfield_size" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_numberfield_size');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="usedBy_numberfield_size" style="display:block">
-                              <table class="usedByTable">
-                                 <tr>
-                                    <td class="firstColumn">Element </td>
-                                    <td><b><a href="numberField_xsd.html#numberfield" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for numberField.xsd')">ui:numberfield</a></b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Source</b></div>
-                           <div class="floatRight"><input id="button_source_numberfield_size" type="image" src="img/btM.gif" value="-" onclick="switchState('source_numberfield_size');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="source_numberfield_size" style="display:block">
-                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                 <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"size"</span><span class="tAN"> type=</span><span class="tAV">"xs:positiveInteger"</span><span class="tEl">&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The rendered width of the field in units determined by the usr agent but generally at least as large as the same number of digits. This attribute has no bearing on the number of digits which can be entered into the field.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
-</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>
                               </table>
                            </div>

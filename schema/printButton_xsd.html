@@ -371,6 +371,7 @@ var attributesBoxes= new Array('attributes_printbutton');
                                  <area alt="attributeGroups_button_xsd.tmp#button.menu.attributes" href="attributeGroups_button_xsd.html#button.menu.attributes" coords="172,234,364,260" />
                                  <area alt="button_xsd.tmp#buttonType_popup" href="button_xsd.html#buttonType_popup" coords="169,331,252,355" />
                                  <area alt="button_xsd.tmp#buttonType_unsavedChanges" href="button_xsd.html#buttonType_unsavedChanges" coords="169,408,309,432" />
+                                 <area alt="button_xsd.tmp#buttonType_client" href="button_xsd.html#buttonType_client" coords="169,485,246,509" />
                                  <area alt="button_xsd.tmp#buttonType" href="button_xsd.html#buttonType" coords="144,3,270,25" /></map></div>
                         </td>
                      </tr>
@@ -489,6 +490,17 @@ var attributesBoxes= new Array('attributes_printbutton');
                                     </td>
                                  </tr>
                                  <tr>
+                                    <td class="firstColumn"><b><a href="button_xsd.html#buttonType_client" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for button.xsd')">client</a></b></td>
+                                    <td><b>xs:boolean</b></td>
+                                    <td>false</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">If set "true" then the button is expected to trigger a purely client side process
+                                          and will not submit to the server.
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#interaction.attributes_disabled" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">disabled</a></b></td>
                                     <td><b>xs:boolean</b></td>
                                     <td>false</td>
@@ -567,7 +579,7 @@ var attributesBoxes= new Array('attributes_printbutton');
                                  <tr>
                                     <td class="firstColumn"><b><a href="button_xsd.html#buttonType_popup" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for button.xsd')">popup</a></b></td>
                                     <td><b>xs:boolean</b></td>
-                                    <td></td>
+                                    <td>false</td>
                                     <td>optional</td>
                                     <td>
                                        <div class="annotation">Indicates whether this button will trigger a WPopup. Required for WCAG2.0 level A
@@ -633,7 +645,7 @@ var attributesBoxes= new Array('attributes_printbutton');
                                  <tr>
                                     <td class="firstColumn"><b><a href="button_xsd.html#buttonType_unsavedChanges" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for button.xsd')">unsavedChanges</a></b></td>
                                     <td><b>xs:boolean</b></td>
-                                    <td></td>
+                                    <td>false</td>
                                     <td>optional</td>
                                     <td>
                                        <div class="annotation">If set and @cancel is true the user will receive a warning even if they have not made

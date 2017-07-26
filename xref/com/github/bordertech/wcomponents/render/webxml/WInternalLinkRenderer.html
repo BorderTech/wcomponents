@@ -43,7 +43,7 @@
 <a class="jxr_linenumber" name="L35" href="#L35">35</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"track"</span>, component.isTracking(), <span class="jxr_string">"true"</span>);
 <a class="jxr_linenumber" name="L36" href="#L36">36</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"toolTip"</span>, link.getToolTip());
 <a class="jxr_linenumber" name="L37" href="#L37">37</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"accessibleText"</span>, link.getAccessibleText());
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>  		xml.appendAttribute(<span class="jxr_string">"url"</span>, <span class="jxr_string">"#"</span> + link.getReference().getId());
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  		xml.appendUrlAttribute(<span class="jxr_string">"url"</span>, <span class="jxr_string">"#"</span> + link.getReference().getId());
 <a class="jxr_linenumber" name="L39" href="#L39">39</a>  		xml.appendClose();
 <a class="jxr_linenumber" name="L40" href="#L40">40</a>  		xml.appendEscaped(link.getText());
 <a class="jxr_linenumber" name="L41" href="#L41">41</a>  		xml.appendEndTag(<span class="jxr_string">"ui:link"</span>);
@@ -52,6 +52,6 @@
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>  }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2016. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2017. All rights reserved.</div>
 </body>
 </html>

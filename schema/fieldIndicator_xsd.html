@@ -388,7 +388,9 @@ var modelBoxes= new Array('model_fieldindicator');
                         </td>
                         <td>
                            <div id="annotations_fieldindicator" style="display:block">
-                              <div class="annotation">WFieldIndicator represents a message to the user which is related to another WComponent.</div>
+                              <div class="annotation">WFieldWarningIndicator represents a message to the user which is related to another
+                                 WComponent.
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -529,7 +531,7 @@ var modelBoxes= new Array('model_fieldindicator');
                                  <tr>
                                     <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"fieldindicator"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WFieldIndicator represents a message to the user which is related to another WComponent.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WFieldWarningIndicator represents a message to the user which is related to another WComponent.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:complexType</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:sequence</span><span class="tEl">&gt;</span><span class="tI">
@@ -555,9 +557,7 @@ var modelBoxes= new Array('model_fieldindicator');
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:simpleType</span><span class="tEl">&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:restriction</span><span class="tAN"> base=</span><span class="tAV">"xs:NMTOKEN"</span><span class="tEl">&gt;</span><span class="tI">
-          </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"info"</span><span class="tEl">/&gt;</span><span class="tI">
           </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"warn"</span><span class="tEl">/&gt;</span><span class="tI">
-          </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"error"</span><span class="tEl">/&gt;</span><span class="tI">
         </span><span class="tEl">&lt;/xs:restriction&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:simpleType&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
@@ -917,21 +917,7 @@ var modelBoxes= new Array('model_fieldindicator');
                               <table class="facetsTable">
                                  <tr>
                                     <td class="firstColumn">enumeration</td>
-                                    <td width="30%"><b>info</b></td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">enumeration</td>
                                     <td width="30%"><b>warn</b></td>
-                                    <td>
-                                       <div class="annotation"></div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn">enumeration</td>
-                                    <td width="30%"><b>error</b></td>
                                     <td>
                                        <div class="annotation"></div>
                                     </td>
@@ -971,9 +957,7 @@ var modelBoxes= new Array('model_fieldindicator');
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:simpleType</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:restriction</span><span class="tAN"> base=</span><span class="tAV">"xs:NMTOKEN"</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"info"</span><span class="tEl">/&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"warn"</span><span class="tEl">/&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"error"</span><span class="tEl">/&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:restriction&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:simpleType&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>

@@ -166,26 +166,28 @@
 <a class="jxr_linenumber" name="L158" href="#L158">158</a> <em class="jxr_javadoccomment">	 * @deprecated portal specific</em>
 <a class="jxr_linenumber" name="L159" href="#L159">159</a> <em class="jxr_javadoccomment">	 */</em>
 <a class="jxr_linenumber" name="L160" href="#L160">160</a> 	@Override
-<a class="jxr_linenumber" name="L161" href="#L161">161</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setEvent(<strong class="jxr_keyword">final</strong> String actionName, <strong class="jxr_keyword">final</strong> String parameter, <strong class="jxr_keyword">final</strong> Serializable value) {
-<a class="jxr_linenumber" name="L162" href="#L162">162</a> 		<em class="jxr_comment">// default behaviour is to do nothing</em>
-<a class="jxr_linenumber" name="L163" href="#L163">163</a> 	}
-<a class="jxr_linenumber" name="L164" href="#L164">164</a> 
-<a class="jxr_linenumber" name="L165" href="#L165">165</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L166" href="#L166">166</a> <em class="jxr_javadoccomment">	 * This method contains no logic. Subclasses which need to perform event handling logic (eg.</em>
-<a class="jxr_linenumber" name="L167" href="#L167">167</a> <em class="jxr_javadoccomment">	 * &lt;code&gt;WPortletRequest&lt;/code&gt;) should override this method.</em>
-<a class="jxr_linenumber" name="L168" href="#L168">168</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L169" href="#L169">169</a> <em class="jxr_javadoccomment">	 * @param action name of the publishing event to trigger</em>
-<a class="jxr_linenumber" name="L170" href="#L170">170</a> <em class="jxr_javadoccomment">	 * @param eventMap the key/value pair for the event payload</em>
-<a class="jxr_linenumber" name="L171" href="#L171">171</a> <em class="jxr_javadoccomment">	 * @since 1.0.0</em>
-<a class="jxr_linenumber" name="L172" href="#L172">172</a> <em class="jxr_javadoccomment">	 * @deprecated portal specific</em>
-<a class="jxr_linenumber" name="L173" href="#L173">173</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L174" href="#L174">174</a> 	@Override
-<a class="jxr_linenumber" name="L175" href="#L175">175</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setEvent(<strong class="jxr_keyword">final</strong> String action, <strong class="jxr_keyword">final</strong> HashMap&lt;String, Serializable&gt; eventMap) {
-<a class="jxr_linenumber" name="L176" href="#L176">176</a> 		<em class="jxr_comment">// default behaviour is to do nothing</em>
-<a class="jxr_linenumber" name="L177" href="#L177">177</a> 	}
-<a class="jxr_linenumber" name="L178" href="#L178">178</a> }
+<a class="jxr_linenumber" name="L161" href="#L161">161</a> 	@Deprecated
+<a class="jxr_linenumber" name="L162" href="#L162">162</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setEvent(<strong class="jxr_keyword">final</strong> String actionName, <strong class="jxr_keyword">final</strong> String parameter, <strong class="jxr_keyword">final</strong> Serializable value) {
+<a class="jxr_linenumber" name="L163" href="#L163">163</a> 		<em class="jxr_comment">// default behaviour is to do nothing</em>
+<a class="jxr_linenumber" name="L164" href="#L164">164</a> 	}
+<a class="jxr_linenumber" name="L165" href="#L165">165</a> 
+<a class="jxr_linenumber" name="L166" href="#L166">166</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L167" href="#L167">167</a> <em class="jxr_javadoccomment">	 * This method contains no logic. Subclasses which need to perform event handling logic (eg.</em>
+<a class="jxr_linenumber" name="L168" href="#L168">168</a> <em class="jxr_javadoccomment">	 * &lt;code&gt;WPortletRequest&lt;/code&gt;) should override this method.</em>
+<a class="jxr_linenumber" name="L169" href="#L169">169</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L170" href="#L170">170</a> <em class="jxr_javadoccomment">	 * @param action name of the publishing event to trigger</em>
+<a class="jxr_linenumber" name="L171" href="#L171">171</a> <em class="jxr_javadoccomment">	 * @param eventMap the key/value pair for the event payload</em>
+<a class="jxr_linenumber" name="L172" href="#L172">172</a> <em class="jxr_javadoccomment">	 * @since 1.0.0</em>
+<a class="jxr_linenumber" name="L173" href="#L173">173</a> <em class="jxr_javadoccomment">	 * @deprecated portal specific</em>
+<a class="jxr_linenumber" name="L174" href="#L174">174</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L175" href="#L175">175</a> 	@Override
+<a class="jxr_linenumber" name="L176" href="#L176">176</a> 	@Deprecated
+<a class="jxr_linenumber" name="L177" href="#L177">177</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setEvent(<strong class="jxr_keyword">final</strong> String action, <strong class="jxr_keyword">final</strong> HashMap&lt;String, Serializable&gt; eventMap) {
+<a class="jxr_linenumber" name="L178" href="#L178">178</a> 		<em class="jxr_comment">// default behaviour is to do nothing</em>
+<a class="jxr_linenumber" name="L179" href="#L179">179</a> 	}
+<a class="jxr_linenumber" name="L180" href="#L180">180</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2016. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2017. All rights reserved.</div>
 </body>
 </html>

@@ -11,23 +11,20 @@
 				'properties_submenu_content', 
 				'properties_submenu_submenu_content_id', 
 				'properties_submenu_open', 
-				'properties_submenu_selectable', 
-				'properties_submenu_selected', 
-				'properties_submenu_selectMode');
-var facetsBoxes= new Array('facets_submenu_selectMode');
+				'properties_submenu_type', 
+				'properties_submenu_nested');
+var facetsBoxes= new Array('facets_submenu_type');
 var usedByBoxes= new Array('usedBy_submenu', 
 				'usedBy_submenu_submenu_content_id', 
 				'usedBy_submenu_open', 
-				'usedBy_submenu_selectable', 
-				'usedBy_submenu_selected', 
-				'usedBy_submenu_selectMode');
+				'usedBy_submenu_type', 
+				'usedBy_submenu_nested');
 var sourceBoxes= new Array('source_submenu', 
 				'source_submenu_content', 
 				'source_submenu_submenu_content_id', 
 				'source_submenu_open', 
-				'source_submenu_selectable', 
-				'source_submenu_selected', 
-				'source_submenu_selectMode');
+				'source_submenu_type', 
+				'source_submenu_nested');
 var instanceBoxes= new Array('instance_submenu', 
 				'instance_submenu_content');
 var diagramBoxes= new Array('diagram_submenu', 
@@ -36,9 +33,8 @@ var annotationBoxes= new Array('annotations_submenu',
 				'annotations_submenu_content', 
 				'annotations_submenu_submenu_content_id', 
 				'annotations_submenu_open', 
-				'annotations_submenu_selectable', 
-				'annotations_submenu_selected', 
-				'annotations_submenu_selectMode');
+				'annotations_submenu_type', 
+				'annotations_submenu_nested');
 var attributesBoxes= new Array('attributes_submenu', 
 				'attributes_submenu_content');
 var modelBoxes= new Array('model_submenu', 
@@ -478,13 +474,12 @@ var modelBoxes= new Array('model_submenu',
                         <td class="diagram">
                            <div id="diagram_submenu" style="display:block"><img alt="Diagram" border="0" src="img/submenu_xsd_Element_ui_submenu.png" usemap="#submenu_xsd_Element_ui_submenu" /><map name="submenu_xsd_Element_ui_submenu" id="submenu_xsd_Element_ui_submenu">
                                  <area alt="attributeGroups_button_xsd.tmp#button.attributes" href="attributeGroups_button_xsd.html#button.attributes" coords="146,43,305,69" />
-                                 <area alt="submenu_xsd.tmp#submenu_open" href="submenu_xsd.html#submenu_open" coords="143,127,218,151" />
-                                 <area alt="submenu_xsd.tmp#submenu_selectable" href="submenu_xsd.html#submenu_selectable" coords="143,217,244,241" />
-                                 <area alt="submenu_xsd.tmp#submenu_selected" href="submenu_xsd.html#submenu_selected" coords="143,307,235,331" />
-                                 <area alt="attributeGroups_common_xsd.tmp#ajax.mode.attributes" href="attributeGroups_common_xsd.html#ajax.mode.attributes" coords="146,387,324,413" />
-                                 <area alt="submenu_xsd.tmp#submenu_selectMode" href="submenu_xsd.html#submenu_selectMode" coords="143,428,251,452" />
-                                 <area alt="decoratedLabel_xsd.tmp#decoratedlabel" href="decoratedLabel_xsd.html#decoratedlabel" coords="200,525,323,549" />
-                                 <area alt="submenu_xsd.tmp#submenu_content" href="submenu_xsd.html#submenu_content" coords="200,615,272,639" /></map></div>
+                                 <area alt="attributeGroups_common_xsd.tmp#ajax.mode.attributes" href="attributeGroups_common_xsd.html#ajax.mode.attributes" coords="146,130,324,156" />
+                                 <area alt="submenu_xsd.tmp#submenu_open" href="submenu_xsd.html#submenu_open" coords="143,171,218,195" />
+                                 <area alt="submenu_xsd.tmp#submenu_type" href="submenu_xsd.html#submenu_type" coords="143,261,214,285" />
+                                 <area alt="submenu_xsd.tmp#submenu_nested" href="submenu_xsd.html#submenu_nested" coords="143,325,227,349" />
+                                 <area alt="decoratedLabel_xsd.tmp#decoratedlabel" href="decoratedLabel_xsd.html#decoratedlabel" coords="200,409,323,433" />
+                                 <area alt="submenu_xsd.tmp#submenu_content" href="submenu_xsd.html#submenu_content" coords="200,499,272,523" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -539,7 +534,7 @@ var modelBoxes= new Array('model_submenu',
                            <div id="instance_submenu" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;ui:submenu</span><span class="tT"> </span><span class="tAN">accessKey=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">mode=</span><span class="tAV">"client"</span><span class="tT"> </span><span class="tAN">open=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selectable=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selected=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selectMode=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;ui:submenu</span><span class="tT"> </span><span class="tAN">accessKey=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">mode=</span><span class="tAV">"client"</span><span class="tT"> </span><span class="tAN">nested=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">open=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;ui:decoratedlabel</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">"false"</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:decoratedlabel&gt;</span><span class="tI">
   </span><span class="tEl">&lt;ui:content</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:content&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/ui:submenu&gt;</span></pre></td>
@@ -650,6 +645,15 @@ var modelBoxes= new Array('model_submenu',
                                     </td>
                                  </tr>
                                  <tr>
+                                    <td class="firstColumn"><b><a href="submenu_xsd.html#submenu_nested" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for submenu.xsd')">nested</a></b></td>
+                                    <td><b>xs:boolean</b></td>
+                                    <td>false</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">True indicates the sub menu is inside another WSubMenu.</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
                                     <td class="firstColumn"><b><a href="submenu_xsd.html#submenu_open" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for submenu.xsd')">open</a></b></td>
                                     <td><b>xs:boolean</b></td>
                                     <td></td>
@@ -658,42 +662,6 @@ var modelBoxes= new Array('model_submenu',
                                        <div class="annotation">True indicates the sub menu is to be rendered as open. Not output if false. Only supported
                                           if the nearest ancestor menu has @type set to "tree"
                                        </div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="submenu_xsd.html#submenu_selectMode" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for submenu.xsd')">selectMode</a></b></td>
-                                    <td>restriction of <b>xs:NMTOKEN</b></td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation">Indicates that the items in the menu may be "selected". If not present then "none"
-                                          is implied. The selectMode applies 
-                                          <strong xmlns="">only</strong> to
-                                          						the menu items in this submenu and is able to be overridden in a submenu's submenu[s]
-                                          unless the menu @type is tree. Selection is additive with navigation
-                                          						and command invocation.
-                                       </div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="submenu_xsd.html#submenu_selectable" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for submenu.xsd')">selectable</a></b></td>
-                                    <td><b>xs:boolean</b></td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation">Indicates that the sub menu may be selected as an entity separate from its contained
-                                          components. Explicitly output if explicitly set "false"
-                                          						to override a parent component's selectMode.
-                                       </div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="submenu_xsd.html#submenu_selected" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for submenu.xsd')">selected</a></b></td>
-                                    <td><b>xs:boolean</b></td>
-                                    <td></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation">indicates that the submenu is selected. Not output if "false".</div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -721,6 +689,15 @@ var modelBoxes= new Array('model_submenu',
                                           					Indicates that the component should take part in web analytics tracking.
                                           				
                                        </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="submenu_xsd.html#submenu_type" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for submenu.xsd')">type</a></b></td>
+                                    <td>restriction of <b>xs:NMTOKEN</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">Reflects the type of the nearest ancestor WMenu.</div>
                                     </td>
                                  </tr>
                               </table>
@@ -794,46 +771,30 @@ var modelBoxes= new Array('model_submenu',
       </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:sequence&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:attributeGroup</span><span class="tAN"> ref=</span><span class="tAV">"ui:button.attributes"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attributeGroup</span><span class="tAN"> ref=</span><span class="tAV">"ui:ajax.mode.attributes"</span><span class="tEl">/&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"open"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">True indicates the sub menu is to be rendered as open. Not output if false. Only supported if the nearest ancestor menu has @type set to "tree"</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"selectable"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"type"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that the sub menu may be selected as an entity separate from its contained components. Explicitly output if explicitly set "false" to override a parent component's selectMode.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"selected"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">indicates that the submenu is selected. Not output if "false".</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attributeGroup</span><span class="tAN"> ref=</span><span class="tAV">"ui:ajax.mode.attributes"</span><span class="tEl">/&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"selectMode"</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that the items in the menu may be "selected". If not present then "none" is implied. The selectMode applies</span><span class="tI">
-          </span><span class="tEl">&lt;strong</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">only</span><span class="tEl">&lt;/strong&gt;</span><span class="tT" style="white-space:normal">to the menu items in this submenu and is able to be overridden in a submenu's submenu[s] unless the menu @type is tree. Selection is additive with navigation and command invocation.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Reflects the type of the nearest ancestor WMenu.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:simpleType</span><span class="tEl">&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:restriction</span><span class="tAN"> base=</span><span class="tAV">"xs:NMTOKEN"</span><span class="tEl">&gt;</span><span class="tI">
-          </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"none"</span><span class="tEl">&gt;</span><span class="tI">
-            </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-              </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that selection is not supported. This is the default if not set.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
-            </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
-          </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
-          </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"single"</span><span class="tEl">&gt;</span><span class="tI">
-            </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-              </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that selection is exclusive and when selecting any selectable child node any previously selected nodes will be deselected. This is analogous to a group of radio buttons.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
-            </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
-          </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
-          </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"multiple"</span><span class="tEl">&gt;</span><span class="tI">
-            </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-              </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that selection is not exclusive and when selecting any selectable child node any previously selected nodes will remain selected. This is analogous to a group of check boxes.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
-            </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
-          </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"bar"</span><span class="tEl">/&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"flyout"</span><span class="tEl">/&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"tree"</span><span class="tEl">/&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"column"</span><span class="tEl">/&gt;</span><span class="tI">
+          </span><span class="tC">&lt;!-- add new menu types here --&gt;</span><span class="tI">
         </span><span class="tEl">&lt;/xs:restriction&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:simpleType&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"nested"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tAN"> default=</span><span class="tAV">"false"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">True indicates the sub menu is inside another WSubMenu.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:complexType&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:element&gt;</span></pre></td>
@@ -889,9 +850,9 @@ var modelBoxes= new Array('model_submenu',
                                  <area alt="submenu_xsd.tmp#submenu_submenu_content_id" href="submenu_xsd.html#submenu_submenu_content_id" coords="155,40,223,64" />
                                  <area alt="menuItem_xsd.tmp#menuitem" href="menuItem_xsd.html#menuitem" coords="297,155,394,179" />
                                  <area alt="submenu_xsd.tmp#submenu" href="submenu_xsd.html#submenu" coords="297,189,391,213" />
-                                 <area alt="separator_xsd.tmp#separator" href="separator_xsd.html#separator" coords="297,279,393,303" />
+                                 <area alt="menuGroup_xsd.tmp#menuComponentGroup_separator" href="menuGroup_xsd.html#menuComponentGroup_separator" coords="297,279,380,303" />
                                  <area alt="menuGroup_xsd.tmp#menuComponentGroup" href="menuGroup_xsd.html#menuComponentGroup" coords="215,114,410,140" />
-                                 <area alt="menuGroup_xsd.tmp#menugroup" href="menuGroup_xsd.html#menugroup" coords="212,363,319,387" /></map></div>
+                                 <area alt="menuGroup_xsd.tmp#menugroup" href="menuGroup_xsd.html#menugroup" coords="212,376,319,400" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -914,12 +875,12 @@ var modelBoxes= new Array('model_submenu',
                         <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_submenu_content" type="image" src="img/btM.gif" value="-" onclick="switchState('model_submenu_content');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="model_submenu_content" style="display:block"><b><a href="menuItem_xsd.html#menuitem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for menuItem.xsd')">ui:menuitem</a></b> | <b><a href="submenu_xsd.html#submenu" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for submenu.xsd')">ui:submenu</a></b> | <b><a href="separator_xsd.html#separator" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for separator.xsd')">ui:separator</a></b> | <b><a href="menuGroup_xsd.html#menugroup" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for menuGroup.xsd')">ui:menugroup</a></b></div>
+                           <div id="model_submenu_content" style="display:block"><b><a href="menuItem_xsd.html#menuitem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for menuItem.xsd')">ui:menuitem</a></b> | <b><a href="submenu_xsd.html#submenu" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for submenu.xsd')">ui:submenu</a></b> | <b><a href="menuGroup_xsd.html#menuComponentGroup_separator" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for menuGroup.xsd')">ui:separator</a></b> | <b><a href="menuGroup_xsd.html#menugroup" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for menuGroup.xsd')">ui:menugroup</a></b></div>
                         </td>
                      </tr>
                      <tr>
                         <td class="firstColumn"><b>Children</b></td>
-                        <td><b><a href="menuGroup_xsd.html#menugroup" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for menuGroup.xsd')">ui:menugroup</a></b>, <b><a href="menuItem_xsd.html#menuitem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for menuItem.xsd')">ui:menuitem</a></b>, <b><a href="separator_xsd.html#separator" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for separator.xsd')">ui:separator</a></b>, <b><a href="submenu_xsd.html#submenu" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for submenu.xsd')">ui:submenu</a></b></td>
+                        <td><b><a href="menuGroup_xsd.html#menugroup" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for menuGroup.xsd')">ui:menugroup</a></b>, <b><a href="menuItem_xsd.html#menuitem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for menuItem.xsd')">ui:menuitem</a></b>, <b><a href="menuGroup_xsd.html#menuComponentGroup_separator" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for menuGroup.xsd')">ui:separator</a></b>, <b><a href="submenu_xsd.html#submenu" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for submenu.xsd')">ui:submenu</a></b></td>
                      </tr>
                      <tr>
                         <td class="firstColumn">
@@ -931,8 +892,8 @@ var modelBoxes= new Array('model_submenu',
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
                                     <td width="100%"><pre><span class="tEl">&lt;ui:content</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;ui:menuitem</span><span class="tT"> </span><span class="tAN">accessKey=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">cancel=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">msg=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selectable=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selected=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">submit=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">targetWindow=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">url=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">validates=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:menuitem&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;ui:submenu</span><span class="tT"> </span><span class="tAN">accessKey=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">mode=</span><span class="tAV">"client"</span><span class="tT"> </span><span class="tAN">open=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selectable=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selected=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selectMode=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">"false"</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:submenu&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:menuitem</span><span class="tT"> </span><span class="tAN">accessKey=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">cancel=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">msg=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">role=</span><span class="tAV">"menuitem"</span><span class="tT"> </span><span class="tAN">selected=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">submit=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">targetWindow=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">url=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">validates=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:menuitem&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:submenu</span><span class="tT"> </span><span class="tAN">accessKey=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">mode=</span><span class="tAV">"client"</span><span class="tT"> </span><span class="tAN">nested=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">open=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:submenu&gt;</span><span class="tI">
   </span><span class="tEl">&lt;ui:separator</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:separator&gt;</span><span class="tI">
   </span><span class="tEl">&lt;ui:menugroup</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:menugroup&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/ui:content&gt;</span></pre></td>
@@ -1195,7 +1156,7 @@ var modelBoxes= new Array('model_submenu',
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
-      </table><a id="submenu_selectable"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="submenu_xsd.html#submenu" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for submenu.xsd')">ui:submenu</a></b> / @selectable</span></div>
+      </table><a id="submenu_type"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="submenu_xsd.html#submenu" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for submenu.xsd')">ui:submenu</a></b> / @type</span></div>
       <table class="rt">
          <tr>
             <td class="rt_cornerTopLeft"></td>
@@ -1214,204 +1175,11 @@ var modelBoxes= new Array('model_submenu',
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_submenu_selectable" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_submenu_selectable');" class="control" /></div>
+                           <div class="floatRight"><input id="button_annotations_submenu_type" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_submenu_type');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="annotations_submenu_selectable" style="display:block">
-                              <div class="annotation">Indicates that the sub menu may be selected as an entity separate from its contained
-                                 components. Explicitly output if explicitly set "false"
-                                 						to override a parent component's selectMode.
-                              </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Type</b></td>
-                        <td><b>xs:boolean</b></td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_submenu_selectable" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_submenu_selectable');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_submenu_selectable" style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
-                                    <td><b>simple</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Used by</b></div>
-                           <div class="floatRight"><input id="button_usedBy_submenu_selectable" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_submenu_selectable');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="usedBy_submenu_selectable" style="display:block">
-                              <table class="usedByTable">
-                                 <tr>
-                                    <td class="firstColumn">Element </td>
-                                    <td><b><a href="submenu_xsd.html#submenu" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for submenu.xsd')">ui:submenu</a></b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Source</b></div>
-                           <div class="floatRight"><input id="button_source_submenu_selectable" type="image" src="img/btM.gif" value="-" onclick="switchState('source_submenu_selectable');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="source_submenu_selectable" style="display:block">
-                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                 <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"selectable"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that the sub menu may be selected as an entity separate from its contained components. Explicitly output if explicitly set "false" to override a parent component's selectMode.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
-</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="submenu_selected"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="submenu_xsd.html#submenu" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for submenu.xsd')">ui:submenu</a></b> / @selected</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn"><b>Namespace</b></td>
-                        <td>No namespace</td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_submenu_selected" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_submenu_selected');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_submenu_selected" style="display:block">
-                              <div class="annotation">indicates that the submenu is selected. Not output if "false".</div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Type</b></td>
-                        <td><b>xs:boolean</b></td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_submenu_selected" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_submenu_selected');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_submenu_selected" style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
-                                    <td><b>simple</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Used by</b></div>
-                           <div class="floatRight"><input id="button_usedBy_submenu_selected" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_submenu_selected');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="usedBy_submenu_selected" style="display:block">
-                              <table class="usedByTable">
-                                 <tr>
-                                    <td class="firstColumn">Element </td>
-                                    <td><b><a href="submenu_xsd.html#submenu" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for submenu.xsd')">ui:submenu</a></b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Source</b></div>
-                           <div class="floatRight"><input id="button_source_submenu_selected" type="image" src="img/btM.gif" value="-" onclick="switchState('source_submenu_selected');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="source_submenu_selected" style="display:block">
-                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                 <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"selected"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">indicates that the submenu is selected. Not output if "false".</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
-</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="submenu_selectMode"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="submenu_xsd.html#submenu" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for submenu.xsd')">ui:submenu</a></b> / @selectMode</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn"><b>Namespace</b></td>
-                        <td>No namespace</td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_submenu_selectMode" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_submenu_selectMode');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_submenu_selectMode" style="display:block">
-                              <div class="annotation">Indicates that the items in the menu may be "selected". If not present then "none"
-                                 is implied. The selectMode applies 
-                                 <strong xmlns="">only</strong> to
-                                 						the menu items in this submenu and is able to be overridden in a submenu's submenu[s]
-                                 unless the menu @type is tree. Selection is additive with navigation
-                                 						and command invocation.
-                              </div>
+                           <div id="annotations_submenu_type" style="display:block">
+                              <div class="annotation">Reflects the type of the nearest ancestor WMenu.</div>
                            </div>
                         </td>
                      </tr>
@@ -1422,10 +1190,10 @@ var modelBoxes= new Array('model_submenu',
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_submenu_selectMode" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_submenu_selectMode');" class="control" /></div>
+                           <div class="floatRight"><input id="button_properties_submenu_type" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_submenu_type');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="properties_submenu_selectMode" style="display:block">
+                           <div id="properties_submenu_type" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
                                     <td class="firstColumn" style="white-space: nowrap;">content</td>
@@ -1438,36 +1206,37 @@ var modelBoxes= new Array('model_submenu',
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Facets</b></div>
-                           <div class="floatRight"><input id="button_facets_submenu_selectMode" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_submenu_selectMode');" class="control" /></div>
+                           <div class="floatRight"><input id="button_facets_submenu_type" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_submenu_type');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="facets_submenu_selectMode" style="display:block">
+                           <div id="facets_submenu_type" style="display:block">
                               <table class="facetsTable">
                                  <tr>
                                     <td class="firstColumn">enumeration</td>
-                                    <td width="30%"><b>none</b></td>
+                                    <td width="30%"><b>bar</b></td>
                                     <td>
-                                       <div class="annotation">Indicates that selection is not supported. This is the default if not set.</div>
+                                       <div class="annotation"></div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn">enumeration</td>
-                                    <td width="30%"><b>single</b></td>
+                                    <td width="30%"><b>flyout</b></td>
                                     <td>
-                                       <div class="annotation">Indicates that selection is exclusive and when selecting any selectable child node
-                                          any previously selected nodes will be
-                                          									deselected. This is analogous to a group of radio buttons.
-                                       </div>
+                                       <div class="annotation"></div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn">enumeration</td>
-                                    <td width="30%"><b>multiple</b></td>
+                                    <td width="30%"><b>tree</b></td>
                                     <td>
-                                       <div class="annotation">Indicates that selection is not exclusive and when selecting any selectable child
-                                          node any previously selected nodes will remain
-                                          									selected. This is analogous to a group of check boxes.
-                                       </div>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>column</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
                                     </td>
                                  </tr>
                               </table>
@@ -1477,10 +1246,10 @@ var modelBoxes= new Array('model_submenu',
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Used by</b></div>
-                           <div class="floatRight"><input id="button_usedBy_submenu_selectMode" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_submenu_selectMode');" class="control" /></div>
+                           <div class="floatRight"><input id="button_usedBy_submenu_type" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_submenu_type');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="usedBy_submenu_selectMode" style="display:block">
+                           <div id="usedBy_submenu_type" style="display:block">
                               <table class="usedByTable">
                                  <tr>
                                     <td class="firstColumn">Element </td>
@@ -1493,36 +1262,117 @@ var modelBoxes= new Array('model_submenu',
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Source</b></div>
-                           <div class="floatRight"><input id="button_source_submenu_selectMode" type="image" src="img/btM.gif" value="-" onclick="switchState('source_submenu_selectMode');" class="control" /></div>
+                           <div class="floatRight"><input id="button_source_submenu_type" type="image" src="img/btM.gif" value="-" onclick="switchState('source_submenu_type');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="source_submenu_selectMode" style="display:block">
+                           <div id="source_submenu_type" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"selectMode"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"type"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that the items in the menu may be "selected". If not present then "none" is implied. The selectMode applies</span><span class="tI">
-      </span><span class="tEl">&lt;strong</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">only</span><span class="tEl">&lt;/strong&gt;</span><span class="tT" style="white-space:normal">to the menu items in this submenu and is able to be overridden in a submenu's submenu[s] unless the menu @type is tree. Selection is additive with navigation and command invocation.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Reflects the type of the nearest ancestor WMenu.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:simpleType</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:restriction</span><span class="tAN"> base=</span><span class="tAV">"xs:NMTOKEN"</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"none"</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-          </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that selection is not supported. This is the default if not set.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"single"</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-          </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that selection is exclusive and when selecting any selectable child node any previously selected nodes will be deselected. This is analogous to a group of radio buttons.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"multiple"</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-          </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that selection is not exclusive and when selecting any selectable child node any previously selected nodes will remain selected. This is analogous to a group of check boxes.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"bar"</span><span class="tEl">/&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"flyout"</span><span class="tEl">/&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"tree"</span><span class="tEl">/&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"column"</span><span class="tEl">/&gt;</span><span class="tI">
+      </span><span class="tC">&lt;!-- add new menu types here --&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:restriction&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:simpleType&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="submenu_nested"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="submenu_xsd.html#submenu" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for submenu.xsd')">ui:submenu</a></b> / @nested</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_submenu_nested" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_submenu_nested');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_submenu_nested" style="display:block">
+                              <div class="annotation">True indicates the sub menu is inside another WSubMenu.</div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:boolean</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_submenu_nested" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_submenu_nested');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_submenu_nested" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">default</td>
+                                    <td><b>false</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_submenu_nested" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_submenu_nested');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_submenu_nested" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="submenu_xsd.html#submenu" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for submenu.xsd')">ui:submenu</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_submenu_nested" type="image" src="img/btM.gif" value="-" onclick="switchState('source_submenu_nested');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_submenu_nested" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"nested"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tAN"> default=</span><span class="tAV">"false"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">True indicates the sub menu is inside another WSubMenu.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>
                               </table>

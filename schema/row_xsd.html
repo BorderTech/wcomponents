@@ -14,16 +14,17 @@
 				'properties_row_row_column_track', 
 				'properties_row_row_column_width', 
 				'properties_row_row_column_align', 
-				'properties_row_hgap');
+				'properties_row_gap');
 var facetsBoxes= new Array('facets_row_row_column_width', 
-				'facets_row_row_column_align');
+				'facets_row_row_column_align', 
+				'facets_row_gap');
 var usedByBoxes= new Array('usedBy_row', 
 				'usedBy_row_row_column_id', 
 				'usedBy_row_row_column_class', 
 				'usedBy_row_row_column_track', 
 				'usedBy_row_row_column_width', 
 				'usedBy_row_row_column_align', 
-				'usedBy_row_hgap');
+				'usedBy_row_gap');
 var sourceBoxes= new Array('source_row', 
 				'source_row_column', 
 				'source_row_row_column_id', 
@@ -31,7 +32,7 @@ var sourceBoxes= new Array('source_row',
 				'source_row_row_column_track', 
 				'source_row_row_column_width', 
 				'source_row_row_column_align', 
-				'source_row_hgap');
+				'source_row_gap');
 var instanceBoxes= new Array('instance_row');
 var diagramBoxes= new Array('diagram_row', 
 				'diagram_row_column');
@@ -42,7 +43,7 @@ var annotationBoxes= new Array('annotations_row',
 				'annotations_row_row_column_track', 
 				'annotations_row_row_column_width', 
 				'annotations_row_row_column_align', 
-				'annotations_row_hgap');
+				'annotations_row_gap');
 var attributesBoxes= new Array('attributes_row', 
 				'attributes_row_column');
 var modelBoxes= new Array('model_row', 
@@ -421,9 +422,9 @@ var modelBoxes= new Array('model_row',
                         <td class="diagram">
                            <div id="diagram_row" style="display:block"><img alt="Diagram" border="0" src="img/row_xsd_Element_ui_row.png" usemap="#row_xsd_Element_ui_row" /><map name="row_xsd_Element_ui_row" id="row_xsd_Element_ui_row">
                                  <area alt="attributeGroups_container_xsd.tmp#container.attributes" href="attributeGroups_container_xsd.html#container.attributes" coords="116,43,290,69" />
-                                 <area alt="row_xsd.tmp#row_hgap" href="row_xsd.html#row_hgap" coords="113,114,188,138" />
-                                 <area alt="margin_xsd.tmp#margin" href="margin_xsd.html#margin" coords="191,211,273,235" />
-                                 <area alt="row_xsd.tmp#row_column" href="row_xsd.html#row_column" coords="191,288,262,312" /></map></div>
+                                 <area alt="row_xsd.tmp#row_gap" href="row_xsd.html#row_gap" coords="113,114,181,138" />
+                                 <area alt="margin_xsd.tmp#margin" href="margin_xsd.html#margin" coords="191,198,273,222" />
+                                 <area alt="row_xsd.tmp#row_column" href="row_xsd.html#row_column" coords="191,275,262,299" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -478,7 +479,7 @@ var modelBoxes= new Array('model_row',
                            <div id="instance_row" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;ui:row</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hgap=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;ui:row</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">gap=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;ui:margin</span><span class="tT"> </span><span class="tAN">all=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">east=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">north=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">south=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">west=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/ui:margin&gt;</span><span class="tI">
   </span><span class="tEl">&lt;ui:column</span><span class="tT"> </span><span class="tAN">align=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">width=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,unbounded}</span><span class="tEl">&lt;/ui:column&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/ui:row&gt;</span></pre></td>
@@ -517,19 +518,12 @@ var modelBoxes= new Array('model_row',
                                     </td>
                                  </tr>
                                  <tr>
-                                    <td class="firstColumn"><b><a href="row_xsd.html#row_hgap" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for row.xsd')">hgap</a></b></td>
-                                    <td><b>xs:positiveInteger</b></td>
+                                    <td class="firstColumn"><b><a href="row_xsd.html#row_gap" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for row.xsd')">gap</a></b></td>
+                                    <td><b><a href="gaps_xsd.html#gaps" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for gaps.xsd')">ui:gaps</a></b></td>
                                     <td></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation"> The hgap attribute is used to provide the horizontal space between each column within
-                                          the row. It is applied only between sibling column
-                                          						elements and is not used to create space between the outermost columns and the
-                                          edge of the row's content box. If not specified then no gap is placed between
-                                          						columns, this is the equivalent of an assumed default of 0. The hgap attribute
-                                          will usually cause a column to have a smaller actual width than the notional
-                                          						width determined by the column's width attribute.
-                                       </div>
+                                       <div class="annotation">Provides the horizontal space between each column within the row.</div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -646,9 +640,9 @@ var modelBoxes= new Array('model_row',
       </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:sequence&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:attributeGroup</span><span class="tAN"> ref=</span><span class="tAV">"ui:container.attributes"</span><span class="tEl">/&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"hgap"</span><span class="tAN"> type=</span><span class="tAV">"xs:positiveInteger"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"gap"</span><span class="tAN"> type=</span><span class="tAV">"ui:gaps"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The hgap attribute is used to provide the horizontal space between each column within the row. It is applied only between sibling column elements and is not used to create space between the outermost columns and the edge of the row's content box. If not specified then no gap is placed between columns, this is the equivalent of an assumed default of 0. The hgap attribute will usually cause a column to have a smaller actual width than the notional width determined by the column's width attribute.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the horizontal space between each column within the row.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:complexType&gt;</span><span class="tI">
@@ -1448,7 +1442,7 @@ var modelBoxes= new Array('model_row',
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
-      </table><a id="row_hgap"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="row_xsd.html#row" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for row.xsd')">ui:row</a></b> / @hgap</span></div>
+      </table><a id="row_gap"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="row_xsd.html#row" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for row.xsd')">ui:row</a></b> / @gap</span></div>
       <table class="rt">
          <tr>
             <td class="rt_cornerTopLeft"></td>
@@ -1467,32 +1461,25 @@ var modelBoxes= new Array('model_row',
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_row_hgap" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_row_hgap');" class="control" /></div>
+                           <div class="floatRight"><input id="button_annotations_row_gap" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_row_gap');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="annotations_row_hgap" style="display:block">
-                              <div class="annotation"> The hgap attribute is used to provide the horizontal space between each column within
-                                 the row. It is applied only between sibling column
-                                 						elements and is not used to create space between the outermost columns and the
-                                 edge of the row's content box. If not specified then no gap is placed between
-                                 						columns, this is the equivalent of an assumed default of 0. The hgap attribute
-                                 will usually cause a column to have a smaller actual width than the notional
-                                 						width determined by the column's width attribute.
-                              </div>
+                           <div id="annotations_row_gap" style="display:block">
+                              <div class="annotation">Provides the horizontal space between each column within the row.</div>
                            </div>
                         </td>
                      </tr>
                      <tr>
                         <td class="firstColumn"><b>Type</b></td>
-                        <td><b>xs:positiveInteger</b></td>
+                        <td><b><a href="gaps_xsd.html#gaps" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for gaps.xsd')">ui:gaps</a></b></td>
                      </tr>
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_row_hgap" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_row_hgap');" class="control" /></div>
+                           <div class="floatRight"><input id="button_properties_row_gap" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_row_gap');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="properties_row_hgap" style="display:block">
+                           <div id="properties_row_gap" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
                                     <td class="firstColumn" style="white-space: nowrap;">content</td>
@@ -1504,11 +1491,58 @@ var modelBoxes= new Array('model_row',
                      </tr>
                      <tr>
                         <td class="firstColumn">
-                           <div class="floatLeft"><b>Used by</b></div>
-                           <div class="floatRight"><input id="button_usedBy_row_hgap" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_row_hgap');" class="control" /></div>
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_row_gap" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_row_gap');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="usedBy_row_hgap" style="display:block">
+                           <div id="facets_row_gap" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>z</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>sm</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>med</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>lg</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>xl</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_row_gap" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_row_gap');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_row_gap" style="display:block">
                               <table class="usedByTable">
                                  <tr>
                                     <td class="firstColumn">Element </td>
@@ -1521,15 +1555,15 @@ var modelBoxes= new Array('model_row',
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Source</b></div>
-                           <div class="floatRight"><input id="button_source_row_hgap" type="image" src="img/btM.gif" value="-" onclick="switchState('source_row_hgap');" class="control" /></div>
+                           <div class="floatRight"><input id="button_source_row_gap" type="image" src="img/btM.gif" value="-" onclick="switchState('source_row_gap');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="source_row_hgap" style="display:block">
+                           <div id="source_row_gap" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"hgap"</span><span class="tAN"> type=</span><span class="tAV">"xs:positiveInteger"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"gap"</span><span class="tAN"> type=</span><span class="tAV">"ui:gaps"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The hgap attribute is used to provide the horizontal space between each column within the row. It is applied only between sibling column elements and is not used to create space between the outermost columns and the edge of the row's content box. If not specified then no gap is placed between columns, this is the equivalent of an assumed default of 0. The hgap attribute will usually cause a column to have a smaller actual width than the notional width determined by the column's width attribute.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the horizontal space between each column within the row.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>

@@ -16,12 +16,16 @@ com.github.bordertech.wcomponents.template
 com.github.bordertech.wcomponents.test
 com.github.bordertech.wcomponents.test.example
 com.github.bordertech.wcomponents.test.selenium
+com.github.bordertech.wcomponents.test.selenium.driver
+com.github.bordertech.wcomponents.test.selenium.element
+com.github.bordertech.wcomponents.test.selenium.server
 com.github.bordertech.wcomponents.util
 com.github.bordertech.wcomponents.util.error
 com.github.bordertech.wcomponents.util.error.impl
 com.github.bordertech.wcomponents.util.mock
 com.github.bordertech.wcomponents.util.mock.servlet
 com.github.bordertech.wcomponents.util.thumbnail
+com.github.bordertech.wcomponents.util.visitor
 com.github.bordertech.wcomponents.validation
 com.github.bordertech.wcomponents.validator
 com.github.bordertech.wcomponents.velocity

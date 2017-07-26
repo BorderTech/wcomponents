@@ -12,69 +12,82 @@
 <a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.WTextArea;
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.XmlStringBuilder;
 <a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-<a class="jxr_linenumber" name="L7" href="#L7">7</a>   
-<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_javadoccomment"> * The Renderer for WTextArea.</em>
-<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_javadoccomment"> *</em>
-<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <em class="jxr_javadoccomment"> * @author Yiannis Paschalidis</em>
-<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_javadoccomment"> * @author Rick Brown</em>
-<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_javadoccomment"> * @since 1.0.0</em>
-<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../com/github/bordertech/wcomponents/render/webxml/WTextAreaRenderer.html">WTextAreaRenderer</a> <strong class="jxr_keyword">extends</strong> <a href="../../../../../../com/github/bordertech/wcomponents/render/webxml/AbstractWebXmlRenderer.html">AbstractWebXmlRenderer</a> {
-<a class="jxr_linenumber" name="L16" href="#L16">16</a>  
-<a class="jxr_linenumber" name="L17" href="#L17">17</a>  	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <em class="jxr_javadoccomment">	 * Paints the given WTextArea.</em>
-<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <em class="jxr_javadoccomment">	 * @param component the WTextArea to paint.</em>
-<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <em class="jxr_javadoccomment">	 * @param renderContext the RenderContext to paint to.</em>
-<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L23" href="#L23">23</a>  	@Override
-<a class="jxr_linenumber" name="L24" href="#L24">24</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> doRender(<strong class="jxr_keyword">final</strong> <a href="../../../../../../com/github/bordertech/wcomponents/WComponent.html">WComponent</a> component, <strong class="jxr_keyword">final</strong> <a href="../../../../../../com/github/bordertech/wcomponents/servlet/WebXmlRenderContext.html">WebXmlRenderContext</a> renderContext) {
-<a class="jxr_linenumber" name="L25" href="#L25">25</a>  		WTextArea textArea = (WTextArea) component;
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>  		XmlStringBuilder xml = renderContext.getWriter();
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>  		<strong class="jxr_keyword">int</strong> cols = textArea.getColumns();
-<a class="jxr_linenumber" name="L28" href="#L28">28</a>  		<strong class="jxr_keyword">int</strong> rows = textArea.getRows();
-<a class="jxr_linenumber" name="L29" href="#L29">29</a>  		<strong class="jxr_keyword">int</strong> minLength = textArea.getMinLength();
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>  		<strong class="jxr_keyword">int</strong> maxLength = textArea.getMaxLength();
-<a class="jxr_linenumber" name="L31" href="#L31">31</a>  		WComponent submitControl = textArea.getDefaultSubmitButton();
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>  		String submitControlId = submitControl == <strong class="jxr_keyword">null</strong> ? <strong class="jxr_keyword">null</strong> : submitControl.getId();
-<a class="jxr_linenumber" name="L33" href="#L33">33</a>  
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>  		xml.appendTagOpen(<span class="jxr_string">"ui:textarea"</span>);
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>  		xml.appendAttribute(<span class="jxr_string">"id"</span>, component.getId());
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"class"</span>, component.getHtmlClass());
-<a class="jxr_linenumber" name="L37" href="#L37">37</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"track"</span>, component.isTracking(), <span class="jxr_string">"true"</span>);
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"disabled"</span>, textArea.isDisabled(), <span class="jxr_string">"true"</span>);
-<a class="jxr_linenumber" name="L39" href="#L39">39</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"hidden"</span>, textArea.isHidden(), <span class="jxr_string">"true"</span>);
-<a class="jxr_linenumber" name="L40" href="#L40">40</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"required"</span>, textArea.isMandatory(), <span class="jxr_string">"true"</span>);
-<a class="jxr_linenumber" name="L41" href="#L41">41</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"readOnly"</span>, textArea.isReadOnly(), <span class="jxr_string">"true"</span>);
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"minLength"</span>, minLength &gt; 0, minLength);
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"maxLength"</span>, maxLength &gt; 0, maxLength);
-<a class="jxr_linenumber" name="L44" href="#L44">44</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"tabIndex"</span>, textArea.hasTabIndex(), textArea.getTabIndex());
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"toolTip"</span>, textArea.getToolTip());
-<a class="jxr_linenumber" name="L46" href="#L46">46</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"accessibleText"</span>, textArea.getAccessibleText());
-<a class="jxr_linenumber" name="L47" href="#L47">47</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"rows"</span>, rows &gt; 0, rows);
-<a class="jxr_linenumber" name="L48" href="#L48">48</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"cols"</span>, cols &gt; 0, cols);
-<a class="jxr_linenumber" name="L49" href="#L49">49</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"buttonId"</span>, submitControlId);
-<a class="jxr_linenumber" name="L50" href="#L50">50</a>  		xml.appendClose();
-<a class="jxr_linenumber" name="L51" href="#L51">51</a>  
-<a class="jxr_linenumber" name="L52" href="#L52">52</a>  		<em class="jxr_comment">// TODO Pattern is not supported on the client for TextArea, and will not be rendered. Consider making WTextArea</em>
-<a class="jxr_linenumber" name="L53" href="#L53">53</a>  		<em class="jxr_comment">// no longer extend WTextField.</em>
-<a class="jxr_linenumber" name="L54" href="#L54">54</a>  		<strong class="jxr_keyword">if</strong> (textArea.isRichTextArea()) {
-<a class="jxr_linenumber" name="L55" href="#L55">55</a>  			<em class="jxr_comment">/*</em>
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_comment">			 * This is a nested element instead of an attribute to cater for future enhancements</em>
-<a class="jxr_linenumber" name="L57" href="#L57">57</a>  <em class="jxr_comment">			 * such as turning rich text features on or off, or specifying JSON config either as</em>
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>  <em class="jxr_comment">			 * a URL attribute or a nested CDATA section.</em>
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>  <em class="jxr_comment">			 */</em>
-<a class="jxr_linenumber" name="L60" href="#L60">60</a>  			xml.append(<span class="jxr_string">"&lt;ui:rtf /&gt;"</span>);
-<a class="jxr_linenumber" name="L61" href="#L61">61</a>  		}
-<a class="jxr_linenumber" name="L62" href="#L62">62</a>  
-<a class="jxr_linenumber" name="L63" href="#L63">63</a>  		xml.appendEscaped(textArea.getText());
-<a class="jxr_linenumber" name="L64" href="#L64">64</a>  
-<a class="jxr_linenumber" name="L65" href="#L65">65</a>  		xml.appendEndTag(<span class="jxr_string">"ui:textarea"</span>);
-<a class="jxr_linenumber" name="L66" href="#L66">66</a>  	}
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>  }
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.util.HtmlToXMLUtil;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_javadoccomment"> * The Renderer for WTextArea.</em>
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_javadoccomment"> * @author Yiannis Paschalidis</em>
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_javadoccomment"> * @author Rick Brown</em>
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_javadoccomment"> * @since 1.0.0</em>
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">class</strong> <a href="../../../../../../com/github/bordertech/wcomponents/render/webxml/WTextAreaRenderer.html">WTextAreaRenderer</a> <strong class="jxr_keyword">extends</strong> <a href="../../../../../../com/github/bordertech/wcomponents/render/webxml/AbstractWebXmlRenderer.html">AbstractWebXmlRenderer</a> {
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <em class="jxr_javadoccomment">	 * Paints the given WTextArea.</em>
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <em class="jxr_javadoccomment">	 * @param component the WTextArea to paint.</em>
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <em class="jxr_javadoccomment">	 * @param renderContext the RenderContext to paint to.</em>
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  	@Override
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> doRender(<strong class="jxr_keyword">final</strong> <a href="../../../../../../com/github/bordertech/wcomponents/WComponent.html">WComponent</a> component, <strong class="jxr_keyword">final</strong> <a href="../../../../../../com/github/bordertech/wcomponents/servlet/WebXmlRenderContext.html">WebXmlRenderContext</a> renderContext) {
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  		WTextArea textArea = (WTextArea) component;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  		XmlStringBuilder xml = renderContext.getWriter();
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  		<strong class="jxr_keyword">boolean</strong> readOnly = textArea.isReadOnly();
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  		xml.appendTagOpen(<span class="jxr_string">"ui:textarea"</span>);
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  		xml.appendAttribute(<span class="jxr_string">"id"</span>, component.getId());
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"class"</span>, component.getHtmlClass());
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"track"</span>, component.isTracking(), <span class="jxr_string">"true"</span>);
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"hidden"</span>, textArea.isHidden(), <span class="jxr_string">"true"</span>);
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  		<strong class="jxr_keyword">if</strong> (readOnly) {
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  			xml.appendAttribute(<span class="jxr_string">"readOnly"</span>, <span class="jxr_string">"true"</span>);
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  		} <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  			<strong class="jxr_keyword">int</strong> cols = textArea.getColumns();
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  			<strong class="jxr_keyword">int</strong> rows = textArea.getRows();
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  			<strong class="jxr_keyword">int</strong> minLength = textArea.getMinLength();
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  			<strong class="jxr_keyword">int</strong> maxLength = textArea.getMaxLength();
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  			WComponent submitControl = textArea.getDefaultSubmitButton();
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  			String submitControlId = submitControl == <strong class="jxr_keyword">null</strong> ? <strong class="jxr_keyword">null</strong> : submitControl.getId();
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  			xml.appendOptionalAttribute(<span class="jxr_string">"disabled"</span>, textArea.isDisabled(), <span class="jxr_string">"true"</span>);
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  			xml.appendOptionalAttribute(<span class="jxr_string">"required"</span>, textArea.isMandatory(), <span class="jxr_string">"true"</span>);
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  			xml.appendOptionalAttribute(<span class="jxr_string">"minLength"</span>, minLength &gt; 0, minLength);
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  			xml.appendOptionalAttribute(<span class="jxr_string">"maxLength"</span>, maxLength &gt; 0, maxLength);
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  			xml.appendOptionalAttribute(<span class="jxr_string">"tabIndex"</span>, textArea.hasTabIndex(), textArea.getTabIndex());
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  			xml.appendOptionalAttribute(<span class="jxr_string">"toolTip"</span>, textArea.getToolTip());
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  			xml.appendOptionalAttribute(<span class="jxr_string">"accessibleText"</span>, textArea.getAccessibleText());
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  			xml.appendOptionalAttribute(<span class="jxr_string">"rows"</span>, rows &gt; 0, rows);
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  			xml.appendOptionalAttribute(<span class="jxr_string">"cols"</span>, cols &gt; 0, cols);
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  			xml.appendOptionalAttribute(<span class="jxr_string">"buttonId"</span>, submitControlId);
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  			xml.appendOptionalAttribute(<span class="jxr_string">"placeholder"</span>, textArea.getPlaceholder());
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  		}
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  		xml.appendClose();
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  		<strong class="jxr_keyword">if</strong> (textArea.isRichTextArea()) {
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>  			<em class="jxr_comment">/*</em>
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  <em class="jxr_comment">			 * This is a nested element instead of an attribute to cater for future enhancements</em>
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>  <em class="jxr_comment">			 * such as turning rich text features on or off, or specifying JSON config either as</em>
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>  <em class="jxr_comment">			 * a URL attribute or a nested CDATA section.</em>
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  <em class="jxr_comment">			 */</em>
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>  			xml.append(<span class="jxr_string">"&lt;ui:rtf /&gt;"</span>);
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  		}
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>  
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  		String textString = textArea.getText();
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>  		<strong class="jxr_keyword">if</strong> (textString != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  			<strong class="jxr_keyword">if</strong> (textArea.isReadOnly() &amp;&amp; textArea.isRichTextArea()) {
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>  				<em class="jxr_comment">// read only we want to output unescaped, but it must still be XML valid.</em>
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>  				xml.write(HtmlToXMLUtil.unescapeToXML(textString));
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  			} <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>  				xml.appendEscaped(textString);
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>  			}
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>  		}
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>  
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>  		xml.appendEndTag(<span class="jxr_string">"ui:textarea"</span>);
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>  	}
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>  }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2016. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2017. All rights reserved.</div>
 </body>
 </html>

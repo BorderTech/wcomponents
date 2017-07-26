@@ -33,42 +33,46 @@
 <a class="jxr_linenumber" name="L25" href="#L25">25</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> doRender(<strong class="jxr_keyword">final</strong> <a href="../../../../../../com/github/bordertech/wcomponents/WComponent.html">WComponent</a> component, <strong class="jxr_keyword">final</strong> <a href="../../../../../../com/github/bordertech/wcomponents/servlet/WebXmlRenderContext.html">WebXmlRenderContext</a> renderContext) {
 <a class="jxr_linenumber" name="L26" href="#L26">26</a>  		WShuffler shuffler = (WShuffler) component;
 <a class="jxr_linenumber" name="L27" href="#L27">27</a>  		XmlStringBuilder xml = renderContext.getWriter();
-<a class="jxr_linenumber" name="L28" href="#L28">28</a>  		<strong class="jxr_keyword">int</strong> rows = shuffler.getRows();
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  		<strong class="jxr_keyword">boolean</strong> readOnly = shuffler.isReadOnly();
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>  
 <a class="jxr_linenumber" name="L30" href="#L30">30</a>  		<em class="jxr_comment">// Start tag</em>
 <a class="jxr_linenumber" name="L31" href="#L31">31</a>  		xml.appendTagOpen(<span class="jxr_string">"ui:shuffler"</span>);
 <a class="jxr_linenumber" name="L32" href="#L32">32</a>  		xml.appendAttribute(<span class="jxr_string">"id"</span>, component.getId());
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"class"</span>, component.getHtmlClass());
 <a class="jxr_linenumber" name="L34" href="#L34">34</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"track"</span>, component.isTracking(), <span class="jxr_string">"true"</span>);
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"disabled"</span>, shuffler.isDisabled(), <span class="jxr_string">"true"</span>);
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"hidden"</span>, shuffler.isHidden(), <span class="jxr_string">"true"</span>);
-<a class="jxr_linenumber" name="L37" href="#L37">37</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"readOnly"</span>, shuffler.isReadOnly(), <span class="jxr_string">"true"</span>);
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"tabindex"</span>, component.hasTabIndex(), component.getTabIndex());
-<a class="jxr_linenumber" name="L39" href="#L39">39</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"toolTip"</span>, shuffler.getToolTip());
-<a class="jxr_linenumber" name="L40" href="#L40">40</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"accessibleText"</span>, shuffler.getAccessibleText());
-<a class="jxr_linenumber" name="L41" href="#L41">41</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"rows"</span>, rows &gt; 0, rows);
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>  		xml.appendClose();
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>  
-<a class="jxr_linenumber" name="L44" href="#L44">44</a>  		<em class="jxr_comment">// Options</em>
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>  		List&lt;?&gt; options = shuffler.getOptions();
-<a class="jxr_linenumber" name="L46" href="#L46">46</a>  
-<a class="jxr_linenumber" name="L47" href="#L47">47</a>  		<strong class="jxr_keyword">if</strong> (options != <strong class="jxr_keyword">null</strong> &amp;&amp; !options.isEmpty()) {
-<a class="jxr_linenumber" name="L48" href="#L48">48</a>  			<strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; options.size(); i++) {
-<a class="jxr_linenumber" name="L49" href="#L49">49</a>  				String stringOption = String.valueOf(options.get(i));
-<a class="jxr_linenumber" name="L50" href="#L50">50</a>  				xml.appendTagOpen(<span class="jxr_string">"ui:option"</span>);
-<a class="jxr_linenumber" name="L51" href="#L51">51</a>  				xml.appendAttribute(<span class="jxr_string">"value"</span>, stringOption);
-<a class="jxr_linenumber" name="L52" href="#L52">52</a>  				xml.appendClose();
-<a class="jxr_linenumber" name="L53" href="#L53">53</a>  				xml.appendEscaped(stringOption);
-<a class="jxr_linenumber" name="L54" href="#L54">54</a>  				xml.appendEndTag(<span class="jxr_string">"ui:option"</span>);
-<a class="jxr_linenumber" name="L55" href="#L55">55</a>  			}
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>  		}
-<a class="jxr_linenumber" name="L57" href="#L57">57</a>  
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>  		<em class="jxr_comment">// End tag</em>
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>  		xml.appendEndTag(<span class="jxr_string">"ui:shuffler"</span>);
-<a class="jxr_linenumber" name="L60" href="#L60">60</a>  	}
-<a class="jxr_linenumber" name="L61" href="#L61">61</a>  }
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"hidden"</span>, shuffler.isHidden(), <span class="jxr_string">"true"</span>);
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  		<strong class="jxr_keyword">if</strong> (readOnly) {
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  			xml.appendAttribute(<span class="jxr_string">"readOnly"</span>, <span class="jxr_string">"true"</span>);
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  		} <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  			xml.appendOptionalAttribute(<span class="jxr_string">"disabled"</span>, shuffler.isDisabled(), <span class="jxr_string">"true"</span>);
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  			xml.appendOptionalAttribute(<span class="jxr_string">"tabindex"</span>, component.hasTabIndex(), component.getTabIndex());
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  			xml.appendOptionalAttribute(<span class="jxr_string">"toolTip"</span>, shuffler.getToolTip());
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  			xml.appendOptionalAttribute(<span class="jxr_string">"accessibleText"</span>, shuffler.getAccessibleText());
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  			<strong class="jxr_keyword">int</strong> rows = shuffler.getRows();
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  			xml.appendOptionalAttribute(<span class="jxr_string">"rows"</span>, rows &gt; 0, rows);
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  		}
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  		xml.appendClose();
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  		<em class="jxr_comment">// Options</em>
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  		List&lt;?&gt; options = shuffler.getOptions();
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  		<strong class="jxr_keyword">if</strong> (options != <strong class="jxr_keyword">null</strong> &amp;&amp; !options.isEmpty()) {
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  			<strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; options.size(); i++) {
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  				String stringOption = String.valueOf(options.get(i));
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  				xml.appendTagOpen(<span class="jxr_string">"ui:option"</span>);
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  				xml.appendAttribute(<span class="jxr_string">"value"</span>, stringOption);
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  				xml.appendClose();
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  				xml.appendEscaped(stringOption);
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  				xml.appendEndTag(<span class="jxr_string">"ui:option"</span>);
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  			}
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>  		}
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>  		<em class="jxr_comment">// End tag</em>
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>  		xml.appendEndTag(<span class="jxr_string">"ui:shuffler"</span>);
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  	}
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>  }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2016. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2017. All rights reserved.</div>
 </body>
 </html>

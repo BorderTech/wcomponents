@@ -16,7 +16,7 @@
 <a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.util.Duplet;
 <a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.util.I18nUtilities;
 <a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.util.SystemException;
-<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> java.util.ArrayList;
 <a class="jxr_linenumber" name="L12" href="#L12">12</a>  
 <a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_javadoccomment"> * The {@link Renderer} for {@link WDefinitionList}.</em>
@@ -67,7 +67,7 @@
 <a class="jxr_linenumber" name="L59" href="#L59">59</a>  		<em class="jxr_comment">// Render margin</em>
 <a class="jxr_linenumber" name="L60" href="#L60">60</a>  		MarginRendererUtil.renderMargin(list, renderContext);
 <a class="jxr_linenumber" name="L61" href="#L61">61</a>  
-<a class="jxr_linenumber" name="L62" href="#L62">62</a>  		<strong class="jxr_keyword">for</strong> (Duplet&lt;String, List&lt;WComponent&gt;&gt; term : list.getTerms()) {
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>  		<strong class="jxr_keyword">for</strong> (Duplet&lt;String, ArrayList&lt;WComponent&gt;&gt; term : list.getTerms()) {
 <a class="jxr_linenumber" name="L63" href="#L63">63</a>  			xml.appendTagOpen(<span class="jxr_string">"ui:term"</span>);
 <a class="jxr_linenumber" name="L64" href="#L64">64</a>  			xml.appendAttribute(<span class="jxr_string">"text"</span>, I18nUtilities.format(<strong class="jxr_keyword">null</strong>, term.getFirst()));
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>  			xml.appendClose();
@@ -86,6 +86,6 @@
 <a class="jxr_linenumber" name="L78" href="#L78">78</a>  }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2016. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2017. All rights reserved.</div>
 </body>
 </html>

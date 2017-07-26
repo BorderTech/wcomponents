@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>SeleniumWRadioButtonSelectWebElement xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../../apidocs/com/github/bordertech/wcomponents/test/selenium/element/SeleniumWRadioButtonSelectWebElement.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> com.github.bordertech.wcomponents.test.selenium.element;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.test.selenium.SeleniumWComponentsUtil;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.util.SystemException;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> org.openqa.selenium.By;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> org.openqa.selenium.WebDriver;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> org.openqa.selenium.WebElement;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <em class="jxr_javadoccomment"> * @author Mark Reeves</em>
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_javadoccomment"> * @since 1.4.0</em>
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../../com/github/bordertech/wcomponents/test/selenium/element/SeleniumWRadioButtonSelectWebElement.html">SeleniumWRadioButtonSelectWebElement</a> <strong class="jxr_keyword">extends</strong> <a href="../../../../../../../com/github/bordertech/wcomponents/test/selenium/element/SeleniumCheckableGroupInputWebElement.html">SeleniumCheckableGroupInputWebElement</a> {
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <em class="jxr_javadoccomment">	 * The value of the read-only indicator for WRadioButtonSelect.</em>
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String RO_COMPONENT = <span class="jxr_string">"radiobuttonselect"</span>;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <em class="jxr_javadoccomment">	 * Create a SeleniumWComponentWRadioButtonSelectWebElement.</em>
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <em class="jxr_javadoccomment">	 * @param element the backing WebElement</em>
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <em class="jxr_javadoccomment">	 * @param driver the backing Selenium Driver</em>
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  	<strong class="jxr_keyword">public</strong> <a href="../../../../../../../com/github/bordertech/wcomponents/test/selenium/element/SeleniumWRadioButtonSelectWebElement.html">SeleniumWRadioButtonSelectWebElement</a>(<strong class="jxr_keyword">final</strong> WebElement element, <strong class="jxr_keyword">final</strong> WebDriver driver) {
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  		<strong class="jxr_keyword">super</strong>(element, driver);
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  	}
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <em class="jxr_javadoccomment">	 * Get the radio button at a given option index. Only applies to WRadioButtonSelect in an interactive state.</em>
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  <em class="jxr_javadoccomment">	 * @param idx the option's index</em>
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  <em class="jxr_javadoccomment">	 * @return a HTML input element in the radio button state.</em>
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  	<strong class="jxr_keyword">public</strong> WebElement getRadioButton(<strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> idx) {
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  		<strong class="jxr_keyword">if</strong> (isReadOnly()) {
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  			<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../../../com/github/bordertech/wcomponents/util/SystemException.html">SystemException</a>(<span class="jxr_string">"WRadioButtonSelect in a read-only state has no radio buttons."</span>);
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  		}
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  		WebElement option = getOption(idx);
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  		By by = By.tagName(getOptionTag());
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  		<strong class="jxr_keyword">return</strong> SeleniumWComponentsUtil.findElementImmediateForElement(option, by);
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  	}
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  	@Override
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  	<strong class="jxr_keyword">final</strong> String getROComponentName() {
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  		<strong class="jxr_keyword">return</strong> RO_COMPONENT;
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  	}
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2017. All rights reserved.</div>
+</body>
+</html>

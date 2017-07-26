@@ -453,10 +453,11 @@ var attributesBoxes= new Array('attributes_datefield');
                         <td class="diagram">
                            <div id="diagram_datefield" style="display:block"><img alt="Diagram" border="0" src="img/dateField_xsd_Element_ui_datefield.png" usemap="#dateField_xsd_Element_ui_datefield" /><map name="dateField_xsd_Element_ui_datefield" id="dateField_xsd_Element_ui_datefield">
                                  <area alt="attributeGroups_control_xsd.tmp#submitting.input.attributes" href="attributeGroups_control_xsd.html#submitting.input.attributes" coords="142,122,354,148" />
-                                 <area alt="dateField_xsd.tmp#datefield_allowPartial" href="dateField_xsd.html#datefield_allowPartial" coords="139,206,247,230" />
-                                 <area alt="dateField_xsd.tmp#datefield_date" href="dateField_xsd.html#datefield_date" coords="139,296,210,320" />
-                                 <area alt="dateField_xsd.tmp#datefield_min" href="dateField_xsd.html#datefield_min" coords="139,386,207,410" />
-                                 <area alt="dateField_xsd.tmp#datefield_max" href="dateField_xsd.html#datefield_max" coords="139,476,210,500" /></map></div>
+                                 <area alt="attributeGroups_control_xsd.tmp#autocomplete.attributes" href="attributeGroups_control_xsd.html#autocomplete.attributes" coords="142,209,338,235" />
+                                 <area alt="dateField_xsd.tmp#datefield_allowPartial" href="dateField_xsd.html#datefield_allowPartial" coords="139,250,247,274" />
+                                 <area alt="dateField_xsd.tmp#datefield_date" href="dateField_xsd.html#datefield_date" coords="139,340,210,364" />
+                                 <area alt="dateField_xsd.tmp#datefield_min" href="dateField_xsd.html#datefield_min" coords="139,430,207,454" />
+                                 <area alt="dateField_xsd.tmp#datefield_max" href="dateField_xsd.html#datefield_max" coords="139,520,210,544" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -532,6 +533,21 @@ var attributesBoxes= new Array('attributes_datefield');
                                     <td>
                                        <div class="annotation">Indicates that the dateField can accept any part of a date, being any combination
                                           of a date, month and/or year. Not output if "false".
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#autocomplete.attributes_autocomplete" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">autocomplete</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          					This is the autocomplete setting for a component. If not set then the user agent
+                                          can determine the autocomplete state. See 
+                                          					
+                                          <a xmlns="" href="https://html.spec.whatwg.org/multipage/forms.html#attr-fe-autocomplete">https://html.spec.whatwg.org/multipage/forms.html#attr-fe-autocomplete</a>
+                                          				
                                        </div>
                                     </td>
                                  </tr>
@@ -747,6 +763,7 @@ var attributesBoxes= new Array('attributes_datefield');
     </span><span class="tEl">&lt;xs:simpleContent</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:extension</span><span class="tAN"> base=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:attributeGroup</span><span class="tAN"> ref=</span><span class="tAV">"ui:submitting.input.attributes"</span><span class="tEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:attributeGroup</span><span class="tAN"> ref=</span><span class="tAV">"ui:autocomplete.attributes"</span><span class="tEl">/&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"allowPartial"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
           </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
             </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that the dateField can accept any part of a date, being any combination of a date, month and/or year. Not output if "false".</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">

@@ -15,10 +15,10 @@
 <a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.XmlStringBuilder;
 <a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.container.ResponseCacheInterceptor.CacheType;
 <a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.servlet.WServlet;
-<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.util.Factory;
-<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.util.LookupTable;
-<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.util.XMLUtil;
-<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> java.io.IOException;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.util.Factory;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.util.LookupTable;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> com.github.bordertech.wcomponents.util.XMLUtil;
 <a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> java.util.List;
 <a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> org.apache.commons.logging.Log;
 <a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> org.apache.commons.logging.LogFactory;
@@ -58,54 +58,58 @@
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>  	}
 <a class="jxr_linenumber" name="L51" href="#L51">51</a>  
 <a class="jxr_linenumber" name="L52" href="#L52">52</a>  	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_javadoccomment">	 * {@inheritDoc}</em>
-<a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L55" href="#L55">55</a>  	@Override
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> paint(<strong class="jxr_keyword">final</strong> <a href="../../../../../com/github/bordertech/wcomponents/RenderContext.html">RenderContext</a> renderContext) {
-<a class="jxr_linenumber" name="L57" href="#L57">57</a>  		<strong class="jxr_keyword">if</strong> (key == <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>  			<strong class="jxr_keyword">super</strong>.paint(renderContext);
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>  			<strong class="jxr_keyword">return</strong>;
-<a class="jxr_linenumber" name="L60" href="#L60">60</a>  		}
-<a class="jxr_linenumber" name="L61" href="#L61">61</a>  
-<a class="jxr_linenumber" name="L62" href="#L62">62</a>  		<strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L63" href="#L63">63</a>  
-<a class="jxr_linenumber" name="L64" href="#L64">64</a>  			Response response = getResponse();
-<a class="jxr_linenumber" name="L65" href="#L65">65</a>  
-<a class="jxr_linenumber" name="L66" href="#L66">66</a>  			Object table = LOOKUP_TABLE.getTableForCacheKey(key);
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>  			List&lt;?&gt; data = LOOKUP_TABLE.getTable(table);
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>  			response.setContentType(WebUtilities.CONTENT_TYPE_XML);
-<a class="jxr_linenumber" name="L69" href="#L69">69</a>  			response.setHeader(<span class="jxr_string">"Cache-Control"</span>, CacheType.DATALIST_CACHE.getSettings());
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_javadoccomment">	 * No need to run prepare paint for data lists.</em>
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_javadoccomment">	 * @param request {@inheritDoc}</em>
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  	@Override
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> preparePaint(<strong class="jxr_keyword">final</strong> <a href="../../../../../com/github/bordertech/wcomponents/Request.html">Request</a> request) {
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  		<em class="jxr_comment">// No-Op</em>
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  	}
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>  
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>  <em class="jxr_javadoccomment">	 * {@inheritDoc}</em>
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  	@Override
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> paint(<strong class="jxr_keyword">final</strong> <a href="../../../../../com/github/bordertech/wcomponents/RenderContext.html">RenderContext</a> renderContext) {
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  		<strong class="jxr_keyword">if</strong> (key == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>  			<strong class="jxr_keyword">super</strong>.paint(renderContext);
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  			<strong class="jxr_keyword">return</strong>;
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>  		}
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>  
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>  			XmlStringBuilder xml = <strong class="jxr_keyword">new</strong> <a href="../../../../../com/github/bordertech/wcomponents/XmlStringBuilder.html">XmlStringBuilder</a>(response.getWriter());
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>  			xml.write(XMLUtil.XML_DECLERATION);
-<a class="jxr_linenumber" name="L73" href="#L73">73</a>  
-<a class="jxr_linenumber" name="L74" href="#L74">74</a>  			<strong class="jxr_keyword">if</strong> (data != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L75" href="#L75">75</a>  				xml.appendTagOpen(<span class="jxr_string">"ui:datalist"</span>);
-<a class="jxr_linenumber" name="L76" href="#L76">76</a>  				xml.append(XMLUtil.UI_NAMESPACE);
-<a class="jxr_linenumber" name="L77" href="#L77">77</a>  				xml.appendAttribute(<span class="jxr_string">"id"</span>, key);
-<a class="jxr_linenumber" name="L78" href="#L78">78</a>  				xml.appendClose();
-<a class="jxr_linenumber" name="L79" href="#L79">79</a>  
-<a class="jxr_linenumber" name="L80" href="#L80">80</a>  				<strong class="jxr_keyword">for</strong> (Object item : data) {
-<a class="jxr_linenumber" name="L81" href="#L81">81</a>  					<em class="jxr_comment">// Check for null option (ie null or empty). Match isEmpty() logic.</em>
-<a class="jxr_linenumber" name="L82" href="#L82">82</a>  					<strong class="jxr_keyword">boolean</strong> isNull = item == <strong class="jxr_keyword">null</strong> ? <strong class="jxr_keyword">true</strong> : (item.toString().length() == 0);
-<a class="jxr_linenumber" name="L83" href="#L83">83</a>  
-<a class="jxr_linenumber" name="L84" href="#L84">84</a>  					xml.appendTagOpen(<span class="jxr_string">"ui:option"</span>);
-<a class="jxr_linenumber" name="L85" href="#L85">85</a>  					xml.appendAttribute(<span class="jxr_string">"value"</span>, LOOKUP_TABLE.getCode(table, item));
-<a class="jxr_linenumber" name="L86" href="#L86">86</a>  					xml.appendOptionalAttribute(<span class="jxr_string">"isNull"</span>, isNull, <span class="jxr_string">"true"</span>);
-<a class="jxr_linenumber" name="L87" href="#L87">87</a>  					xml.appendClose();
-<a class="jxr_linenumber" name="L88" href="#L88">88</a>  					xml.append(WebUtilities.encode(LOOKUP_TABLE.getDescription(table, item)));
-<a class="jxr_linenumber" name="L89" href="#L89">89</a>  					xml.appendEndTag(<span class="jxr_string">"ui:option"</span>);
-<a class="jxr_linenumber" name="L90" href="#L90">90</a>  				}
-<a class="jxr_linenumber" name="L91" href="#L91">91</a>  
-<a class="jxr_linenumber" name="L92" href="#L92">92</a>  				xml.appendEndTag(<span class="jxr_string">"ui:datalist"</span>);
-<a class="jxr_linenumber" name="L93" href="#L93">93</a>  			}
-<a class="jxr_linenumber" name="L94" href="#L94">94</a>  		} <strong class="jxr_keyword">catch</strong> (IOException e) {
-<a class="jxr_linenumber" name="L95" href="#L95">95</a>  			LOG.error(<span class="jxr_string">"Failed to write data list"</span>, e);
-<a class="jxr_linenumber" name="L96" href="#L96">96</a>  		}
-<a class="jxr_linenumber" name="L97" href="#L97">97</a>  	}
-<a class="jxr_linenumber" name="L98" href="#L98">98</a>  }
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>  		Response response = getResponse();
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>  
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  		Object table = LOOKUP_TABLE.getTableForCacheKey(key);
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>  		List&lt;?&gt; data = LOOKUP_TABLE.getTable(table);
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>  		response.setContentType(WebUtilities.CONTENT_TYPE_XML);
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>  		response.setHeader(<span class="jxr_string">"Cache-Control"</span>, CacheType.DATALIST_CACHE.getSettings());
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>  
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>  		XmlStringBuilder xml = <strong class="jxr_keyword">new</strong> <a href="../../../../../com/github/bordertech/wcomponents/XmlStringBuilder.html">XmlStringBuilder</a>(((WebXmlRenderContext) renderContext).getWriter());
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>  		xml.write(XMLUtil.XML_DECLARATION);
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>  
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>  		<strong class="jxr_keyword">if</strong> (data != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>  			xml.appendTagOpen(<span class="jxr_string">"ui:datalist"</span>);
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>  			xml.append(XMLUtil.UI_NAMESPACE);
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>  			xml.appendAttribute(<span class="jxr_string">"id"</span>, key);
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>  			xml.appendClose();
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>  
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>  			<strong class="jxr_keyword">for</strong> (Object item : data) {
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>  				<em class="jxr_comment">// Check for null option (ie null or empty). Match isEmpty() logic.</em>
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>  				<strong class="jxr_keyword">boolean</strong> isNull = item == <strong class="jxr_keyword">null</strong> ? <strong class="jxr_keyword">true</strong> : (item.toString().length() == 0);
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>  
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>  				xml.appendTagOpen(<span class="jxr_string">"ui:option"</span>);
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>  				xml.appendAttribute(<span class="jxr_string">"value"</span>, LOOKUP_TABLE.getCode(table, item));
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>  				xml.appendOptionalAttribute(<span class="jxr_string">"isNull"</span>, isNull, <span class="jxr_string">"true"</span>);
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>  				xml.appendClose();
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>  				xml.append(WebUtilities.encode(LOOKUP_TABLE.getDescription(table, item)));
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>  				xml.appendEndTag(<span class="jxr_string">"ui:option"</span>);
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>  			}
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>  
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>  			xml.appendEndTag(<span class="jxr_string">"ui:datalist"</span>);
+<a class="jxr_linenumber" name="L100" href="#L100">100</a> 		}
+<a class="jxr_linenumber" name="L101" href="#L101">101</a> 	}
+<a class="jxr_linenumber" name="L102" href="#L102">102</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2016. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2017. All rights reserved.</div>
 </body>
 </html>

@@ -421,10 +421,12 @@ var attributesBoxes= new Array('attributes_emailfield');
                         </td>
                         <td class="diagram">
                            <div id="diagram_emailfield" style="display:block"><img alt="Diagram" border="0" src="img/emailField_xsd_Element_ui_emailfield.png" usemap="#emailField_xsd_Element_ui_emailfield" /><map name="emailField_xsd_Element_ui_emailfield" id="emailField_xsd_Element_ui_emailfield">
-                                 <area alt="attributeGroups_control_xsd.tmp#submitting.input.attributes" href="attributeGroups_control_xsd.html#submitting.input.attributes" coords="147,122,359,148" />
-                                 <area alt="emailField_xsd.tmp#emailfield_size" href="emailField_xsd.html#emailfield_size" coords="144,206,213,230" />
-                                 <area alt="emailField_xsd.tmp#emailfield_maxLength" href="emailField_xsd.html#emailfield_maxLength" coords="144,283,252,307" />
-                                 <area alt="emailField_xsd.tmp#emailfield_list" href="emailField_xsd.html#emailfield_list" coords="144,373,212,397" /></map></div>
+                                 <area alt="attributeGroups_control_xsd.tmp#placeholder.attributes" href="attributeGroups_control_xsd.html#placeholder.attributes" coords="147,122,333,148" />
+                                 <area alt="attributeGroups_control_xsd.tmp#submitting.input.attributes" href="attributeGroups_control_xsd.html#submitting.input.attributes" coords="147,196,359,222" />
+                                 <area alt="attributeGroups_control_xsd.tmp#autocomplete.attributes" href="attributeGroups_control_xsd.html#autocomplete.attributes" coords="147,283,343,309" />
+                                 <area alt="emailField_xsd.tmp#emailfield_size" href="emailField_xsd.html#emailfield_size" coords="144,324,213,348" />
+                                 <area alt="emailField_xsd.tmp#emailfield_maxLength" href="emailField_xsd.html#emailfield_maxLength" coords="144,401,252,425" />
+                                 <area alt="emailField_xsd.tmp#emailfield_list" href="emailField_xsd.html#emailfield_list" coords="144,491,212,515" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -488,6 +490,21 @@ var attributesBoxes= new Array('attributes_emailfield');
                                     <td>
                                        <div class="annotation">
                                           					Deprecated. Use toolTip instead.
+                                          				
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#autocomplete.attributes_autocomplete" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">autocomplete</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          					This is the autocomplete setting for a component. If not set then the user agent
+                                          can determine the autocomplete state. See 
+                                          					
+                                          <a xmlns="" href="https://html.spec.whatwg.org/multipage/forms.html#attr-fe-autocomplete">https://html.spec.whatwg.org/multipage/forms.html#attr-fe-autocomplete</a>
                                           				
                                        </div>
                                     </td>
@@ -571,6 +588,19 @@ var attributesBoxes= new Array('attributes_emailfield');
                                     <td>
                                        <div class="annotation">The maximum number of characters allowed in the field. This should comply with relevant
                                           RFCs but is often constrained by underlying data storage limitations.
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#placeholder.attributes_placeholder" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">placeholder</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          					Used to provide an indication of the type of input expected. Not a replacement
+                                          for a label or title.
+                                          				
                                        </div>
                                     </td>
                                  </tr>
@@ -689,7 +719,9 @@ var attributesBoxes= new Array('attributes_emailfield');
   </span><span class="tEl">&lt;xs:complexType</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:simpleContent</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:extension</span><span class="tAN"> base=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:attributeGroup</span><span class="tAN"> ref=</span><span class="tAV">"ui:placeholder.attributes"</span><span class="tEl">/&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:attributeGroup</span><span class="tAN"> ref=</span><span class="tAV">"ui:submitting.input.attributes"</span><span class="tEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:attributeGroup</span><span class="tAN"> ref=</span><span class="tAV">"ui:autocomplete.attributes"</span><span class="tEl">/&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"size"</span><span class="tAN"> type=</span><span class="tAV">"xs:positiveInteger"</span><span class="tEl">&gt;</span><span class="tI">
           </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
             </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The width of the input in units as determined by the user agent.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
