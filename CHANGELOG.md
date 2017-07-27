@@ -7,10 +7,12 @@
 ### Bug Fixes
 
 * Debounce / throttle rapidly repeated requests for the same theme resources to prevent superfluous network requests #1274
+* Fixed a flaw which caused WPartialDateField's calendar to render poorly on some mobile devices #1280.
 
 ### Enhancements
 
 * Added Sass to allow re-implementation of support for WField.inputWidth from 1 - 99 in sub-themes based only on Sass variables #1278.
+* Added a close icon to the header of the timeout warnings. These warnings can be closed by clicking anywhere (or pressing ESCAPE) but that is not immediately obvious and the close icon is merely a visual queue to indicate the box may be dismissed. Note that for screenreaders etc the box is exposed as an alert which has implicit ESCAPE to dismiss.
 
 ## Release 1.4.4
 

@@ -110,13 +110,22 @@
           }
         }
 
-        > :first-child {
-          margin-bottom: $wc-phone-gap-small;
-        }
+        // button columns
+        > .wc-column {
+          &:first-child {
+            @include flex($justify: space-between);
+            margin-bottom: $wc-phone-gap-small;
 
-        > .wc-column + .wc-column {
-          display: inline-block;
-          width: 50%;
+            // year input
+            > input {
+              margin-right: 0;
+            }
+          }
+
+          + .wc-column {
+            display: table-cell;
+            width: 100%;
+          }
         }
       }
     }
