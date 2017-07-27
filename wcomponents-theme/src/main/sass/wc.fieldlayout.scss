@@ -37,9 +37,9 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
 .wc_inputwidth {
   > .wc-input {
     > .wc-input-wrapper,
-    > .wc-input-wrapper input,
-    > .wc-input-wrapper textarea,
-    > .wc-input-wrapper select,
+    > .wc-input-wrapper > input,
+    > .wc-input-wrapper > textarea,
+    > .wc-input-wrapper > select,
     > fieldset {
       @include border-box;
       width: 100%;
