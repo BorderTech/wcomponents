@@ -6,6 +6,12 @@
 
 ### Bug Fixes
 
+### Enhancements
+
+## Release 1.4.5
+
+### Bug Fixes
+
 * Debounce / throttle rapidly repeated requests for the same theme resources to prevent superfluous network requests #1274
 * Fixed a flaw which caused WPartialDateField's calendar to render poorly on some mobile devices #1280.
 
