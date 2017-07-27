@@ -75,7 +75,7 @@ public class WMenuSelectModeExample extends WContainer {
 		/**
 		 * SubMenu 3.
 		 */
-		private final WSubMenu sub3 = new WSubMenu("S3 - sub3");
+		private final WSubMenu sub3 = new WSubMenu("S3 - sub3 which has a stupidly long title for no good reason");
 
 		/**
 		 * MenuItemGroup 1.
