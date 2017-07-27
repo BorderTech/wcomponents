@@ -98,6 +98,36 @@
         position: fixed;
         right: 0;
       }
+
+      > .wc-row {
+        display: block;
+
+        button {
+          margin-left: $wc-phone-gap-normal;
+
+          &:first-of-type {
+            margin-left: 0;
+          }
+        }
+
+        // button columns
+        > .wc-column {
+          &:first-child {
+            @include flex($justify: space-between);
+            margin-bottom: $wc-phone-gap-small;
+
+            // year input
+            > input {
+              margin-right: 0;
+            }
+          }
+
+          + .wc-column {
+            display: table-cell;
+            width: 100%;
+          }
+        }
+      }
     }
 
     #wc_calendar {
