@@ -99,7 +99,7 @@ define(["wc/dom/initialise",
 			this.flagError = function(args) {
 				var props,
 					target,
-					tagName,
+					inputTarget,
 					errorBoxId,
 					errorContainer,
 					writeWhere = args.position,
@@ -131,14 +131,18 @@ define(["wc/dom/initialise",
 					errors: args.message
 				};
 				if ((html = CONTAINER_TEMPLATE(props))) {
-					tagName = target.tagName;
-					if (tagName === tag.INPUT && (target.type === "radio" || target.type === "checkbox")) {
+					if (wrappedInput.isOneOfMe(target)) {
+						if ((inputTarget = wrappedInput.getInput(target)) && inputTarget.tagName === tag.INPUT && (inputTarget.type === "radio" || inputTarget.type === "checkbox")) {
+							target = getFirstLabelForElement(inputTarget) || target;
+						} else {
+							target = wrappedInput.getWrapper(target) || target;
+						}
+						writeWhere = writeWhere || "afterEnd";
+					} else if (target.tagName === tag.INPUT && (target.type === "radio" || target.type === "checkbox")) {
 						target = getFirstLabelForElement(target) || target;
-						writeWhere = writeWhere || "beforeEnd";
-					} else if (wrappedInput.isOneOfMe(target)) {
-						target = wrappedInput.getWrapper(target) || target;
-						writeWhere = "afterEnd";
+						writeWhere = writeWhere || "afterEnd";
 					}
+
 					if (!writeWhere) {
 						writeWhere = ~writeOutsideThese.indexOf(target.tagName) ? "afterEnd" : "beforeEnd";
 					}
