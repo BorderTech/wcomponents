@@ -6,6 +6,8 @@
 
 ### Bug Fixes
 
+* Fixed a JavaScript flaw which could result in error messages being misplaced in some circumstances #1288.
+
 ### Enhancements
 
 ## Release 1.4.5
