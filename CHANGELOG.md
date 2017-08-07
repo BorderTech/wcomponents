@@ -8,6 +8,19 @@
 
 ### Enhancements
 
+## Release 1.3.13
+
+### Bug Fixes
+
+* Partial revert a change to URL handling which was back-ported from "freddie" but resulted in URLs becoming mal-formed under some circumstances. See
+  commit [facddabd6842e884877ba762d921b517b2f49e74](https://github.com/BorderTech/wcomponents/commit/facddabd6842e884877ba762d921b517b2f49e74).
+
+## Release 1.3.12
+
+### Enhancements
+
+* Improve performance of TemplateRendererInterceptor by switching to Mouchstache template engine #1207.
+
 ## Release 1.3.11
 
 ### Bug Fixes

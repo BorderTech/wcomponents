@@ -11,7 +11,7 @@
 				<xsl:value-of select="@value"/>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:text>{{t 'requiredLabel'}}</xsl:text>
+				<xsl:text>{{#i18n}}requiredLabel{{/i18n}}</xsl:text>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

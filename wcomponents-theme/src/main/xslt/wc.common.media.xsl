@@ -118,7 +118,7 @@
 						</xsl:call-template>
 					</xsl:if>
 					<span class="wc-off">
-						<xsl:text>{{t 'media_play'}}</xsl:text>
+						<xsl:text>{{#i18n}}media_play{{/i18n}}</xsl:text>
 					</span>
 				</button>
 			</xsl:if>

@@ -52,7 +52,7 @@
 			</xsl:call-template>
 			<xsl:call-template name="accessKey"/>
 			<xsl:if test="number($isEmpty) eq 1">
-				<xsl:text>{{t 'requiredLabel'}}</xsl:text>
+				<xsl:text>{{#i18n}}requiredLabel{{/i18n}}</xsl:text>
 			</xsl:if>
 			<xsl:apply-templates />
 			<xsl:call-template name="WLabelHint">
@@ -61,7 +61,7 @@
 			<xsl:if test="$labelableElement and $labelableElement/@required">
 				<xsl:call-template name="offscreenSpan">
 					<xsl:with-param name="text">
-						<xsl:text>{{t 'requiredPlaceholder'}}</xsl:text>
+						<xsl:text>{{#i18n}}requiredPlaceholder{{/i18n}}</xsl:text>
 					</xsl:with-param>
 				</xsl:call-template>
 			</xsl:if>

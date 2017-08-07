@@ -140,10 +140,10 @@
 								<xsl:value-of select="$label"/>
 							</xsl:when>
 							<xsl:when test="self::ui:rowselection">
-								<xsl:text>{{t 'toggle_label'}}</xsl:text>
+								<xsl:text>{{#i18n}}toggle_label{{/i18n}}</xsl:text>
 							</xsl:when>
 							<xsl:when test="not($myLabel)">
-								<xsl:text>{{t 'toggle_label'}}</xsl:text>
+								<xsl:text>{{#i18n}}toggle_label{{/i18n}}</xsl:text>
 							</xsl:when>
 						</xsl:choose>
 					</xsl:variable>
@@ -177,7 +177,7 @@
 						<xsl:with-param name="name" select="$name"/>
 						<xsl:with-param name="value" select="'all'"/>
 						<xsl:with-param name="class" select="$subClass"/>
-						<xsl:with-param name="text"><xsl:text>{{t 'toggle_all'}}</xsl:text></xsl:with-param>
+						<xsl:with-param name="text"><xsl:text>{{#i18n}}toggle_all{{/i18n}}</xsl:text></xsl:with-param>
 						<xsl:with-param name="selected">
 							<xsl:choose>
 								<xsl:when test="$selected eq 'all'">
@@ -198,7 +198,7 @@
 						<xsl:with-param name="name" select="$name"/>
 						<xsl:with-param name="value" select="'none'"/>
 						<xsl:with-param name="class" select="$subClass"/>
-						<xsl:with-param name="text"><xsl:text>{{t 'toggle_none'}}</xsl:text></xsl:with-param>
+						<xsl:with-param name="text"><xsl:text>{{#i18n}}toggle_none{{/i18n}}</xsl:text></xsl:with-param>
 						<xsl:with-param name="selected">
 							<xsl:choose>
 								<xsl:when test="$selected eq 'none'">
@@ -220,13 +220,13 @@
 							<xsl:value-of select="$label"/>
 						</xsl:when>
 						<xsl:when test="self::ui:rowselection">
-							<xsl:text>{{t 'toggle_all_label'}}</xsl:text>
+							<xsl:text>{{#i18n}}toggle_all_label{{/i18n}}</xsl:text>
 						</xsl:when>
 						<xsl:when test="$myLabel">
 							<xsl:apply-templates select="$myLabel" mode="selectToggle"/>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:text>{{t 'toggle_all_label'}}</xsl:text>
+							<xsl:text>{{#i18n}}toggle_all_label{{/i18n}}</xsl:text>
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:variable>

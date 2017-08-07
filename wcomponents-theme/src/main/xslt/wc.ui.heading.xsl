@@ -42,7 +42,7 @@
 			<xsl:call-template name="ajaxTarget"/>
 			<xsl:apply-templates />
 			<xsl:if test="number($emptyHeading) eq 1">
-				<xsl:text>{{t 'requiredLabel'}}</xsl:text>
+				<xsl:text>{{#i18n}}requiredLabel{{/i18n}}</xsl:text>
 			</xsl:if>
 		</xsl:element>
 	</xsl:template>

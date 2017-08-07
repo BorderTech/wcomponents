@@ -56,7 +56,7 @@
 			</xsl:variable>
 			<xsl:variable name="controlLabel">
 				<xsl:if test="@selectAll eq 'control'">
-					<xsl:text>{{t 'table_rowSelection_toggleAll'}}</xsl:text>
+					<xsl:text>{{#i18n}}table_rowSelection_toggleAll{{/i18n}}</xsl:text>
 				</xsl:if>
 			</xsl:variable>
 			<xsl:variable name="bodyId" select="concat(../@id,'_tb')"/>

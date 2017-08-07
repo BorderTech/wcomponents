@@ -18,7 +18,7 @@
 				<xsl:if test="../ui:rowexpansion">
 					<th class="wc_table_rowexp_container" scope="col">
 						<xsl:call-template name="offscreenSpan">
-							<xsl:with-param name="text"><xsl:text>{{t 'table_rowExpansion_toggleAll'}}</xsl:text></xsl:with-param>
+							<xsl:with-param name="text"><xsl:text>{{#i18n}}table_rowExpansion_toggleAll{{/i18n}}</xsl:text></xsl:with-param>
 						</xsl:call-template>
 					</th>
 				</xsl:if>

@@ -36,7 +36,7 @@
 				</xsl:if>
 			</xsl:attribute>
 			<xsl:attribute name="title">
-				<xsl:text>{{t 'mfc_option'}}</xsl:text>
+				<xsl:text>{{#i18n}}mfc_option{{/i18n}}</xsl:text>
 			</xsl:attribute>
 			<xsl:if test="$field/@size">
 				<xsl:attribute name="size">
