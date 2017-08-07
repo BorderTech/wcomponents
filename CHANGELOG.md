@@ -1,6 +1,6 @@
 # Change log
 
-## Release in-progress
+## Release 1.3.14
 
 ### API Changes
 
