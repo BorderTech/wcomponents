@@ -29,8 +29,6 @@ public class TemplateRenderInterceptor extends InterceptorComponent {
 
 	private static final Map<String, ResourceBundle> RESOURCES = new HashMap<>();
 
-	private static final MustacheFactory MF = new DefaultMustacheFactory();
-
 	/**
 	 * {@inheritDoc}
 	 */
@@ -49,7 +47,10 @@ public class TemplateRenderInterceptor extends InterceptorComponent {
 
 		// Only process TEMPLATE if has I18N brackets
 		if (html.contains("{{#i18n")) {
-			Mustache mustache = MF.compile(new StringReader(html), UUID.randomUUID().toString());
+			// Create a new instance of factory to avoid caching the page.
+			// https://github.com/spullara/mustache.java/issues/117
+			final MustacheFactory mf = new DefaultMustacheFactory();
+			Mustache mustache = mf.compile(new StringReader(html), UUID.randomUUID().toString());
 			StringWriter templateWriter = new StringWriter();
 			mustache.execute(templateWriter, new I18NContext(getResourceBundle()));
 			html = templateWriter.toString();
