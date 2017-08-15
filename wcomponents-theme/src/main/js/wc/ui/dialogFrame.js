@@ -592,7 +592,7 @@ define(["wc/dom/event",
 				try {
 					if (element && element.id === DIALOG_ID) {
 						clearOpener = true;
-						modalShim.clearModal(element);
+						modalShim.clearModal();
 						// remove maximise from dialog so that the next dialog does not open maximised
 						/*
 						 * NOTE: this could be moved to wc/ui/resizeable.js which owns the max button. However, the
