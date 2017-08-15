@@ -39,7 +39,11 @@
 		<xsl:if test="$dialogs">
 			<xsl:text>require(["wc/ui/dialog"], function(c){c.register([</xsl:text>
 			<xsl:apply-templates select="$dialogs" mode="JS"/>
-			<xsl:text>]);});</xsl:text>
+			<xsl:text>]</xsl:text>
+			<xsl:if test="ancestor::ui:ajaxresponse">
+				<xsl:text>,true</xsl:text>
+			</xsl:if>
+			<xsl:text>);});</xsl:text>
 		</xsl:if>
 		<xsl:if test="$dataListCombos">
 			<xsl:text>require(["wc/ui/comboLoader"], function(c){c.register([</xsl:text>
