@@ -1,0 +1,8 @@
+@import 'mixins/common';
+
+figcaption {
+  @include border-box;
+  display: block;
+  text-align: center;
+  width: 100%;
+}
