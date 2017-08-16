@@ -1,0 +1,10 @@
+@import 'mixins/common';
+
+[role='tablist'] {
+  &[aria-multiselectable] {
+    > [role='tab'] {
+      @include border-box;
+      width: 100%;
+    }
+  }
+}
