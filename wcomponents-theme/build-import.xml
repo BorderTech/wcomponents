@@ -182,7 +182,8 @@
 	},
 	"globals": {
 		"KeyEvent": true,
-		"Promise": true
+		"Promise": true,
+		"DataView": true
 	}
 }
 </echo>
