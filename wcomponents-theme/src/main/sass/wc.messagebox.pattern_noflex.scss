@@ -1,0 +1,7 @@
+.wc_msgbox {
+  > h1 > span {
+    // override offscreen
+    // sass-lint:disable no-important
+    position: static !important;
+  }
+}

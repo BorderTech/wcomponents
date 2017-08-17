@@ -334,6 +334,23 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		disabledButton.setDisabled(true);
 		WDialog dialogWithDisabledButton = new WDialog(new ViewPersonList(), disabledButton);
 		add(dialogWithDisabledButton);
+
+		WButton ajaxTriggerButton = new WButton("Open a dialog from an ajax response");
+		add(ajaxTriggerButton);
+		WPanel ajaxTargetPanel = new WPanel(WPanel.Type.BOX);
+		add(ajaxTargetPanel);
+		final WDialog dlgInAjax = new WDialog(new ViewPersonList());
+		dlgInAjax.setMode(WDialog.MODAL);
+		ajaxTargetPanel.add(dlgInAjax);
+		ajaxTriggerButton.setAction(new Action() {
+			@Override
+			public void execute(ActionEvent event) {
+				if (dlgInAjax.getState() == WDialog.INACTIVE_STATE) {
+					dlgInAjax.display();
+				}
+			}
+		});
+		ajaxTriggerButton.setAjaxTarget(ajaxTargetPanel);
 	}
 
 	/**

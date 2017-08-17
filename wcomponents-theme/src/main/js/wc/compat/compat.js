@@ -218,6 +218,27 @@ define(["wc/has"], function(has) {
 			return "open" in document.createElement("details");
 		});
 
+		addtest("noflex", function(g, d) {
+			if (!g.getComputedStyle) {
+				return true;
+			}
+			var c = d.createElement("div"),
+				start,
+				end;
+			try {
+				d.body.appendChild(c);
+				start = g.getComputedStyle(c, null).display;
+				c.style.display = "flex";
+				end = g.getComputedStyle(c, null).display;
+				return (start === end);
+			} catch (e) {
+				return true;
+			} finally {
+				d.body.removeChild(c);
+				c = null;
+			}
+		});
+
 		addtest("native-dateinput", function() {
 			var el, d = "date", result = false;
 			try {
