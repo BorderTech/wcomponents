@@ -14,6 +14,7 @@
   - added a has test to detemine if a browser does not support CSS fle;
   - added a has test `has("uc")`;
   - added UC pattern Sass to fix major rendering issues.
+  - Removed the final declaration on the subordinate builder classes to allow for extendibility
 
 
 ## Release 1.4.5
