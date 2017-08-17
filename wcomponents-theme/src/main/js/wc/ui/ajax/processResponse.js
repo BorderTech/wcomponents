@@ -128,7 +128,15 @@ define(["wc/Observer",
 
 			function processResponseHtml(documentFragment, trigger) {
 				var content, targets,
-					next, targetId, element, doc, action, i;
+					next, targetId, element, doc, action, i,
+					onError = function() {
+						require(["wc/ajax/handleError"], function(handleError) {
+							// The AJAX response was malformed BUT reported as being successful.
+							var message = handleError.getErrorMessage({ status: 200 });
+							// This may not display perfectly but it's better than literally nothing
+							trigger.onerror(message, trigger);
+						});
+					};
 				if (documentFragment) {
 					if (documentFragment.querySelector) {
 						doc = documentFragment.querySelector(".wc-ajaxresponse");
@@ -164,9 +172,11 @@ define(["wc/Observer",
 						}
 					} else {
 						console.warn("Response does not appear well formed");
+						onError();
 					}
 				} else {
 					console.warn("Response is empty");
+					onError();
 				}
 			}
 
