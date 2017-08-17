@@ -211,14 +211,10 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 							try {
 								config.callback.call(request, request[config.responseType]);
 							} catch (ex) {
-								if (config.onError) {
-									notifyError(request, config.onError);
-								} else {
-									console.error(ex);
-								}
+								logErrorAndNotify(request, config, ex);
 							}
-						} else if (config.onError) {
-							notifyError(request, config.onError);
+						} else {
+							logErrorAndNotify(request, config);
 						}
 						if (markProfiles) {
 							endProfile(config);
@@ -236,6 +232,35 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 					}
 				}
 				return done;
+			}
+
+			/**
+			 * Handles errors by notifying errbacks and logging helpful diagnostics.
+			 * Note that XMLHTTPRequest provides no way of accessing the request headers.
+			 * @param request The XHR created by ajaxRqst
+			 * @param config The config object as passed to ajaxRqst
+			 * @param [ex] The original exception (if available)
+			 */
+			function logErrorAndNotify(request, config, ex) {
+				try {
+					console.group("wc/ajax");
+					if (ex) {
+						console.error(ex);
+					}
+					console.error("request.status", request.status);
+					console.error("request.readyState", request.readyState);
+					console.error("response headers", request.getAllResponseHeaders());
+					console.error("config", JSON.stringify(config));
+
+				} catch (ignore) {
+					// don't die if logging fails
+					console.warn(ignore);
+				} finally {
+					console.groupEnd();
+				}
+				if (config.onError) {
+					notifyError(request, config.onError);
+				}
 			}
 
 			/**
@@ -269,16 +294,21 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 			 * @private
 			 */
 			function applyPreOpenConfig(request, config) {
-				var onAbort = (config.onAbort || config.onError),
-					onTimeout = (config.onTimeout || config.onError);
 				config.responseType = config.responseType || ajax.responseType.TEXT;
 				try {
-					if (onAbort) {
-						request.onabort = onAbort;
+					if (config.onAbort) {
+						request.onabort = config.onAbort;
+					} else {
+						request.onabort = function() {
+							logErrorAndNotify(request, config, new Error("The request was aborted"));
+						};
 					}
-
-					if (onTimeout) {
-						request.ontimeout = onTimeout;
+					if (config.onTimeout) {
+						request.ontimeout = config.onTimeout;
+					} else {
+						request.ontimeout = function() {
+							logErrorAndNotify(request, config, new Error("The request timed out"));
+						};
 					}
 
 					if (config.onProgress && request.upload) {
