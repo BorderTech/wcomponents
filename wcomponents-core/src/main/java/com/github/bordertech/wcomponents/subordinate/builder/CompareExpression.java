@@ -20,7 +20,7 @@ import com.github.bordertech.wcomponents.subordinate.NotEqual;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public final class CompareExpression implements BooleanExpression {
+public class CompareExpression implements BooleanExpression {
 
 	/**
 	 * Default serialisation identifier.
