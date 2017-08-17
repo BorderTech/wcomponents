@@ -20,6 +20,7 @@ datalist {
   position: relative;
   white-space: nowrap;
 
+
   @if ($wc-clr-error-bg != -1) {
     // The whole combo is invalid but we only want to apply the background
     // color to the textbox.
@@ -28,7 +29,7 @@ datalist {
     }
   }
 
-  input {
+  [role='textbox'] {
     max-width: calc(100% - #{$wc-combo-button-width-allowance});
   }
 

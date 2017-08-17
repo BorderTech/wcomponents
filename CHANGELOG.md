@@ -10,6 +10,12 @@
 
 ### Enhancements
 
+* Updated Sass to produce better rendering in UC Browser #1295:
+  - added a has test to detemine if a browser does not support CSS fle;
+  - added a has test `has("uc")`;
+  - added UC pattern Sass to fix major rendering issues.
+
+
 ## Release 1.4.5
 
 ### Bug Fixes
