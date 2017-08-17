@@ -18,7 +18,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public final class GroupExpression implements BooleanExpression {
+public class GroupExpression implements BooleanExpression {
 
 	/**
 	 * Default serialisation identifier.

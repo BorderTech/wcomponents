@@ -22,7 +22,7 @@ import com.github.bordertech.wcomponents.subordinate.ShowInGroup;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public final class Action {
+public class Action {
 
 	/**
 	 * The type of action to perform.

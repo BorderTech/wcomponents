@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-final class MutableExpression implements BooleanExpression, Serializable {
+class MutableExpression implements BooleanExpression, Serializable {
 
 	/**
 	 * Default serialisation identifier.
