@@ -17,4 +17,12 @@
       }
     }
   }
+
+  @if ($wc-use-respond-table == 1) {
+    @include respond-phonelike {
+      [sortable] > thead th > .fa {
+        float: right;
+      }
+    }
+  }
 }

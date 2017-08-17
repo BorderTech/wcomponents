@@ -67,14 +67,21 @@
 // ListLayout and WList
 // #############################################################################
 
+.wc-listlayout-separator-bar {
+  > li {
+    > * {
+      width: 90%;
+    }
+  }
+}
 
-// .wc-listlayout-separator-bar {
-//   > li {
-//     > * {
-//       width: calc(100% - #{$wc-list-layout-bar-width-offset});
-//     }
-//   }
-// }
+.wc-listlayout-separator-bar.wc-listlayout-type-flat {
+  > li {
+    > * {
+      width: auto;
+    }
+  }
+}
 
 // #############################################################################
 // ColumnLayout WRow and WColumn (and a few other column-based controls)

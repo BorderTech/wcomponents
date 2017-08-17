@@ -1,0 +1,6 @@
+.wc_inputwidth  > .wc-input  > [role='combobox'] {
+  &,
+  > [role='textbox'] {
+    width: initial;
+  }
+}

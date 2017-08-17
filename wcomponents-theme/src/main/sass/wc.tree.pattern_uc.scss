@@ -1,0 +1,9 @@
+@import 'mixins/common';
+
+[role='treeitem'] > .wc_leaf_vopener + button {
+  width: initial;
+}
+
+.wc_htree .wc_leaf_hopener {
+  float: right;
+}

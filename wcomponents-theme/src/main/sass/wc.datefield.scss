@@ -2,8 +2,18 @@
 // browsers which do not yet implement input type date (Firefox!!!).
 @import 'mixins/common';
 
-.wc-datefield > [role='listbox'] {
-  max-height: none;
+.wc-datefield {
+  .wc_inputwidth  > .wc-input  > &,
+  &.wc_datefield_partial {
+    &,
+    > [role='textbox'] {
+      width: initial;
+    }
+  }
+
+  > [role='listbox'] {
+    max-height: none;
+  }
 }
 
 // The date picker calendar
