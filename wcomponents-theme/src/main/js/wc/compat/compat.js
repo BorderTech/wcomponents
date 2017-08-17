@@ -218,9 +218,9 @@ define(["wc/has"], function(has) {
 			return "open" in document.createElement("details");
 		});
 
-		addtest("noflex", function(g, d) {
+		addtest("css-flex", function(g, d) {
 			if (!g.getComputedStyle) {
-				return true;
+				return false;
 			}
 			var c = d.createElement("div"),
 				start,
@@ -230,13 +230,17 @@ define(["wc/has"], function(has) {
 				start = g.getComputedStyle(c, null).display;
 				c.style.display = "flex";
 				end = g.getComputedStyle(c, null).display;
-				return (start === end);
+				return (start !== end);
 			} catch (e) {
-				return true;
+				return false;
 			} finally {
 				d.body.removeChild(c);
 				c = null;
 			}
+		});
+
+		addtest("uc", function () {
+			return !has("css-flex");
 		});
 
 		addtest("native-dateinput", function() {
