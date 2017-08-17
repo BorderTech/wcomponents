@@ -6,7 +6,7 @@ package com.github.bordertech.wcomponents.subordinate.builder;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-final class SyntaxException extends RuntimeException {
+class SyntaxException extends RuntimeException {
 
 	/**
 	 * Default serialisation identifier.
