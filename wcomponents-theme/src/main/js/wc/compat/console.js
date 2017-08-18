@@ -18,15 +18,15 @@
  * @module
  * @private
  * @requires module:wc/has
+ * @requires module:wc/global
  */
-define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
+define(["wc/has", "wc/global"], function(has, global) {
 	"use strict";
 		/**
 		 * @var {String[]} methods The function names of console methods we have to add.
 		 * @private
 		 */
-	var global = window,
-		methods = ["log", "debug", "info", "warn", "error"],
+	var methods = ["log", "debug", "info", "warn", "error", "group", "groupCollapsed", "groupEnd"],
 		$console,
 		timers,
 		UNDEFINED = "undefined",
@@ -118,6 +118,14 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 			this[methods[i]] = noop;
 		}
 	}
+
+	/**
+	 * Provides a basic table function to the fake console.
+	 * @function
+	 */
+	FakeConsole.prototype.table = function() {
+		global[c].log.apply(c, arguments);
+	};
 
 	/**
 	 * Provides the time function to the fake console.
