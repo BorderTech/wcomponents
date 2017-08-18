@@ -6,6 +6,8 @@
 
 ### Bug Fixes
 
+* Fixed a race condition which could result in modal dialogs not being modal #1296
+* Improved Mustache memory handling #1290
 * Fixed a JavaScript flaw which could result in error messages being misplaced in some circumstances #1288.
 
 ### Enhancements
@@ -15,7 +17,7 @@
   - added a has test `has("uc")`;
   - added UC pattern Sass to fix major rendering issues.
   - Enhanced the SubordinateBuilder & associated classes to remove the final declaration allowing for extendibility.
-  - Added yet more enhanced AJAX error handling. 
+  - Added yet more enhanced AJAX error handling.
 
 ## Release 1.4.5
 
