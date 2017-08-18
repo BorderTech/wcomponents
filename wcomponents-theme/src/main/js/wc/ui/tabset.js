@@ -342,7 +342,12 @@ define(["wc/array/toArray",
 			function onItemSelection(action, element) {
 				var content,
 					contentContainer,
-					container;
+					container,
+					onShown = function() {
+						if (contentContainer) {
+							clearSize(contentContainer);
+						}
+					};
 
 				if (action === shed.actions.SELECT) {
 					instance.setFocusIndex(element);
@@ -356,11 +361,7 @@ define(["wc/array/toArray",
 						}
 						if (action === shed.actions.SELECT) {
 							shed.show(content, true);
-							containerload.onshow(content).then(function() {
-								if (contentContainer) {
-									clearSize(contentContainer);
-								}
-							});
+							containerload.onshow(content).then(onShown).catch(onShown);
 						} else if (action === shed.actions.DESELECT) {
 							if (contentContainer) {
 								fixSize(contentContainer);  // TODO only do this if it's an AJAX tab

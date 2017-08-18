@@ -110,6 +110,14 @@ define(["wc/has"], function(has) {
 			return (has("native-console") && "time" in g.console);
 		});
 
+		addtest("native-console-group", function(g) {
+			return (has("native-console") && "group" in g.console);
+		});
+
+		addtest("native-console-table", function(g) {
+			return (has("native-console") && "table" in g.console);
+		});
+
 		addtest("global-node", function(g) {
 			return ("Node" in g);
 		});
@@ -410,7 +418,7 @@ define(["wc/has"], function(has) {
 		};
 	}
 
-	if (!(has("native-console") && has("native-console-debug") && (has("native-console-time")))) {
+	if (!(has("native-console") && has("native-console-debug") && has("native-console-table") && has("native-console-group"))) {
 		result.push("wc/compat/console");
 	}
 	if (!has("global-node")) {
