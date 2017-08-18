@@ -6,6 +6,14 @@
 
 ### Bug Fixes
 
+### Enhancements
+
+## Release 1.4.6
+
+### API Changes
+
+### Bug Fixes
+
 * Fixed a race condition which could result in modal dialogs not being modal #1296
 * Improved Mustache memory handling #1290
 * Fixed a JavaScript flaw which could result in error messages being misplaced in some circumstances #1288.
