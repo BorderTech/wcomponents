@@ -89,10 +89,11 @@
 // @param {color} $border [$wc-clr-border] The border color.
 // @param {color|-1} $color [-1] The foreground color. Set to -1 to ignore.
 // @param {color|-1} $bg-color [-1] The background color. Set to -1 to ignore.
-@mixin padded-box($pad: $wc-gap-normal, $border: $wc-clr-border, $color: -1,
-  $bg-color: -1) {
+@mixin padded-box($pad: $wc-gap-normal, $border: $wc-clr-border, $color: -1, $bg-color: -1) {
   @include border($color: $border);
-  padding: $pad;
+  @if ($pad != 0) {
+    padding: $pad;
+  }
   @if ($bg-color != -1) {
     background-color: $bg-color;
   }

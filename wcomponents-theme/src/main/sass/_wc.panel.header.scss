@@ -2,6 +2,10 @@
 // header (role banner) and is most commonly over-ridden.
 
 [role='banner'] {
+  @if ($wc-panel-header-padding != 0) {
+    padding: $wc-panel-header-padding;
+  }
+
   @if ($wc-header-h1-size-full != -1) {
     h1 {
       font-size: $wc-header-h1-size-full;
