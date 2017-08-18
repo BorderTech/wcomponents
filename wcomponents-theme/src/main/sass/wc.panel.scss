@@ -45,7 +45,7 @@
 // From the JavaDoc: 'The feature panel is highlighted by a background colour
 // and border.'
 .wc-panel-type-feature {
-  @include padded-box;
+  @include padded-box($pad: $wc-panel-feature-padding);
 }
 
 // #############################################################################
@@ -57,7 +57,9 @@
 // TYPE FOOTER
 // #############################################################################
 footer {
-  padding: $wc-gap-normal;
+  @if ($wc-panel-footer-padding != 0) {
+    padding: $wc-panel-footer-padding;
+  }
 }
 
 // #############################################################################
