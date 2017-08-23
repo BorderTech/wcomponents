@@ -212,7 +212,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * @return the tab which was added to the tab set.
 	 */
 	public WTab addTab(final WComponent content, final String tabName) {
-		WTab tab = new WTab(content, tabName, TabMode.LAZY);
+		WTab tab = new WTab(content, tabName, TabMode.LAZY, (char) 0);
 		add(tab);
 
 		return tab;
@@ -227,7 +227,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * @return the tab which was added to the tab set.
 	 */
 	public WTab addTab(final WComponent content, final WDecoratedLabel label) {
-		WTab tab = new WTab(content, label, TabMode.LAZY);
+		WTab tab = new WTab(content, label, TabMode.LAZY, (char) 0);
 		add(tab);
 
 		return tab;
@@ -242,7 +242,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * @return the tab which was added to the tab set.
 	 */
 	public WTab addTab(final WComponent content, final String tabName, final TabMode mode) {
-		WTab tab = new WTab(content, tabName, mode);
+		WTab tab = new WTab(content, tabName, mode, (char) 0);
 		add(tab);
 
 		return tab;
@@ -289,7 +289,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * @return the tab which was added to the tab set.
 	 */
 	public WTab addTab(final WComponent content, final WDecoratedLabel label, final TabMode mode) {
-		WTab tab = new WTab(content, label, mode);
+		WTab tab = new WTab(content, label, mode, (char) 0);
 		add(tab);
 
 		return tab;
@@ -304,8 +304,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * @param accessKey the access key used to activate the tab.
 	 * @return the tab which was added to the tab set.
 	 */
-	public WTab addTab(final WComponent content, final WDecoratedLabel label, final TabMode mode,
-			final char accessKey) {
+	public WTab addTab(final WComponent content, final WDecoratedLabel label, final TabMode mode, final char accessKey) {
 		WTab tab = new WTab(content, label, mode, accessKey);
 		add(tab);
 
@@ -771,7 +770,9 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * Sets the action to be executed when the tab selection of this <code>tabset</code> changes.
 	 *
 	 * @param action the action to execute
+	 * @deprecated an action on changing tab is a side-effect and should not be implemented.
 	 */
+	@Deprecated
 	public void setActionOnChange(final Action action) {
 		getOrCreateComponentModel().action = action;
 	}
@@ -780,7 +781,9 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * Gets the action that is executed when the tab selection of this <code>tabset</code> changes.
 	 *
 	 * @return The <code>action</code> associated with this <code>tabset</code>.
+	 * @deprecated an action on changing tab is a side-effect and should not be implemented.
 	 */
+	@Deprecated
 	public Action getActionOnChange() {
 		return getComponentModel().action;
 	}
@@ -790,7 +793,9 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * visible effect on {@link TabSetType#APPLICATION} tab sets.
 	 *
 	 * @param showHeadOnly true if only the "head" part of the tab label should be shown.
+	 * @deprecated 1.4.7 an irrelevant hangover from a bad design decision - never implemented.
 	 */
+	@Deprecated
 	public void setShowHeadOnly(final boolean showHeadOnly) {
 		getOrCreateComponentModel().showHeadOnly = showHeadOnly;
 	}
@@ -800,7 +805,9 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * a visible effect on {@link TabSetType#APPLICATION} tab sets.
 	 *
 	 * @return true if only the "head" part of the tab label should be shown.
+	 * @deprecated 1.4.7 an irrelevant hangover from a bad design decision - never implemented.
 	 */
+	@Deprecated
 	public boolean isShowHeadOnly() {
 		return getComponentModel().showHeadOnly;
 	}
@@ -897,7 +904,9 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 
 		/**
 		 * Show head only flag.
+		 * @deprecated 1.4.7 an irrelevant hangover from a bad design decision - never implemented.
 		 */
+		@Deprecated
 		private boolean showHeadOnly;
 
 		/**
