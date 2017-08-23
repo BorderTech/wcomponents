@@ -205,7 +205,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	}
 
 	/**
-	 * Adds a tab to the tab set with a TabMode of LAZY
+	 * Adds a tab to the tab set with a TabMode of LAZY.
 	 *
 	 * @param content the tab set content.
 	 * @param tabName the tab name.
