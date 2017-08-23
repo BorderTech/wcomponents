@@ -205,6 +205,35 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	}
 
 	/**
+	 * Adds a tab to the tab set with a TabMode of LAZY
+	 *
+	 * @param content the tab set content.
+	 * @param tabName the tab name.
+	 * @return the tab which was added to the tab set.
+	 */
+	public WTab addTab(final WComponent content, final String tabName) {
+		WTab tab = new WTab(content, tabName, TabMode.LAZY);
+		add(tab);
+
+		return tab;
+	}
+
+
+	/**
+	 * Adds a LAZY mode tab to the tab set.
+	 *
+	 * @param content the tab set content.
+	 * @param label the tab's label, which can contain rich content (images or other components).
+	 * @return the tab which was added to the tab set.
+	 */
+	public WTab addTab(final WComponent content, final WDecoratedLabel label) {
+		WTab tab = new WTab(content, label, TabMode.LAZY);
+		add(tab);
+
+		return tab;
+	}
+
+	/**
 	 * Adds a tab to the tab set.
 	 *
 	 * @param content the tab set content.
@@ -237,6 +266,21 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	}
 
 	/**
+	 * Adds a LAZY tab with a given access key to the tab set.
+	 *
+	 * @param content the tab set content.
+	 * @param tabName the tab name.
+	 * @param accessKey the access key used to activate the tab.
+	 * @return the tab which was added to the tab set.
+	 */
+	public WTab addTab(final WComponent content, final String tabName, final char accessKey) {
+		WTab tab = new WTab(content, tabName, TabMode.LAZY, accessKey);
+		add(tab);
+
+		return tab;
+	}
+
+	/**
 	 * Adds a tab to the tab set.
 	 *
 	 * @param content the tab set content.
@@ -263,6 +307,21 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	public WTab addTab(final WComponent content, final WDecoratedLabel label, final TabMode mode,
 			final char accessKey) {
 		WTab tab = new WTab(content, label, mode, accessKey);
+		add(tab);
+
+		return tab;
+	}
+
+	/**
+	 * Adds a LAZY tab with a given access key to the tab set.
+	 *
+	 * @param content the tab set content.
+	 * @param label the tab's label, which can contain rich content (images or other components).
+	 * @param accessKey the access key used to activate the tab.
+	 * @return the tab which was added to the tab set.
+	 */
+	public WTab addTab(final WComponent content, final WDecoratedLabel label, final char accessKey) {
+		WTab tab = new WTab(content, label, TabMode.LAZY, accessKey);
 		add(tab);
 
 		return tab;
