@@ -212,10 +212,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * @return the tab which was added to the tab set.
 	 */
 	public WTab addTab(final WComponent content, final String tabName) {
-		WTab tab = new WTab(content, tabName, TabMode.LAZY, (char) 0);
-		add(tab);
-
-		return tab;
+		return addTab(new WTab(content, tabName, TabMode.LAZY, (char) 0));
 	}
 
 
@@ -227,10 +224,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * @return the tab which was added to the tab set.
 	 */
 	public WTab addTab(final WComponent content, final WDecoratedLabel label) {
-		WTab tab = new WTab(content, label, TabMode.LAZY, (char) 0);
-		add(tab);
-
-		return tab;
+		return addTab(new WTab(content, label, TabMode.LAZY, (char) 0));
 	}
 
 	/**
@@ -242,10 +236,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * @return the tab which was added to the tab set.
 	 */
 	public WTab addTab(final WComponent content, final String tabName, final TabMode mode) {
-		WTab tab = new WTab(content, tabName, mode, (char) 0);
-		add(tab);
-
-		return tab;
+		return addTab(new WTab(content, tabName, mode, (char) 0));
 	}
 
 	/**
@@ -257,12 +248,8 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * @param accessKey the access key used to activate the tab.
 	 * @return the tab which was added to the tab set.
 	 */
-	public WTab addTab(final WComponent content, final String tabName, final TabMode mode,
-			final char accessKey) {
-		WTab tab = new WTab(content, tabName, mode, accessKey);
-		add(tab);
-
-		return tab;
+	public WTab addTab(final WComponent content, final String tabName, final TabMode mode, final char accessKey) {
+		return addTab(new WTab(content, tabName, mode, accessKey));
 	}
 
 	/**
@@ -274,10 +261,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * @return the tab which was added to the tab set.
 	 */
 	public WTab addTab(final WComponent content, final String tabName, final char accessKey) {
-		WTab tab = new WTab(content, tabName, TabMode.LAZY, accessKey);
-		add(tab);
-
-		return tab;
+		return addTab(new WTab(content, tabName, TabMode.LAZY, accessKey));
 	}
 
 	/**
@@ -289,10 +273,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * @return the tab which was added to the tab set.
 	 */
 	public WTab addTab(final WComponent content, final WDecoratedLabel label, final TabMode mode) {
-		WTab tab = new WTab(content, label, mode, (char) 0);
-		add(tab);
-
-		return tab;
+		return addTab(new WTab(content, label, mode, (char) 0));
 	}
 
 	/**
@@ -305,10 +286,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * @return the tab which was added to the tab set.
 	 */
 	public WTab addTab(final WComponent content, final WDecoratedLabel label, final TabMode mode, final char accessKey) {
-		WTab tab = new WTab(content, label, mode, accessKey);
-		add(tab);
-
-		return tab;
+		return addTab(new WTab(content, label, mode, accessKey));
 	}
 
 	/**
@@ -320,10 +298,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * @return the tab which was added to the tab set.
 	 */
 	public WTab addTab(final WComponent content, final WDecoratedLabel label, final char accessKey) {
-		WTab tab = new WTab(content, label, TabMode.LAZY, accessKey);
-		add(tab);
-
-		return tab;
+		return addTab(new WTab(content, label, TabMode.LAZY, accessKey));
 	}
 
 	/**
@@ -339,11 +314,22 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * Adds a tab to the tab set.
 	 *
 	 * @param tab the tab to add.
-	 * @deprecated use {@link #addTab(WComponent, String, TabMode)}
+	 * @deprecated use {@link #addTab(WComponent, String)} or overloaded version.
 	 */
 	@Deprecated
 	public void add(final WTab tab) {
+		addTab(tab);
+	}
+
+	/**
+	 * Adds a {@link WTab} to the tab set.
+	 *
+	 * @param tab the tab to add.
+	 * @return the tab which was added to the tab set.
+	 */
+	private WTab addTab(final WTab tab) {
 		super.add(tab);
+		return tab;
 	}
 
 	/**
