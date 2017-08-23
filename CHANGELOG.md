@@ -12,6 +12,7 @@
   - Added methods to WTabSet to allow easier/less verbose creation of tabs by making the TabMode argument optional.
   - Deprecated the unused members `setShowHeadOnly` and `isShowHeadOnly` which have never been implemented and which were a hangover from a very old and rather poor design concept. No replacement: never implemented.
   - Deprecated `setActionOnChange` and `getActionOnChange` as changing tabs should not have a side effect _and_ these actions are inconsistent unless the (no longer supported) `TabMode.SERVER` is used for **all** tabs in the tabset. No replacement: a tabset should not have an action on tab change other than show the relevant tab.
+  - Added `protected addTab(WTab)` as a replacement for the deprecated `public add(WTab)`.
 
 ## Release 1.4.6
 

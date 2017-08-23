@@ -327,7 +327,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * @param tab the tab to add.
 	 * @return the tab which was added to the tab set.
 	 */
-	private WTab addTab(final WTab tab) {
+	protected WTab addTab(final WTab tab) {
 		super.add(tab);
 		return tab;
 	}
