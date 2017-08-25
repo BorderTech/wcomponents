@@ -51,19 +51,6 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 			fbCanvas,
 			BUTTON = new Widget("button");
 
-
-		function getDialogFrameConfig(onclose) {
-			return i18n.translate("imgedit_title").then(function(title) {
-				return {
-					onclose: onclose,
-					id: "wc_img_editor",
-					modal: true,
-					resizable: true,
-					title: title
-				};
-			});
-		}
-
 		this.getCanvas = function() {
 			return fbCanvas;
 		};
@@ -427,6 +414,43 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 			}
 		}
 
+		function getDialogFrameConfig(onclose) {
+			return i18n.translate("imgedit_title").then(function(title) {
+				return {
+					onclose: onclose,
+					id: "wc_img_editor",
+					modal: true,
+					resizable: true,
+					title: title
+				};
+			});
+		}
+
+		function getEditorContext(config, callbacks) {
+			if (config.inline) {
+				var contentContainer = document.getElementById(config.id);
+				if (contentContainer) {
+					return Promise.resolve(callbacks.render(contentContainer));
+				}
+				return Promise.reject("Can not find element", config.id);
+			} else {
+				return getDialogFrameConfig(function() {
+					imageCapture.stop();
+					callbacks.lose();
+				}).then(function(dialogConfig) {
+					callbacks.rendered = function() {
+						dialogFrame.reposition();
+					};
+					if (dialogFrame.isOpen()) {
+						return callbacks.render(dialogFrame.getContent());
+					}
+					return dialogFrame.open(dialogConfig).then(function() {
+						return callbacks.render(dialogFrame.getContent());
+					});
+				});
+			}
+		}
+
 
 		/**
 		 * Builds the editor DOM and displays it to the user.
@@ -438,17 +462,9 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		 * @private
 		 */
 		function getEditor(config, callbacks, file) {
-			return getDialogFrameConfig(function() {
-				imageCapture.stop();
-				callbacks.lose();
-			}).then(function(dialogConfig) {
-				if (dialogFrame.isOpen()) {
-					return renderEditor();
-				}
-				return dialogFrame.open(dialogConfig).then(renderEditor);
-			});
+			callbacks.render = renderEditor;
 
-			function renderEditor() {
+			function renderEditor(contentContainer) {
 				var result = new Promise(function (win, lose) {
 					var container = document.body.appendChild(document.createElement("div")),
 						editorProps = {
@@ -462,7 +478,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 							}
 						},
 						done = function(container) {
-							var dialogContent, eventConfig = attachEventHandlers(container);
+							var eventConfig = attachEventHandlers(container);
 							zoomControls(eventConfig);
 							moveControls(eventConfig);
 							resetControl(eventConfig);
@@ -479,11 +495,13 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 								imageCapture.snapshotControl(eventConfig, container);
 							}
 
-							dialogContent = dialogFrame.getContent();
-							if (dialogContent && container) {
-								dialogContent.innerHTML = "";
-								dialogContent.appendChild(container);
-								dialogFrame.reposition();
+
+							if (contentContainer && container) {
+								contentContainer.innerHTML = "";
+								contentContainer.appendChild(container);
+								if (callbacks.rendered) {
+									callbacks.rendered(contentContainer);
+								}
 							}
 							win(container);
 						};
@@ -507,6 +525,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 				});
 				return result;  // a promise
 			}  // end "renderEditor"
+			return getEditorContext(config, callbacks);
 		}
 
 		function getTranslations(obj) {
