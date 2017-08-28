@@ -6,6 +6,8 @@
 
 ### Bug Fixes
 
+* Fix CSS bug which resulted in a calendar date picker not rendering as expected when in a dialog box #1309.
+
 ### Enhancements
 
 * WTabSet:
