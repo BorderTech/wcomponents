@@ -121,7 +121,7 @@ define(["wc/dom/event",
 						selected.forEach(_moveIt);
 					}
 					// If we are in a WShuffler we will have to manually fire any ajax triggers
-					if ((container = CONTAINER.findAncestor(element))) {
+					if ((container = CONTAINER.findAncestor(element)) && ajaxRegion.getTrigger(container, true)) {
 						ajaxRegion.requestLoad(container, null, true);
 					}
 				}

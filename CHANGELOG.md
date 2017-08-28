@@ -8,6 +8,7 @@
 
 * Fix CSS bug which resulted in a calendar date picker not rendering as expected when in a dialog box #1309.
 * Fix a bug which would cause a self-opening dialog to attempt to reopen itself on click #1311.
+* Fix a bug which could cause erroneous ajax requests #1312.
 
 ### Enhancements
 
