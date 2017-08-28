@@ -70,6 +70,23 @@ public class WImageEditor extends AbstractWComponent {
 	}
 
 	/**
+	 * Determine if the image editor will render inline.
+	 * @return true if it will render inline, otherwise false (will render in popup)
+	 */
+	public boolean getRenderInline() {
+		return getComponentModel().renderInline;
+	}
+
+	/**
+	 * If true then the image editor will render where it is added in the tree instead of in a popup.
+	 * @param renderInline Set to true to render inline.
+	 */
+	public void setRenderInline(final boolean renderInline) {
+		ImageEditModel model = getOrCreateComponentModel();
+		model.renderInline = renderInline;
+	}
+
+	/**
 	 * Retrieve the editor size.
 	 * <p>
 	 * Returns the size set via {@link #setSize(Dimension)}.
@@ -123,5 +140,6 @@ public class WImageEditor extends AbstractWComponent {
 		private Dimension size;
 		private boolean useCamera;
 		private boolean isFace;
+		private boolean renderInline;
 	}
 }

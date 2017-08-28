@@ -13,6 +13,8 @@
   - Deprecated the unused members `setShowHeadOnly` and `isShowHeadOnly` which have never been implemented and which were a hangover from a very old and rather poor design concept. No replacement: never implemented.
   - Deprecated `setActionOnChange` and `getActionOnChange` as changing tabs should not have a side effect _and_ these actions are inconsistent unless the (no longer supported) `TabMode.SERVER` is used for **all** tabs in the tabset. No replacement: a tabset should not have an action on tab change other than show the relevant tab.
   - Added `protected addTab(WTab)` as a replacement for the deprecated `public add(WTab)`.
+* WImageEditor:
+  - Can now render the editor controls inline (as opposed to the default, in a popup).
 
 ## Release 1.4.6
 
