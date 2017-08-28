@@ -36,6 +36,8 @@
   }
 
   dialog & {
+    position: fixed;
+    right: auto;
     z-index: $wc-z-index-common-in-dialog;
   }
 
@@ -96,18 +98,9 @@
       height: 100%;
       left: 0 !important;
       position: fixed;
-      right: 0;
+      right: 0 !important;
       top: 0 !important;
       width: 100%;
-
-      &.wc_colwest { // right collision
-        left: auto;
-      }
-
-      dialog & {
-        position: fixed;
-        right: 0;
-      }
 
       > .wc-row {
         display: block;
