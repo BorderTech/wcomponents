@@ -58,6 +58,21 @@ public class WMultiDropdownExample extends WContainer {
 		dropdown.setMaxSelect(5);
 		layout.addField("Dynamic multi-dropdown 6", dropdown);
 
+
+		String[] longOptions = {"a long option has some content which should be longer than the with of a mobile viewport",
+			"b long option has some content which should be longer than the with of a mobile viewport",
+			"c long option has some content which should be longer than the with of a mobile viewport",
+			"d long option has some content which should be longer than the with of a mobile viewport",
+			"e long option has some content which should be longer than the with of a mobile viewport",
+			"f long option has some content which should be longer than the with of a mobile viewport",
+			"g long option has some content which should be longer than the with of a mobile viewport",
+			"h long option has some content which should be longer than the with of a mobile viewporth",
+			"i long option has some content which should be longer than the with of a mobile viewport",
+			"j long option has some content which should be longer than the with of a mobile viewport"};
+
+		dropdown = new WMultiDropdown(longOptions);
+		layout.addField("Long options", dropdown);
+
 		WButton refresh = new WButton("Refresh");
 		add(refresh);
 	}
