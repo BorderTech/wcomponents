@@ -15,6 +15,7 @@
  * @requires module:wc/timers
  * @requires module:wc/config
  * @requires module:wc/mixin
+ * @requires module:wc/debounce
  * @requires module:wc/dom/textContent
  *
  * @todo Document private members, fix source order.
@@ -32,8 +33,10 @@ define(["wc/string/escapeRe",
 	"wc/timers",
 	"wc/config",
 	"wc/mixin",
+	"wc/debounce",
 	"wc/dom/textContent"],
-	function(escapeRe, tag, uid, classList, initialise, attribute, shed, event, group, i18n, timers, wcconfig, mixin, textContent) {
+	function(escapeRe, tag, uid, classList, initialise, attribute, shed, event, group, i18n, timers, wcconfig, mixin,
+	         debounce, textContent) {
 		"use strict";
 
 		/**
@@ -49,7 +52,7 @@ define(["wc/string/escapeRe",
 					debounceDelay: 250
 				},
 				fireOnchange = false,
-				searchTimer,
+				debouncedSearch,
 				NO_ENDS_WITH_STRING_RE = /[^ ]$/,
 				/* NOTE: moved the initialisation of ALLOWED to initialise because
 				 * parts of AJAX which i18n depend upon are not yet available in IE */
@@ -57,7 +60,7 @@ define(["wc/string/escapeRe",
 				CLASS_NOT_FOUND = "wc_selsch_notfound",
 				CLASS_FEEDBACK = "wc_selsch",
 				searchElementId,
-				regexCache = {starts: {}, contains: {}};
+				regexCache = { starts: {}, contains: {} };
 
 
 			function needsSelectSearch(element) {
@@ -199,10 +202,10 @@ define(["wc/string/escapeRe",
 			 * @param search The string to search for
 			 */
 			function queueSearch(element, search) {
-				if (searchTimer) {
-					timers.clearTimeout(searchTimer);
+				if (!debouncedSearch) {
+					debouncedSearch = debounce(highlightSearch, config.debounceDelay);
 				}
-				searchTimer = timers.setTimeout(highlightSearch, config.debounceDelay, element, search);
+				debouncedSearch(element, search);
 			}
 
 			/*
