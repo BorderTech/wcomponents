@@ -2,6 +2,7 @@ define(["wc/dom/classList",
 	"wc/dom/event",
 	"wc/dom/initialise",
 	"wc/dom/shed",
+	"wc/dom/tag",
 	"wc/dom/uid",
 	"wc/dom/Widget",
 	"wc/i18n/i18n",
@@ -12,7 +13,7 @@ define(["wc/dom/classList",
 	"wc/ui/dialogFrame",
 	"wc/ui/getForm",
 	"wc/ui/modalShim"],
-	function(classList, event, initialise, shed, uid, Widget, i18n, ajaxRegion, processResponse, eagerLoader, timers, dialogFrame, getForm, modalShim) {
+	function(classList, event, initialise, shed, tag, uid, Widget, i18n, ajaxRegion, processResponse, eagerLoader, timers, dialogFrame, getForm, modalShim) {
 		"use strict";
 
 		/**
@@ -143,17 +144,34 @@ define(["wc/dom/classList",
 			 * @returns {?Element} a dialog trigger element if found
 			 */
 			function getTrigger(element, ignoreAncestor) {
-				var parent = element,
-					id = parent.id;
-				if (registry[id]) {
+				var parent,
+					id = element.id,
+					regObj;
+
+				if (element.tagName === tag.FORM) {
+					return null;
+				}
+				if ((regObj = registry[id])) {
+					if (regObj.id === id) {
+						// Auto open on load dialogs are their own trigger
+						return null;
+					}
 					return element;
 				}
 				if (ignoreAncestor) {
 					return null;
 				}
+				parent = element;
 				while ((parent = parent.parentNode) && parent.nodeType === Node.ELEMENT_NODE) {
+					if (parent.tagName === tag.FORM) {
+						return null;
+					}
 					if ((id = parent.id)) {
-						if (registry[id]) {
+						if ((regObj = registry[id])) {
+							if (regObj.id === id) {
+								// Auto open on load dialogs are their own trigger
+								return null;
+							}
 							return parent;
 						}
 					}
