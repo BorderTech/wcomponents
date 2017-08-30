@@ -1,6 +1,15 @@
-.wc_mfc {
-  input,
-  select {
-    max-width: 85%;
+@import 'mixins/common';
+
+@if ($wc-use-respond == 1) {
+  .wc_mfc {
+    &.wc-fset-wrapper.wc_noborder {
+      width: 100%;
+    }
+
+    input,
+    select {
+      max-width: 90%;
+      width: initial;
+    }
   }
 }

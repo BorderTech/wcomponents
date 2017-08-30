@@ -1,16 +1,19 @@
+@import 'mixins/common';
 
-.wc-togglebutton {
-  &.wc_ro,
-  > button {
-    &::after {
-      height: 100%;
+@if ($wc-use-respond == 1) {
+  .wc-togglebutton {
+    &.wc_ro,
+    > button {
+      &::after {
+        height: 100%;
+      }
     }
-  }
 
-  &.wc_ro_sel,
-  > [aria-checked='true'] {
-    &::after {
-      left: 50%;
+    &.wc_ro_sel,
+    > [aria-checked='true'] {
+      &::after {
+        left: 50%;
+      }
     }
   }
 }

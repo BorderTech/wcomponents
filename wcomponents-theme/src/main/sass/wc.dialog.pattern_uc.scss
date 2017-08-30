@@ -1,40 +1,39 @@
 @import 'mixins/common';
 
-dialog {
-
-  &[open] {
-    display: block;
-  }
-
-  > header {
-    display: block;
-
-    > h1 { // the title
-      display: inline-block;
-      max-width: 90%;
+@if ($wc-use-respond == 1) {
+  dialog {
+    &[open] {
+      display: block;
     }
 
-    > span { // the header control 'block'
-      display: inline-block;
-      float: right;
+    > header {
+      display: block;
+
+      > h1 { // the title
+        display: inline-block;
+        max-width: 90%;
+      }
+
+      > span { // the header control 'block'
+        display: inline-block;
+        float: right;
+      }
+    }
+
+    > div { // dialog content container
+      @include border-box;
+      clear: both;
+      display: block;
+      height: 100%;
+      overflow: auto;
+    }
+
+    > footer {
+      display: block;
     }
   }
 
-  > div { // dialog content container
-    @include border-box;
-    clear: both;
-    display: block;
-    height: 100%;
-    overflow: auto;
-  }
-
-  > footer {
-    display: block;
-  }
-}
-
-@if ($wc-use-respond == 1 and $wc-use-respond-dialog == 1) {
-  @include respond-phonelike {
+  @if ($wc-use-respond-dialog == 1) {
     dialog {
       @include border-box;
       bottom: 0;
