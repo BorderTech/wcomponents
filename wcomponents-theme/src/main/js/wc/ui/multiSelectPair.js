@@ -418,7 +418,8 @@ define(["wc/dom/attribute",
 			 */
 			function dblClickEvent($event) {
 				var selectList,
-					element;
+					element,
+					container;
 				if ($event.defaultPrevented) {
 					return;
 				}
@@ -426,7 +427,7 @@ define(["wc/dom/attribute",
 
 				if ((element.tagName === tag.OPTION || element.tagName === tag.SELECT) && (selectList = SELECT.findAncestor(element)) && !shed.isDisabled(selectList)) {
 					addRemoveSelected(selectList);
-					if (ajaxRegion.getTrigger(selectList)) {
+					if ((container = CONTAINER.findAncestor(selectList)) && ajaxRegion.getTrigger(container, true)) {
 						ajaxRegion.requestLoad(selectList);
 					}
 				}
