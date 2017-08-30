@@ -1,19 +1,17 @@
 @import 'mixins/common';
 
 @if ($wc-use-respond == 1) {
-  @include respond-phonelike {
-    .wc_table_bottom_controls,
-    .wc_table_top_controls {
+  .wc_table_bottom_controls,
+  .wc_table_top_controls {
 
-      > div {
+    > div {
+      display: block;
+    }
+
+    .wc_table_pag_cont {
+      > span,
+      > label {
         display: block;
-      }
-
-      .wc_table_pag_cont {
-        > span,
-        > label {
-          display: block;
-        }
       }
     }
   }

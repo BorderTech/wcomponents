@@ -1,9 +1,11 @@
 @import 'mixins/common';
 
-[role='treeitem'] > .wc_leaf_vopener + button {
-  width: initial;
-}
+@if ($wc-use-respond == 1) {
+  [role='treeitem'] > .wc_leaf_vopener + button {
+    width: initial;
+  }
 
-.wc_htree .wc_leaf_hopener {
-  float: right;
+  .wc_htree .wc_leaf_hopener {
+    float: right;
+  }
 }
