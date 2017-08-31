@@ -1,6 +1,10 @@
-.wc_inputwidth  > .wc-input  > [role='combobox'] {
-  &,
-  > [role='textbox'] {
-    width: initial;
+@import 'mixins/common';
+
+@if ($wc-use-respond == 1) {
+  .wc_inputwidth  > .wc-input  > [role='combobox'] {
+    &,
+    > [role='textbox'] {
+      width: initial;
+    }
   }
 }

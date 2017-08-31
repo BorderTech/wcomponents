@@ -1,7 +1,11 @@
-.wc_msgbox {
-  > h1 > span {
-    // override offscreen
-    // sass-lint:disable no-important
-    position: static !important;
+@import 'mixins/common';
+
+@if ($wc-use-respond == 1) {
+  .wc_msgbox {
+    > h1 > span {
+      // override offscreen
+      // sass-lint:disable no-important
+      position: static !important;
+    }
   }
 }

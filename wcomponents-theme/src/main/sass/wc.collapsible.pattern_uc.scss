@@ -1,10 +1,14 @@
-summary {
-  > h1,
-  > h2,
-  > h3,
-  > h4,
-  > h5,
-  > h6 {
-    width: auto;
+@import 'mixins/common';
+
+@if ($wc-use-respond == 1) {
+  summary {
+    > h1,
+    > h2,
+    > h3,
+    > h4,
+    > h5,
+    > h6 {
+      width: auto;
+    }
   }
 }
