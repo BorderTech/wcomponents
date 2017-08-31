@@ -1,15 +1,7 @@
 /**
  * Present a message to the user.
  */
-define(["wc/timers"], function(timers) {
-	var messageTimer;
-
-	function debounce(func) {
-		if (messageTimer) {
-			timers.clearTimeout(messageTimer);
-		}
-		messageTimer = timers.setTimeout(func, 250);
-	}
+define(["wc/debounce"], function(debounce) {
 
 	function formatMessage(obj) {
 		if (!obj) {
@@ -32,26 +24,33 @@ define(["wc/timers"], function(timers) {
 		return msg;
 	}
 
+	function confirm(message, callback) {
+		var msg = formatMessages(message),
+			result = window.confirm(msg);
+		if (callback) {
+			try {
+				callback(result);
+			} catch (ex) {
+				console.warn(ex);
+			}
+		}
+		return result;
+	}
 
-	return {
-		alert: function(message) {
-			debounce(function() {
-				var msg = formatMessages(message);
-				window.alert(msg);
-			});
-		},
+
+	var prompt = {
+		alert: debounce(function(message) {
+			var msg = formatMessages(message);
+			window.alert(msg);
+		}, 250),
+		confirmAsync: debounce(confirm, 250),
 		confirm: function(message, callback) {
-			debounce(function() {
-				var msg = formatMessages(message),
-					result = window.confirm(msg);
-				if (callback) {
-					try {
-						callback(result);
-					} catch (ex) {
-						console.warn(ex);
-					}
-				}
-			});
+			if (callback) {
+				prompt.confirmAsync(message, callback);
+			} else {
+				return confirm(message);
+			}
 		}
 	};
+	return prompt;
 });
