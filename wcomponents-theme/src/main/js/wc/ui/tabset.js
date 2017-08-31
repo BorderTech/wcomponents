@@ -32,9 +32,10 @@ define(["wc/array/toArray",
 	"wc/ui/ajax/processResponse",
 	"wc/dom/event",
 	"wc/timers",
+	"wc/debounce",
 	"wc/dom/getStyle"],
 	function(toArray, ariaAnalog, formUpdateManager, getFilteredGroup, initialise, shed, Widget, containerload,
-		focus, classList, viewportUtils, processResponse, event, timers, getStyle) {
+		focus, classList, viewportUtils, processResponse, event, timers, debounce, getStyle) {
 		"use strict";
 
 		/**
@@ -77,12 +78,14 @@ define(["wc/array/toArray",
 				 * @private
 				 */
 				lastTabId,
+				resizeEvent = debounce(function() {
+					toggleToFromAccordions();
+				}, 100),
 				CONVERTED = "data-wc-converted",
 				MULTISELECT = "aria-multiselectable",
 				TRUE = "true",
 				FALSE = "false",
 				ACCORDION_CLASS = "wc-tabset-type-accordion",
-				resizeTimer,
 				/**
 				 * @constant {String} OLD_HEIGHT The name of the attribute used to hold the pre-ajax height of a target
 				 * container if it was specified in a style attribute. Used to reset the height of the container to its
@@ -812,7 +815,7 @@ define(["wc/array/toArray",
 			 * Find tabset in a container and convert them if necessary.
 			 * @function
 			 * @private
-			 * @param {Element} container
+			 * @param {Element} [container]
 			 */
 			function toggleToFromAccordions(container) {
 				var candidates,
@@ -833,18 +836,6 @@ define(["wc/array/toArray",
 				} else {
 					candidates.forEach(accordionToTabset);
 				}
-			}
-
-			/**
-			 * Convert tabsets to/from accordions on resize.
-			 * @function
-			 * @private
-			 */
-			function resizeEvent(/* $event */) {
-				if (resizeTimer) {
-					timers.clearTimeout(resizeTimer);
-				}
-				resizeTimer = timers.setTimeout(toggleToFromAccordions, 100);
 			}
 
 			/**

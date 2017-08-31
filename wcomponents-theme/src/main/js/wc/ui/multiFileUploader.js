@@ -18,11 +18,13 @@ define(["wc/dom/attribute",
 	"wc/dom/focus",
 	"wc/isNumeric",
 	"wc/ui/ajaxRegion",
+	"wc/config",
+	"wc/debounce",
 	"wc/dom/toDocFragment",
 	"wc/ui/errors",
 	"wc/ui/fieldset"],
 	function (attribute, prefetch, event, initialise, uid, Trigger, classList, sprintf, has, i18n, getFileSize,
-		accepted, Widget, formUpdateManager, filedrop, ajax, prompt, focus, isNumeric, ajaxRegion,
+		accepted, Widget, formUpdateManager, filedrop, ajax, prompt, focus, isNumeric, ajaxRegion, wcconfig, debounce,
 		toDocFragment, errors) {
 		"use strict";
 
@@ -56,6 +58,7 @@ define(["wc/dom/attribute",
 			 * @requires module:wc/config
 			 */
 			instance = new MultiFileUploader(),
+			changed = {},
 			CLASS_NAME = "wc-multifileupload",
 			COL_ATTR = "data-wc-cols",
 			MAX_FILES_ATTR = "data-wc-maxfiles",
@@ -154,7 +157,7 @@ define(["wc/dom/attribute",
 					fileInfo = fileInfoWd.findAncestor(element);
 					if (fileInfo) {
 						if (removeButtonWd.isOneOfMe(element)) {
-							proceed = window.confirm(i18n.get("file_confirmdelete"));
+							proceed = prompt.confirm(i18n.get("file_confirmdelete"));
 							if (proceed) {
 								removeFileItem(fileInfo);
 							}
@@ -182,13 +185,18 @@ define(["wc/dom/attribute",
 							xhr.abort();
 						}
 					}
-					filesChanged(container.id);
-					reflowFileItemsAfterRemove(container);
+					changed[container.id] = changed[container.id] || debounce(function(id) {
+						filesChanged(id);
+						reflowFileItemsAfterRemove(id);
+						delete changed[id];
+					}, 300);
+					changed[container.id](container.id);
 				}
 			}
 
-			function reflowFileItemsAfterRemove(container) {
-				var itemContainer, itemContainers, i, items, itemContainerCount,
+			function reflowFileItemsAfterRemove(id) {
+				var container = document.getElementById(id),
+					itemContainer, itemContainers, i, items, itemContainerCount,
 					cols = container.getAttribute(COL_ATTR);
 				if (container.hasAttribute(COL_ATTR) && (cols = container.getAttribute(COL_ATTR)) && isNumeric(cols) && cols > 1) {
 					// cols 0 and cols 1 are handled as a single list
@@ -234,7 +242,7 @@ define(["wc/dom/attribute",
 				if (input) {
 					focus.setFocusRequest(input, function () {
 						/*
-						 * The focus is primarily necesary to bootstrap the file widget.
+						 * The focus is primarily necessary to bootstrap the file widget.
 						 * This is critical if the file widget is needs to be wired up by
 						 * other controllers such as ajax trigger.
 						 */
@@ -251,7 +259,7 @@ define(["wc/dom/attribute",
 			 * @param {boolean} [suppressEdit] true if image editing should be bypassed regardless of whether it is configured or not.
 			 */
 			function checkDoUpload(element, files, suppressEdit) {
-				var skipEdit, editorId, testObj, maxFileInfo, filesToAdd,
+				var testObj, maxFileInfo, filesToAdd,
 					useFilesArg = (!element.value && (files && files.length > 0)),
 					done = function (message) {
 						instance.clearInput(element);
@@ -261,41 +269,44 @@ define(["wc/dom/attribute",
 					};
 				getUploader(function (uploader) { // this wraps the possible async wait for the fauxjax module to load, otherwise clearInput has been called before the upload begins
 					var checkAndUpload = function (files) {
-						var message;
-						try {
-							if ((message = checkFileSize(element, testObj))) {
-								return;
+							var message;
+							try {
+								if ((message = checkFileSize(element, testObj))) {
+									return;
+								}
+								if (!accepted(testObj)) {
+									message = i18n.get("file_wrongtype", element.accept);
+									return;
+								}
+								if (inputElementWd.isOneOfMe(element)) {
+									commenceUpload({
+										uploader: uploader,
+										element: element,
+										files: files
+									});
+								}
+							} finally {
+								done(message);
 							}
-							if (!accepted(testObj)) {
-								message = i18n.get("file_wrongtype", element.accept);
-								return;
-							}
-							if (inputElementWd.isOneOfMe(element)) {
-								commenceUpload({
-									uploader: uploader,
-									element: element,
-									files: files
+						},
+						upload = function(obj) {
+							var editorId = element.getAttribute("data-wc-editor"),
+								skipEdit = suppressEdit || (has("ie") > 0 && has("ie") < 10);
+							if (!skipEdit && editorId) {
+								require(["wc/ui/imageEdit"], function (imageEdit) {
+									obj.editorId = editorId;
+									imageEdit.editFiles(obj, checkAndUpload, done);
 								});
+							} else {
+								checkAndUpload(obj.files);
 							}
-						} finally {
-							done(message);
-						}
-					};
+						};
 					if (element.value || useFilesArg) {
 						testObj = useFilesArg ? {files: files, name: element.name, value: element.value, accept: element.accept} : element;
 						filesToAdd = (testObj.files ? testObj.files.length : 1);
 						maxFileInfo = checkMaxFiles(element, filesToAdd);
 						if (maxFileInfo.valid) {
-							editorId = element.getAttribute("data-wc-editor");
-							skipEdit = suppressEdit || (has("ie") > 0 && has("ie") < 10);
-							if (!skipEdit && editorId) {
-								require(["wc/ui/imageEdit"], function (imageEdit) {
-									testObj.editorId = editorId;
-									imageEdit.editFiles(testObj, checkAndUpload, done);
-								});
-							} else {
-								checkAndUpload(testObj.files);
-							}
+							upload(testObj);
 						} else {
 							done(i18n.get("file_toomany", filesToAdd, maxFileInfo.max, maxFileInfo.before));
 						}
@@ -357,13 +368,28 @@ define(["wc/dom/attribute",
 			 * @returns {Object} the property 'valid' will be false if the maxFiles count will be exceeded
 			 */
 			function checkMaxFiles(element, newFileCount) {
-				var currentFiles,
+				var message,
+					config = wcconfig.get("wc/ui/multiFileUploader"),
+					currentFiles,
 					container,
 					result = {
 						valid: true,
 						max: 0,
 						before: 0,
-						after: 0
+						after: 0,
+						removed: 0
+					},
+					fix = function(result) {
+						/*
+							This function implements some pretty dangerous behavior: it will enforce the max file limit
+							by removing already uploaded files to make way for new ones.
+						 */
+						var i, removeCount = result.after - result.max;  // this is how many we need to remove
+						for (i = 0; i < removeCount; i++) {
+							removeFileItem(currentFiles[i]);
+							result.removed++;
+						}
+						result.after -= result.removed;
 					};
 				if (newFileCount) {
 					result.max = getMaxFiles(element);
@@ -374,7 +400,17 @@ define(["wc/dom/attribute",
 							result.before = currentFiles.length;
 							result.after = result.before + newFileCount;
 							if (result.after > result.max) {
-								result.valid = false;
+								if (config && config.overwrite && newFileCount <= result.max) {
+									message = i18n.get("file_confirmoverwrite", newFileCount, result.max, result.before);
+									if (message) {
+										if (prompt.confirm(message)) {
+											fix(result);
+										}
+									} else {
+										fix(result);
+									}
+								}
+								result.valid = (result.after <= result.max);
 							}
 						}
 					}
@@ -408,7 +444,7 @@ define(["wc/dom/attribute",
 			 * @private
 			 * @param {Object} config an object with the following properties:
 			 *    {Element} element A file input element.
-			 *    {Function} callback A funtcion that will be called if and when all of the files are uploaded correctly
+			 *    {Function} callback A function that will be called if and when all of the files are uploaded correctly
 			 *    {File[]} [files] A collection of File items to use instead of element.files.
 			 */
 			function commenceUpload(config) {
@@ -539,7 +575,7 @@ define(["wc/dom/attribute",
 			 */
 			function submitEvent($event) {
 				if (!$event.defaultPrevented && uploader && uploader.getUploading() > 0) {
-					var proceed = window.confirm(i18n.get("file_confirmnav"));
+					var proceed = prompt.confirm(i18n.get("file_confirmnav"));
 					if (!proceed) {
 						$event.preventDefault();
 					}
