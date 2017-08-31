@@ -157,7 +157,7 @@ define(["wc/dom/attribute",
 					fileInfo = fileInfoWd.findAncestor(element);
 					if (fileInfo) {
 						if (removeButtonWd.isOneOfMe(element)) {
-							proceed = window.confirm(i18n.get("file_confirmdelete"));
+							proceed = prompt.confirm(i18n.get("file_confirmdelete"));
 							if (proceed) {
 								removeFileItem(fileInfo);
 							}
@@ -368,7 +368,8 @@ define(["wc/dom/attribute",
 			 * @returns {Object} the property 'valid' will be false if the maxFiles count will be exceeded
 			 */
 			function checkMaxFiles(element, newFileCount) {
-				var config = wcconfig.get("wc/ui/multiFileUploader"),
+				var message,
+					config = wcconfig.get("wc/ui/multiFileUploader"),
 					currentFiles,
 					container,
 					result = {
@@ -400,8 +401,14 @@ define(["wc/dom/attribute",
 							result.after = result.before + newFileCount;
 							if (result.after > result.max) {
 								if (config && config.overwrite && newFileCount <= result.max) {
-									// in this mode we auto-remove existing and replace with new
-									fix(result);
+									message = i18n.get("file_confirmoverwrite", newFileCount, result.max, result.before);
+									if (message) {
+										if (prompt.confirm(message)) {
+											fix(result);
+										}
+									} else {
+										fix(result);
+									}
 								}
 								result.valid = (result.after <= result.max);
 							}
@@ -568,7 +575,7 @@ define(["wc/dom/attribute",
 			 */
 			function submitEvent($event) {
 				if (!$event.defaultPrevented && uploader && uploader.getUploading() > 0) {
-					var proceed = window.confirm(i18n.get("file_confirmnav"));
+					var proceed = prompt.confirm(i18n.get("file_confirmnav"));
 					if (!proceed) {
 						$event.preventDefault();
 					}
