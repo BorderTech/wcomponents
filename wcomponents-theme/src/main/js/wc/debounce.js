@@ -15,7 +15,11 @@ define(["wc/timers"], function(timers) {
 				timers.clearTimeout(timer);
 			}
 			timer = timers.setTimeout(function() {
-				func.apply($this, args);
+				try {
+					func.apply($this, args);
+				} catch (ex) {
+					console.error("Error in debounced function", ex);
+				}
 			}, delay);
 		};
 	}

@@ -78,7 +78,9 @@ define(["wc/array/toArray",
 				 * @private
 				 */
 				lastTabId,
-				resizeEvent = debounce(toggleToFromAccordions, 100),
+				resizeEvent = debounce(function() {
+					toggleToFromAccordions();
+				}, 100),
 				CONVERTED = "data-wc-converted",
 				MULTISELECT = "aria-multiselectable",
 				TRUE = "true",
@@ -813,7 +815,7 @@ define(["wc/array/toArray",
 			 * Find tabset in a container and convert them if necessary.
 			 * @function
 			 * @private
-			 * @param {Element} container
+			 * @param {Element} [container]
 			 */
 			function toggleToFromAccordions(container) {
 				var candidates,
