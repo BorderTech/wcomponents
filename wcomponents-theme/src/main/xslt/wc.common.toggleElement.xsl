@@ -37,6 +37,7 @@
 			</xsl:attribute>
 			<li>
 				<xsl:call-template name="toggleElement">
+					<xsl:with-param name="id" select="concat($id,'-ex')"/>
 					<xsl:with-param name="name" select="$id"/>
 					<xsl:with-param name="value" select="'expand'"/>
 					<xsl:with-param name="text"><xsl:text>{{#i18n}}expandall{{/i18n}}</xsl:text></xsl:with-param>
@@ -45,6 +46,7 @@
 			</li>
 			<li>
 				<xsl:call-template name="toggleElement">
+					<xsl:with-param name="id" select="concat($id,'-col')"/>
 					<xsl:with-param name="name" select="$id"/>
 					<xsl:with-param name="value" select="'collapse'"/>
 					<xsl:with-param name="text"><xsl:text>{{#i18n}}collapseall{{/i18n}}</xsl:text></xsl:with-param>
@@ -88,6 +90,7 @@
 						<xsl:value-of select="concat('wc_', local-name(.), ' wc_seltog')"/>
 					</xsl:variable>
 					<xsl:call-template name="toggleElement">
+						<xsl:with-param name="id" select="concat($id,'-all')"/>
 						<xsl:with-param name="name" select="$name"/>
 						<xsl:with-param name="value" select="'all'"/>
 						<xsl:with-param name="class" select="$subClass"/>
@@ -104,6 +107,7 @@
 						</xsl:with-param>
 					</xsl:call-template>
 					<xsl:call-template name="toggleElement">
+						<xsl:with-param name="id" select="concat($id,'-none')"/>
 						<xsl:with-param name="name" select="$name"/>
 						<xsl:with-param name="value" select="'none'"/>
 						<xsl:with-param name="class" select="$subClass"/>
@@ -176,6 +180,7 @@
 
 	<!-- Helper templates and keys for common state toggling elements. -->
 	<xsl:template name="toggleElement">
+		<xsl:param name="id" select="@id"/>
 		<xsl:param name="name" select="''"/>
 		<xsl:param name="value" select="''"/>
 		<xsl:param name="text" select="''"/>
@@ -187,7 +192,7 @@
 				<xsl:value-of select="concat(' ',$class)"/>
 			</xsl:if>
 		</xsl:variable>
-		<button role="radio" class="{$localClass}" data-wc-value="{$value}" type="button">
+		<button id="{$id}" role="radio" class="{$localClass}" data-wc-value="{$value}" type="button">
 			<xsl:if test="$name ne ''">
 				<xsl:attribute name="data-wc-name">
 					<xsl:value-of select="$name"/>
