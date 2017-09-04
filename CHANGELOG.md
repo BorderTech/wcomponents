@@ -6,6 +6,9 @@
 
 ### Enhancements
 
+* Added "application/dicom" to mimemap.json #1321.
+* Removed colormap.xml as it is not being used: use colormap.json instead.
+
 ### Bug Fixes
 
 * Fixed an XSLT bug which caused WTable's expand-all button to fail when row expansion is LAZY or DYNAMIC #1319.

@@ -160,5 +160,6 @@
 	"application/vnd.oasis.opendocument.formula": ["odf"],
 	"application/vnd.oasis.opendocument.database": ["odb"],
 	"application/vnd.oasis.opendocument.image": ["odi"],
-	"application/vnd.openofficeorg.extension": ["oxt"]
+	"application/vnd.openofficeorg.extension": ["oxt"],
+	"application/dicom": ["dcm"]
 }
