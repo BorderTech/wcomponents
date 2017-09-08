@@ -43,6 +43,20 @@ public class WDropdownExample extends WContainer {
 	private final WFieldLayout layout = new WFieldLayout();
 
 	/**
+	 * Used to test how overlap is handled on mobiles.
+	 */
+	private static final  String[] LONG_OPTIONS = {"a long option has some content which should be longer than the with of a mobile viewport",
+			"b long option has some content which should be longer than the with of a mobile viewport",
+			"c long option has some content which should be longer than the with of a mobile viewport",
+			"d long option has some content which should be longer than the with of a mobile viewport",
+			"e long option has some content which should be longer than the with of a mobile viewport",
+			"f long option has some content which should be longer than the with of a mobile viewport",
+			"g long option has some content which should be longer than the with of a mobile viewport",
+			"h long option has some content which should be longer than the with of a mobile viewporth",
+			"i long option has some content which should be longer than the with of a mobile viewport",
+			"j long option has some content which should be longer than the with of a mobile viewport"};
+
+	/**
 	 * Creates a WDropdownExample.
 	 */
 	public WDropdownExample() {
@@ -145,6 +159,9 @@ public class WDropdownExample extends WContainer {
 		dropdown.setType(WDropdown.DropdownType.COMBO);
 		dropdown.setDisabled(true);
 		addFieldToLayout(dropdown, "Disabled combo with cached data from a look up table", null);
+
+		dropdown = new WDropdown(LONG_OPTIONS);
+		addFieldToLayout(dropdown, "Dropdown with long options", null);
 
 		add(layout);
 		add(new WButton("submit"));
