@@ -106,6 +106,16 @@ public class BorderLayoutExample extends WContainer {
 		borderLayoutPanel.add(createPanelWithText("West", "This is in the western cell. Do not do this: use ColumnLayout."),
 				BorderLayout.WEST);
 
+		add(new WHeading(HeadingLevel.H3, "Border layout - east/west only with gap"));
+		// East / west with hgap (UC test)
+		borderLayoutPanel = new WPanel();
+		borderLayoutPanel.setLayout(new BorderLayout(Size.LARGE, Size.SMALL));
+		add(borderLayoutPanel);
+		borderLayoutPanel.add(createPanelWithText("East", "This is in the eastern cell. Do not do this: use ColumnLayout."),
+				BorderLayout.EAST);
+		borderLayoutPanel.add(createPanelWithText("West", "This is in the western cell. Do not do this: use ColumnLayout."),
+				BorderLayout.WEST);
+
 		add(new WHeading(HeadingLevel.H2, "Border layout - north/center/south only"));
 		// North / center / south
 		borderLayoutPanel = new WPanel();
