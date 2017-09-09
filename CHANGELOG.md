@@ -6,8 +6,15 @@
 
 ### Enhancements
 
+### Bug Fixes
+
+## Release 1.4.8
+
+### Enhancements
+
 * Added "application/dicom" to mimemap.json #1321.
 * Removed colormap.xml as it is not being used: use colormap.json instead.
+* More Sass workarounds for UC Browser issues #1295.
 
 ### Bug Fixes
 
