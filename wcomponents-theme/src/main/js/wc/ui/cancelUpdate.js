@@ -190,21 +190,21 @@ define(["wc/i18n/i18n",
 			function ajaxSubscriber(element/* , documentFragment, action */) {
 				var form, key;
 				if (element && (form = FORM.findAncestor(element))) {
-					if (!form.id) {  // not likely, but not serialized as the serialize routine will add an id to the form.
+					if (!form.id) { // not likely, but not serialized as the serialize routine will add an id to the form.
 						return;
 					}
 
 					key = form.id;
-					if (!registry[key]) {  // not yet serialized, so no need to recalculate the initial state
+					if (!registry[key]) { // not yet serialized, so no need to recalculate the initial state
 						return;
 					}
 
 					key = form.id + RECALC;
-					if (registry[key]) {  // already going to recalculate so no need to do more
-						return;
-					}
-
-					if (!hasUnsavedChanges(form)) {  // no changes yet so we need to recalc the initial state after we get the response back
+					if (hasUnsavedChanges(form)) {
+						if (registry[key]) {
+							delete registry[key];
+						}
+					} else {
 						registry[key] = true;
 					}
 				}

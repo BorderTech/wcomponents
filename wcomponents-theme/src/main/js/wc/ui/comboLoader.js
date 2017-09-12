@@ -46,14 +46,11 @@ define(["wc/dom/initialise",
 				}
 			}
 
-			function callbackFactory(optionList, element, callback) {
+			function callbackFactory(optionList, element) {
 				return function (data) {
 					try {
 						if (data && (data = SELECT.findDescendant(data))) {
 							selectToOptions(data, optionList);
-						}
-						if (callback && typeof callback === "function") {
-							callback(optionList, element);
 						}
 					} finally {
 						element.removeAttribute(BUSY);
