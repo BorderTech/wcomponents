@@ -81,7 +81,7 @@ public class WLabelExample_Test extends WComponentExamplesTestCase {
 	public void testGetComponentComplex() {
 		SeleniumWComponentsWebDriver driver = getDriver();
 		SeleniumWLabelWebElement label = driver.findWLabel(byWComponentPath("WLabel[6]"));
-		SeleniumWComponentWebElement expected = driver.findElement(byWComponentPath("WCheckBoxSelect[0]"));
+		SeleniumWComponentWebElement expected = driver.findElement(byWComponentPath("WCheckBoxSelect[1]"));
 		Assert.assertEquals(expected.getAttribute("id"), label.getLabelledComponent().getAttribute("id"));
 	}
 
@@ -117,7 +117,7 @@ public class WLabelExample_Test extends WComponentExamplesTestCase {
 	public void testGetByLabelComplex() {
 		String labelText = "Select one or more options";
 		SeleniumWComponentsWebDriver driver = getDriver();
-		SeleniumWComponentWebElement expected = driver.findElement(byWComponentPath("WCheckBoxSelect[0]"));
+		SeleniumWComponentWebElement expected = driver.findElement(byWComponentPath("WCheckBoxSelect[1]"));
 		SeleniumWComponentWebElement actual = driver.findElement(new ByLabel(labelText, false));
 		Assert.assertEquals(expected.getAttribute("id"), actual.getAttribute("id"));
 	}
@@ -126,7 +126,7 @@ public class WLabelExample_Test extends WComponentExamplesTestCase {
 	public void testGetByLabelComplexPartial() {
 		String labelText = "one or more";
 		SeleniumWComponentsWebDriver driver = getDriver();
-		SeleniumWComponentWebElement expected = driver.findElement(byWComponentPath("WCheckBoxSelect[0]"));
+		SeleniumWComponentWebElement expected = driver.findElement(byWComponentPath("WCheckBoxSelect[1]"));
 		SeleniumWComponentWebElement actual = driver.findElement(new ByLabel(labelText, true));
 		Assert.assertEquals(expected.getAttribute("id"), actual.getAttribute("id"));
 	}
