@@ -80,7 +80,7 @@ public class WLabelExample_Test extends WComponentExamplesTestCase {
 	@Test
 	public void testGetComponentComplex() {
 		SeleniumWComponentsWebDriver driver = getDriver();
-		SeleniumWLabelWebElement label = driver.findWLabel(byWComponentPath("WLabel[6]"));
+		SeleniumWLabelWebElement label = driver.findWLabel(byWComponentPath("WLabel[7]"));
 		SeleniumWComponentWebElement expected = driver.findElement(byWComponentPath("WCheckBoxSelect[1]"));
 		Assert.assertEquals(expected.getAttribute("id"), label.getLabelledComponent().getAttribute("id"));
 	}
