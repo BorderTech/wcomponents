@@ -8,6 +8,7 @@
 
 ### Bug Fixes
 
+* Fixed a flaw in update calculation which resulted in unsaved changes warnings not appearing in very specific circumstances #1237.
 * Fixed an error which could cause out-of-viewport labels to be rendered in viewport #1326.
 * Fixed some errors in examples which caused a race which could result in null pointer exceptions #1327.
 
