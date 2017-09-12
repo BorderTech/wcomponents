@@ -434,21 +434,20 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 				}
 				return Promise.reject("Can not find element", config.id);
 			}
-                        return getDialogFrameConfig(function() {
-                                imageCapture.stop();
-                                callbacks.lose();
-                        }).then(function(dialogConfig) {
-                                callbacks.rendered = function() {
-                                        dialogFrame.reposition();
-                                };
-                                if (dialogFrame.isOpen()) {
-                                        return callbacks.render(dialogFrame.getContent());
-                                }
-                                return dialogFrame.open(dialogConfig).then(function() {
-                                        return callbacks.render(dialogFrame.getContent());
-                                });
-                        });
-			
+			return getDialogFrameConfig(function() {
+				imageCapture.stop();
+				callbacks.lose();
+			}).then(function(dialogConfig) {
+				callbacks.rendered = function() {
+					dialogFrame.reposition();
+				};
+				if (dialogFrame.isOpen()) {
+					return callbacks.render(dialogFrame.getContent());
+				}
+				return dialogFrame.open(dialogConfig).then(function() {
+					return callbacks.render(dialogFrame.getContent());
+				});
+			});
 		}
 
 
