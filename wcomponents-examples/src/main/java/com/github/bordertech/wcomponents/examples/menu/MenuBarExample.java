@@ -150,6 +150,12 @@ public class MenuBarExample extends WContainer {
 		itemWithIcon.setHtmlClass(HtmlClassProperties.ICON_HELP_BEFORE);
 		menu.add(itemWithIcon);
 
+		WMenuItem itemWithImage = new WMenuItem(new WDecoratedLabel(new WImage("/image/home.png", "home"), new WText("Home"), null));
+		menu.add(itemWithImage);
+		menu.add(new WMenuItem(new WDecoratedLabel(new WImage("/image/settings.png", "settings"), new WText("Settings Menu"), null)));
+		itemWithImage = new WMenuItem(new WDecoratedLabel(new WImage("/image/flag.png", "flag")));
+		itemWithImage.setAccessibleText("flag this view");
+		menu.add(itemWithImage);
 		return menu;
 	}
 

@@ -73,14 +73,17 @@
 }
 
 // make menu bars horizontal.
-.wc_menu_bar > .wc-submenu > .wc-submenu-o {
-  .wc-decoratedlabel {
-    display: inline-table;
-    width: auto;
-  }
+.wc_menu_bar {
+  > .wc-menuitem,
+  > .wc-submenu > .wc-submenu-o {
+    .wc-decoratedlabel {
+      display: inline-table;
+      width: auto;
+    }
 
-  .wc-labelbody {
-    width: auto;
+    .wc-labelbody {
+      width: auto;
+    }
   }
 }
 
