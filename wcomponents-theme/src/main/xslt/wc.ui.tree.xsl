@@ -188,7 +188,12 @@
 						<xsl:with-param name="class">
 							<xsl:choose>
 								<xsl:when test="$isButton = 0">fa-file-o</xsl:when>
-								<xsl:otherwise>fa-folder-o</xsl:otherwise>
+								<xsl:otherwise>
+									<xsl:choose>
+										<xsl:when test="@open">fa-folder-open-o</xsl:when>
+										<xsl:otherwise>fa-folder-o</xsl:otherwise>
+									</xsl:choose>
+								</xsl:otherwise>
 							</xsl:choose>
 						</xsl:with-param>
 					</xsl:call-template>
