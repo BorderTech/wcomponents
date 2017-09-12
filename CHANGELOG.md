@@ -8,6 +8,8 @@
 
 ### Bug Fixes
 
+* Fix issue where tree menu icons were not expanded after round trip #1325.
+
 ## Release 1.4.8
 
 ### Enhancements
