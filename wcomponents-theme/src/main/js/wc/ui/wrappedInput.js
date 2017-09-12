@@ -28,10 +28,8 @@ define(["wc/dom/initialise",
 						return i18n.translate("requiredPlaceholder").then(function(placeHolderText) {
 							input.setAttribute(PLACEHOLDER, placeHolderText);
 						});
-					} else {
-						input.removeAttribute(PLACEHOLDER);
 					}
-
+					input.removeAttribute(PLACEHOLDER);
 				}
 			}
 
