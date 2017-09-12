@@ -411,8 +411,5 @@ public class WRadioButtonSelectExample extends WPanel {
 			}
 			super.preparePaintComponent(request);
 		}
-
-
-
-}
+	}
 }

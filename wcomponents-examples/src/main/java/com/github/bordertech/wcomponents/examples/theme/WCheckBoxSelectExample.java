@@ -557,7 +557,7 @@ public class WCheckBoxSelectExample extends WContainer {
 	private class SelectWithSingleSelected extends WCheckBoxSelect {
 
 		/**
-		 * Create the WCheckBoxSelect with one selection.
+		 * Create a WCheckBoxSelect with one option, from a table of options, selected on first load.
 		 * @param table the lookup table to use.
 		 */
 		public SelectWithSingleSelected(final Object table) {
@@ -586,7 +586,7 @@ public class WCheckBoxSelectExample extends WContainer {
 	private class SelectWithManySelected extends WCheckBoxSelect {
 
 		/**
-		 * Create the WCheckBoxSelect.
+		 * Create a WCheckBoxSelect with many options, from a table of options, selected on first load.
 		 * @param table the lookup table to use.
 		 */
 		public SelectWithManySelected(final Object table) {
