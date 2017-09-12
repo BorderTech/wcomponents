@@ -3,8 +3,9 @@ define(["wc/dom/initialise",
 	"wc/ui/getFirstLabelForElement",
 	"wc/dom/Widget",
 	"wc/dom/tag",
-	"wc/ui/onchangeSubmit"],
-	function(initialise, processResponse, getFirstLabelForElement, Widget, tag, onchangeSubmit) {
+	"wc/ui/onchangeSubmit",
+	"wc/dom/classList"],
+	function(initialise, processResponse, getFirstLabelForElement, Widget, tag, onchangeSubmit, classList) {
 		"use strict";
 		/**
 		 * @constructor
@@ -18,7 +19,9 @@ define(["wc/dom/initialise",
 			function makeLegend(el) {
 				var label = el.firstChild,
 					accesskey,
-					labelContent;
+					labelContent,
+					labelClass = "wc-moved-label ",
+					WLABEL_CLASS = "wc-label";
 
 				// quickly jump out if we have already got a legend in this fieldset.
 				while (label && label.nodeType !== Node.ELEMENT_NODE) {
@@ -36,12 +39,17 @@ define(["wc/dom/initialise",
 						labelContent = el.getAttribute("title");
 						el.removeAttribute("title");
 					}
+					labelClass += "wc-off";
 				} else {
 					labelContent = label.innerHTML;
+					labelClass += label.className;
 					accesskey = label.getAttribute("data-wc-accesskey");
 				}
-				el.insertAdjacentHTML("afterbegin", "<legend class='wc-moved-label'" + (accesskey ? " accesskey = '" + accesskey + "'" : "") + ">" + labelContent + "</legend>");
-				onchangeSubmit.warn(el, el.firstChild);
+				el.insertAdjacentHTML("afterbegin", "<legend class='" + labelClass + "'" + (accesskey ? " accesskey = '" + accesskey + "'" : "") + ">" + labelContent + "</legend>");
+				// label is now the first child of el.
+				label = el.firstChild;
+				classList.remove(label, WLABEL_CLASS);
+				onchangeSubmit.warn(el, label);
 			}
 
 			function labelToLegend(element) {

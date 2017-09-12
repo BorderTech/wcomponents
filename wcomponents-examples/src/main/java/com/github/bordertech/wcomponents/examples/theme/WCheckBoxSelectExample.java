@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Option;
+import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBoxSelect;
@@ -286,41 +287,25 @@ public class WCheckBoxSelectExample extends WContainer {
 		add(new WText("end of unselected read only example"));
 
 		add(new WHeading(HeadingLevel.H4, "Read only with one selection"));
-		select = new WCheckBoxSelect("australian_state");
+		select = new SelectWithSingleSelected("australian_state");
 		add(select);
 		select.setReadOnly(true);
 		select.setToolTip("Read only with one selection");
-		List<?> options = select.getOptions();
-		List<Option> selectedOptions;
-		if (!options.isEmpty()) {
-			selectedOptions = new ArrayList<>();
-			selectedOptions.add((Option) options.get(0));
-			select.setSelected(selectedOptions);
-		}
 
 		add(new WHeading(HeadingLevel.H4, "Read only with many selections and no frame"));
-		select = new WCheckBoxSelect("australian_state");
+		select = new SelectWithSingleSelected("australian_state");
 		add(select);
 		select.setReadOnly(true);
 		select.setToolTip("Read only with many selections");
 		select.setFrameless(true);
-		options = select.getOptions();
 
-		if (!options.isEmpty()) {
-			select.setSelected(options);
-		}
 		add(new WHeading(HeadingLevel.H4, "Read only with many selections and COLUMN layout"));
-		select = new WCheckBoxSelect("australian_state");
+		select = new SelectWithSingleSelected("australian_state");
 		add(select);
 		select.setReadOnly(true);
 		select.setToolTip("Read only with many selections");
 		select.setButtonLayout(WCheckBoxSelect.LAYOUT_COLUMNS);
 		select.setButtonColumns(3);
-		options = select.getOptions();
-
-		if (!options.isEmpty()) {
-			select.setSelected(options);
-		}
 
 		// read only in a WFieldLayout
 		add(new WHeading(HeadingLevel.H4, "Read only in a WFieldLayout"));
@@ -341,87 +326,47 @@ public class WCheckBoxSelectExample extends WContainer {
 		layout.addField("No selections were made (read only)", select);
 
 		// one selection
-		select = new WCheckBoxSelect("australian_state");
+		select = new SelectWithSingleSelected("australian_state");
 		select.setFrameless(true);
-		options = select.getOptions();
-		if (!options.isEmpty()) {
-			selectedOptions = new ArrayList<>();
-			selectedOptions.add((Option) options.get(0));
-			select.setSelected(selectedOptions);
-		}
 		layout.addField("One selection was made", select);
 
-		select = new WCheckBoxSelect("australian_state");
+		select = new SelectWithSingleSelected("australian_state");
 		select.setFrameless(true);
 		select.setReadOnly(true);
-		options = select.getOptions();
-
-		if (!options.isEmpty()) {
-			selectedOptions = new ArrayList<>();
-			selectedOptions.add((Option) options.get(0));
-			select.setSelected(selectedOptions);
-		}
 		layout.addField("One selection was made (read only)", select);
 
 		// many selections
-		select = new WCheckBoxSelect("australian_state");
-		options = select.getOptions();
-		if (!options.isEmpty()) {
-			select.setSelected(options);
-		}
+		select = new SelectWithManySelected("australian_state");
 		layout.addField("Many selections with frame", select);
 
-		select = new WCheckBoxSelect("australian_state");
+		select = new SelectWithManySelected("australian_state");
 		select.setReadOnly(true);
-		options = select.getOptions();
-		if (!options.isEmpty()) {
-			select.setSelected(options);
-		}
 		layout.addField("Many selections with frame (read only)", select);
 
 		// columns with selections
-		select = new WCheckBoxSelect("australian_state");
+		select = new SelectWithSingleSelected("australian_state");
 		select.setButtonLayout(WCheckBoxSelect.LAYOUT_COLUMNS);
 		select.setButtonColumns(3);
 		select.setFrameless(true);
-		options = select.getOptions();
-		if (!options.isEmpty()) {
-			select.setSelected(options);
-		}
 		layout.addField("many selections, frameless, COLUMN layout (3 columns)", select);
 
-		select = new WCheckBoxSelect("australian_state");
+		select = new SelectWithManySelected("australian_state");
 		select.setReadOnly(true);
 		select.setButtonLayout(WCheckBoxSelect.LAYOUT_COLUMNS);
 		select.setButtonColumns(3);
 		select.setFrameless(true);
-		options = select.getOptions();
-
-		if (!options.isEmpty()) {
-			select.setSelected(options);
-		}
 		layout.addField("many selections, frameless, COLUMN layout (3 columns) (read only)", select);
 
 		// flat with selections
-		select = new WCheckBoxSelect("australian_state");
+		select = new SelectWithManySelected("australian_state");
 		select.setButtonLayout(WCheckBoxSelect.LAYOUT_FLAT);
 		select.setFrameless(true);
-		options = select.getOptions();
-
-		if (!options.isEmpty()) {
-			select.setSelected(options);
-		}
 		layout.addField("Many selections, frameless, FLAT layout", select);
 
-		select = new WCheckBoxSelect("australian_state");
+		select = new SelectWithManySelected("australian_state");
 		select.setReadOnly(true);
 		select.setButtonLayout(WCheckBoxSelect.LAYOUT_FLAT);
 		select.setFrameless(true);
-		options = select.getOptions();
-
-		if (!options.isEmpty()) {
-			select.setSelected(options);
-		}
 		layout.addField("Many selections, frameless, FLAT layout (read only)", select);
 	}
 
@@ -443,25 +388,14 @@ public class WCheckBoxSelectExample extends WContainer {
 		select.setDisabled(true);
 		select.setFrameless(true);
 		layout.addField("Disabled with no selection and no frame", select);
-
-		select = new WCheckBoxSelect("australian_state");
+		select = new SelectWithSingleSelected("australian_state");
 		select.setDisabled(true);
-		List<?> options = select.getOptions();
-		if (!options.isEmpty()) {
-			List<Option> selectedOptions = new ArrayList<>();
-			selectedOptions.add((Option) options.get(0));
-			select.setSelected(selectedOptions);
-		}
 		layout.addField("Disabled with one selection", select);
 
-		select = new WCheckBoxSelect("australian_state");
+		select = new SelectWithManySelected("australian_state");
 		select.setDisabled(true);
 		select.setButtonLayout(WCheckBoxSelect.LAYOUT_COLUMNS);
 		select.setButtonColumns(3);
-		options = select.getOptions();
-		if (!options.isEmpty()) {
-			select.setSelected(options);
-		}
 		layout.addField("Disabled with many selections and COLUMN layout", select);
 	}
 
@@ -614,6 +548,60 @@ public class WCheckBoxSelectExample extends WContainer {
 		public String getModel() {
 			return model;
 		}
+
+	}
+
+	/**
+	 * Simple override to select one item on first load.
+	 */
+	private class SelectWithSingleSelected extends WCheckBoxSelect {
+
+		/**
+		 * Create the WCheckBoxSelect with one selection.
+		 * @param table the lookup table to use.
+		 */
+		public SelectWithSingleSelected(final Object table) {
+			super(table);
+		}
+
+		@Override
+		protected void preparePaintComponent(final Request request) {
+			if (!isInitialised()) {
+				List<?> options = getOptions();
+				if (options != null && !options.isEmpty()) {
+					List<Option> selectedOptions = new ArrayList<>();
+					selectedOptions.add((Option) options.get(0));
+					setSelected(selectedOptions);
+				}
+				setInitialised(true);
+			}
+			super.preparePaintComponent(request);
+		}
+	}
+
+
+	/**
+	 * Simple override to select all items on first load.
+	 */
+	private class SelectWithManySelected extends WCheckBoxSelect {
+
+		/**
+		 * Create the WCheckBoxSelect.
+		 * @param table the lookup table to use.
+		 */
+		public SelectWithManySelected(final Object table) {
+			super(table);
+		}
+
+		@Override
+		protected void preparePaintComponent(final Request request) {
+			if (!isInitialised()) {
+				setSelected(getOptions());
+				setInitialised(true);
+			}
+			super.preparePaintComponent(request);
+		}
+
 
 	}
 }

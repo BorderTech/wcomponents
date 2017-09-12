@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents.examples.theme;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.HeadingLevel;
-import com.github.bordertech.wcomponents.Option;
+import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
@@ -108,10 +108,9 @@ public class WRadioButtonSelectExample extends WPanel {
 		add(new ExplanatoryText("When a WRadioButtonSelect is frameless it loses some of its coherence, especially when its WLabel is hidden or "
 				+ "replaced by a toolTip. Using a frameless WRadioButtonSelect is useful within an existing WFieldLayout as it can provide a more "
 				+ "consistent user interface but only if it has a relatively small number of options."));
-		final WRadioButtonSelect select = new WRadioButtonSelect("australian_state");
+		final WRadioButtonSelect select = new SelectWithSelection("australian_state");
 		select.setFrameless(true);
 		add(new WLabel("Frameless with default selection", select));
-		select.setSelected(select.getOptions().get(0));
 		add(select);
 	}
 
@@ -265,12 +264,8 @@ public class WRadioButtonSelectExample extends WPanel {
 		select.setReadOnly(true);
 		layout.addField("Read only with no selection", select);
 
-		select = new WRadioButtonSelect("australian_state");
+		select = new SelectWithSelection("australian_state");
 		select.setReadOnly(true);
-		List<?> options = select.getOptions();
-		if (!options.isEmpty()) {
-			select.setSelected((Option) options.get(0));
-		}
 		layout.addField("Read only with selection", select);
 	}
 
@@ -294,13 +289,8 @@ public class WRadioButtonSelectExample extends WPanel {
 		select.setFrameless(true);
 		layout.addField("Disabled with no selection no frame", select);
 
-		select = new WRadioButtonSelect("australian_state");
+		select = new SelectWithSelection("australian_state");
 		select.setDisabled(true);
-		List<?> options = select.getOptions();
-
-		if (!options.isEmpty()) {
-			select.setSelected((Option) options.get(0));
-		}
 		layout.addField("Disabled with selection", select);
 	}
 
@@ -324,13 +314,7 @@ public class WRadioButtonSelectExample extends WPanel {
 				+ " between non-contiguous options using the keyboard without having multiple page submits.\nIn the following example try to change "
 				+ "the selection from 'Outside Australia' to 'Queensland' using only your keyboard. To make this easier the WRadioButtonSelect has an"
 				+ " access key of 'M'"));
-		final WRadioButtonSelect select = new WRadioButtonSelect("australian_state");
-		List<?> options = select.getOptions();
-
-		if (!options.isEmpty()) {
-			select.setSelected((Option) options.get(0));
-		}
-
+		final WRadioButtonSelect select = new SelectWithSelection("australian_state");
 		final WTextField selected = new WTextField();
 		selected.setReadOnly(true);
 
@@ -367,16 +351,10 @@ public class WRadioButtonSelectExample extends WPanel {
 		add(new ExplanatoryText("Once a radio button group has a selection it cannot be removed. If a WRadioButtonSelect is not mandatory it should"
 				+ " include a 'none of these' type null option.\nWhat happens if you make a selection in the following but then change your mind"
 				+ " (even ugly chairs are not your scene). To concentrate the mind I have made a selection for you."));
-		WRadioButtonSelect noneOfTheAboveSelect = new WRadioButtonSelect(
+		WRadioButtonSelect noneOfTheAboveSelect = new SelectWithSelection(
 				new String[]{"spike", "broken glass", "ugly chair", "wet paint"});
 		noneOfTheAboveSelect.setButtonLayout(WRadioButtonSelect.LAYOUT_FLAT);
-		options = noneOfTheAboveSelect.getOptions();
 		noneOfTheAboveSelect.setFrameless(true);
-
-		if (!options.isEmpty()) {
-			noneOfTheAboveSelect.setSelected((String) options.get(0));
-		}
-
 		layout = new WFieldLayout();
 		add(layout);
 		layout.addField("Where would you like to sit?", noneOfTheAboveSelect);
@@ -400,4 +378,41 @@ public class WRadioButtonSelectExample extends WPanel {
 		add(layout);
 		layout.addField("Select from no options", new WRadioButtonSelect());
 	}
+
+	/**
+	 * Simple override to select one item on first load.
+	 */
+	private class SelectWithSelection extends WRadioButtonSelect {
+
+		/**
+		 * Create a WRadioButtonSelect with one option selected from a table of options.
+		 * @param table the lookup table to use
+		 */
+		public SelectWithSelection(final Object table) {
+			super(table);
+		}
+
+		/**
+		 * Create a WRadioButtonSelect with one option selected from an array of options.
+		 * @param options the options to use
+		 */
+		public SelectWithSelection(final Object[] options ) {
+			super(options);
+		}
+
+		@Override
+		protected void preparePaintComponent(Request request) {
+			if (!isInitialised()) {
+				List<?> options = getOptions();
+				if (options != null && !options.isEmpty()) {
+					setSelected(options.get(0));
+				}
+				setInitialised(true);
+			}
+			super.preparePaintComponent(request);
+		}
+
+
+
+}
 }
