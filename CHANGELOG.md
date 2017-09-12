@@ -8,6 +8,9 @@
 
 ### Bug Fixes
 
+* Fixed an error which could cause out-of-viewport labels to be rendered in viewport #1326.
+* Fixed some errors in examples which caused a race which could result in null pointer exceptions #1327.
+
 ## Release 1.4.8
 
 ### Enhancements

@@ -65,6 +65,11 @@ public class WLabelExample extends WPanel {
 		roField.setReadOnly(true);
 		roField.setText("This is a read only field with a hidden label");
 		fieldsFlat.addField(hiddenLabel, roField);
+		hiddenLabel = new WLabel ("Hidden label for a comopund control");
+		hiddenLabel.setHidden(true);
+		WCheckBoxSelect cbSelect = new WCheckBoxSelect(new String[]{"Apple", "Cherry", "Orange", "Pineapple", "control label is hidden"});
+		fieldsFlat.addField(hiddenLabel, cbSelect);
+
 		/*
 		 * WFieldLayout does magic things with radio buttons and check boxes
 		 */
@@ -83,7 +88,7 @@ public class WLabelExample extends WPanel {
 		 * legend of the controls fieldset and the on-screen version in the
 		 * WFieldLayout is just a placeholder
 		 */
-		WCheckBoxSelect cbSelect = new WCheckBoxSelect(
+		cbSelect = new WCheckBoxSelect(
 				new String[]{"Apple", "Cherry", "Orange", "Pineapple"});
 		cbSelect.setFrameless(true);
 		fieldsFlat.addField("Select one or more options", cbSelect);
