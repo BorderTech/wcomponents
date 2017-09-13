@@ -1794,6 +1794,9 @@ define(["wc/dom/attribute",
 				event.add(element, event.TYPE.click, eventWrapper.bind(this));
 			}
 			event.add(element, event.TYPE.keydown, eventWrapper.bind(this));
+			if (this.preAjaxSubscriber) {
+				processResponse.subscribe(this.preAjaxSubscriber.bind(this));
+			}
 			processResponse.subscribe(postAjaxSubscriber.bind(this), true);
 			formUpdateManager.subscribe(this.writeState.bind(this));
 

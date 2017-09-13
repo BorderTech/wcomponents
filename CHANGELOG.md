@@ -8,6 +8,7 @@
 
 ### Bug Fixes
 
+* Fix issue where tree menu icons were not expanded after round trip #1325.
 * Updated timeout warning artefact and JavaScript to overcome an accessibility issue #1333.
 * Fixed a CSS error which caused items at the top level of a WMenu of types BAR or FLYOUT to render incorrectly if they had anything other than
   simple text content #1330.
