@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-31 12:20+1000\n"
+"POT-Creation-Date: 2017-09-13 10:53+1000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1317,7 +1317,7 @@ msgstr ""
 #: timeout_warn_header
 #, java-format
 msgctxt "timeout_warn_header"
-msgid "Warning"
+msgid "Session expiry imminent."
 msgstr ""
 
 #: timeout_warn_body
@@ -1334,7 +1334,7 @@ msgstr ""
 #: timeout_expired_header
 #, java-format
 msgctxt "timeout_expired_header"
-msgid "Session Expired"
+msgid "Session expired."
 msgstr ""
 
 #: timeout_expired_body
