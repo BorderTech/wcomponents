@@ -23,12 +23,21 @@ define(["wc/dom/tag",
 		function doLabelQuery(element, labelArr, readOnly) {
 			var result = labelArr || [],
 				id = element.id,
+				wrappedId,
+				query;
+
+			if (id) {
 				query = "label[for=\"" + id + "\"],[data-wc-for=\"" + id + "\"]";
 
-			if (readOnly) {
-				query += ",[data-wc-rofor=\"" + id + "\"]";
-			}
-			if (id) {
+				if (readOnly) {
+					query += ",[data-wc-rofor=\"" + id + "\"]";
+					if (wrappedInput.isReadOnly(element)) {
+						// we may be in an AJAX situation where we are trying to convert
+						// labels to spans or vice-versa.
+						wrappedId = wrappedInput.getWrappedId(element);
+						query = "label[for=\"" + wrappedId + "\"]";
+					}
+				}
 				result = result.concat(toArray(document.querySelectorAll(query)));
 			}
 
@@ -74,8 +83,7 @@ define(["wc/dom/tag",
 				label,
 				tagName;
 
-
-			if (wrappedInput.isOneOfMe(element)) {
+			if (wrappedInput.isOneOfMe(element), includeReadOnly) {
 				return getLabelsForWrapper(element, includeReadOnly);
 			}
 

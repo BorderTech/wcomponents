@@ -12,7 +12,7 @@ define(["wc/dom/classList",
 
 		/**
 		 * @constructor
-		 * @alias module:wc/ui/label~Label
+		 * @alias module:wc/debug/label~Label
 		 * @private
 		 */
 		function Label() {

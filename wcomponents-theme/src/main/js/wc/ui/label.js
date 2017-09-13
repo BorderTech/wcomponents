@@ -150,12 +150,12 @@ define(["wc/dom/classList",
 			}
 
 			/**
-			 * AJAX subscriber to convert labels from a HTML label element to its read-only analogue and vice-versa when
+			 * Post-insertion AJAX subscriber to convert labels from a HTML label element to its read-only analogue and vice-versa when
 			 * a labelled element is replaced via AJAX.
 			 *
 			 * @function
 			 * @private
-			 * @param {Element} element The reference element (element being replaced).
+			 * @param {Element} element the new element.
 			 */
 			function ajaxSubscriber(element) {
 				if (!element) {

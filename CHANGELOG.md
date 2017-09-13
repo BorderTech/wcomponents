@@ -8,6 +8,7 @@
 
 ### Bug Fixes
 
+* Fixed issue which could result in a label:input pair ending up in an invalid state after AJAX of specific inputs #1337.
 * Fix issue which could result in labels for individual mandatory WRadioButtons being decorated with a mandatory indicator #1335.
 * Fix issue where tree menu icons were not expanded after round trip #1325.
 * Updated timeout warning artefact and JavaScript to overcome an accessibility issue #1333.

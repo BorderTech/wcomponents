@@ -10,7 +10,8 @@ define(["wc/dom/initialise",
 				SELECT = new Widget("select"),
 				TEXTAREA = new Widget("textarea"),
 				WRAPPED = [INPUT, SELECT, TEXTAREA],
-				WIDGETS = [WRAPPER, RO_WRAPPER];
+				WIDGETS = [WRAPPER, RO_WRAPPER],
+				ID_SUFFIX = "_input";
 
 			this.getWidget = function() {
 				return WRAPPER;
@@ -54,6 +55,21 @@ define(["wc/dom/initialise",
 					return [container];
 				}
 				return inclReadOnly ? Widget.findDescendants(container, WIDGETS) : WRAPPER.findDescendants(container);
+			};
+
+			this.getWrappedId = function(element) {
+				var id = element.id,
+					wrapper;
+				if (this.isReadOnly(element) || WRAPPER.isOneOfMe(element)) {
+					return id.concat(ID_SUFFIX);
+				}
+				if ((wrapper = this.getWrapper(element))) {
+					if (Widget.isOneOfMe(element, WRAPPED)) {
+						return element.id;
+					}
+					return (wrapper.id).concat(ID_SUFFIX);
+				}
+				return null;
 			};
 		}
 
