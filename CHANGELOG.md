@@ -9,6 +9,11 @@
 ### Bug Fixes
 
 * Fix issue where tree menu icons were not expanded after round trip #1325.
+* Fixed a CSS error which caused items at the top level of a WMenu of types BAR or FLYOUT to render incorrectly if they had anything other than
+  simple text content #1330.
+* Fixed a flaw in update calculation which resulted in unsaved changes warnings not appearing in very specific circumstances #1237.
+* Fixed an error which could cause out-of-viewport labels to be rendered in viewport #1326.
+* Fixed some errors in examples which caused a race which could result in null pointer exceptions #1327.
 
 ## Release 1.4.8
 
