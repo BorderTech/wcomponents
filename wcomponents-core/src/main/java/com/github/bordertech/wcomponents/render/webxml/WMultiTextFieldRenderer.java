@@ -47,7 +47,6 @@ class WMultiTextFieldRenderer extends AbstractWebXmlRenderer {
 			String pattern = textField.getPattern();
 			xml.appendOptionalAttribute("disabled", textField.isDisabled(), "true");
 			xml.appendOptionalAttribute("required", textField.isMandatory(), "true");
-			xml.appendOptionalAttribute("tabIndex", textField.hasTabIndex(), textField.getTabIndex());
 			xml.appendOptionalAttribute("toolTip", textField.getToolTip());
 			xml.appendOptionalAttribute("accessibleText", textField.getAccessibleText());
 			xml.appendOptionalAttribute("size", cols > 0, cols);

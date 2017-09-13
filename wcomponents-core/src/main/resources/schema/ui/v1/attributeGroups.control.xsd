@@ -66,30 +66,19 @@
 				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="tabIndex" type="xs:int">
-			<xs:annotation>
-				<xs:documentation>
-					Sets the component's position in the tab navigation order. Not implemented by default as it may pose
-					significant accessibility and usability problems.
-				</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
 		<xs:attribute name="accessibleText" type="xs:string">
 			<xs:annotation>
 				<xs:documentation>
-					Deprecated. Use toolTip instead.
+					May be used as a label surrogate under some strict conditions.
 				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 	</xs:attributeGroup>
 
-
-
 	<xs:attributeGroup name="submitting.input.attributes">
 		<xs:annotation>
 			<xs:documentation>
-				Common attributes for data input components which provide support for form submission using the ENTER 
-				key.
+				Common attributes for data input components which provide support for form submission using the ENTER key.
 			</xs:documentation>
 		</xs:annotation>
 		

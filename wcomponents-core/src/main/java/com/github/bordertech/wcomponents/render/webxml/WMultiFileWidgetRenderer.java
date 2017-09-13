@@ -53,7 +53,6 @@ final class WMultiFileWidgetRenderer extends AbstractWebXmlRenderer {
 
 			xml.appendOptionalAttribute("disabled", widget.isDisabled(), "true");
 			xml.appendOptionalAttribute("required", widget.isMandatory(), "true");
-			xml.appendOptionalAttribute("tabIndex", widget.hasTabIndex(), widget.getTabIndex());
 			xml.appendOptionalAttribute("toolTip", widget.getToolTip());
 			xml.appendOptionalAttribute("accessibleText", widget.getAccessibleText());
 			xml.appendOptionalAttribute("acceptedMimeTypes", typesToString(widget.getFileTypes()));

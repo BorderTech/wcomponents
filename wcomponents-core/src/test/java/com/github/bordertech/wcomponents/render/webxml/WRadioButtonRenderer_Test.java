@@ -38,7 +38,6 @@ public class WRadioButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo(button.getGroupName(), "//ui:radiobutton/@groupName", button);
 		assertXpathEvaluatesTo(button.getValue(), "//ui:radiobutton/@value", button);
 		assertXpathNotExists("//ui:radiobutton/@submitOnChange", button);
-		assertXpathNotExists("//ui:radiobutton/@tabIndex", button);
 
 		// Check selected
 		assertXpathNotExists("//ui:radiobutton/@selected", button);

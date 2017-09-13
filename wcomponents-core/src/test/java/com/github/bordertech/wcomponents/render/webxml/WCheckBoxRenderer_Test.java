@@ -43,7 +43,6 @@ public class WCheckBoxRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSchemaMatch(wcbTest);
 		assertXpathExists("//ui:checkbox", wcbTest);
 		assertXpathEvaluatesTo(wcbTest.getId(), "//ui:checkbox/@id", wcbTest);
-		assertXpathNotExists("//ui:checkbox/@tabIndex", wcbTest);
 
 		// Check groupName
 		assertXpathNotExists("//ui:checkbox/@groupName", wcbTest);
