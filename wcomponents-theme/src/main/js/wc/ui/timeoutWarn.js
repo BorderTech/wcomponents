@@ -33,13 +33,13 @@ define(["lib/sprintf", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/load
 
 			function clickEvent($event) {
 				var target;
-				if (!$event.defaultPrevented && (target = TIMEOUT_CONTAINER.findAncestor($event.target))) {
+				if ((target = TIMEOUT_CONTAINER.findAncestor($event.target))) {
 					closeWarning(target);
 				}
 			}
 
 			function keyDownEvent($event) {
-				if (!$event.defaultPrevented && $event.altKey && $event.keyCode === KeyEvent.DOM_VK_9) {
+				if ($event.keyCode === KeyEvent.DOM_VK_ESCAPE) {
 					closeWarning(getContainer());
 				}
 			}
@@ -97,7 +97,6 @@ define(["lib/sprintf", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/load
 					});
 				}
 				getTranslations(["messagetitle_warn", "timeout_warn_header", "timeout_warn_body"], showWarn);
-
 			}
 
 			/**
