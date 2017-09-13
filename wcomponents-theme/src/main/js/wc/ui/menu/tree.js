@@ -465,6 +465,34 @@ define(["wc/ui/menu/core",
 			};
 
 			/**
+			 * Listen to AJAX updates that are about to affect a tree.
+			 * @param {Element} element A candidate tree root
+			 * @param {DocumentFragment} content The content that is about to be inserted into the tree
+			 * @param action a wc/ui/ajax/processResponse action
+			 */
+			this.preAjaxSubscriber = function(element, content, action) {
+				var i, kids, newBranch, currentBranch;
+				if (this.isRoot(element) && content && action === "in") {
+					kids = content.childNodes;
+					for (i = 0; kids && i < kids.length; i++) {
+						newBranch = this._getBranch(kids[i]);
+						if (newBranch) {
+							currentBranch = document.getElementById(newBranch.id);
+							if (currentBranch && shed.isSelected(currentBranch)) {
+								/*
+								 * This is really handling an HTree situation:
+								 * HTree branch opening can drive both selection and expansion
+								 * Selection is not updated when we fetch branch content via AJAX so the server thiks the branch is not selected
+								 * the new branch, fetched via AJAX, will therefore be deselcted (which is probably wrong for HTree).
+								 */
+								shed.select(newBranch, true);
+							}
+						}
+					}
+				}
+			};
+
+			/**
 			 * Determines if a given element is the last selected item at its level of the tree.
 			 *
 			 * @function
