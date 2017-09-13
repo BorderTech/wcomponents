@@ -8,6 +8,7 @@
 
 ### Bug Fixes
 
+* Fix issue which could result in labels for individual mandatory WRadioButtons being decorated with a mandatory indicator #1335.
 * Fix issue where tree menu icons were not expanded after round trip #1325.
 * Updated timeout warning artefact and JavaScript to overcome an accessibility issue #1333.
 * Fixed a CSS error which caused items at the top level of a WMenu of types BAR or FLYOUT to render incorrectly if they had anything other than
