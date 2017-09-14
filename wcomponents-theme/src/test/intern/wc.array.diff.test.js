@@ -1,17 +1,5 @@
 define(["intern!object", "intern/chai!assert", "./resources/test.utils"], function (registerSuite, assert, testutils) {
 	"use strict";
-	/*
-	 * To create a new Intern unit test file:
-	 *
-	 * 1. Save this as a *.js file.
-	 * 2. Set TEST_MODULE to the name of the module to test, e.g. "wc/ui/foo" and optionally set a suiteName.
-	 * 3. If the test requires other dependencies create the deps array containing these.
-	 * 4. If the controller needs specific UI to test set ONE of testContent (HTML) OR urlResource (from where the test UI will be loaded)
-	 * 5. If there are other dependencies they can be named. This is optional as they _could_ be referenced as arg[n] but that is really ugly.
-	 *    Map setup's then function's arg members to these names. arg[0] is thecontroller.
-	 * 7. Optionally update (or remove if not needed) setup, beforeEach, afterEach and teardown
-	 * 6. Write tests use `controller` as the var name for the module being tested. Review `testGotController` as a simple sample.
-	 */
 
 	var
 		/**

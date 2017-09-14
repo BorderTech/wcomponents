@@ -630,7 +630,8 @@ define(["wc/Observer",
 			this.isMandatory = function (element) {
 				var result = false;
 
-				if (element.getAttribute(NATIVE_STATE[REQUIRED]) || element.getAttribute(ARIA_STATE[REQUIRED]) === "true" ||
+				if (element.hasAttribute(NATIVE_STATE[REQUIRED]) ||
+					element.getAttribute(ARIA_STATE[REQUIRED]) === "true" ||
 					(element.tagName === tag.FIELDSET && classList.contains(element, CLASS_REQUIRED))) {
 					result = true;
 				}
