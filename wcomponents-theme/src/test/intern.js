@@ -20,6 +20,9 @@ define({
 		${intern.tunnel.options}
 	},
 	environments: [ ${test.environments} ],
+	runnerClientReporter: {
+		writeHtml: false
+	},
 
 	${intern.reporters}
 
@@ -40,5 +43,5 @@ define({
 		}
 	},
 	// A regular expression matching URLs to files that should not be included in code coverage analysis
-	excludeInstrumentation: /^(?:.*\${file.separator}test\-classes|.*\${file.separator}node_modules|.*\${file.separator}lib)\${file.separator}/
+	excludeInstrumentation: /^(?:.*\${file.separator}?test\-classes|.*\${file.separator}?node_modules|.*\${file.separator}lib)\${file.separator}/
 });
