@@ -3,13 +3,15 @@ define(["intern!object", "intern/chai!assert", "wc/dom/wrappedInput", "./resourc
 		"use strict";
 		/*
 		 * Unit tests for wc/dom/wrappedInput
+		 * NOTE for IDs there is a convention for wrapped input IDs which is based on the XML for the Input components
+		 * which are wrapped. The wrapper has ID "foo" and the input has ID "foo_input". The example below uses this convention.
 		 */
 		var testHolder,
 			testContent = "<div id='wrappedinputtestcontent'>\n\
-				<span class='wc-input-wrapper' id='wrapper'><input id='wrappedinput' type='text'></span>\n\
-				<span class='wc-ro-input' id='rowrapper'><span id='wrappedro'>value</span></span>\n\
-				<input id='notwrapped' type='text'>\n\
-				<span id='notwrapper'><input id='notwrappedinput' type='text'></span>\n\
+				<span class='wc-input-wrapper' id='wrapper'><input id='wrapper_input' type='text'></span>\n\
+				<span class='wc-ro-input' id='rowrapper'><span id='rowrapper_input'>value</span></span>\n\
+				<input id='notwrapped_input' type='text'>\n\
+				<span id='notwrapper'><input id='notwrapper_input' type='text'></span>\n\
 				</div>";
 
 		registerSuite({
@@ -63,7 +65,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/wrappedInput", "./resourc
 				assert.equal(widgets[1], controller.getROWidget());
 			},
 			testGetInput: function() {
-				var expected = document.getElementById("wrappedinput"),
+				var expected = document.getElementById("wrapper_input"),
 					actual = controller.getInput(document.getElementById("wrapper"));
 				assert.equal(actual, expected);
 			},
@@ -75,14 +77,14 @@ define(["intern!object", "intern/chai!assert", "wc/dom/wrappedInput", "./resourc
 			},
 			testGetWrapper: function () {
 				var expected = document.getElementById("wrapper"),
-					actual = controller.getWrapper(document.getElementById("wrappedinput"));
+					actual = controller.getWrapper(document.getElementById("wrapper_input"));
 				assert.equal(actual, expected);
 			},
 			testGetWrapperRO: function () {
-				assert.isNull(controller.getWrapper(document.getElementById("wrappedro")));
+				assert.isNull(controller.getWrapper(document.getElementById("rowrapper_input")));
 			},
 			testGetWrapperNotWrapped: function () {
-				assert.isNull(controller.getWrapper(document.getElementById("notwrappedinput")));
+				assert.isNull(controller.getWrapper(document.getElementById("notwrapper_input")));
 			},
 			testGet: function () {
 				assert.strictEqual(controller.get(document.getElementById("wrappedinputtestcontent")).length, 1);
@@ -102,8 +104,25 @@ define(["intern!object", "intern/chai!assert", "wc/dom/wrappedInput", "./resourc
 			testGetNothing: function () {
 				assert.strictEqual(controller.get(document.getElementById("notwrapper")).length, 0);
 				assert.strictEqual(controller.get(document.getElementById("notwrapper"), true).length, 0);
+			},
+			testGetWrappedId: function() {
+				var expected = "wrapper_input",
+					actual = controller.getWrappedId(document.getElementById("wrapper"));
+				assert.equal(actual, expected);
+			},
+			testGetWrappedIdFromInput: function() {
+				var expected = "wrapper_input",
+					actual = controller.getWrappedId(document.getElementById("wrapper_input"));
+				assert.equal(actual, expected);
+			},
+			testGetWrappedIdRO: function() {
+				var expected = "rowrapper_input",
+					actual = controller.getWrappedId(document.getElementById("rowrapper"));
+				assert.equal(actual, expected);
+			},
+			testGetWrappedIdNotWrapper: function() {
+				assert.isNull(controller.getWrappedId(document.getElementById("notwrapper_input")));
 			}
 		});
 	}
 );
-
