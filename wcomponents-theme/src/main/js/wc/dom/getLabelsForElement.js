@@ -31,10 +31,18 @@ define(["wc/dom/tag",
 
 				if (readOnly) {
 					query += ",[data-wc-rofor=\"" + id + "\"]";
+<<<<<<< HEAD
 					if (wrappedInput.isReadOnly(element) && (wrappedId = wrappedInput.getWrappedId(element))) {
 						// we may be in an AJAX situation where we are trying to convert
 						// labels to spans or vice-versa.
 						query += ",label[for=\"" + wrappedId + "\"]";
+=======
+					if (wrappedInput.isReadOnly(element)) {
+						// we may be in an AJAX situation where we are trying to convert
+						// labels to spans or vice-versa.
+						wrappedId = wrappedInput.getWrappedId(element);
+						query = "label[for=\"" + wrappedId + "\"]";
+>>>>>>> BorderTech/freddie
 					}
 				}
 				result = result.concat(toArray(document.querySelectorAll(query)));
