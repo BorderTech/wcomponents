@@ -65,13 +65,9 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 		name: suiteName,
 
 		setup: function() {
-			if (!TEST_MODULE) {
-				console.error("Your tests won't work!");
-				return Promise.resolve();
-			}
 			var allDeps = (deps && deps.length) ? deps : [];
 			allDeps.unshift(TEST_MODULE);
-			return testutils.setupHelper(allDeps).then(function(arg) {
+			var result = testutils.setupHelper(allDeps).then(function(arg) {
 
 				// The module to be tested is the controller
 				controller = arg[0];
@@ -87,18 +83,19 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				if (testContent) {
 					testHolder.innerHTML = testContent;
 				} else if (urlResource) {
-					testutils.setUpExternalHTML(urlResource, testHolder);
-					if (resetBeforeEach || resetAfterEach) {
-						// Hold the initial HTML for future use
-						testContent = testHolder.innerHTML;
-					}
+					return testutils.setUpExternalHTML(urlResource, testHolder);
 				}
 			});
+			return result;
 		},
 
 		beforeEach: function () {
-			if (testHolder && resetBeforeEach) {
-				testHolder.innerHTML = testContent;
+			if (testHolder) {
+				testContent = testContent || testHolder.innerHTML;
+
+				if (testContent && resetBeforeEach) {
+					testHolder.innerHTML = testContent;
+				}
 			}
 		},
 
