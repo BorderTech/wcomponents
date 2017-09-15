@@ -191,6 +191,11 @@ public final class InternalMessages {
 	public static final String DEFAULT_MULTI_SELECT_PAIR_SELECTIONS_LIST_HEADING = "bordertech.wcomponents.message.multiSelectPair.selections";
 
 	/**
+	 * The key for multi-textfield and multi-dropdown default tooltip.
+	 */
+	public static final String DEFAULT_MULTI_FORM_COMPONENT_TIP = "bordertech.wcomponents.message.multiFormComponent.tip";
+
+	/**
 	 * Prevent instantiation of this class.
 	 */
 	private InternalMessages() {

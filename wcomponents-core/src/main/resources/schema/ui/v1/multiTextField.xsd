@@ -48,6 +48,12 @@
 					<xs:documentation>The maximum number of inputs which are to be made available to the user.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
+			
+			<xs:attribute name="title" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>This is for framework use only.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>
