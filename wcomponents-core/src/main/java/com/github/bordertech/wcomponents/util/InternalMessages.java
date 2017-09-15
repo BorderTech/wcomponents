@@ -176,6 +176,11 @@ public final class InternalMessages {
 	public static final String DEFAULT_CANCEL_BUTTON_TEXT = "bordertech.wcomponents.message.cancelButton";
 
 	/**
+	 * The key for a required field placeholder.
+	 */
+	public static final String DEFAULT_REQUIRED_FIELD_PLACEHOLDER = "bordertech.wcomponents.message.fieldRequired";
+
+	/**
 	 * The key for the multi-select-pair options list heading.
 	 */
 	public static final String DEFAULT_MULTI_SELECT_PAIR_OPTIONS_LIST_HEADING = "bordertech.wcomponents.message.multiSelectPair.options";

@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WMultiTextField;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.HtmlRenderUtil;
 import com.github.bordertech.wcomponents.util.Util;
 
 /**
@@ -55,7 +56,7 @@ class WMultiTextFieldRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("maxLength", maxLength > 0, maxLength);
 			xml.appendOptionalAttribute("max", maxInputs > 0, maxInputs);
 			xml.appendOptionalAttribute("pattern", !Util.empty(pattern), pattern);
-			xml.appendOptionalAttribute("placeholder", textField.getPlaceholder());
+			xml.appendOptionalAttribute("placeholder", HtmlRenderUtil.getEffectivePlaceholder(textField));
 		}
 		xml.appendClose();
 

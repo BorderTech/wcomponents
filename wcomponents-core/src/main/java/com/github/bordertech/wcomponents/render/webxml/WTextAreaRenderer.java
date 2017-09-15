@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WTextArea;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.HtmlRenderUtil;
 import com.github.bordertech.wcomponents.util.HtmlToXMLUtil;
 
 /**
@@ -52,7 +53,7 @@ class WTextAreaRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("rows", rows > 0, rows);
 			xml.appendOptionalAttribute("cols", cols > 0, cols);
 			xml.appendOptionalAttribute("buttonId", submitControlId);
-			xml.appendOptionalAttribute("placeholder", textArea.getPlaceholder());
+			xml.appendOptionalAttribute("placeholder", HtmlRenderUtil.getEffectivePlaceholder(textArea));
 		}
 		xml.appendClose();
 
