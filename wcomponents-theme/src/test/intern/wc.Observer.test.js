@@ -910,6 +910,14 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				observer.reset(ns);
 			}
 		},
+		testSetFilterNotFalsyStringOrFunctionThrowsError: function() {
+			try {
+				observer.setFilter({});
+				assert.isTrue(false, "should have thrown a TypeError");
+			} catch (e) {
+				assert.strictEqual("arg must be a String or Function", e.message);
+			}
+		},
 		testGetGroupAsWildcardFilter: function() {
 			/* What we are testing here is that foo.*.bar returns true from filter "foo.a.b.c....bar" and
 			 * "foo.bar.somethingelse" does not. */

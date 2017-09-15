@@ -3,7 +3,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 		"use strict";
 		var xmlString, testXmlString;
 		registerSuite({
-			name: "xmlString",
+			name: "wc/xml/xmlString",
 			setup: function() {
 				return testutils.setupHelper(["wc/xml/xmlString"], function(obj) {
 					xmlString = obj;
@@ -32,6 +32,14 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				expected = expected.replace(whitespaceRe, "");
 				expected = expected.replace(xmlHeaderRe, "");
 				assert.strictEqual(expected, result);
+			},
+			testToPretendToBeIE9: function() {
+				var expected = "<p>foo</p>",
+					dummy = {xml: expected};
+				assert.strictEqual(expected, xmlString.to(dummy));
+			},
+			testToWithfalseyNode: function() {
+				assert.isNull(xmlString.to(false));
 			}
 		});
 	});

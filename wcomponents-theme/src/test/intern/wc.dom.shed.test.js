@@ -453,6 +453,9 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			testIsMandatoryTrue: function() {
 				assert.isTrue(controller.isMandatory(document.getElementById("inp8")));
 			},
+			testIsMandatoryTrueNotXML: function() {
+				assert.isTrue(controller.isMandatory(document.getElementById("inp9")));
+			},
 			testMandatory: function() {
 				var element = document.getElementById("inp7");
 				assert.isFalse(controller.isMandatory(element));
