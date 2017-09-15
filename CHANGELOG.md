@@ -5,6 +5,7 @@
 ### API Changes
 
 ### Enhancements
+* Moved placeholder text determination to the renderers to reduce the reliance on client side i18n.
 
 ### Bug Fixes
 
