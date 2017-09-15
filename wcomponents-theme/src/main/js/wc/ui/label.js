@@ -124,6 +124,8 @@ define(["wc/dom/classList",
 					newLabellingElement = document.createElement("label");
 					if ((input = wrappedInput.getInput(element))) { // should always be found
 						newLabellingElement.setAttribute("for", input.id);
+					} else if (TAGS.indexOf(element.tagName) > -1) {
+						newLabellingElement.setAttribute("for", element.id);
 					}
 				}
 				newLabellingElement.className = label.className;
@@ -288,6 +290,17 @@ define(["wc/dom/classList",
 			this.preInit = function(element) {
 				moveLabels(element);
 			};
+
+			/**
+			 * Public for testing.
+			 * @ignore
+			 */
+			this._convert = convertLabel;
+			/**
+			 * Public for testing.
+			 * @ignore
+			 */
+			this._ajax = ajaxSubscriber;
 		}
 
 		/**
