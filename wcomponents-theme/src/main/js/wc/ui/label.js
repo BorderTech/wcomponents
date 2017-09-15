@@ -129,7 +129,9 @@ define(["wc/dom/classList",
 				newLabellingElement.className = label.className;
 				newLabellingElement.innerHTML = label.innerHTML;
 				input = input || element;
-				mandateLabel(newLabellingElement, (!isRO && shed.isMandatory(input) ? "add" : "remove"));
+				if (input && input.type !== "radio") {
+					mandateLabel(newLabellingElement, (!isRO && shed.isMandatory(input) ? "add" : "remove"));
+				}
 				if (shed.isHidden(element, true)) {
 					shed.hide(newLabellingElement, true); // nothing depends on the hidden state of a label and we are replicating a load-time state.
 				}
@@ -148,12 +150,12 @@ define(["wc/dom/classList",
 			}
 
 			/**
-			 * AJAX subscriber to convert labels from a HTML label element to its read-only analogue and vice-versa when
+			 * Post-insertion AJAX subscriber to convert labels from a HTML label element to its read-only analogue and vice-versa when
 			 * a labelled element is replaced via AJAX.
 			 *
 			 * @function
 			 * @private
-			 * @param {Element} element The reference element (element being replaced).
+			 * @param {Element} element the new element.
 			 */
 			function ajaxSubscriber(element) {
 				if (!element) {
@@ -174,7 +176,9 @@ define(["wc/dom/classList",
 						}
 						// only have to do this if we are not converting the labels.
 						if ((input = wrappedInput.getInput(next))) {
-							mandateLabel(label, !isRO && shed.isMandatory(input) ? "add" : "remove");
+							if (input.type !== "radio") {
+								mandateLabel(label, !isRO && shed.isMandatory(input) ? "add" : "remove");
+							}
 						}
 						if (shed.isHidden(next, true)) {
 							shed.hide(label, true);
