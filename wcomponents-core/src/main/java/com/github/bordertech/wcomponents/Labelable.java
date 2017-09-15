@@ -6,6 +6,6 @@ package com.github.bordertech.wcomponents;
  * @author Mark Reeves
  * @since 1.4.0
  */
-public interface Labelable {
+public interface Labelable extends WComponent {
 
 }

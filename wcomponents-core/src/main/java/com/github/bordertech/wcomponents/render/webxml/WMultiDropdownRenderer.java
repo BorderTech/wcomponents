@@ -5,6 +5,8 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WMultiDropdown;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.I18nUtilities;
+import com.github.bordertech.wcomponents.util.InternalMessages;
 import java.util.List;
 
 /**
@@ -49,6 +51,7 @@ final class WMultiDropdownRenderer extends AbstractWebXmlRenderer {
 			int max = dropdown.getMaxSelect();
 			xml.appendOptionalAttribute("min", min > 0, min);
 			xml.appendOptionalAttribute("max", max > 0, max);
+			xml.appendOptionalAttribute("title", I18nUtilities.format(null, InternalMessages.DEFAULT_MULTI_FORM_COMPONENT_TIP));
 		}
 
 		xml.appendClose();

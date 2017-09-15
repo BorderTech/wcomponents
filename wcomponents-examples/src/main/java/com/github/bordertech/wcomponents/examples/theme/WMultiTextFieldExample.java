@@ -28,6 +28,7 @@ public class WMultiTextFieldExample extends WContainer {
 				1 + ". Dynamic Multi-Inputs With No Data Defined"));
 
 		WMultiTextField inputs1 = new WMultiTextField();
+		inputs1.setToolTip("My tooltip for #1");
 		addField(layout, inputs1, "Dynamic mult-input " + ++i);
 
 		//Size 30 and maxlength 30

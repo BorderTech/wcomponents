@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WPasswordField;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.HtmlRenderUtil;
 
 /**
  * The Renderer for {@link WPasswordField}.
@@ -51,7 +52,7 @@ class WPasswordFieldRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("accessibleText", field.getAccessibleText());
 			xml.appendOptionalAttribute("size", cols > 0, cols);
 			xml.appendOptionalAttribute("buttonId", submitControlId);
-			xml.appendOptionalAttribute("placeholder", field.getPlaceholder());
+			xml.appendOptionalAttribute("placeholder", HtmlRenderUtil.getEffectivePlaceholder(field));
 		}
 		xml.appendEnd();
 	}
