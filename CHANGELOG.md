@@ -4,7 +4,7 @@
 
 ### API Changes
 
-### Enhancements1
+### Enhancements
 
 * Moved placeholder text determination to the renderers to reduce the reliance on client side i18n.
 * Improved render performance by removing a superfluous call to `hasTabIndex()` in order to set a `tabIndex` attribute. `hasTabIndex()` will always
