@@ -47,7 +47,6 @@ class WPasswordFieldRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("required", field.isMandatory(), "true");
 			xml.appendOptionalAttribute("minLength", minLength > 0, minLength);
 			xml.appendOptionalAttribute("maxLength", maxLength > 0, maxLength);
-			xml.appendOptionalAttribute("tabIndex", field.hasTabIndex(), field.getTabIndex());
 			xml.appendOptionalAttribute("toolTip", field.getToolTip());
 			xml.appendOptionalAttribute("accessibleText", field.getAccessibleText());
 			xml.appendOptionalAttribute("size", cols > 0, cols);

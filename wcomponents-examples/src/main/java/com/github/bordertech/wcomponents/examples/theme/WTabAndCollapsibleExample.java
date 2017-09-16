@@ -62,17 +62,17 @@ public class WTabAndCollapsibleExample extends WPanel {
 	/**
 	 * Creates a button to toggle the visibility of a tab.
 	 *
-	 * @param tabIndex the index of the tab.
+	 * @param idx the index of the tab.
 	 * @return a button which toggles the visibility of the tab.
 	 */
-	private WButton newVisibilityToggleForTab(final int tabIndex) {
-		WButton toggleButton = new WButton("Toggle visibility of tab " + (tabIndex + 1));
+	private WButton newVisibilityToggleForTab(final int idx) {
+		WButton toggleButton = new WButton("Toggle visibility of tab " + (idx + 1));
 
 		toggleButton.setAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
-				boolean tabVisible = tabset.isTabVisible(tabIndex);
-				tabset.setTabVisible(tabIndex, !tabVisible);
+				boolean tabVisible = tabset.isTabVisible(idx);
+				tabset.setTabVisible(idx, !tabVisible);
 			}
 		});
 

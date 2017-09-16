@@ -45,7 +45,6 @@ final class WNumberFieldRenderer extends AbstractWebXmlRenderer {
 			int decimals = field.getDecimalPlaces();
 			xml.appendOptionalAttribute("disabled", field.isDisabled(), "true");
 			xml.appendOptionalAttribute("required", field.isMandatory(), "true");
-			xml.appendOptionalAttribute("tabIndex", field.hasTabIndex(), field.getTabIndex());
 			xml.appendOptionalAttribute("toolTip", field.getToolTip());
 			xml.appendOptionalAttribute("accessibleText", field.getAccessibleText());
 			xml.appendOptionalAttribute("min", min != null, String.valueOf(min));

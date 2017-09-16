@@ -42,7 +42,6 @@ final class WRadioButtonRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("disabled", button.isDisabled(), "true");
 			xml.appendOptionalAttribute("required", button.isMandatory(), "true");
 			xml.appendOptionalAttribute("submitOnChange", button.isSubmitOnChange(), "true");
-			xml.appendOptionalAttribute("tabIndex", component.hasTabIndex(), component.getTabIndex());
 			xml.appendOptionalAttribute("toolTip", button.getToolTip());
 			xml.appendOptionalAttribute("accessibleText", button.getAccessibleText());
 			// Check for null option (ie null or empty). Match isEmpty() logic.

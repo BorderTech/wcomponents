@@ -315,12 +315,16 @@ public interface WComponent extends WebComponent {
 	 * Indicates whether this component has a tab index.
 	 *
 	 * @return false - For the moment, turn off the tab index feature and see what happens.
+	 * @Deprecated 1.4 causes a11y issues, no replacement.
 	 */
+	@Deprecated
 	boolean hasTabIndex();
 
 	/**
 	 * @return the tab index for this component.
+	 * @Deprecated 1.4 causes a11y issues, no replacement.
 	 */
+	@Deprecated
 	int getTabIndex();
 
 	/**

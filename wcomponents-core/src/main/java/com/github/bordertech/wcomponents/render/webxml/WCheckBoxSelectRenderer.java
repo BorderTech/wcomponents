@@ -40,11 +40,9 @@ final class WCheckBoxSelectRenderer extends AbstractWebXmlRenderer {
 		} else {
 			int min = select.getMinSelect();
 			int max = select.getMaxSelect();
-			int tabIndex = select.getTabIndex();
 			xml.appendOptionalAttribute("disabled", select.isDisabled(), "true");
 			xml.appendOptionalAttribute("required", select.isMandatory(), "true");
 			xml.appendOptionalAttribute("submitOnChange", select.isSubmitOnChange(), "true");
-			xml.appendOptionalAttribute("tabIndex", component.hasTabIndex(), tabIndex);
 			xml.appendOptionalAttribute("toolTip", component.getToolTip());
 			xml.appendOptionalAttribute("accessibleText", component.getAccessibleText());
 			xml.appendOptionalAttribute("min", min > 0, min);
