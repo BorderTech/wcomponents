@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.WEmailField;
 import com.github.bordertech.wcomponents.WSuggestions;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.HtmlRenderUtil;
 
 /**
  * The Renderer for {@link WEmailField}.
@@ -53,7 +54,7 @@ class WEmailFieldRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("size", cols > 0, cols);
 			xml.appendOptionalAttribute("buttonId", submitControlId);
 			xml.appendOptionalAttribute("list", suggestionsId);
-			xml.appendOptionalAttribute("placeholder", field.getPlaceholder());
+			xml.appendOptionalAttribute("placeholder", HtmlRenderUtil.getEffectivePlaceholder(field));
 		}
 		xml.appendClose();
 

@@ -45,6 +45,11 @@
 			<xs:group ref="ui:option.with.group" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:attributeGroup ref="ui:selectList.attributes" />
 			<xs:attributeGroup ref="ui:multiSelect.constraints.attributes" />
+			<xs:attribute name="title" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>This is for framework use only.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 
