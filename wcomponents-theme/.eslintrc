@@ -7,12 +7,8 @@
 	"rules": {
 		"no-console": 0,
 		"no-shadow": 2,
-		"no-underscore-dangle": 0,
 		"no-constant-condition": 0,
-		"no-return-assign": 0,
-		"no-extend-native": 0,
 		"no-debugger": 0,
-		"no-alert": 0,
 		"brace-style": 2,
 		"semi": [2, "always"],
 		"space-before-blocks": [2, "always"],
