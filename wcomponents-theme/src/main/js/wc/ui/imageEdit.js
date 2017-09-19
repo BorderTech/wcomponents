@@ -30,7 +30,13 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		quality: 1,  // only if format is jpeg
 		multiplier: 1,
 		face: false,
+		rotate: true,
+		zoom: true,
+		move: true,
 		redact: false,
+		undo: true,
+		cancel: true,
+		save: true,
 		crop: true
 	};
 
@@ -63,8 +69,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		this.register = function(arr) {
 			var i, next;
 			for (i = 0; i < arr.length; i++) {
-				next = mixin(this.defaults);  // make a copy of defaults
-				next = mixin(arr[i], next);  // override defaults with explicit settings
+				next = arr[i];
 				registeredIds[next.id] = next;
 			}
 			if (!inited) {
@@ -118,7 +123,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		 * @returns {Object} configuration
 		 */
 		this.getConfig = function(obj) {
-			var editorId, result;
+			var editorId, result, defaultConfig;
 			if (obj) {
 				result = registeredIds[obj.id] || registeredIds[obj.name];
 				if (!result) {
@@ -132,7 +137,12 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 					}
 				}
 			}
-			return result || mixin(this.defaults);
+			if (!result || !result.__wcmixed) {
+				defaultConfig = mixin(this.defaults);  // make a copy of defaults;
+				result = mixin(result, defaultConfig);  // override defaults with explicit settings
+				result.__wcmixed = true;  // flag that we have mixed in the defaults so it doesn't need to happen again
+			}
+			return result;
 		};
 
 		/**
@@ -473,7 +483,13 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 							},
 							feature: {
 								face: false,
-								redact: config.redact
+								rotate: config.rotate,
+								zoom: config.zoom,
+								move: config.move,
+								redact: config.redact,
+								undo: config.undo,
+								cancel: config.cancel,
+								save: config.save
 							}
 						},
 						done = function(container) {
@@ -530,13 +546,13 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		function getTranslations(obj) {
 			var messages = ["imgedit_action_camera", "imgedit_action_cancel", "imgedit_action_redact",
 				"imgedit_action_redo", "imgedit_action_save", "imgedit_action_snap", "imgedit_action_undo",
-				"imgedit_capture", "imgedit_message_camera", "imgedit_message_cancel", "imgedit_message_move_down",
+				"imgedit_capture", "imgedit_message_camera", "imgedit_message_cancel", "imgedit_message_move_center", "imgedit_message_move_down",
 				"imgedit_message_move_left", "imgedit_message_move_right", "imgedit_message_move_up",
 				"imgedit_message_nocapture", "imgedit_message_redact", "imgedit_message_redo",
 				"imgedit_message_rotate_left", "imgedit_message_rotate_left90", "imgedit_message_rotate_right",
 				"imgedit_message_rotate_right90", "imgedit_message_save", "imgedit_message_snap",
 				"imgedit_message_undo", "imgedit_message_zoom_in", "imgedit_message_zoom_out", "imgedit_move",
-				"imgedit_move_down", "imgedit_move_left", "imgedit_move_right", "imgedit_move_up", "imgedit_redact",
+				"imgedit_move_center", "imgedit_move_down", "imgedit_move_left", "imgedit_move_right", "imgedit_move_up", "imgedit_redact",
 				"imgedit_rotate", "imgedit_rotate_left", "imgedit_rotate_left90", "imgedit_rotate_right",
 				"imgedit_rotate_right90", "imgedit_zoom", "imgedit_zoom_in", "imgedit_zoom_out"];
 			return i18n.translate(messages).then(function(translations) {
@@ -692,7 +708,8 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		 * Wires up the "move" feature.
 		 */
 		function moveControls(eventConfig) {
-			var press = eventConfig.press;
+			var press = eventConfig.press,
+				click = eventConfig.click;
 			press.up = {
 				func: numericProp,
 				prop: "Top",
@@ -715,6 +732,15 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 				func: numericProp,
 				prop: "Left",
 				step: 1
+			};
+
+			click.center = {
+				func: function() {
+					var fbImage = imageEdit.getFbImage();
+					if (fbImage) {
+						fbImage.center();
+					}
+				}
 			};
 		}
 

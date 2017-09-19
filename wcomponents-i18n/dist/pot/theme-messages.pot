@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-14 10:32+1000\n"
+"POT-Creation-Date: 2017-09-19 16:30+1000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -751,6 +751,12 @@ msgctxt "imgedit_move_down"
 msgid "Down"
 msgstr ""
 
+#: imgedit_move_center
+#, java-format
+msgctxt "imgedit_move_center"
+msgid "Center"
+msgstr ""
+
 #: imgedit_redact
 #, java-format
 msgctxt "imgedit_redact"
@@ -886,13 +892,19 @@ msgstr ""
 #: imgedit_message_move_up
 #, java-format
 msgctxt "imgedit_message_move_up"
-msgid "Move the image to the up"
+msgid "Move the image up"
 msgstr ""
 
 #: imgedit_message_move_down
 #, java-format
 msgctxt "imgedit_message_move_down"
-msgid "Move the image to the down"
+msgid "Move the image down"
+msgstr ""
+
+#: imgedit_message_move_center
+#, java-format
+msgctxt "imgedit_message_move_center"
+msgid "Center the image"
 msgstr ""
 
 #: imgedit_message_zoom_in

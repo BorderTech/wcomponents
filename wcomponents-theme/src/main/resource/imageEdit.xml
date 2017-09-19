@@ -12,6 +12,7 @@
 		<p>{{imgedit_message_nocapture}}</p>
 	</div>
 	<div class="wc_img_controls wc-column">
+		{{#feature.rotate}}
 		<fieldset>
 			<legend>{{imgedit_rotate}}</legend>
 			<button title="{{imgedit_message_rotate_left90}}" type="button" class="wc_btn_anticlock90 wc_btn_icon" name="anticlock90"><span aria-hidden="true" class="fa fa-step-backward"></span><span class="wc-off">{{imgedit_rotate_left90}}</span></button>
@@ -19,6 +20,8 @@
 			<button title="{{imgedit_message_rotate_right}}" type="button" class="wc_btn_clock wc_btn_icon" name="clock"><span aria-hidden="true" class="fa fa-repeat"></span><span class="wc-off">{{imgedit_rotate_right}}</span></button>
 			<button title="{{imgedit_message_rotate_right90}}" type="button" class="wc_btn_clock90 wc_btn_icon" name="clock90"><span aria-hidden="true" class="fa fa-step-forward"></span><span class="wc-off">{{imgedit_rotate_right90}}</span></button>
 		</fieldset>
+		{{/feature.rotate}}
+		{{#feature.zoom}}
 		<fieldset>
 			<legend>{{imgedit_zoom}}</legend>
 			<button title="{{imgedit_message_zoom_out}}" type="button" class="wc_btn_out wc_btn_icon" name="out"><span aria-hidden="true" class="fa fa-search-minus"></span><span class="wc-off">{{imgedit_zoom_out}}</span></button>
@@ -27,13 +30,17 @@
 			<button title="{{message.face}}" type="button" class="wc_btn_face wc_btn_icon" name="face"><span aria-hidden="true" class="fa fa-user"></span><span class="wc-off">{{action.face}}</span></button>
 			{{/feature.face}}
 		</fieldset>
+		{{/feature.zoom}}
+		{{#feature.move}}
 		<fieldset class="wc_img_buttons">
 			<legend>{{imgedit_move}}</legend>
 			<button title="{{imgedit_message_move_up}}" type="button" class="wc_btn_up wc_btn_icon" name="up"><span aria-hidden="true" class="fa fa-caret-up"></span><span class="wc-off">{{imgedit_move_up}}</span></button>
 			<button title="{{imgedit_message_move_left}}" type="button" class="wc_btn_left wc_btn_icon" name="left"><span aria-hidden="true" class="fa fa-caret-left"></span><span class="wc-off">{{imgedit_move_left}}</span></button>
+			<button title="{{imgedit_message_move_center}}" type="button" class="wc_btn_center wc_btn_icon" name="center"><span aria-hidden="true" class="fa fa-bullseye"></span><span class="wc-off">{{imgedit_move_center}}</span></button>
 			<button title="{{imgedit_message_move_right}}" type="button" class="wc_btn_right wc_btn_icon" name="right"><span aria-hidden="true" class="fa fa-caret-right"></span><span class="wc-off">{{imgedit_move_right}}</span></button>
 			<button title="{{imgedit_message_move_down}}" type="button" class="wc_btn_down wc_btn_icon" name="down"><span aria-hidden="true" class="fa fa-caret-down"></span><span class="wc-off">{{imgedit_move_down}}</span></button>
 		</fieldset>
+		{{/feature.move}}
 		{{#feature.redact}}
 		<fieldset>
 			<legend>{{imgedit_redact}}</legend>
@@ -47,10 +54,16 @@
 			<button title="{{imgedit_message_camera}}" type="button" class="wc_btn_camera wc_btn_icon" name="camera"><span aria-hidden="true" class="fa fa-video-camera"></span><span class="wc-off">{{imgedit_action_camera}}</span></button>
 		</fieldset>
 		<div>
+			{{#feature.undo}}
 			<button title="{{imgedit_message_undo}}" type="button" class="wc_btn_undo wc_btn_icon" name="undo"><span aria-hidden="true" class="fa fa-reply"></span><span class="wc-off">{{imgedit_action_undo}}</span></button>
 			<button title="{{imgedit_message_redo}}" type="button" class="wc_btn_redo wc_btn_icon" name="redo"><span aria-hidden="true" class="fa fa-share"></span><span class="wc-off">{{imgedit_action_redo}}</span></button>
+			{{/feature.undo}}
+			{{#feature.cancel}}
 			<button title="{{imgedit_message_cancel}}" type="button" class="wc_btn_cancel wc_btn_icon" name="cancel"><span aria-hidden="true" class="fa fa-trash"></span><span class="wc-off">{{imgedit_action_cancel}}</span></button>
+			{{/feature.cancel}}
+			{{#feature.save}}
 			<button title="{{imgedit_message_save}}" type="button" class="wc_btn_save wc_btn_icon" name="save"><span aria-hidden="true" class="fa fa-floppy-o"></span><span class="wc-off">{{imgedit_action_save}}</span></button>
+			{{/feature.save}}
 		</div>
 	</div>
 </div>
