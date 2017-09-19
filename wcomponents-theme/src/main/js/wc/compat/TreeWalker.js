@@ -120,6 +120,8 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 				filterResult = 0; // trigger the filter function
 			}
 
+			// Keep processing until explicit break
+			// eslint-disable-next-line no-constant-condition
 			PROCESSING: while (true) {
 				// filter
 				// first time in while loop don't worry about the filter, were just
@@ -264,6 +266,8 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 
 			// process each node depth first
 			PROCESSING:
+			// Keep processing until explicit break
+			// eslint-disable-next-line no-constant-condition
 			while (true) { // <-- looks like a scary test huh
 				// filter
 				// first time in while loop don't worry about the filter, were just interested in finding the next logical

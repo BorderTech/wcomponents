@@ -46,6 +46,7 @@ define(["wc/string/escapeRe", "wc/date/pattern"],
 				patternAsRe;
 
 			// loop matching all regular expressions and keeping the earliest longest match
+			// eslint-disable-next-line no-constant-condition
 			while (true) {
 				next = null;
 				best = null;
