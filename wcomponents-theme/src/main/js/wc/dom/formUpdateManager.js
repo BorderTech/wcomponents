@@ -248,7 +248,6 @@ define(["wc/dom/event",
 						addRemoveEvents(form);
 						attribute.remove(form, INITED_ATTR);
 						console.error("error in subscriber", ex);
-						debugger;
 					}
 				} else {
 					console.log("Submit event cancelled. Suscribers not notified.");
