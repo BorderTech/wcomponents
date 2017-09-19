@@ -58,15 +58,15 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 		},
 		testObserverSubscribeStagedPromise: function() {
 			var wasNotified = false,
-				observer = new Observer(true);
+				myObserver = new Observer(true);
 
 			function subscriber() {
 				wasNotified = true;
 				return Promise.resolve();
 			}
 
-			observer.subscribe(subscriber);
-			observer.notify().then(function() {
+			myObserver.subscribe(subscriber);
+			myObserver.notify().then(function() {
 				assert.isTrue(wasNotified, "The subscriber should be notified if it was correctly subscribed.");
 			});
 		},
@@ -259,7 +259,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 
 			function setImportanceParameter(foo) {
 				if (typeof foo === "string") {
-					 return true;
+					return true;
 				}
 				return false;
 			}
@@ -316,61 +316,61 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			});
 		},
 		testStagedImportance: function () {
-			var observer = new Observer(true),
+			var myObserver = new Observer(true),
 				expected = ["high", "medium", "low"],
 				order = [];
-			observer.subscribe(function() {
+			myObserver.subscribe(function() {
 				order.push("medium");
 			});
-			observer.subscribe(function() {
+			myObserver.subscribe(function() {
 				order.push("low");
 			}, { priority: Observer.priority.LOW });
-			observer.subscribe(function() {
+			myObserver.subscribe(function() {
 				order.push("high");
 			}, { priority: Observer.priority.HIGH });
-			return observer.notify().then(function() {
+			return myObserver.notify().then(function() {
 				assert.equal(order.join(), expected.join());
 			});
 		},
 		testStagedImportanceSubscriberThrowsErrors: function () {
-			var observer = new Observer(true),
+			var myObserver = new Observer(true),
 				expected = ["high", "high", "medium", "medium", "low", "low"],
 				order = [];
-			observer.subscribe(function() {
+			myObserver.subscribe(function() {
 				order.push("medium");
 				throw new Error("Observer testing error in medium subscriber");
 			});
-			observer.subscribe(function() {
+			myObserver.subscribe(function() {
 				order.push("medium");
 				throw new Error("Observer testing error in medium subscriber");
 			});
-			observer.subscribe(function() {
+			myObserver.subscribe(function() {
 				order.push("low");
 			}, { priority: Observer.priority.LOW });
-			observer.subscribe(function() {
+			myObserver.subscribe(function() {
 				order.push("low");
 			}, { priority: Observer.priority.LOW });
-			observer.subscribe(function() {
+			myObserver.subscribe(function() {
 				order.push("high");
 				throw new Error("Observer testing error in high subscriber");
 			}, { priority: Observer.priority.HIGH });
-			observer.subscribe(function() {
+			myObserver.subscribe(function() {
 				order.push("high");
 				throw new Error("Observer testing error in high subscriber");
 			}, { priority: Observer.priority.HIGH });
-			return observer.notify().then(function() {
+			return myObserver.notify().then(function() {
 				assert.equal(order.join(), expected.join());
 			});
 		},
 		testStagedImportanceWaits: function () {
-			var observer = new Observer(true),
+			var myObserver = new Observer(true),
 				expected = ["high", "medium", "low"],
 				order = [];
 			/*
 				Even if the low subscribers are very fast and the high subscribers
 				very slow, each stage will complete in order if "staged" is true.
 			 */
-			observer.subscribe(function() {
+			myObserver.subscribe(function() {
 				return new Promise(function(win) {
 					timers.setTimeout(function() {
 						order.push("medium");
@@ -378,10 +378,10 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 					}, 20);
 				});
 			});
-			observer.subscribe(function() {
+			myObserver.subscribe(function() {
 				order.push("low");
 			}, { priority: Observer.priority.LOW });
-			observer.subscribe(function() {
+			myObserver.subscribe(function() {
 				return new Promise(function(win) {
 					timers.setTimeout(function() {
 						order.push("high");
@@ -390,19 +390,19 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				});
 			}, { priority: Observer.priority.HIGH });
 
-			return observer.notify().then(function() {
+			return myObserver.notify().then(function() {
 				assert.equal(order.join(), expected.join(), "Subscribers should wait for the previous stage to complete");
 			});
 		},
 		testStagedImportanceRandomWaits: function () {
-			var observer = new Observer(true),
+			var myObserver = new Observer(true),
 				expected = ["high", "medium", "low"],
 				delays = [getRandomInt(0, 50), getRandomInt(0, 50), getRandomInt(0, 50)],
 				order = [];
 			/*
 			 Same as test above but mix up the times
 			 */
-			observer.subscribe(function() {
+			myObserver.subscribe(function() {
 				return new Promise(function(win) {
 					timers.setTimeout(function() {
 						order.push("medium");
@@ -410,7 +410,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 					}, delays[0]);
 				});
 			});
-			observer.subscribe(function() {
+			myObserver.subscribe(function() {
 				return new Promise(function(win) {
 					timers.setTimeout(function() {
 						order.push("low");
@@ -418,7 +418,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 					}, delays[1]);
 				});
 			}, { priority: Observer.priority.LOW });
-			observer.subscribe(function() {
+			myObserver.subscribe(function() {
 				return new Promise(function(win) {
 					timers.setTimeout(function() {
 						order.push("high");
@@ -427,7 +427,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				});
 			}, { priority: Observer.priority.HIGH });
 
-			return observer.notify().then(function() {
+			return myObserver.notify().then(function() {
 				assert.equal(order.join(), expected.join(),
 					"Subscribers should wait for the previous stage to complete " + delays.join());
 			});
@@ -624,9 +624,9 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			observer.notify();
 			assert.deepEqual(expected, result);
 
-			function curriedSubscriber(expected) {
+			function curriedSubscriber(sauce) {
 				return function () {
-					result[idx++] = expected;
+					result[idx++] = sauce;
 				};
 			}
 		},
@@ -644,9 +644,9 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 					2: 3,
 					3: 5 };
 
-			function curriedSubscriber(expected) {
+			function curriedSubscriber(sauce) {
 				return function () {
-					result[idx++] = expected;
+					result[idx++] = sauce;
 				};
 			}
 			/* The try/finally is only here to ensure proper cleanup of the various groups. */
@@ -690,9 +690,9 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 					4: 0,
 					5: 5 };
 
-			function curriedSubscriber(expected) {
+			function curriedSubscriber(sauce) {
 				return function () {
-					result[idx++] = expected;
+					result[idx++] = sauce;
 				};
 			}
 			try {

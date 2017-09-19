@@ -32,12 +32,13 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils!"
 				return testutils.setupHelper(["wc/dom/clearSelection", "wc/timers"], function(c, t) {
 					clearSelection = c;
 					timers = t;
+					testHolder = testutils.getTestHolder();
 				});
 			},
 			beforeEach: function() {
 				var el, range,
-					SELECT_ID = "clearSelectionTestContainer1",
-					testHolder = testutils.getTestHolder();
+					SELECT_ID = "clearSelectionTestContainer1";
+
 				testHolder.innerHTML = "<p id='" + SELECT_ID + "'>" + TEXT + "</p>";
 
 				if ((el = document.getElementById(SELECT_ID))) {
