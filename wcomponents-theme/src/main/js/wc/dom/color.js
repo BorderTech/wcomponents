@@ -87,7 +87,7 @@ define(["wc/loader/resource"],
 				return result;
 			};
 
-			 /**
+			/**
 			 * Get a String hex colour definition of a colour literal. This method is for browsers that support
 			 * getComputedStyle (eg not Internet Explorer 8)
 			 *

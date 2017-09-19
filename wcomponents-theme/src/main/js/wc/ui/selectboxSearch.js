@@ -1,25 +1,3 @@
-/**
- * Select an option in a select list by typing into it.
- *
- * @module
- * @requires module:wc/string/escapeRe
- * @requires module:wc/dom/tag
- * @requires module:wc/dom/uid
- * @requires module:wc/dom/classList
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/attribute
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/event
- * @requires module:wc/dom/group
- * @requires module:wc/i18n/i18n
- * @requires module:wc/timers
- * @requires module:wc/config
- * @requires module:wc/mixin
- * @requires module:wc/debounce
- * @requires module:wc/dom/textContent
- *
- * @todo Document private members, fix source order.
- */
 define(["wc/string/escapeRe",
 	"wc/dom/tag",
 	"wc/dom/uid",
@@ -35,8 +13,7 @@ define(["wc/string/escapeRe",
 	"wc/mixin",
 	"wc/debounce",
 	"wc/dom/textContent"],
-	function(escapeRe, tag, uid, classList, initialise, attribute, shed, event, group, i18n, timers, wcconfig, mixin,
-	         debounce, textContent) {
+	function(escapeRe, tag, uid, classList, initialise, attribute, shed, event, group, i18n, timers, wcconfig, mixin, debounce, textContent) {
 		"use strict";
 
 		/**
@@ -448,7 +425,29 @@ define(["wc/string/escapeRe",
 			};
 		}
 		var ns = uid(),
-			/** @alias module:wc/ui/selectboxSearch */ instance = new SelectboxSearch();
+			/**
+			 * Select an option in a select list by typing into it.
+			 *
+			 * @module
+			 * @requires module:wc/string/escapeRe
+			 * @requires module:wc/dom/tag
+			 * @requires module:wc/dom/uid
+			 * @requires module:wc/dom/classList
+			 * @requires module:wc/dom/initialise
+			 * @requires module:wc/dom/attribute
+			 * @requires module:wc/dom/shed
+			 * @requires module:wc/dom/event
+			 * @requires module:wc/dom/group
+			 * @requires module:wc/i18n/i18n
+			 * @requires module:wc/timers
+			 * @requires module:wc/config
+			 * @requires module:wc/mixin
+			 * @requires module:wc/debounce
+			 * @requires module:wc/dom/textContent
+			 *
+			 * @todo Document private members, fix source order.
+			 */
+			instance = new SelectboxSearch();
 
 		initialise.register(instance);
 		return instance;

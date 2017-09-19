@@ -1213,7 +1213,7 @@ define(["wc/dom/attribute",
 		AbstractMenu.prototype.getRoot = function(item) {
 			var result = this.ROOT.findAncestor(item);
 			if (result && result !== this.getFirstMenuAncestor(item)) { // make sure the first generic root is root
-				 return null;
+				return null;
 			}
 			return result;
 		};
