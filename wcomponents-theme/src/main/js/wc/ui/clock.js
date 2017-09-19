@@ -28,17 +28,17 @@ define(["lib/date", "wc/ajax/ajax", "wc/loader/resource", "wc/dom/textContent", 
 			ajax.simpleRequest(request);
 		};
 
-		function startTicking(config) {
+		function startTicking(dto) {
 			var formatter,
-				start = config.start || Date.now(),
+				start = dto.start || Date.now(),
 				result = {
-					date: new date.Date(start, config.timezone),
+					date: new date.Date(start, dto.timezone),
 					timer: null
 				};
-			if (config.format) {
-				formatter = new Format(config.format);
+			if (dto.format) {
+				formatter = new Format(dto.format);
 			} else {
-				formatter = new Format(config.seconds ? defaultFormatWithSeconds : defaultFormat);
+				formatter = new Format(dto.seconds ? defaultFormatWithSeconds : defaultFormat);
 			}
 			tick();
 			function tick() {
@@ -47,20 +47,20 @@ define(["lib/date", "wc/ajax/ajax", "wc/loader/resource", "wc/dom/textContent", 
 					parsed = interchange.fromDate(result.date, true),
 					dateString = formatter.format(parsed);
 
-				if (config.id && (element = document.getElementById(config.id))) {
+				if (dto.id && (element = document.getElementById(dto.id))) {
 					textContent.set(element, dateString);
 				}
 
-				if (config.callback) {
+				if (dto.callback) {
 					try {
-						config.callback(dateString, result.date);
+						dto.callback(dateString, result.date);
 					} catch (ex) {
-						config.callback = null;
+						dto.callback = null;
 						console.error(ex);
 					}
 				}
 
-				if (config.seconds) {
+				if (dto.seconds) {
 					nextTick = 1000;
 				} else {
 					nextTick = 60 - result.date.getSeconds();

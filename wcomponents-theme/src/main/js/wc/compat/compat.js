@@ -252,17 +252,19 @@ define(["wc/has"], function(has) {
 		});
 
 		addtest("native-dateinput", function() {
-			var el, d = "date", result = false;
+			var el,
+				d = "date",
+				res = false;
 			try {
 				el = document.createElement("input");
 				el.type = d;
-				result = d === el.type;
+				res = d === el.type;
 			} catch (e) {
-				result = false;
+				res = false;
 			} finally {
 				el = null;
 			}
-			return result;
+			return res;
 		});
 
 		addtest("rtc-gum", function(g) {
@@ -277,17 +279,17 @@ define(["wc/has"], function(has) {
 		});
 
 		function hasWorkingObjectDefineProperty(g, obj) {
-			var result = has("object-defineproperty");
-			if (result) {  // it has defineProperty but does it work?
+			var res = has("object-defineproperty");
+			if (res) {  // it has defineProperty but does it work?
 				try {
 					g.Object.defineProperty(obj, "id", { get: function() {
 						return "c";
 					}});
 				} catch (ex) {
-					result = false;  // this is not a working defineProperty (i.e. perhaps Safari 5 which does not support defineProperty on DOM objects)
+					res = false;  // this is not a working defineProperty (i.e. perhaps Safari 5 which does not support defineProperty on DOM objects)
 				}
 			}
-			return result;
+			return res;
 		}
 	})(has.add);
 

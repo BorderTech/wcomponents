@@ -67,11 +67,11 @@ define(["wc/date/interchange", "wc/date/monthName"],
 			 *    space if we cannot work out how to format the part.
 			 */
 			function replaceDatePart(part) {
-				var result,
+				var res,
 					shortForm = false;
 				switch (part) {
 					case "MM":
-						result = date.month;
+						res = date.month;
 						break;
 					case "MON":
 					case "MMM":
@@ -79,46 +79,47 @@ define(["wc/date/interchange", "wc/date/monthName"],
 						/* falls through */
 					case "MMMM":
 						if (date.month) {
-							result = monthName.get(shortForm)[date.month - 1];
+							res = monthName.get(shortForm)[date.month - 1];
 						}
 						shortForm = false;
 						break;
 					case "d":
-						result = date.day ? date.day * 1 : null;
+						res = date.day ? date.day * 1 : null;
 						break;
 					case "dd":
-						result = date.day;
+						res = date.day;
 						break;
 					case "yy":
-						result = date.year ? date.year.substr(2) : null;
+						res = date.year ? date.year.substr(2) : null;
 						break;
 					case "yyyy":
-						result = date.year;
+						res = date.year;
 						break;
 					case "HH":
-						result = getHour(date, false, false);
+						res = getHour(date, false, false);
 						break;
 					case "h":
-						result = getHour(date, true, false);
+						res = getHour(date, true, false);
 						break;
 					case "hh":
-						result = getHour(date, true, true);
+						res = getHour(date, true, true);
 						break;
 					case "mm":
-						result = date.minute;
+						res = date.minute;
 						break;
 					case "a":
-						result = (date.hour || date.hour === 0) ? (date.hour < 12 ? "AM" : "PM") : "";
+						res = (date.hour || date.hour === 0) ? (date.hour < 12 ? "AM" : "PM") : "";
 						break;
 					case "ss":
-						result = date.second;
+						res = date.second;
 						break;
 					default:
 						failFlag = true;
 						break;
 				}
-				return result || " ";
+				return res || " ";
 			}
+
 			if (failFlag) {
 				result = "";
 			} else if (result) {

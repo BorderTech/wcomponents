@@ -174,8 +174,8 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 			/*
 			 * Once the user has commited their changes buffer the result and see if there is another file queued for editing.
 			 */
-			function saveEditedFile(file) {
-				result.push(file);
+			function saveEditedFile(fileToSave) {
+				result.push(fileToSave);
 				editNextFile();
 			}
 
@@ -403,14 +403,14 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 
 		/**
 		 * Show or hide the overlay image.
-		 * @param fbCanvas The FabricJS canvas.
+		 * @param fabricCanvas The FabricJS canvas.
 		 * @param show If truthy unhides (shows) the overlay.
 		 */
-		function showHideOverlay(fbCanvas, show) {
-			var overlay = fbCanvas.overlayImage;
+		function showHideOverlay(fabricCanvas, show) {
+			var overlay = fabricCanvas.overlayImage;
 			if (overlay) {
-				fbCanvas.overlayImage.visible = !!show;
-				fbCanvas.renderAll();
+				fabricCanvas.overlayImage.visible = !!show;
+				fabricCanvas.renderAll();
 			}
 		}
 
@@ -476,33 +476,33 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 								redact: config.redact
 							}
 						},
-						done = function(container) {
-							var eventConfig = attachEventHandlers(container);
+						done = function(cntnr) {
+							var eventConfig = attachEventHandlers(cntnr);
 							zoomControls(eventConfig);
 							moveControls(eventConfig);
 							resetControl(eventConfig);
-							cancelControl(eventConfig, container, callbacks, file);
-							saveControl(eventConfig, container, callbacks, file);
+							cancelControl(eventConfig, cntnr, callbacks, file);
+							saveControl(eventConfig, cntnr, callbacks, file);
 							rotationControls(eventConfig);
 							if (config.redactor) {
-								config.redactor.controls(eventConfig, container);
+								config.redactor.controls(eventConfig, cntnr);
 							}
 
 							if (!file) {
-								classList.add(container, "wc_camenable");
-								classList.add(container, "wc_showcam");
-								imageCapture.snapshotControl(eventConfig, container);
+								classList.add(cntnr, "wc_camenable");
+								classList.add(cntnr, "wc_showcam");
+								imageCapture.snapshotControl(eventConfig, cntnr);
 							}
 
 
-							if (contentContainer && container) {
+							if (contentContainer && cntnr) {
 								contentContainer.innerHTML = "";
-								contentContainer.appendChild(container);
+								contentContainer.appendChild(cntnr);
 								if (callbacks.rendered) {
 									callbacks.rendered(contentContainer);
 								}
 							}
-							win(container);
+							win(cntnr);
 						};
 					try {
 						return getTranslations(editorProps).then(function() {
@@ -557,7 +557,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		 * @private`
 		 */
 		function attachEventHandlers(container) {
-			var timer,
+			var attachEventTimer,
 				MAX_SPEED = 10,
 				MIN_SPEED = 0.5,
 				START_SPEED = 1.5,
@@ -583,7 +583,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 				}
 				if (config) {
 					pressEnd();
-					timer = timers.setTimeout(config.func.bind(this, config, $event), 0);
+					attachEventTimer = timers.setTimeout(config.func.bind(this, config, $event), 0);
 				}
 			}
 
@@ -604,14 +604,14 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 					config= getEventConfig(element, "press");
 				if (config) {
 					pressEnd();
-					timer = timers.setInterval(callbackWrapper, 100, config);
+					attachEventTimer = timers.setInterval(callbackWrapper, 100, config);
 				}
 			}
 
 			function pressEnd() {
 				speed = START_SPEED;
-				if (timer) {
-					timers.clearInterval(timer);
+				if (attachEventTimer) {
+					timers.clearInterval(attachEventTimer);
 				}
 			}
 

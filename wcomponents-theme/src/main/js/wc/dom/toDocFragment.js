@@ -72,17 +72,17 @@ define(["wc/has"],
 			 *
 			 * @function
 			 * @private
-			 * @param {String} html A block of HTML to preprocess for IE.
+			 * @param {String} fromHTML A block of HTML to preprocess for IE.
 			 */
-			function preloadResources(html) {
+			function preloadResources(fromHTML) {
 				var preloadDf = document.createDocumentFragment(),
 					container,
 					SCRIPTRE = /<script.*?>.*?<\/script>/gi;  // html parsing in JS anyone?
-				html = html.replace(SCRIPTRE, "");  // strip scripts
+				fromHTML = fromHTML.replace(SCRIPTRE, "");  // strip scripts
 				container = document.createElement("div");
 				preloadDf.appendChild(container);
 				// container.innerHTML = html;
-				container.insertAdjacentHTML("afterbegin", html);
+				container.insertAdjacentHTML("afterbegin", fromHTML);
 			}
 		}
 

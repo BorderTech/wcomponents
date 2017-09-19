@@ -79,13 +79,13 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 		 * Get the previous node in the tree.
 		 * @function module:wc/compat/TreeWalker~TreeWalker~previous
 		 * @private
-		 * @param {TreeWalker} self The current treeWalker instance.
+		 * @param {TreeWalker} mySelf The current treeWalker instance.
 		 * @returns {?Node}
 		 * @throws {TypeError} A type error if self.currentNode is undefined.
 		 */
-		function previous(self) {
+		function previous(mySelf) {
 			var result,
-				node = self.currentNode,
+				node = mySelf.currentNode,
 				filterResult = null,
 				parent,
 				child,
@@ -153,7 +153,7 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 					if (isPreviousNode && child) {
 						backtrack = node;
 					} else {
-						result = self.currentNode = node;
+						result = mySelf.currentNode = node;
 						break;
 					}
 				}
@@ -172,14 +172,14 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 							child = null;
 							continue PROCESSING;
 						} else if (backtrack) {
-							result = self.currentNode = backtrack;
+							result = mySelf.currentNode = backtrack;
 							break;
 						} else {
 							// child is lastChild in the previous skipped branch
 							node = branch;
 						}
 					} else if (backtrack) {
-						result = self.currentNode = backtrack;
+						result = mySelf.currentNode = backtrack;
 						break;
 					} else {
 						// if the child rejects and we have no successful backtrack node we reset node to
@@ -224,12 +224,12 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 		 * Get the next node in the tree.
 		 * @function module:wc/compat/TreeWalker~TreeWalker~next
 		 * @private
-		 * @param {TreeWalker} self The current treeWalker instance.
+		 * @param {TreeWalker} mySelf The current treeWalker instance.
 		 * @returns {?Node}
 		 * @throws {TypeError} A type error if self.currentNode is undefined.
 		 * @throws {Error} Throws if the tree cannot be processed - usually only if the tree is malformed.
 		 */
-		function next(self) {
+		function next(mySelf) {
 			var result,
 				queryRoot,
 				node,
@@ -238,7 +238,7 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 				child,
 				sibling,
 				trueParent, temp;
-			node = queryRoot = self.currentNode;
+			node = queryRoot = mySelf.currentNode;
 			if (!node) {
 				throw new TypeError("currentNode has been set to null, check your usage of this property");
 			}
@@ -281,7 +281,7 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 
 					// if this node is accepted set & return it
 					if (filterResult === FILTER_ACCEPT) {
-						result = self.currentNode = node;
+						result = mySelf.currentNode = node;
 						break;
 					}
 				}

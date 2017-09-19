@@ -975,15 +975,15 @@ define(["wc/dom/attribute",
 					return false;
 				}
 				return !shed.isDisabled(nextBranch) && shed.isExpanded(expandable);
-			}, this).forEach(function(next) {
-				writeExpandedState.call(this, next, toContainer);
+			}, this).forEach(function(nextSubMenu) {
+				writeExpandedState.call(this, nextSubMenu, toContainer);
 			}, this);
 
 			Array.prototype.forEach.call(getFilteredGroup(next, {
 				filter: (getFilteredGroup.FILTERS.selected | getFilteredGroup.FILTERS.enabled),
 				ignoreInnerGroups: true
-			}), function(next) {
-				writeSelectedState.call(this, next, toContainer);
+			}), function(NextItem) {
+				writeSelectedState.call(this, NextItem, toContainer);
 			}, this);
 			formUpdateManager.writeStateField(toContainer, next.id + "-h", "x");
 		};
@@ -1505,10 +1505,10 @@ define(["wc/dom/attribute",
 				extendedCallback;
 
 			if (item && root && (this.getRoot(item) === root) && !shed.isDisabled(item)) {
-				extendedCallback = function(item) {
-					this._remapKeys(item);
+				extendedCallback = function(withItem) {
+					this._remapKeys(withItem);
 					if (callback && typeof callback === "function") {
-						callback(item);
+						callback(withItem);
 					}
 				};
 

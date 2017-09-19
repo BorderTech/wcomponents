@@ -458,22 +458,22 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 				function executor(win) {
 					request.callback = callbackWrapper;
 					function callbackWrapper(response) {
-						var result = response;
+						var innerResult = response;
 						if (!asText) {
-							if (!(result && result.documentElement)) {
+							if (!(innerResult && innerResult.documentElement)) {
 								/*
 								 * For older versions of Internet Explorer which don't support forcing content type
 								 * Also for older versions of MSXML which do not know that content types ending in "+xml" are xml,
 								 * for example application/rdf+xml. For example using MSXML ActiveX version 3.0.
 								 */
-								result = xmlString.from(this.responseText);
+								innerResult = xmlString.from(this.responseText);
 							}
 						}
 						if (callback) {
-							callback(result);
+							callback(innerResult);
 						}
 						if (win) {
-							win(result);
+							win(innerResult);
 						}
 					}
 				}
@@ -590,9 +590,9 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 		 * @param {function} errback May possibly be invoked if there is an error loading the module.
 		 */
 		function fetchErrorHandler(callback, errback) {
-			var cb = function(handleError) {
+			var cb = function(err) {
 				if (callback) {
-					callback(handleError);
+					callback(err);
 				}
 			};
 			if (!handleError) {

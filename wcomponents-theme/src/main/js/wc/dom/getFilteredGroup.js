@@ -76,7 +76,7 @@ define(["wc/dom/group", "wc/dom/shed"],
 				asObject,
 				shedAttributeOnly = false,
 				mask = getFilteredGroup.FILTERS,
-				filterFunc = function(element) {
+				filterFunc = function(el) {
 					var _result = true,
 						i,
 						nextMask,
@@ -91,7 +91,7 @@ define(["wc/dom/group", "wc/dom/shed"],
 						flags = filter & nextMask;  // extract the relevant flags from the provided filter
 						if (flags && flags !== nextMask) {  // if one flag is set (but not BOTH flags)
 							reverse = !!(flags & negative);  // do we need to reverse the results from SHED?
-							_result = reverse ^ shed[SHED_FILTERS[Math.floor(i / 2)]](element, shedAttributeOnly);
+							_result = reverse ^ shed[SHED_FILTERS[Math.floor(i / 2)]](el, shedAttributeOnly);
 						}
 					}
 					return !!_result;  // XOR returns a bitmask not === true
