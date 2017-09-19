@@ -1017,7 +1017,7 @@ public abstract class AbstractWComponent implements WComponent {
 
 	/**
 	 * {@inheritDoc}
-	 * @Deprecated 1.4 causes a11y issues, no replacement.
+	 * @deprecated 1.4 causes a11y issues, no replacement.
 	 */
 	@Deprecated
 	@Override
@@ -1027,7 +1027,7 @@ public abstract class AbstractWComponent implements WComponent {
 
 	/**
 	 * {@inheritDoc}
-	 * @Deprecated 1.4 causes a11y issues, no replacement.
+	 * @deprecated 1.4 causes a11y issues, no replacement.
 	 */
 	@Deprecated
 	@Override
