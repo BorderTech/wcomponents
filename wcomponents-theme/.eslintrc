@@ -7,7 +7,6 @@
 	"rules": {
 		"no-console": 0,
 		"no-shadow": 2,
-		"dot-notation": 0,
 		"no-underscore-dangle": 0,
 		"no-constant-condition": 0,
 		"no-return-assign": 0,
