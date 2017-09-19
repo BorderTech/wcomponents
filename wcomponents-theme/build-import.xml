@@ -165,7 +165,6 @@
 		"no-shadow": 0,
 		"dot-notation": 0,
 		"no-underscore-dangle": 0,
-		"no-labels": 0,
 		"no-constant-condition": 0,
 		"no-return-assign": 0,
 		"no-extend-native": 0,
