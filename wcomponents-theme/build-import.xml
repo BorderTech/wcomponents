@@ -170,7 +170,7 @@
 		"no-extend-native": 0,
 		"no-debugger": 0,
 		"no-alert": 0,
-		"brace-style": [2, "1tbs", { "allowSingleLine": false }],
+		"brace-style": 2,
 		"semi": [2, "always"],
 		"space-before-blocks": [2, "always"],
 		"spaced-comment": [2, "always"],
