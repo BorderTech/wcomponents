@@ -220,9 +220,9 @@ define(["wc/date/interchange",
 			 * @param {wc/dom/event} $event The wrapped change event as published by the WComponent event manager
 			 */
 			function changeEvent($event) {
-				var dateField = DATE_FIELD.findAncestor($event.target);
-				if (dateField) {
-					revalidate(dateField);
+				var theField = DATE_FIELD.findAncestor($event.target);
+				if (theField) {
+					revalidate(theField);
 				}
 			}
 

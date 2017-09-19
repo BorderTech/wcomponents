@@ -21,6 +21,8 @@ define(["wc/has"], function(has) {
 		if (arguments.length >= 2) {
 			rv = arguments[1];
 		} else {
+			// Keep processing until explicit break
+			// eslint-disable-next-line no-constant-condition
 			do {
 				if (i in this) {
 					rv = this[i--];

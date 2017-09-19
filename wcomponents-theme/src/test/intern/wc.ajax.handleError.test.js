@@ -89,16 +89,16 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				wcconfig.set({ messages: {
 					403: "Oh noes! A 403 occurred!",
 					404: "I can't find it!",
-					418: function(response) {
+					418: function(resp) {
 						// this is an example of handling a JSON response body
 						var data;
 						try {
-							data = JSON.parse(response.responseText);
+							data = JSON.parse(resp.responseText);
 							data = data.message;
 						} catch (ex) {
-							data = response.responseText;
+							data = resp.responseText;
 						}
-						return data + " " + response.status;
+						return data + " " + resp.status;
 					},
 					200: "Some gateway proxies don't know basic HTTP",
 					error: "An error occurred and I have not set a specific message for it!"

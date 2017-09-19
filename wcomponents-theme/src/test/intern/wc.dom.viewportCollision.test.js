@@ -30,7 +30,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			element.style.left = "";
 			element.style.right = "";
 
-			 // There is a chance that the viewport could be resized between tests so we recalculate dimensions for the test at the last possible moment.
+			// There is a chance that the viewport could be resized between tests so we recalculate dimensions at the last possible moment.
 			vps = getViewportSize(true);
 
 			// Reset the element dimensions so it is smaller than the viewport.

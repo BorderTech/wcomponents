@@ -267,8 +267,8 @@ define(["wc/dom/attribute",
 							prompt.alert(message);
 						}
 					};
-				getUploader(function (uploader) { // this wraps the possible async wait for the fauxjax module to load, otherwise clearInput has been called before the upload begins
-					var checkAndUpload = function (files) {
+				getUploader(function (theUploader) { // this wraps the possible async wait for the fauxjax module to load, otherwise clearInput has been called before the upload begins
+					var checkAndUpload = function (useTheseFiles) {
 							var message;
 							try {
 								if ((message = checkFileSize(element, testObj))) {
@@ -280,9 +280,9 @@ define(["wc/dom/attribute",
 								}
 								if (inputElementWd.isOneOfMe(element)) {
 									commenceUpload({
-										uploader: uploader,
+										uploader: theUploader,
 										element: element,
-										files: files
+										files: useTheseFiles
 									});
 								}
 							} finally {
@@ -379,17 +379,17 @@ define(["wc/dom/attribute",
 						after: 0,
 						removed: 0
 					},
-					fix = function(result) {
+					fix = function(resObj) {
 						/*
 							This function implements some pretty dangerous behavior: it will enforce the max file limit
 							by removing already uploaded files to make way for new ones.
 						 */
-						var i, removeCount = result.after - result.max;  // this is how many we need to remove
+						var i, removeCount = resObj.after - resObj.max;  // this is how many we need to remove
 						for (i = 0; i < removeCount; i++) {
 							removeFileItem(currentFiles[i]);
-							result.removed++;
+							resObj.removed++;
 						}
-						result.after -= result.removed;
+						resObj.after -= resObj.removed;
 					};
 				if (newFileCount) {
 					result.max = getMaxFiles(element);
