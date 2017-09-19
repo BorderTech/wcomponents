@@ -18,11 +18,12 @@ define(["wc/i18n/i18n",
 		 * unsaved changes registry malarkey will fail. All forms created by WApplication have an id, so maybe we do not
 		 * need these tests?*/
 
-		 /**
-		  * @constructor
-		  * @private
-		  * @alias module:wc/ui/cancelUpdate~CancelUpdateControl */
-		 function CancelUpdateControl() {
+		/**
+		 * @constructor
+		 * @private
+		 * @alias module:wc/ui/cancelUpdate~CancelUpdateControl
+		 */
+		function CancelUpdateControl() {
 			var loading = false,  // if cancel button && unsavedOnServer() get dialog twice without this
 				buttonClicked,
 				FORM = new Widget("FORM"),

@@ -386,28 +386,28 @@ define(["wc/dom/tag",
 			 *
 			 * @function
 			 * @private
-			 * @param {(module:wc/ajax/Trigger|Element)} trigger An instance of Trigger or a DOM Element.
+			 * @param {(module:wc/ajax/Trigger|Element)} trig An instance of Trigger or a DOM Element.
 			 * @returns {String} The AJAX URL associated with the trigger.
 			 */
-			function getUrlHtml5(trigger) {
+			function getUrlHtml5(trig) {
 				var element,
 					result,
 					form,
 					URL_DATA_ATTRIBUTE = "data-wc-ajaxurl";
-				if (trigger) {
-					if (trigger.constructor === Trigger) {
-						result = trigger.url;
+				if (trig) {
+					if (trig.constructor === Trigger) {
+						result = trig.url;
 						if (!result) {
 							console.log("Could not find URL on trigger Instance");
-							if ((element = getElement(trigger))) {
+							if ((element = getElement(trig))) {
 								result = getUrlHtml5(element);
 							}
 						}
-					} else {  // trigger must be a dom element
-						result = trigger.getAttribute(URL_DATA_ATTRIBUTE);
+					} else { // trigger must be a dom element
+						result = trig.getAttribute(URL_DATA_ATTRIBUTE);
 						if (!result) {
-							console.log("Could not find URL for element ", trigger.id);
-							if ((form = getForm(trigger))) {
+							console.log("Could not find URL for element ", trig.id);
+							if ((form = getForm(trig))) {
 								if (!(result = getUrlHtml5(form))) {
 									console.log("Could not find URL on form");
 								}

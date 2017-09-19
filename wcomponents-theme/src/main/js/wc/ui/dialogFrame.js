@@ -17,8 +17,8 @@ define(["wc/dom/event",
 	"wc/ui/viewportUtils",
 	"wc/ui/getForm",
 	"wc/config"],
-	function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, modalShim, timers, has,
-	          resizeable, positionable, draggable, $role, template, viewportUtils, getForm, wcconfig) {
+	function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, modalShim, timers, has, resizeable, positionable, draggable, $role,
+		template, viewportUtils, getForm, wcconfig) {
 		"use strict";
 
 		/**
@@ -29,7 +29,9 @@ define(["wc/dom/event",
 		function DialogFrame() {
 			var DIALOG_ID = "wc_dlgid",
 				CONTENT_BASE_CLASS = "content",
-				INITIAL_TOP_PROPORTION = 0.33, // when setting the initial position offset the dialog so that the gap at the top is this proportion of the difference between the dialog size and viewport size
+				// when setting the initial position offset the dialog so that the gap at the top is this proportion of the difference between
+				// the dialog size and viewport size
+				INITIAL_TOP_PROPORTION = 0.33,
 				openerId,
 				subscriber = {
 					close: null

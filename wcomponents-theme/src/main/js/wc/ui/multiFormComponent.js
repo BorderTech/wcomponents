@@ -51,8 +51,8 @@ define(["wc/has",
 				if (element) {
 					selects = SELECT_WD.findDescendants(element);
 					Array.prototype.forEach.call(selects, function(next) {
-						var id = next.id;
-						selectLoader.load(id);
+						var nextId = next.id;
+						selectLoader.load(nextId);
 					});
 				}
 			}

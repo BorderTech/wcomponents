@@ -33,7 +33,8 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 	var CONTAINER_ID = "treewalkerTestContainerId",
 		ID_1 = "treewalkerTestId1",
 		ID_2 = "treewalkerTestId2",
-		testHolder, urlResource = "@RESOURCES@/domTreeWalker.html";
+		testHolder,
+		urlResource = "@RESOURCES@/domTreeWalker.html";
 
 	/*
 	 * Helper for a couple of the tests
@@ -51,8 +52,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 		setup: function() {
 			var result = testutils.setupHelper([]).then(function() {
 				return (testHolder = testutils.getTestHolder());
-
-			}).then(function(testHolder) {
+			}).then(function() {
 				return testutils.setUpExternalHTML(urlResource, testHolder);
 			});
 			return result;

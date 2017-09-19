@@ -144,7 +144,7 @@ define(["wc/date/today",
 					i,
 					l,
 					SEPARATOR = "/",
-					masks = getCompiledMasks(),
+					myMasks = getCompiledMasks(),
 					next,
 					patternBits,
 					normalise,
@@ -155,8 +155,8 @@ define(["wc/date/today",
 					today,
 					rolled;
 				// 'normalise' each date related value
-				for (i = 0, l = masks.length; i < l; i++) {
-					mask = masks[i];
+				for (i = 0, l = myMasks.length; i < l; i++) {
+					mask = myMasks[i];
 					match = string.match(mask.compiled);
 					if (match === null) {
 						continue;

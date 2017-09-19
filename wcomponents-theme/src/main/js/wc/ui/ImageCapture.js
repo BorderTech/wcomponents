@@ -124,9 +124,9 @@ define(["wc/has", "wc/dom/classList", "wc/dom/event", "wc/ui/prompt", "wc/config
 		 * Entry point to gum.
 		 * Uses native getUserMedia if possible and falls back to plugins if it must.
 		 */
-		function gumWithFallback(constraints, playCb, errCb) {
+		function gumWithFallback(constraints, playCallback, errorCallback) {
 			if (getUserMedia && arguments.length === 3) {
-				getUserMedia(constraints, playCb, errCb);
+				getUserMedia(constraints, playCallback, errorCallback);
 			}
 		}
 
@@ -243,12 +243,12 @@ define(["wc/has", "wc/dom/classList", "wc/dom/event", "wc/ui/prompt", "wc/config
 		};
 
 		function videoToDataUrl(video, scale) {
-			var _scale = scale || 1,
-				canvas = document.createElement("canvas");
-			canvas.width = video.videoWidth * _scale;
-			canvas.height = video.videoHeight * _scale;
-			canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
-			return canvas.toDataURL();
+			var scaleFactor = scale || 1,
+				onCanvas = document.createElement("canvas");
+			onCanvas.width = video.videoWidth * scaleFactor;
+			onCanvas.height = video.videoHeight * scaleFactor;
+			onCanvas.getContext("2d").drawImage(video, 0, 0, onCanvas.width, onCanvas.height);
+			return onCanvas.toDataURL();
 		}
 
 		function videoToImage(video, scale, onload) {

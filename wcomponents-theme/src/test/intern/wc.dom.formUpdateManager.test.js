@@ -126,7 +126,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					name = testName, val = testVal,
 					result = testutils._getElementsByName(form, name),
 					subscriber = {
-						writeState: function(form, stateContainer) {
+						writeState: function(frm, stateContainer) {
 							formUpdateManager.writeStateField(stateContainer, name, val, true);
 						}
 					};
@@ -145,7 +145,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				var form = document.getElementById(formId),
 					name = testName, val = testVal,
 					result = testutils._getElementsByName(form, name),
-					subscriber = function(form, stateContainer) {
+					subscriber = function(frm, stateContainer) {
 						formUpdateManager.writeStateField(stateContainer, name, val, true);
 					};
 				try {
@@ -164,7 +164,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					name = testName, val = testVal,
 					result = testutils._getElementsByName(form, name),
 					subscriber = {
-						writeState: function(form, stateContainer) {
+						writeState: function(frm, stateContainer) {
 							formUpdateManager.writeStateField(stateContainer, name, val, true);
 						}
 					};
@@ -179,7 +179,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				var form = document.getElementById(formId),
 					name = testName, val = testVal,
 					result = testutils._getElementsByName(form, name),
-					subscriber = function(form, stateContainer) {
+					subscriber = function(frm, stateContainer) {
 						formUpdateManager.writeStateField(stateContainer, name, val, true);
 					};
 				assert.strictEqual(0, result.length, "Clean up not working, found remnant field with name " + name);

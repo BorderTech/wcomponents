@@ -112,9 +112,9 @@ define(["wc/i18n/i18n",
 			 * @param {Element} element The element acted on by shed.
 			 */
 			function validationShedSubscriber(element) {
-				var fieldset;
-				if (element && (fieldset = FIELDSET.findAncestor(element))) {
-					revalidate(fieldset);
+				var targetFieldset;
+				if (element && (targetFieldset = FIELDSET.findAncestor(element))) {
+					revalidate(targetFieldset);
 				}
 			}
 

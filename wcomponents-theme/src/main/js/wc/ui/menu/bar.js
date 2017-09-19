@@ -14,7 +14,7 @@ define(["wc/ui/menu/core",
 	"wc/ui/viewportUtils",
 	"wc/ui/menu/menuItem"],
 	function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid, i18n, classList, timers,
-	         processResponse, template, viewportUtils) {
+		processResponse, template, viewportUtils) {
 		"use strict";
 
 		/* Unused dependencies:

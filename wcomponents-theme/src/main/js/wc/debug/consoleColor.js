@@ -9,6 +9,8 @@ define(function() {
 	"use strict";
 	var global = window,
 		noop = function() {
+			// The point of this function is to invoke the debugger, so we should allow it.
+			// eslint-disable-next-line no-debugger
 			debugger;
 		},
 		console = "console";  // allow the code to be minified a little better (pointless - we are not present at all in teh minified code!)
