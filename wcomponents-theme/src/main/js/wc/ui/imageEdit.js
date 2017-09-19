@@ -557,7 +557,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		 * @private`
 		 */
 		function attachEventHandlers(container) {
-			var attachEventTimer,
+			var eventTimer,
 				MAX_SPEED = 10,
 				MIN_SPEED = 0.5,
 				START_SPEED = 1.5,
@@ -583,7 +583,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 				}
 				if (config) {
 					pressEnd();
-					attachEventTimer = timers.setTimeout(config.func.bind(this, config, $event), 0);
+					eventTimer = timers.setTimeout(config.func.bind(this, config, $event), 0);
 				}
 			}
 
@@ -604,14 +604,14 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 					config= getEventConfig(element, "press");
 				if (config) {
 					pressEnd();
-					attachEventTimer = timers.setInterval(callbackWrapper, 100, config);
+					eventTimer = timers.setInterval(callbackWrapper, 100, config);
 				}
 			}
 
 			function pressEnd() {
 				speed = START_SPEED;
-				if (attachEventTimer) {
-					timers.clearInterval(attachEventTimer);
+				if (eventTimer) {
+					timers.clearInterval(eventTimer);
 				}
 			}
 
