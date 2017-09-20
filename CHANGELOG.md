@@ -9,9 +9,11 @@
 * Apply config overrides when image editor opened instead of page load so that it is easier to set config "in time"
 * Implemented new features in image editor:
   * center image
-  * reset image 
+  * reset image
 
 ### Bug Fixes
+
+* Provided Sass to work around an IE feature in which buttons with element descendants show unexpected cursor behaviour.
 
 ## Release 1.4.9
 
