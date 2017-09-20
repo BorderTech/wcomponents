@@ -34,6 +34,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		zoom: true,
 		move: true,
 		redact: false,
+		reset: true,
 		undo: true,
 		cancel: true,
 		save: true,
@@ -487,6 +488,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 								zoom: config.zoom,
 								move: config.move,
 								redact: config.redact,
+								reset: config.reset,
 								undo: config.undo,
 								cancel: config.cancel,
 								save: config.save
@@ -545,10 +547,10 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 
 		function getTranslations(obj) {
 			var messages = ["imgedit_action_camera", "imgedit_action_cancel", "imgedit_action_redact",
-				"imgedit_action_redo", "imgedit_action_save", "imgedit_action_snap", "imgedit_action_undo",
+				"imgedit_action_redo", "imgedit_action_reset", "imgedit_action_save", "imgedit_action_snap", "imgedit_action_undo",
 				"imgedit_capture", "imgedit_message_camera", "imgedit_message_cancel", "imgedit_message_move_center", "imgedit_message_move_down",
 				"imgedit_message_move_left", "imgedit_message_move_right", "imgedit_message_move_up",
-				"imgedit_message_nocapture", "imgedit_message_redact", "imgedit_message_redo",
+				"imgedit_message_nocapture", "imgedit_message_redact", "imgedit_message_redo", "imgedit_message_reset",
 				"imgedit_message_rotate_left", "imgedit_message_rotate_left90", "imgedit_message_rotate_right",
 				"imgedit_message_rotate_right90", "imgedit_message_save", "imgedit_message_snap",
 				"imgedit_message_undo", "imgedit_message_zoom_in", "imgedit_message_zoom_out", "imgedit_move",
@@ -814,6 +816,13 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 				func: function() {
 					if (undoRedo) {
 						undoRedo.redo();
+					}
+				}
+			};
+			click.reset = {
+				func: function() {
+					if (undoRedo) {
+						undoRedo.reset();
 					}
 				}
 			};

@@ -101,6 +101,9 @@ define(function() {
 
 		this.save = debounceSave;
 
+		/**
+		 * You are using a computer, you know what "undo" does.
+		 */
 		this.undo = function() {
 			var idx = modPointer - 1;
 			if (idx >= 0) {
@@ -108,10 +111,25 @@ define(function() {
 			}
 		};
 
+		/**
+		 * You are using a computer, you know what "redo" does.
+		 */
 		this.redo = function() {
 			var idx = modPointer + 1;
 			if (modPointer < state.length) {
 				restoreState(idx);
+			}
+		};
+
+		/**
+		 * Resets the image to its initial state.
+		 */
+		this.reset = function() {
+			// I wrote this and it worked first go, scary...
+			if (this.hasChanges()) {
+				state.length = modPointer = 0;
+				state.push(theVeryFirstState);
+				restoreState(0);
 			}
 		};
 	}

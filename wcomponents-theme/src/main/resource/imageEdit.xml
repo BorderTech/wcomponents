@@ -53,6 +53,11 @@
 			<legend>{{imgedit_capture}}</legend>
 			<button title="{{imgedit_message_camera}}" type="button" class="wc_btn_camera wc_btn_icon" name="camera"><span aria-hidden="true" class="fa fa-video-camera"></span><span class="wc-off">{{imgedit_action_camera}}</span></button>
 		</fieldset>
+		{{#feature.reset}}
+		<div>
+			<button title="{{imgedit_message_reset}}" type="button" name="reset">{{imgedit_action_reset}}</button>
+		</div>
+		{{/feature.reset}}
 		<div>
 			{{#feature.undo}}
 			<button title="{{imgedit_message_undo}}" type="button" class="wc_btn_undo wc_btn_icon" name="undo"><span aria-hidden="true" class="fa fa-reply"></span><span class="wc-off">{{imgedit_action_undo}}</span></button>
