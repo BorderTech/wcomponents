@@ -45,7 +45,6 @@ class WButtonRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("disabled", button.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", button.isHidden(), "true");
-		xml.appendOptionalAttribute("tabIndex", button.hasTabIndex(), button.getTabIndex());
 		xml.appendOptionalAttribute("toolTip", toolTip);
 		xml.appendOptionalAttribute("accessibleText", accessibleText);
 		xml.appendOptionalAttribute("popup", button.isPopupTrigger(), "true");

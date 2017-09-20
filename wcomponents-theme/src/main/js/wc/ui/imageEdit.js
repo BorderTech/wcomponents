@@ -30,7 +30,14 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		quality: 1,  // only if format is jpeg
 		multiplier: 1,
 		face: false,
+		rotate: true,
+		zoom: true,
+		move: true,
 		redact: false,
+		reset: true,
+		undo: true,
+		cancel: true,
+		save: true,
 		crop: true
 	};
 
@@ -63,8 +70,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		this.register = function(arr) {
 			var i, next;
 			for (i = 0; i < arr.length; i++) {
-				next = mixin(this.defaults);  // make a copy of defaults
-				next = mixin(arr[i], next);  // override defaults with explicit settings
+				next = arr[i];
 				registeredIds[next.id] = next;
 			}
 			if (!inited) {
@@ -118,7 +124,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		 * @returns {Object} configuration
 		 */
 		this.getConfig = function(obj) {
-			var editorId, result;
+			var editorId, result, defaultConfig;
 			if (obj) {
 				result = registeredIds[obj.id] || registeredIds[obj.name];
 				if (!result) {
@@ -132,7 +138,12 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 					}
 				}
 			}
-			return result || mixin(this.defaults);
+			if (!result || !result.__wcmixed) {
+				defaultConfig = mixin(this.defaults);  // make a copy of defaults;
+				result = mixin(result, defaultConfig);  // override defaults with explicit settings
+				result.__wcmixed = true;  // flag that we have mixed in the defaults so it doesn't need to happen again
+			}
+			return result;
 		};
 
 		/**
@@ -174,8 +185,8 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 			/*
 			 * Once the user has commited their changes buffer the result and see if there is another file queued for editing.
 			 */
-			function saveEditedFile(file) {
-				result.push(file);
+			function saveEditedFile(fileToSave) {
+				result.push(fileToSave);
 				editNextFile();
 			}
 
@@ -403,14 +414,14 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 
 		/**
 		 * Show or hide the overlay image.
-		 * @param fbCanvas The FabricJS canvas.
+		 * @param fabricCanvas The FabricJS canvas.
 		 * @param show If truthy unhides (shows) the overlay.
 		 */
-		function showHideOverlay(fbCanvas, show) {
-			var overlay = fbCanvas.overlayImage;
+		function showHideOverlay(fabricCanvas, show) {
+			var overlay = fabricCanvas.overlayImage;
 			if (overlay) {
-				fbCanvas.overlayImage.visible = !!show;
-				fbCanvas.renderAll();
+				fabricCanvas.overlayImage.visible = !!show;
+				fabricCanvas.renderAll();
 			}
 		}
 
@@ -473,36 +484,43 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 							},
 							feature: {
 								face: false,
-								redact: config.redact
+								rotate: config.rotate,
+								zoom: config.zoom,
+								move: config.move,
+								redact: config.redact,
+								reset: config.reset,
+								undo: config.undo,
+								cancel: config.cancel,
+								save: config.save
 							}
 						},
-						done = function(container) {
-							var eventConfig = attachEventHandlers(container);
+						done = function(cntnr) {
+							var eventConfig = attachEventHandlers(cntnr);
 							zoomControls(eventConfig);
 							moveControls(eventConfig);
 							resetControl(eventConfig);
-							cancelControl(eventConfig, container, callbacks, file);
-							saveControl(eventConfig, container, callbacks, file);
+							cancelControl(eventConfig, cntnr, callbacks, file);
+							saveControl(eventConfig, cntnr, callbacks, file);
 							rotationControls(eventConfig);
 							if (config.redactor) {
-								config.redactor.controls(eventConfig, container);
+								config.redactor.controls(eventConfig, cntnr);
 							}
 
 							if (!file) {
-								classList.add(container, "wc_camenable");
-								classList.add(container, "wc_showcam");
-								imageCapture.snapshotControl(eventConfig, container);
+								classList.add(cntnr, "wc_camenable");
+								classList.add(cntnr, "wc_showcam");
+								imageCapture.snapshotControl(eventConfig, cntnr);
 							}
 
 
-							if (contentContainer && container) {
+							if (contentContainer && cntnr) {
 								contentContainer.innerHTML = "";
-								contentContainer.appendChild(container);
+								contentContainer.appendChild(cntnr);
 								if (callbacks.rendered) {
 									callbacks.rendered(contentContainer);
 								}
 							}
-							win(container);
+							win(cntnr);
 						};
 					try {
 						return getTranslations(editorProps).then(function() {
@@ -529,14 +547,14 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 
 		function getTranslations(obj) {
 			var messages = ["imgedit_action_camera", "imgedit_action_cancel", "imgedit_action_redact",
-				"imgedit_action_redo", "imgedit_action_save", "imgedit_action_snap", "imgedit_action_undo",
-				"imgedit_capture", "imgedit_message_camera", "imgedit_message_cancel", "imgedit_message_move_down",
+				"imgedit_action_redo", "imgedit_action_reset", "imgedit_action_save", "imgedit_action_snap", "imgedit_action_undo",
+				"imgedit_capture", "imgedit_message_camera", "imgedit_message_cancel", "imgedit_message_move_center", "imgedit_message_move_down",
 				"imgedit_message_move_left", "imgedit_message_move_right", "imgedit_message_move_up",
-				"imgedit_message_nocapture", "imgedit_message_redact", "imgedit_message_redo",
+				"imgedit_message_nocapture", "imgedit_message_redact", "imgedit_message_redo", "imgedit_message_reset",
 				"imgedit_message_rotate_left", "imgedit_message_rotate_left90", "imgedit_message_rotate_right",
 				"imgedit_message_rotate_right90", "imgedit_message_save", "imgedit_message_snap",
 				"imgedit_message_undo", "imgedit_message_zoom_in", "imgedit_message_zoom_out", "imgedit_move",
-				"imgedit_move_down", "imgedit_move_left", "imgedit_move_right", "imgedit_move_up", "imgedit_redact",
+				"imgedit_move_center", "imgedit_move_down", "imgedit_move_left", "imgedit_move_right", "imgedit_move_up", "imgedit_redact",
 				"imgedit_rotate", "imgedit_rotate_left", "imgedit_rotate_left90", "imgedit_rotate_right",
 				"imgedit_rotate_right90", "imgedit_zoom", "imgedit_zoom_in", "imgedit_zoom_out"];
 			return i18n.translate(messages).then(function(translations) {
@@ -557,7 +575,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		 * @private`
 		 */
 		function attachEventHandlers(container) {
-			var timer,
+			var eventTimer,
 				MAX_SPEED = 10,
 				MIN_SPEED = 0.5,
 				START_SPEED = 1.5,
@@ -583,7 +601,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 				}
 				if (config) {
 					pressEnd();
-					timer = timers.setTimeout(config.func.bind(this, config, $event), 0);
+					eventTimer = timers.setTimeout(config.func.bind(this, config, $event), 0);
 				}
 			}
 
@@ -604,14 +622,14 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 					config= getEventConfig(element, "press");
 				if (config) {
 					pressEnd();
-					timer = timers.setInterval(callbackWrapper, 100, config);
+					eventTimer = timers.setInterval(callbackWrapper, 100, config);
 				}
 			}
 
 			function pressEnd() {
 				speed = START_SPEED;
-				if (timer) {
-					timers.clearInterval(timer);
+				if (eventTimer) {
+					timers.clearInterval(eventTimer);
 				}
 			}
 
@@ -692,7 +710,8 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		 * Wires up the "move" feature.
 		 */
 		function moveControls(eventConfig) {
-			var press = eventConfig.press;
+			var press = eventConfig.press,
+				click = eventConfig.click;
 			press.up = {
 				func: numericProp,
 				prop: "Top",
@@ -715,6 +734,15 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 				func: numericProp,
 				prop: "Left",
 				step: 1
+			};
+
+			click.center = {
+				func: function() {
+					var fbImage = imageEdit.getFbImage();
+					if (fbImage) {
+						fbImage.center();
+					}
+				}
 			};
 		}
 
@@ -788,6 +816,13 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 				func: function() {
 					if (undoRedo) {
 						undoRedo.redo();
+					}
+				}
+			};
+			click.reset = {
+				func: function() {
+					if (undoRedo) {
+						undoRedo.reset();
 					}
 				}
 			};

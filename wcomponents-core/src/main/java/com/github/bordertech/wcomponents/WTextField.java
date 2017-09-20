@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  * @since 1.0.0
  */
 public class WTextField extends AbstractInput implements AjaxTrigger, AjaxTarget, SubordinateTrigger,
-		SubordinateTarget {
+		SubordinateTarget, Placeholderable {
 
 	/**
 	 * Override handleRequest in order to perform processing for this component. This implementation updates the text
@@ -88,17 +88,17 @@ public class WTextField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	}
 
 	/**
-	 * Set placeholder text which will appear in the field if it is editable and has no content.
-	 * @param placeholder The text to set as the
+	 * {@inheritDoc}
 	 */
+	@Override
 	public void setPlaceholder(final String placeholder) {
 		getOrCreateComponentModel().placeholder = placeholder;
 	}
 
 	/**
-	 *
-	 * @return The placeholder text for the field.
+	 * {@inheritDoc}
 	 */
+	@Override
 	public String getPlaceholder() {
 		return getComponentModel().placeholder;
 	}

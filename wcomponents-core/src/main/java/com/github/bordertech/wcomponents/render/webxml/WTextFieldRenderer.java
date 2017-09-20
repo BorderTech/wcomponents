@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.WSuggestions;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.HtmlRenderUtil;
 import com.github.bordertech.wcomponents.util.Util;
 
 /**
@@ -51,14 +52,13 @@ class WTextFieldRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("required", textField.isMandatory(), "true");
 			xml.appendOptionalAttribute("minLength", minLength > 0, minLength);
 			xml.appendOptionalAttribute("maxLength", maxLength > 0, maxLength);
-			xml.appendOptionalAttribute("tabIndex", textField.hasTabIndex(), textField.getTabIndex());
 			xml.appendOptionalAttribute("toolTip", textField.getToolTip());
 			xml.appendOptionalAttribute("accessibleText", textField.getAccessibleText());
 			xml.appendOptionalAttribute("size", cols > 0, cols);
 			xml.appendOptionalAttribute("buttonId", submitControlId);
 			xml.appendOptionalAttribute("pattern", !Util.empty(pattern), pattern);
 			xml.appendOptionalAttribute("list", suggestionsId);
-			xml.appendOptionalAttribute("placeholder", textField.getPlaceholder());
+			xml.appendOptionalAttribute("placeholder", HtmlRenderUtil.getEffectivePlaceholder(textField));
 		}
 
 		xml.appendClose();

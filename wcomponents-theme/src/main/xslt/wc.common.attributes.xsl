@@ -267,16 +267,9 @@
 			<xsl:with-param name="useTitle" select="$useTitle"/>
 			<xsl:with-param name="type" select="$type"/>
 		</xsl:call-template>
-		<xsl:if test="@placeholder or @required">
+		<xsl:if test="@placeholder">
 			<xsl:attribute name="placeholder">
-				<xsl:choose>
-					<xsl:when test="@placeholder">
-						<xsl:value-of select="@placeholder"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:text>{{#i18n}}requiredPlaceholder{{/i18n}}</xsl:text>
-					</xsl:otherwise>
-				</xsl:choose>
+				<xsl:value-of select="@placeholder"/>
 			</xsl:attribute>
 		</xsl:if>
 	</xsl:template>

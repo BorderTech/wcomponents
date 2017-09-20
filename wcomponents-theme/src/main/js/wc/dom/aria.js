@@ -19,15 +19,15 @@ define(["wc/loader/resource", "wc/xml/xpath"], /** @param loader wc/loader/resou
 	function AriaWrapper() {
 		var $this = this,
 			FILE_NAME = "aria-1.rdf",
-			i,
+			idx,
 			aria,
 			next,
 			methods = ["getScope", "getMustContain", "getSupported", "getScopedTo", "getScopedBy"];
 
 		loader.preload(FILE_NAME);
 
-		for (i = 0; i < methods.length; i++) {
-			next = methods[i];
+		for (idx = 0; idx < methods.length; idx++) {
+			next = methods[idx];
 			$this[next] = wrappedMethodFactory(next);
 		}
 
@@ -250,10 +250,8 @@ define(["wc/loader/resource", "wc/xml/xpath"], /** @param loader wc/loader/resou
 		 * @ignore
 		 */
 		function buildConstructors() {
-			var i, classes = getRoleNodes();
-			for (i = 0; i < classes.length; i++) {
-				buildConstructor(classes[i]);
-			}
+			var constructorIdx,
+				classes = getRoleNodes();
 
 			/**
 			 * Build a JS "class" that represents an ARIA role.
@@ -335,6 +333,10 @@ define(["wc/loader/resource", "wc/xml/xpath"], /** @param loader wc/loader/resou
 				} finally {
 					superclassRoles = null;
 				}
+			}
+
+			for (constructorIdx = 0; constructorIdx < classes.length; constructorIdx++) {
+				buildConstructor(classes[constructorIdx]);
 			}
 		}
 	}

@@ -17,34 +17,9 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 		 * @type arg
 		 */
 		deps = ["wc/i18n/i18n", "wc/config"],
-		// Load test UI content if required: only one of these is needed and testContent will take precedence over urlResource
-		/**
-		 * HTML test UI e.g. "<div>Test HTML</div>". Only needed ig the tests use common HTML. Optionally use urlResource instead if the test HTML
-		 * is complex. If both are set testContent takes precedence and urlResource is ignored.
-		 * @type String
-		 */
-		testContent,
-		/**
-		 * Load test UI froman external resource e.g. "@RESOURCES@/SOME_PAGE.html". Leave undefined if not required. Simple test UIs may be set inline
-		 * using testContent instead. If both are set testContent takes precedence and urlResource is ignored.
-		 * Note that the property `@RESOURCES@` will be mapped to the test/intern/resources directory as a URL.
-		 * @type URL
-		 */
-		urlResource,
-		/**
-		 * If true and either testContent or urlResource is used to set test UI then the test UI will be reset to its original state before each test.
-		 * @type Boolean
-		 */
-		resetBeforeEach = false,
-		/**
-		 * If true and either testContent or urlResource is used to set test UI then the test UI will be reset to its original state after each test.
-		 * @type Boolean
-		 */
-		resetAfterEach = true,
 		// END CONFIGURATION VARS
 		// the next two are not settable.
 		controller, // This will be the actual module named above. Tests of public functions use this e.g. `controller.getSomething()`.
-		testHolder, // This will hold any UI needed for the tests. It is left undefined if testContent & urlResource are both falsey.
 		// Now, if you have extra dependencies you will want a way to reference them.
 		i18n,
 		wcconfig;
@@ -75,23 +50,6 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				// If you want to have named dependencies the vars are assigned here
 				i18n = arg[1];
 				wcconfig = arg[2];
-
-				// Set up initial test UI if needed
-				if (testContent || urlResource) {
-					testHolder = testutils.getTestHolder();
-				}
-
-				// Set up the test content if required
-				if (testContent) {
-					testHolder.innerHTML = testContent;
-				} else if (urlResource) {
-					testutils.setUpExternalHTML(urlResource, testHolder);
-					if (resetBeforeEach || resetAfterEach) {
-						// Hold the initial HTML for future use
-						testContent = testHolder.innerHTML;
-					}
-				}
-
 				// Custom set up
 				if ((realConfig = wcconfig.get("wc/ui/xhr")) && realConfig.messages) {
 					wcconfig.set({ messages: null}, "wc/ui/xhr");
@@ -100,21 +58,6 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 					wcconfig.set({ messages: null}, "wc/ui/multiFileUploader");
 				}
 			});
-		},
-		beforeEach: function () {
-			if (testHolder && resetBeforeEach) {
-				testHolder.innerHTML = testContent;
-			}
-		},
-		afterEach: function() {
-			if (testHolder && resetAfterEach) {
-				testHolder.innerHTML = testContent;
-			}
-		},
-		teardown: function () {
-			if (testHolder) {
-				testHolder.innerHTML = "";
-			}
 		},
 		testGotController: function () {
 			if (!TEST_MODULE) {
@@ -146,16 +89,16 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				wcconfig.set({ messages: {
 					403: "Oh noes! A 403 occurred!",
 					404: "I can't find it!",
-					418: function(response) {
+					418: function(resp) {
 						// this is an example of handling a JSON response body
 						var data;
 						try {
-							data = JSON.parse(response.responseText);
+							data = JSON.parse(resp.responseText);
 							data = data.message;
 						} catch (ex) {
-							data = response.responseText;
+							data = resp.responseText;
 						}
-						return data + " " + response.status;
+						return data + " " + resp.status;
 					},
 					200: "Some gateway proxies don't know basic HTTP",
 					error: "An error occurred and I have not set a specific message for it!"

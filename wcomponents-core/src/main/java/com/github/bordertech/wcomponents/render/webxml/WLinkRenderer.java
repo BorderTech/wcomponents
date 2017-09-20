@@ -39,7 +39,6 @@ final class WLinkRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("disabled", link.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", component.isHidden(), "true");
-		xml.appendOptionalAttribute("tabIndex", link.hasTabIndex(), link.getTabIndex());
 		xml.appendOptionalAttribute("toolTip", link.getToolTip());
 		xml.appendOptionalAttribute("accessibleText", link.getAccessibleText());
 		xml.appendUrlAttribute("url", link.getUrl());

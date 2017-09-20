@@ -131,8 +131,8 @@ define(["wc/dom/initialise",
 
 			function writeState(container, stateContainer) {
 				Array.prototype.forEach.call(SORTABLE_TABLE.findDescendants(container), function(next) {
-					var container = getWrapper(next),
-						tableId = container.id,
+					var nextContainer = getWrapper(next),
+						tableId = nextContainer.id,
 						sortedColumn;
 
 					// we need to do the reverse look-up to allow for the possibility of nested tables.

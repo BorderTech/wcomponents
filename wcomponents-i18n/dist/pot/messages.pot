@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-13 10:23+1000\n"
+"POT-Creation-Date: 2017-09-18 15:46+1000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -237,4 +237,16 @@ msgstr ""
 #, java-format
 msgctxt "bordertech.wcomponents.message.multiSelectPair.selections"
 msgid "Selected"
+msgstr ""
+
+#: bordertech.wcomponents.message.fieldRequired
+#, java-format
+msgctxt "bordertech.wcomponents.message.fieldRequired"
+msgid "Required"
+msgstr ""
+
+#: bordertech.wcomponents.message.multiFormComponent.tip
+#, java-format
+msgctxt "bordertech.wcomponents.message.multiFormComponent.tip"
+msgid "Select an option"
 msgstr ""

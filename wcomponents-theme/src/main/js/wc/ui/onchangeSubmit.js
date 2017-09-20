@@ -212,14 +212,16 @@ define(["wc/dom/attribute",
 				if (myLabel) {
 					i18n.translate("submitOnChange").then(function(submitOnChangeHint) {
 						var hintContent,
+							// do not allow an application to override i18n in order to to make this warning empty
+							realSoCHint = submitOnChangeHint || "Changing the value of this field will cause immediate save.",
 							hint = label.getHint(myLabel);
 						if (hint) {
 							hintContent = textContent.get(hint);
-							if (hintContent.indexOf(submitOnChangeHint) === -1) {
-								label.setHint(myLabel, submitOnChangeHint);
+							if (hintContent.indexOf(realSoCHint) === -1) {
+								label.setHint(myLabel, realSoCHint);
 							}
 						} else {
-							label.setHint(myLabel, submitOnChangeHint);
+							label.setHint(myLabel, realSoCHint);
 						}
 						// if the label is off-screen force it back on.
 						classList.remove(myLabel, "wc-off");

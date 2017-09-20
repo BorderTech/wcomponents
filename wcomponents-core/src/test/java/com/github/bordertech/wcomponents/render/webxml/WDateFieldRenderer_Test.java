@@ -56,7 +56,6 @@ public class WDateFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//ui:datefield[@hidden]", dateField);
 		assertXpathNotExists("//ui:datefield[@required]", dateField);
 		assertXpathNotExists("//ui:datefield[@readOnly]", dateField);
-		assertXpathNotExists("//ui:datefield[@tabIndex]", dateField);
 		assertXpathNotExists("//ui:datefield[@toolTip]", dateField);
 		assertXpathNotExists("//ui:datefield[@accessibleText]", dateField);
 		assertXpathNotExists("//ui:datefield[@buttonId]", dateField);
@@ -90,7 +89,6 @@ public class WDateFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("true", "//ui:datefield/@disabled", dateField);
 		assertXpathEvaluatesTo("true", "//ui:datefield/@hidden", dateField);
 		assertXpathEvaluatesTo("true", "//ui:datefield/@required", dateField);
-		assertXpathEvaluatesTo("", "//ui:datefield/@tabIndex", dateField);
 		assertXpathEvaluatesTo("TITLE", "//ui:datefield/@toolTip", dateField);
 		assertXpathEvaluatesTo("ALT", "//ui:datefield/@accessibleText", dateField);
 		assertXpathEvaluatesTo(button.getId(), "//ui:datefield/@buttonId", dateField);

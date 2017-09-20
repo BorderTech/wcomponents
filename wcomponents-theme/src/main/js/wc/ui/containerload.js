@@ -152,14 +152,14 @@ define(["wc/dom/shed",
 			 * @function
 			 */
 			function handleCollapseOrHide(element, action) {
-				var _element, _widgets = [LAME_CONTAINER, DYNAMIC_CONTAINER];
+				var el, widgets = [LAME_CONTAINER, DYNAMIC_CONTAINER];
 				if (action === shed.actions.COLLAPSE) {
-					 _element = Widget.isOneOfMe(element, _widgets) ? element : (Widget.findDescendant(element, _widgets, true) || element);
+					el = Widget.isOneOfMe(element, widgets) ? element : (Widget.findDescendant(element, widgets, true) || element);
 				} else {
-					_element = element;
+					el = element;
 				}
-				if (_element && Widget.isOneOfMe(_element, _widgets)) {
-					convertDynamicContent(_element);
+				if (el && Widget.isOneOfMe(el, widgets)) {
+					convertDynamicContent(el);
 				}
 			}
 

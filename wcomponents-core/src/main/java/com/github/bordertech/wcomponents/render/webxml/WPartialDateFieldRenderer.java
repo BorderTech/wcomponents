@@ -40,7 +40,6 @@ final class WPartialDateFieldRenderer extends AbstractWebXmlRenderer {
 			xml.appendAttribute("allowPartial", "true");
 			xml.appendOptionalAttribute("disabled", dateField.isDisabled(), "true");
 			xml.appendOptionalAttribute("required", dateField.isMandatory(), "true");
-			xml.appendOptionalAttribute("tabIndex", dateField.hasTabIndex(), dateField.getTabIndex());
 			xml.appendOptionalAttribute("toolTip", dateField.getToolTip());
 			xml.appendOptionalAttribute("accessibleText", dateField.getAccessibleText());
 			WComponent submitControl = dateField.getDefaultSubmitButton();

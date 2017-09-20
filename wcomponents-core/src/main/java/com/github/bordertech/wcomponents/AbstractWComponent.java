@@ -1017,7 +1017,9 @@ public abstract class AbstractWComponent implements WComponent {
 
 	/**
 	 * {@inheritDoc}
+	 * @deprecated 1.4 causes a11y issues, no replacement.
 	 */
+	@Deprecated
 	@Override
 	public boolean hasTabIndex() {
 		return false;
@@ -1025,7 +1027,9 @@ public abstract class AbstractWComponent implements WComponent {
 
 	/**
 	 * {@inheritDoc}
+	 * @deprecated 1.4 causes a11y issues, no replacement.
 	 */
+	@Deprecated
 	@Override
 	public int getTabIndex() {
 		return 0;

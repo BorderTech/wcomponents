@@ -31,11 +31,10 @@ define(["wc/dom/tag",
 
 				if (readOnly) {
 					query += ",[data-wc-rofor=\"" + id + "\"]";
-					if (wrappedInput.isReadOnly(element)) {
+					if (wrappedInput.isReadOnly(element) && (wrappedId = wrappedInput.getWrappedId(element))) {
 						// we may be in an AJAX situation where we are trying to convert
 						// labels to spans or vice-versa.
-						wrappedId = wrappedInput.getWrappedId(element);
-						query = "label[for=\"" + wrappedId + "\"]";
+						query += ",label[for=\"" + wrappedId + "\"]";
 					}
 				}
 				result = result.concat(toArray(document.querySelectorAll(query)));
@@ -83,7 +82,7 @@ define(["wc/dom/tag",
 				label,
 				tagName;
 
-			if (wrappedInput.isOneOfMe(element), includeReadOnly) {
+			if (wrappedInput.isOneOfMe(element, includeReadOnly)) {
 				return getLabelsForWrapper(element, includeReadOnly);
 			}
 

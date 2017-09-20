@@ -1,0 +1,120 @@
+<form action="#" method="get">
+  <p>
+    <label id="wcuilabel-l1" for="wcuilabel-i1">label</label>
+    <input id="wcuilabel-i1" type="text">
+  </p>
+  <p>
+    <label id="wcuilabel-l2" for="wcuilabel-i2">move me</label>
+    <input id="wcuilabel-i2" type="checkbox" class="wc-checkbox">
+  </p>
+  <p>
+    <label id="wcuilabel-l2a" for="wcuilabel-i2a">move me too</label>
+    <input id="wcuilabel-i2a" type="radio" class="wc-radiobutton">
+    <span>Just floating around thanks.</span>
+  </p>
+  <p>
+    <label id="wcuilabel-l2b" for="wcuilabel-i2b">move me as well</label>
+    <button id="wcuilabel-i2b" class="wc-selecttoggle" role="checkbox">select toggle</button>
+  </p>
+  <p>
+    <label id="wcuilabel-l3" for="wcuilabel-i3">don't move me</label>
+    <input id="wcuilabel-i3" type="checkbox">
+  </p>
+  <p>
+    <label id="wcuilabel-l3a" for="wcuilabel-i3a">nor me</label>
+    <input id="wcuilabel-i3a" type="radio">
+  </p>
+  <p>
+    <label id="wcuilabel-l3b" for="wcuilabel-i3b">me neither</label>
+    <button id="wcuilabel-i3b" role="checkbox">not a select toggle</button>
+  </p>
+  <p>
+    <input id="wcuilabel-i4" type="checkbox" class="wc-checkbox"><label id="wcuilabel-l4" for="wcuilabel-i3c">don't move me either I am in the right place</label>
+  </p>
+  <p>
+    <label id="wcuilabel-l5" for="wcuilabel-i5" class="wc_req">make me optional</label>
+    <input id="wcuilabel-i5" type="text" required>
+  </p>
+  <p>
+    <label id="wcuilabel-l5a" for="wcuilabel-i5a" class="wc_req">make me optional too<span class="wc-off">required</span></label>
+    <input id="wcuilabel-i5a" type="text" required>
+  </p>
+  <p>
+    <label id="wcuilabel-l6" for="wcuilabel-i6">mandate me</label>
+    <input id="wcuilabel-i6" type="text">
+  </p>
+  <p>
+    <label id="wcuilabel-l6a" for="wcuilabel-i6a">mandate me without decoration</label>
+    <input id="wcuilabel-i6a" type="radio">
+  </p>
+  <p>
+    <label id="wcuilabel-l7" for="wcuilabel-i7">hide me</label>
+    <input id="wcuilabel-i7" type="text">
+  </p>
+  <p>
+    <label id="wcuilabel-l8" for="wcuilabel-i8" hidden>show me</label>
+    <input id="wcuilabel-i8" type="text" hidden>
+  </p>
+  <p>
+    <label id="wcuilabel-l9" for="wcuilabel-i9">set my hint</label>
+    <input id="wcuilabel-i9" type="text">
+  </p>
+  <p>
+    <label id="wcuilabel-l10" for="wcuilabel-i10">I have a hint <span class="wc-label-hint">this is the hint</span></label>
+    <input id="wcuilabel-i10" type="text">
+  </p>
+  <p>
+    <label id="wcuilabel-l11" for="wcuilabel-i11">I don't have a hint <span>this is not a hint</span></label>
+    <input id="wcuilabel-i11" type="text">
+  </p>
+  <p>
+    <label id="wcuilabel-l12" for="wcuilabel-i12">Convert label to RO</label>
+    <span id="wcuilabel-i12" class="wc-ro-input">read-only version</span>
+  </p>
+  <p>
+    <span id="wcuilabel-l13" data-wc-rofor="wcuilabel-i13">Convert label from RO</span>
+    <input id="wcuilabel-i13" type="text">
+  </p>
+  <div id="wcuilabel-fake-ajax">
+    <p>
+      <span id="wcuilabel-fake-ajax-l1" data-wc-rofor="wcuilabel-fake-ajax-i1" class="wc-label">Convert label from RO</span>
+      <span class="wc-input-wrapper wc-textfield" id="wcuilabel-fake-ajax-i1"><input type="text" id="wcuilabel-fake-ajax-i1_input"></span>
+    </p>
+    <p>
+      <label id="wcuilabel-fake-ajax-l2" for="wcuilabel-fake-ajax-i2_input" class="wc-label">Convert label to RO</label>
+      <span class="wc-ro-input wc-textfield" id="wcuilabel-fake-ajax-i2">value</span>
+    </p>
+    <p>
+      <span id="wcuilabel-fake-ajax-l3" data-wc-rofor="wcuilabel-fake-ajax-i3" class="wc-label">Convert label from RO and hide based on hidden input</span>
+      <span class="wc-input-wrapper wc-textfield" id="wcuilabel-fake-ajax-i3" hidden><input type="text" id="wcuilabel-fake-ajax-i3_input"></span>
+    </p>
+    <p>
+      <label id="wcuilabel-fake-ajax-l4" for="wcuilabel-fake-ajax-i4_input" class="wc-label">Convert label to RO and hide based on input</label>
+      <span class="wc-ro-input wc-textfield" id="wcuilabel-fake-ajax-i4" hidden>value</span>
+    </p>
+    <p>
+      <span id="wcuilabel-fake-ajax-l5" data-wc-rofor="wcuilabel-fake-ajax-i5" class="wc-label">Convert label from RO and optional to mandatory</span>
+      <span class="wc-input-wrapper wc-textfield" id="wcuilabel-fake-ajax-i5"><input type="text" id="wcuilabel-fake-ajax-i5_input" required></span>
+    </p>
+    <p>
+      <label id="wcuilabel-fake-ajax-l6" for="wcuilabel-fake-ajax-i6_input" class="wc-label wc_req">Convert mandatory label to RO</label>
+      <span class="wc-ro-input wc-textfield" id="wcuilabel-fake-ajax-i6">value</span>
+    </p>
+    <p>
+      <label id="wcuilabel-fake-ajax-l7" for="wcuilabel-fake-ajax-i7_input" class="wc-label">replacement input mandatory</label>
+      <span class="wc-input-wrapper wc-textfield" id="wcuilabel-fake-ajax-i7"><input type="text" id="wcuilabel-fake-ajax-i7_input" required></span>
+    </p>
+    <p>
+      <label id="wcuilabel-fake-ajax-l8" for="wcuilabel-fake-ajax-i8_input" class="wc-label wc_req">replacement input optional</label>
+      <span class="wc-input-wrapper wc-textfield" id="wcuilabel-fake-ajax-i8"><input type="text" id="wcuilabel-fake-ajax-i8_input"></span>
+    </p>
+    <p>
+      <label id="wcuilabel-fake-ajax-l9" for="wcuilabel-fake-ajax-i9_input" class="wc-label">replacement input hidden</label>
+      <span class="wc-input-wrapper wc-textfield" id="wcuilabel-fake-ajax-i9" hidden><input type="text" id="wcuilabel-fake-ajax-i9_input"></span>
+    </p>
+    <p>
+      <label id="wcuilabel-fake-ajax-l10" for="wcuilabel-fake-ajax-i10_input" class="wc-label" hidden>replacement input not hidden</label>
+      <span class="wc-input-wrapper wc-textfield" id="wcuilabel-fake-ajax-i10"><input type="text" id="wcuilabel-fake-ajax-i10_input"></span>
+    </p>
+  </div>
+</form>

@@ -47,7 +47,6 @@ public class WDialogRenderer_Test extends AbstractWebXmlRendererTestCase {
 		dialog.setMode(WDialog.MODELESS);
 		dialog.setWidth(0);
 		dialog.setHeight(0);
-		dialog.setResizable(false);
 		dialog.setLocked(true);
 
 		String xml = renderDialog(dialog);

@@ -5,6 +5,21 @@
 ### API Changes
 
 ### Enhancements
+* Allow more granular control over features available in image editor
+* Apply config overrides when image editor opened instead of page load so that it is easier to set config "in time"
+* Implemented new features in image editor:
+  * center image
+  * reset image 
+
+### Bug Fixes
+
+## Release 1.4.9
+
+### Enhancements
+
+* Moved placeholder text determination to the renderers to reduce the reliance on client side i18n.
+* Improved render performance by removing a superfluous call to `hasTabIndex()` in order to set a `tabIndex` attribute. `hasTabIndex()` will always
+  return `false` so this was a waste of everyone's time and clock #373.
 
 ### Bug Fixes
 
@@ -17,6 +32,8 @@
 * Fixed a flaw in update calculation which resulted in unsaved changes warnings not appearing in very specific circumstances #1237.
 * Fixed an error which could cause out-of-viewport labels to be rendered in viewport #1326.
 * Fixed some errors in examples which caused a race which could result in null pointer exceptions #1327.
+* Clean up XSLT, schema references and broken examples of non-resizeable dialogs as `resizable` has been mandatory for several releases #606.
+* Fixed an omission which could result in an application being able to avoid the `submitOnChange` warning text in labels #1255.
 
 ## Release 1.4.8
 

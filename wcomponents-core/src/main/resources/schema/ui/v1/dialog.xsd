@@ -60,13 +60,6 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
-			<xs:attribute name="resizable" type="xs:boolean">
-				<xs:annotation>
-					<xs:documentation>
-						<p>Indicates that the dialog should allow resizing by the user. Not output if "false".</p>
-					</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
 			<xs:attribute name="modal" type="xs:boolean">
 				<xs:annotation>
 					<xs:documentation>

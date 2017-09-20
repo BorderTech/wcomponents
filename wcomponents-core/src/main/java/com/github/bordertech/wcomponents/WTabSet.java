@@ -499,11 +499,11 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	/**
 	 * Sets the visibility of the tab at the given index.
 	 *
-	 * @param tabIndex the tab index.
+	 * @param idx the index of the WTab to get.
 	 * @param visible true to set the tab visible, false to set invisible.
 	 */
-	public void setTabVisible(final int tabIndex, final boolean visible) {
-		getTab(tabIndex).setVisible(visible);
+	public void setTabVisible(final int idx, final boolean visible) {
+		getTab(idx).setVisible(visible);
 	}
 
 	/**
@@ -519,11 +519,11 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	/**
 	 * Indicates whether the tab at the given index is visible.
 	 *
-	 * @param tabIndex the tab index.
+	 * @param idx the index of the WTab to test.
 	 * @return true if the tab at the given index is visible, false if it is invisible.
 	 */
-	public boolean isTabVisible(final int tabIndex) {
-		WTab tab = getTab(tabIndex);
+	public boolean isTabVisible(final int idx) {
+		WTab tab = getTab(idx);
 		Container tabParent = tab.getParent();
 
 		if (tabParent instanceof WTabGroup) {
@@ -552,9 +552,9 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	public boolean isActive(final WComponent tab) {
 		int activeIndex = getActiveIndex();
 		List<WTab> tabs = getTabs();
-		int tabIndex = tabs.indexOf(tab);
+		int idx = tabs.indexOf(tab);
 
-		return activeIndex == tabIndex;
+		return activeIndex == idx;
 	}
 
 	/**
@@ -648,16 +648,16 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 				// Normal case - one or more tabs selected
 				for (int i = 0; i < indices.length; i++) {
 					int clientIndex = Integer.parseInt(indicesStr[i]);
-					int tabIndex = clientIndexToTabIndex(clientIndex);
-					indices[i] = tabIndex;
+					int idx = clientIndexToTabIndex(clientIndex);
+					indices[i] = idx;
 
-					if (!oldIndices.contains(tabIndex)) {
+					if (!oldIndices.contains(idx)) {
 						// Check for a server mode tab and set focus
-						WTab tab = getTab(tabIndex);
+						WTab tab = getTab(idx);
 						if (TabMode.SERVER.equals(tab.getMode()) && UIContextHolder.getCurrent().getFocussed() == null) {
 							tab.setFocussed();
 						}
-						changes.add(tabIndex);
+						changes.add(idx);
 					}
 				}
 			}
@@ -690,7 +690,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	}
 
 	/**
-	 * The client-side tab indices will differ from the WTabSet's indices when one or more tabs is invisible.
+	 * The client-side tab indices will differ from the WTabSet's indices when one or more tabs are invisible.
 	 *
 	 * @param clientIndex the client-side index
 	 * @return the WTabSet index corresponding to the given client index

@@ -141,7 +141,7 @@ define(["wc/array/toArray",
 				}
 			};
 
-			 /**
+			/**
 			 * Focus the first (or last) visible non-disabled field.
 			 * If the list of input types are omitted then by default DEFAULT_TABSTOPS are used.
 			 * In the case of radio buttons the field must also be checked, otherwise we would be changing the state of the

@@ -37,7 +37,6 @@ final class WFileWidgetRenderer extends AbstractWebXmlRenderer {
 		} else {
 			xml.appendOptionalAttribute("disabled", fileWidget.isDisabled(), "true");
 			xml.appendOptionalAttribute("required", fileWidget.isMandatory(), "true");
-			xml.appendOptionalAttribute("tabIndex", fileWidget.hasTabIndex(), fileWidget.getTabIndex());
 			xml.appendOptionalAttribute("toolTip", fileWidget.getToolTip());
 			xml.appendOptionalAttribute("accessibleText", fileWidget.getAccessibleText());
 			xml.appendOptionalAttribute("acceptedMimeTypes", typesToString(fileWidget.getFileTypes()));

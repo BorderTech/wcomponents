@@ -21,7 +21,7 @@ import java.util.List;
  * @since 1.0.0
  */
 public class WPasswordField extends AbstractInput implements AjaxTrigger, AjaxTarget,
-		SubordinateTrigger, SubordinateTarget {
+		SubordinateTrigger, SubordinateTarget, Placeholderable {
 
 	/**
 	 * {@inheritDoc}
@@ -88,17 +88,17 @@ public class WPasswordField extends AbstractInput implements AjaxTrigger, AjaxTa
 	}
 
 	/**
-	 * Set placeholder text which will appear in the field if it is editable and has no content.
-	 * @param placeholder The text to set as the
+	 * {@inheritDoc}
 	 */
+	@Override
 	public void setPlaceholder(final String placeholder) {
 		getOrCreateComponentModel().placeholder = placeholder;
 	}
 
 	/**
-	 *
-	 * @return The placeholder text for the field.
+	 * {@inheritDoc}
 	 */
+	@Override
 	public String getPlaceholder() {
 		return getComponentModel().placeholder;
 	}
