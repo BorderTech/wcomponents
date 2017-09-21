@@ -1,14 +1,25 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.file.FileItemWrap;
-import com.github.bordertech.wcomponents.portlet.context.WFileWidgetCleanup;
-import com.github.bordertech.wcomponents.util.Util;
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URLConnection;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
+
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItem;
+
+import com.github.bordertech.wcomponents.file.FileItemWrap;
+import com.github.bordertech.wcomponents.portlet.context.WFileWidgetCleanup;
+import com.github.bordertech.wcomponents.util.Util;
 
 /**
  * <p>
@@ -134,13 +145,66 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 
 			// No file selected
 			if (Util.empty(value.getName()) && value.getSize() == 0) {
-				return null;
+				value = getFileItemFromBase64(request);
+				
+				if (value == null) {
+					return null;
+				}
 			}
 
 			FileItemWrap wrapper = new FileItemWrap(value);
 			return wrapper;
 		} else {
 			return getValue();
+		}
+	}
+	
+	/**
+	 * Transform Base64 to FileItem, assumes Base64 string is found on the same {@link #getId()} property
+	 * 
+	 * @param request
+	 * @return fileItem
+	 */
+	private FileItem getFileItemFromBase64(final Request request) {
+		String valueStr = request.getParameter(getId());
+		
+		if (valueStr !=  null) {
+			String delims="[,]";
+			String[] parts = valueStr.split(delims);
+			//String contentType = Pattern.compile("[a-zA-Z0-9]+/[a-zA-Z0-9-.+]+").matcher(parts[0]).group(1);
+		    
+			byte[] decodedBytes = Base64.decodeBase64(parts[1].getBytes());
+			try {
+				InputStream inputStream = new ByteArrayInputStream(decodedBytes);
+				int availableBytes = inputStream.available();
+				
+				// Write the inputStream to a FileItem
+				
+				// temp file, store here in order to avoid storing it in memory
+				File tempFile = File.createTempFile("temp-file-name","");
+				// link FileItem to temp file 
+				FileItem fileItem = new DiskFileItem(getId(), null, false, tempFile.getName(), availableBytes, tempFile);
+				// get FileItem's output stream, and 
+				OutputStream outputStream = fileItem.getOutputStream();  
+				// write inputStream in it
+		        int read = 0;
+		        byte[] bytes = new byte[1024];
+		        while ((read = inputStream.read(bytes)) != -1) {
+		            outputStream.write(bytes, 0, read);
+		        }
+		        // release all resources
+		        inputStream.close();
+		        outputStream.flush();
+		        outputStream.close();
+		        tempFile.delete();
+				
+		        return fileItem;
+				 
+			} catch (Exception e) {
+				return null;
+			}
+		} else {
+			return null;
 		}
 	}
 
