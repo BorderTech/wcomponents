@@ -5,11 +5,13 @@
 ### API Changes
 
 ### Enhancements
+
 * Allow more granular control over features available in image editor
 * Apply config overrides when image editor opened instead of page load so that it is easier to set config "in time"
 * Implemented new features in image editor:
   * center image
   * reset image
+* Update WAI-ARIA analog class to treat RETURN as equivalent to SPACE for all analogs #1351.
 
 ### Bug Fixes
 
