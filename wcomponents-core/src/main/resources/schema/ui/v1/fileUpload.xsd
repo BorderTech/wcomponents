@@ -27,6 +27,16 @@
 				<xs:element ref="ui:file" minOccurs="0" maxOccurs="1" />
 			</xs:sequence>
 			<xs:attributeGroup ref="ui:fileupload.atttributes" />
+			<xs:attribute name="editor" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The ID of a image editor component.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="camera" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>True if this widget should facilitate file acqusition directly from the device camera.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 

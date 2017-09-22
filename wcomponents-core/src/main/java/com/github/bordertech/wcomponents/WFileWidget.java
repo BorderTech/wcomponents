@@ -226,6 +226,25 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 		return (FileItemWrap) getData();
 	}
 
+	/**
+	 * Registers an image editor with this file upload widget so that the user will be prompted to edit (crop, rotate
+	 * etc). This obviously only makes sense if this widget is configured to only allow image file types.
+	 *
+	 * @param editor The image editor.
+	 */
+	public void setEditor(final WImageEditor editor) {
+		getOrCreateComponentModel().editor = editor;
+	}
+
+	/**
+	 * Return the image editor associated with this file input.
+	 *
+	 * @return The editor or null if not set.
+	 */
+	public WImageEditor getEditor() {
+		return getComponentModel().editor;
+	}
+
 	// --------------------------------
 	// Extrinsic state management
 	/**
@@ -242,6 +261,11 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 		 * The maximum size of files uploaded by this component.
 		 */
 		private long maxFileSize;
+
+		/**
+		 * The image editor to associate with this instance.
+		 */
+		private WImageEditor editor;
 	}
 
 	/**

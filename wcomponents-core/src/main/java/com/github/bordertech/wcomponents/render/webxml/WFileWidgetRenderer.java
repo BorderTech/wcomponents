@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WFileWidget;
+import com.github.bordertech.wcomponents.WImageEditor;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import java.util.Iterator;
@@ -42,6 +43,14 @@ final class WFileWidgetRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("acceptedMimeTypes", typesToString(fileWidget.getFileTypes()));
 			long maxFileSize = fileWidget.getMaxFileSize();
 			xml.appendOptionalAttribute("maxFileSize", maxFileSize > 0, maxFileSize);
+
+			WImageEditor editor = fileWidget.getEditor();
+			if (editor != null) {
+				xml.appendAttribute("editor", editor.getId());
+				if (editor.getUseCamera()) {
+					xml.appendAttribute("camera", true);
+				}
+			}
 		}
 		xml.appendEnd();
 	}
