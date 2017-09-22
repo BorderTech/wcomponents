@@ -11,11 +11,11 @@
 * Implemented new features in image editor:
   * center image
   * reset image
-* Update WAI-ARIA analog class to treat RETURN as equivalent to SPACE for all analogs #1351.
+* Update WAI-ARIA analog class to treat RETURN as equivalent to SPACE for all analogs #1351, QC 169101.
 
 ### Bug Fixes
 
-* Provided Sass to work around an IE feature in which buttons with element descendants show unexpected cursor behaviour.
+* Provided Sass to work around an IE feature in which buttons with element descendants show unexpected cursor behaviour QC 168545.
 
 ## Release 1.4.9
 
