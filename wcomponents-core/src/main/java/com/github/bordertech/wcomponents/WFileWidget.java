@@ -1,37 +1,29 @@
 package com.github.bordertech.wcomponents;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URLConnection;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Pattern;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItem;
 
 import com.github.bordertech.wcomponents.file.FileItemWrap;
 import com.github.bordertech.wcomponents.portlet.context.WFileWidgetCleanup;
 import com.github.bordertech.wcomponents.util.Util;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
- * The WFileWidget represents a "File Chooser" form widget. The {@link #getBytes() "bytes"} property is updated with the
- * binary data from the uploaded file. If the user submits a form with no file chosen, the bytes array will be set to
- * null.
+ * The WFileWidget represents a "File Chooser" form widget. The {@link #getBytes() "bytes"} property is updated with the binary data from the uploaded
+ * file. If the user submits a form with no file chosen, the bytes array will be set to null.
  * </p>
  * <p>
- * The current implementation creates a {@link FileItem} which will be written temporarily to disk if the size of the
- * file reaches a threshold. A reaper thread is started to clean up those temp files no longer being used. When using
- * this component, developers should include the {@link WFileWidgetCleanup} context listener to their application to
- * kill this thread when the application is stopped. i.e the web.xml should include:
+ * The current implementation creates a {@link FileItem} which will be written temporarily to disk if the size of the file reaches a threshold. A
+ * reaper thread is started to clean up those temp files no longer being used. When using this component, developers should include the
+ * {@link WFileWidgetCleanup} context listener to their application to kill this thread when the application is stopped. i.e the web.xml should
+ * include:
  * </p>
  *
  * <pre>
@@ -54,8 +46,13 @@ import com.github.bordertech.wcomponents.util.Util;
 public class WFileWidget extends AbstractInput implements AjaxTarget, SubordinateTarget {
 
 	/**
-	 * Returns a list of strings that determine the allowable file mime types accepted by the file input. If no types
-	 * have been added an empty list is returned. An empty list indicates that all file types are accepted.
+	 * The logger instance for this class.
+	 */
+	private static final Log LOG = LogFactory.getLog(WFileWidget.class);
+
+	/**
+	 * Returns a list of strings that determine the allowable file mime types accepted by the file input. If no types have been added an empty list is
+	 * returned. An empty list indicates that all file types are accepted.
 	 *
 	 * @return The mime types accepted by this file input e.g. "text/plain", "text/html", "application/pdf".
 	 */
@@ -92,8 +89,8 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	}
 
 	/**
-	 * Set the maximum file size (in bytes) that will be accepted by the file input. If the user selects a file larger
-	 * than this value the client script will tell the user it cannot be uploaded.
+	 * Set the maximum file size (in bytes) that will be accepted by the file input. If the user selects a file larger than this value the client
+	 * script will tell the user it cannot be uploaded.
 	 *
 	 * @param bytes The maximum size (in bytes) that can be uploaded by this input.
 	 */
@@ -145,66 +142,13 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 
 			// No file selected
 			if (Util.empty(value.getName()) && value.getSize() == 0) {
-				value = getFileItemFromBase64(request);
-				
-				if (value == null) {
 					return null;
 				}
-			}
 
 			FileItemWrap wrapper = new FileItemWrap(value);
 			return wrapper;
 		} else {
 			return getValue();
-		}
-	}
-	
-	/**
-	 * Transform Base64 to FileItem, assumes Base64 string is found on the same {@link #getId()} property
-	 * 
-	 * @param request
-	 * @return fileItem
-	 */
-	private FileItem getFileItemFromBase64(final Request request) {
-		String valueStr = request.getParameter(getId());
-		
-		if (valueStr !=  null) {
-			String delims="[,]";
-			String[] parts = valueStr.split(delims);
-			//String contentType = Pattern.compile("[a-zA-Z0-9]+/[a-zA-Z0-9-.+]+").matcher(parts[0]).group(1);
-		    
-			byte[] decodedBytes = Base64.decodeBase64(parts[1].getBytes());
-			try {
-				InputStream inputStream = new ByteArrayInputStream(decodedBytes);
-				int availableBytes = inputStream.available();
-				
-				// Write the inputStream to a FileItem
-				
-				// temp file, store here in order to avoid storing it in memory
-				File tempFile = File.createTempFile("temp-file-name","");
-				// link FileItem to temp file 
-				FileItem fileItem = new DiskFileItem(getId(), null, false, tempFile.getName(), availableBytes, tempFile);
-				// get FileItem's output stream, and 
-				OutputStream outputStream = fileItem.getOutputStream();  
-				// write inputStream in it
-		        int read = 0;
-		        byte[] bytes = new byte[1024];
-		        while ((read = inputStream.read(bytes)) != -1) {
-		            outputStream.write(bytes, 0, read);
-		        }
-		        // release all resources
-		        inputStream.close();
-		        outputStream.flush();
-		        outputStream.close();
-		        tempFile.delete();
-				
-		        return fileItem;
-				 
-			} catch (Exception e) {
-				return null;
-			}
-		} else {
-			return null;
 		}
 	}
 
@@ -291,8 +235,8 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	}
 
 	/**
-	 * Registers an image editor with this file upload widget so that the user will be prompted to edit (crop, rotate
-	 * etc). This obviously only makes sense if this widget is configured to only allow image file types.
+	 * Registers an image editor with this file upload widget so that the user will be prompted to edit (crop, rotate etc). This obviously only makes
+	 * sense if this widget is configured to only allow image file types.
 	 *
 	 * @param editor The image editor.
 	 */
