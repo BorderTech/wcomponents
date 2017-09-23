@@ -15,7 +15,6 @@
  * @requires module:wc/ui/viewportUtils
  * @requires module:wc/ui/ajax/processResponse
  * @requires module:wc/dom/event
- * @requires module:wc/timers
  *
  */
 define(["wc/array/toArray",
@@ -31,11 +30,10 @@ define(["wc/array/toArray",
 	"wc/ui/viewportUtils",
 	"wc/ui/ajax/processResponse",
 	"wc/dom/event",
-	"wc/timers",
 	"wc/debounce",
 	"wc/dom/getStyle"],
 	function(toArray, ariaAnalog, formUpdateManager, getFilteredGroup, initialise, shed, Widget, containerload,
-		focus, classList, viewportUtils, processResponse, event, timers, debounce, getStyle) {
+		focus, classList, viewportUtils, processResponse, event, debounce, getStyle) {
 		"use strict";
 
 		/**
