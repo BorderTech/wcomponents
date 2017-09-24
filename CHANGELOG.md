@@ -6,6 +6,12 @@
 
 ### Enhancements
 
+### Bug Fixes
+
+## Release 1.4.9
+
+### Enhancements
+
 * Allow more granular control over features available in image editor
 * Apply config overrides when image editor opened instead of page load so that it is easier to set config "in time"
 * Implemented new features in image editor:
