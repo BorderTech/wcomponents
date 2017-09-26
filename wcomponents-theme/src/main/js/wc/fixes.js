@@ -30,6 +30,10 @@ define(["wc/has"], function(has) {
 	}
 
 	addTest("edge", parseFloat(dua.split("Edge/")[1]) || undefined);
+
+	addTest("uc", function () {
+		return !has("css-flex");
+	});
 	/* end sniff additions */
 
 	if (has("ie") || has("trident")) {
@@ -51,6 +55,10 @@ define(["wc/has"], function(has) {
 
 	if (!has("global-performance")) {
 		result.push("wc/compat/navigationTiming");
+	}
+
+	if (has("uc")) {
+		result.push("wc/fix/width_uc");
 	}
 	return result;
 });
