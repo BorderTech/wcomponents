@@ -270,7 +270,8 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 							height: fbCanvas.getHeight()
 						});
 					}
-					if (!config.save) {
+					if (config.sync) {
+						// This is not currently supported on the backend
 						imageEdit.writeState = function() {
 							callbacks.saveFunc = function() {
 								saveImage(editor, callbacks, false);
@@ -548,8 +549,8 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 								redact: config.redact,
 								reset: config.reset,
 								undo: config.undo,
-								cancel: !config.inline && config.cancel,
-								save: !config.inline && config.save
+								cancel: config.cancel,
+								save: config.save
 							}
 						},
 						done = function(cntnr) {

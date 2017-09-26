@@ -5,20 +5,14 @@ import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.Enumerator;
 import com.github.bordertech.wcomponents.util.StreamUtil;
 import com.github.bordertech.wcomponents.util.Util;
-import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItem;
 
 /**
  * This abstract class is intended to support all the various request implementations.
@@ -61,13 +55,13 @@ public abstract class AbstractRequest implements Request {
 	@Override
 	public FileItem[] getFileItems(final String key) {
 		FileItem[] result = getFiles().get(key);
+		/* The commented code below would allow us to transparently handle serialized file uploads encoded as Base64
 		if (result == null) {
-			// If the file is not present in the "files" collection it may possibly be serialized as a regular form parameter
 			String[] params = getParameterValues(key);
 			if (params != null && params.length > 0) {
 				List<FileItem> deserialized = new ArrayList<>(params.length);
 				for (String param : params) {
-					FileItem fileItem = getFileItemFromBase64(param, key);
+					FileItem fileItem = getFileItemFromBase64(param);
 					if (fileItem != null) {
 						deserialized.add(fileItem);
 					}
@@ -75,61 +69,8 @@ public abstract class AbstractRequest implements Request {
 				result = deserialized.toArray(new FileItem[]{});
 			}
 		}
+		*/
 		return result;
-	}
-
-	/**
-	 * Transform Base64 to FileItem, assumes Base64 string is found on the same {@link #getId()} property.
-	 *
-	 * @param valueStr A request which may contain an uploaded file.
-	 * @param id An uploaded file, if found.
-	 * @return FileItem or null
-	 */
-	private static FileItem getFileItemFromBase64(final String valueStr, final String id) {
-
-		if (valueStr != null && valueStr.length() > 0) {
-			String delims = "[,]";
-			String[] parts = valueStr.split(delims);
-			if (parts.length < 2) {
-				return null;
-			}
-			byte[] decodedBytes = Base64.decodeBase64(parts[1].getBytes());
-			try {
-				File tempFile;
-				FileItem fileItem;
-				OutputStream outputStream;
-				try (InputStream inputStream = new ByteArrayInputStream(decodedBytes)) {
-					int availableBytes = inputStream.available();
-					// Write the inputStream to a FileItem
-					// temp file, store here in order to avoid storing it in memory
-					tempFile = File.createTempFile("temp-file-name", "");
-					// link FileItem to temp file
-					fileItem = new DiskFileItem(id, null, false, tempFile.getName(), availableBytes, tempFile);
-					// get FileItem's output stream, and
-					outputStream = fileItem.getOutputStream();
-					// write inputStream in it
-					int read = 0;
-					byte[] bytes = new byte[1024];
-					while ((read = inputStream.read(bytes)) != -1) {
-						outputStream.write(bytes, 0, read);
-					}
-					// release all resources
-				}
-				outputStream.flush();
-				outputStream.close();
-				if (!tempFile.delete()) {
-					//LOG.warn("Could not delete " + tempFile.getCanonicalPath());
-				}
-
-				return fileItem;
-
-			} catch (IOException e) {
-				//LOG.error("Error decoding base64 parameter", e);
-				return null;
-			}
-		} else {
-			return null;
-		}
 	}
 
 	/**
