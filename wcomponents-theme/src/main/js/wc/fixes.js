@@ -57,7 +57,7 @@ define(["wc/has"], function(has) {
 		result.push("wc/compat/navigationTiming");
 	}
 
-	if (has("uc")) {
+	if (has("uc") && has("android")) {
 		result.push("wc/fix/width_uc");
 	}
 	return result;

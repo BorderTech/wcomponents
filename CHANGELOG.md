@@ -8,6 +8,8 @@
 
 ### Bug Fixes
 
+* Added a workaround to width calculation errors in UC Browser on Android OSs #1354.
+
 ## Release 1.4.9
 
 ### Enhancements
