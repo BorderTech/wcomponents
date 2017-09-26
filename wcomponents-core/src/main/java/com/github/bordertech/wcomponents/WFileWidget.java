@@ -1,29 +1,26 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.file.FileItemWrap;
+import com.github.bordertech.wcomponents.portlet.context.WFileWidgetCleanup;
+import com.github.bordertech.wcomponents.util.Util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
 import org.apache.commons.fileupload.FileItem;
-
-import com.github.bordertech.wcomponents.file.FileItemWrap;
-import com.github.bordertech.wcomponents.portlet.context.WFileWidgetCleanup;
-import com.github.bordertech.wcomponents.util.Util;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
- * The WFileWidget represents a "File Chooser" form widget. The {@link #getBytes() "bytes"} property is updated with the binary data from the uploaded
- * file. If the user submits a form with no file chosen, the bytes array will be set to null.
+ * The WFileWidget represents a "File Chooser" form widget. The {@link #getBytes() "bytes"} property is updated with the
+ * binary data from the uploaded file. If the user submits a form with no file chosen, the bytes array will be set to
+ * null.
  * </p>
  * <p>
- * The current implementation creates a {@link FileItem} which will be written temporarily to disk if the size of the file reaches a threshold. A
- * reaper thread is started to clean up those temp files no longer being used. When using this component, developers should include the
- * {@link WFileWidgetCleanup} context listener to their application to kill this thread when the application is stopped. i.e the web.xml should
- * include:
+ * The current implementation creates a {@link FileItem} which will be written temporarily to disk if the size of the
+ * file reaches a threshold. A reaper thread is started to clean up those temp files no longer being used. When using
+ * this component, developers should include the {@link WFileWidgetCleanup} context listener to their application to
+ * kill this thread when the application is stopped. i.e the web.xml should include:
  * </p>
  *
  * <pre>
@@ -46,13 +43,8 @@ import org.apache.commons.logging.LogFactory;
 public class WFileWidget extends AbstractInput implements AjaxTarget, SubordinateTarget {
 
 	/**
-	 * The logger instance for this class.
-	 */
-	private static final Log LOG = LogFactory.getLog(WFileWidget.class);
-
-	/**
-	 * Returns a list of strings that determine the allowable file mime types accepted by the file input. If no types have been added an empty list is
-	 * returned. An empty list indicates that all file types are accepted.
+	 * Returns a list of strings that determine the allowable file mime types accepted by the file input. If no types
+	 * have been added an empty list is returned. An empty list indicates that all file types are accepted.
 	 *
 	 * @return The mime types accepted by this file input e.g. "text/plain", "text/html", "application/pdf".
 	 */
@@ -89,8 +81,8 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	}
 
 	/**
-	 * Set the maximum file size (in bytes) that will be accepted by the file input. If the user selects a file larger than this value the client
-	 * script will tell the user it cannot be uploaded.
+	 * Set the maximum file size (in bytes) that will be accepted by the file input. If the user selects a file larger
+	 * than this value the client script will tell the user it cannot be uploaded.
 	 *
 	 * @param bytes The maximum size (in bytes) that can be uploaded by this input.
 	 */
@@ -142,8 +134,8 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 
 			// No file selected
 			if (Util.empty(value.getName()) && value.getSize() == 0) {
-					return null;
-				}
+				return null;
+			}
 
 			FileItemWrap wrapper = new FileItemWrap(value);
 			return wrapper;
@@ -234,25 +226,6 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 		return (FileItemWrap) getData();
 	}
 
-	/**
-	 * Registers an image editor with this file upload widget so that the user will be prompted to edit (crop, rotate etc). This obviously only makes
-	 * sense if this widget is configured to only allow image file types.
-	 *
-	 * @param editor The image editor.
-	 */
-	public void setEditor(final WImageEditor editor) {
-		getOrCreateComponentModel().editor = editor;
-	}
-
-	/**
-	 * Return the image editor associated with this file input.
-	 *
-	 * @return The editor or null if not set.
-	 */
-	public WImageEditor getEditor() {
-		return getComponentModel().editor;
-	}
-
 	// --------------------------------
 	// Extrinsic state management
 	/**
@@ -269,11 +242,6 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 		 * The maximum size of files uploaded by this component.
 		 */
 		private long maxFileSize;
-
-		/**
-		 * The image editor to associate with this instance.
-		 */
-		private WImageEditor editor;
 	}
 
 	/**

@@ -290,18 +290,6 @@
 						<xsl:value-of select="@maxFileSize"/>
 					</xsl:attribute>
 				</xsl:if>
-				<xsl:if test="@editor">
-						<xsl:attribute name="data-wc-editor">
-							<xsl:value-of select="@editor"/>
-						</xsl:attribute>
-					</xsl:if>
-				<xsl:if test="@camera">
-					<xsl:call-template name="imageEditButton">
-						<xsl:with-param name="text">
-							<xsl:text>Camera</xsl:text><!-- TODO i18n -->
-						</xsl:with-param>
-					</xsl:call-template>
-				</xsl:if>
 			</xsl:element>
 		</span>
 	</xsl:template>

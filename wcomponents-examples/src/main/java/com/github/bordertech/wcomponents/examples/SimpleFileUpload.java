@@ -9,7 +9,6 @@ import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WFileWidget;
 import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WImage;
-import com.github.bordertech.wcomponents.WImageEditor;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.file.FileItemWrap;
@@ -47,7 +46,6 @@ public class SimpleFileUpload extends WContainer {
 		console.setReadOnly(true);
 
 		WButton uploadBtn = new WButton("Upload");
-		final WImageEditor wImageEditor = new WImageEditor();
 
 		uploadBtn.setAction(new Action() {
 			@Override
@@ -76,12 +74,6 @@ public class SimpleFileUpload extends WContainer {
 				"image/gif",
 				"image/jpg")));
 		layout.addField("Image file upload", imageWidget).getLabel().setHint("png, jpg, gif only.");
-
-
-		wImageEditor.setRenderInline(true);
-		add(wImageEditor);
-
-		imageWidget.setEditor(wImageEditor);
 
 		final WImage uploadedImage = new WImage();
 		add(uploadedImage);
