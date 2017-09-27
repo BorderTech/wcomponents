@@ -247,10 +247,6 @@ define(["wc/has"], function(has) {
 			}
 		});
 
-		addtest("uc", function () {
-			return !has("css-flex");
-		});
-
 		addtest("native-dateinput", function() {
 			var el,
 				d = "date",
