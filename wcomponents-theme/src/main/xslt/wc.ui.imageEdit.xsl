@@ -48,6 +48,11 @@
 			<xsl:text>,"inline":</xsl:text>
 			<xsl:value-of select="@inline"/>
 		</xsl:if>
+		<xsl:if test="@image">
+			<xsl:text>,"image":"</xsl:text>
+			<xsl:value-of select="@image"/>
+			<xsl:text>"</xsl:text>
+		</xsl:if>
 		<xsl:text>}</xsl:text>
 		<xsl:if test="position() ne last()">
 			<xsl:text>,</xsl:text>

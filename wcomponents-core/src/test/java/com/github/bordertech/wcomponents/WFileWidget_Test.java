@@ -21,6 +21,7 @@ import junit.framework.Assert;
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
+ * @author Aswin Kandula
  * @since 1.0.0
  */
 public class WFileWidget_Test extends AbstractWComponentTestCase {

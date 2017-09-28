@@ -8,7 +8,7 @@ import org.apache.commons.fileupload.FileItem;
 
 /**
  * The interface that the Web framework needs to see from the HttpServletRequest. The support for "session scope"
- * variables should not be used except for communicating between separate WComponent trees (eg in separate servlets).
+ * variables should not be used except for communicating between separate WComponent trees (e.g. in separate servlets).
  * <p>
  * The {@link com.github.bordertech.wcomponents.servlet.WServlet} class is the generic servlet that sits between the
  * servlet container and the WComponent framework. The WServlet class is responsible for creating Request objects that
@@ -60,20 +60,20 @@ public interface Request {
 	byte[] getFileContents(String key);
 
 	/**
-	 * If the request parameter is a file attachement, use this method to access the parsed {@link FileItem}.
+	 * If the request parameter is a file attachment, use this method to access the parsed {@link FileItem}.
 	 *
 	 * @param key the name of the parameter used to pass the file content.
-	 * @return {@link FileItem} representing the updloaded file.
+	 * @return {@link FileItem} representing the uploaded file.
 	 * @since 1.0.0
 	 * @deprecated As of 25/05/2015, replaced by {@link #getFileItems(java.lang.String)}
 	 */
 	FileItem getFileItem(String key);
 
 	/**
-	 * If the request parameter is a file attachement, use this method to access the parsed {@link FileItem[]}.
+	 * If the request parameter is a file attachment, use this method to access the parsed {@link FileItem[]}.
 	 *
 	 * @param key the name of the parameter used to pass the file content.
-	 * @return {@link FileItem[]} representing the updloaded files.
+	 * @return {@link FileItem[]} representing the uploaded files.
 	 * @since 1.0.0
 	 */
 	FileItem[] getFileItems(String key);
@@ -189,8 +189,8 @@ public interface Request {
 	 * Parameters.getInstance().get(key) in that the value returned may be customised to suit the "app". In a portlet
 	 * environment an "app" is represented by a portlet.
 	 *
-	 * @param key the preference paramter key.
-	 * @return the app preference paramter, or null if not found.
+	 * @param key the preference parameter key.
+	 * @return the app preference parameter, or null if not found.
 	 */
 	String getAppPreferenceParameter(String key);
 
