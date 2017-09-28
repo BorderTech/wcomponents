@@ -18,15 +18,13 @@ define(["wc/dom/attribute",
 	"wc/dom/event",
 	"wc/dom/initialise",
 	"wc/has",
-	"wc/i18n/i18n",
-	"wc/file/size",
-	"wc/file/accepted",
-	"wc/ui/prompt",
+	"wc/file/clearSelector",
+	"wc/file/validate",
 	"wc/dom/Widget",
 	"wc/dom/focus",
 	"wc/isNumeric",
 	"wc/ui/ajaxRegion"],
-function(attribute, event, initialise, has, i18n, size, accepted, prompt, Widget) {
+function(attribute, event, initialise, has, clearSelector, validate, Widget) {
 	"use strict";
 
 	/**
@@ -44,52 +42,17 @@ function(attribute, event, initialise, has, i18n, size, accepted, prompt, Widget
 		/**
 		 * The user would like to upload a file via a file input, this is the entry point to the process.
 		 * @param {Element} element The file input the user is interacting with.
-		 * @param {boolean} suppressEdit If true then image editing will be turned off for this upload.
 		 */
-		function upload(element, suppressEdit) {
-			var editorId = element.getAttribute("data-wc-editor"),
-				skipEdit = suppressEdit || (has("ie") > 0 && has("ie") < 10);
-			if (!skipEdit && editorId) {
-				require(["wc/ui/imageEdit"], function (imageEdit) {
-					imageEdit.editFiles(element, checkDoUpload, onError);
-				});
-			} else {
-				checkDoUpload(element);
-			}
-		}
-
-		/**
-		 * Validate the file chosen and commence the upload if all is well.
-		 * @function
-		 * @private
-		 * @param {Element} element A file input element.
-		 * @param {File[]} [files] A collection of File items to use instead of element.files.
-		 */
-		function checkDoUpload(element) {
-			var message;
+		function upload(element) {
 			if (!element.value) {
 				// nothing to do
 				return;
 			}
-			message = size.check(element);
-			if (!message && !accepted(element)) {
-				message = i18n.get("file_wrongtype", element.accept);
-			}
-			if (message) {
-				onError(element, message);
-			}
-		}
-
-		/**
-		 * Something is not right with the upload request.
-		 * @param {Element} element The file input element that triggered the upload.
-		 * @param {string} [message] A message to display to the user.
-		 */
-		function onError(element, message) {
-			if (message) {
-				prompt.alert(message);
-			}
-			instance.clearInput(element);
+			validate.check({
+				selector: element,
+				notify: true,
+				errback: instance.clearInput
+			});
 		}
 
 		/**
@@ -175,13 +138,11 @@ function(attribute, event, initialise, has, i18n, size, accepted, prompt, Widget
 		 * @param {Element} element A file input.
 		 */
 		this.clearInput = function (element) {
-			var myClone;
-			element.value = "";
-			if (element.value !== "") {
-				myClone = element.cloneNode(false);
-				element.parentNode.replaceChild(myClone, element);
-				initialiseFileInput(myClone);
-			}
+			clearSelector(element, function(selector, cloned) {
+				if (cloned) {
+					initialiseFileInput(selector);
+				}
+			});
 		};
 	}
 

@@ -1,4 +1,4 @@
-define(["wc/i18n/i18n", "wc/file/getFileSize", "lib/sprintf",], function(i18n, getFileSize, sprintf) {
+define(["wc/i18n/i18n", "wc/file/getFileSize", "lib/sprintf"], function(i18n, getFileSize, sprintf) {
 	var KB = Math.pow(10, 3), /* NOTE: see IEC 80000-13 a kilo-byte is 1000 bytes, NOT 1024 bytes */
 		MB = Math.pow(10, 6),
 		GB = Math.pow(10, 9),

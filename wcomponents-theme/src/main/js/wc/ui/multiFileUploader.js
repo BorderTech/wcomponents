@@ -6,9 +6,9 @@ define(["wc/dom/attribute",
 	"wc/ajax/Trigger",
 	"wc/dom/classList",
 	"wc/has",
+	"wc/file/clearSelector",
+	"wc/file/validate",
 	"wc/i18n/i18n",
-	"wc/file/size",
-	"wc/file/accepted",
 	"wc/dom/Widget",
 	"wc/dom/formUpdateManager",
 	"wc/file/filedrop",
@@ -22,8 +22,7 @@ define(["wc/dom/attribute",
 	"wc/dom/toDocFragment",
 	"wc/ui/errors",
 	"wc/ui/fieldset"],
-	function (attribute, prefetch, event, initialise, uid, Trigger, classList, has, i18n, size,
-		accepted, Widget, formUpdateManager, filedrop, ajax, prompt, focus, isNumeric, ajaxRegion, wcconfig, debounce,
+	function (attribute, prefetch, event, initialise, uid, Trigger, classList, has, clearSelector, validate, i18n, Widget, formUpdateManager, filedrop, ajax, prompt, focus, isNumeric, ajaxRegion, wcconfig, debounce,
 		toDocFragment, errors) {
 		"use strict";
 
@@ -228,6 +227,11 @@ define(["wc/dom/attribute",
 					});
 				}
 			};
+
+			function processedUpload(element) {
+				instance.clearInput(element);
+			}
+
 			/**
 			 * Validate the file chosen and commence the asynchronous upload if all is well.
 			 * @function
@@ -238,34 +242,27 @@ define(["wc/dom/attribute",
 			 */
 			function checkDoUpload(element, files, suppressEdit) {
 				var testObj, maxFileInfo, filesToAdd,
-					useFilesArg = (!element.value && (files && files.length > 0)),
-					done = function (message) {
-						instance.clearInput(element);
-						if (message) {
-							prompt.alert(message);
-						}
-					};
+					useFilesArg = (!element.value && (files && files.length > 0));
 				getUploader(function (theUploader) { // this wraps the possible async wait for the fauxjax module to load, otherwise clearInput has been called before the upload begins
 					var checkAndUpload = function (useTheseFiles) {
-							var message;
-							try {
-								if ((message = size.check(element, testObj))) {
-									return;
-								}
-								if (!accepted(testObj)) {
-									message = i18n.get("file_wrongtype", element.accept);
-									return;
-								}
-								if (inputElementWd.isOneOfMe(element)) {
-									commenceUpload({
-										uploader: theUploader,
-										element: element,
-										files: useTheseFiles
-									});
-								}
-							} finally {
-								done(message);
-							}
+							validate.check({
+								selector: element,
+								notify: true,
+								callback: function(selector) {
+									try {
+										if (inputElementWd.isOneOfMe(selector)) {
+											commenceUpload({
+												uploader: theUploader,
+												element: selector,
+												files: useTheseFiles
+											});
+										}
+									} finally {
+										processedUpload(selector);
+									}
+								},
+								errback: processedUpload
+							});
 						},
 						upload = function(obj) {
 							var editorId = element.getAttribute("data-wc-editor"),
@@ -274,7 +271,7 @@ define(["wc/dom/attribute",
 								require(["wc/ui/imageEdit"], function (imageEdit) {
 									obj.editorId = editorId;
 									imageEdit.upload = instance.upload.bind(instance);
-									imageEdit.editFiles(obj, checkAndUpload, done);
+									imageEdit.editFiles(obj, checkAndUpload, processedUpload);
 								});
 							} else {
 								checkAndUpload(obj.files);
@@ -287,13 +284,12 @@ define(["wc/dom/attribute",
 						if (maxFileInfo.valid) {
 							upload(testObj);
 						} else {
-							done(i18n.get("file_toomany", filesToAdd, maxFileInfo.max, maxFileInfo.before));
+							processedUpload(element);
+							prompt.alert(i18n.get("file_toomany", filesToAdd, maxFileInfo.max, maxFileInfo.before));
 						}
 					}
 				});
 			}
-
-
 
 			/**
 			 * Checks if the maxFiles count will be exceeded if we proceed with the upload
@@ -728,15 +724,11 @@ define(["wc/dom/attribute",
 			 * @param {Element} element A file input.
 			 */
 			this.clearInput = function (element) {
-				var myClone;
-				element.value = "";
-				if (element.value !== "") {
-					if (element.parentNode) {  // IE10 somehow gets in here with an element wiht no parent
-						myClone = element.cloneNode(false);
-						element.parentNode.replaceChild(myClone, element);
-						initialiseFileInput(myClone);
+				clearSelector(element, function (selector, cloned) {
+					if (cloned) {
+						initialiseFileInput(selector);
 					}
-				}
+				});
 			};
 		}
 
