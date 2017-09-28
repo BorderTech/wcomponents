@@ -280,51 +280,36 @@ define(["wc/ui/menu/core",
 				var branch,
 					opener,
 					label,
-					props = {},
 					closeButton,
-					render = function(content) {
-						if (content) {
-							props.content = content;
-						}
-						template.process({
-							source: "submenuCloseButton.mustache",
-							loadSource: true,
-							target: el,
-							context: props,
-							position: "afterBegin",
-							callback: function() {
-								closeButton = el.firstChild;
-								if (!closeButton.id) {
-									closeButton.id = uid();
+					tempWrapper,
+					closeButtonHTML;
+				try {
+					if (el && instance.isSubMenu(el)) {
+						if ((branch = instance._getBranch(el)) && (opener = instance._getBranchOpener(branch))) {
+							DECORATED_LABEL = DECORATED_LABEL || new Widget("", "wc-decoratedlabel");
+							label = DECORATED_LABEL.findDescendant(opener);
+
+							if (label) {
+								tempWrapper = document.createElement("span");
+								closeButtonHTML = "<button class=\"wc-menuitem wc_closesubmenu wc-nobutton wc-invite\" role=\"menuitem\" type=\"button\">" +
+									label.outerHTML +
+									"</button>";
+								tempWrapper.insertAdjacentHTML("afterbegin", closeButtonHTML);
+								closeButton = tempWrapper.firstChild;
+								if ((label = DECORATED_LABEL.findDescendant(closeButton))) {
+									label.insertAdjacentHTML("afterbegin", "<i class=\"fa fa-caret-left wc_dlbl_seg\" aria-hidden=\"true\"></i>");
+								}
+								Array.prototype.forEach.call(closeButton.querySelectorAll("[id]"), function(next) {
+									next.id = uid();
+								});
+								if (el.hasChildNodes()) {
+									el.insertBefore(closeButton, el.firstChild);
 								}
 							}
-						});
-					};
-				if (el && instance.isSubMenu(el)) {
-					if ((branch = instance._getBranch(el)) && (opener = instance._getBranchOpener(branch))) {
-						DECORATED_LABEL = DECORATED_LABEL || new Widget("", "wc-decoratedlabel");
-						label = DECORATED_LABEL.findDescendant(opener);
-
-						if (label) {
-							Array.prototype.forEach.call(label.childNodes, function(child) {
-								if (child.nodeType !== Node.ELEMENT_NODE) {
-									return;
-								}
-								if (classList.contains(child, "wc-labelhead")) {
-									props.labelhead = child.innerHTML;
-								} else if (classList.contains(child, "wc-labeltail")) {
-									props.labeltail = child.innerHTML;
-								} else {
-									props.content = child.innerHTML;
-								}
-							});
 						}
 					}
-					if (!props.content) {
-						i18n.translate("menu_close_label").then(render);
-					} else {
-						render();
-					}
+				} finally {
+					tempWrapper = null;
 				}
 			}
 
@@ -352,7 +337,7 @@ define(["wc/ui/menu/core",
 						},
 						contentId: uid(),
 						open: false,
-						closeText: strings[0],
+						closeText: strings[1],
 						items: nextMenu.innerHTML
 					};
 					template.process({

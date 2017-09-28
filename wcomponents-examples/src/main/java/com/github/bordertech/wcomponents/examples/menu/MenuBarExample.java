@@ -113,7 +113,8 @@ public class MenuBarExample extends WContainer {
 		menu.add(shapeMenu);
 
 		// The Image menu shows use of decorated labels and images
-		WSubMenu imageMenu = new WSubMenu("Images");
+		WDecoratedLabel imageLabel = new WDecoratedLabel(new WImage("/image/wrench.png", "spanner"), new WText("Images"), null);
+		WSubMenu imageMenu = new WSubMenu(imageLabel);
 		imageMenu.add(createImageMenuItem("/image/flag.png", "Flag", "eg-menu-image-1",
 				selectedMenuText));
 		imageMenu.add(createImageMenuItem("/image/attachment.png", "Attachment", "eg-menu-image-2",
