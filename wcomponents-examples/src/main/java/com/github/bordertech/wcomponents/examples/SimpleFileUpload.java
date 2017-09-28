@@ -2,14 +2,18 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.Image;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WFileWidget;
 import com.github.bordertech.wcomponents.WHorizontalRule;
+import com.github.bordertech.wcomponents.WImage;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WTextField;
+import com.github.bordertech.wcomponents.file.FileItemWrap;
 import com.github.bordertech.wcomponents.util.Util;
+import com.github.bordertech.wcomponents.util.thumbnail.BytesImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -30,6 +34,7 @@ public class SimpleFileUpload extends WContainer {
 	 */
 	public SimpleFileUpload() {
 		fileWidget = new WFileWidget();
+		fileWidget.setFileTypes(new ArrayList<>(Arrays.asList("text/*")));
 		WLabel fileLabel = new WLabel("Select a file to upload", fileWidget);
 
 		WFieldLayout layout = new WFieldLayout();
@@ -70,10 +75,26 @@ public class SimpleFileUpload extends WContainer {
 				"image/jpg")));
 		layout.addField("Image file upload", imageWidget).getLabel().setHint("png, jpg, gif only.");
 
+		final WImage uploadedImage = new WImage();
+		add(uploadedImage);
+
 		WFileWidget constrainedWidget = new WFileWidget();
 		constrainedWidget.setMaxFileSize(2000);
 		layout.addField("File up to 2k", constrainedWidget);
 		uploadBtn = new WButton("Upload constrained files");
+		uploadBtn.setAction(new Action() {
+			@Override
+			public void execute(final ActionEvent event) {
+
+				FileItemWrap fiw = imageWidget.getFile();
+				if (fiw != null) {
+					Image img = new BytesImage(fiw.getBytes(), fiw.getMimeType(), fiw.getDescription(), null);
+					uploadedImage.setImage(img);
+				} else {
+					uploadedImage.reset();
+				}
+			}
+		});
 		layout.addField(uploadBtn);
 	}
 }

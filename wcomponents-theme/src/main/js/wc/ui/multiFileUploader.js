@@ -5,11 +5,10 @@ define(["wc/dom/attribute",
 	"wc/dom/uid",
 	"wc/ajax/Trigger",
 	"wc/dom/classList",
-	"lib/sprintf",
 	"wc/has",
+	"wc/file/clearSelector",
+	"wc/file/validate",
 	"wc/i18n/i18n",
-	"wc/file/getFileSize",
-	"wc/file/accepted",
 	"wc/dom/Widget",
 	"wc/dom/formUpdateManager",
 	"wc/file/filedrop",
@@ -23,8 +22,7 @@ define(["wc/dom/attribute",
 	"wc/dom/toDocFragment",
 	"wc/ui/errors",
 	"wc/ui/fieldset"],
-	function (attribute, prefetch, event, initialise, uid, Trigger, classList, sprintf, has, i18n, getFileSize,
-		accepted, Widget, formUpdateManager, filedrop, ajax, prompt, focus, isNumeric, ajaxRegion, wcconfig, debounce,
+	function (attribute, prefetch, event, initialise, uid, Trigger, classList, has, clearSelector, validate, i18n, Widget, formUpdateManager, filedrop, ajax, prompt, focus, isNumeric, ajaxRegion, wcconfig, debounce,
 		toDocFragment, errors) {
 		"use strict";
 
@@ -109,11 +107,7 @@ define(["wc/dom/attribute",
 		 */
 		function MultiFileUploader() {
 			var INITED_KEY = "wc/ui/multiFileUploader.inited",
-				uploader,
-				ROUND_SIG_FIG = 1,
-				KB = Math.pow(10, 3), /* NOTE: see IEC 80000-13 a kilo-byte is 1000 bytes, NOT 1024 bytes */
-				MB = Math.pow(10, 6),
-				GB = Math.pow(10, 9);
+				uploader;
 
 			prefetch.jsModule("wc/ui/imageEdit");
 
@@ -214,25 +208,8 @@ define(["wc/dom/attribute",
 			}
 
 			/**
-			 * Rounds a numerical filesize value to something acceptable to display to the user.
-			 * @param {Number} value The number to round.
-			 * @returns {Number} The rounded version of the value.
-			 */
-			function round(value) {
-				var intPart = parseInt(value, 10),
-					modPart,
-					exp;
-				if (intPart === value) {
-					return value;
-				}
-				exp = Math.pow(10, ROUND_SIG_FIG);
-				modPart = Math.round((value % 1) * exp);
-				return intPart + (modPart / exp);
-			}
-
-			/**
-			 * This allows other code to request a file upload using a WMultiFileWidget.
-			 * For example file dropzones and imageedit.
+			 * This allows other code to request an async file upload using a WMultiFileWidget.
+			 * For example file dropzones.
 			 * @param {Element} element A file input or an element that contains a file input.
 			 * @param {File[]} files Binary file data.
 			 * @param {boolean} [suppressEdit] true if image editing should be bypassed regardless of whether it is configured or not.
@@ -250,6 +227,11 @@ define(["wc/dom/attribute",
 					});
 				}
 			};
+
+			function processedUpload(element) {
+				instance.clearInput(element);
+			}
+
 			/**
 			 * Validate the file chosen and commence the asynchronous upload if all is well.
 			 * @function
@@ -260,34 +242,27 @@ define(["wc/dom/attribute",
 			 */
 			function checkDoUpload(element, files, suppressEdit) {
 				var testObj, maxFileInfo, filesToAdd,
-					useFilesArg = (!element.value && (files && files.length > 0)),
-					done = function (message) {
-						instance.clearInput(element);
-						if (message) {
-							prompt.alert(message);
-						}
-					};
+					useFilesArg = (!element.value && (files && files.length > 0));
 				getUploader(function (theUploader) { // this wraps the possible async wait for the fauxjax module to load, otherwise clearInput has been called before the upload begins
 					var checkAndUpload = function (useTheseFiles) {
-							var message;
-							try {
-								if ((message = checkFileSize(element, testObj))) {
-									return;
-								}
-								if (!accepted(testObj)) {
-									message = i18n.get("file_wrongtype", element.accept);
-									return;
-								}
-								if (inputElementWd.isOneOfMe(element)) {
-									commenceUpload({
-										uploader: theUploader,
-										element: element,
-										files: useTheseFiles
-									});
-								}
-							} finally {
-								done(message);
-							}
+							validate.check({
+								selector: element,
+								notify: true,
+								callback: function(selector) {
+									try {
+										if (inputElementWd.isOneOfMe(selector)) {
+											commenceUpload({
+												uploader: theUploader,
+												element: selector,
+												files: useTheseFiles
+											});
+										}
+									} finally {
+										processedUpload(selector);
+									}
+								},
+								errback: processedUpload
+							});
 						},
 						upload = function(obj) {
 							var editorId = element.getAttribute("data-wc-editor"),
@@ -295,7 +270,8 @@ define(["wc/dom/attribute",
 							if (!skipEdit && editorId) {
 								require(["wc/ui/imageEdit"], function (imageEdit) {
 									obj.editorId = editorId;
-									imageEdit.editFiles(obj, checkAndUpload, done);
+									imageEdit.upload = instance.upload.bind(instance);
+									imageEdit.editFiles(obj, checkAndUpload, processedUpload);
 								});
 							} else {
 								checkAndUpload(obj.files);
@@ -308,57 +284,11 @@ define(["wc/dom/attribute",
 						if (maxFileInfo.valid) {
 							upload(testObj);
 						} else {
-							done(i18n.get("file_toomany", filesToAdd, maxFileInfo.max, maxFileInfo.before));
+							processedUpload(element);
+							prompt.alert(i18n.get("file_toomany", filesToAdd, maxFileInfo.max, maxFileInfo.before));
 						}
 					}
 				});
-			}
-
-			/**
-			 * Check the file size and return an error message if there is a problem.
-			 * @function
-			 * @private
-			 * @param {Element} element A file input element.
-			 * @param {Object} testObj The pseudo-file element to pass to test functions.
-			 * @return {?string} An error message if there is a problem otherwise falsey.
-			 */
-			function checkFileSize(element, testObj) {
-				var i, message, roundTo, maxFileSizeHR, fileSizeHR, units,
-					maxFileSize = parseInt(element.getAttribute("data-wc-maxfilesize"), 10),
-					fileIsToBig = function (size) {
-						return maxFileSize < size;
-					},
-					fileSizes = getFileSize(testObj);
-				if (maxFileSize && fileSizes.length > 0 && fileSizes.some(fileIsToBig)) {
-					message = [];
-					for (i = 0; i < fileSizes.length; i++) {
-						if (fileIsToBig(fileSizes[i])) {
-							/* make the units human readable */
-							if (maxFileSize >= GB) {
-								roundTo = GB;
-								units = i18n.get("file_size_gb");
-							} else if (maxFileSize >= MB) {
-								roundTo = MB;
-								units = i18n.get("file_size_mb");
-							} else if (maxFileSize >= KB) {
-								roundTo = KB;
-								units = i18n.get("file_size_kb");
-							}
-
-							if (roundTo) {
-								maxFileSizeHR = round(maxFileSize / roundTo);
-								fileSizeHR = round(fileSizes[i] / roundTo);
-							} else {
-								maxFileSizeHR = maxFileSize;
-								fileSizeHR = fileSizes[i];
-								units = i18n.get("file_size_");
-							}
-							message.push(sprintf.sprintf(i18n.get("file_toolarge"), fileSizeHR, maxFileSizeHR, units));
-						}
-					}
-					message = message.join("\n");
-				}
-				return message;
 			}
 
 			/**
@@ -794,15 +724,11 @@ define(["wc/dom/attribute",
 			 * @param {Element} element A file input.
 			 */
 			this.clearInput = function (element) {
-				var myClone;
-				element.value = "";
-				if (element.value !== "") {
-					if (element.parentNode) {  // IE10 somehow gets in here with an element wiht no parent
-						myClone = element.cloneNode(false);
-						element.parentNode.replaceChild(myClone, element);
-						initialiseFileInput(myClone);
+				clearSelector(element, function (selector, cloned) {
+					if (cloned) {
+						initialiseFileInput(selector);
 					}
-				}
+				});
 			};
 		}
 

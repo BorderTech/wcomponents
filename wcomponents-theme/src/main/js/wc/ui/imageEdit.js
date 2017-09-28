@@ -56,7 +56,10 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 			undoRedo,
 			registeredIds = {},
 			fbCanvas,
-			BUTTON = new Widget("button");
+			BUTTON = new Widget("button"),
+			NOOP = function() {
+
+			};
 
 		this.getCanvas = function() {
 			return fbCanvas;
@@ -68,17 +71,24 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		 * @param {Object[]} arr Configuration objects.
 		 */
 		this.register = function(arr) {
-			var i, next;
+			var i, next, inline = [];
 			for (i = 0; i < arr.length; i++) {
 				next = arr[i];
 				registeredIds[next.id] = next;
+				if (next.inline) {
+					inline.push(next);
+				}
 			}
 			if (!inited) {
 				inited = true;
-				require(["wc/dom/initialise", "wc/ui/multiFileUploader"], function(initialise, multiFileUploader) {
+				require(["wc/dom/initialise", "wc/dom/formUpdateManager"], function(initialise, formUpdateManager) {
 					initialise.addCallback(function(element) {
 						event.add(element, "click", clickEvent);
+						handleInline(inline);
+						inline = null;
 					});
+
+					formUpdateManager.subscribe(imageEdit);
 
 					/**
 					 * Listens for edit requests on static images.
@@ -95,10 +105,10 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 									img = document.getElementById(element.getAttribute("data-wc-img"));
 									if (img) {
 										file = imgToFile(img);
-										multiFileUploader.upload(uploader, [file]);
+										imageEdit.upload(uploader, [file]);
 									} else {
 										var win = function(files) {
-											multiFileUploader.upload(uploader, files, true);
+											imageEdit.upload(uploader, files, true);
 										};
 										var lose = function(message) {
 											if (message) {
@@ -117,6 +127,16 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 				});
 			}
 		};
+
+		/**
+		 * Shares a method signature with multifileuploader upload (which overrides this method).
+		 */
+		this.upload = NOOP;
+
+		/**
+		 * Will be overriden in some circumstances.
+		 */
+		this.writeState = NOOP;
 
 		/**
 		 * Retrieve a configuration object.
@@ -196,7 +216,13 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 			function editNextFile() {
 				if (files && idx < files.length) {
 					file = files[idx++];
-					if (file.type.indexOf("image/") === 0) {
+					if (typeof file === "string") {
+						if (file.indexOf("data:image/") === 0) {
+							editFile(config, file, saveEditedFile, onError);
+						} else {
+							console.warn("Not a file", file);
+						}
+					} else if (file.type.indexOf("image/") === 0) {
 						editFile(config, file, saveEditedFile, onError);
 					} else {
 						saveEditedFile(file);
@@ -219,7 +245,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 					win: win,
 					lose: lose
 				},
-				gotEditor = function() {
+				gotEditor = function(editor) {
 					var fileReader;
 					fbCanvas = new fabric.Canvas("wc_img_canvas", {
 						enableRetinaScaling: false
@@ -232,7 +258,9 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 //						}
 //					});
 					overlayUrl = config.overlay;
-					if (file) {
+					if (typeof file === "string") {
+						imageEdit.renderImage(file);
+					} else if (file) {
 						fileReader = new FileReader();
 						fileReader.onload = filereaderLoaded;
 						fileReader.readAsDataURL(file);
@@ -241,6 +269,16 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 							width: fbCanvas.getWidth(),
 							height: fbCanvas.getHeight()
 						});
+					}
+					if (config.sync) {
+						// This is not currently supported on the backend
+						imageEdit.writeState = function() {
+							callbacks.saveFunc = function() {
+								saveImage(editor, callbacks, false);
+							};
+							callbacks.handleSave = saveCanvasAsDataUrl;
+							checkThenSave(callbacks);
+						};
 					}
 				};
 			if (config.face) {
@@ -259,6 +297,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 			} else {
 				getEditor(config, callbacks, file).then(gotEditor);
 			}
+			return callbacks;
 		}
 
 		/*
@@ -266,6 +305,26 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		 */
 		function filereaderLoaded($event) {
 			imageEdit.renderImage($event.target.result);
+		}
+
+		/**
+		 * Displays the editor inline if requested by the user.
+		 * This probably only makes sense with a single inline editor but it's written to handle an array so as not to be mlimited by my imagination.
+		 * @param inline An array of editors that are configured to be inline.
+		 */
+		function handleInline(inline) {
+			var count = inline.length;
+			if (count > 0) {
+				inline.forEach(function(config) {
+					if (config.image) {  // Right now display nothing unless there is an image in the editor, could be changed, but empty editor?
+						imageEdit.editFiles({
+							id: config.id,
+							name: config.id,
+							files: [config.image]
+						});
+					}
+				});
+			}
 		}
 
 		/**
@@ -495,21 +554,21 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 							}
 						},
 						done = function(cntnr) {
-							var eventConfig = attachEventHandlers(cntnr);
-							zoomControls(eventConfig);
-							moveControls(eventConfig);
-							resetControl(eventConfig);
-							cancelControl(eventConfig, cntnr, callbacks, file);
-							saveControl(eventConfig, cntnr, callbacks, file);
-							rotationControls(eventConfig);
+							var actions = attachEventHandlers(cntnr);
+							zoomControls(actions.events);
+							moveControls(actions.events);
+							resetControl(actions.events);
+							cancelControl(actions.events, cntnr, callbacks, file);
+							saveControl(actions.events, cntnr, callbacks, file);
+							rotationControls(actions.events);
 							if (config.redactor) {
-								config.redactor.controls(eventConfig, cntnr);
+								config.redactor.controls(actions.events, cntnr);
 							}
 
 							if (!file) {
 								classList.add(cntnr, "wc_camenable");
 								classList.add(cntnr, "wc_showcam");
-								imageCapture.snapshotControl(eventConfig, cntnr);
+								imageCapture.snapshotControl(actions.events, cntnr);
 							}
 
 
@@ -525,6 +584,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 					try {
 						return getTranslations(editorProps).then(function() {
 							container.className = "wc_img_editor";
+							container.setAttribute("data-wc-editor", config.id);
 							template.process({
 								source: TEMPLATE_NAME,
 								loadSource: true,
@@ -593,15 +653,10 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 			event.add(container, "touchend", pressEnd);
 
 			function clickEvent($event) {
-				var element = $event.target,
-					config = getEventConfig(element, "click");
-				if (!config) {
+				var element = $event.target;
+				if (!invoke.call(this, element, "click", $event)) {
 					element = BUTTON.findAncestor(element);
-					config = getEventConfig(element, "click");
-				}
-				if (config) {
-					pressEnd();
-					eventTimer = timers.setTimeout(config.func.bind(this, config, $event), 0);
+					invoke.call(this, element, "click", $event);
 				}
 			}
 
@@ -633,18 +688,45 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 				}
 			}
 
-			function getEventConfig(element, type) {
-				if (!element) {
+			/**
+			 * Gets the configuration for a particular event.
+			 * @param {Element|String} action Either an element which should trigger an action (e.g. a save button) or the name of the action (e.g. "save")
+			 * @param {String} type The type of event, e.g. "click" or "press"
+			 * @returns A config object which knows how to action an event.
+			 */
+			function getEventConfig(action, type) {
+				var isString = typeof action === "string";
+				if (!action) {
 					return null;
 				}
-				var name = element.name;
-				if ((element.localName === "button" || element.type === "checkbox") && name && eventConfig[type]) {
+				var name = isString ? action : action.name;
+				if ((isString || action.localName === "button" || action.type === "checkbox") && name && eventConfig[type]) {
 					return eventConfig[type][name];
 				}
 				return null;
 			}
 
-			return eventConfig;
+			/**
+			 * Used to invoke an action on this editor.
+			 * @param {Element|String} action Either an element which should trigger an action (e.g. a save button) or the name of the action (e.g. "save")
+			 * @param {String} type The type of event, e.g. "click" or "press"
+			 * @param payload Optionally provide a payload to be passed to the handler.
+			 * @returns {Boolean} true if a matching action was found and (queued to be) invoked.
+			 */
+			function invoke(action, type, payload) {
+				var result = false,
+					config = getEventConfig(action, type || "click");
+				if (config) {
+					result = true;
+					pressEnd();
+					eventTimer = timers.setTimeout(config.func.bind(this, config, payload), 0);
+				}
+				return result;
+			}
+
+			return {
+				events: eventConfig
+			};
 		}
 
 		/*
@@ -849,47 +931,57 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		 * Wires up the "save" feature.
 		 */
 		function saveControl(eventConfig, editor, callbacks, file) {
-			var click = eventConfig.click,
-				saveFunc = function() {
-					saveImage(editor, callbacks, false, file);
-				};
+			var click = eventConfig.click;
+			callbacks.saveFunc = function() {
+				saveImage(editor, callbacks, false, file);
+			};
 			click.save = {
-				func: function () {
-					if (imageEdit.getFbImage()) {
-						if (callbacks.validate) {
-							showHideOverlay(fbCanvas);  // This hide is for the validation, not the save.
-							callbacks.validate(fbCanvas.getElement()).then(function(error) {
-								if (error) {
-									showHideOverlay(fbCanvas, true);  // Unhide the overlay post validation (save will have to hide it again).
-									if (error.ignorable) {
-										prompt.confirm(error, function(ignoreValidationError) {
-											if (ignoreValidationError) {
-												saveFunc();
-											} else {
-												callbacks.lose();
-											}
-										});
-									} else {
-										callbacks.lose(error);
-									}
-								} else {
-									saveFunc();
-								}
-
-							}, function() {
-								callbacks.lose();
-							});
-						} else {
-							saveFunc();
-						}
-					} else {
-						// we should only be here if the user has not taken a snapshot from the video stream
-						i18n.translate("imgedit_noimage").then(function(message) {
-							prompt.alert(message);
-						});
-					}
+				func: function() {
+					callbacks.handleSave = saveCanvasAsFile;
+					checkThenSave(callbacks);
 				}
 			};
+			return click.save;
+		}
+
+		/**
+		 * One step before the exit point (which is "saveImage") do some checks before actually saving.
+		 * @param callbacks
+		 */
+		function checkThenSave(callbacks) {
+			if (imageEdit.getFbImage()) {
+				if (callbacks.validate) {
+					showHideOverlay(fbCanvas);  // This hide is for the validation, not the save.
+					callbacks.validate(fbCanvas.getElement()).then(function(error) {
+						if (error) {
+							showHideOverlay(fbCanvas, true);  // Unhide the overlay post validation (save will have to hide it again).
+							if (error.ignorable) {
+								prompt.confirm(error, function(ignoreValidationError) {
+									if (ignoreValidationError) {
+										callbacks.saveFunc();
+									} else {
+										callbacks.lose();
+									}
+								});
+							} else {
+								callbacks.lose(error);
+							}
+						} else {
+							callbacks.saveFunc();
+						}
+
+					}, function() {
+						callbacks.lose();
+					});
+				} else {
+					callbacks.saveFunc();
+				}
+			} else {
+				// we should only be here if the user has not taken a snapshot from the video stream
+				i18n.translate("imgedit_noimage").then(function(message) {
+					prompt.alert(message);
+				});
+			}
 		}
 
 		/**
@@ -919,7 +1011,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 						console.log("No changes made, using original file");
 						result = file;  // if the user has made no changes simply pass thru the original file.
 					} else {
-						result = saveCanvasAsFile(file);
+						result = callbacks.handleSave(editor, file);
 					}
 					done();
 					callbacks.win(result);
@@ -950,7 +1042,58 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 			return group;
 		}
 
-		function saveCanvasAsFile(file) {
+		/**
+		 * Intended for synchronous upload, will add the edited image to the form as a base64 encoded data URL.
+		 * The initiating file input will be disabled so that the base64 field can masquerade in its place.
+		 * @param {Element} editor The file input associated with the image we are editing.
+		 */
+		function saveCanvasAsDataUrl(editor) {
+			var param, form, formWd, fileSelector, stateField, serialized = canvasToDataUrl();
+			if (serialized) {
+				fileSelector = getFileSelector(editor);
+				if (fileSelector) {
+					param = fileSelector.name;
+					if (param) {
+						formWd = new Widget("form");
+						form = formWd.findAncestor(fileSelector);
+						fileSelector.disabled = true;
+						stateField = form.appendChild(document.createElement("input"));
+						stateField.type = "hidden";
+						stateField.name = param;
+						stateField.value = serialized;
+					}
+				}
+			}
+			return stateField;
+		}
+
+		function getFileSelector(editor) {
+			// TODO this doesn't seem right
+			var result, editorId = editor.getAttribute("data-wc-editor");
+			result = document.querySelector("input[type=file][data-wc-editor=" + editorId + "]");
+			return result;
+		}
+
+		/**
+		 * Save the canvas as a binary file.
+		 * @param {Element} editor The file input associated with the image we are editing.
+		 * @param {Blob} file The original image file being edited.
+		 * @returns {File} The edited image as a file / blob.
+		 */
+		function saveCanvasAsFile(editor, file) {
+			var result = canvasToDataUrl();
+			if (result) {
+				result = dataURItoBlob(result);
+				result = blobToFile(result, file);
+			}
+			return result;
+		}
+
+		/**
+		 * Serialize the edited image on the canvas to a data url.
+		 * @returns {string} The image on the canvas as a data url.
+		 */
+		function canvasToDataUrl() {
 			var result, toDataUrlParams, config, object,
 				fbImage = imageEdit.getFbImage();
 			if (fbImage) {
@@ -978,8 +1121,6 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 				// canvasElement = fbCanvas.getElement();
 				// result = canvasElement.toDataURL();
 				result = fbCanvas.toDataURL(toDataUrlParams);
-				result = dataURItoBlob(result);
-				result = blobToFile(result, file);
 			}
 			return result;
 		}

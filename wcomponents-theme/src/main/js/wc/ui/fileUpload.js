@@ -17,18 +17,14 @@
 define(["wc/dom/attribute",
 	"wc/dom/event",
 	"wc/dom/initialise",
-	"lib/sprintf",
 	"wc/has",
-	"wc/i18n/i18n",
-	"wc/file/getFileSize",
-	"wc/file/accepted",
+	"wc/file/clearSelector",
+	"wc/file/validate",
 	"wc/dom/Widget",
-	"wc/timers",
 	"wc/dom/focus",
 	"wc/isNumeric",
 	"wc/ui/ajaxRegion"],
-	/** @param attribute @param event @param initialise @param sprintf @param has @param i18n @param getFileSize @param accepted @param Widget @param timers @ignore */
-function(attribute, event, initialise, sprintf, has, i18n, getFileSize, accepted, Widget, timers) {
+function(attribute, event, initialise, has, clearSelector, validate, Widget) {
 	"use strict";
 
 	/**
@@ -38,108 +34,26 @@ function(attribute, event, initialise, sprintf, has, i18n, getFileSize, accepted
 	 */
 	function FileUpload() {
 		var INITED_KEY = "wc.ui.fileUpload.inited",
-			ROUND_SIG_FIG = 1,
-			KB = Math.pow(10, 3),  /* NOTE: see IEC 80000-13 a kilo-byte is 1000 bytes, NOT 1024 bytes */
-			MB = Math.pow(10, 6),
-			GB = Math.pow(10, 9),
 			CONTAINER = new Widget("", "wc-fileupload"),
-			inputElementWd = new Widget("INPUT", "", { type: "file"}),
-			messageTimer;
+			inputElementWd = new Widget("INPUT", "", { type: "file"});
 
 		inputElementWd.descendFrom(CONTAINER, true);
 
 		/**
-		 * Rounds a numerical filesize value to something acceptable to display to the user.
-		 * @param {Number} value The number to round.
-		 * @returns {Number} The rounded version of the value.
+		 * The user would like to upload a file via a file input, this is the entry point to the process.
+		 * @param {Element} element The file input the user is interacting with.
 		 */
-		function round(value) {
-			var intPart = parseInt(value, 10),
-				modPart,
-				exp;
-			if (intPart === value) {
-				return value;
-			}
-			exp = Math.pow(10, ROUND_SIG_FIG);
-			modPart = Math.round((value % 1) * exp);
-			return intPart + (modPart / exp);
-		}
-
-		/**
-		 * Presents the message to the user.
-		 * @function
-		 * @private
-		 * @param {String} message The message to present.
-		 */
-		function showMessage(message) {
-			if (messageTimer) {
-				timers.clearTimeout(messageTimer);
-			}
-			messageTimer = timers.setTimeout(function() {
-				window.alert(message);
-			}, 250);
-		}
-
-		/**
-		 * Validate the file chosen and commence the asynchronous upload if all is well.
-		 * @function
-		 * @private
-		 * @param {Element} element A file input element.
-		 * @param {File[]} [files] A collection of File items to use instead of element.files.
-		 */
-		function checkDoUpload(element) {
-			var maxFileSize, fileSize;
+		function upload(element) {
 			if (!element.value) {
 				// nothing to do
 				return;
 			}
-			maxFileSize = parseInt(element.getAttribute("data-wc-maxfilesize"), 10);
-			fileSize = getFileSize(element);
-			if (fileSize && fileSize.length) {
-				fileSize = fileSize[0];
-				if (maxFileSize < fileSize) {
-					handleFileTooLarge(maxFileSize, fileSize);
-					instance.clearInput(element);
-				} else if (!accepted(element)) {
-					showMessage(i18n.get("file_wrongtype", element.accept));
-					instance.clearInput(element);
-				}
-			}
+			validate.check({
+				selector: element,
+				notify: true,
+				errback: instance.clearInput
+			});
 		}
-
-		/**
-		 * Helper for checkDoUpload, called if the file is too large.
-		 * @function
-		 * @private
-		 * @param {number} maxFileSize The maximum allowed file size in bytes.
-		 * @param {number} fileSize The actual file size in bytes.
-		 */
-		function handleFileTooLarge(maxFileSize, fileSize) {
-			var maxFileSizeHR, fileSizeHR, roundTo, units;
-
-			/* make the units human readable */
-			if (maxFileSize >= GB) {
-				roundTo = GB;
-				units = i18n.get("file_size_gb");
-			} else if (maxFileSize >= MB) {
-				roundTo = MB;
-				units = i18n.get("file_size_mb");
-			} else if (maxFileSize >= KB) {
-				roundTo = KB;
-				units = i18n.get("file_size_kb");
-			}
-
-			if (roundTo) {
-				maxFileSizeHR = round(maxFileSize / roundTo);
-				fileSizeHR = round(fileSize / roundTo);
-			} else {
-				maxFileSizeHR = maxFileSize;
-				fileSizeHR = fileSize;
-				units = i18n.get("file_size_");
-			}
-			showMessage(sprintf.sprintf(i18n.get("file_toolarge"), fileSizeHR, maxFileSizeHR, units));
-		}
-
 
 		/**
 		 * Change event on the file input.
@@ -151,7 +65,7 @@ function(attribute, event, initialise, sprintf, has, i18n, getFileSize, accepted
 		function changeEvent($event) {
 			var element = $event.target;
 			if (!$event.defaultPrevented && inputElementWd.isOneOfMe(element)) {
-				checkDoUpload(element);
+				upload(element);
 			}
 		}
 
@@ -224,13 +138,11 @@ function(attribute, event, initialise, sprintf, has, i18n, getFileSize, accepted
 		 * @param {Element} element A file input.
 		 */
 		this.clearInput = function (element) {
-			var myClone;
-			element.value = "";
-			if (element.value !== "") {
-				myClone = element.cloneNode(false);
-				element.parentNode.replaceChild(myClone, element);
-				initialiseFileInput(myClone);
-			}
+			clearSelector(element, function(selector, cloned) {
+				if (cloned) {
+					initialiseFileInput(selector);
+				}
+			});
 		};
 	}
 

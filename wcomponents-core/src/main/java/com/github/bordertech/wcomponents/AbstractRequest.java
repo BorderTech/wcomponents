@@ -54,7 +54,23 @@ public abstract class AbstractRequest implements Request {
 	 */
 	@Override
 	public FileItem[] getFileItems(final String key) {
-		return getFiles().get(key);
+		FileItem[] result = getFiles().get(key);
+		/* The commented code below would allow us to transparently handle serialized file uploads encoded as Base64
+		if (result == null) {
+			String[] params = getParameterValues(key);
+			if (params != null && params.length > 0) {
+				List<FileItem> deserialized = new ArrayList<>(params.length);
+				for (String param : params) {
+					FileItem fileItem = getFileItemFromBase64(param);
+					if (fileItem != null) {
+						deserialized.add(fileItem);
+					}
+				}
+				result = deserialized.toArray(new FileItem[]{});
+			}
+		}
+		*/
+		return result;
 	}
 
 	/**
@@ -62,7 +78,7 @@ public abstract class AbstractRequest implements Request {
 	 */
 	@Override
 	public FileItem getFileItem(final String key) {
-		FileItem[] value = getFiles().get(key);
+		FileItem[] value = getFileItems(key);
 		return value == null || value.length == 0 ? null : value[0];
 	}
 
