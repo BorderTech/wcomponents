@@ -5,15 +5,25 @@
 ### API Changes
 
 ### Enhancements
+
+### Bug Fixes
+
+* Added a workaround to width calculation errors in UC Browser on Android OSs #1354.
+
+## Release 1.4.9
+
+### Enhancements
+
 * Allow more granular control over features available in image editor
 * Apply config overrides when image editor opened instead of page load so that it is easier to set config "in time"
 * Implemented new features in image editor:
   * center image
   * reset image
+* Update WAI-ARIA analog class to treat RETURN as equivalent to SPACE for all analogs #1351, QC 169101.
 
 ### Bug Fixes
 
-* Provided Sass to work around an IE feature in which buttons with element descendants show unexpected cursor behaviour.
+* Provided Sass to work around an IE feature in which buttons with element descendants show unexpected cursor behaviour QC 168545.
 
 ## Release 1.4.9
 
