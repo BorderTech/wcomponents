@@ -20,3 +20,26 @@
   background-color: $wc-clr-selected-bg;
   color: $wc-clr-selected-fg;
 }
+
+@if ($wc-use-respond == 1) {
+  @include respond-phonelike {
+    .wc_menu_bar.wc_menu_fix {
+      background-color: transparent;
+
+      @if ($wc-clr-panel-header-fg != -1) {
+        [role='banner'] & {
+          > .wc-submenu > button {
+            color: $wc-clr-panel-header-fg;
+          }
+        }
+      }
+      @if ($wc-clr-section-heading-fg != -1) {
+        section > header  & {
+          > .wc-submenu > button {
+            color: $wc-clr-section-heading-fg;
+          }
+        }
+      }
+    }
+  }
+}

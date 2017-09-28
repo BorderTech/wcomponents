@@ -9,6 +9,7 @@
 ### Bug Fixes
 
 * Added a workaround to width calculation errors in UC Browser on Android OSs #1354.
+* Fixed a flaw which could result in duplicate IDs in responsive menus #1357.
 
 ## Release 1.4.9
 
