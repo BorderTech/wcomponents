@@ -66,12 +66,6 @@
   }
 }
 
-
-// The collapsed bar menu in a header.
-[role='banner'] .wc-menu-type-bar[data-wc-menufixed] {
-  display: inline-block;
-}
-
 // make menu bars horizontal.
 .wc_menu_bar {
   > .wc-menuitem,
@@ -85,6 +79,10 @@
       width: auto;
     }
   }
+}
+
+.wc-menu-type-bar.wc_menu_fix {
+  display: inline-block;
 }
 
 .wc_closesubmenu::before {

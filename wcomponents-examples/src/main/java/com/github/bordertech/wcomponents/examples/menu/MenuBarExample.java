@@ -87,7 +87,8 @@ public class MenuBarExample extends WContainer {
 		menu.add(colourMenu);
 
 		// The Shapes menu shows grouping of items
-		WSubMenu shapeMenu = new WSubMenu("Shapes");
+		WDecoratedLabel shapeLabel = new WDecoratedLabel(new WImage("/image/wrench.png", "spanner"), new WText("Shapes"), null);
+		WSubMenu shapeMenu = new WSubMenu(shapeLabel);
 		shapeMenu.setAccessKey('S');
 		addMenuItem(shapeMenu, "Circle", selectedMenuText);
 
@@ -150,7 +151,7 @@ public class MenuBarExample extends WContainer {
 		itemWithIcon.setHtmlClass(HtmlClassProperties.ICON_HELP_BEFORE);
 		menu.add(itemWithIcon);
 
-		WMenuItem itemWithImage = new WMenuItem(new WDecoratedLabel(new WImage("/image/home.png", "home"), new WText("Home"), null));
+		WMenuItem itemWithImage = new WMenuItem(new WDecoratedLabel(new WImage(), new WText("Home"), null));
 		menu.add(itemWithImage);
 		menu.add(new WMenuItem(new WDecoratedLabel(new WImage("/image/settings.png", "settings"), new WText("Settings Menu"), null)));
 		itemWithImage = new WMenuItem(new WDecoratedLabel(new WImage("/image/flag.png", "flag")));
