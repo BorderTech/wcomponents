@@ -122,6 +122,8 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
   }
 }
 
+
+// FLAT layout is label  input side-by-side
 @if ($wc-fieldlayout-force-stack == 0) {
   // When we have a viewport of sufficient width we can allow side-by-side
   // label: input pairs.
@@ -176,27 +178,16 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
       }
     }
 
-    @if ($wc-use-respond == 1) {
+    @if ($wc-use-respond == 1 and $wc-use-respond-fieldlayout == 1) {
       @include respond-phonelike {
+
         // override flat widths
         // sass-lint:disable no-important
         .wc-field {
-          > * {
-            display: block !important;
+          > .wc-label,
+          > .wc-input {
+            @include fit-content($imp: 1);
             max-width: 100% !important;
-            width: 100% !important;
-          }
-
-          .wc-moved-label {
-            max-height: none;
-            max-width: 100% !important;
-            overflow: visible !important;
-            position: static !important;
-            width: 100% !important;
-          }
-
-          .wc_fld_pl {
-            display: none !important;
           }
 
           > .wc-input {
@@ -205,17 +196,19 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
         }
       }
     }
-  } @else if ($wc-use-respond == 1 and $wc-use-respond-fieldlayout == 1) {
+  }
+
+  @if ($wc-use-respond == 1 and $wc-use-respond-fieldlayout == 1) {
     @include respond-phonelike {
       .wc-layout-flat > .wc-field {
-        > label,
-        > span,
-        > div {
+        > .wc-label,
+        > .wc-input {
           display: block;
+        }
 
-          &:first-child {
-            width: 100%;
-          }
+        > [data-wc-for],
+        > .wc_fld_pl {
+          display: none;
         }
 
         > .wc-input {
@@ -225,14 +218,7 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
         }
 
         .wc-moved-label {
-          max-height: none;
-          // override offscreen
-          // sass-lint:disable no-important
-          max-width: 100% !important;
-          overflow: visible !important;
-          position: static !important;
-          width: 100% !important;
-          // sass-lint:enable no-important
+          @include onscreen($position: relative);
         }
       }
 
