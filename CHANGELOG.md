@@ -6,6 +6,9 @@
 
 ### Enhancements
 
+* Updated the theme-parent POM to enforce Maven version checking as building with 3.0.x will fail in a very opaque manner.
+* Moved the Java version check from a slightly convoluted ANT check to Maven.
+
 ### Bug Fixes
 
 * Added a workaround to width calculation errors in UC Browser on Android OSs #1354.
