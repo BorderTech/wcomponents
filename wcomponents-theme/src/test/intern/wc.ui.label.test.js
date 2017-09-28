@@ -194,13 +194,6 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 			shed.optional(input);
 			assert.isFalse(classList.contains(label, CLASS_REQ));
 		},
-		testOptionaliseRemovesMessage: function() {
-			var input = document.getElementById("wcuilabel-i5a"),
-				label = document.getElementById("wcuilabel-l5a");
-			assert.isTrue(label.innerHTML.indexOf("wc-off") > 0);
-			shed.optional(input);
-			assert.isTrue(label.innerHTML.indexOf("wc-off") === -1);
-		},
 		testHide: function() {
 			var input = document.getElementById("wcuilabel-i7"),
 				label = document.getElementById("wcuilabel-l7");
