@@ -539,7 +539,9 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 						editorProps = {
 							style: {
 								width: config.width,
-								height: config.height
+								height: config.height,
+								textclass: "wc-off",
+								btnclass: "wc_btn_icon"
 							},
 							feature: {
 								face: false,

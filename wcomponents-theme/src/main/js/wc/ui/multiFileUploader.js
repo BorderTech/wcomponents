@@ -228,10 +228,6 @@ define(["wc/dom/attribute",
 				}
 			};
 
-			function processedUpload(element) {
-				instance.clearInput(element);
-			}
-
 			/**
 			 * Validate the file chosen and commence the asynchronous upload if all is well.
 			 * @function
@@ -242,7 +238,10 @@ define(["wc/dom/attribute",
 			 */
 			function checkDoUpload(element, files, suppressEdit) {
 				var testObj, maxFileInfo, filesToAdd,
-					useFilesArg = (!element.value && (files && files.length > 0));
+					useFilesArg = (!element.value && (files && files.length > 0)),
+					done = function () {
+						instance.clearInput(element);
+					};
 				getUploader(function (theUploader) { // this wraps the possible async wait for the fauxjax module to load, otherwise clearInput has been called before the upload begins
 					var checkAndUpload = function (useTheseFiles) {
 							validate.check({
@@ -258,10 +257,10 @@ define(["wc/dom/attribute",
 											});
 										}
 									} finally {
-										processedUpload(selector);
+										done();
 									}
 								},
-								errback: processedUpload
+								errback: done
 							});
 						},
 						upload = function(obj) {
@@ -271,7 +270,7 @@ define(["wc/dom/attribute",
 								require(["wc/ui/imageEdit"], function (imageEdit) {
 									obj.editorId = editorId;
 									imageEdit.upload = instance.upload.bind(instance);
-									imageEdit.editFiles(obj, checkAndUpload, processedUpload);
+									imageEdit.editFiles(obj, checkAndUpload, done);
 								});
 							} else {
 								checkAndUpload(obj.files);
@@ -284,7 +283,7 @@ define(["wc/dom/attribute",
 						if (maxFileInfo.valid) {
 							upload(testObj);
 						} else {
-							processedUpload(element);
+							done();
 							prompt.alert(i18n.get("file_toomany", filesToAdd, maxFileInfo.max, maxFileInfo.before));
 						}
 					}
