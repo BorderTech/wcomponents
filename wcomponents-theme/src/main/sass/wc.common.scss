@@ -84,14 +84,20 @@ legend {
 
   // force offscreen legends back on screen if they are in an error state.
   &.wc-off.wc-err {
-    position: static;
+    @include onscreen($important: 1);
   }
 
-  @if ($wc-label-mandatory-indicator != -1) {
-    .wc_req > &::before {
-      @include mandatory-indicator;
-      float: right;
-      width: 0; // allow for wrapping legends.
+  > .fa-asterisk {
+    @include mandatory-indicator;
+  }
+}
+
+@if ($wc-label-mandatory-indicator != -1) {
+  .wc_req > legend {
+    @include mandatory-holder;
+
+    > .fa-asterisk {
+      display: inline-block;
     }
   }
 }
@@ -192,7 +198,7 @@ $wc-align-list: left, center, right;
 // leave the thing alone.
 // com.github.bordertech.wcomponents.util.HtmlClassProperties.OFF_SCREEN
 .wc-off {
-  @include offscreen;
+  @include offscreen(1);
 }
 
 // The following class is to allow an icon to be placed directly into a compoent

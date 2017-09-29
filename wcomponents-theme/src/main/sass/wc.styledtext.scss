@@ -8,7 +8,11 @@
   // required or to mark a table column header as containing fields which must
   // be completed. Not terribly good use-cases but use-cases non-the-less.
   .wc-text-type-mandatoryIndicator::after {
-    @include mandatory-indicator;
+    @include fa-icon;
+    @if ($wc-clr-required-marker != -1) {
+      color: $wc-clr-required-marker;
+    }
+    content: $fa-var-asterisk;
     margin-left: $wc-gap-small;
   }
 }

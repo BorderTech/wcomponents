@@ -5,11 +5,10 @@ define(["wc/dom/classList",
 	"wc/dom/Widget",
 	"wc/dom/getLabelsForElement",
 	"wc/ui/ajax/processResponse",
-	"wc/i18n/i18n",
 	"wc/dom/role",
 	"wc/dom/textContent",
 	"wc/dom/wrappedInput"],
-	function (classList, initialise, shed, tag, Widget, getLabelsForElement, processResponse, i18n, $role, textContent, wrappedInput) {
+	function (classList, initialise, shed, tag, Widget, getLabelsForElement, processResponse, $role, textContent, wrappedInput) {
 		"use strict";
 		/**
 		 * @constructor
@@ -18,7 +17,6 @@ define(["wc/dom/classList",
 		 */
 		function Label() {
 			var TAGS = [tag.INPUT, tag.TEXTAREA, tag.SELECT, tag.FIELDSET],
-				MANDATORY_SPAN = new Widget("span", "wc-off"),
 				CLASS_HINT = "wc-label-hint",
 				MOVE_WIDGETS = [new Widget("", "wc-checkbox"), new Widget("", "wc-radiobutton"), new Widget("button", "wc-selecttoggle")],
 				HINT;
@@ -31,21 +29,8 @@ define(["wc/dom/classList",
 			 * @param {Function} func the function to apply to the label
 			 */
 			function mandateLabel(label, func) {
-				var mandatorySpan;
 				if (label.tagName !== tag.LEGEND) {
 					classList[func](label, "wc_req");
-				}
-
-				mandatorySpan = MANDATORY_SPAN.findDescendant(label);
-				if (func === "add") {
-					if (!mandatorySpan) {
-						mandatorySpan = tag.toTag(MANDATORY_SPAN.tagName, false, "class='" + MANDATORY_SPAN.className + "'");
-						mandatorySpan += i18n.get("requiredPlaceholder");
-						mandatorySpan += tag.toTag(MANDATORY_SPAN.tagName, true);
-						label.insertAdjacentHTML("beforeend", mandatorySpan);
-					}
-				} else if (mandatorySpan) {
-					mandatorySpan.parentNode.removeChild(mandatorySpan);
 				}
 			}
 
