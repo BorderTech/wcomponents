@@ -113,14 +113,43 @@
 // MOVE OUT OF VIEWPORT
 // #############################################################################
 // Move an element out of viewport.
-@mixin offscreen {
-  // Require important to ensure we are really off screen
-  // sass-lint:disable no-important
-  left: -9999px !important;
-  // not 0 or the item may appear 'hidden' to dom/shed
-  max-height: 1rem;
-  // smaller than left but not 0 or the item may appear 'hidden' to dom/shed
-  max-width: 1rem !important;
-  overflow: hidden !important;
-  position: absolute !important;
+@mixin offscreen($important: 0) {
+  @if ($important == 1) {
+    // Require important to ensure we are really off screen
+    // sass-lint:disable no-important
+    left: -9999px !important;
+    // not 0 or the item may appear 'hidden' to dom/shed
+    max-height: 1rem !important;
+    // smaller than left but not 0 or the item may appear 'hidden' to dom/shed
+    max-width: 1rem !important;
+    overflow: hidden !important;
+    position: absolute !important;
+  } @else {
+    left: -9999px;
+    max-height: 1rem;
+    max-width: 1rem;
+    overflow: hidden;
+    position: absolute;
+  }
+}
+
+// Move an element back into viewport.
+@mixin onscreen($important: 0, $position: static, $left: 0, $max-height: none, $max-width: none, $overfow: visible) {
+  @if ($important == 1) {
+    // Require important to ensure we are really off screen
+    // sass-lint:disable no-important
+    left: $left !important;
+    // not 0 or the item may appear 'hidden' to dom/shed
+    max-height: $max-height !important;
+    // smaller than left but not 0 or the item may appear 'hidden' to dom/shed
+    max-width: $max-width !important;
+    overflow: $overfow !important;
+    position: $position !important;
+  } @else {
+    left: $left;
+    max-height: $max-height;
+    max-width: $max-width;
+    overflow: $overfow;
+    position: $position;
+  }
 }

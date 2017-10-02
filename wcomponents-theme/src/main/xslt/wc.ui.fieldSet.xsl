@@ -2,6 +2,7 @@
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributes.xsl"/>
 	<xsl:import href="wc.common.offscreenSpan.xsl"/>
+	<xsl:import href="wc.common.icon.xsl"/>
 
 	<!--
 		Transform for ui:fieldset which is the XML output of WFieldSet.
@@ -30,13 +31,10 @@
 				</xsl:if>
 				<xsl:call-template name="accessKey"/>
 				<xsl:apply-templates select="ui:decoratedlabel"/>
-				<xsl:if test="@required">
-					<xsl:call-template name="offscreenSpan">
-						<xsl:with-param name="text">
-							<xsl:text>{{#i18n}}requiredPlaceholder{{/i18n}}</xsl:text>
-						</xsl:with-param>
-					</xsl:call-template>
-				</xsl:if>
+				<xsl:call-template name="icon">
+					<xsl:with-param name="class" select="'fa-asterisk'"/>
+					<xsl:with-param name="element" select="'i'"/>
+				</xsl:call-template>
 			</legend>
 			<xsl:apply-templates select="ui:content" mode="passthru"/>
 		</fieldset>

@@ -25,13 +25,17 @@ $wc-legend-weight: bold !default;
 // #############################################################################
 // The font weight of a label. bold, normal, whatever.
 $wc-label-weight: bold !default;
-// The mandatory indicator character. If this is set to -1 then no visible
-// mandatory field indicator will be shown. This may defeat the purpose of
-// WStyledText.Type.MANDATORY_INDICATOR
-$wc-label-mandatory-indicator: '*' !default;
+// The mandatory indicator character is fa-asterisk. If this is set to -1 then
+// no visible mandatory field indicator will be shown. This may defeat the
+// purpose of WStyledText.Type.MANDATORY_INDICATOR.
+$wc-label-mandatory-indicator: 0 !default;
+// The width to allow for the mandatory indicator.
+$wc-label-mandatory-indicator-width: 1em !default;
+
 // The font-size of the label hint. Set to 0 or less to use the same size as the
 // label.
 $wc-label-hint-size: 82.5% !default;
+
 
 // #############################################################################
 // WDropdown

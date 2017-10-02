@@ -10,9 +10,7 @@
   }
 
   &.wc-timeoutwarning > h1 > span:first-child {
-    // override offscreen
-    // sass-lint:disable no-important
-    position: static !important;
+    @include onscreen;
   }
 
   > div {

@@ -1,12 +1,13 @@
 package com.github.bordertech.wcomponents.examples.theme;
 
 import com.github.bordertech.wcomponents.HeadingLevel;
+import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.RadioButtonGroup;
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WCheckBoxSelect;
-import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDateField;
 import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.WFieldLayout;
@@ -31,7 +32,7 @@ import com.github.bordertech.wcomponents.layout.FlowLayout;
  * @author Mark Reeves
  * @since 1.0.0
  */
-public class WLabelExample extends WPanel {
+public final class WLabelExample extends WPanel {
 
 	/**
 	 * just a sample WTextField for one of the more obscure examples.
@@ -43,36 +44,28 @@ public class WLabelExample extends WPanel {
 	 */
 	public WLabelExample() {
 		add(new WHeading(HeadingLevel.H2, "WLabel Patterns"));
-
 		WFieldLayout fieldsFlat = new WFieldLayout();
 		// fieldsFlat.setLabelWidth(33);
-		fieldsFlat.setMargin(new com.github.bordertech.wcomponents.Margin(0, 0, 24, 0));
+		fieldsFlat.setMargin(new Margin(null, null, Size.XL, null));
 		add(fieldsFlat);
-
-		/*
-		 * WLabel inferred by WFieldLayout.addField(String, WComponent)
-		 */
+		// WLabel inferred by WFieldLayout.addField(String, WComponent)
 		fieldsFlat.addField("Normal input component", new WTextField());
-
-		/* hidden WLabel (real label) */
+		// hidden WLabel (real label)
 		WLabel hiddenLabel = new WLabel("Address line two");
 		hiddenLabel.setHidden(true);
 		fieldsFlat.addField(hiddenLabel, new WTextField());
-		/* hidden WLabel (fake label) */
+		// hidden WLabel (fake label)
 		hiddenLabel = new WLabel("A hidden label for a read only field");
 		hiddenLabel.setHidden(true);
 		WTextField roField = new WTextField();
 		roField.setReadOnly(true);
 		roField.setText("This is a read only field with a hidden label");
 		fieldsFlat.addField(hiddenLabel, roField);
-		hiddenLabel = new WLabel ("Hidden label for a comopund control");
+		hiddenLabel = new WLabel("Hidden label for a compound control");
 		hiddenLabel.setHidden(true);
 		WCheckBoxSelect cbSelect = new WCheckBoxSelect(new String[]{"Apple", "Cherry", "Orange", "Pineapple", "control label is hidden"});
 		fieldsFlat.addField(hiddenLabel, cbSelect);
-
-		/*
-		 * WFieldLayout does magic things with radio buttons and check boxes
-		 */
+		// WFieldLayout does magic things with radio buttons and check boxes
 		fieldsFlat.addField("WCheckBox", new WCheckBox());
 		RadioButtonGroup group1 = new RadioButtonGroup();
 		add(group1);
@@ -80,52 +73,30 @@ public class WLabelExample extends WPanel {
 		WRadioButton rb2 = group1.addRadioButton(2);
 		fieldsFlat.addField("I like bananas", rb1);
 		fieldsFlat.addField("I dislike bananas", rb2);
-
-		/*
-		 * WLabel can be 'for' a form input component which is NOT a labellable
-		 * component in HTML. These are usually components which output a rich
-		 * set of controls. In this case the WLabel will become the (off-screen)
-		 * legend of the controls fieldset and the on-screen version in the
-		 * WFieldLayout is just a placeholder
-		 */
-		cbSelect = new WCheckBoxSelect(
-				new String[]{"Apple", "Cherry", "Orange", "Pineapple"});
+		/* WLabel can be 'for' a form input component which is NOT a labellable component in HTML. These are usually components which output a rich
+		 * set of controls. In this case the WLabel will become the (off-screen) legend of the controls fieldset and the on-screen version in the
+		 * WFieldLayout is just a placeholder. */
+		cbSelect = new WCheckBoxSelect(new String[]{"Apple", "Cherry", "Orange", "Pineapple"});
 		cbSelect.setFrameless(true);
 		fieldsFlat.addField("Select one or more options", cbSelect);
-
-		/*
- * Explicit use of WLabel in addField
- * Sometimes you have to add other things to a WLabel...
-		 */
+		/* Explicit use of WLabel in addField because sometimes you have to add other things to a WLabel. */
 		WLabel theLabel = new WLabel("WDropdown");
 		theLabel.setHint("required");
-		WDropdown theDropdown = new WDropdown(new String[]{null,
-			"option one",
-			"option two",
-			"option three"});
+		WDropdown theDropdown = new WDropdown(new String[]{null, "option one", "option two", "option three"});
 		theDropdown.setMandatory(true);
 		fieldsFlat.addField(theLabel, theDropdown);
-
-		/*
-		 * Some things are labellable, even though it does not seem sensible. You
-		 * must use an explicit WLabel to associate a WLabel with a WComponent
-		 * which outputs a HTML labellable element but which is not a WInput
-		 */
+		/* Some things are labellable, even though it does not seem sensible. You must use an explicit WLabel to associate a WLabel with a WComponent
+		 * which outputs a HTML labellable element but which is not a WInput. */
 		WProgressBar pBar = new WProgressBar(100); //yes, WProgressBar outputs a labellable control but please don't do this!
 		pBar.setValue(67);
 		WLabel pBarLabel = new WLabel("WProgressBar", pBar);
 		fieldsFlat.addField(pBarLabel, pBar);
-
-		/*
-		 * You would also have to do that if you needed the WLabel elsewhere or
-		 * has to override something.
-		 * NOTE: This is a VERY BAD example.
-		 */
+		// You would also have to do that if you needed the WLabel elsewhere or has to override something. NOTE: This is a VERY BAD example.
 		theLabel = new WLabel() {
 			@Override
 			protected void preparePaintComponent(final Request request) {
 				super.preparePaintComponent(request);
-				//you would normally do something sensible here
+				// you would normally do something sensible here
 				String inputText = whatTextField.getText();
 				if (inputText != null) {
 					setText(inputText);
@@ -136,34 +107,20 @@ public class WLabelExample extends WPanel {
 			}
 		};
 		fieldsFlat.addField(theLabel, whatTextField);
-
-		/*
-		 * Adding another WComponent to WLabel. WARNING: very few components are
-		 * valid. If you ever do this you MUST check your UI in debug mode with
-		 * client debugging turned on.
-		 */
+		/* Adding another WComponent to WLabel. WARNING: very few components are valid. If you ever do this you MUST check your UI in debug mode with
+		 * client debugging turned on. */
 		theLabel = new WLabel("WTextArea");
 		WStyledText msg = new WStyledText(" these notes are important");
 		msg.setType(WStyledText.Type.HIGH_PRIORITY);
 		theLabel.add(msg);
 		fieldsFlat.addField(theLabel, new WTextArea()).setInputWidth(100);
-
-
-		/*
-		 * The use of a WLabel "for" a WFieldSet is a special case...
-		 * You probably shouldn't do this, but it does allow a WFieldSet
-		 * With a complex inner set of fields to be included in a WFieldLayout
-		 * and still meet rigid layout constraints.
-		 *
-		 * It would be better to not setFrameType NONE and use a null label
-		 */
+		/* The use of a WLabel "for" a WFieldSet is a special case. You probably shouldn't do this, but it does allow a WFieldSet with a complex
+		 * inner set of fields to be included in a WFieldLayout and still meet rigid layout constraints. It would be better to not setFrameType NONE
+		 * and use a null label. */
 		// We re-use this string for both the WLabel and the WFieldSet's label
 		String labelText = "Enter the dates of entry and exit";
-
-		//make a WFieldSet
 		WFieldSet dateRangeFS = new WFieldSet(labelText);
 		dateRangeFS.setFrameType(WFieldSet.FrameType.NONE);
-		//Make a WFieldLayout to add the WDateFields */
 		WFieldLayout innerLayout = new WFieldLayout(WFieldLayout.LAYOUT_FLAT);
 		innerLayout.setLabelWidth(17);
 		innerLayout.addField("from", new WDateField());
@@ -172,25 +129,34 @@ public class WLabelExample extends WPanel {
 		dateRangeFS.add(innerLayout);
 		//then just call addField using the WFieldSet as the input WComponent.
 		fieldsFlat.addField(labelText, dateRangeFS);
+		fieldsFlat.addField(new WButton("Save"));
 
+		addNullLabelExample();
+		addNestedFieldExamples();
+		addAntiPatternExamples();
+	}
 
-		/* WLabel as null - convoluted example:
-		 *
-		 * If, for some reason, you have to add individual radio buttons rather than using
-		 * WRadioButtonSelect you are going to need this WFieldSet trick because
-		 * WRadioButtons are always the answers, never the questions.
-		 * In the light of this, the next sample is not one I would ever like to see.
-		 * It uses a null label to prevent double labelling a form control. If we
-		 * had used a WLabel or String in addField then the first WRadioButton
-		 * would have had two labels.
-		 *
-		 * We are going to add a couple of WRadioButtons which have images in their labels
-		 */
-		group1 = new RadioButtonGroup();
-		add(group1);
-		rb1 = group1.addRadioButton(1);
-		rb2 = group1.addRadioButton(2);
+	/**
+	 * Example of when and how to use a null WLabel.
+	 */
+	private void addNullLabelExample() {
+		add(new WHeading(HeadingLevel.H2, "How to use accessible null WLabels"));
+		add(new ExplanatoryText("These examples shows how sometime a null WLabel is the right thing to do."
+				+ "\n This example uses a WFieldSet as the labelled component and it has its own \"label\"."));
 
+		// We want to add a WFieldSet to a WFieldLayout but without an extra label.
+		WFieldLayout fieldsFlat = new WFieldLayout();
+		fieldsFlat.setMargin(new Margin(null, null, Size.XL, null));
+		add(fieldsFlat);
+		WFieldSet fs = new WFieldSet("Do you like Bananas?");
+		fieldsFlat.addField((WLabel) null, fs);
+		// now add the WRadioButtons to the WFieldSet using an inner WFieldLayout
+		WFieldLayout innerLayout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
+
+		// The content will be a group of WRadioButtons
+		RadioButtonGroup group1 = new RadioButtonGroup();
+		WRadioButton rb1 = group1.addRadioButton(1);
+		WRadioButton rb2 = group1.addRadioButton(2);
 		//make the labels for the radio buttons
 		WLabel rb1Label = new WLabel("", rb1);
 		WImage labelImage = new WImage("/image/success.png", "I still like bananas");
@@ -200,82 +166,51 @@ public class WLabelExample extends WPanel {
 		labelImage = new WImage("/image/error.png", "I still dislike bananas");
 		labelImage.setHtmlClass("wc-valign-bottom");
 		rb2Label.add(labelImage);
-		// Now it gets confusing. We want the radio buttons to flow with their labels but be apart from each other...
-		//The WPanel which flowLayout and hgap will make the two control:label pairs sit apart from each other
-		WPanel rbLayout = new WPanel();
-		rbLayout.setLayout(new FlowLayout(FlowLayout.LEFT, 12,
-				FlowLayout.ContentAlignment.BASELINE));
-		//then we use WContainer to add each control:label pair to the WPanel
-		WContainer rbContainer = new WContainer();
-		rbLayout.add(rbContainer);
-		//if you do not use WFieldLayout you have to remember that you MUST put a
-		//WRadioButton or WCheckBox BEFORE its label and any other component AFTER
-		//its label.
-		rbContainer.add(rb1);
-		rbContainer.add(rb1Label);
-		//repeat for the second pair
-		rbContainer = new WContainer();
-		rbLayout.add(rbContainer);
-		rbContainer.add(rb2);
-		rbContainer.add(rb2Label);
-		//finally we add the WPanel to the WFieldLayout using a null label
-		fieldsFlat.addField((WLabel) null, rbLayout);
+		innerLayout.addField(rb1Label, rb1);
+		innerLayout.addField(rb2Label, rb2);
+		// add the content to the WFieldLayout - the order really doesn't matter.
+		fs.add(group1);
+		fs.add(innerLayout);
+	}
 
-
-		/*
-		 * WLabel as null - simple example
-		 *
-		 * You can use addField with a null label if the 'input' does not
-		 * require a label. This is useful for adding WFieldSet or complex
-		 * nested layouts to a WFieldLayout
-		 */
-		fieldsFlat.addField((WLabel) null, new WButton("Save"));
-
-
-		/*
-		 * Examples showing WLabel with a nested input control WComponent.
-		 * This is VERY dangerous as only a very few WComponents are valid for
-		 * this scenario. If you go down this route: stop!!
-		 * These are really here for framework testing, not as examples as to
-		 * how to do things.
-		 */
+	/**
+	 * Examples showing WLabel with a nested input control WComponent.
+	 * This is VERY dangerous as only a very few WComponents are valid for this scenario. If you go down this route: stop!!
+	 * These are really here for framework testing, not as examples as to  how to do things.
+	 */
+	private void addNestedFieldExamples() {
 		add(new WHeading(HeadingLevel.H2, "Label nesting which is technically OK"));
-		/*
-		 * Just because it is OK to do this does not mean you should!
-		 * So these examples have far fewer comments.
-		 */
+		/* Just because it is OK to do this does not mean you should! So these "examples" have far fewer comments. */
 		WPanel errorLayoutPanel = new WPanel();
-		errorLayoutPanel.setLayout(new FlowLayout(FlowLayout.VERTICAL, 12));
-		errorLayoutPanel.setMargin(new com.github.bordertech.wcomponents.Margin(0, 0, 24, 0));
+		errorLayoutPanel.setLayout(new FlowLayout(FlowLayout.VERTICAL, Size.LARGE));
+		errorLayoutPanel.setMargin(new Margin(null, null, Size.XL, null));
 		add(errorLayoutPanel);
-		errorLayoutPanel.add(new ExplanatoryText(
-				"This example shows WLabels with a single nested simple form control WTextField. This is not a contravention of the HTML specification but you should not do it."));
+		errorLayoutPanel.add(new ExplanatoryText("This example shows WLabels with a single nested simple form control WTextField."
+						+ " This is not a contravention of the HTML specification but you should not do it."));
 		WLabel outerLabel = new WLabel("Label with nested WTextField and not 'for' anything");
 		errorLayoutPanel.add(outerLabel);
 		outerLabel.add(new WTextField());
-
 		WTextField innerField = new WTextField();
 		outerLabel = new WLabel("Label 'for' nested WTextField", innerField);
 		errorLayoutPanel.add(outerLabel);
 		outerLabel.add(innerField);
+	}
 
-
-		/*
-		 * DO NOT use the following as examples of what to do: these are examples
-		 * of what NOT to do.
-		 */
+	/**
+	 * Add examples you should never follow. DO NOT use the following as examples of what to do: these are examples of what NOT to do.
+	 */
+	private void addAntiPatternExamples() {
 		add(new WHeading(HeadingLevel.H2, "WLabel anti-patterns"));
-		add(new ExplanatoryText(
-				"These are here for testing purposes and must not be used as examples to follow.\nTurn on client debugging to get much more information."));
+		add(new ExplanatoryText("These are here for testing purposes and must not be used as examples to follow.\n"
+						+ "Turn on debugging (bordertech.wcomponents.debug.enabled=true) to get much more information."));
 		add(new WHeading(HeadingLevel.H3, "Poor but not erroneous uses of WLabel"));
-		errorLayoutPanel = new WPanel();
-		errorLayoutPanel.setLayout(new FlowLayout(FlowLayout.VERTICAL, 12));
+		WPanel errorLayoutPanel = new WPanel();
+		errorLayoutPanel.setLayout(new FlowLayout(FlowLayout.VERTICAL, Size.LARGE));
 		add(errorLayoutPanel);
 		//label not for anything should not be a WLabel
 		errorLayoutPanel.add(new WLabel("I am not 'for' anything"));
 		//WLabel for something which is not labellable
-		errorLayoutPanel.add(new WLabel("I am for a component which should not be labelled",
-				fieldsFlat));
+		errorLayoutPanel.add(new WLabel("I am for a component which should not be labelled", errorLayoutPanel));
 		// If the WLabel is 'for' something that is not in the tree it becomes 'for' the WApplication. This is not necessarily a good thing!!!
 		WCheckBox notHere = new WCheckBox();
 		errorLayoutPanel.add(new WLabel("My component wasn't added", notHere));
@@ -286,7 +221,7 @@ public class WLabelExample extends WPanel {
 		 */
 		add(new WHeading(HeadingLevel.H3, "Very bad uses of WLabel"));
 		errorLayoutPanel = new WPanel();
-		errorLayoutPanel.setLayout(new FlowLayout(FlowLayout.VERTICAL, 12));
+		errorLayoutPanel.setLayout(new FlowLayout(FlowLayout.VERTICAL, Size.LARGE));
 		add(errorLayoutPanel);
 
 		/*
@@ -296,14 +231,13 @@ public class WLabelExample extends WPanel {
 				"This example shows nested WLabels. This is a contravention of the HTML specification."));
 
 		WPanel nestingErrorPanel = new WPanel();
-		//nestingErrorPanel.setLayout(new FlowLayout(FlowLayout.LEFT,12,0,FlowLayout.ContentAlignment.BASELINE));
-		nestingErrorPanel.setLayout(new ColumnLayout(new int[]{50, 50}, 12, 6));
+		nestingErrorPanel.setLayout(new ColumnLayout(new int[]{50, 50}, Size.LARGE, Size.MEDIUM));
 		errorLayoutPanel.add(nestingErrorPanel);
 		WTextField outerField = new WTextField();
-		outerLabel = new WLabel("I am an outer label", outerField);
+		WLabel outerLabel = new WLabel("I am an outer label", outerField);
 		nestingErrorPanel.add(outerLabel);
 
-		innerField = new WTextField();
+		WTextField innerField = new WTextField();
 		WLabel innerLabel = new WLabel("Inner label", innerField);
 		//add the inner label to the outer label: this is the ERROR
 		outerLabel.add(innerLabel);
@@ -318,8 +252,8 @@ public class WLabelExample extends WPanel {
 		 * (and I am not going to tell you which they are);
 		 * The WLabel must be 'for' the nested component or not 'for' anything.
 		 */
-		errorLayoutPanel.add(new ExplanatoryText(
-				"This example shows a WLabel with a nested simple form control WTextField but the WLabel is not 'for' the WTextField. This is a contravention of the HTML specification."));
+		errorLayoutPanel.add(new ExplanatoryText("This example shows a WLabel with a nested simple form control WTextField but the WLabel is not "
+				+ "'for' the WTextField. This is a contravention of the HTML specification."));
 
 		WTextField notMyField = new WTextField();
 		notMyField.setToolTip("This field should not be in the label it is in");
@@ -343,7 +277,7 @@ public class WLabelExample extends WPanel {
 
 		add(new WHeading(HeadingLevel.H2, "Unlabelled controls"));
 		add(new ExplanatoryText("These controls must be labelled but are not."));
-		fieldsFlat = new WFieldLayout();
+		WFieldLayout fieldsFlat = new WFieldLayout();
 		add(fieldsFlat);
 		fieldsFlat.addField((WLabel) null, new WTextField());
 		fieldsFlat.addField((WLabel) null, new WTextArea());
@@ -351,6 +285,5 @@ public class WLabelExample extends WPanel {
 		fieldsFlat.addField((WLabel) null, new WCheckBox());
 		fieldsFlat.addField((WLabel) null, new WCheckBoxSelect(
 				new String[]{"Apple", "Cherry", "Orange", "Pineapple"}));
-
 	}
 }
