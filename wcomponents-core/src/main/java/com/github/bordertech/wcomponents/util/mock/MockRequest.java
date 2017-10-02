@@ -1,18 +1,16 @@
 package com.github.bordertech.wcomponents.util.mock;
 
+import com.github.bordertech.wcomponents.AbstractRequest;
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.WButton;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.apache.commons.fileupload.FileItem;
-
-import com.github.bordertech.wcomponents.AbstractRequest;
-import com.github.bordertech.wcomponents.UIContext;
-import com.github.bordertech.wcomponents.UIContextHolder;
-import com.github.bordertech.wcomponents.WButton;
 
 /**
  * A mock request is useful when you want to write junits and the like. Normally the container running the components
@@ -99,6 +97,7 @@ public class MockRequest extends AbstractRequest {
 	/**
 	 * Sets mock file upload contents.
 	 *
+	 * @deprecated Because it appears unused
 	 * @param key the parameter key.
 	 * @param contents the file binary data.
 	 */

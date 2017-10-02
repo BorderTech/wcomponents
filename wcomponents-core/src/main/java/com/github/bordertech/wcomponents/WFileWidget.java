@@ -1,20 +1,14 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.file.FileItemWrap;
+import com.github.bordertech.wcomponents.portlet.context.WFileWidgetCleanup;
+import com.github.bordertech.wcomponents.util.Util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.tika.Tika;
-
-import com.github.bordertech.wcomponents.file.FileItemWrap;
-import com.github.bordertech.wcomponents.portlet.context.WFileWidgetCleanup;
-import com.github.bordertech.wcomponents.util.Util;
 
 /**
  * <p>
@@ -41,18 +35,12 @@ import com.github.bordertech.wcomponents.util.Util;
  * @author James Gifford
  * @author Martin Shevchenko
  * @author Jonathan Austin
- * @author Aswin Kandula
  * @since 1.0.0
  *
  * @deprecated Use {@link WMultiFileWidget} instead.
  */
 @Deprecated
 public class WFileWidget extends AbstractInput implements AjaxTarget, SubordinateTarget {
-	
-	/**
-	 * The logger instance for this class.
-	 */
-	private static final Log LOG = LogFactory.getLog(WFileWidget.class);
 
 	/**
 	 * Returns a list of strings that determine the allowable file mime types accepted by the file input. If no types
@@ -91,14 +79,6 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	public void setFileTypes(final List<String> types) {
 		getOrCreateComponentModel().fileTypes = types;
 	}
-	
-	/**
-	 * Checks if one or more file type is supplied.
-	 * @return True/False
-	 */
-	public boolean isSetFileTypes() {
-		return getComponentModel().fileTypes != null && getComponentModel().fileTypes.size() > 0;
-	}
 
 	/**
 	 * Set the maximum file size (in bytes) that will be accepted by the file input. If the user selects a file larger
@@ -118,14 +98,6 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	public long getMaxFileSize() {
 		return getComponentModel().maxFileSize;
 	}
-	
-	/**
-	 * Checks if max file size is supplied.
-	 * @return True/False
-	 */
-	public boolean isSetFileSize() {
-		return getComponentModel().maxFileSize >  0;
-	}
 
 	/**
 	 * {@inheritDoc}
@@ -138,71 +110,10 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 		boolean changed = value != null || current != null;
 
 		if (changed) {
-			// if fileType is supplied then validate it
-			boolean validFileType;
-			if (isSetFileTypes()) {
-				validFileType = isValidFileType(value);
-			} else {
-				validFileType = true;
-			}
-			
-			// if fileSize is supplied then validate it
-			boolean validFileSize;
-			if (isSetFileSize()) {
-				validFileSize = isValidFileSize(value);
-			} else {
-				validFileSize = true;
-			}
-			
-			// if file is valid, the update data
-			if (validFileSize && validFileType) {
-				setData(value);
-			} else {
-				// otherwise no change
-				changed = false;
-			}
-		} 
+			setData(value);
+		}
 
 		return changed;
-	}
-
-	/**
-	 * Is file type valid.
-	 * 
-	 * @param newFile checks against supplied fileTypes
-	 * @return true/false
-	 */
-	private boolean isValidFileType(final FileItemWrap newFile) {
-		try {
-			final Tika tika = new Tika();
-			String mimeType = tika.detect(newFile.getInputStream());
-			LOG.debug("File mime type is: " + mimeType);
-			
-			for (String fileType : getFileTypes()) {
-				if (StringUtils.equalsIgnoreCase(mimeType, fileType)) {
-					return true;
-				} else if (fileType.indexOf("*") == fileType.length() - 1) {
-					fileType = fileType.substring(0, fileType.length() - 1);
-					if (mimeType.indexOf(fileType) == 0) {
-						return true;
-					}
-				}
-			}
-			return false;
-		} catch (IOException e) {
-			LOG.error("Invalid file type");
-			return false;
-		}
-	}
-	
-	/**
-	 * Is file size valid.
-	 * 
-	 * @param newFile checks against supplied maxFileSize
-	 * @return true/false
-	 */
-	private boolean isValidFileSize(final FileItemWrap newFile) {
-		return (newFile.getSize() > getMaxFileSize()) ? false : true;
 	}
 
 	/**
