@@ -1,27 +1,23 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.file.FileItemWrap;
+import com.github.bordertech.wcomponents.util.StreamUtil;
+import com.github.bordertech.wcomponents.util.mock.MockFileItem;
+import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
+import junit.framework.Assert;
 import org.apache.commons.fileupload.FileItem;
 import org.junit.Test;
-
-import com.github.bordertech.wcomponents.file.FileItemWrap;
-import com.github.bordertech.wcomponents.util.StreamUtil;
-import com.github.bordertech.wcomponents.util.mock.MockFileItem;
-import com.github.bordertech.wcomponents.util.mock.MockRequest;
-
-import junit.framework.Assert;
 
 /**
  * WFileWidget_Test - unit test for {@link WFileWidget}.
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
- * @author Aswin Kandula
  * @since 1.0.0
  */
 public class WFileWidget_Test extends AbstractWComponentTestCase {
@@ -272,79 +268,7 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrect file item wrap returned", TEST_FILE_ITEM_WRAP, widget.
 				getValue());
 	}
-	
-	@Test
-	public void testValidateNoFile() {
-		WFileWidget widget = new WFileWidget();
-		setActiveContext(createUIContext());
-		
-		// Empty File on the request
-		MockRequest request = setupFileUploadRequest(widget, TEST_EMPTY_FILE_ITEM);
-		boolean  changed = widget.doHandleRequest(request);
-		
-		Assert.assertEquals(widget.getFile(), null);
-		Assert.assertEquals("No file uploaded", changed, false);
-	}
 
-	@Test
-	public void testValidateAnyFileTypeAndSize() throws IOException {
-		WFileWidget widget = new WFileWidget();
-		setActiveContext(createUIContext());
-		
-		// Set file on the request
-		MockRequest request = setupFileUploadRequest(widget, TEST_FILE_ITEM);
-		boolean changed = widget.doHandleRequest(request);
-		
-		Assert.assertEquals("File uploaded", changed, true);
-	}
-
-	@Test
-	public void testValidateValidFileType() throws IOException {
-		WFileWidget widget = new WFileWidget();
-		setActiveContext(createUIContext());
-		widget.setFileTypes(Arrays.asList("image/gif"));
-		
-		// Set proper file on the request
-		MockRequest request = new MockRequest();
-		InputStream stream = getClass().getResourceAsStream("/image/x1.gif");
-		byte[] bytes =  StreamUtil.getBytes(stream);
-		request.setFileContents(widget.getId(), bytes);
-		boolean changed = widget.doHandleRequest(request);
-		
-		Assert.assertEquals("File type valid", changed, true);
-		
-		widget = new WFileWidget();
-		setActiveContext(createUIContext());
-		widget.setFileTypes(Arrays.asList("image/*"));
-		
-		request = new MockRequest();
-		stream = getClass().getResourceAsStream("/image/x1.gif");
-		bytes =  StreamUtil.getBytes(stream);
-		request.setFileContents(widget.getId(), bytes);
-		changed = widget.doHandleRequest(request);
-		
-		Assert.assertEquals("File type valid", changed, true);
-	}
-	
-	@Test
-	public void testValidateFileSize() throws IOException {
-		WFileWidget widget = new WFileWidget();
-		setActiveContext(createUIContext());
-		widget.setMaxFileSize(10);
-		
-		// Set file on the request
-		MockRequest request = setupFileUploadRequest(widget, TEST_FILE_ITEM);
-		boolean changed = widget.doHandleRequest(request);
-		
-		Assert.assertEquals("File size valid", changed, true);
-		
-		// Set file on the request
-		request = setupFileUploadRequest(widget, TEST_FILE_ITEM2);
-		changed = widget.doHandleRequest(request);
-		
-		Assert.assertEquals("File size invalid", changed, false);
-	}
-	
 	/**
 	 * @param fileName the file name in the file item
 	 * @param size the size of the file in the file item
