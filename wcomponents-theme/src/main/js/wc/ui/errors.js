@@ -3,22 +3,11 @@ define(["wc/dom/initialise",
 	"wc/array/toArray",
 	"wc/dom/tag",
 	"wc/ui/getFirstLabelForElement",
-	"wc/dom/wrappedInput"],
-	function(initialise, Widget, toArray, tag, getFirstLabelForElement, wrappedInput) {
+	"wc/dom/wrappedInput",
+	"wc/ui/ajax/processResponse",
+	"wc/config"],
+	function(initialise, Widget, toArray, tag, getFirstLabelForElement, wrappedInput, processResponse, wcconfig) {
 		"use strict";
-		/**
-		 * This module knows how to provide feedback to the user about error states and invalid input.
-		 * Note: I have removed the dependency on handlebars to increase this chance this module can continue to
-		 * operate in error conditions for example the network cable being unplugged.
-		 * @module
-		 * @requires module:wc/dom/initialise
-		 * @requires module:wc/dom/Widget
-		 * @requires module:wc/array/toArray
-		 * @requires module:wc/dom/tag
-		 * @requires module:wc/ui/getFirstLabelForElement
-		 * @requires module:wc/dom/wrappedInput
-		 */
-		var instance = new ErrorWriter();
 		/**
 		 * @constructor
 		 * @alias module:wc/ui/errors~ErrorWriter
@@ -26,23 +15,30 @@ define(["wc/dom/initialise",
 		 */
 		function ErrorWriter() {
 			var ERROR_BOX = new Widget("section", "wc-validationerrors"),
-				ERROR = new Widget("", "wc-error"),
+				ERROR_CLASS = "wc-error",
+				ERROR = new Widget("", ERROR_CLASS),
 				LINK = new Widget("a"),
-				writeOutsideThese = [tag.INPUT, tag.SELECT, tag.TEXTAREA, tag.TABLE],
-				CONTAINER_TEMPLATE = function(args) {
-					var result =  "<span class=\"wc-fieldindicator wc-fieldindicator-type-error\" id=\"" + args.id + "\"><i aria-hidden='true' class='fa fa-times-circle'></i>";
-					if (args.errors) {
-						result += "<span class=\"wc-error\">" + args.errors + "</span>";
-					}
-					result += "</span>";
-					return result;
-				},
-				ERROR_TEMPLATE = function(args) {
-					return "<span class=\"wc-error\">" + args.error + "</span>";
-				};
+				INLINE_ERROR,
+				writeOutsideThese = [tag.INPUT, tag.SELECT, tag.TEXTAREA, tag.TABLE];
 
 			ERROR.descendFrom(ERROR_BOX);
 			LINK.descendFrom(ERROR);
+
+			function getErrorAsHtml(message) {
+				return "<span class='" + ERROR_CLASS + "'>" + message + "</span>";
+			}
+
+			function getErrorHTML(id, message) {
+				var config = wcconfig.get("wc/ui/errors"),
+					errIcon = (config && config.icon) ? config.icon : "fa-times-circle",
+					result =  "<span class='wc-fieldindicator wc-fieldindicator-type-error' id='" + id + "'><i aria-hidden='true' class='fa " +
+						errIcon + "'></i>";
+				if (message) {
+					result += getErrorAsHtml(message);
+				}
+				result += "</span>";
+				return result;
+			}
 
 			/**
 			 * Mark an invalid component as aria-invalid.
@@ -68,11 +64,12 @@ define(["wc/dom/initialise",
 			 * @returns {Array} an array of error boxes, usually there should only be one.
 			 */
 			function getErrorBoxes(container) {
-				var _container = container || document.body;
+				var fromWhere;
 				if (container && ERROR_BOX.isOneOfMe(container)) {
 					return [container];
 				}
-				return toArray(ERROR_BOX.findDescendants(_container));
+				fromWhere = container || document.body;
+				return toArray(ERROR_BOX.findDescendants(fromWhere));
 			}
 
 			/**
@@ -92,63 +89,62 @@ define(["wc/dom/initialise",
 				return candidates;
 			}
 
+			function isCheckRadio(element) {
+				return element.tagName === tag.INPUT && (element.type === "radio" || element.type === "checkbox");
+			}
+
 			/**
 			 * Flag a component with an error message and put it into an invalid state..
 			 * @param {module:wc/ui/errors.flagDto} args a config dto
 			 */
 			this.flagError = function(args) {
-				var props,
-					target,
+				var target,
 					inputTarget,
 					errorBoxId,
 					errorContainer,
 					writeWhere = args.position,
 					html,
-					doWriteError = function() {
-						var errorhtml,
-							innerprops;
-						innerprops = {
-							error: args.message
-						};
-						errorhtml = ERROR_TEMPLATE(innerprops);
-						if (errorhtml) {
-							errorContainer.insertAdjacentHTML("beforeEnd", errorhtml);
-						}
-					};
+					i,
+					message = args.message,
+					currentErrors,
+					BEFORE = "beforeEnd",
+					AFTER = "afterEnd";
 				target = args.element;
-				if (!target) {
-					return; // linked to something not in the UI.
+				if (!(target && message)) {
+					return;
 				}
 				errorBoxId = target.id + "_err";
 				// if the target already has an error box then use it:
 				if ((errorContainer = document.getElementById(errorBoxId))) {
-					doWriteError();
+					INLINE_ERROR = INLINE_ERROR || new Widget("span", ERROR_CLASS); // DOES NOT DESEND FROM ERROR_BOX!!
+					currentErrors = INLINE_ERROR.findDescendants(errorContainer);
+					for (i = 0; i < currentErrors.length; ++i) {
+						if (message.toLocaleLowerCase() === currentErrors[i].innerHTML.toLocaleLowerCase()) {
+							// already have this message
+							return;
+						}
+					}
+					errorContainer.insertAdjacentHTML(BEFORE, getErrorAsHtml(message));
 					return;
 				}
-
-				props = {
-					id: errorBoxId,
-					errors: args.message
-				};
-				if ((html = CONTAINER_TEMPLATE(props))) {
-					if (wrappedInput.isOneOfMe(target)) {
-						if ((inputTarget = wrappedInput.getInput(target)) && inputTarget.tagName === tag.INPUT && (inputTarget.type === "radio" || inputTarget.type === "checkbox")) {
-							target = getFirstLabelForElement(inputTarget) || target;
-						} else {
-							target = wrappedInput.getWrapper(target) || target;
-						}
-						writeWhere = writeWhere || "afterEnd";
-					} else if (target.tagName === tag.INPUT && (target.type === "radio" || target.type === "checkbox")) {
-						target = getFirstLabelForElement(target) || target;
-						writeWhere = writeWhere || "afterEnd";
+				html = getErrorHTML(errorBoxId, message);
+				if (wrappedInput.isOneOfMe(target)) {
+					if ((inputTarget = wrappedInput.getInput(target)) && isCheckRadio(inputTarget)) {
+						target = getFirstLabelForElement(inputTarget) || target;
+					} else {
+						target = wrappedInput.getWrapper(target) || target;
 					}
-
-					if (!writeWhere) {
-						writeWhere = ~writeOutsideThese.indexOf(target.tagName) ? "afterEnd" : "beforeEnd";
-					}
-					target.insertAdjacentHTML(writeWhere, html);
-					markInvalid(target);
+					writeWhere = writeWhere || AFTER;
+				} else if (isCheckRadio(target)) {
+					target = getFirstLabelForElement(target) || target;
+					writeWhere = writeWhere || AFTER;
 				}
+
+				if (!writeWhere) {
+					writeWhere = ~writeOutsideThese.indexOf(target.tagName) ? AFTER : BEFORE;
+				}
+				target.insertAdjacentHTML(writeWhere, html);
+				markInvalid(target);
 			};
 
 			function writeError(err) {
@@ -177,9 +173,10 @@ define(["wc/dom/initialise",
 				}
 			}
 
-			initialise.addCallback(function(element) {
-				writeErrors(element);
-			});
+			this.postInit = function() {
+				writeErrors();
+				processResponse.subscribe(writeErrors, true);
+			};
 
 			/**
 			 * Public for testing.
@@ -188,6 +185,20 @@ define(["wc/dom/initialise",
 			this._writeErrors = writeErrors;
 		}
 
+		/**
+		 * This module knows how to provide feedback to the user about error states and invalid input.
+		 * Note: I have removed the dependency on handlebars to increase this chance this module can continue to
+		 * operate in error conditions for example the network cable being unplugged.
+		 * @module
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/array/toArray
+		 * @requires module:wc/dom/tag
+		 * @requires module:wc/ui/getFirstLabelForElement
+		 * @requires module:wc/dom/wrappedInput
+		 */
+		var instance = new ErrorWriter();
+		initialise.register(instance);
 		return instance;
 
 		/**
