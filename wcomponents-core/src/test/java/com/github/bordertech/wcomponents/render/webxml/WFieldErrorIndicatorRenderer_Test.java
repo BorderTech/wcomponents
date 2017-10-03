@@ -49,6 +49,26 @@ public class WFieldErrorIndicatorRenderer_Test extends AbstractWebXmlRendererTes
 		// Validate Schema
 		assertSchemaMatch(root);
 		// Check Attributes
-		assertXpathNotExists("//ui:fieldindicator", root);
+		assertXpathEvaluatesTo(indicator.getId(), "//ui:fieldindicator/@id", root);
+		assertXpathEvaluatesTo("error", "//ui:fieldindicator/@type", root);
+		assertXpathEvaluatesTo(text.getId(), "//ui:fieldindicator/@for", root);
+		// Check Message
+		assertXpathEvaluatesTo("Test Error", "//ui:fieldindicator/ui:message", root);
+	}
+
+	@Test
+	public void testXssEscaping() throws IOException, SAXException, XpathException {
+		WContainer root = new WContainer();
+		WTextField text = new WTextField();
+		WFieldErrorIndicator indicator = new WFieldErrorIndicator(text);
+
+		root.add(indicator);
+		root.add(text);
+
+		List<Diagnostic> diags = new ArrayList<>();
+		diags.add(new DiagnosticImpl(Diagnostic.ERROR, text, getMaliciousContent()));
+		root.showErrorIndicators(diags);
+
+		assertSafeContent(root);
 	}
 }
