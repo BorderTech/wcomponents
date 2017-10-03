@@ -95,7 +95,7 @@ define(["wc/dom/initialise",
 
 			/**
 			 * Flag a component with an error message and put it into an invalid state..
-			 * @param {module:wc/ui/errors.flagDto} args a config dto
+			 * @param {module:wc/ui/errors~flagDto} args a config dto
 			 */
 			this.flagError = function(args) {
 				var target,
@@ -202,9 +202,12 @@ define(["wc/dom/initialise",
 		return instance;
 
 		/**
-		 * @typedef {Object} module:wc/ui/errors.flagDto The properties used to describe a custom error message.
+		 * @typedef {Object} module:wc/ui/errors~flagDto The properties used to describe a custom error message.
 		 * @property {String} message The message to display.
 		 * @property {Element} element The element which is to be flagged with the error message.
 		 * @property {String} [position=afterEnd] The position for the message as a `insertAdjacentHTML` position.
+		 *
+		 * @typedef {Object} module:wc/ui/errors~config Optional run-time configuration for this module.
+		 * @property {String} [icon=fa-times-circle] The font-awesome classname for the icon to display in the error box.
 		 */
 	});
