@@ -46,6 +46,7 @@ public class WMultiFileWidgetAjaxExample extends WContainer {
 	private final WNumberField maxfiles = new WNumberField();
 	private final WNumberField previewHeight = new WNumberField();
 	private final WCheckBox showThumnails = new WCheckBox();
+	private final WCheckBox renderInline = new WCheckBox();
 	private final WCheckBox mandatory = new WCheckBox();
 	private final WCheckBox readonly = new WCheckBox();
 	private final WCheckBox imageEditorShowOverlay = new WCheckBox();
@@ -92,7 +93,9 @@ public class WMultiFileWidgetAjaxExample extends WContainer {
 		imageEditorFieldSet.setMargin(new Margin(null, null, Size.XL, null));
 
 		showThumnails.setSelected(true);
-		paramsLayout.addField("show thumbnails", showThumnails);
+		paramsLayout.addField("Show thumbnails", showThumnails);
+
+		paramsLayout.addField("Render inline", renderInline);
 
 		paramsLayout.addField("Mandatory", mandatory);
 
@@ -184,6 +187,13 @@ public class WMultiFileWidgetAjaxExample extends WContainer {
 			@Override
 			public void execute(final ActionEvent event) {
 				widget.setUseThumbnails(showThumnails.isSelected());
+			}
+		});
+
+		renderInline.setActionOnChange(new Action() {
+			@Override
+			public void execute(final ActionEvent event) {
+				editor.setRenderInline(renderInline.isSelected());
 			}
 		});
 
@@ -348,6 +358,7 @@ public class WMultiFileWidgetAjaxExample extends WContainer {
 		add(new WAjaxControl(cols, layout));
 		add(new WAjaxControl(previewHeight, widget));
 		add(new WAjaxControl(showThumnails, widget));
+		add(new WAjaxControl(renderInline, widget));
 		add(new WAjaxControl(mandatory, layout));
 		add(new WAjaxControl(readonly, layout));
 		add(new WAjaxControl(maxfiles, layout));

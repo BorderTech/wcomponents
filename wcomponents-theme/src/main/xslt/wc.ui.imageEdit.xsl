@@ -1,8 +1,16 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 
-	<!-- Currently has no direct UI artefact -->
-	<xsl:template match="html:wc-imageedit"/>
+	<xsl:template match="html:wc-imageedit">
+		<xsl:element name="div">
+			<xsl:attribute name="id">
+				<xsl:value-of select="@id"/>
+			</xsl:attribute>
+			<xsl:attribute name="class">
+				<xsl:text>wc-imageedit</xsl:text>
+			</xsl:attribute>
+		</xsl:element>
+	</xsl:template>
 
 	<!--
 		Builds the imageEditor description JSON object.
@@ -34,6 +42,15 @@
 		<xsl:if test="@overlay">
 			<xsl:text>,"overlay":"</xsl:text>
 			<xsl:value-of select="@overlay"/>
+			<xsl:text>"</xsl:text>
+		</xsl:if>
+		<xsl:if test="@inline">
+			<xsl:text>,"inline":</xsl:text>
+			<xsl:value-of select="@inline"/>
+		</xsl:if>
+		<xsl:if test="@image">
+			<xsl:text>,"image":"</xsl:text>
+			<xsl:value-of select="@image"/>
 			<xsl:text>"</xsl:text>
 		</xsl:if>
 		<xsl:text>}</xsl:text>

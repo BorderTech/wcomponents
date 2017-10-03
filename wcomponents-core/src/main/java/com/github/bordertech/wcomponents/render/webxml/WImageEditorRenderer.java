@@ -32,6 +32,7 @@ final class WImageEditorRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalUrlAttribute("overlay", editorComponent.getOverlayUrl());
 		xml.appendOptionalAttribute("camera", editorComponent.getUseCamera());
 		xml.appendOptionalAttribute("face", editorComponent.getIsFace());
+		xml.appendOptionalAttribute("inline", editorComponent.getRenderInline());
 
 		// Check for size information on the image
 		Dimension size = editorComponent.getSize();

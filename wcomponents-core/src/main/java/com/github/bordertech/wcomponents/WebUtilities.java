@@ -880,7 +880,7 @@ public final class WebUtilities {
 	 * <p>
 	 * Implementation of the CodePointTranslator to throw away the matching characters. This is copied from
 	 * org.apache.commons.lang3.text.translate.NumericEntityEscaper, but has been changed to discard the characters
-	 * rather than attempting to encode them.<p>
+	 * rather than attempting to encode them.</p>
 	 * <p>
 	 * Discarding the characters is necessary because certain invalid characters (e.g. decimal 129) cannot be encoded
 	 * for HTML. An existing library was not available for this function because no HTML page should ever contain these

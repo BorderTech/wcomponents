@@ -2,13 +2,13 @@ package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.Input;
 import com.github.bordertech.wcomponents.Labelable;
+import com.github.bordertech.wcomponents.MultiInputComponent;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WLabel;
+import com.github.bordertech.wcomponents.WRadioButton;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.Util;
-import com.github.bordertech.wcomponents.MultiInputComponent;
-import com.github.bordertech.wcomponents.WRadioButton;
 
 /**
  * The Renderer for {@link WLabel}.
@@ -46,8 +46,7 @@ final class WLabelRenderer extends AbstractWebXmlRenderer {
 		boolean isReadOnly = ((what instanceof Input) && ((Input) what).isReadOnly())
 				|| (what instanceof WRadioButton && ((WRadioButton) what).isReadOnly());
 
-		boolean isMandatory = ((what instanceof Input) && ((Input) what).isMandatory())
-				|| (what instanceof WRadioButton && ((WRadioButton) what).isMandatory());
+		boolean isMandatory = (what instanceof Input) && ((Input) what).isMandatory();
 
 		xml.appendOptionalAttribute("what", whatFor);
 		xml.appendOptionalAttribute("readonly", isReadOnly, "true");

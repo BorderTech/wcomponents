@@ -102,9 +102,11 @@
 					<xsl:value-of select="concat('-',position())"/>
 				</xsl:if>
 			</xsl:attribute>
-			<xsl:attribute name="title">
-				<xsl:text>{{#i18n}}mfc_option{{/i18n}}</xsl:text>
-			</xsl:attribute>
+			<xsl:if test="$field/@title">
+				<xsl:attribute name="title">
+					<xsl:value-of select="$field/@title"/>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:if test="$field/@size">
 				<xsl:attribute name="size">
 					<xsl:value-of select="$field/@size"/>
@@ -153,9 +155,11 @@
 		<xsl:variable name="id" select="$ancestorMDD/@id"/>
 		<li>
 			<select name="{$id}" id="{concat($id,generate-id(),'-',position())}">
-				<xsl:attribute name="title">
-					<xsl:text>{{#i18n}}mfc_option{{/i18n}}</xsl:text>
-				</xsl:attribute>
+				<xsl:if test="$ancestorMDD/@title">
+					<xsl:attribute name="title">
+						<xsl:value-of select="$ancestorMDD/@title"/>
+					</xsl:attribute>
+				</xsl:if>
 				<xsl:if test="$ancestorMDD/@submitOnChange">
 					<xsl:attribute name="class">
 						<xsl:text>wc_soc</xsl:text>

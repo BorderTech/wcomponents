@@ -24,14 +24,21 @@ define(["wc/dom/initialise",
 				}
 				if ((input = Widget.findDescendant(element, WRAPPED))) {
 					shed[action](input);
-					if (action === shed.actions.MANDATORY) {
-						return i18n.translate("requiredPlaceholder").then(function(placeHolderText) {
-							input.setAttribute(PLACEHOLDER, placeHolderText);
-						});
-					} else {
-						input.removeAttribute(PLACEHOLDER);
-					}
-
+					return i18n.translate("requiredPlaceholder").then(function(placeHolderText) {
+						var ph;
+						if (action === shed.actions.MANDATORY) {
+							if (!input.getAttribute(PLACEHOLDER)) {
+								input.setAttribute(PLACEHOLDER, placeHolderText);
+							}
+						} else if ((ph = input.getAttribute(PLACEHOLDER)) && ph.indexOf(placeHolderText) >= 0) {
+							if (ph === placeHolderText) {
+								input.removeAttribute(PLACEHOLDER);
+							} else {
+								ph = ph.replace(placeHolderText, "").trim();
+								input.setAttribute(PLACEHOLDER, ph);
+							}
+						}
+					});
 				}
 			}
 

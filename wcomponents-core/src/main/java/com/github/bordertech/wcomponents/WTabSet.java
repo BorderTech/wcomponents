@@ -205,6 +205,29 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	}
 
 	/**
+	 * Adds a tab to the tab set with a TabMode of LAZY.
+	 *
+	 * @param content the tab set content.
+	 * @param tabName the tab name.
+	 * @return the tab which was added to the tab set.
+	 */
+	public WTab addTab(final WComponent content, final String tabName) {
+		return addTab(new WTab(content, tabName, TabMode.LAZY, (char) 0));
+	}
+
+
+	/**
+	 * Adds a LAZY mode tab to the tab set.
+	 *
+	 * @param content the tab set content.
+	 * @param label the tab's label, which can contain rich content (images or other components).
+	 * @return the tab which was added to the tab set.
+	 */
+	public WTab addTab(final WComponent content, final WDecoratedLabel label) {
+		return addTab(new WTab(content, label, TabMode.LAZY, (char) 0));
+	}
+
+	/**
 	 * Adds a tab to the tab set.
 	 *
 	 * @param content the tab set content.
@@ -213,10 +236,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * @return the tab which was added to the tab set.
 	 */
 	public WTab addTab(final WComponent content, final String tabName, final TabMode mode) {
-		WTab tab = new WTab(content, tabName, mode);
-		add(tab);
-
-		return tab;
+		return addTab(new WTab(content, tabName, mode, (char) 0));
 	}
 
 	/**
@@ -228,12 +248,20 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * @param accessKey the access key used to activate the tab.
 	 * @return the tab which was added to the tab set.
 	 */
-	public WTab addTab(final WComponent content, final String tabName, final TabMode mode,
-			final char accessKey) {
-		WTab tab = new WTab(content, tabName, mode, accessKey);
-		add(tab);
+	public WTab addTab(final WComponent content, final String tabName, final TabMode mode, final char accessKey) {
+		return addTab(new WTab(content, tabName, mode, accessKey));
+	}
 
-		return tab;
+	/**
+	 * Adds a LAZY tab with a given access key to the tab set.
+	 *
+	 * @param content the tab set content.
+	 * @param tabName the tab name.
+	 * @param accessKey the access key used to activate the tab.
+	 * @return the tab which was added to the tab set.
+	 */
+	public WTab addTab(final WComponent content, final String tabName, final char accessKey) {
+		return addTab(new WTab(content, tabName, TabMode.LAZY, accessKey));
 	}
 
 	/**
@@ -245,10 +273,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * @return the tab which was added to the tab set.
 	 */
 	public WTab addTab(final WComponent content, final WDecoratedLabel label, final TabMode mode) {
-		WTab tab = new WTab(content, label, mode);
-		add(tab);
-
-		return tab;
+		return addTab(new WTab(content, label, mode, (char) 0));
 	}
 
 	/**
@@ -260,12 +285,20 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * @param accessKey the access key used to activate the tab.
 	 * @return the tab which was added to the tab set.
 	 */
-	public WTab addTab(final WComponent content, final WDecoratedLabel label, final TabMode mode,
-			final char accessKey) {
-		WTab tab = new WTab(content, label, mode, accessKey);
-		add(tab);
+	public WTab addTab(final WComponent content, final WDecoratedLabel label, final TabMode mode, final char accessKey) {
+		return addTab(new WTab(content, label, mode, accessKey));
+	}
 
-		return tab;
+	/**
+	 * Adds a LAZY tab with a given access key to the tab set.
+	 *
+	 * @param content the tab set content.
+	 * @param label the tab's label, which can contain rich content (images or other components).
+	 * @param accessKey the access key used to activate the tab.
+	 * @return the tab which was added to the tab set.
+	 */
+	public WTab addTab(final WComponent content, final WDecoratedLabel label, final char accessKey) {
+		return addTab(new WTab(content, label, TabMode.LAZY, accessKey));
 	}
 
 	/**
@@ -281,11 +314,22 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * Adds a tab to the tab set.
 	 *
 	 * @param tab the tab to add.
-	 * @deprecated use {@link #addTab(WComponent, String, TabMode)}
+	 * @deprecated use {@link #addTab(WComponent, String)} or overloaded version.
 	 */
 	@Deprecated
 	public void add(final WTab tab) {
+		addTab(tab);
+	}
+
+	/**
+	 * Adds a {@link WTab} to the tab set.
+	 *
+	 * @param tab the tab to add.
+	 * @return the tab which was added to the tab set.
+	 */
+	protected WTab addTab(final WTab tab) {
 		super.add(tab);
+		return tab;
 	}
 
 	/**
@@ -455,11 +499,11 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	/**
 	 * Sets the visibility of the tab at the given index.
 	 *
-	 * @param tabIndex the tab index.
+	 * @param idx the index of the WTab to get.
 	 * @param visible true to set the tab visible, false to set invisible.
 	 */
-	public void setTabVisible(final int tabIndex, final boolean visible) {
-		getTab(tabIndex).setVisible(visible);
+	public void setTabVisible(final int idx, final boolean visible) {
+		getTab(idx).setVisible(visible);
 	}
 
 	/**
@@ -475,11 +519,11 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	/**
 	 * Indicates whether the tab at the given index is visible.
 	 *
-	 * @param tabIndex the tab index.
+	 * @param idx the index of the WTab to test.
 	 * @return true if the tab at the given index is visible, false if it is invisible.
 	 */
-	public boolean isTabVisible(final int tabIndex) {
-		WTab tab = getTab(tabIndex);
+	public boolean isTabVisible(final int idx) {
+		WTab tab = getTab(idx);
 		Container tabParent = tab.getParent();
 
 		if (tabParent instanceof WTabGroup) {
@@ -508,9 +552,9 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	public boolean isActive(final WComponent tab) {
 		int activeIndex = getActiveIndex();
 		List<WTab> tabs = getTabs();
-		int tabIndex = tabs.indexOf(tab);
+		int idx = tabs.indexOf(tab);
 
-		return activeIndex == tabIndex;
+		return activeIndex == idx;
 	}
 
 	/**
@@ -604,16 +648,16 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 				// Normal case - one or more tabs selected
 				for (int i = 0; i < indices.length; i++) {
 					int clientIndex = Integer.parseInt(indicesStr[i]);
-					int tabIndex = clientIndexToTabIndex(clientIndex);
-					indices[i] = tabIndex;
+					int idx = clientIndexToTabIndex(clientIndex);
+					indices[i] = idx;
 
-					if (!oldIndices.contains(tabIndex)) {
+					if (!oldIndices.contains(idx)) {
 						// Check for a server mode tab and set focus
-						WTab tab = getTab(tabIndex);
+						WTab tab = getTab(idx);
 						if (TabMode.SERVER.equals(tab.getMode()) && UIContextHolder.getCurrent().getFocussed() == null) {
 							tab.setFocussed();
 						}
-						changes.add(tabIndex);
+						changes.add(idx);
 					}
 				}
 			}
@@ -646,7 +690,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	}
 
 	/**
-	 * The client-side tab indices will differ from the WTabSet's indices when one or more tabs is invisible.
+	 * The client-side tab indices will differ from the WTabSet's indices when one or more tabs are invisible.
 	 *
 	 * @param clientIndex the client-side index
 	 * @return the WTabSet index corresponding to the given client index
@@ -712,7 +756,9 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * Sets the action to be executed when the tab selection of this <code>tabset</code> changes.
 	 *
 	 * @param action the action to execute
+	 * @deprecated an action on changing tab is a side-effect and should not be implemented.
 	 */
+	@Deprecated
 	public void setActionOnChange(final Action action) {
 		getOrCreateComponentModel().action = action;
 	}
@@ -721,7 +767,9 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * Gets the action that is executed when the tab selection of this <code>tabset</code> changes.
 	 *
 	 * @return The <code>action</code> associated with this <code>tabset</code>.
+	 * @deprecated an action on changing tab is a side-effect and should not be implemented.
 	 */
+	@Deprecated
 	public Action getActionOnChange() {
 		return getComponentModel().action;
 	}
@@ -731,7 +779,9 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * visible effect on {@link TabSetType#APPLICATION} tab sets.
 	 *
 	 * @param showHeadOnly true if only the "head" part of the tab label should be shown.
+	 * @deprecated 1.4.7 an irrelevant hangover from a bad design decision - never implemented.
 	 */
+	@Deprecated
 	public void setShowHeadOnly(final boolean showHeadOnly) {
 		getOrCreateComponentModel().showHeadOnly = showHeadOnly;
 	}
@@ -741,7 +791,9 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * a visible effect on {@link TabSetType#APPLICATION} tab sets.
 	 *
 	 * @return true if only the "head" part of the tab label should be shown.
+	 * @deprecated 1.4.7 an irrelevant hangover from a bad design decision - never implemented.
 	 */
+	@Deprecated
 	public boolean isShowHeadOnly() {
 		return getComponentModel().showHeadOnly;
 	}
@@ -838,7 +890,9 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 
 		/**
 		 * Show head only flag.
+		 * @deprecated 1.4.7 an irrelevant hangover from a bad design decision - never implemented.
 		 */
+		@Deprecated
 		private boolean showHeadOnly;
 
 		/**

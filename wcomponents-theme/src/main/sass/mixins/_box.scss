@@ -89,10 +89,11 @@
 // @param {color} $border [$wc-clr-border] The border color.
 // @param {color|-1} $color [-1] The foreground color. Set to -1 to ignore.
 // @param {color|-1} $bg-color [-1] The background color. Set to -1 to ignore.
-@mixin padded-box($pad: $wc-gap-normal, $border: $wc-clr-border, $color: -1,
-  $bg-color: -1) {
+@mixin padded-box($pad: $wc-gap-normal, $border: $wc-clr-border, $color: -1, $bg-color: -1) {
   @include border($color: $border);
-  padding: $pad;
+  @if ($pad != 0) {
+    padding: $pad;
+  }
   @if ($bg-color != -1) {
     background-color: $bg-color;
   }
@@ -112,14 +113,43 @@
 // MOVE OUT OF VIEWPORT
 // #############################################################################
 // Move an element out of viewport.
-@mixin offscreen {
-  // Require important to ensure we are really off screen
-  // sass-lint:disable no-important
-  left: -9999px !important;
-  // not 0 or the item may appear 'hidden' to dom/shed
-  max-height: 1rem;
-  // smaller than left but not 0 or the item may appear 'hidden' to dom/shed
-  max-width: 1rem !important;
-  overflow: hidden !important;
-  position: absolute !important;
+@mixin offscreen($important: 0) {
+  @if ($important == 1) {
+    // Require important to ensure we are really off screen
+    // sass-lint:disable no-important
+    left: -9999px !important;
+    // not 0 or the item may appear 'hidden' to dom/shed
+    max-height: 1rem !important;
+    // smaller than left but not 0 or the item may appear 'hidden' to dom/shed
+    max-width: 1rem !important;
+    overflow: hidden !important;
+    position: absolute !important;
+  } @else {
+    left: -9999px;
+    max-height: 1rem;
+    max-width: 1rem;
+    overflow: hidden;
+    position: absolute;
+  }
+}
+
+// Move an element back into viewport.
+@mixin onscreen($important: 0, $position: static, $left: 0, $max-height: none, $max-width: none, $overfow: visible) {
+  @if ($important == 1) {
+    // Require important to ensure we are really off screen
+    // sass-lint:disable no-important
+    left: $left !important;
+    // not 0 or the item may appear 'hidden' to dom/shed
+    max-height: $max-height !important;
+    // smaller than left but not 0 or the item may appear 'hidden' to dom/shed
+    max-width: $max-width !important;
+    overflow: $overfow !important;
+    position: $position !important;
+  } @else {
+    left: $left;
+    max-height: $max-height;
+    max-width: $max-width;
+    overflow: $overfow;
+    position: $position;
+  }
 }

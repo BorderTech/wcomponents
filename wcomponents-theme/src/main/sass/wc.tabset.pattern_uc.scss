@@ -1,0 +1,12 @@
+@import 'mixins/common';
+
+@if ($wc-use-respond == 1) {
+  [role='tablist'] {
+    &[aria-multiselectable] {
+      > [role='tab'] {
+        @include border-box;
+        width: 100%;
+      }
+    }
+  }
+}

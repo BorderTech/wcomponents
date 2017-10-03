@@ -147,7 +147,7 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 
 	<target name="build"
 		description="This target builds the themes."
-		depends="failWrongAnt, failWrongJava, init">
+		depends="failWrongAnt, init">
 		<for list="${impl.dir.name}" delimiter="${single.impl.dir.separator}" param="implementationName">
 			<sequential>
 				<buildImplementation rootdir="${impl.src.rootdir}" implName="@{implementationName}"/>
@@ -358,26 +358,6 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 			</if>
 		</sequential>
 	</macrodef>
-
-	<!--
-		Closure compiler needs Java1.6
-		This routine checks for Java1.6 or greater.
-	-->
-	<target name="javaCheck">
-		<echo message="ant.java.version=${ant.java.version}" />
-		<condition property="java.ok">
-			<or>
-				<!-- Java 1.6 to 1.9 -->
-				<matches string="${ant.java.version}" pattern="\.[6-9]$"/>
-				<!-- Java 1.10 to 1.(>10) -->
-				<matches string="${ant.java.version}" pattern="\.[0-9]{2,}"/>
-			</or>
-		</condition>
-	</target>
-
-	<target name="failWrongJava" unless="java.ok" depends="javaCheck">
-		<fail>Use Java 1.6.</fail>
-	</target>
 
 	<target name="antCheck">
 		<echo message="ant.version=${ant.version}" />

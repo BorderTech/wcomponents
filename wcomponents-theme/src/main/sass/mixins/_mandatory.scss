@@ -3,6 +3,20 @@
 // #############################################################################
 // Show the mandatory indicator
 @mixin mandatory-indicator {
-  color: $wc-clr-required-marker;
-  content: $wc-label-mandatory-indicator;
+  @if ($wc-clr-required-marker != -1) {
+    color: $wc-clr-required-marker;
+  }
+  display: none;
+  font-size: .5em;
+  @if ($wc-label-weight != normal) {
+    font-weight: normal;
+  }
+  position: absolute;
+  right: $wc-gap-small;
+  top: 0;
+}
+
+@mixin mandatory-holder {
+  padding-right: $wc-label-mandatory-indicator-width;
+  position: relative;
 }

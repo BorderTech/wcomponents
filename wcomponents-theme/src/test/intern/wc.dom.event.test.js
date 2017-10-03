@@ -580,14 +580,14 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			testStopPropagation: function() {
 				var element = document.getElementById(ids.CHKBOX),
 					eStopped = true,
-					called = false;
+					calledHere = false;
 				event.add(eventContainer, EVENT, clickEventOuter);
 				event.add(element, EVENT, clickEventInner);
 				event.fire(element, EVENT);
 				event.remove(eventContainer, EVENT, clickEventOuter);
 				event.remove(element, EVENT, clickEventInner);
 				assert.strictEqual(eStopped, true, "event should have been stopped");
-				assert.strictEqual(called, true, "event should have been called");
+				assert.strictEqual(calledHere, true, "event should have been called");
 
 
 				function clickEventOuter() {
@@ -596,7 +596,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 
 				function clickEventInner($event) {
 					$event.stopPropagation();
-					called = true;
+					calledHere = true;
 				}
 			},
 

@@ -414,9 +414,9 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 		 * @param {int} priority The priority of this subscriber.
 		 */
 		this.register = function(subscriber, group, priority) {
-			var store = getGroupStore(group, true);
+			var toStore = getGroupStore(group, true);
 			subscriber[SORT_IDX_PROP] = idx++;
-			store.add(subscriber, priority);
+			toStore.add(subscriber, priority);
 		};
 
 		/**
@@ -431,9 +431,9 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 		 */
 		this.deregister = function(subscriber, group) {
 			var result,
-				store = getGroupStore(group);
-			if (store) {
-				result = store.remove(subscriber);
+				fromStore = getGroupStore(group);
+			if (fromStore) {
+				result = fromStore.remove(subscriber);
 			}
 			return result || null;
 		};

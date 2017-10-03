@@ -16,7 +16,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public final class ExpressionBuilder {
+public class ExpressionBuilder {
 
 	/**
 	 * The stack of expressions so far. This is used to provide correct operator precedence.

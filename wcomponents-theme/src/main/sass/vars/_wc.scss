@@ -55,6 +55,8 @@ $fa-fw-calc-size: 1.25rem !default;
 @import 'busy';
 // Form controls, inputs, selects, buttons, etc.
 @import 'form';
+// WPanel features for override
+@import 'panel';
 // Sections - WSection, WMessageBox, WValidationErrors, WPanel CHROME or ACTION.
 @import 'section';
 // WPanel layouts, rows and columns, field layout

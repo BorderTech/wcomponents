@@ -9,6 +9,10 @@
     @include offscreen;
   }
 
+  &.wc-timeoutwarning > h1 > span:first-child {
+    @include onscreen;
+  }
+
   > div {
     @include flex-align-self(center);
 

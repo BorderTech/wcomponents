@@ -25,10 +25,6 @@
 			<xsl:text>,"height":</xsl:text>
 			<xsl:value-of select="@height"/>
 		</xsl:if>
-		<xsl:if test="@resizable">
-			<xsl:text>,"resizable":</xsl:text>
-			<xsl:value-of select="@resizable"/>
-		</xsl:if>
 		<xsl:if test="@modal">
 			<xsl:text>,"modal":</xsl:text>
 			<xsl:value-of select="@modal"/>

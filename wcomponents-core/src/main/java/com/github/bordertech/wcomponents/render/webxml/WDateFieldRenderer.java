@@ -44,7 +44,6 @@ final class WDateFieldRenderer extends AbstractWebXmlRenderer {
 		} else {
 			xml.appendOptionalAttribute("disabled", dateField.isDisabled(), "true");
 			xml.appendOptionalAttribute("required", dateField.isMandatory(), "true");
-			xml.appendOptionalAttribute("tabIndex", dateField.hasTabIndex(), String.valueOf(dateField.getTabIndex()));
 			xml.appendOptionalAttribute("toolTip", dateField.getToolTip());
 			xml.appendOptionalAttribute("accessibleText", dateField.getAccessibleText());
 

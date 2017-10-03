@@ -33,13 +33,13 @@ define(["lib/sprintf", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/load
 
 			function clickEvent($event) {
 				var target;
-				if (!$event.defaultPrevented && (target = TIMEOUT_CONTAINER.findAncestor($event.target))) {
+				if ((target = TIMEOUT_CONTAINER.findAncestor($event.target))) {
 					closeWarning(target);
 				}
 			}
 
 			function keyDownEvent($event) {
-				if (!$event.defaultPrevented && $event.altKey && $event.keyCode === KeyEvent.DOM_VK_9) {
+				if ($event.keyCode === KeyEvent.DOM_VK_ESCAPE) {
 					closeWarning(getContainer());
 				}
 			}
@@ -77,27 +77,26 @@ define(["lib/sprintf", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/load
 			 * @param {number} minsRemaining The number of minutes until the session will expire.
 			 */
 			function warn(minsRemaining) {
-				getDialog().then(function(warningDf) {
-					var container = getContainer(),
-						minutes = expiresAt.getMinutes(),
-						readableMins, secs, mins,
-						title, body, header;
-					if (container) {
-						container.innerHTML = "";
-						title = i18n.get("messagetitle_warn"),
-						header = i18n.get("timeout_warn_header");
-						body = i18n.get("timeout_warn_body");
+				function showWarn(title, header, body) {
+					getDialog().then(function(warningDf) {
+						var container = getContainer(),
+							minutes = expiresAt.getMinutes(),
+							readableMins, secs, mins;
+						if (container) {
+							container.innerHTML = "";
 
-						mins = parseInt(minsRemaining);
-						secs = minsRemaining - mins;
-						readableMins = (secs === 0 ? minsRemaining : (mins + (Math.round(secs * 100)) / 100));
+							mins = parseInt(minsRemaining);
+							secs = minsRemaining - mins;
+							readableMins = (secs === 0 ? minsRemaining : (mins + (Math.round(secs * 100)) / 100));
 
-						body = sprintf.sprintf(body, readableMins, (expiresAt.getHours() + ":" + ((minutes < 10) ? "0" + minutes : minutes)));
-						container.innerHTML = sprintf.sprintf(warningDf, title, header, body);
-						showDialog(container);
-						console.info("warning shown at", new Date());
-					}
-				});
+							body = sprintf.sprintf(body, readableMins, (expiresAt.getHours() + ":" + ((minutes < 10) ? "0" + minutes : minutes)));
+							container.innerHTML = sprintf.sprintf(warningDf, title, header, body);
+							showDialog(container);
+							console.info("warning shown at", new Date());
+						}
+					});
+				}
+				getTranslations(["messagetitle_warn", "timeout_warn_header", "timeout_warn_body"], showWarn);
 			}
 
 			/**
@@ -121,24 +120,36 @@ define(["lib/sprintf", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/load
 			 * @private
 			 */
 			function expire() {
-				getDialog().then(function(errorDf) {
-					var body, header, title, container = getContainer(), section;
-					if (container) {
-						container.innerHTML = "";
-						title = i18n.get("messagetitle_error"),
-						header = i18n.get("timeout_expired_header");
-						body = i18n.get("timeout_expired_body");
-						container.innerHTML = sprintf.sprintf(errorDf, title, header, body);
-						if ((section = container.firstChild)) {
-							classList.remove(section, "wc-messagebox-type-warn");
-							classList.add(section, "wc-messagebox-type-error");
-							icon.change(section, "fa-times-circle", "fa-exclamation-triangle");
+				function showExpire(title, header, body) {
+					getDialog().then(function (errorDf) {
+						var container = getContainer(), section;
+						if (container) {
+							container.innerHTML = "";
+							container.innerHTML = sprintf.sprintf(errorDf, title, header, body);
+							if ((section = container.firstChild)) {
+								classList.remove(section, "wc-messagebox-type-warn");
+								classList.add(section, "wc-messagebox-type-error");
+								icon.change(section, "fa-times-circle", "fa-exclamation-triangle");
+							}
+							if (shed.isHidden(container, true)) {
+								showDialog(container);  // re-show it if the warning was closed by the user
+							}
+							console.info("expired shown at", new Date());
 						}
-						if (shed.isHidden(container, true)) {
-							showDialog(container);  // re-show it if the warning was closed by the user
-						}
-						console.info("expired shown at", new Date());
-					}
+					});
+				}
+				getTranslations(["messagetitle_error", "timeout_expired_header", "timeout_expired_body"], showExpire);
+			}
+
+			/**
+			 * Helper for warn and expire
+			 * @param {string[]} keys The i18n keys to look up
+			 * @param {function} callback Called with translations in order they were found in the keys array.
+			 * @private
+			 */
+			function getTranslations(keys, callback) {
+				return i18n.translate(keys).then(function(vals) {
+					callback.apply(this, vals);
 				});
 			}
 

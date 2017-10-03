@@ -41,7 +41,7 @@ import java.util.List;
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
  */
-public final class SubordinateBuilder {
+public class SubordinateBuilder {
 
 	/**
 	 * The actions to execute when the {@link #condition} evaluates to 'true'.

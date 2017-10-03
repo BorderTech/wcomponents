@@ -2,9 +2,9 @@ package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.WButton;
-import com.github.bordertech.wcomponents.WToggleButton;
 import com.github.bordertech.wcomponents.WComponentGroup;
 import com.github.bordertech.wcomponents.WContainer;
+import com.github.bordertech.wcomponents.WToggleButton;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -43,7 +43,6 @@ public class WToggleButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSchemaMatch(toggle);
 		assertXpathExists("//ui:togglebutton", toggle);
 		assertXpathEvaluatesTo(toggle.getId(), "//ui:togglebutton/@id", toggle);
-		assertXpathNotExists("//ui:togglebutton/@tabIndex", toggle);
 
 		// Check disabled
 		assertXpathNotExists("//ui:togglebutton/@disabled", toggle);

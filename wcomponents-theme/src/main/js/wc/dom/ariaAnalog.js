@@ -451,7 +451,7 @@ define(["wc/has",
 						}
 						preventDefaultAction = true;
 					}
-				} else if (keyCode === KeyEvent.DOM_VK_SPACE && !Widget.isOneOfMe(element, this.actionable)) {
+				} else if ((keyCode === KeyEvent.DOM_VK_SPACE || keyCode === KeyEvent.DOM_VK_RETURN) && !Widget.isOneOfMe(element, this.actionable)) {
 					if (isAcceptableEventTarget(element, target)) {
 						this.activate(element, $event.shiftKey, ($event.ctrlKey || $event.metaKey));
 						preventDefaultAction = true;  // preventDefault here otherwise you get a page scroll
@@ -531,11 +531,11 @@ define(["wc/has",
 						root: _group,
 						filter: function(el) {
 							/* the group filter EXCLUDES elements return true*/
-							var result = NodeFilter.FILTER_ACCEPT;
+							var innerResult = NodeFilter.FILTER_ACCEPT;
 							if (shed.isDisabled(el) || shed.isHidden(el)) {
-								result = NodeFilter.FILTER_REJECT;
+								innerResult = NodeFilter.FILTER_REJECT;
 							}
-							return result;
+							return innerResult;
 						}
 					};
 				}

@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.RadioButtonGroup;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCancelButton;
+import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WCheckBoxSelect;
 import com.github.bordertech.wcomponents.WConfirmationButton;
 import com.github.bordertech.wcomponents.WDateField;
@@ -192,6 +193,11 @@ public class CoreFields extends WPanel {
 
 		// WEmailField
 		fields.addField("Email address", new WEmailField());
+
+		// WCheckBox
+		WCheckBox cb = new WCheckBox();
+		cb.setMandatory(true);
+		fields.addField("I agree to something", cb);
 
 		// create the buttons at the bottom.
 		WPanel buttons = new WPanel(WPanel.Type.FEATURE);

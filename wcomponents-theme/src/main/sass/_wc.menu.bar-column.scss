@@ -66,22 +66,23 @@
   }
 }
 
+// make menu bars horizontal.
+.wc_menu_bar {
+  > .wc-menuitem,
+  > .wc-submenu > .wc-submenu-o {
+    .wc-decoratedlabel {
+      display: inline-table;
+      width: auto;
+    }
 
-// The collapsed bar menu in a header.
-[role='banner'] .wc-menu-type-bar[data-wc-menufixed] {
-  display: inline-block;
+    .wc-labelbody {
+      width: auto;
+    }
+  }
 }
 
-// make menu bars horizontal.
-.wc_menu_bar > .wc-submenu > .wc-submenu-o {
-  .wc-decoratedlabel {
-    display: inline-table;
-    width: auto;
-  }
-
-  .wc-labelbody {
-    width: auto;
-  }
+.wc-menu-type-bar.wc_menu_fix {
+  display: inline-block;
 }
 
 .wc_closesubmenu::before {

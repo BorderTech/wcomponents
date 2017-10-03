@@ -1,0 +1,10 @@
+@import 'mixins/common';
+
+@if ($wc-use-respond == 1) {
+  figcaption {
+    @include border-box;
+    display: block;
+    text-align: center;
+    width: 100%;
+  }
+}

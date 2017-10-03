@@ -5,11 +5,10 @@ define(["wc/dom/classList",
 	"wc/dom/Widget",
 	"wc/dom/getLabelsForElement",
 	"wc/ui/ajax/processResponse",
-	"wc/i18n/i18n",
 	"wc/dom/role",
 	"wc/dom/textContent",
 	"wc/dom/wrappedInput"],
-	function (classList, initialise, shed, tag, Widget, getLabelsForElement, processResponse, i18n, $role, textContent, wrappedInput) {
+	function (classList, initialise, shed, tag, Widget, getLabelsForElement, processResponse, $role, textContent, wrappedInput) {
 		"use strict";
 		/**
 		 * @constructor
@@ -18,7 +17,6 @@ define(["wc/dom/classList",
 		 */
 		function Label() {
 			var TAGS = [tag.INPUT, tag.TEXTAREA, tag.SELECT, tag.FIELDSET],
-				MANDATORY_SPAN = new Widget("span", "wc-off"),
 				CLASS_HINT = "wc-label-hint",
 				MOVE_WIDGETS = [new Widget("", "wc-checkbox"), new Widget("", "wc-radiobutton"), new Widget("button", "wc-selecttoggle")],
 				HINT;
@@ -31,21 +29,8 @@ define(["wc/dom/classList",
 			 * @param {Function} func the function to apply to the label
 			 */
 			function mandateLabel(label, func) {
-				var mandatorySpan;
 				if (label.tagName !== tag.LEGEND) {
 					classList[func](label, "wc_req");
-				}
-
-				mandatorySpan = MANDATORY_SPAN.findDescendant(label);
-				if (func === "add") {
-					if (!mandatorySpan) {
-						mandatorySpan = tag.toTag(MANDATORY_SPAN.tagName, false, "class='" + MANDATORY_SPAN.className + "'");
-						mandatorySpan += i18n.get("requiredPlaceholder");
-						mandatorySpan += tag.toTag(MANDATORY_SPAN.tagName, true);
-						label.insertAdjacentHTML("beforeend", mandatorySpan);
-					}
-				} else if (mandatorySpan) {
-					mandatorySpan.parentNode.removeChild(mandatorySpan);
 				}
 			}
 
@@ -124,12 +109,16 @@ define(["wc/dom/classList",
 					newLabellingElement = document.createElement("label");
 					if ((input = wrappedInput.getInput(element))) { // should always be found
 						newLabellingElement.setAttribute("for", input.id);
+					} else if (TAGS.indexOf(element.tagName) > -1) {
+						newLabellingElement.setAttribute("for", element.id);
 					}
 				}
 				newLabellingElement.className = label.className;
 				newLabellingElement.innerHTML = label.innerHTML;
 				input = input || element;
-				mandateLabel(newLabellingElement, (!isRO && shed.isMandatory(input) ? "add" : "remove"));
+				if (input && input.type !== "radio") {
+					mandateLabel(newLabellingElement, (!isRO && shed.isMandatory(input) ? "add" : "remove"));
+				}
 				if (shed.isHidden(element, true)) {
 					shed.hide(newLabellingElement, true); // nothing depends on the hidden state of a label and we are replicating a load-time state.
 				}
@@ -148,12 +137,12 @@ define(["wc/dom/classList",
 			}
 
 			/**
-			 * AJAX subscriber to convert labels from a HTML label element to its read-only analogue and vice-versa when
+			 * Post-insertion AJAX subscriber to convert labels from a HTML label element to its read-only analogue and vice-versa when
 			 * a labelled element is replaced via AJAX.
 			 *
 			 * @function
 			 * @private
-			 * @param {Element} element The reference element (element being replaced).
+			 * @param {Element} element the new element.
 			 */
 			function ajaxSubscriber(element) {
 				if (!element) {
@@ -174,7 +163,9 @@ define(["wc/dom/classList",
 						}
 						// only have to do this if we are not converting the labels.
 						if ((input = wrappedInput.getInput(next))) {
-							mandateLabel(label, !isRO && shed.isMandatory(input) ? "add" : "remove");
+							if (input.type !== "radio") {
+								mandateLabel(label, !isRO && shed.isMandatory(input) ? "add" : "remove");
+							}
 						}
 						if (shed.isHidden(next, true)) {
 							shed.hide(label, true);
@@ -284,6 +275,17 @@ define(["wc/dom/classList",
 			this.preInit = function(element) {
 				moveLabels(element);
 			};
+
+			/**
+			 * Public for testing.
+			 * @ignore
+			 */
+			this._convert = convertLabel;
+			/**
+			 * Public for testing.
+			 * @ignore
+			 */
+			this._ajax = ajaxSubscriber;
 		}
 
 		/**

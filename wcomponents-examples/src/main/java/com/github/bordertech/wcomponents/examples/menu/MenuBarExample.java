@@ -113,7 +113,8 @@ public class MenuBarExample extends WContainer {
 		menu.add(shapeMenu);
 
 		// The Image menu shows use of decorated labels and images
-		WSubMenu imageMenu = new WSubMenu("Images");
+		WDecoratedLabel imageLabel = new WDecoratedLabel(new WImage("/image/wrench.png", "spanner"), new WText("Images"), null);
+		WSubMenu imageMenu = new WSubMenu(imageLabel);
 		imageMenu.add(createImageMenuItem("/image/flag.png", "Flag", "eg-menu-image-1",
 				selectedMenuText));
 		imageMenu.add(createImageMenuItem("/image/attachment.png", "Attachment", "eg-menu-image-2",
@@ -150,6 +151,12 @@ public class MenuBarExample extends WContainer {
 		itemWithIcon.setHtmlClass(HtmlClassProperties.ICON_HELP_BEFORE);
 		menu.add(itemWithIcon);
 
+		WMenuItem itemWithImage = new WMenuItem(new WDecoratedLabel(new WImage("/image/home.png", "home"), new WText("Home"), null));
+		menu.add(itemWithImage);
+		menu.add(new WMenuItem(new WDecoratedLabel(new WImage("/image/settings.png", "settings"), new WText("Settings Menu"), null)));
+		itemWithImage = new WMenuItem(new WDecoratedLabel(new WImage("/image/flag.png", "flag")));
+		itemWithImage.setAccessibleText("flag this view");
+		menu.add(itemWithImage);
 		return menu;
 	}
 

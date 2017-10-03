@@ -2,8 +2,18 @@
 // browsers which do not yet implement input type date (Firefox!!!).
 @import 'mixins/common';
 
-.wc-datefield > [role='listbox'] {
-  max-height: none;
+.wc-datefield {
+  .wc_inputwidth  > .wc-input  > &,
+  &.wc_datefield_partial {
+    &,
+    > [role='textbox'] {
+      width: initial;
+    }
+  }
+
+  > [role='listbox'] {
+    max-height: none;
+  }
 }
 
 // The date picker calendar
@@ -26,6 +36,8 @@
   }
 
   dialog & {
+    position: fixed;
+    right: auto;
     z-index: $wc-z-index-common-in-dialog;
   }
 
@@ -86,17 +98,38 @@
       height: 100%;
       left: 0 !important;
       position: fixed;
-      right: 0;
+      right: 0 !important;
       top: 0 !important;
       width: 100%;
 
-      &.wc_colwest { // right collision
-        left: auto;
-      }
+      > .wc-row {
+        display: block;
 
-      dialog & {
-        position: fixed;
-        right: 0;
+        button {
+          margin-left: $wc-phone-gap-normal;
+
+          &:first-of-type {
+            margin-left: 0;
+          }
+        }
+
+        // button columns
+        > .wc-column {
+          &:first-child {
+            @include flex($justify: space-between);
+            margin-bottom: $wc-phone-gap-small;
+
+            // year input
+            > input {
+              margin-right: 0;
+            }
+          }
+
+          + .wc-column {
+            display: table-cell;
+            width: 100%;
+          }
+        }
       }
     }
 

@@ -71,6 +71,11 @@
     display: none;
   }
 
+  .wc_img_editpane, .wc_img_controls {
+    @include border;
+    padding: $wc-panel-feature-padding;
+  }
+
   .wc_img_controls {
     > div,
     > fieldset {

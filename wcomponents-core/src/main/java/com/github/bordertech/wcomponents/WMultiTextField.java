@@ -36,7 +36,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WMultiTextField extends AbstractInput implements AjaxTrigger, AjaxTarget, SubordinateTarget, MultiInputComponent {
+public class WMultiTextField extends AbstractInput implements AjaxTrigger, AjaxTarget, SubordinateTarget, MultiInputComponent, Placeholderable {
 
 	/**
 	 * The logger instance for this class.
@@ -220,17 +220,17 @@ public class WMultiTextField extends AbstractInput implements AjaxTrigger, AjaxT
 	}
 
 	/**
-	 * Set placeholder text which will appear in the field if it is editable and has no content.
-	 * @param placeholder The text to set as the
+	 * {@inheritDoc}
 	 */
+	@Override
 	public void setPlaceholder(final String placeholder) {
 		getOrCreateComponentModel().placeholder = placeholder;
 	}
 
 	/**
-	 *
-	 * @return The placeholder text for the field.
+	 * {@inheritDoc}
 	 */
+	@Override
 	public String getPlaceholder() {
 		return getComponentModel().placeholder;
 	}

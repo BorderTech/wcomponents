@@ -1,0 +1,9 @@
+@import 'mixins/common';
+
+@if ($wc-use-respond == 1) {
+  .wc_msgbox {
+    > h1 > span {
+      @include onscreen(1);
+    }
+  }
+}

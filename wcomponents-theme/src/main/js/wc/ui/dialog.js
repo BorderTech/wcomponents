@@ -2,6 +2,7 @@ define(["wc/dom/classList",
 	"wc/dom/event",
 	"wc/dom/initialise",
 	"wc/dom/shed",
+	"wc/dom/tag",
 	"wc/dom/uid",
 	"wc/dom/Widget",
 	"wc/i18n/i18n",
@@ -10,8 +11,9 @@ define(["wc/dom/classList",
 	"wc/ui/containerload",
 	"wc/timers",
 	"wc/ui/dialogFrame",
-	"wc/ui/getForm"],
-	function(classList, event, initialise, shed, uid, Widget, i18n, ajaxRegion, processResponse, eagerLoader, timers, dialogFrame, getForm) {
+	"wc/ui/getForm",
+	"wc/ui/modalShim"],
+	function(classList, event, initialise, shed, tag, uid, Widget, i18n, ajaxRegion, processResponse, eagerLoader, timers, dialogFrame, getForm, modalShim) {
 		"use strict";
 
 		/**
@@ -31,6 +33,13 @@ define(["wc/dom/classList",
 				openThisDialog,
 				GET_ATTRIB = "data-wc-get";
 
+			/**
+			 * Ensure a dialog trigger element has the aria-haspopup attribute.
+			 *
+			 * @function
+			 * @private
+			 * @param {String} id the id of the element to manipulate
+			 */
 			function setHasPopup(id) {
 				var popupAttr = "aria-haspopup",
 					el = document.getElementById(id);
@@ -40,22 +49,39 @@ define(["wc/dom/classList",
 			}
 
 			/**
-			 * Opens a dialog on page load.
+			 * Open a dialog on page load (if required).
+			 *
 			 * @function
 			 * @private
 			 */
-			function setup() {
+			function openOnLoad() {
+				try {
+					if (openThisDialog) {
+						if (openOnLoadTimer) {
+							timers.clearTimeout(openOnLoadTimer);
+						}
+						openOnLoadTimer = timers.setTimeout(openDlg, 0, openThisDialog);
+					}
+				} finally {
+					modalShim.unsubscribe(openOnLoad);
+				}
+			}
+
+			/**
+			 * Opens a dialog on page load.
+			 * @function
+			 * @private
+			 * @param {boolean} isAjax `true` if the setup is part of an ajax response.
+			 */
+			function setup(isAjax) {
 				var o;
 				for (o in registry) {
 					if (registry.hasOwnProperty(o)) {
 						setHasPopup(o);
 					}
 				}
-				if (openThisDialog) {
-					if (openOnLoadTimer) {
-						timers.clearTimeout(openOnLoadTimer);
-					}
-					openOnLoadTimer = timers.setTimeout(openDlg, 100, openThisDialog);
+				if (isAjax) {
+					openOnLoad();
 				}
 			}
 
@@ -118,17 +144,34 @@ define(["wc/dom/classList",
 			 * @returns {?Element} a dialog trigger element if found
 			 */
 			function getTrigger(element, ignoreAncestor) {
-				var parent = element,
-					id = parent.id;
-				if (registry[id]) {
+				var parent,
+					id = element.id,
+					regObj;
+
+				if (element.tagName === tag.FORM) {
+					return null;
+				}
+				if ((regObj = registry[id])) {
+					if (regObj.id === id) {
+						// Auto open on load dialogs are their own trigger
+						return null;
+					}
 					return element;
 				}
 				if (ignoreAncestor) {
 					return null;
 				}
+				parent = element;
 				while ((parent = parent.parentNode) && parent.nodeType === Node.ELEMENT_NODE) {
+					if (parent.tagName === tag.FORM) {
+						return null;
+					}
 					if ((id = parent.id)) {
-						if (registry[id]) {
+						if ((regObj = registry[id])) {
+							if (regObj.id === id) {
+								// Auto open on load dialogs are their own trigger
+								return null;
+							}
 							return parent;
 						}
 					}
@@ -346,11 +389,15 @@ define(["wc/dom/classList",
 			 * @function module:wc/ui/dialog.register
 			 * @public
 			 * @param {module:wc/ui/dialog~regObject[]} array An array of dialog definition objects.
+			 * @param {boolean} isAjax `true` if registration is from an ajax response.
 			 */
-			this.register = function(array) {
+			this.register = function(array, isAjax) {
 				if (array && array.length) {
+					modalShim.subscribe(openOnLoad);
+					initialise.addCallback(function() {
+						setup(isAjax);
+					});
 					array.forEach(_register);
-					initialise.addCallback(setup);
 				}
 			};
 
@@ -359,7 +406,7 @@ define(["wc/dom/classList",
 			 * @function module:wc/ui/dialog.open
 			 * @public
 			 * @param {Element} trigger an element which _should_ be a dialog trigger.
-			 * @returns {boolean} true if the element will trigger a dialog on change or click.
+			 * @returns {boolean} `true` if the element will trigger a dialog on change or click.
 			 */
 			this.open = function(trigger) {
 				var element = getTrigger(trigger);

@@ -4,21 +4,129 @@
 
 ### API Changes
 
+### Enhancements
+
+* Updated the theme-parent POM to enforce Maven version checking as building with 3.0.x will fail in a very opaque manner.
+* Moved the Java version check from a slightly convoluted ANT check to Maven.
+
 ### Bug Fixes
-* Debounce / throttle rapidly repeated requests for the same theme resources to prevent superfluous network requests #1274
+
+* Added a workaround to width calculation errors in UC Browser on Android OSs #1354.
+* Fixed a flaw which could result in duplicate IDs in responsive menus #1357.
+* Fixed a flaw in placeholder manipulation during mandatory/optional toggling #1360.
+* Fixed a11y issues caused by labelling of mandatory fields #1359.
+
+## Release 1.4.9
 
 ### Enhancements
+
+* Allow more granular control over features available in image editor
+* Apply config overrides when image editor opened instead of page load so that it is easier to set config "in time"
+* Implemented new features in image editor:
+  * center image
+  * reset image
+* Update WAI-ARIA analog class to treat RETURN as equivalent to SPACE for all analogs #1351, QC 169101.
+
+### Bug Fixes
+
+* Provided Sass to work around an IE feature in which buttons with element descendants show unexpected cursor behaviour QC 168545.
+
+## Release 1.4.9
+
+### Enhancements
+
+* Moved placeholder text determination to the renderers to reduce the reliance on client side i18n.
+* Improved render performance by removing a superfluous call to `hasTabIndex()` in order to set a `tabIndex` attribute. `hasTabIndex()` will always
+  return `false` so this was a waste of everyone's time and clock #373.
+
+### Bug Fixes
+
+* Fixed issue which could result in a label:input pair ending up in an invalid state after AJAX of specific inputs #1337.
+* Fix issue which could result in labels for individual mandatory WRadioButtons being decorated with a mandatory indicator #1335.
+* Fix issue where tree menu icons were not expanded after round trip #1325.
+* Updated timeout warning artefact and JavaScript to overcome an accessibility issue #1333.
+* Fixed a CSS error which caused items at the top level of a WMenu of types BAR or FLYOUT to render incorrectly if they had anything other than
+  simple text content #1330.
+* Fixed a flaw in update calculation which resulted in unsaved changes warnings not appearing in very specific circumstances #1237.
+* Fixed an error which could cause out-of-viewport labels to be rendered in viewport #1326.
+* Fixed some errors in examples which caused a race which could result in null pointer exceptions #1327.
+* Clean up XSLT, schema references and broken examples of non-resizeable dialogs as `resizable` has been mandatory for several releases #606.
+* Fixed an omission which could result in an application being able to avoid the `submitOnChange` warning text in labels #1255.
+
+## Release 1.4.8
+
+### Enhancements
+
+* Added "application/dicom" to mimemap.json #1321.
+* Removed colormap.xml as it is not being used: use colormap.json instead.
+* More Sass workarounds for UC Browser issues #1295.
+
+### Bug Fixes
+
+* Fixed an XSLT bug which caused WTable's expand-all button to fail when row expansion is LAZY or DYNAMIC #1319.
+
+## Release 1.4.7
+
+### Bug Fixes
+
+* Fix CSS bug which resulted in a calendar date picker not rendering as expected when in a dialog box #1309.
+* Fix a bug which would cause a self-opening dialog to attempt to reopen itself on click #1311.
+* Fix a bug which could cause erroneous ajax requests #1312.
+
+### Enhancements
+
+* WTabSet:
+  - Added methods to WTabSet to allow easier/less verbose creation of tabs by making the TabMode argument optional.
+  - Deprecated the unused members `setShowHeadOnly` and `isShowHeadOnly` which have never been implemented and which were a hangover from a very old and rather poor design concept. No replacement: never implemented.
+  - Deprecated `setActionOnChange` and `getActionOnChange` as changing tabs should not have a side effect _and_ these actions are inconsistent unless the (no longer supported) `TabMode.SERVER` is used for **all** tabs in the tabset. No replacement: a tabset should not have an action on tab change other than show the relevant tab.
+  - Added `protected addTab(WTab)` as a replacement for the deprecated `public add(WTab)`.
+* WImageEditor:
+  - Can now render the editor controls inline (as opposed to the default, in a popup).
+
+## Release 1.4.6
+
+### API Changes
+
+### Bug Fixes
+
+* Fixed a race condition which could result in modal dialogs not being modal #1296
+* Improved Mustache memory handling #1290
+* Fixed a JavaScript flaw which could result in error messages being misplaced in some circumstances #1288.
+
+### Enhancements
+
+* Updated Sass to produce better rendering in UC Browser #1295:
+  - added a has test to detemine if a browser does not support CSS fle;
+  - added a has test `has("uc")`;
+  - added UC pattern Sass to fix major rendering issues.
+* Enhanced the SubordinateBuilder & associated classes to remove the final declaration allowing for extendibility.
+* Added yet more enhanced AJAX error handling.
+
+## Release 1.4.5
+
+### Bug Fixes
+
+* Debounce / throttle rapidly repeated requests for the same theme resources to prevent superfluous network requests #1274
+* Fixed a flaw which caused WPartialDateField's calendar to render poorly on some mobile devices #1280.
+
+### Enhancements
+
+* Added Sass to allow re-implementation of support for WField.inputWidth from 1 - 99 in sub-themes based only on Sass variables #1278.
+* Added a close icon to the header of the timeout warnings. These warnings can be closed by clicking anywhere (or pressing ESCAPE) but that is not immediately obvious and the close icon is merely a visual queue to indicate the box may be dismissed. Note that for screenreaders etc the box is exposed as an alert which has implicit ESCAPE to dismiss.
 
 ## Release 1.4.4
 
 ### API Changes
+
 * JS only: deprecated the use of wc/i18n/i18n as a loader plugin (in favor of async methods).
 
 ### Bug Fixes
+
 * Fix flaw which caused WButton with a message to not stop ajax submit if the button was an ajax trigger **and** the user chooses to cancel the button action # 1266.
 * Fix flaw which prevented WShuffler acting as an ajax trigger #1267.
 
 ### Enhancements
+
 * Better handling of rejected promises in Subscribers to the Observer module.
 * Upgraded FabricJS 1.7.11 -> 1.7.14 to fix issues in Internet Explorer 11.
 * Allow custom AJAX error handlers so that we can handle *any* response format conceivable, e.g. XML, JSON, protobuf, binary.

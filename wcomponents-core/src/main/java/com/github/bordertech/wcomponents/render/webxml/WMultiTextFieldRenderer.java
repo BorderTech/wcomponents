@@ -4,6 +4,9 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WMultiTextField;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.HtmlRenderUtil;
+import com.github.bordertech.wcomponents.util.I18nUtilities;
+import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.Util;
 
 /**
@@ -47,7 +50,6 @@ class WMultiTextFieldRenderer extends AbstractWebXmlRenderer {
 			String pattern = textField.getPattern();
 			xml.appendOptionalAttribute("disabled", textField.isDisabled(), "true");
 			xml.appendOptionalAttribute("required", textField.isMandatory(), "true");
-			xml.appendOptionalAttribute("tabIndex", textField.hasTabIndex(), textField.getTabIndex());
 			xml.appendOptionalAttribute("toolTip", textField.getToolTip());
 			xml.appendOptionalAttribute("accessibleText", textField.getAccessibleText());
 			xml.appendOptionalAttribute("size", cols > 0, cols);
@@ -55,7 +57,8 @@ class WMultiTextFieldRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("maxLength", maxLength > 0, maxLength);
 			xml.appendOptionalAttribute("max", maxInputs > 0, maxInputs);
 			xml.appendOptionalAttribute("pattern", !Util.empty(pattern), pattern);
-			xml.appendOptionalAttribute("placeholder", textField.getPlaceholder());
+			xml.appendOptionalAttribute("placeholder", HtmlRenderUtil.getEffectivePlaceholder(textField));
+			xml.appendOptionalAttribute("title", I18nUtilities.format(null, InternalMessages.DEFAULT_MULTI_FORM_COMPONENT_TIP));
 		}
 		xml.appendClose();
 

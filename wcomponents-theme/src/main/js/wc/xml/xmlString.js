@@ -49,15 +49,15 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 		this.from = function(xmlstring) {
 			var domParser;
 
-			function useDomParser(xmlstring) {
-				return domParser.parseFromString(xmlstring, "text/xml");
+			function useDomParser(onXmlString) {
+				return domParser.parseFromString(onXmlString, "text/xml");
 			}
 
-			function useActiveX(xmlstring) {
+			function useActiveX(onXmlString) {
 				var xmlObj = new window.ActiveXObject("Microsoft.XMLDOM");
 				xmlObj.async = false;
-				if (!(xmlObj.loadXML(xmlstring))) {
-					throw new Error("Unable to parse XML string\n" + xmlstring);
+				if (!(xmlObj.loadXML(onXmlString))) {
+					throw new Error("Unable to parse XML string\n" + onXmlString);
 				}
 				return xmlObj;
 			}

@@ -10,13 +10,12 @@
   width: 100%;
 
   a {
-    left: -9999px;
-    position: absolute;
+    @include offscreen;
 
     &:focus {
+      @include onscreen;
       display: inline-block;
       padding: $wc-gap-normal;
-      position: static;
       z-index: $wc-z-index-common; // never found in dialogs.
     }
   }

@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
  * @since 1.0.0
  */
 public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarget,
-		SubordinateTrigger, SubordinateTarget {
+		SubordinateTrigger, SubordinateTarget, Placeholderable {
 	// ================================
 	// Action/Event handling
 
@@ -139,23 +139,23 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 	}
 
 	/**
-	 * Set placeholder text which will appear in the field if it is editable and has no content.
-	 * @param placeholder The text to set as the
+	 * {@inheritDoc}
 	 */
+	@Override
 	public void setPlaceholder(final String placeholder) {
 		getOrCreateComponentModel().placeholder = placeholder;
 	}
 
 	/**
-	 *
-	 * @return The placeholder text for the field.
+	 * {@inheritDoc}
 	 */
+	@Override
 	public String getPlaceholder() {
 		return getComponentModel().placeholder;
 	}
 
 	/**
-	 * Override WInput's validateComponent to perform futher validation on email addresses.
+	 * Override WInput's validateComponent to perform further validation on email addresses.
 	 *
 	 * @param diags the list into which any validation diagnostics are added.
 	 */

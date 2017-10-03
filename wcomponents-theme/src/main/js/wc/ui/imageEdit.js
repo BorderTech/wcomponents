@@ -30,7 +30,14 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		quality: 1,  // only if format is jpeg
 		multiplier: 1,
 		face: false,
+		rotate: true,
+		zoom: true,
+		move: true,
 		redact: false,
+		reset: true,
+		undo: true,
+		cancel: true,
+		save: true,
 		crop: true
 	};
 
@@ -49,20 +56,10 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 			undoRedo,
 			registeredIds = {},
 			fbCanvas,
-			BUTTON = new Widget("button");
+			BUTTON = new Widget("button"),
+			NOOP = function() {
 
-
-		function getDialogFrameConfig(onclose) {
-			return i18n.translate("imgedit_title").then(function(title) {
-				return {
-					onclose: onclose,
-					id: "wc_img_editor",
-					modal: true,
-					resizable: true,
-					title: title
-				};
-			});
-		}
+			};
 
 		this.getCanvas = function() {
 			return fbCanvas;
@@ -74,18 +71,24 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		 * @param {Object[]} arr Configuration objects.
 		 */
 		this.register = function(arr) {
-			var i, next;
+			var i, next, inline = [];
 			for (i = 0; i < arr.length; i++) {
-				next = mixin(this.defaults);  // make a copy of defaults
-				next = mixin(arr[i], next);  // override defaults with explicit settings
+				next = arr[i];
 				registeredIds[next.id] = next;
+				if (next.inline) {
+					inline.push(next);
+				}
 			}
 			if (!inited) {
 				inited = true;
-				require(["wc/dom/initialise", "wc/ui/multiFileUploader"], function(initialise, multiFileUploader) {
+				require(["wc/dom/initialise", "wc/dom/formUpdateManager"], function(initialise, formUpdateManager) {
 					initialise.addCallback(function(element) {
 						event.add(element, "click", clickEvent);
+						handleInline(inline);
+						inline = null;
 					});
+
+					formUpdateManager.subscribe(imageEdit);
 
 					/**
 					 * Listens for edit requests on static images.
@@ -102,10 +105,10 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 									img = document.getElementById(element.getAttribute("data-wc-img"));
 									if (img) {
 										file = imgToFile(img);
-										multiFileUploader.upload(uploader, [file]);
+										imageEdit.upload(uploader, [file]);
 									} else {
 										var win = function(files) {
-											multiFileUploader.upload(uploader, files, true);
+											imageEdit.upload(uploader, files, true);
 										};
 										var lose = function(message) {
 											if (message) {
@@ -126,12 +129,22 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		};
 
 		/**
+		 * Shares a method signature with multifileuploader upload (which overrides this method).
+		 */
+		this.upload = NOOP;
+
+		/**
+		 * Will be overriden in some circumstances.
+		 */
+		this.writeState = NOOP;
+
+		/**
 		 * Retrieve a configuration object.
 		 * @param {Object} obj Get the configuration registered for the "id" or "name" property of this object (in that order).
 		 * @returns {Object} configuration
 		 */
 		this.getConfig = function(obj) {
-			var editorId, result;
+			var editorId, result, defaultConfig;
 			if (obj) {
 				result = registeredIds[obj.id] || registeredIds[obj.name];
 				if (!result) {
@@ -145,7 +158,12 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 					}
 				}
 			}
-			return result || mixin(this.defaults);
+			if (!result || !result.__wcmixed) {
+				defaultConfig = mixin(this.defaults);  // make a copy of defaults;
+				result = mixin(result, defaultConfig);  // override defaults with explicit settings
+				result.__wcmixed = true;  // flag that we have mixed in the defaults so it doesn't need to happen again
+			}
+			return result;
 		};
 
 		/**
@@ -187,8 +205,8 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 			/*
 			 * Once the user has commited their changes buffer the result and see if there is another file queued for editing.
 			 */
-			function saveEditedFile(file) {
-				result.push(file);
+			function saveEditedFile(fileToSave) {
+				result.push(fileToSave);
 				editNextFile();
 			}
 
@@ -198,7 +216,13 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 			function editNextFile() {
 				if (files && idx < files.length) {
 					file = files[idx++];
-					if (file.type.indexOf("image/") === 0) {
+					if (typeof file === "string") {
+						if (file.indexOf("data:image/") === 0) {
+							editFile(config, file, saveEditedFile, onError);
+						} else {
+							console.warn("Not a file", file);
+						}
+					} else if (file.type.indexOf("image/") === 0) {
 						editFile(config, file, saveEditedFile, onError);
 					} else {
 						saveEditedFile(file);
@@ -221,7 +245,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 					win: win,
 					lose: lose
 				},
-				gotEditor = function() {
+				gotEditor = function(editor) {
 					var fileReader;
 					fbCanvas = new fabric.Canvas("wc_img_canvas", {
 						enableRetinaScaling: false
@@ -234,7 +258,9 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 //						}
 //					});
 					overlayUrl = config.overlay;
-					if (file) {
+					if (typeof file === "string") {
+						imageEdit.renderImage(file);
+					} else if (file) {
 						fileReader = new FileReader();
 						fileReader.onload = filereaderLoaded;
 						fileReader.readAsDataURL(file);
@@ -243,6 +269,16 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 							width: fbCanvas.getWidth(),
 							height: fbCanvas.getHeight()
 						});
+					}
+					if (config.sync) {
+						// This is not currently supported on the backend
+						imageEdit.writeState = function() {
+							callbacks.saveFunc = function() {
+								saveImage(editor, callbacks, false);
+							};
+							callbacks.handleSave = saveCanvasAsDataUrl;
+							checkThenSave(callbacks);
+						};
 					}
 				};
 			if (config.face) {
@@ -261,6 +297,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 			} else {
 				getEditor(config, callbacks, file).then(gotEditor);
 			}
+			return callbacks;
 		}
 
 		/*
@@ -268,6 +305,26 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		 */
 		function filereaderLoaded($event) {
 			imageEdit.renderImage($event.target.result);
+		}
+
+		/**
+		 * Displays the editor inline if requested by the user.
+		 * This probably only makes sense with a single inline editor but it's written to handle an array so as not to be mlimited by my imagination.
+		 * @param inline An array of editors that are configured to be inline.
+		 */
+		function handleInline(inline) {
+			var count = inline.length;
+			if (count > 0) {
+				inline.forEach(function(config) {
+					if (config.image) {  // Right now display nothing unless there is an image in the editor, could be changed, but empty editor?
+						imageEdit.editFiles({
+							id: config.id,
+							name: config.id,
+							files: [config.image]
+						});
+					}
+				});
+			}
 		}
 
 		/**
@@ -416,15 +473,51 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 
 		/**
 		 * Show or hide the overlay image.
-		 * @param fbCanvas The FabricJS canvas.
+		 * @param fabricCanvas The FabricJS canvas.
 		 * @param show If truthy unhides (shows) the overlay.
 		 */
-		function showHideOverlay(fbCanvas, show) {
-			var overlay = fbCanvas.overlayImage;
+		function showHideOverlay(fabricCanvas, show) {
+			var overlay = fabricCanvas.overlayImage;
 			if (overlay) {
-				fbCanvas.overlayImage.visible = !!show;
-				fbCanvas.renderAll();
+				fabricCanvas.overlayImage.visible = !!show;
+				fabricCanvas.renderAll();
 			}
+		}
+
+		function getDialogFrameConfig(onclose) {
+			return i18n.translate("imgedit_title").then(function(title) {
+				return {
+					onclose: onclose,
+					id: "wc_img_editor",
+					modal: true,
+					resizable: true,
+					title: title
+				};
+			});
+		}
+
+		function getEditorContext(config, callbacks) {
+			if (config.inline) {
+				var contentContainer = document.getElementById(config.id);
+				if (contentContainer) {
+					return Promise.resolve(callbacks.render(contentContainer));
+				}
+				return Promise.reject("Can not find element", config.id);
+			}
+			return getDialogFrameConfig(function() {
+				imageCapture.stop();
+				callbacks.lose();
+			}).then(function(dialogConfig) {
+				callbacks.rendered = function() {
+					dialogFrame.reposition();
+				};
+				if (dialogFrame.isOpen()) {
+					return callbacks.render(dialogFrame.getContent());
+				}
+				return dialogFrame.open(dialogConfig).then(function() {
+					return callbacks.render(dialogFrame.getContent());
+				});
+			});
 		}
 
 
@@ -438,58 +531,62 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		 * @private
 		 */
 		function getEditor(config, callbacks, file) {
-			return getDialogFrameConfig(function() {
-				imageCapture.stop();
-				callbacks.lose();
-			}).then(function(dialogConfig) {
-				if (dialogFrame.isOpen()) {
-					return renderEditor();
-				}
-				return dialogFrame.open(dialogConfig).then(renderEditor);
-			});
+			callbacks.render = renderEditor;
 
-			function renderEditor() {
+			function renderEditor(contentContainer) {
 				var result = new Promise(function (win, lose) {
 					var container = document.body.appendChild(document.createElement("div")),
 						editorProps = {
 							style: {
 								width: config.width,
-								height: config.height
+								height: config.height,
+								textclass: "wc-off",
+								btnclass: "wc_btn_icon"
 							},
 							feature: {
 								face: false,
-								redact: config.redact
+								rotate: config.rotate,
+								zoom: config.zoom,
+								move: config.move,
+								redact: config.redact,
+								reset: config.reset,
+								undo: config.undo,
+								cancel: config.cancel,
+								save: config.save
 							}
 						},
-						done = function(container) {
-							var dialogContent, eventConfig = attachEventHandlers(container);
-							zoomControls(eventConfig);
-							moveControls(eventConfig);
-							resetControl(eventConfig);
-							cancelControl(eventConfig, container, callbacks, file);
-							saveControl(eventConfig, container, callbacks, file);
-							rotationControls(eventConfig);
+						done = function(cntnr) {
+							var actions = attachEventHandlers(cntnr);
+							zoomControls(actions.events);
+							moveControls(actions.events);
+							resetControl(actions.events);
+							cancelControl(actions.events, cntnr, callbacks, file);
+							saveControl(actions.events, cntnr, callbacks, file);
+							rotationControls(actions.events);
 							if (config.redactor) {
-								config.redactor.controls(eventConfig, container);
+								config.redactor.controls(actions.events, cntnr);
 							}
 
 							if (!file) {
-								classList.add(container, "wc_camenable");
-								classList.add(container, "wc_showcam");
-								imageCapture.snapshotControl(eventConfig, container);
+								classList.add(cntnr, "wc_camenable");
+								classList.add(cntnr, "wc_showcam");
+								imageCapture.snapshotControl(actions.events, cntnr);
 							}
 
-							dialogContent = dialogFrame.getContent();
-							if (dialogContent && container) {
-								dialogContent.innerHTML = "";
-								dialogContent.appendChild(container);
-								dialogFrame.reposition();
+
+							if (contentContainer && cntnr) {
+								contentContainer.innerHTML = "";
+								contentContainer.appendChild(cntnr);
+								if (callbacks.rendered) {
+									callbacks.rendered(contentContainer);
+								}
 							}
-							win(container);
+							win(cntnr);
 						};
 					try {
 						return getTranslations(editorProps).then(function() {
 							container.className = "wc_img_editor";
+							container.setAttribute("data-wc-editor", config.id);
 							template.process({
 								source: TEMPLATE_NAME,
 								loadSource: true,
@@ -507,18 +604,19 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 				});
 				return result;  // a promise
 			}  // end "renderEditor"
+			return getEditorContext(config, callbacks);
 		}
 
 		function getTranslations(obj) {
 			var messages = ["imgedit_action_camera", "imgedit_action_cancel", "imgedit_action_redact",
-				"imgedit_action_redo", "imgedit_action_save", "imgedit_action_snap", "imgedit_action_undo",
-				"imgedit_capture", "imgedit_message_camera", "imgedit_message_cancel", "imgedit_message_move_down",
+				"imgedit_action_redo", "imgedit_action_reset", "imgedit_action_save", "imgedit_action_snap", "imgedit_action_undo",
+				"imgedit_capture", "imgedit_message_camera", "imgedit_message_cancel", "imgedit_message_move_center", "imgedit_message_move_down",
 				"imgedit_message_move_left", "imgedit_message_move_right", "imgedit_message_move_up",
-				"imgedit_message_nocapture", "imgedit_message_redact", "imgedit_message_redo",
+				"imgedit_message_nocapture", "imgedit_message_redact", "imgedit_message_redo", "imgedit_message_reset",
 				"imgedit_message_rotate_left", "imgedit_message_rotate_left90", "imgedit_message_rotate_right",
 				"imgedit_message_rotate_right90", "imgedit_message_save", "imgedit_message_snap",
 				"imgedit_message_undo", "imgedit_message_zoom_in", "imgedit_message_zoom_out", "imgedit_move",
-				"imgedit_move_down", "imgedit_move_left", "imgedit_move_right", "imgedit_move_up", "imgedit_redact",
+				"imgedit_move_center", "imgedit_move_down", "imgedit_move_left", "imgedit_move_right", "imgedit_move_up", "imgedit_redact",
 				"imgedit_rotate", "imgedit_rotate_left", "imgedit_rotate_left90", "imgedit_rotate_right",
 				"imgedit_rotate_right90", "imgedit_zoom", "imgedit_zoom_in", "imgedit_zoom_out"];
 			return i18n.translate(messages).then(function(translations) {
@@ -539,7 +637,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		 * @private`
 		 */
 		function attachEventHandlers(container) {
-			var timer,
+			var eventTimer,
 				MAX_SPEED = 10,
 				MIN_SPEED = 0.5,
 				START_SPEED = 1.5,
@@ -557,15 +655,10 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 			event.add(container, "touchend", pressEnd);
 
 			function clickEvent($event) {
-				var element = $event.target,
-					config = getEventConfig(element, "click");
-				if (!config) {
+				var element = $event.target;
+				if (!invoke.call(this, element, "click", $event)) {
 					element = BUTTON.findAncestor(element);
-					config = getEventConfig(element, "click");
-				}
-				if (config) {
-					pressEnd();
-					timer = timers.setTimeout(config.func.bind(this, config, $event), 0);
+					invoke.call(this, element, "click", $event);
 				}
 			}
 
@@ -586,29 +679,56 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 					config= getEventConfig(element, "press");
 				if (config) {
 					pressEnd();
-					timer = timers.setInterval(callbackWrapper, 100, config);
+					eventTimer = timers.setInterval(callbackWrapper, 100, config);
 				}
 			}
 
 			function pressEnd() {
 				speed = START_SPEED;
-				if (timer) {
-					timers.clearInterval(timer);
+				if (eventTimer) {
+					timers.clearInterval(eventTimer);
 				}
 			}
 
-			function getEventConfig(element, type) {
-				if (!element) {
+			/**
+			 * Gets the configuration for a particular event.
+			 * @param {Element|String} action Either an element which should trigger an action (e.g. a save button) or the name of the action (e.g. "save")
+			 * @param {String} type The type of event, e.g. "click" or "press"
+			 * @returns A config object which knows how to action an event.
+			 */
+			function getEventConfig(action, type) {
+				var isString = typeof action === "string";
+				if (!action) {
 					return null;
 				}
-				var name = element.name;
-				if ((element.localName === "button" || element.type === "checkbox") && name && eventConfig[type]) {
+				var name = isString ? action : action.name;
+				if ((isString || action.localName === "button" || action.type === "checkbox") && name && eventConfig[type]) {
 					return eventConfig[type][name];
 				}
 				return null;
 			}
 
-			return eventConfig;
+			/**
+			 * Used to invoke an action on this editor.
+			 * @param {Element|String} action Either an element which should trigger an action (e.g. a save button) or the name of the action (e.g. "save")
+			 * @param {String} type The type of event, e.g. "click" or "press"
+			 * @param payload Optionally provide a payload to be passed to the handler.
+			 * @returns {Boolean} true if a matching action was found and (queued to be) invoked.
+			 */
+			function invoke(action, type, payload) {
+				var result = false,
+					config = getEventConfig(action, type || "click");
+				if (config) {
+					result = true;
+					pressEnd();
+					eventTimer = timers.setTimeout(config.func.bind(this, config, payload), 0);
+				}
+				return result;
+			}
+
+			return {
+				events: eventConfig
+			};
 		}
 
 		/*
@@ -674,7 +794,8 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		 * Wires up the "move" feature.
 		 */
 		function moveControls(eventConfig) {
-			var press = eventConfig.press;
+			var press = eventConfig.press,
+				click = eventConfig.click;
 			press.up = {
 				func: numericProp,
 				prop: "Top",
@@ -697,6 +818,15 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 				func: numericProp,
 				prop: "Left",
 				step: 1
+			};
+
+			click.center = {
+				func: function() {
+					var fbImage = imageEdit.getFbImage();
+					if (fbImage) {
+						fbImage.center();
+					}
+				}
 			};
 		}
 
@@ -773,6 +903,13 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 					}
 				}
 			};
+			click.reset = {
+				func: function() {
+					if (undoRedo) {
+						undoRedo.reset();
+					}
+				}
+			};
 		}
 
 		/*
@@ -796,47 +933,57 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		 * Wires up the "save" feature.
 		 */
 		function saveControl(eventConfig, editor, callbacks, file) {
-			var click = eventConfig.click,
-				saveFunc = function() {
-					saveImage(editor, callbacks, false, file);
-				};
+			var click = eventConfig.click;
+			callbacks.saveFunc = function() {
+				saveImage(editor, callbacks, false, file);
+			};
 			click.save = {
-				func: function () {
-					if (imageEdit.getFbImage()) {
-						if (callbacks.validate) {
-							showHideOverlay(fbCanvas);  // This hide is for the validation, not the save.
-							callbacks.validate(fbCanvas.getElement()).then(function(error) {
-								if (error) {
-									showHideOverlay(fbCanvas, true);  // Unhide the overlay post validation (save will have to hide it again).
-									if (error.ignorable) {
-										prompt.confirm(error, function(ignoreValidationError) {
-											if (ignoreValidationError) {
-												saveFunc();
-											} else {
-												callbacks.lose();
-											}
-										});
-									} else {
-										callbacks.lose(error);
-									}
-								} else {
-									saveFunc();
-								}
-
-							}, function() {
-								callbacks.lose();
-							});
-						} else {
-							saveFunc();
-						}
-					} else {
-						// we should only be here if the user has not taken a snapshot from the video stream
-						i18n.translate("imgedit_noimage").then(function(message) {
-							prompt.alert(message);
-						});
-					}
+				func: function() {
+					callbacks.handleSave = saveCanvasAsFile;
+					checkThenSave(callbacks);
 				}
 			};
+			return click.save;
+		}
+
+		/**
+		 * One step before the exit point (which is "saveImage") do some checks before actually saving.
+		 * @param callbacks
+		 */
+		function checkThenSave(callbacks) {
+			if (imageEdit.getFbImage()) {
+				if (callbacks.validate) {
+					showHideOverlay(fbCanvas);  // This hide is for the validation, not the save.
+					callbacks.validate(fbCanvas.getElement()).then(function(error) {
+						if (error) {
+							showHideOverlay(fbCanvas, true);  // Unhide the overlay post validation (save will have to hide it again).
+							if (error.ignorable) {
+								prompt.confirm(error, function(ignoreValidationError) {
+									if (ignoreValidationError) {
+										callbacks.saveFunc();
+									} else {
+										callbacks.lose();
+									}
+								});
+							} else {
+								callbacks.lose(error);
+							}
+						} else {
+							callbacks.saveFunc();
+						}
+
+					}, function() {
+						callbacks.lose();
+					});
+				} else {
+					callbacks.saveFunc();
+				}
+			} else {
+				// we should only be here if the user has not taken a snapshot from the video stream
+				i18n.translate("imgedit_noimage").then(function(message) {
+					prompt.alert(message);
+				});
+			}
 		}
 
 		/**
@@ -866,7 +1013,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 						console.log("No changes made, using original file");
 						result = file;  // if the user has made no changes simply pass thru the original file.
 					} else {
-						result = saveCanvasAsFile(file);
+						result = callbacks.handleSave(editor, file);
 					}
 					done();
 					callbacks.win(result);
@@ -897,7 +1044,58 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 			return group;
 		}
 
-		function saveCanvasAsFile(file) {
+		/**
+		 * Intended for synchronous upload, will add the edited image to the form as a base64 encoded data URL.
+		 * The initiating file input will be disabled so that the base64 field can masquerade in its place.
+		 * @param {Element} editor The file input associated with the image we are editing.
+		 */
+		function saveCanvasAsDataUrl(editor) {
+			var param, form, formWd, fileSelector, stateField, serialized = canvasToDataUrl();
+			if (serialized) {
+				fileSelector = getFileSelector(editor);
+				if (fileSelector) {
+					param = fileSelector.name;
+					if (param) {
+						formWd = new Widget("form");
+						form = formWd.findAncestor(fileSelector);
+						fileSelector.disabled = true;
+						stateField = form.appendChild(document.createElement("input"));
+						stateField.type = "hidden";
+						stateField.name = param;
+						stateField.value = serialized;
+					}
+				}
+			}
+			return stateField;
+		}
+
+		function getFileSelector(editor) {
+			// TODO this doesn't seem right
+			var result, editorId = editor.getAttribute("data-wc-editor");
+			result = document.querySelector("input[type=file][data-wc-editor=" + editorId + "]");
+			return result;
+		}
+
+		/**
+		 * Save the canvas as a binary file.
+		 * @param {Element} editor The file input associated with the image we are editing.
+		 * @param {Blob} file The original image file being edited.
+		 * @returns {File} The edited image as a file / blob.
+		 */
+		function saveCanvasAsFile(editor, file) {
+			var result = canvasToDataUrl();
+			if (result) {
+				result = dataURItoBlob(result);
+				result = blobToFile(result, file);
+			}
+			return result;
+		}
+
+		/**
+		 * Serialize the edited image on the canvas to a data url.
+		 * @returns {string} The image on the canvas as a data url.
+		 */
+		function canvasToDataUrl() {
 			var result, toDataUrlParams, config, object,
 				fbImage = imageEdit.getFbImage();
 			if (fbImage) {
@@ -925,8 +1123,6 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 				// canvasElement = fbCanvas.getElement();
 				// result = canvasElement.toDataURL();
 				result = fbCanvas.toDataURL(toDataUrlParams);
-				result = dataURItoBlob(result);
-				result = blobToFile(result, file);
 			}
 			return result;
 		}

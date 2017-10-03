@@ -60,16 +60,12 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 				 * @type Boolean
 				 * @private
 				 */
-				isEnabled = true;
-
-			initialise();
-
-			function initialise() {
-				var config = wcconfig.get("wc/ui/backToTop");
-				if (config) {
-					MIN_SCROLL_BEFORE_SHOW = config.scroll || MIN_SCROLL_BEFORE_SHOW;
-				}
-			}
+				isEnabled = true,
+				/**
+				 * Custon configuration
+				 * @type Object
+				 */
+				config;
 
 			/**
 			 * Click event handler to scroll the page when the back to top link is clicked.
@@ -169,9 +165,7 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 			 * @public
 			 */
 			this.initialise = function(/* element */) {
-				if (isEnabled) {
-					addRemoveEventHandlers(true);
-				}
+				this.setEnabled(true);
 			};
 
 			/**
@@ -181,13 +175,24 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 			 */
 			this.setEnabled = function(enable) {
 				isEnabled = !!enable;
-				if (!enable) {
-					toggle(false);  // just in case the link is showing at the time it is turned off.
-					addRemoveEventHandlers(enable);
+				if (enable) {
+					config = config || wcconfig.get("wc/ui/backToTop");
+					if (config) {
+						MIN_SCROLL_BEFORE_SHOW = config.scroll || MIN_SCROLL_BEFORE_SHOW;
+					}
+				} else {
+					toggle(false); // just in case the link is showing at the time it is turned off.
 				}
+				addRemoveEventHandlers(enable);
 			};
 		}
 		var /** @alias module:wc/ui/backToTop */ instance = new BackToTop();
 		initialise.register(instance);
 		return instance;
+
+		/**
+		 * @typedef {Object} module:wc/ui/backToTop~config Configuration for the back to top link.
+		 * @property {int} scroll The number of pixels to scroll before showing the back to top link. If 0 then the scroll to top link will appear
+		 *  when more than one viewport height of scroll has occurred.
+		 */
 	});
