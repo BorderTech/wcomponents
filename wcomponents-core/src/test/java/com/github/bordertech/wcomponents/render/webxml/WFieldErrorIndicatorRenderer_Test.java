@@ -8,8 +8,8 @@ import com.github.bordertech.wcomponents.validation.WFieldErrorIndicator;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
+import org.junit.Assert;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -27,8 +27,7 @@ public class WFieldErrorIndicatorRenderer_Test extends AbstractWebXmlRendererTes
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WFieldErrorIndicator indicator = new WFieldErrorIndicator(new WTextField());
-		Assert.assertTrue("Incorrect renderer supplied",
-				getWebXmlRenderer(indicator) instanceof WFieldErrorIndicatorRenderer);
+		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(indicator) instanceof WFieldErrorIndicatorRenderer);
 	}
 
 	@Test
