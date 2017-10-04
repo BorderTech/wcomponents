@@ -118,8 +118,8 @@ define(["intern!object", "intern/chai!assert", "wc/ui/errors", "./resources/test
 					errorContainerId = id + "_err",
 					INITIAL_ERROR = "some existing error",
 					testElementHTML = "<input id='" + id + "' aria-invalid='true' aria-described-by='" + errorContainerId + "'>\n\
-<span class='wc-fieldindicator wc-fieldindicator-type-error' id='" + errorContainerId + "'><i aria-hidden='true' class='fa fa-times-circle'></i>\n\
-<span class='wc-error'>" + INITIAL_ERROR + "</span></span>",
+<span class='wc-diagnostic wc-diagnostic-type-error' id='" + errorContainerId + "'><i aria-hidden='true' class='fa fa-times-circle'></i>\n\
+<span class='wc-message'>" + INITIAL_ERROR + "</span></span>",
 					element,
 					errorContainer,
 					props;

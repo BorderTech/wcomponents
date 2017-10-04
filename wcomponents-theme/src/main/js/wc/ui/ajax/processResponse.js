@@ -41,8 +41,6 @@ define(["wc/Observer",
 						};
 						if (this._errors) {
 							cb(this._errors);
-						} else {
-							require(["wc/ui/errors"], cb, cb);
 						}
 					}
 				},

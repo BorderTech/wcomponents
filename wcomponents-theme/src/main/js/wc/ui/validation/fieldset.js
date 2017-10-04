@@ -42,9 +42,11 @@ define(["wc/i18n/i18n",
 				var legend = getFirstLabelForElement(fset, true) || fset.title,
 					message = i18n.get("validation_common_incompletegroup", legend);
 
-				validationManager.flagError({element: fset,
+				validationManager.flagError({
+					element: fset,
 					message: message,
-					position: "beforeEnd"});
+					position: "beforeEnd"
+				});
 			}
 
 			/**
