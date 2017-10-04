@@ -1,10 +1,12 @@
-define(["wc/dom/diagnostic",
+define(["wc/array/toArray",
+	"wc/dom/diagnostic",
 	"wc/dom/classList",
-	"wc/ui/icon",
 	"wc/dom/tag",
 	"wc/dom/wrappedInput",
-	"wc/ui/getFirstLabelForElement"],
-	function(diagnostic, classList, icon, tag, wrappedInput, getFirstLabelForElement) {
+	"wc/ui/icon",
+	"wc/ui/getFirstLabelForElement",
+	"wc/config"],
+	function(toArray, diagnostic, classList, tag, wrappedInput, icon, getFirstLabelForElement, wcconfig) {
 		"use strict";
 
 		function Diagnostic() {
@@ -21,8 +23,8 @@ define(["wc/dom/diagnostic",
 			}
 
 			function changeIcon(diag, fromLevel, toLevel) {
-				var oldClass = diagnostic.getIconName(fromLevel),
-					newClass = diagnostic.getIconName(toLevel);
+				var oldClass = getIconName(fromLevel),
+					newClass = getIconName(toLevel);
 				icon.change(diag, oldClass, newClass);
 			}
 
@@ -47,18 +49,156 @@ define(["wc/dom/diagnostic",
 						element.removeAttribute(INVALID_ATTRIB);
 						element.removeAttribute(DESCRIBED_ATTRIB);
 						return;
-					} else if ((diag = diagnostic.getDiagnostic(target, diagnostic.LEVEL.ERROR))) {
+					} else if ((diag = diagnostic.getBox(target, diagnostic.LEVEL.ERROR))) {
 						element.setAttribute(INVALID_ATTRIB, "true");
 						element.setAttribute(DESCRIBED_ATTRIB, diag.id);
 					}
 				}
 			}
 
+			/**
+			 * Get the font awesome icon name for a diagnostic box of a given level.
+			 * @param {type} level
+			 * @returns {String}
+			 */
+			function getIconName(level) {
+				var defaultIcon = "fa-times-circle",
+					config = wcconfig.get("wc/ui/diagnostic");
+
+				if (config && config.errorIcon) {
+					defaultIcon = config.errorIcon;
+				}
+				if (!level || level === diagnostic.LEVEL.ERROR) {
+					return defaultIcon;
+				}
+				switch (level) {
+					case diagnostic.LEVEL.WARN:
+						if (config && config.warnIcon) {
+							return config.warnIcon;
+						}
+						return "fa-exclamation-triangle";
+					case diagnostic.LEVEL.INFO:
+						if (config && config.infoIcon) {
+							return config.infoIcon;
+						}
+						return "fa-info-circle";
+					case diagnostic.LEVEL.SUCCESS:
+						if (config && config.successIcon) {
+							return config.successIcon;
+						}
+						return "fa-check-circle";
+					default:
+						return defaultIcon;
+				}
+			}
+
+			function addHelper(diag, message) {
+				var i,
+					current;
+				if (!(diag && diagnostic.getWidget().isOneOfMe(diag))) {
+					throw new TypeError("Argument must be a diagnostic box");
+				}
+				if ((current = this.getMessages(diag))) {
+					for (i = 0; i < current.length; ++i) {
+						if (message.toLocaleLowerCase() === current[i].innerHTML.toLocaleLowerCase()) {
+							// already have this message
+							return;
+						}
+					}
+				}
+				diag.insertAdjacentHTML("beforeEnd", getMessageHTML(message));
+			}
+
+			function getMessageHTML(message) {
+				var tagName,
+					attrib = "class='",
+					widget;
+				if (message && message.constructor !== String) {
+					if (message.toString) {
+						message = message.toString();
+					} else {
+						throw new TypeError("Message must be a string");
+					}
+				}
+				widget = diagnostic.getMessage();
+				tagName = widget.tagName;
+				attrib += widget.className + "'";
+				return tag.toTag(tagName, false, [attrib]) + message + tag.toTag(tagName, true);
+			}
+
+			/**
+			 * Generate the HTML to create a diagnostic box.
+			 * @function
+			 * @private
+			 * @param {Object} args
+			 * @param {Element} [args.el] The element which is the diagnostic target if not set then args.id must be set.
+			 * @param {String} [args.id] The base id for the diagnostic box. If not set then args.el must be an element with an id.
+			 * @param {int} [args.level=1] the diagnostic level, defaults to ERROR
+			 * @param {String|String[]|NodeList} [args.messages] If `falsey` then the diagnostic box will be empty. If a String the diagnostic will
+			 *   contain one message containing this String. If a NodeList then the diagnostic messages will be the innerHTML of each element node
+			 *   in the NodeList and the textContent of each text node in the NodeList. If something else the messages are treated as a single
+			 *   "thing" and the diagnostic box will attempt to call toString() on it.
+			 * @returns {Object} property html: The HTML which creates a complete diagnostic box, property id: the id of the added box
+			 */
+			function getHTML(args) {
+				var el = args.el,
+					level = args.level || diagnostic.LEVEL.ERROR,
+					messages = args.messages,
+					boxWidget,
+					id,
+					tagName,
+					classAttrib = "class='",
+					idAttrib = "id='",
+					roleAttrib = "role='alert'",
+					html,
+					levelIcon;
+
+				id = args.id || (el ? el.id : null);
+				if (!id) {
+					throw new TypeError("Cannot get error box without an id.");
+				}
+				id += + diagnostic.getIdExtension(level);
+
+				boxWidget = diagnostic.getByType(level);
+				tagName = boxWidget.tagName;
+				idAttrib += id + "'";
+				classAttrib += boxWidget.className + "'";
+				html = tag.toTag(tagName, false, [idAttrib, classAttrib, roleAttrib]);
+				if ((levelIcon = getIconName(level))) {
+					html += "<i aria-hidden='true' class='fa-fw " + levelIcon + "'></i>";
+				}
+				if (messages) {
+					if (messages.constructor === NodeList) {
+						messages = (toArray(messages)).map(function(next) {
+							if (next.nodeType === Node.ELEMENT_NODE) {
+								return next.innerHTML;
+							}
+							if (next.textContent) {
+								return next.textContent;
+							}
+							return null;
+						});
+					}
+					if (Array.isArray(messages)) {
+						messages.forEach(function(next) {
+							html += getMessageHTML(next);
+						});
+					} else {
+						html += getMessageHTML(messages);
+					}
+				}
+				html += tag.toTag(tagName, true);
+				return {html: html, id: id};
+			}
+
 			this.change = function(diag, toLevel, target) {
 				var oldLevel,
 					oldClass,
 					newClass,
-					realTarget;
+					realTarget,
+					oldIdExtension,
+					newIdExtension,
+					testId;
 				if (!toLevel || toLevel < 1) {
 					console.log("twit");
 					return;
@@ -72,6 +212,15 @@ define(["wc/dom/diagnostic",
 				oldClass = diagnostic.getBoxClass(oldLevel);
 				if (oldClass === newClass) {
 					// we probably tried to get to a non-existent level.
+					return;
+				}
+				newIdExtension = diagnostic.getIdExtension(toLevel);
+				oldIdExtension = diagnostic.getIdExtension(oldLevel);
+				testId = diag.id.replace(oldIdExtension, newIdExtension);
+				// if we already have a diagnostic box at the requested level we cannot create a new one
+				if (document.getElementById(testId)) {
+					console.log("cannot create diagnostic box with duplicate id");
+					this.remove(diag, target);
 					return;
 				}
 				classList.add(diag, newClass);
@@ -89,10 +238,10 @@ define(["wc/dom/diagnostic",
 				check(diag);
 				if (Array.isArray(messages)) {
 					messages.forEach(function(next) {
-						diagnostic.add(diag, next);
+						addHelper(diag, next);
 					});
 				} else {
-					diagnostic.add(diag, messages);
+					addHelper(diag, messages);
 				}
 			};
 
@@ -122,7 +271,7 @@ define(["wc/dom/diagnostic",
 					return null;
 				}
 				msgArray = Array.isArray(messages) ? messages : [messages];
-				return diagnostic.getHTML({
+				return getHTML({
 					id: targetId,
 					messages: msgArray,
 					level: level
@@ -170,6 +319,14 @@ define(["wc/dom/diagnostic",
 				return null;
 			};
 
+			/**
+			 * Remove an existing diagnostic box.
+			 * @function
+			 * @public
+			 * @param {Element} [diag] the box to remove if not set then target must be set
+			 * @param {Element} [target] the diagnostic's target if diag is not set or if we already have it. If not set and `diag` is set we can
+			 *   calculate the target element.
+			 */
 			this.remove = function(diag, target) {
 				var realTarget, realDiag;
 
@@ -177,7 +334,7 @@ define(["wc/dom/diagnostic",
 					realTarget = target || diagnostic.getTarget(diag);
 					realDiag = diag;
 				} else if (target && !diag) {
-					realDiag = diagnostic.getDiagnostic(target, -1);
+					realDiag = diagnostic.getBox(target, -1);
 					realTarget = target;
 				}
 

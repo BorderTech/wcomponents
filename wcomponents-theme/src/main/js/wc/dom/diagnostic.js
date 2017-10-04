@@ -1,4 +1,4 @@
-define(["wc/dom/Widget", "wc/dom/tag", "wc/array/toArray", "wc/dom/classList", "wc/config"], function(Widget, tag, toArray, classList, wcconfig) {
+define(["wc/dom/Widget", "wc/dom/tag"], function(Widget, tag) {
 	"use strict";
 
 	function Diagnostic() {
@@ -15,44 +15,15 @@ define(["wc/dom/Widget", "wc/dom/tag", "wc/array/toArray", "wc/dom/classList", "
 			SUCCESS_DIAGNOSTIC,
 			MESSAGE;
 
-
 		/**
-		 * Get the font awesome icon name for a diagnostic box of a given level.
-		 * @param {type} level
-		 * @returns {.wcconfig@call;get.successIcon|.wcconfig@call;get.infoIcon|String|.wcconfig@call;get.errorIcon|.wcconfig@call;get.warnIcon}
+		 * Gets the string extension applied to the id of an element when creating its diagnostic box. This should not be widely used but must be
+		 * public for use in {@link module:wc/ui/diagnostic}.
+		 * @function
+		 * @public
+		 * @param {int} [level=1] the diagnostic box level
+		 * @returns {String} an extension appropriate to the level
 		 */
-		this.getIconName = function(level) {
-			var defaultIcon = "fa-times-circle",
-				config = wcconfig.get("wc/dom/diagnostic");
-
-			if (config && config.errorIcon) {
-				defaultIcon = config.errorIcon;
-			}
-			if (!level || level === this.LEVEL.ERROR) {
-				return defaultIcon;
-			}
-			switch (level) {
-				case this.LEVEL.WARN:
-					if (config && config.warnIcon) {
-						return config.warnIcon;
-					}
-					return "fa-exclamation-triangle";
-				case this.LEVEL.INFO:
-					if (config && config.infoIcon) {
-						return config.infoIcon;
-					}
-					return "fa-info-circle";
-				case this.LEVEL.SUCCESS:
-					if (config && config.successIcon) {
-						return config.successIcon;
-					}
-					return "fa-check-circle";
-				default:
-					return defaultIcon;
-			}
-		};
-
-		function getIdExtension(level) {
+		this.getIdExtension = function(level) {
 			var baseExtension = "_err";
 			if (!level || level === instance.LEVEL.ERROR) {
 				return baseExtension;
@@ -67,23 +38,6 @@ define(["wc/dom/Widget", "wc/dom/tag", "wc/array/toArray", "wc/dom/classList", "
 				default:
 					return baseExtension;
 			}
-		}
-
-		this.getMessageHTML = function(message) {
-			var tagName,
-				attrib = "class='",
-				widget;
-			if (message && message.constructor !== String) {
-				if (message.toString) {
-					message = message.toString();
-				} else {
-					throw new TypeError("Message must be a string");
-				}
-			}
-			widget = this.getMessage();
-			tagName = widget.tagName;
-			attrib += widget.className + "'";
-			return tag.toTag(tagName, false, [attrib]) + message + tag.toTag(tagName, true);
 		};
 
 		/**
@@ -128,73 +82,12 @@ define(["wc/dom/Widget", "wc/dom/tag", "wc/array/toArray", "wc/dom/classList", "
 
 		/**
 		 * Get the HTML class which is applied to messages in an inline diagnostic box.
+		 * @function
+		 * @public
 		 * @returns {String} the value of the HTML class attribute for the diagnostic message.
 		 */
 		this.getMessageClass = function() {
 			return CLASS.MESSAGE;
-		};
-
-		/**
-		 * Generate the HTML to create a diagnostic box.
-		 * @param {Object} args
-		 * @param {Element} [args.el] The element which is the diagnostic target if not set then args.id must be set.
-		 * @param {String} [args.id] The base id for the diagnostic box. If not set then args.el must be an element with an id.
-		 * @param {int} [args.level=1] the diagnostic level, defaults to ERROR
-		 * @param {String|String[]|NodeList} [args.messages] If `falsey` then the diagnostic box will be empty. If a String the diagnostic will
-		 *   contain one message containing this String. If a NodeList then the diagnostic messages will be the innerHTML of each element node in the
-		 *   NodeList and the textContent of each text node in the NodeList. If something else the messages are treated as a single "thing" and the
-		 *   diagnostic box will attempt to call toString() on it.
-		 * @returns {Object} property html: The HTML which creates a complete diagnostic box, property id: the id of the added box
-		 */
-		this.getHTML = function(args) {
-			var el = args.el,
-				level = args.level || this.LEVEL.ERROR,
-				messages = args.messages,
-				boxWidget,
-				id,
-				tagName,
-				classAttrib = "class='",
-				idAttrib = "id='",
-				roleAttrib = "role='alert'",
-				html,
-				icon;
-
-			id = args.id || (el ? el.id : null);
-			if (!id) {
-				throw new TypeError("Cannot get error box without an id.");
-			}
-			id += + getIdExtension(level);
-
-			boxWidget = this.getByType(level);
-			tagName = boxWidget.tagName;
-			idAttrib += id + "'";
-			classAttrib += boxWidget.className + "'";
-			html = tag.toTag(tagName, false, [idAttrib, classAttrib, roleAttrib]);
-			if ((icon = this.getIconName(level))) {
-				html += "<i aria-hidden='true' class='fa-fw " + icon + "'></i>";
-			}
-			if (messages) {
-				if (messages.constructor === NodeList) {
-					messages = (toArray(messages)).map(function(next) {
-						if (next.nodeType === Node.ELEMENT_NODE) {
-							return next.innerHTML;
-						}
-						if (next.textContent) {
-							return next.textContent;
-						}
-						return null;
-					});
-				}
-				if (Array.isArray(messages)) {
-					messages.forEach(function(next) {
-						html += this.getMessageHTML(next);
-					}, this);
-				} else {
-					html += instance.getMessageHTML(messages);
-				}
-			}
-			html += tag.toTag(tagName, true);
-			return {html: html, id: id};
 		};
 
 		/**
@@ -248,6 +141,8 @@ define(["wc/dom/Widget", "wc/dom/tag", "wc/array/toArray", "wc/dom/classList", "
 
 		/**
 		 * Indicates if an element is an inline diagnostic message box.
+		 * @function
+		 * @public
 		 * @param {type} element the element to test
 		 * @param {type} [level] the severity level, one of {@link module:wc/dom/diagnostic.LEVEL} if not set then test for any diagnostic level
 		 * @returns {Boolean}
@@ -268,6 +163,8 @@ define(["wc/dom/Widget", "wc/dom/tag", "wc/array/toArray", "wc/dom/classList", "
 
 		/**
 		 * Indicates if an element is a message within an inline diagnostic message box.
+		 * @function
+		 * @public
 		 * @param {type} element the element to test
 		 * @param {type} [level] the severity level, one of {@link module:wc/dom/diagnostic.LEVEL} if not set then test for any diagnostic level
 		 * @returns {Boolean}
@@ -295,11 +192,13 @@ define(["wc/dom/Widget", "wc/dom/tag", "wc/array/toArray", "wc/dom/classList", "
 
 		/**
 		 * Find all diagnostics belonging to an element.
+		 * @function
+		 * @public
 		 * @param {Element|String} element the element being diagnosed (or its id)
 		 * @param {int} [level=1] the diagnostic level, if not set get ERROR diagnostic box. Set to -1 to get the first of any type.
 		 * @returns {Element?} the diagnostic box of the required level (if any).
 		 */
-		this.getDiagnostic = function (element, level) {
+		this.getBox = function (element, level) {
 			var target,
 				id;
 			if (!element) {
@@ -318,16 +217,18 @@ define(["wc/dom/Widget", "wc/dom/tag", "wc/array/toArray", "wc/dom/classList", "
 
 			if ((id = target.id)) {
 				// shortcut as this is most used
-				id += getIdExtension(level);
+				id += this.getIdExtension(level);
 				return document.getElementById(id);
 			}
 			return null;
 		};
 
 		/**
-		 * Gets the messages already inside a given diagnostic box
+		 * Gets the messages already inside a given diagnostic box.
+		 * @function
+		 * @public
 		 * @param {Element} diag the diagnostic box
-		 * @returns {NodeList?} messages inside the diagnostic box if any
+		 * @returns {NodeList?} messages inside the diagnostic box, if any
 		 */
 		this.getMessages = function(diag) {
 			if (!(diag && DIAGNOSTIC.isOneOfMe(diag))) {
@@ -336,6 +237,14 @@ define(["wc/dom/Widget", "wc/dom/tag", "wc/array/toArray", "wc/dom/classList", "
 			return this.getMessage().findDescendants(diag);
 		};
 
+		/**
+		 * Get the diagnostic level (e.g. LEVEL.ERROR) for a given diagnostic box.
+		 * @function
+		 * @public
+		 * @param {Element} diag the box to test
+		 * @throws {TypeError} if `diag` is not a diagnostic box
+		 * @returns {Number|diagnosticL#1.Diagnostic.LEVEL} the diagnostic level from module:wc/dom/diagnostic.LEVEL or -1 if not found
+		 */
 		this.getLevel = function(diag) {
 			if (!(diag && DIAGNOSTIC.isOneOfMe(diag))) {
 				throw new TypeError("Argument must be a diagnostic box");
@@ -348,6 +257,13 @@ define(["wc/dom/Widget", "wc/dom/tag", "wc/array/toArray", "wc/dom/classList", "
 			return -1;
 		};
 
+		/**
+		 * Remove all messages from a diagnostic box.
+		 * @function
+		 * @public
+		 * @param {Element} diag
+		 * @throws {TypeError} if `diag` is not a diagnostic box
+		 */
 		this.clear = function(diag) {
 			var messages;
 			if (!(diag && DIAGNOSTIC.isOneOfMe(diag))) {
@@ -360,23 +276,13 @@ define(["wc/dom/Widget", "wc/dom/tag", "wc/array/toArray", "wc/dom/classList", "
 			}
 		};
 
-		this.add = function(diag, message) {
-			var i,
-				current;
-			if (!(diag && DIAGNOSTIC.isOneOfMe(diag))) {
-				throw new TypeError("Argument must be a diagnostic box");
-			}
-			if ((current = this.getMessages(diag))) {
-				for (i = 0; i < current.length; ++i) {
-					if (message.toLocaleLowerCase() === current[i].innerHTML.toLocaleLowerCase()) {
-						// already have this message
-						return;
-					}
-				}
-			}
-			diag.insertAdjacentHTML("beforeEnd", this.getMessageHTML(message));
-		};
-
+		/**
+		 * Get the target element of a diagnostic message box.
+		 * @function
+		 * @public
+		 * @param {Element} diag the diagnostic box
+		 * @returns {Element?} the target element of the diagnostic box
+		 */
 		this.getTarget = function(diag) {
 			var targetId,
 				level,
@@ -391,7 +297,7 @@ define(["wc/dom/Widget", "wc/dom/tag", "wc/array/toArray", "wc/dom/classList", "
 				throw new ReferenceError("Should not have a diagnostic box without an ID");
 			}
 			level = this.getLevel(diag);
-			suffix = getIdExtension(level);
+			suffix = this.getIdExtension(level);
 			if (!suffix) {
 				return null;
 			}

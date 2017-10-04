@@ -75,7 +75,7 @@ define(["wc/dom/Widget",
 			 * @param {Element} element the HTML element which was in an error state.
 			 */
 			this.setOK = function(element) {
-				var errorBox = diagnostic.getDiagnostic(element, diagnostic.LEVEL.ERROR);
+				var errorBox = diagnostic.getBox(element, diagnostic.LEVEL.ERROR);
 				if (errorBox) {
 					uiDiagnostic.change(errorBox, diagnostic.LEVEL.SUCCESS);
 					uiDiagnostic.set(errorBox, i18n.get("validation_ok"));
@@ -95,7 +95,7 @@ define(["wc/dom/Widget",
 			 * @returns {Boolean} true if the element is associated with a success message.
 			 */
 			this.isMarkedOK = function(element) {
-				return !!diagnostic.getDiagnostic(element, diagnostic.TYPE.SUCCESS);
+				return !!diagnostic.getBox(element, diagnostic.TYPE.SUCCESS);
 			};
 
 			/**

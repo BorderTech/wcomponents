@@ -255,7 +255,7 @@ define(["wc/dom/classList",
 
 				if (CHECKBOX_WRAPPER.isOneOfMe(el)) {
 					// We want to put the label inside the wrapper but before any diagnostics.
-					refElement = diagnostic.getDiagnostic(el);
+					refElement = diagnostic.getBox(el);
 					if (refElement && refElement.parentNode === el) {
 						el.insertBefore(label, refElement);
 						return;

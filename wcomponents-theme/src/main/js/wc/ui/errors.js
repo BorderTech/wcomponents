@@ -1,7 +1,4 @@
-define([
-	"wc/dom/wrappedInput",
-	"wc/dom/diagnostic",
-	"wc/ui/diagnostic"],
+define(["wc/dom/diagnostic", "wc/ui/diagnostic"],
 	function(diagnostic, uiDiagnostic) {
 		"use strict";
 		/**
@@ -26,15 +23,9 @@ define([
 					return null;
 				}
 				// if the target already has an error box then use it
-				if ((errorContainer = diagnostic.getDiagnostic(target))) {
+				if ((errorContainer = diagnostic.getBox(target))) {
 					uiDiagnostic.change(errorContainer, level);
-					if (Array.isArray(messages)) {
-						messages.forEach(function(next) {
-							diagnostic.add(errorContainer, next);
-						});
-					} else {
-						diagnostic.add(errorContainer, messages);
-					}
+					uiDiagnostic.addMessages(errorContainer, level);
 					return errorContainer.id;
 				}
 				result = uiDiagnostic.add({
@@ -64,7 +55,7 @@ define([
 				}
 				if (diagnostic.isOneOfMe(element)) {
 					uiDiagnostic.remove(element, target);
-				} else if ((errorContainer = diagnostic.getDiagnostic(element))) {
+				} else if ((errorContainer = diagnostic.getBox(element))) {
 					uiDiagnostic.remove(errorContainer, element);
 				}
 			};
@@ -75,10 +66,8 @@ define([
 		 * Note: I have removed the dependency on handlebars to increase this chance this module can continue to
 		 * operate in error conditions for example the network cable being unplugged.
 		 * @module
-		 * @requires wc/dom/tag
-		 * @requires wc/ui/getFirstLabelForElement
-		 * @requires wc/dom/wrappedInput
 		 * @requires wc/dom/diagnostic
+		 * @requires wc/ui/diagnostic
 		 */
 		var instance = new ErrorWriter();
 		return instance;
