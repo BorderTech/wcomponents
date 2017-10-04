@@ -429,7 +429,6 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 	 * @param severity A Diagnostic severity code. e.g. {@link Diagnostic#ERROR}
 	 */
 	protected void showIndicatorsForComponent(final List<Diagnostic> diags, final int severity) {
-
 		InputModel model = getOrCreateComponentModel();
 		if (severity == Diagnostic.ERROR) {
 			model.errorDiagnostics.clear();
@@ -466,6 +465,17 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 		showIndicatorsForComponent(diags, Diagnostic.WARNING);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<Diagnostic> getDiagnostics(final int severity) {
+		InputModel model = getComponentModel();
+		if (severity == Diagnostic.ERROR) {
+			return model.errorDiagnostics;
+		}
+		return model.warningDiagnostics;
+	}
 
 	/**
 	 * {@inheritDoc}

@@ -85,7 +85,9 @@ final class WCheckBoxSelectRenderer extends AbstractWebXmlRenderer {
 				}
 			}
 		}
-
+		if (!readOnly) {
+			DiagnosticRenderUtil.renderDiagnostics(select, renderContext);
+		}
 		xml.appendEndTag("ui:checkboxselect");
 	}
 

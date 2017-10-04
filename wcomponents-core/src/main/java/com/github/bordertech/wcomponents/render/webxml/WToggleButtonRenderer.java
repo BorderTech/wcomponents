@@ -51,6 +51,9 @@ final class WToggleButtonRenderer extends AbstractWebXmlRenderer {
 		if (text != null) {
 			xml.appendEscaped(text);
 		}
+		if (!readOnly) {
+			DiagnosticRenderUtil.renderDiagnostics(toggle, renderContext);
+		}
 		xml.appendEndTag("ui:togglebutton");
 	}
 

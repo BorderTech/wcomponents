@@ -10,7 +10,7 @@ import java.util.Iterator;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface Input extends WComponent, Disableable, Mandatable, DataBound, BeanBound, BeanProviderBound, Labelable {
+public interface Input extends WComponent, Disableable, Mandatable, DataBound, BeanBound, BeanProviderBound, Labelable, Diagnosable {
 
 	// ================================
 	// Validation

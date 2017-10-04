@@ -73,6 +73,7 @@ final class WFieldSetRenderer extends AbstractWebXmlRenderer {
 		}
 
 		xml.appendEndTag("ui:content");
+		DiagnosticRenderUtil.renderDiagnostics(fieldSet, renderContext);
 		xml.appendEndTag("ui:fieldset");
 	}
 }

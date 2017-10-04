@@ -58,6 +58,9 @@ final class WShufflerRenderer extends AbstractWebXmlRenderer {
 			}
 		}
 
+		if (!readOnly) {
+			DiagnosticRenderUtil.renderDiagnostics(shuffler, renderContext);
+		}
 		// End tag
 		xml.appendEndTag("ui:shuffler");
 	}

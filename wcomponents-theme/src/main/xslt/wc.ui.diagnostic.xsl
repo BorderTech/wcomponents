@@ -20,6 +20,7 @@
 						<xsl:otherwise>fa-times-circle</xsl:otherwise>
 					</xsl:choose>
 				</xsl:with-param>
+				<xsl:with-param name="element" select="'i'"/>
 			</xsl:call-template>
 			<xsl:apply-templates />
 		</span>

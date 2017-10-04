@@ -16,7 +16,7 @@ import java.util.List;
  * @since 1.0.0
  */
 public class WFieldSet extends AbstractMutableContainer implements AjaxTarget, SubordinateTarget, Mandatable, Marginable, DropZone,
-		MultiInputComponent {
+		MultiInputComponent, Diagnosable {
 
 	/**
 	 * Describes how the field set's frame is rendered.
@@ -255,6 +255,18 @@ public class WFieldSet extends AbstractMutableContainer implements AjaxTarget, S
 	@Override
 	protected final void showWarningIndicatorsForComponent(final List<Diagnostic> diags) {
 		showIndicatorsForComponent(diags, Diagnostic.WARNING);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<Diagnostic> getDiagnostics(final int severity) {
+		FieldSetModel model = getComponentModel();
+		if (severity == Diagnostic.ERROR) {
+			return model.errorDiagnostics;
+		}
+		return model.warningDiagnostics;
 	}
 
 	/**

@@ -38,6 +38,7 @@
 							</xsl:attribute>
 						</xsl:if>
 					</xsl:element>
+					<xsl:apply-templates select="ui:diagnostic"/>
 				</span>
 			</xsl:otherwise>
 		</xsl:choose>

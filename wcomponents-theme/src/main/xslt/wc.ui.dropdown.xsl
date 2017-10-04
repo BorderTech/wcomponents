@@ -30,6 +30,7 @@
 						</xsl:if>
 						<xsl:apply-templates mode="selectableList"/>
 					</select>
+					<xsl:apply-templates select="ui:diagnostic"/>
 				</span>
 			</xsl:otherwise>
 		</xsl:choose>
@@ -97,6 +98,7 @@
 				</xsl:if>
 				<xsl:apply-templates mode="comboDataList" />
 			</span>
+			<xsl:apply-templates select="ui:diagnostic"/>
 		</span>
 	</xsl:template>
 

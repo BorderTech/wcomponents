@@ -70,6 +70,9 @@ class WMultiTextFieldRenderer extends AbstractWebXmlRenderer {
 			}
 		}
 
+		if (!readOnly) {
+			DiagnosticRenderUtil.renderDiagnostics(textField, renderContext);
+		}
 		xml.appendEndTag("ui:multitextfield");
 	}
 }
