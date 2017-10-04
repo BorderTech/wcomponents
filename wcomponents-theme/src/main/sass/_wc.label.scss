@@ -83,7 +83,8 @@ label + .wc-input-wrapper {
 @if ($wc-label-weight != normal) {
   .wc-checkbox + .wc-label,
   .wc-radiobutton + .wc-label,
-  input + label {
+  input + label,
+  .wc-checkbox .wc-label {
     font-weight: normal;
   }
 }

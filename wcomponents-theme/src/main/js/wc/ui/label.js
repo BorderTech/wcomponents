@@ -239,11 +239,11 @@ define(["wc/dom/classList",
 			 * Move an individual element's label if required.
 			 * @function
 			 * @private
-			 * @param {Element} el a radio button, checkbox or selectToggle-button
+			 * @param {Element} el a WRadioButton, WCheckBox or WSelectToggle-button
 			 */
 			function moveLabel(el) {
 				var labels = getLabelsForElement(el, true),
-					label, wrapper, parent, sibling, diag;
+					label, parent, refElement;
 				if (!(labels && labels.length)) {
 					return;
 				}
@@ -252,24 +252,21 @@ define(["wc/dom/classList",
 				if (label === el.nextSibling) {
 					return;
 				}
-				wrapper = wrappedInput.getWrapper(el) || el; // WSelectToggle is its own wrapper.
-				if (wrapper !== el) {
-					// wrapped input
-					if (CHECKBOX_WRAPPER.isOneOfMe(wrapper)) {
-						// We want to put the label inside the wrapper but before any diagnostics.
-						diag = diagnostic.getDiagnostic(wrapper);
-						if (diag && diag.parentNode === wrapper) {
-							wrapper.insertBefore(label, diag);
-							return;
-						}
-						wrapper.appendChild(label);
+
+				if (CHECKBOX_WRAPPER.isOneOfMe(el)) {
+					// We want to put the label inside the wrapper but before any diagnostics.
+					refElement = diagnostic.getDiagnostic(el);
+					if (refElement && refElement.parentNode === el) {
+						el.insertBefore(label, refElement);
 						return;
 					}
+					el.appendChild(label);
+					return;
 				}
 
-				parent = wrapper.parentNode;
-				if ((sibling = wrapper.nextSibling)) {
-					parent.insertBefore(label, sibling);
+				parent = el.parentNode;
+				if ((refElement = el.nextSibling)) {
+					parent.insertBefore(label, refElement);
 				} else {
 					parent.appendChild(label);
 				}
