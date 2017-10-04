@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+<xs:schema elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<xs:include schemaLocation="attributeGroups.control.xsd"/>
 	<xs:include schemaLocation="attributeGroups.tree.xsd"/>
 	<xs:include schemaLocation="treeItem.xsd"/>
 	<xs:include schemaLocation="margin.xsd"/>
+	<xs:include schemaLocation="diagnostic.xsd"/>
 
 	<xs:element name="tree">
 		<xs:annotation>
 			<xs:documentation>
 				<p>WTree represents a tree view tool. You should note that a tree view tool is a selection toolas per 
-					<a href="http://www.w3.org/TR/2011/CR-wai-aria-20110118/roles#tree">WAI-ARIA Tree role</a>. It
+					<a
+						href="http://www.w3.org/TR/2011/CR-wai-aria-20110118/roles#tree"
+					>WAI-ARIA Tree role</a>. It
 					is directly analogous to a HTML select element with the added enhancement of being able to support
 					nested groups of options.</p>
 				<table>
@@ -30,7 +34,7 @@
 							<td>String</td>
 							<td>yes</td>
 							<td>"x"</td>
-							<td></td>
+							<td/>
 						</tr>
 						<tr>
 							<td>@id</td>
@@ -53,8 +57,9 @@
 
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element ref="ui:margin" minOccurs="0"/>
-				<xs:element ref="ui:treeitem" maxOccurs="unbounded"/>
+				<xs:element minOccurs="0" ref="ui:margin"/>
+				<xs:element maxOccurs="unbounded" ref="ui:treeitem"/>
+				<xs:element ref="ui:diagnostic" minOccurs="0" maxOccurs="2"/>
 			</xs:sequence>
 
 			<xs:attributeGroup ref="ui:interaction.attributes"/>
@@ -68,7 +73,7 @@
 				</xs:annotation>
 			</xs:attributeGroup>
 
-			<xs:attribute name="htree" type="xs:boolean" default="false">
+			<xs:attribute default="false" name="htree" type="xs:boolean">
 				<xs:annotation>
 					<xs:documentation>
 						"true" indicates that the tree represents a horizontal tree.
@@ -76,7 +81,7 @@
 				</xs:annotation>
 			</xs:attribute>
 
-			<xs:attribute name="multiple" type="xs:boolean" default="false">
+			<xs:attribute default="false" name="multiple" type="xs:boolean">
 				<xs:annotation>
 					<xs:documentation>
 						Indicates that more than one item may be selected at a time in a manner similar to a group of 
@@ -84,7 +89,7 @@
 				</xs:annotation>
 			</xs:attribute>
 
-			<xs:attribute name="required" type="xs:boolean" default="false">
+			<xs:attribute default="false" name="required" type="xs:boolean">
 				<xs:annotation>
 					<xs:documentation>
 						The component will be mandatory if "true".
