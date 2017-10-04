@@ -7,8 +7,10 @@ define(["wc/dom/classList",
 	"wc/ui/ajax/processResponse",
 	"wc/dom/role",
 	"wc/dom/textContent",
-	"wc/dom/wrappedInput"],
-	function (classList, initialise, shed, tag, Widget, getLabelsForElement, processResponse, $role, textContent, wrappedInput) {
+	"wc/dom/wrappedInput",
+	"wc/ui/checkBox",
+	"wc/dom/diagnostic"],
+	function (classList, initialise, shed, tag, Widget, getLabelsForElement, processResponse, $role, textContent, wrappedInput, checkBox, diagnostic) {
 		"use strict";
 		/**
 		 * @constructor
@@ -18,7 +20,8 @@ define(["wc/dom/classList",
 		function Label() {
 			var TAGS = [tag.INPUT, tag.TEXTAREA, tag.SELECT, tag.FIELDSET],
 				CLASS_HINT = "wc-label-hint",
-				MOVE_WIDGETS = [new Widget("", "wc-checkbox"), new Widget("", "wc-radiobutton"), new Widget("button", "wc-selecttoggle")],
+				CHECKBOX_WRAPPER = checkBox.getWrapper(),
+				MOVE_WIDGETS = [CHECKBOX_WRAPPER, new Widget("", "wc-radiobutton"), new Widget("button", "wc-selecttoggle")],
 				HINT;
 
 			/**
@@ -240,19 +243,35 @@ define(["wc/dom/classList",
 			 */
 			function moveLabel(el) {
 				var labels = getLabelsForElement(el, true),
-					label, wrapper, parent, sibling;
-				if (labels && labels.length) {
-					label = labels[0];
-					if (label === el.nextSibling) {
+					label, wrapper, parent, sibling, diag;
+				if (!(labels && labels.length)) {
+					return;
+				}
+
+				label = labels[0];
+				if (label === el.nextSibling) {
+					return;
+				}
+				wrapper = wrappedInput.getWrapper(el) || el; // WSelectToggle is its own wrapper.
+				if (wrapper !== el) {
+					// wrapped input
+					if (CHECKBOX_WRAPPER.isOneOfMe(wrapper)) {
+						// We want to put the label inside the wrapper but before any diagnostics.
+						diag = diagnostic.getDiagnostic(wrapper);
+						if (diag && diag.parentNode === wrapper) {
+							wrapper.insertBefore(label, diag);
+							return;
+						}
+						wrapper.appendChild(label);
 						return;
 					}
-					wrapper = wrappedInput.getWrapper(el) || el; // WSelectToggle is its own wrapper.
-					parent = wrapper.parentNode;
-					if ((sibling = wrapper.nextSibling)) {
-						parent.insertBefore(label, sibling);
-					} else {
-						parent.appendChild(label);
-					}
+				}
+
+				parent = wrapper.parentNode;
+				if ((sibling = wrapper.nextSibling)) {
+					parent.insertBefore(label, sibling);
+				} else {
+					parent.appendChild(label);
 				}
 			}
 
