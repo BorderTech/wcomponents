@@ -1,30 +1,15 @@
-/**
- * Provides functionality to undertake client validation of WNumberField.
- *
- * @module wc/ui/validation/numberField
- * @requires module:wc/dom/attribute
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/event
- * @requires module:wc/dom/Widget
- * @requires module:wc/i18n/i18n
- * @requires module:wc/ui/validation/validationManager
- * @requires module:wc/ui/validation/required
- * @requires module:wc/ui/getFirstLabelForElement
- * @requires external:lib/sprintf
- * @requires module:wc/ui/numberField
- */
 define(["wc/dom/attribute",
 	"wc/dom/initialise",
 	"wc/dom/event",
 	"wc/dom/Widget",
 	"wc/i18n/i18n",
 	"wc/ui/validation/validationManager",
+	"wc/ui/validation/feedback",
 	"wc/ui/validation/required",
 	"wc/ui/getFirstLabelForElement",
 	"lib/sprintf",
 	"wc/ui/numberField"],
-	/** @param attribute wc/dom/attribute @param initialise wc/dom/initialise @param event wc/dom/event @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param validationManager wc/ui/validation/validationManager @param required wc/ui/validation/required @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param sprintf lib/sprintf @param numberField wc/ui/numberField @ignore */
-	function(attribute, initialise, event, Widget, i18n, validationManager, required, getFirstLabelForElement, sprintf, numberField) {
+	function(attribute, initialise, event, Widget, i18n, validationManager, feedback, required, getFirstLabelForElement, sprintf, numberField) {
 		"use strict";
 		/**
 		 * @constructor
@@ -68,7 +53,7 @@ define(["wc/dom/attribute",
 						result = true;
 						label = getFirstLabelForElement(element, true) || element.title || i18n.get("validation_common_unlabelledfield");
 						message = sprintf.sprintf(message, label, (min || max), max);
-						validationManager.flagError({element: element, message: message});
+						feedback.flagError({element: element, message: message});
 					}
 				}
 				return result;
@@ -187,7 +172,23 @@ define(["wc/dom/attribute",
 			};
 		}
 
-		var /** @alias module:wc/ui/validation/numberField */ instance = new ValidationNumberField();
+		/**
+		 * Provides functionality to undertake client validation of WNumberField.
+		 *
+		 * @module wc/ui/validation/numberField
+		 * @requires module:wc/dom/attribute
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/event
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/i18n/i18n
+		 * @requires module:wc/ui/validation/validationManager
+		 * @requires module:wc/ui/validation/
+		 * @requires module:wc/ui/validation/required
+		 * @requires module:wc/ui/getFirstLabelForElement
+		 * @requires external:lib/sprintf
+		 * @requires module:wc/ui/numberField
+		 */
+		var instance = new ValidationNumberField();
 		initialise.register(instance);
 		return instance;
 	});

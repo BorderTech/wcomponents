@@ -44,7 +44,7 @@ define(["wc/dom/Widget",
 
 			/**
 			 * Flags a component in an error state with an appropriate error message.
-			 * @function module:wc/ui/validation/validationManager.flagError
+			 * @function
 			 * @param {module:wc/ui/validation/feedback~flagconfig} dto Configuration object.
 			 */
 			this.flagError = function(dto) {
@@ -70,7 +70,8 @@ define(["wc/dom/Widget",
 			 *
 			 * <p>TODO: revisit the above assertion and possibly make this private.</p>
 			 *
-			 * @function module:wc/ui/validation/validationManager.setOK
+			 * @function
+			 * @public
 			 * @param {Element} element the HTML element which was in an error state.
 			 */
 			this.setOK = function(element) {

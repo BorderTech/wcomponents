@@ -3,8 +3,9 @@ define([
 	"wc/ui/validation/isComplete",
 	"wc/dom/Widget",
 	"wc/i18n/i18n",
-	"wc/ui/validation/validationManager"],
-	function(getFirstLabelForElement, isComplete, Widget, i18n, validationManager) {
+	"wc/ui/validation/validationManager",
+	"wc/ui/validation/feedback"],
+	function(getFirstLabelForElement, isComplete, Widget, i18n, validationManager, feedback) {
 		"use strict";
 		/**
 		 * @constructor
@@ -63,7 +64,7 @@ define([
 					if (attachToFunc) {
 						obj["attachTo"] = attachToFunc(element);
 					}
-					validationManager.flagError(obj);
+					feedback.flagError(obj);
 				}
 
 				if (config) {
@@ -249,6 +250,7 @@ define([
 		 * @requires module:wc/dom/Widget
 		 * @requires module:wc/i18n/i18n
 		 * @requires module:wc/ui/validation/validationManager
+		 * @requires module:wc/ui/validation/feedback
 		 */
 		var instance = new ValidateRequired();
 		return instance;

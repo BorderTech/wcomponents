@@ -8,8 +8,9 @@ define(["wc/dom/initialise",
 	"wc/ui/dateField",
 	"wc/ui/validation/required",
 	"wc/ui/validation/validationManager",
+	"wc/ui/validation/feedback",
 	"wc/config"],
-	function(initialise, Widget, i18n, attribute, event, getFirstLabelForElement, sprintf, dateField, required, validationManager, wcconfig) {
+	function(initialise, Widget, i18n, attribute, event, getFirstLabelForElement, sprintf, dateField, required, validationManager, feedback, wcconfig) {
 		"use strict";
 		/**
 		 * @constructor
@@ -65,7 +66,7 @@ define(["wc/dom/initialise",
 					// not a stand alone text input so a WMultiTextField;
 					attachTo = element.parentNode.lastChild;
 				}
-				validationManager.flagError({element: element,
+				feedback.flagError({element: element,
 					message: message,
 					attachTo: attachTo});
 			}
@@ -235,6 +236,7 @@ define(["wc/dom/initialise",
 		 * @requires module:wc/ui/dateField
 		 * @requires module:wc/ui/validation/required
 		 * @requires module:wc/ui/validation/validationManager
+		 * @requires module:wc/ui/validation/feedback
 		 * @requires module:wc/config
 		 */
 		var instance = new ValidationTextInput();

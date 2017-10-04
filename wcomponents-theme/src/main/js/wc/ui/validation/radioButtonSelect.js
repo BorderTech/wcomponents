@@ -13,9 +13,9 @@ define(["wc/dom/initialise",
 	"wc/dom/shed",
 	"wc/ui/validation/required",
 	"wc/ui/validation/validationManager",
+	"wc/ui/validation/feedback",
 	"wc/ui/radioButtonSelect"],
-	/** @param initialise wc/dom/initialise @param shed wc/dom/shed @param required wc/ui/validation/required @param validationManager wc/ui/validation/validationManager @param radioButtonSelect wc/ui/radioButtonSelect @ignore */
-	function(initialise, shed, required, validationManager, radioButtonSelect) {
+	function(initialise, shed, required, validationManager, feedback, radioButtonSelect) {
 		"use strict";
 		/**
 		 * @constructor
@@ -48,7 +48,7 @@ define(["wc/dom/initialise",
 			function validationShedSubscriber(element) {
 				var container;
 				if (radioButtonSelect.getInputWidget().isOneOfMe(element) && (container = radioButtonSelect.getWidget().findAncestor(element)) && validationManager.isInvalid(container)) {
-					validationManager.setOK(container);
+					feedback.setOK(container);
 				}
 			}
 

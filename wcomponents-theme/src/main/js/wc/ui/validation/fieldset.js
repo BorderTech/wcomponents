@@ -5,8 +5,9 @@ define(["wc/i18n/i18n",
 	"wc/ui/validation/isComplete",
 	"wc/ui/validation/validationManager",
 	"wc/ui/validation/required",
+	"wc/ui/validation/feedback",
 	"wc/ui/fieldset"],
-	function(i18n, initialise, shed, getFirstLabelForElement, isComplete, validationManager, required, fieldset) {
+	function(i18n, initialise, shed, getFirstLabelForElement, isComplete, validationManager, required, feedback, fieldset) {
 		"use strict";
 		/**
 		 * @constructor
@@ -42,7 +43,7 @@ define(["wc/i18n/i18n",
 				var legend = getFirstLabelForElement(fset, true) || fset.title,
 					message = i18n.get("validation_common_incompletegroup", legend);
 
-				validationManager.flagError({
+				flagError.flagError({
 					element: fset,
 					message: message,
 					position: "beforeEnd"
@@ -97,7 +98,7 @@ define(["wc/i18n/i18n",
 
 					if (result) {
 						if (initiallyInvalid) {
-							validationManager.setOK(container);
+							feedback.setOK(container);
 						}
 						container = INVALID.findAncestor(container.parentNode);
 					} else {
@@ -140,14 +141,15 @@ define(["wc/i18n/i18n",
 		 * Provides functionality to undertake client validation for WFieldSet.
 		 *
 		 * @module
-		 * @requires module:wc/i18n/i18n
-		 * @requires module:wc/dom/initialise
-		 * @requires module:wc/dom/shed
-		 * @requires module:wc/ui/getFirstLabelForElement
-		 * @requires module:wc/ui/validation/isComplete
-		 * @requires module:wc/ui/validation/validationManager
-		 * @requires module:wc/ui/validation/required
-		 * @requires module:wc/ui/fieldset
+		 * @requires wc/i18n/i18n
+		 * @requires wc/dom/initialise
+		 * @requires wc/dom/shed
+		 * @requires wc/ui/getFirstLabelForElement
+		 * @requires wc/ui/validation/isComplete
+		 * @requires wc/ui/validation/validationManager
+		 * @requires wc/ui/validation/required
+		 * @requires wc/ui/validation/feedback
+		 * @requires wc/ui/fieldset
 		 */
 		var instance = new ValidationFieldset();
 		initialise.register(instance);

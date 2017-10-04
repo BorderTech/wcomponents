@@ -42,10 +42,6 @@ define(["wc/has",
 				INVALID_COMPONENT = new Widget("", "", { "aria-invalid": "true" }),
 				REVALIDATE_OBSERVER_GROUP = "reval";
 
-			this.setOK = feedback.setOk;  // reimplement legacy API
-			this.flagError = feedback.flagError;  // reimplement legacy API
-
-
 			/**
 			 * Listen for DISABLE, HIDE or OPTIONAL actions and clear any error message for the component.
 			 * @function
@@ -77,7 +73,6 @@ define(["wc/has",
 				return result;
 			};
 
-
 			/**
 			 * Is an element currently in an invalid state? This is used to indicate that revalidation may be needed
 			 * (commonly for a change event listener). NOTE: this does not test the validity of the element, merely
@@ -90,8 +85,6 @@ define(["wc/has",
 			this.isInvalid = function(element) {
 				return INVALID_COMPONENT.isOneOfMe(element);
 			};
-
-
 
 			/**
 			 * Most validating components have a pretty similar mechanism to revalidate whern their input changes so
@@ -127,11 +120,9 @@ define(["wc/has",
 			 * Tests the validity of form bound elements within a specified container.
 			 *
 			 * @function module:wc/ui/validation/validationManager.isValid
-			 * @param {Element} [container] A DOM node (preferably containing form controls). If the container is not
-			 *                   specified finds the form containing the activeElement (this is for use with controls
-			 *                   with submitOnchange).
-			 * @returns {Boolean} true if the container is in a valid state (all components in the container which
-			 *                   support validation are valid).
+			 * @param {Element} [container] A DOM node (preferably containing form controls). If the container is not specified finds the form
+			 *   containing the activeElement (this is for use with controls with submitOnchange).
+			 * @returns {Boolean} true if the container is in a valid state (all components in the container which support validation are valid).
 			 */
 			this.isValid = function (container) {
 				var result = true;
@@ -181,8 +172,8 @@ define(["wc/has",
 			 * @function module:wc/ui/validation/validationManager.subscribe
 			 * @see {@link module:wc/Observer#subscribe}
 			 *
-			 * @param {Function} subscriber The function that will be notified by validationManager. This function MUST
-			 *                   be present at "publish" time, but need not be present at "subscribe" time.
+			 * @param {Function} subscriber The function that will be notified by validationManager. This function MUST be present at "publish" time,
+			 *   but need not be present at "subscribe" time.
 			 * @param {boolean} [revalidate] if truthy subscribe to revalidation rather than validation.
 			 * @returns {?Function} A reference to the subscriber.
 			 */

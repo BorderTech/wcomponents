@@ -2,8 +2,8 @@
 define(["wc/ui/getFirstLabelForElement",
 	"wc/i18n/i18n",
 	"lib/sprintf",
-	"wc/ui/validation/validationManager"],
-	function(getFirstLabelForElement, i18n, sprintf, validationManager) {
+	"wc/ui/validation/feedback"],
+	function(getFirstLabelForElement, i18n, sprintf, feedback) {
 		"use strict";
 
 		/**
@@ -97,7 +97,7 @@ define(["wc/ui/getFirstLabelForElement",
 				if (attachToFunc) {
 					obj["attachTo"] = attachToFunc(selectable);
 				}
-				validationManager.flagError(obj);
+				feedback.flagError(obj);
 			}
 
 			if (widget.isOneOfMe(container)) {
@@ -112,10 +112,10 @@ define(["wc/ui/getFirstLabelForElement",
 		}
 		/**
 		 * @module
-		 * @requires module:wc/ui/getFirstLabelForElement
-		 * @requires module:wc/i18n/i18n
+		 * @requires wc/ui/getFirstLabelForElement
+		 * @requires wc/i18n/i18n
 		 * @requires external:lib/sprintf
-		 * @requires module:wc/ui/validation/validationManager
+		 * @requires wc/ui/validation/feedback
 		 *
 		 */
 		return minMax;
