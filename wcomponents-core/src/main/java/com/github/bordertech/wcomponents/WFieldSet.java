@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.util.TreeUtil;
 import com.github.bordertech.wcomponents.util.WComponentTreeVisitor;
 import com.github.bordertech.wcomponents.util.visitor.AbstractVisitorWithResult;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -214,6 +215,49 @@ public class WFieldSet extends AbstractMutableContainer implements AjaxTarget, S
 	}
 
 	/**
+	 * Set the diagnostics for a given severity.
+	 * @param diags the list of Diagnostics
+	 * @param severity the message severity
+	 */
+	private void showIndicatorsForComponent(final List<Diagnostic> diags, final int severity) {
+		FieldSetModel model = getOrCreateComponentModel();
+		if (severity == Diagnostic.ERROR) {
+			model.errorDiagnostics.clear();
+		} else {
+			model.warningDiagnostics.clear();
+		}
+		UIContext uic = UIContextHolder.getCurrent();
+
+		for (int i = 0; i < diags.size(); i++) {
+			Diagnostic diagnostic = diags.get(i);
+			// NOTE: double equals because they must be the same instance.
+			if (diagnostic.getSeverity() == severity && uic == diagnostic.getContext() && this == diagnostic.getComponent()) {
+				if (severity == Diagnostic.ERROR) {
+					model.errorDiagnostics.add(diagnostic);
+				} else {
+					model.warningDiagnostics.add(diagnostic);
+				}
+			}
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void showErrorIndicatorsForComponent(final List<Diagnostic> diags) {
+		showIndicatorsForComponent(diags, Diagnostic.ERROR);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void showWarningIndicatorsForComponent(final List<Diagnostic> diags) {
+		showIndicatorsForComponent(diags, Diagnostic.WARNING);
+	}
+
+	/**
 	 * Creates a new Component model.
 	 *
 	 * @return a new FieldSetModel.
@@ -260,5 +304,15 @@ public class WFieldSet extends AbstractMutableContainer implements AjaxTarget, S
 		 * The margins to be used on the fieldset.
 		 */
 		private Margin margin;
+
+		/**
+		 * A List of error level Diagnostic objects.
+		 */
+		private final List<Diagnostic> errorDiagnostics = new ArrayList<>();
+
+		/**
+		 * A List of warning level Diagnostic objects.
+		 */
+		private final List<Diagnostic> warningDiagnostics = new ArrayList<>();
 	}
 }

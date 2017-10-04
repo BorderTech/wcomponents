@@ -420,6 +420,53 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 		return toString(text);
 	}
 
+
+	// Diagnostics
+	/**
+	 * Iterates over the {@link Diagnostic}s and finds the diagnostics that related to the current component.
+	 *
+	 * @param diags A List of Diagnostic objects.
+	 * @param severity A Diagnostic severity code. e.g. {@link Diagnostic#ERROR}
+	 */
+	protected void showIndicatorsForComponent(final List<Diagnostic> diags, final int severity) {
+
+		InputModel model = getOrCreateComponentModel();
+		if (severity == Diagnostic.ERROR) {
+			model.errorDiagnostics.clear();
+		} else {
+			model.warningDiagnostics.clear();
+		}
+		UIContext uic = UIContextHolder.getCurrent();
+		for (int i = 0; i < diags.size(); i++) {
+			Diagnostic diagnostic = diags.get(i);
+			// NOTE: double equals because they must be the same instance.
+			if (diagnostic.getSeverity() == severity && uic == diagnostic.getContext() && this == diagnostic.getComponent()) {
+				if (severity == Diagnostic.ERROR) {
+					model.errorDiagnostics.add(diagnostic);
+				} else {
+					model.warningDiagnostics.add(diagnostic);
+				}
+			}
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void showErrorIndicatorsForComponent(final List<Diagnostic> diags) {
+		showIndicatorsForComponent(diags, Diagnostic.ERROR);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected final void showWarningIndicatorsForComponent(final List<Diagnostic> diags) {
+		showIndicatorsForComponent(diags, Diagnostic.WARNING);
+	}
+
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -481,5 +528,14 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 		 */
 		private Action actionOnChange;
 
+		/**
+		 * A List of error level Diagnostic objects.
+		 */
+		private final List<Diagnostic> errorDiagnostics = new ArrayList<>();
+
+		/**
+		 * A List of warning level Diagnostic objects.
+		 */
+		private final List<Diagnostic> warningDiagnostics = new ArrayList<>();
 	}
 }
