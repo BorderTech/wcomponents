@@ -1,16 +1,8 @@
 // Colors for inline messages
-.wc-fieldindicator-type-error {
+.wc-diagnostic-type-error {
   color: $wc-clr-error-fg;
 }
 
-.wc-fieldindicator-type-warn {
+.wc-diagnostic-type-warn {
   color: $wc-clr-warning-fg;
-}
-
-.wc-fieldindicator-type-info {
-  color: $wc-clr-info-fg;
-}
-
-.wc-fieldindicator-type-success {
-  color: $wc-clr-success-fg;
 }
