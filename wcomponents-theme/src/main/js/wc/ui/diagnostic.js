@@ -98,7 +98,7 @@ define(["wc/array/toArray",
 						element.removeAttribute(INVALID_ATTRIB);
 						element.removeAttribute(DESCRIBED_ATTRIB);
 						return;
-					} else if ((diag = diagnostic.getBox(target, diagnostic.LEVEL.ERROR))) {
+					} else if ((diag = instance.getBox(target, diagnostic.LEVEL.ERROR))) {
 						element.setAttribute(INVALID_ATTRIB, "true");
 						element.setAttribute(DESCRIBED_ATTRIB, diag.id);
 					}
@@ -452,5 +452,6 @@ define(["wc/array/toArray",
 			};
 		}
 
-		return new Diagnostic();
+		var instance = new Diagnostic();
+		return instance;
 	});

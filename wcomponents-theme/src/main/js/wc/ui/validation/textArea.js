@@ -7,7 +7,6 @@ define(["wc/dom/attribute",
 	"wc/ui/validation/required",
 	"wc/ui/validation/validationManager",
 	"wc/ui/feedback",
-	"wc/ui/getFirstLabelForElement",
 	"wc/ui/textArea"],
 	function(attribute, event, initialise, Widget, i18n, sprintf, required, validationManager, feedback, textArea) {
 		"use strict";
