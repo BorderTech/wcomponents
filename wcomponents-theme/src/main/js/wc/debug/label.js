@@ -17,7 +17,8 @@ define(["wc/dom/classList",
 		 */
 		function Label() {
 			var TAGS = [tag.INPUT, tag.TEXTAREA, tag.SELECT, tag.FIELDSET],
-				IMG_QS;
+				IMG_QS,
+				AFTER_END = "afterend";
 
 			function nonEmptyAttribute(element, attr) {
 				var content = element.getAttribute(attr);
@@ -43,10 +44,10 @@ define(["wc/dom/classList",
 					youHaveBeenNaughty += endLabel;
 				}
 
-				input.insertAdjacentHTML(isCheckRadio ? "afterend" : "beforebegin", youHaveBeenNaughty);
+				input.insertAdjacentHTML(isCheckRadio ? AFTER_END : "beforebegin", youHaveBeenNaughty);
 
 				if (!(id || isCheckRadio)) {
-					input.insertAdjacentHTML("afterEnd", endLabel);
+					input.insertAdjacentHTML(AFTER_END, endLabel);
 				}
 			}
 

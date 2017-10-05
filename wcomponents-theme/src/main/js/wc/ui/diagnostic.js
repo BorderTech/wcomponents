@@ -10,7 +10,8 @@ define(["wc/array/toArray",
 		"use strict";
 
 		function Diagnostic() {
-			var writeOutsideThese = [tag.INPUT, tag.SELECT, tag.TEXTAREA];
+			var writeOutsideThese = [tag.INPUT, tag.SELECT, tag.TEXTAREA],
+				BEFORE_END = "beforeend";
 
 			function check(diag, lenient) {
 				if (!(diag && diagnostic.isOneOfMe(diag))) {
@@ -106,7 +107,7 @@ define(["wc/array/toArray",
 						}
 					}
 				}
-				diag.insertAdjacentHTML("beforeEnd", getMessageHTML(message));
+				diag.insertAdjacentHTML(BEFORE_END, getMessageHTML(message));
 			}
 
 			function getMessageHTML(message) {
@@ -279,8 +280,7 @@ define(["wc/array/toArray",
 			}
 
 			this.add = function(args) {
-				var BEFORE_END = "beforeEnd",
-					AFTER_END = "afterEnd",
+				var AFTER_END = "afterend",
 					writeWhere = args.position,
 					target = args.target,
 					messages = args.messages,
