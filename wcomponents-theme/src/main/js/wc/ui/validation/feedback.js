@@ -95,7 +95,7 @@ define(["wc/dom/Widget",
 			 * @returns {Boolean} true if the element is associated with a success message.
 			 */
 			this.isMarkedOK = function(element) {
-				return !!diagnostic.getBox(element, diagnostic.TYPE.SUCCESS);
+				return !!diagnostic.getBox(element, diagnostic.LEVEL.SUCCESS);
 			};
 
 			/**
