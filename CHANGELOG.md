@@ -6,6 +6,12 @@
 
 ### Enhancements
 
+### Bug Fixes
+
+## Release 1.4.11
+
+### Enhancements
+
 * Updated the theme-parent POM to enforce Maven version checking as building with 3.0.x will fail in a very opaque manner.
 * Moved the Java version check from a slightly convoluted ANT check to Maven.
 
@@ -16,7 +22,7 @@
 * Fixed a flaw in placeholder manipulation during mandatory/optional toggling #1360.
 * Fixed a11y issues caused by labelling of mandatory fields #1359.
 
-## Release 1.4.9
+## Release 1.4.10
 
 ### Enhancements
 
