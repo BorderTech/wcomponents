@@ -58,6 +58,7 @@
 				</xsl:call-template>
 			</button>
 			<span role="listbox" aria-busy="true"></span>
+			<xsl:apply-templates select="ui:diagnostic"/>
 		</div>
 	</xsl:template>
 
@@ -100,6 +101,7 @@
 					</xsl:attribute>
 				</xsl:if>
 			</xsl:element>
+			<xsl:apply-templates select="ui:diagnostic"/>
 		</div>
 	</xsl:template>
 </xsl:stylesheet>

@@ -133,6 +133,7 @@
 					</xsl:call-template>
 				</button>
 			</xsl:if>
+			<xsl:apply-templates select="ui:diagnostic"/>
 		</span>
 	</xsl:template>
 
@@ -195,6 +196,7 @@
 					</xsl:if>
 				</xsl:if>
 			</xsl:element>
+			<xsl:apply-templates select="ui:diagnostic"/>
 		</span>
 	</xsl:template>
 
@@ -266,6 +268,7 @@
 			<xsl:if test="@maxLength">
 				<output id="{$tickerId}" name="{$tickerId}" for="{@id}_input" hidden="hidden"></output>
 			</xsl:if>
+			<xsl:apply-templates select="ui:diagnostic"/>
 		</xsl:element>
 	</xsl:template>
 
@@ -291,6 +294,7 @@
 					</xsl:attribute>
 				</xsl:if>
 			</xsl:element>
+			<xsl:apply-templates select="ui:diagnostic"/>
 		</span>
 	</xsl:template>
 </xsl:stylesheet>

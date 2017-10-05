@@ -80,6 +80,9 @@ final class WRadioButtonSelectRenderer extends AbstractWebXmlRenderer {
 			}
 		}
 
+		if (!readOnly) {
+			DiagnosticRenderUtil.renderDiagnostics(rbSelect, renderContext);
+		}
 		xml.appendEndTag("ui:radiobuttonselect");
 
 		if (rbSelect.isAjax()) {

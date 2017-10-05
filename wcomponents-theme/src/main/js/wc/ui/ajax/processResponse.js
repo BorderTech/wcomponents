@@ -41,8 +41,6 @@ define(["wc/Observer",
 						};
 						if (this._errors) {
 							cb(this._errors);
-						} else {
-							require(["wc/ui/errors"], cb, cb);
 						}
 					}
 				},
@@ -197,8 +195,7 @@ define(["wc/Observer",
 								errorElement = errorUtils.replaceElement(element);
 								feedback.flagError({
 									element: errorElement,
-									message: response,
-									position: "beforeEnd"  // inside the element means it is replaced if a subsequent successful call is made
+									message: response
 								});
 							}
 						}

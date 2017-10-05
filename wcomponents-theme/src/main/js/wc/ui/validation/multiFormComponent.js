@@ -1,19 +1,3 @@
-/**
- * Provides functionality to undertake client validation of WMultiDropdown and WMultiTextField.
- *
- * @module wc/ui/validation/multiFormComponent
- * @requires module:wc/dom/attribute
- * @requires module:wc/dom/event
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/Widget
- * @requires module:wc/i18n/i18n
- * @requires module:wc/ui/multiFormComponent
- * @requires module:wc/array/unique
- * @requires module:wc/ui/getFirstLabelForElement
- * @requires external:lib/sprintf
- * @requires module:wc/ui/validation/required
- * @requires module:wc/ui/validation/validationManager
- */
 define(["wc/dom/attribute",
 	"wc/dom/event",
 	"wc/dom/initialise",
@@ -21,12 +5,11 @@ define(["wc/dom/attribute",
 	"wc/i18n/i18n",
 	"wc/ui/multiFormComponent",
 	"wc/array/unique",
-	"wc/ui/getFirstLabelForElement",
 	"lib/sprintf",
 	"wc/ui/validation/required",
-	"wc/ui/validation/validationManager"],
-	/** @param attribute wc/dom/attribute @param event wc/dom/event @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param multiFormComponent wc/ui/multiFormComponent @param unique wc/array/unique @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param sprintf lib/sprintf @param required wc/ui/validation/required @param validationManager wc/ui/validation/validationManager @ignore */
-	function(attribute, event, initialise, Widget, i18n, multiFormComponent, unique, getFirstLabelForElement, sprintf, required, validationManager) {
+	"wc/ui/validation/validationManager",
+	"wc/ui/feedback"],
+	function(attribute, event, initialise, Widget, i18n, multiFormComponent, unique, sprintf, required, validationManager, feedback) {
 		"use strict";
 		/**
 		 * @constructor
@@ -130,9 +113,8 @@ define(["wc/dom/attribute",
 			 * @param {int} limit The max/min number of values/selections.
 			 */
 			function _flag(element, flag, limit) {
-				var label = getFirstLabelForElement(element, true) || element.title,
-					message = sprintf.sprintf(flag, label, limit);
-				validationManager.flagError({element: element, message: message, position: "beforeEnd"});
+				var message = sprintf.sprintf(flag, validationManager.getLabelText(element), limit);
+				feedback.flagError({element: element, message: message});
 			}
 
 			/**
@@ -239,7 +221,23 @@ define(["wc/dom/attribute",
 			};
 		}
 
-		var /** @alias module:wc/ui/validation/multiFormComponent */ instance = new ValidationMultiFormComponent();
+		/**
+		 * Provides functionality to undertake client validation of WMultiDropdown and WMultiTextField.
+		 *
+		 * @module
+		 * @requires wc/dom/attribute
+		 * @requires wc/dom/event
+		 * @requires wc/dom/initialise
+		 * @requires wc/dom/Widget
+		 * @requires wc/i18n/i18n
+		 * @requires wc/ui/multiFormComponent
+		 * @requires wc/array/unique
+		 * @requires external:lib/sprintf
+		 * @requires wc/ui/validation/required
+		 * @requires wc/ui/validation/validationManager
+		 * @requires wc/ui/feedback
+		 */
+		var instance = new ValidationMultiFormComponent();
 		initialise.register(instance);
 		return instance;
 	});

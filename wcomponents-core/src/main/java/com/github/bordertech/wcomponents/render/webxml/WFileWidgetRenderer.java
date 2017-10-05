@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WFileWidget;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.Iterator;
 import java.util.List;
 
@@ -16,6 +17,10 @@ import java.util.List;
 final class WFileWidgetRenderer extends AbstractWebXmlRenderer {
 
 	/**
+	 * XML element name.
+	 */
+	private static final String TAG_NAME = "ui:fileupload";
+	/**
 	 * Paints the given WFileWidget.
 	 *
 	 * @param component the WFileWidget to paint.
@@ -27,23 +32,32 @@ final class WFileWidgetRenderer extends AbstractWebXmlRenderer {
 		XmlStringBuilder xml = renderContext.getWriter();
 		boolean readOnly = fileWidget.isReadOnly();
 
-		xml.appendTagOpen("ui:fileupload");
+		xml.appendTagOpen(TAG_NAME);
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("hidden", component.isHidden(), "true");
 		if (readOnly) {
 			xml.appendAttribute("readOnly", "true");
-		} else {
-			xml.appendOptionalAttribute("disabled", fileWidget.isDisabled(), "true");
-			xml.appendOptionalAttribute("required", fileWidget.isMandatory(), "true");
-			xml.appendOptionalAttribute("toolTip", fileWidget.getToolTip());
-			xml.appendOptionalAttribute("accessibleText", fileWidget.getAccessibleText());
-			xml.appendOptionalAttribute("acceptedMimeTypes", typesToString(fileWidget.getFileTypes()));
-			long maxFileSize = fileWidget.getMaxFileSize();
-			xml.appendOptionalAttribute("maxFileSize", maxFileSize > 0, maxFileSize);
+			xml.appendEnd();
+			return;
 		}
-		xml.appendEnd();
+		xml.appendOptionalAttribute("disabled", fileWidget.isDisabled(), "true");
+		xml.appendOptionalAttribute("required", fileWidget.isMandatory(), "true");
+		xml.appendOptionalAttribute("toolTip", fileWidget.getToolTip());
+		xml.appendOptionalAttribute("accessibleText", fileWidget.getAccessibleText());
+		xml.appendOptionalAttribute("acceptedMimeTypes", typesToString(fileWidget.getFileTypes()));
+		long maxFileSize = fileWidget.getMaxFileSize();
+		xml.appendOptionalAttribute("maxFileSize", maxFileSize > 0, maxFileSize);
+
+		List<Diagnostic> diags = fileWidget.getDiagnostics(Diagnostic.ERROR);
+		if (diags == null || diags.isEmpty()) {
+			xml.appendEnd();
+			return;
+		}
+		xml.appendClose();
+		DiagnosticRenderUtil.renderDiagnostics(fileWidget, renderContext);
+		xml.appendEndTag(TAG_NAME);
 	}
 
 	/**

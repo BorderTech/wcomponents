@@ -11,10 +11,11 @@ define(["wc/dom/shed",
 	"wc/ui/getFirstLabelForElement",
 	"wc/i18n/i18n",
 	"wc/ui/icon",
+	"wc/ui/checkBox",
 	"wc/ui/checkboxAnalog",
 	"wc/ui/radioAnalog"],
 	function(shed, getFilteredGroup, classList, toArray, formUpdateManager, Widget, initialise, table, rowAnalog, processResponse,
-		getFirstLabelForElement, i18n, icon) {
+		getFirstLabelForElement, i18n, icon, checkBox) {
 		"use strict";
 
 		/**
@@ -59,12 +60,16 @@ define(["wc/dom/shed",
 			 * @private
 			 */
 			function initialiseControllers() {
+				if (inited) {
+					return;
+				}
 				var CHECKBOX = "checkbox",
-					CLASS_TOGGLE = "wc_seltog";
+					CLASS_TOGGLE = "wc_seltog",
+					cbRoleObj = {"role": CHECKBOX};
 
 				CONTROLLER_WD = new Widget("", CLASS_TOGGLE);
 				CONTROLLER_ABSTRACT = new Widget("button", CLASS_TOGGLE);
-				CONTROLLER_CHECKBOX_WD = CONTROLLER_ABSTRACT.extend("", {role: CHECKBOX});
+				CONTROLLER_CHECKBOX_WD = CONTROLLER_ABSTRACT.extend("", cbRoleObj);
 				CONTROLLER_LIST_WD = new Widget("span", CLASS_TOGGLE);
 				CONTROLLER_MENU_WD = CONTROLLER_WD.extend("wc_submenucontent");
 				RADIO_SUBCONTROLLER = CONTROLLER_ABSTRACT.extend("", {"role": "radio"});
@@ -75,8 +80,8 @@ define(["wc/dom/shed",
 					return next.extend("", {"aria-checked": "true"});
 				});
 
-				CHECKBOX_WD = new Widget("input", "", {"type": CHECKBOX});
-				ARIA_CB_WD = new Widget("", "", {"role": CHECKBOX});
+				CHECKBOX_WD = checkBox.getWidget().clone();
+				ARIA_CB_WD = new Widget("", "", cbRoleObj);
 				ROW_WD = rowAnalog.ITEM.clone();
 				TABLE_WD = table.TABLE.extend("", {"aria-multiselectable": "true"});
 				TBODY_WD = table.TBODY.clone();
@@ -101,7 +106,6 @@ define(["wc/dom/shed",
 				}
 				return false;
 			}
-
 
 			/**
 			* Write the state of the select toggles when a form submission takes place.
@@ -557,22 +561,30 @@ define(["wc/dom/shed",
 		}
 
 		/**
-		 * Provides functionality to select/deselect all checkboxes in a group. Generally applies to
-		 * {@link module:wc/ui/checkBoxSelect} but can work with any check boxes in any container.
+		 * Provides functionality to select/deselect all checkboxes in a group. Generally applies to {@link module:wc/ui/checkBoxSelect} but can work
+		 * with any check boxes in any container.
 		 *
+		 * The following modules are imported as dependencies as their functionality us used by WSelectToggle but they are not required by the
+		 * code in this module.
+		 *
+		 * * {@link module:wc/ui/checkboxAnalog}
+		 * * {@link module:wc/ui/radioAnalog}
 		 *
 		 * @module
-		 * @requires module:wc/dom/shed
-		 * @requires module:wc/dom/getFilteredGroup
-		 * @requires module:wc/dom/classList,
-		 * @requires module:wc/array/toArray
-		 * @requires module:wc/dom/formUpdateManager
-		 * @requires module:wc/dom/Widget
-		 * @requires module:wc/dom/initialise
-		 * @requires module:wc/ui/table/common
-		 * @requires module:wc/ui/rowAnalog
-		 * @requires module:wc/ui/ajax/processResponse
-		 *
+		 * @requires wc/dom/shed
+		 * @requires wc/dom/getFilteredGroup
+		 * @requires wc/dom/classList,
+		 * @requires wc/array/toArray
+		 * @requires wc/dom/formUpdateManager
+		 * @requires wc/dom/Widget
+		 * @requires wc/dom/initialise
+		 * @requires wc/ui/table/common
+		 * @requires wc/ui/rowAnalog
+		 * @requires wc/ui/ajax/processResponse
+		 * @requires wc/ui/getFirstLabelForElement
+		 * @requires wc/i18n/i18n
+		 * @requires wc/ui/icon
+		 * @requires wc/ui/checkBox
 		 */
 		var instance = new SelectToggle();
 		initialise.register(instance);

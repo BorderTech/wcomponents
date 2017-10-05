@@ -3,13 +3,13 @@ define(["wc/dom/initialise",
 	"wc/i18n/i18n",
 	"wc/dom/attribute",
 	"wc/dom/event",
-	"wc/ui/getFirstLabelForElement",
 	"lib/sprintf",
 	"wc/ui/dateField",
 	"wc/ui/validation/required",
 	"wc/ui/validation/validationManager",
+	"wc/ui/feedback",
 	"wc/config"],
-	function(initialise, Widget, i18n, attribute, event, getFirstLabelForElement, sprintf, dateField, required, validationManager, wcconfig) {
+	function(initialise, Widget, i18n, attribute, event, sprintf, dateField, required, validationManager, feedback, wcconfig) {
 		"use strict";
 		/**
 		 * @constructor
@@ -57,17 +57,9 @@ define(["wc/dom/initialise",
 			 * @param {String} flag The framework for the error message in sprintf format.
 			 */
 			function _flagError(element, flag) {
-				var label = getFirstLabelForElement(element, true) || element.title || i18n.get("validation_common_unlabelledfield"),
-					message = sprintf.sprintf(flag, label),
-					attachTo = null;
+				var message = sprintf.sprintf(flag, validationManager.getLabelText(element));
 
-				if (element.id && element.name && (element.id !== element.name)) {
-					// not a stand alone text input so a WMultiTextField;
-					attachTo = element.parentNode.lastChild;
-				}
-				validationManager.flagError({element: element,
-					message: message,
-					attachTo: attachTo});
+				feedback.flagError({element: element, message: message});
 			}
 
 			/**
@@ -146,9 +138,6 @@ define(["wc/dom/initialise",
 						widget: INPUT_WIDGETS.concat(TEXT),
 						filter: function(next) {
 							return !(dateField.isOneOfMe(next) || next.value);
-						},
-						attachTo: function (element) {
-							return element.parentNode;
 						}
 					};
 
@@ -223,19 +212,19 @@ define(["wc/dom/initialise",
 		 * @typedef {Object} module:wc/ui/validation/textField.config() Optional module configuration.
 		 * @property {String} rx The email regular expression as a string.
 		 *
-		 * @module wc/ui/validation/textField
+		 * @module
 		 *
-		 * @requires module:wc/dom/initialise
-		 * @requires module:wc/dom/Widget
-		 * @requires module:wc/i18n/i18n
-		 * @requires module:wc/dom/attribute
-		 * @requires module:wc/dom/event
-		 * @requires module:wc/ui/getFirstLabelForElement
+		 * @requires wc/dom/initialise
+		 * @requires wc/dom/Widget
+		 * @requires wc/i18n/i18n
+		 * @requires wc/dom/attribute
+		 * @requires wc/dom/event
 		 * @requires external:lib/sprintf
-		 * @requires module:wc/ui/dateField
-		 * @requires module:wc/ui/validation/required
-		 * @requires module:wc/ui/validation/validationManager
-		 * @requires module:wc/config
+		 * @requires wc/ui/dateField
+		 * @requires wc/ui/validation/required
+		 * @requires wc/ui/validation/validationManager
+		 * @requires wc/ui/feedback
+		 * @requires wc/config
 		 */
 		var instance = new ValidationTextInput();
 		initialise.register(instance);

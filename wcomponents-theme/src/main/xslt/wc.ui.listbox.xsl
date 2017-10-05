@@ -58,6 +58,7 @@
 						<xsl:apply-templates mode="selectableList"/>
 					</select>
 					<xsl:call-template name="hField"/>
+					<xsl:apply-templates select="ui:diagnostic"/>
 				</span>
 			</xsl:otherwise>
 		</xsl:choose>

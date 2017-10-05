@@ -4,8 +4,10 @@ define(["wc/has",
 	"wc/dom/tag",
 	"wc/dom/Widget",
 	"wc/Observer",
-	"wc/ui/validation/feedback"],
-	function(has, initialise, shed, tag, Widget, Observer, feedback) {
+	"wc/i18n/i18n",
+	"wc/ui/getFirstLabelForElement",
+	"wc/ui/feedback"],
+	function(has, initialise, shed, tag, Widget, Observer, i18n, getFirstLabelForElement, feedback) {
 		"use strict";
 
 		/**
@@ -42,10 +44,6 @@ define(["wc/has",
 				INVALID_COMPONENT = new Widget("", "", { "aria-invalid": "true" }),
 				REVALIDATE_OBSERVER_GROUP = "reval";
 
-			this.setOK = feedback.setOk;  // reimplement legacy API
-			this.flagError = feedback.flagError;  // reimplement legacy API
-
-
 			/**
 			 * Listen for DISABLE, HIDE or OPTIONAL actions and clear any error message for the component.
 			 * @function
@@ -54,7 +52,7 @@ define(["wc/has",
 			 */
 			function shedSubscriber(element) {
 				if (element && INVALID_COMPONENT.isOneOfMe(element)) {
-					feedback.clearError(element);
+					feedback.clear(element);
 				}
 			}
 
@@ -77,7 +75,6 @@ define(["wc/has",
 				return result;
 			};
 
-
 			/**
 			 * Is an element currently in an invalid state? This is used to indicate that revalidation may be needed
 			 * (commonly for a change event listener). NOTE: this does not test the validity of the element, merely
@@ -90,8 +87,6 @@ define(["wc/has",
 			this.isInvalid = function(element) {
 				return INVALID_COMPONENT.isOneOfMe(element);
 			};
-
-
 
 			/**
 			 * Most validating components have a pretty similar mechanism to revalidate whern their input changes so
@@ -122,16 +117,13 @@ define(["wc/has",
 				}
 			};
 
-
 			/**
 			 * Tests the validity of form bound elements within a specified container.
 			 *
 			 * @function module:wc/ui/validation/validationManager.isValid
-			 * @param {Element} [container] A DOM node (preferably containing form controls). If the container is not
-			 *                   specified finds the form containing the activeElement (this is for use with controls
-			 *                   with submitOnchange).
-			 * @returns {Boolean} true if the container is in a valid state (all components in the container which
-			 *                   support validation are valid).
+			 * @param {Element} [container] A DOM node (preferably containing form controls). If the container is not specified finds the form
+			 *   containing the activeElement (this is for use with controls with submitOnchange).
+			 * @returns {Boolean} true if the container is in a valid state (all components in the container which support validation are valid).
 			 */
 			this.isValid = function (container) {
 				var result = true;
@@ -181,8 +173,8 @@ define(["wc/has",
 			 * @function module:wc/ui/validation/validationManager.subscribe
 			 * @see {@link module:wc/Observer#subscribe}
 			 *
-			 * @param {Function} subscriber The function that will be notified by validationManager. This function MUST
-			 *                   be present at "publish" time, but need not be present at "subscribe" time.
+			 * @param {Function} subscriber The function that will be notified by validationManager. This function MUST be present at "publish" time,
+			 *   but need not be present at "subscribe" time.
 			 * @param {boolean} [revalidate] if truthy subscribe to revalidation rather than validation.
 			 * @returns {?Function} A reference to the subscriber.
 			 */
@@ -190,6 +182,14 @@ define(["wc/has",
 				observer = observer || new Observer();
 				var group = revalidate ? { group: REVALIDATE_OBSERVER_GROUP } : null;
 				return observer.subscribe(subscriber, group);
+			};
+
+			this.getLabelText = function(element, fallbackToken) {
+				var token = fallbackToken || "validation_common_unlabelledfield";
+				return getFirstLabelForElement(element, true) ||
+					element.getAttribute("aria-label") ||
+					element.title ||
+					i18n.get(token);
 			};
 		}
 
@@ -204,19 +204,18 @@ define(["wc/has",
 
 		/**
 		 * Generic client side validation manager. This is the publisher for client side validation. Any component which
-		 * requires validation subscribes to this using validationManager.subscribe.
+		 * requires custom validation subscribes to this using validationManager.subscribe.
 		 *
-		 * @module wc/ui/validation/validationManager
-		 * @requires module:wc/dom/classList
-		 * @requires module:wc/dom/getBox
-		 * @requires module:wc/has"
-		 * @requires module:wc/dom/initialise
-		 * @requires module:wc/dom/shed
-		 * @requires module:wc/dom/tag
-		 * @requires module:wc/dom/Widget
-		 * @requires module:wc/Observer
-		 * @requires external:lib/sprintf
-		 * @requires module:wc/i18n/i18n
+		 * @module
+		 * @requires wc/has
+		 * @requires wc/dom/initialise
+		 * @requires wc/dom/shed
+		 * @requires wc/dom/tag
+		 * @requires wc/dom/Widget
+		 * @requires wc/Observer
+		 * @requires wc/i18n/i18n
+		 * @requires wc/ui/getFirstLabelForElement
+		 * @requires wc/ui/feedback
 		 */
 		instance = new ValidationManager();
 		initialise.register(instance);
