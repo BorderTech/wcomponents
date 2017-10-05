@@ -22,7 +22,9 @@ define(["wc/dom/classList",
 				CLASS_HINT = "wc-label-hint",
 				CHECKBOX_WRAPPER = checkBox.getWrapper(),
 				MOVE_WIDGETS = [CHECKBOX_WRAPPER, new Widget("", "wc-radiobutton"), new Widget("button", "wc-selecttoggle")],
-				HINT;
+				HINT,
+				// @ricksbrown this is a workaround for a flaw in our whole rendering system - we should fix the underlying flaw
+				movedCbLabelReg = {};
 
 			/**
 			 * Helper to do label manipulation.
@@ -140,6 +142,163 @@ define(["wc/dom/classList",
 			}
 
 			/**
+			 * Helper to put checkbox labels in the right place. This is far more complex than it needs to be.
+			 * @function
+			 * @private
+			 * @param {Element} input the labelled WCheckBox
+			 * @param {Element|String} label the label or its HTML (single element root)
+			 */
+			function checkboxLabelPositionHelper(input, label) {
+				var labelElement,
+					refElement,
+					parent;
+				if (!(input && input.nodeType === Node.ELEMENT_NODE && label)) {
+					return;
+				}
+
+				if (label.constructor === String) {
+					labelElement = document.createElement("span");
+					labelElement.innerHTML = label.trim();
+					labelElement = labelElement.firstElementChild;
+				} else {
+					labelElement = label;
+				}
+
+				if (labelElement.nodeType !== Node.ELEMENT_NODE) {
+					console.error("label arg must be an Element or HTML String representing a single element");
+					// do not throw, this funciton is not that important
+					return;
+				}
+
+				if (wrappedInput.isReadOnly(input)) {
+					parent = input.parentNode;
+					refElement = input.nextSibling;
+					if (refElement) {
+						parent.insertBefore(labelElement, refElement);
+					} else {
+						parent.appendChild(labelElement);
+					}
+					return;
+				}
+
+				refElement = diagnostic.getBox(input);
+				if (refElement && refElement.parentNode === input) {
+					input.insertBefore(labelElement, refElement);
+				} else {
+					input.appendChild(labelElement);
+				}
+			}
+
+			function isActiveWCheckBox(el) {
+				if (!(el && el.nodeType === Node.ELEMENT_NODE)) {
+					return false;
+				}
+				return CHECKBOX_WRAPPER.isOneOfMe(el) && !wrappedInput.isReadOnly(el);
+			}
+
+			/**
+			 * Move an individual element's label if required.
+			 * @function
+			 * @private
+			 * @param {Element} el a WRadioButton, WCheckBox or WSelectToggle-button
+			 */
+			function moveLabel(el) {
+				var labels = getLabelsForElement(el, true),
+					label, parent, refElement;
+				if (!(labels && labels.length)) {
+					return;
+				}
+
+				label = labels[0];
+				// We **almost** always have to move interactive checkbox labels because otherwise error messages make the label go nuts.
+				if (isActiveWCheckBox(el)) {
+					// We want to put the label inside the wrapper but before any diagnostics.
+					// but did we already put it there as part of the ajaxSubscriber?
+					if (el.compareDocumentPosition(label) & document.DOCUMENT_POSITION_CONTAINED_BY) {
+						// label already inside the wraspper so do nothing
+						return;
+					}
+					checkboxLabelPositionHelper(el, label);
+				}
+
+				// read-only, WRadioButton and WSelectToggle labels go after their labelled component
+				if (label === el.nextElementSibling) {
+					// already in the right place
+					return;
+				}
+				parent = el.parentNode;
+				if ((refElement = el.nextSibling)) {
+					parent.insertBefore(label, refElement);
+				} else {
+					parent.appendChild(label);
+				}
+			}
+
+			/**
+			 * Move labels to their correct position.
+			 * TODO: This _should_ be done in the Java Renderers.
+			 * @function
+			 * @private
+			 * @param {Element} [element] a container element
+			 */
+			function moveLabels(element) {
+				var el = element || document.body;
+				if (element && Widget.isOneOfMe(element, MOVE_WIDGETS)) {
+					moveLabel(el);
+				} else {
+					Array.prototype.forEach.call(Widget.findDescendants(el, MOVE_WIDGETS), moveLabel);
+				}
+			}
+
+			/**
+			 * Check if we need to restore a label from the moved label registry.
+			 * The label for a WCheckBox has to be inside the labelled component's input wrapper to allow for error messages.
+			 * @function
+			 * @private
+			 * @param {Element} element the potentially unlabelled labelled WCheckBox
+			 */
+			function checkRestoreLabel(element) {
+				var refId = element.id,
+					missingLabelContent = movedCbLabelReg[refId],
+					notMissingLabels;
+				try {
+					if (missingLabelContent && CHECKBOX_WRAPPER.isOneOfMe(element)) {
+						notMissingLabels = getLabelsForElement(element, wrappedInput.isReadOnly(element));
+						if (!(notMissingLabels && notMissingLabels.length)) {
+							// yep, we don't have a label for this check box any more
+							checkboxLabelPositionHelper(element, missingLabelContent);
+						}
+					}
+				} finally {
+					if (missingLabelContent) {
+						delete movedCbLabelReg[refId];
+					}
+				}
+			}
+
+			/**
+			 * Store a nested label before we blow away a WCheckBox. Only needed if the WCheckBox is EXPLICITLY targeted via AJAX.
+			 * @param {type} element
+			 * @returns {undefined}
+			 */
+			function preInsertionAjaxSubscriber(element) {
+				var labels, label;
+				if (!(element && isActiveWCheckBox(element))) {
+					return;
+				}
+				labels = getLabelsForElement(element);
+				if (!(labels && labels.length)) {
+					return;
+				}
+				label = labels[0];
+				if (!(element.compareDocumentPosition(label) & document.DOCUMENT_POSITION_CONTAINED_BY)) {
+					// label not inside the wraspper so do nothing
+					return;
+				}
+				movedCbLabelReg[element.id] = label.outerHTML;
+			}
+
+			/**
 			 * Post-insertion AJAX subscriber to convert labels from a HTML label element to its read-only analogue and vice-versa when
 			 * a labelled element is replaced via AJAX.
 			 *
@@ -151,8 +310,9 @@ define(["wc/dom/classList",
 				if (!element) {
 					return;
 				}
-				moveLabels(element);
 
+				checkRestoreLabel(element);
+				moveLabels(element);
 				Array.prototype.forEach.call(wrappedInput.get(element, true), function (next) {
 					var isRO = wrappedInput.isReadOnly(next),
 						labels = getLabelsForElement(next, true);
@@ -191,6 +351,7 @@ define(["wc/dom/classList",
 				shed.subscribe(shed.actions.OPTIONAL, shedMandatorySubscriber);
 				shed.subscribe(shed.actions.SHOW, shedHideSubscriber);
 				shed.subscribe(shed.actions.HIDE, shedHideSubscriber);
+				processResponse.subscribe(preInsertionAjaxSubscriber);
 				processResponse.subscribe(ajaxSubscriber, true);
 			};
 
@@ -219,74 +380,22 @@ define(["wc/dom/classList",
 			 * @param {String} [content] the hint content to add; if falsey then an existing hint (if any) is removed
 			 */
 			this.setHint = function(label, content) {
-				var hint = this.getHint(label);
+				var hint = this.getHint(label),
+					BEFORE_END = "beforeend";
 				if (hint) {
 					if (content) {
 						if (textContent.get(hint)) {
-							hint.insertAdjacentHTML("beforeEnd", "<br>");
+							hint.insertAdjacentHTML(BEFORE_END, "<br>");
 						}
-						hint.insertAdjacentHTML("beforeEnd", content);
+						hint.insertAdjacentHTML(BEFORE_END, content);
 					} else {
 						hint.parentNode.removeChild(hint);
 					}
 				} else if (content) {
 					hint = tag.toTag(tag.SPAN, false, "class='" + CLASS_HINT + "'") + content + tag.toTag(tag.SPAN, true);
-					label.insertAdjacentHTML("beforeend", hint);
+					label.insertAdjacentHTML(BEFORE_END, hint);
 				}
 			};
-
-			/**
-			 * Move an individual element's label if required.
-			 * @function
-			 * @private
-			 * @param {Element} el a WRadioButton, WCheckBox or WSelectToggle-button
-			 */
-			function moveLabel(el) {
-				var labels = getLabelsForElement(el, true),
-					label, parent, refElement;
-				if (!(labels && labels.length)) {
-					return;
-				}
-
-				label = labels[0];
-				if (label === el.nextSibling) {
-					return;
-				}
-
-				if (CHECKBOX_WRAPPER.isOneOfMe(el)) {
-					// We want to put the label inside the wrapper but before any diagnostics.
-					refElement = diagnostic.getBox(el);
-					if (refElement && refElement.parentNode === el) {
-						el.insertBefore(label, refElement);
-						return;
-					}
-					el.appendChild(label);
-					return;
-				}
-
-				parent = el.parentNode;
-				if ((refElement = el.nextSibling)) {
-					parent.insertBefore(label, refElement);
-				} else {
-					parent.appendChild(label);
-				}
-			}
-
-			/**
-			 * Move labels to their correct position.
-			 * TODO: This _should_ be done in the Java Renderers.
-			 * @function
-			 * @private
-			 * @param {Element} [element] a container element
-			 */
-			function moveLabels(element) {
-				var el = element || document.body;
-				if (element && Widget.isOneOfMe(element, MOVE_WIDGETS)) {
-					moveLabel(el);
-				} else {
-					Array.prototype.forEach.call(Widget.findDescendants(el, MOVE_WIDGETS), moveLabel);
-				}
-			}
 
 			this.preInit = function(element) {
 				moveLabels(element);
