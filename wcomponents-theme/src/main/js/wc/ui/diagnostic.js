@@ -1,17 +1,64 @@
 define(["wc/array/toArray",
 	"wc/dom/diagnostic",
 	"wc/dom/classList",
+	"wc/dom/messageBox",
 	"wc/dom/tag",
 	"wc/dom/wrappedInput",
 	"wc/ui/icon",
 	"wc/ui/getFirstLabelForElement",
 	"wc/config"],
-	function(toArray, diagnostic, classList, tag, wrappedInput, icon, getFirstLabelForElement, wcconfig) {
+	function(toArray, diagnostic, classList, messageBox, tag, wrappedInput, icon, getFirstLabelForElement, wcconfig) {
 		"use strict";
 
 		function Diagnostic() {
 			var writeOutsideThese = [tag.INPUT, tag.SELECT, tag.TEXTAREA],
-				BEFORE_END = "beforeend";
+				BEFORE_END = "beforeend",
+				VALIDATION_ERRORS,
+				ERROR_LINK;
+
+			/**
+			 * Remove a link to a component which was in an error state when the page was loaded (using
+			 * WValidationErrors) but which was subsequently corrected.
+			 * @function
+			 * @private
+			 * @param {Element} element The HTML element which was in an error state
+			 */
+			function removeWValidationErrorLink(element) {
+				var validationErrors,
+					errorLinkWidget,
+					errorLink,
+					errorLinkParent,
+					target;
+
+				if ((validationErrors = messageBox.getErrorBoxes(document.body, true))) {
+					VALIDATION_ERRORS = messageBox.getErrorBoxWidget().clone;
+					if (!ERROR_LINK) {
+						ERROR_LINK = new Widget("a");
+						ERROR_LINK.descendFrom(VALIDATION_ERRORS);
+					}
+
+					target = wrappedInput.isWrappedInput(element) ? wrappedInput.getWrapper(element) : element;
+
+					errorLinkWidget = ERROR_LINK.extend("", {href: ("#" + target.id)});
+					while ((errorLink = errorLinkWidget.findDescendant(document.body)) && (errorLinkParent = errorLink.parentNode)) {
+						errorLinkParent.parentNode.removeChild(errorLinkParent);
+					}
+
+					Array.prototype.forEach.call(validationErrors, function (validErr) {
+						if (!ERROR_LINK.findDescendant(validErr)) {
+							validErr.parentNode.removeChild(validErr);
+						}
+					});
+				}
+			}
+
+			/**
+			 * For the convenience of consuming UI modules.
+			 */
+			this.LEVEL = diagnostic.LEVEL;
+			this.isOneOfMe = function(element, level) {
+				return diagnostic.isOneOfMe(element, level);
+			};
 
 			function check(diag, lenient) {
 				if (!(diag && diagnostic.isOneOfMe(diag))) {
@@ -164,7 +211,7 @@ define(["wc/array/toArray",
 				if (!id) {
 					throw new TypeError("Cannot get error box without an id.");
 				}
-				id += + diagnostic.getIdExtension(level);
+				id += diagnostic.getIdExtension(level);
 
 				boxWidget = diagnostic.getByType(level);
 				tagName = boxWidget.tagName;
@@ -238,6 +285,9 @@ define(["wc/array/toArray",
 				classList.remove(diag, oldClass);
 				// now change the icon
 				changeIcon(diag, oldLevel, toLevel);
+				if (oldLevel === diagnostic.LEVEL.ERROR) {
+					removeWValidationErrorLink(target);
+				}
 				if (oldLevel === diagnostic.LEVEL.ERROR || toLevel === diagnostic.LEVEL.ERROR) {
 					if ((realTarget = target || diagnostic.getTarget(diag))) {
 						toggleValidity(realTarget, toLevel !== diagnostic.LEVEL.ERROR);
@@ -289,6 +339,43 @@ define(["wc/array/toArray",
 				});
 			}
 
+			/**
+			 * Find all diagnostics belonging to an element.
+			 * @function
+			 * @public
+			 * @param {Element|String} element the element being diagnosed (or its id)
+			 * @param {int} [level=1] the diagnostic level, if not set get ERROR diagnostic box. Set to -1 to get the first of any type.
+			 * @returns {Element?} the diagnostic box of the required level (if any).
+			 */
+			this.getBox = function (element, level) {
+				var target,
+					id;
+				if (!element) {
+					throw new TypeError("element must not be falsey");
+				}
+
+				target = (element.constructor === String) ? document.getElementById(element) : element;
+
+				if (target.nodeType !== Node.ELEMENT_NODE) {
+					throw new TypeError("element does not represent an HTML Element");
+				}
+
+				if (wrappedInput.isWrappedInput(target)) {
+					target = wrappedInput.getWrapper(target);
+				}
+
+				if (level === -1) {
+					return diagnostic.getWidget().findDescendant(element);
+				}
+
+				if ((id = target.id)) {
+					// shortcut as this is most used
+					id += diagnostic.getIdExtension(level);
+					return document.getElementById(id);
+				}
+				return null;
+			};
+
 			this.add = function(args) {
 				var AFTER_END = "afterend",
 					writeWhere = args.position,
@@ -302,6 +389,12 @@ define(["wc/array/toArray",
 					// no messages or target for the messages
 					return false;
 				}
+
+				if (wrappedInput.isWrappedInput(target)) {
+					target = wrappedInput.getWrapper(target);
+				}
+
+				removeWValidationErrorLink(target);
 
 				if (target.tagName === tag.INPUT && (target.type === "radio" || target.type === "checkbox")) {
 					flagTarget = getFirstLabelForElement(target);
@@ -351,6 +444,7 @@ define(["wc/array/toArray",
 				if (realDiag) {
 					this.set(realDiag, null); // removes the diagnostic box
 					if (realTarget) {
+						removeWValidationErrorLink(realTarget);
 						toggleValidity(realTarget, true);
 					}
 				}

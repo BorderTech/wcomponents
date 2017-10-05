@@ -5,9 +5,9 @@ define(["wc/i18n/i18n",
 	"wc/ui/validation/isComplete",
 	"wc/ui/validation/validationManager",
 	"wc/ui/validation/required",
-	"wc/ui/validation/feedback",
-	"wc/ui/fieldset"],
-	function(i18n, initialise, shed, getFirstLabelForElement, isComplete, validationManager, required, feedback, fieldset) {
+	"wc/ui/fieldset",
+	"wc/ui/errors"],
+	function(i18n, initialise, shed, getFirstLabelForElement, isComplete, validationManager, required, fieldset, errors) {
 		"use strict";
 		/**
 		 * @constructor
@@ -33,24 +33,6 @@ define(["wc/i18n/i18n",
 			}
 
 			/**
-			 * Array.forEach iteration function used to flag fieldsets which are not valid.
-			 *
-			 * @function
-			 * @private
-			 * @param {Element} fset The fieldset on which we want to flag a validation error.
-			 */
-			function flagError(fset) {
-				var legend = getFirstLabelForElement(fset, true) || fset.title,
-					message = i18n.get("validation_common_incompletegroup", legend);
-
-				flagError.flagError({
-					element: fset,
-					message: message,
-					position: "beforeEnd"
-				});
-			}
-
-			/**
 			 * Fieldset required state validation a fieldset is successful if at least one interactive control within
 			 * the fieldset is complete.
 			 *
@@ -65,7 +47,13 @@ define(["wc/i18n/i18n",
 				// are any not complete?
 				if (elements && (elements = elements.filter(filterFieldsets)) && elements.length) {
 					result = false;
-					elements.forEach(flagError);  // we have a real array after calling filter
+					elements.forEach(function (next) {
+						var message = i18n.get("validation_common_incompletegroup", validationManager.getLabelText(next));
+						errors.flagError({
+							element: next,
+							message: message
+						});
+					});
 				}
 				return result;
 			}
@@ -98,7 +86,7 @@ define(["wc/i18n/i18n",
 
 					if (result) {
 						if (initiallyInvalid) {
-							feedback.setOK(container);
+							errors.setOK(container);
 						}
 						container = INVALID.findAncestor(container.parentNode);
 					} else {
@@ -148,8 +136,8 @@ define(["wc/i18n/i18n",
 		 * @requires wc/ui/validation/isComplete
 		 * @requires wc/ui/validation/validationManager
 		 * @requires wc/ui/validation/required
-		 * @requires wc/ui/validation/feedback
 		 * @requires wc/ui/fieldset
+		 * @requires wc/ui/errrs
 		 */
 		var instance = new ValidationFieldset();
 		initialise.register(instance);

@@ -2,8 +2,9 @@
 define(["wc/ui/getFirstLabelForElement",
 	"wc/i18n/i18n",
 	"lib/sprintf",
-	"wc/ui/validation/feedback"],
-	function(getFirstLabelForElement, i18n, sprintf, feedback) {
+	"wc/ui/validation/validationManager",
+	"wc/ui/errors"],
+	function(getFirstLabelForElement, i18n, sprintf, validationManager, errors) {
 		"use strict";
 
 		/**
@@ -24,9 +25,7 @@ define(["wc/ui/getFirstLabelForElement",
 				selectedFunc = conf.selectedFunc,
 				filter = conf.filter || _filter,
 				selectionElementFunc = conf.selectFunc,
-				flagFunc = conf.flag || _flag,
-				position = conf.position,
-				attachToFunc = conf.attachTo,
+				flagFunc = conf.flag || flagError,
 				minText = conf.minText || "validation_common_undermin",
 				maxText = conf.maxText || "validation_common_overmax",
 				selectables;
@@ -87,17 +86,10 @@ define(["wc/ui/getFirstLabelForElement",
 			 * @param {String} [secondaryLabel] The text content of an inner label to add context to complex error
 			 *    messages. This is used for validation of WMultiSelectPair.
 			 */
-			function _flag(selectable, flag, limit, secondaryLabel) {
-				var label = getFirstLabelForElement(selectable, true) || selectable.title || i18n.get("validation_common_unlabelledfield"),
-					message = sprintf.sprintf(flag, label, limit, secondaryLabel),
-					obj = {element: selectable, message: message};
-				if (position) {
-					obj["position"] = position;
-				}
-				if (attachToFunc) {
-					obj["attachTo"] = attachToFunc(selectable);
-				}
-				feedback.flagError(obj);
+			function flagError(selectable, flag, limit, secondaryLabel) {
+				var message = sprintf.sprintf(flag, validationManager.getLabelText(selectable), limit, secondaryLabel);
+
+				errors.flagError({element: selectable, message: message});
 			}
 
 			if (widget.isOneOfMe(container)) {
@@ -115,7 +107,8 @@ define(["wc/ui/getFirstLabelForElement",
 		 * @requires wc/ui/getFirstLabelForElement
 		 * @requires wc/i18n/i18n
 		 * @requires external:lib/sprintf
-		 * @requires wc/ui/validation/feedback
+		 * @requires wc/ui/validation/validationManager
+		 * @requires wc/ui/errors
 		 *
 		 */
 		return minMax;
@@ -133,7 +126,5 @@ define(["wc/ui/getFirstLabelForElement",
 		 *    flag function.
 		 * @property {String} [minText] The i18n argument for errors where fewer than min options are selected.
 		 * @property {String} [maxText] The i18n argument for errors where more than max options are selected.
-		 * @property {Element} [attachTo] Element to which the error is attached if not the element being tested.
-		 * @property {String} [position] Used as argument for insertAdjacentHTML, defaults to "afterEnd".
 		 */
 	});

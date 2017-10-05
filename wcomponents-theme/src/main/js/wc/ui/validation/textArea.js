@@ -6,10 +6,10 @@ define(["wc/dom/attribute",
 	"lib/sprintf",
 	"wc/ui/validation/required",
 	"wc/ui/validation/validationManager",
-	"wc/ui/validation/feedback",
+	"wc/ui/errors",
 	"wc/ui/getFirstLabelForElement",
 	"wc/ui/textArea"],
-	function(attribute, event, initialise, Widget, i18n, sprintf, required, validationManager, feedback, getFirstLabelForElement, textArea) {
+	function(attribute, event, initialise, Widget, i18n, sprintf, required, validationManager, errors, textArea) {
 		"use strict";
 		/**
 		 * @constructor
@@ -29,13 +29,8 @@ define(["wc/dom/attribute",
 			* @returns {Boolean} true if all required WTextAreas in container are complete.
 			*/
 			function _validateRequired(container) {
-				function _getAttachmentPoint(element) {
-					return textArea.getCounter(element) || element;
-				}
-
 				var obj = {container: container,
-					widget: textArea.getWidget(),
-					attachTo: _getAttachmentPoint};
+					widget: textArea.getWidget()};
 				return required.complexValidationHelper(obj);
 			}
 
@@ -54,7 +49,6 @@ define(["wc/dom/attribute",
 					mask,
 					value = element.value,
 					size,
-					label,
 					flag,
 					message;
 				if (value && !validationManager.isExempt(element)) {
@@ -68,9 +62,8 @@ define(["wc/dom/attribute",
 					}
 
 					if (result) {
-						label = getFirstLabelForElement(element, true) || element.title || i18n.get("validation_common_unlabelledfield");
-						message = sprintf.sprintf(flag, label);
-						feedback.flagError({element: element, message: message, attachTo: (textArea.getCounter(element) || element)});
+						message = sprintf.sprintf(flag, validationManager.getLabelText(element));
+						errors.flagError({element: element, message: message});
 					}
 				}
 				return result;
@@ -155,18 +148,17 @@ define(["wc/dom/attribute",
 		/**
 		 * Provides functionality to undertake client validation of WTextArea.
 		 *
-		 * @module wc/ui/validation/textArea
-		 * @requires module:wc/dom/attribute
-		 * @requires module:wc/dom/event
-		 * @requires module:wc/dom/initialise
-		 * @requires module:wc/dom/Widget
-		 * @requires module:wc/i18n/i18n
+		 * @module
+		 * @requires wc/dom/attribute
+		 * @requires wc/dom/event
+		 * @requires wc/dom/initialise
+		 * @requires wc/dom/Widget
+		 * @requires wc/i18n/i18n
 		 * @requires external:lib/sprintf
-		 * @requires module:wc/ui/validation/required
-		 * @requires module:wc/ui/validation/validationManager
-		 * @requires module:wc/ui/validation/feedback
-		 * @requires module:wc/ui/getFirstLabelForElement
-		 * @requires module:wc/ui/textArea
+		 * @requires wc/ui/validation/required
+		 * @requires wc/ui/validation/validationManager
+		 * @requires wc/ui/errors
+		 * @requires wc/ui/textArea
 		 */
 		var instance = new ValidationTextArea();
 		instance.constructor = ValidationTextArea;

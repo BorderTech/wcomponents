@@ -9,9 +9,9 @@ define(["wc/ui/listLoader",
 	"wc/i18n/i18n",
 	"wc/dom/getLabelsForElement",
 	"wc/ui/errors",
-	"wc/dom/diagnostic",
+	"wc/ui/diagnostic",
 	"wc/has"],
-	function(listLoader, initialise, Widget, getFilteredGroup, selectboxSearch, shed, event, textContent, i18n, getLabelsForElement, errors, diagnostic, has) {
+	function(listLoader, initialise, Widget, getFilteredGroup, selectboxSearch, shed, event, textContent, i18n, getLabelsForElement, errors, uiDiagnostic, has) {
 		"use strict";
 		/**
 		 * @constructor
@@ -115,7 +115,7 @@ define(["wc/ui/listLoader",
 				var element = document.getElementById(id),
 					labels, label,
 					button,
-					message = diagnostic.getBox(element, diagnostic.LEVEL.ERROR),
+					message = uiDiagnostic.getBox(element, uiDiagnostic.LEVEL.ERROR),
 					errorResult;
 				if (!message && element && create) {
 					labels = getLabelsForElement(element, true);

@@ -4,8 +4,10 @@ define(["wc/has",
 	"wc/dom/tag",
 	"wc/dom/Widget",
 	"wc/Observer",
-	"wc/ui/validation/feedback"],
-	function(has, initialise, shed, tag, Widget, Observer, feedback) {
+	"wc/i18n/i18n",
+	"wc/ui/getFirstLabelForElement",
+	"wc/ui/errors"],
+	function(has, initialise, shed, tag, Widget, Observer, i18n, getFirstLabelForElement, errors) {
 		"use strict";
 
 		/**
@@ -50,7 +52,7 @@ define(["wc/has",
 			 */
 			function shedSubscriber(element) {
 				if (element && INVALID_COMPONENT.isOneOfMe(element)) {
-					feedback.clearError(element);
+					errors.clearError(element);
 				}
 			}
 
@@ -100,12 +102,12 @@ define(["wc/has",
 
 				if (initiallyInvalid) {
 					if ((_validateFunc(element))) {
-						feedback.setOK(element);
+						errors.setOK(element);
 						isNowInvalid = false;
 					} else {
 						isNowInvalid = true;
 					}
-				} else if (feedback.isMarkedOK(element, this)) {
+				} else if (errors.isMarkedOK(element, this)) {
 					isNowInvalid = !_validateFunc(element);
 				}
 
@@ -114,7 +116,6 @@ define(["wc/has",
 					observer.notify(element);
 				}
 			};
-
 
 			/**
 			 * Tests the validity of form bound elements within a specified container.
@@ -182,6 +183,14 @@ define(["wc/has",
 				var group = revalidate ? { group: REVALIDATE_OBSERVER_GROUP } : null;
 				return observer.subscribe(subscriber, group);
 			};
+
+			this.getLabelText = function(element, fallbackToken) {
+				var token = fallbackToken || "validation_common_unlabelledfield";
+				return getFirstLabelForElement(element, true) ||
+					element.getAttribute("aria-label") ||
+					element.title ||
+					i18n.get(token);
+			};
 		}
 
 		var instance, repainter;
@@ -195,19 +204,18 @@ define(["wc/has",
 
 		/**
 		 * Generic client side validation manager. This is the publisher for client side validation. Any component which
-		 * requires validation subscribes to this using validationManager.subscribe.
+		 * requires custom validation subscribes to this using validationManager.subscribe.
 		 *
-		 * @module wc/ui/validation/validationManager
-		 * @requires module:wc/dom/classList
-		 * @requires module:wc/dom/getBox
-		 * @requires module:wc/has"
-		 * @requires module:wc/dom/initialise
-		 * @requires module:wc/dom/shed
-		 * @requires module:wc/dom/tag
-		 * @requires module:wc/dom/Widget
-		 * @requires module:wc/Observer
-		 * @requires external:lib/sprintf
-		 * @requires module:wc/i18n/i18n
+		 * @module
+		 * @requires wc/has
+		 * @requires wc/dom/initialise
+		 * @requires wc/dom/shed
+		 * @requires wc/dom/tag
+		 * @requires wc/dom/Widget
+		 * @requires wc/Observer
+		 * @requires wc/i18n/i18n
+		 * @requires wc/ui/getFirstLabelForElement
+		 * @requires wc/ui/errors
 		 */
 		instance = new ValidationManager();
 		initialise.register(instance);

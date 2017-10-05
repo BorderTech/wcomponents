@@ -3,9 +3,8 @@ define(["wc/dom/initialise",
 	"wc/dom/shed",
 	"wc/ui/validation/required",
 	"wc/ui/validation/validationManager",
-	"wc/ui/validation/feedback",
-	"wc/ui/getFirstLabelForElement"],
-	function(initialise, Widget, shed, required, validationManager, feedback, getFirstLabelForElement) {
+	"wc/ui/errors"],
+	function(initialise, Widget, shed, required, validationManager, errors) {
 		"use strict";
 		/**
 		 * @constructor
@@ -24,7 +23,7 @@ define(["wc/dom/initialise",
 			 */
 			function shedSubscriber(element) {
 				if (element && Widget.isOneOfMe(element, REQUIRED) && validationManager.isInvalid(element)) {
-					feedback.setOK(element);
+					errors.setOK(element);
 				}
 			}
 
@@ -38,8 +37,7 @@ define(["wc/dom/initialise",
 			 */
 			function validate(container) {
 				var obj = {container: container,
-					widget: REQUIRED,
-					attachTo: getFirstLabelForElement
+					widget: REQUIRED
 				};
 				return required.complexValidationHelper(obj);
 			}
@@ -60,14 +58,13 @@ define(["wc/dom/initialise",
 		 *
 		 * **NOTE:** this is for individual WCheckBoxes marked 'required'; check boxes in a WCheckBoxSelect are never individually marked required.
 		 *
-		 * @module wc/ui/validation/checkBox
+		 * @module
 		 * @requires wc/wc/dom/initialise
 		 * @requires wc/wc/dom/Widget
 		 * @requires wc/wc/dom/shed
 		 * @requires wc/ui/validation/required
 		 * @requires wc/ui/validation/validationManager
-		 * @requires wc/ui/validation/feedback
-		 * @requires wc/wc/ui/getFirstLabelForElement
+		 * @requires wc/ui/errors
 		 */
 		var instance = new ValidationCheckBox();
 		initialise.register(instance);

@@ -5,12 +5,11 @@ define(["wc/dom/attribute",
 	"wc/i18n/i18n",
 	"wc/ui/multiFormComponent",
 	"wc/array/unique",
-	"wc/ui/getFirstLabelForElement",
 	"lib/sprintf",
 	"wc/ui/validation/required",
 	"wc/ui/validation/validationManager",
-	"wc/ui/validation/feedback"],
-	function(attribute, event, initialise, Widget, i18n, multiFormComponent, unique, getFirstLabelForElement, sprintf, required, validationManager, feedback) {
+	"wc/ui/errors"],
+	function(attribute, event, initialise, Widget, i18n, multiFormComponent, unique, sprintf, required, validationManager, errors) {
 		"use strict";
 		/**
 		 * @constructor
@@ -114,9 +113,8 @@ define(["wc/dom/attribute",
 			 * @param {int} limit The max/min number of values/selections.
 			 */
 			function _flag(element, flag, limit) {
-				var label = getFirstLabelForElement(element, true) || element.title,
-					message = sprintf.sprintf(flag, label, limit);
-				feedback.flagError({element: element, message: message, position: "beforeEnd"});
+				var message = sprintf.sprintf(flag, validationManager.getLabelText(element), limit);
+				errors.flagError({element: element, message: message});
 			}
 
 			/**
@@ -226,7 +224,7 @@ define(["wc/dom/attribute",
 		/**
 		 * Provides functionality to undertake client validation of WMultiDropdown and WMultiTextField.
 		 *
-		 * @module wc/ui/validation/multiFormComponent
+		 * @module
 		 * @requires wc/dom/attribute
 		 * @requires wc/dom/event
 		 * @requires wc/dom/initialise
@@ -234,11 +232,10 @@ define(["wc/dom/attribute",
 		 * @requires wc/i18n/i18n
 		 * @requires wc/ui/multiFormComponent
 		 * @requires wc/array/unique
-		 * @requires wc/ui/getFirstLabelForElement
 		 * @requires external:lib/sprintf
 		 * @requires wc/ui/validation/required
 		 * @requires wc/ui/validation/validationManager
-		 * @requires wc/ui/validation/feedback
+		 * @requires wc/ui/errors
 		 */
 		var instance = new ValidationMultiFormComponent();
 		initialise.register(instance);

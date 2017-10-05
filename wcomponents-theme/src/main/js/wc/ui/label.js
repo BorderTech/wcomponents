@@ -9,7 +9,7 @@ define(["wc/dom/classList",
 	"wc/dom/textContent",
 	"wc/dom/wrappedInput",
 	"wc/ui/checkBox",
-	"wc/dom/diagnostic"],
+	"wc/ui/diagnostic"],
 	function (classList, initialise, shed, tag, Widget, getLabelsForElement, processResponse, $role, textContent, wrappedInput, checkBox, diagnostic) {
 		"use strict";
 		/**

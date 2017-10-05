@@ -4,12 +4,11 @@ define(["wc/dom/attribute",
 	"wc/dom/Widget",
 	"wc/i18n/i18n",
 	"wc/ui/validation/validationManager",
-	"wc/ui/validation/feedback",
 	"wc/ui/validation/required",
-	"wc/ui/getFirstLabelForElement",
+	"wc/ui/errors",
 	"lib/sprintf",
 	"wc/ui/numberField"],
-	function(attribute, initialise, event, Widget, i18n, validationManager, feedback, required, getFirstLabelForElement, sprintf, numberField) {
+	function(attribute, initialise, event, Widget, i18n, validationManager, required, errors, sprintf, numberField) {
 		"use strict";
 		/**
 		 * @constructor
@@ -36,7 +35,7 @@ define(["wc/dom/attribute",
 			function isInvalid(element) {
 				var result = false, min, max,
 					value = numberField.getValueAsNumber(element),
-					label, message;
+					message;
 
 				if (value !== "" && !validationManager.isExempt(element)) {
 					if (Widget.isOneOfMe(element, CONSTRAINED)) {
@@ -51,9 +50,8 @@ define(["wc/dom/attribute",
 					}
 					if (message) {
 						result = true;
-						label = getFirstLabelForElement(element, true) || element.title || i18n.get("validation_common_unlabelledfield");
-						message = sprintf.sprintf(message, label, (min || max), max);
-						feedback.flagError({element: element, message: message});
+						message = sprintf.sprintf(message, validationManager.getLabelText(element), (min || max), max);
+						errors.flagError({element: element, message: message});
 					}
 				}
 				return result;
@@ -175,16 +173,15 @@ define(["wc/dom/attribute",
 		/**
 		 * Provides functionality to undertake client validation of WNumberField.
 		 *
-		 * @module wc/ui/validation/numberField
+		 * @module
 		 * @requires module:wc/dom/attribute
 		 * @requires module:wc/dom/initialise
 		 * @requires module:wc/dom/event
 		 * @requires module:wc/dom/Widget
 		 * @requires module:wc/i18n/i18n
 		 * @requires module:wc/ui/validation/validationManager
-		 * @requires module:wc/ui/validation/
 		 * @requires module:wc/ui/validation/required
-		 * @requires module:wc/ui/getFirstLabelForElement
+		 * @requires module:wc/ui/errors
 		 * @requires external:lib/sprintf
 		 * @requires module:wc/ui/numberField
 		 */

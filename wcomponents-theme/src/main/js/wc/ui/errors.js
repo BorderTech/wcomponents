@@ -1,5 +1,6 @@
-define(["wc/dom/diagnostic", "wc/ui/diagnostic"],
-	function(diagnostic, uiDiagnostic) {
+define(["wc/ui/diagnostic",
+	"wc/i18n/i18n"],
+	function(diagnostic, i18n) {
 		"use strict";
 		/**
 		 * @constructor
@@ -7,7 +8,6 @@ define(["wc/dom/diagnostic", "wc/ui/diagnostic"],
 		 * @private
 		 */
 		function ErrorWriter() {
-
 			/**
 			 * Flag a component with an error message and put it into an invalid state..
 			 * @param {module:wc/ui/errors~flagDto} args a config dto
@@ -22,16 +22,24 @@ define(["wc/dom/diagnostic", "wc/ui/diagnostic"],
 				if (!(target && messages)) {
 					return null;
 				}
+
+				if (target.constructor === String) {
+					target = document.getElementById(target);
+					if (!target) {
+						return;
+					}
+				}
+
 				// if the target already has an error box then use it
 				if ((errorContainer = diagnostic.getBox(target))) {
-					uiDiagnostic.change(errorContainer, level);
-					uiDiagnostic.addMessages(errorContainer, level);
+					diagnostic.change(errorContainer, level);
+					diagnostic.addMessages(errorContainer, level);
 					return errorContainer.id;
 				}
-				result = uiDiagnostic.add({
+				result = diagnostic.add({
 					target: target,
 					messages: messages,
-					level: diagnostic.LEVEL.ERROR,
+					level: level,
 					position: args.position
 				});
 				if (result) {
@@ -54,9 +62,35 @@ define(["wc/dom/diagnostic", "wc/ui/diagnostic"],
 					return;
 				}
 				if (diagnostic.isOneOfMe(element)) {
-					uiDiagnostic.remove(element, target);
+					diagnostic.remove(element, target);
 				} else if ((errorContainer = diagnostic.getBox(element))) {
-					uiDiagnostic.remove(errorContainer, element);
+					diagnostic.remove(errorContainer, element);
+				}
+			};
+
+			/**
+			 * Indicates whether a component is associated with a message indicating that an error has been resolved.
+			 *
+			 * @function
+			 * @param {Element} element The HTML element to test.
+			 * @returns {boolean} `true` if the element is associated with a success message.
+			 */
+			this.isMarkedOK = function(element) {
+				return !!diagnostic.getBox(element, diagnostic.LEVEL.SUCCESS);
+			};
+
+			/**
+			 * Updates an error box to a succcess box and its error box once an error is corrected.
+			 *
+			 * @function
+			 * @public
+			 * @param {Element} element the HTML element which was in an error state.
+			 */
+			this.setOK = function(element) {
+				var errorBox = diagnostic.getBox(element, -1);
+				if (errorBox) {
+					diagnostic.change(errorBox, diagnostic.LEVEL.SUCCESS);
+					diagnostic.set(errorBox, i18n.get("validation_ok"));
 				}
 			};
 		}

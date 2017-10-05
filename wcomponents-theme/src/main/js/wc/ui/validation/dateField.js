@@ -54,7 +54,6 @@ define(["wc/date/interchange",
 					date, flag, value,
 					textbox,
 					comparisonDate,
-					label,
 					LABEL_PLACEHOLDER = "%s",
 					minAttrib = "data-wc-min",
 					maxAttrib = "data-wc-max";
@@ -111,8 +110,7 @@ define(["wc/date/interchange",
 					}
 				}
 				if (invalid) {
-					label = getFirstLabelForElement(textbox, true) || element.title || i18n.get("validation_common_unlabelledfield");
-					validationManager.flagError({element: element, message: sprintf.sprintf(flag, label)});
+					validationManager.flagError({element: element, message: sprintf.sprintf(flag, validationManager.getLabelText(element))});
 				}
 				return invalid;
 			}
@@ -125,9 +123,8 @@ define(["wc/date/interchange",
 			 * @returns {String} The formatted validation message.
 			 */
 			function messageFunction(element) {
-				var textbox = dateField.getTextBox(element),
-					label = getFirstLabelForElement(textbox, true) || textbox.title || i18n.get("validation_common_unlabelledfield");
-				return sprintf.sprintf(i18n.get("validation_common_incomplete"), label);
+				var textbox = dateField.getTextBox(element);
+				return sprintf.sprintf(i18n.get("validation_common_incomplete"), validationManager.getLabelText(textbox));
 			}
 
 			/**

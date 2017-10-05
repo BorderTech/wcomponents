@@ -191,39 +191,6 @@ define(["wc/dom/Widget", "wc/dom/tag"], function(Widget, tag) {
 		};
 
 		/**
-		 * Find all diagnostics belonging to an element.
-		 * @function
-		 * @public
-		 * @param {Element|String} element the element being diagnosed (or its id)
-		 * @param {int} [level=1] the diagnostic level, if not set get ERROR diagnostic box. Set to -1 to get the first of any type.
-		 * @returns {Element?} the diagnostic box of the required level (if any).
-		 */
-		this.getBox = function (element, level) {
-			var target,
-				id;
-			if (!element) {
-				throw new TypeError("element must not be falsey");
-			}
-
-			target = (element.constructor === String) ? document.getElementById(element) : element;
-
-			if (target.nodeType !== Node.ELEMENT_NODE) {
-				throw new TypeError("element does not represent an HTML Element");
-			}
-
-			if (level === -1) {
-				return DIAGNOSTIC.findDescendant(element);
-			}
-
-			if ((id = target.id)) {
-				// shortcut as this is most used
-				id += this.getIdExtension(level);
-				return document.getElementById(id);
-			}
-			return null;
-		};
-
-		/**
 		 * Gets the messages already inside a given diagnostic box.
 		 * @function
 		 * @public
