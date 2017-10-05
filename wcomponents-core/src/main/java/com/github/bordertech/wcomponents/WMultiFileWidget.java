@@ -687,7 +687,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		if (fileId == null) {
 			throw new SystemException("No file id provided for file upload.");
 		}
-		
+
 		// Wrap the file item
 		FileItemWrap wrap = new FileItemWrap(items[0]);
 		
@@ -701,7 +701,6 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		}
 
 		// if fileSize is supplied then validate it
-		boolean validFileSize;
 		if (isSetFileSize()) {
 			if (!FileValidationUtil.validateFileSize(wrap, getMaxFileSize())) {
 				String invalidMessage = String.format(I18nUtilities.format(null, InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_SIZE), 
