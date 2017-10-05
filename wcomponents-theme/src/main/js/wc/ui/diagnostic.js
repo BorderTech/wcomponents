@@ -6,9 +6,9 @@ define(["wc/array/toArray",
 	"wc/dom/wrappedInput",
 	"wc/dom/Widget",
 	"wc/ui/icon",
-	"wc/ui/getFirstLabelForElement",
+	"wc/dom/getLabelsForElement",
 	"wc/config"],
-	function(toArray, diagnostic, classList, messageBox, tag, wrappedInput, Widget, icon, getFirstLabelForElement, wcconfig) {
+	function(toArray, diagnostic, classList, messageBox, tag, wrappedInput, Widget, icon, getLabelsForElement, wcconfig) {
 		"use strict";
 
 		function Diagnostic() {
@@ -433,7 +433,8 @@ define(["wc/array/toArray",
 				removeWValidationErrorLink(target);
 
 				if (target.tagName === tag.INPUT && (target.type === "radio" || target.type === "checkbox")) {
-					flagTarget = getFirstLabelForElement(target);
+					flagTarget = getLabelsForElement(target);
+					flagTarget = (flagTarget && flagTarget.length) ? flagTarget[0] : null;
 					if (flagTarget) {
 						writeWhere = BEFORE_END;
 					} else {
