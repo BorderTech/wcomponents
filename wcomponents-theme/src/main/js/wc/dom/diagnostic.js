@@ -191,20 +191,6 @@ define(["wc/dom/Widget", "wc/dom/tag"], function(Widget, tag) {
 		};
 
 		/**
-		 * Gets the messages already inside a given diagnostic box.
-		 * @function
-		 * @public
-		 * @param {Element} diag the diagnostic box
-		 * @returns {NodeList?} messages inside the diagnostic box, if any
-		 */
-		this.getMessages = function(diag) {
-			if (!(diag && DIAGNOSTIC.isOneOfMe(diag))) {
-				return null;
-			}
-			return this.getMessage().findDescendants(diag);
-		};
-
-		/**
 		 * Get the diagnostic level (e.g. LEVEL.ERROR) for a given diagnostic box.
 		 * @function
 		 * @public
@@ -222,25 +208,6 @@ define(["wc/dom/Widget", "wc/dom/tag"], function(Widget, tag) {
 				}
 			}
 			return -1;
-		};
-
-		/**
-		 * Remove all messages from a diagnostic box.
-		 * @function
-		 * @public
-		 * @param {Element} diag
-		 * @throws {TypeError} if `diag` is not a diagnostic box
-		 */
-		this.clear = function(diag) {
-			var messages;
-			if (!(diag && DIAGNOSTIC.isOneOfMe(diag))) {
-				throw new TypeError("Argument must be a diagnostic box");
-			}
-			if ((messages = this.getMessages(diag))) {
-				Array.prototype.forEach.call(messages, function(next) {
-					diag.removeChild(next);
-				});
-			}
 		};
 
 		/**

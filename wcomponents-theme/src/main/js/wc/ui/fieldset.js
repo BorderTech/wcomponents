@@ -45,7 +45,8 @@ define(["wc/dom/initialise",
 					labelClass += label.className;
 					accesskey = label.getAttribute("data-wc-accesskey");
 				}
-				el.insertAdjacentHTML("afterbegin", "<legend class='" + labelClass + "'" + (accesskey ? " accesskey = '" + accesskey + "'" : "") + ">" + labelContent + "</legend>");
+				el.insertAdjacentHTML("afterbegin", "<legend class='" + labelClass + "'" + (accesskey ? " accesskey = '" + accesskey + "'" : "") +
+					">" + labelContent + "</legend>");
 				// label is now the first child of el.
 				label = el.firstChild;
 				classList.remove(label, WLABEL_CLASS);

@@ -181,7 +181,7 @@ define(["wc/dom/classList",
 					return;
 				}
 
-				refElement = diagnostic.getBox(input);
+				refElement = diagnostic.getBox(input, -1);
 				if (refElement && refElement.parentNode === input) {
 					input.insertBefore(labelElement, refElement);
 				} else {

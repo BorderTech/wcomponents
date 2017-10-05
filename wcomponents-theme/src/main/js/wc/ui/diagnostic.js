@@ -74,7 +74,7 @@ define(["wc/array/toArray",
 			function changeIcon(diag, fromLevel, toLevel) {
 				var oldClass = getIconName(fromLevel),
 					newClass = getIconName(toLevel);
-				icon.change(diag, oldClass, newClass);
+				icon.change(diag, newClass, oldClass);
 			}
 
 			/**
@@ -147,7 +147,7 @@ define(["wc/array/toArray",
 				if (!(diag && diagnostic.getWidget().isOneOfMe(diag))) {
 					throw new TypeError("Argument must be a diagnostic box");
 				}
-				if ((current = this.getMessages(diag))) {
+				if ((current = instance.getMessages(diag))) {
 					for (i = 0; i < current.length; ++i) {
 						if (message.toLocaleLowerCase() === current[i].innerHTML.toLocaleLowerCase()) {
 							// already have this message
@@ -279,20 +279,40 @@ define(["wc/array/toArray",
 				// if we already have a diagnostic box at the requested level we cannot create a new one
 				if (document.getElementById(testId)) {
 					console.log("cannot create diagnostic box with duplicate id");
-					this.remove(diag, target);
+					// this.remove(diag, target);
+					this.clear(diag);
 					return;
 				}
 				classList.add(diag, newClass);
 				classList.remove(diag, oldClass);
+				diag.id = testId;
+				this.clear(diag);
 				// now change the icon
 				changeIcon(diag, oldLevel, toLevel);
-				if (oldLevel === diagnostic.LEVEL.ERROR) {
-					removeWValidationErrorLink(target);
-				}
 				if (oldLevel === diagnostic.LEVEL.ERROR || toLevel === diagnostic.LEVEL.ERROR) {
 					if ((realTarget = target || diagnostic.getTarget(diag))) {
+						if (oldLevel === diagnostic.LEVEL.ERROR) {
+							removeWValidationErrorLink(realTarget);
+						}
 						toggleValidity(realTarget, toLevel !== diagnostic.LEVEL.ERROR);
 					}
+				}
+			};
+
+			/**
+			 * Remove all messages from a diagnostic box.
+			 * @function
+			 * @public
+			 * @param {Element} diag
+			 * @throws {TypeError} if `diag` is not a diagnostic box
+			 */
+			this.clear = function(diag) {
+				var messages;
+				check(diag);
+				if ((messages = this.getMessages(diag))) {
+					Array.prototype.forEach.call(messages, function(next) {
+						diag.removeChild(next);
+					});
 				}
 			};
 
@@ -307,6 +327,20 @@ define(["wc/array/toArray",
 				}
 			};
 
+			/**
+			 * Gets the messages already inside a given diagnostic box.
+			 * @function
+			 * @public
+			 * @param {Element} diag the diagnostic box
+			 * @returns {NodeList?} messages inside the diagnostic box, if any
+			 */
+			this.getMessages = function(diag) {
+				if (!check(diag, true)) {
+					return null;
+				}
+				return diagnostic.getMessage().findDescendants(diag);
+			};
+
 			this.set = function(diag, messages) {
 				var parent;
 				check(diag);
@@ -314,7 +348,7 @@ define(["wc/array/toArray",
 					parent.removeChild(diag);
 					return;
 				}
-				diagnostic.clear(diag);
+				this.clear(diag);
 				this.addMessages(diag, messages);
 			};
 
@@ -366,14 +400,15 @@ define(["wc/array/toArray",
 				}
 
 				if (level === -1) {
-					return diagnostic.getWidget().findDescendant(element);
+					return diagnostic.getWidget().findDescendant(target);
+				}
+				if (level) {
+					if ((id = target.id)) {
+						id += diagnostic.getIdExtension(level);
+						return document.getElementById(id);
+					}
 				}
 
-				if ((id = target.id)) {
-					// shortcut as this is most used
-					id += diagnostic.getIdExtension(level);
-					return document.getElementById(id);
-				}
 				return null;
 			};
 

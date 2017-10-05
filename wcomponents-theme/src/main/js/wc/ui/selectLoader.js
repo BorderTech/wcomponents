@@ -36,7 +36,7 @@ define(["wc/ui/listLoader",
 					if (element) {
 						message = getErrorMessage(id, false);
 						if (message) {
-							feedback.clearError(message, element);
+							feedback.clear(message, element);
 						}
 						try {
 							selectList = OPTION_CONTAINER.isOneOfMe(element) ? element : OPTION_CONTAINER.findDescendant(element);

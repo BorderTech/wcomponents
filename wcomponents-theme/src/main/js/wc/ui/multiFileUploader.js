@@ -776,8 +776,8 @@ define(["wc/dom/attribute",
 				if (fileInfo) {
 					feedback.flagError({
 						element: fileInfo,
-						message: errorMessage,
-						position: "beforeEnd"});
+						message: errorMessage
+					});
 				}
 				console.log("Error in file upload:", fileInfoId);
 			};

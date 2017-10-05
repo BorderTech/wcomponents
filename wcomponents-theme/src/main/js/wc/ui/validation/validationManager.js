@@ -52,7 +52,7 @@ define(["wc/has",
 			 */
 			function shedSubscriber(element) {
 				if (element && INVALID_COMPONENT.isOneOfMe(element)) {
-					feedback.clearError(element);
+					feedback.clear(element);
 				}
 			}
 

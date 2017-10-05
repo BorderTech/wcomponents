@@ -14,7 +14,7 @@ define(["wc/i18n/i18n",
 		 * @private
 		 */
 		function ValidationFieldset() {
-			var FIELDSET = fieldset.getWidget(),
+			var FIELDSET = fieldset.getWidget().clone().extend("wc-fieldset"),
 				INVALID;
 
 			/**
