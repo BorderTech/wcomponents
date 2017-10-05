@@ -219,6 +219,7 @@ define(["wc/dom/classList",
 						return;
 					}
 					checkboxLabelPositionHelper(el, label);
+					return;
 				}
 
 				// read-only, WRadioButton and WSelectToggle labels go after their labelled component
