@@ -10,6 +10,7 @@
 
 * Fixed a flaw in message handling which resulted in error and warning messages not being applied correctly in almost all AJAX-related scenarios #1370
 * Fixed a number of errors in messaging and validation in the client code as part of #1370.
+* Resolved #1121
 
 ## Release 1.4.11
 
