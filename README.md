@@ -23,7 +23,7 @@ Frontend Tests:
 
 ## Contributing
 
-Contributions welcome: [Contributing](https://github.com/BorderTech/wcomponents/wiki/Contributing)
+Contributions welcome: See the CONTRIBUTING and CODE_OF_CONDUCT files in this project.
 
 ## Why Use WComponents
 
