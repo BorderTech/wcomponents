@@ -29,7 +29,7 @@
 			</xs:documentation>
 		</xs:annotation>
 
-		<xs:complexType>
+		<xs:complexType mixed="true">
 			<xs:sequence>
 				<xs:element maxOccurs="2" minOccurs="0" ref="ui:diagnostic"/>
 			</xs:sequence>
