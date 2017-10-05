@@ -4,10 +4,11 @@ define(["wc/array/toArray",
 	"wc/dom/messageBox",
 	"wc/dom/tag",
 	"wc/dom/wrappedInput",
+	"wc/dom/Widget",
 	"wc/ui/icon",
 	"wc/ui/getFirstLabelForElement",
 	"wc/config"],
-	function(toArray, diagnostic, classList, messageBox, tag, wrappedInput, icon, getFirstLabelForElement, wcconfig) {
+	function(toArray, diagnostic, classList, messageBox, tag, wrappedInput, Widget, icon, getFirstLabelForElement, wcconfig) {
 		"use strict";
 
 		function Diagnostic() {

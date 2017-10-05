@@ -5,10 +5,10 @@ define(["wc/dom/attribute",
 	"wc/i18n/i18n",
 	"wc/ui/validation/validationManager",
 	"wc/ui/validation/required",
-	"wc/ui/errors",
+	"wc/ui/feedback",
 	"lib/sprintf",
 	"wc/ui/numberField"],
-	function(attribute, initialise, event, Widget, i18n, validationManager, required, errors, sprintf, numberField) {
+	function(attribute, initialise, event, Widget, i18n, validationManager, required, feedback, sprintf, numberField) {
 		"use strict";
 		/**
 		 * @constructor
@@ -51,7 +51,7 @@ define(["wc/dom/attribute",
 					if (message) {
 						result = true;
 						message = sprintf.sprintf(message, validationManager.getLabelText(element), (min || max), max);
-						errors.flagError({element: element, message: message});
+						feedback.flagError({element: element, message: message});
 					}
 				}
 				return result;
@@ -174,16 +174,16 @@ define(["wc/dom/attribute",
 		 * Provides functionality to undertake client validation of WNumberField.
 		 *
 		 * @module
-		 * @requires module:wc/dom/attribute
-		 * @requires module:wc/dom/initialise
-		 * @requires module:wc/dom/event
-		 * @requires module:wc/dom/Widget
-		 * @requires module:wc/i18n/i18n
-		 * @requires module:wc/ui/validation/validationManager
-		 * @requires module:wc/ui/validation/required
-		 * @requires module:wc/ui/errors
+		 * @requires wc/dom/attribute
+		 * @requires wc/dom/initialise
+		 * @requires wc/dom/event
+		 * @requires wc/dom/Widget
+		 * @requires wc/i18n/i18n
+		 * @requires wc/ui/validation/validationManager
+		 * @requires wc/ui/validation/required
+		 * @requires wc/ui/feedback
 		 * @requires external:lib/sprintf
-		 * @requires module:wc/ui/numberField
+		 * @requires wc/ui/numberField
 		 */
 		var instance = new ValidationNumberField();
 		initialise.register(instance);

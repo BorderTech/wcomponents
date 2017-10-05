@@ -4,13 +4,13 @@ define(["wc/ui/diagnostic",
 		"use strict";
 		/**
 		 * @constructor
-		 * @alias module:wc/ui/errors~ErrorWriter
+		 * @alias module:wc/ui/feedback~ErrorWriter
 		 * @private
 		 */
 		function ErrorWriter() {
 			/**
 			 * Flag a component with an error message and put it into an invalid state..
-			 * @param {module:wc/ui/errors~flagDto} args a config dto
+			 * @param {module:wc/ui/feedback~flagDto} args a config dto
 			 * @returns {String?} the id of the error container (if one is present/created)
 			 */
 			this.flagError = function(args) {
@@ -100,19 +100,19 @@ define(["wc/ui/diagnostic",
 		 * Note: I have removed the dependency on handlebars to increase this chance this module can continue to
 		 * operate in error conditions for example the network cable being unplugged.
 		 * @module
-		 * @requires wc/dom/diagnostic
 		 * @requires wc/ui/diagnostic
+		 * @requires wc/i18n/i18n
 		 */
 		var instance = new ErrorWriter();
 		return instance;
 
 		/**
-		 * @typedef {Object} module:wc/ui/errors~flagDto The properties used to describe a custom error message.
+		 * @typedef {Object} module:wc/ui/feedback~flagDto The properties used to describe a custom error message.
 		 * @property {String|String[]} message The message to display.
 		 * @property {Element} element The element which is to be flagged with the error message.
 		 * @property {String} [position=afterEnd] The position for the message as a `insertAdjacentHTML` position.
 		 *
-		 * @typedef {Object} module:wc/ui/errors~config Optional run-time configuration for this module.
+		 * @typedef {Object} module:wc/ui/feedback~config Optional run-time configuration for this module.
 		 * @property {String} [icon=fa-times-circle] The font-awesome classname for the icon to display in the error box.
 		 */
 	});

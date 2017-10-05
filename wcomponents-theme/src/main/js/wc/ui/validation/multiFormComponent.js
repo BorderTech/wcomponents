@@ -8,8 +8,8 @@ define(["wc/dom/attribute",
 	"lib/sprintf",
 	"wc/ui/validation/required",
 	"wc/ui/validation/validationManager",
-	"wc/ui/errors"],
-	function(attribute, event, initialise, Widget, i18n, multiFormComponent, unique, sprintf, required, validationManager, errors) {
+	"wc/ui/feedback"],
+	function(attribute, event, initialise, Widget, i18n, multiFormComponent, unique, sprintf, required, validationManager, feedback) {
 		"use strict";
 		/**
 		 * @constructor
@@ -114,7 +114,7 @@ define(["wc/dom/attribute",
 			 */
 			function _flag(element, flag, limit) {
 				var message = sprintf.sprintf(flag, validationManager.getLabelText(element), limit);
-				errors.flagError({element: element, message: message});
+				feedback.flagError({element: element, message: message});
 			}
 
 			/**
@@ -235,7 +235,7 @@ define(["wc/dom/attribute",
 		 * @requires external:lib/sprintf
 		 * @requires wc/ui/validation/required
 		 * @requires wc/ui/validation/validationManager
-		 * @requires wc/ui/errors
+		 * @requires wc/ui/feedback
 		 */
 		var instance = new ValidationMultiFormComponent();
 		initialise.register(instance);

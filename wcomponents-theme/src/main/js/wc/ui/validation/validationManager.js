@@ -6,8 +6,8 @@ define(["wc/has",
 	"wc/Observer",
 	"wc/i18n/i18n",
 	"wc/ui/getFirstLabelForElement",
-	"wc/ui/errors"],
-	function(has, initialise, shed, tag, Widget, Observer, i18n, getFirstLabelForElement, errors) {
+	"wc/ui/feedback"],
+	function(has, initialise, shed, tag, Widget, Observer, i18n, getFirstLabelForElement, feedback) {
 		"use strict";
 
 		/**
@@ -52,7 +52,7 @@ define(["wc/has",
 			 */
 			function shedSubscriber(element) {
 				if (element && INVALID_COMPONENT.isOneOfMe(element)) {
-					errors.clearError(element);
+					feedback.clearError(element);
 				}
 			}
 
@@ -102,12 +102,12 @@ define(["wc/has",
 
 				if (initiallyInvalid) {
 					if ((_validateFunc(element))) {
-						errors.setOK(element);
+						feedback.setOK(element);
 						isNowInvalid = false;
 					} else {
 						isNowInvalid = true;
 					}
-				} else if (errors.isMarkedOK(element, this)) {
+				} else if (feedback.isMarkedOK(element, this)) {
 					isNowInvalid = !_validateFunc(element);
 				}
 
@@ -215,7 +215,7 @@ define(["wc/has",
 		 * @requires wc/Observer
 		 * @requires wc/i18n/i18n
 		 * @requires wc/ui/getFirstLabelForElement
-		 * @requires wc/ui/errors
+		 * @requires wc/ui/feedback
 		 */
 		instance = new ValidationManager();
 		initialise.register(instance);

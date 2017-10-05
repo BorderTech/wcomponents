@@ -6,10 +6,10 @@ define(["wc/dom/attribute",
 	"lib/sprintf",
 	"wc/ui/validation/required",
 	"wc/ui/validation/validationManager",
-	"wc/ui/errors",
+	"wc/ui/feedback",
 	"wc/ui/getFirstLabelForElement",
 	"wc/ui/textArea"],
-	function(attribute, event, initialise, Widget, i18n, sprintf, required, validationManager, errors, textArea) {
+	function(attribute, event, initialise, Widget, i18n, sprintf, required, validationManager, feedback, textArea) {
 		"use strict";
 		/**
 		 * @constructor
@@ -63,7 +63,7 @@ define(["wc/dom/attribute",
 
 					if (result) {
 						message = sprintf.sprintf(flag, validationManager.getLabelText(element));
-						errors.flagError({element: element, message: message});
+						feedback.flagError({element: element, message: message});
 					}
 				}
 				return result;
@@ -157,7 +157,7 @@ define(["wc/dom/attribute",
 		 * @requires external:lib/sprintf
 		 * @requires wc/ui/validation/required
 		 * @requires wc/ui/validation/validationManager
-		 * @requires wc/ui/errors
+		 * @requires wc/ui/feedback
 		 * @requires wc/ui/textArea
 		 */
 		var instance = new ValidationTextArea();

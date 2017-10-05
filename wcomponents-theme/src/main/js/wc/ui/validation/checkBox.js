@@ -3,8 +3,8 @@ define(["wc/dom/initialise",
 	"wc/dom/shed",
 	"wc/ui/validation/required",
 	"wc/ui/validation/validationManager",
-	"wc/ui/errors"],
-	function(initialise, Widget, shed, required, validationManager, errors) {
+	"wc/ui/feedback"],
+	function(initialise, Widget, shed, required, validationManager, feedback) {
 		"use strict";
 		/**
 		 * @constructor
@@ -23,7 +23,7 @@ define(["wc/dom/initialise",
 			 */
 			function shedSubscriber(element) {
 				if (element && Widget.isOneOfMe(element, REQUIRED) && validationManager.isInvalid(element)) {
-					errors.setOK(element);
+					feedback.setOK(element);
 				}
 			}
 
@@ -64,7 +64,7 @@ define(["wc/dom/initialise",
 		 * @requires wc/wc/dom/shed
 		 * @requires wc/ui/validation/required
 		 * @requires wc/ui/validation/validationManager
-		 * @requires wc/ui/errors
+		 * @requires wc/ui/feedback
 		 */
 		var instance = new ValidationCheckBox();
 		initialise.register(instance);

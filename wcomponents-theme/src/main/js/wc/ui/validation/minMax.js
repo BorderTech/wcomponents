@@ -3,8 +3,8 @@ define(["wc/ui/getFirstLabelForElement",
 	"wc/i18n/i18n",
 	"lib/sprintf",
 	"wc/ui/validation/validationManager",
-	"wc/ui/errors"],
-	function(getFirstLabelForElement, i18n, sprintf, validationManager, errors) {
+	"wc/ui/feedback"],
+	function(getFirstLabelForElement, i18n, sprintf, validationManager, feedback) {
 		"use strict";
 
 		/**
@@ -89,7 +89,7 @@ define(["wc/ui/getFirstLabelForElement",
 			function flagError(selectable, flag, limit, secondaryLabel) {
 				var message = sprintf.sprintf(flag, validationManager.getLabelText(selectable), limit, secondaryLabel);
 
-				errors.flagError({element: selectable, message: message});
+				feedback.flagError({element: selectable, message: message});
 			}
 
 			if (widget.isOneOfMe(container)) {
@@ -108,7 +108,7 @@ define(["wc/ui/getFirstLabelForElement",
 		 * @requires wc/i18n/i18n
 		 * @requires external:lib/sprintf
 		 * @requires wc/ui/validation/validationManager
-		 * @requires wc/ui/errors
+		 * @requires wc/ui/feedback
 		 *
 		 */
 		return minMax;

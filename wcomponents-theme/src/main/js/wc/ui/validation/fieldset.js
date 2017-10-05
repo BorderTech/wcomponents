@@ -1,13 +1,12 @@
 define(["wc/i18n/i18n",
 	"wc/dom/initialise",
 	"wc/dom/shed",
-	"wc/ui/getFirstLabelForElement",
 	"wc/ui/validation/isComplete",
 	"wc/ui/validation/validationManager",
 	"wc/ui/validation/required",
 	"wc/ui/fieldset",
-	"wc/ui/errors"],
-	function(i18n, initialise, shed, getFirstLabelForElement, isComplete, validationManager, required, fieldset, errors) {
+	"wc/ui/feedback"],
+	function(i18n, initialise, shed, isComplete, validationManager, required, fieldset, feedback) {
 		"use strict";
 		/**
 		 * @constructor
@@ -49,7 +48,7 @@ define(["wc/i18n/i18n",
 					result = false;
 					elements.forEach(function (next) {
 						var message = i18n.get("validation_common_incompletegroup", validationManager.getLabelText(next));
-						errors.flagError({
+						feedback.flagError({
 							element: next,
 							message: message
 						});
@@ -86,7 +85,7 @@ define(["wc/i18n/i18n",
 
 					if (result) {
 						if (initiallyInvalid) {
-							errors.setOK(container);
+							feedback.setOK(container);
 						}
 						container = INVALID.findAncestor(container.parentNode);
 					} else {
@@ -132,7 +131,6 @@ define(["wc/i18n/i18n",
 		 * @requires wc/i18n/i18n
 		 * @requires wc/dom/initialise
 		 * @requires wc/dom/shed
-		 * @requires wc/ui/getFirstLabelForElement
 		 * @requires wc/ui/validation/isComplete
 		 * @requires wc/ui/validation/validationManager
 		 * @requires wc/ui/validation/required

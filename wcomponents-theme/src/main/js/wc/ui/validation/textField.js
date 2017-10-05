@@ -7,9 +7,9 @@ define(["wc/dom/initialise",
 	"wc/ui/dateField",
 	"wc/ui/validation/required",
 	"wc/ui/validation/validationManager",
-	"wc/ui/errors",
+	"wc/ui/feedback",
 	"wc/config"],
-	function(initialise, Widget, i18n, attribute, event, sprintf, dateField, required, validationManager, errors, wcconfig) {
+	function(initialise, Widget, i18n, attribute, event, sprintf, dateField, required, validationManager, feedback, wcconfig) {
 		"use strict";
 		/**
 		 * @constructor
@@ -59,7 +59,7 @@ define(["wc/dom/initialise",
 			function _flagError(element, flag) {
 				var message = sprintf.sprintf(flag, validationManager.getLabelText(element));
 
-				errors.flagError({element: element, message: message});
+				feedback.flagError({element: element, message: message});
 			}
 
 			/**
@@ -223,7 +223,7 @@ define(["wc/dom/initialise",
 		 * @requires wc/ui/dateField
 		 * @requires wc/ui/validation/required
 		 * @requires wc/ui/validation/validationManager
-		 * @requires wc/ui/errors
+		 * @requires wc/ui/feedback
 		 * @requires wc/config
 		 */
 		var instance = new ValidationTextInput();

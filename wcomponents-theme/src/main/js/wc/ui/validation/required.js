@@ -3,8 +3,8 @@ define([
 	"wc/dom/Widget",
 	"wc/i18n/i18n",
 	"wc/ui/validation/validationManager",
-	"wc/ui/errors"],
-	function(isComplete, Widget, i18n, validationManager, errors) {
+	"wc/ui/feedback"],
+	function(isComplete, Widget, i18n, validationManager, feedback) {
 		"use strict";
 		/**
 		 * @constructor
@@ -48,7 +48,7 @@ define([
 				var messageFunc = (config && config.messageFunc) ? config.messageFunc : getRequiredMessage;
 
 				Array.prototype.forEach.call(elements, function (next) {
-					errors.flagError({ element: next, message: messageFunc(next)});
+					feedback.flagError({ element: next, message: messageFunc(next)});
 				});
 			}
 
@@ -220,7 +220,7 @@ define([
 		 * @requires module:wc/dom/Widget
 		 * @requires module:wc/i18n/i18n
 		 * @requires module:wc/ui/validation/validationManager
-		 * @requires module:wc/ui/errors
+		 * @requires module:wc/ui/feedback
 		 */
 		var instance = new ValidateRequired();
 		return instance;
