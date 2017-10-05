@@ -113,6 +113,7 @@ define(["wc/array/toArray",
 			function getMessageHTML(message) {
 				var tagName,
 					attrib = "class='",
+					className,
 					widget;
 				if (message && message.constructor !== String) {
 					if (message.toString) {
@@ -123,8 +124,12 @@ define(["wc/array/toArray",
 				}
 				widget = diagnostic.getMessage();
 				tagName = widget.tagName;
-				attrib += widget.className + "'";
-				return tag.toTag(tagName, false, [attrib]) + message + tag.toTag(tagName, true);
+				className = widget.className;
+				if (Array.isArray(className)) {
+					className = className.join(" ");
+				}
+				attrib += className + "'";
+				return tag.toTag(tagName, false, attrib) + message + tag.toTag(tagName, true);
 			}
 
 			/**
@@ -149,6 +154,7 @@ define(["wc/array/toArray",
 					id,
 					tagName,
 					classAttrib = "class='",
+					className,
 					idAttrib = "id='",
 					roleAttrib = "role='alert'",
 					html,
@@ -163,10 +169,14 @@ define(["wc/array/toArray",
 				boxWidget = diagnostic.getByType(level);
 				tagName = boxWidget.tagName;
 				idAttrib += id + "'";
-				classAttrib += boxWidget.className + "'";
-				html = tag.toTag(tagName, false, [idAttrib, classAttrib, roleAttrib]);
+				className = boxWidget.className;
+				if (Array.isArray(className)) {
+					className = className.join(" ");
+				}
+				classAttrib += className + "'";
+				html = tag.toTag(tagName, false, [idAttrib, classAttrib, roleAttrib].join(" "));
 				if ((levelIcon = getIconName(level))) {
-					html += "<i aria-hidden='true' class='fa-fw " + levelIcon + "'></i>";
+					html += "<i aria-hidden='true' class='fa " + levelIcon + "'></i>";
 				}
 				if (messages) {
 					if (messages.constructor === NodeList) {
