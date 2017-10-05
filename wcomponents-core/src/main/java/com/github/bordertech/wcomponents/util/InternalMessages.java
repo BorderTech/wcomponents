@@ -119,6 +119,16 @@ public final class InternalMessages {
 	 * The key for the invalid pattern error text.
 	 */
 	public static final String DEFAULT_VALIDATION_ERROR_INVALID_PATTERN = "bordertech.wcomponents.message.fieldInvalidPattern";
+	
+	/**
+	 * The key for invalid file type.
+	 */
+	public static final String DEFAULT_VALIDATION_ERROR_FILE_WRONG_TYPE = "bordertech.wcomponents.message.fileWrongType";
+
+	/**
+	 * The key for invalid file size.
+	 */
+	public static final String DEFAULT_VALIDATION_ERROR_FILE_WRONG_SIZE = "bordertech.wcomponents.message.fileTooLarge";
 
 	/**
 	 * The key for the system error error text.

@@ -1,20 +1,19 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.file.FileItemWrap;
+import com.github.bordertech.wcomponents.portlet.context.WFileWidgetCleanup;
+import com.github.bordertech.wcomponents.util.FileValidationUtil;
+import com.github.bordertech.wcomponents.util.I18nUtilities;
+import com.github.bordertech.wcomponents.util.InternalMessages;
+import com.github.bordertech.wcomponents.util.Util;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.tika.Tika;
-
-import com.github.bordertech.wcomponents.file.FileItemWrap;
-import com.github.bordertech.wcomponents.portlet.context.WFileWidgetCleanup;
-import com.github.bordertech.wcomponents.util.Util;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * <p>
@@ -48,11 +47,7 @@ import com.github.bordertech.wcomponents.util.Util;
  */
 @Deprecated
 public class WFileWidget extends AbstractInput implements AjaxTarget, SubordinateTarget {
-	
-	/**
-	 * The logger instance for this class.
-	 */
-	private static final Log LOG = LogFactory.getLog(WFileWidget.class);
+
 
 	/**
 	 * Returns a list of strings that determine the allowable file mime types accepted by the file input. If no types
@@ -138,10 +133,15 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 		boolean changed = value != null || current != null;
 
 		if (changed) {
+			// Reset validation fields
+			resetValidationState();
+			
 			// if fileType is supplied then validate it
 			boolean validFileType;
 			if (isSetFileTypes()) {
-				validFileType = isValidFileType(value);
+				validFileType = FileValidationUtil.validateFileType(value, getFileTypes());
+				addFileTypeValidation(validFileType, InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_TYPE, 
+						getFileTypes().toArray(new Object[getFileTypes().size()]));
 			} else {
 				validFileType = true;
 			}
@@ -149,7 +149,9 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 			// if fileSize is supplied then validate it
 			boolean validFileSize;
 			if (isSetFileSize()) {
-				validFileSize = isValidFileSize(value);
+				validFileSize = FileValidationUtil.validateFileSize(value, getMaxFileSize());
+				addFileSizeValidation(validFileSize, InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_SIZE, 
+						Util.readableFileSize(value.getSize()), Util.readableFileSize(getMaxFileSize()));
 			} else {
 				validFileSize = true;
 			}
@@ -167,42 +169,70 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	}
 
 	/**
-	 * Is file type valid.
-	 * 
-	 * @param newFile checks against supplied fileTypes
-	 * @return true/false
+	 * Reset validation state.
 	 */
-	private boolean isValidFileType(final FileItemWrap newFile) {
-		try {
-			final Tika tika = new Tika();
-			String mimeType = tika.detect(newFile.getInputStream());
-			LOG.debug("File mime type is: " + mimeType);
-			
-			for (String fileType : getFileTypes()) {
-				if (StringUtils.equalsIgnoreCase(mimeType, fileType)) {
-					return true;
-				} else if (fileType.indexOf("*") == fileType.length() - 1) {
-					fileType = fileType.substring(0, fileType.length() - 1);
-					if (mimeType.indexOf(fileType) == 0) {
-						return true;
-					}
-				}
-			}
-			return false;
-		} catch (IOException e) {
-			LOG.error("Invalid file type");
-			return false;
+	public void resetValidationState() {
+		getOrCreateComponentModel().validationMessages.clear();
+		getOrCreateComponentModel().validFileType = null;
+		getOrCreateComponentModel().validFileSize = null;
+	}
+
+	/**
+	 * Adds invalid file type validation message.
+	 * @param fieldValue True/False
+	 * @param message The message to add.
+	 * @param args The message arguments.
+	 */
+	private void addFileTypeValidation(final boolean fieldValue, final String message, final Object... args) {
+		getOrCreateComponentModel().validFileType = fieldValue;
+		if (!fieldValue) {
+			String invalidMessage = String.format(I18nUtilities.format(null, message), StringUtils.join(args, ","));
+			getOrCreateComponentModel().validationMessages.add(invalidMessage);
 		}
 	}
-	
+
 	/**
-	 * Is file size valid.
-	 * 
-	 * @param newFile checks against supplied maxFileSize
-	 * @return true/false
+	 * Adds invalid file size validation message.
+	 * @param fieldValue True/False
+	 * @param message The message to add.
+	 * @param args The message arguments.
 	 */
-	private boolean isValidFileSize(final FileItemWrap newFile) {
-		return (newFile.getSize() > getMaxFileSize()) ? false : true;
+	private void addFileSizeValidation(final boolean fieldValue, final String message, final Object... args) {
+		getOrCreateComponentModel().validFileSize = fieldValue;
+		if (!fieldValue) {
+			String invalidMessage = String.format(I18nUtilities.format(null, message), args);
+			getOrCreateComponentModel().validationMessages.add(invalidMessage);
+		}
+	}
+
+	/**
+	 * Indicates whether the uploaded file is valid, if {@link getFileTypes()} is set.
+	 *
+	 * @return true if file type valid, false file type invalid, otherwise null.
+	 * @see {@link getFileValidationMessages()}
+	 */
+	public Boolean isFileTypeValid() {
+		return getComponentModel().validFileType;
+	}
+
+	/**
+	 * Indicates whether the uploaded file is valid, if {@link getMaxFileSize()} is set.
+	 *
+	 * @return true if file size valid, false file size invalid, otherwise null.
+	 * @see {@link getFileValidationMessages()}
+	 */
+	public Boolean isFileSizeValid() {
+		return getComponentModel().validFileSize;
+	}
+
+	/**
+	 * Returns validation error messages, if {@link getFileTypes()} or {@link getMaxFileSize()} is set.
+	 *
+	 * @return if uploaded file invalid then validation messages returned.
+	 * @see {@link isFileTypeValid()}, {@link isFileSizeValid()}
+	 */
+	public List<String> getFileValidationMessages() {
+		return Collections.unmodifiableList(getOrCreateComponentModel().validationMessages);
 	}
 
 	/**
@@ -331,6 +361,21 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 		 * The maximum size of files uploaded by this component.
 		 */
 		private long maxFileSize;
+
+		/**
+		 * Flag to indicate if the selected file is a valid fileType.
+		 */
+		private Boolean validFileType = null;
+
+		/**
+		 * Flag to indicate if the selected file is a valid fileSize.
+		 */
+		private Boolean validFileSize = null;
+
+		/**
+		 * The messages if file fails the validation check.
+		 */
+		private List<String> validationMessages = new ArrayList<String>(2);
 	}
 
 	/**
@@ -361,3 +406,4 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 		return (FileWidgetModel) super.getOrCreateComponentModel();
 	}
 }
+

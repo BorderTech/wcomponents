@@ -1,5 +1,7 @@
 package com.github.bordertech.wcomponents.util;
 
+import java.text.DecimalFormat;
+
 /**
  * A storage point for utility methods that are generally useful.
  *
@@ -127,6 +129,21 @@ public final class Util {
 			return aString;
 		}
 		return aString.substring(start);
+	}
+
+	/**
+	 * Format file size as B, KB, MB, GB.
+	 *
+	 * @param size of file
+	 * @return human readable file size
+	 */
+	public static String readableFileSize(final long size) {
+		if (size <= 0) {
+			return "0";
+		}
+		final String[] units = new String[] { "B", "KB", "MB", "GB"};
+		int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
+		return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
 	}
 
 }
