@@ -115,7 +115,7 @@ define(["wc/ui/listLoader",
 				var element = document.getElementById(id),
 					labels, label,
 					button,
-					message = diagnostic.get(element, diagnostic.LEVEL.ERROR),
+					message = diagnostic.getBox(element, diagnostic.LEVEL.ERROR),
 					errorResult;
 				if (!message && element && create) {
 					labels = getLabelsForElement(element, true);
