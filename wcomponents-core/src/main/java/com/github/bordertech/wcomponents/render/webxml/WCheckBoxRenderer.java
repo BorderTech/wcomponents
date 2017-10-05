@@ -41,29 +41,30 @@ final class WCheckBoxRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("selected", checkBox.isSelected(), "true");
 		if (readOnly) {
 			xml.appendAttribute("readOnly", "true");
-			xml.appendClose();
-		} else {
-			WComponent submitControl = checkBox.getDefaultSubmitButton();
-			String submitControlId = submitControl == null ? null : submitControl.getId();
-			WComponentGroup<WCheckBox> group = checkBox.getGroup();
-			String groupName = group == null ? null : group.getId();
-			xml.appendOptionalAttribute("groupName", groupName);
-			xml.appendOptionalAttribute("disabled", checkBox.isDisabled(), "true");
-			xml.appendOptionalAttribute("required", checkBox.isMandatory(), "true");
-			xml.appendOptionalAttribute("submitOnChange", checkBox.isSubmitOnChange(), "true");
-			xml.appendOptionalAttribute("toolTip", checkBox.getToolTip());
-			xml.appendOptionalAttribute("accessibleText", checkBox.getAccessibleText());
-			xml.appendOptionalAttribute("buttonId", submitControlId);
-
-			List<Diagnostic> diags = checkBox.getDiagnostics(Diagnostic.ERROR);
-			if (diags.isEmpty()) {
-				xml.appendEnd();
-				return;
-			}
-			xml.appendClose();
-			DiagnosticRenderUtil.renderDiagnostics(checkBox, renderContext);
-			xml.appendEndTag(TAG_NAME);
+			xml.appendEnd();
+			return;
 		}
+
+		WComponent submitControl = checkBox.getDefaultSubmitButton();
+		String submitControlId = submitControl == null ? null : submitControl.getId();
+		WComponentGroup<WCheckBox> group = checkBox.getGroup();
+		String groupName = group == null ? null : group.getId();
+		xml.appendOptionalAttribute("groupName", groupName);
+		xml.appendOptionalAttribute("disabled", checkBox.isDisabled(), "true");
+		xml.appendOptionalAttribute("required", checkBox.isMandatory(), "true");
+		xml.appendOptionalAttribute("submitOnChange", checkBox.isSubmitOnChange(), "true");
+		xml.appendOptionalAttribute("toolTip", checkBox.getToolTip());
+		xml.appendOptionalAttribute("accessibleText", checkBox.getAccessibleText());
+		xml.appendOptionalAttribute("buttonId", submitControlId);
+
+		List<Diagnostic> diags = checkBox.getDiagnostics(Diagnostic.ERROR);
+		if (diags == null || diags.isEmpty()) {
+			xml.appendEnd();
+			return;
+		}
+		xml.appendClose();
+		DiagnosticRenderUtil.renderDiagnostics(checkBox, renderContext);
+		xml.appendEndTag(TAG_NAME);
 	}
 
 }
