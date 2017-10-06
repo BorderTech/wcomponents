@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -691,11 +692,11 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		// Wrap the file item
 		FileItemWrap wrap = new FileItemWrap(items[0]);
 		
-		// if fileSize is supplied then validate it
-		if (isSetFileSize()) {
+		// if fileType is supplied then validate it
+		if (isSetFileTypes()) {
 			if (!FileValidationUtil.validateFileType(wrap, getFileTypes())) {
 				String invalidMessage = String.format(I18nUtilities.format(null, InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_TYPE), 
-						getFileTypes().toArray(new Object[getFileTypes().size()]));
+						StringUtils.join(getFileTypes().toArray(new Object[getFileTypes().size()])));
 				throw new SystemException(invalidMessage);
 			}
 		}
