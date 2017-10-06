@@ -16,6 +16,18 @@ define(["wc/dom/Widget", "wc/dom/tag"], function(Widget, tag) {
 			MESSAGE;
 
 		/**
+		 * @constant {Object} describes the types of diagnostic widget available
+		 * @public
+		 *
+		 */
+		this.LEVEL = {
+			"ERROR": 1,
+			"WARN": 2,
+			"INFO": 4,
+			"SUCCESS": 8
+		};
+
+		/**
 		 * Gets the string extension applied to the id of an element when creating its diagnostic box. This should not be widely used but must be
 		 * public for use in {@link module:wc/ui/diagnostic}.
 		 * @function
@@ -38,18 +50,6 @@ define(["wc/dom/Widget", "wc/dom/tag"], function(Widget, tag) {
 				default:
 					return baseExtension;
 			}
-		};
-
-		/**
-		 * @constant {Object} describes the types of diagnostic widget available
-		 * @public
-		 *
-		 */
-		this.LEVEL = {
-			"ERROR": 1,
-			"WARN": 2,
-			"INFO": 4,
-			"SUCCESS": 8
 		};
 
 		/**
@@ -171,7 +171,7 @@ define(["wc/dom/Widget", "wc/dom/tag"], function(Widget, tag) {
 		 */
 		this.isMessage = function(element, level) {
 			var widget, message;
-			if (!element) {
+			if (!(element && element.nodeType === Node.ELEMENT_NODE)) {
 				return false;
 			}
 			// firstly, do we even have a message?
@@ -181,13 +181,16 @@ define(["wc/dom/Widget", "wc/dom/tag"], function(Widget, tag) {
 				return message;
 			}
 			widget = this.getByType(level);
+			if (!widget) {
+				return false;
+			}
 			if (widget === DIAGNOSTIC) {
 				// we have already checked for an un-typed diagnostic message, so just return it.
 				return message;
 			}
 			// if we get here we have a diagnostic message _and_ we want a message of a particular type
 			// so we need to check the message's diagnostic ancestor.
-			return !!widget.getAncestor(element);
+			return !!widget.findAncestor(element);
 		};
 
 		/**
@@ -221,8 +224,9 @@ define(["wc/dom/Widget", "wc/dom/tag"], function(Widget, tag) {
 			var targetId,
 				level,
 				suffix,
-				id;
-			if (!(diag && DIAGNOSTIC.isOneOfMe(diag))) {
+				id,
+				rx;
+			if (!(diag && diag.nodeType === Node.ELEMENT_NODE && DIAGNOSTIC.isOneOfMe(diag))) {
 				return null;
 			}
 			id = diag.id;
@@ -232,11 +236,11 @@ define(["wc/dom/Widget", "wc/dom/tag"], function(Widget, tag) {
 			}
 			level = this.getLevel(diag);
 			suffix = this.getIdExtension(level);
-			if (!suffix) {
+			rx = new RegExp(suffix.concat("$"));
+			if (!id.match(rx)) {
 				return null;
 			}
-
-			if ((targetId = id.replace(new RegExp(suffix.concat("$")), ""))) {
+			if ((targetId = id.replace(rx, ""))) {
 				return document.getElementById(targetId);
 			}
 			return null;

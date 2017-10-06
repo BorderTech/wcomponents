@@ -31,9 +31,13 @@ define(["wc/array/toArray",
 					errorLinkParent,
 					target;
 
+				if (!(element && element.nodeType === Node.ELEMENT_NODE)) {
+					return;
+				}
+
 				if ((validationErrors = messageBox.getErrorBoxes(document.body, true))) {
-					VALIDATION_ERRORS = messageBox.getErrorBoxWidget().clone;
 					if (!ERROR_LINK) {
+						VALIDATION_ERRORS = VALIDATION_ERRORS || messageBox.getErrorBoxWidget().clone;
 						ERROR_LINK = new Widget("a");
 						ERROR_LINK.descendFrom(VALIDATION_ERRORS);
 					}
@@ -82,24 +86,28 @@ define(["wc/array/toArray",
 			 * @function
 			 * @private
 			 * @param {Element} target the component to mark
-			 * @param {boolean} [isValid] if `true` set the component to be valid
+			 * @param {boolean} [clear] if `true` set the component to be valid **and** remove its `aria-describedby` attribute
 			 */
-			function toggleValidity(target, isValid) {
+			function toggleValidity(target, clear) {
 				var INVALID_ATTRIB = "aria-invalid",
 					DESCRIBED_ATTRIB = "aria-describedby",
 					element,
 					diag;
-				if (!target && target.tagName) {
+				if (!(target && target.tagName)) {
 					return;
 				}
 				element =  wrappedInput.getInput(target) || target;
 				if (element) {
-					if (isValid) {
+					if (clear) {
 						element.removeAttribute(INVALID_ATTRIB);
 						element.removeAttribute(DESCRIBED_ATTRIB);
 						return;
-					} else if ((diag = instance.getBox(target, diagnostic.LEVEL.ERROR))) {
+					}
+					if ((diag = instance.getBox(target, diagnostic.LEVEL.ERROR))) {
 						element.setAttribute(INVALID_ATTRIB, "true");
+						element.setAttribute(DESCRIBED_ATTRIB, diag.id);
+					} else if ((diag = instance.getBox(target, -1))) {
+						element.removeAttribute(INVALID_ATTRIB);
 						element.setAttribute(DESCRIBED_ATTRIB, diag.id);
 					}
 				}
@@ -141,29 +149,15 @@ define(["wc/array/toArray",
 				}
 			}
 
-			function addHelper(diag, message) {
-				var i,
-					current;
-				if (!(diag && diagnostic.getWidget().isOneOfMe(diag))) {
-					throw new TypeError("Argument must be a diagnostic box");
-				}
-				if ((current = instance.getMessages(diag))) {
-					for (i = 0; i < current.length; ++i) {
-						if (message.toLocaleLowerCase() === current[i].innerHTML.toLocaleLowerCase()) {
-							// already have this message
-							return;
-						}
-					}
-				}
-				diag.insertAdjacentHTML(BEFORE_END, getMessageHTML(message));
-			}
-
 			function getMessageHTML(message) {
 				var tagName,
 					attrib = "class='",
 					className,
 					widget;
-				if (message && message.constructor !== String) {
+				if (!message) {
+					throw new TypeError("Message must not be falsey");
+				}
+				if (message.constructor !== String) {
 					if (message.toString) {
 						message = message.toString();
 					} else {
@@ -178,6 +172,23 @@ define(["wc/array/toArray",
 				}
 				attrib += className + "'";
 				return tag.toTag(tagName, false, attrib) + message + tag.toTag(tagName, true);
+			}
+
+			function addHelper(diag, message) {
+				var i,
+					current;
+				if (!(message && message.constructor === String)) {
+					throw new TypeError("Message must be a string");
+				}
+				if ((current = instance.getMessages(diag))) {
+					for (i = 0; i < current.length; ++i) {
+						if (message.toLocaleLowerCase() === current[i].innerHTML.toLocaleLowerCase()) {
+							// already have this message
+							return;
+						}
+					}
+				}
+				diag.insertAdjacentHTML(BEFORE_END, getMessageHTML(message));
 			}
 
 			/**
@@ -258,11 +269,11 @@ define(["wc/array/toArray",
 					oldIdExtension,
 					newIdExtension,
 					testId;
+				check(diag);
 				if (!toLevel || toLevel < 1) {
 					console.log("twit");
 					return;
 				}
-				check(diag);
 				oldLevel = diagnostic.getLevel(diag);
 				if (oldLevel === toLevel) {
 					return; // nothing to do
@@ -289,13 +300,9 @@ define(["wc/array/toArray",
 				this.clear(diag);
 				// now change the icon
 				changeIcon(diag, oldLevel, toLevel);
-				if (oldLevel === diagnostic.LEVEL.ERROR || toLevel === diagnostic.LEVEL.ERROR) {
-					if ((realTarget = target || diagnostic.getTarget(diag))) {
-						if (oldLevel === diagnostic.LEVEL.ERROR) {
-							removeWValidationErrorLink(realTarget);
-						}
-						toggleValidity(realTarget, toLevel !== diagnostic.LEVEL.ERROR);
-					}
+				if ((realTarget = target || diagnostic.getTarget(diag))) {
+					removeWValidationErrorLink(realTarget);
+					toggleValidity(realTarget);
 				}
 			};
 
@@ -316,6 +323,13 @@ define(["wc/array/toArray",
 				}
 			};
 
+			/**
+			 * Add messages to an existing diagnostic box.
+			 * @function
+			 * @public
+			 * @param {Element} diag the disgnostic box
+			 * @param {String|String[]} messages the message(s) to add
+			 */
 			this.addMessages = function(diag, messages) {
 				check(diag);
 				if (Array.isArray(messages)) {
@@ -341,15 +355,17 @@ define(["wc/array/toArray",
 				return diagnostic.getMessage().findDescendants(diag);
 			};
 
+			/**
+			 * Set the messages inside an existing message box to a new message or set of messages.
+			 * @param {Element} diag the diagnostic box
+			 * @param {String|String[]} messages
+			 */
 			this.set = function(diag, messages) {
-				var parent;
 				check(diag);
-				if (!messages && (parent = diag.parentNode)) {
-					parent.removeChild(diag);
-					return;
-				}
 				this.clear(diag);
-				this.addMessages(diag, messages);
+				if (messages) {
+					this.addMessages(diag, messages);
+				}
 			};
 
 			/**
@@ -379,20 +395,27 @@ define(["wc/array/toArray",
 			 * @function
 			 * @public
 			 * @param {Element|String} element the element being diagnosed (or its id)
-			 * @param {int} [level=1] the diagnostic level, if not set get ERROR diagnostic box. Set to -1 to get the first of any type.
+			 * @param {int} [ofLevel=1] the diagnostic level, if not set get ERROR diagnostic box. Set to -1 to get one of any type.
 			 * @returns {Element?} the diagnostic box of the required level (if any).
 			 */
-			this.getBox = function (element, level) {
+			this.getBox = function (element, ofLevel) {
 				var target,
-					id;
+					id,
+					result,
+					level = ofLevel || this.LEVEL.ERROR,
+					lvl;
 				if (!element) {
 					throw new TypeError("element must not be falsey");
 				}
 
 				target = (element.constructor === String) ? document.getElementById(element) : element;
 
-				if (target.nodeType !== Node.ELEMENT_NODE) {
+				if (!(target && target.tagName)) {
 					throw new TypeError("element does not represent an HTML Element");
+				}
+
+				if (!target.id) {
+					return null;
 				}
 
 				if (wrappedInput.isWrappedInput(target)) {
@@ -400,16 +423,18 @@ define(["wc/array/toArray",
 				}
 
 				if (level === -1) {
-					return diagnostic.getWidget().findDescendant(target);
-				}
-				if (level) {
-					if ((id = target.id)) {
-						id += diagnostic.getIdExtension(level);
-						return document.getElementById(id);
+					if ((result = diagnostic.getWidget().findDescendant(target))) { // fast but insufficient
+						return result;
 					}
+					for (lvl in this.LEVEL) {
+						if ((result = this.getBox(element, this.LEVEL[lvl]))) {
+							return result;
+						}
+					}
+					return null;
 				}
-
-				return null;
+				id = target.id + diagnostic.getIdExtension(level);
+				return document.getElementById(id);
 			};
 
 			this.add = function(args) {
@@ -423,7 +448,9 @@ define(["wc/array/toArray",
 					boxId;
 				if (!(messages && target && target.nodeType === Node.ELEMENT_NODE)) {
 					// no messages or target for the messages
-					return false;
+					// don't throw: just do nothing
+					console.warn("trying to add nothing or to nothing");
+					return null;
 				}
 
 				if (wrappedInput.isWrappedInput(target)) {
@@ -451,9 +478,7 @@ define(["wc/array/toArray",
 					boxId = html.id;
 					html = html.html;
 					flagTarget.insertAdjacentHTML(writeWhere, html);
-					if (level === diagnostic.LEVEL.ERROR) {
-						toggleValidity(target);
-					}
+					toggleValidity(target);
 					return boxId;
 				}
 				return null;
@@ -468,21 +493,27 @@ define(["wc/array/toArray",
 			 *   calculate the target element.
 			 */
 			this.remove = function(diag, target) {
-				var realTarget, realDiag;
+				var realTarget, realDiag, parent;
+				if (!(diag || target)) {
+					console.error("What! I am magic now? What do you want to remove you womble?");
+					throw new TypeError("You forgot the args");
+				}
 
 				if (diag && check(diag, true)) {
 					realTarget = target || diagnostic.getTarget(diag);
 					realDiag = diag;
 				} else if (target && !diag) {
-					realDiag = diagnostic.getBox(target, -1);
+					realDiag = this.getBox(target, -1);
 					realTarget = target;
 				}
 
 				if (realDiag) {
-					this.set(realDiag, null); // removes the diagnostic box
+					if ((parent = realDiag.parentNode)) {
+						parent.removeChild(realDiag);
+					}
 					if (realTarget) {
-						removeWValidationErrorLink(realTarget);
 						toggleValidity(realTarget, true);
+						removeWValidationErrorLink(realTarget);
 					}
 				}
 			};
