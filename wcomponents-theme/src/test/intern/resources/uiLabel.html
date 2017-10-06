@@ -4,13 +4,17 @@
     <input id="wcuilabel-i1" type="text">
   </p>
   <p>
-    <label id="wcuilabel-l2" for="wcuilabel-i2">move me</label>
-    <input id="wcuilabel-i2" type="checkbox" class="wc-checkbox">
+    <label id="wcuilabel-l2" for="wcuilabel-i2_input">move me</label>
+    <span class="wc-checkbox wc-input-wrapper" id="wcuilabel-i2">
+      <input id="wcuilabel-i2_input" type="checkbox">
+    </span>
   </p>
   <p>
-    <label id="wcuilabel-l2a" for="wcuilabel-i2a">move me too</label>
-    <input id="wcuilabel-i2a" type="radio" class="wc-radiobutton">
-    <span>Just floating around thanks.</span>
+    <label id="wcuilabel-l2a" for="wcuilabel-i2a_input">move me too</label>
+    <span class="wc-radiobutton wc-input-wrapper" id="wcuilabel-i2a">
+      <input id="wcuilabel-i2a_input" type="radio">
+    </span>
+    <span id="you-should-not-get-me">Just floating around thanks.</span>
   </p>
   <p>
     <label id="wcuilabel-l2b" for="wcuilabel-i2b">move me as well</label>
@@ -29,7 +33,9 @@
     <button id="wcuilabel-i3b" role="checkbox">not a select toggle</button>
   </p>
   <p>
-    <input id="wcuilabel-i4" type="checkbox" class="wc-checkbox"><label id="wcuilabel-l4" for="wcuilabel-i3c">don't move me either I am in the right place</label>
+    <span class="wc-checkbox wc-input-wrapper" id="wcuilabel-i4">
+      <input id="wcuilabel-i4_input" type="checkbox" class="wc-checkbox"><label id="wcuilabel-l4" for="wcuilabel-i4_input">don't move me either I am in the right place</label>
+    </span>
   </p>
   <p>
     <label id="wcuilabel-l5" for="wcuilabel-i5" class="wc_req">make me optional</label>

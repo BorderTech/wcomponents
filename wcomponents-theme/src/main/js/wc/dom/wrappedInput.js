@@ -44,6 +44,11 @@ define(["wc/dom/initialise",
 				return Widget.findDescendant(element, WRAPPED);
 			};
 
+			this.isWrappedInput = function(element) {
+				var parent = element.parentNode;
+				return WRAPPER.isOneOfMe(parent);
+			};
+
 			this.getWrapper = function(element) {
 				var parent = element.parentNode;
 				return WRAPPER.isOneOfMe(parent) ? parent : null;

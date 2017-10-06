@@ -20,10 +20,10 @@ define(["wc/dom/attribute",
 	"wc/config",
 	"wc/debounce",
 	"wc/dom/toDocFragment",
-	"wc/ui/errors",
+	"wc/ui/feedback",
 	"wc/ui/fieldset"],
-	function (attribute, prefetch, event, initialise, uid, Trigger, classList, has, clearSelector, validate, i18n, Widget, formUpdateManager, filedrop, ajax, prompt, focus, isNumeric, ajaxRegion, wcconfig, debounce,
-		toDocFragment, errors) {
+	function (attribute, prefetch, event, initialise, uid, Trigger, classList, has, clearSelector, validate, i18n, Widget, formUpdateManager,
+		filedrop, ajax, prompt, focus, isNumeric, ajaxRegion, wcconfig, debounce, toDocFragment, feedback) {
 		"use strict";
 
 		// Note `wc/ui/fieldset` is implicitly required to handle various aspects of managing the wrapper element.
@@ -33,27 +33,30 @@ define(["wc/dom/attribute",
 			 * Provides functionality associated with uploading multiple files using a WMultiFileWidget.
 			 *
 			 * @module
-			 * @requires module:wc/dom/attribute
-			 * @requires module:wc/loader/prefetch
-			 * @requires module:wc/dom/event
-			 * @requires module:wc/dom/initialise
-			 * @requires module:wc/dom/uid
-			 * @requires module:wc/ajax/Trigger
-			 * @requires module:wc/dom/classList
-			 * @requires external:lib/sprintf
-			 * @requires module:wc/has
-			 * @requires module:wc/i18n/i18n
-			 * @requires module:wc/file/getFileSize
-			 * @requires module:wc/file/accepted
-			 * @requires module:wc/dom/Widget
-			 * @requires module:wc/file/formUpdateManager
-			 * @requires module:wc/file/filedrop
-			 * @requires module:wc/ajax/ajax
-			 * @requires module:wc/ui/prompt
-			 * @requires module:wc/dom/focus
-			 * @requires module:wc/isNumeric
-			 * @requires module:wc/ui/ajaxRegion
-			 * @requires module:wc/config
+			 * @requires wc/dom/attribute
+			 * @requires wc/loader/prefetch
+			 * @requires wc/dom/event
+			 * @requires wc/dom/initialise
+			 * @requires wc/dom/uid
+			 * @requires wc/ajax/Trigger
+			 * @requires wc/dom/classList
+			 * @requires wc/has
+			 * @requires wc/file/clearSelector
+			 * @requires wc/file/validate
+			 * @requires wc/i18n/i18n
+			 * @requires wc/dom/Widget
+			 * @requires wc/file/formUpdateManager
+			 * @requires wc/file/filedrop
+			 * @requires wc/ajax/ajax
+			 * @requires wc/ui/prompt
+			 * @requires wc/dom/focus
+			 * @requires wc/isNumeric
+			 * @requires wc/ui/ajaxRegion
+			 * @requires wc/config
+			 * @requires wc/debounce
+			 * @requires wc/dom/toDocFragment
+			 * @requires wc/ui/feedback
+			 * @requires wc/ui/fieldset
 			 */
 			instance = new MultiFileUploader(),
 			changed = {},
@@ -771,10 +774,10 @@ define(["wc/dom/attribute",
 				var fileInfo = document.getElementById(fileInfoId);
 				delete inflightXhrs[fileInfoId];
 				if (fileInfo) {
-					errors.flagError({
+					feedback.flagError({
 						element: fileInfo,
-						message: errorMessage,
-						position: "beforeEnd"});
+						message: errorMessage
+					});
 				}
 				console.log("Error in file upload:", fileInfoId);
 			};

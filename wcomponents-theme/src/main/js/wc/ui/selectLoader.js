@@ -8,8 +8,10 @@ define(["wc/ui/listLoader",
 	"wc/dom/textContent",
 	"wc/i18n/i18n",
 	"wc/dom/getLabelsForElement",
+	"wc/ui/feedback",
+	"wc/ui/diagnostic",
 	"wc/has"],
-	function(listLoader, initialise, Widget, getFilteredGroup, selectboxSearch, shed, event, textContent, i18n, getLabelsForElement, has) {
+	function(listLoader, initialise, Widget, getFilteredGroup, selectboxSearch, shed, event, textContent, i18n, getLabelsForElement, feedback, diagnostic, has) {
 		"use strict";
 		/**
 		 * @constructor
@@ -34,7 +36,7 @@ define(["wc/ui/listLoader",
 					if (element) {
 						message = getErrorMessage(id, false);
 						if (message) {
-							message.parentNode.removeChild(message);
+							feedback.clear(message, element);
 						}
 						try {
 							selectList = OPTION_CONTAINER.isOneOfMe(element) ? element : OPTION_CONTAINER.findDescendant(element);
@@ -111,10 +113,10 @@ define(["wc/ui/listLoader",
 			 */
 			function getErrorMessage(id, create) {
 				var element = document.getElementById(id),
-					messageId = id + "_error",
 					labels, label,
 					button,
-					message = document.getElementById(messageId);
+					message = diagnostic.getBox(element, diagnostic.LEVEL.ERROR),
+					errorResult;
 				if (!message && element && create) {
 					labels = getLabelsForElement(element, true);
 					if (labels && labels.length) {
@@ -124,20 +126,18 @@ define(["wc/ui/listLoader",
 						label = "";
 					}
 					label = i18n.get("loader_loaderr", label);
-					message = document.createElement("section");
-					message.className = "wc_msgbox error";
-					message.id = messageId;
-					message.innerHTML = "<h1>" + label + "</h1>";
-					button = document.createElement("button");
-					button.type = "button";
-					button.innerHTML = i18n.get("loader_retry", label);
-					event.add(button, "click", function($event) {
-						$event.preventDefault();  // important! stop any other listeners responding to this button
-						instance.load(id);
+					errorResult = feedback.flagError(element, label);
+					if (errorResult && (message = document.getElementById(errorResult))) {
+						button = document.createElement("button");
+						button.type = "button";
+						button.innerHTML = i18n.get("loader_retry", label);
+						event.add(button, "click", function($event) {
+							$event.preventDefault();  // important! stop any other listeners responding to this button
+							instance.load(id);
 
-					}, false);
-					message.appendChild(button);
-					element.parentNode.insertBefore(message, element);
+						}, false);
+						message.appendChild(button);
+					}
 				}
 				return message;
 			}

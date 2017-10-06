@@ -71,6 +71,10 @@ final class WDateFieldRenderer extends AbstractWebXmlRenderer {
 			xml.appendEscaped(dateField.getText());
 		}
 
+		if (!readOnly) {
+			DiagnosticRenderUtil.renderDiagnostics(dateField, renderContext);
+		}
+
 		xml.appendEndTag("ui:datefield");
 	}
 }

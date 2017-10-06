@@ -2,7 +2,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 	"use strict";
 
 	/**
-	 * Surprising how often we need to get teh next element sibling.
+	 * Surprising how often we need to get the next element sibling.
 	 * @param {Element} el the start element
 	 * @param {boolean} [prev] if `true` get previous element sibling, otherwise get next element sibling
 	 * @returns {? Element} the  element sibling or null.
@@ -122,15 +122,23 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 			assert.typeOf(shed, "object", "Expected to load shed.");
 			assert.isOk(shed.show, "shed is not what you think it is."); // rough but good enough
 		},
-		testMoveLabelTrue: function() {
-			var input,
-				found,
-				inputIds = ["wcuilabel-i2", "wcuilabel-i2a", "wcuilabel-i2b"];
-			inputIds.forEach(function(nextId) {
-				input = document.getElementById(nextId);
-				found = getElSib(input);
-				assert.strictEqual(found.getAttribute("for"), nextId, "label should have been moved in pre-init");
-			});
+		testMoveLabelWCheckBox: function() {
+			var input = document.getElementById("wcuilabel-i2"),
+				expected = "wcuilabel-l2",
+				target = input.lastElementChild;
+			assert.strictEqual(target.id, expected, "WCheckBox label should have been moved in pre-init");
+		},
+		testMoveLabelWRadioButton: function() {
+			var input = document.getElementById("wcuilabel-i2a"),
+				expected = "wcuilabel-l2a",
+				target = getElSib(input);
+			assert.strictEqual(target.id, expected, "WRadioButton label should have been moved in pre-init");
+		},
+		testMoveLabelWSelectToggle: function() {
+			var input = document.getElementById("wcuilabel-i2b"),
+				expected = "wcuilabel-l2b",
+				target = getElSib(input);
+			assert.strictEqual(target.id, expected, "WSelectToggle label should have been moved in pre-init");
 		},
 		testMoveLabelFalse: function() {
 			var input,

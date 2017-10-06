@@ -99,6 +99,7 @@
 						</xsl:choose>
 					</xsl:if>
 					<xsl:call-template name="hField"/>
+					<xsl:apply-templates select="ui:diagnostic"/>
 				</fieldset>
 			</xsl:otherwise>
 		</xsl:choose>
