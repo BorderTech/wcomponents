@@ -26,9 +26,7 @@ define(["wc/array/toArray",
 			 */
 			function removeWValidationErrorLink(element) {
 				var validationErrors,
-					errorLinkWidget,
 					errorLink,
-					errorLinkParent,
 					target;
 
 				if (!(element && element.nodeType === Node.ELEMENT_NODE)) {
@@ -44,10 +42,13 @@ define(["wc/array/toArray",
 
 					target = wrappedInput.isWrappedInput(element) ? wrappedInput.getWrapper(element) : element;
 
-					errorLinkWidget = ERROR_LINK.extend("", {href: ("#" + target.id)});
-					while ((errorLink = errorLinkWidget.findDescendant(document.body)) && (errorLinkParent = errorLink.parentNode)) {
-						errorLinkParent.parentNode.removeChild(errorLinkParent);
-					}
+					// NOTE: cannot use Widget for #id because we hwant exact matches [href='#id'] not include matches [href!='#id']
+					errorLink = "#" + target.id;
+					Array.prototype.forEach.call(ERROR_LINK.findDescendants(document.body), function (link) {
+						if (link.getAttribute("href") === errorLink) {
+							link.parentNode.removeChild(link);
+						}
+					});
 
 					Array.prototype.forEach.call(validationErrors, function (validErr) {
 						if (!ERROR_LINK.findDescendant(validErr)) {
