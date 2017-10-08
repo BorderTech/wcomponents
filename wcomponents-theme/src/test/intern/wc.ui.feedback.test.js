@@ -1,4 +1,4 @@
-define(["intern!object", "intern/chai!assert", "wc/ui/diagnostic", "wc/dom/diagnostic", "./resources/test.utils!"],
+define(["intern!object", "intern/chai!assert", "wc/ui/feedback", "wc/dom/diagnostic", "./resources/test.utils!"],
 	function (registerSuite, assert, controller, diagnostic, testutils) {
 		"use strict";
 
@@ -63,8 +63,16 @@ define(["intern!object", "intern/chai!assert", "wc/ui/diagnostic", "wc/dom/diagn
 			}
 		}
 
+		function getFlagDto(target, message, level) {
+			return {
+				element: target,
+				message: message,
+				level: level
+			};
+		}
+
 		registerSuite({
-			name: "wc/ui/diagnostic",
+			name: "wc/ui/feedback",
 			setup: function() {
 				testHolder = testutils.getTestHolder();
 			},
@@ -228,48 +236,48 @@ define(["intern!object", "intern/chai!assert", "wc/ui/diagnostic", "wc/dom/diagn
 			testAdd_SUCCESS_notInvalid: function() {
 				doAddNotInvalidTest(controller.LEVEL.SUCCESS);
 			},
-			testRemoveNoArgs: function() {
+			testRemoveDiagnosticNoArgs: function() {
 				try {
-					controller.remove();
+					controller._removeDiagnostic();
 					assert.isTrue(false, "expected an error to be thrown");
 				} catch (e) {
 					assert.strictEqual(e.message, "You forgot the args");
 				}
 			},
-			testRemove: function() {
+			testRemoveDiagnostic: function() {
 				var box = document.getElementById(testBoxId);
 				assert.isOk(box);
-				controller.remove(box);
+				controller._removeDiagnostic(box);
 				assert.isNotOk(document.getElementById(testBoxId));
 			},
-			testRemoveClearsInvalid: function() {
+			testRemoveDiagnosticClearsInvalid: function() {
 				var input = getTestInput(),
 					boxId = controller.add(getSimpleAddDTO("error message")),
 					box = document.getElementById(boxId);
 				assert.isTrue(input.hasAttribute("aria-invalid"), "should have invalid");
 				assert.isTrue(input.hasAttribute("aria-describedBy"), "should have described-by");
-				controller.remove(box);
+				controller._removeDiagnostic(box);
 				assert.isFalse(input.hasAttribute("aria-invalid"), "should not be invalid");
 				assert.isFalse(input.hasAttribute("aria-describedBy"), "should not have described-by");
 			},
-			testRemove_usingTarget: function() {
+			testRemoveDiagnostic_usingTarget: function() {
 				var target = getTestTarget(),
 					dto = getSimpleAddDTO("message", target),
 					testId = target.id + "_err";
 				// this is the set up
 				controller.add(dto);
 				assert.isOk(document.getElementById(testId));
-				controller.remove(null, target);
+				controller._removeDiagnostic(null, target);
 				assert.isNotOk(document.getElementById(testId));
 			},
-			testRemove_usingBothArgs: function() {
+			testRemoveDiagnostic_usingBothArgs: function() {
 				var target = getTestTarget(),
 					dto = getSimpleAddDTO("message", target),
 					testId = target.id + "_err",
 					boxId = controller.add(dto);
 				// this is the set up
 				assert.isOk(document.getElementById(testId));
-				controller.remove(document.getElementById(boxId), target);
+				controller._removeDiagnostic(document.getElementById(boxId), target);
 				assert.isNotOk(document.getElementById(testId));
 			},
 			testGetBox_noElement: function() {
@@ -369,7 +377,7 @@ define(["intern!object", "intern/chai!assert", "wc/ui/diagnostic", "wc/dom/diagn
 					controller.change();
 					assert.isTrue(false, "expected an error");
 				} catch (e) {
-					assert.strictEqual(e.message, "Argument must be a diagnostic box");
+					assert.strictEqual(e.message, "Argument must be a feedback box");
 				}
 			},
 			testDiagnosticCheckerSecondHand_failNotCorrectElement: function() {
@@ -378,7 +386,7 @@ define(["intern!object", "intern/chai!assert", "wc/ui/diagnostic", "wc/dom/diagn
 					controller.change(getTestTarget());
 					assert.isTrue(false, "expected an error");
 				} catch (e) {
-					assert.strictEqual(e.message, "Argument must be a diagnostic box");
+					assert.strictEqual(e.message, "Argument must be a feedback box");
 				}
 			},
 			testChange_noLevel: function() {
@@ -455,7 +463,7 @@ define(["intern!object", "intern/chai!assert", "wc/ui/diagnostic", "wc/dom/diagn
 					controller.addMessages();
 					assert.isTrue(false);
 				} catch (e) {
-					assert.strictEqual(e.message, "Argument must be a diagnostic box");
+					assert.strictEqual(e.message, "Argument must be a feedback box");
 				}
 			},
 			testAddMessages_noMessage: function() {
@@ -547,6 +555,143 @@ define(["intern!object", "intern/chai!assert", "wc/ui/diagnostic", "wc/dom/diagn
 				assert.strictEqual(messages.length, 2);
 				assert.strictEqual(messages[0].innerHTML, "foo");
 				assert.strictEqual(messages[1].innerHTML, "bar");
+			},
+			testRemove_noarg: function() {
+				assert.isFalse(controller.remove());
+			},
+			testRemove_notFound: function() {
+				assert.isFalse(controller.remove(getTestInput()));
+			},
+			testRemove_diagBox: function() {
+				var box = getTestBox(),
+					id = box.id;
+				controller.remove(box);
+				assert.isNotOk(document.getElementById(id));
+			},
+			testRemove_target: function() {
+				var target = getTestTarget(),
+					dto = getSimpleAddDTO("error", target),
+					id;
+				id = controller.add(dto);
+				controller.remove(target);
+				assert.isNotOk(document.getElementById(id));
+			},
+			testRemove_targetAndLevel: function() {
+				var target = getTestTarget(),
+					dto = getSimpleAddDTO("error", target),
+					id;
+				id = controller.add(dto);
+				controller.remove(target, null, controller.LEVEL.ERROR);
+				assert.isNotOk(document.getElementById(id));
+			},
+			testRemove_targetWrongLevel: function() {
+				var target = getTestTarget(),
+					dto = getSimpleAddDTO("error", target),
+					id;
+				id = controller.add(dto);
+				controller.remove(target, null, controller.LEVEL.SUCCESS);
+				assert.isOk(document.getElementById(id));
+			},
+			testFlag_noArgs: function() {
+				assert.isNull(controller._flag());
+			},
+			testFlag_noElement: function() {
+				assert.isNull(controller._flag(getFlagDto(null, "message", controller.LEVEL.ERROR)));
+			},
+			testFlag_noMessages: function() {
+				assert.isNull(controller._flag(getFlagDto(getTestTarget(), null, controller.LEVEL.ERROR)));
+			},
+			testFlag_noLevel: function() {
+				assert.isNull(controller._flag(getFlagDto(getTestTarget(), "message")));
+			},
+			testFlag_targetStringNotElement: function() {
+				assert.isNull(controller._flag(getFlagDto("I_AM_NOT_AN_ELEMENT_ID", "message", controller.LEVEL.ERROR)));
+			},
+			testFlag_targetString: function() {
+				assert.isNotNull(controller._flag(getFlagDto(targetId, "message", controller.LEVEL.ERROR)));
+			},
+			testFlag: function() {
+				assert.isNotNull(controller._flag(getFlagDto(getTestTarget(), "message", controller.LEVEL.ERROR)));
+			},
+			testFlag_sameLevel: function () {
+				var target = getTestTarget(),
+					message1 = "first message",
+					message2 = "second message",
+					level = controller.LEVEL.INFO,
+					dto = getSimpleAddDTO(message1, target),
+					boxId, box, messageCount, insertedMessageBoxId;
+				dto.level = level;
+				boxId = controller.add(dto);
+				box = document.getElementById(boxId);
+				messageCount = controller.getMessages(box).length;
+				insertedMessageBoxId = controller._flag(getFlagDto(target, message2, level));
+				assert.isNotNull(insertedMessageBoxId);
+				assert.strictEqual(insertedMessageBoxId, boxId);
+				assert.strictEqual(controller.getMessages(box).length, messageCount + 1);
+			},
+			testFlag_successToError: function() {
+				var target = getTestTarget(),
+					message1 = "success message",
+					message2 = "error message",
+					dto = getSimpleAddDTO(message1, target),
+					boxId, insertedMessageBoxId;
+				dto.level = controller.LEVEL.SUCCESS;
+				boxId = controller.add(dto);
+				assert.isOk(document.getElementById(boxId));
+				insertedMessageBoxId = controller._flag(getFlagDto(target, message2, controller.LEVEL.ERROR));
+				assert.isNotNull(insertedMessageBoxId);
+				assert.notStrictEqual(insertedMessageBoxId, boxId);
+				assert.isNotOk(document.getElementById(boxId));
+				assert.isOk(document.getElementById(insertedMessageBoxId));
+			},
+			testFlag_errorToSuccess: function() {
+				var target = getTestTarget(),
+					message1 = "error message",
+					message2 = "success message",
+					dto = getSimpleAddDTO(message1, target),
+					boxId, insertedMessageBoxId;
+				dto.level = controller.LEVEL.ERROR;
+				boxId = controller.add(dto);
+				assert.isOk(document.getElementById(boxId));
+				insertedMessageBoxId = controller._flag(getFlagDto(target, message2, controller.LEVEL.SUCCESS));
+				assert.isNotNull(insertedMessageBoxId);
+				assert.notStrictEqual(insertedMessageBoxId, boxId);
+				assert.isNotOk(document.getElementById(boxId));
+				assert.isOk(document.getElementById(insertedMessageBoxId));
+			},
+			// tests of flagLEVEL are all replicas of the flag tests so really
+			// all we need to do is test we are getting the correct level box.
+			testFlagError: function() {
+				var expected = controller.LEVEL.ERROR,
+					boxId = controller.flagError(getFlagDto(getTestTarget(), "message")),
+					box;
+				assert.isOk(boxId);
+				box = document.getElementById(boxId);
+				assert.strictEqual(diagnostic.getLevel(box), expected);
+			},
+			testFlagWarning: function() {
+				var expected = controller.LEVEL.WARN,
+					boxId = controller.flagWarning(getFlagDto(getTestTarget(), "message")),
+					box;
+				assert.isOk(boxId);
+				box = document.getElementById(boxId);
+				assert.strictEqual(diagnostic.getLevel(box), expected);
+			},
+			testFlagInfo: function() {
+				var expected = controller.LEVEL.INFO,
+					boxId = controller.flagInfo(getFlagDto(getTestTarget(), "message")),
+					box;
+				assert.isOk(boxId);
+				box = document.getElementById(boxId);
+				assert.strictEqual(diagnostic.getLevel(box), expected);
+			},
+			testFlagSuccess: function() {
+				var expected = controller.LEVEL.SUCCESS,
+					boxId = controller.flagSuccess(getFlagDto(getTestTarget(), "message")),
+					box;
+				assert.isOk(boxId);
+				box = document.getElementById(boxId);
+				assert.strictEqual(diagnostic.getLevel(box), expected);
 			}
 		});
 	});

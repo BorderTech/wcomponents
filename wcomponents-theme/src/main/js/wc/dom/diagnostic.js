@@ -29,7 +29,7 @@ define(["wc/dom/Widget", "wc/dom/tag"], function(Widget, tag) {
 
 		/**
 		 * Gets the string extension applied to the id of an element when creating its diagnostic box. This should not be widely used but must be
-		 * public for use in {@link module:wc/ui/diagnostic}.
+		 * public for use in {@link module:wc/ui/feedback}.
 		 * @function
 		 * @public
 		 * @param {int} [level=1] the diagnostic box level
