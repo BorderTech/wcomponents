@@ -52,8 +52,20 @@ define(["wc/has",
 			 */
 			function shedSubscriber(element) {
 				if (element && INVALID_COMPONENT.isOneOfMe(element)) {
-					feedback.clear(element);
+					feedback.remove(element);
 				}
+			}
+
+			/**
+			 * Indicates whether a component is associated with a message indicating that an error has been resolved.
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} element The HTML element to test.
+			 * @returns {boolean} `true` if the element is associated with a success message.
+			 */
+			function isMarkedOK(element) {
+				return !!feedback.getBox(element, feedback.LEVEL.SUCCESS);
 			}
 
 			/**
@@ -102,12 +114,12 @@ define(["wc/has",
 
 				if (initiallyInvalid) {
 					if ((_validateFunc(element))) {
-						feedback.setOK(element);
+						this.setOK(element);
 						isNowInvalid = false;
 					} else {
 						isNowInvalid = true;
 					}
-				} else if (feedback.isMarkedOK(element, this)) {
+				} else if (isMarkedOK(element, this)) {
 					isNowInvalid = !_validateFunc(element);
 				}
 
@@ -190,6 +202,20 @@ define(["wc/has",
 					element.getAttribute("aria-label") ||
 					element.title ||
 					i18n.get(token);
+			};
+
+			/**
+			 * Updates an error box to a succcess box and its error box once an error is corrected.
+			 *
+			 * @function
+			 * @public
+			 * @param {Element} element the HTML element which was in an error state.
+			 */
+			this.setOK = function(element) {
+				return feedback.flagSuccess({
+					element: element,
+					message: i18n.get("validation_ok")
+				});
 			};
 		}
 
