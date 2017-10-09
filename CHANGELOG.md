@@ -8,6 +8,8 @@
 
 ### Bug Fixes
 
+* Update default field validator to fallback to `toolTip` is the input is both unlabelled _and_ has no `accessibleText` #1372.
+
 ## Release 1.4.12
 
 ### Bug Fixes
