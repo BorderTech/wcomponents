@@ -1,24 +1,9 @@
-/**
- * <p>Provides functionality to undertake client validation of check boxes.</p>
- * <p><strong>NOTE:</strong> this is for individual WCheckBoxes marked 'required'; check boxes in a WCheckBoxSelect are
- * never individually marked required.</p>
- *
- * @module wc/ui/validation/checkBox
- * @requires module:wc/wc/dom/initialise
- * @requires module:wc/wc/dom/Widget
- * @requires module:wc/wc/dom/shed
- * @requires module:wc/ui/validation/required
- * @requires module:wc/ui/validation/validationManager
- * @requires module:wc/wc/ui/getFirstLabelForElement
- */
 define(["wc/dom/initialise",
 	"wc/dom/Widget",
 	"wc/dom/shed",
 	"wc/ui/validation/required",
-	"wc/ui/validation/validationManager",
-	"wc/ui/getFirstLabelForElement"],
-	/** @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param shed wc/dom/shed @param required wc/ui/validation/required @param validationManager wc/ui/validation/validationManager @param getFirstLabelForElement wc/ui/getFirstLabelForElement @ignore */
-	function(initialise, Widget, shed, required, validationManager, getFirstLabelForElement) {
+	"wc/ui/validation/validationManager"],
+	function(initialise, Widget, shed, required, validationManager) {
 		"use strict";
 		/**
 		 * @constructor
@@ -51,8 +36,7 @@ define(["wc/dom/initialise",
 			 */
 			function validate(container) {
 				var obj = {container: container,
-					widget: REQUIRED,
-					attachTo: getFirstLabelForElement
+					widget: REQUIRED
 				};
 				return required.complexValidationHelper(obj);
 			}
@@ -68,7 +52,19 @@ define(["wc/dom/initialise",
 			};
 		}
 
-		var /** @alias module:wc/ui/validation/checkBox */ instance = new ValidationCheckBox();
+		/**
+		 * Provides functionality to undertake client validation of check boxes.
+		 *
+		 * **NOTE:** this is for individual WCheckBoxes marked 'required'; check boxes in a WCheckBoxSelect are never individually marked required.
+		 *
+		 * @module
+		 * @requires wc/wc/dom/initialise
+		 * @requires wc/wc/dom/Widget
+		 * @requires wc/wc/dom/shed
+		 * @requires wc/ui/validation/required
+		 * @requires wc/ui/validation/validationManager
+		 */
+		var instance = new ValidationCheckBox();
 		initialise.register(instance);
 		return instance;
 	});

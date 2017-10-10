@@ -8,6 +8,15 @@
 
 ### Bug Fixes
 
+* Update default field validator to fallback to `toolTip` is the input is both unlabelled _and_ has no `accessibleText` #1372.
+
+## Release 1.4.12
+
+### Bug Fixes
+
+* Fixed a flaw in message handling which resulted in error and warning messages not being applied correctly in almost all AJAX-related scenarios #1370
+* Fixed a number of errors in messaging and validation in the client code as part of #1370, fixing these resolves #1121
+
 ## Release 1.4.11
 
 ### Enhancements

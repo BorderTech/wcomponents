@@ -64,7 +64,9 @@ class WTextFieldRenderer extends AbstractWebXmlRenderer {
 		xml.appendClose();
 
 		xml.appendEscaped(textField.getText());
-
+		if (!readOnly) {
+			DiagnosticRenderUtil.renderDiagnostics(textField, renderContext);
+		}
 		xml.appendEndTag("ui:textfield");
 	}
 }

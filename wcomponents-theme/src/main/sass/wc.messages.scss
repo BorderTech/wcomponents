@@ -4,11 +4,16 @@
 @import 'mixins/common';
 
 .wc-fieldindicator {
+  display: none;
+}
+
+.wc-diagnostic {
   display: block;
   margin-top: $wc-gap-small;
 
   > .fa {
     text-align: left;
+    vertical-align: top;
     width: $wc-icon-normal;
 
     + span {

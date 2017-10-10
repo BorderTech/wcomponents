@@ -75,6 +75,9 @@ class WTextAreaRenderer extends AbstractWebXmlRenderer {
 			}
 		}
 
+		if (!readOnly) {
+			DiagnosticRenderUtil.renderDiagnostics(textArea, renderContext);
+		}
 		xml.appendEndTag("ui:textarea");
 	}
 }

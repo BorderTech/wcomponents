@@ -1,20 +1,8 @@
-/**
- * Provides functionality to undertake client validation of WRadioButtonSelect.
- *
- * @module wc/ui/validation/radioButtonSelect
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/shed
- * @requires module:wc/ui/validation/required
- * @requires module:wc/ui/validation/validationManager
- * @requires module:wc/ui/radioButtonSelect
- *
- */
 define(["wc/dom/initialise",
 	"wc/dom/shed",
 	"wc/ui/validation/required",
 	"wc/ui/validation/validationManager",
 	"wc/ui/radioButtonSelect"],
-	/** @param initialise wc/dom/initialise @param shed wc/dom/shed @param required wc/ui/validation/required @param validationManager wc/ui/validation/validationManager @param radioButtonSelect wc/ui/radioButtonSelect @ignore */
 	function(initialise, shed, required, validationManager, radioButtonSelect) {
 		"use strict";
 		/**
@@ -33,7 +21,7 @@ define(["wc/dom/initialise",
 			function validate(container) {
 				return required.complexValidationHelper({container: container,
 					widget: radioButtonSelect.getWidget(),
-					constraint: required.CONSTRAINTS.ARIA,
+					constraint: required.CONSTRAINTS.CLASSNAME,
 					position: "beforeEnd"
 				});
 			}
@@ -47,7 +35,8 @@ define(["wc/dom/initialise",
 			 */
 			function validationShedSubscriber(element) {
 				var container;
-				if (radioButtonSelect.getInputWidget().isOneOfMe(element) && (container = radioButtonSelect.getWidget().findAncestor(element)) && validationManager.isInvalid(container)) {
+				if (radioButtonSelect.getInputWidget().isOneOfMe(element) && (container = radioButtonSelect.getWidget().findAncestor(element)) &&
+					validationManager.isInvalid(container)) {
 					validationManager.setOK(container);
 				}
 			}
@@ -62,7 +51,18 @@ define(["wc/dom/initialise",
 			};
 		}
 
-		var /** @alias module:wc/ui/validation/radioButtonSelect */ instance = new ValidationRadioButtonGroup();
+		/**
+		 * Provides functionality to undertake client validation of WRadioButtonSelect.
+		 *
+		 * @module
+		 * @requires wc/dom/initialise
+		 * @requires wc/dom/shed
+		 * @requires wc/ui/validation/required
+		 * @requires wc/ui/validation/validationManager
+		 * @requires wc/ui/radioButtonSelect
+		 *
+		 */
+		var instance = new ValidationRadioButtonGroup();
 		initialise.register(instance);
 		return instance;
 	});

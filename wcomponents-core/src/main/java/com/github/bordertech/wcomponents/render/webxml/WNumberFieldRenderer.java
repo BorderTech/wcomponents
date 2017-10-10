@@ -57,6 +57,9 @@ final class WNumberFieldRenderer extends AbstractWebXmlRenderer {
 		xml.appendClose();
 
 		xml.appendEscaped(value == null ? userText : value.toString());
+		if (!readOnly) {
+			DiagnosticRenderUtil.renderDiagnostics(field, renderContext);
+		}
 		xml.appendEndTag("ui:numberfield");
 	}
 }

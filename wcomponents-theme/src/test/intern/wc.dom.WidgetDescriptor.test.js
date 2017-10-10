@@ -205,6 +205,13 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			assert.strictEqual(result.id, expectedId);
 		},
 
+		testDescendantWithHrefAtrributeMatch: function() {
+			var result, expectedId = "a4", widget = new Widget("a");
+			widget = widget.extend("", { href: "#dd33" });
+			result = widget.findDescendant(testHolder);
+			assert.strictEqual(result.id, expectedId);
+		},
+
 		testDescendantWithId: function() {
 			var result = matchId.findDescendant(testHolder),
 				expectedId = "greg";

@@ -1,12 +1,12 @@
 define(["wc/i18n/i18n",
 	"wc/dom/initialise",
 	"wc/dom/shed",
-	"wc/ui/getFirstLabelForElement",
 	"wc/ui/validation/isComplete",
 	"wc/ui/validation/validationManager",
 	"wc/ui/validation/required",
-	"wc/ui/fieldset"],
-	function(i18n, initialise, shed, getFirstLabelForElement, isComplete, validationManager, required, fieldset) {
+	"wc/ui/fieldset",
+	"wc/ui/feedback"],
+	function(i18n, initialise, shed, isComplete, validationManager, required, fieldset, feedback) {
 		"use strict";
 		/**
 		 * @constructor
@@ -14,7 +14,7 @@ define(["wc/i18n/i18n",
 		 * @private
 		 */
 		function ValidationFieldset() {
-			var FIELDSET = fieldset.getWidget(),
+			var FIELDSET = fieldset.getWidget().clone().extend("wc-fieldset"),
 				INVALID;
 
 			/**
@@ -32,22 +32,6 @@ define(["wc/i18n/i18n",
 			}
 
 			/**
-			 * Array.forEach iteration function used to flag fieldsets which are not valid.
-			 *
-			 * @function
-			 * @private
-			 * @param {Element} fset The fieldset on which we want to flag a validation error.
-			 */
-			function flagError(fset) {
-				var legend = getFirstLabelForElement(fset, true) || fset.title,
-					message = i18n.get("validation_common_incompletegroup", legend);
-
-				validationManager.flagError({element: fset,
-					message: message,
-					position: "beforeEnd"});
-			}
-
-			/**
 			 * Fieldset required state validation a fieldset is successful if at least one interactive control within
 			 * the fieldset is complete.
 			 *
@@ -62,7 +46,13 @@ define(["wc/i18n/i18n",
 				// are any not complete?
 				if (elements && (elements = elements.filter(filterFieldsets)) && elements.length) {
 					result = false;
-					elements.forEach(flagError);  // we have a real array after calling filter
+					elements.forEach(function (next) {
+						var message = i18n.get("validation_common_incompletegroup", validationManager.getLabelText(next));
+						feedback.flagError({
+							element: next,
+							message: message
+						});
+					});
 				}
 				return result;
 			}
@@ -138,14 +128,14 @@ define(["wc/i18n/i18n",
 		 * Provides functionality to undertake client validation for WFieldSet.
 		 *
 		 * @module
-		 * @requires module:wc/i18n/i18n
-		 * @requires module:wc/dom/initialise
-		 * @requires module:wc/dom/shed
-		 * @requires module:wc/ui/getFirstLabelForElement
-		 * @requires module:wc/ui/validation/isComplete
-		 * @requires module:wc/ui/validation/validationManager
-		 * @requires module:wc/ui/validation/required
-		 * @requires module:wc/ui/fieldset
+		 * @requires wc/i18n/i18n
+		 * @requires wc/dom/initialise
+		 * @requires wc/dom/shed
+		 * @requires wc/ui/validation/isComplete
+		 * @requires wc/ui/validation/validationManager
+		 * @requires wc/ui/validation/required
+		 * @requires wc/ui/fieldset
+		 * @requires wc/ui/errrs
 		 */
 		var instance = new ValidationFieldset();
 		initialise.register(instance);

@@ -68,6 +68,9 @@ final class WMultiSelectPairRenderer extends AbstractWebXmlRenderer {
 			}
 		}
 
+		if (!readOnly) {
+			DiagnosticRenderUtil.renderDiagnostics(multiSelectPair, renderContext);
+		}
 		xml.appendEndTag("ui:multiselectpair");
 	}
 

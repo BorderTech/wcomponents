@@ -109,7 +109,10 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid"], /** @param getAncestorOrSelf 
 				if (p1 !== ESC) {
 					res = ESC + res;
 				}
-				return p1 + res;
+				if (typeof p1 !== "undefined") {
+					res = p1 + res;
+				}
+				return res;
 			});
 		}
 		return result;

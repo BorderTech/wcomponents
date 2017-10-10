@@ -3,16 +3,6 @@
 	<xsl:import href="wc.common.readOnly.xsl"/>
 	<!-- Transforms for WMultiDropdown and WMultiTextField. -->
 	<xsl:template match="ui:multidropdown|ui:multitextfield">
-		<xsl:variable name="readOnly">
-			<xsl:choose>
-				<xsl:when test="@readOnly">
-					<xsl:number value="1"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:number value="0"></xsl:number>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
 		<xsl:choose>
 			<xsl:when test="@readOnly and self::ui:multidropdown">
 				<xsl:call-template name="readOnlyControl">
@@ -64,6 +54,7 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</ul>
+					<xsl:apply-templates select="ui:diagnostic"/>
 				</fieldset>
 			</xsl:otherwise>
 		</xsl:choose>

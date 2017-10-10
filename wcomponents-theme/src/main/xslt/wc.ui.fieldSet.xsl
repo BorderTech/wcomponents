@@ -23,6 +23,7 @@
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
+			<xsl:call-template name="isInvalid"/>
 			<legend>
 				<xsl:if test="$frame eq 'notext' or $frame eq 'none'">
 					<xsl:attribute name="class">
@@ -37,6 +38,7 @@
 				</xsl:call-template>
 			</legend>
 			<xsl:apply-templates select="ui:content" mode="passthru"/>
+			<xsl:apply-templates select="ui:diagnostic"/>
 		</fieldset>
 	</xsl:template>
 </xsl:stylesheet>
