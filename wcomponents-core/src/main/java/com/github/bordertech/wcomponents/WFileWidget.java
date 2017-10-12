@@ -2,18 +2,20 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.file.FileItemWrap;
 import com.github.bordertech.wcomponents.portlet.context.WFileWidgetCleanup;
-import com.github.bordertech.wcomponents.util.FileValidationUtil;
+import com.github.bordertech.wcomponents.util.FileUtil;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.Util;
+import com.github.bordertech.wcomponents.validation.Diagnostic;
+import com.github.bordertech.wcomponents.validation.DiagnosticImpl;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.BooleanUtils;
 
 /**
  * <p>
@@ -91,7 +93,7 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	 * Checks if one or more file type is supplied.
 	 * @return True/False
 	 */
-	public boolean isSetFileTypes() {
+	public boolean hasFileTypes() {
 		return getComponentModel().fileTypes != null && getComponentModel().fileTypes.size() > 0;
 	}
 
@@ -118,7 +120,7 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	 * Checks if max file size is supplied.
 	 * @return True/False
 	 */
-	public boolean isSetFileSize() {
+	public boolean hasMaxFileSize() {
 		return getComponentModel().maxFileSize >  0;
 	}
 
@@ -138,20 +140,18 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 			
 			// if fileType is supplied then validate it
 			boolean validFileType;
-			if (isSetFileTypes()) {
-				validFileType = FileValidationUtil.validateFileType(value, getFileTypes());
-				addFileTypeValidation(validFileType, InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_TYPE, 
-						getFileTypes().toArray(new Object[getFileTypes().size()]));
+			if (hasFileTypes()) {
+				validFileType = FileUtil.validateFileType(value, getFileTypes());
+				getOrCreateComponentModel().validFileType = validFileType;
 			} else {
 				validFileType = true;
 			}
 			
 			// if fileSize is supplied then validate it
 			boolean validFileSize;
-			if (isSetFileSize()) {
-				validFileSize = FileValidationUtil.validateFileSize(value, getMaxFileSize());
-				addFileSizeValidation(validFileSize, InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_SIZE, 
-						Util.readableFileSize(value.getSize()), Util.readableFileSize(getMaxFileSize()));
+			if (hasMaxFileSize()) {
+				validFileSize = FileUtil.validateFileSize(value, getMaxFileSize());
+				getOrCreateComponentModel().validFileSize = validFileSize;
 			} else {
 				validFileSize = true;
 			}
@@ -159,9 +159,12 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 			// if file is valid, the update data
 			if (validFileSize && validFileType) {
 				setData(value);
-			} else {
+			} else if (current == null) {
 				// otherwise no change
 				changed = false;
+			} else {
+				changed = true;
+				setData(null);
 			}
 		} 
 
@@ -172,37 +175,8 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	 * Reset validation state.
 	 */
 	public void resetValidationState() {
-		getOrCreateComponentModel().validationMessages.clear();
 		getOrCreateComponentModel().validFileType = null;
 		getOrCreateComponentModel().validFileSize = null;
-	}
-
-	/**
-	 * Adds invalid file type validation message.
-	 * @param fieldValue True/False
-	 * @param message The message to add.
-	 * @param args The message arguments.
-	 */
-	private void addFileTypeValidation(final boolean fieldValue, final String message, final Object... args) {
-		getOrCreateComponentModel().validFileType = fieldValue;
-		if (!fieldValue) {
-			String invalidMessage = String.format(I18nUtilities.format(null, message), StringUtils.join(args, ","));
-			getOrCreateComponentModel().validationMessages.add(invalidMessage);
-		}
-	}
-
-	/**
-	 * Adds invalid file size validation message.
-	 * @param fieldValue True/False
-	 * @param message The message to add.
-	 * @param args The message arguments.
-	 */
-	private void addFileSizeValidation(final boolean fieldValue, final String message, final Object... args) {
-		getOrCreateComponentModel().validFileSize = fieldValue;
-		if (!fieldValue) {
-			String invalidMessage = String.format(I18nUtilities.format(null, message), args);
-			getOrCreateComponentModel().validationMessages.add(invalidMessage);
-		}
 	}
 
 	/**
@@ -224,15 +198,31 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	public Boolean isFileSizeValid() {
 		return getComponentModel().validFileSize;
 	}
-
+	
 	/**
-	 * Returns validation error messages, if {@link getFileTypes()} or {@link getMaxFileSize()} is set.
-	 *
-	 * @return if uploaded file invalid then validation messages returned.
-	 * @see {@link isFileTypeValid()}, {@link isFileSizeValid()}
+	 * {@inheritDoc}
 	 */
-	public List<String> getFileValidationMessages() {
-		return Collections.unmodifiableList(getOrCreateComponentModel().validationMessages);
+	@Override
+	protected void validateComponent(List<Diagnostic> diags) {
+		super.validateComponent(diags);
+		
+		if (BooleanUtils.isFalse(isFileTypeValid())) {
+			// Add invalid file type validation message.
+			String invalidMessage = String.format(I18nUtilities.format(null, 
+					InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_TYPE), 
+					StringUtils.join(getFileTypes().toArray(new Object[getFileTypes().size()]), ","));
+			Diagnostic diag = new DiagnosticImpl(Diagnostic.ERROR, this, invalidMessage);
+			diags.add(diag);
+		}
+		
+		if (BooleanUtils.isFalse(isFileSizeValid())) {
+			// Adds invalid file size validation message.
+			String invalidMessage = String.format(I18nUtilities.format(null, 
+					InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_SIZE), 
+					FileUtil.readableFileSize(getMaxFileSize()));
+			Diagnostic diag = new DiagnosticImpl(Diagnostic.ERROR, this, invalidMessage);
+			diags.add(diag);
+		}
 	}
 
 	/**
@@ -371,11 +361,6 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 		 * Flag to indicate if the selected file is a valid fileSize.
 		 */
 		private Boolean validFileSize = null;
-
-		/**
-		 * The messages if file fails the validation check.
-		 */
-		private List<String> validationMessages = new ArrayList<String>(2);
 	}
 
 	/**
@@ -406,4 +391,5 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 		return (FileWidgetModel) super.getOrCreateComponentModel();
 	}
 }
+
 

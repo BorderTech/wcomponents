@@ -128,7 +128,7 @@ public final class InternalMessages {
 	/**
 	 * The key for invalid file size.
 	 */
-	public static final String DEFAULT_VALIDATION_ERROR_FILE_WRONG_SIZE = "bordertech.wcomponents.message.fileTooLarge";
+	public static final String DEFAULT_VALIDATION_ERROR_FILE_WRONG_SIZE = "bordertech.wcomponents.message.fileWrongSize";
 
 	/**
 	 * The key for the system error error text.

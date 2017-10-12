@@ -1,33 +1,32 @@
 package com.github.bordertech.wcomponents.util;
 
+import com.github.bordertech.wcomponents.file.FileItemWrap;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tika.Tika;
 
-import com.github.bordertech.wcomponents.file.FileItemWrap;
-
 /**
  * Utility methods for {@link FileItemWrap} validation.
  *
  * @author Aswin Kandula
- * @since 1.4.12
+ * @since 1.4.14
  */
-public final class FileValidationUtil {
+public final class FileUtil {
 
 	/**
 	 * No instance methods here.
 	 */
-	private FileValidationUtil() {
+	private FileUtil() {
 	}
 	
 	/**
 	 * The logger instance for this class.
 	 */
-	private static final Log LOG = LogFactory.getLog(FileValidationUtil.class);
+	private static final Log LOG = LogFactory.getLog(FileUtil.class);
 
 	/**
 	 * Is file type valid.
@@ -68,5 +67,20 @@ public final class FileValidationUtil {
 	 */
 	public static boolean validateFileSize(final FileItemWrap newFile, final long maxFileSize) {
 		return (newFile.getSize() > maxFileSize) ? false : true;
+	}
+
+	/**
+	 * Format file size as B, KB, MB, GB.
+	 *
+	 * @param size of file
+	 * @return human readable file size
+	 */
+	public static String readableFileSize(final long size) {
+		if (size <= 0) {
+			return "0";
+		}
+		final String[] units = new String[] { "B", "KB", "MB", "GB"};
+		int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
+		return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
 	}
 }

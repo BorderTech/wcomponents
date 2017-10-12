@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.WLink.ImagePosition;
 import com.github.bordertech.wcomponents.file.File;
 import com.github.bordertech.wcomponents.file.FileItemWrap;
-import com.github.bordertech.wcomponents.util.FileValidationUtil;
+import com.github.bordertech.wcomponents.util.FileUtil;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.MemoryUtil;
@@ -283,7 +283,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 * Checks if one or more file type is supplied.
 	 * @return True/False
 	 */
-	public boolean isSetFileTypes() {
+	public boolean hasFileTypes() {
 		return getComponentModel().fileTypes != null && getComponentModel().fileTypes.size() > 0;
 	}
 
@@ -310,7 +310,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 * Checks if max file size is supplied.
 	 * @return True/False
 	 */
-	public boolean isSetFileSize() {
+	public boolean hasMaxFileSize() {
 		return getComponentModel().maxFileSize >  0;
 	}
 
@@ -693,21 +693,17 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		FileItemWrap wrap = new FileItemWrap(items[0]);
 		
 		// if fileType is supplied then validate it
-		if (isSetFileTypes()) {
-			if (!FileValidationUtil.validateFileType(wrap, getFileTypes())) {
-				String invalidMessage = String.format(I18nUtilities.format(null, InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_TYPE), 
-						StringUtils.join(getFileTypes().toArray(new Object[getFileTypes().size()])));
-				throw new SystemException(invalidMessage);
-			}
+		if (hasFileTypes() && !FileUtil.validateFileType(wrap, getFileTypes())) {
+			String invalidMessage = String.format(I18nUtilities.format(null, InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_TYPE), 
+					StringUtils.join(getFileTypes().toArray(new Object[getFileTypes().size()])));
+			throw new SystemException(invalidMessage);
 		}
 
 		// if fileSize is supplied then validate it
-		if (isSetFileSize()) {
-			if (!FileValidationUtil.validateFileSize(wrap, getMaxFileSize())) {
-				String invalidMessage = String.format(I18nUtilities.format(null, InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_SIZE), 
-						Util.readableFileSize(wrap.getSize()), Util.readableFileSize(getMaxFileSize()));
-				throw new SystemException(invalidMessage);
-			}
+		if (hasMaxFileSize() && !FileUtil.validateFileSize(wrap, getMaxFileSize())) {
+			String invalidMessage = String.format(I18nUtilities.format(null, InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_SIZE), 
+					FileUtil.readableFileSize(wrap.getSize()), FileUtil.readableFileSize(getMaxFileSize()));
+			throw new SystemException(invalidMessage);
 		}
 		
 		FileWidgetUpload file = new FileWidgetUpload(fileId, wrap);

@@ -1,14 +1,16 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.file.FileItemWrap;
+import com.github.bordertech.wcomponents.util.FileUtil;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.StreamUtil;
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.util.mock.MockFileItem;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
+import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -300,7 +302,9 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 		boolean changed = widget.doHandleRequest(request);
 		
 		Assert.assertEquals("File uploaded, so file uploaded", changed, true);
-		Assert.assertTrue("No validation messages exist", widget.getFileValidationMessages().size() == 0);
+		ArrayList<Diagnostic> diags = new ArrayList<Diagnostic>();
+		widget.validate(diags);
+		Assert.assertTrue("No validation messages exist", diags.size() == 0);
 		Assert.assertNull("No file type validation", widget.isFileTypeValid());
 		Assert.assertNull("No file size validation", widget.isFileSizeValid());
 	}
@@ -319,7 +323,9 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 		boolean changed = widget.doHandleRequest(request);
 		
 		Assert.assertEquals("File type valid, so file uploaded", changed, true);
-		Assert.assertTrue("No validation messages exist", widget.getFileValidationMessages().size() == 0);
+		ArrayList<Diagnostic> diags = new ArrayList<Diagnostic>();
+		widget.validate(diags);
+		Assert.assertTrue("No validation messages exist", diags.size() == 0);
 		Assert.assertTrue("File type valid", widget.isFileTypeValid());
 		
 		widget = new WFileWidget();
@@ -333,7 +339,8 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 		changed = widget.doHandleRequest(request);
 		
 		Assert.assertEquals("File type valid, so file uploaded", changed, true);
-		Assert.assertTrue("No validation messages exist", widget.getFileValidationMessages().size() == 0);
+		widget.validate(diags);
+		Assert.assertTrue("No validation messages exist", diags.size() == 0);
 		Assert.assertTrue("File type valid", widget.isFileTypeValid());
 	}
 
@@ -348,16 +355,20 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 		boolean changed = widget.doHandleRequest(request);
 		
 		Assert.assertEquals("File type invalid, no file uploaded", changed, false);
-		Assert.assertTrue("File type invalid, so message returned", widget.getFileValidationMessages().size() == 1);
+		ArrayList<Diagnostic> diags = new ArrayList<Diagnostic>();
+		widget.validate(diags);
+		Assert.assertTrue("File type invalid, so message returned", diags.size() == 1);
 		Assert.assertFalse("File type invalid", widget.isFileTypeValid());
 		String invalidMessage = String.format(I18nUtilities.format(null, InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_TYPE),
 				StringUtils.join(widget.getFileTypes().toArray(new Object[widget.getFileTypes().size()]), ","));
-		Assert.assertEquals("Invalid file size message", widget.getFileValidationMessages().get(0), invalidMessage);
+		Assert.assertEquals("Invalid file size message", diags.get(0).getDescription(), invalidMessage);
 		
 		// Try same request again, make sure duplicate messages are not returned
 		changed = widget.doHandleRequest(request);
 		Assert.assertEquals("File type invalid, no file uploaded", changed, false);
-		Assert.assertTrue("File type invalid, so message returned", widget.getFileValidationMessages().size() == 1);
+		diags.clear();
+		widget.validate(diags);
+		Assert.assertTrue("File type invalid, so message returned", diags.size() == 1);
 		Assert.assertFalse("File type invalid", widget.isFileTypeValid());
 	}
 	
@@ -374,19 +385,22 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 		boolean changed = widget.doHandleRequest(request);
 		
 		Assert.assertEquals("File size valid, so file uploaded", changed, true);
-		Assert.assertTrue("File size valid, so no messages returned", widget.getFileValidationMessages().size() == 0);
+		ArrayList<Diagnostic> diags = new ArrayList<Diagnostic>();
+		widget.validate(diags);
+		Assert.assertTrue("File size valid, so no messages returned", diags.size() == 0);
 		Assert.assertTrue("File size valid", widget.isFileSizeValid());
 		
 		// Set file on the request
 		request = setupFileUploadRequest(widget, TEST_FILE_ITEM2);
 		changed = widget.doHandleRequest(request);
 		
-		Assert.assertEquals("File size invalid, no file uploaded", changed, false);
-		Assert.assertTrue("File size invalid, so message returned", widget.getFileValidationMessages().size() == 1);
+		Assert.assertEquals("File size invalid, so original file exists", changed, true);
+		widget.validate(diags);
+		Assert.assertTrue("File size invalid, so message returned", diags.size() == 1);
 		Assert.assertFalse("File size invalid", widget.isFileSizeValid());
 		String invalidMessage = String.format(I18nUtilities.format(null, InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_SIZE),
-				Util.readableFileSize(request.getFileItem("widgetId").getSize()), Util.readableFileSize(maxSize));
-		Assert.assertEquals("Invalid file size message", widget.getFileValidationMessages().get(0), invalidMessage);
+				FileUtil.readableFileSize(maxSize));
+		Assert.assertEquals("Invalid file size message", diags.get(0).getDescription(), invalidMessage);
 	}
 	
 	@Test
@@ -400,14 +414,18 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 		boolean changed = widget.doHandleRequest(request);
 		
 		Assert.assertEquals("File invalid, no file uploaded", changed, false);
-		Assert.assertTrue("Both file type and size invalid", widget.getFileValidationMessages().size() == 2);
+		ArrayList<Diagnostic> diags = new ArrayList<Diagnostic>();
+		widget.validate(diags);
+		Assert.assertTrue("Both file type and size invalid", diags.size() == 2);
 		Assert.assertFalse(widget.isFileTypeValid());
 		Assert.assertFalse(widget.isFileSizeValid());
 		
 		// Try same request again, make sure duplicate messages are not returned
 		changed = widget.doHandleRequest(request);
 		Assert.assertEquals("File invalid, no file uploaded", changed, false);
-		Assert.assertTrue(widget.getFileValidationMessages().size() == 2);
+		diags.clear();
+		widget.validate(diags);
+		Assert.assertTrue(diags.size() == 2);
 		Assert.assertFalse(widget.isFileTypeValid());
 		Assert.assertFalse(widget.isFileSizeValid());
 	}
