@@ -27,6 +27,14 @@
 			</span>
 		</xsl:if>
 	</xsl:template>
+	
+	<xsl:template name="isInvalid">
+		<xsl:if test="ui:diagnostic[not(@type='warn')]">
+			<xsl:attribute name="aria-invalid">
+				<xsl:text>true</xsl:text>
+			</xsl:attribute>
+		</xsl:if>
+	</xsl:template>
 
 	<!--
 		This helper template sets aria-label attribtue if the component has its accessibleText property set.
@@ -57,6 +65,9 @@
 			</xsl:if>
 			<xsl:if test="@track">
 				<xsl:text> wc_here</xsl:text>
+			</xsl:if>
+			<xsl:if test="ui:diagnostic">
+				<xsl:text> wc-rel</xsl:text>
 			</xsl:if>
 		</xsl:variable>
 		<xsl:value-of select="normalize-space($computed)"/>
@@ -208,6 +219,7 @@
 		</xsl:call-template>
 		<xsl:call-template name="title"/>
 		<xsl:call-template name="ariaLabel" />
+		<xsl:call-template name="isInvalid"/>
 	</xsl:template>
 
 	<!-- 
@@ -244,6 +256,7 @@
 				<xsl:value-of select="@buttonId" />
 			</xsl:attribute>
 		</xsl:if>
+		<xsl:call-template name="isInvalid"/>
 		<xsl:if test="(@submitOnChange and not(@list)) or (self::ui:dropdown and @optionWidth)">
 			<xsl:attribute name="class">
 				<xsl:if test="@submitOnChange and not(@list)">

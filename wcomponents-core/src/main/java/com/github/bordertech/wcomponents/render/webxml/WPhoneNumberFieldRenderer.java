@@ -64,7 +64,9 @@ class WPhoneNumberFieldRenderer extends AbstractWebXmlRenderer {
 		xml.appendClose();
 
 		xml.appendEscaped(field.getText());
-
+		if (!readOnly) {
+			DiagnosticRenderUtil.renderDiagnostics(field, renderContext);
+		}
 		xml.appendEndTag("ui:phonenumberfield");
 	}
 }

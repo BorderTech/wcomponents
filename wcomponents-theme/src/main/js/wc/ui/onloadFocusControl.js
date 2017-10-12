@@ -1,5 +1,5 @@
-define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/timers", "wc/ui/loading", "wc/dom/Widget", "wc/config"],
-	function(focus, initialise, processResponse, timers, loading, Widget, wcconfig) {
+define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/timers", "wc/ui/loading", "wc/dom/messageBox", "wc/config"],
+	function(focus, initialise, processResponse, timers, loading, messageBox, wcconfig) {
 		"use strict";
 		/**
 		 * @constructor
@@ -10,17 +10,7 @@ define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/t
 			var focusId,
 				conf = wcconfig.get("wc/ui/onloadFocusControl"),
 				SCROLL_TO_TOP = (conf ? conf.rescroll : false),  // true to turn on scroll to top of viewport on load focus, false will apply user agent default (usually scroll to just in view)
-				FOCUS_DELAY = null, // if set to a non-negstive integer this will delay focus requests to allow native autofocus to work. Native autofocus is currently problematic since it does not fire a focus event.
-				MESSAGE_BOX,
-				/**
-				 * Class name(s) used to describe the message box.
-				 * @constant
-				 * @type String|Array
-				 * @private
-				 * @todo This should really be imnported from a messaging module but wc/ui/errors only deals with error boxes.
-				 */
-				MESSAGE_BOX_CLASS = "wc_msgbox";
-				// To only check for ERROR boxes use: ["wc_msgbox", "wc-messagebox-type-error"];
+				FOCUS_DELAY = null; // if set to a non-negstive integer this will delay focus requests to allow native autofocus to work. Native autofocus is currently problematic since it does not fire a focus event.
 
 			/**
 			 * Set focus request on page load.
@@ -97,9 +87,8 @@ define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/t
 				}
 				if (result && !ignoreMessages) {
 					// we still can't focus if there are message boxes in the view
-					MESSAGE_BOX = MESSAGE_BOX || new Widget("", MESSAGE_BOX_CLASS);
-					if (MESSAGE_BOX.findDescendant(document.body)) {
-						// if we have a message box we cannot grab focus.
+					// To only check for ERROR boxes use: messageBox.getErrorBoxes();
+					if (messageBox.get()) {
 						result = false;
 					}
 				}

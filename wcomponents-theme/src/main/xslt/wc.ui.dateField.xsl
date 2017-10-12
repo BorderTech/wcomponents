@@ -41,7 +41,7 @@
 							<xsl:value-of select="@date"/>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:value-of select="."/>
+							<xsl:value-of select="text()"/>
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:attribute>
@@ -58,6 +58,7 @@
 				</xsl:call-template>
 			</button>
 			<span role="listbox" aria-busy="true"></span>
+			<xsl:apply-templates select="ui:diagnostic"/>
 		</div>
 	</xsl:template>
 
@@ -75,7 +76,7 @@
 						</xsl:when>
 						<!-- QC157989 Keep bad value because of very bad reasons even though it won't work in browsers. -->
 						<xsl:otherwise>
-							<xsl:value-of select="."/>
+							<xsl:value-of select="text()"/>
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:attribute>
@@ -100,6 +101,7 @@
 					</xsl:attribute>
 				</xsl:if>
 			</xsl:element>
+			<xsl:apply-templates select="ui:diagnostic"/>
 		</div>
 	</xsl:template>
 </xsl:stylesheet>

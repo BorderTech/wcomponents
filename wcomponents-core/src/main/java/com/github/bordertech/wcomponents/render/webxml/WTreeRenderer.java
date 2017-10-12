@@ -90,6 +90,7 @@ final class WTreeRenderer extends AbstractWebXmlRenderer {
 			handlePaintCustom(tree, xml);
 		}
 
+		DiagnosticRenderUtil.renderDiagnostics(tree, renderContext);
 		xml.appendEndTag("ui:tree");
 	}
 

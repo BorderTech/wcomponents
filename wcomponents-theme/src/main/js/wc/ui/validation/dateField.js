@@ -1,19 +1,3 @@
-/**
- * Provides functionality to undertake client validation of WDateField.
- *
- * @module wc/ui/validation/dateField
- * @requires module:wc/date/interchange
- * @requires module:wc/date/getDifference
- * @requires module:wc/dom/attribute
- * @requires module:wc/dom/event
- * @requires module:wc/dom/initialise
- * @requires module:wc/i18n/i18n
- * @requires module:wc/ui/dateField
- * @requires module:wc/ui/validation/validationManager
- * @requires module:wc/ui/getFirstLabelForElement
- * @requires external:lib/sprintf
- * @requires module:wc/ui/validation/isComplete
- */
 define(["wc/date/interchange",
 	"wc/date/getDifference",
 	"wc/dom/attribute",
@@ -22,11 +6,10 @@ define(["wc/date/interchange",
 	"wc/i18n/i18n",
 	"wc/ui/dateField",
 	"wc/ui/validation/validationManager",
-	"wc/ui/getFirstLabelForElement",
 	"lib/sprintf",
-	"wc/ui/validation/isComplete"],
-	/** @param interchange wc/date/interchange @param getDifference wc/date/getDifference @param attribute wc/dom/attribute @param event wc/dom/event @param initialise wc/dom/initialise @param i18n wc/i18n/i18n @param dateField wc/ui/dateField @param validationManager wc/ui/validation/validationManager @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param sprintf lib/sprintf @param isComplete wc/ui/validation/isComplete @ignore */
-	function(interchange, getDifference, attribute, event, initialise, i18n, dateField, validationManager, getFirstLabelForElement, sprintf, isComplete) {
+	"wc/ui/validation/isComplete",
+	"wc/ui/feedback"],
+	function(interchange, getDifference, attribute, event, initialise, i18n, dateField, validationManager, sprintf, isComplete, feedback) {
 		"use strict";
 		/**
 		 * @constructor
@@ -54,7 +37,6 @@ define(["wc/date/interchange",
 					date, flag, value,
 					textbox,
 					comparisonDate,
-					label,
 					LABEL_PLACEHOLDER = "%s",
 					minAttrib = "data-wc-min",
 					maxAttrib = "data-wc-max";
@@ -111,8 +93,7 @@ define(["wc/date/interchange",
 					}
 				}
 				if (invalid) {
-					label = getFirstLabelForElement(textbox, true) || element.title || i18n.get("validation_common_unlabelledfield");
-					validationManager.flagError({element: element, message: sprintf.sprintf(flag, label)});
+					feedback.flagError({element: element, message: sprintf.sprintf(flag, validationManager.getLabelText(element))});
 				}
 				return invalid;
 			}
@@ -125,9 +106,8 @@ define(["wc/date/interchange",
 			 * @returns {String} The formatted validation message.
 			 */
 			function messageFunction(element) {
-				var textbox = dateField.getTextBox(element),
-					label = getFirstLabelForElement(textbox, true) || textbox.title || i18n.get("validation_common_unlabelledfield");
-				return sprintf.sprintf(i18n.get("validation_common_incomplete"), label);
+				var textbox = dateField.getTextBox(element);
+				return sprintf.sprintf(i18n.get("validation_common_incomplete"), validationManager.getLabelText(textbox));
 			}
 
 			/**
@@ -183,9 +163,7 @@ define(["wc/date/interchange",
 					complete = false;
 
 					incomplete.forEach(function(next) {
-						var message = messageFunction(next),
-							obj = {element: next, message: message};
-						validationManager.flagError(obj);
+						feedback.flagError({element: next, message: messageFunction(next)});
 					});
 				}
 
@@ -301,7 +279,23 @@ define(["wc/date/interchange",
 			};
 		}
 
-		var /** @alias module:wc/ui/validation/dateField */ instance = new ValidationDateInput();
+		/**
+		 * Provides functionality to undertake client validation of WDateField.
+		 *
+		 * @module
+		 * @requires wc/date/interchange
+		 * @requires wc/date/getDifference
+		 * @requires wc/dom/attribute
+		 * @requires wc/dom/event
+		 * @requires wc/dom/initialise
+		 * @requires wc/i18n/i18n
+		 * @requires wc/ui/dateField
+		 * @requires wc/ui/validation/validationManager
+		 * @requires external:lib/sprintf
+		 * @requires wc/ui/validation/isComplete
+		 * @requires wc/ui/feedback
+		 */
+		var instance = new ValidationDateInput();
 		initialise.register(instance);
 		return instance;
 	});

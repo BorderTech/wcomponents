@@ -75,6 +75,9 @@ final class WSingleSelectRenderer extends AbstractWebXmlRenderer {
 			}
 		}
 
+		if (!readOnly) {
+			DiagnosticRenderUtil.renderDiagnostics(listBox, renderContext);
+		}
 		xml.appendEndTag("ui:listbox");
 	}
 

@@ -60,6 +60,9 @@ class WEmailFieldRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendEscaped(field.getText());
 
+		if (!readOnly) {
+			DiagnosticRenderUtil.renderDiagnostics(field, renderContext);
+		}
 		xml.appendEndTag("ui:emailfield");
 	}
 }

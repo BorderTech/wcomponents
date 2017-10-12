@@ -112,6 +112,10 @@ public class DiagnosticImpl implements Diagnostic {
 					if (text == null) {
 						text = input.getAccessibleText();
 					}
+
+					if (text == null) {
+						text = input.getToolTip();
+					}
 				} finally {
 					UIContextHolder.popContext();
 				}

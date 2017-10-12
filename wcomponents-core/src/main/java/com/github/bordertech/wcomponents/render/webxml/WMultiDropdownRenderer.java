@@ -81,6 +81,9 @@ final class WMultiDropdownRenderer extends AbstractWebXmlRenderer {
 			}
 		}
 
+		if (!readOnly) {
+			DiagnosticRenderUtil.renderDiagnostics(dropdown, renderContext);
+		}
 		// End tag
 		xml.appendEndTag("ui:multidropdown");
 	}

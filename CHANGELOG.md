@@ -6,6 +6,23 @@
 
 ### Enhancements
 
+### Bug Fixes
+
+* Fix validation messages being merged with data in several components QC170096 (broken in 1.4.12).
+* Fix schema validation (broken in 1.4.12).
+* Update default field validator to fallback to `toolTip` is the input is both unlabelled _and_ has no `accessibleText` #1372.
+
+## Release 1.4.12
+
+### Bug Fixes
+
+* Fixed a flaw in message handling which resulted in error and warning messages not being applied correctly in almost all AJAX-related scenarios #1370
+* Fixed a number of errors in messaging and validation in the client code as part of #1370, fixing these resolves #1121
+
+## Release 1.4.11
+
+### Enhancements
+
 * Updated the theme-parent POM to enforce Maven version checking as building with 3.0.x will fail in a very opaque manner.
 * Moved the Java version check from a slightly convoluted ANT check to Maven.
 
@@ -16,7 +33,7 @@
 * Fixed a flaw in placeholder manipulation during mandatory/optional toggling #1360.
 * Fixed a11y issues caused by labelling of mandatory fields #1359.
 
-## Release 1.4.9
+## Release 1.4.10
 
 ### Enhancements
 

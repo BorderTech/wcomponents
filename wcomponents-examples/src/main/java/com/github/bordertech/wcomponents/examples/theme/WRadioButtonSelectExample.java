@@ -12,12 +12,14 @@ import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WMessageBox;
+import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WRadioButtonSelect;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
+import com.github.bordertech.wcomponents.validation.ValidatingAction;
 import java.util.List;
 
 /**
@@ -28,7 +30,7 @@ import java.util.List;
  * @since 1.0.0
  *
  */
-public class WRadioButtonSelectExample extends WPanel {
+public final class WRadioButtonSelectExample extends WPanel {
 
 	/**
 	 * No selection text.
@@ -39,7 +41,6 @@ public class WRadioButtonSelectExample extends WPanel {
 	 * Creates a WRadioButtonSelectExample.
 	 */
 	public WRadioButtonSelectExample() {
-
 		add(new WHeading(HeadingLevel.H2, "WRadioButtonSelect examples"));
 		add(new ExplanatoryText(
 				"WRadioButtonSelect represents a 0-1 of n selection tool. It does not allow for selection to be made null once a selection is made."
@@ -127,9 +128,24 @@ public class WRadioButtonSelectExample extends WPanel {
 				+ " and predicatable interface.\n"
 				+ "The third example in this set uses a null label and a toolTip to hide the labelling element. This can lead to user confusion and"
 				+ " is not recommended."));
+		// Note: the wrapper WPanel here is to work around a bug in validation. See https://github.com/BorderTech/wcomponents/issues/1370
+		final WPanel wrapper = new WPanel();
+		add(wrapper);
+		final WMessages messages = new WMessages();
+		wrapper.add(messages);
 		WFieldLayout layout = new WFieldLayout();
 		layout.setLabelWidth(25);
-		add(layout);
+		wrapper.add(layout);
+		WButton resetThisBit = new WButton("Reset this bit");
+		resetThisBit.setCancel(true);
+		resetThisBit.setAjaxTarget(wrapper);
+		resetThisBit.setAction(new Action() {
+			@Override
+			public void execute(final ActionEvent event) {
+				wrapper.reset();
+			}
+		});
+		layout.addField(resetThisBit);
 		String[] options = new String[]{"Dog", "Cat", "Bird", "Turtle"};
 		WRadioButtonSelect select = new WRadioButtonSelect(options);
 		layout.addField("Select an animal", select);
@@ -145,6 +161,15 @@ public class WRadioButtonSelectExample extends WPanel {
 		//if you absolutely do not want a WLabel in a WField then it has to be added using null cast to a WLabel.
 		layout.addField((WLabel) null, select);
 		select.setToolTip("Veggies");
+		WButton btnValidate = new WButton("validate");
+		btnValidate.setAction(new ValidatingAction(messages.getValidationErrors(), layout) {
+			@Override
+			public void executeOnValid(final ActionEvent event) {
+				// do nothing
+			}
+		});
+		layout.addField(btnValidate);
+		wrapper.add(new WAjaxControl(btnValidate, wrapper));
 	}
 
 	/*
@@ -312,8 +337,8 @@ public class WRadioButtonSelectExample extends WPanel {
 		add(new WHeading(HeadingLevel.H3, "WRadioButtonSelect with submitOnChange"));
 		add(new ExplanatoryText("SubmitOnChange is bad in most cases but terrible with radio buttons because there is no way to change the selection"
 				+ " between non-contiguous options using the keyboard without having multiple page submits.\nIn the following example try to change "
-				+ "the selection from 'Outside Australia' to 'Queensland' using only your keyboard. To make this easier the WRadioButtonSelect has an"
-				+ " access key of 'M'"));
+				+ "the selection from 'Outside Australia' to 'Queensland' using only your keyboard. To make this easier the WRadioButtonSelect has"
+				+ " an access key of 'M'"));
 		final WRadioButtonSelect select = new SelectWithSelection("australian_state");
 		final WTextField selected = new WTextField();
 		selected.setReadOnly(true);
@@ -338,8 +363,8 @@ public class WRadioButtonSelectExample extends WPanel {
 		add(new ExplanatoryText(
 				"Don't use a WRadioButtonSelect if you have more than a handful of options. A good rule of thumb is fewer than 10."));
 		//use the country code list at your peril!!
-		WRadioButtonSelect rbsTooBig = new WRadioButtonSelect(new String[]{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p",
-			"q", "r", "s", "t", "u", "v", "w", "x", "y", "z"});
+		WRadioButtonSelect rbsTooBig = new WRadioButtonSelect(new String[]{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o",
+			"p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"});
 		rbsTooBig.setButtonLayout(WRadioButtonSelect.LAYOUT_COLUMNS);
 		rbsTooBig.setButtonColumns(6);
 		rbsTooBig.setFrameless(true);
@@ -388,7 +413,7 @@ public class WRadioButtonSelectExample extends WPanel {
 		 * Create a WRadioButtonSelect with one option selected from a table of options.
 		 * @param table the lookup table to use
 		 */
-		public SelectWithSelection(final Object table) {
+		SelectWithSelection(final Object table) {
 			super(table);
 		}
 
@@ -396,12 +421,12 @@ public class WRadioButtonSelectExample extends WPanel {
 		 * Create a WRadioButtonSelect with one option selected from an array of options.
 		 * @param options the options to use
 		 */
-		public SelectWithSelection(final Object[] options ) {
+		SelectWithSelection(final Object[] options) {
 			super(options);
 		}
 
 		@Override
-		protected void preparePaintComponent(Request request) {
+		protected void preparePaintComponent(final Request request) {
 			if (!isInitialised()) {
 				List<?> options = getOptions();
 				if (options != null && !options.isEmpty()) {

@@ -93,6 +93,7 @@ public class WFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		com.github.bordertech.wcomponents.WFieldLayout test = new com.github.bordertech.wcomponents.WFieldLayout();
 		WField field = test.addField("label1", text);
 		setActiveContext(createUIContext());
+		assertXpathEvaluatesTo("text1", "//ui:field/ui:input/ui:textfield/text()", field);
 
 		// Simulate Error Message
 		List<Diagnostic> diags = new ArrayList<>();
@@ -108,7 +109,12 @@ public class WFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		// Check Label
 		assertXpathEvaluatesTo("label1", "//ui:field/ui:label", field);
 		// Check Input
-		assertXpathEvaluatesTo("text1", "//ui:field/ui:input/ui:textfield", field);
+		assertXpathEvaluatesTo("text1", "//ui:field/ui:input/ui:textfield/text()", field);
+		assertXpathExists("//ui:field/ui:input/ui:textfield/ui:diagnostic", field);
+		assertXpathExists("//ui:field/ui:input/ui:textfield/ui:diagnostic[@type='error']", field);
+		assertXpathExists("//ui:field/ui:input/ui:textfield/ui:diagnostic[@type='warn']", field);
+		assertXpathEvaluatesTo("Test Error", "//ui:field/ui:input/ui:textfield/ui:diagnostic[@type='error']/ui:message", field);
+		assertXpathEvaluatesTo("Test Warning", "//ui:field/ui:input/ui:textfield/ui:diagnostic[@type='warn']/ui:message", field);
 		// Check Indicator
 		assertXpathNotExists("//ui:field/ui:input/ui:fieldindicator[@type='error']", field);
 		assertXpathEvaluatesTo("Test Warning", "//ui:field/ui:input/ui:fieldindicator[@type='warn']/ui:message", field);
