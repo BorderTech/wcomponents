@@ -203,7 +203,7 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void validateComponent(List<Diagnostic> diags) {
+	protected void validateComponent(final List<Diagnostic> diags) {
 		super.validateComponent(diags);
 		
 		if (BooleanUtils.isFalse(isFileTypeValid())) {
@@ -214,11 +214,11 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 			Diagnostic diag = new DiagnosticImpl(Diagnostic.ERROR, this, invalidMessage);
 			diags.add(diag);
 		}
-		
+
 		if (BooleanUtils.isFalse(isFileSizeValid())) {
 			// Adds invalid file size validation message.
-			String invalidMessage = String.format(I18nUtilities.format(null, 
-					InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_SIZE), 
+			String invalidMessage = String.format(I18nUtilities.format(null,
+					InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_SIZE),
 					FileUtil.readableFileSize(getMaxFileSize()));
 			Diagnostic diag = new DiagnosticImpl(Diagnostic.ERROR, this, invalidMessage);
 			diags.add(diag);
