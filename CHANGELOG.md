@@ -8,6 +8,8 @@
 
 ### Bug Fixes
 
+* Fix validation messages being merged with data in several components QC170096 (broken in 1.4.12).
+* Fix schema validation (broken in 1.4.12).
 * Update default field validator to fallback to `toolTip` is the input is both unlabelled _and_ has no `accessibleText` #1372.
 
 ## Release 1.4.12
