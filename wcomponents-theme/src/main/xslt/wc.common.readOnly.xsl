@@ -91,7 +91,7 @@
 				</xsl:when>
 				<xsl:when test="self::ui:datefield">
 					<xsl:if test="not(@date)">
-						<xsl:value-of select="."/>
+						<xsl:value-of select="text()"/>
 					</xsl:if>
 				</xsl:when>
 				<xsl:when test="self::ui:dropdown or self::ui:listbox[@single]">
