@@ -85,7 +85,7 @@ define(["wc/i18n/i18n",
 
 					if (result) {
 						if (initiallyInvalid) {
-							feedback.setOK(container);
+							validationManager.setOK(container);
 						}
 						container = INVALID.findAncestor(container.parentNode);
 					} else {

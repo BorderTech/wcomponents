@@ -9,8 +9,8 @@ define(["wc/dom/classList",
 	"wc/dom/textContent",
 	"wc/dom/wrappedInput",
 	"wc/ui/checkBox",
-	"wc/ui/diagnostic"],
-	function (classList, initialise, shed, tag, Widget, getLabelsForElement, processResponse, $role, textContent, wrappedInput, checkBox, diagnostic) {
+	"wc/ui/feedback"],
+	function (classList, initialise, shed, tag, Widget, getLabelsForElement, processResponse, $role, textContent, wrappedInput, checkBox, feedback) {
 		"use strict";
 		/**
 		 * @constructor
@@ -181,7 +181,7 @@ define(["wc/dom/classList",
 					return;
 				}
 
-				refElement = diagnostic.getBox(input, -1);
+				refElement = feedback.getBox(input, -1);
 				if (refElement && refElement.parentNode === input) {
 					input.insertBefore(labelElement, refElement);
 				} else {
@@ -420,16 +420,19 @@ define(["wc/dom/classList",
 		 * those controls are always kept in the right state.
 		 *
 		 * @module
-		 * @requires module:wc/dom/classList
-		 * @requires module:wc/dom/initialise
-		 * @requires module:wc/dom/shed
-		 * @requires module:wc/dom/tag
-		 * @requires module:wc/dom/Widget
-		 * @requires module:wc/dom/getLabelsForElement
-		 * @requires module:wc/ui/ajax/processResponse
-		 * @requires module:wc/i18n/i18n
-		 * @requires module:wc/ui/internalLink
-		 * @requires module:wc/dom/role
+	"wc/dom/role",
+		 * @requires wc/dom/classList
+		 * @requires wc/dom/initialise
+		 * @requires wc/dom/shed
+		 * @requires wc/dom/tag
+		 * @requires wc/dom/Widget
+		 * @requires wc/dom/getLabelsForElement
+		 * @requires wc/ui/ajax/processResponse
+		 * @requires wc/dom/role
+		 * @requires wc/dom/textContent
+		 * @requires wc/dom/wrappedInput
+		 * @requires wc/ui/checkBox
+		 * @requires wc/ui/feedback
 		 */
 		var instance = new Label();
 		initialise.register(instance);

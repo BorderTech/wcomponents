@@ -2,9 +2,8 @@ define(["wc/dom/initialise",
 	"wc/dom/shed",
 	"wc/ui/validation/required",
 	"wc/ui/validation/validationManager",
-	"wc/ui/radioButtonSelect",
-	"wc/ui/feedback"],
-	function(initialise, shed, required, validationManager, radioButtonSelect, feedback) {
+	"wc/ui/radioButtonSelect"],
+	function(initialise, shed, required, validationManager, radioButtonSelect) {
 		"use strict";
 		/**
 		 * @constructor
@@ -38,7 +37,7 @@ define(["wc/dom/initialise",
 				var container;
 				if (radioButtonSelect.getInputWidget().isOneOfMe(element) && (container = radioButtonSelect.getWidget().findAncestor(element)) &&
 					validationManager.isInvalid(container)) {
-					feedback.setOK(container);
+					validationManager.setOK(container);
 				}
 			}
 
@@ -61,7 +60,6 @@ define(["wc/dom/initialise",
 		 * @requires wc/ui/validation/required
 		 * @requires wc/ui/validation/validationManager
 		 * @requires wc/ui/radioButtonSelect
-		 * @requires wc/ui/feedback
 		 *
 		 */
 		var instance = new ValidationRadioButtonGroup();
