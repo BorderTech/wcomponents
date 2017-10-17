@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.WContainer;
+import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import com.github.bordertech.wcomponents.validation.DiagnosticImpl;
@@ -33,21 +34,37 @@ public class WFieldErrorIndicatorRenderer_Test extends AbstractWebXmlRendererTes
 	@Test
 	public void testDoPaint() throws IOException, SAXException, XpathException {
 		WContainer root = new WContainer();
-		WTextField text = new WTextField();
-		WFieldErrorIndicator indicator = new WFieldErrorIndicator(text);
-
+		WPanel target = new WPanel();
+		WFieldErrorIndicator indicator = new WFieldErrorIndicator(target);
+		root.add(target);
 		root.add(indicator);
-		root.add(text);
 
 		// Simulate Error Message
 		setActiveContext(createUIContext());
 		List<Diagnostic> diags = new ArrayList<>();
-		diags.add(new DiagnosticImpl(Diagnostic.ERROR, text, "Test Error"));
+		diags.add(new DiagnosticImpl(Diagnostic.ERROR, target, "Test Error"));
 		root.showErrorIndicators(diags);
 
 		// Validate Schema
 		assertSchemaMatch(root);
 		// Check Attributes
-		assertXpathNotExists("//ui:fieldindicator", root);
+		assertXpathEvaluatesTo(indicator.getId(), "//ui:fieldindicator/@id", root);
+		assertXpathEvaluatesTo("error", "//ui:fieldindicator/@type", root);
+		assertXpathEvaluatesTo(target.getId(), "//ui:fieldindicator/@for", root);
+		// Check Message
+		assertXpathEvaluatesTo("Test Error", "//ui:fieldindicator/ui:message", root);
+	}
+
+	@Test
+	public void testXssEscaping() throws IOException, SAXException, XpathException {
+		WContainer root = new WContainer();
+		WPanel target = new WPanel();
+		WFieldErrorIndicator indicator = new WFieldErrorIndicator(target);
+		root.add(indicator);
+		root.add(target);
+		List<Diagnostic> diags = new ArrayList<>();
+		diags.add(new DiagnosticImpl(Diagnostic.ERROR, target, getMaliciousContent()));
+		root.showErrorIndicators(diags);
+		assertSafeContent(root);
 	}
 }

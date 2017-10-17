@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -14,27 +14,21 @@ public class WFieldLayout_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testConstructor() {
 		WFieldLayout layout = new WFieldLayout();
-		Assert.assertEquals("Incorrect default layout", WFieldLayout.LAYOUT_FLAT, layout.
-				getLayoutType());
-
+		Assert.assertEquals("Incorrect default layout", WFieldLayout.LAYOUT_FLAT, layout.getLayoutType());
 		layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
 		Assert.assertEquals("Incorrect layout", WFieldLayout.LAYOUT_STACKED, layout.getLayoutType());
-
-		try {
-			layout = new WFieldLayout((String) null);
-			Assert.fail("Should have thrown an UnsupportedOperationException");
-		} catch (IllegalArgumentException expected) {
-			Assert.assertNotNull("Thrown exception should contain a message", expected.getMessage());
-		}
-
-		try {
-			layout = new WFieldLayout("WFieldLayout_Test.testConstructor.badArg");
-			Assert.fail("Should have thrown an UnsupportedOperationException");
-		} catch (IllegalArgumentException expected) {
-			Assert.assertNotNull("Thrown exception should contain a message", expected.getMessage());
-		}
 	}
 
+	@Test (expected = IllegalArgumentException.class)
+	public void testConstructorNullLayout() {
+		WFieldLayout layout = new WFieldLayout((String) null);
+	}
+
+
+	@Test (expected = IllegalArgumentException.class)
+	public void testConstructorInvalidLayout() {
+		WFieldLayout layout = new WFieldLayout("WFieldLayout_Test.testConstructor.badArg");
+	}
 	@Test
 	public void testLabelWidthAccessors() {
 		assertAccessorsCorrect(new WFieldLayout(), "labelWidth", 0, 1, 2);
