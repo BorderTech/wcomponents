@@ -60,7 +60,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/messageBox", "wc/dom/clas
 		}
 
 		registerSuite({
-			name: "wc/dom/wrappedInput",
+			name: "wc/dom/messageBox",
 			setup: function() {
 				testHolder = testutils.getTestHolder();
 			},
@@ -78,7 +78,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/messageBox", "wc/dom/clas
 				} else {
 					// rough but (barely) adequate test
 					// once we stop supporting IE we should be able to remove this
-					assert.containsAllKeys(widget, ["findAncestor", "findDescendant", "findDescendants", "isOneOfMe"]);
+					assert.isTrue(!!widget.isOneOfMe && !!widget.constructor.isOneOfMe);
 				}
 				assert.isTrue(widget.isOneOfMe(getTestBox()));
 			},

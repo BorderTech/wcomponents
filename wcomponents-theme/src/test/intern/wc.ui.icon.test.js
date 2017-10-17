@@ -32,7 +32,7 @@ define(["intern!object", "intern/chai!assert", "wc/ui/icon", "wc/dom/classList",
 				} else {
 					// rough but (barely) adequate test
 					// once we stop supporting IE we should be able to remove this
-					assert.containsAllKeys(widget, ["findAncestor", "findDescendant", "findDescendants", "isOneOfMe"]);
+					assert.isTrue(!!widget.isOneOfMe && !!widget.constructor.isOneOfMe);
 				}
 			},
 			testGetWidget_correctWidget: function() {
