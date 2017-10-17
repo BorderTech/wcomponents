@@ -32,7 +32,6 @@
 							</xsl:when>
 						</xsl:choose>
 					</xsl:with-param>
-					<xsl:with-param name="element" select="'i'"/>
 				</xsl:call-template>
 				<span>
 					<xsl:choose>

@@ -7,7 +7,7 @@ define(["intern!object", "intern/chai!assert", "wc/ui/feedback", "wc/dom/diagnos
 			inputId = "wrappedinput",
 			testBoxId = "wcdiagnostictest1_err",
 			testTargetHTML = "<span class='wc-input-wrapper' id='" + targetId + "'><input id='" + inputId + "' type='text'></span>",
-			testContent = "<span id='" + testBoxId + "' class='wc-diagnostic wc-diagnostic-type-error'>\n\
+			testContent = "<span id='" + testBoxId + "' class='wc-fieldindicator wc-fieldindicator-type-error'>\n\
 <i aria-hidden='true' class='fa fa-times-circle'></i>\n\
 <span class='wc-message'>Message one</span>\n\
 <span class='wc-message'>Message two</span>\n\
@@ -59,7 +59,8 @@ define(["intern!object", "intern/chai!assert", "wc/ui/feedback", "wc/dom/diagnos
 			assert.isOk(controller.getBox(getTestTarget(), level));
 			for (lvl in controller.LEVEL) {
 				if (controller.LEVEL.hasOwnProperty(lvl) && controller.LEVEL[lvl] !== level) {
-					assert.isNull(controller.getBox(getTestTarget(), controller.LEVEL[lvl]), "shouldn't find box with level " + level + " using " + controller.LEVEL[lvl]);
+					assert.isNull(controller.getBox(getTestTarget(), controller.LEVEL[lvl]), "shouldn't find box with level " + level + " using " +
+						controller.LEVEL[lvl]);
 				}
 			}
 		}

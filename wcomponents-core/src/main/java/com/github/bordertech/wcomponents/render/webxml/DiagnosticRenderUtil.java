@@ -17,7 +17,7 @@ public final class DiagnosticRenderUtil {
 	/**
 	 * The xml element name used for diagnostic output.
 	 */
-	private static final String TAG_NAME = "ui:diagnostic";
+	private static final String TAG_NAME = "ui:fieldindicator";
 	/**
 	 * The xml element name used for each message in the diagnostic output.
 	 */

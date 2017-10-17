@@ -34,11 +34,10 @@
 				<xsl:apply-templates select="ui:decoratedlabel"/>
 				<xsl:call-template name="icon">
 					<xsl:with-param name="class" select="'fa-asterisk'"/>
-					<xsl:with-param name="element" select="'i'"/>
 				</xsl:call-template>
 			</legend>
 			<xsl:apply-templates select="ui:content" mode="passthru"/>
-			<xsl:apply-templates select="ui:diagnostic"/>
+			<xsl:apply-templates select="ui:fieldindicator"/>
 		</fieldset>
 	</xsl:template>
 </xsl:stylesheet>

@@ -10,8 +10,6 @@ import java.util.List;
  * provided when adding a field to a WFieldLayout.</p>
  *
  * @author Adam Millard
- * @deprecated 1.4.0 This component has never been supported in the front end code. It has never worked and is incompatible with WValidationErrors.
- * It will be deleted asap.
  */
 public class WFieldErrorIndicator extends AbstractWFieldIndicator {
 

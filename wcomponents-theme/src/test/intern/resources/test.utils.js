@@ -117,7 +117,7 @@ define(["wc/compat/compat!"], function() {
 					testHolder = testHolder || utils.getTestHolder();
 					testHolder.innerHTML = response;
 					window.setTimeout(function() {
-						win();
+						win(response);
 					}, 0);
 				}, lose);
 			});

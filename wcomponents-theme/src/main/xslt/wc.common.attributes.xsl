@@ -29,7 +29,7 @@
 	</xsl:template>
 	
 	<xsl:template name="isInvalid">
-		<xsl:if test="ui:diagnostic[not(@type='warn')]">
+		<xsl:if test="ui:fieldindicator[not(@type='warn')]">
 			<xsl:attribute name="aria-invalid">
 				<xsl:text>true</xsl:text>
 			</xsl:attribute>
@@ -66,7 +66,7 @@
 			<xsl:if test="@track">
 				<xsl:text> wc_here</xsl:text>
 			</xsl:if>
-			<xsl:if test="ui:diagnostic">
+			<xsl:if test="ui:fieldindicator">
 				<xsl:text> wc-rel</xsl:text>
 			</xsl:if>
 		</xsl:variable>

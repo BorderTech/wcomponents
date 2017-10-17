@@ -8,6 +8,8 @@
 
 ### Bug Fixes
 
+* Fixed regressions from 1.4.12 which could result in messages not benig rendered correctly #1370.
+
 ## Release 1.4.13
 
 ### API Changes
