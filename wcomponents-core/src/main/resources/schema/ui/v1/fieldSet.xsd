@@ -6,7 +6,7 @@
 	<xs:include schemaLocation="contentGroups.xsd" />
 	<xs:include schemaLocation="decoratedLabel.xsd" />
 	<xs:include schemaLocation="margin.xsd" />
-	<xs:include schemaLocation="diagnostic.xsd"/>
+	<xs:include schemaLocation="fieldIndicator.xsd"/>
 
 	<xs:element name="fieldset">
 		<xs:annotation>
@@ -33,7 +33,7 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element ref="ui:diagnostic" minOccurs="0" maxOccurs="2"/>
+				<xs:element ref="ui:fieldindicator" minOccurs="0" maxOccurs="2"/>
 			</xs:sequence>
 
 			<xs:attribute name="id" type="xs:ID" use="required">

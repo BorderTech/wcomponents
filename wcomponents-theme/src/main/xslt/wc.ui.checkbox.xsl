@@ -38,7 +38,7 @@
 							</xsl:attribute>
 						</xsl:if>
 					</xsl:element>
-					<xsl:apply-templates select="ui:diagnostic"/>
+					<xsl:apply-templates select="ui:fieldindicator"/>
 				</span>
 			</xsl:otherwise>
 		</xsl:choose>

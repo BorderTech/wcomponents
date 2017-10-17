@@ -3,7 +3,7 @@
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
 	<xs:element name="fieldindicator">
 		<xs:annotation>
-			<xs:documentation>WFieldWarningIndicator represents a message to the user which is related to another WComponent.</xs:documentation>
+			<xs:documentation>WFieldWarningIndicator and WFieldErrorIndicator represent a message to the user which is related to another WComponent.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
@@ -13,7 +13,7 @@
 					</xs:annotation>
 				</xs:element>
 			</xs:sequence>
-			<xs:attribute name="id" type="xs:ID" use="required">
+			<xs:attribute name="id" type="xs:ID">
 				<xs:annotation>
 					<xs:documentation>The unique identifier of the indicator.</xs:documentation>
 				</xs:annotation>
@@ -29,11 +29,12 @@
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="error" />
 						<xs:enumeration value="warn" />
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			<xs:attribute name="for" type="xs:IDREF" use="required">
+			<xs:attribute name="for" type="xs:IDREF">
 				<xs:annotation>
 					<xs:documentation>The unique id of the component which is the subject of the indicator's message.</xs:documentation>
 				</xs:annotation>

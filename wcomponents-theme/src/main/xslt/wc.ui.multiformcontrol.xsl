@@ -54,7 +54,7 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</ul>
-					<xsl:apply-templates select="ui:diagnostic"/>
+					<xsl:apply-templates select="ui:fieldindicator"/>
 				</fieldset>
 			</xsl:otherwise>
 		</xsl:choose>

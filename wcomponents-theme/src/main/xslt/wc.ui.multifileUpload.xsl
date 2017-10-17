@@ -111,7 +111,7 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:if>
-			<xsl:apply-templates select="ui:diagnostic"/>
+			<xsl:apply-templates select="ui:fieldindicator"/>
 		</fieldset>
 	</xsl:template>
 
