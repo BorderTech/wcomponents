@@ -1,10 +1,4 @@
-/**
- * Utility class for dealing with WAI-ARIA role or implied role of elements.
- *
- * @module
- * @requires module:wc/dom/impliedARIA
- */
-define(["wc/dom/impliedARIA"], /** @param {Object} impliedARIA @ignore */ function(impliedARIA) {
+define(["wc/dom/impliedARIA"], function(impliedARIA) {
 	"use strict";
 
 	/**
@@ -52,5 +46,11 @@ define(["wc/dom/impliedARIA"], /** @param {Object} impliedARIA @ignore */ functi
 		};
 	}
 
-	return /** @alias wc/dom/role */ new Role();
+	/**
+	 * Utility class for dealing with WAI-ARIA role or implied role of elements.
+	 *
+	 * @module wc/dom/role
+	 * @requires module:wc/dom/impliedARIA
+	 */
+	return new Role();
 });

@@ -1,44 +1,6 @@
 define(["intern!object", "intern/chai!assert", "./resources/test.utils"], function (registerSuite, assert, testutils) {
 	"use strict";
 
-	/**
-	 * Surprising how often we need to get the next element sibling.
-	 * @param {Element} el the start element
-	 * @param {boolean} [prev] if `true` get previous element sibling, otherwise get next element sibling
-	 * @returns {? Element} the  element sibling or null.
-	 */
-	function getElSib(el, prev) {
-		var next;
-
-		if (!el || el.nodeType !== Node.ELEMENT_NODE) {
-			throw new TypeError("argument `el` must be an element");
-		}
-		if (prev) {
-			if (typeof el.previousElementSibling !== "undefined") {
-				return el.previousElementSibling;
-			}
-			next = el.previousSibling;
-			while (next) {
-				if (next.nodeType === Node.ELEMENT_NODE) {
-					return next;
-				}
-				next = next.previousSibling;
-			}
-			return null;
-		}
-		if (typeof el.nextElementSibling !== "undefined") {
-			return el.nextElementSibling;
-		}
-		next = el.nextSibling;
-		while (next) {
-			if (next.nodeType === Node.ELEMENT_NODE) {
-				return next;
-			}
-			next = next.nextSibling;
-		}
-		return null;
-	}
-
 	var
 		/**
 		 * The module name of the module being tested eg "wc/ui/foo".
@@ -67,8 +29,8 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 		initialise,
 		classList,
 		tag,
-		inited,
 		CLASS_REQ = "wc_req",
+		testContent,
 		//
 		// END CONFIGURATION VARS
 		//
@@ -93,34 +55,22 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				classList = arg[3];
 				tag = arg[4];
 				testHolder = testutils.getTestHolder();
-				return testutils.setUpExternalHTML(urlResource, testHolder);
+				return testutils.setUpExternalHTML(urlResource, testHolder).then(function(response) {
+					testContent = response;
+					return Promise.resolve();
+				});
 			});
 			return result;
 		},
 
 		beforeEach: function () {
-			if (!inited) {
-				controller.preInit(testHolder);
-				inited = true;
-			}
+			testHolder.innerHTML = testContent;
+			controller.preInit(testHolder);
 			initialise.go();
 		},
 
-		teardown: function () {
-			if (testHolder) {
-				testHolder.innerHTML = "";
-			}
-		},
-
-		testGotController: function () {
-			if (!TEST_MODULE) {
-				assert.isOk(TEST_MODULE, "Cannot test an undefined module you tailless monkey!");
-			}
-			assert.typeOf(controller, "object", "Expected the test module to be available as an object otherwise the tests won't work.");
-		},
-		testGotShed: function() {
-			assert.typeOf(shed, "object", "Expected to load shed.");
-			assert.isOk(shed.show, "shed is not what you think it is."); // rough but good enough
+		afterEach: function () {
+			testHolder.innerHTML = "";
 		},
 		testMoveLabelWCheckBox: function() {
 			var input = document.getElementById("wcuilabel-i2"),
@@ -131,14 +81,26 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 		testMoveLabelWRadioButton: function() {
 			var input = document.getElementById("wcuilabel-i2a"),
 				expected = "wcuilabel-l2a",
-				target = getElSib(input);
+				target = input.nextElementSibling;
 			assert.strictEqual(target.id, expected, "WRadioButton label should have been moved in pre-init");
 		},
 		testMoveLabelWSelectToggle: function() {
 			var input = document.getElementById("wcuilabel-i2b"),
 				expected = "wcuilabel-l2b",
-				target = getElSib(input);
+				target = input.nextElementSibling;
 			assert.strictEqual(target.id, expected, "WSelectToggle label should have been moved in pre-init");
+		},
+		testMoveLabelWCheckBoxRO: function() {
+			var input = document.getElementById("wcuilabel-i2c"),
+				expected = "wcuilabel-l2c",
+				target = input.nextElementSibling;
+			assert.strictEqual(target.id, expected, "Read-only WCheckBox label should have been moved in pre-init");
+		},
+		testMoveLabelWRadioButtonRO: function() {
+			var input = document.getElementById("wcuilabel-i2d"),
+				expected = "wcuilabel-l2d",
+				target = input.nextElementSibling;
+			assert.strictEqual(target.id, expected, "Read-only WRadioButton label should have been moved in pre-init");
 		},
 		testMoveLabelFalse: function() {
 			var input,
@@ -146,7 +108,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				inputIds = ["wcuilabel-i3", "wcuilabel-i3a", "wcuilabel-i3b"];
 			inputIds.forEach(function(nextId) {
 				input = document.getElementById(nextId);
-				found = getElSib(input, true);
+				found = input.previousElementSibling;
 				assert.strictEqual(found.getAttribute("for"), nextId, "label should not have been moved in pre-init");
 			});
 		},
@@ -176,6 +138,13 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 			labelHint = controller.getHint(label);
 			assert.isOk(labelHint);
 			assert.isTrue(labelHint.innerHTML.indexOf(hint) === 0);
+		},
+		testSetHint_existingHint: function() {
+			var label = document.getElementById("wcuilabel-l10"),
+				hint = controller.getHint(label).innerHTML.toLowerCase(),
+				content = " some more hint";
+			controller.setHint(label, content);
+			assert.strictEqual(controller.getHint(label).innerHTML.toLowerCase(), hint + "<br>" + content);
 		},
 		testMandate: function() {
 			var input = document.getElementById("wcuilabel-i6"),
@@ -281,6 +250,50 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 			assert.isTrue(shed.isHidden(label), "label should now be hidden");
 			label = document.getElementById("wcuilabel-fake-ajax-l10");
 			assert.isFalse(shed.isHidden(label), "label should no longer be hidden");
+		},
+		testCheckboxLabelPositionHelper_noArgs: function() {
+			try {
+				controller._checkboxLabelPositionHelper();
+				assert.isTrue(false);
+			} catch (e) {
+				assert.strictEqual(e.message, "Input and label must be defined.");
+			}
+		},
+		testCheckboxLabelPositionHelper_inputNotElement: function() {
+			try {
+				controller._checkboxLabelPositionHelper("I am not an element", true);
+				assert.isTrue(false);
+			} catch (e) {
+				assert.strictEqual(e.message, "Input must be an element.");
+			}
+		},
+		testCheckboxLabelPositionHelper_noLabel: function() {
+			try {
+				controller._checkboxLabelPositionHelper(document.getElementById("wcuilabel-i1"));
+				assert.isTrue(false);
+			} catch (e) {
+				assert.strictEqual(e.message, "Input and label must be defined.");
+			}
+		},
+		testCheckboxLabelPositionHelper_labelNotElement: function() {
+			assert.isUndefined(controller._checkboxLabelPositionHelper(document.getElementById("wcuilabel-i1"), {}));
+		},
+		testCheckboxLabelPositionHelper_stringLabel: function() {
+			var inputId = "wclabeltest-testinput",
+				input = "<span class='wc-checkbox wc-input-wrapper' id='" + inputId + "'><input id='" + inputId + "_input' type='checkbox'></span>",
+				labelId = inputId + "-label";
+			testHolder.insertAdjacentHTML("beforeend", input);
+			controller._checkboxLabelPositionHelper(document.getElementById(inputId), "<label id='" + labelId + "' for='" + inputId + "_input'>I am a label</label>");
+			assert.strictEqual(document.getElementById(inputId).lastChild.id, labelId);
+			assert.strictEqual(document.getElementById(inputId).lastChild.tagName.toLowerCase(), "label");
+		},
+		testCheckboxLabelPositionHelper_stringNotElement: function() {
+			var inputId = "wclabeltest-testinput",
+				input = "<span class='wc-checkbox wc-input-wrapper' id='" + inputId + "'><input id='" + inputId + "_input' type='checkbox'></span>";
+
+			testHolder.insertAdjacentHTML("beforeend", input);
+			assert.isUndefined(controller._checkboxLabelPositionHelper(document.getElementById(inputId), "I am a label"));
+			assert.notStrictEqual(document.getElementById(inputId).lastChild.tagName.toLowerCase(), "label");
 		}
 	});
 });
