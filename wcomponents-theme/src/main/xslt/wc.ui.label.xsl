@@ -49,7 +49,6 @@
 					<xsl:if test="@what eq 'group'">
 						<xsl:call-template name="icon">
 							<xsl:with-param name="class" select="'fa-asterisk'"/>
-							<xsl:with-param name="element" select="'i'"/>
 						</xsl:call-template>
 					</xsl:if>
 				</span>
@@ -62,7 +61,6 @@
 					<xsl:apply-templates />
 					<xsl:call-template name="icon">
 						<xsl:with-param name="class" select="'fa-asterisk'"/>
-						<xsl:with-param name="element" select="'i'"/>
 					</xsl:call-template>
 					<xsl:call-template name="WLabelHint"/>
 				</label>

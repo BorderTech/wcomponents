@@ -2,7 +2,7 @@
 <xs:schema elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	<xs:include schemaLocation="attributeGroups.control.xsd"/>
-	<xs:include schemaLocation="diagnostic.xsd"/>
+	<xs:include schemaLocation="fieldIndicator.xsd"/>
 	<xs:element name="textfield">
 		<xs:annotation>
 			<xs:documentation>
@@ -30,7 +30,7 @@
 		</xs:annotation>
 		<xs:complexType mixed="true">
 			<xs:sequence>
-				<xs:element maxOccurs="2" minOccurs="0" ref="ui:diagnostic"/>
+				<xs:element maxOccurs="2" minOccurs="0" ref="ui:fieldindicator"/>
 			</xs:sequence>
 			<xs:attributeGroup ref="ui:submitting.input.attributes"/>
 			<xs:attributeGroup ref="ui:text.input.attributes"/>
