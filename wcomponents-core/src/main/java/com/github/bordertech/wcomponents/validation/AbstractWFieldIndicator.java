@@ -71,7 +71,7 @@ public abstract class AbstractWFieldIndicator extends AbstractWComponent {
 	 * Provide subclasses with access to the related field.
 	 *
 	 * @return The Related Field.
-	 * @deprecated use {@link #getTargetComponent() instead.
+	 * @deprecated use {@link #getTargetComponent()} instead.
 	 */
 	@Deprecated
 	protected WComponent getRelatedField() {
