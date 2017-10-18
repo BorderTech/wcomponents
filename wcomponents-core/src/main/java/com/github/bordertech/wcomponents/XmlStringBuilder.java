@@ -20,21 +20,6 @@ import java.util.Locale;
 public final class XmlStringBuilder extends PrintWriter {
 
 	/**
-	 * If true, format XML content by indenting nested tags.
-	 */
-	private boolean indentingOn = true;
-
-	/**
-	 * The current indent level.
-	 */
-	private int indentLevel = -1;
-
-	/**
-	 * Indicates whether an indent has been performed on the current line.
-	 */
-	private boolean newIndentDone = false;
-
-	/**
 	 * The translator used to translate messages.
 	 */
 	private final Locale locale;
@@ -70,8 +55,6 @@ public final class XmlStringBuilder extends PrintWriter {
 	 * @param name the name of the tag to be added.
 	 */
 	public void appendTag(final String name) {
-		incrementIndent();
-		indent();
 		write('<');
 		write(name);
 		write('>');
@@ -88,13 +71,10 @@ public final class XmlStringBuilder extends PrintWriter {
 	 * @param name the name of the ending tag to be added.
 	 */
 	public void appendEndTag(final String name) {
-		indent();
 		write('<');
 		write('/');
 		write(name);
 		write('>');
-
-		decrementIndent();
 	}
 
 	/**
@@ -108,8 +88,6 @@ public final class XmlStringBuilder extends PrintWriter {
 	 * @param name the name of the tag to be added.
 	 */
 	public void appendTagOpen(final String name) {
-		incrementIndent();
-		indent();
 		write('<');
 		write(name);
 	}
@@ -136,59 +114,27 @@ public final class XmlStringBuilder extends PrintWriter {
 	 */
 	public void appendEnd() {
 		write(" />");
-		decrementIndent();
 	}
 
 	// === start formatting routines ===
 	/**
 	 * Turns indenting off for further content written to this XmlStringBuilder.
+	 * @deprecated 1.4.13 No longer used: no replacement, will be removed in v2.0.0.
 	 */
+	@Deprecated
 	public void turnIndentingOff() {
-		indentingOn = false;
+		// no op
 	}
 
 	/**
 	 * Turns indenting on for further content written to this XmlStringBuilder.
+	 * @deprecated 1.4.13 No longer used: no replacement, will be removed in v2.0.0.
 	 */
+	@Deprecated
 	public void turnIndentingOn() {
-		indentingOn = true;
+		// no op
 	}
 
-	/**
-	 * Increments the indenting level if indenting is active.
-	 */
-	private void incrementIndent() {
-		if (indentingOn) {
-			indentLevel++;
-			newIndentDone = false;
-		}
-	}
-
-	/**
-	 * Decrements the indenting level if indenting is active.
-	 */
-	private void decrementIndent() {
-		if (indentingOn) {
-			newIndentDone = false;
-
-			if (indentLevel > 0) {
-				indentLevel--;
-			}
-		}
-	}
-
-	/**
-	 * If indenting, outputs an indent for the current indenting level.
-	 */
-	private void indent() {
-		if (indentingOn && !newIndentDone) {
-			println();
-			for (int i = 0; i < indentLevel; i++) {
-				write('\t');
-			}
-			newIndentDone = true;
-		}
-	}
 
 	// === end formatting routines ===
 	/**
