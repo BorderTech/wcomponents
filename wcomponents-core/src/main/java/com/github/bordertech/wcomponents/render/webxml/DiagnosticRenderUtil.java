@@ -56,7 +56,6 @@ public final class DiagnosticRenderUtil {
 		}
 
 		XmlStringBuilder xml = renderContext.getWriter();
-		xml.turnIndentingOff();
 		xml.appendTagOpen(TAG_NAME);
 		xml.appendAttribute("type", getLevel(severity));
 		xml.appendClose();
@@ -67,7 +66,6 @@ public final class DiagnosticRenderUtil {
 			xml.appendEndTag(MESSAGE_TAG_NAME);
 		}
 		xml.appendEndTag(TAG_NAME);
-		xml.turnIndentingOn();
 	}
 
 	/**

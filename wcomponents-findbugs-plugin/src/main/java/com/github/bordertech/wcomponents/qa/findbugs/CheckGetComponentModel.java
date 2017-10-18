@@ -89,9 +89,10 @@ public class CheckGetComponentModel extends OpcodeStackDetector {
 					Item model = stack.getStackItem(1);
 					XMethod from = model.getReturnValueOf();
 
-					if ("getComponentModel".equals(from.getName())
-							&& from.getSignature().startsWith("()L") && util.isWComponent(
-							from.getClassName())) {
+					if (from != null
+							&& "getComponentModel".equals(from.getName())
+							&& from.getSignature().startsWith("()L")
+							&& util.isWComponent(from.getClassName())) {
 						bug = "WCGETM_INCORRECT_USE_OF_GETCOMPONENTMODEL";
 						priority = HIGH_PRIORITY;
 					}
