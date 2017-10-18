@@ -8,6 +8,7 @@
 
 ### Bug Fixes
 
+* Fix an error in the wcomponent-theme POM #1390.
 * Fixed regressions from 1.4.12 which could result in messages not being rendered correctly #1370.
 * Fixed an issue which could result in unexpected element alignment due to an error in the whitespace filter #1381.
 
