@@ -1066,7 +1066,7 @@ public final class ConfigurationProperties {
 	 * @return the parameter value if set, or true if not set.
 	 */
 	public static boolean getWhitespaceFilter() {
-		return get().getBoolean(WHITESPACE_FILTER, false);
+		return get().getBoolean(WHITESPACE_FILTER, true);
 	}
 
 	/**
