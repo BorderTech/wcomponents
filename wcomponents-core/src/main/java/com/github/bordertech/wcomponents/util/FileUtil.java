@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.util;
 
+import com.github.bordertech.wcomponents.file.File;
 import com.github.bordertech.wcomponents.file.FileItemWrap;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -10,10 +11,10 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.tika.Tika;
 
 /**
- * Utility methods for {@link FileItemWrap} validation.
+ * Utility methods for {@link File}.
  *
  * @author Aswin Kandula
- * @since 1.4.14
+ * @since 1.4
  */
 public final class FileUtil {
 
@@ -62,7 +63,7 @@ public final class FileUtil {
 	 * Is file size valid.
 	 *
 	 * @param newFile checks against supplied maxFileSize
-	 * @param maxFileSize max file size
+	 * @param maxFileSize max file size in bytes
 	 * @return true/false
 	 */
 	public static boolean validateFileSize(final FileItemWrap newFile, final long maxFileSize) {
@@ -80,7 +81,28 @@ public final class FileUtil {
 			return "0";
 		}
 		final String[] units = new String[] { "B", "KB", "MB", "GB"};
-		int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
-		return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
+		int digitGroups = (int) (Math.log10(size) / Math.log10(1000));
+		return new DecimalFormat("#,##0.#").format(size / Math.pow(1000, digitGroups)) + " " + units[digitGroups];
+	}
+
+	/**
+	 * Returns invalid fileTypes error message.
+	 * @param fileTypes allowed fileTypes
+	 * @return human readable message
+	 */
+	public static String getInvalidFileTypesMessage(final List<String> fileTypes) {
+		return String.format(I18nUtilities.format(null, 
+				InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_TYPE), 
+				StringUtils.join(fileTypes.toArray(new Object[fileTypes.size()]), ","));
+	}
+
+	/**
+	 * Returns invalid fileSize error message.
+	 * @param maxFileSize allowed fileSize
+	 * @return human readable message
+	 */
+	public static String getInvalidFileSizeMessage(final long maxFileSize) {
+		return String.format(I18nUtilities.format(null, InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_SIZE), 
+				FileUtil.readableFileSize(maxFileSize));
 	}
 }

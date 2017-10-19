@@ -2,8 +2,6 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.file.FileItemWrap;
 import com.github.bordertech.wcomponents.util.FileUtil;
-import com.github.bordertech.wcomponents.util.I18nUtilities;
-import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.StreamUtil;
 import com.github.bordertech.wcomponents.util.mock.MockFileItem;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
@@ -15,7 +13,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -288,8 +285,6 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals(widget.getFile(), null);
 		Assert.assertEquals("No file uploaded", changed, false);
 		Assert.assertNull("No file exists", widget.getFile());
-		Assert.assertNull("No file type validation", widget.isFileTypeValid());
-		Assert.assertNull("No file size validation", widget.isFileSizeValid());
 	}
 
 	@Test
@@ -305,8 +300,8 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 		ArrayList<Diagnostic> diags = new ArrayList<Diagnostic>();
 		widget.validate(diags);
 		Assert.assertTrue("No validation messages exist", diags.size() == 0);
-		Assert.assertNull("No file type validation", widget.isFileTypeValid());
-		Assert.assertNull("No file size validation", widget.isFileSizeValid());
+		Assert.assertTrue("No file type, then valid", widget.isFileTypeValid());
+		Assert.assertTrue("No file size, then valid", widget.isFileSizeValid());
 	}
 
 	@Test
@@ -359,8 +354,7 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 		widget.validate(diags);
 		Assert.assertTrue("File type invalid, so message returned", diags.size() == 1);
 		Assert.assertFalse("File type invalid", widget.isFileTypeValid());
-		String invalidMessage = String.format(I18nUtilities.format(null, InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_TYPE),
-				StringUtils.join(widget.getFileTypes().toArray(new Object[widget.getFileTypes().size()]), ","));
+		String invalidMessage = FileUtil.getInvalidFileTypesMessage(widget.getFileTypes());
 		Assert.assertEquals("Invalid file size message", diags.get(0).getDescription(), invalidMessage);
 		
 		// Try same request again, make sure duplicate messages are not returned
@@ -398,8 +392,7 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 		widget.validate(diags);
 		Assert.assertTrue("File size invalid, so message returned", diags.size() == 1);
 		Assert.assertFalse("File size invalid", widget.isFileSizeValid());
-		String invalidMessage = String.format(I18nUtilities.format(null, InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_SIZE),
-				FileUtil.readableFileSize(maxSize));
+		String invalidMessage = FileUtil.getInvalidFileSizeMessage(maxSize);
 		Assert.assertEquals("Invalid file size message", diags.get(0).getDescription(), invalidMessage);
 	}
 	

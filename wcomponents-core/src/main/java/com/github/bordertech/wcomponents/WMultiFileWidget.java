@@ -4,8 +4,6 @@ import com.github.bordertech.wcomponents.WLink.ImagePosition;
 import com.github.bordertech.wcomponents.file.File;
 import com.github.bordertech.wcomponents.file.FileItemWrap;
 import com.github.bordertech.wcomponents.util.FileUtil;
-import com.github.bordertech.wcomponents.util.I18nUtilities;
-import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.MemoryUtil;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
@@ -22,7 +20,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -694,15 +691,13 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		
 		// if fileType is supplied then validate it
 		if (hasFileTypes() && !FileUtil.validateFileType(wrap, getFileTypes())) {
-			String invalidMessage = String.format(I18nUtilities.format(null, InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_TYPE), 
-					StringUtils.join(getFileTypes().toArray(new Object[getFileTypes().size()])));
+			String invalidMessage = FileUtil.getInvalidFileTypesMessage(getFileTypes());
 			throw new SystemException(invalidMessage);
 		}
 
 		// if fileSize is supplied then validate it
 		if (hasMaxFileSize() && !FileUtil.validateFileSize(wrap, getMaxFileSize())) {
-			String invalidMessage = String.format(I18nUtilities.format(null, InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_SIZE), 
-					FileUtil.readableFileSize(wrap.getSize()), FileUtil.readableFileSize(getMaxFileSize()));
+			String invalidMessage = FileUtil.getInvalidFileSizeMessage(getMaxFileSize());
 			throw new SystemException(invalidMessage);
 		}
 		

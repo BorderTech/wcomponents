@@ -3,8 +3,6 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.file.FileItemWrap;
 import com.github.bordertech.wcomponents.portlet.context.WFileWidgetCleanup;
 import com.github.bordertech.wcomponents.util.FileUtil;
-import com.github.bordertech.wcomponents.util.I18nUtilities;
-import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import com.github.bordertech.wcomponents.validation.DiagnosticImpl;
@@ -14,8 +12,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang3.BooleanUtils;
 
 /**
  * <p>
@@ -139,25 +135,19 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 			resetValidationState();
 			
 			// if fileType is supplied then validate it
-			boolean validFileType;
 			if (hasFileTypes()) {
-				validFileType = FileUtil.validateFileType(value, getFileTypes());
+				boolean validFileType = FileUtil.validateFileType(value, getFileTypes());
 				getOrCreateComponentModel().validFileType = validFileType;
-			} else {
-				validFileType = true;
 			}
 			
 			// if fileSize is supplied then validate it
-			boolean validFileSize;
 			if (hasMaxFileSize()) {
-				validFileSize = FileUtil.validateFileSize(value, getMaxFileSize());
+				boolean validFileSize = FileUtil.validateFileSize(value, getMaxFileSize());
 				getOrCreateComponentModel().validFileSize = validFileSize;
-			} else {
-				validFileSize = true;
 			}
 			
 			// if file is valid, the update data
-			if (validFileSize && validFileType) {
+			if (isFileSizeValid() && isFileTypeValid()) {
 				setData(value);
 			} else if (current == null) {
 				// otherwise no change
@@ -174,26 +164,26 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	/**
 	 * Reset validation state.
 	 */
-	public void resetValidationState() {
-		getOrCreateComponentModel().validFileType = null;
-		getOrCreateComponentModel().validFileSize = null;
+	private void resetValidationState() {
+		getOrCreateComponentModel().validFileType = true;
+		getOrCreateComponentModel().validFileSize = true;
 	}
 
 	/**
-	 * Indicates whether the uploaded file is valid, if {@link getFileTypes()} is set.
+	 * Indicates whether the uploaded file is valid. <br>
+	 * If {@link getFileTypes()} is set then it is validated, otherwise {@link getFile()} is considered valid.
 	 *
-	 * @return true if file type valid, false file type invalid, otherwise null.
-	 * @see {@link getFileValidationMessages()}
+	 * @return true if file type valid, false file type invalid.
 	 */
 	public Boolean isFileTypeValid() {
 		return getComponentModel().validFileType;
 	}
 
 	/**
-	 * Indicates whether the uploaded file is valid, if {@link getMaxFileSize()} is set.
+	 * Indicates whether the uploaded file is valid.
+	 * If {@link getMaxFileSize()} is set then it is validated, otherwise {@link getFile()} is considered valid.
 	 *
 	 * @return true if file size valid, false file size invalid, otherwise null.
-	 * @see {@link getFileValidationMessages()}
 	 */
 	public Boolean isFileSizeValid() {
 		return getComponentModel().validFileSize;
@@ -206,20 +196,16 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	protected void validateComponent(final List<Diagnostic> diags) {
 		super.validateComponent(diags);
 		
-		if (BooleanUtils.isFalse(isFileTypeValid())) {
+		if (!isFileTypeValid()) {
 			// Add invalid file type validation message.
-			String invalidMessage = String.format(I18nUtilities.format(null, 
-					InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_TYPE), 
-					StringUtils.join(getFileTypes().toArray(new Object[getFileTypes().size()]), ","));
+			String invalidMessage = FileUtil.getInvalidFileTypesMessage(getFileTypes());
 			Diagnostic diag = new DiagnosticImpl(Diagnostic.ERROR, this, invalidMessage);
 			diags.add(diag);
 		}
 
-		if (BooleanUtils.isFalse(isFileSizeValid())) {
+		if (!isFileSizeValid()) {
 			// Adds invalid file size validation message.
-			String invalidMessage = String.format(I18nUtilities.format(null,
-					InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_SIZE),
-					FileUtil.readableFileSize(getMaxFileSize()));
+			String invalidMessage = FileUtil.getInvalidFileSizeMessage(getMaxFileSize());
 			Diagnostic diag = new DiagnosticImpl(Diagnostic.ERROR, this, invalidMessage);
 			diags.add(diag);
 		}
@@ -355,12 +341,12 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 		/**
 		 * Flag to indicate if the selected file is a valid fileType.
 		 */
-		private Boolean validFileType = null;
+		private boolean validFileType = true;
 
 		/**
 		 * Flag to indicate if the selected file is a valid fileSize.
 		 */
-		private Boolean validFileSize = null;
+		private boolean validFileSize = true;
 	}
 
 	/**
