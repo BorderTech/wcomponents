@@ -37,7 +37,7 @@
 					<xsl:call-template name="listSortControls">
 						<xsl:with-param name="id" select="$listId"/>
 					</xsl:call-template>
-					<xsl:apply-templates select="ui:diagnostic"/>
+					<xsl:apply-templates select="ui:fieldindicator"/>
 				</span>
 			</xsl:otherwise>
 		</xsl:choose>

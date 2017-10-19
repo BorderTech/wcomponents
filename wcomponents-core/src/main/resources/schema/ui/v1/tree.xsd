@@ -6,7 +6,7 @@
 	<xs:include schemaLocation="attributeGroups.tree.xsd"/>
 	<xs:include schemaLocation="treeItem.xsd"/>
 	<xs:include schemaLocation="margin.xsd"/>
-	<xs:include schemaLocation="diagnostic.xsd"/>
+	<xs:include schemaLocation="fieldIndicator.xsd"/>
 
 	<xs:element name="tree">
 		<xs:annotation>
@@ -59,7 +59,7 @@
 			<xs:sequence>
 				<xs:element minOccurs="0" ref="ui:margin"/>
 				<xs:element maxOccurs="unbounded" ref="ui:treeitem"/>
-				<xs:element ref="ui:diagnostic" minOccurs="0" maxOccurs="2"/>
+				<xs:element ref="ui:fieldindicator" minOccurs="0" maxOccurs="2"/>
 			</xs:sequence>
 
 			<xs:attributeGroup ref="ui:interaction.attributes"/>

@@ -3,7 +3,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/diagnostic", "wc/dom/clas
 		"use strict";
 
 		var testHolder,
-			testContent = "<span id='wcdiagnostictest1' class='wc-diagnostic'><span class='wc-message'>Message one</span></span>\n\
+			testContent = "<span id='wcdiagnostictest1' class='wc-fieldindicator'><span class='wc-message'>Message one</span></span>\n\
 <span id='wcdiagnostictest_notdiagnostic'>placeholder</span>\n\
 <span id='wcdiagnostictest_notmessage' class='wc-message'>not a message</span>";
 
@@ -170,19 +170,19 @@ define(["intern!object", "intern/chai!assert", "wc/dom/diagnostic", "wc/dom/clas
 				doIdExtensionTest(-1, "_err");
 			},
 			testGetBoxClassERROR: function() {
-				doBoxClassType(controller.LEVEL.ERROR, "wc-diagnostic-type-error");
+				doBoxClassType(controller.LEVEL.ERROR, "wc-fieldindicator-type-error");
 			},
 			testGetBoxClassWARN: function() {
-				doBoxClassType(controller.LEVEL.WARN, "wc-diagnostic-type-warn");
+				doBoxClassType(controller.LEVEL.WARN, "wc-fieldindicator-type-warn");
 			},
 			testGetBoxClassINFO: function() {
-				doBoxClassType(controller.LEVEL.INFO, "wc-diagnostic-type-info");
+				doBoxClassType(controller.LEVEL.INFO, "wc-fieldindicator-type-info");
 			},
 			testGetBoxClassSUCCESS: function() {
-				doBoxClassType(controller.LEVEL.SUCCESS, "wc-diagnostic-type-success");
+				doBoxClassType(controller.LEVEL.SUCCESS, "wc-fieldindicator-type-success");
 			},
 			testGetBoxClassFalsey: function() {
-				doBoxClassType(false, "wc-diagnostic");
+				doBoxClassType(false, "wc-fieldindicator");
 			},
 			testGetBoxClassOther: function() {
 				assert.isNull(controller.getBoxClass(-1));

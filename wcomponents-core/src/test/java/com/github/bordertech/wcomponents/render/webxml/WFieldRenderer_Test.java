@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.WField;
+import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextArea;
 import com.github.bordertech.wcomponents.WTextField;
@@ -28,7 +29,7 @@ public class WFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	 */
 	@Test
 	public void testRendererCorrectlyConfigured() {
-		WField field = new com.github.bordertech.wcomponents.WFieldLayout().addField("test1",
+		WField field = new WFieldLayout().addField("test1",
 				new WTextArea());
 		Assert.assertTrue("Incorrect renderer supplied",
 				getWebXmlRenderer(field) instanceof WFieldRenderer);
@@ -37,7 +38,7 @@ public class WFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testDoPaintBasic() throws IOException, SAXException, XpathException {
 		WTextField text = new WTextField();
-		com.github.bordertech.wcomponents.WFieldLayout test = new com.github.bordertech.wcomponents.WFieldLayout();
+		WFieldLayout test = new WFieldLayout();
 		WField field = test.addField("label1", text);
 		text.setText("text1");
 
@@ -73,7 +74,7 @@ public class WFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	public void testNoInputField() throws IOException, SAXException, XpathException {
 		// No Input field, so label created by WTextWithColon.
 		WText text = new WText("text1");
-		com.github.bordertech.wcomponents.WFieldLayout test = new com.github.bordertech.wcomponents.WFieldLayout();
+		WFieldLayout test = new WFieldLayout();
 		WField field = test.addField("label1", text);
 
 		// Validate Schema
@@ -90,7 +91,7 @@ public class WFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	public void testWithValidationMessages() throws IOException, SAXException, XpathException {
 		WTextField text = new WTextField();
 		text.setText("text1");
-		com.github.bordertech.wcomponents.WFieldLayout test = new com.github.bordertech.wcomponents.WFieldLayout();
+		WFieldLayout test = new WFieldLayout();
 		WField field = test.addField("label1", text);
 		setActiveContext(createUIContext());
 		assertXpathEvaluatesTo("text1", "//ui:field/ui:input/ui:textfield/text()", field);
@@ -110,14 +111,10 @@ public class WFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("label1", "//ui:field/ui:label", field);
 		// Check Input
 		assertXpathEvaluatesTo("text1", "//ui:field/ui:input/ui:textfield/text()", field);
-		assertXpathExists("//ui:field/ui:input/ui:textfield/ui:diagnostic", field);
-		assertXpathExists("//ui:field/ui:input/ui:textfield/ui:diagnostic[@type='error']", field);
-		assertXpathExists("//ui:field/ui:input/ui:textfield/ui:diagnostic[@type='warn']", field);
-		assertXpathEvaluatesTo("Test Error", "//ui:field/ui:input/ui:textfield/ui:diagnostic[@type='error']/ui:message", field);
-		assertXpathEvaluatesTo("Test Warning", "//ui:field/ui:input/ui:textfield/ui:diagnostic[@type='warn']/ui:message", field);
-		// Check Indicator
-		assertXpathNotExists("//ui:field/ui:input/ui:fieldindicator[@type='error']", field);
-		assertXpathEvaluatesTo("Test Warning", "//ui:field/ui:input/ui:fieldindicator[@type='warn']/ui:message", field);
+		assertXpathExists("//ui:field/ui:input/ui:textfield/ui:fieldindicator", field);
+		assertXpathExists("//ui:field/ui:input/ui:textfield/ui:fieldindicator[@type='error']", field);
+		assertXpathExists("//ui:field/ui:input/ui:textfield/ui:fieldindicator[@type='warn']", field);
+		assertXpathEvaluatesTo("Test Error", "//ui:field/ui:input/ui:textfield/ui:fieldindicator[@type='error']/ui:message", field);
+		assertXpathEvaluatesTo("Test Warning", "//ui:field/ui:input/ui:textfield/ui:fieldindicator[@type='warn']/ui:message", field);
 	}
-
 }
