@@ -8,6 +8,10 @@
 
 ### Bug Fixes
 
+## Release 1.4.14
+
+### Bug Fixes
+
 * Removed a cause of potential NullPointerException from com.github.bordertech.wcomponents.qa.findbugs.CheckGetComponentModel and
   com.github.bordertech.wcomponents.examples.table.FilterableTableExample #1392, #1393.
 * Fix an error in the wcomponent-theme POM #1390.
@@ -16,10 +20,6 @@
 * Change the way dropdown typeahead (selectboxSearch) works to better align with the way most modern browsers fire the change event QC169945.
 
 ## Release 1.4.13
-
-### API Changes
-
-### Enhancements
 
 ### Bug Fixes
 
