@@ -28,7 +28,7 @@
 								<xsl:value-of select="@autocomplete"/>
 							</xsl:attribute>
 						</xsl:if>
-						<xsl:apply-templates mode="selectableList"/>
+						<xsl:apply-templates select="ui:option|ui:optgroup" mode="selectableList"/>
 					</select>
 					<xsl:apply-templates select="ui:fieldindicator"/>
 				</span>
@@ -96,7 +96,7 @@
 						<xsl:text>true</xsl:text>
 					</xsl:attribute>
 				</xsl:if>
-				<xsl:apply-templates mode="comboDataList" />
+				<xsl:apply-templates select="ui:option|ui:optgroup" mode="comboDataList" />
 			</span>
 			<xsl:apply-templates select="ui:fieldindicator"/>
 		</span>
