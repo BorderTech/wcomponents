@@ -71,8 +71,9 @@
 
 // When WCheckBoxSelect/WRadioButtonSelect these labels do not have the wc-label
 // class as they are generated from options. TODO: We should fix that.
+.wc-input-wrapper + label,
 .wc-ro-input + .wc-label,
-input + label,
+input + label, // WCheckBoxSelect, WRadioButtonSelect
 label + .wc-input-wrapper {
   margin-left: $wc-gap-small;
 }
