@@ -20,11 +20,11 @@
     font-weight: $wc-label-weight;
   }
 
-  > .fa-asterisk {
-    @include mandatory-indicator;
+  @if ($wc-label-mandatory-indicator != -1) {
+    > .fa-asterisk {
+      @include mandatory-indicator;
   }
 
-  @if ($wc-label-mandatory-indicator != -1) {
     // mandatory indicator
     &.wc_req {
       // allows for better position of mandatory indicator.
@@ -50,15 +50,13 @@
   // Mandatory indicator positioning in a label for a checkbox or radio.
   .wc-checkbox,
   .wc-radiobutton {
-    &.wc-input-wrapper {
-      + .wc_req {
-        padding-left: $wc-label-mandatory-indicator-width;
-        padding-right: 0;
+    > .wc_req {
+      padding-left: $wc-label-mandatory-indicator-width;
+      padding-right: 0;
 
-        > .fa-asterisk {
-          left: 0;
-          right: auto;
-        }
+      > .fa-asterisk {
+        left: 0;
+        right: auto;
       }
     }
   }
