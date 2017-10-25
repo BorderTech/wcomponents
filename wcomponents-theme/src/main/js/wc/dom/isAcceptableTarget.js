@@ -18,8 +18,7 @@ define(["wc/dom/focus"],/** @param focus wc/dom/focus @ignore */function(focus) 
 	 * @function module:wc/dom/isAcceptableTarget
 	 * @param {Element} element The element we are expecting to be the ultimate target of the event.
 	 * @param {Element} target The actual event.target element.
-	 * @returns {Boolean} true if element is target or the first focusable ancestor of target or if element has no
-	 *    focusable ancestors.
+	 * @returns {Boolean} true if element is target or the first focusable ancestor of target or if element has no focusable ancestors.
 	 */
 	function isAcceptable(element, target) {
 		var firstActiveAncestor,
@@ -27,14 +26,11 @@ define(["wc/dom/focus"],/** @param focus wc/dom/focus @ignore */function(focus) 
 
 		if (!result) {
 			if ((firstActiveAncestor = focus.getFocusableAncestor(target))) {
-				result = firstActiveAncestor === element;
-			} else {
-				// element has no focusable ancestors (and therefore no clickable ancestors) and is therefore may as well be clickable itself
-				result = true;
+				return firstActiveAncestor === element;
 			}
 		}
-
-		return result;
+		// element has no focusable ancestors (and therefore no clickable ancestors) and is therefore may as well be clickable itself
+		return true;
 	}
 
 	return isAcceptable;

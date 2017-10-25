@@ -1,4 +1,5 @@
 define(["wc/dom/event",
+	"wc/debounce",
 	"wc/dom/attribute",
 	"wc/dom/isSuccessfulElement",
 	"wc/dom/tag",
@@ -11,7 +12,7 @@ define(["wc/dom/event",
 	"wc/dom/classList",
 	"wc/mixin",
 	"wc/timers"],
-	function(event, attribute, isSuccessfulElement, tag, Trigger, triggerManager, shed, Widget, initialise, processResponse, classList, mixin, timers) {
+	function(event, debounce, attribute, isSuccessfulElement, tag, Trigger, triggerManager, shed, Widget, initialise, processResponse, classList, mixin, timers) {
 		"use strict";
 
 		/**
@@ -146,7 +147,7 @@ define(["wc/dom/event",
 				var element = $event.target;
 				if (!$event.defaultPrevented && !attribute.get(element, INITED_FLAG) && triggersOnChange(element)) {
 					attribute.set(element, INITED_FLAG, true);
-					event.add(element, event.TYPE.change, changeEvent, 100);
+					event.add(element, event.TYPE.change, debounce(changeEvent, 250), 100);
 				}
 			}
 

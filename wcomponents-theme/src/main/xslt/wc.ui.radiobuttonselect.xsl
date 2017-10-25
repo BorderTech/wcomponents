@@ -58,7 +58,7 @@
 						</xsl:choose>
 					</xsl:if>
 					<xsl:call-template name="hField"/>
-					<xsl:apply-templates select="ui:diagnostic"/>
+					<xsl:apply-templates select="ui:fieldindicator"/>
 				</fieldset>
 			</xsl:otherwise>
 		</xsl:choose>

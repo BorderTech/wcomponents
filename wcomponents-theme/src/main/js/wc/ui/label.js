@@ -152,8 +152,11 @@ define(["wc/dom/classList",
 				var labelElement,
 					refElement,
 					parent;
+				if (!(input && label)) {
+					throw new TypeError("Input and label must be defined.");
+				}
 				if (!(input && input.nodeType === Node.ELEMENT_NODE && label)) {
-					return;
+					throw new TypeError("Input must be an element.");
 				}
 
 				if (label.constructor === String) {
@@ -164,9 +167,9 @@ define(["wc/dom/classList",
 					labelElement = label;
 				}
 
-				if (labelElement.nodeType !== Node.ELEMENT_NODE) {
+				if (!(labelElement && labelElement.nodeType === Node.ELEMENT_NODE)) {
 					console.error("label arg must be an Element or HTML String representing a single element");
-					// do not throw, this funciton is not that important
+					// do not throw, this function is not that important
 					return;
 				}
 
@@ -412,6 +415,12 @@ define(["wc/dom/classList",
 			 * @ignore
 			 */
 			this._ajax = ajaxSubscriber;
+
+			/**
+			 * Public for testing.
+			 * @ignore
+			 */
+			this._checkboxLabelPositionHelper = checkboxLabelPositionHelper;
 		}
 
 		/**
@@ -420,7 +429,6 @@ define(["wc/dom/classList",
 		 * those controls are always kept in the right state.
 		 *
 		 * @module
-	"wc/dom/role",
 		 * @requires wc/dom/classList
 		 * @requires wc/dom/initialise
 		 * @requires wc/dom/shed

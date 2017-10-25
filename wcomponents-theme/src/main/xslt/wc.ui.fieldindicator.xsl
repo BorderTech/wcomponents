@@ -6,13 +6,22 @@
 		Transform for ui:fieldindicator which is output of WFieldWarningIndicator.
 	-->
 	<xsl:template match="ui:fieldindicator">
-		<span id="{@id}">
+		<span>
+			<xsl:if test="@id">
+				<xsl:attribute name="id">
+					<xsl:value-of select="@id"/>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:call-template name="makeCommonClass"/>
 			<xsl:call-template name="icon">
-				<xsl:with-param name="class" select="'fa-exclamation-triangle'"/>
-				<xsl:with-param name="element" select="'i'"/>
+				<xsl:with-param name="class">
+					<xsl:choose>
+						<xsl:when test="@type = 'warn'">fa-exclamation-triangle</xsl:when>
+						<xsl:otherwise>fa-times-circle</xsl:otherwise>
+					</xsl:choose>
+				</xsl:with-param>
 			</xsl:call-template>
-			<xsl:apply-templates />
+			<xsl:apply-templates select="ui:message" />
 		</span>
 	</xsl:template>
 </xsl:stylesheet>

@@ -37,7 +37,6 @@ public class WhitespaceFilterInterceptor extends InterceptorComponent {
 
 			WebXmlRenderContext filteredContext = new WebXmlRenderContext(writer, UIContextHolder.
 					getCurrent().getLocale());
-			filteredContext.getWriter().turnIndentingOff();
 			super.paint(filteredContext);
 		} else {
 			super.paint(renderContext);

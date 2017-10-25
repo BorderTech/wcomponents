@@ -36,7 +36,6 @@
 						<xsl:otherwise>fa-video-camera</xsl:otherwise>
 					</xsl:choose>
 				</xsl:with-param>
-				<xsl:with-param name="element" select="'i'"/>
 			</xsl:call-template>
 		</button>
 	</xsl:template>

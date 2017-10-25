@@ -4,7 +4,7 @@ define(["wc/dom/Widget", "wc/dom/tag"], function(Widget, tag) {
 	function Diagnostic() {
 		var SPAN = tag.SPAN,
 			CLASS = {
-				DIAGNOSTIC: "wc-diagnostic",
+				DIAGNOSTIC: "wc-fieldindicator",
 				TYPE_SUFFIX: "-type-",
 				MESSAGE: "wc-message"
 			},
