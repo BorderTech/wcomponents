@@ -22,7 +22,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 	}
 
 	registerSuite({
-		name: "getBox",
+		name: "wc/dom/getBox",
 		setup: function() {
 			return testutils.setupHelper(["wc/dom/getBox"], function(obj) {
 				controller = obj;
@@ -43,7 +43,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			doSimpleTest(TOP, "top");
 		},
 		testGetBoxTopWithMarginTop: function() {
-			var  element = document.getElementById(TEST_ID);
+			var element = document.getElementById(TEST_ID);
 			element.style.marginTop = MARGIN + "px";
 			doSimpleTest(TOP + MARGIN, "top");
 		},
@@ -59,6 +59,40 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 		testGetBoxLeftWithHorizontalScroll: function() {
 			testHolder.insertAdjacentHTML("beforeEnd", "<div style='height:20px;width:10000px;'>spacer</div>");
 			doSimpleTest(LEFT - SCROLL, "left", "scrollLeft");
+		},
+		testGetBox_width: function() {
+			var element = document.getElementById(TEST_ID),
+				box;
+			element.style.width = "100.5px";
+			element.style.height = "20.4px";
+			box = controller(element);
+			// actual width depends on browser rounding
+			assert.isTrue(100.4 < box.width && 100.5 >= box.width);
+		},
+		testGetBox_height: function() {
+			var element = document.getElementById(TEST_ID),
+				box;
+			element.style.width = "100.5px";
+			element.style.height = "20.4px";
+			box = controller(element);
+			// actual height depends on browser rounding
+			assert.isTrue(20.3 < box.height && 20.4 >= box.height);
+		},
+		testGetBox_width_withRounding: function() {
+			var element = document.getElementById(TEST_ID),
+				box;
+			element.style.width = "100.5px";
+			element.style.height = "20.4px";
+			box = controller(element, true);
+			assert.strictEqual(box.width, 101);
+		},
+		testGetBox_height_withRounding: function() {
+			var element = document.getElementById(TEST_ID),
+				box;
+			element.style.width = "100.5px";
+			element.style.height = "20.4px";
+			box = controller(element, true);
+			assert.strictEqual(box.height, 20);
 		}
 	});
 });

@@ -2,15 +2,7 @@
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:template name="icon">
 		<xsl:param name="class" select="''"/>
-		<xsl:param name="element" select="'span'"/>
-		<xsl:element name="{$element}">
-			<xsl:attribute name="aria-hidden">true</xsl:attribute>
-			<xsl:attribute name="class">
-				<xsl:text>fa</xsl:text>
-				<xsl:if test="normalize-space($class) ne ''">
-					<xsl:value-of select="concat(' ', normalize-space($class))"/>
-				</xsl:if>
-			</xsl:attribute>
-		</xsl:element>
+		<xsl:variable name="normClass" select="normalize-space($class)"/>
+		<i aria-hidden="true" class="fa {$normClass}"></i>
 	</xsl:template>
 </xsl:stylesheet>

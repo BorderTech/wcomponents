@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.WContainer;
+import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import com.github.bordertech.wcomponents.validation.DiagnosticImpl;
@@ -34,17 +35,16 @@ public class WFieldWarningIndicatorRenderer_Test extends AbstractWebXmlRendererT
 	@Test
 	public void testDoPaint() throws IOException, SAXException, XpathException {
 		WContainer root = new WContainer();
-		WTextField text = new WTextField();
-		text.setMandatory(true);
-		WFieldWarningIndicator indicator = new WFieldWarningIndicator(text);
+		WPanel target = new WPanel();
+		WFieldWarningIndicator indicator = new WFieldWarningIndicator(target);
 
+		root.add(target);
 		root.add(indicator);
-		root.add(text);
 
 		// Simulate Warning Message
 		setActiveContext(createUIContext());
 		List<Diagnostic> diags = new ArrayList<>();
-		diags.add(new DiagnosticImpl(Diagnostic.WARNING, text, "Test Warning"));
+		diags.add(new DiagnosticImpl(Diagnostic.WARNING, target, "Test Warning"));
 		root.showWarningIndicators(diags);
 
 		// Validate Schema
@@ -52,7 +52,7 @@ public class WFieldWarningIndicatorRenderer_Test extends AbstractWebXmlRendererT
 		// Check Attributes
 		assertXpathEvaluatesTo(indicator.getId(), "//ui:fieldindicator/@id", root);
 		assertXpathEvaluatesTo("warn", "//ui:fieldindicator/@type", root);
-		assertXpathEvaluatesTo(text.getId(), "//ui:fieldindicator/@for", root);
+		assertXpathEvaluatesTo(target.getId(), "//ui:fieldindicator/@for", root);
 		// Check Message
 		assertXpathEvaluatesTo("Test Warning", "//ui:fieldindicator/ui:message", root);
 	}
@@ -60,15 +60,15 @@ public class WFieldWarningIndicatorRenderer_Test extends AbstractWebXmlRendererT
 	@Test
 	public void testXssEscaping() throws IOException, SAXException, XpathException {
 		WContainer root = new WContainer();
-		WTextField text = new WTextField();
-		WFieldWarningIndicator indicator = new WFieldWarningIndicator(text);
+		WPanel target = new WPanel();
+		WFieldWarningIndicator indicator = new WFieldWarningIndicator(target);
 
+		root.add(target);
 		root.add(indicator);
-		root.add(text);
 
 		setActiveContext(createUIContext());
 		List<Diagnostic> diags = new ArrayList<>();
-		diags.add(new DiagnosticImpl(Diagnostic.WARNING, text, getMaliciousContent()));
+		diags.add(new DiagnosticImpl(Diagnostic.WARNING, target, getMaliciousContent()));
 		root.showWarningIndicators(diags);
 
 		assertSafeContent(root);

@@ -8,6 +8,29 @@
 
 ### Bug Fixes
 
+## Release 1.4.14
+
+### Bug Fixes
+
+* Removed a cause of potential NullPointerException from com.github.bordertech.wcomponents.qa.findbugs.CheckGetComponentModel and
+  com.github.bordertech.wcomponents.examples.table.FilterableTableExample #1392, #1393.
+* Fix an error in the wcomponent-theme POM #1390.
+* Fixed regressions from 1.4.12 which could result in messages not being rendered correctly #1370.
+* Fixed an issue which could result in unexpected element alignment due to an error in the whitespace filter #1381.
+* Change the way dropdown typeahead (selectboxSearch) works to better align with the way most modern browsers fire the change event QC169945.
+
+## Release 1.4.13
+
+### Bug Fixes
+
+* Fix validation messages being merged with data in several components QC170096 (broken in 1.4.12).
+* Fix schema validation (broken in 1.4.12).
+* Update default field validator to fallback to `toolTip` if the input is both unlabelled _and_ has no `accessibleText` #1372.
+
+## Release 1.4.12
+
+### Bug Fixes
+
 * Fixed a flaw in message handling which resulted in error and warning messages not being applied correctly in almost all AJAX-related scenarios #1370
 * Fixed a number of errors in messaging and validation in the client code as part of #1370, fixing these resolves #1121
 

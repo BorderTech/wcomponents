@@ -42,7 +42,7 @@
 				</xsl:call-template>
 			</div>
 		</div>
-		<xsl:apply-templates select="ui:diagnostic"/>
+		<xsl:apply-templates select="ui:fieldindicator"/>
 	</xsl:template>
 	
 	<xsl:template match="ui:treeitem">

@@ -9,9 +9,8 @@ define(["wc/ui/listLoader",
 	"wc/i18n/i18n",
 	"wc/dom/getLabelsForElement",
 	"wc/ui/feedback",
-	"wc/ui/diagnostic",
 	"wc/has"],
-	function(listLoader, initialise, Widget, getFilteredGroup, selectboxSearch, shed, event, textContent, i18n, getLabelsForElement, feedback, diagnostic, has) {
+	function(listLoader, initialise, Widget, getFilteredGroup, selectboxSearch, shed, event, textContent, i18n, getLabelsForElement, feedback, has) {
 		"use strict";
 		/**
 		 * @constructor
@@ -36,7 +35,7 @@ define(["wc/ui/listLoader",
 					if (element) {
 						message = getErrorMessage(id, false);
 						if (message) {
-							feedback.clear(message, element);
+							feedback.remove(message, element);
 						}
 						try {
 							selectList = OPTION_CONTAINER.isOneOfMe(element) ? element : OPTION_CONTAINER.findDescendant(element);
@@ -115,7 +114,7 @@ define(["wc/ui/listLoader",
 				var element = document.getElementById(id),
 					labels, label,
 					button,
-					message = diagnostic.getBox(element, diagnostic.LEVEL.ERROR),
+					message = feedback.getBox(element, feedback.LEVEL.ERROR),
 					errorResult;
 				if (!message && element && create) {
 					labels = getLabelsForElement(element, true);

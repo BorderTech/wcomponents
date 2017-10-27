@@ -18,14 +18,14 @@
 					<xsl:text>tel:</xsl:text>
 				</xsl:otherwise>
 			</xsl:choose>
-			<xsl:value-of select="."/>
+			<xsl:value-of select="text()"/>
 		</xsl:variable>
 		<a href="{$href}">
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="class" select="'wc-ro-input'"/>
 			</xsl:call-template>
 			<xsl:call-template name="roComponentName"/>
-			<xsl:value-of select="."/>
+			<xsl:value-of select="text()"/>
 		</a>
 	</xsl:template>
 
@@ -133,7 +133,7 @@
 					</xsl:call-template>
 				</button>
 			</xsl:if>
-			<xsl:apply-templates select="ui:diagnostic"/>
+			<xsl:apply-templates select="ui:fieldindicator"/>
 		</span>
 	</xsl:template>
 
@@ -196,7 +196,7 @@
 					</xsl:if>
 				</xsl:if>
 			</xsl:element>
-			<xsl:apply-templates select="ui:diagnostic"/>
+			<xsl:apply-templates select="ui:fieldindicator"/>
 		</span>
 	</xsl:template>
 
@@ -263,12 +263,12 @@
 						<xsl:value-of select="@autocomplete"/>
 					</xsl:attribute>
 				</xsl:if>
-				<xsl:value-of select="."/>
+				<xsl:value-of select="text()"/><!-- Note that a read-only RTF will actually contain nested HTML elements but that won't end up here -->
 			</textarea>
 			<xsl:if test="@maxLength">
 				<output id="{$tickerId}" name="{$tickerId}" for="{@id}_input" hidden="hidden"></output>
 			</xsl:if>
-			<xsl:apply-templates select="ui:diagnostic"/>
+			<xsl:apply-templates select="ui:fieldindicator"/>
 		</xsl:element>
 	</xsl:template>
 
@@ -294,7 +294,7 @@
 					</xsl:attribute>
 				</xsl:if>
 			</xsl:element>
-			<xsl:apply-templates select="ui:diagnostic"/>
+			<xsl:apply-templates select="ui:fieldindicator"/>
 		</span>
 	</xsl:template>
 </xsl:stylesheet>

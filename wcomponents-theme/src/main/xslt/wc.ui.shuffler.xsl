@@ -32,12 +32,12 @@
 							</xsl:attribute>
 						</xsl:if>
 						<xsl:call-template name="isInvalid"/>
-						<xsl:apply-templates mode="selectableList"/>
+						<xsl:apply-templates select="ui:option|ui:optgroup" mode="selectableList"/>
 					</select>
 					<xsl:call-template name="listSortControls">
 						<xsl:with-param name="id" select="$listId"/>
 					</xsl:call-template>
-					<xsl:apply-templates select="ui:diagnostic"/>
+					<xsl:apply-templates select="ui:fieldindicator"/>
 				</span>
 			</xsl:otherwise>
 		</xsl:choose>

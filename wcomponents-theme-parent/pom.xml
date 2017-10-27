@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
 		<artifactId>wcomponents-parent</artifactId>
-		<version>1.4.12-SNAPSHOT</version>
+		<version>1.4.15-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -151,21 +151,6 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-site-plugin</artifactId>
-				<version>3.4</version>
-				<configuration>
-					<reportPlugins combine.children="override">
-						<plugin>
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-project-info-reports-plugin</artifactId>
-							<version>2.7</version>
-						</plugin>
-					</reportPlugins>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>com.googlecode.maven-download-plugin</groupId>
@@ -365,6 +350,24 @@
 			</plugin>
 		</plugins>
 	</build>
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.4</version>
+				<configuration>
+					<reportPlugins combine.children="override">
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-project-info-reports-plugin</artifactId>
+							<version>2.7</version>
+						</plugin>
+					</reportPlugins>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
 	<modules>
 		<module>../wcomponents-theme</module>
 	</modules>

@@ -9,8 +9,8 @@ define(["wc/dom/classList",
 	"wc/dom/textContent",
 	"wc/dom/wrappedInput",
 	"wc/ui/checkBox",
-	"wc/ui/diagnostic"],
-	function (classList, initialise, shed, tag, Widget, getLabelsForElement, processResponse, $role, textContent, wrappedInput, checkBox, diagnostic) {
+	"wc/ui/feedback"],
+	function (classList, initialise, shed, tag, Widget, getLabelsForElement, processResponse, $role, textContent, wrappedInput, checkBox, feedback) {
 		"use strict";
 		/**
 		 * @constructor
@@ -152,8 +152,11 @@ define(["wc/dom/classList",
 				var labelElement,
 					refElement,
 					parent;
+				if (!(input && label)) {
+					throw new TypeError("Input and label must be defined.");
+				}
 				if (!(input && input.nodeType === Node.ELEMENT_NODE && label)) {
-					return;
+					throw new TypeError("Input must be an element.");
 				}
 
 				if (label.constructor === String) {
@@ -164,9 +167,9 @@ define(["wc/dom/classList",
 					labelElement = label;
 				}
 
-				if (labelElement.nodeType !== Node.ELEMENT_NODE) {
+				if (!(labelElement && labelElement.nodeType === Node.ELEMENT_NODE)) {
 					console.error("label arg must be an Element or HTML String representing a single element");
-					// do not throw, this funciton is not that important
+					// do not throw, this function is not that important
 					return;
 				}
 
@@ -181,7 +184,7 @@ define(["wc/dom/classList",
 					return;
 				}
 
-				refElement = diagnostic.getBox(input, -1);
+				refElement = feedback.getBox(input, -1);
 				if (refElement && refElement.parentNode === input) {
 					input.insertBefore(labelElement, refElement);
 				} else {
@@ -412,6 +415,12 @@ define(["wc/dom/classList",
 			 * @ignore
 			 */
 			this._ajax = ajaxSubscriber;
+
+			/**
+			 * Public for testing.
+			 * @ignore
+			 */
+			this._checkboxLabelPositionHelper = checkboxLabelPositionHelper;
 		}
 
 		/**
@@ -420,16 +429,18 @@ define(["wc/dom/classList",
 		 * those controls are always kept in the right state.
 		 *
 		 * @module
-		 * @requires module:wc/dom/classList
-		 * @requires module:wc/dom/initialise
-		 * @requires module:wc/dom/shed
-		 * @requires module:wc/dom/tag
-		 * @requires module:wc/dom/Widget
-		 * @requires module:wc/dom/getLabelsForElement
-		 * @requires module:wc/ui/ajax/processResponse
-		 * @requires module:wc/i18n/i18n
-		 * @requires module:wc/ui/internalLink
-		 * @requires module:wc/dom/role
+		 * @requires wc/dom/classList
+		 * @requires wc/dom/initialise
+		 * @requires wc/dom/shed
+		 * @requires wc/dom/tag
+		 * @requires wc/dom/Widget
+		 * @requires wc/dom/getLabelsForElement
+		 * @requires wc/ui/ajax/processResponse
+		 * @requires wc/dom/role
+		 * @requires wc/dom/textContent
+		 * @requires wc/dom/wrappedInput
+		 * @requires wc/ui/checkBox
+		 * @requires wc/ui/feedback
 		 */
 		var instance = new Label();
 		initialise.register(instance);
