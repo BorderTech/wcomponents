@@ -69,11 +69,16 @@ define(["wc/dom/tag",
 		}
 
 		function getAriaLabel(element) {
-			var labelId, result;
-			if(element) {
-				labelId = element.getAttribute("aria-labelledby");
-				if (labelId) {
-					result = document.getElementById(labelId);
+			var labelIds, result = [];
+			if (element) {
+				labelIds = element.getAttribute("aria-labelledby");
+				if (labelIds) {
+					labelIds.split(/\s* \s*/).forEach(function(labelId) {
+						var lblElement = document.getElementById(labelId);
+						if (lblElement !== null) {
+							result.push(document.getElementById(labelId));
+						}
+					});
 				}
 			}
 			return result;
@@ -115,8 +120,8 @@ define(["wc/dom/tag",
 					}
 				}
 			}
-			if (ariaLabel) {
-				result.push(ariaLabel);
+			for (var i = 0; i < ariaLabel.length; i++) {
+				result.push(ariaLabel[i]);
 			}
 			return result;
 		}
