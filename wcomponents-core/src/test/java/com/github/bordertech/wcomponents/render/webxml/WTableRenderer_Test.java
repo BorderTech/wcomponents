@@ -608,10 +608,12 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 			XpathException {
 		final int minSelectedRowCount1 = 1;
 		final int maxSelectedRowCount1 = 2;
+		final int selectedOnOther1 = 0;
 		final String message1 = "message1";
 
 		final int minSelectedRowCount2 = 1;
 		final int maxSelectedRowCount2 = 2;
+		final int selectedOnOther2 = 0;
 		final String message2 = "message2";
 
 		WTable component = new WTable();
@@ -645,6 +647,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 				"//ui:table/ui:actions/ui:action[1]/ui:condition/@minSelectedRows", component);
 		assertXpathEvaluatesTo(((new Integer(maxSelectedRowCount1))).toString(),
 				"//ui:table/ui:actions/ui:action[1]/ui:condition/@maxSelectedRows", component);
+		assertXpathEvaluatesTo(((new Integer(selectedOnOther1))).toString(),
+			"//ui:table/ui:actions/ui:action[1]/ui:condition/@selectedOnOther", component);
 		assertXpathEvaluatesTo(expectedWarning,
 				"//ui:table/ui:actions/ui:action[1]/ui:condition/@type", component);
 		assertXpathEvaluatesTo(message1, "//ui:table/ui:actions/ui:action[1]/ui:condition/@message",
@@ -655,6 +659,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 				"//ui:table/ui:actions/ui:action[2]/ui:condition/@minSelectedRows", component);
 		assertXpathEvaluatesTo(((new Integer(maxSelectedRowCount2))).toString(),
 				"//ui:table/ui:actions/ui:action[2]/ui:condition/@maxSelectedRows", component);
+		assertXpathEvaluatesTo(((new Integer(selectedOnOther2))).toString(),
+			"//ui:table/ui:actions/ui:action[1]/ui:condition/@selectedOnOther", component);
 		assertXpathEvaluatesTo(expectedWarning,
 				"//ui:table/ui:actions/ui:action[2]/ui:condition/@type", component);
 		assertXpathEvaluatesTo(message2, "//ui:table/ui:actions/ui:action[2]/ui:condition/@message",
