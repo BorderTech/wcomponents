@@ -2,6 +2,16 @@ package com.github.bordertech.wcomponents.examples.table;
 
 import com.github.bordertech.wcomponents.*;
 
+/**
+ * This example demonstrates a simple {@link WTable} that has been been bound, has pagination, and has row selection.
+ * <p>
+ * Uses {@link SimpleBeanBoundTableModel} to handle bean binding.
+ * </p>
+ * <p>
+ * Note: Action constraints on selected rows carry over across pages.
+ * </p>
+ * @author Jonathan Simmons
+ */
 
 public class SimplePaginationTableWithSelectablesExample extends WPanel {
 
@@ -21,7 +31,7 @@ public class SimplePaginationTableWithSelectablesExample extends WPanel {
 		wTable.setPaginationMode(WTable.PaginationMode.DYNAMIC);
 		wTable.setRowsPerPage(5);
 
-
+		// Setup model
 		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(
 			new String[]{"firstName", "lastName",
 				"dateOfBirth"});
@@ -39,17 +49,18 @@ public class SimplePaginationTableWithSelectablesExample extends WPanel {
 		wTable.addAction(deleteWithWarningCondition);
 		// prevent the action if fewer than one row is selected.
 		wTable.addActionConstraint(deleteWithWarningCondition, new WTable.ActionConstraint(1, 0, true, "At least one row must be selected"));
-		// warn the user if more thanone row is selected but do not prevent the action unless the user bails.
+		// Warn the user if more than one row is selected but do not prevent the action unless the user bails.
 		wTable.addActionConstraint(deleteWithWarningCondition, new WTable.ActionConstraint(0, 1, false, "Are you sure you wish to delete these rows?"));
 		WButton editButton = new WButton("Edit");
 		wTable.addAction(editButton);
-		// prevent the action unless exactly one row is selected.
+		// Prevent the action unless exactly one row is selected.
 		wTable.addActionConstraint(editButton, new WTable.ActionConstraint(1, 1, true, "Exactly one row must be selected"));
 		deleteWithWarningCondition.setAction(buttonAction("Dummy delete of:"));
 		// The button displays the selected rows in text format.
 		selectButton.setAction(buttonAction("Selection:"));
 		editButton.setAction(buttonAction("Dummy edit of:"));
 
+		// Update the text panel on button click
 		WPanel textPanel = new WPanel();
 		selectButton.setAjaxTarget(textPanel);
 		deleteWithWarningCondition.setAjaxTarget(textPanel);
@@ -74,7 +85,7 @@ public class SimplePaginationTableWithSelectablesExample extends WPanel {
 				for (Object selected : wTable.getSelectedRows()) {
 					// The Model uses the "bean" as the key
 					PersonBean person = (PersonBean) selected;
-					buf.append(person.toString()).append('\n');
+					buf.append(person.toString()).append("\n");
 				}
 
 				selectionText.setText(buf.toString());
