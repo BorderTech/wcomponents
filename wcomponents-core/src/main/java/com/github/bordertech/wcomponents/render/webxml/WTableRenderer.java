@@ -301,11 +301,13 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 						int minRows = constraint.getMinSelectedRowCount();
 						int maxRows = constraint.getMaxSelectedRowCount();
 						String message = constraint.getMessage();
+						int selectedOnOther = table.getSelectedRows().size();
 						String type = constraint.isError() ? "error" : "warning";
 
 						xml.appendTagOpen("ui:condition");
 						xml.appendOptionalAttribute("minSelectedRows", minRows > 0, minRows);
 						xml.appendOptionalAttribute("maxSelectedRows", maxRows > 0, maxRows);
+						xml.appendOptionalAttribute("selectedOnOther", selectedOnOther);
 						xml.appendAttribute("type", type);
 						xml.appendAttribute("message", I18nUtilities.format(null, message));
 						xml.appendEnd();
