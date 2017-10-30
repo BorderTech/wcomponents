@@ -213,13 +213,10 @@ define(["wc/has", "wc/dom/classList", "wc/dom/event", "wc/ui/prompt", "wc/config
 			var play = function() {
 					gumWithFallback(currentOptions, playCb, errCb);
 				},
-				globalOptions, globalConf = wcconfig.get("wc/ui/imageEdit");
-			if (globalConf && globalConf.options) {
-				globalOptions = globalConf.options;
-			} else {
-				globalOptions = {};
-			}
-			currentOptions = Object.assign({}, defaultOptions, globalOptions, options);
+				globalConf = wcconfig.get("wc/ui/imageEdit", {
+					options: {}
+				});
+			currentOptions = Object.assign({}, defaultOptions, globalConf.options, options);
 			currentOptions.width *= 1;
 			currentOptions.height *= 1;
 			window.webcam = currentOptions;  // Needed for flash fallback

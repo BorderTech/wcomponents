@@ -3,7 +3,7 @@
  * Do you use a global object? A loader specific mechanism like RequireJS configuration?
  * The aim of this module is to encapsulate the underlying mechanism and present a simple configuration API to other modules.
  */
-define(["module"], function(module) {
+define(["wc/mixin", "module"], function(mixin, module) {
 	var instance = new Config();
 	initialise();
 
@@ -21,11 +21,17 @@ define(["module"], function(module) {
 
 	/**
 	 * @constructor
-	 * @returns {undefined}
 	 */
 	function Config() {
 		var configObject = {};
 
+		/**
+		 * Register a configuration object for a given id or completely replace the entire registry with the given object.
+		 *
+		 * @param {Object} config The configuration object to set.
+		 * @param {string} [id] The ID against which to register this configuration. If falsey will replace the entire registery with the
+		 *    configuration (did this ever seem like a good idea?).
+		 */
 		this.set = function(config, id) {
 			if (id) {
 				configObject[id] = config || configObject[id];
@@ -34,8 +40,22 @@ define(["module"], function(module) {
 			}
 		};
 
-		this.get = function(id) {
-			return configObject[id];
+		/**
+		 * Get the config registered for this id.
+		 * @param {string} id Specify which configuration you want to get.
+		 * @param {Object} [defaults] Optionally provide a default configuration, the result will contain the result of the defaults overriden by any
+		 *    registered configuration.
+		 *    Note that object properties will be recursively mixed in, anything else (arrays, strings, numbers etc) will be overriden.
+		 *    With this argument provided the result will never be null.
+		 * @returns {Object} A configuration object.
+		 */
+		this.get = function(id, defaults) {
+			var defaultConfig, result = configObject[id];
+			if (defaults) {
+				defaultConfig = mixin(defaults);  // make a copy of defaults;
+				result = mixin(result, defaultConfig);  // override defaults with explicit settings (mixin can handle result being null)
+			}
+			return result;
 		};
 	}
 	return instance;

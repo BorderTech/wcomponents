@@ -40,21 +40,10 @@ define(["wc/has",
 				CLASS_CHATTY = "wc_combo_dyn",
 				CHATTY_COMBO = COMBO.extend(CLASS_CHATTY),
 				updateTimeout,
-				conf = wcconfig.get("wc/ui/comboBox"),
-				/**
-				 * Wait this long before updating the list on keydown.
-				 * @var
-				 * @type Number
-				 * @private
-				 */
-				DELAY = (conf ? (conf.delay || 250) : 250),
-				/**
-				 * Only update the list if the user has entered at least this number of characters.
-				 * @var
-				 * @type Number
-				 * @private
-				 */
-				DEFAULT_CHARS = (conf ? (conf.min || 3) : 3),
+				conf = wcconfig.get("wc/ui/comboBox", {
+					delay: 250,  // Wait this long before updating the list on keydown
+					min: 3  // Only update the list if the user has entered at least this number of characters.
+				}),
 				CHAR_KEYS,  // used in the keydown event handler if we cannot use the input event
 				nothingLeftReg = {};  // last search returned no match, keep the search term for future reference
 
@@ -170,7 +159,7 @@ define(["wc/has",
 				}
 
 				if (!(_delay || delay === 0)) {
-					_delay = DELAY;
+					_delay = conf.delay;
 				}
 				if (filterTimer) {
 					timers.clearTimeout(filterTimer);
@@ -223,7 +212,7 @@ define(["wc/has",
 			}
 
 			/**
-			 * Updates the datalist for a given combo element if the element's content is at least DEFAULT_CHARS.
+			 * Updates the datalist for a given combo element if the element's content is at least conf.min.
 			 * @function
 			 * @private
 			 * @param {Element} element The input element we are interested in.
@@ -236,12 +225,12 @@ define(["wc/has",
 					return;
 				}
 
-				min = list.getAttribute("data-wc-minchars") || DEFAULT_CHARS;
+				min = list.getAttribute("data-wc-minchars") || conf.min;
 				if (element.value.length >= min) {
 					if (!shed.isExpanded(combo)) {
 						shed.expand(combo);
 					}
-					updateTimeout = timers.setTimeout(getNewOptions, DELAY, combo, element);
+					updateTimeout = timers.setTimeout(getNewOptions, conf.delay, combo, element);
 				}
 			}
 
