@@ -8,13 +8,13 @@
     display: inline-block;
     vertical-align: top;
 
+    &.wc-fieldindicator {
+      display: block;
+    }
+
     + span {
       margin-left: 1px;
     }
-  }
-
-  .wc-fieldindicator {
-    display: block;
   }
 
   label {
