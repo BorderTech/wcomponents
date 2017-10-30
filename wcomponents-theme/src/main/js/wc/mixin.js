@@ -13,7 +13,7 @@ define(function() {
 		if (source) {
 			for (var prop in source) {
 				if (source.hasOwnProperty(prop)) {
-					if (source[prop].constructor === Object) {
+					if (source[prop] && source[prop].constructor === Object) {
 						if (!result[prop] || result[prop].constructor === Object) {
 							result[prop] = mixin(source[prop], result[prop]);
 						} else {

@@ -67,10 +67,13 @@ define(["wc/dom/attribute",
 			}
 
 			function getNotifyTimeout() {
-				var conf = wcconfig.get("wc/ui/resizeable"),
-					result = DEFAULT_NOTIFY_TIMEOUT;
-				if (conf && (conf.delay || conf.delay === 0) && !isNaN(conf.delay) && conf.delay >= 0) {
+				var result, conf = wcconfig.get("wc/ui/resizeable", {
+						delay: DEFAULT_NOTIFY_TIMEOUT
+					});
+				if ((conf.delay || conf.delay === 0) && !isNaN(conf.delay) && conf.delay >= 0) {
 					result = conf.delay;
+				} else {
+					result = DEFAULT_NOTIFY_TIMEOUT;
 				}
 				return result;
 			}
@@ -231,13 +234,16 @@ define(["wc/dom/attribute",
 			 * `end-of-event` handler like mouseup or touchend.
 			 */
 			function resize(element, deltaX, deltaY, notify) {
-				var box, min, _notify, width, height, conf,
-					minSize = DEFAULT_MIN_SIZE;
+				var box, min, _notify, width, height, conf, minSize;
 				try {
 					if (element && (box = getSize(element))) {
-						conf = wcconfig.get("wc/ui/resizeable");
-						if (conf && conf.min && !isNaN(conf.min) && conf.min > 0) {
+						conf = wcconfig.get("wc/ui/resizeable", {
+							min: DEFAULT_MIN_SIZE
+						});
+						if (conf.min && !isNaN(conf.min) && conf.min > 0) {
 							minSize = conf.min;
+						} else {
+							minSize = DEFAULT_MIN_SIZE;
 						}
 						if (deltaX) {
 							min = getSizeContraint(element);
@@ -338,8 +344,10 @@ define(["wc/dom/attribute",
 				}
 
 				allowed =  getAllowedDirections(resizeTarget);
-				conf = wcconfig.get("wc/ui/resizeable");
-				if (conf && conf.step && !isNaN(conf.step) && conf.step > 0) {
+				conf = wcconfig.get("wc/ui/resizeable", {
+					step: DEFAULT_KEY_RESIZE
+				});
+				if (conf.step && !isNaN(conf.step) && conf.step > 0) {
 					step = conf.step;
 				}
 				switch (keyCode) {

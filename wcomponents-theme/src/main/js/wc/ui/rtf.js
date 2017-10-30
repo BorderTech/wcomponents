@@ -12,8 +12,8 @@
  * @requires module:wc/mixin
  * @requires external:tinyMCE
  */
-define(["wc/dom/initialise", "wc/config", "wc/loader/style", "wc/mixin", "tinyMCE"],
-	function(initialise, wcconfig, styleLoader, mixin, tinyMCE) {
+define(["wc/dom/initialise", "wc/config", "wc/loader/style", "tinyMCE"],
+	function(initialise, wcconfig, styleLoader, tinyMCE) {
 		"use strict";
 
 		/**
@@ -25,26 +25,21 @@ define(["wc/dom/initialise", "wc/config", "wc/loader/style", "wc/mixin", "tinyMC
 		 */
 		function processNow(idArr) {
 			var id,
-				initObj = {
-					content_css: styleLoader.getMainCss(true),
-					plugins: "autolink link lists print preview paste"
-				},
-				config = wcconfig.get("wc/ui/rtf"),
-				setupFunc = function (editor) {
-					editor.on("change", function () {
-						editor.save();
-					});
-				};
-			if (config && config.initObj) {
-				mixin(config.initObj, initObj);  // config values overwrite defaults coded here.
-			}
+				config = wcconfig.get("wc/ui/rtf", {
+					initObj: {
+						content_css: styleLoader.getMainCss(true),
+						plugins: "autolink link lists print preview paste"
+					},
+					setup: function (editor) {
+						editor.on("change", function () {
+							editor.save();
+						});
+					}
+				});
 
 			while ((id = idArr.shift())) {
-				initObj["selector"] = "textarea#" + id + "_input";
-				if (!initObj["setup"]) {
-					initObj["setup"] = setupFunc;
-				}
-				tinyMCE.init(initObj);
+				config.initObj["selector"] = "textarea#" + id + "_input";
+				tinyMCE.init(config.initObj);
 			}
 		}
 

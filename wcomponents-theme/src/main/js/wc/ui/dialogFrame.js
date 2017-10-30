@@ -81,10 +81,12 @@ define(["wc/dom/event",
 			 * @returns {Boolean} true is move/resize are supportable.
 			 */
 			function canMoveResize() {
-				var conf,
+				var conf = wcconfig.get("wc/ui/dialogFrame", {
+						vpUtil: null
+					}),
 					func = "isPhoneLike";
 
-				if ((conf = wcconfig.get("wc/ui/dialogFrame")) && conf.vpUtil && viewportUtils[conf.vpUtil]) {
+				if (conf.vpUtil && viewportUtils[conf.vpUtil]) {
 					func = conf.vpUtil;
 				}
 				return !viewportUtils[func]();
@@ -352,10 +354,10 @@ define(["wc/dom/event",
 			}
 
 			function getResizeConfig(width, height) {
-				var globalConf = wcconfig.get("wc/ui/dialogFrame"),
+				var globalConf = wcconfig.get("wc/ui/dialogFrame", {}),
 					offset = INITIAL_TOP_PROPORTION;
 
-				if (globalConf && globalConf.offset) {
+				if (globalConf.offset) {
 					if (isNaN(globalConf.offset)) {
 						console.log("Offset must be a number, what are you playing at?");
 					} else if (globalConf.offset <= 0) {
@@ -366,7 +368,7 @@ define(["wc/dom/event",
 						offset = globalConf.offset;
 					}
 				}
-				return {width: width, height: height, topOffsetPC: offset};
+				return { width: width, height: height, topOffsetPC: offset };
 			}
 
 			/**
