@@ -52,7 +52,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 				if (typeof Object.freeze !== "undefined") {
 					assert.isFrozen(controller);
 				} else {
-					assert.isTrue(true); // no op
+					this.skip("no freeze to test");
 				}
 			},
 			testITEM: function() {
@@ -129,15 +129,6 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 				listController.shedObserver(start, shed.actions.SELECT);
 				assert.isTrue(shed.isSelected(initialSelection), "initial selection should still be selected");
 			},
-			testInitialise: function() {
-				var testTarget = document.getElementById("lb0-1"),
-					focusTarget = document.getElementById("lb0-0");
-				/* tests of initialise are a bit weird, the best we can do is test that the events and/or subscribers have been wired up */
-				assert.isFalse(testTarget.hasAttribute("tabindex"), "expect tabindex not set");
-				focusTarget.setAttribute("tabindex", "0");
-				focusTarget.focus();
-				assert.isTrue(testTarget.hasAttribute("tabindex"), "tabindex should now be set");
-			},
 			testWriteState: function() {
 				var stateContainer = document.createElement("div"),
 					testForm = document.getElementById("aria-analog-writestate-test-content"),
@@ -171,6 +162,51 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 				assert.isOk(stateField);
 				assert.strictEqual(stateField.name, "rb1name");
 				assert.strictEqual(stateField.value, "1");
+			},
+			testFocusEvent: function() {
+				var testTarget = document.getElementById("lb0-1"),
+					focusTarget = document.getElementById("lb0-0"),
+					fakeEvent = {defaultPrevented: false, target: focusTarget};
+				assert.isFalse(testTarget.hasAttribute("tabindex"), "expect tabindex not set");
+				listController.focusEvent(fakeEvent);
+				assert.isTrue(testTarget.hasAttribute("tabindex"), "tabindex should now be set");
+			},
+			testFocusEvent_defaultPrevented: function() {
+				var testTarget = document.getElementById("lb0-1"),
+					focusTarget = document.getElementById("lb0-0"),
+					fakeEvent = {defaultPrevented: true, target: focusTarget};
+				assert.isFalse(testTarget.hasAttribute("tabindex"), "expect tabindex not set");
+				listController.focusEvent(fakeEvent);
+				assert.isFalse(testTarget.hasAttribute("tabindex"), "tabindex should still not be set");
+			},
+			testFocusEvent_differentController: function() {
+				var testTarget = document.getElementById("lb0-1"),
+					focusTarget = document.getElementById("lb0-0"),
+					fakeEvent = {defaultPrevented: false, target: focusTarget};
+				assert.isFalse(testTarget.hasAttribute("tabindex"), "expect tabindex not set");
+				radioController.focusEvent(fakeEvent);
+				assert.isFalse(testTarget.hasAttribute("tabindex"), "tabindex should still not be set");
+			},
+			testClickEvent: function() {
+				var target = document.getElementById("cb0"),
+					fakeEvent = {defaultPrevented: false, target: target};
+				assert.isTrue(shed.isSelected(target), "target should be initially selected");
+				cbController.clickEvent(fakeEvent);
+				assert.isFalse(shed.isSelected(target), "target should not be selected");
+			},
+			testClickEvent_defaultPrevented: function() {
+				var target = document.getElementById("cb0"),
+					fakeEvent = {defaultPrevented: true, target: target};
+				assert.isTrue(shed.isSelected(target), "target should be initially selected");
+				cbController.clickEvent(fakeEvent);
+				assert.isTrue(shed.isSelected(target), "target should still be selected");
+			},
+			testClickEvent_differentController: function() {
+				var target = document.getElementById("cb0"),
+					fakeEvent = {defaultPrevented: false, target: target};
+				assert.isTrue(shed.isSelected(target), "target should be initially selected");
+				listController.clickEvent(fakeEvent);
+				assert.isTrue(shed.isSelected(target), "target should still be selected");
 			}
 		});
 	}
