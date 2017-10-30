@@ -1,8 +1,8 @@
 // Colors for inline messages
-.wc-fieldindicator-type-error {
+.wc-fieldindicator-type-error > .fa:before {
   color: $wc-clr-error-fg;
 }
 
-.wc-fieldindicator-type-warn {
+.wc-fieldindicator-type-warn > .fa:before {
   color: $wc-clr-warning-fg;
 }
