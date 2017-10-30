@@ -373,10 +373,7 @@ define(["wc/string/escapeRe",
 					return;
 				}
 				try {
-					var configOveride = wcconfig.get("wc/ui/selectboxSearch");
-					if (configOveride) {
-						mixin(configOveride, config);
-					}
+					config = wcconfig.get("wc/ui/selectboxSearch", config);
 				} finally {
 					config.inited = true;
 				}
