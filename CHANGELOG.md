@@ -8,6 +8,9 @@
 
 ### Bug Fixes
 
+* Fix position of messages relative to calendar launch button in polyfill of WDateField #1405.
+* Fix white-space of error and warning messages inside combos, WMultiSelectPair, WMultiDropdown and WMultiTextField #1404.
+
 ## Release 1.4.14
 
 ### Bug Fixes
