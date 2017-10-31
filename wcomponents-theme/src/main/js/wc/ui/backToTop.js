@@ -176,10 +176,10 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 			this.setEnabled = function(enable) {
 				isEnabled = !!enable;
 				if (enable) {
-					config = config || wcconfig.get("wc/ui/backToTop");
-					if (config) {
-						MIN_SCROLL_BEFORE_SHOW = config.scroll || MIN_SCROLL_BEFORE_SHOW;
-					}
+					config = config || wcconfig.get("wc/ui/backToTop", {
+						scroll: MIN_SCROLL_BEFORE_SHOW
+					});
+					MIN_SCROLL_BEFORE_SHOW = config.scroll;
 				} else {
 					toggle(false); // just in case the link is showing at the time it is turned off.
 				}

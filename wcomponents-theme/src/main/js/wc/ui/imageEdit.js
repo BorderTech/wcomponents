@@ -1,6 +1,6 @@
-define(["wc/has", "wc/mixin", "wc/dom/Widget", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers", "wc/ui/prompt",
+define(["wc/has", "wc/mixin", "wc/config", "wc/dom/Widget", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers", "wc/ui/prompt",
 	"wc/i18n/i18n", "fabric", "wc/ui/dialogFrame", "wc/template", "wc/ui/ImageCapture", "wc/ui/ImageUndoRedo", "wc/file/getMimeType"],
-function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric, dialogFrame, template, ImageCapture, ImageUndoRedo, getMimeType) {
+function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i18n, fabric, dialogFrame, template, ImageCapture, ImageUndoRedo, getMimeType) {
 	var timer,
 		imageEdit = new ImageEdit();
 
@@ -144,24 +144,23 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		 * @returns {Object} configuration
 		 */
 		this.getConfig = function(obj) {
-			var editorId, result, defaultConfig;
+			var editorId, instanceConfig, result = wcconfig.get("wc/ui/imageEdit", this.defaults);
 			if (obj) {
-				result = registeredIds[obj.id] || registeredIds[obj.name];
-				if (!result) {
+				instanceConfig = registeredIds[obj.id] || registeredIds[obj.name];
+				if (!instanceConfig) {
 					if ("getAttribute" in obj) {
 						editorId = obj.getAttribute("data-wc-editor");
 					} else {
 						editorId = obj.editorId;
 					}
 					if (editorId) {
-						result = registeredIds[editorId];
+						instanceConfig = registeredIds[editorId];
 					}
 				}
-			}
-			if (!result || !result.__wcmixed) {
-				defaultConfig = mixin(this.defaults);  // make a copy of defaults;
-				result = mixin(result, defaultConfig);  // override defaults with explicit settings
-				result.__wcmixed = true;  // flag that we have mixed in the defaults so it doesn't need to happen again
+				if (instanceConfig && !instanceConfig.__wcmixed) {
+					result = mixin(instanceConfig, result);  // override defaults with explicit settings
+					result.__wcmixed = true;  // flag that we have mixed in the defaults so it doesn't need to happen again
+				}
 			}
 			return result;
 		};

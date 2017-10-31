@@ -455,6 +455,35 @@ define(["wc/array/toArray",
 				return document.getElementById(id);
 			};
 
+			/**
+			 * Get the last diagnostic box WITHIN (or withing the wrapper of) a
+			 * @param {Element|String} element the element being tested or an id of an element
+			 * @returns {Element?} the last diagnostic box if any.
+			 */
+			this.getLast = function(element) {
+				var target,
+					candidates;
+				if (!element) {
+					throw new TypeError("element must not be falsey");
+				}
+
+				target = (element.constructor === String) ? document.getElementById(element) : element;
+
+				if (!(target && target.tagName)) {
+					throw new TypeError("element does not represent an HTML Element");
+				}
+
+				if (!target.id) {
+					return null;
+				}
+
+				if (wrappedInput.isWrappedInput(target)) {
+					target = wrappedInput.getWrapper(target);
+				}
+				candidates = diagnostic.getWidget().findDescendants(target);
+				return (candidates && candidates.length) ? candidates[candidates.length - 1] : null;
+			};
+
 			this.add = function(args) {
 				var AFTER_END = "afterend",
 					writeWhere = args.position,
