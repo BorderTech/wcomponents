@@ -4,7 +4,7 @@ before_install:
 
 language: Java
 jdk:
-  - openjdk7
+  - oraclejdk8
 
 env:
   global:
