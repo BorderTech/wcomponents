@@ -5,6 +5,16 @@
 ### API Changes
 
 ### Enhancements
+* Client side: wc/config now caters for common "fetch, test, override" pattern of module configuration.
+* Client side: imageEditor can now be configured through the "wc/config" module.
+
+### Bug Fixes
+* Client side: wc/dom/initialise could theoretically reset its observer instance before all subscribers had been called, this is now resolved.
+
+* Fix position of messages relative to calendar launch button in polyfill of WDateField #1405.
+* Fix white-space of error and warning messages inside combos, WMultiSelectPair, WMultiDropdown and WMultiTextField #1404.
+
+## Release 1.4.14
 
 ### Bug Fixes
 
@@ -13,12 +23,9 @@
 * Fix an error in the wcomponent-theme POM #1390.
 * Fixed regressions from 1.4.12 which could result in messages not being rendered correctly #1370.
 * Fixed an issue which could result in unexpected element alignment due to an error in the whitespace filter #1381.
+* Change the way dropdown typeahead (selectboxSearch) works to better align with the way most modern browsers fire the change event QC169945.
 
 ## Release 1.4.13
-
-### API Changes
-
-### Enhancements
 
 ### Bug Fixes
 

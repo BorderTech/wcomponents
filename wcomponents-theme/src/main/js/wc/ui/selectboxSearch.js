@@ -26,9 +26,22 @@ define(["wc/string/escapeRe",
 					textTrumpsValue: true,
 					minLenSubstring: 3,
 					minLenVal: 1,
-					debounceDelay: 250
+					debounceDelay: 125  // making this too long can be counter-productive
 				},
-				fireOnchange = false,
+				selectionChanged = debounce(function(element) {
+					// programatically changing the select will not fire change so we gots to do it ourselves
+					/*
+					 * Note that we used to fire the change event only when the dropdown lost focus,
+					 * in other words, as per any traditional change event.
+					 * Nowadays this is not consistent with the native behaviour of many browsers (Chrome, IE11) which
+					 * fire change as the selection changes. Only Firefox maintains the traditional behaviour.
+					 * This inconsistency can lead to unexpected behaviour since the native typeahead will be firing changes
+					 * while this typeahead will not. If there are side effects (e.g. an AJAX update is triggered) then the
+					 * dropdown may be displaying a value that is not appropriate for the current state (only resolved when the user
+					 * moves on in the form).
+					 */
+					event.fire(element, event.TYPE.change);
+				}, 0),
 				debouncedSearch,
 				NO_ENDS_WITH_STRING_RE = /[^ ]$/,
 				/* NOTE: moved the initialisation of ALLOWED to initialise because
@@ -39,7 +52,11 @@ define(["wc/string/escapeRe",
 				searchElementId,
 				regexCache = { starts: {}, contains: {} };
 
-
+			/**
+			 * Determine if this element needs the typeahead, i.e. it is a dropdown.
+			 * @param {Element} element An element that may potentially require typeahead.
+			 * @returns {Element} The element that requires typeahead, or null.
+			 */
 			function needsSelectSearch(element) {
 				var result = null;
 				if (element.tagName === tag.SELECT && !element.multiple) {
@@ -53,12 +70,8 @@ define(["wc/string/escapeRe",
 				if (needsSelectSearch(element)) {
 					initConfig();
 					initSelect(element);
-					closeSearch(element);
+					closeSearch();
 				}
-			}
-
-			function blurEvent(evt) {
-				closeSearch(evt.currentTarget);
 			}
 
 			function keydownEvent(evt) {
@@ -148,7 +161,7 @@ define(["wc/string/escapeRe",
 				if (!inited) {
 					attribute.set(element, ns, true);
 					event.add(element, event.TYPE.click, focusEvent);
-					event.add(element, event.TYPE.blur, blurEvent);
+					event.add(element, event.TYPE.blur, closeSearch);
 					event.add(element, event.TYPE.keydown, keydownEvent);
 					event.add(element, event.TYPE.keypress, keypressEvent);
 				}
@@ -192,7 +205,6 @@ define(["wc/string/escapeRe",
 			 */
 			function highlightSearch(element, search) {
 				var match;
-				// fireOnchange = true;
 				if (search) {
 					if (config.textTrumpsValue) {
 						match = getMatchByText(element, search) || getMatchByValue(element, search);
@@ -222,12 +234,11 @@ define(["wc/string/escapeRe",
 			function selectMatch(element, match) {
 				timers.setTimeout(function() {
 					if (match) {
-						fireOnchange = true;
 						element.selectedIndex = match.index;
 					} else {
-						fireOnchange = true;
 						element.selectedIndex = 0;
 					}
+					selectionChanged(element);
 					element = null;
 					match = null;
 				}, 0);
@@ -331,19 +342,13 @@ define(["wc/string/escapeRe",
 
 			/**
 			 * "Close" the little box thingy that shows what you have typed so far
-			 * @param {Element} element The SELECT element the search box is attached to.
 			 */
-			function closeSearch(element) {
+			function closeSearch() {
 				var search = getSearchElement();
 				textContent.set(search, "");
 				if (!shed.isHidden(search, true)) {
 					hideSearch(search);
-					if (fireOnchange && element) {
-						// programatically changing the select will not fire change so we gots to do it ourselves
-						timers.setTimeout(event.fire, 0, element, event.TYPE.change);
-					}
 				}
-				fireOnchange = false;
 			}
 
 			function hideSearch(search) {
@@ -368,10 +373,7 @@ define(["wc/string/escapeRe",
 					return;
 				}
 				try {
-					var configOveride = wcconfig.get("wc/ui/selectboxSearch");
-					if (configOveride) {
-						mixin(configOveride, config);
-					}
+					config = wcconfig.get("wc/ui/selectboxSearch", config);
 				} finally {
 					config.inited = true;
 				}

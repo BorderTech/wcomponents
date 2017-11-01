@@ -58,9 +58,10 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			refocusId,
 			MIN_ATTRIB = "min",
 			MAX_ATTRIB = "max",
-			conf = wcconfig.get("wc/ui/calendar"),
-			MIN_YEAR = ((conf && conf.min) ? conf.min : 1000),
-			MAX_YEAR = ((conf && conf.max) ? conf.max : 9999);
+			conf = wcconfig.get("wc/ui/calendar", {
+				min: 1000,
+				max: 9999
+			});
 
 
 		function findMonthSelect() {
@@ -279,8 +280,8 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @param {Element} yearElement The input element holding the year.
 		 */
 		function yearChanged(yearElement) {
-			var min = yearElement.getAttribute(MIN_ATTRIB) || MIN_YEAR,
-				max = yearElement.getAttribute(MAX_ATTRIB) || MAX_YEAR;
+			var min = yearElement.getAttribute(MIN_ATTRIB) || conf.min,
+				max = yearElement.getAttribute(MAX_ATTRIB) || conf.max;
 			timers.clearTimeout(yearChangedTimeout);
 			yearChangedTimeout = timers.setTimeout(function() {
 				var value = getYearValueAsNumber(yearElement);
@@ -719,7 +720,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 						year.setAttribute(MIN_ATTRIB, xfrObj.year);
 					}
 				} else {
-					year.setAttribute(MIN_ATTRIB, MIN_YEAR);
+					year.setAttribute(MIN_ATTRIB, conf.min);
 				}
 
 				if (max) {
@@ -728,7 +729,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 						year.setAttribute(MAX_ATTRIB, xfrObj.year);
 					}
 				} else {
-					year.setAttribute(MAX_ATTRIB, MAX_YEAR);
+					year.setAttribute(MAX_ATTRIB, conf.max);
 				}
 			}
 		}
@@ -926,8 +927,8 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		function clearMinMaxYear() {
 			var year = document.getElementById(YEAR_ELEMENT_ID);
 			if (year) {
-				year.setAttribute(MIN_ATTRIB, MIN_YEAR);
-				year.setAttribute(MAX_ATTRIB, MAX_YEAR);
+				year.setAttribute(MIN_ATTRIB, conf.min);
+				year.setAttribute(MAX_ATTRIB, conf.max);
 			}
 		}
 

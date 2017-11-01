@@ -55,7 +55,7 @@
 								<xsl:value-of select="@autocomplete"/>
 							</xsl:attribute>
 						</xsl:if>
-						<xsl:apply-templates mode="selectableList"/>
+						<xsl:apply-templates select="ui:option|ui:optgroup" mode="selectableList"/>
 					</select>
 					<xsl:call-template name="hField"/>
 					<xsl:apply-templates select="ui:fieldindicator"/>

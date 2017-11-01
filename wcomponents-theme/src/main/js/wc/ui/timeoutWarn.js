@@ -10,8 +10,9 @@ define(["lib/sprintf", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/load
 		function TimeoutWarner() {
 			var expiresAt,
 				WARN_AT = 20000,  // warn user when this many milliseconds remaining, this default is the WCAG 2.0 minimum of 20 seconds
-				conf = wcconfig.get("wc/ui/timeoutWarn"),
-				MIN_TIMEOUT = (conf ? (conf.min || 30) : 30),
+				conf = wcconfig.get("wc/ui/timeoutWarn", {
+					min: 30
+				}),
 				timerWarn,
 				timerExpired,
 				CONTAINER_ID = "wc_session_container",
@@ -168,7 +169,7 @@ define(["lib/sprintf", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/load
 				var millis,
 					warning = (warnAt) ? Math.max((warnAt * 1000), WARN_AT) : WARN_AT;  // never let the timeout be less than the default
 
-				if (seconds >= MIN_TIMEOUT) {
+				if (seconds >= conf.min) {
 					millis = seconds * 1000;
 
 					if (timerWarn) {
