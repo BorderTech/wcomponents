@@ -68,6 +68,22 @@ define(["wc/dom/tag",
 			return [];
 		}
 
+		function getAriaLabel(element) {
+			var labelIds, result = [];
+			if (element) {
+				labelIds = element.getAttribute("aria-labelledby");
+				if (labelIds) {
+					labelIds.split(/\s* \s*/).forEach(function(labelId) {
+						var lblElement = document.getElementById(labelId);
+						if (lblElement !== null) {
+							result.push(document.getElementById(labelId));
+						}
+					});
+				}
+			}
+			return result;
+		}
+
 		/**
 		 * Gets labelling element/s (label, legend or pseudo-label) for a control.
 		 *
@@ -78,35 +94,36 @@ define(["wc/dom/tag",
 		 *  is returned.
 		 */
 		function getLabels(element, includeReadOnly) {
-			var result = [],
+			var ariaLabel = getAriaLabel(element),
+				result = [],
 				label,
 				tagName;
 
 			if (wrappedInput.isOneOfMe(element, includeReadOnly)) {
-				return getLabelsForWrapper(element, includeReadOnly);
-			}
+				result = getLabelsForWrapper(element, includeReadOnly);
+			} else {
+				FIELDSET = FIELDSET || new Widget(tag.FIELDSET);
+				if (FIELDSET.isOneOfMe(element)) {
+					LEGEND = LEGEND || new Widget("legend");
+					if ((label = LEGEND.findDescendant(element, true))) {
+						result = [label];
+					}
+				}
 
-			FIELDSET = FIELDSET || new Widget(tag.FIELDSET);
-			if (FIELDSET.isOneOfMe(element)) {
-				LEGEND = LEGEND || new Widget("legend");
-				if ((label = LEGEND.findDescendant(element, true))) {
-					result = [label];
+				result = doLabelQuery(element, result, includeReadOnly);
+
+				if (!(result && result.length)) {
+					// try getting an ancestor label element ONLY if element is input, textarea, select or progress.
+					tagName = element.tagName;
+					if (LABELABLE.indexOf(tagName) > -1) {
+						result = getAncestorLabel(element);
+					}
 				}
 			}
-
-			result = doLabelQuery(element, result, includeReadOnly);
-
-			if (result && result.length) {
-				return result;
+			for (var i = 0; i < ariaLabel.length; i++) {
+				result.push(ariaLabel[i]);
 			}
-
-			// try getting an ancestor label element ONLY if element is input, textarea, select or progress.
-			tagName = element.tagName;
-			if (~LABELABLE.indexOf(tagName)) {
-				return getAncestorLabel(element);
-			}
-
-			return [];
+			return result;
 		}
 		/**
 		 * @module

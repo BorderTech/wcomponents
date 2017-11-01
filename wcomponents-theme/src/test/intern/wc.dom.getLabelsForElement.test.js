@@ -44,7 +44,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			testGetLabelCountMoreThanOne: function() {
 				var element = document.getElementById("male"),
 					labels = controller(element),
-					expected = 2;
+					expected = 3;
 
 				assert.strictEqual(expected, labels.length);
 			},
@@ -66,6 +66,26 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				var result = controller(document.getElementById("unlabelled"));
 				assert.isTrue(Array.isArray(result));
 				assert.strictEqual(0, result.length);
+			},
+			testAriaLabel: function() {
+				var element = document.getElementById("aria-text");
+				var labels = controller(element);
+				var expected = document.getElementById("aria-label");
+				assert.strictEqual(expected, labels[0]);
+			},
+			testAriaLabelUnavailable: function() {
+				var element = document.getElementById("aria-text2");
+				var labels = controller(element);
+				assert.strictEqual(0, labels.length);
+			},
+			testAriaMultipleLabel: function() {
+				var element = document.getElementById("aria-text3");
+				var labels = controller(element);
+				var expected1 = document.getElementById("aria-label3");
+				var expected2 = document.getElementById("aria-label4");
+				assert.strictEqual(2, labels.length);
+				assert.strictEqual(expected1, labels[0]);
+				assert.strictEqual(expected2, labels[1]);
 			}
 		});
 	});
