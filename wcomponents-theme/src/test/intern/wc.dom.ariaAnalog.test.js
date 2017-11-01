@@ -1,5 +1,5 @@
-define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed", "./resources/test.utils"],
-	function (registerSuite, assert, controller, shed, testutils) {
+define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed", "wc/dom/event", "./resources/test.utils"],
+	function (registerSuite, assert, controller, shed, event, testutils) {
 		"use strict";
 
 		var testHolder,
@@ -9,6 +9,21 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 			listController,
 			radioController,
 			urlResource = "@RESOURCES@/ariaAnalog.html";
+
+		function getDummyKeydownEvent(target, keyCode, ALT, SHIFT, CTRL) {
+			return {
+				target: target,
+				type: event.TYPE.keydown,
+				defaultPrevented: false,
+				preventDefault: function() {
+					this.defaultPrevented = true;
+				},
+				keyCode: keyCode,
+				altKey: ALT,
+				shiftKey: SHIFT,
+				ctrlKey: CTRL
+			};
+		}
 
 		registerSuite({
 			name: "wc/dom/ariaAnalog",
@@ -49,11 +64,10 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 				assert.isNull(controller._extendedInitialisation, "_extendedInitialisation default not as expected");
 			},
 			testFreeze: function() {
-				if (typeof Object.freeze !== "undefined") {
-					assert.isFrozen(controller);
-				} else {
+				if (typeof Object.freeze === "undefined") {
 					this.skip("no freeze to test");
 				}
+				assert.isFrozen(controller);
 			},
 			testITEM: function() {
 				assert.isUndefined(controller.ITEM);
@@ -207,6 +221,251 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 				assert.isTrue(shed.isSelected(target), "target should be initially selected");
 				listController.clickEvent(fakeEvent);
 				assert.isTrue(shed.isSelected(target), "target should still be selected");
+			},
+			testKeydownEvent: function() {
+				var start = document.getElementById("rb0-0"),
+					evt = getDummyKeydownEvent(start, KeyEvent.DOM_VK_DOWN);
+				assert.isFalse(evt.defaultPrevented, "evt.defaultPrevented not as expected");
+				radioController.keydownEvent(evt);
+				assert.isTrue(evt.defaultPrevented, "evt.defaultPrevented should be true");
+			},
+			testKeydownEvent_alt: function() {
+				var start = document.getElementById("rb0-0"),
+					evt = getDummyKeydownEvent(start, KeyEvent.DOM_VK_DOWN, true);
+				assert.isFalse(evt.defaultPrevented, "evt.defaultPrevented not as expected");
+				radioController.keydownEvent(evt);
+				assert.isFalse(evt.defaultPrevented, "evt.defaultPrevented should still not be true");
+			},
+			testKeydownEvent_selectOnNavigate: function() {
+				var start = document.getElementById("rb0-0"),
+					expectedEnd = document.getElementById("rb0-1"),
+					evt = getDummyKeydownEvent(start, KeyEvent.DOM_VK_DOWN);
+
+				assert.isFalse(shed.isSelected(expectedEnd));
+				radioController.keydownEvent(evt);
+				assert.isTrue(shed.isSelected(expectedEnd));
+			},
+			testKeydownEvent_SPACE: function() {
+				var target = document.getElementById("rb0-1"),
+					evt = getDummyKeydownEvent(target, KeyEvent.DOM_VK_SPACE);
+				assert.isFalse(evt.defaultPrevented, "evt.defaultPrevented not as expected");
+				assert.isFalse(shed.isSelected(target));
+				radioController.keydownEvent(evt);
+				assert.isTrue(evt.defaultPrevented, "evt.defaultPrevented should be true");
+				assert.isTrue(shed.isSelected(target), "target should now be selected");
+			},
+			testKeydownEvent_RETURN: function() {
+				var target = document.getElementById("rb0-1"),
+					evt = getDummyKeydownEvent(target, KeyEvent.DOM_VK_RETURN);
+				assert.isFalse(evt.defaultPrevented, "evt.defaultPrevented not as expected");
+				assert.isFalse(shed.isSelected(target));
+				radioController.keydownEvent(evt);
+				assert.isTrue(evt.defaultPrevented, "evt.defaultPrevented should be true");
+				assert.isTrue(shed.isSelected(target), "target should now be selected");
+			},
+			testKeydownEvent_END: function() {
+				var start = document.getElementById("rb0-0"),
+					expectedEnd = document.getElementById("rb0-4"),
+					evt = getDummyKeydownEvent(start, KeyEvent.DOM_VK_END);
+
+				assert.isFalse(shed.isSelected(expectedEnd));
+				radioController.keydownEvent(evt);
+				assert.isTrue(shed.isSelected(expectedEnd));
+			},
+			testKeydownEvent_HOME: function() {
+				var start = document.getElementById("rb0-4"),
+					expectedEnd = document.getElementById("rb0-0"),
+					evt = getDummyKeydownEvent(start, KeyEvent.DOM_VK_HOME);
+
+				shed.select(start); // changes radio selection
+				assert.isFalse(shed.isSelected(expectedEnd));
+				radioController.keydownEvent(evt);
+				assert.isTrue(shed.isSelected(expectedEnd));
+			},
+			testKeydownEvent_DOWN_ctrl: function() {
+				var start = document.getElementById("rb0-0"),
+					expectedEnd = document.getElementById("rb0-1"),
+					evt = getDummyKeydownEvent(start, KeyEvent.DOM_VK_DOWN, false, false, true);
+				assert.isFalse(evt.defaultPrevented, "evt.defaultPrevented not as expected");
+				assert.isFalse(shed.isSelected(expectedEnd));
+				radioController.keydownEvent(evt);
+				assert.isFalse(shed.isSelected(expectedEnd), "Should not select if ctrl key pressed");
+				assert.isTrue(evt.defaultPrevented, "evt.defaultPrevented should be true");
+			},
+			testKeydownEvent_skip_disabled: function() {
+				var start = document.getElementById("rb0-4"),
+					expectedEnd = document.getElementById("rb0-2"),
+					evt = getDummyKeydownEvent(start, KeyEvent.DOM_VK_UP);
+
+				shed.select(start); // changes radio selection
+				assert.isFalse(shed.isSelected(expectedEnd));
+				radioController.keydownEvent(evt);
+				assert.isTrue(shed.isSelected(expectedEnd));
+			},
+			testKeydownEvent_LEFT_is_previous: function() {
+				var start = document.getElementById("rb0-4"),
+					expectedEnd = document.getElementById("rb0-2"),
+					evt = getDummyKeydownEvent(start, KeyEvent.DOM_VK_LEFT);
+
+				shed.select(start); // changes radio selection
+				assert.isFalse(shed.isSelected(expectedEnd));
+				radioController.keydownEvent(evt);
+				assert.isTrue(shed.isSelected(expectedEnd));
+			},
+			testKeydownEvent_RIGHT_is_next: function() {
+				var start = document.getElementById("rb0-0"),
+					expectedEnd = document.getElementById("rb0-1"),
+					evt = getDummyKeydownEvent(start, KeyEvent.DOM_VK_RIGHT);
+
+				assert.isFalse(shed.isSelected(expectedEnd));
+				radioController.keydownEvent(evt);
+				assert.isTrue(shed.isSelected(expectedEnd));
+			}, // tests of multi selection based on chordal strokes need a multi-selectable grouped analog, listAnalog calls ariaAnalog#keydownEvent
+			testKeydownEvent_shift_multiSelect: function() {
+				var start = document.getElementById("lb0-0"),
+					expectedEnd = document.getElementById("lb0-1"),
+					container = document.getElementById("lb0"),
+					evt = getDummyKeydownEvent(start, KeyEvent.DOM_VK_DOWN, false, true);
+				container.setAttribute("aria-multiselectable", "true");
+				assert.isFalse(evt.defaultPrevented, "evt.defaultPrevented not as expected");
+				assert.isTrue(shed.isSelected(start), "start element not in expected selected state");
+				assert.isFalse(shed.isSelected(expectedEnd), "end element not in expected selected state");
+				listController.keydownEvent(evt);
+				assert.isTrue(shed.isSelected(expectedEnd), "Should select if shift key pressed");
+				assert.isTrue(shed.isSelected(start), "start element should still be selected");
+				assert.isTrue(evt.defaultPrevented, "evt.defaultPrevented should be true");
+			},
+			testKeydownEvent_shift_notMulti: function() {
+				var start = document.getElementById("lb0-0"),
+					expectedEnd = document.getElementById("lb0-1"),
+					container = document.getElementById("lb0"),
+					evt = getDummyKeydownEvent(start, KeyEvent.DOM_VK_DOWN, false, true);
+				container.removeAttribute("aria-multiselectable"); // just in case
+				assert.isFalse(evt.defaultPrevented, "evt.defaultPrevented not as expected");
+				assert.isTrue(shed.isSelected(start), "start element not in expected selected state");
+				assert.isFalse(shed.isSelected(expectedEnd), "end element not in expected selected state");
+				listController.keydownEvent(evt);
+				assert.isTrue(shed.isSelected(expectedEnd), "Should select if shift key pressed");
+				assert.isFalse(shed.isSelected(start), "start element should no longer be selected as not multi-selectable");
+				assert.isTrue(evt.defaultPrevented, "evt.defaultPrevented should be true");
+			},
+			testKeydownEvent_shift_ctrl_withMultiSelect: function() {
+				var start = document.getElementById("lb0-0"),
+					expectedEnd = document.getElementById("lb0-1"),
+					container = document.getElementById("lb0"),
+					evt = getDummyKeydownEvent(start, KeyEvent.DOM_VK_DOWN, false, true, true);
+				container.setAttribute("aria-multiselectable", "true");
+				assert.isFalse(evt.defaultPrevented, "evt.defaultPrevented not as expected");
+				assert.isTrue(shed.isSelected(start), "start element not in expected selected state");
+				assert.isFalse(shed.isSelected(expectedEnd), "end element not in expected selected state");
+				listController.keydownEvent(evt);
+				assert.isFalse(shed.isSelected(expectedEnd), "Should not select if ctrl key pressed with shift");
+				assert.isTrue(shed.isSelected(start), "start element should still be selected");
+				assert.isTrue(evt.defaultPrevented, "evt.defaultPrevented should be true");
+			},
+			testDoGroupSelect: function() {
+				var lastSelected = document.getElementById("lb0-0"),
+					target = document.getElementById("lb0-4"),
+					container = document.getElementById("lb0"),
+					options = listController.ITEM.findDescendants(container);
+				container.setAttribute("aria-multiselectable", "true");
+
+				Array.prototype.forEach.call(options, function(next) {
+					if (next === lastSelected) {
+						assert.isTrue(shed.isSelected(next), "Selected option " + next.id + " not in expected initial selected state");
+					} else {
+						assert.isFalse(shed.isSelected(next), "Option " + next.id + " not in expected initial selected state");
+					}
+				});
+				listController.doGroupSelect(target, lastSelected);
+
+				Array.prototype.forEach.call(options, function(next) {
+					if (shed.isDisabled(next)) {
+						assert.isFalse(shed.isSelected(next), "Disabled option " + next.id + " not in expected selected state");
+					} else {
+						assert.isTrue(shed.isSelected(next), "Option " + next.id + " not in expected selected state");
+					}
+				});
+			},
+			testDoGroupSelect_deselect: function() {
+				var lastSelected = document.getElementById("lb0-0"),
+					target = document.getElementById("lb0-4"),
+					container = document.getElementById("lb0"),
+					options = listController.ITEM.findDescendants(container);
+				container.setAttribute("aria-multiselectable", "true");
+
+				Array.prototype.forEach.call(options, function(next) {
+					if (!shed.isDisabled(next)) {
+						shed.select(next, true); // silently select - no prblish - just to get everything into the expected state.
+					}
+				});
+				shed.deselect(lastSelected, true);
+				Array.prototype.forEach.call(options, function(next) {
+					if (next === lastSelected || shed.isDisabled(next)) {
+						assert.isFalse(shed.isSelected(next), "Deselected option " + next.id + " not in expected initial selected state");
+					} else {
+						assert.isTrue(shed.isSelected(next), "Option " + next.id + " not in expected initial selected state");
+					}
+				});
+				listController.doGroupSelect(target, lastSelected);
+
+				Array.prototype.forEach.call(options, function(next) {
+					assert.isFalse(shed.isSelected(next), "Option " + next.id + " should not be selected");
+				});
+			},
+			testDoGroupSelect_deselect_outsideSelection: function() {
+				var lastSelected = document.getElementById("lb0-0"),
+					target = document.getElementById("lb0-2"),
+					outsider = document.getElementById("lb0-4"),
+					container = document.getElementById("lb0"),
+					options = listController.ITEM.findDescendants(container);
+				container.setAttribute("aria-multiselectable", "true");
+				shed.select(outsider, true);
+
+				Array.prototype.forEach.call(options, function(next) {
+					if (next === lastSelected || next === outsider) {
+						assert.isTrue(shed.isSelected(next), "Selected option " + next.id + " not in expected initial selected state");
+					} else {
+						assert.isFalse(shed.isSelected(next), "Option " + next.id + " not in expected initial selected state");
+					}
+				});
+
+				listController.doGroupSelect(target, lastSelected);
+
+				Array.prototype.forEach.call(options, function(next) {
+					if (next === outsider || shed.isDisabled(next)) {
+						assert.isFalse(shed.isSelected(next), "Deselected option " + next.id + " should be deselected");
+					} else {
+						assert.isTrue(shed.isSelected(next), "Option " + next.id + " should be selected");
+					}
+				});
+			},
+			testDoGroupSelect_noDeselect_outsideSelection_with_CTRL: function() {
+				var lastSelected = document.getElementById("lb0-0"),
+					target = document.getElementById("lb0-2"),
+					outsider = document.getElementById("lb0-4"),
+					container = document.getElementById("lb0"),
+					options = listController.ITEM.findDescendants(container);
+				container.setAttribute("aria-multiselectable", "true");
+				shed.select(outsider, true);
+
+				Array.prototype.forEach.call(options, function(next) {
+					if (next === lastSelected || next === outsider) {
+						assert.isTrue(shed.isSelected(next), "Selected option " + next.id + " not in expected initial selected state");
+					} else {
+						assert.isFalse(shed.isSelected(next), "Option " + next.id + " not in expected initial selected state");
+					}
+				});
+
+				listController.doGroupSelect(target, lastSelected);
+
+				Array.prototype.forEach.call(options, function(next) {
+					if (shed.isDisabled(next)) {
+						assert.isFalse(shed.isSelected(next), "Deselected option " + next.id + " should be deselected");
+					} else {
+						assert.isTrue(shed.isSelected(next), "Option " + next.id + " should be selected");
+					}
+				});
 			}
 		});
 	}
