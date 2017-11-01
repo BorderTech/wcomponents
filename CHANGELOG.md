@@ -5,6 +5,13 @@
 ### API Changes
 
 ### Enhancements
+
+### Bug Fixes
+
+## Release 1.4.15
+
+### Enhancements
+
 * Client side: wc/config now caters for common "fetch, test, override" pattern of module configuration.
 * Client side: imageEditor can now be configured through the "wc/config" module.
 
