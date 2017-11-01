@@ -9,8 +9,9 @@
 * Client side: imageEditor can now be configured through the "wc/config" module.
 
 ### Bug Fixes
-* Client side: wc/dom/initialise could theoretically reset its observer instance before all subscribers had been called, this is now resolved.
 
+* Update field indicator renderer to allow them to appear for Inputs in a read-only state. This is for backwards compatibility.
+* Client side: wc/dom/initialise could theoretically reset its observer instance before all subscribers had been called, this is now resolved.
 * Fix position of messages relative to calendar launch button in polyfill of WDateField #1405.
 * Fix white-space of error and warning messages inside combos, WMultiSelectPair, WMultiDropdown and WMultiTextField #1404.
 
