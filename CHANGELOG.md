@@ -8,6 +8,20 @@
 
 ### Bug Fixes
 
+## Release 1.4.15
+
+### Enhancements
+
+* Client side: wc/config now caters for common "fetch, test, override" pattern of module configuration.
+* Client side: imageEditor can now be configured through the "wc/config" module.
+
+### Bug Fixes
+
+* Update field indicator renderer to allow them to appear for Inputs in a read-only state. This is for backwards compatibility.
+* Client side: wc/dom/initialise could theoretically reset its observer instance before all subscribers had been called, this is now resolved.
+* Fix position of messages relative to calendar launch button in polyfill of WDateField #1405.
+* Fix white-space of error and warning messages inside combos, WMultiSelectPair, WMultiDropdown and WMultiTextField #1404.
+
 ## Release 1.4.14
 
 ### Bug Fixes
