@@ -5,6 +5,7 @@
 ### API Changes
 
 ### Enhancements
+* Client side: wc/dom/getLabelsForElement loads <label> for elements that define aria-labelledby attribute #1401
 
 ### Bug Fixes
 
