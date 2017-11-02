@@ -175,7 +175,7 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	 *
 	 * @return true if file type valid, false file type invalid.
 	 */
-	public Boolean isFileTypeValid() {
+	public boolean isFileTypeValid() {
 		return getComponentModel().validFileType;
 	}
 
@@ -185,7 +185,7 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	 *
 	 * @return true if file size valid, false file size invalid, otherwise null.
 	 */
-	public Boolean isFileSizeValid() {
+	public boolean isFileSizeValid() {
 		return getComponentModel().validFileSize;
 	}
 	
