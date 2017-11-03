@@ -24,6 +24,14 @@ public class WField extends AbstractContainer implements AjaxTarget, Subordinate
 	 * The component for the field.
 	 */
 	private final WComponent field;
+	/**
+	 * The warning indicator for the field.
+	 */
+	private final WFieldWarningIndicator warningIndicator;
+	/**
+	 * The error indicator for the field.
+	 */
+	private final WFieldErrorIndicator errorIndicator;
 
 	/**
 	 * Creates a WField with the specified label text and field.
@@ -67,6 +75,17 @@ public class WField extends AbstractContainer implements AjaxTarget, Subordinate
 				((AbstractWComponent) labelField).setLabel(origLabel);
 			}
 		}
+
+		// If there is a label field, and it is not nested in another WField, then set the error indicators
+		if (labelField != null && WebUtilities.getAncestorOfClass(WField.class, labelField) == this) {
+			warningIndicator = new WFieldWarningIndicator(labelField);
+			add(warningIndicator, "warningIndicator");
+			errorIndicator = new WFieldErrorIndicator(labelField);
+			add(errorIndicator, "errorIndicator");
+		} else {
+			warningIndicator = null;
+			errorIndicator = null;
+	}
 	}
 
 	/**
@@ -135,20 +154,16 @@ public class WField extends AbstractContainer implements AjaxTarget, Subordinate
 
 	/**
 	 * @return the field's error indicator
-	 * @deprecated never used, no replacement
 	 */
-	@Deprecated
 	public WFieldErrorIndicator getErrorIndicator() {
-		return null;
+		return errorIndicator;
 	}
 
 	/**
 	 * @return the field's warning indicator
-	 * @deprecated output as part of diagnosable, not used, no replacement
 	 */
-	@Deprecated
 	public WFieldWarningIndicator getWarningIndicator() {
-		return null;
+		return warningIndicator;
 	}
 
 	/**
