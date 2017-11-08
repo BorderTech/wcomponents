@@ -1,9 +1,9 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
+import com.github.bordertech.wcomponents.Diagnosable;
 import com.github.bordertech.wcomponents.Input;
 import com.github.bordertech.wcomponents.Renderer;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.WFieldSet;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.SystemException;
@@ -34,7 +34,7 @@ abstract class AbstractWFieldIndicatorRenderer extends AbstractWebXmlRenderer {
 
 		// no need to render an indicator for nothing.
 		// Diagnosables takes care of thieir own  messaging.
-		if (validationTarget == null || validationTarget instanceof WFieldSet) {
+		if (validationTarget == null || (validationTarget instanceof Diagnosable && !(validationTarget instanceof Input))) {
 			return;
 		}
 

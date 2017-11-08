@@ -9,6 +9,12 @@
 
 ### Bug Fixes
 
+## Release 1.4.16
+
+### Bug Fixes
+
+* Restored WFieldWarningIndicator and WFieldErrorIndicator to WField for backwards compatibility.
+
 ## Release 1.4.15
 
 ### Enhancements
