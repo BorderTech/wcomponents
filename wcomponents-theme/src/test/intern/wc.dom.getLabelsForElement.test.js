@@ -68,43 +68,43 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				assert.strictEqual(0, result.length);
 			},
 			testAriaLabel: function() {
-				var element = document.getElementById("aria-text");
-				var labels = controller(element);
-				var expected = document.getElementById("aria-label");
+				var element = document.getElementById("aria-text"),
+					labels = controller(element),
+					expected = document.getElementById("aria-label");
 				assert.strictEqual(expected, labels[0]);
 			},
 			testAriaLabelUnavailable: function() {
-				var element = document.getElementById("aria-text2");
-				var labels = controller(element);
+				var element = document.getElementById("aria-text2"),
+					labels = controller(element);
 				assert.strictEqual(0, labels.length);
 			},
 			testAriaMultipleLabel: function() {
-				var element = document.getElementById("aria-text3");
-				var labels = controller(element);
-				var expected1 = document.getElementById("aria-label3");
-				var expected2 = document.getElementById("aria-label4");
+				var element = document.getElementById("aria-text3"),
+					labels = controller(element),
+					expected1 = document.getElementById("aria-label3"),
+					expected2 = document.getElementById("aria-label4");
 				assert.strictEqual(2, labels.length);
 				assert.strictEqual(expected1, labels[0]);
 				assert.strictEqual(expected2, labels[1]);
 			},
 			testAriaMultipleLabel2: function() {
-				var element = document.getElementById("aria-input");
-				var labels = controller(element);
-				var expected1 = document.getElementById("billing");
-				var expected2 = document.getElementById("name");
+				var element = document.getElementById("aria-input"),
+					labels = controller(element),
+					expected1 = document.getElementById("billing"),
+					expected2 = document.getElementById("name");
 				assert.strictEqual(2, labels.length);
 				assert.strictEqual(expected1, labels[0]);
 				assert.strictEqual(expected2, labels[1]);
 			},
 			testDivElementAriaLabel: function() {
-				var element = document.getElementById("main");
-				var labels = controller(element);
-				var expected = document.getElementById("foo");
+				var element = document.getElementById("main"),
+					labels = controller(element),
+					expected = document.getElementById("foo");
 				assert.strictEqual(expected, labels[0]);
 			},
 			testNullElement: function() {
 				var labels = controller(null);
-				assert.strictEqual(0, labels.length);
+				assert(!labels);
 			}
 		});
 	});

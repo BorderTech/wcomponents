@@ -69,19 +69,21 @@ define(["wc/dom/tag",
 		}
 
 		/**
-		 * Get <label> defined in aria-labelledby attribute
-		 * @param {Element} element The element with or without aria-labelledby attribute
-		 * @returns {Array} An array of <label> elements. If attribute aria-labelledby is not found 
-		 * or no <label> with ID defined is found, then an empty array is returned.
+		 * Get element/s defined in aria-labelledby attribute
+		 * @param {Element} element The element with or without aria-labelledby attribute.
+		 * @returns {Array} An array of element/s. Element with 'id/s' listed in aria-labelledby attribute.
+		 * If either element with 'id' is not found, or aria-labelledby attribute is not found, then an empty array is returned.
 		 */
-		function getAriaLabels(element) {
+		function getAriaLabelledElements(element) {
 			var labelIds, ariaLabels = [], lblElement;
 			labelIds = element.getAttribute("aria-labelledby");
 			if (labelIds) {
-				labelIds.split(/(\s+)/).forEach(function(labelId) {
-					lblElement = document.getElementById(labelId);
-					if (lblElement) {
-						ariaLabels.push(lblElement);
+				labelIds.split(/\s+/).forEach(function(labelId) {
+					if (labelId) {
+						lblElement = document.getElementById(labelId);
+						if (lblElement) {
+							ariaLabels.push(lblElement);
+						}
 					}
 				});
 			}
@@ -98,40 +100,36 @@ define(["wc/dom/tag",
 		 *  is returned.
 		 */
 		function getLabels(element, includeReadOnly) {
+			var ariaLabelledElements = [],
+				nativeLabeledElements = [],
+				label,
+				tagName;
 			if (element) {
-				var ariaLabels,
-					nativeLabels = [],
-					label,
-					tagName;
-
-				ariaLabels = getAriaLabels(element);
+				ariaLabelledElements = getAriaLabelledElements(element);
 
 				if (wrappedInput.isOneOfMe(element, includeReadOnly)) {
-					nativeLabels = getLabelsForWrapper(element, includeReadOnly);
+					nativeLabeledElements = getLabelsForWrapper(element, includeReadOnly);
 				} else {
 					FIELDSET = FIELDSET || new Widget(tag.FIELDSET);
 					if (FIELDSET.isOneOfMe(element)) {
 						LEGEND = LEGEND || new Widget("legend");
 						if ((label = LEGEND.findDescendant(element, true))) {
-							nativeLabels = [label];
+							nativeLabeledElements = [label];
 						}
 					}
 
-					nativeLabels = doLabelQuery(element, nativeLabels, includeReadOnly);
+					nativeLabeledElements = doLabelQuery(element, nativeLabeledElements, includeReadOnly);
 
-					if (!(nativeLabels && nativeLabels.length)) {
+					if (!(nativeLabeledElements && nativeLabeledElements.length)) {
 						// try getting an ancestor label element ONLY if element is input, textarea, select or progress.
 						tagName = element.tagName;
 						if (LABELABLE.indexOf(tagName) > -1) {
-							nativeLabels = getAncestorLabel(element);
+							nativeLabeledElements = getAncestorLabel(element);
 						}
 					}
 				}
 				// Append ariaLabel elements at the end of nativeLabel elements
-				return nativeLabels.concat(ariaLabels);
-			} else {
-				// If element is not found return empty array
-				return [];
+				return nativeLabeledElements.concat(ariaLabelledElements);
 			}
 		}
 		/**
