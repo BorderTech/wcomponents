@@ -7,6 +7,10 @@
 ### Enhancements
 
 ### Bug Fixes
+
+## Release 1.4.17
+
+### Bug Fixes
 * MustacheFactory cannot switch off caching which can have adverse memory usage. As per the issue http://spullara/mustache.java#117 the recommended way to provide this functionality is to create a new MustacheFactory on every call to compile the template thus implicitly getting a clean cache every time #1290.
 
 ## Release 1.4.16
