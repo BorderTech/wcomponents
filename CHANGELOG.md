@@ -7,6 +7,9 @@
 ### Enhancements
 
 ### Bug Fixes
+* Work around IE11 bug which causes focus to be set to the body when a scrollbar is clicked (QC171025). 
+  This caused combobox lists to be closed when trying to scroll with mouse.
+  Combobox lists now close when an interactive component is focused, instead of when ANYTHING else is focused.
 
 ## Release 1.4.17
 
