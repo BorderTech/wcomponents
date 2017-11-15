@@ -7,6 +7,20 @@
 ### Enhancements
 
 ### Bug Fixes
+* Work around IE11 bug which causes focus to be set to the body when a scrollbar is clicked (QC171025). 
+  This caused combobox lists to be closed when trying to scroll with mouse.
+  Combobox lists now close when an interactive component is focused, instead of when ANYTHING else is focused.
+
+## Release 1.4.17
+
+### Bug Fixes
+* MustacheFactory cannot switch off caching which can have adverse memory usage. As per the issue http://spullara/mustache.java#117 the recommended way to provide this functionality is to create a new MustacheFactory on every call to compile the template thus implicitly getting a clean cache every time #1290.
+
+## Release 1.4.16
+
+### Bug Fixes
+
+* Restored WFieldWarningIndicator and WFieldErrorIndicator to WField for backwards compatibility.
 
 ## Release 1.4.15
 
