@@ -104,7 +104,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			},
 			testNullElement: function() {
 				var labels = controller(null);
-				assert(!labels);
+				assert.isNotOk(labels);
 			}
 		});
 	});

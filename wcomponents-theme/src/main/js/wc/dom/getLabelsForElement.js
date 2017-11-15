@@ -102,8 +102,7 @@ define(["wc/dom/tag",
 		function getLabels(element, includeReadOnly) {
 			var ariaLabelledElements = [],
 				nativeLabeledElements = [],
-				label,
-				tagName;
+				label;
 			if (element) {
 				ariaLabelledElements = getAriaLabelledElements(element);
 
@@ -122,8 +121,7 @@ define(["wc/dom/tag",
 
 					if (!(nativeLabeledElements && nativeLabeledElements.length)) {
 						// try getting an ancestor label element ONLY if element is input, textarea, select or progress.
-						tagName = element.tagName;
-						if (LABELABLE.indexOf(tagName) > -1) {
+						if (LABELABLE.indexOf(element.tagName) > -1) {
 							nativeLabeledElements = getAncestorLabel(element);
 						}
 					}
