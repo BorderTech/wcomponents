@@ -40,7 +40,8 @@ define(["wc/dom/event",
 					// todo: this filter can be deleted once we drop WDataTable as rows will no longer be able to be disabled
 					filter = getFilteredGroup.FILTERS.enabled | getFilteredGroup.FILTERS.selected,
 					otherSelected = 0,
-					selected = 0;
+					currentSelected = 0,
+					totalSelected = 0;
 
 				if ((table = ACTION_TABLE.findAncestor(button))) {
 					min = condition.min;
@@ -52,10 +53,15 @@ define(["wc/dom/event",
 						return true;
 					}
 
-					selected = parseInt((getFilteredGroup(ROW_CONTAINER.findDescendant(table), {filter: filter})).length)+
-						parseInt(otherSelected);
+					currentSelected = getFilteredGroup(ROW_CONTAINER.findDescendant(table), {filter: filter}).length;
+					otherSelected = parseInt(otherSelected) - parseInt(currentSelected);
 
-					if ((min && selected < parseInt(min, 10)) || (max && selected > parseInt(max, 10))) {
+					totalSelected = parseInt(currentSelected) + parseInt(otherSelected);
+
+					// totalSelected = parseInt((getFilteredGroup(ROW_CONTAINER.findDescendant(table), {filter: filter})).length)+
+					// 	parseInt(otherSelected);
+
+					if ((min && totalSelected < parseInt(min, 10)) || (max && totalSelected > parseInt(max, 10))) {
 						return false;
 					}
 				}

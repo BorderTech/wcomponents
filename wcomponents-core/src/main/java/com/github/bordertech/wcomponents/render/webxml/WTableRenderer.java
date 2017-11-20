@@ -307,7 +307,7 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 						xml.appendTagOpen("ui:condition");
 						xml.appendOptionalAttribute("minSelectedRows", minRows > 0, minRows);
 						xml.appendOptionalAttribute("maxSelectedRows", maxRows > 0, maxRows);
-						xml.appendOptionalAttribute("selectedOnOther", selectedOnOther);
+						xml.appendOptionalAttribute("selectedOnOther", minRows > 0 || maxRows > 0, selectedOnOther);
 						xml.appendAttribute("type", type);
 						xml.appendAttribute("message", I18nUtilities.format(null, message));
 						xml.appendEnd();
