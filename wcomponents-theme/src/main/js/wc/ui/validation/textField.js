@@ -88,8 +88,10 @@ define(["wc/dom/initialise",
 					// pattern (first email)
 					if (EMAIL.isOneOfMe(element)) {
 						if (RX_STRING === "") {
-							conf = wcconfig.get("wc/ui/validation/textField");
-							RX_STRING = conf && conf.rx ? conf.rx : null;
+							conf = wcconfig.get("wc/ui/validation/textField", {
+								rx: null
+							});
+							RX_STRING = conf.rx;
 						}
 
 						regexp = RX_STRING ? new RegExp(RX_STRING) : DEFAULT_RX;

@@ -10,15 +10,16 @@ define(["wc/dom/getViewportSize", "wc/config"], function (getViewportSize, wccon
 	function VpUtils() {
 		// For device limits in Sass see _common.scss.
 
-		var phoneLimit = 773, // The size of the largest device considered a phone: currently 773px of a Nexus 6.
-			// What is the upper limit of a small screen? This could be the 768 of a iPad in portrait orientation,
-			// the 1024 of an old-school monitor or an iPad in landscape orientation or something aribrary. The default
-			// 1000 was chosen as we find some things are quite usable on a tablet in landscape but are less usable in
-			// portrait. We prefer to use min/max-width as a media query rather than orientation for a variety of
-			// reasons.
-			smallScreenLimit = 1000,
-			// A large screen is bigger than 1080p.
-			largeScreenLimit = 1981,
+		var defaultConf = {
+				large: 1981,  // A large screen is bigger than 1080p.
+				// What is the upper limit of a small screen? This could be the 768 of a iPad in portrait orientation,
+				// the 1024 of an old-school monitor or an iPad in landscape orientation or something aribrary. The default
+				// 1000 was chosen as we find some things are quite usable on a tablet in landscape but are less usable in
+				// portrait. We prefer to use min/max-width as a media query rather than orientation for a variety of
+				// reasons.
+				small: 1000,
+				phone: 773  // The size of the largest device considered a phone: currently 773px of a Nexus 6.
+			},
 			medDefinition = 1.5,
 			highDefinition = 2,
 			pixelRatio = window.devicePixelRation || 1;
@@ -53,12 +54,8 @@ define(["wc/dom/getViewportSize", "wc/config"], function (getViewportSize, wccon
 		 * @returns {Boolean} true if the viewport width is no bigger than the configured limit for a phone.
 		 */
 		this.isPhoneLike = function() {
-			var conf = wcconfig.get("wc/ui/viewportUtils"),
-				limit = phoneLimit;
-			if (conf && conf.phone && !isNaN(conf.phone)) {
-				limit = conf.phone;
-			}
-			return testViewportSize(limit);
+			var conf = getConfig();
+			return testViewportSize(conf.phone);
 		};
 
 		/**
@@ -70,12 +67,8 @@ define(["wc/dom/getViewportSize", "wc/config"], function (getViewportSize, wccon
 		 * @returns {Boolean} true if the viewport width is no bigger than the configured limit for a small screen.
 		 */
 		this.isSmallScreen = function() {
-			var conf = wcconfig.get("wc/ui/viewportUtils"),
-				limit = smallScreenLimit;
-			if (conf && conf.small && !isNaN(conf.small)) {
-				limit = conf.small;
-			}
-			return testViewportSize(limit);
+			var conf = getConfig();
+			return testViewportSize(conf.small);
 		};
 
 		/**
@@ -87,13 +80,19 @@ define(["wc/dom/getViewportSize", "wc/config"], function (getViewportSize, wccon
 		 * @returns {Boolean} true if the viewport width is at least that of the configured limit for a big screen.
 		 */
 		this.isLargeScreen = function() {
-			var conf = wcconfig.get("wc/ui/viewportUtils"),
-				limit = largeScreenLimit;
-			if (conf && conf.large && !isNaN(conf.large)) {
-				limit = conf.large;
-			}
-			return testViewportSize(limit, true);
+			var conf = getConfig();
+			return testViewportSize(conf.large, true);
 		};
+
+		function getConfig() {
+			var conf = wcconfig.get("wc/ui/viewportUtils", defaultConf);
+			Object.keys(defaultConf).forEach(function(prop) {
+				if (!conf[prop] || isNaN(conf[prop])) {
+					conf[prop] = defaultConf[prop];
+				}
+			});
+			return conf;
+		}
 
 		/**
 		 * Is the current screen a high definition screen?

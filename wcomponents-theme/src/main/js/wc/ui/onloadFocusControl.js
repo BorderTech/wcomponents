@@ -8,9 +8,10 @@ define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/t
 		 */
 		function OnloadFocusControl() {
 			var focusId,
-				conf = wcconfig.get("wc/ui/onloadFocusControl"),
-				SCROLL_TO_TOP = (conf ? conf.rescroll : false),  // true to turn on scroll to top of viewport on load focus, false will apply user agent default (usually scroll to just in view)
-				FOCUS_DELAY = null; // if set to a non-negstive integer this will delay focus requests to allow native autofocus to work. Native autofocus is currently problematic since it does not fire a focus event.
+				conf = wcconfig.get("wc/ui/onloadFocusControl", {
+					rescroll: false,  // true to turn on scroll to top of viewport on load focus, false will apply user agent default (usually scroll to just in view),
+					focusDelay: null  // if set to a non-negstive integer this will delay focus requests to allow native autofocus to work. Native autofocus is currently problematic since it does not fire a focus event.
+				});
 
 			/**
 			 * Set focus request on page load.
@@ -38,7 +39,7 @@ define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/t
 			 * @param {Element} focusElement The element being focused.
 			 */
 			function focusCallback(focusElement) {
-				if (SCROLL_TO_TOP) {
+				if (conf.rescroll) {
 					focusElement.scrollIntoView();
 				}
 			}
@@ -102,7 +103,7 @@ define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/t
 				if (focusId) {
 					instance.requestFocus(focusId, null, true);
 				} else if (triggerId) {
-					instance.requestFocus(triggerId, FOCUS_DELAY, null, true);
+					instance.requestFocus(triggerId, conf.focusDelay, null, true);
 				}
 			}
 
@@ -134,7 +135,7 @@ define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/t
 			 * @param {Boolean} val True for scroll to top, otherwise false.
 			 */
 			this.setScrollToTop = function(val) {
-				SCROLL_TO_TOP = val;
+				conf.rescroll = val;
 			};
 
 			/**

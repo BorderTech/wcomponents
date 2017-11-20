@@ -19,8 +19,9 @@ define(["wc/has",
 	"wc/ui/ajaxRegion",
 	"wc/ui/ajax/processResponse",
 	"wc/ui/onchangeSubmit",
+	"wc/ui/feedback",
 	"wc/ui/listboxAnalog"],
-	function(has, unique, Parser, interchange, Format, attribute, cancelUpdate, event, focus, formUpdateManager, initialise, shed, tag, Widget, i18n, timers, key, textContent, ajaxRegion, processResponse, onchangeSubmit) {
+	function(has, unique, Parser, interchange, Format, attribute, cancelUpdate, event, focus, formUpdateManager, initialise, shed, tag, Widget, i18n, timers, key, textContent, ajaxRegion, processResponse, onchangeSubmit, feedback) {
 		"use strict";
 
 		/* unused dependencies:
@@ -102,7 +103,12 @@ define(["wc/has",
 				var childEl,
 					value,
 					launcherHtml,
-					id;
+					listHTML,
+					id,
+					diagnostic,
+					BEFORE_BEGIN = "beforebegin",
+					BEFORE_END = "beforeend";
+
 				childEl = instance.getTextBox(element);
 				if (!childEl) {
 					return;
@@ -117,6 +123,8 @@ define(["wc/has",
 					}
 				}
 
+				diagnostic = feedback.getLast(element);
+
 				// Add the calendar launch button.
 				if (!(LAUNCHER.findDescendant(element))) {
 					launcherHtml = "<button value='" + id + "_input' tabindex='-1' id='" + id +
@@ -125,12 +133,20 @@ define(["wc/has",
 						launcherHtml += " disabled='disabled'";
 					}
 					launcherHtml += "><i class='fa fa-calendar' aria-hidden='true'></i></button>";
-
-					element.insertAdjacentHTML("beforeend", launcherHtml);
+					if (diagnostic) {
+						diagnostic.insertAdjacentHTML(BEFORE_BEGIN, launcherHtml);
+					} else {
+						element.insertAdjacentHTML(BEFORE_END, launcherHtml);
+					}
 				}
 				// Then add the suggestion list holder to make the combobox role valid.
 				if (!(getSuggestionList(element, -1))) {
-					element.insertAdjacentHTML("beforeend", "<span role='listbox' aria-busy='true'></span>");
+					listHTML = "<span role='listbox' aria-busy='true'></span>";
+					if (diagnostic) {
+						diagnostic.insertAdjacentHTML(BEFORE_BEGIN, listHTML);
+					} else {
+						element.insertAdjacentHTML(BEFORE_END, listHTML);
+					}
 				}
 
 				element.setAttribute("role", "combobox");

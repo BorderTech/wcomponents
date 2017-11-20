@@ -30,8 +30,9 @@ define(["wc/dom/attribute",
 				dragging,
 				offsetX = {},
 				offsetY = {},
-				conf = wcconfig.get("wc/ui/draggable"),
-				KEY_MOVE = ((conf && conf.step) ? conf.step : 8),  // the number of pixels by which a draggable is moved by keyboard
+				conf = wcconfig.get("wc/ui/draggable", {
+					step: 8  // the number of pixels by which a draggable is moved by keyboard
+				}),
 				BS = ns + ".inited";
 
 			/**
@@ -125,16 +126,16 @@ define(["wc/dom/attribute",
 				if (!$event.defaultPrevented && (element = DRAGGABLE.findAncestor(target))) {
 					switch (keyCode) {
 						case KeyEvent.DOM_VK_RIGHT:
-							x = KEY_MOVE;
+							x = conf.step;
 							break;
 						case KeyEvent.DOM_VK_LEFT:
-							x = 0 - KEY_MOVE;
+							x = 0 - conf.step;
 							break;
 						case KeyEvent.DOM_VK_DOWN:
-							y = KEY_MOVE;
+							y = conf.step;
 							break;
 						case KeyEvent.DOM_VK_UP:
-							y = 0 - KEY_MOVE;
+							y = 0 - conf.step;
 							break;
 					}
 				}

@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.Diagnosable;
+import com.github.bordertech.wcomponents.Input;
 import com.github.bordertech.wcomponents.Renderer;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
@@ -33,7 +34,11 @@ abstract class AbstractWFieldIndicatorRenderer extends AbstractWebXmlRenderer {
 
 		// no need to render an indicator for nothing.
 		// Diagnosables takes care of thieir own  messaging.
-		if (validationTarget == null || validationTarget instanceof Diagnosable) {
+		if (validationTarget == null || (validationTarget instanceof Diagnosable && !(validationTarget instanceof Input))) {
+			return;
+		}
+
+		if (validationTarget instanceof Input && !((Input) validationTarget).isReadOnly()) {
 			return;
 		}
 

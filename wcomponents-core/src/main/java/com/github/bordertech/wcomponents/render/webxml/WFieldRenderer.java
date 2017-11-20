@@ -45,6 +45,15 @@ final class WFieldRenderer extends AbstractWebXmlRenderer {
 		if (field.getField() != null) {
 			xml.appendTag("ui:input");
 			field.getField().paint(renderContext);
+
+			if (field.getErrorIndicator() != null) {
+				field.getErrorIndicator().paint(renderContext);
+			}
+
+			if (field.getWarningIndicator() != null) {
+				field.getWarningIndicator().paint(renderContext);
+			}
+
 			xml.appendEndTag("ui:input");
 		}
 
