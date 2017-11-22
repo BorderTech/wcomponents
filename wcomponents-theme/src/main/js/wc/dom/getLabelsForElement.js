@@ -75,10 +75,11 @@ define(["wc/dom/tag",
 		 * If either element with 'id' is not found, or aria-labelledby attribute is not found, then an empty array is returned.
 		 */
 		function getAriaLabelledElements(element) {
-			var labelIds, ariaLabels = [], lblElement;
-			labelIds = element.getAttribute("aria-labelledby");
+			var ariaLabels = [],
+				labelIds = element.getAttribute("aria-labelledby");
 			if (labelIds) {
 				labelIds.split(/\s+/).forEach(function(labelId) {
+					var lblElement;
 					if (labelId) {
 						lblElement = document.getElementById(labelId);
 						if (lblElement) {
