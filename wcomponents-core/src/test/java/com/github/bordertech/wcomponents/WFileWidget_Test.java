@@ -354,7 +354,7 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 		widget.validate(diags);
 		Assert.assertTrue("File type invalid, so message returned", diags.size() == 1);
 		Assert.assertFalse("File type invalid", widget.isFileTypeValid());
-		String invalidMessage = FileUtil.getInvalidFileTypesMessage(widget.getFileTypes());
+		String invalidMessage = FileUtil.getInvalidFileTypeMessage(widget.getFileTypes());
 		Assert.assertEquals("Invalid file size message", diags.get(0).getDescription(), invalidMessage);
 		
 		// Try same request again, make sure duplicate messages are not returned

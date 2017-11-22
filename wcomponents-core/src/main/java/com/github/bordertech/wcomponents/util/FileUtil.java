@@ -80,7 +80,7 @@ public final class FileUtil {
 		if (size <= 0) {
 			return "0";
 		}
-		final String[] units = new String[] { "B", "KB", "MB", "GB"};
+		final String[] units = new String[] {"B", "KB", "MB", "GB"};
 		int digitGroups = (int) (Math.log10(size) / Math.log10(1000));
 		return new DecimalFormat("#,##0.#").format(size / Math.pow(1000, digitGroups)) + " " + units[digitGroups];
 	}
@@ -90,7 +90,7 @@ public final class FileUtil {
 	 * @param fileTypes allowed fileTypes
 	 * @return human readable message
 	 */
-	public static String getInvalidFileTypesMessage(final List<String> fileTypes) {
+	public static String getInvalidFileTypeMessage(final List<String> fileTypes) {
 		return String.format(I18nUtilities.format(null, 
 				InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_TYPE), 
 				StringUtils.join(fileTypes.toArray(new Object[fileTypes.size()]), ","));

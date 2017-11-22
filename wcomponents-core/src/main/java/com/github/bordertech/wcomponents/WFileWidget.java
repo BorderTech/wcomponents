@@ -198,7 +198,7 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 		
 		if (!isFileTypeValid()) {
 			// Add invalid file type validation message.
-			String invalidMessage = FileUtil.getInvalidFileTypesMessage(getFileTypes());
+			String invalidMessage = FileUtil.getInvalidFileTypeMessage(getFileTypes());
 			Diagnostic diag = new DiagnosticImpl(Diagnostic.ERROR, this, invalidMessage);
 			diags.add(diag);
 		}

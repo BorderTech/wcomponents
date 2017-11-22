@@ -691,7 +691,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		
 		// if fileType is supplied then validate it
 		if (hasFileTypes() && !FileUtil.validateFileType(wrap, getFileTypes())) {
-			String invalidMessage = FileUtil.getInvalidFileTypesMessage(getFileTypes());
+			String invalidMessage = FileUtil.getInvalidFileTypeMessage(getFileTypes());
 			throw new SystemException(invalidMessage);
 		}
 

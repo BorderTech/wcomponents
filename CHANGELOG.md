@@ -7,7 +7,7 @@
 ### Enhancements
 
 ### Bug Fixes
-
+* Server-side validation of File(s) uploaded using WFileWidget and WMultiFileWidget #1079.
 ## Release 1.4.18
 
 ### Bug Fixes
