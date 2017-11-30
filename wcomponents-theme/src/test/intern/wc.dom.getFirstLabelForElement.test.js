@@ -34,6 +34,12 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils!"
 					label = getFirstLabelForElement(element, true),
 					expected = "Male";
 				assert.strictEqual(expected, label);
+			},
+			testGetFirstAriaLabel: function() {
+				var element = document.getElementById("aria-text"),
+					label = getFirstLabelForElement(element),
+					expected = document.getElementById("aria-label");
+				assert.strictEqual(expected, label);
 			}
 		});
 	});
