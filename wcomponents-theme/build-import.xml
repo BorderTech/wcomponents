@@ -127,6 +127,7 @@
 				<include name="**/*.css"/>
 				<include name="**/*.xsl"/>
 				<include name="**/*.xml"/>
+				<exclude name="**/lib/**"/>
 				<containsregexp expression="\$\{[^\}]+\}"/>
 				<!--<contains text="${"/> this would be much better as a regex-->
 			</fileset>

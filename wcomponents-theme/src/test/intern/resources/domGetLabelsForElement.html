@@ -1,10 +1,13 @@
 <form id = "form01">
-	<input type="radio" name="sex" id="male">
+	<input type="radio" name="sex" id="male" aria-labelledby="aria-label">
 	<label id="maleLabel" for="male">Male</label>
 	<span data-wc-for="male">Extra information</span>
 	<br />
 	<label id="femaleLabel">Female
 		<input type="radio" name="sex" id="female">
+	</label>
+	<label id="femaleLabel2" for="female2">Female
+		<input type="radio" name="sex2" id="female2">
 	</label>
 	<br />
 	<input type="radio" name="sex" id="yes">
@@ -12,9 +15,24 @@
 	<input type="radio" name="like" id="likeBatman">
 	<label id="likeBatmanLabel" for="likeBatman">Like Batman</label>
 	<fieldset id="fs1"><legend id="leg1">of Zenda</legend></fieldset>
-  <!-- fake label 'for' a component in a read-only state -->
-  <span id="rolabel" data-wc-rofor="rofield">read only</span><span id="rofield">content</span>
-  <label for="wrappedinput_input" id="wrappedlabel">label</label><span class="wc-input-wrapper" id="wrappedinput"><input type="text" id="wrappedinput_input"></span>
-  <span data-wc-rofor="wrappedroinput" id="wrappedrolabel">label</span><span class="wc-ro-input" id="wrappedroinput">value</span>
-  <input type="text" id="unlabelled">
+	<!-- fake label 'for' a component in a read-only state -->
+	<span id="rolabel" data-wc-rofor="rofield">read only</span><span id="rofield">content</span>
+	<label for="wrappedinput_input" id="wrappedlabel">label</label><span class="wc-input-wrapper" id="wrappedinput"><input type="text" id="wrappedinput_input"></span>
+	<span data-wc-rofor="wrappedroinput" id="wrappedrolabel">label</span><span class="wc-ro-input" id="wrappedroinput">value</span>
+	<input type="text" id="unlabelled">
+	<label id="aria-label">Name</label>
+	<input id="aria-text" type="text" aria-labelledby="aria-label"/>
+	<input id="aria-text2" type="text" aria-labelledby="aria-label-none"/>
+	<label id="aria-label3">Name</label>
+	<input id="aria-text3" type="text" aria-labelledby="  aria-label3   aria-label4   "/>
+	<label id="aria-label4">Name</label>
+	<div id="billing">Billing Address</div>
+	<div>
+		<div id="name">Name</div>
+		<input id="aria-input" type="text" aria-labelledby="billing name"/>
+	</div>
+	<div id="main" aria-labelledby="foo">
+		<h1 id="foo">Heading text</h1>
+		Div text
+	</div>
 </form>

@@ -110,20 +110,22 @@ define(["wc/Observer", "wc/timers", "wc/global", "lib/requirejs/domReady"],
 			* @param {Function} [callback] Function which will be called after all the routines are executed.
 			*/
 			this.go = function(element, callback) {
-				var goingObserver = observer;
-				try {
-					if (goingObserver) {
-						observer = null;  // any calls to add while executing will be placed into a new observer
-						goingObserver.notify(element);
-						if (callback && typeof callback === "function") {
-							callback();
+				var goingObserver = observer,
+					gone = function() {
+						try {
+							if (callback && typeof callback === "function") {
+								callback();
+							}
+						} finally {
+							if (observer === null) {  // if no new subscribers were added while were were executing the existing subscribers
+								goingObserver.reset();  // clear all the subscribers we have just finished calling
+								observer = goingObserver;  // put the empty observer instance back ready for new subscribers
+							}
 						}
-					}
-				} finally {
-					if (observer === null) {  // if no new subscribers were added while were were executing the existing subscribers
-						goingObserver.reset();  // clear all the subscribers we have just finished calling
-						observer = goingObserver;  // put the empty observer instance back ready for new subscribers
-					}
+					};
+				if (goingObserver) {
+					observer = null;  // any calls to add while executing will be placed into a new observer
+					goingObserver.notify(element).then(gone, gone);
 				}
 			};
 

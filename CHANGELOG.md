@@ -5,8 +5,41 @@
 ### API Changes
 
 ### Enhancements
+* Client side: wc/dom/getLabelsForElement an enhancement to load elements defined by 'aria-labelledby' attribute #1401.
 
 ### Bug Fixes
+
+## Release 1.4.18
+
+### Bug Fixes
+* Work around IE11 bug which causes focus to be set to the body when a scrollbar is clicked (QC171025).
+  This caused combobox lists to be closed when trying to scroll with mouse.
+  Combobox lists now close when an interactive component is focused, instead of when ANYTHING else is focused.
+
+## Release 1.4.17
+
+### Bug Fixes
+* MustacheFactory cannot switch off caching which can have adverse memory usage. As per the issue http://spullara/mustache.java#117 the recommended way to provide this functionality is to create a new MustacheFactory on every call to compile the template thus implicitly getting a clean cache every time #1290.
+
+## Release 1.4.16
+
+### Bug Fixes
+
+* Restored WFieldWarningIndicator and WFieldErrorIndicator to WField for backwards compatibility.
+
+## Release 1.4.15
+
+### Enhancements
+
+* Client side: wc/config now caters for common "fetch, test, override" pattern of module configuration.
+* Client side: imageEditor can now be configured through the "wc/config" module.
+
+### Bug Fixes
+
+* Update field indicator renderer to allow them to appear for Inputs in a read-only state. This is for backwards compatibility.
+* Client side: wc/dom/initialise could theoretically reset its observer instance before all subscribers had been called, this is now resolved.
+* Fix position of messages relative to calendar launch button in polyfill of WDateField #1405.
+* Fix white-space of error and warning messages inside combos, WMultiSelectPair, WMultiDropdown and WMultiTextField #1404.
 
 ## Release 1.4.14
 

@@ -40,21 +40,10 @@ define(["wc/has",
 				CLASS_CHATTY = "wc_combo_dyn",
 				CHATTY_COMBO = COMBO.extend(CLASS_CHATTY),
 				updateTimeout,
-				conf = wcconfig.get("wc/ui/comboBox"),
-				/**
-				 * Wait this long before updating the list on keydown.
-				 * @var
-				 * @type Number
-				 * @private
-				 */
-				DELAY = (conf ? (conf.delay || 250) : 250),
-				/**
-				 * Only update the list if the user has entered at least this number of characters.
-				 * @var
-				 * @type Number
-				 * @private
-				 */
-				DEFAULT_CHARS = (conf ? (conf.min || 3) : 3),
+				conf = wcconfig.get("wc/ui/comboBox", {
+					delay: 250,  // Wait this long before updating the list on keydown
+					min: 3  // Only update the list if the user has entered at least this number of characters.
+				}),
 				CHAR_KEYS,  // used in the keydown event handler if we cannot use the input event
 				nothingLeftReg = {};  // last search returned no match, keep the search term for future reference
 
@@ -170,7 +159,7 @@ define(["wc/has",
 				}
 
 				if (!(_delay || delay === 0)) {
-					_delay = DELAY;
+					_delay = conf.delay;
 				}
 				if (filterTimer) {
 					timers.clearTimeout(filterTimer);
@@ -223,7 +212,7 @@ define(["wc/has",
 			}
 
 			/**
-			 * Updates the datalist for a given combo element if the element's content is at least DEFAULT_CHARS.
+			 * Updates the datalist for a given combo element if the element's content is at least conf.min.
 			 * @function
 			 * @private
 			 * @param {Element} element The input element we are interested in.
@@ -236,12 +225,12 @@ define(["wc/has",
 					return;
 				}
 
-				min = list.getAttribute("data-wc-minchars") || DEFAULT_CHARS;
+				min = list.getAttribute("data-wc-minchars") || conf.min;
 				if (element.value.length >= min) {
 					if (!shed.isExpanded(combo)) {
 						shed.expand(combo);
 					}
-					updateTimeout = timers.setTimeout(getNewOptions, DELAY, combo, element);
+					updateTimeout = timers.setTimeout(getNewOptions, conf.delay, combo, element);
 				}
 			}
 
@@ -384,6 +373,8 @@ define(["wc/has",
 						if (handleKeyListbox(listbox, keyCode)) {
 							$event.preventDefault();
 						}
+					} else {
+						handleKeyGlobal(keyCode);
 					}
 				}
 			}
@@ -412,6 +403,22 @@ define(["wc/has",
 					preventDefault = true;
 				}
 				return preventDefault;
+			}
+
+			/**
+			 * Handles keypresses that occur in a "non-combo" context.
+			 * Most likely this will be to listen for ESC to close any open listbox.
+			 * It is (now) possible to have an open listbox with the combo having focus.
+			 * @param {number} keyCode The key that was pressed.
+			 */
+			function handleKeyGlobal(keyCode) {
+				var openCombo;
+				if (keyCode === KeyEvent.DOM_VK_ESCAPE) {
+					openCombo = openSelect ? document.getElementById(openSelect) : null;
+					if (openCombo && shed.isExpanded(openCombo)) {
+						shed.collapse(openCombo);
+					}
+				}
 			}
 
 			function doDownButton(combo, altKey) {
@@ -616,8 +623,12 @@ define(["wc/has",
 			}
 
 			/**
-			 * Focus event handler closes any open combo when ANYTHING is focused other than the listbox for the
-			 * currently open combo.
+			 * Focus event handler closes any open combo when any interactive component is focused.
+			 * This essentially means anything in the document receives focus which is not:
+			 * - the listbox for the currently open combo
+			 * - something preposterous like the "body" element
+			 *
+			 * Note that this behaviour is important to work around an IE11 bug where clicking the scrollbar of the listbox will set focus to the body.
 			 *
 			 * @function
 			 * @private
@@ -648,12 +659,28 @@ define(["wc/has",
 						combo = getCombo(element);
 						// check openSelect before trying to collapse element in case we have gone straight from an open combo to another combo
 						if (!(combo && combo.id === openSelect)) {
-							if ((openCombo = document.getElementById(openSelect))) {
+							openCombo = document.getElementById(openSelect);
+							if (openCombo) {
 								/* close any open combos when focusing elsewhere but
-								 * if I have focussed in the current combo's list box
+								 * if I have focussed in the current combo's list box (or something silly like the body)
 								 * do not close the combo.*/
-								if (element === window || !((listbox = getListBox(combo)) && listbox === getListBox(openCombo))) {
-									shed.collapse(openCombo);
+
+								if (element !== window && element !== document.body) {
+									listbox = getListBox(combo);
+									if (listbox !== getListBox(openCombo)) {
+										shed.collapse(openCombo);
+									}
+								} else {
+									listbox = getListBox(openCombo);
+									if (listbox) {
+										/*
+										 * This makes the listbox reminiscent of a modal dialog, but not quite.
+										 * The listbox is closed when the user focuses another interactive component, or presses ESC (hopefully this is not annoying on touchscreen?).
+										 * It primarily exists to work around an IE11 issue where clicking a scrollbar will set focus to the body element.
+										 * Restoring focus to the listbox will ensure that keyboard listeners are wired up correctly.
+										 */
+										focusListbox(listbox);
+									}
 								}
 							} else {
 								openSelect = "";

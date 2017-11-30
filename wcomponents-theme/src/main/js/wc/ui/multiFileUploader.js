@@ -301,7 +301,9 @@ define(["wc/dom/attribute",
 			 */
 			function checkMaxFiles(element, newFileCount) {
 				var message,
-					config = wcconfig.get("wc/ui/multiFileUploader"),
+					config = wcconfig.get("wc/ui/multiFileUploader", {
+						overwrite: false
+					}),
 					currentFiles,
 					container,
 					result = {
@@ -332,7 +334,7 @@ define(["wc/dom/attribute",
 							result.before = currentFiles.length;
 							result.after = result.before + newFileCount;
 							if (result.after > result.max) {
-								if (config && config.overwrite && newFileCount <= result.max) {
+								if (config.overwrite && newFileCount <= result.max) {
 									message = i18n.get("file_confirmoverwrite", newFileCount, result.max, result.before);
 									if (message) {
 										if (prompt.confirm(message)) {
