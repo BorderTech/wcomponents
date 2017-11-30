@@ -47,19 +47,15 @@ define(["wc/dom/event",
 					min = condition.min;
 					max = condition.max;
 
-					otherSelected = condition.otherSelected;
-
 					if (!(min || max)) { // no condition worth testing.
 						return true;
 					}
 
 					currentSelected = getFilteredGroup(ROW_CONTAINER.findDescendant(table), {filter: filter}).length;
-					otherSelected = parseInt(otherSelected) - parseInt(currentSelected);
 
-					totalSelected = parseInt(currentSelected) + parseInt(otherSelected);
+					otherSelected = condition.otherSelected;
 
-					// totalSelected = parseInt((getFilteredGroup(ROW_CONTAINER.findDescendant(table), {filter: filter})).length)+
-					// 	parseInt(otherSelected);
+					totalSelected = currentSelected + otherSelected;
 
 					if ((min && totalSelected < parseInt(min, 10)) || (max && totalSelected > parseInt(max, 10))) {
 						return false;

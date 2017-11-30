@@ -929,9 +929,9 @@
 		<xsl:value-of select="@minSelectedRows"/>
 		<xsl:text>","max":"</xsl:text>
 		<xsl:value-of select="@maxSelectedRows"/>
-		<xsl:text>","otherSelected":"</xsl:text>
+		<xsl:text>","otherSelected":</xsl:text>
 		<xsl:value-of select="@selectedOnOther"/>
-		<xsl:text>","type":"</xsl:text>
+		<xsl:text>,"type":"</xsl:text>
 		<xsl:value-of select="@type"/>
 		<xsl:text>","message":"</xsl:text>
 		<xsl:value-of select="@message"/>

@@ -1042,6 +1042,37 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	}
 
 	/**
+	 * Set the row keys that are selected on other pages.
+	 * <p>
+	 * A row key uniquely identifies each row and is determined by the {@link TableModel}. Refer to
+	 * {@link TableModel#getRowKey(List)}.
+	 * </p>
+	 *
+	 * @param rowKeys the keys of selected rows.
+	 */
+	public void setSelectedRowsOtherPages(final Set<?> rowKeys) {
+		getOrCreateComponentModel().selectedRowsOtherPages = rowKeys;
+	}
+
+	/**
+	 * Retrieve the row keys that are selected on pages other pages.
+	 * <p>
+	 * A row key uniquely identifies each row and is determined by the {@link TableModel}. Refer to
+	 * {@link TableModel#getRowKey(List)}.
+	 * </p>
+	 *
+	 * @return the selected row keys.
+	 */
+	public Set<?> getSelectedRowsOtherPages() {
+		Set<?> keys = getComponentModel().selectedRowsOtherPages;
+		if (keys == null) {
+			return Collections.emptySet();
+		} else {
+			return Collections.unmodifiableSet(keys);
+		}
+	}
+
+	/**
 	 * Return the row keys that have been expanded.
 	 * <p>
 	 * Note - Only used for when the table is editable.
@@ -2021,6 +2052,11 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 		 * Holds the keys of the currently selected rows.
 		 */
 		private Set<?> selectedRows;
+
+		/**
+		 * Holds the keys of the currently selected rows on other pages.
+		 */
+		private Set<?> selectedRowsOtherPages;
 
 		/**
 		 * Indicates that de/selecting a row with sub rows will de/select the sub rows.

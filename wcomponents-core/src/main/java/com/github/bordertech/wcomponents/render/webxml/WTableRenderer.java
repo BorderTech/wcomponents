@@ -18,7 +18,10 @@ import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.SystemException;
+
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * {@link Renderer} for the {@link WTable} component.
@@ -301,13 +304,13 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 						int minRows = constraint.getMinSelectedRowCount();
 						int maxRows = constraint.getMaxSelectedRowCount();
 						String message = constraint.getMessage();
-						int selectedOnOther = table.getSelectedRows().size();
+						int selectedOnOther = table.getSelectedRowsOtherPages().size();
 						String type = constraint.isError() ? "error" : "warning";
 
 						xml.appendTagOpen("ui:condition");
 						xml.appendOptionalAttribute("minSelectedRows", minRows > 0, minRows);
 						xml.appendOptionalAttribute("maxSelectedRows", maxRows > 0, maxRows);
-						xml.appendOptionalAttribute("selectedOnOther", minRows > 0 || maxRows > 0, selectedOnOther);
+						xml.appendAttribute("selectedOnOther", selectedOnOther);
 						xml.appendAttribute("type", type);
 						xml.appendAttribute("message", I18nUtilities.format(null, message));
 						xml.appendEnd();
@@ -371,9 +374,17 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 
 		List<RowIdWrapper> wrappers = repeater.getBeanList();
 
+		Set<?> otherSelectedRows = new HashSet<>(table.getSelectedRows());
+
 		int index = -1;
 		for (RowIdWrapper wrapper : wrappers) {
 			index++;
+
+			Object rowKey = wrapper.getRowKey();
+
+			if (table.getSelectedRows().contains(rowKey)) {
+				otherSelectedRows.remove(rowKey);
+			}
 
 			// Only rendering top level rows
 			// Child rows handled by the layout, so dont paint the row
@@ -393,6 +404,7 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 				UIContextHolder.popContext();
 			}
 		}
+		table.setSelectedRowsOtherPages(otherSelectedRows);
 	}
 
 	/**
