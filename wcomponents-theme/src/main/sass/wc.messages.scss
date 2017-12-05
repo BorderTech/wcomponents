@@ -6,7 +6,6 @@
 .wc-fieldindicator {
   display: block;
   margin-top: $wc-gap-small;
-  white-space: normal;
 
   > .fa {
     text-align: left;
@@ -20,6 +19,7 @@
 
   > span {
     display: block;
+    white-space: normal;
     width: calc(100% - #{$wc-icon-normal});
 
     + span {
