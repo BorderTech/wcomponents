@@ -439,9 +439,8 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 						assert.isTrue(shed.isSelected(next), "Option " + next.id + " should be selected");
 					}
 				});
-			} /*
+			} /* ,
 				NOTE to self: what was I thinking?
-			,
 			testDoGroupSelect_noDeselect_outsideSelection_with_CTRL: function() {
 				var lastSelected = document.getElementById("lb0-0"),
 					target = document.getElementById("lb0-2"),
