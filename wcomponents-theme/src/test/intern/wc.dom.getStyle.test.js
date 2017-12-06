@@ -145,7 +145,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					result;
 				element.style.opacity = "0.9";
 				result = controller(element, "opacity", false, true);
-				assert.strictEqual(result, "0.9");
+				assert.strictEqual(Math.round(parseFloat(result) * 100), 90);
 			}
 		});
 	});

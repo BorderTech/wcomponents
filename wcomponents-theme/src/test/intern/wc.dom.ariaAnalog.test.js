@@ -440,7 +440,9 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 					}
 				});
 			} /* ,
-				NOTE to self: what was I thinking?
+			 *
+			 * NOTE to SELF: I know what I should be testing here but this doesn't seem to test it
+			 * What was I thinking?
 			testDoGroupSelect_noDeselect_outsideSelection_with_CTRL: function() {
 				var lastSelected = document.getElementById("lb0-0"),
 					target = document.getElementById("lb0-2"),
