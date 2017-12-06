@@ -1,0 +1,45 @@
+<!-- used for proxy unit testing of wc/dom/ariaAnalog -->
+<div id="aria-analog-test-content">
+	<!-- checkbox -->
+	<span role="checkbox" aria-checked="true" id="cb0">selected</span>
+	<span role="checkbox" aria-checked="false" id="cb1">not selected</span>
+	<span role="checkbox" aria-checked="mixed" id="cb2">mixed</span>
+
+	<!-- listbox -->
+	<span id="lb0" role="listbox">
+		<span id="lb0-0" role="option" aria-selected="true">zero</span>
+		<span id="lb0-1" role="option" aria-selected="false">one</span>
+		<span id="lb0-2" role="option" aria-selected="false">two</span>
+		<span id="lb0-3" role="option" aria-selected="false" aria-disabled="true">three</span>
+		<span id="lb0-4" role="option" aria-selected="false">four</span>
+	</span>
+
+	<!-- radio analog -->
+	<span id="rb0" role="radiogroup">
+		<span id="rb0-0" role="radio" aria-checked="true">zero</span>
+		<span id="rb0-1" role="radio" aria-checked="false">one</span>
+		<span id="rb0-2" role="radio" aria-checked="false">two</span>
+		<span id="rb0-3" role="radio" aria-checked="false" aria-disabled="true">three</span>
+		<span id="rb0-4" role="radio" aria-checked="false">four</span>
+	</span>
+
+
+	<div id="aria-analog-writestate-test-content">
+		<!-- for generic writestate testing, use radioAnalog as it does not override writestate -->
+		<span id="rb1" role="radiogroup">
+			<span id="rb1-0" role="radio" aria-checked="true" data-wc-name="rb1name" data-wc-value="0">zero</span>
+			<span id="rb1-1" role="radio" aria-checked="false" data-wc-name="rb1name" data-wc-value="1">one</span>
+			<span id="rb1-2" role="radio" aria-checked="false" data-wc-name="rb1name" data-wc-value="2">two</span>
+			<span id="rb1-3" role="radio" aria-checked="false" data-wc-name="rb1name" data-wc-value="3">three</span>
+			<span id="rb1-4" role="radio" aria-checked="false" data-wc-name="rb1name" data-wc-value="4">four</span>
+		</span>
+		<!-- selected option disabled so no state written -->
+		<span id="rb2" role="radiogroup">
+			<span id="rb2-0" role="radio" aria-checked="true" aria-disabled="true" data-wc-name="rb2name" data-wc-value="0">zero</span>
+			<span id="rb2-1" role="radio" aria-checked="false" aria-disabled="true" data-wc-name="rb2name" data-wc-value="1">one</span>
+			<span id="rb2-2" role="radio" aria-checked="false" aria-disabled="true" data-wc-name="rb2name" data-wc-value="2">two</span>
+			<span id="rb2-3" role="radio" aria-checked="false" aria-disabled="true" data-wc-name="rb2name" data-wc-value="3">three</span>
+			<span id="rb2-4" role="radio" aria-checked="false" aria-disabled="true" data-wc-name="rb2name" data-wc-value="4">four</span>
+		</span>
+	</div>
+</div>
