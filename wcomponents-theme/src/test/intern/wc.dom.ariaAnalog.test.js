@@ -439,7 +439,10 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 						assert.isTrue(shed.isSelected(next), "Option " + next.id + " should be selected");
 					}
 				});
-			},
+			} /* ,
+			 *
+			 * NOTE to SELF: I know what I should be testing here but this doesn't seem to test it
+			 * What was I thinking?
 			testDoGroupSelect_noDeselect_outsideSelection_with_CTRL: function() {
 				var lastSelected = document.getElementById("lb0-0"),
 					target = document.getElementById("lb0-2"),
@@ -466,7 +469,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 						assert.isTrue(shed.isSelected(next), "Option " + next.id + " should be selected");
 					}
 				});
-			}
+			} */
 		});
 	}
 );
