@@ -9,6 +9,8 @@
 
 ### Bug Fixes
 
+* Fixed a Sass issue which could result in messages not wrapping within some components depending on Sass build order #1422.
+
 ## Release 1.4.18
 
 ### Bug Fixes
