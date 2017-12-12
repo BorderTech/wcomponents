@@ -355,6 +355,7 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 
 		setActiveContext(createUIContext());
 
+		calculateOtherSelectedRows(table);
 		// On initial load, nothing selected
 		Assert.assertEquals("Incorrect number of selections on other pages",
 			0, table.getSelectedRowsOtherPages().size());
@@ -388,6 +389,8 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrect number of selections on other pages after more selections",
 			3, table.getSelectedRowsOtherPages().size());
 
+		resetContext();
+
 		// Next page
 		table.setCurrentPage(2);
 		calculateOtherSelectedRows(table);
@@ -401,6 +404,8 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 			9, table.getSelectedRows().size());
 		Assert.assertEquals("Incorrect number of selections on other pages after page change",
 			7, table.getSelectedRowsOtherPages().size());
+
+		resetContext();
 
 		//Go back a page
 		table.setCurrentPage(1);
@@ -416,6 +421,8 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 			7, table.getSelectedRows().size());
 		Assert.assertEquals("Incorrect number of selections on other pages after page change",
 			5, table.getSelectedRowsOtherPages().size());
+
+		resetContext();
 
 		// Go back a page
 		table.setCurrentPage(0);
