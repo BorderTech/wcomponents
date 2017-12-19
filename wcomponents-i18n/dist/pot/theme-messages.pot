@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-19 16:30+1000\n"
+"POT-Creation-Date: 2017-12-19 08:10+1100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -990,6 +990,13 @@ msgstr ""
 msgctxt "imgedit_noimage"
 msgid ""
 "First click the button to capture a snapshot from the live video stream."
+msgstr ""
+
+#: imgedit_message_fixtoolarge
+#, java-format
+msgctxt "imgedit_message_fixtoolarge"
+msgid ""
+"You may be able to reduce the size by manipulating the image in the editor."
 msgstr ""
 
 #. 

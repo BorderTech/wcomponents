@@ -6,6 +6,7 @@
 
 ### Enhancements
 * Client side: wc/dom/getLabelsForElement an enhancement to load elements defined by 'aria-labelledby' attribute #1401.
+* Improve UX of image editor validation #1431.
 
 ### Bug Fixes
 

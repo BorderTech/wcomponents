@@ -76,6 +76,7 @@ define(["wc/dom/attribute",
 			BUTTON = new Widget("button"),
 			removeButtonWd = new Widget("BUTTON"),
 			filesWrapperWd = new Widget("div", CLASS_WRAPPER),
+			cameraButtonWd = new Widget("BUTTON", "wc_btn_camera"),
 			inflightXhrs = {},
 			progressWd = new Widget("progress");
 
@@ -83,6 +84,7 @@ define(["wc/dom/attribute",
 		fileInfoWd.descendFrom(containerWd);
 		removeButtonWd.descendFrom(fileInfoWd);
 		progressWd.descendFrom(fileInfoWd);
+		cameraButtonWd.descendFrom(containerWd);
 
 		/**
 		 * @typedef {Object} module:wc/file/MultiFileUploader~fileInfo
@@ -166,6 +168,12 @@ define(["wc/dom/attribute",
 								console.log("wc_fileid", fileInfo.id);
 							}
 						}
+					} else if (cameraButtonWd.isOneOfMe(element)) {
+						require(["wc/ui/imageEdit"], function (imageEdit) {
+							if (imageEdit.upload !== instance.upload) {
+								imageEdit.upload = instance.upload;
+							}
+						});
 					}
 				} else {
 					bootStrap($event);  // increasingly browsers do not focus some elements when they are clicked (traditionally webkit only did this) - I'm looking at you FireFox.
@@ -249,6 +257,7 @@ define(["wc/dom/attribute",
 					var checkAndUpload = function (useTheseFiles) {
 							validate.check({
 								selector: element,
+								files: useTheseFiles,
 								notify: true,
 								callback: function(selector) {
 									try {
@@ -272,7 +281,9 @@ define(["wc/dom/attribute",
 							if (!skipEdit && editorId) {
 								require(["wc/ui/imageEdit"], function (imageEdit) {
 									obj.editorId = editorId;
-									imageEdit.upload = instance.upload.bind(instance);
+									if (imageEdit.upload !== instance.upload) {
+										imageEdit.upload = instance.upload;
+									}
 									imageEdit.editFiles(obj, checkAndUpload, done);
 								});
 							} else {
