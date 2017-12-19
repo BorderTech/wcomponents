@@ -1,5 +1,10 @@
-define(["wc/i18n/i18n", "wc/file/getFileSize", "lib/sprintf"], function(i18n, getFileSize, sprintf) {
-	var KB = Math.pow(10, 3), /* NOTE: see IEC 80000-13 a kilo-byte is 1000 bytes, NOT 1024 bytes */
+define(["wc/i18n/i18n", "wc/file/getFileSize"], function(i18n, getFileSize) {
+	var instance = {
+			check: checkFileSize,
+			get: getFileSize,
+			getMax: getMax
+		},
+		KB = Math.pow(10, 3), /* NOTE: see IEC 80000-13 a kilo-byte is 1000 bytes, NOT 1024 bytes */
 		MB = Math.pow(10, 6),
 		GB = Math.pow(10, 9),
 		ROUND_SIG_FIG = 1;
@@ -8,17 +13,21 @@ define(["wc/i18n/i18n", "wc/file/getFileSize", "lib/sprintf"], function(i18n, ge
 	 * Check the file size and return an error message if there is a problem.
 	 * @function
 	 * @private
-	 * @param {Element} element A file input element.
-	 * @param {Object} [testObj] The pseudo-file element to pass to test functions.
+	 * @param args File size args, as shown below:
+	 *	param {Element} element A file input element.
+	 *	param {Object} [testObj] The pseudo-file element to pass to test functions.
+	 *	param {string} [msgId] The i18n message ID, if not provided the default "file_toolarge" is used.
 	 * @return {?string} An error message if there is a problem otherwise falsey.
 	 */
-	function checkFileSize(element, testObj) {
-		var i, message, roundTo, maxFileSizeHR, fileSizeHR, units,
-			maxFileSize = parseInt(element.getAttribute("data-wc-maxfilesize"), 10),
+	function checkFileSize(args) {
+		var i, message, roundTo, maxFileSizeHR, fileSizeHR, units, nextMessage,
+			element = args.element,
+			maxFileSize = instance.getMax(element),
+			msgId = args.msgId || "file_toolarge",
 			fileIsToBig = function (size) {
 				return maxFileSize < size;
 			},
-			fileSizes = getFileSize(testObj || element);
+			fileSizes = instance.get(args.testObj || element);
 		if (maxFileSize && fileSizes.length > 0 && fileSizes.some(fileIsToBig)) {
 			message = [];
 			for (i = 0; i < fileSizes.length; i++) {
@@ -43,12 +52,26 @@ define(["wc/i18n/i18n", "wc/file/getFileSize", "lib/sprintf"], function(i18n, ge
 						fileSizeHR = fileSizes[i];
 						units = i18n.get("file_size_");
 					}
-					message.push(sprintf.sprintf(i18n.get("file_toolarge"), fileSizeHR, maxFileSizeHR, units));
+					nextMessage = i18n.get(msgId, fileSizeHR, maxFileSizeHR, units);
+					message.push(nextMessage);
 				}
 			}
 			message = message.join("\n");
 		}
 		return message;
+	}
+
+	/**
+	 * Returns the maximum file size accepted.
+	 * @param {Element} element The file selector being used to upload the file.
+	 * @returns {number} The maximum file size accepted, in bytes.
+	 * Falsey (including zero) means unconstrained.
+	 */
+	function getMax(element) {
+		if (element) {
+			return parseInt(element.getAttribute("data-wc-maxfilesize")) || 0;
+		}
+		return 0;
 	}
 
 	/**
@@ -68,8 +91,5 @@ define(["wc/i18n/i18n", "wc/file/getFileSize", "lib/sprintf"], function(i18n, ge
 		return intPart + (modPart / exp);
 	}
 
-	return {
-		check: checkFileSize,
-		get: getFileSize
-	};
+	return instance;
 });

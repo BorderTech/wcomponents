@@ -133,6 +133,8 @@ public class WMultiFileWidgetAjaxExample extends WContainer {
 				} else {
 					setThumbnailSize(null);
 				}
+
+				// setMaxFileSize(1000000);
 			}
 		};
 		// widget.setColumns(2);
