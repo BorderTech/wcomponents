@@ -60,6 +60,9 @@ public class SimplePaginationTableWithSelectablesExample extends WPanel {
 		selectButton.setAction(buttonAction("Selection:"));
 		editButton.setAction(buttonAction("Dummy edit of:"));
 
+		WButton refreshButton = new WButton("Refresh");
+		wTable.addAction(refreshButton);
+
 		// Update the text panel on button click
 		WPanel textPanel = new WPanel();
 		selectButton.setAjaxTarget(textPanel);
