@@ -96,7 +96,7 @@ public class SimplePaginationTableWithSelectablesExample_Test extends WComponent
 			&& driver.findElement(byWComponentPath(DELETE_BUTTON)).isEnabled());
 		Assert.assertFalse("Edit button should be disabled",
 			driver.findElement(byWComponentPath(EDIT_BUTTON)).isEnabled());
-
+		
 		wTableWebElement = getTable(); // Needs to be added after each refresh to prevent StaleElementReferenceException
 
 		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='5']")).click();
