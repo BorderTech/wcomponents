@@ -41,16 +41,4 @@
 			</xs:annotation>
 		</xs:attribute>
 	</xs:attributeGroup>
-
-
-
-	<xs:attributeGroup name="container.key.attributes">
-		<xs:annotation>
-			<xs:documentation>
-				Common attributes for all container components which are able to be accessed using a keyboard shourtcut.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:attributeGroup ref="ui:container.attributes"/>
-		<xs:attributeGroup ref="ui:accesskey.attributes"/>
-	</xs:attributeGroup>
 </xs:schema>
