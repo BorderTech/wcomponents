@@ -6,7 +6,14 @@
 
 ### Enhancements
 
+* Removed unnecessary wrapping elements from the inner options of WCheckBoxSelect and WRadioButtonSelect which will improve their accessibilty and responsiveness.
+* Fixed some long-standing issues in the XSLT by refactoring the readOnly helper thereby reducing its ridiculous complexity. It was useful when XSLT was going to the client but had become mere technical debt making the cinversion from XSLT to alternate rendering more complex.
+* Added a Sass var to allow configuration of the maximum number of supported columns within WCheckBoxSelect and WRadioButtonSelect when their Layout is COLUMN.
+
 ### Bug Fixes
+
+* Fixed a Sass error which resulted in an unexpected number of sub-row depths in some WTables.
+* Fixed a flaw which caused some fieldsets to not have a correct legend child.
 
 ## Release 1.4.19
 

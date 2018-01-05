@@ -1,24 +1,33 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.readOnly.xsl"/>
+	<xsl:import href="wc.common.attributes.xsl"/>
 	<xsl:import href="wc.common.hField.xsl"/>
 	<!-- WSingleSelect WMultiSelect -->
 	<xsl:template match="ui:listbox">
 		<xsl:choose>
 			<xsl:when test="@readOnly and @single">
-				<xsl:call-template name="readOnlyControl">
-					<xsl:with-param name="class">
-						<xsl:text>wc-ro-input</xsl:text>
-					</xsl:with-param>
-				</xsl:call-template>
+				<span>
+					<xsl:call-template name="commonAttributes">
+						<xsl:with-param name="class">
+							<xsl:text>wc-ro-input</xsl:text>
+						</xsl:with-param>
+					</xsl:call-template>
+					<xsl:call-template name="roComponentName"/>
+					<xsl:apply-templates select=".//ui:option" mode="readOnly" />
+				</span>
 			</xsl:when>
 			<xsl:when test="@readOnly">
-				<xsl:call-template name="readOnlyControl">
-					<xsl:with-param name="class">
-						<xsl:text>wc-ro-input wc_list_nb wc-vgap-sm</xsl:text>
-					</xsl:with-param>
-					<xsl:with-param name="isList" select="1"/>
-				</xsl:call-template>
+				<ul>
+					<xsl:call-template name="commonAttributes">
+						<xsl:with-param name="class">
+							<xsl:text>wc-ro-input wc-vgap-sm</xsl:text>
+						</xsl:with-param>
+					</xsl:call-template>
+					<xsl:call-template name="roComponentName"/>
+					<xsl:apply-templates select="ui:option|ui:optgroup[ui:option]" mode="readOnly">
+						<xsl:with-param name="single" select="0"/>
+					</xsl:apply-templates>
+				</ul>
 			</xsl:when>
 			<xsl:otherwise>
 				<span>
