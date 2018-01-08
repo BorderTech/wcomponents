@@ -15,15 +15,15 @@
 				<xsl:with-param name="class" select="'wc-ro-input'"/>
 			</xsl:call-template>
 			<xsl:call-template name="roComponentName"/>
+			<xsl:choose>
+				<xsl:when test="ui:rtf">
+					<xsl:apply-templates/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:apply-templates xml:space="preserve"/>
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:element>
-		<xsl:choose>
-			<xsl:when test="ui:rtf">
-				<xsl:apply-templates/>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:apply-templates xml:space="preserve"/>
-			</xsl:otherwise>
-		</xsl:choose>
 	</xsl:template>
 	
 
