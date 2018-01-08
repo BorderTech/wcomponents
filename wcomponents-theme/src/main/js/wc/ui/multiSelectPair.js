@@ -21,7 +21,7 @@ define(["wc/dom/attribute",
 		 * @private
 		 */
 		function MultiSelectPair() {
-			var CONTAINER = fieldset.getWidget(true).extend("wc-multiselectpair"),
+			var CONTAINER = fieldset.getWidget().clone().extend("wc-multiselectpair"),
 				SELECT = new Widget("select"),
 				CONTAINER_INITIALISED_KEY = "multiSelectPair.inited",
 				LIST_TYPE_AVAILABLE = 0,

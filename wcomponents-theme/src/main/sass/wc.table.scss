@@ -108,7 +108,7 @@ caption {
 // Row expansion
 // #############################################################################
 // The next lot does indentation of "child" rows
-@for $i from 2 to 6 {
+@for $i from 2 through 6 {
   [aria-level='#{$i}'] > .wc_table_rowexp_container {
     + td,
     + th {

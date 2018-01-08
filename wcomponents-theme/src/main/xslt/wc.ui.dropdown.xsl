@@ -1,17 +1,21 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.readOnly.xsl"/>
+	<xsl:import href="wc.common.attributes.xsl"/>
 	<xsl:import href="wc.common.hField.xsl"/>
-	<xsl:import href="wc.common.fauxOption.xsl"/>
+	<xsl:import href="wc.common.icon.xsl"/>
 	<!-- WDropdown -->
 	<xsl:template match="ui:dropdown">
 		<xsl:choose>
 			<xsl:when test="@readOnly">
-				<xsl:call-template name="readOnlyControl">
-					<xsl:with-param name="class">
-						<xsl:text>wc-ro-input</xsl:text>
-					</xsl:with-param>
-				</xsl:call-template>
+				<span>
+					<xsl:call-template name="commonAttributes">
+						<xsl:with-param name="class">
+							<xsl:text>wc-ro-input</xsl:text>
+						</xsl:with-param>
+					</xsl:call-template>
+					<xsl:call-template name="roComponentName"/>
+					<xsl:apply-templates select=".//ui:option" mode="readOnly" />
+				</span>
 			</xsl:when>
 			<xsl:otherwise>
 				<span>
@@ -114,10 +118,9 @@
 		WDropdown.COMBO the name and value are always identical.
 	-->
 	<xsl:template match="ui:option" mode="comboDataList">
-		<xsl:call-template name="fauxOption">
-			<xsl:with-param name="value">
-				<xsl:value-of select="."/>
-			</xsl:with-param>
-		</xsl:call-template>
+		<xsl:variable name="value" select="."/>
+		<span data-wc-value="{$value}" role="option" class="wc-invite" tabIndex="0">
+			<xsl:value-of select="$value"/>
+		</span>
 	</xsl:template>
 </xsl:stylesheet>

@@ -67,6 +67,8 @@ $fa-fw-calc-size: 1.25rem !default;
 // #############################################################################
 // Variables for specific WComponents start here.
 // #############################################################################
+// WCheckBoxSelect and WRadioButtonSelect
+@import 'checkableselect';
 // WCollapsible
 @import 'collapsible';
 // WDialog
