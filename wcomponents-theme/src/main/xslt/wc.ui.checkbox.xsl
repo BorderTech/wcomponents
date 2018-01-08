@@ -19,6 +19,16 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:with-param>
+					<xsl:with-param name="name">
+						<xsl:choose>
+							<xsl:when test="self::ui:checkbox">
+								<xsl:value-of select="@id"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="@groupName"/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:with-param>
 				</xsl:call-template>
 				<xsl:if test="@selected">
 					<xsl:attribute name="checked">
