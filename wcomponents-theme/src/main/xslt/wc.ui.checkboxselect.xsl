@@ -130,7 +130,7 @@
 							</xsl:if>
 						</xsl:if>
 					</xsl:element>
-					<span>
+					<span class="wc-labeltext">
 						<xsl:value-of select="$labelcontent"/>
 					</span>
 				</label>

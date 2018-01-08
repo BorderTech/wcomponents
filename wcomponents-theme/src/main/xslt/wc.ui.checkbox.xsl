@@ -4,7 +4,7 @@
 	<xsl:import href="wc.common.icon.xsl"/>
 	<xsl:import href="wc.common.hField.xsl"/>
 
-	<xsl:template match="ui:checkbox|ui:radioButton">
+	<xsl:template match="ui:checkbox|ui:radiobutton">
 		<span>
 			<xsl:call-template name="commonInputWrapperAttributes"/>
 			<xsl:element name="input">
