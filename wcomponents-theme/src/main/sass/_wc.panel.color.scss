@@ -33,7 +33,7 @@
 // WPanel Type.FEATURE
 // #############################################################################
 // 'The feature panel is highlighted by a background colour and border.'
-@if ($wc-clr-panel-feature-fg != -1) {
+@if ($wc-clr-panel-feature-bg != -1) {
   .wc-panel-type-feature {
     background-color: $wc-clr-panel-feature-bg;
     color: $wc-clr-panel-feature-fg;
@@ -43,7 +43,7 @@
 // #############################################################################
 // Type FOOTER
 // #############################################################################
-@if ($wc-clr-panel-footer-fg != -1) {
+@if ($wc-clr-panel-footer-bg != -1) {
   footer {
     background-color: $wc-clr-panel-footer-bg;
     color: $wc-clr-panel-footer-fg;
