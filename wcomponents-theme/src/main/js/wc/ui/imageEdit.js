@@ -42,7 +42,8 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 		invalidprompt: true,  // display a message to the user if the image fails validation (if false we assume this is handled elsewhere)
 		ftlignore: false,  // user can try to ignore file too large warning
 		msgidftl: "",  // i18n message ID for "file too large" validation
-		msgidftlfix: "imgedit_message_fixtoolarge"  // i18n message ID for "fix file too large"
+		msgidftlfix: "imgedit_message_fixtoolarge",  // i18n message ID for "fix file too large"
+		autoresize: true  // if true then loading an image that exceeds size validaiton constraints will automatically trigger a resize attempt
 	};
 
 	/**
@@ -1002,12 +1003,19 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 					msgId: config.msgidftl
 				});
 				if (msg) {
-					return i18n.translate(config.msgidftlfix).then(function(message) {
-						if (message) {
-							msg += "\n" + message;
+					if (config.autoresize) {
+						msg = "";  // don't bug the user, we'll try to resolve this automatically
+						if (undoRedo) {
+							undoRedo._forceChange = true;
 						}
-						return msg;
-					});
+					} else {
+						return i18n.translate(config.msgidftlfix).then(function(message) {
+							if (message) {
+								msg += "\n" + message;
+							}
+							return msg;
+						});
+					}
 				}
 			}
 			return Promise.resolve(msg || "");
@@ -1228,7 +1236,7 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 		 * @returns {boolean} true if the user has made changes.
 		 */
 		function hasChanged() {
-			return undoRedo && undoRedo.hasChanges();
+			return undoRedo && (undoRedo._forceChange || undoRedo.hasChanges());
 		}
 
 		/**
