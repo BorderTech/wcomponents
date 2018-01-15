@@ -24,6 +24,7 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 	};
 
 	ImageEdit.prototype.defaults = {
+		maxsize: 20971520,  // limit the size, in bytes, of an image that can be loaded in the image editor (so the page does not hang)
 		width: 320,
 		height: 240,
 		format: "png",  // png or jpeg
@@ -184,7 +185,7 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 		 */
 		this.editFiles = function(obj, onSuccess, onError) {
 			var config = imageEdit.getConfig(obj);
-			var file, idx = 0, result = [], files = obj.files,
+			var file, sizes, idx = 0, result = [], files = obj.files,
 				done = function(arg) {
 					try {
 						onSuccess(arg);
@@ -194,6 +195,7 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 				};
 			try {
 				if (files) {
+					sizes = fileSize.get(obj);
 					if (has("dom-canvas")) {
 						editNextFile();
 					} else {
@@ -218,7 +220,9 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 			 * Prompt the user to edit the next file in the queue.
 			 */
 			function editNextFile() {
+				var size;
 				if (files && idx < files.length) {
+					size = sizes[idx];
 					file = files[idx++];
 					if (typeof file === "string") {
 						if (file.indexOf("data:image/") === 0) {
@@ -227,7 +231,12 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 							console.warn("Not a file", file);
 						}
 					} else if (file.type.indexOf("image/") === 0) {
-						editFile(config, file, saveEditedFile, onError);
+						if (size > config.maxsize) {
+							console.log("File size %d exceeds editor max %d", size, config.maxsize);
+							saveEditedFile(file);
+						} else {
+							editFile(config, file, saveEditedFile, onError);
+						}
 					} else {
 						saveEditedFile(file);
 					}
