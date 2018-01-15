@@ -1177,8 +1177,8 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 		 * @returns The image (including any edits) in the format configured for saving.
 		 */
 		function getImageToSave(editor, originalImage, renderer) {
-			var result, renderFunc = renderer || getCanvasAsFile;
-			if (originalImage && !hasChanged()) {
+			var config = imageEdit.getConfig(editor), result, renderFunc = renderer || getCanvasAsFile;
+			if (originalImage && !hasChanged(config)) {
 				console.log("No changes made, using original file");
 				result = originalImage;  // if the user has made no changes simply pass thru the original file.
 			} else {
@@ -1241,11 +1241,26 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 		}
 
 		/**
-		 * Determine if the user has actually made any changes to the image in the editor.
-		 * @returns {boolean} true if the user has made changes.
+		 * Determine if there are changes to the image in the editor.
+		 * @param {Object} config Map of configuration properties.
+		 * @returns {boolean} true if there are changes to be saved.
 		 */
-		function hasChanged() {
-			return undoRedo && (undoRedo._forceChange || undoRedo.hasChanges());
+		function hasChanged(config) {
+			var result, fbImage;
+			if (undoRedo) {
+				result = undoRedo._forceChange || undoRedo.hasChanges();
+			}
+			if (config && !result) {
+				fbImage = imageEdit.getFbImage();
+				if (fbImage && config.crop) {
+					// When the image is initially loaded it is scaled to fit. If "crop" is true this will NOT be undone on save and should be considered an "edit".
+					result = fbImage.scaleX !== 1 || fbImage.scaleY !== 1;  // Note that this check problably makes autoresize redundant in most cases
+					if (result) {
+						console.log("Image has been automatically scaled");
+					}
+				}
+			}
+			return result;
 		}
 
 		/**
