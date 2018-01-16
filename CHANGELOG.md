@@ -6,6 +6,19 @@
 
 ### Enhancements
 
+### Bug Fixes
+
+
+## Release 1.4.20
+
+### API Changes
+
+### Enhancements
+
+* ImageEdit enhancements:
+ - Prevent loading of "large" images in the editor because this could cause the page to become unresponsive. Instead skip the edit phase and handle as normal.
+ - If an image is scaled to render in the editor this should be considered as a user change when determining whether or not to pass through the original image unchanged.
+ - If an image size exceeds validation constraints then attempt to remedy this automatically
 * Removed unnecessary wrapping elements from the inner options of WCheckBoxSelect and WRadioButtonSelect which will improve their accessibilty and responsiveness.
 * Fixed some long-standing issues in the XSLT by refactoring the readOnly helper thereby reducing its ridiculous complexity. It was useful when XSLT was going to the client but had become mere technical debt making the cinversion from XSLT to alternate rendering more complex.
 * Added a Sass var to allow configuration of the maximum number of supported columns within WCheckBoxSelect and WRadioButtonSelect when their Layout is COLUMN.
