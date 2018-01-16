@@ -24,6 +24,7 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 	};
 
 	ImageEdit.prototype.defaults = {
+		maxsize: 20971520,  // limit the size, in bytes, of an image that can be loaded in the image editor (so the page does not hang)
 		width: 320,
 		height: 240,
 		format: "png",  // png or jpeg
@@ -42,7 +43,8 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 		invalidprompt: true,  // display a message to the user if the image fails validation (if false we assume this is handled elsewhere)
 		ftlignore: false,  // user can try to ignore file too large warning
 		msgidftl: "",  // i18n message ID for "file too large" validation
-		msgidftlfix: "imgedit_message_fixtoolarge"  // i18n message ID for "fix file too large"
+		msgidftlfix: "imgedit_message_fixtoolarge",  // i18n message ID for "fix file too large"
+		autoresize: true  // if true then loading an image that exceeds size validaiton constraints will automatically trigger a resize attempt
 	};
 
 	/**
@@ -183,7 +185,7 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 		 */
 		this.editFiles = function(obj, onSuccess, onError) {
 			var config = imageEdit.getConfig(obj);
-			var file, idx = 0, result = [], files = obj.files,
+			var file, sizes, idx = 0, result = [], files = obj.files,
 				done = function(arg) {
 					try {
 						onSuccess(arg);
@@ -193,6 +195,7 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 				};
 			try {
 				if (files) {
+					sizes = fileSize.get(obj);
 					if (has("dom-canvas")) {
 						editNextFile();
 					} else {
@@ -217,7 +220,9 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 			 * Prompt the user to edit the next file in the queue.
 			 */
 			function editNextFile() {
+				var size;
 				if (files && idx < files.length) {
+					size = sizes[idx];
 					file = files[idx++];
 					if (typeof file === "string") {
 						if (file.indexOf("data:image/") === 0) {
@@ -226,7 +231,12 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 							console.warn("Not a file", file);
 						}
 					} else if (file.type.indexOf("image/") === 0) {
-						editFile(config, file, saveEditedFile, onError);
+						if (size > config.maxsize) {
+							console.log("File size %d exceeds editor max %d", size, config.maxsize);
+							saveEditedFile(file);
+						} else {
+							editFile(config, file, saveEditedFile, onError);
+						}
 					} else {
 						saveEditedFile(file);
 					}
@@ -1002,12 +1012,19 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 					msgId: config.msgidftl
 				});
 				if (msg) {
-					return i18n.translate(config.msgidftlfix).then(function(message) {
-						if (message) {
-							msg += "\n" + message;
+					if (config.autoresize) {
+						msg = "";  // don't bug the user, we'll try to resolve this automatically
+						if (undoRedo) {
+							undoRedo._forceChange = true;
 						}
-						return msg;
-					});
+					} else {
+						return i18n.translate(config.msgidftlfix).then(function(message) {
+							if (message) {
+								msg += "\n" + message;
+							}
+							return msg;
+						});
+					}
 				}
 			}
 			return Promise.resolve(msg || "");
@@ -1160,8 +1177,8 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 		 * @returns The image (including any edits) in the format configured for saving.
 		 */
 		function getImageToSave(editor, originalImage, renderer) {
-			var result, renderFunc = renderer || getCanvasAsFile;
-			if (originalImage && !hasChanged()) {
+			var config = imageEdit.getConfig(editor), result, renderFunc = renderer || getCanvasAsFile;
+			if (originalImage && !hasChanged(config)) {
 				console.log("No changes made, using original file");
 				result = originalImage;  // if the user has made no changes simply pass thru the original file.
 			} else {
@@ -1224,11 +1241,26 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 		}
 
 		/**
-		 * Determine if the user has actually made any changes to the image in the editor.
-		 * @returns {boolean} true if the user has made changes.
+		 * Determine if there are changes to the image in the editor.
+		 * @param {Object} config Map of configuration properties.
+		 * @returns {boolean} true if there are changes to be saved.
 		 */
-		function hasChanged() {
-			return undoRedo && undoRedo.hasChanges();
+		function hasChanged(config) {
+			var result, fbImage;
+			if (undoRedo) {
+				result = undoRedo._forceChange || undoRedo.hasChanges();
+			}
+			if (config && !result) {
+				fbImage = imageEdit.getFbImage();
+				if (fbImage && config.crop) {
+					// When the image is initially loaded it is scaled to fit. If "crop" is true this will NOT be undone on save and should be considered an "edit".
+					result = fbImage.scaleX !== 1 || fbImage.scaleY !== 1;  // Note that this check problably makes autoresize redundant in most cases
+					if (result) {
+						console.log("Image has been automatically scaled");
+					}
+				}
+			}
+			return result;
 		}
 
 		/**
