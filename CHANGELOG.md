@@ -8,6 +8,7 @@
 
 ### Bug Fixes
 
+* Fixed a Sass error which could result in incorrect margins in some circumstances #1437
 
 ## Release 1.4.20
 
