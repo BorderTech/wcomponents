@@ -6,6 +6,12 @@
 
 ### Enhancements
 
+### Bug Fixes
+
+## Release 1.4.21
+
+### Enhancements
+
 * Updated the theme axe-core dependency to the latest version (2.6.1) and re-written the `wc/debug/a11y` module to leverage the new API. The module is not included by default, even in debug mode.
 
 ### Bug Fixes
