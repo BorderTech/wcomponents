@@ -6,6 +6,8 @@
 
 ### Enhancements
 
+* Updated the theme axe-core dependency to the latest version (2.6.1) and re-written the `wc/debug/a11y` module to leverage the new API. The module is not included by default, even in debug mode.
+
 ### Bug Fixes
 
 * Fixed a Sass error which could result in incorrect margins in some circumstances #1437
