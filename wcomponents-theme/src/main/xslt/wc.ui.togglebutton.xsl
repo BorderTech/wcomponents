@@ -17,6 +17,16 @@
 					</xsl:call-template>
 					<xsl:call-template name="title"/>
 					<xsl:call-template name="roComponentName"/>
+					<xsl:attribute name="data-wc-value">
+						<xsl:choose>
+							<xsl:when test="@selected">
+								<xsl:text>true</xsl:text>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:text>false</xsl:text>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:attribute>
 					<xsl:call-template name="togglebuttonlabeltext"/>
 				</span>
 			</xsl:when>

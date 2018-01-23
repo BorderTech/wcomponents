@@ -39,10 +39,16 @@
     }
   }
 
-  // The label emulator for fieldset-bound Input controls (eg WCheckBoxSelect)
-  // are hidden by default. In some field layouts they are made visible.
-  &[data-wc-for] {
-    display: none;
+  @if ($wc-label-legend-has-precedence == 1) {
+    // The label emulator for fieldset-bound Input controls (eg WCheckBoxSelect)
+    // are hidden by default. In some field layouts they are made visible.
+    &[data-wc-for] {
+      display: none;
+    }
+  } @else {
+    &.wc-moved-label {
+      @include offscreen(1);
+    }
   }
 }
 

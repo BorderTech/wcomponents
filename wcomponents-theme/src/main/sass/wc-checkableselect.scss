@@ -1,0 +1,55 @@
+@import 'mixins/common';
+
+.wc-radiobuttonselect,
+.wc-checkboxselect {
+  input {
+    margin-right: $wc-gap-small;
+  }
+
+  &.wc-layout-stacked,
+  [data-wc-colcount] {
+    .wc-option {
+      display: block;
+
+      &.wc-inline {
+        display: inline;
+      }
+
+      + .wc-option {
+        margin-top: $wc-gap-small;
+      }
+    }
+  }
+
+  &.wc-layout-flat {
+    @include flex($wrap: wrap);
+
+    .wc-option {
+      margin-right: $wc-gap-normal;
+
+      &:last-of-type {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+[data-wc-colcount] {
+  column-count: 2;
+  column-gap: $wc-gap-normal;
+}
+
+@for $colcount from 3 through $wc-checkableselect-max-cols {
+  [data-wc-colcount='#{$colcount}'] {
+    column-count: #{$colcount};
+  }
+}
+
+@if ($wc-use-respond == 1) {
+  @include respond-phonelike {
+    [data-wc-colcount] {
+      column-count: 1;
+      column-gap: 0;
+    }
+  }
+}

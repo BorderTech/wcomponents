@@ -54,6 +54,8 @@ public class ByLabel extends By {
 	 */
 	private final boolean partialMatch;
 
+	private static final String OPTION_INNER_SPAN_CLASSNAME = "wc-labeltext";
+
 	/**
 	 * Whether the xpath lookup is relative to the current element ({@code true}) or not.
 	 */
@@ -137,6 +139,10 @@ public class ByLabel extends By {
 			}
 			if (StringUtils.isEmpty(elementId)) {
 				elementId = label.getAttribute(SeleniumWComponentWebProperties.ATTRIBUTE_LABEL_FOR_READ_ONLY.toString());
+			}
+
+			if ("span".equalsIgnoreCase(label.getTagName()) && OPTION_INNER_SPAN_CLASSNAME.equals(label.getAttribute("class"))) {
+				label = label.findElement(By.xpath(".."));
 			}
 
 			if (StringUtils.isEmpty(elementId)) {

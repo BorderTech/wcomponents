@@ -33,7 +33,7 @@ define(["wc/dom/ariaAnalog",
 			 * @type {module:wc/dom/Widget}
 			 * @public
 			 */
-			this.CONTAINER = fieldset.getWidget(true).extend("wc-checkboxselect");
+			this.CONTAINER = fieldset.getWidget().clone().extend("wc-checkboxselect");
 
 			/**
 			 * The description of a group item.

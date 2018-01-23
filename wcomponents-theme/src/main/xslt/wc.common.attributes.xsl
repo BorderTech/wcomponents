@@ -206,9 +206,6 @@
 			<xsl:with-param name="isWrapper" select="1" />
 			<xsl:with-param name="class">
 				<xsl:value-of select="$class"/>
-				<xsl:if test="not(@readOnly)">
-					<xsl:text> wc-fset-wrapper</xsl:text>
-				</xsl:if>
 				<xsl:if test="not(@readOnly or self::ui:checkboxselect[not(@frameless)] or self::ui:radiobuttonselect[not(@frameless)])">
 					<xsl:text> wc_noborder</xsl:text>
 				</xsl:if>
@@ -298,5 +295,11 @@
 				<xsl:value-of select="concat('wc-input-wrapper ', $class)"/>
 			</xsl:with-param>
 		</xsl:call-template>
+	</xsl:template>
+
+	<xsl:template name="roComponentName">
+		<xsl:attribute name="data-wc-component">
+			<xsl:value-of select="local-name()"/>
+		</xsl:attribute>
 	</xsl:template>
 </xsl:stylesheet>
