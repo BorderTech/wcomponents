@@ -37,6 +37,8 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 	 * @param component the WTable to paint.
 	 * @param renderContext the RenderContext to paint to.
 	 */
+
+	private int selectedOnOther;
 	@Override
 	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
 		WTable table = (WTable) component;
@@ -304,13 +306,12 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 						int minRows = constraint.getMinSelectedRowCount();
 						int maxRows = constraint.getMaxSelectedRowCount();
 						String message = constraint.getMessage();
-						int selectedOnOther = table.getSelectedRowsOtherPages().size();
 						String type = constraint.isError() ? "error" : "warning";
 
 						xml.appendTagOpen("ui:condition");
 						xml.appendOptionalAttribute("minSelectedRows", minRows > 0, minRows);
 						xml.appendOptionalAttribute("maxSelectedRows", maxRows > 0, maxRows);
-						xml.appendAttribute("selectedOnOther", selectedOnOther);
+						xml.appendAttribute("selectedOnOther", this.selectedOnOther);
 						xml.appendAttribute("type", type);
 						xml.appendAttribute("message", I18nUtilities.format(null, message));
 						xml.appendEnd();
@@ -404,7 +405,7 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 				UIContextHolder.popContext();
 			}
 		}
-		table.setSelectedRowsOtherPages(otherSelectedRows);
+		this.selectedOnOther = otherSelectedRows.size();
 	}
 
 	/**
