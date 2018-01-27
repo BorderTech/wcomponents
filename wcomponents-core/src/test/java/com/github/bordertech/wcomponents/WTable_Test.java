@@ -328,6 +328,111 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
+	public void testSelectedRowsOnOtherPages() {
+		WTable table = new WTable();
+		int otherSelectedRows;
+		table.setPaginationMode(PaginationMode.DYNAMIC);
+		table.setSelectMode(SelectMode.MULTIPLE);
+		table.setTableModel(createModel(new String[50][1]));
+		table.setRowsPerPage(5);
+		table.setCurrentPage(0);
+
+		setActiveContext(createUIContext());
+
+		otherSelectedRows = calculateOtherSelectedRows(table);
+		// On initial load, nothing selected
+		Assert.assertEquals("Incorrect number of selections on other pages",
+			0, otherSelectedRows);
+
+		MockRequest request = new MockRequest();
+		request.setParameter(table.getId() + "-h", "x");
+		request.setParameter(table.getId() + ".selected", new String[]{"1","2","3"});
+
+		// Select items on current page
+		table.handleRequest(request);
+		Assert.assertEquals("Incorrect number of selections on other pages after selections",
+			0, otherSelectedRows);
+
+		resetContext();
+
+		// Change Page
+		table.setCurrentPage(1);
+
+		otherSelectedRows = calculateOtherSelectedRows(table);
+
+		Assert.assertEquals("Incorrect number of selections on other pages after page change",
+			3, otherSelectedRows);
+
+		request = new MockRequest();
+		request.setParameter(table.getId() + "-h", "x");
+		request.setParameter(table.getId() + ".selected", new String[]{"5","6","7","8"});
+		table.handleRequest(request);
+
+		Assert.assertEquals("Incorrect number of total selections after more selections",
+			7, table.getSelectedRows().size());
+		Assert.assertEquals("Incorrect number of selections on other pages after more selections",
+			3, otherSelectedRows);
+
+		resetContext();
+
+		// Next page
+		table.setCurrentPage(2);
+		otherSelectedRows = calculateOtherSelectedRows(table);
+
+		request = new MockRequest();
+		request.setParameter(table.getId() + "-h", "x");
+		request.setParameter(table.getId() + ".selected", new String[]{"11","12"});
+		table.handleRequest(request);
+
+		Assert.assertEquals("Incorrect number of total selections after more selections",
+			9, table.getSelectedRows().size());
+		Assert.assertEquals("Incorrect number of selections on other pages after page change",
+			7, otherSelectedRows);
+
+		resetContext();
+
+		//Go back a page
+		table.setCurrentPage(1);
+		otherSelectedRows = calculateOtherSelectedRows(table);
+
+		// Deselect some
+		request = new MockRequest();
+		request.setParameter(table.getId() + "-h", "x");
+		request.setParameter(table.getId() + ".selected", new String[]{"5","6"});
+		table.handleRequest(request);
+
+		Assert.assertEquals("Incorrect number of total selections pages after page change",
+			7, table.getSelectedRows().size());
+		Assert.assertEquals("Incorrect number of selections on other pages after page change",
+			5, otherSelectedRows);
+
+		resetContext();
+
+		// Go back a page
+		table.setCurrentPage(0);
+		otherSelectedRows = calculateOtherSelectedRows(table);
+		Assert.assertEquals("Incorrect number of total selections pages after page change",
+			7, table.getSelectedRows().size());
+		Assert.assertEquals("Incorrect number of selections on other pages after page change",
+			4, otherSelectedRows);
+	}
+
+	// selectedRowsOtherPages is calculated and updated in WTableRenderer so this is a modification straight from there.
+	// Don't need the entire doPaintRows() method as we're not actually rendering anything.
+	private int calculateOtherSelectedRows(WTable table) {
+		WTable.TableRepeater repeater = table.getRepeater();
+		List<RowIdWrapper> wrappers = repeater.getBeanList();
+		Set<?> otherSelectedRows = new HashSet<>(table.getSelectedRows());
+		for (RowIdWrapper wrapper : wrappers) {
+			Object rowKey = wrapper.getRowKey();
+			if (table.getSelectedRows().contains(rowKey)) {
+				otherSelectedRows.remove(rowKey);
+			}
+		}
+		return otherSelectedRows.size();
+	}
+
+	@Test
 	public void testExpandedRowsAccessors() {
 		WTable table = new WTable();
 		table.setTableModel(createModel(new String[10][1]));
