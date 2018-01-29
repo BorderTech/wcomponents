@@ -17,6 +17,7 @@
 ### Bug Fixes
 
 * Fixed a Sass error which could result in incorrect margins in some circumstances #1437
+* Image editor accepts jpeg or jpg as a valid jpg filename extension #1443
 
 ## Release 1.4.20
 
