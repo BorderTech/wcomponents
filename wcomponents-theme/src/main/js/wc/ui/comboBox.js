@@ -75,7 +75,7 @@ define(["wc/has",
 					return LISTBOX.findDescendant(element);
 				}
 				if (TEXTBOX.isOneOfMe(element)) {
-					if ((combo = COMBO.findAncestor(element))) {
+					if ((combo = getCombo(element))) {
 						return LISTBOX.findDescendant(combo);
 					}
 					return null;
@@ -242,19 +242,12 @@ define(["wc/has",
 			 * @param {Element} listbox the LISTBOX sub-component to focus.
 			 */
 			function focusListbox(listbox) {
-				var textbox;
 				if (listbox && OPTION.findDescendant(listbox)) {
-					textbox = TEXTBOX.findDescendant(listbox.parentNode, true);
-
-					if (!textbox.value) {
-						timers.setTimeout(focus.focusFirstTabstop, IETimeout, listbox, function(target) {
-							if (!shed.isSelected(target)) {
-								listboxAnalog.activate(target);
-							}
-						});
-					} else {
-						timers.setTimeout(focus.focusFirstTabstop, IETimeout, listbox);
-					}
+					timers.setTimeout(focus.focusFirstTabstop, IETimeout, listbox, function(target) {
+						if (!shed.isSelected(target)) {
+							listboxAnalog.activate(target);
+						}
+					});
 				}
 			}
 
@@ -298,26 +291,29 @@ define(["wc/has",
 			 * @param {String} action the SHED action.
 			 */
 			function shedSubscriber(element, action) {
-				var textbox;
+				var textbox, opener;
 
-				if (!element) {
+				if (!(element && COMBO.isOneOfMe(element))) {
 					return;
 				}
-				if (COMBO.isOneOfMe(element)) {
-					textbox = TEXTBOX.findDescendant(element);
-					if (action === shed.actions.EXPAND && shed.isExpanded(element)) {
+
+				textbox = TEXTBOX.findDescendant(element);
+
+				if (action === shed.actions.EXPAND) {
+					if (shed.isExpanded(element)) {
 						onchangeSubmit.ignoreNextChange();
 						ajaxRegion.ignoreNextChange();
 						openSelect = element.id;
-
 						optionVal[(element.id)] = textbox ? textbox.value : null;
 						if (filter && !CHATTY_COMBO.isOneOfMe(element)) {
 							filterOptions(element, 0);
 						}
-						return;
 					}
+					return;
+				}
 
-					if (action === shed.actions.COLLAPSE && !shed.isExpanded(element)) {
+				if (action === shed.actions.COLLAPSE) {
+					if (!shed.isExpanded(element)) {
 						onchangeSubmit.clearIgnoreChange();
 						ajaxRegion.clearIgnoreChange();
 
@@ -329,12 +325,29 @@ define(["wc/has",
 							timers.setTimeout(event.fire, 0, textbox, event.TYPE.change);
 						}
 						optionVal[(element.id)] = null;
-						return;
 					}
+					return;
+				}
 
-					if ((action === shed.actions.HIDE || action === shed.actions.DISABLE) && shed.isExpanded(element)) {
-						shed.collapse(element);
+				if (action === shed.actions.DISABLE) {
+					shed.disable(textbox, true);
+					if ((opener = OPENER_BUTTON.findDescendant(element))) {
+						shed.disable(opener, true);
 					}
+					shed.collapse(element, true);
+					return;
+				}
+
+				if (action === shed.actions.ENABLE) {
+					shed.enable(textbox, true);
+					if ((opener = OPENER_BUTTON.findDescendant(element))) {
+						shed.enable(opener, true);
+					}
+					return;
+				}
+
+				if (action === shed.actions.HIDE && shed.isExpanded(element)) {
+					shed.collapse(element, true);
 				}
 			}
 
@@ -353,6 +366,31 @@ define(["wc/has",
 			}
 
 			/**
+			 * Handles a keypress on "listbox".
+			 * @function
+			 * @private
+			 * @param {Element} listbox The listbox.
+			 * @param {number} keyCode The key that was pressed.
+			 * @returns {boolean} true if the key event needs to be cancelled.
+			 */
+			function handleKeyListbox(listbox, keyCode) {
+				var combo = getCombo(listbox),
+					textbox;
+				if (!combo) {
+					return false;
+				}
+
+				if ((keyCode === KeyEvent.DOM_VK_ESCAPE || keyCode === KeyEvent.DOM_VK_RETURN)) {
+					textbox = TEXTBOX.findDescendant(combo);
+					focus.setFocusRequest(textbox, function() {
+						shed.collapse(combo);
+					});
+					return true;
+				}
+				return false;
+			}
+
+			/**
 			 * Keydown event handler. Handles key events as per {@link http://www.w3.org/TR/wai-aria-practices/#combobox}.
 			 *
 			 * **NOTES:** the LEFT ARROW and RIGHT ARROW are native in input elements in the text state; we have not implemented list pagination so
@@ -363,84 +401,67 @@ define(["wc/has",
 			 * @param {Event} $event The keydown event.
 			 */
 			function keydownEvent($event) {
-				var keyCode = $event.keyCode, target = $event.target, listbox;
-				if (!$event.defaultPrevented) {
-					if (TEXTBOX.isOneOfMe(target)) {
-						if (handleKeyCombobox(target, keyCode, $event.altKey)) {
-							$event.preventDefault();
-						}
-					} else if ((listbox = getListBox(target, 1))) {
-						if (handleKeyListbox(listbox, keyCode)) {
-							$event.preventDefault();
-						}
-					} else {
-						handleKeyGlobal(keyCode);
-					}
-				}
-			}
+				var keyCode = $event.keyCode,
+					target = $event.target,
+					listbox,
+					openCombo;
 
-			/**
-			 * Handles a keypress on "listbox".
-			 * @function
-			 * @private
-			 * @param {Element} listbox The listbox.
-			 * @param {number} keyCode The key that was pressed.
-			 * @returns {boolean} true if the key event needs to be cancelled.
-			 */
-			function handleKeyListbox(listbox, keyCode) {
-				var combo = getCombo(listbox),
-					preventDefault = false,
-					textbox;
-				if (!combo) {
+				if (TEXTBOX.isOneOfMe(target)) {
+					if (handleKeyTextbox(target, keyCode, $event.altKey)) {
+						$event.preventDefault();
+					}
 					return;
 				}
 
-				if ((keyCode === KeyEvent.DOM_VK_ESCAPE || keyCode === KeyEvent.DOM_VK_RETURN)) {
-					textbox = TEXTBOX.findDescendant(combo);
-					focus.setFocusRequest(textbox, function() {
-						shed.collapse(combo);
-					});
-					preventDefault = true;
+				if ((listbox = getListBox(target))) {
+					if (handleKeyListbox(listbox, keyCode)) {
+						$event.preventDefault();
+					}
+					return;
 				}
-				return preventDefault;
-			}
 
-			/**
-			 * Handles keypresses that occur in a "non-combo" context.
-			 * Most likely this will be to listen for ESC to close any open listbox.
-			 * It is (now) possible to have an open listbox with the combo having focus.
-			 * @param {number} keyCode The key that was pressed.
-			 */
-			function handleKeyGlobal(keyCode) {
-				var openCombo;
-				if (keyCode === KeyEvent.DOM_VK_ESCAPE) {
-					openCombo = openSelect ? document.getElementById(openSelect) : null;
+				if (openSelect && keyCode === KeyEvent.DOM_VK_ESCAPE) {
+					openCombo = document.getElementById(openSelect);
 					if (openCombo && shed.isExpanded(openCombo)) {
 						shed.collapse(openCombo);
 					}
 				}
 			}
 
+			/**
+			 * Helper for handleKeyTextbox to handle pressing the DOWN ARROW when in a combo's textbox.
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} combo the combo control
+			 * @param {boolean} altKey `true` if the ALT key is pressed with the arrow
+			 */
 			function doDownButton(combo, altKey) {
-				var listbox = getListBox(combo);
-				if (shed.isExpanded(combo)) {
-					if (listbox) {
-						focusListbox(listbox);
-					}
-				} else if (altKey) {
+				var listbox;
+
+				if (altKey && !shed.isExpanded(combo)) {
 					shed.expand(combo);
-					if (listbox) {
-						focusListbox(listbox);
-					}
+				}
+
+				if (shed.isExpanded(combo) && (listbox = getListBox(combo))) {
+					focusListbox(listbox);
 				}
 			}
 
-			function doUpKey(target, combo, altKey) {
+			/**
+			 * Helper for handleKeyTextbox to handle pressing the UP ARROW when in a combo's textbox.
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} combo the combo control
+			 * @param {boolean} altKey `true` if the ALT key is pressed with the arrow
+			 */
+			function doUpKey(combo, altKey) {
 				var listbox;
 				if (shed.isExpanded(combo)) {
 					if (altKey) {
 						shed.collapse(combo);
-					} else if ((listbox = getListBox(target))) {
+					} else if ((listbox = getListBox(combo))) {
 						focusListbox(listbox);
 					}
 				}
@@ -455,7 +476,7 @@ define(["wc/has",
 			 * @param {boolean} altKey
 			 * @returns {boolean} true if the key event needs to be cancelled.
 			 */
-			function handleKeyCombobox(target, keyCode, altKey) {
+			function handleKeyTextbox(target, keyCode, altKey) {
 				var combo;
 				/* keydown happens when a combo input is focused */
 				if (keyCode === KeyEvent.DOM_VK_TAB) {
@@ -472,20 +493,21 @@ define(["wc/has",
 					case KeyEvent.DOM_VK_ESCAPE:
 						if (shed.isExpanded(combo)) {
 							shed.collapse(combo);
+							return true;
 						}
-						return true;
+						break;
 					case KeyEvent.DOM_VK_DOWN:
 						doDownButton(combo, altKey);
-						return false;
+						break;
 					case KeyEvent.DOM_VK_UP:
-						doUpKey(target, combo, altKey);
-						return false;
+						doUpKey(combo, altKey);
+						break;
 					default:
 						if (filter && (!key.isMeta(keyCode)) && !CHATTY_COMBO.isOneOfMe(combo)) {
 							filterOptions(combo);
 						}
-						return false;
 				}
+				return false;
 			}
 
 			/**
@@ -532,12 +554,11 @@ define(["wc/has",
 			 * @param {Event} $event The click event.
 			 */
 			function clickEvent($event) {
-				var target = $event.target, combo, listbox, textbox;
+				var target = $event.target, combo, textbox;
 
-				if (!$event.defaultPrevented) {
-					if ((listbox = LISTBOX.findAncestor(target))) {
-						if ((combo = getCombo(listbox)) && (textbox = TEXTBOX.findDescendant(combo))) {
-
+				if (!$event.defaultPrevented && (combo = getCombo(target))) {
+					if (LISTBOX.findAncestor(target)) {
+						if ((textbox = TEXTBOX.findDescendant(combo))) {
 							focus.setFocusRequest(textbox, function() {
 								shed.collapse(combo);
 							});
@@ -546,14 +567,10 @@ define(["wc/has",
 						return;
 					}
 
-					if ((combo = COMBO.findAncestor(target))) {
+					if (!shed.isDisabled(combo)) {
 						shed.toggle(combo, shed.actions.EXPAND);
-						if (OPENER_BUTTON.findAncestor(target) && shed.isExpanded(combo) && (listbox = getListBox(combo))) {
-							focusListbox(listbox);
-						}
 						$event.preventDefault();
 					}
-
 				}
 			}
 
@@ -640,12 +657,13 @@ define(["wc/has",
 					listbox,
 					combo;
 
-				if (!$event.defaultPrevented) {
-					if (TEXTBOX.isOneOfMe(element)) {
-						combo = element.parentNode;
+				if (TEXTBOX.isOneOfMe(element)) {
+					if ((combo = element.parentNode) && !attribute.get(combo, INITED)) {
+						attribute.set(combo, INITED, true);
+						event.add(combo, event.TYPE.keydown, keydownEvent);
+
 						// chatty ajax combos need a special input listener
-						if (combo && (listbox = getListBox(combo)) && listbox.hasAttribute("data-wc-chat") && !attribute.get(combo, INITED)) {
-							attribute.set(combo, INITED, true);
+						if ((listbox = getListBox(combo)) && listbox.hasAttribute("data-wc-chat")) {
 							classList.add(combo, CLASS_CHATTY);
 							if (event.canCapture) {
 								event.add(element, event.TYPE.input, inputEvent);
@@ -654,37 +672,37 @@ define(["wc/has",
 							}
 						}
 					}
+				}
 
-					if (openSelect) {
-						combo = getCombo(element);
-						// check openSelect before trying to collapse element in case we have gone straight from an open combo to another combo
-						if (!(combo && combo.id === openSelect)) {
-							openCombo = document.getElementById(openSelect);
-							if (openCombo) {
-								/* close any open combos when focusing elsewhere but
-								 * if I have focussed in the current combo's list box (or something silly like the body)
-								 * do not close the combo.*/
+				if (openSelect) {
+					combo = getCombo(element);
+					// check openSelect before trying to collapse element in case we have gone straight from an open combo to another combo
+					if (!(combo && combo.id === openSelect)) {
+						openCombo = document.getElementById(openSelect);
+						if (openCombo) {
+							/* close any open combos when focusing elsewhere but
+							 * if I have focussed in the current combo's list box (or something silly like the body)
+							 * do not close the combo.*/
 
-								if (element !== window && element !== document.body) {
-									listbox = getListBox(combo);
-									if (listbox !== getListBox(openCombo)) {
-										shed.collapse(openCombo);
-									}
-								} else {
-									listbox = getListBox(openCombo);
-									if (listbox) {
-										/*
-										 * This makes the listbox reminiscent of a modal dialog, but not quite.
-										 * The listbox is closed when the user focuses another interactive component, or presses ESC (hopefully this is not annoying on touchscreen?).
-										 * It primarily exists to work around an IE11 issue where clicking a scrollbar will set focus to the body element.
-										 * Restoring focus to the listbox will ensure that keyboard listeners are wired up correctly.
-										 */
-										focusListbox(listbox);
-									}
+							if (element !== window && element !== document.body) {
+								listbox = getListBox(combo);
+								if (listbox !== getListBox(openCombo)) {
+									shed.collapse(openCombo);
 								}
 							} else {
-								openSelect = "";
+								listbox = getListBox(openCombo);
+								if (listbox) {
+									/*
+									 * This makes the listbox reminiscent of a modal dialog, but not quite.
+									 * The listbox is closed when the user focuses another interactive component, or presses ESC (hopefully this is not annoying on touchscreen?).
+									 * It primarily exists to work around an IE11 issue where clicking a scrollbar will set focus to the body element.
+									 * Restoring focus to the listbox will ensure that keyboard listeners are wired up correctly.
+									 */
+									focusListbox(listbox);
+								}
 							}
+						} else {
+							openSelect = "";
 						}
 					}
 				}
@@ -822,7 +840,6 @@ define(["wc/has",
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 				event.add(element, event.TYPE.click, clickEvent);
-				event.add(element, event.TYPE.keydown, keydownEvent);
 
 				if (has("event-ontouchstart")) {
 					event.add(element, event.TYPE.touchstart, touchstartEvent);

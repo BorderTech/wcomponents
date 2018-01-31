@@ -4,10 +4,14 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 	var timer,
 		imageEdit = new ImageEdit();
 
+	/**
+	 * Used when checking the newly created image is named with the correct extension.
+	 * If it does not already match any in the array then the extension at index zero will be appended.
+	 **/
 	ImageEdit.prototype.mimeToExt = {
-		"image/jpeg": "jpeg",
-		"image/png": "png",
-		"image/webp": "webp"
+		"image/jpeg": ["jpeg", "jpg"],
+		"image/png": ["png"],
+		"image/webp": ["webp"]
 	};
 
 	ImageEdit.prototype.renderCanvas = function(callback) {
@@ -1358,10 +1362,10 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 				});
 			if (info && info.length) {
 				info = info[0];
-				if (info.mime && imageEdit.mimeToExt[info.mime]) {
-					expectedExtension = imageEdit.mimeToExt[info.mime];
-					if (expectedExtension !== info.ext) {
-						file.name += "." + expectedExtension;
+				expectedExtension = imageEdit.mimeToExt[info.mime];
+				if (info.mime && expectedExtension) {
+					if (expectedExtension.indexOf(info.ext) < 0) {
+						file.name += "." + expectedExtension[0];
 					}
 				}
 			}
