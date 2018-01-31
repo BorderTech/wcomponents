@@ -4,8 +4,8 @@
 
 	<parent>
 		<groupId>com.github.bordertech.common</groupId>
-		<artifactId>bordertech-parent</artifactId>
-		<version>1.0.2</version>
+		<artifactId>qa-parent</artifactId>
+		<version>1.0.3</version>
 	</parent>
 
 	<name>wcomponents-parent</name>
@@ -19,11 +19,7 @@
 	<properties>
 		<wcomponents.junit.version>4.12</wcomponents.junit.version>
 		<parentLoc>wcomponents</parentLoc>
-		<wc.qa.skip>true</wc.qa.skip>
-		<checkstyle.skip>${wc.qa.skip}</checkstyle.skip>
-		<pmd.skip>${wc.qa.skip}</pmd.skip>
 		<cpd.skip>${wc.qa.skip}</cpd.skip>
-		<findbugs.skip>${wc.qa.skip}</findbugs.skip>
 		<jacoco.skip>${wc.qa.skip}</jacoco.skip>
 		<jetty.version>8.1.16.v20140903</jetty.version>
 	</properties>
@@ -106,73 +102,6 @@
 						<id>attach-descriptor</id>
 						<goals>
 							<goal>attach-descriptor</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<!-- Check the code style. -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>2.17</version>
-				<configuration>
-					<configLocation>../sun_checks_wc.xml</configLocation>
-					<consoleOutput>true</consoleOutput>
-					<failsOnError>true</failsOnError>
-					<linkXRef>false</linkXRef>
-					<includeTestSourceDirectory>false</includeTestSourceDirectory>
-				</configuration>
-				<executions>
-					<execution>
-						<id>checkStyle</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<!-- PMD Check. -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-pmd-plugin</artifactId>
-				<version>3.5</version>
-				<configuration>
-					<failurePriority>2</failurePriority>
-					<printFailingErrors>true</printFailingErrors>
-					<includeTests>false</includeTests>
-					<format>xml</format>
-				</configuration>
-				<executions>
-					<execution>
-						<id>checkPmd</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<!-- Findbugs check. -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>3.0.3</version>
-				<configuration>
-					<effort>Max</effort>
-					<includeTests>false</includeTests>
-					<threshold>Medium</threshold>
-					<excludeFilterFile>../findbugs-exclude-filter.xml</excludeFilterFile>
-				</configuration>
-				<executions>
-					<execution>
-						<id>checkFindbugs</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>check</goal>
 						</goals>
 					</execution>
 				</executions>
