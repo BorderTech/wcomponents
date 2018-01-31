@@ -29,6 +29,7 @@ define(["wc/dom/attribute",
 
 		var abstractMenu,
 			BOOTSTRAPPED = "wc/ui/menu/bs",
+			BOOTSTRAPPED_TRANSIENT = BOOTSTRAPPED + "-transient",
 			ROLE_ATTRIB = "role",
 			postAjaxTimer,
 			focusTimer,
@@ -1656,12 +1657,16 @@ define(["wc/dom/attribute",
 			root = ((target === window || target === document) ? null : this.getRoot(target));
 			genericRoot = ((target === window || target === document) ? null : this.getFirstMenuAncestor(target));
 			if (root && (root === genericRoot)) {
+				if (!attribute.get(root, BOOTSTRAPPED)) {
+					attribute.set(root, BOOTSTRAPPED, true);
+					event.add(root, event.TYPE.keydown, eventWrapper.bind(this));
+				}
 				if (openMenu && (localOpenMenu = document.getElementById(openMenu)) && localOpenMenu !== root) {
 					closeOpenMenu(localOpenMenu, target, this);
 				}
 				if (this.isTransient) {
-					if (!attribute.get(root, BOOTSTRAPPED)) {
-						attribute.set(root, BOOTSTRAPPED, true);
+					if (!attribute.get(root, BOOTSTRAPPED_TRANSIENT)) {
+						attribute.set(root, BOOTSTRAPPED_TRANSIENT, true);
 						event.add(root, event.TYPE.mouseover, mouseoverEvent.bind(this));
 					}
 				}
@@ -1793,7 +1798,6 @@ define(["wc/dom/attribute",
 				event.add(element, event.TYPE.focusin, eventWrapper.bind(this));
 				event.add(element, event.TYPE.click, eventWrapper.bind(this));
 			}
-			event.add(element, event.TYPE.keydown, eventWrapper.bind(this));
 			if (this.preAjaxSubscriber) {
 				processResponse.subscribe(this.preAjaxSubscriber.bind(this));
 			}
