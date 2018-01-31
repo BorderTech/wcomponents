@@ -8,6 +8,9 @@
 
 ### Bug Fixes
 
+* Fixed several keyevent and combo JavaScript bugs #1430, #1442, #1444
+* fixed a Sass error which caused disabled icon buttons to have hover effects if invite is implemented.
+
 ## Release 1.4.21
 
 ### Enhancements
