@@ -48,8 +48,10 @@ public class WImageEditor extends AbstractWComponent {
 	 * @param useCamera the overlay image URL.
 	 */
 	public void setUseCamera(final boolean useCamera) {
-		ImageEditModel model = getOrCreateComponentModel();
-		model.useCamera = useCamera;
+		if (useCamera != getUseCamera()) {
+			ImageEditModel model = getOrCreateComponentModel();
+			model.useCamera = useCamera;
+		}
 	}
 
 	/**
@@ -103,7 +105,9 @@ public class WImageEditor extends AbstractWComponent {
 	 * @param size the size of the image editor.
 	 */
 	public void setSize(final Dimension size) {
-		getOrCreateComponentModel().size = size;
+		if (!size.equals(getSize())) {
+			getOrCreateComponentModel().size = size;
+		}
 	}
 
 	/**
