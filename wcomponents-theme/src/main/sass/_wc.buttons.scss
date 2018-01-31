@@ -87,6 +87,11 @@ button {
   color: inherit;
   overflow: hidden;
   width: $wc-icon-normal;
+
+  &[disabled] {
+    background-color: $wc-clr-disabled-bg;
+    color: $wc-clr-disabled-fg;
+  }
 }
 
 // ########## Unused (in framework) convenience classes ##########

@@ -48,7 +48,6 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				LAST: "wc_cal_last"
 			},
 			LAUNCHER = dateField.getLaunchWidget(),
-			DATE_FIELD,
 			PICKABLE = new Widget("button", CLASS.DATE_BUTTON),
 			ROW,
 			CAL_BUTTON = new Widget("button", "wc_wdf_mv"),
@@ -61,7 +60,8 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			conf = wcconfig.get("wc/ui/calendar", {
 				min: 1000,
 				max: 9999
-			});
+			}),
+			INITED_ATTRIB = "wc/ui/calendar.BOOTSTAPPED";
 
 
 		function findMonthSelect() {
@@ -953,10 +953,9 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		}
 
 		function keydownEvent($event) {
-			var target = $event.target,
-				keyCode = $event.keyCode,
+			var target = $event.currentTarget,
 				launcher;
-			if (keyCode === KeyEvent.DOM_VK_DOWN && ($event.altKey || $event.metaKey) && dateField.isOneOfMe(target, false) && (launcher = LAUNCHER.findDescendant(target.parentNode))) {
+			if ($event.keyCode === KeyEvent.DOM_VK_DOWN && ($event.altKey || $event.metaKey) && (launcher = LAUNCHER.findDescendant(dateField.get(target)))) {
 				doLaunch(launcher);
 				$event.preventDefault();
 			}
@@ -1053,12 +1052,16 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		function focusEvent($event) {
 			var target = $event.target,
 				element, cal;
-			DATE_FIELD = DATE_FIELD || dateField.getWidget();
 
-			if (DATE_FIELD && target && (cal = getCal()) && !shed.isHidden(cal, true)) {
-				element = DATE_FIELD.findAncestor(target);
+			if (dateField.isOneOfMe(target, false) && !attribute.get(target, INITED_ATTRIB)) {
+				attribute.set(target, INITED_ATTRIB, true);
+				event.add(target, event.TYPE.keydown, keydownEvent);
+			}
 
-				if (!element || (element !== DATE_FIELD.findAncestor(getCal()))) { // second: focused a different date field
+			if (target && (cal = getCal()) && !shed.isHidden(cal, true)) {
+				element = dateField.get(target);
+
+				if (!element || (element !== dateField.get(getCal()))) { // second: focused a different date field
 					hideCalendar(true);
 				}
 			}
@@ -1079,7 +1082,6 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				event.add(element, event.TYPE.focusin, focusEvent);
 			}
 			event.add(element, event.TYPE.click, clickEvent);
-			event.add(element, event.TYPE.keydown, keydownEvent);
 		};
 
 		/**

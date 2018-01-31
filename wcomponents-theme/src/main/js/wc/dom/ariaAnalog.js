@@ -1,4 +1,5 @@
 define(["wc/has",
+	"wc/dom/attribute",
 	"wc/dom/clearSelection",
 	"wc/dom/event",
 	"wc/dom/group",
@@ -10,7 +11,7 @@ define(["wc/has",
 	"wc/dom/keyWalker",
 	"wc/dom/isEventInLabel",
 	"wc/dom/isAcceptableTarget"],
-	function(has, clearSelection, event, group, shed, uid, Widget, toArray, formUpdateManager, keyWalker, isEventInLabel, isAcceptableEventTarget) {
+	function(has, attribute, clearSelection, event, group, shed, uid, Widget, toArray, formUpdateManager, keyWalker, isEventInLabel, isAcceptableEventTarget) {
 		"use strict";
 
 		var ariaAnalog,
@@ -412,7 +413,6 @@ define(["wc/has",
 				event.add(element, event.TYPE.focusin, eventWrapper.bind(this));
 				event.add(element, event.TYPE.click, eventWrapper.bind(this));
 			}
-			event.add(element, event.TYPE.keydown, eventWrapper.bind(this));
 			shed.subscribe(shed.actions.SELECT, this.shedObserver.bind(this));
 			shed.subscribe(shed.actions.DESELECT, this.shedObserver.bind(this));
 
@@ -445,6 +445,17 @@ define(["wc/has",
 			}
 		};
 
+
+		function bootstrap(element, instance) {
+			var container = instance.getGroupContainer(element) || element,
+				INIT_ATTRIB = "ariaAnalogKeydownInited";
+
+			if (!attribute.get(container, INIT_ATTRIB)) {
+				attribute.set(container, INIT_ATTRIB, true);
+				event.add(container, event.TYPE.keydown, eventWrapper.bind(instance));
+			}
+		}
+
 		/**
 		 * Focus event listener to manage tab index on simple linear groups. Note though that components which do their
 		 * own navigation are also responsible for maintaining their own tab indices.
@@ -454,9 +465,13 @@ define(["wc/has",
 		 */
 		AriaAnalog.prototype.focusEvent = function($event) {
 			var element = $event.target;
-			if (!$event.defaultPrevented && this.groupNavigation && this.ITEM.isOneOfMe(element) && !shed.isDisabled(element)) {
-				if (this.setFocusIndex && !(has("event-ontouchstart"))) {
-					this.setFocusIndex(element);
+
+			if (this.ITEM.isOneOfMe(element) && !shed.isDisabled(element)) {
+				bootstrap(element, this);
+				if (this.groupNavigation) {
+					if (this.setFocusIndex && !(has("event-ontouchstart"))) {
+						this.setFocusIndex(element);
+					}
 				}
 			}
 		};
