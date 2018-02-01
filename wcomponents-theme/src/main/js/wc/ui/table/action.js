@@ -224,15 +224,15 @@ define(["wc/dom/event",
 						/*
 						 * This could theoretically happen if the condition is registered before both:
 						 * - the DOM is ready AND
-						 * - the becounce timer is done
+						 * - the debounce timer is done
 						 * I never saw it happen though.
 						 * It should be OK if update is called again because we won't remove the changed flag until it's actioned.
 						 * I wouldn't call update from itself though for risk of infinite looping.
 						 */
-						console.warn("Could not find button", id);
+						console.warn("Could not find button", id);  // this may be resolved in postInit
 					}
 				}
-			}, 250);
+			}, 200);
 
 			/**
 			 * Register a button condition.
