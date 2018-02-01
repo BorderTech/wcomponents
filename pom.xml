@@ -350,7 +350,7 @@
 				<version>2.17</version>
 				<configuration>
 					<skip>false</skip>
-					<configLocation>sun_checks_wc.xml</configLocation>
+					<configLocation>bordertech/checkstyle.xml</configLocation>
 					<consoleOutput>true</consoleOutput>
 					<!-- Exclude because of aggregate reports. -->
 					<excludes>**/wcomponents/qa/**/*.java,**/wcomponents/examples/**/*.java</excludes>
@@ -402,7 +402,7 @@
 					<skip>false</skip>
 					<effort>Max</effort>
 					<includeTests>false</includeTests>
-					<excludeFilterFile>findbugs-exclude-filter.xml</excludeFilterFile>
+					<excludeFilterFile>bordertech/findbugs-exclude-filter.xml</excludeFilterFile>
 					<threshold>Low</threshold>
 					<failOnError>false</failOnError>
 					<findbugsXmlOutputDirectory>${project.build.directory}/findbugs-rep</findbugsXmlOutputDirectory>
