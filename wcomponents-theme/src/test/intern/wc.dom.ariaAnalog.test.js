@@ -185,14 +185,6 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 				listController.focusEvent(fakeEvent);
 				assert.isTrue(testTarget.hasAttribute("tabindex"), "tabindex should now be set");
 			},
-			testFocusEvent_defaultPrevented: function() {
-				var testTarget = document.getElementById("lb0-1"),
-					focusTarget = document.getElementById("lb0-0"),
-					fakeEvent = {defaultPrevented: true, target: focusTarget};
-				assert.isFalse(testTarget.hasAttribute("tabindex"), "expect tabindex not set");
-				listController.focusEvent(fakeEvent);
-				assert.isFalse(testTarget.hasAttribute("tabindex"), "tabindex should still not be set");
-			},
 			testFocusEvent_differentController: function() {
 				var testTarget = document.getElementById("lb0-1"),
 					focusTarget = document.getElementById("lb0-0"),

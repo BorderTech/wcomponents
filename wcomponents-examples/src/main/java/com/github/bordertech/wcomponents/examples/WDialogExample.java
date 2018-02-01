@@ -19,6 +19,7 @@ import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WPartialDateField;
 import com.github.bordertech.wcomponents.WRadioButtonSelect;
+import com.github.bordertech.wcomponents.WSuggestions;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.WebUtilities;
@@ -282,6 +283,13 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		});
 
 		WFieldLayout dateDlgFldLayout = new WFieldLayout();
+		WSuggestions suggestions = new WSuggestions("icao");
+		WContainer suggestionsContainer = new WContainer();
+		suggestionsContainer.add(suggestions);
+		WTextField text1 = new WTextField();
+		text1.setSuggestions(suggestions);
+		suggestionsContainer.add(text1);
+		dateDlgFldLayout.addField("Select a contry", suggestionsContainer);
 		dateDlgFldLayout.addField("Set a date", pdfDate);
 		WContainer dateBtnContainer = new WContainer();
 		dateBtnContainer.add(dateButton);

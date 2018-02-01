@@ -8,6 +8,10 @@
 
 ### Bug Fixes
 
+* Fixed several keyevent and combo JavaScript bugs #1430, #1442, #1444
+* fixed a Sass error which caused disabled icon buttons to have hover effects if invite is implemented.
+* Change the way table actions are registered to rectify #1433.
+
 ## Release 1.4.21
 
 ### Enhancements
@@ -17,6 +21,7 @@
 ### Bug Fixes
 
 * Fixed a Sass error which could result in incorrect margins in some circumstances #1437
+* Image editor accepts jpeg or jpg as a valid jpg filename extension #1443
 
 ## Release 1.4.20
 
