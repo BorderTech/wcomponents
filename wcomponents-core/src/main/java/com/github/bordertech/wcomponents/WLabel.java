@@ -110,9 +110,7 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	 * @param args optional arguments for the message format string.
 	 */
 	public void setText(final String text, final Serializable... args) {
-		if (!text.equals(getText())) {
-			getOrCreateComponentModel().text = I18nUtilities.asMessage(text, args);
-		}
+		getOrCreateComponentModel().text = I18nUtilities.asMessage(text, args);
 	}
 
 	/**

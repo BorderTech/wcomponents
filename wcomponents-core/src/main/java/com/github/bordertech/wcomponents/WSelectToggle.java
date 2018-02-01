@@ -194,7 +194,9 @@ public class WSelectToggle extends AbstractWComponent implements Disableable, Aj
 	 * @param target The target to set.
 	 */
 	public void setTarget(final WComponent target) {
-		getOrCreateComponentModel().target = target;
+		if (target != getTarget()) {
+			getOrCreateComponentModel().target = target;
+		}
 	}
 
 	/**
