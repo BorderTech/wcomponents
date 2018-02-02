@@ -96,7 +96,7 @@ public class SimplePaginationTableWithSelectablesExample_Test extends WComponent
 			&& driver.findElement(byWComponentPath(DELETE_BUTTON)).isEnabled());
 		Assert.assertFalse("Edit button should be disabled",
 			driver.findElement(byWComponentPath(EDIT_BUTTON)).isEnabled());
-		
+
 		wTableWebElement = getTable(); // Needs to be added after each refresh to prevent StaleElementReferenceException
 
 		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='5']")).click();
@@ -148,6 +148,8 @@ public class SimplePaginationTableWithSelectablesExample_Test extends WComponent
 		Assert.assertFalse("Edit button should be disabled",
 			driver.findElement(byWComponentPath(EDIT_BUTTON)).isEnabled());
 
+		wTableWebElement = getTable(); // Needs to be added after ajax/refresh to prevent StaleElementReferenceException
+
 		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='5']")).click();
 		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='6']")).click();
 
@@ -159,6 +161,8 @@ public class SimplePaginationTableWithSelectablesExample_Test extends WComponent
 
 		Assert.assertFalse("Select button should be disabled",
 			driver.findElement(byWComponentPath(SELECT_BUTTON)).isEnabled());
+
+		wTableWebElement = getTable();
 		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='0']")).click();
 
 		Assert.assertTrue("Select button should be enabled",
