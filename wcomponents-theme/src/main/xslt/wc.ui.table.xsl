@@ -925,12 +925,33 @@
 		the action's conditions are met before undertaking the action.
 	-->
 	<xsl:template match="ui:condition" mode="action">
-		<xsl:text>{"min":"</xsl:text>
-		<xsl:value-of select="@minSelectedRows"/>
-		<xsl:text>","max":"</xsl:text>
-		<xsl:value-of select="@maxSelectedRows"/>
-		<xsl:text>","otherSelected":</xsl:text>
-		<xsl:value-of select="@selectedOnOther"/>
+		<xsl:text>{"min":</xsl:text>
+		<xsl:choose>
+			<xsl:when test="@minSelectedRows">
+				<xsl:value-of select="@minSelectedRows"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:text>0</xsl:text>
+			</xsl:otherwise>
+		</xsl:choose>
+		<xsl:text>,"max":</xsl:text>
+		<xsl:choose>
+			<xsl:when test="@maxSelectedRows">
+				<xsl:value-of select="@maxSelectedRows"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:text>0</xsl:text>
+			</xsl:otherwise>
+		</xsl:choose>
+		<xsl:text>,"otherSelected":</xsl:text>
+		<xsl:choose>
+			<xsl:when test="@selectedOnOther">
+				<xsl:value-of select="@selectedOnOther"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:text>0</xsl:text>
+			</xsl:otherwise>
+		</xsl:choose>
 		<xsl:text>,"type":"</xsl:text>
 		<xsl:value-of select="@type"/>
 		<xsl:text>","message":"</xsl:text>

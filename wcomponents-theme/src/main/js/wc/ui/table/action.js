@@ -57,7 +57,7 @@ define(["wc/dom/event",
 
 					totalSelected = currentSelected + otherSelected;
 
-					if ((min && totalSelected < parseInt(min, 10)) || (max && totalSelected > parseInt(max, 10))) {
+					if ((min && totalSelected < min) || (max && totalSelected > max)) {
 						return false;
 					}
 				}
