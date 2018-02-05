@@ -53,7 +53,9 @@ define(["wc/dom/event",
 
 					currentSelected = getFilteredGroup(ROW_CONTAINER.findDescendant(table), {filter: filter}).length;
 
-					otherSelected = condition.otherSelected;
+					if (condition.otherSelected) {
+						otherSelected = condition.otherSelected;
+					}
 
 					totalSelected = currentSelected + otherSelected;
 
