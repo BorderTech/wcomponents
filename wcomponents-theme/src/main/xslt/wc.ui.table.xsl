@@ -936,9 +936,12 @@
 			<xsl:value-of select="@maxSelectedRows"/>
 			<xsl:text>,</xsl:text>
 		</xsl:if>
-		<xsl:text>"otherSelected":</xsl:text>
-		<xsl:value-of select="@selectedOnOther"/>
-		<xsl:text>,"type":"</xsl:text>
+		<xsl:if test="ancestor::ui:table[1]/ui:pagination">
+			<xsl:text>"otherSelected":</xsl:text>
+			<xsl:value-of select="@selectedOnOther"/>
+			<xsl:text>,</xsl:text>
+		</xsl:if>
+		<xsl:text>"type":"</xsl:text>
 		<xsl:value-of select="@type"/>
 		<xsl:text>","message":"</xsl:text>
 		<xsl:value-of select="@message"/>
