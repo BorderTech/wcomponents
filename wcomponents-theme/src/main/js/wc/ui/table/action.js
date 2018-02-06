@@ -37,8 +37,6 @@ define(["wc/dom/event",
 				var min,
 					max,
 					table,
-					// todo: this filter can be deleted once we drop WDataTable as rows will no longer be able to be disabled
-					filter = getFilteredGroup.FILTERS.enabled | getFilteredGroup.FILTERS.selected,
 					otherSelected = 0,
 					currentSelected = 0,
 					totalSelected = 0;
@@ -51,7 +49,7 @@ define(["wc/dom/event",
 						return true;
 					}
 
-					currentSelected = getFilteredGroup(ROW_CONTAINER.findDescendant(table), {filter: filter}).length;
+					currentSelected = getFilteredGroup(ROW_CONTAINER.findDescendant(table)).length;
 
 					if (condition.otherSelected) {
 						otherSelected = condition.otherSelected;

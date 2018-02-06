@@ -456,7 +456,6 @@ define(["wc/ui/menu/core",
 
 				// selected tree items (would prefer to be devolved to tree item but that just ain't possible ...)
 				Array.prototype.forEach.call(getFilteredGroup(next, {
-					filter: (getFilteredGroup.FILTERS.selected | getFilteredGroup.FILTERS.enabled),
 					ignoreInnerGroups: true
 				}), function(nextSelectedItem) {
 					formUpdateManager.writeStateField(toContainer, rootId, nextSelectedItem.id);
