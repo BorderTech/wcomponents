@@ -8,6 +8,8 @@
 
 ### Bug Fixes
 
+* Fixed a flaw which resulted in WSkipLinks not being transformed #1420.
+
 ## Release 1.4.22
 
 ### API Changes
