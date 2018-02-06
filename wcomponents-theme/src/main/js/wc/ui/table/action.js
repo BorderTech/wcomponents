@@ -60,6 +60,7 @@ define(["wc/dom/event",
 					totalSelected = currentSelected + otherSelected;
 
 					if ((min && totalSelected < min) || (max && totalSelected > max)) {
+
 						return false;
 					}
 				}

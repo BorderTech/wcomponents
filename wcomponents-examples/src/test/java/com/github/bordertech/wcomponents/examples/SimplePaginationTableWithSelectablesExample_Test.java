@@ -160,6 +160,7 @@ public class SimplePaginationTableWithSelectablesExample_Test extends WComponent
 			driver.findElement(byWComponentPath(SELECT_BUTTON)).isEnabled());
 
 		wTableWebElement = getTable();
+
 		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='0']")).click();
 
 		Assert.assertTrue("Select button should be enabled",
