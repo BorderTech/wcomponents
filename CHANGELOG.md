@@ -9,6 +9,7 @@
 ### Bug Fixes
 
 * Fixed action constraints not working across pages on a paginated table #1078
+* Fixed a flaw which resulted in WSkipLinks not being transformed #1420.
 
 ## Release 1.4.22
 
