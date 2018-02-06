@@ -8,6 +8,8 @@
 
 ### Bug Fixes
 
+* Fixed action constraints not working across pages on a paginated table #1078
+
 ## Release 1.4.22
 
 ### API Changes
