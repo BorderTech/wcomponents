@@ -1,16 +1,44 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.readOnly.xsl"/>
-	
+
+
 	<xsl:template match="ui:datefield[@readOnly]" priority="2">
-		<xsl:call-template name="readOnlyControl">
-			<xsl:with-param name="class">
-				<xsl:text>wc_datero wc-ro-input</xsl:text>
-			</xsl:with-param>
-		</xsl:call-template>
+		<xsl:variable name="element">
+			<xsl:choose>
+				<xsl:when test="@allowPartial or not(@date)">
+					<xsl:text>span</xsl:text>
+				</xsl:when>
+				<xsl:otherwise>time</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:element name="{$element}">
+			<xsl:call-template name="commonAttributes"/>
+			<xsl:call-template name="roComponentName"/>
+			<xsl:choose>
+				<xsl:when test="@date">
+					<xsl:variable name="attribname">
+						<xsl:choose>
+							<xsl:when test="@allowPartial">
+								<xsl:text>data-wc-value</xsl:text>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:text>datetime</xsl:text>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:variable>
+					<xsl:attribute name="{$attribname}">
+						<xsl:value-of select="@date"/>
+					</xsl:attribute>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="text()"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:element>
 	</xsl:template>
 	
-<xsl:template match="ui:datefield[@allowPartial]">
+	<xsl:template match="ui:datefield[@allowPartial]">
 		<div>
 			<xsl:call-template name="commonInputWrapperAttributes">
 				<xsl:with-param name="class">

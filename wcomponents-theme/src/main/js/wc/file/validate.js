@@ -6,15 +6,24 @@ define(["wc/i18n/i18n", "wc/file/size", "wc/file/accepted", "wc/ui/prompt"], fun
 	 */
 	function check(args) {
 		var message, result = [],
+			testObj,
 			selector = args.selector;
 		try {
+			if (args.files) {
+				testObj = {
+					files: args.files
+				};
+			}
 			if (selector) {
 				if (!accepted(selector)) {
 					message = i18n.get("file_wrongtype", selector.accept);
 					result.push(message);
 				}
 				if (!args.stopAtFirst || result.length < 1) {
-					message = size.check(selector);
+					message = size.check({
+						element: selector,
+						testObj: testObj
+					});
 					if (message) {
 						result.push(message);
 					}
@@ -44,6 +53,7 @@ define(["wc/i18n/i18n", "wc/file/size", "wc/file/accepted", "wc/ui/prompt"], fun
 	/**
 	 * @typedef {Object} module:wc/file/validate~args
 	 * @property {Element} selector The file input to validate.
+	 * @property {File[]} [files] Alternatively validate these files.
 	 * @property {boolean} notify If truthy then the user will be notified with validation messages.
 	 * @property {boolean} stopAtFirst If truthy then no more checks will be performed once a check has failed.
 	 * @property {Function} callback Will be called back with the file selector only if there are no validation issues.

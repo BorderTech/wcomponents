@@ -1,125 +1,214 @@
-define(["wc/has", "wc/ui/loading", "wc/dom/storage"], function(has, loading, storage) {
+define(["wc/ui/loading", "wc/timers", "axe", "wc/has"], function(loading, timers, axe, has) {
 	"use strict";
-	var DISABLE = storage.get("wc.a11y.DISABLE"),  // set this to "true" to disable a11y check
-		AXE = storage.get("wc.a11y.AXE");  // set this to "true" to use axe-core
 
-	loading.done.then(window.setTimeout(function() {
-		if (DISABLE !== "true") {
-			if (!has("ie")) {
-				// kick this off after a few seconds so that RequireJS has (hopefully) finished loading modules
-				console.log("Pending a11y check in 3 seconds");
-				a11yTest();
+	var DEFAULT_DELAY = 3000,
+		showOnScreen = false,
+		defaultAxeConfig = {
+			reporter: "v2",
+			resultTypes: ["violations"],
+			rules: axe.getRules(["wcag2a", "wcag2aa"])
+		},
+		ignoreBestPracticeIssues = true,
+		ignoreExperimentalIssues = true,
+		warnIE = true,
+		defaultRunConfig = {
+			runOnly: {
+				type: "tags",
+				value: {
+					include: ["wcag2a", "wcag2aa"]
+				}
 			}
-		} else {
-			console.log("a11y check disabled via stored property `wc.a11y.DISABLE`");
+		};
+
+	// exclude does not appear to be working properly
+	function filterIssues(inArr) {
+		if (!(inArr.impact && inArr.tags && inArr.tags.length)) {
+			// nothing to report: probably an error
+			return false;
 		}
-	}, 3000));
+
+		if (ignoreBestPracticeIssues && inArr.tags.indexOf("best-practice") > -1) {
+			// ignore this issue
+			return false;
+		}
+
+		if (ignoreExperimentalIssues && inArr.tags.indexOf("experimental") > -1) {
+			// ignore this issue
+			return false;
+		}
+		return true;
+	}
+
+	function addData(value, isUrl) {
+		var result;
+
+		if (value === null) {
+			return;
+		}
+		if (typeof value === "undefined") {
+			return;
+		}
+		if (isUrl) {
+			return  "<dd><a target='_blank' href='" + value + "'>" + value + "</a></dd>";
+		}
+		if (typeof value === "object") {
+			result = "<dd><dl>";
+			Object.keys(value).forEach(function (innerKey) {
+				result += addTerm(innerKey, value[innerKey]);
+			});
+			result += "</dl></dd>";
+			return result;
+		}
+		return "<dd>" + value + "</dd>";
+	}
+
+	function addTerm(key, value) {
+		var result;
+		if (!key) {
+			return "";
+		}
+
+		result = "<dt>" + key + "</dt>";
+		if (value === null || typeof value === "undefined") {
+			return result;
+		}
+
+		if (key === "helpUrl") {
+			result += addData(value, true);
+		} else if (Array.isArray(value)) {
+			value.forEach(function (next) {
+				result += addData(next);
+			});
+		} else if (typeof value === "object") {
+			Object.keys(value).forEach(function (innerKey) {
+				result += "<dd><dl>";
+				result += addTerm(innerKey, value[innerKey]);
+				result += "</dl></dd>";
+			});
+		} else {
+			result += addData(value);
+		}
+		return result;
+	}
 
 	/**
-	 * Run the accessbility test on the current page.
+	 * Simple reporter to show issues on screen. Used if module configuration object has `visible` == `true` and does not includ a custom callback
+	 * function.
+	 *
+	 * @param {Error} err null unless the attempt to run axe failed.
+	 * @param {Array} issues the issues found (if any)
 	 */
-	function a11yTest() {
-		console.log("Starting a11y check...");
-		if (AXE !== "true") {
-			require(["axs"], function(axs) {
-				console.time("a11y_goog");
-				googleA11yDevTools(axs);
-				console.timeEnd("a11y_goog");
-				console.log("Finished a11y check.");
-			});
-		} else {
-			require(["axe"], function(axe) {
-				console.time("a11y_deque");
-				axeCore(axe);
-				console.timeEnd("a11y_deque");
-				console.log("Finished a11y check.");
-			});
+	function visibleReporter(err, issues) {
+		var container,
+			html,
+			filteredIssues;
+		if (err) {
+			throw err;
 		}
-	}
 
-	function axeCore(axe) {
-		axe.a11yCheck(document, function (issues) {
-			issues.violations.forEach(function(issue) {
-				var obj = {
-					url: issue.helpUrl
-				};
-				issue.nodes.forEach(function(node) {
-					node.none.forEach(function(none) {
-						obj.isWarning = none.impact !== "serious";
-						obj.description = none.message;
-						obj.nodes = none.relatedNodes;
-					});
-					formatIssue(obj);
-				});
-			});
-		});
-	}
-
-	function googleA11yDevTools(axs) {
-		var auditConfig, issues;
-		try {
-			auditConfig = new axs.AuditConfiguration();
-			auditConfig.showUnsupportedRulesWarning = false;
-			auditConfig.scope = document.body;
-			/*
-			 * Skip "focusableElementNotVisibleAndNotAriaHidden" because it sets focus and that could be annoying.
-			 */
-			auditConfig.auditRulesToIgnore = ["focusableElementNotVisibleAndNotAriaHidden"];
-			auditConfig.ignoreSelectors("elementsWithMeaningfulBackgroundImage", "[title]"); // this is an error in the testing tool
-
-			issues = axs.Audit.run(auditConfig);
-			issues.forEach(function(issue) {
-				var obj, isFail = issue.result === axs.constants.AuditResult.FAIL;
-				if (isFail) {
-					obj = {
-						isWarning: issue.rule.severity === axs.constants.Severity.WARNING,
-						url: issue.rule.url,
-						name: issue.rule.name,
-						description: issue.rule.heading,
-						nodes: issue.elements
-					};
-					formatIssue(obj);
-				}
-			});
-		} catch (ex) {
-			console.error(ex);
+		if (!(issues && issues.violations && issues.violations.length)) {
+			return;
 		}
-	}
 
-	/*
-	 * TODO hook this into a generic "debug messages" mechanism.
-	 * This could be a good place for an experiment such as mustache templates or webcomponents since it only runs when
-	 *    debug is enabled.
-	 */
-	function formatIssue(issue) {
-		var container = document.createElement("div"),
-			list = document.createElement("ul"),
-			link = document.createElement("a");
-		link.href = issue.url;
-		link.target = "_blank";
-		link.innerHTML = issue.description + (issue.name ? " (" + issue.name + ")" : "");
+		filteredIssues = issues.violations.filter(filterIssues);
+		if (!filteredIssues.length) {
+			return;
+		}
 
-		issue.nodes.forEach(function(element) {
-			var html, listItem = document.createElement("li");
-			if (element.html) {
-				html = element.html;
-			} else {
-				html = element.outerHTML;
-			}
-			// html = html.replace(/</g, "&lt;");
-			// html = html.replace(/>/g, "&gt;");
-			html = html.match(/<([^>]+)>/)[1]; // just get the content of the element's opening tag
-			listItem.innerHTML = html;
-			list.appendChild(listItem);
-		});
+		container = document.createElement("div");
 		container.className = "wc_a11y";
-		if (!issue.isWarning) {
-			container.classList.add("severe");
-		} else {
-			container.classList.add("warning");
-		}
-		container.appendChild(link);
-		container.appendChild(list);
 		document.body.appendChild(container);
+
+		html = "<ul>";
+		filteredIssues.forEach(function (issue) {
+			html += "<li><dl class='wc-definitionlist-type-column wc-a11y-" + issue.impact + "'>";
+
+			Object.keys(issue).forEach(function (key) {
+				html += addTerm(key, issue[key]);
+			});
+			html += "</dl></li>";
+		});
+
+		html += "</ul>";
+		container.innerHTML = html;
 	}
+
+	/**
+	 * Simple axe callback. Used if module configuration object does not include a custom callback function.
+	 *
+	 * @param {Error} err null unless the attempt to run axe failed.
+	 * @param {Array} issues the issues found (if any)
+	 */
+	function defaultReporter(err, issues) {
+		if (err) {
+			throw err;
+		}
+		var c = window.console,
+			filteredIssues;
+		if (showOnScreen || !c.table) {
+			return visibleReporter(err, issues);
+		}
+
+		if (!(issues && issues.violations && issues.violations.length)) {
+			c.log("No violations found");
+			return;
+		}
+
+		filteredIssues = issues.violations.filter(filterIssues);
+		if (!filteredIssues.length) {
+			c.log("Violations found but excluded");
+			return;
+		}
+
+		filteredIssues.forEach(function (issue) {
+			c.table(issue);
+		});
+	}
+
+	/**
+	 * Run the accessbility test on the current container (or page).
+	 * @param {Node} [container=document] the container element we are testing.
+	 */
+	function a11yTest(container) {
+		var c = window.console,
+			what = container || document;
+
+		c.log("Starting a11y check...");
+		c.time("a11y_deque");
+		axe.run(what, defaultRunConfig, defaultReporter);
+		c.timeEnd("a11y_deque");
+		c.log("Finished a11y check.");
+	}
+
+	function run(container) {
+		timers.setTimeout(a11yTest, DEFAULT_DELAY, container);
+	}
+
+	loading.done.then(function () {
+		var excludeArray, cont = true;
+		if (warnIE && has("ie")) {
+			cont = window.confirm("Running Accessibility tools in IE is very slow, are you sure you want to do this?");
+		}
+		if (cont) {
+			axe.configure(defaultAxeConfig);
+
+			if (ignoreExperimentalIssues || ignoreBestPracticeIssues) {
+				excludeArray = [];
+
+				if (ignoreBestPracticeIssues) {
+					excludeArray.push("best-practice");
+				}
+
+				if (ignoreExperimentalIssues) {
+					excludeArray.push("experimental");
+				}
+				defaultRunConfig.runOnly.value.exclude = excludeArray;
+			}
+			run();
+			require(["wc/ui/ajax/processResponse"], function (processResponse) {
+				processResponse.subscribe(run, true);
+			});
+		}
+	});
+
 });

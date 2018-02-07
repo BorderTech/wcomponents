@@ -5,10 +5,69 @@
 ### API Changes
 
 ### Enhancements
-* Client side: wc/dom/getLabelsForElement an enhancement to load elements defined by 'aria-labelledby' attribute #1401.
 
 ### Bug Fixes
+
+* Fixed a bug which could result in incorrect determination of selected items using module wc/dom/getFilteredGroup #943.
+* Updated defaultSubmit module to bring it into line with the HTML spec and fix an issue found in compliant browsers #1122.
+* Fixed action constraints not working across pages on a paginated table #1078
+* Fixed a flaw which resulted in WSkipLinks not being transformed #1420.
 * Server-side validation of File(s) uploaded using WFileWidget and WMultiFileWidget #1079.
+
+## Release 1.4.22
+
+### API Changes
+
+### Enhancements
+
+### Bug Fixes
+
+* Image editor accepts jpeg or jpg as a valid jpg filename extension #1443
+* Fixed several keyevent and combo JavaScript bugs #1430, #1442, #1444
+* fixed a Sass error which caused disabled icon buttons to have hover effects if invite is implemented.
+* Change the way table actions are registered to rectify #1433.
+
+## Release 1.4.21
+
+### Enhancements
+
+* Updated the theme axe-core dependency to the latest version (2.6.1) and re-written the `wc/debug/a11y` module to leverage the new API. The module is not included by default, even in debug mode.
+
+### Bug Fixes
+
+* Fixed a Sass error which could result in incorrect margins in some circumstances #1437
+
+## Release 1.4.20
+
+### API Changes
+
+### Enhancements
+
+* ImageEdit enhancements:
+ - Prevent loading of "large" images in the editor because this could cause the page to become unresponsive. Instead skip the edit phase and handle as normal.
+ - If an image is scaled to render in the editor this should be considered as a user change when determining whether or not to pass through the original image unchanged.
+ - If an image size exceeds validation constraints then attempt to remedy this automatically
+* Removed unnecessary wrapping elements from the inner options of WCheckBoxSelect and WRadioButtonSelect which will improve their accessibilty and responsiveness.
+* Fixed some long-standing issues in the XSLT by refactoring the readOnly helper thereby reducing its ridiculous complexity. It was useful when XSLT was going to the client but had become mere technical debt making the cinversion from XSLT to alternate rendering more complex.
+* Added a Sass var to allow configuration of the maximum number of supported columns within WCheckBoxSelect and WRadioButtonSelect when their Layout is COLUMN.
+
+### Bug Fixes
+
+* Fixed a Sass error which resulted in an unexpected number of sub-row depths in some WTables.
+* Fixed a flaw which caused some fieldsets to not have a correct legend child.
+
+## Release 1.4.19
+
+### API Changes
+
+### Enhancements
+* Client side: wc/dom/getLabelsForElement an enhancement to load elements defined by 'aria-labelledby' attribute #1401.
+* Improve UX of image editor validation #1431.
+
+### Bug Fixes
+
+* Fixed a Sass issue which could result in messages not wrapping within some components depending on Sass build order #1422.
+
 ## Release 1.4.18
 
 ### Bug Fixes

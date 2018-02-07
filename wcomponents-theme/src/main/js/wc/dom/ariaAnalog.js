@@ -1,4 +1,5 @@
 define(["wc/has",
+	"wc/dom/attribute",
 	"wc/dom/clearSelection",
 	"wc/dom/event",
 	"wc/dom/group",
@@ -10,7 +11,7 @@ define(["wc/has",
 	"wc/dom/keyWalker",
 	"wc/dom/isEventInLabel",
 	"wc/dom/isAcceptableTarget"],
-	function(has, clearSelection, event, group, shed, uid, Widget, toArray, formUpdateManager, keyWalker, isEventInLabel, isAcceptableEventTarget) {
+	function(has, attribute, clearSelection, event, group, shed, uid, Widget, toArray, formUpdateManager, keyWalker, isEventInLabel, isAcceptableEventTarget) {
 		"use strict";
 
 		var ariaAnalog,
@@ -27,6 +28,48 @@ define(["wc/has",
 			getFilteredGroup = $getFilteredGroup;
 			focus = $focus;
 		});
+
+		/**
+		 * Helper for keydownEvent. Determine if the user has pressed an arrow key or similar.
+		 * @function
+		 * @private
+		 * @param {Number} keyCode The key pressed.
+		 * @returns {boolean} true if it's a direction key
+		 */
+		function isDirectionKey(keyCode) {
+			return (keyCode === KeyEvent.DOM_VK_HOME || keyCode === KeyEvent.DOM_VK_END ||
+					keyCode >= KeyEvent.DOM_VK_LEFT && keyCode <= KeyEvent.DOM_VK_DOWN);
+		}
+
+		/**
+		 * Helper for keydownEvent.
+		 * Calculates where to move based on the key pressed by the user.
+		 * @function
+		 * @private
+		 * @param {AriaAnalog} instance The AriaAnalog controller.
+		 * @param {Number} keyCode The key pressed.
+		 * @returns {instance.KEY_DIRECTION.NEXT|instance.KEY_DIRECTION.LAST|instance.KEY_DIRECTION.FIRST|instance.KEY_DIRECTION.PREVIOUS}
+		 */
+		function calcMoveTo(instance, keyCode) {
+			var moveTo;
+			switch (keyCode) {
+				case KeyEvent.DOM_VK_HOME:
+					moveTo = instance.KEY_DIRECTION.FIRST;
+					break;
+				case KeyEvent.DOM_VK_END:
+					moveTo = instance.KEY_DIRECTION.LAST;
+					break;
+				case KeyEvent.DOM_VK_LEFT:
+				case KeyEvent.DOM_VK_UP:
+					moveTo = instance.KEY_DIRECTION.PREVIOUS;
+					break;
+				case KeyEvent.DOM_VK_RIGHT:
+				case KeyEvent.DOM_VK_DOWN:
+					moveTo = instance.KEY_DIRECTION.NEXT;
+					break;
+			}
+			return moveTo;
+		}
 
 		/**
 		 * Deselect all elements in a group except any defined by the arg except.
@@ -370,7 +413,6 @@ define(["wc/has",
 				event.add(element, event.TYPE.focusin, eventWrapper.bind(this));
 				event.add(element, event.TYPE.click, eventWrapper.bind(this));
 			}
-			event.add(element, event.TYPE.keydown, eventWrapper.bind(this));
 			shed.subscribe(shed.actions.SELECT, this.shedObserver.bind(this));
 			shed.subscribe(shed.actions.DESELECT, this.shedObserver.bind(this));
 
@@ -403,6 +445,17 @@ define(["wc/has",
 			}
 		};
 
+
+		function bootstrap(element, instance) {
+			var container = instance.getGroupContainer(element) || element,
+				INIT_ATTRIB = "ariaAnalogKeydownInited";
+
+			if (!attribute.get(container, INIT_ATTRIB)) {
+				attribute.set(container, INIT_ATTRIB, true);
+				event.add(container, event.TYPE.keydown, eventWrapper.bind(instance));
+			}
+		}
+
 		/**
 		 * Focus event listener to manage tab index on simple linear groups. Note though that components which do their
 		 * own navigation are also responsible for maintaining their own tab indices.
@@ -412,9 +465,13 @@ define(["wc/has",
 		 */
 		AriaAnalog.prototype.focusEvent = function($event) {
 			var element = $event.target;
-			if (!$event.defaultPrevented && this.groupNavigation && this.ITEM.isOneOfMe(element) && !shed.isDisabled(element)) {
-				if (this.setFocusIndex && !(has("event-ontouchstart"))) {
-					this.setFocusIndex(element);
+
+			if (this.ITEM.isOneOfMe(element) && !shed.isDisabled(element)) {
+				bootstrap(element, this);
+				if (this.groupNavigation) {
+					if (this.setFocusIndex && !(has("event-ontouchstart"))) {
+						this.setFocusIndex(element);
+					}
 				}
 			}
 		};
@@ -441,69 +498,36 @@ define(["wc/has",
 		 * @param {Event} $event The keydown event.
 		 */
 		AriaAnalog.prototype.keydownEvent = function($event) {
-			var element, keyCode = $event.keyCode, target = $event.target, moveTo, preventDefaultAction = false;
-			if (!$event.defaultPrevented && !$event.altKey && (element = this.getActivableFromTarget(target))) {
-				if (this.groupNavigation && isDirectionKey(keyCode)) {
-					moveTo = calcMoveTo(this, keyCode);
-					if (moveTo && (target = this.navigate(element, moveTo))) {
-						if (this.selectOnNavigate(target) && !($event.ctrlKey || $event.metaKey)) {
-							this.activate(target, $event.shiftKey, ($event.ctrlKey || $event.metaKey));
-						}
-						preventDefaultAction = true;
+			var element, keyCode = $event.keyCode, target = $event.target, moveTo;
+
+			if ($event.defaultPrevented || $event.altKey) {
+				return;
+			}
+
+			element = this.getActivableFromTarget(target);
+			if (!element) {
+				return;
+			}
+
+			if (this.groupNavigation && isDirectionKey(keyCode)) {
+				moveTo = calcMoveTo(this, keyCode);
+				if (moveTo && (target = this.navigate(element, moveTo))) {
+					if (this.selectOnNavigate(target) && !($event.ctrlKey || $event.metaKey)) {
+						this.activate(target, $event.shiftKey, ($event.ctrlKey || $event.metaKey));
 					}
-				} else if ((keyCode === KeyEvent.DOM_VK_SPACE || keyCode === KeyEvent.DOM_VK_RETURN) && !Widget.isOneOfMe(element, this.actionable)) {
-					if (isAcceptableEventTarget(element, target)) {
-						this.activate(element, $event.shiftKey, ($event.ctrlKey || $event.metaKey));
-						preventDefaultAction = true;  // preventDefault here otherwise you get a page scroll
-					}
-				}
-				if (preventDefaultAction) {
 					$event.preventDefault();
 				}
+				return;
+			}
+
+			if ((keyCode === KeyEvent.DOM_VK_SPACE || keyCode === KeyEvent.DOM_VK_RETURN) &&
+				!Widget.isOneOfMe(element, this.actionable) &&
+				isAcceptableEventTarget(element, target)) {
+
+				this.activate(element, $event.shiftKey, ($event.ctrlKey || $event.metaKey));
+				$event.preventDefault(); // preventDefault here otherwise you get a page scroll
 			}
 		};
-
-		/**
-		 * Helper for keydownEvent. Determine if the user has pressed an arrow key or similar.
-		 * @function
-		 * @private
-		 * @param {Number} keyCode The key pressed.
-		 * @returns {boolean} true if it's a direction key
-		 */
-		function isDirectionKey(keyCode) {
-			return (keyCode === KeyEvent.DOM_VK_HOME || keyCode === KeyEvent.DOM_VK_END ||
-					keyCode >= KeyEvent.DOM_VK_LEFT && keyCode <= KeyEvent.DOM_VK_DOWN);
-		}
-
-		/**
-		 * Helper for keydownEvent.
-		 * Calculates where to move based on the key pressed by the user.
-		 * @function
-		 * @private
-		 * @param {AriaAnalog} instance The AriaAnalog controller.
-		 * @param {Number} keyCode The key pressed.
-		 * @returns {instance.KEY_DIRECTION.NEXT|instance.KEY_DIRECTION.LAST|instance.KEY_DIRECTION.FIRST|instance.KEY_DIRECTION.PREVIOUS}
-		 */
-		function calcMoveTo(instance, keyCode) {
-			var moveTo;
-			switch (keyCode) {
-				case KeyEvent.DOM_VK_HOME:
-					moveTo = instance.KEY_DIRECTION.FIRST;
-					break;
-				case KeyEvent.DOM_VK_END:
-					moveTo = instance.KEY_DIRECTION.LAST;
-					break;
-				case KeyEvent.DOM_VK_LEFT:
-				case KeyEvent.DOM_VK_UP:
-					moveTo = instance.KEY_DIRECTION.PREVIOUS;
-					break;
-				case KeyEvent.DOM_VK_RIGHT:
-				case KeyEvent.DOM_VK_DOWN:
-					moveTo = instance.KEY_DIRECTION.NEXT;
-					break;
-			}
-			return moveTo;
-		}
 
 		/**
 		 * key navigation for simple linear groups.

@@ -82,7 +82,7 @@
           }
         }
 
-        @for $i from 2 to 6 {
+        @for $i from 2 through 6 {
           [aria-level='#{$i}'] {
             padding-left: $i * $wc-gap-normal;
 

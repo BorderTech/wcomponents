@@ -37,6 +37,12 @@ $wc-label-mandatory-indicator-width: 1em !default;
 $wc-label-hint-size: 82.5% !default;
 
 
+// When a WLabel becomes a legend should we show the legend by default or the
+// label by default? Value 1 shows legend and _always_ hides label except in
+// WFieldLayout with LAYOUT_FLAT. any other value always hides legend and shows
+// label.
+$wc-label-legend-has-precedence: 1 !default;
+
 // #############################################################################
 // WDropdown
 // #############################################################################

@@ -1,13 +1,17 @@
 define(["wc/has", "wc/mixin", "wc/config", "wc/dom/Widget", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers", "wc/ui/prompt",
-	"wc/i18n/i18n", "fabric", "wc/ui/dialogFrame", "wc/template", "wc/ui/ImageCapture", "wc/ui/ImageUndoRedo", "wc/file/getMimeType"],
-function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i18n, fabric, dialogFrame, template, ImageCapture, ImageUndoRedo, getMimeType) {
+	"wc/i18n/i18n", "fabric", "wc/ui/dialogFrame", "wc/template", "wc/ui/ImageCapture", "wc/ui/ImageUndoRedo", "wc/file/getMimeType", "wc/file/size"],
+function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i18n, fabric, dialogFrame, template, ImageCapture, ImageUndoRedo, getMimeType, fileSize) {
 	var timer,
 		imageEdit = new ImageEdit();
 
+	/**
+	 * Used when checking the newly created image is named with the correct extension.
+	 * If it does not already match any in the array then the extension at index zero will be appended.
+	 **/
 	ImageEdit.prototype.mimeToExt = {
-		"image/jpeg": "jpeg",
-		"image/png": "png",
-		"image/webp": "webp"
+		"image/jpeg": ["jpeg", "jpg"],
+		"image/png": ["png"],
+		"image/webp": ["webp"]
 	};
 
 	ImageEdit.prototype.renderCanvas = function(callback) {
@@ -24,6 +28,7 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 	};
 
 	ImageEdit.prototype.defaults = {
+		maxsize: 20971520,  // limit the size, in bytes, of an image that can be loaded in the image editor (so the page does not hang)
 		width: 320,
 		height: 240,
 		format: "png",  // png or jpeg
@@ -38,7 +43,12 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 		undo: true,
 		cancel: true,
 		save: true,
-		crop: true
+		crop: true,
+		invalidprompt: true,  // display a message to the user if the image fails validation (if false we assume this is handled elsewhere)
+		ftlignore: false,  // user can try to ignore file too large warning
+		msgidftl: "",  // i18n message ID for "file too large" validation
+		msgidftlfix: "imgedit_message_fixtoolarge",  // i18n message ID for "fix file too large"
+		autoresize: true  // if true then loading an image that exceeds size validaiton constraints will automatically trigger a resize attempt
 	};
 
 	/**
@@ -179,7 +189,7 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 		 */
 		this.editFiles = function(obj, onSuccess, onError) {
 			var config = imageEdit.getConfig(obj);
-			var file, idx = 0, result = [], files = obj.files,
+			var file, sizes, idx = 0, result = [], files = obj.files,
 				done = function(arg) {
 					try {
 						onSuccess(arg);
@@ -189,6 +199,7 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 				};
 			try {
 				if (files) {
+					sizes = fileSize.get(obj);
 					if (has("dom-canvas")) {
 						editNextFile();
 					} else {
@@ -213,7 +224,9 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 			 * Prompt the user to edit the next file in the queue.
 			 */
 			function editNextFile() {
+				var size;
 				if (files && idx < files.length) {
+					size = sizes[idx];
 					file = files[idx++];
 					if (typeof file === "string") {
 						if (file.indexOf("data:image/") === 0) {
@@ -222,7 +235,12 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 							console.warn("Not a file", file);
 						}
 					} else if (file.type.indexOf("image/") === 0) {
-						editFile(config, file, saveEditedFile, onError);
+						if (size > config.maxsize) {
+							console.log("File size %d exceeds editor max %d", size, config.maxsize);
+							saveEditedFile(file);
+						} else {
+							editFile(config, file, saveEditedFile, onError);
+						}
 					} else {
 						saveEditedFile(file);
 					}
@@ -261,7 +279,15 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 						imageEdit.renderImage(file);
 					} else if (file) {
 						fileReader = new FileReader();
-						fileReader.onload = filereaderLoaded;
+						fileReader.onload = function ($event) {
+							imageEdit.renderImage($event.target.result, function() {
+								validateImage(file, editor).then(function(message) {
+									if (message) {
+										prompt.alert(message);
+									}
+								});
+							});
+						};
 						fileReader.readAsDataURL(file);
 					} else {
 						imageCapture.play({
@@ -273,9 +299,12 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 						// This is not currently supported on the backend
 						imageEdit.writeState = function() {
 							callbacks.saveFunc = function() {
-								saveImage(editor, callbacks, false);
+								saveImage({
+									editor: editor,
+									callbacks: callbacks,
+									cancel: false });
 							};
-							callbacks.handleSave = saveCanvasAsDataUrl;
+							callbacks.formatForSave = getCanvasAsDataUrl;
 							checkThenSave(callbacks);
 						};
 					}
@@ -297,13 +326,6 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 				getEditor(config, callbacks, file).then(gotEditor);
 			}
 			return callbacks;
-		}
-
-		/*
-		 * Callback invoked when a FileReader instance has loaded.
-		 */
-		function filereaderLoaded($event) {
-			imageEdit.renderImage($event.target.result);
 		}
 
 		/**
@@ -918,7 +940,10 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 			var click = eventConfig.click,
 				cancelFunc = function() {
 					try {
-						saveImage(editor, callbacks, true);
+						saveImage({
+							editor: editor,
+							callbacks: callbacks,
+							cancel: true });
 					} finally {
 						dialogFrame.close();
 					}
@@ -933,16 +958,80 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 		 */
 		function saveControl(eventConfig, editor, callbacks, file) {
 			var click = eventConfig.click;
-			callbacks.saveFunc = function() {
-				saveImage(editor, callbacks, false, file);
+			/**
+			 * The call into the save "internals" with the args specific to this closure.
+			 * @param [imageToSave] The image formatted for saving. This is a performance optimization: if the image
+			 *    has already been formatted for saving during validation etc then it can be passed thru here to save having to format again.
+			 */
+			callbacks.saveFunc = function(imageToSave) {
+				saveImage({
+					editor: editor,
+					callbacks: callbacks,
+					cancel: false,
+					originalImage: file,
+					imageToSave: imageToSave });
 			};
+
+			/**
+			 * Respond to the user's intent to save.
+			 */
 			click.save = {
 				func: function() {
-					callbacks.handleSave = saveCanvasAsFile;
+					callbacks.formatForSave = getCanvasAsFile;
+					callbacks.validate = function() {
+						var max, formattedImage,
+							selector = getFileSelector(editor);
+						if (selector) {
+							max = fileSize.getMax(selector);
+							if (max) {
+								formattedImage = getImageToSave(null, file, callbacks.formatForSave);
+								return validateImage(formattedImage, editor).then(function(message) {
+									var config = imageEdit.getConfig(selector),
+										result = {
+											validated: formattedImage,
+											ignorable: config.ftlignore,
+											error: message,
+											prompt: config.invalidprompt
+										};
+									return result;
+								});
+							}
+						}
+						return Promise.resolve({});
+					};
 					checkThenSave(callbacks);
 				}
 			};
 			return click.save;
+		}
+
+		function validateImage(imageBlob, editor) {
+			var config, selector, msg;
+			if (imageBlob && imageBlob.size) {
+				selector = getFileSelector(editor);
+				config = imageEdit.getConfig(selector);
+				msg = fileSize.check({
+					element: selector,
+					testObj: { files: [imageBlob] },
+					msgId: config.msgidftl
+				});
+				if (msg) {
+					if (config.autoresize) {
+						msg = "";  // don't bug the user, we'll try to resolve this automatically
+						if (undoRedo) {
+							undoRedo._forceChange = true;
+						}
+					} else {
+						return i18n.translate(config.msgidftlfix).then(function(message) {
+							if (message) {
+								msg += "\n" + message;
+							}
+							return msg;
+						});
+					}
+				}
+			}
+			return Promise.resolve(msg || "");
 		}
 
 		/**
@@ -952,23 +1041,31 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 		function checkThenSave(callbacks) {
 			if (imageEdit.getFbImage()) {
 				if (callbacks.validate) {
-					showHideOverlay(fbCanvas);  // This hide is for the validation, not the save.
-					callbacks.validate(fbCanvas.getElement()).then(function(error) {
+					// showHideOverlay(fbCanvas);  // This hide is for the validation, not the save.
+					callbacks.validate().then(function(validationResult) {
+						var error, imageToSave;
+						if (validationResult) {
+							error = validationResult.error;
+							imageToSave = validationResult.validated;
+						}
 						if (error) {
-							showHideOverlay(fbCanvas, true);  // Unhide the overlay post validation (save will have to hide it again).
-							if (error.ignorable) {
+							// showHideOverlay(fbCanvas, true);  // Unhide the overlay post validation (save will have to hide it again).
+							if (validationResult.ignorable) {
 								prompt.confirm(error, function(ignoreValidationError) {
 									if (ignoreValidationError) {
-										callbacks.saveFunc();
+										callbacks.saveFunc(imageToSave);
 									} else {
 										callbacks.lose();
 									}
 								});
 							} else {
+								if (validationResult.prompt) {
+									prompt.alert(error);
+								}
 								callbacks.lose(error);
 							}
 						} else {
-							callbacks.saveFunc();
+							callbacks.saveFunc(imageToSave);
 						}
 
 					}, function() {
@@ -987,32 +1084,32 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 
 		/**
 		 * The exit point of the editor, either save or cancel the edit.
-		 * @param {Element} editor The top level container element of the editor component.
-		 * @param {Object} callbacks "win" and "lose".
-		 * @param {boolean} cancel Cease all editing, the user wishes to cancel.
-		 * @param {File} [file] The binary file being edited.
+		 * @param args Args required for the save, see below.
+		 *	param {Element} args.editor The top level container element of the editor component.
+		 *	param {Object} args.callbacks "win" and "lose".
+		 *	param {boolean} args.cancel Cease all editing, the user wishes to cancel.
+		 *	param {File} [args.originalImage] The binary originalImage being edited.
+		 *	param [args.imageToSave] The image formatted for saving. This is a performance optimization: if the image
+		 *    has already been formatted for saving during validation etc then it can be passed thru here to save having to format again.
 		 */
-		function saveImage(editor, callbacks, cancel, file) {
-			var result, done = function() {
+		function saveImage(args) {
+			var result,
+				editor = args.editor,
+				callbacks = args.callbacks,
+				done = function() {
 					fbCanvas = null;  // = canvasElement
 					imageCapture.stop();
 					editor.parentNode.removeChild(editor);
 				};
 			try {
-				if (cancel) {
+				if (args.cancel) {
 					done();
 					callbacks.lose();
 				} else {
-					if (fbCanvas.getActiveObject()) {
-						fbCanvas.deactivateAll();  // selection box should not be part of the image
-						fbCanvas.renderAll();  // got to render for the selection box to disappear
-					}
-					showHideOverlay(fbCanvas);
-					if (file && !hasChanged()) {
-						console.log("No changes made, using original file");
-						result = file;  // if the user has made no changes simply pass thru the original file.
+					if (args.imageToSave) {
+						result = args.imageToSave;
 					} else {
-						result = callbacks.handleSave(editor, file);
+						result = getImageToSave(editor, args.originalImage, callbacks.formatForSave);
 					}
 					done();
 					callbacks.win(result);
@@ -1048,7 +1145,7 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 		 * The initiating file input will be disabled so that the base64 field can masquerade in its place.
 		 * @param {Element} editor The file input associated with the image we are editing.
 		 */
-		function saveCanvasAsDataUrl(editor) {
+		function getCanvasAsDataUrl(editor) {
 			var param, form, formWd, fileSelector, stateField, serialized = canvasToDataUrl();
 			if (serialized) {
 				fileSelector = getFileSelector(editor);
@@ -1076,16 +1173,37 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 		}
 
 		/**
-		 * Save the canvas as a binary file.
+		 * Get the image which is to be  saved.
+		 * Note that if no edits have been made the original image may be used.
 		 * @param {Element} editor The file input associated with the image we are editing.
-		 * @param {Blob} file The original image file being edited.
+		 * @param {Blob} originalImage The source image file which the user loaded into the editor.
+		 * @param {Function} [renderer] The function to use to convert the image on the canvas to the desired save format.
+		 * @returns The image (including any edits) in the format configured for saving.
+		 */
+		function getImageToSave(editor, originalImage, renderer) {
+			var config = imageEdit.getConfig(editor), result, renderFunc = renderer || getCanvasAsFile;
+			if (originalImage && !hasChanged(config)) {
+				console.log("No changes made, using original file");
+				result = originalImage;  // if the user has made no changes simply pass thru the original file.
+			} else {
+				showHideOverlay(fbCanvas);
+				result = renderFunc(editor, originalImage);
+				showHideOverlay(fbCanvas, true);
+			}
+			return result;
+		}
+
+		/**
+		 * Gets the edited image on the canvas as a binary file.
+		 * @param {Element} editor The file input associated with the image we are editing.
+		 * @param {Blob} originalImage The original image file being edited.
 		 * @returns {File} The edited image as a file / blob.
 		 */
-		function saveCanvasAsFile(editor, file) {
+		function getCanvasAsFile(editor, originalImage) {
 			var result = canvasToDataUrl();
 			if (result) {
 				result = dataURItoBlob(result);
-				result = blobToFile(result, file);
+				result = blobToFile(result, originalImage);
 			}
 			return result;
 		}
@@ -1127,11 +1245,26 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 		}
 
 		/**
-		 * Determine if the user has actually made any changes to the image in the editor.
-		 * @returns {boolean} true if the user has made changes.
+		 * Determine if there are changes to the image in the editor.
+		 * @param {Object} config Map of configuration properties.
+		 * @returns {boolean} true if there are changes to be saved.
 		 */
-		function hasChanged() {
-			return undoRedo && undoRedo.hasChanges();
+		function hasChanged(config) {
+			var result, fbImage;
+			if (undoRedo) {
+				result = undoRedo._forceChange || undoRedo.hasChanges();
+			}
+			if (config && !result) {
+				fbImage = imageEdit.getFbImage();
+				if (fbImage && config.crop) {
+					// When the image is initially loaded it is scaled to fit. If "crop" is true this will NOT be undone on save and should be considered an "edit".
+					result = fbImage.scaleX !== 1 || fbImage.scaleY !== 1;  // Note that this check problably makes autoresize redundant in most cases
+					if (result) {
+						console.log("Image has been automatically scaled");
+					}
+				}
+			}
+			return result;
 		}
 
 		/**
@@ -1229,10 +1362,10 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 				});
 			if (info && info.length) {
 				info = info[0];
-				if (info.mime && imageEdit.mimeToExt[info.mime]) {
-					expectedExtension = imageEdit.mimeToExt[info.mime];
-					if (expectedExtension !== info.ext) {
-						file.name += "." + expectedExtension;
+				expectedExtension = imageEdit.mimeToExt[info.mime];
+				if (info.mime && expectedExtension) {
+					if (expectedExtension.indexOf(info.ext) < 0) {
+						file.name += "." + expectedExtension[0];
 					}
 				}
 			}

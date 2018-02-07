@@ -2,34 +2,26 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
+	<parent>
+		<groupId>com.github.bordertech.common</groupId>
+		<artifactId>qa-parent</artifactId>
+		<version>1.0.3</version>
+	</parent>
+
 	<name>wcomponents-parent</name>
 
 	<groupId>com.github.bordertech.wcomponents</groupId>
 	<artifactId>wcomponents-parent</artifactId>
-	<version>1.4.19-SNAPSHOT</version>
+	<version>1.4.23-SNAPSHOT</version>
 
 	<packaging>pom</packaging>
 
 	<properties>
-		<surefireArgLine />
-		<maven.compiler.target>1.7</maven.compiler.target>
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<wcomponents.junit.version>4.12</wcomponents.junit.version>
 		<parentLoc>wcomponents</parentLoc>
-		<wc.qa.skip>true</wc.qa.skip>
-		<checkstyle.skip>${wc.qa.skip}</checkstyle.skip>
-		<pmd.skip>${wc.qa.skip}</pmd.skip>
 		<cpd.skip>${wc.qa.skip}</cpd.skip>
-		<findbugs.skip>${wc.qa.skip}</findbugs.skip>
 		<jacoco.skip>${wc.qa.skip}</jacoco.skip>
-		<!-- Surefire 2.19 has issues with netbeans. -->
-		<surefire.version>2.20</surefire.version>
 		<jetty.version>8.1.16.v20140903</jetty.version>
-		<stagingBaseUrl>https://oss.sonatype.org/</stagingBaseUrl>
-		<stagingUrl>${stagingBaseUrl}service/local/staging/deploy/maven2/</stagingUrl>
-		<snapshotUrl>${stagingBaseUrl}content/repositories/snapshots</snapshotUrl>
-		<stagingId>ossrh</stagingId>
 	</properties>
 
 	<licenses>
@@ -47,13 +39,6 @@
 	<!-- url is a required section for Maven Central -->
 	<url>http://bordertech.github.io/wcomponents/</url>
 
-	<!-- developers is a required section for Maven Central -->
-	<developers>
-		<developer>
-			<url>https://github.com/BorderTech</url>
-		</developer>
-	</developers>
-
 	<scm>
 		<url>https://github.com/bordertech/wcomponents</url>
 		<connection>scm:git:https://github.com/bordertech/wcomponents.git</connection>
@@ -70,24 +55,6 @@
 		<system>TravisCI</system>
 		<url>https://travis-ci.org/BorderTech/wcomponents/</url>
 	</ciManagement>
-
-	<distributionManagement>
-		<snapshotRepository>
-			<id>${stagingId}</id>
-			<url>${snapshotUrl}</url>
-		</snapshotRepository>
-		<repository>
-			<id>${stagingId}</id>
-			<url>${stagingUrl}</url>
-		</repository>
-		<!--
-		<site>
-			<id>sites</id>
-			<name>sites</name>
-			<url>${sitesUrl}</url>
-		</site>
-		-->
-	</distributionManagement>
 
 	<dependencyManagement>
 		<dependencies>
@@ -113,97 +80,10 @@
 				<skipOptionalTests>true</skipOptionalTests>
 			</properties>
 		</profile>
-
-		<profile>
-			<!--
-			The build cannot release to maven central without configuring several secrets in settings.xml
-			Read here: https://github.com/BorderTech/wcomponents/wiki/Releasing
-			-->
-			<id>release</id>
-			<build>
-				<!-- Could move sources generation here, javadoc too, site? -->
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<version>1.6</version>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
 	</profiles>
 
 	<build>
 		<plugins>
-			<!-- Compile the java source. -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.3</version>
-			</plugin>
-
-			<plugin>
-				<!-- A release to Maven Central MUST include javadoc Jars - even if they are dummy jars, they must be there -->
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<!-- Create jar of the source files. -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<configuration>
-					<includes>
-						<include>**/*.java</include>
-					</includes>
-				</configuration>
-				<executions>
-					<execution>
-						<id>sources</id>
-						<phase>package</phase>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>test-sources</id>
-						<phase>package</phase>
-						<goals>
-							<goal>test-jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<!-- Build jars. -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>test-jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 
 			<!-- Generate the site. -->
 			<plugin>
@@ -222,73 +102,6 @@
 						<id>attach-descriptor</id>
 						<goals>
 							<goal>attach-descriptor</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<!-- Check the code style. -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>2.17</version>
-				<configuration>
-					<configLocation>../sun_checks_wc.xml</configLocation>
-					<consoleOutput>true</consoleOutput>
-					<failsOnError>true</failsOnError>
-					<linkXRef>false</linkXRef>
-					<includeTestSourceDirectory>false</includeTestSourceDirectory>
-				</configuration>
-				<executions>
-					<execution>
-						<id>checkStyle</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<!-- PMD Check. -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-pmd-plugin</artifactId>
-				<version>3.5</version>
-				<configuration>
-					<failurePriority>2</failurePriority>
-					<printFailingErrors>true</printFailingErrors>
-					<includeTests>false</includeTests>
-					<format>xml</format>
-				</configuration>
-				<executions>
-					<execution>
-						<id>checkPmd</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<!-- Findbugs check. -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>3.0.3</version>
-				<configuration>
-					<effort>Max</effort>
-					<includeTests>false</includeTests>
-					<threshold>Medium</threshold>
-					<excludeFilterFile>../findbugs-exclude-filter.xml</excludeFilterFile>
-				</configuration>
-				<executions>
-					<execution>
-						<id>checkFindbugs</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>check</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -395,20 +208,6 @@
 				</configuration>
 			</plugin>
 
-			<!-- Handle release. -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<version>2.5.3</version>
-				<configuration>
-					<autoVersionSubmodules>true</autoVersionSubmodules>
-					<useReleaseProfile>false</useReleaseProfile>
-					<!-- need this for gpg plugin to work correctly -->
-					<mavenExecutorId>forked-path</mavenExecutorId>
-					<releaseProfiles>release</releaseProfiles>
-				</configuration>
-			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
@@ -447,58 +246,6 @@
 							<version>1.9.6</version>
 						</dependency>
 					</dependencies>
-				</plugin>
-				<plugin>
-					<artifactId>maven-assembly-plugin</artifactId>
-					<configuration>
-						<archive>
-							<manifestEntries>
-								<Built-By />
-							</manifestEntries>
-						</archive>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-source-plugin</artifactId>
-					<version>2.4</version>
-					<configuration>
-						<archive>
-							<manifestEntries>
-								<Built-By />
-							</manifestEntries>
-						</archive>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-jar-plugin</artifactId>
-					<version>2.6</version>
-					<configuration>
-						<archive>
-							<manifestEntries>
-								<Built-By />
-							</manifestEntries>
-						</archive>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>2.10.3</version>
-					<configuration>
-						<archive>
-							<manifestEntries>
-								<Built-By />
-							</manifestEntries>
-						</archive>
-						<charset>UTF-8</charset>
-						<encoding>UTF-8</encoding>
-						<docencoding>UTF-8</docencoding>
-						<breakiterator>true</breakiterator>
-						<version>true</version>
-						<keywords>true</keywords>
-					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -603,7 +350,7 @@
 				<version>2.17</version>
 				<configuration>
 					<skip>false</skip>
-					<configLocation>sun_checks_wc.xml</configLocation>
+					<configLocation>bordertech/checkstyle.xml</configLocation>
 					<consoleOutput>true</consoleOutput>
 					<!-- Exclude because of aggregate reports. -->
 					<excludes>**/wcomponents/qa/**/*.java,**/wcomponents/examples/**/*.java</excludes>
@@ -655,7 +402,7 @@
 					<skip>false</skip>
 					<effort>Max</effort>
 					<includeTests>false</includeTests>
-					<excludeFilterFile>findbugs-exclude-filter.xml</excludeFilterFile>
+					<excludeFilterFile>bordertech/findbugs-exclude-filter.xml</excludeFilterFile>
 					<threshold>Low</threshold>
 					<failOnError>false</failOnError>
 					<findbugsXmlOutputDirectory>${project.build.directory}/findbugs-rep</findbugsXmlOutputDirectory>

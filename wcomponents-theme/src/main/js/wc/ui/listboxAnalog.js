@@ -104,22 +104,20 @@ define(["wc/dom/ariaAnalog",
 					target = $event.target,
 					listbox;
 				this.constructor.prototype.keydownEvent.call(this, $event);
+				if ($event.defaultPrevented) {
+					return;
+				}
 
-				if (!$event.defaultPrevented) {
-//					if (keyCode === KeyEvent.DOM_VK_RETURN) {
-//						this.activate(target);
-//						return;
-//					}
-					if ((keyName = key.getLiteral(keyCode)) && (keyName = keyName.replace(KEY_NAME_RE, "")) &&
+				if ((keyName = key.getLiteral(keyCode)) &&
+						(keyName = keyName.replace(KEY_NAME_RE, "")) &&
 						keyName.length === 1 && PRINTABLE_RE.test(keyName)) {
 
-						/* printable char pressed: find the next matching option */
-						listbox = this.CONTAINER.findAncestor(target);
-						if (listbox) {
-							target = getTextTarget(listbox, target, keyName.toLocaleLowerCase());
-							if (target) {
-								focus.setFocusRequest(target);
-							}
+					/* printable char pressed: find the next matching option */
+					listbox = this.CONTAINER.findAncestor(target);
+					if (listbox) {
+						target = getTextTarget(listbox, target, keyName.toLocaleLowerCase());
+						if (target) {
+							focus.setFocusRequest(target);
 						}
 					}
 				}

@@ -33,7 +33,7 @@ define(["wc/dom/ariaAnalog",
 			 * @type {module:wc/dom/Widget}
 			 * @public
 			 */
-			this.CONTAINER = fieldset.getWidget(true).extend("wc-checkboxselect");
+			this.CONTAINER = fieldset.getWidget().clone().extend("wc-checkboxselect");
 
 			/**
 			 * The description of a group item.
@@ -137,7 +137,7 @@ define(["wc/dom/ariaAnalog",
 						isSelected = shed.isSelected(element);
 						selectedFilter = isSelected ? getFilteredGroup.FILTERS.deselected : getFilteredGroup.FILTERS.selected;
 
-						_group = getFilteredGroup(element, {filter: (selectedFilter), asObject: true});
+						_group = getFilteredGroup(element, {filter: (getFilteredGroup.FILTERS.enabled | selectedFilter), asObject: true});
 						filtered = _group.filtered;
 						unfiltered = _group.unfiltered;
 

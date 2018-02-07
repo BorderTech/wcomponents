@@ -356,6 +356,11 @@
 														<xs:documentation>Provides the maximum number of rows which must be selected before the action can be successfully invoked. If the ui:rowselection/@multiple attribute is not true then a max of any number greater than one is meaningless.</xs:documentation>
 													</xs:annotation>
 												</xs:attribute>
+												<xs:attribute name="selectedOnOther" type="xs:nonNegativeInteger">
+													<xs:annotation>
+														<xs:documentation>The number of rows that have been selected on other pages.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
 												<xs:attribute name="type">
 													<xs:annotation>
 														<xs:documentation>Provides the interruption type which determines whether an action may proceed if the condition is not met.</xs:documentation>

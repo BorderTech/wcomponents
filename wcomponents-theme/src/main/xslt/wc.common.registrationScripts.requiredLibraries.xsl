@@ -121,6 +121,9 @@
 			<xsl:if test=".//ui:shuffler[not(@readOnly)] or .//ui:multiselectpair[@shuffle and not(@readOnly)]">
 				<xsl:text>"wc/ui/shuffler",</xsl:text>
 			</xsl:if>
+			<xsl:if test=".//ui:skiplinks">
+				<xsl:text>"wc/ui/skiplinks",</xsl:text>
+			</xsl:if>
 			<xsl:if test=".//ui:suggestions or .//ui:dropdown[@type and not(@readOnly)]">
 				<xsl:text>"wc/ui/comboBox",</xsl:text>
 			</xsl:if>

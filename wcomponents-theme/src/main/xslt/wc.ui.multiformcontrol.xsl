@@ -1,20 +1,28 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.readOnly.xsl"/>
+	<xsl:import href="wc.common.attributes.xsl"/>
+	<xsl:import href="wc.common.icon.xsl"/>
 	<!-- Transforms for WMultiDropdown and WMultiTextField. -->
 	<xsl:template match="ui:multidropdown|ui:multitextfield">
 		<xsl:choose>
-			<xsl:when test="@readOnly and self::ui:multidropdown">
-				<xsl:call-template name="readOnlyControl">
-					<xsl:with-param name="isList" select="1"/>
-					<xsl:with-param name="class" select="'wc-vgap-sm'"/>
-				</xsl:call-template>
-			</xsl:when>
 			<xsl:when test="@readOnly">
-				<xsl:call-template name="readOnlyControl">
-					<xsl:with-param name="isList" select="1"/>
-					<xsl:with-param name="class" select="'wc-vgap-sm'"/>
-				</xsl:call-template>
+				<ul>
+					<xsl:call-template name="commonAttributes">
+						<xsl:with-param name="class" select="'wc-vgap-sm'"/>
+					</xsl:call-template>
+					<xsl:call-template name="roComponentName"/>
+					<!-- NOTE applies must use non-typed comparison as list components may pass in a list of nodeLists or list of nodes -->
+					<xsl:choose>
+						<xsl:when test="self::ui:multidropdown">
+							<xsl:apply-templates select="ui:option|ui:optgroup[ui:option]" mode="readOnly">
+								<xsl:with-param name="single" select="0"/>
+							</xsl:apply-templates>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:apply-templates select="ui:value" mode="readOnly"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</ul>
 			</xsl:when>
 			<xsl:otherwise>
 				<fieldset aria-relevant="additions removals" aria-atomic="false">

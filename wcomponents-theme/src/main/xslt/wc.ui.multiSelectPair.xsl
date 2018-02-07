@@ -6,10 +6,15 @@
 	<xsl:template match="ui:multiselectpair">
 		<xsl:choose>
 			<xsl:when test="@readOnly">
-				<xsl:call-template name="readOnlyControl">
-					<xsl:with-param name="isList" select="1"/>
-					<xsl:with-param name="class" select="'wc-vgap-sm'"/>
-				</xsl:call-template>
+				<ul>
+					<xsl:call-template name="commonAttributes">
+						<xsl:with-param name="class" select="'wc-vgap-sm'"/>
+					</xsl:call-template>
+					<xsl:call-template name="roComponentName"/>
+					<xsl:apply-templates select="ui:option|ui:optgroup[ui:option]" mode="readOnly">
+						<xsl:with-param name="single" select="0"/>
+					</xsl:apply-templates>
+				</ul>
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:variable name="size">

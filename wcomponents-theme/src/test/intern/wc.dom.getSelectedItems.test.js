@@ -60,13 +60,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 		testGetSelectedRadioDisabled: function() {
 			var element = document.getElementById("radio4"),
 				result = getFilteredGroup(element);
-			assert.strictEqual(result.length, 1);
-		},
-
-		testGetSelectedRadioDisabledValue: function() {
-			var element = document.getElementById("radio4"),
-				result = getFilteredGroup(element);
-			assert.strictEqual(result[0].value, "Wine");
+			assert.strictEqual(result.length, 0);
 		},
 
 		testGetDisabledRadio: function() {

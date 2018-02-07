@@ -13,8 +13,7 @@ define(["wc/dom/initialise",
 		 * @private
 		 */
 		function Fieldset() {
-			var FSET = new Widget("fieldset"),
-				WRAPPER = FSET.extend("wc-fset-wrapper");
+			var FSET = new Widget("fieldset");
 
 			function makeLegend(el) {
 				var label = el.firstChild,
@@ -55,10 +54,10 @@ define(["wc/dom/initialise",
 
 			function labelToLegend(element) {
 				var el = element || document.body;
-				if (element && WRAPPER.isOneOfMe(el)) {
+				if (element && FSET.isOneOfMe(el)) {
 					makeLegend(el);
 				} else {
-					Array.prototype.forEach.call(WRAPPER.findDescendants(el), makeLegend);
+					Array.prototype.forEach.call(FSET.findDescendants(el), makeLegend);
 				}
 			}
 
@@ -67,11 +66,10 @@ define(["wc/dom/initialise",
 			 *
 			 * @function module:wc/ui/fieldset.getWidget
 			 * @public
-			 * @param {boolean} [requireWrapper] if truthy get the WRAPPER extension of the Widget.
 			 * @returns {module:wc/dom/Widget} The description of a fieldset.
 			 */
-			this.getWidget = function(requireWrapper) {
-				return requireWrapper ? WRAPPER : FSET;
+			this.getWidget = function() {
+				return FSET;
 			};
 
 			/**
