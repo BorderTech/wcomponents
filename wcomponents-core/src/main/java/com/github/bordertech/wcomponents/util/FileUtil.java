@@ -30,11 +30,11 @@ public final class FileUtil {
 	private static final Log LOG = LogFactory.getLog(FileUtil.class);
 
 	/**
-	 * Is file type valid.
+	 * Checks if the file item is one among the supplied file types.
 	 * 
-	 * @param newFile checks against supplied fileTypes
+	 * @param newFile the file to be checked
 	 * @param fileTypes allowed file types
-	 * @return true/false
+	 * @return {@code true} if file type is valid
 	 */
 	public static boolean validateFileType(final FileItemWrap newFile, final List<String> fileTypes) {
 		try {
@@ -60,14 +60,14 @@ public final class FileUtil {
 	}
 
 	/**
-	 * Is file size valid.
+	 * Checks if the file item size is within the supplied max file size.
 	 *
-	 * @param newFile checks against supplied maxFileSize
+	 * @param newFile the file to be checked
 	 * @param maxFileSize max file size in bytes
-	 * @return true/false
+	 * @return {@code true} if file size is valid.
 	 */
 	public static boolean validateFileSize(final FileItemWrap newFile, final long maxFileSize) {
-		return (newFile.getSize() > maxFileSize) ? false : true;
+		return (newFile.getSize() <= maxFileSize);
 	}
 
 	/**
