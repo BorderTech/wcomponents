@@ -8,6 +8,8 @@
 
 ### Bug Fixes
 
+* Fixed a bug which could result in incorrect determination of selected items using module wc/dom/getFilteredGroup #943.
+* Updated defaultSubmit module to bring it into line with the HTML spec and fix an issue found in compliant browsers #1122.
 * Fixed action constraints not working across pages on a paginated table #1078
 * Fixed a flaw which resulted in WSkipLinks not being transformed #1420.
 
