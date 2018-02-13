@@ -6,6 +6,8 @@
 
 ### Enhancements
 
+* ImageEdit press buttons now also respond to clicks.
+
 ### Bug Fixes
 
 * Fixed a bug which could result in incorrect determination of selected items using module wc/dom/getFilteredGroup #943.
