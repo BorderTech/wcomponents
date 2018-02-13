@@ -937,7 +937,16 @@ define(["wc/has",
 						_value = format(matches[0].toXfer());
 						if (_value !== element.value) {
 							element.value = _value;
-							timers.setTimeout(event.fire, 0, element, event.TYPE.change);
+							/*
+							 * Do not fire the change event if this update is occuring in a documentFragment.
+							 * For example when processing an AJAX response ajaxSetup will eventually call this function to set up date fields
+							 * before inserting the documentFragment into the DOM. We do not want change events fired in this scenario.
+							 * It leads to potential infinite AJAX triggering if the date field is both a trigger and a target.
+							 * See issue #1455 https://github.com/BorderTech/wcomponents/issues/1455
+							 */
+							if (document.body && document.body.contains(element)) {
+								timers.setTimeout(event.fire, 0, element, event.TYPE.change);
+							}
 						}
 					}
 				}
