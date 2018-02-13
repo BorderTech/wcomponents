@@ -14,6 +14,7 @@
 * Updated defaultSubmit module to bring it into line with the HTML spec and fix an issue found in compliant browsers #1122.
 * Fixed action constraints not working across pages on a paginated table #1078
 * Fixed a flaw which resulted in WSkipLinks not being transformed #1420.
+* Fix date field causes AJAX loop if it is trigger and target #1455
 
 ## Release 1.4.22
 
