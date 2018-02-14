@@ -6,6 +6,14 @@
 
 ### Enhancements
 
+### Bug Fixes
+
+## Release 1.4.23
+
+### API Changes
+
+### Enhancements
+
 * ImageEdit press buttons now also respond to clicks.
 
 ### Bug Fixes
