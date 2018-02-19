@@ -1,4 +1,4 @@
-define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/ui/shed"],
+define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/shed"],
 	function(event, initialise, Widget, shed) {
 		"use strict";
 
