@@ -6,6 +6,8 @@
 
 ### Enhancements
 
+* Fixed inconsistency in detecting a disabled link.
+
 ### Bug Fixes
 
 ## Release 1.4.23
