@@ -6,9 +6,13 @@
 
 ### Enhancements
 
+* Updated WTree Sass to remove unnecessary left padding from default implementation #1461.
+* Removed some duplicate code from tabset Sass.
 * Fixed inconsistency in detecting a disabled link.
 
 ### Bug Fixes
+
+* Fixed an error which could result in incorrect CSS overrides of WCheckBoxSelect and WRadioButtonSelect #1462.
 
 ## Release 1.4.23
 
