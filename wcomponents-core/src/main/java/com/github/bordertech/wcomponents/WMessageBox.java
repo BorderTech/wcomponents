@@ -147,7 +147,9 @@ public class WMessageBox extends AbstractWComponent implements AjaxTarget, Subor
 	 * @param type the messageBox type, one of {@link #SUCCESS}, {@link #INFO}, {@link #WARN} or {@link #ERROR}.
 	 */
 	public void setType(final Type type) {
-		getOrCreateComponentModel().type = type;
+		if (type != getType()) {
+			getOrCreateComponentModel().type = type;
+		}
 	}
 
 	/**
@@ -164,8 +166,10 @@ public class WMessageBox extends AbstractWComponent implements AjaxTarget, Subor
 	 * @param args optional arguments for the message format string.
 	 */
 	public void setTitleText(final String title, final Serializable... args) {
-		MessageModel model = getOrCreateComponentModel();
-		model.title = I18nUtilities.asMessage(title, args);
+		if (!getTitleText().equals(title)) {
+			MessageModel model = getOrCreateComponentModel();
+			model.title = I18nUtilities.asMessage(title, args);
+		}
 	}
 
 	/**
