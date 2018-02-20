@@ -925,11 +925,23 @@
 		the action's conditions are met before undertaking the action.
 	-->
 	<xsl:template match="ui:condition" mode="action">
-		<xsl:text>{"min":"</xsl:text>
-		<xsl:value-of select="@minSelectedRows"/>
-		<xsl:text>","max":"</xsl:text>
-		<xsl:value-of select="@maxSelectedRows"/>
-		<xsl:text>","type":"</xsl:text>
+		<xsl:text>{</xsl:text>
+		<xsl:if test="@minSelectedRows">
+			<xsl:text>"min":</xsl:text>
+			<xsl:value-of select="@minSelectedRows"/>
+			<xsl:text>,</xsl:text>
+		</xsl:if>
+		<xsl:if test="@maxSelectedRows">
+			<xsl:text>"max":</xsl:text>
+			<xsl:value-of select="@maxSelectedRows"/>
+			<xsl:text>,</xsl:text>
+		</xsl:if>
+		<xsl:if test="ancestor::ui:table[1]/ui:pagination">
+			<xsl:text>"otherSelected":</xsl:text>
+			<xsl:value-of select="@selectedOnOther"/>
+			<xsl:text>,</xsl:text>
+		</xsl:if>
+		<xsl:text>"type":"</xsl:text>
 		<xsl:value-of select="@type"/>
 		<xsl:text>","message":"</xsl:text>
 		<xsl:value-of select="@message"/>

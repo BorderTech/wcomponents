@@ -6,10 +6,38 @@
 
 ### Enhancements
 
+* Fixed inconsistency in detecting a disabled link.
+
 ### Bug Fixes
 
+## Release 1.4.23
+
+### API Changes
+
+### Enhancements
+
+* ImageEdit press buttons now also respond to clicks.
+
+### Bug Fixes
+
+* Fixed a bug which could result in incorrect determination of selected items using module wc/dom/getFilteredGroup #943.
+* Updated defaultSubmit module to bring it into line with the HTML spec and fix an issue found in compliant browsers #1122.
+* Fixed action constraints not working across pages on a paginated table #1078
+* Fixed a flaw which resulted in WSkipLinks not being transformed #1420.
+* Fix date field causes AJAX loop if it is trigger and target #1455
+
+## Release 1.4.22
+
+### API Changes
+
+### Enhancements
+
+### Bug Fixes
+
+* Image editor accepts jpeg or jpg as a valid jpg filename extension #1443
 * Fixed several keyevent and combo JavaScript bugs #1430, #1442, #1444
 * fixed a Sass error which caused disabled icon buttons to have hover effects if invite is implemented.
+* Change the way table actions are registered to rectify #1433.
 
 ## Release 1.4.21
 
@@ -20,7 +48,6 @@
 ### Bug Fixes
 
 * Fixed a Sass error which could result in incorrect margins in some circumstances #1437
-* Image editor accepts jpeg or jpg as a valid jpg filename extension #1443
 
 ## Release 1.4.20
 

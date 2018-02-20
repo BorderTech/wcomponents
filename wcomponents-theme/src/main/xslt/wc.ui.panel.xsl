@@ -56,6 +56,21 @@
 					<xsl:text>polite</xsl:text>
 				</xsl:attribute>
 			</xsl:if>
+			<xsl:if test="@title and @accessKey">
+				<xsl:if test="@title">
+					<xsl:attribute name="data-wc-title">
+						<xsl:value-of select="@title"/>
+					</xsl:attribute>
+					<xsl:if test="@accessKey">
+						<!-- NOTE: accesskey is a common attribute in HTML 5
+							see https://html.spec.whatwg.org/multipage/interaction.html#the-accesskey-attribute
+						-->
+						<xsl:attribute name="accesskey">
+							<xsl:value-of select="@accessKey"/>
+						</xsl:attribute>
+					</xsl:if>
+				</xsl:if>
+			</xsl:if>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
 			<xsl:if test="*[not(self::ui:margin)]/node() or not(@mode eq 'eager')">
 				<xsl:if test="(@type eq 'chrome' or @type eq 'action')">

@@ -981,7 +981,6 @@ define(["wc/dom/attribute",
 			}, this);
 
 			Array.prototype.forEach.call(getFilteredGroup(next, {
-				filter: (getFilteredGroup.FILTERS.selected | getFilteredGroup.FILTERS.enabled),
 				ignoreInnerGroups: true
 			}), function(NextItem) {
 				writeSelectedState.call(this, NextItem, toContainer);

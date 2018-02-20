@@ -101,11 +101,11 @@ define(["wc/dom/group", "wc/dom/shed"],
 					itemWd = config.itemWd;
 					containerWd = config.containerWd;
 					asObject = config.asObject;
-					filter = config.filter || mask.selected;
+					filter = config.filter || (mask.selected | mask.enabled);
 					ignoreInnerGroups = config.ignoreInnerGroups;
 					shedAttributeOnly = !! config.shedAttributeOnly;
 				} else {
-					filter = mask.selected;
+					filter = mask.selected | mask.enabled;
 				}
 
 				if (Array.isArray(element)) {

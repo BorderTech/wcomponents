@@ -3,9 +3,9 @@ define(["wc/dom/event",
 	"wc/dom/initialise",
 	"wc/dom/shed",
 	"wc/ui/table/common",
-	"wc/ui/ajax/processResponse",
-	"wc/dom/Widget"],
-	function(event, getFilteredGroup, initialise, shed, common, processResponse, Widget) {
+	"wc/dom/Widget",
+	"wc/debounce"],
+	function(event, getFilteredGroup, initialise, shed, common, Widget, debounce) {
 		"use strict";
 
 		/**
@@ -14,12 +14,12 @@ define(["wc/dom/event",
 		 * @private
 		 */
 		function Action() {
-			var ACTION_CONTAINER = new Widget("", "wc-actions"),
+			var registry = new Conditions(enableDisableButton),
+				ACTION_CONTAINER = new Widget("", "wc-actions"),
 				ACTION_BUTTON = common.BUTTON.clone(),
 				ACTION_TABLE = common.WRAPPER,
 				ROW_CONTAINER = common.TBODY,
-				ROW = common.TR.clone(),
-				registry = {};
+				ROW = common.TR.clone();
 
 			ROW.descendFrom(ROW_CONTAINER, true);
 			ACTION_BUTTON.descendFrom(ACTION_CONTAINER);
@@ -37,9 +37,9 @@ define(["wc/dom/event",
 				var min,
 					max,
 					table,
-					// todo: this filter can be deleted once we drop WDataTable as rows will no longer be able to be disabled
-					filter = getFilteredGroup.FILTERS.enabled | getFilteredGroup.FILTERS.selected,
-					selected = 0;
+					otherSelected = 0,
+					currentSelected = 0,
+					totalSelected = 0;
 
 				if ((table = ACTION_TABLE.findAncestor(button))) {
 					min = condition.min;
@@ -49,26 +49,22 @@ define(["wc/dom/event",
 						return true;
 					}
 
-					selected = (getFilteredGroup(ROW_CONTAINER.findDescendant(table), {filter: filter})).length;
+					currentSelected = getFilteredGroup(ROW_CONTAINER.findDescendant(table)).length;
 
-					if ((min && selected < parseInt(min, 10)) || (max && selected > parseInt(max, 10))) {
+					if (condition.otherSelected) {
+						otherSelected = condition.otherSelected;
+					}
+
+					totalSelected = currentSelected + otherSelected;
+
+					if ((min && totalSelected < min) || (max && totalSelected > max)) {
 						return false;
 					}
 				}
 				return true;
 			}
 
-			/**
-			 * Get any conditions from a table action button and parse them to a JSON object.
-			 *
-			 * @function
-			 * @private
-			 * @param {Element} button The table action invoking button.
-			 * @returns {Object} The action conditions as a JSON object.
-			 */
-			function getConditions(button) {
-				return registry[button.id];
-			}
+
 			/**
 			 * Test if an action button can be enabled.
 			 * @function
@@ -77,8 +73,8 @@ define(["wc/dom/event",
 			 * @returns {Boolean} true if the conditions of the button are met.
 			 */
 			function canEnableButton(button) {
-				var conditions;
-				if ((conditions = getConditions(button))) {
+				var conditions = registry.get(button);
+				if (conditions) {
 					return Array.prototype.every.call(conditions, function (condition) {
 						if (condition.type === "error") {
 							return isConditionMet(button, condition);
@@ -107,8 +103,8 @@ define(["wc/dom/event",
 				if (!canEnableButton(button)) {
 					return false;
 				}
-
-				if ((conditions = getConditions(button))) {
+				conditions = registry.get(button);
+				if (conditions) {
 					return Array.prototype.every.call(conditions, function(condition) {
 						if (condition.type === "error") {
 							return isConditionMet(button, condition);
@@ -149,13 +145,13 @@ define(["wc/dom/event",
 			 * @private
 			 * @param {Element} container the page or ajax response.
 			 */
-			function setUp(container) {
-				var _container = container || document.body;
-				Array.prototype.forEach.call(ACTION_BUTTON.findDescendants(_container), function(next) {
-					next.setAttribute("formnovalidate", "formnovalidate");
-					enableDisableButton(next);
-				});
-			}
+//			function setUp(container) {
+//				var _container = container || document.body;
+//				Array.prototype.forEach.call(ACTION_BUTTON.findDescendants(_container), function(next) {
+//					next.setAttribute("formnovalidate", "formnovalidate");
+//					enableDisableButton(next);
+//				});
+//			}
 
 			/**
 			 * Subscriber to row select/deselect which is the trigger for changing the button's disabled state.
@@ -183,8 +179,9 @@ define(["wc/dom/event",
 			 * @public
 			 */
 			this.postInit = function() {
-				setUp();
-				processResponse.subscribe(setUp, true);
+				// setUp();
+				// processResponse.subscribe(setUp, true);  // Re-evaluation will be triggered when the register method is called by AJAX scripts
+				registry.update();  // Probably not strictly necessary but just in case...
 				shed.subscribe(shed.actions.SELECT, shedSubscriber);
 				shed.subscribe(shed.actions.DESELECT, shedSubscriber);
 			};
@@ -200,14 +197,75 @@ define(["wc/dom/event",
 				event.add(element, event.TYPE.click, clickEvent, -50);
 			};
 
-			function _register(action) {
-				if (action && action.trigger) {
-					registry[action.trigger] = action.conditions;
-				}
-			}
-
 			this.register = function(actionArray) {
-				actionArray.forEach(_register);
+				actionArray.forEach(registry.set, registry);
+			};
+		}
+
+		/**
+		 * A special registry to handle button conditions.
+		 *
+		 * @param {Function} buttonChangeFunc The function to call when a button's conditions have been changed.
+		 * @constructor
+		 */
+		function Conditions(buttonChangeFunc) {
+			var data = {},
+				changed = {};
+
+			/**
+			 * Ask the registry to ensure that all buttons are "up to date" with their registered conditions.
+			 * If there have been any condition changes since the last update then they will be applied.
+			 * Note: buttons may not be updated synchronously.
+			 */
+			this.update = debounce(function() {
+				var i, button, id, changedIds = Object.keys(changed);
+				for (i = 0; i < changedIds.length; i++) {
+					id = changedIds[i];
+					button = document.getElementById(id);
+					if (button) {
+						delete changed[id];
+						button.setAttribute("formnovalidate", "formnovalidate");  // this really only needs to happen once but meh
+						buttonChangeFunc(button);
+					} else {
+						/*
+						 * This could theoretically happen if the condition is registered before both:
+						 * - the DOM is ready AND
+						 * - the debounce timer is done
+						 * I never saw it happen though.
+						 * It should be OK if update is called again because we won't remove the changed flag until it's actioned.
+						 * I wouldn't call update from itself though for risk of infinite looping.
+						 */
+						console.warn("Could not find button", id);  // this may be resolved in postInit
+					}
+				}
+			}, 200);
+
+			/**
+			 * Register a button condition.
+			 * @param {Object} action The table action which holds the conditions.
+			 */
+			this.set = function(action) {
+				var id = action ? action.trigger : null;
+				if (id) {
+					data[id] = action.conditions;
+					changed[id] = true;
+					this.update();
+				}
+			};
+
+			/**
+			 * Get registered conditions for a given table action button.
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} button The table action invoking button.
+			 * @returns {Object} The action conditions.
+			 */
+			this.get = function(button) {
+				if (!button) {
+					return null;
+				}
+				return data[button.id];
 			};
 		}
 
