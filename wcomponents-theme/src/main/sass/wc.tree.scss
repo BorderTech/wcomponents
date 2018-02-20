@@ -31,10 +31,11 @@ button[role='treeitem'],
   width: 100%;
 
   > .wc_leaf_vopener {
-    width: $wc-icon-wider;
+    width: $wc-tree-opener-width;
 
     + button {
-      width: calc(100% - #{$wc-icon-wider});
+      width: calc(100% - #{$wc-tree-opener-width});
+
     }
   }
 }
@@ -47,24 +48,23 @@ button[role='treeitem'],
 
 .wc_leaf_vopener,
 .wc_leaf_img {
-  width: $wc-icon-wider;
+  padding: $wc-tree-item-pad-t 0 $wc-tree-item-pad-b;
 
   > .fa::before {
     text-align: left;
-    width: $wc-icon-normal;
+    width: $wc-icon-normal; // equalise open & close icon width
   }
 }
 
 // The vertical opener button and its span placeholder equivalent.
 .wc_leaf_vopener {
   @include border-box; // required for the span.
-  padding: $wc-tree-item-pad-t 0 $wc-tree-item-pad-b $wc-tree-item-pad-l;
   text-align: left;
 }
 
 // The icon container
 .wc_leaf_img {
-  padding: $wc-tree-item-pad-t 0 $wc-tree-item-pad-b;
+  width: $wc-icon-normal;
 
   img {
     max-height: $wc-icon-normal;
