@@ -52,7 +52,7 @@ public abstract class AbstractWFieldIndicator extends AbstractWComponent {
 	 * @param severity A Diagnostic severity code. e.g. {@link Diagnostic#ERROR}
 	 */
 	protected void showIndicatorsForComponent(final List<Diagnostic> diags, final int severity) {
-		if (diags.size() > 0 ) {
+		if (diags.size() > 0) {
 			FieldIndicatorModel model = getOrCreateComponentModel();
 			model.diagnostics.clear();
 			UIContext uic = UIContextHolder.getCurrent();

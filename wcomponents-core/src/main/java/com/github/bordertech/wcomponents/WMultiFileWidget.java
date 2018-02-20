@@ -388,7 +388,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		if (cols != null && cols < 0) {
 			throw new IllegalArgumentException("Must have zero or more columns");
 		}
-		if (cols != getColumns()) {
+		if (getColumns() == null || getColumns().equals(cols)) {
 			getOrCreateComponentModel().cols = cols;
 		}
 	}
@@ -488,7 +488,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 						"Thumbnail size cannot have both height and width set to -1.");
 			}
 		}
-		if (!thumbnailSize.equals(getThumbnailSize())) {
+		if (getThumbnailSize() == null || !thumbnailSize.equals(getThumbnailSize())) {
 			getOrCreateComponentModel().thumbnailSize = thumbnailSize;
 		}
 	}
@@ -869,7 +869,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 * @param fileId the file id that has been uploaded successfully
 	 */
 	private void setFileUploadRequestId(final String fileId) {
-		if (!getFileUploadRequestId().equals(fileId)){
+		if (getFileUploadRequestId() == null || !getFileUploadRequestId().equals(fileId)) {
 			getOrCreateComponentModel().fileUploadRequestId = fileId;
 		}
 	}

@@ -278,7 +278,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	 * @param minValue the minimum allowable value, or null for no minimum.
 	 */
 	public void setMinValue(final BigDecimal minValue) {
-		if (!getMinValue().equals(minValue)){
+		if (getMinValue() == null || !getMinValue().equals(minValue)) {
 			getOrCreateComponentModel().minValue = minValue;
 		}
 	}
@@ -317,7 +317,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	 * @param maxValue the maximum allowable value, or null for no maximum.
 	 */
 	public void setMaxValue(final BigDecimal maxValue) {
-		if (!getMaxValue().equals(maxValue)) {
+		if (getMaxValue() == null || !getMaxValue().equals(maxValue)) {
 			getOrCreateComponentModel().maxValue = maxValue;
 		}
 	}

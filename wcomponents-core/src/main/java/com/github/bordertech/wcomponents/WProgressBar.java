@@ -153,7 +153,7 @@ public class WProgressBar extends WBeanComponent implements AjaxTarget, Labelabl
 	 * @param unitType the unit type.
 	 */
 	public void setUnitType(final UnitType unitType) {
-		if (unitType != getUnitType()){
+		if (unitType != getUnitType()) {
 			getOrCreateComponentModel().unitType = unitType;
 		}
 	}
@@ -171,7 +171,7 @@ public class WProgressBar extends WBeanComponent implements AjaxTarget, Labelabl
 	 * @param text the text to set.
 	 */
 	public void setText(final String text) {
-		if (!getText().equals(text)) {
+		if (getText() == null || !getText().equals(text)) {
 			getOrCreateComponentModel().text = text;
 		}
 	}

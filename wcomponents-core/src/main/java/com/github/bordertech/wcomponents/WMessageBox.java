@@ -166,7 +166,7 @@ public class WMessageBox extends AbstractWComponent implements AjaxTarget, Subor
 	 * @param args optional arguments for the message format string.
 	 */
 	public void setTitleText(final String title, final Serializable... args) {
-		if (!getTitleText().equals(title)) {
+		if (getTitleText() == null || !getTitleText().equals(title)) {
 			MessageModel model = getOrCreateComponentModel();
 			model.title = I18nUtilities.asMessage(title, args);
 		}

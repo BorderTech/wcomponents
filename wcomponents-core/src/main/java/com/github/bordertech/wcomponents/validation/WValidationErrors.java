@@ -44,7 +44,7 @@ public class WValidationErrors extends AbstractWComponent {
 	 * @param errors the errors to set.
 	 */
 	public void setErrors(final List<Diagnostic> errors) {
-		if (errors != null || errors.size() > 0) {
+		if (errors != null) {
 			ValidationErrorsModel model = getOrCreateComponentModel();
 
 			for (Diagnostic error : errors) {

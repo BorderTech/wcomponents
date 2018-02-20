@@ -202,7 +202,7 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 	 * @param autoplay true to start playing automatically, false for a manual start.
 	 */
 	public void setAutoplay(final boolean autoplay) {
-		if (autoplay != isAutoplay()){
+		if (autoplay != isAutoplay()) {
 			getOrCreateComponentModel().autoplay = autoplay;
 		}
 	}
@@ -220,7 +220,7 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 	 * @param mediaGroup The media group name.
 	 */
 	public void setMediaGroup(final String mediaGroup) {
-		if (!getMediaGroup().equals(mediaGroup)) {
+		if (getMediaGroup() == null || !getMediaGroup().equals(mediaGroup)) {
 			getOrCreateComponentModel().mediaGroup = mediaGroup;
 		}
 	}
@@ -320,7 +320,7 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 	 * @param altText the text to set.
 	 */
 	public void setAltText(final String altText) {
-		if (!getAltText().equals(altText)) {
+		if (getAltText() == null || !getAltText().equals(altText)) {
 			getOrCreateComponentModel().altText = altText;
 		}
 	}
