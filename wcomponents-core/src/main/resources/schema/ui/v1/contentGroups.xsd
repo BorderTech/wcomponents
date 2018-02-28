@@ -55,7 +55,6 @@ The XML schema for a WComponent page.
 			<xs:element ref="ui:passwordfield" />
 			<xs:element ref="ui:phonenumberfield" />
 			<xs:element ref="ui:popup" />
-			<xs:element ref="ui:progressbar" />
 			<xs:element ref="ui:radiobutton" />
 			<xs:element ref="ui:radiobuttonselect" />
 			<xs:element ref="ui:redirect" />

@@ -45,7 +45,6 @@
 	<xs:include schemaLocation="panel.xsd" />
 	<xs:include schemaLocation="passwordField.xsd" />
 	<xs:include schemaLocation="popup.xsd" />
-	<xs:include schemaLocation="progressBar.xsd" />
 	<xs:include schemaLocation="radioButton.xsd" />
 	<xs:include schemaLocation="radioButtonSelect.xsd" />
 	<xs:include schemaLocation="redirect.xsd" />
