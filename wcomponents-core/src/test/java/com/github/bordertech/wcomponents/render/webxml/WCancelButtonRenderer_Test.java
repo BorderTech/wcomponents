@@ -26,12 +26,12 @@ public class WCancelButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 	public void testDoPaint() throws IOException, SAXException, XpathException {
 		WCancelButton button = new WCancelButton("dummy");
 		assertSchemaMatch(button);
-		assertXpathExists("//ui:button", button);
+		assertXpathExists("//html:button", button);
 
 		setActiveContext(createUIContext());
 		button.setUnsavedChanges(true);
-		assertXpathEvaluatesTo("true", "//ui:button/@unsavedChanges", button);
-		assertXpathEvaluatesTo("true", "//ui:button/@cancel", button);
+		assertXpathExists("//html:button[contains(@class, 'wc_unsaved')]", button);
+		assertXpathEvaluatesTo("formnovalidate", "//html:button/@formnovalidate", button);
 	}
 
 	@Test
@@ -41,10 +41,10 @@ public class WCancelButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 		setActiveContext(createUIContext());
 		assertSafeContent(button);
 
-		button.setToolTip(getMaliciousAttribute("ui:button"));
+		button.setToolTip(getMaliciousAttribute("html:button"));
 		assertSafeContent(button);
 
-		button.setAccessibleText(getMaliciousAttribute("ui:button"));
+		button.setAccessibleText(getMaliciousAttribute("html:button"));
 		assertSafeContent(button);
 
 		button.setImageUrl(getMaliciousAttribute());

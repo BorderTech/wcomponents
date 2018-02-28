@@ -112,7 +112,7 @@
 			<xsl:if test=".//ui:multitextfield[not(@readOnly)]">
 				<xsl:text>"wc/ui/multiFormComponent","wc/ui/wrappedInput",</xsl:text>
 			</xsl:if>
-			<xsl:if test=".//ui:printbutton">
+			<xsl:if test=".//html:button[@class and contains(@class, 'wc-printbutton')]">
 				<xsl:text>"wc/ui/printButton",</xsl:text>
 			</xsl:if>
 			<xsl:if test=".//ui:radiobuttonselect[not(@readOnly)] or .//ui:radiobutton[not(@readOnly)]">

@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-	targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
-	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns="http://www.w3.org/1999/xhtml">
+<xs:schema
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	elementFormDefault="qualified"
+	targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
 	<!--
 		A collection of all the top-level elements in the schema.
 		This is imported by schema.xsd.
 	-->
-	<xs:include schemaLocation="additionalParameters.xsd" />
 	<xs:include schemaLocation="ajaxTrigger.xsd" />
 	<xs:include schemaLocation="application.xsd" />
 	<xs:include schemaLocation="audio.xsd" />
-	<xs:include schemaLocation="button.xsd" />
 	<xs:include schemaLocation="collapsible.xsd" />
 	<xs:include schemaLocation="collapsibleToggle.xsd" />
 	<xs:include schemaLocation="comment.xsd" />
@@ -44,7 +45,6 @@
 	<xs:include schemaLocation="panel.xsd" />
 	<xs:include schemaLocation="passwordField.xsd" />
 	<xs:include schemaLocation="popup.xsd" />
-	<xs:include schemaLocation="printButton.xsd" />
 	<xs:include schemaLocation="progressBar.xsd" />
 	<xs:include schemaLocation="radioButton.xsd" />
 	<xs:include schemaLocation="radioButtonSelect.xsd" />

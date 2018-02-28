@@ -4,9 +4,12 @@
 The XML schema for a WComponent page.
 
 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-		   targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
-		   xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+<xs:schema
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	elementFormDefault="qualified"
+	targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
 
 	<xs:include schemaLocation="all.xsd" />
 
@@ -17,11 +20,9 @@ The XML schema for a WComponent page.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:choice>
-			<xs:element ref="ui:additionalParameters" />
 			<xs:element ref="ui:application" />
 			<xs:element ref="ui:ajaxtrigger" />
 			<xs:element ref="ui:audio" />
-			<xs:element ref="ui:button" />
 			<xs:element ref="ui:checkbox" />
 			<xs:element ref="ui:checkboxselect" />
 			<xs:element ref="ui:collapsible" />
@@ -54,7 +55,6 @@ The XML schema for a WComponent page.
 			<xs:element ref="ui:passwordfield" />
 			<xs:element ref="ui:phonenumberfield" />
 			<xs:element ref="ui:popup" />
-			<xs:element ref="ui:printbutton" />
 			<xs:element ref="ui:progressbar" />
 			<xs:element ref="ui:radiobutton" />
 			<xs:element ref="ui:radiobuttonselect" />

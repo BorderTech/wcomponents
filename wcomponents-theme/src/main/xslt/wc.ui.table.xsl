@@ -902,13 +902,13 @@
 	-->
 	<xsl:template match="ui:actions">
 		<div class="wc-actions">
-			<xsl:apply-templates select="ui:action/ui:button"/>
+			<xsl:apply-templates select="ui:action/html:button"/>
 		</div>
 	</xsl:template>
 
 	<xsl:template match="ui:action" mode="JS">
 		<xsl:text>{"trigger":"</xsl:text>
-		<xsl:value-of select="ui:button/@id"/>
+		<xsl:value-of select="html:button/@id"/>
 		<xsl:text>"</xsl:text>
 		<xsl:if test="ui:condition">
 			<xsl:text>,"conditions":[</xsl:text>
