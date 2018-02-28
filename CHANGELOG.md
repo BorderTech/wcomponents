@@ -6,6 +6,7 @@
 
 ### Enhancements
 
+* Enforce Java 1.8 as minimum compiler version and set source and target properties to 1.8 #1307.
 * Updated WTree Sass to remove unnecessary left padding from default implementation #1461.
 * Removed some duplicate code from tabset Sass.
 * Fixed inconsistency in detecting a disabled link.
