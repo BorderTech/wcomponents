@@ -12,7 +12,7 @@
 
 	<groupId>com.github.bordertech.wcomponents</groupId>
 	<artifactId>wcomponents-parent</artifactId>
-	<version>1.4.24</version>
+	<version>1.4.25-SNAPSHOT</version>
 
 	<packaging>pom</packaging>
 
@@ -43,7 +43,7 @@
 		<url>https://github.com/bordertech/wcomponents</url>
 		<connection>scm:git:https://github.com/bordertech/wcomponents.git</connection>
 		<developerConnection>scm:git:https://github.com/bordertech/wcomponents.git</developerConnection>
-		<tag>wcomponents-parent-1.4.24</tag>
+		<tag>wcomponents-1.0.0</tag>
 	</scm>
 
 	<issueManagement>
