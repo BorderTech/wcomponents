@@ -21,6 +21,12 @@
 
 ### Bug Fixes
 
+## Release 1.5.0
+
+### Enhancements
+
+* Enforce Java 1.8 as minimum compiler version and set source and target properties to 1.8 #1307.
+
 ## Release 1.4.24
 
 ### Enhancements
