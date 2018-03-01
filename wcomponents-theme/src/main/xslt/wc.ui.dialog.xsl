@@ -2,7 +2,7 @@
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 
 	<xsl:template match="ui:dialog">
-		<xsl:apply-templates select="ui:button"/>
+		<xsl:apply-templates select="html:button"/>
 	</xsl:template>
 	<!--
 		
@@ -34,11 +34,11 @@
 			<xsl:value-of select="@title" disable-output-escaping="yes"/>
 			<xsl:text>"</xsl:text>
 		</xsl:if>
-		<xsl:if test="@triggerid or ./ui:button">
+		<xsl:if test="@triggerid or ./html:button">
 			<xsl:text>,"triggerid":"</xsl:text>
 			<xsl:choose>
-				<xsl:when test="ui:button">
-					<xsl:value-of select="ui:button/@id"/>
+				<xsl:when test="html:button">
+					<xsl:value-of select="html:button/@id"/>
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:value-of select="@triggerid"/>

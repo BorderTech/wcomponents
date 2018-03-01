@@ -4,6 +4,24 @@
 
 ### API Changes
 
+* Changed WProgressBar API to better implement HTML spec:
+  - Deprecated WProgressBar members as follows:
+    - UnitType - not supported - `public void setUnitType(UnitType)` is now a no-op and `public WProgressBar.UnitType getUnitType()` will now always return `null`
+    - text - not required use toolTip instead - `public void setText(String)` is now a no-op and `public String getText()` will now always return `null`
+    - Constructors which reference UnitType
+  - Added constructors `public WProgressBar(ProgressBarType)` and `public WProgressBar(ProgressBarType, int)`
+  - Put type checks around constructors and setters so that `ProgressBarType` cannot be made `null` and `max` and `value` cannot be negative.
+
+### Enhancements
+
+* Updated renderer of WProgressBar to output HTML as part of #639.
+* Added JUnits for WProgressBar.
+* Updated renderers of WButton and WPrintButton (which has been un-deprecated) to output HTML as part of #639.
+
+### Bug Fixes
+
+## Release 1.5.0
+
 ### Enhancements
 
 ### Bug Fixes

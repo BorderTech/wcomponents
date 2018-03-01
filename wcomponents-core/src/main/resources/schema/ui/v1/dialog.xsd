@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" 
-	targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
-	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
-	<xs:include schemaLocation="button.xsd" />
+<xs:schema 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	elementFormDefault="qualified" 
+	targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
 	<xs:include schemaLocation="mixedContentWithId.xsd" />
 
 	<xs:element name="dialog">
@@ -14,7 +16,7 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element minOccurs="0" name="button" type="ui:buttonType">
+				<xs:any minOccurs="0" namespace="##other">
 					<xs:annotation>
 						<xs:documentation>
 							<p>If present represents a button used to open the dialog. This is placed into the application in the position in which
@@ -22,7 +24,7 @@
 							<p>This is being phased out in favour of triggerid.</p>
 						</xs:documentation>
 					</xs:annotation>
-				</xs:element>
+				</xs:any>
 				<xs:element minOccurs="0" name="content" type="ui:mixedContentWithId">
 					<xs:annotation>
 						<xs:documentation>
