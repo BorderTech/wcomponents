@@ -18,6 +18,13 @@
 * Added JUnits for WProgressBar.
 * Updated renderers of WButton and WPrintButton (which has been un-deprecated) to output HTML as part of #639.
 * Enforce Java 1.8 as minimum compiler version and set source and target properties to 1.8 #1307.
+
+### Bug Fixes
+
+## Release 1.4.24
+
+### Enhancements
+
 * Updated WTree Sass to remove unnecessary left padding from default implementation #1461.
 * Removed some duplicate code from tabset Sass.
 * Fixed inconsistency in detecting a disabled link.
