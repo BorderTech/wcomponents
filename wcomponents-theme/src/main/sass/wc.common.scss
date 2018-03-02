@@ -147,15 +147,10 @@ pre {
 // Read-only
 // Display and box sizing is to make them the more akin to the editable
 // element (input, textarea or select).
-.wc-input-wrapper,
-.wc-ro-input {
+.wc-input-wrapper {
   @include border-box;
   display: inline-block;
   max-width: 100%;
-}
-
-.wc-ro-input {
-  word-break: break-all;
 }
 
 // Vertical alignment helpers. Not used by FlowLayout for its vertical alignment
