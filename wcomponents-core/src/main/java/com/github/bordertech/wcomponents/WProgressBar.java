@@ -95,7 +95,9 @@ public class WProgressBar extends WBeanComponent implements AjaxTarget, Labelabl
 	 * @param max the maximum allowable value.
 	 */
 	public void setMax(final int max) {
-		getOrCreateComponentModel().max = max;
+		if (getMax() != max) {
+			getOrCreateComponentModel().max = max;
+		}
 	}
 
 	/**
@@ -131,7 +133,9 @@ public class WProgressBar extends WBeanComponent implements AjaxTarget, Labelabl
 	 * @param type the progress bar type.
 	 */
 	public void setProgressBarType(final ProgressBarType type) {
-		getOrCreateComponentModel().barType = type;
+		if (type != getProgressBarType()) {
+			getOrCreateComponentModel().barType = type;
+		}
 	}
 
 	/**
@@ -149,7 +153,9 @@ public class WProgressBar extends WBeanComponent implements AjaxTarget, Labelabl
 	 * @param unitType the unit type.
 	 */
 	public void setUnitType(final UnitType unitType) {
-		getOrCreateComponentModel().unitType = unitType;
+		if (unitType != getUnitType()) {
+			getOrCreateComponentModel().unitType = unitType;
+		}
 	}
 
 	/**
@@ -165,7 +171,9 @@ public class WProgressBar extends WBeanComponent implements AjaxTarget, Labelabl
 	 * @param text the text to set.
 	 */
 	public void setText(final String text) {
-		getOrCreateComponentModel().text = text;
+		if (getText() == null || !getText().equals(text)) {
+			getOrCreateComponentModel().text = text;
+		}
 	}
 
 	@Override

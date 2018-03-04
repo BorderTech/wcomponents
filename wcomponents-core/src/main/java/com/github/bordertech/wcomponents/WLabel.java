@@ -120,7 +120,9 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	 * @param args optional arguments for the message format string.
 	 */
 	public void setHint(final String hint, final Serializable... args) {
-		getOrCreateComponentModel().hint = I18nUtilities.asMessage(hint, args);
+		if (!hint.equals(getHint())) {
+			getOrCreateComponentModel().hint = I18nUtilities.asMessage(hint, args);
+		}
 	}
 
 	/**
@@ -249,7 +251,9 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	 * @param sanitize true if output sanitization is required.
 	 */
 	public void setSanitizeOnOutput(final boolean sanitize) {
-		getOrCreateComponentModel().sanitizeOnOutput = sanitize;
+		if (sanitize != isSanitizeOnOutput()) {
+			getOrCreateComponentModel().sanitizeOnOutput = sanitize;
+		}
 	}
 
 	/**

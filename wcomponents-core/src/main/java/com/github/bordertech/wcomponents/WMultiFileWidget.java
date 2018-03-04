@@ -281,7 +281,9 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 * @param bytes The maximum size (in bytes) that can be uploaded by this input.
 	 */
 	public void setMaxFileSize(final long bytes) {
-		getOrCreateComponentModel().maxFileSize = bytes;
+		if (bytes != getMaxFileSize()) {
+			getOrCreateComponentModel().maxFileSize = bytes;
+		}
 	}
 
 	/**
@@ -308,7 +310,9 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 * @param maxFiles The maximum number of files that can be uploaded by this input.
 	 */
 	public void setMaxFiles(final int maxFiles) {
-		getOrCreateComponentModel().maxFiles = maxFiles;
+		if (maxFiles != getMaxFiles()) {
+			getOrCreateComponentModel().maxFiles = maxFiles;
+		}
 	}
 
 	/**
@@ -384,7 +388,9 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		if (cols != null && cols < 0) {
 			throw new IllegalArgumentException("Must have zero or more columns");
 		}
-		getOrCreateComponentModel().cols = cols;
+		if (getColumns() == null || getColumns().equals(cols)) {
+			getOrCreateComponentModel().cols = cols;
+		}
 	}
 
 	/**
@@ -407,7 +413,9 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 * @param newUpload true if a new file has been uploaded
 	 */
 	public void setNewUpload(final boolean newUpload) {
-		getOrCreateComponentModel().newUpload = newUpload;
+		if (newUpload != isNewUpload()) {
+			getOrCreateComponentModel().newUpload = newUpload;
+		}
 	}
 
 	/**
@@ -425,7 +433,9 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 * @param useThumbnails true if generate thumb nails for the file links.
 	 */
 	public void setUseThumbnails(final boolean useThumbnails) {
-		getOrCreateComponentModel().useThumbnails = useThumbnails;
+		if (useThumbnails != isUseThumbnails()) {
+			getOrCreateComponentModel().useThumbnails = useThumbnails;
+		}
 	}
 
 	/**
@@ -444,7 +454,9 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 * @param thumbnailPosition the position of the image
 	 */
 	public void setThumbnailPosition(final ImagePosition thumbnailPosition) {
-		getOrCreateComponentModel().thumbnailPosition = thumbnailPosition;
+		if (thumbnailPosition != getThumbnailPosition()) {
+			getOrCreateComponentModel().thumbnailPosition = thumbnailPosition;
+		}
 	}
 
 	/**
@@ -476,7 +488,9 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 						"Thumbnail size cannot have both height and width set to -1.");
 			}
 		}
-		getOrCreateComponentModel().thumbnailSize = thumbnailSize;
+		if (getThumbnailSize() == null || !thumbnailSize.equals(getThumbnailSize())) {
+			getOrCreateComponentModel().thumbnailSize = thumbnailSize;
+		}
 	}
 
 	/**
@@ -855,7 +869,9 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 * @param fileId the file id that has been uploaded successfully
 	 */
 	private void setFileUploadRequestId(final String fileId) {
-		getOrCreateComponentModel().fileUploadRequestId = fileId;
+		if (getFileUploadRequestId() == null || !getFileUploadRequestId().equals(fileId)) {
+			getOrCreateComponentModel().fileUploadRequestId = fileId;
+		}
 	}
 
 	/**

@@ -202,7 +202,9 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 	 * @param autoplay true to start playing automatically, false for a manual start.
 	 */
 	public void setAutoplay(final boolean autoplay) {
-		getOrCreateComponentModel().autoplay = autoplay;
+		if (autoplay != isAutoplay()) {
+			getOrCreateComponentModel().autoplay = autoplay;
+		}
 	}
 
 	/**
@@ -218,7 +220,9 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 	 * @param mediaGroup The media group name.
 	 */
 	public void setMediaGroup(final String mediaGroup) {
-		getOrCreateComponentModel().mediaGroup = mediaGroup;
+		if (getMediaGroup() == null || !getMediaGroup().equals(mediaGroup)) {
+			getOrCreateComponentModel().mediaGroup = mediaGroup;
+		}
 	}
 
 	/**
@@ -236,7 +240,9 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 	 * @param loop true to loop, false to stop at the end.
 	 */
 	public void setLoop(final boolean loop) {
-		getOrCreateComponentModel().loop = loop;
+		if (loop != isLoop()) {
+			getOrCreateComponentModel().loop = loop;
+		}
 	}
 
 	/**
@@ -254,7 +260,9 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 	 * @param muted true to mute the audio, false to play normally.
 	 */
 	public void setMuted(final boolean muted) {
-		getOrCreateComponentModel().muted = muted;
+		if (muted != isMuted()) {
+			getOrCreateComponentModel().muted = muted;
+		}
 	}
 
 	/**
@@ -274,7 +282,9 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 	 * @param controls the playback controls to display.
 	 */
 	public void setControls(final Controls controls) {
-		getOrCreateComponentModel().controls = controls;
+		if (controls != getControls()) {
+			getOrCreateComponentModel().controls = controls;
+		}
 	}
 
 	/**
@@ -292,7 +302,9 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 	 * @param preload the pre-loading mode.
 	 */
 	public void setPreload(final Preload preload) {
-		getOrCreateComponentModel().preload = preload;
+		if (preload != getPreload()) {
+			getOrCreateComponentModel().preload = preload;
+		}
 	}
 
 	/**
@@ -308,7 +320,9 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 	 * @param altText the text to set.
 	 */
 	public void setAltText(final String altText) {
-		getOrCreateComponentModel().altText = altText;
+		if (getAltText() == null || !getAltText().equals(altText)) {
+			getOrCreateComponentModel().altText = altText;
+		}
 	}
 
 	/**
@@ -324,7 +338,9 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 	 * @param width the width of the video playback region, in pixels.
 	 */
 	public void setWidth(final int width) {
-		getOrCreateComponentModel().width = width;
+		if (width != getWidth()) {
+			getOrCreateComponentModel().width = width;
+		}
 	}
 
 	/**
@@ -340,7 +356,9 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 	 * @param height the height of the video playback region, in pixels.
 	 */
 	public void setHeight(final int height) {
-		getOrCreateComponentModel().height = height;
+		if (height != getHeight()) {
+			getOrCreateComponentModel().height = height;
+		}
 	}
 
 	/**

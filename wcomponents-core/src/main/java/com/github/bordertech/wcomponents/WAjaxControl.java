@@ -131,7 +131,9 @@ public class WAjaxControl extends AbstractWComponent {
 	 * @param loadOnce if <code>true</code> the target AJAX trigger only once for each load of a page
 	 */
 	public void setLoadOnce(final boolean loadOnce) {
-		getOrCreateComponentModel().loadOnce = loadOnce;
+		if (loadOnce != isLoadOnce()) {
+			getOrCreateComponentModel().loadOnce = loadOnce;
+		}
 	}
 
 	/**
@@ -230,7 +232,9 @@ public class WAjaxControl extends AbstractWComponent {
 	 * @param delay the delay after page load before AJAX control triggered
 	 */
 	public void setDelay(final int delay) {
-		getOrCreateComponentModel().delay = delay;
+		if (delay != getDelay()) {
+			getOrCreateComponentModel().delay = delay;
+		}
 	}
 
 	/**

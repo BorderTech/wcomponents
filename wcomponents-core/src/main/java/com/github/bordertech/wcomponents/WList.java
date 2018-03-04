@@ -130,7 +130,9 @@ public class WList extends WRepeater implements Marginable {
 	 * @param type the list type.
 	 */
 	public void setType(final Type type) {
-		getOrCreateComponentModel().type = type;
+		if (type != getType()) {
+			getOrCreateComponentModel().type = type;
+		}
 	}
 
 	/**
@@ -162,7 +164,9 @@ public class WList extends WRepeater implements Marginable {
 	 * @param separator the separator to set.
 	 */
 	public void setSeparator(final Separator separator) {
-		getOrCreateComponentModel().separator = separator;
+		if (separator != getSeparator()) {
+			getOrCreateComponentModel().separator = separator;
+		}
 	}
 
 	/**
@@ -178,7 +182,9 @@ public class WList extends WRepeater implements Marginable {
 	 * @param renderBorder true to render a border, false otherwise.
 	 */
 	public void setRenderBorder(final boolean renderBorder) {
-		getOrCreateComponentModel().renderBorder = renderBorder;
+		if (renderBorder != isRenderBorder()) {
+			getOrCreateComponentModel().renderBorder = renderBorder;
+		}
 	}
 
 	/**

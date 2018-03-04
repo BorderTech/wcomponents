@@ -156,9 +156,10 @@ public abstract class AbstractWComponent implements WComponent {
 					+ idName
 					+ " must start with a letter and followed by letters, digits and or underscores.");
 		}
-
-		ComponentModel model = getOrCreateComponentModel();
-		model.setIdName(idName);
+		if (getIdName() == null || !getIdName().equals(idName)) {
+			ComponentModel model = getOrCreateComponentModel();
+			model.setIdName(idName);
+		}
 	}
 
 	/**
