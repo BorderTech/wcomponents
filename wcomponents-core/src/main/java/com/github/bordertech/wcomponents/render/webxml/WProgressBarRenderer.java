@@ -3,11 +3,8 @@ package com.github.bordertech.wcomponents.render.webxml;
 import com.github.bordertech.wcomponents.Renderer;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WProgressBar;
-import com.github.bordertech.wcomponents.WProgressBar.ProgressBarType;
-import com.github.bordertech.wcomponents.WProgressBar.UnitType;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-import com.github.bordertech.wcomponents.util.Util;
 
 /**
  * {@link Renderer} for the {@link WProgressBar} component.
@@ -28,30 +25,27 @@ final class WProgressBarRenderer extends AbstractWebXmlRenderer {
 		WProgressBar progressBar = (WProgressBar) component;
 		XmlStringBuilder xml = renderContext.getWriter();
 
-		xml.appendTagOpen("ui:progressbar");
+		xml.appendTagOpen("html:progress");
 		xml.appendAttribute("id", component.getId());
-		xml.appendOptionalAttribute("class", component.getHtmlClass());
-		xml.appendOptionalAttribute("track", component.isTracking(), "true");
-		xml.appendOptionalAttribute("hidden", progressBar.isHidden(), "true");
+		xml.appendAttribute("class", getHtmlClass(progressBar));
+		xml.appendOptionalAttribute("hidden", progressBar.isHidden(), "hidden");
+		xml.appendOptionalAttribute("title", progressBar.getToolTip());
+		xml.appendOptionalAttribute("aria-label", progressBar.getAccessibleText());
 		xml.appendAttribute("value", progressBar.getValue());
-		xml.appendAttribute("max", progressBar.getMax());
-		xml.appendOptionalAttribute("toolTip", progressBar.getToolTip());
-		xml.appendOptionalAttribute("accessibleText", progressBar.getAccessibleText());
+		xml.appendOptionalAttribute("max", progressBar.getMax() > 0, progressBar.getMax());
+		xml.appendClose();
+		xml.appendEndTag("html:progress");
+	}
 
-		ProgressBarType type = progressBar.getProgressBarType();
-		xml.appendOptionalAttribute("type", type == ProgressBarType.NORMAL ? null : "small");
-
-		UnitType unitType = progressBar.getUnitType();
-		xml.appendOptionalAttribute("output", unitType == UnitType.FRACTION ? null : "percent");
-
-		String text = progressBar.getText();
-
-		if (Util.empty(text)) {
-			xml.appendEnd();
-		} else {
-			xml.appendClose();
-			xml.appendEscaped(text);
-			xml.appendEndTag("ui:progressbar");
+	/**
+	 * @param progressBar the WProgressBar being rendered
+	 * @return the value of the HTML class attribute for the progress element being rendered
+	 */
+	private String getHtmlClass(final WProgressBar progressBar) {
+		StringBuilder builder = new StringBuilder("wc-progressbar");
+		if (!WProgressBar.DEFAULT_TYPE.equals(progressBar.getProgressBarType())) {
+			builder.append(" wc-progressbar-type-small");
 		}
+		return builder.toString();
 	}
 }

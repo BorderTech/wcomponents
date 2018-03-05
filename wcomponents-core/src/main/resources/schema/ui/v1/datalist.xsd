@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+<xs:schema
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	elementFormDefault="qualified"
+	targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
 	<xs:element name="datalist">
 		<xs:annotation>
 			<xs:documentation>A datalist is a list of options to be consumed by a selection component. It allows for 

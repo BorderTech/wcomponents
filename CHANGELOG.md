@@ -4,11 +4,47 @@
 
 ### API Changes
 
+* Changed WProgressBar API to better implement HTML spec:
+  - Deprecated WProgressBar members as follows:
+    - UnitType - not supported - `public void setUnitType(UnitType)` is now a no-op and `public WProgressBar.UnitType getUnitType()` will now always return `null`
+    - text - not required use toolTip instead - `public void setText(String)` is now a no-op and `public String getText()` will now always return `null`
+    - Constructors which reference UnitType
+  - Added constructors `public WProgressBar(ProgressBarType)` and `public WProgressBar(ProgressBarType, int)`
+  - Put type checks around constructors and setters so that `ProgressBarType` cannot be made `null` and `max` and `value` cannot be negative.
+
 ### Enhancements
 
+* Updated renderer of WProgressBar to output HTML as part of #639.
+* Added JUnits for WProgressBar.
+* Updated renderers of WButton and WPrintButton (which has been un-deprecated) to output HTML as part of #639.
+
+### Bug Fixes
+
+* Fixed a Sass issue which could cause unexpected wrapping of content of read-only Inputs #1469.
+
+## Release 1.5.0
+
+### Enhancements
+
+### Bug Fixes
+
+## Release 1.5.0
+
+### Enhancements
+
+* Enforce Java 1.8 as minimum compiler version and set source and target properties to 1.8 #1307.
+
+## Release 1.4.24
+
+### Enhancements
+
+* Updated WTree Sass to remove unnecessary left padding from default implementation #1461.
+* Removed some duplicate code from tabset Sass.
 * Fixed inconsistency in detecting a disabled link.
 
 ### Bug Fixes
+
+* Fixed an error which could result in incorrect CSS overrides of WCheckBoxSelect and WRadioButtonSelect #1462.
 
 ## Release 1.4.23
 
