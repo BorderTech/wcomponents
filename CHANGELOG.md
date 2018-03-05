@@ -20,6 +20,8 @@
 
 ### Bug Fixes
 
+* Fixed a Sass issue which could cause unexpected wrapping of content of read-only Inputs #1469.
+
 ## Release 1.5.0
 
 ### Enhancements
