@@ -153,6 +153,16 @@ pre {
   max-width: 100%;
 }
 
+div,
+ul,
+ol {
+  &.wc-ro-input {
+    @include border-box;
+    display: inline-block;
+    max-width: 100%;
+  }
+}
+
 // Vertical alignment helpers. Not used by FlowLayout for its vertical alignment
 // control which is flex based. May be omitted by setting the list variable to 0
 @if ($wc-valign-list != 0) {
