@@ -12,14 +12,23 @@ import com.github.bordertech.wcomponents.WPrintButton;
  */
 final class WPrintButtonRenderer extends WButtonRenderer {
 
-	/**
-	 * Override to change the main tag.
-	 *
-	 * @param button the WPrintButtonLayout being painted.
-	 * @return the main tag name
-	 */
 	@Override
-	protected String getTagName(final WButton button) {
-		return "ui:printbutton";
+	protected String geHtmlClassName(final WButton button) {
+		StringBuffer htmlClassName = new StringBuffer("wc-printbutton");
+
+		if (button.isRenderAsLink()) {
+			htmlClassName.append(" wc-linkbutton");
+		}
+		String customButtonClassNames = button.getHtmlClass();
+		if (customButtonClassNames != null) {
+			htmlClassName.append(" ");
+			htmlClassName.append(customButtonClassNames);
+		}
+		return htmlClassName.toString();
+	}
+
+	@Override
+	protected String getButtonType(final WButton button) {
+		return "button";
 	}
 }

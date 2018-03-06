@@ -33,35 +33,26 @@ public class WProgressBarRenderer_Test extends AbstractWebXmlRendererTestCase {
 			}
 		};
 
-		WProgressBar progressBar = new WProgressBar(WProgressBar.ProgressBarType.NORMAL,
-				WProgressBar.UnitType.FRACTION);
+		WProgressBar progressBar = new WProgressBar(WProgressBar.ProgressBarType.NORMAL, WProgressBar.UnitType.FRACTION);
 		progressBar.setBeanProvider(provider);
 		progressBar.setMax(33);
+		assertXpathExists("//html:progress[@max='33']", progressBar);
 
-		assertSchemaMatch(progressBar);
-
-		progressBar = new WProgressBar(WProgressBar.ProgressBarType.SMALL,
-				WProgressBar.UnitType.PERCENTAGE);
+		progressBar = new WProgressBar(WProgressBar.ProgressBarType.SMALL, WProgressBar.UnitType.PERCENTAGE);
 		progressBar.setBeanProvider(provider);
 		progressBar.setMax(33);
-
-		assertSchemaMatch(progressBar);
+		assertXpathExists("//html:progress[@max='33' and contains(@class, 'wc-progressbar-type-small')]", progressBar);
 	}
 
 	@Test
 	public void testXssEscaping() throws IOException, SAXException, XpathException {
-		WProgressBar progressBar = new WProgressBar(WProgressBar.ProgressBarType.NORMAL,
-				WProgressBar.UnitType.FRACTION);
-		progressBar.setMax(100);
-
-		progressBar.setText(getMaliciousContent());
-
+		WProgressBar progressBar = new WProgressBar(WProgressBar.ProgressBarType.NORMAL, 100);
 		assertSafeContent(progressBar);
 
-		progressBar.setToolTip(getMaliciousAttribute("ui:progressbar"));
+		progressBar.setToolTip(getMaliciousAttribute("html:progress"));
 		assertSafeContent(progressBar);
 
-		progressBar.setAccessibleText(getMaliciousAttribute("ui:progressbar"));
+		progressBar.setAccessibleText(getMaliciousAttribute("html:progress"));
 		assertSafeContent(progressBar);
 	}
 }

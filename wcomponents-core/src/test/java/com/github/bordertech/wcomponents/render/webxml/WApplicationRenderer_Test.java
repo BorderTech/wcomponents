@@ -80,7 +80,7 @@ public class WApplicationRenderer_Test extends AbstractWebXmlRendererTestCase {
 		// Check Children
 		assertXpathEvaluatesTo("test text", "normalize-space(//ui:application/text()[1])",
 				application);
-		assertXpathEvaluatesTo("1", "count(//ui:application/ui:button)", application);
+		assertXpathEvaluatesTo("1", "count(//ui:application/html:button)", application);
 	}
 
 	@Test

@@ -40,66 +40,81 @@ class WButtonRenderer extends AbstractWebXmlRenderer {
 		}
 
 		xml.appendTagOpen(getTagName(button));
-		xml.appendAttribute("id", component.getId());
-		xml.appendOptionalAttribute("class", component.getHtmlClass());
-		xml.appendOptionalAttribute("track", component.isTracking(), "true");
-		xml.appendOptionalAttribute("disabled", button.isDisabled(), "true");
-		xml.appendOptionalAttribute("hidden", button.isHidden(), "true");
-		xml.appendOptionalAttribute("toolTip", toolTip);
-		xml.appendOptionalAttribute("accessibleText", accessibleText);
-		xml.appendOptionalAttribute("popup", button.isPopupTrigger(), "true");
-		xml.appendOptionalAttribute("accessKey", Util.upperCase(button.getAccessKeyAsString()));
-		xml.appendOptionalAttribute("cancel", button.isCancel(), "true");
-		xml.appendOptionalAttribute("unsavedChanges", button.isUnsavedChanges(), "true");
-		xml.appendOptionalAttribute("msg", button.getMessage());
-		xml.appendOptionalAttribute("client", button.isClientCommandOnly(), "true");
 
-		if (imageUrl != null) {
-			xml.appendUrlAttribute("imageUrl", imageUrl);
-			ImagePosition imagePosition = button.getImagePosition();
-
-			if (imagePosition != null) {
-				switch (imagePosition) {
-					case NORTH:
-						xml.appendAttribute("imagePosition", "n");
-						break;
-					case EAST:
-						xml.appendAttribute("imagePosition", "e");
-						break;
-					case SOUTH:
-						xml.appendAttribute("imagePosition", "s");
-						break;
-					case WEST:
-						xml.appendAttribute("imagePosition", "w");
-						break;
-					default:
-						throw new SystemException("Unknown image position: " + imagePosition);
-				}
-			}
-
-			if (Util.empty(text) && Util.empty(button.getToolTip()) && Util.empty(button.getAccessibleText())) {
-				// If the button has an umageUrl but no text equivalent get the text equivalent off of the image
-				WImage imgHolder = button.getImageHolder();
-				if (null != imgHolder) {
-					xml.appendOptionalAttribute("toolTip", imgHolder.getAlternativeText());
-				}
+		String buttonId = button.getId();
+		ImagePosition pos = button.getImagePosition();
+		if (Util.empty(text) && Util.empty(toolTip) && Util.empty(accessibleText)) {
+			// If the button has an imageUrl but no text equivalent get the text equivalent off of the image
+			WImage imgHolder = button.getImageHolder();
+			if (null != imgHolder) {
+				toolTip = imgHolder.getAlternativeText();
 			}
 		}
 
-		if (button.isRenderAsLink()) {
-			xml.appendAttribute("type", "link");
-		}
+		xml.appendAttribute("id", buttonId);
+		xml.appendAttribute("name", buttonId);
+		xml.appendAttribute("value", "x");
+		xml.appendAttribute("type", getButtonType(button));
+		xml.appendAttribute("class", geHtmlClassName(button));
+		xml.appendOptionalAttribute("disabled", button.isDisabled(), "disabled");
+		xml.appendOptionalAttribute("hidden", button.isHidden(), "hidden");
+		xml.appendOptionalAttribute("title", toolTip);
+		xml.appendOptionalAttribute("aria-label", accessibleText);
+		xml.appendOptionalAttribute("aria-haspopup", button.isPopupTrigger(), "true");
+		xml.appendOptionalAttribute("accesskey", Util.upperCase(button.getAccessKeyAsString()));
+		xml.appendOptionalAttribute("data-wc-btnmsg", button.getMessage());
 
-		Action action = button.getAction();
-
-		if (action instanceof ValidatingAction) {
-			WComponent validationTarget = ((ValidatingAction) action).getComponentToValidate();
-			xml.appendAttribute("validates", validationTarget.getId());
+		if (button.isCancel()) {
+			xml.appendAttribute("formnovalidate", "formnovalidate");
+		} else {
+			Action action = button.getAction();
+			if (action instanceof ValidatingAction) {
+				WComponent validationTarget = ((ValidatingAction) action).getComponentToValidate();
+				xml.appendAttribute("data-wc-validate", validationTarget.getId());
+			}
 		}
 
 		xml.appendClose();
 
-		if (text != null) {
+		if (imageUrl != null) {
+			xml.appendTagOpen("span");
+			String imageHolderClass =  "wc_nti";
+			if (pos != null) {
+				StringBuffer imageHolderClassBuffer = new StringBuffer("wc_btn_img wc_btn_img");
+				switch (pos) {
+					case NORTH:
+						imageHolderClassBuffer.append("n");
+						break;
+					case EAST:
+						imageHolderClassBuffer.append("e");
+						break;
+					case SOUTH:
+						imageHolderClassBuffer.append("s");
+						break;
+					case WEST:
+						imageHolderClassBuffer.append("w");
+						break;
+					default:
+						throw new SystemException("Unknown image position: " + pos);
+				}
+				imageHolderClass = imageHolderClassBuffer.toString();
+			}
+			xml.appendAttribute("class", imageHolderClass);
+			xml.appendClose();
+
+			if (pos != null && text != null) {
+				xml.appendTag("span");
+				xml.appendEscaped(text);
+				xml.appendEndTag("span");
+			}
+
+			xml.appendTagOpen("img");
+			xml.appendUrlAttribute("src", imageUrl);
+			String alternateText = pos == null ? text : "";
+			xml.appendAttribute("alt", alternateText);
+			xml.appendEnd();
+			xml.appendEndTag("span");
+		} else if (text != null) {
 			xml.appendEscaped(text);
 		}
 
@@ -138,6 +153,38 @@ class WButtonRenderer extends AbstractWebXmlRenderer {
 	 * @return the main tag name
 	 */
 	protected String getTagName(final WButton button) {
-		return "ui:button";
+		return "button";
+	}
+
+	/**
+	 * @param button the WButton being painted.
+	 * @return the HTML class attribute value for this button
+	 */
+	protected String geHtmlClassName(final WButton button) {
+		StringBuffer htmlClassName = new StringBuffer("wc-button");
+
+		if (button.isRenderAsLink()) {
+			htmlClassName.append(" wc-linkbutton");
+		}
+		if (button.isUnsavedChanges()) {
+			htmlClassName.append(" wc_unsaved");
+		}
+		if (button.isCancel()) {
+			htmlClassName.append(" wc_btn_cancel");
+		}
+		String customButtonClassNames = button.getHtmlClass();
+		if (customButtonClassNames != null) {
+			htmlClassName.append(" ");
+			htmlClassName.append(customButtonClassNames);
+		}
+		return htmlClassName.toString();
+	}
+
+	/**
+	 * @param button the WButton being painted.
+	 * @return the HTML type attribute value for this button.
+	 */
+	protected String getButtonType(final WButton button) {
+		return button.isClientCommandOnly() ? "button" : "submit";
 	}
 }
