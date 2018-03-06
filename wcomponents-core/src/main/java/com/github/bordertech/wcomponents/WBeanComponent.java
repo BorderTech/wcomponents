@@ -169,7 +169,11 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	 */
 	@Override
 	public void setBeanProperty(final String propertyName) {
-		if (!propertyName.equals(getBeanProperty())) {
+		String currBeanProperty = getBeanProperty();
+
+		if ((propertyName != null && currBeanProperty == null)
+			|| (propertyName == null && currBeanProperty != null)
+			|| (propertyName != null && !propertyName.equals(currBeanProperty))) {
 			getOrCreateComponentModel().setBeanProperty(propertyName);
 		}
 	}

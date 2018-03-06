@@ -125,7 +125,11 @@ public class WWindow extends AbstractWComponent implements Container {
 	 * @param title The title to set.
 	 */
 	public void setTitle(final String title) {
-		if (!title.equals(getTitle())) {
+		String currTitle = getTitle();
+
+		if ((title != null && currTitle == null)
+			|| (title == null && currTitle != null)
+			|| (title != null && !title.equals(currTitle))) {
 			getOrCreateComponentModel().title = title;
 		}
 	}

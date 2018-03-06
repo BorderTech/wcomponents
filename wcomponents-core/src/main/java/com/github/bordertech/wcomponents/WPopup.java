@@ -112,7 +112,11 @@ public class WPopup extends AbstractWComponent {
 	 * @param url the URL to set.
 	 */
 	public void setUrl(final String url) {
-		if (!url.equals(getUrl())) {
+		String currUrl = getUrl();
+
+		if ((url != null && currUrl == null)
+			|| (url == null && currUrl != null)
+			|| (url != null && !url.equals(currUrl))) {
 			getOrCreateComponentModel().url = url;
 		}
 	}
@@ -132,7 +136,11 @@ public class WPopup extends AbstractWComponent {
 	 * @param targetWindow the target window name.
 	 */
 	public void setTargetWindow(final String targetWindow) {
-		if (!targetWindow.equals(getTargetWindow())) {
+		String currTargWin = getTargetWindow();
+
+		if ((targetWindow != null && currTargWin == null)
+			|| (targetWindow == null && currTargWin != null)
+			|| (targetWindow != null && !targetWindow.equals(currTargWin))) {
 			getOrCreateComponentModel().targetWindow = targetWindow;
 		}
 	}

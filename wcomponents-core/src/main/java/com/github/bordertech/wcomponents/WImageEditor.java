@@ -105,7 +105,11 @@ public class WImageEditor extends AbstractWComponent {
 	 * @param size the size of the image editor.
 	 */
 	public void setSize(final Dimension size) {
-		if (!size.equals(getSize())) {
+		Dimension currSize = getSize();
+
+		if ((size != null && currSize == null)
+			|| (size == null && currSize != null)
+			|| (size != null && !size.equals(currSize))) {
 			getOrCreateComponentModel().size = size;
 		}
 	}

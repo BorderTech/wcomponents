@@ -110,7 +110,13 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	 * @param args optional arguments for the message format string.
 	 */
 	public void setText(final String text, final Serializable... args) {
-		getOrCreateComponentModel().text = I18nUtilities.asMessage(text, args);
+		String currText = getText();
+
+		if ((text != null && currText == null)
+			|| (text == null && currText != null)
+			|| (text != null && !text.equals(currText))) {
+			getOrCreateComponentModel().text = I18nUtilities.asMessage(text, args);
+		}
 	}
 
 	/**
@@ -120,7 +126,11 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	 * @param args optional arguments for the message format string.
 	 */
 	public void setHint(final String hint, final Serializable... args) {
-		if (!hint.equals(getHint())) {
+		String currHint = getHint();
+
+		if ((hint != null && currHint == null)
+			|| (hint == null && currHint != null)
+			|| (hint != null && !hint.equals(currHint))) {
 			getOrCreateComponentModel().hint = I18nUtilities.asMessage(hint, args);
 		}
 	}

@@ -478,6 +478,8 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 * @param thumbnailSize the thumbnail size or null for default
 	 */
 	public void setThumbnailSize(final Dimension thumbnailSize) {
+		Dimension currSize = getThumbnailSize();
+
 		if (thumbnailSize != null) {
 			if (thumbnailSize.height == 0 || thumbnailSize.width == 0) {
 				throw new IllegalArgumentException(
@@ -488,7 +490,9 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 						"Thumbnail size cannot have both height and width set to -1.");
 			}
 		}
-		if (getThumbnailSize() == null || !thumbnailSize.equals(getThumbnailSize())) {
+		if ((thumbnailSize != null && currSize == null)
+			|| (thumbnailSize == null && currSize != null)
+			|| (currSize != null && !currSize.equals(thumbnailSize))) {
 			getOrCreateComponentModel().thumbnailSize = thumbnailSize;
 		}
 	}
@@ -869,7 +873,11 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 * @param fileId the file id that has been uploaded successfully
 	 */
 	private void setFileUploadRequestId(final String fileId) {
-		if (getFileUploadRequestId() == null || !getFileUploadRequestId().equals(fileId)) {
+		String currFileId = getFileUploadRequestId();
+
+		if ((fileId != null && currFileId == null)
+			|| (fileId == null && currFileId != null)
+			|| (currFileId == null || !currFileId.equals(fileId))) {
 			getOrCreateComponentModel().fileUploadRequestId = fileId;
 		}
 	}

@@ -220,7 +220,11 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 	 * @param mediaGroup The media group name.
 	 */
 	public void setMediaGroup(final String mediaGroup) {
-		if (getMediaGroup() == null || !getMediaGroup().equals(mediaGroup)) {
+		String currMediaGroup = getMediaGroup();
+
+		if ((mediaGroup != null && currMediaGroup == null)
+			|| (mediaGroup == null && currMediaGroup != null)
+			|| (currMediaGroup != null && !currMediaGroup.equals(mediaGroup))) {
 			getOrCreateComponentModel().mediaGroup = mediaGroup;
 		}
 	}
@@ -320,7 +324,11 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 	 * @param altText the text to set.
 	 */
 	public void setAltText(final String altText) {
-		if (getAltText() == null || !getAltText().equals(altText)) {
+		String currAltText = getAltText();
+
+		if ((altText != null && currAltText == null)
+			|| (altText == null && currAltText != null)
+			|| (currAltText != null && !currAltText.equals(altText))) {
 			getOrCreateComponentModel().altText = altText;
 		}
 	}
