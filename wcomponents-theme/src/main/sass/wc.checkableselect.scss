@@ -22,8 +22,6 @@
   }
 
   &.wc-layout-flat {
-    @include flex($wrap: wrap);
-
     .wc-option {
       margin-right: $wc-gap-normal;
 

@@ -10,37 +10,10 @@
   position: relative;
   top: $wc-border-width;
 
-  > [role] + [role] {
-    margin-left: $wc-gap-small;
-  }
-
   // ACCORDION
   &[aria-multiselectable] {
     @include flex-direction(column);
     position: static;
-
-    > [role] + [role] {
-      @include border($pos: top, $width: 0);
-      margin-left: 0;
-    }
-  }
-
-  @if ($wc-tabset-allow-left-right == 1) {
-    // LEFT or RIGHT
-    &[aria-orientation='vertical'] {
-      @include flex-direction(column);
-      max-width: $wc-tabset-left-right-tab-width;
-      top: 0;
-
-      > [role] + [role] {
-        margin-left: 0;
-        margin-top: $wc-gap-small;
-      }
-
-      > [aria-selected='true'] {
-        @include border($pos: bottom);
-      }
-    }
   }
 }
 
@@ -50,12 +23,26 @@
   overflow: hidden;
 
   // accordion tabs are expanded, others are aria-selected.
+  &[aria-expanded] {
+    margin-left: 0;
+  }
+
   &[aria-selected] {
     @include wc-ui-tabset-top-border-radius;
   }
 
   &[aria-selected='true'] {
     @include border($pos: bottom, $width: 0);
+  }
+
+  // second and subsequent tabs
+  + [role='tab'] {
+    margin-left: $wc-gap-small;
+
+    &[aria-expanded] {
+      @include border($pos: top, $width: 0);
+      margin-left: 0;
+    }
   }
 }
 
@@ -74,6 +61,22 @@
 }
 
 @if ($wc-tabset-allow-left-right == 1) {
+  // LEFT or RIGHT
+  [role='tablist'][aria-orientation='vertical'] {
+    @include flex-direction(column);
+    max-width: $wc-tabset-left-right-tab-width;
+    top: 0;
+
+    > [role='tab'] {
+      @include border($pos: bottom);
+
+      + [role='tab'] {
+        margin-left: 0;
+        margin-top: $wc-gap-small;
+      }
+    }
+  }
+
   .wc-tabset-type-left {
     @include flex-direction(row);
 

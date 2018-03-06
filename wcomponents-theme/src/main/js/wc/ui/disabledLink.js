@@ -1,5 +1,5 @@
-define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"],
-	function(event, initialise, Widget) {
+define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/shed"],
+	function(event, initialise, Widget, shed) {
 		"use strict";
 
 		/**
@@ -23,23 +23,6 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"],
 			var ANCHOR = new Widget("a");
 
 			/**
-			 * Test is an element is a disabled link.
-			 *
-			 * NOTE: this is explicitly outside of {@link module:wc/dom/shed} to prevent a rather nasty set of downstream UI dependencies and circular
-			 * dependencies.
-			 *
-			 * @function
-			 * @param {Element} element the elemet to test - hopefully an a element.
-			 * @returns {Boolean} true if element is an a element and is in a disabled state.
-			 */
-			function isDisabled(element) {
-				if (!element || !ANCHOR.isOneOfMe(element)) {
-					return false;
-				}
-				return element.getAttribute("aria-disabled") === "true";
-			}
-
-			/**
 			 * Click event listener: prevent navigation if the link is "disabled".
 			 *
 			 * @function
@@ -48,7 +31,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"],
 			 */
 			function clickEvent($event) {
 				var element;
-				if (!$event.defaultPrevented && (element = ANCHOR.findAncestor($event.target)) && isDisabled(element)) {
+				if (!$event.defaultPrevented && (element = ANCHOR.findAncestor($event.target)) && shed.isDisabled(element)) {
 					$event.preventDefault();
 				}
 			}
@@ -61,7 +44,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"],
 			 * @param {Element} element document.body.
 			 */
 			this.initialise = function(element) {
-				event.add(element, event.TYPE.click, clickEvent, -50);
+				event.add(element, event.TYPE.click, clickEvent, -1);
 			};
 		}
 	});

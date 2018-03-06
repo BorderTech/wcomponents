@@ -663,6 +663,7 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 				MIN_SPEED = 0.5,
 				START_SPEED = 1.5,
 				speed = START_SPEED,
+				pressAction,
 				eventConfig = {
 					press: {},
 					click: {}
@@ -683,8 +684,11 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 				}
 			}
 
-			function callbackWrapper(config) {
-				config.func(config, speed);
+			/**
+			 * Increment the current speed.
+			 * Used when a button is held down rather than clicked.
+			 */
+			function speedUp() {
 				// Speed up while the button is being held down
 				speed += (speed * 0.1);
 				if (speed < MIN_SPEED) {
@@ -694,20 +698,52 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 				}
 			}
 
+			/**
+			 * Call when the user begins to press a control.
+			 * This starts the poller that will contiue to invoke the action as long as the control is pressed.
+			 */
+			function startPressPoller() {
+				pressEnd();  // stop any previous poller
+				eventTimer = timers.setInterval(function() {
+					if (pressAction) {
+						pressAction();
+					}
+				}, 100);
+			}
+
+			/**
+			 * This handles the event fired when the user begins to press a control.
+			 * @param {Event} $event The press event.
+			 */
 			function pressStart($event) {
 				var target = $event.target,
 					element = BUTTON.findAncestor(target),
-					config= getEventConfig(element, "press");
+					config = getEventConfig(element, "press");
 				if (config) {
 					pressEnd();
-					eventTimer = timers.setInterval(callbackWrapper, 100, config);
+					startPressPoller();
+					pressAction = function() {
+						config.func(config, speed);
+						speedUp();
+					};
 				}
 			}
 
+			/**
+			 * Call to signal the end of a "press".
+			 */
 			function pressEnd() {
-				speed = START_SPEED;
-				if (eventTimer) {
-					timers.clearInterval(eventTimer);
+				try {
+					if (eventTimer) {
+						timers.clearInterval(eventTimer);
+						if (pressAction) {
+							// Ensure every press gets at least one invocation (otherwise click will do nothing)
+							pressAction();
+						}
+					}
+				} finally {
+					speed = START_SPEED;
+					pressAction = null;
 				}
 			}
 

@@ -8,10 +8,33 @@
 
 ### Bug Fixes
 
+## Release 1.4.24
+
+### Enhancements
+
+* Updated WTree Sass to remove unnecessary left padding from default implementation #1461.
+* Removed some duplicate code from tabset Sass.
+* Fixed inconsistency in detecting a disabled link.
+
+### Bug Fixes
+
+* Fixed an error which could result in incorrect CSS overrides of WCheckBoxSelect and WRadioButtonSelect #1462.
+
+## Release 1.4.23
+
+### API Changes
+
+### Enhancements
+
+* ImageEdit press buttons now also respond to clicks.
+
+### Bug Fixes
+
 * Fixed a bug which could result in incorrect determination of selected items using module wc/dom/getFilteredGroup #943.
 * Updated defaultSubmit module to bring it into line with the HTML spec and fix an issue found in compliant browsers #1122.
 * Fixed action constraints not working across pages on a paginated table #1078
 * Fixed a flaw which resulted in WSkipLinks not being transformed #1420.
+* Fix date field causes AJAX loop if it is trigger and target #1455
 
 ## Release 1.4.22
 
