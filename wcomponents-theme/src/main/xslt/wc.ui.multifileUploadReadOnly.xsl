@@ -4,9 +4,8 @@
 
 	<xsl:template match="ui:multifileupload[@readOnly]">
 		<xsl:variable name="roClass">
-			<xsl:text>wc_ro</xsl:text>
 			<xsl:if test="@ajax">
-				<xsl:text> wc-ajax</xsl:text>
+				<xsl:text>wc-ajax</xsl:text>
 			</xsl:if>
 		</xsl:variable>
 		<xsl:choose>
