@@ -66,48 +66,6 @@
 	</xsl:template>
 	-->
 
-	<!--
-		Non-conforming attributes
-
-		There is a huge list of non-conforming attibutes (see https://html.spec.whatwg.org/multipage/obsolete.html#non-conforming-features)
-		so this template removes them from any HTML elements in the application.
-
-		This is separated from the template to remove non-conforming elements only because this list is unmanageably 
-		large and it makes our life easier to keep them separate. As with elements you could, if feeling kind, transform
-		some to conforming attributes as listed in the spec.
-
-		<<NOTE:>> any attribute which does not have a  modifier is not used in the WComponents schema for ui:*. This is 
-		just a shorthand to make this XSLT smaller but may cause future problems if the schema changes. If something new 
-		doesn't work: look here first.
-		
-		You probably do not need this template
-	-->
-	<xsl:template match="@abbr|@axis|@background|@bgcolor|@border|@char|@charoff|@charset|@compact|@hspace|@longdesc|@nowrap|@rev|@urn|@vspace|@marginheight|@marginwidth|@methods|
-		html:*/@align|html:*/@name|html:*/@valign|
-		html:a/@coords|html:a/@shape|
-		html:area/@nohref|
-		html:body/@alink|html:body/@link|html:body/@marginbottom|html:body/@marginleft|html:body/@marginright|html:body/@margintop|html:body/@text|html:body/@vlink|
-		html:br/@clear|
-		html:col/@width|
-		html:form/@accept|
-		html:head/@profile|
-		html:hr/@color|html:hr/@noshade|html:hr/@size|html:hr/@width|
-		html:html/@version|
-		html:iframe/@allowtransparency|html:iframe/@frameborder|html:iframe/@scrolling|
-		html:img/@lowsrc|
-		html:input/@usemap|
-		html:li/@type|
-		html:link/@target|
-		html:meta/@scheme|
-		html:object/@archive|html:object/@classid|html:object/@code|html:object/@codebase|html:object/@codetype|html:object/@declare|html:object/@standby|
-		html:param/@type|
-		html:param/@valuetype|
-		html:pre/@width|
-		html:script/@language|html:script/@event|
-		html:table/@cellpadding|html:table/@cellspacing|html:table/@datapagesize|html:table/@frame|html:table/@rules|html:table/@summary|html:table/@width|
-		html:td/@height|html:td/@scope|html:td/@width|
-		html:th/@height|html:th/@width|
-		html:ul/@type"/>
 
 	<!--
 		Do not put a HTML form inside any ui:application.
