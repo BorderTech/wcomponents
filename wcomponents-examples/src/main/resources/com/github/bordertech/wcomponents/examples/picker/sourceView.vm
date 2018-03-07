@@ -1,4 +1,9 @@
+<style type="text/css">
+@import "$css";
+</style>
+<script type="text/javascript" src="$script1"></script>
+<script type="text/javascript" src="$script2"></script>
 <pre class="sunlight-highlight-java">
 $src
 </pre>
-<script type="text/javascript">if (window.Sunlight) Sunlight.highlightAll();</script>
+<script type="text/javascript">window.setTimeout(function() {if (window.Sunlight) Sunlight.highlightAll();}, 100);</script>
