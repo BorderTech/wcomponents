@@ -81,7 +81,7 @@
 		doesn't work: look here first.
 		
 		You probably do not need this template
-
+	-->
 	<xsl:template match="@abbr|@axis|@background|@bgcolor|@border|@char|@charoff|@charset|@compact|@hspace|@longdesc|@nowrap|@rev|@urn|@vspace|@marginheight|@marginwidth|@methods|
 		html:*/@align|html:*/@name|html:*/@valign|
 		html:a/@coords|html:a/@shape|
@@ -108,7 +108,7 @@
 		html:td/@height|html:td/@scope|html:td/@width|
 		html:th/@height|html:th/@width|
 		html:ul/@type"/>
-	-->
+
 	<!--
 		Do not put a HTML form inside any ui:application.
 	-->
