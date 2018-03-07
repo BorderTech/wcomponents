@@ -1,8 +1,11 @@
 // #############################################################################
 // Mixins for WTabSet.
+// separated out to allow for override.
+// TODO: remove all this - it is style not structure
+// NOTE: do not add this file to mixins/common
 // #############################################################################
 @mixin wc-ui-tabset-top-border-radius {
-  @if ($wc-tabset-border-radius > 0) {
+  @if $wc-tabset-border-radius > 0 {
     border-top-left-radius: $wc-tabset-border-radius;
     border-top-right-radius: $wc-tabset-border-radius;
   }
@@ -10,7 +13,7 @@
 
 // left inherits top.
 @mixin wc-ui-tabset-left-border-radius {
-  @if ($wc-tabset-border-radius > 0) {
+  @if $wc-tabset-border-radius > 0 {
     border-bottom-left-radius: $wc-tabset-border-radius;
     border-top-right-radius: 0;
   }
@@ -18,7 +21,7 @@
 
 // right inherits top
 @mixin wc-ui-tabset-right-border-radius {
-  @if ($wc-tabset-border-radius > 0) {
+  @if $wc-tabset-border-radius > 0 {
     border-bottom-right-radius: $wc-tabset-border-radius;
     border-top-left-radius: 0;
   }

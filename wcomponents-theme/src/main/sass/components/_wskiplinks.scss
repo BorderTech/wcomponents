@@ -1,0 +1,26 @@
+// #############################################################################
+// WSkipLinks
+// Are these **still** a thing? Can't people just get their key maps right?
+// #############################################################################
+
+.wc-skiplinks {
+  height: 0;
+  left: 0;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  vertical-align: middle;
+  width: 100%;
+
+  a {
+    @include offscreen;
+
+    &:focus {
+      @include onscreen;
+      @include wc-opaque-box;
+      display: inline-block;
+      padding: $wc-gap-normal;
+      z-index: $wc-z-index-common; // never found in dialogs.
+    }
+  }
+}

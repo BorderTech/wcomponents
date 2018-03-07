@@ -21,23 +21,23 @@
   display: block; // See issue #561
   display: -webkit-flex;
   display: $display;
-  @if ($direction != row) {
+  @if $direction != row {
     -webkit-flex-direction: $direction;
     flex-direction: $direction;
   }
-  @if ($wrap != nowrap) {
+  @if $wrap != nowrap {
     -webkit-flex-wrap: $wrap;
     flex-wrap: $wrap;
   }
-  @if ($justify != flex-start) {
+  @if $justify != flex-start {
     -webkit-justify-content: $justify;
     justify-content: $justify;
   }
-  @if ($align-items != stretch) {
+  @if $align-items != stretch {
     -webkit-align-items: $align-items;
     align-items: $align-items;
   }
-  @if ($align-content != stretch) {
+  @if $align-content != stretch {
     -webkit-align-content: $align-content;
     align-content: $align-content;
   }

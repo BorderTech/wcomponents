@@ -1,0 +1,12 @@
+// Fixes for Microsoft Edge
+
+// IMPORTS of all required variables.
+// #############################################################################
+// Import WComponent vars
+@import 'vars/wc';
+// Import WComponent mixins once rather than per use.
+@import 'mixins/common';
+
+// #############################################################################
+// Edge specific files
+@import 'fix/edge/wtree';

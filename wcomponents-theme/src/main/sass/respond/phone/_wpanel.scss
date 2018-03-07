@@ -1,0 +1,20 @@
+
+$wc-header-h1-size-small: 1rem !default;
+
+@if $wc-use-respond == true {
+  @if $wc-respond-reduce-gap-when-narrow == true {
+    .wc-panel-type-box,
+    .wc-panel-type-feature,
+    footer {
+      padding: $wc-phone-gap-normal;
+    }
+  }
+
+  @if $wc-header-h1-size-small != -1 {
+    [role='banner'] {
+      h1 {
+        font-size: $wc-header-h1-size-small;
+      }
+    }
+  }
+}

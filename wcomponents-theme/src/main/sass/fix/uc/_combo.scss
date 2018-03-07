@@ -1,0 +1,10 @@
+
+
+@if $wc-use-respond == true {
+  .wc_inputwidth  > .wc-input  > [role='combobox'] {
+    &,
+    > [role='textbox'] {
+      width: initial;
+    }
+  }
+}

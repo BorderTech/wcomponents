@@ -1,0 +1,75 @@
+// #############################################################################
+// WMultiFileUpload
+// #############################################################################
+.wc-multifileupload {
+
+  &[data-wc-component] {
+    a {
+      max-width: none; // read-only has no delete button
+    }
+  }
+
+  .wc_btn_abort {
+    margin-right: $wc-gap-small;
+  }
+
+  > .wc_files {
+    @include flex-justify-content(space-between);
+  }
+
+  a {
+    @include flex-grow(1);
+    @include flex-shrink(1);
+    display: inline-block;
+    max-width: calc(100% - 2em); // allow for delete button
+
+    img {
+      max-width: 100%;
+    }
+  }
+
+  progress {
+    margin-left: $wc-gap-small;
+    margin-right: $wc-gap-small;
+    // see https://github.com/BorderTech/wcomponents/issues/1000
+    min-width: 10em;
+  }
+
+  &[data-wc-cols='1'] > .wc_filelist {
+    display: table-cell; // horrendously wrong no doubt but fixes columns
+  }
+
+  > .wc-listlayout-type-flat  a {
+    width: auto;
+  }
+
+  [type='file'][data-wc-editor] {
+    max-width: calc(100% - 2em); // leave room for the edit button.
+
+    &,
+    + button {
+      vertical-align: bottom;
+    }
+  }
+
+  .wc_btn_camera {
+    // This should only be available on desktop browsers, and only those
+    // which support webrtc --or flash--
+    display: none;
+  }
+}
+
+.wc_filelist {
+  @include flex-grow(1);
+}
+
+.wc-rtc-gum .wc-multifileupload .wc_btn_camera {
+  display: inline-block;  // This will be enabled in javascript
+}
+
+.wc-file {
+  @include flex($justify: space-between, $align-items: flex-start);
+  @include border;
+  padding: $wc-gap-small;
+  word-wrap: break-word;
+}

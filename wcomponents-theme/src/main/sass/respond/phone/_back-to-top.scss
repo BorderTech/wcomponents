@@ -1,0 +1,15 @@
+
+@if $wc-use-respond == true {
+  .wc_btt {
+    bottom: $wc-phone-gap-small;
+    right: $wc-phone-gap-small;
+
+    > .fa {
+      &.fa-5x {
+        &::before {
+          font-size: 3rem;
+        }
+      }
+    }
+  }
+}

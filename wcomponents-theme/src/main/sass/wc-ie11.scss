@@ -1,0 +1,18 @@
+// Fixes for IE 11 and before.
+// NOTE: nothing before IE11 will work anyway!
+
+// IMPORTS of all required variables.
+// #############################################################################
+// Import WComponent vars
+@import 'vars/wc';
+// Import WComponent mixins once rather than per use.
+@import 'mixins/common';
+
+// #############################################################################
+// IE specific files
+@import 'fix/ie11/button';
+@import 'fix/ie11/combo';
+@import 'fix/ie11/wmenu';
+@import 'fix/ie11/wmultifileupload';
+@import 'fix/ie11/wtabset';
+@import 'fix/ie11/wtree';

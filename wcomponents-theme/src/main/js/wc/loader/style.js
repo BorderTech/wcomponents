@@ -8,30 +8,15 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 	function StyleLoader() {
 		var
 			/**
-			 * The supported versions of IE below 10. The versions are of the form 'ie#' and are comma separated. The
-			 * default can be overridden using module.config().ie.
-			 *
-			 * The default is generated through the build process by looking for SASS/CSS files with the name pattern
-			 * .*\.ie[0-9]+\.css. This String is then converted to a String Array and sorted so that later versions of
-			 * IE have their CSS applied earlier than older versions so, for example *.ie9.css is appied before *.ie8.css
-			 * allowing for granular override.
+			 * The supported versions of IE. The versions are of the form 'ie#'. The default can be overridden using module.config().ie.
 			 *
 			 * @var
-			 * @type {String}
+			 * @type {String[]}
 			 * @private
 			 */
-			ieVersionsToSupport = "${ie.css.list}",
+			ieVersionsToSupport = ["ie11"],
 			/**
-			 * The list of platform and browser specific CSS files generated during build. This is used to populate
-			 * the object screenStylesToAdd if that object is not instantiated in module.config().
-			 *
-			 * @var
-			 * @type String
-			 * @private
-			 */
-			platformCSS = "${css.pattern.list}",
-			/**
-			 * A JSON object containing a list of file name 'extensions' which are to be included. This is obtained
+			 * A JSON object containing a list of file name 'extensions' which are to be included. This may be overwritten
 			 * from a module config if you want implementation specific styles. The default/fallback includes only the
 			 * Firefox fixes and some bits of ios specific CSS for demo purposes. If you use a config override it must
 			 * include any of these defaults you want to keep because the config will replace the defaults, not add to
@@ -54,10 +39,10 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 			 * * `pattern_ff` for Firefox.
 			 *
 			 * @var
-			 * @type {module:wc/loader/style~config}
+			 * @type {module:wc/loader/style~platformConfig}
 			 * @private
 			 */
-			stylesToAdd = null,
+			stylesToAdd = {"edge": "edge", "uc": "uc"},
 
 			/* NOTE TO SELF: the vars below which are only used once are used in a function which is called many times. Leave them here you twit! */
 
@@ -90,15 +75,53 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 			 */
 			ext,
 			/**
-			 * The common file name used to build the CSS files with an additional DOT suffix.
+			 * The common file name used to build the CSS files with an additional DASH suffix.
 			 * The individual 'extension' extends this.;
 			 * @var
 			 * @type {String}
 			 * @private
 			 */
-			CSS_FILE_NAME = "${css.target.file.name}.";
+			CSS_FILE_NAME = "wc-",
+			/**
+			 * time to delay before loading a style. This is done to improve perceived performance.
+			 * @type Number
+			 * @constant
+			 * @private
+			 */
+			MEDIA_SCREEN = "screen",
+			importPhoneCSS = false;
 
-		initialise();
+		function configure() {
+			var config = wcconfig.get("wc/loader/style");
+			if (config) {
+				if (config.css) {
+					stylesToAdd = config.css;
+				}
+				if (!CSS_BASE_URL) { // set this only once on initial page load from the XSLT
+					CSS_BASE_URL = config.cssBaseUrl;
+				}
+				if (!CACHEBUSTER) { // set this only once on initial page load from the XSLT
+					CACHEBUSTER = config.cachebuster;
+				}
+				importPhoneCSS = config.loadPhone;
+				if (!cssFileNameAndUrlExtension) {
+					cssFileNameAndUrlExtension = ".css" + (CACHEBUSTER ? ("?" + CACHEBUSTER) : "");
+				}
+				if (config.ie && Array.isArray(config.ie)) {
+					ieVersionsToSupport = config.ie;
+
+					// We want to sort the IE versions so that we apply fixes for older versions AFTER fixes for newer ones.
+					if (ieVersionsToSupport.length > 1) {
+						ieVersionsToSupport = ieVersionsToSupport.sort(function (a,b) {
+							var RX = /(\d+)$/,
+								aVer = parseInt(a.match(RX)[0]),
+								bVer = parseInt(b.match(RX)[0]);
+							return bVer - aVer;
+						});
+					}
+				}
+			}
+		}
 
 		/**
 		 * Create a link element for a CSS file in the head element unless we already have one for this URL.
@@ -142,9 +165,11 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 		 * @private
 		 * @param {String} shortName The css file name without extension.
 		 * @param {String} [media] An optional media query.
+		 * @param {boolean} [noTimeout] If `true` load without a timeout.
 		 */
 		function addStyle(shortName, media) {
-			addLinkElement(CSS_BASE_URL + shortName + cssFileNameAndUrlExtension, media);
+			var fullUrl = CSS_BASE_URL + shortName + cssFileNameAndUrlExtension;
+			addLinkElement(fullUrl, media);
 		}
 
 		/**
@@ -207,7 +232,7 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 						}
 						_v = version * 1;
 						if (has("ie") && has("ie") <= _v) {
-							addStyle(CSS_FILE_NAME + IE_PREFIX + version);
+							addStyle(CSS_FILE_NAME + IE_PREFIX + version, MEDIA_SCREEN);
 						} else if (_v >= 10) {
 							/*
 							 * WARNING... DANGER WILL ROBINSON
@@ -217,56 +242,14 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 							 * Later... turns out to be not so bad since MS Edge does not identify as trident.
 							 */
 							if (has("trident") < 7) {
-								addStyle(CSS_FILE_NAME + IE_PREFIX + "10");
+								addStyle(CSS_FILE_NAME + IE_PREFIX + "10", MEDIA_SCREEN);
 							} else if (has("trident") <= _v - 4) {
-								addStyle(CSS_FILE_NAME + IE_PREFIX + version);
+								addStyle(CSS_FILE_NAME + IE_PREFIX + version, MEDIA_SCREEN);
 							} else if (_v >= 11) {
-								addStyle(CSS_FILE_NAME + IE_PREFIX + "11");
+								addStyle(CSS_FILE_NAME + IE_PREFIX + "11", MEDIA_SCREEN);
 							}
 						}
 					}
-				}
-			}
-		}
-
-		function initialise() {
-			var config = wcconfig.get("wc/loader/style"), i, next;
-			if (config) {
-				stylesToAdd = config.screen ? config.css : null;
-				CSS_BASE_URL = config.cssBaseUrl;
-				CACHEBUSTER = config.cachebuster;
-				cssFileNameAndUrlExtension = ".css" + (CACHEBUSTER ? ("?" + CACHEBUSTER) : "");
-				if (config.ie) {
-					ieVersionsToSupport = config.ie;
-				}
-			}
-
-			// We want to sort the IE versions so that we apply fixes for older versions AFTER fixes for newer ones.
-			if (ieVersionsToSupport) {
-				ieVersionsToSupport = ieVersionsToSupport.split(",");
-				if (ieVersionsToSupport.length > 1) {
-					ieVersionsToSupport = ieVersionsToSupport.sort(function (a,b) {
-						var RX = /(\d+)$/,
-							aVer = parseInt(a.match(RX)[0]),
-							bVer = parseInt(b.match(RX)[0]);
-						return bVer - aVer;
-					});
-				}
-			}
-
-			if (platformCSS.length && !stylesToAdd) {
-				platformCSS = platformCSS.split(",");
-				/* if(platformCSS.length > 1) {
-					// damn
-					// we want genericRenderingEngine then SpecificBrowser then SpecificPlatform
-					// for example: .webkit THEN .safari THEN .ios
-					// but .ff before .ios so reverse alphabet is not useful.
-					// which means we would be relying on case sensitivity to do unicode ordering - which is BAD!!
-				} */
-				stylesToAdd = {};
-				for (i = 0; i < platformCSS.length; ++i) { // again cannot rely on forEach in IE
-					next = platformCSS[i];
-					stylesToAdd[next] = next;
 				}
 			}
 		}
@@ -292,6 +275,11 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 		 * @public
 		 */
 		this.load = function() {
+			configure();
+			addStyle("wcasync");
+			if (importPhoneCSS) {
+				addStyle("wc-phone", "only screen and (max-width: 773px)");
+			}
 
 			if (has("ie") || has("trident")) {
 				loadIE();
@@ -324,8 +312,8 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 		 * @param {String} [media] A CSS media query appropriate to the link element.
 		 */
 		this.add = function(nameOrUrl, media) {
+			configure();
 			var isUrl = nameOrUrl.indexOf("/") === 0 || nameOrUrl.indexOf("http") === 0 || nameOrUrl.indexOf(".") === 0;
-
 			if (isUrl) {
 				// Huzzah we have a URL! Simply write the link element.
 				addLinkElement(nameOrUrl, media);
@@ -354,14 +342,14 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 		 * config.
 		 *
 		 * <pre><code>"ie": [string array of required ie versions],
-		 * "screen": {
+		 * "css": {
 		 *     "ext": "hasTest",
 		 *     "ext": {
 		 *         "test": "hasTest",
 		 *         "version": versionInteger,
 		 *         "media": "css media selector"}}</code></pre>
 		 *
-		 * Go take a look at {@link module:wc/loader/style~config} and {@link module:wc/loader/style~configValueObject}.
+		 * Go take a look at {@link module:wc/loader/style~platformConfig} and {@link module:wc/loader/style~configValueObject}.
 		 *
 		 * @example
 		 * // The module config object is like this if we support Custom CSS
@@ -386,27 +374,20 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 
 
 	/**
-	 * @typedef {Object} module:wc/loader/style~configValueObject
-	 * @property {String} test The string arg passed to has to sniff user agent, eg "safari" or "ff".
-	 * @property {int} [version] The version of the browser to test. If set then the has test is compared to this
-	 *    and is deemed successful if the browser version is <= version.
-	 * @property {String} [media] A CSS media selector. If set then the CSS link will include this media selector
-	 * @example
-	 * // To test for Safari 8 or below and a screen with a lot of horizontal pixels:
-	 * {
-	 *   "test": "safari",
-	 *   "version": 8,
-	 *   "media": "@media only screen and (min-device-width:2560px)"
-	 * }
+	 * @typedef {Object} module:wc/loader/style~config
+	 * @property {String} cssBaseUrl The path to the CSS we want to load excludng file name(s).
+	 * @property {String} cachebuster The cache key for the loaded CSS.
+	 * @property {boolean} [loadPhone] indicates if we want to enable/disable loading the wc-phone CSS.
+	 * @property {String[]} [ie] An array of IE versions to support, if no support is needed pass an empty array otherwise the default is ie11.
+	 * @property {module:wc/loader/style~platformConfig} [css] An object describing other CSS patches to load based on `has` and/or media queries.
 	 */
 
 	/**
-	 * @typedef {Object} module:wc/loader/style~config
-	 * @property {String} key The file name extension used in the CSS build. This is the bit immediately before the
-	 *    '.css' part of the built artifact's file name (eg 'ff').
-	 * @property {(String|module:wc/loader/style~configValueObject)} value The has test argument and optional comparison
-	 *    value(s). If this property is a string then it is a simple has test. Otherwise see
-	 *    {@link module:wc/loader/style~configValueObject}
+	 * @typedef {Object} module:wc/loader/style~platformConfig
+	 * @property {String} key The file name extension used in the CSS build. This is the bit immediately before the `.css` part of the CSS file's name
+	 *    (eg 'ff').
+	 * @property {(String|module:wc/loader/style~configValueObject)} value The has test argument and optional comparison value(s). If this property is
+	 *    a string then it is a simple has test. Otherwise see {@link module:wc/loader/style~configValueObject}
 	 * @example
 	 * // the following includes Firefox of any version, Safari version 6, print styles for any
 	 * // mac and styles for safari version 8 including a media selector for large screens:
@@ -425,6 +406,21 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 	 *      "version": 8,
 	 *      "media": "@media only screen and (min-device-width:2560px)"
 	 *   }
+	 * }
+	 */
+
+	/**
+	 * @typedef {Object} module:wc/loader/style~configValueObject
+	 * @property {String} test The string arg passed to has to sniff user agent, eg "safari" or "ff".
+	 * @property {int} [version] The version of the browser to test. If set then the has test is compared to this
+	 *    and is deemed successful if the browser version is <= version.
+	 * @property {String} [media] A CSS media selector. If set then the CSS link will include this media selector
+	 * @example
+	 * // To test for Safari 8 or below and a screen with a lot of horizontal pixels:
+	 * {
+	 *   "test": "safari",
+	 *   "version": 8,
+	 *   "media": "@media only screen and (min-device-width:2560px)"
 	 * }
 	 */
 });

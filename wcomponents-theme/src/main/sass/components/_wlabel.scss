@@ -1,0 +1,79 @@
+// styles for WLabel
+// #############################################################################
+
+// WLabel outputs an artefact with class `wc-label`. It is **not** necessarily
+// a label element.
+.wc-label {
+  // use inline-block to prevent a required marker flying off the end
+  display: inline-block;
+
+  // mandatory indicator
+  > .fa-asterisk {
+    @include mandatory-indicator;
+  }
+
+  &.wc_req {
+    // allows for better position of mandatory indicator.
+    @include border-box;
+    @include fit-content;
+    @include mandatory-holder;
+    max-width: 100%; // do not allow fit-content to grow too big.
+
+    > .fa-asterisk {
+      display: inline-block;
+    }
+  }
+
+  // ###########################################################################
+  // When the WLabel is for a component which renders a fieldset and legend the
+  // WLabel will create a label emulator `span` and its content is then copied
+  // to the legend.
+  // The label emulator is hidden by default. In some flat WFieldLayouts they
+  // are made visible and the legend is moved out of view. I
+  &[data-wc-for] {
+    display: none;
+  }
+}
+
+// hint is additional text for labels that describe other information for the
+// related form element
+.wc-label-hint {
+  display: block;
+}
+
+// Mandatory indicator positioning in a label for a checkbox or radio.
+.wc-checkbox > .wc_req,
+.wc-radiobutton + .wc_req {
+  padding-left: $wc-icon-size;
+  padding-right: 0;
+
+  > .fa-asterisk {
+    left: 0;
+    right: auto;
+  }
+}
+
+// Label/read-only equivalent for a checkbox or radio button.
+.wc-ro-input + .wc-label {
+  // .wc-label's inline-block can cause the label to fall under the input when
+  // there is not enough room for the label
+  display: inline;
+}
+
+// When WCheckBoxSelect/WRadioButtonSelect these labels do not have the wc-label
+// class as they are generated from options. TODO: We should fix that.
+.wc-input-wrapper + label,
+.wc-ro-input + .wc-label,
+input + label, // WCheckBoxSelect, WRadioButtonSelect
+label + .wc-input-wrapper {
+  margin-left: $wc-gap-small;
+}
+
+[hidden],
+.wc-off {
+  + label,
+  + input,
+  + .wc-input-wrapper {
+    margin-left: 0;
+  }
+}

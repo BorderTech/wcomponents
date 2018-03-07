@@ -1,0 +1,31 @@
+// #############################################################################
+// WFieldErrorIndicator
+// WFieldWarningIndicator
+// Client side validation error messages if plugin included
+// #############################################################################
+
+.wc-fieldindicator {
+  display: block;
+  margin-top: $wc-gap-small;
+
+  > .fa {
+    text-align: left;
+    vertical-align: top;
+    width: $wc-icon-size;
+
+    + span {
+      display: inline-block;
+    }
+  }
+
+  > span {
+    display: block;
+    white-space: normal;
+    width: calc(100% - #{$wc-icon-size});
+
+    + span {
+      margin-left: $wc-icon-size;
+      margin-top: $wc-gap-small;
+    }
+  }
+}

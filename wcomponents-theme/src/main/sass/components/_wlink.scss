@@ -1,0 +1,13 @@
+// CSS for WLink
+// #############################################################################
+// Links which contain a positioned image must be forced to be inline block.
+.wc_a_ilb {
+  display: inline-block;
+}
+
+
+a {
+  &[aria-disabled = 'true'] {
+    color: $wc-clr-disabled-fg;
+  }
+}

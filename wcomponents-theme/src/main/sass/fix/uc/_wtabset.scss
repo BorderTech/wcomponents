@@ -1,0 +1,12 @@
+
+
+@if $wc-use-respond == true {
+  [role='tablist'] {
+    &[aria-multiselectable] {
+      > [role='tab'] {
+        @include border-box;
+        width: 100%;
+      }
+    }
+  }
+}

@@ -1,0 +1,109 @@
+// #############################################################################
+// WTabSet
+// #############################################################################
+
+// #############################################################################
+// VARIABLES
+// #############################################################################
+// Allow left and right tabset styles
+// 1 = allow, anything else = disallow.
+$wc-tabset-allow-left-right: 1 !default;
+// The width of the tab in left/right TabSets. Ignored if
+// $wc-tabset-allow-left-right != 1
+$wc-tabset-left-right-tab-width: 15% !default;
+$wc-tabset-border-radius: $wc-gap-small !default;
+// Allow left and right tabset styles
+// 1 = allow, anything else = disallow.
+$wc-tabset-allow-left-right: 1 !default;
+// The width of the tab in left/right TabSets. Ignored if
+// $wc-tabset-allow-left-right != 1
+$wc-tabset-left-right-tab-width: 15% !default;
+$wc-tabset-border-radius: $wc-gap-small !default;
+
+// We apply a border to the top of the tabpanel (in a regular tabset) which
+// allows us to separate the tabs from the content. It is also used to offset
+// the position of the tablist so that the active tab covers this border.
+$wc-tabset-tab-border: 1px !default;
+$wc-tabpanel-border-width: 1px !default;
+
+@import '../mixins/tabset';
+// #############################################################################
+
+.wc-tabset {
+  @include flex($direction: column);
+}
+
+[role='tablist'] {
+  @include flex;
+  position: relative;
+  top: $wc-tabpanel-border-width;
+
+  // ACCORDION
+  &[aria-multiselectable] {
+    @include flex-direction(column);
+    position: static;
+  }
+}
+
+[role='tab'] {
+  @include fit-content($what: min-height);
+  @include padded-box($border: false);
+  @include border($width: $wc-tabset-tab-border);
+  overflow: hidden;
+
+  // accordion tabs are expanded, others are aria-selected.
+  &[aria-expanded] {
+    margin-left: 0;
+  }
+
+  &[aria-expanded = 'false'] + [role='tabpanel'] + [aria-expanded] {
+    border-top: 0;
+  }
+
+  &[aria-selected] {
+    @include wc-ui-tabset-top-border-radius;
+    @include border($pos: bottom, $width: 0);
+  }
+
+  &[aria-selected='true'] {
+    @include wc-opaque-box;
+  }
+
+  // second and subsequent tabs
+  + [role='tab'] {
+    margin-left: $wc-gap-small;
+
+    &[aria-expanded] {
+      @include border($pos: top, $width: 0);
+      margin-left: 0;
+    }
+  }
+
+  &[aria-disabled='true'] {
+    background-color: $wc-clr-disabled-bg;
+    border-color: $wc-clr-disabled-border;
+    color: $wc-clr-disabled-fg;
+  }
+}
+
+[role='tabpanel'] {
+  @include padded-box($border: false);
+  @include wc-opaque-box;
+  @include flex-grow(1);
+
+  [role='tablist'] ~ & {
+    @include border($pos: top, $width: $wc-tabpanel-border-width);
+  }
+
+  [aria-expanded] + & {
+    @include border($pos: left, $width: $wc-tabpanel-border-width);
+    @include border($pos: right, $width: $wc-tabpanel-border-width);
+  }
+
+  [aria-disabled='true'] > &,
+  &[aria-disabled='true'] {
+    border-color: $wc-clr-disabled-border;
+  }
+}
+
+@import 'wtabset-left-right';

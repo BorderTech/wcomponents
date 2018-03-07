@@ -1,0 +1,56 @@
+// #############################################################################
+// WDefinitionList
+// #############################################################################
+
+.wc-definitionlist-type-flat {
+  vertical-align: text-top;
+
+  > dt,
+  > dd {
+    display: inline-block;
+    margin-left: 0;
+    padding-left: 0;
+    vertical-align: top;
+    width: auto;
+  }
+
+  > dt ~ dt { // any dt with a preceding sibling gets margin-left
+    margin-left: $wc-gap-normal;
+  }
+
+  > dd { // all dds must have a preceding sibling so they all get margin-left
+    margin-left: $wc-gap-small;
+  }
+}
+
+// type column
+.wc-definitionlist-type-column {
+  > dt {
+    display: inline-block;
+    margin-right: .5%;
+    vertical-align: text-top;
+    width: 30%;
+
+    + dd { // the first dd does not have the left margin defined below
+      margin-left: 0;
+    }
+  }
+
+  > dd {
+    display: inline-block;
+    margin-left: 30.5%;
+    padding-left: 0;
+    vertical-align: text-top;
+    width: 69.5%;
+  }
+}
+
+// type stacked
+.wc-definitionlist-type-stacked {
+  > dt,
+  > dd {
+    display: block;
+    margin-left: 0;
+    padding-left: 0;
+  }
+}

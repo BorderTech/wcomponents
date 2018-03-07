@@ -1,0 +1,13 @@
+
+
+@if $wc-use-respond == true {
+  .wc_mfc {
+    width: 100%;
+
+    input,
+    select {
+      max-width: 90%;
+      width: initial;
+    }
+  }
+}
