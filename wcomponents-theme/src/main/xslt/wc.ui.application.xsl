@@ -28,9 +28,9 @@
 					<xsl:if test="@unsavedChanges or .//html:button[@class and contains(@class, 'wc_unsaved')] or .//ui:menuitem[@unsavedChanges]">
 						<xsl:text>wc_unsaved</xsl:text>
 					</xsl:if>
-					<xsl:if test="number($nojs) eq 0">
+					<!--<xsl:if test="number($nojs) eq 0">
 						<xsl:text> wc-loading</xsl:text>
-					</xsl:if>
+					</xsl:if>-->
 				</xsl:with-param>
 			</xsl:call-template>
 			<xsl:apply-templates />

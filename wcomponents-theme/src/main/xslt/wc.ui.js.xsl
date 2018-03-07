@@ -4,6 +4,6 @@
 	<xsl:template match="ui:js"/>
 
 	<xsl:template match="ui:js" mode="inHead">
-		<script type="text/javascript" src="{@url}"></script>
+		<script type="text/javascript" src="{@url}" async="async"></script>
 	</xsl:template>
 </xsl:stylesheet>
