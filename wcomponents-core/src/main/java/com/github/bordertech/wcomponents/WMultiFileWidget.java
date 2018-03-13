@@ -491,8 +491,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 			}
 		}
 		if ((thumbnailSize != null && currSize == null)
-			|| (thumbnailSize == null && currSize != null)
-			|| (currSize != null && !currSize.equals(thumbnailSize))) {
+			|| (currSize != null && (thumbnailSize == null || !currSize.equals(thumbnailSize)))) {
 			getOrCreateComponentModel().thumbnailSize = thumbnailSize;
 		}
 	}
@@ -876,8 +875,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		String currFileId = getFileUploadRequestId();
 
 		if ((fileId != null && currFileId == null)
-			|| (fileId == null && currFileId != null)
-			|| (currFileId == null || !currFileId.equals(fileId))) {
+			|| (currFileId != null && (fileId == null || !currFileId.equals(fileId)))) {
 			getOrCreateComponentModel().fileUploadRequestId = fileId;
 		}
 	}

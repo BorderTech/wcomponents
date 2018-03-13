@@ -128,8 +128,7 @@ public class WWindow extends AbstractWComponent implements Container {
 		String currTitle = getTitle();
 
 		if ((title != null && currTitle == null)
-			|| (title == null && currTitle != null)
-			|| (title != null && !title.equals(currTitle))) {
+			|| (currTitle != null && (title == null || !currTitle.equals(title)))) {
 			getOrCreateComponentModel().title = title;
 		}
 	}

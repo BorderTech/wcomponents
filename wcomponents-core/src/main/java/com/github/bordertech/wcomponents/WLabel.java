@@ -113,8 +113,7 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 		String currText = getText();
 
 		if ((text != null && currText == null)
-			|| (text == null && currText != null)
-			|| (text != null && !text.equals(currText))) {
+			|| (currText != null && (text == null || !currText.equals(text)))) {
 			getOrCreateComponentModel().text = I18nUtilities.asMessage(text, args);
 		}
 	}
@@ -129,8 +128,7 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 		String currHint = getHint();
 
 		if ((hint != null && currHint == null)
-			|| (hint == null && currHint != null)
-			|| (hint != null && !hint.equals(currHint))) {
+			|| (currHint != null && (hint == null || !currHint.equals(hint)))) {
 			getOrCreateComponentModel().hint = I18nUtilities.asMessage(hint, args);
 		}
 	}

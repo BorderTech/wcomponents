@@ -223,8 +223,7 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 		String currMediaGroup = getMediaGroup();
 
 		if ((mediaGroup != null && currMediaGroup == null)
-			|| (mediaGroup == null && currMediaGroup != null)
-			|| (currMediaGroup != null && !currMediaGroup.equals(mediaGroup))) {
+			|| (currMediaGroup != null && (mediaGroup == null || !currMediaGroup.equals(mediaGroup)))) {
 			getOrCreateComponentModel().mediaGroup = mediaGroup;
 		}
 	}
@@ -327,8 +326,7 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 		String currAltText = getAltText();
 
 		if ((altText != null && currAltText == null)
-			|| (altText == null && currAltText != null)
-			|| (currAltText != null && !currAltText.equals(altText))) {
+			|| (currAltText != null && (altText == null || !currAltText.equals(altText)))) {
 			getOrCreateComponentModel().altText = altText;
 		}
 	}

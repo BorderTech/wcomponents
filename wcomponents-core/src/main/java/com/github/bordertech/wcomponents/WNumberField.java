@@ -281,8 +281,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 		BigDecimal currMin = getMinValue();
 
 		if ((minValue != null && currMin == null)
-			|| (minValue == null && currMin != null)
-			|| (currMin != null && !(currMin.compareTo(minValue) == 0))) {
+			|| (currMin != null && (minValue == null || !(currMin.compareTo(minValue) == 0)))) {
 			getOrCreateComponentModel().minValue = minValue;
 		}
 	}

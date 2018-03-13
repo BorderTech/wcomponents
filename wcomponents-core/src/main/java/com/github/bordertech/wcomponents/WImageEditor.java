@@ -108,8 +108,7 @@ public class WImageEditor extends AbstractWComponent {
 		Dimension currSize = getSize();
 
 		if ((size != null && currSize == null)
-			|| (size == null && currSize != null)
-			|| (size != null && !size.equals(currSize))) {
+			|| (currSize != null && (size == null || !currSize.equals(size)))) {
 			getOrCreateComponentModel().size = size;
 		}
 	}

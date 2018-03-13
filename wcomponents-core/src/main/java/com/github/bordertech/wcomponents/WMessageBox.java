@@ -169,8 +169,7 @@ public class WMessageBox extends AbstractWComponent implements AjaxTarget, Subor
 		String currTitle = getTitleText();
 
 		if ((title != null && currTitle == null)
-			|| (title == null && currTitle != null)
-			|| (currTitle != null && !currTitle.equals(title))) {
+			|| (currTitle != null && (title == null || !currTitle.equals(title)))) {
 			MessageModel model = getOrCreateComponentModel();
 			model.title = I18nUtilities.asMessage(title, args);
 		}
