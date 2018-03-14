@@ -4,14 +4,6 @@
 // #############################################################################
 
 .wc-datefield {
-  .wc_inputwidth  > .wc-input  > &,
-  &.wc_datefield_partial {
-    &,
-    > [role='textbox'] {
-      width: initial;
-    }
-  }
-
   > [role='listbox'] {
     max-height: none;
   }

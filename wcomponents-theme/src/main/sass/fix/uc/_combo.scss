@@ -3,8 +3,9 @@
 @if $wc-use-respond == true {
   .wc_inputwidth  > .wc-input  > [role='combobox'] {
     &,
+    > [type='text'],
     > [role='textbox'] {
-      width: initial;
+      width: auto;
     }
   }
 }

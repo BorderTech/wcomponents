@@ -6,16 +6,8 @@
 // a menu. Must be > 0 to have any effect.
 $wc-section-space-normal: 0 !default; // $wc-gap-normal !default;
 // the padding around the title in the header. Must be > 0 to have any effect.
-$wc-section-space-header: 0 !default; // $wc-gap-normal !default;
 // the space between the section box and its content on small viewports. This is
 // reversed to "dock" a menu. Not applied if $wc-use-respond != true or
 // $wc-respond-reduce-gap-when-narrow != true.
 $wc-section-space-reduced: -1 !default; // $wc-phone-gap-normal !default;
-// The space around section headers on narrow viewports. Not applied if
-// $wc-use-respond != true or $wc-section-space-header <= 0 or
-// $wc-section-space-normal < 0 or $wc-respond-reduce-gap-when-narrow != true.
-$wc-section-space-header-reduced: -1 !default; // $wc-phone-gap-normal !default;
-// If you are mucking around here you may want to go look at the WHeading styles
-// below. Set this to -1 to use the default h1 size for your theme.
-$wc-section-header-size: -1 !default; // 1rem !default;
 // #############################################################################

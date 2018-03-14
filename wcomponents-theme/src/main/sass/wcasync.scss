@@ -2,7 +2,3 @@
 // Wrapper to asynchronously import non-core CSS libraries in a timeout to
 // improve perceived performance. The load is done by the JavaScript module
 // 'wc/loader/style'.
-
-// Import font-awesome without using a CDN. If you use a CDN then don't delete
-// this file just comment out the import
-@import 'lib/fa/font-awesome';

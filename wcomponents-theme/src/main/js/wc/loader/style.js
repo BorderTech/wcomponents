@@ -89,7 +89,20 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 			 * @private
 			 */
 			MEDIA_SCREEN = "screen",
-			importPhoneCSS = false;
+			/**
+			 * Used to enable importing `wc-phone.css`. Set using optionsal config property `loadPhone`.
+			 * @var
+			 * @type {boolean}
+			 * @private
+			 */
+			importPhoneCSS = false,
+			/**
+			 * Used to enable importing `wc-async.css`. Set using optionsal config property `loadAsync`.
+			 * @var
+			 * @type {boolean}
+			 * @private
+			 */
+			loadAsyncStyles = false;
 
 		function configure() {
 			var config = wcconfig.get("wc/loader/style");
@@ -104,6 +117,7 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 					CACHEBUSTER = config.cachebuster;
 				}
 				importPhoneCSS = config.loadPhone;
+				loadAsyncStyles = config.loadAsync;
 				if (!cssFileNameAndUrlExtension) {
 					cssFileNameAndUrlExtension = ".css" + (CACHEBUSTER ? ("?" + CACHEBUSTER) : "");
 				}
@@ -164,12 +178,13 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 		 * @function
 		 * @private
 		 * @param {String} shortName The css file name without extension.
-		 * @param {String} [media] An optional media query.
+		 * @param {String} [media="all"] An optional media query.
 		 * @param {boolean} [noTimeout] If `true` load without a timeout.
 		 */
 		function addStyle(shortName, media) {
-			var fullUrl = CSS_BASE_URL + shortName + cssFileNameAndUrlExtension;
-			addLinkElement(fullUrl, media);
+			var fullUrl = CSS_BASE_URL + shortName + cssFileNameAndUrlExtension,
+				localMedia = media || "all";
+			addLinkElement(fullUrl, localMedia);
 		}
 
 		/**
@@ -276,7 +291,9 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 		 */
 		this.load = function() {
 			configure();
-			addStyle("wcasync");
+			if (loadAsyncStyles) {
+				addStyle("wcasync", "screen");
+			}
 			if (importPhoneCSS) {
 				addStyle("wc-phone", "only screen and (max-width: 773px)");
 			}
@@ -377,7 +394,8 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 	 * @typedef {Object} module:wc/loader/style~config
 	 * @property {String} cssBaseUrl The path to the CSS we want to load excludng file name(s).
 	 * @property {String} cachebuster The cache key for the loaded CSS.
-	 * @property {boolean} [loadPhone] indicates if we want to enable/disable loading the wc-phone CSS.
+	 * @property {boolean} [loadPhone] indicates if we want to enable/disable loading `wc-phone.cssS`.
+	 * @property {boolean} [loadAsync] indicates if we want to load any asynchromous CSS from `wc-async.css.`
 	 * @property {String[]} [ie] An array of IE versions to support, if no support is needed pass an empty array otherwise the default is ie11.
 	 * @property {module:wc/loader/style~platformConfig} [css] An object describing other CSS patches to load based on `has` and/or media queries.
 	 */

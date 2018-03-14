@@ -12,7 +12,7 @@
 // @param {dimension} $width [$wc-border-width] The width of the border. If 0
 //     then the border will be unset and its style set to none.
 
-@mixin border($pos: all, $style: $wc-border-style, $width: $wc-border-width) {
+@mixin border($pos: all, $style: $wc-border-style, $width: $wc-border-width, $color: $wc-border-color) {
   @if $pos == all {
     @if $width == 0 {
       border: 0;
@@ -23,8 +23,8 @@
       @if $width != -1 {
         border-width: $width;
       }
-      @if $wc-border-color != -1 {
-        border-color: $wc-border-color;
+      @if $color != -1 {
+        border-color: $color;
       }
     }
   } @else if $width == 0 {
@@ -36,8 +36,8 @@
     @if $width != -1 {
       border-#{$pos}-width: $width;
     }
-    @if $wc-border-color != -1 {
-      border-#{$pos}-color: $wc-border-color;
+    @if $color != -1 {
+      border-#{$pos}-color: $color;
     }
   }
 }

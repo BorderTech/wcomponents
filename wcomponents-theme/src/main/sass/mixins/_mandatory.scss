@@ -6,9 +6,6 @@ $wc-mandatory-size: .5em !default;
 
 @mixin mandatory-indicator {
   display: none;
-  position: absolute;
-  right: $wc-gap-small;
-  top: 0;
 
   @if $wc-mandatory-size != -1 $wc-mandatory-size != 0 and $wc-mandatory-size != inherit and $wc-mandatory-size != 1em {
     font-size: $wc-mandatory-size;
@@ -17,5 +14,4 @@ $wc-mandatory-size: .5em !default;
 
 @mixin mandatory-holder {
   padding-right: $wc-icon-size;
-  position: relative;
 }

@@ -2,7 +2,7 @@
 
 @if $wc-use-respond == true {
   [role='treeitem'] > .wc_leaf_vopener + button {
-    width: initial;
+    width: auto;
   }
 
   [role='tree'].wc_htree {

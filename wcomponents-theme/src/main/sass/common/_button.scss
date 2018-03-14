@@ -49,6 +49,10 @@
 
 .wc-nobutton {
   color: inherit;
+
+  &[disabled] {
+    color: $wc-clr-disabled-fg;
+  }
 }
 
 // A common class for buttons which only contain icons.

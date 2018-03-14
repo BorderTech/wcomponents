@@ -5,12 +5,18 @@
 // #############################################################################
 // Import WComponent vars
 @import 'vars/wc';
-// Import WComponent mixins once rather than per use.
+// Import WComponent mixins once rather than per use - trust me, it will make
+// your life easier.
 @import 'mixins/common';
 
 // #############################################################################
-// If 'imports' is imported it must be first - these are non-Sass imports.
-@import 'imports';
+// Add any non-Sass imports here before any other CSS output.
+// #############################################################################
+//
+//
+// #############################################################################
+// End of non-Sass imports.
+// #############################################################################
 
 // #############################################################################
 // Common stuff not tied to particular WComponents.

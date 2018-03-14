@@ -162,7 +162,7 @@ caption {
 // Sort
 // #############################################################################
 th {
-  [aria-sort] {
+  &[aria-sort] {
     cursor: pointer;
     @if $wc-table-sort-icon-pos == middle or $wc-table-sort-icon-pos == bottom {
       position: relative;

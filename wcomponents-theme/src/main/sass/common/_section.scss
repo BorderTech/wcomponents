@@ -7,26 +7,10 @@
 // #############################################################################
 
 section {
-  @if $wc-section-header-size != -1 {
-    > h1,
-    > header h1 {
-      font-size: $wc-section-header-size;
-      font-weight: normal;
-      margin: 0;
-    }
-  }
-
-  @if $wc-section-space-header > 0 {
-    > h1,
-    > header {
-      padding: $wc-section-space-header;
-    }
-  }
-
   // Structural CSS to make the header segments behave. We want the body (h1
   // element) to occupy as much space as possible.
   > header {
-    > .wc_dlbl_seg { // see ../componets/_wdecoratedlabel.scss
+    > .wc_dlbl_seg { // see ../components/_wdecoratedlabel.scss
       display: table-cell;
     }
 

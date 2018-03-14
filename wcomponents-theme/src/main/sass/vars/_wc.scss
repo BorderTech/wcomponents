@@ -26,7 +26,10 @@ $wc-z-index-common-in-dialog: $wc-z-index-common + $wc-z-index-dialog;
 $wc-z-index-unloading-shim: $wc-z-index-common-in-dialog + 5;
 // Finally we have the message on the unloading shim and timeout warnings
 $wc-z-index-unloading-message: $wc-z-index-unloading-shim + 1;
+
 // #############################################################################
+// Path from generated root CSS to to image files
+$wc-img-path: '../images/';
 
 // #############################################################################
 // Used by themes to override WComponents defaults. Must always be imported
@@ -38,7 +41,7 @@ $wc-z-index-unloading-message: $wc-z-index-unloading-shim + 1;
 // #############################################################################
 // FONT AWESOME vars are available for use in WComponents Sass.
 // Override Font Awesome font path.
-$fa-font-path: '../resource';
+$fa-font-path: '../resource/fontawesome';
 // We added a var to font-awesome (I believe it is on the road map).
 // See vars/icon/$wc-icon-wider you may want to keep them in sync.
 // It has to be !default to allow theme override but because of the !default it
@@ -86,4 +89,3 @@ $wc-icon-size: 1rem !default;
 $wc-datefield-font-larger: 1.5rem !default;
 // #############################################################################
 @import 'wfieldlayout';
-@import 'wmenu';

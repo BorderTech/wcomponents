@@ -84,6 +84,6 @@ input,
 select,
 textarea {
   &[aria-busy='true'] {
-    background: url('../images/loading-dark.gif') 50% 50% no-repeat transparent;
+    background: url('#{$wc-img-path}loading-dark.gif') 50% 50% no-repeat transparent;
   }
 }

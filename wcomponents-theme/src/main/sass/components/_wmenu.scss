@@ -1,6 +1,25 @@
 // #############################################################################
 // WMenu
 // #############################################################################
+// generic menu structure
+$wc-menu-item-pad-topbottom: $wc-gap-normal !default;
+// menu type BAR and FLYOUT structure
+// padding of items
+$wc-menu-bar-column-item-pad: $wc-menu-item-pad-topbottom !default;
+// padding of menuitems in WMenu Type.TREE TODO: why???
+$wc-menu-tree-item-pad: $wc-gap-small 0 !default;
+// padding of WSeparator at the top level of a BAR or FLYOUT menu
+// (aria-orientation='vertical')
+$wc-menu-bar-vseparator-pad: (2 * $wc-menu-item-pad-topbottom) 0 0 0 !default;
+
+// indent of groups in a tree-like menu
+$wc-menu-tree-indent: .75rem !default;
+
+$wc-menu-iconwidth: $wc-icon-size !default;
+$wc-menu-icon-space: $wc-menu-iconwidth + $wc-gap-small;
+// mobile menus - used only to make the menu items bigger for easier touch use.
+$wc-menu-font-larger: 1.5rem !default;
+// #############################################################################
 
 // Structural styles common to all menus.
 .wc-menuitem,

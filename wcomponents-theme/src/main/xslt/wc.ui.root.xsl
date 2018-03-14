@@ -54,7 +54,7 @@
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:call-template name="faviconHelper">
-							<xsl:with-param name="href" select="concat($resourceRoot,'images/favicon.ico')"/>
+							<xsl:with-param name="href" select="concat($resourceRoot,'resource/favicon.ico')"/>
 						</xsl:call-template>
 					</xsl:otherwise>
 				</xsl:choose>
@@ -78,25 +78,25 @@
 				</xsl:variable>
 
 				<!-- the id is used by the style loader js -->
-				<style type="text/css" media="screen" id="wc_css_screen">
+				<!--<style type="text/css" media="screen" id="wc_css_screen">
 					<xsl:text>@import '</xsl:text>
 					<xsl:value-of select="$mainCssUrl"/>
 					<xsl:text>';</xsl:text>
-					
-					<xsl:if test="$isDebug = 1">
-						<!-- Load debug CSS -->
-						<xsl:variable name="debugCssUrl">
-							<xsl:call-template name="cssUrl">
-								<xsl:with-param name="filename" select="'wcdebug'"/>
-							</xsl:call-template>
-						</xsl:variable>
+				</style>-->
+				<link type="text/css" rel="stylesheet" id="wc_css_screen" href="{$mainCssUrl}" media="screen" />
+				<xsl:if test="$isDebug = 1">
+					<xsl:variable name="debugCssUrl">
+						<xsl:call-template name="cssUrl">
+							<xsl:with-param name="filename" select="'wcdebug'"/>
+						</xsl:call-template>
+					</xsl:variable>
+					<link type="text/css" rel="stylesheet" href="{$debugCssUrl}" media="screen"/>
+					<!--<style type="text/css" media="screen" id="wc_css_screen">
 						<xsl:text>@import '</xsl:text>
 						<xsl:value-of select="$debugCssUrl"/>
 						<xsl:text>';</xsl:text>
-					</xsl:if>
-				</style>
-				<!--<link type="text/css" rel="stylesheet" id="wc_css_screen" href="{$mainCssUrl}"/>-->
-				<!--<link type="text/css" rel="stylesheet" href="{$debugCssUrl}" media="screen"/>-->
+					</style>-->
+				</xsl:if>
 
 				<!--
 					We need to set up the require config very early. This mess constructs the require config which is necessary to commence inclusion

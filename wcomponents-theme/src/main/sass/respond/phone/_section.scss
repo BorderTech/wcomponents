@@ -1,14 +1,5 @@
+
 @if $wc-use-respond == true and $wc-respond-reduce-gap-when-narrow == true {
-
-  @if $wc-section-space-header > 0 {
-    section {
-      > h1,
-      > header {
-        padding: $wc-section-space-header-reduced;
-      }
-    }
-  }
-
   @if $wc-section-space-normal > 0 {
     .wc-menu-type-bar.wc-neg-margin {
       $neg-margin: -$wc-section-space-reduced;

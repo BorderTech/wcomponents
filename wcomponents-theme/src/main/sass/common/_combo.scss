@@ -10,6 +10,7 @@
   position: relative;
   white-space: nowrap;
 
+  > [type='text'],
   [role='textbox'] {
     max-width: calc(100% - #{$wc-icon-size});
   }
@@ -18,7 +19,7 @@
     min-width: 100%;
 
     dialog & {
-      min-width: initial;
+      min-width: 0;
     }
   }
 
