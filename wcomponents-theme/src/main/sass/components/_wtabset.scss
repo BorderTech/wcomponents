@@ -6,17 +6,10 @@
 // VARIABLES
 // #############################################################################
 // Allow left and right tabset styles
-// 1 = allow, anything else = disallow.
-$wc-tabset-allow-left-right: 1 !default;
+// true = allow, anything else = disallow.
+$wc-tabset-allow-left-right: true !default;
 // The width of the tab in left/right TabSets. Ignored if
-// $wc-tabset-allow-left-right != 1
-$wc-tabset-left-right-tab-width: 15% !default;
-$wc-tabset-border-radius: $wc-gap-small !default;
-// Allow left and right tabset styles
-// 1 = allow, anything else = disallow.
-$wc-tabset-allow-left-right: 1 !default;
-// The width of the tab in left/right TabSets. Ignored if
-// $wc-tabset-allow-left-right != 1
+// $wc-tabset-allow-left-right != true
 $wc-tabset-left-right-tab-width: 15% !default;
 $wc-tabset-border-radius: $wc-gap-small !default;
 

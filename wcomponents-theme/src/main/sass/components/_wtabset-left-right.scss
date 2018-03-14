@@ -2,7 +2,7 @@
 // WTabSet TabSetType.LEFT and TabSetType.RIGHT.
 // A lot of CSS for components which shouldn't exist!
 // #############################################################################
-@if $wc-tabset-allow-left-right == 1 {
+@if $wc-tabset-allow-left-right == true {
   // LEFT or RIGHT
   [role='tablist'][aria-orientation='vertical'] {
     @include flex-direction(column);

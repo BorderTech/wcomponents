@@ -1,6 +1,6 @@
 // Optionally allow for labelWidth settings.
 
-@if $wc-fieldlayout-force-stack == false  and $wc-use-respond == true and $wc-fieldlayout-use-respond == true {
+@if $wc-fieldlayout-force-stack == false and $wc-use-respond == true and $wc-fieldlayout-use-respond == true {
 
   .wc-layout-flat > .wc-field {
     > .wc-label,

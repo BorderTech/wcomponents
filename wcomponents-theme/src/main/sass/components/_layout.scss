@@ -17,10 +17,10 @@
 // * -1 means support all widths from 1% to 100%. This is a LOT of CSS (but not
 //   so much as the WFieldLayout variant).
 // * 0 means support columns with widths which are multiples of 5% if
-//   $wc-column-widths-include-fives == 1, otherwise support nothing.
+//   $wc-column-widths-include-fives == true, otherwise support nothing.
 // * a list of positive integer values means support all column widths which are
 //   a member of the list. Do not repeat multiples of 5% in the list: if
-//   $wc-column-widths-include-fives == 1.
+//   $wc-column-widths-include-fives == true.
 //
 // This setting will support all available column widths but uses a lot of CSS:
 // $wc-column-list: -1 !default;
@@ -31,10 +31,10 @@
 // in the list:
 $wc-column-list: 16, 33, 34, 66, 67, 83 !default;
 // $wc-column-list: 33 !default;
-// This is an ease-of-use helper for `$wc-column-list` which, if set to 1, will
+// This is an ease-of-use helper for `$wc-column-list` which, if `true`, will
 // ensure column allowed widths includes all multiples of 5%. This is ignored
 // if `$wc-column-list` is set to -1.
-$wc-column-widths-include-fives: 1 !default;
+$wc-column-widths-include-fives: true !default;
 // #############################################################################
 // ListLayout
 // #############################################################################
@@ -282,7 +282,7 @@ ol.wc-listlayout {
     }
   }
 } @else {
-  @if $wc-column-widths-include-fives == 1 {
+  @if $wc-column-widths-include-fives == true {
     // Every multiple of 5%
     @for $i from 1 through 20 {
       $w: $i * 5;
