@@ -11,6 +11,7 @@ $wc-ui-dialog-use-transitions: 1 !default;
 // Used only if the scale and move transitions are turned on and supported.
 $wc-ui-dialog-transition-delay: 0s !default;
 $wc-ui-dialog-transition-duration: .5s !default;
+$wc-ui-dialog-header-size: 2rem !default;
 // #############################################################################
 
 // The actual dialog. Its position is set on open such that it sits in the
@@ -58,6 +59,10 @@ dialog {
 
     > h1 { // the title
       @include flex-grow(1);
+      @if $wc-ui-dialog-header-size != -1 {
+        font-size: $wc-ui-dialog-header-size;
+        margin: 0;
+      }
     }
 
     > span { // the header control 'block'
