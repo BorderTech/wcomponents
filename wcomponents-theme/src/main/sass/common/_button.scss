@@ -29,7 +29,7 @@
   padding: 0;
   text-align: inherit;
 
-  &[disabled] {
+  &:disabled {
     cursor: default;
   }
 }
@@ -49,11 +49,9 @@
 
 .wc-nobutton {
   color: inherit;
-  cursor: pointer;
 
   &[disabled] {
     color: $wc-clr-disabled-fg;
-    cursor: auto;
   }
 }
 
