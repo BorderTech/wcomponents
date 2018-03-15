@@ -16,11 +16,11 @@
     // allows for better position of mandatory indicator.
     @include border-box;
     @include fit-content;
-    @include mandatory-holder;
     max-width: 100%; // do not allow fit-content to grow too big.
 
     > .fa-asterisk {
       display: inline-block;
+      margin-left: $wc-gap-small;
     }
   }
 
@@ -42,14 +42,12 @@
 }
 
 // Mandatory indicator positioning in a label for a checkbox or radio.
-.wc-checkbox > .wc_req,
-.wc-radiobutton + .wc_req {
-  padding-left: $wc-icon-size;
-  padding-right: 0;
+.wc-checkbox > .wc_req {
 
   > .fa-asterisk {
-    left: 0;
-    right: auto;
+    float: left;
+    margin-left: 0;
+    margin-right: $wc-gap-small;
   }
 }
 

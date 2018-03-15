@@ -55,11 +55,11 @@ $wc-tabpanel-border-width: 1px !default;
 
   &[aria-selected] {
     @include wc-ui-tabset-top-border-radius;
-    @include border($pos: bottom, $width: 0);
   }
 
   &[aria-selected='true'] {
     @include wc-opaque-box;
+    @include border($pos: bottom, $width: 0);
   }
 
   // second and subsequent tabs
@@ -93,8 +93,7 @@ $wc-tabpanel-border-width: 1px !default;
     @include border($pos: right, $width: $wc-tabpanel-border-width);
   }
 
-  [aria-disabled='true'] > &,
-  &[aria-disabled='true'] {
+  [aria-disabled='true'] + & { // only in a disabled tabset not a disabled tab
     border-color: $wc-clr-disabled-border;
   }
 }

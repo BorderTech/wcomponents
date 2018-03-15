@@ -40,6 +40,26 @@ caption {
   width: .25rem; // actually anything small but more than zero.
 }
 
+
+// #############################################################################
+// Separators are part of the Java API so have to be available by default.
+// #############################################################################
+.wc_table_rowsep > tr + tr {
+  @include border($pos: top);
+}
+
+.wc_table_colsep {
+  > col + col {
+    @include border($pos: left);
+  }
+
+  // The first col after the last auto generated col is the first data col and
+  // cannot have a left border
+  > .wc_table_colauto {
+    @include border($pos: left, $width: 0);
+  }
+}
+
 // #############################################################################
 // Container for controls above the table
 // #############################################################################

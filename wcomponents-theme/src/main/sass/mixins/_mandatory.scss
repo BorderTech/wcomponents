@@ -11,7 +11,3 @@ $wc-mandatory-size: .5em !default;
     font-size: $wc-mandatory-size;
   }
 }
-
-@mixin mandatory-holder {
-  padding-right: $wc-icon-size;
-}

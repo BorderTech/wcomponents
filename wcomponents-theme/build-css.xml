@@ -115,19 +115,4 @@
 		</sequential>
 	</macrodef>
 
-	<target name="checkSassPropertiesExpanded">
-		<path id="sass.unexpanded.properties">
-			<fileset dir="${css.build.target.dir}">
-				<include name="*.css"/>>
-				<containsregexp expression=":\s*\$"/>
-			</fileset>
-		</path>
-		<property name="sass.unexpanded" refid="sass.unexpanded.properties"/>
-		<fail message="UNEXPANDED PROPERTIES FOUND: ${sass.unexpanded}">
-			<condition>
-				<resourcecount when="greater" count="0" refid="sass.unexpanded.properties" />
-			</condition>
-		</fail>
-	</target>
-
 </project>
