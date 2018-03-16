@@ -1,0 +1,95 @@
+
+
+@if $wc-use-respond == true {
+  // #############################################################################
+  // BorderLayout
+  // #############################################################################
+  .wc_bl_mid {
+    > div {
+      @include border-box;
+      display: inline-block;
+      vertical-align: text-top;
+
+      &.wc_bl_mid25 {
+        width: 25%;
+      }
+
+      &.wc_bl_mid50 {
+        width: 50%;
+      }
+
+      &.wc_bl_mid75 {
+        width: 75%;
+      }
+
+      &.wc_bl_mid100 {
+        width: 100%;
+      }
+    }
+  }
+
+
+  // #############################################################################
+  // FlowLayout
+  // #############################################################################
+
+  .wc-flowlayout {
+    > div {
+      vertical-align: text-top;
+    }
+
+    &.wc_fl_baseline > div {
+      vertical-align: baseline;
+    }
+
+    &.wc_fl_bottom > div {
+      vertical-align: bottom;
+    }
+
+    &.wc_fl_middle > div {
+      vertical-align: middle;
+    }
+
+    &.wc_fl_vertical > div {
+      vertical-align: inherit;
+    }
+  }
+
+  // #############################################################################
+  // GridLayout
+  // #############################################################################
+  .wc_gl_row {
+    > .wc-cell {
+      display: inline-block;
+    }
+  }
+
+  // #############################################################################
+  // ListLayout and WList
+  // #############################################################################
+
+  .wc-listlayout-separator-bar {
+    > li {
+      > * {
+        width: 90%;
+      }
+    }
+  }
+
+  .wc-listlayout-separator-bar.wc-listlayout-type-flat {
+    > li {
+      > * {
+        width: auto;
+      }
+    }
+  }
+
+  // #############################################################################
+  // ColumnLayout WRow and WColumn (and a few other column-based controls)
+  // #############################################################################
+  .wc-column {
+    @include border-box;
+    display: inline-block;
+    vertical-align: text-top;
+  }
+}

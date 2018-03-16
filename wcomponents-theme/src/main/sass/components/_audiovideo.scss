@@ -1,0 +1,13 @@
+// #############################################################################
+// styles for WAudio and WVideo when the media is not able to be handled by the
+// user agent natively.
+// #############################################################################
+
+.wc-src,
+.wc-track {
+  display: inline-block;
+
+  & + & {
+    margin-left: $wc-gap-normal;
+  }
+}

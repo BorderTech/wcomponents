@@ -1,0 +1,35 @@
+
+
+@if $wc-use-respond == true {
+  .wc-submenu-o {
+    > .wc-decoratedlabel {
+      max-width: 90%;
+      width: auto;
+    }
+
+    > .fa {
+      float: right;
+    }
+  }
+
+  .wc-menuitem {
+    &.wc-icon-before,
+    &.wc-icon-after {
+      .wc-decoratedlabel {
+        max-width: 90%;
+        width: auto;
+      }
+    }
+  }
+
+  // full screen sub menus
+  .wc-menu-type-column,
+  .wc_menu_bar {
+    .wc_closesubmenu {
+      .wc-decoratedlabel {
+        max-width: 90%;
+        width: auto;
+      }
+    }
+  }
+}

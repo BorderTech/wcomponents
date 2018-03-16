@@ -1,0 +1,42 @@
+// #############################################################################
+// WDropdown
+// WDropdown mostly makes select elements (see ../common/input.scss) but may
+// also make combos using a deprecated API (see ../common.combo.scss). The
+// other non-standard aspect of a WDropdown c.f.a select element is an old
+// API setting to set option width. This was _supposed_ to only work in combo
+// mode.
+// #############################################################################
+// #############################################################################
+// VARIABLES
+// #############################################################################
+// The list of optionWidth settings to honour. This is used to limit the max
+// width of a select element. IT SHOULD NOT BE USED!
+//  THis is here for backwards compatibility with a poor API choice from 2004!
+// * If the single value -1 then all option widths from $wc-dd-optwidth-min to
+//   $wc-dd-optionwidth-max will be used at the potential cost of lots of CSS.
+// * If set to the single value 0 then the list is ignored and no optionWidth
+//   settings are supported.
+// * Otherwise option widths which are in this list will be honoured and
+//   $wc-dd-optwidth-min and $wc-dd-optwidth-max are ignored.
+$wc-dd-optwidth-list: 0 !default;
+// minimum supported optionWdith. Must be >= 1
+$wc-dd-optwidth-min: 4 !default;
+// maximum supported optionWdith. 36 chosen for pretty bad reasons!
+$wc-dd-optwidth-max: 36 !default;
+// #############################################################################
+
+@if $wc-dd-optwidth-list == -1 {
+  @if $wc-dd-optwidth-min >= 1 and $wc-dd-optwidth-min <= $wc-dd-optwidth-max {
+    @for $i from $wc-dd-optwidth-min through $wc-dd-optwidth-max {
+      .wc-dd-ow-#{$i} {
+        max-width: #{$i}em;
+      }
+    }
+  }
+} @else if ($wc-dd-optwidth-list != 0) {
+  @each $w in $wc-dd-optwidth-list {
+    .wc-dd-ow-#{$w} {
+      max-width: #{$w}em;
+    }
+  }
+}

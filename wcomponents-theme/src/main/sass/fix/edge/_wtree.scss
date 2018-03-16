@@ -1,0 +1,7 @@
+
+
+// Edge does not support max-content and width: auto is sub-optimal here.
+[role='tree'].wc_htree [role='group'] {
+  min-width: 0;
+  width: 10rem;
+}

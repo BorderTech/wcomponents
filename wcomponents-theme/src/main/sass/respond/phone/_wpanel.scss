@@ -1,0 +1,8 @@
+
+@if $wc-use-respond == true and $wc-respond-reduce-gap-when-narrow == true {
+  .wc-panel-type-box,
+  .wc-panel-type-feature,
+  footer {
+    padding: $wc-phone-gap-normal;
+  }
+}

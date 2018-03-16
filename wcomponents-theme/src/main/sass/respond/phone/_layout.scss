@@ -1,0 +1,21 @@
+
+@if $wc-use-respond == true {
+  // Default responsive design for rows and columns
+  // opt-in for ColumnLayout by setting class "wc-respond" on its
+  // containing WPanel.
+  // opt in for WRow/WColumn by setting class "wc-respond" the WRow.
+  .wc-row.wc-respond {
+    display: block;
+
+    > .wc-column {
+      display: block;
+      padding-left: 0;
+      padding-right: 0;
+      width: 100%;
+
+      + .wc-column {
+        margin-top: $wc-gap-small;
+      }
+    }
+  }
+}

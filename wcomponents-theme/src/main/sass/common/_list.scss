@@ -1,0 +1,19 @@
+// Styles applied to list output of many components.
+// See also ../components/_layout.scss for listlayout styles
+
+
+// represents a list with no bullets
+.wc_list_nb {
+  @include tight-box;
+  list-style-type: none;
+}
+
+// text mode option and optgroup emulation
+.wc_inoptgroup {
+  text-indent: $wc-gap-large;
+}
+
+// opt group emulator
+.wc-optgroup {
+  font-weight: bold;
+}

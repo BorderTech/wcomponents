@@ -1,0 +1,33 @@
+
+
+@if $wc-use-respond == true {
+  // make north (before text) look like west
+  .wc_btn_imgn {
+    > img {
+      @include margin(bottom, 0);
+      @include margin(right);
+      float: left;
+    }
+  }
+
+  // make south (after text) look like east
+  .wc_btn_imgs {
+    > img {
+      @include margin(top, 0);
+      @include margin(left);
+      float: right;
+    }
+  }
+
+  .wc_btn_imge {
+    > img {
+      float: right;
+    }
+  }
+
+  .wc_btn_imgw {
+    > img {
+      float: left;
+    }
+  }
+}

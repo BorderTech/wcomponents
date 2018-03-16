@@ -1,0 +1,21 @@
+// Icon classes from the Java API.
+// #############################################################################
+
+// The following class is to allow an icon to be placed directly into a compoent
+// without an element wrapper.
+// com.github.bordertech.wcomponents.util.HtmlClassProperties.ICON
+.wc-icon::before {
+  @include fa-icon;
+}
+
+// ICON POSITIONING CLASSES.
+// com.github.bordertech.wcomponents.util.HtmlClassProperties.ICON_BEFORE
+.wc-icon-before::before {
+  margin-right: $wc-gap-small;
+}
+
+// com.github.bordertech.wcomponents.util.HtmlClassProperties.ICON_AFTER
+.wc-icon-after::before {
+  float: right;
+  margin-left: $wc-gap-small;
+}

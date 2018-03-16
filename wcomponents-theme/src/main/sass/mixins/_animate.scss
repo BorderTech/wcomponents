@@ -1,6 +1,0 @@
-// Allow Vendor Prefix in mixins.
-//sass-lint:disable no-vendor-prefixes
-@mixin wc-spin { // stolen from FontAwesome.
-  -webkit-animation: wc-spin 2s infinite linear;
-  animation: wc-spin 2s infinite linear;
-}

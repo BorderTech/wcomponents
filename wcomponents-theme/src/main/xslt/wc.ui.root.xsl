@@ -54,7 +54,7 @@
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:call-template name="faviconHelper">
-							<xsl:with-param name="href" select="concat($resourceRoot,'images/favicon.ico')"/>
+							<xsl:with-param name="href" select="concat($resourceRoot,'resource/favicon.ico')"/>
 						</xsl:call-template>
 					</xsl:otherwise>
 				</xsl:choose>
@@ -68,28 +68,35 @@
 				<meta name="format-detection" content="telephone=no"/>
 				<meta name="viewport" content="initial-scale=1"/>
 				<title><xsl:value-of select="@title"/></title>
-
 				<!--
 					CSS before JavaScript for performance.
 				-->
 				<xsl:variable name="mainCssUrl">
 					<xsl:call-template name="cssUrl">
-						<xsl:with-param name="filename" select="'${css.target.file.name}'"/>
+						<xsl:with-param name="filename" select="'wc'"/>
 					</xsl:call-template>
 				</xsl:variable>
-				<link type="text/css" rel="stylesheet" id="wc_css_screen" href="{$mainCssUrl}"/><!-- te id is used by the style loader js -->
 
+				<!-- the id is used by the style loader js -->
+				<!--<style type="text/css" media="screen" id="wc_css_screen">
+					<xsl:text>@import '</xsl:text>
+					<xsl:value-of select="$mainCssUrl"/>
+					<xsl:text>';</xsl:text>
+				</style>-->
+				<link type="text/css" rel="stylesheet" id="wc_css_screen" href="{$mainCssUrl}" media="screen" />
 				<xsl:if test="$isDebug = 1">
-					<!-- Load debug CSS -->
 					<xsl:variable name="debugCssUrl">
 						<xsl:call-template name="cssUrl">
 							<xsl:with-param name="filename" select="'wcdebug'"/>
 						</xsl:call-template>
 					</xsl:variable>
-					<link type="text/css" rel="stylesheet" href="{$debugCssUrl}"/>
+					<link type="text/css" rel="stylesheet" href="{$debugCssUrl}" media="screen"/>
+					<!--<style type="text/css" media="screen" id="wc_css_screen">
+						<xsl:text>@import '</xsl:text>
+						<xsl:value-of select="$debugCssUrl"/>
+						<xsl:text>';</xsl:text>
+					</style>-->
 				</xsl:if>
-				<xsl:apply-templates select=".//html:link[@rel eq 'stylesheet']" mode="inHead"/>
-				<xsl:apply-templates select="ui:application/ui:css" mode="inHead"/>
 
 				<!--
 					We need to set up the require config very early. This mess constructs the require config which is necessary to commence inclusion
@@ -149,7 +156,8 @@
 					<xsl:value-of select="concat('cachebuster:&quot;', $cacheBuster, '&quot;')"/>
 					<xsl:text>},&#10;"wc/loader/style":{</xsl:text>
 					<xsl:value-of select="concat('cssBaseUrl:&quot;', normalize-space($resourceRoot), '${css.target.dir.name}/&quot;,&#10;')"/>
-					<xsl:value-of select="concat('cachebuster:&quot;', $cacheBuster, '&quot;')"/>
+					<xsl:value-of select="concat('cachebuster:&quot;', $cacheBuster, '&quot;,&#10;')"/>
+					<xsl:value-of select="'loadPhone:true'"/>
 					<xsl:text>}};&#10;</xsl:text>
 					<!--
 						The timings must be collected as early as possible in the page lifecycle
@@ -178,44 +186,32 @@
 					non-AMD compatible fixes for IE: things that need to be fixed before we can require anything but
 					have to be added after we have included requirejs/require.
 				-->
-				<xsl:call-template name="makeIE8CompatScripts"/>
+				<!--<xsl:call-template name="makeIE8CompatScripts"/>-->
 				<!--
 					Load requirejs
 				-->
 				<script type="text/javascript" src="{concat($resourceRoot, $scriptDir, '/lib/require.js?', $cacheBuster)}"></script>
 
-				<!--<xsl:if test="concat('${ie.css.list}','${css.pattern.list}') ne ''">
-					<script type="text/javascript">
-						<xsl:text>require(["wc/compat/compat!"], function(){</xsl:text>
-						<xsl:text>require(["wc/loader/style"],function(s){s.load();});</xsl:text>
+				<script type="text/javascript" class="registrationScripts" async="async">
+					<xsl:text>require(["wc/compat/compat!"], function(){</xsl:text>
+					<xsl:text>require(["wc/loader/style"],function(s){s.load();});</xsl:text>
+					<xsl:apply-templates select="ui:application/ui:css" mode="inHead"/>
+					<xsl:apply-templates select=".//html:link[@rel eq 'stylesheet']" mode="inHead"/>
+					<xsl:if test="$registeredComponents ne ''">
+						<xsl:text>require(["wc/common"], function(){</xsl:text>
+						<xsl:value-of select="$registeredComponents"/>
 						<xsl:text>});</xsl:text>
-					</script>
-				</xsl:if>-->
+					</xsl:if>
+					<xsl:text>});</xsl:text>
+				</script>
 
-				<xsl:if test="$registeredComponents ne '' or concat('${ie.css.list}','${css.pattern.list}') ne ''">
-					<script type="text/javascript" class="registrationScripts">
-						<xsl:text>require(["wc/compat/compat!"], function(){</xsl:text>
-						<!--
-							This looks strange, so here's what it's doing:
-							1. wc.fixes is loaded, it calculates what fix modules are needed and provides this as an array.
-							2. The array of module names is then loaded via require, each module is a fix which "does stuff" once loaded.
-						-->
-						<xsl:if test="concat('${ie.css.list}','${css.pattern.list}') ne ''">
-							<xsl:text>
-								require(["wc/loader/style"],function(s){s.load();});</xsl:text>
-						</xsl:if>
-						<xsl:if test="$registeredComponents ne ''">
-							<xsl:text>
-								require(["wc/common"], function(){
-							</xsl:text>
-							<xsl:value-of select="$registeredComponents"/>
-							<xsl:text>
-								});
-							</xsl:text>
-						</xsl:if>
-						<xsl:text>});</xsl:text>
-					</script>
-				</xsl:if>
+				<!--<script type="text/javascript" class="registrationScripts" async="async">
+					<xsl:text>require(["wc/compat/compat!"], function(){</xsl:text>
+					<xsl:text>require(["wc/loader/style"],function(s){s.load();});</xsl:text>
+					<xsl:apply-templates select="ui:application/ui:css" mode="inHead"/>
+					<xsl:apply-templates select=".//html:link[@rel eq 'stylesheet']" mode="inHead"/>
+					<xsl:text>});</xsl:text>
+				</script>-->
 
 				<!--
 					We grab all base, meta and link elements from the content and place
@@ -231,17 +227,17 @@
 				</xsl:choose>
 			</xsl:variable>
 			<body data-wc-domready="{$domready}">
-				<xsl:if test="$registeredComponents!=''">
+				<noscript>
+					<p>You must have JavaScript enabled to use this application.</p>
+				</noscript>
+<!--				<xsl:if test="$registeredComponents!=''">
 					<div id="wc-shim" class="wc_shim_loading">
 						<xsl:text>&#xa0;</xsl:text>
-						<noscript>
-							<p>You must have JavaScript enabled to use this application.</p>
-						</noscript>
 					</div>
 					<div id="wc-ui-loading">
 						<div tabindex="0" class="fa fa-spinner fa-spin">&#x200b;</div>
 					</div>
-				</xsl:if>
+				</xsl:if>-->
 				<xsl:apply-templates >
 					<xsl:with-param name="nojs">
 						<xsl:choose>
@@ -269,7 +265,7 @@
 		IE 8 and below needs a helper to recognise HTML5 elemnts as HTML elements. This needs to happen so very early that we cannot use require to
 		load it. We can use an IE conditional comment to limit this code to IE8 and before.
 	-->
-	<xsl:template name="makeIE8CompatScripts">
+	<!--<xsl:template name="makeIE8CompatScripts">
 		<xsl:comment>[if lte IE 8] &gt;
 &lt;script type="text/javascript"&gt;
 (function(){
@@ -277,16 +273,13 @@
 	for (i = 0; i &lt; el.length; i++){ document.createElement(el[i]); } })();
 &lt;/script&gt;
 &lt;![endif]</xsl:comment>
-	</xsl:template>
+	</xsl:template>-->
 
 	<xsl:template name="cssUrl">
 		<xsl:param name="filename"/>
 		<xsl:value-of select="$resourceRoot"/>
 		<xsl:text>${css.target.dir.name}/</xsl:text>
 		<xsl:value-of select="$filename"/>
-		<xsl:if test="$isDebug = 1">
-			<xsl:text>${debug.target.file.name.suffix}</xsl:text>
-		</xsl:if>
 		<xsl:text>.css?</xsl:text>
 		<xsl:value-of select="$cacheBuster"/>
 	</xsl:template>

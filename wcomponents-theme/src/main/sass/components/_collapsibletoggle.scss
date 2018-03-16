@@ -1,0 +1,18 @@
+// The expand and collapse all buttons and their wrapper.
+// Common for WCollapsibleToggle and WTable's RowExpansion's expandAll.
+.wc_coltog {
+  @include tight-box;
+  list-style-type: none;
+
+  > li {
+    display: inline-block;
+
+    + li {
+      margin-left: $wc-gap-normal;
+    }
+  }
+
+  button > .fa::before {
+    @include margin($pos: right);
+  }
+}

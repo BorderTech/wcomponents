@@ -1,0 +1,18 @@
+// CSS to highlight console.warn and cosole.error output
+body {
+  &.wc_loggedwarn {
+    background-color: $wc-debug-color-warning;
+
+    &::before {
+      content: 'Warnings in the console, do not panic';
+    }
+  }
+
+  &.wc_loggederror { //the error style MUST TRUMP the warn style
+    background-color: $wc-debug-color-error;
+
+    &::before {
+      content: 'Script error! Danger! Panic!';
+    }
+  }
+}

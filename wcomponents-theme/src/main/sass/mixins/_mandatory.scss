@@ -1,22 +1,13 @@
 // #############################################################################
 // MANDATORY Indcator
 // #############################################################################
-// Show the mandatory indicator
-@mixin mandatory-indicator {
-  @if ($wc-clr-required-marker != -1) {
-    color: $wc-clr-required-marker;
-  }
-  display: none;
-  font-size: .5em;
-  @if ($wc-label-weight != normal) {
-    font-weight: normal;
-  }
-  position: absolute;
-  right: $wc-gap-small;
-  top: 0;
-}
 
-@mixin mandatory-holder {
-  padding-right: $wc-label-mandatory-indicator-width;
-  position: relative;
+$wc-mandatory-size: .5em !default;
+
+@mixin mandatory-indicator {
+  display: none;
+
+  @if $wc-mandatory-size != -1 $wc-mandatory-size != 0 and $wc-mandatory-size != inherit and $wc-mandatory-size != 1em {
+    font-size: $wc-mandatory-size;
+  }
 }

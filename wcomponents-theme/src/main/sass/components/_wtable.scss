@@ -1,0 +1,215 @@
+// #############################################################################
+// WTable
+// #############################################################################
+
+// #############################################################################
+// VARIABLES
+// #############################################################################
+// common cell padding
+$wc-table-cell-padding: $wc-gap-small !default;
+// allow subrows to be indented: does cost CSS
+$wc-table-allow-indented-child-rows: true !default;
+// Do we want the sort icon at the top, middle or bottom of the header?
+$wc-table-sort-icon-pos: top !default;
+// #############################################################################
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  min-width: 100%;
+}
+
+th,
+td {
+  padding: $wc-table-cell-padding;
+  text-align: left; // use TableColumn.Alignment to change this.
+  vertical-align: top;
+}
+
+caption {
+  padding: $wc-gap-normal 0;
+  text-align: left;
+}
+
+// fix the layout of tables where column width is applied
+.wc_table_fix {
+  table-layout: fixed;
+}
+
+.wc_table_colauto {
+  width: .25rem; // actually anything small but more than zero.
+}
+
+
+// #############################################################################
+// Separators are part of the Java API so have to be available by default.
+// #############################################################################
+.wc_table_rowsep > tr + tr {
+  @include border($pos: top);
+}
+
+.wc_table_colsep {
+  > col + col {
+    @include border($pos: left);
+  }
+
+  // The first col after the last auto generated col is the first data col and
+  // cannot have a left border
+  > .wc_table_colauto {
+    @include border($pos: left, $width: 0);
+  }
+}
+
+// #############################################################################
+// Container for controls above the table
+// #############################################################################
+.wc_table_top_controls {
+  @include flex($wrap: wrap, $justify: space-between, $align-items: baseline);
+  margin-bottom: $wc-gap-small;
+
+  > div {
+    @include flex-grow(1);
+    display: inline-block;
+
+    &:last-child {
+      @include flex-justify-content(flex-end);
+      text-align: right;
+    }
+  }
+
+  // Do not use > div:first-child:last-child as we want the pagination and
+  // expand controls on the right if they are last even if they are first.
+  // Instead make the selection controls left aligned if they are last.
+  > .wc_table_sel_cont:last-child {
+    // always put the selection controls at the start
+    @include flex-justify-content(flex-start);
+    text-align: left;
+  }
+}
+
+// #############################################################################
+// Container for actions and pagination
+// #############################################################################
+.wc_table_bottom_controls {
+  padding: $wc-gap-small;
+}
+
+// #############################################################################
+// ACTIONS
+// #############################################################################
+.wc-actions button + button {
+  margin-left: $wc-gap-small;
+}
+
+// #############################################################################
+// Row selection
+// #############################################################################
+// The unusual text-align settings in this section is to cater for when we have
+// multiple selection and the parent-selects-children setting menu where some
+// parents with a menu are not selectable (so we use right) and some selectable
+// are not parents (so need left). This could be handled with a new column ...
+.wc_table_sel_wrapper {
+  text-align: right;
+  white-space: nowrap;
+
+  [aria-selected] > & {
+    text-align: left;
+  }
+
+  .wc-menu-type-flyout {
+    button { // override unnecessary .wc_seltog style.
+      margin-left: 0;
+    }
+
+    // the submenu opener emulator for the sub-row toggle control
+    .wc-submenu-o {
+      height: $wc-icon-size;
+      padding: 0;
+      vertical-align: top;
+    }
+  }
+
+  > .fa + .wc-menu-type-flyout {
+    margin-left: $wc-gap-small;
+  }
+}
+
+// #############################################################################
+// Row expansion
+// #############################################################################
+@if $wc-table-allow-indented-child-rows == true {
+  // The next lot does indentation of "child" rows
+  @for $i from 2 through 6 {
+    [aria-level='#{$i}'] > .wc_table_rowexp_container {
+      + td,
+      + th {
+        padding-left: ($i - 1) * $wc-gap-large;
+      }
+    }
+  }
+}
+
+// #############################################################################
+// Pagination controls
+// #############################################################################
+.wc_table_pag_cont {
+  > span,
+  > label {
+    margin-left: $wc-gap-large;
+    white-space: nowrap;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+
+  label > select {
+    margin-left: $wc-gap-small;
+  }
+
+  button::before {
+    min-width: $wc-icon-size;
+  }
+
+  // This rule applies when the pagination controls are at the bottom of the
+  // table.
+  .wc_table_bottom_controls > & {
+    text-align: right;
+  }
+}
+
+// #############################################################################
+// Sort
+// #############################################################################
+th {
+  &[aria-sort] {
+    cursor: pointer;
+    @if $wc-table-sort-icon-pos == middle or $wc-table-sort-icon-pos == bottom {
+      position: relative;
+    }
+
+    > .wc-decoratedlabel {
+      display: inline-block;
+      width: calc(100% - #{$wc-icon-size});
+      word-wrap: break-word;
+    }
+
+    > .fa {
+      display: inline-block;
+      width: $wc-icon-size;
+
+      @if $wc-table-sort-icon-pos == middle or $wc-table-sort-icon-pos == bottom {
+        position: absolute;
+        @if $wc-table-sort-icon-pos == middle {
+          height: 0;
+          line-height: 0;
+          top: 50%;
+        } @else if ($wc-table-sort-icon-pos == bottom) {
+          bottom: $wc-table-cell-padding;
+        }
+      } @else {
+        vertical-align: top;
+      }
+    }
+  }
+}

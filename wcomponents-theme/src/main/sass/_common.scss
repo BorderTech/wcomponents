@@ -1,0 +1,73 @@
+// #############################################################################
+// Common CSS
+// This file comprises the following:
+// 1. some inportant structural CSS which should remain as-is
+// 2. imports of Sass partials which produce CSS used by a number of components
+//    and/or common HTML structures.
+// We suggest the Sass in this file stays as it is and it is **very** unlikely
+// that any of the partials could be safely excluded.
+// #############################################################################
+
+// #############################################################################
+// HTML and BODY structure
+// It is important that at least the height rules remain as we need to have the
+// document body fill the viewport in all browsers to correctly propagate some
+// click events. Please leave this as it is.
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+@import 'common/typography';
+
+@import 'common/alignment';
+@import 'common/back-to-top';
+@import 'common/button';
+@import 'common/combo';
+@import 'common/draggable';
+@import 'common/fieldset';
+@import 'common/icon';
+@import 'common/image-edit';
+@import 'common/image';
+@import 'common/input';
+@import 'common/java';
+@import 'common/list';
+@import 'common/loading';
+@import 'common/modal-shim';
+@import 'common/section';
+@import 'common/space';
+@import 'common/tooltip';
+
+// #############################################################################
+// [hidden] hides content and removes it from the a11y tree. Applying this to
+// [hidden] is redundant but needed because of irregular hidden support. It is
+// important to override more specific selectors for individual components.
+// Again, this is needed for re-applying hidden after it has been removed.
+[hidden] {
+  // important required to override more specific display rules (eg menus)
+  // sass-lint:disable no-important
+  display: none !important;
+  // sass-lint:enable no-important
+}
+
+// #############################################################################
+// This is non-standard but quite important. Zoom should not be disabled in a
+// web appno matter how much pain it causes designers. It is an a11y thing and
+// I cannot use your site on my phone without it. Cannot use a mixin with
+// Vaadin Sass compiler.
+// sass-lint:disable no-vendor-prefixes
+@-ms-viewport {
+  user-zoom: zoom;
+  width: extend-to-zoom;
+  zoom: 1;
+}
+// sass-lint:enable no-vendor-prefixes
+
+@viewport {
+  user-zoom: zoom;
+  width: extend-to-zoom;
+  zoom: 1;
+}
+// #############################################################################

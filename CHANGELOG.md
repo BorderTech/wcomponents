@@ -14,6 +14,7 @@
 
 ### Enhancements
 
+* Changed the way themes are built to remove a vast amount of complexity and wasted styles. Improves maintainability and moves towards separation of style and structure in themes.
 * Updated renderer of WProgressBar to output HTML as part of #639.
 * Added JUnits for WProgressBar.
 * Updated renderers of WButton and WPrintButton (which has been un-deprecated) to output HTML as part of #639.

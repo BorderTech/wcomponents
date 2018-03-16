@@ -1,0 +1,39 @@
+// #############################################################################
+// Alignment Classes which are in the Java API so you better keep 'em.
+// #############################################################################
+
+
+// #############################################################################
+// VERTICAL ALIGNMENT OPTIONS
+// #############################################################################
+// Vertical alignment classes are generated from the following list. If the var
+// is set to the single value 0 none of the vertical alignment classes will be
+// implemented. These are not used by FlowLayout for its vertical alignment
+// control so they are safe to omit. This list covers the CSS3
+// vertical-alignment values. You may not need or want all of them.
+$wc-valign-list: baseline, bottom, inherit, initial, middle, sub, super, text-bottom, text-top, top !default;
+// #############################################################################
+
+// Vertical alignment helpers. Not used by FlowLayout for its vertical alignment
+// control which is flex based. May be omitted by setting the list variable to 0
+@if $wc-valign-list != 0 {
+  @each $wc-v in $wc-valign-list {
+    .wc-valign-#{$wc-v} {
+      vertical-align: $wc-v;
+    }
+  }
+}
+
+// Text alignment
+// These are required for WComponents inbuilt alignment and are not a complete
+// list of CSS3 text alignment options. Not to be overridden therefore no
+// !default marker.
+$wc-align-list: left, center, right;
+// com.github.bordertech.wcomponents.util.HtmlClassProperties.ALIGN_CENTER
+// com.github.bordertech.wcomponents.util.HtmlClassProperties.ALIGN_LEFT
+// com.github.bordertech.wcomponents.util.HtmlClassProperties.ALIGN_RIGHT
+@each $wc-a in $wc-align-list {
+  .wc-align-#{$wc-a} {
+    text-align: $wc-a;
+  }
+}

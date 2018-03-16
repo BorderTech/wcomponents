@@ -1,0 +1,131 @@
+// Buttons are not artifacts of any particular WComponent but are output for
+// any WComponent which requires client side action other than navigation.
+
+// RULE: links are for navigation, buttons are for action.
+
+// A button which is from WButton will contain class name `wc-button`.
+
+// .wc-nobutton is a button stripped of its button nature.
+// .wc-linkbutton is a button pretending to be a link. This may be from WButton
+// (in which case it will also have class `wc-button`) or WLink (and also have
+// class name `wc-link`).
+//
+// Why would we use a button which looks like a link? Why not just use a link?
+// Well, links are for linking (navigation) these link-like buttons are for
+// undertaking non-navigation behaviour. Using links to provide non-link
+// behaviour causes accessibility problems for some users and is a vestige of
+// poor development practices in the past and an inability to adequately style
+// buttons in older browsers. Neither reason is sufficient to maintain this
+// practice.
+//
+// Having a button which is styled to emulate a link is to provide UI
+// consistency in areas where buttons and links are mixed.
+
+.wc-linkbutton,
+.wc-nobutton {
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+  text-align: inherit;
+
+  &:disabled {
+    cursor: default;
+  }
+}
+
+.wc-linkbutton {
+  text-decoration: underline;
+
+  // class wc_nti (no text image) is applied to buttons and links which hold
+  //  an image but no visible text.
+  &[disabled] ,
+  &.wc-icon::before,
+  > .fa,
+  .wc_nti {
+    text-decoration: none;
+  }
+}
+
+.wc-nobutton {
+  color: inherit;
+
+  &[disabled] {
+    color: $wc-clr-disabled-fg;
+  }
+}
+
+// A common class for buttons which only contain icons.
+// This is for framework use only so _may_ be changed without notice!
+// .wc_btn_icon {
+//   @include border;
+// }
+
+// #############################################################################
+// WButton and WLink (when it outputs a button element - see above) may also
+// contain an image added using an old (and rather poor) Java API. This will
+// result in the button containing an image positioned relative to its text.
+// Positioning of an image in a WButton or WLink based on the component's
+// imagePosition property. XS:TOKENs for this property are 'n','e','s','w'.
+// Images in buttons and links are placed in a container so they can be
+// positioned
+.wc_btn_img {
+  @include flex($align-items: center, $align-content: center);
+}
+
+.wc_btn_imgn,
+.wc_btn_imgs {
+  text-align: center;
+}
+
+.wc_btn_imgn {
+  @include flex-direction(column-reverse);
+
+  > img {
+    @include margin(bottom);
+  }
+}
+
+.wc_btn_imgs {
+  @include flex-direction(column);
+
+  > img {
+    @include margin(top);
+  }
+}
+
+.wc_btn_imge {
+  @include flex-direction(row);
+
+  > img {
+    @include margin(left);
+  }
+}
+
+.wc_btn_imgw {
+  @include flex-direction(row-reverse);
+
+  > img {
+    @include margin(right);
+  }
+}
+
+// Components which are not button elements but act as buttons.
+[role='button'] {
+  cursor: pointer;
+
+  &[aria-disabled='true'],
+  &[disabled] {
+    cursor: default;
+  }
+}
+// #############################################################################
+
+button {
+  // User agent button styles are the bane of our lives. The _main_ problem is
+  // hard coded font styles rather than allowing them to inherit.
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  margin: 0;
+}

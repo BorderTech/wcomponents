@@ -45,11 +45,11 @@
 						</xsl:choose>
 					</xsl:if>
 					<xsl:apply-templates />
-					<xsl:call-template name="WLabelHint"/>
 					<xsl:if test="@what eq 'group'">
 						<xsl:call-template name="icon">
 							<xsl:with-param name="class" select="'fa-asterisk'"/>
 						</xsl:call-template>
+						<xsl:call-template name="WLabelHint"/>
 					</xsl:if>
 				</span>
 			</xsl:when>

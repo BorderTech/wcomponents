@@ -1,0 +1,36 @@
+// #############################################################################
+// WMultiSelectPair
+// #############################################################################
+
+.wc-multiselectpair {
+  white-space: nowrap;
+
+  > span {// The containers for the parts of the WMultiSelectPair
+    display: inline-block;
+    vertical-align: top;
+
+    &.wc-fieldindicator {
+      display: block;
+    }
+
+    + span {
+      margin-left: 1px;
+    }
+  }
+
+  label {
+    display: block;
+  }
+
+  select { //Allow the select to grow with the label content.
+    min-width: 100%;
+  }
+
+  .wc_msp_btncol button { // the add and remove buttons
+    display: block;
+
+    &[value='rem'] { //a small gap between the add and remove buttons
+      margin-top: $wc-gap-normal;
+    }
+  }
+}

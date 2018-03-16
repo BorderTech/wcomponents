@@ -1,0 +1,11 @@
+// A mechanism to indicate the application is in debug mandatory-holder
+
+body {
+  &::before {
+    background-color: $wc-debug-indicator-bg;
+    color: $wc-debug-indicator-fg;
+    content: 'Client debug/diagnostic mode: document has ' attr(data-wc-nodeCount) ' elements.';
+    display: block;
+    padding: .5rem;
+  }
+}

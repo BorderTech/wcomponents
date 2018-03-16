@@ -1,0 +1,4 @@
+@import 'vars/wc';
+// Wrapper to asynchronously import non-core CSS libraries in a timeout to
+// improve perceived performance. The load is done by the JavaScript module
+// 'wc/loader/style'.

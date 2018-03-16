@@ -1,0 +1,20 @@
+// #############################################################################
+// WShuffler is a select element where the option order is able to be changed.
+// #############################################################################
+// We have a bunch of buttons next to this component, we better make the select
+// at least as high as the button tower.
+.wc-shuffler select {
+  min-height: 8em;
+}
+
+// The shuffle controls are also used by WMultiSelectPair
+// The container for the list shuffle controls.
+.wc_sortcont {
+  display: inline-block;
+  vertical-align: top;
+
+  // Each individual shuffle control
+  button {
+    display: block;
+  }
+}

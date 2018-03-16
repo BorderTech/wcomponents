@@ -1,0 +1,11 @@
+// The back to top of page link.
+// #############################################################################
+// This CSS is unnecessary if the JavaScript module "wc/ui/backToTop" is not
+// included in your theme's "wc/common" meta-module.
+.wc_btt {
+  bottom: $wc-gap-large;
+  opacity: .5;
+  position: fixed;
+  right: $wc-gap-large;
+  text-decoration: none;
+}

@@ -125,7 +125,7 @@ define(["wc/has",
 				// Add the calendar launch button.
 				if (!(LAUNCHER.findDescendant(element))) {
 					launcherHtml = "<button value='" + id + "_input' tabindex='-1' id='" + id +
-							"_cal' type='button' aria-hidden='true' class='wc_wdf_cal wc_btn_icon wc-invite' aria-haspopup='true'";
+							"_cal' type='button' aria-hidden='true' class='wc_wdf_cal wc-invite' aria-haspopup='true'";
 					if (shed.isDisabled(childEl)) {
 						launcherHtml += " disabled='disabled'";
 					}
