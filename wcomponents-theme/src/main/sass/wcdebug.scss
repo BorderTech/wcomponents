@@ -15,7 +15,7 @@ $wc-debug-color-border: #ccc;
 $wc-debug-indicator-bg: #ccc;
 $wc-debug-indicator-fg: #000;
 
-@import 'debug/axs';
-@import 'debug/debug-indicator';
-@import 'debug/invalid';
-@import 'debug/script';
+@import 'wcdebug/axs';
+@import 'wcdebug/indicator';
+@import 'wcdebug/invalid';
+@import 'wcdebug/script';
