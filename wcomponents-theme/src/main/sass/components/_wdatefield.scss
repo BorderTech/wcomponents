@@ -1,0 +1,91 @@
+// #############################################################################
+// WDateField and WPartialDateField. For WDateField this is mostly for those
+// browsers which do not yet implement input type date (Firefox!!!).
+// #############################################################################
+
+.wc-datefield {
+  > [role='listbox'] {
+    max-height: none;
+  }
+}
+
+// date picker buttons
+.wc_wdf_pick {
+  min-width: 100%;
+  padding: $wc-gap-small;
+  text-align: center;
+  width: 100%;
+}
+
+// today
+.wc_wdf_today { // today
+  @if $wc-border-color != -1 {
+    outline: 1px solid $wc-border-color;
+    outline-offset: -1px;
+  }
+}
+
+// The date picker calendar
+// WPartialDateField and WDateField's polyfill
+// We use a single ID'd component for all calendar date pickers and move it
+//  around to where it is needed.
+// sass-lint:disable no-ids
+
+// This is the calendar container.
+#wc_calbox {
+  @include fit-content;
+  @include wc-opaque-box;
+  position: absolute;
+  right: 0;
+  white-space: nowrap;
+  z-index: $wc-z-index-common;
+
+  &.wc_colwest { // right collision
+    left: 0;
+    right: auto;
+  }
+
+  dialog & {
+    position: fixed;
+    right: auto;
+    z-index: $wc-z-index-common-in-dialog;
+  }
+
+  .wc-row {
+    @include flex-align-items(baseline);
+    padding: $wc-gap-small;
+
+    button {
+      margin-left: $wc-gap-normal;
+    }
+
+    input { //year field:
+      margin: 0 $wc-gap-large;
+      width: 5em; //  FF and IE do not size by max.
+    }
+  }
+
+  .wc-column:last-child {
+    text-align: right;
+  }
+}
+
+// The calendar table
+#wc_calendar {
+  border: 0;
+
+  th {
+    text-align: center;
+  }
+
+  // abbr { // days of the week
+  //   border: 0;
+  // }
+}
+
+#wc_caldaybox td {
+  padding: 0;
+  text-align: center;
+  vertical-align: middle;
+}
+// sass-lint:enable no-ids

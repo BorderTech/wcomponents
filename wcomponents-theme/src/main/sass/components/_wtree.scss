@@ -1,0 +1,167 @@
+// #############################################################################
+// WTree
+// #############################################################################
+
+// Indent of branches in the tree.
+$wc-tree-indent: .75rem !default;
+// width of the vertical opener button. Needed to calculate remaining button
+// size
+$wc-tree-opener-width: $wc-icon-size;
+$wc-tree-item-pad: $wc-gap-small !default;
+
+[role='tree'] {
+  [role='group'] {
+    display: none;
+    padding-left: $wc-tree-indent;
+
+    &.wc_tree_root {
+      display: block;
+      padding-left: 0;
+    }
+  }
+
+  [aria-expanded='true'] > [role='group'] {
+    display: block;
+  }
+}
+
+[role='treeitem'] {
+  @include border-box;
+  display: block;
+  width: 100%;
+
+  > .wc_leaf_vopener {
+    width: $wc-tree-opener-width; // override 100% for regular
+
+    + button {
+      width: calc(100% - #{$wc-tree-opener-width});
+    }
+  }
+}
+
+.wc_leaf_vopener,
+.wc_leaf_img {
+  display: inline-block;
+  padding: $wc-tree-item-pad 0;
+
+  > .fa::before {
+    text-align: left;
+    width: $wc-icon-size; // equalise open & close icon width
+  }
+}
+
+// The vertical opener button and its span placeholder equivalent.
+.wc_leaf_vopener {
+  @include border-box; // required for the span.
+  text-align: left;
+}
+
+// The icon container
+.wc_leaf_img {
+  width: $wc-icon-size;
+
+  img {
+    max-height: $wc-icon-size;
+    max-width: $wc-icon-size;
+  }
+}
+
+.wc_leaf_name {
+  padding: $wc-tree-item-pad $wc-tree-item-pad $wc-tree-item-pad 0;
+}
+
+// htree branch opener.
+.wc_leaf_hopener {
+  display: none;
+}
+
+// #############################################################################
+// htree extends and overrides parts of wtree.scss
+// #############################################################################
+[role='tree'].wc_htree {
+  @include border;
+  overflow: auto;
+
+  [role='group'] {
+    @include max-content;
+    // the left border of each level in a tree: helps to see where the
+    // levels occur.
+    @include border($pos: left);
+    left: 100%;
+    min-height: 100%;
+    padding-left: 0;
+    position: absolute;
+    top: 0;
+
+    &.wc_tree_root {
+      @include border($pos: left, $width: 0);
+      display: table;
+      left: 0;
+      position: relative;
+    }
+  }
+
+  [role='treeitem'] {
+    padding-right: $wc-gap-normal;
+  }
+
+  [aria-expanded='true'] > [role='group'] {
+    display: table-cell;
+  }
+
+  [aria-expanded] > .wc_leaf {
+    @include flex($align-items: baseline);
+    width: 100%; // override .wc_leaf_vopener + button from wc.tree.scss
+
+    > .wc_leaf_hopener {
+      @include flex-grow(1);
+      // Only show hopener when we are in a branch opener.
+      display: inline-block;
+      padding: $wc-tree-item-pad $wc-tree-item-pad $wc-tree-item-pad 0;
+      text-align: right;
+    }
+  }
+
+  .wc_branch_resizer {
+    display: block; // override default from wc.tree.scss
+  }
+
+  .wc_leaf_vopener {
+    display: none;
+  }
+
+  .wc_leaf_img {
+    padding-left: $wc-tree-item-pad;
+  }
+
+  .wc_leaf_name {
+    padding: $wc-tree-item-pad;
+  }
+}
+
+// container for the resize handle.
+.wc_branch_resizer {
+  @include border-box;
+  display: none;
+  // allow size for the absolutely positioned iconic button.
+  height: $wc-icon-size;
+  width: 100%;
+}
+
+// htree resize handles.
+.wc_branch_resize_handle {
+  @include content-box;
+  height: 100%;
+  position: absolute;
+  right: -#{$wc-gap-normal};
+  top: 0;
+  width: $wc-gap-large;
+
+  &.wc_resize {
+    cursor: ew-resize;
+  }
+
+  &[disabled] {
+    cursor: default;
+  }
+}

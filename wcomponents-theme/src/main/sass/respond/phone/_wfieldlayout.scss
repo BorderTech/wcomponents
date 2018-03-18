@@ -1,0 +1,52 @@
+// Optionally allow for labelWidth settings.
+
+@if $wc-fieldlayout-force-stack == false and $wc-use-respond == true and $wc-fieldlayout-use-respond == true {
+
+  .wc-layout-flat > .wc-field {
+    > .wc-label,
+    > .wc-input {
+      display: block;
+    }
+
+    > [data-wc-for],
+    > .wc_fld_pl {
+      display: none;
+    }
+
+    > .wc-input {
+      margin-top: $wc-gap-small; // push off of the label.
+      max-width: 100%;
+      width: 100%;
+
+      .wc-moved-label {
+        @include onscreen($position: relative);
+      }
+    }
+  }
+
+  @if $wc-fieldlayout-labelwidth-prevent-override == false {
+    // override flat widths - use important to save a repeat of the
+    // CSS used to build the flat layouts.
+    // sass-lint:disable no-important
+    .wc-field {
+      > .wc-label,
+      > .wc-input {
+        @include fit-content($imp: 1);
+        max-width: 100% !important;
+      }
+
+      > .wc-input {
+        margin-left: 0 !important;
+      }
+    }
+  }
+
+  @if $wc-fieldlayout-stack-allow-indent == true {
+    .wc-field  > .wc-input {
+      // override indent
+      // sass-lint:disable no-important
+      margin-left: 0 !important;
+      // sass-lint:enable no-important
+    }
+  }
+}

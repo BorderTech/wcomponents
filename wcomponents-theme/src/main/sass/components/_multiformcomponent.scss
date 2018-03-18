@@ -1,0 +1,26 @@
+// #############################################################################
+// WMultiTextField and WMultiDropdown
+// #############################################################################
+
+// left and right padding of the combo button.
+$wc-mfc-button-padding-lr: $wc-gap-small !default;
+$wc-mfc-button-width-allowance: 2 * $wc-mfc-button-padding-lr + $wc-icon-size + $wc-gap-small;
+
+.wc_mfc {
+  white-space: nowrap;
+
+  input,
+  select {
+    max-width: calc(100% - #{$wc-mfc-button-width-allowance});
+  }
+
+  button {
+    @include border($pos: left, $width: 0);
+    padding: 1px $wc-mfc-button-padding-lr;
+
+    &::before {
+      text-align: center;
+      width: $wc-icon-size;
+    }
+  }
+}

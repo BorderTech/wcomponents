@@ -1,0 +1,76 @@
+
+.wc-err {
+  color: $wc-debug-color-error;
+}
+
+// One should never be surprised by the amount of invalid HTML peeople manage to
+// generate. These just cover the simplest cases.
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+pre,
+label,
+button {
+  dl,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  pre,
+  div,
+  ul,
+  ol,
+  section {
+    // make invalid element nesting stand out
+    // sass-lint:disable no-important
+    outline: 2px solid $wc-debug-color-error !important;
+    outline-offset: -2px;
+    // sass-lint:enable no-important
+  }
+}
+
+// Some elements should not exist but people persist in using them.
+applet,
+acronym,
+bgsound,
+dir,
+frame,
+frameset,
+noframes,
+isindex,
+listing,
+nextid,
+noembed,
+plaintext,
+rb,
+strike,
+xmp,
+basefont,
+big,
+blink,
+center,
+font,
+marquee,
+multicol,
+nobr,
+spacer,
+tt,
+// sass-lint:disable no-qualifying-elements
+img[border='0'],
+a[name],
+input[type='number'][maxlength] {
+  // make invalid elements and attributes stand out
+  // sass-lint:disable no-important
+  outline: 2px solid $wc-debug-color-error !important;
+  outline-offset: -2px;
+  // sass-lint:enable no-important
+}
+// sass-lint:enable no-qualifying-elements

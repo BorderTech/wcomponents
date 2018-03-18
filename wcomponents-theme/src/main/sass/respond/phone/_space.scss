@@ -1,0 +1,63 @@
+// Make common gaps smaller on small viewports.
+$phone-gap-size: $wc-phone-gap-xl;
+
+@if $wc-use-respond == true and $wc-respond-reduce-gap-when-narrow == true {
+  // Reduce the gaps on narrow viewports.
+  @each $phone-gap-suffix in $wc-gap-suffix-list {
+    // zero margin stays zero
+    @if $phone-gap-suffix != z {
+      @if $phone-gap-suffix == sm {
+        $phone-gap-size: $wc-phone-gap-small;
+      } @else if  ($phone-gap-suffix == med) {
+        $phone-gap-size: $wc-phone-gap-normal;
+      } @else if  ($phone-gap-suffix == lg) {
+        $phone-gap-size: $wc-phone-gap-large;
+      } @else {
+        $phone-gap-size: $wc-phone-gap-xl;
+      }
+
+      .wc-hgap-#{$phone-gap-suffix} {
+        > div,
+        > ul,
+        > li,
+        > span {
+          padding-left: $phone-gap-size / 2;
+          padding-right: $phone-gap-size / 2;
+         }
+      }
+
+      @if $phone-gap-suffix != sm {
+        .wc-vgap-#{$phone-gap-suffix} {
+          > div + div,
+          > li + li {
+            margin-top: $wc-phone-gap-small;
+           }
+        }
+      }
+
+      .wc-margin-all-#{$phone-gap-suffix} {
+        margin: $phone-gap-size;
+      }
+
+      .wc-margin-n-#{$phone-gap-suffix} {
+        margin-top: $phone-gap-size;
+      }
+
+      .wc-margin-e-#{$phone-gap-suffix} {
+        margin-right: $phone-gap-size;
+      }
+
+      .wc-margin-s-#{$phone-gap-suffix} {
+        margin-bottom: $phone-gap-size;
+      }
+
+      .wc-margin-w-#{$phone-gap-suffix} {
+        margin-left: $phone-gap-size;
+      }
+
+      .wc-pad-#{$phone-gap-suffix} {
+        padding: $phone-gap-size;
+      }
+    }
+  }
+}

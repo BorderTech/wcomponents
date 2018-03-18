@@ -1,0 +1,40 @@
+// #############################################################################
+// styling for WProgressBar
+// #############################################################################
+// NOTE on width/min-width etc
+// Modern browsers have a progress element with a width. If you set width then
+// some (here's looking at you webkit)  may choose to ignore it.
+//
+// If you do not set a width you will get the normal user agent progress bar,
+// which is a good thing.
+//
+// We recommend one of three approaches:
+//
+// 1. The easy but flawed way:
+// DO NOT SET width, min-width or max-width on a progress element. If a progress
+// bar is put into a column layout it may overflow. Big deal so do other things,
+// get the design right. The usual width of a progress bar in Firefox, Safari
+// and Chrome is 10em; in IE11 it is 280px and height is also set.
+//
+// 2. The simple way which will break things
+// Set width to 100%. This will result in a progress bar in a flow layout
+// collapsing to nothing.
+//
+// 3. The complicated way that makes graphic designers slightly happier and
+//     makes things a tiny bit easier in WComponents
+// SET min-width and max-width to 100% and let the user agent determine width.
+// This will stop your progress bars disappearing completely in a flow layout
+// but should prevent overflow.
+//
+// 4. Overkill.(OK, so I promised three but nobody expects the Spanish
+//    Inquisition)
+// Decide on your favourite width and set it, then set max-width to 100% to
+// prevent overflow.
+
+progress {
+  max-width: 100%;
+}
+
+.wc-progressbar-type-small {
+  font-size: 67%;
+}

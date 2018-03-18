@@ -4,9 +4,7 @@
 // Style a button with a (usually) transparent background. Handy for holding
 // iconography!
 //
-// @param {color} $background [transparent] Set the button background. Set -1
-//     to ignore this rule.
-// @param {boolean|int} $border [true] If true then the border mixin is called
+// @param {boolean|int} $border [false] If true then the border mixin is called
 //     with no params (get a default border). Set false to not include the
 //     standard border mixin. Set to any non-negative integer to create a
 //     standard coloured border of the required width. If you want a
@@ -16,34 +14,23 @@
 // @param {position} $text-align [center] The text align for your button. Set ''
 //     to ignore. TODO: why not -1?
 // @param {dimension} $width [-1] The width of the button. Set -1 to ignore.
-@mixin button($background: transparent, $border: true, $height: -1, $padding: -1, $text-align: center, $width: -1) {
-  @if ($border == true) {
+@mixin button($border: false, $height: -1, $padding: -1, $text-align: -1, $width: -1) {
+  @if $border == true {
     @include border;
   } @else if ($border != false) {
     @include border ($width: $border);
   }
-  @if($background != -1) {
-    background-color: $background;
-  }
-  @if ($height != -1) {
+  @if $height != -1 {
     height: $height;
   }
-  @if ($padding != -1) {
+  @if $padding != -1 {
     padding: $padding;
   }
-  @if($text-align != '') {
+  @if $text-align != -1 { // center is the default on all common browsers
     text-align: $text-align;
   }
-  @if ($width != -1) {
+  @if $width != -1 {
     width: $width;
   }
   @content;
-}
-
-// #############################################################################
-// Inherit fonts in buttons. More handy than you can imagine.
-@mixin button-like-text {
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
 }

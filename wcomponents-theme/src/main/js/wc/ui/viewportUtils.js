@@ -8,7 +8,6 @@ define(["wc/dom/getViewportSize", "wc/config"], function (getViewportSize, wccon
 	 * @alias module:wc/ui/viewportUtils~VpUtils
 	 */
 	function VpUtils() {
-		// For device limits in Sass see _common.scss.
 
 		var defaultConf = {
 				large: 1981,  // A large screen is bigger than 1080p.

@@ -1,0 +1,9 @@
+// The opener iconography for WMenu type BAR, type FLYOUT, type COLUMN.
+
+
+.wc-submenu-o > .wc-decoratedlabel::after {
+  .wc_menu_bar &,
+  .wc-menu-type-column & {
+    display: inline-block;
+  }
+}

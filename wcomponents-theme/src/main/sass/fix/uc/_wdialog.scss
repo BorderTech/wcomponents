@@ -1,0 +1,44 @@
+
+
+@if $wc-use-respond == true {
+  dialog {
+    &[open] {
+      display: block;
+    }
+
+    > header {
+      display: block;
+
+      > h1 { // the title
+        display: inline-block;
+        max-width: 90%;
+      }
+
+      > span { // the header control 'block'
+        display: inline-block;
+        float: right;
+      }
+    }
+
+    > div { // dialog content container
+      @include border-box;
+      clear: both;
+      display: block;
+      height: 100%;
+      overflow: auto;
+    }
+
+    > footer {
+      display: block;
+    }
+  }
+
+  @if $wc-use-respond-dialog == true {
+    dialog {
+      @include border-box;
+      bottom: 0;
+      padding-bottom: 1rem;
+      right: 0;
+    }
+  }
+}

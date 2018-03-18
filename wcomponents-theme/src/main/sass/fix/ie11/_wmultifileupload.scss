@@ -1,0 +1,5 @@
+.wc-multifileupload .wc-file {
+  // IE11 cannot calc 100% - 1.333em and set a right pad in em at the same
+  // time. Useless POS.
+  padding-right: 3px;
+}

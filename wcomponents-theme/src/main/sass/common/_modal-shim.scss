@@ -1,0 +1,22 @@
+// #############################################################################
+// Modal Shim is used on page load until the underlying page is ready and when
+// opening a modal dialog.
+// #############################################################################
+// TODO: maybe change this to a class rather than an ID now we do not have IE6
+// performance to worry about?
+// The modal shim is a single generated artefact with a constant id.
+// sass-lint:disable no-ids
+#wc-shim {
+  left: 0;
+  min-height: 100%;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: $wc-z-index-modal-shim;
+
+  &.wc_shim_loading { // (un)loading indicator shim
+    z-index: $wc-z-index-unloading-shim;
+  }
+}
+// sass-lint:enable no-ids
