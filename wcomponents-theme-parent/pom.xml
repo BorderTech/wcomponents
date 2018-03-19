@@ -8,11 +8,8 @@
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
 		<artifactId>wcomponents-parent</artifactId>
-<<<<<<< HEAD
-		<version>1.4.25-SNAPSHOT</version>
-=======
+
 		<version>1.5.1-SNAPSHOT</version>
->>>>>>> e238f1780570eb251076adaa69dd0042728a3542
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
