@@ -4,6 +4,14 @@
 
 ### API Changes
 
+### Enhancements
+
+### Bug Fixes
+
+## Release 1.5.1
+
+### API Changes
+
 * Changed WProgressBar API to better implement HTML spec:
   - Deprecated WProgressBar members as follows:
     - UnitType - not supported - `public void setUnitType(UnitType)` is now a no-op and `public WProgressBar.UnitType getUnitType()` will now always return `null`
