@@ -6,7 +6,11 @@
 
 ### Enhancements
 
+* Enable use of a JavaScript Sass compiler ((sass)[https://www.npmjs.com/package/sass]) instead of Vaadin Sass Compiler.
+
 ### Bug Fixes
+
+* Fixed a Sass bug hidden by a flaw in the Vaadin Sass Compiler.
 
 ## Release 1.5.1
 
