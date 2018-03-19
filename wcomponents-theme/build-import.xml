@@ -273,6 +273,7 @@
 		<attribute name="cwd" default="${basedir}" description="The working directory"/>
 		<attribute name="failonerror" default="false"/>
 		<attribute name="spawn" default="false"/>
+		<attribute name="outfile" default=""/>
 		<element name="arguments" description="Ant 'arg' elements representing the args to pass to the nodejs command."/>
 		<sequential>
 			<local name="node.ok"/>
@@ -289,20 +290,46 @@
 			<if>
 				<os family="windows"/>
 				<then>
-					<exec dir="@{cwd}" executable="${nodejs.dir.location}/node" failonerror="@{failonerror}" spawn="@{spawn}">
-						<env key="Path" path="${npmjs.dir};${nodejs.dir.location};${env.Path}"/>
-						<env key="NVM_NODEJS_ORG_MIRROR" value="${node.download.root}"/><!-- TODO externalize. This is to get SASS to build. -->
-						<env key="SASS_BINARY_SITE" value="${node.sass.download.root}"/><!-- TODO externalize. This is to get SASS to build. -->
-						<arguments />
-					</exec>
+					<if>
+						<equals arg1="@{outfile}" arg2=""/>
+						<then>
+							<exec dir="@{cwd}" executable="${nodejs.dir.location}/node" failonerror="@{failonerror}" spawn="@{spawn}">
+								<env key="Path" path="${npmjs.dir};${nodejs.dir.location};${env.Path}"/>
+								<env key="NVM_NODEJS_ORG_MIRROR" value="${node.download.root}"/><!-- TODO externalize. This is to get SASS to build. -->
+								<env key="SASS_BINARY_SITE" value="${node.sass.download.root}"/><!-- TODO externalize. This is to get SASS to build. -->
+								<arguments />
+							</exec>
+						</then>
+						<else>
+							<exec dir="@{cwd}" executable="${nodejs.dir.location}/node" failonerror="@{failonerror}" spawn="@{spawn}" output="@{outfile}" logError="yes">
+								<env key="Path" path="${npmjs.dir};${nodejs.dir.location};${env.Path}"/>
+								<env key="NVM_NODEJS_ORG_MIRROR" value="${node.download.root}"/><!-- TODO externalize. This is to get SASS to build. -->
+								<env key="SASS_BINARY_SITE" value="${node.sass.download.root}"/><!-- TODO externalize. This is to get SASS to build. -->
+								<arguments />
+							</exec>
+						</else>
+					</if>
 				</then>
 				<else>
-					<exec dir="@{cwd}" executable="${nodejs.dir.location}/node" failonerror="@{failonerror}" spawn="@{spawn}">
-						<env key="PATH" path="/usr/bin:${npmjs.dir}:${nodejs.dir.location}:${env.PATH}"/>
-						<env key="NVM_NODEJS_ORG_MIRROR" value="${node.download.root}"/><!-- TODO externalize. This is to get SASS to build. -->
-						<env key="SASS_BINARY_SITE" value="${node.sass.download.root}"/><!-- TODO externalize. This is to get SASS to build. -->
-						<arguments />
-					</exec>
+					<if>
+						<equals arg1="@{outfile}" arg2=""/>
+						<then>
+							<exec dir="@{cwd}" executable="${nodejs.dir.location}/node" failonerror="@{failonerror}" spawn="@{spawn}">
+								<env key="PATH" path="/usr/bin:${npmjs.dir}:${nodejs.dir.location}:${env.PATH}"/>
+								<env key="NVM_NODEJS_ORG_MIRROR" value="${node.download.root}"/><!-- TODO externalize. This is to get SASS to build. -->
+								<env key="SASS_BINARY_SITE" value="${node.sass.download.root}"/><!-- TODO externalize. This is to get SASS to build. -->
+								<arguments />
+							</exec>
+						</then>
+						<else>
+							<exec dir="@{cwd}" executable="${nodejs.dir.location}/node" failonerror="@{failonerror}" spawn="@{spawn}" output="@{outfile}" logError="yes">
+								<env key="PATH" path="/usr/bin:${npmjs.dir}:${nodejs.dir.location}:${env.PATH}"/>
+								<env key="NVM_NODEJS_ORG_MIRROR" value="${node.download.root}"/><!-- TODO externalize. This is to get SASS to build. -->
+								<env key="SASS_BINARY_SITE" value="${node.sass.download.root}"/><!-- TODO externalize. This is to get SASS to build. -->
+								<arguments />
+							</exec>
+						</else>
+					</if>
 				</else>
 			</if>
 		</sequential>
