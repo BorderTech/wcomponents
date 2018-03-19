@@ -22,6 +22,8 @@
 	<property name="sass.tmp.src.dir" location="${tmp.dir}/sass" />
 	<!-- final destination for built CSS. -->
 	<property name="css.build.target.dir" location="${target.rootdir}/${css.target.dir.name}"/>
+	<!-- which sass comiler to use: js for node or java for Vaadin Sass Compiler -->
+	<property name="sass.compiler" value="js" />
 
 	<target name="build" depends="init, copySassSrc, compileSass, minify" description="Builds CSS artifacts then minifies them"> </target>
 
@@ -80,12 +82,37 @@
 	</target>
 
 	<!--
-		Compile Sass to CSS using Vaadin Sass-compiler wrapped by SassTask for efficiency.
+		Compile Sass to CSS using sass (https://www.npmjs.com/package/sass)
+		or Vaadin Sass-compiler wrapped by SassTask for efficiency.
 	-->
 	<target name="compileSass">
 		<stopwatch name="compileSass" action="start" />
-		<taskdef name="sass" classname="com.github.bordertech.wcomponents.sass.SassTask" classpathref="project.class.path"/>
-		<sass in="${sass.tmp.src.dir}" out="${css.tmp.target.dir}" urlmode="absolute"/>
+		<if>
+			<equals arg1="${sass.compiler}" arg2="java"/>
+			<then>
+				<taskdef name="sass" classname="com.github.bordertech.wcomponents.sass.SassTask" classpathref="project.class.path"/>
+				<sass in="${sass.tmp.src.dir}" out="${css.tmp.target.dir}" urlmode="absolute"/>
+			</then>
+			<else>
+				<for param="file">
+					<fileset dir="${sass.tmp.src.dir}">
+						<include name="*.scss" />
+						<exclude name="_*.scss" />
+					</fileset>
+					<sequential>
+						<var name="base.name" unset="true" />
+						<var name="css.name" unset="true" />
+						<basename property="base.name" file="@{file}" />
+						<propertyregex property="css.name" input="${base.name}"
+										regexp="(.+)\.scss"
+										select="\1"
+										casesensitive="false" />
+						<compilesass sourceFile="@{file}" destFile="${css.tmp.target.dir}/${css.name}.css" />
+					</sequential>
+				</for>
+			</else>
+		</if>
+
 		<stopwatch name="compileSass" action="total" />
 	</target>
 
@@ -101,14 +128,26 @@
 					<arg value="--skip-import"/>
 <!--					<arg value="-\-skip-advanced"/>-->
 					<arg value="--skip-aggressive-merging"/>
-<!--					<arg value="-\-skip-media-merging"/>-->
 					<arg value="--skip-rebase"/>
-<!--					<arg value="-\-skip-restructuring"/>
-					<arg value="-\-skip-shorthand-compacting"/> -->
 					<arg value="--rounding-precision"/>
 					<arg value="-1"/>
 					<arg value="-o"/>
 					<arg value="@{destFile}"/>
+					<arg value="@{sourceFile}"/>
+				</arguments>
+			</nodejs.exec>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="compilesass">
+		<attribute name="sourceFile" />
+		<attribute name="destFile" />
+		<sequential>
+			<property name="sass.executable" location="${basedir}/node_modules/sass/sass"/>
+			<echo>node ${sass.executable} @{sourceFile} >@{destFile}</echo>
+			<nodejs.exec failonerror="true" cwd="${target.rootdir}" outfile="@{destFile}">
+				<arguments>
+					<arg value="${sass.executable}"/>
 					<arg value="@{sourceFile}"/>
 				</arguments>
 			</nodejs.exec>

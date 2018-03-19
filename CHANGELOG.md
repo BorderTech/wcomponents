@@ -6,7 +6,11 @@
 
 ### Enhancements
 
+* Enable use of a JavaScript Sass compiler ((sass)[https://www.npmjs.com/package/sass]) instead of Vaadin Sass Compiler.
+
 ### Bug Fixes
+
+* Fixed a Sass bug hidden by a flaw in the Vaadin Sass Compiler.
 
 ## Release 1.5.1
 
@@ -31,12 +35,6 @@
 
 * Fixed a XSLT issue which caused inconsistent placement of label hints #1476.
 * Fixed a Sass issue which could cause unexpected wrapping of content of read-only Inputs #1469.
-
-## Release 1.5.0
-
-### Enhancements
-
-### Bug Fixes
 
 ## Release 1.5.0
 

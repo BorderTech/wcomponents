@@ -16,11 +16,3 @@ $wc-gap-normal: .5rem !default;
 $wc-gap-large: 1rem !default;
 $wc-gap-xl: 1.5rem !default;
 // #############################################################################
-// Gap sizes for narrow viewports.
-// ignored if $wc-use-respond != true or
-// $wc-respond-reduce-gap-when-narrow != true.
-$wc-phone-gap-small: $wc-gap-small / 2 !default;
-$wc-phone-gap-normal: $wc-gap-normal / 2 !default;
-$wc-phone-gap-large: $wc-gap-large / 2 !default;
-$wc-phone-gap-xl: $wc-gap-xl / 2 !default;
-// #############################################################################

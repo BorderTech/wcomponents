@@ -25,6 +25,7 @@
 		"properties": "~1.2.1",
 		"requirejs": "2.3.3",
 		"requirejs-domready": "2.0.3",
+		"sass": "1.0.0-rc.1",
 		"sprintf-js": "~1.0.3",
 		"timezone-js": "~0.4.13",
 		"tinymce": "~4.2.5",

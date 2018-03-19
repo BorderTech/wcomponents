@@ -27,3 +27,24 @@ $wc-use-respond-table: true !default;
 // viewports).
 $wc-use-respond-dialog: true !default;
 // #############################################################################
+
+// #############################################################################
+// Gap sizes for narrow viewports.
+// ignored if $wc-use-respond != true or
+// $wc-respond-reduce-gap-when-narrow != true.
+$wc-phone-gap-small: $wc-gap-small / 2 !default;
+$wc-phone-gap-normal: $wc-gap-normal / 2 !default;
+$wc-phone-gap-large: $wc-gap-large / 2 !default;
+$wc-phone-gap-xl: $wc-gap-xl / 2 !default;
+
+// #############################################################################
+// WDateField
+// #############################################################################
+// mobile calendar picker - used only to make touch easier.
+$wc-datefield-font-larger: 1.5rem !default;
+// #############################################################################
+// WMenu
+// #############################################################################
+// mobile menus - used only to make the menu items bigger for easier touch use.
+$wc-menu-font-larger: 1.5rem !default;
+// #############################################################################
