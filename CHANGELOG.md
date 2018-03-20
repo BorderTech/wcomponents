@@ -6,6 +6,12 @@
 
 ### Enhancements
 
+### Bug Fixes
+
+## Release 1.5.2
+
+### Enhancements
+
 * Allow override of Sass compiler from Maven POM or Settings.
 * Removed unused Sass and JavaScript.
 * Enable use of a JavaScript Sass compiler ((sass)[https://www.npmjs.com/package/sass]) instead of Vaadin Sass Compiler.
