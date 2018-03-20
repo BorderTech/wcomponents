@@ -167,11 +167,10 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	 * Reset validation state.
 	 */
 	private void resetValidationState() {
-		// Update the model only if the original state has changed
-		if (!getComponentModel().validFileSize) {
+		// Update the model only if the original state has changed. A user specific model is created
+		// if state changes for either of the fields.
+		if (!getComponentModel().validFileSize || !getComponentModel().validFileSize) {
 		    getOrCreateComponentModel().validFileType = true;
-		}
-		if (!getComponentModel().validFileSize) {
 		    getOrCreateComponentModel().validFileSize = true;
 		}
 	}

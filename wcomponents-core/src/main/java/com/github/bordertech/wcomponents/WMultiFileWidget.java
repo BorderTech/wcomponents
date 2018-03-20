@@ -282,7 +282,8 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 * @return {@code} true if one or more file type is supplied.
 	 */
 	public boolean hasFileTypes() {
-		return getComponentModel().fileTypes != null && getComponentModel().fileTypes.size() > 0;
+		MultiFileWidgetModel componentModel = getComponentModel();
+		return componentModel.fileTypes != null && componentModel.fileTypes.size() > 0;
 	}
 
 	/**
