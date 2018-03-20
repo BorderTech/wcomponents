@@ -25,14 +25,45 @@
 		<mkdir dir="${impl.src.rootdir}/${new.impl.name}/src/test/intern/resources"/>
 		<echo file="${impl.src.rootdir}/${new.impl.name}/excludes.txt"> </echo>
 		<echo file="${impl.src.rootdir}/${new.impl.name}/src/main/sass/_theme.scss">// Theme ${new.impl.name}: import partials from the theme directory
-//</echo>
-		<echo file="${impl.src.rootdir}/${new.impl.name}/src/main/sass/_implementation-variables.scss">// Override and extend variables here
-</echo>
-		<echo file="${impl.src.rootdir}/${new.impl.name}/src/main/sass/_theme-phone.scss">// Include partials from theme/respond/phone
-// This file may be deleted if you set $wc-use-respond to false or
-// do not need theme-specific phone-level responsive design.
 
-		</echo>
+</echo>
+		<echo file="${impl.src.rootdir}/${new.impl.name}/src/main/sass/_implementation-variables.scss">// Theme ${new.impl.name}
+// Override and extend variables here
+
+</echo>
+		<echo file="${impl.src.rootdir}/${new.impl.name}/src/main/sass/_theme-phone.scss">// Theme ${new.impl.name} phone-size responsive design
+// Include partials from `theme/respond/phone/`.
+
+// This file may be deleted if you set `$wc-use-respond` to false or do not
+// need theme-specific phone-level responsive design.
+
+</echo>
+		<echo file="${impl.src.rootdir}/${new.impl.name}/src/main/sass/theme/README.md"># Theme ${new.impl.name}
+
+Place partials for your theme in this directory. Structure it however you wish.
+
+Partials should be imported into `_theme.scss`.
+
+</echo>
+		<echo file="${impl.src.rootdir}/${new.impl.name}/src/main/sass/theme/respond/README.md"># Theme ${new.impl.name}
+
+## Responsive design CSS
+
+This directory should contain only other directories: one per media target.
+This directory and its contents may be deleted if you do not require responsive
+design.
+
+</echo>
+		<echo file="${impl.src.rootdir}/${new.impl.name}/src/main/sass/theme/respond/phone/README.md"># Theme ${new.impl.name}
+
+## Responsive design CSS
+
+Place partials for phone-size responsive design for your theme in this
+directory and import them into `_theme-phone.scss`. This directory and
+`_theme-phone.scss` may be deleted if you do not require this level of
+responsive design.
+
+</echo>
 	</target>
 
 	<target name="getImplName" unless="new.impl.name">
