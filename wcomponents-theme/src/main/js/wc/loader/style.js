@@ -66,7 +66,7 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 			 * @type {String}
 			 * @private
 			 */
-			cssFileNameAndUrlExtension = ".css",
+			cssFileNameAndUrlExtension,
 			/**
 			 * Used to access keys in the screenStylesToAdd JSON object.
 			 * @var
