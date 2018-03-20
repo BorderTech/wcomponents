@@ -11,6 +11,9 @@
 ### Bug Fixes
 
 * Fixed a Sass bug hidden by a flaw in the Vaadin Sass Compiler.
+* Change order of load of `wc/common` and `wc/loader/style` to enable themes to override the initial style loader config.
+* Fix an error in Sass for WFieldLayout which was masked by Vaadin Sass Compiler
+* Fix a potential negative zero error in Sass of WSection (responsive)
 
 ## Release 1.5.1
 
