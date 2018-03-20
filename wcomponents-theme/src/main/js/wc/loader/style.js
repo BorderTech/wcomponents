@@ -116,8 +116,8 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 				if (!CACHEBUSTER) { // set this only once on initial page load from the XSLT
 					CACHEBUSTER = config.cachebuster;
 				}
-				importPhoneCSS = config.loadPhone;
-				loadAsyncStyles = config.loadAsync;
+				importPhoneCSS = !!config.loadPhone;
+				loadAsyncStyles = !!config.loadAsync;
 				if (!cssFileNameAndUrlExtension) {
 					cssFileNameAndUrlExtension = ".css" + (CACHEBUSTER ? ("?" + CACHEBUSTER) : "");
 				}
