@@ -10,7 +10,7 @@ The WComponents roadmap includes moving to web components so eventually the CSS 
 - Files which have CSS which is shared by many components (or for common HTML strutures) is in `common/_FILENAME.scss` where `FILENAME` should give a rough idea of the purpose;
 - Files which produce CSS for a particular component (or in a small number of cases two closely related components) is in `components\_wFILENAME.scss` where `_wFILENAME` is the WComponent  simple class name.
 - Files which are for a particular platform or browser/family are placed in the `fix` directory one directory per fix type. Any platform or browser which requires override has a base level file; e.g. for UC Browser: `wc-uc.scss`. This file then imports all of the required partials. These files are imported by the JavaScript module `wc/loader/style`. If additional browsers need fixing then the config object for that module will have to be used as it will, by default, only fix those which are in this default list: MS Edge, MS IE 11 and UC Browser.
-- Files used _only_ in debug mode are in the `debug` directory and imported into `wcdebug.scss`.
+- Files used _only_ in debug mode are in the `wcdebug` directory and imported into `wcdebug.scss`.
 
 ## Coding Standards
 
@@ -25,12 +25,8 @@ The WComponents roadmap includes moving to web components so eventually the CSS 
 
 WComponents themes are designed to be extended and overridden so there is a lot of configuration available. The following files may help:
 
-- `_implementation-vars.scss` is used in a descendant theme to override the WComponents defaults and add any which are required in the implementation. It is **strongly** recommended an implementation uses this file rather than copying and modifying `vars/_wc.scss`.
-- 
-
-
-## Things to do
-
-- There is still more optimization which could happen.
-- We need to get better documentation and maybe use SassDoc.
-- A lot of this CSS was inherited and has grown like topsy, we are still not completely sure it is all needed.
+- `_theme-vars.scss` is used in a descendant theme to override the WComponents defaults and add any which are required in the implementation. This file is the first import in `vars/_wc.scss`. It is **strongly** recommended a theme uses this file rather than copying and modifying `vars/_wc.scss`.
+- it is recommended that all theme partials be placed in the `theme` directory.
+- `_theme.scss` should be created in the theme and used to import partials. This file is the last import in `wc.scss` so the theme CSS will take precedence.
+- a helper for phone-size responsive design extensions is provided: `_theme-phone.scss` should be created in the theme and used to import partials from `theme/respond/phone`.
+- other overrides may be created using a file of the same name as the one in the wcomponents-theme project..

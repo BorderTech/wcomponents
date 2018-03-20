@@ -57,12 +57,12 @@
 				<striplinebreaks/>
 			</filterchain>
 		</copy>
-		<echo message="Done copying images"/>
+		<echo level="verbose" message="Done copying images"/>
 	</target>
 
 	<target name="clean" description="Cleans up all artifacts produced by this build">
 		<delete dir="${images.tmp.src.dir}"/>
-		<echo message="Clean from ${ant.file}"/>
+		<echo level="verbose" message="Clean from ${ant.file}"/>
 	</target>
 
 	<target name="init" depends="clean">
