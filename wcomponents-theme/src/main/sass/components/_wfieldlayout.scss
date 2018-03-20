@@ -112,7 +112,7 @@ $wc-input-width-slug: wc_fld_inpw; // DO NOT CHANGE
     .wc_fld_inpw_#{$i} > .wc-input {
       > .wc-input-wrapper,
       > fieldset {
-        max-width: percentage(#{$i} / 100);
+        max-width: percentage($i / 100);
       }
     }
   }
@@ -121,7 +121,7 @@ $wc-input-width-slug: wc_fld_inpw; // DO NOT CHANGE
     .wc_fld_inpw_#{$i} > .wc-input {
       > .wc-input-wrapper,
       > fieldset {
-        max-width: percentage(#{$i} / 100);
+        max-width: percentage($i / 100);
       }
     }
   }

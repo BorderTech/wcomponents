@@ -194,15 +194,16 @@
 
 				<script type="text/javascript" class="registrationScripts" async="async">
 					<xsl:text>require(["wc/compat/compat!"], function(){</xsl:text>
-					<xsl:text>require(["wc/loader/style"],function(s){s.load();});</xsl:text>
+					<xsl:text>require(["wc/common"], function(){</xsl:text>
+					<xsl:if test="$registeredComponents ne ''">
+						<xsl:value-of select="$registeredComponents"/>
+					</xsl:if>
+					<xsl:text>require(["wc/loader/style"],function(s){s.load();</xsl:text>
 					<xsl:apply-templates select="ui:application/ui:css" mode="inHead"/>
 					<xsl:apply-templates select=".//html:link[@rel eq 'stylesheet']" mode="inHead"/>
-					<xsl:if test="$registeredComponents ne ''">
-						<xsl:text>require(["wc/common"], function(){</xsl:text>
-						<xsl:value-of select="$registeredComponents"/>
-						<xsl:text>});</xsl:text>
-					</xsl:if>
-					<xsl:text>});</xsl:text>
+					<xsl:text>});</xsl:text><!-- end style loader -->
+					<xsl:text>});</xsl:text><!-- end common -->
+					<xsl:text>});</xsl:text><!-- end compat -->
 				</script>
 
 				<!--<script type="text/javascript" class="registrationScripts" async="async">

@@ -3,19 +3,19 @@
 	<xsl:template match="ui:css"/>
 
 	<xsl:template match="ui:css" mode="inHead">
-		<xsl:text>require(["wc/loader/style"],function(s){s.add("</xsl:text>
+		<xsl:text>s.add("</xsl:text>
 		<xsl:value-of select="@url"/>
-		<xsl:text>");});</xsl:text>
+		<xsl:text>");</xsl:text>
 	</xsl:template>
 
 	<xsl:template match="html:link[@rel='stylesheet']" mode="inHead">
-		<xsl:text>require(["wc/loader/style"],function(s){s.add("</xsl:text>
+		<xsl:text>s.add("</xsl:text>
 		<xsl:value-of select="@href"/>
 		<xsl:if test="@media">
 			<xsl:text>","</xsl:text>
 			<xsl:value-of select="@media"/>
 		</xsl:if>
-		<xsl:text>");});</xsl:text>
+		<xsl:text>");</xsl:text>
 	</xsl:template>
 
 	<xsl:template match="html:link[@rel='stylesheet']">
