@@ -50,7 +50,7 @@
 				<include name="**" />
 			</fileset>
 		</copy>
-		<echo message="Done building resources" />
+		<echo level="verbose" message="Done building resources" />
 	</target>
 
 	<!--
@@ -84,6 +84,6 @@
 
 	<target name="clean" description="Cleans up all artifacts produced by this build">
 		<delete dir="${resource.build.target.dir}" />
-		<echo message="Clean from ${ant.file}" />
+		<echo level="verbose" message="Clean from ${ant.file}" />
 	</target>
 </project>

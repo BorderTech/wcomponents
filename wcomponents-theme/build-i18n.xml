@@ -29,7 +29,7 @@
 	</target>
 
 	<target name="copyResources" if="${i18n.resources.exists}">
-		<echo message="Copy i18n resources from ${i18n.resources.dir}"/>
+		<echo level="verbose" message="Copy i18n resources from ${i18n.resources.dir}"/>
 		<copy todir="${i18n.unpack.dir}">
 			<fileset dir="${i18n.resources.dir}" />
 		</copy>
@@ -69,7 +69,7 @@
 	</macrodef>
 
 	<target name="clean" description="Cleans up all artifacts produced by this build">
-		<echo message="Clean from ${ant.file}"/>
+		<echo level="verbose" message="Clean from ${ant.file}"/>
 		<delete dir="${i18n.build.target.dir}"/>
 	</target>
 </project>
