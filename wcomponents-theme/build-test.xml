@@ -85,7 +85,7 @@
 	<target name="clean" description="Cleans up all artifacts produced by this build">
 		<delete dir="${intern.target.dir}"/>
 		<delete dir="${test.output.dir}"/>
-		<echo message="Clean from ${ant.file}"/>
+		<echo level="verbose" message="Clean from ${ant.file}"/>
 	</target>
 
 
@@ -128,7 +128,7 @@
 					<regexpmapper from="([^\/]+)\.js" to="&quot;@{relativePathToTests}/\1&quot;" handledirsep="true"/>
 				</chainedmapper>
 			</pathconvert>
-			<echo>Found unit tests: ${unit.tests}</echo>
+			<echo level="verbose">Found unit tests: ${unit.tests}</echo>
 			<pathconvert targetos="unix" property="test.baseurl">
 				<path>
 					<pathelement location="${intern.target.dir}"/>
@@ -144,7 +144,7 @@
 			</copy>
 
 			<property name="intern.executable" location="${basedir}/node_modules/intern/runner.js"/>
-			<echo>Running client side unit tests.
+			<echo level="info">Running client side unit tests.
 If you get errors and need to run them locally the easiest way is to run a local webserver from the theme directory.
 For your convenience we the WComponents theme comes with a jetty server ready to go. After building the tests run (from the theme project):
 
@@ -168,7 +168,7 @@ Clicky the linky and the tests should run.
 					<isset property="env.SAUCE_ACCESS_KEY"/>
 				</and>
 				<then>
-					<echo>node ${intern.executable} config=@{relativePathToTestdir}/@{configModule}</echo>
+					<echo level="verbose">node ${intern.executable} config=@{relativePathToTestdir}/@{configModule}</echo>
 					<nodejs.exec cwd="${basedir}" failonerror="true" spawn="false">
 						<arguments>
 							<arg value="${intern.executable}"/>
@@ -179,7 +179,7 @@ Clicky the linky and the tests should run.
 				<elseif>
 					<equals arg1="${intern.tunnel}" arg2="SeleniumTunnel"/>
 					<then>
-						<echo>node ${intern.executable} config=@{relativePathToTestdir}/@{configModule}</echo>
+						<echo level="verbose">node ${intern.executable} config=@{relativePathToTestdir}/@{configModule}</echo>
 						<nodejs.exec cwd="${basedir}" failonerror="${intern.fail.local.test}" spawn="false">
 							<arguments>
 								<arg value="${intern.executable}"/>
@@ -191,7 +191,7 @@ Clicky the linky and the tests should run.
 				<elseif>
 					<equals arg1="${intern.tunnel}" arg2="NullTunnel"/>
 					<then>
-						<echo>
+						<echo level="info">
 ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠
 Skipping unit tests because you have set a NullTunnel:
 
@@ -202,7 +202,7 @@ node ${intern.executable} config=@{relativePathToTestdir}/@{configModule}
 					</then>
 				</elseif>
 				<else>
-					<echo>
+					<echo level="info">
 ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠
 Skipping unit tests because you have not set environment variables:
 

@@ -16,11 +16,10 @@
 	<target name="clean" description="Cleans up all artifacts produced by this build">
 		<delete dir="${xslt.build.target.dir}"/>
 		<delete dir="${xsl.tmp.src.dir}"/>
-		<echo message="Clean from ${ant.file}"/>
+		<echo level="verbose" message="Clean from ${ant.file}"/>
 	</target>
 
 	<target name="init" depends="clean">
-		<property file="${properties.build.constants}" />
 		<mkdir dir="${xslt.build.target.dir}"/>
 		<mkdir dir="${xsl.tmp.src.dir}"/>
 		<available file="${tmp.dir}/${xsl.target.intermediate.file.name}" property=""/>
@@ -56,6 +55,6 @@
 		<replaceregexp file="${xslt.build.target.dir}/all.xsl"
 			match="xsl:param name=&quot;isDebug&quot; select=&quot;1&quot;"
 			replace="xsl:param name=&quot;isDebug&quot; select=&quot;0&quot;"/>
-		<echo message="Done XSLT"/>
+		<echo level="verbose" message="Done XSLT"/>
 	</target>
 </project>

@@ -23,11 +23,10 @@
 		<delete dir="${script.debug.build.target.dir}"/>
 		<delete dir="${script.build.target.dir}"/>
 		<delete dir="${script.tmp.src.dir}"/>
-		<echo message="Clean from ${ant.file}"/>
+		<echo level="verbose" message="Clean from ${ant.file}"/>
 	</target>
 
 	<target name="init" depends="clean">
-		<property file="${properties.build.constants}"/>
 		<mkdir dir="${script.debug.build.target.dir}"/>
 		<mkdir dir="${script.build.target.dir}"/>
 		<mkdir dir="${script.tmp.src.dir}"/>
@@ -167,7 +166,7 @@
 			</path>
 		</pathconvert>
 		<writeRjsConfig optimizer="uglify2"/>
-		<echo>node ${r.js} -o ${tmp.dir}${file.separator}build-js.js</echo>
+		<echo level="verbose">node ${r.js} -o ${tmp.dir}${file.separator}build-js.js</echo>
 		<nodejs.exec failonerror="true" cwd="${target.rootdir}">
 			<arguments>
 				<arg value="${r.js}"/>
@@ -175,22 +174,10 @@
 				<arg value="${tmp.dir}${file.separator}build-js.js"/>
 			</arguments>
 		</nodejs.exec>
-<!--		<copy todir="${script.debug.build.target.dir}">
-			 Copy the unminified files produced by r.js + uglify2 to the target directory, renaming them to what we expect.
-			<fileset dir="${optimized.script.tmp.src.dir}" includes="**/*.js.src.js"/>
-			<globmapper from="*.js.src.js" to="*.js"/>
-		</copy>
 		<copy todir="${script.debug.build.target.dir}">
-			 Copy the unminified files produced by r.js + closure compiler to the target directory, renaming them to what we expect.
-			<fileset dir="${optimized.script.tmp.src.dir}" includes="**/*.js.src"/>
-			<globmapper from="*.js.src" to="*.js"/>
-		</copy>-->
-		<copy todir="${script.debug.build.target.dir}">
-			<!-- Copy the unminified files to the target directory -->
 			<fileset dir="${script.tmp.src.dir}" includes="**/*"/>
 		</copy>
 		<copy todir="${script.build.target.dir}">
-			<!-- Copy the minified files to the target directory. -->
 			<fileset dir="${optimized.script.tmp.src.dir}" includes="**/*"/>
 		</copy>
 		<stopwatch name="optimizeJS" action="total"/>
@@ -203,6 +190,7 @@
 	<macrodef name="writeRjsConfig">
 		<attribute name="optimizer"/>
 		<sequential>
+			<echo>current log level: ${rjs.log.level}</echo>
 			<echo file="${tmp.dir}/build-js.js">
 ({
 	preserveLicenseComments: false,
@@ -212,6 +200,7 @@
 	optimizeAllPluginResources: true,
 	generateSourceMaps: false,
 	dir: "${optimized.script.tmp.src.dir.unix}",
+	logLevel: ${rjs.log.level},
 	modules: [{
 		name: "wc/common"
 	}],

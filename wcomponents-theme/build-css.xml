@@ -57,7 +57,6 @@
 	</target>
 
 	<target name="init" depends="clean">
-		<property file="${properties.build.constants}" />
 		<mkdir dir="${css.build.target.dir}" />
 		<mkdir dir="${sass.tmp.src.dir}" />
 		<mkdir dir="${css.tmp.target.dir}" />
@@ -122,7 +121,7 @@
 		<attribute name="destFile" />
 		<sequential>
 			<property name="cleancss.executable" location="${basedir}/node_modules/clean-css/bin/cleancss"/>
-			<echo>node ${cleancss.executable} --skip-import --skip-aggressive-merging --skip-rebase --rounding-precision -1 -o @{destFile} @{sourceFile}</echo>
+			<echo level="verbose">node ${cleancss.executable} --skip-import --skip-aggressive-merging --skip-rebase --rounding-precision -1 -o @{destFile} @{sourceFile}</echo>
 			<nodejs.exec failonerror="true" cwd="${target.rootdir}">
 				<arguments>
 					<arg value="${cleancss.executable}"/>
@@ -145,7 +144,7 @@
 		<attribute name="destFile" />
 		<sequential>
 			<property name="sass.executable" location="${basedir}/node_modules/sass/sass"/>
-			<echo>node ${sass.executable} @{sourceFile} >@{destFile}</echo>
+			<echo level="verbose">node ${sass.executable} @{sourceFile} >@{destFile}</echo>
 			<nodejs.exec failonerror="true" cwd="${target.rootdir}" outfile="@{destFile}">
 				<arguments>
 					<arg value="${sass.executable}"/>
