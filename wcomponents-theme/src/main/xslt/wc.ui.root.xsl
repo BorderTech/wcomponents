@@ -193,31 +193,47 @@
 				<script type="text/javascript" src="{concat($resourceRoot, $scriptDir, '/lib/require.js?', $cacheBuster)}"></script>
 
 				<script type="text/javascript" class="registrationScripts" async="async">
+					<xsl:if test="$isDebug = 1">
+						<xsl:text>
+	</xsl:text>
+					</xsl:if>
 					<xsl:text>require(["wc/compat/compat!"], function(){</xsl:text>
+					<xsl:if test="$isDebug = 1">
+						<xsl:text>
+		</xsl:text>
+					</xsl:if>
 					<xsl:text>require(["wc/common"], function(){</xsl:text>
 					<xsl:if test="$registeredComponents ne ''">
+						<xsl:if test="$isDebug = 1">
+							<xsl:text>
+			</xsl:text>
+						</xsl:if>
 						<xsl:value-of select="$registeredComponents"/>
+						<xsl:if test="$isDebug = 1">
+							<xsl:text>
+</xsl:text>
+						</xsl:if>
+					</xsl:if>
+					<xsl:if test="$isDebug = 1">
+						<xsl:text>
+			</xsl:text>
 					</xsl:if>
 					<xsl:text>require(["wc/loader/style"],function(s){s.load();</xsl:text>
+					<xsl:if test="$isDebug = 1">
+						<xsl:text>
+			</xsl:text>
+					</xsl:if>
 					<xsl:apply-templates select="ui:application/ui:css" mode="inHead"/>
 					<xsl:apply-templates select=".//html:link[@rel eq 'stylesheet']" mode="inHead"/>
+					<xsl:if test="$isDebug = 1">
+						<xsl:text>
+			</xsl:text>
+					</xsl:if>
 					<xsl:text>});</xsl:text><!-- end style loader -->
 					<xsl:text>});</xsl:text><!-- end common -->
 					<xsl:text>});</xsl:text><!-- end compat -->
 				</script>
 
-				<!--<script type="text/javascript" class="registrationScripts" async="async">
-					<xsl:text>require(["wc/compat/compat!"], function(){</xsl:text>
-					<xsl:text>require(["wc/loader/style"],function(s){s.load();});</xsl:text>
-					<xsl:apply-templates select="ui:application/ui:css" mode="inHead"/>
-					<xsl:apply-templates select=".//html:link[@rel eq 'stylesheet']" mode="inHead"/>
-					<xsl:text>});</xsl:text>
-				</script>-->
-
-				<!--
-					We grab all base, meta and link elements from the content and place
-					them in the head where they belong.
-				-->
 				<xsl:apply-templates select="ui:application/ui:js" mode="inHead"/>
 				<xsl:apply-templates select=".//html:base|.//html:link[not(contains(@rel,'icon') or @rel eq 'stylesheet')]|.//html:meta" mode="inHead"/>
 			</head>
@@ -231,14 +247,6 @@
 				<noscript>
 					<p>You must have JavaScript enabled to use this application.</p>
 				</noscript>
-<!--				<xsl:if test="$registeredComponents!=''">
-					<div id="wc-shim" class="wc_shim_loading">
-						<xsl:text>&#xa0;</xsl:text>
-					</div>
-					<div id="wc-ui-loading">
-						<div tabindex="0" class="fa fa-spinner fa-spin">&#x200b;</div>
-					</div>
-				</xsl:if>-->
 				<xsl:apply-templates >
 					<xsl:with-param name="nojs">
 						<xsl:choose>

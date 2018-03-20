@@ -1,71 +1,27 @@
-define(["wc/dom/initialise", "wc/ui/modalShim", "wc/timers", "wc/dom/classList"],
-	function(initialise, modalShim, timers, classList) {
-		"use strict";
+define(function() {
+	"use strict";
 
-		/**
-		 * Provides a loading overlay which is removed as part of the last phase of page initialisation. This is intended to
-		 * reduce the probability of a user interacting with a control before it has been initialised. This module does not
-		 * provide re-usable functionality, it **must** always be included in `wc/common.js` or in the page setup.
-		 *
-		 * @module
-		 * @requires module:wc/dom/initialise
-		 * @requires module:wc/ui/modalShim
+	/**
+	 * Provides a loading overlay which is removed as part of the last phase of page initialisation. This is intended to
+	 * reduce the probability of a user interacting with a control before it has been initialised. This module does not
+	 * provide re-usable functionality, it **must** always be included in `wc/common.js` or in the page setup.
+	 *
+	 * @module
+	 */
+	return {
+		/*
+		 * A Promise that is resolved when the page is first initialized.
+		 * If other scripts wish to be notified when the UI is no longer in the loading state they can use this promise.
+		 * @var
+		 * @type {Promise}
+		 * @public
 		 */
-		var loading = {
-
-			/**
-			 * A Promise that is resolved when the page is first initialized.
-			 * If other scripts wish to be notified when the UI is no longer in the loading state they can use this promise.
-			 * @var
-			 * @type {Promise}
-			 * @public
-			 */
-			done: new Promise(function(loaded, error) {
-				try {
-					loaded();
-				} catch (ex) {
-					error(ex);
-				}
-			})
-		};
-
-		/**
-		 * Remove the loading indicator and clear the shim.
-		 * @function
-		 * @private
-		 */
-		function clearLoadingShim() {
-			var container;
+		done: new Promise(function(loaded, error) {
 			try {
-				container = document.getElementById("wc-ui-loading");
-				if (container && container.parentNode) {
-					container.parentNode.removeChild(container);
-				}
-			} finally {
-				modalShim.clearModal();
+				loaded();
+			} catch (ex) {
+				error(ex);
 			}
-		}
-
-		function loadingShimSubscriber() {
-			try {
-				Array.prototype.forEach.call(document.getElementsByTagName("form"), function(form) {
-					classList.remove(form, "wc-loading");
-				});
-			} finally {
-				modalShim.unsubscribe(loadingShimSubscriber);
-			}
-		}
-
-		/**
-		 * Call when the DOM is loaded and UI controls are initialized to dismiss the loading overlay.
-		 * @function
-		 * @private
-		 */
-		function postInit() {
-			modalShim.subscribe(loadingShimSubscriber);
-			loading.done.then(timers.setTimeout(clearLoadingShim, 250));
-		}
-
-		initialise.register({"postInit": postInit});
-		return loading;
-	});
+		})
+	};
+});
