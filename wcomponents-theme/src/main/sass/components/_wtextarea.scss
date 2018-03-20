@@ -1,0 +1,39 @@
+// #############################################################################
+// WTextArea
+// See ../common/_input.scss for essential element level styles.
+// #############################################################################
+
+// the ticker
+textarea + output {
+  @include wc-opaque-box;
+  display: block;
+  margin-top: -1px;
+  padding: $wc-gap-small;
+  position: absolute;
+  z-index: $wc-z-index-common;
+
+  &::before { // show the number of chars remaining
+    content: attr(value);
+    font-size: 85%;
+  }
+
+  dialog & {
+    z-index: $wc-z-index-common-in-dialog;
+  }
+}
+
+// A readonly textarea must preserve whitespace so uses a pre element
+// (for IE compatibility) so we need to override PRE defaults and set whitespace
+// to textarea-like settings.
+// sass-lint:disable no-qualifying-elements
+pre.wc-textarea {
+  font-family: inherit;
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: normal;
+}
+
+div.wc-textarea {
+  word-break: normal;
+}
+// sass-lint:enable no-qualifying-elements

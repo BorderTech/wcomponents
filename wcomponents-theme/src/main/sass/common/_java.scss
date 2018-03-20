@@ -1,0 +1,35 @@
+// #############################################################################
+// Classes which are in the Java API so you better keep 'em.
+// #############################################################################
+
+// Add a border to most simple elements. This will not work for components which
+// have a complex selector setting border.
+// com.github.bordertech.wcomponents.util.HtmlClassProperties.BORDER
+.wc-border {
+  @include border;
+}
+
+// Move an element out of viewport but still in the accessibility tree. This is
+// a surprisingly important class and MUST be present and MUST move things out
+// of viewport without removing them from the a11y tree so you probably want to
+// leave the thing alone.
+// com.github.bordertech.wcomponents.util.HtmlClassProperties.OFF_SCREEN
+.wc-off {
+  @include offscreen(1);
+}
+
+// Make a container scroll horizontally if needed. One would be surprised how
+// often this is requested if one was not me. It is so common it has made it
+// into the Java API so do not remove it!
+// com.github.bordertech.wcomponents.util.HtmlClassProperties.HORIZONTAL_SCROLL
+.wc-hscroll {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+// Helper class to force a container to break-all. This is a hammer to crack a
+// chestnut.
+// com.github.bordertech.wcomponents.util.HtmlClassProperties.BREAK_WORDS
+.wc-brkall {
+  word-break: break-all;
+}

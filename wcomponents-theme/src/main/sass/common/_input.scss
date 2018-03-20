@@ -1,0 +1,83 @@
+// HTML form element styles to enforce some cross-browser consistency.
+// The border and padding styles make a whole lot of other stuff much easier
+// going forwards.
+// #############################################################################
+input,
+select, // take a look at wc.select.scss too
+textarea {
+  @include border-box;
+  @include border($width: 1px); // this is important for consistency
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  margin: 0;
+  max-width: 100%;
+  padding: 1px; // this is important for consistency
+}
+
+[type='checkbox'],
+[type='radio'] {
+  border: 0;
+  // NOTE: no need to remove the padding in modern browsers.
+}
+
+// This redundant rule is not as redundant as you might think.
+datalist {
+  display: none;
+}
+
+// SELECT element typeahead indicator
+.wc_selsch {
+  @include wc-opaque-box;
+  display: block;
+  margin-top: -1.25em;
+  padding: 0 $wc-gap-small;
+  position: absolute;
+}
+
+// #############################################################################
+// CSS common to components which implement Input
+// #############################################################################
+
+// Simple input controls are wrapped
+// Display and box sizing is to make them the more akin to the editable
+// element (input, textarea or select).
+.wc-input-wrapper {
+  @include border-box;
+  @include border;
+  display: inline-block;
+  max-width: 100%;
+
+  &.wc-checkbox,
+  &.wc-radiobutton,
+  &.wc-togglebutton {
+    border: 0;
+  }
+
+  > button,
+  > input,
+  > textarea,
+  > select {
+    border: 0;
+  }
+
+  > button {
+    background-color: transparent;
+    cursor: pointer;
+    padding: 0;
+    text-align: inherit;
+  }
+}
+
+// read-only state of multi-input controls
+// see fieldset.scss for common styles of
+//
+div,
+ul,
+ol {
+  &.wc-ro-input {
+    @include border-box;
+    display: inline-block;
+    max-width: 100%;
+  }
+}

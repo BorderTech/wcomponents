@@ -1,4 +1,5 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributes.xsl"/>
 	<!-- WApplication -->
@@ -24,12 +25,12 @@
 			</xsl:attribute>
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">
-					<xsl:if test="@unsavedChanges or .//ui:button[@unsavedChanges] or .//ui:menuitem[@unsavedChanges]">
+					<xsl:if test="@unsavedChanges or .//html:button[@class and contains(@class, 'wc_unsaved')] or .//ui:menuitem[@unsavedChanges]">
 						<xsl:text>wc_unsaved</xsl:text>
 					</xsl:if>
-					<xsl:if test="number($nojs) eq 0">
+					<!--<xsl:if test="number($nojs) eq 0">
 						<xsl:text> wc-loading</xsl:text>
-					</xsl:if>
+					</xsl:if>-->
 				</xsl:with-param>
 			</xsl:call-template>
 			<xsl:apply-templates />

@@ -25,12 +25,11 @@ public class WConfirmationButtonRenderer_Test extends AbstractWebXmlRendererTest
 	@Test
 	public void testDoPaint() throws IOException, SAXException, XpathException {
 		WConfirmationButton button = new WConfirmationButton("dummy");
-		assertSchemaMatch(button);
-		assertXpathExists("//ui:button", button);
+		assertXpathExists("//html:button", button);
 
 		String message = "WConfirmationButton_Test.testRenderedFormat.message";
 		button.setMessage(message);
-		assertXpathEvaluatesTo(message, "//ui:button/@msg", button);
+		assertXpathEvaluatesTo(message, "//html:button/@data-wc-btnmsg", button);
 	}
 
 	@Test
@@ -39,13 +38,13 @@ public class WConfirmationButtonRenderer_Test extends AbstractWebXmlRendererTest
 
 		assertSafeContent(button);
 
-		button.setToolTip(getMaliciousAttribute("ui:button"));
+		button.setToolTip(getMaliciousAttribute("html:button"));
 		assertSafeContent(button);
 
-		button.setAccessibleText(getMaliciousAttribute("ui:button"));
+		button.setAccessibleText(getMaliciousAttribute("html:button"));
 		assertSafeContent(button);
 
-		button.setMessage(getMaliciousAttribute("ui:button"));
+		button.setMessage(getMaliciousAttribute("html:button"));
 		assertSafeContent(button);
 
 		button.setImageUrl(getMaliciousAttribute());

@@ -1,0 +1,122 @@
+// #############################################################################
+// WDialog
+// #############################################################################
+
+// #############################################################################
+// VARIABLES
+// #############################################################################
+// Do we want to have the amusing but wasteful dialog resize/move transitions?
+// 1 is yes, anything else is no.
+$wc-ui-dialog-use-transitions: 1 !default;
+// Used only if the scale and move transitions are turned on and supported.
+$wc-ui-dialog-transition-delay: 0s !default;
+$wc-ui-dialog-transition-duration: .5s !default;
+$wc-ui-dialog-header-size: 2rem !default;
+// #############################################################################
+
+// The actual dialog. Its position is set on open such that it sits in the
+// middle of the viewport. Margin:auto only works in Chrome and Webkit.
+dialog {
+  @include border-box;
+  @include tight-box;
+  @include wc-opaque-box;
+  border: 0; // oh chrome, you try so hard to annoy me
+  // bottom: auto;
+  display: none;
+  left: 0;
+  max-height: 100%;
+  max-width: 100%;
+  position: fixed;
+  // right: auto; // chrome again
+  top: 0;
+  z-index: $wc-z-index-dialog;
+
+  &[open] {
+    @include flex($direction: column);
+  }
+
+  &.wc_max { // maximised:
+    // important to override any inline CSS
+    // sass-lint:disable no-important
+    @include border-box;
+    left: 0 !important;
+    min-height: 100%;
+    min-width: 100%;
+    overflow: auto;
+    top: 0 !important;
+  }
+
+  > header,
+  > footer { // top and bottom bars of dialog
+    @include flex-grow(0);
+    @include flex-shrink(0);
+  }
+
+  > header {
+    @include flex($direction: row-reverse, $wrap: wrap,
+      $justify: space-between, $align-items: center);
+    padding: $wc-gap-small 0 $wc-gap-small $wc-gap-small;
+
+    > h1 { // the title
+      @include flex-grow(1);
+      @if $wc-ui-dialog-header-size != -1 {
+        font-size: $wc-ui-dialog-header-size;
+        margin: 0;
+      }
+    }
+
+    > span { // the header control 'block'
+      @include flex-align-self(flex-start);
+      line-height: 0;
+      margin-right: $wc-gap-small;
+    }
+
+    .wc_maxcont {
+      display: inline-block;
+    }
+
+    .wc_btn_icon + button {
+      margin-left: $wc-gap-small;
+    }
+  }
+
+  > div { // dialog content container
+    @include padded-box;
+    @include flex-grow(1);
+    // height: 100%;
+    overflow: auto;
+  }
+
+  > footer {
+    display: block;
+    line-height: 0;
+    padding: 0;
+    text-align: right;
+
+    button {
+      cursor: nwse-resize;
+
+      &::before {
+        padding: $wc-gap-small;
+      }
+    }
+
+    .fa {
+      opacity: .5;
+    }
+  }
+}
+
+@if $wc-ui-dialog-use-transitions == 1 {
+  // This is only here to make iPads work with the dialogFrame animations
+  // (i.e. not work at all).
+  @media only screen and (min-width: 1025px) {
+    // keyboard and resize event initiated drag and resize animation
+    .wc_resizeflow {
+      transition-delay: $wc-ui-dialog-transition-delay;
+      transition-duration: $wc-ui-dialog-transition-duration;
+      transition-property: left, top, height, width;
+      transition-timing-function: ease-in-out;
+    }
+  }
+}

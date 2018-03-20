@@ -8,23 +8,23 @@
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
 		<artifactId>wcomponents-parent</artifactId>
-		<version>1.4.25-SNAPSHOT</version>
+		<version>1.5.2-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<packaging>jar</packaging>
-	
+
 	<properties>
 		<bundle.sourcedir>${basedir}/src/main/resources/com/github/bordertech/wcomponents</bundle.sourcedir>
 		<generated.targetdir>${basedir}/dist/pot</generated.targetdir>
 	</properties>
-	
+
 	<description>
 		This module contains server-side and client-side default internationalization bundles.
 		It also provides an up-to-date list of messages that require translation.
 		It is suggested that projects with translations watch this project for updates to the messages.
 	</description>
-	
+
 	<build>
 		<plugins>
 			<plugin>

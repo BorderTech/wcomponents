@@ -1,0 +1,16 @@
+// #############################################################################
+// WFigure
+// #############################################################################
+
+figure {
+  @include flex($direction: column, $align-content: center);
+  @include margin($size: 0);
+
+  > .wc-content {
+    text-align: center;
+  }
+}
+
+figcaption {
+  text-align: center;
+}

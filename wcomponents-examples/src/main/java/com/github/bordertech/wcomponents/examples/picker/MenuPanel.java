@@ -7,7 +7,6 @@ import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.Size;
-import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WMenu;
@@ -302,12 +301,6 @@ final class MenuPanel extends WPanel {
 		boolean hasRecentMenu = menu.getMenuItems().size() > 0;
 		menu.setVisible(hasRecentMenu);
 		recentMenuHeading.setVisible(hasRecentMenu);
-		if (hasRecentMenu) {
-			WComponent selectedItem = menu.getSelectedMenuItem();
-			if (selectedItem != null && UIContextHolder.getCurrent().getFocussed() == null) {
-				selectedItem.setFocussed();
-			}
-		}
 	}
 
 	/**

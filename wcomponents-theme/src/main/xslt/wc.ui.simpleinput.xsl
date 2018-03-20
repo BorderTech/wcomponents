@@ -119,6 +119,16 @@
 							<xsl:value-of select="@autocomplete"/>
 						</xsl:attribute>
 					</xsl:when>
+					<xsl:when test="self::ui:emailfield">
+						<xsl:attribute name="autocomplete">
+							<xsl:text>email</xsl:text>
+						</xsl:attribute>
+					</xsl:when>
+					<xsl:when test="self::ui:phonenumberfield">
+						<xsl:attribute name="autocomplete">
+							<xsl:text>tel</xsl:text>
+						</xsl:attribute>
+					</xsl:when>
 				</xsl:choose>
 				<xsl:if test="@size">
 					<xsl:attribute name="size">
@@ -142,7 +152,7 @@
 				</xsl:if>
 			</xsl:element>
 			<xsl:if test="@list">
-				<button value="{concat(@id,'_input')}" tabindex="-1" id="{concat(@id, '_list')}" type="button" aria-hidden="true" class="wc_suggest wc_btn_icon wc-invite">
+				<button value="{concat(@id,'_input')}" tabindex="-1" id="{concat(@id, '_list')}" type="button" aria-hidden="true" class="wc_suggest wc-invite">
 					<xsl:call-template name="disabledElement"/>
 					<xsl:call-template name="icon">
 						<xsl:with-param name="class">

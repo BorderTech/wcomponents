@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
 		<artifactId>wcomponents-parent</artifactId>
-		<version>1.4.25-SNAPSHOT</version>	
+		<version>1.5.2-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -31,8 +31,8 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<!-- 
-				We need to use a custom assembly, has having the findbugs resources 
+				<!--
+				We need to use a custom assembly, has having the findbugs resources
 				present in the classpath breaks the Findbugs core plugin during test execution.
 				-->
 				<artifactId>maven-assembly-plugin</artifactId>

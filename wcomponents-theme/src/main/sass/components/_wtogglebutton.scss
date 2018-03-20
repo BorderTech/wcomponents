@@ -1,0 +1,66 @@
+// #############################################################################
+// WToggleButton
+// toggle button styles based on https://codepen.io/mallendeo/pen/eLIiG
+// #############################################################################
+
+// #############################################################################
+// VARIABLES
+// #############################################################################
+$wc-togglebutton-width: 2 * $wc-icon-size !default;
+// The transition when a toggle button is de/selected. Set to the single value
+// -1 to not use transitions.
+$wc-togglebutton-transition: all .4s ease !default;
+// The toggle button transition. Ignored if $wc-togglebutton-transition == -1
+$wc-togglebutton-transition-slider: left .3s cubic-bezier(.175, .885, .32, 1.275), padding .3s ease, margin .3s ease !default;
+
+$wc-togglebutton-border-width: 1px !default;
+// #############################################################################
+// calculated vars - do not change these
+
+$wc-togglebutton-double-border-width: 2 * $wc-togglebutton-border-width;
+$wc-togglebutton-slider-width: $wc-togglebutton-width / 2;
+// #############################################################################
+
+.wc-togglebutton {
+  &[data-wc-component],
+  > button {
+    @include border($width: $wc-togglebutton-border-width);
+    border-radius: $wc-togglebutton-slider-width;
+    display: inline-block;
+    height: $wc-togglebutton-slider-width;
+    position: relative;
+    width: $wc-togglebutton-width;
+
+    &::after {
+      @include border($width: $wc-togglebutton-border-width);
+      border-radius: $wc-togglebutton-slider-width;
+      content: '';
+      display: block;
+      height: calc(100% - #{$wc-togglebutton-double-border-width});
+      left: 0;
+      position: relative;
+      width: 50%;
+    }
+  }
+
+  > button {
+    outline: 0;
+    padding: 0;
+    user-select: none;
+
+    @if $wc-togglebutton-transition != -1 {
+      transition: $wc-togglebutton-transition;
+
+      &::after {
+        transition: $wc-togglebutton-transition-slider;
+      }
+    }
+  }
+
+  &.wc_ro_sel,
+  > [aria-checked='true'] {
+    &::after {
+      left: calc(50% - #{$wc-togglebutton-double-border-width});
+    }
+  }
+}

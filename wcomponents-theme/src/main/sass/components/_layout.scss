@@ -1,0 +1,311 @@
+
+// #############################################################################
+// WPanel Layouts and common layouts such as row/column (as it is ColunLayout).
+// You really don't want to be here - that is partially why it is all in the
+// same file now.
+// #############################################################################
+
+// #############################################################################
+// Variables
+// #############################################################################
+// WColumn, ColumnLayout
+// #############################################################################
+// Provides for a list of support COLUMN widths for WColumn and ColumnLayout.
+// This is similar to $wc-fieldlayout-labelwidth-list below but it is not likely you will want to
+// force the same list (though you could).
+//
+// * -1 means support all widths from 1% to 100%. This is a LOT of CSS (but not
+//   so much as the WFieldLayout variant).
+// * 0 means support columns with widths which are multiples of 5% if
+//   $wc-column-widths-include-fives == true, otherwise support nothing.
+// * a list of positive integer values means support all column widths which are
+//   a member of the list. Do not repeat multiples of 5% in the list: if
+//   $wc-column-widths-include-fives == true.
+//
+// This setting will support all available column widths but uses a lot of CSS:
+// $wc-column-list: -1 !default;
+// This setting will support all column widths which are positive integer
+// multiple of 5%:
+// $wc-column-list: 0 !default;
+// This setting will give you all multiples of 5 plus the widths (as %) included
+// in the list:
+$wc-column-list: 16, 33, 34, 66, 67, 83 !default;
+// $wc-column-list: 33 !default;
+// This is an ease-of-use helper for `$wc-column-list` which, if `true`, will
+// ensure column allowed widths includes all multiples of 5%. This is ignored
+// if `$wc-column-list` is set to -1.
+$wc-column-widths-include-fives: true !default;
+// #############################################################################
+// ListLayout
+// #############################################################################
+// ListLayout marker spacing. These are a bit odd but are here to make the lists
+// look OK across most browsers.
+$wc-list-layout-dot-spacing: 1.5rem !default;
+$wc-list-layout-ordered-spacing: 2rem !default;
+$wc-list-layout-bar-width-offset: 2 * $wc-gap-normal !default;
+// #############################################################################
+
+// #############################################################################
+// BorderLayout
+// NOTE BorderLayout is deprecated.
+// #############################################################################
+.wc_bl_mid {
+  // NOTE: the justification should be moot but keep it here
+  @include flex($justify: space-between);
+}
+
+.wc-center,
+.wc-east,
+.wc-west {
+  @include border-box;
+  @include flex-grow(1);
+  @include flex-shrink(1);
+
+  &:first-child:last-child {
+    width: 100%;
+  }
+}
+
+.wc-center {
+  min-width: 50%;
+
+  &:first-child,
+  &:last-child {
+    width: 75%;
+  }
+}
+
+.wc-east,
+.wc-west {
+  @include min-content;
+}
+
+.wc-east {
+  @include flex-justify-content(flex-end);
+  text-align: right;
+}
+
+// #############################################################################
+// FlowLayout
+// #############################################################################
+.wc-flowlayout {
+  @include flex($wrap: wrap, $justify: flex-start, $align-items: flex-start,
+    $align-content: flex-start);
+
+  > div {
+    display: inline-block;
+    max-width: 100%;
+    text-align: left;
+  }
+
+  &.wc-align-center {
+    @include flex-justify-content(center);
+  }
+
+  &.wc-align-right {
+    @include flex-justify-content(flex-end);
+  }
+
+  &.wc-align-vertical {
+    &,
+    & > div {
+      display: block;
+    }
+  }
+
+  // allow wrap to be turned off by setting a class on the containing panel.
+  .wc-flex-nowrap > & {
+    @include flex-wrap;
+  }
+}
+
+.wc_fl_baseline {
+  @include flex-align-items(baseline);
+}
+
+.wc_fl_bottom {
+  @include flex-align-items(flex-end);
+}
+
+.wc_fl_middle { // vertical align middle of the flow
+  @include flex-align-items(center);
+}
+
+// #############################################################################
+// GridLayout
+// #############################################################################
+// **READ THIS FIRST.**
+// GridLayout was first implemented as a CSS variation on a Java Swing or AWT
+// GridLayout. It is not a general purpose layout tool and is considered legacy
+// and is best avoided.
+// See https://github.com/BorderTech/wcomponents/wiki/WPanel-GridLayout
+// #############################################################################
+// The styles in this file assume we allow nested grids or grids with other
+// nested layouts. It would make less CSS if we did not assume this as we could
+// get of the intermediate row class in the  width settings.
+
+// rows in the GridLayout.
+.wc_gl_row {
+  @include flex;
+}
+
+// Width of grid cells for various numbers of columns.
+@for $i from 1 through 12 {
+  .wc-gridlayout-col-#{$i} > .wc_gl_row > .wc-cell {
+    width: percentage(1 / $i);
+  }
+}
+
+// #############################################################################
+// ListLayout and WList
+// #############################################################################
+.wc-listlayout {
+  @include tight-box;
+
+  &.wc-align-center,
+  &.wc-align-right {
+    list-style-position: inside;
+    margin-left: 0;
+  }
+}
+
+// need qualifiying element to differentiate from unordered listLayout
+// sass-lint:disable no-qualifying-elements
+ol.wc-listlayout {
+  margin-left: $wc-list-layout-ordered-spacing;
+
+  &.wc_list_nb {
+    margin-left: 0;
+  }
+
+  &.wc-listlayout-type-flat { // flat ordered lists use a pseudo-element with a counter
+    counter-reset: li;
+    margin-left: 0;
+
+    > li::before {
+      content: counter(li) '.';
+      counter-increment: li;
+      margin-right: $wc-gap-small;
+    }
+
+    &.wc_list_nb > li::before { // remove the counter if the separator is none
+      content: '';
+    }
+  }
+}
+
+.wc-listlayout-separator-bar,
+.wc-listlayout-type-flat {
+  list-style-type: none;
+}
+
+.wc-listlayout-separator-bar { // bar bullets
+  > li {
+    > * {
+      display: inline-block; // otherwise the marker wraps
+      vertical-align: middle;
+      width: calc(100% - #{$wc-list-layout-bar-width-offset});
+    }
+
+    &::before {
+      content: '|';
+      display: inline-block;
+      margin-right: $wc-gap-normal;
+      text-align: right;
+      width: .5em;
+    }
+  }
+
+  &.wc-listlayout-type-flat > li {
+    &::before {
+      display: inline;
+    }
+
+    &:first-child::before {
+      content: '';
+    }
+  }
+}
+
+.wc-listlayout-separator-dot { // 'normal' bullets
+  margin-left: $wc-list-layout-dot-spacing;
+
+  &.wc-listlayout-type-flat,
+  &.wc-align-right {
+    margin-left: 0;
+  }
+}
+
+.wc-listlayout-type-flat { // horizontal list
+  &.wc-listlayout-separator-dot > li + li::before {
+    // dot bullets should be default but need pseudo-elements for flat lists.
+    content: '\2022';
+    margin-right: $wc-gap-normal;
+  }
+
+  > li {
+    display: inline-block;
+    width: auto;
+
+    > * { // this rule keeps 'block' components inline in a flat list
+      display: inline-block;
+      width: auto;
+    }
+
+    + li { // This is a bit of a weird default non-zero space. Should it be here at all?
+      margin-left: $wc-gap-normal;
+    }
+  }
+}
+
+
+// #############################################################################
+// ColumnLayout WRow and WColumn (and a few other column-based controls)
+// #############################################################################
+// All rows have this class, not just WRow
+.wc-row {
+  @include flex;
+}
+
+// And all columns have this class, not just WColumn.
+.wc-column {
+  @include border-box;
+}
+
+// A set of column classes.
+@if $wc-column-list == -1 {
+  // Do we really need to support all 100 variants on column width?
+  // Probably not but if one need's to here is the Sass: all turned on by a variable value.
+  @for $i from 1 through 100 {
+    .wc_col_#{$i} {
+      width: percentage($i / 100);
+    }
+  }
+} @else {
+  @if $wc-column-widths-include-fives == true {
+    // Every multiple of 5%
+    @for $i from 1 through 20 {
+      $w: $i * 5;
+
+      .wc_col_#{$w} {
+        width: percentage($w / 100);
+      }
+    }
+  }
+  // and any other values in a list.
+  @if $wc-column-list != 0 {
+    @each $w in $wc-column-list {
+      .wc_col_#{$w} {
+        width: percentage($w / 100);
+      }
+    }
+  }
+}
+
+// #############################################################################
+// cells common to many layouts
+// .wc-cell is an item in a FlowLayout, ColumnLayout, ListLayout or GridLayout.
+// #############################################################################
+.wc-cell {
+  @include border-box;
+}

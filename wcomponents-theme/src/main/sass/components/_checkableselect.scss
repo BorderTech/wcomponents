@@ -1,0 +1,54 @@
+// #############################################################################
+// WCheckBoxSelect and WRadioButtonSelect
+// #############################################################################
+
+// Column layout - max number of cols to support. Must be greater than 2
+$wc-checkableselect-max-cols: 12 !default;
+// vertical space between options
+$wc-checkableselect-option-vertical-gap: $wc-gap-small !default;
+// horizontal space between options or columns of options
+$wc-checkableselect-option-horizontal-gap: $wc-gap-normal !default;
+
+.wc-checkableselect {
+  input {
+    margin-right: $wc-gap-small;
+  }
+
+  .wc-option {
+    display: block;
+
+    + .wc-option {
+      margin-top: $wc-checkableselect-option-vertical-gap;
+    }
+
+    &.wc-inline {
+      display: inline;
+    }
+  }
+
+  &.wc-layout-flat {
+    .wc-option {
+      display: inline;
+      margin-right: $wc-checkableselect-option-horizontal-gap;
+
+      + .wc-option {
+        margin-top: 0;
+      }
+
+      &:last-of-type {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+[data-wc-colcount] {
+  column-count: 2;
+  column-gap: $wc-checkableselect-option-horizontal-gap;
+}
+
+@for $colcount from 3 through $wc-checkableselect-max-cols {
+  [data-wc-colcount='#{$colcount}'] {
+    column-count: #{$colcount};
+  }
+}

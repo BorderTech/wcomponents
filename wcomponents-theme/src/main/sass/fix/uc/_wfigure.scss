@@ -1,0 +1,10 @@
+
+
+@if $wc-use-respond == true {
+  figcaption {
+    @include border-box;
+    display: block;
+    text-align: center;
+    width: 100%;
+  }
+}

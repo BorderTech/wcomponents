@@ -5,9 +5,43 @@
 ### API Changes
 
 ### Enhancements
+
+* Enable use of a JavaScript Sass compiler ((sass)[https://www.npmjs.com/package/sass]) instead of Vaadin Sass Compiler.
 * Server-side validation of File(s) uploaded using WFileWidget and WMultiFileWidget #1079.
 
 ### Bug Fixes
+
+* Fixed a Sass bug hidden by a flaw in the Vaadin Sass Compiler.
+
+## Release 1.5.1
+
+### API Changes
+
+* Changed WProgressBar API to better implement HTML spec:
+  - Deprecated WProgressBar members as follows:
+    - UnitType - not supported - `public void setUnitType(UnitType)` is now a no-op and `public WProgressBar.UnitType getUnitType()` will now always return `null`
+    - text - not required use toolTip instead - `public void setText(String)` is now a no-op and `public String getText()` will now always return `null`
+    - Constructors which reference UnitType
+  - Added constructors `public WProgressBar(ProgressBarType)` and `public WProgressBar(ProgressBarType, int)`
+  - Put type checks around constructors and setters so that `ProgressBarType` cannot be made `null` and `max` and `value` cannot be negative.
+
+### Enhancements
+
+* Changed the way themes are built to remove a vast amount of complexity and wasted styles. Improves maintainability and moves towards separation of style and structure in themes.
+* Updated renderer of WProgressBar to output HTML as part of #639.
+* Added JUnits for WProgressBar.
+* Updated renderers of WButton and WPrintButton (which has been un-deprecated) to output HTML as part of #639.
+
+### Bug Fixes
+
+* Fixed a XSLT issue which caused inconsistent placement of label hints #1476.
+* Fixed a Sass issue which could cause unexpected wrapping of content of read-only Inputs #1469.
+
+## Release 1.5.0
+
+### Enhancements
+
+* Enforce Java 1.8 as minimum compiler version and set source and target properties to 1.8 #1307.
 
 ## Release 1.4.24
 

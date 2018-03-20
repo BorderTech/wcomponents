@@ -45,21 +45,17 @@ public class WButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 	public void testBasic() throws IOException, SAXException, XpathException {
 		WButton button = new WButton("Basic");
 
-		// Validate Schema
-		assertSchemaMatch(button);
-		assertXpathExists("//ui:button[@id]", button);
-		assertXpathEvaluatesTo("Basic", "//ui:button", button);
-		assertXpathNotExists("//ui:button[@type]", button);
-		assertXpathNotExists("//ui:button[@disabled]", button);
-		assertXpathNotExists("//ui:button[@hidden]", button);
-		assertXpathNotExists("//ui:button[@toolTip]", button);
-		assertXpathNotExists("//ui:button[@imageUrl]", button);
-		assertXpathNotExists("//ui:button[@imagePosition]", button);
-		assertXpathNotExists("//ui:button[@accessKey]", button);
-		assertXpathNotExists("//ui:button[@ajax]", button);
-		assertXpathNotExists("//ui:button[@validates]", button);
-		assertXpathNotExists("//ui:button[@popup]", button);
-		assertXpathNotExists("//ui:button[@client]", button);
+		assertXpathExists("//html:button[@id]", button);
+		assertXpathEvaluatesTo("Basic", "//html:button", button);
+		assertXpathNotExists("//html:button[@disabled]", button);
+		assertXpathNotExists("//html:button[@hidden]", button);
+		assertXpathNotExists("//html:button[@title]", button);
+		assertXpathNotExists("//html:button[//html:img]", button);
+		assertXpathNotExists("//html:button[@accesskey]", button);
+		assertXpathNotExists("//html:button[following-sibling::ui:ajaxcontrol]", button);
+		assertXpathNotExists("//html:button[@data-wc-validate]", button);
+		assertXpathNotExists("//html:button[@aria-haspopup]", button);
+		assertXpathNotExists("//html:button[@type='button']", button);
 	}
 
 	@Test
@@ -88,33 +84,30 @@ public class WButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 		root.add(button);
 		root.add(validationComponent);
 
-		// Validate Schema
-		assertSchemaMatch(button);
-
-		assertXpathExists("//ui:button[@id]", button);
-		assertXpathEvaluatesTo("link", "//ui:button/@type", button);
-		assertXpathEvaluatesTo(button.getText(), "//ui:button", button);
-		assertXpathEvaluatesTo("true", "//ui:button/@disabled", button);
-		assertXpathEvaluatesTo("true", "//ui:button/@hidden", button);
-		assertXpathEvaluatesTo(button.getToolTip(), "//ui:button/@toolTip", button);
-		assertXpathUrlEvaluatesTo(button.getImageUrl(), "//ui:button/@imageUrl", button);
-		assertXpathEvaluatesTo("e", "//ui:button/@imagePosition", button);
-		assertXpathEvaluatesTo(button.getAccessKeyAsString(), "//ui:button/@accessKey", button);
-		assertXpathEvaluatesTo("true", "//ui:button/@popup", button);
-		assertXpathEvaluatesTo(validationComponent.getId(), "//ui:button/@validates", button);
+		assertXpathExists("//html:button[@id]", button);
+		assertXpathExists("//html:button[contains(@class, 'wc-linkbutton')]", button);
+		assertXpathEvaluatesTo(button.getText(), "//html:button", button);
+		assertXpathEvaluatesTo("disabled", "//html:button/@disabled", button);
+		assertXpathEvaluatesTo("hidden", "//html:button/@hidden", button);
+		assertXpathEvaluatesTo(button.getToolTip(), "//html:button/@title", button);
+		assertXpathUrlEvaluatesTo(button.getImageUrl(), "//html:button//html:img/@src", button);
+		assertXpathExists("//html:button/html:span[contains(@class, 'wc_btn_imge')]", button);
+		assertXpathEvaluatesTo(button.getAccessKeyAsString(), "//html:button/@accesskey", button);
+		assertXpathEvaluatesTo("true", "//html:button/@aria-haspopup", button);
+		assertXpathEvaluatesTo(validationComponent.getId(), "//html:button/@data-wc-validate", button);
 		assertXpathEvaluatesTo(button.getId(), "//ui:ajaxtrigger/@triggerId", button);
 
 		button.setImagePosition(ImagePosition.NORTH);
-		assertXpathEvaluatesTo("n", "//ui:button/@imagePosition", button);
+		assertXpathExists("//html:button/html:span[contains(@class, 'wc_btn_imgn')]", button);
 
 		button.setImagePosition(ImagePosition.SOUTH);
-		assertXpathEvaluatesTo("s", "//ui:button/@imagePosition", button);
+		assertXpathExists("//html:button/html:span[contains(@class, 'wc_btn_imgs')]", button);
 
 		button.setImagePosition(ImagePosition.WEST);
-		assertXpathEvaluatesTo("w", "//ui:button/@imagePosition", button);
+		assertXpathExists("//html:button/html:span[contains(@class, 'wc_btn_imgw')]", button);
 
 		button.setClientCommandOnly(true);
-		assertXpathEvaluatesTo("true", "//ui:button/@client", button);
+		assertXpathEvaluatesTo("button", "//html:button/@type", button);
 	}
 
 	@Test
@@ -123,10 +116,10 @@ public class WButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertSafeContent(button);
 
-		button.setToolTip(getMaliciousAttribute("ui:button"));
+		button.setToolTip(getMaliciousAttribute("html:button"));
 		assertSafeContent(button);
 
-		button.setAccessibleText(getMaliciousAttribute("ui:button"));
+		button.setAccessibleText(getMaliciousAttribute("html:button"));
 		assertSafeContent(button);
 
 		button.setImageUrl(getMaliciousAttribute());
@@ -139,6 +132,6 @@ public class WButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 		String expected = "alt text";
 		WImage buttonImage = new WImage("http://localhost/image.png", expected);
 		button.setImage(buttonImage.getImage());
-		assertXpathEvaluatesTo(expected, "//ui:button/@toolTip", button);
+		assertXpathEvaluatesTo(expected, "//html:button/@title", button);
 	}
 }
