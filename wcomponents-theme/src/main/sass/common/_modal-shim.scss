@@ -14,9 +14,5 @@
   top: 0;
   width: 100%;
   z-index: $wc-z-index-modal-shim;
-
-  &.wc_shim_loading { // (un)loading indicator shim
-    z-index: $wc-z-index-unloading-shim;
-  }
 }
 // sass-lint:enable no-ids

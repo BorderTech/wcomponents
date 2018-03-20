@@ -16,8 +16,12 @@
         &,
         > .wc-panel {
           > .wc-content > .wc-menu-type-bar:first-child {
-            $neg-margin: -$wc-section-space-reduced;
-            margin: $neg-margin $neg-margin $wc-section-space-reduced;
+            @if $wc-section-space-reduced > 0 {
+              $neg-margin: -$wc-section-space-reduced;
+              margin: $neg-margin $neg-margin $wc-section-space-reduced;
+            } @else {
+              margin: 0;
+            }
           }
         }
       }

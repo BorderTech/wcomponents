@@ -157,13 +157,7 @@
 					<xsl:text>},&#10;"wc/loader/style":{</xsl:text>
 					<xsl:value-of select="concat('cssBaseUrl:&quot;', normalize-space($resourceRoot), '${css.target.dir.name}/&quot;,&#10;')"/>
 					<xsl:value-of select="concat('cachebuster:&quot;', $cacheBuster, '&quot;,&#10;')"/>
-					<xsl:value-of select="'loadPhone:true'"/>
 					<xsl:text>}};&#10;</xsl:text>
-					<!--
-						The timings must be collected as early as possible in the page lifecycle
-						and since this is the very first script that runs we need to put it here.
-						This is also why we build the config BEFORE we load the AMD loader.
-					-->
 					<xsl:text>
 	try{
 		timing = {};
@@ -181,12 +175,6 @@
 	else require = config;
 })();</xsl:text>
 				</script>
-
-				<!--
-					non-AMD compatible fixes for IE: things that need to be fixed before we can require anything but
-					have to be added after we have included requirejs/require.
-				-->
-				<!--<xsl:call-template name="makeIE8CompatScripts"/>-->
 				<!--
 					Load requirejs
 				-->
@@ -194,24 +182,17 @@
 
 				<script type="text/javascript" class="registrationScripts" async="async">
 					<xsl:text>require(["wc/compat/compat!"], function(){</xsl:text>
-					<xsl:text>require(["wc/loader/style"],function(s){s.load();});</xsl:text>
-					<xsl:apply-templates select="ui:application/ui:css" mode="inHead"/>
-					<xsl:apply-templates select=".//html:link[@rel eq 'stylesheet']" mode="inHead"/>
+					<xsl:text>require(["wc/common"], function(){</xsl:text>
 					<xsl:if test="$registeredComponents ne ''">
-						<xsl:text>require(["wc/common"], function(){</xsl:text>
 						<xsl:value-of select="$registeredComponents"/>
-						<xsl:text>});</xsl:text>
 					</xsl:if>
-					<xsl:text>});</xsl:text>
-				</script>
-
-				<!--<script type="text/javascript" class="registrationScripts" async="async">
-					<xsl:text>require(["wc/compat/compat!"], function(){</xsl:text>
-					<xsl:text>require(["wc/loader/style"],function(s){s.load();});</xsl:text>
+					<xsl:text>require(["wc/loader/style"],function(s){s.load();</xsl:text>
 					<xsl:apply-templates select="ui:application/ui:css" mode="inHead"/>
 					<xsl:apply-templates select=".//html:link[@rel eq 'stylesheet']" mode="inHead"/>
-					<xsl:text>});</xsl:text>
-				</script>-->
+					<xsl:text>});</xsl:text><!-- end style loader -->
+					<xsl:text>});</xsl:text><!-- end common -->
+					<xsl:text>});</xsl:text><!-- end compat -->
+				</script>
 
 				<!--
 					We grab all base, meta and link elements from the content and place
@@ -230,14 +211,6 @@
 				<noscript>
 					<p>You must have JavaScript enabled to use this application.</p>
 				</noscript>
-<!--				<xsl:if test="$registeredComponents!=''">
-					<div id="wc-shim" class="wc_shim_loading">
-						<xsl:text>&#xa0;</xsl:text>
-					</div>
-					<div id="wc-ui-loading">
-						<div tabindex="0" class="fa fa-spinner fa-spin">&#x200b;</div>
-					</div>
-				</xsl:if>-->
 				<xsl:apply-templates >
 					<xsl:with-param name="nojs">
 						<xsl:choose>
@@ -261,19 +234,6 @@
 			<link rel="shortcut icon" href="{$href}"/>
 		</xsl:if>
 	</xsl:template>
-	<!--
-		IE 8 and below needs a helper to recognise HTML5 elemnts as HTML elements. This needs to happen so very early that we cannot use require to
-		load it. We can use an IE conditional comment to limit this code to IE8 and before.
-	-->
-	<!--<xsl:template name="makeIE8CompatScripts">
-		<xsl:comment>[if lte IE 8] &gt;
-&lt;script type="text/javascript"&gt;
-(function(){
-	var i, el=["details","datalist","aside","dialog","summary","section","header","nav","footer","meter","output","progress","audio","video","source","time","track","figcaption","figure"];
-	for (i = 0; i &lt; el.length; i++){ document.createElement(el[i]); } })();
-&lt;/script&gt;
-&lt;![endif]</xsl:comment>
-	</xsl:template>-->
 
 	<xsl:template name="cssUrl">
 		<xsl:param name="filename"/>

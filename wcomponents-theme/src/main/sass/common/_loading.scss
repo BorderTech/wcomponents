@@ -11,7 +11,6 @@ $wc-loading-icon: $fa-var-spinner !default;
 // Should the loading indicate spin? Set to anything other than 1 to turn off.
 $wc-loading-animate: 1 !default;
 
-
 @if $wc-loading-animate == 1 {
   // Allow Vendor Prefix for animation.
   // sass-lint:disable no-vendor-prefixes
@@ -29,28 +28,6 @@ $wc-loading-animate: 1 !default;
   }
   // sass-lint:enable no-vendor-prefixes
 }
-
-// loading indicator is generated and identified
-// sass-lint:disable no-ids
-#wc-ui-loading {
-  // NOTE
-  // If one wanted to center the loading indicator it would be much easier to
-  // do it using a flex layout and optionally offsetting the inner div using
-  // position relative.
-  // eg: flex($justify: center, $align-items: center, $align-content: center);
-  height: 100%;
-  left: 0;
-  position: fixed;
-  text-align: center;
-  top: 0;
-  width: 100%;
-  z-index: $wc-z-index-unloading-message;
-
-  > div {
-    margin-top: 25%;
-  }
-}
-// sass-lint:enable no-ids
 
 // #############################################################################
 // aria-busy areas
