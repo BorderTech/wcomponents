@@ -91,6 +91,9 @@ public final class FileUtil {
 	 * @return human readable message
 	 */
 	public static String getInvalidFileTypeMessage(final List<String> fileTypes) {
+		if (fileTypes  == null) {
+		    return null;
+		}
 		return String.format(I18nUtilities.format(null, 
 				InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_TYPE), 
 				StringUtils.join(fileTypes.toArray(new Object[fileTypes.size()]), ","));

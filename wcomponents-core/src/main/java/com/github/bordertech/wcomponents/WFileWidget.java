@@ -88,10 +88,11 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	/**
 	 * @see setFileTypes(List<>)
 	 * @see setFileTypes(String[])
-	 * @return {@code} true if one or more file type is supplied.
+	 * @return {@code true} if one or more file type is supplied.
 	 */
 	public boolean hasFileTypes() {
-		return getComponentModel().fileTypes != null && getComponentModel().fileTypes.size() > 0;
+		FileWidgetModel fileWidgetModel = getComponentModel();
+		return fileWidgetModel.fileTypes != null && fileWidgetModel.fileTypes.size() > 0;
 	}
 
 	/**
@@ -166,8 +167,13 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	 * Reset validation state.
 	 */
 	private void resetValidationState() {
-		getOrCreateComponentModel().validFileType = true;
-		getOrCreateComponentModel().validFileSize = true;
+		// Update the model only if the original state has changed
+		if (!getComponentModel().validFileSize) {
+		    getOrCreateComponentModel().validFileType = true;
+		}
+		if (!getComponentModel().validFileSize) {
+		    getOrCreateComponentModel().validFileSize = true;
+		}
 	}
 
 	/**
