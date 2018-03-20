@@ -22,7 +22,7 @@
 	<property name="sass.tmp.src.dir" location="${tmp.dir}/sass" />
 	<!-- final destination for built CSS. -->
 	<property name="css.build.target.dir" location="${target.rootdir}/${css.target.dir.name}"/>
-	<!-- which sass comiler to use: js for node or java for Vaadin Sass Compiler -->
+	<!-- which sass compiler to use: js for node or java for Vaadin Sass Compiler -->
 	<property name="sass.compiler" value="js" />
 
 	<target name="build" depends="init, copySassSrc, compileSass, minify" description="Builds CSS artifacts then minifies them"> </target>
@@ -82,7 +82,7 @@
 	</target>
 
 	<!--
-		Compile Sass to CSS using sass (https://www.npmjs.com/package/sass)
+		Compile Sass to CSS using sass ( https://www.npmjs.com/package/sass )
 		or Vaadin Sass-compiler wrapped by SassTask for efficiency.
 	-->
 	<target name="compileSass">
