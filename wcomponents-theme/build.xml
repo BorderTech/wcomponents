@@ -57,10 +57,10 @@
 		<mkdir dir="${output.dir}"/>
 		<mkdir dir="${sub.impl.dir}"/>
 		<echo level="info">Build properties can be overriden in any of the following locations (in order of decreasing priority):
-*  ${user.home}/.wc/${user.name}.xml (in user home dir)
-*  ${user.home}/.wc/wc_theme_build_properties.xml (in user home dir)
-*  ${component.rootdir}/${user.name}.xml (in the project root dir)
-*  ${component.rootdir}/wc_theme_build_properties.xml (in the project root dir)</echo>
+  *  ${user.home}/.wc/${user.name}.xml (in user home dir)
+  *  ${user.home}/.wc/wc_theme_build_properties.xml (in user home dir)
+  *  ${component.rootdir}/${user.name}.xml (in the project root dir)
+  *  ${component.rootdir}/wc_theme_build_properties.xml (in the project root dir)</echo>
 		<!-- We create this package.json file so that we can install node modules locally -->
 		<echo force="true" file="${basedir}/.npmrc"># This is a per-project .npmrc file.
 # Do not add this file to source control!

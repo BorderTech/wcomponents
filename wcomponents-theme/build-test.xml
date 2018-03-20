@@ -144,15 +144,15 @@
 			</copy>
 
 			<property name="intern.executable" location="${basedir}/node_modules/intern/runner.js"/>
-			<echo level="info">Running client side unit tests.
+			<echo level="info">
+Running client side unit tests.
+================================
 If you get errors and need to run them locally the easiest way is to run a local webserver from the theme directory.
 For your convenience we the WComponents theme comes with a jetty server ready to go. After building the tests run (from the theme project):
 
-	mvn jetty:start
+    mvn jetty:start
 
-Now open a web browser and visit:
-
-	http://localhost:8080/target/
+Now open a web browser and visit: http://localhost:8080/target/
 
 Clicky the linky and the tests should run.
 			</echo>

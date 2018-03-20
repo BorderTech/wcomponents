@@ -175,12 +175,16 @@
 			<echo file="${jshintignore}" force="true"># Only ignore third-party scripts
 **/lib/**
 </echo>
-			<echo>If the build fails here it means static analysis has detected Javascript issues.
+			<echo>
+☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠
+If the build fails here it means static analysis has detected Javascript issues.
 Please read the issues below and remedy them.
 All issue descriptions will yield results on Google, or contact your tech lead for help.
 
 If you have "'variable' is not defined" then please fix it (your forgot to use 'var' or you have a typo).
-In AMD there should be no global variables besides 'require' and 'define'.</echo>
+In AMD there should be no global variables besides 'require' and 'define'.
+☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠
+</echo>
 			<echo level="verbose">node ${jshint.executable} @{jsdir} --config ${jshintrc} --ignore-path ${jshintignore}</echo>
 			<nodejs.exec cwd="${basedir}" failonerror="@{failonerror}">
 				<arguments>
@@ -240,7 +244,9 @@ In AMD there should be no global variables besides 'require' and 'define'.</echo
 				<os family="windows"/>
 			</condition>
 			<echo>
-				If npm hangs then make sure you have set your ${user.home}/.npmrc file correctly.
+☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠
+  If npm hangs then make sure you have set your ${user.home}/.npmrc file correctly.
+☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠
 			</echo>
 			<nodejs.exec cwd="@{cwd}" failonerror="@{failonerror}">
 				<arguments>

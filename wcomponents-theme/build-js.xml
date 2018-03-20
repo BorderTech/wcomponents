@@ -190,7 +190,6 @@
 	<macrodef name="writeRjsConfig">
 		<attribute name="optimizer"/>
 		<sequential>
-			<echo>current log level: ${rjs.log.level}</echo>
 			<echo file="${tmp.dir}/build-js.js">
 ({
 	preserveLicenseComments: false,
