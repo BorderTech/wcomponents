@@ -55,6 +55,7 @@
 		Issue raised with intern. https://github.com/theintern/intern/issues/744.
 		-->
 		<test.intern.version>3.4.4</test.intern.version><!-- intern version: use ~3.4.3 for nexus 3+, ~3.0.6 if you are stuck with Nexus 2 -->
+		<sass.compiler.lang>js</sass.compiler.lang><!-- "js" to use node to compile sass or "java" to use Vaadin Sass Compiler -->
 	</properties>
 
 	<build>
@@ -203,6 +204,7 @@
 								<property name="build.rootdir" location="${theme.target.dir}" />
 								<property name="theme.skip.tests" value="true" />
 								<property name="maven.plugin.classpath" refid="maven.plugin.classpath" />
+								<property name="sass.compiler.lang" value="${sass.compiler.lang}" />
 								<ant antfile="${theme.core.dir}/build.xml">
 									<target name="build" />
 								</ant>
@@ -228,7 +230,7 @@
 								<property name="build.rootdir" location="${theme.target.dir}" />
 								<property name="theme.skip.tests" value="${skipOptionalTests}" />
 								<property name="maven.plugin.classpath" refid="maven.plugin.classpath" />
-								<!--<property name="theme.skip.tests" value="${skipOptionalTests}" />-->
+								<property name="sass.compiler.lang" value="${sass.compiler.lang}" />
 								<ant antfile="${theme.core.dir}/build.xml">
 									<target name="test" />
 								</ant>

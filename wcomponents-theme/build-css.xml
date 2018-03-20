@@ -23,7 +23,7 @@
 	<!-- final destination for built CSS. -->
 	<property name="css.build.target.dir" location="${target.rootdir}/${css.target.dir.name}"/>
 	<!-- which sass compiler to use: js for node or java for Vaadin Sass Compiler -->
-	<property name="sass.compiler" value="js" />
+	<property name="sass.compiler" value="${sass.compiler.lang}" />
 
 	<target name="build" depends="init, copySassSrc, compileSass, minify" description="Builds CSS artifacts then minifies them"> </target>
 
@@ -90,6 +90,7 @@
 		<if>
 			<equals arg1="${sass.compiler}" arg2="java"/>
 			<then>
+				<echo>WARNING: using Vaadin Sass Compiler</echo>
 				<taskdef name="sass" classname="com.github.bordertech.wcomponents.sass.SassTask" classpathref="project.class.path"/>
 				<sass in="${sass.tmp.src.dir}" out="${css.tmp.target.dir}" urlmode="absolute"/>
 			</then>
