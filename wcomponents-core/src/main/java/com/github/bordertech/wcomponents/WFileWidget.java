@@ -135,17 +135,26 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 		if (changed) {
 			// Reset validation fields
 			resetValidationState();
-			
+			// if User Model exists it will be returned, othewise Shared Model is returned
+			final FileWidgetModel sharedModel = getComponentModel();
+			// if User Model exists it will be returned, othewise it will be created
+			final FileWidgetModel userModel = getOrCreateComponentModel();
 			// if fileType is supplied then validate it
 			if (hasFileTypes()) {
 				boolean validFileType = FileUtil.validateFileType(value, getFileTypes());
-				getOrCreateComponentModel().validFileType = validFileType;
+				// If invalid only then update 
+				if (sharedModel.validFileType != validFileType) {
+					userModel.validFileType = validFileType;
+				}
 			}
 			
 			// if fileSize is supplied then validate it
 			if (hasMaxFileSize()) {
 				boolean validFileSize = FileUtil.validateFileSize(value, getMaxFileSize());
-				getOrCreateComponentModel().validFileSize = validFileSize;
+				// If invalid only then update 
+				if (sharedModel.validFileSize != validFileSize) {
+					userModel.validFileSize = validFileSize;
+				}
 			}
 			
 			// if file is valid, the update data
@@ -167,11 +176,14 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	 * Reset validation state.
 	 */
 	private void resetValidationState() {
-		// Update the model only if the original state has changed. A user specific model is created
-		// if state changes for either of the fields.
-		if (!getComponentModel().validFileSize || !getComponentModel().validFileSize) {
-		    getOrCreateComponentModel().validFileType = true;
-		    getOrCreateComponentModel().validFileSize = true;
+		// if User Model exists it will be returned, othewise Shared Model is returned
+		final FileWidgetModel componentModel = getComponentModel();
+		// If Shared Model is returned then both fileType and fileSize are always valid
+		// If User Model is returned then reset back to true
+		if (!componentModel.validFileSize || !componentModel.validFileType) {
+		    // If the state has changed then we know for certain a user model exists
+		    componentModel.validFileType = true;
+		    componentModel.validFileSize = true;
 		}
 	}
 

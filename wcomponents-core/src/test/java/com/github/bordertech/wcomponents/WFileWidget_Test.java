@@ -388,7 +388,7 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 		request = setupFileUploadRequest(widget, TEST_FILE_ITEM2);
 		changed = widget.doHandleRequest(request);
 		
-		Assert.assertEquals("File size invalid, so original file exists", changed, true);
+		Assert.assertEquals("File size invalid, but original file exists", changed, true);
 		widget.validate(diags);
 		Assert.assertTrue("File size invalid, so message returned", diags.size() == 1);
 		Assert.assertFalse("File size invalid", widget.isFileSizeValid());
@@ -397,7 +397,7 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 	}
 	
 	@Test
-	public void testInValidFileTypeAndSize() throws IOException {
+	public void testInvalidFileTypeAndSize() throws IOException {
 		WFileWidget widget = new WFileWidget();
 		setActiveContext(createUIContext());
 		widget.setFileTypes(Arrays.asList("image/gif", "image/jpeg"));
@@ -421,6 +421,45 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 		Assert.assertTrue(diags.size() == 2);
 		Assert.assertFalse(widget.isFileTypeValid());
 		Assert.assertFalse(widget.isFileSizeValid());
+		
+		widget.setFileTypes(Collections.EMPTY_LIST);
+		request = setupFileUploadRequest(widget, TEST_FILE_ITEM);
+		changed = widget.doHandleRequest(request);
+		Assert.assertEquals("File valid", changed, true);
+		Assert.assertTrue(widget.isFileTypeValid());
+		Assert.assertTrue(widget.isFileSizeValid());
+	}
+	
+	@Test
+	public void testFileTypeInvalidThenValid() {
+		WFileWidget widget = new WFileWidget();
+		setActiveContext(createUIContext());
+		widget.setFileTypes(Arrays.asList("image/gif", "image/jpeg"));
+		MockRequest request = setupFileUploadRequest(widget, TEST_FILE_ITEM2);
+		boolean changed = widget.doHandleRequest(request);
+		Assert.assertEquals("File invalid, no file uploaded", changed, false);
+		Assert.assertFalse(widget.isFileTypeValid());
+		
+		widget.setFileTypes(Collections.EMPTY_LIST);
+		changed = widget.doHandleRequest(request);
+		Assert.assertEquals("File valid", changed, true);
+		Assert.assertTrue(widget.isFileTypeValid());
+	}
+	
+	@Test
+	public void testFileSizeInvalidThenValid() {
+		WFileWidget widget = new WFileWidget();
+		setActiveContext(createUIContext());
+		widget.setMaxFileSize(10);
+		MockRequest request = setupFileUploadRequest(widget, TEST_FILE_ITEM2);
+		boolean changed = widget.doHandleRequest(request);
+		Assert.assertEquals("File invalid, no file uploaded", changed, false);
+		Assert.assertFalse(widget.isFileSizeValid());
+		
+		widget.setMaxFileSize(0);
+		changed = widget.doHandleRequest(request);
+		Assert.assertEquals("File valid", changed, true);
+		Assert.assertTrue(widget.isFileTypeValid());
 	}
 	
 	/**
