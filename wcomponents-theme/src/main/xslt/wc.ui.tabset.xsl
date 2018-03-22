@@ -7,10 +7,8 @@
 	<xsl:template match="ui:tabset">
 		<div id="{@id}">
 			<xsl:call-template name="makeCommonClass"/>
-			<xsl:call-template name="disabledElement">
-				<xsl:with-param name="isControl" select="0"/>
-			</xsl:call-template>
-			<xsl:call-template name="hideElementIfHiddenSet"/>
+			<xsl:if test="@disabled"><xsl:attribute name="aria-disabled">true</xsl:attribute></xsl:if>
+			<xsl:if test="@hidden"><xsl:attribute name="hidden"><xsl:text>hidden</xsl:text></xsl:attribute></xsl:if>
 			<xsl:if test="@groupName">
 				<xsl:attribute name="data-wc-group">
 					<xsl:value-of select="@groupName"/>
@@ -101,7 +99,7 @@
 					<xsl:text>wc-invite</xsl:text>
 				</xsl:with-param>
 			</xsl:call-template>
-			<xsl:call-template name="title"/>
+			<xsl:if test="@toolTip"><xsl:attribute name="title"><xsl:value-of select="@toolTip"/></xsl:attribute></xsl:if>
 			<!--
 				This is cheaper than calling template disabledElement for the tab and the tabset in turn
 			-->
@@ -112,9 +110,19 @@
 			</xsl:if>
 			<!-- do not allow open tabs to be hidden -->
 			<xsl:if test="not(@open)">
-				<xsl:call-template name="hideElementIfHiddenSet"/>
+				<xsl:if test="@hidden"><xsl:attribute name="hidden"><xsl:text>hidden</xsl:text></xsl:attribute></xsl:if>
 			</xsl:if>
-			<xsl:call-template name="accessKey"/>
+			<xsl:if test="@accessKey">
+				<xsl:attribute name="accesskey">
+					<xsl:value-of select="@accessKey"/>
+				</xsl:attribute>
+				<xsl:attribute name="aria-describedby">
+					<xsl:value-of select="concat(@id,'_wctt')"/>
+				</xsl:attribute>
+				<span id="{concat(@id,'_wctt')}" role="tooltip" hidden="hidden">
+					<xsl:value-of select="@accessKey"/>
+				</span>
+			</xsl:if>
 			<xsl:apply-templates select="ui:decoratedlabel">
 				<xsl:with-param name="output" select="'div'"/>
 			</xsl:apply-templates>
@@ -167,7 +175,9 @@
 				</xsl:choose>
 			</xsl:attribute>
 			<xsl:if test="number($open) ne 1">
-				<xsl:call-template name="hiddenElement"/>
+				<xsl:attribute name="hidden">
+					<xsl:text>hidden</xsl:text>
+				</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="($mode eq 'lazy') or ($mode eq 'eager') or ($mode eq 'dynamic')">
 				<xsl:attribute name="data-wc-ajaxalias">

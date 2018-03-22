@@ -12,9 +12,15 @@
 	<xsl:template match="ui:decoratedlabel">
 		<xsl:param name="output" select="'span'"/>
 		<xsl:element name="{$output}">
-			<xsl:call-template name="commonAttributes">
-				<xsl:with-param name="isWrapper" select="1"/>
-			</xsl:call-template>
+			<xsl:attribute name="id">
+				<xsl:value-of select="@id" />
+			</xsl:attribute>
+			<xsl:call-template name="makeCommonClass"/>
+			<xsl:if test="@hidden">
+				<xsl:attribute name="hidden">
+					<xsl:text>hidden</xsl:text>
+				</xsl:attribute>
+			</xsl:if>			
 			<xsl:apply-templates select="*">
 				<xsl:with-param name="output" select="$output"/>
 			</xsl:apply-templates>

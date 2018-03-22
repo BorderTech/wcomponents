@@ -7,15 +7,19 @@
 	-->
 	<xsl:template match="ui:figure">
 		<xsl:variable name="mode" select="@mode"/>
-		<figure>
-			<xsl:call-template name="commonAttributes">
-				<xsl:with-param name="isWrapper" select="1"/>
-				<xsl:with-param name="class">
+		<figure id="{@id}">
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional">
 					<xsl:if test="$mode eq 'lazy' and @hidden">
 						<xsl:text>wc_magic</xsl:text>
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
+			<xsl:if test="@hidden">
+				<xsl:attribute name="hidden">
+					<xsl:text>hidden</xsl:text>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:if test="ui:content or ui:decoratedLabel or not($mode eq 'eager')">
 				<xsl:apply-templates select="ui:content"/>
 				<figcaption>

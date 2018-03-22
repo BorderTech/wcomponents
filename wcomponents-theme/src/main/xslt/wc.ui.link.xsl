@@ -18,22 +18,34 @@
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:element name="{$elementType}">
-			<xsl:call-template name="commonAttributes">
-				<xsl:with-param name="isControl">
-					<xsl:choose>
-						<xsl:when test="@type">
-							<xsl:number value="1"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:number value="0"/>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:with-param>
-				<xsl:with-param name="class">
+			<xsl:attribute name="id">
+				<xsl:value-of select="@id" />
+			</xsl:attribute>
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional">
 					<xsl:if test="not(@type) and @imageUrl and @imagePosition">wc_a_ilb</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
-			<xsl:call-template name="title"/>
+			<xsl:if test="@disabled">
+				<xsl:choose>
+					<xsl:when test="@type">
+						<xsl:attribute name="disabled">
+							<xsl:text>disabled</xsl:text>
+						</xsl:attribute>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:attribute name="aria-disabled">
+							<xsl:text>true</xsl:text>
+						</xsl:attribute>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:if>
+			<xsl:if test="@hidden">
+				<xsl:attribute name="hidden">
+					<xsl:text>hidden</xsl:text>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="@toolTip"><xsl:attribute name="title"><xsl:value-of select="@toolTip"/></xsl:attribute></xsl:if>
 			<xsl:choose>
 				<xsl:when test="@type">
 					<xsl:attribute name="type">
@@ -89,7 +101,17 @@
 					</xsl:if>
 				</xsl:otherwise>
 			</xsl:choose>
-			<xsl:call-template name="accessKey"/>
+			<xsl:if test="@accessKey">
+				<xsl:attribute name="accesskey">
+					<xsl:value-of select="@accessKey"/>
+				</xsl:attribute>
+				<xsl:attribute name="aria-describedby">
+					<xsl:value-of select="concat(@id,'_wctt')"/>
+				</xsl:attribute>
+				<span id="{concat(@id,'_wctt')}" role="tooltip" hidden="hidden">
+					<xsl:value-of select="@accessKey"/>
+				</span>
+			</xsl:if>
 			<xsl:choose>
 				<xsl:when test="@imageUrl">
 					<xsl:variable name="alt">

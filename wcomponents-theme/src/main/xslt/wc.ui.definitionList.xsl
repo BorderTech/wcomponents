@@ -6,10 +6,13 @@
 		The actual layout of the DT and DD descendants depends on the value of the type attribute.
 	-->
 	<xsl:template match="ui:definitionlist">
-		<dl>
-			<xsl:call-template name="commonAttributes">
-				<xsl:with-param name="isWrapper" select="1"/>
-			</xsl:call-template>
+		<dl id="{@id}">
+			<xsl:call-template name="makeCommonClass"/>
+			<xsl:if test="@hidden">
+				<xsl:attribute name="hidden">
+					<xsl:text>hidden</xsl:text>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:apply-templates select="ui:term"/>
 		</dl>
 	</xsl:template>

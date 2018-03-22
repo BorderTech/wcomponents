@@ -1,7 +1,52 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributes.xsl"/>
-	<xsl:import href="wc.common.icon.xsl"/>
+
+	<!-- Transform for WSelectToggle. -->
+	<xsl:template match="ui:selecttoggle">
+		<xsl:choose>
+			<xsl:when test="@renderAs eq 'control'">
+				<span id="{@id}" class="{normalize-space(concat('wc-selecttoggle', ' ', @class, ' ', 'wc-input-wrapper'))}">
+					<xsl:call-template name="selectToggle">
+						<xsl:with-param name="id" select="concat(@id, '_input')"/>
+						<xsl:with-param name="for" select="@target"/>
+						<xsl:with-param name="name" select="@id"/>
+						<xsl:with-param name="selected" select="@selected"/>
+						<xsl:with-param name="type">
+							<xsl:text>control</xsl:text>
+						</xsl:with-param>
+					</xsl:call-template>
+				</span>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:call-template name="selectToggle">
+					<xsl:with-param name="for" select="@target"/>
+					<xsl:with-param name="name" select="@id"/>
+					<xsl:with-param name="selected" select="@selected"/>
+					<xsl:with-param name="type">
+						<xsl:text>text</xsl:text>
+					</xsl:with-param>
+				</xsl:call-template>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	
+	<!--
+		Template match="ui:selecttoggle" mode="JS"
+		
+		This template creates JSON objects required to register named group 
+		controllers.
+	-->
+	<xsl:template match="ui:selecttoggle" mode="JS">
+		<xsl:text>{"identifier":"</xsl:text>
+		<xsl:value-of select="@id"/>
+		<xsl:text>","groupName":"</xsl:text>
+		<xsl:value-of select="@target"/>
+		<xsl:text>"}</xsl:text>
+		<xsl:if test="position() ne last()">
+			<xsl:text>,</xsl:text>
+		</xsl:if>
+	</xsl:template>
 	
 	<!-- Output expand all and collapse all buttons. -->
 	<xsl:template name="collapsibleToggle">
@@ -82,9 +127,7 @@
 						</xsl:with-param>
 					</xsl:call-template>
 					<xsl:if test="self::ui:selecttoggle">
-						<xsl:call-template name="disabledElement">
-							<xsl:with-param name="isControl" select="0"/>
-						</xsl:call-template>
+						<xsl:if test="@disabled"><xsl:attribute name="aria-disabled">true</xsl:attribute></xsl:if>
 					</xsl:if>
 					<xsl:variable name="subClass">
 						<xsl:value-of select="concat('wc_', local-name(.), ' wc_seltog')"/>
@@ -155,24 +198,23 @@
 						</xsl:with-param>
 					</xsl:call-template>
 					<xsl:if test="self::ui:selecttoggle">
-						<xsl:call-template name="disabledElement"/>
+						<xsl:if test="@disabled"><xsl:attribute name="disabled"><xsl:text>disabled</xsl:text></xsl:attribute></xsl:if>
 					</xsl:if>
-					<xsl:call-template name="icon">
-						<xsl:with-param name="class">
-							<xsl:text>fa-</xsl:text>
-							<xsl:choose>
-								<xsl:when test="$selected eq 'all'">
-									<xsl:text>check-square-o</xsl:text>
-								</xsl:when>
-								<xsl:when test="$selected eq 'some'">
-									<xsl:text>square</xsl:text>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:text>square-o</xsl:text>
-								</xsl:otherwise>
-							</xsl:choose>
-						</xsl:with-param>
-					</xsl:call-template>
+					<xsl:variable name="iconclass">
+						<xsl:text>fa-</xsl:text>
+						<xsl:choose>
+							<xsl:when test="$selected eq 'all'">
+								<xsl:text>check-square-o</xsl:text>
+							</xsl:when>
+							<xsl:when test="$selected eq 'some'">
+								<xsl:text>square</xsl:text>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:text>square-o</xsl:text>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:variable>
+					<i aria-hidden="true" class="fa {$iconclass}"></i>
 				</button>
 			</xsl:otherwise>
 		</xsl:choose>
@@ -210,21 +252,20 @@
 			</xsl:attribute>
 			<xsl:choose>
 				<xsl:when test="self::ui:selecttoggle"><!-- WCollapsibleToggle does not have a disabled state. -->
-					<xsl:call-template name="disabledElement"/>
+					<xsl:if test="@disabled"><xsl:attribute name="disabled"><xsl:text>disabled</xsl:text></xsl:attribute></xsl:if>
 				</xsl:when>
 				<xsl:when test="not(self::ui:rowselection)">
-					<xsl:call-template name="icon">
-						<xsl:with-param name="class">
-							<xsl:choose>
-								<xsl:when test="$value eq 'expand'">
-									<xsl:text>fa-plus-square-o</xsl:text>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:text>fa-minus-square-o</xsl:text>
-								</xsl:otherwise>
-							</xsl:choose>
-						</xsl:with-param>
-					</xsl:call-template>
+					<xsl:variable name="iconclass">
+						<xsl:choose>
+							<xsl:when test="$value eq 'expand'">
+								<xsl:text>fa-plus-square-o</xsl:text>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:text>fa-minus-square-o</xsl:text>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:variable>
+					<i aria-hidden="true" class="fa {$iconclass}"></i>
 				</xsl:when>
 			</xsl:choose>
 			<xsl:value-of select="$text"/>

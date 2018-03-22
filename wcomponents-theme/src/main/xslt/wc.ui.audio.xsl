@@ -5,8 +5,12 @@
 	<xsl:template match="ui:audio">
 		<span id="{@id}">
 			<xsl:call-template name="makeCommonClass"/>
-			<xsl:call-template name="title"/>
-			<xsl:call-template name="hideElementIfHiddenSet"/>
+			<xsl:if test="@toolTip"><xsl:attribute name="title"><xsl:value-of select="@toolTip"/></xsl:attribute></xsl:if>
+			<xsl:if test="@hidden">
+				<xsl:attribute name="hidden">
+					<xsl:text>hidden</xsl:text>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:variable name="mediaId" select="concat(@id, '_media')"/>
 			<audio id="{$mediaId}">
 				<xsl:attribute name="preload">

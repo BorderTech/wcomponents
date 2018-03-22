@@ -56,4 +56,18 @@
 			<xsl:text>&amp;</xsl:text>
 		</xsl:if>
 	</xsl:template>
+
+	<xsl:template match="ui:css"/>
+
+	<xsl:template match="ui:css" mode="inHead">
+		<xsl:text>s.add("</xsl:text>
+		<xsl:value-of select="@url"/>
+		<xsl:text>");</xsl:text>
+	</xsl:template>
+
+	<xsl:template match="ui:js"/>
+
+	<xsl:template match="ui:js" mode="inHead">
+		<script type="text/javascript" src="{@url}" async="async"></script>
+	</xsl:template>
 </xsl:stylesheet>
