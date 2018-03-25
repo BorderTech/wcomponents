@@ -1,0 +1,67 @@
+// Builds all the WComponents CSS.
+// Make a copy of this file into your implementation and edit it as required.
+// #############################################################################
+// IMPORTS of all required variables.
+// #############################################################################
+// Import WComponent vars
+@import 'vars/wc';
+// Import WComponent mixins once rather than per use - trust me, it will make
+// your life easier.
+@import 'mixins/common';
+
+// #############################################################################
+// Add any non-Sass imports here before any other CSS output.
+// #############################################################################
+//
+//
+// #############################################################################
+// End of non-Sass imports.
+// #############################################################################
+
+// #############################################################################
+// Common stuff not tied to particular WComponents.
+@import 'common';
+
+// #############################################################################
+// Individual components.
+// If a component is never used it may be commented out.
+@import 'components/wcollapsible';
+@import 'components/wdatefield';
+@import 'components/wdecoratedlabel';
+@import 'components/wdefinitionlist';
+@import 'components/wdialog';
+@import 'components/wdropdown';
+@import 'components/wfieldindicator';
+@import 'components/wfieldlayout';
+@import 'components/wfigure';
+@import 'components/wlabel';
+@import 'components/wlink';
+@import 'components/wmenu';
+@import 'components/wmultifileupload';
+@import 'components/wmultiselectpair';
+@import 'components/wpanel';
+@import 'components/wprogressbar';
+@import 'components/wselecttoggle';
+@import 'components/wshuffler';
+@import 'components/wskiplinks';
+@import 'components/wstyledtext';
+@import 'components/wtable';
+@import 'components/wtabset';
+@import 'components/wtextarea';
+@import 'components/wtimeoutwarning';
+@import 'components/wtogglebutton';
+@import 'components/wtree';
+
+// WAudio and WVideo - non-native link fills
+@import 'components/audiovideo';
+// WCheckBoxSelect and WRadioButtonSelect
+@import 'components/checkableselect';
+// WCollapsibleToggle and WTable with row-expansion
+@import 'components/collapsibletoggle';
+// WMultiDropdown and WMultiTextField
+@import 'components/multiformcomponent';
+
+@import 'libs';
+// #############################################################################
+// Add implementation Sass imports after all default imports.
+@import 'theme';

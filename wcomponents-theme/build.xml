@@ -53,14 +53,14 @@
 	</target>
 
 	<target name="init" depends="cleanTmpDir, initTargetImplementations">
-		<echo>build.xml basedir = ${basedir}</echo>
+		<echo level="info">build.xml basedir = ${basedir}</echo>
 		<mkdir dir="${output.dir}"/>
 		<mkdir dir="${sub.impl.dir}"/>
-		<echo>Build properties can be overriden in any of the following locations (in order of decreasing priority):</echo>
-		<echo>  ${user.home}/.wc/${user.name}.xml (in user home dir)</echo>
-		<echo>  ${user.home}/.wc/wc_theme_build_properties.xml (in user home dir)</echo>
-		<echo>  ${component.rootdir}/${user.name}.xml (in the project root dir)</echo>
-		<echo>  ${component.rootdir}/wc_theme_build_properties.xml (in the project root dir)</echo>
+		<echo level="info">Build properties can be overriden in any of the following locations (in order of decreasing priority):
+  *  ${user.home}/.wc/${user.name}.xml (in user home dir)
+  *  ${user.home}/.wc/wc_theme_build_properties.xml (in user home dir)
+  *  ${component.rootdir}/${user.name}.xml (in the project root dir)
+  *  ${component.rootdir}/wc_theme_build_properties.xml (in the project root dir)</echo>
 		<!-- We create this package.json file so that we can install node modules locally -->
 		<echo force="true" file="${basedir}/.npmrc"># This is a per-project .npmrc file.
 # Do not add this file to source control!
@@ -92,14 +92,6 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 
 	<target name="initDefaultTheme" unless="impl.dir.present">
 		<echo>No custom themes/implementations exist</echo>
-		<!--
-		<if>
-			<isset property="impl.dir.name"/>
-			<then>
-				<echo level="warn">"impl.dir.name" should not be set if "impl.src.rootdir" is not set</echo>
-			</then>
-		</if>
-		-->
 		<mkdir dir="${impl.src.rootdir}"/>
 		<ant antfile="${theme.core.dir}/build-implementation.xml" inheritAll="false" target="build">
 			<property name="impl.src.rootdir" value="${impl.src.rootdir}"/>
@@ -109,7 +101,7 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 	</target>
 
 	<target name="initImplementationTheme" if="impl.dir.present">
-		<echo>Using provided implementations directory: ${impl.src.rootdir}</echo>
+		<echo level="info">Using provided implementations directory: ${impl.src.rootdir}</echo>
 		<if>
 			<or>
 				<not>
@@ -124,7 +116,7 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 	</target>
 
 	<target name="initTargetImplementations" depends="checkImplExists, initDefaultTheme, initImplementationTheme">
-		<echo>inited target implementations</echo>
+		<echo level="info">inited target implementations</echo>
 	</target>
 
 	<target name="test" depends="initTargetImplementations" description = "This target runs the unit tests for the themes.">
@@ -199,11 +191,11 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 			<if>
 				<available file="@{rootDir}/@{implName}/inherit.txt" type="file"/>
 				<then>
-					<echo message="Building sub-implementation @{implName}"/>
+					<echo level="info" message="Building sub-implementation @{implName}"/>
 					<mergeSubImpl rootDir="@{rootDir}" implName="@{implName}"/>
 				</then>
 				<else>
-					<echo>************************ BUILDING @{implName} ************************</echo>
+					<echo level="info">************************ BUILDING @{implName} ************************</echo>
 					<callAll implName="@{implName}" rootdir="@{rootDir}" target="build"/>
 					<writeVersionInfo implName="@{implName}"/>
 					<antcall target="checkPropertiesExpanded"/>
@@ -238,7 +230,7 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 							<matches string="${prototype.name}" pattern="\.zip$" casesensitive="false"/>
 						</and>
 						<then>
-							<echo>Found prototype zip file ${prototype.name}</echo>
+							<echo level="verbose">Found prototype zip file ${prototype.name}</echo>
 							<property name="prototype.dir" location="${tmp.dir}/parent"/>
 							<delete dir="${prototype.dir}"/>
 							<!-- unzip the zip and set the path -->
@@ -254,7 +246,7 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 								<available file="${prototype.name}" type="dir"/>
 							</and>
 							<then>
-								<echo>Found prototype directory named ${prototype.name}</echo>
+								<echo level="verbose">Found prototype directory named ${prototype.name}</echo>
 								<property name="prototype.dir" location="${prototype.name}"/>
 							</then>
 						</elseif>
@@ -262,7 +254,7 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 							<available file="${impl.src.rootdir}/${prototype.name}" type="dir"/>
 							<then>
 								<property name="prototype.dir" location="${impl.src.rootdir}/${prototype.name}"/>
-								<echo>Using simple fallback prototype ${prototype.dir}</echo>
+								<echo level="verbose">Using simple fallback prototype ${prototype.dir}</echo>
 							</then>
 						</elseif>
 						<else>
@@ -280,7 +272,7 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 				<then>
 					<property name="merge.impl.dir" location="${sub.impl.dir}/@{implName}"/>
 					<delete dir="${merge.impl.dir}"/>
-					<echo>Copying sub-implementation files from: ${impl.src.dir} to ${merge.impl.dir}</echo>
+					<echo level="verbose">Copying sub-implementation files from: ${impl.src.dir} to ${merge.impl.dir}</echo>
 					<copy todir="${merge.impl.dir}">
 						<!-- Copy the whole implementation to the dir where we will do the merge -->
 						<fileset dir="${impl.src.dir}" excludes="inherit.txt">
@@ -316,7 +308,7 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 						</fileset>
 					</sync>
 					-->
-					<echo>Copying parent implementation files from: ${prototype.dir} to ${merge.impl.dir}</echo>
+					<echo level="verbose">Copying parent implementation files from: ${prototype.dir} to ${merge.impl.dir}</echo>
 					<copy todir="${merge.impl.dir}/src/main/css" overwrite="false">
 						<fileset dir="${prototype.dir}/src/main/css" includes="**/*.css" excludesfile="${impl.src.dir}/excludes.txt" erroronmissingdir="false">
 							<present present="srconly" targetdir="${merge.impl.dir}/src/main/css"/>
@@ -360,7 +352,7 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 	</macrodef>
 
 	<target name="antCheck">
-		<echo message="ant.version=${ant.version}" />
+		<echo level="verbose" message="ant.version=${ant.version}" />
 		<antversion property="antversion" atleast="1.8.2"/>
 	</target>
 
@@ -410,6 +402,8 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 				<property name="phantomjs.binary" value="${phantomjs.binary}"/>
 				<property name="i18n.resources.dir" location="${i18n.resources.dir}"/>
 				<property name="i18n.unpack.dir" location="${i18n.unpack.dir}"/>
+				<property name="sass.compiler.lang" value="${sass.compiler.lang}" />
+				<property name="rjs.log.level" value="${rjs.log.level}" />
 			</ant>
 			<stopwatch name="@{antFile}" action="total"/>
 		</sequential>
@@ -446,7 +440,7 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 					</if>
 				</then>
 				<else>
-					<echo>theme.skip.tests is 'true' so not executing test</echo>
+					<echo level="info">theme.skip.tests is 'true' so not executing test</echo>
 				</else>
 			</if>
 		</sequential>

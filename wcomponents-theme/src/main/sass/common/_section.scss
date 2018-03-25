@@ -1,0 +1,95 @@
+// Styles common to SECTION elements with some kind of visible header/title
+// * WSection
+// * WPanel Type.ACTION
+// * WPanel Type.CHROME
+// * WMessageBox
+// * WValidationErrors (message box output).
+// #############################################################################
+
+section {
+  // Structural CSS to make the header segments behave. We want the body (h1
+  // element) to occupy as much space as possible.
+  > header {
+    > .wc_dlbl_seg { // see ../components/_wdecoratedlabel.scss
+      display: table-cell;
+    }
+
+    h1 {
+      width: 100%;
+    }
+
+    > div {
+      white-space: nowrap;
+      width: 0;
+    }
+  }
+
+  @if $wc-section-space-normal > 0 {
+    > div,
+    > .wc-listLayout {
+      padding: $wc-section-space-normal;
+    }
+
+    // Docking a Bar menu
+    // If you have a WPanel of type CHROME or ACTION or a WSection
+    // containing a plain WPanel and the WPanel does not have a layout then
+    // add a WMenu Type BAR to the content of the WPanel then we can 'dock'
+    // the menu to the panel/section header.
+    &,
+    > .wc-panel {
+      > .wc-content > .wc-menu-type-bar:first-child {
+        $neg-margin: -$wc-section-space-normal;
+        margin: $neg-margin $neg-margin $wc-section-space-normal;
+      }
+    }
+  }
+
+  // We *really* want to prevent Margin being set on the WPanel content holder
+  // of a WSection. We also want to make sure the default styling of types
+  // FEATURE, BOX, BLOCK etc are not applied. It would be better if this was
+  // enforced in the Java API.
+  &.wc-section > .wc-panel {
+    background-color: transparent;
+    border: 0 none;
+    margin: 0;
+
+    @if $wc-section-space-normal > 0 {
+      padding: $wc-section-space-normal;
+    }
+  }
+}
+
+// #############################################################################
+// Negative margins on menus!!!
+// WARNING
+//
+// When a WMenu of MenuType.BAR is the first child of a WPanel of Type.CHROME or
+// of Type.ACTION (ie a WPanel with exposed title) _or_ is the first child of a
+// WPanel child of WSection; **and** that WPanel does not have a Layout applied
+// then a negative margin is applied to make the menu "dock" to the header bar.
+// The class `.wc-neg-margin` can be used to force this same negative margin on
+// WMenus of MenuType.BAR when it is not feasible to have them in WPanel's with
+// no Layout in the appropriate circumstance.
+//
+// WARNING
+//
+// This makes no attempt to determine the location of the menu, it just uses the
+// section padding as a negative margin. This means it will apply wherever it is
+// used.
+//
+// It is intended that this **only** be used when the menu is the first visible
+// component in such a section as described above but I am not going to enforce
+// that.
+//
+// WARNING
+//
+// Well here is the **WARNING**: if you use this willy-nilly your UI _could_
+// look really silly!
+@if $wc-section-space-normal > 0 {
+  .wc-menu-type-bar.wc-neg-margin {
+    // the negative margin must be 0 - the padding of WSection content.
+    $neg-margin: -$wc-section-space-normal;
+    margin: $neg-margin $neg-margin $wc-section-space-normal;
+  }
+}
+// #############################################################################

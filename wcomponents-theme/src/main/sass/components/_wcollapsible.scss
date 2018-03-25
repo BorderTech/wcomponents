@@ -1,0 +1,52 @@
+// #############################################################################
+// WCollapsible is a close map of the HTML5 details element in which the header
+// is a summary element.
+// #############################################################################
+
+// #############################################################################
+// Important to ensure heading elements are sized correctly.
+$wc-collapsible-icon-width: $wc-icon-size;
+// #############################################################################
+
+details {
+  // We only have to style immediate child elements of the collapsible
+  // container. In an ideal world we would not have to do this but so far only
+  // webkit has native support for <details> and that is still flawed.
+  > div {
+    display: none;
+  }
+
+  &,
+  &[open] > div {
+    display: block;
+  }
+}
+
+summary {
+  // display: block; TODO check in IE11
+  // padding: $wc-gap-normal 0; // TODO: check in themes
+
+  > .fa {
+    text-align: left;
+    width: $wc-collapsible-icon-width;
+  }
+
+  > h1,
+  > h2,
+  > h3,
+  > h4,
+  > h5,
+  > h6 {
+    // allow for the iconography
+    @include tight-box;
+    display: inline-block;
+    width: calc(100% - #{$wc-collapsible-icon-width});
+  }
+}
+
+// remove the default summary marker from webkit browsers
+// sass-lint:disable no-vendor-prefixes
+::-webkit-details-marker {
+  display: none;
+}
+// sass-lint:enable no-vendor-prefixes

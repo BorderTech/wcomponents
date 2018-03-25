@@ -1,0 +1,226 @@
+// #############################################################################
+// WFieldLayout
+// #############################################################################
+// You REALLY don't want to even consider looking at this stuff!
+// Most of the configuration of WFieldLayout support is done through vars.
+// #############################################################################
+
+// #############################################################################
+// Specific-purpose MIXINS
+// #############################################################################
+// This mixin outputs the classes to handle flat WFieldLayout styles for
+// supported labelWidths. There could be anything up to 100 iterations of this
+// stuff. When we combine that with the use of nested WFieldLayouts (don't get
+// me started) which mean we have to use child selectors you can see we end up
+// with a LOT of CSS.
+$wc-label-width-slug: wc_fld_lblwth; // DO NOT CHANGE
+$wc-input-width-slug: wc_fld_inpw; // DO NOT CHANGE
+
+@mixin wc-fld-layout($lwdth) {
+  $lw: $lwdth * 1%;
+  $iw: 100% - $lw;
+
+  // sass-lint gets confused by the use of vars to build the class name
+  // in combination with a egexp format.
+  // sass-lint:disable class-name-format
+  .#{$wc-label-width-slug}_#{$lwdth} {
+    &.wc-layout-flat > .wc-field {
+      > :first-child {
+        width: $lw;
+      }
+
+      > .wc-input {
+        max-width: $iw;
+        width: $iw;
+      }
+    }
+
+    @if $wc-fieldlayout-stack-allow-indent == true {
+      &.wc-layout-stacked > .wc-field > .wc-input {
+        margin-left: $lw;
+        max-width: $iw;
+        width: $iw;
+      }
+    }
+  }
+
+  .#{$wc-input-width-slug}_#{$lwdth} > .wc-input {
+    width: $lw;
+  }
+}
+// END MIXINS
+// #############################################################################
+
+
+// Vertical space between consecutive WFieldLayouts.
+.wc-fieldlayout + .wc-fieldlayout,
+// Vertical space between fields in a WFieldLayout.
+.wc-field  + .wc-field {
+  margin-top: $wc-fieldlayout-field-vertical-space;
+}
+
+// This is the placeholder for a null or moved label (moved for checkbox or
+// radio). Not shown on narrow viewports or in stacked field layouts.
+.wc_fld_pl {
+  display: none;
+}
+
+// The input container div.
+.wc-input {
+  margin-top: $wc-gap-small; // push off of the label.
+
+  > .wc-input-wrapper,
+  > input,
+  > select,
+  > textarea {
+    max-width: 100%;
+  }
+}
+
+// InputWidth class is added to the field to signify that an inputWidth is
+// in use so we can size the components.
+.wc_inputwidth {
+  > .wc-input {
+    > .wc-input-wrapper,
+    > .wc-input-wrapper > input,
+    > .wc-input-wrapper > textarea,
+    > .wc-input-wrapper > select,
+    > fieldset {
+      @include border-box;
+      width: 100%;
+    }
+
+    > .wc-input-wrapper {
+      &.wc-checkbox,
+      &.wc-radiobutton {
+        @include fit-content;
+      }
+
+      input {
+        &[type='checkbox'],
+        &[type='radio'] {
+          width: auto;
+        }
+      }
+    }
+  }
+}
+
+// support for WField.inputWidth
+@if $wc-field-allow-inputwidth == true {
+  @for $i from $wc-field-min-inputwidth through $wc-field-max-inputwidth {
+    .wc_fld_inpw_#{$i} > .wc-input {
+      > .wc-input-wrapper,
+      > fieldset {
+        max-width: percentage($i / 100);
+      }
+    }
+  }
+} @else if ($wc-field-allow-inputwidth != false) {
+  @each $i in $wc-field-allow-inputwidth {
+    .wc_fld_inpw_#{$i} > .wc-input {
+      > .wc-input-wrapper,
+      > fieldset {
+        max-width: percentage($i / 100);
+      }
+    }
+  }
+}
+
+// NUMBERED fields
+@if $wc-fieldlayout-allow-ordered == true {
+  .wc_ordered {
+    &,
+    .wc-fieldlayout {
+      counter-reset: wcfld;
+    }
+
+    > .wc-field {
+      counter-increment: wcfld;
+
+      > :first-child::before {
+        content: counter(wcfld) '. ';
+        margin-right: $wc-gap-small;
+
+        .wc_ordered & {
+          content: counters(wcfld, '.') ' ';
+        }
+      }
+    }
+
+    &.wc-layout-stacked > .wc-field {
+      &::before {
+        content: counter(wcfld) '. ';
+        margin-right: $wc-gap-small;
+
+        .wc_ordered & {
+          content: counters(wcfld, '.') ' ';
+        }
+      }
+
+      > :first-child::before {
+        content: '';
+        display: none;
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+
+// FLAT layout is label input side-by-side
+@if $wc-fieldlayout-force-stack == false {
+  // When we have a viewport of sufficient width we can allow side-by-side
+  // label: input pairs.
+  .wc-layout-flat > .wc-field {
+    > label,
+    > span,
+    > div {
+      display: inline-block;
+      vertical-align: text-top;
+
+      // The first child is the label or stand-in or merely an empty
+      // placeholder/spacer.
+      &:first-child {
+        width: $wc-fieldlayout-default-label-width;
+      }
+    }
+
+    > .wc-input {
+      margin-top: 0; // Remove stacked margin.
+      max-width: $wc-fieldlayout-input-width;
+      width: $wc-fieldlayout-input-width;
+
+      .wc-moved-label {
+        @include offscreen;
+      }
+    }
+  }
+
+  // Optionally allow for labelWidth settings.
+  @if $wc-fieldlayout-labelwidth-prevent-override == false {
+    // This lot does the CSS for the various allowed values of
+    // WFieldLayout's labelWidth member. If you _really_ want to support all
+    // values of labelWidth then you will have to change the variable
+    // $wc-fieldlayout-labelwidth-list to be the single value -1.
+    @if $wc-fieldlayout-labelwidth-list == -1 {
+      @for $i from 1 through 100 {
+        $wc-fld-lblw: $i * 1%;
+        @include wc-fld-layout($i);
+      }
+    } @else {
+      @if $wc-fieldlayout-labelwidth-include-fives == true {
+        @for $i from 1 through 20 {
+          $j: $i * 5;
+          @include wc-fld-layout($j);
+        }
+      }
+
+      @if $wc-fieldlayout-labelwidth-list != 0 {
+        @each $w in $wc-fieldlayout-labelwidth-list {
+          @include wc-fld-layout($w);
+        }
+      }
+    }
+  }
+}

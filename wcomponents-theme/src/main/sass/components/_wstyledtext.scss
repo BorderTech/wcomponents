@@ -1,0 +1,47 @@
+// #############################################################################
+// WStyledText - not WText.
+// In this default style only WStyledText.Type.MANDATORY_INDICATOR is styled.
+// #############################################################################
+
+// This Type of WStyledText allows something other than a WLabel/WFieldSet
+// legend to show a mandatory field indicator. Why? To present a "key" if
+// required or to mark a table column header as containing fields which must
+// be completed. Not terribly good use-cases but use-cases non-the-less.
+.wc-text-type-mandatoryIndicator::after {
+  @include fa-icon;
+  content: $fa-var-asterisk;
+  margin-left: $wc-gap-small;
+}
+
+// #############################################################################
+// NOTE:
+//
+// For some types it is better to style the element than the type class:
+// * .wc-text-type-emphasised and .wc-text-type-highPriority use the strong
+//   element
+// * .wc-text-type-insert uses the ins element
+// * .wc-text-type-delete uses the del element
+// * .wc-text-type-mediumPriority uses the em element
+//
+// Types which output span elements you should style the class:
+// * .wc-text is on all instances of WStyledText and is probably not granular
+//   enough.
+// * .wc-text-type-plain
+// * .wc-text-type-lowPriority
+// * .wc-text-type-mandatoryIndicator (as above)
+// * the deprecated types .wc-text-type-matchIndicator and
+//   .wc-text-type-activeIndicator
+
+// If whitespace is set:
+//
+// Whitespace PRESERVE all content is in a single pre element. Any element nodes
+// are copied directly to the output stream. If the type is also set each text
+// node will be wrapped as above EXCEPT if Type.PLAIN then the text is output
+// unwrapped.
+//
+// Whitespace PARAGRAPHS each node is wrapped in a p element. If the TYPE
+// attribute is also set each text node is output wrapped in an element as above
+// EXCEPT Type.PLAIN is output unwrapped. If the content is not escaped and
+// contains element nodes and those nodes include content types which are not
+// appropriate in a P element then there will be HTML specification violations.
+// Not our problem though eh?

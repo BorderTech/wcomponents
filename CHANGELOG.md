@@ -4,6 +4,29 @@
 
 ### API Changes
 
+### Enhancements
+
+### Bug Fixes
+
+## Release 1.5.2
+
+### Enhancements
+
+* Allow override of Sass compiler from Maven POM or Settings.
+* Removed unused Sass and JavaScript.
+* Enable use of a JavaScript Sass compiler ((sass)[https://www.npmjs.com/package/sass]) instead of Vaadin Sass Compiler.
+
+### Bug Fixes
+
+* Fixed a Sass bug hidden by a flaw in the Vaadin Sass Compiler.
+* Change order of load of `wc/common` and `wc/loader/style` to enable themes to override the initial style loader config.
+* Fix an error in Sass for WFieldLayout which was masked by Vaadin Sass Compiler
+* Fix a potential negative zero error in Sass of WSection (responsive)
+
+## Release 1.5.1
+
+### API Changes
+
 * Changed WProgressBar API to better implement HTML spec:
   - Deprecated WProgressBar members as follows:
     - UnitType - not supported - `public void setUnitType(UnitType)` is now a no-op and `public WProgressBar.UnitType getUnitType()` will now always return `null`
@@ -14,19 +37,15 @@
 
 ### Enhancements
 
+* Changed the way themes are built to remove a vast amount of complexity and wasted styles. Improves maintainability and moves towards separation of style and structure in themes.
 * Updated renderer of WProgressBar to output HTML as part of #639.
 * Added JUnits for WProgressBar.
 * Updated renderers of WButton and WPrintButton (which has been un-deprecated) to output HTML as part of #639.
 
 ### Bug Fixes
 
+* Fixed a XSLT issue which caused inconsistent placement of label hints #1476.
 * Fixed a Sass issue which could cause unexpected wrapping of content of read-only Inputs #1469.
-
-## Release 1.5.0
-
-### Enhancements
-
-### Bug Fixes
 
 ## Release 1.5.0
 

@@ -1,0 +1,77 @@
+// The styles which create spaces, padding, margins, gaps, hgap and vgap.
+
+// NOTE: Most layouts and WRow have div children. ListLayout/WList has li
+// children.
+// We can (at the moment) safely use the universal selector here but maybe not
+// into the future. Even so, it has terrible performance so we are probably
+// better off without it.
+
+// Vaadin Scss compiler does not appear to handle multiple assignment so the
+// simple each below has to be done a bit more verbosely.
+
+@each $gap-suffix in $wc-gap-suffix-list {
+  $gap-size: $wc-gap-xl;
+  @if $gap-suffix == z {
+    $gap-size: 0;
+  } @else if ($gap-suffix == sm) {
+    $gap-size: $wc-gap-small;
+  } @else if  ($gap-suffix == med) {
+    $gap-size: $wc-gap-normal;
+  } @else if  ($gap-suffix == lg) {
+    $gap-size: $wc-gap-large;
+  }
+
+  .wc-hgap-#{$gap-suffix} {
+    > div,
+    > li,
+    > ul,
+    > span {
+      padding-left: $gap-size / 2;
+      padding-right: $gap-size / 2;
+     }
+  }
+
+  .wc-vgap-#{$gap-suffix} {
+    > div + div,
+    > li + li {
+      margin-top: $gap-size;
+     }
+  }
+
+  .wc-margin-all-#{$gap-suffix} {
+    margin: $gap-size;
+  }
+
+  .wc-margin-n-#{$gap-suffix} {
+    margin-top: $gap-size;
+  }
+
+  .wc-margin-e-#{$gap-suffix} {
+    margin-right: $gap-size;
+  }
+
+  .wc-margin-s-#{$gap-suffix} {
+    margin-bottom: $gap-size;
+  }
+
+  .wc-margin-w-#{$gap-suffix} {
+    margin-left: $gap-size;
+  }
+
+  .wc-pad-#{$gap-suffix} {
+    padding: $gap-size;
+  }
+}
+
+.wc-hgap-sm,
+.wc-hgap-med,
+.wc-hgap-lg,
+.wc-hgap-xl {
+  > :first-child {
+    padding-left: 0;
+  }
+
+  > :last-child {
+    padding-right: 0;
+  }
+}

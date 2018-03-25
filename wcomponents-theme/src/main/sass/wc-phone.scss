@@ -1,0 +1,23 @@
+
+// Import WComponent vars
+@import 'vars/wc';
+// Import WComponent mixins once rather than per use.
+@import 'mixins/common';
+
+// CSS for small screen user agents.
+@import 'respond/phone/space';
+@import 'respond/phone/back-to-top';
+@import 'respond/phone/checkableselect';
+@import 'respond/phone/image-edit';
+@import 'respond/phone/layout';
+@import 'respond/phone/section';
+@import 'respond/phone/wdatefield';
+@import 'respond/phone/wdefinitionlist';
+@import 'respond/phone/wdialog';
+@import 'respond/phone/wfieldlayout';
+@import 'respond/phone/wmenu';
+@import 'respond/phone/wpanel';
+@import 'respond/phone/wtable';
+@import 'respond/phone/wtabset';
+
+@import 'theme-phone';

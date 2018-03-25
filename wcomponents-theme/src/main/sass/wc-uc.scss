@@ -1,0 +1,24 @@
+// Fixes for UC Browser
+
+// IMPORTS of all required variables.
+// #############################################################################
+// Import WComponent vars
+@import 'vars/wc';
+// Import WComponent mixins once rather than per use.
+@import 'mixins/common';
+
+// #############################################################################
+// UC Browser specific files
+@import 'fix/uc/button';
+@import 'fix/uc/combo';
+@import 'fix/uc/layout';
+@import 'fix/uc/multiformcomponent';
+@import 'fix/uc/wcollapsible';
+@import 'fix/uc/wdialog';
+@import 'fix/uc/wfigure';
+@import 'fix/uc/wmenu';
+@import 'fix/uc/wmessagebox';
+@import 'fix/uc/wtable';
+@import 'fix/uc/wtabset';
+@import 'fix/uc/wtogglebutton';
+@import 'fix/uc/wtree';

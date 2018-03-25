@@ -1,0 +1,40 @@
+// Provides the styling for the accesskey indicator.
+// The accesskey callout will be in a label, legend, link or button. The callout
+// is placed as the first child of the element (where possible) or immediately
+// preceding the element.
+// NOTE: Collision detection
+// The callout position is fixed and, by default, is above the item to which it
+// points. Collision detection is very low priority since most application use a
+// banner of some kind and the access keys live below this banner.
+[role='tooltip'] {
+  @include wc-opaque-box;
+  display: inline;
+  // important to over-ride menu rules which may also apply.
+  // sass-lint:disable no-important
+  margin-top: (-2 - $wc-gap-small);
+  padding: $wc-gap-small !important;
+  position: absolute;
+  text-align: center;
+  width: auto !important;
+  // sass-lint:enable no-important
+
+  &::before,
+  &::after {
+    border-style: solid;
+    border-width: $wc-gap-normal $wc-gap-small 0;
+    bottom: 0;
+    content: '';
+    display: inline-block;
+    left: 30%;
+    margin-bottom: -#{$wc-gap-normal};
+    position: absolute;
+  }
+
+  // Callout display needs a particularly explicit selector to override menu
+  // [role] position but cannot use !important because we cannot guarantee
+  // that the hidden selector is more specific.
+  &,
+  .wc-menu [role] & {
+    display: inline-block;
+  }
+}

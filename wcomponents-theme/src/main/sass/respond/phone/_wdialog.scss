@@ -1,0 +1,17 @@
+
+@if $wc-use-respond == true and $wc-use-respond-dialog == true {
+  dialog {
+    max-height: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    min-width: 100%;
+
+    > footer {
+      display: none;
+    }
+
+    > header .wc_maxcont {
+      display: none;
+    }
+  }
+}

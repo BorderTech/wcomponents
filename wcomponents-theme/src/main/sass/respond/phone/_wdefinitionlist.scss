@@ -1,0 +1,13 @@
+
+@if $wc-use-respond == true {
+  .wc-definitionlist-type-column {
+    > dt,
+    > dd {
+      @include border-box;
+      display: block;
+      margin-left: 0;
+      margin-right: 0;
+      width: 100%;
+    }
+  }
+}

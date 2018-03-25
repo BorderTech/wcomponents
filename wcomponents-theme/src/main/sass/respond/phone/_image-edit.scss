@@ -1,0 +1,25 @@
+
+@if $wc-use-respond == true {
+  .wc_img_editor {
+    .wc-row > div {
+      text-align: center;
+    }
+
+    .wc_img_controls {
+      @include flex($wrap: wrap, $align-content: space-between);
+
+      > div,
+      > fieldset {
+        margin: $wc-gap-small;
+
+        &:first-child {
+          margin-left: 0;
+        }
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}

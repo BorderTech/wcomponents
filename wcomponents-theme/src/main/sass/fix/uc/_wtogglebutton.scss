@@ -1,0 +1,19 @@
+
+
+@if $wc-use-respond == true {
+  .wc-togglebutton {
+    &[data-wc-component],
+    > button {
+      &::after {
+        height: 100%;
+      }
+    }
+
+    &.wc_ro_sel,
+    > [aria-checked='true'] {
+      &::after {
+        left: 50%;
+      }
+    }
+  }
+}

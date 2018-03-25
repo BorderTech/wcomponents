@@ -1,0 +1,28 @@
+// #############################################################################
+// WSelectToggle
+// #############################################################################
+
+.wc_seltog {
+  > button {
+    margin-left: $wc-gap-normal;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+
+  &[role='checkbox'] {
+    + label {
+      margin-left: $wc-gap-small;
+    }
+
+    > .fa {
+      text-align: left;
+      width: $wc-icon-size;
+    }
+  }
+
+  &[data-wc-value][aria-checked='true'] {
+    font-weight: bold;
+  }
+}

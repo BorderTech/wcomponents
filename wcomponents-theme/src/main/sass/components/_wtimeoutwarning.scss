@@ -1,0 +1,14 @@
+// #############################################################################
+// WTimeoutWarning is an alert dialog used to inform of impending doom.
+// #############################################################################
+
+// timeout warning container is generated and identified.
+// sass-lint:disable no-ids
+#wc_session_container {
+  @include fit-content($fallback: 25rem);
+  bottom: 0;
+  max-width: 100%;
+  position: fixed;
+  right: 0;
+  z-index: $wc-z-index-unloading-message;
+}

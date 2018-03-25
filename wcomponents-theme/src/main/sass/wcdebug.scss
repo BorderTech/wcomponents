@@ -1,0 +1,21 @@
+// #############################################################################
+// CSS for debug mode
+// NOTE: this makes no use of any wcomponents vars or mixins. It is completely
+// standalone.
+// #############################################################################
+// make errors red because that is usual
+$wc-debug-color-error: #f00;
+// make warning orange because that is what everyone does
+$wc-debug-color-warning: #f90;
+// foreground color to go on top of the error and warning colours to make
+$wc-debug-color-fg: #fff;
+// border around AXS output which is neither an error nor a warning
+$wc-debug-color-border: #ccc;
+// the "this page is in debug mode" notice
+$wc-debug-indicator-bg: #ccc;
+$wc-debug-indicator-fg: #000;
+
+@import 'wcdebug/axs';
+@import 'wcdebug/indicator';
+@import 'wcdebug/invalid';
+@import 'wcdebug/script';

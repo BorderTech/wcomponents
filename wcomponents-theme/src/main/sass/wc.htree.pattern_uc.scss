@@ -1,8 +1,0 @@
-@import 'mixins/common';
-
-@if ($wc-use-respond == 1) {
-  [role='tree'].wc_htree [role='group'] {
-    min-width: 0;
-    width: $wc-htree-branch-width-lame;
-  }
-}

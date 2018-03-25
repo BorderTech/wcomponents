@@ -3,16 +3,32 @@
 	<xsl:template match="ui:css"/>
 
 	<xsl:template match="ui:css" mode="inHead">
-		<xsl:element name="link">
-			<xsl:attribute name="href">
-				<xsl:value-of select="@url"/>
-			</xsl:attribute>
-			<xsl:attribute name="type">
-				<xsl:text>text/css</xsl:text>
-			</xsl:attribute>
-			<xsl:attribute name="rel">
-				<xsl:text>stylesheet</xsl:text>
-			</xsl:attribute>
-		</xsl:element>
+		<xsl:text>s.add("</xsl:text>
+		<xsl:value-of select="@url"/>
+		<xsl:text>");</xsl:text>
+	</xsl:template>
+
+	<xsl:template match="html:link[@rel='stylesheet']" mode="inHead">
+		<xsl:text>s.add("</xsl:text>
+		<xsl:value-of select="@href"/>
+		<xsl:if test="@media">
+			<xsl:text>","</xsl:text>
+			<xsl:value-of select="@media"/>
+		</xsl:if>
+		<xsl:text>");</xsl:text>
+	</xsl:template>
+
+	<xsl:template match="html:link[@rel='stylesheet']">
+		<xsl:if test="ancestor::ui:ajaxtarget">
+			<script type="text/javascript">
+				<xsl:text>require(["wc/loader/style"],function(s){s.add("</xsl:text>
+				<xsl:value-of select="@href"/>
+				<xsl:text>","</xsl:text>
+				<xsl:if test="@media">
+					<xsl:value-of select="@media"/>
+				</xsl:if>
+				<xsl:text>", true);});</xsl:text>
+			</script>
+		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>

@@ -3,16 +3,45 @@
 // #############################################################################
 
 // #############################################################################
+// Z-INDEX SETTINGS
+// #############################################################################
+// We have a number of transient elements which have a z-index (eg the calendar
+// in WPartialDateField's output widget). Many of these require the z-index to
+// be _below_ the modal shim z-index but then have an override to make them
+// _above_ the dialog z-index if they are in a dialog. The z-index common is the
+// lowest z-index we should ever apply to a normal transient artefact. This
+// _could_ be 1 and _must_ be at least 2 less than z-index-modal-shim as we need
+// transient elements to be below the modal shim. I recommend this be greater
+// than 1 just in case an application needs a local over-ride due to unusual
+// design or theme overrides.
+$wc-z-index-common: 5;
+// z-index of the modal shim. Every z-index should be below this except dialogs
+// and transient elements with a z-index when they are found in a dialog.
+$wc-z-index-modal-shim: $wc-z-index-common + 10;
+// z-index of the dialog element. It must be above z-index-modal-shim.
+$wc-z-index-dialog: $wc-z-index-modal-shim + 1;
+// The z-index common to most components in a dialog
+$wc-z-index-common-in-dialog: $wc-z-index-common + $wc-z-index-dialog;
+// The unloading shim must be over everything including things in dialogs.
+$wc-z-index-unloading-shim: $wc-z-index-common-in-dialog + 5;
+// Finally we have the message on the unloading shim and timeout warnings
+$wc-z-index-unloading-message: $wc-z-index-unloading-shim + 1;
+
+// #############################################################################
+// Path from generated root CSS to to image files
+$wc-img-path: '../images/';
+
+// #############################################################################
 // Used by themes to override WComponents defaults. Must always be imported
 // first.
-@import '../implementation_vars';
+@import '../theme-vars';
 // #############################################################################
 
 
 // #############################################################################
 // FONT AWESOME vars are available for use in WComponents Sass.
 // Override Font Awesome font path.
-$fa-font-path: '../resource';
+$fa-font-path: '../resource/fontawesome';
 // We added a var to font-awesome (I believe it is on the road map).
 // See vars/icon/$wc-icon-wider you may want to keep them in sync.
 // It has to be !default to allow theme override but because of the !default it
@@ -21,68 +50,37 @@ $fa-fw-calc-size: 1.25rem !default;
 // Import library vars
 @import '../lib/fa/variables';
 // #############################################################################
+// The default font is set on body
+$wc-default-font: sans-serif !default;
+$wc-mono-font: monospace !default;
+// #############################################################################
+// We can't get away with no colours at all :-(
+// used to make opaque elements opaque.
+$wc-clr-global-bg: #fff !default;
+// Disabled control colours are special. They are harder to get 4.5:1 and still
+// look disabled!
+$wc-clr-disabled-fg: #696969 !default;
+$wc-clr-disabled-bg: #f3f3f3 !default;
+$wc-clr-disabled-border: $wc-clr-disabled-fg !default;
 
+// Many things have borders and it is nice to have a common look to all of them.
+// set to -1 to ignore.
+$wc-border-style: solid !default;
+// Set to -1 to ignore
+$wc-border-width: 1px !default;
+// Turn off the generic border colour by setting this vakue to -1. This will
+// also turn off the outline of "today" in the date picker claendar.
+$wc-border-color: #ccc !default;
+// #############################################################################
+// ICON SIZES
+// #############################################################################
+// Some fixed sizes for iconography place holders
+$wc-icon-size: 1rem !default;
 
 // #############################################################################
-// These variables control whether the default repsonsive design CSS is output
-// or not and are not part of ensuring consistent styles.
-// #############################################################################
-@import 'respond';
-// #############################################################################
-
-// #############################################################################
-// SOME vars are reused in other vars so these are the ones we want to import
-// first.
-// #############################################################################
-// Margin, padding and generally gappiness sizes.
 @import 'space';
-// Icon sizes
-@import 'icon';
-// #############################################################################
-
-
-// #############################################################################
-// Generic design vars
-// #############################################################################
-// Basic font definitions and metrics.
-@import 'font';
-// heading size and weight.
-@import 'headings';
-// default borders
-@import 'border';
-
-// busy (e.g awaiting AJAX response) components.
-@import 'busy';
-// Form controls, inputs, selects, buttons, etc.
-@import 'form';
-// WPanel features for override
-@import 'panel';
-// Sections - WSection, WMessageBox, WValidationErrors, WPanel CHROME or ACTION.
 @import 'section';
-// WPanel layouts, rows and columns, field layout
-@import 'layout';
+@import 'respond';
 
-// all images
-@import 'image';
 // #############################################################################
-// Variables for specific WComponents start here.
-// #############################################################################
-// WCheckBoxSelect and WRadioButtonSelect
-@import 'checkableselect';
-// WCollapsible
-@import 'collapsible';
-// WDialog
-@import 'dialog';
-// WMenu
-@import 'menu';
-// WTable
-@import 'table';
-// WTabSet
-@import 'tabset';
-// Back to top link
-@import 'btt';
-// WTree
-@import 'tree';
-
-// Colours
-@import 'colors';
+@import 'wfieldlayout';

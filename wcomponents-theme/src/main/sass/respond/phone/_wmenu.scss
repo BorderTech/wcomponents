@@ -1,0 +1,29 @@
+@if $wc-use-respond == true {
+  // full screen sub menus
+  .wc-menu-type-column,
+  .wc_menu_bar {
+    .wc_submenucontent {
+      @include border-box;
+      height: 100%;
+      left: 0;
+      overflow: auto;
+      position: fixed;
+      top: 0;
+      white-space: normal;
+      width: 100%;
+
+      > [role] {
+        font-size: $wc-menu-font-larger;
+      }
+    }
+
+    .wc_closesubmenu {
+      display: block;
+
+      .wc-decoratedlabel {
+        display: inline-table;
+        max-width: calc(100% - #{$wc-gap-normal});
+      }
+    }
+  }
+}
