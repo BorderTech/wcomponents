@@ -43,7 +43,7 @@
 					<xsl:value-of select="@data"/>
 				</xsl:attribute>
 			</xsl:if>
-			<select id="{concat(@id, '_input')}">
+			<select id="{concat(@id, '_input')}" name="{@id}">
 				<xsl:if test="@toolTip">
 					<xsl:attribute name="title">
 						<xsl:value-of select="@toolTip"/>

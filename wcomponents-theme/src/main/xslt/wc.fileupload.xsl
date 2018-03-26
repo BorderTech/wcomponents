@@ -31,6 +31,9 @@
 				<xsl:attribute name="type">
 					<xsl:text>file</xsl:text>
 				</xsl:attribute>
+				<xsl:attribute name="name">
+					<xsl:value-of select="@id"/>
+				</xsl:attribute>
 				<xsl:if test="@required">
 					<xsl:attribute name="required">
 						<xsl:text>required</xsl:text>
