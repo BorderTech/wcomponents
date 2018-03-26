@@ -10,7 +10,9 @@ $wc-ui-modal-shim-color: rgba(0, 0, 0, .85);
 // sass-lint:disable no-ids
 
 #wc-shim {
-  background-color: $wc-ui-modal-shim-color;
+  @if $wc-ui-modal-shim-color != -1 {
+    background-color: $wc-ui-modal-shim-color;
+  }
   left: 0;
   min-height: 100%;
   overflow: hidden;
