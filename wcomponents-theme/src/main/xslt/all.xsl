@@ -352,6 +352,7 @@
 		<xsl:variable name="editors" select=".//html:wc-imageedit" />
 		<xsl:variable name="tableActions"
 			select=".//ui:table/ui:actions/ui:action" />
+
 		<xsl:variable name="libs">
 			<xsl:if test=".//ui:datefield">
 				<!--
@@ -503,14 +504,16 @@
 			<xsl:if test=".//*[@mode eq 'dynamic'] or .//*[@mode eq 'lazy']">
 				<xsl:text>"wc/ui/containerload",</xsl:text>
 			</xsl:if>
+			<!-- This allows us to refocus an ajax trigger ID if it is in the payload. -->
+			<xsl:if test="//ui:ajaxtarget">
+				<xsl:text>"wc/ui/onloadFocusControl",</xsl:text>
+			</xsl:if>
 			<xsl:if test="$isDebug = 1">
 				<xsl:text>"wc/debug/common",</xsl:text>
 			</xsl:if>
 		</xsl:variable>
-		<xsl:variable name="nLibs" select="normalize-space($libs)" />
-
+		<xsl:variable name="normalizedLibs" select="normalize-space($libs)" />
 		<xsl:variable name="rego">
-
 			<xsl:if test="$componentGroups">
 				<xsl:text>require(["wc/ui/subordinate"], function(c){c.registerGroups([</xsl:text>
 				<xsl:apply-templates select="$componentGroups" mode="JS" />
@@ -602,11 +605,10 @@
 				<xsl:value-of select="//@defaultFocusId[1]" />
 				<xsl:text>");});</xsl:text>
 			</xsl:if>
-
-			<xsl:if test="$nLibs ne ''">
+			<xsl:if test="$normalizedLibs ne ''">
 				<xsl:text>require([</xsl:text>
 				<xsl:value-of
-					select="substring($nLibs, 1, string-length($nLibs) - 1)" />
+					select="substring($normalizedLibs, 1, string-length($normalizedLibs) - 1)" />
 				<xsl:text>]);</xsl:text>
 			</xsl:if>
 		</xsl:variable>
