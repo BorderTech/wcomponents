@@ -298,7 +298,7 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
-			<ul id="{$id}" role="radiogroup" class="wc-rowexpansion wc_wc_coltog">
+			<ul id="{$id}" role="radiogroup" class="wc-rowexpansion wc_coltog">
 				<xsl:attribute name="data-wc-group">
 					<xsl:value-of select="$tableId"/>
 				</xsl:attribute>

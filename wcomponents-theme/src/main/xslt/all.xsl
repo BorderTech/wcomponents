@@ -504,10 +504,8 @@
 			<xsl:if test=".//*[@mode eq 'dynamic'] or .//*[@mode eq 'lazy']">
 				<xsl:text>"wc/ui/containerload",</xsl:text>
 			</xsl:if>
-			<!-- This allows us to refocus an ajax trigger ID if it is in the payload. -->
-			<xsl:if test="//ui:ajaxtarget">
-				<xsl:text>"wc/ui/onloadFocusControl",</xsl:text>
-			</xsl:if>
+			<!-- Autofocus fix -->
+			<xsl:text>"wc/ui/onloadFocusControl",</xsl:text>
 			<xsl:if test="$isDebug = 1">
 				<xsl:text>"wc/debug/common",</xsl:text>
 			</xsl:if>
