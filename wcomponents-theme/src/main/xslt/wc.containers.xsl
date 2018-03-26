@@ -53,13 +53,16 @@
 			<xsl:if test="@type">
 				<xsl:value-of select="concat(' wc-panel-type-', @type)"/>
 			</xsl:if>
+			<xsl:if test="@class">
+				<xsl:value-of select="concat(' ', @class)"/>
+			</xsl:if>
 		</xsl:variable>
 		<xsl:element name="{$containerElement}">
 			<xsl:attribute name="id">
 				<xsl:value-of select="@id"/>
 			</xsl:attribute>
 			<xsl:attribute name="class">
-				<xsl:value-of select="normalize-space(concat('wc-panel ', @class, $additionalClass))"/>
+				<xsl:value-of select="normalize-space(concat('wc-panel ', $additionalClass))"/>
 			</xsl:attribute>
 			<xsl:if test="@buttonId">
 				<xsl:attribute name="data-wc-submit">

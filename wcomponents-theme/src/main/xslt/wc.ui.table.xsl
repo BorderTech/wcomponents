@@ -40,8 +40,11 @@
 			<xsl:if test="@type">
 				<xsl:value-of select="concat(' wc-table-', @type)"/>
 			</xsl:if>
+			<xsl:if test="@class">
+				<xsl:value-of select="concat(' ', @class)"/>
+			</xsl:if>
 		</xsl:variable>
-		<div id="{@id}" class="{normalize-space(concat('wc-table ', @class, ' ', $additionalTableClass))}">
+		<div id="{@id}" class="{normalize-space(concat('wc-table ', $additionalTableClass))}">
 			<xsl:if test="@hidden">
 				<xsl:attribute name="hidden">
 					<xsl:text>hidden</xsl:text>

@@ -12,8 +12,11 @@
 			<xsl:if test="@mode eq 'lazy' and @hidden">
 				<xsl:text> wc_magic</xsl:text>
 			</xsl:if>
+			<xsl:if test="@class">
+				<xsl:value-of select="concat(' ', @class)"/>
+			</xsl:if>
 		</xsl:variable>
-		<section id="{@id}" class="{normalize-space(concat('wc-section ', $additional, ' ', @class))}">
+		<section id="{@id}" class="{normalize-space(concat('wc-section ', $additional))}">
 			<xsl:if test="@hidden">
 				<xsl:attribute name="hidden">
 					<xsl:text>hidden</xsl:text>

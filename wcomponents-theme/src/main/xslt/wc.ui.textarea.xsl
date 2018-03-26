@@ -15,6 +15,40 @@
 		application (for example a text editor) paste the large text there, reduce the length of the
 		text (without an immediate character count) and then paste into the textarea.
 	-->
+
+	<xsl:template match="ui:textarea[@readOnly]">
+		<xsl:variable name="element">
+			<xsl:choose>
+				<xsl:when test="ui:rtf">div</xsl:when>
+				<xsl:otherwise>pre</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:element name="{$element}">
+			<xsl:attribute name="id">
+				<xsl:value-of select="@id"/>
+			</xsl:attribute>
+			<xsl:attribute name="class">
+				<xsl:value-of select="normalize-space(concat('wc-textarea wc-ro-input ', @class))"/>
+			</xsl:attribute>
+			<xsl:attribute name="data-wc-component">
+				<xsl:value-of select="local-name()"/>
+			</xsl:attribute>
+			<xsl:if test="@hidden">
+				<xsl:attribute name="hidden">
+					<xsl:text>hidden</xsl:text>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="ui:rtf">
+					<xsl:apply-templates/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:apply-templates xml:space="preserve"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:element>
+	</xsl:template>
+
 	<xsl:template match="ui:textarea">
 		<xsl:variable name="tickerId" select="concat(@id, '_tick')"/>
 		<xsl:variable name="element">
@@ -44,7 +78,7 @@
 					<xsl:text>hidden</xsl:text>
 				</xsl:attribute>
 			</xsl:if>
-			<textarea id="{concat(@id, '_input')}">
+			<textarea id="{concat(@id, '_input')}" name="{@id}">
 				<xsl:if test="@toolTip">
 					<xsl:attribute name="title">
 						<xsl:value-of select="@toolTip"/>

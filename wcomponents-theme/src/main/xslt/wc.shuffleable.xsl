@@ -118,6 +118,7 @@
 			<xsl:apply-templates select="ui:fieldindicator"/>
 		</span>
 	</xsl:template>
+
 	<!-- Transform for WMultiSelectPair. -->
 	<xsl:template match="ui:multiselectpair[@readOnly]">
 		<ul id="{@id}" class="wc-multiselectpair wc-vgap-sm" data-wc-component="multiselectpair">

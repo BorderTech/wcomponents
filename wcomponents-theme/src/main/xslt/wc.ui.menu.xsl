@@ -23,8 +23,11 @@
 			<xsl:if test="number($isBarFlyout) eq 1">
 				<xsl:text> wc_menu_bar</xsl:text>
 			</xsl:if>
+			<xsl:if test="@class">
+				<xsl:value-of select="concat(' ', @class)"/>
+			</xsl:if>
 		</xsl:variable>
-		<div id="{@id}" class="{normalize-space(concat('wc-menu wc-menu-type', @type, ' ', $additional))}">
+		<div id="{@id}" class="{normalize-space(concat('wc-menu wc-menu-type-', @type, ' ', $additional))}">
 			<xsl:attribute name="role">
 				<xsl:choose>
 					<xsl:when test="number($isBarFlyout) eq 1">

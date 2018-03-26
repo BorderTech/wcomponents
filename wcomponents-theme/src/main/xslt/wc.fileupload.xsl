@@ -86,10 +86,7 @@
 
 		<xsl:choose>
 			<xsl:when test="not(ui:file)">
-				<span id="{@id}" data-wc-component="multifileupload">
-					<xsl:attribute name="class">
-						<xsl:value-of select="normalize-space(concat('wc-multifileupload ', @class, $roClass))"/>
-					</xsl:attribute>
+				<span id="{@id}" data-wc-component="multifileupload" class="{normalize-space(concat('wc-multifileupload ', @class, $roClass))}">
 					<xsl:if test="@hidden">
 						<xsl:attribute name="hidden">
 							<xsl:text>hidden</xsl:text>
@@ -169,18 +166,15 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<fieldset id="{@id}" data-wc-cols="{$cols}">
-			<xsl:variable name="additional">
-				<xsl:if test="@required">
-					<xsl:text>wc_req</xsl:text>
-				</xsl:if>
-				<xsl:if test="@ajax">
-					<xsl:text> wc-ajax</xsl:text>
-				</xsl:if>
-			</xsl:variable>
-			<xsl:attribute name="class">
-				<xsl:value-of select="normalize-space(concat('wc-multifileupload wc_noborder', @class, ' ', $additional))"/>
-			</xsl:attribute>
+		<xsl:variable name="additional">
+			<xsl:if test="@required">
+				<xsl:text>wc_req</xsl:text>
+			</xsl:if>
+			<xsl:if test="@ajax">
+				<xsl:text> wc-ajax</xsl:text>
+			</xsl:if>
+		</xsl:variable>
+		<fieldset id="{@id}" data-wc-cols="{$cols}" class="{normalize-space(concat('wc-multifileupload wc_noborder', @class, ' ', $additional))}">
 			<xsl:if test="@hidden">
 				<xsl:attribute name="hidden">
 					<xsl:text>hidden</xsl:text>
@@ -210,6 +204,9 @@
 				</xsl:attribute>
 				<xsl:attribute name="type">
 					<xsl:text>file</xsl:text>
+				</xsl:attribute>
+				<xsl:attribute name="name">
+					<xsl:value-of select="@id"/>
 				</xsl:attribute>
 				<xsl:if test="@toolTip">
 					<xsl:attribute name="title">

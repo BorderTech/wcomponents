@@ -94,6 +94,12 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:attribute>
+				<xsl:attribute name="name">
+					<xsl:value-of select="@id"/>
+				</xsl:attribute>
+				<xsl:attribute name="value">
+					<xsl:value-of select="text()"/>
+				</xsl:attribute>
 				<xsl:if test="@required">
 					<xsl:attribute name="required">
 						<xsl:text>required</xsl:text>
@@ -129,9 +135,6 @@
 						<xsl:value-of select="@toolTip"/>
 					</xsl:attribute>
 				</xsl:if>
-				<xsl:attribute name="value">
-					<xsl:value-of select="text()"/>
-				</xsl:attribute>
 				<xsl:choose>
 					<xsl:when test="@list">
 						<xsl:attribute name="role">
@@ -197,39 +200,6 @@
 			</xsl:if>
 			<xsl:apply-templates select="ui:fieldindicator"/>
 		</span>
-	</xsl:template>
-
-	<xsl:template match="ui:textarea[@readOnly]">
-		<xsl:variable name="element">
-			<xsl:choose>
-				<xsl:when test="ui:rtf">div</xsl:when>
-				<xsl:otherwise>pre</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		<xsl:element name="{$element}">
-			<xsl:attribute name="id">
-				<xsl:value-of select="@id"/>
-			</xsl:attribute>
-			<xsl:attribute name="class">
-				<xsl:value-of select="normalize-space(concat('wc-textarea wc-ro-input ', @class))"/>
-			</xsl:attribute>
-			<xsl:attribute name="data-wc-component">
-				<xsl:value-of select="local-name()"/>
-			</xsl:attribute>
-			<xsl:if test="@hidden">
-				<xsl:attribute name="hidden">
-					<xsl:text>hidden</xsl:text>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:choose>
-				<xsl:when test="ui:rtf">
-					<xsl:apply-templates/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:apply-templates xml:space="preserve"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:element>
 	</xsl:template>
 
 	<xsl:template match="ui:checkbox | ui:radiobutton">

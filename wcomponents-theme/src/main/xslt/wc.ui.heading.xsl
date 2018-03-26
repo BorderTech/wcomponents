@@ -4,13 +4,16 @@
 	<xsl:template match="ui:heading">
 		<xsl:variable name="additional">
 			<xsl:apply-templates select="ui:margin"/>
+			<xsl:if test="@class">
+				<xsl:value-of select="concat(' ', @class)"/>
+			</xsl:if>
 		</xsl:variable>
 		<xsl:element name="{concat('h',@level)}">
 			<xsl:attribute name="id">
 				<xsl:value-of select="@id"/>
 			</xsl:attribute>
 			<xsl:attribute name="class">
-				<xsl:value-of select="normalize-space(concat('wc-heading ', $additional, ' ', @class))"/>
+				<xsl:value-of select="normalize-space(concat('wc-heading ', $additional))"/>
 				<xsl:text>wc-heading</xsl:text>
 			</xsl:attribute>
 			<xsl:apply-templates />
