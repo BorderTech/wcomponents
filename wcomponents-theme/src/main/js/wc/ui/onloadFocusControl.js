@@ -88,8 +88,7 @@ define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/t
 				}
 				if (result && !ignoreMessages) {
 					// we still can't focus if there are message boxes in the view
-					// To only check for ERROR boxes use: messageBox.getErrorBoxes();
-					if (messageBox.get()) {
+					if (messageBox.getErrorBoxes()) {
 						result = false;
 					}
 				}
