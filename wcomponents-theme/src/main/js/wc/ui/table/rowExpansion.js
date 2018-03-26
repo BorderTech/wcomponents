@@ -10,14 +10,12 @@ define(["wc/array/toArray",
 	"wc/ui/ajaxRegion",
 	"wc/timers",
 	"wc/ui/ajax/processResponse",
-	"wc/ui/onloadFocusControl",
 	"wc/ui/rowAnalog",
 	"wc/ui/table/common",
 	"wc/ajax/triggerManager",
 	"wc/ui/icon",
 	"wc/ui/radioAnalog"],
-	function(toArray, attribute, event, focus, formUpdateManager, initialise, shed, tag, Widget, ajaxRegion, timers, processResponse,
-		onloadFocusControl, rowAnalog, common, triggerManager, icon) {
+	function(toArray, attribute, event, focus, formUpdateManager, initialise, shed, tag, Widget, ajaxRegion, timers, processResponse, rowAnalog, common, triggerManager, icon) {
 		"use strict";
 
 		/**
@@ -269,21 +267,9 @@ define(["wc/array/toArray",
 			 *
 			 * @function
 			 * @private
-			 * @param {Element} element The target element.
-			 * @param {String} action Not used.
-			 * @param {String} triggerId The id of the original ajax trigger element. We are only interested if this is
-			 *    the id of a table with row expansion.
 			 */
-			function ajaxSubscriber(element, action, triggerId) {
-				var button;
+			function ajaxSubscriber(/* element, action, triggerId */) {
 				setControls();
-				if (element && triggerId && (TABLE_WRAPPER.isOneOfMe(element))) {
-					if ((button = document.getElementById(triggerId))) {
-						if (Widget.isOneOfMe(button, [ROW_TRIGGER, EXPAND_COLLAPSE_ALL])) {
-							onloadFocusControl.requestFocus(triggerId, null, true);
-						}
-					}
-				}
 			}
 
 			/**

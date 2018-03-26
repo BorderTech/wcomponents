@@ -4,13 +4,11 @@ define(["wc/dom/initialise",
 	"wc/dom/attribute",
 	"wc/dom/group",
 	"wc/ui/ajaxRegion",
-	"wc/ui/ajax/processResponse",
-	"wc/ui/onloadFocusControl",
 	"wc/dom/isEventInLabel",
 	"wc/dom/isAcceptableTarget",
 	"wc/dom/shed",
 	"wc/ui/table/common"],
-	function(initialise, event, formUpdateManager, attribute, group, ajaxRegion, processResponse, onloadFocusControl, isEventInLabel, isAcceptableEventTarget, shed, common) {
+	function(initialise, event, formUpdateManager, attribute, group, ajaxRegion, isEventInLabel, isAcceptableEventTarget, shed, common) {
 		"use strict";
 
 		/**
@@ -30,7 +28,7 @@ define(["wc/dom/initialise",
 				SORTABLE_TABLE = common.TABLE.extend("", {"sortable": null}),
 				THEAD = common.THEAD.clone(),
 				SORT_CONTROL = common.TH.extend("", {"aria-sort": null}),
-				ID_EXTENDER = "_thh",
+				// ID_EXTENDER = "_thh",
 				BOOTSTRAPPED = "wc.ui.table.sort.BS",
 				SORT_ATTRIB = "sorted",
 				ARIA_SORT_ATTRIB = "aria-sort",
@@ -54,13 +52,13 @@ define(["wc/dom/initialise",
 			 * @param {String} action The ajax action, not required for this function.
 			 * @param {String} triggerId The id of the original AJAX trigger.
 			 */
-			function ajaxSubscriber(element, action, triggerId) {
-				if (element && triggerId && triggerId.indexOf(ID_EXTENDER) > 0 && TABLE_WRAPPER.isOneOfMe(element)) {
-					if (document.getElementById(triggerId)) {
-						onloadFocusControl.requestFocus(triggerId, null, true);
-					}
-				}
-			}
+//			function ajaxSubscriber(element, action, triggerId) {
+//				if (element && triggerId && triggerId.indexOf(ID_EXTENDER) > 0 && TABLE_WRAPPER.isOneOfMe(element)) {
+//					if (document.getElementById(triggerId)) {
+//						onloadFocusControl.requestFocus(triggerId, null, true);
+//					}
+//				}
+//			}
 
 
 			/**
@@ -155,7 +153,7 @@ define(["wc/dom/initialise",
 			};
 
 			this.postInit = function() {
-				processResponse.subscribe(ajaxSubscriber, true);
+				// processResponse.subscribe(ajaxSubscriber, true);
 				formUpdateManager.subscribe(writeState);
 			};
 		}

@@ -7,11 +7,10 @@ define(["wc/dom/attribute",
 	"wc/dom/Widget",
 	"wc/ui/ajaxRegion",
 	"wc/ui/ajax/processResponse",
-	"wc/ui/onloadFocusControl",
 	"wc/timers",
 	"wc/ui/table/common",
 	"wc/i18n/i18n"],
-	function(attribute, event, focus, formUpdateManager, initialise, shed, Widget, ajaxRegion, processResponse, onloadFocusControl, timers, common, i18n) {
+	function(attribute, event, focus, formUpdateManager, initialise, shed, Widget, ajaxRegion, processResponse, timers, common, i18n) {
 		"use strict";
 
 		/**
@@ -581,21 +580,12 @@ define(["wc/dom/attribute",
 				if (triggerId && triggerButtonId && (trigger = document.getElementById(triggerId)) && PAGINATION_SELECTOR.isOneOfMe(trigger)) {
 					try {
 						if ((button = document.getElementById(triggerButtonId))) {
-							if (document.activeElement === trigger) {
-								/* onLoadFocusControl has already set the focus to the ajax trigger
+							if (!shed.isDisabled(button) && (!document.activeElement || document.activeElement === trigger || document.activeElement === document.body)) {
+								/* onLoadFocusControl may have already set the focus to the ajax trigger
 								 * so we cannot use it to refocus to the button but we can determine that
 								 * we do not need to re-test for other focus since onloadFocusControl will
 								 * have done that before focussing the select.*/
 								focus.setFocusRequest(button);
-							} else {
-								/*
-								 * There are two circumstances where we may not have focused the
-								 * select: something else has focus OR onloadFocusControl's own
-								 * AJAX subscriber has not yet fired. In both cases we can simply
-								 * call the focus helper from onloadFocusControl which will take care
-								 * of the alternate focus issue for us.
-								 */
-								onloadFocusControl.requestFocus(triggerButtonId, null, true);
 							}
 						}
 					} finally {
