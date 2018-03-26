@@ -8,6 +8,7 @@
 	<property name="impl.resource.rootdir" location="${impl.src.main.dir}/resource" />
 
 	<target name="init" depends="clean">
+		<mkdir dir="${resource.build.target.dir}" />
 	</target>
 
 	<!--
