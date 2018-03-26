@@ -501,10 +501,10 @@ define(["wc/array/toArray",
 		 * @requires module:wc/ui/ajaxRegion
 		 * @requires module:wc/timers
 		 * @requires module:wc/ui/ajax/processResponse
-		 * @requires module:wc/ui/onloadFocusControl
 		 * @requires module:wc/ui/rowAnalog
 		 * @requires module:wc/ui/table/common
 		 * @requires module:wc/ajax/triggerManager
+		 * @requires module:wc/ui/icon
 		 */
 		var instance = new RowExpansion();
 		initialise.register(instance);

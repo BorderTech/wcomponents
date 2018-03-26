@@ -683,7 +683,6 @@ define(["wc/dom/attribute",
 		 * @requires module:wc/dom/Widget
 		 * @requires module:wc/ui/ajaxRegion
 		 * @requires module:wc/ui/ajax/processResponse
-		 * @requires module:wc/ui/onloadFocusControl
 		 * @requires module:wc/timers
 		 * @requires module:wc/ui/table/common
 		 * @requires module:wc/i18n/i18n

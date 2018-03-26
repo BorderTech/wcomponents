@@ -41,25 +41,6 @@ define(["wc/dom/initialise",
 				return TABLE_WRAPPER.findAncestor(element);
 			}
 
-			/**
-			 * Provides a post insertion subscriber to {@link module:wc/ui/ajax/processResponse} which will
-			 * attempt to refocus the replacement sort control when one of the unsorted sort controls is the ajax
-			 * trigger.
-			 *
-			 * @function
-			 * @private
-			 * @param {Element} element The element being replaced.
-			 * @param {String} action The ajax action, not required for this function.
-			 * @param {String} triggerId The id of the original AJAX trigger.
-			 */
-//			function ajaxSubscriber(element, action, triggerId) {
-//				if (element && triggerId && triggerId.indexOf(ID_EXTENDER) > 0 && TABLE_WRAPPER.isOneOfMe(element)) {
-//					if (document.getElementById(triggerId)) {
-//						onloadFocusControl.requestFocus(triggerId, null, true);
-//					}
-//				}
-//			}
-
 
 			/**
 			 * Helper function for key and click initiated collapse toggling. Used to determine if the event is
@@ -153,7 +134,6 @@ define(["wc/dom/initialise",
 			};
 
 			this.postInit = function() {
-				// processResponse.subscribe(ajaxSubscriber, true);
 				formUpdateManager.subscribe(writeState);
 			};
 		}
@@ -171,7 +151,6 @@ define(["wc/dom/initialise",
 		 * @requires module:wc/dom/group
 		 * @requires module:wc/ui/ajaxRegion
 		 * @requires module:wc/ui/ajax/processResponse
-		 * @requires module:wc/ui/onloadFocusControl
 		 * @requires module:wc/dom/isEventInLabel
 		 * @requires module:wc/dom/isAcceptableTarget
 		 * @requires module:wc/dom/shed
