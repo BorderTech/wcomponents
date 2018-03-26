@@ -9,31 +9,23 @@
  * ever expect to see ui widgets listed here but you can list whatever floats your boat, EXCEPT anything loaded in
  * compat or fixes.js - they're polyfills for ES5, DOM methods etc.
  *
- * The layer **must** include "wc/i18n/i18n", "wc/a8n" and "wc/ui/loading", otherwise things will go terribly wrong :( (well, things wiull go wring
+ * The layer **must** include "wc/i18n/i18n" and "wc/a8n", otherwise things will go terribly wrong :️( (well, things will go wrong
  * in testing if you don't include "wc/a8n").
  *
  * During the build the dependencies and sub-dependencies of this module will be calculated and packaged into
  * this file meaning you get a whole lot of modules for one single HTTP request.
  *
- * @example
- *	require(["wc/i18n/i18n",
-		"wc/ui/loading",
-		"wc/ui/field",
-		"wc/ui/label",
-		"wc/ui/wrappedInput"]);
- *
  * @ignore
  */
-require(["wc/fixes",
+require(["wc/fixes", // you REALLY need this ...
 	"wc/i18n/i18n", // ALWAYS REQUIRED IN THIS LAYER
 	"wc/a8n", // ALWAYS REQUIRED IN THIS LAYER
-	"wc/ui/loading", // ALWAYS REQUIRED IN THIS LAYER
 	"wc/ui/backToTop",
 	"wc/ui/field",
 	"wc/ui/label",
 	"wc/ui/wrappedInput",
 	"wc/ui/tabset",
-	"wc/ui/menu"], function (f) {
+	"wc/ui/menu"], function (f) { // to apply the fixes
 	"use strict";
 	require(f);
 });

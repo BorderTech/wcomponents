@@ -5,7 +5,9 @@
 
 	<xsl:template match="ui:checkboxselect[@readOnly]">
 		<span>
-			<xsl:call-template name="commonAttributes"/>
+			<xsl:call-template name="commonAttributes">
+				<xsl:with-param name="class" select="'wc-checkableselect'"/>
+			</xsl:call-template>
 			<xsl:call-template name="roComponentName"/>
 			<xsl:choose>
 				<xsl:when test="@layoutColumnCount and number(@layoutColumnCount) gt 1">
@@ -22,7 +24,9 @@
 
 	<xsl:template match="ui:radiobuttonselect[@readOnly]">
 		<span>
-			<xsl:call-template name="commonAttributes"/>
+			<xsl:call-template name="commonAttributes">
+				<xsl:with-param name="class" select="'wc-checkableselect'"/>
+			</xsl:call-template>
 			<xsl:call-template name="roComponentName"/>
 			<xsl:apply-templates select="ui:option" mode="checkbleGroup"/>
 		</span>
@@ -30,7 +34,9 @@
 
 	<xsl:template match="ui:checkboxselect|ui:radiobuttonselect">
 		<fieldset>
-			<xsl:call-template name="commonWrapperAttributes"/>
+			<xsl:call-template name="commonWrapperAttributes">
+				<xsl:with-param name="class" select="'wc-checkableselect'"/>
+			</xsl:call-template>
 			<xsl:if test="ui:option">
 				<xsl:if test="self::ui:checkboxselect">
 					<xsl:if test="@min">

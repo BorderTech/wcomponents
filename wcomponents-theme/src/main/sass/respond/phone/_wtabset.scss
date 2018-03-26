@@ -1,0 +1,7 @@
+
+@if $wc-use-respond == true and $wc-respond-reduce-gap-when-narrow == true {
+  // Do not make role='tab' smaller because the padding is part of the hit zone.
+  [role='tabpanel'] {
+    padding: $wc-phone-gap-normal;
+  }
+}

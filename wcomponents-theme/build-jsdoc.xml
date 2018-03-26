@@ -288,7 +288,7 @@
 		<property name="jsdoc.config" location="${tmp.dir}/jsdoc.json" />
 
 		<stopwatch name="node-jsdoc" action="start"/>
-		<echo>node ${jsdoc.node.run} -c ${jsdoc.config}</echo>
+		<echo level="verbose">node ${jsdoc.node.run} -c ${jsdoc.config}</echo>
 		<nodejs.exec failonerror="false" cwd="${target.rootdir}">
 			<arguments>
 				<arg value="${jsdoc.node.run}"/>

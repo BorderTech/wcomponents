@@ -25,15 +25,16 @@
 //     element.
 // @param {dimension} $size [$wc-gap-small] The size of the margin to apply.
 @mixin margin ($pos: all, $size: $wc-gap-small) {
-  @if ($pos == all) {
+  @if $pos == all {
     margin: $size;
   } @else {
     margin-#{$pos}: $size;
   }
 }
 
-// FLEX BOX MIXINS
-@import 'flex';
+@mixin wc-opaque-box {
+  background-color: $wc-clr-global-bg;
+}
 
 // #############################################################################
 // CONTENT CONTAINMENT
@@ -47,7 +48,7 @@
 // @param {int} $imp [0] make all rules important 0 is not important, anything
 //     other than zero is important.
 @mixin fit-content($what: width, $imp: 0, $fallback: auto) {
-  @if ($imp == 0) {
+  @if $imp == 0 {
     #{$what}: $fallback;
     #{$what}: -webkit-fit-content;
     #{$what}: -moz-fit-content;
@@ -82,22 +83,25 @@
 
 
 // #############################################################################
-// BOXES with (or without) padding.
+// BOXES with (or without) padding and optional border.
 // #############################################################################
 // Make a container into a simple padded box with a standard border.
-// @param {dimaension} $pad [$wc-gap-normal] The amount of padding.
-// @param {color} $border [$wc-clr-border] The border color.
+// @param {dimension} $pad [$wc-gap-normal] The amount of padding.
+// @param {int} $border [true] set a border on the box. Set to -1 to not have a
+//  standard border.
 // @param {color|-1} $color [-1] The foreground color. Set to -1 to ignore.
 // @param {color|-1} $bg-color [-1] The background color. Set to -1 to ignore.
-@mixin padded-box($pad: $wc-gap-normal, $border: $wc-clr-border, $color: -1, $bg-color: -1) {
-  @include border($color: $border);
-  @if ($pad != 0) {
+@mixin padded-box($pad: $wc-gap-normal, $border: true, $color: -1, $bg-color: -1) {
+  @if $border == true {
+    @include border;
+  }
+  @if $pad != 0 {
     padding: $pad;
   }
-  @if ($bg-color != -1) {
+  @if $bg-color != -1 {
     background-color: $bg-color;
   }
-  @if ($color != -1) {
+  @if $color != -1 {
     color: $color;
   }
 }
@@ -114,7 +118,7 @@
 // #############################################################################
 // Move an element out of viewport.
 @mixin offscreen($important: 0) {
-  @if ($important == 1) {
+  @if $important == 1 {
     // Require important to ensure we are really off screen
     // sass-lint:disable no-important
     left: -9999px !important;
@@ -135,7 +139,7 @@
 
 // Move an element back into viewport.
 @mixin onscreen($important: 0, $position: static, $left: 0, $max-height: none, $max-width: none, $overfow: visible) {
-  @if ($important == 1) {
+  @if $important == 1 {
     // Require important to ensure we are really off screen
     // sass-lint:disable no-important
     left: $left !important;

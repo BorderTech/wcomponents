@@ -1,0 +1,259 @@
+// #############################################################################
+// WMenu
+// #############################################################################
+// generic menu structure
+$wc-menu-item-pad-topbottom: $wc-gap-normal !default;
+// menu type BAR and FLYOUT structure
+// padding of items
+$wc-menu-bar-column-item-pad: $wc-menu-item-pad-topbottom !default;
+// padding of menuitems in WMenu Type.TREE TODO: why???
+$wc-menu-tree-item-pad: $wc-gap-small 0 !default;
+// padding of WSeparator at the top level of a BAR or FLYOUT menu
+// (aria-orientation='vertical')
+$wc-menu-bar-vseparator-pad: (2 * $wc-menu-item-pad-topbottom) 0 0 0 !default;
+
+// indent of groups in a tree-like menu
+$wc-menu-tree-indent: .75rem !default;
+
+$wc-menu-iconwidth: $wc-icon-size !default;
+$wc-menu-icon-space: $wc-menu-iconwidth + $wc-gap-small;
+// #############################################################################
+
+// Structural styles common to all menus.
+.wc-menuitem,
+.wc-submenu {
+  width: 100%;
+
+  .wc_menu_bar > & {
+    display: inline-block;
+    // vertical-align: text-top;
+    white-space: nowrap;
+    width: auto;
+  }
+}
+
+.wc-menuitem,
+.wc-submenu-o {
+  padding: $wc-menu-bar-column-item-pad;
+  width: 100%;
+
+  .wc-decoratedlabel {
+    display: inline-table; // this is so we can hold an icon on WMenuItem
+    width: 100%;
+  }
+
+  .wc_dlbl_seg {
+    display: table-cell;
+
+    + .wc_dlbl_seg {
+      padding-left: $wc-gap-small;
+    }
+  }
+
+  .wc-labelbody {
+    width: 100%;
+  }
+}
+
+.wc-submenu-o {
+  > .wc-decoratedlabel {
+    width: calc(100% - #{$wc-menu-icon-space});
+  }
+
+  > .fa {
+    margin-left: $wc-gap-small;
+    text-align: left;
+    width: $wc-menu-iconwidth;
+  }
+}
+
+.wc-menuitem {
+  display: block;
+  vertical-align: bottom;
+
+  &.wc-icon-before,
+  &.wc-icon-after {
+    .wc-decoratedlabel {
+      width: calc(100% - #{$wc-menu-icon-space});
+    }
+
+    &::before {
+      width: $wc-menu-iconwidth;
+    }
+  }
+}
+
+[role='separator'] {
+  margin: 0;
+  padding: 0;
+
+  &[aria-orientation='vertical'] {
+    @include border($pos: left);
+    border-bottom: 0 none;
+    display: inline;
+    padding: $wc-menu-bar-vseparator-pad;
+    vertical-align: bottom;
+  }
+}
+
+
+// closes a submenu, made visible on small screens if responsive design is enabled.
+.wc_closesubmenu {
+  display: none;
+}
+
+// the hamburger icon. This is here to override wc-submenu-o above.
+.wc_hbgr {
+  padding: $wc-gap-small;
+}
+
+// for WMenu type BAR, type FLYOUT, type COLUMN
+.wc-menu-type-column,
+.wc_menu_bar {
+  .wc_submenucontent {
+    @include wc-opaque-box;
+    height: auto; // override (mobile) default
+    min-width: 100%;
+    overflow: visible;
+    position: absolute;
+    top: 100%;
+    width: auto;
+
+    > [role] { // override (mobile) default.
+      font-size: inherit;
+    }
+  }
+
+  .wc_closesubmenu {
+    display: none;
+  }
+}
+
+.wc-menu-type-column,
+.wc_submenucontent {
+  // nested sub-menus. These must appear before the colision detection
+  // overrides below.
+  .wc_submenucontent {
+    left: 100%;
+    top: 0;
+
+    &.wc_coleast { // nested collisions
+      right: 100%;
+    }
+
+    &.wc_colwest {
+      right: 100%;
+    }
+  }
+}
+
+// Now for the collision detection...
+.wc_submenucontent {
+  display: none;
+  white-space: nowrap;
+
+  &[aria-expanded='true'] {
+    display: block;
+  }
+
+  &[aria-busy='true'] {
+    min-height: $wc-icon-size;
+  }
+
+  .wc-menu-type-tree & {
+    white-space: normal;
+  }
+
+  .wc_menu_bar &,
+  .wc-menu-type-column & {
+    z-index: $wc-z-index-common;
+
+    dialog & {
+      z-index: $wc-z-index-common-in-dialog;
+    }
+  }
+
+  &.wc_colsth { //south collision
+    bottom: 0;
+    left: 100%;
+    top: auto;
+
+    &.wc_coleast { //collides both south and east
+      left: auto;
+      right: 100%;
+    }
+  }
+
+  // viewport edge collisions
+  &.wc_coleast {
+    left: auto;
+    right: 0;
+
+    &.wc_colwest { //collides both east and west
+      max-width: 100%;
+    }
+  }
+
+  &.wc_colwest {
+    left: 100%;
+    right: auto;
+  }
+}
+
+// make menu bars horizontal.
+.wc_menu_bar {
+  > .wc-menuitem,
+  > .wc-submenu > .wc-submenu-o {
+    .wc-decoratedlabel {
+      display: inline-table;
+      width: auto;
+    }
+
+    .wc-labelbody {
+      width: auto;
+    }
+  }
+}
+
+.wc-menu-type-bar.wc_menu_fix {
+  display: inline-block;
+}
+
+.wc_closesubmenu::before {
+  margin-right: $wc-gap-small;
+}
+
+// Type FLYOUT is mostly the same as bar-column but is not blocky.
+// See _wc.menu.bar-column.scss
+.wc-menu-type-flyout {
+  display: inline-block;
+}
+
+.wc-submenu {
+  position: relative;
+
+  .wc-menu-type-tree & {
+    position: static;
+  }
+}
+
+
+.wc-menu-type-tree {
+  .wc-menuitem {
+    padding: $wc-menu-tree-item-pad;
+  }
+
+  .wc-submenu-o {
+    padding: $wc-menu-tree-item-pad;
+
+    > .fa {
+      margin-left: 0;
+    }
+  }
+
+  @if $wc-menu-tree-indent > 0 {
+    .wc_submenucontent {
+      margin-left: $wc-menu-tree-indent;
+    }
+  }
+}

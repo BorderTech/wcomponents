@@ -4,6 +4,7 @@
 	"description": "Client side code for WComponent UI tool kit.",
 	"private": true,
 	"optionalDependencies": {
+		"sass": "1.0.0-rc.1",
 		"jsdoc-oblivion": "0.0.9"
 	},
 	"devDependencies": {

@@ -1,56 +1,43 @@
 // #############################################################################
 // BORDER
 // #############################################################################
+
 // Set simple border styles. Using $width = 0 will unset a border.
 // @param {String} $pos [all] The border to set. one of 'all' or a border
 //     fragment 'top', 'right', 'bottom' or 'left'.
 //     When set to 'all' a complete border is set, otherwise only the element
 //     edge specified by this param.
-// @param {color} $color [$wc-clr-border] The color of the border. Ignored if
-//     $width is . Set to -1 to not set.
 // @param {border-style} $style [$wc-border-style] The style of the border.
 //     Ignored if $width is .
 // @param {dimension} $width [$wc-border-width] The width of the border. If 0
 //     then the border will be unset and its style set to none.
-@mixin border($pos: all, $color: $wc-clr-border, $style: $wc-border-style,
-  $width: $wc-border-width) {
-  @if ($pos == all) {
-    @if ($width == 0) {
-      border: 0;
-    } @else if ($color == -1) {
-      border-style: $style;
-      border-width: $width;
-    } @else {
-      border: $width $style $color;
-    }
-  } @else if ($width == 0) {
-    border-#{$pos}: 0;
-  } @else if ($color == -1) {
-    border-#{$pos}-style: $style;
-    border-#{$pos}-width: $width;
-  } @else {
-    border-#{$pos}: $width $style $color;
-  }
-}
 
-// #############################################################################
-// OUTLINE
-// #############################################################################
-// Set an outline on an element. Outlines may be better than borders for
-// transient effects.
-// The default call will create an outline with the following propoerties:
-// * colour - default border colour;
-// * style - solid;
-// * width - default border width;
-// * offset - .
-// @param {color} $color [$wc-clr-border] The color of the outline.
-// @param {outline-style} $style [solid] The style of the outline.
-// @param {dimension} $width [$wc-border-width] the width of the outline.
-// @param {int} $offset [0] The outline offset (if any).
-@mixin outline($color: $wc-clr-border, $style: solid, $width: $wc-border-width,
-  $offset: 0) {
-  outline: $width $style $color;
-  @if ($offset != 0) {
-    outline-offset: $offset;
+@mixin border($pos: all, $style: $wc-border-style, $width: $wc-border-width, $color: $wc-border-color) {
+  @if $pos == all {
+    @if $width == 0 {
+      border: 0;
+    } @else {
+      @if $style != -1 {
+        border-style: $style;
+      }
+      @if $width != -1 {
+        border-width: $width;
+      }
+      @if $color != -1 {
+        border-color: $color;
+      }
+    }
+  } @else if $width == 0 {
+    border-#{$pos}: 0;
+  } @else {
+    @if $style != -1 {
+      border-#{$pos}-style: $style;
+    }
+    @if $width != -1 {
+      border-#{$pos}-width: $width;
+    }
+    @if $color != -1 {
+      border-#{$pos}-color: $color;
+    }
   }
 }

@@ -1,6 +1,7 @@
 // #############################################################################
 // The only purpose of this file is to include external libraries which for
-// whatever reason we have to build from source in WComponents.
+// whatever reason we have to build from source in WComponents. This file should
+// only include libraries which cannot be loaded asynchronously.
 // #############################################################################
-// include font-awesome
+
 @import 'lib/fa/font-awesome';

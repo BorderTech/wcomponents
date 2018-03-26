@@ -1,0 +1,34 @@
+
+@if $wc-use-respond == true and $wc-respond-reduce-gap-when-narrow == true {
+  @if $wc-section-space-normal > 0 {
+    .wc-menu-type-bar.wc-neg-margin {
+      $neg-margin: -$wc-section-space-reduced;
+      margin: $neg-margin $neg-margin $wc-section-space-reduced;
+    }
+
+    @if $wc-section-space-reduced >= 0 {
+      section {
+        > div,
+        > .wc-listlayout {
+          padding: $wc-section-space-reduced;
+        }
+
+        &,
+        > .wc-panel {
+          > .wc-content > .wc-menu-type-bar:first-child {
+            @if $wc-section-space-reduced > 0 {
+              $neg-margin: -$wc-section-space-reduced;
+              margin: $neg-margin $neg-margin $wc-section-space-reduced;
+            } @else {
+              margin: 0;
+            }
+          }
+        }
+      }
+
+      .wc-section > .wc-panel {
+        padding: $wc-section-space-reduced;
+      }
+    }
+  }
+}

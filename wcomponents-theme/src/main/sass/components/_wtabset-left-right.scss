@@ -1,0 +1,74 @@
+// #############################################################################
+// WTabSet TabSetType.LEFT and TabSetType.RIGHT.
+// A lot of CSS for components which shouldn't exist!
+// #############################################################################
+@if $wc-tabset-allow-left-right == true {
+  // LEFT or RIGHT
+  [role='tablist'][aria-orientation='vertical'] {
+    @include flex-direction(column);
+    max-width: $wc-tabset-left-right-tab-width;
+    top: 0;
+
+    > [role='tab'] {
+      @include border($pos: bottom, $width: $wc-tabset-tab-border);
+
+      + [role='tab'] {
+        margin-left: 0;
+        margin-top: $wc-gap-small;
+      }
+    }
+
+    ~ [role='tabpanel'] {
+      @include border($width: $wc-tabset-tab-border);
+    }
+  }
+
+  .wc-tabset-type-left {
+    @include flex-direction(row);
+
+    > [role='tablist'] {
+      left: $wc-tabpanel-border-width;
+
+      [role='tab'] {
+        @include wc-ui-tabset-left-border-radius;
+        @include border($pos: right, $width: 0);
+      }
+    }
+  }
+
+  .wc-tabset-type-right {
+    @include flex-direction(row-reverse);
+
+    > [role='tablist'] {
+      right: $wc-tabpanel-border-width;
+
+      [role='tab'] {
+        @include wc-ui-tabset-right-border-radius;
+        @include border($pos: left, $width: 0);
+        text-align: right;
+      }
+    }
+  }
+
+  .wc-tabset-type-left,
+  .wc-tabset-type-right {
+    &[data-wc-converted] {
+      @include flex-direction(column);
+
+      > [role='tablist'] {
+        left: 0;
+        right: 0;
+
+        [role='tab'] {
+          border-radius: 0;
+          text-align: left;
+        }
+      }
+
+      > [role='tabpanel'] {
+        @include border($pos: top, $width: 0);
+        @include border($pos: bottom, $width: 0);
+      }
+    }
+  }
+}

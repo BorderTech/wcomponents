@@ -8,8 +8,7 @@
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
 		<artifactId>wcomponents-parent</artifactId>
-
-		<version>1.5.1-SNAPSHOT</version>
+		<version>1.5.3-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -56,6 +55,8 @@
 		Issue raised with intern. https://github.com/theintern/intern/issues/744.
 		-->
 		<test.intern.version>3.4.4</test.intern.version><!-- intern version: use ~3.4.3 for nexus 3+, ~3.0.6 if you are stuck with Nexus 2 -->
+		<sass.compiler.lang>js</sass.compiler.lang><!-- "js" to use node to compile sass or "java" to use Vaadin Sass Compiler -->
+		<rjs.log.level>2</rjs.log.level><!-- Log level for r.js used to optimize JavaScript -->
 	</properties>
 
 	<build>
@@ -204,6 +205,8 @@
 								<property name="build.rootdir" location="${theme.target.dir}" />
 								<property name="theme.skip.tests" value="true" />
 								<property name="maven.plugin.classpath" refid="maven.plugin.classpath" />
+								<property name="sass.compiler.lang" value="${sass.compiler.lang}" />
+								<property name="rjs.log.level" value="${rjs.log.level}" />
 								<ant antfile="${theme.core.dir}/build.xml">
 									<target name="build" />
 								</ant>
@@ -229,7 +232,8 @@
 								<property name="build.rootdir" location="${theme.target.dir}" />
 								<property name="theme.skip.tests" value="${skipOptionalTests}" />
 								<property name="maven.plugin.classpath" refid="maven.plugin.classpath" />
-								<!--<property name="theme.skip.tests" value="${skipOptionalTests}" />-->
+								<property name="sass.compiler.lang" value="${sass.compiler.lang}" />
+								<property name="rjs.log.level" value="${rjs.log.level}" />
 								<ant antfile="${theme.core.dir}/build.xml">
 									<target name="test" />
 								</ant>
@@ -254,6 +258,8 @@
 								<property name="build.rootdir" location="${theme.target.dir}" />
 								<property name="theme.skip.tests" value="true" />
 								<property name="maven.plugin.classpath" refid="maven.plugin.classpath" />
+								<property name="sass.compiler.lang" value="${sass.compiler.lang}" />
+								<property name="rjs.log.level" value="4" />
 								<ant antfile="${theme.core.dir}/build.xml">
 									<target name="document" />
 								</ant>

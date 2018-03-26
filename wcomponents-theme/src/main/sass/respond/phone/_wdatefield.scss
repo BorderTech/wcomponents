@@ -1,0 +1,61 @@
+
+// We use a single ID'd component for all calendar date pickers and move it
+//  around to where it is needed.
+// sass-lint:disable no-ids
+
+@if $wc-use-respond == true {
+  // The main purpose of this CSS is to make the pop-up calendar full screen.
+  // We make all of the buttons bigger to make them easier for fingers to push
+  // and finally add a close button to make up for the lack of an escape key.
+
+  #wc_calbox { // This is the calendar container.
+    // sass-lint:disable no-important
+    border: 0;
+    height: 100%;
+    left: 0 !important;
+    position: fixed;
+    right: 0 !important;
+    top: 0 !important;
+    width: 100%;
+
+    > .wc-row {
+      display: block;
+
+      button {
+        margin-left: $wc-phone-gap-normal;
+
+        &:first-of-type {
+          margin-left: 0;
+        }
+      }
+
+      // button columns
+      > .wc-column {
+        &:first-child {
+          @include flex($justify: space-between);
+          margin-bottom: $wc-phone-gap-small;
+
+          // year input
+          > input {
+            margin-right: 0;
+          }
+        }
+
+        + .wc-column {
+          display: table-cell;
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  #wc_calendar {
+    font-size: $wc-datefield-font-larger;
+  }
+
+  .wc_wdf_pick {
+    line-height: 2;
+    max-width: 100%;
+  }
+}
+// sass-lint:enable no-ids

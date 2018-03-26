@@ -1,0 +1,66 @@
+// styling for the loading indicator that appears for page reloads and AJAX
+// regions
+// #############################################################################
+// The size to reserve for the aria-busy indicator
+$wc-common-busy-size: $wc-icon-size !default;
+// How far to offset the busy indicator from the center of the busy element.
+$wc-common-busy-offset: $wc-common-busy-size / 2;
+// The loading indicator icon. If you change this you will eant to change the
+// gif equivalent used in input, select and textarea elements.
+$wc-loading-icon: $fa-var-spinner !default;
+// Should the loading indicate spin? Set to anything other than 1 to turn off.
+$wc-loading-animate: 1 !default;
+
+@if $wc-loading-animate == 1 {
+  // Allow Vendor Prefix for animation.
+  // sass-lint:disable no-vendor-prefixes
+  // stolen from FontAwesome.
+  @keyframes wc-spin {
+    0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+
+    100% {
+      -webkit-transform: rotate(359deg);
+      transform: rotate(359deg);
+    }
+  }
+  // sass-lint:enable no-vendor-prefixes
+}
+
+// #############################################################################
+// aria-busy areas
+// #############################################################################
+[aria-busy='true'] {
+  position: relative; // to position the loading indicator.
+
+  // yeah - I know this won't work for replaced content...
+  &::before {
+    @include fa-icon;
+    content: $wc-loading-icon;
+    // Width and height are to restrict the spinning segment, otherwise all
+    // sorts of fun may ensue.
+    height: $wc-common-busy-size;
+    left: calc(50% - #{$wc-common-busy-offset});
+    position: absolute;
+    top: calc(50% - #{$wc-common-busy-offset});
+    width: $wc-common-busy-size;
+    @if $wc-loading-animate == 1 {
+      // stolen from FontAwesome.
+      // Allow Vendor Prefix for animation.
+      // sass-lint:disable no-vendor-prefixes
+      -webkit-animation: wc-spin 2s infinite linear;
+      animation: wc-spin 2s infinite linear;
+      // sass-lint:enable no-vendor-prefixes
+    }
+  }
+}
+
+input,
+select,
+textarea {
+  &[aria-busy='true'] {
+    background: url('#{$wc-img-path}loading-dark.gif') 50% 50% no-repeat transparent;
+  }
+}

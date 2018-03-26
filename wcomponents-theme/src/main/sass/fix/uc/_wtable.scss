@@ -1,0 +1,24 @@
+
+
+@if $wc-use-respond == true {
+  .wc_table_bottom_controls,
+  .wc_table_top_controls {
+
+    > div {
+      display: block;
+    }
+
+    .wc_table_pag_cont {
+      > span,
+      > label {
+        display: block;
+      }
+    }
+  }
+
+  @if $wc-use-respond-table == true {
+    [sortable] > thead th > .fa {
+      float: right;
+    }
+  }
+}

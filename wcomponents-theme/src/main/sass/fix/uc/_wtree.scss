@@ -1,0 +1,18 @@
+
+
+@if $wc-use-respond == true {
+  [role='treeitem'] > .wc_leaf_vopener + button {
+    width: auto;
+  }
+
+  [role='tree'].wc_htree {
+    [role='group'] {
+      min-width: 0;
+      width: 10rem;
+    }
+
+    .wc_leaf_hopener {
+      float: right;
+   }
+  }
+}

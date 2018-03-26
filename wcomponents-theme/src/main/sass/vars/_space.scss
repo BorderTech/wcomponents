@@ -1,23 +1,18 @@
+
 // #############################################################################
 // SPACING and GAPS - Margins and padding **should** use these.
 // If you change the units of any of these you are probably going to want to
 // change all of them as they may be involved in Sass calculations. The gap
 // sizes and icon sizes (_icon.scss) must be in the same units.
 // #############################################################################
+
 // The list of class suffixes. There is no point rewriting this unless you
 // rewrite the Java and XSLT.
 $wc-gap-suffix-list: z, sm, med, lg, xl;
+
 // Common spacing variables. There should be a gap per entry in the list
 $wc-gap-small: .25rem !default;
 $wc-gap-normal: .5rem !default;
 $wc-gap-large: 1rem !default;
 $wc-gap-xl: 1.5rem !default;
-
 // #############################################################################
-// Gap sizes for narrow viewports.
-// #############################################################################
-// ignored if $wc-use-respond != 1 or $wc-gap-reduce-when-narrow != 1.
-$wc-phone-gap-small: .125rem !default;
-$wc-phone-gap-normal: .25rem !default;
-$wc-phone-gap-large: .5rem !default;
-$wc-phone-gap-xl: .75rem !default;
