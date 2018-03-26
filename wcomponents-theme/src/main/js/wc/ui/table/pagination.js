@@ -42,6 +42,7 @@ define(["wc/dom/attribute",
 				triggerButtonId,
 				BUSY = "aria-busy",
 				PAGE_ATTRIB = "data-wc-pages",
+				TRUE = "true",
 				NUM_BEFORE_AFTER_CURRENT_PAGE_OPTIONS = 4, // this is the number of selections to show around the current page option.
 				NUM_PAGE_OPTIONS = 2 * NUM_BEFORE_AFTER_CURRENT_PAGE_OPTIONS + 3; // This weird number gives us FIRST (4 before selected) SELECTED (4 after selected) LAST.
 			SELECTOR.descendFrom(PAGINATION_CONTAINER);
@@ -150,7 +151,7 @@ define(["wc/dom/attribute",
 				currentPage = parseInt(element.value, 10);
 				options = element.options;
 
-				element.setAttribute(BUSY, "true");
+				element.setAttribute(BUSY, TRUE);
 				startVal = getStartValue(currentPage, totalPages);
 
 				for (i = 1; i < options.length - 1; ++i) {
@@ -163,10 +164,10 @@ define(["wc/dom/attribute",
 					nextOption.value = startVal++;
 					nextOption.innerHTML = startVal; // already incremented.
 				}
-				element.removeAttribute(BUSY);
 				if (!ignoreOther && (otherSelect = getOtherSelector(element))) {
 					updateSelectOptions(otherSelect, true);
 				}
+				element.removeAttribute(BUSY);
 			}
 
 			/**
@@ -286,7 +287,7 @@ define(["wc/dom/attribute",
 					selector = PAGINATION_SELECTOR.findDescendant(paginationContainer),
 					otherSelector;
 
-				if (selector && !shed.isDisabled(selector) && selector.getAttribute(BUSY) !== "true") {// don't do anything if selector disabled or busy
+				if (selector && !shed.isDisabled(selector) && selector.getAttribute(BUSY) !== TRUE) {// don't do anything if selector disabled or busy
 					len = selector.options.length;
 					oldIndex = selector.selectedIndex;
 					buttonType = getButtonType(button);
@@ -341,6 +342,7 @@ define(["wc/dom/attribute",
 
 				if (buttons) {
 					Array.prototype.forEach.call(buttons, function(button) {
+						button.setAttribute(BUSY, TRUE);
 						var type = getButtonType(button);
 						if (idx === 0) {
 							if (type === IDX_BUTTON.FIRST || type === IDX_BUTTON.PREV) {
@@ -357,6 +359,7 @@ define(["wc/dom/attribute",
 						} else {
 							shed[e](button, true);
 						}
+						button.removeAttribute(BUSY);
 					});
 				}
 			}
@@ -533,7 +536,7 @@ define(["wc/dom/attribute",
 					element = $event.target;
 				if (!$event.defaultPrevented) {
 					tree = PAGINATION_BUTTON.findAncestor(element, "", true);
-					if (tree && (element = tree[0])) {
+					if (tree && (element = tree[0]) && !shed.isDisabled(element) && element.getAttribute(BUSY) !== TRUE) {
 						paginationContainer = tree[1];
 						actionButton(element, paginationContainer);
 					}
