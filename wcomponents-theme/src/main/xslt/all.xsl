@@ -73,7 +73,7 @@
 					<xsl:otherwise>
 						<xsl:call-template name="faviconHelper">
 							<xsl:with-param name="href"
-								select="concat($resourceRoot, 'resource/favicon.ico')"
+								select="concat($resourceRoot, '${resource.target.dir.name}/favicon.ico')"
 							 />
 						</xsl:call-template>
 					</xsl:otherwise>
@@ -116,7 +116,9 @@
 					<link type="text/css" rel="stylesheet" href="{$debugCssUrl}"
 						media="screen" />
 				</xsl:if>
-
+				<xsl:variable name="faUrl"/>
+				<link type="text/css" rel="stylesheet" id="wc_css_screen"
+					href="{concat($resourceRoot, '${resource.target.dir.name}/fontawesome/css/font-awesome.min.css')}" media="screen" />
 				<!--
 					We need to set up the require config very early. This mess
 					constructs the require config which is necessary to commence
