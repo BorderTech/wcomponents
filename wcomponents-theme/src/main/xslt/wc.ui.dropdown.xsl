@@ -35,7 +35,7 @@
 					<xsl:value-of select="@data"/>
 				</xsl:attribute>
 			</xsl:if>
-			<select id="{concat(@id, '_input')}">
+			<select id="{concat(@id, '_input')}" name="{@id}">
 				<xsl:if test="@toolTip">
 					<xsl:attribute name="title">
 						<xsl:value-of select="@toolTip"/>
@@ -133,6 +133,22 @@
 				<xsl:attribute name="type">
 					<xsl:text>text</xsl:text>
 				</xsl:attribute>
+				<xsl:attribute name="name">
+					<xsl:value-of select="@id"/>
+				</xsl:attribute>
+				<xsl:attribute name="value">
+					<xsl:choose>
+						<xsl:when test="@data">
+							<xsl:value-of select="ui:option[1]"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select=".//ui:option[@selected][1]"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:attribute>
+				<xsl:attribute name="role">
+					<xsl:text>textbox</xsl:text>
+				</xsl:attribute>
 				<xsl:if test="@required">
 					<xsl:attribute name="required">
 						<xsl:text>required</xsl:text>
@@ -172,22 +188,9 @@
 						</xsl:if>
 					</xsl:attribute>
 				</xsl:if>
-				<xsl:attribute name="role">
-					<xsl:text>textbox</xsl:text>
-				</xsl:attribute>
 				<!-- every input that implements combo should have autocomplete turned off -->
 				<xsl:attribute name="autocomplete">
 					<xsl:text>off</xsl:text>
-				</xsl:attribute>
-				<xsl:attribute name="value">
-					<xsl:choose>
-						<xsl:when test="@data">
-							<xsl:value-of select="ui:option[1]"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:value-of select=".//ui:option[@selected][1]"/>
-						</xsl:otherwise>
-					</xsl:choose>
 				</xsl:attribute>
 				<xsl:if test="@optionWidth">
 					<xsl:attribute name="size">
