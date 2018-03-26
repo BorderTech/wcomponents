@@ -1,14 +1,19 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.attributes.xsl"/>
+
 	<!-- WApplication -->
 	<xsl:template match="ui:application">
 		<xsl:param name="nojs" select="0"/>
 		<xsl:variable name="baseAjaxUrl">
 			<xsl:value-of select="@ajaxUrl"/>
 		</xsl:variable>
-		<form action="{@applicationUrl}" method="POST" id="{@id}" data-wc-datalisturl="{$baseAjaxUrl}" novalidate="novalidate">
+		<xsl:variable name="additional">
+			<xsl:if test="@unsavedChanges or .//html:button[@class and contains(@class, 'wc_unsaved')] or .//ui:menuitem[@unsavedChanges]">
+				<xsl:text> wc_unsaved</xsl:text>
+			</xsl:if>
+		</xsl:variable>
+		<form action="{@applicationUrl}" method="post" id="{@id}" data-wc-datalisturl="{$baseAjaxUrl}" novalidate="novalidate" class="{normalize-space(concat('wc-application ', @class, $additional))}">
 			<xsl:attribute name="data-wc-ajaxurl">
 				<xsl:value-of select="$baseAjaxUrl"/>
 				<xsl:if test="ui:param">
@@ -23,13 +28,6 @@
 					<xsl:apply-templates select="ui:param" mode="get"/>
 				</xsl:if>
 			</xsl:attribute>
-			<xsl:call-template name="makeCommonClass">
-				<xsl:with-param name="additional">
-					<xsl:if test="@unsavedChanges or .//html:button[@class and contains(@class, 'wc_unsaved')] or .//ui:menuitem[@unsavedChanges]">
-						<xsl:text>wc_unsaved</xsl:text>
-					</xsl:if>
-				</xsl:with-param>
-			</xsl:call-template>
 			<xsl:apply-templates />
 		</form>
 	</xsl:template>

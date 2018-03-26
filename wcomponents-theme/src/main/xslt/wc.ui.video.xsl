@@ -1,12 +1,24 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.attributes.xsl"/>
 	<!-- Transforms for WVideo. -->
 	<xsl:template match="ui:video">
-		<span id="{@id}">
-			<xsl:call-template name="makeCommonClass"/>
-			<xsl:if test="@toolTip"><xsl:attribute name="title"><xsl:value-of select="@toolTip"/></xsl:attribute></xsl:if>
-			<xsl:if test="@hidden"><xsl:attribute name="hidden"><xsl:text>hidden</xsl:text></xsl:attribute></xsl:if>
+		<xsl:variable name="class">
+			<xsl:text>wc-video</xsl:text>
+			<xsl:if test="@class">
+				<xsl:value-of select="concat(' ', @class)"/>
+			</xsl:if>
+		</xsl:variable>
+		<span class="{$class}" id="{@id}">
+			<xsl:if test="@toolTip">
+				<xsl:attribute name="title">
+					<xsl:value-of select="@toolTip"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="@hidden">
+				<xsl:attribute name="hidden">
+					<xsl:text>hidden</xsl:text>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:variable name="mediaId" select="concat(@id, '_media')"/>
 			<video id="{$mediaId}">
 				<xsl:attribute name="preload">
@@ -64,11 +76,11 @@
 				</xsl:if>
 				<xsl:apply-templates select="ui:src"/>
 				<xsl:apply-templates select="ui:track"/>
-				<xsl:apply-templates select="ui:src" mode="link"/>
+				<xsl:apply-templates mode="link" select="ui:src"/>
 				<xsl:if test="ui:src and ui:track">
 					<xsl:element name="br"/>
 				</xsl:if>
-				<xsl:apply-templates select="ui:track" mode="link"/>
+				<xsl:apply-templates mode="link" select="ui:track"/>
 			</video>
 		</span>
 	</xsl:template>

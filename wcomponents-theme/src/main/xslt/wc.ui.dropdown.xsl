@@ -14,7 +14,12 @@
 	</xsl:template>
 	
 	<xsl:template match="ui:dropdown">
-		<span id="{@id}" class="{normalize-space(concat('wc-dropdown wc-input-wrapper ', @class))}">
+		<xsl:variable name="additional">
+			<xsl:if test="@type">
+				<xsl:value-of select="concat(' wc-dropdown-type-', @type)"/>
+			</xsl:if>
+		</xsl:variable>
+		<span id="{@id}" class="{normalize-space(concat('wc-dropdown wc-input-wrapper ', @class, $additional))}">
 			<xsl:if test="@disabled">
 				<xsl:attribute name="aria-disabled">
 					<xsl:text>true</xsl:text>

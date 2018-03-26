@@ -2,10 +2,12 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<xsl:template match="ui:checkboxselect[@readOnly]">
-		<span id="{@id}" data-wc-component="checkboxselect">
-			<xsl:attribute name="class">
-				<xsl:value-of select="normalize-space(concat('wc-checkableselect wc-checkableselect ', @class))"/>
-			</xsl:attribute>
+		<xsl:variable name="layoutClass">
+			<xsl:if test="@layout">
+				<xsl:value-of select="concat(' wc-checkboxselect-layout-', @layout)"/>
+			</xsl:if>
+		</xsl:variable>
+		<span id="{@id}" data-wc-component="checkboxselect" class="{normalize-space(concat('wc-checkboxselect wc-checkableselect ', @class, $layoutClass))}">
 			<xsl:if test="@hidden">
 				<xsl:attribute name="hidden">
 					<xsl:text>hidden</xsl:text>
@@ -25,10 +27,12 @@
 	</xsl:template>
 
 	<xsl:template match="ui:radiobuttonselect[@readOnly]">
-		<span id="{@id}" data-wc-component="radiobuttonselect">
-			<xsl:attribute name="class">
-				<xsl:value-of select="normalize-space(concat('wc-radiobuttonselect wc-checkableselect ', @class))"/>
-			</xsl:attribute>
+		<xsl:variable name="layoutClass">
+			<xsl:if test="@layout">
+				<xsl:value-of select="concat(' wc-radiobuttonselect-layout-', @layout)"/>
+			</xsl:if>
+		</xsl:variable>
+		<span id="{@id}" data-wc-component="radiobuttonselect" class="{normalize-space(concat('wc-radiobuttonselect wc-checkableselect ', @class, $layoutClass))}">
 			<xsl:if test="@hidden">
 				<xsl:attribute name="hidden">
 					<xsl:text>hidden</xsl:text>
@@ -62,18 +66,18 @@
 	</xsl:template>
 
 	<xsl:template match="ui:checkboxselect">
-		<fieldset id="{@id}">
-			<xsl:variable name="additional">
-				<xsl:if test="@frameless">
-					<xsl:text>wc_noborder</xsl:text>
-				</xsl:if>
-				<xsl:if test="@required">
-					<xsl:text> wc_req</xsl:text>
-				</xsl:if>
-			</xsl:variable>
-			<xsl:attribute name="class">
-				<xsl:value-of select="normalize-space(concat('wc-checkboxselect wc-checkableselect ', @class, ' ', $additional))"/>
-			</xsl:attribute>
+		<xsl:variable name="additional">
+			<xsl:if test="@frameless">
+				<xsl:text> wc_noborder</xsl:text>
+			</xsl:if>
+			<xsl:if test="@required">
+				<xsl:text> wc_req</xsl:text>
+			</xsl:if>
+			<xsl:if test="@layout">
+				<xsl:value-of select="concat(' wc-checkboxselect-layout-', @layout)"/>
+			</xsl:if>
+		</xsl:variable>
+		<fieldset id="{@id}" class="{normalize-space(concat('wc-checkboxselect wc-checkableselect ', @class, ' ', $additional))}">
 			<xsl:if test="@hidden">
 				<xsl:attribute name="hidden">
 					<xsl:text>hidden</xsl:text>
@@ -137,18 +141,18 @@
 	</xsl:template>
 
 	<xsl:template match="ui:radiobuttonselect">
-		<fieldset id="{@id}">
-			<xsl:variable name="additional">
-				<xsl:if test="@frameless">
-					<xsl:text>wc_noborder</xsl:text>
-				</xsl:if>
-				<xsl:if test="@required">
-					<xsl:text> wc_req</xsl:text>
-				</xsl:if>
-			</xsl:variable>
-			<xsl:attribute name="class">
-				<xsl:value-of select="normalize-space(concat('wc-radiobuttonselect wc-checkableselect ', @class, ' ', $additional))"/>
-			</xsl:attribute>
+		<xsl:variable name="additional">
+			<xsl:if test="@frameless">
+				<xsl:text>wc_noborder</xsl:text>
+			</xsl:if>
+			<xsl:if test="@required">
+				<xsl:text> wc_req</xsl:text>
+			</xsl:if>
+			<xsl:if test="@layout">
+				<xsl:value-of select="concat(' wc-radiobuttonselect-layout-', @layout)"/>
+			</xsl:if>
+		</xsl:variable>
+		<fieldset id="{@id}" class="{normalize-space(concat('wc-radiobuttonselect wc-checkableselect ', @class, ' ', $additional))}">
 			<xsl:if test="@hidden">
 				<xsl:attribute name="hidden">
 					<xsl:text>hidden</xsl:text>

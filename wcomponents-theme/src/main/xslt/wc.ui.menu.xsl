@@ -4,8 +4,6 @@
 	xmlns:html="http://www.w3.org/1999/xhtml"
 	version="2.0">
 
-	<xsl:import href="wc.common.attributes.xsl"/>
-
 	<!-- Transform for WMenu. Menus may not be nested. -->
 	<xsl:template match="ui:menu">
 		<xsl:variable name="id" select="@id"/>
@@ -20,12 +18,13 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<div id="{@id}">
-			<xsl:call-template name="makeCommonClass">
-				<xsl:with-param name="additional">
-					<xsl:if test="number($isBarFlyout) eq 1">wc_menu_bar</xsl:if>
-				</xsl:with-param>
-			</xsl:call-template>
+		<xsl:variable name="additional">
+			<xsl:apply-templates select="ui:margin"/>
+			<xsl:if test="number($isBarFlyout) eq 1">
+				<xsl:text> wc_menu_bar</xsl:text>
+			</xsl:if>
+		</xsl:variable>
+		<div id="{@id}" class="{normalize-space(concat('wc-menu wc-menu-type', @type, ' ', $additional))}">
 			<xsl:attribute name="role">
 				<xsl:choose>
 					<xsl:when test="number($isBarFlyout) eq 1">
@@ -94,10 +93,16 @@
 
 	<!-- Transform for WSubMenu. -->
 	<xsl:template match="ui:submenu">
-		<div id="{@id}" role="presentation"><!-- the presentation role is redundant but stops AXS from whining. -->
-			<xsl:if test="@hidden"><xsl:attribute name="hidden"><xsl:text>hidden</xsl:text></xsl:attribute></xsl:if>
-			<xsl:call-template name="makeCommonClass"/>
-			<xsl:if test="@disabled"><xsl:attribute name="aria-disabled">true</xsl:attribute></xsl:if>
+		<div class="wc-submenu wc-submenu-type-{@type}" id="{@id}" role="presentation">
+			<!-- the presentation role is redundant but stops AXS from whining. -->
+			<xsl:if test="@hidden">
+				<xsl:attribute name="hidden">
+					<xsl:text>hidden</xsl:text>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="@disabled">
+				<xsl:attribute name="aria-disabled">true</xsl:attribute>
+			</xsl:if>
 			<!-- This is the submenu opener/label element. -->
 			<xsl:variable name="isTree">
 				<xsl:choose>
@@ -109,7 +114,7 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
-			<button type="button" id="{concat(@id, '_o')}" name="{@id}" class="wc-nobutton wc-invite wc-submenu-o" aria-controls="{@id}">
+			<button aria-controls="{@id}" class="wc-nobutton wc-invite wc-submenu-o" id="{concat(@id, '_o')}" name="{@id}" type="button">
 				<xsl:attribute name="aria-pressed">
 					<xsl:choose>
 						<xsl:when test="@open = 'true'">true</xsl:when>
@@ -119,16 +124,24 @@
 				<xsl:if test="number($isTree) eq 1">
 					<xsl:attribute name="aria-haspopup">true</xsl:attribute>
 				</xsl:if>
-				<xsl:if test="@toolTip"><xsl:attribute name="title"><xsl:value-of select="@toolTip"/></xsl:attribute></xsl:if>
-				<xsl:if test="@disabled"><xsl:attribute name="disabled"><xsl:text>disabled</xsl:text></xsl:attribute></xsl:if>
+				<xsl:if test="@toolTip">
+					<xsl:attribute name="title">
+						<xsl:value-of select="@toolTip"/>
+					</xsl:attribute>
+				</xsl:if>
+				<xsl:if test="@disabled">
+					<xsl:attribute name="disabled">
+						<xsl:text>disabled</xsl:text>
+					</xsl:attribute>
+				</xsl:if>
 				<xsl:if test="@accessKey">
 					<xsl:attribute name="accesskey">
 						<xsl:value-of select="@accessKey"/>
 					</xsl:attribute>
 					<xsl:attribute name="aria-describedby">
-						<xsl:value-of select="concat(@id,'_wctt')"/>
+						<xsl:value-of select="concat(@id, '_wctt')"/>
 					</xsl:attribute>
-					<span id="{concat(@id,'_wctt')}" role="tooltip" hidden="hidden">
+					<span hidden="hidden" id="{concat(@id,'_wctt')}" role="tooltip">
 						<xsl:value-of select="@accessKey"/>
 					</span>
 				</xsl:if>
@@ -140,7 +153,7 @@
 					<xsl:call-template name="submenuIcon"/>
 				</xsl:if>
 			</button>
-			<xsl:apply-templates select="ui:content" mode="submenu"/>
+			<xsl:apply-templates mode="submenu" select="ui:content"/>
 		</div>
 	</xsl:template>
 
@@ -157,18 +170,15 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<div id="{@id}" arial-labelledby="{concat(../@id, '_o')}" role="menu">
-			<xsl:call-template name="makeCommonClass">
-				<xsl:with-param name="additional">
-					<xsl:text>wc_submenucontent</xsl:text>
-					<xsl:if test="number($isAjaxMode) eq 1">
-						<xsl:text> wc_magic</xsl:text>
-						<xsl:if test="$mode eq 'dynamic'">
-							<xsl:text> wc_dynamic</xsl:text>
-						</xsl:if>
-					</xsl:if>
-				</xsl:with-param>
-			</xsl:call-template>
+		<xsl:variable name="additional">
+			<xsl:if test="number($isAjaxMode) eq 1">
+				<xsl:text> wc_magic</xsl:text>
+				<xsl:if test="$mode eq 'dynamic'">
+					<xsl:text> wc_dynamic</xsl:text>
+				</xsl:if>
+			</xsl:if>
+		</xsl:variable>
+		<div id="{@id}" arial-labelledby="{concat(../@id, '_o')}" role="menu" class="{normalize-space(concat('wc-content wc_submenucontent', $additional))}">
 			<xsl:if test="number($isAjaxMode) eq 1">
 				<xsl:attribute name="data-wc-ajaxalias">
 					<xsl:value-of select="../@id"/>
@@ -227,21 +237,18 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<!-- leave tabindex on this butten, it is used as a short-hand to find fousable controls in the core menu JavaScript. -->
-		<button role="{$role}" tabindex="0" id="{@id}">
-			<xsl:call-template name="makeCommonClass">
-				<xsl:with-param name="additional">
-					<xsl:text>wc-invite wc-nobutton</xsl:text>
-					<xsl:if test="number($actionType) gt 0">
-						<xsl:if test="@cancel">
-							<xsl:text> wc_btn_cancel</xsl:text>
-						</xsl:if>
-						<xsl:if test="@unsavedChanges">
-							<xsl:text> wc_unsaved</xsl:text>
-						</xsl:if>
-					</xsl:if>
-				</xsl:with-param>
-			</xsl:call-template>
+		<!-- leave tabindex on this button, it is used as a short-hand to find fousable controls in the core menu JavaScript. -->
+		<xsl:variable name="additional">
+			<xsl:if test="number($actionType) gt 0">
+				<xsl:if test="@cancel">
+					<xsl:text> wc_btn_cancel</xsl:text>
+				</xsl:if>
+				<xsl:if test="@unsavedChanges">
+					<xsl:text> wc_unsaved</xsl:text>
+				</xsl:if>
+			</xsl:if>
+		</xsl:variable>
+		<button role="{$role}" tabindex="0" id="{@id}" class="{normalize-space(concat('wc-menuitem wc-invite wc-nobutton', $additional))}">
 			<xsl:attribute name="type">
 				<xsl:choose>
 					<xsl:when test="number($actionType) eq 2">

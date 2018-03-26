@@ -1,16 +1,13 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.attributes.xsl"/>
 
 	<xsl:template match="ui:tree">
-		<div role="tree" id="{@id}">
-			<xsl:call-template name="makeCommonClass">
-				<xsl:with-param name="additional">
-					<xsl:if test="@htree">
-						<xsl:text>wc_htree</xsl:text>
-					</xsl:if>
-				</xsl:with-param>
-			</xsl:call-template>
+		<xsl:variable name="additional">
+			<xsl:if test="@htree">
+				<xsl:text> wc_htree</xsl:text>
+			</xsl:if>
+		</xsl:variable>
+		<div role="tree" id="{@id}" class="{normalize-space(concat('wc-tree ', $additional))}">
 			<xsl:if test="@disabled">
 				<xsl:attribute name="aria-disabled">
 					<xsl:text>true</xsl:text>
@@ -85,13 +82,12 @@
 			<xsl:attribute name="id">
 				<xsl:value-of select="@id" />
 			</xsl:attribute>
-			<xsl:call-template name="makeCommonClass">
-				<xsl:with-param name="additional">
-					<xsl:if test="number($isButton) eq 1">
-						<xsl:text>wc-nobutton wc-invite</xsl:text>
-					</xsl:if>
-				</xsl:with-param>
-			</xsl:call-template>
+			<xsl:attribute name="class">
+				<xsl:text>wc-treeitem</xsl:text>
+				<xsl:if test="number($isButton) eq 1">
+					<xsl:text> wc-nobutton wc-invite</xsl:text>
+				</xsl:if>
+			</xsl:attribute>
 			<xsl:attribute name="role">
 				<xsl:text>treeitem</xsl:text>
 			</xsl:attribute>
@@ -157,7 +153,7 @@
 							</xsl:choose>
 						</xsl:variable>
 						<i aria-hidden="true" class="fa {$iconclass}"></i>
-						<span class="wc-off">{#i18n}}tree_toggle_branch{{/i18n}}</span>
+						<span class="wc-off">{{#i18n}}tree_toggle_branch{{/i18n}}</span>
 					</button>
 					<!-- leave tabindex="0" on this button, it is used as a short-hand to find focusable controls in the core menu JavaScript. -->
 					<button type="button" class="wc-nobutton wc-invite wc_leaf" id="{$nameButtonId}" aria-controls="{@id}" tabindex="0">

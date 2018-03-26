@@ -1,12 +1,12 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.attributes.xsl"/>
 	<!--
 		WLink and WInternalLink. 
 	-->
 	<xsl:template match="ui:link">
 		<xsl:param name="imageAltText" select="''"/>
-		<xsl:param name="ajax" select="''"/><!-- file in multi-file-upload -->
+		<xsl:param name="ajax" select="''"/>
+		<!-- file in multi-file-upload -->
 		<xsl:variable name="elementType">
 			<xsl:choose>
 				<xsl:when test="@type">
@@ -19,13 +19,20 @@
 		</xsl:variable>
 		<xsl:element name="{$elementType}">
 			<xsl:attribute name="id">
-				<xsl:value-of select="@id" />
+				<xsl:value-of select="@id"/>
 			</xsl:attribute>
-			<xsl:call-template name="makeCommonClass">
-				<xsl:with-param name="additional">
-					<xsl:if test="not(@type) and @imageUrl and @imagePosition">wc_a_ilb</xsl:if>
-				</xsl:with-param>
-			</xsl:call-template>
+			<xsl:attribute name="class">
+				<xsl:text>wc-link</xsl:text>
+				<xsl:if test="not(@type) and @imageUrl and @imagePosition">
+					<xsl:text> wc_a_ilb</xsl:text>
+				</xsl:if>
+				<xsl:if test="@type">
+					<xsl:value-of select="concat('wc-link-type-', @type)"/>
+				</xsl:if>
+				<xsl:if test="@class">
+					<xsl:value-of select="concat(' ', @class)"/>
+				</xsl:if>
+			</xsl:attribute>
 			<xsl:if test="@disabled">
 				<xsl:choose>
 					<xsl:when test="@type">
@@ -45,7 +52,11 @@
 					<xsl:text>hidden</xsl:text>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:if test="@toolTip"><xsl:attribute name="title"><xsl:value-of select="@toolTip"/></xsl:attribute></xsl:if>
+			<xsl:if test="@toolTip">
+				<xsl:attribute name="title">
+					<xsl:value-of select="@toolTip"/>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:choose>
 				<xsl:when test="@type">
 					<xsl:attribute name="type">
@@ -106,9 +117,9 @@
 					<xsl:value-of select="@accessKey"/>
 				</xsl:attribute>
 				<xsl:attribute name="aria-describedby">
-					<xsl:value-of select="concat(@id,'_wctt')"/>
+					<xsl:value-of select="concat(@id, '_wctt')"/>
 				</xsl:attribute>
-				<span id="{concat(@id,'_wctt')}" role="tooltip" hidden="hidden">
+				<span hidden="hidden" id="{concat(@id,'_wctt')}" role="tooltip">
 					<xsl:value-of select="@accessKey"/>
 				</span>
 			</xsl:if>
@@ -131,7 +142,8 @@
 						<xsl:attribute name="class">
 							<xsl:choose>
 								<xsl:when test="@imagePosition">
-									<xsl:value-of select="concat('wc_btn_img wc_btn_img', @imagePosition)"/><!-- no gap after 2nd `_img` -->
+									<xsl:value-of select="concat('wc_btn_img wc_btn_img', @imagePosition)"/>
+									<!-- no gap after 2nd `_img` -->
 								</xsl:when>
 								<xsl:otherwise>
 									<xsl:text>wc_nti</xsl:text>
@@ -140,14 +152,14 @@
 						</xsl:attribute>
 						<xsl:if test="@imagePosition">
 							<span>
-								<xsl:apply-templates />
+								<xsl:apply-templates/>
 							</span>
 						</xsl:if>
-						<img src="{@imageUrl}" alt="{$alt}" />
+						<img alt="{$alt}" src="{@imageUrl}"/>
 					</span>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:apply-templates />
+					<xsl:apply-templates/>
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:element>

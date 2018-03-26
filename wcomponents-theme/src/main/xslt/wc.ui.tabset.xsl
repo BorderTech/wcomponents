@@ -1,12 +1,19 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.attributes.xsl"/>
 	<!--
 		This template builds the basic tabset. The tabset is a wrapper container. It has a list of tabs and content.
 	-->
 	<xsl:template match="ui:tabset">
-		<div id="{@id}">
-			<xsl:call-template name="makeCommonClass"/>
+		<xsl:variable name="additional">
+			<xsl:apply-templates select="ui:margin"/>
+			<xsl:if test="@type">
+				<xsl:value-of select="concat(' wc-tabset-type-', @type)"/>
+			</xsl:if>
+			<xsl:if test="@class">
+				<xsl:value-of select="concat(' ', @class)"/>
+			</xsl:if>
+		</xsl:variable>
+		<div id="{@id}" class="{normalize-space(concat('wc-tabset ', $additional))}">
 			<xsl:if test="@disabled"><xsl:attribute name="aria-disabled">true</xsl:attribute></xsl:if>
 			<xsl:if test="@hidden"><xsl:attribute name="hidden"><xsl:text>hidden</xsl:text></xsl:attribute></xsl:if>
 			<xsl:if test="@groupName">
@@ -70,7 +77,7 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<div id="{@id}" role="tab" aria-controls="{ui:tabcontent/@id}">
+		<div id="{@id}" role="tab" aria-controls="{ui:tabcontent/@id}" class="{normalize-space(concat('wc-tab wc-invite ', @class))}">
 			<xsl:attribute name="{$expandSelectAttrib}">
 				<xsl:choose>
 					<xsl:when test="@open">
@@ -94,11 +101,6 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:attribute>
-			<xsl:call-template name="makeCommonClass">
-				<xsl:with-param name="additional">
-					<xsl:text>wc-invite</xsl:text>
-				</xsl:with-param>
-			</xsl:call-template>
 			<xsl:if test="@toolTip"><xsl:attribute name="title"><xsl:value-of select="@toolTip"/></xsl:attribute></xsl:if>
 			<!--
 				This is cheaper than calling template disabledElement for the tab and the tabset in turn

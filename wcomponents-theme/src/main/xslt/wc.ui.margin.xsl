@@ -9,7 +9,7 @@
 		</xsl:if>
 	</xsl:template>
 	
-	<xsl:template match="ui:margin" mode="class">
+	<xsl:template match="ui:margin">
 		<xsl:choose>
 			<xsl:when test="@all">
 				<xsl:call-template name="margin">
@@ -45,6 +45,4 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-	
-	<xsl:template match="ui:margin"/>
 </xsl:stylesheet>

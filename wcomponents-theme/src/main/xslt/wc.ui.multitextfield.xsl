@@ -108,7 +108,10 @@
 									</xsl:attribute>
 								</xsl:if>
 							</xsl:element>
-							<button aria-controls="{@id}" class="wc_btn_icon wc-invite" title="{{#i18n}}mfc_add{{/i18n}}" type="button">
+							<button aria-controls="{@id}" class="wc_btn_icon wc-invite" type="button">
+								<xsl:attribute name="title">
+									<xsl:text>{{#i18n}}mfc_add{{/i18n}}</xsl:text>
+								</xsl:attribute>
 								<xsl:if test="@disabled">
 									<xsl:attribute name="disabled">
 										<xsl:text>disabled</xsl:text>

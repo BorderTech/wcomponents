@@ -9,7 +9,10 @@
 			<xsl:if test="self::ui:multiselectpair">
 				<xsl:text>&#x00a0;</xsl:text>
 			</xsl:if>
-			<button aria-controls="{$id}" class="wc_sorter wc_btn_icon wc-invite" title="{{#i18n}}shuffle_top{{/i18n}}" type="button" value="top">
+			<button aria-controls="{$id}" class="wc_sorter wc_btn_icon wc-invite" type="button" value="top">
+				<xsl:attribute name="title">
+					<xsl:text>{{#i18n}}shuffle_top{{/i18n}}</xsl:text>
+				</xsl:attribute>
 				<xsl:if test="@disabled">
 					<xsl:attribute name="disabled">
 						<xsl:text>disabled</xsl:text>
@@ -17,7 +20,10 @@
 				</xsl:if>
 				<i aria-hidden="true" class="fa fa-fw fa-angle-double-up"/>
 			</button>
-			<button aria-controls="{$id}" class="wc_sorter wc_btn_icon wc-invite" title="{{#i18n}}shuffle_up{{/i18n}}" type="button" value="up">
+			<button aria-controls="{$id}" class="wc_sorter wc_btn_icon wc-invite" type="button" value="up">
+				<xsl:attribute name="title">
+					<xsl:text>{{#i18n}}shuffle_up{{/i18n}}</xsl:text>
+				</xsl:attribute>
 				<xsl:if test="@disabled">
 					<xsl:attribute name="disabled">
 						<xsl:text>disabled</xsl:text>
@@ -25,7 +31,10 @@
 				</xsl:if>
 				<i aria-hidden="true" class="fa fa-fw fa-angle-up"/>
 			</button>
-			<button aria-controls="{$id}" class="wc_sorter wc_btn_icon wc-invite" title="{{#i18n}}shuffle_down{{/i18n}}" type="button" value="down">
+			<button aria-controls="{$id}" class="wc_sorter wc_btn_icon wc-invite" type="button" value="down">
+				<xsl:attribute name="title">
+					<xsl:text>{{#i18n}}shuffle_down{{/i18n}}</xsl:text>
+				</xsl:attribute>
 				<xsl:if test="@disabled">
 					<xsl:attribute name="disabled">
 						<xsl:text>disabled</xsl:text>
@@ -33,8 +42,10 @@
 				</xsl:if>
 				<i aria-hidden="true" class="fa fa-fw fa-angle-down"/>
 			</button>
-			<button aria-controls="{$id}" class="wc_sorter wc_btn_icon wc-invite" title="{{#i18n}}shuffle_bottom{{/i18n}}" type="button"
-				value="bottom">
+			<button aria-controls="{$id}" class="wc_sorter wc_btn_icon wc-invite" type="button" value="bottom">
+				<xsl:attribute name="title">
+					<xsl:text>{{#i18n}}shuffle_bottom{{/i18n}}</xsl:text>
+				</xsl:attribute>
 				<xsl:if test="@disabled">
 					<xsl:attribute name="disabled">
 						<xsl:text>disabled</xsl:text>
@@ -190,8 +201,10 @@
 			<!-- BUTTONS -->
 			<span class="wc_msp_btncol">
 				<xsl:text>&#x00a0;</xsl:text>
-				<button aria-controls="{concat(@id, '_a',' ',@id, '_s')}" class="wc_btn_icon wc-invite" title="{{#i18n}}msp_add{{/i18n}}"
-					type="button" value="add">
+				<button aria-controls="{concat(@id, '_a',' ',@id, '_s')}" class="wc_btn_icon wc-invite" type="button" value="add">
+					<xsl:attribute name="title">
+						<xsl:text>{{#i18n}}msp_add{{/i18n}}</xsl:text>
+					</xsl:attribute>
 					<xsl:if test="@disabled">
 						<xsl:attribute name="disabled">
 							<xsl:text>disabled</xsl:text>
@@ -199,8 +212,10 @@
 					</xsl:if>
 					<i aria-hidden="true" class="fa fa-fw fa-angle-right"/>
 				</button>
-				<button aria-controls="{concat(@id, '_a',' ',@id, '_s')}" class="wc_btn_icon wc-invite" title="{{#i18n}}msp_addAll{{/i18n}}"
-					type="button" value="aall">
+				<button aria-controls="{concat(@id, '_a',' ',@id, '_s')}" class="wc_btn_icon wc-invite" type="button" value="aall">
+					<xsl:attribute name="title">
+						<xsl:text>{{#i18n}}msp_addAll{{/i18n}}</xsl:text>
+					</xsl:attribute>
 					<xsl:if test="@disabled">
 						<xsl:attribute name="disabled">
 							<xsl:text>disabled</xsl:text>
@@ -208,8 +223,10 @@
 					</xsl:if>
 					<i aria-hidden="true" class="fa fa-fw fa-angle-double-right"/>
 				</button>
-				<button aria-controls="{concat(@id, '_a',' ',@id, '_s')}" class="wc_btn_icon wc-invite" title="{{#i18n}}msp_remove{{/i18n}}"
-					type="button" value="rem">
+				<button aria-controls="{concat(@id, '_a',' ',@id, '_s')}" class="wc_btn_icon wc-invite" type="button" value="rem">
+					<xsl:attribute name="title">
+						<xsl:text>{{#i18n}}msp_remove{{/i18n}}</xsl:text>
+					</xsl:attribute>
 					<xsl:if test="@disabled">
 						<xsl:attribute name="disabled">
 							<xsl:text>disabled</xsl:text>
@@ -217,8 +234,10 @@
 					</xsl:if>
 					<i aria-hidden="true" class="fa fa-fw fa-angle-left"/>
 				</button>
-				<button aria-controls="{concat(@id, '_a',' ',@id, '_s')}" class="wc_btn_icon wc-invite" title="{{#i18n}}msp_removeAll{{/i18n}}"
-					type="button" value="rall">
+				<button aria-controls="{concat(@id, '_a',' ',@id, '_s')}" class="wc_btn_icon wc-invite" type="button" value="rall">
+					<xsl:attribute name="title">
+						<xsl:text>{{#i18n}}msp_removeAll{{/i18n}}</xsl:text>
+					</xsl:attribute>
 					<xsl:if test="@disabled">
 						<xsl:attribute name="disabled">
 							<xsl:text>disabled</xsl:text>

@@ -3,21 +3,23 @@
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" 
 	version="2.0">
-	<xsl:import href="wc.common.attributes.xsl"/>
 
 	<!-- WFieldLayout -->
 	<xsl:template match="ui:fieldlayout">
-		<div role="presentation" id="{@id}"><!-- yes, I know the role is superfluous -->
-			<xsl:call-template name="makeCommonClass">
-				<xsl:with-param name="additional">
-					<xsl:if test="@labelWidth">
-						<xsl:value-of select="concat('wc_fld_lblwth_',@labelWidth)"/>
-					</xsl:if>
-					<xsl:if test="@ordered">
-						<xsl:text> wc_ordered</xsl:text>
-					</xsl:if>
-				</xsl:with-param>
-			</xsl:call-template>
+		<xsl:variable name="additional">
+			<xsl:apply-templates select="ui:margin"/>
+			<xsl:if test="@labelWidth">
+				<xsl:value-of select="concat(' wc_fld_lblwth_',@labelWidth)"/>
+			</xsl:if>
+			<xsl:if test="@ordered">
+				<xsl:text> wc_ordered</xsl:text>
+			</xsl:if>
+			<xsl:if test="@layout">
+				<xsl:value-of select="concat(' wc-fieldlayout-layout-', @layout)"/>
+			</xsl:if>
+		</xsl:variable>
+		<!-- yes, I know the role is superfluous -->
+		<div role="presentation" id="{@id}" class="{normalize-space(concat('wc-fieldlayout ', @class, ' ', $additional))}">
 			<xsl:if test="@hidden">
 				<xsl:attribute name="hidden">
 					<xsl:text>hidden</xsl:text>
@@ -36,48 +38,42 @@
 		Transform for WField. It is used to represent a label:control pair. WField is a child of a WFieldLayout.
 	-->
 	<xsl:template match="ui:field">
-		<xsl:param name="labelWidth" select="../@labelWidth" />
-		<xsl:param name="layout" select="../@layout" />
-		<xsl:if test="parent::ui:fieldlayout or parent::ui:ajaxtarget">
-			<div id="{@id}">
-				<xsl:call-template name="makeCommonClass">
-					<xsl:with-param name="additional">
-						<xsl:if test="@inputWidth">
-							<xsl:value-of select="concat('wc_inputwidth wc_fld_inpw_', @inputWidth)"/>
-						</xsl:if>
-					</xsl:with-param>
-				</xsl:call-template>
-				<!--
-					If we are part of an ajaxResponse and we don't have a parent ui:fieldlayout we need to add a transient attribute to act as a flag
-					for the ajax subscriber.
-				-->
-				<xsl:if test="not(parent::ui:fieldlayout)">
-					<xsl:attribute name="data-wc-nop">
-						<xsl:text>true</xsl:text>
-					</xsl:attribute>
-				</xsl:if>
-				<xsl:if test="@hidden"><xsl:attribute name="hidden"><xsl:text>hidden</xsl:text></xsl:attribute></xsl:if>
-				<xsl:variable name="isCheckRadio">
-					<xsl:call-template name="fieldIsCheckRadio" />
-				</xsl:variable>
-				<xsl:choose>
-					<xsl:when test="number($isCheckRadio) eq 1">
+		<xsl:variable name="additional">
+			<xsl:if test="@inputWidth">
+				<xsl:value-of select="concat(' wc_inputwidth wc_fld_inpw_', @inputWidth)"/>
+			</xsl:if>
+		</xsl:variable>
+		<div id="{@id}" class="{normalize-space(concat('wc-field ', @class, $additional))}">
+			<!--
+				If we are part of an ajaxResponse and we don't have a parent ui:fieldlayout we need to add a transient attribute to act as a flag
+				for the ajax subscriber.
+			-->
+			<xsl:if test="not(parent::ui:fieldlayout)">
+				<xsl:attribute name="data-wc-nop">
+					<xsl:text>true</xsl:text>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="@hidden"><xsl:attribute name="hidden"><xsl:text>hidden</xsl:text></xsl:attribute></xsl:if>
+			<xsl:variable name="isCheckRadio">
+				<xsl:call-template name="fieldIsCheckRadio" />
+			</xsl:variable>
+			<xsl:choose>
+				<xsl:when test="number($isCheckRadio) eq 1">
+					<span class="wc_fld_pl">
+						<xsl:apply-templates select="ui:label"/>
+					</span>
+					<xsl:apply-templates select="ui:input" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:if test="not(ui:label) or ui:label/@hidden">
 						<span class="wc_fld_pl">
-							<xsl:apply-templates select="ui:label"/>
+							<xsl:text>&#x00a0;</xsl:text>
 						</span>
-						<xsl:apply-templates select="ui:input" />
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:if test="not(ui:label) or ui:label/@hidden">
-							<span class="wc_fld_pl">
-								<xsl:text>&#x00a0;</xsl:text>
-							</span>
-						</xsl:if>
-						<xsl:apply-templates select="*"/>
-					</xsl:otherwise>
-				</xsl:choose>
-			</div>
-		</xsl:if>
+					</xsl:if>
+					<xsl:apply-templates select="*"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</div>
 	</xsl:template>
 
 	<!--
@@ -105,8 +101,7 @@
 		The input part of WField is a wrapper for other components.
 	-->
 	<xsl:template match="ui:input">
-		<div>
-			<xsl:call-template name="makeCommonClass"/>
+		<div class="wc-input">
 			<xsl:apply-templates />
 		</div>
 	</xsl:template>

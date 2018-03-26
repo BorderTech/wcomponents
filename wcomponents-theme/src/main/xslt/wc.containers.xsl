@@ -4,8 +4,6 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	version="2.0" >
 
-	<xsl:import href="wc.common.attributes.xsl"/>
-
 	<xsl:template name="gapClass">
 		<xsl:param name="gap" select="''"/>
 		<xsl:param name="isVGap" select="0"/>
@@ -42,22 +40,26 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
+		<xsl:variable name="additionalClass">
+			<xsl:apply-templates select="ui:margin"/>
+			<xsl:choose>
+				<xsl:when test="(@mode eq 'lazy' and @hidden)">
+					<xsl:text> wc_magic</xsl:text>
+				</xsl:when>
+				<xsl:when test="@mode eq 'dynamic'">
+					<xsl:text> wc_magic wc_dynamic</xsl:text>
+				</xsl:when>
+			</xsl:choose>
+			<xsl:if test="@type">
+				<xsl:value-of select="concat(' wc-panel-type-', @type)"/>
+			</xsl:if>
+		</xsl:variable>
 		<xsl:element name="{$containerElement}">
 			<xsl:attribute name="id">
 				<xsl:value-of select="@id"/>
 			</xsl:attribute>
-			<xsl:variable name="additional">
-				<xsl:choose>
-					<xsl:when test="(@mode eq 'lazy' and @hidden)">
-						<xsl:text> wc_magic</xsl:text>
-					</xsl:when>
-					<xsl:when test="@mode eq 'dynamic'">
-						<xsl:text> wc_magic wc_dynamic</xsl:text>
-					</xsl:when>
-				</xsl:choose>
-			</xsl:variable>
 			<xsl:attribute name="class">
-				<xsl:value-of select="normalize-space(concat('wc-panel ', @class, $additional))"/>
+				<xsl:value-of select="normalize-space(concat('wc-panel ', @class, $additionalClass))"/>
 			</xsl:attribute>
 			<xsl:if test="@buttonId">
 				<xsl:attribute name="data-wc-submit">
@@ -525,17 +527,6 @@
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="additionalClasses">
-			<xsl:if test="not(@align)">
-				<xsl:text>wc-align-left</xsl:text>
-			</xsl:if>
-			<xsl:choose>
-				<xsl:when test="not(@separator) or @separator eq 'none'">
-					<xsl:text> wc_list_nb</xsl:text>
-				</xsl:when>
-				<xsl:when test="not(@ordered)">
-					<xsl:value-of select="concat(' wc-listlayout-separator-', @separator)"/>
-				</xsl:when>
-			</xsl:choose>
 			<xsl:if test="@gap">
 				<xsl:call-template name="gapClass">
 					<xsl:with-param name="gap" select="@gap"/>
@@ -551,13 +542,30 @@
 					</xsl:with-param>
 				</xsl:call-template>
 			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="@align">
+					<xsl:value-of select="concat(' wc-align-', @align)"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:text> wc-align-left</xsl:text>
+				</xsl:otherwise>
+			</xsl:choose>
+			<xsl:if test="@type">
+				<xsl:value-of select="concat(' wc-listlayout-type-', @type)"/>
+			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="not(@separator) or @separator eq 'none'">
+					<xsl:text> wc_list_nb</xsl:text>
+				</xsl:when>
+				<xsl:when test="not(@ordered)">
+					<xsl:value-of select="concat(' wc-listlayout-separator-', @separator)"/>
+				</xsl:when>
+			</xsl:choose>
 		</xsl:variable>
 		<xsl:element name="{$listElement}">
-			<xsl:call-template name="makeCommonClass">
-				<xsl:with-param name="additional">
-					<xsl:value-of select="$additionalClasses"/>
-				</xsl:with-param>
-			</xsl:call-template>
+			<xsl:attribute name="class">
+				<xsl:value-of select="normalize-space(concat('wc-listlayout ', $additionalClasses))"/>
+			</xsl:attribute>
 			<xsl:apply-templates mode="ll"/>
 		</xsl:element>
 	</xsl:template>
@@ -584,74 +592,28 @@
 				</xsl:call-template>
 			</xsl:if>
 		</xsl:variable>
-		<div id="{@id}">
-			<xsl:call-template name="makeCommonClass">
-				<xsl:with-param name="additional" select="$gap"/>
-			</xsl:call-template>
+		<xsl:variable name="margin">
+			<xsl:apply-templates select="ui:margin"/>
+		</xsl:variable>
+		<div id="{@id}" class="{normalize-space(concat('wc-row ', $gap, ' ', $margin, ' ', @class))}">
 			<xsl:apply-templates select="ui:column"/>
 		</div>
 	</xsl:template>
 	
 	<!-- Transform for WColumn. -->
 	<xsl:template match="ui:column">
-		<div id="{@id}">
-			<xsl:call-template name="makeCommonClass">
-				<xsl:with-param name="additional">
-					<xsl:if test="not(@align)">
-						<xsl:text>wc-align-left</xsl:text>
-					</xsl:if>
-					<xsl:if test="@width and number(@width) ne 0">
-						<xsl:value-of select="concat(' wc_col_',@width)"/>
-					</xsl:if>
-				</xsl:with-param>
-			</xsl:call-template>
+		<xsl:variable name="additional">
+			<xsl:apply-templates select="ui:margin"/>
+			<xsl:if test="not(@align)">
+				<xsl:text> wc-align-left</xsl:text>
+			</xsl:if>
+			<xsl:if test="@width and number(@width) ne 0">
+				<xsl:value-of select="concat(' wc_col_',@width)"/>
+			</xsl:if>
+		</xsl:variable>
+		<div id="{@id}" class="{normalize-space(concat('wc-column ', $additional, ' ', @class))}">
 			<xsl:apply-templates />
 		</div>
-	</xsl:template>
-
-	<!-- Transform for WSection. -->
-	<xsl:template match="ui:section">
-		<xsl:variable name="mode" select="@mode"/>
-		<section id="{@id}">
-			<xsl:call-template name="makeCommonClass">
-				<xsl:with-param name="additional">
-					<xsl:if test="@mode eq 'lazy' and @hidden">
-						<xsl:text>wc_magic</xsl:text>
-					</xsl:if>
-				</xsl:with-param>
-			</xsl:call-template>
-			<xsl:if test="@hidden">
-				<xsl:attribute name="hidden">
-					<xsl:text>hidden</xsl:text>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:if test="*[not(self::ui:margin)] or not($mode eq 'eager')">
-				<xsl:apply-templates select="ui:decoratedlabel" mode="section"/>
-				<xsl:apply-templates select="ui:panel">
-					<xsl:with-param name="type" select="''"/>
-				</xsl:apply-templates>
-			</xsl:if>
-		</section>
-	</xsl:template>
-
-	<xsl:template match="ui:decoratedlabel" mode="section">
-		<header id="{@id}">
-			<xsl:call-template name="makeCommonClass"/>
-			<xsl:if test="@hidden">
-				<xsl:attribute name="hidden">
-					<xsl:text>hidden</xsl:text>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:apply-templates select="ui:labelhead">
-				<xsl:with-param name="output" select="'div'"/>
-			</xsl:apply-templates>
-			<xsl:apply-templates select="ui:labelbody">
-				<xsl:with-param name="output" select="'h1'"/>
-			</xsl:apply-templates>
-			<xsl:apply-templates select="ui:labeltail">
-				<xsl:with-param name="output" select="'div'"/>
-			</xsl:apply-templates>
-		</header>
 	</xsl:template>
 
 	<!--
@@ -662,115 +624,12 @@
 	-->
 	<xsl:template match="ui:content">
 		<xsl:param name="class" select="''"/>
-		<div>
+		<div class="{normalize-space(concat('wc-content ', $class))}">
 			<xsl:if test="@id">
 				<xsl:attribute name="id">
 					<xsl:value-of select="@id"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:call-template name="makeCommonClass">
-				<xsl:with-param name="additional" select="$class"/>
-			</xsl:call-template>
-			<xsl:apply-templates />
-		</div>
-	</xsl:template>
-	
-	
-	<!-- WCollapsible -->
-	<xsl:template match="ui:collapsible">
-		<details id="{@id}">
-			<xsl:call-template name="makeCommonClass"/>
-			<xsl:if test="not(@collapsed)">
-				<xsl:attribute name="open">
-					<xsl:text>open</xsl:text>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:if test="@groupName and @groupName != @id">
-				<xsl:attribute name="data-wc-group">
-					<xsl:value-of select="@groupName"/>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:if test="@hidden">
-				<xsl:attribute name="hidden">
-					<xsl:text>hidden</xsl:text>
-				</xsl:attribute>
-			</xsl:if>
-			<summary tabindex="0">
-				<xsl:variable name="iconclass">
-					<xsl:text>fa-caret-</xsl:text>
-					<xsl:choose>
-						<xsl:when test="@collapsed">right</xsl:when>
-						<xsl:otherwise>down</xsl:otherwise>
-					</xsl:choose>
-				</xsl:variable>
-				<i aria-hidden="true" class="fa {$iconclass}"/>
-				<xsl:choose>
-					<xsl:when test="@level">
-						<xsl:element name="h{@level}">
-							<xsl:apply-templates select="ui:decoratedlabel"/>
-						</xsl:element>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:apply-templates select="ui:decoratedlabel"/>
-					</xsl:otherwise>
-				</xsl:choose>
-			</summary>
-			<xsl:variable name="isAjax">
-				<xsl:choose>
-					<xsl:when test="@mode eq 'dynamic' or @mode eq 'eager' or (@mode eq 'lazy' and @collapsed)">
-						<xsl:number value="1"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:number value="0"/>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:variable>
-			<xsl:apply-templates select="ui:content" mode="collapsible">
-				<xsl:with-param name="class">
-					<xsl:if test="number($isAjax) eq 1">
-						<xsl:text>wc_magic</xsl:text>
-						<xsl:if test="@mode eq 'dynamic'">
-							<xsl:text> wc_dynamic</xsl:text>
-						</xsl:if>
-					</xsl:if>
-				</xsl:with-param>
-				<xsl:with-param name="ajaxId">
-					<xsl:if test="number($isAjax) eq 1">
-						<xsl:value-of select="@id"/>
-					</xsl:if>
-				</xsl:with-param>
-				<xsl:with-param name="labelId" select="ui:decoratedlabel/@id"/>
-			</xsl:apply-templates>
-		</details>
-	</xsl:template>
-	
-	
-	<xsl:template match="ui:content" mode="collapsible">
-		<xsl:param name="class" select="''"/>
-		<xsl:param name="ajaxId" select="''"/>
-		<xsl:param name="labelId" select="''"/>
-		<div>
-			<xsl:if test="@id">
-				<xsl:attribute name="id">
-					<xsl:value-of select="@id"/>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:if test="$ajaxId ne ''">
-				<xsl:attribute name="data-wc-ajaxalias">
-					<xsl:value-of select="$ajaxId"/>
-				</xsl:attribute>
-				<xsl:attribute name="aria-live">
-					<xsl:text>polite</xsl:text>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:if test="$labelId ne ''">
-				<xsl:attribute name="aria-describedby">
-					<xsl:value-of select="$labelId"/>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:call-template name="makeCommonClass">
-				<xsl:with-param name="additional" select="$class"/>
-			</xsl:call-template>
 			<xsl:apply-templates />
 		</div>
 	</xsl:template>
