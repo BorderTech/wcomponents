@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents;
 
 import java.awt.Dimension;
+import java.util.Objects;
 
 /**
  * <p>
@@ -29,8 +30,12 @@ public class WImageEditor extends AbstractWComponent {
 	 * @param overlayUrl the overlay image URL.
 	 */
 	public void setOverlayUrl(final String overlayUrl) {
-		ImageEditModel model = getOrCreateComponentModel();
-		model.overlayUrl = overlayUrl;
+		String currOverlayUrl = getOverlayUrl();
+
+		if (!Objects.equals(overlayUrl, currOverlayUrl)) {
+			ImageEditModel model = getOrCreateComponentModel();
+			model.overlayUrl = overlayUrl;
+		}
 	}
 
 	/**
@@ -107,8 +112,7 @@ public class WImageEditor extends AbstractWComponent {
 	public void setSize(final Dimension size) {
 		Dimension currSize = getSize();
 
-		if ((size != null && currSize == null)
-			|| (currSize != null && (size == null || !currSize.equals(size)))) {
+		if (!Objects.equals(size, currSize)) {
 			getOrCreateComponentModel().size = size;
 		}
 	}

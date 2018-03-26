@@ -144,7 +144,6 @@ public class WProgressBar extends WBeanComponent implements AjaxTarget, Labelabl
 	 *
 	 * @param max the maximum allowable value.
 	 */
-
 	public final void setMax(final int max) {
 		if (max < 0) {
 			throw new IllegalArgumentException(ILLEGAL_MAX);
@@ -189,7 +188,6 @@ public class WProgressBar extends WBeanComponent implements AjaxTarget, Labelabl
 	 *
 	 * @param type the progress bar type.
 	 */
-
 	public final void setProgressBarType(final ProgressBarType type) {
 		ProgressBarType currentType = getProgressBarType();
 		ProgressBarType typeToSet = type == null ? DEFAULT_TYPE : type;

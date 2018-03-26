@@ -323,8 +323,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 		BigDecimal currMax = getMaxValue();
 
 		if ((maxValue != null && currMax == null)
-			|| (maxValue == null && currMax != null)
-			|| (maxValue != null && !(maxValue.compareTo(currMax) == 0))) {
+			|| currMax != null && (maxValue == null || !(maxValue.compareTo(currMax) == 0))) {
 			getOrCreateComponentModel().maxValue = maxValue;
 		}
 	}

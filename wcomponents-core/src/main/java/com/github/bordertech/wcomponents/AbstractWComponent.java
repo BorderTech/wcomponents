@@ -10,6 +10,9 @@ import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import com.github.bordertech.wcomponents.validation.DiagnosticImpl;
 import com.github.bordertech.wcomponents.velocity.VelocityTemplateManager;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -21,11 +24,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
@@ -157,7 +159,7 @@ public abstract class AbstractWComponent implements WComponent {
 					+ " must start with a letter and followed by letters, digits and or underscores.");
 		}
 		String currIdName = getIdName();
-		if (currIdName == null || !currIdName.equals(idName)) {
+		if (!Objects.equals(idName, currIdName)) {
 			ComponentModel model = getOrCreateComponentModel();
 			model.setIdName(idName);
 		}

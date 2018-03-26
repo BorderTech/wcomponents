@@ -9,6 +9,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -168,8 +169,7 @@ public class WMessageBox extends AbstractWComponent implements AjaxTarget, Subor
 	public void setTitleText(final String title, final Serializable... args) {
 		String currTitle = getTitleText();
 
-		if ((title != null && currTitle == null)
-			|| (currTitle != null && (title == null || !currTitle.equals(title)))) {
+		if (!Objects.equals(title, currTitle)) {
 			MessageModel model = getOrCreateComponentModel();
 			model.title = I18nUtilities.asMessage(title, args);
 		}

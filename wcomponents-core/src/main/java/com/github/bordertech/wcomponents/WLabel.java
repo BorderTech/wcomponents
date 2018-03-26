@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.util.HtmlSanitizerUtil;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import java.io.Serializable;
 import java.text.MessageFormat;
+import java.util.Objects;
 
 /**
  * <p>
@@ -112,8 +113,7 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	public void setText(final String text, final Serializable... args) {
 		String currText = getText();
 
-		if ((text != null && currText == null)
-			|| (currText != null && (text == null || !currText.equals(text)))) {
+		if (!Objects.equals(text, currText)) {
 			getOrCreateComponentModel().text = I18nUtilities.asMessage(text, args);
 		}
 	}
@@ -127,8 +127,7 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	public void setHint(final String hint, final Serializable... args) {
 		String currHint = getHint();
 
-		if ((hint != null && currHint == null)
-			|| (currHint != null && (hint == null || !currHint.equals(hint)))) {
+		if (!Objects.equals(hint, currHint)) {
 			getOrCreateComponentModel().hint = I18nUtilities.asMessage(hint, args);
 		}
 	}

@@ -1,5 +1,7 @@
 package com.github.bordertech.wcomponents;
 
+import java.util.Objects;
+
 /**
  * This component enables a pop up browser window to an arbitrary location. Pop-ups are initially invisible, to display
  * a pop-up, call {@link #setVisible(boolean)}. This will set the pop-up visible for the render cycle only.
@@ -114,8 +116,7 @@ public class WPopup extends AbstractWComponent {
 	public void setUrl(final String url) {
 		String currUrl = getUrl();
 
-		if ((url != null && currUrl == null)
-			|| (currUrl != null && (url == null || !currUrl.equals(url)))) {
+		if (!Objects.equals(url, currUrl)) {
 			getOrCreateComponentModel().url = url;
 		}
 	}
@@ -137,8 +138,7 @@ public class WPopup extends AbstractWComponent {
 	public void setTargetWindow(final String targetWindow) {
 		String currTargWin = getTargetWindow();
 
-		if ((targetWindow != null && currTargWin == null)
-			|| (currTargWin != null && (targetWindow == null || !currTargWin.equals(targetWindow)))) {
+		if (!Objects.equals(targetWindow, currTargWin)) {
 			getOrCreateComponentModel().targetWindow = targetWindow;
 		}
 	}

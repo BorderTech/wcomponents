@@ -4,6 +4,8 @@ import com.github.bordertech.wcomponents.util.Util;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -222,8 +224,7 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 	public void setMediaGroup(final String mediaGroup) {
 		String currMediaGroup = getMediaGroup();
 
-		if ((mediaGroup != null && currMediaGroup == null)
-			|| (currMediaGroup != null && (mediaGroup == null || !currMediaGroup.equals(mediaGroup)))) {
+		if (!Objects.equals(mediaGroup, currMediaGroup)) {
 			getOrCreateComponentModel().mediaGroup = mediaGroup;
 		}
 	}
@@ -325,8 +326,7 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 	public void setAltText(final String altText) {
 		String currAltText = getAltText();
 
-		if ((altText != null && currAltText == null)
-			|| (currAltText != null && (altText == null || !currAltText.equals(altText)))) {
+		if (!Objects.equals(altText, currAltText)) {
 			getOrCreateComponentModel().altText = altText;
 		}
 	}

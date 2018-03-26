@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * This component enables a pop up browser window with interactive wcomponent content. Be warned that pop up windows can
@@ -127,8 +128,7 @@ public class WWindow extends AbstractWComponent implements Container {
 	public void setTitle(final String title) {
 		String currTitle = getTitle();
 
-		if ((title != null && currTitle == null)
-			|| (currTitle != null && (title == null || !currTitle.equals(title)))) {
+		if (!Objects.equals(title, currTitle)) {
 			getOrCreateComponentModel().title = title;
 		}
 	}

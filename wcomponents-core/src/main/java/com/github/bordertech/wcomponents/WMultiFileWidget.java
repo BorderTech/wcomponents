@@ -7,6 +7,10 @@ import com.github.bordertech.wcomponents.util.MemoryUtil;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.util.thumbnail.ThumbnailUtil;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.awt.Dimension;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,11 +20,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
@@ -388,7 +390,8 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		if (cols != null && cols < 0) {
 			throw new IllegalArgumentException("Must have zero or more columns");
 		}
-		if (getColumns() == null || getColumns().equals(cols)) {
+		Integer currColumns = getColumns();
+		if (!Objects.equals(cols, currColumns)) {
 			getOrCreateComponentModel().cols = cols;
 		}
 	}
@@ -490,8 +493,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 						"Thumbnail size cannot have both height and width set to -1.");
 			}
 		}
-		if ((thumbnailSize != null && currSize == null)
-			|| (currSize != null && (thumbnailSize == null || !currSize.equals(thumbnailSize)))) {
+		if (!Objects.equals(thumbnailSize, currSize)) {
 			getOrCreateComponentModel().thumbnailSize = thumbnailSize;
 		}
 	}
@@ -874,8 +876,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	private void setFileUploadRequestId(final String fileId) {
 		String currFileId = getFileUploadRequestId();
 
-		if ((fileId != null && currFileId == null)
-			|| (currFileId != null && (fileId == null || !currFileId.equals(fileId)))) {
+		if (!Objects.equals(fileId, currFileId)) {
 			getOrCreateComponentModel().fileUploadRequestId = fileId;
 		}
 	}
