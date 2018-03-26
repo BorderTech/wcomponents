@@ -204,17 +204,20 @@
 		ui:columnlayout is one of the possible layout child elements of WPanel.
 	-->
 	<xsl:template match="ui:columnlayout">
-		<xsl:variable name="vgap">
+		<xsl:variable name="additional">
 			<xsl:if test="@vgap">
 				<xsl:call-template name="gapClass">
 					<xsl:with-param name="gap" select="@vgap"/>
 					<xsl:with-param name="isVGap" select="1"/>
 				</xsl:call-template>
 			</xsl:if>
+			<xsl:if test="@align">
+				<xsl:value-of select="concat(' wc-align-', @align)"/>
+			</xsl:if>
 		</xsl:variable>
 		<div>
 			<xsl:attribute name="class">
-				<xsl:value-of select="normalize-space(concat('wc-columnlayout ', $vgap))"/>
+				<xsl:value-of select="normalize-space(concat('wc-columnlayout ', $additional))"/>
 			</xsl:attribute>
 			<xsl:variable name="width">
 				<xsl:choose>
@@ -337,9 +340,6 @@
 	-->
 	<xsl:template match="ui:flowlayout">
 		<xsl:variable name="class">
-			<xsl:if test="@valign">
-				<xsl:value-of select="concat('wc_fl_', @valign)"/>
-			</xsl:if>
 			<xsl:if test="@gap">
 				<xsl:call-template name="gapClass">
 					<xsl:with-param name="gap" select="@gap"/>
@@ -354,6 +354,12 @@
 						</xsl:choose>
 					</xsl:with-param>
 				</xsl:call-template>
+			</xsl:if>
+			<xsl:if test="@align">
+				<xsl:value-of select="concat(' wc-align-', @align)"/>
+			</xsl:if>
+			<xsl:if test="@valign">
+				<xsl:value-of select="concat(' wc_fl_', @valign)"/>
 			</xsl:if>
 		</xsl:variable>
 		<div class="{normalize-space(concat('wc-flowlayout ', $class))}">
@@ -585,17 +591,23 @@
 		WRow transform.
 	-->
 	<xsl:template match="ui:row">
-		<xsl:variable name="gap">
+		<xsl:variable name="additional">
 			<xsl:if test="@gap">
 				<xsl:call-template name="gapClass">
 					<xsl:with-param name="gap" select="@gap"/>
 				</xsl:call-template>
 			</xsl:if>
+			<xsl:if test="@align">
+				<xsl:value-of select="concat(' wc-align-', @align)"/>
+			</xsl:if>
+			<xsl:if test="@class">
+				<xsl:value-of select="concat(' ', @class)"/>
+			</xsl:if>
 		</xsl:variable>
 		<xsl:variable name="margin">
 			<xsl:apply-templates select="ui:margin"/>
 		</xsl:variable>
-		<div id="{@id}" class="{normalize-space(concat('wc-row ', $gap, ' ', $margin, ' ', @class))}">
+		<div id="{@id}" class="{normalize-space(concat('wc-row ', $additional, ' ', $margin))}">
 			<xsl:apply-templates select="ui:column"/>
 		</div>
 	</xsl:template>

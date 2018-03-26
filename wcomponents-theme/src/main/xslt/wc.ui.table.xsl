@@ -300,7 +300,12 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<th id="{concat($tableId,'_thh', position())}" scope="col" data-wc-columnidx="{position() - 1}" class="wc-th">
+		<xsl:variable name="additional">
+			<xsl:if test="@align">
+				<xsl:value-of select="concat(' wc-align-', @align)"/>
+			</xsl:if>
+		</xsl:variable>
+		<th id="{concat($tableId,'_thh', position())}" scope="col" data-wc-columnidx="{position() - 1}" class="{normalize-space(concat('wc-th ', $additional))}">
 			<xsl:if test="number($sortable) eq 1 and $sortControl">
 				<xsl:attribute name="tabindex">0</xsl:attribute>
 				<xsl:if test="number($isSorted) eq 1">
