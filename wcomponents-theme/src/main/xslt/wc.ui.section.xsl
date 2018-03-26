@@ -55,22 +55,4 @@
 			</xsl:apply-templates>
 		</header>
 	</xsl:template>
-
-	<!--
-		ui:content is a child node of a number of components in its most basic form it merely passes through. Some components have their own content 
-		implementation:
-		
-		Generic template for unmoded content elements. Pass content through without any form of wrapper.
-	-->
-	<xsl:template match="ui:content">
-		<xsl:param name="class" select="''"/>
-		<div class="{normalize-space(concat('wc-content ', $class))}">
-			<xsl:if test="@id">
-				<xsl:attribute name="id">
-					<xsl:value-of select="@id"/>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:apply-templates />
-		</div>
-	</xsl:template>
 </xsl:stylesheet>
