@@ -15,7 +15,7 @@
 				<xsl:choose>
 					<xsl:when test="@type = 'warn'">fa-exclamation-triangle</xsl:when>
 					<xsl:otherwise>fa-times-circle</xsl:otherwise>
-				</xsl:choose>s
+				</xsl:choose>
 			</xsl:variable>
 			<i aria-hidden="true" class="fa {$iconclass}"></i>
 			<xsl:apply-templates select="ui:message" mode="fieldindicator" />
