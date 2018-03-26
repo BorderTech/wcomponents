@@ -4,9 +4,8 @@ define(["wc/dom/classList",
 	"wc/ui/ajax/processResponse",
 	"wc/i18n/i18n",
 	"wc/ui/getVisibleText",
-	"wc/ui/loading",
 	"wc/timers"],
-	function (classList, initialise, tag, processResponse, i18n, getVisibleText, loading, timers) {
+	function (classList, initialise, tag, processResponse, i18n, getVisibleText, timers) {
 		"use strict";
 
 		/**
@@ -90,7 +89,7 @@ define(["wc/dom/classList",
 				return i18n.translate("missingHeading").then(function(missingHeading) {
 					MISSING_HEADING = missingHeading;
 					processResponse.subscribe(ajaxSubscriber, true);
-					flagBadHeadings();
+					timers.setTimeout(flagBadHeadings, 500);
 				});
 			};
 		}
@@ -109,16 +108,9 @@ define(["wc/dom/classList",
 		 * @requires module:wc/ui/ajax/processResponse
 		 * @requires module:wc/i18n/i18n
 		 * @requires module:wc/ui/getVisibleText
-		 * @requires module:wc/ui/loading
 		 * @requires module:wc/timers
 		 */
-		var instance;
-
-		loading.done.then(timers.setTimeout(function () {
-			instance = new Heading();
-			initialise.register(instance);
-		}, 1000));
-
-		//
-		return true;
+		var instance = new Heading();
+		initialise.register(instance);
+		return instance;
 	});

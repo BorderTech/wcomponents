@@ -11,8 +11,7 @@ define(["intern!object", "intern/chai!assert", "wc/ui/feedback", "wc/dom/diagnos
 <i aria-hidden='true' class='fa fa-times-circle'></i>\n\
 <span class='wc-message'>Message one</span>\n\
 <span class='wc-message'>Message two</span>\n\
-<span class='wc-message'>Message three</span></span>" + testTargetHTML,
-			serverMessageId = "wcdiagnostictest1_servererror1";
+<span class='wc-message'>Message three</span></span>" + testTargetHTML;
 
 		function getTestBox() {
 			return document.getElementById(testBoxId);
@@ -71,15 +70,6 @@ define(["intern!object", "intern/chai!assert", "wc/ui/feedback", "wc/dom/diagnos
 				message: message,
 				level: level
 			};
-		}
-
-		function getValidationErrors(id, message) {
-			var veId = "wcdiagnostictest1_validationerrors",
-				html = "<section id='" + veId + "' class='wc-validationerrors wc-messagebox-type-error wc_msgbox'>\
-<h1><i aria-hidden='true' class='fa fa-fw fa-minus-circle'></i><span>An error has occurred</span></h1>\
-<div class='wc_messages'><div class='wc-error'><a id='" + serverMessageId + "' href='#" + id + "'>" + message + "</a></div></div></section>";
-			testHolder.insertAdjacentHTML("afterbegin", html);
-			return veId;
 		}
 
 		registerSuite({
@@ -602,38 +592,6 @@ define(["intern!object", "intern/chai!assert", "wc/ui/feedback", "wc/dom/diagnos
 				id = controller.add(dto);
 				controller.remove(target, null, controller.LEVEL.SUCCESS);
 				assert.isOk(document.getElementById(id));
-			},
-			// the private function removeWValidationErrorLink can be tested from a few places, remove is probably easiest.
-			testRemoveWValidationErrorLink: function () {
-				var target = getTestTarget(),
-					message = "this is a server side error",
-					dto = getSimpleAddDTO(message, target),
-					validationErrors;
-				controller.add(dto);
-				validationErrors = getValidationErrors(target.id, message);
-				// we have added a mocked WValidationErros box with an error
-				assert.isOk(document.getElementById(validationErrors), "should have found WValidationErrors box");
-				assert.isOk(document.getElementById(serverMessageId), "should have found server message");
-				controller.remove(target);
-				// should have removed the error
-				assert.isNotOk(document.getElementById(serverMessageId), "should have removed server message");
-				// only one error in the box so we should have removed the box
-				assert.isNotOk(document.getElementById(validationErrors), "should have removed server WValidationErrors");
-			},
-			testRemoveWValidationErrorLink_multipleErrors: function () {
-				var target = getTestTarget(),
-					message = "this is a server side error",
-					dto = getSimpleAddDTO(message, target),
-					validationErrors,
-					validationBox;
-				controller.add(dto);
-				validationErrors = getValidationErrors(target.id, message);
-				validationBox = document.getElementById(validationErrors);
-				// we have added a mocked WValidationErros box with an error
-				validationBox.lastElementChild.insertAdjacentHTML("beforeend", "<div class='wc-error'><a id='anothermessageId' href='aDummyTargetId'>This is another message</a></div>");
-				controller.remove(target);
-				// only one error in the box so we should have removed the box
-				assert.isOk(document.getElementById(validationErrors), "should have found WValidationErrors box");
 			},
 			testFlag_noArgs: function() {
 				assert.isNull(controller._flag());

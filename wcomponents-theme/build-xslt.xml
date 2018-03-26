@@ -1,60 +1,34 @@
 <project name="BuildXslt" default="build" >
-	<!--
-		NOTE: Building the XSLT requires an XSLT2 aware processor. There is a BUG in ANT 1.8.1
-		which prevents the xslt process' FACTORY from working correctly. Therefore you MUST
-		use ANT 1.8.2 or later to build.
-	-->
 	<import file="build-import.xml"/>
 	<property name="xslt.build.target.dir" location="${target.rootdir}/xslt"/>
-	<property name="xsl.src.dir" location="${common.src.rootdir}/xslt"/>
-	<property name="xsl.tmp.src.dir" location="${tmp.dir}/xsl"/>
-	<property name="xsl.target.file.prefix" value="all-${build.number}"/>
-	<property name="xsl.target.debug.file.name" value="${xsl.target.file.prefix}${debug.target.file.name.suffix}.xsl"/>
-	<property name="xsl.target.file.name" value="${xsl.target.file.prefix}.xsl"/>
-	<property name="xsl.target.intermediate.file.name" value="${xsl.target.file.prefix}-int.xml"/>
+	<property name="xslt.src.dir" location="${common.src.rootdir}/xslt"/>
 
 	<target name="clean" description="Cleans up all artifacts produced by this build">
 		<delete dir="${xslt.build.target.dir}"/>
-		<delete dir="${xsl.tmp.src.dir}"/>
-		<echo level="verbose" message="Clean from ${ant.file}"/>
 	</target>
 
 	<target name="init" depends="clean">
 		<mkdir dir="${xslt.build.target.dir}"/>
-		<mkdir dir="${xsl.tmp.src.dir}"/>
-		<available file="${tmp.dir}/${xsl.target.intermediate.file.name}" property=""/>
 	</target>
 
 	<target name="build"
 		depends="init"
-		description="Builds XSLT artifacts then minifies them">
+		description="Copies XSLT artifacts">
 		<!--
 			NOTE: we use two copies here to ensure output order.
 			TODO: remove theme XSLT override.
 		-->
-		<copy todir="${xsl.tmp.src.dir}" overwrite="true">
-			<fileset dir="${xsl.src.dir}" includes="*.xsl" />
+		<copy todir="${xslt.build.target.dir}" overwrite="true">
+			<fileset dir="${xslt.src.dir}" includes="*.xsl" />
 			<filterchain>
 				<expandproperties/>
 			</filterchain>
 		</copy>
-		<concat destfile="${tmp.dir}/${xsl.target.intermediate.file.name}" fixlastline="yes" ignoreempty="false">
-			<header filtering="no">&lt;concat&gt;</header>
-			<footer filtering="no">&lt;/concat&gt;</footer>
-			<fileset dir="${xsl.tmp.src.dir}" includes="*.xsl"/>
-		</concat>
-
-		<copy file="${component.rootdir}/build_all.xsl" todir="${tmp.dir}" overwrite="true"/>
-		<xslt in="${tmp.dir}/${xsl.target.intermediate.file.name}"
-			out="${xslt.build.target.dir}/all${debug.target.file.name.suffix}.xsl"
-			style="${tmp.dir}/build_all.xsl">
-			<factory name="net.sf.saxon.TransformerFactoryImpl"/>
-		</xslt>
-		<copy file="${xslt.build.target.dir}/all${debug.target.file.name.suffix}.xsl"
-			tofile="${xslt.build.target.dir}/all.xsl"/>
-		<replaceregexp file="${xslt.build.target.dir}/all.xsl"
-			match="xsl:param name=&quot;isDebug&quot; select=&quot;1&quot;"
-			replace="xsl:param name=&quot;isDebug&quot; select=&quot;0&quot;"/>
+		<copy file="${xslt.build.target.dir}/all.xsl"
+			tofile="${xslt.build.target.dir}/all${debug.target.file.name.suffix}.xsl"/>
+		<replaceregexp file="${xslt.build.target.dir}/all${debug.target.file.name.suffix}.xsl"
+			match="xsl:param name=&quot;isDebug&quot; select=&quot;0&quot;"
+			replace="xsl:param name=&quot;isDebug&quot; select=&quot;1&quot;"/>
 		<echo level="verbose" message="Done XSLT"/>
 	</target>
 </project>

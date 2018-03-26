@@ -1,19 +1,7 @@
 <project name="BuildImages" default="build" >
-	<!--
-		Build the images directory for a given implementation. The resulting images will contain:
-		1. All the images from "common" AND
-		2. All the images for the specific implementation.
-
-		Where there is a name conflict (an image with the same name in both common and implementation)
-		then this is interpreted as an override by the implementation, in other words the implementation
-		version of the image will overwrite the common version.
-
-		This build must be called with the name of the implementation rootdir set in property:
-		"implementation.name". If not set then the images from "common" alone will be used.
-
-	-->
 
 	<import file="build-import.xml"/>
+
 	<property name="images.rootdir" location="${common.src.rootdir}/images"/>
 	<property name="impl.images.rootdir" location="${impl.src.main.dir}/images"/>
 	<property name="images.build.target.dir" location="${target.rootdir}/images"/>
@@ -25,37 +13,11 @@
 	</target>
 
 	<target name="copysrc">
-		<!--
-			This step takes care of:
-				- Image overrides (allowing implementation images to override common images)
-				- Excludes file
-				- Property expansion (in SVGs)
-		-->
 		<copy todir="${images.tmp.src.dir}" overwrite="true">
-			<fileset dir="${images.rootdir}" includes="*.*" excludes="*.svg"/>
+			<fileset dir="${images.rootdir}" includes="**/*"/>
 		</copy>
 		<copy todir="${images.tmp.src.dir}" overwrite="true">
-			<fileset dir="${impl.images.rootdir}" includes="*.*" excludes="*.svg" erroronmissingdir="false"/>
-		</copy>
-		<copy todir="${images.tmp.src.dir}" overwrite="true">
-			<fileset dir="${images.rootdir}" includes="*.svg"/>
-			<filterchain>
-				<expandproperties/>
-				<deletecharacters chars="\t"/>
-				<trim/>
-				<ignoreblank/>
-				<striplinebreaks/>
-			</filterchain>
-		</copy>
-		<copy todir="${images.tmp.src.dir}" overwrite="true">
-			<fileset dir="${impl.images.rootdir}" includes="*.svg" erroronmissingdir="false"/>
-			<filterchain>
-				<expandproperties/>
-				<deletecharacters chars="\t"/>
-				<trim/>
-				<ignoreblank/>
-				<striplinebreaks/>
-			</filterchain>
+			<fileset dir="${impl.images.rootdir}" includes="**/*" erroronmissingdir="false"/>
 		</copy>
 		<echo level="verbose" message="Done copying images"/>
 	</target>

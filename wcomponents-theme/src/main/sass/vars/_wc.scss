@@ -41,7 +41,7 @@ $wc-img-path: '../images/';
 // #############################################################################
 // FONT AWESOME vars are available for use in WComponents Sass.
 // Override Font Awesome font path.
-$fa-font-path: '../resource/fontawesome';
+$fa-font-path: '../resource/fontawesome/fonts';
 // We added a var to font-awesome (I believe it is on the road map).
 // See vars/icon/$wc-icon-wider you may want to keep them in sync.
 // It has to be !default to allow theme override but because of the !default it

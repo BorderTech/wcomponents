@@ -1,62 +1,17 @@
 define(["wc/array/toArray",
 	"wc/dom/diagnostic",
 	"wc/dom/classList",
-	"wc/dom/messageBox",
 	"wc/dom/tag",
 	"wc/dom/wrappedInput",
-	"wc/dom/Widget",
 	"wc/ui/icon",
 	"wc/dom/getLabelsForElement",
 	"wc/config"],
-	function(toArray, diagnostic, classList, messageBox, tag, wrappedInput, Widget, icon, getLabelsForElement, wcconfig) {
+	function(toArray, diagnostic, classList, tag, wrappedInput, icon, getLabelsForElement, wcconfig) {
 		"use strict";
 
 		function Feedback() {
 			var writeOutsideThese = [tag.INPUT, tag.SELECT, tag.TEXTAREA],
-				BEFORE_END = "beforeend",
-				VALIDATION_ERRORS,
-				ERROR_LINK;
-
-			/**
-			 * Remove a link to a component which was in an error state when the page was loaded (using
-			 * WValidationErrors) but which was subsequently corrected.
-			 * @function
-			 * @private
-			 * @param {Element} element The HTML element which was in an error state
-			 */
-			function removeWValidationErrorLink(element) {
-				var validationErrors,
-					errorLink,
-					target;
-
-				if (!(element && element.nodeType === Node.ELEMENT_NODE)) {
-					return;
-				}
-
-				if ((validationErrors = messageBox.getErrorBoxes(document.body, true))) {
-					if (!ERROR_LINK) {
-						VALIDATION_ERRORS = VALIDATION_ERRORS || messageBox.getErrorBoxWidget().clone;
-						ERROR_LINK = new Widget("a");
-						ERROR_LINK.descendFrom(VALIDATION_ERRORS);
-					}
-
-					target = wrappedInput.isWrappedInput(element) ? wrappedInput.getWrapper(element) : element;
-
-					// NOTE: cannot use Widget for #id because we hwant exact matches [href='#id'] not include matches [href!='#id']
-					errorLink = "#" + target.id;
-					Array.prototype.forEach.call(ERROR_LINK.findDescendants(document.body), function (link) {
-						if (link.getAttribute("href") === errorLink) {
-							link.parentNode.removeChild(link);
-						}
-					});
-
-					Array.prototype.forEach.call(validationErrors, function (validErr) {
-						if (!ERROR_LINK.findDescendant(validErr)) {
-							validErr.parentNode.removeChild(validErr);
-						}
-					});
-				}
-			}
+				BEFORE_END = "beforeend";
 
 			/**
 			 * For the convenience of consuming UI modules.
@@ -317,7 +272,6 @@ define(["wc/array/toArray",
 				// now change the icon
 				changeIcon(box, oldLevel, toLevel);
 				if ((realTarget = target || diagnostic.getTarget(box))) {
-					removeWValidationErrorLink(realTarget);
 					toggleValidity(realTarget);
 				}
 			};
@@ -504,8 +458,6 @@ define(["wc/array/toArray",
 					target = wrappedInput.getWrapper(target);
 				}
 
-				removeWValidationErrorLink(target);
-
 				if (target.tagName === tag.INPUT && (target.type === "radio" || target.type === "checkbox")) {
 					flagTarget = getLabelsForElement(target);
 					flagTarget = (flagTarget && flagTarget.length) ? flagTarget[0] : null;
@@ -560,7 +512,6 @@ define(["wc/array/toArray",
 					}
 					if (realTarget) {
 						toggleValidity(realTarget, true);
-						removeWValidationErrorLink(realTarget);
 					}
 				}
 			}

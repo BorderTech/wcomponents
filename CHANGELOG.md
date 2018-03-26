@@ -6,6 +6,19 @@
 
 ### Enhancements
 
+* wcomponents_theme:
+  - Simplified all XSLT and XSLT build as step towards #639 and #1318.
+  - Added a default shim background #1486.
+  - Fixed timyMCE init routine #1485.
+  - Removed duplicate focus code #1488.
+  - Removed superfluous loading screen code #1487.
+  - Removed unused code from `wc/ui/feedback` and `wc/dom/messageBox` #1489.
+  - Moved font-awesome out of WComponents CSS and into a link element to improve efficiency and maintainability towards #639.
+  - Fixed minor ANT build inconsistencies.
+  - Prevent WTable pagination buttons from working when they are disabled or read-only #1490.
+* Updated .gitignore to exclude eclipse-like artefacts built during Maven lifecycle.
+
+
 ### Bug Fixes
 
 ## Release 1.5.2

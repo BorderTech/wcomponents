@@ -72,43 +72,6 @@
 
 
 
-
-
-
-
-	<!--
-		Converts a Path to an excludes file. The resulting file will contain a list of file names,
-		one name per line. The full file path will be stripped from the file name, leaving only the
-		actual name of the file itself.
-
-		excludesFileName The name of the file to write
-		pathId The id of the path to write to file
-	-->
-	<macrodef name="pathToExcludesFile" description="Writes the contents of a path element to an excludes file">
-		<attribute name="excludesFileName"/>
-		<attribute name="pathId"/>
-		<sequential>
-			<var name="tmp.pathToExcludesFile" unset="true"/>
-			<property name="tmp.pathToExcludesFile" refid="@{pathId}"/>
-			<propertyregex property="tmp.pathToExcludesFile.prop"
-							override="true"
-							input="${tmp.pathToExcludesFile}"
-							regexp="${path.separator}"
-							replace="&#10;"
-							casesensitive="false"/>
-			<if>
-				<isset property="tmp.pathToExcludesFile.prop"/>
-				<then>
-					<echo level="info" message="${tmp.pathToExcludesFile.prop}" file="@{excludesFileName}"/>
-					<replaceregexp file="@{excludesFileName}" match="^.*\${file.separator}" replace="" byline="true"/>
-				</then>
-				<else>
-					<fail>Not a path: @{pathId}</fail>
-				</else>
-			</if>
-		</sequential>
-	</macrodef>
-
 	<!--
 		Checks that all properties have been expanded during the build.
 		Unexpanded properties are a common source of build errors so this
@@ -121,9 +84,12 @@
 				<include name="**/*.css"/>
 				<include name="**/*.xsl"/>
 				<include name="**/*.xml"/>
+				<include name="**/*.html"/>
+				<include name="**/resource/*.mustache"/>
+				<include name="**/resource/*.handlebars"/>
 				<exclude name="**/lib/**"/>
+				<exclude name="**/resource/*/**"/>
 				<containsregexp expression="\$\{[^\}]+\}"/>
-				<!--<contains text="${"/> this would be much better as a regex-->
 			</fileset>
 		</path>
 		<property name="unexpanded" refid="unexpanded.properties"/>
@@ -293,16 +259,12 @@ In AMD there should be no global variables besides 'require' and 'define'.
 						<then>
 							<exec dir="@{cwd}" executable="${nodejs.dir.location}/node" failonerror="@{failonerror}" spawn="@{spawn}">
 								<env key="Path" path="${npmjs.dir};${nodejs.dir.location};${env.Path}"/>
-								<env key="NVM_NODEJS_ORG_MIRROR" value="${node.download.root}"/><!-- TODO externalize. This is to get SASS to build. -->
-								<env key="SASS_BINARY_SITE" value="${node.sass.download.root}"/><!-- TODO externalize. This is to get SASS to build. -->
 								<arguments />
 							</exec>
 						</then>
 						<else>
 							<exec dir="@{cwd}" executable="${nodejs.dir.location}/node" failonerror="@{failonerror}" spawn="@{spawn}" output="@{outfile}" logError="yes">
 								<env key="Path" path="${npmjs.dir};${nodejs.dir.location};${env.Path}"/>
-								<env key="NVM_NODEJS_ORG_MIRROR" value="${node.download.root}"/><!-- TODO externalize. This is to get SASS to build. -->
-								<env key="SASS_BINARY_SITE" value="${node.sass.download.root}"/><!-- TODO externalize. This is to get SASS to build. -->
 								<arguments />
 							</exec>
 						</else>
@@ -314,16 +276,12 @@ In AMD there should be no global variables besides 'require' and 'define'.
 						<then>
 							<exec dir="@{cwd}" executable="${nodejs.dir.location}/node" failonerror="@{failonerror}" spawn="@{spawn}">
 								<env key="PATH" path="/usr/bin:${npmjs.dir}:${nodejs.dir.location}:${env.PATH}"/>
-								<env key="NVM_NODEJS_ORG_MIRROR" value="${node.download.root}"/><!-- TODO externalize. This is to get SASS to build. -->
-								<env key="SASS_BINARY_SITE" value="${node.sass.download.root}"/><!-- TODO externalize. This is to get SASS to build. -->
 								<arguments />
 							</exec>
 						</then>
 						<else>
 							<exec dir="@{cwd}" executable="${nodejs.dir.location}/node" failonerror="@{failonerror}" spawn="@{spawn}" output="@{outfile}" logError="yes">
 								<env key="PATH" path="/usr/bin:${npmjs.dir}:${nodejs.dir.location}:${env.PATH}"/>
-								<env key="NVM_NODEJS_ORG_MIRROR" value="${node.download.root}"/><!-- TODO externalize. This is to get SASS to build. -->
-								<env key="SASS_BINARY_SITE" value="${node.sass.download.root}"/><!-- TODO externalize. This is to get SASS to build. -->
 								<arguments />
 							</exec>
 						</else>
@@ -372,67 +330,6 @@ In AMD there should be no global variables besides 'require' and 'define'.
 					</exec>
 				</else>
 			</if>
-		</sequential>
-	</macrodef>
-
-	<!--
-
-	This macro performs a transform from XML to JSON using xsltjson: https://github.com/bramstein/xsltjson.
-
-	EXAMPLE:
-
-	<wc.xsltjson
-		xsltjsonDir="target/xsltjson"
-		xmlDir="${src.dir}/xml"
-		jsonDir="target/json"/>
-
-	-->
-	<macrodef name="wc.xsltjson">
-		<attribute name="xsltjsonDir" description="The directory that contains the xsltjson zip"/>
-		<attribute name="xmlDir" description="The directory that contains the XML to transform"/>
-		<attribute name="jsonDir" default="@{xmlDir}" description="The directory to hold the result of the transform"/>
-		<attribute name="destDir" default="@{xsltjsonDir}" description="The directory in which we will unzip xsltjson."/>
-		<attribute name="xslName" default="xml-to-json.xsl" description="The name of the xslt file to use for the transform."/>
-		<attribute name="useBadgerfish" default="false"/>
-		<attribute name="useRabbitfish" default="false"/>
-		<attribute name="useRayfish" default="false"/>
-		<attribute name="extension" default=".xml"/>
-
-		<sequential>
-			<unzip dest="@{destDir}">
-				<patternset>
-					<include name="**/*.xsl"/>
-					<include name="**/*.jar"/><!-- Not expecting this to exist, belt and braces... -->
-				</patternset>
-				<fileset dir="@{xsltjsonDir}">
-					<include name="*.zip"/>
-				</fileset>
-				<mapper type="flatten"/>
-			</unzip>
-			<path id="saxon.classpath">
-				<fileset dir="@{destDir}">
-					<include name="saxon*.jar"/>
-				</fileset>
-			</path>
-			<mkdir dir="@{jsonDir}"/>
-			<xslt basedir="@{xmlDir}" destdir="@{jsonDir}" style="@{destDir}/@{xslName}">
-				<classpath>
-					<path refid="saxon.classpath"/>
-				</classpath>
-				<!--
-					Any one of these can be switched on.
-					With all of them off we produce "basic" JSON where there is no distinction
-					between attributes and elements and it would not be possible to transform back to XML.
-
-					Rabbitfish is the same but adds "@" to attributes.
-
-					I believe basic is best for us, but rabbitfish could be an option too.
-				-->
-				<param name="use-badgerfish" expression="@{useBadgerfish}" type="BOOLEAN"/>
-				<param name="use-rabbitfish" expression="@{useRabbitfish}" type="BOOLEAN"/>
-				<param name="use-rayfish" expression="@{useRayfish}" type="BOOLEAN"/>
-				<mapper type="glob" from="*@{extension}" to="*.json"/>
-			</xslt>
 		</sequential>
 	</macrodef>
 </project>
