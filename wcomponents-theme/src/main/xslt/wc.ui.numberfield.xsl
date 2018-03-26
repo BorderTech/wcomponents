@@ -31,6 +31,12 @@
 				<xsl:attribute name="type">
 					<xsl:text>number</xsl:text>
 				</xsl:attribute>
+				<xsl:attribute name="name">
+					<xsl:value-of select="@id"/>
+				</xsl:attribute>
+				<xsl:attribute name="value">
+					<xsl:value-of select="text()"/>
+				</xsl:attribute>
 				<xsl:if test="@required">
 					<xsl:attribute name="required">
 						<xsl:text>required</xsl:text>
@@ -66,9 +72,6 @@
 						<xsl:value-of select="@toolTip"/>
 					</xsl:attribute>
 				</xsl:if>
-				<xsl:attribute name="value">
-					<xsl:value-of select="text()"/>
-				</xsl:attribute>
 				<!--
 					Turning off autocomplete is CRITICAL in Internet Explorer (8, others untested, but those
 					with a native HTML5 number field are probably going to be OK). It tooks me days to find this
