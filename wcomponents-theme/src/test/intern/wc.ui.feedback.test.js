@@ -11,8 +11,7 @@ define(["intern!object", "intern/chai!assert", "wc/ui/feedback", "wc/dom/diagnos
 <i aria-hidden='true' class='fa fa-times-circle'></i>\n\
 <span class='wc-message'>Message one</span>\n\
 <span class='wc-message'>Message two</span>\n\
-<span class='wc-message'>Message three</span></span>" + testTargetHTML,
-			serverMessageId = "wcdiagnostictest1_servererror1";
+<span class='wc-message'>Message three</span></span>" + testTargetHTML;
 
 		function getTestBox() {
 			return document.getElementById(testBoxId);
