@@ -7,11 +7,10 @@ define(["wc/dom/attribute",
 	"wc/dom/Widget",
 	"wc/ui/ajaxRegion",
 	"wc/ui/ajax/processResponse",
-	"wc/ui/onloadFocusControl",
 	"wc/timers",
 	"wc/ui/table/common",
 	"wc/i18n/i18n"],
-	function(attribute, event, focus, formUpdateManager, initialise, shed, Widget, ajaxRegion, processResponse, onloadFocusControl, timers, common, i18n) {
+	function(attribute, event, focus, formUpdateManager, initialise, shed, Widget, ajaxRegion, processResponse, timers, common, i18n) {
 		"use strict";
 
 		/**
@@ -43,6 +42,7 @@ define(["wc/dom/attribute",
 				triggerButtonId,
 				BUSY = "aria-busy",
 				PAGE_ATTRIB = "data-wc-pages",
+				TRUE = "true",
 				NUM_BEFORE_AFTER_CURRENT_PAGE_OPTIONS = 4, // this is the number of selections to show around the current page option.
 				NUM_PAGE_OPTIONS = 2 * NUM_BEFORE_AFTER_CURRENT_PAGE_OPTIONS + 3; // This weird number gives us FIRST (4 before selected) SELECTED (4 after selected) LAST.
 			SELECTOR.descendFrom(PAGINATION_CONTAINER);
@@ -151,7 +151,7 @@ define(["wc/dom/attribute",
 				currentPage = parseInt(element.value, 10);
 				options = element.options;
 
-				element.setAttribute(BUSY, "true");
+				element.setAttribute(BUSY, TRUE);
 				startVal = getStartValue(currentPage, totalPages);
 
 				for (i = 1; i < options.length - 1; ++i) {
@@ -164,10 +164,10 @@ define(["wc/dom/attribute",
 					nextOption.value = startVal++;
 					nextOption.innerHTML = startVal; // already incremented.
 				}
-				element.removeAttribute(BUSY);
 				if (!ignoreOther && (otherSelect = getOtherSelector(element))) {
 					updateSelectOptions(otherSelect, true);
 				}
+				element.removeAttribute(BUSY);
 			}
 
 			/**
@@ -287,7 +287,7 @@ define(["wc/dom/attribute",
 					selector = PAGINATION_SELECTOR.findDescendant(paginationContainer),
 					otherSelector;
 
-				if (selector && !shed.isDisabled(selector) && selector.getAttribute(BUSY) !== "true") {// don't do anything if selector disabled or busy
+				if (selector && !shed.isDisabled(selector) && selector.getAttribute(BUSY) !== TRUE) {// don't do anything if selector disabled or busy
 					len = selector.options.length;
 					oldIndex = selector.selectedIndex;
 					buttonType = getButtonType(button);
@@ -342,6 +342,7 @@ define(["wc/dom/attribute",
 
 				if (buttons) {
 					Array.prototype.forEach.call(buttons, function(button) {
+						button.setAttribute(BUSY, TRUE);
 						var type = getButtonType(button);
 						if (idx === 0) {
 							if (type === IDX_BUTTON.FIRST || type === IDX_BUTTON.PREV) {
@@ -358,6 +359,7 @@ define(["wc/dom/attribute",
 						} else {
 							shed[e](button, true);
 						}
+						button.removeAttribute(BUSY);
 					});
 				}
 			}
@@ -534,7 +536,7 @@ define(["wc/dom/attribute",
 					element = $event.target;
 				if (!$event.defaultPrevented) {
 					tree = PAGINATION_BUTTON.findAncestor(element, "", true);
-					if (tree && (element = tree[0])) {
+					if (tree && (element = tree[0]) && !shed.isDisabled(element) && element.getAttribute(BUSY) !== TRUE) {
 						paginationContainer = tree[1];
 						actionButton(element, paginationContainer);
 					}
@@ -581,21 +583,12 @@ define(["wc/dom/attribute",
 				if (triggerId && triggerButtonId && (trigger = document.getElementById(triggerId)) && PAGINATION_SELECTOR.isOneOfMe(trigger)) {
 					try {
 						if ((button = document.getElementById(triggerButtonId))) {
-							if (document.activeElement === trigger) {
-								/* onLoadFocusControl has already set the focus to the ajax trigger
+							if (!shed.isDisabled(button) && (!document.activeElement || document.activeElement === trigger || document.activeElement === document.body)) {
+								/* onLoadFocusControl may have already set the focus to the ajax trigger
 								 * so we cannot use it to refocus to the button but we can determine that
 								 * we do not need to re-test for other focus since onloadFocusControl will
 								 * have done that before focussing the select.*/
 								focus.setFocusRequest(button);
-							} else {
-								/*
-								 * There are two circumstances where we may not have focused the
-								 * select: something else has focus OR onloadFocusControl's own
-								 * AJAX subscriber has not yet fired. In both cases we can simply
-								 * call the focus helper from onloadFocusControl which will take care
-								 * of the alternate focus issue for us.
-								 */
-								onloadFocusControl.requestFocus(triggerButtonId, null, true);
 							}
 						}
 					} finally {
@@ -693,7 +686,6 @@ define(["wc/dom/attribute",
 		 * @requires module:wc/dom/Widget
 		 * @requires module:wc/ui/ajaxRegion
 		 * @requires module:wc/ui/ajax/processResponse
-		 * @requires module:wc/ui/onloadFocusControl
 		 * @requires module:wc/timers
 		 * @requires module:wc/ui/table/common
 		 * @requires module:wc/i18n/i18n

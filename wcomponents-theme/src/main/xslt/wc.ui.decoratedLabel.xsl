@@ -1,6 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.attributes.xsl"/>
 	<!--
 		WDecoratedLabel allows a labelling element to contain up to three independently stylable areas. The output element of the label and its
 		children is dependent upon the content model of the containing element and defaults to span.
@@ -12,9 +11,23 @@
 	<xsl:template match="ui:decoratedlabel">
 		<xsl:param name="output" select="'span'"/>
 		<xsl:element name="{$output}">
-			<xsl:call-template name="commonAttributes">
-				<xsl:with-param name="isWrapper" select="1"/>
-			</xsl:call-template>
+			<xsl:attribute name="id">
+				<xsl:value-of select="@id" />
+			</xsl:attribute>
+			<xsl:attribute name="class">
+				<xsl:text>wc-decoratedlabel</xsl:text>
+				<xsl:if test="@type">
+					<xsl:value-of select="concat(' wc-decoratedlabel-type-', @type)"/>
+				</xsl:if>
+				<xsl:if test="@class">
+					<xsl:value-of select="concat(' ', @class)"/>
+				</xsl:if>
+			</xsl:attribute>
+			<xsl:if test="@hidden">
+				<xsl:attribute name="hidden">
+					<xsl:text>hidden</xsl:text>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:apply-templates select="*">
 				<xsl:with-param name="output" select="$output"/>
 			</xsl:apply-templates>
@@ -30,11 +43,9 @@
 			<xsl:attribute name="id">
 				<xsl:value-of select="@id"/>
 			</xsl:attribute>
-			<xsl:call-template name="makeCommonClass">
-				<xsl:with-param name="additional">
-					<xsl:text> wc_dlbl_seg</xsl:text>
-				</xsl:with-param>
-			</xsl:call-template>
+			<xsl:attribute name="class">
+				<xsl:value-of select="concat('wc-', local-name(), ' wc_dlbl_seg')"/>
+			</xsl:attribute>
 			<xsl:apply-templates />
 		</xsl:element>
 	</xsl:template>
