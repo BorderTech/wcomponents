@@ -86,8 +86,8 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	}
 	
 	/**
-	 * @see setFileTypes(List<>)
-	 * @see setFileTypes(String[])
+	 * @see #setFileTypes(java.util.List) 
+	 * @see #setFileTypes(java.lang.String[]) 
 	 * @return {@code true} if one or more file type is supplied.
 	 */
 	public boolean hasFileTypes() {
@@ -115,7 +115,7 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	}
 	
 	/**
-	 * @see setMaxFileSize(long)
+	 * @see #setMaxFileSize(long) 
 	 * @return {@code true} if max file size is supplied.
 	 */
 	public boolean hasMaxFileSize() {
@@ -137,13 +137,13 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 			resetValidationState();
 			// if User Model exists it will be returned, othewise Shared Model is returned
 			final FileWidgetModel sharedModel = getComponentModel();
-			// if User Model exists it will be returned, othewise it will be created
-			final FileWidgetModel userModel = getOrCreateComponentModel();
 			// if fileType is supplied then validate it
 			if (hasFileTypes()) {
 				boolean validFileType = FileUtil.validateFileType(value, getFileTypes());
 				// If invalid only then update 
 				if (sharedModel.validFileType != validFileType) {
+					// if User Model exists it will be returned, othewise it will be created
+					final FileWidgetModel userModel = getOrCreateComponentModel();
 					userModel.validFileType = validFileType;
 				}
 			}
@@ -153,6 +153,8 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 				boolean validFileSize = FileUtil.validateFileSize(value, getMaxFileSize());
 				// If invalid only then update 
 				if (sharedModel.validFileSize != validFileSize) {
+					// if User Model exists it will be returned, othewise it will be created
+					final FileWidgetModel userModel = getOrCreateComponentModel();
 					userModel.validFileSize = validFileSize;
 				}
 			}
@@ -189,7 +191,7 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 
 	/**
 	 * Indicates whether the uploaded file is valid. <br>
-	 * If {@link getFileTypes()} is set then it is validated, otherwise {@link getFile()} is considered valid.
+	 * If {@link #getFileTypes()} is set then it is validated, otherwise {@link #getFile()} is considered valid.
 	 *
 	 * @return true if file type valid, false file type invalid.
 	 */
@@ -199,21 +201,21 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 
 	/**
 	 * Indicates whether the uploaded file is valid.
-	 * If {@link getMaxFileSize()} is set then it is validated, otherwise {@link getFile()} is considered valid.
+	 * If {@link #getMaxFileSize()} is set then it is validated, otherwise {@link #getFile()} is considered valid.
 	 *
 	 * @return true if file size valid, false file size invalid, otherwise null.
 	 */
 	public boolean isFileSizeValid() {
 		return getComponentModel().validFileSize;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	protected void validateComponent(final List<Diagnostic> diags) {
 		super.validateComponent(diags);
-		
+
 		if (!isFileTypeValid()) {
 			// Add invalid file type validation message.
 			String invalidMessage = FileUtil.getInvalidFileTypeMessage(getFileTypes());

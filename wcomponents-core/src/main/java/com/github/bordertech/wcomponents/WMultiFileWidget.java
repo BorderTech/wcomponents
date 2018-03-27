@@ -277,8 +277,8 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	}
 	
 	/**
-	 * @see setFileTypes(Collection<>)
-	 * @see setFileTypes(String[])
+	 * @see #setFileTypes(java.util.Collection)
+	 * @see #setFileTypes(java.lang.String[])
 	 * @return {@code} true if one or more file type is supplied.
 	 */
 	public boolean hasFileTypes() {
@@ -306,7 +306,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	}
 	
 	/**
-	 * @see setMaxFileSize(long)
+	 * @see #setMaxFileSize(long)
 	 * @return {@code true} if max file size is supplied.
 	 */
 	public boolean hasMaxFileSize() {
