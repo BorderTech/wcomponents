@@ -2,10 +2,9 @@
 	<description>Common properties and macros needed for sub builds</description>
 
 	<!--
-		Someproperties we do not want ANYONE to be able to override.
+		Some properties we do not want ANYONE to be able to override.
 	-->
 	<property name="build.number" value="${project.version}"/>
-	<property name="debug.target.file.name.suffix" value="_debug"/>
 	<property name="output.dir" location="${build.rootdir}/classes/theme"/><!-- WComponents expects files to be here so don't change it at all -->
 	<!--
 		Per-user/per build overrides. See `user.xml` for some options.
@@ -14,7 +13,6 @@
 
 	<!-- GLOBAL PROPERTIES: used in both input and output tasks -->
 	<property name="tmp.dir" location="${theme.tmp.dir}"/>
-
 
 	<property name="npm.loglevel" value="silent"/>
 
@@ -42,8 +40,6 @@
 
 	<!-- "PRIVATE" properties, for use by macros inside this file - don't play with them -->
 	<var name="private.unique.id.increment.count" value="0"/>
-
-
 
 	<!--
 		Checks that all properties have been expanded during the build.
