@@ -37,9 +37,6 @@
 	<!-- The path to the debug/uncompressed JS. Needed for jsdoc -->
 	<property name="script.debug.build.target.dir" location="${target.rootdir}/${script.debug.target.dir.name}"/>
 
-	<!-- resource paths needed in build, JS and XSLT -->
-	<property name="resource.build.target.dir" location="${target.rootdir}/resource" />
-
 	<!-- ENVIRONMENT PROPERTIES -->
 	<property environment="env"/>
 	<hostinfo/>

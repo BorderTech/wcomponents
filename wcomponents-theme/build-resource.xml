@@ -2,14 +2,7 @@
 	<!--
 		Build the resource directory for a given implementation.
 	-->
-
 	<import file="build-import.xml" />
-	<property name="impl.resource.rootdir" location="${impl.src.main.dir}/resource" />
-
-	<target name="init">
-		<mkdir dir="${target.rootdir}/resource" />
-	</target>
-
 	<!--
 		The copy of resources is done in two steps so that we can run a filter chain on text-like files and
 		not on binary-like files.
