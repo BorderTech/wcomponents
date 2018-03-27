@@ -42,10 +42,10 @@
 		<xsl:variable name="scriptDir">
 			<xsl:choose>
 				<xsl:when test="number($isDebug) eq 1">
-					<xsl:text>${script.debug.target.dir.name}</xsl:text>
+					<xsl:text>scripts_debug</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:text>${script.target.dir.name}</xsl:text>
+					<xsl:text>scripts</xsl:text>
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>

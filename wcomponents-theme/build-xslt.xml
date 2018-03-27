@@ -14,8 +14,8 @@
 			</filterchain>
 		</copy>
 		<copy file="${target.rootdir}/xslt/all.xsl"
-			tofile="${target.rootdir}/xslt/all${debug.target.file.name.suffix}.xsl"/>
-		<replaceregexp file="${target.rootdir}/xslt/all${debug.target.file.name.suffix}.xsl"
+			tofile="${target.rootdir}/xslt/all_debug.xsl"/>
+		<replaceregexp file="${target.rootdir}/xslt/all_debug.xsl"
 			match="xsl:param name=&quot;isDebug&quot; select=&quot;0&quot;"
 			replace="xsl:param name=&quot;isDebug&quot; select=&quot;1&quot;"/>
 		<echo level="verbose" message="Done XSLT"/>

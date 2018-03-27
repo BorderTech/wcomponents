@@ -29,14 +29,6 @@
 	<property name="target.rootdir" location="${output.dir}/${implementation.name}"/>
 
 
-	<!-- JS properties used elsewhere -->
-	<!-- The name of the output directory for compressed JS -->
-	<property name="script.target.dir.name" value="scripts"/>
-	<!-- The name of the output directory for uncompressed JS -->
-	<property name="script.debug.target.dir.name" value="${script.target.dir.name}${debug.target.file.name.suffix}"/>
-	<!-- The path to the debug/uncompressed JS. Needed for jsdoc -->
-	<property name="script.debug.build.target.dir" location="${target.rootdir}/${script.debug.target.dir.name}"/>
-
 	<!-- ENVIRONMENT PROPERTIES -->
 	<property environment="env"/>
 	<hostinfo/>

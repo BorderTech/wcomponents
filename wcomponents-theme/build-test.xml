@@ -102,7 +102,7 @@
 	<macrodef name="jsunit">
 		<attribute name="srcDir" default="${src.dir}"/>
 		<attribute name="configModule" default="intern"/>
-		<attribute name="relativePathToSource" default="target/classes/theme/${implementation.name}/${script.debug.target.dir.name}"/>
+		<attribute name="relativePathToSource" default="target/classes/theme/${implementation.name}/scripts_debug"/>
 		<attribute name="relativePathToTestdir" default="target/test-classes/${implementation.name}"/>
 		<attribute name="relativePathToTests" default="@{relativePathToTestdir}/intern"/>
 		<attribute name="failonerror" default="true"/>
