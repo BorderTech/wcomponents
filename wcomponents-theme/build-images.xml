@@ -2,33 +2,13 @@
 
 	<import file="build-import.xml"/>
 
-	<property name="images.rootdir" location="${common.src.rootdir}/images"/>
-	<property name="impl.images.rootdir" location="${impl.src.main.dir}/images"/>
-	<property name="images.build.target.dir" location="${target.rootdir}/images"/>
-
-	<target name="build" depends="init, copysrc" description="Builds images">
-		<copy todir="${images.build.target.dir}" overwrite="true">
-			<fileset dir="${images.tmp.src.dir}" includes="*.*" excludes="*.b64"/>
+	<target name="build" description="Builds images">
+		<copy todir="${target.rootdir}/images" overwrite="true">
+			<fileset dir="${common.src.rootdir}/images" includes="**"/>
 		</copy>
-	</target>
-
-	<target name="copysrc">
-		<copy todir="${images.tmp.src.dir}" overwrite="true">
-			<fileset dir="${images.rootdir}" includes="**/*"/>
+		<copy todir="${target.rootdir}/images" overwrite="true">
+			<fileset dir="${impl.src.main.dir}/images" includes="**" erroronmissingdir="false"/>
 		</copy>
-		<copy todir="${images.tmp.src.dir}" overwrite="true">
-			<fileset dir="${impl.images.rootdir}" includes="**/*" erroronmissingdir="false"/>
-		</copy>
-		<echo level="verbose" message="Done copying images"/>
-	</target>
-
-	<target name="clean" description="Cleans up all artifacts produced by this build">
-		<delete dir="${images.tmp.src.dir}"/>
-		<echo level="verbose" message="Clean from ${ant.file}"/>
-	</target>
-
-	<target name="init" depends="clean">
-		<mkdir dir="${images.tmp.src.dir}"/>
 	</target>
 
 </project>
