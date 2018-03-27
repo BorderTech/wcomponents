@@ -1,91 +1,39 @@
 <project name="BuildCss" default="build" >
 	<!--
 		Build the CSS (from Sass in SCSS format) for a given implementation.
-
-		This build must be called with the name of the implementation rootdir set in property "implementation.name". If
-		 not set then the css from "wcomponents-theme" alone will be used.
-
-		build-images.xml and build-resource.xml needs to be called before this build so that the base64
-		task can find images and webfonts to embed
 	-->
 	<import file="build-import.xml" />
-	<!--
-		Temp directories used in the build for copy and Sass compile. The copy step is necessary for implementation
-		over-rides and ANT property replacement.
-	-->
-	<!-- The destination directory for CSS after transpile but before base64 encoding media and compression. -->
-	<property name="css.tmp.target.dir" location="${tmp.dir}/css-built" />
-	<!-- where the Sass source is found. -->
-	<property name="sass.rootdir" location="${common.src.rootdir}/sass" />
-	<!-- where the Sass for a child implementation is found (if set). -->
-	<property name="impl.sass.rootdir" location="${impl.src.main.dir}/sass" />
-	<property name="sass.tmp.src.dir" location="${tmp.dir}/sass" />
-	<!-- final destination for built CSS. -->
-	<property name="css.build.target.dir" location="${target.rootdir}/${css.target.dir.name}"/>
 
 	<target name="build" depends="init, copySassSrc, compileSass, minify" description="Builds CSS artifacts then minifies them"> </target>
 
-	<target name="minify">
-		<stopwatch name="minifyCss" action="start" />
-		<for param="file">
-			<fileset dir="${css.tmp.target.dir}">
-				<include name="*.css" />
-			</fileset>
-			<sequential>
-				<var name="base.name" unset="true" />
-				<var name="css.name" unset="true" />
-				<basename property="base.name" file="@{file}" />
-				<!-- base.name is now the file name without the path -->
-				<copy file="@{file}" todir="${tmp.dir}" overwrite="true" />
-				<propertyregex property="css.name" input="${base.name}"
-								regexp="(.+).css"
-								select="\1"
-								casesensitive="false" />
-				<!-- css.name is now the file name without the ${debug.target.file.name.suffix}.css bit -->
-				<minify sourceFile="${tmp.dir}/${base.name}" destFile="${css.build.target.dir}/${css.name}.css" />
-			</sequential>
-		</for>
-		<stopwatch name="minifyCss" action="total" />
-	</target>
-
-	<target name="clean" description="Cleans up all artifacts produced by this build">
-		<delete dir="${css.build.target.dir}" />
-		<delete dir="${sass.tmp.src.dir}" />
-		<delete dir="${css.tmp.target.dir}" />
-	</target>
-
-	<target name="init" depends="clean">
-		<mkdir dir="${css.build.target.dir}" />
-		<mkdir dir="${sass.tmp.src.dir}" />
-		<mkdir dir="${css.tmp.target.dir}" />
+	<target name="init">
+		<mkdir dir="${target.rootdir}/style" />
+		<mkdir dir="${tmp.dir}/css-built" />
 	</target>
 
 	<!--
 		Make a copy of the source which the rest of the build will use. This also the implementation files to overwrite
 		the core files of the same name so the rest of the build script doesn't need to worry about that.
-		NOTE: we use multiple copies here because there appears to be an ANT bug which changes the path order and fails to
-		overwrite correctly.
 	-->
 	<target name="copySassSrc">
 		<!-- wcomponents-theme SCSS -->
-		<copy todir="${sass.tmp.src.dir}" overwrite="true" quiet="true">
-			<fileset dir="${sass.rootdir}" includes="**/*.scss, **/lib/**" />
+		<copy todir="${tmp.dir}/sass" overwrite="true" quiet="true">
+			<fileset dir="${common.src.rootdir}/sass" includes="**" />
 		</copy>
 
 		<!-- Implementation SCSS -->
-		<copy todir="${sass.tmp.src.dir}" overwrite="true" quiet="true">
-			<fileset dir="${impl.sass.rootdir}" includes="**/*.scss, **/lib/**" erroronmissingdir="false" />
+		<copy todir="${tmp.dir}/sass" overwrite="true" quiet="true">
+			<fileset dir="${impl.src.main.dir}/sass" includes="**" erroronmissingdir="false" />
 		</copy>
 	</target>
 
 	<!--
 		Compile Sass to CSS using sass ( https://www.npmjs.com/package/sass )
-		or Vaadin Sass-compiler wrapped by SassTask for efficiency.
 	-->
 	<target name="compileSass">
 		<stopwatch name="compileSass" action="start" />
 		<for param="file">
-			<fileset dir="${sass.tmp.src.dir}" includes="*.scss" excludes="_*.scss" />
+			<fileset dir="${tmp.dir}/sass" includes="*.scss" excludes="_*.scss" />
 			<sequential>
 				<var name="base.name" unset="true" />
 				<var name="css.name" unset="true" />
@@ -94,10 +42,25 @@
 								regexp="(.+)\.scss"
 								select="\1"
 								casesensitive="false" />
-				<compilesass sourceFile="@{file}" destFile="${css.tmp.target.dir}/${css.name}.css" />
+				<compilesass sourceFile="@{file}" destFile="${tmp.dir}/css-built/${css.name}.css" />
 			</sequential>
 		</for>
 		<stopwatch name="compileSass" action="total" />
+	</target>
+
+	<target name="minify">
+		<stopwatch name="minifyCss" action="start" />
+		<for param="file">
+			<fileset dir="${tmp.dir}/css-built">
+				<include name="*.css" />
+			</fileset>
+			<sequential>
+				<var name="base.name" unset="true" />
+				<basename property="base.name" file="@{file}" />
+				<minify sourceFile="@{file}" destFile="${target.rootdir}/style/${base.name}" />
+			</sequential>
+		</for>
+		<stopwatch name="minifyCss" action="total" />
 	</target>
 
 	<macrodef name="minify">
@@ -128,7 +91,6 @@
 		<attribute name="destFile" />
 		<sequential>
 			<property name="sass.executable" location="${basedir}/node_modules/sass/sass"/>
-			<echo level="verbose">node ${sass.executable} @{sourceFile} >@{destFile}</echo>
 			<nodejs.exec failonerror="true" cwd="${target.rootdir}" outfile="@{destFile}">
 				<arguments>
 					<arg value="${sass.executable}"/>
