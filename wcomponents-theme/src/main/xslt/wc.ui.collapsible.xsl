@@ -1,11 +1,15 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
-	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.attributes.xsl"/>
-	<xsl:import href="wc.common.icon.xsl"/>
+<xsl:stylesheet
+	xmlns:html="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	version="2.0" >
+
 	<!-- WCollapsible -->
 	<xsl:template match="ui:collapsible">
-		<details id="{@id}">
-			<xsl:call-template name="makeCommonClass"/>
+		<xsl:variable name="margin">
+			<xsl:apply-templates select="ui:margin"/>
+		</xsl:variable>
+		<details id="{@id}" class="{normalize-space(concat('wc-collapsble ', $margin, ' ', @class))}">
 			<xsl:if test="not(@collapsed)">
 				<xsl:attribute name="open">
 					<xsl:text>open</xsl:text>
@@ -16,17 +20,20 @@
 					<xsl:value-of select="@groupName"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:call-template name="hideElementIfHiddenSet"/>
+			<xsl:if test="@hidden">
+				<xsl:attribute name="hidden">
+					<xsl:text>hidden</xsl:text>
+				</xsl:attribute>
+			</xsl:if>
 			<summary tabindex="0">
-				<xsl:call-template name="icon">
-					<xsl:with-param name="class">
-						<xsl:text>fa-caret-</xsl:text>
-						<xsl:choose>
+				<xsl:variable name="iconclass">
+					<xsl:text>fa-caret-</xsl:text>
+					<xsl:choose>
 						<xsl:when test="@collapsed">right</xsl:when>
 						<xsl:otherwise>down</xsl:otherwise>
 					</xsl:choose>
-					</xsl:with-param>
-				</xsl:call-template>
+				</xsl:variable>
+				<i aria-hidden="true" class="fa {$iconclass}"/>
 				<xsl:choose>
 					<xsl:when test="@level">
 						<xsl:element name="h{@level}">
@@ -48,7 +55,7 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
-			<xsl:apply-templates select="ui:content">
+			<xsl:apply-templates select="ui:content" mode="collapsible">
 				<xsl:with-param name="class">
 					<xsl:if test="number($isAjax) eq 1">
 						<xsl:text>wc_magic</xsl:text>
@@ -65,5 +72,33 @@
 				<xsl:with-param name="labelId" select="ui:decoratedlabel/@id"/>
 			</xsl:apply-templates>
 		</details>
+	</xsl:template>
+	
+	
+	<xsl:template match="ui:content" mode="collapsible">
+		<xsl:param name="class" select="''"/>
+		<xsl:param name="ajaxId" select="''"/>
+		<xsl:param name="labelId" select="''"/>
+		<div class="{normalize-space(concat('wc-section ', $class))}">
+			<xsl:if test="@id">
+				<xsl:attribute name="id">
+					<xsl:value-of select="@id"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="$ajaxId ne ''">
+				<xsl:attribute name="data-wc-ajaxalias">
+					<xsl:value-of select="$ajaxId"/>
+				</xsl:attribute>
+				<xsl:attribute name="aria-live">
+					<xsl:text>polite</xsl:text>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="$labelId ne ''">
+				<xsl:attribute name="aria-describedby">
+					<xsl:value-of select="$labelId"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:apply-templates />
+		</div>
 	</xsl:template>
 </xsl:stylesheet>

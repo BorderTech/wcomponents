@@ -28,12 +28,12 @@ define(["wc/dom/initialise", "wc/config", "wc/loader/style", "tinyMCE"],
 				config = wcconfig.get("wc/ui/rtf", {
 					initObj: {
 						content_css: styleLoader.getMainCss(true),
-						plugins: "autolink link lists print preview paste"
-					},
-					setup: function (editor) {
-						editor.on("change", function () {
-							editor.save();
-						});
+						plugins: "autolink link lists print preview paste",
+						setup: function (editor) {
+							editor.on("change", function () {
+								tinyMCE.triggerSave();
+							});
+						}
 					}
 				});
 

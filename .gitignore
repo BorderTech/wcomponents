@@ -79,3 +79,13 @@ typings/
 .sass-cache/
 *.css.map
 # End of https://www.gitignore.io/api/sass
+
+################################################################################
+# Based on https://www.gitignore.io/api/eclipse
+### Eclipse
+### Required because some maven plugins build eclipse-like artefacts
+bin/
+.settings/
+.project
+.classpath
+################################################################################
