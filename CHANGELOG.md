@@ -7,6 +7,7 @@
 ### Enhancements
 
 * wcomponents_theme:
+  - Further build simplification required for move away from ANT/Maven #1318, #1492.
   - Simplified all XSLT and XSLT build as step towards #639 and #1318.
   - Added a default shim background #1486.
   - Fixed timyMCE init routine #1485.
