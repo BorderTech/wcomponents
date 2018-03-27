@@ -23,7 +23,7 @@
 
 	<target name="build" depends="init, copyResources, buildJsonBundles" description="Builds i18n resource bundles">
 		<!-- i18n -->
-		<copy todir="${resource.build.target.dir}/translation" overwrite="true">
+		<copy todir="${target.rootdir}/resource/translation" overwrite="true">
 			<fileset dir="${i18n.build.target.dir}" includes="*.json"/>
 		</copy>
 	</target>

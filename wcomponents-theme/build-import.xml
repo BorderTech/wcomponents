@@ -38,8 +38,7 @@
 	<property name="script.debug.build.target.dir" location="${target.rootdir}/${script.debug.target.dir.name}"/>
 
 	<!-- resource paths needed in build, JS and XSLT -->
-	<property name="resource.target.dir.name" value="resource"/>
-	<property name="resource.build.target.dir" location="${output.dir}/${implementation.name}/${resource.target.dir.name}" />
+	<property name="resource.build.target.dir" location="${target.rootdir}/resource" />
 
 	<!-- ENVIRONMENT PROPERTIES -->
 	<property environment="env"/>
