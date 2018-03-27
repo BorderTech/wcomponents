@@ -4,7 +4,6 @@
 	-->
 
 	<import file="build-import.xml"/>
-	<property name="i18n.build.target.dir" location="${tmp.dir}/i18n"/>
 	<!--
 		Regarding default.i18n.locale...
 		Must match one of the locales we have provided source properties for in i18n directory.
@@ -13,9 +12,9 @@
 	-->
 	<property name="default.i18n.locale" value="en"/>
 
-	<target name="init" depends="clean">
+	<target name="init">
 		<mkdir dir="${i18n.unpack.dir}" />
-		<mkdir dir="${i18n.build.target.dir}"/>
+		<mkdir dir="${tmp.dir}/i18n"/>
 		<condition property="i18n.resources.exists">
 			<available file="${i18n.resources.dir}" type="dir"/>
 		</condition>
@@ -24,7 +23,7 @@
 	<target name="build" depends="init, copyResources, buildJsonBundles" description="Builds i18n resource bundles">
 		<!-- i18n -->
 		<copy todir="${target.rootdir}/resource/translation" overwrite="true">
-			<fileset dir="${i18n.build.target.dir}" includes="*.json"/>
+			<fileset dir="${tmp.dir}/i18n" includes="*.json"/>
 		</copy>
 	</target>
 
@@ -37,8 +36,8 @@
 
 	<target name="buildJsonBundles">
 		<property name="propertiesToJson.js" value="${component.rootdir}/propertiesToJson.js" />
-		<property name="default.locale.properties" location="${i18n.build.target.dir}/${default.i18n.locale}.properties"/>
-		<property name="default.locale.json" location="${i18n.build.target.dir}/${default.i18n.locale}.json"/>
+		<property name="default.locale.properties" location="${tmp.dir}/i18n/${default.i18n.locale}.properties"/>
+		<property name="default.locale.json" location="${tmp.dir}/i18n/${default.i18n.locale}.json"/>
 		<buildProps destfile="${default.locale.properties}"/>
 		<nodejs.exec failonerror="true" cwd="${target.rootdir}">
 			<arguments>
@@ -68,8 +67,4 @@
 		</sequential>
 	</macrodef>
 
-	<target name="clean" description="Cleans up all artifacts produced by this build">
-		<echo level="verbose" message="Clean from ${ant.file}"/>
-		<delete dir="${i18n.build.target.dir}"/>
-	</target>
 </project>
