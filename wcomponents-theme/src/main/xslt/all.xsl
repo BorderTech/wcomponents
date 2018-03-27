@@ -182,7 +182,7 @@
 					<xsl:value-of select="concat('resourceBaseUrl:&quot;', normalize-space($resourceRoot), '${resource.target.dir.name}/&quot;,&#10;')" />
 					<xsl:value-of select="concat('cachebuster:&quot;', $cacheBuster, '&quot;')" />
 					<xsl:text>},&#10;"wc/loader/style":{</xsl:text>
-					<xsl:value-of select="concat('cssBaseUrl:&quot;', normalize-space($resourceRoot), '${css.target.dir.name}/&quot;,&#10;')" />
+					<xsl:value-of select="concat('cssBaseUrl:&quot;', normalize-space($resourceRoot), 'style/&quot;,&#10;')" />
 					<xsl:value-of select="concat('cachebuster:&quot;', $cacheBuster, '&quot;,&#10;')" />
 					<xsl:text>}};&#10;</xsl:text>
 					<xsl:text>
@@ -270,7 +270,7 @@
 	<xsl:template name="cssUrl">
 		<xsl:param name="filename" />
 		<xsl:value-of select="$resourceRoot" />
-		<xsl:text>${css.target.dir.name}/</xsl:text>
+		<xsl:text>style/</xsl:text>
 		<xsl:value-of select="$filename" />
 		<xsl:text>.css?</xsl:text>
 		<xsl:value-of select="$cacheBuster" />

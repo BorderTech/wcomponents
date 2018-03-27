@@ -281,30 +281,10 @@
 						<artifactId>commons-codec</artifactId>
 						<version>1.4</version>
 					</dependency>
-					<!--					<dependency>
-						<groupId>rhino</groupId>
-						<artifactId>js</artifactId>
-						<version>1.7R2</version>
-					</dependency>-->
 					<dependency>
 						<groupId>net.sf.saxon</groupId>
 						<artifactId>Saxon-HE</artifactId>
 						<version>9.6.0-7</version>
-					</dependency>
-					<!--					<dependency>
-						<groupId>com.google.javascript</groupId>
-						<artifactId>closure-compiler</artifactId>
-						<version>v20130603</version>
-					</dependency>-->
-					<!--					<dependency>
-						<groupId>com.googlecode.jgenhtml</groupId>
-						<artifactId>jgenhtml</artifactId>
-						<version>1.5</version>
-					</dependency>-->
-					<dependency>
-						<groupId>com.github.ricksbrown</groupId>
-						<artifactId>xslmin</artifactId>
-						<version>2.3.0</version>
 					</dependency>
 				</dependencies>
 			</plugin>
