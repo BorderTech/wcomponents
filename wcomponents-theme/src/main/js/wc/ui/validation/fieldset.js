@@ -110,17 +110,34 @@ define(["wc/i18n/i18n",
 					return;
 				}
 				if (validationManager.isValidateOnChange()) {
-					validate(targetFieldset);
+					if (validationManager.isInvalid(targetFieldset)) {
+						revalidate(targetFieldset);
+					} else {
+						validate(targetFieldset);
+					}
 				} else {
 					revalidate(targetFieldset);
 				}
 			}
 
 			function changeEvent($event) {
-				var element = $event.target,
+				/* var element = $event.target,
 					targetFieldset;
 				if (element && validationManager.isValidateOnChange() && (targetFieldset = FIELDSET.findAncestor(element))) {
-					validate(targetFieldset);
+					if (validationManager.isInvalid(targetFieldset)) {
+						revalidate(targetFieldset);
+					} else {
+						validate(targetFieldset);
+					}
+				} */
+				var element = $event.currentTarget;
+				if (!(element && validationManager.isValidateOnChange())) {
+					return;
+				}
+				if (validationManager.isInvalid(element)) {
+					revalidate(element);
+				} else {
+					validate(element);
 				}
 			}
 
@@ -128,7 +145,8 @@ define(["wc/i18n/i18n",
 				var element = $event.target,
 					targetFieldset;
 				if (element && validationManager.isValidateOnChange() && (targetFieldset = FIELDSET.findAncestor(element)) &&  !attribute.get(targetFieldset, INITED_KEY)) {
-					event.add(element, event.TYPE.change, changeEvent, 1);
+					attribute.set(targetFieldset, INITED_KEY, true);
+					event.add(targetFieldset, event.TYPE.change, changeEvent, 1);
 				}
 			}
 

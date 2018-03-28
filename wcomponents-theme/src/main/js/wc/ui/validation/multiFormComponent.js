@@ -7,10 +7,10 @@ define(["wc/dom/attribute",
 	"wc/array/unique",
 	"lib/sprintf",
 	"wc/ui/validation/required",
-	"wc/ui/validation/isComplete",
 	"wc/ui/validation/validationManager",
+	"wc/ui/validation/isComplete",
 	"wc/ui/feedback"],
-	function(attribute, event, initialise, Widget, i18n, multiFormComponent, unique, sprintf, required, validationManager, feedback) {
+	function(attribute, event, initialise, Widget, i18n, multiFormComponent, unique, sprintf, required, validationManager, isComplete, feedback) {
 		"use strict";
 		/**
 		 * @constructor
@@ -50,6 +50,42 @@ define(["wc/dom/attribute",
 				return result;
 			}
 
+			/**
+			 * An array filter function to determine if a particular component is "complete". Passed in to
+			 * {@link module:wc/ui/validation/isComplete}
+			 * @function
+			 * @private
+			 * @param {Element} next A multi form component.
+			 * @returns {boolean} true if the selected items list in the component has one or more options.
+			 */
+			function amIComplete(next) {
+				/*
+				var candidates = INPUT_WD.findDescendants(next);
+				if (!(candidates && candidates.length)) {
+					candidates = SELECT_WD.findDescendants(next);
+				}
+				if (!(candidates && candidates.length)) {
+					return false;
+				}
+
+				// candidates = toArray(candidates);
+				return Array.prototype.some.call(candidates, function (n) {
+					return isComplete.isComplete(n);
+				});
+				*/
+				return isComplete.isContainerComplete(next);
+			}
+
+			/**
+			 * Test if a container is complete if it is, or contains, WMultiSelectPairs.
+			 * @function
+			 * @private
+			 * @param {Element} container A container element, mey be a WMultiSelectPair wrapper.
+			 * @returns {boolean} true if the container is complete.
+			 */
+			function _isComplete(container) {
+				return isComplete.isCompleteHelper(container, CONTAINER, amIComplete);
+			}
 
 			/**
 			 * Array filter function for selecting invalid multi form controls. The filter will also flag these invalid
@@ -245,6 +281,7 @@ define(["wc/dom/attribute",
 			 */
 			this.postInit = function() {
 				validationManager.subscribe(validate);
+				isComplete.subscribe(_isComplete);
 			};
 		}
 
