@@ -4,24 +4,6 @@
 	xmlns:html="http://www.w3.org/1999/xhtml"
 	version="2.0">
 
-	<xsl:template match="ui:fieldindicator">
-		<span class="{normalize-space(concat('wc-fieldindicator wc-fieldindicator-type-', @type, ' ', @class))}">
-			<xsl:if test="@id">
-				<xsl:attribute name="id">
-					<xsl:value-of select="@id"/>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:variable name="iconclass">
-				<xsl:choose>
-					<xsl:when test="@type = 'warn'">fa-exclamation-triangle</xsl:when>
-					<xsl:otherwise>fa-times-circle</xsl:otherwise>
-				</xsl:choose>
-			</xsl:variable>
-			<i aria-hidden="true" class="fa {$iconclass}"></i>
-			<xsl:apply-templates select="ui:message" mode="fieldindicator" />
-		</span>
-	</xsl:template>
-
 	<!-- WMessageBox -->
 	<xsl:template match="ui:messagebox">
 		<section id="{@id}" class="{normalize-space(concat('wc-messagebox wc-messagebox-type-', @type, ' ', @class))}">
@@ -65,28 +47,15 @@
 				</span>
 			</h1>
 			<div class="wc_messages">
-				<xsl:apply-templates select="ui:message" mode="messagebox" />
+				<xsl:apply-templates select="ui:message" />
 			</div>
 		</section>
 	</xsl:template>
 
-	<!--
-		Transform for ui:message.
-
-		ui:message is a child of either a WMessageBox, WFieldWarningIndicator or a WFieldErrorIndicator.
-	-->
-	<xsl:template match="ui:message" />
-
-	<xsl:template match="ui:message" mode="messagebox">
+	<xsl:template match="ui:message">
 		<div class="wc-message">
 			<xsl:apply-templates />
 		</div>
-	</xsl:template>
-
-	<xsl:template match="ui:message" mode="fieldindicator">
-		<span class="wc-message">
-			<xsl:apply-templates />
-		</span>
 	</xsl:template>
 
 	<!-- WValidationErrors. -->

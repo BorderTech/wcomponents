@@ -37,10 +37,17 @@
 					<xsl:value-of select="@accessibleText"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:if test="ui:fieldindicator[not(@type = 'warn')]">
-				<xsl:attribute name="aria-invalid">
-					<xsl:text>true</xsl:text>
-				</xsl:attribute>
+			<xsl:if test="ui:fieldindicator">
+				<xsl:if test="ui:fieldindicator[@id]">
+					<xsl:attribute name="aria-describedby">
+						<xsl:value-of select="ui:fieldindicator/@id" />
+					</xsl:attribute>
+				</xsl:if>
+				<xsl:if test="ui:fieldindicator[@type='error']">
+					<xsl:attribute name="aria-invalid">
+						<xsl:text>true</xsl:text>
+					</xsl:attribute>
+				</xsl:if>
 			</xsl:if>
 			<xsl:if test="@min">
 				<xsl:attribute name="data-wc-min">
