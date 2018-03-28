@@ -23,6 +23,14 @@ public final class DiagnosticRenderUtil {
 	 */
 	private static final String MESSAGE_TAG_NAME = "ui:message";
 
+	private static final String ERR_EXTENSION = "_err";
+
+	private static final String WARN_EXTENSION = "_err";
+
+	private static final String INFO_EXTENSION = "_err";
+
+	private static final String SUCCESS_EXTENSION = "_err";
+
 	/**
 	 * Prevent instantiation.
 	 */
@@ -39,6 +47,10 @@ public final class DiagnosticRenderUtil {
 				return "error";
 			case Diagnostic.WARNING:
 				return "warn";
+			case Diagnostic.INFO:
+				return "info";
+			case Diagnostic.SUCCESS:
+				return "success";
 			default:
 				throw new SystemException("Unexpected diagnostic severity");
 		}
@@ -50,14 +62,38 @@ public final class DiagnosticRenderUtil {
 	 * @param diags the list of Diagnostic objects
 	 * @param severity the severity we are rendering
 	 */
-	private static void renderHelper(final WebXmlRenderContext renderContext, final List<Diagnostic> diags, final int severity) {
+	private static void renderHelper(final WebXmlRenderContext renderContext,
+			final Diagnosable component,
+			final List<Diagnostic> diags,
+			final int severity) {
 		if (diags.isEmpty()) {
 			return;
 		}
 
 		XmlStringBuilder xml = renderContext.getWriter();
+
+		String id = component.getId();
+		String indicatorId = id;
+		switch (severity) {
+			case Diagnostic.ERROR:
+				indicatorId = indicatorId.concat(ERR_EXTENSION);
+				break;
+			case Diagnostic.WARNING:
+				indicatorId = indicatorId.concat(WARN_EXTENSION);
+				break;
+			case Diagnostic.INFO:
+				indicatorId = indicatorId.concat(INFO_EXTENSION);
+				break;
+			case Diagnostic.SUCCESS:
+				indicatorId = indicatorId.concat(SUCCESS_EXTENSION);
+				break;
+			default:
+				throw new SystemException("Unexpected diagnostic severity");
+		}
 		xml.appendTagOpen(TAG_NAME);
+		xml.appendAttribute("id", indicatorId);
 		xml.appendAttribute("type", getLevel(severity));
+		xml.appendAttribute("for", id);
 		xml.appendClose();
 
 		for (Diagnostic diagnostic : diags) {
@@ -76,11 +112,19 @@ public final class DiagnosticRenderUtil {
 	public static void renderDiagnostics(final Diagnosable component, final WebXmlRenderContext renderContext) {
 		List<Diagnostic> diags = component.getDiagnostics(Diagnostic.WARNING);
 		if (diags != null) {
-			renderHelper(renderContext, diags, Diagnostic.WARNING);
+			renderHelper(renderContext, component, diags, Diagnostic.WARNING);
 		}
 		diags = component.getDiagnostics(Diagnostic.ERROR);
 		if (diags != null) {
-			renderHelper(renderContext, diags, Diagnostic.ERROR);
+			renderHelper(renderContext, component, diags, Diagnostic.ERROR);
+		}
+		diags = component.getDiagnostics(Diagnostic.INFO);
+		if (diags != null) {
+			renderHelper(renderContext, component, diags, Diagnostic.INFO);
+		}
+		diags = component.getDiagnostics(Diagnostic.SUCCESS);
+		if (diags != null) {
+			renderHelper(renderContext, component, diags, Diagnostic.SUCCESS);
 		}
 	}
 }
