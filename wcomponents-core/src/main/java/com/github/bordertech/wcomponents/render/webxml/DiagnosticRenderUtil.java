@@ -23,13 +23,25 @@ public final class DiagnosticRenderUtil {
 	 */
 	private static final String MESSAGE_TAG_NAME = "ui:message";
 
+	/**
+	 * Used to create an error diagnostic for a component. Value is unimportant so long as it is different from the other extensions.
+	 */
 	private static final String ERR_EXTENSION = "_err";
 
-	private static final String WARN_EXTENSION = "_err";
+	/**
+	 * Used to create a warning diagnostic for a component. Value is unimportant so long as it is different from the other extensions.
+	 */
+	private static final String WARN_EXTENSION = "_wrn";
 
-	private static final String INFO_EXTENSION = "_err";
+	/**
+	 * Used to create an info diagnostic for a component. Value is unimportant so long as it is different from the other extensions.
+	 */
+	private static final String INFO_EXTENSION = "_nfo";
 
-	private static final String SUCCESS_EXTENSION = "_err";
+	/**
+	 * Used to create a success diagnostic for a component. Value is unimportant so long as it is different from the other extensions.
+	 */
+	private static final String SUCCESS_EXTENSION = "_scc";
 
 	/**
 	 * Prevent instantiation.
