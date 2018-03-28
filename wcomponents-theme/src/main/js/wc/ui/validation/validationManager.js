@@ -6,8 +6,9 @@ define(["wc/has",
 	"wc/Observer",
 	"wc/i18n/i18n",
 	"wc/ui/getFirstLabelForElement",
-	"wc/ui/feedback"],
-	function(has, initialise, shed, tag, Widget, Observer, i18n, getFirstLabelForElement, feedback) {
+	"wc/ui/feedback",
+	"wc/config"],
+	function(has, initialise, shed, tag, Widget, Observer, i18n, getFirstLabelForElement, feedback, wcconfig) {
 		"use strict";
 
 		/**
@@ -42,7 +43,9 @@ define(["wc/has",
 				 * @private
 				 */
 				INVALID_COMPONENT = new Widget("", "", { "aria-invalid": "true" }),
-				REVALIDATE_OBSERVER_GROUP = "reval";
+				REVALIDATE_OBSERVER_GROUP = "reval",
+				allowValidateOnChange = null,
+				allowValidateOnBlur = null;
 
 			/**
 			 * Listen for DISABLE, HIDE or OPTIONAL actions and clear any error message for the component.
@@ -54,6 +57,20 @@ define(["wc/has",
 				if (element && INVALID_COMPONENT.isOneOfMe(element)) {
 					feedback.remove(element);
 				}
+			}
+
+			/**
+			 * Set up the validation configuration.
+			 * @function
+			 * @private
+			 */
+			function setValidateRules() {
+				var conf = wcconfig.get("validationManager", {
+					"doOnChange": true,
+					"doOnBlur": false
+				});
+				allowValidateOnChange = conf.doOnChange;
+				allowValidateOnBlur = conf.doOnBlur;
 			}
 
 			/**
@@ -216,6 +233,32 @@ define(["wc/has",
 					element: element,
 					message: i18n.get("validation_ok")
 				});
+			};
+
+			/**
+			 * @function
+			 * @public
+			 * @returns {boolean} `true` if we want controls to validate when their value changes, false to validate only when submitting.
+			 */
+			this.isValidateOnChange = function() {
+				if (allowValidateOnChange !== null) {
+					return allowValidateOnChange;
+				}
+				setValidateRules();
+				return allowValidateOnChange;
+			};
+
+			/**
+			 * @function
+			 * @public
+			 * @returns {boolean} `true` if we want mandatory controls to validate when the user exits them, even if there has not been a change.
+			 */
+			this.isValidateOnBlur = function() {
+				if (allowValidateOnBlur !== null) {
+					return allowValidateOnBlur;
+				}
+				setValidateRules();
+				return allowValidateOnBlur;
 			};
 		}
 

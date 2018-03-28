@@ -125,13 +125,11 @@ define(["intern!object", "intern/chai!assert", "wc/dom/diagnostic", "wc/dom/clas
 			var box = getTestBox(),
 				className = controller.getBoxClass(level),
 				target = document.createElement("span"),
-				expected = "foo",
-				extension = controller.getIdExtension(level),
-				extendedId = expected + extension;
+				expected = "foo";
 
 			target.id = expected;
 			testHolder.appendChild(target);
-			box.id = extendedId;
+			box.setAttribute("data-wc-dfor", expected);
 			classList.add(box, className);
 			assert.strictEqual((controller.getTarget(box).id), expected);
 		}
@@ -336,13 +334,8 @@ define(["intern!object", "intern/chai!assert", "wc/dom/diagnostic", "wc/dom/clas
 			},
 			testGetTarget_diagnosticNoId: function() {
 				var box = getTestBox();
-				try {
-					box.id = "";
-					controller.getTarget(box);
-					assert.isTrue(false, "getTarget should throw an error");
-				} catch (e) {
-					assert.strictEqual(e.message, "Should not have a diagnostic box without an ID");
-				}
+				box.removeAttribute("data-wc-dfor");
+				assert.isNull(controller.getTarget(box), "well that was unexpected");
 			},
 			// get target tests are cumbersome so they are separated into different functions to allow the base html to be reset between tests
 			testGetTarget_ERROR: function() {

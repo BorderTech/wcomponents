@@ -54,10 +54,17 @@
 						<xsl:value-of select="@buttonId"/>
 					</xsl:attribute>
 				</xsl:if>
-				<xsl:if test="ui:fieldindicator[not(@type = 'warn')]">
-					<xsl:attribute name="aria-invalid">
-						<xsl:text>true</xsl:text>
-					</xsl:attribute>
+				<xsl:if test="ui:fieldindicator">
+					<xsl:if test="ui:fieldindicator[@id]">
+						<xsl:attribute name="aria-describedby">
+							<xsl:value-of select="ui:fieldindicator/@id" />
+						</xsl:attribute>
+					</xsl:if>
+					<xsl:if test="ui:fieldindicator[@type='error']">
+						<xsl:attribute name="aria-invalid">
+							<xsl:text>true</xsl:text>
+						</xsl:attribute>
+					</xsl:if>
 				</xsl:if>
 				<xsl:if test="@toolTip">
 					<xsl:attribute name="title">
@@ -142,10 +149,17 @@
 							<xsl:value-of select="@accessibleText"/>
 						</xsl:attribute>
 					</xsl:if>
-					<xsl:if test="ui:fieldindicator[not(@type = 'warn')]">
-						<xsl:attribute name="aria-invalid">
-							<xsl:text>true</xsl:text>
-						</xsl:attribute>
+					<xsl:if test="ui:fieldindicator">
+						<xsl:if test="ui:fieldindicator[@id]">
+							<xsl:attribute name="aria-describedby">
+								<xsl:value-of select="ui:fieldindicator/@id" />
+							</xsl:attribute>
+						</xsl:if>
+						<xsl:if test="ui:fieldindicator[@type='error']">
+							<xsl:attribute name="aria-invalid">
+								<xsl:text>true</xsl:text>
+							</xsl:attribute>
+						</xsl:if>
 					</xsl:if>
 					<xsl:variable name="rows" select="ceiling(count(ui:file) div number(@cols))"/>
 					<div class="wc_files wc-row wc-hgap-med wc-respond">
@@ -193,10 +207,17 @@
 					<xsl:value-of select="@accessibleText"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:if test="ui:fieldindicator[not(@type = 'warn')]">
-				<xsl:attribute name="aria-invalid">
-					<xsl:text>true</xsl:text>
-				</xsl:attribute>
+			<xsl:if test="ui:fieldindicator">
+				<xsl:if test="ui:fieldindicator[@id]">
+					<xsl:attribute name="aria-describedby">
+						<xsl:value-of select="ui:fieldindicator/@id" />
+					</xsl:attribute>
+				</xsl:if>
+				<xsl:if test="ui:fieldindicator[@type='error']">
+					<xsl:attribute name="aria-invalid">
+						<xsl:text>true</xsl:text>
+					</xsl:attribute>
+				</xsl:if>
 			</xsl:if>
 			<label class="wc-off" for="{concat(@id,'_input')}">
 				<xsl:text>{{#i18n}}file_inputLabel{{/i18n}}</xsl:text>
@@ -231,10 +252,17 @@
 						<xsl:value-of select="@buttonId"/>
 					</xsl:attribute>
 				</xsl:if>
-				<xsl:if test="ui:fieldindicator[not(@type = 'warn')]">
-					<xsl:attribute name="aria-invalid">
-						<xsl:text>true</xsl:text>
-					</xsl:attribute>
+				<xsl:if test="ui:fieldindicator">
+					<xsl:if test="ui:fieldindicator[@id]">
+						<xsl:attribute name="aria-describedby">
+							<xsl:value-of select="ui:fieldindicator/@id" />
+						</xsl:attribute>
+					</xsl:if>
+					<xsl:if test="ui:fieldindicator[@type='error']">
+						<xsl:attribute name="aria-invalid">
+							<xsl:text>true</xsl:text>
+						</xsl:attribute>
+					</xsl:if>
 				</xsl:if>
 				<xsl:if test="@submitOnChange">
 					<xsl:attribute name="class">

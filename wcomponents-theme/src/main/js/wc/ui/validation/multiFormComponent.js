@@ -8,8 +8,9 @@ define(["wc/dom/attribute",
 	"lib/sprintf",
 	"wc/ui/validation/required",
 	"wc/ui/validation/validationManager",
+	"wc/ui/validation/isComplete",
 	"wc/ui/feedback"],
-	function(attribute, event, initialise, Widget, i18n, multiFormComponent, unique, sprintf, required, validationManager, feedback) {
+	function(attribute, event, initialise, Widget, i18n, multiFormComponent, unique, sprintf, required, validationManager, isComplete, feedback) {
 		"use strict";
 		/**
 		 * @constructor
@@ -49,6 +50,42 @@ define(["wc/dom/attribute",
 				return result;
 			}
 
+			/**
+			 * An array filter function to determine if a particular component is "complete". Passed in to
+			 * {@link module:wc/ui/validation/isComplete}
+			 * @function
+			 * @private
+			 * @param {Element} next A multi form component.
+			 * @returns {boolean} true if the selected items list in the component has one or more options.
+			 */
+			function amIComplete(next) {
+				/*
+				var candidates = INPUT_WD.findDescendants(next);
+				if (!(candidates && candidates.length)) {
+					candidates = SELECT_WD.findDescendants(next);
+				}
+				if (!(candidates && candidates.length)) {
+					return false;
+				}
+
+				// candidates = toArray(candidates);
+				return Array.prototype.some.call(candidates, function (n) {
+					return isComplete.isComplete(n);
+				});
+				*/
+				return isComplete.isContainerComplete(next);
+			}
+
+			/**
+			 * Test if a container is complete if it is, or contains, WMultiSelectPairs.
+			 * @function
+			 * @private
+			 * @param {Element} container A container element, mey be a WMultiSelectPair wrapper.
+			 * @returns {boolean} true if the container is complete.
+			 */
+			function _isComplete(container) {
+				return isComplete.isCompleteHelper(container, CONTAINER, amIComplete);
+			}
 
 			/**
 			 * Array filter function for selecting invalid multi form controls. The filter will also flag these invalid
@@ -164,22 +201,23 @@ define(["wc/dom/attribute",
 			function changeEvent($event) {
 				var container = getContainer($event.target);
 				if (container) {
+					if (validationManager.isValidateOnChange()) {
+						if (validationManager.isInvalid(container)) {
+							revalidate(container);
+							return;
+						}
+						validate(container);
+						return;
+					}
 					revalidate(container);
 				}
 			}
 
-			/**
-			 * Browsers which cannot capture change events have to attach the event to each component.
-			 * @function
-			 * @private
-			 * @param {module:wc/dom/event} $event a focus[in] event as wrapped by the WComponent event module.
-			 */
-			function focusEvent($event) {
-				var element,
-					BOOTSTRAPPED = "validation.multiFormComponent.bs";
-				if (!$event.defaultPrevented && (element = $event.target) && !attribute.get(element, BOOTSTRAPPED) && Widget.isOneOfMe(element, multiFormComponent.getInputWidget())) {
-					attribute.set(element, BOOTSTRAPPED, true);
-					event.add(element, event.TYPE.change, changeEvent);
+			function blurEvent($event) {
+				var element = $event.target,
+					container = getContainer(element);
+				if (container && !validationManager.isInvalid(container)) {
+					validate(container);
 				}
 			}
 
@@ -199,13 +237,38 @@ define(["wc/dom/attribute",
 			}
 
 			/**
+			 * Browsers which cannot capture change events have to attach the event to each component.
+			 * @function
+			 * @private
+			 * @param {module:wc/dom/event} $event a focus[in] event as wrapped by the WComponent event module.
+			 */
+			function focusEvent($event) {
+				var element = $event.target,
+					BOOTSTRAPPED = "validation.multiFormComponent.bs",
+					container;
+				if (element && !attribute.get(element, BOOTSTRAPPED) && Widget.isOneOfMe(element, multiFormComponent.getInputWidget())) {
+					attribute.set(element, BOOTSTRAPPED, true);
+					event.add(element, event.TYPE.change, changeEvent);
+					container = getContainer(element);
+					if (container && !attribute.get(container, BOOTSTRAPPED) && validationManager.isValidateOnBlur()) {
+						attribute.set(container, BOOTSTRAPPED, true);
+						if (event.canCapture) {
+							event.add(container, event.TYPE.blur, blurEvent, 1, null, true);
+						} else {
+							event.add(container, event.TYPE.focusout, blurEvent);
+						}
+					}
+				}
+			}
+
+			/**
 			 * Initialisation callback to set up event listeners.
 			 * @function module:wc/ui/validation/multiFormComponent.initialise
 			 * @param {Element} element A DOM element: in practice ths is usually document.body.
 			 */
 			this.initialise = function(element) {
 				if (event.canCapture) {
-					event.add(element, event.TYPE.change, changeEvent, null, null, true);
+					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
 				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
@@ -218,6 +281,7 @@ define(["wc/dom/attribute",
 			 */
 			this.postInit = function() {
 				validationManager.subscribe(validate);
+				isComplete.subscribe(_isComplete);
 			};
 		}
 

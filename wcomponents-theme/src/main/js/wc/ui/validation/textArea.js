@@ -1,6 +1,7 @@
 define(["wc/dom/attribute",
 	"wc/dom/event",
 	"wc/dom/initialise",
+	"wc/dom/shed",
 	"wc/dom/Widget",
 	"wc/i18n/i18n",
 	"lib/sprintf",
@@ -8,7 +9,7 @@ define(["wc/dom/attribute",
 	"wc/ui/validation/validationManager",
 	"wc/ui/feedback",
 	"wc/ui/textArea"],
-	function(attribute, event, initialise, Widget, i18n, sprintf, required, validationManager, feedback, textArea) {
+	function(attribute, event, initialise, shed, Widget, i18n, sprintf, required, validationManager, feedback, textArea) {
 		"use strict";
 		/**
 		 * @constructor
@@ -90,7 +91,6 @@ define(["wc/dom/attribute",
 				return result && _required;
 			}
 
-
 			/**
 			 * Regular (non-constrained) text areas get a change event listener to revalidate mandatory and ancestor
 			 * fieldsets.
@@ -101,13 +101,26 @@ define(["wc/dom/attribute",
 			 */
 			function changeEvent($event) {
 				var element = $event.target;
-				if (TEXTAREA.isOneOfMe(element)) {
-					validationManager.revalidationHelper(element, validate);
+				if (validationManager.isValidateOnChange()) {
+					if (validationManager.isInvalid(element)) {
+						validationManager.revalidationHelper(element, validate);
+						return;
+					}
+					validate(element);
+					return;
+				}
+				validationManager.revalidationHelper(element, validate);
+			}
+
+			function blurEvent($event) {
+				var element = $event.target;
+				if (!element.value && shed.isMandatory(element)) {
+					validate(element);
 				}
 			}
 
 			/**
-			 * Use first focus to attach a change listener in browsers which cannot capture.
+			 * Use first focus to attach other event listeners.
 			 *
 			 * @function
 			 * @private
@@ -118,6 +131,13 @@ define(["wc/dom/attribute",
 				if (TEXTAREA.isOneOfMe(element) && !attribute.get(element, INITED_KEY)) {
 					attribute.set(element, INITED_KEY, true);
 					event.add(element, event.TYPE.change, changeEvent, 1);
+					if (validationManager.isValidateOnBlur()) {
+						if (event.canCapture) {
+							event.add(element, event.TYPE.blur, blurEvent, 1, null, true);
+						} else {
+							event.add(element, event.TYPE.focusout, blurEvent);
+						}
+					}
 				}
 			}
 
@@ -128,7 +148,7 @@ define(["wc/dom/attribute",
 			 */
 			this.initialise = function(element) {
 				if (event.canCapture) {
-					event.add(element, event.TYPE.change, changeEvent, 1, null, true);
+					event.add(element, event.TYPE.focus, focusEvent, 1, null, true);
 				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}

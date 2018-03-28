@@ -3,13 +3,14 @@ define(["wc/date/interchange",
 	"wc/dom/attribute",
 	"wc/dom/event",
 	"wc/dom/initialise",
+	"wc/dom/shed",
 	"wc/i18n/i18n",
 	"wc/ui/dateField",
 	"wc/ui/validation/validationManager",
 	"lib/sprintf",
 	"wc/ui/validation/isComplete",
 	"wc/ui/feedback"],
-	function(interchange, getDifference, attribute, event, initialise, i18n, dateField, validationManager, sprintf, isComplete, feedback) {
+	function(interchange, getDifference, attribute, event, initialise, shed, i18n, dateField, validationManager, sprintf, isComplete, feedback) {
 		"use strict";
 		/**
 		 * @constructor
@@ -178,18 +179,6 @@ define(["wc/date/interchange",
 				return complete && valid;
 			}
 
-
-			/**
-			 * Re-validate a WDateField which was in an invalid state.
-			 * @function
-			 * @private
-			 * @param {Element} element The WDateField to test.
-			 */
-			function revalidate(element) {
-				validationManager.revalidationHelper(element, validate);
-			}
-
-
 			/**
 			 * Change event handler. This is attached to body in browsers which capture and bubble change events and
 			 * directly to each WDateField's input element when the element is first focused otherwise.
@@ -198,18 +187,32 @@ define(["wc/date/interchange",
 			 * @param {wc/dom/event} $event The wrapped change event as published by the WComponent event manager
 			 */
 			function changeEvent($event) {
-				var theField = DATE_FIELD.findAncestor($event.target);
-				if (theField) {
-					revalidate(theField);
+				var element = DATE_FIELD.findAncestor($event.target);
+				if (element) {
+					if (validationManager.isValidateOnChange()) {
+						if (validationManager.isInvalid(element)) {
+							validationManager.revalidationHelper(element, validate);
+							return;
+						}
+						validate(element);
+						return;
+					}
+					validationManager.revalidationHelper(element, validate);
 				}
 			}
 
+			function blurEvent($event) {
+				var element = DATE_FIELD.findAncestor($event.target);
+				if (element && shed.isMandatory(element)) {
+					validate(element);
+				}
+			}
 
 			/**
 			 * Focus event handler used to lazily attach a change event listener to a WDateField when first focused.
 			 * @function
 			 * @private
-			 * @param {wc/dom/event} $event the wrapped focus/focusin event as published by the WComponent event manager.
+			 * @param {Event} $event the wrapped focus/focusin event as published by the WComponent event manager.
 			 */
 			function focusEvent($event) {
 				var element = $event.target,
@@ -217,20 +220,24 @@ define(["wc/date/interchange",
 				if (!$event.defaultPrevented && dateField.isOneOfMe(element, false) && !attribute.get(element, BOOTSTRAPPED)) {
 					attribute.set(element, BOOTSTRAPPED, true);
 					event.add(element, event.TYPE.change, changeEvent, 1);
+					if (validationManager.isValidateOnBlur()) {
+						if (event.canCapture) {
+							event.add(element, event.TYPE.blur, blurEvent, 1, null, true);
+						} else {
+							event.add(element, event.TYPE.focusout, blurEvent);
+						}
+					}
 				}
 			}
 
-
 			/**
-			 * Initialisation function to attach the change event listener (or focus listener in obsolete browsers).
-			 * TODO: maybe move to postInit?
 			 * @function module:wc/ui/validation/dateField.initialise
 			 * @public
 			 * @param {Element} element The element being initialised.
 			 */
 			this.initialise = function(element) {
 				if (event.canCapture) {
-					event.add(element, event.TYPE.change, changeEvent, 1, null, true);
+					event.add(element, event.TYPE.focus, focusEvent, 1, null, true);
 				} else {
 					event.add(element, event.TYPE.focusin, focusEvent, 1);
 				}
@@ -254,7 +261,6 @@ define(["wc/date/interchange",
 				return iAmComplete;
 			}
 
-
 			/**
 			 * Subscriber function for {@link ./isComplete} to test the completeness of a container.
 			 * @function
@@ -265,7 +271,6 @@ define(["wc/date/interchange",
 			function isCompleteSubscriber(container) {
 				return isComplete.isCompleteHelper(container, DATE_FIELD, isCompleteHelper);
 			}
-
 
 			/**
 			 * Late initialisation function to set up dateField validation.

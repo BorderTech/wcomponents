@@ -221,26 +221,13 @@ define(["wc/dom/Widget", "wc/dom/tag"], function(Widget, tag) {
 		 * @returns {Element?} the target element of the diagnostic box
 		 */
 		this.getTarget = function(diag) {
-			var targetId,
-				level,
-				suffix,
-				id,
-				rx;
+			var targetId;
 			if (!(diag && diag.nodeType === Node.ELEMENT_NODE && DIAGNOSTIC.isOneOfMe(diag))) {
 				return null;
 			}
-			id = diag.id;
-			if (!id) {
-				// should never be here!
-				throw new ReferenceError("Should not have a diagnostic box without an ID");
-			}
-			level = this.getLevel(diag);
-			suffix = this.getIdExtension(level);
-			rx = new RegExp(suffix.concat("$"));
-			if (!id.match(rx)) {
-				return null;
-			}
-			if ((targetId = id.replace(rx, ""))) {
+
+			targetId = diag.getAttribute("data-wc-dfor");
+			if (targetId) {
 				return document.getElementById(targetId);
 			}
 			return null;

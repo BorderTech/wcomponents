@@ -471,10 +471,19 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 	@Override
 	public List<Diagnostic> getDiagnostics(final int severity) {
 		InputModel model = getComponentModel();
-		if (severity == Diagnostic.ERROR) {
-			return model.errorDiagnostics;
+
+		switch (severity) {
+			case Diagnostic.ERROR:
+				return model.errorDiagnostics;
+			case Diagnostic.WARNING:
+				return model.warningDiagnostics;
+			case Diagnostic.INFO:
+				return model.infoDiagnostics;
+			case Diagnostic.SUCCESS:
+				return model.successDiagnostics;
+			default:
+				return null;
 		}
-		return model.warningDiagnostics;
 	}
 
 	/**
@@ -547,5 +556,15 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 		 * A List of warning level Diagnostic objects.
 		 */
 		private final List<Diagnostic> warningDiagnostics = new ArrayList<>();
+
+		/**
+		 * A List of info level Diagnostic objects.
+		 */
+		private final List<Diagnostic> infoDiagnostics = new ArrayList<>();
+
+		/**
+		 * A List of success level Diagnostic objects.
+		 */
+		private final List<Diagnostic> successDiagnostics = new ArrayList<>();
 	}
 }

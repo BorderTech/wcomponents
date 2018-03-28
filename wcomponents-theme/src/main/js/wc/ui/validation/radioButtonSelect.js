@@ -35,7 +35,8 @@ define(["wc/dom/initialise",
 			 */
 			function validationShedSubscriber(element) {
 				var container;
-				if (radioButtonSelect.getInputWidget().isOneOfMe(element) && (container = radioButtonSelect.getWidget().findAncestor(element)) &&
+				if (radioButtonSelect.getInputWidget().isOneOfMe(element) &&
+					(container = radioButtonSelect.getWidget().findAncestor(element)) &&
 					validationManager.isInvalid(container)) {
 					validationManager.setOK(container);
 				}

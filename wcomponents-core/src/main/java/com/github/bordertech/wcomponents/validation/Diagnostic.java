@@ -33,6 +33,11 @@ public interface Diagnostic extends Serializable {
 	int ERROR = 2;
 
 	/**
+	 * Indicates that the diagnostic is a "success message".
+	 */
+	int SUCCESS = 3;
+
+	/**
 	 * @return an indicator of the severity of the problem.
 	 */
 	int getSeverity();
