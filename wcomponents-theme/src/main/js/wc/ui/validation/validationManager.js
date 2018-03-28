@@ -67,7 +67,7 @@ define(["wc/has",
 			function setValidateRules() {
 				var conf = wcconfig.get("validationManager", {
 					"doOnChange": true,
-					"doOnBlur": true
+					"doOnBlur": false
 				});
 				allowValidateOnChange = conf.doOnChange;
 				allowValidateOnBlur = conf.doOnBlur;
