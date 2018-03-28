@@ -71,6 +71,7 @@ public final class DiagnosticRenderUtil {
 	/**
 	 * Render the diagnostics.
 	 * @param renderContext the current renderContext
+	 * @param component the component being rendered
 	 * @param diags the list of Diagnostic objects
 	 * @param severity the severity we are rendering
 	 */
