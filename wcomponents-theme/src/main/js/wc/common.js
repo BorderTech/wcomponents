@@ -25,7 +25,8 @@ require(["wc/fixes", // you REALLY need this ...
 	"wc/ui/label",
 	"wc/ui/wrappedInput",
 	"wc/ui/tabset",
-	"wc/ui/menu"], function (f) { // to apply the fixes
+	"wc/ui/menu",
+	"wc/ui/validation/all"], function (f) { // to apply the fixes
 	"use strict";
 	require(f);
 });

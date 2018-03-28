@@ -21,6 +21,19 @@ define(["wc/array/toArray",
 				return diagnostic.isOneOfMe(element, level);
 			};
 
+			function checkandGetElement(element) {
+				var target;
+				if (!element) {
+					throw new TypeError("element must not be falsey");
+				}
+				target = (element.constructor === String) ? document.getElementById(element) : element;
+
+				if (!(target && target.tagName)) {
+					throw new TypeError("element does not represent an HTML Element");
+				}
+				return target;
+			}
+
 			/**
 			 * Type check for diagnostic boxes.
 			 * @param {Element} diag the element to test
@@ -179,6 +192,7 @@ define(["wc/array/toArray",
 					className,
 					idAttrib = "id='",
 					roleAttrib = "role='alert'",
+					forAttrib = "data-wc-dfor='",
 					html,
 					levelIcon;
 
@@ -186,17 +200,16 @@ define(["wc/array/toArray",
 				if (!id) {
 					throw new TypeError("Cannot get error box without an id.");
 				}
-				id += diagnostic.getIdExtension(level);
-
 				boxWidget = diagnostic.getByType(level);
 				tagName = boxWidget.tagName;
-				idAttrib += id + "'";
+				idAttrib += id + diagnostic.getIdExtension(level) + "'";
+				forAttrib += id + "'";
 				className = boxWidget.className;
 				if (Array.isArray(className)) {
 					className = className.join(" ");
 				}
 				classAttrib += className + "'";
-				html = tag.toTag(tagName, false, [idAttrib, classAttrib, roleAttrib].join(" "));
+				html = tag.toTag(tagName, false, [idAttrib, classAttrib, roleAttrib, forAttrib].join(" "));
 				if ((levelIcon = getIconName(level))) {
 					html += "<i aria-hidden='true' class='fa " + levelIcon + "'></i>";
 				}
@@ -363,7 +376,7 @@ define(["wc/array/toArray",
 			}
 
 			/**
-			 * Find all diagnostics belonging to an element.
+			 * Find a diagnostic box belonging to an element.
 			 * @function
 			 * @public
 			 * @param {Element|String} element the element being diagnosed (or its id)
@@ -375,27 +388,20 @@ define(["wc/array/toArray",
 					id,
 					result,
 					level = ofLevel || this.LEVEL.ERROR,
-					lvl;
-				if (!element) {
-					throw new TypeError("element must not be falsey");
-				}
-
-				target = (element.constructor === String) ? document.getElementById(element) : element;
-
-				if (!(target && target.tagName)) {
-					throw new TypeError("element does not represent an HTML Element");
-				}
-
-				if (!target.id) {
-					return null;
-				}
-
+					lvl,
+					transientWidget;
+				target = checkandGetElement(element);
 				if (wrappedInput.isWrappedInput(target)) {
 					target = wrappedInput.getWrapper(target);
 				}
+				if (!target.id) {
+					return null;
+				}
+				id = target.id;
 
 				if (level === -1) {
-					if ((result = diagnostic.getWidget().findDescendant(target))) { // fast but insufficient
+					transientWidget = diagnostic.getWidget().clone().extend("", { "data-wc-dfor": id });
+					if ((result = transientWidget.findDescendant(target))) { // fast but insufficient
 						return result;
 					}
 					for (lvl in this.LEVEL) {
@@ -405,8 +411,8 @@ define(["wc/array/toArray",
 					}
 					return null;
 				}
-				id = target.id + diagnostic.getIdExtension(level);
-				return document.getElementById(id);
+				transientWidget = diagnostic.getByType(level).clone().extend("", { "data-wc-dfor": id });
+				return transientWidget.findDescendant(target) || transientWidget.findDescendant(document.body);
 			};
 
 			/**
@@ -417,15 +423,8 @@ define(["wc/array/toArray",
 			this.getLast = function(element) {
 				var target,
 					candidates;
-				if (!element) {
-					throw new TypeError("element must not be falsey");
-				}
 
-				target = (element.constructor === String) ? document.getElementById(element) : element;
-
-				if (!(target && target.tagName)) {
-					throw new TypeError("element does not represent an HTML Element");
-				}
+				target = checkandGetElement(element);
 
 				if (!target.id) {
 					return null;
@@ -523,7 +522,7 @@ define(["wc/array/toArray",
 			this._removeDiagnostic = removeDiagnostic;
 
 			/**
-			 * Remove an error diagnostic.
+			 * Remove a feedback message.
 			 * @function
 			 * @public
 			 * @param {Element} element either an error diagnostic or an element with an error diagnostic

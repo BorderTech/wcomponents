@@ -2,12 +2,15 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.Message;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WFieldLayout;
+import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WTextArea;
+import com.github.bordertech.wcomponents.validation.ValidatingAction;
 
 /**
  * WTextArea example demonstrates various states of the {@link WTextArea}.
@@ -21,6 +24,8 @@ public class TextAreaExample extends WPanel {
 	 * Creates a TextAreaExample.
 	 */
 	public TextAreaExample() {
+		final WMessages messages = new WMessages();
+		add(messages);
 		/*
 		 * Use WFieldLayout to add input/label pairs to a UI.
 		 */
@@ -134,6 +139,24 @@ public class TextAreaExample extends WPanel {
 		layout.addField("Rich Text", rtf);
 		layout.addField((String) null, rtfButtonContainer);
 		layout.addField("Read-only reflection of the rich text area.", rtfReadOnly);
+		WTextArea mandatoryTA = new WTextArea();
+		mandatoryTA.setMandatory(true);
+		layout.addField("Mandatory", mandatoryTA);mandatoryTA = new WTextArea();
+		mandatoryTA.setMandatory(true);
+		mandatoryTA.setText("Remove me");
+		layout.addField("Mandatory with default content", mandatoryTA);
+
+		WButton validatingButton = new WButton("Submit");
+		validatingButton.setAction(new ValidatingAction(messages.getValidationErrors(), layout) {
+			@Override
+			public void executeOnValid(ActionEvent event) {
+				messages.reset();
+				messages.addMessage(new Message(Message.SUCCESS_MESSAGE, "Hurray!"));
+			}
+		});
+		layout.addField(new WButton("Submit"));
+
+
 		add(new WAjaxControl(showReadOnlyContentButton, readOnlyReflector));
 		add(new WAjaxControl(rtAjaxButton, rtfReadOnly));
 	}

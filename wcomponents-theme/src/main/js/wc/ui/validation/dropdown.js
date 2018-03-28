@@ -1,4 +1,4 @@
-/**
+/*
  * Provides functionality to undertake client validation of WDropdown (not Type.COMBO), WSingleSelect, and WMultiSelect.
  *
  * @module wc/ui/validation/dropdown
@@ -14,13 +14,13 @@
 define(["wc/dom/attribute",
 	"wc/dom/event",
 	"wc/dom/initialise",
+	"wc/dom/shed",
 	"wc/dom/Widget",
 	"wc/ui/validation/minMax",
 	"wc/ui/validation/validationManager",
 	"wc/ui/validation/required",
 	"wc/dom/getFilteredGroup"],
-	/** @param attribute wc/dom/attribute @param event wc/dom/event @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param minMax wc/ui/validation/minMax @param validationManager wc/ui/validation/validationManager @param required wc/ui/validation/required @param getFilteredGroup wc/dom/getFilteredGroup @ignore */
-	function(attribute, event, initialise, Widget, minMax, validationManager, required, getFilteredGroup) {
+	function(attribute, event, initialise, shed, Widget, minMax, validationManager, required, getFilteredGroup) {
 		"use strict";
 		/**
 		 * @constructor
@@ -68,9 +68,22 @@ define(["wc/dom/attribute",
 			 * @param {module:wc/dom/event} $event a wrapped change event as published by the WComponent event manager.
 			 */
 			function changeEvent($event) {
-				var target = $event.target;
-				if (target && SELECT.isOneOfMe(target)) {
-					validationManager.revalidationHelper(target, validate);
+				var element = $event.target;
+				if (validationManager.isValidateOnChange()) {
+					if (validationManager.isInvalid(element)) {
+						validationManager.revalidationHelper(element, validate);
+						return;
+					}
+					validate(element);
+					return;
+				}
+				validationManager.revalidationHelper(element, validate);
+			}
+
+			function blurEvent($event) {
+				var element = $event.target;
+				if (shed.isMandatory(element) && !validationManager.isInvalid(element)) {
+					validate(element);
 				}
 			}
 
@@ -86,6 +99,13 @@ define(["wc/dom/attribute",
 				if (!$event.defaultPrevented && SELECT.isOneOfMe(element) && !attribute.get(element, BOOTSTRAPPED)) {
 					attribute.set(element, BOOTSTRAPPED, true);
 					event.add(element, event.TYPE.change, changeEvent, 1);
+					if (validationManager.isValidateOnBlur()) {
+						if (event.canCapture) {
+							event.add(element, event.TYPE.blur, blurEvent, 1, null, true);
+						} else {
+							event.add(element, event.TYPE.focusout, blurEvent);
+						}
+					}
 				}
 			}
 
@@ -96,7 +116,7 @@ define(["wc/dom/attribute",
 			 */
 			this.initialise = function(element) {
 				if (event.canCapture) {
-					event.add(element, event.TYPE.change, changeEvent, 1, null, true);
+					event.add(element, event.TYPE.focus, focusEvent, 1, null, true);
 				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}

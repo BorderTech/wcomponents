@@ -68,11 +68,23 @@ define(["wc/dom/attribute",
 			 */
 			function clickEvent($event) {
 				var element = $event.target, container;
-				if (!$event.defaultPrevented && !shed.isDisabled(element) && (container = getContainer(element))) {
-					revalidate(container);
+				if ($event.defaultPrevented || ! element || shed.isDisabled(element)) {
+					return;
 				}
+				container = getContainer(element);
+				if (!container) {
+					return;
+				}
+				if (validationManager.isValidateOnChange()) {
+					if (validationManager.isInvalid(container)) {
+						revalidate(container);
+					} else {
+						validate(container);
+					}
+					return;
+				}
+				revalidate(container);
 			}
-
 
 			/**
 			 * Gets the "selected items" list from a WMultiSelectPair.
@@ -93,17 +105,43 @@ define(["wc/dom/attribute",
 			 * @param {module:wc/dom/event} $event A wrapped keydown event.
 			 */
 			function keydownEvent($event) {
-				var selectList, keyCode = $event.keyCode, selectType, container;
+				var selectList, keyCode = $event.keyCode, selectType, container, carryOn;
 				// this is cheaper than any other test in this function
 				if ($event.defaultPrevented || !(keyCode === KeyEvent.DOM_VK_RETURN || keyCode === KeyEvent.DOM_VK_RIGHT || keyCode === KeyEvent.DOM_VK_LEFT)) {
 					return;
 				}
-				if ((selectList = SELECT.findAncestor($event.target)) && (container = getContainer(selectList))) {
-					selectType = multiSelectPair.getListType(selectList);
-					if ((selectType || selectType === 0) && (keyCode === KeyEvent.DOM_VK_RETURN || (keyCode === KeyEvent.DOM_VK_RIGHT && selectType === multiSelectPair.LIST_TYPE_AVAILABLE) || (keyCode === KeyEvent.DOM_VK_LEFT && selectType === multiSelectPair.LIST_TYPE_CHOSEN))) {
-						revalidate(container);
-					}
+				selectList = SELECT.findAncestor($event.target);
+				if (!selectList) {
+					return;
 				}
+				container = getContainer(selectList);
+				if (!container) {
+					return;
+				}
+				selectType = multiSelectPair.getListType(selectList);
+				if (!(selectType || selectType === 0)) {
+					return;
+				}
+				carryOn = keyCode === KeyEvent.DOM_VK_RETURN;
+				if (!carryOn) {
+					carryOn = keyCode === KeyEvent.DOM_VK_RIGHT && selectType === multiSelectPair.LIST_TYPE_AVAILABLE;
+				}
+				if (!carryOn) {
+					carryOn = keyCode === KeyEvent.DOM_VK_LEFT && selectType === multiSelectPair.LIST_TYPE_CHOSEN;
+				}
+				if (!carryOn) {
+					return;
+				}
+				if (validationManager.isValidateOnChange()) {
+					if (validationManager.isInvalid(container)) {
+						revalidate(container);
+					} else {
+						validate(container);
+					}
+					return;
+				}
+
+				revalidate(container);
 			}
 
 
