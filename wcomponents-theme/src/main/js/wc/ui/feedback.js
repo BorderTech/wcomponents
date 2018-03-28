@@ -186,7 +186,8 @@ define(["wc/array/toArray",
 					level = args.level || diagnostic.LEVEL.ERROR,
 					messages = args.messages,
 					boxWidget,
-					id,
+					targetId,
+					boxId,
 					tagName,
 					classAttrib = "class='",
 					className,
@@ -196,14 +197,15 @@ define(["wc/array/toArray",
 					html,
 					levelIcon;
 
-				id = args.id || (el ? el.id : null);
-				if (!id) {
+				targetId = args.id || (el ? el.id : null);
+				if (!targetId) {
 					throw new TypeError("Cannot get error box without an id.");
 				}
 				boxWidget = diagnostic.getByType(level);
 				tagName = boxWidget.tagName;
-				idAttrib += id + diagnostic.getIdExtension(level) + "'";
-				forAttrib += id + "'";
+				boxId = targetId + diagnostic.getIdExtension(level);
+				idAttrib += boxId + "'";
+				forAttrib += targetId + "'";
 				className = boxWidget.className;
 				if (Array.isArray(className)) {
 					className = className.join(" ");
@@ -234,7 +236,7 @@ define(["wc/array/toArray",
 					}
 				}
 				html += tag.toTag(tagName, true);
-				return {html: html, id: id};
+				return {html: html, id: boxId};
 			}
 
 			/**
