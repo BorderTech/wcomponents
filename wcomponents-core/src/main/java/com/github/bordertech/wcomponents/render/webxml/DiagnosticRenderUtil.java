@@ -66,11 +66,11 @@ public final class DiagnosticRenderUtil {
 
 		XmlStringBuilder xml = renderContext.getWriter();
 
-		xml.appendAttribute("id", UUID.randomUUID().toString());
+		xml.appendTagOpen(TAG_NAME);
+		xml.appendAttribute("id", "_wc_".concat(UUID.randomUUID().toString()));
 		xml.appendAttribute("type", getLevel(severity));
 		xml.appendAttribute("for", component.getId());
 		xml.appendClose();
-
 		for (Diagnostic diagnostic : diags) {
 			xml.appendTag(MESSAGE_TAG_NAME);
 			xml.appendEscaped(diagnostic.getDescription());
