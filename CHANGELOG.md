@@ -8,6 +8,7 @@
 
 * Added support for success and info level diagnostics/field indicators as part of #1496.
 * wcomponents_theme:
+  - removed some Sass for inputs and buttons which attempted to provide style rather than structure.
   - provided config options to allow client validation on change/blue #1495.
   - Further build simplification required for move away from ANT/Maven #1318, #1492.
   - Simplified all XSLT and XSLT build as step towards #639 and #1492.

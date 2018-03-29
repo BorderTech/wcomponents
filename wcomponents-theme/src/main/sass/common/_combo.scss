@@ -7,12 +7,16 @@
 
 // The wrapper for all combo widgets.
 [role='combobox'] {
+  @include border-box;
+  @include border;
   position: relative;
   white-space: nowrap;
 
   > [type='text'],
   [role='textbox'] {
+    border: 0;
     max-width: calc(100% - #{$wc-icon-size});
+    width: 100%;
   }
 
   [role='listbox'] {
