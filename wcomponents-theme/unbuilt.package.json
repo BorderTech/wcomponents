@@ -22,7 +22,7 @@
 		"mustache": "2.3.0",
 		"intern": "${test.intern.version}",
 		"jsdoc": "3.5.5",
-		"promise-polyfill": "6.1.0",
+		"promise-polyfill": "3.1.0",
 		"properties": "1.2.1",
 		"requirejs": "2.3.5",
 		"requirejs-domready": "2.0.3",
