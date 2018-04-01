@@ -22,8 +22,6 @@
 	<property name="sass.tmp.src.dir" location="${tmp.dir}/sass" />
 	<!-- final destination for built CSS. -->
 	<property name="css.build.target.dir" location="${target.rootdir}/${css.target.dir.name}"/>
-	<!-- which sass compiler to use: js for node or java for Vaadin Sass Compiler -->
-	<property name="sass.compiler" value="${sass.compiler.lang}" />
 
 	<target name="build" depends="init, copySassSrc, compileSass, minify" description="Builds CSS artifacts then minifies them"> </target>
 
@@ -86,33 +84,19 @@
 	-->
 	<target name="compileSass">
 		<stopwatch name="compileSass" action="start" />
-		<if>
-			<equals arg1="${sass.compiler}" arg2="java"/>
-			<then>
-				<echo>WARNING: using Vaadin Sass Compiler</echo>
-				<taskdef name="sass" classname="com.github.bordertech.wcomponents.sass.SassTask" classpathref="project.class.path"/>
-				<sass in="${sass.tmp.src.dir}" out="${css.tmp.target.dir}" urlmode="absolute"/>
-			</then>
-			<else>
-				<for param="file">
-					<fileset dir="${sass.tmp.src.dir}">
-						<include name="*.scss" />
-						<exclude name="_*.scss" />
-					</fileset>
-					<sequential>
-						<var name="base.name" unset="true" />
-						<var name="css.name" unset="true" />
-						<basename property="base.name" file="@{file}" />
-						<propertyregex property="css.name" input="${base.name}"
-										regexp="(.+)\.scss"
-										select="\1"
-										casesensitive="false" />
-						<compilesass sourceFile="@{file}" destFile="${css.tmp.target.dir}/${css.name}.css" />
-					</sequential>
-				</for>
-			</else>
-		</if>
-
+		<for param="file">
+			<fileset dir="${sass.tmp.src.dir}" includes="*.scss" excludes="_*.scss" />
+			<sequential>
+				<var name="base.name" unset="true" />
+				<var name="css.name" unset="true" />
+				<basename property="base.name" file="@{file}" />
+				<propertyregex property="css.name" input="${base.name}"
+								regexp="(.+)\.scss"
+								select="\1"
+								casesensitive="false" />
+				<compilesass sourceFile="@{file}" destFile="${css.tmp.target.dir}/${css.name}.css" />
+			</sequential>
+		</for>
 		<stopwatch name="compileSass" action="total" />
 	</target>
 

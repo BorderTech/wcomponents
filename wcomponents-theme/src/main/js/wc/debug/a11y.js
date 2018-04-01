@@ -1,4 +1,4 @@
-define(["wc/ui/loading", "wc/timers", "axe", "wc/has"], function(loading, timers, axe, has) {
+define(["wc/dom/initialise", "wc/timers", "axe", "wc/has", "wc/ui/ajax/processResponse"], function(initialise, timers, axe, has, processResponse) {
 	"use strict";
 
 	var DEFAULT_DELAY = 3000,
@@ -145,7 +145,7 @@ define(["wc/ui/loading", "wc/timers", "axe", "wc/has"], function(loading, timers
 		}
 		var c = window.console,
 			filteredIssues;
-		if (showOnScreen || !c.table) {
+		if (showOnScreen || (showOnScreen = !c.table)) {
 			return visibleReporter(err, issues);
 		}
 
@@ -184,31 +184,33 @@ define(["wc/ui/loading", "wc/timers", "axe", "wc/has"], function(loading, timers
 		timers.setTimeout(a11yTest, DEFAULT_DELAY, container);
 	}
 
-	loading.done.then(function () {
-		var excludeArray, cont = true;
+	function doA11yCheck() {
+		var excludeArray,
+			bail = false;
 		if (warnIE && has("ie")) {
-			cont = window.confirm("Running Accessibility tools in IE is very slow, are you sure you want to do this?");
+			bail = !window.confirm("Running Accessibility tools in IE is very slow, are you sure you want to do this?");
+			showOnScreen = true;
 		}
-		if (cont) {
-			axe.configure(defaultAxeConfig);
+		if (bail) {
+			return;
+		}
+		axe.configure(defaultAxeConfig);
+		processResponse.subscribe(run, true);
 
-			if (ignoreExperimentalIssues || ignoreBestPracticeIssues) {
-				excludeArray = [];
+		if (ignoreExperimentalIssues || ignoreBestPracticeIssues) {
+			excludeArray = [];
 
-				if (ignoreBestPracticeIssues) {
-					excludeArray.push("best-practice");
-				}
-
-				if (ignoreExperimentalIssues) {
-					excludeArray.push("experimental");
-				}
-				defaultRunConfig.runOnly.value.exclude = excludeArray;
+			if (ignoreBestPracticeIssues) {
+				excludeArray.push("best-practice");
 			}
-			run();
-			require(["wc/ui/ajax/processResponse"], function (processResponse) {
-				processResponse.subscribe(run, true);
-			});
-		}
-	});
 
+			if (ignoreExperimentalIssues) {
+				excludeArray.push("experimental");
+			}
+			defaultRunConfig.runOnly.value.exclude = excludeArray;
+		}
+		run();
+	}
+
+	initialise.register({postInit: doA11yCheck});
 });

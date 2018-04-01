@@ -70,7 +70,7 @@
 		<copy todir="${lib.tmp.src.dir}/handlebars" overwrite="true">
 			<fileset dir="${basedir}/node_modules/handlebars/dist/amd"/>
 		</copy>
-		<!-- main js -->
+		<!-- core js -->
 		<copy todir="${script.tmp.src.dir}" overwrite="true">
 			<fileset dir="${script.rootdir}" includes="**/*.js"/>
 			<filterchain>

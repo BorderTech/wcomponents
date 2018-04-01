@@ -8,6 +8,7 @@
 	<property name="impl.resource.rootdir" location="${impl.src.main.dir}/resource" />
 
 	<target name="init" depends="clean">
+		<mkdir dir="${resource.build.target.dir}" />
 	</target>
 
 	<!--
@@ -18,7 +19,6 @@
 		<copy todir="${resource.build.target.dir}" overwrite="true">
 			<fileset dir="${resource.rootdir}" includes="**.xml, **.rdf, **.html, **.svg" />
 			<filterchain>
-				<expandproperties />
 				<deletecharacters chars="\t" />
 				<trim />
 				<ignoreblank />
@@ -28,7 +28,6 @@
 		<copy todir="${resource.build.target.dir}" overwrite="true">
 			<fileset dir="${impl.resource.rootdir}" includes="**.xml, **.rdf, **.html, **.svg" erroronmissingdir="false"/>
 			<filterchain>
-				<expandproperties />
 				<deletecharacters chars="\t" />
 				<trim />
 				<ignoreblank />
@@ -37,18 +36,10 @@
 		</copy>
 
 		<copy todir="${resource.build.target.dir}" overwrite="true">
-			<fileset dir="${resource.rootdir}">
-				<include name="**" />
-				<exclude name="**.xml" />
-				<exclude name="**.rdf" />
-				<exclude name="**.html" />
-				<exclude name="**.svg" />
-			</fileset>
+			<fileset dir="${resource.rootdir}" includes="**" excludes="**.xml, **.rdf, **.html, **.svg" />
 		</copy>
 		<copy todir="${resource.build.target.dir}" overwrite="true">
-			<fileset dir="${impl.resource.rootdir}" excludes="**.xml, **.rdf, **.html, **.svg" erroronmissingdir="false">
-				<include name="**" />
-			</fileset>
+			<fileset dir="${impl.resource.rootdir}" includes="**" excludes="**.xml, **.rdf, **.html, **.svg" erroronmissingdir="false" />
 		</copy>
 		<echo level="verbose" message="Done building resources" />
 	</target>
