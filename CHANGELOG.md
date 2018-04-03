@@ -6,11 +6,13 @@
 
 ### Enhancements
 
+* Added support for success and info level diagnostics/field indicators as part of #1496.
 * wcomponents_theme:
+  - removed some Sass for inputs and buttons which attempted to provide style rather than structure.
+  - provided config options to allow client validation on change/blue #1495.
   - Further build simplification required for move away from ANT/Maven #1318, #1492.
   - Simplified all XSLT and XSLT build as step towards #639 and #1492.
   - Added a default shim background #1486.
-  - Fixed timyMCE init routine #1485.
   - Removed duplicate focus code #1488.
   - Removed superfluous loading screen code #1487.
   - Removed unused code from `wc/ui/feedback` and `wc/dom/messageBox` #1489.
@@ -19,8 +21,13 @@
   - Prevent WTable pagination buttons from working when they are disabled or read-only #1490.
 * Updated .gitignore to exclude eclipse-like artefacts built during Maven lifecycle.
 
-
 ### Bug Fixes
+
+* Fixed inconsistency of rendering field indicators #1496.
+* wcomponents_theme:
+  - Fixed icon element inconsistencies #1497.
+  - Fixed a number of client validation issues #1495
+  - Fixed timyMCE init routine #1485.
 
 ## Release 1.5.2
 

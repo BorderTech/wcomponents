@@ -14,19 +14,6 @@ define(["wc/dom/initialise",
 			var REQUIRED = new Widget("input", "", {"type": "checkbox", "required": null});
 
 			/**
-			 * Subscriber to {@link module:wc/wc/dom/shed} select so that when a mandatory check box is selected we can set
-			 * it to valid if it was previously marked invalid.
-			 * @function
-			 * @private
-			 * @param {Element} element The DOM element being selected.
-			 */
-			function shedSubscriber(element) {
-				if (element && Widget.isOneOfMe(element, REQUIRED) && validationManager.isInvalid(element)) {
-					validationManager.setOK(element);
-				}
-			}
-
-			/**
 			 * Validate mandatory check boxes using the {@link ./required} module. This is a subscriber
 			 * function for {@link module:wc/ui/validation/validationManager}.
 			 * @function
@@ -42,12 +29,33 @@ define(["wc/dom/initialise",
 			}
 
 			/**
+			 * Subscriber to {@link module:wc/wc/dom/shed} select/deselect to manage validity and feedback.
+			 * @function
+			 * @private
+			 * @param {Element} element The DOM element being selected.
+			 * @param {String} action The shed action.
+			 */
+			function shedSubscriber(element, action) {
+				if (element && REQUIRED.isOneOfMe(element)) {
+					if (action === shed.actions.SELECT) {
+						if (validationManager.isInvalid(element)) {
+							validationManager.setOK(element);
+						}
+					} else if (validationManager.isValidateOnChange()) {
+						validate(element);
+					}
+				}
+			}
+
+
+			/**
 			 * Initialise function to set up check boxes for validation.
 			 * @function module:wc/ui/validation/checkBox.initialise
 			 * @public
 			 */
 			this.initialise = function() {
 				shed.subscribe(shed.actions.SELECT, shedSubscriber);
+				shed.subscribe(shed.actions.DESELECT, shedSubscriber);
 				validationManager.subscribe(validate);
 			};
 		}

@@ -107,7 +107,7 @@ define(["wc/Observer",
 				}
 
 				if (Widget.isOneOfMe(container, widget)) {
-					result = isNotExempt(container) && filter(container);
+					return isNotExempt(container) && filter(container);
 				} else if (Array.isArray(widget)) {
 					candidates = Widget.findDescendants(container, widget);
 				} else {

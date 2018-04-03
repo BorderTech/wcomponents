@@ -781,7 +781,6 @@
 	<xsl:include href="wc.ajax.xsl" />
 	<xsl:include href="wc.checkablegroup.xsl" />
 	<xsl:include href="wc.containers.xsl" />
-	<xsl:include href="wc.feedback.xsl" />
 	<xsl:include href="wc.fileupload.xsl" />
 	<xsl:include href="wc.inputs.xsl" />
 	<xsl:include href="wc.shuffleable.xsl" />
@@ -794,6 +793,7 @@
 	<xsl:include href="wc.ui.definitionList.xsl" />
 	<xsl:include href="wc.ui.dialog.xsl" />
 	<xsl:include href="wc.ui.dropdown.xsl" />
+  <xsl:include href="wc.ui.fieldindicator.xsl"/>
 	<xsl:include href="wc.ui.fieldLayout.xsl" />
 	<xsl:include href="wc.ui.fieldSet.xsl" />
 	<xsl:include href="wc.ui.figure.xsl" />
@@ -804,6 +804,7 @@
 	<xsl:include href="wc.ui.listbox.xsl" />
 	<xsl:include href="wc.ui.margin.xsl" />
 	<xsl:include href="wc.ui.menu.xsl" />
+  <xsl:include href="wc.ui.messagebox.xsl"/>
 	<xsl:include href="wc.ui.multidropdown.xsl" />
 	<xsl:include href="wc.ui.multitextfield.xsl" />
 	<xsl:include href="wc.ui.numberfield.xsl" />
