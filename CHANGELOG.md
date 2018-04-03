@@ -20,6 +20,7 @@
   - Fixed minor ANT build inconsistencies.
   - Prevent WTable pagination buttons from working when they are disabled or read-only #1490.
 * Updated .gitignore to exclude eclipse-like artefacts built during Maven lifecycle.
+* Update package.json to latest working node module versions and removed tildes to prevent unwanted updates.
 
 ### Bug Fixes
 
