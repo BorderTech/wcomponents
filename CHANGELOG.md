@@ -24,6 +24,7 @@
 
 ### Bug Fixes
 
+* Allow JavaScript module config to keep existing config properties when calling `set` #1502.
 * Fixed inconsistency of rendering field indicators #1496.
 * wcomponents_theme:
   - Fixed icon element inconsistencies #1497.
