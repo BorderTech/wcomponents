@@ -1,6 +1,5 @@
 package com.github.bordertech.wcomponents.examples.table;
 
-
 import com.github.bordertech.wcomponents.*;
 
 /**

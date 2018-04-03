@@ -78,6 +78,12 @@
 
 ### Enhancements
 
+### Bug Fixes
+
+## Release 1.4.24
+
+### Enhancements
+
 * Updated WTree Sass to remove unnecessary left padding from default implementation #1461.
 * Removed some duplicate code from tabset Sass.
 * Fixed inconsistency in detecting a disabled link.
