@@ -60,6 +60,50 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				wcconfig.set(overrides, id);
 				actual = wcconfig.get(id, defaults);
 				assert.deepEqual(actual, expected, "Should return the registered configuration with overrides applied to defaults");
+			},
+			testSetKeepsDefaults: function() {
+				var id = "wc/config/testSetKeepsDefaults",
+					defaults = {
+						foo: 0,
+						bar: { baa: "baa" },
+						fubar: ["f", "u", "b", "a", "r"],
+						boo: null
+					},
+					replacements = {
+						bar: {black: "sheep"},
+						fubar: ["one", "two", "three"],
+						kung: "foo"
+					},
+					expected = {
+						foo: 0,
+						bar: { baa: "baa", black: "sheep"},
+						fubar: ["one", "two", "three"],
+						kung: "foo",
+						boo: null
+					};
+				wcconfig.set(defaults, id);
+				wcconfig.set(replacements, id);
+				assert.deepEqual(wcconfig.get(id), expected);
+			},
+			testSetKeepsSomeDefaults: function() {
+				var id = "wc/config/testSetKeepsSomeDefaults",
+					defaults = {
+						foo: 0,
+						bar: { baa: "baa" },
+						baa: {sheep: "dip"}
+					},
+					replacements = {
+						bar: null,
+						baa: {sheep: "ovine"}
+					},
+					expected = {
+						foo: 0,
+						bar: null,
+						baa: {sheep: "ovine"}
+					};
+				wcconfig.set(defaults, id);
+				wcconfig.set(replacements, id);
+				assert.deepEqual(wcconfig.get(id), expected);
 			}
 		});
 	});
