@@ -33,8 +33,22 @@ define(["wc/mixin", "module"], function(mixin, module) {
 		 *    configuration (did this ever seem like a good idea?).
 		 */
 		this.set = function(config, id) {
+			var alreadySet, newConfig;
 			if (id) {
-				configObject[id] = config || configObject[id];
+				if (!config) {
+					// reset any existin g config to null
+					if (configObject[id]) {
+						delete configObject[id];
+					}
+					return;
+				}
+				alreadySet = configObject[id];
+				if (alreadySet) {
+					newConfig = mixin(alreadySet);
+					configObject[id] = mixin(config, newConfig);
+				} else {
+					configObject[id] = config;
+				}
 			} else {
 				configObject = config || configObject;
 			}
