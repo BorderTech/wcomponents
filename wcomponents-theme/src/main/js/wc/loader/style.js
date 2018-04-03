@@ -1,4 +1,4 @@
-define(["wc/has", "wc/config"], function(has, wcconfig) {
+define(["wc/has", "wc/mixin", "wc/urlParser", "wc/config"], function(has, mixin, urlParser, wcconfig) {
 	"use strict";
 	/**
 	 * @constructor
@@ -8,44 +8,29 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 	function StyleLoader() {
 		var
 			/**
-			 * The supported versions of IE. The versions are of the form 'ie#'. The default can be overridden using module.config().ie.
+			 * A JSON object containing a list of file name 'extensions' or dtos which define what CSS files are to be included. This may be
+			 * overwritten using module config if you want implementation specific styles. See {@link module:wc/loader/style~cssConfig} and
+			 * {@link module:wc/loader/style~loadRules}.
 			 *
+			 * Note that when adding style fixes for IE one usually wants to load them in descending order of version (ie11 then ie10 for example).
+			 * We add the link element as the next sibling of the main CSS. SO to get the desired CSS order one ought have any IE versions in
+			 * ascending order (e.g. ie10 then ie11)
+			 *
+			 * The default/fallback includes fixes for IE11, MS Edge and UC Browser. These will be overridden completely by a custom config `css`
+			 * object unless `config.inherit` is `true`.
+			 *			 *
 			 * @var
-			 * @type {String[]}
+			 * @type {module:wc/loader/style~cssConfig}
 			 * @private
 			 */
-			ieVersionsToSupport = ["ie11"],
-			/**
-			 * A JSON object containing a list of file name 'extensions' which are to be included. This may be overwritten
-			 * from a module config if you want implementation specific styles. The default/fallback includes only the
-			 * Firefox fixes and some bits of ios specific CSS for demo purposes. If you use a config override it must
-			 * include any of these defaults you want to keep because the config will replace the defaults, not add to
-			 * them.
-			 *
-			 * **DO NOT include IE specific files here**. IE versions (e.g. ie8 or ie9) are included in
-			 * {@link module:wc/loader/style~ieVersionsToSupport}.
-			 *
-			 * Some popular tests (see lib/dojo/sniff for more):
-			 *
-			 * * has("ios")
-			 * * has("android")
-			 * * has("safari")
-			 * * has("mac")
-			 *
-			 * Hard coded file name extensions used in WComponents default theme include:
-			 *
-			 * * `pattern_edge` for Edge;
-			 * * `pattern_safari` for Safari; and
-			 * * `pattern_ff` for Firefox.
-			 *
-			 * @var
-			 * @type {module:wc/loader/style~platformConfig}
-			 * @private
-			 */
-			stylesToAdd = {"edge": "edge", "uc": "uc"},
-
-			/* NOTE TO SELF: the vars below which are only used once are used in a function which is called many times. Leave them here you twit! */
-
+			defaultStylesToAdd = {
+				"edge": "edge",
+				"uc": "uc",
+				"ie11": {
+					"test": "trident",
+					"version": 7
+				}
+			},
 			/**
 			 * The BASE URL for the CSS
 			 * @constant
@@ -66,7 +51,7 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 			 * @type {String}
 			 * @private
 			 */
-			cssFileNameAndUrlExtension,
+			cssFileNameAndUrlExtension = ".css",
 			/**
 			 * Used to access keys in the screenStylesToAdd JSON object.
 			 * @var
@@ -81,60 +66,83 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 			 * @type {String}
 			 * @private
 			 */
-			CSS_FILE_NAME = "wc-",
-			/**
-			 * time to delay before loading a style. This is done to improve perceived performance.
-			 * @type Number
-			 * @constant
-			 * @private
-			 */
-			MEDIA_SCREEN = "screen",
-			/**
-			 * Used to enable importing `wc-phone.css`. Set using optionsal config property `loadPhone`.
-			 * @var
-			 * @type {boolean}
-			 * @private
-			 */
-			importPhoneCSS = false,
-			/**
-			 * Used to enable importing `wc-async.css`. Set using optionsal config property `loadAsync`.
-			 * @var
-			 * @type {boolean}
-			 * @private
-			 */
-			loadAsyncStyles = false;
+			DEFAULT_FILE_NAME_PREFIX = "wc-";
 
-		function configure() {
-			var config = wcconfig.get("wc/loader/style");
-			if (config) {
-				if (config.css) {
-					stylesToAdd = config.css;
-				}
-				if (!CSS_BASE_URL) { // set this only once on initial page load from the XSLT
-					CSS_BASE_URL = config.cssBaseUrl;
-				}
-				if (!CACHEBUSTER) { // set this only once on initial page load from the XSLT
-					CACHEBUSTER = config.cachebuster;
-				}
-				importPhoneCSS = !!config.loadPhone;
-				loadAsyncStyles = !!config.loadAsync;
-				if (!cssFileNameAndUrlExtension) {
-					cssFileNameAndUrlExtension = ".css" + (CACHEBUSTER ? ("?" + CACHEBUSTER) : "");
-				}
-				if (config.ie && Array.isArray(config.ie)) {
-					ieVersionsToSupport = config.ie;
+		/**
+		 * Use the URL to the main CSS file to get the path to the theme CSs directory.
+		 * We can make some assumptions about the parsed URL to the main CSS file
+		 * 1. it has a hostname
+		 * 2. it has a pathArray
+		 * 3. the last item in the pathArray is the file name, which we do not want.
+		 * @returns {String} the URL to the main CSS file exclusing the file name and query string with the terminal SLASH.
+		 */
+		function getBaseUrlFromMainCss() {
+			var cssUrl = instance.getMainCss(true),
+				parsedUrl,
+				baseUrl = "",
+				i,
+				SEPARATOR = "/";
 
-					// We want to sort the IE versions so that we apply fixes for older versions AFTER fixes for newer ones.
-					if (ieVersionsToSupport.length > 1) {
-						ieVersionsToSupport = ieVersionsToSupport.sort(function (a,b) {
-							var RX = /(\d+)$/,
-								aVer = parseInt(a.match(RX)[0]),
-								bVer = parseInt(b.match(RX)[0]);
-							return bVer - aVer;
-						});
+			if (cssUrl && (parsedUrl = urlParser.parse(cssUrl))) {
+				if (parsedUrl.protocol) { // if scheme is defined we know it is http[s] so can use two slashes.
+					baseUrl = parsedUrl.protocol + SEPARATOR + SEPARATOR;
+				}
+				baseUrl += parsedUrl.host;
+				if (parsedUrl.pathnameArray) {
+					// do not include the last part of the pathname array: it is the filename of the main CSS file
+					for (i = 0; i < parsedUrl.pathnameArray.length - 1; ++i) {
+						baseUrl += SEPARATOR + parsedUrl.pathnameArray[i];
 					}
 				}
+				return baseUrl + SEPARATOR;
 			}
+			return ""; // this would basically be a disaster
+		}
+
+		/**
+		 * One time function to get the default cachebuster off of the main CSS built by XSLT.
+		 * @function
+		 * @private
+		 * @returns {String} the cachebuster querystring on the main CSS link's URL.
+		 */
+		function getCachebusterFromMainCss() {
+			var cssUrl = instance.getMainCss(true),
+				parsedUrl;
+			if (cssUrl && (parsedUrl = urlParser.parse(cssUrl))) {
+				return parsedUrl.queryString;
+			}
+			return ""; // no cachebuster
+		}
+
+		/**
+		 * @function
+		 * @private
+		 * @param {module:wc/loader/style~config} [obj] An alternate configuration object. If not set then use module config.
+		 * @returns {module:wc/loader/style~cssConfig} an object which describes the CSS files to be loaded.
+		 */
+		function configure(obj) {
+			var config = obj || wcconfig.get("wc/loader/style"),
+				result = defaultStylesToAdd;
+			if (CSS_BASE_URL === null) { // first call to configure
+				CSS_BASE_URL = getBaseUrlFromMainCss();
+			}
+			if (config) {
+				if (typeof config.css !== "undefined") {
+					if (config.inherit && (typeof config.css === "object")) {
+						result = mixin(config.css, result);
+					} else {
+						result = config.css;
+					}
+				}
+				if (typeof config.cachebuster !== "undefined") {
+					CACHEBUSTER = config.cachebuster;
+				}
+			}
+			if (CACHEBUSTER === null) {
+				CACHEBUSTER = getCachebusterFromMainCss();
+			}
+			cssFileNameAndUrlExtension = ".css" + (CACHEBUSTER ? ("?" + CACHEBUSTER) : "");
+			return result;
 		}
 
 		/**
@@ -152,7 +160,7 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 				return;
 			}
 
-			if (document.querySelector && document.querySelector("link[href='url']")) {
+			if (document.querySelector && document.querySelector("link[href='" + url + "']")) {
 				// Do not add the same link element twice. If the browser does not support querySelector then we do not
 				// really care if we add the link more than once but it is better to not do so.
 				return;
@@ -173,108 +181,11 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 			}
 		}
 
-		/**
-		 * Create a link element for a particular stylesheet.
-		 * @function
-		 * @private
-		 * @param {String} shortName The css file name without extension.
-		 * @param {String} [media="all"] An optional media query.
-		 * @param {boolean} [noTimeout] If `true` load without a timeout.
-		 */
-		function addStyle(shortName, media) {
-			var fullUrl = CSS_BASE_URL + shortName + cssFileNameAndUrlExtension,
-				localMedia = media || "all";
-			addLinkElement(fullUrl, localMedia);
-		}
-
-		/**
-		 * Write link elements for all CSS files required by specific desktop browsers.
-		 * @private
-		 * @function
-		 */
-		function loadStyle() {
-			var key,
-				value,
-				media,
-				name;
-			for (ext in stylesToAdd) {
-				key = value = media = null;
-
-				if (typeof stylesToAdd[ext] === "string") {
-					if (has(stylesToAdd[ext])) {
-						addStyle(CSS_FILE_NAME + ext);
-					}
-				} else {
-					key = stylesToAdd[ext].test;
-					if (key && key.constructor !== String) {
-						console.error("unknown has test");
-						continue;
-					}
-					value = stylesToAdd[ext].version;
-					media = stylesToAdd[ext].media;
-					name = stylesToAdd[ext].name || (CSS_FILE_NAME + ext);
-					if (!key) {
-						addStyle(name, media);
-					} else if (value || value === 0) {
-						if (has(key) <= value) {
-							addStyle(name, media);
-						}
-					} else if (has(key)) {
-						addStyle(name, media);
-					}
-				}
+		function checkIsStringOrFalsey(arg, msg) {
+			if (!arg || (arg.constructor.prototype === String.prototype)) {
+				return true;
 			}
-		}
-
-		/**
-		 * Write link elements for all CSS files required by the world's most "special" browser.
-		 * @private
-		 * @function
-		 */
-		function loadIE() {
-			var IE_PREFIX = "ie",
-				i,
-				next,
-				vNum,
-				j,
-				version,
-				_v;  // I hate IE8! All these vars are for the array iteration because I cannot rely on forEach being loaded in time.;
-			/*
-			 * This module is loaded very early via XSLT and we cannot guarantee that IE8 has received, parsed and
-			 * processed the whole compat layer. This makes it hard to catch some things but mostly foreEach is
-			 * unreliable so I had to replace it with a simple iteration.
-			 */
-			for (i = 0; i < ieVersionsToSupport.length; ++i) {
-				next = ieVersionsToSupport[i];
-				vNum = next.match(/[0-9]{1,2}$/);
-				if (vNum) {
-					for (j = 0; j < vNum.length; ++j) {
-						version = vNum[j];
-						if (isNaN(version)) {
-							break;
-						}
-						_v = version * 1;
-						if (has("ie") && has("ie") <= _v) {
-							addStyle(CSS_FILE_NAME + IE_PREFIX + version, MEDIA_SCREEN);
-						} else if (_v >= 10) {
-							/*
-							 * WARNING... DANGER WILL ROBINSON
-							 * ie10+ use trident version, which is non-linear compared to ieVerion but we are going
-							 * to assume ONLY ie10 and maybe 11 need special CSS... This is a BAD assumption.
-							 *
-							 * Later... turns out to be not so bad since MS Edge does not identify as trident.
-							 */
-							if (has("trident") < 7) {
-								addStyle(CSS_FILE_NAME + IE_PREFIX + "10", MEDIA_SCREEN);
-							} else if (has("trident") <= _v - 4) {
-								addStyle(CSS_FILE_NAME + IE_PREFIX + version, MEDIA_SCREEN);
-							} else if (_v >= 11) {
-								addStyle(CSS_FILE_NAME + IE_PREFIX + "11", MEDIA_SCREEN);
-							}
-						}
-					}
-				}
-			}
+			throw new TypeError(msg);
 		}
 
 		/**
@@ -290,27 +201,73 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 			return mainCss;
 		};
 
+		function addByName(nameOrUrl, media) {
+			var isUrl = nameOrUrl.indexOf("/") === 0 || nameOrUrl.indexOf("http") === 0 || nameOrUrl.indexOf(".") === 0,
+				fullUrl = isUrl ? nameOrUrl :  CSS_BASE_URL + nameOrUrl  + ((nameOrUrl.indexOf(".css") > 0) ? ".css" : cssFileNameAndUrlExtension);
+
+			if (isUrl) {
+				// Huzzah we have a URL! Simply write the link element.
+				return addLinkElement(nameOrUrl, media);
+			}
+			addLinkElement(fullUrl, media);
+		}
+
 		/**
 		 * Write link elements for all required CSS files. Should only be called from ui:root XSLT. To add CSS from a
 		 * module use {@link module:wc/loader/style.add}.
 		 *
 		 * @function module:wc/loader/style.load
 		 * @public
+		 * @param {module:wc/loader/style~config} [config] a dto describing the CSS to load. If not defined use module config
 		 */
-		this.load = function() {
-			configure();
-			if (loadAsyncStyles) {
-				addStyle("wcasync", "screen");
-			}
-			if (importPhoneCSS) {
-				addStyle("wc-phone", "only screen and (max-width: 773px)");
-			}
+		this.load = function(config) {
+			var what,
+				key,
+				value,
+				media,
+				name,
+				obj;
+			what = configure(config);
 
-			if (has("ie") || has("trident")) {
-				loadIE();
+			if (!what) {
+				return;
 			}
-			if (stylesToAdd && !has("ie")) { // IE needs its own 'special' styles.
-				loadStyle();
+			for (ext in what) {
+				if (!what.hasOwnProperty(ext)) {
+					continue;
+				}
+				key = value = media = null;
+				obj = what[ext];
+
+				if (typeof obj === "string") {
+					if (has(obj)) {
+						addByName(DEFAULT_FILE_NAME_PREFIX + ext);
+					}
+					continue;
+				}
+				key = obj.test;
+				checkIsStringOrFalsey(key, "Test must be falsey or a valid 'has' test name.");
+				value = obj.version;
+				if (value && isNaN(value)) {
+					throw new TypeError("Version must be a falsey or a number.");
+				}
+				name = obj.name || (DEFAULT_FILE_NAME_PREFIX + ext);
+				checkIsStringOrFalsey(name, "Name must be falsey, a string file name or a URL.");
+				media = obj.media;
+				checkIsStringOrFalsey(media, "Media must be falsey or a valid CSS media query string.");
+				if (!key) {
+					addByName(name, media);
+					continue;
+				}
+				if (value || value === 0) {
+					if (has(key) <= value) {
+						addByName(name, media);
+					}
+					continue;
+				}
+				if (has(key)) {
+					addByName(name, media);
+				}
 			}
 		};
 
@@ -335,99 +292,112 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 		 *   and loading it from {@link module:wc/debug/a11y}.
 		 *
 		 * @param {String} [media] A CSS media query appropriate to the link element.
+		 * @param {module:wc/loader/style~config} [config] a dto describing the CSS to load. If not defined use module config
 		 */
-		this.add = function(nameOrUrl, media) {
-			configure();
-			var isUrl = nameOrUrl.indexOf("/") === 0 || nameOrUrl.indexOf("http") === 0 || nameOrUrl.indexOf(".") === 0;
-			if (isUrl) {
-				// Huzzah we have a URL! Simply write the link element.
-				addLinkElement(nameOrUrl, media);
-			} else if (nameOrUrl.indexOf(".css") > 0) {
-				// Name already has extension so we cannot add it using addStyle; it still needs the path though.
-				addLinkElement(CSS_BASE_URL + nameOrUrl, media);
-			} else {
-				addStyle(nameOrUrl, media);
-			}
+		this.add = function(nameOrUrl, media, config) {
+			configure(config);
+			addByName(nameOrUrl, media);
 		};
 	}
 
 	/**
-		 * Provides a means to load CSS files for particular user agents/platforms etc.
-		 *
-		 * You may be asking why I split IE out from "screen". It was simply to make changing the defaults easier.
-		 * For most browsers which aren't IE you only need one (or no) CSS overrides because old versions fall out of
-		 * usage pretty quickly and have been generally pretty good at CSS for a long time. This allows us to use simple
-		 * has tests for most major modern browsers (has("ff"), has("chrome") etc) without bothering too much about
-		 * versions. Safari may be a candidate for version testing though, and that is why the "screen" config property
-		 * allows an extension to have an object value.
-		 *
-		 * ##### Configuration
-		 *
-		 * There is a default set of supported browsers including IE versions. These may be overridden using module
-		 * config.
-		 *
-		 * <pre><code>"ie": [string array of required ie versions],
-		 * "css": {
-		 *     "ext": "hasTest",
-		 *     "ext": {
-		 *         "test": "hasTest",
-		 *         "version": versionInteger,
-		 *         "media": "css media selector"}}</code></pre>
-		 *
-		 * Go take a look at {@link module:wc/loader/style~platformConfig} and {@link module:wc/loader/style~configValueObject}.
-		 *
-		 * @example
-		 * // The module config object is like this if we support Custom CSS
-		 * //  only for ie10, ie11, Firefox, and Safari 8:
-		 * "wc/loader/style": {
-		 *    ie: ["ie11", "ie10"],
-		 *    css: {
-		 *        "ff": "ff",
-		 *        "saf8": {
-		 *            "test": "safari",
-		 *            "version": 8
-		 *        }
-		 *    }
-		 * }
-		 *
-		 * @module
-		 * @requires module:wc/has
-		 * @todo Maybe allow load to accept an Object or Object[] arg so it can be called from within another module?
-		 */
+	 * Provides a means to load CSS files for particular user agents/platforms etc.
+	 *
+	 * ##### Configuration
+	 *
+	 * There is a default set of supported browsers including IE versions. These may be overridden using module config.
+	 *
+	 * ``` js
+	 * "cacheBuster": "fixedForever",
+	 * "inherit": true,
+	 * "css": {
+	 *     "ext": "hasTest",
+	 *     "ext": {
+	 *         "test": "hasTest",
+	 *         "version": versionInteger,
+	 *         "media": "css media selector"}
+	 * }
+	 * ```
+	 *
+	 * Go take a look at {@link module:wc/loader/style~cssConfig} and {@link module:wc/loader/style~loadRules}.
+	 *
+	 * @example
+	 * // The module config object is like this if we support Custom CSS
+	 * //  only for ie10, ie11, Firefox, and Safari 8:
+	 * "wc/loader/style": {
+	 *    cachebuster: null, // cache forever and never check again - you don't want to do this
+	 *    css: {
+	 *        "ie10": {
+	 *            "test": "trident",
+	 *            "version": 6
+	 *            },
+	 *        "ie11": {
+	 *            "test": "trident",
+	 *            "version": 7
+	 *            },
+	 *        "ff": "ff",
+	 *        "saf8": {
+	 *            "test": "safari",
+	 *            "version": 8
+	 *        }
+	 *    }
+	 * }
+	 *
+	 * @module
+	 * @requires module:wc/has
+	 * @requires module:wc/mixin
+	 * @requires module:wc/config
+	 */
 	var instance = new StyleLoader();
 	return instance;
 
-
 	/**
 	 * @typedef {Object} module:wc/loader/style~config
-	 * @property {String} cssBaseUrl The path to the CSS we want to load excludng file name(s).
-	 * @property {String} cachebuster The cache key for the loaded CSS.
-	 * @property {boolean} [loadPhone] indicates if we want to enable/disable loading `wc-phone.cssS`.
-	 * @property {boolean} [loadAsync] indicates if we want to load any asynchromous CSS from `wc-async.css.`
-	 * @property {String[]} [ie] An array of IE versions to support, if no support is needed pass an empty array otherwise the default is ie11.
-	 * @property {module:wc/loader/style~platformConfig} [css] An object describing other CSS patches to load based on `has` and/or media queries.
+	 * @property {String} [cachebuster] The cache key for the loaded CSS, generally generated from the XSLT and not overridden.
+	 * @property {module:wc/loader/style~cssConfig} [css] An object describing other CSS patches to load based on optional `has` and/or media queries.
+	 * @property {boolean} [inherit] if `true` then inherit the default CSS include object as a mixin target. Only used if `css` is an object.
+	 *
+	 * @example
+	 * // add configuration to inherit the default CSS and add support for small screen CSS `wc-phone.css` in all browsers and CSS file `wc-ff.css`
+	 * // in all versions of Firefox:
+	 * require(["wc/config"], function (wconfig) {
+	 *   var cssLoaderConfig = {
+	 *		inherit: true,
+	 *		css: {
+	 *		  phone: {
+	 *		    test: null,
+	 *		    media: "only screen and (max-width: 773px)"
+	 *		  },
+	 *		  "ff": "ff"
+	 *		}
+	 *   };
+	 *   wcconfig.set()
+	 * });
 	 */
 
 	/**
-	 * @typedef {Object} module:wc/loader/style~platformConfig
-	 * @property {String} key The file name extension used in the CSS build. This is the bit immediately before the `.css` part of the CSS file's name
-	 *    (eg 'ff').
-	 * @property {(String|module:wc/loader/style~configValueObject)} value The has test argument and optional comparison value(s). If this property is
-	 *    a string then it is a simple has test. Otherwise see {@link module:wc/loader/style~configValueObject}
+	 * @typedef {Object} module:wc/loader/style~cssConfig
+	 * @property {String} key The file name extension used in the CSS build. This is the bit immediately after the `wc-` part and before the `.css`
+	 *    part of the CSS file's name (eg 'ff'). This can be anything (well, anything which is a valid object property name) if the value is a
+	 *    `loadRules` object and thar object defines both the `test` and `name` properties.
+	 * @property {(String|module:wc/loader/style~loadRules)} value The rules for describing and load testing for the CSS. If this property is
+	 *    a string then it is a simple has test passing in that string and using the key as the building block for the CSS file name as described
+	 *    above. Otherwise see {@link module:wc/loader/style~loadRules}
+	 *
 	 * @example
-	 * // the following includes Firefox of any version, Safari version 6, print styles for any
-	 * // mac and styles for safari version 8 including a media selector for large screens:
-	 * {
-	 *   "ff": "ff",
-	 *   "safari6": {
+	 * // the following includes Firefox of any version, Safari version 6, print styles for any mac and styles for safari version 8 including a media
+	 * // selector for large screens:
+	 * "css": {
+	 *   "ff": "ff", // loads `wc-ff.css` from the theme's style directory
+	 *   "safari6": { // loads `wc-safari6.css` from the theme's style directory
 	 *      "test": "safari",
 	 *      "version": 6
-	 *   },
-	 *   "macprint": {
+	 *      },
+	 *   "macprint": { // loads `wc-macprint.css` from the theme's style directory
 	 *      "test": "mac",
 	 *      "media": "print"
-	 *   },
-	 *   "saf8big": {
+	 *      },
+	 *   "saf8big": { // loads `wc-saf8big.css` from the theme's style directory
 	 *      "test": "safari",
 	 *      "version": 8,
 	 *      "media": "@media only screen and (min-device-width:2560px)"
@@ -436,45 +406,58 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 	 */
 
 	/**
-	 * @typedef {Object} module:wc/loader/style~configValueObject
+	 * @typedef {Object} module:wc/loader/style~loadRules
 	 * @property {String} [test] The string arg passed to has to sniff user agent, eg "safari" or "ff". If falsey the style will be added without an
 	 *   `has` test.
 	 * @property {int} [version] The version of the browser to test. If set then the has test is compared to this
 	 *   and is deemed successful if the browser version is <= version.
 	 * @property {String} [media] A CSS media selector. If set then the CSS link will include this media selector
 	 * @property {String} [name] the CSS file URL/name (with or without path) to load. If not set then the file to load will be based on the key
-	 *   {@see module:wc/loader/style~platformConfig) in the form of CSS_BASE_URL + "wc-" + key + ".css?+ + CACHEBUSTER
+	 *   {@see module:wc/loader/style~cssConfig) in the form of CSS_BASE_URL + "wc-" + key + ".css?+ + CACHEBUSTER
 	 *
 	 * @example
 	 * // To test for Safari 8 or below and a screen with a lot of horizontal pixels:
-	 * {
+	 * saf8big: { // will load file "wc-saf8big.css" from the theme style directory.
 	 *   "test": "safari",
 	 *   "version": 8,
 	 *   "media": "@media only screen and (min-device-width:2560px)"
 	 * }
+	 * // or
+	 * saf8bigScreen: { // will load file "s8big.css" from the theme style directory.
+	 *   "test": "safari",
+	 *   "version": 8,
+	 *   "name": "s8big.css",
+	 *   "media": "@media only screen and (min-device-width:2560px)"
+	 * }
 	 *
 	 * @example
-	 * // TO load a print stylesheet from URL "https://www.example.com/style/print.css" in Firefox:
-	 * {
+	 * // TO load a print stylesheet from URL "https://example.com/css/print.css" in Firefox:
+	 * ffPrint: {
 	 *   "test": "ff",
 	 *   "media": "print"
-	 *   "name": "https://www.example.com/style/print.css"
+	 *   "name": "https://example.com/css/print.css"
 	 * }
 	 *
 	 * @example
 	 * // TO load a stylesheet called "foo.css" from the theme style directory in Firefox:
-	 * {
+	 * foo: {
 	 *   "test": "ff",
 	 *   "name": "foo.css" // note: "name": "foo" will also work and will add the cachebuster
 	 * }
 	 *
 	 * @example
 	 * // TO load a print stylesheet called "print.css" from the theme style directory in all browsers and use the standard cache buster:
-	 * {
-	 *   "test": null,
+	 * printCss: {
+	 *   "test": null, // may be omitted completely
 	 *   "name": "print",
 	 *   "media": "print"
 	 * }
 	 * // NOTE that any falsey value for property `test` will have the same result as `null`.
+	 *
+	 * @example
+	 * // To load the `wc-phone.css` fle built during theme build in _any_ small screen
+	 * "phone": {
+	 *  "media": "only screen and (max-width: 773px)" // note `test` can be onitted as falsey works.
+	 * }
 	 */
 });
