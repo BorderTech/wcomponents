@@ -90,10 +90,10 @@ define(["wc/ajax/ajax", "wc/loader/prefetch", "wc/config", "wc/Observer", "modul
 				} else {
 					idx = module.uri.indexOf(module.id);
 					path = module.uri.substring(0, idx);
-					path = path.replace(/\/[^\/]+\/$/, "/${resource.target.dir.name}/");
+					path = path.replace(/\/[^\/]+\/$/, "/resource/");
 				}
 
-				baseUrl = baseUrl || path || "";  // ${resource.target.dir.name}/";
+				baseUrl = baseUrl || path || "";  // resource/";
 				if (fileName) {
 					url = baseUrl + fileName + "?" + cachebuster;
 				} else {

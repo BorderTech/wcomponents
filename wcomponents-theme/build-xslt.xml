@@ -1,32 +1,21 @@
 <project name="BuildXslt" default="build" >
 	<import file="build-import.xml"/>
-	<property name="xslt.build.target.dir" location="${target.rootdir}/xslt"/>
-	<property name="xslt.src.dir" location="${common.src.rootdir}/xslt"/>
-
-	<target name="clean" description="Cleans up all artifacts produced by this build">
-		<delete dir="${xslt.build.target.dir}"/>
-	</target>
-
-	<target name="init" depends="clean">
-		<mkdir dir="${xslt.build.target.dir}"/>
-	</target>
 
 	<target name="build"
-		depends="init"
 		description="Copies XSLT artifacts">
 		<!--
 			NOTE: we use two copies here to ensure output order.
 			TODO: remove theme XSLT override.
 		-->
-		<copy todir="${xslt.build.target.dir}" overwrite="true">
-			<fileset dir="${xslt.src.dir}" includes="*.xsl" />
+		<copy todir="${target.rootdir}/xslt" overwrite="true">
+			<fileset dir="${common.src.rootdir}/xslt" includes="*.xsl" />
 			<filterchain>
 				<expandproperties/>
 			</filterchain>
 		</copy>
-		<copy file="${xslt.build.target.dir}/all.xsl"
-			tofile="${xslt.build.target.dir}/all${debug.target.file.name.suffix}.xsl"/>
-		<replaceregexp file="${xslt.build.target.dir}/all${debug.target.file.name.suffix}.xsl"
+		<copy file="${target.rootdir}/xslt/all.xsl"
+			tofile="${target.rootdir}/xslt/all_debug.xsl"/>
+		<replaceregexp file="${target.rootdir}/xslt/all_debug.xsl"
 			match="xsl:param name=&quot;isDebug&quot; select=&quot;0&quot;"
 			replace="xsl:param name=&quot;isDebug&quot; select=&quot;1&quot;"/>
 		<echo level="verbose" message="Done XSLT"/>

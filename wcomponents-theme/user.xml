@@ -40,22 +40,6 @@
 
 		<property name="npm.loglevel" value="verbose"/>
 
-		minifiy.resources.off:
-			Turning off minification speeds up a build slightly for testing
-			during development but should not be used routinely. Needing to do
-			this is a strong indicator that you need a new dev machine.
-
-		<property name="minifiy.resources.off" value="true"/>
-
-		images.to.base64.dataurls:
-			Turning off base64 encoding of images will also decrease build time
-			slightly but again is not recommended or necessary for routine use.
-			It can be handy for debugging SVG issues but usually loading the
-			recalcitrant SVG directly from the target directory will give you
-			better info.
-
-		<property name="images.to.base64.dataurls" value="false"/>
-
 		tmp.dir:
 			The directory to use as temp during build. Defaults to the JAVA
 			temp directory. Useful in conjunction with build.preserve.tmp.onexit
@@ -71,11 +55,6 @@
 
 		<property name="build.preserve.tmp.onexit" value="true"/>
 
-		************************************************************************
-		Optimisation for HTTP2
-		************************************************************************
-		Eventually the build will optimise for http2 unless this property is true.
-		<property name="build.optimise.http1" value="true"/>
 		************************************************************************
 		UNIT TESTING
 		************************************************************************

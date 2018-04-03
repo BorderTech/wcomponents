@@ -42,10 +42,10 @@
 		<xsl:variable name="scriptDir">
 			<xsl:choose>
 				<xsl:when test="number($isDebug) eq 1">
-					<xsl:text>${script.debug.target.dir.name}</xsl:text>
+					<xsl:text>scripts_debug</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:text>${script.target.dir.name}</xsl:text>
+					<xsl:text>scripts</xsl:text>
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
@@ -73,7 +73,7 @@
 					<xsl:otherwise>
 						<xsl:call-template name="faviconHelper">
 							<xsl:with-param name="href"
-								select="concat($resourceRoot, '${resource.target.dir.name}/favicon.ico')"
+								select="concat($resourceRoot, 'resource/favicon.ico')"
 							 />
 						</xsl:call-template>
 					</xsl:otherwise>
@@ -118,7 +118,7 @@
 				</xsl:if>
 				<xsl:variable name="faUrl"/>
 				<link type="text/css" rel="stylesheet" id="wc_css_screen"
-					href="{concat($resourceRoot, '${resource.target.dir.name}/fontawesome/css/font-awesome.min.css')}" media="screen" />
+					href="{concat($resourceRoot, 'resource/fontawesome/css/font-awesome.min.css')}" media="screen" />
 				<!--
 					We need to set up the require config very early. This mess
 					constructs the require config which is necessary to commence
@@ -179,10 +179,10 @@
 					<xsl:text>options:{ backend: {</xsl:text>
 					<xsl:value-of select="concat('cachebuster:&quot;', $cacheBuster, '&quot;')" />
 					<xsl:text>} } },&#10;"wc/loader/resource": {</xsl:text>
-					<xsl:value-of select="concat('resourceBaseUrl:&quot;', normalize-space($resourceRoot), '${resource.target.dir.name}/&quot;,&#10;')" />
+					<xsl:value-of select="concat('resourceBaseUrl:&quot;', normalize-space($resourceRoot), 'resource/&quot;,&#10;')" />
 					<xsl:value-of select="concat('cachebuster:&quot;', $cacheBuster, '&quot;')" />
 					<xsl:text>},&#10;"wc/loader/style":{</xsl:text>
-					<xsl:value-of select="concat('cssBaseUrl:&quot;', normalize-space($resourceRoot), '${css.target.dir.name}/&quot;,&#10;')" />
+					<xsl:value-of select="concat('cssBaseUrl:&quot;', normalize-space($resourceRoot), 'style/&quot;,&#10;')" />
 					<xsl:value-of select="concat('cachebuster:&quot;', $cacheBuster, '&quot;,&#10;')" />
 					<xsl:text>}};&#10;</xsl:text>
 					<xsl:text>
@@ -270,7 +270,7 @@
 	<xsl:template name="cssUrl">
 		<xsl:param name="filename" />
 		<xsl:value-of select="$resourceRoot" />
-		<xsl:text>${css.target.dir.name}/</xsl:text>
+		<xsl:text>style/</xsl:text>
 		<xsl:value-of select="$filename" />
 		<xsl:text>.css?</xsl:text>
 		<xsl:value-of select="$cacheBuster" />
@@ -781,7 +781,6 @@
 	<xsl:include href="wc.ajax.xsl" />
 	<xsl:include href="wc.checkablegroup.xsl" />
 	<xsl:include href="wc.containers.xsl" />
-	<xsl:include href="wc.feedback.xsl" />
 	<xsl:include href="wc.fileupload.xsl" />
 	<xsl:include href="wc.inputs.xsl" />
 	<xsl:include href="wc.shuffleable.xsl" />
@@ -794,6 +793,7 @@
 	<xsl:include href="wc.ui.definitionList.xsl" />
 	<xsl:include href="wc.ui.dialog.xsl" />
 	<xsl:include href="wc.ui.dropdown.xsl" />
+  <xsl:include href="wc.ui.fieldindicator.xsl"/>
 	<xsl:include href="wc.ui.fieldLayout.xsl" />
 	<xsl:include href="wc.ui.fieldSet.xsl" />
 	<xsl:include href="wc.ui.figure.xsl" />
@@ -804,6 +804,7 @@
 	<xsl:include href="wc.ui.listbox.xsl" />
 	<xsl:include href="wc.ui.margin.xsl" />
 	<xsl:include href="wc.ui.menu.xsl" />
+  <xsl:include href="wc.ui.messagebox.xsl"/>
 	<xsl:include href="wc.ui.multidropdown.xsl" />
 	<xsl:include href="wc.ui.multitextfield.xsl" />
 	<xsl:include href="wc.ui.numberfield.xsl" />

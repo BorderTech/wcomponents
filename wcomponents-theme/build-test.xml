@@ -8,12 +8,9 @@
 		"implementation.name". If not set then the tests from "common" alone will be used.
 	-->
 	<import file="build-import.xml"/>
-	<property name="common.test.rootdir" location="${theme.src.dir}/test"/>
-	<property name="test.output.dir" location="${build.rootdir}/test-classes"/>
-	<property name="test.output.rootdir" location="${test.output.dir}/${implementation.name}"/>
-	<property name="intern.target.dir" location="${test.output.rootdir}/intern"/>
+	<property name="test.output.rootdir" location="${build.rootdir}/test-classes/${implementation.name}"/>
 	<property name="impl.intern.srcdir" location="${impl.src.dir}/src/test/intern"/>
-	<property name="intern.srcdir" location="${common.test.rootdir}/intern"/>
+	<property name="intern.srcdir" location="${theme.src.dir}/test/intern"/>
 	<property environment="env"/>
 
 	<!--
@@ -44,13 +41,13 @@
 	-->
 	<property name="intern.reporters" value=""/>
 
-	<target name="build" description="Build unit tests" depends="init, intern">
+	<target name="build" description="Build unit tests" depends="intern">
 		<antcall target="checkPropertiesExpanded"/>
-		<jsunit srcDir="${intern.target.dir}"/>
+		<jsunit srcDir="${test.output.rootdir}/intern"/>
 	</target>
 
 	<target name="intern">
-		<copy todir="${intern.target.dir}" overwrite="true">
+		<copy todir="${test.output.rootdir}/intern" overwrite="true">
 			<fileset dir="${intern.srcdir}">
 				<include name="**/*.js"/>
 			</fileset>
@@ -67,31 +64,18 @@
 		</copy>
 
 		<!-- NOTE: the two step copy here is so we do not try to apply filters to binary resources -->
-		<copy todir="${intern.target.dir}/resources">
+		<copy todir="${test.output.rootdir}/intern/resources">
 			<fileset dir="${intern.srcdir}/resources" includes="**/*.xml,**/*.html,**/*.css"/>
 			<fileset dir="${impl.intern.srcdir}/resources" includes="**/*.xml,**/*.html,**/*.css" erroronmissingdir="false"/>
 			<filterchain>
 				<expandproperties/>
 			</filterchain>
 		</copy>
-		<copy todir="${intern.target.dir}/resources">
+		<copy todir="${test.output.rootdir}/intern/resources">
 			<fileset dir="${intern.srcdir}/resources" excludes="**/*.xml,**/*.html,**/*.css"/>
 			<fileset dir="${impl.intern.srcdir}/resources" excludes="**/*.xml,**/*.html,**/*.css" erroronmissingdir="false"/>
 		</copy>
-		<javascript.lint jsdir="${intern.target.dir}"/>
-	</target>
-
-
-	<target name="clean" description="Cleans up all artifacts produced by this build">
-		<delete dir="${intern.target.dir}"/>
-		<delete dir="${test.output.dir}"/>
-		<echo level="verbose" message="Clean from ${ant.file}"/>
-	</target>
-
-
-	<target name="init" depends="clean">
-		<mkdir dir="${intern.target.dir}"/>
-		<mkdir dir="${test.output.dir}"/>
+		<javascript.lint jsdir="${test.output.rootdir}/intern"/>
 	</target>
 
 	<target name="test" depends="build" description="Run the JavaScript unit tests"/>
@@ -102,7 +86,7 @@
 	<macrodef name="jsunit">
 		<attribute name="srcDir" default="${src.dir}"/>
 		<attribute name="configModule" default="intern"/>
-		<attribute name="relativePathToSource" default="target/classes/theme/${implementation.name}/${script.debug.target.dir.name}"/>
+		<attribute name="relativePathToSource" default="target/classes/theme/${implementation.name}/scripts_debug"/>
 		<attribute name="relativePathToTestdir" default="target/test-classes/${implementation.name}"/>
 		<attribute name="relativePathToTests" default="@{relativePathToTestdir}/intern"/>
 		<attribute name="failonerror" default="true"/>
@@ -120,7 +104,7 @@
 					<pathelement location="${unit.test.src.dir.raw}"/>
 				</path>
 			</pathconvert>
-			<fileset dir="${intern.target.dir}" id="unitTests">
+			<fileset dir="${test.output.rootdir}/intern" id="unitTests">
 				<include name="*.js"/>
 			</fileset>
 			<pathconvert pathsep=",&#10;" property="unit.tests" refid="unitTests">
@@ -131,11 +115,11 @@
 			<echo level="verbose">Found unit tests: ${unit.tests}</echo>
 			<pathconvert targetos="unix" property="test.baseurl">
 				<path>
-					<pathelement location="${intern.target.dir}"/>
+					<pathelement location="${test.output.rootdir}/intern"/>
 				</path>
 			</pathconvert>
 			<copy todir="${test.output.rootdir}" overwrite="true" force="true">
-				<fileset dir="${common.test.rootdir}">
+				<fileset dir="${theme.src.dir}/test">
 					<include name="@{configModule}.js"/>
 				</fileset>
 				<filterchain>
