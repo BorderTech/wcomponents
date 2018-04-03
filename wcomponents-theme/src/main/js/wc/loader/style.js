@@ -16,7 +16,7 @@ define(["wc/has", "wc/mixin", "wc/urlParser", "wc/config"], function(has, mixin,
 			 * We add the link element as the next sibling of the main CSS. SO to get the desired CSS order one ought have any IE versions in
 			 * ascending order (e.g. ie10 then ie11)
 			 *
-			 * The default/fallback includes fixes for IE11, MS Edge and UC Browser. These will be overridden completely by a custom config `css`
+			 * The default/fallback includes fixes for IE11 and MS Edge. These will be overridden completely by a custom config `css`
 			 * object unless `config.inherit` is `true`.
 			 *			 *
 			 * @var
@@ -25,7 +25,6 @@ define(["wc/has", "wc/mixin", "wc/urlParser", "wc/config"], function(has, mixin,
 			 */
 			defaultStylesToAdd = {
 				"edge": "edge",
-				"uc": "uc",
 				"ie11": {
 					"test": "trident",
 					"version": 7
