@@ -195,7 +195,8 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 		function loadStyle() {
 			var key,
 				value,
-				media;
+				media,
+				name;
 			for (ext in stylesToAdd) {
 				key = value = media = null;
 
@@ -205,14 +206,21 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 					}
 				} else {
 					key = stylesToAdd[ext].test;
+					if (key && key.constructor !== String) {
+						console.error("unknown has test");
+						continue;
+					}
 					value = stylesToAdd[ext].version;
 					media = stylesToAdd[ext].media;
-					if (value || value === 0) {
+					name = stylesToAdd[ext].name || (CSS_FILE_NAME + ext);
+					if (!key) {
+						addStyle(name, media);
+					} else if (value || value === 0) {
 						if (has(key) <= value) {
-							addStyle(CSS_FILE_NAME + ext, media);
+							addStyle(name, media);
 						}
 					} else if (has(key)) {
-						addStyle(CSS_FILE_NAME + ext, media);
+						addStyle(name, media);
 					}
 				}
 			}
@@ -429,10 +437,14 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 
 	/**
 	 * @typedef {Object} module:wc/loader/style~configValueObject
-	 * @property {String} test The string arg passed to has to sniff user agent, eg "safari" or "ff".
+	 * @property {String} [test] The string arg passed to has to sniff user agent, eg "safari" or "ff". If falsey the style will be added without an
+	 *   `has` test.
 	 * @property {int} [version] The version of the browser to test. If set then the has test is compared to this
-	 *    and is deemed successful if the browser version is <= version.
+	 *   and is deemed successful if the browser version is <= version.
 	 * @property {String} [media] A CSS media selector. If set then the CSS link will include this media selector
+	 * @property {String} [name] the CSS file URL/name (with or without path) to load. If not set then the file to load will be based on the key
+	 *   {@see module:wc/loader/style~platformConfig) in the form of CSS_BASE_URL + "wc-" + key + ".css?+ + CACHEBUSTER
+	 *
 	 * @example
 	 * // To test for Safari 8 or below and a screen with a lot of horizontal pixels:
 	 * {
@@ -440,5 +452,29 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 	 *   "version": 8,
 	 *   "media": "@media only screen and (min-device-width:2560px)"
 	 * }
+	 *
+	 * @example
+	 * // TO load a print stylesheet from URL "https://www.example.com/style/print.css" in Firefox:
+	 * {
+	 *   "test": "ff",
+	 *   "media": "print"
+	 *   "name": "https://www.example.com/style/print.css"
+	 * }
+	 *
+	 * @example
+	 * // TO load a stylesheet called "foo.css" from the theme style directory in Firefox:
+	 * {
+	 *   "test": "ff",
+	 *   "name": "foo.css" // note: "name": "foo" will also work and will add the cachebuster
+	 * }
+	 *
+	 * @example
+	 * // TO load a print stylesheet called "print.css" from the theme style directory in all browsers and use the standard cache buster:
+	 * {
+	 *   "test": null,
+	 *   "name": "print",
+	 *   "media": "print"
+	 * }
+	 * // NOTE that any falsey value for property `test` will have the same result as `null`.
 	 */
 });
