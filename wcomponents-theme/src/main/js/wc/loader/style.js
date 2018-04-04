@@ -153,11 +153,7 @@ define(["wc/has", "wc/mixin", "wc/urlParser", "wc/config"], function(has, mixin,
 		 * @param {String} [media] A CSS media query for the link element.
 		 */
 		function addLinkElement(url, media) {
-			var head = document.head || document.getElementsByTagName("head")[0],
-				el, sibling, mainCss;
-			if (!head) { // you gotta be kidding me ...
-				return;
-			}
+			var el, sibling, parent, mainCss;
 
 			if (document.querySelector && document.querySelector("link[href='" + url + "']")) {
 				// Do not add the same link element twice. If the browser does not support querySelector then we do not
@@ -166,6 +162,7 @@ define(["wc/has", "wc/mixin", "wc/urlParser", "wc/config"], function(has, mixin,
 			}
 			mainCss = instance.getMainCss();
 			sibling = mainCss ? mainCss.nextSibling : null;
+			parent = mainCss.parentNode;
 			el = document.createElement("link");
 			el.type = "text/css";
 			el.setAttribute("rel", "stylesheet");
@@ -174,9 +171,9 @@ define(["wc/has", "wc/mixin", "wc/urlParser", "wc/config"], function(has, mixin,
 			}
 			el.setAttribute("href", url);
 			if (sibling) {
-				head.insertBefore(el, sibling);
+				parent.insertBefore(el, sibling);
 			} else {
-				head.appendChild(el);
+				parent.appendChild(el);
 			}
 		}
 
