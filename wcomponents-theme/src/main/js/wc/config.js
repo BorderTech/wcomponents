@@ -36,7 +36,7 @@ define(["wc/mixin", "module"], function(mixin, module) {
 			var alreadySet, newConfig;
 			if (id) {
 				if (!config) {
-					// reset any existin g config to null
+					// reset any existing config to null
 					if (configObject[id]) {
 						delete configObject[id];
 					}
@@ -45,7 +45,7 @@ define(["wc/mixin", "module"], function(mixin, module) {
 				alreadySet = configObject[id];
 				if (alreadySet) {
 					newConfig = mixin(alreadySet);
-					configObject[id] = mixin(config, newConfig);
+					configObject[id] = mixin(config, newConfig, true);
 				} else {
 					configObject[id] = config;
 				}

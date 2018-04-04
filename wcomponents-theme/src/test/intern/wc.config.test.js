@@ -76,7 +76,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					},
 					expected = {
 						foo: 0,
-						bar: { baa: "baa", black: "sheep"},
+						bar: { black: "sheep"},
 						fubar: ["one", "two", "three"],
 						kung: "foo",
 						boo: null
