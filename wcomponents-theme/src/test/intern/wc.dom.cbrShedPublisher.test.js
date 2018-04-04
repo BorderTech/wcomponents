@@ -19,17 +19,17 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!", "wc/do
 			if (!element) {
 				assert.isTrue(false, "no element to click");
 			}
-			element.click();
+			event.fire(element, event.TYPE.click);
 		}
 
 		function focusThenClick(id, otherId) {
-			var element = document.getElementById(id);
+			var element = document.getElementById(id),
+				idToClick = otherId || id;
 			if (!element) {
 				assert.isTrue(false, "no element to focus");
 			}
-			element.focus();
 			event.fire(element, event.TYPE.focus);
-			doClick((otherId || id));
+			doClick(idToClick);
 		}
 
 		registerSuite({
