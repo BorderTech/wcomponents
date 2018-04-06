@@ -6,29 +6,30 @@
 
 ### Enhancements
 
-* Added support for success and info level diagnostics/field indicators as part of #1496.
-* wcomponents_theme:
-  - removed some Sass for inputs and buttons which attempted to provide style rather than structure.
-  - provided config options to allow client validation on change/blue #1495.
-  - Further build simplification required for move away from ANT/Maven #1318, #1492.
-  - Simplified all XSLT and XSLT build as step towards #639 and #1492.
-  - Added a default shim background #1486.
-  - Removed duplicate focus code #1488.
-  - Removed superfluous loading screen code #1487.
-  - Removed unused code from `wc/ui/feedback` and `wc/dom/messageBox` #1489.
-  - Moved font-awesome out of WComponents CSS and into a link element to improve efficiency and maintainability towards #639.
-  - Fixed minor ANT build inconsistencies.
-  - Prevent WTable pagination buttons from working when they are disabled or read-only #1490.
-* Updated .gitignore to exclude eclipse-like artefacts built during Maven lifecycle.
+* Added JavaScript unit tests for missing modules.
+* Improved handling of the publication of selected state changes of native radio buttons and check boxes.
 * Update package.json to latest working node module versions and removed tildes to prevent unwanted updates.
+* Added support for success and info level diagnostics/field indicators as part of #1496.
+* removed some Sass for inputs and buttons which attempted to provide style rather than structure.
+* provided config options to allow client validation on change/blue #1495.
+* Further build simplification required for move away from ANT/Maven #1318, #1492.
+* Simplified all XSLT and XSLT build as step towards #639 and #1492.
+* Added a default shim background #1486.
+* Removed duplicate focus code #1488.
+* Removed superfluous loading screen code #1487.
+* Removed unused code from `wc/ui/feedback` and `wc/dom/messageBox` #1489.
+* Moved font-awesome out of WComponents CSS and into a link element to improve efficiency and maintainability towards #639.
+* Fixed minor ANT build inconsistencies.
+* Prevent WTable pagination buttons from working when they are disabled or read-only #1490.
+* Updated .gitignore to exclude eclipse-like artefacts built during Maven lifecycle.
 
 ### Bug Fixes
 
+* Allow JavaScript module config to keep existing config properties when calling `set` #1502.
 * Fixed inconsistency of rendering field indicators #1496.
-* wcomponents_theme:
-  - Fixed icon element inconsistencies #1497.
-  - Fixed a number of client validation issues #1495
-  - Fixed timyMCE init routine #1485.
+* Fixed icon element inconsistencies #1497.
+* Fixed a number of client validation issues #1495
+* Fixed timyMCE init routine #1485.
 
 ## Release 1.5.2
 

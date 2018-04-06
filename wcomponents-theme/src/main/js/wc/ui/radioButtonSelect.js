@@ -5,7 +5,7 @@ define(["wc/dom/group",
 	"wc/dom/getFilteredGroup",
 	"wc/dom/cbrShedPublisher",
 	"wc/ui/fieldset"],
-	function(group, initialise, shed, Widget, getFilteredGroup) {
+	function(group, initialise, shed, Widget, getFilteredGroup, cbrShedPublisher) {
 		"use strict";
 
 		// Note `wc/ui/fieldset` is implicitly required to handle various aspects of managing the wrapper element.
@@ -16,7 +16,7 @@ define(["wc/dom/group",
 		 * @private
 		 */
 		function RadioButtonGroup() {
-			var RADIO = new Widget("input", null, {"type": "radio"}),
+			var RADIO = cbrShedPublisher.getWidget("r"),
 				RADIO_BUTTON_SELECT = new Widget("fieldset", "wc-radiobuttonselect");
 
 			/**
@@ -102,6 +102,7 @@ define(["wc/dom/group",
 		 * @requires module:wc/dom/shed
 		 * @requires module:wc/dom/Widget
 		 * @requires module:wc/dom/getFilteredGroup
+		 * @requires module:wc/dom/cbrShedPublisher
 		 */
 		var instance = new RadioButtonGroup();
 		initialise.register(instance);

@@ -1,5 +1,4 @@
 define(["wc/dom/ariaAnalog",
-	"wc/dom/Widget",
 	"wc/dom/initialise",
 	"wc/dom/shed",
 	"wc/dom/clearSelection",
@@ -7,7 +6,7 @@ define(["wc/dom/ariaAnalog",
 	"wc/dom/getFilteredGroup",
 	"wc/ui/fieldset",
 	"wc/dom/cbrShedPublisher"],
-	function(ariaAnalog, Widget, initialise, shed, clearSelection, group, getFilteredGroup, fieldset) {
+	function(ariaAnalog, initialise, shed, clearSelection, group, getFilteredGroup, fieldset, cbrShedPublisher) {
 		"use strict";
 
 		/**
@@ -25,7 +24,7 @@ define(["wc/dom/ariaAnalog",
 			 * @type {module:wc/dom/Widget}
 			 * @public
 			 */
-			this.ITEM = new Widget("input", "", {"type": "checkbox"});
+			this.ITEM = cbrShedPublisher.getWidget("cb").clone();
 
 			/**
 			 * The description of a group container since WCheckBoxSelects are grouped by descent.
