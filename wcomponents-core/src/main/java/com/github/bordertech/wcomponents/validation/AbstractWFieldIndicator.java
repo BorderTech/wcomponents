@@ -53,7 +53,8 @@ public abstract class AbstractWFieldIndicator extends AbstractWComponent {
 	 */
 	protected void showIndicatorsForComponent(final List<Diagnostic> diags, final int severity) {
 		FieldIndicatorModel model = getComponentModel();
-		if (model != null) {
+		if (model != null && !model.diagnostics.isEmpty()) {
+			model = getOrCreateComponentModel();
 			model.diagnostics.clear();
 		}
 
