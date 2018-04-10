@@ -88,4 +88,53 @@ public class WList_Test extends AbstractWComponentTestCase {
 		}
 	}
 
+	@Test
+	public void testDuplicateComponentModels() {
+		WList wList = new WList(Type.STRIPED);
+		wList.setSeparator(Separator.DOT);
+		WList.ListModel model = wList.getComponentModel();
+		ComponentModel shared = wList.getDefaultModel();
+		org.junit.Assert.assertTrue(model == shared);
+
+		wList.setLocked(true);
+		setActiveContext(createUIContext());
+
+		/* Model should use default model after context created, including when the model is updated with the same value */
+		wList.setSeparator(Separator.DOT);
+		model = wList.getComponentModel();
+		org.junit.Assert.assertTrue(model == shared);
+
+		/* Test model is created when different to default model, and that it never reverts back to default once created
+		in context */
+		wList.setSeparator(Separator.NONE);
+		WList.ListModel model1 = wList.getComponentModel();
+		org.junit.Assert.assertFalse(model == model1);
+		wList.setSeparator(Separator.DOT);
+		model1 = wList.getComponentModel();
+		org.junit.Assert.assertFalse(model1 == shared);
+
+		/* Test that getOrCreateComponentModel won't be called in setter when the argument is the same as the model
+		 * attribute. This will let us know that a duplicate model wasn't created then destroyed - it will only use the
+		 * model already created. */
+		Separator separator = Separator.DOT;
+		org.junit.Assert.assertEquals(separator, wList.getSeparator());
+		wList.setSeparator(separator);
+		model = wList.getComponentModel();
+		org.junit.Assert.assertTrue(model == model1);
+
+		/* Test when argument is different to model attribute - getOrCreateComponent will be called, but should still
+		 * end up with the same model reference */
+		separator = Separator.BAR;
+		org.junit.Assert.assertNotEquals(separator, wList.getSeparator());
+		wList.setSeparator(separator);
+		model = wList.getComponentModel();
+		org.junit.Assert.assertTrue(model == model1);
+
+		/* Test model uses default on context reset */
+		resetContext();
+		model = wList.getComponentModel();
+		shared = wList.getDefaultModel();
+		org.junit.Assert.assertTrue(model == shared);
+	}
+
 }
