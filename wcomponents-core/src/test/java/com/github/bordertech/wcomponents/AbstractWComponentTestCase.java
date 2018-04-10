@@ -3,6 +3,12 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.util.Duplet;
 import com.github.bordertech.wcomponents.util.ReflectionUtil;
 import com.github.bordertech.wcomponents.util.SystemException;
+import junit.framework.Assert;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.junit.After;
+
 import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
@@ -11,11 +17,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import junit.framework.Assert;
-import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.junit.After;
 
 /**
  * This class includes features useful for the testing of WComponents.
@@ -145,6 +146,50 @@ public abstract class AbstractWComponentTestCase {
 		} finally {
 			resetContext();
 		}
+	}
+
+	/**
+	 * This method checks that the a component model uses the default model on creation of a component.
+	 * @param wComponent the component to test the model
+	 */
+	protected void assertComponentModelUsesDefaultOnCreation(AbstractWComponent wComponent) {
+		ComponentModel model = wComponent.getComponentModel();
+		if (model != null) {
+			ComponentModel shared = wComponent.getDefaultModel();
+			org.junit.Assert.assertTrue(model == shared);
+		}
+	}
+
+	/**
+	 * This method tests whether component models use the same model in memory, rather than having other copies of the
+	 * model.
+	 * @param wComponent the component the model is being created from
+	 * @param method the method used to change the model (usually a setter)
+	 * @param userContextValue the value to be used within the user context
+	 * @param setterArgs array matching the variable argument type
+	 */
+	protected void assertNoDuplicateComponentModels(AbstractWComponent wComponent, String method,
+			Object userContextValue, Object[] setterArgs) {
+		ComponentModel model = wComponent.getComponentModel();
+		wComponent.setLocked(true);
+		setActiveContext(createUIContext());
+
+		if (model != null) {
+			Object currValue = invokeGetMethod(wComponent, method);
+			wComponent.setIdName(wComponent.getIdName() + "Test"); // Just to change from default model
+			model = wComponent.getComponentModel();
+
+			invokeSetMethod(wComponent, method, userContextValue, setterArgs);
+			ComponentModel newModel = wComponent.getComponentModel();
+
+			if (!currValue.equals(userContextValue)){
+				org.junit.Assert.assertSame("getOrCreateComponentModel should've been called.",
+					newModel, model);
+			} else {
+				org.junit.Assert.assertSame("New model should been the same as the old model.", newModel, model);
+			}
+		}
+		resetContext();
 	}
 
 	/**
