@@ -50,7 +50,7 @@ public class WPhoneNumberFieldExample extends WContainer {
 		layout.addField("With placeholder", field);
 
 		field = new WPhoneNumberField();
-		field.setAutocomplete();
+		field.setFullPhoneAutocomplete();
 		layout.addField("With default autocomplete", field);
 
 		field = new WPhoneNumberField();

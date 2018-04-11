@@ -42,7 +42,7 @@ public interface AutocompleteablePhone extends Autocompleteable {
 	 * Set the {@code autocomplete} attribute to an appropriate value for a full phone number phone number without any type.
 	 *
 	 */
-	public default void setAutocomplete() {
+	public default void setFullPhoneAutocomplete() {
 		setAutocomplete(null, AutocompleteUtil.TELEPHONE_AUTOCOMPLETE.FULL, null);
 	}
 
