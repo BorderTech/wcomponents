@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
 import com.github.bordertech.wcomponents.util.DateUtilities;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -17,6 +18,7 @@ import org.junit.Test;
  *
  * @author Martin Shevchenko
  * @author Jonathan Austin
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WDateField_Test extends AbstractWComponentTestCase {
@@ -868,6 +870,110 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 	public void testResetDataWithNoUserContext() {
 		WDateField dateField = new WDateField();
 		dateField.resetData();
+	}
+
+	@Test
+	public void testAutocompleteDefault() {
+		WDateField dateField = new WDateField();
+		Assert.assertNull(dateField.getAutocomplete());
+	}
+
+	@Test
+	public void testSetDateAutocomplete() {
+		WDateField dateField = new WDateField();
+		dateField.setDateAutocomplete();
+		Assert.assertEquals(AutocompleteUtil.BIRTHDAY, dateField.getAutocomplete());
+	}
+
+	@Test
+	public void testSetDateAutocompleteWithSection() {
+		WDateField dateField = new WDateField();
+		String sectionName = "foo";
+		String expected = AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.BIRTHDAY);
+		dateField.setDateAutocomplete(sectionName);
+		Assert.assertEquals(expected, dateField.getAutocomplete());
+	}
+
+	@Test
+	public void testSetDateAutocompleteWithNullSection() {
+		WDateField dateField = new WDateField();
+		dateField.setDateAutocomplete(null);
+		Assert.assertEquals(AutocompleteUtil.BIRTHDAY, dateField.getAutocomplete());
+	}
+
+	@Test
+	public void testSetDateAutocompleteWithEmptySection() {
+		WDateField dateField = new WDateField();
+		dateField.setDateAutocomplete("");
+		Assert.assertEquals(AutocompleteUtil.BIRTHDAY, dateField.getAutocomplete());
+	}
+
+	@Test
+	public void testSetAutocompleteOff() {
+		WDateField dateField = new WDateField();
+		dateField.setAutocompleteOff();
+		Assert.assertEquals(AutocompleteUtil.OFF, dateField.getAutocomplete());
+	}
+
+	@Test
+	public void testAddAutocompleteSection() {
+		WDateField dateField = new WDateField();
+		String sectionName = "foo";
+		String expected = AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.BIRTHDAY);
+		dateField.addAutocompleteSection(sectionName);
+		Assert.assertEquals(expected, dateField.getAutocomplete());
+	}
+
+	@Test
+	public void testAddAutocompleteSectionAfterSetting() {
+		WDateField dateField = new WDateField();
+		String sectionName = "foo";
+		String expected = AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.BIRTHDAY);
+		dateField.setDateAutocomplete();
+		dateField.addAutocompleteSection(sectionName);
+		Assert.assertEquals(expected, dateField.getAutocomplete());
+	}
+
+	@Test
+	public void testAddAutocompleteSectionAfterSettingWithSection() {
+		WDateField dateField = new WDateField();
+		String sectionName = "bar";
+		String firstSection = "foo";
+		dateField.setDateAutocomplete(firstSection);
+		String expected = AutocompleteUtil.getCombinedForSection(sectionName,
+				AutocompleteUtil.getNamedSection(firstSection), AutocompleteUtil.BIRTHDAY);
+		dateField.addAutocompleteSection(sectionName);
+		Assert.assertEquals(expected, dateField.getAutocomplete());
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testAddNullSection() {
+		WDateField dateField = new WDateField();
+		dateField.setDateAutocomplete();
+		dateField.addAutocompleteSection(null);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testAddEmptySection() {
+		WDateField dateField = new WDateField();
+		dateField.setDateAutocomplete();
+		dateField.addAutocompleteSection("");
+	}
+
+	@Test (expected = SystemException.class)
+	public void testAddAutocompleteSectionAfterSettingOff() {
+		WDateField dateField = new WDateField();
+		dateField.setAutocompleteOff();
+		dateField.addAutocompleteSection("bar");
+	}
+
+	@Test
+	public void testClearAutocomplete() {
+		WDateField dateField = new WDateField();
+		dateField.setAutocompleteOff();
+		Assert.assertNotNull(dateField.getAutocomplete());
+		dateField.clearAutocomplete();
+		Assert.assertNull(dateField.getAutocomplete());
 	}
 
 	/**
