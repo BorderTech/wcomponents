@@ -104,11 +104,11 @@
 										<xsl:value-of select="@placeholder"/>
 									</xsl:attribute>
 								</xsl:if>
-								<xsl:if test="@autocomplete">
+								<!--<xsl:if test="@autocomplete">
 									<xsl:attribute name="autocomplete">
 										<xsl:value-of select="@autocomplete"/>
 									</xsl:attribute>
-								</xsl:if>
+								</xsl:if>-->
 								<xsl:if test="@disabled">
 									<xsl:attribute name="disabled">
 										<xsl:text>disabled</xsl:text>
@@ -176,11 +176,11 @@
 						<xsl:value-of select="../@placeholder"/>
 					</xsl:attribute>
 				</xsl:if>
-				<xsl:if test="../@autocomplete">
+				<!--<xsl:if test="../@autocomplete">
 					<xsl:attribute name="autocomplete">
 						<xsl:value-of select="../@autocomplete"/>
 					</xsl:attribute>
-				</xsl:if>
+				</xsl:if>-->
 				<xsl:if test="../@disabled">
 					<xsl:attribute name="disabled">
 						<xsl:text>disabled</xsl:text>

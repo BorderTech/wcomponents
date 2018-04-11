@@ -100,11 +100,11 @@
 						<xsl:value-of select="$mdd/@data"/>
 					</xsl:attribute>
 				</xsl:if>
-				<xsl:if test="$mdd/@autocomplete">
+				<!--<xsl:if test="$mdd/@autocomplete">
 					<xsl:attribute name="autocomplete">
 						<xsl:value-of select="$mdd/@autocomplete"/>
 					</xsl:attribute>
-				</xsl:if>
+				</xsl:if>-->
 				<xsl:apply-templates mode="mfcInList" select="$mdd/*">
 					<xsl:with-param name="selectedOption" select="."/>
 				</xsl:apply-templates>
