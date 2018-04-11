@@ -1,6 +1,9 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteableEmail;
 import com.github.bordertech.wcomponents.util.InternalMessages;
+import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.List;
@@ -19,10 +22,11 @@ import java.util.regex.Pattern;
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarget,
-		SubordinateTrigger, SubordinateTarget, Placeholderable {
+		SubordinateTrigger, SubordinateTarget, Placeholderable, AutocompleteableEmail {
 	// ================================
 	// Action/Event handling
 
@@ -236,6 +240,56 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 		return (EmailFieldModel) super.getOrCreateComponentModel();
 	}
 
+	@Override
+	public void setAutocomplete(AutocompleteUtil.EMAIL_AUTOCOMPLETE value, String sectionName) {
+		if (value == null && Util.empty(sectionName)) {
+			clearAutocomplete();
+			return;
+		}
+
+		final String strType = value == null ? null : value.getValue();
+		String newValue = Util.empty(sectionName) ? strType : AutocompleteUtil.getCombinedForSection(sectionName, strType);
+		if (!Util.equals(getAutocomplete(), newValue)) {
+			getOrCreateComponentModel().autocomplete = newValue;
+		}
+	}
+
+	@Override
+	public String getAutocomplete() {
+		return getComponentModel().autocomplete;
+	}
+
+	@Override
+	public void setAutocompleteOff() {
+		if (!AutocompleteUtil.OFF.equalsIgnoreCase(getAutocomplete())) {
+			getOrCreateComponentModel().autocomplete = AutocompleteUtil.OFF;
+		}
+	}
+
+	@Override
+	public void addAutocompleteSection(String sectionName) {
+		if (Util.empty(sectionName)) {
+			throw new IllegalArgumentException("Auto-fill section names must not be empty.");
+		}
+		String currentValue = getAutocomplete();
+		if (AutocompleteUtil.OFF.equalsIgnoreCase(currentValue)) {
+			throw new SystemException("Auto-fill sections cannot be applied to fields with autocomplete off.");
+		}
+
+		String newValue = AutocompleteUtil.getCombinedForSection(sectionName, currentValue);
+
+		if (!Util.equals(currentValue, newValue)) {
+			getOrCreateComponentModel().autocomplete = newValue;
+		}
+	}
+
+	@Override
+	public void clearAutocomplete() {
+		if (getAutocomplete() != null) {
+			getOrCreateComponentModel().autocomplete = null;
+		}
+	}
+
 	/**
 	 * EmailFieldModel holds Extrinsic state management of the field.
 	 *
@@ -267,5 +321,10 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 		 * Placeholder text which will appear if the field is editable and has no content.
 		 */
 		private String placeholder;
+
+		/**
+		 * The auto-fill hint for the field.
+		 */
+		private String autocomplete;
 	}
 }
