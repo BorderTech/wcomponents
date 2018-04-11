@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.examples.theme;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WPhoneNumberField;
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 
 /**
@@ -47,6 +48,38 @@ public class WPhoneNumberFieldExample extends WContainer {
 		field = new WPhoneNumberField();
 		field.setPlaceholder("ring ring");
 		layout.addField("With placeholder", field);
+
+		field = new WPhoneNumberField();
+		field.setAutocomplete();
+		layout.addField("With default autocomplete", field);
+
+		field = new WPhoneNumberField();
+		field.setAutocompleteOff();
+		layout.addField("With autocomplete off", field);
+
+		field = new WPhoneNumberField();
+		field.setAutocomplete(AutocompleteUtil.TELEPHONE_TYPE.MOBILE);
+		layout.addField("With mobile autocomplete", field);
+
+		field = new WPhoneNumberField();
+		field.setAutocomplete(null, "foo");
+		layout.addField("With autocomplete for section foo", field);
+
+		field = new WPhoneNumberField();
+		field.setAutocomplete(AutocompleteUtil.TELEPHONE_TYPE.MOBILE, "foo");
+		layout.addField("With mobile autocomplete for section foo", field);
+
+		field = new WPhoneNumberField();
+		field.setAutocomplete(AutocompleteUtil.TELEPHONE_TYPE.MOBILE, AutocompleteUtil.TELEPHONE_AUTOCOMPLETE.LOCAL, "foo");
+		layout.addField("With (local) mobile autocomplete for section foo", field);
+
+		field = new WPhoneNumberField();
+		field.setLocalPhoneAutocomplete();
+		layout.addField("With (local) autocomplete", field);
+
+		field = new WPhoneNumberField();
+		field.setLocalPhoneAutocomplete(AutocompleteUtil.TELEPHONE_TYPE.MOBILE);
+		layout.addField("With (local) mobile phone autocomplete", field);
 
 		add(new ExplanatoryText(
 				"You will notice that a WPhoneNumberField when read only outputs a link with a protocol of tel."

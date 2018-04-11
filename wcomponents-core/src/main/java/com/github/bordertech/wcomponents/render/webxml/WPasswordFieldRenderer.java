@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.WPasswordField;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.HtmlRenderUtil;
+import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.List;
 
@@ -50,6 +51,7 @@ class WPasswordFieldRenderer extends AbstractWebXmlRenderer {
 		int maxLength = field.getMaxLength();
 		WComponent submitControl = field.getDefaultSubmitButton();
 		String submitControlId = submitControl == null ? null : submitControl.getId();
+		String autocomplete = field.getAutocomplete();
 
 		xml.appendOptionalAttribute("disabled", field.isDisabled(), "true");
 		xml.appendOptionalAttribute("required", field.isMandatory(), "true");
@@ -60,6 +62,7 @@ class WPasswordFieldRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("size", cols > 0, cols);
 		xml.appendOptionalAttribute("buttonId", submitControlId);
 		xml.appendOptionalAttribute("placeholder", HtmlRenderUtil.getEffectivePlaceholder(field));
+		xml.appendOptionalAttribute("autocomplete", !Util.empty(autocomplete), autocomplete);
 
 		List<Diagnostic> diags = field.getDiagnostics(Diagnostic.ERROR);
 		if (diags == null || diags.isEmpty()) {
