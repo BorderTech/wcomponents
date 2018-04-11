@@ -1,5 +1,7 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteableNumeric;
 import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
@@ -25,9 +27,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarget,
-		SubordinateTrigger,
-		SubordinateTarget {
+public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarget, SubordinateTrigger, SubordinateTarget, AutocompleteableNumeric {
 
 	/**
 	 * @return the number value, or the text entered by the user if there is no valid number.
@@ -480,6 +480,57 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 		return (NumberFieldModel) super.getOrCreateComponentModel();
 	}
 
+	@Override
+	public void setAutocomplete(AutocompleteUtil.NUMERIC_AUTOCOMPLETE value, String sectionName) {
+		if (value == null && Util.empty(sectionName)) {
+			clearAutocomplete();
+		}
+		final String strVal = value == null ? null : value.getValue();
+		String newVal;
+		if (Util.empty(sectionName)) {
+			newVal = strVal;
+		} else {
+			newVal = AutocompleteUtil.getCombinedForSection(sectionName, strVal);
+		}
+		if (!Util.equals(getAutocomplete(), newVal)) {
+			getOrCreateComponentModel().autocomplete = newVal;
+		}
+	}
+
+	@Override
+	public String getAutocomplete() {
+		return getComponentModel().autocomplete;
+	}
+
+	@Override
+	public void setAutocompleteOff() {
+		if (!AutocompleteUtil.OFF.equalsIgnoreCase(getAutocomplete())) {
+			getOrCreateComponentModel().autocomplete = AutocompleteUtil.OFF;
+		}
+	}
+
+	@Override
+	public void addAutocompleteSection(String sectionName) {
+		if (Util.empty(sectionName)) {
+			throw new IllegalArgumentException("Auto-fill section names must not be empty.");
+		}
+		String currentValue = getAutocomplete();
+		if (AutocompleteUtil.OFF.equalsIgnoreCase(currentValue)) {
+			throw new SystemException("Auto-fill sections cannot be applied to fields with autocomplete off.");
+		}
+		String newValue = AutocompleteUtil.getCombinedForSection(sectionName, currentValue);
+		if (!Util.equals(currentValue, newValue)) {
+			getOrCreateComponentModel().autocomplete = newValue;
+		}
+	}
+
+	@Override
+	public void clearAutocomplete() {
+		if (getAutocomplete() != null) {
+			getOrCreateComponentModel().autocomplete = null;
+		}
+	}
+
 	/**
 	 * NumberFieldModel holds Extrinsic state management of the field.
 	 *
@@ -523,6 +574,11 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 		 * Flag to indicate if the text entered is a valid partial date.
 		 */
 		private boolean validNumber = true;
+
+		/**
+		 * The auto-fill hint for the field.
+		 */
+		private String autocomplete;
 
 		/**
 		 * Maintain internal state.

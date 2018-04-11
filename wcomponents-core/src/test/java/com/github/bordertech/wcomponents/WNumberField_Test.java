@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
@@ -7,7 +8,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -15,6 +16,7 @@ import org.junit.Test;
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WNumberField_Test extends AbstractWComponentTestCase {
@@ -755,6 +757,137 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 	public void testResetDataWithNoUserContext() {
 		WNumberField numberField = new WNumberField();
 		numberField.resetData();
+	}
+
+	@Test
+	public void testDefaultAutocomplete() {
+		WNumberField field = new WNumberField();
+		Assert.assertNull(field.getAutocomplete());
+	}
+
+	@Test
+	public void testSetAutocomplete() {
+		WNumberField field = new WNumberField();
+		for (AutocompleteUtil.NUMERIC_AUTOCOMPLETE number : AutocompleteUtil.NUMERIC_AUTOCOMPLETE.values()) {
+			field.setAutocomplete(number);
+			Assert.assertEquals(number.getValue(), field.getAutocomplete());
+		}
+	}
+
+	@Test
+	public void testSetAutocompleteNullValue() {
+		WNumberField field = new WNumberField();
+		field.setAutocomplete(null);
+		Assert.assertNull(field.getAutocomplete());
+	}
+
+	@Test
+	public void testSetAutocompleteWithSection() {
+		WNumberField field = new WNumberField();
+		String sectionName = "foo";
+		String expected;
+		for (AutocompleteUtil.NUMERIC_AUTOCOMPLETE number : AutocompleteUtil.NUMERIC_AUTOCOMPLETE.values()) {
+			expected = AutocompleteUtil.getCombinedForSection(sectionName, number.getValue());
+			field.setAutocomplete(number, sectionName);
+			Assert.assertEquals(expected, field.getAutocomplete());
+		}
+	}
+
+	@Test
+	public void testSetAutocompleteWithEmptySection() {
+		WNumberField field = new WNumberField();
+		for (AutocompleteUtil.NUMERIC_AUTOCOMPLETE number : AutocompleteUtil.NUMERIC_AUTOCOMPLETE.values()) {
+			field.setAutocomplete(number, "");
+			Assert.assertEquals(number.getValue(), field.getAutocomplete());
+		}
+	}
+
+	@Test
+	public void testSetAutocompleteWithNullSection() {
+		WNumberField field = new WNumberField();
+		for (AutocompleteUtil.NUMERIC_AUTOCOMPLETE number : AutocompleteUtil.NUMERIC_AUTOCOMPLETE.values()) {
+			field.setAutocomplete(number, null);
+			Assert.assertEquals(number.getValue(), field.getAutocomplete());
+		}
+	}
+
+	@Test
+	public void testSetAutocompleteNullValueEmptySection() {
+		WNumberField field = new WNumberField();
+		field.setAutocomplete(null,"");
+		Assert.assertNull(field.getAutocomplete());
+	}
+
+	@Test
+	public void testSetAutocompleteOff() {
+		WNumberField field = new WNumberField();
+		field.setAutocompleteOff();
+		Assert.assertEquals(AutocompleteUtil.OFF, field.getAutocomplete());
+	}
+
+	@Test
+	public void testClearAutocomplete() {
+		WNumberField field = new WNumberField();
+		field.setAutocompleteOff();
+		Assert.assertNotNull(field.getAutocomplete());
+		field.clearAutocomplete();
+		Assert.assertNull(field.getAutocomplete());
+	}
+
+	@Test
+	public void testAddAutocompleteSection() {
+		WNumberField field = new WNumberField();
+		String sectionName ="foo";
+		field.addAutocompleteSection(sectionName);
+		Assert.assertEquals(AutocompleteUtil.getNamedSection(sectionName), field.getAutocomplete());
+	}
+
+	@Test
+	public void testAddAutocompleteSectionAfterSetting() {
+		WNumberField field = new WNumberField();
+		String sectionName ="foo";
+		String expected;
+
+		for (AutocompleteUtil.NUMERIC_AUTOCOMPLETE number : AutocompleteUtil.NUMERIC_AUTOCOMPLETE.values()) {
+			expected = AutocompleteUtil.getCombinedForSection(sectionName, number.getValue());
+			field.setAutocomplete(number);
+			field.addAutocompleteSection(sectionName);
+			Assert.assertEquals(expected, field.getAutocomplete());
+		}
+	}
+
+	@Test
+	public void testAddAutocompleteSectionAfterSettingWithSection() {
+		WNumberField field = new WNumberField();
+		String sectionName ="foo";
+		String otherSection = "bar";
+		String expected;
+
+		for (AutocompleteUtil.NUMERIC_AUTOCOMPLETE number : AutocompleteUtil.NUMERIC_AUTOCOMPLETE.values()) {
+			expected = AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.getNamedSection(otherSection), number.getValue());
+			field.setAutocomplete(number, otherSection);
+			field.addAutocompleteSection(sectionName);
+			Assert.assertEquals(expected, field.getAutocomplete());
+		}
+	}
+
+	@Test (expected = IllegalArgumentException.class)
+	public void testAddAutocompleteSectionNull() {
+		WNumberField field = new WNumberField();
+		field.addAutocompleteSection(null);
+	}
+
+	@Test (expected = IllegalArgumentException.class)
+	public void testAddAutocompleteSectionEmpty() {
+		WNumberField field = new WNumberField();
+		field.addAutocompleteSection("");
+	}
+
+	@Test (expected = SystemException.class)
+	public void testAddAutocompleteSectionAfterOff() {
+		WNumberField field = new WNumberField();
+		field.setAutocompleteOff();
+		field.addAutocompleteSection("foo");
 	}
 
 	/**
