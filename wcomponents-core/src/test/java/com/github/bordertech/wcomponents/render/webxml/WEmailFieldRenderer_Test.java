@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WEmailField;
 import com.github.bordertech.wcomponents.WSuggestions;
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -50,6 +51,7 @@ public class WEmailFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//ui:emailfield/@size", field);
 		assertXpathNotExists("//ui:emailfield/@buttonId", field);
 		assertXpathNotExists("//ui:emailfield/@list", field);
+		assertXpathNotExists("//ui:emailfield/@autocomplete", field);
 
 		field.setDisabled(true);
 		assertSchemaMatch(field);
@@ -103,6 +105,22 @@ public class WEmailFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		field.setReadOnly(true);
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo("true", "//ui:emailfield/@readOnly", field);
+	}
+
+	@Test
+	public void testAutocomplete() throws IOException, SAXException, XpathException {
+		WEmailField field = new WEmailField();
+		field.setAutocomplete(AutocompleteUtil.EMAIL_AUTOCOMPLETE.EMAIL);
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo(AutocompleteUtil.EMAIL_AUTOCOMPLETE.EMAIL.getValue(), "//ui:emailfield/@autocomplete", field);
+	}
+
+	@Test
+	public void testAutocompleteOff() throws IOException, SAXException, XpathException {
+		WEmailField field = new WEmailField();
+		field.setAutocompleteOff();
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo(AutocompleteUtil.OFF, "//ui:emailfield/@autocomplete", field);
 	}
 
 	@Test
