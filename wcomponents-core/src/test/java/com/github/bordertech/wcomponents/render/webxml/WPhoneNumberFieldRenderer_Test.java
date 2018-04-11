@@ -117,7 +117,7 @@ public class WPhoneNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 		WPhoneNumberField field = new WPhoneNumberField();
 		WContainer root = new WContainer();
 		root.add(field);
-		field.setAutocomplete();
+		field.setFullPhoneAutocomplete();
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo(field.getAutocomplete(), "//ui:phonenumberfield/@autocomplete", field);
 	}

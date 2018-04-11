@@ -350,7 +350,7 @@ public class WPhoneNumberField_Test extends AbstractWComponentTestCase {
 		String expected = getACDefault();
 
 		WPhoneNumberField field = new WPhoneNumberField();
-		field.setAutocomplete();
+		field.setFullPhoneAutocomplete();
 		Assert.assertEquals(expected, field.getAutocomplete());
 	}
 
@@ -523,7 +523,7 @@ public class WPhoneNumberField_Test extends AbstractWComponentTestCase {
 		String sectionName = "foo";
 		String expected = AutocompleteUtil.getCombinedForSection(sectionName, getACDefault());
 		WPhoneNumberField field = new WPhoneNumberField();
-		field.setAutocomplete();
+		field.setFullPhoneAutocomplete();
 		field.addAutocompleteSection(sectionName);
 		Assert.assertEquals(expected, field.getAutocomplete());
 	}
@@ -575,7 +575,7 @@ public class WPhoneNumberField_Test extends AbstractWComponentTestCase {
 	public void testClearAutocomplete() {
 		WPhoneNumberField field = new WPhoneNumberField();
 		Assert.assertNull(field.getAutocomplete());
-		field.setAutocomplete();
+		field.setFullPhoneAutocomplete();
 		Assert.assertNotNull(field.getAutocomplete());
 		field.clearAutocomplete();
 		Assert.assertNull(field.getAutocomplete());

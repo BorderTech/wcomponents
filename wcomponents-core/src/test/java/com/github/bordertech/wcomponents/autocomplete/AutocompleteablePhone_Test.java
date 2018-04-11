@@ -118,7 +118,7 @@ public class AutocompleteablePhone_Test {
 	@Test
 	public void testDefaultSetAutocomplete() {
 		MyAutocompleteable component = new MyAutocompleteable();
-		component.setAutocomplete();
+		component.setFullPhoneAutocomplete();
 		Assert.assertEquals(getDefaultTel(), component.getAutocomplete());
 	}
 
