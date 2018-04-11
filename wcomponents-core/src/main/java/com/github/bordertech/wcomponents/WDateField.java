@@ -371,11 +371,16 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	}
 
 	@Override
-	public void setDateAutocomplete(final String sectionName) {
-		String current = getAutocomplete();
+	public void setAutocomplete(final AutocompleteUtil.DATE_AUTOCOMPLETE dateType, final String sectionName) {
+		if (dateType == null && Util.empty(sectionName)) {
+			clearAutocomplete();
+			return;
+		}
+		final String current = getAutocomplete();
+		final String strType = dateType == null ? null : dateType.getValue();
 		String newValue = Util.empty(sectionName)
-				? AutocompleteUtil.BIRTHDAY
-				: AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.BIRTHDAY);
+				? strType
+				: AutocompleteUtil.getCombinedForSection(sectionName, strType);
 		if (!Util.equals(current, newValue)) {
 			getOrCreateComponentModel().autocomplete = newValue;
 		}
@@ -404,7 +409,7 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 		}
 
 		String newValue = currentValue == null
-				? AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.BIRTHDAY)
+				? AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.DATE_AUTOCOMPLETE.BIRTHDAY.getValue())
 				: AutocompleteUtil.getCombinedForSection(sectionName, currentValue);
 
 		if (!Util.equals(currentValue, newValue)) {

@@ -36,6 +36,54 @@ public final class AutocompleteUtil {
 	 */
 	public static final String ON = "on";
 
+	public static enum DATE_AUTOCOMPLETE {
+		/**
+		 * Indicates the field represents a birthday as a <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#valid-date-string"
+		 * target="_blank">valid date String</a>; used in conjunction with {@link com.github.bordertech.wcomponents.WDateField}.
+		 */
+		BIRTHDAY("bday");
+
+		/**
+		 * The the {@code autocomplete} attribute value.
+		 */
+		private String value;
+
+		private DATE_AUTOCOMPLETE(String value) {
+			this.value = value;
+		}
+
+		/**
+		 * @return the {@code autocomplete} attribute value for the enum member.
+		 */
+		public String getValue() {
+			return value;
+		}
+	}
+
+
+	public static enum EMAIL_AUTOCOMPLETE {
+		/**
+		 * Indicates the field represents an e-mail address.
+		 */
+		EMAIL("email");
+
+		/**
+		 * The the {@code autocomplete} attribute value.
+		 */
+		private String value;
+
+		private EMAIL_AUTOCOMPLETE(String value) {
+			this.value = value;
+		}
+
+		/**
+		 * @return the {@code autocomplete} attribute value for the enum member.
+		 */
+		public String getValue() {
+			return value;
+		}
+	}
+
 	/**
 	 * Provides values for the {@code autocomplete} attribute which are applicable to numeric inputs such as
 	 * {@link com.github.bordertech.wcomponents.WNumberField}.
@@ -516,11 +564,6 @@ public final class AutocompleteUtil {
 	 */
 	public static final String LANGUAGE = "language";
 	/**
-	 * Indicates the field represents a birthday as a <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#valid-date-string"
-	 * target="_blank">valid date String</a>; used in conjunction with {@link com.github.bordertech.wcomponents.WDateField}.
-	 */
-	public static final String BIRTHDAY = "bday";
-	/**
 	 * Indicates the field represents a gender identity (for example Female, Fa'afafine).
 	 */
 	public static final String SEX = "sex";
@@ -539,15 +582,6 @@ public final class AutocompleteUtil {
 	 * other fields associated with this field.
 	 */
 	public static final String PHOTO = "photo";
-
-	// EMAIL ##################################################################
-	/**
-	 * Indicates the field represents an e-mail address.
-	 */
-	public static final String EMAIL = "email";
-
-
-
 
 
 
