@@ -21,7 +21,7 @@ import org.junit.Test;
  */
 public class AutocompleteableDate_Test {
 
-	private static final String AUTOFILL_VALUE = AutocompleteUtil.BIRTHDAY;
+	private static final String DEFAULT_AUTOFILL_VALUE = AutocompleteUtil.DATE_AUTOCOMPLETE.BIRTHDAY.getValue();
 	/**
 	 * Meta test to improve confidence in other tests.
 	 */
@@ -37,7 +37,46 @@ public class AutocompleteableDate_Test {
 	public void testSetDateAutocomplete() {
 		MyDate component = new MyDate();
 		component.setDateAutocomplete();
-		Assert.assertEquals(AUTOFILL_VALUE, component.getAutocomplete());
+		Assert.assertEquals(DEFAULT_AUTOFILL_VALUE, component.getAutocomplete());
+	}
+
+	@Test
+	public void testSetDateAutocompleteWithSectionName() {
+		MyDate component = new MyDate();
+		String sectionName = "foo";
+		String expected = AutocompleteUtil.getCombinedForSection(sectionName, DEFAULT_AUTOFILL_VALUE);
+		component.setDateAutocomplete(sectionName);
+		Assert.assertEquals(expected, component.getAutocomplete());
+	}
+
+	@Test
+	public void testSetDateAutocompleteWithEmptySectionName() {
+		MyDate component = new MyDate();
+		component.setDateAutocomplete("");
+		Assert.assertEquals(DEFAULT_AUTOFILL_VALUE, component.getAutocomplete());
+	}
+
+	@Test
+	public void testSetDateAutocompleteWithNullSectionName() {
+		MyDate component = new MyDate();
+		component.setDateAutocomplete(null);
+		Assert.assertEquals(DEFAULT_AUTOFILL_VALUE, component.getAutocomplete());
+	}
+
+	@Test
+	public void testSetAutocomplete() {
+		MyDate component = new MyDate();
+		for (AutocompleteUtil.DATE_AUTOCOMPLETE date : AutocompleteUtil.DATE_AUTOCOMPLETE.values()) {
+			component.setAutocomplete(date);
+			Assert.assertEquals(date.getValue(), component.getAutocomplete());
+		}
+	}
+
+	@Test
+	public void testSetAutocompleteNullType() {
+		MyDate component = new MyDate();
+		component.setAutocomplete(null);
+		Assert.assertNull(component.getAutocomplete());
 	}
 
 	private class MyDate implements AutocompleteableDate {
@@ -53,11 +92,21 @@ public class AutocompleteableDate_Test {
 		}
 
 		@Override
+		public void setAutocomplete(AutocompleteUtil.DATE_AUTOCOMPLETE dateType, String sectionName) {
+			if (dateType == null && Util.empty(sectionName)) {
+				autocomplete = null;
+				return;
+			}
+			final String strType = dateType == null ? null : dateType.getValue();
+			autocomplete = Util.empty(sectionName) ? strType : AutocompleteUtil.getCombinedForSection(sectionName, strType);
+		}
+
+		@Override
 		public void setDateAutocomplete(String sectionName) {
 			if (Util.empty(sectionName)) {
-				autocomplete = AUTOFILL_VALUE;
+				autocomplete = DEFAULT_AUTOFILL_VALUE;
 			} else {
-				autocomplete = AutocompleteUtil.getCombinedForSection(sectionName, AUTOFILL_VALUE);
+				autocomplete = AutocompleteUtil.getCombinedForSection(sectionName, DEFAULT_AUTOFILL_VALUE);
 			}
 		}
 
@@ -355,5 +404,6 @@ public class AutocompleteableDate_Test {
 		public void removeHtmlClass(HtmlClassProperties className) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
+
 	}
 }
