@@ -1,6 +1,9 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteablePassword;
 import com.github.bordertech.wcomponents.util.InternalMessages;
+import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.List;
@@ -18,10 +21,11 @@ import java.util.List;
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WPasswordField extends AbstractInput implements AjaxTrigger, AjaxTarget,
-		SubordinateTrigger, SubordinateTarget, Placeholderable {
+		SubordinateTrigger, SubordinateTarget, Placeholderable, AutocompleteablePassword {
 
 	/**
 	 * {@inheritDoc}
@@ -218,10 +222,66 @@ public class WPasswordField extends AbstractInput implements AjaxTrigger, AjaxTa
 		return (PasswordFieldModel) super.getOrCreateComponentModel();
 	}
 
+	@Override
+	public void setAutocomplete(final AutocompleteUtil.PASSWORD_AUTOCOMPLETE passwordType, final String sectionName) {
+		if (passwordType == null) {
+			clearAutocomplete();
+			return;
+		}
+
+		String newValue;
+		if (Util.empty(sectionName)) {
+			newValue = passwordType.getValue();
+		} else {
+			newValue = AutocompleteUtil.getCombinedForSection(sectionName, passwordType.getValue());
+		}
+
+		if (!Util.equals(getAutocomplete(), newValue)) {
+			getOrCreateComponentModel().autocomplete = newValue;
+		}
+	}
+
+	@Override
+	public String getAutocomplete() {
+		return getComponentModel().autocomplete;
+	}
+
+	@Override
+	public void setAutocompleteOff() {
+		if (!AutocompleteUtil.OFF.equalsIgnoreCase(getAutocomplete())) {
+			getOrCreateComponentModel().autocomplete = AutocompleteUtil.OFF;
+		}
+	}
+
+	@Override
+	public void addAutocompleteSection(final String sectionName) {
+		if (Util.empty(sectionName)) {
+			throw new IllegalArgumentException("Auto-fill section names must not be empty.");
+		}
+		String currentValue = getAutocomplete();
+		if (AutocompleteUtil.OFF.equalsIgnoreCase(currentValue)) {
+			throw new SystemException("Auto-fill sections cannot be applied to fields with autocomplete off.");
+		}
+
+		String newValue = AutocompleteUtil.getCombinedForSection(sectionName, currentValue);
+
+		if (!Util.equals(currentValue, newValue)) {
+			getOrCreateComponentModel().autocomplete = newValue;
+		}
+	}
+
+	@Override
+	public void clearAutocomplete() {
+		if (getAutocomplete() != null) {
+			getOrCreateComponentModel().autocomplete = null;
+		}
+	}
+
 	/**
 	 * PasswordFieldModel holds Extrinsic state management of the field.
 	 *
 	 * @author Yiannis Paschalidis
+	 * @author Mark Reeves
 	 */
 	public static class PasswordFieldModel extends InputModel {
 
@@ -244,5 +304,10 @@ public class WPasswordField extends AbstractInput implements AjaxTrigger, AjaxTa
 		 * The placeholder content which appears (in plain text) when the field has no content.
 		 */
 		private String placeholder;
+
+		/**
+		 * The auto-fill hint for the field.
+		 */
+		private String autocomplete;
 	}
 }
