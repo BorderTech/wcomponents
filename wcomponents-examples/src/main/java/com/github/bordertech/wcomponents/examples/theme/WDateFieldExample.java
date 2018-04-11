@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.examples.theme;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WAjaxControl;
@@ -131,7 +132,7 @@ public class WDateFieldExample extends WContainer {
 		buttonPanel.setLayout(new BorderLayout());
 
 		WPanel innerButtonPanel = new WPanel();
-		innerButtonPanel.setLayout(new FlowLayout(Alignment.LEFT, 6, 0));
+		innerButtonPanel.setLayout(new FlowLayout(Alignment.LEFT, Size.MEDIUM));
 		buttonPanel.add(innerButtonPanel, BorderLayout.CENTER);
 		innerButtonPanel.add(setTodayBtn);
 		innerButtonPanel.add(copyDateBtn);
@@ -162,12 +163,12 @@ public class WDateFieldExample extends WContainer {
 	 */
 	private void addDateRangeExample() {
 
-		add(new WHeading(WHeading.MAJOR, "Example of a date range component"));
+		add(new WHeading(HeadingLevel.H2, "Example of a date range component"));
 		WFieldSet dateRange = new WFieldSet("Enter the expected arrival and departure dates.");
 		add(dateRange);
 
 		WPanel dateRangePanel = new WPanel();
-		dateRangePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 6, 0));
+		dateRangePanel.setLayout(new FlowLayout(FlowLayout.LEFT, Size.MEDIUM));
 		dateRange.add(dateRangePanel);
 		final WDateField arrivalDate = new WDateField();
 		final WDateField departureDate = new WDateField();
@@ -195,7 +196,7 @@ public class WDateFieldExample extends WContainer {
 	 * Add constraint example.
 	 */
 	private void addContraintExamples() {
-		add(new WHeading(WHeading.MAJOR, "Date fields with input constraints"));
+		add(new WHeading(HeadingLevel.H2, "Date fields with input constraints"));
 		WFieldLayout layout = new WFieldLayout();
 		layout.setLabelWidth(33);
 		add(layout);
@@ -214,5 +215,13 @@ public class WDateFieldExample extends WContainer {
 		constrainedDateField = new WDateField();
 		constrainedDateField.setMaxDate(new Date());
 		layout.addField("Maximum date today", constrainedDateField);
+
+		/* auto complete */
+		constrainedDateField = new WDateField();
+		constrainedDateField.setDateAutocomplete();
+		layout.addField("With autocomplete hint", constrainedDateField);
+		constrainedDateField = new WDateField();
+		constrainedDateField.setAutocompleteOff();
+		layout.addField("With autocomplete off", constrainedDateField);
 	}
 }

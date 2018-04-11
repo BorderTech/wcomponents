@@ -16,6 +16,7 @@ import org.xml.sax.SAXException;
  * Junit test case for {@link WDateFieldRenderer}.
  *
  * @author Jonathan Austin
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WDateFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
@@ -62,6 +63,7 @@ public class WDateFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//ui:datefield[@date]", dateField);
 		assertXpathNotExists("//ui:datefield[@min]", dateField);
 		assertXpathNotExists("//ui:datefield[@max]", dateField);
+		assertXpathNotExists("//ui:datefield[@autocomplete]", dateField);
 	}
 
 	@Test
@@ -107,6 +109,28 @@ public class WDateFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSchemaMatch(dateField);
 		assertXpathEvaluatesTo("true", "//ui:datefield/@readOnly", dateField);
 		assertXpathEvaluatesTo(TEST_INTERNAL_DATE_STRING, "//ui:datefield/@date", dateField);
+	}
+
+	@Test
+	public void testDoPaintAutocomplete() throws IOException, SAXException, XpathException {
+		WDateField dateField = new WDateField();
+		dateField.setDate(TEST_DATE);
+		dateField.setDateAutocomplete();
+
+		// Validate Schema
+		assertSchemaMatch(dateField);
+		assertXpathEvaluatesTo("bday", "//ui:datefield/@autocomplete", dateField);
+	}
+
+	@Test
+	public void testDoPaintAutocompleteOff() throws IOException, SAXException, XpathException {
+		WDateField dateField = new WDateField();
+		dateField.setDate(TEST_DATE);
+		dateField.setAutocompleteOff();
+
+		// Validate Schema
+		assertSchemaMatch(dateField);
+		assertXpathEvaluatesTo("off", "//ui:datefield/@autocomplete", dateField);
 	}
 
 	@Test
