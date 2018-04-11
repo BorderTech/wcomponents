@@ -16,7 +16,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * JUnit tests of INterface {@link AutocompleteablePassword}.
+ * JUnit tests of default methods of Interface {@link AutocompleteablePassword}.
  * @author Mark Reeves
  */
 public class AutocompleteablePassword_Test {
@@ -49,46 +49,6 @@ public class AutocompleteablePassword_Test {
 		MyAutocompleteable component = new MyAutocompleteable();
 		component.setAutocomplete(null);
 		Assert.assertNull(component.getAutocomplete());
-	}
-
-	@Test
-	public void testSetAutocompleteWithTypeAndSection() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		String sectionName = "foo";
-		String expected;
-		for (AutocompleteUtil.PASSWORD_AUTOCOMPLETE pword : AutocompleteUtil.PASSWORD_AUTOCOMPLETE.values()) {
-			expected = AutocompleteUtil.getCombinedForSection(sectionName, pword.getValue());
-			component.setAutocomplete(pword, sectionName);
-			Assert.assertEquals(expected, component.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutocompleteWithTypeAndEmptySection() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		String sectionName = "";
-		for (AutocompleteUtil.PASSWORD_AUTOCOMPLETE pword : AutocompleteUtil.PASSWORD_AUTOCOMPLETE.values()) {
-			component.setAutocomplete(pword, sectionName);
-			Assert.assertEquals(pword.getValue(), component.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutocompleteWithNullTypeAndEmptySection() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		component.setAutocompleteDirectly("some value");
-		Assert.assertNotNull(component.getAutocomplete());
-		component.setAutocomplete(null, "");
-		Assert.assertNull(component.getAutocomplete());
-	}
-
-	@Test
-	public void testSetAutocompleteWithNullTypeAndSection() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		String sectionName = "foo";
-		String expected = AutocompleteUtil.getNamedSection(sectionName);
-		component.setAutocomplete(null, sectionName);
-		Assert.assertEquals(expected, component.getAutocomplete());
 	}
 
 	/**

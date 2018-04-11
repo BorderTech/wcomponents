@@ -16,171 +16,49 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * JUnit test of the {@link Autocompleteable} Interface
+ * JUnit tests of {@link AutocompleteableDate} default methods.
  * @author Mark Reeves
  */
-public class AutocompleteablePhone_Test {
+public class AutocompleteableDate_Test {
 
-	private static final String TEST_SECTION_NAME = "foo";
-
-	/**
-	 * Typing helper
-	 * @return the value "tel"
-	 */
-	private String getDefaultTel() {
-		return AutocompleteUtil.TELEPHONE_AUTOCOMPLETE.FULL.getValue();
-	}
-
+	private static final String AUTOFILL_VALUE = AutocompleteUtil.BIRTHDAY;
 	/**
 	 * Meta test to improve confidence in other tests.
 	 */
 	@Test
-	public void testGetValue() {
+	public void testGetAutocomplete() {
 		String testString = "foo";
-
-		MyAutocompleteable component = new MyAutocompleteable();
-		// ensure the component's autocompete is set to a specific thing outside the
-		// interface setters.
-		component.setAutocompleteDirectly(testString);
+		MyDate component = new MyDate();
+		component.setDirectly(testString);
 		Assert.assertEquals(testString, component.getAutocomplete());
 	}
 
 	@Test
-	public void testDefaultSetAutocomplete_withTypeAndName() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		String expected;
-
-		for (AutocompleteUtil.TELEPHONE_TYPE phoneType : AutocompleteUtil.TELEPHONE_TYPE.values()) {
-			expected = AutocompleteUtil.getCombinedForSection(TEST_SECTION_NAME, phoneType.getValue(), getDefaultTel());
-			component.setAutocomplete(phoneType, TEST_SECTION_NAME);
-			Assert.assertEquals(expected, component.getAutocomplete());
-		}
+	public void testSetDateAutocomplete() {
+		MyDate component = new MyDate();
+		component.setDateAutocomplete();
+		Assert.assertEquals(AUTOFILL_VALUE, component.getAutocomplete());
 	}
 
-	@Test
-	public void testDefaultSetAutocomplete_withTypeAndNameNullEmpty() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		component.setAutocomplete(null, "");
-		Assert.assertEquals(getDefaultTel(), component.getAutocomplete());
-	}
+	private class MyDate implements AutocompleteableDate {
 
-	@Test
-	public void testDefaultSetAutocomplete_withTypeAndEmptyName() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		String expected;
-
-		for (AutocompleteUtil.TELEPHONE_TYPE phoneType : AutocompleteUtil.TELEPHONE_TYPE.values()) {
-			expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(), getDefaultTel());
-			component.setAutocomplete(phoneType, "");
-			Assert.assertEquals(expected, component.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testDefaultSetAutocomplete_withTypeAndNullName() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		String expected;
-
-		for (AutocompleteUtil.TELEPHONE_TYPE phoneType : AutocompleteUtil.TELEPHONE_TYPE.values()) {
-			expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(), getDefaultTel());
-			component.setAutocomplete(phoneType, null);
-			Assert.assertEquals(expected, component.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testDefaultSetAutocomplete_withNullTypeAndName() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		String expected = AutocompleteUtil.getCombinedForSection(TEST_SECTION_NAME, getDefaultTel());
-		component.setAutocomplete(null, TEST_SECTION_NAME);
-		Assert.assertEquals(expected, component.getAutocomplete());
-	}
-
-	@Test
-	public void testDefaultSetAutocomplete_withType() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		String expected;
-
-		for (AutocompleteUtil.TELEPHONE_TYPE phoneType : AutocompleteUtil.TELEPHONE_TYPE.values()) {
-			expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(), getDefaultTel());
-			component.setAutocomplete(phoneType);
-			Assert.assertEquals(expected, component.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testDefaultSetAutocomplete_withNullType() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		component.setAutocomplete(null);
-		Assert.assertEquals(getDefaultTel(), component.getAutocomplete());
-	}
-
-	@Test
-	public void testDefaultSetAutocomplete() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		component.setAutocomplete();
-		Assert.assertEquals(getDefaultTel(), component.getAutocomplete());
-	}
-
-	@Test
-	public void testDefaultSetLocalPhoneAutocomplete_withType() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		String expected;
-
-		for (AutocompleteUtil.TELEPHONE_TYPE phoneType : AutocompleteUtil.TELEPHONE_TYPE.values()) {
-			expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(),
-					AutocompleteUtil.TELEPHONE_AUTOCOMPLETE.LOCAL.getValue());
-			component.setLocalPhoneAutocomplete(phoneType);
-			Assert.assertEquals(expected, component.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testDefaultSetLocalPhoneAutocomplete_withNullType() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		component.setLocalPhoneAutocomplete(null);
-		Assert.assertEquals(AutocompleteUtil.TELEPHONE_AUTOCOMPLETE.LOCAL.getValue(), component.getAutocomplete());
-	}
-
-	@Test
-	public void testDefaultSetLocalPhoneAutocomplete() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		component.setLocalPhoneAutocomplete();
-		Assert.assertEquals(AutocompleteUtil.TELEPHONE_AUTOCOMPLETE.LOCAL.getValue(), component.getAutocomplete());
-	}
-
-
-	/**
-	 * Mock class to test the default methods.
-	 */
-	private class MyAutocompleteable implements AutocompleteablePhone {
 		private String autocomplete;
 
 		/**
-		 * See {@link com.github.bordertech.wcomponents.WPhoneNumberField#setAutocomplete(
-		 *    com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil.TELEPHONE_TYPE,
-		 *    com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil.TELEPHONE_AUTOCOMPLETE,
-		 *    java.lang.String) for a real implementation.
-		*/
-		@Override
-		public void setAutocomplete(AutocompleteUtil.TELEPHONE_TYPE phoneType, AutocompleteUtil.TELEPHONE_AUTOCOMPLETE phone, String sectionName) {
-			if (phoneType == null && phone == null && Util.empty(sectionName)) {
-				autocomplete = null;
-				return;
-			}
-
-			String typeString = phoneType == null ? null : phoneType.getValue();
-			String phoneFormatString = phone == null ? null : phone.getValue();
-
-			if (Util.empty(sectionName)) {
-				autocomplete = AutocompleteUtil.getCombinedAutocomplete(typeString, phoneFormatString);
-			} else {
-				autocomplete = AutocompleteUtil.getCombinedForSection(sectionName, typeString, phoneFormatString);
-			}
+		 * Used to bypass Interface setters to check interface getter.
+		 * @param val the value to set
+		 */
+		public void setDirectly(final String val) {
+			autocomplete = val;
 		}
 
-		public void setAutocompleteDirectly(final String val) {
-			autocomplete = val;
+		@Override
+		public void setDateAutocomplete(String sectionName) {
+			if (Util.empty(sectionName)) {
+				autocomplete = AUTOFILL_VALUE;
+			} else {
+				autocomplete = AutocompleteUtil.getCombinedForSection(sectionName, AUTOFILL_VALUE);
+			}
 		}
 
 		@Override
@@ -477,6 +355,5 @@ public class AutocompleteablePhone_Test {
 		public void removeHtmlClass(HtmlClassProperties className) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
-
 	}
 }
