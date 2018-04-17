@@ -2,9 +2,10 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.NullWriter;
-import java.io.PrintWriter;
 import junit.framework.Assert;
 import org.junit.Test;
+
+import java.io.PrintWriter;
 
 /**
  * WPopup_Test - unit tests for {@link WPopup}.
@@ -173,5 +174,16 @@ public class WPopup_Test extends AbstractWComponentTestCase {
 		// Check not visible after paint
 		popup.paint(new WebXmlRenderContext(new PrintWriter(new NullWriter())));
 		Assert.assertFalse("Popup should not be visible after paint", popup.isVisible());
+	}
+
+	@Test
+	public void testDuplicateComponentModels() {
+		WPopup popup = new WPopup();
+		assertNoDuplicateComponentModels(popup, "height", 233);
+		assertNoDuplicateComponentModels(popup, "width", 221);
+		assertNoDuplicateComponentModels(popup, "resizable", true);
+		assertNoDuplicateComponentModels(popup, "scrollable", true);
+		assertNoDuplicateComponentModels(popup, "url", "test.gov.au");
+		assertNoDuplicateComponentModels(popup, "targetWindow", "thisWindow");
 	}
 }

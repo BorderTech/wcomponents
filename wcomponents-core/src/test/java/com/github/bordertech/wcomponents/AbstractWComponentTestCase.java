@@ -171,13 +171,16 @@ public abstract class AbstractWComponentTestCase {
 															  Object userContextValue, Object setterArgs[]) {
 		wComponent.setLocked(false);
 		invokeSetMethod(wComponent, method, userContextValue, setterArgs);
+		ComponentModel shared = wComponent.getDefaultModel();
 		wComponent.setLocked(true);
+
+		ComponentModel model = wComponent.getOrCreateComponentModel();
+		org.junit.Assert.assertSame(model, shared);
 
 		setActiveContext(createUIContext());
 		invokeSetMethod(wComponent, method, userContextValue, setterArgs);
 
-		ComponentModel shared = wComponent.getDefaultModel();
-		ComponentModel model = wComponent.getOrCreateComponentModel();
+		model = wComponent.getOrCreateComponentModel();
 		org.junit.Assert.assertEquals(shared, model);
 		resetContext();
 	}

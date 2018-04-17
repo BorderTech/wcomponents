@@ -1,13 +1,14 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.util.Config;
+import junit.framework.Assert;
+import org.junit.After;
+import org.junit.Test;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import junit.framework.Assert;
-import org.junit.After;
-import org.junit.Test;
 
 /**
  * Unit tests for {@link WBeanComponent}.
@@ -280,6 +281,12 @@ public class WBeanComponent_Test extends AbstractWComponentTestCase {
 		map = uic.getRequestScratchMap(comp);
 		Assert.assertEquals("Key in the scratch map should be the new bean id", "B", map.get("WBeanComponent.request.bean.id"));
 		Assert.assertEquals("Object in the scratch map should be the new bean id", bean, map.get("WBeanComponent.request.bean.obj"));
+	}
+
+	@Test
+	public void testDuplicateComponentModels() {
+		WBeanComponent beanComponent = new WBeanComponent();
+		assertNoDuplicateComponentModels(beanComponent, "beanProperty", "testBean");
 	}
 
 	/**

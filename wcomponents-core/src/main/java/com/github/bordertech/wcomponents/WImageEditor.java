@@ -72,8 +72,10 @@ public class WImageEditor extends AbstractWComponent {
 	 * @param isFace turn face detection on or off.
 	 */
 	public void setIsFace(final boolean isFace) {
-		ImageEditModel model = getOrCreateComponentModel();
-		model.isFace = isFace;
+		if (isFace != getIsFace()) {
+			ImageEditModel model = getOrCreateComponentModel();
+			model.isFace = isFace;
+		}
 	}
 
 	/**
@@ -89,8 +91,10 @@ public class WImageEditor extends AbstractWComponent {
 	 * @param renderInline Set to true to render inline.
 	 */
 	public void setRenderInline(final boolean renderInline) {
-		ImageEditModel model = getOrCreateComponentModel();
-		model.renderInline = renderInline;
+		if (renderInline != getRenderInline()) {
+			ImageEditModel model = getOrCreateComponentModel();
+			model.renderInline = renderInline;
+		}
 	}
 
 	/**

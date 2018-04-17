@@ -2,12 +2,13 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 /**
  * Window_Test - unit tests for {@link WWindow}.
@@ -122,5 +123,24 @@ public class WWindow_Test extends AbstractWComponentTestCase {
 		window.handleRequest(request);
 		window.paint(new WebXmlRenderContext(new PrintWriter(writer)));
 		Assert.assertEquals("Content should have been painted", 1, content.getPaintCount());
+	}
+
+	@Test
+	public void testDuplicateComponentModels() {
+		WWindow window = new WWindow();
+		assertNoDuplicateComponentModels(window, "title", "testTitle");
+		assertNoDuplicateComponentModels(window, "height", 223);
+		assertNoDuplicateComponentModels(window, "width", 223);
+		assertNoDuplicateComponentModels(window, "top",2);
+		assertNoDuplicateComponentModels(window, "left",3);
+		assertNoDuplicateComponentModels(window, "showMenuBar", true);
+		assertNoDuplicateComponentModels(window, "showToolbar", true);
+		assertNoDuplicateComponentModels(window, "showLocation", true);
+		assertNoDuplicateComponentModels(window, "showStatus", true);
+		assertNoDuplicateComponentModels(window, "resizable", true);
+		assertNoDuplicateComponentModels(window, "scrollable", true);
+//		assertNoDuplicateComponentModels(window, "state", 3);
+//		assertNoDuplicateComponentModels(window, "targeted", true);
+		assertNoDuplicateComponentModels(window, "step", 5);
 	}
 }

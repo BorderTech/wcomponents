@@ -102,4 +102,12 @@ public class WLabel_Test extends AbstractWComponentTestCase {
 		label.setEncodeText(false);
 		Assert.assertEquals("Expect output to be sanitized", "content", label.getText());
 	}
+
+	@Test
+	public void testDuplicateComponentModels() {
+		WLabel wLabel = new WLabel("tesLabel");
+//		assertNoDuplicateComponentModels(wLabel, "text", "testText");
+//		assertNoDuplicateComponentModels(wLabel, "hint", "testHint");
+//		assertNoDuplicateComponentModels(wLabel,"sanitizeOnInput", true);
+	}
 }

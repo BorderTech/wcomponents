@@ -1,10 +1,11 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
-import java.util.Arrays;
-import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Unit tests for {@link WAjaxControl}.
@@ -168,5 +169,12 @@ public class WAjaxControl_Test extends AbstractWComponentTestCase {
 
 		control.setLoadCount(2);
 		Assert.assertTrue(control.isLoadOnce());
+	}
+
+	@Test
+	public void testDuplicateModels() {
+		WAjaxControl ajaxControl = new WAjaxControl(null);
+		assertNoDuplicateComponentModels(ajaxControl,"loadOnce", true);
+		assertNoDuplicateComponentModels(ajaxControl,"delay", 3);
 	}
 }
