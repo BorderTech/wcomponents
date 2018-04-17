@@ -3,11 +3,10 @@ define(["wc/dom/initialise",
 	"wc/dom/wrappedInput",
 	"wc/dom/Widget",
 	"wc/i18n/i18n"],
-	function(initialise, shed, wrappedInput, Widget, i18n) {
+	function(initialise, shed, wrappedInput, i18n) {
 		"use strict";
 
 		function WrappedInputUI () {
-			var WRAPPED = wrappedInput.getWrappedWidgets();
 
 			/**
 			 * This is a shed subscriber.
@@ -17,25 +16,21 @@ define(["wc/dom/initialise",
 			 * @returns {void|Promise}
 			 */
 			function mandate(element, action) {
-				var input,
-					PLACEHOLDER = "placeholder";
-				if (!(element && wrappedInput.isOneOfMe(element))) {
-					return;
-				}
-				if ((input = Widget.findDescendant(element, WRAPPED))) {
-					shed[action](input);
-					return i18n.translate("requiredPlaceholder").then(function(placeHolderText) {
+				var PLACEHOLDER = "placeholder";
+
+				if (element && wrappedInput.isWrappedInput(element)) {
+					return i18n.translate("bordertech.wcomponents.message.fieldRequired").then(function(placeHolderText) {
 						var ph;
 						if (action === shed.actions.MANDATORY) {
-							if (!input.getAttribute(PLACEHOLDER)) {
-								input.setAttribute(PLACEHOLDER, placeHolderText);
+							if (!element.getAttribute(PLACEHOLDER)) {
+								element.setAttribute(PLACEHOLDER, placeHolderText);
 							}
-						} else if ((ph = input.getAttribute(PLACEHOLDER)) && ph.indexOf(placeHolderText) >= 0) {
+						} else if ((ph = element.getAttribute(PLACEHOLDER)) && ph.indexOf(placeHolderText) >= 0) {
 							if (ph === placeHolderText) {
-								input.removeAttribute(PLACEHOLDER);
+								element.removeAttribute(PLACEHOLDER);
 							} else {
 								ph = ph.replace(placeHolderText, "").trim();
-								input.setAttribute(PLACEHOLDER, ph);
+								element.setAttribute(PLACEHOLDER, ph);
 							}
 						}
 					});
