@@ -16,6 +16,7 @@ import org.junit.Test;
  *
  * @author Ming Gao
  * @author Jonathan Austin
+ * @author Mark Reeves
  * @since 15/04/2008
  */
 public class WTextField_Test extends AbstractWComponentTestCase {
@@ -715,10 +716,8 @@ public class WTextField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testSetAutocompleteNullPasswordType_withSection_withPassword() {
 		WTextField field = new WTextField();
-		field.setAutocomplete(AutocompleteUtil.PasswordAutocomplete.CURRENT, "foo");
-		Assert.assertNotNull(field.getAutocomplete());
 		field.setAutocomplete((AutocompleteUtil.PasswordAutocomplete)null, "bar");
-		Assert.assertNull(field.getAutocomplete());
+		Assert.assertEquals(AutocompleteUtil.getNamedSection("bar"), field.getAutocomplete());
 	}
 
 	// phone number autocomplete
@@ -982,10 +981,8 @@ public class WTextField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testSetAutocompleteNullUrlType_withSection() {
 		WTextField field = new WTextField();
-		field.setAutocomplete(AutocompleteUtil.UrlAutocomplete.URL, "foo");
-		Assert.assertNotNull(field.getAutocomplete());
 		field.setAutocomplete((AutocompleteUtil.UrlAutocomplete)null, "bar");
-		Assert.assertNull(field.getAutocomplete());
+		Assert.assertEquals(AutocompleteUtil.getNamedSection("bar"), field.getAutocomplete());
 	}
 
 }

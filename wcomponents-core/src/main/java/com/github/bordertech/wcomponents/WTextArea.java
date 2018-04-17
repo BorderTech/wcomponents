@@ -150,7 +150,7 @@ public class WTextArea extends WTextField implements AutocompleteableMultiline {
 		String newValue = Util.empty(sectionName) ? combinedAddress : AutocompleteUtil.getCombinedForSection(sectionName, combinedAddress);
 
 		if (!Util.equals(getAutocomplete(), newValue)) {
-			getOrCreateComponentModel().autocomplete = newValue;
+			setAutocomplete(newValue);
 		}
 	}
 
@@ -177,10 +177,5 @@ public class WTextArea extends WTextField implements AutocompleteableMultiline {
 		 * content (not user-input content) is unverified.
 		 */
 		private boolean sanitizeOnOutput = true;
-
-		/**
-		 * The auto-fill hint for the field.
-		 */
-		private String autocomplete;
 	}
 }
