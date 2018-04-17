@@ -150,9 +150,16 @@ public class WMessageBox_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
+	public void testDefaultModels() {
+		WMessageBox messageBox = new WMessageBox(WMessageBox.Type.SUCCESS);
+		assertComponentModelUsesDefaultOnCreation(messageBox);
+		assertComponentModelUsesDefaultOnSameValue(messageBox, "type", WMessageBox.Type.SUCCESS);
+	}
+
+	@Test
 	public void testDuplicateComponentModels() {
 		WMessageBox messageBox = new WMessageBox(WMessageBox.Type.SUCCESS);
 		assertNoDuplicateComponentModels(messageBox, "type", WMessageBox.Type.INFO);
-//		assertNoDuplicateComponentModels(messageBox, "titleText", "Test");
+//		assertNoDuplicateComponentModels(messageBox, "titleText", "Test"); // No such method exception
 	}
 }

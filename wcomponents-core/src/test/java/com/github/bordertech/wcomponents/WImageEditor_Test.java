@@ -10,6 +10,13 @@ import java.awt.Dimension;
 public class WImageEditor_Test extends AbstractWComponentTestCase {
 
 	@Test
+	public void testDefaultModels() {
+		WImageEditor imageEditor = new WImageEditor();
+		assertComponentModelUsesDefaultOnCreation(imageEditor);
+		assertComponentModelUsesDefaultOnSameValue(imageEditor, "isFace", true);
+	}
+
+	@Test
 	public void testDuplicateComponentModels() {
 		WImageEditor imageEditor = new WImageEditor();
 		assertNoDuplicateComponentModels(imageEditor, "overlayUrl", "test");

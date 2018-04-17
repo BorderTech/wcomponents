@@ -126,6 +126,13 @@ public class WWindow_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
+	public void testDefaultModels() {
+		WWindow wWindow = new WWindow();
+		assertComponentModelUsesDefaultOnCreation(wWindow);
+		assertComponentModelUsesDefaultOnSameValue(wWindow, "height", 435);
+	}
+
+	@Test
 	public void testDuplicateComponentModels() {
 		WWindow window = new WWindow();
 		assertNoDuplicateComponentModels(window, "title", "testTitle");
@@ -139,8 +146,8 @@ public class WWindow_Test extends AbstractWComponentTestCase {
 		assertNoDuplicateComponentModels(window, "showStatus", true);
 		assertNoDuplicateComponentModels(window, "resizable", true);
 		assertNoDuplicateComponentModels(window, "scrollable", true);
-//		assertNoDuplicateComponentModels(window, "state", 3);
-//		assertNoDuplicateComponentModels(window, "targeted", true);
+//		assertNoDuplicateComponentModels(window, "state", 3); // No such method exception
+//		assertNoDuplicateComponentModels(window, "targeted", true); // No such method exception
 		assertNoDuplicateComponentModels(window, "step", 5);
 	}
 }

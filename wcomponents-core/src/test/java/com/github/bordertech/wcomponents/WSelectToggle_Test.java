@@ -180,6 +180,13 @@ public class WSelectToggle_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
+	public void testDefaultModels() {
+		WSelectToggle selectToggle = new WSelectToggle();
+		assertComponentModelUsesDefaultOnCreation(selectToggle);
+		assertComponentModelUsesDefaultOnSameValue(selectToggle, "renderAsText", true);
+	}
+
+	@Test
 	public void testDuplicateComponentModels() {
 		WSelectToggle selectToggle = new WSelectToggle();
 		assertNoDuplicateComponentModels(selectToggle, "target", new WPanel());

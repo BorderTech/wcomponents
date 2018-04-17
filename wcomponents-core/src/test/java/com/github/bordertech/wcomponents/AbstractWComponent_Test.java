@@ -1245,6 +1245,13 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
+	public void testDefaultModels() {
+		AbstractWComponent component = new SimpleComponent();
+		assertComponentModelUsesDefaultOnCreation(component);
+		assertComponentModelUsesDefaultOnSameValue(component, "idName", "id0");
+	}
+
+	@Test
 	public void testDuplicateComponentModels() {
 		AbstractWComponent component = new SimpleComponent();
 		assertNoDuplicateComponentModels(component, "idName", "id0");

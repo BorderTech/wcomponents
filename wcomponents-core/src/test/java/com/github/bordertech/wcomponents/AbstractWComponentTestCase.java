@@ -213,7 +213,7 @@ public abstract class AbstractWComponentTestCase {
 
 		ComponentModel model = wComponent.getOrCreateComponentModel();
 		invokeSetMethod(wComponent, method, userContextValue, setterArgs);
-		ComponentModel newModel = wComponent.getOrCreateComponentModel();
+		ComponentModel newModel = wComponent.getComponentModel();
 
 		org.junit.Assert.assertSame(model, newModel);
 

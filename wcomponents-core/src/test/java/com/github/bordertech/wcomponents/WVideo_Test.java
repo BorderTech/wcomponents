@@ -474,6 +474,13 @@ public class WVideo_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
+	public void testDefaultModels() {
+		WVideo video = new WVideo();
+		assertComponentModelUsesDefaultOnCreation(video);
+		assertComponentModelUsesDefaultOnSameValue(video, "loop", true);
+	}
+
+	@Test
 	public void testDuplicateComponentModels() {
 		WVideo video = new WVideo();
 		assertNoDuplicateComponentModels(video, "autoplay", true);
