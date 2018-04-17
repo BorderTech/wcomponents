@@ -1,8 +1,9 @@
 package com.github.bordertech.wcomponents;
 
-import java.util.List;
 import junit.framework.Assert;
 import org.junit.Test;
+
+import java.util.List;
 
 /**
  * WMessageBox_Test - Unit tests for {@link WMessageBox}.
@@ -146,5 +147,19 @@ public class WMessageBox_Test extends AbstractWComponentTestCase {
 
 		resetContext();
 		Assert.assertNull("Default accessible text incorrect", comp.getTitleText());
+	}
+
+	@Test
+	public void testDefaultModels() {
+		WMessageBox messageBox = new WMessageBox(WMessageBox.Type.SUCCESS);
+		assertComponentModelUsesDefaultOnCreation(messageBox);
+		assertComponentModelUsesDefaultOnSameValue(messageBox, "type", WMessageBox.Type.SUCCESS);
+	}
+
+	@Test
+	public void testDuplicateComponentModels() {
+		WMessageBox messageBox = new WMessageBox(WMessageBox.Type.SUCCESS);
+		assertNoDuplicateComponentModels(messageBox, "type", WMessageBox.Type.INFO);
+//		assertNoDuplicateComponentModels(messageBox, "titleText", "Test"); // No such method exception
 	}
 }

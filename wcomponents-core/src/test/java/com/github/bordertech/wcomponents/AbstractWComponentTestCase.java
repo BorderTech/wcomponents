@@ -3,6 +3,12 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.util.Duplet;
 import com.github.bordertech.wcomponents.util.ReflectionUtil;
 import com.github.bordertech.wcomponents.util.SystemException;
+import junit.framework.Assert;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.junit.After;
+
 import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
@@ -11,11 +17,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import junit.framework.Assert;
-import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.junit.After;
 
 /**
  * This class includes features useful for the testing of WComponents.
@@ -146,6 +147,95 @@ public abstract class AbstractWComponentTestCase {
 			resetContext();
 		}
 	}
+
+	/**
+	 * This method checks that the a component model uses the default model on creation of a component.
+	 * @param wComponent the component to test the model
+	 */
+	protected void assertComponentModelUsesDefaultOnCreation(AbstractWComponent wComponent) {
+		ComponentModel shared = wComponent.getDefaultModel();
+		wComponent.setLocked(true);
+		ComponentModel model = wComponent.getOrCreateComponentModel();
+		org.junit.Assert.assertSame(model, shared);
+	}
+
+	/**
+	 * This method checks that the a component model uses the default model when the same value is set as the same in
+	 * the default model, rather than creating a new model.
+	 * @param wComponent the component the model is being created from
+	 * @param method the method used to change the model
+	 * @param userContextValue the value to be used within the user context
+	 * @param setterArgs array matching the variable argument type
+	 */
+	protected void assertComponentModelUsesDefaultOnSameValue(AbstractWComponent wComponent, String method,
+															  Object userContextValue, Object setterArgs[]) {
+		wComponent.setLocked(false);
+		invokeSetMethod(wComponent, method, userContextValue, setterArgs);
+		ComponentModel shared = wComponent.getDefaultModel();
+		wComponent.setLocked(true);
+
+		ComponentModel model = wComponent.getOrCreateComponentModel();
+		org.junit.Assert.assertSame(model, shared);
+
+		setActiveContext(createUIContext());
+		invokeSetMethod(wComponent, method, userContextValue, setterArgs);
+
+		model = wComponent.getOrCreateComponentModel();
+		org.junit.Assert.assertEquals(shared, model);
+		resetContext();
+	}
+
+	/**
+	 * This method checks that the a component model uses the default model when the same value is set as the same in
+	 * the default model, rather than creating a new model.
+	 * @param wComponent the component the model is being created from
+	 * @param method the method used to change the model
+	 * @param userContextValue the value to be used within the user context
+	 */
+	protected void assertComponentModelUsesDefaultOnSameValue(AbstractWComponent wComponent, String method,
+															  Object userContextValue) {
+		assertComponentModelUsesDefaultOnSameValue(wComponent, method, userContextValue, null);
+	}
+
+	/**
+	 * This method tests whether component models use the same model in memory, rather than having other copies of the
+	 * model.
+	 * @param wComponent the component the model is being created from
+	 * @param method the method used to change the model
+	 * @param userContextValue the value to be used within the user context
+	 * @param setterArgs array matching the variable argument type
+	 */
+	protected void assertNoDuplicateComponentModels(AbstractWComponent wComponent, String method,
+			Object userContextValue, Object[] setterArgs) {
+		wComponent.setLocked(true);
+
+		setActiveContext(createUIContext());
+
+		ComponentModel model = wComponent.getOrCreateComponentModel();
+		invokeSetMethod(wComponent, method, userContextValue, setterArgs);
+		ComponentModel newModel = wComponent.getComponentModel();
+
+		org.junit.Assert.assertSame(model, newModel);
+
+		resetContext();
+
+		model = wComponent.getComponentModel();
+		ComponentModel shared = wComponent.getDefaultModel();
+		org.junit.Assert.assertSame(model, shared);
+	}
+
+	/**
+	 * This method tests whether component models use the same model in memory, rather than having other copies of the
+	 * model.
+	 * @param wComponent the component the model is being created from
+	 * @param method the method used to change the model
+	 * @param userContextValue the value to be used within the user context
+	 */
+	protected void assertNoDuplicateComponentModels(AbstractWComponent wComponent, String method,
+													Object userContextValue) {
+		assertNoDuplicateComponentModels(wComponent, method, userContextValue, null);
+	}
+
 
 	/**
 	 * @param component the component to invoke the getter method on

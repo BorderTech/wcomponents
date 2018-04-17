@@ -3,16 +3,18 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.WMultiFileWidget.FileWidgetUpload;
 import com.github.bordertech.wcomponents.file.FileItemWrap;
 import com.github.bordertech.wcomponents.util.mock.MockFileItem;
+import junit.framework.Assert;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.fileupload.FileItem;
+import org.junit.Test;
+
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import junit.framework.Assert;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.fileupload.FileItem;
-import org.junit.Test;
 
 /**
  * WMultiFileWidget_Test - unit test for {@link WMultiFileWidget}.
@@ -306,6 +308,25 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 	public void testMaxFileSizeAccessors() {
 		assertAccessorsCorrect(new WMultiFileWidget(), "maxFileSize", (long) 10240000, (long) 1,
 				(long) 2);
+	}
+
+	@Test
+	public void testDefaultModels() {
+		WMultiFileWidget multiFileWidget = new WMultiFileWidget();
+		assertComponentModelUsesDefaultOnCreation(multiFileWidget);
+		assertComponentModelUsesDefaultOnSameValue(multiFileWidget, "newUpload", false);
+	}
+
+	@Test
+	public void testDuplicateComponentModels() {
+		WMultiFileWidget multiFileWidget = new WMultiFileWidget();
+		assertNoDuplicateComponentModels(multiFileWidget,"maxFileSize", 2012312312);
+		assertNoDuplicateComponentModels(multiFileWidget, "maxFiles", 123);
+		assertNoDuplicateComponentModels(multiFileWidget, "newUpload", true);
+		assertNoDuplicateComponentModels(multiFileWidget, "useThumbnails", true);
+		assertNoDuplicateComponentModels(multiFileWidget, "thumbnailPosition", WLink.ImagePosition.SOUTH);
+		assertNoDuplicateComponentModels(multiFileWidget, "thumbnailSize", new Dimension(22,33));
+//		assertNoDuplicateComponentModels(multiFileWidget, "fileUploadRequestId", "TestId"); // No such method exception
 	}
 
 	@Test

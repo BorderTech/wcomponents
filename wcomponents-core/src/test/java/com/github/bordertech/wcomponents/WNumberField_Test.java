@@ -3,12 +3,13 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
+import junit.framework.Assert;
+import org.junit.Test;
+
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import junit.framework.Assert;
-import org.junit.Test;
 
 /**
  * Unit tests for {@link WNumberField}.
@@ -755,6 +756,14 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 	public void testResetDataWithNoUserContext() {
 		WNumberField numberField = new WNumberField();
 		numberField.resetData();
+	}
+
+	@Test
+	public void testDuplicateComponentModels() {
+		WNumberField numberField = new WNumberField();
+		assertNoDuplicateComponentModels(numberField, "minValue", new BigDecimal("100.234234"));
+		assertNoDuplicateComponentModels(numberField, "maxValue", new BigDecimal("200.1231223123"));
+		assertNoDuplicateComponentModels(numberField,"decimalPlaces", 2);
 	}
 
 	/**

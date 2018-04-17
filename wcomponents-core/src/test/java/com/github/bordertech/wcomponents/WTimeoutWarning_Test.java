@@ -83,4 +83,18 @@ public class WTimeoutWarning_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals(TIMEOUT, warning.getTimeoutPeriod());
 		Assert.assertEquals(0, warning.getWarningPeriod());
 	}
+
+	@Test
+	public void testDefaultModels() {
+		WTimeoutWarning timeoutWarning = new WTimeoutWarning();
+		assertComponentModelUsesDefaultOnCreation(timeoutWarning);
+		assertComponentModelUsesDefaultOnSameValue(timeoutWarning, "timeoutPeriod",22);
+	}
+
+	@Test
+	public void testNoDuplicateComponentModels() {
+		WTimeoutWarning timeoutWarning = new WTimeoutWarning();
+		assertNoDuplicateComponentModels(timeoutWarning, "timeoutPeriod", 100);
+		assertNoDuplicateComponentModels(timeoutWarning, "warningPeriod", 122);
+	}
 }

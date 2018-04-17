@@ -6,6 +6,9 @@ import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import com.github.bordertech.wcomponents.validator.AbstractFieldValidator;
+import junit.framework.Assert;
+import org.junit.Test;
+
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.io.StringWriter;
@@ -13,8 +16,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import junit.framework.Assert;
-import org.junit.Test;
 
 /**
  * Test of basic WComponent features.
@@ -1241,6 +1242,19 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 		AbstractWComponent comp = new SimpleComponent();
 		comp.removeHtmlClass("bar");
 		Assert.assertNull(comp.getHtmlClass());
+	}
+
+	@Test
+	public void testDefaultModels() {
+		AbstractWComponent component = new SimpleComponent();
+		assertComponentModelUsesDefaultOnCreation(component);
+		assertComponentModelUsesDefaultOnSameValue(component, "idName", "id0");
+	}
+
+	@Test
+	public void testDuplicateComponentModels() {
+		AbstractWComponent component = new SimpleComponent();
+		assertNoDuplicateComponentModels(component, "idName", "id0");
 	}
 
 	/**

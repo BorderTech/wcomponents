@@ -88,4 +88,19 @@ public class WList_Test extends AbstractWComponentTestCase {
 		}
 	}
 
+	@Test
+	public void testUseDefaultComponentModel() {
+		WList wList = new WList(Type.FLAT); // Use any parameter for constructor, it shouldn't matter
+		assertComponentModelUsesDefaultOnCreation(wList);
+		assertComponentModelUsesDefaultOnSameValue(wList, "type", Type.STACKED);
+	}
+
+	@Test
+	public void testDuplicateComponentModels() {
+		WList wList = new WList(Type.STRIPED);
+		assertNoDuplicateComponentModels(wList, "separator", Separator.BAR);
+		assertNoDuplicateComponentModels(wList, "type", Type.STRIPED);
+		assertNoDuplicateComponentModels(wList, "renderBorder", true);
+	}
+
 }
