@@ -768,7 +768,7 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testSetAutocomplete() {
 		WNumberField field = new WNumberField();
-		for (AutocompleteUtil.NUMERIC_AUTOCOMPLETE number : AutocompleteUtil.NUMERIC_AUTOCOMPLETE.values()) {
+		for (AutocompleteUtil.NumericAutocomplete number : AutocompleteUtil.NumericAutocomplete.values()) {
 			field.setAutocomplete(number);
 			Assert.assertEquals(number.getValue(), field.getAutocomplete());
 		}
@@ -786,7 +786,7 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 		WNumberField field = new WNumberField();
 		String sectionName = "foo";
 		String expected;
-		for (AutocompleteUtil.NUMERIC_AUTOCOMPLETE number : AutocompleteUtil.NUMERIC_AUTOCOMPLETE.values()) {
+		for (AutocompleteUtil.NumericAutocomplete number : AutocompleteUtil.NumericAutocomplete.values()) {
 			expected = AutocompleteUtil.getCombinedForSection(sectionName, number.getValue());
 			field.setAutocomplete(number, sectionName);
 			Assert.assertEquals(expected, field.getAutocomplete());
@@ -796,7 +796,7 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testSetAutocompleteWithEmptySection() {
 		WNumberField field = new WNumberField();
-		for (AutocompleteUtil.NUMERIC_AUTOCOMPLETE number : AutocompleteUtil.NUMERIC_AUTOCOMPLETE.values()) {
+		for (AutocompleteUtil.NumericAutocomplete number : AutocompleteUtil.NumericAutocomplete.values()) {
 			field.setAutocomplete(number, "");
 			Assert.assertEquals(number.getValue(), field.getAutocomplete());
 		}
@@ -805,7 +805,7 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testSetAutocompleteWithNullSection() {
 		WNumberField field = new WNumberField();
-		for (AutocompleteUtil.NUMERIC_AUTOCOMPLETE number : AutocompleteUtil.NUMERIC_AUTOCOMPLETE.values()) {
+		for (AutocompleteUtil.NumericAutocomplete number : AutocompleteUtil.NumericAutocomplete.values()) {
 			field.setAutocomplete(number, null);
 			Assert.assertEquals(number.getValue(), field.getAutocomplete());
 		}
@@ -814,7 +814,7 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testSetAutocompleteNullValueEmptySection() {
 		WNumberField field = new WNumberField();
-		field.setAutocomplete(null,"");
+		field.setAutocomplete(null, "");
 		Assert.assertNull(field.getAutocomplete());
 	}
 
@@ -848,7 +848,7 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 		String sectionName ="foo";
 		String expected;
 
-		for (AutocompleteUtil.NUMERIC_AUTOCOMPLETE number : AutocompleteUtil.NUMERIC_AUTOCOMPLETE.values()) {
+		for (AutocompleteUtil.NumericAutocomplete number : AutocompleteUtil.NumericAutocomplete.values()) {
 			expected = AutocompleteUtil.getCombinedForSection(sectionName, number.getValue());
 			field.setAutocomplete(number);
 			field.addAutocompleteSection(sectionName);
@@ -863,7 +863,7 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 		String otherSection = "bar";
 		String expected;
 
-		for (AutocompleteUtil.NUMERIC_AUTOCOMPLETE number : AutocompleteUtil.NUMERIC_AUTOCOMPLETE.values()) {
+		for (AutocompleteUtil.NumericAutocomplete number : AutocompleteUtil.NumericAutocomplete.values()) {
 			expected = AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.getNamedSection(otherSection), number.getValue());
 			field.setAutocomplete(number, otherSection);
 			field.addAutocompleteSection(sectionName);

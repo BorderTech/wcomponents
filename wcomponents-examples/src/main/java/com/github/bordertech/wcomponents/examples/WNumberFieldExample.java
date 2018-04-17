@@ -63,7 +63,7 @@ public class WNumberFieldExample extends WContainer {
 		layout.addField("Min 0, step 5", numberField);
 
 		//autocomplete
-		for (AutocompleteUtil.NUMERIC_AUTOCOMPLETE number : AutocompleteUtil.NUMERIC_AUTOCOMPLETE.values()) {
+		for (AutocompleteUtil.NumericAutocomplete number : AutocompleteUtil.NumericAutocomplete.values()) {
 			numberField = new WNumberField();
 			numberField.setAutocomplete(number);
 			layout.addField("autocomplete set to ".concat(number.getValue()), numberField);

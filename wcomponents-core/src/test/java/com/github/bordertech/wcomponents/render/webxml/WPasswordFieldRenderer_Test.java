@@ -97,13 +97,13 @@ public class WPasswordFieldRenderer_Test extends AbstractWebXmlRendererTestCase 
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo("enter stuff here", "//ui:passwordfield/@placeholder", field);
 
-		field.setAutocomplete(AutocompleteUtil.PASSWORD_AUTOCOMPLETE.CURRENT);
+		field.setAutocomplete(AutocompleteUtil.PasswordAutocomplete.CURRENT);
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo(field.getAutocomplete(), "//ui:phonenumberfield/@autocomplete", field);
+		assertXpathEvaluatesTo(field.getAutocomplete(), "//ui:passwordfield/@autocomplete", field);
 
 		field.setAutocompleteOff();
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo(field.getAutocomplete(), "//ui:phonenumberfield/@autocomplete", field);
+		assertXpathEvaluatesTo(AutocompleteUtil.OFF, "//ui:passwordfield/@autocomplete", field);
 	}
 
 	@Test

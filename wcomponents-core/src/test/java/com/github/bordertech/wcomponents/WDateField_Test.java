@@ -881,7 +881,7 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testSetAutocomplete() {
 		WDateField field = new WDateField();
-		for (AutocompleteUtil.DATE_AUTOCOMPLETE date : AutocompleteUtil.DATE_AUTOCOMPLETE.values()) {
+		for (AutocompleteUtil.DateAutocomplete date : AutocompleteUtil.DateAutocomplete.values()) {
 			field.setAutocomplete(date);
 			Assert.assertEquals(date.getValue(), field.getAutocomplete());
 		}
@@ -899,7 +899,7 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 		WDateField field = new WDateField();
 		String sectionName = "foo";
 		String expected;
-		for (AutocompleteUtil.DATE_AUTOCOMPLETE date : AutocompleteUtil.DATE_AUTOCOMPLETE.values()) {
+		for (AutocompleteUtil.DateAutocomplete date : AutocompleteUtil.DateAutocomplete.values()) {
 			expected = AutocompleteUtil.getCombinedForSection(sectionName, date.getValue());
 			field.setAutocomplete(date, sectionName);
 			Assert.assertEquals(expected, field.getAutocomplete());
@@ -909,7 +909,7 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testSetAutocompleteWithEmptySection() {
 		WDateField field = new WDateField();
-		for (AutocompleteUtil.DATE_AUTOCOMPLETE date : AutocompleteUtil.DATE_AUTOCOMPLETE.values()) {
+		for (AutocompleteUtil.DateAutocomplete date : AutocompleteUtil.DateAutocomplete.values()) {
 			field.setAutocomplete(date, "");
 			Assert.assertEquals(date.getValue(), field.getAutocomplete());
 		}
@@ -918,7 +918,7 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testSetAutocompleteWithNullSection() {
 		WDateField field = new WDateField();
-		for (AutocompleteUtil.DATE_AUTOCOMPLETE date : AutocompleteUtil.DATE_AUTOCOMPLETE.values()) {
+		for (AutocompleteUtil.DateAutocomplete date : AutocompleteUtil.DateAutocomplete.values()) {
 			field.setAutocomplete(date, null);
 			Assert.assertEquals(date.getValue(), field.getAutocomplete());
 		}
@@ -942,14 +942,14 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 	public void testSetDateAutocomplete() {
 		WDateField dateField = new WDateField();
 		dateField.setDateAutocomplete();
-		Assert.assertEquals(AutocompleteUtil.DATE_AUTOCOMPLETE.BIRTHDAY.getValue(), dateField.getAutocomplete());
+		Assert.assertEquals(AutocompleteUtil.DateAutocomplete.BIRTHDAY.getValue(), dateField.getAutocomplete());
 	}
 
 	@Test
 	public void testSetDateAutocompleteWithSection() {
 		WDateField dateField = new WDateField();
 		String sectionName = "foo";
-		String expected = AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.DATE_AUTOCOMPLETE.BIRTHDAY.getValue());
+		String expected = AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.DateAutocomplete.BIRTHDAY.getValue());
 		dateField.setDateAutocomplete(sectionName);
 		Assert.assertEquals(expected, dateField.getAutocomplete());
 	}
@@ -958,14 +958,14 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 	public void testSetDateAutocompleteWithNullSection() {
 		WDateField dateField = new WDateField();
 		dateField.setDateAutocomplete(null);
-		Assert.assertEquals(AutocompleteUtil.DATE_AUTOCOMPLETE.BIRTHDAY.getValue(), dateField.getAutocomplete());
+		Assert.assertEquals(AutocompleteUtil.DateAutocomplete.BIRTHDAY.getValue(), dateField.getAutocomplete());
 	}
 
 	@Test
 	public void testSetDateAutocompleteWithEmptySection() {
 		WDateField dateField = new WDateField();
 		dateField.setDateAutocomplete("");
-		Assert.assertEquals(AutocompleteUtil.DATE_AUTOCOMPLETE.BIRTHDAY.getValue(), dateField.getAutocomplete());
+		Assert.assertEquals(AutocompleteUtil.DateAutocomplete.BIRTHDAY.getValue(), dateField.getAutocomplete());
 	}
 
 	@Test
@@ -979,7 +979,7 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 	public void testAddAutocompleteSection() {
 		WDateField dateField = new WDateField();
 		String sectionName = "foo";
-		String expected = AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.DATE_AUTOCOMPLETE.BIRTHDAY.getValue());
+		String expected = AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.DateAutocomplete.BIRTHDAY.getValue());
 		dateField.addAutocompleteSection(sectionName);
 		Assert.assertEquals(expected, dateField.getAutocomplete());
 	}
@@ -988,7 +988,7 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 	public void testAddAutocompleteSectionAfterSetting() {
 		WDateField dateField = new WDateField();
 		String sectionName = "foo";
-		String expected = AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.DATE_AUTOCOMPLETE.BIRTHDAY.getValue());
+		String expected = AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.DateAutocomplete.BIRTHDAY.getValue());
 		dateField.setDateAutocomplete();
 		dateField.addAutocompleteSection(sectionName);
 		Assert.assertEquals(expected, dateField.getAutocomplete());
@@ -1001,7 +1001,7 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 		String firstSection = "foo";
 		dateField.setDateAutocomplete(firstSection);
 		String expected = AutocompleteUtil.getCombinedForSection(sectionName,
-				AutocompleteUtil.getNamedSection(firstSection), AutocompleteUtil.DATE_AUTOCOMPLETE.BIRTHDAY.getValue());
+				AutocompleteUtil.getNamedSection(firstSection), AutocompleteUtil.DateAutocomplete.BIRTHDAY.getValue());
 		dateField.addAutocompleteSection(sectionName);
 		Assert.assertEquals(expected, dateField.getAutocomplete());
 	}

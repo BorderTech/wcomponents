@@ -22,7 +22,7 @@ import org.junit.Test;
  * @since 1.5.3
  */
 public class AutocompleteableEmail_Test {
-	private static final String DEFAULT_VALUE = AutocompleteUtil.EMAIL_AUTOCOMPLETE.EMAIL.getValue();
+	private static final String DEFAULT_VALUE = AutocompleteUtil.EmailAutocomplete.EMAIL.getValue();
 
 	@Test
 	public void testSetEmailAutocomplete() {
@@ -57,7 +57,7 @@ public class AutocompleteableEmail_Test {
 	@Test
 	public void testSetAutocomplete() {
 		MyEmail component = new MyEmail();
-		for (AutocompleteUtil.EMAIL_AUTOCOMPLETE email : AutocompleteUtil.EMAIL_AUTOCOMPLETE.values()) {
+		for (AutocompleteUtil.EmailAutocomplete email : AutocompleteUtil.EmailAutocomplete.values()) {
 			component.setAutocomplete(email);
 			Assert.assertEquals(email.getValue(), component.getAutocomplete());
 		}
@@ -75,7 +75,7 @@ public class AutocompleteableEmail_Test {
 		private String autocomplete;
 
 		@Override
-		public void setAutocomplete(AutocompleteUtil.EMAIL_AUTOCOMPLETE value, String sectionName) {
+		public void setAutocomplete(AutocompleteUtil.EmailAutocomplete value, String sectionName) {
 			if (value == null && Util.empty(sectionName)) {
 				autocomplete = null;
 				return;

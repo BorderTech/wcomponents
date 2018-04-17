@@ -174,7 +174,7 @@ public class WPhoneNumberField extends AbstractInput implements AjaxTrigger, Aja
 	}
 
 	@Override
-	public void setAutocomplete(final AutocompleteUtil.TELEPHONE_TYPE phoneType, final AutocompleteUtil.TELEPHONE_AUTOCOMPLETE phone,
+	public void setAutocomplete(final AutocompleteUtil.TelephoneAutocompleteType phoneType, final AutocompleteUtil.TelephoneAutocomplete phone,
 			final String sectionName) {
 
 		if (phoneType == null && phone == null && Util.empty(sectionName)) {
@@ -184,7 +184,7 @@ public class WPhoneNumberField extends AbstractInput implements AjaxTrigger, Aja
 
 		String newValue;
 		final String innerType = phoneType == null ? null : phoneType.getValue();
-		final AutocompleteUtil.TELEPHONE_AUTOCOMPLETE innerPhone = phone == null ? AutocompleteUtil.TELEPHONE_AUTOCOMPLETE.FULL : phone;
+		final AutocompleteUtil.TelephoneAutocomplete innerPhone = phone == null ? AutocompleteUtil.TelephoneAutocomplete.FULL : phone;
 
 		if (Util.empty(sectionName)) {
 			newValue = AutocompleteUtil.getCombinedAutocomplete(innerType, innerPhone.getValue());
@@ -214,7 +214,7 @@ public class WPhoneNumberField extends AbstractInput implements AjaxTrigger, Aja
 			throw new SystemException("Auto-fill sections cannot be applied to fields with autocomplete off.");
 		}
 		String newValue = (currentValue == null)
-				? AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.TELEPHONE_AUTOCOMPLETE.FULL.getValue())
+				? AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.TelephoneAutocomplete.FULL.getValue())
 				: AutocompleteUtil.getCombinedForSection(sectionName, currentValue);
 
 		if (!Util.equals(currentValue, newValue)) {

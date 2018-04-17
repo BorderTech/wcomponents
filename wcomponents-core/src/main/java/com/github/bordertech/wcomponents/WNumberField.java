@@ -481,7 +481,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	}
 
 	@Override
-	public void setAutocomplete(AutocompleteUtil.NUMERIC_AUTOCOMPLETE value, String sectionName) {
+	public void setAutocomplete(final AutocompleteUtil.NumericAutocomplete value, final String sectionName) {
 		if (value == null && Util.empty(sectionName)) {
 			clearAutocomplete();
 		}
@@ -506,7 +506,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	}
 
 	@Override
-	public void addAutocompleteSection(String sectionName) {
+	public void addAutocompleteSection(final String sectionName) {
 		if (Util.empty(sectionName)) {
 			throw new IllegalArgumentException("Auto-fill section names must not be empty.");
 		}

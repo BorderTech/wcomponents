@@ -7,6 +7,7 @@ import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextImpl;
 import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.WDropdown.DropdownType;
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
 import java.io.IOException;
 import java.util.Arrays;
 import junit.framework.Assert;
@@ -96,6 +97,7 @@ public class WDropdownRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//ui:dropdown/@accessibleText", drop);
 		assertXpathNotExists("//ui:dropdown/@optionWidth", drop);
 		assertXpathNotExists("//ui:dropdown/@type", drop);
+		assertXpathNotExists("//ui:dropdown/@autocomplete", drop);
 
 		drop.setDisabled(true);
 		assertSchemaMatch(drop);
@@ -125,6 +127,18 @@ public class WDropdownRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSchemaMatch(drop);
 		assertXpathEvaluatesTo("20", "//ui:dropdown/@optionWidth", drop);
 
+		drop.setAutocomplete(AutocompleteUtil.GIVEN_NAME);
+		assertSchemaMatch(drop);
+		assertXpathEvaluatesTo(drop.getAutocomplete(), "//ui:dropdown/@autocomplete", drop);
+
+		drop.setAutocompleteOff();
+		assertSchemaMatch(drop);
+		assertXpathEvaluatesTo(AutocompleteUtil.OFF, "//ui:dropdown/@autocomplete", drop);
+	}
+
+	@Test
+	public void testDoPaintTypeOptions() throws IOException, SAXException, XpathException {
+		WDropdown drop = new WDropdown(TestLookupTable.CACHEABLE_DAY_OF_WEEK_TABLE);
 		drop.setType(DropdownType.COMBO);
 		assertSchemaMatch(drop);
 		assertXpathEvaluatesTo("combo", "//ui:dropdown/@type", drop);

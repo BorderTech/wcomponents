@@ -36,7 +36,11 @@ public final class AutocompleteUtil {
 	 */
 	public static final String ON = "on";
 
-	public static enum DATE_AUTOCOMPLETE {
+	/**
+	 * Provides values for the {@code autocomplete} attribute which are applicable to date inputs such as
+	 * {@link com.github.bordertech.wcomponents.WPhoneNumberField}.
+	 */
+	public enum DateAutocomplete {
 		/**
 		 * Indicates the field represents a birthday as a <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#valid-date-string"
 		 * target="_blank">valid date String</a>; used in conjunction with {@link com.github.bordertech.wcomponents.WDateField}.
@@ -46,10 +50,14 @@ public final class AutocompleteUtil {
 		/**
 		 * The the {@code autocomplete} attribute value.
 		 */
-		private String value;
+		private final String value;
 
-		private DATE_AUTOCOMPLETE(String value) {
-			this.value = value;
+		/**
+		 * Creates each entry in the enumeration to allow for moderately type-safe auto-fill mnemonics.
+		 * @param val the string to place in the {@code autocomplete} attribute
+		 */
+		DateAutocomplete(final String val) {
+			this.value = val;
 		}
 
 		/**
@@ -61,7 +69,11 @@ public final class AutocompleteUtil {
 	}
 
 
-	public static enum EMAIL_AUTOCOMPLETE {
+	/**
+	 * Provides values for the {@code autocomplete} attribute which are applicable to email inputs such as
+	 * {@link com.github.bordertech.wcomponents.WEmailField}.
+	 */
+	 public enum EmailAutocomplete {
 		/**
 		 * Indicates the field represents an e-mail address.
 		 */
@@ -70,10 +82,14 @@ public final class AutocompleteUtil {
 		/**
 		 * The the {@code autocomplete} attribute value.
 		 */
-		private String value;
+		private final String value;
 
-		private EMAIL_AUTOCOMPLETE(String value) {
-			this.value = value;
+		/**
+		 * Creates each entry in the enumeration to allow for moderately type-safe auto-fill mnemonics.
+		 * @param val the string to place in the {@code autocomplete} attribute
+		 */
+		EmailAutocomplete(final String val) {
+			this.value = val;
 		}
 
 		/**
@@ -88,7 +104,7 @@ public final class AutocompleteUtil {
 	 * Provides values for the {@code autocomplete} attribute which are applicable to numeric inputs such as
 	 * {@link com.github.bordertech.wcomponents.WNumberField}.
 	 */
-	public static enum NUMERIC_AUTOCOMPLETE {
+	 public enum NumericAutocomplete {
 		/**
 		 * Indicates the field represents the day component of birthday as a valid integer from 1 to 31; used in conjunction with
 		 * {@link com.github.bordertech.wcomponents.WNumberField} or an appropriately configured selection tool such as
@@ -128,7 +144,11 @@ public final class AutocompleteUtil {
 		 */
 		private final String value;
 
-		private NUMERIC_AUTOCOMPLETE(final String val) {
+		/**
+		 * Creates each entry in the enumeration to allow for moderately type-safe auto-fill mnemonics.
+		 * @param val the string to place in the {@code autocomplete} attribute
+		 */
+		NumericAutocomplete(final String val) {
 			value = val;
 		}
 
@@ -144,9 +164,9 @@ public final class AutocompleteUtil {
 	 * Provides values for the {@code autocomplete} attribute which are applicable to password inputs such as
 	 * {@link com.github.bordertech.wcomponents.WPasswordField}.
 	 */
-	public static enum PASSWORD_AUTOCOMPLETE {
+	 public enum PasswordAutocomplete {
 		/**
-		 * Indicates the field represents the current password for the account identified by the {@link #USERNAME username} field (for example when
+		 * Indicates the field represents the current password for the account identified by the username field (for example when
 		 * logging in) and may only be used in conjunction with {@link com.github.bordertech.wcomponents.WPasswordField}.
 		 */
 		CURRENT("current-password"),
@@ -161,8 +181,13 @@ public final class AutocompleteUtil {
 		 */
 		private final String value;
 
-		private PASSWORD_AUTOCOMPLETE(String value) {
-			this.value = value;
+
+		/**
+		 * Creates each entry in the enumeration to allow for moderately type-safe auto-fill mnemonics.
+		 * @param val the string to place in the {@code autocomplete} attribute
+		 */
+		PasswordAutocomplete(final String val) {
+			this.value = val;
 		}
 
 		/**
@@ -176,7 +201,7 @@ public final class AutocompleteUtil {
 	/**
 	 * Provides values for the HTML {@code autocomplete} attribute for an input in the telephone-number ('tel') state.
 	 */
-	public static enum TELEPHONE_AUTOCOMPLETE {
+	 public enum TelephoneAutocomplete {
 		/**
 		 * Indicates the field represents a full telephone number, including country code, in the form of ASCII digits and optional U+0020 SPACE
 		 * characters, prefixed by a U+002B PLUS SIGN character (+); may be applied to a {@link com.github.bordertech.wcomponents.WPhoneNumberField}.
@@ -193,8 +218,12 @@ public final class AutocompleteUtil {
 		 */
 		private final String value;
 
-		private TELEPHONE_AUTOCOMPLETE(String value) {
-			this.value = value;
+		/**
+		 * Creates each entry in the enumeration to allow for moderately type-safe auto-fill mnemonics.
+		 * @param val the string to place in the {@code autocomplete} attribute
+		 */
+		TelephoneAutocomplete(final String val) {
+			this.value = val;
 		}
 
 		/**
@@ -206,10 +235,10 @@ public final class AutocompleteUtil {
 	}
 
 	/**
-	 * Provides values for the HTML {@code autocomplete} for types of {@link TELEPHONE_AUTOCOMPLETE telephone numbers} or
-	 * {@link TELEPHONE_SEGMENT telephone number segments}.
+	 * Provides values for the HTML {@code autocomplete} for types of {@link TelephoneAutocomplete telephone numbers} or
+	 * {@link TelephoneAutocompleteSegment telephone number segments}.
 	 */
-	public static enum TELEPHONE_TYPE {
+	 public enum TelephoneAutocompleteType {
 		/**
 		 * Indicates the field represents a number for contacting someone at their residence.
 		 */
@@ -236,7 +265,11 @@ public final class AutocompleteUtil {
 		 */
 		private final String value;
 
-		private TELEPHONE_TYPE(final String val) {
+		/**
+		 * Creates each entry in the enumeration to allow for moderately type-safe auto-fill mnemonics.
+		 * @param val the string to place in the {@code autocomplete} attribute
+		 */
+		TelephoneAutocompleteType(final String val) {
 			this.value = val;
 		}
 
@@ -251,7 +284,7 @@ public final class AutocompleteUtil {
 	/**
 	 * Provides values for the HTML {@code autocomplete} attribute for a parts of a telephone number.
 	 */
-	public static enum TELEPHONE_SEGMENT {
+	 public enum TelephoneAutocompleteSegment {
 		/**
 		 * Indicates the field represents an area code component of the telephone number, with a country-internal prefix applied if applicable, in
 		 * the form of ASCII digits but not to be used with {@link com.github.bordertech.wcomponents.WNumberField}.
@@ -271,7 +304,7 @@ public final class AutocompleteUtil {
 		 * Indicates the field represents a telephone number without the country code and area code components, in the form of ASCII digits but not to
 		 * be used with {@link com.github.bordertech.wcomponents.WNumberField}.
 		 */
-		LOCAL("tel-local"), // NOTE: this does appear in the TELEPHONE_AUTOCOMPLETE enum too.
+		LOCAL("tel-local"), // NOTE: this does appear in the TelephoneAutocomplete enum too.
 		/**
 		 * Indicates the field represents the first part of the component of the telephone number that follows the area code, when that component is
 		 * split into two components, in the form of ASCII digits but not to be used with {@link com.github.bordertech.wcomponents.WNumberField}.
@@ -294,7 +327,11 @@ public final class AutocompleteUtil {
 		 */
 		private final String value;
 
-		private TELEPHONE_SEGMENT(final String val) {
+		/**
+		 * Creates each entry in the enumeration to allow for moderately type-safe auto-fill mnemonics.
+		 * @param val the string to place in the {@code autocomplete} attribute
+		 */
+		TelephoneAutocompleteSegment(final String val) {
 			this.value = val;
 		}
 
@@ -309,7 +346,7 @@ public final class AutocompleteUtil {
 	/**
 	 * Provides values for the {@code autocomplete} attribute which are applicable to url inputs.
 	 */
-	public static enum URL_AUTOCOMPLETE {
+	 public enum UrlAutocomplete {
 		/**
 		 * Indicates the field represents a home page or other Web page corresponding to the company, person, address, or contact information in the
 		 * other fields associated with this field.
@@ -326,7 +363,11 @@ public final class AutocompleteUtil {
 		 */
 		private final String value;
 
-		private URL_AUTOCOMPLETE(final String val) {
+		/**
+		 * Creates each entry in the enumeration to allow for moderately type-safe auto-fill mnemonics.
+		 * @param val the string to place in the {@code autocomplete} attribute
+		 */
+		UrlAutocomplete(final String val) {
 			value = val;
 		}
 
@@ -339,9 +380,44 @@ public final class AutocompleteUtil {
 	}
 
 	/**
+	 * Provides values for the {@code autocomplete} attribute which are applicable to multi-line inputs such as
+	 * {@link com.github.bordertech.wcomponents.WTextArea}.
+	 */
+	public enum MultilineAutocomplete {
+
+		/**
+		 * Indicates the field represents a street address, for use with a multiple-line input such as
+		 * {@link com.github.bordertech.wcomponents.WTextArea}.
+		 * See <a href="https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fe-autocomplete-street-address" target="_blank">
+		 * https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fe-autocomplete-street-address</a>.
+		 */
+		STREET_ADDRESS("street-address");
+
+		/**
+		 * The the {@code autocomplete} attribute value.
+		 */
+		private final String value;
+
+		/**
+		 * Creates each entry in the enumeration to allow for moderately type-safe auto-fill mnemonics.
+		 * @param val the string to place in the {@code autocomplete} attribute
+		 */
+		MultilineAutocomplete(final String val) {
+			this.value = val;
+		}
+
+		/**
+		 * @return the {@code autocomplete} attribute value for the enum member.
+		 */
+		public String getValue() {
+			return this.value;
+		}
+	}
+
+	/**
 	 * Types of address that may be used with address segments to create address {@code autocomplete} attribute values.
 	 */
-	public static enum ADDRESS_TYPE {
+	 public enum AddressAutocompleteType {
 		/**
 		 * Indicates the field represents an address (or address segment) that is part of a billing address.
 		 */
@@ -356,35 +432,27 @@ public final class AutocompleteUtil {
 		 */
 		private final String value;
 
-		private ADDRESS_TYPE(final String val) {
+		/**
+		 * Creates each entry in the enumeration to allow for moderately type-safe auto-fill mnemonics.
+		 * @param val the string to place in the {@code autocomplete} attribute
+		 */
+		AddressAutocompleteType(final String val) {
 			this.value = val;
 		}
 
 		/**
 		 * @return the {@code autocomplete} attribute value for the enum member.
 		 */
-		String getValue() {
+		public String getValue() {
 			return this.value;
 		}
 	}
 
 	/**
 	 * Parts of an address that may be used to create address {@code autocomplete} attribute values. May be used in combination with an
-	 * {@link #ADDRESS_TYPE} to specify separate addresses.
+	 * address type to specify separate addresses.
 	 */
-	public static enum ADDRESS_SEGMENT {
-		/**
-		 * Indicates the field represents a street address, for use with a multiple-line input such as
-		 * {@link com.github.bordertech.wcomponents.WTextArea}.
-		 * See <a href="https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fe-autocomplete-street-address" target="_blank">
-		 * https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fe-autocomplete-street-address</a>.
-		 *
-		 * <p>
-		 * To have auto-fill for a street address using single line inputs such as {@link com.github.bordertech.wcomponents.WTextField} use
-		 * {@link #LINE_1}, {@link #LINE_2} and {@link #LINE_3}.
-		 * </p>
-		 */
-		FULL_MULTILINE("street-address"),
+	 public enum AddressAutocompleteSegment {
 		/**
 		 * Indicates the field represents the first line of a street address when using single-line inputs, see
 		 * <a href="https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fe-autocomplete-address-line1" target="_blank">
@@ -443,7 +511,7 @@ public final class AutocompleteUtil {
 
 		/**
 		 * Indicates the field represents a postal code, post code, ZIP code, CEDEX code (if CEDEX, append "CEDEX", and the arrondissement, if
-		 * relevant, to the {@link #LEVEL_2 address-level2} field).
+		 * relevant, to the address-level2 field).
 		 */
 		POSTAL_CODE("postal-code");
 
@@ -452,7 +520,11 @@ public final class AutocompleteUtil {
 		 */
 		private final String value;
 
-		private ADDRESS_SEGMENT(final String val) {
+		/**
+		 * Creates each entry in the enumeration to allow for moderately type-safe auto-fill mnemonics.
+		 * @param val the string to place in the {@code autocomplete} attribute
+		 */
+		AddressAutocompleteSegment(final String val) {
 			this.value = val;
 		}
 
@@ -511,7 +583,7 @@ public final class AutocompleteUtil {
 	 */
 	public static final String USERNAME = "username";
 
-	// CREDIT CARD OR PAYMENT DETAILS - ALSO SEE NUMERIC_AUTOCOMPLETE #########
+	// CREDIT CARD OR PAYMENT DETAILS - ALSO SEE NumericAutocomplete #########
 	/**
 	 * Indicates the field represents the full name as given on the payment instrument.
 	 */
@@ -659,54 +731,4 @@ public final class AutocompleteUtil {
 	public static String getCombinedForSection(final String sectionName, final String ... args) {
 		return getCombinedAutocomplete(getNamedSection(sectionName), args);
 	}
-
-
-
-	/*
-	 * ADDRESS HELPERS
-	 */
-
-	/**
-	 * Helper to generate an autocomplete attribute typed ("shipping" or "billing") address value with the correct value order.
-	 * @param addressType the type of address {@link #ADDRESS_TYPE_SHIPPING} or {@link #ADDRESS_TYPE_BILLING}
-	 * @param addressPart the address part, fir example {@link #ADDRESS_FULL_MULTILINE} or {@link #ADDRESS_LINE_1}
-	 * @return the combined attribute value with the correct order of values.
-	 */
-	private static String makeTypedAddress(final ADDRESS_TYPE addressType, final ADDRESS_SEGMENT addressPart) {
-		if (addressPart == null) {
-			return getCombinedAutocomplete(addressType.getValue(), ADDRESS_SEGMENT.FULL_MULTILINE.getValue());
-		}
-		return getCombinedAutocomplete(addressType.getValue(), addressPart.getValue());
-	}
-
-	/**
-	 * @param addressPart a part of an address, for example {@link #ADDRESS_LINE_1}
-	 * @return an autocomplete attribute value for a shipping address with the correct order of values.
-	 */
-	public static String getShippingAddressAutocomplete(final ADDRESS_SEGMENT addressPart) {
-		return makeTypedAddress(ADDRESS_TYPE.SHIPPING, addressPart);
-	}
-
-	/**
-	 * @return an autocomplete attribute value for a shipping {@link #ADDRESS_FULL_MULTILINE street address} with the correct order of values.
-	 */
-	public static String getShippingAddressAutocomplete() {
-			return getShippingAddressAutocomplete(ADDRESS_SEGMENT.FULL_MULTILINE);
-	}
-
-	/**
-	 * @param addressPart a part of an address, for example {@link #ADDRESS_LINE_1}
-	 * @return an autocomplete attribute value for a shipping address with the correct order of values.
-	 */
-	public static String getBillingAddressAutocomplete(final ADDRESS_SEGMENT addressPart) {
-		return makeTypedAddress(ADDRESS_TYPE.BILLING, addressPart);
-	}
-
-	/**
-	 * @return an autocomplete attribute value for a shipping {@link #ADDRESS_FULL_MULTILINE street address} with the correct order of values.
-	 */
-	public static String getBillingAddressAutocomplete() {
-			return getBillingAddressAutocomplete(ADDRESS_SEGMENT.FULL_MULTILINE);
-	}
-
 }

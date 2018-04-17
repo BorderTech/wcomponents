@@ -1,6 +1,9 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteableMultiline;
 import com.github.bordertech.wcomponents.util.HtmlSanitizerUtil;
+import com.github.bordertech.wcomponents.util.Util;
 
 /**
  * <p>
@@ -15,7 +18,7 @@ import com.github.bordertech.wcomponents.util.HtmlSanitizerUtil;
  * @author Mark Reeves
  * @since 1.0.0
  */
-public class WTextArea extends WTextField {
+public class WTextArea extends WTextField implements AutocompleteableMultiline {
 
 	/**
 	 * The data for this WTextArea. If the text area is not rich text its output is XML escaped so we can ignore
@@ -138,6 +141,19 @@ public class WTextArea extends WTextField {
 		return (TextAreaModel) super.getOrCreateComponentModel();
 	}
 
+	@Override
+	public void setAutocomplete(final AutocompleteUtil.AddressAutocompleteType addressType, final String sectionName) {
+		String combinedAddress = addressType == null
+				? AutocompleteUtil.MultilineAutocomplete.STREET_ADDRESS.getValue()
+				: AutocompleteUtil.getCombinedAutocomplete(addressType.getValue(), AutocompleteUtil.MultilineAutocomplete.STREET_ADDRESS.getValue());
+
+		String newValue = Util.empty(sectionName) ? combinedAddress : AutocompleteUtil.getCombinedForSection(sectionName, combinedAddress);
+
+		if (!Util.equals(getAutocomplete(), newValue)) {
+			getOrCreateComponentModel().autocomplete = newValue;
+		}
+	}
+
 	/**
 	 * TextAreaModel holds Extrinsic state management of the field.
 	 *
@@ -161,5 +177,10 @@ public class WTextArea extends WTextField {
 		 * content (not user-input content) is unverified.
 		 */
 		private boolean sanitizeOnOutput = true;
+
+		/**
+		 * The auto-fill hint for the field.
+		 */
+		private String autocomplete;
 	}
 }

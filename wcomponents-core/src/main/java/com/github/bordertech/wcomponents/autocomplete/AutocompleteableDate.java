@@ -12,12 +12,12 @@ public interface AutocompleteableDate extends Autocompleteable {
 	 * @param dateType the type of date to auto-fill, currently only "bday" is supported.
 	 * @param sectionName the name of the auto-fill section
 	 */
-	void setAutocomplete(final AutocompleteUtil.DATE_AUTOCOMPLETE dateType, final String sectionName);
+	void setAutocomplete(final AutocompleteUtil.DateAutocomplete dateType, final String sectionName);
 	/**
 	 * Set the {@code autocomplete}s attribute for a type of date input.
 	 * @param dateType the type of date to auto-fill, currently only "bday" is supported.
 	 */
-	public default void setAutocomplete(final AutocompleteUtil.DATE_AUTOCOMPLETE dateType) {
+	default void setAutocomplete(final AutocompleteUtil.DateAutocomplete dateType) {
 		setAutocomplete(dateType, null);
 	}
 
@@ -25,14 +25,14 @@ public interface AutocompleteableDate extends Autocompleteable {
 	 * Set the "birthday" autocomplete hint for a given auto-fill section.
 	 * @param sectionName the auto-fill section to which the current field belongs (if any)
 	 */
-	public default void setDateAutocomplete(final String sectionName) {
-		setAutocomplete(AutocompleteUtil.DATE_AUTOCOMPLETE.BIRTHDAY, sectionName);
+	default void setDateAutocomplete(final String sectionName) {
+		setAutocomplete(AutocompleteUtil.DateAutocomplete.BIRTHDAY, sectionName);
 	}
 
 	/**
 	 * Set the "birthday" autocomplete hint for the current field.
 	 */
-	public default void setDateAutocomplete() {
-		setAutocomplete(AutocompleteUtil.DATE_AUTOCOMPLETE.BIRTHDAY, null);
+	default void setDateAutocomplete() {
+		setAutocomplete(AutocompleteUtil.DateAutocomplete.BIRTHDAY, null);
 	}
 }

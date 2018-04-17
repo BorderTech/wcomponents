@@ -6,6 +6,7 @@ import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.HtmlRenderUtil;
 import com.github.bordertech.wcomponents.util.HtmlToXMLUtil;
+import com.github.bordertech.wcomponents.util.Util;
 
 /**
  * The Renderer for WTextArea.
@@ -53,6 +54,9 @@ class WTextAreaRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("cols", cols > 0, cols);
 			xml.appendOptionalAttribute("buttonId", submitControlId);
 			xml.appendOptionalAttribute("placeholder", HtmlRenderUtil.getEffectivePlaceholder(textArea));
+
+			String autocomplete = textArea.getAutocomplete();
+			xml.appendOptionalAttribute("autocomplete", !Util.empty(autocomplete), autocomplete);
 		}
 		xml.appendClose();
 

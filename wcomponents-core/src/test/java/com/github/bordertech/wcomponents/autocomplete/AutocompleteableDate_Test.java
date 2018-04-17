@@ -21,7 +21,7 @@ import org.junit.Test;
  */
 public class AutocompleteableDate_Test {
 
-	private static final String DEFAULT_AUTOFILL_VALUE = AutocompleteUtil.DATE_AUTOCOMPLETE.BIRTHDAY.getValue();
+	private static final String DEFAULT_AUTOFILL_VALUE = AutocompleteUtil.DateAutocomplete.BIRTHDAY.getValue();
 	/**
 	 * Meta test to improve confidence in other tests.
 	 */
@@ -66,7 +66,7 @@ public class AutocompleteableDate_Test {
 	@Test
 	public void testSetAutocomplete() {
 		MyDate component = new MyDate();
-		for (AutocompleteUtil.DATE_AUTOCOMPLETE date : AutocompleteUtil.DATE_AUTOCOMPLETE.values()) {
+		for (AutocompleteUtil.DateAutocomplete date : AutocompleteUtil.DateAutocomplete.values()) {
 			component.setAutocomplete(date);
 			Assert.assertEquals(date.getValue(), component.getAutocomplete());
 		}
@@ -92,7 +92,7 @@ public class AutocompleteableDate_Test {
 		}
 
 		@Override
-		public void setAutocomplete(AutocompleteUtil.DATE_AUTOCOMPLETE dateType, String sectionName) {
+		public void setAutocomplete(AutocompleteUtil.DateAutocomplete dateType, String sectionName) {
 			if (dateType == null && Util.empty(sectionName)) {
 				autocomplete = null;
 				return;

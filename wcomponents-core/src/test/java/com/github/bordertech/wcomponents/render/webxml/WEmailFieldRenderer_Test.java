@@ -110,9 +110,9 @@ public class WEmailFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testAutocomplete() throws IOException, SAXException, XpathException {
 		WEmailField field = new WEmailField();
-		field.setAutocomplete(AutocompleteUtil.EMAIL_AUTOCOMPLETE.EMAIL);
+		field.setAutocomplete(AutocompleteUtil.EmailAutocomplete.EMAIL);
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo(AutocompleteUtil.EMAIL_AUTOCOMPLETE.EMAIL.getValue(), "//ui:emailfield/@autocomplete", field);
+		assertXpathEvaluatesTo(AutocompleteUtil.EmailAutocomplete.EMAIL.getValue(), "//ui:emailfield/@autocomplete", field);
 	}
 
 	@Test
