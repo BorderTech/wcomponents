@@ -486,12 +486,8 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 			clearAutocomplete();
 		}
 		final String strVal = value == null ? null : value.getValue();
-		String newVal;
-		if (Util.empty(sectionName)) {
-			newVal = strVal;
-		} else {
-			newVal = AutocompleteUtil.getCombinedForSection(sectionName, strVal);
-		}
+		String newVal = Util.empty(sectionName) ? strVal : AutocompleteUtil.getCombinedForSection(sectionName, strVal);
+
 		if (!Util.equals(getAutocomplete(), newVal)) {
 			getOrCreateComponentModel().autocomplete = newVal;
 		}
