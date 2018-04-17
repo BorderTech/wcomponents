@@ -241,7 +241,7 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 	}
 
 	@Override
-	public void setAutocomplete(AutocompleteUtil.EMAIL_AUTOCOMPLETE value, String sectionName) {
+	public void setAutocomplete(final AutocompleteUtil.EmailAutocomplete value, final String sectionName) {
 		if (value == null && Util.empty(sectionName)) {
 			clearAutocomplete();
 			return;
@@ -267,7 +267,7 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 	}
 
 	@Override
-	public void addAutocompleteSection(String sectionName) {
+	public void addAutocompleteSection(final String sectionName) {
 		if (Util.empty(sectionName)) {
 			throw new IllegalArgumentException("Auto-fill section names must not be empty.");
 		}

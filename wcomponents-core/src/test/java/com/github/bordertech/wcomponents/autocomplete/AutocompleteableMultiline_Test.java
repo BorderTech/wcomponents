@@ -19,7 +19,10 @@ import org.junit.Test;
  * JUnit tests of default methods of Interface {@link AutocompleteablePassword}.
  * @author Mark Reeves
  */
-public class AutocompleteablePassword_Test {
+public class AutocompleteableMultiline_Test {
+	private static String DEFAULT_VALUE = AutocompleteUtil.MultilineAutocomplete.STREET_ADDRESS.getValue();
+
+
 
 	/**
 	 * Meta test to improve confidence in other tests.
@@ -34,13 +37,41 @@ public class AutocompleteablePassword_Test {
 	}
 
 	@Test
-	public void testSetAutocompleteWithType() {
+	public void testSetAutocompleteTypeAndSection() {
 		MyAutocompleteable component = new MyAutocompleteable();
+		String sectionName = "foo";
 		String expected;
-		for (AutocompleteUtil.PasswordAutocomplete pword : AutocompleteUtil.PasswordAutocomplete.values()) {
-			expected = pword.getValue();
-			component.setAutocomplete(pword);
+		for (AutocompleteUtil.AddressAutocompleteType value : AutocompleteUtil.AddressAutocompleteType.values()) {
+			expected = AutocompleteUtil.getCombinedForSection(sectionName, value.getValue(), DEFAULT_VALUE);
+			component.setAutocomplete(value, sectionName);
 			Assert.assertEquals(expected, component.getAutocomplete());
+		}
+	}
+
+	@Test
+	public void testSetAutocompleteTypeAndNullSection() {
+		MyAutocompleteable component = new MyAutocompleteable();
+		for (AutocompleteUtil.AddressAutocompleteType value : AutocompleteUtil.AddressAutocompleteType.values()) {
+			component.setAutocomplete(value, null);
+			Assert.assertEquals(AutocompleteUtil.getCombinedAutocomplete(value.getValue(), DEFAULT_VALUE), component.getAutocomplete());
+		}
+	}
+
+	@Test
+	public void testSetAutocompleteTypeAndEmptySection() {
+		MyAutocompleteable component = new MyAutocompleteable();
+		for (AutocompleteUtil.AddressAutocompleteType value : AutocompleteUtil.AddressAutocompleteType.values()) {
+			component.setAutocomplete(value, "");
+			Assert.assertEquals(AutocompleteUtil.getCombinedAutocomplete(value.getValue(), DEFAULT_VALUE), component.getAutocomplete());
+		}
+	}
+
+	@Test
+	public void testSetAutocompleteType() {
+		MyAutocompleteable component = new MyAutocompleteable();
+		for (AutocompleteUtil.AddressAutocompleteType value : AutocompleteUtil.AddressAutocompleteType.values()) {
+			component.setAutocomplete(value);
+			Assert.assertEquals(AutocompleteUtil.getCombinedAutocomplete(value.getValue(), DEFAULT_VALUE), component.getAutocomplete());
 		}
 	}
 
@@ -48,32 +79,69 @@ public class AutocompleteablePassword_Test {
 	public void testSetAutocompleteWithNullType() {
 		MyAutocompleteable component = new MyAutocompleteable();
 		component.setAutocomplete(null);
-		Assert.assertNull(component.getAutocomplete());
+		Assert.assertEquals(DEFAULT_VALUE, component.getAutocomplete());
 	}
 
-	/**
-	 * Class used to test only the default methods in the interface.
-	 */
-	private class MyAutocompleteable implements AutocompleteablePassword {
+	@Test
+	public void testSetAutocompleteWithNullTypeNullSection() {
+		MyAutocompleteable component = new MyAutocompleteable();
+		component.setAutocomplete(null, null);
+		Assert.assertEquals(DEFAULT_VALUE, component.getAutocomplete());
+	}
+
+	@Test
+	public void testSetAutocompleteWithNullTypeEmptySection() {
+		MyAutocompleteable component = new MyAutocompleteable();
+		component.setAutocomplete(null, "");
+		Assert.assertEquals(DEFAULT_VALUE, component.getAutocomplete());
+	}
+
+	@Test
+	public void testSetStreetAddressAutocomplete() {
+		MyAutocompleteable component = new MyAutocompleteable();
+		component.setStreetAddressAutocomplete();
+		Assert.assertEquals(DEFAULT_VALUE, component.getAutocomplete());
+	}
+
+	@Test
+	public void testSetStreetAddressAutocompleteWithSection() {
+		String sectionName = "foo";
+		String expected = AutocompleteUtil.getCombinedForSection(sectionName, DEFAULT_VALUE);
+		MyAutocompleteable component = new MyAutocompleteable();
+		component.setStreetAddressAutocomplete(sectionName);
+		Assert.assertEquals(expected, component.getAutocomplete());
+	}
+
+	@Test
+	public void testSetStreetAddressAutocompleteWithNullSection() {
+		MyAutocompleteable component = new MyAutocompleteable();
+		component.setStreetAddressAutocomplete(null);
+		Assert.assertEquals(DEFAULT_VALUE, component.getAutocomplete());
+	}
+
+	@Test
+	public void testSetStreetAddressAutocompleteWithEmptySection() {
+		MyAutocompleteable component = new MyAutocompleteable();
+		component.setStreetAddressAutocomplete("");
+		Assert.assertEquals(DEFAULT_VALUE, component.getAutocomplete());
+	}
+
+	private class MyAutocompleteable implements AutocompleteableMultiline {
 
 		private String autocomplete;
 
+		public void setAutocompleteDirectly(final String val) {
+			autocomplete = val;
+		}
+
 		@Override
-		public void setAutocomplete(final AutocompleteUtil.PasswordAutocomplete passwordType, final String sectionName) {
-			if (passwordType == null && Util.empty(sectionName)) {
-				autocomplete = null;
-				return;
-			}
-			String typeVal = passwordType == null ? null : passwordType.getValue();
+		public void setAutocomplete(AutocompleteUtil.AddressAutocompleteType addressType, String sectionName) {
+			String typeVal = addressType == null ? DEFAULT_VALUE : AutocompleteUtil.getCombinedAutocomplete(addressType.getValue(), DEFAULT_VALUE);
 			if (Util.empty(sectionName)) {
 				autocomplete = typeVal;
 			} else {
 				autocomplete = AutocompleteUtil.getCombinedForSection(sectionName, typeVal);
 			}
-		}
-
-		public void setAutocompleteDirectly(final String val) {
-			autocomplete = val;
 		}
 
 		@Override
@@ -87,7 +155,7 @@ public class AutocompleteablePassword_Test {
 		}
 
 		@Override
-		public void addAutocompleteSection(final String sectionName) {
+		public void addAutocompleteSection(String sectionName) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -107,7 +175,7 @@ public class AutocompleteablePassword_Test {
 		}
 
 		@Override
-		public void setIdName(final String idName) {
+		public void setIdName(String idName) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -122,27 +190,27 @@ public class AutocompleteablePassword_Test {
 		}
 
 		@Override
-		public void serviceRequest(final Request request) {
+		public void serviceRequest(Request request) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void invokeLater(final Runnable runnable) {
+		public void invokeLater(Runnable runnable) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void handleRequest(final Request request) {
+		public void handleRequest(Request request) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void forward(final String url) {
+		public void forward(String url) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void preparePaint(final Request request) {
+		public void preparePaint(Request request) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -152,12 +220,12 @@ public class AutocompleteablePassword_Test {
 		}
 
 		@Override
-		public void validate(final List<Diagnostic> diags) {
+		public void validate(List<Diagnostic> diags) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void showErrorIndicators(final List<Diagnostic> diags) {
+		public void showErrorIndicators(List<Diagnostic> diags) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -167,7 +235,7 @@ public class AutocompleteablePassword_Test {
 		}
 
 		@Override
-		public void setLocked(final boolean lock) {
+		public void setLocked(boolean lock) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -182,7 +250,7 @@ public class AutocompleteablePassword_Test {
 		}
 
 		@Override
-		public void setInitialised(final boolean flag) {
+		public void setInitialised(boolean flag) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -202,7 +270,7 @@ public class AutocompleteablePassword_Test {
 		}
 
 		@Override
-		public void setVisible(final boolean visible) {
+		public void setVisible(boolean visible) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -257,7 +325,7 @@ public class AutocompleteablePassword_Test {
 		}
 
 		@Override
-		public void setTag(final String tag) {
+		public void setTag(String tag) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -267,7 +335,7 @@ public class AutocompleteablePassword_Test {
 		}
 
 		@Override
-		public void setEnvironment(final Environment environment) {
+		public void setEnvironment(Environment environment) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -282,22 +350,22 @@ public class AutocompleteablePassword_Test {
 		}
 
 		@Override
-		public void setAttribute(final String key, final Serializable value) {
+		public void setAttribute(String key, Serializable value) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public Serializable getAttribute(final String key) {
+		public Serializable getAttribute(String key) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public Serializable removeAttribute(final String key) {
+		public Serializable removeAttribute(String key) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void setToolTip(final String text, final Serializable... args) {
+		public void setToolTip(String text, Serializable... args) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -307,7 +375,7 @@ public class AutocompleteablePassword_Test {
 		}
 
 		@Override
-		public void setAccessibleText(final String text, final Serializable... args) {
+		public void setAccessibleText(String text, Serializable... args) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -317,7 +385,7 @@ public class AutocompleteablePassword_Test {
 		}
 
 		@Override
-		public void setTrackingEnabled(final boolean track) {
+		public void setTrackingEnabled(boolean track) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -332,22 +400,22 @@ public class AutocompleteablePassword_Test {
 		}
 
 		@Override
-		public void setHtmlClass(final String className) {
+		public void setHtmlClass(String className) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void setHtmlClass(final HtmlClassProperties className) {
+		public void setHtmlClass(HtmlClassProperties className) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void addHtmlClass(final String className) {
+		public void addHtmlClass(String className) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void addHtmlClass(final HtmlClassProperties className) {
+		public void addHtmlClass(HtmlClassProperties className) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -362,14 +430,15 @@ public class AutocompleteablePassword_Test {
 		}
 
 		@Override
-		public void removeHtmlClass(final String className) {
+		public void removeHtmlClass(String className) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void removeHtmlClass(final HtmlClassProperties className) {
+		public void removeHtmlClass(HtmlClassProperties className) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 	}
+
 
 }

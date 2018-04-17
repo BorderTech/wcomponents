@@ -63,16 +63,16 @@ public class WPasswordFieldExample extends WContainer {
 
 		// autocomplete
 		pwfield = new WPasswordField();
-		pwfield.setAutocomplete(AutocompleteUtil.PASSWORD_AUTOCOMPLETE.CURRENT);
+		pwfield.setAutocomplete(AutocompleteUtil.PasswordAutocomplete.CURRENT);
 		layout.addField("with autocomplete current", pwfield);
 		pwfield = new WPasswordField();
-		pwfield.setAutocomplete(AutocompleteUtil.PASSWORD_AUTOCOMPLETE.NEW);
+		pwfield.setAutocomplete(AutocompleteUtil.PasswordAutocomplete.NEW);
 		layout.addField("with autocomplete new", pwfield);
 		pwfield = new WPasswordField();
-		pwfield.setAutocomplete(AutocompleteUtil.PASSWORD_AUTOCOMPLETE.CURRENT, "anothersection");
+		pwfield.setAutocomplete(AutocompleteUtil.PasswordAutocomplete.CURRENT, "anothersection");
 		layout.addField("with autocomplete current in a section", pwfield);
 		pwfield = new WPasswordField();
-		pwfield.setAutocomplete(AutocompleteUtil.PASSWORD_AUTOCOMPLETE.NEW, "anothersection");
+		pwfield.setAutocomplete(AutocompleteUtil.PasswordAutocomplete.NEW, "anothersection");
 		layout.addField("with autocomplete new in a section", pwfield);
 		pwfield = new WPasswordField();
 		pwfield.setAutocompleteOff();

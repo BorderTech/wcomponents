@@ -54,7 +54,7 @@ public class WEmailFieldExample extends WContainer {
 		layout.addField("Max length 254", eField);
 
 		// autocomplete
-		for (AutocompleteUtil.EMAIL_AUTOCOMPLETE email : AutocompleteUtil.EMAIL_AUTOCOMPLETE.values()) {
+		for (AutocompleteUtil.EmailAutocomplete email : AutocompleteUtil.EmailAutocomplete.values()) {
 			eField = new WEmailField();
 			eField.setAutocomplete(email);
 			layout.addField("auto-fill hint set to ".concat(email.getValue()), eField);

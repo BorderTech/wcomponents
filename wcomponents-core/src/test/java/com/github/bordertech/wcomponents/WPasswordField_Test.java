@@ -274,7 +274,7 @@ public class WPasswordField_Test extends AbstractWComponentTestCase {
 		WPasswordField field = new WPasswordField();
 		String expected;
 
-		for (AutocompleteUtil.PASSWORD_AUTOCOMPLETE pword : AutocompleteUtil.PASSWORD_AUTOCOMPLETE.values()) {
+		for (AutocompleteUtil.PasswordAutocomplete pword : AutocompleteUtil.PasswordAutocomplete.values()) {
 			expected = pword.getValue();
 			field.setAutocomplete(pword);
 			Assert.assertEquals(expected, field.getAutocomplete());
@@ -287,7 +287,7 @@ public class WPasswordField_Test extends AbstractWComponentTestCase {
 		String expected;
 		String sectionName = "foo";
 
-		for (AutocompleteUtil.PASSWORD_AUTOCOMPLETE pword : AutocompleteUtil.PASSWORD_AUTOCOMPLETE.values()) {
+		for (AutocompleteUtil.PasswordAutocomplete pword : AutocompleteUtil.PasswordAutocomplete.values()) {
 			expected = AutocompleteUtil.getCombinedForSection(sectionName, pword.getValue());
 			field.setAutocomplete(pword, sectionName);
 			Assert.assertEquals(expected, field.getAutocomplete());
@@ -300,7 +300,7 @@ public class WPasswordField_Test extends AbstractWComponentTestCase {
 		String expected;
 		String sectionName = "";
 
-		for (AutocompleteUtil.PASSWORD_AUTOCOMPLETE pword : AutocompleteUtil.PASSWORD_AUTOCOMPLETE.values()) {
+		for (AutocompleteUtil.PasswordAutocomplete pword : AutocompleteUtil.PasswordAutocomplete.values()) {
 			expected = pword.getValue();
 			field.setAutocomplete(pword, sectionName);
 			Assert.assertEquals(expected, field.getAutocomplete());
@@ -313,7 +313,7 @@ public class WPasswordField_Test extends AbstractWComponentTestCase {
 		String expected;
 		String sectionName = null;
 
-		for (AutocompleteUtil.PASSWORD_AUTOCOMPLETE pword : AutocompleteUtil.PASSWORD_AUTOCOMPLETE.values()) {
+		for (AutocompleteUtil.PasswordAutocomplete pword : AutocompleteUtil.PasswordAutocomplete.values()) {
 			expected = pword.getValue();
 			field.setAutocomplete(pword, sectionName);
 			Assert.assertEquals(expected, field.getAutocomplete());
@@ -323,7 +323,7 @@ public class WPasswordField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testSetAutocompleteNullPasswordType() {
 		WPasswordField field = new WPasswordField();
-		field.setAutocomplete(AutocompleteUtil.PASSWORD_AUTOCOMPLETE.CURRENT);
+		field.setAutocomplete(AutocompleteUtil.PasswordAutocomplete.CURRENT);
 		Assert.assertNotNull(field.getAutocomplete());
 		field.setAutocomplete(null);
 		Assert.assertNull(field.getAutocomplete());
@@ -332,7 +332,7 @@ public class WPasswordField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testSetAutocompleteNullPasswordType_withSection() {
 		WPasswordField field = new WPasswordField();
-		field.setAutocomplete(AutocompleteUtil.PASSWORD_AUTOCOMPLETE.CURRENT, "foo");
+		field.setAutocomplete(AutocompleteUtil.PasswordAutocomplete.CURRENT, "foo");
 		Assert.assertNotNull(field.getAutocomplete());
 		field.setAutocomplete(null, "bar");
 		Assert.assertNull(field.getAutocomplete());
@@ -341,7 +341,7 @@ public class WPasswordField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testClearAutocomplete() {
 		WPasswordField field = new WPasswordField();
-		field.setAutocomplete(AutocompleteUtil.PASSWORD_AUTOCOMPLETE.CURRENT, "foo");
+		field.setAutocomplete(AutocompleteUtil.PasswordAutocomplete.CURRENT, "foo");
 		Assert.assertNotNull(field.getAutocomplete());
 		field.clearAutocomplete();
 		Assert.assertNull(field.getAutocomplete());
@@ -357,7 +357,7 @@ public class WPasswordField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testSetAutocompleteOff_afterSetting() {
 		WPasswordField field = new WPasswordField();
-		field.setAutocomplete(AutocompleteUtil.PASSWORD_AUTOCOMPLETE.CURRENT, "foo");
+		field.setAutocomplete(AutocompleteUtil.PasswordAutocomplete.CURRENT, "foo");
 		field.setAutocompleteOff();
 		Assert.assertEquals(AutocompleteUtil.OFF, field.getAutocomplete());
 	}
@@ -374,8 +374,8 @@ public class WPasswordField_Test extends AbstractWComponentTestCase {
 	public void testAddAutocompleteSectionAfterSetting() {
 		WPasswordField field = new WPasswordField();
 		String sectionName = "foo";
-		String expected = AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.PASSWORD_AUTOCOMPLETE.CURRENT.getValue());
-		field.setAutocomplete(AutocompleteUtil.PASSWORD_AUTOCOMPLETE.CURRENT);
+		String expected = AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.PasswordAutocomplete.CURRENT.getValue());
+		field.setAutocomplete(AutocompleteUtil.PasswordAutocomplete.CURRENT);
 		field.addAutocompleteSection(sectionName);
 		Assert.assertEquals(expected, field.getAutocomplete());
 	}
@@ -385,9 +385,9 @@ public class WPasswordField_Test extends AbstractWComponentTestCase {
 		WPasswordField field = new WPasswordField();
 		String sectionName = "foo";
 		String otherSectionName = "bar";
-		field.setAutocomplete(AutocompleteUtil.PASSWORD_AUTOCOMPLETE.CURRENT, otherSectionName);
+		field.setAutocomplete(AutocompleteUtil.PasswordAutocomplete.CURRENT, otherSectionName);
 		String expected = AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.getNamedSection(otherSectionName),
-				AutocompleteUtil.PASSWORD_AUTOCOMPLETE.CURRENT.getValue());
+				AutocompleteUtil.PasswordAutocomplete.CURRENT.getValue());
 		field.addAutocompleteSection(sectionName);
 		Assert.assertEquals(expected, field.getAutocomplete());
 	}

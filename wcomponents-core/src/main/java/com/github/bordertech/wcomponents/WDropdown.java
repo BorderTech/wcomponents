@@ -1,5 +1,9 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteableText;
+import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.util.Util;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +29,125 @@ import java.util.List;
  * @since 1.0.0
  */
 public class WDropdown extends AbstractWSingleSelectList implements AjaxTrigger, AjaxTarget,
-		SubordinateTrigger, SubordinateTarget {
+		SubordinateTrigger, SubordinateTarget, AutocompleteableText {
+
+	@Override
+	public String getAutocomplete() {
+		return getComponentModel().autocomplete;
+	}
+
+	@Override
+	public void setAutocomplete(final String autocompleteValue) {
+		final String newValue = Util.empty(autocompleteValue) ? null : autocompleteValue;
+		if (!Util.equals(newValue, getAutocomplete())) {
+			getOrCreateComponentModel().autocomplete = newValue;
+		}
+	}
+
+	@Override
+	public void setAutocompleteOff() {
+		if (!AutocompleteUtil.OFF.equalsIgnoreCase(getAutocomplete())) {
+			getOrCreateComponentModel().autocomplete = AutocompleteUtil.OFF;
+		}
+	}
+
+	@Override
+	public void addAutocompleteSection(final String sectionName) {
+		if (Util.empty(sectionName)) {
+			throw new IllegalArgumentException("Auto-fill section names must not be empty.");
+		}
+		String currentValue = getAutocomplete();
+		if (AutocompleteUtil.OFF.equalsIgnoreCase(currentValue)) {
+			throw new SystemException("Auto-fill sections cannot be applied to fields with autocomplete off.");
+		}
+		String newValue = AutocompleteUtil.getCombinedForSection(sectionName, currentValue);
+
+		if (!Util.equals(currentValue, newValue)) {
+			getOrCreateComponentModel().autocomplete = newValue;
+		}
+	}
+
+	@Override
+	public void clearAutocomplete() {
+		if (getAutocomplete() != null) {
+			getOrCreateComponentModel().autocomplete = null;
+		}
+	}
+
+
+	/**
+	 * does the work of converting the various types of autocomplete helper to the {@code autocomplete} attribute values.
+	 * @param value the value for the {@code autocomplete} attribute
+	 * @param sectionName a name of an auto-fill section being the string represented by the asterisk in {@code section-*}
+	 */
+	private void setAutocompleteHelper(final String value, final String sectionName) {
+		if (value == null && Util.empty(sectionName)) {
+			clearAutocomplete();
+			return;
+		}
+
+		final String current = getAutocomplete();
+		String newValue = Util.empty(sectionName)
+				? value
+				: AutocompleteUtil.getCombinedForSection(sectionName, value);
+
+		if (!Util.equals(current, newValue)) {
+			getOrCreateComponentModel().autocomplete = newValue;
+		}
+	}
+
+	@Override
+	public void setAutocomplete(final AutocompleteUtil.DateAutocomplete dateType, final String sectionName) {
+		final String strType = dateType == null ? null : dateType.getValue();
+		setAutocompleteHelper(strType, sectionName);
+	}
+
+	@Override
+	public void setAutocomplete(final AutocompleteUtil.EmailAutocomplete value, final String sectionName) {
+		final String strType = value == null ? null : value.getValue();
+		setAutocompleteHelper(strType, sectionName);
+	}
+
+	@Override
+	public void setAutocomplete(final AutocompleteUtil.NumericAutocomplete value, final String sectionName) {
+		final String strType = value == null ? null : value.getValue();
+		setAutocompleteHelper(strType, sectionName);
+	}
+
+	@Override
+	public void setAutocomplete(final AutocompleteUtil.PasswordAutocomplete passwordType, final String sectionName) {
+		final String strType = passwordType == null ? null : passwordType.getValue();
+		setAutocompleteHelper(strType, sectionName);
+	}
+
+	@Override
+	public void setAutocomplete(final AutocompleteUtil.TelephoneAutocompleteType phoneType, final AutocompleteUtil.TelephoneAutocomplete phone,
+			final String sectionName) {
+		if (phoneType == null && phone == null && Util.empty(sectionName)) {
+			clearAutocomplete();
+			return;
+		}
+
+		String newValue;
+		final String innerType = phoneType == null ? null : phoneType.getValue();
+		final AutocompleteUtil.TelephoneAutocomplete innerPhone = phone == null ? AutocompleteUtil.TelephoneAutocomplete.FULL : phone;
+
+		if (Util.empty(sectionName)) {
+			newValue = AutocompleteUtil.getCombinedAutocomplete(innerType, innerPhone.getValue());
+		} else {
+			newValue = AutocompleteUtil.getCombinedForSection(sectionName, innerType, innerPhone.getValue());
+		}
+
+		if (!Util.equals(getAutocomplete(), newValue)) {
+			getOrCreateComponentModel().autocomplete = newValue;
+		}
+	}
+
+	@Override
+	public void setAutocomplete(final AutocompleteUtil.UrlAutocomplete value, final String sectionName) {
+		final String strType = value == null ? null : value.getValue();
+		setAutocompleteHelper(strType, sectionName);
+	}
 
 	/**
 	 * The type of drop down.
@@ -188,6 +310,11 @@ public class WDropdown extends AbstractWSingleSelectList implements AjaxTrigger,
 		 * The option width.
 		 */
 		private int optionWidth;
+
+		/**
+		 * The auto-fill hint for the field.
+		 */
+		private String autocomplete;
 
 		/**
 		 * @param type the drop down type.

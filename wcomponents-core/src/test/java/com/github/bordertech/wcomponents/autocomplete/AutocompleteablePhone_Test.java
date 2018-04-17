@@ -28,7 +28,7 @@ public class AutocompleteablePhone_Test {
 	 * @return the value "tel"
 	 */
 	private String getDefaultTel() {
-		return AutocompleteUtil.TELEPHONE_AUTOCOMPLETE.FULL.getValue();
+		return AutocompleteUtil.TelephoneAutocomplete.FULL.getValue();
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class AutocompleteablePhone_Test {
 		MyAutocompleteable component = new MyAutocompleteable();
 		String expected;
 
-		for (AutocompleteUtil.TELEPHONE_TYPE phoneType : AutocompleteUtil.TELEPHONE_TYPE.values()) {
+		for (AutocompleteUtil.TelephoneAutocompleteType phoneType : AutocompleteUtil.TelephoneAutocompleteType.values()) {
 			expected = AutocompleteUtil.getCombinedForSection(TEST_SECTION_NAME, phoneType.getValue(), getDefaultTel());
 			component.setAutocomplete(phoneType, TEST_SECTION_NAME);
 			Assert.assertEquals(expected, component.getAutocomplete());
@@ -69,7 +69,7 @@ public class AutocompleteablePhone_Test {
 		MyAutocompleteable component = new MyAutocompleteable();
 		String expected;
 
-		for (AutocompleteUtil.TELEPHONE_TYPE phoneType : AutocompleteUtil.TELEPHONE_TYPE.values()) {
+		for (AutocompleteUtil.TelephoneAutocompleteType phoneType : AutocompleteUtil.TelephoneAutocompleteType.values()) {
 			expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(), getDefaultTel());
 			component.setAutocomplete(phoneType, "");
 			Assert.assertEquals(expected, component.getAutocomplete());
@@ -81,9 +81,9 @@ public class AutocompleteablePhone_Test {
 		MyAutocompleteable component = new MyAutocompleteable();
 		String expected;
 
-		for (AutocompleteUtil.TELEPHONE_TYPE phoneType : AutocompleteUtil.TELEPHONE_TYPE.values()) {
+		for (AutocompleteUtil.TelephoneAutocompleteType phoneType : AutocompleteUtil.TelephoneAutocompleteType.values()) {
 			expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(), getDefaultTel());
-			component.setAutocomplete(phoneType, null);
+			component.setAutocomplete(phoneType, (String)null);
 			Assert.assertEquals(expected, component.getAutocomplete());
 		}
 	}
@@ -101,7 +101,7 @@ public class AutocompleteablePhone_Test {
 		MyAutocompleteable component = new MyAutocompleteable();
 		String expected;
 
-		for (AutocompleteUtil.TELEPHONE_TYPE phoneType : AutocompleteUtil.TELEPHONE_TYPE.values()) {
+		for (AutocompleteUtil.TelephoneAutocompleteType phoneType : AutocompleteUtil.TelephoneAutocompleteType.values()) {
 			expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(), getDefaultTel());
 			component.setAutocomplete(phoneType);
 			Assert.assertEquals(expected, component.getAutocomplete());
@@ -111,8 +111,24 @@ public class AutocompleteablePhone_Test {
 	@Test
 	public void testDefaultSetAutocomplete_withNullType() {
 		MyAutocompleteable component = new MyAutocompleteable();
-		component.setAutocomplete(null);
+		component.setAutocomplete((AutocompleteUtil.TelephoneAutocompleteType)null);
 		Assert.assertEquals(getDefaultTel(), component.getAutocomplete());
+	}
+
+	@Test
+	public void testDefaultSetAutocomplete_onlyPhone() {
+		MyAutocompleteable component = new MyAutocompleteable();
+		for (AutocompleteUtil.TelephoneAutocomplete phone : AutocompleteUtil.TelephoneAutocomplete.values()) {
+			component.setAutocomplete(phone);
+			Assert.assertEquals(phone.getValue(), component.getAutocomplete());
+		}
+	}
+
+	@Test
+	public void testDefaultSetAutocomplete_onlyNullPhone() {
+		MyAutocompleteable component = new MyAutocompleteable();
+		component.setAutocomplete((AutocompleteUtil.TelephoneAutocomplete)null);
+		Assert.assertNull(component.getAutocomplete());
 	}
 
 	@Test
@@ -123,13 +139,27 @@ public class AutocompleteablePhone_Test {
 	}
 
 	@Test
+	public void testSetAutocompleteTypeFormat() {
+		MyAutocompleteable component = new MyAutocompleteable();
+		String expected;
+
+		for (AutocompleteUtil.TelephoneAutocompleteType phoneType : AutocompleteUtil.TelephoneAutocompleteType.values()) {
+			for (AutocompleteUtil.TelephoneAutocomplete phone : AutocompleteUtil.TelephoneAutocomplete.values()) {
+				expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(), phone.getValue());
+				component.setAutocomplete(phoneType, phone);
+				Assert.assertEquals(expected, component.getAutocomplete());
+			}
+		}
+	}
+
+	@Test
 	public void testDefaultSetLocalPhoneAutocomplete_withType() {
 		MyAutocompleteable component = new MyAutocompleteable();
 		String expected;
 
-		for (AutocompleteUtil.TELEPHONE_TYPE phoneType : AutocompleteUtil.TELEPHONE_TYPE.values()) {
+		for (AutocompleteUtil.TelephoneAutocompleteType phoneType : AutocompleteUtil.TelephoneAutocompleteType.values()) {
 			expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(),
-					AutocompleteUtil.TELEPHONE_AUTOCOMPLETE.LOCAL.getValue());
+					AutocompleteUtil.TelephoneAutocomplete.LOCAL.getValue());
 			component.setLocalPhoneAutocomplete(phoneType);
 			Assert.assertEquals(expected, component.getAutocomplete());
 		}
@@ -139,14 +169,14 @@ public class AutocompleteablePhone_Test {
 	public void testDefaultSetLocalPhoneAutocomplete_withNullType() {
 		MyAutocompleteable component = new MyAutocompleteable();
 		component.setLocalPhoneAutocomplete(null);
-		Assert.assertEquals(AutocompleteUtil.TELEPHONE_AUTOCOMPLETE.LOCAL.getValue(), component.getAutocomplete());
+		Assert.assertEquals(AutocompleteUtil.TelephoneAutocomplete.LOCAL.getValue(), component.getAutocomplete());
 	}
 
 	@Test
 	public void testDefaultSetLocalPhoneAutocomplete() {
 		MyAutocompleteable component = new MyAutocompleteable();
 		component.setLocalPhoneAutocomplete();
-		Assert.assertEquals(AutocompleteUtil.TELEPHONE_AUTOCOMPLETE.LOCAL.getValue(), component.getAutocomplete());
+		Assert.assertEquals(AutocompleteUtil.TelephoneAutocomplete.LOCAL.getValue(), component.getAutocomplete());
 	}
 
 
@@ -163,7 +193,8 @@ public class AutocompleteablePhone_Test {
 		 *    java.lang.String) for a real implementation.
 		*/
 		@Override
-		public void setAutocomplete(AutocompleteUtil.TELEPHONE_TYPE phoneType, AutocompleteUtil.TELEPHONE_AUTOCOMPLETE phone, String sectionName) {
+		public void setAutocomplete(final AutocompleteUtil.TelephoneAutocompleteType phoneType, final AutocompleteUtil.TelephoneAutocomplete phone,
+				final String sectionName) {
 			if (phoneType == null && phone == null && Util.empty(sectionName)) {
 				autocomplete = null;
 				return;

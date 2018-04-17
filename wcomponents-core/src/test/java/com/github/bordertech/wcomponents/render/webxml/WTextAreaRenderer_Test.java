@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WTextArea;
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -47,6 +48,7 @@ public class WTextAreaRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//ui:textarea/@rows", field);
 		assertXpathNotExists("//ui:textarea/@cols", field);
 		assertXpathNotExists("//ui:textarea/ui:rtf", field);
+		assertXpathNotExists("//ui:textarea/ui:autocomplete", field);
 
 		field.setDisabled(true);
 		assertSchemaMatch(field);
@@ -113,6 +115,15 @@ public class WTextAreaRenderer_Test extends AbstractWebXmlRendererTestCase {
 		field.setPlaceholder("enter stuff here");
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo("enter stuff here", "//ui:textarea/@placeholder", field);
+
+
+		field.setAutocomplete(AutocompleteUtil.AddressAutocompleteType.BILLING);
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo(field.getAutocomplete(), "//ui:textarea/@autocomplete", field);
+
+		field.setAutocompleteOff();
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo(AutocompleteUtil.OFF, "//ui:textarea/@autocomplete", field);
 	}
 
 	@Test

@@ -25,7 +25,7 @@ public class AutocompleteableNumeric_Test {
 	public void testSetAutocomplete() {
 		MyNumeric component = new MyNumeric();
 		String expected;
-		for (AutocompleteUtil.NUMERIC_AUTOCOMPLETE value : AutocompleteUtil.NUMERIC_AUTOCOMPLETE.values()) {
+		for (AutocompleteUtil.NumericAutocomplete value : AutocompleteUtil.NumericAutocomplete.values()) {
 			expected = value.getValue();
 			component.setAutocomplete(value);
 			Assert.assertEquals(expected, component.getAutocomplete());
@@ -44,7 +44,7 @@ public class AutocompleteableNumeric_Test {
 		private String autocomplete;
 
 		@Override
-		public void setAutocomplete(AutocompleteUtil.NUMERIC_AUTOCOMPLETE value, String sectionName) {
+		public void setAutocomplete(AutocompleteUtil.NumericAutocomplete value, String sectionName) {
 			if (value == null && Util.empty(sectionName)) {
 				autocomplete = null;
 			}

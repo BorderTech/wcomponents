@@ -274,7 +274,7 @@ public class WEmailField_Test extends AbstractWComponentTestCase {
 	}
 
 	// AUTOCOMPLETE
-	private static final String DEFAULT_VALUE = AutocompleteUtil.EMAIL_AUTOCOMPLETE.EMAIL.getValue();
+	private static final String DEFAULT_VALUE = AutocompleteUtil.EmailAutocomplete.EMAIL.getValue();
 
 	@Test
 	public void testDefaultAutocomplete() {
@@ -285,7 +285,7 @@ public class WEmailField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testSetAutocomplete() {
 		WEmailField field = new WEmailField();
-		for (AutocompleteUtil.EMAIL_AUTOCOMPLETE email : AutocompleteUtil.EMAIL_AUTOCOMPLETE.values()) {
+		for (AutocompleteUtil.EmailAutocomplete email : AutocompleteUtil.EmailAutocomplete.values()) {
 			field.setAutocomplete(email);
 			Assert.assertEquals(email.getValue(), field.getAutocomplete());
 		}
@@ -334,7 +334,7 @@ public class WEmailField_Test extends AbstractWComponentTestCase {
 		final String sectionName = "foo";
 		String expected;
 
-		for (AutocompleteUtil.EMAIL_AUTOCOMPLETE email : AutocompleteUtil.EMAIL_AUTOCOMPLETE.values()) {
+		for (AutocompleteUtil.EmailAutocomplete email : AutocompleteUtil.EmailAutocomplete.values()) {
 			expected = AutocompleteUtil.getCombinedForSection(sectionName, email.getValue());
 			field.setAutocomplete(email, sectionName);
 			Assert.assertEquals(expected, field.getAutocomplete());
@@ -345,7 +345,7 @@ public class WEmailField_Test extends AbstractWComponentTestCase {
 	public void testSetAutocompleteTypeAndEmptySection() {
 		WEmailField field = new WEmailField();
 
-		for (AutocompleteUtil.EMAIL_AUTOCOMPLETE email : AutocompleteUtil.EMAIL_AUTOCOMPLETE.values()) {
+		for (AutocompleteUtil.EmailAutocomplete email : AutocompleteUtil.EmailAutocomplete.values()) {
 			field.setAutocomplete(email, "");
 			Assert.assertEquals(email.getValue(), field.getAutocomplete());
 		}
@@ -355,7 +355,7 @@ public class WEmailField_Test extends AbstractWComponentTestCase {
 	public void testSetAutocompleteTypeAndNullSection() {
 		WEmailField field = new WEmailField();
 
-		for (AutocompleteUtil.EMAIL_AUTOCOMPLETE email : AutocompleteUtil.EMAIL_AUTOCOMPLETE.values()) {
+		for (AutocompleteUtil.EmailAutocomplete email : AutocompleteUtil.EmailAutocomplete.values()) {
 			field.setAutocomplete(email, null);
 			Assert.assertEquals(email.getValue(), field.getAutocomplete());
 		}

@@ -371,7 +371,7 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	}
 
 	@Override
-	public void setAutocomplete(final AutocompleteUtil.DATE_AUTOCOMPLETE dateType, final String sectionName) {
+	public void setAutocomplete(final AutocompleteUtil.DateAutocomplete dateType, final String sectionName) {
 		if (dateType == null && Util.empty(sectionName)) {
 			clearAutocomplete();
 			return;
@@ -399,7 +399,7 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	}
 
 	@Override
-	public void addAutocompleteSection(String sectionName) {
+	public void addAutocompleteSection(final String sectionName) {
 		if (Util.empty(sectionName)) {
 			throw new IllegalArgumentException("Auto-fill section names must not be empty.");
 		}
@@ -409,7 +409,7 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 		}
 
 		String newValue = currentValue == null
-				? AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.DATE_AUTOCOMPLETE.BIRTHDAY.getValue())
+				? AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.DateAutocomplete.BIRTHDAY.getValue())
 				: AutocompleteUtil.getCombinedForSection(sectionName, currentValue);
 
 		if (!Util.equals(currentValue, newValue)) {

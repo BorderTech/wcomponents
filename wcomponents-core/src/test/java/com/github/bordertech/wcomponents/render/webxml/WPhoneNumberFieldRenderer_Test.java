@@ -127,7 +127,7 @@ public class WPhoneNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 		WPhoneNumberField field = new WPhoneNumberField();
 		WContainer root = new WContainer();
 		root.add(field);
-		field.setAutocomplete(AutocompleteUtil.TELEPHONE_TYPE.MOBILE);
+		field.setAutocomplete(AutocompleteUtil.TelephoneAutocompleteType.MOBILE);
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo(field.getAutocomplete(), "//ui:phonenumberfield/@autocomplete", field);
 	}
@@ -147,7 +147,7 @@ public class WPhoneNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 		WPhoneNumberField field = new WPhoneNumberField();
 		WContainer root = new WContainer();
 		root.add(field);
-		field.setAutocomplete(AutocompleteUtil.TELEPHONE_TYPE.MOBILE, AutocompleteUtil.TELEPHONE_AUTOCOMPLETE.LOCAL, "foo");
+		field.setAutocomplete(AutocompleteUtil.TelephoneAutocompleteType.MOBILE, AutocompleteUtil.TelephoneAutocomplete.LOCAL, "foo");
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo(field.getAutocomplete(), "//ui:phonenumberfield/@autocomplete", field);
 	}

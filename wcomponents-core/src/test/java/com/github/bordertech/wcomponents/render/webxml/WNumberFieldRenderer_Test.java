@@ -114,7 +114,7 @@ public class WNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	public void testSetAutocomplete() throws IOException, SAXException, XpathException {
 		WNumberField field = new WNumberField();
 
-		for (AutocompleteUtil.NUMERIC_AUTOCOMPLETE number : AutocompleteUtil.NUMERIC_AUTOCOMPLETE.values()) {
+		for (AutocompleteUtil.NumericAutocomplete number : AutocompleteUtil.NumericAutocomplete.values()) {
 			field.setAutocomplete(number);
 			assertSchemaMatch(field);
 			assertXpathEvaluatesTo(number.getValue(), "//ui:numberfield/@autocomplete", field);

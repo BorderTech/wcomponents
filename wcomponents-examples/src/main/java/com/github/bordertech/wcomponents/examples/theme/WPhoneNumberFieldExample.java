@@ -58,7 +58,7 @@ public class WPhoneNumberFieldExample extends WContainer {
 		layout.addField("With autocomplete off", field);
 
 		field = new WPhoneNumberField();
-		field.setAutocomplete(AutocompleteUtil.TELEPHONE_TYPE.MOBILE);
+		field.setAutocomplete(AutocompleteUtil.TelephoneAutocompleteType.MOBILE);
 		layout.addField("With mobile autocomplete", field);
 
 		field = new WPhoneNumberField();
@@ -66,11 +66,11 @@ public class WPhoneNumberFieldExample extends WContainer {
 		layout.addField("With autocomplete for section foo", field);
 
 		field = new WPhoneNumberField();
-		field.setAutocomplete(AutocompleteUtil.TELEPHONE_TYPE.MOBILE, "foo");
+		field.setAutocomplete(AutocompleteUtil.TelephoneAutocompleteType.MOBILE, "foo");
 		layout.addField("With mobile autocomplete for section foo", field);
 
 		field = new WPhoneNumberField();
-		field.setAutocomplete(AutocompleteUtil.TELEPHONE_TYPE.MOBILE, AutocompleteUtil.TELEPHONE_AUTOCOMPLETE.LOCAL, "foo");
+		field.setAutocomplete(AutocompleteUtil.TelephoneAutocompleteType.MOBILE, AutocompleteUtil.TelephoneAutocomplete.LOCAL, "foo");
 		layout.addField("With (local) mobile autocomplete for section foo", field);
 
 		field = new WPhoneNumberField();
@@ -78,7 +78,7 @@ public class WPhoneNumberFieldExample extends WContainer {
 		layout.addField("With (local) autocomplete", field);
 
 		field = new WPhoneNumberField();
-		field.setLocalPhoneAutocomplete(AutocompleteUtil.TELEPHONE_TYPE.MOBILE);
+		field.setLocalPhoneAutocomplete(AutocompleteUtil.TelephoneAutocompleteType.MOBILE);
 		layout.addField("With (local) mobile phone autocomplete", field);
 
 		add(new ExplanatoryText(

@@ -14,13 +14,13 @@ public interface AutocompleteablePassword extends Autocompleteable {
 	 * @param passwordType the type of password field to auto-fill
 	 * @param sectionName the name of the auto-fill section.
 	 */
-	void setAutocomplete(final AutocompleteUtil.PASSWORD_AUTOCOMPLETE passwordType, final String sectionName);
+	void setAutocomplete(final AutocompleteUtil.PasswordAutocomplete passwordType, final String sectionName);
 
 	/**
 	 * Set the {@code autocomplete} attribute of a password field to a given password auto-fill hint type.
 	 * @param passwordType the type of password field to auto-fill
 	 */
-	public default void setAutocomplete(final AutocompleteUtil.PASSWORD_AUTOCOMPLETE passwordType) {
+	default void setAutocomplete(final AutocompleteUtil.PasswordAutocomplete passwordType) {
 		setAutocomplete(passwordType, null);
 	}
 }
