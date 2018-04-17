@@ -456,10 +456,8 @@ public class WDropdown_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testSetAutocompleteNullPasswordType_withSection_withPassword() {
 		WDropdown field = new WDropdown();
-		field.setAutocomplete(AutocompleteUtil.PasswordAutocomplete.CURRENT, "foo");
-		Assert.assertNotNull(field.getAutocomplete());
 		field.setAutocomplete((AutocompleteUtil.PasswordAutocomplete)null, "bar");
-		Assert.assertNull(field.getAutocomplete());
+		Assert.assertEquals(AutocompleteUtil.getNamedSection("bar"), field.getAutocomplete());
 	}
 
 	// phone number autocomplete
@@ -723,9 +721,7 @@ public class WDropdown_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testSetAutocompleteNullUrlType_withSection() {
 		WDropdown field = new WDropdown();
-		field.setAutocomplete(AutocompleteUtil.UrlAutocomplete.URL, "foo");
-		Assert.assertNotNull(field.getAutocomplete());
 		field.setAutocomplete((AutocompleteUtil.UrlAutocomplete)null, "bar");
-		Assert.assertNull(field.getAutocomplete());
+		Assert.assertEquals(AutocompleteUtil.getNamedSection("bar"), field.getAutocomplete());
 	}
 }
