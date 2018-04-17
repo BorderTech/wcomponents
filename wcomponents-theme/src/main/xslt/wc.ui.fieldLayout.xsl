@@ -15,7 +15,7 @@
 				<xsl:text> wc_ordered</xsl:text>
 			</xsl:if>
 			<xsl:if test="@layout">
-				<xsl:value-of select="concat(' wc-fieldlayout-layout-', @layout)"/>
+				<xsl:value-of select="concat(' wc-layout-', @layout)"/>
 			</xsl:if>
 		</xsl:variable>
 		<!-- yes, I know the role is superfluous -->
