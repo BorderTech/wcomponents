@@ -84,6 +84,9 @@
 		<xsl:variable name="id" select="$mdd/@id"/>
 		<xsl:variable name="selectId" select="concat($id, generate-id(), '-', position())"/>
 		<li>
+			<label for="{$selectId}" class="wc-off">
+				<xsl:text>{{#i18n}}mfc_option{{/i18n}}</xsl:text>
+			</label>
 			<select id="{$selectId}" name="{$id}">
 				<xsl:if test="$mdd/@submitOnChange">
 					<xsl:attribute name="class">
@@ -100,11 +103,6 @@
 						<xsl:value-of select="$mdd/@data"/>
 					</xsl:attribute>
 				</xsl:if>
-				<!--<xsl:if test="$mdd/@autocomplete">
-					<xsl:attribute name="autocomplete">
-						<xsl:value-of select="$mdd/@autocomplete"/>
-					</xsl:attribute>
-				</xsl:if>-->
 				<xsl:apply-templates mode="mfcInList" select="$mdd/*">
 					<xsl:with-param name="selectedOption" select="."/>
 				</xsl:apply-templates>

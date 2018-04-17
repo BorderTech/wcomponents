@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-19 08:10+1100\n"
+"POT-Creation-Date: 2018-04-17 10:40+1000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1210,6 +1210,12 @@ msgstr ""
 #, java-format
 msgctxt "mfc_option"
 msgid "select an option"
+msgstr ""
+
+#: mfc_value
+#, java-format
+msgctxt "mfc_value"
+msgid "add a value"
 msgstr ""
 
 #. # Select Pair Messages ##
