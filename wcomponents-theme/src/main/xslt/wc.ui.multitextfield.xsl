@@ -66,6 +66,10 @@
 					</xsl:when>
 					<xsl:otherwise>
 						<li>
+							<xsl:variable name="inputId" select="concat(@id, generate-id())"/>
+							<label for="{$inputId}" class="wc-off">
+								<xsl:text>{{#i18n}}mfc_value{{/i18n}}</xsl:text>
+							</label>
 							<xsl:element name="input">
 								<xsl:attribute name="type">
 									<xsl:text>text</xsl:text>
@@ -74,10 +78,7 @@
 									<xsl:value-of select="@id"/>
 								</xsl:attribute>
 								<xsl:attribute name="id">
-									<xsl:value-of select="concat(@id, generate-id())"/>
-									<xsl:if test="self::ui:value">
-										<xsl:value-of select="concat('-', position())"/>
-									</xsl:if>
+									<xsl:value-of select="$inputId"/>
 								</xsl:attribute>
 								<xsl:if test="@size">
 									<xsl:attribute name="size">
@@ -104,11 +105,6 @@
 										<xsl:value-of select="@placeholder"/>
 									</xsl:attribute>
 								</xsl:if>
-								<!--<xsl:if test="@autocomplete">
-									<xsl:attribute name="autocomplete">
-										<xsl:value-of select="@autocomplete"/>
-									</xsl:attribute>
-								</xsl:if>-->
 								<xsl:if test="@disabled">
 									<xsl:attribute name="disabled">
 										<xsl:text>disabled</xsl:text>
@@ -136,11 +132,14 @@
 
 	<!-- Transforms for each value in a multiTextField. -->
 	<xsl:template match="ui:value">
-		<li>
+		<li class="wc-value">
 			<xsl:variable name="fieldId">
 				<xsl:value-of select="../@id"/>
 			</xsl:variable>
 			<xsl:variable name="inputId" select="concat($fieldId, generate-id(), '-', position())"/>
+			<label for="{$inputId}" class="wc-off">
+				<xsl:text>{{#i18n}}mfc_value{{/i18n}}</xsl:text>
+			</label>
 			<xsl:element name="input">
 				<xsl:attribute name="type">
 					<xsl:text>text</xsl:text>
@@ -176,11 +175,6 @@
 						<xsl:value-of select="../@placeholder"/>
 					</xsl:attribute>
 				</xsl:if>
-				<!--<xsl:if test="../@autocomplete">
-					<xsl:attribute name="autocomplete">
-						<xsl:value-of select="../@autocomplete"/>
-					</xsl:attribute>
-				</xsl:if>-->
 				<xsl:if test="../@disabled">
 					<xsl:attribute name="disabled">
 						<xsl:text>disabled</xsl:text>
