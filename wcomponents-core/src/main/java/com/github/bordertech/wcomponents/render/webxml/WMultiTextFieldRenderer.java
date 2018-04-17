@@ -59,7 +59,7 @@ class WMultiTextFieldRenderer extends AbstractWebXmlRenderer {
 			// NOTE: do not use HtmlRenderUtil.getEffectivePlaceholder for placeholder - we do not want to echo "required" in every field.
 			String placeholder = textField.getPlaceholder();
 			xml.appendOptionalAttribute("placeholder", !Util.empty(placeholder), placeholder);
-			xml.appendOptionalAttribute("title", I18nUtilities.format(null, InternalMessages.DEFAULT_MULTI_FORM_COMPONENT_TIP));
+			xml.appendOptionalAttribute("title", I18nUtilities.format(null, InternalMessages.DEFAULT_MULTITEXTFIELD_TIP));
 		}
 		xml.appendClose();
 

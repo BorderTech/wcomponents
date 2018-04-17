@@ -85,7 +85,7 @@
 		<xsl:variable name="selectId" select="concat($id, generate-id(), '-', position())"/>
 		<li>
 			<label for="{$selectId}" class="wc-off">
-				<xsl:text>{{#i18n}}mfc_option{{/i18n}}</xsl:text>
+				<xsl:value-of select="@title"/>
 			</label>
 			<select id="{$selectId}" name="{$id}">
 				<xsl:if test="$mdd/@submitOnChange">
