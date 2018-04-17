@@ -22,7 +22,6 @@
 		<npm.registry.url>https://registry.npmjs.org/</npm.registry.url>
 		<node.download.root>http://nodejs.org/dist/</node.download.root>
 		<npm.download.root>http://registry.npmjs.org/npm/-/</npm.download.root>
-		<!--<node.sass.download.root>https://github.com/sass/node-sass/releases/download</node.sass.download.root>-->
 		<phantomjs.download.root>https://repo1.maven.org/maven2/com/github/klieber/phantomjs/2.0.0</phantomjs.download.root>
 		<theme.dir>${basedir}</theme.dir>
 		<theme.default.name>wcomponents-theme</theme.default.name>
@@ -55,7 +54,6 @@
 		Issue raised with intern. https://github.com/theintern/intern/issues/744.
 		-->
 		<test.intern.version>3.4.4</test.intern.version><!-- intern version: use ~3.4.3 for nexus 3+, ~3.0.6 if you are stuck with Nexus 2 -->
-		<sass.compiler.lang>js</sass.compiler.lang><!-- "js" to use node to compile sass or "java" to use Vaadin Sass Compiler -->
 		<rjs.log.level>2</rjs.log.level><!-- Log level for r.js used to optimize JavaScript -->
 	</properties>
 
@@ -205,7 +203,6 @@
 								<property name="build.rootdir" location="${theme.target.dir}" />
 								<property name="theme.skip.tests" value="true" />
 								<property name="maven.plugin.classpath" refid="maven.plugin.classpath" />
-								<property name="sass.compiler.lang" value="${sass.compiler.lang}" />
 								<property name="rjs.log.level" value="${rjs.log.level}" />
 								<ant antfile="${theme.core.dir}/build.xml">
 									<target name="build" />
@@ -232,7 +229,6 @@
 								<property name="build.rootdir" location="${theme.target.dir}" />
 								<property name="theme.skip.tests" value="${skipOptionalTests}" />
 								<property name="maven.plugin.classpath" refid="maven.plugin.classpath" />
-								<property name="sass.compiler.lang" value="${sass.compiler.lang}" />
 								<property name="rjs.log.level" value="${rjs.log.level}" />
 								<ant antfile="${theme.core.dir}/build.xml">
 									<target name="test" />
@@ -258,7 +254,6 @@
 								<property name="build.rootdir" location="${theme.target.dir}" />
 								<property name="theme.skip.tests" value="true" />
 								<property name="maven.plugin.classpath" refid="maven.plugin.classpath" />
-								<property name="sass.compiler.lang" value="${sass.compiler.lang}" />
 								<property name="rjs.log.level" value="4" />
 								<ant antfile="${theme.core.dir}/build.xml">
 									<target name="document" />
@@ -277,11 +272,6 @@
 						<version>0.9</version>
 					</dependency>
 					<dependency>
-						<groupId>com.github.bordertech.wcomponents</groupId>
-						<artifactId>wcomponents-sass-compiler</artifactId>
-						<version>1.0.0</version>
-					</dependency>
-					<dependency>
 						<groupId>commons-io</groupId>
 						<artifactId>commons-io</artifactId>
 						<version>1.4</version>
@@ -291,30 +281,10 @@
 						<artifactId>commons-codec</artifactId>
 						<version>1.4</version>
 					</dependency>
-					<!--					<dependency>
-						<groupId>rhino</groupId>
-						<artifactId>js</artifactId>
-						<version>1.7R2</version>
-					</dependency>-->
 					<dependency>
 						<groupId>net.sf.saxon</groupId>
 						<artifactId>Saxon-HE</artifactId>
 						<version>9.6.0-7</version>
-					</dependency>
-					<!--					<dependency>
-						<groupId>com.google.javascript</groupId>
-						<artifactId>closure-compiler</artifactId>
-						<version>v20130603</version>
-					</dependency>-->
-					<!--					<dependency>
-						<groupId>com.googlecode.jgenhtml</groupId>
-						<artifactId>jgenhtml</artifactId>
-						<version>1.5</version>
-					</dependency>-->
-					<dependency>
-						<groupId>com.github.ricksbrown</groupId>
-						<artifactId>xslmin</artifactId>
-						<version>2.3.0</version>
 					</dependency>
 				</dependencies>
 			</plugin>

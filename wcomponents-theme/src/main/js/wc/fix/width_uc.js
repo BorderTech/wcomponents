@@ -24,6 +24,7 @@ define([
 
 		/**
 		 * @module
+		 * @ignore
 		 *
 		 * UC Browser has trouble with width, min-width and max-width calculations. This fix
 		 * sets a pixel width on the FORM element (WApplication) which alleviates some of these

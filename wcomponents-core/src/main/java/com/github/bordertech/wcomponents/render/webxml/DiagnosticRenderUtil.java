@@ -6,6 +6,7 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Utility to render inline diagnostic messages.
@@ -39,6 +40,10 @@ public final class DiagnosticRenderUtil {
 				return "error";
 			case Diagnostic.WARNING:
 				return "warn";
+			case Diagnostic.INFO:
+				return "info";
+			case Diagnostic.SUCCESS:
+				return "success";
 			default:
 				throw new SystemException("Unexpected diagnostic severity");
 		}
@@ -47,19 +52,25 @@ public final class DiagnosticRenderUtil {
 	/**
 	 * Render the diagnostics.
 	 * @param renderContext the current renderContext
+	 * @param component the component being rendered
 	 * @param diags the list of Diagnostic objects
 	 * @param severity the severity we are rendering
 	 */
-	private static void renderHelper(final WebXmlRenderContext renderContext, final List<Diagnostic> diags, final int severity) {
+	private static void renderHelper(final WebXmlRenderContext renderContext,
+			final Diagnosable component,
+			final List<Diagnostic> diags,
+			final int severity) {
 		if (diags.isEmpty()) {
 			return;
 		}
 
 		XmlStringBuilder xml = renderContext.getWriter();
-		xml.appendTagOpen(TAG_NAME);
-		xml.appendAttribute("type", getLevel(severity));
-		xml.appendClose();
 
+		xml.appendTagOpen(TAG_NAME);
+		xml.appendAttribute("id", "_wc_".concat(UUID.randomUUID().toString()));
+		xml.appendAttribute("type", getLevel(severity));
+		xml.appendAttribute("for", component.getId());
+		xml.appendClose();
 		for (Diagnostic diagnostic : diags) {
 			xml.appendTag(MESSAGE_TAG_NAME);
 			xml.appendEscaped(diagnostic.getDescription());
@@ -74,13 +85,21 @@ public final class DiagnosticRenderUtil {
 	 * @param renderContext the RenderContext to paint to.
 	 */
 	public static void renderDiagnostics(final Diagnosable component, final WebXmlRenderContext renderContext) {
-		List<Diagnostic> diags = component.getDiagnostics(Diagnostic.WARNING);
+		List<Diagnostic> diags = component.getDiagnostics(Diagnostic.ERROR);
 		if (diags != null) {
-			renderHelper(renderContext, diags, Diagnostic.WARNING);
+			renderHelper(renderContext, component, diags, Diagnostic.ERROR);
 		}
-		diags = component.getDiagnostics(Diagnostic.ERROR);
+		diags = component.getDiagnostics(Diagnostic.WARNING);
 		if (diags != null) {
-			renderHelper(renderContext, diags, Diagnostic.ERROR);
+			renderHelper(renderContext, component, diags, Diagnostic.WARNING);
+		}
+		diags = component.getDiagnostics(Diagnostic.INFO);
+		if (diags != null) {
+			renderHelper(renderContext, component, diags, Diagnostic.INFO);
+		}
+		diags = component.getDiagnostics(Diagnostic.SUCCESS);
+		if (diags != null) {
+			renderHelper(renderContext, component, diags, Diagnostic.SUCCESS);
 		}
 	}
 }

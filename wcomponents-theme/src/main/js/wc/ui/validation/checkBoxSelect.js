@@ -1,4 +1,4 @@
-/**
+/*
  * Provides functionality to undertake client validation of WCheckBoxSelect. Extends {@link module:wc/validation/ariaAnalog}.
  *
  * @module wc/ui/validation/checkBoxSelect
@@ -13,13 +13,14 @@
  */
 define(["wc/dom/initialise",
 	"wc/dom/getFilteredGroup",
-	"wc/ui/validation/ariaAnalog",
+	"wc/dom/group",
+	"wc/dom/shed",
 	"wc/ui/validation/validationManager",
 	"wc/ui/validation/required",
 	"wc/ui/validation/minMax",
-	"wc/ui/checkBoxSelect"],
-	/** @param initialise dom/initialise @param getFilteredGroup dom/getFilteredGroup @param ariaAnalog wc/ui/validation/ariaAnalog @param validationManager wc/ui/validation/validationManager @param required wc/ui/validation/required @param minMax wc/ui/validation/minMax @param checkBoxSelect ui/checkBoxSelect @ignore */
-	function(initialise, getFilteredGroup, ariaAnalog, validationManager, required, minMax, checkBoxSelect) {
+	"wc/ui/checkBoxSelect",
+	"wc/ui/validation/isComplete"],
+	function(initialise, getFilteredGroup, group, shed, validationManager, required, minMax, checkBoxSelect, isComplete) {
 		"use strict";
 
 		/**
@@ -30,79 +31,83 @@ define(["wc/dom/initialise",
 		 */
 		function ValidationCheckBoxSelect() {
 			/**
-			 * The description of the analog, same as {@link module:wc/ui/checkBoxSelect~CheckBoxSelect.ITEM}
-			 * @var
-			 * @type {module:wc/dom/Widget}
-			 * @override
-			 */
-			this.ITEM = checkBoxSelect.ITEM;
-			/**
-			 * CONTAINER The description of the analog's containing element, same as checkBoxSelect#CONTAINER
-			 * @var
-			 * @type {module:wc/dom/Widget}
-			 * @override
-			 */
-			this.CONTAINER = checkBoxSelect.CONTAINER;
-			/**
-			 * The selection mode, same as {@link module:wc/ui/checkBoxSelect#exclusiveSelect}
-			 * @var
-			 * @type {int}
-			 * @override
-			 */
-			this.exclusiveSelect = checkBoxSelect.exclusiveSelect;
-			/**
-			 * We cannot get a handle to {@link module:wc/dom/ariaAnalog} in the prototype so we always have to define
-			 * this.
-			 * @see {@link module:wc/ui/checkBoxSelect~SELECT_MODE}
-			 * @var
-			 * @type {int[]}
-			 * @override
-			 */
-			this.SELECT_MODE = checkBoxSelect.SELECT_MODE;
-
-			/**
 			 * Determines whether a container is valid.
 			 * @function
-			 * @protected
-			 * @override
+			 * @private
 			 * @param {Element} container The container being validated, may be a WCheckBoxSelect root container or an
 			 *    element which contains WCheckBoxSelects such as a form.
 			 * @returns {Boolean} true if valid.
 			 */
-			this.validate = function(container) {
+			function validate (container) {
 				var result = true,
 					obj = {container: container,
-						widget: instance.CONTAINER,
+						widget: checkBoxSelect.CONTAINER,
 						constraint: required.CONSTRAINTS.CLASSNAME,
 						position: "beforeEnd"},
 					_required = required.complexValidationHelper(obj);
 
 				// add a selectedFunc to be able to do min/max validation
 				obj.selectedFunc = function(fs) {
-					return getFilteredGroup(fs, {itemWd: instance.ITEM}) || [];
+					return getFilteredGroup(fs, {itemWd: checkBoxSelect.ITEM}) || [];
 				};
 
 				result = minMax(obj);
 				return _required && result;
-			};
+			}
 
 			/**
 			 * Re-validate a previously invalid WCheckBoxSelect when the component's selection is changed.
 			 *
 			 * @function
-			 * @protected
-			 * @override
+			 * @private
 			 * @param {Element} element A WCheckBoxSelect
 			 */
-			this.revalidate = function(element) {
-				validationManager.revalidationHelper(element, this.validate.bind(this));
+			function revalidate (element) {
+				validationManager.revalidationHelper(element, validate);
+			}
+
+			function shedSubscriber(element) {
+				var container = group.getContainer(element, checkBoxSelect.CONTAINER);
+
+				if (!container) {
+					return;
+				}
+
+				if (validationManager.isValidateOnChange()) {
+					if (validationManager.isInvalid(element)) {
+						revalidate(container);
+						return;
+					}
+					validate(container);
+					return;
+				}
+				revalidate(container);
+			}
+
+			/**
+			 * Filter function for isComplete.isCompleteHelper.
+			 * @function
+			 * @private
+			 * @param {Element} next The component being passed in from the array in isComplete.isCompleteHelper.
+			 * @returns {boolean} `true` if the component 'next' is complete (selected).
+			 */
+			function isCompleteFilter(next) {
+				return shed.isSelected(next);
+			}
+
+			function isCompleteSubscriber (container) {
+				return isComplete.isCompleteHelper(container, checkBoxSelect.ITEM, isCompleteFilter);
+			}
+
+			this.initialise = function() {
+				validationManager.subscribe(validate);
+				isComplete.subscribe(isCompleteSubscriber);
+				shed.subscribe(shed.actions.SELECT, shedSubscriber);
+				shed.subscribe(shed.actions.DESELECT, shedSubscriber);
 			};
 		}
 
-		ValidationCheckBoxSelect.prototype = ariaAnalog;
-
 		var /** @alias module:wc/ui/validation/checkBoxSelect */ instance = new ValidationCheckBoxSelect();
-		instance.constructor = ValidationCheckBoxSelect;
 		initialise.register(instance);
 		return instance;
 	});

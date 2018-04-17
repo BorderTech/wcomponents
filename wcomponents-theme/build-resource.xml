@@ -2,33 +2,24 @@
 	<!--
 		Build the resource directory for a given implementation.
 	-->
-
 	<import file="build-import.xml" />
-	<property name="resource.rootdir" location="${common.src.rootdir}/resource" />
-	<property name="impl.resource.rootdir" location="${impl.src.main.dir}/resource" />
-
-	<target name="init" depends="clean">
-	</target>
-
 	<!--
 		The copy of resources is done in two steps so that we can run a filter chain on text-like files and
 		not on binary-like files.
 	-->
-	<target name="build" depends="init, getTimezoneData" description="Builds resources">
-		<copy todir="${resource.build.target.dir}" overwrite="true">
-			<fileset dir="${resource.rootdir}" includes="**.xml, **.rdf, **.html, **.svg" />
+	<target name="build" depends="getTimezoneData" description="Builds resources">
+		<copy todir="${target.rootdir}/resource" overwrite="true">
+			<fileset dir="${common.src.rootdir}/resource" includes="**.xml, **.rdf, **.html, **.svg, **.mustache, **.handlebars" />
 			<filterchain>
-				<expandproperties />
 				<deletecharacters chars="\t" />
 				<trim />
 				<ignoreblank />
 				<striplinebreaks />
 			</filterchain>
 		</copy>
-		<copy todir="${resource.build.target.dir}" overwrite="true">
-			<fileset dir="${impl.resource.rootdir}" includes="**.xml, **.rdf, **.html, **.svg" erroronmissingdir="false"/>
+		<copy todir="${target.rootdir}/resource" overwrite="true">
+			<fileset dir="${impl.src.main.dir}/resource" includes="**.xml, **.rdf, **.html, **.svg, **.mustache, **.handlebars" erroronmissingdir="false"/>
 			<filterchain>
-				<expandproperties />
 				<deletecharacters chars="\t" />
 				<trim />
 				<ignoreblank />
@@ -36,19 +27,11 @@
 			</filterchain>
 		</copy>
 
-		<copy todir="${resource.build.target.dir}" overwrite="true">
-			<fileset dir="${resource.rootdir}">
-				<include name="**" />
-				<exclude name="**.xml" />
-				<exclude name="**.rdf" />
-				<exclude name="**.html" />
-				<exclude name="**.svg" />
-			</fileset>
+		<copy todir="${target.rootdir}/resource" overwrite="true">
+			<fileset dir="${common.src.rootdir}/resource" includes="**" excludes="**.xml, **.rdf, **.html, **.svg, **.mustache, **.handlebars" />
 		</copy>
-		<copy todir="${resource.build.target.dir}" overwrite="true">
-			<fileset dir="${impl.resource.rootdir}" excludes="**.xml, **.rdf, **.html, **.svg" erroronmissingdir="false">
-				<include name="**" />
-			</fileset>
+		<copy todir="${target.rootdir}/resource" overwrite="true">
+			<fileset dir="${impl.src.main.dir}/resource" includes="**" excludes="**.xml, **.rdf, **.html, **.svg, **.mustache, **.handlebars" erroronmissingdir="false" />
 		</copy>
 		<echo level="verbose" message="Done building resources" />
 	</target>
@@ -61,7 +44,7 @@
 	-->
 	<target name="getTimezoneData">
 		<property name="timezone.dir" location="${build.rootdir}/timezone"/>
-		<mkdir dir="${resource.build.target.dir}/timezone"/>
+		<mkdir dir="${target.rootdir}/resource/timezone"/>
 		<!--
 		<gunzip src="${timezone.dir}/tzdata-latest.tar.gz" dest="${timezone.dir}"/>
 		<untar src="${timezone.dir}/tzdata-latest.tar" dest="${timezone.dir}/unzipped/">
@@ -69,7 +52,7 @@
 			<regexpmapper from="^([^\.]+)$" to="\1.txt"/>
 		</untar>
 		-->
-		<copy todir="${resource.build.target.dir}/timezone" overwrite="true">
+		<copy todir="${target.rootdir}/resource/timezone" overwrite="true">
 			<fileset dir="${timezone.dir}" includes="*"/>
 			<filterchain>
 				<striplinecomments>
@@ -80,10 +63,5 @@
 				</tokenfilter>
 			</filterchain>
 		</copy>
-	</target>
-
-	<target name="clean" description="Cleans up all artifacts produced by this build">
-		<delete dir="${resource.build.target.dir}" />
-		<echo level="verbose" message="Clean from ${ant.file}" />
 	</target>
 </project>
