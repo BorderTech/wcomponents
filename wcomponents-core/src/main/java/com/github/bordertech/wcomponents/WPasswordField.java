@@ -229,12 +229,8 @@ public class WPasswordField extends AbstractInput implements AjaxTrigger, AjaxTa
 			return;
 		}
 
-		String newValue;
-		if (Util.empty(sectionName)) {
-			newValue = passwordType.getValue();
-		} else {
-			newValue = AutocompleteUtil.getCombinedForSection(sectionName, passwordType.getValue());
-		}
+		String newValue = Util.empty(sectionName) ? passwordType.getValue() :
+				AutocompleteUtil.getCombinedForSection(sectionName, passwordType.getValue());
 
 		if (!Util.equals(getAutocomplete(), newValue)) {
 			getOrCreateComponentModel().autocomplete = newValue;
