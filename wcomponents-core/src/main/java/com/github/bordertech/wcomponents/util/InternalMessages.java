@@ -176,11 +176,6 @@ public final class InternalMessages {
 	public static final String DEFAULT_CANCEL_BUTTON_TEXT = "bordertech.wcomponents.message.cancelButton";
 
 	/**
-	 * The key for a required field placeholder.
-	 */
-	public static final String DEFAULT_REQUIRED_FIELD_PLACEHOLDER = "bordertech.wcomponents.message.fieldRequired";
-
-	/**
 	 * The key for the multi-select-pair options list heading.
 	 */
 	public static final String DEFAULT_MULTI_SELECT_PAIR_OPTIONS_LIST_HEADING = "bordertech.wcomponents.message.multiSelectPair.options";
@@ -191,9 +186,13 @@ public final class InternalMessages {
 	public static final String DEFAULT_MULTI_SELECT_PAIR_SELECTIONS_LIST_HEADING = "bordertech.wcomponents.message.multiSelectPair.selections";
 
 	/**
-	 * The key for multi-textfield and multi-dropdown default tooltip.
+	 * The key for multi-dropdown default tooltip.
 	 */
-	public static final String DEFAULT_MULTI_FORM_COMPONENT_TIP = "bordertech.wcomponents.message.multiFormComponent.tip";
+	public static final String DEFAULT_MULTIDROPDOWN_TIP = "bordertech.wcomponents.message.multiDropdown.tip";
+	/**
+	 * The key for multi-textfield default tooltip.
+	 */
+	public static final String DEFAULT_MULTITEXTFIELD_TIP = "bordertech.wcomponents.message.multiTextField.tip";
 
 	/**
 	 * Prevent instantiation of this class.
