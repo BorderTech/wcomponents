@@ -4,6 +4,8 @@
 
 ### API Changes
 
+* Added support for autocomplete to WDropdown, WEmailField, WNumberField, WPasswordField, WPhoneNumberField, WTextArea and WTextField #1007.
+
 ### Enhancements
 
 * Added JavaScript unit tests for missing modules.
@@ -25,6 +27,8 @@
 
 ### Bug Fixes
 
+* Fixed issue causing 'required' placeholders to be left when making a field optional #1506.
+* Fixed missing name attribute on WDateField #1507
 * Allow JavaScript module config to keep existing config properties when calling `set` #1502.
 * Fixed inconsistency of rendering field indicators #1496.
 * Fixed icon element inconsistencies #1497.
