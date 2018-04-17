@@ -14,7 +14,6 @@
 			</xsl:attribute>
 			<xsl:attribute name="class">
 				<xsl:value-of select="normalize-space(concat('wc-heading ', $additional))"/>
-				<xsl:text>wc-heading</xsl:text>
 			</xsl:attribute>
 			<xsl:apply-templates />
 		</xsl:element>
