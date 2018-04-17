@@ -83,7 +83,7 @@ define(["intern!object", "intern/chai!assert", "wc/ui/wrappedInput", "wc/dom/she
 				var wrapper = document.getElementById("wrapper-with-required-placeholder"),
 					target = domWrappedInput.getInput(wrapper),
 					expected = "foo";
-				return i18n.translate("requiredPlaceholder").then(function(placeHolderText) {
+				return i18n.translate("bordertech.wcomponents.message.fieldRequired").then(function(placeHolderText) {
 					target.setAttribute("placeholder", placeHolderText + " foo");
 
 					return shed.optional(wrapper).then(function() {
@@ -95,7 +95,7 @@ define(["intern!object", "intern/chai!assert", "wc/ui/wrappedInput", "wc/dom/she
 				var wrapper = document.getElementById("wrapper-with-required-placeholder"),
 					target = domWrappedInput.getInput(wrapper),
 					expected = "foo";
-				return i18n.translate("requiredPlaceholder").then(function(placeHolderText) {
+				return i18n.translate("bordertech.wcomponents.message.fieldRequired").then(function(placeHolderText) {
 					target.setAttribute("placeholder", "foo " + placeHolderText);
 
 					return shed.optional(wrapper).then(function() {
@@ -107,7 +107,7 @@ define(["intern!object", "intern/chai!assert", "wc/ui/wrappedInput", "wc/dom/she
 				var wrapper = document.getElementById("wrapper-with-required-placeholder"),
 					target = domWrappedInput.getInput(wrapper),
 					expected = "foo  bar";
-				return i18n.translate("requiredPlaceholder").then(function(placeHolderText) {
+				return i18n.translate("bordertech.wcomponents.message.fieldRequired").then(function(placeHolderText) {
 					target.setAttribute("placeholder", "foo " + placeHolderText + " bar");
 
 					return shed.optional(wrapper).then(function() {
