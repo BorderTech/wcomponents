@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WNumberField;
 import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.type.Numeric;
 
 /**
  * Shows the various properties of WNumberField.
@@ -63,7 +64,7 @@ public class WNumberFieldExample extends WContainer {
 		layout.addField("Min 0, step 5", numberField);
 
 		//autocomplete
-		for (AutocompleteUtil.NumericAutocomplete number : AutocompleteUtil.NumericAutocomplete.values()) {
+		for (Numeric number : Numeric.values()) {
 			numberField = new WNumberField();
 			numberField.setAutocomplete(number);
 			layout.addField("autocomplete set to ".concat(number.getValue()), numberField);

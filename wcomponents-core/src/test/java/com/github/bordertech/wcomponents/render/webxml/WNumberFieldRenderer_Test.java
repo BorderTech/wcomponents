@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WNumberField;
 import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.type.Numeric;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.io.IOException;
 import junit.framework.Assert;
@@ -114,7 +115,7 @@ public class WNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	public void testSetAutocomplete() throws IOException, SAXException, XpathException {
 		WNumberField field = new WNumberField();
 
-		for (AutocompleteUtil.NumericAutocomplete number : AutocompleteUtil.NumericAutocomplete.values()) {
+		for (Numeric number : Numeric.values()) {
 			field.setAutocomplete(number);
 			assertSchemaMatch(field);
 			assertXpathEvaluatesTo(number.getValue(), "//ui:numberfield/@autocomplete", field);
@@ -126,7 +127,7 @@ public class WNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		WNumberField field = new WNumberField();
 		field.setAutocompleteOff();
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo(AutocompleteUtil.OFF, "//ui:numberfield/@autocomplete", field);
+		assertXpathEvaluatesTo(AutocompleteUtil.getOff(), "//ui:numberfield/@autocomplete", field);
 	}
 
 	@Test

@@ -2,6 +2,20 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.TestLookupTable.DayOfWeekTable;
 import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.segment.AddressPart;
+import com.github.bordertech.wcomponents.autocomplete.segment.AddressType;
+import com.github.bordertech.wcomponents.autocomplete.segment.AutocompleteSegment;
+import com.github.bordertech.wcomponents.autocomplete.segment.Organization;
+import com.github.bordertech.wcomponents.autocomplete.segment.Payment;
+import com.github.bordertech.wcomponents.autocomplete.segment.Person;
+import com.github.bordertech.wcomponents.autocomplete.segment.PhoneFormat;
+import com.github.bordertech.wcomponents.autocomplete.segment.PhonePart;
+import com.github.bordertech.wcomponents.autocomplete.type.DateType;
+import com.github.bordertech.wcomponents.autocomplete.type.Email;
+import com.github.bordertech.wcomponents.autocomplete.type.Numeric;
+import com.github.bordertech.wcomponents.autocomplete.type.Password;
+import com.github.bordertech.wcomponents.autocomplete.type.Telephone;
+import com.github.bordertech.wcomponents.autocomplete.type.Url;
 import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.Arrays;
 import java.util.List;
@@ -76,16 +90,179 @@ public class WDropdown_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testSetAutocomplete() {
 		WDropdown field = new WDropdown();
-		String expected = AutocompleteUtil.ADDITIONAL_NAME;
-		field.setAutocomplete(expected);
-		Assert.assertEquals(expected, field.getAutocomplete());
+		String expected;
+		for (AutocompleteSegment segment : AddressPart.values()) {
+			expected = segment.getValue();
+			field.setAutocomplete(segment);
+			Assert.assertEquals(expected, field.getAutocomplete());
+		}
+		for (AutocompleteSegment segment : AddressType.values()) {
+			expected = segment.getValue();
+			field.setAutocomplete(segment);
+			Assert.assertEquals(expected, field.getAutocomplete());
+		}
+		for (AutocompleteSegment segment : Organization.values()) {
+			expected = segment.getValue();
+			field.setAutocomplete(segment);
+			Assert.assertEquals(expected, field.getAutocomplete());
+		}
+		for (AutocompleteSegment segment : Payment.values()) {
+			expected = segment.getValue();
+			field.setAutocomplete(segment);
+			Assert.assertEquals(expected, field.getAutocomplete());
+		}
+		for (AutocompleteSegment segment : Person.values()) {
+			expected = segment.getValue();
+			field.setAutocomplete(segment);
+			Assert.assertEquals(expected, field.getAutocomplete());
+		}
+		for (AutocompleteSegment segment : PhoneFormat.values()) {
+			expected = segment.getValue();
+			field.setAutocomplete(segment);
+			Assert.assertEquals(expected, field.getAutocomplete());
+		}
+		for (AutocompleteSegment segment : PhonePart.values()) {
+			expected = segment.getValue();
+			field.setAutocomplete(segment);
+			Assert.assertEquals(expected, field.getAutocomplete());
+		}
 	}
 
 	@Test
-	public void testSetAutocompleteEmpty() {
-		// setting autocomplete to an empty value should result in  it not being set.
+	public void testSetAutocompleteNullSegment() {
 		WDropdown field = new WDropdown();
-		field.setAutocomplete("");
+		field.setAutocomplete(Person.GIVEN);
+		Assert.assertNotNull(field.getAutocomplete());
+		field.setAutocomplete((AutocompleteSegment) null);
+		Assert.assertNull(field.getAutocomplete());
+	}
+
+	@Test
+	public void testSetAutocompleteNullAddressPart() {
+		WDropdown field = new WDropdown();
+		field.setAutocomplete(Person.GIVEN);
+		Assert.assertNotNull(field.getAutocomplete());
+		field.setAutocomplete((AddressPart) null);
+		Assert.assertNull(field.getAutocomplete());
+	}
+
+	@Test
+	public void testSetAutocompleteNullAddressType() {
+		WDropdown field = new WDropdown();
+		field.setAutocomplete(Person.GIVEN);
+		Assert.assertNotNull(field.getAutocomplete());
+		field.setAutocomplete((AddressType) null);
+		Assert.assertNull(field.getAutocomplete());
+	}
+
+	@Test
+	public void testSetAutocompleteNullOrganization() {
+		WDropdown field = new WDropdown();
+		field.setAutocomplete(Person.GIVEN);
+		Assert.assertNotNull(field.getAutocomplete());
+		field.setAutocomplete((Organization) null);
+		Assert.assertNull(field.getAutocomplete());
+	}
+
+	@Test
+	public void testSetAutocompleteNullPayment() {
+		WDropdown field = new WDropdown();
+		field.setAutocomplete(Person.GIVEN);
+		Assert.assertNotNull(field.getAutocomplete());
+		field.setAutocomplete((Payment) null);
+		Assert.assertNull(field.getAutocomplete());
+	}
+
+	@Test
+	public void testSetAutocompleteNullPerson() {
+		WDropdown field = new WDropdown();
+		field.setAutocomplete(Person.GIVEN);
+		Assert.assertNotNull(field.getAutocomplete());
+		field.setAutocomplete((Person) null);
+		Assert.assertNull(field.getAutocomplete());
+	}
+
+	@Test
+	public void testSetAutocompleteNullPhoneFormat() {
+		WDropdown field = new WDropdown();
+		field.setAutocomplete(Person.GIVEN);
+		Assert.assertNotNull(field.getAutocomplete());
+		field.setAutocomplete((PhoneFormat) null);
+		Assert.assertNull(field.getAutocomplete());
+	}
+
+	@Test
+	public void testSetAutocompleteNullPhonePart() {
+		WDropdown field = new WDropdown();
+		field.setAutocomplete(Person.GIVEN);
+		Assert.assertNotNull(field.getAutocomplete());
+		field.setAutocomplete((PhonePart) null);
+		Assert.assertNull(field.getAutocomplete());
+	}
+
+	@Test
+	public void testSetAddressAutocomplete() {
+		WDropdown field = new WDropdown();
+		String expected;
+		for (AddressType addrType : AddressType.values()) {
+			field.setAddressAutocomplete(addrType, null);
+			Assert.assertEquals(addrType.getValue(), field.getAutocomplete());
+			for (AddressPart part : AddressPart.values()) {
+				expected = AutocompleteUtil.getCombinedAddress(addrType, part);
+				field.setAddressAutocomplete(addrType, part);
+				Assert.assertEquals(expected, field.getAutocomplete());
+			}
+		}
+	}
+
+	@Test
+	public void testSetAddressAutocompleteNullType() {
+		WDropdown field = new WDropdown();
+		for (AddressPart part : AddressPart.values()) {
+			field.setAddressAutocomplete(null, part);
+			Assert.assertEquals(part.getValue(), field.getAutocomplete());
+		}
+	}
+
+	@Test
+	public void testSetAddressAutocompleteNull() {
+		WDropdown field = new WDropdown();
+		field.setAutocomplete(Person.GIVEN);
+		Assert.assertNotNull(field.getAutocomplete());
+		field.setAddressAutocomplete(null, null);
+		Assert.assertNull(field.getAutocomplete());
+	}
+
+	@Test
+	public void testSetPhoneSegmentAutocomplete() {
+		WDropdown field = new WDropdown();
+		String expected;
+		for (PhoneFormat phoneType : PhoneFormat.values()) {
+			field.setPhoneSegmentAutocomplete(phoneType, null);
+			Assert.assertEquals(phoneType.getValue(), field.getAutocomplete());
+			for (PhonePart part : PhonePart.values()) {
+				expected = AutocompleteUtil.getCombinedPhoneSegment(phoneType, part);
+				field.setPhoneSegmentAutocomplete(phoneType, part);
+				Assert.assertEquals(expected, field.getAutocomplete());
+			}
+		}
+	}
+
+	@Test
+	public void testSetPhoneSegmentNullType() {
+		WDropdown field = new WDropdown();
+		for (PhonePart part : PhonePart.values()) {
+			field.setPhoneSegmentAutocomplete(null, part);
+			Assert.assertEquals(part.getValue(), field.getAutocomplete());
+		}
+	}
+
+	@Test
+	public void testSetPhoneSegmentAutocompleteNull() {
+		WDropdown field = new WDropdown();
+		field.setAutocomplete(Person.GIVEN);
+		Assert.assertNotNull(field.getAutocomplete());
+		field.setPhoneSegmentAutocomplete(null, null);
 		Assert.assertNull(field.getAutocomplete());
 	}
 
@@ -93,21 +270,22 @@ public class WDropdown_Test extends AbstractWComponentTestCase {
 	public void testSetAutocompleteOff() {
 		WDropdown field = new WDropdown();
 		field.setAutocompleteOff();
-		Assert.assertEquals(AutocompleteUtil.OFF, field.getAutocomplete());
+		Assert.assertTrue(field.isAutocompleteOff());
 	}
 
 	@Test
-	public void testSetAutocompleteOff_afterSetting() {
+	public void testSetAutocompleteOffAfterSetting() {
 		WDropdown field = new WDropdown();
-		field.setAutocomplete(AutocompleteUtil.FAMILY_NAME, "foo");
+		field.setAutocomplete(Person.FAMILY);
+		field.addAutocompleteSection("foo");
 		field.setAutocompleteOff();
-		Assert.assertEquals(AutocompleteUtil.OFF, field.getAutocomplete());
+		Assert.assertTrue(field.isAutocompleteOff());
 	}
 
 	@Test
 	public void testClearAutocomplete() {
 		WDropdown field = new WDropdown();
-		field.setAutocomplete(AutocompleteUtil.FAMILY_NAME, "foo");
+		field.setAutocomplete(Person.FAMILY);
 		Assert.assertNotNull(field.getAutocomplete());
 		field.clearAutocomplete();
 		Assert.assertNull(field.getAutocomplete());
@@ -125,8 +303,8 @@ public class WDropdown_Test extends AbstractWComponentTestCase {
 	public void testAddAutocompleteSectionAfterSetting() {
 		WDropdown field = new WDropdown();
 		String sectionName = "foo";
-		String expected = AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.FAMILY_NAME);
-		field.setAutocomplete(AutocompleteUtil.FAMILY_NAME);
+		String expected = AutocompleteUtil.getCombinedForSection(sectionName, Person.FAMILY.getValue());
+		field.setAutocomplete(Person.FAMILY);
 		field.addAutocompleteSection(sectionName);
 		Assert.assertEquals(expected, field.getAutocomplete());
 	}
@@ -136,21 +314,22 @@ public class WDropdown_Test extends AbstractWComponentTestCase {
 		WDropdown field = new WDropdown();
 		String sectionName = "foo";
 		String otherSectionName = "bar";
-		field.setAutocomplete(AutocompleteUtil.FAMILY_NAME, otherSectionName);
+		field.setAutocomplete(Person.FAMILY);
+		field.addAutocompleteSection(otherSectionName);
 		String expected = AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.getNamedSection(otherSectionName),
-				AutocompleteUtil.FAMILY_NAME);
+				Person.FAMILY.getValue());
 		field.addAutocompleteSection(sectionName);
 		Assert.assertEquals(expected, field.getAutocomplete());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testAddAutocompleteSection_empty () {
+	public void testAddAutocompleteSectionEmpty() {
 		WDropdown field = new WDropdown();
 		field.addAutocompleteSection("");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testAddAutocompleteSection_null () {
+	public void testAddAutocompleteSectionNull() {
 		WDropdown field = new WDropdown();
 		field.addAutocompleteSection(null);
 	}
@@ -164,113 +343,46 @@ public class WDropdown_Test extends AbstractWComponentTestCase {
 
 	// with date field autocomplete
 	@Test
-	public void testSetAutocomplete_withDate() {
+	public void testSetAutocompleteDate() {
 		WDropdown field = new WDropdown();
-		for (AutocompleteUtil.DateAutocomplete date : AutocompleteUtil.DateAutocomplete.values()) {
+		for (DateType date : DateType.values()) {
 			field.setAutocomplete(date);
 			Assert.assertEquals(date.getValue(), field.getAutocomplete());
 		}
 	}
 
 	@Test
-	public void testSetAutocompleteNullType_withDate() {
+	public void testSetAutocompleteNullDate() {
 		WDropdown field = new WDropdown();
-		field.setAutocomplete((AutocompleteUtil.DateAutocomplete)null);
+		field.setAutocomplete(DateType.BIRTHDAY);
+		Assert.assertNotNull(field.getAutocomplete());
+		field.setAutocomplete((DateType) null);
 		Assert.assertNull(field.getAutocomplete());
 	}
 
 	@Test
-	public void testSetAutocompleteWithSection_withDate() {
+	public void testSetBirthdayAutocomplete() {
 		WDropdown field = new WDropdown();
-		String sectionName = "foo";
-		String expected;
-		for (AutocompleteUtil.DateAutocomplete date : AutocompleteUtil.DateAutocomplete.values()) {
-			expected = AutocompleteUtil.getCombinedForSection(sectionName, date.getValue());
-			field.setAutocomplete(date, sectionName);
-			Assert.assertEquals(expected, field.getAutocomplete());
-		}
+		field.setBirthdayAutocomplete();
+		Assert.assertEquals(DateType.BIRTHDAY.getValue(), field.getAutocomplete());
 	}
-
-	@Test
-	public void testSetAutocompleteWithEmptySection_withDate() {
-		WDropdown field = new WDropdown();
-		for (AutocompleteUtil.DateAutocomplete date : AutocompleteUtil.DateAutocomplete.values()) {
-			field.setAutocomplete(date, "");
-			Assert.assertEquals(date.getValue(), field.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutocompleteWithNullSection_withDate() {
-		WDropdown field = new WDropdown();
-		for (AutocompleteUtil.DateAutocomplete date : AutocompleteUtil.DateAutocomplete.values()) {
-			field.setAutocomplete(date, null);
-			Assert.assertEquals(date.getValue(), field.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutocompleteNullTypeEmptySection_withDate() {
-		WDropdown field = new WDropdown();
-		field.setAutocomplete((AutocompleteUtil.DateAutocomplete)null, "");
-		Assert.assertNull(field.getAutocomplete());
-	}
-
-	@Test
-	public void testSetAutocompleteNullTypeNullSection_withDate() {
-		WDropdown field = new WDropdown();
-		field.setAutocomplete((AutocompleteUtil.DateAutocomplete)null, null);
-		Assert.assertNull(field.getAutocomplete());
-	}
-
-	@Test
-	public void testSetDateAutocomplete() {
-		WDropdown field = new WDropdown();
-		field.setDateAutocomplete();
-		Assert.assertEquals(AutocompleteUtil.DateAutocomplete.BIRTHDAY.getValue(), field.getAutocomplete());
-	}
-
-	@Test
-	public void testSetDateAutocompleteWithSection() {
-		WDropdown field = new WDropdown();
-		String sectionName = "foo";
-		String expected = AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.DateAutocomplete.BIRTHDAY.getValue());
-		field.setDateAutocomplete(sectionName);
-		Assert.assertEquals(expected, field.getAutocomplete());
-	}
-
-	@Test
-	public void testSetDateAutocompleteWithNullSection() {
-		WDropdown field = new WDropdown();
-		field.setDateAutocomplete(null);
-		Assert.assertEquals(AutocompleteUtil.DateAutocomplete.BIRTHDAY.getValue(), field.getAutocomplete());
-	}
-
-	@Test
-	public void testSetDateAutocompleteWithEmptySection() {
-		WDropdown field = new WDropdown();
-		field.setDateAutocomplete("");
-		Assert.assertEquals(AutocompleteUtil.DateAutocomplete.BIRTHDAY.getValue(), field.getAutocomplete());
-	}
-
-
 
 	// With Email field autocomplete
-	private static final String DEFAULT_VALUE_EMAIL = AutocompleteUtil.EmailAutocomplete.EMAIL.getValue();
-
 	@Test
-	public void testSetAutocomplete_withEmail() {
+	public void testSetAutocompleteEmail() {
 		WDropdown field = new WDropdown();
-		for (AutocompleteUtil.EmailAutocomplete email : AutocompleteUtil.EmailAutocomplete.values()) {
+		for (Email email : Email.values()) {
 			field.setAutocomplete(email);
 			Assert.assertEquals(email.getValue(), field.getAutocomplete());
 		}
 	}
 
 	@Test
-	public void testSetAutocompleteNullType_withEmail() {
+	public void testSetAutocompleteNullEmail() {
 		WDropdown field = new WDropdown();
-		field.setAutocomplete((AutocompleteUtil.EmailAutocomplete)null);
+		field.setAutocomplete(Email.EMAIL);
+		Assert.assertNotNull(field.getAutocomplete());
+		field.setAutocomplete((Email) null);
 		Assert.assertNull(field.getAutocomplete());
 	}
 
@@ -278,392 +390,132 @@ public class WDropdown_Test extends AbstractWComponentTestCase {
 	public void testSetEmailAutocomplete() {
 		WDropdown field = new WDropdown();
 		field.setEmailAutocomplete();
-		Assert.assertEquals(DEFAULT_VALUE_EMAIL, field.getAutocomplete());
-	}
-
-	@Test
-	public void testSetEmailAutocompleteWithSection() {
-		WDropdown field = new WDropdown();
-		String sectionName = "foo";
-		String expected = AutocompleteUtil.getCombinedForSection(sectionName, DEFAULT_VALUE_EMAIL);
-		field.setEmailAutocomplete(sectionName);
-		Assert.assertEquals(expected, field.getAutocomplete());
-	}
-
-	@Test
-	public void testSetEmailAutocompleteWithEmptySection() {
-		WDropdown field = new WDropdown();
-		field.setEmailAutocomplete("");
-		Assert.assertEquals(DEFAULT_VALUE_EMAIL, field.getAutocomplete());
-	}
-
-	@Test
-	public void testSetEmailAutocompleteWitNullSection() {
-		WDropdown field = new WDropdown();
-		field.setEmailAutocomplete(null);
-		Assert.assertEquals(DEFAULT_VALUE_EMAIL, field.getAutocomplete());
-	}
-
-	@Test
-	public void testSetAutocompleteTypeAndSection_withEmail() {
-		WDropdown field = new WDropdown();
-		final String sectionName = "foo";
-		String expected;
-
-		for (AutocompleteUtil.EmailAutocomplete email : AutocompleteUtil.EmailAutocomplete.values()) {
-			expected = AutocompleteUtil.getCombinedForSection(sectionName, email.getValue());
-			field.setAutocomplete(email, sectionName);
-			Assert.assertEquals(expected, field.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutocompleteTypeAndEmptySection_withEmail() {
-		WDropdown field = new WDropdown();
-
-		for (AutocompleteUtil.EmailAutocomplete email : AutocompleteUtil.EmailAutocomplete.values()) {
-			field.setAutocomplete(email, "");
-			Assert.assertEquals(email.getValue(), field.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutocompleteTypeAndNullSection_withEmail() {
-		WDropdown field = new WDropdown();
-
-		for (AutocompleteUtil.EmailAutocomplete email : AutocompleteUtil.EmailAutocomplete.values()) {
-			field.setAutocomplete(email, null);
-			Assert.assertEquals(email.getValue(), field.getAutocomplete());
-		}
+		Assert.assertEquals(Email.EMAIL.getValue(), field.getAutocomplete());
 	}
 
 	// with number field autocomplete
 	@Test
-	public void testSetAutocomplete_withNumber() {
+	public void testSetAutocompleteNumeric() {
 		WDropdown field = new WDropdown();
-		for (AutocompleteUtil.NumericAutocomplete number : AutocompleteUtil.NumericAutocomplete.values()) {
+		for (Numeric number : Numeric.values()) {
 			field.setAutocomplete(number);
 			Assert.assertEquals(number.getValue(), field.getAutocomplete());
 		}
 	}
 
 	@Test
-	public void testSetAutocompleteNullValue_withNumber() {
+	public void testSetAutocompleteNullNumeric() {
 		WDropdown field = new WDropdown();
-		field.setAutocomplete((AutocompleteUtil.NumericAutocomplete)null);
+		field.setAutocomplete(Numeric.BIRTHDAY_DAY);
+		Assert.assertNotNull(field.getAutocomplete());
+		field.setAutocomplete((Numeric) null);
 		Assert.assertNull(field.getAutocomplete());
 	}
-
-	@Test
-	public void testSetAutocompleteWithSection_withNumber() {
-		WDropdown field = new WDropdown();
-		String sectionName = "foo";
-		String expected;
-		for (AutocompleteUtil.NumericAutocomplete number : AutocompleteUtil.NumericAutocomplete.values()) {
-			expected = AutocompleteUtil.getCombinedForSection(sectionName, number.getValue());
-			field.setAutocomplete(number, sectionName);
-			Assert.assertEquals(expected, field.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutocompleteWithEmptySection_withNumber() {
-		WDropdown field = new WDropdown();
-		for (AutocompleteUtil.NumericAutocomplete number : AutocompleteUtil.NumericAutocomplete.values()) {
-			field.setAutocomplete(number, "");
-			Assert.assertEquals(number.getValue(), field.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutocompleteWithNullSection_withNumber() {
-		WDropdown field = new WDropdown();
-		for (AutocompleteUtil.NumericAutocomplete number : AutocompleteUtil.NumericAutocomplete.values()) {
-			field.setAutocomplete(number, null);
-			Assert.assertEquals(number.getValue(), field.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutocompleteNullValueEmptySection_withNumber() {
-		WDropdown field = new WDropdown();
-		field.setAutocomplete((AutocompleteUtil.NumericAutocomplete)null, "");
-		Assert.assertNull(field.getAutocomplete());
-	}
-
 
 	// with password autocomplete
 	@Test
-	public void testSetAutocomplete_withPassword() {
+	public void testSetAutocompletePassword() {
 		WDropdown field = new WDropdown();
-		String expected;
-
-		for (AutocompleteUtil.PasswordAutocomplete pword : AutocompleteUtil.PasswordAutocomplete.values()) {
-			expected = pword.getValue();
+		for (Password pword : Password.values()) {
 			field.setAutocomplete(pword);
-			Assert.assertEquals(expected, field.getAutocomplete());
+			Assert.assertEquals(pword.getValue(), field.getAutocomplete());
 		}
 	}
 
 	@Test
-	public void testSetAutocompleteWithSection_withPassword() {
+	public void testSetAutocompleteNullPassword() {
 		WDropdown field = new WDropdown();
-		String expected;
-		String sectionName = "foo";
-
-		for (AutocompleteUtil.PasswordAutocomplete pword : AutocompleteUtil.PasswordAutocomplete.values()) {
-			expected = AutocompleteUtil.getCombinedForSection(sectionName, pword.getValue());
-			field.setAutocomplete(pword, sectionName);
-			Assert.assertEquals(expected, field.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutocompleteWithEmptySection_withPassword() {
-		WDropdown field = new WDropdown();
-		String expected;
-		String sectionName = "";
-
-		for (AutocompleteUtil.PasswordAutocomplete pword : AutocompleteUtil.PasswordAutocomplete.values()) {
-			expected = pword.getValue();
-			field.setAutocomplete(pword, sectionName);
-			Assert.assertEquals(expected, field.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutocompleteWithNullSection_withPassword() {
-		WDropdown field = new WDropdown();
-		String expected;
-		String sectionName = null;
-
-		for (AutocompleteUtil.PasswordAutocomplete pword : AutocompleteUtil.PasswordAutocomplete.values()) {
-			expected = pword.getValue();
-			field.setAutocomplete(pword, sectionName);
-			Assert.assertEquals(expected, field.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutocompleteNullPasswordType_withPassword() {
-		WDropdown field = new WDropdown();
-		field.setAutocomplete(AutocompleteUtil.PasswordAutocomplete.CURRENT);
+		field.setAutocomplete(Password.CURRENT);
 		Assert.assertNotNull(field.getAutocomplete());
-		field.setAutocomplete((AutocompleteUtil.PasswordAutocomplete)null);
+		field.setAutocomplete((Password) null);
 		Assert.assertNull(field.getAutocomplete());
-	}
-
-	@Test
-	public void testSetAutocompleteNullPasswordType_withSection_withPassword() {
-		WDropdown field = new WDropdown();
-		field.setAutocomplete((AutocompleteUtil.PasswordAutocomplete)null, "bar");
-		Assert.assertEquals(AutocompleteUtil.getNamedSection("bar"), field.getAutocomplete());
 	}
 
 	// phone number autocomplete
-	private static final String DEFAULT_VALUE_PHONE = AutocompleteUtil.TelephoneAutocomplete.FULL.getValue();
-
 	@Test
-	public void testSetAutoCompleteDefaults_withPhone() {
-		String expected = DEFAULT_VALUE_PHONE;
-
+	public void testSetFullPhoneAutocomplete() {
 		WDropdown field = new WDropdown();
 		field.setFullPhoneAutocomplete();
-		Assert.assertEquals(expected, field.getAutocomplete());
+		Assert.assertEquals(Telephone.FULL.getValue(), field.getAutocomplete());
 	}
 
 	@Test
-	public void testSetAutocompleteWithPhoneType() {
-		String strPhoneType;
+	public void testSetFullPhoneAutocompleteWithType() {
 		String expected;
 		WDropdown field = new WDropdown();
-		for (AutocompleteUtil.TelephoneAutocompleteType phoneType : AutocompleteUtil.TelephoneAutocompleteType.values()) {
-			strPhoneType = phoneType.getValue();
-			expected = AutocompleteUtil.getCombinedAutocomplete(strPhoneType, DEFAULT_VALUE_PHONE);
-			field.setAutocomplete(phoneType);
+		for (PhoneFormat phoneType : PhoneFormat.values()) {
+			expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(), Telephone.FULL.getValue());
+			field.setFullPhoneAutocomplete(phoneType);
 			Assert.assertEquals(expected, field.getAutocomplete());
 		}
 	}
 
 	@Test
-	public void testSetAutocompleteWithPhoneType_null() {
+	public void testSetFullPhoneAutocompleteWithNullType() {
 		WDropdown field = new WDropdown();
-		String expected = AutocompleteUtil.getCombinedAutocomplete(null, DEFAULT_VALUE_PHONE);
-		field.setAutocomplete((AutocompleteUtil.TelephoneAutocompleteType) null);
-		Assert.assertEquals(expected, field.getAutocomplete());
+		field.setFullPhoneAutocomplete(null);
+		Assert.assertEquals(Telephone.FULL.getValue(), field.getAutocomplete());
 	}
 
 	@Test
-	public void testSetAutoCompleteWithSectionAndType_withPhone() {
-		String sectionName = "foo";
-		String strPhoneType;
+	public void testSetAutocompletePhoneTypeFormat() {
+		WDropdown field = new WDropdown();
 		String expected;
-		WDropdown field = new WDropdown();
-		for (AutocompleteUtil.TelephoneAutocompleteType phoneType : AutocompleteUtil.TelephoneAutocompleteType.values()) {
-			strPhoneType = phoneType.getValue();
-			expected = AutocompleteUtil.getCombinedForSection(sectionName, strPhoneType, DEFAULT_VALUE_PHONE);
-			field.setAutocomplete(phoneType, sectionName);
-			Assert.assertEquals(expected, field.getAutocomplete());
-		}
-	}
 
-	@Test
-	public void testSetAutoCompleteWithSectionAndType_emptySectionName_withPhone() {
-		AutocompleteUtil.TelephoneAutocompleteType phoneType = AutocompleteUtil.TelephoneAutocompleteType.FAX;
-		String expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(), DEFAULT_VALUE_PHONE);
-		WDropdown field = new WDropdown();
-		field.setAutocomplete(phoneType, "");
-		Assert.assertEquals(expected, field.getAutocomplete());
-	}
-
-	@Test
-	public void testSetAutoCompleteWithSectionAndType_nullSectionName_withPhone() {
-		AutocompleteUtil.TelephoneAutocompleteType phoneType = AutocompleteUtil.TelephoneAutocompleteType.FAX;
-		String expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(), DEFAULT_VALUE_PHONE);
-		WDropdown field = new WDropdown();
-		field.setAutocomplete(phoneType, (String)null);
-		Assert.assertEquals(expected, field.getAutocomplete());
-	}
-
-	@Test
-	public void testSetAutoCompleteWithSectionAndType_nullType_withPhone() {
-		String sectionName = "foo";
-		String expected = AutocompleteUtil.getCombinedForSection(sectionName, DEFAULT_VALUE_PHONE);
-		WDropdown field = new WDropdown();
-		field.setAutocomplete((AutocompleteUtil.TelephoneAutocompleteType)null, sectionName);
-		Assert.assertEquals(expected, field.getAutocomplete());
-	}
-
-	@Test
-	public void testSetAutoCompleteWithTypeFormatAndSection_withPhone() {
-		String sectionName = "foo";
-		String expected;
-		WDropdown field = new WDropdown();
-
-		for (AutocompleteUtil.TelephoneAutocomplete phone : AutocompleteUtil.TelephoneAutocomplete.values()) {
-			for (AutocompleteUtil.TelephoneAutocompleteType phoneType : AutocompleteUtil.TelephoneAutocompleteType.values()) {
-				expected = AutocompleteUtil.getCombinedForSection(sectionName, phoneType.getValue(), phone.getValue());
-				field.setAutocomplete(phoneType, phone, sectionName);
-				Assert.assertEquals(expected, field.getAutocomplete());
-			}
-		}
-	}
-
-	@Test
-	public void testSetAutoCompleteWithTypeFormatAndSection_emptySection_withPhone() {
-		String sectionName = "";
-		String expected;
-		WDropdown field = new WDropdown();
-
-		for (AutocompleteUtil.TelephoneAutocomplete phone : AutocompleteUtil.TelephoneAutocomplete.values()) {
-			for (AutocompleteUtil.TelephoneAutocompleteType phoneType : AutocompleteUtil.TelephoneAutocompleteType.values()) {
+		for (PhoneFormat phoneType : PhoneFormat.values()) {
+			field.setAutocomplete(null, phoneType);
+			Assert.assertEquals(phoneType.getValue(), field.getAutocomplete());
+			for (Telephone phone : Telephone.values()) {
 				expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(), phone.getValue());
-				field.setAutocomplete(phoneType, phone, sectionName);
+				field.setAutocomplete(phone, phoneType);
 				Assert.assertEquals(expected, field.getAutocomplete());
 			}
 		}
 	}
 
 	@Test
-	public void testSetAutoCompleteWithTypeFormatAndSection_noPhoneFormat() {
-		String sectionName = "foo";
-		String expected;
+	public void testSetAutocompleteNullPhoneTypeFormat() {
 		WDropdown field = new WDropdown();
-
-		for (AutocompleteUtil.TelephoneAutocompleteType phoneType : AutocompleteUtil.TelephoneAutocompleteType.values()) {
-			expected = AutocompleteUtil.getCombinedForSection(sectionName, phoneType.getValue(),
-					AutocompleteUtil.TelephoneAutocomplete.FULL.getValue());
-			field.setAutocomplete(phoneType, null, sectionName);
-			Assert.assertEquals(expected, field.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutoCompleteWithTypeFormatAndSection_noPhoneFormatNoSection() {
-		String expected;
-		WDropdown field = new WDropdown();
-
-		for (AutocompleteUtil.TelephoneAutocompleteType phoneType : AutocompleteUtil.TelephoneAutocompleteType.values()) {
-			expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(),
-					AutocompleteUtil.TelephoneAutocomplete.FULL.getValue());
-			field.setAutocomplete(phoneType, null, null);
-			Assert.assertEquals(expected, field.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutoCompleteWithTypeFormatAndSection_noType_withPhone() {
-		String sectionName = "foo";
-		String expected;
-		WDropdown field = new WDropdown();
-
-		for (AutocompleteUtil.TelephoneAutocomplete phone : AutocompleteUtil.TelephoneAutocomplete.values()) {
-			expected = AutocompleteUtil.getCombinedForSection(sectionName, phone.getValue());
-			field.setAutocomplete(null, phone, sectionName);
-			Assert.assertEquals(expected, field.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutoCompleteWithTypeFormatAndSection_noTypeNoFormat_withPhone() {
-		String sectionName = "foo";
-		String expected = AutocompleteUtil.getCombinedForSection(sectionName, DEFAULT_VALUE_PHONE);
-		WDropdown field = new WDropdown();
-		field.setAutocomplete(null, null, sectionName);
-		Assert.assertEquals(expected, field.getAutocomplete());
-	}
-
-	@Test
-	public void testSetAutoCompleteWithTypeFormatAndSection_noTypeNoFormatNullSection_withPhone() {
-		WDropdown field = new WDropdown();
-		field.setAutocomplete(null, null, null);
-		Assert.assertNull(field.getAutocomplete());
-	}
-
-	@Test
-	public void testSetAutoCompleteWithTypeFormatAndSection_noTypeNoFormatEmptySection_withPhone() {
-		WDropdown field = new WDropdown();
-		field.setAutocomplete(null, null, "");
-		Assert.assertNull(field.getAutocomplete());
-	}
-
-	@Test
-	public void testDefaultSetAutocomplete_onlyPhone() {
-		WDropdown field = new WDropdown();
-		for (AutocompleteUtil.TelephoneAutocomplete phone : AutocompleteUtil.TelephoneAutocomplete.values()) {
-			field.setAutocomplete(phone);
+		for (Telephone phone : Telephone.values()) {
+			field.setAutocomplete(phone, null);
 			Assert.assertEquals(phone.getValue(), field.getAutocomplete());
 		}
 	}
 
 	@Test
-	public void testDefaultSetAutocomplete_onlyNullPhone() {
+	public void testSetLocalPhoneAutocomplete() {
 		WDropdown field = new WDropdown();
-		field.setAutocomplete((AutocompleteUtil.TelephoneAutocomplete)null);
-		Assert.assertNull(field.getAutocomplete());
+		String expected = Telephone.LOCAL.getValue();
+		field.setLocalPhoneAutocomplete();
+		Assert.assertEquals(expected, field.getAutocomplete());
 	}
 
 	@Test
-	public void testSetAutocompleteTypeFormat_withPhone() {
+	public void testSetLocalPhoneAutocompleteWithType() {
 		WDropdown field = new WDropdown();
 		String expected;
 
-		for (AutocompleteUtil.TelephoneAutocompleteType phoneType : AutocompleteUtil.TelephoneAutocompleteType.values()) {
-			for (AutocompleteUtil.TelephoneAutocomplete phone : AutocompleteUtil.TelephoneAutocomplete.values()) {
-				expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(), phone.getValue());
-				field.setAutocomplete(phoneType, phone);
-				Assert.assertEquals(expected, field.getAutocomplete());
-			}
+		for (PhoneFormat phoneType : PhoneFormat.values()) {
+			expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(), Telephone.LOCAL.getValue());
+			field.setLocalPhoneAutocomplete(phoneType);
+			Assert.assertEquals(expected, field.getAutocomplete());
 		}
+	}
+
+	@Test
+	public void testSetLocalPhoneAutocompleteWithNullType() {
+		WDropdown field = new WDropdown();
+		field.setLocalPhoneAutocomplete(null);
+		Assert.assertEquals(Telephone.LOCAL.getValue(), field.getAutocomplete());
 	}
 
 	// with URL autocomplete
 	@Test
-	public void testSetAutocomplete_withUrl() {
+	public void testSetAutocompleteUrl() {
 		WDropdown field = new WDropdown();
 		String expected;
 
-		for (AutocompleteUtil.UrlAutocomplete url : AutocompleteUtil.UrlAutocomplete.values()) {
+		for (Url url : Url.values()) {
 			expected = url.getValue();
 			field.setAutocomplete(url);
 			Assert.assertEquals(expected, field.getAutocomplete());
@@ -671,57 +523,18 @@ public class WDropdown_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
-	public void testSetAutocompleteWithSection_withUrl() {
+	public void testSetAutocompleteNullUrl() {
 		WDropdown field = new WDropdown();
-		String expected;
-		String sectionName = "foo";
-
-		for (AutocompleteUtil.UrlAutocomplete url : AutocompleteUtil.UrlAutocomplete.values()) {
-			expected = AutocompleteUtil.getCombinedForSection(sectionName, url.getValue());
-			field.setAutocomplete(url, sectionName);
-			Assert.assertEquals(expected, field.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutocompleteWithEmptySection_withUrl() {
-		WDropdown field = new WDropdown();
-		String expected;
-		String sectionName = "";
-
-		for (AutocompleteUtil.UrlAutocomplete url : AutocompleteUtil.UrlAutocomplete.values()) {
-			expected = url.getValue();
-			field.setAutocomplete(url, sectionName);
-			Assert.assertEquals(expected, field.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutocompleteWithNullSection_withUrl() {
-		WDropdown field = new WDropdown();
-		String expected;
-		String sectionName = null;
-
-		for (AutocompleteUtil.UrlAutocomplete url : AutocompleteUtil.UrlAutocomplete.values()) {
-			expected = url.getValue();
-			field.setAutocomplete(url, sectionName);
-			Assert.assertEquals(expected, field.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutocompleteNullUrlType() {
-		WDropdown field = new WDropdown();
-		field.setAutocomplete(AutocompleteUtil.UrlAutocomplete.URL);
+		field.setAutocomplete(Url.URL);
 		Assert.assertNotNull(field.getAutocomplete());
-		field.setAutocomplete((AutocompleteUtil.UrlAutocomplete)null);
+		field.setAutocomplete((Url) null);
 		Assert.assertNull(field.getAutocomplete());
 	}
 
 	@Test
-	public void testSetAutocompleteNullUrlType_withSection() {
+	public void testSetUrlAutocomplete() {
 		WDropdown field = new WDropdown();
-		field.setAutocomplete((AutocompleteUtil.UrlAutocomplete)null, "bar");
-		Assert.assertEquals(AutocompleteUtil.getNamedSection("bar"), field.getAutocomplete());
+		field.setUrlAutocomplete();
+		Assert.assertEquals(Url.URL.getValue(), field.getAutocomplete());
 	}
 }

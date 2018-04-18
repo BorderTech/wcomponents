@@ -6,8 +6,9 @@ import com.github.bordertech.wcomponents.Headers;
 import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WLabel;
+import com.github.bordertech.wcomponents.autocomplete.segment.PhoneFormat;
+import com.github.bordertech.wcomponents.autocomplete.type.Telephone;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.io.Serializable;
 import java.util.List;
@@ -16,28 +17,17 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * JUnit test of the {@link Autocompleteable} Interface
+ * JUnit test of the {@link Autocompleteable} Interface.
  * @author Mark Reeves
  */
 public class AutocompleteablePhone_Test {
-
-	private static final String TEST_SECTION_NAME = "foo";
-
-	/**
-	 * Typing helper
-	 * @return the value "tel"
-	 */
-	private String getDefaultTel() {
-		return AutocompleteUtil.TelephoneAutocomplete.FULL.getValue();
-	}
 
 	/**
 	 * Meta test to improve confidence in other tests.
 	 */
 	@Test
-	public void testGetValue() {
+	public void testGetAucomplete() {
 		String testString = "foo";
-
 		MyAutocompleteable component = new MyAutocompleteable();
 		// ensure the component's autocompete is set to a specific thing outside the
 		// interface setters.
@@ -46,139 +36,56 @@ public class AutocompleteablePhone_Test {
 	}
 
 	@Test
-	public void testDefaultSetAutocomplete_withTypeAndName() {
+	public void testSetFullPhoneAutocompleteWithType() {
 		MyAutocompleteable component = new MyAutocompleteable();
 		String expected;
 
-		for (AutocompleteUtil.TelephoneAutocompleteType phoneType : AutocompleteUtil.TelephoneAutocompleteType.values()) {
-			expected = AutocompleteUtil.getCombinedForSection(TEST_SECTION_NAME, phoneType.getValue(), getDefaultTel());
-			component.setAutocomplete(phoneType, TEST_SECTION_NAME);
+		for (PhoneFormat phoneType : PhoneFormat.values()) {
+			expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(), Telephone.FULL.getValue());
+			component.setFullPhoneAutocomplete(phoneType);
 			Assert.assertEquals(expected, component.getAutocomplete());
 		}
 	}
 
 	@Test
-	public void testDefaultSetAutocomplete_withTypeAndNameNullEmpty() {
+	public void testSetFullPhoneAutocompleteNullType() {
 		MyAutocompleteable component = new MyAutocompleteable();
-		component.setAutocomplete(null, "");
-		Assert.assertEquals(getDefaultTel(), component.getAutocomplete());
+		component.setFullPhoneAutocomplete(null);
+		Assert.assertEquals(Telephone.FULL.getValue(), component.getAutocomplete());
 	}
 
 	@Test
-	public void testDefaultSetAutocomplete_withTypeAndEmptyName() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		String expected;
-
-		for (AutocompleteUtil.TelephoneAutocompleteType phoneType : AutocompleteUtil.TelephoneAutocompleteType.values()) {
-			expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(), getDefaultTel());
-			component.setAutocomplete(phoneType, "");
-			Assert.assertEquals(expected, component.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testDefaultSetAutocomplete_withTypeAndNullName() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		String expected;
-
-		for (AutocompleteUtil.TelephoneAutocompleteType phoneType : AutocompleteUtil.TelephoneAutocompleteType.values()) {
-			expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(), getDefaultTel());
-			component.setAutocomplete(phoneType, (String)null);
-			Assert.assertEquals(expected, component.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testDefaultSetAutocomplete_withNullTypeAndName() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		String expected = AutocompleteUtil.getCombinedForSection(TEST_SECTION_NAME, getDefaultTel());
-		component.setAutocomplete(null, TEST_SECTION_NAME);
-		Assert.assertEquals(expected, component.getAutocomplete());
-	}
-
-	@Test
-	public void testDefaultSetAutocomplete_withType() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		String expected;
-
-		for (AutocompleteUtil.TelephoneAutocompleteType phoneType : AutocompleteUtil.TelephoneAutocompleteType.values()) {
-			expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(), getDefaultTel());
-			component.setAutocomplete(phoneType);
-			Assert.assertEquals(expected, component.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testDefaultSetAutocomplete_withNullType() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		component.setAutocomplete((AutocompleteUtil.TelephoneAutocompleteType)null);
-		Assert.assertEquals(getDefaultTel(), component.getAutocomplete());
-	}
-
-	@Test
-	public void testDefaultSetAutocomplete_onlyPhone() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		for (AutocompleteUtil.TelephoneAutocomplete phone : AutocompleteUtil.TelephoneAutocomplete.values()) {
-			component.setAutocomplete(phone);
-			Assert.assertEquals(phone.getValue(), component.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testDefaultSetAutocomplete_onlyNullPhone() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		component.setAutocomplete((AutocompleteUtil.TelephoneAutocomplete)null);
-		Assert.assertNull(component.getAutocomplete());
-	}
-
-	@Test
-	public void testDefaultSetAutocomplete() {
+	public void testSetFullPhoneAutocomplete() {
 		MyAutocompleteable component = new MyAutocompleteable();
 		component.setFullPhoneAutocomplete();
-		Assert.assertEquals(getDefaultTel(), component.getAutocomplete());
+		Assert.assertEquals(Telephone.FULL.getValue(), component.getAutocomplete());
 	}
 
 	@Test
-	public void testSetAutocompleteTypeFormat() {
+	public void testSetLocalPhoneAutocompleteWithType() {
 		MyAutocompleteable component = new MyAutocompleteable();
 		String expected;
 
-		for (AutocompleteUtil.TelephoneAutocompleteType phoneType : AutocompleteUtil.TelephoneAutocompleteType.values()) {
-			for (AutocompleteUtil.TelephoneAutocomplete phone : AutocompleteUtil.TelephoneAutocomplete.values()) {
-				expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(), phone.getValue());
-				component.setAutocomplete(phoneType, phone);
-				Assert.assertEquals(expected, component.getAutocomplete());
-			}
-		}
-	}
-
-	@Test
-	public void testDefaultSetLocalPhoneAutocomplete_withType() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		String expected;
-
-		for (AutocompleteUtil.TelephoneAutocompleteType phoneType : AutocompleteUtil.TelephoneAutocompleteType.values()) {
-			expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(),
-					AutocompleteUtil.TelephoneAutocomplete.LOCAL.getValue());
+		for (PhoneFormat phoneType : PhoneFormat.values()) {
+			expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(), Telephone.LOCAL.getValue());
 			component.setLocalPhoneAutocomplete(phoneType);
 			Assert.assertEquals(expected, component.getAutocomplete());
 		}
 	}
 
 	@Test
-	public void testDefaultSetLocalPhoneAutocomplete_withNullType() {
+	public void testSetLocalPhoneAutocompleteNullType() {
 		MyAutocompleteable component = new MyAutocompleteable();
 		component.setLocalPhoneAutocomplete(null);
-		Assert.assertEquals(AutocompleteUtil.TelephoneAutocomplete.LOCAL.getValue(), component.getAutocomplete());
+		Assert.assertEquals(Telephone.LOCAL.getValue(), component.getAutocomplete());
 	}
 
 	@Test
-	public void testDefaultSetLocalPhoneAutocomplete() {
+	public void testSetLocalPhoneAutocomplete() {
 		MyAutocompleteable component = new MyAutocompleteable();
 		component.setLocalPhoneAutocomplete();
-		Assert.assertEquals(AutocompleteUtil.TelephoneAutocomplete.LOCAL.getValue(), component.getAutocomplete());
+		Assert.assertEquals(Telephone.LOCAL.getValue(), component.getAutocomplete());
 	}
-
 
 	/**
 	 * Mock class to test the default methods.
@@ -186,30 +93,15 @@ public class AutocompleteablePhone_Test {
 	private class MyAutocompleteable implements AutocompleteablePhone {
 		private String autocomplete;
 
-		/**
-		 * See {@link com.github.bordertech.wcomponents.WPhoneNumberField#setAutocomplete(
-		 *    com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil.TELEPHONE_TYPE,
-		 *    com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil.TELEPHONE_AUTOCOMPLETE,
-		 *    java.lang.String) for a real implementation.
-		*/
 		@Override
-		public void setAutocomplete(final AutocompleteUtil.TelephoneAutocompleteType phoneType, final AutocompleteUtil.TelephoneAutocomplete phone,
-				final String sectionName) {
-			if (phoneType == null && phone == null && Util.empty(sectionName)) {
-				autocomplete = null;
-				return;
-			}
-
-			String typeString = phoneType == null ? null : phoneType.getValue();
-			String phoneFormatString = phone == null ? null : phone.getValue();
-
-			if (Util.empty(sectionName)) {
-				autocomplete = AutocompleteUtil.getCombinedAutocomplete(typeString, phoneFormatString);
-			} else {
-				autocomplete = AutocompleteUtil.getCombinedForSection(sectionName, typeString, phoneFormatString);
-			}
+		public void setAutocomplete(final Telephone phone, final PhoneFormat phoneType) {
+			autocomplete = AutocompleteUtil.getCombinedFullPhone(phoneType, phone);
 		}
 
+		/**
+		 * Set autocomplete without Interface methods.
+		 * @param val the value to set
+		 */
 		public void setAutocompleteDirectly(final String val) {
 			autocomplete = val;
 		}
@@ -225,7 +117,7 @@ public class AutocompleteablePhone_Test {
 		}
 
 		@Override
-		public void addAutocompleteSection(String sectionName) {
+		public void addAutocompleteSection(final String sectionName) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -245,7 +137,7 @@ public class AutocompleteablePhone_Test {
 		}
 
 		@Override
-		public void setIdName(String idName) {
+		public void setIdName(final String idName) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -260,52 +152,52 @@ public class AutocompleteablePhone_Test {
 		}
 
 		@Override
-		public void serviceRequest(Request request) {
+		public void serviceRequest(final Request request) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void invokeLater(Runnable runnable) {
+		public void invokeLater(final Runnable runnable) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void handleRequest(Request request) {
+		public void handleRequest(final Request request) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void forward(String url) {
+		public void forward(final String url) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void preparePaint(Request request) {
+		public void preparePaint(final Request request) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void paint(RenderContext renderContext) {
+		public void paint(final RenderContext renderContext) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void validate(List<Diagnostic> diags) {
+		public void validate(final List<Diagnostic> diags) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void showErrorIndicators(List<Diagnostic> diags) {
+		public void showErrorIndicators(final List<Diagnostic> diags) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void showWarningIndicators(List<Diagnostic> diags) {
+		public void showWarningIndicators(final List<Diagnostic> diags) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void setLocked(boolean lock) {
+		public void setLocked(final boolean lock) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -320,7 +212,7 @@ public class AutocompleteablePhone_Test {
 		}
 
 		@Override
-		public void setInitialised(boolean flag) {
+		public void setInitialised(final boolean flag) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -330,7 +222,7 @@ public class AutocompleteablePhone_Test {
 		}
 
 		@Override
-		public void setValidate(boolean flag) {
+		public void setValidate(final boolean flag) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -340,7 +232,7 @@ public class AutocompleteablePhone_Test {
 		}
 
 		@Override
-		public void setVisible(boolean visible) {
+		public void setVisible(final boolean visible) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -395,7 +287,7 @@ public class AutocompleteablePhone_Test {
 		}
 
 		@Override
-		public void setTag(String tag) {
+		public void setTag(final String tag) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -405,7 +297,7 @@ public class AutocompleteablePhone_Test {
 		}
 
 		@Override
-		public void setEnvironment(Environment environment) {
+		public void setEnvironment(final Environment environment) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -420,22 +312,22 @@ public class AutocompleteablePhone_Test {
 		}
 
 		@Override
-		public void setAttribute(String key, Serializable value) {
+		public void setAttribute(final String key, final Serializable value) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public Serializable getAttribute(String key) {
+		public Serializable getAttribute(final String key) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public Serializable removeAttribute(String key) {
+		public Serializable removeAttribute(final String key) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void setToolTip(String text, Serializable... args) {
+		public void setToolTip(final String text, final Serializable... args) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -445,7 +337,7 @@ public class AutocompleteablePhone_Test {
 		}
 
 		@Override
-		public void setAccessibleText(String text, Serializable... args) {
+		public void setAccessibleText(final String text, final Serializable... args) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -455,7 +347,7 @@ public class AutocompleteablePhone_Test {
 		}
 
 		@Override
-		public void setTrackingEnabled(boolean track) {
+		public void setTrackingEnabled(final boolean track) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -470,22 +362,22 @@ public class AutocompleteablePhone_Test {
 		}
 
 		@Override
-		public void setHtmlClass(String className) {
+		public void setHtmlClass(final String className) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void setHtmlClass(HtmlClassProperties className) {
+		public void setHtmlClass(final HtmlClassProperties className) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void addHtmlClass(String className) {
+		public void addHtmlClass(final String className) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void addHtmlClass(HtmlClassProperties className) {
+		public void addHtmlClass(final HtmlClassProperties className) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -500,12 +392,12 @@ public class AutocompleteablePhone_Test {
 		}
 
 		@Override
-		public void removeHtmlClass(String className) {
+		public void removeHtmlClass(final String className) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void removeHtmlClass(HtmlClassProperties className) {
+		public void removeHtmlClass(final HtmlClassProperties className) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 

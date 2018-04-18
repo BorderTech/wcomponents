@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
 import com.github.bordertech.wcomponents.autocomplete.AutocompleteableDate;
+import com.github.bordertech.wcomponents.autocomplete.type.DateType;
 import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
@@ -169,14 +170,14 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	 */
 	@Override
 	protected boolean doHandleRequest(final Request request) {
-		// Valid Date on the request
+		// Valid DateType on the request
 		Date dateValue = getRequestValue(request);
 
 		// Text entered by the user (An empty string is treated as null)
 		String value = request.getParameter(getId());
 		String text = Util.empty(value) ? null : value;
 
-		// Current Date
+		// Current DateType
 		Date currentDate = getValue();
 
 		boolean changed;
@@ -186,7 +187,7 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 			// User entered text
 			changed = !Util.equals(text, getText()) || currentDate != null;
 		} else {
-			// Valid Date
+			// Valid DateType
 			changed = !Util.equals(dateValue, currentDate);
 		}
 
@@ -371,17 +372,13 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	}
 
 	@Override
-	public void setAutocomplete(final AutocompleteUtil.DateAutocomplete dateType, final String sectionName) {
-		if (dateType == null && Util.empty(sectionName)) {
+	public void setAutocomplete(final DateType value) {
+		if (value == null) {
 			clearAutocomplete();
 			return;
 		}
-		final String current = getAutocomplete();
-		final String strType = dateType == null ? null : dateType.getValue();
-		String newValue = Util.empty(sectionName)
-				? strType
-				: AutocompleteUtil.getCombinedForSection(sectionName, strType);
-		if (!Util.equals(current, newValue)) {
+		String newValue = value.getValue();
+		if (!Util.equals(getAutocomplete(), newValue)) {
 			getOrCreateComponentModel().autocomplete = newValue;
 		}
 	}
@@ -393,26 +390,15 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 
 	@Override
 	public void setAutocompleteOff() {
-		if (!AutocompleteUtil.OFF.equalsIgnoreCase(getAutocomplete())) {
-			getOrCreateComponentModel().autocomplete = AutocompleteUtil.OFF;
+		if (!isAutocompleteOff()) {
+			getOrCreateComponentModel().autocomplete = AutocompleteUtil.getOff();
 		}
 	}
 
 	@Override
 	public void addAutocompleteSection(final String sectionName) {
-		if (Util.empty(sectionName)) {
-			throw new IllegalArgumentException("Auto-fill section names must not be empty.");
-		}
-		String currentValue = getAutocomplete();
-		if (AutocompleteUtil.OFF.equalsIgnoreCase(currentValue)) {
-			throw new SystemException("Auto-fill sections cannot be applied to fields with autocomplete off.");
-		}
-
-		String newValue = currentValue == null
-				? AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.DateAutocomplete.BIRTHDAY.getValue())
-				: AutocompleteUtil.getCombinedForSection(sectionName, currentValue);
-
-		if (!Util.equals(currentValue, newValue)) {
+		String newValue = AutocompleteUtil.getCombinedForAddSection(sectionName, this);
+		if (!Util.equals(getAutocomplete(), newValue)) {
 			getOrCreateComponentModel().autocomplete = newValue;
 		}
 	}

@@ -115,7 +115,7 @@ public class WDateFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	public void testDoPaintAutocomplete() throws IOException, SAXException, XpathException {
 		WDateField dateField = new WDateField();
 		dateField.setDate(TEST_DATE);
-		dateField.setDateAutocomplete();
+		dateField.setBirthdayAutocomplete();
 
 		// Validate Schema
 		assertSchemaMatch(dateField);

@@ -7,7 +7,6 @@ import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.io.Serializable;
 import java.util.List;
@@ -16,63 +15,58 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * JUnit tests of default methods of Interface {@link AutocompleteablePassword}.
+ * JUnits of default methods of {@link Autocompleteable}.
+ *
  * @author Mark Reeves
+ * @since 1.5.3
  */
-public class AutocompleteablePassword_Test {
+public class Autocompleteable_Test {
+
+	@Test
+	public void testIsAutocompleteOff() {
+		MyAutocompleteable component = new MyAutocompleteable();
+		Assert.assertFalse(component.isAutocompleteOff());
+	}
+
+	@Test
+	public void testIsAutocompleteOffAfterSetting() {
+		MyAutocompleteable component = new MyAutocompleteable();
+		component.setAutocompleteOff();
+		Assert.assertTrue(component.isAutocompleteOff());
+	}
+
+	@Test
+	public void testIsAutocompleteOffAfterSettingSomethingElse() {
+		MyAutocompleteable component = new MyAutocompleteable();
+		component.setDirectly("foo");
+		Assert.assertFalse(component.isAutocompleteOff());
+	}
+
+	@Test
+	public void testIsAutocompleteOffAfterSettingNotCaseSensitive() {
+		MyAutocompleteable component = new MyAutocompleteable();
+		component.setDirectly("OfF");
+		Assert.assertTrue(component.isAutocompleteOff());
+		component.setDirectly("oFF");
+		Assert.assertTrue(component.isAutocompleteOff());
+		component.setDirectly("OFF");
+		Assert.assertTrue(component.isAutocompleteOff());
+		component.setDirectly("ofF");
+		Assert.assertTrue(component.isAutocompleteOff());
+		// etc
+	}
 
 	/**
-	 * Meta test to improve confidence in other tests.
+	 * Mock for testing default methods.
 	 */
-	@Test
-	public void testGetAutocomplete() {
-		String testString = "foo";
-		MyAutocompleteable component = new MyAutocompleteable();
-		// ensure the component's autocompete is set to a specific thing outside the interface setters.
-		component.setAutocompleteDirectly(testString);
-		Assert.assertEquals(testString, component.getAutocomplete());
-	}
-
-	@Test
-	public void testSetAutocompleteWithType() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		String expected;
-		for (AutocompleteUtil.PasswordAutocomplete pword : AutocompleteUtil.PasswordAutocomplete.values()) {
-			expected = pword.getValue();
-			component.setAutocomplete(pword);
-			Assert.assertEquals(expected, component.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutocompleteWithNullType() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		component.setAutocomplete(null);
-		Assert.assertNull(component.getAutocomplete());
-	}
-
-	/**
-	 * Class used to test only the default methods in the interface.
-	 */
-	private class MyAutocompleteable implements AutocompleteablePassword {
-
+	private class MyAutocompleteable implements Autocompleteable {
 		private String autocomplete;
 
-		@Override
-		public void setAutocomplete(final AutocompleteUtil.PasswordAutocomplete passwordType, final String sectionName) {
-			if (passwordType == null && Util.empty(sectionName)) {
-				autocomplete = null;
-				return;
-			}
-			String typeVal = passwordType == null ? null : passwordType.getValue();
-			if (Util.empty(sectionName)) {
-				autocomplete = typeVal;
-			} else {
-				autocomplete = AutocompleteUtil.getCombinedForSection(sectionName, typeVal);
-			}
-		}
-
-		public void setAutocompleteDirectly(final String val) {
+		/**
+		 * Modify the autocomplete attribute without using any interface methods.
+		 * @param val the value to set
+		 */
+		public void setDirectly(final String val) {
 			autocomplete = val;
 		}
 
@@ -83,7 +77,7 @@ public class AutocompleteablePassword_Test {
 
 		@Override
 		public void setAutocompleteOff() {
-			throw new UnsupportedOperationException("Not supported yet.");
+			autocomplete = AutocompleteUtil.getOff();
 		}
 
 		@Override
@@ -147,7 +141,7 @@ public class AutocompleteablePassword_Test {
 		}
 
 		@Override
-		public void paint(RenderContext renderContext) {
+		public void paint(final RenderContext renderContext) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -162,7 +156,7 @@ public class AutocompleteablePassword_Test {
 		}
 
 		@Override
-		public void showWarningIndicators(List<Diagnostic> diags) {
+		public void showWarningIndicators(final List<Diagnostic> diags) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -192,7 +186,7 @@ public class AutocompleteablePassword_Test {
 		}
 
 		@Override
-		public void setValidate(boolean flag) {
+		public void setValidate(final boolean flag) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -371,5 +365,4 @@ public class AutocompleteablePassword_Test {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 	}
-
 }

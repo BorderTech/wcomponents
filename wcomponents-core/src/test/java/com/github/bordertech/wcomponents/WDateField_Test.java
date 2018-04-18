@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.type.DateType;
 import com.github.bordertech.wcomponents.util.DateUtilities;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
@@ -40,15 +41,15 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 	 */
 	private static final String INVALID_INTERNAL_DATE3 = "2010-01-999";
 	/**
-	 * Lenient Date - user text.
+	 * Lenient DateType - user text.
 	 */
 	private static final String LENIENT_VALID_USER_TEXT = "99 JAN 2008";
 	/**
-	 * Lenient Date - date text.
+	 * Lenient DateType - date text.
 	 */
 	private static final String LENIENT_VALID_INTERNAL_DATE_TEXT = "2008-01-99";
 	/**
-	 * Lenient Date - date value.
+	 * Lenient DateType - date value.
 	 */
 	private static final Date LENIENT_VALID_DATE_VALUE = DateUtilities.createDate(8, 4, 2008);
 
@@ -58,29 +59,29 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 	private static final String ERROR_MESSAGE = "DateFieldValidator_Test error message";
 
 	/**
-	 * Valid Date - user text.
+	 * Valid DateType - user text.
 	 */
 	private static final String REQUEST_VALID_USER_TEXT = "03 FEB 2001";
 	/**
-	 * Valid Date - date text.
+	 * Valid DateType - date text.
 	 */
 	private static final String REQUEST_VALID_INTERNAL_DATE_TEXT = "2001-02-03";
 	/**
-	 * Valid Date - date value.
+	 * Valid DateType - date value.
 	 */
 	private static final Date REQUEST_VALID_DATE_VALUE = DateUtilities.createDate(03, 02, 2001);
 
 	/**
-	 * Bad Date - user text.
+	 * Bad DateType - user text.
 	 */
 	private static final String REQUEST_BAD_USER_TEXT = "BAD DATE";
 
 	/**
-	 * Theme Bad Date - user text.
+	 * Theme Bad DateType - user text.
 	 */
 	private static final String REQUEST_THEME_BAD_DATE_USER_TEXT = "10 MAR";
 	/**
-	 * Theme Bad Date - invalid date text.
+	 * Theme Bad DateType - invalid date text.
 	 */
 	private static final String REQUEST_THEME_BAD_INTERNAL_DATE_VALUE = "9999-99-99";
 
@@ -97,7 +98,7 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 		// Data is null
 		Assert.assertNull("Date getValue should be null by default", dateField.getValue());
 
-		// Data is a Date
+		// Data is a DateType
 		Date date = DateUtilities.createDate(1, 0, 2008);
 		dateField.setData(date);
 		Assert.assertEquals("Date getValue incorrect date value for Date type", date, dateField.
@@ -366,7 +367,7 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 		dateField.setLocked(true);
 		setActiveContext(createUIContext());
 
-		// Setup Request with Invalid Date (User text only)
+		// Setup Request with Invalid DateType (User text only)
 		MockRequest request = new MockRequest();
 		request.setParameter(dateField.getId(), REQUEST_BAD_USER_TEXT);
 
@@ -439,7 +440,7 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 		dateField.setLocked(true);
 		setActiveContext(createUIContext());
 
-		// Setup Request with Valid Date
+		// Setup Request with Valid DateType
 		MockRequest request = new MockRequest();
 		request.setParameter(dateField.getId(), REQUEST_VALID_USER_TEXT);
 		request.setParameter(dateField.getId() + "-date", REQUEST_VALID_INTERNAL_DATE_TEXT);
@@ -872,6 +873,7 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 		dateField.resetData();
 	}
 
+	// Autocomplete
 	@Test
 	public void testAutocompleteDefault() {
 		WDateField dateField = new WDateField();
@@ -881,7 +883,7 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testSetAutocomplete() {
 		WDateField field = new WDateField();
-		for (AutocompleteUtil.DateAutocomplete date : AutocompleteUtil.DateAutocomplete.values()) {
+		for (DateType date : DateType.values()) {
 			field.setAutocomplete(date);
 			Assert.assertEquals(date.getValue(), field.getAutocomplete());
 		}
@@ -890,96 +892,31 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testSetAutocompleteNullType() {
 		WDateField field = new WDateField();
+		field.setAutocomplete(DateType.BIRTHDAY);
+		Assert.assertNotNull(field.getAutocomplete());
 		field.setAutocomplete(null);
 		Assert.assertNull(field.getAutocomplete());
 	}
 
 	@Test
-	public void testSetAutocompleteWithSection() {
-		WDateField field = new WDateField();
-		String sectionName = "foo";
-		String expected;
-		for (AutocompleteUtil.DateAutocomplete date : AutocompleteUtil.DateAutocomplete.values()) {
-			expected = AutocompleteUtil.getCombinedForSection(sectionName, date.getValue());
-			field.setAutocomplete(date, sectionName);
-			Assert.assertEquals(expected, field.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutocompleteWithEmptySection() {
-		WDateField field = new WDateField();
-		for (AutocompleteUtil.DateAutocomplete date : AutocompleteUtil.DateAutocomplete.values()) {
-			field.setAutocomplete(date, "");
-			Assert.assertEquals(date.getValue(), field.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutocompleteWithNullSection() {
-		WDateField field = new WDateField();
-		for (AutocompleteUtil.DateAutocomplete date : AutocompleteUtil.DateAutocomplete.values()) {
-			field.setAutocomplete(date, null);
-			Assert.assertEquals(date.getValue(), field.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutocompleteNullTypeEmptySection() {
-		WDateField field = new WDateField();
-		field.setAutocomplete(null, "");
-		Assert.assertNull(field.getAutocomplete());
-	}
-
-	@Test
-	public void testSetAutocompleteNullTypeNullSection() {
-		WDateField field = new WDateField();
-		field.setAutocomplete(null, null);
-		Assert.assertNull(field.getAutocomplete());
-	}
-
-	@Test
-	public void testSetDateAutocomplete() {
+	public void testSetBirthdayAutocomplete() {
 		WDateField dateField = new WDateField();
-		dateField.setDateAutocomplete();
-		Assert.assertEquals(AutocompleteUtil.DateAutocomplete.BIRTHDAY.getValue(), dateField.getAutocomplete());
-	}
-
-	@Test
-	public void testSetDateAutocompleteWithSection() {
-		WDateField dateField = new WDateField();
-		String sectionName = "foo";
-		String expected = AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.DateAutocomplete.BIRTHDAY.getValue());
-		dateField.setDateAutocomplete(sectionName);
-		Assert.assertEquals(expected, dateField.getAutocomplete());
-	}
-
-	@Test
-	public void testSetDateAutocompleteWithNullSection() {
-		WDateField dateField = new WDateField();
-		dateField.setDateAutocomplete(null);
-		Assert.assertEquals(AutocompleteUtil.DateAutocomplete.BIRTHDAY.getValue(), dateField.getAutocomplete());
-	}
-
-	@Test
-	public void testSetDateAutocompleteWithEmptySection() {
-		WDateField dateField = new WDateField();
-		dateField.setDateAutocomplete("");
-		Assert.assertEquals(AutocompleteUtil.DateAutocomplete.BIRTHDAY.getValue(), dateField.getAutocomplete());
+		dateField.setBirthdayAutocomplete();
+		Assert.assertEquals(DateType.BIRTHDAY.getValue(), dateField.getAutocomplete());
 	}
 
 	@Test
 	public void testSetAutocompleteOff() {
 		WDateField dateField = new WDateField();
 		dateField.setAutocompleteOff();
-		Assert.assertEquals(AutocompleteUtil.OFF, dateField.getAutocomplete());
+		Assert.assertTrue(dateField.isAutocompleteOff());
 	}
 
 	@Test
 	public void testAddAutocompleteSection() {
 		WDateField dateField = new WDateField();
 		String sectionName = "foo";
-		String expected = AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.DateAutocomplete.BIRTHDAY.getValue());
+		String expected = AutocompleteUtil.getNamedSection(sectionName);
 		dateField.addAutocompleteSection(sectionName);
 		Assert.assertEquals(expected, dateField.getAutocomplete());
 	}
@@ -988,8 +925,8 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 	public void testAddAutocompleteSectionAfterSetting() {
 		WDateField dateField = new WDateField();
 		String sectionName = "foo";
-		String expected = AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.DateAutocomplete.BIRTHDAY.getValue());
-		dateField.setDateAutocomplete();
+		String expected = AutocompleteUtil.getCombinedForSection(sectionName, DateType.BIRTHDAY.getValue());
+		dateField.setBirthdayAutocomplete();
 		dateField.addAutocompleteSection(sectionName);
 		Assert.assertEquals(expected, dateField.getAutocomplete());
 	}
@@ -999,9 +936,10 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 		WDateField dateField = new WDateField();
 		String sectionName = "bar";
 		String firstSection = "foo";
-		dateField.setDateAutocomplete(firstSection);
+		dateField.setBirthdayAutocomplete();
+		dateField.addAutocompleteSection(firstSection);
 		String expected = AutocompleteUtil.getCombinedForSection(sectionName,
-				AutocompleteUtil.getNamedSection(firstSection), AutocompleteUtil.DateAutocomplete.BIRTHDAY.getValue());
+				AutocompleteUtil.getNamedSection(firstSection), DateType.BIRTHDAY.getValue());
 		dateField.addAutocompleteSection(sectionName);
 		Assert.assertEquals(expected, dateField.getAutocomplete());
 	}
@@ -1009,14 +947,14 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 	@Test(expected = IllegalArgumentException.class)
 	public void testAddNullSection() {
 		WDateField dateField = new WDateField();
-		dateField.setDateAutocomplete();
+		dateField.setBirthdayAutocomplete();
 		dateField.addAutocompleteSection(null);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testAddEmptySection() {
 		WDateField dateField = new WDateField();
-		dateField.setDateAutocomplete();
+		dateField.setBirthdayAutocomplete();
 		dateField.addAutocompleteSection("");
 	}
 
@@ -1046,7 +984,7 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 		String dateFieldId = dateField.getId();
 		dateField.setLocked(true);
 
-		// Valid Date
+		// Valid DateType
 		setActiveContext(createUIContext());
 		MockRequest request = new MockRequest();
 		request.setParameter(dateFieldId, REQUEST_VALID_USER_TEXT);
@@ -1066,7 +1004,7 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 		String dateFieldId = dateField.getId();
 		dateField.setLocked(true);
 
-		// Bad Date
+		// Bad DateType
 		setActiveContext(createUIContext());
 		MockRequest request = new MockRequest();
 		request.setParameter(dateFieldId, REQUEST_BAD_USER_TEXT);
@@ -1104,7 +1042,7 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 		String dateFieldId = dateField.getId();
 		dateField.setLocked(true);
 
-		// Valid Date
+		// Valid DateType
 		setActiveContext(createUIContext());
 		MockRequest request = new MockRequest();
 		request.setParameter(dateFieldId, REQUEST_THEME_BAD_DATE_USER_TEXT);

@@ -2,8 +2,9 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
 import com.github.bordertech.wcomponents.autocomplete.AutocompleteablePhone;
+import com.github.bordertech.wcomponents.autocomplete.segment.PhoneFormat;
+import com.github.bordertech.wcomponents.autocomplete.type.Telephone;
 import com.github.bordertech.wcomponents.util.InternalMessages;
-import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.List;
@@ -25,8 +26,8 @@ import java.util.regex.Pattern;
  * @author Mark Reeves
  * @since 1.0.0
  */
-public class WPhoneNumberField extends AbstractInput implements AjaxTrigger, AjaxTarget,
-		SubordinateTrigger, SubordinateTarget, Placeholderable, AutocompleteablePhone {
+public class WPhoneNumberField extends AbstractInput implements AjaxTrigger, AjaxTarget, SubordinateTrigger, SubordinateTarget, Placeholderable,
+		AutocompleteablePhone {
 
 	/**
 	 * {@inheritDoc}
@@ -174,23 +175,8 @@ public class WPhoneNumberField extends AbstractInput implements AjaxTrigger, Aja
 	}
 
 	@Override
-	public void setAutocomplete(final AutocompleteUtil.TelephoneAutocompleteType phoneType, final AutocompleteUtil.TelephoneAutocomplete phone,
-			final String sectionName) {
-
-		if (phoneType == null && phone == null && Util.empty(sectionName)) {
-			clearAutocomplete();
-			return;
-		}
-
-		String newValue;
-		final String innerType = phoneType == null ? null : phoneType.getValue();
-		final AutocompleteUtil.TelephoneAutocomplete innerPhone = phone == null ? AutocompleteUtil.TelephoneAutocomplete.FULL : phone;
-
-		if (Util.empty(sectionName)) {
-			newValue = AutocompleteUtil.getCombinedAutocomplete(innerType, innerPhone.getValue());
-		} else {
-			newValue = AutocompleteUtil.getCombinedForSection(sectionName, innerType, innerPhone.getValue());
-		}
+	public void setAutocomplete(final Telephone phone, final PhoneFormat phoneType) {
+		String newValue = AutocompleteUtil.getCombinedFullPhone(phoneType, phone);
 
 		if (!Util.equals(getAutocomplete(), newValue)) {
 			getOrCreateComponentModel().autocomplete = newValue;
@@ -199,25 +185,15 @@ public class WPhoneNumberField extends AbstractInput implements AjaxTrigger, Aja
 
 	@Override
 	public void setAutocompleteOff() {
-		if (!AutocompleteUtil.OFF.equalsIgnoreCase(getAutocomplete())) {
-			getOrCreateComponentModel().autocomplete = AutocompleteUtil.OFF;
+		if (!isAutocompleteOff()) {
+			getOrCreateComponentModel().autocomplete = AutocompleteUtil.getOff();
 		}
 	}
 
 	@Override
 	public void addAutocompleteSection(final String sectionName) {
-		if (Util.empty(sectionName)) {
-			throw new IllegalArgumentException("Auto-fill section names must not be empty.");
-		}
-		String currentValue = getAutocomplete();
-		if (AutocompleteUtil.OFF.equalsIgnoreCase(currentValue)) {
-			throw new SystemException("Auto-fill sections cannot be applied to fields with autocomplete off.");
-		}
-		String newValue = (currentValue == null)
-				? AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.TelephoneAutocomplete.FULL.getValue())
-				: AutocompleteUtil.getCombinedForSection(sectionName, currentValue);
-
-		if (!Util.equals(currentValue, newValue)) {
+		String newValue = AutocompleteUtil.getCombinedForAddSection(sectionName, this);
+		if (!Util.equals(getAutocomplete(), newValue)) {
 			getOrCreateComponentModel().autocomplete = newValue;
 		}
 	}

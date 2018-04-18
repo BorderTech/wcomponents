@@ -2,8 +2,18 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
 import com.github.bordertech.wcomponents.autocomplete.AutocompleteableText;
+import com.github.bordertech.wcomponents.autocomplete.segment.AddressPart;
+import com.github.bordertech.wcomponents.autocomplete.segment.AddressType;
+import com.github.bordertech.wcomponents.autocomplete.segment.AutocompleteSegment;
+import com.github.bordertech.wcomponents.autocomplete.segment.PhoneFormat;
+import com.github.bordertech.wcomponents.autocomplete.segment.PhonePart;
+import com.github.bordertech.wcomponents.autocomplete.type.DateType;
+import com.github.bordertech.wcomponents.autocomplete.type.Email;
+import com.github.bordertech.wcomponents.autocomplete.type.Numeric;
+import com.github.bordertech.wcomponents.autocomplete.type.Password;
+import com.github.bordertech.wcomponents.autocomplete.type.Telephone;
+import com.github.bordertech.wcomponents.autocomplete.type.Url;
 import com.github.bordertech.wcomponents.util.InternalMessages;
-import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.List;
@@ -17,6 +27,7 @@ import java.util.regex.Pattern;
  * @author James Gifford
  * @author Martin Shevchenko
  * @author Jonathan Austin
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WTextField extends AbstractInput implements AjaxTrigger, AjaxTarget, SubordinateTrigger,
@@ -273,13 +284,11 @@ public class WTextField extends AbstractInput implements AjaxTrigger, AjaxTarget
 		return (TextFieldModel) super.getOrCreateComponentModel();
 	}
 
-	@Override
-	public String getAutocomplete() {
-		return getComponentModel().autocomplete;
-	}
-
-	@Override
-	public void setAutocomplete(final String autocompleteValue) {
+	/**
+	 * Set the value of the {@code autocomplete} attribute for the current field.
+	 * @param autocompleteValue the value to set as a (optionally space delimited list of) String value(s).
+	 */
+	protected void setAutocomplete(final String autocompleteValue) {
 		final String newValue = Util.empty(autocompleteValue) ? null : autocompleteValue;
 		if (!Util.equals(newValue, getAutocomplete())) {
 			getOrCreateComponentModel().autocomplete = newValue;
@@ -287,24 +296,21 @@ public class WTextField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	}
 
 	@Override
+	public String getAutocomplete() {
+		return getComponentModel().autocomplete;
+	}
+
+	@Override
 	public void setAutocompleteOff() {
-		if (!AutocompleteUtil.OFF.equalsIgnoreCase(getAutocomplete())) {
-			getOrCreateComponentModel().autocomplete = AutocompleteUtil.OFF;
+		if (!isAutocompleteOff()) {
+			getOrCreateComponentModel().autocomplete = AutocompleteUtil.getOff();
 		}
 	}
 
 	@Override
 	public void addAutocompleteSection(final String sectionName) {
-		if (Util.empty(sectionName)) {
-			throw new IllegalArgumentException("Auto-fill section names must not be empty.");
-		}
-		String currentValue = getAutocomplete();
-		if (AutocompleteUtil.OFF.equalsIgnoreCase(currentValue)) {
-			throw new SystemException("Auto-fill sections cannot be applied to fields with autocomplete off.");
-		}
-		String newValue = AutocompleteUtil.getCombinedForSection(sectionName, currentValue);
-
-		if (!Util.equals(currentValue, newValue)) {
+		String newValue = AutocompleteUtil.getCombinedForAddSection(sectionName, this);
+		if (!Util.equals(getAutocomplete(), newValue)) {
 			getOrCreateComponentModel().autocomplete = newValue;
 		}
 	}
@@ -316,78 +322,55 @@ public class WTextField extends AbstractInput implements AjaxTrigger, AjaxTarget
 		}
 	}
 
-	/**
-	 * does the work of converting the various types of autocomplete helper to the {@code autocomplete} attribute values.
-	 * @param value the value for the {@code autocomplete} attribute
-	 * @param sectionName a name of an auto-fill section being the string represented by the asterisk in {@code section-*}
-	 */
-	private void setAutocompleteHelper(final String value, final String sectionName) {
-		if (value == null && Util.empty(sectionName)) {
-			clearAutocomplete();
-			return;
-		}
-
-		final String current = getAutocomplete();
-		String newValue = Util.empty(sectionName)
-				? value
-				: AutocompleteUtil.getCombinedForSection(sectionName, value);
-
-		if (!Util.equals(current, newValue)) {
-			getOrCreateComponentModel().autocomplete = newValue;
-		}
-	}
-
 	@Override
-	public void setAutocomplete(final AutocompleteUtil.DateAutocomplete dateType, final String sectionName) {
-		final String strType = dateType == null ? null : dateType.getValue();
-		setAutocompleteHelper(strType, sectionName);
-	}
-
-	@Override
-	public void setAutocomplete(final AutocompleteUtil.EmailAutocomplete value, final String sectionName) {
+	public void setAutocomplete(final DateType value) {
 		final String strType = value == null ? null : value.getValue();
-		setAutocompleteHelper(strType, sectionName);
+		setAutocomplete(strType);
 	}
 
 	@Override
-	public void setAutocomplete(final AutocompleteUtil.NumericAutocomplete value, final String sectionName) {
+	public void setAutocomplete(final Email value) {
 		final String strType = value == null ? null : value.getValue();
-		setAutocompleteHelper(strType, sectionName);
+		setAutocomplete(strType);
 	}
 
 	@Override
-	public void setAutocomplete(final AutocompleteUtil.PasswordAutocomplete passwordType, final String sectionName) {
-		final String strType = passwordType == null ? null : passwordType.getValue();
-		setAutocompleteHelper(strType, sectionName);
-	}
-
-	@Override
-	public void setAutocomplete(final AutocompleteUtil.TelephoneAutocompleteType phoneType, final AutocompleteUtil.TelephoneAutocomplete phone,
-			final String sectionName) {
-		if (phoneType == null && phone == null && Util.empty(sectionName)) {
-			clearAutocomplete();
-			return;
-		}
-
-		String newValue;
-		final String innerType = phoneType == null ? null : phoneType.getValue();
-		final AutocompleteUtil.TelephoneAutocomplete innerPhone = phone == null ? AutocompleteUtil.TelephoneAutocomplete.FULL : phone;
-
-		if (Util.empty(sectionName)) {
-			newValue = AutocompleteUtil.getCombinedAutocomplete(innerType, innerPhone.getValue());
-		} else {
-			newValue = AutocompleteUtil.getCombinedForSection(sectionName, innerType, innerPhone.getValue());
-		}
-
-		if (!Util.equals(getAutocomplete(), newValue)) {
-			getOrCreateComponentModel().autocomplete = newValue;
-		}
-	}
-
-	@Override
-	public void setAutocomplete(final AutocompleteUtil.UrlAutocomplete value, final String sectionName) {
+	public void setAutocomplete(final Numeric value) {
 		final String strType = value == null ? null : value.getValue();
-		setAutocompleteHelper(strType, sectionName);
+		setAutocomplete(strType);
+	}
+
+	@Override
+	public void setAutocomplete(final Password value) {
+		final String strType = value == null ? null : value.getValue();
+		setAutocomplete(strType);
+	}
+
+	@Override
+	public void setAutocomplete(final Url value) {
+		final String strType = value == null ? null : value.getValue();
+		setAutocomplete(strType);
+	}
+
+	@Override
+	public void setAutocomplete(final AutocompleteSegment value) {
+		final String strType = value == null ? null : value.getValue();
+		setAutocomplete(strType);
+	}
+
+	@Override
+	public void setAutocomplete(final Telephone phone, final PhoneFormat phoneType) {
+		setAutocomplete(AutocompleteUtil.getCombinedFullPhone(phoneType, phone));
+	}
+
+	@Override
+	public void setPhoneSegmentAutocomplete(final PhoneFormat phoneType, final PhonePart phoneSegment) {
+		setAutocomplete(AutocompleteUtil.getCombinedPhoneSegment(phoneType, phoneSegment));
+	}
+
+	@Override
+	public void setAddressAutocomplete(final AddressType addressType, final AddressPart addressPart) {
+		setAutocomplete(AutocompleteUtil.getCombinedAddress(addressType, addressPart));
 	}
 
 	/**

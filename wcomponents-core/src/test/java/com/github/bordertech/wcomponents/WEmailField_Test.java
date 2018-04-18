@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.type.Email;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
@@ -176,7 +177,8 @@ public class WEmailField_Test extends AbstractWComponentTestCase {
 		field.validate(diags);
 		Assert.assertTrue("Should be valid by default (when empty)", diags.isEmpty());
 
-		String[] invalidAddresses = {"a", "@", "a@", "@test", "a@test", "@b.test", "a@.test", "a@test.", "a@b..test", "a a@test.com", " @test.com", "a@b@c.test", "a@b c.com"};
+		String[] invalidAddresses = {"a", "@", "a@", "@test", "a@test", "@b.test", "a@.test", "a@test.", "a@b..test", "a a@test.com", " @test.com",
+			"a@b@c.test", "a@b c.com"};
 
 		for (String address : invalidAddresses) {
 			diags.clear();
@@ -274,7 +276,6 @@ public class WEmailField_Test extends AbstractWComponentTestCase {
 	}
 
 	// AUTOCOMPLETE
-	private static final String DEFAULT_VALUE = AutocompleteUtil.EmailAutocomplete.EMAIL.getValue();
 
 	@Test
 	public void testDefaultAutocomplete() {
@@ -285,7 +286,7 @@ public class WEmailField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testSetAutocomplete() {
 		WEmailField field = new WEmailField();
-		for (AutocompleteUtil.EmailAutocomplete email : AutocompleteUtil.EmailAutocomplete.values()) {
+		for (Email email : Email.values()) {
 			field.setAutocomplete(email);
 			Assert.assertEquals(email.getValue(), field.getAutocomplete());
 		}
@@ -294,6 +295,8 @@ public class WEmailField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testSetAutocompleteNullType() {
 		WEmailField field = new WEmailField();
+		field.setAutocomplete(Email.EMAIL);
+		Assert.assertNotNull(field.getAutocomplete());
 		field.setAutocomplete(null);
 		Assert.assertNull(field.getAutocomplete());
 	}
@@ -302,70 +305,14 @@ public class WEmailField_Test extends AbstractWComponentTestCase {
 	public void testSetEmailAutocomplete() {
 		WEmailField field = new WEmailField();
 		field.setEmailAutocomplete();
-		Assert.assertEquals(DEFAULT_VALUE, field.getAutocomplete());
-	}
-
-	@Test
-	public void testSetEmailAutocompleteWithSection() {
-		WEmailField field = new WEmailField();
-		String sectionName = "foo";
-		String expected = AutocompleteUtil.getCombinedForSection(sectionName, DEFAULT_VALUE);
-		field.setEmailAutocomplete(sectionName);
-		Assert.assertEquals(expected, field.getAutocomplete());
-	}
-
-	@Test
-	public void testSetEmailAutocompleteWithEmptySection() {
-		WEmailField field = new WEmailField();
-		field.setEmailAutocomplete("");
-		Assert.assertEquals(DEFAULT_VALUE, field.getAutocomplete());
-	}
-
-	@Test
-	public void testSetEmailAutocompleteWitNullSection() {
-		WEmailField field = new WEmailField();
-		field.setEmailAutocomplete(null);
-		Assert.assertEquals(DEFAULT_VALUE, field.getAutocomplete());
-	}
-
-	@Test
-	public void testSetAutocompleteTypeAndSection() {
-		WEmailField field = new WEmailField();
-		final String sectionName = "foo";
-		String expected;
-
-		for (AutocompleteUtil.EmailAutocomplete email : AutocompleteUtil.EmailAutocomplete.values()) {
-			expected = AutocompleteUtil.getCombinedForSection(sectionName, email.getValue());
-			field.setAutocomplete(email, sectionName);
-			Assert.assertEquals(expected, field.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutocompleteTypeAndEmptySection() {
-		WEmailField field = new WEmailField();
-
-		for (AutocompleteUtil.EmailAutocomplete email : AutocompleteUtil.EmailAutocomplete.values()) {
-			field.setAutocomplete(email, "");
-			Assert.assertEquals(email.getValue(), field.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutocompleteTypeAndNullSection() {
-		WEmailField field = new WEmailField();
-
-		for (AutocompleteUtil.EmailAutocomplete email : AutocompleteUtil.EmailAutocomplete.values()) {
-			field.setAutocomplete(email, null);
-			Assert.assertEquals(email.getValue(), field.getAutocomplete());
-		}
+		Assert.assertEquals(Email.EMAIL.getValue(), field.getAutocomplete());
 	}
 
 	@Test
 	public void testSetAutocompleteOff() {
 		WEmailField field = new WEmailField();
 		field.setAutocompleteOff();
-		Assert.assertEquals(AutocompleteUtil.OFF, field.getAutocomplete());
+		Assert.assertTrue(field.isAutocompleteOff());
 	}
 
 	@Test
@@ -390,7 +337,7 @@ public class WEmailField_Test extends AbstractWComponentTestCase {
 	public void testAddAutocompleteSectionAfterSetting() {
 		WEmailField field = new WEmailField();
 		String sectionName = "foo";
-		String expected = AutocompleteUtil.getCombinedForSection(sectionName, DEFAULT_VALUE);
+		String expected = AutocompleteUtil.getCombinedForSection(sectionName, Email.EMAIL.getValue());
 		field.setEmailAutocomplete();
 		field.addAutocompleteSection(sectionName);
 		Assert.assertEquals(expected, field.getAutocomplete());
@@ -401,9 +348,9 @@ public class WEmailField_Test extends AbstractWComponentTestCase {
 		WEmailField field = new WEmailField();
 		String sectionName = "bar";
 		String firstSection = "foo";
-		String expected = AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.getNamedSection(firstSection), DEFAULT_VALUE);
-
-		field.setEmailAutocomplete(firstSection);
+		String expected = AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.getNamedSection(firstSection), Email.EMAIL.getValue());
+		field.setEmailAutocomplete();
+		field.addAutocompleteSection(firstSection);
 		field.addAutocompleteSection(sectionName);
 		Assert.assertEquals(expected, field.getAutocomplete());
 	}

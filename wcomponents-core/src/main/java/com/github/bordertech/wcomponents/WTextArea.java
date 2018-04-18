@@ -2,8 +2,9 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
 import com.github.bordertech.wcomponents.autocomplete.AutocompleteableMultiline;
+import com.github.bordertech.wcomponents.autocomplete.segment.AddressType;
+import com.github.bordertech.wcomponents.autocomplete.type.Multiline;
 import com.github.bordertech.wcomponents.util.HtmlSanitizerUtil;
-import com.github.bordertech.wcomponents.util.Util;
 
 /**
  * <p>
@@ -115,6 +116,21 @@ public class WTextArea extends WTextField implements AutocompleteableMultiline {
 		return HtmlSanitizerUtil.sanitizeInputText(text);
 	}
 
+	@Override
+	public void setAutocomplete(final Multiline value) {
+		String strValue = value == null ? null : value.getValue();
+		setAutocomplete(strValue);
+	}
+
+	@Override
+	public void setFullStreetAddressAutocomplete(final AddressType value) {
+		String combinedAddress = value == null
+				? Multiline.STREET_ADDRESS.getValue()
+				: AutocompleteUtil.getCombinedAutocomplete(value.getValue(), Multiline.STREET_ADDRESS.getValue());
+
+		setAutocomplete(combinedAddress);
+	}
+
 	/**
 	 * Creates a new TextAreaModel.
 	 *
@@ -139,19 +155,6 @@ public class WTextArea extends WTextField implements AutocompleteableMultiline {
 	@Override // For type safety only
 	protected TextAreaModel getOrCreateComponentModel() {
 		return (TextAreaModel) super.getOrCreateComponentModel();
-	}
-
-	@Override
-	public void setAutocomplete(final AutocompleteUtil.AddressAutocompleteType addressType, final String sectionName) {
-		String combinedAddress = addressType == null
-				? AutocompleteUtil.MultilineAutocomplete.STREET_ADDRESS.getValue()
-				: AutocompleteUtil.getCombinedAutocomplete(addressType.getValue(), AutocompleteUtil.MultilineAutocomplete.STREET_ADDRESS.getValue());
-
-		String newValue = Util.empty(sectionName) ? combinedAddress : AutocompleteUtil.getCombinedForSection(sectionName, combinedAddress);
-
-		if (!Util.equals(getAutocomplete(), newValue)) {
-			setAutocomplete(newValue);
-		}
 	}
 
 	/**

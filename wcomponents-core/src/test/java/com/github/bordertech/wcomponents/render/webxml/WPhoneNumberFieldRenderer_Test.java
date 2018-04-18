@@ -5,7 +5,8 @@ import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WPhoneNumberField;
 import com.github.bordertech.wcomponents.WSuggestions;
-import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.segment.PhoneFormat;
+import com.github.bordertech.wcomponents.autocomplete.type.Telephone;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -113,7 +114,7 @@ public class WPhoneNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 	}
 
 	@Test
-	public void testPaintAutocomplete () throws IOException, SAXException, XpathException {
+	public void testPaintAutocomplete() throws IOException, SAXException, XpathException {
 		WPhoneNumberField field = new WPhoneNumberField();
 		WContainer root = new WContainer();
 		root.add(field);
@@ -123,17 +124,17 @@ public class WPhoneNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 	}
 
 	@Test
-	public void testPaintAutocomplete_type () throws IOException, SAXException, XpathException {
+	public void testPaintAutocompleteType() throws IOException, SAXException, XpathException {
 		WPhoneNumberField field = new WPhoneNumberField();
 		WContainer root = new WContainer();
 		root.add(field);
-		field.setAutocomplete(AutocompleteUtil.TelephoneAutocompleteType.MOBILE);
+		field.setFullPhoneAutocomplete(PhoneFormat.MOBILE);
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo(field.getAutocomplete(), "//ui:phonenumberfield/@autocomplete", field);
 	}
 
 	@Test
-	public void testPaintAutocompleteOff () throws IOException, SAXException, XpathException {
+	public void testPaintAutocompleteOff() throws IOException, SAXException, XpathException {
 		WPhoneNumberField field = new WPhoneNumberField();
 		WContainer root = new WContainer();
 		root.add(field);
@@ -143,21 +144,22 @@ public class WPhoneNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 	}
 
 	@Test
-	public void testPaintAutocomplete_allArgs () throws IOException, SAXException, XpathException {
+	public void testPaintAutocompleteAllArgs() throws IOException, SAXException, XpathException {
 		WPhoneNumberField field = new WPhoneNumberField();
 		WContainer root = new WContainer();
 		root.add(field);
-		field.setAutocomplete(AutocompleteUtil.TelephoneAutocompleteType.MOBILE, AutocompleteUtil.TelephoneAutocomplete.LOCAL, "foo");
+		field.setAutocomplete(Telephone.LOCAL, PhoneFormat.MOBILE);
+		field.addAutocompleteSection("foo");
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo(field.getAutocomplete(), "//ui:phonenumberfield/@autocomplete", field);
 	}
 
 	@Test
-	public void testPaintAutocomplete_allNull () throws IOException, SAXException, XpathException {
+	public void testPaintAutocompleteAllNull() throws IOException, SAXException, XpathException {
 		WPhoneNumberField field = new WPhoneNumberField();
 		WContainer root = new WContainer();
 		root.add(field);
-		field.setAutocomplete(null, null, null);
+		field.setAutocomplete(null, null);
 		assertSchemaMatch(field);
 		assertXpathNotExists("//ui:phonenumberfield/@autocomplete", field);
 	}

@@ -2,8 +2,8 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
 import com.github.bordertech.wcomponents.autocomplete.AutocompleteablePassword;
+import com.github.bordertech.wcomponents.autocomplete.type.Password;
 import com.github.bordertech.wcomponents.util.InternalMessages;
-import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.List;
@@ -223,14 +223,8 @@ public class WPasswordField extends AbstractInput implements AjaxTrigger, AjaxTa
 	}
 
 	@Override
-	public void setAutocomplete(final AutocompleteUtil.PasswordAutocomplete passwordType, final String sectionName) {
-		if (passwordType == null) {
-			clearAutocomplete();
-			return;
-		}
-
-		String newValue = Util.empty(sectionName) ? passwordType.getValue()
-				: AutocompleteUtil.getCombinedForSection(sectionName, passwordType.getValue());
+	public void setAutocomplete(final Password value) {
+		String newValue = value == null ? null : value.getValue();
 
 		if (!Util.equals(getAutocomplete(), newValue)) {
 			getOrCreateComponentModel().autocomplete = newValue;
@@ -244,24 +238,15 @@ public class WPasswordField extends AbstractInput implements AjaxTrigger, AjaxTa
 
 	@Override
 	public void setAutocompleteOff() {
-		if (!AutocompleteUtil.OFF.equalsIgnoreCase(getAutocomplete())) {
-			getOrCreateComponentModel().autocomplete = AutocompleteUtil.OFF;
+		if (!isAutocompleteOff()) {
+			getOrCreateComponentModel().autocomplete = AutocompleteUtil.getOff();
 		}
 	}
 
 	@Override
 	public void addAutocompleteSection(final String sectionName) {
-		if (Util.empty(sectionName)) {
-			throw new IllegalArgumentException("Auto-fill section names must not be empty.");
-		}
-		String currentValue = getAutocomplete();
-		if (AutocompleteUtil.OFF.equalsIgnoreCase(currentValue)) {
-			throw new SystemException("Auto-fill sections cannot be applied to fields with autocomplete off.");
-		}
-
-		String newValue = AutocompleteUtil.getCombinedForSection(sectionName, currentValue);
-
-		if (!Util.equals(currentValue, newValue)) {
+		String newValue = AutocompleteUtil.getCombinedForAddSection(sectionName, this);
+		if (!Util.equals(getAutocomplete(), newValue)) {
 			getOrCreateComponentModel().autocomplete = newValue;
 		}
 	}

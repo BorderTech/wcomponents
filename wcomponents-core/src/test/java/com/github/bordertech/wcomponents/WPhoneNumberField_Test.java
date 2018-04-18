@@ -1,6 +1,8 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.segment.PhoneFormat;
+import com.github.bordertech.wcomponents.autocomplete.type.Telephone;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
@@ -330,228 +332,76 @@ public class WPhoneNumberField_Test extends AbstractWComponentTestCase {
 		Assert.assertNull(field.getAutocomplete());
 	}
 
-	/**
-	 * Internal helper for consistency.
-	 * @return the value of the full phone number autocomplete attribute value
-	 */
-	private String getACDefault() {
-		return AutocompleteUtil.TelephoneAutocomplete.FULL.getValue();
-	}
-
 	@Test
 	public void testSetAutocompleteOff() {
 		WPhoneNumberField field = new WPhoneNumberField();
 		field.setAutocompleteOff();
-		Assert.assertEquals(AutocompleteUtil.OFF, field.getAutocomplete());
+		Assert.assertTrue(field.isAutocompleteOff());
 	}
 
 	@Test
-	public void testSetAutoCompleteDefaults() {
-		String expected = getACDefault();
-
+	public void testSetFullPhoneAutocomplete() {
 		WPhoneNumberField field = new WPhoneNumberField();
 		field.setFullPhoneAutocomplete();
-		Assert.assertEquals(expected, field.getAutocomplete());
+		Assert.assertEquals(Telephone.FULL.getValue(), field.getAutocomplete());
 	}
 
 	@Test
-	public void testSetAutocompleteWithPhoneType() {
-		String strPhoneType;
+	public void testSetFullPhoneAutocompleteWithPhoneType() {
 		String expected;
 		WPhoneNumberField field = new WPhoneNumberField();
-		for (AutocompleteUtil.TelephoneAutocompleteType phoneType : AutocompleteUtil.TelephoneAutocompleteType.values()) {
-			strPhoneType = phoneType.getValue();
-			expected = AutocompleteUtil.getCombinedAutocomplete(strPhoneType, getACDefault());
-			field.setAutocomplete(phoneType);
+		for (PhoneFormat phoneType : PhoneFormat.values()) {
+			expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(), Telephone.FULL.getValue());
+			field.setFullPhoneAutocomplete(phoneType);
 			Assert.assertEquals(expected, field.getAutocomplete());
 		}
 	}
 
 	@Test
-	public void testSetAutocompleteWithPhoneType_null() {
+	public void testSetFullPhoneAutocompleteWithNullPhoneType() {
 		WPhoneNumberField field = new WPhoneNumberField();
-		String expected = AutocompleteUtil.getCombinedAutocomplete(null, getACDefault());
-		field.setAutocomplete((AutocompleteUtil.TelephoneAutocompleteType) null);
-		Assert.assertEquals(expected, field.getAutocomplete());
+		field.setFullPhoneAutocomplete(null);
+		Assert.assertEquals(Telephone.FULL.getValue(), field.getAutocomplete());
 	}
 
 	@Test
-	public void testSetAutoCompleteWithSectionAndType() {
-		String sectionName = "foo";
-		String strPhoneType;
+	public void testSetAutocompleteWithTypeFormat() {
+		WPhoneNumberField field = new WPhoneNumberField();
 		String expected;
-		WPhoneNumberField field = new WPhoneNumberField();
-		for (AutocompleteUtil.TelephoneAutocompleteType phoneType : AutocompleteUtil.TelephoneAutocompleteType.values()) {
-			strPhoneType = phoneType.getValue();
-			expected = AutocompleteUtil.getCombinedForSection(sectionName, strPhoneType, getACDefault());
-			field.setAutocomplete(phoneType, sectionName);
-			Assert.assertEquals(expected, field.getAutocomplete());
-		}
-	}
 
-	@Test
-	public void testSetAutoCompleteWithSectionAndType_emptySectionName() {
-		AutocompleteUtil.TelephoneAutocompleteType phoneType = AutocompleteUtil.TelephoneAutocompleteType.FAX;
-		String expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(), getACDefault());
-		WPhoneNumberField field = new WPhoneNumberField();
-		field.setAutocomplete(phoneType, "");
-		Assert.assertEquals(expected, field.getAutocomplete());
-	}
-
-	@Test
-	public void testSetAutoCompleteWithSectionAndType_nullSectionName() {
-		AutocompleteUtil.TelephoneAutocompleteType phoneType = AutocompleteUtil.TelephoneAutocompleteType.FAX;
-		String expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(), getACDefault());
-		WPhoneNumberField field = new WPhoneNumberField();
-		field.setAutocomplete(phoneType, (String)null);
-		Assert.assertEquals(expected, field.getAutocomplete());
-	}
-
-	@Test
-	public void testSetAutoCompleteWithSectionAndType_nullType() {
-		String sectionName = "foo";
-		String expected = AutocompleteUtil.getCombinedForSection(sectionName, getACDefault());
-		WPhoneNumberField field = new WPhoneNumberField();
-		field.setAutocomplete(null, sectionName);
-		Assert.assertEquals(expected, field.getAutocomplete());
-	}
-
-	@Test
-	public void testSetAutoCompleteWithTypeFormatAndSection() {
-		String sectionName = "foo";
-		String expected;
-		WPhoneNumberField field = new WPhoneNumberField();
-
-		for (AutocompleteUtil.TelephoneAutocomplete phone : AutocompleteUtil.TelephoneAutocomplete.values()) {
-			for (AutocompleteUtil.TelephoneAutocompleteType phoneType : AutocompleteUtil.TelephoneAutocompleteType.values()) {
-				expected = AutocompleteUtil.getCombinedForSection(sectionName, phoneType.getValue(), phone.getValue());
-				field.setAutocomplete(phoneType, phone, sectionName);
-				Assert.assertEquals(expected, field.getAutocomplete());
-			}
-		}
-	}
-
-	@Test
-	public void testSetAutoCompleteWithTypeFormatAndSection_emptySection() {
-		String sectionName = "";
-		String expected;
-		WPhoneNumberField field = new WPhoneNumberField();
-
-		for (AutocompleteUtil.TelephoneAutocomplete phone : AutocompleteUtil.TelephoneAutocomplete.values()) {
-			for (AutocompleteUtil.TelephoneAutocompleteType phoneType : AutocompleteUtil.TelephoneAutocompleteType.values()) {
+		for (PhoneFormat phoneType : PhoneFormat.values()) {
+			field.setAutocomplete(null, phoneType);
+			Assert.assertEquals(phoneType.getValue(), field.getAutocomplete());
+			for (Telephone phone : Telephone.values()) {
 				expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(), phone.getValue());
-				field.setAutocomplete(phoneType, phone, sectionName);
+				field.setAutocomplete(phone, phoneType);
 				Assert.assertEquals(expected, field.getAutocomplete());
 			}
 		}
 	}
 
 	@Test
-	public void testSetAutoCompleteWithTypeFormatAndSection_noPhoneFormat() {
-		String sectionName = "foo";
-		String expected;
+	public void testSetAutocompleteWithNullTypeFormat() {
 		WPhoneNumberField field = new WPhoneNumberField();
-
-		for (AutocompleteUtil.TelephoneAutocompleteType phoneType : AutocompleteUtil.TelephoneAutocompleteType.values()) {
-			expected = AutocompleteUtil.getCombinedForSection(sectionName, phoneType.getValue(),
-					AutocompleteUtil.TelephoneAutocomplete.FULL.getValue());
-			field.setAutocomplete(phoneType, null, sectionName);
-			Assert.assertEquals(expected, field.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutoCompleteWithTypeFormatAndSection_noPhoneFormatNoSection() {
-		String expected;
-		WPhoneNumberField field = new WPhoneNumberField();
-
-		for (AutocompleteUtil.TelephoneAutocompleteType phoneType : AutocompleteUtil.TelephoneAutocompleteType.values()) {
-			expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(),
-					AutocompleteUtil.TelephoneAutocomplete.FULL.getValue());
-			field.setAutocomplete(phoneType, null, null);
-			Assert.assertEquals(expected, field.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutoCompleteWithTypeFormatAndSection_noType() {
-		String sectionName = "foo";
-		String expected;
-		WPhoneNumberField field = new WPhoneNumberField();
-
-		for (AutocompleteUtil.TelephoneAutocomplete phone : AutocompleteUtil.TelephoneAutocomplete.values()) {
-			expected = AutocompleteUtil.getCombinedForSection(sectionName, phone.getValue());
-			field.setAutocomplete(null, phone, sectionName);
-			Assert.assertEquals(expected, field.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutoCompleteWithTypeFormatAndSection_noTypeNoFormat() {
-		String sectionName = "foo";
-		String expected = AutocompleteUtil.getCombinedForSection(sectionName, getACDefault());
-		WPhoneNumberField field = new WPhoneNumberField();
-		field.setAutocomplete(null, null, sectionName);
-		Assert.assertEquals(expected, field.getAutocomplete());
-	}
-
-	@Test
-	public void testSetAutoCompleteWithTypeFormatAndSection_noTypeNoFormatNullSection() {
-		WPhoneNumberField field = new WPhoneNumberField();
-		field.setAutocomplete(null, null, null);
-		Assert.assertNull(field.getAutocomplete());
-	}
-
-	@Test
-	public void testDefaultSetAutocomplete_onlyPhone() {
-		WPhoneNumberField field = new WPhoneNumberField();
-		for (AutocompleteUtil.TelephoneAutocomplete phone : AutocompleteUtil.TelephoneAutocomplete.values()) {
-			field.setAutocomplete(phone);
+		for (Telephone phone : Telephone.values()) {
+			field.setAutocomplete(phone, null);
 			Assert.assertEquals(phone.getValue(), field.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testDefaultSetAutocomplete_onlyNullPhone() {
-		WPhoneNumberField field = new WPhoneNumberField();
-		field.setAutocomplete((AutocompleteUtil.TelephoneAutocomplete)null);
-		Assert.assertNull(field.getAutocomplete());
-	}
-
-	@Test
-	public void testSetAutoCompleteWithTypeFormatAndSection_noTypeNoFormatEmptySection() {
-		WPhoneNumberField field = new WPhoneNumberField();
-		field.setAutocomplete(null, null, "");
-		Assert.assertNull(field.getAutocomplete());
-	}
-
-	@Test
-	public void testSetAutocompleteTypeFormat() {
-		WPhoneNumberField field = new WPhoneNumberField();
-		String expected;
-
-		for (AutocompleteUtil.TelephoneAutocompleteType phoneType : AutocompleteUtil.TelephoneAutocompleteType.values()) {
-			for (AutocompleteUtil.TelephoneAutocomplete phone : AutocompleteUtil.TelephoneAutocomplete.values()) {
-				expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(), phone.getValue());
-				field.setAutocomplete(phoneType, phone);
-				Assert.assertEquals(expected, field.getAutocomplete());
-			}
 		}
 	}
 
 	@Test
 	public void testAddAutocompleteSection() {
 		String sectionName = "foo";
-		String expected = AutocompleteUtil.getCombinedForSection(sectionName, getACDefault());
+		String expected = AutocompleteUtil.getNamedSection(sectionName);
 		WPhoneNumberField field = new WPhoneNumberField();
 		field.addAutocompleteSection(sectionName);
 		Assert.assertEquals(expected, field.getAutocomplete());
 	}
 
 	@Test
-	public void testAddAutocompleteSection_afterDefaultSet() {
+	public void testAddAutocompleteSectionAfterSet() {
 		String sectionName = "foo";
-		String expected = AutocompleteUtil.getCombinedForSection(sectionName, getACDefault());
+		String expected = AutocompleteUtil.getCombinedForSection(sectionName, Telephone.FULL.getValue());
 		WPhoneNumberField field = new WPhoneNumberField();
 		field.setFullPhoneAutocomplete();
 		field.addAutocompleteSection(sectionName);
@@ -559,37 +409,39 @@ public class WPhoneNumberField_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
-	public void testAddAutocompleteSection_withPhoneType() {
+	public void testAddAutocompleteSectionWithPhoneType() {
 		String sectionName = "foo";
-		AutocompleteUtil.TelephoneAutocompleteType phoneType = AutocompleteUtil.TelephoneAutocompleteType.MOBILE;
-		String expected = AutocompleteUtil.getCombinedForSection(sectionName, phoneType.getValue(), getACDefault());
+		PhoneFormat phoneType = PhoneFormat.MOBILE;
+		String expected = AutocompleteUtil.getCombinedForSection(sectionName, phoneType.getValue(), Telephone.FULL.getValue());
 		WPhoneNumberField field = new WPhoneNumberField();
-		field.setAutocomplete(phoneType);
+		field.setFullPhoneAutocomplete(phoneType);
 		field.addAutocompleteSection(sectionName);
 		Assert.assertEquals(expected, field.getAutocomplete());
 	}
 
 	@Test
-	public void testAddAutocompleteSection_withExistingSection() {
+	public void testAddAutocompleteSectionWithExistingSection() {
 		String sectionName = "foo";
-		String section2Name = "bar";
-		String expectedSection2Name = AutocompleteUtil.getNamedSection(section2Name);
-		AutocompleteUtil.TelephoneAutocompleteType phoneType = AutocompleteUtil.TelephoneAutocompleteType.MOBILE;
-		String expected = AutocompleteUtil.getCombinedForSection(sectionName, expectedSection2Name, phoneType.getValue(), getACDefault());
+		String innerSection = "bar";
+		PhoneFormat phoneType = PhoneFormat.MOBILE;
+		String expected =
+				AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.getNamedSection(innerSection),
+						phoneType.getValue(), Telephone.FULL.getValue());
 		WPhoneNumberField field = new WPhoneNumberField();
-		field.setAutocomplete(phoneType, section2Name);
+		field.setFullPhoneAutocomplete(phoneType);
+		field.addAutocompleteSection(innerSection);
 		field.addAutocompleteSection(sectionName);
 		Assert.assertEquals(expected, field.getAutocomplete());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testAddAutocompleteSection_empty () {
+	public void testAddAutocompleteSectionEmpty() {
 		WPhoneNumberField field = new WPhoneNumberField();
 		field.addAutocompleteSection("");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testAddAutocompleteSection_null () {
+	public void testAddAutocompleteSectionNull() {
 		WPhoneNumberField field = new WPhoneNumberField();
 		field.addAutocompleteSection(null);
 	}
@@ -612,26 +464,9 @@ public class WPhoneNumberField_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
-	public void testClearAutocomplete_afterComplexSetUp() {
-		WPhoneNumberField field = new WPhoneNumberField();
-		field.setAutocomplete(AutocompleteUtil.TelephoneAutocompleteType.MOBILE, "foo");
-		field.addAutocompleteSection("bar");
-		Assert.assertNotNull(field.getAutocomplete());
-		field.clearAutocomplete();
-		Assert.assertNull(field.getAutocomplete());
-	}
-
-	@Test
-	public void testClearAutocomplete_nothingToClear() {
-		WPhoneNumberField field = new WPhoneNumberField();
-		field.clearAutocomplete();
-		Assert.assertNull(field.getAutocomplete());
-	}
-
-	@Test
 	public void testSetLocalPhoneAutocomplete() {
 		WPhoneNumberField field = new WPhoneNumberField();
-		String expected = AutocompleteUtil.TelephoneAutocomplete.LOCAL.getValue();
+		String expected = Telephone.LOCAL.getValue();
 		field.setLocalPhoneAutocomplete();
 		Assert.assertEquals(expected, field.getAutocomplete());
 	}
@@ -641,11 +476,18 @@ public class WPhoneNumberField_Test extends AbstractWComponentTestCase {
 		WPhoneNumberField field = new WPhoneNumberField();
 		String expected;
 
-		for (AutocompleteUtil.TelephoneAutocompleteType phoneType : AutocompleteUtil.TelephoneAutocompleteType.values()) {
-			expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(), AutocompleteUtil.TelephoneAutocomplete.LOCAL.getValue());
+		for (PhoneFormat phoneType : PhoneFormat.values()) {
+			expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(), Telephone.LOCAL.getValue());
 			field.setLocalPhoneAutocomplete(phoneType);
 			Assert.assertEquals(expected, field.getAutocomplete());
 		}
+	}
+
+	@Test
+	public void testSetLocalPhoneAutocompleteWithNullType() {
+		WPhoneNumberField field = new WPhoneNumberField();
+		field.setLocalPhoneAutocomplete(null);
+		Assert.assertEquals(Telephone.LOCAL.getValue(), field.getAutocomplete());
 	}
 
 }

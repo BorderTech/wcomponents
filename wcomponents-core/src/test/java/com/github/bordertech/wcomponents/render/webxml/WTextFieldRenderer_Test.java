@@ -6,6 +6,7 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WSuggestions;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.segment.Person;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -112,13 +113,13 @@ public class WTextFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSchemaMatch(textField);
 		assertXpathEvaluatesTo("enter stuff here", "//ui:textfield/@placeholder", textField);
 
-		textField.setAutocomplete(AutocompleteUtil.GIVEN_NAME);
+		textField.setAutocomplete(Person.GIVEN);
 		assertSchemaMatch(textField);
 		assertXpathEvaluatesTo(textField.getAutocomplete(), "//ui:textfield/@autocomplete", textField);
 
 		textField.setAutocompleteOff();
 		assertSchemaMatch(textField);
-		assertXpathEvaluatesTo(AutocompleteUtil.OFF, "//ui:textfield/@autocomplete", textField);
+		assertXpathEvaluatesTo(AutocompleteUtil.getOff(), "//ui:textfield/@autocomplete", textField);
 	}
 
 	@Test

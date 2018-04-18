@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WTextArea;
 import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.segment.AddressType;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -117,13 +118,13 @@ public class WTextAreaRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("enter stuff here", "//ui:textarea/@placeholder", field);
 
 
-		field.setAutocomplete(AutocompleteUtil.AddressAutocompleteType.BILLING);
+		field.setAutocomplete(AddressType.BILLING);
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo(field.getAutocomplete(), "//ui:textarea/@autocomplete", field);
 
 		field.setAutocompleteOff();
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo(AutocompleteUtil.OFF, "//ui:textarea/@autocomplete", field);
+		assertXpathEvaluatesTo(AutocompleteUtil.getOff(), "//ui:textarea/@autocomplete", field);
 	}
 
 	@Test
