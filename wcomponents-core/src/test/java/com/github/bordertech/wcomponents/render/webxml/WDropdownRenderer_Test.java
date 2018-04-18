@@ -8,6 +8,7 @@ import com.github.bordertech.wcomponents.UIContextImpl;
 import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.WDropdown.DropdownType;
 import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.segment.Person;
 import java.io.IOException;
 import java.util.Arrays;
 import junit.framework.Assert;
@@ -127,13 +128,13 @@ public class WDropdownRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSchemaMatch(drop);
 		assertXpathEvaluatesTo("20", "//ui:dropdown/@optionWidth", drop);
 
-		drop.setAutocomplete(AutocompleteUtil.GIVEN_NAME);
+		drop.setAutocomplete(Person.GIVEN);
 		assertSchemaMatch(drop);
 		assertXpathEvaluatesTo(drop.getAutocomplete(), "//ui:dropdown/@autocomplete", drop);
 
 		drop.setAutocompleteOff();
 		assertSchemaMatch(drop);
-		assertXpathEvaluatesTo(AutocompleteUtil.OFF, "//ui:dropdown/@autocomplete", drop);
+		assertXpathEvaluatesTo(AutocompleteUtil.getOff(), "//ui:dropdown/@autocomplete", drop);
 	}
 
 	@Test

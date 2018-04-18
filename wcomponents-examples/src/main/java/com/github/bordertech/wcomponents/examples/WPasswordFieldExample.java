@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents.examples;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WPasswordField;
-import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.type.Password;
 
 /**
  * Shows the various properties of WPasswordField.
@@ -63,16 +63,18 @@ public class WPasswordFieldExample extends WContainer {
 
 		// autocomplete
 		pwfield = new WPasswordField();
-		pwfield.setAutocomplete(AutocompleteUtil.PasswordAutocomplete.CURRENT);
+		pwfield.setAutocomplete(Password.CURRENT);
 		layout.addField("with autocomplete current", pwfield);
 		pwfield = new WPasswordField();
-		pwfield.setAutocomplete(AutocompleteUtil.PasswordAutocomplete.NEW);
+		pwfield.setAutocomplete(Password.NEW);
 		layout.addField("with autocomplete new", pwfield);
 		pwfield = new WPasswordField();
-		pwfield.setAutocomplete(AutocompleteUtil.PasswordAutocomplete.CURRENT, "anothersection");
+		pwfield.setAutocomplete(Password.CURRENT);
+		pwfield.addAutocompleteSection("anothersection");
 		layout.addField("with autocomplete current in a section", pwfield);
 		pwfield = new WPasswordField();
-		pwfield.setAutocomplete(AutocompleteUtil.PasswordAutocomplete.NEW, "anothersection");
+		pwfield.setAutocomplete(Password.NEW);
+		pwfield.addAutocompleteSection("anothersection");
 		layout.addField("with autocomplete new in a section", pwfield);
 		pwfield = new WPasswordField();
 		pwfield.setAutocompleteOff();

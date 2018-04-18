@@ -1,24 +1,21 @@
 package com.github.bordertech.wcomponents.autocomplete;
 
+import com.github.bordertech.wcomponents.autocomplete.type.Numeric;
+
 /**
- * Provide valid {@code autocomplete} attribute values suitable for {@link com.github.bordertech.wcomponents.WNumberField}.
+ * Provide valid {@code autocomplete} attribute values suitable for controls in the
+ * <a href="hhttps://html.spec.whatwg.org/multipage/form-control-infrastructure.html#control-group-numeric" target="_blank">numeric control group</a>
+ * such as {@link com.github.bordertech.wcomponents.WNumberField}.
+ *
  * @author Mark Reeves
+ * @since 1.5.3
  */
 public interface AutocompleteableNumeric extends Autocompleteable {
 
 	/**
-	 * Set the autocomplete attribute for a number field for a given auto-fill value and auto-fill section.
-	 * @param value the type of number for auto-fill
-	 * @param sectionName the part of {@code section-*} represented by the asterisk
-	 */
-	void setAutocomplete(final AutocompleteUtil.NumericAutocomplete value, final String sectionName);
-
-	/**
-	 * Set the autocomplete attribute for a number field for a given auto-fill value with no auto-fill section.
+	 * Set the autocomplete attribute for a number field for a given numeric auto-fill value.
 	 * @param value the type of number for auto-fill
 	 */
-	default void setAutocomplete(final AutocompleteUtil.NumericAutocomplete value) {
-		setAutocomplete(value, null);
-	}
+	void setAutocomplete(final Numeric value);
 
 }

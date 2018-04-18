@@ -3,7 +3,8 @@ package com.github.bordertech.wcomponents.examples.theme;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WPhoneNumberField;
-import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.segment.PhoneFormat;
+import com.github.bordertech.wcomponents.autocomplete.type.Telephone;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 
 /**
@@ -58,19 +59,22 @@ public class WPhoneNumberFieldExample extends WContainer {
 		layout.addField("With autocomplete off", field);
 
 		field = new WPhoneNumberField();
-		field.setAutocomplete(AutocompleteUtil.TelephoneAutocompleteType.MOBILE);
+		field.setFullPhoneAutocomplete(PhoneFormat.MOBILE);
 		layout.addField("With mobile autocomplete", field);
 
 		field = new WPhoneNumberField();
-		field.setAutocomplete(null, "foo");
+		field.setFullPhoneAutocomplete((PhoneFormat)null);
+		field.addAutocompleteSection("foo");
 		layout.addField("With autocomplete for section foo", field);
 
 		field = new WPhoneNumberField();
-		field.setAutocomplete(AutocompleteUtil.TelephoneAutocompleteType.MOBILE, "foo");
+		field.setFullPhoneAutocomplete(PhoneFormat.MOBILE);
+		field.addAutocompleteSection("foo");
 		layout.addField("With mobile autocomplete for section foo", field);
 
 		field = new WPhoneNumberField();
-		field.setAutocomplete(AutocompleteUtil.TelephoneAutocompleteType.MOBILE, AutocompleteUtil.TelephoneAutocomplete.LOCAL, "foo");
+		field.setAutocomplete(Telephone.LOCAL, PhoneFormat.MOBILE);
+		field.addAutocompleteSection("foo");
 		layout.addField("With (local) mobile autocomplete for section foo", field);
 
 		field = new WPhoneNumberField();
@@ -78,7 +82,7 @@ public class WPhoneNumberFieldExample extends WContainer {
 		layout.addField("With (local) autocomplete", field);
 
 		field = new WPhoneNumberField();
-		field.setLocalPhoneAutocomplete(AutocompleteUtil.TelephoneAutocompleteType.MOBILE);
+		field.setLocalPhoneAutocomplete(PhoneFormat.MOBILE);
 		layout.addField("With (local) mobile phone autocomplete", field);
 
 		add(new ExplanatoryText(

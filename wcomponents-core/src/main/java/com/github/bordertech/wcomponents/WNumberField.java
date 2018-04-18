@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
 import com.github.bordertech.wcomponents.autocomplete.AutocompleteableNumeric;
+import com.github.bordertech.wcomponents.autocomplete.type.Numeric;
 import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
@@ -25,6 +26,7 @@ import java.util.List;
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarget, SubordinateTrigger, SubordinateTarget, AutocompleteableNumeric {
@@ -481,12 +483,8 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	}
 
 	@Override
-	public void setAutocomplete(final AutocompleteUtil.NumericAutocomplete value, final String sectionName) {
-		if (value == null && Util.empty(sectionName)) {
-			clearAutocomplete();
-		}
-		final String strVal = value == null ? null : value.getValue();
-		String newVal = Util.empty(sectionName) ? strVal : AutocompleteUtil.getCombinedForSection(sectionName, strVal);
+	public void setAutocomplete(final Numeric value) {
+		String newVal = value == null ? null : value.getValue();
 
 		if (!Util.equals(getAutocomplete(), newVal)) {
 			getOrCreateComponentModel().autocomplete = newVal;
@@ -500,22 +498,15 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 
 	@Override
 	public void setAutocompleteOff() {
-		if (!AutocompleteUtil.OFF.equalsIgnoreCase(getAutocomplete())) {
-			getOrCreateComponentModel().autocomplete = AutocompleteUtil.OFF;
+		if (!isAutocompleteOff()) {
+			getOrCreateComponentModel().autocomplete = AutocompleteUtil.getOff();
 		}
 	}
 
 	@Override
 	public void addAutocompleteSection(final String sectionName) {
-		if (Util.empty(sectionName)) {
-			throw new IllegalArgumentException("Auto-fill section names must not be empty.");
-		}
-		String currentValue = getAutocomplete();
-		if (AutocompleteUtil.OFF.equalsIgnoreCase(currentValue)) {
-			throw new SystemException("Auto-fill sections cannot be applied to fields with autocomplete off.");
-		}
-		String newValue = AutocompleteUtil.getCombinedForSection(sectionName, currentValue);
-		if (!Util.equals(currentValue, newValue)) {
+		String newValue = AutocompleteUtil.getCombinedForAddSection(sectionName, this);
+		if (!Util.equals(getAutocomplete(), newValue)) {
 			getOrCreateComponentModel().autocomplete = newValue;
 		}
 	}

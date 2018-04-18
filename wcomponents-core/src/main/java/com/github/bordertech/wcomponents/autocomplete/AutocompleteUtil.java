@@ -1,9 +1,15 @@
 package com.github.bordertech.wcomponents.autocomplete;
 
+import com.github.bordertech.wcomponents.autocomplete.segment.AddressPart;
+import com.github.bordertech.wcomponents.autocomplete.segment.AddressType;
+import com.github.bordertech.wcomponents.autocomplete.segment.PhoneFormat;
+import com.github.bordertech.wcomponents.autocomplete.segment.PhonePart;
+import com.github.bordertech.wcomponents.autocomplete.type.Telephone;
+import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
 
 /**
- * Provides values for the {@code autocomplete} attribute found on some HTML controls. See
+ * Provides help to acquire and format values for the {@code autocomplete} attribute found on some HTML controls. See
  * <a href="https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#autofilling-form-controls:-the-autocomplete-attribute"
  * target="_blank"> the HTML spec for autocomplete</a>.
  *
@@ -13,6 +19,7 @@ import com.github.bordertech.wcomponents.util.Util;
  * </p>
  *
  * @author Mark Reeves
+ * @since 1.5.3
  */
 public final class AutocompleteUtil {
 
@@ -29,638 +36,19 @@ public final class AutocompleteUtil {
 	/**
 	 * The value used to turn auto-fill off: must not be used with any other value.
 	 */
-	public static final String OFF = "off";
-
-	/**
-	 * Turn auto-fill explicitly "on". This is usually irrelevant as this is the default. Should not be used with any other value.
-	 */
-	public static final String ON = "on";
-
-	/**
-	 * Provides values for the {@code autocomplete} attribute which are applicable to date inputs such as
-	 * {@link com.github.bordertech.wcomponents.WPhoneNumberField}.
-	 */
-	public enum DateAutocomplete {
-		/**
-		 * Indicates the field represents a birthday as a <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#valid-date-string"
-		 * target="_blank">valid date String</a>; used in conjunction with {@link com.github.bordertech.wcomponents.WDateField}.
-		 */
-		BIRTHDAY("bday");
-
-		/**
-		 * The the {@code autocomplete} attribute value.
-		 */
-		private final String value;
-
-		/**
-		 * Creates each entry in the enumeration to allow for moderately type-safe auto-fill mnemonics.
-		 * @param val the string to place in the {@code autocomplete} attribute
-		 */
-		DateAutocomplete(final String val) {
-			this.value = val;
-		}
-
-		/**
-		 * @return the {@code autocomplete} attribute value for the enum member.
-		 */
-		public String getValue() {
-			return value;
-		}
-	}
-
-
-	/**
-	 * Provides values for the {@code autocomplete} attribute which are applicable to email inputs such as
-	 * {@link com.github.bordertech.wcomponents.WEmailField}.
-	 */
-	 public enum EmailAutocomplete {
-		/**
-		 * Indicates the field represents an e-mail address.
-		 */
-		EMAIL("email");
-
-		/**
-		 * The the {@code autocomplete} attribute value.
-		 */
-		private final String value;
-
-		/**
-		 * Creates each entry in the enumeration to allow for moderately type-safe auto-fill mnemonics.
-		 * @param val the string to place in the {@code autocomplete} attribute
-		 */
-		EmailAutocomplete(final String val) {
-			this.value = val;
-		}
-
-		/**
-		 * @return the {@code autocomplete} attribute value for the enum member.
-		 */
-		public String getValue() {
-			return value;
-		}
-	}
-
-	/**
-	 * Provides values for the {@code autocomplete} attribute which are applicable to numeric inputs such as
-	 * {@link com.github.bordertech.wcomponents.WNumberField}.
-	 */
-	 public enum NumericAutocomplete {
-		/**
-		 * Indicates the field represents the day component of birthday as a valid integer from 1 to 31; used in conjunction with
-		 * {@link com.github.bordertech.wcomponents.WNumberField} or an appropriately configured selection tool such as
-		 * {@link com.github.bordertech.wcomponents.WDropdown}.
-		 */
-		BIRTHDAY_DAY("bday-day"),
-		/**
-		 * Indicates the field represents the month component of birthday as a valid integer from 1 to 12; used in conjunction with
-		 * {@link com.github.bordertech.wcomponents.WNumberField} or an appropriately configured selection tool such as
-		 * {@link com.github.bordertech.wcomponents.WDropdown}.
-		 */
-		BIRTHDAY_MONTH("bday-month"),
-		/**
-		 * Indicates the field represents the year component of birthday as a valid positive integer; used in conjunction with
-		 * {@link com.github.bordertech.wcomponents.WNumberField}.
-		 */
-		BIRTHDAY_YEAR("bday-year"),
-		/**
-		 * Indicates the field represents the month component of the expiration date of the payment instrument as an integer from 1 to 12 and should
-		 * be used in conjunction with {@link com.github.bordertech.wcomponents.WNumberField}.
-		 */
-		CREDIT_CARD_EXPIRY_MONTH("cc-exp-month"),
-
-		/**
-		 * Indicates the field represents the year component of the expiration date of the payment instrument as a positive integer and should be used
-		 * in conjunction with {@link com.github.bordertech.wcomponents.WNumberField}.
-		 */
-		CREDIT_CARD_EXPIRY_YEAR("cc-exp-year"),
-		/**
-		 * Indicates the field represents the amount that the user would like for the transaction (for example when entering a bid or sale price) as a
-		 * floating point number; used in conjunction with {@link com.github.bordertech.wcomponents.WNumberField}.
-		 */
-		TRANSACTION_AMOUNT("transaction-amount");
-
-		/**
-		 * The the {@code autocomplete} attribute value.
-		 */
-		private final String value;
-
-		/**
-		 * Creates each entry in the enumeration to allow for moderately type-safe auto-fill mnemonics.
-		 * @param val the string to place in the {@code autocomplete} attribute
-		 */
-		NumericAutocomplete(final String val) {
-			value = val;
-		}
-
-		/**
-		 * @return the {@code autocomplete} attribute value for the enum member.
-		 */
-		public String getValue() {
-			return value;
-		}
-	}
-
-	/**
-	 * Provides values for the {@code autocomplete} attribute which are applicable to password inputs such as
-	 * {@link com.github.bordertech.wcomponents.WPasswordField}.
-	 */
-	 public enum PasswordAutocomplete {
-		/**
-		 * Indicates the field represents the current password for the account identified by the username field (for example when
-		 * logging in) and may only be used in conjunction with {@link com.github.bordertech.wcomponents.WPasswordField}.
-		 */
-		CURRENT("current-password"),
-		/**
-		 * Indicates the field represents a new password (for example when creating an account or changing a password) and may only be used in
-		 * conjunction with {@link com.github.bordertech.wcomponents.WPasswordField}.
-		 */
-		NEW("new-password");
-
-		/**
-		 * The the {@code autocomplete} attribute value.
-		 */
-		private final String value;
-
-
-		/**
-		 * Creates each entry in the enumeration to allow for moderately type-safe auto-fill mnemonics.
-		 * @param val the string to place in the {@code autocomplete} attribute
-		 */
-		PasswordAutocomplete(final String val) {
-			this.value = val;
-		}
-
-		/**
-		 * @return the {@code autocomplete} attribute value for the enum member.
-		 */
-		public String getValue() {
-			return value;
-		}
-	}
-
-	/**
-	 * Provides values for the HTML {@code autocomplete} attribute for an input in the telephone-number ('tel') state.
-	 */
-	 public enum TelephoneAutocomplete {
-		/**
-		 * Indicates the field represents a full telephone number, including country code, in the form of ASCII digits and optional U+0020 SPACE
-		 * characters, prefixed by a U+002B PLUS SIGN character (+); may be applied to a {@link com.github.bordertech.wcomponents.WPhoneNumberField}.
-		 */
-		FULL("tel"),
-		/**
-		 * Indicates the field represents a telephone number without the country code and area code components, in the form of ASCII digits but not to
-		 * be used with {@link com.github.bordertech.wcomponents.WNumberField}.
-		 */
-		LOCAL("tel-local");
-
-		/**
-		 * The the {@code autocomplete} attribute value.
-		 */
-		private final String value;
-
-		/**
-		 * Creates each entry in the enumeration to allow for moderately type-safe auto-fill mnemonics.
-		 * @param val the string to place in the {@code autocomplete} attribute
-		 */
-		TelephoneAutocomplete(final String val) {
-			this.value = val;
-		}
-
-		/**
-		 * @return the {@code autocomplete} attribute value for the enum member.
-		 */
-		public String getValue() {
-			return this.value;
-		}
-	}
-
-	/**
-	 * Provides values for the HTML {@code autocomplete} for types of {@link TelephoneAutocomplete telephone numbers} or
-	 * {@link TelephoneAutocompleteSegment telephone number segments}.
-	 */
-	 public enum TelephoneAutocompleteType {
-		/**
-		 * Indicates the field represents a number for contacting someone at their residence.
-		 */
-		HOME("home"),
-		/**
-		 * Indicates the field represents a number for contacting someone at their workplace.
-		 */
-		WORK("work"),
-		/**
-		 * Indicates the field represents a number for contacting someone regardless of location.
-		 */
-		MOBILE("mobile"),
-		/**
-		 * Indicates the field represents a fax machine's contact details.
-		 */
-		FAX("fax"),
-		/**
-		 * Indicates the field represents a pager's or beeper's contact details.
-		 */
-		PAGER("pager");
-
-		/**
-		 * The the {@code autocomplete} attribute value.
-		 */
-		private final String value;
-
-		/**
-		 * Creates each entry in the enumeration to allow for moderately type-safe auto-fill mnemonics.
-		 * @param val the string to place in the {@code autocomplete} attribute
-		 */
-		TelephoneAutocompleteType(final String val) {
-			this.value = val;
-		}
-
-		/**
-		 * @return the {@code autocomplete} attribute value for the enum member.
-		 */
-		public String getValue() {
-			return this.value;
-		}
-	}
-
-	/**
-	 * Provides values for the HTML {@code autocomplete} attribute for a parts of a telephone number.
-	 */
-	 public enum TelephoneAutocompleteSegment {
-		/**
-		 * Indicates the field represents an area code component of the telephone number, with a country-internal prefix applied if applicable, in
-		 * the form of ASCII digits but not to be used with {@link com.github.bordertech.wcomponents.WNumberField}.
-		 */
-		AREA_CODE("tel-area-code"),
-		/**
-		 * Indicates the field represents a country code component of the telephone number consisting of ASCII digits preceded by a U+002B PLUS SIGN
-		 * character (+); must not be used in conjunction with a {@link com.github.bordertech.wcomponents.WPhoneNumberField}.
-		 */
-		COUNTRY_CODE("tel-country-code"),
-		/**
-		 * Indicates the field represents a telephone number internal extension code, in the form of ASCII digits but not to be used with
-		 * {@link com.github.bordertech.wcomponents.WNumberField}.
-		 */
-		EXTENSION("tel-extension"),
-		/**
-		 * Indicates the field represents a telephone number without the country code and area code components, in the form of ASCII digits but not to
-		 * be used with {@link com.github.bordertech.wcomponents.WNumberField}.
-		 */
-		LOCAL("tel-local"), // NOTE: this does appear in the TelephoneAutocomplete enum too.
-		/**
-		 * Indicates the field represents the first part of the component of the telephone number that follows the area code, when that component is
-		 * split into two components, in the form of ASCII digits but not to be used with {@link com.github.bordertech.wcomponents.WNumberField}.
-		 */
-		LOCAL_PREFIX("tel-local-prefix"),
-		/**
-		 * Indicates the field represents the second part of the component of the telephone number that follows the area code, when that component is
-		 * split into two components, in the form of ASCII digits but not to be used with {@link com.github.bordertech.wcomponents.WNumberField}.
-		 */
-		LOCAL_SUFFIX("tel-local-suffix"),
-		/**
-		 * Indicates the field represents a telephone number without the county code component, with a country-internal prefix applied if applicable
-		 * in the form of ASCII digits with optional U+0020 SPACE characters; must not be used in conjunction with a
-		 * {@link com.github.bordertech.wcomponents.WPhoneNumberField}.
-		 */
-		NATIONAL("tel-national");
-
-		/**
-		 * The the {@code autocomplete} attribute value.
-		 */
-		private final String value;
-
-		/**
-		 * Creates each entry in the enumeration to allow for moderately type-safe auto-fill mnemonics.
-		 * @param val the string to place in the {@code autocomplete} attribute
-		 */
-		TelephoneAutocompleteSegment(final String val) {
-			this.value = val;
-		}
-
-		/**
-		 * @return the {@code autocomplete} attribute value for the enum member.
-		 */
-		public String getValue() {
-			return this.value;
-		}
-	}
-
-	/**
-	 * Provides values for the {@code autocomplete} attribute which are applicable to url inputs.
-	 */
-	 public enum UrlAutocomplete {
-		/**
-		 * Indicates the field represents a home page or other Web page corresponding to the company, person, address, or contact information in the
-		 * other fields associated with this field.
-		 */
-		URL("url"),
-		/**
-		 * Indicates the field represents a URL representing an instant messaging protocol endpoint (for example, "aim:goim?screenname=example" or
-		 * "xmpp:user@example.net").
-		 */
-		IMPP("impp");
-
-		/**
-		 * The the {@code autocomplete} attribute value.
-		 */
-		private final String value;
-
-		/**
-		 * Creates each entry in the enumeration to allow for moderately type-safe auto-fill mnemonics.
-		 * @param val the string to place in the {@code autocomplete} attribute
-		 */
-		UrlAutocomplete(final String val) {
-			value = val;
-		}
-
-		/**
-		 * @return the {@code autocomplete} attribute value for the enum member.
-		 */
-		public String getValue() {
-			return value;
-		}
-	}
-
-	/**
-	 * Provides values for the {@code autocomplete} attribute which are applicable to multi-line inputs such as
-	 * {@link com.github.bordertech.wcomponents.WTextArea}.
-	 */
-	public enum MultilineAutocomplete {
-
-		/**
-		 * Indicates the field represents a street address, for use with a multiple-line input such as
-		 * {@link com.github.bordertech.wcomponents.WTextArea}.
-		 * See <a href="https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fe-autocomplete-street-address" target="_blank">
-		 * https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fe-autocomplete-street-address</a>.
-		 */
-		STREET_ADDRESS("street-address");
-
-		/**
-		 * The the {@code autocomplete} attribute value.
-		 */
-		private final String value;
-
-		/**
-		 * Creates each entry in the enumeration to allow for moderately type-safe auto-fill mnemonics.
-		 * @param val the string to place in the {@code autocomplete} attribute
-		 */
-		MultilineAutocomplete(final String val) {
-			this.value = val;
-		}
-
-		/**
-		 * @return the {@code autocomplete} attribute value for the enum member.
-		 */
-		public String getValue() {
-			return this.value;
-		}
-	}
-
-	/**
-	 * Types of address that may be used with address segments to create address {@code autocomplete} attribute values.
-	 */
-	 public enum AddressAutocompleteType {
-		/**
-		 * Indicates the field represents an address (or address segment) that is part of a billing address.
-		 */
-		BILLING("billing"),
-		/**
-		 * Indicates the field represents am address (or address segment) that is part of a shipping address.
-		 */
-		SHIPPING("shipping");
-
-		/**
-		 * The the {@code autocomplete} attribute value.
-		 */
-		private final String value;
-
-		/**
-		 * Creates each entry in the enumeration to allow for moderately type-safe auto-fill mnemonics.
-		 * @param val the string to place in the {@code autocomplete} attribute
-		 */
-		AddressAutocompleteType(final String val) {
-			this.value = val;
-		}
-
-		/**
-		 * @return the {@code autocomplete} attribute value for the enum member.
-		 */
-		public String getValue() {
-			return this.value;
-		}
-	}
-
-	/**
-	 * Parts of an address that may be used to create address {@code autocomplete} attribute values. May be used in combination with an
-	 * address type to specify separate addresses.
-	 */
-	 public enum AddressAutocompleteSegment {
-		/**
-		 * Indicates the field represents the first line of a street address when using single-line inputs, see
-		 * <a href="https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fe-autocomplete-address-line1" target="_blank">
-		 * https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fe-autocomplete-address-line1</a>.
-		 */
-		LINE_1("address-line1"),
-		/**
-		 * Indicates the field represents she second line of a street address using single-line inputs, see
-		 * <a href="https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fe-autocomplete-address-line2" target="_blank">
-		 * https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fe-autocomplete-address-line2</a>.
-		 */
-		LINE_2("address-line2"),
-		/**
-		 * Indicates the field represents the third line of a street address using single-line inputs, see
-		 * <a href="https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fe-autocomplete-address-line3" target="_blank">
-		 * https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fe-autocomplete-address-line3</a>.
-		 */
-		LINE_3("address-line3"),
-
-		/**
-		 * Indicates the field represents the most fine-grained administrative level, in addresses with four administrative levels. See
-		 * <a href="https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#more-on-address-levels" target="_blank">more on address
-		 * levels</a>.
-		 */
-		LEVEL_4("address-level4"),
-		/**
-		 * Indicates the field represents the third administrative level, in addresses with three or more administrative levels. See
-		 * <a href="https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#more-on-address-levels" target="_blank">more on address
-		 * levels</a>.
-		 */
-		LEVEL_3("address-level3"),
-		/**
-		 * Indicates the field represents the second administrative level, in addresses with two or more administrative levels; in the countries with
-		 * two administrative levels, this would typically be the city, town, village, or other locality within which the relevant street address is
-		 * found. See <a href="https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#more-on-address-levels" target="_blank">more on
-		 * address levels</a>.
-		 */
-		LEVEL_2("address-level2"),
-		/**
-		 * Indicates the field represents the broadest administrative level in the address, ie the province within which the locality is found; for
-		 * example, in the US, this would be the state; in Switzerland it would be the canton; in the UK, the post town. See
-		 * <a href="https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#more-on-address-levels" target="_blank">more on address
-		 * levels</a>.
-		 */
-		LEVEL_1("address-level1"),
-		/**
-		 * Indicates the field represents a country code represented by a valid
-		 * <a href="https://www.iso.org/iso-3166-country-codes.html" target="_blank">ISO 3166-1-alpha-2 country code</a>.
-		 */
-		COUNTRY_CODE("country"),
-
-		/**
-		 * Indicates the field represents a free-form text value representing the name of a country.
-		 */
-		COUNTRY_NAME("country-name"),
-
-		/**
-		 * Indicates the field represents a postal code, post code, ZIP code, CEDEX code (if CEDEX, append "CEDEX", and the arrondissement, if
-		 * relevant, to the address-level2 field).
-		 */
-		POSTAL_CODE("postal-code");
-
-		/**
-		 * The the {@code autocomplete} attribute value.
-		 */
-		private final String value;
-
-		/**
-		 * Creates each entry in the enumeration to allow for moderately type-safe auto-fill mnemonics.
-		 * @param val the string to place in the {@code autocomplete} attribute
-		 */
-		AddressAutocompleteSegment(final String val) {
-			this.value = val;
-		}
-
-		/**
-		 * @return the {@code autocomplete} attribute value for the enum member.
-		 */
-		String getValue() {
-			return this.value;
-		}
-	}
-
-	// NAMES ##################################################################
-	/**
-	 * Full name, free form text, no new lines.
-	 */
-	public static final String NAME = "name";
-
-	/**
-	 * Indicates the field represents a pre-honorific, prefix or title, for example  "Mr.", "Ms.", "Dr.", "Mlle".
-	 */
-	public static final String PRE_HONORIFIC = "honorific-prefix";
-
-	/**
-	 * Indicates the field represents a given name (in some Western cultures, also known as the first name).
-	 */
-	public static final String GIVEN_NAME = "given-name";
-
-	/**
-	 * Indicates the field represents additional names (in some Western cultures, also known as middle names, forenames other than the first name).
-	 */
-	public static final String ADDITIONAL_NAME = "additional-name";
-
-	/**
-	 * Indicates the field represents a family name (in some Western cultures, also known as the last name or surname).
-	 */
-	public static final String FAMILY_NAME = "family-name";
-
-	/**
-	 * Indicates the field represents a post-honorific or suffix, for example "Bt.", "Jr.", "Ph.D..".
-	 */
-	public static final String POST_HONORIFIC = "honorific-suffix";
-
-	/**
-	 * Indicates the field represents a nickname, screen name, handle: a typically short name used instead of the full name.
-	 */
-	public static final String NICKNAME = "nickname";
-
-	/**
-	 * Indicates the field represents a job title, for example "Software Engineer", "Senior Vice President", "Deputy Managing Director".
-	 */
-	public static final String ORGANIZATION_TITLE = "organization-title";
-
-	// AUTHORIZATION ##########################################################
-	/**
-	 * Indicates the field represents a username, for example for log-in purposes.
-	 */
-	public static final String USERNAME = "username";
-
-	// CREDIT CARD OR PAYMENT DETAILS - ALSO SEE NumericAutocomplete #########
-	/**
-	 * Indicates the field represents the full name as given on the payment instrument.
-	 */
-	public static final String CC_NAME = "cc-name";
-	/**
-	 * Indicates the field represents the given name as given on the payment instrument (in some Western cultures, also known as the first name).
-	 */
-	public static final String CC_GIVEN_NAME = "cc-given-name";
-	/**
-	 * Indicates the field represents additional names given on the payment instrument (in some Western cultures, also known as middle names,
-	 * forenames other than the first name).
-	 */
-	public static final String CC_ADDITIONAL_NAME = "cc-additional-name";
-	/**
-	 * Indicates the field represents the family name given on the payment instrument (in some Western cultures, also known as the last name or
-	 * surname).
-	 */
-	public static final String CC_FAMILY_NAME = "cc-family-name";
-	/**
-	 * Indicates the field represents the code identifying the payment instrument (for example the credit card number).
-	 */
-	public static final String CC_NUMBER = "cc-number";
-	/**
-	 * Indicates the field represents the expiration date of the payment instrument and must accept data in the form of a
-	 * <A href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#valid-month-string" target="_blank">valid month string</a>.
-	 */
-	public static final String CC_EXPIRY = "cc-exp";
-	/**
-	 * Indicates the field represents a security code for the payment instrument (also known as the card security code (CSC), card validation code
-	 * (CVC), card verification value (CVV), signature panel code (SPC), credit card ID (CCID), etc). Note that this value is limited to ASCII
-	 * digits but is <strong>not</strong> a numeric input and so should use {@link com.github.bordertech.wcomponents.WTextField} and should not be
-	 * applied to {@link com.github.bordertech.wcomponents.WNumberField}.
-	 */
-	public static final String CC_CSC = "cc-csc";
-	/**
-	 * Indicates the field represents the type of payment instrument.
-	 */
-	public static final String CC_TYPE = "cc-type";
-	/**
-	 * Indicates the field represents the currency that the user would prefer the transaction to use and is in the form of an
-	 * <a href="https://html.spec.whatwg.org/multipage/references.html#refsISO4217" target="_blank">ISO 4217</a> currency code.
-	 */
-	public static final String TRANSACTION_CURRENCY = "transaction-currency";
-
-	// INDIVIDUALS other than name ############################################
-
-	/**
-	 * Indicates the field represents the person's preferred language as a valid
-	 * <a href="https://html.spec.whatwg.org/multipage/references.html#refsBCP47" target="_blank">BCP 47</a> language tag.
-	 */
-	public static final String LANGUAGE = "language";
-	/**
-	 * Indicates the field represents a gender identity (for example Female, Fa'afafine).
-	 */
-	public static final String SEX = "sex";
-
-
-	// ITEMS LINKED TO OTHER TYPES ############################################
-	// The autocomplete values in this section may be applied to an address, a
-	// name, a person or any other combination of other fields
-	/**
-	 * Indicates the field represents a company name corresponding to the person, address, or contact information in the other fields associated with
-	 * this field.
-	 */
-	public static final String ORGANIZATION = "organization";
-	/**
-	 * Indicates the field represents a photograph, icon, or other image corresponding to the company, person, address, or contact information in the
-	 * other fields associated with this field.
-	 */
-	public static final String PHOTO = "photo";
-
-
+	private static final String OFF = "off";
 
 	/**
 	 * Prevent instantiation.
 	 */
 	private AutocompleteUtil() {
+	}
+
+	/**
+	 * @return the value of the {@code autocomplete} attribute which turns auto-fill off.
+	 */
+	public static String getOff() {
+		return OFF;
 	}
 
 	/**
@@ -671,7 +59,7 @@ public final class AutocompleteUtil {
 	 * @param args any other values to add to the autocomplete attribute
 	 * @return a value suitable for the HTML autocomplete attribute.
 	 */
-	public static String getCombinedAutocomplete(final String valueOne, final String ... args) {
+	public static String getCombinedAutocomplete(final String valueOne, final String... args) {
 		if (OFF.equalsIgnoreCase(valueOne)) {
 			return OFF;
 		}
@@ -699,10 +87,6 @@ public final class AutocompleteUtil {
 		return built;
 	}
 
-	/*
-	 * SECTION-* HELPERS
-	 */
-
 	/**
 	 * Get an {@code autocomplete} attribute value for a named auto-fill section.
 	 * <p>
@@ -724,11 +108,78 @@ public final class AutocompleteUtil {
 
 	/**
 	 * Combine autocomplete values into a single String suitable to apply to a named auto-fill section.
+	 *
 	 * @param sectionName the name of the autocomplete section
 	 * @param args any other valid autocomplete values
 	 * @return a single attribute value useful to apply an autocomplete helper to a named section
 	 */
-	public static String getCombinedForSection(final String sectionName, final String ... args) {
+	public static String getCombinedForSection(final String sectionName, final String... args) {
 		return getCombinedAutocomplete(getNamedSection(sectionName), args);
+	}
+
+	/**
+	 * @param phoneType the type of phone number
+	 * @param phone the telephone auto-fill variant, being full (including international prefix) or local (without international prefix)
+	 * @return a {@code autocomplete} attribute value relevant for a particular type of phone number, in either of a full or local format
+	 */
+	public static String getCombinedFullPhone(final PhoneFormat phoneType, final Telephone phone) {
+		if (phoneType == null && phone == null) {
+			return null;
+		}
+		final String innerType = phoneType == null ? null : phoneType.getValue();
+		final Telephone innerPhone = phone == null ? Telephone.FULL : phone;
+
+		return AutocompleteUtil.getCombinedAutocomplete(innerType, innerPhone.getValue());
+	}
+
+	/**
+	 * @param phoneType the type of phone number
+	 * @param phonePart the phone number segment
+	 * @return a {@code autocomplete} attribute value relevant for a specified telephone number type and segment
+	 */
+	public static String getCombinedPhoneSegment(final PhoneFormat phoneType, final PhonePart phonePart) {
+		if (phoneType == null && phonePart == null) {
+				return null;
+		}
+		String innerPhoneType = phoneType == null ? null : phoneType.getValue();
+		String innerPhonePart = phonePart == null ? null : phonePart.getValue();
+		return getCombinedAutocomplete(innerPhoneType, innerPhonePart);
+	}
+
+	/**
+	 * @param addressType the type of address being auto-filled
+	 * @param addressPart the address segment for the field
+	 * @return a {@code autocomplete} attribute value relevant for an address or part thereof.
+	 */
+	public static String getCombinedAddress(final AddressType addressType, final AddressPart addressPart) {
+
+		if (addressType == null && addressPart == null) {
+			return null;
+		}
+		String innerAddressType = addressType == null ? null : addressType.getValue();
+		String innerAddressPart = addressPart == null ? null : addressPart.getValue();
+
+		return getCombinedAutocomplete(innerAddressType, innerAddressPart);
+	}
+
+	/**
+	 * Helper to reduce typing in implementations of {@link Autocompleteable}.
+	 * @param sectionName the name of the auto-fill section to add to the component's {@code autocomplete} attribute
+	 * @param component the component being modified
+	 * @return a value for the {@code autocomplete} attribute which is pre-pended by the formatted auto-fill section name
+	 */
+	public static String getCombinedForAddSection(final String sectionName, final Autocompleteable component) {
+		if (Util.empty(sectionName)) {
+			throw new IllegalArgumentException("Auto-fill section names must not be empty.");
+		}
+		if (component == null) {
+			return getNamedSection(sectionName);
+		}
+		if (component.isAutocompleteOff()) {
+			throw new SystemException("Auto-fill sections cannot be applied to fields with autocomplete off.");
+		}
+
+		String currentValue = component.getAutocomplete();
+		return getCombinedForSection(sectionName, currentValue);
 	}
 }

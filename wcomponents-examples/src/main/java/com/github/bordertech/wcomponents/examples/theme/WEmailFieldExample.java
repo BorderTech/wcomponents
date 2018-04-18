@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WEmailField;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.type.Email;
 
 /**
  * Example using WEmailFiled.
@@ -54,7 +55,7 @@ public class WEmailFieldExample extends WContainer {
 		layout.addField("Max length 254", eField);
 
 		// autocomplete
-		for (AutocompleteUtil.EmailAutocomplete email : AutocompleteUtil.EmailAutocomplete.values()) {
+		for (Email email : Email.values()) {
 			eField = new WEmailField();
 			eField.setAutocomplete(email);
 			layout.addField("auto-fill hint set to ".concat(email.getValue()), eField);

@@ -2,15 +2,17 @@ package com.github.bordertech.wcomponents.autocomplete;
 
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.util.Util;
 
 /**
- * Marks a component as being able to implement the autocomplete attribute.
+ * Marks a component as being able to implement the {@code autocomplete} attribute.
 
  * <p>
  * See the <a href="https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fe-autocomplete" target="_blank">HTML spec</a>
  * </p>
  *
  * @author Mark Reeves
+ * @since 1.5.3
  */
 public interface Autocompleteable extends WComponent {
 
@@ -30,7 +32,7 @@ public interface Autocompleteable extends WComponent {
 	 * @param sectionName the name of the section being the part which would replace the asterisk in the form {@code section-*}
 	 *
 	 * @throws IllegalArgumentException if sectionName arg is empty
-	 * @throws SystemException if a section is applied to a field with autocomplete "off"
+	 * @throws SystemException if a section is applied to a field with {@code autocomplete}  "off"
 	 */
 	void addAutocompleteSection(final String sectionName);
 
@@ -38,4 +40,15 @@ public interface Autocompleteable extends WComponent {
 	 * Clear the {@code autocomplete} attribute.
 	 */
 	void clearAutocomplete();
+
+	/**
+	 * @return {@code true} if the current {@code autocomplete} setting is "off"
+	 */
+	default boolean isAutocompleteOff() {
+		String autocomplete = getAutocomplete();
+		if (Util.empty(autocomplete)) {
+			return false;
+		}
+		return AutocompleteUtil.getOff().equalsIgnoreCase(autocomplete);
+	}
 }

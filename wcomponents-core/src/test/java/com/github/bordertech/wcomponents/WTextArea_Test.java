@@ -1,6 +1,9 @@
 package com.github.bordertech.wcomponents;
 
-import junit.framework.Assert;
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.segment.AddressType;
+import com.github.bordertech.wcomponents.autocomplete.type.Multiline;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -8,6 +11,7 @@ import org.junit.Test;
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WTextArea_Test extends AbstractWComponentTestCase {
@@ -52,4 +56,49 @@ public class WTextArea_Test extends AbstractWComponentTestCase {
 		textArea.setRichTextArea(true);
 		Assert.assertEquals("Expect output to be sanitized", "content", textArea.getText());
 	}
+
+	// autocomplete
+	@Test
+	public void testSetAutocomplete() {
+		WTextArea textArea = new WTextArea();
+		for (Multiline value : Multiline.values()) {
+			textArea.setAutocomplete(value);
+			Assert.assertEquals(value.getValue(), textArea.getAutocomplete());
+		}
+	}
+
+	@Test
+	public void testSetAutocompleteNullValue() {
+		WTextArea textArea = new WTextArea();
+		textArea.setAutocomplete(Multiline.STREET_ADDRESS);
+		Assert.assertNotNull(textArea.getAutocomplete());
+		textArea.setAutocomplete((Multiline) null);
+		Assert.assertNull(textArea.getAutocomplete());
+	}
+
+	@Test
+	public void testSetFullStreetAddressAutocompleteWithType() {
+		WTextArea textArea = new WTextArea();
+		String expected;
+		for (AddressType value : AddressType.values()) {
+			expected = AutocompleteUtil.getCombinedAutocomplete(value.getValue(), Multiline.STREET_ADDRESS.getValue());
+			textArea.setFullStreetAddressAutocomplete(value);
+			Assert.assertEquals(expected, textArea.getAutocomplete());
+		}
+	}
+
+	@Test
+	public void testSetFullAddressAutocompleteWithNullType() {
+		WTextArea textArea = new WTextArea();
+		textArea.setFullStreetAddressAutocomplete(null);
+		Assert.assertEquals(Multiline.STREET_ADDRESS.getValue(), textArea.getAutocomplete());
+	}
+
+	@Test
+	public void testSetFullAddressAutocomplete() {
+		WTextArea textArea = new WTextArea();
+		textArea.setFullStreetAddressAutocomplete();
+		Assert.assertEquals(Multiline.STREET_ADDRESS.getValue(), textArea.getAutocomplete());
+	}
+
 }

@@ -13,7 +13,14 @@ import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WPhoneNumberField;
 import com.github.bordertech.wcomponents.WTextField;
-import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.segment.AddressPart;
+import com.github.bordertech.wcomponents.autocomplete.segment.AddressType;
+import com.github.bordertech.wcomponents.autocomplete.segment.Person;
+import com.github.bordertech.wcomponents.autocomplete.segment.PhoneFormat;
+import com.github.bordertech.wcomponents.autocomplete.segment.PhonePart;
+import com.github.bordertech.wcomponents.autocomplete.type.DateType;
+import com.github.bordertech.wcomponents.autocomplete.type.Email;
+import com.github.bordertech.wcomponents.autocomplete.type.Telephone;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.subordinate.Equal;
 import com.github.bordertech.wcomponents.subordinate.Mandatory;
@@ -96,29 +103,29 @@ public final class WTextFieldExample extends WContainer {
 		layout.setLabelWidth(33);
 		autocompleteSet.add(layout);
 		textfield = new WTextField();
-		textfield.setAddressAutocomplete(AutocompleteUtil.AddressAutocompleteType.SHIPPING, AutocompleteUtil.AddressAutocompleteSegment.LINE_1);
+		textfield.setAddressAutocomplete(AddressType.SHIPPING, AddressPart.LINE_1);
 		layout.addField("Street address", textfield);
 
 		textfield = new WTextField();
-		textfield.setAddressAutocomplete(AutocompleteUtil.AddressAutocompleteType.SHIPPING, AutocompleteUtil.AddressAutocompleteSegment.LINE_2);
+		textfield.setAddressAutocomplete(AddressType.SHIPPING, AddressPart.LINE_2);
 		textfield.setPlaceholder("optional");
 		layout.addField("Street address line 2", textfield).getLabel().setHidden(true);
 
 		textfield = new WTextField();
-		textfield.setAddressAutocomplete(AutocompleteUtil.AddressAutocompleteType.SHIPPING, AutocompleteUtil.AddressAutocompleteSegment.LINE_3);
+		textfield.setAddressAutocomplete(AddressType.SHIPPING, AddressPart.LINE_3);
 		textfield.setPlaceholder("optional");
 		layout.addField("Street address line 3", textfield).getLabel().setHidden(true);
 
 		textfield = new WTextField();
-		textfield.setAddressAutocomplete(AutocompleteUtil.AddressAutocompleteType.SHIPPING, AutocompleteUtil.AddressAutocompleteSegment.LEVEL_2);
+		textfield.setAddressAutocomplete(AddressType.SHIPPING, AddressPart.LEVEL_2);
 		layout.addField("Town", textfield);
 
 		WDropdown state = new WDropdown(STATES_AND_TERRITORIES);
-		state.setAddressAutocomplete(AutocompleteUtil.AddressAutocompleteType.SHIPPING, AutocompleteUtil.AddressAutocompleteSegment.LEVEL_1);
+		state.setAddressAutocomplete(AddressType.SHIPPING, AddressPart.LEVEL_1);
 		layout.addField("State/Territory", state);
 
 		textfield = new WTextField();
-		textfield.setAddressAutocomplete(AutocompleteUtil.AddressAutocompleteType.SHIPPING, AutocompleteUtil.AddressAutocompleteSegment.POSTAL_CODE);
+		textfield.setAddressAutocomplete(AddressType.SHIPPING, AddressPart.POSTAL_CODE);
 		textfield.setMaxLength(4);
 		textfield.setColumns(4);
 		textfield.setPattern("[0-9]{4}");
@@ -133,7 +140,7 @@ public final class WTextFieldExample extends WContainer {
 		autocompleteSet.add(layout);
 
 		textfield = new WTextField();
-		textfield.setPhoneAutocomplete(AutocompleteUtil.TelephoneAutocompleteType.HOME, AutocompleteUtil.TelephoneAutocompleteSegment.COUNTRY_CODE);
+		textfield.setPhoneSegmentAutocomplete(PhoneFormat.HOME, PhonePart.COUNTRY_CODE);
 		textfield.setPattern("\\+[1-9][0-9]{0,3}");
 		textfield.setToolTip("plus sign (+) followed by 1 to 4 digits");
 		textfield.setMaxLength(6);
@@ -142,7 +149,7 @@ public final class WTextFieldExample extends WContainer {
 		layout.addField("Country code", textfield);
 
 		textfield = new WTextField();
-		textfield.setPhoneAutocomplete(AutocompleteUtil.TelephoneAutocompleteType.HOME, AutocompleteUtil.TelephoneAutocompleteSegment.AREA_CODE);
+		textfield.setPhoneSegmentAutocomplete(PhoneFormat.HOME, PhonePart.AREA_CODE);
 		textfield.setPattern("0[0-9]{1,5}");
 		textfield.setToolTip("numeric zero (0) followed by 1 to 5 digits");
 		textfield.setMaxLength(6);
@@ -151,7 +158,7 @@ public final class WTextFieldExample extends WContainer {
 		layout.addField("Area code", textfield);
 
 		textfield = new WTextField();
-		textfield.setPhoneAutocomplete(AutocompleteUtil.TelephoneAutocompleteType.HOME, AutocompleteUtil.TelephoneAutocompleteSegment.LOCAL);
+		textfield.setAutocomplete(Telephone.LOCAL, PhoneFormat.HOME);
 		textfield.setPattern("[0-9]{1,12}");
 		textfield.setToolTip("up to 12 digits without spaces");
 		textfield.setPlaceholder("12349876");
@@ -160,7 +167,7 @@ public final class WTextFieldExample extends WContainer {
 		layout.addField("Local number", textfield).getLabel().setHint("numbers only, no spaces");
 
 		textfield = new WTextField();
-		textfield.setPhoneAutocomplete(AutocompleteUtil.TelephoneAutocompleteType.HOME, AutocompleteUtil.TelephoneAutocompleteSegment.EXTENSION);
+		textfield.setPhoneSegmentAutocomplete(PhoneFormat.HOME, PhonePart.EXTENSION);
 		textfield.setPattern("[0-9]{1,6}");
 		textfield.setToolTip("up to 6 digits without spaces");
 		textfield.setPlaceholder("optional");
@@ -179,17 +186,17 @@ public final class WTextFieldExample extends WContainer {
 		autocompleteSet.add(layout);
 		// NOTE: these would be better as WPhoneNumberField.
 		textfield = new WTextField();
-		textfield.setAutocomplete(AutocompleteUtil.TelephoneAutocompleteType.HOME, AutocompleteUtil.TelephoneAutocomplete.LOCAL);
+		textfield.setAutocomplete(Telephone.LOCAL, PhoneFormat.HOME);
 		textfield.setPattern("[0-9\\ ]{5,15}");
 		textfield.setToolTip("from 5 to 15 digits with optional spaces");
 		layout.addField("Home", textfield);
 		textfield = new WTextField();
-		textfield.setAutocomplete(AutocompleteUtil.TelephoneAutocompleteType.WORK, AutocompleteUtil.TelephoneAutocomplete.LOCAL);
+		textfield.setAutocomplete(Telephone.LOCAL, PhoneFormat.WORK);
 		layout.addField("Work", textfield);
 		textfield.setPattern("[0-9\\ ]{5,15}");
 		textfield.setToolTip("from 5 to 15 digits with optional spaces");
 		textfield = new WTextField();
-		textfield.setAutocomplete(AutocompleteUtil.TelephoneAutocompleteType.MOBILE, AutocompleteUtil.TelephoneAutocomplete.LOCAL);
+		textfield.setAutocomplete(Telephone.LOCAL, PhoneFormat.MOBILE);
 		layout.addField("Mobile", textfield);
 		textfield.setPattern("[0-9\\ ]{5,15}");
 		textfield.setToolTip("from 5 to 15 digits with optional spaces");
@@ -203,25 +210,25 @@ public final class WTextFieldExample extends WContainer {
 		autocompleteSet.add(layout);
 
 		textfield = new WTextField();
-		textfield.setAutocomplete(AutocompleteUtil.GIVEN_NAME);
+		textfield.setAutocomplete(Person.GIVEN);
 		textfield.setMandatory(true);
 		layout.addField("Given name", textfield);
 
 		textfield = new WTextField();
-		textfield.setAutocomplete(AutocompleteUtil.FAMILY_NAME);
+		textfield.setAutocomplete(Person.FAMILY);
 		layout.addField("Family name", textfield);
 
 		WDateField dob = new WDateField();
 		dob.setMaxDate(new Date());
-		dob.setAutocomplete(AutocompleteUtil.DateAutocomplete.BIRTHDAY);
+		dob.setAutocomplete(DateType.BIRTHDAY);
 		layout.addField("Date of Birth", dob);
 
 		final WPhoneNumberField phoneField = new WPhoneNumberField();
-		phoneField.setAutocomplete(AutocompleteUtil.TelephoneAutocomplete.FULL);
+		phoneField.setFullPhoneAutocomplete();
 		layout.addField("Phone", phoneField);
 
 		final WEmailField email = new WEmailField();
-		email.setAutocomplete(AutocompleteUtil.EmailAutocomplete.EMAIL);
+		email.setAutocomplete(Email.EMAIL);
 		layout.addField("Email", email);
 		WSubordinateControl control = new WSubordinateControl();
 		autocompleteSet.add(control);

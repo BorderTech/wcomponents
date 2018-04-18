@@ -6,8 +6,9 @@ import com.github.bordertech.wcomponents.Headers;
 import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WLabel;
+import com.github.bordertech.wcomponents.autocomplete.segment.AddressType;
+import com.github.bordertech.wcomponents.autocomplete.type.Multiline;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.io.Serializable;
 import java.util.List;
@@ -20,9 +21,6 @@ import org.junit.Test;
  * @author Mark Reeves
  */
 public class AutocompleteableMultiline_Test {
-	private static String DEFAULT_VALUE = AutocompleteUtil.MultilineAutocomplete.STREET_ADDRESS.getValue();
-
-
 
 	/**
 	 * Meta test to improve confidence in other tests.
@@ -37,111 +35,37 @@ public class AutocompleteableMultiline_Test {
 	}
 
 	@Test
-	public void testSetAutocompleteTypeAndSection() {
+	public void testSetFullStreetAddressAutocomplete() {
 		MyAutocompleteable component = new MyAutocompleteable();
-		String sectionName = "foo";
-		String expected;
-		for (AutocompleteUtil.AddressAutocompleteType value : AutocompleteUtil.AddressAutocompleteType.values()) {
-			expected = AutocompleteUtil.getCombinedForSection(sectionName, value.getValue(), DEFAULT_VALUE);
-			component.setAutocomplete(value, sectionName);
-			Assert.assertEquals(expected, component.getAutocomplete());
-		}
+		component.setFullStreetAddressAutocomplete();
+		Assert.assertEquals(Multiline.STREET_ADDRESS.getValue(), component.getAutocomplete());
 	}
 
-	@Test
-	public void testSetAutocompleteTypeAndNullSection() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		for (AutocompleteUtil.AddressAutocompleteType value : AutocompleteUtil.AddressAutocompleteType.values()) {
-			component.setAutocomplete(value, null);
-			Assert.assertEquals(AutocompleteUtil.getCombinedAutocomplete(value.getValue(), DEFAULT_VALUE), component.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutocompleteTypeAndEmptySection() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		for (AutocompleteUtil.AddressAutocompleteType value : AutocompleteUtil.AddressAutocompleteType.values()) {
-			component.setAutocomplete(value, "");
-			Assert.assertEquals(AutocompleteUtil.getCombinedAutocomplete(value.getValue(), DEFAULT_VALUE), component.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutocompleteType() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		for (AutocompleteUtil.AddressAutocompleteType value : AutocompleteUtil.AddressAutocompleteType.values()) {
-			component.setAutocomplete(value);
-			Assert.assertEquals(AutocompleteUtil.getCombinedAutocomplete(value.getValue(), DEFAULT_VALUE), component.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutocompleteWithNullType() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		component.setAutocomplete(null);
-		Assert.assertEquals(DEFAULT_VALUE, component.getAutocomplete());
-	}
-
-	@Test
-	public void testSetAutocompleteWithNullTypeNullSection() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		component.setAutocomplete(null, null);
-		Assert.assertEquals(DEFAULT_VALUE, component.getAutocomplete());
-	}
-
-	@Test
-	public void testSetAutocompleteWithNullTypeEmptySection() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		component.setAutocomplete(null, "");
-		Assert.assertEquals(DEFAULT_VALUE, component.getAutocomplete());
-	}
-
-	@Test
-	public void testSetStreetAddressAutocomplete() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		component.setStreetAddressAutocomplete();
-		Assert.assertEquals(DEFAULT_VALUE, component.getAutocomplete());
-	}
-
-	@Test
-	public void testSetStreetAddressAutocompleteWithSection() {
-		String sectionName = "foo";
-		String expected = AutocompleteUtil.getCombinedForSection(sectionName, DEFAULT_VALUE);
-		MyAutocompleteable component = new MyAutocompleteable();
-		component.setStreetAddressAutocomplete(sectionName);
-		Assert.assertEquals(expected, component.getAutocomplete());
-	}
-
-	@Test
-	public void testSetStreetAddressAutocompleteWithNullSection() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		component.setStreetAddressAutocomplete(null);
-		Assert.assertEquals(DEFAULT_VALUE, component.getAutocomplete());
-	}
-
-	@Test
-	public void testSetStreetAddressAutocompleteWithEmptySection() {
-		MyAutocompleteable component = new MyAutocompleteable();
-		component.setStreetAddressAutocomplete("");
-		Assert.assertEquals(DEFAULT_VALUE, component.getAutocomplete());
-	}
-
+	/**
+	 * Mock for testing default methods.
+	 */
 	private class MyAutocompleteable implements AutocompleteableMultiline {
 
 		private String autocomplete;
 
+		/**
+		 * Set the autocomplete String.
+		 * @param val the value to set
+		 */
 		public void setAutocompleteDirectly(final String val) {
 			autocomplete = val;
 		}
 
 		@Override
-		public void setAutocomplete(AutocompleteUtil.AddressAutocompleteType addressType, String sectionName) {
-			String typeVal = addressType == null ? DEFAULT_VALUE : AutocompleteUtil.getCombinedAutocomplete(addressType.getValue(), DEFAULT_VALUE);
-			if (Util.empty(sectionName)) {
-				autocomplete = typeVal;
-			} else {
-				autocomplete = AutocompleteUtil.getCombinedForSection(sectionName, typeVal);
-			}
+		public void setAutocomplete(final Multiline value) {
+			autocomplete = value == null ? null : value.getValue();
+		}
+
+		@Override
+		public void setFullStreetAddressAutocomplete(final AddressType value) {
+			autocomplete = value == null
+					? Multiline.STREET_ADDRESS.getValue()
+					: AutocompleteUtil.getCombinedAutocomplete(value.getValue(), Multiline.STREET_ADDRESS.getValue());
 		}
 
 		@Override
@@ -155,7 +79,7 @@ public class AutocompleteableMultiline_Test {
 		}
 
 		@Override
-		public void addAutocompleteSection(String sectionName) {
+		public void addAutocompleteSection(final String sectionName) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -175,7 +99,7 @@ public class AutocompleteableMultiline_Test {
 		}
 
 		@Override
-		public void setIdName(String idName) {
+		public void setIdName(final String idName) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -190,52 +114,52 @@ public class AutocompleteableMultiline_Test {
 		}
 
 		@Override
-		public void serviceRequest(Request request) {
+		public void serviceRequest(final Request request) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void invokeLater(Runnable runnable) {
+		public void invokeLater(final Runnable runnable) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void handleRequest(Request request) {
+		public void handleRequest(final Request request) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void forward(String url) {
+		public void forward(final String url) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void preparePaint(Request request) {
+		public void preparePaint(final Request request) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void paint(RenderContext renderContext) {
+		public void paint(final RenderContext renderContext) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void validate(List<Diagnostic> diags) {
+		public void validate(final List<Diagnostic> diags) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void showErrorIndicators(List<Diagnostic> diags) {
+		public void showErrorIndicators(final List<Diagnostic> diags) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void showWarningIndicators(List<Diagnostic> diags) {
+		public void showWarningIndicators(final List<Diagnostic> diags) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void setLocked(boolean lock) {
+		public void setLocked(final boolean lock) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -250,7 +174,7 @@ public class AutocompleteableMultiline_Test {
 		}
 
 		@Override
-		public void setInitialised(boolean flag) {
+		public void setInitialised(final boolean flag) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -260,7 +184,7 @@ public class AutocompleteableMultiline_Test {
 		}
 
 		@Override
-		public void setValidate(boolean flag) {
+		public void setValidate(final boolean flag) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -270,7 +194,7 @@ public class AutocompleteableMultiline_Test {
 		}
 
 		@Override
-		public void setVisible(boolean visible) {
+		public void setVisible(final boolean visible) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -325,7 +249,7 @@ public class AutocompleteableMultiline_Test {
 		}
 
 		@Override
-		public void setTag(String tag) {
+		public void setTag(final String tag) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -335,7 +259,7 @@ public class AutocompleteableMultiline_Test {
 		}
 
 		@Override
-		public void setEnvironment(Environment environment) {
+		public void setEnvironment(final Environment environment) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -350,22 +274,22 @@ public class AutocompleteableMultiline_Test {
 		}
 
 		@Override
-		public void setAttribute(String key, Serializable value) {
+		public void setAttribute(final String key, final Serializable value) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public Serializable getAttribute(String key) {
+		public Serializable getAttribute(final String key) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public Serializable removeAttribute(String key) {
+		public Serializable removeAttribute(final String key) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void setToolTip(String text, Serializable... args) {
+		public void setToolTip(final String text, final Serializable... args) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -375,7 +299,7 @@ public class AutocompleteableMultiline_Test {
 		}
 
 		@Override
-		public void setAccessibleText(String text, Serializable... args) {
+		public void setAccessibleText(final String text, final Serializable... args) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -385,7 +309,7 @@ public class AutocompleteableMultiline_Test {
 		}
 
 		@Override
-		public void setTrackingEnabled(boolean track) {
+		public void setTrackingEnabled(final boolean track) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -400,22 +324,22 @@ public class AutocompleteableMultiline_Test {
 		}
 
 		@Override
-		public void setHtmlClass(String className) {
+		public void setHtmlClass(final String className) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void setHtmlClass(HtmlClassProperties className) {
+		public void setHtmlClass(final HtmlClassProperties className) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void addHtmlClass(String className) {
+		public void addHtmlClass(final String className) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void addHtmlClass(HtmlClassProperties className) {
+		public void addHtmlClass(final HtmlClassProperties className) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -430,14 +354,15 @@ public class AutocompleteableMultiline_Test {
 		}
 
 		@Override
-		public void removeHtmlClass(String className) {
+		public void removeHtmlClass(final String className) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void removeHtmlClass(HtmlClassProperties className) {
+		public void removeHtmlClass(final HtmlClassProperties className) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
+
 	}
 
 

@@ -1,38 +1,34 @@
 package com.github.bordertech.wcomponents.autocomplete;
 
+import com.github.bordertech.wcomponents.autocomplete.segment.AddressType;
+import com.github.bordertech.wcomponents.autocomplete.type.Multiline;
+
 /**
+ * Provides implementation of the {@code autocomplete} attribute for controls in the
+ * <a href="https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#control-group-multiline" target="_blank">Multiline control
+ * group</a> such as {@link com.github.bordertech.wcomponents.WTextArea}.
  *
  * @author Mark Reeves
+ * @since 1.5.3
  */
 public interface AutocompleteableMultiline extends Autocompleteable {
 
 	/**
-	 * Set the autocomplete attribute to indicate auto-fill of a multi-line address of a given address type in a given auto-fill section.
-	 * @param addressType the type of address to autocomplete - represents shipping or billing
-	 * @param sectionName the part of {@code section-*} represented by the asterisk
+	 * Set the autocomplete attribute to indicate auto-fill of a multi-line field.
+	 * @param value the type of multiline field being autofilled: currently only one value - "street-address"
 	 */
-	void setAutocomplete(final AutocompleteUtil.AddressAutocompleteType addressType, final String sectionName);
+	void setAutocomplete(final Multiline value);
 
 	/**
-	 * Set the autocomplete attribute to indicate auto-fill of a multi-line address of a given address type.
-	 * @param addressType the type of address to autocomplete - represents shipping or billing
+	 * Set the autocomplete attribute to indicate auto-fill of a multi-line street address of a given address type (shipping or billing).
+	 * @param value the type of multiline field being autofilled: currently only one value - "street-address"
 	 */
-	default void setAutocomplete(final AutocompleteUtil.AddressAutocompleteType addressType) {
-		setAutocomplete(addressType, null);
-	}
+	void setFullStreetAddressAutocomplete(final AddressType value);
 
 	/**
-	 * Set a multi-line address autocomplete hint for a given autocomplete section.
-	 * @param sectionName the part of {@code section-*} represented by the asterisk
+	 * Set the autocomplete attribute to indicate auto-fill of a multi-line street address.
 	 */
-	default void setStreetAddressAutocomplete(final String sectionName) {
-		setAutocomplete(null, sectionName);
-	}
-
-	/**
-	 * Set a multi-line address autocomplete hint.
-	 */
-	default void setStreetAddressAutocomplete() {
-		setAutocomplete(null, null);
+	default void setFullStreetAddressAutocomplete() {
+		setAutocomplete(Multiline.STREET_ADDRESS);
 	}
 }

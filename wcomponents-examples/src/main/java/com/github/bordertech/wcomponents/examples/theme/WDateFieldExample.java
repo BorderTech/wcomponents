@@ -218,7 +218,7 @@ public class WDateFieldExample extends WContainer {
 
 		/* auto complete */
 		constrainedDateField = new WDateField();
-		constrainedDateField.setDateAutocomplete();
+		constrainedDateField.setBirthdayAutocomplete();
 		layout.addField("With autocomplete hint", constrainedDateField);
 		constrainedDateField = new WDateField();
 		constrainedDateField.setAutocompleteOff();

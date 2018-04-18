@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.type.Numeric;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
@@ -768,7 +769,7 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testSetAutocomplete() {
 		WNumberField field = new WNumberField();
-		for (AutocompleteUtil.NumericAutocomplete number : AutocompleteUtil.NumericAutocomplete.values()) {
+		for (Numeric number : Numeric.values()) {
 			field.setAutocomplete(number);
 			Assert.assertEquals(number.getValue(), field.getAutocomplete());
 		}
@@ -777,44 +778,9 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testSetAutocompleteNullValue() {
 		WNumberField field = new WNumberField();
+		field.setAutocomplete(Numeric.TRANSACTION_AMOUNT);
+		Assert.assertNotNull(field.getAutocomplete());
 		field.setAutocomplete(null);
-		Assert.assertNull(field.getAutocomplete());
-	}
-
-	@Test
-	public void testSetAutocompleteWithSection() {
-		WNumberField field = new WNumberField();
-		String sectionName = "foo";
-		String expected;
-		for (AutocompleteUtil.NumericAutocomplete number : AutocompleteUtil.NumericAutocomplete.values()) {
-			expected = AutocompleteUtil.getCombinedForSection(sectionName, number.getValue());
-			field.setAutocomplete(number, sectionName);
-			Assert.assertEquals(expected, field.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutocompleteWithEmptySection() {
-		WNumberField field = new WNumberField();
-		for (AutocompleteUtil.NumericAutocomplete number : AutocompleteUtil.NumericAutocomplete.values()) {
-			field.setAutocomplete(number, "");
-			Assert.assertEquals(number.getValue(), field.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutocompleteWithNullSection() {
-		WNumberField field = new WNumberField();
-		for (AutocompleteUtil.NumericAutocomplete number : AutocompleteUtil.NumericAutocomplete.values()) {
-			field.setAutocomplete(number, null);
-			Assert.assertEquals(number.getValue(), field.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutocompleteNullValueEmptySection() {
-		WNumberField field = new WNumberField();
-		field.setAutocomplete(null, "");
 		Assert.assertNull(field.getAutocomplete());
 	}
 
@@ -822,7 +788,7 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 	public void testSetAutocompleteOff() {
 		WNumberField field = new WNumberField();
 		field.setAutocompleteOff();
-		Assert.assertEquals(AutocompleteUtil.OFF, field.getAutocomplete());
+		Assert.assertTrue(field.isAutocompleteOff());
 	}
 
 	@Test
@@ -837,7 +803,7 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testAddAutocompleteSection() {
 		WNumberField field = new WNumberField();
-		String sectionName ="foo";
+		String sectionName = "foo";
 		field.addAutocompleteSection(sectionName);
 		Assert.assertEquals(AutocompleteUtil.getNamedSection(sectionName), field.getAutocomplete());
 	}
@@ -845,10 +811,10 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testAddAutocompleteSectionAfterSetting() {
 		WNumberField field = new WNumberField();
-		String sectionName ="foo";
+		String sectionName = "foo";
 		String expected;
 
-		for (AutocompleteUtil.NumericAutocomplete number : AutocompleteUtil.NumericAutocomplete.values()) {
+		for (Numeric number : Numeric.values()) {
 			expected = AutocompleteUtil.getCombinedForSection(sectionName, number.getValue());
 			field.setAutocomplete(number);
 			field.addAutocompleteSection(sectionName);
@@ -859,13 +825,14 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testAddAutocompleteSectionAfterSettingWithSection() {
 		WNumberField field = new WNumberField();
-		String sectionName ="foo";
+		String sectionName = "foo";
 		String otherSection = "bar";
 		String expected;
 
-		for (AutocompleteUtil.NumericAutocomplete number : AutocompleteUtil.NumericAutocomplete.values()) {
+		for (Numeric number : Numeric.values()) {
 			expected = AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.getNamedSection(otherSection), number.getValue());
-			field.setAutocomplete(number, otherSection);
+			field.setAutocomplete(number);
+			field.addAutocompleteSection(otherSection);
 			field.addAutocompleteSection(sectionName);
 			Assert.assertEquals(expected, field.getAutocomplete());
 		}

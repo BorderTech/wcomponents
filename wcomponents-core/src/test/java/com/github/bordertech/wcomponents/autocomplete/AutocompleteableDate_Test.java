@@ -6,8 +6,8 @@ import com.github.bordertech.wcomponents.Headers;
 import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WLabel;
+import com.github.bordertech.wcomponents.autocomplete.type.DateType;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.io.Serializable;
 import java.util.List;
@@ -18,10 +18,9 @@ import org.junit.Test;
 /**
  * JUnit tests of {@link AutocompleteableDate} default methods.
  * @author Mark Reeves
+ * @since 1.5.3
  */
 public class AutocompleteableDate_Test {
-
-	private static final String DEFAULT_AUTOFILL_VALUE = AutocompleteUtil.DateAutocomplete.BIRTHDAY.getValue();
 	/**
 	 * Meta test to improve confidence in other tests.
 	 */
@@ -34,51 +33,15 @@ public class AutocompleteableDate_Test {
 	}
 
 	@Test
-	public void testSetDateAutocomplete() {
+	public void testSetBirthdayAutocomplete() {
 		MyDate component = new MyDate();
-		component.setDateAutocomplete();
-		Assert.assertEquals(DEFAULT_AUTOFILL_VALUE, component.getAutocomplete());
+		component.setBirthdayAutocomplete();
+		Assert.assertEquals(DateType.BIRTHDAY.getValue(), component.getAutocomplete());
 	}
 
-	@Test
-	public void testSetDateAutocompleteWithSectionName() {
-		MyDate component = new MyDate();
-		String sectionName = "foo";
-		String expected = AutocompleteUtil.getCombinedForSection(sectionName, DEFAULT_AUTOFILL_VALUE);
-		component.setDateAutocomplete(sectionName);
-		Assert.assertEquals(expected, component.getAutocomplete());
-	}
-
-	@Test
-	public void testSetDateAutocompleteWithEmptySectionName() {
-		MyDate component = new MyDate();
-		component.setDateAutocomplete("");
-		Assert.assertEquals(DEFAULT_AUTOFILL_VALUE, component.getAutocomplete());
-	}
-
-	@Test
-	public void testSetDateAutocompleteWithNullSectionName() {
-		MyDate component = new MyDate();
-		component.setDateAutocomplete(null);
-		Assert.assertEquals(DEFAULT_AUTOFILL_VALUE, component.getAutocomplete());
-	}
-
-	@Test
-	public void testSetAutocomplete() {
-		MyDate component = new MyDate();
-		for (AutocompleteUtil.DateAutocomplete date : AutocompleteUtil.DateAutocomplete.values()) {
-			component.setAutocomplete(date);
-			Assert.assertEquals(date.getValue(), component.getAutocomplete());
-		}
-	}
-
-	@Test
-	public void testSetAutocompleteNullType() {
-		MyDate component = new MyDate();
-		component.setAutocomplete(null);
-		Assert.assertNull(component.getAutocomplete());
-	}
-
+	/**
+	 * Mock for testing default methods.
+	 */
 	private class MyDate implements AutocompleteableDate {
 
 		private String autocomplete;
@@ -92,22 +55,8 @@ public class AutocompleteableDate_Test {
 		}
 
 		@Override
-		public void setAutocomplete(AutocompleteUtil.DateAutocomplete dateType, String sectionName) {
-			if (dateType == null && Util.empty(sectionName)) {
-				autocomplete = null;
-				return;
-			}
-			final String strType = dateType == null ? null : dateType.getValue();
-			autocomplete = Util.empty(sectionName) ? strType : AutocompleteUtil.getCombinedForSection(sectionName, strType);
-		}
-
-		@Override
-		public void setDateAutocomplete(String sectionName) {
-			if (Util.empty(sectionName)) {
-				autocomplete = DEFAULT_AUTOFILL_VALUE;
-			} else {
-				autocomplete = AutocompleteUtil.getCombinedForSection(sectionName, DEFAULT_AUTOFILL_VALUE);
-			}
+		public void setAutocomplete(final DateType value) {
+			autocomplete = value == null ? null : value.getValue();
 		}
 
 		@Override
@@ -121,7 +70,7 @@ public class AutocompleteableDate_Test {
 		}
 
 		@Override
-		public void addAutocompleteSection(String sectionName) {
+		public void addAutocompleteSection(final String sectionName) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -141,7 +90,7 @@ public class AutocompleteableDate_Test {
 		}
 
 		@Override
-		public void setIdName(String idName) {
+		public void setIdName(final String idName) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -156,52 +105,52 @@ public class AutocompleteableDate_Test {
 		}
 
 		@Override
-		public void serviceRequest(Request request) {
+		public void serviceRequest(final Request request) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void invokeLater(Runnable runnable) {
+		public void invokeLater(final Runnable runnable) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void handleRequest(Request request) {
+		public void handleRequest(final Request request) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void forward(String url) {
+		public void forward(final String url) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void preparePaint(Request request) {
+		public void preparePaint(final Request request) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void paint(RenderContext renderContext) {
+		public void paint(final RenderContext renderContext) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void validate(List<Diagnostic> diags) {
+		public void validate(final List<Diagnostic> diags) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void showErrorIndicators(List<Diagnostic> diags) {
+		public void showErrorIndicators(final List<Diagnostic> diags) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void showWarningIndicators(List<Diagnostic> diags) {
+		public void showWarningIndicators(final List<Diagnostic> diags) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void setLocked(boolean lock) {
+		public void setLocked(final boolean lock) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -216,7 +165,7 @@ public class AutocompleteableDate_Test {
 		}
 
 		@Override
-		public void setInitialised(boolean flag) {
+		public void setInitialised(final boolean flag) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -226,7 +175,7 @@ public class AutocompleteableDate_Test {
 		}
 
 		@Override
-		public void setValidate(boolean flag) {
+		public void setValidate(final boolean flag) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -236,7 +185,7 @@ public class AutocompleteableDate_Test {
 		}
 
 		@Override
-		public void setVisible(boolean visible) {
+		public void setVisible(final boolean visible) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -291,7 +240,7 @@ public class AutocompleteableDate_Test {
 		}
 
 		@Override
-		public void setTag(String tag) {
+		public void setTag(final String tag) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -301,7 +250,7 @@ public class AutocompleteableDate_Test {
 		}
 
 		@Override
-		public void setEnvironment(Environment environment) {
+		public void setEnvironment(final Environment environment) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -316,22 +265,22 @@ public class AutocompleteableDate_Test {
 		}
 
 		@Override
-		public void setAttribute(String key, Serializable value) {
+		public void setAttribute(final String key, final Serializable value) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public Serializable getAttribute(String key) {
+		public Serializable getAttribute(final String key) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public Serializable removeAttribute(String key) {
+		public Serializable removeAttribute(final String key) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void setToolTip(String text, Serializable... args) {
+		public void setToolTip(final String text, final Serializable... args) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -341,7 +290,7 @@ public class AutocompleteableDate_Test {
 		}
 
 		@Override
-		public void setAccessibleText(String text, Serializable... args) {
+		public void setAccessibleText(final String text, final Serializable... args) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -351,7 +300,7 @@ public class AutocompleteableDate_Test {
 		}
 
 		@Override
-		public void setTrackingEnabled(boolean track) {
+		public void setTrackingEnabled(final boolean track) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -366,22 +315,22 @@ public class AutocompleteableDate_Test {
 		}
 
 		@Override
-		public void setHtmlClass(String className) {
+		public void setHtmlClass(final String className) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void setHtmlClass(HtmlClassProperties className) {
+		public void setHtmlClass(final HtmlClassProperties className) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void addHtmlClass(String className) {
+		public void addHtmlClass(final String className) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void addHtmlClass(HtmlClassProperties className) {
+		public void addHtmlClass(final HtmlClassProperties className) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
@@ -396,12 +345,12 @@ public class AutocompleteableDate_Test {
 		}
 
 		@Override
-		public void removeHtmlClass(String className) {
+		public void removeHtmlClass(final String className) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
 		@Override
-		public void removeHtmlClass(HtmlClassProperties className) {
+		public void removeHtmlClass(final HtmlClassProperties className) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
 
