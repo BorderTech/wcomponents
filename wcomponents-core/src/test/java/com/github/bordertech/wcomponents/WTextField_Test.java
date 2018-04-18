@@ -727,8 +727,9 @@ public class WTextField_Test extends AbstractWComponentTestCase {
 		String expected;
 
 		for (PhoneFormat phoneType : PhoneFormat.values()) {
+			expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(), Telephone.FULL.getValue());
 			field.setAutocomplete(null, phoneType);
-			Assert.assertEquals(phoneType.getValue(), field.getAutocomplete());
+			Assert.assertEquals(expected, field.getAutocomplete());
 			for (Telephone phone : Telephone.values()) {
 				expected = AutocompleteUtil.getCombinedAutocomplete(phoneType.getValue(), phone.getValue());
 				field.setAutocomplete(phone, phoneType);
