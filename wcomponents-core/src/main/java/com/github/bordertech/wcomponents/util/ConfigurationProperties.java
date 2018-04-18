@@ -1433,7 +1433,7 @@ public final class ConfigurationProperties {
 	 * @return the parameter value, or null if not set.
 	 */
 	public static String getTestSeleniumServerUrl() {
-		return get().getString(TEST_SELENIUM_SERVER_START);
+		return get().getString(TEST_SELENIUM_SERVER_URL);
 	}
 
 	/**
