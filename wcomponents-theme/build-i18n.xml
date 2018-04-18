@@ -58,7 +58,7 @@
 		<sequential>
 			<concat fixlastline="true" append="false" destfile="@{destfile}">
 				<path>
-					<fileset dir="${i18n.unpack.dir}/com/github/bordertech/wcomponents" includes="*.properties" />
+					<fileset dir="${i18n.unpack.dir}/com/github/bordertech/wcomponents" includes="@{filename}" />
 				</path>
 				<filterchain>
 					<expandproperties/>
