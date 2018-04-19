@@ -1,5 +1,19 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteableText;
+import com.github.bordertech.wcomponents.autocomplete.segment.AddressPart;
+import com.github.bordertech.wcomponents.autocomplete.segment.AddressType;
+import com.github.bordertech.wcomponents.autocomplete.segment.AutocompleteSegment;
+import com.github.bordertech.wcomponents.autocomplete.segment.PhoneFormat;
+import com.github.bordertech.wcomponents.autocomplete.segment.PhonePart;
+import com.github.bordertech.wcomponents.autocomplete.type.DateType;
+import com.github.bordertech.wcomponents.autocomplete.type.Email;
+import com.github.bordertech.wcomponents.autocomplete.type.Numeric;
+import com.github.bordertech.wcomponents.autocomplete.type.Password;
+import com.github.bordertech.wcomponents.autocomplete.type.Telephone;
+import com.github.bordertech.wcomponents.autocomplete.type.Url;
+import com.github.bordertech.wcomponents.util.Util;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,11 +29,11 @@ import java.util.List;
  * </p>
  *
  * @author Jonathan Austin
+ * @author Mark Reeves
  * @since 1.0.0
  */
-public class WSingleSelect extends AbstractWSingleSelectList implements AjaxTrigger, AjaxTarget,
-		SubordinateTrigger,
-		SubordinateTarget {
+public class WSingleSelect extends AbstractWSingleSelectList implements AjaxTrigger, AjaxTarget, SubordinateTrigger, SubordinateTarget,
+		AutocompleteableText {
 
 	/**
 	 * Creates an empty WSingleSelect.
@@ -72,6 +86,94 @@ public class WSingleSelect extends AbstractWSingleSelectList implements AjaxTrig
 		return getComponentModel().rows;
 	}
 
+	@Override
+	public String getAutocomplete() {
+		return getComponentModel().autocomplete;
+	}
+
+	@Override
+	public void setAutocompleteOff() {
+		if (!isAutocompleteOff()) {
+			getOrCreateComponentModel().autocomplete = AutocompleteUtil.getOff();
+		}
+	}
+
+	@Override
+	public void addAutocompleteSection(final String sectionName) {
+		String newValue = AutocompleteUtil.getCombinedForAddSection(sectionName, this);
+		if (!Util.equals(getAutocomplete(), newValue)) {
+			getOrCreateComponentModel().autocomplete = newValue;
+		}
+	}
+
+	@Override
+	public void clearAutocomplete() {
+		if (getAutocomplete() != null) {
+			getOrCreateComponentModel().autocomplete = null;
+		}
+	}
+
+	/**
+	 * does the work of converting the various types of autocomplete helper to the {@code autocomplete} attribute values.
+	 * @param value the value for the {@code autocomplete} attribute
+	 */
+	private void setAutocomplete(final String value) {
+		if (!Util.equals(getAutocomplete(), value)) {
+			getOrCreateComponentModel().autocomplete = value;
+		}
+	}
+
+	@Override
+	public void setAutocomplete(final DateType value) {
+		final String strType = value == null ? null : value.getValue();
+		setAutocomplete(strType);
+	}
+
+	@Override
+	public void setAutocomplete(final Email value) {
+		final String strType = value == null ? null : value.getValue();
+		setAutocomplete(strType);
+	}
+
+	@Override
+	public void setAutocomplete(final Numeric value) {
+		final String strType = value == null ? null : value.getValue();
+		setAutocomplete(strType);
+	}
+
+	@Override
+	public void setAutocomplete(final Password value) {
+		final String strType = value == null ? null : value.getValue();
+		setAutocomplete(strType);
+	}
+
+	@Override
+	public void setAutocomplete(final Url value) {
+		final String strType = value == null ? null : value.getValue();
+		setAutocomplete(strType);
+	}
+
+	@Override
+	public void setAutocomplete(final AutocompleteSegment value) {
+		final String strType = value == null ? null : value.getValue();
+		setAutocomplete(strType);
+	}
+
+	@Override
+	public void setAutocomplete(final Telephone phone, final PhoneFormat phoneType) {
+		setAutocomplete(AutocompleteUtil.getCombinedFullPhone(phoneType, phone));
+	}
+
+	@Override
+	public void setPhoneSegmentAutocomplete(final PhoneFormat phoneType, final PhonePart phoneSegment) {
+		setAutocomplete(AutocompleteUtil.getCombinedPhoneSegment(phoneType, phoneSegment));
+	}
+
+	@Override
+	public void setAddressAutocomplete(final AddressType addressType, final AddressPart addressPart) {
+		setAutocomplete(AutocompleteUtil.getCombinedAddress(addressType, addressPart));
+	}
+
 	/**
 	 * Creates a new Component model.
 	 *
@@ -82,17 +184,11 @@ public class WSingleSelect extends AbstractWSingleSelectList implements AjaxTrig
 		return new SingleSelectModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected SingleSelectModel getComponentModel() {
 		return (SingleSelectModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected SingleSelectModel getOrCreateComponentModel() {
 		return (SingleSelectModel) super.getOrCreateComponentModel();
@@ -104,6 +200,11 @@ public class WSingleSelect extends AbstractWSingleSelectList implements AjaxTrig
 	 * @author Yiannis Paschalidis
 	 */
 	public static class SingleSelectModel extends SelectionModel {
+
+		/**
+		 * The auto-fill hint for the field.
+		 */
+		private String autocomplete;
 
 		/**
 		 * The number of visible rows to display.
