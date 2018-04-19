@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.OptionGroup;
 import com.github.bordertech.wcomponents.TestLookupTable;
 import com.github.bordertech.wcomponents.WSingleSelect;
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
 import com.github.bordertech.wcomponents.autocomplete.segment.Person;
 import java.io.IOException;
 import java.util.Arrays;
@@ -87,6 +88,11 @@ public class WSingleSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("true", "//ui:listbox/@single", single);
 		assertXpathEvaluatesTo(Person.NICKNAME.getValue(), "//ui:listbox/@autocomplete", single);
 
+		single.setAutocompleteOff();
+		assertXpathEvaluatesTo(AutocompleteUtil.getOff(), "//ui:listbox/@autocomplete", single);
+
+		single.clearAutocomplete();
+		assertXpathNotExists("//ui:listbox/@autocomplete", single);
 	}
 
 	@Test
