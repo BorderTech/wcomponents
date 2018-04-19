@@ -115,26 +115,28 @@ public class SeleniumWSelectWebElement extends SeleniumWComponentInputWebElement
 	}
 
 	/**
+	 * @return the Nth option for this select.
+	 * @param optionNumber - the option - 0 indexed (unlike CSS which is 1 indexed)
+	 */
+	public SeleniumWComponentWebElement getNthOption(final int optionNumber) {
+		return new SeleniumWComponentWebElement(getOptions().get(optionNumber), getDriver());
+	}
+
+	/**
 	 * @return the last option for this select.
 	 */
 	public SeleniumWComponentWebElement getFirstOption() {
-		return getInputField().findElementImmediate(By.cssSelector(SELECTOR_FIRST_OPTION));
+		return getNthOption(0);
 	}
 
 	/**
 	 * @return the last option for this select.
 	 */
 	public SeleniumWComponentWebElement getLastOption() {
-		return getInputField().findElementImmediate(By.cssSelector(SELECTOR_LAST_OPTION));
+		List<WebElement> options = getOptions();
+		return new SeleniumWComponentWebElement(options.get(options.size() - 1), getDriver());
 	}
 
-	/**
-	 * @return the Nth option for this select.
-	 * @param optionNumber - the
-	 */
-	public SeleniumWComponentWebElement getNthOption(final int optionNumber) {
-		return getInputField().findElementImmediate(By.cssSelector(String.format(SELECTOR_NTH_OPTION, optionNumber)));
-	}
 
 	/**
 	 * Some attributes are applied to the wrapper, some to the input. This override sorts out which is which.

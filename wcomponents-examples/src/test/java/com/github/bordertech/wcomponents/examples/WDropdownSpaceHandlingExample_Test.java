@@ -2,7 +2,6 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
-import com.github.bordertech.wcomponents.WCheckBoxSelect;
 import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
 import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
@@ -43,39 +42,12 @@ public class WDropdownSpaceHandlingExample_Test extends WComponentExamplesTestCa
 					getComponent();
 			List<?> options = dropdown.getOptions();
 
+
 			for (Object option : options) {
 				driver.findElement(byWComponent(dropdown, option)).click();
-				driver.findElement(byWComponentPath("WButton")).click();
+				driver.findWButtonByText("Submit").click();
 
 				Assert.assertEquals("Incorrect option selected", option, dropdown.getSelected());
-			}
-		} finally {
-			UIContextHolder.popContext();
-		}
-	}
-
-	@Test
-	public void testCheckbox() {
-		WDropdownSpaceHandlingExample example = (WDropdownSpaceHandlingExample) getUi();
-
-		// Launch the web browser to the LDE
-		SeleniumWComponentsWebDriver driver = getDriver();
-
-		UIContext uic = getUserContextForSession();
-		UIContextHolder.pushContext(uic);
-		try {
-			WCheckBoxSelect group = (WCheckBoxSelect) TreeUtil.findWComponent(example,
-					new String[]{"WCheckBoxSelect"}).getComponent();
-			List<?> options = group.getOptions();
-
-			for (Object option : options) {
-				driver.findElement(byWComponent(group, option)).click();
-				driver.findElement(byWComponentPath("WButton")).click();
-
-				Assert.assertEquals("Incorrect option selected", option, group.getSelected().get(0));
-
-				// De-select option
-				driver.findElement(byWComponent(group, option)).click();
 			}
 		} finally {
 			UIContextHolder.popContext();

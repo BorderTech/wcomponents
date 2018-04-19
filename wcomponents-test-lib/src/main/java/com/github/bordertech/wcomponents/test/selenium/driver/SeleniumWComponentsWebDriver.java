@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.test.selenium.ByWComponent;
 import com.github.bordertech.wcomponents.test.selenium.SeleniumLauncher;
 import com.github.bordertech.wcomponents.test.selenium.SeleniumWComponentsUtil;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWButtonWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWCheckBoxSelectWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWCheckBoxWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWComponentWebElement;
@@ -21,6 +22,8 @@ import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWSelectWe
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTableWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTextAreaWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTextFieldWebElement;
+import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.util.Util;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -379,6 +382,94 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	 */
 	public SeleniumWLabelWebElement findWLabelWithPartialText(final String text) {
 		return findWLabelWithPartialText(text, 0);
+	}
+
+	/**
+	 * @param by the By selector
+	 * @return a usable button
+	 */
+	public SeleniumWButtonWebElement findWButton(final By by) {
+		return new SeleniumWButtonWebElement(findElementImmediate(by), this);
+	}
+
+	/**
+	 * @param text the text found on the WButton
+	 * @param searchAttributes if {@code true} then also look at labelling attributes title and aria-label.
+	 * @param idx the index of the button to get
+	 * @return a usable WButton specific WebElement containing the required text
+	 */
+	public SeleniumWButtonWebElement findWButtonByText(final String text, final boolean searchAttributes, final int idx) {
+		if (Util.empty(text)) {
+			throw new IllegalArgumentException("Cannot find a button with no text");
+		}
+		List<WebElement> buttons = findElements(By.cssSelector(SeleniumWButtonWebElement.getCssSelector()));
+		List<WebElement> filtered = new ArrayList(buttons.size());
+
+		buttons.forEach((button) -> {
+			String buttonTextOrTitle = button.getText();
+			if (text.equalsIgnoreCase(buttonTextOrTitle)) {
+				filtered.add(button);
+			} else if (searchAttributes) {
+				buttonTextOrTitle = button.getAttribute("title");
+				if (text.equalsIgnoreCase(buttonTextOrTitle)) {
+					filtered.add(button);
+				} else {
+					buttonTextOrTitle = button.getAttribute("aria-label");
+					if (text.equalsIgnoreCase(buttonTextOrTitle)) {
+						filtered.add(button);
+					}
+				}
+			}
+		});
+		return new SeleniumWButtonWebElement(filtered.get(idx), this);
+	}
+
+	/**
+	 *
+	 * @param text the text found on the WButton
+	 * @param searchAttributes if {@code true} then also look at labelling attributes title and aria-label.
+	 * @return the first WButton specific WebElement containing the required text
+	 */
+	public SeleniumWButtonWebElement findWButtonByText(final String text, final boolean searchAttributes) {
+		return findWButtonByText(text, searchAttributes, 0);
+	}
+
+	/**
+	 * @param text the text found on the WButton
+	 * @return the first WButton specific WebElement containing the required text as visible text or a labelling attribute such as title or aria-label
+	 */
+	public SeleniumWButtonWebElement findWButtonByText(final String text) {
+		return findWButtonByText(text, true, 0);
+	}
+
+	/**
+	 *
+	 * @param buttonTextOrTitle the text expected in the button
+	 * @param searchAttributes if {@code true} then also look at labelling attributes title and aria-label.
+	 * @return a WebElement representing a button described by the required text.
+	 */
+	public WebElement findButton(final String buttonTextOrTitle, final boolean searchAttributes) {
+		if (Util.empty(buttonTextOrTitle)) {
+			throw new IllegalArgumentException("Cannot find a button with no text");
+		}
+		List<WebElement> buttons = findElements(By.tagName("button"));
+		for (WebElement button : buttons) {
+			String text = button.getText();
+			if (buttonTextOrTitle.equalsIgnoreCase(text)) {
+				return button;
+			}
+			if (searchAttributes) {
+				text = button.getAttribute("title");
+				if (buttonTextOrTitle.equalsIgnoreCase(text)) {
+					return button;
+				}
+				text = button.getAttribute("aria-label");
+				if (buttonTextOrTitle.equalsIgnoreCase(text)) {
+					return button;
+				}
+			}
+		}
+		throw new SystemException("No button containing required text.");
 	}
 
 	/**
