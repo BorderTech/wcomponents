@@ -2,15 +2,15 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.WButton;
-import com.github.bordertech.wcomponents.WCheckBoxSelect;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDropdown;
+import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WHeading;
-import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WMessageBox;
-import com.github.bordertech.wcomponents.WStyledText;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 
 /**
  * This example is to see how {@link WDropdown} cope with options that contain spaces.
@@ -27,22 +27,20 @@ public class WDropdownSpaceHandlingExample extends WContainer {
 	private static final String TRAILING_SPACE = "TrailingSpace ";
 	private static final String DOUBLE_SPACE = "Double  Space";
 
+	private final WText text;
+	private final WDropdown drop;
+	private final WButton submit;
+
 	/**
 	 * Creates a WDropdownSpaceHandlingExample.
 	 */
 	public WDropdownSpaceHandlingExample() {
-		add(new WMessageBox(WMessageBox.WARN,
-				"This example is for framework testing ONLY and must not be used as an example of how to set up any UI controls"));
-		final WText text = new WText();
-
-		final WDropdown drop = new WDropdown();
-		drop.setToolTip("Select an option with spaces");
+		drop = new WDropdown();
 		drop.setOptions(new String[]{null, NO_SPACE, LEADING_SPACE, TRAILING_SPACE, DOUBLE_SPACE});
-		add(drop);
 
-		WButton submit = new WButton("Submit");
-		add(submit);
+		text = new WText();
 
+		submit = new WButton("Submit");
 		submit.setAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
@@ -54,24 +52,22 @@ public class WDropdownSpaceHandlingExample extends WContainer {
 			}
 		});
 
-		WStyledText explanation = new WStyledText(
-				"In the result output space characters are replaced with '%20'.");
-		explanation.setWhitespaceMode(WStyledText.WhitespaceMode.PARAGRAPHS);
-		add(explanation);
-		add(new WHeading(WHeading.MAJOR, "Result Text"));
-		add(text);
-		add(new WHorizontalRule());
+		setupUI();
+	}
 
-		add(new WHeading(WHeading.MAJOR, "Test of spaces in options of WCheckBoxSelect"));
-		explanation = new WStyledText(
-				"This control is here only for the purposes of unit testing and serves no function with respect to the output of the example above.");
-		explanation.setWhitespaceMode(WStyledText.WhitespaceMode.PARAGRAPHS);
-		add(explanation);
-		WCheckBoxSelect multiSelectGroup = new WCheckBoxSelect();
-		multiSelectGroup.setFrameless(true);
-		multiSelectGroup.setToolTip("Select one or more options with spaces");
-		multiSelectGroup.setOptions(
-				new String[]{NO_SPACE, LEADING_SPACE, TRAILING_SPACE, DOUBLE_SPACE});
-		add(multiSelectGroup);
+	/**
+	 * Add controls to the UI.
+	 */
+	private void setupUI() {
+		add(new WMessageBox(WMessageBox.WARN,
+				"This example is for framework testing ONLY and must not be used as an example of how to set up any UI controls"));
+		WFieldLayout layout = new WFieldLayout();
+		add(layout);
+
+		layout.addField("Select an option with spaces", drop);
+		layout.addField(submit);
+		add(new ExplanatoryText("In the result output space characters are replaced with '%20'."));
+		add(new WHeading(HeadingLevel.H2, "Result Text"));
+		add(text);
 	}
 }
