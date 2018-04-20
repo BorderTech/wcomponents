@@ -4,7 +4,7 @@ define(["wc/dom/initialise",
 	"wc/dom/formUpdateManager",
 	"wc/ui/ajax/processResponse",
 	"wc/dom/cbrShedPublisher"],
-	function(initialise, Widget, shed, formUpdateManager, processResponse) {
+	function(initialise, Widget, shed, formUpdateManager, processResponse, cbrShedPublisher) {
 		"use strict";
 
 		/**
@@ -13,7 +13,7 @@ define(["wc/dom/initialise",
 		 * @private
 		 */
 		function CheckBox() {
-			var CHECKBOX = new Widget("input", "", { "type": "checkbox" }),
+			var CHECKBOX = cbrShedPublisher.getWidget("cb"),
 				WRAPPER = new Widget("", "wc-checkbox"),
 				WCHECKBOX = CHECKBOX.clone();
 
@@ -129,15 +129,13 @@ define(["wc/dom/initialise",
 		/**
 		 * Provides Ajax and state writing functionality for check boxes.
 		 *
-		 * {@link module:wc/dom/cbrShedPublisher} is listed as a dependency as its functionality is required by native checkbox elements but it is not
-		 * used by the code in this module.
-		 *
 		 * @module
 		 * @requires wc/dom/initialise
 		 * @requires wc/dom/Widget
 		 * @requires wc/dom/shed
 		 * @requires wc/dom/formUpdateManager
 		 * @requires wc/ui/ajax/processResponse
+		 * @requires module:wc/dom/cbrShedPublisher
 		 *
 		 * @todo Get rid of the state writing: it is nuts!
 		 */

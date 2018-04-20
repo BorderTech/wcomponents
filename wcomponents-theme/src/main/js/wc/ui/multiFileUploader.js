@@ -21,9 +21,10 @@ define(["wc/dom/attribute",
 	"wc/debounce",
 	"wc/dom/toDocFragment",
 	"wc/ui/feedback",
+	"wc/ui/icon",
 	"wc/ui/fieldset"],
 	function (attribute, prefetch, event, initialise, uid, Trigger, classList, has, clearSelector, validate, i18n, Widget, formUpdateManager,
-		filedrop, ajax, prompt, focus, isNumeric, ajaxRegion, wcconfig, debounce, toDocFragment, feedback) {
+		filedrop, ajax, prompt, focus, isNumeric, ajaxRegion, wcconfig, debounce, toDocFragment, feedback, icon) {
 		"use strict";
 
 		// Note `wc/ui/fieldset` is implicitly required to handle various aspects of managing the wrapper element.
@@ -56,6 +57,7 @@ define(["wc/dom/attribute",
 			 * @requires wc/debounce
 			 * @requires wc/dom/toDocFragment
 			 * @requires wc/ui/feedback
+			 * @requires wc/ui/icon
 			 * @requires wc/ui/fieldset
 			 */
 			instance = new MultiFileUploader(),
@@ -702,7 +704,7 @@ define(["wc/dom/attribute",
 				removeButton.setAttribute("type", "button");  // .type causes issues in legacy IE
 				removeButton.className = "wc_btn_icon wc_btn_abort";
 				removeButton.value = i18n.get("file_abort", fileName);
-				removeButton.insertAdjacentHTML("afterbegin", "<span aria-hidden='true' class='fa fa-ban'></span>");
+				icon.add(removeButton, "fa-ban");
 				item.appendChild(removeButton);
 				item.appendChild(document.createTextNode(fileName));
 				progress = item.appendChild(document.createElement("progress"));

@@ -116,8 +116,7 @@
 					<link type="text/css" rel="stylesheet" href="{$debugCssUrl}"
 						media="screen" />
 				</xsl:if>
-				<xsl:variable name="faUrl"/>
-				<link type="text/css" rel="stylesheet" id="wc_css_screen"
+				<link type="text/css" rel="stylesheet"
 					href="{concat($resourceRoot, 'resource/fontawesome/css/font-awesome.min.css')}" media="screen" />
 				<!--
 					We need to set up the require config very early. This mess
@@ -181,10 +180,7 @@
 					<xsl:text>} } },&#10;"wc/loader/resource": {</xsl:text>
 					<xsl:value-of select="concat('resourceBaseUrl:&quot;', normalize-space($resourceRoot), 'resource/&quot;,&#10;')" />
 					<xsl:value-of select="concat('cachebuster:&quot;', $cacheBuster, '&quot;')" />
-					<xsl:text>},&#10;"wc/loader/style":{</xsl:text>
-					<xsl:value-of select="concat('cssBaseUrl:&quot;', normalize-space($resourceRoot), 'style/&quot;,&#10;')" />
-					<xsl:value-of select="concat('cachebuster:&quot;', $cacheBuster, '&quot;,&#10;')" />
-					<xsl:text>}};&#10;</xsl:text>
+					<xsl:text>}&#10;};&#10;</xsl:text>
 					<xsl:text>
 	try{
 		timing = {};
@@ -276,7 +272,7 @@
 		<xsl:value-of select="$cacheBuster" />
 	</xsl:template>
 
-	<!-- 
+	<!--
 		The root element of a response to an ajax request.
 	-->
 	<xsl:template match="ui:ajaxresponse">
@@ -309,7 +305,7 @@
 
 	<!--
 		ui:ajaxtarget is a child of ui:ajaxresponse.
-		
+
 		The main point of this template is a simple pass-through to output the
 		contained elements and run the registration scripts to wire up new
 		onload functionality.
@@ -654,8 +650,8 @@
 		</xsl:if>
 	</xsl:template>
 
-	<!-- templates which transform to nothing 
-		
+	<!-- templates which transform to nothing
+
 		* Consume comments and do not pass them through
 		* Remove link, base and meta elements completely from flow. These are
 		  all hoisted into the HTML head element in ui:root.
@@ -672,9 +668,9 @@
 
 	<!--
 		Generic utility templates.
-		
+
 		These are templates for text nodes, unmatched elements and unmatched attributes. You will often see example templates like this:
-		
+
 		``` xml
 		<xsl:template match="*|@*|node()">
 			<xsl:copy>
@@ -682,13 +678,13 @@
 			</xsl:copy
 		</xsl:template>
 		```
-		
+
 		whereas we split these into separate templates. This because in XSLT 2 a node with no children cannot apply templates. Using a single template
 		like that above is also a performance issue, making a copy of a text node is slower than outputting its value.
-		
+
 		There is also one more caveat with element nodes:
-		
-		Template for unmatched elements. Make a copy of the element. We make an element using local-name() rather than the more obvious xsl:copy 
+
+		Template for unmatched elements. Make a copy of the element. We make an element using local-name() rather than the more obvious xsl:copy
 		because copy will retain the namespace attributes..
 	-->
 	<xsl:template match="*">
@@ -761,7 +757,7 @@
 		</xsl:element>
 	</xsl:template>
 
-	<!-- 
+	<!--
 		Copy without XML namespaces, prevents double output of XHTML
 		self-closing elements.
 	-->
@@ -771,7 +767,7 @@
 		</xsl:element>
 	</xsl:template>
 
-	<!-- 
+	<!--
 	###########################################################################
 	###########################################################################
 	# Include all of the actual component XSLT.
@@ -781,7 +777,6 @@
 	<xsl:include href="wc.ajax.xsl" />
 	<xsl:include href="wc.checkablegroup.xsl" />
 	<xsl:include href="wc.containers.xsl" />
-	<xsl:include href="wc.feedback.xsl" />
 	<xsl:include href="wc.fileupload.xsl" />
 	<xsl:include href="wc.inputs.xsl" />
 	<xsl:include href="wc.shuffleable.xsl" />
@@ -794,6 +789,7 @@
 	<xsl:include href="wc.ui.definitionList.xsl" />
 	<xsl:include href="wc.ui.dialog.xsl" />
 	<xsl:include href="wc.ui.dropdown.xsl" />
+  <xsl:include href="wc.ui.fieldindicator.xsl"/>
 	<xsl:include href="wc.ui.fieldLayout.xsl" />
 	<xsl:include href="wc.ui.fieldSet.xsl" />
 	<xsl:include href="wc.ui.figure.xsl" />
@@ -804,6 +800,7 @@
 	<xsl:include href="wc.ui.listbox.xsl" />
 	<xsl:include href="wc.ui.margin.xsl" />
 	<xsl:include href="wc.ui.menu.xsl" />
+  <xsl:include href="wc.ui.messagebox.xsl"/>
 	<xsl:include href="wc.ui.multidropdown.xsl" />
 	<xsl:include href="wc.ui.multitextfield.xsl" />
 	<xsl:include href="wc.ui.numberfield.xsl" />
