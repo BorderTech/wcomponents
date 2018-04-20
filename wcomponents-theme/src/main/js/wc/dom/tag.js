@@ -169,23 +169,33 @@ define(function() {
 	 * @param {String} tagName The name of the tag, eg "input"
 	 * @param {boolean} [closing] If true will return a closing tag (eg "&lt;/p&gt;") (if true, closing obsoletes the
 	 *    next two arguments).
-	 * @param {String} [attributes] The attributes to include in the tag, eg 'class="someClass" type="text"'
+	 * @param {String|Object} [attributes] The attributes to include in the tag, eg 'class="someClass" type="text"'. If using the object
+	 * variant then each property native to the object is added as `key="value"`
 	 * @param {boolean} [empty] If true will return an empty tag, eg &lt;input/&gt;
 	 */
 	tags.toTag = function (tagName, closing, attributes, empty) {
-		var tag = ["<"];
+		var tag = ["<"], p;
 		if (closing) {
 			tag.push("/");
 			tag.push(tagName);
-		} else {
-			tag.push(tagName);
-			if (attributes) {
-				tag.push(" ");
-				tag.push(attributes);
+			tag.push(">");
+			return tag.join("");
+		}
+
+		tag.push(tagName);
+		if (attributes) {
+			if (attributes.constructor === String) {
+				tag.push(" " + attributes);
+			} else if (typeof attributes === "object") {
+				for (p in attributes) {
+					if (attributes.hasOwnProperty(p)) {
+						tag.push(" " + p + "='" + attributes[p] + "'");
+					}
+				}
 			}
-			if (empty) {
-				tag.push("/");
-			}
+		}
+		if (empty) {
+			tag.push("/");
 		}
 		tag.push(">");
 		return tag.join("");
