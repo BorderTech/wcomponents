@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.util.mock.MockFileItem;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Collections;
 import org.apache.commons.fileupload.FileItem;
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,23 +20,34 @@ public class FileUtil_Test {
 	@Test
 	public void testvalidateFileType() throws IOException {
 		FileItem newFileItem = createFileItem(false);
-
 		boolean validateFileType = FileUtil.validateFileType(new FileItemWrap(newFileItem), Arrays.asList("text/plain", "image/gif"));
 		Assert.assertTrue(validateFileType);
 
 		newFileItem = createFileItem(true);
 		validateFileType = FileUtil.validateFileType(new FileItemWrap(newFileItem), Arrays.asList("text/plain", "image/gif"));
 		Assert.assertFalse(validateFileType);
+		
+		validateFileType = FileUtil.validateFileType(null, null);
+		Assert.assertFalse(validateFileType);
+		
+		newFileItem = createFileItem(true);
+		validateFileType = FileUtil.validateFileType(new FileItemWrap(newFileItem), Collections.EMPTY_LIST);
+		Assert.assertTrue(validateFileType);
 	}
 	
 	@Test
 	public void testvalidateFileSize() throws IOException {
 		FileItem newFileItem = createFileItem(true);
-
 		boolean validateFileSize = FileUtil.validateFileSize(new FileItemWrap(newFileItem), 200);
 		Assert.assertTrue(validateFileSize);
 
 		validateFileSize = FileUtil.validateFileSize(new FileItemWrap(newFileItem), 50);
+		Assert.assertFalse(validateFileSize);
+		
+		FileUtil.validateFileSize(null, 0);
+		Assert.assertFalse(validateFileSize);
+		
+		validateFileSize = FileUtil.validateFileSize(new FileItemWrap(newFileItem), -1000);
 		Assert.assertFalse(validateFileSize);
 	}
 	

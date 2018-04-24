@@ -460,6 +460,53 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 		changed = widget.doHandleRequest(request);
 		Assert.assertEquals("File valid", changed, true);
 		Assert.assertTrue(widget.isFileTypeValid());
+		
+		widget.setMaxFileSize(-100);
+		changed = widget.doHandleRequest(request);
+		Assert.assertEquals("File valid", changed, true);
+		Assert.assertTrue(widget.isFileTypeValid());
+	}
+	
+	@Test
+	public void testValidationMultiUIContext() {
+		WFileWidget widget = new WFileWidget();
+		int maxSize = 10;
+		widget.setMaxFileSize(maxSize);
+		widget.setLocked(true);
+		
+		// Context 1, pass the validation
+		UIContext context1 = createUIContext();
+		setActiveContext(context1);
+		MockRequest request = setupFileUploadRequest(widget, TEST_FILE_ITEM);
+		widget.doHandleRequest(request);
+		Assert.assertEquals("Context 1 file size valid", widget.isFileSizeValid(), true);
+		
+		// Context 2, fail the validation
+		UIContext context2 = createUIContext();
+		setActiveContext(context2);
+		request = setupFileUploadRequest(widget, TEST_FILE_ITEM2);
+		widget.doHandleRequest(request);
+		Assert.assertEquals("Context 2 file size invalid", widget.isFileSizeValid(), false);
+		
+		// Context 1, fail the validation
+		setActiveContext(context1);
+		request = setupFileUploadRequest(widget, TEST_FILE_ITEM2);
+		widget.doHandleRequest(request);
+		Assert.assertEquals("Context 1 file size invalid", widget.isFileSizeValid(), false);
+		
+		// Context 2, pass the validation
+		setActiveContext(context2);
+		request = setupFileUploadRequest(widget, TEST_FILE_ITEM);
+		widget.doHandleRequest(request);
+		Assert.assertEquals("Context 2 file size valid", widget.isFileSizeValid(), true);
+		
+		// Context 1, verify the validation
+		setActiveContext(context1);
+		Assert.assertEquals("Verify context 1", widget.isFileSizeValid(), false);
+		
+		// Context 2, verify the validation
+		setActiveContext(context2);
+		Assert.assertEquals("Verify context 2", widget.isFileSizeValid(), true);
 	}
 	
 	/**

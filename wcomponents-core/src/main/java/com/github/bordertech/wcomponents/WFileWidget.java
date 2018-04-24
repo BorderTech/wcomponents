@@ -102,7 +102,11 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	 * @param bytes The maximum size (in bytes) that can be uploaded by this input.
 	 */
 	public void setMaxFileSize(final long bytes) {
-		getOrCreateComponentModel().maxFileSize = bytes;
+		if (bytes > 0) {
+			getOrCreateComponentModel().maxFileSize = bytes;
+		} else {
+			getOrCreateComponentModel().maxFileSize = 0;
+		}
 	}
 
 	/**
@@ -181,11 +185,12 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 		// if User Model exists it will be returned, othewise Shared Model is returned
 		final FileWidgetModel componentModel = getComponentModel();
 		// If Shared Model is returned then both fileType and fileSize are always valid
-		// If User Model is returned then reset back to true
+		// If User Model is returned check if any if any is false
 		if (!componentModel.validFileSize || !componentModel.validFileType) {
-		    // If the state has changed then we know for certain a user model exists
-		    componentModel.validFileType = true;
-		    componentModel.validFileSize = true;
+		    final FileWidgetModel userModel = getOrCreateComponentModel();
+		    userModel.validFileType = true;
+		    userModel.validFileSize = true;
+
 		}
 	}
 

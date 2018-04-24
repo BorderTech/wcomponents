@@ -32,11 +32,20 @@ public final class FileUtil {
 	/**
 	 * Checks if the file item is one among the supplied file types.
 	 * 
-	 * @param newFile the file to be checked
-	 * @param fileTypes allowed file types
+	 * @param newFile the file to be checked, if null then return false otherwise validate
+	 * @param fileTypes allowed file types, if null or empty return true, otherwise validate
 	 * @return {@code true} if file type is valid
 	 */
 	public static boolean validateFileType(final FileItemWrap newFile, final List<String> fileTypes) {
+		// If newFile to validate is null, then return false
+		if (newFile == null) {
+		    return false;
+		}
+		// If fileTypes to validate is null or empty, then assume newFile is valid
+		if (fileTypes == null || fileTypes.isEmpty()) {
+		    return true;
+		}
+		
 		try {
 			final Tika tika = new Tika();
 			String mimeType = tika.detect(newFile.getInputStream());
@@ -62,11 +71,20 @@ public final class FileUtil {
 	/**
 	 * Checks if the file item size is within the supplied max file size.
 	 *
-	 * @param newFile the file to be checked
-	 * @param maxFileSize max file size in bytes
+	 * @param newFile the file to be checked, if null then return false otherwise validate
+	 * @param maxFileSize max file size in bytes, if zero or negative return true, otherwise validate
 	 * @return {@code true} if file size is valid.
 	 */
 	public static boolean validateFileSize(final FileItemWrap newFile, final long maxFileSize) {
+		// If newFile to validate is null, then return false
+		if (newFile == null) {
+		    return false;
+		}
+		// If maxFileSize to validate is zero or negative, then assume newFile is valid
+		if (maxFileSize < 1) {
+		    return true;
+		}
+		
 		return (newFile.getSize() <= maxFileSize);
 	}
 
