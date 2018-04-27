@@ -13,7 +13,7 @@
 	</parent>
 
 	<packaging>jar</packaging>
-	
+
 	<description>
 		This module bundles core server-side and client-side WComponents.
 		It is used in WComponents examples and is itself an example of how to make WComponents
@@ -21,7 +21,7 @@
 		This avoids the risk of applications defining incompatible versions of the server-side
 		and client-side artefacts.
 	</description>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>com.github.bordertech.wcomponents</groupId>
@@ -33,7 +33,7 @@
 			<artifactId>wcomponents-theme</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		
+
 		<!-- JSR107 Caching provider. -->
 		<dependency>
 			<groupId>org.ehcache</groupId>
@@ -45,7 +45,7 @@
 			<artifactId>management-model</artifactId>
 			<version>2.0.0</version>
 		</dependency>
-		
+
 		<!-- Libraries used by WComponents use SLF4J. WComponents uses common loggings. You will need to include
 		the appropiate SLF4J library for your logging framework. -->
 		<dependency>
