@@ -105,9 +105,6 @@
 				<exclude name="*wrappers*"/>
 			</fileset>
 		</copy>
-		<copy todir="${lib.build.target.dir}/tracking" >
-			<fileset dir="${basedir}/node_modules/tracking" includes="build/**"/>
-		</copy>
 		<copy todir="${lib.build.target.dir}/bower_components" failonerror="false"><!-- Optionally copy any bower components to the lib dir -->
 			<fileset dir="${basedir}/bower_components" includes="**"/>
 		</copy>

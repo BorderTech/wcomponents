@@ -149,7 +149,6 @@
 					fabric: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/fabric",
 					ccv: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/ccv",
 					face: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/face",
-					tracking: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/tracking/build/tracking-min",
 					getUserMedia: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/getusermedia-js/getUserMedia.min",
 					axs: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/axs_testing",
 					axe: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/axe.min"
@@ -161,7 +160,6 @@
 							this.tinyMCE.DOM.events.domLoaded = true;
 							return this.tinyMCE;
 						}},
-					tracking: {exports: "tracking"},
 					Promise: {exports: "Promise"},
 					fabric: {exports: "fabric"},
 					ccv: {exports: "ccv"},
