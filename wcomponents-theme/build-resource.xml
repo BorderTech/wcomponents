@@ -9,7 +9,7 @@
 	-->
 	<target name="build" depends="getTimezoneData" description="Builds resources">
 		<copy todir="${target.rootdir}/resource" overwrite="true">
-			<fileset dir="${common.src.rootdir}/resource" includes="**.xml, **.rdf, **.html, **.svg, **.mustache, **.handlebars" />
+			<fileset dir="${common.src.rootdir}/resource" includes="**.xml, **.rdf, **.html, **.svg, **.mustache" />
 			<filterchain>
 				<deletecharacters chars="\t" />
 				<trim />
@@ -18,7 +18,7 @@
 			</filterchain>
 		</copy>
 		<copy todir="${target.rootdir}/resource" overwrite="true">
-			<fileset dir="${impl.src.main.dir}/resource" includes="**.xml, **.rdf, **.html, **.svg, **.mustache, **.handlebars" erroronmissingdir="false"/>
+			<fileset dir="${impl.src.main.dir}/resource" includes="**.xml, **.rdf, **.html, **.svg, **.mustache" erroronmissingdir="false"/>
 			<filterchain>
 				<deletecharacters chars="\t" />
 				<trim />
@@ -28,10 +28,10 @@
 		</copy>
 
 		<copy todir="${target.rootdir}/resource" overwrite="true">
-			<fileset dir="${common.src.rootdir}/resource" includes="**" excludes="**.xml, **.rdf, **.html, **.svg, **.mustache, **.handlebars" />
+			<fileset dir="${common.src.rootdir}/resource" includes="**" excludes="**.xml, **.rdf, **.html, **.svg, **.mustache" />
 		</copy>
 		<copy todir="${target.rootdir}/resource" overwrite="true">
-			<fileset dir="${impl.src.main.dir}/resource" includes="**" excludes="**.xml, **.rdf, **.html, **.svg, **.mustache, **.handlebars" erroronmissingdir="false" />
+			<fileset dir="${impl.src.main.dir}/resource" includes="**" excludes="**.xml, **.rdf, **.html, **.svg, **.mustache" erroronmissingdir="false" />
 		</copy>
 		<echo level="verbose" message="Done building resources" />
 	</target>
