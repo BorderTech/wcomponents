@@ -10,7 +10,6 @@
 	"devDependencies": {
 		"axe-core": "3.0.0",
 		"clean-css": "3.4.28",
-		"css-b64-images": "0.2.5",
 		"dojo": "1.10.8",
 		"eslint": "3.19.0",
 		"getusermedia-js": "1.0.0",
