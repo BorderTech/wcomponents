@@ -14,7 +14,6 @@
 		"dojo": "1.10.8",
 		"eslint": "3.19.0",
 		"getusermedia-js": "1.0.0",
-		"grunt": "1.0.2",
 		"i18next": "10.6.0",
 		"i18next-xhr-backend": "1.5.1",
 		"leadfoot": "1.7.1",
