@@ -15,7 +15,6 @@
 		"getusermedia-js": "1.0.0",
 		"i18next": "10.6.0",
 		"i18next-xhr-backend": "1.5.1",
-		"leadfoot": "1.7.1",
 		"mustache": "2.3.0",
 		"intern": "${test.intern.version}",
 		"jsdoc": "3.5.5",
