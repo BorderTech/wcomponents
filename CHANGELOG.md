@@ -6,6 +6,14 @@
 
 ### Enhancements
 
+### Bug Fixes
+
+## Release 1.5.3
+
+### API Changes
+
+### Enhancements
+
 * Added JavaScript unit tests for missing modules.
 * Improved handling of the publication of selected state changes of native radio buttons and check boxes.
 * Update package.json to latest working node module versions and removed tildes to prevent unwanted updates.
