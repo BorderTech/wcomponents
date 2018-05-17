@@ -189,7 +189,7 @@ define(function() {
 			} else if (typeof attributes === "object") {
 				for (p in attributes) {
 					if (attributes.hasOwnProperty(p)) {
-						tag.push(" " + p + "='" + attributes[p] + "'");
+						tag.push(" " + p + "=\"" + attributes[p] + "\"");
 					}
 				}
 			}
