@@ -35,6 +35,9 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			testToTagWithAttributes: function() {
 				assert.strictEqual("<input foo=\"bar\" bar=\"foo\">", tag.toTag("input", false, "foo=\"bar\" bar=\"foo\""));
 			},
+			testTagObjectAttributes: function() {
+				assert.strictEqual("<input foo=\"bar\" bar=\"foo\">", tag.toTag("input", false, {foo:"bar", bar: "foo"}));
+			},
 			testToTagClosing: function() {
 				assert.strictEqual("</input>", tag.toTag("input", true));
 			},
