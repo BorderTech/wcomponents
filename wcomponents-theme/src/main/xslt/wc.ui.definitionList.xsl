@@ -6,7 +6,7 @@
 	-->
 	<xsl:template match="ui:definitionlist">
 		<xsl:variable name="additional">
-			<xsl:apply-templates select="ui:margin"/>
+			<xsl:apply-templates select="ui:margin" mode="asclass"/>
 			<xsl:if test="@type">
 				<xsl:value-of select="concat('wc-definitionlist-type-', @type)"/>
 			</xsl:if>

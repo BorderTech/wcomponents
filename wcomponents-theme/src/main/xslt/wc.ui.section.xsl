@@ -8,7 +8,7 @@
 	<xsl:template match="ui:section">
 		<xsl:variable name="mode" select="@mode"/>
 		<xsl:variable name="additional">
-			<xsl:apply-templates select="ui:margin"/>
+			<xsl:apply-templates select="ui:margin" mode="asclass"/>
 			<xsl:if test="@mode eq 'lazy' and @hidden">
 				<xsl:text> wc_magic</xsl:text>
 			</xsl:if>
