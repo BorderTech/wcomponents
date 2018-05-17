@@ -90,9 +90,15 @@
 					
 					TODO: check this in IE 11 and possibly implement autocomplete or move this attribute fix to JavaScript.
 				-->
-				<xsl:attribute name="autocomplete">
+				<!--<xsl:attribute name="autocomplete">
 					<xsl:text>off</xsl:text>
-				</xsl:attribute>
+				</xsl:attribute>-->
+				
+				<xsl:if test="@autocomplete">
+					<xsl:attribute name="autocomplete">
+						<xsl:value-of select="@autocomplete"/>
+					</xsl:attribute>
+				</xsl:if>
 				<xsl:if test="@min">
 					<xsl:attribute name="min">
 						<xsl:value-of select="@min"/>

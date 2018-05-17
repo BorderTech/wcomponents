@@ -14,7 +14,7 @@
 		<xsl:variable name="class">
 			<xsl:text>wc-text</xsl:text>
 			<xsl:if test="@type">
-				<xsl:value-of select="concat(' wc-tezxt-type-', @type)"/>
+				<xsl:value-of select="concat(' wc-text-type-', @type)"/>
 			</xsl:if>
 			<xsl:if test="@class">
 				<xsl:value-of select="concat(' ', @class)"/>

@@ -1,5 +1,8 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteableDate;
+import com.github.bordertech.wcomponents.autocomplete.type.DateType;
 import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
@@ -20,10 +23,11 @@ import org.apache.commons.logging.LogFactory;
  *
  * @author Ming Gao
  * @author Jonathan Austin
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget, SubordinateTrigger,
-		SubordinateTarget {
+		SubordinateTarget, AutocompleteableDate {
 
 	/**
 	 * The logger instance for this class.
@@ -166,14 +170,14 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	 */
 	@Override
 	protected boolean doHandleRequest(final Request request) {
-		// Valid Date on the request
+		// Valid DateType on the request
 		Date dateValue = getRequestValue(request);
 
 		// Text entered by the user (An empty string is treated as null)
 		String value = request.getParameter(getId());
 		String text = Util.empty(value) ? null : value;
 
-		// Current Date
+		// Current DateType
 		Date currentDate = getValue();
 
 		boolean changed;
@@ -183,7 +187,7 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 			// User entered text
 			changed = !Util.equals(text, getText()) || currentDate != null;
 		} else {
-			// Valid Date
+			// Valid DateType
 			changed = !Util.equals(dateValue, currentDate);
 		}
 
@@ -367,6 +371,45 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 		return (DateFieldModel) super.getOrCreateComponentModel();
 	}
 
+	@Override
+	public void setAutocomplete(final DateType value) {
+		if (value == null) {
+			clearAutocomplete();
+			return;
+		}
+		String newValue = value.getValue();
+		if (!Util.equals(getAutocomplete(), newValue)) {
+			getOrCreateComponentModel().autocomplete = newValue;
+		}
+	}
+
+	@Override
+	public String getAutocomplete() {
+		return getComponentModel().autocomplete;
+	}
+
+	@Override
+	public void setAutocompleteOff() {
+		if (!isAutocompleteOff()) {
+			getOrCreateComponentModel().autocomplete = AutocompleteUtil.getOff();
+		}
+	}
+
+	@Override
+	public void addAutocompleteSection(final String sectionName) {
+		String newValue = AutocompleteUtil.getCombinedForAddSection(sectionName, this);
+		if (!Util.equals(getAutocomplete(), newValue)) {
+			getOrCreateComponentModel().autocomplete = newValue;
+		}
+	}
+
+	@Override
+	public void clearAutocomplete() {
+		if (getAutocomplete() != null) {
+			getOrCreateComponentModel().autocomplete = null;
+		}
+	}
+
 	/**
 	 * DateFieldModel holds Extrinsic state management of the field.
 	 */
@@ -410,6 +453,11 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 				this.validDate = shared.validDate;
 			}
 		}
+
+		/**
+		 * The auto-fill hint for the field.
+		 */
+		private String autocomplete;
 
 	}
 }

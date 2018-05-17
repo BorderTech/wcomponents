@@ -57,6 +57,9 @@
 				<xsl:attribute name="id">
 					<xsl:value-of select="concat(@id, '_input')"/>
 				</xsl:attribute>
+				<xsl:attribute name="name">
+					<xsl:value-of select="@id"/>
+				</xsl:attribute>
 				<xsl:attribute name="type">
 					<xsl:text>date</xsl:text>
 				</xsl:attribute>

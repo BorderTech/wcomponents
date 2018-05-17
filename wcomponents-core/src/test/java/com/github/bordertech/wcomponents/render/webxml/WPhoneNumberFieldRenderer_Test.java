@@ -5,6 +5,8 @@ import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WPhoneNumberField;
 import com.github.bordertech.wcomponents.WSuggestions;
+import com.github.bordertech.wcomponents.autocomplete.segment.PhoneFormat;
+import com.github.bordertech.wcomponents.autocomplete.type.Telephone;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -51,6 +53,7 @@ public class WPhoneNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 		assertXpathNotExists("//ui:phonenumberfield/@buttonId", field);
 		assertXpathNotExists("//ui:phonenumberfield/@pattern", field);
 		assertXpathNotExists("//ui:phonenumberfield/@list", field);
+		assertXpathNotExists("//ui:phonenumberfield/@autocomplete", field);
 
 		field.setDisabled(true);
 		assertSchemaMatch(field);
@@ -108,6 +111,57 @@ public class WPhoneNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 		field.setPlaceholder("enter stuff here");
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo("enter stuff here", "//ui:phonenumberfield/@placeholder", field);
+	}
+
+	@Test
+	public void testPaintAutocomplete() throws IOException, SAXException, XpathException {
+		WPhoneNumberField field = new WPhoneNumberField();
+		WContainer root = new WContainer();
+		root.add(field);
+		field.setFullPhoneAutocomplete();
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo(field.getAutocomplete(), "//ui:phonenumberfield/@autocomplete", field);
+	}
+
+	@Test
+	public void testPaintAutocompleteType() throws IOException, SAXException, XpathException {
+		WPhoneNumberField field = new WPhoneNumberField();
+		WContainer root = new WContainer();
+		root.add(field);
+		field.setFullPhoneAutocomplete(PhoneFormat.MOBILE);
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo(field.getAutocomplete(), "//ui:phonenumberfield/@autocomplete", field);
+	}
+
+	@Test
+	public void testPaintAutocompleteOff() throws IOException, SAXException, XpathException {
+		WPhoneNumberField field = new WPhoneNumberField();
+		WContainer root = new WContainer();
+		root.add(field);
+		field.setAutocompleteOff();
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo(field.getAutocomplete(), "//ui:phonenumberfield/@autocomplete", field);
+	}
+
+	@Test
+	public void testPaintAutocompleteAllArgs() throws IOException, SAXException, XpathException {
+		WPhoneNumberField field = new WPhoneNumberField();
+		WContainer root = new WContainer();
+		root.add(field);
+		field.setAutocomplete(Telephone.LOCAL, PhoneFormat.MOBILE);
+		field.addAutocompleteSection("foo");
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo(field.getAutocomplete(), "//ui:phonenumberfield/@autocomplete", field);
+	}
+
+	@Test
+	public void testPaintAutocompleteAllNull() throws IOException, SAXException, XpathException {
+		WPhoneNumberField field = new WPhoneNumberField();
+		WContainer root = new WContainer();
+		root.add(field);
+		field.setAutocomplete(null, null);
+		assertSchemaMatch(field);
+		assertXpathNotExists("//ui:phonenumberfield/@autocomplete", field);
 	}
 
 	@Test

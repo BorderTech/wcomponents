@@ -12,6 +12,16 @@
 
 ### API Changes
 
+* Added support for autocomplete to WDropdown, WEmailField, WNumberField, WPasswordField, WPhoneNumberField, WTextArea
+  and WTextField #1007.
+* Changed message property name
+  `public static final String DEFAULT_MULTI_FORM_COMPONENT_TIP = "bordertech.wcomponents.message.multiFormComponent.tip";`
+  to `public static final String DEFAULT_MULTIDROPDOWN_TIP = "bordertech.wcomponents.message.multiDropdown.tip";`
+  as the tip is not suitable for use with WMultiTextField #1508.
+* Added message property
+  `public static final String DEFAULT_MULTITEXTFIELD_TIP = "bordertech.wcomponents.message.multiTextField.tip";` with
+  default (en) value of "Enter a value" #1508.
+
 ### Enhancements
 
 * Added JavaScript unit tests for missing modules.
@@ -33,6 +43,9 @@
 
 ### Bug Fixes
 
+* Fixed missing inner labels on WMultiDropdown and WMultiTextField #1508.
+* Fixed issue causing 'required' placeholders to be left when making a field optional #1506.
+* Fixed missing name attribute on WDateField #1507
 * Allow JavaScript module config to keep existing config properties when calling `set` #1502.
 * Fixed inconsistency of rendering field indicators #1496.
 * Fixed icon element inconsistencies #1497.

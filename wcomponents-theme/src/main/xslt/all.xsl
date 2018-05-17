@@ -390,12 +390,8 @@
 			</xsl:if>
 			<!--
 				These are in order of 'likelihood'. We use or rather than | as most decent processors will stop after the
-				first successful nodeset is found. You REALLY want wc/ui/wrappedInput in your wc.common.js though.
+				first successful nodeset is found.
 			-->
-			<xsl:if
-				test=".//ui:textfield[not(@readOnly)] or .//ui:numberfield[not(@readOnly)] or .//ui:emailfield[not(@readOnly)] or .//ui:passwordfield[not(@readOnly)] or .//ui:phonenumberfield[not(@readOnly)]">
-				<xsl:text>"wc/ui/wrappedInput",</xsl:text>
-			</xsl:if>
 			<xsl:if test=".//@accessKey">
 				<xsl:text>"wc/ui/tooltip",</xsl:text>
 			</xsl:if>
@@ -450,7 +446,7 @@
 				<xsl:text>"wc/ui/multiSelectPair",</xsl:text>
 			</xsl:if>
 			<xsl:if test=".//ui:multitextfield[not(@readOnly)]">
-				<xsl:text>"wc/ui/multiFormComponent","wc/ui/wrappedInput",</xsl:text>
+				<xsl:text>"wc/ui/multiFormComponent",</xsl:text>
 			</xsl:if>
 			<xsl:if
 				test=".//html:button[@class and contains(@class, 'wc-printbutton')]">

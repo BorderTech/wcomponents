@@ -59,7 +59,6 @@ define(["wc/dom/attribute",
 			 * @returns {boolean} true if the selected items list in the component has one or more options.
 			 */
 			function amIComplete(next) {
-				/*
 				var candidates = INPUT_WD.findDescendants(next);
 				if (!(candidates && candidates.length)) {
 					candidates = SELECT_WD.findDescendants(next);
@@ -72,8 +71,6 @@ define(["wc/dom/attribute",
 				return Array.prototype.some.call(candidates, function (n) {
 					return isComplete.isComplete(n);
 				});
-				*/
-				return isComplete.isContainerComplete(next);
 			}
 
 			/**

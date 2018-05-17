@@ -5,6 +5,8 @@ import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WSuggestions;
 import com.github.bordertech.wcomponents.WTextField;
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.segment.Person;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -52,6 +54,7 @@ public class WTextFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//ui:textfield/@buttonId", textField);
 		assertXpathNotExists("//ui:textfield/@pattern", textField);
 		assertXpathNotExists("//ui:textfield/@list", textField);
+		assertXpathNotExists("//ui:textfield/@autocomplete", textField);
 
 		textField.setDisabled(true);
 		assertSchemaMatch(textField);
@@ -109,6 +112,14 @@ public class WTextFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		textField.setPlaceholder("enter stuff here");
 		assertSchemaMatch(textField);
 		assertXpathEvaluatesTo("enter stuff here", "//ui:textfield/@placeholder", textField);
+
+		textField.setAutocomplete(Person.GIVEN);
+		assertSchemaMatch(textField);
+		assertXpathEvaluatesTo(textField.getAutocomplete(), "//ui:textfield/@autocomplete", textField);
+
+		textField.setAutocompleteOff();
+		assertSchemaMatch(textField);
+		assertXpathEvaluatesTo(AutocompleteUtil.getOff(), "//ui:textfield/@autocomplete", textField);
 	}
 
 	@Test

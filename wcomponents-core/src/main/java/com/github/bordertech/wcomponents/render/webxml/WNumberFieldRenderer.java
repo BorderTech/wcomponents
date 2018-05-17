@@ -4,12 +4,14 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WNumberField;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.Util;
 import java.math.BigDecimal;
 
 /**
  * The Renderer for {@link WNumberField}.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 final class WNumberFieldRenderer extends AbstractWebXmlRenderer {
@@ -52,6 +54,9 @@ final class WNumberFieldRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("step", step != null, String.valueOf(step));
 			xml.appendOptionalAttribute("decimals", decimals > 0, decimals);
 			xml.appendOptionalAttribute("buttonId", submitControlId);
+
+			String autocomplete = field.getAutocomplete();
+			xml.appendOptionalAttribute("autocomplete", !Util.empty(autocomplete), autocomplete);
 		}
 
 		xml.appendClose();

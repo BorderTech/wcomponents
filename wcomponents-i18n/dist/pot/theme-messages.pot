@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-19 08:10+1100\n"
+"POT-Creation-Date: 2018-04-18 09:36+1000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -219,17 +219,11 @@ msgctxt "letter"
 msgid "[a-zA-Z]"
 msgstr ""
 
+#. 
 #: requiredLabel
 #, java-format
 msgctxt "requiredLabel"
 msgid "This component requires a label"
-msgstr ""
-
-#. both XSLT and JS
-#: requiredPlaceholder
-#, java-format
-msgctxt "requiredPlaceholder"
-msgid "required"
 msgstr ""
 
 #. List shuffle controls for WShuffler and WMultiSelectPair:
@@ -1204,12 +1198,6 @@ msgstr ""
 #, java-format
 msgctxt "mfc_add"
 msgid "Add item"
-msgstr ""
-
-#: mfc_option
-#, java-format
-msgctxt "mfc_option"
-msgid "select an option"
 msgstr ""
 
 #. # Select Pair Messages ##

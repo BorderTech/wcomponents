@@ -1,5 +1,18 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteableText;
+import com.github.bordertech.wcomponents.autocomplete.segment.AddressPart;
+import com.github.bordertech.wcomponents.autocomplete.segment.AddressType;
+import com.github.bordertech.wcomponents.autocomplete.segment.AutocompleteSegment;
+import com.github.bordertech.wcomponents.autocomplete.segment.PhoneFormat;
+import com.github.bordertech.wcomponents.autocomplete.segment.PhonePart;
+import com.github.bordertech.wcomponents.autocomplete.type.DateType;
+import com.github.bordertech.wcomponents.autocomplete.type.Email;
+import com.github.bordertech.wcomponents.autocomplete.type.Numeric;
+import com.github.bordertech.wcomponents.autocomplete.type.Password;
+import com.github.bordertech.wcomponents.autocomplete.type.Telephone;
+import com.github.bordertech.wcomponents.autocomplete.type.Url;
 import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
@@ -14,10 +27,11 @@ import java.util.regex.Pattern;
  * @author James Gifford
  * @author Martin Shevchenko
  * @author Jonathan Austin
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WTextField extends AbstractInput implements AjaxTrigger, AjaxTarget, SubordinateTrigger,
-		SubordinateTarget, Placeholderable {
+		SubordinateTarget, Placeholderable, AutocompleteableText {
 
 	/**
 	 * Override handleRequest in order to perform processing for this component. This implementation updates the text
@@ -271,6 +285,95 @@ public class WTextField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	}
 
 	/**
+	 * Set the value of the {@code autocomplete} attribute for the current field.
+	 * @param autocompleteValue the value to set as a (optionally space delimited list of) String value(s).
+	 */
+	protected void setAutocomplete(final String autocompleteValue) {
+		final String newValue = Util.empty(autocompleteValue) ? null : autocompleteValue;
+		if (!Util.equals(newValue, getAutocomplete())) {
+			getOrCreateComponentModel().autocomplete = newValue;
+		}
+	}
+
+	@Override
+	public String getAutocomplete() {
+		return getComponentModel().autocomplete;
+	}
+
+	@Override
+	public void setAutocompleteOff() {
+		if (!isAutocompleteOff()) {
+			getOrCreateComponentModel().autocomplete = AutocompleteUtil.getOff();
+		}
+	}
+
+	@Override
+	public void addAutocompleteSection(final String sectionName) {
+		String newValue = AutocompleteUtil.getCombinedForAddSection(sectionName, this);
+		if (!Util.equals(getAutocomplete(), newValue)) {
+			getOrCreateComponentModel().autocomplete = newValue;
+		}
+	}
+
+	@Override
+	public void clearAutocomplete() {
+		if (getAutocomplete() != null) {
+			getOrCreateComponentModel().autocomplete = null;
+		}
+	}
+
+	@Override
+	public void setAutocomplete(final DateType value) {
+		final String strType = value == null ? null : value.getValue();
+		setAutocomplete(strType);
+	}
+
+	@Override
+	public void setAutocomplete(final Email value) {
+		final String strType = value == null ? null : value.getValue();
+		setAutocomplete(strType);
+	}
+
+	@Override
+	public void setAutocomplete(final Numeric value) {
+		final String strType = value == null ? null : value.getValue();
+		setAutocomplete(strType);
+	}
+
+	@Override
+	public void setAutocomplete(final Password value) {
+		final String strType = value == null ? null : value.getValue();
+		setAutocomplete(strType);
+	}
+
+	@Override
+	public void setAutocomplete(final Url value) {
+		final String strType = value == null ? null : value.getValue();
+		setAutocomplete(strType);
+	}
+
+	@Override
+	public void setAutocomplete(final AutocompleteSegment value) {
+		final String strType = value == null ? null : value.getValue();
+		setAutocomplete(strType);
+	}
+
+	@Override
+	public void setAutocomplete(final Telephone phone, final PhoneFormat phoneType) {
+		setAutocomplete(AutocompleteUtil.getCombinedFullPhone(phoneType, phone));
+	}
+
+	@Override
+	public void setPhoneSegmentAutocomplete(final PhoneFormat phoneType, final PhonePart phoneSegment) {
+		setAutocomplete(AutocompleteUtil.getCombinedPhoneSegment(phoneType, phoneSegment));
+	}
+
+	@Override
+	public void setAddressAutocomplete(final AddressType addressType, final AddressPart addressPart) {
+		setAutocomplete(AutocompleteUtil.getCombinedAddress(addressType, addressPart));
+	}
+
+	/**
 	 * TextFieldModel holds Extrinsic state management of the field.
 	 *
 	 * @author Martin Shevchenko
@@ -306,5 +409,10 @@ public class WTextField extends AbstractInput implements AjaxTrigger, AjaxTarget
 		 * The placeholder text which appears if the field is editable and empty.
 		 */
 		private String placeholder;
+
+		/**
+		 * The auto-fill hint for the field.
+		 */
+		private String autocomplete;
 	}
 }

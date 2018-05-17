@@ -5,7 +5,6 @@ import com.github.bordertech.wcomponents.WPhoneNumberField;
 import com.github.bordertech.wcomponents.WSuggestions;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-import com.github.bordertech.wcomponents.util.HtmlRenderUtil;
 import com.github.bordertech.wcomponents.util.Util;
 
 /**
@@ -42,6 +41,7 @@ class WPhoneNumberFieldRenderer extends AbstractWebXmlRenderer {
 			int minLength = field.getMinLength();
 			int maxLength = field.getMaxLength();
 			String pattern = field.getPattern();
+			String autocomplete = field.getAutocomplete();
 
 			WSuggestions suggestions = field.getSuggestions();
 			String suggestionsId = suggestions == null ? null : suggestions.getId();
@@ -58,8 +58,10 @@ class WPhoneNumberFieldRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("size", cols > 0, cols);
 			xml.appendOptionalAttribute("buttonId", submitControlId);
 			xml.appendOptionalAttribute("pattern", !Util.empty(pattern), pattern);
+			xml.appendOptionalAttribute("autocomplete", !Util.empty(autocomplete), autocomplete);
 			xml.appendOptionalAttribute("list", suggestionsId);
-			xml.appendOptionalAttribute("placeholder", HtmlRenderUtil.getEffectivePlaceholder(field));
+			String placeholder = field.getPlaceholder();
+			xml.appendOptionalAttribute("placeholder", !Util.empty(placeholder), placeholder);
 		}
 		xml.appendClose();
 

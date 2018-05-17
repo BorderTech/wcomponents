@@ -1,11 +1,14 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.type.Password;
+import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -13,6 +16,7 @@ import org.junit.Test;
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WPasswordField_Test extends AbstractWComponentTestCase {
@@ -258,6 +262,104 @@ public class WPasswordField_Test extends AbstractWComponentTestCase {
 		field.setMinLength(text.length() + 1);
 		field.validate(diags);
 		Assert.assertFalse("Text is shorter than minimum so should be invalid", diags.isEmpty());
+	}
+
+	@Test
+	public void testAutocompleteDefaultsToNull() {
+		WPasswordField field = new WPasswordField();
+		Assert.assertNull(field.getAutocomplete());
+	}
+
+	@Test
+	public void testSetAutocomplete() {
+		WPasswordField field = new WPasswordField();
+		for (Password pword : Password.values()) {
+			field.setAutocomplete(pword);
+			Assert.assertEquals(pword.getValue(), field.getAutocomplete());
+		}
+	}
+
+	@Test
+	public void testSetAutocompleteNullPasswordType() {
+		WPasswordField field = new WPasswordField();
+		field.setAutocomplete(Password.CURRENT);
+		Assert.assertNotNull(field.getAutocomplete());
+		field.setAutocomplete(null);
+		Assert.assertNull(field.getAutocomplete());
+	}
+
+	@Test
+	public void testClearAutocomplete() {
+		WPasswordField field = new WPasswordField();
+		field.setAutocomplete(Password.CURRENT);
+		Assert.assertNotNull(field.getAutocomplete());
+		field.clearAutocomplete();
+		Assert.assertNull(field.getAutocomplete());
+	}
+
+	@Test
+	public void testSetAutocompleteOff() {
+		WPasswordField field = new WPasswordField();
+		field.setAutocompleteOff();
+		Assert.assertTrue(field.isAutocompleteOff());
+	}
+
+	@Test
+	public void testSetAutocompleteOffAfterSetting() {
+		WPasswordField field = new WPasswordField();
+		field.setAutocomplete(Password.CURRENT);
+		field.setAutocompleteOff();
+		Assert.assertTrue(field.isAutocompleteOff());
+	}
+
+	@Test
+	public void testAddAutocompleteSection() {
+		WPasswordField field = new WPasswordField();
+		String sectionName = "foo";
+		field.addAutocompleteSection(sectionName);
+		Assert.assertEquals("section-foo", field.getAutocomplete());
+	}
+
+	@Test
+	public void testAddAutocompleteSectionAfterSetting() {
+		WPasswordField field = new WPasswordField();
+		String sectionName = "foo";
+		String expected = AutocompleteUtil.getCombinedForSection(sectionName, Password.CURRENT.getValue());
+		field.setAutocomplete(Password.CURRENT);
+		field.addAutocompleteSection(sectionName);
+		Assert.assertEquals(expected, field.getAutocomplete());
+	}
+
+	@Test
+	public void testAddAutocompleteSectionAfterSettingWithSection() {
+		WPasswordField field = new WPasswordField();
+		String sectionName = "foo";
+		String otherSectionName = "bar";
+		field.setAutocomplete(Password.CURRENT);
+		field.addAutocompleteSection(otherSectionName);
+		String expected = AutocompleteUtil.getCombinedForSection(sectionName, AutocompleteUtil.getNamedSection(otherSectionName),
+				Password.CURRENT.getValue());
+		field.addAutocompleteSection(sectionName);
+		Assert.assertEquals(expected, field.getAutocomplete());
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testAddAutocompleteSectionEmpty() {
+		WPasswordField field = new WPasswordField();
+		field.addAutocompleteSection("");
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testAddAutocompleteSectionNull() {
+		WPasswordField field = new WPasswordField();
+		field.addAutocompleteSection(null);
+	}
+
+	@Test(expected = SystemException.class)
+	public void testAddAutocompleteSectionWhenOff() {
+		WPasswordField field = new WPasswordField();
+		field.setAutocompleteOff();
+		field.addAutocompleteSection("foo");
 	}
 
 }
