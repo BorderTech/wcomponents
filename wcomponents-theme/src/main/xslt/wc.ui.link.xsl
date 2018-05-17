@@ -27,7 +27,7 @@
 					<xsl:text> wc_a_ilb</xsl:text>
 				</xsl:if>
 				<xsl:if test="@type">
-					<xsl:value-of select="concat('wc-link-type-', @type)"/>
+					<xsl:value-of select="concat(' wc-link-type-', @type)"/>
 				</xsl:if>
 				<xsl:if test="@class">
 					<xsl:value-of select="concat(' ', @class)"/>

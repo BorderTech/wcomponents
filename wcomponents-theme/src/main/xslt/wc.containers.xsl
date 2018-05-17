@@ -41,7 +41,7 @@
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="additionalClass">
-			<xsl:apply-templates select="ui:margin" mode="asclass"/>
+			<xsl:value-of select="@class"/>
 			<xsl:choose>
 				<xsl:when test="(@mode eq 'lazy' and @hidden)">
 					<xsl:text> wc_magic</xsl:text>
@@ -53,9 +53,7 @@
 			<xsl:if test="@type">
 				<xsl:value-of select="concat(' wc-panel-type-', @type)"/>
 			</xsl:if>
-			<xsl:if test="@class">
-				<xsl:value-of select="concat(' ', @class)"/>
-			</xsl:if>
+			<xsl:apply-templates select="ui:margin" mode="asclass"/>
 		</xsl:variable>
 		<xsl:element name="{$containerElement}">
 			<xsl:attribute name="id">
@@ -595,6 +593,7 @@
 	-->
 	<xsl:template match="ui:row">
 		<xsl:variable name="additional">
+			<xsl:value-of select="@class"/>
 			<xsl:if test="@gap">
 				<xsl:call-template name="gapClass">
 					<xsl:with-param name="gap" select="@gap"/>
@@ -603,14 +602,9 @@
 			<xsl:if test="@align">
 				<xsl:value-of select="concat(' wc-align-', @align)"/>
 			</xsl:if>
-			<xsl:if test="@class">
-				<xsl:value-of select="concat(' ', @class)"/>
-			</xsl:if>
-		</xsl:variable>
-		<xsl:variable name="margin">
 			<xsl:apply-templates select="ui:margin" mode="asclass"/>
 		</xsl:variable>
-		<div id="{@id}" class="{normalize-space(concat('wc-row ', $additional, ' ', $margin))}">
+		<div id="{@id}" class="{normalize-space(concat('wc-row ', $additional))}">
 			<xsl:apply-templates select="ui:column"/>
 		</div>
 	</xsl:template>
@@ -618,15 +612,16 @@
 	<!-- Transform for WColumn. -->
 	<xsl:template match="ui:column">
 		<xsl:variable name="additional">
-			<xsl:apply-templates select="ui:margin" mode="asclass"/>
+			<xsl:value-of select="@class"/>
 			<xsl:if test="not(@align)">
 				<xsl:text> wc-align-left</xsl:text>
 			</xsl:if>
 			<xsl:if test="@width and number(@width) ne 0">
 				<xsl:value-of select="concat(' wc_col_',@width)"/>
 			</xsl:if>
+			<xsl:apply-templates select="ui:margin" mode="asclass"/>
 		</xsl:variable>
-		<div id="{@id}" class="{normalize-space(concat('wc-column ', $additional, ' ', @class))}">
+		<div id="{@id}" class="{normalize-space(concat('wc-column ', $additional))}">
 			<xsl:apply-templates select="node()[not(self::ui:margin)]" />
 		</div>
 	</xsl:template>

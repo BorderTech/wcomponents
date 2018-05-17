@@ -2,13 +2,7 @@
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<!-- Transforms for WVideo. -->
 	<xsl:template match="ui:video">
-		<xsl:variable name="class">
-			<xsl:text>wc-video</xsl:text>
-			<xsl:if test="@class">
-				<xsl:value-of select="concat(' ', @class)"/>
-			</xsl:if>
-		</xsl:variable>
-		<span class="{$class}" id="{@id}">
+		<span class="{normalize-space(concat('wc-video ', @class))}" id="{@id}">
 			<xsl:if test="@toolTip">
 				<xsl:attribute name="title">
 					<xsl:value-of select="@toolTip"/>

@@ -38,12 +38,13 @@
 	<xsl:template match="ui:textfield | ui:phonenumberfield | ui:emailfield | ui:passwordfield">
 		<span id="{@id}">
 			<xsl:variable name="additional">
+				<xsl:value-of select="@class"/>
 				<xsl:if test="@list">
-					<xsl:text>wc-combo</xsl:text>
+					<xsl:text> wc-combo</xsl:text>
 				</xsl:if>
 			</xsl:variable>
 			<xsl:attribute name="class">
-				<xsl:value-of select="normalize-space(concat('wc-', local-name(),' wc-input-wrapper ', @class, ' ', $additional))"/>
+				<xsl:value-of select="normalize-space(concat('wc-', local-name(),' wc-input-wrapper ', $additional))"/>
 			</xsl:attribute>
 			<xsl:if test="@disabled">
 				<xsl:attribute name="aria-disabled">
@@ -341,12 +342,13 @@
 	<xsl:template match="ui:checkbox[@readOnly] | ui:radiobutton[@readOnly]">
 		<span id="{@id}" data-wc-component="{local-name()}">
 			<xsl:variable name="additional">
+				<xsl:value-of select="@class"/>
 				<xsl:if test="@selected">
 					<xsl:text> wc_ro_sel</xsl:text>
 				</xsl:if>
 			</xsl:variable>
 			<xsl:attribute name="class">
-				<xsl:value-of select="normalize-space(concat('wc-', local-name(),' wc-ro-input ', @class, $additional))"/>
+				<xsl:value-of select="normalize-space(concat('wc-', local-name(),' wc-ro-input ', $additional))"/>
 			</xsl:attribute>
 			<xsl:attribute name="title">
 				<xsl:choose>
