@@ -52,7 +52,7 @@
 					<xsl:text>hidden</xsl:text>
 				</xsl:attribute>
 			</xsl:if>
-			<button id="{concat(@id, '_input')}" class="wc-nobutton wc-invite" role="checkbox" type="button" value="true">
+			<button id="{concat(@id, '_input')}" name="{@id}" class="wc-nobutton wc-invite" role="checkbox" type="button" value="true">
 				<xsl:if test="@toolTip">
 					<xsl:attribute name="title">
 						<xsl:value-of select="@toolTip"/>
