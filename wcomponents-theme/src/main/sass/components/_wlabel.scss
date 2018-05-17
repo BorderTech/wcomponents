@@ -4,23 +4,14 @@
 // WLabel outputs an artefact with class `wc-label`. It is **not** necessarily
 // a label element.
 .wc-label {
-  // use inline-block to prevent a required marker flying off the end
-  display: inline-block;
-
   // mandatory indicator
   > .fa-asterisk {
     @include mandatory-indicator;
   }
 
   &.wc_req {
-    // allows for better position of mandatory indicator.
-    @include border-box;
-    @include fit-content;
-    max-width: 100%; // do not allow fit-content to grow too big.
-
     > .fa-asterisk {
       display: inline-block;
-      margin-left: $wc-gap-small;
     }
   }
 
@@ -41,28 +32,11 @@
   display: block;
 }
 
-// Mandatory indicator positioning in a label for a checkbox or radio.
-.wc-checkbox > .wc_req {
-
-  > .fa-asterisk {
-    float: left;
-    margin-left: 0;
-    margin-right: $wc-gap-small;
-  }
-}
-
-// Label/read-only equivalent for a checkbox or radio button.
-.wc-ro-input + .wc-label {
-  // .wc-label's inline-block can cause the label to fall under the input when
-  // there is not enough room for the label
-  display: inline;
-}
-
 // When WCheckBoxSelect/WRadioButtonSelect these labels do not have the wc-label
 // class as they are generated from options. TODO: We should fix that.
-.wc-input-wrapper + label,
-.wc-ro-input + .wc-label,
-input + label, // WCheckBoxSelect, WRadioButtonSelect
+.wc-input-wrapper + label, // WRadioButton
+.wc-ro-input + .wc-label, // WRadioButton, WCheckBox
+input + label, // WCheckBoxSelect, WRadioButtonSelect, WCheckBox
 label + .wc-input-wrapper {
   margin-left: $wc-gap-small;
 }

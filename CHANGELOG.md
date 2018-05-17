@@ -16,6 +16,7 @@
 
 ### Enhancements
 
+* Removed some style (rather than structure) CSS for mandatory indicators. Style should be the remit of themes.
 * Added JavaScript unit tests for missing modules.
 
 ### Bug Fixes

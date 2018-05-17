@@ -3,9 +3,13 @@
 // #############################################################################
 
 $wc-mandatory-size: .5em !default;
+$wc-mandatory-offset: $wc-gap-small !default;
 
 @mixin mandatory-indicator {
   display: none;
+  @if $wc-mandatory-offset != 0 {
+    margin-left: $wc-mandatory-offset;
+  }
 
   @if $wc-mandatory-size != -1 $wc-mandatory-size != 0 and $wc-mandatory-size != inherit and $wc-mandatory-size != 1em {
     font-size: $wc-mandatory-size;
