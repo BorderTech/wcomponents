@@ -36,7 +36,7 @@
 		</xsl:variable>
 		<!-- the table wrapper starts here -->
 		<xsl:variable name="additionalTableClass">
-			<xsl:apply-templates select="ui:margin"/>
+			<xsl:apply-templates select="ui:margin" mode="asclass"/>
 			<xsl:if test="@type">
 				<xsl:value-of select="concat(' wc-table-', @type)"/>
 			</xsl:if>

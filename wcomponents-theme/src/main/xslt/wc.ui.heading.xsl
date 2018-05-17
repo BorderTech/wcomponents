@@ -3,7 +3,7 @@
 	<!-- Transform for WHeading. -->
 	<xsl:template match="ui:heading">
 		<xsl:variable name="additional">
-			<xsl:apply-templates select="ui:margin"/>
+			<xsl:apply-templates select="ui:margin" mode="asclass"/>
 			<xsl:if test="@class">
 				<xsl:value-of select="concat(' ', @class)"/>
 			</xsl:if>

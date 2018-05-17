@@ -1,6 +1,8 @@
 package com.github.bordertech.wcomponents.examples.theme;
 
 import com.github.bordertech.wcomponents.HeadingLevel;
+import com.github.bordertech.wcomponents.Margin;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDecoratedLabel;
 import com.github.bordertech.wcomponents.WHeading;
@@ -87,6 +89,54 @@ public class WHeadingExample extends WContainer {
 		iconHeading = new WHeading(HeadingLevel.H3, "Headline with icon after");
 		iconHeading.setHtmlClass(HtmlClassProperties.ICON_INFO_AFTER);
 		add(iconHeading);
+
+		WHeading marginHeading = new WHeading(HeadingLevel.H1, "H1 with extra large margin");
+		marginHeading.setMargin(new Margin(Size.XL));
+		add(marginHeading);
+
+		marginHeading = new WHeading(HeadingLevel.H2, "H2 with extra large margin");
+		marginHeading.setMargin(new Margin(Size.XL));
+		add(marginHeading);
+
+		marginHeading = new WHeading(HeadingLevel.H3, "H3 with extra large margin");
+		marginHeading.setMargin(new Margin(Size.XL));
+		add(marginHeading);
+
+		marginHeading = new WHeading(HeadingLevel.H4, "H4 with extra large margin");
+		marginHeading.setMargin(new Margin(Size.XL));
+		add(marginHeading);
+
+		marginHeading = new WHeading(HeadingLevel.H5, "H5 with extra large margin");
+		marginHeading.setMargin(new Margin(Size.XL));
+		add(marginHeading);
+
+		marginHeading = new WHeading(HeadingLevel.H6, "H6 with extra large margin");
+		marginHeading.setMargin(new Margin(Size.XL));
+		add(marginHeading);
+
+		marginHeading = new WHeading(HeadingLevel.H1, "H1 with mixed margin");
+		marginHeading.setMargin(new Margin(null, Size.XL, Size.ZERO, Size.SMALL));
+		add(marginHeading);
+
+		marginHeading = new WHeading(HeadingLevel.H2, "H2 with mixed margin");
+		marginHeading.setMargin(new Margin(null, Size.XL, Size.ZERO, Size.SMALL));
+		add(marginHeading);
+
+		marginHeading = new WHeading(HeadingLevel.H3, "H3 with mixed margin");
+		marginHeading.setMargin(new Margin(null, Size.XL, Size.ZERO, Size.SMALL));
+		add(marginHeading);
+
+		marginHeading = new WHeading(HeadingLevel.H4, "H4 with mixed margin");
+		marginHeading.setMargin(new Margin(null, Size.XL, Size.ZERO, Size.SMALL));
+		add(marginHeading);
+
+		marginHeading = new WHeading(HeadingLevel.H5, "H5 with mixed margin");
+		marginHeading.setMargin(new Margin(null, Size.XL, Size.ZERO, Size.SMALL));
+		add(marginHeading);
+
+		marginHeading = new WHeading(HeadingLevel.H6, "H6 with mixed margin");
+		marginHeading.setMargin(new Margin(null, Size.XL, Size.ZERO, Size.SMALL));
+		add(marginHeading);
 
 		// you should NEVER set an icon as the ONLY visible text content of a WHeading
 		add(new WHorizontalRule());

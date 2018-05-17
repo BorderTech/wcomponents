@@ -6,7 +6,7 @@
 	-->
 	<xsl:template match="ui:fieldset">
 		<xsl:variable name="additional">
-			<xsl:apply-templates select="ui:margin"/>
+			<xsl:apply-templates select="ui:margin" mode="asclass"/>
 			<xsl:if test="@frame eq 'noborder' or @frame eq 'none'">
 				<xsl:text> wc_noborder</xsl:text>
 			</xsl:if>

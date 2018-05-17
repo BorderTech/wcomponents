@@ -9,7 +9,13 @@
 		</xsl:if>
 	</xsl:template>
 	
-	<xsl:template match="ui:margin">
+	<!-- 
+		null template for margin without a mode. This is for safer use of 
+		apply-templates.
+	-->
+	<xsl:template match="ui:margin"/>
+	
+	<xsl:template match="ui:margin" mode="asclass">
 		<xsl:choose>
 			<xsl:when test="@all">
 				<xsl:call-template name="margin">

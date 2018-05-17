@@ -7,7 +7,7 @@
 	<!-- WCollapsible -->
 	<xsl:template match="ui:collapsible">
 		<xsl:variable name="margin">
-			<xsl:apply-templates select="ui:margin"/>
+			<xsl:apply-templates select="ui:margin" mode="asclass"/>
 		</xsl:variable>
 		<details id="{@id}" class="{normalize-space(concat('wc-collapsble ', $margin, ' ', @class))}">
 			<xsl:if test="not(@collapsed)">

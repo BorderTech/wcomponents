@@ -7,7 +7,7 @@
 	<!-- WFieldLayout -->
 	<xsl:template match="ui:fieldlayout">
 		<xsl:variable name="additional">
-			<xsl:apply-templates select="ui:margin"/>
+			<xsl:apply-templates select="ui:margin" mode="asclass"/>
 			<xsl:if test="@labelWidth">
 				<xsl:value-of select="concat(' wc_fld_lblwth_',@labelWidth)"/>
 			</xsl:if>

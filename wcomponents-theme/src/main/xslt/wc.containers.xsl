@@ -41,7 +41,7 @@
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="additionalClass">
-			<xsl:apply-templates select="ui:margin"/>
+			<xsl:apply-templates select="ui:margin" mode="asclass"/>
 			<xsl:choose>
 				<xsl:when test="(@mode eq 'lazy' and @hidden)">
 					<xsl:text> wc_magic</xsl:text>
@@ -110,7 +110,7 @@
 					so that implementations can easily override the way templates are
 					applied. Call this last.
 				-->
-				<xsl:apply-templates select="*[not(self::ui:margin)]"/>
+				<xsl:apply-templates />
 			</xsl:if>
 		</xsl:element>
 	</xsl:template>
@@ -608,7 +608,7 @@
 			</xsl:if>
 		</xsl:variable>
 		<xsl:variable name="margin">
-			<xsl:apply-templates select="ui:margin"/>
+			<xsl:apply-templates select="ui:margin" mode="asclass"/>
 		</xsl:variable>
 		<div id="{@id}" class="{normalize-space(concat('wc-row ', $additional, ' ', $margin))}">
 			<xsl:apply-templates select="ui:column"/>
@@ -618,7 +618,7 @@
 	<!-- Transform for WColumn. -->
 	<xsl:template match="ui:column">
 		<xsl:variable name="additional">
-			<xsl:apply-templates select="ui:margin"/>
+			<xsl:apply-templates select="ui:margin" mode="asclass"/>
 			<xsl:if test="not(@align)">
 				<xsl:text> wc-align-left</xsl:text>
 			</xsl:if>
@@ -627,7 +627,7 @@
 			</xsl:if>
 		</xsl:variable>
 		<div id="{@id}" class="{normalize-space(concat('wc-column ', $additional, ' ', @class))}">
-			<xsl:apply-templates />
+			<xsl:apply-templates select="node()[not(self::ui:margin)]" />
 		</div>
 	</xsl:template>
 
