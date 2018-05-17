@@ -16,7 +16,7 @@
   [role='textbox'] {
     border: 0;
     max-width: calc(100% - #{$wc-icon-size});
-    width: 100%;
+    width: 100%; // leave this it is important when the size attribute is set
   }
 
   [role='listbox'] {
@@ -29,6 +29,16 @@
 
   &[aria-expanded='false'] [role='listbox'] {
     display: none;
+  }
+
+  > button {
+    border: 0;
+    height: 1rem;
+    max-width: #{$wc-icon-size};
+    padding: 0;
+    text-align: center;
+    vertical-align: text-top;
+    width: #{$wc-icon-size};
   }
 }
 
