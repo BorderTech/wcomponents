@@ -38,13 +38,10 @@
 		</xsl:variable>
 		
 		<xsl:variable name="baseClass">
-			<xsl:value-of select="concat('wc-', local-name(), ' wc_seltog')"/>
+			<xsl:value-of select="concat('wc-', local-name(), ' wc_seltog ', @class)"/>
 			<xsl:if test="self::ui:selecttoggle">
 				<xsl:if test="@type">
 					<xsl:value-of select="concat(' wc-selecttoggle-type-', @type)"/>
-				</xsl:if>
-				<xsl:if test="@class">
-					<xsl:value-of select="concat(' ', @class)"/>
 				</xsl:if>
 			</xsl:if>
 		</xsl:variable>
@@ -200,7 +197,7 @@
 	<xsl:template match="ui:selecttoggle">
 		<xsl:choose>
 			<xsl:when test="@renderAs eq 'control'">
-				<span id="{@id}" class="{normalize-space(concat('wc-selecttoggle', ' ', @class, ' ', 'wc-input-wrapper'))}">
+				<span id="{@id}" class="{normalize-space(concat('wc-selecttoggle wc-input-wrapper ', @class))}">
 					<xsl:call-template name="selectToggle">
 						<xsl:with-param name="id" select="concat(@id, '_input')"/>
 						<xsl:with-param name="for" select="@target"/>

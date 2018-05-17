@@ -9,7 +9,7 @@
 		<xsl:variable name="margin">
 			<xsl:apply-templates select="ui:margin" mode="asclass"/>
 		</xsl:variable>
-		<details id="{@id}" class="{normalize-space(concat('wc-collapsble ', $margin, ' ', @class))}">
+		<details id="{@id}" class="{normalize-space(concat('wc-collapsble ', @class, $margin))}">
 			<xsl:if test="not(@collapsed)">
 				<xsl:attribute name="open">
 					<xsl:text>open</xsl:text>

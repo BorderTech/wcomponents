@@ -184,14 +184,15 @@
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="additional">
+			<xsl:value-of select="@class"/>
 			<xsl:if test="@required">
-				<xsl:text>wc_req</xsl:text>
+				<xsl:text> wc_req</xsl:text>
 			</xsl:if>
 			<xsl:if test="@ajax">
 				<xsl:text> wc-ajax</xsl:text>
 			</xsl:if>
 		</xsl:variable>
-		<fieldset id="{@id}" data-wc-cols="{$cols}" class="{normalize-space(concat('wc-multifileupload wc_noborder', @class, ' ', $additional))}">
+		<fieldset id="{@id}" data-wc-cols="{$cols}" class="{normalize-space(concat('wc-multifileupload wc_noborder ', $additional))}">
 			<xsl:if test="@hidden">
 				<xsl:attribute name="hidden">
 					<xsl:text>hidden</xsl:text>

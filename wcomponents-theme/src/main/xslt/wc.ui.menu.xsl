@@ -19,12 +19,10 @@
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="additional">
+			<xsl:value-of select="@class"/>
 			<xsl:apply-templates select="ui:margin" mode="asclass"/>
 			<xsl:if test="number($isBarFlyout) eq 1">
 				<xsl:text> wc_menu_bar</xsl:text>
-			</xsl:if>
-			<xsl:if test="@class">
-				<xsl:value-of select="concat(' ', @class)"/>
 			</xsl:if>
 		</xsl:variable>
 		<div id="{@id}" class="{normalize-space(concat('wc-menu wc-menu-type-', @type, ' ', $additional))}">

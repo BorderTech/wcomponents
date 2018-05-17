@@ -4,14 +4,6 @@
 
 ### API Changes
 
-### Enhancements
-
-### Bug Fixes
-
-## Release 1.5.3
-
-### API Changes
-
 * Added support for autocomplete to WDropdown, WEmailField, WNumberField, WPasswordField, WPhoneNumberField, WTextArea
   and WTextField #1007.
 * Changed message property name
@@ -25,6 +17,21 @@
 ### Enhancements
 
 * Added JavaScript unit tests for missing modules.
+
+### Bug Fixes
+
+* Fixed missing custom class on WDefinitionList #1519.
+* Fixed XSLT error causing WHeading content to include text equating to the value of its margin classes #1514.
+* Fixed potential flaw caused by application-level custom CSS source order #1516.
+* Fixed a flaw which caused selenium tests to fail if no class was defined in the URL #1510.
+* Fixed missing inner labels on WMultiDropdown and WMultiTextField #1508.
+* Fixed issue causing 'required' placeholders to be left when making a field optional #1506.
+* Fixed missing name attribute on WDateField #1507
+
+## Release 1.5.3
+
+### Enhancements
+
 * Improved handling of the publication of selected state changes of native radio buttons and check boxes.
 * Update package.json to latest working node module versions and removed tildes to prevent unwanted updates.
 * Added support for success and info level diagnostics/field indicators as part of #1496.
@@ -43,9 +50,6 @@
 
 ### Bug Fixes
 
-* Fixed missing inner labels on WMultiDropdown and WMultiTextField #1508.
-* Fixed issue causing 'required' placeholders to be left when making a field optional #1506.
-* Fixed missing name attribute on WDateField #1507
 * Allow JavaScript module config to keep existing config properties when calling `set` #1502.
 * Fixed inconsistency of rendering field indicators #1496.
 * Fixed icon element inconsistencies #1497.

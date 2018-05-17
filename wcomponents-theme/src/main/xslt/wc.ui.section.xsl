@@ -8,12 +8,10 @@
 	<xsl:template match="ui:section">
 		<xsl:variable name="mode" select="@mode"/>
 		<xsl:variable name="additional">
+			<xsl:value-of select="@class"/>
 			<xsl:apply-templates select="ui:margin" mode="asclass"/>
 			<xsl:if test="@mode eq 'lazy' and @hidden">
 				<xsl:text> wc_magic</xsl:text>
-			</xsl:if>
-			<xsl:if test="@class">
-				<xsl:value-of select="concat(' ', @class)"/>
 			</xsl:if>
 		</xsl:variable>
 		<section id="{@id}" class="{normalize-space(concat('wc-section ', $additional))}">
@@ -34,11 +32,12 @@
 	<xsl:template match="ui:decoratedlabel" mode="section">
 		
 		<xsl:variable name="additional">
+			<xsl:value-of select="@class"/>
 			<xsl:if test="@type">
 				<xsl:value-of select="concat(' wc-decoratedlabel-type-', @type)"/>
 			</xsl:if>
 		</xsl:variable>
-		<header id="{@id}" class="{normalize-space(concat('wc-decoratedlabel ', @class, $additional))}">
+		<header id="{@id}" class="{normalize-space(concat('wc-decoratedlabel ', $additional))}">
 			<xsl:if test="@hidden">
 				<xsl:attribute name="hidden">
 					<xsl:text>hidden</xsl:text>
