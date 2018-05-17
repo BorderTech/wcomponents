@@ -7,6 +7,8 @@ select, // take a look at wc.select.scss too
 textarea {
   @include border-box;
   @include border($width: 1px); // this is important for consistency
+  font-family: inherit;
+  font-size: inherit;
   margin: 0;
   max-width: 100%;
   padding: 1px; // this is important for consistency
