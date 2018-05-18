@@ -8,6 +8,8 @@
 
 ### Bug Fixes
 
+* Partial (cosmetic) fix for floating WSuggestions #1526.
+
 ## Release 1.5.4
 
 ### API Changes
