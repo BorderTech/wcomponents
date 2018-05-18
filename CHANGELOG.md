@@ -4,6 +4,14 @@
 
 ### API Changes
 
+### Enhancements
+
+### Bug Fixes
+
+## Release 1.5.4
+
+### API Changes
+
 * Added support for autocomplete to WDropdown, WEmailField, WNumberField, WPasswordField, WPhoneNumberField, WTextArea
   and WTextField #1007.
 * Changed message property name
@@ -21,7 +29,7 @@
 
 ### Bug Fixes
 
-* Fixed XSLT error which resulted in WToggleButton not reorting its state #1525.
+* Fixed XSLT error which resulted in WToggleButton not reporting its state #1525.
 * Fixed missing custom class on WDefinitionList #1519.
 * Fixed XSLT error causing WHeading content to include text equating to the value of its margin classes #1514.
 * Fixed potential flaw caused by application-level custom CSS source order #1516.
