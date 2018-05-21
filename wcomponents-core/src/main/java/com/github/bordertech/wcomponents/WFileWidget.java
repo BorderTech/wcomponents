@@ -2,7 +2,10 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.file.FileItemWrap;
 import com.github.bordertech.wcomponents.portlet.context.WFileWidgetCleanup;
+import com.github.bordertech.wcomponents.util.FileUtil;
 import com.github.bordertech.wcomponents.util.Util;
+import com.github.bordertech.wcomponents.validation.Diagnostic;
+import com.github.bordertech.wcomponents.validation.DiagnosticImpl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -35,12 +38,14 @@ import org.apache.commons.fileupload.FileItem;
  * @author James Gifford
  * @author Martin Shevchenko
  * @author Jonathan Austin
+ * @author Aswin Kandula
  * @since 1.0.0
  *
  * @deprecated Use {@link WMultiFileWidget} instead.
  */
 @Deprecated
 public class WFileWidget extends AbstractInput implements AjaxTarget, SubordinateTarget {
+
 
 	/**
 	 * Returns a list of strings that determine the allowable file mime types accepted by the file input. If no types
@@ -79,6 +84,16 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	public void setFileTypes(final List<String> types) {
 		getOrCreateComponentModel().fileTypes = types;
 	}
+	
+	/**
+	 * @see #setFileTypes(java.util.List) 
+	 * @see #setFileTypes(java.lang.String[]) 
+	 * @return {@code true} if one or more file type is supplied.
+	 */
+	public boolean hasFileTypes() {
+		FileWidgetModel fileWidgetModel = getComponentModel();
+		return fileWidgetModel.fileTypes != null && fileWidgetModel.fileTypes.size() > 0;
+	}
 
 	/**
 	 * Set the maximum file size (in bytes) that will be accepted by the file input. If the user selects a file larger
@@ -87,7 +102,11 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	 * @param bytes The maximum size (in bytes) that can be uploaded by this input.
 	 */
 	public void setMaxFileSize(final long bytes) {
-		getOrCreateComponentModel().maxFileSize = bytes;
+		if (bytes > 0) {
+			getOrCreateComponentModel().maxFileSize = bytes;
+		} else {
+			getOrCreateComponentModel().maxFileSize = 0;
+		}
 	}
 
 	/**
@@ -97,6 +116,14 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	 */
 	public long getMaxFileSize() {
 		return getComponentModel().maxFileSize;
+	}
+	
+	/**
+	 * @see #setMaxFileSize(long) 
+	 * @return {@code true} if max file size is supplied.
+	 */
+	public boolean hasMaxFileSize() {
+		return getComponentModel().maxFileSize >  0;
 	}
 
 	/**
@@ -110,10 +137,103 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 		boolean changed = value != null || current != null;
 
 		if (changed) {
-			setData(value);
-		}
+			// Reset validation fields
+			resetValidationState();
+			// if User Model exists it will be returned, othewise Shared Model is returned
+			final FileWidgetModel sharedModel = getComponentModel();
+			// if fileType is supplied then validate it
+			if (hasFileTypes()) {
+				boolean validFileType = FileUtil.validateFileType(value, getFileTypes());
+				// If invalid only then update 
+				if (sharedModel.validFileType != validFileType) {
+					// if User Model exists it will be returned, othewise it will be created
+					final FileWidgetModel userModel = getOrCreateComponentModel();
+					userModel.validFileType = validFileType;
+				}
+			}
+			
+			// if fileSize is supplied then validate it
+			if (hasMaxFileSize()) {
+				boolean validFileSize = FileUtil.validateFileSize(value, getMaxFileSize());
+				// If invalid only then update 
+				if (sharedModel.validFileSize != validFileSize) {
+					// if User Model exists it will be returned, othewise it will be created
+					final FileWidgetModel userModel = getOrCreateComponentModel();
+					userModel.validFileSize = validFileSize;
+				}
+			}
+			
+			// if file is valid, the update data
+			if (isFileSizeValid() && isFileTypeValid()) {
+				setData(value);
+			} else if (current == null) {
+				// otherwise no change
+				changed = false;
+			} else {
+				changed = true;
+				setData(null);
+			}
+		} 
 
 		return changed;
+	}
+
+	/**
+	 * Reset validation state.
+	 */
+	private void resetValidationState() {
+		// if User Model exists it will be returned, othewise Shared Model is returned
+		final FileWidgetModel componentModel = getComponentModel();
+		// If Shared Model is returned then both fileType and fileSize are always valid
+		// If User Model is returned check if any if any is false
+		if (!componentModel.validFileSize || !componentModel.validFileType) {
+		    final FileWidgetModel userModel = getOrCreateComponentModel();
+		    userModel.validFileType = true;
+		    userModel.validFileSize = true;
+
+		}
+	}
+
+	/**
+	 * Indicates whether the uploaded file is valid. <br>
+	 * If {@link #getFileTypes()} is set then it is validated, otherwise {@link #getFile()} is considered valid.
+	 *
+	 * @return true if file type valid, false file type invalid.
+	 */
+	public boolean isFileTypeValid() {
+		return getComponentModel().validFileType;
+	}
+
+	/**
+	 * Indicates whether the uploaded file is valid.
+	 * If {@link #getMaxFileSize()} is set then it is validated, otherwise {@link #getFile()} is considered valid.
+	 *
+	 * @return true if file size valid, false file size invalid, otherwise null.
+	 */
+	public boolean isFileSizeValid() {
+		return getComponentModel().validFileSize;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void validateComponent(final List<Diagnostic> diags) {
+		super.validateComponent(diags);
+
+		if (!isFileTypeValid()) {
+			// Add invalid file type validation message.
+			String invalidMessage = FileUtil.getInvalidFileTypeMessage(getFileTypes());
+			Diagnostic diag = new DiagnosticImpl(Diagnostic.ERROR, this, invalidMessage);
+			diags.add(diag);
+		}
+
+		if (!isFileSizeValid()) {
+			// Adds invalid file size validation message.
+			String invalidMessage = FileUtil.getInvalidFileSizeMessage(getMaxFileSize());
+			Diagnostic diag = new DiagnosticImpl(Diagnostic.ERROR, this, invalidMessage);
+			diags.add(diag);
+		}
 	}
 
 	/**
@@ -242,6 +362,16 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 		 * The maximum size of files uploaded by this component.
 		 */
 		private long maxFileSize;
+
+		/**
+		 * Flag to indicate if the selected file is a valid fileType.
+		 */
+		private boolean validFileType = true;
+
+		/**
+		 * Flag to indicate if the selected file is a valid fileSize.
+		 */
+		private boolean validFileSize = true;
 	}
 
 	/**
@@ -272,3 +402,5 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 		return (FileWidgetModel) super.getOrCreateComponentModel();
 	}
 }
+
+

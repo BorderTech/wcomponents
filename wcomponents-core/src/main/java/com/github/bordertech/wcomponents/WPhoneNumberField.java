@@ -1,5 +1,9 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteablePhone;
+import com.github.bordertech.wcomponents.autocomplete.segment.PhoneFormat;
+import com.github.bordertech.wcomponents.autocomplete.type.Telephone;
 import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
@@ -19,10 +23,11 @@ import java.util.regex.Pattern;
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
+ * @author Mark Reeves
  * @since 1.0.0
  */
-public class WPhoneNumberField extends AbstractInput implements AjaxTrigger, AjaxTarget,
-		SubordinateTrigger, SubordinateTarget, Placeholderable {
+public class WPhoneNumberField extends AbstractInput implements AjaxTrigger, AjaxTarget, SubordinateTrigger, SubordinateTarget, Placeholderable,
+		AutocompleteablePhone {
 
 	/**
 	 * {@inheritDoc}
@@ -164,10 +169,48 @@ public class WPhoneNumberField extends AbstractInput implements AjaxTrigger, Aja
 		return pattern == null ? null : pattern.toString();
 	}
 
+	@Override
+	public String getAutocomplete() {
+		return getComponentModel().autocomplete;
+	}
+
+	@Override
+	public void setAutocomplete(final Telephone phone, final PhoneFormat phoneType) {
+		String newValue = AutocompleteUtil.getCombinedFullPhone(phoneType, phone);
+
+		if (!Util.equals(getAutocomplete(), newValue)) {
+			getOrCreateComponentModel().autocomplete = newValue;
+		}
+	}
+
+	@Override
+	public void setAutocompleteOff() {
+		if (!isAutocompleteOff()) {
+			getOrCreateComponentModel().autocomplete = AutocompleteUtil.getOff();
+		}
+	}
+
+	@Override
+	public void addAutocompleteSection(final String sectionName) {
+		String newValue = AutocompleteUtil.getCombinedForAddSection(sectionName, this);
+		if (!Util.equals(getAutocomplete(), newValue)) {
+			getOrCreateComponentModel().autocomplete = newValue;
+		}
+	}
+
+	@Override
+	public void clearAutocomplete() {
+		if (getAutocomplete() != null) {
+			getOrCreateComponentModel().autocomplete = null;
+		}
+	}
+
 	/**
 	 * Override validateComponent to perform further validation.
 	 *
-	 * @param diags the list into which any validation diagnostics are added.
+	 * <p>
+	 * {@inheritDoc}
+	 * </p>
 	 */
 	@Override
 	protected void validateComponent(final List<Diagnostic> diags) {
@@ -272,6 +315,7 @@ public class WPhoneNumberField extends AbstractInput implements AjaxTrigger, Aja
 	 * PhoneFieldModel holds Extrinsic state management of the field.
 	 *
 	 * @author Yiannis Paschalidis
+	 * @author Mark Reeves
 	 */
 	public static class PhoneFieldModel extends InputModel {
 
@@ -304,5 +348,12 @@ public class WPhoneNumberField extends AbstractInput implements AjaxTrigger, Aja
 		 * The placeholder text which will appear if the field is editable and empty.
 		 */
 		private String placeholder;
+
+		/**
+		 * The auto-fill hint for the field.
+		 */
+		private String autocomplete;
+
+
 	}
 }

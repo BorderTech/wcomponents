@@ -90,10 +90,10 @@
 	<property name="jsdoc.output.dateFormat" value="YYYY-MM-DD"/>
 
 	<!-- Footer? Empty is acceptable. -->
-	<property name="jsdoc.output.footer" value="${jsdoc.output.systemName} is powered by &lt;a href='http://vanilla-js.com/' target='_blank'&gt;&lt;img src='img/vanillajs.png' alt='Vanilla JS'/&gt;&lt;/a&gt;."/>
+	<property name="jsdoc.output.footer" value=""/>
 
 	<!-- Copyright notice? Empty is acceptable. -->
-	<property name="jsdoc.output.copyright" value="${jsdoc.output.systemName} is copyright &amp;#xa9; see &lt;a href='https://github.com/BorderTech/wcomponents'&gt;https://github.com/BorderTech/wcomponents&lt;/a&gt;."/>
+	<property name="jsdoc.output.copyright" value=""/>
 
 	<!--
 		A Common inconsistency
@@ -162,34 +162,13 @@
 
 		REALLY: JUST LEAVE IT ALONE!
 		################################################################################################################
-
-		Maven integration
-		====================
-		The output directory for the default JSDoc configuration file should be determined by maven when running the
-		site task. To do this we have a property
-			theme.documentation.dir
-		which shold point to the ROOT directory into which the site wants all of the theme documentation to be put.
-		The JSDoc will be put into a sub-directory of this named "jsdoc". If this is not set then the default is
-		[project]/target/site which is probably where you want it anyway.
-
-		We have the following properties:
-		1. theme.documentation.dir
-			The root of the theme documentation. Should come from the POM but we fall back to ${build.rootdir}
-		2. jsdoc.target.dir
-			This is the file system location to which we are going to write the jsdoc doco output. This is
-			${theme.documentation.dir}/jsdoc. If you change this you should also change the site.xml as it links to the
-			JSDOc from the Maven site.
-			This property is used in mkdir but it cannot be used as-is in JSON if being built on windows, therefore we
-			need to unix-ify it later.
 	-->
-	<property name="theme.documentation.dir" location="${build.rootdir}/site"/>
-	<property name="jsdoc.target.dir" location="${theme.documentation.dir}/jsdoc"/>
 
 	<!--
 		Only build if we have a directory of JavaScript to document. No point going on otherwise.
 	-->
 	<target name="jsdoc.run.check">
-		<available property="jsdoc.run" file="${script.debug.build.target.dir}" type="dir"/>
+		<available property="jsdoc.run" file="${target.rootdir}/scripts_debug" type="dir"/>
 	</target>
 
 	<!--
@@ -205,7 +184,7 @@
 		<!-- The JSDoc goes here in UNIX format to include in JSON. -->
 		<pathconvert targetos="unix" property="jsdoc.output.dir">
 			<path>
-				<pathelement location="${jsdoc.target.dir}"/>
+				<pathelement location="${build.rootdir}/site/jsdoc"/>
 			</path>
 		</pathconvert>
 
@@ -254,7 +233,7 @@
 
 		<pathconvert targetos="unix" property="jsdoc.source.dir">
 			<path>
-				<pathelement location="${script.debug.build.target.dir}"/>
+				<pathelement location="${target.rootdir}/scripts_debug"/>
 			</path>
 		</pathconvert>
 
@@ -298,12 +277,4 @@
 		</nodejs.exec>
 		<stopwatch name="node-jsdoc" action="total"/>
 	</target>
-	<!--
-		NOTES
-		Path manipulation
-		====================
-		JSDoc configuration JSON file requires file paths in real (forward /) format. So we have to convert a pile of
-		previously defined locations. These conversions are done as they are needed so you will see them scattered
-		hither and yon.
-		-->
 </project>

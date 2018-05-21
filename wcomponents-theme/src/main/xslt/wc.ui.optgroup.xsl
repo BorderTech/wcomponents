@@ -7,7 +7,7 @@
 
 	<!-- Tranforms the optgroups of a list into HTML optgroup elements. -->
 	<xsl:template match="ui:optgroup" mode="selectableList">
-		<optgroup label="{@label}">
+		<optgroup label="{@label}" class="wc-optgroup">
 			<xsl:apply-templates mode="selectableList"/>
 		</optgroup>
 	</xsl:template>

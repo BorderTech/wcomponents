@@ -5,9 +5,8 @@ define(["wc/dom/classList",
 	"wc/i18n/i18n",
 	"wc/ui/getFirstLabelForElement",
 	"wc/ui/getVisibleText",
-	"wc/ui/loading",
 	"wc/timers"],
-	function (classList, initialise, tag, processResponse, i18n, getFirstLabelForElement, getVisibleText, loading, timers) {
+	function (classList, initialise, tag, processResponse, i18n, getFirstLabelForElement, getVisibleText, timers) {
 		"use strict";
 
 		/**
@@ -148,7 +147,7 @@ define(["wc/dom/classList",
 			 */
 			this.postInit = function () {
 				processResponse.subscribe(ajaxSubscriber, true);
-				timers.setTimeout(flagBadLabels, 100);
+				timers.setTimeout(flagBadLabels, 500);
 			};
 		}
 
@@ -167,16 +166,9 @@ define(["wc/dom/classList",
 		 * @requires module:wc/i18n/i18n
 		 * @requires module:wc/ui/getFirstLabelForElement
 		 * @requires module:wc/ui/getVisibleText
-		 * @requires module:wc/ui/loading
 		 * @requires module:wc/timers
 		 */
-		var instance;
-
-		loading.done.then(timers.setTimeout(function () {
-			instance = new Label();
-			initialise.register(instance);
-		}, 1000));
-
-		//
-		return true;
+		var instance= new Label();
+		initialise.register(instance);
+		return instance;
 	});

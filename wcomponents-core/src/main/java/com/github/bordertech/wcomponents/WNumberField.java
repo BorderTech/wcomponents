@@ -1,5 +1,8 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteableNumeric;
+import com.github.bordertech.wcomponents.autocomplete.type.Numeric;
 import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
@@ -23,11 +26,10 @@ import java.util.List;
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
+ * @author Mark Reeves
  * @since 1.0.0
  */
-public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarget,
-		SubordinateTrigger,
-		SubordinateTarget {
+public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarget, SubordinateTrigger, SubordinateTarget, AutocompleteableNumeric {
 
 	/**
 	 * @return the number value, or the text entered by the user if there is no valid number.
@@ -491,6 +493,42 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 		return (NumberFieldModel) super.getOrCreateComponentModel();
 	}
 
+	@Override
+	public void setAutocomplete(final Numeric value) {
+		String newVal = value == null ? null : value.getValue();
+
+		if (!Util.equals(getAutocomplete(), newVal)) {
+			getOrCreateComponentModel().autocomplete = newVal;
+		}
+	}
+
+	@Override
+	public String getAutocomplete() {
+		return getComponentModel().autocomplete;
+	}
+
+	@Override
+	public void setAutocompleteOff() {
+		if (!isAutocompleteOff()) {
+			getOrCreateComponentModel().autocomplete = AutocompleteUtil.getOff();
+		}
+	}
+
+	@Override
+	public void addAutocompleteSection(final String sectionName) {
+		String newValue = AutocompleteUtil.getCombinedForAddSection(sectionName, this);
+		if (!Util.equals(getAutocomplete(), newValue)) {
+			getOrCreateComponentModel().autocomplete = newValue;
+		}
+	}
+
+	@Override
+	public void clearAutocomplete() {
+		if (getAutocomplete() != null) {
+			getOrCreateComponentModel().autocomplete = null;
+		}
+	}
+
 	/**
 	 * NumberFieldModel holds Extrinsic state management of the field.
 	 *
@@ -534,6 +572,11 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 		 * Flag to indicate if the text entered is a valid partial date.
 		 */
 		private boolean validNumber = true;
+
+		/**
+		 * The auto-fill hint for the field.
+		 */
+		private String autocomplete;
 
 		/**
 		 * Maintain internal state.

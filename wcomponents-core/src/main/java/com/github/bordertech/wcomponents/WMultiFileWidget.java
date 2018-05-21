@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.WLink.ImagePosition;
 import com.github.bordertech.wcomponents.file.File;
 import com.github.bordertech.wcomponents.file.FileItemWrap;
+import com.github.bordertech.wcomponents.util.FileUtil;
 import com.github.bordertech.wcomponents.util.MemoryUtil;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
@@ -38,6 +39,7 @@ import java.util.UUID;
  * @author Christina Harris
  * @author Jonathan Austin
  * @author Rick Brown
+ * @author Aswin Kandula
  * @since 1.0.0
  */
 public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxInternalTrigger, AjaxTrigger, AjaxTarget,
@@ -275,6 +277,16 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		result = new ArrayList<>(fileTypes);
 		return result;
 	}
+	
+	/**
+	 * @see #setFileTypes(java.util.Collection)
+	 * @see #setFileTypes(java.lang.String[])
+	 * @return {@code} true if one or more file type is supplied.
+	 */
+	public boolean hasFileTypes() {
+		MultiFileWidgetModel componentModel = getComponentModel();
+		return componentModel.fileTypes != null && componentModel.fileTypes.size() > 0;
+	}
 
 	/**
 	 * Set the maximum file size (in bytes) that will be accepted by the file input. If the user selects a file larger
@@ -295,6 +307,14 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 */
 	public long getMaxFileSize() {
 		return getComponentModel().maxFileSize;
+	}
+	
+	/**
+	 * @see #setMaxFileSize(long)
+	 * @return {@code true} if max file size is supplied.
+	 */
+	public boolean hasMaxFileSize() {
+		return getComponentModel().maxFileSize >  0;
 	}
 
 	/**
@@ -689,6 +709,19 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 
 		// Wrap the file item
 		FileItemWrap wrap = new FileItemWrap(items[0]);
+		
+		// if fileType is supplied then validate it
+		if (hasFileTypes() && !FileUtil.validateFileType(wrap, getFileTypes())) {
+			String invalidMessage = FileUtil.getInvalidFileTypeMessage(getFileTypes());
+			throw new SystemException(invalidMessage);
+		}
+
+		// if fileSize is supplied then validate it
+		if (hasMaxFileSize() && !FileUtil.validateFileSize(wrap, getMaxFileSize())) {
+			String invalidMessage = FileUtil.getInvalidFileSizeMessage(getMaxFileSize());
+			throw new SystemException(invalidMessage);
+		}
+		
 		FileWidgetUpload file = new FileWidgetUpload(fileId, wrap);
 		addFile(file);
 

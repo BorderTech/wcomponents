@@ -118,6 +118,7 @@ final class MenuPanel extends WPanel {
 	 */
 	private void addRecentExample(final String text, final ExampleData data, final boolean select) {
 		WMenuItem item = new WMenuItem(text, new SelectExampleAction());
+		item.setCancel(true);
 		menu.add(item);
 		item.setActionObject(data);
 		if (select) {
@@ -128,7 +129,7 @@ final class MenuPanel extends WPanel {
 	/**
 	 * Retrieves the closest known match to a WComponent (or example) which this MenuPanel knows about. A fully
 	 * qualified class name or partial name may be provided. A fully qualified match is returned in preference to a
-	 * partial one. Partial name matching is case-insensitivie, for example "prog" will match "WProgressBarExample".
+	 * partial one. Partial name matching is case-insensitive, for example "prog" will match "WProgressBarExample".
 	 *
 	 * @param className the component class name to search for.
 	 * @return the class for the given name, or null if not found.

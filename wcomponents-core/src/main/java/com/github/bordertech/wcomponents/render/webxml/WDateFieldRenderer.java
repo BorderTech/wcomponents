@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WDateField;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.Util;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -11,6 +12,7 @@ import java.util.Date;
  * The Renderer for {@link WDateField}.
  *
  * @author Jonathan Austin
+ * @author Mark Reeves
  * @since 1.0.0
  */
 final class WDateFieldRenderer extends AbstractWebXmlRenderer {
@@ -59,6 +61,9 @@ final class WDateFieldRenderer extends AbstractWebXmlRenderer {
 			if (maxDate != null) {
 				xml.appendAttribute("max", new SimpleDateFormat(INTERNAL_DATE_FORMAT).format(maxDate));
 			}
+
+			String autocomplete = dateField.getAutocomplete();
+			xml.appendOptionalAttribute("autocomplete", !Util.empty(autocomplete), autocomplete);
 		}
 
 		if (date != null) {

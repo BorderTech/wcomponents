@@ -1,62 +1,17 @@
 define(["wc/array/toArray",
 	"wc/dom/diagnostic",
 	"wc/dom/classList",
-	"wc/dom/messageBox",
 	"wc/dom/tag",
 	"wc/dom/wrappedInput",
-	"wc/dom/Widget",
 	"wc/ui/icon",
 	"wc/dom/getLabelsForElement",
 	"wc/config"],
-	function(toArray, diagnostic, classList, messageBox, tag, wrappedInput, Widget, icon, getLabelsForElement, wcconfig) {
+	function(toArray, diagnostic, classList, tag, wrappedInput, icon, getLabelsForElement, wcconfig) {
 		"use strict";
 
 		function Feedback() {
 			var writeOutsideThese = [tag.INPUT, tag.SELECT, tag.TEXTAREA],
-				BEFORE_END = "beforeend",
-				VALIDATION_ERRORS,
-				ERROR_LINK;
-
-			/**
-			 * Remove a link to a component which was in an error state when the page was loaded (using
-			 * WValidationErrors) but which was subsequently corrected.
-			 * @function
-			 * @private
-			 * @param {Element} element The HTML element which was in an error state
-			 */
-			function removeWValidationErrorLink(element) {
-				var validationErrors,
-					errorLink,
-					target;
-
-				if (!(element && element.nodeType === Node.ELEMENT_NODE)) {
-					return;
-				}
-
-				if ((validationErrors = messageBox.getErrorBoxes(document.body, true))) {
-					if (!ERROR_LINK) {
-						VALIDATION_ERRORS = VALIDATION_ERRORS || messageBox.getErrorBoxWidget().clone;
-						ERROR_LINK = new Widget("a");
-						ERROR_LINK.descendFrom(VALIDATION_ERRORS);
-					}
-
-					target = wrappedInput.isWrappedInput(element) ? wrappedInput.getWrapper(element) : element;
-
-					// NOTE: cannot use Widget for #id because we hwant exact matches [href='#id'] not include matches [href!='#id']
-					errorLink = "#" + target.id;
-					Array.prototype.forEach.call(ERROR_LINK.findDescendants(document.body), function (link) {
-						if (link.getAttribute("href") === errorLink) {
-							link.parentNode.removeChild(link);
-						}
-					});
-
-					Array.prototype.forEach.call(validationErrors, function (validErr) {
-						if (!ERROR_LINK.findDescendant(validErr)) {
-							validErr.parentNode.removeChild(validErr);
-						}
-					});
-				}
-			}
+				BEFORE_END = "beforeend";
 
 			/**
 			 * For the convenience of consuming UI modules.
@@ -65,6 +20,19 @@ define(["wc/array/toArray",
 			this.isOneOfMe = function(element, level) {
 				return diagnostic.isOneOfMe(element, level);
 			};
+
+			function checkandGetElement(element) {
+				var target;
+				if (!element) {
+					throw new TypeError("element must not be falsey");
+				}
+				target = (element.constructor === String) ? document.getElementById(element) : element;
+
+				if (!(target && target.tagName)) {
+					throw new TypeError("element does not represent an HTML Element");
+				}
+				return target;
+			}
 
 			/**
 			 * Type check for diagnostic boxes.
@@ -218,30 +186,32 @@ define(["wc/array/toArray",
 					level = args.level || diagnostic.LEVEL.ERROR,
 					messages = args.messages,
 					boxWidget,
-					id,
+					targetId,
+					boxId,
 					tagName,
 					classAttrib = "class='",
 					className,
 					idAttrib = "id='",
 					roleAttrib = "role='alert'",
+					forAttrib = "data-wc-dfor='",
 					html,
 					levelIcon;
 
-				id = args.id || (el ? el.id : null);
-				if (!id) {
+				targetId = args.id || (el ? el.id : null);
+				if (!targetId) {
 					throw new TypeError("Cannot get error box without an id.");
 				}
-				id += diagnostic.getIdExtension(level);
-
 				boxWidget = diagnostic.getByType(level);
 				tagName = boxWidget.tagName;
-				idAttrib += id + "'";
+				boxId = targetId + diagnostic.getIdExtension(level);
+				idAttrib += boxId + "'";
+				forAttrib += targetId + "'";
 				className = boxWidget.className;
 				if (Array.isArray(className)) {
 					className = className.join(" ");
 				}
 				classAttrib += className + "'";
-				html = tag.toTag(tagName, false, [idAttrib, classAttrib, roleAttrib].join(" "));
+				html = tag.toTag(tagName, false, [idAttrib, classAttrib, roleAttrib, forAttrib].join(" "));
 				if ((levelIcon = getIconName(level))) {
 					html += "<i aria-hidden='true' class='fa " + levelIcon + "'></i>";
 				}
@@ -266,7 +236,7 @@ define(["wc/array/toArray",
 					}
 				}
 				html += tag.toTag(tagName, true);
-				return {html: html, id: id};
+				return {html: html, id: boxId};
 			}
 
 			/**
@@ -317,7 +287,6 @@ define(["wc/array/toArray",
 				// now change the icon
 				changeIcon(box, oldLevel, toLevel);
 				if ((realTarget = target || diagnostic.getTarget(box))) {
-					removeWValidationErrorLink(realTarget);
 					toggleValidity(realTarget);
 				}
 			};
@@ -409,7 +378,7 @@ define(["wc/array/toArray",
 			}
 
 			/**
-			 * Find all diagnostics belonging to an element.
+			 * Find a diagnostic box belonging to an element.
 			 * @function
 			 * @public
 			 * @param {Element|String} element the element being diagnosed (or its id)
@@ -421,27 +390,20 @@ define(["wc/array/toArray",
 					id,
 					result,
 					level = ofLevel || this.LEVEL.ERROR,
-					lvl;
-				if (!element) {
-					throw new TypeError("element must not be falsey");
-				}
-
-				target = (element.constructor === String) ? document.getElementById(element) : element;
-
-				if (!(target && target.tagName)) {
-					throw new TypeError("element does not represent an HTML Element");
-				}
-
-				if (!target.id) {
-					return null;
-				}
-
+					lvl,
+					transientWidget;
+				target = checkandGetElement(element);
 				if (wrappedInput.isWrappedInput(target)) {
 					target = wrappedInput.getWrapper(target);
 				}
+				if (!target.id) {
+					return null;
+				}
+				id = target.id;
 
 				if (level === -1) {
-					if ((result = diagnostic.getWidget().findDescendant(target))) { // fast but insufficient
+					transientWidget = diagnostic.getWidget().clone().extend("", { "data-wc-dfor": id });
+					if ((result = transientWidget.findDescendant(target))) { // fast but insufficient
 						return result;
 					}
 					for (lvl in this.LEVEL) {
@@ -451,8 +413,8 @@ define(["wc/array/toArray",
 					}
 					return null;
 				}
-				id = target.id + diagnostic.getIdExtension(level);
-				return document.getElementById(id);
+				transientWidget = diagnostic.getByType(level).clone().extend("", { "data-wc-dfor": id });
+				return transientWidget.findDescendant(target) || transientWidget.findDescendant(document.body);
 			};
 
 			/**
@@ -463,15 +425,8 @@ define(["wc/array/toArray",
 			this.getLast = function(element) {
 				var target,
 					candidates;
-				if (!element) {
-					throw new TypeError("element must not be falsey");
-				}
 
-				target = (element.constructor === String) ? document.getElementById(element) : element;
-
-				if (!(target && target.tagName)) {
-					throw new TypeError("element does not represent an HTML Element");
-				}
+				target = checkandGetElement(element);
 
 				if (!target.id) {
 					return null;
@@ -503,8 +458,6 @@ define(["wc/array/toArray",
 				if (wrappedInput.isWrappedInput(target)) {
 					target = wrappedInput.getWrapper(target);
 				}
-
-				removeWValidationErrorLink(target);
 
 				if (target.tagName === tag.INPUT && (target.type === "radio" || target.type === "checkbox")) {
 					flagTarget = getLabelsForElement(target);
@@ -560,7 +513,6 @@ define(["wc/array/toArray",
 					}
 					if (realTarget) {
 						toggleValidity(realTarget, true);
-						removeWValidationErrorLink(realTarget);
 					}
 				}
 			}
@@ -572,7 +524,7 @@ define(["wc/array/toArray",
 			this._removeDiagnostic = removeDiagnostic;
 
 			/**
-			 * Remove an error diagnostic.
+			 * Remove a feedback message.
 			 * @function
 			 * @public
 			 * @param {Element} element either an error diagnostic or an element with an error diagnostic

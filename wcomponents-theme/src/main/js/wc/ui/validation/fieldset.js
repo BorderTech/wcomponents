@@ -1,4 +1,6 @@
 define(["wc/i18n/i18n",
+	"wc/dom/attribute",
+	"wc/dom/event",
 	"wc/dom/initialise",
 	"wc/dom/shed",
 	"wc/ui/validation/isComplete",
@@ -6,7 +8,7 @@ define(["wc/i18n/i18n",
 	"wc/ui/validation/required",
 	"wc/ui/fieldset",
 	"wc/ui/feedback"],
-	function(i18n, initialise, shed, isComplete, validationManager, required, fieldset, feedback) {
+	function(i18n, attribute, event, initialise, shed, isComplete, validationManager, required, fieldset, feedback) {
 		"use strict";
 		/**
 		 * @constructor
@@ -15,7 +17,8 @@ define(["wc/i18n/i18n",
 		 */
 		function ValidationFieldset() {
 			var FIELDSET = fieldset.getWidget().clone().extend("wc-fieldset"),
-				INVALID;
+				INVALID,
+				INITED_KEY = "validation.fieldset.init";
 
 			/**
 			 * This is an Array.filter filter function which should return true only if the fieldset is NOT in a
@@ -103,10 +106,65 @@ define(["wc/i18n/i18n",
 			 */
 			function validationShedSubscriber(element) {
 				var targetFieldset;
-				if (element && (targetFieldset = FIELDSET.findAncestor(element))) {
+				if (!(element && (targetFieldset = FIELDSET.findAncestor(element)))) {
+					return;
+				}
+				if (validationManager.isValidateOnChange()) {
+					if (validationManager.isInvalid(targetFieldset)) {
+						revalidate(targetFieldset);
+					} else {
+						validate(targetFieldset);
+					}
+				} else {
 					revalidate(targetFieldset);
 				}
 			}
+
+			function changeEvent($event) {
+				/* var element = $event.target,
+					targetFieldset;
+				if (element && validationManager.isValidateOnChange() && (targetFieldset = FIELDSET.findAncestor(element))) {
+					if (validationManager.isInvalid(targetFieldset)) {
+						revalidate(targetFieldset);
+					} else {
+						validate(targetFieldset);
+					}
+				} */
+				var element = $event.currentTarget;
+				if (!(element && validationManager.isValidateOnChange())) {
+					return;
+				}
+				if (validationManager.isInvalid(element)) {
+					revalidate(element);
+				} else {
+					validate(element);
+				}
+			}
+
+			function focusEvent($event) {
+				var element = $event.target,
+					targetFieldset;
+				if (element && validationManager.isValidateOnChange() && (targetFieldset = FIELDSET.findAncestor(element)) &&  !attribute.get(targetFieldset, INITED_KEY)) {
+					attribute.set(targetFieldset, INITED_KEY, true);
+					event.add(targetFieldset, event.TYPE.change, changeEvent, 1);
+				}
+			}
+
+			/**
+			 * Initialise callback to set up event listeners.
+			 * @function module:wc/ui/validation/textArea.initialise
+			 * @param {Element} element The element being initialised, usually document.body.
+			 */
+			this.initialise = function(element) {
+				// if (!validationManager.isValidateOnChange()) {
+				// 	return;
+				// }
+				if (event.canCapture) {
+					event.add(element, event.TYPE.focus, focusEvent, 1, null, true);
+				} else {
+					event.add(element, event.TYPE.focusin, focusEvent);
+				}
+			};
 
 			/**
 			 * Initialise callback.
@@ -129,13 +187,15 @@ define(["wc/i18n/i18n",
 		 *
 		 * @module
 		 * @requires wc/i18n/i18n
+		 * @requires wc/dom/attribute
+		 * @requires wc/dom/event
 		 * @requires wc/dom/initialise
 		 * @requires wc/dom/shed
 		 * @requires wc/ui/validation/isComplete
 		 * @requires wc/ui/validation/validationManager
 		 * @requires wc/ui/validation/required
 		 * @requires wc/ui/fieldset
-		 * @requires wc/ui/errrs
+		 * @requires wc/ui/feedback
 		 */
 		var instance = new ValidationFieldset();
 		initialise.register(instance);

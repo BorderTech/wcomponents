@@ -1,0 +1,34 @@
+// #############################################################################
+// These variables control aspects of the default UI which could be considered
+// as style rather than substance.
+// #############################################################################
+
+// #############################################################################
+// The default font is set on body
+$wc-default-font: sans-serif !default;
+$wc-mono-font: monospace !default;
+
+// #############################################################################
+// We can't get away with no colours at all :-(
+// used to make opaque elements opaque.
+$wc-clr-global-bg: #fff !default;
+// Disabled control colours are special. They are harder to get 4.5:1 and still
+// look disabled!
+$wc-clr-disabled-fg: #696969 !default;
+$wc-clr-disabled-bg: #f3f3f3 !default;
+$wc-clr-disabled-border: $wc-clr-disabled-fg !default;
+// Turn off the generic border colour by setting this value to -1. This will
+// also turn off the outline of "today" in the date picker calendar.
+$wc-border-color: #ccc !default;
+// Messages are better with a spot of colour. This will set the icon colours of
+// messages, not the text colour. Set any to -1 to not use the icon style.
+$wc-clr-message-icon-error: #a00 !default;
+$wc-clr-message-icon-warn: #c30 !default;
+$wc-clr-message-icon-info: #009 !default;
+$wc-clr-message-icon-success: #090 !default;
+
+// Many things have borders and it is nice to have a common look to all of them.
+// set to -1 to ignore.
+$wc-border-style: solid !default;
+// Set to -1 to ignore
+$wc-border-width: 1px !default;

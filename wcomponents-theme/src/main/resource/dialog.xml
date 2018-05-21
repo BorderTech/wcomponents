@@ -1,8 +1,8 @@
 <dialog id="wc_dlgid" role="dialog">
 <header tabindex="0">
 <span>
-<button class="wc_maxcont wc_btn_icon" type="button" title="{{heading.maxRestore}}" aria-pressed="false" data-wc-resize="wc_dlgid"><span aria-hidden="true" class="fa fa-plus"></span></button>
-<button class="wc_dialog_close wc_btn_icon" type="button" title="{{heading.close}}"><span aria-hidden="true" class="fa fa-times"></span></button>
+<button class="wc_maxcont wc_btn_icon" type="button" title="{{heading.maxRestore}}" aria-pressed="false" data-wc-resize="wc_dlgid"><i aria-hidden="true" class="fa fa-plus"></i></button>
+<button class="wc_dialog_close wc_btn_icon" type="button" title="{{heading.close}}"><i aria-hidden="true" class="fa fa-times"></i></button>
 </span>
 <h1>&#x2002;</h1>
 </header>
@@ -10,6 +10,6 @@
 	{{message.loading}}
 </div>
 <footer>
-<button class="wc-nobutton wc_resize" data-wc-resize="wc_dlgid" type="button"><span aria-hidden="true" class="fa fa-arrows-alt"></span></button>
+<button class="wc-nobutton wc_resize" data-wc-resize="wc_dlgid" type="button"><i aria-hidden="true" class="fa fa-arrows-alt"></i></button>
 </footer>
 </dialog>

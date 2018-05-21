@@ -1,6 +1,7 @@
 define(["wc/dom/attribute",
 	"wc/dom/initialise",
 	"wc/dom/event",
+	"wc/dom/shed",
 	"wc/dom/Widget",
 	"wc/i18n/i18n",
 	"wc/ui/validation/validationManager",
@@ -8,7 +9,7 @@ define(["wc/dom/attribute",
 	"wc/ui/feedback",
 	"lib/sprintf",
 	"wc/ui/numberField"],
-	function(attribute, initialise, event, Widget, i18n, validationManager, required, feedback, sprintf, numberField) {
+	function(attribute, initialise, event, shed, Widget, i18n, validationManager, required, feedback, sprintf, numberField) {
 		"use strict";
 		/**
 		 * @constructor
@@ -16,7 +17,7 @@ define(["wc/dom/attribute",
 		 * @private
 		 */
 		function ValidationNumberField() {
-			var NUM_FIELD = numberField.getWidget(),
+			var NUM_FIELD = numberField.getWidget().clone(),
 				MAX = "max",
 				MIN = "min",
 				BOOTSTRAPPED = "validation.numberField.bs",
@@ -38,15 +39,15 @@ define(["wc/dom/attribute",
 					message;
 
 				if (value !== "" && !validationManager.isExempt(element)) {
-					if (Widget.isOneOfMe(element, CONSTRAINED)) {
+					if (isNaN(value)) {
+						message = i18n.get("validation_number_nan");
+					} else if (Widget.isOneOfMe(element, CONSTRAINED)) {
 						max = element.getAttribute(MAX);
 						min = element.getAttribute(MIN);
 						message = checkMax(element, value, min, max);
 						if (!message) {
 							message = checkMin(element, value, min);
 						}
-					} else if (isNaN(value)) {
-						message = i18n.get("validation_number_nan");
 					}
 					if (message) {
 						result = true;
@@ -113,7 +114,7 @@ define(["wc/dom/attribute",
 					candidates,
 					invalid,
 					validInputs = required.doItAllForMe(container, NUM_FIELD);
-				candidates = (NUM_FIELD.isOneOfMe(container)) ? [container] : Widget.findDescendants(container, NUM_FIELD);
+				candidates = (numberField.isOneOfMe(container)) ? [container] : Widget.findDescendants(container, NUM_FIELD);
 				if (candidates && candidates.length) {
 					invalid = Array.prototype.filter.call(candidates, isInvalid);
 					result = (invalid.length === 0);
@@ -128,9 +129,23 @@ define(["wc/dom/attribute",
 			 * @param {module:wc/dom/event} $event A wrapped change event.
 			 */
 			function changeEvent($event) {
-				var target = $event.target;
-				if (target && NUM_FIELD.isOneOfMe(target)) {
-					validationManager.revalidationHelper(target, validate);
+				var element = $event.target;
+
+				if (validationManager.isValidateOnChange()) {
+					if (validationManager.isInvalid(element)) {
+						validationManager.revalidationHelper(element, validate);
+						return;
+					}
+					validate(element);
+					return;
+				}
+				validationManager.revalidationHelper(element, validate);
+			}
+
+			function blurEvent($event) {
+				var element = $event.target;
+				if (!element.value && shed.isMandatory(element)) {
+					validate(element);
 				}
 			}
 
@@ -145,6 +160,13 @@ define(["wc/dom/attribute",
 				if (!$event.defaultPrevented && numberField.isOneOfMe(element) && !attribute.get(element, BOOTSTRAPPED)) {
 					attribute.set(element, BOOTSTRAPPED, true);
 					event.add(element, event.TYPE.change, changeEvent, 1);
+					if (validationManager.isValidateOnBlur()) {
+						if (event.canCapture) {
+							event.add(element, event.TYPE.blur, blurEvent, 1, null, true);
+						} else {
+							event.add(element, event.TYPE.focusout, blurEvent);
+						}
+					}
 				}
 			}
 
@@ -155,7 +177,7 @@ define(["wc/dom/attribute",
 			 */
 			this.initialise = function(element) {
 				if (event.canCapture) {
-					event.add(element, event.TYPE.change, changeEvent, 1, null, true);
+					event.add(element, event.TYPE.focus, focusEvent, 1, null, true);
 				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}

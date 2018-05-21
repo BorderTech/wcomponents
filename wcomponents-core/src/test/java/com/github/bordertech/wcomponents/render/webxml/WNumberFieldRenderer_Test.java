@@ -4,6 +4,8 @@ import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WNumberField;
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.type.Numeric;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.io.IOException;
 import junit.framework.Assert;
@@ -16,6 +18,7 @@ import org.xml.sax.SAXException;
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
@@ -51,6 +54,7 @@ public class WNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//ui:numberfield/@step", numberField);
 		assertXpathNotExists("//ui:numberfield/@decimals", numberField);
 		assertXpathNotExists("//ui:numberfield/@buttonId", numberField);
+		assertXpathNotExists("//ui:numberfield/@autocomplete", numberField);
 
 		numberField.setDisabled(true);
 		assertSchemaMatch(numberField);
@@ -105,6 +109,25 @@ public class WNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		numberField.setReadOnly(true);
 		assertSchemaMatch(numberField);
 		assertXpathEvaluatesTo("true", "//ui:numberfield/@readOnly", numberField);
+	}
+
+	@Test
+	public void testSetAutocomplete() throws IOException, SAXException, XpathException {
+		WNumberField field = new WNumberField();
+
+		for (Numeric number : Numeric.values()) {
+			field.setAutocomplete(number);
+			assertSchemaMatch(field);
+			assertXpathEvaluatesTo(number.getValue(), "//ui:numberfield/@autocomplete", field);
+		}
+	}
+
+	@Test
+	public void testSetAutocompleteOff() throws IOException, SAXException, XpathException {
+		WNumberField field = new WNumberField();
+		field.setAutocompleteOff();
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo(AutocompleteUtil.getOff(), "//ui:numberfield/@autocomplete", field);
 	}
 
 	@Test

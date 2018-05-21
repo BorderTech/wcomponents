@@ -160,6 +160,7 @@ public class WMessageBox_Test extends AbstractWComponentTestCase {
 	public void testDuplicateComponentModels() {
 		WMessageBox messageBox = new WMessageBox(WMessageBox.Type.SUCCESS);
 		assertNoDuplicateComponentModels(messageBox, "type", WMessageBox.Type.INFO);
-//		assertNoDuplicateComponentModels(messageBox, "titleText", "Test"); // No such method exception
+//		No such method, invokeSetMethod doesn't like setting strings
+//		assertNoDuplicateComponentModels(messageBox, "titleText", "Test");
 	}
 }

@@ -12,7 +12,7 @@
 	<property name="script.tmp.src.dir" location="${tmp.dir}/src"/>
 	<property name="script.rootdir" location="${common.src.rootdir}/js"/>
 	<property name="impl.script.rootdir" location="${impl.src.main.dir}/js"/>
-	<property name="script.build.target.dir" location="${target.rootdir}/${script.target.dir.name}"/>
+	<property name="script.build.target.dir" location="${target.rootdir}/scripts"/>
 
 	<target name="build"
 		depends="init, copySrc, optimizeJS, copyLibs"
@@ -20,14 +20,14 @@
 	</target>
 
 	<target name="clean" description="Cleans up all artifacts produced by this build">
-		<delete dir="${script.debug.build.target.dir}"/>
+		<delete dir="${target.rootdir}/scripts_debug"/>
 		<delete dir="${script.build.target.dir}"/>
 		<delete dir="${script.tmp.src.dir}"/>
 		<echo level="verbose" message="Clean from ${ant.file}"/>
 	</target>
 
 	<target name="init" depends="clean">
-		<mkdir dir="${script.debug.build.target.dir}"/>
+		<mkdir dir="${target.rootdir}/scripts_debug"/>
 		<mkdir dir="${script.build.target.dir}"/>
 		<mkdir dir="${script.tmp.src.dir}"/>
 	</target>
@@ -70,7 +70,7 @@
 		<copy todir="${lib.tmp.src.dir}/handlebars" overwrite="true">
 			<fileset dir="${basedir}/node_modules/handlebars/dist/amd"/>
 		</copy>
-		<!-- main js -->
+		<!-- core js -->
 		<copy todir="${script.tmp.src.dir}" overwrite="true">
 			<fileset dir="${script.rootdir}" includes="**/*.js"/>
 			<filterchain>
@@ -94,7 +94,7 @@
 			Syncs directories from "scripts" to "scripts_debug".
 		-->
 		<property name="lib.build.target.dir" location="${script.build.target.dir}/lib"/>
-		<property name="lib.debug.build.target.dir" location="${script.debug.build.target.dir}/lib"/>
+		<property name="lib.debug.build.target.dir" location="${target.rootdir}/scripts_debug/lib"/>
 		<copy todir="${lib.build.target.dir}/tinymce" >
 			<fileset dir="${basedir}/node_modules/tinymce" includes="**">
 				<exclude name="*jquery*"/>
@@ -174,7 +174,7 @@
 				<arg value="${tmp.dir}${file.separator}build-js.js"/>
 			</arguments>
 		</nodejs.exec>
-		<copy todir="${script.debug.build.target.dir}">
+		<copy todir="${target.rootdir}/scripts_debug">
 			<fileset dir="${script.tmp.src.dir}" includes="**/*"/>
 		</copy>
 		<copy todir="${script.build.target.dir}">

@@ -1,6 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.attributes.xsl"/>
 	<!--
 		WStyledText
 	
@@ -12,11 +11,18 @@
 		overflows.
 	-->
 	<xsl:template match="ui:text">
-		<xsl:variable name="type" select="@type"/>
+		<xsl:variable name="class">
+			<xsl:text>wc-text</xsl:text>
+			<xsl:if test="@type">
+				<xsl:value-of select="concat(' wc-text-type-', @type)"/>
+			</xsl:if>
+			<xsl:if test="@class">
+				<xsl:value-of select="concat(' ', @class)"/>
+			</xsl:if>
+		</xsl:variable>
 		<xsl:choose>
 			<xsl:when test="@space eq 'paragraphs'">
-				<div>
-					<xsl:call-template name="makeCommonClass"/>
+				<div class="{$class}">
 					<xsl:apply-templates mode="para">
 						<xsl:with-param name="type" select="@type"/>
 					</xsl:apply-templates>
@@ -24,8 +30,7 @@
 				</div>
 			</xsl:when>
 			<xsl:when test="@space">
-				<pre>
-					<xsl:call-template name="makeCommonClass"/>
+				<pre class="{$class}">
 					<xsl:apply-templates mode="pre">
 						<xsl:with-param name="type" select="@type"/>
 					</xsl:apply-templates>
@@ -38,7 +43,9 @@
 					</xsl:call-template>
 				</xsl:variable>
 				<xsl:element name="{$elementType}">
-					<xsl:call-template name="makeCommonClass"/>
+					<xsl:attribute name="class">
+						<xsl:value-of select="$class"/>
+					</xsl:attribute>
 					<xsl:apply-templates />
 				</xsl:element>
 			</xsl:otherwise>

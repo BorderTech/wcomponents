@@ -153,7 +153,11 @@ public abstract class AbstractWFieldIndicator extends AbstractWComponent {
 		/**
 		 * Error Type.
 		 */
-		ERROR
+		ERROR,
+		/**
+		 * Success Type.
+		 */
+		SUCCESS
 	};
 
 	/**

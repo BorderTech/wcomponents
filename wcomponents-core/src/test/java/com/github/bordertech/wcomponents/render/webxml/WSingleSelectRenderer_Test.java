@@ -4,6 +4,8 @@ import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.OptionGroup;
 import com.github.bordertech.wcomponents.TestLookupTable;
 import com.github.bordertech.wcomponents.WSingleSelect;
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.segment.Person;
 import java.io.IOException;
 import java.util.Arrays;
 import junit.framework.Assert;
@@ -34,6 +36,7 @@ public class WSingleSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("3", "count(//ui:listbox/ui:option)", single);
 		assertXpathNotExists("//ui:listbox/@rows", single);
 		assertXpathEvaluatesTo("true", "//ui:listbox/@single", single);
+		assertXpathNotExists("//ui:listbox/@autocomplete", single);
 
 		// Check selected
 		assertXpathNotExists("//ui:listbox/ui:option[@selected='true']", single);
@@ -73,6 +76,7 @@ public class WSingleSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 		single.setToolTip(tooltip);
 		single.setAccessibleText(accessible);
 		single.setRows(rows);
+		single.setAutocomplete(Person.NICKNAME);
 		assertSchemaMatch(single);
 		assertXpathEvaluatesTo("true", "//ui:listbox/@disabled", single);
 		assertXpathEvaluatesTo("true", "//ui:listbox/@hidden", single);
@@ -82,6 +86,13 @@ public class WSingleSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo(accessible, "//ui:listbox/@accessibleText", single);
 		assertXpathEvaluatesTo(Integer.toString(rows), "//ui:listbox/@rows", single);
 		assertXpathEvaluatesTo("true", "//ui:listbox/@single", single);
+		assertXpathEvaluatesTo(Person.NICKNAME.getValue(), "//ui:listbox/@autocomplete", single);
+
+		single.setAutocompleteOff();
+		assertXpathEvaluatesTo(AutocompleteUtil.getOff(), "//ui:listbox/@autocomplete", single);
+
+		single.clearAutocomplete();
+		assertXpathNotExists("//ui:listbox/@autocomplete", single);
 	}
 
 	@Test

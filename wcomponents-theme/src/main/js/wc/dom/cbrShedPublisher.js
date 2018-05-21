@@ -1,20 +1,5 @@
-/**
- * Provides a mechanism to publish {@link module"wc/dom/shed"} events on native selectable controls (radio buttons and
- * check boxes) which are not instrinsically 'sheddy'. This allows us to use shed subscribers to do stuff on select/
- * deselect of these native controls as if they were ARIA widgets.
- *
- * @module
- * @requires module:wc/dom/event
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/Widget
- * @requires module:wc/dom/shed
- * @requires module:wc/has
- *
- * @todo re-order code, document private members.
- */
-define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/shed", "wc/has"],
-	/** @param event wc/dom/event @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param shed wc/dom/shed @param has wc/has @ignore */
-	function(event, initialise, Widget, shed, has) {
+define(["wc/dom/attribute", "wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/shed"],
+	function(attribute, event, initialise, Widget, shed) {
 		"use strict";
 
 		/**
@@ -24,14 +9,28 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/shed", "wc
 		 */
 		function CheckboxRadioPublisher() {
 			var RADIO = new Widget("input", "", {type: "radio"}),
-				LABEL,
-				WIDGETS = [new Widget("input", "", {"type": "checkbox"}), RADIO],
-				registry = {};
+				CHECKBOX = new Widget("input", "", {type: "checkbox"}),
+				WIDGETS = [CHECKBOX, RADIO],
+				BS = "wc/dom/cbrShedPubliser-bootstrapped";
 
 			/**
-			 * Focus listener to store the state of a radio button on focus.
-			 *
-			 * A MutationObserver may be more effective for this ... if only they worked reliably :(
+			 * NOTE: this may not work in IE < 11 but has been tested in IE 11 and it is fine there:
+			 * changeEvents on checkboxes and radios fire reliably when the state changes, not when focus is lost.
+			 * @function
+			 * @private
+			 * @param {Event} $event a wrapped change event
+			 */
+			function changeEvent($event) {
+				var element = $event.target,
+					action;
+				if (element && Widget.isOneOfMe(element, WIDGETS)) {
+					action = shed.isSelected(element) ? shed.actions.SELECT : shed.actions.DESELECT;
+					shed.publish(element, action);
+				}
+			}
+
+			/**
+			 * Focus listener to bootstrap inputs on first focus.
 			 *
 			 * @function
 			 * @private
@@ -39,67 +38,9 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/shed", "wc
 			 */
 			function focusEvent($event) {
 				var element = $event.target;
-				if (element.id && RADIO.isOneOfMe(element)) {
-					registry[(element.id)] = element.checked;
-				}
-			}
-
-			/**
-			 * A helper for the click event listener which does the publishing.
-			 *
-			 * @function
-			 * @private
-			 * @param {Element} element The element which has been clicked.
-			 */
-			function callback(element) {
-				var action,
-					doIt = true,
-					chkd;
-				if (!shed.isDisabled(element)) {
-					action = shed.isSelected(element) ? shed.actions.SELECT : shed.actions.DESELECT;
-
-					if (element.id) {
-						if ((chkd = registry[(element.id)]) !== undefined) {
-							doIt = shed.isSelected(element) !== chkd;
-						}
-					}
-					if (doIt) {
-						shed.publish(element, action);
-						if (chkd !== undefined) {
-							registry[(element.id)] = !chkd;
-						}
-					}
-				}
-			}
-
-			/**
-			 * A click event listener publishes shed.SELECT & shed.DESELECT.
-			 *
-			 * @function
-			 * @private
-			 * @param {Event} $event Wrapped click event.
-			 */
-			function clickEvent($event) {
-				var target = $event.target, label, labelFor, radio;
-				if (!$event.defaultPrevented) {
-					if (has("trident") && $event.button === -1 && RADIO.isOneOfMe(target)) {
-						/* WHAT?
-						 * Well it seems that when one uses the arrow keys to move between radio buttons in IE (11 at least)
-						 * then the click event is fired on the target radio before the focus event. At the time the
-						 * click event is fired the target radio is already returning true to checked.
-						 * We know, being a radio, that this is a state change so we can fool callback by setting the
-						 * registry entry to !checked which is what it would be if the focus event fired first.
-						 */
-						registry[(target.id)] = !target.checked;
-						callback(target);
-					} else if (Widget.isOneOfMe(target, WIDGETS)) {
-						callback(target);
-					} else {
-						LABEL = LABEL || new Widget("label");
-						if ((label = LABEL.findAncestor(target)) && (labelFor = label.getAttribute("for")) && (radio = document.getElementById(labelFor)) && RADIO.isOneOfMe(radio) && radio.id) {
-							registry[(radio.id)] = radio.checked;
-						}
-					}
+				if (element && Widget.isOneOfMe(element, WIDGETS) && !attribute.get(element, BS)) {
+					attribute.set(element, BS, true);
+					event.add(element, event.TYPE.change, changeEvent);
 				}
 			}
 
@@ -112,15 +53,46 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/shed", "wc
 			 */
 			this.initialise = function(element) {
 				if (event.canCapture) {
-					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
+					event.add(element, event.TYPE.change, changeEvent);
 				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
-				event.add(element, event.TYPE.click, clickEvent);
+			};
+
+			/**
+			 * Get the Widget(s) to describe a checkbox, radio button or both.
+			 * @param {String} [whichOne] which widget to get:
+			 *    "cb" will fetch the CHECKBOX widget;
+			 *    "r" will fetch the RADIO widget;
+			 *    anything else will fetch an array containing both.
+			 * @returns {Widget|Widget[]}
+			 */
+			this.getWidget = function(whichOne) {
+				if (whichOne === "cb") {
+					return CHECKBOX;
+				}
+				if (whichOne === "r") {
+					return RADIO;
+				}
+				return WIDGETS;
 			};
 		}
 
-		var /** @alias module:wc/dom/cbrShedPublisher */instance = new CheckboxRadioPublisher();
+		/**
+		 * Provides a mechanism to publish {@link module"wc/dom/shed"} events on native selectable controls (radio buttons and
+		 * check boxes) which are not instrinsically 'sheddy'. This allows us to use shed subscribers to do stuff on select/
+		 * deselect of these native controls as if they were ARIA widgets.
+		 *
+		 * @module
+		 * @requires module:wc/dom/event
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/has
+		 *
+		 * @todo re-order code, document private members.
+		 */
+		var instance = new CheckboxRadioPublisher();
 		initialise.register(instance);
 		return instance;
 	});

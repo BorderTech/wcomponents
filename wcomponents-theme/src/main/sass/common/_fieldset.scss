@@ -9,7 +9,7 @@ fieldset {
   @if $wc-border-color != -1 {
     border-color: $wc-border-color;
   }
-  @if $wc-border-style != solid and $wc-border-style != -1 {
+  @if $wc-border-style != -1 {
     border-style: $wc-border-style;
   }
   @if $wc-border-width != -1 {

@@ -1,6 +1,7 @@
 define(["wc/dom/attribute",
 	"wc/dom/event",
 	"wc/dom/initialise",
+	"wc/dom/shed",
 	"wc/i18n/i18n",
 	"wc/ui/getFirstLabelForElement",
 	"wc/dom/Widget",
@@ -8,7 +9,7 @@ define(["wc/dom/attribute",
 	"wc/ui/validation/validationManager",
 	"wc/ui/validation/required",
 	"wc/ui/multiFileUploader"],
-	function(attribute, event, initialise, i18n, getFirstLabelForElement, Widget, isComplete, validationManager, required, multiFileUploader) {
+	function(attribute, event, initialise, shed, i18n, getFirstLabelForElement, Widget, isComplete, validationManager, required, multiFileUploader) {
 		"use strict";
 		/**
 		 * @constructor
@@ -83,11 +84,23 @@ define(["wc/dom/attribute",
 			 */
 			function changeEvent($event) {
 				var element = $event.target;
-				if (INPUT_ELEMENT.isOneOfMe(element)) {
-					validationManager.revalidationHelper(element, validate);
+				if (validationManager.isValidateOnChange()) {
+					if (validationManager.isInvalid(element)) {
+						validationManager.revalidationHelper(element, validate);
+						return;
+					}
+					validate(element);
+					return;
 				}
+				validationManager.revalidationHelper(element, validate);
 			}
 
+			function blurEvent($event) {
+				var element = $event.target;
+				if (!element.value && shed.isMandatory(element)) {
+					validate(element);
+				}
+			}
 
 			/**
 			 * Focus handler for browsers which do not capture.
@@ -101,6 +114,13 @@ define(["wc/dom/attribute",
 				if (INPUT_ELEMENT.isOneOfMe(element) && !attribute.get(element, INITED_KEY)) {
 					attribute.set(element, INITED_KEY, true);
 					event.add(element, event.TYPE.change, changeEvent);
+					if (validationManager.isValidateOnBlur()) {
+						if (event.canCapture) {
+							event.add(element, event.TYPE.blur, blurEvent, 1, null, true);
+						} else {
+							event.add(element, event.TYPE.focusout, blurEvent);
+						}
+					}
 				}
 			}
 
@@ -111,7 +131,7 @@ define(["wc/dom/attribute",
 			 */
 			this.initialise = function(element) {
 				if (event.canCapture) {
-					event.add(element, event.TYPE.change, changeEvent, null, null, true);
+					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
 				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}

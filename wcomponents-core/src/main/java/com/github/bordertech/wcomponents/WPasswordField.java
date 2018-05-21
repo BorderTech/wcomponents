@@ -1,5 +1,8 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteablePassword;
+import com.github.bordertech.wcomponents.autocomplete.type.Password;
 import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
@@ -18,10 +21,11 @@ import java.util.List;
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WPasswordField extends AbstractInput implements AjaxTrigger, AjaxTarget,
-		SubordinateTrigger, SubordinateTarget, Placeholderable {
+		SubordinateTrigger, SubordinateTarget, Placeholderable, AutocompleteablePassword {
 
 	/**
 	 * {@inheritDoc}
@@ -218,10 +222,47 @@ public class WPasswordField extends AbstractInput implements AjaxTrigger, AjaxTa
 		return (PasswordFieldModel) super.getOrCreateComponentModel();
 	}
 
+	@Override
+	public void setAutocomplete(final Password value) {
+		String newValue = value == null ? null : value.getValue();
+
+		if (!Util.equals(getAutocomplete(), newValue)) {
+			getOrCreateComponentModel().autocomplete = newValue;
+		}
+	}
+
+	@Override
+	public String getAutocomplete() {
+		return getComponentModel().autocomplete;
+	}
+
+	@Override
+	public void setAutocompleteOff() {
+		if (!isAutocompleteOff()) {
+			getOrCreateComponentModel().autocomplete = AutocompleteUtil.getOff();
+		}
+	}
+
+	@Override
+	public void addAutocompleteSection(final String sectionName) {
+		String newValue = AutocompleteUtil.getCombinedForAddSection(sectionName, this);
+		if (!Util.equals(getAutocomplete(), newValue)) {
+			getOrCreateComponentModel().autocomplete = newValue;
+		}
+	}
+
+	@Override
+	public void clearAutocomplete() {
+		if (getAutocomplete() != null) {
+			getOrCreateComponentModel().autocomplete = null;
+		}
+	}
+
 	/**
 	 * PasswordFieldModel holds Extrinsic state management of the field.
 	 *
 	 * @author Yiannis Paschalidis
+	 * @author Mark Reeves
 	 */
 	public static class PasswordFieldModel extends InputModel {
 
@@ -244,5 +285,10 @@ public class WPasswordField extends AbstractInput implements AjaxTrigger, AjaxTa
 		 * The placeholder content which appears (in plain text) when the field has no content.
 		 */
 		private String placeholder;
+
+		/**
+		 * The auto-fill hint for the field.
+		 */
+		private String autocomplete;
 	}
 }

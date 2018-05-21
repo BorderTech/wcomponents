@@ -3,13 +3,14 @@ define(["wc/dom/initialise",
 	"wc/i18n/i18n",
 	"wc/dom/attribute",
 	"wc/dom/event",
+	"wc/dom/shed",
 	"lib/sprintf",
 	"wc/ui/dateField",
 	"wc/ui/validation/required",
 	"wc/ui/validation/validationManager",
 	"wc/ui/feedback",
 	"wc/config"],
-	function(initialise, Widget, i18n, attribute, event, sprintf, dateField, required, validationManager, feedback, wcconfig) {
+	function(initialise, Widget, i18n, attribute, event, shed, sprintf, dateField, required, validationManager, feedback, wcconfig) {
 		"use strict";
 		/**
 		 * @constructor
@@ -139,7 +140,7 @@ define(["wc/dom/initialise",
 					helperObj = {container: container,
 						widget: INPUT_WIDGETS.concat(TEXT),
 						filter: function(next) {
-							return !(dateField.isOneOfMe(next) || next.value);
+							return !(next.value || dateField.isOneOfMe(next));
 						}
 					};
 
@@ -166,13 +167,26 @@ define(["wc/dom/initialise",
 			 */
 			function changeEvent($event) {
 				var element = $event.target;
-				if (isValidatingInput(element)) {
-					validationManager.revalidationHelper(element, validate);
+				if (validationManager.isValidateOnChange()) {
+					if (validationManager.isInvalid(element)) {
+						validationManager.revalidationHelper(element, validate);
+						return;
+					}
+					validate(element);
+					return;
+				}
+				validationManager.revalidationHelper(element, validate);
+			}
+
+			function blurEvent($event) {
+				var element = $event.target;
+				if (!element.value && shed.isMandatory(element)) {
+					validate(element);
 				}
 			}
 
 			/**
-			 * Focus event listener to attach change events on first focus in browsers which do not capture.
+			 * Focus event listener to attach change events on first focus.
 			 * @function
 			 * @private
 			 * @param {wc/dom/event} $event A wrapped focus[in] event.
@@ -182,6 +196,13 @@ define(["wc/dom/initialise",
 				if (!$event.defaultPrevented && !attribute.get(element, BOOTSTRAPPED) && isValidatingInput(element)) {
 					attribute.set(element, BOOTSTRAPPED, true);
 					event.add(element, event.TYPE.change, changeEvent, 1);
+					if (validationManager.isValidateOnBlur()) {
+						if (event.canCapture) {
+							event.add(element, event.TYPE.blur, blurEvent, 1, null, true);
+						} else {
+							event.add(element, event.TYPE.focusout, blurEvent);
+						}
+					}
 				}
 			}
 
@@ -192,7 +213,7 @@ define(["wc/dom/initialise",
 			 */
 			this.initialise = function(element) {
 				if (event.canCapture) {
-					event.add(element, event.TYPE.change, changeEvent, 1, null, true);
+					event.add(element, event.TYPE.focus, focusEvent, 1, null, true);
 				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
@@ -221,6 +242,7 @@ define(["wc/dom/initialise",
 		 * @requires wc/i18n/i18n
 		 * @requires wc/dom/attribute
 		 * @requires wc/dom/event
+		 * @requires wc/dom/shed
 		 * @requires external:lib/sprintf
 		 * @requires wc/ui/dateField
 		 * @requires wc/ui/validation/required

@@ -23,7 +23,6 @@
 		<mkdir dir="${impl.src.rootdir}/${new.impl.name}/src/main/resource"/>
 		<mkdir dir="${impl.src.rootdir}/${new.impl.name}/src/main/sass/theme/respond/phone"/>
 		<mkdir dir="${impl.src.rootdir}/${new.impl.name}/src/test/intern/resources"/>
-		<echo file="${impl.src.rootdir}/${new.impl.name}/excludes.txt"> </echo>
 		<echo file="${impl.src.rootdir}/${new.impl.name}/src/main/sass/_theme.scss">// Theme ${new.impl.name}: import partials from the theme directory
 
 </echo>

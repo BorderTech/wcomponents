@@ -28,4 +28,25 @@
       margin-top: $wc-gap-small;
     }
   }
+
+  @each $i in success, info, warn, error {
+    $wc-clr-to-use: -1;
+    @if $i == success {
+      $wc-clr-to-use: $wc-clr-message-icon-success;
+    } @else if $i == info {
+      $wc-clr-to-use: $wc-clr-message-icon-info;
+    } @else if $i == warn {
+      $wc-clr-to-use: $wc-clr-message-icon-warn;
+    } @else if $i == error {
+      $wc-clr-to-use: $wc-clr-message-icon-error;
+    }
+
+    @if $wc-clr-to-use != -1 {
+      &.wc-fieldindicator-type-#{$i} {
+        .fa {
+          color: $wc-clr-to-use;
+        }
+      }
+    }
+  }
 }

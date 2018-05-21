@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-08 10:21+1100\n"
+"POT-Creation-Date: 2018-05-21 10:48+1000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -201,6 +201,20 @@ msgctxt "bordertech.wcomponents.message.fieldInvalidPattern"
 msgid "{0} is not in the required format."
 msgstr ""
 
+#: bordertech.wcomponents.message.fileWrongType
+#, java-format
+msgctxt "bordertech.wcomponents.message.fileWrongType"
+msgid ""
+"The file you have selected is not of an accepted type. Only the following "
+"type/s are accepted: %s."
+msgstr ""
+
+#: bordertech.wcomponents.message.fileWrongSize
+#, java-format
+msgctxt "bordertech.wcomponents.message.fileWrongSize"
+msgid "The file you have selected is too large. Maximum file size is %s."
+msgstr ""
+
 #. 
 #. Other messages
 #: bordertech.wcomponents.message.confirmationPrompt
@@ -239,14 +253,14 @@ msgctxt "bordertech.wcomponents.message.multiSelectPair.selections"
 msgid "Selected"
 msgstr ""
 
-#: bordertech.wcomponents.message.fieldRequired
+#: bordertech.wcomponents.message.multiDropdown.tip
 #, java-format
-msgctxt "bordertech.wcomponents.message.fieldRequired"
-msgid "Required"
+msgctxt "bordertech.wcomponents.message.multiDropdown.tip"
+msgid "Select an option"
 msgstr ""
 
-#: bordertech.wcomponents.message.multiFormComponent.tip
+#: bordertech.wcomponents.message.multiTextField.tip
 #, java-format
-msgctxt "bordertech.wcomponents.message.multiFormComponent.tip"
-msgid "Select an option"
+msgctxt "bordertech.wcomponents.message.multiTextField.tip"
+msgid "Enter a value"
 msgstr ""

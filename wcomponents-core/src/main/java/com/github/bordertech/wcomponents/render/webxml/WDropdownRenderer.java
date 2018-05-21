@@ -47,6 +47,8 @@ final class WDropdownRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("accessibleText", dropdown.getAccessibleText());
 			int optionWidth = dropdown.getOptionWidth();
 			xml.appendOptionalAttribute("optionWidth", optionWidth > 0, optionWidth);
+			String autocomplete = dropdown.getAutocomplete();
+			xml.appendOptionalAttribute("autocomplete", !Util.empty(autocomplete), autocomplete);
 			xml.appendOptionalAttribute("type", getTypeAsString(dropdown.getType()));
 		}
 		xml.appendClose();
