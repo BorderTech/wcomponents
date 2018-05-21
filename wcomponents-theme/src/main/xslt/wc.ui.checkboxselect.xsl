@@ -105,6 +105,9 @@
 						<xsl:attribute name="name">
 							<xsl:value-of select="../@id"/>
 						</xsl:attribute>
+						<xsl:attribute name="id">
+							<xsl:value-of select="generate-id()"/>
+						</xsl:attribute>
 						<xsl:attribute name="value">
 							<xsl:value-of select="@value"/>
 						</xsl:attribute>
