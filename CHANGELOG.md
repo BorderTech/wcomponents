@@ -9,7 +9,7 @@
 ### Bug Fixes
 
 * Removed superfluous layout CSS from WFigure which could result in unexpected display in IE 11.
-* Fixed a flaw which could result in visible suggestions for a combo if it was in read-only mode #1527.
+* Partial (cosmetic) fix of a flaw which could result in visible suggestions for a combo if it was in read-only mode #1527.
 
 ## Release 1.5.4
 
