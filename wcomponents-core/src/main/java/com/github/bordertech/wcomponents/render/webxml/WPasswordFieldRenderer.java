@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WPasswordField;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-import com.github.bordertech.wcomponents.util.HtmlRenderUtil;
+import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.List;
 
@@ -59,7 +59,10 @@ class WPasswordFieldRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("accessibleText", field.getAccessibleText());
 		xml.appendOptionalAttribute("size", cols > 0, cols);
 		xml.appendOptionalAttribute("buttonId", submitControlId);
-		xml.appendOptionalAttribute("placeholder", HtmlRenderUtil.getEffectivePlaceholder(field));
+		String placeholder = field.getPlaceholder();
+		xml.appendOptionalAttribute("placeholder", !Util.empty(placeholder), placeholder);
+		String autocomplete = field.getAutocomplete();
+		xml.appendOptionalAttribute("autocomplete", !Util.empty(autocomplete), autocomplete);
 
 		List<Diagnostic> diags = field.getDiagnostics(Diagnostic.ERROR);
 		if (diags == null || diags.isEmpty()) {

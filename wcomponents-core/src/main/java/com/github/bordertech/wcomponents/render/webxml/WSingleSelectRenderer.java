@@ -45,6 +45,8 @@ final class WSingleSelectRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("toolTip", component.getToolTip());
 			xml.appendOptionalAttribute("accessibleText", component.getAccessibleText());
 			xml.appendOptionalAttribute("rows", rows >= 2, rows);
+			String autocomplete = listBox.getAutocomplete();
+			xml.appendOptionalAttribute("autocomplete", !Util.empty(autocomplete), autocomplete);
 		}
 		xml.appendAttribute("single", "true");
 

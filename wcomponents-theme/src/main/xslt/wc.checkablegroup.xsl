@@ -4,7 +4,7 @@
 	<xsl:template match="ui:checkboxselect[@readOnly]">
 		<xsl:variable name="layoutClass">
 			<xsl:if test="@layout">
-				<xsl:value-of select="concat(' wc-checkboxselect-layout-', @layout)"/>
+				<xsl:value-of select="concat(' wc-layout-', @layout)"/>
 			</xsl:if>
 		</xsl:variable>
 		<span id="{@id}" data-wc-component="checkboxselect" class="{normalize-space(concat('wc-checkboxselect wc-checkableselect ', @class, $layoutClass))}">
@@ -29,7 +29,7 @@
 	<xsl:template match="ui:radiobuttonselect[@readOnly]">
 		<xsl:variable name="layoutClass">
 			<xsl:if test="@layout">
-				<xsl:value-of select="concat(' wc-radiobuttonselect-layout-', @layout)"/>
+				<xsl:value-of select="concat(' wc-layout-', @layout)"/>
 			</xsl:if>
 		</xsl:variable>
 		<span id="{@id}" data-wc-component="radiobuttonselect" class="{normalize-space(concat('wc-radiobuttonselect wc-checkableselect ', @class, $layoutClass))}">
@@ -74,10 +74,10 @@
 				<xsl:text> wc_req</xsl:text>
 			</xsl:if>
 			<xsl:if test="@layout">
-				<xsl:value-of select="concat(' wc-checkboxselect-layout-', @layout)"/>
+				<xsl:value-of select="concat(' wc-layout-', @layout)"/>
 			</xsl:if>
 		</xsl:variable>
-		<fieldset id="{@id}" class="{normalize-space(concat('wc-checkboxselect wc-checkableselect ', @class, ' ', $additional))}">
+		<fieldset id="{@id}" class="{normalize-space(concat('wc-checkboxselect wc-checkableselect ', $additional))}">
 			<xsl:if test="@hidden">
 				<xsl:attribute name="hidden">
 					<xsl:text>hidden</xsl:text>
@@ -149,17 +149,18 @@
 
 	<xsl:template match="ui:radiobuttonselect">
 		<xsl:variable name="additional">
+			<xsl:value-of select="@class"/>
 			<xsl:if test="@frameless">
-				<xsl:text>wc_noborder</xsl:text>
+				<xsl:text> wc_noborder</xsl:text>
 			</xsl:if>
 			<xsl:if test="@required">
 				<xsl:text> wc_req</xsl:text>
 			</xsl:if>
 			<xsl:if test="@layout">
-				<xsl:value-of select="concat(' wc-radiobuttonselect-layout-', @layout)"/>
+				<xsl:value-of select="concat(' wc-layout-', @layout)"/>
 			</xsl:if>
 		</xsl:variable>
-		<fieldset id="{@id}" class="{normalize-space(concat('wc-radiobuttonselect wc-checkableselect ', @class, ' ', $additional))}">
+		<fieldset id="{@id}" class="{normalize-space(concat('wc-radiobuttonselect wc-checkableselect ', $additional))}">
 			<xsl:if test="@hidden">
 				<xsl:attribute name="hidden">
 					<xsl:text>hidden</xsl:text>

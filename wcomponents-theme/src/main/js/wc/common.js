@@ -23,7 +23,6 @@ require(["wc/fixes", // you REALLY need this ...
 	"wc/ui/backToTop",
 	"wc/ui/field",
 	"wc/ui/label",
-	"wc/ui/wrappedInput",
 	"wc/ui/tabset",
 	"wc/ui/menu",
 	"wc/ui/validation/all"], function (f) { // to apply the fixes

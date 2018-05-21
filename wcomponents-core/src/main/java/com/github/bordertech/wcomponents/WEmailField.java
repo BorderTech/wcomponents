@@ -1,5 +1,8 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteableEmail;
+import com.github.bordertech.wcomponents.autocomplete.type.Email;
 import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
@@ -19,10 +22,11 @@ import java.util.regex.Pattern;
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarget,
-		SubordinateTrigger, SubordinateTarget, Placeholderable {
+		SubordinateTrigger, SubordinateTarget, Placeholderable, AutocompleteableEmail {
 	// ================================
 	// Action/Event handling
 
@@ -236,6 +240,41 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 		return (EmailFieldModel) super.getOrCreateComponentModel();
 	}
 
+	@Override
+	public void setAutocomplete(final Email value) {
+		String newValue = value == null ? null : value.getValue();
+		if (!Util.equals(getAutocomplete(), newValue)) {
+			getOrCreateComponentModel().autocomplete = newValue;
+		}
+	}
+
+	@Override
+	public String getAutocomplete() {
+		return getComponentModel().autocomplete;
+	}
+
+	@Override
+	public void setAutocompleteOff() {
+		if (!isAutocompleteOff()) {
+			getOrCreateComponentModel().autocomplete = AutocompleteUtil.getOff();
+		}
+	}
+
+	@Override
+	public void addAutocompleteSection(final String sectionName) {
+		String newValue = AutocompleteUtil.getCombinedForAddSection(sectionName, this);
+		if (!Util.equals(getAutocomplete(), newValue)) {
+			getOrCreateComponentModel().autocomplete = newValue;
+		}
+	}
+
+	@Override
+	public void clearAutocomplete() {
+		if (getAutocomplete() != null) {
+			getOrCreateComponentModel().autocomplete = null;
+		}
+	}
+
 	/**
 	 * EmailFieldModel holds Extrinsic state management of the field.
 	 *
@@ -267,5 +306,10 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 		 * Placeholder text which will appear if the field is editable and has no content.
 		 */
 		private String placeholder;
+
+		/**
+		 * The auto-fill hint for the field.
+		 */
+		private String autocomplete;
 	}
 }

@@ -6,7 +6,44 @@
 
 ### Enhancements
 
+### Bug Fixes
+
+* Partial (cosmetic) fix for floating WSuggestions #1526.
+
+## Release 1.5.4
+
+### API Changes
+
+* Added support for autocomplete to WDropdown, WEmailField, WNumberField, WPasswordField, WPhoneNumberField, WTextArea
+  and WTextField #1007.
+* Changed message property name
+  `public static final String DEFAULT_MULTI_FORM_COMPONENT_TIP = "bordertech.wcomponents.message.multiFormComponent.tip";`
+  to `public static final String DEFAULT_MULTIDROPDOWN_TIP = "bordertech.wcomponents.message.multiDropdown.tip";`
+  as the tip is not suitable for use with WMultiTextField #1508.
+* Added message property
+  `public static final String DEFAULT_MULTITEXTFIELD_TIP = "bordertech.wcomponents.message.multiTextField.tip";` with
+  default (en) value of "Enter a value" #1508.
+
+### Enhancements
+
+* Removed some style (rather than structure) CSS for mandatory indicators. Style should be the remit of themes.
 * Added JavaScript unit tests for missing modules.
+
+### Bug Fixes
+
+* Fixed XSLT error which resulted in WToggleButton not reporting its state #1525.
+* Fixed missing custom class on WDefinitionList #1519.
+* Fixed XSLT error causing WHeading content to include text equating to the value of its margin classes #1514.
+* Fixed potential flaw caused by application-level custom CSS source order #1516.
+* Fixed a flaw which caused selenium tests to fail if no class was defined in the URL #1510.
+* Fixed missing inner labels on WMultiDropdown and WMultiTextField #1508.
+* Fixed issue causing 'required' placeholders to be left when making a field optional #1506.
+* Fixed missing name attribute on WDateField #1507
+
+## Release 1.5.3
+
+### Enhancements
+
 * Improved handling of the publication of selected state changes of native radio buttons and check boxes.
 * Update package.json to latest working node module versions and removed tildes to prevent unwanted updates.
 * Added support for success and info level diagnostics/field indicators as part of #1496.

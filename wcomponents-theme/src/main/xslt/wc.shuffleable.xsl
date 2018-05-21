@@ -152,12 +152,13 @@
 		</xsl:variable>
 		<fieldset id="{@id}">
 			<xsl:variable name="additional">
+				<xsl:value-of select="@class"/>
 				<xsl:if test="@required">
-					<xsl:text>wc_req</xsl:text>
+					<xsl:text> wc_req</xsl:text>
 				</xsl:if>
 			</xsl:variable>
 			<xsl:attribute name="class">
-				<xsl:value-of select="normalize-space(concat('wc-multiselectpair wc_noborder ', @class, ' ', $additional))"/>
+				<xsl:value-of select="normalize-space(concat('wc-multiselectpair wc_noborder ', $additional))"/>
 			</xsl:attribute>
 			<xsl:if test="@hidden">
 				<xsl:attribute name="hidden">

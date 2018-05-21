@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WEmailField;
@@ -25,6 +26,8 @@ public class WSuggestionsExample extends WContainer {
 	 * Ajax target.
 	 */
 	private final WTextField resultField = new WTextField();
+
+	private final WTextField textRO;
 
 	/**
 	 * Construct example.
@@ -110,10 +113,39 @@ public class WSuggestionsExample extends WContainer {
 //			}
 //		});
 //		add(new WAjaxControl(text5, resultField));
-
-
 		layout.addField("Output", resultField);
+
+		suggestions = new WSuggestions("icao");
+		add(suggestions);
+		textRO = new WTextField();
+		textRO.setSuggestions(suggestions);
+		textRO.setReadOnly(true);
+		layout.addField("Read only", textRO);
+
+		suggestions = new WSuggestions(Arrays.asList("foo1", "foo2", "foo3", "ofoo"));
+		add(suggestions);
+		final WTextField textRO2 = new WTextField();
+		textRO2.setSuggestions(suggestions);
+		textRO2.setReadOnly(true);
+		layout.addField("Static list read-only", textRO2);
 	}
+
+	@Override
+	protected void preparePaintComponent(final Request request) {
+		super.preparePaintComponent(request); //To change body of generated methods, choose Tools | Templates.
+		if (!isInitialised()) {
+			setInitialised(true);
+			WSuggestions suggestions = textRO.getSuggestions();
+			if (suggestions != null) {
+				List<String> suggestionList = suggestions.getSuggestions();
+				if (suggestionList != null && suggestionList.size() > 0) {
+					textRO.setText(suggestionList.get((int) Math.floor(suggestionList.size() / 2)));
+				}
+			}
+		}
+	}
+
+
 
 	/**
 	 * Ajax action to refresh suggestion list. Create dummy values.

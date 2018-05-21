@@ -36,12 +36,10 @@
 		</xsl:variable>
 		<!-- the table wrapper starts here -->
 		<xsl:variable name="additionalTableClass">
-			<xsl:apply-templates select="ui:margin"/>
+			<xsl:value-of select="@class"/>
+			<xsl:apply-templates select="ui:margin" mode="asclass"/>
 			<xsl:if test="@type">
 				<xsl:value-of select="concat(' wc-table-', @type)"/>
-			</xsl:if>
-			<xsl:if test="@class">
-				<xsl:value-of select="concat(' ', @class)"/>
 			</xsl:if>
 		</xsl:variable>
 		<div id="{@id}" class="{normalize-space(concat('wc-table ', $additionalTableClass))}">

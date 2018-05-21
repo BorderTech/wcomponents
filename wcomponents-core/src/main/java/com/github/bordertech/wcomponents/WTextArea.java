@@ -1,5 +1,9 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteableMultiline;
+import com.github.bordertech.wcomponents.autocomplete.segment.AddressType;
+import com.github.bordertech.wcomponents.autocomplete.type.Multiline;
 import com.github.bordertech.wcomponents.util.HtmlSanitizerUtil;
 
 /**
@@ -15,7 +19,7 @@ import com.github.bordertech.wcomponents.util.HtmlSanitizerUtil;
  * @author Mark Reeves
  * @since 1.0.0
  */
-public class WTextArea extends WTextField {
+public class WTextArea extends WTextField implements AutocompleteableMultiline {
 
 	/**
 	 * The data for this WTextArea. If the text area is not rich text its output is XML escaped so we can ignore
@@ -110,6 +114,21 @@ public class WTextArea extends WTextField {
 	 */
 	protected String sanitizeInputText(final String text) {
 		return HtmlSanitizerUtil.sanitizeInputText(text);
+	}
+
+	@Override
+	public void setAutocomplete(final Multiline value) {
+		String strValue = value == null ? null : value.getValue();
+		setAutocomplete(strValue);
+	}
+
+	@Override
+	public void setFullStreetAddressAutocomplete(final AddressType value) {
+		String combinedAddress = value == null
+				? Multiline.STREET_ADDRESS.getValue()
+				: AutocompleteUtil.getCombinedAutocomplete(value.getValue(), Multiline.STREET_ADDRESS.getValue());
+
+		setAutocomplete(combinedAddress);
 	}
 
 	/**

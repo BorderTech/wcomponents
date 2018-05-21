@@ -5,6 +5,11 @@
 // * WDropdown Type.COMBO.
 // #############################################################################
 
+// the WSuggestions artefact can be added anywhere because our API is broken.
+.wc-suggestions {
+  display: none;
+}
+
 // The wrapper for all combo widgets.
 [role='combobox'] {
   @include border-box;
@@ -16,10 +21,11 @@
   [role='textbox'] {
     border: 0;
     max-width: calc(100% - #{$wc-icon-size});
-    width: 100%;
+    width: 100%; // leave this it is important when the size attribute is set
   }
 
   [role='listbox'] {
+    display: none;
     min-width: 100%;
 
     dialog & {
@@ -27,8 +33,16 @@
     }
   }
 
-  &[aria-expanded='false'] [role='listbox'] {
-    display: none;
+  &[aria-expanded='true'] [role='listbox'] {
+    display: block;
+  }
+
+  > button {
+    border: 0;
+    max-width: #{$wc-icon-size};
+    padding: 0;
+    text-align: center;
+    width: #{$wc-icon-size};
   }
 }
 
@@ -39,7 +53,6 @@
   // must be opaque
   @include wc-opaque-box;
 
-  display: block;
   list-style-type: none;
   // allow for up to approx seven visible options. The factor 1.25 is a rough
   // line-height Chrome & Safari on OS - X use 1.125 whereas FF appears to use

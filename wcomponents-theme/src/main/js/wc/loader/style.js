@@ -1,12 +1,66 @@
-define(["wc/has", "wc/mixin", "wc/urlParser", "wc/config"], function(has, mixin, urlParser, wcconfig) {
+define(["wc/has", "wc/mixin", "wc/urlParser", "wc/config", "wc/dom/tag"], function(has, mixin, urlParser, wcconfig, tag) {
 	"use strict";
+
+	/**
+	 * Provides a means to load CSS files for particular user agents/platforms etc.
+	 *
+	 * ### Configuration
+	 *
+	 * There is a default set of supported browsers including IE versions. These may be overridden using module config.
+	 *
+	 * ``` js
+	 * "cacheBuster": "fixedForever",
+	 * "inherit": true,
+	 * "css": {
+	 *     "ext": "hasTest",
+	 *     "ext": {
+	 *         "test": "hasTest",
+	 *         "version": versionInteger,
+	 *         "media": "css media selector"}
+	 * }
+	 * ```
+	 *
+	 * Go take a look at {@link module:wc/loader/style~cssConfig} and {@link module:wc/loader/style~loadRules}.
+	 *
+	 * @example
+	 * // The module config object is like this if we support Custom CSS
+	 * //  only for ie10, ie11, Firefox, and Safari 8:
+	 * "wc/loader/style": {
+	 *    cachebuster: null, // cache forever and never check again - you don't want to do this
+	 *    css: {
+	 *        "ie10": {
+	 *            "test": "trident",
+	 *            "version": 6
+	 *            },
+	 *        "ie11": {
+	 *            "test": "trident",
+	 *            "version": 7
+	 *            },
+	 *        "ff": "ff",
+	 *        "saf8": {
+	 *            "test": "safari",
+	 *            "version": 8
+	 *        }
+	 *    }
+	 * }
+	 *
+	 * @module
+	 * @requires module:wc/has
+	 * @requires module:wc/mixin
+	 * @requires module:wc/config
+	 */
+	var instance = new StyleLoader();
+
 	/**
 	 * @constructor
 	 * @alias module:wc/loader/style~StyleLoader
 	 * @private
 	 */
 	function StyleLoader() {
-		var
+		var DOT_EX = ".css",
+			CSS_BASE_URL = null,
+			CACHEBUSTER = null,
+			DEFAULT_FILE_NAME_PREFIX = "wc-",
 			/**
 			 * A JSON object containing a list of file name 'extensions' or dtos which define what CSS files are to be included. This may be
 			 * overwritten using module config if you want implementation specific styles. See {@link module:wc/loader/style~cssConfig} and
@@ -29,43 +83,7 @@ define(["wc/has", "wc/mixin", "wc/urlParser", "wc/config"], function(has, mixin,
 					"test": "trident",
 					"version": 7
 				}
-			},
-			/**
-			 * The BASE URL for the CSS
-			 * @constant
-			 * @type {String}
-			 * @private
-			 */
-			CSS_BASE_URL = null,
-			/**
-			 * The query string of the XSLT url is used as the query string for the CSS as it contains the version number and cache buster.
-			 * @constant
-			 * @type {String}
-			 * @private
-			 */
-			CACHEBUSTER = null,
-			/**
-			 * The part of the CSS url which comes after the browser specific 'extension'.
-			 * @var
-			 * @type {String}
-			 * @private
-			 */
-			cssFileNameAndUrlExtension = ".css",
-			/**
-			 * Used to access keys in the screenStylesToAdd JSON object.
-			 * @var
-			 * @type {String}
-			 * @private
-			 */
-			ext,
-			/**
-			 * The common file name used to build the CSS files with an additional DASH suffix.
-			 * The individual 'extension' extends this.;
-			 * @var
-			 * @type {String}
-			 * @private
-			 */
-			DEFAULT_FILE_NAME_PREFIX = "wc-";
+			};
 
 		/**
 		 * Use the URL to the main CSS file to get the path to the theme CSs directory.
@@ -120,27 +138,27 @@ define(["wc/has", "wc/mixin", "wc/urlParser", "wc/config"], function(has, mixin,
 		 * @returns {module:wc/loader/style~cssConfig} an object which describes the CSS files to be loaded.
 		 */
 		function configure(obj) {
-			var config = obj || wcconfig.get("wc/loader/style"),
+			var UNDEF = "undefined",
+				config = obj || wcconfig.get("wc/loader/style"),
 				result = defaultStylesToAdd;
 			if (CSS_BASE_URL === null) { // first call to configure
 				CSS_BASE_URL = getBaseUrlFromMainCss();
 			}
 			if (config) {
-				if (typeof config.css !== "undefined") {
+				if (typeof config.css !== UNDEF) {
 					if (config.inherit && (typeof config.css === "object")) {
 						result = mixin(config.css, result);
 					} else {
 						result = config.css;
 					}
 				}
-				if (typeof config.cachebuster !== "undefined") {
+				if (typeof config.cachebuster !== UNDEF) {
 					CACHEBUSTER = config.cachebuster;
 				}
 			}
 			if (CACHEBUSTER === null) {
 				CACHEBUSTER = getCachebusterFromMainCss();
 			}
-			cssFileNameAndUrlExtension = ".css" + (CACHEBUSTER ? ("?" + CACHEBUSTER) : "");
 			return result;
 		}
 
@@ -153,35 +171,43 @@ define(["wc/has", "wc/mixin", "wc/urlParser", "wc/config"], function(has, mixin,
 		 * @param {String} [media] A CSS media query for the link element.
 		 */
 		function addLinkElement(url, media) {
-			var el, sibling, parent, mainCss;
+			var el,
+				sibling,
+				lastCss,
+				linkAttribs,
+				doc = document;
 
-			if (document.querySelector && document.querySelector("link[href='" + url + "']")) {
-				// Do not add the same link element twice. If the browser does not support querySelector then we do not
-				// really care if we add the link more than once but it is better to not do so.
+			if (doc.querySelector("link[href='" + url + "']")) { // Do not add the same link URL twice.
 				return;
 			}
-			mainCss = instance.getMainCss();
-			sibling = mainCss ? mainCss.nextSibling : null;
-			parent = mainCss.parentNode;
-			el = document.createElement("link");
-			el.type = "text/css";
-			el.setAttribute("rel", "stylesheet");
+
+			linkAttribs = {
+				"type" : "text/css",
+				"rel": "stylesheet",
+				"href": url
+			};
+
 			if (media) {
-				el.setAttribute("media", media);
+				linkAttribs["media"] =  media;
 			}
-			el.setAttribute("href", url);
+
+			el = tag.toTag("link", false, linkAttribs, true);
+
+			lastCss = getLastCssLink();
+			sibling = lastCss ? lastCss.nextSibling : null;
 			if (sibling) {
-				parent.insertBefore(el, sibling);
+				sibling.insertAdjacentHTML("afterEnd", el);
 			} else {
-				parent.appendChild(el);
+				doc.head.insertAdjacentHTML("beforeEnd", el);
 			}
 		}
 
 		function checkIsStringOrFalsey(arg, msg) {
+			var INV = "Invalid ";
 			if (!arg || (arg.constructor.prototype === String.prototype)) {
 				return true;
 			}
-			throw new TypeError(msg);
+			throw new TypeError(INV + msg);
 		}
 
 		/**
@@ -197,13 +223,40 @@ define(["wc/has", "wc/mixin", "wc/urlParser", "wc/config"], function(has, mixin,
 			return mainCss;
 		};
 
+		/**
+		 * @function
+		 * @private
+		 * @returns {Element?} the last CSS link element in the current page
+		 */
+		function getLastCssLink() {
+			var candidates = document.querySelectorAll("link[rel='stylesheet']");
+			if (!(candidates && candidates.length)) {
+				return null;
+			}
+			return candidates[(candidates.length - 1)];
+		}
+
+		/**
+		 * Creates a link element from a string input which could be a simple CSS file name in a WComponents theme or a URL to any CSS file.
+		 * @function
+		 * @private
+		 * @param {String} nameOrUrl the basis of the CSS url, or a complete URL
+		 * @param {String} [media] a CSS media query
+		 */
 		function addByName(nameOrUrl, media) {
-			var isUrl = nameOrUrl.indexOf("/") === 0 || nameOrUrl.indexOf("http") === 0 || nameOrUrl.indexOf(".") === 0,
-				fullUrl = isUrl ? nameOrUrl :  CSS_BASE_URL + nameOrUrl  + ((nameOrUrl.indexOf(".css") > 0) ? ".css" : cssFileNameAndUrlExtension);
+			var fullUrl,
+				isUrl = nameOrUrl.indexOf("/") === 0 || nameOrUrl.indexOf("http") === 0 || nameOrUrl.indexOf(".") === 0;
 
 			if (isUrl) {
-				// Huzzah we have a URL! Simply write the link element.
-				return addLinkElement(nameOrUrl, media);
+				fullUrl = nameOrUrl;
+				addLinkElement(nameOrUrl, media);
+				return;
+			}
+			fullUrl = CSS_BASE_URL + nameOrUrl;
+			if (!CACHEBUSTER || nameOrUrl.indexOf(DOT_EX) > 0) {
+				fullUrl += DOT_EX;
+			} else {
+				fullUrl += DOT_EX + "?" + CACHEBUSTER;
 			}
 			addLinkElement(fullUrl, media);
 		}
@@ -217,13 +270,13 @@ define(["wc/has", "wc/mixin", "wc/urlParser", "wc/config"], function(has, mixin,
 		 * @param {module:wc/loader/style~config} [config] a dto describing the CSS to load. If not defined use module config
 		 */
 		this.load = function(config) {
-			var what,
+			var what = configure(config),
 				key,
 				value,
 				media,
 				name,
-				obj;
-			what = configure(config);
+				obj,
+				ext;
 
 			if (!what) {
 				return;
@@ -241,26 +294,33 @@ define(["wc/has", "wc/mixin", "wc/urlParser", "wc/config"], function(has, mixin,
 					}
 					continue;
 				}
+
 				key = obj.test;
-				checkIsStringOrFalsey(key, "Test must be falsey or a valid 'has' test name.");
+				checkIsStringOrFalsey(key, "has test");
+
+				name = obj.name || (DEFAULT_FILE_NAME_PREFIX + ext);
+				checkIsStringOrFalsey(name, "name");
+
 				value = obj.version;
 				if (value && isNaN(value)) {
-					throw new TypeError("Version must be a falsey or a number.");
+					throw new TypeError("Invalid version");
 				}
-				name = obj.name || (DEFAULT_FILE_NAME_PREFIX + ext);
-				checkIsStringOrFalsey(name, "Name must be falsey, a string file name or a URL.");
+
 				media = obj.media;
-				checkIsStringOrFalsey(media, "Media must be falsey or a valid CSS media query string.");
-				if (!key) {
+				checkIsStringOrFalsey(media, "media query");
+
+				if (!key) { // This is "add this CSS without testing the UA"
 					addByName(name, media);
 					continue;
 				}
-				if (value || value === 0) {
+
+				if (value || value === 0) { // do we need the `=== 0` ? Is there a version 0 we care about?
 					if (has(key) <= value) {
 						addByName(name, media);
 					}
 					continue;
 				}
+
 				if (has(key)) {
 					addByName(name, media);
 				}
@@ -296,55 +356,6 @@ define(["wc/has", "wc/mixin", "wc/urlParser", "wc/config"], function(has, mixin,
 		};
 	}
 
-	/**
-	 * Provides a means to load CSS files for particular user agents/platforms etc.
-	 *
-	 * ##### Configuration
-	 *
-	 * There is a default set of supported browsers including IE versions. These may be overridden using module config.
-	 *
-	 * ``` js
-	 * "cacheBuster": "fixedForever",
-	 * "inherit": true,
-	 * "css": {
-	 *     "ext": "hasTest",
-	 *     "ext": {
-	 *         "test": "hasTest",
-	 *         "version": versionInteger,
-	 *         "media": "css media selector"}
-	 * }
-	 * ```
-	 *
-	 * Go take a look at {@link module:wc/loader/style~cssConfig} and {@link module:wc/loader/style~loadRules}.
-	 *
-	 * @example
-	 * // The module config object is like this if we support Custom CSS
-	 * //  only for ie10, ie11, Firefox, and Safari 8:
-	 * "wc/loader/style": {
-	 *    cachebuster: null, // cache forever and never check again - you don't want to do this
-	 *    css: {
-	 *        "ie10": {
-	 *            "test": "trident",
-	 *            "version": 6
-	 *            },
-	 *        "ie11": {
-	 *            "test": "trident",
-	 *            "version": 7
-	 *            },
-	 *        "ff": "ff",
-	 *        "saf8": {
-	 *            "test": "safari",
-	 *            "version": 8
-	 *        }
-	 *    }
-	 * }
-	 *
-	 * @module
-	 * @requires module:wc/has
-	 * @requires module:wc/mixin
-	 * @requires module:wc/config
-	 */
-	var instance = new StyleLoader();
 	return instance;
 
 	/**
@@ -409,7 +420,7 @@ define(["wc/has", "wc/mixin", "wc/urlParser", "wc/config"], function(has, mixin,
 	 *   and is deemed successful if the browser version is <= version.
 	 * @property {String} [media] A CSS media selector. If set then the CSS link will include this media selector
 	 * @property {String} [name] the CSS file URL/name (with or without path) to load. If not set then the file to load will be based on the key
-	 *   {@see module:wc/loader/style~cssConfig) in the form of CSS_BASE_URL + "wc-" + key + ".css?+ + CACHEBUSTER
+	 *   {@see module:wc/loader/style~cssConfig) in the form of CSS_BASE_URL + "wc-" + key + ".css? + CACHEBUSTER
 	 *
 	 * @example
 	 * // To test for Safari 8 or below and a screen with a lot of horizontal pixels:

@@ -6,10 +6,11 @@
 	-->
 	<xsl:template match="ui:definitionlist">
 		<xsl:variable name="additional">
-			<xsl:apply-templates select="ui:margin"/>
+			<xsl:value-of select="@class"/>
 			<xsl:if test="@type">
-				<xsl:value-of select="concat('wc-definitionlist-type-', @type)"/>
+				<xsl:value-of select="concat(' wc-definitionlist-type-', @type)"/>
 			</xsl:if>
+			<xsl:apply-templates select="ui:margin" mode="asclass"/>
 		</xsl:variable>
 		<dl id="{@id}" class="{normalize-space(concat('wc-definitionlist ', $additional))}">
 			<xsl:if test="@hidden">

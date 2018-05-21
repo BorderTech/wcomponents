@@ -4,6 +4,8 @@ import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WPasswordField;
+import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
+import com.github.bordertech.wcomponents.autocomplete.type.Password;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -49,6 +51,7 @@ public class WPasswordFieldRenderer_Test extends AbstractWebXmlRendererTestCase 
 		assertXpathNotExists("//ui:passwordfield/@accessibleText", field);
 		assertXpathNotExists("//ui:passwordfield/@size", field);
 		assertXpathNotExists("//ui:passwordfield/@buttonId", field);
+		assertXpathNotExists("//ui:passwordfield/@autocomplete", field);
 
 		field.setDisabled(true);
 		assertSchemaMatch(field);
@@ -94,6 +97,14 @@ public class WPasswordFieldRenderer_Test extends AbstractWebXmlRendererTestCase 
 		field.setPlaceholder("enter stuff here");
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo("enter stuff here", "//ui:passwordfield/@placeholder", field);
+
+		field.setAutocomplete(Password.CURRENT);
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo(field.getAutocomplete(), "//ui:passwordfield/@autocomplete", field);
+
+		field.setAutocompleteOff();
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo(AutocompleteUtil.getOff(), "//ui:passwordfield/@autocomplete", field);
 	}
 
 	@Test

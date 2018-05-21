@@ -4,12 +4,13 @@
 	<xsl:template match="ui:togglebutton[@readOnly]">
 		<span id="{@id}" data-wc-component="togglebutton">
 			<xsl:variable name="additional">
+				<xsl:value-of select="@class"/>
 				<xsl:if test="@selected">
-					<xsl:text>wc_ro_sel</xsl:text>
+					<xsl:text> wc_ro_sel</xsl:text>
 				</xsl:if>
 			</xsl:variable>
 			<xsl:attribute name="class">
-				<xsl:value-of select="normalize-space(concat('wc-togglebutton ', @class, ' ', $additional))"/>
+				<xsl:value-of select="normalize-space(concat('wc-togglebutton ', $additional))"/>
 			</xsl:attribute>
 			<xsl:if test="@hidden">
 				<xsl:attribute name="hidden">
@@ -51,7 +52,7 @@
 					<xsl:text>hidden</xsl:text>
 				</xsl:attribute>
 			</xsl:if>
-			<button id="{concat(@id, '_input')}" class="wc-nobutton wc-invite" role="checkbox" type="button" value="true">
+			<button id="{concat(@id, '_input')}" name="{@id}" class="wc-nobutton wc-invite" role="checkbox" type="button" value="true">
 				<xsl:if test="@toolTip">
 					<xsl:attribute name="title">
 						<xsl:value-of select="@toolTip"/>

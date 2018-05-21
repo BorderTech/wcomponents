@@ -7,12 +7,13 @@
 	<xsl:template match="ui:figure">
 		<xsl:variable name="mode" select="@mode"/>
 		<xsl:variable name="additional">
-			<xsl:apply-templates select="ui:margin"/>
+			<xsl:value-of select="@class"/>
+			<xsl:apply-templates select="ui:margin" mode="asclass"/>
 			<xsl:if test="$mode eq 'lazy' and @hidden">
 				<xsl:text> wc_magic</xsl:text>
 			</xsl:if>
 		</xsl:variable>
-		<figure id="{@id}" class="{normalize-space(concat('wc-figure ', @class, ' ', $additional))}">
+		<figure id="{@id}" class="{normalize-space(concat('wc-figure ', $additional))}">
 			<xsl:if test="@hidden">
 				<xsl:attribute name="hidden">
 					<xsl:text>hidden</xsl:text>
