@@ -8,6 +8,7 @@
 
 ### Bug Fixes
 
+* Fixed an error which caused WSelectToggle to fail #1529.
 * Removed superfluous layout CSS from WFigure which could result in unexpected display in IE 11.
 * Partial (cosmetic) fix of a flaw which could result in visible suggestions for a combo if it was in read-only mode #1527.
 
