@@ -8,6 +8,8 @@
 
 ### Bug Fixes
 
+* Fixed a bug which caused failure of WSelectToggle #1529.
+
 ## Release 1.4.24
 
 ### Enhancements
