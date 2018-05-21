@@ -113,6 +113,15 @@ public class WSuggestionsExample extends WContainer {
 
 
 		layout.addField("Output", resultField);
+
+		// read-only field with static suggestions - see issue #1527
+		suggestions = new WSuggestions(Arrays.asList("foo1", "foo2", "foo3", "ofoo"));
+		add(suggestions);
+		WTextField roField = new WTextField();
+		roField.setSuggestions(suggestions);
+		roField.setReadOnly(true);
+		layout.addField("Read-only with suggestions", roField);
+
 	}
 
 	/**

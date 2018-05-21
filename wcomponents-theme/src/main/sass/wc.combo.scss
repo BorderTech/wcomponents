@@ -9,10 +9,6 @@
 // padding-left + padding-right + icon width + a bit for the border.
 $wc-combo-button-width-allowance: 2 * $wc-combo-button-padding-lr + $wc-icon-normal + $wc-gap-small;
 
-// This redundant rule is not as redundant as you might think.
-datalist {
-  display: none;
-}
 
 // The wrapper for all combo widgets.
 [role='combobox'] {
@@ -41,8 +37,8 @@ datalist {
     }
   }
 
-  &[aria-expanded='false'] [role='listbox'] {
-    display: none;
+  &[aria-expanded='true'] [role='listbox'] {
+    display: block;
   }
 
   // We need the child selector here because of The W[Partial]DateField
@@ -70,7 +66,6 @@ datalist {
     }
   }
 }
-
 
 [role='listbox'] {
   @include border;
@@ -100,6 +95,12 @@ datalist {
   min-height: 1em;
   padding: $wc-gap-small;
   width: 100%;
+}
+
+.wc-suggestions,
+// This redundant rule is not as redundant as you might think.
+datalist {
+  display: none;
 }
 
 @import 'wc.combo.color';
