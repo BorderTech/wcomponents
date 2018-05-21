@@ -118,6 +118,9 @@
 			<xsl:if test=".//ui:radiobuttonselect[not(@readOnly)] or .//ui:radiobutton[not(@readOnly)]">
 				<xsl:text>"wc/ui/radioButtonSelect",</xsl:text>
 			</xsl:if>
+			<xsl:if test=".//ui:selecttoggle|.//ui:rowselection[@selectAll]">
+				<xsl:text>"wc/ui/selectToggle",</xsl:text>
+			</xsl:if>
 			<xsl:if test=".//ui:shuffler[not(@readOnly)] or .//ui:multiselectpair[@shuffle and not(@readOnly)]">
 				<xsl:text>"wc/ui/shuffler",</xsl:text>
 			</xsl:if>

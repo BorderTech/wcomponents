@@ -14,7 +14,6 @@
 		<xsl:variable name="popups" select=".//ui:popup"/>
 		<xsl:variable name="redirects" select=".//ui:redirect"/>
 		<xsl:variable name="rtfs" select=".//ui:textarea[ui:rtf]"/>
-		<xsl:variable name="selectToggles" select=".//ui:selecttoggle|.//ui:rowselection[@selectAll]"/>
 		<xsl:variable name="subordinates" select=".//ui:subordinate"/>
 		<xsl:variable name="eagerness" select="//*[@mode eq 'eager']"/>
 		<xsl:variable name="hasAjaxTriggers" select=".//ui:ajaxtrigger"/>
