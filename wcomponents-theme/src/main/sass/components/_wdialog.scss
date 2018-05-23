@@ -7,7 +7,7 @@
 // #############################################################################
 // Do we want to have the amusing but wasteful dialog resize/move transitions?
 // 1 is yes, anything else is no.
-$wc-ui-dialog-use-transitions: 1 !default;
+$wc-ui-dialog-use-transitions: true !default;
 // Used only if the scale and move transitions are turned on and supported.
 $wc-ui-dialog-transition-delay: 0s !default;
 $wc-ui-dialog-transition-duration: .5s !default;
@@ -107,7 +107,7 @@ dialog {
   }
 }
 
-@if $wc-ui-dialog-use-transitions == 1 {
+@if $wc-ui-dialog-use-transitions == true {
   // This is only here to make iPads work with the dialogFrame animations
   // (i.e. not work at all).
   @media only screen and (min-width: 1025px) {
