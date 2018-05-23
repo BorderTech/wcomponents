@@ -3,16 +3,17 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.WMultiFileWidget.FileWidgetUpload;
 import com.github.bordertech.wcomponents.file.FileItemWrap;
 import com.github.bordertech.wcomponents.util.mock.MockFileItem;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.fileupload.FileItem;
+import org.junit.Assert;
+import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.fileupload.FileItem;
-import org.junit.Assert;
-import org.junit.Test;
 
 /**
  * WMultiFileWidget_Test - unit test for {@link WMultiFileWidget}.

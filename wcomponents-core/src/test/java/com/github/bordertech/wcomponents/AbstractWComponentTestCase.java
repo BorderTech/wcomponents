@@ -3,6 +3,12 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.util.Duplet;
 import com.github.bordertech.wcomponents.util.ReflectionUtil;
 import com.github.bordertech.wcomponents.util.SystemException;
+import junit.framework.Assert;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.junit.After;
+
 import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
@@ -11,11 +17,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import junit.framework.Assert;
-import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.junit.After;
 
 /**
  * This class includes features useful for the testing of WComponents.

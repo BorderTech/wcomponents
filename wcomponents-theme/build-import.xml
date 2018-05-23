@@ -55,7 +55,6 @@
 				<include name="**/*.xml"/>
 				<include name="**/*.html"/>
 				<include name="**/resource/*.mustache"/>
-				<include name="**/resource/*.handlebars"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/resource/*/**"/>
 				<containsregexp expression="\$\{[^\}]+\}"/>

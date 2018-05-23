@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-18 09:28+1000\n"
+"POT-Creation-Date: 2018-05-22 17:29+1000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -199,6 +199,20 @@ msgstr ""
 #, java-format
 msgctxt "bordertech.wcomponents.message.fieldInvalidPattern"
 msgid "{0} is not in the required format."
+msgstr ""
+
+#: bordertech.wcomponents.message.fileWrongType
+#, java-format
+msgctxt "bordertech.wcomponents.message.fileWrongType"
+msgid ""
+"The file you have selected is not of an accepted type. Only the following "
+"type/s are accepted: %s."
+msgstr ""
+
+#: bordertech.wcomponents.message.fileWrongSize
+#, java-format
+msgctxt "bordertech.wcomponents.message.fileWrongSize"
+msgid "The file you have selected is too large. Maximum file size is %s."
 msgstr ""
 
 #. 
