@@ -2,12 +2,9 @@
 // WPanel
 // #############################################################################
 // PanelType.FEATURE
-// Padding: set to 0 to not have any.
+// PanelType.BOX
+// both have padding according to the Java API.
 $wc-panel-feature-padding: $wc-gap-normal !default;
-
-// PanelType.FOOTER
-// Padding: set to 0 to not have any.
-$wc-panel-footer-padding: $wc-gap-normal !default;
 
 // #############################################################################
 // Type.ACTION

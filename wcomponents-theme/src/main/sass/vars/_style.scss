@@ -16,7 +16,7 @@ $wc-clr-global-bg: #fff !default;
 // look disabled!
 $wc-clr-disabled-fg: #696969 !default;
 $wc-clr-disabled-bg: #f3f3f3 !default;
-$wc-clr-disabled-border: $wc-clr-disabled-fg !default;
+$wc-clr-disabled-border: #e0e0e0 !default;
 // Turn off the generic border colour by setting this value to -1. This will
 // also turn off the outline of "today" in the date picker calendar.
 $wc-border-color: #ccc !default;

@@ -74,7 +74,7 @@ $wc-tabpanel-border-width: 1px !default;
 
   &[aria-disabled='true'] {
     background-color: $wc-clr-disabled-bg;
-    border-color: $wc-clr-disabled-border;
+    // border-color: $wc-clr-disabled-border; ???
     color: $wc-clr-disabled-fg;
   }
 }
