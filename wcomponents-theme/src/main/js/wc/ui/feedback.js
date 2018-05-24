@@ -331,7 +331,7 @@ define(["wc/array/toArray",
 			 * @function
 			 * @public
 			 * @param {Element} box the diagnostic box
-			 * @returns {NodeList?} messages inside the diagnostic box, if any
+			 * @returns {NodeList} messages inside the diagnostic box, if any
 			 */
 			this.getMessages = function(box) {
 				if (!check(box, true)) {
@@ -383,7 +383,7 @@ define(["wc/array/toArray",
 			 * @public
 			 * @param {Element|String} element the element being diagnosed (or its id)
 			 * @param {int} [ofLevel=1] the diagnostic level, if not set get ERROR diagnostic box. Set to -1 to get one of any type.
-			 * @returns {Element?} the diagnostic box of the required level (if any).
+			 * @returns {Element} the diagnostic box of the required level (if any).
 			 */
 			this.getBox = function (element, ofLevel) {
 				var target,
@@ -420,7 +420,7 @@ define(["wc/array/toArray",
 			/**
 			 * Get the last diagnostic box WITHIN (or withing the wrapper of) a
 			 * @param {Element|String} element the element being tested or an id of an element
-			 * @returns {Element?} the last diagnostic box if any.
+			 * @returns {Element} the last diagnostic box if any.
 			 */
 			this.getLast = function(element) {
 				var target,
@@ -555,7 +555,7 @@ define(["wc/array/toArray",
 			 * @function
 			 * @private
 			 * @param {module:wc/ui/feedback~flagDto} args a config dto
-			 * @returns {String?} the id of the message container (if one is present/created)
+			 * @returns {String} the id of the message container (if one is present/created)
 			 */
 			function flag(args) {
 				var target,
@@ -609,7 +609,7 @@ define(["wc/array/toArray",
 			 * @function
 			 * @public
 			 * @param {module:wc/ui/feedback~flagDto} args a config dto
-			 * @returns {String?} the id of the error container (if one is present/created)
+			 * @returns {String} the id of the error container (if one is present/created)
 			 */
 			this.flagError = function(args) {
 				var dto = args;
@@ -622,7 +622,7 @@ define(["wc/array/toArray",
 			 * @function
 			 * @public
 			 * @param {module:wc/ui/feedback~flagDto} args a config dto
-			 * @returns {String?} the id of the message container (if one is present/created)
+			 * @returns {String} the id of the message container (if one is present/created)
 			 */
 			this.flagWarning = function (args) {
 				var dto = args;
@@ -635,7 +635,7 @@ define(["wc/array/toArray",
 			 * @function
 			 * @public
 			 * @param {module:wc/ui/feedback~flagDto} args a config dto
-			 * @returns {String?} the id of the message container (if one is present/created)
+			 * @returns {String} the id of the message container (if one is present/created)
 			 */
 			this.flagInfo = function (args) {
 				var dto = args;
@@ -648,7 +648,7 @@ define(["wc/array/toArray",
 			 * @function
 			 * @public
 			 * @param {module:wc/ui/feedback~flagDto} args a config dto
-			 * @returns {String?} the id of the message container (if one is present/created)
+			 * @returns {String} the id of the message container (if one is present/created)
 			 */
 			this.flagSuccess = function (args) {
 				var dto = args;

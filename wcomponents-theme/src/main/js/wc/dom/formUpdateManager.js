@@ -289,7 +289,7 @@ define(["wc/dom/event",
 		 * @param {Variant} [value] The value of the parameter when the form is serialized.
 		 * @param {boolean} [unique] If true then state field must not already exist in container.
 		 * @param {boolean} [clean] If true then this state field is ignored for the purposes of determining "dirty" state (i.e. cancelUpdate).
-		 * @returns {?Element} The state field if it was created.
+		 * @returns {Element} The state field if it was created.
 		 */
 		FormUpdateManager.prototype.writeStateField = function(container, name, value, unique, clean) {
 			var state;

@@ -111,7 +111,7 @@ define(["wc/dom/tag", "wc/dom/classList"], /** @param {wc/dom/tag} tag @param {w
 	 * @param {String} [arguments[6]=every] The attribute logic being one of "some" or "every": deprecated.
 	 * @param {Boolean} [arguments[7]=false] If true find the outermost ancestor.
 	 *
-	 * @returns {?Element} The ancestor element (or the element itself) which matches the conditions defined in the
+	 * @returns {Element} The ancestor element (or the element itself) which matches the conditions defined in the
 	 *    args.
 	 *
 	 * @throws {TypeError} Throws a TypeError if a start element is not supplied.

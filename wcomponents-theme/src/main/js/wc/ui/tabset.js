@@ -710,7 +710,7 @@ define(["wc/array/toArray",
 			 * @function
 			 * @private
 			 * @param {Element} tab
-			 * @returns {?Element} the tab panel for the tab.
+			 * @returns {Element} the tab panel for the tab.
 			 */
 			function getPanel(tab) {
 				var panelId;

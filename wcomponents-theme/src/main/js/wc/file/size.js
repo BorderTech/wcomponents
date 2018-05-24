@@ -17,7 +17,7 @@ define(["wc/i18n/i18n", "wc/file/getFileSize"], function(i18n, getFileSize) {
 	 *	param {Element} element A file input element.
 	 *	param {Object} [testObj] The pseudo-file element to pass to test functions.
 	 *	param {string} [msgId] The i18n message ID, if not provided the default "file_toolarge" is used.
-	 * @return {?string} An error message if there is a problem otherwise falsey.
+	 * @returns {?string} An error message if there is a problem otherwise falsey.
 	 */
 	function checkFileSize(args) {
 		var i, message, roundTo, maxFileSizeHR, fileSizeHR, units, nextMessage,

@@ -168,7 +168,7 @@ define(["wc/Observer",
 			 *  * element is a checkbox (or has checkbox role); and
 			 *  * value is false.
 			 *
-			 * @returns {?(Boolean|int)} A property of {@link module:wc/dom/shed.state} or null if it does not
+			 * @returns {(Boolean|int)} A property of {@link module:wc/dom/shed.state} or null if it does not
 			 *     natively support a selected state. Note that that mixed (indeterminate) and checked is ignored.
 			 */
 			function getSetNativeSelected(element, value, mix) {
@@ -761,7 +761,7 @@ define(["wc/Observer",
 			 * @function module:wc/dom/shed.subscribe
 			 * @param {string} type The action you want to be notified about (one of shed.actions)
 			 * @param {Function} subscriber A callback function, will be passed the args: (element, action)
-			 * @returns {?Function} The result of observer.subscribe
+			 * @returns {Function} The result of observer.subscribe
 			 */
 			this.subscribe = function (type, subscriber) {
 				function _subscribe(_type, _subscriber) {
@@ -817,7 +817,7 @@ define(["wc/Observer",
 			 * @function module:wc/dom/shed._unsubscribe
 			 * @param {String} type The action you want to unsubscribe from (one of shed.actions)
 			 * @param {Function} subscriber The subscriber to unsubscribe.
-			 * @returns {?Function} The result of {@link module:wc/Observer#subscribe}
+			 * @returns {Function} The result of {@link module:wc/Observer#subscribe}
 			 * @ignore
 			 */
 			this._unsubscribe = function (type, subscriber) {

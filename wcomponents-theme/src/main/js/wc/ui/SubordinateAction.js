@@ -71,7 +71,7 @@ define(["wc/dom/shed", "wc/has"],
 		 * Get a registered component group.
 		 * @function
 		 * @param {String} id The group identifier.
-		 * @returns {?String[]} An array of ids belonging to this group if the group exists otherwise returns null.
+		 * @returns {String[]} An array of ids belonging to this group if the group exists otherwise returns null.
 		 */
 		Action.getGroup = function (id) {
 			var result = groupRegister[id] || null;
@@ -145,7 +145,7 @@ define(["wc/dom/shed", "wc/has"],
 			 * @function module:wc/ui/SubordinateAction~Target#getElement
 			 * @public
 			 * @throws {ReferenceError} if the referenced element does not exist
-			 * @returns {?Element} The element referenced by this target (if applicable)
+			 * @returns {Element} The element referenced by this target (if applicable)
 			 */
 			Target.prototype.getElement = function() {
 				var result = null, element;
@@ -164,7 +164,7 @@ define(["wc/dom/shed", "wc/has"],
 			 * @function module:wc/ui/SubordinateAction~Target#getGroup
 			 * @public
 			 * @throws {ReferenceError} if the referenced group does not exist.
-			 * @returns {?Element[]} An array of elements in the group targeted by this instance (if applicable).
+			 * @returns {Element[]} An array of elements in the group targeted by this instance (if applicable).
 			 */
 			Target.prototype.getGroup = function() {
 				var result = null, next, i, len, group;

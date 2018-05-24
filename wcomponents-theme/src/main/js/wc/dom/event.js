@@ -280,7 +280,7 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 			 * @function module:wc/dom/event.fire
 			 * @param {Element} element The element to fire the event on.
 			 * @param {Event} $event The event to fire (eg 'click')
-			 * @returns {?Boolean} Should probably be undefined: use defaultPrevented to check if an event has ceased.
+			 * @returns {Boolean} Should probably be undefined: use defaultPrevented to check if an event has ceased.
 			 */
 			this.fire = function (element, $event) {
 				var rval, evt, tagName, type;

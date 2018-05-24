@@ -74,7 +74,7 @@ define(["wc/dom/attribute",
 			 * @function
 			 * @private
 			 * @param {Element} element The element to serialize.
-			 * @returns {?String} The serialized value of element if it is a cacheable SELECT.
+			 * @returns {String} The serialized value of element if it is a cacheable SELECT.
 			 */
 			function getElementValue(element) {
 				var result;

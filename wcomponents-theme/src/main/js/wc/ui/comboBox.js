@@ -64,7 +64,7 @@ define(["wc/has",
 			 * @function
 			 * @private
 			 * @param {Element} element A combo or an option in the listbox.
-			 * @returns {?Element} The list box if it is able to be found.
+			 * @returns {Element} The list box if it is able to be found.
 			 */
 			function getListBox(element) {
 				var combo;
@@ -257,7 +257,7 @@ define(["wc/has",
 			 * @function
 			 * @private
 			 * @param {Element} element The start element.
-			 * @returns {?Element} The combo box wrapper element.
+			 * @returns {Element} The combo box wrapper element.
 			 */
 			function getCombo(element) {
 				return COMBO.findAncestor(element);

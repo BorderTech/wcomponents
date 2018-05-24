@@ -48,7 +48,7 @@ define( function() {
 		 *
 		 * @function module:wc/dom/cookie.read
 		 * @param {String} name The key.
-		 * @returns {?String} The value associated wth the key.
+		 * @returns {String} The value associated wth the key.
 		 */
 		this.read = function(name) {
 			var nameEQ = name + "=",

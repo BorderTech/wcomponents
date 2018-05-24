@@ -78,7 +78,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/shed", "wc/dom/Widget", "wc
 			 * Get a toolTip from an element.
 			 * @function module:wc/ui/tooltip.getTooltip
 			 * @param {Element} element An HTML element which may contain a toolTip.
-			 * @returns {?Element} A toolTip element.
+			 * @returns {Element} A toolTip element.
 			 */
 			this.getTooltip = function(element) {
 				return TOOLTIPS.findDescendant(element);

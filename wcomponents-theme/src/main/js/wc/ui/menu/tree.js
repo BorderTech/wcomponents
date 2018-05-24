@@ -96,7 +96,7 @@ define(["wc/ui/menu/core",
 			 * @function
 			 * @private
 			 * @param {Element} element The element from which to start searching for the tree root.
-			 * @returns {?Element} A tree root node.
+			 * @returns {Element} A tree root node.
 			 */
 			function getRootHelper(element) {
 				var _root;
@@ -345,7 +345,7 @@ define(["wc/ui/menu/core",
 			 * @function module:wc/ui/menu/tree._getBranchExpandableElement
 			 * @override
 			 * @param {Element} item The start point for the search. This will normally be a 'branch'.
-			 * @returns {?Element} The "expandable" element. This is usually the branch content but is the branch in trees.
+			 * @returns {Element} The "expandable" element. This is usually the branch content but is the branch in trees.
 			 */
 			this._getBranchExpandableElement = function (item) {
 				if (!item) {

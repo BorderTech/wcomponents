@@ -141,7 +141,7 @@ define(["wc/dom/classList",
 			 * @private
 			 * @param {Element} element the start element
 			 * @param {boolean} ignoreAncestor if {@code} true then stop without checking ancestors for a trigger
-			 * @returns {?Element} a dialog trigger element if found
+			 * @returns {Element} a dialog trigger element if found
 			 */
 			function getTrigger(element, ignoreAncestor) {
 				var parent,
@@ -318,7 +318,7 @@ define(["wc/dom/classList",
 			/**
 			 * Get a registry object based on a WDialog id attribute.
 			 * @param {String} id the ID of the WDialog to get.
-			 * @returns {?module:wc/ui/dialog~regObject} the registry object if found.
+			 * @returns {module:wc/ui/dialog~regObject} the registry object if found.
 			 */
 			function getRegistryObjectByDialogId(id) {
 				var triggerId = registryByDialogId[id];

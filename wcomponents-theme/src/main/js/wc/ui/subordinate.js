@@ -60,7 +60,7 @@ define(["wc/dom/tag",
 			 * @function
 			 * @private
 			 * @param {module:wc/ui/SubordinateAction~ActionDTO[]} actions The actions for this subordinate control.
-			 * @returns {?"wc/ui/SubordinateAction"[]} The initialised actions as an array. Null if no actions. An
+			 * @returns {"wc/ui/SubordinateAction"[]} The initialised actions as an array. Null if no actions. An
 			 *    empty array if actions is an empty array or consists only on unparseable action objects.
 			 */
 			function initializeActions(actions) {
@@ -145,7 +145,7 @@ define(["wc/dom/tag",
 			 * @function
 			 * @private
 			 * @param {String} identifier The element id or name. Note that only input fields can legally have a name.
-			 * @returns {?Element} The first element with the name identifier or the element with the id identifier.
+			 * @returns {Element} The first element with the name identifier or the element with the id identifier.
 			 *   Tests name first since a grouped component (such as a WRadioButtonSelect) will have the name on each
 			 *   option (radio button) AND the id on the wrapper (fieldset) and in this class we are interested in the
 			 *   controls not the wrappers.
@@ -305,7 +305,7 @@ define(["wc/dom/tag",
 			 * @function
 			 * @private
 			 * @param {Element} element An element which might belong to or define a selectable group.
-			 * @returns {?Element[]} An array (not a NodeList) of selected options in this group OR null if this element
+			 * @returns {Element[]} An array (not a NodeList) of selected options in this group OR null if this element
 			 * is not any part of any kind of selection mechanism (for example a text input would return null, while an
 			 * unchecked checkbox would return an empty array).
 			 */
@@ -429,7 +429,7 @@ define(["wc/dom/tag",
 			 * @private
 			 * @param {String} val The value to convert.
 			 * @param {String} type The required type.
-			 * @returns {?*} The correct value of the correct type (based on the "type" arg). If the value is SOMETHING
+			 * @returns {*} The correct value of the correct type (based on the "type" arg). If the value is SOMETHING
 			 * (not an empty-ish string) but that something is not correctly formatted for the "type" then we return
 			 * null which essentially means "invalid" and no comparisons can be done.
 			 */
@@ -489,7 +489,7 @@ define(["wc/dom/tag",
 			 * @param {Element} element An element which has some logical value which we want to get.
 			 * @param {String} [type] The type for the element we are dealing with, i.e. "number" or "date". If not
 			 *    provided we will try a few things then give up.
-			 * @returns {?*} The correct value of the correct type (based on the "type" arg). If the value is SOMETHING
+			 * @returns {*} The correct value of the correct type (based on the "type" arg). If the value is SOMETHING
 			 *   (not an empty-ish string) but that something is not correctly formatted for the "type" then we return
 			 *   null which essentially means "invalid" and no comparisons can be done.
 			 */
@@ -542,7 +542,7 @@ define(["wc/dom/tag",
 			 * @function
 			 * @private
 			 * @param {String} re The regular expression sent from the server
-			 * @returns {?RegExp} An instance of RegExp ready for your pattern matching pleasure. Will return null if the
+			 * @returns {RegExp} An instance of RegExp ready for your pattern matching pleasure. Will return null if the
 			 *    regex was empty (valid but stupid) or could not be parsed (invalid or really stupid).
 			 */
 			function parseRegex(re) {

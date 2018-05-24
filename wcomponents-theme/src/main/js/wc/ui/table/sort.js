@@ -53,7 +53,7 @@ define(["wc/dom/initialise",
 			 * @param {Element} element A sortable column header. Element must already have been determined to be a
 			 *    SORT_CONTROL and since we have already extracted this from $event we may as well pass it in as
 			 *    an arg rather than re-testing.
-			 * @returns {?Element} The first interactive ancestor element of the event target if any. This may or may
+			 * @returns {Element} The first interactive ancestor element of the event target if any. This may or may
 			 *    not be the collapsible header.
 			 */
 			function toggleEventHelper($event, element) {

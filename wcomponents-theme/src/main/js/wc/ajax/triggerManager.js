@@ -57,7 +57,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/tag"],
 			 * @function
 			 * @private
 			 * @param {Element} element The element which we thought was a trigger but wasn't.
-			 * @returns {?Element} The container which is the "actual" trigger element - i.e. the one with the id which
+			 * @returns {Element} The container which is the "actual" trigger element - i.e. the one with the id which
 			 *    is associated with the trigger. This is either a A element or a FIELDSET element.
 			 */
 			function getTriggerContainer(element) {
@@ -97,7 +97,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/tag"],
 			 *    totally "DOM unaware" - this gives you a higher performance option but with less power. You need to
 			 *    pass an element for "DOM awareness".
 			 * @param {Boolean} [ignoreAncestor] If true will not check to see if DOM ancestor is a trigger.
-			 * @returns {?module:wc/ajax/Trigger} The trigger, if any.
+			 * @returns {module:wc/ajax/Trigger} The trigger, if any.
 			 */
 			this.getTrigger = function(ref, ignoreAncestor) {
 				var result, id, triggerParams, _ref;

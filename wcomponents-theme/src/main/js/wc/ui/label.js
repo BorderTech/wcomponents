@@ -365,7 +365,7 @@ define(["wc/dom/classList",
 			 * @function module:wc/ui/label.getHint
 			 * @public
 			 * @param {Element} label the label to test
-			 * @returns {?Element} the label's hint, if any
+			 * @returns {Element} the label's hint, if any
 			 */
 			this.getHint = function (label) {
 				if (label) {

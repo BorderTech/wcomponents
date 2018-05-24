@@ -62,7 +62,7 @@ define(["wc/Observer",
 			 * @function module:wc/ui/ajax/processResponse.subscribe
 			 * @param {Function} subscriber A callback function, will be passed the args: (element, content, action).
 			 * @param {Boolean} [after] Indicates that the subscriber is to the post-insertion publisher.
-			 * @returns {?Function} The result of observer.subscribe
+			 * @returns {Function} The result of observer.subscribe
 			 */
 			this.subscribe = function(subscriber, after) {
 				var group = null;
@@ -340,7 +340,7 @@ define(["wc/Observer",
 			 * @private
 			 * @param {Element} element The containing element in the original document.
 			 * @param {DocumentFragment} content The document fragment containing the replacement(s).
-			 * @returns {?Element}
+			 * @returns {Element}
 			 */
 			function replaceIn(element, content) {
 				var child,

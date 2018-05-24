@@ -33,7 +33,7 @@ define(["wc/dom/classList",
 		 * @function
 		 * @private
 		 * @param {Element} element the element to test
-		 * @returns {?Element} the icon if found
+		 * @returns {Element} the icon if found
 		 */
 		function getIcon(element) {
 			testElementArg(element);

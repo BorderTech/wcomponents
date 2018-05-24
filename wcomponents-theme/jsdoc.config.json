@@ -1,0 +1,39 @@
+{
+	"tags": {
+		"allowUnknownTags": true,
+		"dictionaries": ["jsdoc", "closure"]
+	},
+	"source": {
+		"include": ["src/main/js/"],
+		"exclude": ["src/main/js/lib/"],
+		"includePattern": ".+\\.js?$"
+	},
+	"plugins": ["plugins/markdown"],
+	"opts": {
+		"readme": "jsdoc.readme.md",
+		"private": false,
+		"package": "package.json",
+		"recurse": true,
+		"template": "./node_modules/jsdoc-oblivion/template",
+		"encoding": "utf8",
+		"destination": "./target/site/jsdoc"
+	},
+	"templates": {
+		"systemName": "WComponents theme",
+		"cleverLinks":true,
+		"monospaceLinks":false,
+		"default": {
+			"outputSourceFiles":true,
+			"outputSourcePath":true
+		},
+		"linenums":true,
+		"collapseSymbols":false,
+		"navType":"vertical",
+		"theme":"oblivion",
+		"inverseNav":true,
+		"dateFormat":"YYYY-MM-DD",
+		"footer":"<a href='https://github.com/BorderTech/wcomponents'>WComponents</a>.",
+		"syntaxTheme":"dark",
+		"copyright":""
+	}
+}

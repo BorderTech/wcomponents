@@ -138,7 +138,7 @@ define(["wc/array/toArray",
 			 * @function
 			 * @private
 			 * @param {Element} element the element being controlled
-			 * @returns {? Element[]} An array containing all of the controllers for the collapsible.
+			 * @returns { Element[]} An array containing all of the controllers for the collapsible.
 			 */
 			function getControllers(element) {
 				var el = (COLLAPSIBLE.isOneOfMe(element) ? element : TABSET.findAncestor(element)),

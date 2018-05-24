@@ -108,7 +108,7 @@ define(["wc/dom/attribute",
 		 * @function
 		 * @public
 		 * @param {Element} element The start point
-		 * @returns {?Element} The menu root node if any.
+		 * @returns {Element} The menu root node if any.
 		 */
 		AbstractMenu.prototype.getFirstMenuAncestor = function (element) {
 			return Widget.findAncestor(element, getFixedWidgets().GENERIC_ROOT);
@@ -318,7 +318,7 @@ define(["wc/dom/attribute",
 		 * @function
 		 * @public
 		 * @param {Element} element The element we are testing.
-		 * @returns {?Element} The leaf Element which is or contains element or null if the element is not in a menu
+		 * @returns {Element} The leaf Element which is or contains element or null if the element is not in a menu
 		 *  item.
 		 */
 		AbstractMenu.prototype.getItem = function(element) {
@@ -531,7 +531,7 @@ define(["wc/dom/attribute",
 		 * @function
 		 * @protected
 		 * @param {Element} start Any menu node but preferably a submenu wrapper element.
-		 * @returns {?Element} The first menu item which is not hidden or disabled or in a closed branch.
+		 * @returns {Element} The first menu item which is not hidden or disabled or in a closed branch.
 		 */
 		AbstractMenu.prototype._getFirstAvailableItem = function(start) {
 			var tw,
@@ -1207,7 +1207,7 @@ define(["wc/dom/attribute",
 		 * @function
 		 * @public
 		 * @param {Element} item Any HTML element
-		 * @returns {?Element} a menu root element if found and if the menu root for the type of menu is the first
+		 * @returns {Element} a menu root element if found and if the menu root for the type of menu is the first
 		 *    menu root found.
 		 */
 		AbstractMenu.prototype.getRoot = function(item) {
@@ -1234,7 +1234,7 @@ define(["wc/dom/attribute",
 		 * @function
 		 * @protected
 		 * @param {Element} item Any HTML element
-		 * @returns {?Element} A branch element if found.
+		 * @returns {Element} A branch element if found.
 		 */
 		AbstractMenu.prototype._getBranch = function(item) {
 			return this._wd.branch.findAncestor(item);
@@ -1247,7 +1247,7 @@ define(["wc/dom/attribute",
 		 * @function
 		 * @protected
 		 * @param {Element} item The start point for the search. This will normally be a 'branch'.
-		 * @returns {?Element} The "expandable" element. This is usually the branch content but is the branch in trees.
+		 * @returns {Element} The "expandable" element. This is usually the branch content but is the branch in trees.
 		 */
 		AbstractMenu.prototype._getBranchExpandableElement = function (item) {
 			var myBranch;
@@ -1279,7 +1279,7 @@ define(["wc/dom/attribute",
 		 * @param {Boolean} [descending] true to look for a descendant submenu (usually only set when called from a
 		 *    branch item)
 		 * @param {Boolean} [all] Find all descendants. Not used if descending != true.
-		 * @returns {?Element} A submenu element if found.
+		 * @returns {Element} A submenu element if found.
 		 */
 		AbstractMenu.prototype.getSubMenu = function(item, descending, all) {
 			var func;
@@ -1573,7 +1573,7 @@ define(["wc/dom/attribute",
 		 * @param {Element} [root] The menu root element
 		 * @param {Boolean} [forceCycle] Allows sibling cycling to be forced true or false independent of the menu's
 		 *    default setting
-		 * @returns {?Element} Element if a target appropriate to action is found otherwise null.
+		 * @returns {Element} Element if a target appropriate to action is found otherwise null.
 		 */
 		AbstractMenu.prototype._getTargetItem = function(item, action, root, forceCycle) {
 			var keyWalkerConfig = this._getkeyWalkerConfig(item, root);

@@ -128,7 +128,7 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 		<antcall target="cleanupOptional"/>
 	</target>
 
-	<target name="document" depends="initTargetImplementations" description="This target runs the JSDoc build for the themes.">
+	<target name="document" description="This target runs the JSDoc build for the default theme.">
 		<for list="${impl.dir.name}" delimiter="${single.impl.dir.separator}" param="implementationName">
 			<sequential>
 				<document implName="@{implementationName}"/>
@@ -429,7 +429,6 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 			<if>
 				<available file="@{rootDir}/@{implName}" type="dir"/>
 				<then>
-					<initImplTmpDir implName="@{implName}"/>
 					<callant antFile="build-jsdoc.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/>
 				</then>
 				<else>

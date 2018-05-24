@@ -218,7 +218,7 @@ define(["wc/dom/Widget", "wc/dom/tag"], function(Widget, tag) {
 		 * @function
 		 * @public
 		 * @param {Element} diag the diagnostic box
-		 * @returns {Element?} the target element of the diagnostic box
+		 * @returns {Element} the target element of the diagnostic box
 		 */
 		this.getTarget = function(diag) {
 			var targetId;

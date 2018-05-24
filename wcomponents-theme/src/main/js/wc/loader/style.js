@@ -226,7 +226,7 @@ define(["wc/has", "wc/mixin", "wc/urlParser", "wc/config", "wc/dom/tag"], functi
 		/**
 		 * @function
 		 * @private
-		 * @returns {Element?} the last CSS link element in the current page
+		 * @returns {Element} the last CSS link element in the current page
 		 */
 		function getLastCssLink() {
 			var candidates = document.querySelectorAll("link[rel='stylesheet']");

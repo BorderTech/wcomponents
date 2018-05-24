@@ -52,7 +52,7 @@ define(function() {
 		 * @function
 		 * @private
 		 * @param {Element} element the element which the TreeWalker instance is investigating
-		 * @return {number} a NodeFilter filter value
+		 * @returns {number} a NodeFilter filter value
 		 */
 		function simpleFilter (element) {
 			if (element.hasAttribute("disabled") || element.hasAttribute("hidden") || element.getAttribute("aria-disabled") === "true" ||
@@ -74,7 +74,7 @@ define(function() {
 		 * @param {module:keywalker~config} conf the configuration object for this navigation
 		 * @param {Element} current the element being tested
 		 * @param {number} whichWay the direction we are going
-		 * @return {Object} func: String, node: ?Element
+		 * @returns {Object} func: String, node: Element
 		 */
 		function getAction(conf, current, whichWay) {
 			var result = {
@@ -125,7 +125,7 @@ define(function() {
 		 * @function
 		 * @private
 		 * @param {module:keywalker~config} conf the configuration object for this navigation
-		 * @return an instance of TreeWalker
+		 * @returns an instance of TreeWalker
 		 */
 		function getTreewalker(conf) {
 			var filter = conf.filter || simpleFilter,
@@ -172,7 +172,7 @@ define(function() {
 		 * @param {module:keywalker~config} conf the configuration object for this navigation.
 		 * @param {Element} element where we are starting
 		 * @param {integer} whichWay value from {@link module:keywalker.MOVE_TO}
-		 * @returns {?Element} the destination element
+		 * @returns {Element} the destination element
 		 * @throws {ReferenceError} if the value of whichWay is not a known value in {@link module:keywalker.MOVE_TO}
 		 */
 		function treeWalkerNavHelper(conf, element, whichWay) {
@@ -203,7 +203,7 @@ define(function() {
 		 * @param {Object} conf The keywalker config.
 		 * @param {Element} element The start element.
 		 * @param {int} whichWay The direction to walk.
-		 * @returns {?Element} The key walk target element if any.
+		 * @returns {Element} The key walk target element if any.
 		 */
 		function groupBasedNavHelperLoopHelper(conf, element, whichWay) {
 			var target,
@@ -250,7 +250,7 @@ define(function() {
 		 * @param {module:keywalker~config} conf the configuration object for this navigation.
 		 * @param {Element} element The start point.
 		 * @param {integer} whichWay value from {@link module:keywalker.OVE_TO}.
-		 * @returns {?Element} The destination element, if any.
+		 * @returns {Element} The destination element, if any.
 		 * @throws {ReferenceError} If the value of whichWay is one reserved for two domensional navigation.
 		 */
 		function groupBasedNavHelper(conf, element, whichWay) {
@@ -286,7 +286,7 @@ define(function() {
 		 * @param {module:keywalker~config} conf the configurationfor this particular walk.
 		 * @param {Element} element The element we are on at the start of the navigation.
 		 * @param {integer} direction The direction to hunt in as a property of {@link module:keywalker.MOVE_TO}.
-		 * @returns {?Element} The end point of navigation (though we do not actually do the navigation here).
+		 * @returns {Element} The end point of navigation (though we do not actually do the navigation here).
 		 */
 		this.getTarget = function (conf, element, direction) {
 			if (typeof conf !== "object") {
