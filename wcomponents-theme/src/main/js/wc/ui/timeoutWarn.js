@@ -193,18 +193,15 @@ define(["lib/sprintf", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/load
 		/**
 		 * Display a warning to the user before their session expires. This is an accessibility requirement.
 		 *
-		 * <p>Things to consider:</p>
-		 * <ul><li>What renews the session? Requesting an XSL file via AJAX? Requesting an image?</li>
-		 * <li>Can we be sure that those actions will always renew the session? What if the resource is loaded from cache
-		 * instead of hitting the server... then the session will not renew.</li></ul>
+		 * Things to consider:
 		 *
-		 * <p>There will always be a chance of getting the session timeout wrong, but there is wrong and then
-		 * there is WRONG. It is better to warn the user too early rather than too late.</p>
+		 * * What renews the session? Requesting an XSL file via AJAX? Requesting an image?
+		 * * Can we be sure that those actions will always renew the session? What if the resource is loaded from cache
+		 *   instead of hitting the server... then the session will not renew.
 		 *
-		 * @typedef {Object} module:wc/ui/timeoutWarn.config() Optional module configuration.
-		 * @property {int} min The minimum timeout (in seconds). If the requested session timeout is less than this we will not
-		 * attempt to warn the user.
-		 * @default 60
+		 * There will always be a chance of getting the session timeout wrong, but there is wrong and then
+		 * there is WRONG. It is better to warn the user too early rather than too late.
+		 *
 		 *
 		 * @module
 		 * @requires external:lib/sprintf
@@ -220,4 +217,11 @@ define(["lib/sprintf", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/load
 		 * @todo Document private members, check source order.
 		 */
 		return new TimeoutWarner();
+
+		/**
+		 * @typedef {Object} module:wc/ui/timeoutWarn.config() Optional module configuration.
+		 * @property {int} min The minimum timeout (in seconds). If the requested session timeout is less than this we will not
+		 * attempt to warn the user.
+		 * @default 60
+		 */
 	});

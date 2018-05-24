@@ -187,7 +187,7 @@ define(["wc/dom/ariaAnalog",
 		/**
 		 * Module to provide a grouped set of check boxes with some group-like behaviour which is not inherent in HTML check
 		 * boxes, though whether this should be implemented or not is another matter since according to
-		 * {@link http://www.w3.org/TR/wai-aria-practices/#checkbox} strictly speaking checkbox should not get arrow key
+		 * http://www.w3.org/TR/wai-aria-practices/#checkbox strictly speaking checkbox should not get arrow key
 		 * navigation nor SHIFT+CLICK range toggle support!
 		 *
 		 * @module

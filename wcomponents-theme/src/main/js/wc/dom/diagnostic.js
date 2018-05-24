@@ -16,9 +16,10 @@ define(["wc/dom/Widget", "wc/dom/tag"], function(Widget, tag) {
 			MESSAGE;
 
 		/**
-		 * @constant {Object} describes the types of diagnostic widget available
+		 * Describes the types of diagnostic widget available.
+		 * @constant
+		 * @type {Object}
 		 * @public
-		 *
 		 */
 		this.LEVEL = {
 			"ERROR": 1,

@@ -3,9 +3,6 @@
 	"version": "${build.number}",
 	"description": "Client side code for WComponent UI tool kit.",
 	"private": true,
-	"optionalDependencies": {
-		"jsdoc-oblivion": "0.0.9"
-	},
 	"devDependencies": {
 		"axe-core": "3.0.0",
 		"clean-css": "3.4.28",

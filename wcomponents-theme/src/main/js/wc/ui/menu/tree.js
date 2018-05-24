@@ -186,7 +186,7 @@ define(["wc/ui/menu/core",
 			/**
 			 * Trees automatically select selectable treeitems on navigation.
 			 *
-			 * @see {@link http://www.w3.org/TR/wai-aria-practices/#TreeView}
+			 * @see http://www.w3.org/TR/wai-aria-practices/#TreeView
 			 * @var
 			 * @type {Boolean}
 			 * @protected
@@ -199,7 +199,7 @@ define(["wc/ui/menu/core",
 			 * Selection in trees is complicated as it depends on the presence of absence of chordal key strokes during
 			 * selection.
 			 *
-			 * @see {@link http://www.w3.org/TR/wai-aria-practices/#TreeView}
+			 * @see http://www.w3.org/TR/wai-aria-practices/#TreeView
 			 * @function module:wc/ui/menu/tree._select
 			 * @protected
 			 * @override
@@ -282,7 +282,7 @@ define(["wc/ui/menu/core",
 			/**
 			 * Sets up the initial keymap for tree menus.
 			 *
-			 * @see {@link http://www.w3.org/TR/wai-aria-practices/#TreeView}
+			 * @see http://www.w3.org/TR/wai-aria-practices/#TreeView
 			 * @function module:wc/ui/menu/tree._setupKeymap
 			 * @protected
 			 * @override

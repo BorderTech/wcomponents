@@ -437,6 +437,7 @@ define(["wc/dom/attribute",
 		 * @private
 		 * @param {Element} menu The menu to close.
 		 * @param {Element} [element] the element which has caused the menu to close (most commonly by receiving focus). if not set then close all
+		 * @param {Object} instance the singleton instance which is the actual menu controller
 		 * paths.
 		 */
 		function closeOpenMenu(menu, element, instance) {
@@ -1759,7 +1760,7 @@ define(["wc/dom/attribute",
 		 * Sets up the subclass specific {@link module:wc/dom/Widget}s used to describe the various parts of the menu.
 		 *
 		 * @function
-		 * protected
+		 * @protected
 		 */
 		AbstractMenu.prototype._setUpWidgets = function() {
 			var o,

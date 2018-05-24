@@ -1,25 +1,4 @@
-/**
- * Provides functionality to provide a back to top link which is scroll and viewport size aware. Not functional in IE
- * below 10.
- *
- * @typedef {Object} module:wc/ui/backToTop.config() Optional module configuration.
- * @property {?int} scroll The number of pixels of scroll required before the back to top link is displayed. Undefined
- * or zero results in the link displaying after 1 viewport of scroll.
- * @default 0
- *
- * @module
- * @requires module:wc/i18n/i18n
- * @requires module:wc/dom/event
- * @requires module:wc/dom/focus
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/getViewportSize
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/Widget
- * @requires module:wc/has
- * @requires module:wc/config
- */
 define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc/dom/getViewportSize", "wc/dom/shed", "wc/dom/Widget", "wc/has", "wc/config"],
-	/** @param i18n wc/i18n/i18n @param event wc/dom/event @param focus wc/dom/focus @param initialise wc/dom/initialise @param getViewportSize wc/dom/getViewportSize @param shed wc/dom/shed @param Widget wc/dom/Widget @param has wc/has @param wcconfig wc/config @ignore */
 	function(i18n, event, focus, initialise, getViewportSize, shed, Widget, has, wcconfig) {
 		"use strict";
 
@@ -186,7 +165,23 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 				addRemoveEventHandlers(enable);
 			};
 		}
-		var /** @alias module:wc/ui/backToTop */ instance = new BackToTop();
+
+		/**
+		 * Provides functionality to provide a back to top link which is scroll and viewport size aware.
+		 *
+		 * @module
+		 * @requires module:wc/i18n/i18n
+		 * @requires module:wc/dom/event
+		 * @requires module:wc/dom/focus
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/getViewportSize
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/has
+		 * @requires module:wc/config
+		 */
+
+		var instance = new BackToTop();
 		initialise.register(instance);
 		return instance;
 

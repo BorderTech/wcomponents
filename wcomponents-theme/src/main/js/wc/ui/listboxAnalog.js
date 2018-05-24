@@ -201,7 +201,7 @@ define(["wc/dom/ariaAnalog",
 		 *      could be used to provide the shortcut key.
 		 *
 		 *
-		 * @see {@link http://www.w3.org/TR/wai-aria-practices/#Listbox}
+		 * @see http://www.w3.org/TR/wai-aria-practices/#Listbox
 		 * @module
 		 * @extends module:wc/dom/ariaAnalog
 		 * @requires module:wc/dom/ariaAnalog

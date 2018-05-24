@@ -19,7 +19,6 @@ define(["wc/Observer",
 		 */
 		function Shed() {
 			var observer,
-				/** @var {module:wc/dom/shed~actions} @private */
 				actions = {
 					SHOW: "show",
 					HIDE: "hide",
@@ -783,7 +782,7 @@ define(["wc/Observer",
 			 * @param {String} action The state to toggle, any one of {@link module:wc/dom/shed~actions}.
 			 *   Note that the action passed just gives the "flavor" of the toggle. For example it does not matter
 			 *   whether you pass SHOW or HIDE, they are equivalent for toggling. Note that tri-state checkboxes cycle
-			 *   from mixed to UNCHECKED. This is specified here: {@link http://www.w3.org/TR/wai-aria-practices/#checkbox}
+			 *   from mixed to UNCHECKED. This is specified here: http://www.w3.org/TR/wai-aria-practices/#checkbox
 			 * @param {Boolean} [quiet] If true then do not publish.
 			 */
 			this.toggle = function (element, action, quiet) {

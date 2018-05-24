@@ -10,11 +10,10 @@
 	},
 	"plugins": ["plugins/markdown"],
 	"opts": {
-		"readme": "jsdoc.readme.md",
+		"readme": "src/main/js/wc/README.md",
 		"private": false,
 		"package": "package.json",
 		"recurse": true,
-		"template": "./node_modules/jsdoc-oblivion/template",
 		"encoding": "utf8",
 		"destination": "./target/site/jsdoc"
 	},
@@ -29,11 +28,9 @@
 		"linenums":true,
 		"collapseSymbols":false,
 		"navType":"vertical",
-		"theme":"oblivion",
 		"inverseNav":true,
 		"dateFormat":"YYYY-MM-DD",
-		"footer":"<a href='https://github.com/BorderTech/wcomponents'>WComponents</a>.",
-		"syntaxTheme":"dark",
+		"footer":"Find us on <a href='https://github.com/BorderTech/wcomponents'>GitHub</a>.",
 		"copyright":""
 	}
 }

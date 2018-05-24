@@ -391,7 +391,7 @@ define(["wc/has",
 			}
 
 			/**
-			 * Keydown event handler. Handles key events as per {@link http://www.w3.org/TR/wai-aria-practices/#combobox}.
+			 * Keydown event handler. Handles key events as per http://www.w3.org/TR/wai-aria-practices/#combobox.
 			 *
 			 * **NOTES:** the LEFT ARROW and RIGHT ARROW are native in input elements in the text state; we have not implemented list pagination so
 			 * PAGE_UP and PAGE_DOWN are not mapped (this may be needed in future)
@@ -913,14 +913,6 @@ define(["wc/has",
 		/**
 		 * Provides combo functionality.
 		 *
-		 * @typedef {Object} module:wc/ui/comboBox.config() Optional module configuration.
-		 * @property {?int} min The global (default) minimum number of characters which must be entered before a comboBox will
-		 * update its dynamic datalist. This can be over-ridden per instance of WSuggestions.
-		 * @default 3
-		 * @property {?int} delay The number of milliseconds for which a user must pause before a comboBox's datalist is
-		 * updated.
-		 * @default 250
-		 *
 		 * @module
 		 * @requires module:wc/has
 		 * @requires module:wc/dom/attribute
@@ -941,4 +933,14 @@ define(["wc/has",
 		var instance = new ComboBox();
 		initialise.register(instance);
 		return instance;
+
+		/**
+		 * @typedef {Object} module:wc/ui/comboBox~config Optional module configuration.
+		 * @property {?int} min The global (default) minimum number of characters which must be entered before a comboBox will
+		 * update its dynamic datalist. This can be over-ridden per instance of WSuggestions.
+		 * @default 3
+		 * @property {?int} delay The number of milliseconds for which a user must pause before a comboBox's datalist is
+		 * updated.
+		 * @default 250
+		 */
 	});

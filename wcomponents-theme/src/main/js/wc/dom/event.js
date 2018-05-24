@@ -18,7 +18,7 @@
  * * can programatically fire an event on an element even if that is a custom event.
  *
  * Historically this class had some other concerns, such as helping prevent memory leaks in IE. It was originally
- * loosely based on this: {@link http://therealcrisp.xs4all.nl/upload/addEvent_dean.html} but has since been reworked
+ * loosely based on [this](http://therealcrisp.xs4all.nl/upload/addEvent_dean.html) but has since been reworked
  * and rewritten to the point that it is completely unique.
  *
  * @module

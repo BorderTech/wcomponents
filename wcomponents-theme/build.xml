@@ -129,11 +129,16 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 	</target>
 
 	<target name="document" description="This target runs the JSDoc build for the default theme.">
-		<for list="${impl.dir.name}" delimiter="${single.impl.dir.separator}" param="implementationName">
-			<sequential>
-				<document implName="@{implementationName}"/>
-			</sequential>
-		</for>
+		<stopwatch name="node-jsdoc" action="start"/>
+		<echo level="verbose">./node/node ./node_modules/jsdoc/jsdoc.js -c jsdoc.config.json</echo>
+		<nodejs.exec failonerror="false" cwd="${basedir}">
+			<arguments>
+				<arg value="${basedir}/node_modules/jsdoc/jsdoc.js"/>
+				<arg value="-c"/>
+				<arg value="jsdoc.config.json"/>
+			</arguments>
+		</nodejs.exec>
+		<stopwatch name="node-jsdoc" action="total"/>
 	</target>
 
 
@@ -417,27 +422,6 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 					<echo level="info">theme.skip.tests is 'true' so not executing test</echo>
 				</else>
 			</if>
-		</sequential>
-	</macrodef>
-
-	<macrodef name="document">
-		<attribute name="implName"/>
-		<attribute name="rootDir" default="${impl.src.rootdir}"/>
-		<attribute name="target" default="build"/>
-		<sequential>
-			<stopwatch name="site" action="start"/>
-			<if>
-				<available file="@{rootDir}/@{implName}" type="dir"/>
-				<then>
-					<callant antFile="build-jsdoc.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/>
-				</then>
-				<else>
-					<echo level="error">Implementation "@{implName}" does not exist.
-						Check property "impl.dir.name": ${impl.dir.name}
-					</echo>
-				</else>
-			</if>
-			<stopwatch name="site" action="total"/>
 		</sequential>
 	</macrodef>
 

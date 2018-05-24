@@ -1,22 +1,24 @@
-/**
- * Compatibility layer for missing DOM 3 KeyEvent. Adds a KeyEvent object to window if it is not available. Allows the
- * use of the KeyEvent global and DOM\_VK\_* mappings.
- *
- * @example typeof KeyEvent != 'undefined';//can be relied on
- * KeyEvent.DOM_VK_CANCEL === 3;// can be relied on, as can other mappings
- *
- * @example
- * // given a keydown event on the ESCAPE key
- * event.keyCode() === KeyEvent.DOM_VK_ESCAPE; //can be relied on as always true
- *
- * @see {@link http://www.w3.org/TR/2001/WD-DOM-Level-3-Events-20010410/DOM3-Events.html#events-Events-KeyEvent}
- *
- * @module
- * @private
- * @requires module:wc/has
- */
-define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
+define(["wc/has"], function(has) {
 	"use strict";
+
+	/**
+	 * Compatibility layer for missing DOM 3 KeyEvent. Adds a KeyEvent object to window if it is not available. Allows the
+	 * use of the KeyEvent global and DOM\_VK\_* mappings.
+	 *
+	 * @example typeof KeyEvent != 'undefined';//can be relied on
+	 * KeyEvent.DOM_VK_CANCEL === 3;// can be relied on, as can other mappings
+	 *
+	 * @example
+	 * // given a keydown event on the ESCAPE key
+	 * event.keyCode() === KeyEvent.DOM_VK_ESCAPE; //can be relied on as always true
+	 *
+	 * @see http://www.w3.org/TR/2001/WD-DOM-Level-3-Events-20010410/DOM3-Events.html#events-Events-KeyEvent
+	 *
+	 * @module
+	 * @private
+	 * @requires module:wc/has
+	 */
+
 	var result;
 
 	if (!has("global-keyevent")) {
