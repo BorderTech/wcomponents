@@ -17,7 +17,7 @@ define(["wc/dom/color"], function(color) {
 	 * @param {Boolean} [includeUnits] If true include the unit part of the CSS response (eg 2em) otherwise strip it (eg 2).
 	 * @param {Boolean} [notAColor] A shorthand to cut off further testing if we KNOW when calling this function that the style property we are after
 	 *    is definitely NOT a color.
-	 * @returns {?(String|number)} The value of the CSS rule if found (even if "") If the cssRule is not found or cannot be determined return null.
+	 * @returns {(String|number)} The value of the CSS rule if found (even if "") If the cssRule is not found or cannot be determined return null.
 	 */
 	function getStyle(element, cssRule, includeUnits, notAColor) {
 		var re = /\-(\w)/g,

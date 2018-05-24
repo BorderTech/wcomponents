@@ -22,7 +22,7 @@ define(["wc/has"],/** @param has wc/has @ignore */ function(has) {
 	 * @function
 	 * @private
 	 * @alias module:wc/compat/compareDocumentPosition
-	 * @see {@link http://www.w3.org/TR/DOM-Level-3-Core/core.html#Node3-compareDocumentPosition}
+	 * @see http://www.w3.org/TR/DOM-Level-3-Core/core.html#Node3-compareDocumentPosition
 	 * @param {Element} b The element being compared.
 	 * @returns {number} The bitmask equivalent of a native compareDocumentPosition.
 	 */

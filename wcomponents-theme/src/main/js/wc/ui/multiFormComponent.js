@@ -127,7 +127,7 @@ define(["wc/has",
 			 * @function
 			 * @private
 			 * @param {Element} element Any child of the container.
-			 * @returns {?Element} The container if element is a multi form control or one of its descendent elements.
+			 * @returns {Element} The container if element is a multi form control or one of its descendent elements.
 			 */
 			function getContainer(element) {
 				return CONTAINER.findAncestor(element);
@@ -138,7 +138,7 @@ define(["wc/has",
 			 *
 			 * @param {Element} container A multiFormControl.
 			 * @param {Boolean} [firstOnly] If true only the first field will be returned.
-			 * @returns {?(NodeList|Element)} A collection of fields OR a single fielt if firstOnly is true.
+			 * @returns {(NodeList|Element)} A collection of fields OR a single fielt if firstOnly is true.
 			 */
 			function getFields(container, firstOnly) {
 				var method = firstOnly ? "findDescendant" : "findDescendants",

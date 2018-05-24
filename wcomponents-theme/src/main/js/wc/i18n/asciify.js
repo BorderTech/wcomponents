@@ -117,7 +117,7 @@ define(["wc/i18n/i18n"], /** @param i18n wc/i18n/i18n @ignore */function(i18n) {
 	 * @funtion uniToAscii
 	 * @private
 	 * @param {String} character A non-ascii character.
-	 * @returns {?String} The asciified version or null if not found.
+	 * @returns {String} The asciified version or null if not found.
 	 */
 	function uniToAscii(character) {
 		var next, i, len, result = null,

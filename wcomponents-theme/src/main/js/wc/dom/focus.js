@@ -155,7 +155,7 @@ define(["wc/array/toArray",
 			 *    focus on a particular element.
 			 * @param {Boolean} [reverse] If true then elements will be tried in reverse order. In other words this
 			 *    function becomes "focusLastTabstop".
-			 * @returns {?Element} The element that received focus.
+			 * @returns {Element} The element that received focus.
 			 */
 			this.focusFirstTabstop = function (container, callback, reverse) {
 				var next,
@@ -213,7 +213,7 @@ define(["wc/array/toArray",
 			 * @param {Element} element The element from which to start the focusable hunt.
 			 * @param {Boolean} [ignoreSelf] set true if we want to explicitly ignore the current element otherwise will
 			 *    return element if it is itself focusable.
-			 * @returns {?Element} the first ancestor element which can receive focus (if any).
+			 * @returns {Element} the first ancestor element which can receive focus (if any).
 			 */
 			this.getFocusableAncestor = function(element, ignoreSelf) {
 				var tw, filter;

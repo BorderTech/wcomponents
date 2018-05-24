@@ -252,7 +252,7 @@ define(["wc/dom/shed",
 			 * @function
 			 * @private
 			 * @param {Element} trigger The select toggle trigger element.
-			 * @return {?number} The number of items affected by this activation. This is needed to prevent a double
+			 * @returns {?number} The number of items affected by this activation. This is needed to prevent a double
 			 * activation of a SUB_CONTROLLER from erroneously setting the sub-controllers state.
 			 */
 			function activateTrigger(trigger) {

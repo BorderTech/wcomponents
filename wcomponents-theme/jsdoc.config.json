@@ -1,0 +1,36 @@
+{
+	"tags": {
+		"allowUnknownTags": true,
+		"dictionaries": ["jsdoc", "closure"]
+	},
+	"source": {
+		"include": ["src/main/js/"],
+		"exclude": ["src/main/js/lib/"],
+		"includePattern": ".+\\.js?$"
+	},
+	"plugins": ["plugins/markdown"],
+	"opts": {
+		"readme": "src/main/js/wc/README.md",
+		"private": false,
+		"package": "package.json",
+		"recurse": true,
+		"encoding": "utf8",
+		"destination": "./target/site/jsdoc"
+	},
+	"templates": {
+		"systemName": "WComponents theme",
+		"cleverLinks":true,
+		"monospaceLinks":false,
+		"default": {
+			"outputSourceFiles":true,
+			"outputSourcePath":true
+		},
+		"linenums":true,
+		"collapseSymbols":false,
+		"navType":"vertical",
+		"inverseNav":true,
+		"dateFormat":"YYYY-MM-DD",
+		"footer":"Find us on <a href='https://github.com/BorderTech/wcomponents'>GitHub</a>.",
+		"copyright":""
+	}
+}

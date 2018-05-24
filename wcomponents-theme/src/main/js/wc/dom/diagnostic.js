@@ -16,9 +16,10 @@ define(["wc/dom/Widget", "wc/dom/tag"], function(Widget, tag) {
 			MESSAGE;
 
 		/**
-		 * @constant {Object} describes the types of diagnostic widget available
+		 * Describes the types of diagnostic widget available.
+		 * @constant
+		 * @type {Object}
 		 * @public
-		 *
 		 */
 		this.LEVEL = {
 			"ERROR": 1,
@@ -218,7 +219,7 @@ define(["wc/dom/Widget", "wc/dom/tag"], function(Widget, tag) {
 		 * @function
 		 * @public
 		 * @param {Element} diag the diagnostic box
-		 * @returns {Element?} the target element of the diagnostic box
+		 * @returns {Element} the target element of the diagnostic box
 		 */
 		this.getTarget = function(diag) {
 			var targetId;

@@ -132,7 +132,7 @@ define(function() {
 		 * @alias module:wc/dom/attribute.get
 		 * @param {Element} element The Element to test.
 		 * @param {string} name The lookup "key".
-		 * @returns {?*} The value of the custom attribute or null if not found.
+		 * @returns {*} The value of the custom attribute or null if not found.
 		 */
 		this.get = function(element, name) {
 			var result = null,

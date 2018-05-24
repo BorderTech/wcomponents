@@ -18,7 +18,7 @@
  * * can programatically fire an event on an element even if that is a custom event.
  *
  * Historically this class had some other concerns, such as helping prevent memory leaks in IE. It was originally
- * loosely based on this: {@link http://therealcrisp.xs4all.nl/upload/addEvent_dean.html} but has since been reworked
+ * loosely based on [this](http://therealcrisp.xs4all.nl/upload/addEvent_dean.html) but has since been reworked
  * and rewritten to the point that it is completely unique.
  *
  * @module
@@ -280,7 +280,7 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 			 * @function module:wc/dom/event.fire
 			 * @param {Element} element The element to fire the event on.
 			 * @param {Event} $event The event to fire (eg 'click')
-			 * @returns {?Boolean} Should probably be undefined: use defaultPrevented to check if an event has ceased.
+			 * @returns {Boolean} Should probably be undefined: use defaultPrevented to check if an event has ceased.
 			 */
 			this.fire = function (element, $event) {
 				var rval, evt, tagName, type;

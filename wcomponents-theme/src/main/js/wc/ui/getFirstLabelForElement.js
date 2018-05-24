@@ -17,7 +17,7 @@ define(["wc/dom/getLabelsForElement", "wc/ui/getVisibleText"],
 		 *    content in an access-key tooltip and the content of a WLabel hint.
 		 * @param {Boolean} [keepHint] If truthy and getting contentOnly then keep the label "hint". This is not the
 		 *   default to retain backwards compatibility.
-		 * @returns {?(Element|String)} The first labelling element (in source order) or the text content of that
+		 * @returns {(Element|String)} The first labelling element (in source order) or the text content of that
 		 *    element.
 		 */
 		function get (element, contentOnly, keepHint) {

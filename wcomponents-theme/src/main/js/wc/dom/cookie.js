@@ -1,9 +1,3 @@
-/**
- * A module for dealing with cookies. The methods that do all the work are based on
- * {@link http://www.quirksmode.org/js/cookies.html}
- *
- * @module
- */
 define( function() {
 	"use strict";
 
@@ -48,7 +42,7 @@ define( function() {
 		 *
 		 * @function module:wc/dom/cookie.read
 		 * @param {String} name The key.
-		 * @returns {?String} The value associated wth the key.
+		 * @returns {String} The value associated wth the key.
 		 */
 		this.read = function(name) {
 			var nameEQ = name + "=",
@@ -84,5 +78,12 @@ define( function() {
 			this.create(name, "", -1);
 		};
 	}
+
+	/**
+	 * A module for dealing with cookies. The methods that do all the work are based on
+	 * http://www.quirksmode.org/js/cookies.html
+	 *
+	 * @module
+	 */
 	return /** @alias module:wc/dom/cookie */ new Cookie();
 });

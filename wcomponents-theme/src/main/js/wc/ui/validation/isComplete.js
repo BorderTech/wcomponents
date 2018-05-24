@@ -131,7 +131,7 @@ define(["wc/Observer",
 			 * @function
 			 * @private
 			 * @param {Element} container The place to look for candidates.
-			 * @returns {?Element[]} If not null an array of elements (<strong>not</strong> a node list).
+			 * @returns {Element[]} If not null an array of elements (<strong>not</strong> a node list).
 			 */
 			function getComponents(container) {
 				var result;

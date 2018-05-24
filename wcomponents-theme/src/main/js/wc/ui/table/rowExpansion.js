@@ -63,7 +63,7 @@ define(["wc/array/toArray",
 			 * @function
 			 * @private
 			 * @param {Element} element the element being controlled
-			 * @returns {? Element[]} An array containing all of the controllers for the row
+			 * @returns { Element[]} An array containing all of the controllers for the row
 			 */
 			function getControllers(element) {
 				var controllerWidget,

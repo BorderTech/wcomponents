@@ -61,7 +61,7 @@ define(["wc/dom/group", "wc/dom/shed"],
 		 *    an array.
 		 * @param {module:wc/dom/getFilteredGroup~config} [config] Arguments to tweak the default behavior of this
 		 *    function.
-		 * @returns {(?Element[]|module:wc/dom/getFilteredGroup~groupAsObject)} A nullable array of elements which match
+		 * @returns {(Element[]|module:wc/dom/getFilteredGroup~groupAsObject)} A nullable array of elements which match
 		 *    the filters (or are "selected" if no custom filter supplied); or an object encapsulating both the filtered
 		 *    and unfiltered groups.
 		 * @throws {TypeError} Throws a TypeError if element is false-y.

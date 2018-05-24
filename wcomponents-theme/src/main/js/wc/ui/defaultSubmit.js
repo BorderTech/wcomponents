@@ -76,7 +76,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"],
 			 * Find the correct submit button to "click" when the ENTER key is pressed on element.
 			 * NOTE: we do not need this if the element is not in a form
 			 * @param {Element} element A form control element.
-			 * @returns {?Element} The default submit for the element which may be the form's regular submit button.
+			 * @returns {Element} The default submit for the element which may be the form's regular submit button.
 			 */
 			function findCorrectSubmit(element) {
 				var result,

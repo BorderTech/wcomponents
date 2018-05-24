@@ -29,7 +29,7 @@ define(["wc/loader/resource"],
 			 * @function
 			 * @private
 			 * @param {String} c color literal
-			 * @returns {?String} The hex string for the given color.
+			 * @returns {String} The hex string for the given color.
 			 */
 			function getLiteralFromMap(c) {
 				var colormap;
@@ -58,7 +58,7 @@ define(["wc/loader/resource"],
 			 * @alias module:wc/dom/color.hex2rgb
 			 * @param {Stering} hex The colour as a hex string.
 			 * @throws {TypeError} Throws a type error if hex is not a string.
-			 * @returns {?Object} The color as an object with properties r:red, g:green and b:blue.
+			 * @returns {Object} The color as an object with properties r:red, g:green and b:blue.
 			 */
 			this.hex2rgb = function (hex) {
 				var result,
@@ -94,7 +94,7 @@ define(["wc/loader/resource"],
 			 * @function
 			 * @alias module:wc/dom/color.getLiteral
 			 * @param {String} c color literal.
-			 * @returns {?String} The hex string for the given color.
+			 * @returns {String} The hex string for the given color.
 			 */
 			this.getLiteral = function(c) {
 				var tmp,
@@ -136,7 +136,7 @@ define(["wc/loader/resource"],
 			 *    red/green/blue values, e.g. [244, 244, 244] or an object with "r", "g" and "b" properties
 			 *    corresponding to red, green and blue values, e.g. {r:244, g:244, b:244}
 			 * @todo rewrite to use red green blue
-			 * @returns {?String} The colour as a hex string.
+			 * @returns {String} The colour as a hex string.
 			 */
 			this.rgb2hex = function (rgb) {
 				var hex,

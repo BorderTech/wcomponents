@@ -1,4 +1,13 @@
-# JavaScript Developer Information
+# WComponent JavaScript Developer Information
+
+## Introduction
+
+The WComponents themes represent the client layer and are, therefore, the JavaScript, CSS, HTML etc which are used to provide the user interface.
+
+The rest of the documentation is found in:
+
+* the [Maven site](http://bordertech.github.io/wcomponents/index.html); or
+* the [GitHub wiki](https://github.com/BorderTech/wcomponents/wiki).
 
 ## Code Standards
 
@@ -81,3 +90,7 @@ Variables are always declared first and in a single block. This applies to class
 Functions should generally be declared before they are used but when they are nested in a constructor this is not strictly required.
 
 Members on the prototype chain of a constructor should be declared before the constructor when the constructor is itself nested in the function argument of a define or require. This is kinda optional but doing otherwise messes with JSDoc under some conditions.
+
+## Building JSDoc
+
+The JSDoc is built as part of the Maven site task.

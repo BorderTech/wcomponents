@@ -46,7 +46,7 @@ define(["wc/dom/textContent",
 		 * @param {Element} element The element for which we want to find the text.
 		 * @param {Boolean} [removeHint] If truthy also remove any HINT (applies only to labels).
 		 * @param {Boolean} [trim] if truthy then trim the content before returning it
-		 * @returns {String?} The text content of the element without HINT or TOOLTIP.
+		 * @returns {String} The text content of the element without HINT or TOOLTIP.
 		 */
 		function getVisibleText(element, removeHint, trim) {
 			var clone = element.cloneNode(true),

@@ -1,15 +1,4 @@
-/**
- * This module wraps the underlying ARIA class (from {@link http://code.google.com/p/aria-toolkit/})
- * which allows us to cut and paste updated ARIA code without losing any of our own  customizations.
- *
- *
- * @module
- * @requires module:wc/loader/resource
- * @requires module:wc/xml/xpath
- *
- *  @license The core functionality of this file is a cut and paste from this project: {@link http://code.google.com/p/aria-toolkit/}
- */
-define(["wc/loader/resource", "wc/xml/xpath"], /** @param loader wc/loader/resource @param xpath wc/xml/xpath @ignore */ function(loader, xpath) {
+define(["wc/loader/resource", "wc/xml/xpath"], function(loader, xpath) {
 	"use strict";
 	/**
 	 * @constructor
@@ -57,7 +46,7 @@ define(["wc/loader/resource", "wc/xml/xpath"], /** @param loader wc/loader/resou
 	 * Creating more that one instance of this class is pointless and is considered an error. We are going to
 	 * ignore this class as it is just an include.
 	 *
-	 * @see {@link http://code.google.com/p/aria-toolkit/} for documentation.
+	 * @see http://code.google.com/p/aria-toolkit/ for documentation.
 	 * @constructor
 	 * @private
 	 * @alias module:wc/dom/aria~Aria
@@ -340,5 +329,17 @@ define(["wc/loader/resource", "wc/xml/xpath"], /** @param loader wc/loader/resou
 			}
 		}
 	}
-	return /** @alias module:wc/dom/aria */ new AriaWrapper();
+
+	/**
+	 * This module wraps the underlying ARIA class (from http://code.google.com/p/aria-toolkit/)
+	 * which allows us to cut and paste updated ARIA code without losing any of our own  customizations.
+	 *
+	 *
+	 * @module
+	 * @requires module:wc/loader/resource
+	 * @requires module:wc/xml/xpath
+	 *
+	 * @license The core functionality of this file is a cut and paste from [this project](http://code.google.com/p/aria-toolkit/)
+	 */
+	return new AriaWrapper();
 });

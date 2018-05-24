@@ -105,7 +105,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 			};
 
 			/**
-			 * Sets up the initial keymap for tree-ish menus as per {@link http://www.w3.org/TR/wai-aria-practices/#menu}.
+			 * Sets up the initial keymap for tree-ish menus as per http://www.w3.org/TR/wai-aria-practices/#menu.
 			 *
 			 * @function
 			 * @protected
@@ -145,7 +145,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 		 * Menu controller extension for WMenu of type TREE. This represents a vertical menu with optional sliding submenus
 		 * which may be indented. See WTree which produces a WAI-ARIA tree widget which is a selection tool.
 		 *
-		 * @see {@link http://www.w3.org/TR/wai-aria-practices/#menu}
+		 * @see http://www.w3.org/TR/wai-aria-practices/#menu
 		 * @module
 		 * @extends module:wc/ui/menu/core
 		 * @requires module:wc/ui/menu/core

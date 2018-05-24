@@ -80,7 +80,7 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 		 * @function module:wc/compat/TreeWalker~TreeWalker~previous
 		 * @private
 		 * @param {TreeWalker} mySelf The current treeWalker instance.
-		 * @returns {?Node}
+		 * @returns {Node}
 		 * @throws {TypeError} A type error if self.currentNode is undefined.
 		 */
 		function previous(mySelf) {
@@ -227,7 +227,7 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 		 * @function module:wc/compat/TreeWalker~TreeWalker~next
 		 * @private
 		 * @param {TreeWalker} mySelf The current treeWalker instance.
-		 * @returns {?Node}
+		 * @returns {Node}
 		 * @throws {TypeError} A type error if self.currentNode is undefined.
 		 * @throws {Error} Throws if the tree cannot be processed - usually only if the tree is malformed.
 		 */
@@ -333,7 +333,7 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 		 * Get the first node in the tree which is acceptable according to the tree walker's filter function.
 		 * @function
 		 * @public
-		 * @returns {?Node}
+		 * @returns {Node}
 		 */
 		this.firstChild = function() {
 			isFirstChild = true;
@@ -346,7 +346,7 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 		 * Get the last node in the tree which is acceptable according to the tree walker's filter function.
 		 * @function
 		 * @public
-		 * @returns {?Node}
+		 * @returns {Node}
 		 */
 		this.lastChild = function() {
 			isLastChild = true;
@@ -358,7 +358,7 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 		 * Get the next sibling node in the tree which is acceptable according to the tree walker's filter function.
 		 * @function
 		 * @public
-		 * @returns {?Node}
+		 * @returns {Node}
 		 */
 		this.nextSibling = function() {
 			isFirstChild = false;
@@ -371,7 +371,7 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 		 * Get the next node in the tree which is acceptable according to the tree walker's filter function.
 		 * @function
 		 * @public
-		 * @returns {?Node}
+		 * @returns {Node}
 		 */
 		this.nextNode = function() {
 			isFirstChild = false;
@@ -384,7 +384,7 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 		 * Get the previous sibling node in the tree which is acceptable according to the tree walker's filter function.
 		 * @function
 		 * @public
-		 * @returns {?Node}
+		 * @returns {Node}
 		 */
 		this.previousSibling = function() {
 			isLastChild = false;
@@ -396,7 +396,7 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 		 * Get the previous node in the tree which is acceptable according to the tree walker's filter function.
 		 * @function
 		 * @public
-		 * @returns {?Node}
+		 * @returns {Node}
 		 */
 		this.previousNode = function() {
 			isLastChild = false;
@@ -408,7 +408,7 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 		 * Get the parent node in the tree which is acceptable according to the tree walker's filter function.
 		 * @function
 		 * @public
-		 * @returns {?Node}
+		 * @returns {Node}
 		 * @throws {TypeError} Thrown if the current treeWalker instance currentNode is unset.
 		 */
 		this.parentNode = function() {

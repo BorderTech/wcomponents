@@ -199,7 +199,7 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 			 * @param config The config object as passed to ajaxRqst
 			 * @function
 			 * @private
-			 * @return {boolean} true when the request has been received.
+			 * @returns {boolean} true when the request has been received.
 			 */
 			function stateChange(request, config) {
 				// request can be null in some circumstances, don't remove the null check

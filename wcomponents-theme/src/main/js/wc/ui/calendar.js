@@ -482,7 +482,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 
 		/**
 		 * Get the calendar's containing element.
-		 * @returns {?Element} The calendar.
+		 * @returns {Element} The calendar.
 		 */
 		function getCal() {
 			return document.getElementById(CONTAINER_ID);

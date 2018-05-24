@@ -44,7 +44,7 @@ define(["wc/dom/ariaAnalog", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/shed"
 		CheckboxAnalog.prototype = ariaAnalog;
 		/**
 		 * Module to provide an ARIA role of checkbox with useful functionality. That is: to make something which is not a
-		 * checkbox behave like a check box based on its role: {@link http://www.w3.org/TR/wai-aria-practices/#checkbox}.
+		 * checkbox behave like a check box based on its role: http://www.w3.org/TR/wai-aria-practices/#checkbox.
 		 * Strictly speaking checkbox should not get arrow key navigation.
 		 *
 		 * @module

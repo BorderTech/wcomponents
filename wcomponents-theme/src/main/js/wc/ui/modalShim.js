@@ -179,7 +179,7 @@ define(["wc/dom/attribute", "wc/dom/uid", "wc/dom/classList", "wc/dom/event", "w
 			 * @public
 			 * @param {Function} subscriber the function to subscribe
 			 * @param {boolean} onshow if true notify when the modalShim is shown, otherwise notify when the shim is removed
-			 * @returns {?Function} the subscribed function
+			 * @returns {Function} the subscribed function
 			 */
 			this.subscribe = function(subscriber, onshow) {
 				var group = null;
@@ -199,7 +199,7 @@ define(["wc/dom/attribute", "wc/dom/uid", "wc/dom/classList", "wc/dom/event", "w
 			 * @param {Function} subscriber the function to unsubscribe
 			 * @param {boolean} onshow if true unsubscribe from the group notified when the modalShim is shown. The unsubscribe will only succeed if
 			 * the group is the same as when the subscriber was subscribed.
-			 * @returns {?Function} the unsubscribed function
+			 * @returns {Function} the unsubscribed function
 			 */
 			this.unsubscribe = function(subscriber, onshow) {
 				var group;

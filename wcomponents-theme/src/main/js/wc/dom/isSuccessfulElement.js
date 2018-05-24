@@ -7,7 +7,7 @@ define(["wc/dom/shed", "wc/dom/tag"], /** @param shed wc/dom/shed @param tag wc/
 	"use strict";
 	/**
 	 * Tests if a form control is "successful" is the W3C sense of the word:
-	 * {@link http://www.w3.org/TR/html401/interact/forms.html#h-17.13.2}
+	 * http://www.w3.org/TR/html401/interact/forms.html#h-17.13.2
 	 *
 	 * @function module:wc/dom/isSuccessfulElement
 	 * @param {Element} element A form control element.

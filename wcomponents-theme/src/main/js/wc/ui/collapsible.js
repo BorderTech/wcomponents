@@ -82,7 +82,7 @@ define(["wc/dom/event",
 			 * @param {Element} element A collapsible header. Element must already have been determined to be a
 			 *    COLLAPSIBLE_HEADER and since we have already extracted this from $event we may as well pass it in as
 			 *    an arg rather than re-testing.
-			 * @returns {?Element} The first interactive ancestor element of the event target if any. This may or may
+			 * @returns {Element} The first interactive ancestor element of the event target if any. This may or may
 			 *    not be the collapsible header.
 			 */
 			function toggleEventHelper($event, element) {
@@ -248,7 +248,7 @@ define(["wc/dom/event",
 			 *
 			 * @function module:wc/ui/collapsible.getActionElement
 			 * @param {Element} element The start element.
-			 * @returns {?Element} If the start element is a collapsible container return its header/trigger element.
+			 * @returns {Element} If the start element is a collapsible container return its header/trigger element.
 			 */
 			this.getActionElement = function(element) {
 				var result;

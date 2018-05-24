@@ -234,7 +234,7 @@ define(["wc/dom/attribute",
 			 * Get the counter element related to a text area.
 			 * @function module:wc/ui/textarea.getCounter
 			 * @param {Element} element A text field with a maxlength property.
-			 * @returns {?Element} The counter element associated with this field (if any).
+			 * @returns {Element} The counter element associated with this field (if any).
 			 */
 			this.getCounter = function(element) {
 				var wrapper = TEXTAREA.isOneOfMe(element) ? wrappedInput.getWrapper(element) : element;

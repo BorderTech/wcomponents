@@ -8,7 +8,7 @@
  *
  * Note that we **do NOT** accept a string as a callback/handler.
  *
- * By native timers we mean {@link http:  // www.whatwg.org/specs/web-apps/current-work/multipage/timers.html#timers}
+ * By native timers we mean http:// www.whatwg.org/specs/web-apps/current-work/multipage/timers.html#timers
  *
  * @module
  * @todo document private members.

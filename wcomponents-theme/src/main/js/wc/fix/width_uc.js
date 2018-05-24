@@ -1,3 +1,8 @@
+/*
+ * UC Browser has trouble with width, min-width and max-width calculations. This fix
+ * sets a pixel width on the FORM element (WApplication) which alleviates some of these
+ * problems.
+ */
 define([
 	"wc/dom/initialise",
 	"wc/dom/getViewportSize",
@@ -21,15 +26,6 @@ define([
 				event.add(window, event.TYPE.resize, resizeEvent, 1);
 			};
 		}
-
-		/**
-		 * @module
-		 * @ignore
-		 *
-		 * UC Browser has trouble with width, min-width and max-width calculations. This fix
-		 * sets a pixel width on the FORM element (WApplication) which alleviates some of these
-		 * problems.
-		 */
 		var instance = new Width();
 		initialise.register(instance);
 		return instance;

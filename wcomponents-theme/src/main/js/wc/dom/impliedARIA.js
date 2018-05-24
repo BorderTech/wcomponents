@@ -37,9 +37,9 @@ define(["wc/dom/tag", "wc/dom/Widget"], function (tag, Widget) {
 		/**
 		 * Determine if a HTML element supports the native required attribute. See
 		 *
-		 * * {@link https://html.spec.whatwg.org/#attr-input-required},
-		 * * {@link https://html.spec.whatwg.org/#attr-select-required}
-		 * * {@link https://html.spec.whatwg.org/#attr-textarea-required}
+		 * * https://html.spec.whatwg.org/#attr-input-required,
+		 * * https://html.spec.whatwg.org/#attr-select-required
+		 * * https://html.spec.whatwg.org/#attr-textarea-required
 		 *
 		 * @function
 		 * @private
