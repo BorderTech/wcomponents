@@ -5,6 +5,7 @@ define(["wc/dom/shed",
 	"wc/dom/formUpdateManager",
 	"wc/dom/Widget",
 	"wc/dom/initialise",
+	"wc/dom/uid",
 	"wc/ui/table/common",
 	"wc/ui/rowAnalog",
 	"wc/ui/ajax/processResponse",
@@ -14,7 +15,7 @@ define(["wc/dom/shed",
 	"wc/ui/checkBox",
 	"wc/ui/checkboxAnalog",
 	"wc/ui/radioAnalog"],
-	function(shed, getFilteredGroup, classList, toArray, formUpdateManager, Widget, initialise, table, rowAnalog, processResponse,
+	function(shed, getFilteredGroup, classList, toArray, formUpdateManager, Widget, initialise, uid, table, rowAnalog, processResponse,
 		getFirstLabelForElement, i18n, icon, checkBox) {
 		"use strict";
 
@@ -251,7 +252,7 @@ define(["wc/dom/shed",
 			 * @function
 			 * @private
 			 * @param {Element} trigger The select toggle trigger element.
-			 * @return {?number} The number of items affected by this activation. This is needed to prevent a double
+			 * @returns {?number} The number of items affected by this activation. This is needed to prevent a double
 			 * activation of a SUB_CONTROLLER from erroneously setting the sub-controllers state.
 			 */
 			function activateTrigger(trigger) {
@@ -448,6 +449,9 @@ define(["wc/dom/shed",
 
 				if (candidates) {
 					candidates.forEach(function (next) {
+						if (!next.id) {
+							next.id = uid();
+						}
 						idArray.push(next.id);
 					});
 

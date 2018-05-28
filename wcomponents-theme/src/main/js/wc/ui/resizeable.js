@@ -620,7 +620,7 @@ define(["wc/dom/attribute",
 			 *
 			 * @param {Function} subscriber The function that will be notified. This function MUST be present at
 			 *    "publish" time, but need not be preset at "subscribe" time.
-			 * @returns {?Function} A reference to the subscriber.
+			 * @returns {Function} A reference to the subscriber.
 			 */
 			this.subscribe = function(subscriber) {
 				function _subscribe(_subscriber) {
@@ -651,7 +651,7 @@ define(["wc/dom/attribute",
 			 * @public
 			 * @param {Element} element The resize handle.
 			 * @param {boolean} keep If true store the size for later use.
-			 * @return {Boolean} true if a resizeable target was found and reset.
+			 * @returns {Boolean} true if a resizeable target was found and reset.
 			 */
 			this.clearSize = function(element, keep) {
 				var target = getResizeTarget(element),

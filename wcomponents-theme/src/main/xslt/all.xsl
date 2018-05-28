@@ -149,7 +149,6 @@
 					fabric: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/fabric",
 					ccv: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/ccv",
 					face: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/face",
-					tracking: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/tracking/build/tracking-min",
 					getUserMedia: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/getusermedia-js/getUserMedia.min",
 					axs: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/axs_testing",
 					axe: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/axe.min"
@@ -161,7 +160,6 @@
 							this.tinyMCE.DOM.events.domLoaded = true;
 							return this.tinyMCE;
 						}},
-					tracking: {exports: "tracking"},
 					Promise: {exports: "Promise"},
 					fabric: {exports: "fabric"},
 					ccv: {exports: "ccv"},
@@ -339,8 +337,6 @@
 		<xsl:variable name="popups" select=".//ui:popup" />
 		<xsl:variable name="redirects" select=".//ui:redirect" />
 		<xsl:variable name="rtfs" select=".//ui:textarea[ui:rtf]" />
-		<xsl:variable name="selectToggles"
-			select=".//ui:selecttoggle | .//ui:rowselection[@selectAll]" />
 		<xsl:variable name="subordinates" select=".//ui:subordinate" />
 		<xsl:variable name="eagerness" select="//*[@mode eq 'eager']" />
 		<xsl:variable name="hasAjaxTriggers" select=".//ui:ajaxtrigger" />
@@ -455,6 +451,9 @@
 			<xsl:if
 				test=".//ui:radiobuttonselect[not(@readOnly)] or .//ui:radiobutton[not(@readOnly)]">
 				<xsl:text>"wc/ui/radioButtonSelect",</xsl:text>
+			</xsl:if>
+			<xsl:if test=".//ui:selecttoggle|.//ui:rowselection[@selectAll]">
+				<xsl:text>"wc/ui/selectToggle",</xsl:text>
 			</xsl:if>
 			<xsl:if
 				test=".//ui:shuffler[not(@readOnly)] or .//ui:multiselectpair[@shuffle and not(@readOnly)]">

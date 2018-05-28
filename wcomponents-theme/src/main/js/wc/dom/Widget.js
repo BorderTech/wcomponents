@@ -220,7 +220,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid"], /** @param getAncestorOrSelf 
 	 *    will be the result for this widget's container and so on...
 	 * @param {Boolean} [outermost] If true then get the matching ancestor which is furthest from element rather than
 	 *    the first matching ancestor.
-	 * @returns {?Element} The ancestor element if found or null (null even if getTree true).
+	 * @returns {Element} The ancestor element if found or null (null even if getTree true).
 	 */
 	Widget.prototype.findAncestor = function(element, limitTagName, getTree, outermost) {
 		var result = null,
@@ -278,7 +278,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid"], /** @param getAncestorOrSelf 
 	 * @public
 	 * @param {Element} element The element whose descendant we are searching.
 	 * @param {Boolean} [immediate] Only searches immediate child nodes.
-	 * @returns {?Element} The descendant element if found otherwise null.
+	 * @returns {Element} The descendant element if found otherwise null.
 	 */
 	Widget.prototype.findDescendant = function(element, immediate) {
 		return findDescendantsHelper(this, element, immediate, false);
@@ -293,7 +293,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid"], /** @param getAncestorOrSelf 
 	 * @param {Element} element The element whose descendants we are searching.
 	 * @param {Booelan} [immediate] If true only searches immediate child nodes.
 	 * @param {Boolean} [findAll] If false returns the first match only, toerwise finds all.
-	 * @returns {?(NodeList|Element)} Array-like collection of descendants OR, if findAll false, an element.
+	 * @returns {(NodeList|Element)} Array-like collection of descendants OR, if findAll false, an element.
 	 */
 	function findDescendantsHelper(widget, element, immediate, findAll) {
 		var result,
@@ -421,7 +421,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid"], /** @param getAncestorOrSelf 
 	 * @param {Element} element the start element
 	 * @param {(module:wc/dom/Widget[]|module:wc/dom/Widget)} widgets an array of Widgets.
 	 * @param {boolean} [immediate] If true look only in element's child nodes otherwise look in descendant nodes.
-	 * @returns {?Element} The first matching descendant element.
+	 * @returns {Element} The first matching descendant element.
 	 */
 	Widget.findDescendant = function(element, widgets, immediate) {
 		return findDescendantsHelper(widgets, element, immediate, false);
@@ -451,7 +451,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid"], /** @param getAncestorOrSelf 
 	 * @param {String} [config.limit] tagName for limit tag.
 	 * @param {Boolean} [config.tree] return tree from individual widgets.
 	 * @param {Boolean} [config.outermost] If true returns the outermost matching ancestor from all of the widgets.
-	 * @returns {?(Element|Array)} The ancestor element, if any or the ancestor tree array if config.tree is true.
+	 * @returns {(Element|Array)} The ancestor element, if any or the ancestor tree array if config.tree is true.
 	 */
 	Widget.findAncestor = function(element, widgets, config) {
 		var matches = [],

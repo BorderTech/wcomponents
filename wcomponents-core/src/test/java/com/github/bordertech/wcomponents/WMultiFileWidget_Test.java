@@ -7,7 +7,6 @@ import junit.framework.Assert;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.fileupload.FileItem;
 import org.junit.Test;
-
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Arrays;

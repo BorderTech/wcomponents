@@ -14,7 +14,7 @@ define(["wc/dom/impliedARIA"], function(impliedARIA) {
 		 * @function module:wc/dom/role.get
 		 * @param {Element} element The element to test.
 		 * @param {boolean} [implied] Include getting implied role if true.
-		 * @returns {?String} The WAI-ARIA role of the element, including its implied role if required.
+		 * @returns {String} The WAI-ARIA role of the element, including its implied role if required.
 		 */
 		this.get = function(element, implied) {
 			var role;

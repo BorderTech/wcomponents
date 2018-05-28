@@ -462,7 +462,7 @@ define(["wc/ui/menu/core",
 		 * Menu controller extension for WMenu of type BAR and type FLYOUT. These are menus which are horizontal at the top
 		 * level and if they have submenus they are transient fly-out artifacts.
 		 *
-		 * @see {@link http://www.w3.org/TR/wai-aria-practices/#menu}
+		 * @see http://www.w3.org/TR/wai-aria-practices/#menu
 		 *
 		 * @module
 		 * @extends module:wc/ui/menu/core

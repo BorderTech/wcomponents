@@ -96,7 +96,7 @@ define(["wc/ui/menu/core",
 			 * @function
 			 * @private
 			 * @param {Element} element The element from which to start searching for the tree root.
-			 * @returns {?Element} A tree root node.
+			 * @returns {Element} A tree root node.
 			 */
 			function getRootHelper(element) {
 				var _root;
@@ -186,7 +186,7 @@ define(["wc/ui/menu/core",
 			/**
 			 * Trees automatically select selectable treeitems on navigation.
 			 *
-			 * @see {@link http://www.w3.org/TR/wai-aria-practices/#TreeView}
+			 * @see http://www.w3.org/TR/wai-aria-practices/#TreeView
 			 * @var
 			 * @type {Boolean}
 			 * @protected
@@ -199,7 +199,7 @@ define(["wc/ui/menu/core",
 			 * Selection in trees is complicated as it depends on the presence of absence of chordal key strokes during
 			 * selection.
 			 *
-			 * @see {@link http://www.w3.org/TR/wai-aria-practices/#TreeView}
+			 * @see http://www.w3.org/TR/wai-aria-practices/#TreeView
 			 * @function module:wc/ui/menu/tree._select
 			 * @protected
 			 * @override
@@ -282,7 +282,7 @@ define(["wc/ui/menu/core",
 			/**
 			 * Sets up the initial keymap for tree menus.
 			 *
-			 * @see {@link http://www.w3.org/TR/wai-aria-practices/#TreeView}
+			 * @see http://www.w3.org/TR/wai-aria-practices/#TreeView
 			 * @function module:wc/ui/menu/tree._setupKeymap
 			 * @protected
 			 * @override
@@ -345,7 +345,7 @@ define(["wc/ui/menu/core",
 			 * @function module:wc/ui/menu/tree._getBranchExpandableElement
 			 * @override
 			 * @param {Element} item The start point for the search. This will normally be a 'branch'.
-			 * @returns {?Element} The "expandable" element. This is usually the branch content but is the branch in trees.
+			 * @returns {Element} The "expandable" element. This is usually the branch content but is the branch in trees.
 			 */
 			this._getBranchExpandableElement = function (item) {
 				if (!item) {

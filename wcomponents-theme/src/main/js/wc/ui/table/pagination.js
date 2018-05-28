@@ -236,7 +236,7 @@ define(["wc/dom/attribute",
 			 * @function
 			 * @private
 			 * @param {Element} selector a page selection dropdown.
-			 * @returns {?Element} the other pagination dropdown.
+			 * @returns {Element} the other pagination dropdown.
 			 */
 			function getOtherSelector(selector) {
 				var i,

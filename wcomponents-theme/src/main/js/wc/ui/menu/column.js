@@ -1,17 +1,4 @@
-/**
- * Menu controller extension for WMenu of type COLUMN. This represents a vertical menu with optional flyout submenus.
- *
- * @see {@link http://www.w3.org/TR/wai-aria-practices/#menu}
- * @module
- * @extends module:wc/ui/menu/core
- * @requires module:wc/ui/menu/core
- * @requires module:wc/dom/keyWalker
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/Widget
- * @requires module:wc/dom/initialise
- */
 define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "wc/dom/initialise", "wc/ui/menu/menuItem"],
-	/** @param abstractMenu @param keyWalker @param shed  @param Widget @param initialise @ignore */
 	function(abstractMenu, keyWalker, shed, Widget, initialise) {
 		"use strict";
 
@@ -70,7 +57,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 			};
 
 			/**
-			 * Sets up the initial keymap for column menus as per {@link http://www.w3.org/TR/wai-aria-practices/#menu}.
+			 * Sets up the initial keymap for column menus as per http://www.w3.org/TR/wai-aria-practices/#menu.
 			 *
 			 * @function
 			 * @protected
@@ -85,8 +72,19 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 				};
 			};
 		}
-
-		var /** @alias module:wc/ui/menu/column */instance;
+		/**
+		 * Menu controller extension for WMenu of type COLUMN. This represents a vertical menu with optional flyout submenus.
+		 *
+		 * @see http://www.w3.org/TR/wai-aria-practices/#menu
+		 * @module
+		 * @extends module:wc/ui/menu/core
+		 * @requires module:wc/ui/menu/core
+		 * @requires module:wc/dom/keyWalker
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/dom/initialise
+		 */
+		var instance;
 		Column.prototype = abstractMenu;
 		instance = new Column();
 		instance.constructor = Column;

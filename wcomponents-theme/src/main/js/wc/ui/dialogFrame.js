@@ -112,7 +112,7 @@ define(["wc/dom/event",
 			 * @function
 			 * @private
 			 * @param {wc/ui/dialogFrame~dto} [dto] The config options for the dialog (if any).
-			 * @returns {?Element} The form element.
+			 * @returns {Element} The form element.
 			 */
 			function getDlgForm(dto) {
 				var formId = (dto ? (dto.formId || dto.openerId) : null),
@@ -572,7 +572,7 @@ define(["wc/dom/event",
 			 * Close a dialog frame.
 			 * @function module:wc/ui/dialogFrame.close
 			 * @public
-			 * @return {boolean} true if there is a dialog to hide.
+			 * @returns {boolean} true if there is a dialog to hide.
 			 */
 			this.close = function () {
 				var dialog = this.getDialog();
@@ -801,7 +801,7 @@ define(["wc/dom/event",
 			 * Get a dialog if one exists.
 			 * @function  module:wc/ui/dialogFrame.getDialog
 			 * @public
-			 * @returns {?Element} The dialog.
+			 * @returns {Element} The dialog.
 			 */
 			this.getDialog = function () {
 				return document.getElementById(DIALOG_ID);
@@ -812,7 +812,7 @@ define(["wc/dom/event",
 			 *
 			 * @function module:wc/ui/dialogFrame.getContent
 			 * @public
-			 * @returns {?Element} The content wrapper if present.
+			 * @returns {Element} The content wrapper if present.
 			 */
 			this.getContent = function () {
 				var dialog = this.getDialog();

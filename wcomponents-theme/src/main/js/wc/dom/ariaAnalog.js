@@ -154,7 +154,7 @@ define(["wc/has",
 		 * @private
 		 * @param {Element} element The element in a group
 		 * @param {Object} analog An instance of a subclass of AriaAnalog.
-		 * @returns {?Element[]} The group of items in the element's ARIA analog group.
+		 * @returns {Element[]} The group of items in the element's ARIA analog group.
 		 */
 		function getGroup(element, analog) {
 			var result;
@@ -349,7 +349,7 @@ define(["wc/has",
 		 * @function
 		 * @public
 		 * @param {Element} element The group member we are using to derive the group container
-		 * @returns {?Element} The element which defines a group by containment (such as a fieldset).
+		 * @returns {Element} The element which defines a group by containment (such as a fieldset).
 		 */
 		AriaAnalog.prototype.getGroupContainer = function(element) {
 			return group.getContainer(element, this.CONTAINER);
@@ -538,7 +538,7 @@ define(["wc/has",
 		 * @param {number} direction -1 to previous in group, 1 to next in group NOTE: radio button groups allow native
 		 *    group cycling at the extremities so we allow that here too. Only useful if one of
 		 *    {@link module:wc/dom/ariaAnalog~AriaAnalog#KEY_DIRECTION}
-		 * @returns {?Element} The end point of the navigation. If start is part of a navigable group but there is
+		 * @returns {Element} The end point of the navigation. If start is part of a navigable group but there is
 		 *    nowhere to go then we may return the start element.
 		 */
 		AriaAnalog.prototype.navigate = function(start, direction) {
@@ -844,7 +844,7 @@ define(["wc/has",
 		 * @function
 		 * @public
 		 * @param {Element} target The element which was the target of an event.
-		 * @returns {?Element} The activable aria analog ancestor of target.
+		 * @returns {Element} The activable aria analog ancestor of target.
 		 */
 		AriaAnalog.prototype.getActivableFromTarget = function(target) {
 			var item;

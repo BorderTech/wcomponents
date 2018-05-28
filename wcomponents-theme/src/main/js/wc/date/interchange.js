@@ -134,7 +134,7 @@ define(["wc/date/today", "lib/sprintf"],
 			 * @alias module:wc/date/interchange.toDate
 			 * @static
 			 * @param {String} xfr A transfer date string.
-			 * @returns {?Date} A date represented by the xfr string.
+			 * @returns {Date} A date represented by the xfr string.
 			 */
 			this.toDate = function(xfr) {
 				var result,

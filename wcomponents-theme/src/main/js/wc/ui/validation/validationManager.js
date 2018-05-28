@@ -205,7 +205,7 @@ define(["wc/has",
 			 * @param {Function} subscriber The function that will be notified by validationManager. This function MUST be present at "publish" time,
 			 *   but need not be present at "subscribe" time.
 			 * @param {boolean} [revalidate] if truthy subscribe to revalidation rather than validation.
-			 * @returns {?Function} A reference to the subscriber.
+			 * @returns {Function} A reference to the subscriber.
 			 */
 			this.subscribe = function(subscriber, revalidate) {
 				observer = observer || new Observer();

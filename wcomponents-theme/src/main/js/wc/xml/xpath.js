@@ -31,7 +31,7 @@ define(["wc/array/toArray"], /** @param toArray wc/array/toArray @ignore */ func
 		*    var doc = xhr.responseXML;
 		* // 'doc' now contains an MSXML document in IE10's Standards and Quirks document modes
 		 </code></pre>
-		 * @see {@link http://blogs.msdn.com/b/ie/archive/2012/07/19/xmlhttprequest-responsexml-in-ie10-release-preview.aspx}
+		 * @see http://blogs.msdn.com/b/ie/archive/2012/07/19/xmlhttprequest-responsexml-in-ie10-release-preview.aspx
 		 *
 		 * @function
 		 * @private

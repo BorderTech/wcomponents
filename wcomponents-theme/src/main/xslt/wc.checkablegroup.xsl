@@ -245,6 +245,9 @@
 				<xsl:attribute name="value">
 					<xsl:value-of select="@value"/>
 				</xsl:attribute>
+				<xsl:attribute name="id">
+					<xsl:value-of select="generate-id()"/>
+				</xsl:attribute>
 				<xsl:if test="@selected">
 					<xsl:attribute name="checked">checked</xsl:attribute>
 				</xsl:if>

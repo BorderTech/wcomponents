@@ -130,7 +130,7 @@ define(["wc/dom/ariaAnalog",
 			 * @alias module:wc/ui/listboxAnalog.getAvailableOptions
 			 * @public
 			 * @param {Element} listbox an instance of a listbox
-			 * @returns {?Element[]} the available options in listbox
+			 * @returns {Element[]} the available options in listbox
 			 */
 			this.getAvailableOptions = function(listbox) {
 				return getFilteredGroup(listbox, {filter: (getFilteredGroup.FILTERS.visible|getFilteredGroup.FILTERS.enabled), containerWd: this.CONTAINER, itemWd: this.ITEM, shedAttributeOnly: true});
@@ -164,7 +164,7 @@ define(["wc/dom/ariaAnalog",
 			 * @param {Element} option the option in which we are interested
 			 * @param {boolean} [lowerCase] if true return a lowercase version of the value
 			 * @param {boolean} [forceText] if true get the textContent in preference to the value
-			 * @return {String} the value of the option.
+			 * @returns {String} the value of the option.
 			 */
 			this.getOptionValue = function (option, lowerCase, forceText) {
 				var txt = forceText ? textContent.get(option) :
@@ -201,7 +201,7 @@ define(["wc/dom/ariaAnalog",
 		 *      could be used to provide the shortcut key.
 		 *
 		 *
-		 * @see {@link http://www.w3.org/TR/wai-aria-practices/#Listbox}
+		 * @see http://www.w3.org/TR/wai-aria-practices/#Listbox
 		 * @module
 		 * @extends module:wc/dom/ariaAnalog
 		 * @requires module:wc/dom/ariaAnalog

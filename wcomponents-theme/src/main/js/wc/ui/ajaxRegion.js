@@ -237,7 +237,7 @@ define(["wc/dom/event",
 			 * @public
 			 * @param {(String|Element)} arg The ID of the trigger to retrieve OR a DOM element which may be associated with a trigger.
 			 * @param {boolean} [ignoreAncestor] If true will not search in DOM ancestry for an element with a trigger.
-			 * @returns {?module:wc/ajax/Trigger} The trigger, if found.
+			 * @returns {module:wc/ajax/Trigger} The trigger, if found.
 			 * @see {@link module:wc/ajax/triggerManager#getTrigger} for full details.
 			 */
 			this.getTrigger = function(arg, ignoreAncestor) {

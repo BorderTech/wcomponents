@@ -41,7 +41,7 @@ define(["wc/ajax/ajax", "wc/loader/prefetch", "wc/config", "wc/Observer", "modul
 			 * @param {String} fileName The file name of the resource to load.
 			 * @param {Boolean} [asText] True to load as a text file rather than as an XML file.
 			 * @param {Boolean} [async] True to load the resource asynchronously (in which case returns a Promise);
-			 * @returns {?Document|Promise} The loaded file or a Promise resolved with the loaded file if async is true.
+			 * @returns {Document|Promise} The loaded file or a Promise resolved with the loaded file if async is true.
 			 */
 			this.load = function(fileName, asText, async) {
 				var loader = this,
@@ -104,7 +104,7 @@ define(["wc/ajax/ajax", "wc/loader/prefetch", "wc/config", "wc/Observer", "modul
 
 			/**
 			 * Allows other modules to get the cachebuster used by the resource loader.
-			 * @returns {?String} the cachebuster if present.
+			 * @returns {String} the cachebuster if present.
 			 */
 			this.getCacheBuster = function() {
 				var config = getConfig();

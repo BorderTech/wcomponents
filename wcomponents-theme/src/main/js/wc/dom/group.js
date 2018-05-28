@@ -43,7 +43,7 @@ define(["wc/dom/tag", "wc/array/toArray",  "wc/dom/getAncestorOrSelf", "wc/dom/a
 			 *    matches, for example if you pass a menu the result may contain a mix of all different types mentioned
 			 *    above.
 			 * @param {Boolean} [ignoreInnerGroups] see {@link module:wc/dom/ariaGroup.getGroup}
-			 * @returns {?Element[]} An array containing the members of this dom group. If the element is not part of
+			 * @returns {Element[]} An array containing the members of this dom group. If the element is not part of
 			 *    any group the array is empty.
 			 */
 			this.get = function (element, ignoreInnerGroups) {
@@ -115,7 +115,7 @@ define(["wc/dom/tag", "wc/array/toArray",  "wc/dom/getAncestorOrSelf", "wc/dom/a
 			 * @param {Element} element An element which may be a group container or a member of a group or neither.
 			 * @param {module:wc/dom/Widget} [containerWd] A container widget for a subclass of
 			 *    {@link module:wc/dom/AriaAnalog}.
-			 * @returns {?Element} The element which contains the group.
+			 * @returns {Element} The element which contains the group.
 			 */
 			this.getContainer = function(element, containerWd) {
 				var container;
@@ -145,7 +145,7 @@ define(["wc/dom/tag", "wc/array/toArray",  "wc/dom/getAncestorOrSelf", "wc/dom/a
 		 * Get a "native" DOM group.
 		 * @param {ElementGroup} elementGroup
 		 * @param {Element} element The reference element.
-		 * @returns {?Element[]} The group, if found.
+		 * @returns {Element[]} The group, if found.
 		 * @private
 		 * @function
 		 */

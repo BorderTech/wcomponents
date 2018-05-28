@@ -65,7 +65,7 @@ define(["wc/Observer", "wc/timers", "wc/global", "lib/requirejs/domReady"],
 			 *    callbacks.
 			 * @param {String} [method] The name of the method to call if listener is an object rather than a function.
 			 * @param {(Function|Object)} listener A function or an object which implements the "initialise" interface.
-			 * @returns {?Function} Returns listener if it was able to be subscribed to an instance of {@link module:wc/Observer}.
+			 * @returns {Function} Returns listener if it was able to be subscribed to an instance of {@link module:wc/Observer}.
 			 */
 			function add(priority, method, listener) {
 				var result,

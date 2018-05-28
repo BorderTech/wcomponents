@@ -85,7 +85,7 @@ define([ "wc/has", "wc/dom/classList", "wc/dom/initialise", "wc/dom/Widget", "wc
 			 * @function
 			 * @private
 			 * @param {Element} source the SOURCE element.
-			 * @returns {?String} The MIME type of the source if known.
+			 * @returns {String} The MIME type of the source if known.
 			 * @todo Use {@link module:wc/file/getMimeType}.
 			 */
 			function getType(source) {

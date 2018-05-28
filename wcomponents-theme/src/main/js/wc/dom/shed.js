@@ -19,7 +19,6 @@ define(["wc/Observer",
 		 */
 		function Shed() {
 			var observer,
-				/** @var {module:wc/dom/shed~actions} @private */
 				actions = {
 					SHOW: "show",
 					HIDE: "hide",
@@ -168,7 +167,7 @@ define(["wc/Observer",
 			 *  * element is a checkbox (or has checkbox role); and
 			 *  * value is false.
 			 *
-			 * @returns {?(Boolean|int)} A property of {@link module:wc/dom/shed.state} or null if it does not
+			 * @returns {(Boolean|int)} A property of {@link module:wc/dom/shed.state} or null if it does not
 			 *     natively support a selected state. Note that that mixed (indeterminate) and checked is ignored.
 			 */
 			function getSetNativeSelected(element, value, mix) {
@@ -761,7 +760,7 @@ define(["wc/Observer",
 			 * @function module:wc/dom/shed.subscribe
 			 * @param {string} type The action you want to be notified about (one of shed.actions)
 			 * @param {Function} subscriber A callback function, will be passed the args: (element, action)
-			 * @returns {?Function} The result of observer.subscribe
+			 * @returns {Function} The result of observer.subscribe
 			 */
 			this.subscribe = function (type, subscriber) {
 				function _subscribe(_type, _subscriber) {
@@ -783,7 +782,7 @@ define(["wc/Observer",
 			 * @param {String} action The state to toggle, any one of {@link module:wc/dom/shed~actions}.
 			 *   Note that the action passed just gives the "flavor" of the toggle. For example it does not matter
 			 *   whether you pass SHOW or HIDE, they are equivalent for toggling. Note that tri-state checkboxes cycle
-			 *   from mixed to UNCHECKED. This is specified here: {@link http://www.w3.org/TR/wai-aria-practices/#checkbox}
+			 *   from mixed to UNCHECKED. This is specified here: http://www.w3.org/TR/wai-aria-practices/#checkbox
 			 * @param {Boolean} [quiet] If true then do not publish.
 			 */
 			this.toggle = function (element, action, quiet) {
@@ -817,7 +816,7 @@ define(["wc/Observer",
 			 * @function module:wc/dom/shed._unsubscribe
 			 * @param {String} type The action you want to unsubscribe from (one of shed.actions)
 			 * @param {Function} subscriber The subscriber to unsubscribe.
-			 * @returns {?Function} The result of {@link module:wc/Observer#subscribe}
+			 * @returns {Function} The result of {@link module:wc/Observer#subscribe}
 			 * @ignore
 			 */
 			this._unsubscribe = function (type, subscriber) {

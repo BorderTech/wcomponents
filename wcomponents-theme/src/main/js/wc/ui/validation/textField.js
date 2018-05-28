@@ -232,9 +232,6 @@ define(["wc/dom/initialise",
 		 * Provides functionality to undertake client validation for text inputs including WTextField, WEmailField,
 		 * WPhoneNumberField and WPasswordField.
 		 *
-		 * @typedef {Object} module:wc/ui/validation/textField.config() Optional module configuration.
-		 * @property {String} rx The email regular expression as a string.
-		 *
 		 * @module
 		 *
 		 * @requires wc/dom/initialise
@@ -253,4 +250,8 @@ define(["wc/dom/initialise",
 		var instance = new ValidationTextInput();
 		initialise.register(instance);
 		return instance;
+		/**
+		 * @typedef {Object} module:wc/ui/validation/textField.config Optional module configuration.
+		 * @property {String} rx The email regular expression as a string.
+		 */
 	});

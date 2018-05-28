@@ -60,7 +60,7 @@ define(["wc/loader/resource"],
 		 * @function
 		 * @private
 		 * @param {String} extension The file extension.
-		 * @returns {?String[]} The guessed MIME type(s) of the file extension.
+		 * @returns {String[]} The guessed MIME type(s) of the file extension.
 		 */
 		function guessMimeType(extension) {
 			if (extension) {

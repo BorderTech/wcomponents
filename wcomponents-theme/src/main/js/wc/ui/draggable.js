@@ -374,10 +374,6 @@ define(["wc/dom/attribute",
 		/**
 		 * Provides functionality used to move a component around the screen. Components may be moved using a mouse or keyboard.
 		 *
-		 * @typedef {Object} module:wc/ui/draggable.config() Optional module configuration
-		 * @property {int} step The number of pixels to move the draggable element per key press.
-		 * @default 8
-		 *
 		 * @module
 		 * @requires module:wc/dom/attribute
 		 * @requires module:wc/dom/clearSelection
@@ -398,4 +394,9 @@ define(["wc/dom/attribute",
 		var instance = new Draggable();
 		initialise.register(instance);
 		return instance;
+		/**
+		 * @typedef {Object} module:wc/ui/draggable~config Optional module configuration
+		 * @property {int} step The number of pixels to move the draggable element per key press.
+		 * @default 8
+		 */
 	});

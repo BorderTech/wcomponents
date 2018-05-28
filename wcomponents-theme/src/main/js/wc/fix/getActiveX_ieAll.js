@@ -15,7 +15,7 @@ define(function() {
 	 *    order they are provided, so if the first item in the Array is supported no further
 	 *    versions will be tested. You get the "no version" version tested for free.
 	 *
-	 * @returns {?Object} {
+	 * @returns {Object} {
 	 *     version: The first ActiveX version supported by this version of IE,
 	 *     engine: The engine string with the version number appended
 	 * }

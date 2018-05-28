@@ -1,23 +1,3 @@
-/**
- * Provides ARIA based functionality for items in a tree (role='treeitem")
- *
- * **NOTE:**
- *
- * According to the WAI-ARIA implementation guide, tree items should select on navigate. Tree items in WComponents are a
- * type of WMenuItem and menu items are supposed to do stuff. For this reason we have decided to not try to make them
- * select on navigate. This will need to change.</p>
- *
- * @see {@link http://www.w3.org/TR/wai-aria-practices/#treeitem}
- * @module
- * @extends module:wc/dom/ariaAnalog
- *
- * @requires module:wc/dom/ariaAnalog
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/Widget
- * @requires module:wc/dom/isAcceptableTarget
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/getFilteredGroup
- */
 define(["wc/dom/ariaAnalog",
 	"wc/dom/initialise",
 	"wc/dom/Widget",
@@ -209,7 +189,28 @@ define(["wc/dom/ariaAnalog",
 			};
 		}
 
-		var /** @alias module:wc/ui/menu/treeItem */instance;
+		/**
+		 * Provides ARIA based functionality for items in a tree (role='treeitem")
+		 *
+		 * **NOTE:**
+		 *
+		 * According to the WAI-ARIA implementation guide, tree items should select on navigate. Tree items in WComponents are a
+		 * type of WMenuItem and menu items are supposed to do stuff. For this reason we have decided to not try to make them
+		 * select on navigate. This will need to change.
+		 *
+		 * @see http://www.w3.org/TR/wai-aria-practices/#treeitem
+		 *
+		 * @module
+		 * @extends module:wc/dom/ariaAnalog
+		 *
+		 * @requires module:wc/dom/ariaAnalog
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/dom/isAcceptableTarget
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/dom/getFilteredGroup
+		 */
+		var instance;
 
 		TreeItem.prototype = ariaAnalog;
 		instance = new TreeItem();

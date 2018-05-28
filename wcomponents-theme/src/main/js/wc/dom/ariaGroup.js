@@ -28,7 +28,7 @@ define(["wc/array/toArray",
 			*
 			* @function module:wc/dom/ariaGroup.getOwner
 			* @param {Element} element The element to test.
-			* @returns {?Element} The element which owns the passed in element.
+			* @returns {Element} The element which owns the passed in element.
 			*/
 			this.getOwner = function(element) {
 				var id = element.id,
@@ -78,7 +78,7 @@ define(["wc/array/toArray",
 			 * @param {Boolean} [ignoreInnerGroups] If true then all members of the group will be included even if they
 			 *    are also members of another group nested within the current one. This is most commonly found in menus
 			 *    where we may want all items (for example in a tree) whether or not they are also in a submenu.
-			 * @returns {?Array} An array of group members.
+			 * @returns {Array} An array of group members.
 			 */
 			this.getGroup = function (element, role, ignoreInnerGroups) {
 				var container,
@@ -149,7 +149,7 @@ define(["wc/array/toArray",
 			 * @param {module:wc/dom/Widget} [containerWd] a Widget describing the container, if any, for the
 			 *    subclass of {@link module:wc/dom/AriaAnalog}
 			 * @param {Boolean} [ignoreOwner] If true then do not look for a WAI-ARIA owner (aria-owns) element.
-			 * @returns {?Element} The group container element, if any.
+			 * @returns {Element} The group container element, if any.
 			 */
 			this.getContainer = function(element, containerWd, ignoreOwner) {
 				var scope, widgets, result, role;
