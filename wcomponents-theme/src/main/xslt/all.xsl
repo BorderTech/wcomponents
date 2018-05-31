@@ -113,11 +113,9 @@
 							 />
 						</xsl:call-template>
 					</xsl:variable>
-					<link type="text/css" rel="stylesheet" href="{$debugCssUrl}"
-						media="screen" />
+					<link type="text/css" rel="stylesheet" href="{$debugCssUrl}" media="screen" />
 				</xsl:if>
-				<link type="text/css" rel="stylesheet"
-					href="{concat($resourceRoot, 'resource/fontawesome/css/font-awesome.min.css')}" media="screen" />
+				<link type="text/css" rel="stylesheet" href="{concat($resourceRoot, 'resource/fontawesome/css/font-awesome.min.css')}" media="screen" />
 				<!--
 					We need to set up the require config very early. This mess
 					constructs the require config which is necessary to commence
@@ -784,7 +782,7 @@
 	<xsl:include href="wc.ui.definitionList.xsl" />
 	<xsl:include href="wc.ui.dialog.xsl" />
 	<xsl:include href="wc.ui.dropdown.xsl" />
-  <xsl:include href="wc.ui.fieldindicator.xsl"/>
+	<xsl:include href="wc.ui.fieldindicator.xsl"/>
 	<xsl:include href="wc.ui.fieldLayout.xsl" />
 	<xsl:include href="wc.ui.fieldSet.xsl" />
 	<xsl:include href="wc.ui.figure.xsl" />
@@ -795,7 +793,7 @@
 	<xsl:include href="wc.ui.listbox.xsl" />
 	<xsl:include href="wc.ui.margin.xsl" />
 	<xsl:include href="wc.ui.menu.xsl" />
-  <xsl:include href="wc.ui.messagebox.xsl"/>
+	<xsl:include href="wc.ui.messagebox.xsl"/>
 	<xsl:include href="wc.ui.multidropdown.xsl" />
 	<xsl:include href="wc.ui.multitextfield.xsl" />
 	<xsl:include href="wc.ui.numberfield.xsl" />

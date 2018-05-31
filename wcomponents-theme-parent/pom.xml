@@ -15,6 +15,10 @@
 	<packaging>pom</packaging>
 
 	<properties>
+    <!--
+      If a theme inherits from any theme other than wcomponents-theme then this property points to that theme. See `wcomponents-theme/build.xml.
+    -->
+    <theme.inherit/>
 		<!--
 			We externalize download URLs so that in-house builds can override them to on-prem mirrors.
 		-->
@@ -29,7 +33,6 @@
 		<theme.target.dir>${project.build.directory}</theme.target.dir>
 		<theme.tmp.dir>${java.io.tmpdir}${file.separator}wcomponents-theme-tmp</theme.tmp.dir>
 		<theme.impl.dir>${theme.tmp.dir}/fakeImplRoot</theme.impl.dir>
-		<theme.impl.name />
 		<theme.unpack.dir>${project.build.directory}${file.separator}${theme.unpacked.name}</theme.unpack.dir>
 		<i18n.resources.dir>${theme.dir}/../wcomponents-i18n/src/main/resources</i18n.resources.dir>
 		<i18n.unpack.dir>${project.build.directory}${file.separator}i18n-unpacked</i18n.unpack.dir>
@@ -52,29 +55,6 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>3.0.0-M1</version>
-				<executions>
-					<execution>
-						<id>enforce</id>
-						<goals>
-							<goal>enforce</goal>
-						</goals>
-						<configuration>
-							<rules>
-								<requireMavenVersion>
-									<version>[3.2,)</version>
-								</requireMavenVersion>
-								<requireJavaVersion>
-									<version>[1.8,)</version>
-								</requireJavaVersion>
-							</rules>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.3</version>
@@ -190,8 +170,9 @@
 								<echo>Attempting to start ANT build at ${theme.core.dir}</echo>
 								<echo>basedir = ${basedir}</echo>
 								<property name="basedir" location="${basedir}" />
+                <property name="theme.inherit" value="${theme.inherit}" />
 								<property name="target.dir" location="${project.build.directory}" />
-								<property name="component.rootdir" location="${theme.core.dir}" />
+								<property name="theme.core.dir" location="${theme.core.dir}" />
 								<property name="build.number" value="${project.version}" />
 								<property name="build.rootdir" location="${theme.target.dir}" />
 								<property name="theme.skip.tests" value="true" />
@@ -215,9 +196,10 @@
 								<echo>Attempting to start ANT test at ${theme.core.dir}</echo>
 								<echo>basedir = ${basedir}</echo>
 								<property name="basedir" location="${basedir}" />
+                <property name="theme.inherit" value="${theme.inherit}" />
 								<property name="phantomjs.binary" value="${phantomjs.binary}" />
 								<property name="target.dir" location="${project.build.directory}" />
-								<property name="component.rootdir" location="${theme.core.dir}" />
+								<property name="theme.core.dir" location="${theme.core.dir}" />
 								<property name="build.number" value="${project.version}" />
 								<property name="build.rootdir" location="${theme.target.dir}" />
 								<property name="theme.skip.tests" value="${skipOptionalTests}" />
@@ -241,8 +223,9 @@
 								<echo>Attempting to start ANT documentation build at ${theme.core.dir}</echo>
 								<echo>basedir = ${basedir}</echo>
 								<property name="basedir" location="${basedir}" />
+                <property name="theme.inherit" value="${theme.inherit}" />
 								<property name="target.dir" location="${project.build.directory}" />
-								<property name="component.rootdir" location="${theme.core.dir}" />
+								<property name="theme.core.dir" location="${theme.core.dir}" />
 								<property name="build.number" value="${project.version}" />
 								<property name="build.rootdir" location="${theme.target.dir}" />
 								<property name="theme.skip.tests" value="true" />

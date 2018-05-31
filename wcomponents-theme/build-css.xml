@@ -9,6 +9,8 @@
 	<target name="init">
 		<mkdir dir="${target.rootdir}/style" />
 		<mkdir dir="${tmp.dir}/css-built" />
+    <delete dir="${theme.core.dir}/src/main/sass/.sass-cache"/>
+    <delete dir="${impl.src.dir}/src/main/sass/sass/.sass-cache"/>
 	</target>
 
 	<!--
@@ -18,33 +20,30 @@
 	<target name="copySassSrc">
 		<!-- wcomponents-theme SCSS -->
 		<copy todir="${tmp.dir}/sass" overwrite="true" quiet="true">
-			<fileset dir="${common.src.rootdir}/sass" includes="**" />
+      <fileset dir="${theme.core.dir}/src/main/sass" includes="**" excludes="**/.sass-cache" />
 		</copy>
 
 		<!-- Implementation SCSS -->
 		<copy todir="${tmp.dir}/sass" overwrite="true" quiet="true">
-			<fileset dir="${impl.src.main.dir}/sass" includes="**" erroronmissingdir="false" />
+			<fileset dir="${impl.src.dir}/src/main/sass" includes="**" excludes="**/.sass-cache" erroronmissingdir="false" />
 		</copy>
 	</target>
 
 	<!--
 		Compile Sass to CSS using sass ( https://www.npmjs.com/package/sass )
 	-->
-	<target name="compileSass">
+
+
+  <target name="compileSass">
 		<stopwatch name="compileSass" action="start" />
-		<for param="file">
-			<fileset dir="${tmp.dir}/sass" includes="*.scss" excludes="_*.scss" />
-			<sequential>
-				<var name="base.name" unset="true" />
-				<var name="css.name" unset="true" />
-				<basename property="base.name" file="@{file}" />
-				<propertyregex property="css.name" input="${base.name}"
-								regexp="(.+)\.scss"
-								select="\1"
-								casesensitive="false" />
-				<compilesass sourceFile="@{file}" destFile="${tmp.dir}/css-built/${css.name}.css" />
-			</sequential>
-		</for>
+    <property name="sass.executable" location="${basedir}/node_modules/sass/sass"/>
+			<nodejs.exec failonerror="true" cwd="${target.rootdir}">
+				<arguments>
+					<arg value="${sass.executable}"/>
+          <arg value="--no-source-map"/>
+					<arg value="${tmp.dir}/sass:${tmp.dir}/css-built"/>
+				</arguments>
+			</nodejs.exec>
 		<stopwatch name="compileSass" action="total" />
 	</target>
 
@@ -67,33 +66,16 @@
 		<attribute name="sourceFile" />
 		<attribute name="destFile" />
 		<sequential>
-			<property name="cleancss.executable" location="${basedir}/node_modules/clean-css/bin/cleancss"/>
-			<echo level="verbose">node ${cleancss.executable} --skip-import --skip-aggressive-merging --skip-rebase --rounding-precision -1 -o @{destFile} @{sourceFile}</echo>
+			<property name="cleancss.executable" location="${basedir}/node_modules/clean-css-cli/bin/cleancss"/>
+			<echo level="verbose">node ${cleancss.executable} --skip-rebase --level 2 -o @{destFile} @{sourceFile}</echo>
 			<nodejs.exec failonerror="true" cwd="${target.rootdir}">
 				<arguments>
 					<arg value="${cleancss.executable}"/>
-					<arg value="--skip-import"/>
-<!--					<arg value="-\-skip-advanced"/>-->
-					<arg value="--skip-aggressive-merging"/>
 					<arg value="--skip-rebase"/>
-					<arg value="--rounding-precision"/>
-					<arg value="-1"/>
+					<arg value="--level"/>
+					<arg value="2"/> <!-- 1 for safe, 2 for compact 0 for pretty much nothing-->
 					<arg value="-o"/>
 					<arg value="@{destFile}"/>
-					<arg value="@{sourceFile}"/>
-				</arguments>
-			</nodejs.exec>
-		</sequential>
-	</macrodef>
-
-	<macrodef name="compilesass">
-		<attribute name="sourceFile" />
-		<attribute name="destFile" />
-		<sequential>
-			<property name="sass.executable" location="${basedir}/node_modules/sass/sass"/>
-			<nodejs.exec failonerror="true" cwd="${target.rootdir}" outfile="@{destFile}">
-				<arguments>
-					<arg value="${sass.executable}"/>
 					<arg value="@{sourceFile}"/>
 				</arguments>
 			</nodejs.exec>
