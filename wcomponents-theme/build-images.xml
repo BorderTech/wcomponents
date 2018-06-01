@@ -4,7 +4,7 @@
 
 	<target name="build" description="Builds images">
 		<copy todir="${target.rootdir}/images" overwrite="true">
-			<fileset dir="${theme.core.dir}/src/main/images" includes="**"/>
+			<fileset dir="${component.rootdir}/src/main/images" includes="**"/>
 		</copy>
 		<copy todir="${target.rootdir}/images" overwrite="true">
 			<fileset dir="${impl.src.dir}/src/main/images" includes="**" erroronmissingdir="false"/>

@@ -9,7 +9,7 @@
 	-->
 	<target name="build" depends="getTimezoneData" description="Builds resources">
 		<copy todir="${target.rootdir}/resource" overwrite="true">
-			<fileset dir="${theme.core.dir}/src/main/resource" includes="**.xml, **.rdf, **.html, **.svg, **.mustache, **.handlebars" />
+			<fileset dir="${component.rootdir}/src/main/resource" includes="**.xml, **.rdf, **.html, **.svg, **.mustache, **.handlebars" />
 			<filterchain>
 				<deletecharacters chars="\t" />
 				<trim />
@@ -28,7 +28,7 @@
 		</copy>
 
 		<copy todir="${target.rootdir}/resource" overwrite="true">
-			<fileset dir="${theme.core.dir}/src/main/resource" includes="**" excludes="**.xml, **.rdf, **.html, **.svg, **.mustache, **.handlebars" />
+			<fileset dir="${component.rootdir}/src/main/resource" includes="**" excludes="**.xml, **.rdf, **.html, **.svg, **.mustache, **.handlebars" />
 		</copy>
 		<copy todir="${target.rootdir}/resource" overwrite="true">
 			<fileset dir="${impl.src.dir}/src/main/resource" includes="**" excludes="**.xml, **.rdf, **.html, **.svg, **.mustache, **.handlebars" erroronmissingdir="false" />

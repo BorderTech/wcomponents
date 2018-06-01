@@ -7,7 +7,7 @@
 	<import file="build-import.xml"/>
 	<property name="test.output.rootdir" location="${build.rootdir}/test-classes/${impl.dir.name}"/>
 	<property name="impl.intern.srcdir" location="${impl.src.dir}/src/test/intern"/>
-	<property name="intern.srcdir" location="${theme.core.dir}/src/test/intern"/>
+	<property name="intern.srcdir" location="${component.rootdir}/src/test/intern"/>
 	<property environment="env"/>
 
 	<!--
@@ -52,7 +52,7 @@
 				<include name="**/*.js"/>
 			</fileset>
 			<filterset>
-				<filter token="RESOURCES" value="../../target/test-classes/${impl.dir.name}/intern/resources"/>
+				<filter token="RESOURCES" value="../../target/test-classes/${implementation.name}/intern/resources"/>
 				<filter token="HERE" value="${here}"/>
 			</filterset>
 			<filterchain>
@@ -83,8 +83,8 @@
 	<macrodef name="jsunit">
 		<attribute name="srcDir" default="${src.dir}"/>
 		<attribute name="configModule" default="intern"/>
-		<attribute name="relativePathToSource" default="target/classes/theme/${impl.dir.name}/scripts_debug"/>
-		<attribute name="relativePathToTestdir" default="target/test-classes/${impl.dir.name}"/>
+		<attribute name="relativePathToSource" default="target/classes/theme/${implementation.name}/scripts_debug"/>
+		<attribute name="relativePathToTestdir" default="target/test-classes/${implementation.name}"/>
 		<attribute name="relativePathToTests" default="@{relativePathToTestdir}/intern"/>
 		<attribute name="failonerror" default="true"/>
 		<sequential>
@@ -116,7 +116,7 @@
 				</path>
 			</pathconvert>
 			<copy todir="${test.output.rootdir}" overwrite="true" force="true">
-				<fileset dir="${theme.core.dir}/src/test">
+				<fileset dir="${component.rootdir}/src/test">
 					<include name="@{configModule}.js"/>
 				</fileset>
 				<filterchain>
@@ -139,7 +139,7 @@ Clicky the linky and the tests should run.
 			</echo>
 			<echo file="${build.rootdir}/index.html">
 				<![CDATA[
-					<a href="/node_modules/intern/client.html?config=target/test-classes/${impl.dir.name}/intern">Unit Tests</a>
+					<a href="/node_modules/intern/client.html?config=target/test-classes/${implementation.name}/intern">Unit Tests</a>
 				]]>
 			</echo>
 			<if>

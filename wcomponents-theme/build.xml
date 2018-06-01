@@ -14,7 +14,6 @@
 	<target name="clean"
 			depends="cleanTmpDir"
 			description = "This target cleans all built output for the themes.">
-		<delete dir="${build.rootdir}/classes/theme"/>
 		<delete dir="${build.rootdir}"/>
 	</target>
 
@@ -27,7 +26,7 @@
 	</target>
 
 	<target name="cleanTmpDir">
-		<delete dir="${tmp.dir}" failonerror="true"/>
+      <delete dir="${tmp.dir}" failonerror="true"/>
 	</target>
 
 	<target name="cleanupOptional" unless="build.preserve.tmp.onexit">
@@ -39,8 +38,8 @@
 		<echo level="info">Build properties can be overriden in any of the following locations (in order of decreasing priority):
   *  ${user.home}/.wc/${user.name}.xml (in user home dir)
   *  ${user.home}/.wc/wc_theme_build_properties.xml (in user home dir)
-  *  ${theme.core.dir}/${user.name}.xml (in the project root dir)
-  *  ${theme.core.dir}/wc_theme_build_properties.xml (in the project root dir)</echo>
+  *  ${component.rootdir}/${user.name}.xml (in the project root dir)
+  *  ${component.rootdir}/wc_theme_build_properties.xml (in the project root dir)</echo>
 		<!-- We create this package.json file so that we can install node modules locally -->
 		<echo force="true" file="${basedir}/.npmrc"># This is a per-project .npmrc file.
 # Do not add this file to source control!
@@ -62,7 +61,7 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 				</echo>
 			</then>
 		</if>
-		<copy file="${theme.core.dir}/unbuilt.package.json" tofile="${basedir}/package.json" overwrite="true">
+		<copy file="${component.rootdir}/unbuilt.package.json" tofile="${basedir}/package.json" overwrite="true">
 			<filterchain>
 				<expandproperties/>
 			</filterchain>
@@ -246,14 +245,15 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 		<attribute name="target"/>
 		<sequential>
 			<stopwatch name="@{antFile}" action="start"/>
-			<ant antfile="${theme.core.dir}/@{antFile}" inheritAll="false" target="@{target}">
-				<property name="theme.core.dir" location="${theme.core.dir}"/>
+			<ant antfile="${component.rootdir}/@{antFile}" inheritAll="false" target="@{target}">
+				<property name="component.rootdir" location="${component.rootdir}"/>
 				<property name="maven.plugin.classpath" value="${maven.plugin.classpath}"/>
 				<property name="basedir" location="${basedir}"/>
 				<property name="build.number" value="${project.version}"/>
 				<property name="build.rootdir" location="${theme.target.dir}"/>
 				<property name="theme.skip.tests" value="${skipOptionalTests}"/>
 				<property name="impl.src.dir" value="${impl.src.dir}"/>
+				<property name="implementation.name" value="${impl.dir.name}"/>
 				<property name="tmp.dir" location="${impl.tmp.dir}"/>
 				<property name="nodejs.dir" location="${nodejs.dir}"/>
 				<property name="npmjs.dir" location="${npmjs.dir}"/>

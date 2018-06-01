@@ -8,7 +8,7 @@
 			TODO: remove theme XSLT override.
 		-->
 		<copy todir="${target.rootdir}/xslt" overwrite="true">
-			<fileset dir="${theme.core.dir}/src/main/xslt" includes="*.xsl" />
+			<fileset dir="${component.rootdir}/src/main/xslt" includes="*.xsl" />
 			<filterchain>
 				<expandproperties/>
 			</filterchain>

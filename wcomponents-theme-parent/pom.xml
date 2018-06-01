@@ -33,6 +33,7 @@
 		<theme.target.dir>${project.build.directory}</theme.target.dir>
 		<theme.tmp.dir>${java.io.tmpdir}${file.separator}wcomponents-theme-tmp</theme.tmp.dir>
 		<theme.impl.dir>${theme.tmp.dir}/fakeImplRoot</theme.impl.dir>
+		<theme.impl.dir>${basedir}</theme.impl.dir>
 		<theme.unpack.dir>${project.build.directory}${file.separator}${theme.unpacked.name}</theme.unpack.dir>
 		<i18n.resources.dir>${theme.dir}/../wcomponents-i18n/src/main/resources</i18n.resources.dir>
 		<i18n.unpack.dir>${project.build.directory}${file.separator}i18n-unpacked</i18n.unpack.dir>
@@ -172,7 +173,7 @@
 								<property name="basedir" location="${basedir}" />
                 <property name="theme.inherit" value="${theme.inherit}" />
 								<property name="target.dir" location="${project.build.directory}" />
-								<property name="theme.core.dir" location="${theme.core.dir}" />
+								<property name="component.rootdir" location="${theme.core.dir}" />
 								<property name="build.number" value="${project.version}" />
 								<property name="build.rootdir" location="${theme.target.dir}" />
 								<property name="theme.skip.tests" value="true" />
@@ -199,7 +200,7 @@
                 <property name="theme.inherit" value="${theme.inherit}" />
 								<property name="phantomjs.binary" value="${phantomjs.binary}" />
 								<property name="target.dir" location="${project.build.directory}" />
-								<property name="theme.core.dir" location="${theme.core.dir}" />
+								<property name="component.rootdir" location="${theme.core.dir}" />
 								<property name="build.number" value="${project.version}" />
 								<property name="build.rootdir" location="${theme.target.dir}" />
 								<property name="theme.skip.tests" value="${skipOptionalTests}" />
@@ -225,7 +226,7 @@
 								<property name="basedir" location="${basedir}" />
                 <property name="theme.inherit" value="${theme.inherit}" />
 								<property name="target.dir" location="${project.build.directory}" />
-								<property name="theme.core.dir" location="${theme.core.dir}" />
+								<property name="component.rootdir" location="${theme.core.dir}" />
 								<property name="build.number" value="${project.version}" />
 								<property name="build.rootdir" location="${theme.target.dir}" />
 								<property name="theme.skip.tests" value="true" />

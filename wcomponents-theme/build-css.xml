@@ -9,7 +9,7 @@
 	<target name="init">
 		<mkdir dir="${target.rootdir}/style" />
 		<mkdir dir="${tmp.dir}/css-built" />
-    <delete dir="${theme.core.dir}/src/main/sass/.sass-cache"/>
+    <delete dir="${component.rootdir}/src/main/sass/.sass-cache"/>
     <delete dir="${impl.src.dir}/src/main/sass/sass/.sass-cache"/>
 	</target>
 
@@ -20,7 +20,7 @@
 	<target name="copySassSrc">
 		<!-- wcomponents-theme SCSS -->
 		<copy todir="${tmp.dir}/sass" overwrite="true" quiet="true">
-      <fileset dir="${theme.core.dir}/src/main/sass" includes="**" excludes="**/.sass-cache" />
+      <fileset dir="${component.rootdir}/src/main/sass" includes="**" excludes="**/.sass-cache" />
 		</copy>
 
 		<!-- Implementation SCSS -->

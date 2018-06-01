@@ -35,7 +35,7 @@
 	</target>
 
 	<target name="buildJsonBundles">
-		<property name="propertiesToJson.js" value="${theme.core.dir}/propertiesToJson.js" />
+		<property name="propertiesToJson.js" value="${component.rootdir}/propertiesToJson.js" />
 		<property name="default.locale.properties" location="${tmp.dir}/i18n/${default.i18n.locale}.properties"/>
 		<property name="default.locale.json" location="${tmp.dir}/i18n/${default.i18n.locale}.json"/>
 		<buildProps destfile="${default.locale.properties}"/>
