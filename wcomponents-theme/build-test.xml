@@ -3,14 +3,11 @@
 		Build the tests for a given implementation. The resulting tests will contain:
 		1. All the tests from "common" AND
 		2. All the tests for the specific implementation.
-
-		This build must be called with the name of the implementation rootdir set in property:
-		"implementation.name". If not set then the tests from "common" alone will be used.
 	-->
 	<import file="build-import.xml"/>
-	<property name="test.output.rootdir" location="${build.rootdir}/test-classes/${implementation.name}"/>
+	<property name="test.output.rootdir" location="${build.rootdir}/test-classes/${impl.dir.name}"/>
 	<property name="impl.intern.srcdir" location="${impl.src.dir}/src/test/intern"/>
-	<property name="intern.srcdir" location="${theme.src.dir}/test/intern"/>
+	<property name="intern.srcdir" location="${component.rootdir}/src/test/intern"/>
 	<property environment="env"/>
 
 	<!--
@@ -119,7 +116,7 @@
 				</path>
 			</pathconvert>
 			<copy todir="${test.output.rootdir}" overwrite="true" force="true">
-				<fileset dir="${theme.src.dir}/test">
+				<fileset dir="${component.rootdir}/src/test">
 					<include name="@{configModule}.js"/>
 				</fileset>
 				<filterchain>

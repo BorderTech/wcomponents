@@ -3,15 +3,12 @@
 		Build the scripts for a given implementation. The resulting scripts will contain:
 		1. All the scripts from "common" AND
 		2. All the scripts for the specific implementation.
-
-		This build must be called with the name of the implementation rootdir set in property:
-		"implementation.name". If not set then the scripts from "common" alone will be used.
 	-->
 	<import file="build-import.xml"/>
 
 	<property name="script.tmp.src.dir" location="${tmp.dir}/src"/>
-	<property name="script.rootdir" location="${common.src.rootdir}/js"/>
-	<property name="impl.script.rootdir" location="${impl.src.main.dir}/js"/>
+	<property name="script.rootdir" location="${component.rootdir}/src/main/js"/>
+	<property name="impl.script.rootdir" location="${impl.src.dir}/src/main/js"/>
 	<property name="script.build.target.dir" location="${target.rootdir}/scripts"/>
 
 	<target name="build"
@@ -101,7 +98,7 @@
 				<exclude name="*wrappers*"/>
 			</fileset>
 		</copy>
-		<copy todir="${lib.build.target.dir}/bower_components" failonerror="false"><!-- Optionally copy any bower components to the lib dir -->
+		<copy todir="${lib.build.target.dir}/bower_components" failonerror="false">
 			<fileset dir="${basedir}/bower_components" includes="**"/>
 		</copy>
 		<copy file="${basedir}/node_modules/promise-polyfill/Promise.min.js" tofile="${lib.build.target.dir}/Promise.min.js"/>

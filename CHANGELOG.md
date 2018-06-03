@@ -8,6 +8,25 @@
 
 ### Bug Fixes
 
+* Fixed a flaw which would cause themes to fail to build if the inherit file had a terminating empty line. Part of #1492.
+
+    Requires themes which inherit from any theme other than wcomponents-default to replace the theme in `inherit.txt` with a Maven property in POM.xml of `theme.inherit`. May be a path to a ZIP or directory tree (relative and absolute paths are both acceptable).
+
+    ``` xml
+<properties>
+  <theme.inherit>/PATH/TO/the_parent_theme</theme.inherit>
+</properties>
+    ```
+
+    The previous method of trying to guess the parent theme from a name assuming a theme path is partially supported by using the previous `inherit.txt` value along with a second Maven property `theme.inheritance.dir`. This, it is plain, is a bit of a pointless waste of time since the path could be added directly to the `theme.inherit` property.
+
+    ``` xml
+<properties>
+  <theme.inherit>the_parent_theme</theme.inherit>
+  <theme.inheritance.dir>/some/path</theme.inheritance.dir>
+</properties>
+    ```
+
 ## Release 1.5.5
 
 ### Bug Fixes
