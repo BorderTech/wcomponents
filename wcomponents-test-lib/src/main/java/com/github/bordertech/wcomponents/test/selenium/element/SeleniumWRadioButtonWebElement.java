@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.test.selenium.element;
 
 import java.util.Arrays;
 import java.util.List;
-import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
