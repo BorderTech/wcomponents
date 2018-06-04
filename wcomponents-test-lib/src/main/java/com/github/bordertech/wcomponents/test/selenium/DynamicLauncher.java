@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.test.selenium;
 
 import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.registry.UIRegistry;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * This class extends SeleniumLauncher to allow the launched UI to be determined (and reconfigured) at runtime via the
