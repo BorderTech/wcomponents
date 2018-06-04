@@ -6,6 +6,8 @@
 
 ### Enhancements
 
+* Updated all internal uses of `org.apache.commons.lang.*` to use ``org.apache.commons.lang3.*` which is the direct dependency in WComponents. #1539
+
 ### Bug Fixes
 
 * Fixed a flaw which would cause themes to fail to build if the inherit file had a terminating empty line. Part of #1492.
