@@ -98,7 +98,7 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 
 	<target name="document" description="This target runs the JSDoc build for the default theme.">
 		<stopwatch name="node-jsdoc" action="start"/>
-		<echo>./node/node ./node_modules/jsdoc/jsdoc.js -c jsdoc.config.json</echo>
+		<echo level="verbose">./node/node ./node_modules/jsdoc/jsdoc.js -c jsdoc.config.json</echo>
 		<nodejs.exec failonerror="false" cwd="${basedir}">
 			<arguments>
 				<arg value="${basedir}/node_modules/jsdoc/jsdoc.js"/>
@@ -144,11 +144,6 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 	<macrodef name="mergeSubImpl">
 		<sequential>
       <echo level="verbose" message="merging ${impl.dir.name} with parent theme ${theme.inherit}"/>
-<!--
-      <echo>
-********************************************************************************
-</echo>
--->
 			<var name="prototype.dir" unset="true"/>
 
       <echo level="verbose" message="Attempting to find parent theme ${theme.inherit}"/>
@@ -262,6 +257,7 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 				<property name="i18n.resources.dir" location="${i18n.resources.dir}"/>
 				<property name="i18n.unpack.dir" location="${i18n.unpack.dir}"/>
 				<property name="rjs.log.level" value="${rjs.log.level}" />
+				<property name="sass-lint-config" location="${sass-lint-config}"/>
 			</ant>
 			<stopwatch name="@{antFile}" action="total"/>
 		</sequential>
