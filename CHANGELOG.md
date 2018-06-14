@@ -10,6 +10,7 @@
 
 ### Bug Fixes
 
+* Update version of npm sass module to fix build failure on Windows #1541.
 * Fixed a flaw which would cause themes to fail to build if the inherit file had a terminating empty line. Part of #1492.
 
     Requires themes which inherit from any theme other than wcomponents-default to replace the theme in `inherit.txt` with a Maven property in POM.xml of `theme.inherit`. May be a path to a ZIP or directory tree (relative and absolute paths are both acceptable).
