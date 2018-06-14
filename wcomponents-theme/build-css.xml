@@ -33,7 +33,7 @@
 		Compile Sass to CSS using sass ( https://www.npmjs.com/package/sass )
 	-->
   <target name="lint">
-    <echo message="${basedir}/node_modules/sass-lint/bin/sass-lint -c ${sass-lint-config} -o ${tmp.dir}/sass-lint.txt -i ${tmp.dir}/sass/lib/** ${tmp.dir}/sass/**.scss"/>
+    <echo level="verbose" message="${basedir}/node_modules/sass-lint/bin/sass-lint -c ${sass-lint-config} -o ${tmp.dir}/sass-lint.txt -i ${tmp.dir}/sass/lib/** ${tmp.dir}/sass/**.scss"/>
 			<nodejs.exec failonerror="true" cwd="${target.rootdir}">
 				<arguments>
 					<arg value="${basedir}/node_modules/sass-lint/bin/sass-lint"/>
@@ -54,13 +54,14 @@
   <target name="compileSass" depends="lint">
 		<stopwatch name="compileSass" action="start" />
     <property name="sass.executable" location="${basedir}/node_modules/sass/sass"/>
-			<nodejs.exec failonerror="true" cwd="${target.rootdir}">
-				<arguments>
-					<arg value="${sass.executable}"/>
-          <arg value="--no-source-map"/>
-					<arg value="${tmp.dir}/sass:${tmp.dir}/css-built"/>
-				</arguments>
-			</nodejs.exec>
+    <echo level="verbose" message="${sass.executable} --no-source-map ${tmp.dir}/sass:${tmp.dir}/css-built"/>
+    <nodejs.exec failonerror="true" cwd="${target.rootdir}">
+      <arguments>
+        <arg value="${sass.executable}"/>
+        <arg value="--no-source-map"/>
+        <arg value="${tmp.dir}/sass:${tmp.dir}/css-built"/>
+      </arguments>
+    </nodejs.exec>
 		<stopwatch name="compileSass" action="total" />
 	</target>
 
