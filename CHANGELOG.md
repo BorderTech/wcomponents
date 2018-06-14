@@ -6,6 +6,7 @@
 
 ### Enhancements
 
+* Enforce Sass lint at theme build time. See wcomponents-theme/.sass-lint.yml for default rules.
 * Updated all internal uses of `org.apache.commons.lang.*` to use ``org.apache.commons.lang3.*` which is the direct dependency in WComponents. #1539
 
 ### Bug Fixes
