@@ -52,6 +52,7 @@
 		<timezone.dir>${project.build.directory}/timezone</timezone.dir><!-- Fetch Timezone Database -->
 		<test.intern.version>3.4.6</test.intern.version><!-- intern version: use ~3.4.3 for nexus 3+, ~3.0.6 if you are stuck with Nexus 2 -->
 		<rjs.log.level>2</rjs.log.level><!-- Log level for r.js used to optimize JavaScript -->
+		<sass-lint-config>${basedir}/.sass-lint.yml</sass-lint-config>
 	</properties>
 
 	<build>
@@ -179,6 +180,7 @@
 								<property name="theme.skip.tests" value="true" />
 								<property name="maven.plugin.classpath" refid="maven.plugin.classpath" />
 								<property name="rjs.log.level" value="${rjs.log.level}" />
+								<property name="sass-lint-config" location="${basedir}/.sass-lint.yml"/>
 								<ant antfile="${theme.core.dir}/build.xml">
 									<target name="build" />
 								</ant>
@@ -206,6 +208,7 @@
 								<property name="theme.skip.tests" value="${skipOptionalTests}" />
 								<property name="maven.plugin.classpath" refid="maven.plugin.classpath" />
 								<property name="rjs.log.level" value="${rjs.log.level}" />
+								<property name="sass-lint-config" location="${basedir}/.sass-lint.yml"/>
 								<ant antfile="${theme.core.dir}/build.xml">
 									<target name="test" />
 								</ant>
@@ -232,6 +235,7 @@
 								<property name="theme.skip.tests" value="true" />
 								<property name="maven.plugin.classpath" refid="maven.plugin.classpath" />
 								<property name="rjs.log.level" value="4" />
+								<property name="sass-lint-config" location="${basedir}/.sass-lint.yml"/>
 								<ant antfile="${theme.core.dir}/build.xml">
 									<target name="document" />
 								</ant>

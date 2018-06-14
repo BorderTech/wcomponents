@@ -19,6 +19,7 @@
 		"requirejs": "2.3.5",
 		"requirejs-domready": "2.0.3",
 		"sass": "1.5.1",
+		"sass-lint": "1.12.1",
 		"sprintf-js": "1.0.3",
 		"tinymce": "4.7.9"
 	}

@@ -262,6 +262,7 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 				<property name="i18n.resources.dir" location="${i18n.resources.dir}"/>
 				<property name="i18n.unpack.dir" location="${i18n.unpack.dir}"/>
 				<property name="rjs.log.level" value="${rjs.log.level}" />
+				<property name="sass-lint-config" location="${sass-lint-config}"/>
 			</ant>
 			<stopwatch name="@{antFile}" action="total"/>
 		</sequential>
