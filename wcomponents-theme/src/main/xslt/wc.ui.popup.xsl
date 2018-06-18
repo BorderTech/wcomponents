@@ -1,9 +1,12 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
-	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0"
+	exclude-result-prefixes="xsl ui html">
 	<!--
-		Transform of WPopup. This component opens a new window on page load. 
-		
-		Popup windows are often considered harmful to accessibility If WPopup must be used then any WButton which results in a screen with a WPopup 
+		Transform of WPopup. This component opens a new window on page load.
+
+		Popup windows are often considered harmful to accessibility If WPopup must be used then any WButton which results in a screen with a WPopup
 		must have its popup property set true.
 
 		It has no explicit HTML artefact in the UI and therefore has a null template.

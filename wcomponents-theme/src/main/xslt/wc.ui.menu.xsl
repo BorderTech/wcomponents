@@ -1,9 +1,8 @@
-<xsl:stylesheet
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
-	xmlns:html="http://www.w3.org/1999/xhtml"
-	version="2.0">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0"
+	exclude-result-prefixes="xsl ui html">
 	<!-- Transform for WMenu. Menus may not be nested. -->
 	<xsl:template match="ui:menu">
 		<xsl:variable name="id" select="@id"/>
@@ -65,9 +64,9 @@
 
 	<!--
 		Transform for WMenuItemGroup. It is strongly recommended that you do not use this component but use WSubMenu or WSeparator instead.
-		
+
 		The rationale for this transform is from the WAI-ARIA authoing practices for a Menu Widget: http://www.w3.org/TR/wai-aria-practices/#menu:
-		
+
 		"Grouping of menuitems in a menu or menubar is performed by introducing an element with the role of separator. A separator delineates groups
 		of menu items within a menu or menubar. A separator is not placed in the navigation order and it is in no way interactive. Authors provide an
 		aria-orientation consistent with the separator's orientation in the menu or menubar. Since the separator is not navigable it does not support
@@ -79,7 +78,7 @@
 		<xsl:apply-templates select="*[not(self::ui:decoratedlabel)]"/><!-- The WDecoratedLabel is purposely ignored -->
 		<hr role="separator"/>
 	</xsl:template>
-	
+
 	<xsl:template name='submenuIcon'>
 		<xsl:variable name="class">
 			<xsl:choose>
@@ -211,7 +210,7 @@
 
 	<!--
 		WMenuItem forms part of a single compound widget with the WMenu at its root.
-		
+
 		The transform for WMenuItem. In general this is pretty straightforwards. The menuItem is rendered as a single control.
 	-->
 	<xsl:template match="ui:menuitem">
@@ -359,8 +358,8 @@
 			<xsl:when test="@selectable">
 				<xsl:number value="1"/>
 			</xsl:when>
-			<!-- 
-				If we do not have a context menu at all then let the ajax subscriber javascript worry about selection mode based on the transient 
+			<!--
+				If we do not have a context menu at all then let the ajax subscriber javascript worry about selection mode based on the transient
 				attribute set from @selectable
 			-->
 			<xsl:when test="not($myAncestorMenu or $myAncestorSubmenu)">

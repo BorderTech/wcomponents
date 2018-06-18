@@ -1,6 +1,8 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
-	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0"
+	exclude-result-prefixes="xsl ui html">
 	<xsl:template name="margin">
 		<xsl:param name="gap" select="''"/>
 		<xsl:param name="extension"/>
@@ -8,13 +10,13 @@
 			<xsl:value-of select="concat(' wc-margin-', $extension, $gap)"/>
 		</xsl:if>
 	</xsl:template>
-	
-	<!-- 
-		null template for margin without a mode. This is for safer use of 
+
+	<!--
+		null template for margin without a mode. This is for safer use of
 		apply-templates.
 	-->
 	<xsl:template match="ui:margin"/>
-	
+
 	<xsl:template match="ui:margin" mode="asclass">
 		<xsl:choose>
 			<xsl:when test="@all">
