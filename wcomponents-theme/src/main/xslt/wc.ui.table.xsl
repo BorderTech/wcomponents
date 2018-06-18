@@ -1,9 +1,8 @@
-<xsl:stylesheet 
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
-	xmlns:html="http://www.w3.org/1999/xhtml" 
-	version="2.0">
-
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0"
+	exclude-result-prefixes="xsl ui html">
 	<!--
 		WTable
 
@@ -787,7 +786,7 @@
 					<xsl:value-of select="concat($tableId,'_thh','1')"/>
 				</xsl:attribute>
 			</xsl:if>
-			
+
 			<xsl:apply-templates />
 		</th>
 	</xsl:template>
@@ -1205,12 +1204,12 @@
 		</xsl:variable>
 		<i aria-hidden="true" class="fa {$iconclass}"></i>
 	</xsl:template>
-	
-	
+
+
 	<!--
 		Creates the text-mode row select all/none, pagination controls and the expand all/none controls if required.
 		Called from the transform for ui:table.
-		
+
 		Reasonably safe to override this template so long as the class attribute values are retained. I would suggest,
 		however, leaving it be other than tweaking the order in which the components appear.
 	-->
@@ -1274,7 +1273,7 @@
 
 	<!--
 		Creates a container for controls at the bottom of a table.
-		
+
 		You probably do not need to override this but it should be safe to do so so long as any hard-coded class attribute values are left in place.
 	-->
 	<xsl:template name="tableBottomControls">

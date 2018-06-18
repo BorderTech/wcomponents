@@ -1,8 +1,11 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
-	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0"
+	exclude-result-prefixes="xsl ui html">
 	<!--
 		WStyledText
-	
+
 		We have added some interesting CSS to the pre element to try to alleviate the
 		issues of using pre and strict white space preservation. We did not want to
 		merely use white-space:pre-wrap since this would not provide the strict white
@@ -26,7 +29,7 @@
 					<xsl:apply-templates mode="para">
 						<xsl:with-param name="type" select="@type"/>
 					</xsl:apply-templates>
-					
+
 				</div>
 			</xsl:when>
 			<xsl:when test="@space">
@@ -67,7 +70,7 @@
 
 	<!--
 		Manipulates text nodes based on ui:text space and type attributes.
-		
+
 		param space: The space attribute of the parent ui:text element.
 		param type: The type attribute (if any) of the parent ui:text element.
 		  Defaults to 'plain' if the type attribute is not set.
@@ -85,7 +88,7 @@
 
 	<!--
 		Manipulates text nodes based on ui:text space and type attributes.
-		
+
 		param space: The space attribute of the parent ui:text element.
 		param type: The type attribute (if any) of the parent ui:text element.
 		  Defaults to 'plain' if the type attribute is not set.
@@ -112,7 +115,7 @@
 
 	<!--
 		Manipulates text nodes based on ui:text space and type attributes.
-		
+
 		param space: The space attribute of the parent ui:text element.
 		param type: The type attribute (if any) of the parent ui:text element.
 		  Defaults to 'plain' if the type attribute is not set.
@@ -179,21 +182,21 @@
 	<xsl:template match="ui:nl"/>
 	<!--
 		creates a newline character.
-		 
+
 		NOTE: The allowed line separators (http://dev.w3.org/html5/markup/terminology.html)
 		are:
 		* a U+000D CARRIAGE RETURN (CR) character
 		* a U+000A LINE FEED (LF) character
 		* a U+000D CARRIAGE RETURN (CR) followed by a U+000A LINE FEED (LF) character
-		
+
 		However:
 		* Using &#xD; by itself does not work in Chrome (on Windows at least);
-		* Using &#xA; by itself does not work in IE, 
+		* Using &#xA; by itself does not work in IE,
 		* Using &#xD;&#xA; does work in IE, Firefox (3.6+), Chrome (at least 19+
 		but maybe earlier), Opera (at least 11.61+ but maybe earlier) and Safari
-		(Windows 5.0.1+, maybe earlier) but should be tested on non-windows platforms. 
+		(Windows 5.0.1+, maybe earlier) but should be tested on non-windows platforms.
 	 -->
-	
+
 	<xsl:template match="ui:nl" mode="pre">
 		<xsl:text>&#xD;&#xA;</xsl:text>
 	</xsl:template>

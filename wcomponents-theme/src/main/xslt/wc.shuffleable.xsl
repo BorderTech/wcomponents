@@ -1,5 +1,8 @@
-<xsl:stylesheet version="2.0" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0"
+	exclude-result-prefixes="xsl ui html">
 	<!--
 		Build the button controls used to re-order items in a list box as per wc.ui.shuffler.xsl and wc.ui.multiSelectPair.xsl.
 	-->
@@ -314,10 +317,10 @@
 
 	<!--
 		The transform for optGroups within a multiSelectPair option list.
-		
+
 		param applyWhich:
 			Use: "selected", "unselected" or "all"; default "all"
-			
+
 			This parameter indicates which options in the optGroup should be included in apply-templates. It will depend upon whether we are building
 			the unselected list, the selected list or the reference list.
 	-->

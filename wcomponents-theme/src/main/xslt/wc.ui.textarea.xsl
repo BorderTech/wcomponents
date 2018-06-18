@@ -1,16 +1,18 @@
-<xsl:stylesheet version="2.0" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0"
+	exclude-result-prefixes="xsl ui html">
 	<!--
 		WTextArea
-		
+
 		Note on maxLength:
 		We deliberately bypass the browser native implementation of maxlength on
 		textareas. This is to allow users to work in the textarea before submitting the page.
 		For example a user may paste in a large body of text knowing that it is too long. The
 		user should be allowed to do this and then work within the textarea to reduce the length
 		before submitting.
-		
+
 		If the length of the textarea is constrained then the user would be forced to open another
 		application (for example a text editor) paste the large text there, reduce the length of the
 		text (without an immediate character count) and then paste into the textarea.

@@ -1,6 +1,8 @@
-<xsl:stylesheet version="2.0" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0"
+	exclude-result-prefixes="xsl ui html">
 	<xsl:template match="ui:numberfield[@readOnly]">
 		<span id="{@id}" class="{normalize-space(concat('wc-numberfield wc-ro-input ', @class))}" data-wc-component="numberfield" data-wc-value="{text()}">
 			<xsl:if test="@hidden">
@@ -87,13 +89,13 @@
 						to be cancelled once there is something in the autocomplete list, i.e. once you have
 						entered something into that field. So your event listeners are called with a cancelled
 						event but you can find no code that cancels the event - very tricky to track down.
-					
+
 					TODO: check this in IE 11 and possibly implement autocomplete or move this attribute fix to JavaScript.
 				-->
 				<!--<xsl:attribute name="autocomplete">
 					<xsl:text>off</xsl:text>
 				</xsl:attribute>-->
-				
+
 				<xsl:if test="@autocomplete">
 					<xsl:attribute name="autocomplete">
 						<xsl:value-of select="@autocomplete"/>

@@ -1,6 +1,8 @@
-<xsl:stylesheet version="2.0" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0"
+	exclude-result-prefixes="xsl ui html">
 	<xsl:template match="ui:fileupload[@readOnly]">
 		<span id="{@id}" class="{normalize-space(concat('wc-fileupload wc-ro-input ', @class))}" data-wc-component="fileupload">
 			<xsl:if test="@hidden">
@@ -11,7 +13,7 @@
 			<xsl:apply-templates/>
 		</span>
 	</xsl:template>
-	
+
 	<xsl:template match="ui:fileupload">
 		<span id="{@id}" class="{normalize-space(concat('wc-fileupload wc-input-wrapper ', @class))}">
 			<xsl:if test="@disabled">
@@ -120,7 +122,7 @@
 					<xsl:attribute name="class">
 						<xsl:value-of select="normalize-space(concat('wc-multifileupload ', @class, $additional))"/>
 					</xsl:attribute>
-					
+
 					<xsl:if test="@hidden">
 						<xsl:attribute name="hidden">
 							<xsl:text>hidden</xsl:text>
@@ -380,7 +382,7 @@
 				<xsl:when test="ui:link">
 					<xsl:apply-templates select="ui:link">
 						<xsl:with-param name="imageAltText" select="concat('Thumbnail for uploaded file: ', @name)"/>
-						<!-- The following is only needed when writing a multifileupload with files in a readonly state, never if the file is in an 
+						<!-- The following is only needed when writing a multifileupload with files in a readonly state, never if the file is in an
 							ajax esponse by itself (as that is not possible in a readonly state) -->
 						<xsl:with-param name="ajax">
 							<xsl:if test="parent::ui:multifileupload[@ajax] and ../@readOnly">

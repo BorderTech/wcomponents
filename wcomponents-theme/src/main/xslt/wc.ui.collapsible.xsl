@@ -1,9 +1,8 @@
-<xsl:stylesheet
-	xmlns:html="http://www.w3.org/1999/xhtml" 
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	version="2.0" >
-
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0"
+	exclude-result-prefixes="xsl ui html">
 	<!-- WCollapsible -->
 	<xsl:template match="ui:collapsible">
 		<xsl:variable name="margin">
@@ -73,8 +72,8 @@
 			</xsl:apply-templates>
 		</details>
 	</xsl:template>
-	
-	
+
+
 	<xsl:template match="ui:content" mode="collapsible">
 		<xsl:param name="class" select="''"/>
 		<xsl:param name="ajaxId" select="''"/>
