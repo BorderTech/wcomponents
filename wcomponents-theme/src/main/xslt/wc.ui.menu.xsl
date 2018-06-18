@@ -74,9 +74,13 @@
 		following a separator."
 	-->
 	<xsl:template match="ui:menugroup">
-		<hr role="separator"/>
+		<xsl:if test="not(preceding-sibling::ui:menugroup or preceding-sibling::ui:separator)">
+			<hr role="separator"/>
+		</xsl:if>
 		<xsl:apply-templates select="*[not(self::ui:decoratedlabel)]"/><!-- The WDecoratedLabel is purposely ignored -->
-		<hr role="separator"/>
+		<xsl:if test="following-sibling::* and not(following-sibling::ui:separator)">
+			<hr role="separator"/>
+		</xsl:if>
 	</xsl:template>
 
 	<xsl:template name='submenuIcon'>
