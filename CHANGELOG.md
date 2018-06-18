@@ -6,11 +6,13 @@
 
 ### Enhancements
 
+* Ensure the xml preamble and opening `xsl:stylesheet` tag is consistent in all XSLT files - help to reduce likelihood of namespace issues in transformed HTML.
 * Enforce Sass lint at theme build time. See wcomponents-theme/.sass-lint.yml for default rules.
 * Updated all internal uses of `org.apache.commons.lang.*` to use ``org.apache.commons.lang3.*` which is the direct dependency in WComponents. #1539
 
 ### Bug Fixes
 
+* Updated WMenuGroup XSLT to prevent double separators #1544.
 * Update version of npm sass module to fix build failure on Windows #1541.
 * Fixed a flaw which would cause themes to fail to build if the inherit file had a terminating empty line. Part of #1492.
 
