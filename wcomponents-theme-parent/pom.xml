@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
 		<artifactId>wcomponents-parent</artifactId>
-		<version>1.5.6-SNAPSHOT</version>
+		<version>1.5.7-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -18,7 +18,7 @@
     <!--
       If a theme inherits from any theme other than wcomponents-theme then this property points to that theme. See `wcomponents-theme/build.xml.
     -->
-    <theme.inherit/>
+    <theme.inherit />
 		<!--
 			We externalize download URLs so that in-house builds can override them to on-prem mirrors.
 		-->
@@ -180,7 +180,7 @@
 								<property name="theme.skip.tests" value="true" />
 								<property name="maven.plugin.classpath" refid="maven.plugin.classpath" />
 								<property name="rjs.log.level" value="${rjs.log.level}" />
-								<property name="sass-lint-config" location="${basedir}/.sass-lint.yml"/>
+								<property name="sass-lint-config" location="${basedir}/.sass-lint.yml" />
 								<ant antfile="${theme.core.dir}/build.xml">
 									<target name="build" />
 								</ant>
@@ -208,7 +208,7 @@
 								<property name="theme.skip.tests" value="${skipOptionalTests}" />
 								<property name="maven.plugin.classpath" refid="maven.plugin.classpath" />
 								<property name="rjs.log.level" value="${rjs.log.level}" />
-								<property name="sass-lint-config" location="${basedir}/.sass-lint.yml"/>
+								<property name="sass-lint-config" location="${basedir}/.sass-lint.yml" />
 								<ant antfile="${theme.core.dir}/build.xml">
 									<target name="test" />
 								</ant>
@@ -235,7 +235,7 @@
 								<property name="theme.skip.tests" value="true" />
 								<property name="maven.plugin.classpath" refid="maven.plugin.classpath" />
 								<property name="rjs.log.level" value="4" />
-								<property name="sass-lint-config" location="${basedir}/.sass-lint.yml"/>
+								<property name="sass-lint-config" location="${basedir}/.sass-lint.yml" />
 								<ant antfile="${theme.core.dir}/build.xml">
 									<target name="document" />
 								</ant>

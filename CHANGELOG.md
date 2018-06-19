@@ -6,6 +6,12 @@
 
 ### Enhancements
 
+### Bug Fixes
+
+## Release 1.5.6
+
+### Enhancements
+
 * Ensure the xml preamble and opening `xsl:stylesheet` tag is consistent in all XSLT files - help to reduce likelihood of namespace issues in transformed HTML.
 * Enforce Sass lint at theme build time. See wcomponents-theme/.sass-lint.yml for default rules.
 * Updated all internal uses of `org.apache.commons.lang.*` to use ``org.apache.commons.lang3.*` which is the direct dependency in WComponents. #1539
