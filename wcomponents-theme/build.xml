@@ -10,30 +10,11 @@
 
 	-->
 	<import file="build-import.xml"/>
-	<property name="sub.impl.dir" location="${tmp.dir}/implementations"/>
-	<property name="single.impl.dir.separator" value=" "/>
-	<property name="impl.dir.name" value="${theme.impl.name}"/>
 
 	<target name="clean"
-			depends="cleanTmpDir, cleanImplDir"
+			depends="cleanTmpDir"
 			description = "This target cleans all built output for the themes.">
-		<delete dir="${sub.impl.dir}"/>
-		<delete dir="${output.dir}"/>
 		<delete dir="${build.rootdir}"/>
-	</target>
-
-	<target name="cleanImplDir" if="impl.dir.present">
-		<for param="impl.dir"><!-- clean for each dir in 'implementations' -->
-			<dirset dir="${impl.src.rootdir}">
-				<depth min="0" max="0"/>
-			</dirset>
-			<sequential>
-				<var name="next.clean.dir.name" unset="true"/>
-				<basename property="next.clean.dir.name" file="@{impl.dir}" /><!-- next.clean.dir.name is now the dir name without the path -->
-				<callAll implName="${next.clean.dir.name}" target="clean"/>
-				<test implName="${next.clean.dir.name}" target="clean"/>
-			</sequential>
-		</for>
 	</target>
 
 	<target name="checkImplExists">
@@ -41,21 +22,19 @@
 			This check should happen as early as possible BUT it should happen after clean tasks have been called
 			in case the implementation directory is cleaned away (i.e. it is located in the temporary directory).
 		-->
-		<available file="${impl.src.rootdir}" type="dir" property="impl.dir.present"/>
+		<available file="${impl.src.dir}" type="dir" property="impl.dir.present"/>
 	</target>
 
 	<target name="cleanTmpDir">
-		<delete dir="${tmp.dir}" failonerror="true"/>
+      <delete dir="${tmp.dir}" failonerror="true"/>
 	</target>
 
 	<target name="cleanupOptional" unless="build.preserve.tmp.onexit">
 		<delete dir="${tmp.dir}" failonerror="false"/>
 	</target>
 
-	<target name="init" depends="cleanTmpDir, initTargetImplementations">
-		<echo level="info">build.xml basedir = ${basedir}</echo>
-		<mkdir dir="${output.dir}"/>
-		<mkdir dir="${sub.impl.dir}"/>
+	<target name="init" depends="cleanTmpDir, checkImplExists, failNoThemePresent">
+		<mkdir dir="${build.rootdir}/classes/theme"/>
 		<echo level="info">Build properties can be overriden in any of the following locations (in order of decreasing priority):
   *  ${user.home}/.wc/${user.name}.xml (in user home dir)
   *  ${user.home}/.wc/wc_theme_build_properties.xml (in user home dir)
@@ -82,49 +61,38 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 				</echo>
 			</then>
 		</if>
-		<copy file="${theme.core.dir}/unbuilt.package.json" tofile="${basedir}/package.json">
+		<copy file="${component.rootdir}/unbuilt.package.json" tofile="${basedir}/package.json" overwrite="true">
 			<filterchain>
 				<expandproperties/>
 			</filterchain>
 		</copy>
-	<npm.install/>
+    <npm.install/>
 	</target>
 
-	<target name="initDefaultTheme" unless="impl.dir.present">
-		<echo>No custom themes/implementations exist</echo>
-		<mkdir dir="${impl.src.rootdir}"/>
-		<ant antfile="${theme.core.dir}/build-implementation.xml" inheritAll="false" target="build">
-			<property name="impl.src.rootdir" value="${impl.src.rootdir}"/>
-			<property name="new.impl.name" value="${theme.default.name}"/>
-		</ant>
-		<buildImplementationList rootdir="${impl.src.rootdir}"/>
+	<target name="failNoThemePresent" unless="impl.dir.present">
+		<fail>Requested custom theme does not exist. Tried: ${impl.src.dir}</fail>
 	</target>
 
-	<target name="initImplementationTheme" if="impl.dir.present">
-		<echo level="info">Using provided implementations directory: ${impl.src.rootdir}</echo>
-		<if>
-			<or>
+	<target name="test" depends="checkImplExists, failNoThemePresent" description = "This target runs the unit tests for the themes.">
+			<if>
 				<not>
-					<isset property="impl.dir.name"/>
+					<!--
+						Note: this property will only ever be passed in by the maven pom.
+						It is ultimately driven by the skipOptionalTests property in the
+						parent maven pom (the top level pom in WComponents).
+						It allows "flaky" tests (selenium, jsTestDriver, anything that depends
+						on browsers) to be skipped on the build box.
+					-->
+					<equals arg1="${theme.skip.tests}" arg2="true"/>
 				</not>
-				<equals arg1="${impl.dir.name}" arg2=""/>
-			</or>
-			<then>
-				<buildImplementationList rootdir="${impl.src.rootdir}"/>
-			</then>
-		</if>
-	</target>
-
-	<target name="initTargetImplementations" depends="checkImplExists, initDefaultTheme, initImplementationTheme">
-		<echo level="info">inited target implementations</echo>
-	</target>
-
-	<target name="test" depends="initTargetImplementations" description = "This target runs the unit tests for the themes.">
-		<for list="${impl.dir.name}" delimiter="${single.impl.dir.separator}" param="implementationName">
-			<sequential>
-				<test implName="@{implementationName}"/>
-			</sequential>
-		</for>
+				<then>
+            <initImplTmpDir />
+            <callant antFile="build-test.xml" target="test"/>
+				</then>
+				<else>
+					<echo level="info">theme.skip.tests is 'true' so not executing test</echo>
+				</else>
+			</if>
 		<antcall target="cleanupOptional"/>
 	</target>
 
@@ -145,181 +113,107 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 	<target name="build"
 		description="This target builds the themes."
 		depends="failWrongAnt, init">
-		<for list="${impl.dir.name}" delimiter="${single.impl.dir.separator}" param="implementationName">
-			<sequential>
-				<buildImplementation rootdir="${impl.src.rootdir}" implName="@{implementationName}"/>
-			</sequential>
-		</for>
-		<buildImplementationList rootdir="${sub.impl.dir}"/>
-		<for list="${impl.dir.name}" delimiter="${single.impl.dir.separator}" param="implementationName">
-			<sequential>
-				<buildImplementation rootdir="${sub.impl.dir}" implName="@{implementationName}"/>
-			</sequential>
-		</for>
+    <if>
+      <and>
+        <isset property="theme.inherit"/>
+        <not>
+          <equals arg1="${theme.inherit}" arg2="" />
+        </not>
+      </and>
+      <then>
+        <echo level="verbose" message = "Attempting to merge ${impl.dir.name} with parent theme ${theme.inherit}"/>
+        <mergeSubImpl />
+      </then>
+    </if>
+    <echo level="info">************************ BUILDING ${impl.dir.name} ************************</echo>
+    <initImplTmpDir />
+    <callant antFile="build-images.xml" target="build"/>
+    <callant antFile="build-resource.xml" target="build"/>
+    <callant antFile="build-css.xml" target="build"/><!-- build after images -->
+    <callant antFile="build-i18n.xml" target="build"/>
+    <callant antFile="build-xslt.xml" target="build"/>
+    <callant antFile="build-js.xml" target="build"/>
+    <writeVersionInfo implName="${impl.dir.name}"/>
+    <antcall target="checkPropertiesExpanded"/>
 		<antcall target="cleanupOptional"/>
 	</target>
 
 	<!--
-		Builds a list of the implementations contained in @rootDir and sets the property
-		impl.dir.name with this list.
-
-		We do it this way so that the build scripts take the same path of execution regardless
-		of whether the list is built programatically here or provided "as is" by a user in a
-		property override.
-	-->
-	<macrodef name="buildImplementationList">
-		<attribute name="rootDir"/>
-		<sequential>
-			<var name="tmp.impl.dir.name" value=""/>
-			<var name="impl.dir.name" unset="true"/>
-			<for param="impl.dir"><!-- build for each dir in 'implementations' -->
-				<dirset dir="@{rootDir}">
-					<depth min="0" max="0"/>
-				</dirset>
-				<sequential>
-					<var name="next.dir.name" unset="true"/>
-					<basename property="next.dir.name" file="@{impl.dir}" />
-					<var name="tmp.impl.dir.name" value="${tmp.impl.dir.name}${single.impl.dir.separator}${next.dir.name}"/>
-				</sequential>
-			</for>
-			<property name="impl.dir.name" value="${tmp.impl.dir.name}"/>
-		</sequential>
-	</macrodef>
-
-	<!--
-		Builds the implementation named @implName in the directory @rootDir
-	-->
-	<macrodef name="buildImplementation">
-		<attribute name="rootDir"/>
-		<attribute name="implName"/>
-		<sequential>
-			<if>
-				<available file="@{rootDir}/@{implName}/inherit.txt" type="file"/>
-				<then>
-					<echo level="info" message="Building sub-implementation @{implName}"/>
-					<mergeSubImpl rootDir="@{rootDir}" implName="@{implName}"/>
-				</then>
-				<else>
-					<echo level="info">************************ BUILDING @{implName} ************************</echo>
-					<callAll implName="@{implName}" rootdir="@{rootDir}" target="build"/>
-					<writeVersionInfo implName="@{implName}"/>
-					<antcall target="checkPropertiesExpanded"/>
-				</else>
-			</if>
-		</sequential>
-	</macrodef>
-
-	<!--
-		Takes care of implementation "inheritance".
-		Builds a new "sub implementation" by merging the implementation named @implName
-		in the directory @rootDir with the implementation it references in "inherit.txt".
+		Takes care of implementation "inheritance". NOTE: only one level of inheritance is allowed and I don't see that changing.
 	-->
 	<macrodef name="mergeSubImpl">
-		<attribute name="rootDir"/>
-		<attribute name="implName"/>
 		<sequential>
-			<var name="impl.src.dir" unset="true"/>
-			<property name="impl.src.dir" location="@{rootDir}/@{implName}"/>
-			<var name="prototype.name" unset="true"/>
-			<loadfile property="prototype.name" srcFile="${impl.src.dir}/inherit.txt"/>
-
+      <echo level="verbose" message="merging ${impl.dir.name} with parent theme ${theme.inherit}"/>
 			<var name="prototype.dir" unset="true"/>
-			<var name="merge.impl.dir" unset="true"/>
 
-			<if>
-				<isset property="prototype.name"/>
-				<then>
-					<if>
-						<and>
-							<available file="${prototype.name}" type="file"/>
-							<matches string="${prototype.name}" pattern="\.zip$" casesensitive="false"/>
-						</and>
-						<then>
-							<echo level="verbose">Found prototype zip file ${prototype.name}</echo>
-							<property name="prototype.dir" location="${tmp.dir}/parent"/>
-							<delete dir="${prototype.dir}"/>
-							<!-- unzip the zip and set the path -->
-							<unzip src="${prototype.name}" dest="${prototype.dir}" overwrite="true" failOnEmptyArchive="true">
-								<patternset>
-									<include name="*/**"/>
-								</patternset>
-							</unzip>
-						</then>
-						<elseif>
-							<and>
-								<matches string="${prototype.name}" pattern="\/"/>
-								<available file="${prototype.name}" type="dir"/>
-							</and>
-							<then>
-								<echo level="verbose">Found prototype directory named ${prototype.name}</echo>
-								<property name="prototype.dir" location="${prototype.name}"/>
-							</then>
-						</elseif>
-						<elseif>
-							<available file="${impl.src.rootdir}/${prototype.name}" type="dir"/>
-							<then>
-								<property name="prototype.dir" location="${impl.src.rootdir}/${prototype.name}"/>
-								<echo level="verbose">Using simple fallback prototype ${prototype.dir}</echo>
-							</then>
-						</elseif>
-						<else>
-							<fail message="Could not find prototype implementation ${prototype.name}"/>
-						</else>
-					</if>
-				</then>
-			</if>
-
+      <echo level="verbose" message="Attempting to find parent theme ${theme.inherit}"/>
+      <if>
+        <and>
+          <available file="${theme.inherit}" type="file"/>
+          <matches string="${theme.inherit}" pattern="\.zip$" casesensitive="false"/>
+        </and>
+        <then>
+          <echo level="verbose" message="Found prototype zip file ${theme.inherit}"/>
+          <property name="prototype.dir" location="${tmp.dir}/parent"/>
+          <delete dir="${prototype.dir}"/>
+          <!-- unzip the zip and set the path -->
+          <unzip src="${theme.inherit}" dest="${prototype.dir}" overwrite="true" failOnEmptyArchive="true">
+            <patternset>
+              <include name="*/**"/>
+            </patternset>
+          </unzip>
+        </then>
+        <elseif>
+          <and>
+            <matches string="${theme.inherit}" pattern="\/"/>
+            <available file="${theme.inherit}" type="dir"/>
+          </and>
+          <then>
+            <property name="prototype.dir" location="${theme.inherit}"/>
+            <echo level="verbose" message="Found prototype directory named for ${theme.inherit} in ${prototype.dir}"/>
+          </then>
+        </elseif>
+        <elseif>
+          <and>
+            <isset property="theme.inheritance.dir"/>
+            <not>
+              <equals arg1="${theme.inheritance.dir}" arg2=""/>
+            </not>
+            <available file="${theme.inheritance.dir}/${theme.inherit}" type="dir"/>
+          </and>
+          <then>
+            <property name="prototype.dir" location="${theme.inheritance.dir}/${theme.inherit}"/>
+            <echo level="verbose" message="Using prototype {theme.inheritance.dir}/${theme.inherit}"/>
+          </then>
+        </elseif>
+        <else>
+          <fail message="Could not find prototype implementation ${theme.inherit}"/>
+        </else>
+      </if>
 			<if>
 				<and>
 					<isset property="prototype.dir"/>
 					<available file="${prototype.dir}" type="dir"/>
 				</and>
 				<then>
-					<property name="merge.impl.dir" location="${sub.impl.dir}/@{implName}"/>
-					<delete dir="${merge.impl.dir}"/>
-					<echo level="verbose">Copying sub-implementation files from: ${impl.src.dir} to ${merge.impl.dir}</echo>
-					<copy todir="${merge.impl.dir}">
-						<!-- Copy the whole implementation to the dir where we will do the merge -->
-						<fileset dir="${impl.src.dir}" excludes="inherit.txt">
-							<exclude name="**/node/**"/>
-							<exclude name="**/node_modules/**"/>
-							<exclude name="**/target/**"/>
+          <var name="merge.impl.dir" unset="true"/>
+          <property name="merge.impl.dir" location="${tmp.dir}/implementations/${impl.dir.name}"/>
+          <delete dir="${merge.impl.dir}"/>
+					<echo level="verbose">Copying parent implementation files from ${prototype.dir}/src/main to ${merge.impl.dir}/src/main</echo>
+					<copy todir="${merge.impl.dir}/src/main">
+						<fileset dir="${prototype.dir}/src/main" includes="**">
+							<exclude name="**/.sass-cache/**"/>
+            </fileset>
+					</copy>
+
+					<echo level="verbose">Copying sub-implementation files from ${impl.src.dir}/src/main to ${merge.impl.dir}/src/main</echo>
+					<copy todir="${merge.impl.dir}/src/main" overwrite="true">
+						<fileset dir="${impl.src.dir}/src/main" includes="**">
+							<exclude name="**/.sass-cache/**"/>
 						</fileset>
 					</copy>
-					<!-- be nice if we could just use sync... maybe we can?
-					<sync todir="${merge.impl.dir}" includeEmptyDirs="true" overwrite="false">
-						<fileset dir="${prototype.dir}">
-							<present present="srconly" targetdir="${merge.impl.dir}"/>
-						</fileset>
-					</sync>
-					-->
-					<echo level="verbose">Copying parent implementation files from: ${prototype.dir} to ${merge.impl.dir}</echo>
-					<copy todir="${merge.impl.dir}/src/main/sass" overwrite="false">
-						<fileset dir="${prototype.dir}/src/main/sass" includes="**/*.scss" erroronmissingdir="false">
-							<present present="srconly" targetdir="${merge.impl.dir}/src/main/scss"/>
-						</fileset>
-					</copy>
-					<copy todir="${merge.impl.dir}/src/main/xslt" overwrite="false">
-						<fileset dir="${prototype.dir}/src/main/xslt" includes="**/*.xsl" erroronmissingdir="false">
-							<present present="srconly" targetdir="${merge.impl.dir}/src/main/xslt"/>
-						</fileset>
-					</copy>
-					<copy todir="${merge.impl.dir}/src/main/images" overwrite="false">
-						<fileset dir="${prototype.dir}/src/main/images" includes="**/*" erroronmissingdir="false">
-							<present present="srconly" targetdir="${merge.impl.dir}/src/main/images"/>
-						</fileset>
-					</copy>
-					<copy todir="${merge.impl.dir}/src/main/js" overwrite="false">
-						<fileset dir="${prototype.dir}/src/main/js" includes="**/*.js" erroronmissingdir="false">
-							<present present="srconly" targetdir="${merge.impl.dir}/src/main/js"/>
-						</fileset>
-					</copy>
-					<copy todir="${merge.impl.dir}/src/main/resource" overwrite="false">
-						<fileset dir="${prototype.dir}/src/main/resource" includes="**/*" erroronmissingdir="false">
-							<present present="srconly" targetdir="${merge.impl.dir}/src/main/xml"/>
-						</fileset>
-					</copy>
-					<delete file="${merge.impl.dir}/inherit.txt"/><!-- EEEK! Make sure to prevent infinite looping -->
+          <var name="impl.src.dir" unset="true"/>
+          <property name="impl.src.dir" location="${merge.impl.dir}"/>
 				</then>
 				<elseif>
 					<isset property="prototype.dir"/>
@@ -328,11 +222,12 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 					</then>
 				</elseif>
 			</if>
+      <var name="theme.inherit" unset="true"/>
 		</sequential>
 	</macrodef>
 
 	<target name="antCheck">
-		<echo level="verbose" message="ant.version=${ant.version}" />
+		<echo message="ant.version=${ant.version}" />
 		<antversion property="antversion" atleast="1.8.2"/>
 	</target>
 
@@ -340,41 +235,20 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 		<fail>Use Ant 1.8.2 or newer</fail>
 	</target>
 
-	<macrodef name="callAll">
-		<attribute name="implName"/>
-		<attribute name="rootDir" default="${impl.src.rootdir}"/>
-		<attribute name="target" default="build"/>
-		<sequential>
-
-			<initImplTmpDir implName="@{implName}"/>
-			<!--
-				Obviously build properties must be built before anything else can be.
-			-->
-			<callant antFile="build-images.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/>
-			<callant antFile="build-resource.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/>
-			<callant antFile="build-css.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/><!-- build after images -->
-			<callant antFile="build-i18n.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/>
-			<callant antFile="build-xslt.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/>
-			<callant antFile="build-js.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/>
-		</sequential>
-	</macrodef>
-
 	<macrodef name="callant">
 		<attribute name="antFile"/>
-		<attribute name="implName"/>
-		<attribute name="rootDir"/>
 		<attribute name="target"/>
 		<sequential>
 			<stopwatch name="@{antFile}" action="start"/>
-			<ant antfile="${theme.core.dir}/@{antFile}" inheritAll="false" target="@{target}">
-				<property name="component.rootdir" location="${theme.core.dir}"/>
+			<ant antfile="${component.rootdir}/@{antFile}" inheritAll="false" target="@{target}">
+				<property name="component.rootdir" location="${component.rootdir}"/>
 				<property name="maven.plugin.classpath" value="${maven.plugin.classpath}"/>
 				<property name="basedir" location="${basedir}"/>
 				<property name="build.number" value="${project.version}"/>
 				<property name="build.rootdir" location="${theme.target.dir}"/>
 				<property name="theme.skip.tests" value="${skipOptionalTests}"/>
-				<property name="impl.src.rootdir" value="@{rootDir}"/>
-				<property name="implementation.name" value="@{implName}"/>
+				<property name="impl.src.dir" value="${impl.src.dir}"/>
+				<property name="implementation.name" value="${impl.dir.name}"/>
 				<property name="tmp.dir" location="${impl.tmp.dir}"/>
 				<property name="nodejs.dir" location="${nodejs.dir}"/>
 				<property name="npmjs.dir" location="${npmjs.dir}"/>
@@ -383,15 +257,13 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 				<property name="i18n.resources.dir" location="${i18n.resources.dir}"/>
 				<property name="i18n.unpack.dir" location="${i18n.unpack.dir}"/>
 				<property name="rjs.log.level" value="${rjs.log.level}" />
+				<property name="sass-lint-config" location="${sass-lint-config}"/>
 			</ant>
 			<stopwatch name="@{antFile}" action="total"/>
 		</sequential>
 	</macrodef>
 
 	<macrodef name="test">
-		<attribute name="implName"/>
-		<attribute name="rootDir" default="${impl.src.rootdir}"/>
-		<attribute name="target" default="test"/>
 		<sequential>
 			<if>
 				<not>
@@ -405,18 +277,8 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 					<equals arg1="${theme.skip.tests}" arg2="true"/>
 				</not>
 				<then>
-					<if>
-						<available file="@{rootDir}/@{implName}" type="dir"/>
-						<then>
-							<initImplTmpDir implName="@{implName}"/>
-							<callant antFile="build-test.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/>
-						</then>
-						<else>
-							<fail>Implementation "@{implName}" does not exist.
-								Check property "impl.dir.name": ${impl.dir.name}
-							</fail>
-						</else>
-					</if>
+            <initImplTmpDir />
+            <callant antFile="build-test.xml" target="test"/>
 				</then>
 				<else>
 					<echo level="info">theme.skip.tests is 'true' so not executing test</echo>
@@ -426,10 +288,9 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 	</macrodef>
 
 	<macrodef name="initImplTmpDir">
-		<attribute name="implName"/>
 		<sequential>
 			<var name="impl.tmp.dir" unset="true"/>
-			<property name="impl.tmp.dir" location="${tmp.dir}/@{implName}"/>
+			<property name="impl.tmp.dir" location="${tmp.dir}/${impl.dir.name}"/>
 			<mkdir dir="${impl.tmp.dir}"/>
 		</sequential>
 	</macrodef>
@@ -448,7 +309,7 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 		-->
 		<attribute name="implName"/>
 		<sequential>
-			<echo file="${output.dir}/@{implName}/version.properties">build.number=${build.number}</echo>
+			<echo file="${build.rootdir}/classes/theme/@{implName}/version.properties">build.number=${build.number}</echo>
 		</sequential>
 	</macrodef>
 </project>

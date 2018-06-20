@@ -1,9 +1,8 @@
-<xsl:stylesheet
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
-	xmlns:html="http://www.w3.org/1999/xhtml"
-	version="2.0">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0"
+	exclude-result-prefixes="xsl ui html">
 	<!-- Trigger for WAjaxControl. The ui:ajaxtrigger element is used to register components which make AJAX requests in JavaScript. -->
 	<xsl:template match="ui:ajaxtrigger"/>
 

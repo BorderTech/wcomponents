@@ -1,6 +1,8 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
-	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0"
+	exclude-result-prefixes="xsl ui html">
 	<xsl:template match="ui:tree">
 		<xsl:variable name="additional">
 			<xsl:if test="@htree">
@@ -62,7 +64,7 @@
 		</div>
 		<xsl:apply-templates select="ui:fieldindicator"/>
 	</xsl:template>
-	
+
 	<xsl:template match="ui:treeitem">
 		<xsl:param name="disabled" select="'false'"/>
 		<xsl:variable name="element">
@@ -195,7 +197,7 @@
 			</xsl:choose>
 		</xsl:element>
 	</xsl:template>
-	
+
 	<xsl:template name="treeitemContent">
 		<xsl:param name="isButton" select="0"/>
 		<span aria-hidden="true" class="wc_leaf_img">
@@ -222,7 +224,7 @@
 			<i aria-hidden="true" class="fa fa-caret-right"></i>
 		</span>
 	</xsl:template>
-	
+
 	<xsl:template name="resizerbar">
 		<xsl:param name="groupId"/>
 		<span class="wc_branch_resizer" aria-hidden="true">

@@ -8,6 +8,37 @@
 
 ### Bug Fixes
 
+## Release 1.5.6
+
+### Enhancements
+
+* Ensure the xml preamble and opening `xsl:stylesheet` tag is consistent in all XSLT files - help to reduce likelihood of namespace issues in transformed HTML.
+* Enforce Sass lint at theme build time. See wcomponents-theme/.sass-lint.yml for default rules.
+* Updated all internal uses of `org.apache.commons.lang.*` to use ``org.apache.commons.lang3.*` which is the direct dependency in WComponents. #1539
+
+### Bug Fixes
+
+* Updated WMenuGroup XSLT to prevent double separators #1544.
+* Update version of npm sass module to fix build failure on Windows #1541.
+* Fixed a flaw which would cause themes to fail to build if the inherit file had a terminating empty line. Part of #1492.
+
+    Requires themes which inherit from any theme other than wcomponents-default to replace the theme in `inherit.txt` with a Maven property in POM.xml of `theme.inherit`. May be a path to a ZIP or directory tree (relative and absolute paths are both acceptable).
+
+    ``` xml
+<properties>
+  <theme.inherit>/PATH/TO/the_parent_theme</theme.inherit>
+</properties>
+    ```
+
+    The previous method of trying to guess the parent theme from a name assuming a theme path is partially supported by using the previous `inherit.txt` value along with a second Maven property `theme.inheritance.dir`. This, it is plain, is a bit of a pointless waste of time since the path could be added directly to the `theme.inherit` property.
+
+    ``` xml
+<properties>
+  <theme.inherit>the_parent_theme</theme.inherit>
+  <theme.inheritance.dir>/some/path</theme.inheritance.dir>
+</properties>
+    ```
+
 ## Release 1.5.5
 
 ### Bug Fixes

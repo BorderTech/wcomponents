@@ -8,43 +8,43 @@
 	<import file="build-import-overrides.xml"/>
 
 	<target name="init">
-		<condition property="impl.src.rootdir.exists">
-			<available file="${impl.src.rootdir}" type="dir"/>
+		<condition property="impl.src.dir.exists">
+			<available file="${impl.src.dir}" type="dir"/>
 		</condition>
 	</target>
 
-	<target name="failDirNotFound" unless="impl.src.rootdir.exists">
-		<fail>Does not exist or property not set: ${impl.src.rootdir} (see notes in user.xml file)</fail>
+	<target name="failDirNotFound" unless="impl.src.dir.exists">
+		<fail>Does not exist or property not set: ${impl.src.dir} (see notes in user.xml file)</fail>
 	</target>
 
 	<target name="build" depends="init, failDirNotFound, getImplName" description="Creates the bare bones skeleton of a new implementation.">
-		<mkdir dir="${impl.src.rootdir}/${new.impl.name}/src/main/images"/>
-		<mkdir dir="${impl.src.rootdir}/${new.impl.name}/src/main/js"/>
-		<mkdir dir="${impl.src.rootdir}/${new.impl.name}/src/main/resource"/>
-		<mkdir dir="${impl.src.rootdir}/${new.impl.name}/src/main/sass/theme/respond/phone"/>
-		<mkdir dir="${impl.src.rootdir}/${new.impl.name}/src/test/intern/resources"/>
-		<echo file="${impl.src.rootdir}/${new.impl.name}/src/main/sass/_theme.scss">// Theme ${new.impl.name}: import partials from the theme directory
+		<mkdir dir="${impl.src.dir}/${new.impl.name}/src/main/images"/>
+		<mkdir dir="${impl.src.dir}/${new.impl.name}/src/main/js"/>
+		<mkdir dir="${impl.src.dir}/${new.impl.name}/src/main/resource"/>
+		<mkdir dir="${impl.src.dir}/${new.impl.name}/src/main/sass/theme/respond/phone"/>
+		<mkdir dir="${impl.src.dir}/${new.impl.name}/src/test/intern/resources"/>
+		<echo file="${impl.src.dir}/${new.impl.name}/src/main/sass/_theme.scss">// Theme ${new.impl.name}: import partials from the theme directory
 
 </echo>
-		<echo file="${impl.src.rootdir}/${new.impl.name}/src/main/sass/_implementation-variables.scss">// Theme ${new.impl.name}
+		<echo file="${impl.src.dir}/${new.impl.name}/src/main/sass/_implementation-variables.scss">// Theme ${new.impl.name}
 // Override and extend variables here
 
 </echo>
-		<echo file="${impl.src.rootdir}/${new.impl.name}/src/main/sass/_theme-phone.scss">// Theme ${new.impl.name} phone-size responsive design
+		<echo file="${impl.src.dir}/${new.impl.name}/src/main/sass/_theme-phone.scss">// Theme ${new.impl.name} phone-size responsive design
 // Include partials from `theme/respond/phone/`.
 
 // This file may be deleted if you set `$wc-use-respond` to false or do not
 // need theme-specific phone-level responsive design.
 
 </echo>
-		<echo file="${impl.src.rootdir}/${new.impl.name}/src/main/sass/theme/README.md"># Theme ${new.impl.name}
+		<echo file="${impl.src.dir}/${new.impl.name}/src/main/sass/theme/README.md"># Theme ${new.impl.name}
 
 Place partials for your theme in this directory. Structure it however you wish.
 
 Partials should be imported into `_theme.scss`.
 
 </echo>
-		<echo file="${impl.src.rootdir}/${new.impl.name}/src/main/sass/theme/respond/README.md"># Theme ${new.impl.name}
+		<echo file="${impl.src.dir}/${new.impl.name}/src/main/sass/theme/respond/README.md"># Theme ${new.impl.name}
 
 ## Responsive design CSS
 
@@ -53,7 +53,7 @@ This directory and its contents may be deleted if you do not require responsive
 design.
 
 </echo>
-		<echo file="${impl.src.rootdir}/${new.impl.name}/src/main/sass/theme/respond/phone/README.md"># Theme ${new.impl.name}
+		<echo file="${impl.src.dir}/${new.impl.name}/src/main/sass/theme/respond/phone/README.md"># Theme ${new.impl.name}
 
 ## Responsive design CSS
 

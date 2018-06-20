@@ -22,12 +22,15 @@
 				<exclude>**/*.keep*</exclude>
 				<exclude>**/*.bak</exclude>
 				<exclude>**/*.contrib*</exclude>
+				<exclude>**/.sass-cache/**</exclude>
 				<exclude>**/.settings/**</exclude>
 				<exclude>**/.*</exclude>
 				<exclude>**/nb-*</exclude>
 				<exclude>**/package.json</exclude>
 				<exclude>**/node/**</exclude>
 				<exclude>**/node_modules/**</exclude>
+				<exclude>**/etc/**</exclude>
+				<exclude>**/bin/**</exclude>
 			</excludes>
 		</fileSet>
 	</fileSets>

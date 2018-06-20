@@ -1,9 +1,12 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
-	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0"
+	exclude-result-prefixes="xsl ui html">
 	<!--
 		Template match="ui:selecttoggle" mode="JS"
-		
-		This template creates JSON objects required to register named group 
+
+		This template creates JSON objects required to register named group
 		controllers.
 	-->
 	<xsl:template match="ui:selecttoggle" mode="JS">
@@ -16,8 +19,8 @@
 			<xsl:text>,</xsl:text>
 		</xsl:if>
 	</xsl:template>
-	
-	
+
+
 
 	<!--
 		Builds selectToggle/rowSelection controls.
@@ -36,7 +39,7 @@
 				<xsl:text>_st</xsl:text>
 			</xsl:if>
 		</xsl:variable>
-		
+
 		<xsl:variable name="baseClass">
 			<xsl:value-of select="concat('wc-', local-name(), ' wc_seltog ', @class)"/>
 			<xsl:if test="self::ui:selecttoggle">
@@ -188,11 +191,11 @@
 			<xsl:value-of select="$text"/>
 		</button>
 	</xsl:template>
-	
-	
-	
-	
-	
+
+
+
+
+
 	<!-- Transform for WSelectToggle. -->
 	<xsl:template match="ui:selecttoggle">
 		<xsl:choose>
@@ -221,8 +224,8 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-	
-	
+
+
 	<xsl:template match="ui:collapsibletoggle">
 		<xsl:variable name="id" select="@id"/>
 		<xsl:variable name="for" select="@groupName"/>
@@ -238,7 +241,7 @@
 		</xsl:variable>
 		<!--
 			WCollapsibleToggle has a mandatory groupName attribute.
-			
+
 			This may not point to a CollapsibleGroup (which is odd and should change) and in this case the WCollapsibleToggle should toggle every
 			WCollapsible on the page.
 		-->
@@ -267,12 +270,12 @@
 			</li>
 		</ul>
 	</xsl:template>
-	
-	
+
+
 	<!--
 		ui:rowexpansion controls the mode of the expandable rows and whether the expand/collapse all controls are
 		visible. This template outputs those controls. It is called explicitly from the template name `topControls`.
-		
+
 		Structural: do not override.
 	-->
 	<xsl:template match="ui:rowexpansion">
@@ -320,14 +323,14 @@
 			</ul>
 		</xsl:if>
 	</xsl:template>
-	
-	
+
+
 	<!--
 		This template creates the rowSelection (select all, select none) controls if required. It is called explicitly from the template named
 		`topControls`. If there are no selectable rows then nothing is output.
-		
+
 		NOTE: This template does not make the individual rows selectable. That is done in the transform of ui:tr.
-		
+
 		Structural: do not override.
 	-->
 	<xsl:template match="ui:rowselection">
@@ -344,7 +347,7 @@
 						<!--
 							When in parent row is a select toggle mode any row which is selected but has descendant rows
 							(in the same table)  which are not selected is **deemed to be unselected**.
-							
+
 							This is a horrible calculation and I wish I did not have to do it.
 						-->
 						<xsl:variable name="numberUnselectedParentRows"
@@ -383,7 +386,7 @@
 			</xsl:call-template>
 		</xsl:if>
 	</xsl:template>
-	
+
 	<!--
 		Outputs a comma separated list of JSON objects required for registering
 		the selection controls. See wc.common.registrationScripts.xsl.
