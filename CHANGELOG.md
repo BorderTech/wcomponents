@@ -8,6 +8,8 @@
 
 ### Bug Fixes
 
+* Restored theme build-time concatenation of XSLT to work around an application container flaw #1547.
+
 ## Release 1.5.6
 
 ### Enhancements
