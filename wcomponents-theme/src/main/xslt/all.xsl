@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0"
@@ -767,7 +767,7 @@
 	###########################################################################
 	###########################################################################
 	-->
-	<xsl:include href="wc.ajax.xsl" />
+	<!--<xsl:include href="wc.ajax.xsl" />
 	<xsl:include href="wc.checkablegroup.xsl" />
 	<xsl:include href="wc.containers.xsl" />
 	<xsl:include href="wc.fileupload.xsl" />
@@ -814,6 +814,6 @@
 	<xsl:include href="wc.ui.togglebutton.xsl" />
 	<xsl:include href="wc.ui.tree.xsl" />
 	<xsl:include href="wc.ui.version.xsl" />
-	<xsl:include href="wc.ui.video.xsl" />
+	<xsl:include href="wc.ui.video.xsl" />-->
 
 </xsl:stylesheet>
