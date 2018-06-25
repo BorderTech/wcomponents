@@ -104,13 +104,6 @@ public class WLabel_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
-	public void testDefaultModels() {
-		WLabel wLabel = new WLabel("test");
-		assertComponentModelUsesDefaultOnCreation(wLabel);
-		assertComponentModelUsesDefaultOnSameValue(wLabel, "sanitizeOnOutput", true);
-	}
-
-	@Test
 	public void testDuplicateComponentModels() {
 		WLabel wLabel = new WLabel("tesLabel");
 //		assertNoDuplicateComponentModels(wLabel, "text", "testText"); // invokeSetMethod() doesn't like this

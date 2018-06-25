@@ -474,13 +474,6 @@ public class WVideo_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
-	public void testDefaultModels() {
-		WVideo video = new WVideo();
-		assertComponentModelUsesDefaultOnCreation(video);
-		assertComponentModelUsesDefaultOnSameValue(video, "loop", true);
-	}
-
-	@Test
 	public void testDuplicateComponentModels() {
 		WVideo video = new WVideo();
 		assertNoDuplicateComponentModels(video, "autoplay", true);
@@ -488,7 +481,7 @@ public class WVideo_Test extends AbstractWComponentTestCase {
 		assertNoDuplicateComponentModels(video, "loop", true);
 		assertNoDuplicateComponentModels(video,"muted", true);
 		assertNoDuplicateComponentModels(video,"controls", WVideo.Controls.NATIVE);
-		assertNoDuplicateComponentModels(video, "preload", WVideo.Preload.NONE);
+		assertNoDuplicateComponentModels(video, "preload", WVideo.Preload.AUTO);
 		assertNoDuplicateComponentModels(video, "altText","testAltText");
 		assertNoDuplicateComponentModels(video, "width",120);
 		assertNoDuplicateComponentModels(video, "height", 568);

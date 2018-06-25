@@ -172,13 +172,6 @@ public class WAjaxControl_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
-	public void testDefaultModels() {
-		WAjaxControl ajaxControl = new WAjaxControl(null);
-		assertComponentModelUsesDefaultOnCreation(ajaxControl);
-		assertComponentModelUsesDefaultOnSameValue(ajaxControl, "loadOnce", true);
-	}
-
-	@Test
 	public void testDuplicateModels() {
 		WAjaxControl ajaxControl = new WAjaxControl(null);
 		assertNoDuplicateComponentModels(ajaxControl,"loadOnce", true);

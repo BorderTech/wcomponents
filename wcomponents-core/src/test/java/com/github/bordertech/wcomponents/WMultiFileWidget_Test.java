@@ -310,13 +310,6 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
-	public void testDefaultModels() {
-		WMultiFileWidget multiFileWidget = new WMultiFileWidget();
-		assertComponentModelUsesDefaultOnCreation(multiFileWidget);
-		assertComponentModelUsesDefaultOnSameValue(multiFileWidget, "newUpload", false);
-	}
-
-	@Test
 	public void testDuplicateComponentModels() {
 		WMultiFileWidget multiFileWidget = new WMultiFileWidget();
 		assertNoDuplicateComponentModels(multiFileWidget,"maxFileSize", 2012312312);

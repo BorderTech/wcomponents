@@ -181,7 +181,7 @@ public class WPopup_Test extends AbstractWComponentTestCase {
 		WPopup popup = new WPopup();
 		assertNoDuplicateComponentModels(popup, "height", 233);
 		assertNoDuplicateComponentModels(popup, "width", 221);
-		assertNoDuplicateComponentModels(popup, "resizable", true);
+		assertNoDuplicateComponentModels(popup, "resizable", false);
 		assertNoDuplicateComponentModels(popup, "scrollable", true);
 		assertNoDuplicateComponentModels(popup, "url", "test.gov.au");
 		assertNoDuplicateComponentModels(popup, "targetWindow", "thisWindow");

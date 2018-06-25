@@ -284,13 +284,6 @@ public class WBeanComponent_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
-	public void testDefaultModels() {
-		WBeanComponent beanComponent = new WBeanComponent();
-		assertComponentModelUsesDefaultOnCreation(beanComponent);
-		assertComponentModelUsesDefaultOnSameValue(beanComponent, "beanProperty", "test");
-	}
-
-	@Test
 	public void testDuplicateComponentModels() {
 		WBeanComponent beanComponent = new WBeanComponent();
 		assertNoDuplicateComponentModels(beanComponent, "beanProperty", "testBean");
