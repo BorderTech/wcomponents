@@ -13,13 +13,11 @@
 // The wrapper for all combo widgets.
 [role='combobox'] {
   @include border-box;
-  @include border;
   position: relative;
   white-space: nowrap;
 
   > [type='text'],
   [role='textbox'] {
-    border: 0;
     max-width: calc(100% - #{$wc-icon-size});
     width: 100%; // leave this it is important when the size attribute is set
   }
@@ -38,9 +36,9 @@
   }
 
   > button {
-    border: 0;
+    @include border($width: 1px); // for consistency: see _input.scss
     max-width: #{$wc-icon-size};
-    padding: 0;
+    padding: $wc-input-padding 0;
     text-align: center;
     width: #{$wc-icon-size};
   }
