@@ -10,7 +10,6 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
-import com.github.bordertech.wcomponents.util.SpaceUtil;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 
 /**
@@ -20,7 +19,7 @@ import com.github.bordertech.wcomponents.util.HtmlClassProperties;
  * @author Mark Reeves
  * @since 1.0.0
  */
-public class WRowExample extends WPanel {
+public final class WRowExample extends WPanel {
 	/**
 	 * A nice readable space.
 	 */
@@ -51,6 +50,30 @@ public class WRowExample extends WPanel {
 		add(createRow(SPACE, new int[]{33, 33, 33}));
 		add(createRow(SPACE, new int[]{25, 25, 25, 25}));
 		add(createRow(SPACE, new int[]{20, 20, 20, 20, 20}));
+
+		add(new WHeading(HeadingLevel.H2, "WRow / WCol with column alignment"));
+		WRow alignedColsRow = new WRow();
+		add(alignedColsRow);
+		WColumn alignedCol = new WColumn();
+		alignedCol.setAlignment(WColumn.Alignment.LEFT);
+		alignedCol.setWidth(25);
+		alignedColsRow.add(alignedCol);
+		alignedCol.add(new WText("Left"));
+		alignedCol = new WColumn();
+		alignedCol.setAlignment(WColumn.Alignment.CENTER);
+		alignedCol.setWidth(25);
+		alignedColsRow.add(alignedCol);
+		alignedCol.add(new WText("Center"));
+		alignedCol = new WColumn();
+		alignedCol.setAlignment(WColumn.Alignment.RIGHT);
+		alignedCol.setWidth(25);
+		alignedColsRow.add(alignedCol);
+		alignedCol.add(new WText("Right"));
+		alignedCol = new WColumn();
+		alignedCol.setWidth(25);
+		alignedColsRow.add(alignedCol);
+		alignedCol.add(new WText("Undefined"));
+
 
 		add(new WHeading(HeadingLevel.H2, "WRow / WCol undefined width"));
 		add(createRow(null, new int[]{0, 0, 0}));
