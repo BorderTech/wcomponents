@@ -2,6 +2,8 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * The margins to be used on a component.
@@ -245,5 +247,60 @@ public class Margin implements Serializable {
 	 */
 	public Size getLeft() {
 		return left;
+	}
+
+	/**
+	 * Get a set of HTML class attribute values in the same form as {@link AbstractWComponent#getHtmlClasses}.
+	 *
+	 * @return the Margin expressed as a set of HTML class attribute values.
+	 */
+	public final Set<String> getAsHTMLClassSet() {
+		Set<String> htmlClasses = new HashSet<>();
+		final String htmlClassPrefix = "wc-margin-";
+		final String topClassModifier = "n-";
+		final String rightClassModifier = "e-";
+		final String bottomClassModifier = "s-";
+		final String leftClassModifier = "w-";
+
+		Size current = getTop();
+		if (current != null) {
+			htmlClasses.add(htmlClassPrefix.concat(topClassModifier).concat(current.toString()));
+		}
+		current = getRight();
+		if (current != null) {
+			htmlClasses.add(htmlClassPrefix.concat(rightClassModifier).concat(current.toString()));
+		}
+		current = getBottom();
+		if (current != null) {
+			htmlClasses.add(htmlClassPrefix.concat(bottomClassModifier).concat(current.toString()));
+		}
+		current = getLeft();
+		if (current != null) {
+			htmlClasses.add(htmlClassPrefix.concat(leftClassModifier).concat(current.toString()));
+		}
+
+		if (htmlClasses.isEmpty()) {
+			return null;
+		}
+		return htmlClasses;
+	}
+
+	/**
+	 * @return the margin expressed as a set of HTML class attribute values.
+	 */
+	public final String getAsHtmlClassValue() {
+		Set<String> htmlClasses = getAsHTMLClassSet();
+		final String separator = " ";
+
+		if (htmlClasses == null) {
+			return null;
+		}
+		// NOTE: htmlClasses cannot be empty - see `getAsHTMLClassSet` above.
+		StringBuilder builder = new StringBuilder(htmlClasses.size());
+		for (String current : htmlClasses) {
+			builder.append(current);
+			builder.append(separator);
+		}
+		return builder.toString().trim();
 	}
 }

@@ -613,9 +613,15 @@
 	<xsl:template match="ui:column">
 		<xsl:variable name="additional">
 			<xsl:value-of select="@class"/>
-			<xsl:if test="not(@align)">
-				<xsl:text> wc-align-left</xsl:text>
-			</xsl:if>
+			<xsl:text> wc-align-</xsl:text>
+			<xsl:choose>
+				<xsl:when test="@align">
+					<xsl:value-of select="@align"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:text>left</xsl:text>
+				</xsl:otherwise>
+			</xsl:choose>
 			<xsl:if test="@width and number(@width) ne 0">
 				<xsl:value-of select="concat(' wc_col_',@width)"/>
 			</xsl:if>

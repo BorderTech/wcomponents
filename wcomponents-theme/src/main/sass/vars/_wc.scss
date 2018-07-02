@@ -43,10 +43,15 @@ $wc-img-path: '../images/';
 @import '../lib/fa/variables';
 // #############################################################################
 // ICON SIZES
-// #############################################################################
 // Some fixed sizes for iconography place holders
+// #############################################################################
 $wc-icon-size: 1rem !default;
-
+// #############################################################################
+// INPUT PADDING
+// input pad and border are important for cross-browser and
+// cross-window-manager-theme consistency.
+// #############################################################################
+$wc-input-padding: 1px !default;
 // #############################################################################
 @import 'space';
 @import 'section';
