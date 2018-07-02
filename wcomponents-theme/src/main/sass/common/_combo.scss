@@ -37,6 +37,10 @@
 
   > button {
     @include border($width: 1px); // for consistency: see _input.scss
+    @include content-box;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
     max-width: #{$wc-icon-size};
     padding: $wc-input-padding 0;
     text-align: center;
