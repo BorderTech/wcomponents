@@ -42,6 +42,7 @@ $wc-tabpanel-border-width: 1px !default;
   @include fit-content($what: min-height);
   @include padded-box($border: false);
   @include border($width: $wc-tabset-tab-border);
+  cursor: pointer;
   overflow: hidden;
 
   // accordion tabs are expanded, others are aria-selected.
@@ -76,6 +77,7 @@ $wc-tabpanel-border-width: 1px !default;
     background-color: $wc-clr-disabled-bg;
     // border-color: $wc-clr-disabled-border; ???
     color: $wc-clr-disabled-fg;
+    cursor: not-allowed;
   }
 }
 
