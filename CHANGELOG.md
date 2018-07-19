@@ -8,6 +8,17 @@
 
 ### Bug Fixes
 
+## Release 1.5.8
+
+### Enhancements
+
+* Remove style CSS from default theme combo, ensure combo button is same height as combo text input #1552.
+
+### Bug Fixes
+
+* Restore tab cursor #1553.
+* Fixed missing WColumn alignment in themes #1551.
+
 ## Release 1.5.7
 
 ### Bug Fixes

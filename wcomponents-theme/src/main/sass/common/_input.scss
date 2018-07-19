@@ -11,7 +11,7 @@ textarea {
   font-size: inherit;
   margin: 0;
   max-width: 100%;
-  padding: 1px; // this is important for consistency
+  padding: $wc-input-padding; // this is important for consistency
 }
 
 [type='checkbox'],
