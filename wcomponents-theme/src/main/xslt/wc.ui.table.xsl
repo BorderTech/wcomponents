@@ -961,7 +961,6 @@
 				</xsl:when>
 				<xsl:otherwise>0</xsl:otherwise>
 			</xsl:choose>
-			<xsl:value-of select="@selectedOnOther"/>
 			<xsl:text>,</xsl:text>
 		</xsl:if>
 		<xsl:text>"type":"</xsl:text>
