@@ -8,6 +8,9 @@
 
 ### Bug Fixes
 
+* Fixed a JavaScript error which would cause dialogs to fail to open if they were marked as open on page load #1559.
+* Fixed XSLT flaw which caused JavaScript Error if WDataTable has row selection and pagination #1556.
+
 ## Release 1.5.8
 
 ### Enhancements
