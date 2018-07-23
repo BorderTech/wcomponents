@@ -8,6 +8,8 @@
 
 ### Bug Fixes
 
+* Updated XSLT to work around flaw in WDataTable #1556.
+
 ## Release 1.4.25
 
 ### Bug Fixes
