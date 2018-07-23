@@ -340,8 +340,7 @@
 		<xsl:variable name="hasAjaxTriggers" select=".//ui:ajaxtrigger" />
 		<xsl:variable name="timeoutWarn" select=".//ui:session[1]" />
 		<xsl:variable name="editors" select=".//html:wc-imageedit" />
-		<xsl:variable name="tableActions"
-			select=".//ui:table/ui:actions/ui:action" />
+		<xsl:variable name="tableActions" select=".//ui:table/ui:actions/ui:action" />
 
 		<xsl:variable name="libs">
 			<xsl:if test=".//ui:datefield">
@@ -520,9 +519,6 @@
 				<xsl:text>require(["wc/ui/dialog"], function(c){c.register([</xsl:text>
 				<xsl:apply-templates select="$dialogs" mode="JS" />
 				<xsl:text>]</xsl:text>
-				<xsl:if test="ancestor::ui:ajaxresponse">
-					<xsl:text>,true</xsl:text>
-				</xsl:if>
 				<xsl:text>);});</xsl:text>
 			</xsl:if>
 			<xsl:if test="$dataListCombos">
