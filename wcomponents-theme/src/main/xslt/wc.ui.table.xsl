@@ -955,6 +955,12 @@
 		</xsl:if>
 		<xsl:if test="ancestor::ui:table[1]/ui:pagination">
 			<xsl:text>"otherSelected":</xsl:text>
+			<xsl:choose>
+				<xsl:when test="@selectedOnOther">
+					<xsl:value-of select="@selectedOnOther"/>
+				</xsl:when>
+				<xsl:otherwise>0</xsl:otherwise>
+			</xsl:choose>
 			<xsl:value-of select="@selectedOnOther"/>
 			<xsl:text>,</xsl:text>
 		</xsl:if>

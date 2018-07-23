@@ -8,6 +8,8 @@
 
 ### Bug Fixes
 
+* Fixed XSLT flaw which caused JavaScript Error if WDataTable has row selection and pagination #1556.
+
 ## Release 1.5.8
 
 ### Enhancements
