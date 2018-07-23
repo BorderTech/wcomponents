@@ -10,9 +10,8 @@ define(["wc/dom/attribute",
 	"wc/ui/ajaxRegion",
 	"wc/ui/ajax/processResponse",
 	"wc/ui/selectboxSearch",
-	"wc/ui/modalShim",
 	"wc/ui/fieldset"],
-	function(attribute, event, initialise, focus, formUpdateManager, getBox, shed, tag, Widget, ajaxRegion, processResponse, selectboxSearch, modal, fieldset) {
+	function(attribute, event, initialise, focus, formUpdateManager, getBox, shed, tag, Widget, ajaxRegion, processResponse, selectboxSearch, fieldset) {
 		"use strict";
 
 		/**
@@ -536,22 +535,6 @@ define(["wc/dom/attribute",
 			};
 
 			/**
-			 * Wait for page load modal shim to remove before trying to calculate initial select width and height.
-			 * See https://github.com/BorderTech/wcomponents/issues/1066. This function unsubscribes itself as the only time we are interested in
-			 * the removal of a modal shim is the page load shim, not the shim associated with a WDialog or image editor.
-			 *
-			 * @function
-			 * @private
-			 */
-			function modalSubscriber() {
-				try {
-					fixWidthHeight();
-				} finally {
-					modal.unsubscribe(modalSubscriber);
-				}
-			}
-
-			/**
 			 * Set up initial event handlers.
 			 *
 			 * @function module:wc/ui/multiSelectPair.initialise
@@ -559,7 +542,7 @@ define(["wc/dom/attribute",
 			 * @param {Element} element The element being initialised: usually document.body
 			 */
 			this.initialise = function(element) {
-				modal.subscribe(modalSubscriber);
+				fixWidthHeight();
 				if (event.canCapture) {
 					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
 				} else {
