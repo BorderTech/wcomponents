@@ -9,6 +9,7 @@ import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -282,8 +283,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	public void setMinValue(final BigDecimal minValue) {
 		BigDecimal currMin = getMinValue();
 
-		if ((minValue != null && currMin == null)
-			|| (currMin != null && (minValue == null || !(currMin.compareTo(minValue) == 0)))) {
+		if (!Objects.equals(minValue, currMin)) {
 			getOrCreateComponentModel().minValue = minValue;
 		}
 	}
@@ -324,8 +324,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	public void setMaxValue(final BigDecimal maxValue) {
 		BigDecimal currMax = getMaxValue();
 
-		if ((maxValue != null && currMax == null)
-			|| currMax != null && (maxValue == null || !(maxValue.compareTo(currMax) == 0))) {
+		if (!Objects.equals(maxValue, currMax)) {
 			getOrCreateComponentModel().maxValue = maxValue;
 		}
 	}
