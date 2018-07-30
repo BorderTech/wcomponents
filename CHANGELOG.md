@@ -6,6 +6,12 @@
 
 ### Enhancements
 
+### Bug Fixes
+
+## Release 1.4.26
+
+### Enhancements
+
 * Restore ability to override XSLT in a theme.
 * Restore ability to include CSS for IE9 and below in the XSLT rather than by using JS.
 
