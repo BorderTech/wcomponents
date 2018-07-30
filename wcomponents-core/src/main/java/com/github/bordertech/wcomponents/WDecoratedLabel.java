@@ -12,7 +12,7 @@ import java.text.MessageFormat;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public final class WDecoratedLabel extends AbstractMutableContainer {
+public final class WDecoratedLabel extends AbstractMutableContainer implements AjaxTarget {
 
 	/**
 	 * Creates an initially empty decorated label, with a {@link WText} as the body content.

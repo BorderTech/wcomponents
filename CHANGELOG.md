@@ -8,6 +8,8 @@
 
 ### Bug Fixes
 
+* Restored AjaxTarget interface on WDecoratedLabel which was removed in error in 1.5.8 #1562.
+
 ## Release 1.5.9
 
 ### Bug Fixes
