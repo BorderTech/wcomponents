@@ -20,7 +20,7 @@
 	<target name="copySassSrc">
 		<!-- wcomponents-theme SCSS -->
 		<copy todir="${tmp.dir}/sass" overwrite="true" quiet="true">
-      <fileset dir="${component.rootdir}/src/main/sass" includes="**" excludes="**/.sass-cache" />
+			<fileset dir="${component.rootdir}/src/main/sass" includes="**" excludes="**/.sass-cache" />
 		</copy>
 
 		<!-- Implementation SCSS -->

@@ -1,10 +1,23 @@
 <project name="BuildXslt" default="build" >
 	<import file="build-import.xml"/>
 	<target name="build" description="Builds XSLT artifacts">
+		<!--
+			NOTE: we use two copies here to ensure output order.
+			TODO: remove theme XSLT override.
+		-->
+		<copy todir="${tmp.dir}/xslt" quiet="true">
+			<fileset dir="${component.rootdir}/src/main/xslt" includes="*.xsl" />
+		</copy>
+		<copy todir="${tmp.dir}/xslt" overwrite="true" quiet="true">
+			<fileset dir="${impl.src.dir}/src/main/xslt" includes="*.xsl" erroronmissingdir="false"/>
+			<filterchain>
+				<expandproperties/>
+			</filterchain>
+		</copy>
 		<concat destfile="${tmp.dir}/all-int.xsl" fixlastline="yes" ignoreempty="false">
 			<header filtering="no">&lt;concat&gt;</header>
 			<footer filtering="no">&lt;/concat&gt;</footer>
-			<fileset dir="${component.rootdir}/src/main/xslt" includes="*.xsl"/>
+			<fileset dir="${tmp.dir}/xslt" includes="*.xsl"/>
 		</concat>
 		<copy file="${component.rootdir}/build_all.xsl" todir="${tmp.dir}" overwrite="true"/>
 		<xslt in="${tmp.dir}/all-int.xsl"
