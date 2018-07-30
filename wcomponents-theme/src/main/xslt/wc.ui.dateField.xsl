@@ -186,6 +186,9 @@
 				<xsl:attribute name="type">
 					<xsl:text>text</xsl:text>
 				</xsl:attribute>
+				<xsl:attribute name="name">
+					<xsl:value-of select="@id"/>
+				</xsl:attribute>
 				<xsl:if test="@toolTip">
 					<xsl:attribute name="title">
 						<xsl:value-of select="@toolTip"/>
