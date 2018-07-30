@@ -1,6 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.registrationScripts.xsl"/>
+	<xsl:import href="wc.html.ie9minus.xsl"/>
 
 	<!--
 		Used to calculate the path to the libs based on the stylesheet processing instruction stripped is used in the config object. Param so it can
@@ -77,7 +78,7 @@
 						<xsl:with-param name="filename" select="'${css.target.file.name}'"/>
 					</xsl:call-template>
 				</xsl:variable>
-				<link type="text/css" rel="stylesheet" id="wc_css_screen" href="{$mainCssUrl}"/><!-- te id is used by the style loader js -->
+				<link type="text/css" rel="stylesheet" id="wc_css_screen" href="{$mainCssUrl}"/><!-- the id is used by the style loader js -->
 
 				<xsl:if test="$isDebug = 1">
 					<!-- Load debug CSS -->
@@ -90,6 +91,7 @@
 				</xsl:if>
 				<xsl:apply-templates select=".//html:link[@rel eq 'stylesheet']" mode="inHead"/>
 				<xsl:apply-templates select="ui:application/ui:css" mode="inHead"/>
+				<xsl:call-template name="addOldIECSS"/>
 
 				<!--
 					We need to set up the require config very early. This mess constructs the require config which is necessary to commence inclusion
