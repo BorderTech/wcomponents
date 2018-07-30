@@ -6,6 +6,9 @@
 
 ### Enhancements
 
+* Restore ability to override XSLT in a theme.
+* Restore ability to include CSS for IE9 and below in the XSLT rather than by using JS.
+
 ### Bug Fixes
 
 * Updated XSLT to work around flaw in WDataTable #1556.
