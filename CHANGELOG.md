@@ -8,6 +8,13 @@
 
 ### Bug Fixes
 
+## Release 1.5.10
+
+### Bug Fixes
+
+* Fixed XSLT error which caused WPartialDateField to lose its value on submit #1565.
+* Restored AjaxTarget interface on WDecoratedLabel which was removed in error in 1.5.8 #1562.
+
 ## Release 1.5.9
 
 ### Bug Fixes
