@@ -282,7 +282,6 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	 */
 	public void setMinValue(final BigDecimal minValue) {
 		BigDecimal currMin = getMinValue();
-
 		if (!Objects.equals(minValue, currMin)) {
 			getOrCreateComponentModel().minValue = minValue;
 		}
@@ -323,7 +322,6 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	 */
 	public void setMaxValue(final BigDecimal maxValue) {
 		BigDecimal currMax = getMaxValue();
-
 		if (!Objects.equals(maxValue, currMax)) {
 			getOrCreateComponentModel().maxValue = maxValue;
 		}

@@ -114,7 +114,7 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 		Serializable currText = getComponentModel().text;
 		Serializable textToBeSet = I18nUtilities.asMessage(text, args);
 
-		if (!Objects.equals(text, currText)) {
+		if (!Objects.equals(textToBeSet, currText)) {
 			getOrCreateComponentModel().text = textToBeSet;
 		}
 	}

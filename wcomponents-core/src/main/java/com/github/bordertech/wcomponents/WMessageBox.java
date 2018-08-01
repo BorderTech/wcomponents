@@ -170,7 +170,7 @@ public class WMessageBox extends AbstractWComponent implements AjaxTarget, Subor
 		Serializable currTitle = getComponentModel().title;
 		Serializable titleToBeSet = I18nUtilities.asMessage(title, args);
 
-		if (!Objects.equals(title, currTitle)) {
+		if (!Objects.equals(titleToBeSet, currTitle)) {
 			MessageModel model = getOrCreateComponentModel();
 			model.title = titleToBeSet;
 		}
