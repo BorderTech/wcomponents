@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents;
 import junit.framework.Assert;
 import org.junit.Test;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -153,7 +154,6 @@ public class WMessageBox_Test extends AbstractWComponentTestCase {
 	public void testDuplicateComponentModels() {
 		WMessageBox messageBox = new WMessageBox(WMessageBox.Type.SUCCESS);
 		assertNoDuplicateComponentModels(messageBox, "type", WMessageBox.Type.INFO);
-//		No such method, invokeSetMethod doesn't like setting strings
-//		assertNoDuplicateComponentModels(messageBox, "titleText", "Test");
+		assertNoDuplicateComponentModels(messageBox, "titleText", "Test", new Serializable[]{});
 	}
 }

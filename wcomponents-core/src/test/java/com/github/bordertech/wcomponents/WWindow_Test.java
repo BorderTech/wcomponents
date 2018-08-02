@@ -139,8 +139,8 @@ public class WWindow_Test extends AbstractWComponentTestCase {
 		assertNoDuplicateComponentModels(window, "showStatus", true);
 		assertNoDuplicateComponentModels(window, "resizable", false);
 		assertNoDuplicateComponentModels(window, "scrollable", true);
-//		assertNoDuplicateComponentModels(window, "state", 3); // No such method exception
-//		assertNoDuplicateComponentModels(window, "targeted", true); // No such method exception
+//		assertNoDuplicateComponentModels(window, "state", 3); // No such method exception - protected modifier
+//		assertNoDuplicateComponentModels(window, "targeted", true); // No such method exception - protected modifier
 		assertNoDuplicateComponentModels(window, "step", 5);
 	}
 }

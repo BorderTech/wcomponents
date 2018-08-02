@@ -906,7 +906,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	/**
 	 * @param fileId the file id that has been uploaded successfully
 	 */
-	private void setFileUploadRequestId(final String fileId) {
+	 private void setFileUploadRequestId(final String fileId) {
 		String currFileId = getFileUploadRequestId();
 
 		if (!Objects.equals(fileId, currFileId)) {

@@ -3,6 +3,8 @@ package com.github.bordertech.wcomponents;
 import junit.framework.Assert;
 import org.junit.Test;
 
+import java.io.Serializable;
+
 /**
  * WLabel_Test - unit tests for {@link WLabel}.
  *
@@ -106,8 +108,8 @@ public class WLabel_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testDuplicateComponentModels() {
 		WLabel wLabel = new WLabel("tesLabel");
-//		assertNoDuplicateComponentModels(wLabel, "text", "testText"); // invokeSetMethod() doesn't like this
-//		assertNoDuplicateComponentModels(wLabel, "hint", "testHint");
+		assertNoDuplicateComponentModels(wLabel, "text", "testText", new Serializable[]{});
+		assertNoDuplicateComponentModels(wLabel, "hint", "testHint", new Serializable[]{});
 		assertNoDuplicateComponentModels(wLabel,"sanitizeOnOutput", true);
 	}
 }
