@@ -6,6 +6,7 @@
 	<xsl:output encoding="UTF-8" indent="no" method="html"
 		doctype-system="about:legacy-compat" omit-xml-declaration="yes" />
 	<xsl:strip-space elements="*" />
+	<xsl:include href="wc.html.ie9minus.xsl"/>
 
 	<!--
 		Debug flag. This is a global parameter as it is pulled out of the
@@ -116,6 +117,7 @@
 					<link type="text/css" rel="stylesheet" href="{$debugCssUrl}" media="screen" />
 				</xsl:if>
 				<link type="text/css" rel="stylesheet" href="{concat($resourceRoot, 'resource/fontawesome/css/font-awesome.min.css')}" media="screen" />
+				<xsl:call-template name="addOldIECSS"/>
 				<!--
 					We need to set up the require config very early. This mess
 					constructs the require config which is necessary to commence
