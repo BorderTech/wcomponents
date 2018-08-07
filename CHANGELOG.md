@@ -6,9 +6,13 @@
 
 ### Enhancements
 
-* Restored ability to override XSLT in themes.
-
 ### Bug Fixes
+
+## Release 1.5.11
+
+### Enhancements
+
+* Restored ability to override XSLT in themes.
 
 ## Release 1.5.10
 
