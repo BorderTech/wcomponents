@@ -58,6 +58,7 @@
 	</xsl:template>
 
 	<!-- WValidationErrors. -->
-	<xsl:template match="ui:validationerrors|ui:error"/>
+	<xsl:template match="ui:validationerrors"/>
+	<xsl:template match="ui:error"/>
 
 </xsl:stylesheet>
