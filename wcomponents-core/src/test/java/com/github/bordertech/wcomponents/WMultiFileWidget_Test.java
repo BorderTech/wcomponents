@@ -318,6 +318,7 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 		assertNoDuplicateComponentModels(multiFileWidget, "useThumbnails", true);
 		assertNoDuplicateComponentModels(multiFileWidget, "thumbnailPosition", WLink.ImagePosition.SOUTH);
 		assertNoDuplicateComponentModels(multiFileWidget, "thumbnailSize", new Dimension(22,33));
+		// TODO: See issue #1574 https://github.com/BorderTech/wcomponents/issues/1574
 //		assertNoDuplicateComponentModels(multiFileWidget, "fileUploadRequestId", "testId"); // No such method exception as it's a private method
 	}
 

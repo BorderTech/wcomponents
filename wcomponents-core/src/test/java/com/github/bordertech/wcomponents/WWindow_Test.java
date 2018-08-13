@@ -139,6 +139,7 @@ public class WWindow_Test extends AbstractWComponentTestCase {
 		assertNoDuplicateComponentModels(window, "showStatus", true);
 		assertNoDuplicateComponentModels(window, "resizable", false);
 		assertNoDuplicateComponentModels(window, "scrollable", true);
+		// TODO: See issue #1574 https://github.com/BorderTech/wcomponents/issues/1574
 //		assertNoDuplicateComponentModels(window, "state", 3); // No such method exception - protected modifier
 //		assertNoDuplicateComponentModels(window, "targeted", true); // No such method exception - protected modifier
 		assertNoDuplicateComponentModels(window, "step", 5);
