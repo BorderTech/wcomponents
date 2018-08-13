@@ -8,6 +8,8 @@
 
 ### Bug Fixes
 
+* Fixed duplicate component models being created unnecessarily #1014
+
 ## Release 1.5.11
 
 ### Enhancements
