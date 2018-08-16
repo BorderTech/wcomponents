@@ -8,6 +8,8 @@
 
 ### Bug Fixes
 
+- Addded workaround for IE 11 focus flaw #1575.
+
 ## Release 1.5.11
 
 ### Enhancements
