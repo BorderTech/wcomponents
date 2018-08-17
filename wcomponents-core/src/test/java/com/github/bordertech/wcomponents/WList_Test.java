@@ -88,4 +88,12 @@ public class WList_Test extends AbstractWComponentTestCase {
 		}
 	}
 
+	@Test
+	public void testDuplicateComponentModels() {
+		WList wList = new WList(Type.STRIPED);
+		assertNoDuplicateComponentModels(wList, "separator", Separator.BAR);
+		assertNoDuplicateComponentModels(wList, "type", Type.FLAT);
+		assertNoDuplicateComponentModels(wList, "renderBorder", true);
+	}
+
 }

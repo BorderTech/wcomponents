@@ -8,6 +8,10 @@ import com.github.bordertech.wcomponents.util.MemoryUtil;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.util.thumbnail.ThumbnailUtil;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.awt.Dimension;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,11 +21,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
@@ -293,7 +295,9 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 * @param bytes The maximum size (in bytes) that can be uploaded by this input.
 	 */
 	public void setMaxFileSize(final long bytes) {
-		getOrCreateComponentModel().maxFileSize = bytes;
+		if (bytes != getMaxFileSize()) {
+			getOrCreateComponentModel().maxFileSize = bytes;
+		}
 	}
 
 	/**
@@ -328,7 +332,9 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 * @param maxFiles The maximum number of files that can be uploaded by this input.
 	 */
 	public void setMaxFiles(final int maxFiles) {
-		getOrCreateComponentModel().maxFiles = maxFiles;
+		if (maxFiles != getMaxFiles()) {
+			getOrCreateComponentModel().maxFiles = maxFiles;
+		}
 	}
 
 	/**
@@ -404,7 +410,10 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		if (cols != null && cols < 0) {
 			throw new IllegalArgumentException("Must have zero or more columns");
 		}
-		getOrCreateComponentModel().cols = cols;
+		Integer currColumns = getColumns();
+		if (!Objects.equals(cols, currColumns)) {
+			getOrCreateComponentModel().cols = cols;
+		}
 	}
 
 	/**
@@ -427,7 +436,9 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 * @param newUpload true if a new file has been uploaded
 	 */
 	public void setNewUpload(final boolean newUpload) {
-		getOrCreateComponentModel().newUpload = newUpload;
+		if (newUpload != isNewUpload()) {
+			getOrCreateComponentModel().newUpload = newUpload;
+		}
 	}
 
 	/**
@@ -445,7 +456,9 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 * @param useThumbnails true if generate thumb nails for the file links.
 	 */
 	public void setUseThumbnails(final boolean useThumbnails) {
-		getOrCreateComponentModel().useThumbnails = useThumbnails;
+		if (useThumbnails != isUseThumbnails()) {
+			getOrCreateComponentModel().useThumbnails = useThumbnails;
+		}
 	}
 
 	/**
@@ -464,7 +477,9 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 * @param thumbnailPosition the position of the image
 	 */
 	public void setThumbnailPosition(final ImagePosition thumbnailPosition) {
-		getOrCreateComponentModel().thumbnailPosition = thumbnailPosition;
+		if (thumbnailPosition != getThumbnailPosition()) {
+			getOrCreateComponentModel().thumbnailPosition = thumbnailPosition;
+		}
 	}
 
 	/**
@@ -486,6 +501,8 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 * @param thumbnailSize the thumbnail size or null for default
 	 */
 	public void setThumbnailSize(final Dimension thumbnailSize) {
+		Dimension currSize = getThumbnailSize();
+
 		if (thumbnailSize != null) {
 			if (thumbnailSize.height == 0 || thumbnailSize.width == 0) {
 				throw new IllegalArgumentException(
@@ -496,7 +513,9 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 						"Thumbnail size cannot have both height and width set to -1.");
 			}
 		}
-		getOrCreateComponentModel().thumbnailSize = thumbnailSize;
+		if (!Objects.equals(thumbnailSize, currSize)) {
+			getOrCreateComponentModel().thumbnailSize = thumbnailSize;
+		}
 	}
 
 	/**
@@ -887,8 +906,12 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	/**
 	 * @param fileId the file id that has been uploaded successfully
 	 */
-	private void setFileUploadRequestId(final String fileId) {
-		getOrCreateComponentModel().fileUploadRequestId = fileId;
+	 private void setFileUploadRequestId(final String fileId) {
+		String currFileId = getFileUploadRequestId();
+
+		if (!Objects.equals(fileId, currFileId)) {
+			getOrCreateComponentModel().fileUploadRequestId = fileId;
+		}
 	}
 
 	/**

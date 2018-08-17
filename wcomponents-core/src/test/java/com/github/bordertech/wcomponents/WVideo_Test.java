@@ -3,9 +3,10 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import com.github.bordertech.wcomponents.util.mock.MockResponse;
-import java.io.IOException;
 import junit.framework.Assert;
 import org.junit.Test;
+
+import java.io.IOException;
 
 /**
  * Unit tests for {@link WVideo}.
@@ -470,5 +471,19 @@ public class WVideo_Test extends AbstractWComponentTestCase {
 
 		resetContext();
 		Assert.assertEquals("Default height should not have changed", height1, video.getHeight());
+	}
+
+	@Test
+	public void testDuplicateComponentModels() {
+		WVideo video = new WVideo();
+		assertNoDuplicateComponentModels(video, "autoplay", true);
+		assertNoDuplicateComponentModels(video,"mediaGroup", "testGroup");
+		assertNoDuplicateComponentModels(video, "loop", true);
+		assertNoDuplicateComponentModels(video,"muted", true);
+		assertNoDuplicateComponentModels(video,"controls", WVideo.Controls.NATIVE);
+		assertNoDuplicateComponentModels(video, "preload", WVideo.Preload.AUTO);
+		assertNoDuplicateComponentModels(video, "altText","testAltText");
+		assertNoDuplicateComponentModels(video, "width",120);
+		assertNoDuplicateComponentModels(video, "height", 568);
 	}
 }

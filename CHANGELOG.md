@@ -8,7 +8,8 @@
 
 ### Bug Fixes
 
-- Addded workaround for IE 11 focus flaw #1575.
+* Fixed duplicate component models being created unnecessarily #1014.
+* Added workaround for IE 11 focus flaw #1575.
 
 ## Release 1.5.11
 

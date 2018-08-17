@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * This component enables a pop up browser window with interactive wcomponent content. Be warned that pop up windows can
@@ -125,7 +126,11 @@ public class WWindow extends AbstractWComponent implements Container {
 	 * @param title The title to set.
 	 */
 	public void setTitle(final String title) {
-		getOrCreateComponentModel().title = title;
+		String currTitle = getTitle();
+
+		if (!Objects.equals(title, currTitle)) {
+			getOrCreateComponentModel().title = title;
+		}
 	}
 
 	/**
@@ -148,7 +153,9 @@ public class WWindow extends AbstractWComponent implements Container {
 	 * @param height The height of the window.
 	 */
 	public void setHeight(final int height) {
-		getOrCreateComponentModel().height = height;
+		if (height != getHeight()) {
+			getOrCreateComponentModel().height = height;
+		}
 	}
 
 	/**
@@ -164,7 +171,9 @@ public class WWindow extends AbstractWComponent implements Container {
 	 * @param width The width of the window.
 	 */
 	public void setWidth(final int width) {
-		getOrCreateComponentModel().width = width;
+		if (width != getWidth()) {
+			getOrCreateComponentModel().width = width;
+		}
 	}
 
 	/**
@@ -180,7 +189,9 @@ public class WWindow extends AbstractWComponent implements Container {
 	 * @param top The y-coordinate of the window, or -1 for default.
 	 */
 	public void setTop(final int top) {
-		getOrCreateComponentModel().top = top;
+		if (top != getTop()) {
+			getOrCreateComponentModel().top = top;
+		}
 	}
 
 	/**
@@ -196,7 +207,9 @@ public class WWindow extends AbstractWComponent implements Container {
 	 * @param left The x-coordinate of the window, or -1 for default.
 	 */
 	public void setLeft(final int left) {
-		getOrCreateComponentModel().left = left;
+		if (left != getLeft()) {
+			getOrCreateComponentModel().left = left;
+		}
 	}
 
 	/**
@@ -212,7 +225,9 @@ public class WWindow extends AbstractWComponent implements Container {
 	 * @param showMenuBar The showMenuBar to set.
 	 */
 	public void setShowMenuBar(final boolean showMenuBar) {
-		getOrCreateComponentModel().showMenuBar = showMenuBar;
+		if (showMenuBar != isShowMenuBar()) {
+			getOrCreateComponentModel().showMenuBar = showMenuBar;
+		}
 	}
 
 	/**
@@ -228,7 +243,9 @@ public class WWindow extends AbstractWComponent implements Container {
 	 * @param showToolbar The showToolbar to set.
 	 */
 	public void setShowToolbar(final boolean showToolbar) {
-		getOrCreateComponentModel().showToolbar = showToolbar;
+		if (showToolbar != isShowToolbar()) {
+			getOrCreateComponentModel().showToolbar = showToolbar;
+		}
 	}
 
 	/**
@@ -244,7 +261,9 @@ public class WWindow extends AbstractWComponent implements Container {
 	 * @param showLocation The showLocation to set.
 	 */
 	public void setShowLocation(final boolean showLocation) {
-		getOrCreateComponentModel().showLocation = showLocation;
+		if (showLocation != isShowLocation()) {
+			getOrCreateComponentModel().showLocation = showLocation;
+		}
 	}
 
 	/**
@@ -260,7 +279,9 @@ public class WWindow extends AbstractWComponent implements Container {
 	 * @param showStatus The showStatus to set.
 	 */
 	public void setShowStatus(final boolean showStatus) {
-		getOrCreateComponentModel().showStatus = showStatus;
+		if (showStatus != isShowStatus()) {
+			getOrCreateComponentModel().showStatus = showStatus;
+		}
 	}
 
 	/**
@@ -276,7 +297,9 @@ public class WWindow extends AbstractWComponent implements Container {
 	 * @param resizable true if the window should be resizable, false if not.
 	 */
 	public void setResizable(final boolean resizable) {
-		getOrCreateComponentModel().resizable = resizable;
+		if (resizable != isResizable()) {
+			getOrCreateComponentModel().resizable = resizable;
+		}
 	}
 
 	/**
@@ -292,7 +315,9 @@ public class WWindow extends AbstractWComponent implements Container {
 	 * @param scrollable true if the window should have a scroll bar, false if not.
 	 */
 	public void setScrollable(final boolean scrollable) {
-		getOrCreateComponentModel().scrollbars = scrollable;
+		if (scrollable != isScrollable()) {
+			getOrCreateComponentModel().scrollbars = scrollable;
+		}
 	}
 
 	/**
@@ -310,7 +335,9 @@ public class WWindow extends AbstractWComponent implements Container {
 	 * @param state the window state to set.
 	 */
 	protected void setState(final int state) {
-		getOrCreateComponentModel().state = state;
+		if (state != getState()) {
+			getOrCreateComponentModel().state = state;
+		}
 	}
 
 	/**
@@ -482,7 +509,9 @@ public class WWindow extends AbstractWComponent implements Container {
 	 * @param targeted true if targeted
 	 */
 	protected void setTargeted(final boolean targeted) {
-		getOrCreateComponentModel().targeted = targeted;
+		if (targeted != isTargeted()) {
+			getOrCreateComponentModel().targeted = targeted;
+		}
 	}
 
 	/**
@@ -500,7 +529,9 @@ public class WWindow extends AbstractWComponent implements Container {
 	 * @param step the step to set.
 	 */
 	public void setStep(final int step) {
-		getOrCreateComponentModel().step = step;
+		if (step != getStep()) {
+			getOrCreateComponentModel().step = step;
+		}
 	}
 
 	/**

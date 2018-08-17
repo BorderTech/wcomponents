@@ -9,6 +9,7 @@ import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -280,7 +281,10 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	 * @param minValue the minimum allowable value, or null for no minimum.
 	 */
 	public void setMinValue(final BigDecimal minValue) {
-		getOrCreateComponentModel().minValue = minValue;
+		BigDecimal currMin = getMinValue();
+		if (!Objects.equals(minValue, currMin)) {
+			getOrCreateComponentModel().minValue = minValue;
+		}
 	}
 
 	/**
@@ -317,7 +321,10 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	 * @param maxValue the maximum allowable value, or null for no maximum.
 	 */
 	public void setMaxValue(final BigDecimal maxValue) {
-		getOrCreateComponentModel().maxValue = maxValue;
+		BigDecimal currMax = getMaxValue();
+		if (!Objects.equals(maxValue, currMax)) {
+			getOrCreateComponentModel().maxValue = maxValue;
+		}
 	}
 
 	/**
@@ -376,8 +383,9 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 		if (decimalPlaces < 0) {
 			throw new IllegalArgumentException("Decimal places must be >= 0");
 		}
-
-		getOrCreateComponentModel().decimalPlaces = decimalPlaces;
+		if (getDecimalPlaces() != decimalPlaces) {
+			getOrCreateComponentModel().decimalPlaces = decimalPlaces;
+		}
 	}
 
 	/**

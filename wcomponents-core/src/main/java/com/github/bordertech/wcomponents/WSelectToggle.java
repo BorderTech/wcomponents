@@ -194,7 +194,9 @@ public class WSelectToggle extends AbstractWComponent implements Disableable, Aj
 	 * @param target The target to set.
 	 */
 	public void setTarget(final WComponent target) {
-		getOrCreateComponentModel().target = target;
+		if (target != getTarget()) {
+			getOrCreateComponentModel().target = target;
+		}
 	}
 
 	/**
@@ -212,7 +214,9 @@ public class WSelectToggle extends AbstractWComponent implements Disableable, Aj
 	 * @param renderAsText true to render as text, false to render as a checkbox.
 	 */
 	public void setRenderAsText(final boolean renderAsText) {
-		getOrCreateComponentModel().renderAsText = renderAsText;
+		if (renderAsText != isRenderAsText()) {
+			getOrCreateComponentModel().renderAsText = renderAsText;
+		}
 	}
 
 	/**
@@ -228,7 +232,9 @@ public class WSelectToggle extends AbstractWComponent implements Disableable, Aj
 	 * @param state the state to set.
 	 */
 	public void setState(final State state) {
-		getOrCreateComponentModel().state = state;
+		if (state != getState()) {
+			getOrCreateComponentModel().state = state;
+		}
 	}
 
 	/**
@@ -248,7 +254,9 @@ public class WSelectToggle extends AbstractWComponent implements Disableable, Aj
 	 */
 	@Override
 	public void setDisabled(final boolean disabled) {
-		setFlag(ComponentModel.DISABLED_FLAG, disabled);
+		if (disabled != isDisabled()) {
+			setFlag(ComponentModel.DISABLED_FLAG, disabled);
+		}
 	}
 
 	/**

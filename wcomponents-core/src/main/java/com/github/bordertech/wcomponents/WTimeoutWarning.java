@@ -72,7 +72,9 @@ public class WTimeoutWarning extends AbstractWComponent {
 	 * @param timeoutPeriod the timeout in seconds.
 	 */
 	public void setTimeoutPeriod(final int timeoutPeriod) {
-		getOrCreateComponentModel().timeoutPeriod = timeoutPeriod;
+		if (timeoutPeriod != getTimeoutPeriod()) {
+			getOrCreateComponentModel().timeoutPeriod = timeoutPeriod;
+		}
 	}
 
 	/**
@@ -89,7 +91,9 @@ public class WTimeoutWarning extends AbstractWComponent {
 			throw new IllegalArgumentException("Warning period must be at least " + String.valueOf(
 					MINIMUM_WARNING));
 		}
-		getOrCreateComponentModel().warningPeriod = warningPeriod;
+		if (warningPeriod != getWarningPeriod()) {
+			getOrCreateComponentModel().warningPeriod = warningPeriod;
+		}
 	}
 
 	/**

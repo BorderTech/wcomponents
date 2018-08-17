@@ -1,5 +1,7 @@
 package com.github.bordertech.wcomponents;
 
+import java.util.Objects;
+
 /**
  * This component enables a pop up browser window to an arbitrary location. Pop-ups are initially invisible, to display
  * a pop-up, call {@link #setVisible(boolean)}. This will set the pop-up visible for the render cycle only.
@@ -40,7 +42,9 @@ public class WPopup extends AbstractWComponent {
 	 * @param height The height of the popup window.
 	 */
 	public void setHeight(final int height) {
-		getOrCreateComponentModel().height = height;
+		if (height != getHeight()) {
+			getOrCreateComponentModel().height = height;
+		}
 	}
 
 	/**
@@ -56,7 +60,9 @@ public class WPopup extends AbstractWComponent {
 	 * @param width The width of the popup window.
 	 */
 	public void setWidth(final int width) {
-		getOrCreateComponentModel().width = width;
+		if (width != getWidth()) {
+			getOrCreateComponentModel().width = width;
+		}
 	}
 
 	/**
@@ -72,7 +78,9 @@ public class WPopup extends AbstractWComponent {
 	 * @param resizable true if the popup window should be resizable, false if not.
 	 */
 	public void setResizable(final boolean resizable) {
-		getOrCreateComponentModel().resizable = resizable;
+		if (resizable != isResizable()) {
+			getOrCreateComponentModel().resizable = resizable;
+		}
 	}
 
 	/**
@@ -88,7 +96,9 @@ public class WPopup extends AbstractWComponent {
 	 * @param scrollable true if the popup window should have a scroll bar, false if not.
 	 */
 	public void setScrollable(final boolean scrollable) {
-		getOrCreateComponentModel().scrollbars = scrollable;
+		if (scrollable != isScrollable()) {
+			getOrCreateComponentModel().scrollbars = scrollable;
+		}
 	}
 
 	/**
@@ -104,7 +114,11 @@ public class WPopup extends AbstractWComponent {
 	 * @param url the URL to set.
 	 */
 	public void setUrl(final String url) {
-		getOrCreateComponentModel().url = url;
+		String currUrl = getUrl();
+
+		if (!Objects.equals(url, currUrl)) {
+			getOrCreateComponentModel().url = url;
+		}
 	}
 
 	/**
@@ -122,7 +136,11 @@ public class WPopup extends AbstractWComponent {
 	 * @param targetWindow the target window name.
 	 */
 	public void setTargetWindow(final String targetWindow) {
-		getOrCreateComponentModel().targetWindow = targetWindow;
+		String currTargWin = getTargetWindow();
+
+		if (!Objects.equals(targetWindow, currTargWin)) {
+			getOrCreateComponentModel().targetWindow = targetWindow;
+		}
 	}
 
 	/**

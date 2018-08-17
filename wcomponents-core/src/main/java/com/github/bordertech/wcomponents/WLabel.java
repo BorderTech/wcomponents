@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.util.HtmlSanitizerUtil;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import java.io.Serializable;
 import java.text.MessageFormat;
+import java.util.Objects;
 
 /**
  * <p>
@@ -110,7 +111,12 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	 * @param args optional arguments for the message format string.
 	 */
 	public void setText(final String text, final Serializable... args) {
-		getOrCreateComponentModel().text = I18nUtilities.asMessage(text, args);
+		Serializable currText = getComponentModel().text;
+		Serializable textToBeSet = I18nUtilities.asMessage(text, args);
+
+		if (!Objects.equals(textToBeSet, currText)) {
+			getOrCreateComponentModel().text = textToBeSet;
+		}
 	}
 
 	/**
@@ -120,7 +126,12 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	 * @param args optional arguments for the message format string.
 	 */
 	public void setHint(final String hint, final Serializable... args) {
-		getOrCreateComponentModel().hint = I18nUtilities.asMessage(hint, args);
+		Serializable currHint = getComponentModel().hint;
+		Serializable hintToBeSet = I18nUtilities.asMessage(hint, args);
+
+		if (!Objects.equals(hintToBeSet, currHint)) {
+			getOrCreateComponentModel().hint = hintToBeSet;
+		}
 	}
 
 	/**
@@ -249,7 +260,9 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	 * @param sanitize true if output sanitization is required.
 	 */
 	public void setSanitizeOnOutput(final boolean sanitize) {
-		getOrCreateComponentModel().sanitizeOnOutput = sanitize;
+		if (sanitize != isSanitizeOnOutput()) {
+			getOrCreateComponentModel().sanitizeOnOutput = sanitize;
+		}
 	}
 
 	/**

@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents;
 
 import java.awt.Dimension;
+import java.util.Objects;
 
 /**
  * <p>
@@ -29,8 +30,12 @@ public class WImageEditor extends AbstractWComponent {
 	 * @param overlayUrl the overlay image URL.
 	 */
 	public void setOverlayUrl(final String overlayUrl) {
-		ImageEditModel model = getOrCreateComponentModel();
-		model.overlayUrl = overlayUrl;
+		String currOverlayUrl = getOverlayUrl();
+
+		if (!Objects.equals(overlayUrl, currOverlayUrl)) {
+			ImageEditModel model = getOrCreateComponentModel();
+			model.overlayUrl = overlayUrl;
+		}
 	}
 
 	/**
@@ -48,8 +53,10 @@ public class WImageEditor extends AbstractWComponent {
 	 * @param useCamera the overlay image URL.
 	 */
 	public void setUseCamera(final boolean useCamera) {
-		ImageEditModel model = getOrCreateComponentModel();
-		model.useCamera = useCamera;
+		if (useCamera != getUseCamera()) {
+			ImageEditModel model = getOrCreateComponentModel();
+			model.useCamera = useCamera;
+		}
 	}
 
 	/**
@@ -65,8 +72,10 @@ public class WImageEditor extends AbstractWComponent {
 	 * @param isFace turn face detection on or off.
 	 */
 	public void setIsFace(final boolean isFace) {
-		ImageEditModel model = getOrCreateComponentModel();
-		model.isFace = isFace;
+		if (isFace != getIsFace()) {
+			ImageEditModel model = getOrCreateComponentModel();
+			model.isFace = isFace;
+		}
 	}
 
 	/**
@@ -82,8 +91,10 @@ public class WImageEditor extends AbstractWComponent {
 	 * @param renderInline Set to true to render inline.
 	 */
 	public void setRenderInline(final boolean renderInline) {
-		ImageEditModel model = getOrCreateComponentModel();
-		model.renderInline = renderInline;
+		if (renderInline != getRenderInline()) {
+			ImageEditModel model = getOrCreateComponentModel();
+			model.renderInline = renderInline;
+		}
 	}
 
 	/**
@@ -103,7 +114,11 @@ public class WImageEditor extends AbstractWComponent {
 	 * @param size the size of the image editor.
 	 */
 	public void setSize(final Dimension size) {
-		getOrCreateComponentModel().size = size;
+		Dimension currSize = getSize();
+
+		if (!Objects.equals(size, currSize)) {
+			getOrCreateComponentModel().size = size;
+		}
 	}
 
 	/**

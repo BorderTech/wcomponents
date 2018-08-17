@@ -1,9 +1,10 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
-import java.util.Arrays;
 import junit.framework.Assert;
 import org.junit.Test;
+
+import java.util.Arrays;
 
 /**
  * WSelectToggle_Test - Unit tests for {@link WSelectToggle}.
@@ -176,6 +177,15 @@ public class WSelectToggle_Test extends AbstractWComponentTestCase {
 				size());
 		Assert.assertEquals("Table should have no rows selected", 0, dataTable.getSelectedRows().
 				size());
+	}
+
+	@Test
+	public void testDuplicateComponentModels() {
+		WSelectToggle selectToggle = new WSelectToggle();
+		assertNoDuplicateComponentModels(selectToggle, "target", new WPanel());
+		assertNoDuplicateComponentModels(selectToggle, "renderAsText", true);
+		assertNoDuplicateComponentModels(selectToggle,"state", WSelectToggle.State.SOME);
+		assertNoDuplicateComponentModels(selectToggle, "disabled", true);
 	}
 
 	/**
