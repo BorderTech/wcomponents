@@ -37,6 +37,7 @@ define(["wc/has"], function(has) {
 	/* end sniff additions */
 
 	if (has("ie") || has("trident")) {
+		result.push("wc/fix/focus_ie");
 		result.push("wc/fix/disabledControl_ieAll");
 		result.push("wc/fix/defaultSubmit_ieAll");
 		result.push("wc/fix/placeholder_ieAll");
