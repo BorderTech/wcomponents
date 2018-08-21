@@ -1,18 +1,9 @@
 define(["wc/has", "wc/mixin", "wc/config", "wc/dom/Widget", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers", "wc/ui/prompt",
-	"wc/i18n/i18n", "fabric", "wc/ui/dialogFrame", "wc/template", "wc/ui/ImageCapture", "wc/ui/ImageUndoRedo", "wc/file/getMimeType", "wc/file/size"],
-function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i18n, fabric, dialogFrame, template, ImageCapture, ImageUndoRedo, getMimeType, fileSize) {
+	"wc/i18n/i18n", "fabric", "wc/ui/dialogFrame", "wc/template", "wc/ui/ImageCapture", "wc/ui/ImageUndoRedo", "wc/file/size", "wc/file/util"],
+function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, fabric, dialogFrame, template, ImageCapture, ImageUndoRedo, fileSize, fileUtil) {
 	var timer,
 		imageEdit = new ImageEdit();
 
-	/**
-	 * Used when checking the newly created image is named with the correct extension.
-	 * If it does not already match any in the array then the extension at index zero will be appended.
-	 **/
-	ImageEdit.prototype.mimeToExt = {
-		"image/jpeg": ["jpeg", "jpg"],
-		"image/png": ["png"],
-		"image/webp": ["webp"]
-	};
 
 	ImageEdit.prototype.renderCanvas = function(callback) {
 		if (timer) {
@@ -1238,8 +1229,8 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 		function getCanvasAsFile(editor, originalImage) {
 			var result = canvasToDataUrl();
 			if (result) {
-				result = dataURItoBlob(result);
-				result = blobToFile(result, originalImage);
+				result = fileUtil.dataURItoBlob(result);
+				result = fileUtil.blobToFile(result, originalImage);
 			}
 			return result;
 		}
@@ -1320,91 +1311,10 @@ function(has, mixin, wcconfig, Widget, event, uid, classList, timers, prompt, i1
 				context = canvas.getContext("2d");
 				context.drawImage(element, 0, 0);
 				dataUrl = canvas.toDataURL("image/png");
-				blob = dataURItoBlob(dataUrl);
-				file = blobToFile(blob, config);
+				blob = fileUtil.dataURItoBlob(dataUrl);
+				file = fileUtil.blobToFile(blob, config);
 			}
 			return file;
-		}
-
-		/**
-		 * Converts a generic binary blob to a File blob.
-		 * @param {Blob} blob
-		 * @param {Object} [config] Attempt to set some of the file properties such as "type", "name"
-		 * @returns {File} The File blob.
-		 */
-		function blobToFile(blob, config) {
-			var name,
-				filePropertyBag = {
-					type: blob.type,
-					lastModified: new Date()
-				};
-			if (config) {
-				if (!filePropertyBag.type) {
-					filePropertyBag.type = config.type;
-				}
-				name = config.name;
-			}
-			name = name || uid();
-
-
-//			if (typeof File === "function") {
-//				return new File([blob], name, filePropertyBag);
-//			}
-			if (!blob.type) {
-				// noinspection JSAnnotator
-				blob.type = filePropertyBag.type;
-			}
-			blob.lastModifiedDate = filePropertyBag.lastModified;
-			blob.lastModified = filePropertyBag.lastModified.getTime();
-			blob.name = name;
-			checkFileExtension(blob);
-			return blob;
-		}
-
-		/**
-		 * Converts a data url to a binary blob.
-		 * @param {string} dataURI
-		 * @returns {Blob} The binary blob.
-		 */
-		function dataURItoBlob(dataURI) {
-			// convert base64/URLEncoded data component to raw binary data held in a string
-			var byteString, mimeString, ia, i;
-			if (dataURI.split(",")[0].indexOf("base64") >= 0) {
-				byteString = atob(dataURI.split(",")[1]);
-			} else {
-				byteString = unescape(dataURI.split(",")[1]);
-			}
-
-			// separate out the mime component
-			mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
-
-			// write the bytes of the string to a typed array
-			ia = new window.Uint8Array(byteString.length);
-			for (i = 0; i < byteString.length; i++) {
-				ia[i] = byteString.charCodeAt(i);
-			}
-
-			return new Blob([ia], { type: mimeString });
-		}
-
-		/**
-		 * Ensures that the file name ends with an extension that matches its mime type.
-		 * @param file The file to check.
-		 */
-		function checkFileExtension(file) {
-			var expectedExtension,
-				info = getMimeType({
-					files: [file]
-				});
-			if (info && info.length) {
-				info = info[0];
-				expectedExtension = imageEdit.mimeToExt[info.mime];
-				if (info.mime && expectedExtension) {
-					if (expectedExtension.indexOf(info.ext) < 0) {
-						file.name += "." + expectedExtension[0];
-					}
-				}
-			}
 		}
 	}
 	return imageEdit;
