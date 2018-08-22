@@ -1,5 +1,5 @@
 define(["wc/dom/uid", "wc/file/getMimeType"], function(uid, getMimeType) {
-	
+	"use strict";
 	var instance = new FileUtil();
 	/**
 	 * Used when checking the newly created image is named with the correct extension.
@@ -14,7 +14,7 @@ define(["wc/dom/uid", "wc/file/getMimeType"], function(uid, getMimeType) {
 	function FileUtil() {
 		/**
 		 * Converts a generic binary blob to a File blob.
-		 * @param {Blob} blob
+		 * @param {Blob} The binary blob.
 		 * @param {Object} [config] Attempt to set some of the file properties such as "type", "name"
 		 * @returns {File} The File blob.
 		 */
@@ -32,10 +32,6 @@ define(["wc/dom/uid", "wc/file/getMimeType"], function(uid, getMimeType) {
 			}
 			name = name || uid();
 
-
-//			if (typeof File === "function") {
-//				return new File([blob], name, filePropertyBag);
-//			}
 			if (!blob.type) {
 				// noinspection JSAnnotator
 				blob.type = filePropertyBag.type;
