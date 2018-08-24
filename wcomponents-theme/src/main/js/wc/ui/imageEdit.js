@@ -1231,6 +1231,7 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 			if (result) {
 				result = fileUtil.dataURItoBlob(result);
 				result = fileUtil.blobToFile(result, originalImage);
+				result = fileUtil.fixFileExtension(result);
 			}
 			return result;
 		}
@@ -1313,6 +1314,7 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 				dataUrl = canvas.toDataURL("image/png");
 				blob = fileUtil.dataURItoBlob(dataUrl);
 				file = fileUtil.blobToFile(blob, config);
+				file = fileUtil.fixFileExtension(file);
 			}
 			return file;
 		}

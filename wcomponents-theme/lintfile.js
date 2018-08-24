@@ -5,7 +5,7 @@
  *
  * For example in Netbeans (on Mac):
  * 1. Install NodeJS Plugin (it's in the default available plugins) http://plugins.netbeans.org/plugin/36653/nodejs
- * 2. Netbeans > Preferences > Node.js > "Default run command"
+ * 2. Netbeans > Preferences > Miscellaneous > Node.js > "Default run command"
  *    cd ${workingdir};
  *    /usr/local/bin/node /path/to/lintfile.js ${selectedfile};
  * 3. Now you can right-click any file and "Run with Node.js" to lint it.

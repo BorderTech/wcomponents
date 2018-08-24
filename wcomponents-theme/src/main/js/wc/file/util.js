@@ -1,21 +1,38 @@
-define(["wc/dom/uid", "wc/file/getMimeType"], function(uid, getMimeType) {
+define(["wc/dom/uid", "wc/file/getMimeType", "wc/config"], function (uid, getMimeType, wcconfig) {
 	"use strict";
+
 	var instance = new FileUtil();
-	/**
-	 * Used when checking the newly created image is named with the correct extension.
-	 * If it does not already match any in the array then the extension at index zero will be appended.
-	 **/
+
+		/**
+		 * Used when checking the newly created file is named with the correct extension.
+		 * If it does not already match any in the array then the extension at index zero will be appended.
+		 **/
 	FileUtil.prototype.mimeToExt = {
 		"image/jpeg": ["jpeg", "jpg"],
+		"image/bmp": ["bmp"],
 		"image/png": ["png"],
-		"image/webp": ["webp"]
+		"image/gif": ["gif"],
+		"image/x-icon": ["ico"],
+		"image/webp": ["webp"],
+		"image/svg+xml": ["svg"],
+		"image/tiff": ["tif", "tiff"],
+		"text/plain": ["bas", "c", "h", "txt", "log", "bat"],
+		"text/tab-separated-values": ["tsv"],
+		"text/richtext": ["rtx"],
+		"text/html": ["htm", "html", "stm"],
+		"text/xml": ["xml"],
+		"application/msword": ["doc", "dot"],
+		"application/vnd.ms-powerpoint": ["pot,", "pps", "ppt"],
+		"application/rtf": ["rtf"],
+		"application/pdf": ["pdf"],
+		"application/vnd.ms-excel": ["xla", "xlc", "xlm", "xls", "xlt", "xlw"]
 	};
 
 	function FileUtil() {
 		/**
 		 * Converts a generic binary blob to a File blob.
-		 * @param {Blob} The binary blob.
-		 * @param {Object} [config] Attempt to set some of the file properties such as "type", "name"
+		 * @param {Blob} blob The binary blob.
+		 * @param {Object} [config] Attempt to set some of the file properties such as "type", "name".
 		 * @returns {File} The File blob.
 		 */
 		this.blobToFile = function (blob, config) {
@@ -30,7 +47,6 @@ define(["wc/dom/uid", "wc/file/getMimeType"], function(uid, getMimeType) {
 				}
 				name = config.name;
 			}
-			name = name || uid();
 
 			if (!blob.type) {
 				// noinspection JSAnnotator
@@ -38,37 +54,49 @@ define(["wc/dom/uid", "wc/file/getMimeType"], function(uid, getMimeType) {
 			}
 			blob.lastModifiedDate = filePropertyBag.lastModified;
 			blob.lastModified = filePropertyBag.lastModified.getTime();
-			blob.name = name;
-			checkFileExtension(blob);
+			if (!name) {
+				name = uid();
+				blob.name = name;
+				instance.fixFileExtension(blob);
+			} else {
+				blob.name = name;
+			}
 			return blob;
 		};
-		
 
 		/**
 		 * Ensures that the file name ends with an extension that matches its mime type.
-		 * @param file The file to check.
+		 * If the file name does not match the mime type then the appropriate extension will be appended.
+		 * If there are multiple possible extensions the the first will be used.
+		 * @param {Blob} file The file to check.
 		 */
-		function checkFileExtension(file) {
+		this.fixFileExtension = function (file) {
 			var expectedExtension,
 				info = getMimeType({
 					files: [file]
 				});
 			if (info && info.length) {
 				info = info[0];
+
+				// get any configuration overrides.
+				var myMimeTypes = wcconfig.get("wc/file/myMimeTypes");
+				if (myMimeTypes) {
+					instance.mimeToExt = myMimeTypes;
+				}
+
 				expectedExtension = instance.mimeToExt[info.mime];
 				if (info.mime && expectedExtension) {
 					if (expectedExtension.indexOf(info.ext) < 0) {
 						file.name += "." + expectedExtension[0];
 					}
 				}
+
 			}
-		}
-		
-		
+		};
 
 		/**
 		 * Converts a data url to a binary blob.
-		 * @param {string} dataURI
+		 * @param {string} dataURI textual representation of file.
 		 * @returns {Blob} The binary blob.
 		 */
 		this.dataURItoBlob = function (dataURI) {
@@ -89,9 +117,10 @@ define(["wc/dom/uid", "wc/file/getMimeType"], function(uid, getMimeType) {
 				ia[i] = byteString.charCodeAt(i);
 			}
 
-			return new Blob([ia], { type: mimeString });
+			return new Blob([ia], {type: mimeString});
 		};
 	}
+
 	return instance;
 
 });
