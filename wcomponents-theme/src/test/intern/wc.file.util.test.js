@@ -1,7 +1,7 @@
 define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
-		var fileUtil, 
+		var fileUtil,
 			wcconfig;
 		registerSuite({
 			name: "wc/file/util",
@@ -12,41 +12,60 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				});
 			},
 			testBlobToFile: function () {
-				var blob = new Blob(["This is my blob content"], {type: "text/plain"});
-				var file = fileUtil.blobToFile(blob, {
-					name: "test.file"
-				});
-				assert.strictEqual(file.name, "test.file");
-				assert.strictEqual(file.type, "text/plain");
+				var expectedMime = "text/plain",
+					expectedFile = "test.file",
+					blob = new Blob(["This is my blob content"], {type: expectedMime}),
+					file = fileUtil.blobToFile(blob, {
+						name: expectedFile
+					});
+				assert.strictEqual(file.name, expectedFile);
+				assert.strictEqual(file.type, expectedMime);
 			},
 			testDataURItoBlob: function () {
-				var dataurl = 'data:text/plain;base64,aGVsbG8gd29ybGQ=',
+				var expectedText = "hello world",
+					expectedMime = "text/plain",
+					dataurl = 'data:'+ expectedMime +';base64,' + btoa(expectedText),
+					fileReader = new FileReader(),
 					blob;
 
 				blob = fileUtil.dataURItoBlob(dataurl);
-				assert.strictEqual(blob.type, "text/plain");
+				new Promise(function (win) {
+					fileReader.onload = function () {
+						assert.strictEqual(fileReader.result, expectedText);
+						win();
+					};
+					fileReader.readAsText(blob);
+				});
+				assert.strictEqual(blob.type, expectedMime);
 			},
-			testFixFileExtension: function () {
-				var mimeType = "text/plain";
-				var file = new Blob(["Text file content"], {type : mimeType});
+			testFixFileExtensionMultipleExt: function () {
+				var expectMime = "text/plain",
+					file = new Blob(["Text file content"], {type: expectMime}),
+					expectedExt = fileUtil.mimeToExt[expectMime][0],
+					actualExt;
 				file.lastModifiedDate = new Date();
 				file.name = "testfile.jpg";
 				fileUtil.fixFileExtension(file);
-				assert.strictEqual(file.type, "text/plain");
-				assert.strictEqual(file.name.split(".")[2], fileUtil.mimeToExt[mimeType][0]);
-				
+				assert.strictEqual(file.type, expectMime);
+				actualExt = file.name.split(".");
+				assert.strictEqual(actualExt[2], expectedExt);
+			},
+			testFixFileExtensionCustomMime: function () {
+				var expectMime = "application/json",
+					blob = {hello: "world"},
+					expectedFile = "jsonfile",
+					expectedExt = "json",
+					file;
 				// Register custom mimetypes, this will override default mimetypes
 				wcconfig.set({
 					"application/json": ["json"]
 				}, "wc/file/myMimeTypes");
-				var blob = {hello: "world"};
-				file = new Blob([JSON.stringify(blob)], {type : 'application/json'});
+				file = new Blob([JSON.stringify(blob)], {type: expectMime});
 				file.lastModifiedDate = new Date();
-				file.name = "jsonfile";
+				file.name = expectedFile;
 				fileUtil.fixFileExtension(file);
-				assert.strictEqual(file.type, "application/json");
-				assert.strictEqual(file.name, "jsonfile.json");
-
+				assert.strictEqual(file.type, expectMime);
+				assert.strictEqual(file.name, expectedFile + "." + expectedExt);
 			}
 		});
 	});
