@@ -1,32 +1,32 @@
 define(["wc/dom/uid", "wc/file/getMimeType", "wc/config"], function (uid, getMimeType, wcconfig) {
 	"use strict";
 
-	var instance = new FileUtil();
+	var instance = new FileUtil(),
 
 		/**
 		 * Used when checking the newly created file is named with the correct extension.
 		 * If it does not already match any in the array then the extension at index zero will be appended.
 		 **/
-	FileUtil.prototype.mimeToExt = {
-		"image/jpeg": ["jpeg", "jpg"],
-		"image/bmp": ["bmp"],
-		"image/png": ["png"],
-		"image/gif": ["gif"],
-		"image/x-icon": ["ico"],
-		"image/webp": ["webp"],
-		"image/svg+xml": ["svg"],
-		"image/tiff": ["tif", "tiff"],
-		"text/plain": ["bas", "c", "h", "txt", "log", "bat"],
-		"text/tab-separated-values": ["tsv"],
-		"text/richtext": ["rtx"],
-		"text/html": ["htm", "html", "stm"],
-		"text/xml": ["xml"],
-		"application/msword": ["doc", "dot"],
-		"application/vnd.ms-powerpoint": ["pot,", "pps", "ppt"],
-		"application/rtf": ["rtf"],
-		"application/pdf": ["pdf"],
-		"application/vnd.ms-excel": ["xla", "xlc", "xlm", "xls", "xlt", "xlw"]
-	};
+		mimeToExt = {
+			"image/jpeg": ["jpeg", "jpg"],
+			"image/bmp": ["bmp"],
+			"image/png": ["png"],
+			"image/gif": ["gif"],
+			"image/x-icon": ["ico"],
+			"image/webp": ["webp"],
+			"image/svg+xml": ["svg"],
+			"image/tiff": ["tif", "tiff"],
+			"text/plain": ["bas", "c", "h", "txt", "log", "bat"],
+			"text/tab-separated-values": ["tsv"],
+			"text/richtext": ["rtx"],
+			"text/html": ["htm", "html", "stm"],
+			"text/xml": ["xml"],
+			"application/msword": ["doc", "dot"],
+			"application/vnd.ms-powerpoint": ["pot,", "pps", "ppt"],
+			"application/rtf": ["rtf"],
+			"application/pdf": ["pdf"],
+			"application/vnd.ms-excel": ["xla", "xlc", "xlm", "xls", "xlt", "xlw"]
+		};
 
 	function FileUtil() {
 		/**
@@ -72,26 +72,35 @@ define(["wc/dom/uid", "wc/file/getMimeType", "wc/config"], function (uid, getMim
 		 */
 		this.fixFileExtension = function (file) {
 			var expectedExtension,
-				info = getMimeType({
+				metadata = getMimeType({
 					files: [file]
 				});
-			if (info && info.length) {
-				info = info[0];
+			if (metadata && metadata.length) {
+				metadata = metadata[0];
 
-				// get any configuration overrides.
-				var myMimeTypes = wcconfig.get("wc/file/myMimeTypes");
-				if (myMimeTypes) {
-					instance.mimeToExt = myMimeTypes;
-				}
-
-				expectedExtension = instance.mimeToExt[info.mime];
-				if (info.mime && expectedExtension) {
-					if (expectedExtension.indexOf(info.ext) < 0) {
+				expectedExtension = instance.getMimeToExtMap()[metadata.mime];
+				if (metadata.mime && expectedExtension) {
+					if (expectedExtension.indexOf(metadata.ext) < 0) {
 						file.name += "." + expectedExtension[0];
 					}
 				}
 
 			}
+		};
+		
+		/**
+		 * Getter for mimetype to extention map.
+		 * It returns default initailsed map, if not overridden by 'wc/config'.
+		 * To override, set with id "wc/file/customMimeToExt"
+		 * @return {mimeToExt} mime to extension map.
+		 */
+		this.getMimeToExtMap = function () {
+			// get any configuration overrides.
+			var customMimeToExt = wcconfig.get("wc/file/customMimeToExt");
+			if (customMimeToExt) {
+				return customMimeToExt;
+			}
+			return mimeToExt;
 		};
 
 		/**
