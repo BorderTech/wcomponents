@@ -1,11 +1,18 @@
+/**
+ * File util module, to perform file operations like converting data to blob,
+ * blob to file, fixing file extension.
+ * This module defines are a set of mime type to extension mapping, the user could choose
+ * to override this map by 'wc/config' using id "wc/file/customMimeToExt".
+ * @module
+ */
 define(["wc/dom/uid", "wc/file/getMimeType", "wc/config"], function (uid, getMimeType, wcconfig) {
 	"use strict";
 
 	var instance = new FileUtil(),
 
 		/**
-		 * Used when checking the newly created file is named with the correct extension.
-		 * If it does not already match any in the array then the extension at index zero will be appended.
+		 * Map of mimetype to extension, used when checking the newly created file is named 
+		 * with the correct extension.
 		 **/
 		mimeToExt = {
 			"image/jpeg": ["jpeg", "jpg"],
@@ -16,7 +23,7 @@ define(["wc/dom/uid", "wc/file/getMimeType", "wc/config"], function (uid, getMim
 			"image/webp": ["webp"],
 			"image/svg+xml": ["svg"],
 			"image/tiff": ["tif", "tiff"],
-			"text/plain": ["bas", "c", "h", "txt", "log", "bat"],
+			"text/plain": ["txt", "bas", "c", "h", "log", "bat"],
 			"text/tab-separated-values": ["tsv"],
 			"text/richtext": ["rtx"],
 			"text/html": ["htm", "html", "stm"],
@@ -27,7 +34,12 @@ define(["wc/dom/uid", "wc/file/getMimeType", "wc/config"], function (uid, getMim
 			"application/pdf": ["pdf"],
 			"application/vnd.ms-excel": ["xla", "xlc", "xlm", "xls", "xlt", "xlw"]
 		};
-
+		
+	/**
+	 * Utility to create and modify file.
+	 * @constructor
+	 * @private
+	 */
 	function FileUtil() {
 		/**
 		 * Converts a generic binary blob to a File blob.
@@ -67,7 +79,7 @@ define(["wc/dom/uid", "wc/file/getMimeType", "wc/config"], function (uid, getMim
 		/**
 		 * Ensures that the file name ends with an extension that matches its mime type.
 		 * If the file name does not match the mime type then the appropriate extension will be appended.
-		 * If there are multiple possible extensions the the first will be used.
+		 * If there are multiple possible extensions the first will be used.
 		 * @param {Blob} file The file to check.
 		 */
 		this.fixFileExtension = function (file) {
@@ -89,8 +101,8 @@ define(["wc/dom/uid", "wc/file/getMimeType", "wc/config"], function (uid, getMim
 		};
 		
 		/**
-		 * Getter for mimetype to extention map.
-		 * It returns default initailsed map, if not overridden by 'wc/config'.
+		 * Getter for mimetype to extension map.
+		 * It returns default initialised map, if not overridden by 'wc/config'.
 		 * To override, set with id "wc/file/customMimeToExt"
 		 * @return {mimeToExt} mime to extension map.
 		 */

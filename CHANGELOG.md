@@ -5,7 +5,7 @@
 ### API Changes
 
 ### Enhancements
-* Introduced JS module `wc/file/util`, it provides following file operations `blobToFile`, `fixFileExtension`, `dataURItoBlob`
+* Introduced JS module `wc/file/util`, it provides following file operations `blobToFile`, `fixFileExtension`, `dataURItoBlob` and `getMimeToExtMap`.
 
 ### Bug Fixes
 

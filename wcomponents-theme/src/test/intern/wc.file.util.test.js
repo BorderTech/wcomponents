@@ -22,7 +22,18 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				assert.strictEqual(file.name, expectedFile);
 				assert.strictEqual(file.type, expectedMime);
 				assert.strictEqual(file.size, content.length);
+				// https://developer.mozilla.org/en-US/docs/Web/API/File#Properties
+				assert.isDefined(file.lastModified, "Check this is a file (not a blob).");
 				assert.strictEqual(file.lastModified, file.lastModifiedDate.getTime());
+				return new Promise(function (win) {
+					var fileReader = new FileReader();
+					fileReader.onload = function () {
+						assert.strictEqual(fileReader.result, content);
+						assert.notStrictEqual(fileReader.result, "content");
+						win();
+					};
+					fileReader.readAsText(file);
+				});
 			},
 			testDataURItoBlob: function () {
 				var expectedText = "hello world",
@@ -32,6 +43,9 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 
 				blob = fileUtil.dataURItoBlob(dataurl);
 				assert.strictEqual(blob.type, expectedMime);
+				assert.strictEqual(blob.size, expectedText.length);
+				// https://developer.mozilla.org/en-US/docs/Web/API/Blob#Properties
+				assert.isUndefined(blob.lastModified, "Check this is a blob (not a file).");
 				function readFile(file) {
 					return new Promise(function (win) {
 						var fileReader = new FileReader();
@@ -47,18 +61,18 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				});
 			},
 			testFixFileExtensionCustomMime: function () {
+				var expectMime = "application/json",
+					blob = {hello: "world"},
+					expectedFile = "jsonfile",
+					expectedExt = "json",
+					file;
 				try {
-					var expectMime = "application/json",
-						blob = {hello: "world"},
-						expectedFile = "jsonfile",
-						expectedExt = "json",
-						file;
 					// Register custom mimetypes, this will override default mimetypes
 					wcconfig.set({
 						"application/json": ["json"]
 					}, "wc/file/customMimeToExt");
-					// verify to make sure it is overridden
-					assert.isUndefined(fileUtil.getMimeToExtMap()["image/jpeg"]);
+					// verify default overridden
+					assert.isUndefined(fileUtil.getMimeToExtMap()["text/plain"]);
 					file = new Blob([JSON.stringify(blob)], {type: expectMime});
 					file.name = expectedFile;
 					fileUtil.fixFileExtension(file);
@@ -74,8 +88,8 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					expectedExt = fileUtil.getMimeToExtMap()[expectMime][0],
 					actualExt;
 				file.name = "testfile.jpg";
-				// verify to make sure default exists
-				assert.isDefined(fileUtil.getMimeToExtMap()["image/jpeg"]);
+				// verify default exists
+				assert.isDefined(fileUtil.getMimeToExtMap()["text/plain"]);
 				fileUtil.fixFileExtension(file);
 				actualExt = file.name.split(".");
 				assert.strictEqual(actualExt[2], expectedExt);
