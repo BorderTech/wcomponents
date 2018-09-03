@@ -223,6 +223,8 @@ ol.wc-listlayout {
 
     &:first-child::before {
       content: '';
+      margin-right: 0;
+      width: 0;
     }
   }
 }
