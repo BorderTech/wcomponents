@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.examples.validation.fields;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.RadioButtonGroup;
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCancelButton;
 import com.github.bordertech.wcomponents.WCheckBox;
@@ -24,6 +25,7 @@ import com.github.bordertech.wcomponents.WRadioButtonSelect;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextArea;
 import com.github.bordertech.wcomponents.WTextField;
+import com.github.bordertech.wcomponents.examples.common.ExampleLookupTable;
 import com.github.bordertech.wcomponents.layout.BorderLayout;
 import com.github.bordertech.wcomponents.util.DateUtilities;
 import com.github.bordertech.wcomponents.validator.DateFieldPivotValidator;
@@ -166,6 +168,10 @@ public class CoreFields extends WPanel {
 		fields.addField("WDropdown", dropdown).getLabel().setHint("required");
 		dropdown.setMandatory(true);
 
+		dropdown = new WDropdown(new ExampleLookupTable.TableWithNullOption("icao"));
+		fields.addField("WDropdown with datalist", dropdown).getLabel().setHint("required");
+		dropdown.setMandatory(true);
+
 		// WMultiSelect
 		WMultiSelect multi = new WMultiSelect(new String[]{"Circle", "Oval",
 			"Rectangle", "Square",
@@ -201,7 +207,7 @@ public class CoreFields extends WPanel {
 
 		// create the buttons at the bottom.
 		WPanel buttons = new WPanel(WPanel.Type.FEATURE);
-		buttons.setMargin(new com.github.bordertech.wcomponents.Margin(12, 0, 0, 0));
+		buttons.setMargin(new com.github.bordertech.wcomponents.Margin(Size.LARGE, null, null, null));
 		buttons.setLayout(new BorderLayout());
 		add(buttons);
 
