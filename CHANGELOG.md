@@ -9,6 +9,10 @@
 
 ### Bug Fixes
 
+## Release 1.5.13
+
+### Bug Fixes
+
 * Fixed a bug which could cause some server validation messages to be deleted in JavaScript #1580
 * Fixed a minor strutural CSS error which resulted in an unwanted indent in horizontal bar-separated lists.
 
