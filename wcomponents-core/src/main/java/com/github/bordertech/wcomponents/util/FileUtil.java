@@ -61,41 +61,35 @@ public final class FileUtil {
 
 		// First validate newFile against fileExts list
 		boolean extMatch = false;
-		// If extensions are supplied
-		if (fileExts.size() > 0) {
-			// Then check if newFile has a name
-			if (newFile.getName() != null) {
-				// Then see if newFile has an extension
-				String[] split = newFile.getName().split(("\\.(?=[^\\.]+$)"));
-				// If it exists
-				if (split.length == 2) {
-					// Then check if it matches supplied extension(s)
-					extMatch = fileExts.stream().anyMatch(ext -> ext.matches("(.*)" + split[1]));
-				}
+		// If extensions are supplied, then check if newFile has a name
+		if (fileExts.size() > 0 && newFile.getName() != null) {
+			// Then see if newFile has an extension
+			String[] split = newFile.getName().split(("\\.(?=[^\\.]+$)"));
+			// If it exists
+			if (split.length == 2) {
+				// Then check if it matches supplied extension(s)
+				extMatch = fileExts.stream().anyMatch(ext -> ext.matches("(.*)" + split[1]));
 			}
 		}
 		// If extension match is unsucessful, then move to fileMimes list
 		boolean mimeMatch = false;
-		if (!extMatch) {
-			// If mime types are supplied
-			if (fileMimes.size() > 0) {
-				try {
-					final Tika tika = new Tika();
-					String mimeType = tika.detect(newFile.getInputStream());
-					LOG.debug("File mime-type is: " + mimeType);
-					for (String fileMime : fileMimes) {
-						if (StringUtils.equalsIgnoreCase(mimeType, fileMime)) {
+		if (!extMatch && fileMimes.size() > 0) {
+			try {
+				final Tika tika = new Tika();
+				String mimeType = tika.detect(newFile.getInputStream());
+				LOG.debug("File mime-type is: " + mimeType);
+				for (String fileMime : fileMimes) {
+					if (StringUtils.equalsIgnoreCase(mimeType, fileMime)) {
+						mimeMatch = true;
+					} else if (fileMime.indexOf("*") == fileMime.length() - 1) {
+						fileMime = fileMime.substring(0, fileMime.length() - 1);
+						if (mimeType.indexOf(fileMime) == 0) {
 							mimeMatch = true;
-						} else if (fileMime.indexOf("*") == fileMime.length() - 1) {
-							fileMime = fileMime.substring(0, fileMime.length() - 1);
-							if (mimeType.indexOf(fileMime) == 0) {
-								mimeMatch = true;
-							}
 						}
 					}
-				} catch (IOException e) {
-					LOG.error("Invalid file type");
 				}
+			} catch (IOException e) {
+				LOG.error("Invalid file type");
 			}
 		}
 		// return true if either extension or mime-type match is successful
