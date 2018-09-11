@@ -11,8 +11,7 @@
     <url>http://www.myorganization.org</url>
 
     <properties>
-        <bordertech.wcomponents.version>1.0.2-SNAPSHOT</bordertech.wcomponents.version>
-        <wcomponents.junit.version>4.8.2</wcomponents.junit.version>
+        <bordertech.wcomponents.version>1.5.14-SNAPSHOT</bordertech.wcomponents.version>
     </properties>
 
     <dependencies>
@@ -26,12 +25,6 @@
             <groupId>com.github.bordertech.wcomponents</groupId>
             <artifactId>wcomponents-test-lib</artifactId>
             <version>${bordertech.wcomponents.version}</version>
-        </dependency>
-        <dependency>
-            <scope>test</scope>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${wcomponents.junit.version}</version>
         </dependency>
         <dependency>
             <groupId>javax</groupId>

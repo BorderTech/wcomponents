@@ -40,7 +40,7 @@
 		<dependency>
 			<groupId>commons-validator</groupId>
 			<artifactId>commons-validator</artifactId>
-			<version>1.4.0</version>
+			<version>1.6</version>
 		</dependency>
 
 		<dependency>
@@ -62,19 +62,19 @@
 			<scope>test</scope>
 			<groupId>org.ehcache</groupId>
 			<artifactId>ehcache</artifactId>
-			<version>3.0.0.m4</version>
+			<version>3.6.0</version>
 		</dependency>
 		<dependency>
 			<scope>test</scope>
 			<groupId>org.terracotta</groupId>
 			<artifactId>management-model</artifactId>
-			<version>2.0.0</version>
+			<version>2.3.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
-			<version>2.4</version>
+			<version>2.5</version>
 			<scope>provided</scope>
 		</dependency>
 
