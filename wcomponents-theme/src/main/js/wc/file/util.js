@@ -24,15 +24,22 @@ define(["wc/dom/uid", "wc/file/getMimeType", "wc/config"], function (uid, getMim
 			"image/svg+xml": ["svg"],
 			"image/tiff": ["tif", "tiff"],
 			"text/plain": ["txt", "bas", "c", "h", "log", "bat"],
-			"text/tab-separated-values": ["tsv"],
-			"text/richtext": ["rtx"],
-			"text/html": ["htm", "html", "stm"],
-			"text/xml": ["xml"],
+			"text/csv": ["csv"],
+			"text/html": ["html", "htm", "stm"],
+			"application/xhtml+xml": ["xhtml"],
+			"application/xml": ["xml"],
 			"application/msword": ["doc", "dot"],
-			"application/vnd.ms-powerpoint": ["pot,", "pps", "ppt"],
+			"application/vnd.openxmlformats-officedocument.wordprocessingml.document": ["docx"],
+			"application/vnd.ms-powerpoint": ["ppt", "pot,", "pps"],
+			"application/vnd.openxmlformats-officedocument.presentationml.presentation": ["pptx"],
 			"application/rtf": ["rtf"],
 			"application/pdf": ["pdf"],
-			"application/vnd.ms-excel": ["xla", "xlc", "xlm", "xls", "xlt", "xlw"]
+			"application/vnd.ms-excel": ["xls", "xla", "xlc", "xlm", "xlt", "xlw"],
+			"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": ["xlsx"],
+			"application/vnd.visio": ["vsd"],
+			"application/vnd.oasis.opendocument.presentation": ["odp"],
+			"application/vnd.oasis.opendocument.spreadsheet": ["ods"],
+			"application/vnd.oasis.opendocument.text": ["odt"]
 		};
 		
 	/**
