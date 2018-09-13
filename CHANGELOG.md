@@ -6,6 +6,9 @@
 
 ### Enhancements
 
+* Implement dependency vulnerability scan.
+* Update dependencies to remove vulnerabilities.
+
 ### Bug Fixes
 
 ## Release 1.5.13
