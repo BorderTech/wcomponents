@@ -8,11 +8,8 @@ import com.github.bordertech.wcomponents.util.MemoryUtil;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.util.thumbnail.ThumbnailUtil;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import java.awt.Dimension;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,13 +21,22 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
  * The WMultiFileWidget component allows multiple file input elements to be uploaded, without requiring an entire page
  * reload for each item. After a file is uploaded to the server the client displays the file information with a checkbox
  * adjacent to it. The file information is a link that pops up the file content. Use {@link #getFiles()} to retrieve all
- * files uploaded by the client, use {@link #getSelectedFiles()} to retrieve only the selected file items.
+ * files uploaded by the client, use {@link #getSelectedFiles()} to retrieve only the selected file items. 
+ * </p>
+ * <p>
+ * If one or more file types is set {@link #setFileTypes(java.util.Collection)}, then each uploaded file will be validated
+ * against the accepted list. If accepted list contains any extension(s) then uploaded files will be first checked against 
+ * them. Developers can choose to have custom validation of file by retrieving it's MIME type, 
+ * see {@link #getMimeType(java.lang.String)}.
  * </p>
  * <p>
  * The maximum number of allowed files, maximum individual file size, and allowed file types can be configured.
@@ -160,6 +166,21 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	}
 
 	/**
+	 * Retrieves an mime type of the uploaded file's contents.
+	 * This is not the content type passed by the browser.
+	 *
+	 * @param fileId the file id
+	 * @return an file's mime type, or null if there was no file uploaded
+	 * @throws IOException if there is an error obtaining the input stream from the uploaded file.
+	 */
+	public String getMimeType(final String fileId) throws IOException {
+		if (getFile(fileId) != null) {
+			FileUtil.getFileMimeType(getFile(fileId).getFile());
+		}
+		return null;
+	}
+
+	/**
 	 * Returns only the selected file items. The file is selected if the checkbox adjacent to the uploaded file name is
 	 * checked by the user.
 	 *
@@ -208,16 +229,27 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 
 	/**
 	 * Determines the file types accepted by this widget. Note that duplicates are not allowed and these are not case
-	 * sensitive. A file type may be one of the following:
+	 * sensitive.<br>
+	 * The file type(s) can be either:
 	 * <ul>
-	 * <li>The string audio/* (Indicates that sound files are accepted.)</li>
-	 * <li>The string video/* (Indicates that video files are accepted.)</li>
-	 * <li>The string image/* (Indicates that image files are accepted.)</li>
-	 * <li>A valid MIME type with no parameters (Indicates that files of the specified type are accepted.)</li>
-	 * <li>A string whose first character is a "." (U+002E) character (Indicates that files with the specified file
-	 * extension are accepted).</li>
+	 * <li>MIME type </li>
+	 * <li>Extension</li>
 	 * </ul>
-	 *
+	 * <u>MIME type</u>: it is <i>type/subtype</i>, where <i>type</i> is <b>text</b>, <b>image</b>, <b>application</b> etc,
+	 * and <i>subtype</i> is <b>plain</b>, <b>jpeg</b>, <b>*</b> etc. Some example MIME types are:
+	 * <ul>
+	 * <li><i>text/*</i> - indicates that all text files MIME types are accepted, 'text/html', 'text/plain' etc.</li>
+	 * <li><i>image/jpeg</i> - indicates that only jpeg image files are accepted.</li>
+	 * </ul>
+	 * Setting mime type is more reliable, as the contents of the file is validated against allowed list.
+	 * <br>
+	 * <u>Extension</u>: is the suffix at the end of the file name, succeeding a <i>"."</i> character. It indicates that files with 
+	 * specified extension is allowed. Some example extensions are: 
+	 * <ul>
+	 * <li><i>.txt</i> - indicates any files with extension <b>txt</b> are accepted.</li>
+	 * <li><i>.jpg</i> - indicates any files with extension <b>jpg</b> are accepted.</li>
+	 * </ul>
+	 * Setting extension is less reliable, as only the extension of uploaded file (if available) is validated against allowed list.
 	 * @param types The file types that will be accepted by the file input. Note that this is not additive, it will
 	 * overwrite any previously set fileTypes. Pass null or and empty collection to clear all file types.
 	 */

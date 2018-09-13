@@ -68,18 +68,17 @@ public final class FileUtil {
 			// If it exists
 			if (split.length == 2) {
 				// Then check if it matches supplied extension(s)
-				extMatch = fileExts.stream().anyMatch(ext -> ext.matches("(.*)" + split[1]));
+				extMatch = fileExts.stream().anyMatch(fileExt -> fileExt.equals("." + split[1]));
 			}
 		}
 		// If extension match is unsucessful, then move to fileMimes list
 		boolean mimeMatch = false;
 		if (!extMatch && fileMimes.size() > 0) {
 			try {
-				final Tika tika = new Tika();
-				String mimeType = tika.detect(newFile.getInputStream());
+				final String mimeType = getFileMimeType(newFile);
 				LOG.debug("File mime-type is: " + mimeType);
 				for (String fileMime : fileMimes) {
-					if (StringUtils.equalsIgnoreCase(mimeType, fileMime)) {
+					if (StringUtils.equals(mimeType, fileMime)) {
 						mimeMatch = true;
 					} else if (fileMime.indexOf("*") == fileMime.length() - 1) {
 						fileMime = fileMime.substring(0, fileMime.length() - 1);
@@ -94,6 +93,21 @@ public final class FileUtil {
 		}
 		// return true if either extension or mime-type match is successful
 		return extMatch || mimeMatch;
+	}
+
+	/**
+	 * Identify the mime type of a file.
+	 * 
+	 * @param file the File to detect.
+	 * @return mime type as detected by Apache tika, otherwise null.
+	 * @throws IOException if the mime type detection fails.
+	 */
+	public static String getFileMimeType(final File file) throws IOException {
+		if (file != null) {
+			final Tika tika = new Tika();
+			return tika.detect(file.getInputStream());
+		}
+		return null;
 	}
 
 	/**

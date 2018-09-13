@@ -49,7 +49,7 @@ public class FileUtil_Test {
 	public void testValidateFileTypeTr5File() throws IOException {
 		// 'tr5' file has no mime type, so validation will pass with extension only.
 		FileItem newFileItem = createFileItem("/content/test.tr5");
-		boolean validateFileType = FileUtil.validateFileType(new FileItemWrap(newFileItem), Arrays.asList("*.tr5"));
+		boolean validateFileType = FileUtil.validateFileType(new FileItemWrap(newFileItem), Arrays.asList(".tr5"));
 		Assert.assertTrue(validateFileType);
 		
 		newFileItem = createFileItem("/content/test.tr5");
@@ -65,7 +65,7 @@ public class FileUtil_Test {
 	public void testValidateFileTypeDodgyTr5File() throws IOException {
 		// 'tr5' file has no mime type, so validation will pass with extension only.
 		FileItem newFileItem = createFileItem("/content/dodgy.pdf.tr5");
-		boolean validateFileType = FileUtil.validateFileType(new FileItemWrap(newFileItem), Arrays.asList("*.tr5"));
+		boolean validateFileType = FileUtil.validateFileType(new FileItemWrap(newFileItem), Arrays.asList(".tr5"));
 		Assert.assertTrue(validateFileType);
 		
 		newFileItem = createFileItem("/content/dodgy.pdf.tr5");
