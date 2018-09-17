@@ -237,14 +237,6 @@
 				</executions>
 			</plugin>
 
-			<plugin>
-				<groupId>org.owasp</groupId>
-				<artifactId>dependency-check-maven</artifactId>
-				<configuration>
-					<failBuildOnAnyVulnerability>false</failBuildOnAnyVulnerability>
-				</configuration>
-			</plugin>
-
 		</plugins>
 
 		<pluginManagement>

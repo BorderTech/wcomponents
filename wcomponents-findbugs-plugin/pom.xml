@@ -54,6 +54,15 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.owasp</groupId>
+				<artifactId>dependency-check-maven</artifactId>
+				<version>${bt.owasp.dependency-check.version}</version>
+				<configuration>
+					<!-- Latest findbugs has OS specific dependencies which may contain vulnerabilities. -->
+					<failBuildOnAnyVulnerability>false</failBuildOnAnyVulnerability>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
