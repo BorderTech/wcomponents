@@ -11,6 +11,8 @@
 
 ### Bug Fixes
 
+* Fix issue rendering custom class names in WTree #1589.
+
 ## Release 1.5.13
 
 ### Bug Fixes
