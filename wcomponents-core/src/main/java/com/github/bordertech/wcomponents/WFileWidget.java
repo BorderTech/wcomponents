@@ -98,7 +98,7 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	 * <li><code>text/*</code> - indicates that all text files MIME types are accepted, <code>text/html, text/plain</code> etc.</li>
 	 * <li><code>image/jpeg</code> - indicates that only jpeg image files are accepted.</li>
 	 * </ul>
-	 * Setting mime type is more reliable, as the contents of the file is validated against allowed list.
+	 * Setting mime type is more reliable, as the contents of the file is validated against accepted list.
 	 * <br>
 	 * <strong>Extension</strong>: A string whose first character is a "." (U+002E) character (Indicates that files with the specified file
 	 * extension are accepted). Some example extensions are: 
@@ -106,7 +106,7 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	 * <li><code>.txt</code> - indicates any files with extension <code>txt</code> are accepted.</li>
 	 * <li><code>.jpg</code> - indicates any files with extension <code>jpg</code> are accepted.</li>
 	 * </ul>
-	 * Setting extension is less reliable, as only the extension of uploaded file (if available) is validated against allowed list.
+	 * Setting extension is less reliable, as only the extension of uploaded file (if available) is validated against accepted list.
 	 * @param types The file types that will be accepted by the file input. Note that this is not additive, it will
 	 * overwrite any previously set fileTypes. Pass null or and empty collection to clear all file types.
 	 */
