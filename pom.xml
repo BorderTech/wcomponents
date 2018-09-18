@@ -263,6 +263,31 @@
 						</dependency>
 					</dependencies>
 				</plugin>
+
+			<plugin>
+				<groupId>org.owasp</groupId>
+				<artifactId>dependency-check-maven</artifactId>
+				<version>${bt.owasp.dependency-check.version}</version>
+                                <!-- we are only interested in Java analysis -->
+				<configuration>
+
+                                    <retireJsAnalyzerEnabled>false</retireJsAnalyzerEnabled><!-- see https://github.com/jeremylong/DependencyCheck/issues/1467 before turning this on -->
+                                    <nspAnalyzerEnabled>false</nspAnalyzerEnabled>
+                                    <nuspecAnalyzerEnabled>false</nuspecAnalyzerEnabled>
+                                    <swiftPackageManagerAnalyzerEnabled>false</swiftPackageManagerAnalyzerEnabled>
+                                    <assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
+
+				</configuration>
+				<executions>
+					<execution>
+						<id>checkDependencies</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
