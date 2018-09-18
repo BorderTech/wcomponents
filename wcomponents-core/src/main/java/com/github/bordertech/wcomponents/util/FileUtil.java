@@ -60,35 +60,33 @@ public final class FileUtil {
 			.collect(Collectors.toList());
 
 		// First validate newFile against fileExts list
-		boolean extMatch = false;
 		// If extensions are supplied, then check if newFile has a name
 		if (fileExts.size() > 0 && newFile.getName() != null) {
 			// Then see if newFile has an extension
 			String[] split = newFile.getName().split(("\\.(?=[^\\.]+$)"));
-			// If it exists
-			if (split.length == 2) {
-				// Then check if it matches supplied extension(s)
-				extMatch = fileExts.stream().anyMatch(fileExt -> fileExt.equals("." + split[1]));
+			// If it exists, then check if it matches supplied extension(s)
+			if (split.length == 2
+				&& fileExts.stream().anyMatch(fileExt -> fileExt.equals("." + split[1]))) {
+				return true;
 			}
 		}
 		// If extension match is unsucessful, then move to fileMimes list
-		boolean mimeMatch = false;
-		if (!extMatch && fileMimes.size() > 0) {
+		if (fileMimes.size() > 0) {
 			final String mimeType = getFileMimeType(newFile);
 			LOG.debug("File mime-type is: " + mimeType);
 			for (String fileMime : fileMimes) {
 				if (StringUtils.equals(mimeType, fileMime)) {
-					mimeMatch = true;
-				} else if (fileMime.indexOf("*") == fileMime.length() - 1) {
+					return true;
+				}
+				if (fileMime.indexOf("*") == fileMime.length() - 1) {
 					fileMime = fileMime.substring(0, fileMime.length() - 1);
 					if (mimeType.indexOf(fileMime) == 0) {
-						mimeMatch = true;
+						return true;
 					}
 				}
 			}
 		}
-		// return true if either extension or mime-type match is successful
-		return extMatch || mimeMatch;
+		return false;
 	}
 
 	/**
