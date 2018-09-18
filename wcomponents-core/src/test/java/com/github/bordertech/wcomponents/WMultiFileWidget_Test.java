@@ -3,10 +3,6 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.WMultiFileWidget.FileWidgetUpload;
 import com.github.bordertech.wcomponents.file.FileItemWrap;
 import com.github.bordertech.wcomponents.util.mock.MockFileItem;
-import junit.framework.Assert;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.fileupload.FileItem;
-import org.junit.Test;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +10,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.fileupload.FileItem;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * WMultiFileWidget_Test - unit test for {@link WMultiFileWidget}.
@@ -123,6 +123,23 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 		widget.setData(UPLOADED_1_2);
 		Assert.assertEquals("File2 should be returned for index 1", TEST_FILE_ITEM_WRAP2, widget.
 				getFile("2"));
+	}
+	
+	
+
+	@Test
+	public void testGetMimeType() {
+		WMultiFileWidget widget = new WMultiFileWidget();
+		widget.setLocked(true);
+		setActiveContext(createUIContext());
+
+		// Null
+		Assert.assertNull("If no file uploaded then MIME is null", widget.getMimeType("X"));
+
+		// Set file1, file2 as uploaded
+		widget.setData(UPLOADED_1_2);
+		Assert.assertEquals("application/octet-stream", widget.getMimeType("2"));
+		Assert.assertNull("If file not found then MIME is null", widget.getMimeType("X"));
 	}
 
 	@Test

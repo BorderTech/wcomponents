@@ -272,6 +272,18 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrect file item wrap returned", TEST_FILE_ITEM_WRAP, widget.
 				getValue());
 	}
+
+	@Test
+	public void testGetMimeType() {
+		WFileWidget widget = new WFileWidget();
+		setActiveContext(createUIContext());
+
+		Assert.assertNull("If no file uploaded then MIME is null", widget.getMimeType());
+
+		// Set file on widget
+		widget.setData(TEST_FILE_ITEM_WRAP);
+		Assert.assertEquals("application/octet-stream", widget.getMimeType());
+	}
 	
 	@Test
 	public void testValidateNoFile() {

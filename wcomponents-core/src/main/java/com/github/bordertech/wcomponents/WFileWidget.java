@@ -89,22 +89,22 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	 * sensitive.<br>
 	 * The file type(s) can be either:
 	 * <ul>
-	 * <li>MIME type </li>
-	 * <li>Extension</li>
+	 * <li><strong>MIME type</strong></li>
+	 * <li><strong>Extension</strong></li>
 	 * </ul>
-	 * <u>MIME type</u>: it is <i>type/subtype</i>, where <i>type</i> is <b>text</b>, <b>image</b>, <b>application</b> etc,
-	 * and <i>subtype</i> is <b>plain</b>, <b>jpeg</b>, <b>*</b> etc. Some example MIME types are:
+	 * <strong>MIME type</strong>: it is <em>type/subtype</em>, where <em>type</em> is <code>text, image, application</code> etc,
+	 * and <em>subtype</em> is <code>plain, jpeg, *</code> etc. Some example MIME types are:
 	 * <ul>
-	 * <li><i>text/*</i> - indicates that all text files MIME types are accepted, 'text/html', 'text/plain' etc.</li>
-	 * <li><i>image/jpeg</i> - indicates that only jpeg image files are accepted.</li>
+	 * <li><code>text/*</code> - indicates that all text files MIME types are accepted, <code>text/html, text/plain</code> etc.</li>
+	 * <li><code>image/jpeg</code> - indicates that only jpeg image files are accepted.</li>
 	 * </ul>
 	 * Setting mime type is more reliable, as the contents of the file is validated against allowed list.
 	 * <br>
-	 * <u>Extension</u>: is the suffix at the end of the file name, succeeding a <i>"."</i> character. It indicates that files with 
-	 * specified extension is allowed. Some example extensions are: 
+	 * <strong>Extension</strong>: A string whose first character is a "." (U+002E) character (Indicates that files with the specified file
+	 * extension are accepted). Some example extensions are: 
 	 * <ul>
-	 * <li><i>.txt</i> - indicates any files with extension <b>txt</b> are accepted.</li>
-	 * <li><i>.jpg</i> - indicates any files with extension <b>jpg</b> are accepted.</li>
+	 * <li><code>.txt</code> - indicates any files with extension <code>txt</code> are accepted.</li>
+	 * <li><code>.jpg</code> - indicates any files with extension <code>jpg</code> are accepted.</li>
 	 * </ul>
 	 * Setting extension is less reliable, as only the extension of uploaded file (if available) is validated against allowed list.
 	 * @param types The file types that will be accepted by the file input. Note that this is not additive, it will
@@ -380,11 +380,10 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	 * This is not the content type passed by the browser.
 	 *
 	 * @return an file's mime type, or null if there was no file uploaded
-	 * @throws IOException if there is an error obtaining the input stream from the uploaded file.
 	 */
-	public String getMimeType() throws IOException {
+	public String getMimeType() {
 		if (getFile() != null) {
-			FileUtil.getFileMimeType(getFile());
+			return FileUtil.getFileMimeType(getFile());
 		}
 		return null;
 	}
