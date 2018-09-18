@@ -86,7 +86,6 @@
 			<plugin>
 				<groupId>org.owasp</groupId>
 				<artifactId>dependency-check-maven</artifactId>
-				<version>${bt.owasp.dependency-check.version}</version>
 				<configuration>
 					<!-- Jetty 8 known to have a vulnerability but is not part of the shippable product. -->
 					<failBuildOnAnyVulnerability>false</failBuildOnAnyVulnerability>
