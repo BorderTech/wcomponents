@@ -18,26 +18,64 @@ import org.junit.Test;
 public class FileUtil_Test {
 
 	@Test
-	public void testvalidateFileType() throws IOException {
-		FileItem newFileItem = createFileItem(false);
+	public void testValidateFileTypeImageFile() throws IOException {
+		FileItem newFileItem = createFileItem("/image/x1.gif");
 		boolean validateFileType = FileUtil.validateFileType(new FileItemWrap(newFileItem), Arrays.asList("text/plain", "image/gif"));
 		Assert.assertTrue(validateFileType);
 
-		newFileItem = createFileItem(true);
+		newFileItem = createFileItem(null);
 		validateFileType = FileUtil.validateFileType(new FileItemWrap(newFileItem), Arrays.asList("text/plain", "image/gif"));
 		Assert.assertFalse(validateFileType);
-		
-		validateFileType = FileUtil.validateFileType(null, null);
+	}
+
+	@Test
+	public void testValidateFileTypeAnyFile() throws IOException {
+		boolean validateFileType = FileUtil.validateFileType(null, null);
 		Assert.assertFalse(validateFileType);
 		
-		newFileItem = createFileItem(true);
+		FileItem newFileItem = createFileItem(null);
 		validateFileType = FileUtil.validateFileType(new FileItemWrap(newFileItem), Collections.EMPTY_LIST);
+		Assert.assertTrue(validateFileType);
+	}
+
+	@Test
+	public void testValidateFileTypePdfFile() throws IOException {
+		FileItem newFileItem = createFileItem("/content/test.pdf");
+		boolean validateFileType = FileUtil.validateFileType(new FileItemWrap(newFileItem), Arrays.asList("application/pdf"));
 		Assert.assertTrue(validateFileType);
 	}
 	
 	@Test
-	public void testvalidateFileSize() throws IOException {
-		FileItem newFileItem = createFileItem(true);
+	public void testValidateFileTypeTr5File() throws IOException {
+		// 'tr5' file has no mime type, so validation will pass with extension only.
+		FileItem newFileItem = createFileItem("/content/test.tr5");
+		boolean validateFileType = FileUtil.validateFileType(new FileItemWrap(newFileItem), Arrays.asList(".tr5"));
+		Assert.assertTrue(validateFileType);
+		
+		newFileItem = createFileItem("/content/test.tr5");
+		validateFileType = FileUtil.validateFileType(new FileItemWrap(newFileItem), Arrays.asList("text/plain"));
+		Assert.assertTrue(validateFileType);
+		
+		newFileItem = createFileItem("/content/test.tr5");
+		validateFileType = FileUtil.validateFileType(new FileItemWrap(newFileItem), Arrays.asList("image/jpg"));
+		Assert.assertFalse(validateFileType);
+	}
+	
+	@Test
+	public void testValidateFileTypeDodgyTr5File() throws IOException {
+		// 'tr5' file has no mime type, so validation will pass with extension only.
+		FileItem newFileItem = createFileItem("/content/dodgy.pdf.tr5");
+		boolean validateFileType = FileUtil.validateFileType(new FileItemWrap(newFileItem), Arrays.asList(".tr5"));
+		Assert.assertTrue(validateFileType);
+		
+		newFileItem = createFileItem("/content/dodgy.pdf.tr5");
+		validateFileType = FileUtil.validateFileType(new FileItemWrap(newFileItem), Arrays.asList("text/plain"));
+		Assert.assertFalse(validateFileType);
+	}
+	
+	@Test
+	public void testValidateFileSize() throws IOException {
+		FileItem newFileItem = createFileItem(null);
 		boolean validateFileSize = FileUtil.validateFileSize(new FileItemWrap(newFileItem), 200);
 		Assert.assertTrue(validateFileSize);
 
@@ -48,7 +86,7 @@ public class FileUtil_Test {
 		Assert.assertFalse(validateFileSize);
 		
 		validateFileSize = FileUtil.validateFileSize(new FileItemWrap(newFileItem), -1000);
-		Assert.assertFalse(validateFileSize);
+		Assert.assertTrue(validateFileSize);
 	}
 	
 	@Test
@@ -67,7 +105,7 @@ public class FileUtil_Test {
 	}
 	
 	@Test
-	public void testgetInvalidFileSizeMessage() {
+	public void testGetInvalidFileSizeMessage() {
 		String invalidFileSizeMessage = FileUtil.getInvalidFileSizeMessage(1111);
 		Assert.assertEquals("The file you have selected is too large. Maximum file size is 1.1 KB.", invalidFileSizeMessage);
 	}
@@ -75,23 +113,31 @@ public class FileUtil_Test {
 	/**
 	 * Create a new fileitem.
 	 * 
-	 * @param fakeFile if {@code true} dummy byte[] are set on file, otherwise real file byte[]
+	 * @param fileResource if {@code null} dummy byte[] are set on file, otherwise given file resource.
 	 * @return a file item
 	 */
-	private FileItem createFileItem(boolean fakeFile) throws IOException {
-		byte[] testFile;
-		if (fakeFile) {
-			testFile = new byte[100];
-			for (int i = 0; i < testFile.length; i++) {
-				testFile[i] = (byte) (i & 0xff);
+	private FileItem createFileItem(String fileResource) throws IOException {
+		byte[] testFileContent;
+		if (fileResource == null) {
+			testFileContent = new byte[100];
+			for (int i = 0; i < testFileContent.length; i++) {
+				testFileContent[i] = (byte) (i & 0xff);
 			}
 		}
 		else {
-			InputStream stream = getClass().getResourceAsStream("/image/x1.gif");
-			testFile =  StreamUtil.getBytes(stream);
+			InputStream stream = getClass().getResourceAsStream(fileResource);
+			if (stream == null) {
+				throw new IOException("File resource not found: " + fileResource);
+			}
+			testFileContent =  StreamUtil.getBytes(stream);
 		}
 		MockFileItem fileItem = new MockFileItem();
-		fileItem.set(testFile);
+		fileItem.set(testFileContent);
+		fileItem.setFieldName(fileResource);
+		if (fileResource  != null) {
+			String[] tokens = fileResource.split(".+?/(?=[^/]+$)");
+			fileItem.setName(tokens[1]);
+		}
 		return fileItem;
 	}
 }

@@ -34,6 +34,12 @@ import org.apache.commons.fileupload.FileItem;
  * <p>
  * The WFileWidget allows developers to limit the maximum file size and types of files which can be uploaded.
  * </p>
+ * <p>
+ * If one or more file types is set {@link #setFileTypes(java.util.List)}, then each uploaded file will be validated
+ * against the accepted list. If accepted list contains any extension(s) then uploaded files will be first checked against 
+ * them. Developers can choose to have custom validation of file by retrieving it's MIME type, 
+ * see {@link #getMimeType()}.
+ * </p>
  *
  * @author James Gifford
  * @author Martin Shevchenko
@@ -64,9 +70,11 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	}
 
 	/**
-	 * Set each file type as a valid file mime type to be accepted by the WMultiFileWidget.
+	 * Set each file type to be accepted by the WFileWidget.
 	 *
-	 * @param types The mime types that will be accepted by the file input.
+	 * @see #setFileTypes(java.util.List)  for the file types
+	 *
+	 * @param types The file types that will be accepted by the file input.
 	 */
 	public void setFileTypes(final String[] types) {
 		if (types == null) {
@@ -77,9 +85,30 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	}
 
 	/**
-	 * Set each file type as a valid file mime type to be accepted by the WMultiFileWidget.
-	 *
-	 * @param types The mime types that will be accepted by the file input.
+	 * Determines the file types accepted by this widget. Note that duplicates are not allowed and these are not case
+	 * sensitive.<br>
+	 * The file type(s) can be either:
+	 * <ul>
+	 * <li><strong>MIME type</strong></li>
+	 * <li><strong>Extension</strong></li>
+	 * </ul>
+	 * <strong>MIME type</strong>: it is <em>type/subtype</em>, where <em>type</em> is <code>text, image, application</code> etc,
+	 * and <em>subtype</em> is <code>plain, jpeg, *</code> etc. Some example MIME types are:
+	 * <ul>
+	 * <li><code>text/*</code> - indicates that all text files MIME types are accepted, <code>text/html, text/plain</code> etc.</li>
+	 * <li><code>image/jpeg</code> - indicates that only jpeg image files are accepted.</li>
+	 * </ul>
+	 * Setting mime type is more reliable, as the contents of the file is validated against accepted list.
+	 * <br>
+	 * <strong>Extension</strong>: A string whose first character is a "." (U+002E) character (Indicates that files with the specified file
+	 * extension are accepted). Some example extensions are: 
+	 * <ul>
+	 * <li><code>.txt</code> - indicates any files with extension <code>txt</code> are accepted.</li>
+	 * <li><code>.jpg</code> - indicates any files with extension <code>jpg</code> are accepted.</li>
+	 * </ul>
+	 * Setting extension is less reliable, as only the extension of uploaded file (if available) is validated against accepted list.
+	 * @param types The file types that will be accepted by the file input. Note that this is not additive, it will
+	 * overwrite any previously set fileTypes. Pass null or and empty collection to clear all file types.
 	 */
 	public void setFileTypes(final List<String> types) {
 		getOrCreateComponentModel().fileTypes = types;
@@ -151,18 +180,18 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 					userModel.validFileType = validFileType;
 				}
 			}
-			
+
 			// if fileSize is supplied then validate it
 			if (hasMaxFileSize()) {
 				boolean validFileSize = FileUtil.validateFileSize(value, getMaxFileSize());
-				// If invalid only then update 
+				// If invalid only then update
 				if (sharedModel.validFileSize != validFileSize) {
 					// if User Model exists it will be returned, othewise it will be created
 					final FileWidgetModel userModel = getOrCreateComponentModel();
 					userModel.validFileSize = validFileSize;
 				}
 			}
-			
+
 			// if file is valid, the update data
 			if (isFileSizeValid() && isFileTypeValid()) {
 				setData(value);
@@ -173,7 +202,7 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 				changed = true;
 				setData(null);
 			}
-		} 
+		}
 
 		return changed;
 	}
@@ -344,6 +373,20 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	@Override
 	public FileItemWrap getValue() {
 		return (FileItemWrap) getData();
+	}
+
+	/**
+	 * Retrieves an mime type of the uploaded file's contents.
+	 * This is not the content type passed by the browser.
+	 *
+	 * @return an file's mime type, or null if no file has been uploaded
+	 */
+	public String getMimeType() {
+		FileItemWrap fileItem = getFile();
+		if (fileItem != null) {
+			return FileUtil.getFileMimeType(fileItem);
+		}
+		return null;
 	}
 
 	// --------------------------------
