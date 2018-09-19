@@ -169,11 +169,12 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 * This is not the content type passed by the browser.
 	 *
 	 * @param fileId the file id
-	 * @return an file's mime type, or null if there was no file uploaded
+	 * @return an file's mime type, or null if no file has been uploaded
 	 */
 	public String getMimeType(final String fileId) {
-		if (getFile(fileId) != null) {
-			return FileUtil.getFileMimeType(getFile(fileId).getFile());
+		FileWidgetUpload fileWidget = getFile(fileId);
+		if (fileWidget != null) {
+			return FileUtil.getFileMimeType(fileWidget.getFile());
 		}
 		return null;
 	}
