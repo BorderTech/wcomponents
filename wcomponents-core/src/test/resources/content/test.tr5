@@ -1,0 +1,12 @@
+[TRIM Context Reference]
+Client=60144
+ClientName=Department of Silly Walks (DOSW)
+DB=AA
+DBName=TRIM Production
+Type=6
+TypeName=Record
+Items=1
+[Item1]
+URI=14210316
+Details=ADD2008/576489
+Extra=Systems Division Org Structure Chart - DRAFT
