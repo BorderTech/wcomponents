@@ -379,11 +379,12 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	 * Retrieves an mime type of the uploaded file's contents.
 	 * This is not the content type passed by the browser.
 	 *
-	 * @return an file's mime type, or null if there was no file uploaded
+	 * @return an file's mime type, or null if no file has been uploaded
 	 */
 	public String getMimeType() {
-		if (getFile() != null) {
-			return FileUtil.getFileMimeType(getFile());
+		FileItemWrap fileItem = getFile();
+		if (fileItem != null) {
+			return FileUtil.getFileMimeType(fileItem);
 		}
 		return null;
 	}

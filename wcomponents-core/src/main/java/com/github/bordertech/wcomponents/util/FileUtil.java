@@ -50,13 +50,14 @@ public final class FileUtil {
 			return true;
 		}
 
+		;
+
+		final List<String> fileExts = fileTypes.stream()
+			.filter(fileType -> fileType.startsWith("."))
+			.collect(Collectors.toList());
 		// filter mime types from fileTypes.
 		final List<String> fileMimes = fileTypes.stream()
-			.filter(fileType -> fileType.matches("[^/\\n]+\\/[^/\\n]+"))
-			.collect(Collectors.toList());
-		// filter extensions from fileTypes.
-		final List<String> fileExts = fileTypes.stream()
-			.filter(fileType -> !fileMimes.contains(fileType))
+			.filter(fileType -> !fileExts.contains(fileType))
 			.collect(Collectors.toList());
 
 		// First validate newFile against fileExts list
@@ -101,7 +102,7 @@ public final class FileUtil {
 				final Tika tika = new Tika();
 				return tika.detect(file.getInputStream());
 			} catch (IOException ex) {
-				LOG.error("Invalid file.");
+				LOG.error("Invalid file, name " + file.getName(), ex);
 			}
 		}
 		return null;
