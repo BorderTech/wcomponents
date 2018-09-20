@@ -11,7 +11,6 @@
 
 ### Bug Fixes
 * Fixed WFileWidget and WMultiFileWidget to accept filetypes of both MIME and extension type #1584
-
 * Fix issue rendering custom class names in WTree #1589.
 
 ## Release 1.5.13
