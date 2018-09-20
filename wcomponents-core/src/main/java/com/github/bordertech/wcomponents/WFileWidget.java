@@ -64,9 +64,11 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	}
 
 	/**
-	 * Set each file type as a valid file mime type to be accepted by the WMultiFileWidget.
+	 * Set each file type to be accepted by the WFileWidget.
 	 *
-	 * @param types The mime types that will be accepted by the file input.
+	 * @see #setFileTypes(java.util.List)  for the file types
+	 *
+	 * @param types The file types that will be accepted by the file input.
 	 */
 	public void setFileTypes(final String[] types) {
 		if (types == null) {
@@ -77,9 +79,19 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	}
 
 	/**
-	 * Set each file type as a valid file mime type to be accepted by the WMultiFileWidget.
+	 * Determines the file types accepted by this widget. Note that duplicates are not allowed and these are not case
+	 * sensitive. A file type may be one of the following:
+	 * <ul>
+	 * <li>The string audio/* (Indicates that sound files are accepted.)</li>
+	 * <li>The string video/* (Indicates that video files are accepted.)</li>
+	 * <li>The string image/* (Indicates that image files are accepted.)</li>
+	 * <li>A valid MIME type with no parameters (Indicates that files of the specified type are accepted.)</li>
+	 * <li>A string whose first character is a "." (U+002E) character (Indicates that files with the specified file
+	 * extension are accepted).</li>
+	 * </ul>
 	 *
-	 * @param types The mime types that will be accepted by the file input.
+	 * @param types The file types that will be accepted by the file input. Note that this is not additive, it will
+	 * overwrite any previously set fileTypes. Pass null or and empty collection to clear all file types.
 	 */
 	public void setFileTypes(final List<String> types) {
 		getOrCreateComponentModel().fileTypes = types;
