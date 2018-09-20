@@ -12,7 +12,6 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-	DevToolkit_Test.class,
 	LdeSessionUtil_Test.class,
 	PlainLauncher_Test.class
 })

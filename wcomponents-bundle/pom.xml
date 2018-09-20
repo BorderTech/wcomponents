@@ -38,12 +38,12 @@
 		<dependency>
 			<groupId>org.ehcache</groupId>
 			<artifactId>ehcache</artifactId>
-			<version>3.0.0.m4</version>
+			<version>3.6.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.terracotta</groupId>
 			<artifactId>management-model</artifactId>
-			<version>2.0.0</version>
+			<version>2.3.0</version>
 		</dependency>
 
 		<!-- Libraries used by WComponents use SLF4J. WComponents uses common loggings. You will need to include
@@ -51,7 +51,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
-			<version>1.7.13</version>
+			<version>1.7.25</version>
 		</dependency>
 
 	</dependencies>

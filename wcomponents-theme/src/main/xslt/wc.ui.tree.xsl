@@ -9,7 +9,7 @@
 				<xsl:text> wc_htree</xsl:text>
 			</xsl:if>
 		</xsl:variable>
-		<div role="tree" id="{@id}" class="{normalize-space(concat('wc-tree ', $additional))}">
+		<div role="tree" id="{@id}" class="{normalize-space(concat('wc-tree ', @class, $additional))}">
 			<xsl:if test="@disabled">
 				<xsl:attribute name="aria-disabled">
 					<xsl:text>true</xsl:text>

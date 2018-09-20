@@ -15,10 +15,10 @@
 	<packaging>pom</packaging>
 
 	<properties>
-    <!--
-      If a theme inherits from any theme other than wcomponents-theme then this property points to that theme. See `wcomponents-theme/build.xml.
-    -->
-    <theme.inherit />
+	<!--
+	  If a theme inherits from any theme other than wcomponents-theme then this property points to that theme. See `wcomponents-theme/build.xml.
+	-->
+	<theme.inherit />
 		<!--
 			We externalize download URLs so that in-house builds can override them to on-prem mirrors.
 		-->
@@ -59,7 +59,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.3</version>
+				<version>3.1.0</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -78,7 +78,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.10</version>
+				<version>3.1.1</version>
 				<executions>
 					<execution>
 						<id>unpack-core</id>
@@ -172,7 +172,7 @@
 								<echo>Attempting to start ANT build at ${theme.core.dir}</echo>
 								<echo>basedir = ${basedir}</echo>
 								<property name="basedir" location="${basedir}" />
-                <property name="theme.inherit" value="${theme.inherit}" />
+				<property name="theme.inherit" value="${theme.inherit}" />
 								<property name="target.dir" location="${project.build.directory}" />
 								<property name="component.rootdir" location="${theme.core.dir}" />
 								<property name="build.number" value="${project.version}" />
@@ -199,7 +199,7 @@
 								<echo>Attempting to start ANT test at ${theme.core.dir}</echo>
 								<echo>basedir = ${basedir}</echo>
 								<property name="basedir" location="${basedir}" />
-                <property name="theme.inherit" value="${theme.inherit}" />
+				<property name="theme.inherit" value="${theme.inherit}" />
 								<property name="phantomjs.binary" value="${phantomjs.binary}" />
 								<property name="target.dir" location="${project.build.directory}" />
 								<property name="component.rootdir" location="${theme.core.dir}" />
@@ -227,7 +227,7 @@
 								<echo>Attempting to start ANT documentation build at ${theme.core.dir}</echo>
 								<echo>basedir = ${basedir}</echo>
 								<property name="basedir" location="${basedir}" />
-                <property name="theme.inherit" value="${theme.inherit}" />
+				<property name="theme.inherit" value="${theme.inherit}" />
 								<property name="target.dir" location="${project.build.directory}" />
 								<property name="component.rootdir" location="${theme.core.dir}" />
 								<property name="build.number" value="${project.version}" />
@@ -313,13 +313,13 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
-				<version>3.4</version>
+				<version>3.7.1</version>
 				<configuration>
 					<reportPlugins combine.children="override">
 						<plugin>
 							<groupId>org.apache.maven.plugins</groupId>
 							<artifactId>maven-project-info-reports-plugin</artifactId>
-							<version>2.7</version>
+							<version>3.0.0</version>
 						</plugin>
 					</reportPlugins>
 				</configuration>

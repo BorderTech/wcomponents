@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.github.bordertech.common</groupId>
 		<artifactId>qa-parent</artifactId>
-		<version>1.0.4</version>
+		<version>1.0.6</version>
 	</parent>
 
 	<name>wcomponents-parent</name>
@@ -58,16 +58,6 @@
 		<url>https://travis-ci.org/BorderTech/wcomponents/</url>
 	</ciManagement>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<scope>test</scope>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>${wcomponents.junit.version}</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 
 	<profiles>
 		<profile>
@@ -246,6 +236,14 @@
 					</execution>
 				</executions>
 			</plugin>
+
+                        <plugin>
+                            <groupId>org.owasp</groupId>
+                            <artifactId>dependency-check-maven</artifactId>
+                            <configuration>
+                                <failBuildOnAnyVulnerability>false</failBuildOnAnyVulnerability>
+                            </configuration>
+                        </plugin>
 
 		</plugins>
 
