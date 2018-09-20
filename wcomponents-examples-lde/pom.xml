@@ -40,7 +40,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.1.0</version>
+				<version>3.1.1</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -73,6 +73,14 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.owasp</groupId>
+				<artifactId>dependency-check-maven</artifactId>
+				<configuration>
+					<!-- Jetty 8 known to have a vulnerability but is not part of the shippable product. -->
+					<failBuildOnAnyVulnerability>false</failBuildOnAnyVulnerability>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

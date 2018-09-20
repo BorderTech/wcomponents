@@ -7,8 +7,12 @@
 ### Enhancements
 * Introduced JS module `wc/file/util`, it provides following file operations `blobToFile`, `fixFileExtension`, `dataURItoBlob` and `getMimeToExtMap`.
 
+* Implement dependency vulnerability scan.
+* Update dependencies to remove vulnerabilities.
+
 ### Bug Fixes
 * Fixed WFileWidget and WMultiFileWidget to accept filetypes of both MIME and extension type #1584
+* Fix issue rendering custom class names in WTree #1589.
 
 ## Release 1.5.13
 
