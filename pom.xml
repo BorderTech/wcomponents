@@ -109,7 +109,7 @@
 				</executions>
 			</plugin>
 
-			<!-- Code coverage. -->
+			<!-- Code coverage-->
 			<!-- Run twice for the report. -->
 			<plugin>
 				<groupId>org.jacoco</groupId>
