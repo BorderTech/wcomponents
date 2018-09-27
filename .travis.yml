@@ -1,6 +1,21 @@
+addons:
+  apt:
+    packages:
+      - google-chrome-stable
+
 before_install:
 - echo "MAVEN_OPTS='-Xmx512m -XX:MaxPermSize=128m'" > ~/.mavenrc
 - mvn clean
+- google-chrome-stable --headless --disable-dev-shm-usage --no-sandbox --disable-gpu --remote-debugging-port=9222 http://localhost &
+
+
+install: # Install ChromeDriver (64bits; replace 64 with 32 for 32bits).
+  - wget -N http://chromedriver.storage.googleapis.com/2.42/chromedriver_linux64.zip -P ~/
+  - unzip ~/chromedriver_linux64.zip -d ~/
+  - rm ~/chromedriver_linux64.zip
+  - sudo mv -f ~/chromedriver /usr/local/share/
+  - sudo chmod +x /usr/local/share/chromedriver
+  - sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
 
 language: Java
 jdk:
@@ -14,4 +29,6 @@ env:
 
 ## Travis installs the project with the following maven command:- "mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V"
 script:
- - mvn test
+  - whereis google-chrome-stable
+  - whereis chromedriver
+  - mvn test

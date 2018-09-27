@@ -39,6 +39,13 @@
     </build>
 
     <dependencies>
+		<dependency>
+			<groupId>com.github.bordertech.wcomponents</groupId>
+			<artifactId>wcomponents-theme</artifactId>
+			<version>${project.version}</version>
+			<!--<scope>test</scope>-->
+		</dependency>
+
         <dependency>
             <groupId>com.github.bordertech.wcomponents</groupId>
             <artifactId>wcomponents-core</artifactId>
@@ -78,7 +85,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <scope>compile</scope>
+			<scope>compile</scope>
         </dependency>
 
     </dependencies>

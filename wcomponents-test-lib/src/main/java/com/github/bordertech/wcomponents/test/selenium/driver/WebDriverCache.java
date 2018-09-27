@@ -1,11 +1,12 @@
 package com.github.bordertech.wcomponents.test.selenium.driver;
 
+import org.openqa.selenium.WebDriver;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.openqa.selenium.WebDriver;
 
 /**
  * <p>

@@ -1,12 +1,15 @@
 package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.examples.table.SimplePaginationTableWithSelectablesExample;
+import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
 import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTableWebElement;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 
+@RunWith(MultiBrowserRunner.class)
 public class SimplePaginationTableWithSelectablesExample_Test extends WComponentExamplesTestCase {
 
 	private final String SELECT_BUTTON = "WButton[0]";

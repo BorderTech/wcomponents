@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.test.selenium.driver;
 
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 /**
@@ -49,16 +50,17 @@ public class ChromeWebDriverType extends WebDriverType<ChromeDriver> {
 		return DesiredCapabilities.chrome();
 	}
 
-//	@Override
-//	public DesiredCapabilities getCapabilities() {
-//		DesiredCapabilities cap = super.getCapabilities();
-//		ChromeOptions options = new ChromeOptions();
-//		options.addArguments("--headless");
-//		options.addArguments("--no-sandbox");
-//		options.addArguments("--disable-gpu");
-//		options.addArguments("--dom-automation");
-//		options.addArguments("--disable-images");
-//		cap.setCapability("chromeOptions", options);
-//		return cap;
-//	}
+	@Override
+	public DesiredCapabilities getCapabilities() {
+		DesiredCapabilities cap = super.getCapabilities();
+		ChromeOptions options = new ChromeOptions();
+		options.addArguments("--headless");
+		options.addArguments("--no-sandbox");
+		options.addArguments("--disable-gpu");
+		options.addArguments("--dom-automation");
+		options.addArguments("--disable-images");
+		options.addArguments("--disable-dev-shm-usage");
+		cap.setCapability("chromeOptions", options);
+		return cap;
+	}
 }
