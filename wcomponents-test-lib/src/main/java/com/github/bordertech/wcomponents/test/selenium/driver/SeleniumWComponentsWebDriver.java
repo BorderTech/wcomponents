@@ -19,14 +19,12 @@ import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWPhoneNum
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWRadioButtonSelectWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWRadioButtonWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWSelectWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTabSetWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTableWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTextAreaWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTextFieldWebElement;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -36,6 +34,10 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -390,6 +392,15 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	 */
 	public SeleniumWButtonWebElement findWButton(final By by) {
 		return new SeleniumWButtonWebElement(findElementImmediate(by), this);
+	}
+
+	/**
+	 *
+	 * @param by the By selector
+	 * @return a useable tabset
+	 */
+	public SeleniumWTabSetWebElement findWTabSet(final By by) {
+		return new SeleniumWTabSetWebElement(findElementImmediate(by), this);
 	}
 
 	/**
