@@ -1,9 +1,10 @@
 package com.github.bordertech.wcomponents.test.selenium.element;
 
-import java.util.Arrays;
-import java.util.List;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Selenium WebElement class representing the functionality of WTextField.
@@ -17,7 +18,7 @@ public class SeleniumWTextFieldWebElement extends SeleniumWComponentInputWebElem
 	/**
 	 * HTML attributes applied to the input element.
 	 */
-	private static final List<String> INPUT_ATTRIBUTES = Arrays.asList("disabled", "required", "pattern", "maxlength", "minlength");
+	private static final List<String> INPUT_ATTRIBUTES = Arrays.asList("disabled", "required", "pattern", "maxlength", "minlength", "aria-describedby");
 
 	/**
 	 * The type for the input field.
