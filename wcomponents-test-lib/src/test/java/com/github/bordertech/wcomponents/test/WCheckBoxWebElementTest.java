@@ -23,7 +23,7 @@ public class WCheckBoxWebElementTest extends SeleniumJettyTestCase {
 	}
 
 	@Test
-	public void testTextFieldGetSet() {
+	public void testTextFieldFeatures() {
 		SeleniumWComponentsWebDriver driver = getDriver();
 
 		SeleniumWCheckBoxWebElement checkBox = driver.findWCheckBox(new ByLabel("this is a checkbox", false));

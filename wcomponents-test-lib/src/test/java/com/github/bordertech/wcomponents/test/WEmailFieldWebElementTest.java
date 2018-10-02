@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.test;
 
 import com.github.bordertech.wcomponents.test.components.WEmailFieldUI;
-import com.github.bordertech.wcomponents.test.selenium.ByButtonValue;
+import com.github.bordertech.wcomponents.test.selenium.ByButton;
 import com.github.bordertech.wcomponents.test.selenium.ByLabel;
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
 import com.github.bordertech.wcomponents.test.selenium.SeleniumJettyTestCase;
@@ -28,10 +28,10 @@ public class WEmailFieldWebElementTest extends SeleniumJettyTestCase {
 
 
 	@Test
-	public void testSettingGettingValueEmailField() {
+	public void testFeaturesOfEmailField() {
 		SeleniumWComponentsWebDriver driver = getDriver();
 
-		SeleniumWButtonWebElement validatingButton = driver.findWButton(new ByButtonValue("Validate button", false, true));
+		SeleniumWButtonWebElement validatingButton = driver.findWButton(new ByButton("Validate button", false, true));
 		validatingButton.click();
 
 		SeleniumWEmailFieldWebElement emailField = driver.findWEmailField(new ByLabel("this is a email field", false));
@@ -39,7 +39,7 @@ public class WEmailFieldWebElementTest extends SeleniumJettyTestCase {
 		emailField.sendKeys("dummy text");
 		assertEquals("dummy text", emailField.getValue());
 
-		validatingButton = driver.findWButton(new ByButtonValue("Validate button", false, true));
+		validatingButton = driver.findWButton(new ByButton("Validate button", false, true));
 		validatingButton.click();
 
 		SeleniumWFieldIndicatorWebElement message = emailField.getFieldIndicatorMessage();

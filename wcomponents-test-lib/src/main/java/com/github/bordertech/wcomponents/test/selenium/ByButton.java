@@ -1,6 +1,5 @@
 package com.github.bordertech.wcomponents.test.selenium;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
@@ -12,7 +11,7 @@ import java.util.List;
 /**
  * Finds a button by the value on the button.
  */
-public class ByButtonValue extends By {
+public class ByButton extends By {
 
 	/**
 	 * Button value by exact root.
@@ -42,11 +41,11 @@ public class ByButtonValue extends By {
 
 
 	/**
-	 * ByButtonValue using the buttons's ID.
+	 * ByButton using the buttons's ID.
 	 *
 	 * @param buttonId the ID of the label.
 	 */
-	public ByButtonValue(final String buttonId) {
+	public ByButton(final String buttonId) {
 
 		this.buttonId = buttonId;
 		this.buttonValue = null;
@@ -55,13 +54,13 @@ public class ByButtonValue extends By {
 	}
 
 	/**
-	 * ByButtonValue using the button's value.
+	 * ByButton using the button's value.
 	 *
 	 * @param buttonValue the button value
 	 * @param partialMatch whether it can be a partial text match
 	 * @param relative whether to use a relative xpath lookup
 	 */
-	public ByButtonValue(final String buttonValue, final boolean partialMatch, final boolean relative) {
+	public ByButton(final String buttonValue, final boolean partialMatch, final boolean relative) {
 		this.buttonValue = buttonValue;
 		this.buttonId = null;
 		this.partialMatch = partialMatch;
@@ -82,11 +81,6 @@ public class ByButtonValue extends By {
 			}
 			buttonValues = ((FindsByXPath) context).findElementsByXPath(xpath);
 		}
-
-		if (CollectionUtils.isEmpty(buttonValues)) {
-			return buttonValues;
-		}
-
 		return buttonValues;
 	}
 

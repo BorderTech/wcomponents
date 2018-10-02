@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.test;
 
 import com.github.bordertech.wcomponents.test.components.WTextFieldUI;
-import com.github.bordertech.wcomponents.test.selenium.ByButtonValue;
+import com.github.bordertech.wcomponents.test.selenium.ByButton;
 import com.github.bordertech.wcomponents.test.selenium.ByLabel;
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
 import com.github.bordertech.wcomponents.test.selenium.SeleniumJettyTestCase;
@@ -26,12 +26,12 @@ public class WTextFieldWebElementTest extends SeleniumJettyTestCase {
 	}
 
 	@Test
-	public void testTextFieldGetSet() {
+	public void testTextFieldFeatures() {
 		SeleniumWComponentsWebDriver driver = getDriver();
 
-		SeleniumWButtonWebElement validatingButton = driver.findWButton(new ByButtonValue("Validate button", false, true));
+		SeleniumWButtonWebElement validatingButton = driver.findWButton(new ByButton("Validate button", false, true));
 
-		new ByButtonValue("Validate button", false, true);
+		new ByButton("Validate button", false, true);
 		validatingButton.click();
 
 		SeleniumWTextFieldWebElement textField = driver.findWTextField(new ByLabel("this is a textfield", false));
