@@ -8,6 +8,8 @@ import com.github.bordertech.wcomponents.test.selenium.SeleniumJettyTestCase;
 import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWButtonWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWEmailFieldWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWFieldIndicatorWebElement;
+import com.github.bordertech.wcomponents.validation.AbstractWFieldIndicator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -27,13 +29,11 @@ public class WEmailFieldWebElementTest extends SeleniumJettyTestCase {
 
 	@Test
 	public void testSettingGettingValueEmailField() {
-		// Launch the web browser to the LDE
 		SeleniumWComponentsWebDriver driver = getDriver();
 
 		SeleniumWButtonWebElement validatingButton = driver.findWButton(new ByButtonValue("Validate button", false, true));
 		validatingButton.click();
 
-		// Enter some text and use the duplicate button
 		SeleniumWEmailFieldWebElement emailField = driver.findWEmailField(new ByLabel("this is a email field", false));
 
 		emailField.sendKeys("dummy text");
@@ -42,11 +42,17 @@ public class WEmailFieldWebElementTest extends SeleniumJettyTestCase {
 		validatingButton = driver.findWButton(new ByButtonValue("Validate button", false, true));
 		validatingButton.click();
 
-		String message = emailField.getFieldIndicatorMessage();
-		assertEquals(message, "this is a email field must be an email address.");
+		SeleniumWFieldIndicatorWebElement message = emailField.getFieldIndicatorMessage();
+		assertEquals(message.getText(), "this is a email field must be an email address.");
+		assertEquals(message.getIndicatorType(), AbstractWFieldIndicator.FieldIndicatorType.ERROR);
+
 
 		emailField.clear();
 		emailField.sendKeys("dummy@gmail.com");
 		assertEquals("dummy@gmail.com", emailField.getValue());
+
+		message = emailField.getFieldIndicatorMessage();
+		assertEquals(message.getText(), "Successfully updated.");
+		assertEquals(message.getIndicatorType(), AbstractWFieldIndicator.FieldIndicatorType.SUCCESS);
 	}
 }

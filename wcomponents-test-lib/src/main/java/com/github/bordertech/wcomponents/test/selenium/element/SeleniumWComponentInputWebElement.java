@@ -176,13 +176,17 @@ public class SeleniumWComponentInputWebElement extends SeleniumWComponentWebElem
 		return SeleniumWComponentsUtil.findElementImmediateForDriver(getDriver(), By.xpath("//*[@id='" + listId + "']"));
 	}
 
-	public String getFieldIndicatorMessage() {
+	/**
+	 * Finds the field indicator for a given field.
+	 *
+	 * @return
+	 */
+	public SeleniumWFieldIndicatorWebElement getFieldIndicatorMessage() {
 		String messagesFor = getAttribute("aria-describedby");
 		if (Util.empty(messagesFor)) {
 			return null;
 		}
 		WebElement webElement = SeleniumWComponentsUtil.findElementImmediateForDriver(getDriver(), By.id(messagesFor));
-		String text = webElement.getText();
-		return text;
+		return new SeleniumWFieldIndicatorWebElement(webElement, getDriver());
 	}
 }
