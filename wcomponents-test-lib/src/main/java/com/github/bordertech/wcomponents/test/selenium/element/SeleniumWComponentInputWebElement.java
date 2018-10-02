@@ -179,7 +179,7 @@ public class SeleniumWComponentInputWebElement extends SeleniumWComponentWebElem
 	/**
 	 * Finds the field indicator for a given field.
 	 *
-	 * @return
+	 * @return the current SeleniumWFieldIndicatorWebElement
 	 */
 	public SeleniumWFieldIndicatorWebElement getFieldIndicatorMessage() {
 		String messagesFor = getAttribute("aria-describedby");

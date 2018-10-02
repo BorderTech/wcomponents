@@ -18,7 +18,8 @@ public class SeleniumWTextFieldWebElement extends SeleniumWComponentInputWebElem
 	/**
 	 * HTML attributes applied to the input element.
 	 */
-	private static final List<String> INPUT_ATTRIBUTES = Arrays.asList("disabled", "required", "pattern", "maxlength", "minlength", "aria-describedby");
+	private static final List<String> INPUT_ATTRIBUTES =
+		Arrays.asList("disabled", "required", "pattern", "maxlength", "minlength", "aria-describedby");
 
 	/**
 	 * The type for the input field.

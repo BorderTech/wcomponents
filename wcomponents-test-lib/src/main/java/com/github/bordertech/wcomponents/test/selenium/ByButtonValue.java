@@ -9,13 +9,29 @@ import org.openqa.selenium.internal.FindsByXPath;
 
 import java.util.List;
 
+/**
+ * Finds a button by the value on the button.
+ */
 public class ByButtonValue extends By {
 
+	/**
+	 * Button value by exact root.
+	 */
 	public static final String XPATH_BUTTON_VALUE_EXACT_ROOT = "//button[text()='%1$s']";
 
+	/**
+	 * Button value contains within root.
+	 */
 	public static final String XPATH_BUTTON_VALUE_CONTAINS_ROOT = "//button[contains(text(),'%1$s')]";
 
+	/**
+	 * Button value by exact relative.
+	 */
 	public static final String XPATH_BUTTON_VALUE_EXACT_RELATIVE = ".//button[text()='%1$s']";
+
+	/**
+	 * Button value contains within relative.
+	 */
 	public static final String XPATH_BUTTON_VALUE_CONTAINS_RELATIVE = ".//button[contains(text(),'%1$s')]";
 
 
@@ -53,7 +69,7 @@ public class ByButtonValue extends By {
 	}
 
 	@Override
-	public List<WebElement> findElements(SearchContext context) {
+	public List<WebElement> findElements(final SearchContext context) {
 		List<WebElement> buttonValues;
 		if (buttonId != null) {
 			buttonValues = ((FindsById) context).findElementsById(buttonId);

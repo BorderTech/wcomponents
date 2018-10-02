@@ -6,8 +6,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+/**
+ * The selenium web element for a WFieldIndicator.
+ */
 public class SeleniumWFieldIndicatorWebElement extends SeleniumWComponentWebElement {
 
+	/**
+	 * Top level html element.
+	 */
 	public static final String TOP_LEVEL_TAG = "span";
 
 	private AbstractWFieldIndicator.FieldIndicatorType indicatorType;
@@ -18,7 +24,7 @@ public class SeleniumWFieldIndicatorWebElement extends SeleniumWComponentWebElem
 	 * @param element the backing element.
 	 * @param driver  the SeleniumWComponentsWebDriver.
 	 */
-	public SeleniumWFieldIndicatorWebElement(WebElement element, WebDriver driver) {
+	public SeleniumWFieldIndicatorWebElement(final WebElement element, final WebDriver driver) {
 		super(element, driver);
 		String tagName = element.getTagName();
 		if (!(TOP_LEVEL_TAG.equalsIgnoreCase(tagName))) {
@@ -27,7 +33,11 @@ public class SeleniumWFieldIndicatorWebElement extends SeleniumWComponentWebElem
 		loadIndicator(element);
 	}
 
-	private void loadIndicator(WebElement element) {
+	/**
+	 * Determines the current field indicator value.
+	 * @param element to load indicator type
+	 */
+	private void loadIndicator(final WebElement element) {
 		String aClass = element.getAttribute("class");
 		if (StringUtils.contains(aClass, "error")) {
 			indicatorType = AbstractWFieldIndicator.FieldIndicatorType.ERROR;
@@ -41,6 +51,11 @@ public class SeleniumWFieldIndicatorWebElement extends SeleniumWComponentWebElem
 	}
 
 
+	/**
+	 * Returns the current field indicator type.
+	 *
+	 * @return the indicator type.
+	 */
 	public AbstractWFieldIndicator.FieldIndicatorType getIndicatorType() {
 		return indicatorType;
 	}
