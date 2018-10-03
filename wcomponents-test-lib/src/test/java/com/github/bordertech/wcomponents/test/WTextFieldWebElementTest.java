@@ -31,7 +31,6 @@ public class WTextFieldWebElementTest extends SeleniumJettyTestCase {
 
 		SeleniumWButtonWebElement validatingButton = driver.findWButton(new ByButton("Validate button", false, true));
 
-		new ByButton("Validate button", false, true);
 		validatingButton.click();
 
 		SeleniumWTextFieldWebElement textField = driver.findWTextField(new ByLabel("this is a textfield", false));

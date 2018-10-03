@@ -13,6 +13,7 @@ import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWEmailFie
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWLabelWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWMessageBoxWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWMessagesWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWMultiFileWidgetWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWMultiDropdownWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWMultiSelectPairWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWPhoneNumberFieldWebElement;
@@ -392,6 +393,16 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	 */
 	public SeleniumWButtonWebElement findWButton(final By by) {
 		return new SeleniumWButtonWebElement(findElementImmediate(by), this);
+	}
+
+
+	/**
+	 * Find a Multi File Wdiget Web Element.
+	 * @param by the by selector.
+	 * @return a multi file widget web element
+	 */
+	public SeleniumWMultiFileWidgetWebElement findWMultiFileWidget(final By by) {
+		return new SeleniumWMultiFileWidgetWebElement(findElementImmediate(by), this);
 	}
 
 	/**
@@ -825,4 +836,5 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 		}
 		return new SeleniumWComponentWebElement(element, this);
 	}
+
 }
