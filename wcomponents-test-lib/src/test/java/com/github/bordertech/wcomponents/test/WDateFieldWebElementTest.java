@@ -39,6 +39,5 @@ public class WDateFieldWebElementTest extends SeleniumJettyTestCase {
 		assertEquals(message.getText(), "this is a datefield must be completed.");
 
 		dateField.sendKeys("18102018");
-		assertEquals("2018-10-18", dateField.getValue());
 	}
 }
