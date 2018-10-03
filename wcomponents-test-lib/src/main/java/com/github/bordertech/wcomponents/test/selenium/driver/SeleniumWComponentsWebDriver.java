@@ -8,13 +8,14 @@ import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWButtonWe
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWCheckBoxSelectWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWCheckBoxWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWComponentWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWDateFieldWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWDialogWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWEmailFieldWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWLabelWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWMessageBoxWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWMessagesWebElement;
-import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWMultiFileWidgetWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWMultiDropdownWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWMultiFileWidgetWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWMultiSelectPairWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWPhoneNumberFieldWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWRadioButtonSelectWebElement;
@@ -213,6 +214,15 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 		return new SeleniumWTextFieldWebElement(findElementImmediate(by), this);
 	}
 
+	/**
+	 * Find a WDateField by the given criteria.
+	 *
+	 * @param by the By selector.
+	 * @return the SeleniumWDateFieldWebElement or null if not found.
+	 */
+	public SeleniumWDateFieldWebElement findWDateField(final By by) {
+		return new SeleniumWDateFieldWebElement(findElementImmediate(by), this);
+	}
 
 	/**
 	 * Find a WEmailField by the given criteria.
