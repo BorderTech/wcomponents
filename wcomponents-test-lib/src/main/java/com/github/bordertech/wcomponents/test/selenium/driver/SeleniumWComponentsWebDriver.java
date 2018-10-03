@@ -213,6 +213,7 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 		return new SeleniumWTextFieldWebElement(findElementImmediate(by), this);
 	}
 
+
 	/**
 	 * Find a WEmailField by the given criteria.
 	 *
@@ -224,7 +225,7 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	}
 
 	/**
-	 * Find a WEmailField by the given criteria.
+	 * Find a SeleniumWPhoneNumberFieldWebElement by the given criteria.
 	 *
 	 * @param by the By selector.
 	 * @return the SeleniumWPhoneNumberFieldWebElement or null if not found.
