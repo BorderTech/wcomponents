@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.test;
 
 import com.github.bordertech.wcomponents.test.components.WTabSetUI;
-import com.github.bordertech.wcomponents.test.selenium.ByTabSet;
+import com.github.bordertech.wcomponents.test.selenium.ByWTabSet;
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
 import com.github.bordertech.wcomponents.test.selenium.SeleniumJettyTestCase;
 import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
@@ -9,7 +9,6 @@ import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWComponen
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTabSetWebElement;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import static org.junit.Assert.assertEquals;
 
 @RunWith(MultiBrowserRunner.class)
@@ -27,7 +26,7 @@ public class WTabSetWebElementTest extends SeleniumJettyTestCase {
 	public void testTabFeatures() {
 		SeleniumWComponentsWebDriver driver = getDriver();
 
-		SeleniumWTabSetWebElement wTabSet = driver.findWTabSet(new ByTabSet());
+		SeleniumWTabSetWebElement wTabSet = driver.findWTabSet(new ByWTabSet());
 		assertEquals(wTabSet.findSelectedTabLabel(), "First Tab");
 		SeleniumWComponentWebElement selectedTabContent = wTabSet.findSelectedTabContent();
 		assertEquals(selectedTabContent.getText(), "Tab: One");

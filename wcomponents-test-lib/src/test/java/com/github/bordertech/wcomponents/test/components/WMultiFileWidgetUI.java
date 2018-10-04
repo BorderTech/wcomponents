@@ -10,21 +10,18 @@ import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WMultiFileWidget;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
-
 import static com.github.bordertech.wcomponents.WFieldLayout.LAYOUT_FLAT;
 
 public class WMultiFileWidgetUI extends WApplication {
 
 	private WMessages messages = new WMessages();
 	private WPanel panel = new WPanel();
+	private WMultiFileWidget wMultiFileWidget = new WMultiFileWidget();
 
 	public WMultiFileWidgetUI() {
 		panel.add(messages);
 		WFieldLayout fieldLayout = new WFieldLayout(LAYOUT_FLAT);
 		fieldLayout.setTitle("this is a bunch of fields");
-
-		//WTextField
-		WMultiFileWidget wMultiFileWidget = new WMultiFileWidget();
 		fieldLayout.addField("this is a textupload file widget field", wMultiFileWidget);
 		wMultiFileWidget.setMandatory(true);
 
@@ -43,5 +40,9 @@ public class WMultiFileWidgetUI extends WApplication {
 		});
 
 		return button;
+	}
+
+	public WMultiFileWidget getwMultiFileWidget() {
+		return wMultiFileWidget;
 	}
 }

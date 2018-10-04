@@ -1,11 +1,10 @@
 package com.github.bordertech.wcomponents.test.selenium.element;
 
+import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import java.util.List;
 
 /**
  * The Wcomponent WTabSet web element.

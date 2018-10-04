@@ -1,13 +1,12 @@
 package com.github.bordertech.wcomponents.test.selenium.element;
 
 import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
+import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
-
-import java.util.List;
 
 /**
  * An incomplete Multi File Wdiegt Web element.

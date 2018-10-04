@@ -1,20 +1,13 @@
 package com.github.bordertech.wcomponents.test;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.StringReader;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.*;
 import junit.framework.AssertionFailedError;
 import org.custommonkey.xmlunit.NamespaceContext;
 import org.custommonkey.xmlunit.Validator;

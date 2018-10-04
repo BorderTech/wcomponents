@@ -1,10 +1,9 @@
 package com.github.bordertech.wcomponents.test.selenium.element;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-
 import java.util.Arrays;
 import java.util.List;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 /**
  * The Selenium WDateField web element.

@@ -8,7 +8,6 @@ import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponent
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWCheckBoxWebElement;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import static org.junit.Assert.assertEquals;
 
 @RunWith(MultiBrowserRunner.class)

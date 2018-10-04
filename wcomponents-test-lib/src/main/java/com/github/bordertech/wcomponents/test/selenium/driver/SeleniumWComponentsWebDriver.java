@@ -27,6 +27,9 @@ import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTextArea
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTextFieldWebElement;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -36,10 +39,6 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 /**
  * <p>

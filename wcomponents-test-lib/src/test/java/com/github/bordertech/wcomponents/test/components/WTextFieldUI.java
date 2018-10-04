@@ -10,13 +10,13 @@ import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
-
 import static com.github.bordertech.wcomponents.WFieldLayout.LAYOUT_FLAT;
 
 public class WTextFieldUI extends WApplication {
 
 	private WMessages messages = new WMessages();
 	private WPanel panel = new WPanel();
+	private WTextField wTextField = new WTextField();
 
 	public WTextFieldUI() {
 
@@ -24,8 +24,6 @@ public class WTextFieldUI extends WApplication {
 		WFieldLayout fieldLayout = new WFieldLayout(LAYOUT_FLAT);
 		fieldLayout.setTitle("this is a bunch of fields");
 
-		//WTextField
-		WTextField wTextField = new WTextField();
 		fieldLayout.addField("this is a textfield", wTextField);
 		wTextField.setMandatory(true);
 
@@ -46,4 +44,7 @@ public class WTextFieldUI extends WApplication {
 		return button;
 	}
 
+	public WTextField getwTextField() {
+		return wTextField;
+	}
 }

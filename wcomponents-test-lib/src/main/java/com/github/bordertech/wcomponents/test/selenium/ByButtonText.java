@@ -1,51 +1,65 @@
 package com.github.bordertech.wcomponents.test.selenium;
 
+import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.FindsById;
 import org.openqa.selenium.internal.FindsByXPath;
 
-import java.util.List;
-
 /**
  * Finds a button by the value on the button.
  */
-public class ByButton extends By {
+public class ByButtonText extends By {
 
 	/**
-	 * Button value by exact root.
+	 * Button's text value by exact root.
 	 */
 	public static final String XPATH_BUTTON_VALUE_EXACT_ROOT = "//button[text()='%1$s']";
 
 	/**
-	 * Button value contains within root.
+	 * Button's text value contains within root.
 	 */
 	public static final String XPATH_BUTTON_VALUE_CONTAINS_ROOT = "//button[contains(text(),'%1$s')]";
 
 	/**
-	 * Button value by exact relative.
+	 * Button's text value by exact relative.
 	 */
 	public static final String XPATH_BUTTON_VALUE_EXACT_RELATIVE = ".//button[text()='%1$s']";
 
 	/**
-	 * Button value contains within relative.
+	 * Button's text value contains within relative.
 	 */
 	public static final String XPATH_BUTTON_VALUE_CONTAINS_RELATIVE = ".//button[contains(text(),'%1$s')]";
 
 
+	/**
+	 * The button element's id.
+	 */
 	private final String buttonId;
+
+	/**
+	 * The button element's text value.
+	 */
 	private final String buttonValue;
+
+	/**
+	 * Whether to use a partial match on the value.
+	 */
 	private final boolean partialMatch;
+
+	/**
+	 * Whether to use a relative path to find the element.
+	 */
 	private final boolean relative;
 
 
 	/**
-	 * ByButton using the buttons's ID.
+	 * ByButtonText using the buttons's ID.
 	 *
 	 * @param buttonId the ID of the label.
 	 */
-	public ByButton(final String buttonId) {
+	public ByButtonText(final String buttonId) {
 
 		this.buttonId = buttonId;
 		this.buttonValue = null;
@@ -54,13 +68,13 @@ public class ByButton extends By {
 	}
 
 	/**
-	 * ByButton using the button's value.
+	 * ByButtonText using the button's text value.
 	 *
 	 * @param buttonValue the button value
 	 * @param partialMatch whether it can be a partial text match
 	 * @param relative whether to use a relative xpath lookup
 	 */
-	public ByButton(final String buttonValue, final boolean partialMatch, final boolean relative) {
+	public ByButtonText(final String buttonValue, final boolean partialMatch, final boolean relative) {
 		this.buttonValue = buttonValue;
 		this.buttonId = null;
 		this.partialMatch = partialMatch;

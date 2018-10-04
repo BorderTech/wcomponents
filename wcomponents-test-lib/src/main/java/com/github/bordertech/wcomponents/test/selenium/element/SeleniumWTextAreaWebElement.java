@@ -2,13 +2,12 @@ package com.github.bordertech.wcomponents.test.selenium.element;
 
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
+import java.util.Arrays;
+import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Selenium WebElement class representing the functionality of WTextArea.

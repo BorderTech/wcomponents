@@ -10,24 +10,21 @@ import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WTextArea;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
-
 import static com.github.bordertech.wcomponents.WFieldLayout.LAYOUT_FLAT;
 
 public class WTextAreaUI extends WApplication {
 
 	private WMessages messages = new WMessages();
 	private WPanel panel = new WPanel();
+	private WTextArea wTextArea = new WTextArea();
 
 	public WTextAreaUI() {
 
 		panel.add(messages);
 		WFieldLayout fieldLayout = new WFieldLayout(LAYOUT_FLAT);
 		fieldLayout.setTitle("this is a bunch of fields");
-
-		//WTextField
-		WTextArea wTextField = new WTextArea();
-		fieldLayout.addField("this is a textarea", wTextField);
-		wTextField.setMandatory(true);
+		fieldLayout.addField("this is a textarea", wTextArea);
+		wTextArea.setMandatory(true);
 
 		panel.add(fieldLayout);
 		add(createWButton());
@@ -46,4 +43,7 @@ public class WTextAreaUI extends WApplication {
 		return button;
 	}
 
+	public WTextArea getwTextArea() {
+		return wTextArea;
+	}
 }

@@ -10,22 +10,19 @@ import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
-
 import static com.github.bordertech.wcomponents.WFieldLayout.LAYOUT_FLAT;
 
 public class WEmailFieldUI extends WApplication {
 
 	private WMessages messages = new WMessages();
 	private WPanel panel = new WPanel();
+	private WEmailField wEmailField = new WEmailField();
 
 	public WEmailFieldUI() {
 
 		panel.add(messages);
 		WFieldLayout fieldLayout = new WFieldLayout(LAYOUT_FLAT);
 		fieldLayout.setTitle("this is a bunch of fields");
-
-		//WEmailField
-		WEmailField wEmailField = new WEmailField();
 		fieldLayout.addField("this is a email field", wEmailField);
 
 		panel.add(fieldLayout);
@@ -45,4 +42,7 @@ public class WEmailFieldUI extends WApplication {
 		return button;
 	}
 
+	public WEmailField getwEmailField() {
+		return wEmailField;
+	}
 }

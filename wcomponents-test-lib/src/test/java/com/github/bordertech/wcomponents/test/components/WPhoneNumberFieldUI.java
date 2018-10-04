@@ -10,22 +10,19 @@ import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WPhoneNumberField;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
-
 import static com.github.bordertech.wcomponents.WFieldLayout.LAYOUT_FLAT;
 
 public class WPhoneNumberFieldUI extends WApplication {
 
 	private WMessages messages = new WMessages();
 	private WPanel panel = new WPanel();
+	private WPhoneNumberField wPhoneNumberField = new WPhoneNumberField();
 
 	public WPhoneNumberFieldUI() {
 
 		panel.add(messages);
 		WFieldLayout fieldLayout = new WFieldLayout(LAYOUT_FLAT);
 		fieldLayout.setTitle("this is a bunch of fields");
-
-		//WTextField
-		WPhoneNumberField wPhoneNumberField = new WPhoneNumberField();
 		fieldLayout.addField("this is a phoneNumberField", wPhoneNumberField);
 		wPhoneNumberField.setMandatory(true);
 
@@ -46,4 +43,7 @@ public class WPhoneNumberFieldUI extends WApplication {
 		return button;
 	}
 
+	public WPhoneNumberField getwPhoneNumberField() {
+		return wPhoneNumberField;
+	}
 }

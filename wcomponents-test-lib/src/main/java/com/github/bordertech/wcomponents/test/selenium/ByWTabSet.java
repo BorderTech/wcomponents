@@ -1,17 +1,16 @@
 package com.github.bordertech.wcomponents.test.selenium;
 
+import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.FindsByClassName;
 import org.openqa.selenium.internal.FindsById;
 
-import java.util.List;
-
 /**
- * Extension of the By Helper to find tabsets.
+ * Extension of the By helper to find WTabSets.
  */
-public class ByTabSet extends By {
+public class ByWTabSet extends By {
 
 	/**
 	 * Css class to find the tabset.
@@ -21,30 +20,30 @@ public class ByTabSet extends By {
 	private final String tabsetId;
 
 	/**
-	 * ByTabSet using the tabset's ID.
+	 * ByWTabSet using the WTabSet's ID.
 	 *
-	 * @param buttonId the ID of the label.
+	 * @param tabsetId the ID of the WTabSet.
 	 */
-	public ByTabSet(final String buttonId) {
+	public ByWTabSet(final String tabsetId) {
 
-		this.tabsetId = buttonId;
+		this.tabsetId = tabsetId;
 	}
 
 	/**
 	 * use the standard.
 	 */
-	public ByTabSet() {
+	public ByWTabSet() {
 		this.tabsetId = null;
 	}
 
 	@Override
 	public List<WebElement> findElements(final SearchContext context) {
-		List<WebElement> labels;
+		List<WebElement> wTabSets;
 		if (tabsetId != null) {
-			labels = ((FindsById) context).findElementsById(tabsetId);
+			wTabSets = ((FindsById) context).findElementsById(tabsetId);
 		} else {
-			labels = ((FindsByClassName) context).findElementsByClassName(CSS_SELECTOR_TABSET);
+			wTabSets = ((FindsByClassName) context).findElementsByClassName(CSS_SELECTOR_TABSET);
 		}
-		return labels;
+		return wTabSets;
 	}
 }

@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.test;
 
 import com.github.bordertech.wcomponents.test.components.WTextFieldUI;
-import com.github.bordertech.wcomponents.test.selenium.ByButton;
+import com.github.bordertech.wcomponents.test.selenium.ByButtonText;
 import com.github.bordertech.wcomponents.test.selenium.ByLabel;
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
 import com.github.bordertech.wcomponents.test.selenium.SeleniumJettyTestCase;
@@ -11,7 +11,6 @@ import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWFieldInd
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTextFieldWebElement;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import static org.junit.Assert.assertEquals;
 
 @RunWith(MultiBrowserRunner.class)
@@ -29,7 +28,7 @@ public class WTextFieldWebElementTest extends SeleniumJettyTestCase {
 	public void testTextFieldFeatures() {
 		SeleniumWComponentsWebDriver driver = getDriver();
 
-		SeleniumWButtonWebElement validatingButton = driver.findWButton(new ByButton("Validate button", false, true));
+		SeleniumWButtonWebElement validatingButton = driver.findWButton(new ByButtonText("Validate button", false, true));
 
 		validatingButton.click();
 
