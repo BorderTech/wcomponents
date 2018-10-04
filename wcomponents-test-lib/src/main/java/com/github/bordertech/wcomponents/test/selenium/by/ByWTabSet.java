@@ -12,7 +12,7 @@ import org.openqa.selenium.internal.FindsByClassName;
 public class ByWTabSet extends By {
 
 	/**
-	 * Css class to find the tabset.
+	 * Css class to find the WTabSet.
 	 */
 	public static final String CSS_SELECTOR_TABSET = "wc-tabset";
 

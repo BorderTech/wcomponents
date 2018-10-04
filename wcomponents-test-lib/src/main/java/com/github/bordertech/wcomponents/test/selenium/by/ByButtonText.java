@@ -35,7 +35,7 @@ public class ByButtonText extends By {
 	/**
 	 * The button element's text value.
 	 */
-	private final String buttonValue;
+	private final String buttonText;
 
 	/**
 	 * Whether to use a partial match on the value.
@@ -50,12 +50,23 @@ public class ByButtonText extends By {
 	/**
 	 * ByButtonText using the button's text value.
 	 *
-	 * @param buttonValue the button value
+	 * @param buttonText the button value
+	 */
+	public ByButtonText(final String buttonText) {
+		this.buttonText = buttonText;
+		this.partialMatch = false;
+		this.relative = false;
+	}
+
+	/**
+	 * ByButtonText using the button's text value.
+	 *
+	 * @param buttonText the button value
 	 * @param partialMatch whether it can be a partial text match
 	 * @param relative whether to use a relative xpath lookup
 	 */
-	public ByButtonText(final String buttonValue, final boolean partialMatch, final boolean relative) {
-		this.buttonValue = buttonValue;
+	public ByButtonText(final String buttonText, final boolean partialMatch, final boolean relative) {
+		this.buttonText = buttonText;
 		this.partialMatch = partialMatch;
 		this.relative = relative;
 	}
@@ -64,9 +75,9 @@ public class ByButtonText extends By {
 	public List<WebElement> findElements(final SearchContext context) {
 		String xpath;
 		if (partialMatch) {
-			xpath = String.format((relative ? XPATH_BUTTON_VALUE_CONTAINS_RELATIVE : XPATH_BUTTON_VALUE_CONTAINS_ROOT), buttonValue);
+			xpath = String.format((relative ? XPATH_BUTTON_VALUE_CONTAINS_RELATIVE : XPATH_BUTTON_VALUE_CONTAINS_ROOT), buttonText);
 		} else {
-			xpath = String.format((relative ? XPATH_BUTTON_VALUE_EXACT_RELATIVE : XPATH_BUTTON_VALUE_EXACT_ROOT), buttonValue);
+			xpath = String.format((relative ? XPATH_BUTTON_VALUE_EXACT_RELATIVE : XPATH_BUTTON_VALUE_EXACT_ROOT), buttonText);
 		}
 		return ((FindsByXPath) context).findElementsByXPath(xpath);
 	}
