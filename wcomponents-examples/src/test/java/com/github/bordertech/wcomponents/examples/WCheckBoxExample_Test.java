@@ -5,7 +5,7 @@ import com.github.bordertech.wcomponents.WField;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.examples.theme.WCheckBoxExample;
 import com.github.bordertech.wcomponents.examples.theme.WCheckBoxSelectExample;
-import com.github.bordertech.wcomponents.test.selenium.ByLabel;
+import com.github.bordertech.wcomponents.test.selenium.by.ByLabel;
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
 import java.util.List;
 import junit.framework.Assert;

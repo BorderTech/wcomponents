@@ -7,8 +7,8 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WTabSet;
 import com.github.bordertech.wcomponents.WTextField;
-import com.github.bordertech.wcomponents.test.selenium.ByWComponent;
-import com.github.bordertech.wcomponents.test.selenium.ByWComponentPath;
+import com.github.bordertech.wcomponents.test.selenium.by.ByWComponent;
+import com.github.bordertech.wcomponents.test.selenium.by.ByWComponentPath;
 import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumTestCase;
 import junit.framework.Assert;
 import org.junit.Test;
@@ -149,7 +149,7 @@ public class ExampleSeleniumTest extends WComponentSeleniumTestCase {
 		WebDriver driver = getDriver();
 
 		// Paths to frequently used components
-		By textFieldPath = new ByWComponentPath(ui, 
+		By textFieldPath = new ByWComponentPath(ui,
 				"ExampleSeleniumTest$TextDuplicatorWithGetters/WTextField");
 
 		// Select the 2nd tab
@@ -157,13 +157,13 @@ public class ExampleSeleniumTest extends WComponentSeleniumTestCase {
 
 		// Enter some text and use the duplicate button
 		driver.findElement(textFieldPath).sendKeys("dummy");
-		driver.findElement(new ByWComponentPath(ui, 
+		driver.findElement(new ByWComponentPath(ui,
 				"ExampleSeleniumTest$TextDuplicatorWithGetters/WButton[0]")).click();
 		Assert.assertEquals("Incorrect text field text after duplicate", "dummydummy",
 				driver.findElement(textFieldPath).getAttribute("value"));
 
 		// Clear the text
-		driver.findElement(new ByWComponentPath(ui, 
+		driver.findElement(new ByWComponentPath(ui,
 				"ExampleSeleniumTest$TextDuplicatorWithGetters/WButton[1]")).click();
 		Assert.assertEquals("Incorrect text field text after clear", "",
 				driver.findElement(textFieldPath).getAttribute("value"));

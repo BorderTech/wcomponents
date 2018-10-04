@@ -1,16 +1,16 @@
-package com.github.bordertech.wcomponents.test.selenium;
+package com.github.bordertech.wcomponents.test.selenium.by;
 
 import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.internal.FindsById;
 import org.openqa.selenium.internal.FindsByXPath;
 
 /**
- * Finds a button by the value on the button.
+ * Finds a button by the text value on the button.
  */
 public class ByButtonText extends By {
+
 
 	/**
 	 * Button's text value by exact root.
@@ -32,12 +32,6 @@ public class ByButtonText extends By {
 	 */
 	public static final String XPATH_BUTTON_VALUE_CONTAINS_RELATIVE = ".//button[contains(text(),'%1$s')]";
 
-
-	/**
-	 * The button element's id.
-	 */
-	private final String buttonId;
-
 	/**
 	 * The button element's text value.
 	 */
@@ -53,20 +47,6 @@ public class ByButtonText extends By {
 	 */
 	private final boolean relative;
 
-
-	/**
-	 * ByButtonText using the buttons's ID.
-	 *
-	 * @param buttonId the ID of the label.
-	 */
-	public ByButtonText(final String buttonId) {
-
-		this.buttonId = buttonId;
-		this.buttonValue = null;
-		this.partialMatch = false;
-		this.relative = false;
-	}
-
 	/**
 	 * ByButtonText using the button's text value.
 	 *
@@ -76,26 +56,19 @@ public class ByButtonText extends By {
 	 */
 	public ByButtonText(final String buttonValue, final boolean partialMatch, final boolean relative) {
 		this.buttonValue = buttonValue;
-		this.buttonId = null;
 		this.partialMatch = partialMatch;
 		this.relative = relative;
 	}
 
 	@Override
 	public List<WebElement> findElements(final SearchContext context) {
-		List<WebElement> buttonValues;
-		if (buttonId != null) {
-			buttonValues = ((FindsById) context).findElementsById(buttonId);
+		String xpath;
+		if (partialMatch) {
+			xpath = String.format((relative ? XPATH_BUTTON_VALUE_CONTAINS_RELATIVE : XPATH_BUTTON_VALUE_CONTAINS_ROOT), buttonValue);
 		} else {
-			String xpath;
-			if (partialMatch) {
-				xpath = String.format((relative ? XPATH_BUTTON_VALUE_CONTAINS_RELATIVE : XPATH_BUTTON_VALUE_CONTAINS_ROOT), buttonValue);
-			} else {
-				xpath = String.format((relative ? XPATH_BUTTON_VALUE_EXACT_RELATIVE : XPATH_BUTTON_VALUE_EXACT_ROOT), buttonValue);
-			}
-			buttonValues = ((FindsByXPath) context).findElementsByXPath(xpath);
+			xpath = String.format((relative ? XPATH_BUTTON_VALUE_EXACT_RELATIVE : XPATH_BUTTON_VALUE_EXACT_ROOT), buttonValue);
 		}
-		return buttonValues;
+		return ((FindsByXPath) context).findElementsByXPath(xpath);
 	}
 
 }

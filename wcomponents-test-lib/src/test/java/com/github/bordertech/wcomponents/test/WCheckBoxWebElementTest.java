@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.test;
 
 import com.github.bordertech.wcomponents.test.components.WCheckBoxFieldUI;
-import com.github.bordertech.wcomponents.test.selenium.ByLabel;
+import com.github.bordertech.wcomponents.test.selenium.by.ByLabel;
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
 import com.github.bordertech.wcomponents.test.selenium.SeleniumJettyTestCase;
 import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;

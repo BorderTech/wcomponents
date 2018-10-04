@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.test.selenium;
+package com.github.bordertech.wcomponents.test.selenium.by;
 
 import com.github.bordertech.wcomponents.ComponentWithContext;
 import com.github.bordertech.wcomponents.UIContext;

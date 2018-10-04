@@ -2,8 +2,8 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.test.selenium.ByWComponent;
-import com.github.bordertech.wcomponents.test.selenium.ByWComponentPath;
+import com.github.bordertech.wcomponents.test.selenium.by.ByWComponent;
+import com.github.bordertech.wcomponents.test.selenium.by.ByWComponentPath;
 import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumTestCase;
 import com.github.bordertech.wcomponents.test.selenium.driver.WebDriverType;
 import com.github.bordertech.wcomponents.test.selenium.server.ServerCache;

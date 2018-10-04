@@ -13,8 +13,8 @@ public class WTabSetUI extends WPanel {
 	private WComponent tabContent2;
 
 	public WTabSetUI() {
-		tabContent1 = createDummyPanelWithText("First Tab");
-		tabContent2 = createDummyPanelWithText("Second Tab");
+		tabContent1 = createDummyPanelWithText("One");
+		tabContent2 = createDummyPanelWithText("Two");
 		tabSet.addTab(tabContent1, "First Tab");
 		tabSet.addTab(tabContent2, "Second Tab");
 		panel.add(tabSet);

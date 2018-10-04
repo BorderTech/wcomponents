@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.test.selenium.element;
 
 import com.github.bordertech.wcomponents.UIContext;
-import com.github.bordertech.wcomponents.test.selenium.ByWComponent;
+import com.github.bordertech.wcomponents.test.selenium.by.ByWComponent;
 import com.github.bordertech.wcomponents.test.selenium.SeleniumWComponentsUtil;
 import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import java.util.ArrayList;

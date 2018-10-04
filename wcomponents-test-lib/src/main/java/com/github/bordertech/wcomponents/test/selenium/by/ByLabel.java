@@ -1,5 +1,6 @@
-package com.github.bordertech.wcomponents.test.selenium;
+package com.github.bordertech.wcomponents.test.selenium.by;
 
+import com.github.bordertech.wcomponents.test.selenium.SeleniumWComponentsUtil;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWComponentInputWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWComponentWebProperties;
 import java.util.ArrayList;

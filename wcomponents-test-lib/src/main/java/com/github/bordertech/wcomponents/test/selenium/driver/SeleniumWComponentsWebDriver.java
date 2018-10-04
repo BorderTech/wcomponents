@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.test.selenium.driver;
 
 import com.github.bordertech.wcomponents.UIContext;
-import com.github.bordertech.wcomponents.test.selenium.ByWComponent;
+import com.github.bordertech.wcomponents.test.selenium.by.ByWComponent;
 import com.github.bordertech.wcomponents.test.selenium.SeleniumLauncher;
 import com.github.bordertech.wcomponents.test.selenium.SeleniumWComponentsUtil;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWButtonWebElement;

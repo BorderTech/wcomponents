@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.test.selenium.element;
 
-import com.github.bordertech.wcomponents.test.selenium.ByLabel;
+import com.github.bordertech.wcomponents.test.selenium.by.ByLabel;
 import com.github.bordertech.wcomponents.test.selenium.SeleniumWComponentsUtil;
 import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.test.selenium;
+package com.github.bordertech.wcomponents.test.selenium.by;
 
 import com.github.bordertech.wcomponents.AbstractWSelectList;
 import com.github.bordertech.wcomponents.ComponentWithContext;

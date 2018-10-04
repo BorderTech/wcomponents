@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.examples.theme;
 
 import com.github.bordertech.wcomponents.examples.SeleniumTests;
 import com.github.bordertech.wcomponents.examples.WComponentExamplesTestCase;
-import com.github.bordertech.wcomponents.test.selenium.ByLabel;
+import com.github.bordertech.wcomponents.test.selenium.by.ByLabel;
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
 import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWCheckBoxSelectWebElement;

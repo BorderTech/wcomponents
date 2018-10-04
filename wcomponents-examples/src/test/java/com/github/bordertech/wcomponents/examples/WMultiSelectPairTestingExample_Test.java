@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.examples;
 
-import com.github.bordertech.wcomponents.test.selenium.ByLabel;
+import com.github.bordertech.wcomponents.test.selenium.by.ByLabel;
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
 import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWMultiSelectPairWebElement;

@@ -16,6 +16,27 @@ public class SeleniumWFieldIndicatorWebElement extends SeleniumWComponentWebElem
 	 */
 	public static final String TOP_LEVEL_TAG = "span";
 
+	/**
+	 * The prefix for the indicator css classes.
+	 */
+	private static final String CLASS_PREFIX = "wc-fieldindicator";
+	/**
+	 * The error css class.
+	 */
+	private static final String FIELD_INDICATOR_CLASS_ERROR = CLASS_PREFIX + "-type-error";
+	/**
+	 * The warning css class.
+	 */
+	private static final String FIELD_INDICATOR_CLASS_WARN = CLASS_PREFIX + "-type-warn";
+	/**
+	 * The information css class.
+	 */
+	private static final String FIELD_INDICATOR_CLASS_INFO = CLASS_PREFIX + "-type-info";
+	/**
+	 * The success css class.
+	 */
+	private static final String FIELD_INDICATOR_CLASS_SUCCESS = CLASS_PREFIX + "-type-success";
+
 	private AbstractWFieldIndicator.FieldIndicatorType indicatorType;
 
 	/**
@@ -30,7 +51,7 @@ public class SeleniumWFieldIndicatorWebElement extends SeleniumWComponentWebElem
 		String aClass = element.getAttribute("class");
 		if (!(TOP_LEVEL_TAG.equalsIgnoreCase(tagName))) {
 			throw new SystemException("Incorrect element selected for SeleniumWFieldIndicatorWebElement. Found: " + tagName);
-		} else if (!StringUtils.contains(aClass, FieldIndicatorClasses.CLASS_PREFIX)) {
+		} else if (!StringUtils.contains(aClass, CLASS_PREFIX)) {
 			throw new SystemException("Incorrect element selected for SeleniumWFieldIndicatorWebElement. Found: " + aClass);
 
 		}
@@ -43,13 +64,13 @@ public class SeleniumWFieldIndicatorWebElement extends SeleniumWComponentWebElem
 	 */
 	private void loadIndicator(final WebElement element) {
 		String aClass = element.getAttribute("class");
-		if (StringUtils.contains(aClass, FieldIndicatorClasses.ERROR)) {
+		if (StringUtils.contains(aClass, FIELD_INDICATOR_CLASS_ERROR)) {
 			indicatorType = AbstractWFieldIndicator.FieldIndicatorType.ERROR;
-		} else if (StringUtils.contains(aClass, FieldIndicatorClasses.WARN)) {
+		} else if (StringUtils.contains(aClass, FIELD_INDICATOR_CLASS_WARN)) {
 			indicatorType = AbstractWFieldIndicator.FieldIndicatorType.WARN;
-		} else if (StringUtils.contains(aClass, FieldIndicatorClasses.INFO)) {
+		} else if (StringUtils.contains(aClass, FIELD_INDICATOR_CLASS_INFO)) {
 			indicatorType = AbstractWFieldIndicator.FieldIndicatorType.INFO;
-		} else if (StringUtils.contains(aClass, FieldIndicatorClasses.SUCCESS)) {
+		} else if (StringUtils.contains(aClass, FIELD_INDICATOR_CLASS_SUCCESS)) {
 			indicatorType = AbstractWFieldIndicator.FieldIndicatorType.SUCCESS;
 		}
 	}
@@ -64,26 +85,4 @@ public class SeleniumWFieldIndicatorWebElement extends SeleniumWComponentWebElem
 		return indicatorType;
 	}
 
-	/**
-	 * All the field indicator CSS classes.
-	 */
-	private class FieldIndicatorClasses {
-		public static final String CLASS_PREFIX = "wc-fieldindicator";
-		/**
-		 * The error css class.
-		 */
-		private static final String ERROR = CLASS_PREFIX + "-type-error";
-		/**
-		 * The warning css class.
-		 */
-		private static final String WARN = CLASS_PREFIX + "-type-warn";
-		/**
-		 * The information css class.
-		 */
-		private static final String INFO = CLASS_PREFIX + "-type-info";
-		/**
-		 * The success css class.
-		 */
-		private static final String SUCCESS = CLASS_PREFIX + "-type-success";
-	}
 }
