@@ -17,17 +17,19 @@ public class WDateFieldUI extends WApplication {
 
 	private WMessages messages = new WMessages();
 	private WPanel panel = new WPanel();
-	private WDateField wDateField = new WDateField();
+	private WDateField standardDateField = new WDateField();
+	private WDateField readOnlyDateField = new WDateField();
 
 	public WDateFieldUI() {
 
+		standardDateField.setMandatory(true);
+		readOnlyDateField.setReadOnly(true);
 		panel.add(messages);
 		WFieldLayout fieldLayout = new WFieldLayout(LAYOUT_FLAT);
 		fieldLayout.setTitle("this is a bunch of fields");
 
-		WDateField wDateField = new WDateField();
-		fieldLayout.addField("this is a datefield", wDateField);
-		wDateField.setMandatory(true);
+		fieldLayout.addField("this is a standard datefield", standardDateField);
+		fieldLayout.addField("this is a readonly datefield", readOnlyDateField);
 
 		panel.add(fieldLayout);
 		add(createWButton());
@@ -46,7 +48,7 @@ public class WDateFieldUI extends WApplication {
 		return button;
 	}
 
-	public WDateField getwDateField() {
-		return wDateField;
+	public WDateField getStandardDateField() {
+		return standardDateField;
 	}
 }

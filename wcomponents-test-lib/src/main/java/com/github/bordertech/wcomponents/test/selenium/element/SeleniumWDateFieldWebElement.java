@@ -19,7 +19,12 @@ public class SeleniumWDateFieldWebElement extends SeleniumWComponentInputWebElem
 	/**
 	 * The starting component for the date field.
 	 */
-	public static final String TOP_LEVEL_TAG = "div";
+	public static final String TOP_STANDARD_LEVEL_TAG = "div";
+
+	/**
+	 * The starting component for the date field.
+	 */
+	public static final String TOP_READONLY_LEVEL_TAG = "time";
 
 	/**
 	 * Construct a SeleniumWTextFieldWebElement for the given WebElement.
@@ -31,8 +36,11 @@ public class SeleniumWDateFieldWebElement extends SeleniumWComponentInputWebElem
 		super(element, driver);
 
 		final String tagName = element.getTagName();
-		if (!tagName.equals(TOP_LEVEL_TAG)) {
+		String elementClass = element.getAttribute("class");
+		if (!tagName.equals(TOP_STANDARD_LEVEL_TAG) && !tagName.equals(TOP_READONLY_LEVEL_TAG)) {
 			throw new IllegalArgumentException("Element is not the expected wrapper. tag=[" + tagName + "].");
+		} else if (!elementClass.contains("wc-datefield")) {
+			throw new IllegalArgumentException("Element is not the expected ctyle class. class=[" + elementClass + "].");
 		}
 	}
 

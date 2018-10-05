@@ -12,6 +12,7 @@ import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWFieldInd
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 @RunWith(MultiBrowserRunner.class)
 public class WDateFieldWebElementTest extends SeleniumJettyTestCase {
@@ -25,18 +26,33 @@ public class WDateFieldWebElementTest extends SeleniumJettyTestCase {
 	}
 
 	@Test
-	public void testDateFieldUsingTextFeatures() {
+	public void testDateFieldUsingStandard() {
 		SeleniumWComponentsWebDriver driver = getDriver();
 
 		SeleniumWButtonWebElement validatingButton = driver.findWButton(new ByButtonText("Validate button", false, true));
 
 		validatingButton.click();
 
-		SeleniumWDateFieldWebElement dateField = driver.findWDateField(new ByLabel("this is a datefield", false));
+		SeleniumWDateFieldWebElement dateField = driver.findWDateField(new ByLabel("this is a standard datefield", false));
 
 		SeleniumWFieldIndicatorWebElement message = dateField.getFieldIndicatorMessage();
-		assertEquals(message.getText(), "this is a datefield must be completed.");
+		assertEquals(message.getText(), "this is a standard datefield must be completed.");
 
 		dateField.sendKeys("18102018");
+	}
+
+	@Test
+	public void testDateFieldUsingReadonly() {
+		SeleniumWComponentsWebDriver driver = getDriver();
+
+		SeleniumWButtonWebElement validatingButton = driver.findWButton(new ByButtonText("Validate button", false, true));
+
+		validatingButton.click();
+
+		SeleniumWDateFieldWebElement dateField = driver.findWDateField(new ByLabel("this is a readonly datefield", false));
+
+		SeleniumWFieldIndicatorWebElement message = dateField.getFieldIndicatorMessage();
+		assertNull(message);
+
 	}
 }
