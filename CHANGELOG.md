@@ -6,6 +6,8 @@
 
 ### Enhancements
 
+* Update tika-core version to address various vulnerabilities.
+
 ### Bug Fixes
 
 ## Release 1.5.14
