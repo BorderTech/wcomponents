@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.1.xsd">
+	<suppress>
+		<notes>
+			<![CDATA[
+				file name: antisamy-1.5.7.jar
+				antisamy has an XSS vulnerability which is not exposed in the current use but we should update and remove this suppression when a fix
+				is made available.
+			]]>
+		</notes>
+		<gav regex="true">^org\.owasp\.antisamy:antisamy:.*$</gav>
+		<cpe>cpe:/a:antisamy_project:antisamy</cpe>
+	</suppress>
+</suppressions>

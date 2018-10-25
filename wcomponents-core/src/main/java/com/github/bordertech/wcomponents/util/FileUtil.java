@@ -50,8 +50,6 @@ public final class FileUtil {
 			return true;
 		}
 
-		;
-
 		final List<String> fileExts = fileTypes.stream()
 			.filter(fileType -> fileType.startsWith("."))
 			.collect(Collectors.toList());
@@ -92,7 +90,7 @@ public final class FileUtil {
 
 	/**
 	 * Identify the mime type of a file.
-	 * 
+	 *
 	 * @param file the File to detect.
 	 * @return mime type as detected by Apache tika, otherwise null.
 	 */
