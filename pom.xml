@@ -18,12 +18,7 @@
 
 	<properties>
 		<wcomponents.junit.version>4.12</wcomponents.junit.version>
-		<parentLoc>wcomponents</parentLoc>
-		<cpd.skip>${wc.qa.skip}</cpd.skip>
-		<jacoco.skip>${wc.qa.skip}</jacoco.skip>
 		<jetty.version>8.1.16.v20140903</jetty.version>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<maven.compiler.source>1.8</maven.compiler.source>
 	</properties>
 
 	<licenses>
@@ -77,146 +72,9 @@
 	<build>
 		<plugins>
 
-			<!-- Generate the site. -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-site-plugin</artifactId>
-				<version>3.4</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.apache.maven.doxia</groupId>
-						<artifactId>doxia-module-markdown</artifactId>
-						<version>1.6</version>
-					</dependency>
-				</dependencies>
-				<executions>
-					<execution>
-						<id>attach-descriptor</id>
-						<goals>
-							<goal>attach-descriptor</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<!-- Code coverage. -->
-			<!-- Run twice for the report. -->
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.7.5.201505241946</version>
-				<executions>
-					<!-- Prepare jacco agent. -->
-					<execution>
-						<id>jacoco-agent</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-						<configuration>
-							<propertyName>surefireArgLine</propertyName>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<!-- Generate Reports (Findbugs, Coverage). -->
-			<!-- Run site twice. -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.8</version>
-				<dependencies>
-					<dependency>
-						<groupId>com.google.code.findbugs</groupId>
-						<artifactId>findbugs</artifactId>
-						<version>3.0.1</version>
-					</dependency>
-					<dependency>
-						<groupId>org.jacoco</groupId>
-						<artifactId>org.jacoco.ant</artifactId>
-						<version>0.7.5.201505241946</version>
-					</dependency>
-				</dependencies>
-				<executions>
-					<execution>
-						<inherited>false</inherited>
-						<id>generateReports</id>
-						<phase>site</phase>
-						<configuration>
-							<target>
-								<property name="plugin_classpath" refid="maven.plugin.classpath" />
-								<property name="build.dir" value="${project.build.directory}" />
-								<property name="site.dir" value="${project.reporting.outputDirectory}" />
-								<ant antfile="${basedir}/build-reports.xml">
-									<target name="build" />
-								</ant>
-							</target>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-
-			<!-- Generate badges. -->
-			<!-- Run site twice for badges. -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>xml-maven-plugin</artifactId>
-				<version>1.0</version>
-				<inherited>false</inherited>
-				<executions>
-					<execution>
-						<phase>site</phase>
-						<goals>
-							<goal>transform</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<catalogs>
-						<catalog>${basedir}/jacoco-catalog.xml</catalog>
-					</catalogs>
-					<transformationSets>
-						<transformationSet>
-							<dir>target</dir>
-							<includes>
-								<include>pmd.xml</include>
-								<include>findbugs-report.xml</include>
-								<include>checkstyle-result.xml</include>
-								<include>coverage-report.xml</include>
-							</includes>
-							<fileMappers>
-								<fileMapper implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
-									<targetExtension>.svg</targetExtension>
-								</fileMapper>
-							</fileMappers>
-							<stylesheet>badges.xsl</stylesheet>
-							<outputDir>target/site/badges</outputDir>
-						</transformationSet>
-					</transformationSets>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${surefire.version}</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.apache.maven.surefire</groupId>
-						<artifactId>surefire-junit47</artifactId>
-						<version>${surefire.version}</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>3.0.0-M1</version>
 				<executions>
 					<execution>
 						<id>enforce</id>
@@ -231,19 +89,25 @@
 								<requireJavaVersion>
 									<version>[1.8,)</version>
 								</requireJavaVersion>
+
+								<requireSameVersions>
+									<plugins>
+										<plugin>org.apache.maven.plugins:maven-surefire-plugin</plugin>
+										<plugin>org.apache.maven.plugins:maven-failsafe-plugin</plugin>
+										<plugin>org.apache.maven.plugins:maven-surefire-report-plugin</plugin>
+									</plugins>
+								</requireSameVersions>
+								<requireSameVersions>
+									<dependencies>
+										<dependency>org.apache.maven</dependency>
+									</dependencies>
+								</requireSameVersions>
+
 							</rules>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
-
-                        <plugin>
-                            <groupId>org.owasp</groupId>
-                            <artifactId>dependency-check-maven</artifactId>
-                            <configuration>
-                                <failBuildOnAnyVulnerability>false</failBuildOnAnyVulnerability>
-                            </configuration>
-                        </plugin>
 
 		</plugins>
 
@@ -274,167 +138,6 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-
-	<reporting>
-		<plugins>
-
-			<!-- Generate Reports Information about the project. -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>2.8.1</version>
-				<reportSets>
-					<reportSet>
-						<reports>
-							<report>index</report>
-							<report>license</report>
-							<report>mailing-list</report>
-							<report>summary</report>
-						</reports>
-					</reportSet>
-				</reportSets>
-			</plugin>
-
-			<!-- Self Aggregating. Plugin automatically aggregates the sub modules. -->
-			<!-- Produce a cross-reference of the project's source. (Self Aggregating). -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jxr-plugin</artifactId>
-				<version>2.5</version>
-				<configuration>
-					<excludes>
-						<exclude>**/wcomponents/qa/**/*.java</exclude>
-						<exclude>**/wcomponents/examples/**/*.java</exclude>
-					</excludes>
-				</configuration>
-				<reportSets>
-					<reportSet>
-						<inherited>false</inherited>
-						<reports>
-							<report>aggregate</report>
-							<!--
-							<report>test-aggregate</report>
-							-->
-						</reports>
-					</reportSet>
-				</reportSets>
-			</plugin>
-
-			<!-- Generate Javadoc. (Self Aggregating)-->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.3</version>
-				<configuration>
-					<charset>UTF-8</charset>
-					<encoding>UTF-8</encoding>
-					<docencoding>UTF-8</docencoding>
-					<breakiterator>true</breakiterator>
-					<version>true</version>
-					<keywords>true</keywords>
-					<excludePackageNames>**.wcomponents.qa.**,**.wcomponents.examples.**</excludePackageNames>
-				</configuration>
-				<reportSets>
-					<reportSet>
-						<inherited>false</inherited>
-						<reports>
-							<report>aggregate</report>
-							<!--
-							<report>test-aggregate</report>
-							-->
-						</reports>
-					</reportSet>
-				</reportSets>
-			</plugin>
-
-			<!-- Generate the web interface version of the test results (Aggregate Parameter). -->
-			<!-- Run site twice to get correct results. -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>${surefire.version}</version>
-				<configuration>
-					<aggregate>true</aggregate>
-				</configuration>
-				<reportSets>
-					<reportSet>
-						<inherited>false</inherited>
-						<reports>
-							<report>report</report>
-						</reports>
-					</reportSet>
-				</reportSets>
-			</plugin>
-
-			<!-- QA Reports. -->
-			<!-- Generate the Checkstyle report. (Self Aggregating) -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>2.17</version>
-				<configuration>
-					<skip>false</skip>
-					<configLocation>bordertech/checkstyle.xml</configLocation>
-					<consoleOutput>true</consoleOutput>
-					<!-- Exclude because of aggregate reports. -->
-					<excludes>**/wcomponents/qa/**/*.java,**/wcomponents/examples/**/*.java</excludes>
-					<headerFile />
-				</configuration>
-				<reportSets>
-					<reportSet>
-						<inherited>false</inherited>
-						<reports>
-							<report>checkstyle-aggregate</report>
-						</reports>
-					</reportSet>
-				</reportSets>
-			</plugin>
-
-			<!-- PMD and CPD Reports (Aggregate Parameter). -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-pmd-plugin</artifactId>
-				<version>3.5</version>
-				<configuration>
-					<skip>false</skip>
-					<aggregate>true</aggregate>
-					<failurePriority>5</failurePriority>
-					<!-- Exclude because of aggregate reports. -->
-					<excludes>
-						<exclude>**/wcomponents/qa/**/*.java</exclude>
-						<exclude>**/wcomponents/examples/**/*.java</exclude>
-					</excludes>
-				</configuration>
-				<reportSets>
-					<reportSet>
-						<inherited>false</inherited>
-						<reports>
-							<report>pmd</report>
-							<report>cpd</report>
-						</reports>
-					</reportSet>
-				</reportSets>
-			</plugin>
-
-			<!-- Generate Findbugs reports. (Does not support aggregate.) -->
-			<!-- Run site twice to get Findbugs report.-->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>3.0.3</version>
-				<configuration>
-					<skip>false</skip>
-					<effort>Max</effort>
-					<includeTests>false</includeTests>
-					<excludeFilterFile>bordertech/findbugs-exclude-filter.xml</excludeFilterFile>
-					<threshold>Low</threshold>
-					<failOnError>false</failOnError>
-					<findbugsXmlOutputDirectory>${project.build.directory}/findbugs-rep</findbugsXmlOutputDirectory>
-				</configuration>
-			</plugin>
-
-		</plugins>
-	</reporting>
 
 	<modules>
 		<module>wcomponents-i18n</module>

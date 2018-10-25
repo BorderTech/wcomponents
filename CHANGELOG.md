@@ -6,7 +6,13 @@
 
 ### Enhancements
 
-* Update tika-core version to address various vulnerabilities.
+* Removed site artefacts (see https://github.com/BorderTech/java-common/issues/11) - no value provided.
+* POM clean up #1592
+  * Removed error state dependency version clashes
+  * Removed dependency and plugin versions which shadowed or _unnecessarily_ overrode inherited versions.
+  * Removed unused properties from POMs.
+  * Strengthened vulnerability checking by re-instating fail on any error to the wcomponents-parent POM.
+* Updated tika-core version to address various vulnerabilities.
 
 ### Bug Fixes
 
