@@ -1,1 +1,0 @@
-[Find us on GitHub](https://github.com/BorderTech/wcomponents)
