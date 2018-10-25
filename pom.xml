@@ -144,7 +144,6 @@
 		<module>wcomponents-core</module>
 		<module>wcomponents-examples</module>
 		<module>wcomponents-examples-lde</module>
-		<module>wcomponents-findbugs-plugin</module>
 		<module>wcomponents-lde</module>
 		<module>wcomponents-test-lib</module>
 		<module>wcomponents-theme-parent</module>
