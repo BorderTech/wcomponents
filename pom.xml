@@ -141,7 +141,6 @@
 
 	<modules>
 		<module>wcomponents-i18n</module>
-		<module>wcomponents-app-archetype</module>
 		<module>wcomponents-core</module>
 		<module>wcomponents-examples</module>
 		<module>wcomponents-examples-lde</module>
