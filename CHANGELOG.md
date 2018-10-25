@@ -6,7 +6,12 @@
 
 ### Enhancements
 
-* Update tika-core version to address various vulnerabilities.
+* POM clean up
+  * Removed error state dependency version clashes
+  * Removed dependency and plugin versions which shadowed or _unnecessarily_ overrode inherited versions.
+  * Removed unused properties from POMs.
+  * Strengthened vulnerability checking by re-instating fail on any error to the wcomponents-parent POM.
+* Updated tika-core version to address various vulnerabilities.
 
 ### Bug Fixes
 
