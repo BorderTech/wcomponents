@@ -30,6 +30,7 @@ $wc-combo-button-width-allowance: 2 * $wc-combo-button-padding-lr + $wc-icon-nor
   }
 
   [role='listbox'] {
+    display: none;
     min-width: 100%;
 
     dialog & {

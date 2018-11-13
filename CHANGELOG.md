@@ -8,6 +8,8 @@
 
 ### Bug Fixes
 
+* Apply Sass update to combos to fix #1598.
+
 ## Release 1.4.26
 
 ### Enhancements
