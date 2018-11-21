@@ -5,6 +5,7 @@
 ### API Changes
 
 ### Enhancements
+* Introduced JS module `wc/file/util`, it provides following file operations `blobToFile`, `fixFileExtension`, `dataURItoBlob` and `getMimeToExtMap`.
 
 * Removed site artefacts (see https://github.com/BorderTech/java-common/issues/11) - no value provided.
 * POM clean up #1592
