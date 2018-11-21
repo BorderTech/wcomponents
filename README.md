@@ -10,7 +10,7 @@ Its goal is to enable Java developers to build AJAX enabled, WCAG 2.0 compliant 
 
 ## Status
 
-[![Build Status](https://travis-ci.org/BorderTech/wcomponents.svg?branch=freddie)](https://travis-ci.org/BorderTech/wcomponents)
+[![Build Status](https://travis-ci.org/BorderTech/wcomponents.svg?branch=georgie)](https://travis-ci.org/BorderTech/wcomponents)
 [![PMD](http://bordertech.github.io/wcomponents/badges/pmd.svg)](http://bordertech.github.io/wcomponents/pmd.html)
 [![Checkstyle](http://bordertech.github.io/wcomponents/badges/checkstyle-result.svg)](http://bordertech.github.io/wcomponents/checkstyle-aggregate.html)
 [![Findbugs](http://bordertech.github.io/wcomponents/badges/findbugs-report.svg)](http://bordertech.github.io/wcomponents/findbugs-report.html)

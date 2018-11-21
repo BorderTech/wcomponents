@@ -65,7 +65,8 @@
 						antisamy has an XSS vulnerability which is not exposed in the current use but we should
 						update when a fix is made available.
 					-->
-					<suppressionFiles>${project.basedir}/../suppression.xml</suppressionFiles>
+					<suppressionFiles>${project.parent.basedir}/suppression.xml</suppressionFiles>
+					<nodeAnalyzerEnabled>false</nodeAnalyzerEnabled>
 				</configuration>
 			</plugin>
 		</plugins>
