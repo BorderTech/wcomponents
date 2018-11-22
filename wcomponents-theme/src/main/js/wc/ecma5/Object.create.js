@@ -11,6 +11,7 @@ define(["wc/has"], function(has) {
 		Object.create = (function () {
 			var Temp = function () {};
 			return function (prototype) {
+				var result;
 				if (arguments.length > 1) {
 					throw Error("Second argument not supported");
 				}
@@ -21,7 +22,7 @@ define(["wc/has"], function(has) {
 					throw Error("null [[Prototype]] not supported");
 				}
 				Temp.prototype = prototype;
-				var result = new Temp();
+				result = new Temp();
 				Temp.prototype = null;
 				return result;
 			};

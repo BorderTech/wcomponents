@@ -168,7 +168,5 @@ define(["wc/dom/classList",
 		 * @requires module:wc/ui/getVisibleText
 		 * @requires module:wc/timers
 		 */
-		var instance= new Label();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new Label());
 	});

@@ -517,12 +517,12 @@ define(["wc/dom/tag",
 				timers.clearTimeout(requestTimer);
 			}
 			requestTimer = timers.setTimeout(function() {
+				var request;
 				/* When invoked will attempt to remove the oldest item from the queue and send its AJAX request.
 				 * If the oldest item can not be removed from the queue then no other items will be removed from
 				 * the queue even though they themselves may not be blocked.
 				 * In other words, if the front of the queue is blocked then nothing can come off the queue.*/
 				console.log("Processing AJAX trigger queue");
-				var request;
 				while (requestBuffer.length) {
 					if (canSendRequest(requestBuffer[0])) {
 						queueBlocked = false;

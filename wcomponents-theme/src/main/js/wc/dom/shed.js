@@ -11,7 +11,8 @@ define(["wc/Observer",
 	/** @param Observer @param aria @param impliedAria @param classList  @param tag @param Widget @param getLabelsForElement @param $role @param getStyle @ignore */
 	function(Observer, aria, impliedAria, classList, tag, Widget, getLabelsForElement, $role, getStyle) {
 		"use strict";
-
+		var instance;
+		
 		/**
 		 * @constructor
 		 * @alias module:wc/dom/shed~Shed
@@ -866,8 +867,7 @@ define(["wc/Observer",
 		 *
 		 * @todo re-order code, document private methods.
 		 */
-		var instance = new Shed();
-		return instance;
+		return instance = new Shed();
 
 
 		/**

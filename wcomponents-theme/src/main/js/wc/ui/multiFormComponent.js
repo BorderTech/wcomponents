@@ -14,6 +14,7 @@ define(["wc/has",
 	"wc/ui/icon"],
 	function(has, event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers, prompt, ajaxRegion, fieldset, icon) {
 		"use strict";
+		var instance, repainter = null;
 
 		/**
 		 * @constructor
@@ -367,8 +368,7 @@ define(["wc/has",
 		 * @requires module:wc/ui/icon
 		 * @todo Document private members, fix source order.
 		 */
-		var instance = new MultiFormComponent();
-		var repainter = null;
+		instance = new MultiFormComponent();
 
 		initialise.register(instance);
 

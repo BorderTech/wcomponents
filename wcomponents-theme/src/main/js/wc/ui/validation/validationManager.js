@@ -10,6 +10,7 @@ define(["wc/has",
 	"wc/config"],
 	function(has, initialise, shed, tag, Widget, Observer, i18n, getFirstLabelForElement, feedback, wcconfig) {
 		"use strict";
+		var repainter;
 
 		/**
 		 * This module know when to mark things and valid/invalid but not "how".
@@ -208,8 +209,8 @@ define(["wc/has",
 			 * @returns {Function} A reference to the subscriber.
 			 */
 			this.subscribe = function(subscriber, revalidate) {
-				observer = observer || new Observer();
 				var group = revalidate ? { group: REVALIDATE_OBSERVER_GROUP } : null;
+				observer = observer || new Observer();
 				return observer.subscribe(subscriber, group);
 			};
 
@@ -262,8 +263,6 @@ define(["wc/has",
 			};
 		}
 
-		var instance, repainter;
-
 		/* ie8's interesting inline-block bug means we need to force a repaint after all validating activites.*/
 		if (has("ie") === 8) {
 			require(["wc/fix/inlineBlock_ie8"], function(inlineBlock) {
@@ -286,7 +285,5 @@ define(["wc/has",
 		 * @requires wc/ui/getFirstLabelForElement
 		 * @requires wc/ui/feedback
 		 */
-		instance = new ValidationManager();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new ValidationManager());
 	});

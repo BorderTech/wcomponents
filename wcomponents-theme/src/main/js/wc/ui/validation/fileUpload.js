@@ -162,7 +162,5 @@ define(["wc/dom/attribute",
 		 * @requires module:wc/ui/validation/required
 		 * @requires module:wc/ui/multiFileUploader
 		 */
-		var instance = new ValidationFileUpload();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new ValidationFileUpload());
 	});

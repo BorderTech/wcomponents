@@ -110,7 +110,5 @@ define(["wc/dom/classList",
 		 * @requires module:wc/ui/getVisibleText
 		 * @requires module:wc/timers
 		 */
-		var instance = new Heading();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new Heading());
 	});

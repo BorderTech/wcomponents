@@ -63,7 +63,5 @@ define(["wc/dom/initialise",
 		 * @requires wc/ui/radioButtonSelect
 		 *
 		 */
-		var instance = new ValidationRadioButtonGroup();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new ValidationRadioButtonGroup());
 	});

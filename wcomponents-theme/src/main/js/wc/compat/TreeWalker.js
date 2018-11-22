@@ -5,7 +5,12 @@
  */
 define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 	"use strict";
-	var global = window;
+	var nodeFilter,
+		global = window,
+		nodeTypeMap = [undefined, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048],
+		FILTER_ACCEPT = 1,
+		FILTER_REJECT = 2,
+		FILTER_SKIP = 3;
 	/* #################################################################################################################
 	 * Don't change this code.
 	 * The bug is in your code, not here.
@@ -15,10 +20,10 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 	 * ################################################################################################################ */
 
 	if (!has("global-nodefilter")) {
-		var nodeFilter = {
-			FILTER_ACCEPT: 1,
-			FILTER_REJECT: 2,
-			FILTER_SKIP: 3,
+		nodeFilter = {
+			FILTER_ACCEPT: FILTER_ACCEPT,
+			FILTER_REJECT: FILTER_REJECT,
+			FILTER_SKIP: FILTER_SKIP,
 			SHOW_ALL: -1,
 			SHOW_ELEMENT: 1,
 			SHOW_ATTRIBUTE: 2,
@@ -49,23 +54,19 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 	 * @throws {TypeError} A type error if argRoot is undefined (or null or JS equivalent) or does not have a nodeType property.
 	 */
 	function TreeWalker(argRoot, argWhatToShow, argFilter/* , argExpandEntityReferences */) {
-		if (!argRoot || !argRoot.nodeType) {  // TODO, check exactly what args are allowed here
-			throw new TypeError("Parameter 'argRoot' must be a DOM node.");
-		}
-
 		var self = this,
 			root = argRoot,
 			whatToShow = argWhatToShow,
 			filter = argFilter ? (argFilter.acceptNode ? argFilter : {acceptNode: argFilter}) : null,
-			nodeTypeMap = [undefined, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048],
 			isFirstChild = false,
 			isLastChild = false,
 			isNextSibling = false,
 			isNextNode = false,
-			isPreviousNode = false,
-			FILTER_ACCEPT = 1,
-			FILTER_REJECT = 2,
-			FILTER_SKIP = 3;
+			isPreviousNode = false;
+
+		if (!argRoot || !argRoot.nodeType) {  // TODO, check exactly what args are allowed here
+			throw new TypeError("Parameter 'argRoot' must be a DOM node.");
+		}
 
 		/**
 		 * The current node of the tree walker as it traverses a tree.

@@ -55,7 +55,5 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/shed"],
 			};
 		}
 
-		var /** @alias module:wc/ui/printButton */ instance = new PrintButton();
-		initialise.register(instance);
-		return instance;
+		return /** @alias module:wc/ui/printButton */ initialise.register(new PrintButton());
 	});

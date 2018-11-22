@@ -156,7 +156,5 @@ define(["wc/dom/initialise",
 		 * @requires module:wc/dom/shed
 		 * @requires module:wc/ui/table/common
 		 */
-		var instance = new Sort();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new Sort());
 	});

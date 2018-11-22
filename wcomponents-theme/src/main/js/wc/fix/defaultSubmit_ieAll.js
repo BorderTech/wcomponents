@@ -46,7 +46,6 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/tag"],
 				}
 			}
 		}
-		var fixDefaultSubmitControl = new FixDefaultSubmitControl();
-		initialise.addBodyListener(fixDefaultSubmitControl);
-		return /** @alias module:wc/fix/defaultSubmit_ieAll */ fixDefaultSubmitControl;
+
+		return /** @alias module:wc/fix/defaultSubmit_ieAll */ initialise.register(new FixDefaultSubmitControl());
 	});

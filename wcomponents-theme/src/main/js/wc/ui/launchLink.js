@@ -22,6 +22,10 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/ui/redirect"],
 	/** @param event wc/dom/event @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param redirect wc/ui/redirect @ignore */
 	function(event, initialise, Widget, redirect) {
 		"use strict";
+		var CONTENT_ATTRIB = "data-wc-attach",
+			INLINE_CONTENT_FLAG = "wc_content=inline",
+			ANCHOR_WD = new Widget("a"),
+			FAKE_ANCHOR_WD = new Widget("", "", {"data-wc-url": null});
 
 		/**
 		 * @constructor
@@ -108,13 +112,5 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/ui/redirect"],
 			};
 		}
 
-		var /** @alias module:wc/ui/launchLink */ instance = new LaunchLink(),
-			CONTENT_ATTRIB = "data-wc-attach",
-			INLINE_CONTENT_FLAG = "wc_content=inline",
-			ANCHOR_WD = new Widget("a"),
-			FAKE_ANCHOR_WD = new Widget("", "", {"data-wc-url": null});
-
-		initialise.addBodyListener(instance);
-
-		return instance;
+		return /** @alias module:wc/ui/launchLink */ initialise.register(new LaunchLink());
 	});

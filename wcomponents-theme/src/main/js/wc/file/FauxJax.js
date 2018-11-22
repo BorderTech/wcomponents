@@ -172,14 +172,14 @@ define(["wc/dom/formUpdateManager",
 			 * Create a callback function for a file upload form.
 			 * @function
 			 * @private
-			 * @param {Function} callback The original callback function.
-			 * @param {Element} container The fileUploadWidget container.
+			 * @param {Function} dto.callback The original callback function.
+			 * @param {Element} dto.container The fileUploadWidget container.
 			 * @returns {Function} A curried callbackWrapper.
 			 */
 			function callbackWrapperFactory(dto) {
 				return function ($event) {
-					$event = $event || window.event;
-					var target = $event.target || $event.srcElement,
+					var evt = $event || window.event,
+						target = evt.target || evt.srcElement,
 						doc = target.contentWindow.document,
 						body = doc.body;
 					try {

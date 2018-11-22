@@ -131,18 +131,19 @@ define(["wc/dom/initialise",
 			 * @returns {Boolean} true if the container is valid.
 			 */
 			function validate(container) {
+				var candidates, helperObj,
+					_requiredTextFields = true,
+					validConstrained = true;
 				if (!INPUT_WIDGETS) {
 					setUpWidgets();
 				}
-				var candidates,
-					_requiredTextFields = true,
-					validConstrained = true,
-					helperObj = {container: container,
-						widget: INPUT_WIDGETS.concat(TEXT),
-						filter: function(next) {
-							return !(next.value || dateField.isOneOfMe(next));
-						}
-					};
+				helperObj = {
+					container: container,
+					widget: INPUT_WIDGETS.concat(TEXT),
+					filter: function(next) {
+						return !(next.value || dateField.isOneOfMe(next));
+					}
+				};
 
 				/* This does required validation for all text-style inputs apart from date fields.*/
 				_requiredTextFields = required.complexValidationHelper(helperObj);
@@ -247,9 +248,7 @@ define(["wc/dom/initialise",
 		 * @requires wc/ui/feedback
 		 * @requires wc/config
 		 */
-		var instance = new ValidationTextInput();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new ValidationTextInput());
 		/**
 		 * @typedef {Object} module:wc/ui/validation/textField.config Optional module configuration.
 		 * @property {String} rx The email regular expression as a string.

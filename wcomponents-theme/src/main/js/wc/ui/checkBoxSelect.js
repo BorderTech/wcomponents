@@ -8,6 +8,7 @@ define(["wc/dom/ariaAnalog",
 	"wc/dom/cbrShedPublisher"],
 	function(ariaAnalog, initialise, shed, clearSelection, group, getFilteredGroup, fieldset, cbrShedPublisher) {
 		"use strict";
+		var instance;
 
 		/**
 		 * @constructor
@@ -202,8 +203,7 @@ define(["wc/dom/ariaAnalog",
 		 * @requires module:wc/dom/getFilteredGroup
 		 * @requires module:wc/ui/fieldset
 		 */
-		var instance = new CheckBoxSelect();
+		instance = new CheckBoxSelect();
 		instance.constructor = CheckBoxSelect;
-		initialise.register(instance);
-		return instance;
+		return initialise.register(instance);
 	});

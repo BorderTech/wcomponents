@@ -873,6 +873,7 @@ define(["wc/has",
 		 * @throws {TypeError} if the selection mode is mixed and no element is provided as a reference.
 		 */
 		AriaAnalog.prototype.isMultiSelect = function(element) {
+			var container;
 			if (this.exclusiveSelect === this.SELECT_MODE.SINGLE) {
 				return false;
 			}
@@ -882,7 +883,7 @@ define(["wc/has",
 			if (!element) {
 				throw new TypeError ("Cannot determine mixed selection nature without a sample element.");
 			}
-			var container = this.getGroupContainer(element);
+			container = this.getGroupContainer(element);
 			return container ? (container.getAttribute("aria-multiselectable") === "true") : false;
 		};
 

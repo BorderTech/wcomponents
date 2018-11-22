@@ -26,6 +26,7 @@ define(["wc/dom/attribute",
 	"wc/ui/ajaxRegion"],
 function(attribute, event, initialise, has, clearSelector, validate, Widget) {
 	"use strict";
+	var instance;
 
 	/**
 	 * @constructor
@@ -147,7 +148,6 @@ function(attribute, event, initialise, has, clearSelector, validate, Widget) {
 	}
 
 
-	var /** @alias module:wc/ui/fileUpload */ instance = new FileUpload();
-	initialise.register(instance);
-	return instance;
+	/** @alias module:wc/ui/fileUpload */ instance = new FileUpload();
+	return initialise.register(instance);
 });

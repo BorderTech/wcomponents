@@ -78,8 +78,6 @@ define(["wc/dom/initialise",
 			};
 		}
 
-		var instance = new WrappedInput();
-		intialise.register(instance);
-		return instance;
+		return intialise.register(new WrappedInput());
 	});
 

@@ -111,6 +111,5 @@ define(["wc/dom/initialise",
 		 *
 		 * @todo document private members.
 		 */
-		var instance = new ComboLoader();
-		return instance;
+		return new ComboLoader();
 	});

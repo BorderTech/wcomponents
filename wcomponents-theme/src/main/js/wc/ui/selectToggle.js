@@ -18,6 +18,8 @@ define(["wc/dom/shed",
 	function(shed, getFilteredGroup, classList, toArray, formUpdateManager, Widget, initialise, uid, table, rowAnalog, processResponse,
 		getFirstLabelForElement, i18n, icon, checkBox) {
 		"use strict";
+		var CHECKBOX = "checkbox",
+			CLASS_TOGGLE = "wc_seltog";
 
 		/**
 		 * @constructor
@@ -61,12 +63,11 @@ define(["wc/dom/shed",
 			 * @private
 			 */
 			function initialiseControllers() {
+				var cbRoleObj = { role: CHECKBOX };
+
 				if (inited) {
 					return;
 				}
-				var CHECKBOX = "checkbox",
-					CLASS_TOGGLE = "wc_seltog",
-					cbRoleObj = {"role": CHECKBOX};
 
 				CONTROLLER_WD = new Widget("", CLASS_TOGGLE);
 				CONTROLLER_ABSTRACT = new Widget("button", CLASS_TOGGLE);
@@ -182,10 +183,11 @@ define(["wc/dom/shed",
 			}
 
 			function getAllControllers(element) {
+				var controllingWidget;
 				if (!(element && element.id)) {
 					return null;
 				}
-				var controllingWidget = CONTROLLER_ABSTRACT.extend("", {"aria-controls": element.id});
+				controllingWidget = CONTROLLER_ABSTRACT.extend("", {"aria-controls": element.id});
 				return controllingWidget.findDescendants(document.body);
 			}
 
@@ -590,7 +592,5 @@ define(["wc/dom/shed",
 		 * @requires wc/ui/icon
 		 * @requires wc/ui/checkBox
 		 */
-		var instance = new SelectToggle();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new SelectToggle());
 	});

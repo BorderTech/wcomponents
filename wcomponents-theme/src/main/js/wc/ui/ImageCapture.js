@@ -50,11 +50,11 @@ define(["wc/has", "wc/dom/classList", "wc/dom/event", "wc/ui/prompt", "wc/config
 		 * Flash event handler
 		 */
 		function onSave(data) {
-			var col = data.split(";"),
+			var i, col = data.split(";"),
 				tmp = null,
 				width = currentOptions.width,
 				height = currentOptions.height;
-			for (var i = 0; i < width; i++) {
+			for (i = 0; i < width; i++) {
 				tmp = parseInt(col[i], 10);
 				image.data[pos + 0] = (tmp >> 16) & 0xff;
 				image.data[pos + 1] = (tmp >> 8) & 0xff;

@@ -14,6 +14,7 @@ define(["wc/ui/menu/core",
 	"wc/ui/icon"],
 	function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, has, classList, formUpdateManager, getFilteredGroup, ajaxRegion, timers, icon) {
 		"use strict";
+		var instance;
 
 		/**
 		 * Extends menu functionality to provide a specific implementation of a tree.
@@ -682,6 +683,7 @@ define(["wc/ui/menu/core",
 				}
 			};
 		}
+		Tree.prototype = abstractMenu;
 
 		/**
 		 * Menu controller extension for WTree. WTree uses the menu controller because it has the same key-walking, brancho
@@ -707,10 +709,7 @@ define(["wc/ui/menu/core",
 		 * @requires module:wc/timers
 		 * @requires module:wc/ui/icon
 		 */
-		var instance;
-		Tree.prototype = abstractMenu;
 		instance = new Tree();
 		instance.constructor = Tree;
-		initialise.register(instance);
-		return instance;
+		return initialise.register(instance);
 	});

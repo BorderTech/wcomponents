@@ -54,7 +54,5 @@ define(["wc/dom/initialise",
 		 * Models an editable image.
 		 * @module
 		 */
-		var instance = new Image();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new Image());
 	});

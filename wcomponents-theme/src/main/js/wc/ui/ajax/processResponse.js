@@ -5,6 +5,7 @@ define(["wc/Observer",
 	"wc/timers"],
 	function(Observer, tag, toDocFragment, Widget, timers) {
 		"use strict";
+		var ACTIONS = { FILL: "replaceContent", REPLACE: "replace", APPEND: "append", IN: "in" };
 		/**
 		 * @constructor
 		 * @alias module:wc/ui/ajax/processResponse~AjaxProcessor
@@ -53,7 +54,7 @@ define(["wc/Observer",
 			 * @property {String} REPLACE Indicates the action will replace the target.
 			 * @property {String} APPEND Indicates the action will append its payload to the content of the target.
 			 */
-			this.actions = { FILL: "replaceContent", REPLACE: "replace", APPEND: "append", IN: "in" };
+			this.actions = ACTIONS;
 
 			/**
 			 * Subscribers can chose to be notified before the DOM is updated with new content
@@ -224,20 +225,20 @@ define(["wc/Observer",
 			function insertPayloadIntoDom(element, content, action, trigger, doNotPublish) {
 				var actionMethod, _element, triggerId = (trigger && trigger.id) ? trigger.id : null;
 				switch (action) {
-					case instance.actions.REPLACE:
+					case ACTIONS.REPLACE:
 						if (element.tagName !== tag.BODY) {
 							actionMethod = replaceElement;
 						} else {
-							console.warn("Refuse to replace BODY element, use action", instance.actions.FILL);
+							console.warn("Refuse to replace BODY element, use action", ACTIONS.FILL);
 						}
 						break;
-					case instance.actions.FILL:
+					case ACTIONS.FILL:
 						actionMethod = replaceElementContent;
 						break;
-					case instance.actions.APPEND:
+					case ACTIONS.APPEND:
 						actionMethod = appendElementContent;
 						break;
-					case instance.actions.IN:
+					case ACTIONS.IN:
 						actionMethod=replaceIn;
 						break;
 					default:
@@ -510,6 +511,5 @@ define(["wc/Observer",
 		 *
 		 * @todo re-order code, document private memebers.
 		 */
-		var instance = new AjaxProcessor();  // note to self: leave this here!
-		return instance;
+		return new AjaxProcessor();
 	});

@@ -9,7 +9,7 @@ define(["wc/has"], function(has) {
 	 * native versions: JavaScript 1.8 (Gecko 1.9a5 and later)
 	 */
 	function reduceRight(fun /* , initial */) {
-		var rv, len = this.length;
+		var i, rv, len = this.length;
 		if (typeof fun !== "function") {
 			throw new TypeError();
 		}
@@ -17,7 +17,7 @@ define(["wc/has"], function(has) {
 		if (len === 0 && arguments.length === 1) {
 			throw new TypeError();
 		}
-		var i = len - 1;
+		i = len - 1;
 		if (arguments.length >= 2) {
 			rv = arguments[1];
 		} else {

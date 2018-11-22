@@ -9,6 +9,8 @@
  */
 define(["wc/dom/uid", "wc/timers"], /** @param uid wc/dom/uid @param timers wc/timers @ignore */ function(uid, timers) {
 	"use strict";
+	var instance;
+
 	/**
 	 * @constructor
 	 * @alias module:wc/ui/redirect
@@ -133,6 +135,6 @@ define(["wc/dom/uid", "wc/timers"], /** @param uid wc/dom/uid @param timers wc/t
 			}
 		};
 	}
-	var /** @alias module:wc/ui/redirect */ instance = new Redirect();  // keep instance - it is needed to make sense of an applied function.
+	/** @alias module:wc/ui/redirect */ instance = new Redirect();  // keep instance - it is needed to make sense of an applied function.
 	return instance;
 });

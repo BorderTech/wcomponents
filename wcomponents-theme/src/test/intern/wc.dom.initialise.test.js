@@ -17,6 +17,10 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					initialise = obj;
 				});
 			},
+			registerReturnVal: function() {
+				var obj = {};
+				assert.isTrue(initialise.register(obj) === obj, "register should return the registered object");
+			},
 			addInitRoutineInvalidListener: function() {
 				assert.isTrue(initialise.addInitRoutine(7) === null, "addInitRoutine should return null when add fails");
 			},

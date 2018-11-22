@@ -442,7 +442,5 @@ define(["wc/dom/classList",
 		 * @requires wc/ui/checkBox
 		 * @requires wc/ui/feedback
 		 */
-		var instance = new Label();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new Label());
 	});

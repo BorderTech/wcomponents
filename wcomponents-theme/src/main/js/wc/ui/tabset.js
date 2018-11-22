@@ -35,6 +35,7 @@ define(["wc/array/toArray",
 	function(toArray, ariaAnalog, formUpdateManager, getFilteredGroup, initialise, shed, Widget, containerload,
 		focus, classList, viewportUtils, processResponse, event, debounce, getStyle) {
 		"use strict";
+		var instance;
 
 		/**
 		 * @constructor
@@ -854,8 +855,7 @@ define(["wc/array/toArray",
 		}
 
 		Tabset.prototype = ariaAnalog;
-		var /** @alias module:wc/ui/tabset */ instance = new Tabset();
+		/** @alias module:wc/ui/tabset */ instance = new Tabset();
 		instance.constructor = Tabset;
-		initialise.register(instance);
-		return instance;
+		return initialise.register(instance);
 	});

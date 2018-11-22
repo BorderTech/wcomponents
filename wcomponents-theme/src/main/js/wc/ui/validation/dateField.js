@@ -300,7 +300,5 @@ define(["wc/date/interchange",
 		 * @requires wc/ui/validation/isComplete
 		 * @requires wc/ui/feedback
 		 */
-		var instance = new ValidationDateInput();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new ValidationDateInput());
 	});

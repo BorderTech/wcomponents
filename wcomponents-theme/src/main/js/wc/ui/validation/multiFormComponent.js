@@ -298,7 +298,5 @@ define(["wc/dom/attribute",
 		 * @requires wc/ui/validation/validationManager
 		 * @requires wc/ui/feedback
 		 */
-		var instance = new ValidationMultiFormComponent();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new ValidationMultiFormComponent());
 	});

@@ -289,10 +289,11 @@ define(function() {
 		 * @returns {Element} The end point of navigation (though we do not actually do the navigation here).
 		 */
 		this.getTarget = function (conf, element, direction) {
+			var root;
 			if (typeof conf !== "object") {
 				throw new TypeError("conf must be an object.");
 			}
-			var root = conf.root;
+			root = conf.root;
 
 			if (!root) {
 				throw new TypeError("conf.root must be an element, NodeList or array of elements.");

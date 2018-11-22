@@ -12,6 +12,7 @@ define(["wc/i18n/i18n",
 	"wc/ui/ajax/processResponse"],
 	function(i18n, triggerManager, uid, event, initialise, serialize, isSuccessfulElement, sprintf, Widget, formUpdateManager, focus, processResponse) {
 		"use strict";
+		var instance;
 
 		/*
 		 * TODO: we have a lot of form ID testing. Obviously if the form does not have an id then the whole
@@ -436,7 +437,6 @@ define(["wc/i18n/i18n",
 		 * @requires module:wc/dom/formUpdateManager
 		 * @requires module:wc/dom/focus
 		 */
-		var instance = new CancelUpdateControl();
-		initialise.register(instance);
-		return instance;
+		instance = new CancelUpdateControl();
+		return initialise.register(instance);
 	});

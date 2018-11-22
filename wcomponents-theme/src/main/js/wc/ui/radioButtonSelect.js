@@ -104,7 +104,5 @@ define(["wc/dom/group",
 		 * @requires module:wc/dom/getFilteredGroup
 		 * @requires module:wc/dom/cbrShedPublisher
 		 */
-		var instance = new RadioButtonGroup();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new RadioButtonGroup());
 	});

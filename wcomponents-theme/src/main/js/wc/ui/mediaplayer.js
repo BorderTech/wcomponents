@@ -165,7 +165,5 @@ define([ "wc/has", "wc/dom/classList", "wc/dom/initialise", "wc/dom/Widget", "wc
 		 * @requires module:wc/dom/Widget
 		 * @requires module:wc/ui/ajax/processResponse
 		 */
-		var instance = new MediaPlayer();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new MediaPlayer());
 	});

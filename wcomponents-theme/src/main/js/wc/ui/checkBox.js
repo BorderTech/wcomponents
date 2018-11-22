@@ -139,7 +139,5 @@ define(["wc/dom/initialise",
 		 *
 		 * @todo Get rid of the state writing: it is nuts!
 		 */
-		var instance = new CheckBox();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new CheckBox());
 	});

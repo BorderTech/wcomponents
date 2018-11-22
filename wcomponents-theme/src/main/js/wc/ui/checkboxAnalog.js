@@ -1,6 +1,7 @@
 define(["wc/dom/ariaAnalog", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/shed", "wc/dom/formUpdateManager"],
 	function(ariaAnalog, initialise, Widget, shed, formUpdateManager) {
 		"use strict";
+		var instance;
 
 		/**
 		 * @constructor
@@ -56,8 +57,7 @@ define(["wc/dom/ariaAnalog", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/shed"
 		 * @requires module:wc/dom/shed
 		 * @requires module:wc/dom/formUpdateManager
 		 */
-		var instance = new CheckboxAnalog();
+		instance = new CheckboxAnalog();
 		instance.constructor = CheckboxAnalog;
-		initialise.register(instance);
-		return instance;
+		return initialise.register(instance);
 	});

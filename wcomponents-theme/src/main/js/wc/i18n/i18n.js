@@ -262,8 +262,9 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/aja
 					url: url,
 					cache: true,
 					callback: function(response) {
+						var data;
 						try {
-							var data = JSON.parse(response);
+							data = JSON.parse(response);
 							callback(null, data);
 						} catch (ex) {
 							callback(ex, response);

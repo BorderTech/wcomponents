@@ -269,7 +269,5 @@ define(["wc/dom/event",
 			};
 		}
 
-		var instance = new Action();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new Action());
 	});

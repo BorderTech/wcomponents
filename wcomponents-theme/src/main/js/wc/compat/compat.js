@@ -227,12 +227,13 @@ define(["wc/has"], function(has) {
 		});
 
 		addtest("css-flex", function(g, d) {
+			var c,
+				start,
+				end;
 			if (!g.getComputedStyle) {
 				return false;
 			}
-			var c = d.createElement("div"),
-				start,
-				end;
+			c = d.createElement("div");
 			try {
 				d.body.appendChild(c);
 				start = g.getComputedStyle(c, null).display;

@@ -207,7 +207,5 @@ define(["wc/dom/attribute",
 		 * @requires external:lib/sprintf
 		 * @requires wc/ui/numberField
 		 */
-		var instance = new ValidationNumberField();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new ValidationNumberField());
 	});

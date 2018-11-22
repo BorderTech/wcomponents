@@ -1,6 +1,7 @@
 define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "wc/dom/initialise", "wc/ui/icon", "wc/ui/menu/menuItem"],
 	function(abstractMenu, keyWalker, shed, Widget, initialise, icon) {
 		"use strict";
+		var instance;
 
 		/**
 		 * Extends menu functionality to provide a tree-like menu.
@@ -140,6 +141,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 				this.constructor.prototype._shedSubscriber.call(this, element, action);
 			};
 		}
+		TreeMenu.prototype = abstractMenu;
 
 		/**
 		 * Menu controller extension for WMenu of type TREE. This represents a vertical menu with optional sliding submenus
@@ -155,10 +157,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 		 * @requires module:wc/dom/initialise
 		 * @requires module:wc/ui/icon
 		 */
-		var instance;
-		TreeMenu.prototype = abstractMenu;
 		instance = new TreeMenu();
 		instance.constructor = TreeMenu;
-		initialise.register(instance);
-		return instance;
+		return initialise.register(instance);
 	});

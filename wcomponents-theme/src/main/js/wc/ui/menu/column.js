@@ -1,6 +1,7 @@
 define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "wc/dom/initialise", "wc/ui/menu/menuItem"],
 	function(abstractMenu, keyWalker, shed, Widget, initialise) {
 		"use strict";
+		var instance;
 
 		/* Unused dependencies:
 		 * We will need ["wc/ui/menu/menuItem" if we have any selectable items so we get it just in case rather than doing a
@@ -72,6 +73,8 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 				};
 			};
 		}
+		Column.prototype = abstractMenu;
+
 		/**
 		 * Menu controller extension for WMenu of type COLUMN. This represents a vertical menu with optional flyout submenus.
 		 *
@@ -84,10 +87,8 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 		 * @requires module:wc/dom/Widget
 		 * @requires module:wc/dom/initialise
 		 */
-		var instance;
-		Column.prototype = abstractMenu;
+
 		instance = new Column();
 		instance.constructor = Column;
-		initialise.register(instance);
-		return instance;
+		return initialise.register(instance);
 	});

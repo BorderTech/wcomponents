@@ -222,8 +222,7 @@ define([
 		 * @requires module:wc/ui/validation/validationManager
 		 * @requires module:wc/ui/feedback
 		 */
-		var instance = new ValidateRequired();
-		return instance;
+		return new ValidateRequired();
 
 		/**
 		 * Configuration object for several functions.

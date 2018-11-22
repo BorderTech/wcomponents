@@ -28,9 +28,9 @@ define(["wc/dom/event",
 				 * based on the selections made in the available/chosen elements.
 				 */
 				function _writeState(container) {
+					var list, options, i, len, next;
 					SHUFFLER_SELECT = SHUFFLER_SELECT || new Widget("select", "wc_shuffler");
-					var list = SHUFFLER_SELECT.findDescendant(container),
-						options, i, len, next;
+					list = SHUFFLER_SELECT.findDescendant(container);
 
 					if (list && !shed.isDisabled(list)) {
 						options = list.options;
@@ -168,7 +168,5 @@ define(["wc/dom/event",
 		 *
 		 * @todo Document private members.
 		 */
-		var instance = new Shuffler();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new Shuffler());
 	});

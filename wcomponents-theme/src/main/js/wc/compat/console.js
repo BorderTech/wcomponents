@@ -114,7 +114,8 @@ define(["wc/has", "wc/global"], function(has, global) {
 	 * @private
 	 */
 	function FakeConsole() {
-		for (var i = 0; i < methods.length; i++) {
+		var i;
+		for (i = 0; i < methods.length; i++) {
 			this[methods[i]] = noop;
 		}
 	}

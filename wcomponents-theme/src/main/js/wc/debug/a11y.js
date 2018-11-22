@@ -140,11 +140,11 @@ define(["wc/dom/initialise", "wc/timers", "axe", "wc/has", "wc/ui/ajax/processRe
 	 * @param {Array} issues the issues found (if any)
 	 */
 	function defaultReporter(err, issues) {
+		var c = window.console,
+			filteredIssues;
 		if (err) {
 			throw err;
 		}
-		var c = window.console,
-			filteredIssues;
 		if (showOnScreen || (showOnScreen = !c.table)) {
 			return visibleReporter(err, issues);
 		}

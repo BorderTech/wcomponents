@@ -18,8 +18,8 @@ define(function() {
 	 * //will return 3
 	 */
 	return function(array, regexp) {
-		var next;
-		for (var i = 0, len = array.length; i < len; i++) {
+		var i, next, len = array.length;
+		for (i = 0; i < len; i++) {
 			next = array[i];
 			if (next && (next.constructor === String || (next = next.toString ? next.toString() : null))) {
 				if (next.search(regexp) > -1) {

@@ -66,8 +66,8 @@ define(function() {
 		 * @param moduleId The module (exactly as you would pass to the loader).
 		 */
 		jsModule: function(moduleId) {
+			var href, scriptPath;
 			try {
-				var href, scriptPath;
 				if (moduleId && window.require && window.require.toUrl) {
 					scriptPath = /.+\.js$/.test(moduleId) ? moduleId : moduleId + ".js";  // Add ".js" to the moduleId if it is not already present.
 					href = window.require.toUrl(scriptPath);

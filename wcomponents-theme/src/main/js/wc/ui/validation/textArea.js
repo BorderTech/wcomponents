@@ -11,6 +11,8 @@ define(["wc/dom/attribute",
 	"wc/ui/textArea"],
 	function(attribute, event, initialise, shed, Widget, i18n, sprintf, required, validationManager, feedback, textArea) {
 		"use strict";
+		var instance;
+
 		/**
 		 * @constructor
 		 * @alias module:wc/ui/validation/textArea~ValidationTextArea
@@ -179,8 +181,7 @@ define(["wc/dom/attribute",
 		 * @requires wc/ui/feedback
 		 * @requires wc/ui/textArea
 		 */
-		var instance = new ValidationTextArea();
+		instance = new ValidationTextArea();
 		instance.constructor = ValidationTextArea;
-		initialise.register(instance);
-		return instance;
+		return initialise.register(instance);
 	});

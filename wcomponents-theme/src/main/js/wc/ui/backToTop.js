@@ -180,10 +180,7 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 		 * @requires module:wc/has
 		 * @requires module:wc/config
 		 */
-
-		var instance = new BackToTop();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new BackToTop());
 
 		/**
 		 * @typedef {Object} module:wc/ui/backToTop~config Configuration for the back to top link.

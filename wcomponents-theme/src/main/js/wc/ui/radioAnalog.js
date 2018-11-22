@@ -1,6 +1,7 @@
 define(["wc/dom/ariaAnalog", "wc/dom/initialise", "wc/dom/Widget"],
 	function(ariaAnalog, initialise, Widget) {
 		"use strict";
+		var instance;
 
 		/**
 		 * @constructor
@@ -62,8 +63,7 @@ define(["wc/dom/ariaAnalog", "wc/dom/initialise", "wc/dom/Widget"],
 		 * @requires module:wc/dom/initialise
 		 * @requires module:wc/dom/Widget
 		 */
-		var instance = new RadioAnalog();
+		instance = new RadioAnalog();
 		instance.constructor = RadioAnalog;
-		initialise.register(instance);
-		return instance;
+		return initialise.register(instance);
 	});

@@ -177,9 +177,7 @@ define(["wc/dom/event",
 			};
 		}
 
-		var /** @alias module:wc/ui/menu/htreesize */ instance = new TreeSizer();
-		initialise.register(instance);
-		return instance;
+		return /** @alias module:wc/ui/menu/htreesize */ initialise.register(new TreeSizer());
 
 		/**
 		 * @typedef {Object} module:wc/ui/menu/htreesize~dto An object which stores information about a htree or a htree

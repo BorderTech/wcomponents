@@ -27,11 +27,11 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/ui/cancelButto
 			 * @param {Event} $event The click event.
 			 */
 			function clickEvent($event) {
-				var target, message;
+				var doContinue, target, message;
 				if (!$event.defaultPrevented && (target = CONFIRM_WD.findAncestor($event.target)) && !CANCEL_BUTTON.isOneOfMe(target) && focus.canFocus(target)) {
 					message = target.getAttribute("data-wc-btnmsg");
 					if (message) {
-						var doContinue = window.confirm(message);
+						doContinue = window.confirm(message);
 						if (!doContinue) {
 							$event.preventDefault();  // $event.cancel();
 							// console.info("Cancelled event");
@@ -64,7 +64,5 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/ui/cancelButto
 				event.add(element, event.TYPE.click, clickEvent, -1);
 			};
 		}
-		var /** @alias module:wc/ui/confirm */ instance = new Confirm();
-		initialise.register(instance);
-		return instance;
+		return /** @alias module:wc/ui/confirm */ initialise.register(new Confirm());
 	});

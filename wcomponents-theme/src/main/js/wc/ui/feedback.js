@@ -8,6 +8,7 @@ define(["wc/array/toArray",
 	"wc/config"],
 	function(toArray, diagnostic, classList, tag, wrappedInput, icon, getLabelsForElement, wcconfig) {
 		"use strict";
+		var instance;
 
 		function Feedback() {
 			var writeOutsideThese = [tag.INPUT, tag.SELECT, tag.TEXTAREA],
@@ -657,7 +658,7 @@ define(["wc/array/toArray",
 			};
 		}
 
-		var instance = new Feedback();
+		instance = new Feedback();
 		return instance;
 
 		/**

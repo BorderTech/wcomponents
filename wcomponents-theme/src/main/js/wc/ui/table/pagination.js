@@ -81,8 +81,9 @@ define(["wc/dom/attribute",
 			 * @param {Element} wrapper a table wrapper
 			 */
 			function translate(wrapper) {
+				var labels;
 				PAGINATION_LABEL_WRAPPER = PAGINATION_LABEL_WRAPPER || new Widget("", "wc_table_pag_rows");
-				var labels = PAGINATION_LABEL_WRAPPER.findDescendants(wrapper);
+				labels = PAGINATION_LABEL_WRAPPER.findDescendants(wrapper);
 
 				Array.prototype.forEach.call(labels, function (next) {
 					var rows, rpp, currentPage, promise, startIdx, endIdx;
@@ -342,8 +343,9 @@ define(["wc/dom/attribute",
 
 				if (buttons) {
 					Array.prototype.forEach.call(buttons, function(button) {
+						var type;
 						button.setAttribute(BUSY, TRUE);
-						var type = getButtonType(button);
+						type = getButtonType(button);
 						if (idx === 0) {
 							if (type === IDX_BUTTON.FIRST || type === IDX_BUTTON.PREV) {
 								shed[d](button, true);
@@ -690,7 +692,5 @@ define(["wc/dom/attribute",
 		 * @requires module:wc/ui/table/common
 		 * @requires module:wc/i18n/i18n
 		 */
-		var instance = new Pagination();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new Pagination());
 	});

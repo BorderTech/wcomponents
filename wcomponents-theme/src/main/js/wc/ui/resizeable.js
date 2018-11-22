@@ -20,6 +20,8 @@ define(["wc/dom/attribute",
 		initialise, shed, uid, Widget, has, processResponse, Observer, timers, icon, wcconfig) {
 
 		"use strict";
+		var instance;
+
 		/**
 		 * @constructor
 		 * @alias module:wc/ui/resizeable~Resizeable
@@ -771,9 +773,8 @@ define(["wc/dom/attribute",
 		 * @requires module:wc/timers
 		 * @requires module:wc/config
 		 */
-		var instance = new Resizeable();
-		initialise.register(instance);
-		return instance;
+		instance = new Resizeable();
+		return initialise.register(instance);
 
 		/**
 		 * @typedef {Object} module:wc/ui/resizeable.config() Optional module configuration.

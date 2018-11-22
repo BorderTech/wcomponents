@@ -3,6 +3,21 @@
  */
 define(["wc/debounce"], function(debounce) {
 
+	var prompt = {
+		alert: debounce(function(message) {
+			var msg = formatMessages(message);
+			window.alert(msg);
+		}, 250),
+		confirmAsync: debounce(confirm, 250),
+		confirm: function(message, callback) {
+			if (callback) {
+				prompt.confirmAsync(message, callback);
+			} else {
+				return confirm(message);
+			}
+		}
+	};
+
 	function formatMessage(obj) {
 		if (!obj) {
 			return "";
@@ -37,20 +52,5 @@ define(["wc/debounce"], function(debounce) {
 		return result;
 	}
 
-
-	var prompt = {
-		alert: debounce(function(message) {
-			var msg = formatMessages(message);
-			window.alert(msg);
-		}, 250),
-		confirmAsync: debounce(confirm, 250),
-		confirm: function(message, callback) {
-			if (callback) {
-				prompt.confirmAsync(message, callback);
-			} else {
-				return confirm(message);
-			}
-		}
-	};
 	return prompt;
 });

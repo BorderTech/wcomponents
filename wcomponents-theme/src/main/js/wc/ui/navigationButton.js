@@ -58,8 +58,5 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/ui/popup", "wc
 				event.add(element, event.TYPE.click, clickEvent);
 			};
 		}
-
-		var /** @alias module:wc/ui/navigationButton */ instance = new NavigationButton();
-		initialise.register(instance);
-		return instance;
+		return /** @alias module:wc/ui/navigationButton */ initialise.register(new NavigationButton());
 	});

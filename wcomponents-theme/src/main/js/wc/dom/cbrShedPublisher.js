@@ -92,7 +92,5 @@ define(["wc/dom/attribute", "wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"
 		 *
 		 * @todo re-order code, document private members.
 		 */
-		var instance = new CheckboxRadioPublisher();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new CheckboxRadioPublisher());
 	});

@@ -14,6 +14,7 @@ define(["wc/dom/classList",
 	"wc/ui/getForm"],
 	function(classList, event, initialise, shed, tag, uid, Widget, i18n, ajaxRegion, processResponse, eagerLoader, timers, dialogFrame, getForm) {
 		"use strict";
+		var instance;
 
 		/**
 		 * @constructor
@@ -408,11 +409,9 @@ define(["wc/dom/classList",
 		 *
 		 * @todo Re-order source, document private members.
 		 */
-		var instance = new Dialog();
+		instance = new Dialog();
 
-		initialise.register(instance);
-
-		return instance;
+		return initialise.register(instance);
 
 		/**
 		 * @typedef {Object} module:wc/ui/dialog~regObject An object which stores information about a dialog.

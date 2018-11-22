@@ -1139,10 +1139,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 	 *
 	 * @todo needs a lot of documentation of private members.
 	 */
-	var instance = new Calendar();
-
-	initialise.register(instance);
-	return instance;
+	return initialise.register(new Calendar());
 
 	/**
 	 * @typedef {Object} module:wc/ui/calendar.config() Optional module configuration.

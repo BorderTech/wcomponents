@@ -107,7 +107,5 @@ define(["wc/dom/initialise",
 			};
 		}
 
-		var /** @alias module:wc/ui/validation/checkBoxSelect */ instance = new ValidationCheckBoxSelect();
-		initialise.register(instance);
-		return instance;
+		return /** @alias module:wc/ui/validation/checkBoxSelect */ initialise.register(new ValidationCheckBoxSelect());
 	});
