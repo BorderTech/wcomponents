@@ -1,8 +1,7 @@
 define(["wc/has", "wc/mixin", "wc/config", "wc/dom/Widget", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers", "wc/ui/prompt",
 	"wc/i18n/i18n", "fabric", "wc/ui/dialogFrame", "wc/template", "wc/ui/ImageCapture", "wc/ui/ImageUndoRedo", "wc/file/size", "wc/file/util"],
 function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, fabric, dialogFrame, template, ImageCapture, ImageUndoRedo, fileSize, fileUtil) {
-	var timer,
-		imageEdit = new ImageEdit();
+	var imageEdit, timer, imageCapture;
 
 
 	ImageEdit.prototype.renderCanvas = function(callback) {
@@ -43,6 +42,17 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 	};
 
 	/**
+	 * Allows for lazy instantiation of ImageCapture.
+	 * @returns {ImageCapture} Instance of ImageCapture.
+	 */
+	function getImageCapture() {
+		if (!imageCapture) {
+			imageCapture = new ImageCapture(imageEdit);
+		}
+		return imageCapture;
+	}
+
+	/**
 	 * This provides a mechanism to allow the user to edit images during the upload process.
 	 * It may also be used to edit static images after they have been uploaded as long as a file uploader is configured to take the edited images.
 	 *
@@ -52,7 +62,6 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 
 		var inited,
 			TEMPLATE_NAME = "imageEdit.xml",
-			imageCapture = new ImageCapture(this),
 			overlayUrl,
 			undoRedo,
 			registeredIds = {},
@@ -281,7 +290,7 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 						};
 						fileReader.readAsDataURL(file);
 					} else {
-						imageCapture.play({
+						getImageCapture().play({
 							width: fbCanvas.getWidth(),
 							height: fbCanvas.getHeight()
 						});
@@ -518,7 +527,7 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 				return Promise.reject("Can not find element", config.id);
 			}
 			return getDialogFrameConfig(function() {
-				imageCapture.stop();
+				getImageCapture().stop();
 				callbacks.lose();
 			}).then(function(dialogConfig) {
 				callbacks.rendered = function() {
@@ -583,7 +592,7 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 							if (!file) {
 								classList.add(cntnr, "wc_camenable");
 								classList.add(cntnr, "wc_showcam");
-								imageCapture.snapshotControl(actions.events, cntnr);
+								getImageCapture().snapshotControl(actions.events, cntnr);
 							}
 
 
@@ -1126,7 +1135,7 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 				callbacks = args.callbacks,
 				done = function() {
 					fbCanvas = null;  // = canvasElement
-					imageCapture.stop();
+					getImageCapture().stop();
 					editor.parentNode.removeChild(editor);
 				};
 			try {
@@ -1320,5 +1329,6 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 			return file;
 		}
 	}
+	imageEdit = new ImageEdit();
 	return imageEdit;
 });
