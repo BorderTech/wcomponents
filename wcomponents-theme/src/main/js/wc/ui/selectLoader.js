@@ -13,6 +13,8 @@ define(["wc/ui/listLoader",
 	"wc/dom/classList"],
 	function(listLoader, initialise, Widget, getFilteredGroup, selectboxSearch, shed, event, textContent, i18n, getLabelsForElement, feedback, has, classList) {
 		"use strict";
+		var instance;
+
 		/**
 		 * @constructor
 		 * @alias module:wc/ui/selectLoader~SelectLoader
@@ -217,6 +219,6 @@ define(["wc/ui/listLoader",
 		 *
 		 * @todo Document private members, check source order.
 		 */
-		var instance = new SelectLoader();
+		instance = new SelectLoader();
 		return instance;
 	});

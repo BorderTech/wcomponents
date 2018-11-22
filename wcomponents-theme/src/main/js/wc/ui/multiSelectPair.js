@@ -13,6 +13,7 @@ define(["wc/dom/attribute",
 	"wc/ui/fieldset"],
 	function(attribute, event, initialise, focus, formUpdateManager, getBox, shed, tag, Widget, ajaxRegion, processResponse, selectboxSearch, fieldset) {
 		"use strict";
+		var instance;
 
 		/**
 		 * @constructor
@@ -587,7 +588,6 @@ define(["wc/dom/attribute",
 		 * @requires module:wc/ui/selectboxSearch
 		 * @requires module:wc/ui/fieldset
 		 */
-		var instance = new MultiSelectPair();
-		initialise.register(instance);
-		return instance;
+		instance = new MultiSelectPair();
+		return initialise.register(instance);
 	});

@@ -506,7 +506,5 @@ define(["wc/array/toArray",
 		 * @requires module:wc/ajax/triggerManager
 		 * @requires module:wc/ui/icon
 		 */
-		var instance = new RowExpansion();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new RowExpansion());
 	});

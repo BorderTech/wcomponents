@@ -131,7 +131,5 @@ define(["wc/dom/attribute",
 			};
 		}
 
-		var /** @alias module:wc/ui/validation/dropdown */ instance = new ValidationDropDown();
-		initialise.register(instance);
-		return instance;
+		return /** @alias module:wc/ui/validation/dropdown */ initialise.register(new ValidationDropDown());
 	});

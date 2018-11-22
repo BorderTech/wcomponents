@@ -156,7 +156,5 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/uid", "wc/dom/Widget", "wc/
 			};
 		}
 
-		var /** @alias module:wc/ui/popup */instance = new PopUp();
-		initialise.register(instance);
-		return instance;
+		return /** @alias module:wc/ui/popup */initialise.register(new PopUp());
 	});

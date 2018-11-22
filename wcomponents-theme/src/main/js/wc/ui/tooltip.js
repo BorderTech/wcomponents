@@ -96,7 +96,5 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/shed", "wc/dom/Widget", "wc
 		 * @requires module:wc/dom/Widget
 		 * @requires module:wc/timers
 		 */
-		var instance = new Tooltip();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new Tooltip());
 	});

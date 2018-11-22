@@ -197,7 +197,5 @@ define(["wc/i18n/i18n",
 		 * @requires wc/ui/fieldset
 		 * @requires wc/ui/feedback
 		 */
-		var instance = new ValidationFieldset();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new ValidationFieldset());
 	});

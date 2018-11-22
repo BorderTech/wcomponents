@@ -22,6 +22,7 @@ define(["wc/dom/attribute",
 	/** @param attribute wc/dom/attribute @param initialise wc/dom/initialise @param event wc/dom/event @param isNumeric wc/isNumeric @param shed wc/dom/shed @param Widget wc/dom/Widget @param timers wc/timers @ignore */
 	function(attribute, initialise, event, isNumeric, shed, Widget, timers) {
 		"use strict";
+		var instance;
 
 		/**
 		 * @constructor
@@ -191,7 +192,6 @@ define(["wc/dom/attribute",
 			this._keydownEvent = keydownEvent;
 		}
 
-		var /** @alias module:wc/ui/numberField */ instance = new NumberField();
-		initialise.register(instance);
-		return instance;
+		/** @alias module:wc/ui/numberField */ instance = new NumberField();
+		return initialise.register(instance);
 	});

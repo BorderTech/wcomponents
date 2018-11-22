@@ -14,6 +14,7 @@ define(["wc/dom/attribute",
 	"wc/dom/classList"],
 	function(attribute, event, initialise, shed, triggerManager, serialize, Widget, timers, getFirstLabelForElement, label, i18n, textContent, processResponse, classList) {
 		"use strict";
+		var instance;
 
 		/**
 		 * @constructor
@@ -299,7 +300,6 @@ define(["wc/dom/attribute",
 		 * @todo document private members, check source order.
 		 * @deprecated
 		 */
-		var instance = new OnchangeSubmit();
-		initialise.register(instance);
-		return instance;
+		instance = new OnchangeSubmit();
+		return initialise.register(instance);
 	});

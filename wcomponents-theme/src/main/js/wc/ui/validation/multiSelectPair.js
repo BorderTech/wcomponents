@@ -272,7 +272,5 @@ define(["wc/dom/attribute",
 			};
 		}
 
-		var /** @alias module:wc/ui/validation/multiSelectPair */ instance = new ValidationMultiSelectPair();
-		initialise.register(instance);
-		return instance;
+		return /** @alias module:wc/ui/validation/multiSelectPair */ initialise.register(new ValidationMultiSelectPair());
 	});

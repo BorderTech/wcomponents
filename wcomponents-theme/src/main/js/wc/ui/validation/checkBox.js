@@ -72,7 +72,5 @@ define(["wc/dom/initialise",
 		 * @requires wc/ui/validation/required
 		 * @requires wc/ui/validation/validationManager
 		 */
-		var instance = new ValidationCheckBox();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new ValidationCheckBox());
 	});

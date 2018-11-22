@@ -86,7 +86,5 @@ define(["wc/dom/event",
 			};
 		}
 
-		var /** @alias module:wc/ui/validation/cancelUpdate */ instance = new ValidationCancelUpdateControl();
-		initialise.register(instance);
-		return instance;
+		return /** @alias module:wc/ui/validation/cancelUpdate */ initialise.register(new ValidationCancelUpdateControl());
 	});

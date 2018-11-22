@@ -46,6 +46,7 @@ define(["wc/dom/attribute",
 	/** @param attribute wc/dom/attribute @param classList wc/dom/classList @param event wc/dom/event @param initialise wc/dom/initialise @param shed wc/dom/shed @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param sprintf lib/sprintf @param timers wc/timers @ignore */
 	function(attribute, classList, event, initialise, shed, Widget, i18n, sprintf, timers, wrappedInput) {
 		"use strict";
+		var instance;
 
 		/**
 		 * @constructor
@@ -259,8 +260,7 @@ define(["wc/dom/attribute",
 			};
 		}
 
-		var /** @alias module:wc/ui/textarea*/ instance = new TextArea();
+		/** @alias module:wc/ui/textarea*/ instance = new TextArea();
 		instance.constructor = TextArea;
-		initialise.register(instance);
-		return instance;
+		return initialise.register(instance);
 	});

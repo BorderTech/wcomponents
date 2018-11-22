@@ -7,6 +7,7 @@ define(["wc/dom/ariaAnalog",
 	"wc/ui/icon"],
 	function(ariaAnalog, initialise, shed, Widget, table, icon) {
 		"use strict";
+		var instance;
 
 		/**
 		 * @constructor
@@ -100,8 +101,7 @@ define(["wc/dom/ariaAnalog",
 		 * @requires module:wc/dom/shed
 		 * @requires module:wc/ui/table/common
 		 */
-		var instance = new RowAnalog();
+		instance = new RowAnalog();
 		instance.constructor = RowAnalog;
-		initialise.register(instance);
-		return instance;
+		return initialise.register(instance);
 	});

@@ -1,6 +1,8 @@
 define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/timers", "wc/dom/messageBox"],
 	function(focus, initialise, processResponse, timers, messageBox) {
 		"use strict";
+		var instance;
+
 		/**
 		 * @constructor
 		 * @alias module:wc/ui/onloadFocusControl~OnloadFocusControl
@@ -149,7 +151,6 @@ define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/t
 		 * @requires module:wc/timers
 		 *
 		 */
-		var instance = new OnloadFocusControl();
-		initialise.register(instance);
-		return instance;
+		instance = new OnloadFocusControl();
+		return initialise.register(instance);
 	});

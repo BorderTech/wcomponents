@@ -35,6 +35,7 @@ define(["wc/dom/tag",
 	/** @param tag wc/dom/tag @param attribute wc/dom/attribute @param interchange wc/date/interchange @param getFilteredGroup wc/dom/getFilteredGroup @param initialise wc/dom/initialise @param Action wc/ui/SubordinateAction @param unique wc/array/unique @param getAncestorOrSelf wc/dom/getAncestorOrSelf @param shed wc/dom/shed @param timers wc/timers @param toArray wc/array/toArray @ignore */
 	function(tag, attribute, interchange, getFilteredGroup, initialise, Action, unique, getAncestorOrSelf, shed, timers, toArray) {
 		"use strict";
+		var instance;
 
 		/**
 		 * @constructor
@@ -723,9 +724,8 @@ define(["wc/dom/tag",
 		}
 
 
-		var /** @alias module:wc/ui/subordinate */ instance = new Subordinate();
-		initialise.register(instance);
-		return instance;
+		/** @alias module:wc/ui/subordinate */ instance = new Subordinate();
+		return initialise.register(instance);
 
 		/**
 		 * @typedef {Object} module:wc/ui/subordinate~registerDTO

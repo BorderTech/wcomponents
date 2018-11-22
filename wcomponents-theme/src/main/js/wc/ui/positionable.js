@@ -1,6 +1,7 @@
 define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/getStyle", "wc/dom/uid", "wc/dom/event", "wc/dom/initialise", "wc/dom/shed", "wc/timers", "wc/ui/resizeable"],
 	function(getViewportSize, getBox, getStyle, uid, event, initialise, shed, timers, resizeable) {
 		"use strict";
+		var instance;
 
 		/**
 		 * @constructor
@@ -325,9 +326,8 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/getStyle", "wc/dom/ui
 		 *
 		 * @todo check source order, document private members.
 		 */
-		var instance = new Positionable();
-		initialise.register(instance);
-		return instance;
+		instance = new Positionable();
+		return initialise.register(instance);
 
 		/**
 		 * @typedef {Object} module:wc/ui/positionable~setBySizeConfig
