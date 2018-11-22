@@ -44,7 +44,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					blob = new Blob([content], {type: expectedMime}),
 					file = fileUtil.blobToFile(blob);
 				assert.isTrue(file.name.indexOf("uid") === 0);
-				assert.isTrue(file.name.match(/csv$/));
+				assert.isTrue(!!(file.name.match(/csv$/)));
 			},
 			testDataURItoBlob: function () {
 				var expectedText = "hello world\u00DC",
