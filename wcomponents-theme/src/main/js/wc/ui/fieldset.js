@@ -95,7 +95,5 @@ define(["wc/dom/initialise",
 		 * @requires module:wc/dom/Widget
 		 * @requires module:wc/dom/tag
 		 */
-		var instance = new Fieldset();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new Fieldset());
 	});

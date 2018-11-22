@@ -3,7 +3,7 @@ define(["wc/dom/Widget", "wc/dom/initialise", "wc/ui/ajax/processResponse"],
 		"use strict";
 
 		function BuggyPlaceHolderFix() {
-			var TA = new Widget("textarea", "wc-buggyie", {"placeholder": null});
+			var TA = new Widget("textarea", "wc-buggyie", { placeholder: null });
 
 			function fixMe(textarea) {
 				textarea.value = "";
@@ -21,8 +21,5 @@ define(["wc/dom/Widget", "wc/dom/initialise", "wc/ui/ajax/processResponse"],
 			};
 		}
 
-		var instance = new BuggyPlaceHolderFix();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new BuggyPlaceHolderFix());
 	});
-

@@ -12,6 +12,7 @@
 define(["wc/Observer", "wc/timers", "wc/global", "lib/requirejs/domReady"],
 	function(Observer, timers, global, domReady) {
 		"use strict";
+		var /** @alias module:wc/dom/initialise */ instance;
 
 		/**
 		 * @constructor
@@ -35,6 +36,7 @@ define(["wc/Observer", "wc/timers", "wc/global", "lib/requirejs/domReady"],
 			 *
 			 * @function  module:wc/dom/initialise.register
 			 * @param {Object} control An instance of a component which is being initialised.
+			 * @returns {Object} The control that was passed in.
 			 */
 			this.register = function(control) {
 				if (control.initialise) {
@@ -46,6 +48,7 @@ define(["wc/Observer", "wc/timers", "wc/global", "lib/requirejs/domReady"],
 				if (control.preInit) {
 					this.addInitRoutine(control.preInit);
 				}
+				return control;
 			};
 
 			/**
@@ -171,8 +174,6 @@ define(["wc/Observer", "wc/timers", "wc/global", "lib/requirejs/domReady"],
 			this.addCallback = add.bind(this, Observer.priority.LOW, null);
 		}
 
-		var /** @alias module:wc/dom/initialise */ instance = new Initialise();
-
 		domReady(function() {
 			if (global.document) {
 				timers.setTimeout(function() {
@@ -185,5 +186,5 @@ define(["wc/Observer", "wc/timers", "wc/global", "lib/requirejs/domReady"],
 			}
 		});
 
-		return instance;
+		return instance = new Initialise();
 	});

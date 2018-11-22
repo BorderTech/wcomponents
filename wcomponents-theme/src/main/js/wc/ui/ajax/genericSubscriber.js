@@ -55,7 +55,5 @@ define(["wc/dom/initialise", "wc/ui/ajax/processResponse"],
 		 * @requires module:wc/dom/initialise
 		 * @requires module:wc/ui/ajax/processResponse
 		 */
-		var instance = new GenericAjaxSubscriber();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new GenericAjaxSubscriber());
 	});

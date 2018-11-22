@@ -35,7 +35,6 @@ function(event, initialise, shed) {
 			}
 		}
 	}
-	var disabledControlFix = new DisabledControl();
-	initialise.addBodyListener(disabledControlFix);
-	return /** @alias module:wc/fix/disabledControl_ieAll */ disabledControlFix;
+
+	return /** @alias module:wc/fix/disabledControl_ieAll */ initialise.register(new DisabledControl());
 });

@@ -20,7 +20,7 @@ define(["wc/dom/event",
 	function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, modalShim, timers, has, resizeable, positionable, draggable, $role,
 		template, viewportUtils, getForm, wcconfig) {
 		"use strict";
-
+		var repainter, instance;
 		/**
 		 * @constructor
 		 * @alias module:wc/ui/dialogFrame~DialogFrame
@@ -893,8 +893,7 @@ define(["wc/dom/event",
 		 * @requires module:wc/ui/viewportUtils
 		 * @requires module:wc/ui/getForm
 		 */
-		var instance = new DialogFrame(),
-			repainter;
+		instance = new DialogFrame();
 
 		initialise.register(instance);
 

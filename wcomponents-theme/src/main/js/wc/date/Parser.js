@@ -135,9 +135,6 @@ define(["wc/date/today",
 			 * </pre>
 			 */
 			this.parse = function (string) {
-				// trim leading & trailing spaces
-				string = string.toString().trim();
-
 				var result = [],
 					mask,
 					match,
@@ -154,6 +151,8 @@ define(["wc/date/today",
 					check,
 					today,
 					rolled;
+				// trim leading & trailing spaces
+				string = string.toString().trim();
 				// 'normalise' each date related value
 				for (i = 0, l = myMasks.length; i < l; i++) {
 					mask = myMasks[i];

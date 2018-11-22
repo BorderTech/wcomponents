@@ -65,8 +65,5 @@ define(["wc/dom/classList", "wc/dom/initialise", "wc/dom/Widget", "wc/ui/ajax/pr
 			};
 		}
 
-		var /** * @alias module:wc/ui/cancelButton */ instance = new CancelButton();
-		initialise.register(instance);
-
-		return instance;
+		return /** * @alias module:wc/ui/cancelButton */ initialise.register(new CancelButton());
 	});

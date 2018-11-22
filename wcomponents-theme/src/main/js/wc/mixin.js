@@ -10,9 +10,9 @@ define(function() {
 	 * @returns {Object} The target object or a new object if no target provided.
 	 */
 	function mixin(source, target, shallow) {
-		var result = target || {};
+		var prop, result = target || {};
 		if (source) {
-			for (var prop in source) {
+			for (prop in source) {
 				if (source.hasOwnProperty(prop)) {
 					if (source[prop] && source[prop].constructor === Object) {
 						if (!shallow && (!result[prop] || result[prop].constructor === Object)) {

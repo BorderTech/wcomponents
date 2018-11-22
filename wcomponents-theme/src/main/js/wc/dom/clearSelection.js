@@ -16,6 +16,7 @@ define(function() {
 	 * @alias module:wc/dom/clearSelection
 	 */
 	return function () {
+		var selection;
 		if (document.selection) {
 			/*
 			 * NOTE: IE native code will throw an unknown name error on this call
@@ -28,7 +29,7 @@ define(function() {
 				console.log(err.message);
 			}
 		} else if (window.getSelection) {  // Mozilla
-			var selection = window.getSelection();
+			selection = window.getSelection();
 			if (selection && selection.removeAllRanges) {
 				selection.removeAllRanges();
 			}

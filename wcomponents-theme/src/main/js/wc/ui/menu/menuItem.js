@@ -15,8 +15,9 @@ define(["wc/dom/ariaAnalog",
 	/** @param ariaAnalog @param initialise @param Widget @param isAcceptableEventTarget @ignore */
 	function(ariaAnalog, initialise, Widget, isAcceptableEventTarget) {
 		"use strict";
-
-		var opener;
+		var _menuItemCheckBox,
+			_menuItemRadio,
+			opener;
 
 		/**
 		 * @constructor
@@ -152,9 +153,6 @@ define(["wc/dom/ariaAnalog",
 					clickEventHelper($event, this);
 				};
 			}
-
-			var _menuItemCheckBox,
-				_menuItemRadio;
 
 			MenuItemCheckbox.prototype = ariaAnalog;
 			_menuItemCheckBox = new MenuItemCheckbox();

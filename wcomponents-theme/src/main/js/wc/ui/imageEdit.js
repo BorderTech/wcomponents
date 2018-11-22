@@ -96,7 +96,7 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 					 * @param {Event} $event A click event.
 					 */
 					function clickEvent($event) {
-						var img, uploader, file, id,
+						var win, lose, img, uploader, file, id,
 							element = BUTTON.findAncestor($event.target);
 						if (element) {
 							id = element.getAttribute("data-wc-selector");
@@ -108,10 +108,10 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 										file = imgToFile(img);
 										imageEdit.upload(uploader, [file]);
 									} else {
-										var win = function(files) {
+										win = function(files) {
 											imageEdit.upload(uploader, files, true);
 										};
-										var lose = function(message) {
+										lose = function(message) {
 											if (message) {
 												prompt.alert(message);
 											}
@@ -509,8 +509,9 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 		}
 
 		function getEditorContext(config, callbacks) {
+			var contentContainer;
 			if (config.inline) {
-				var contentContainer = document.getElementById(config.id);
+				contentContainer = document.getElementById(config.id);
 				if (contentContainer) {
 					return Promise.resolve(callbacks.render(contentContainer));
 				}
@@ -745,11 +746,11 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 			 * @returns A config object which knows how to action an event.
 			 */
 			function getEventConfig(action, type) {
-				var isString = typeof action === "string";
+				var name, isString = typeof action === "string";
 				if (!action) {
 					return null;
 				}
-				var name = isString ? action : action.name;
+				name = isString ? action : action.name;
 				if ((isString || action.localName === "button" || action.type === "checkbox") && name && eventConfig[type]) {
 					return eventConfig[type][name];
 				}
@@ -903,7 +904,7 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 		 * Wires up the "rotation" feature.
 		 */
 		function rotationControls(eventConfig) {
-			var press = eventConfig.press;
+			var click, press = eventConfig.press;
 			press.clock = {
 				func: numericProp,
 				prop: "Angle",
@@ -916,7 +917,7 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 				step: -1
 			};
 
-			var click = eventConfig.click;
+			click = eventConfig.click;
 			click.clock90 = {
 				func: numericProp,
 				prop: "Angle",

@@ -16,6 +16,7 @@ define(["wc/ui/menu/core",
 	function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid, i18n, classList, timers,
 		processResponse, template, viewportUtils) {
 		"use strict";
+		var instance;
 
 		/* Unused dependencies:
 		 * We will need "wc/ui/menu/menuItem" if we have any selectable items so we get it just in case rather than
@@ -458,6 +459,8 @@ define(["wc/ui/menu/core",
 			};
 		}
 
+		Menubar.prototype = abstractMenu;
+
 		/**
 		 * Menu controller extension for WMenu of type BAR and type FLYOUT. These are menus which are horizontal at the top
 		 * level and if they have submenus they are transient fly-out artifacts.
@@ -482,10 +485,7 @@ define(["wc/ui/menu/core",
 		 * @requires:module:wc/template
 		 * @requires module:wc/ui/viewportUtils
 		 */
-		var instance;
-		Menubar.prototype = abstractMenu;
 		instance = new Menubar();
 		instance.constructor = Menubar;
-		initialise.register(instance);
-		return instance;
+		return initialise.register(instance);
 	});

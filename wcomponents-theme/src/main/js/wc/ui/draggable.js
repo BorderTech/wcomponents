@@ -391,9 +391,7 @@ define(["wc/dom/attribute",
 		 * @requires module:wc/ui/resizeable
 		 * @requires module:wc/config
 		 */
-		var instance = new Draggable();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new Draggable());
 		/**
 		 * @typedef {Object} module:wc/ui/draggable~config Optional module configuration
 		 * @property {int} step The number of pixels to move the draggable element per key press.

@@ -8,6 +8,8 @@ define(["wc/dom/ariaAnalog",
 	"wc/dom/textContent"],
 	function(ariaAnalog, initialise, Widget, key, focus, getFilteredGroup, shed, textContent) {
 		"use strict";
+		var instance;
+
 		/**
 		 * @constructor
 		 * @alias module:wc/ui/listboxAnalog~ListboxAnalog
@@ -213,8 +215,7 @@ define(["wc/dom/ariaAnalog",
 		 * @requires module:wc/dom/shed
 		 * @requires module:wc/dom/textContent
 		 */
-		var instance = new ListboxAnalog();
+		instance = new ListboxAnalog();
 		instance.constructor = ListboxAnalog;
-		initialise.register(instance);
-		return instance;
+		return initialise.register(instance);
 	});

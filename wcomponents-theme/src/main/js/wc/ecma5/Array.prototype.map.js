@@ -9,9 +9,9 @@ define(["wc/has"], function(has) {
 	 * native versions: JavaScript 1.6 (Gecko 1.8b2 and later)
 	 */
 	function map(callback, thisObject) {
-		var result = [];
+		var i, l = this.length, result = [];
 
-		for (var i = 0, l = this.length; i < l; i++) {
+		for (i = 0; i < l; i++) {
 			result[i] = callback.call(thisObject, this[i], i, this);
 		}
 		return result;

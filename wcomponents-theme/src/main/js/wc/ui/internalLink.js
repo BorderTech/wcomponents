@@ -76,7 +76,5 @@ define(["wc/dom/focus",
 		 *
 		 * @todo document private members.
 		 */
-		var instance = new InternalLink();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new InternalLink());
 	});

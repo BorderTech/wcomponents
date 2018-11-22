@@ -24,6 +24,7 @@ define(["wc/has",
 	function(has, unique, Parser, interchange, Format, attribute, cancelUpdate, event, focus, formUpdateManager, initialise, shed, tag, Widget, i18n,
 		timers, key, textContent, ajaxRegion, processResponse, onchangeSubmit, feedback, listboxAnalog) {
 		"use strict";
+		var instance;
 
 		/**
 		 * @constructor
@@ -1168,7 +1169,6 @@ define(["wc/has",
 		 * @requires module:wc/ui/listboxAnalog
 		 *
 		 */
-		var instance = new DateInput();
-		initialise.register(instance);
-		return instance;
+		instance = new DateInput();
+		return initialise.register(instance);
 	});

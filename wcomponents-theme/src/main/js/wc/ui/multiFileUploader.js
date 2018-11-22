@@ -477,8 +477,9 @@ define(["wc/dom/attribute",
 			 * @param {Element} element A file input.
 			 */
 			function initialiseFileInput(element) {
+				var inited;
 				if (inputElementWd.isOneOfMe(element)) {
-					var inited = attribute.get(element, INITED_KEY);
+					inited = attribute.get(element, INITED_KEY);
 					if (!inited) {
 						console.log("Initialising on first use", element.name);
 						attribute.set(element, INITED_KEY, true);
@@ -521,8 +522,9 @@ define(["wc/dom/attribute",
 			 * @param {Event} $event The submit event.
 			 */
 			function submitEvent($event) {
+				var proceed;
 				if (!$event.defaultPrevented && uploader && uploader.getUploading() > 0) {
-					var proceed = prompt.confirm(i18n.get("file_confirmnav"));
+					proceed = prompt.confirm(i18n.get("file_confirmnav"));
 					if (!proceed) {
 						$event.preventDefault();
 					}
@@ -535,9 +537,9 @@ define(["wc/dom/attribute",
 			 * @param {string} id The id of a mutliFileWidget (i.e. the top level container).
 			 */
 			function registerDropzone(id) {
-				var input, element = document.getElementById(id);
+				var dropzoneId, input, element = document.getElementById(id);
 				if (element && (input = inputElementWd.findDescendant(element))) {
-					var dropzoneId = input.getAttribute("data-dropzone");
+					dropzoneId = input.getAttribute("data-dropzone");
 					if (dropzoneId) {
 						input = null;
 						filedrop.register(dropzoneId, function (type, files) {

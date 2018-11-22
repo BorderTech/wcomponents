@@ -38,15 +38,15 @@ define(["wc/dom/Widget", "wc/dom/tag"], function(Widget, tag) {
 		 */
 		this.getIdExtension = function(level) {
 			var baseExtension = "_err";
-			if (!level || level === instance.LEVEL.ERROR) {
+			if (!level || level === this.LEVEL.ERROR) {
 				return baseExtension;
 			}
 			switch (level) {
-				case instance.LEVEL.WARN:
+				case this.LEVEL.WARN:
 					return "_wrn";
-				case instance.LEVEL.INFO:
+				case this.LEVEL.INFO:
 					return "_nfo";
-				case instance.LEVEL.SUCCESS:
+				case this.LEVEL.SUCCESS:
 					return "_scc";
 				default:
 					return baseExtension;
@@ -203,10 +203,11 @@ define(["wc/dom/Widget", "wc/dom/tag"], function(Widget, tag) {
 		 * @returns {Number|diagnosticL#1.Diagnostic.LEVEL} the diagnostic level from module:wc/dom/diagnostic.LEVEL or -1 if not found
 		 */
 		this.getLevel = function(diag) {
+			var lvl;
 			if (!(diag && DIAGNOSTIC.isOneOfMe(diag))) {
 				throw new TypeError("Argument must be a diagnostic box");
 			}
-			for (var lvl in this.LEVEL) {
+			for (lvl in this.LEVEL) {
 				if (this.LEVEL.hasOwnProperty(lvl) && this.isOneOfMe(diag, this.LEVEL[lvl])) {
 					return this.LEVEL[lvl];
 				}
@@ -240,6 +241,5 @@ define(["wc/dom/Widget", "wc/dom/tag"], function(Widget, tag) {
 	 * @module
 	 * @requires wc/dom/Widget
 	 */
-	var instance = new Diagnostic();
-	return instance;
+	return new Diagnostic();
 });

@@ -78,7 +78,6 @@ define(["wc/ui/ajax/processResponse", "wc/dom/Widget", "wc/dom/initialise", "wc/
 				processResponse.subscribe(ajaxSubscriber);
 			};
 		}
-		var /** @alias module:wc/ui/field */ instance = new FieldAjaxSubscriber();
-		initialise.register(instance);
-		return instance;
+
+		return /** @alias module:wc/ui/field */ initialise.register(new FieldAjaxSubscriber());
 	});

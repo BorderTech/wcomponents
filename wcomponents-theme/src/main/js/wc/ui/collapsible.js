@@ -13,6 +13,7 @@ define(["wc/dom/event",
 	"wc/ui/icon"],
 	function(event, attribute, focus, formUpdateManager, has, initialise, Widget, shed, timers, isEventInLabel, isAcceptableEventTarget, $role, icon) {
 		"use strict";
+		var instance, repainter = null;
 
 		/**
 		 * @constructor
@@ -294,33 +295,31 @@ define(["wc/dom/event",
 			this._keydownEvent = keydownEvent;
 		}
 
-		var repainter = null,
-			/**
-			 * Module to control collapsible sections. These use a DETAILS element which has some functionality in some modern
-			 * browsers. Eventually this module should become redundant.
-			 *
-			 * @module
-			 * @requires module:wc/dom/event
-			 * @requires module:wc/dom/attribute
-			 * @requires module:wc/dom/focus
-			 * @requires module:wc/dom/formUpdateManager
-			 * @requires module:wc/has
-			 * @requires module:wc/dom/initialise
-			 * @requires module:wc/dom/Widget
-			 * @requires module:wc/dom/shed
-			 * @requires module:wc/timers
-			 * @requires module:wc/dom/isEventInLabel
-			 * @requires module:wc/dom/isAcceptableTarget
-			 * @requires module:wc/dom/role
-			 * @requires module:wc/ui/icon
-			 */
-			instance = new Collapsible();
+		/**
+		 * Module to control collapsible sections. These use a DETAILS element which has some functionality in some modern
+		 * browsers. Eventually this module should become redundant.
+		 *
+		 * @module
+		 * @requires module:wc/dom/event
+		 * @requires module:wc/dom/attribute
+		 * @requires module:wc/dom/focus
+		 * @requires module:wc/dom/formUpdateManager
+		 * @requires module:wc/has
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/timers
+		 * @requires module:wc/dom/isEventInLabel
+		 * @requires module:wc/dom/isAcceptableTarget
+		 * @requires module:wc/dom/role
+		 * @requires module:wc/ui/icon
+		 */
+		instance = new Collapsible();
 
 		if (has("ie") === 8) {
 			require(["wc/fix/inlineBlock_ie8"], function(inlineBlock) {
 				repainter = inlineBlock;
 			});
 		}
-		initialise.register(instance);
-		return instance;
+		return initialise.register(instance);
 	});

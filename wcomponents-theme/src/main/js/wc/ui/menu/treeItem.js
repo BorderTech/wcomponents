@@ -7,6 +7,8 @@ define(["wc/dom/ariaAnalog",
 	/** @param ariaAnalog @param initialise @param Widget @param isAcceptableTarget @param shed @param getFilteredGroup @ignore */
 	function(ariaAnalog, initialise, Widget, isAcceptableTarget, shed, getFilteredGroup) {
 		"use strict";
+		var instance;
+
 		/** @constructor module:wc/ui/menu/treeItem~TreeItem */
 		function TreeItem() {
 			var opener, tree;
@@ -188,6 +190,7 @@ define(["wc/dom/ariaAnalog",
 				}
 			};
 		}
+		TreeItem.prototype = ariaAnalog;
 
 		/**
 		 * Provides ARIA based functionality for items in a tree (role='treeitem")
@@ -210,9 +213,6 @@ define(["wc/dom/ariaAnalog",
 		 * @requires module:wc/dom/shed
 		 * @requires module:wc/dom/getFilteredGroup
 		 */
-		var instance;
-
-		TreeItem.prototype = ariaAnalog;
 		instance = new TreeItem();
 		instance.constructor = TreeItem;
 		initialise.register(instance);

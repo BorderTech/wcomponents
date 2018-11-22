@@ -89,9 +89,9 @@ define(["wc/array/toArray",
 			 *    receiving focus this could be implemented as a filter.
 			 */
 			this.canFocus = function(element) {
+				var observer, result = false;
 				initialise();
-				var result = false,
-					observer = getFocusObserver();
+				observer = getFocusObserver();
 				result = filterHelper(element, observer, this);
 				return result;
 			};
@@ -159,8 +159,9 @@ define(["wc/array/toArray",
 			 */
 			this.focusFirstTabstop = function (container, callback, reverse) {
 				var next,
+					boundAcceptNode = acceptNode.bind(this),
 					result = null,
-					tw = document.createTreeWalker(container, NodeFilter.SHOW_ELEMENT, acceptNode, false);  // NOTE: yes passing a function rather than a NodeFilter object is non-standard but IE's treewalker is broken and others are happy with this
+					tw = document.createTreeWalker(container, NodeFilter.SHOW_ELEMENT, boundAcceptNode, false);  // NOTE: yes passing a function rather than a NodeFilter object is non-standard but IE's treewalker is broken and others are happy with this
 				initialise();
 				next = reverse ? tw.lastChild() : tw.firstChild();
 				do {
@@ -216,7 +217,7 @@ define(["wc/array/toArray",
 			 * @returns {Element} the first ancestor element which can receive focus (if any).
 			 */
 			this.getFocusableAncestor = function(element, ignoreSelf) {
-				var tw, filter;
+				var tw, filter, instance = this;
 				if (!element) {
 					return null;
 				}
@@ -399,12 +400,13 @@ define(["wc/array/toArray",
 			 * Treewalker filter for focusFirstTabstop.
 			 * @function
 			 * @private
+			 * @this {Focus} The instance of Focus managing focus (if that makes sense).
 			 * @param {Node} node The node to test.
 			 * @returns {number} One of NodeFilter.FILTER_ACCEPT, NodeFilter.FILTER_REJECT or NodeFilter.FILTER_SKIP.
 			 */
 			function acceptNode(node) {
 				var result = SKIP;
-				if (instance.isTabstop(node) && instance.canFocus(node)) {
+				if (this.isTabstop(node) && this.canFocus(node)) {
 					if (node !== document.activeElement) {
 						result = ACCEPT;
 					} else {
@@ -443,12 +445,5 @@ define(["wc/array/toArray",
 			}
 		}
 
-		/*
-		 * NOTE for Rick:
-		 * I would prefer to not use an instance here as it is really only being used to
-		 * work around a funky bind() problem with focusFirstTabstop which would require a
-		 * fleet of bindings right through the calls.
-		 */
-		var /** @alias module:wc/dom/focus */ instance = new Focus();
-		return instance;
+		return new Focus();
 	});

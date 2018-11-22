@@ -33,7 +33,5 @@ define(["wc/dom/initialise","wc/ui/ajax/processResponse"],
 				processResponse.subscribe(countElements, true);
 			};
 		}
-		var /** @alias module:wc/debug/debugModeIndicator */ debug = new DebugModeIndicator();
-		initialise.register(debug);
-		return debug;
+		return initialise.register(new DebugModeIndicator());
 	});

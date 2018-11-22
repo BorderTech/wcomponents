@@ -930,9 +930,7 @@ define(["wc/has",
 		 * @requires module:wc/ui/listboxAnalog
 		 * @requires module:wc/config
 		 */
-		var instance = new ComboBox();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new ComboBox());
 
 		/**
 		 * @typedef {Object} module:wc/ui/comboBox~config Optional module configuration.

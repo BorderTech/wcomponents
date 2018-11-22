@@ -14,6 +14,7 @@ define(["wc/dom/event",
 	"wc/timers"],
 	function(event, debounce, attribute, isSuccessfulElement, tag, Trigger, triggerManager, shed, Widget, initialise, processResponse, classList, mixin, timers) {
 		"use strict";
+		var instance;
 
 		/**
 		 * @constructor
@@ -386,7 +387,5 @@ define(["wc/dom/event",
 		 *
 		 * @todo re-order code, document private members.
 		 */
-		var instance = new AjaxRegion();
-		initialise.register(instance);
-		return instance;
+		return instance = initialise.register(new AjaxRegion());
 	});

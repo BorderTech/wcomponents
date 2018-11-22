@@ -16,6 +16,27 @@
 define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "wc/dom/uid", "wc/fix/getActiveX_ieAll", "require"],
 	function(Observer, global, xmlString, timers, has, uid, getActiveX, require) {
 		"use strict";
+		var handleError,
+			W3C_IFACE = "XMLHttpRequest",
+			ieXmlHttpEngine,
+			/**
+			 * AJAX request limit:
+			 *  Exists primarily for Internet Explorer bugs, IE could not handle more than about 8 pending ajax requests.
+			 *  Firefox (15) can also be swamped (but it takes a lot more, can handle about 80). Now applied to all
+			 *  browsers for the sake of consistency.
+			 * @var {int} limit
+			 * @private
+			 */
+			limit = (has("ie") ? 5 : (has("ff") ? 8 : 20)),
+			markProfiles = has("global-performance-marking"),
+			pending = 0,
+			queue = [],
+			/**
+			 * The singleton returned by the module.
+			 * @var
+			 * @type {module:wc/ajax/ajax~Ajax}
+			 * @alias module:wc/ajax/ajax */
+			ajax = new Ajax();
 
 		/**
 		 * @constructor
@@ -270,11 +291,11 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 			 */
 			function notifyError(request, onError) {
 				var fallbackMessage = "ERROR! Unable to communicate with server",
-					doNotify = function(handleError) {
+					doNotify = function(errorHandler) {
 						var message;
 						try {
-							if (handleError && handleError.getErrorMessage) {
-								message = handleError.getErrorMessage(request);
+							if (errorHandler && errorHandler.getErrorMessage) {
+								message = errorHandler.getErrorMessage(request);
 							} else {
 								message = fallbackMessage;
 							}
@@ -549,27 +570,6 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 				return s;
 			};
 		}
-		var handleError,
-			W3C_IFACE = "XMLHttpRequest",
-			ieXmlHttpEngine,
-			/**
-			 * AJAX request limit:
-			 *  Exists primarily for Internet Explorer bugs, IE could not handle more than about 8 pending ajax requests.
-			 *  Firefox (15) can also be swamped (but it takes a lot more, can handle about 80). Now applied to all
-			 *  browsers for the sake of consistency.
-			 * @var {int} limit
-			 * @private
-			 */
-			limit = (has("ie") ? 5 : (has("ff") ? 8 : 20)),
-			markProfiles = has("global-performance-marking"),
-			pending = 0,
-			queue = [],
-			/**
-			 * The singleton returned by the module.
-			 * @var
-			 * @type {module:wc/ajax/ajax~Ajax}
-			 * @alias module:wc/ajax/ajax */
-			ajax = new Ajax();
 
 		/*
 		 * Prefetch the error handler.

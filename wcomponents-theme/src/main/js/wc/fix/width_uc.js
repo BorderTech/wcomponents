@@ -12,22 +12,22 @@ define([
 	function(initialise, getViewportSize, event, debounce, getForm) {
 		"use strict";
 
-		function Width() {
-			function setWidth() {
-				var form = getForm(),
-					vp;
-				if (form && (vp = getViewportSize())) {
-					form.style.width = vp.width  + "px";
-				}
+		function setWidth() {
+			var form = getForm(),
+				vp;
+			if (form && (vp = getViewportSize())) {
+				form.style.width = vp.width  + "px";
 			}
+		}
+
+		function Width() {
 			var resizeEvent = debounce(setWidth, 100);
+
 			this.preInit = function() {
 				setWidth();
 				event.add(window, event.TYPE.resize, resizeEvent, 1);
 			};
 		}
-		var instance = new Width();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new Width());
 	}
 );

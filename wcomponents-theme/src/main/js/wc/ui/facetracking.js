@@ -64,8 +64,9 @@ define(["wc/isNumeric", "wc/i18n/i18n", "ccv", "face"], function(isNumeric, i18n
 	 */
 	function trackFace(obj) {
 		var result = new Promise(function(resolve, reject) {
+			var faces;
 			try {
-				var faces = ccv.detect_objects({
+				faces = ccv.detect_objects({
 					canvas: obj,
 					cascade: cascade,
 					interval: instance._interval,

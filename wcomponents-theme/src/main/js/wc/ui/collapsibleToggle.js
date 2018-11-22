@@ -277,7 +277,5 @@ define(["wc/array/toArray",
 		 * @requires module:wc/ui/tabse
 		 * @requires module:wc/ui/ajax/processResponse
 		 */
-		var instance = new CollapsibleToggle();
-		initialise.register(instance);
-		return instance;
+		return initialise.register(new CollapsibleToggle());
 	});

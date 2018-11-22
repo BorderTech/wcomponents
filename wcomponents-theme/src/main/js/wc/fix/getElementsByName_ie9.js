@@ -5,6 +5,8 @@
  */
 define(["wc/has"], /** @param has @ignore */ function(has) {
 	"use strict";
+	var documentConstructor;
+
 	/**
 	 * All versions of IE up to IE9 have an imprecise implementation of document.getElementsbyName. The problem is that
 	 * it will include elements with a matching ID in the results even if the name does not match. They should call it
@@ -23,7 +25,7 @@ define(["wc/has"], /** @param has @ignore */ function(has) {
 	}
 
 	if (has("bug-getelementsbyname")) {
-		var documentConstructor = window.HTMLDocument || window.Document;
+		documentConstructor = window.HTMLDocument || window.Document;
 		documentConstructor.prototype.getElementsByName = getElementsByNameSelectorsApi;
 	}
 

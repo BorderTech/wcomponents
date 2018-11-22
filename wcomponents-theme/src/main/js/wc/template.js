@@ -131,8 +131,7 @@ define(["wc/dom/textContent", "wc/has"],
 		 * @requires module:wc/dom/textContent
 		 * @requires external:lib/mustache/mustache.min
 		 */
-		var instance = new Template();
-		return instance;
+		return new Template();
 
 		/**
 		 * @typedef {Object} module:wc/template~params
