@@ -8,10 +8,11 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			name: "domUid",
 			setup: function() {
 				return testutils.setupHelper(["wc/dom/uid", "wc/array/unique"], function(obj, u) {
+					var i;
 					uid = obj;
 					unique = u;
 
-					var i = 0;
+					i = 0;
 					ids = [];
 					while (i++ < len) {
 						ids[ids.length] = uid();

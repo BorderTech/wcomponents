@@ -105,8 +105,8 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				assert.isNull(result);
 			},
 			testGetAncestorOrSelfInvalidArgs: function() {
+				var foo = document.getElementById("doesntExist");
 				try {
-					var foo = document.getElementById("doesntExist");
 					getAncestorOrSelf(foo, "p");
 					assert.fail("This line should not be executed");
 				} catch (ex) {

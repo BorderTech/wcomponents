@@ -83,8 +83,9 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			return result;
 		},
 		beforeEach: function() {
+			var container;
 			if (!groupedElements) {
-				var container = document.getElementById("domKeyWalkerGroup");
+				container = document.getElementById("domKeyWalkerGroup");
 				if (container) {
 					groupedElements = container.getElementsByTagName("span");
 				} else {

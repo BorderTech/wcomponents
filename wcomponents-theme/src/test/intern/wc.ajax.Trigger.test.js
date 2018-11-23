@@ -247,7 +247,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				return promise;
 			},
 			testSubscribeReset: function() {
-				var onerr = function() {
+				var promise, onerr = function() {
 						errCallback("This should never be called");
 					},
 					trigger = new Controller(simpleRequest, dummyCallback, errCallback);
@@ -255,7 +255,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				Controller.subscribe(onerr);
 				Controller.subscribe(onerr, -1);
 				clearSubscribers();
-				var promise = trigger.fire();
+				promise = trigger.fire();
 				return promise;
 			}
 //			,

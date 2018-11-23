@@ -25,54 +25,61 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				testHolder.innerHTML = "";
 			},
 			testTriggerManagerAddTrigger: function() {
+				var actual;
 				manager.addTrigger(trig);
-				var actual = manager.getTrigger("foo");
+				actual = manager.getTrigger("foo");
 				assert.strictEqual(trig, actual);
 			},
 
 			// This test fails. Returns "undefined" instead.
 			testTriggerManaagerRemoveTrigger: function() {
+				var actual;
 				manager.addTrigger(trig);
 				manager.removeTrigger(trig.id);
-				var actual = !!(manager.getTrigger(trig.id));
+				actual = !!(manager.getTrigger(trig.id));
 				assert.strictEqual(false, actual);
 			},
 
 			// This test fails. Returns "undefined" instead.
 			testTriggerManagerAddTwoSameTriggers: function() {
+				var actual;
 				manager.addTrigger(trig);
 				manager.addTrigger(trig);
 				manager.removeTrigger(trig.id);
-				var actual = !!(manager.getTrigger(trig.id));
+				actual = !!(manager.getTrigger(trig.id));
 				assert.strictEqual(false, actual);
 			},
 
 			testTriggerManagerAddManyGetOne: function() {
+				var actual;
 				manager.addTrigger(trig);
 				manager.addTrigger(trig2);
 				manager.addTrigger(trig3);
-				var actual = manager.getTrigger(trig2.id);
+				actual = manager.getTrigger(trig2.id);
 				assert.strictEqual(trig2, actual);
 			},
 
 			testTriggerManagerElementIDTrigger: function() {
+				var actual, element;
 				manager.addTrigger(trig);
-				var element = document.getElementById("foo");
-				var actual = manager.getTrigger(element);
+				element = document.getElementById("foo");
+				actual = manager.getTrigger(element);
 				assert.strictEqual(trig, actual);
 			},
 
 			testTriggerManagerElementNameTrigger: function() {
+				var actual, element;
 				manager.addTrigger(trig4);
-				var element = document.getElementById("swan");
-				var actual = manager.getTrigger(element);
+				element = document.getElementById("swan");
+				actual = manager.getTrigger(element);
 				assert.strictEqual(trig4, actual);
 			},
 
 			testTriggerManagerNestedTrigger: function() {
+				var actual, element;
 				manager.addTrigger(trig3);
-				var element = document.getElementById("jim");
-				var actual = manager.getTrigger(element);
+				element = document.getElementById("jim");
+				actual = manager.getTrigger(element);
 				assert.strictEqual(trig3, actual);
 			}
 		});

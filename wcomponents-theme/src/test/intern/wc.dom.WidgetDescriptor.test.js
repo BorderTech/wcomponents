@@ -616,9 +616,9 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 		},
 
 		testAllElementsWithId: function() {
-			var result = allElementsWithId.findDescendants(testHolder);
+			var i, result = allElementsWithId.findDescendants(testHolder);
 			assert.isTrue(result.length > 0);
-			for (var i = 0; i < result.length; i++) {
+			for (i = 0; i < result.length; i++) {
 				assert.isTrue(!!result[i].id);
 			}
 		},

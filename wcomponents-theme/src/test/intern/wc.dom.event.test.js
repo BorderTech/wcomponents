@@ -30,8 +30,8 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 		};
 
 		function clickEventSelfRemoving($event) {
-			called = true;
 			var element = $event.currentTarget;
+			called = true;
 			event.remove(element, EVENT, clickEventSelfRemoving);
 		}
 		registerSuite({
