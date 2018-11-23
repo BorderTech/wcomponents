@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.security.Principal;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +31,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	private final Map parameters = new HashMap();
 	private final Map attributes = new HashMap();
 	private final Map headers = new HashMap();
+	private final Map<String, Cookie> cookies = new HashMap<>();
 	private int localPort;
 	private int remotePort;
 	private boolean secure;
@@ -75,11 +77,25 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	}
 
 	/**
-	 * @return null, as this is unimplemented.
+	 * Get all the cookies on this request.
+	 * @return An array of all Cookie objects associated with this request.
 	 */
 	@Override
 	public Cookie[] getCookies() {
-		return null;
+		Collection<Cookie> entries = cookies.values();
+		return entries.toArray(new Cookie[0]);
+	}
+
+	/**
+	 * Sets a cookie on this request instance.
+	 * @param name The cookie name.
+	 * @param value The value of the cookie to set.
+	 */
+	public void setCookie(final String name, final String value) {
+		if (name != null) {
+			Cookie cookie = new Cookie(name, value);
+			cookies.put(name, cookie);
+		}
 	}
 
 	/**
