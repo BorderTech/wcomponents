@@ -42,9 +42,9 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 		name: suiteName,
 
 		setup: function() {
-			var allDeps = (deps && deps.length) ? deps : [];
+			var result, allDeps = (deps && deps.length) ? deps : [];
 			allDeps.unshift(TEST_MODULE);
-			var result = testutils.setupHelper(allDeps).then(function(arg) {
+			result = testutils.setupHelper(allDeps).then(function(arg) {
 
 				// The module to be tested is the controller
 				controller = arg[0];

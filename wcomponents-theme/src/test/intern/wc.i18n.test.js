@@ -119,12 +119,12 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			},
 			testTranslate: function() {
 				return new Promise(function(win, lose) {
+					var key = "chars_remaining";
 					try {
 						/*
 						 * In this test we simply test that we are getting a message when we ask
 						 * for one that we know exists.
 						 */
-						var key = "chars_remaining";
 						i18n.translate(key).then(function(result) {
 							assert.isTrue(result.length > 0);
 							win();
@@ -179,13 +179,13 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			},
 			testTranslateWithFormattingArgs: function() {
 				return new Promise(function(win, lose) {
+					var arg = 3,
+						key = "chars_remaining";
 					try {
 						/*
 						 * In this test we chose a message that accepts at least one printf arg
 						 * and check that it is inserted into the string.
 						 */
-						var arg = 3,
-							key = "chars_remaining";
 						i18n.translate(key).then(function(result) {
 							assert.isTrue(result.indexOf(arg) === -1);
 						}, lose).then(function() {
@@ -203,12 +203,12 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			},
 			testTranslateWithSuperfluousFormattingArgs: function() {
 				return new Promise(function(win, lose) {
+					var arg = 3,
+						key = "day4";
 					/*
 					 * In this test we chose a message that doesn't accept a printf arg,
 					 * pass it one anyway, and check that it is not inserted into the string.
 					 */
-					var arg = 3,
-						key = "day4";
 					try {
 						i18n.translate(key).then(function (result) {
 							assert.isTrue(result.indexOf(arg) === -1);
@@ -225,12 +225,12 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			},
 			testTranslateNoMessageFoundReturnsKey: function() {
 				return new Promise(function(win, lose) {
+					var key = "fukung_kungfu";
 					try {
 						/*
 						 * In this test we test that the key is returned when we
 						 * ask for a message that does not exist.
 						 */
-						var key = "fukung_kungfu";
 						i18n.translate(key).then(function(result) {
 							assert.isTrue(result === key);
 							win();
@@ -243,14 +243,13 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			},
 			testTranslateWithFormattingArgsAndZero: function() {
 				return new Promise(function(win, lose) {
+					var arg = 0,
+						key = "chars_remaining";
 					try {
 						/*
 						 * This test checks that primative zero is accepted as an arg.
 						 * This is based on a real-world defect we encountered.
 						 */
-						var arg = 0,
-							key = "chars_remaining";
-
 						i18n.translate(key).then(function(result) {
 							assert.isTrue(result.indexOf(arg) === -1);
 						}, lose).then(function() {

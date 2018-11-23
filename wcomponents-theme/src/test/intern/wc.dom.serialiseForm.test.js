@@ -79,7 +79,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils!"
 				assert.isTrue(testutils.objectEqual(SERIALIZED_OBJ_EXPECTED, result), "Form should serialise to this ");
 			},
 			testSerialiseFormAsObjectReverse: function() {
-				var form = document.getElementById("testForm"),
+				var prop, i, form = document.getElementById("testForm"),
 					element = document.getElementById("S5"),
 					result;
 
@@ -90,8 +90,8 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils!"
 				result = serialize.serialize(form, null, true);
 				// result = result.replace("%0D%0A", "%0A");  // replace \n\r with \n so browsers behave the same
 
-				for (var prop in result) {
-					for (var i = 0; i < result[prop].length; ++i) {
+				for (prop in result) {
+					for (i = 0; i < result[prop].length; ++i) {
 						result[prop][i] = (result[prop][i]).replace("%0D%0A", "%0A");
 					}
 				}

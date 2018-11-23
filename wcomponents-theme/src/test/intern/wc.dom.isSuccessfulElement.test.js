@@ -59,50 +59,58 @@ define(["intern!object", "intern/chai!assert", "wc/dom/isSuccessfulElement", "./
 				testHolder.innerHTML = "";
 			},
 			testInputNoValue: function() {
+				var element;
 				testHolder.innerHTML = INPUT;
-				var element = document.getElementById("input1");
+				element = document.getElementById("input1");
 				assert.isTrue(controller(element));
 			},
 			testIsSuccessfulElementInput: function() {
+				var element;
 				testHolder.innerHTML = INPUT;
-				var element = document.getElementById("input1");
+				element = document.getElementById("input1");
 				element.value = "x";
 				assert.isTrue(controller(element));
 			},
 			testDisabled: function() {
+				var element;
 				testHolder.innerHTML = INPUT;
-				var element = document.getElementById("input1");
+				element = document.getElementById("input1");
 				element.value = "x";
 				element.disabled = true;
 				assert.isFalse(controller(element));
 			},
 			testNoName: function() {
+				var element;
 				testHolder.innerHTML = INPUT;
-				var element = document.getElementById("input1");
+				element = document.getElementById("input1");
 				element.value = "x";
 				element.name = "";
 				assert.isFalse(controller(element));
 			},
 			testWithSingleSelect: function() {
+				var element;
 				testHolder.innerHTML = SELECT;
-				var element = document.getElementById("sel1");
+				element = document.getElementById("sel1");
 				assert.isTrue(controller(element));
 			},
 			testWithSingleSelectSelected: function() {
+				var element;
 				testHolder.innerHTML = SELECT;
-				var element = document.getElementById("sel1");
+				element = document.getElementById("sel1");
 				element.selectedIndex = 0;
 				assert.isTrue(controller(element));
 			},
 			testWithSingleSelectNegSelectIndex: function() {
+				var element;
 				testHolder.innerHTML = SELECT;
-				var element = document.getElementById("sel1");
+				element = document.getElementById("sel1");
 				element.selectedIndex = -1;
 				assert.isFalse(controller(element));
 			},
 			testWithMultiSelect: function() {
+				var i, element;
 				testHolder.innerHTML = SELECT;
-				var element = document.getElementById("sel1"), i;
+				element = document.getElementById("sel1");
 				element.multiple = true;
 				for (i = 0; i < element.options.length; ++i) {
 					element.options[i].selected = false;
@@ -110,70 +118,83 @@ define(["intern!object", "intern/chai!assert", "wc/dom/isSuccessfulElement", "./
 				assert.isFalse(controller(element));
 			},
 			testWithMultiSelectWithSelection: function() {
+				var element;
 				testHolder.innerHTML = SELECT;
-				var element = document.getElementById("sel1");
+				element = document.getElementById("sel1");
 				element.multiple = true;
 				element.options[0].selected = true;
 				assert.isTrue(controller(element));
 			},
 			testWithButtonNotAlwaysSuccessful: function() {
+				var element;
 				testHolder.innerHTML = BUTTON;
-				var element = document.getElementById("button1");
+				element = document.getElementById("button1");
 				assert.isFalse(controller(element));
 			},
 			testWithButtonAlwaysSuccessful: function() {
+				var element;
 				testHolder.innerHTML = BUTTON;
-				var element = document.getElementById("button1");
+				element = document.getElementById("button1");
 				assert.isTrue(controller(element, true));
 			},
 			testWithButtonSubmitNotAlwaysSuccessful: function() {
+				var element;
 				testHolder.innerHTML = BUTTON_SUBMIT;
-				var element = document.getElementById("button1");
+				element = document.getElementById("button1");
 				assert.isFalse(controller(element));
 			},
 			testWithButtonSubmitAlwaysSuccessful: function() {
+				var element;
 				testHolder.innerHTML = BUTTON_SUBMIT;
-				var element = document.getElementById("button1");
+				element = document.getElementById("button1");
 				assert.isFalse(controller(element, true)); // submit never succeeds.
 			},
 			testInputButtonNotSuccessful: function() {
+				var element;
 				testHolder.innerHTML = INPUT_BUTTON;
-				var element = document.getElementById("input1");
+				element = document.getElementById("input1");
 				assert.isFalse(controller(element));
 			},
 			testInputButtonAlwaysSuccessful: function() {
+				var element;
 				testHolder.innerHTML = INPUT_BUTTON;
-				var element = document.getElementById("input1");
+				element = document.getElementById("input1");
 				assert.isTrue(controller(element, true));
 			},
 			testInputSubmitNotSuccessful: function() {
+				var element;
 				testHolder.innerHTML = INPUT_SUBMIT;
-				var element = document.getElementById("input1");
+				element = document.getElementById("input1");
 				assert.isFalse(controller(element));
 			},
 			testInputSubmitAlwaysSuccessful: function() {
+				var element;
 				testHolder.innerHTML = INPUT_SUBMIT;
-				var element = document.getElementById("input1");
+				element = document.getElementById("input1");
 				assert.isFalse(controller(element, true));
 			},
 			testInputResetButtonsNotSuccessful: function() {
+				var element;
 				testHolder.innerHTML = INPUT_RESET;
-				var element = document.getElementById("input1");
+				element = document.getElementById("input1");
 				assert.isFalse(controller(element));
 			},
 			testInputResetButtonsAlwaysSuccessful: function() {
+				var element;
 				testHolder.innerHTML = INPUT_RESET;
-				var element = document.getElementById("input1");
+				element = document.getElementById("input1");
 				assert.isFalse(controller(element, true));
 			},
 			testInputImageButtonsNotSuccessful: function() {
+				var element;
 				testHolder.innerHTML = INPUT_IMAGE;
-				var element = document.getElementById("input1");
+				element = document.getElementById("input1");
 				assert.isFalse(controller(element));
 			},
 			testInputImageButtonsAlwaysSuccessful: function() {
+				var element;
 				testHolder.innerHTML = INPUT_IMAGE;
-				var element = document.getElementById("input1");
+				element = document.getElementById("input1");
 				assert.isFalse(controller(element, true));
 			},
 			// tests of get all

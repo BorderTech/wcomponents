@@ -117,20 +117,20 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!", "wc/do
 					assert.isTrue(done);
 				},
 				"change event on unfocussed checkbox does not publish if event cannot capture": function() {
+					var element, id = "cb1";
 					if (event.canCapture) {
 						this.skip("test for non-capturing browsers only");
 					}
-					var id = "cb1",
-						element = document.getElementById(id);
+					element = document.getElementById(id);
 					event.fire(element, event.TYPE.change);
 					assert.isFalse(done);
 				},
 				"change event on unfocussed radio does not publish if event cannot capture": function() {
+					var element, id = "r1";
 					if (event.canCapture) {
 						this.skip("test for non-capturing browsers only");
 					}
-					var id = "r1",
-						element = document.getElementById(id);
+					element = document.getElementById(id);
 					event.fire(element, event.TYPE.change);
 					assert.isFalse(done);
 				},

@@ -25,7 +25,8 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 	}
 
 	function containsMatch(arr, match) {
-		for (var i = 0; i < arr.length; i++) {
+		var i;
+		for (i = 0; i < arr.length; i++) {
 			if (arr[i].toXfer() === match) {
 				return true;
 			}
@@ -64,99 +65,101 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			today.set(realToday);
 		},
 		testParserStnd: function() {
-			var parser = getParser(standardMasks, false, false);
-			var result = parser.parse("28101973");
+			var parser = getParser(standardMasks, false, false),
+				result = parser.parse("28101973");
 			assert.strictEqual(result.length, 1);
 			assert.strictEqual(result[0].day, 28);
 			assert.strictEqual(result[0].month, 10);
 			assert.strictEqual(result[0].year, 1973);
 		},
 		testParserDayOfWeek: function() {
-			var parser = getParser(["E MON dd yyyy"], false, false);
-			var result = parser.parse("Tue Nov 04 2003");
+			var parser = getParser(["E MON dd yyyy"], false, false),
+				result = parser.parse("Tue Nov 04 2003");
 			assert.strictEqual(result.length, 1);
 			assert.strictEqual(result[0].day, 4);
 			assert.strictEqual(result[0].month, 11);
 			assert.strictEqual(result[0].year, 2003);
 		},
 		testParserStndIsoDate: function() {
-			var parser = getParser(standardMasks, false, false);
-			var result = parser.parse("1973-10-28");
+			var parser = getParser(standardMasks, false, false),
+				result = parser.parse("1973-10-28");
 			assert.strictEqual(result.length, 1);
 			assert.strictEqual(result[0].day, 28);
 			assert.strictEqual(result[0].month, 10);
 			assert.strictEqual(result[0].year, 1973);
 		},
 		testParserCompressedIsoDate: function() {
-			var parser = getParser(standardMasks, false, false);
-			var result = parser.parse("19731028");
+			var parser = getParser(standardMasks, false, false),
+				result = parser.parse("19731028");
 			assert.strictEqual(result.length, 1);
 			assert.strictEqual(result[0].day, 28);
 			assert.strictEqual(result[0].month, 10);
 			assert.strictEqual(result[0].year, 1973);
 		},
 		testParserStndFwdSlashes: function() {
-			var parser = getParser(standardMasks, false, false);
-			var result = parser.parse("28/10/1973");
+			var parser = getParser(standardMasks, false, false),
+				result = parser.parse("28/10/1973");
 			assert.strictEqual(result.length, 1);
 			assert.strictEqual(result[0].day, 28);
 			assert.strictEqual(result[0].month, 10);
 			assert.strictEqual(result[0].year, 1973);
 		},
 		testParserStndHyphens: function() {
-			var parser = getParser(standardMasks, false, false);
-			var result = parser.parse("28-10-1973");
+			var parser = getParser(standardMasks, false, false),
+				result = parser.parse("28-10-1973");
 			assert.strictEqual(result.length, 1);
 			assert.strictEqual(result[0].day, 28);
 			assert.strictEqual(result[0].month, 10);
 			assert.strictEqual(result[0].year, 1973);
 		},
 		testParserStndExpandYear: function() {
-			var parser = getParser(standardMasks, false, false);
-			var result = parser.parse("281025");
+			var parser = getParser(standardMasks, false, false),
+				result = parser.parse("281025");
 			assert.strictEqual(result.length, 1);
 			assert.strictEqual(result[0].day, 28);
 			assert.strictEqual(result[0].month, 10);
 			assert.strictEqual(result[0].year, 2025);
 		},
 		testParserStndExpandYearPast: function() {
-			var parser = getParser(standardMasks, true, false);
-			var result = parser.parse("281025");
+			var parser = getParser(standardMasks, true, false),
+				result = parser.parse("281025");
 			assert.strictEqual(result.length, 1);
 			assert.strictEqual(result[0].day, 28);
 			assert.strictEqual(result[0].month, 10);
 			assert.strictEqual(result[0].year, 1925);
 		},
 		testParserStndMonthAbbr: function() {
-			var parser = getParser(standardMasks, false, false);
-			var result = parser.parse("28 OCT 1973");
+			var parser = getParser(standardMasks, false, false),
+				result = parser.parse("28 OCT 1973");
 			assert.strictEqual(result.length, 1);
 			assert.strictEqual(result[0].day, 28);
 			assert.strictEqual(result[0].month, 10);
 			assert.strictEqual(result[0].year, 1973);
 		},
 		testParserStndMonthFull: function() {
-			var parser = getParser(standardMasks, false, false);
-			var result = parser.parse("28 OCTOBER 1973");
+			var parser = getParser(standardMasks, false, false),
+				result = parser.parse("28 OCTOBER 1973");
 			assert.strictEqual(result.length, 1);
 			assert.strictEqual(result[0].day, 28);
 			assert.strictEqual(result[0].month, 10);
 			assert.strictEqual(result[0].year, 1973);
 		},
 		testParserPartial: function() {
+			var parser, result;
 			today.set(new Date(2000, 0, 1));
 			pivot.set(15);
-			var parser = getParser(partialMasks, false, false);
-			var result = parser.parse("1111");
+			parser = getParser(partialMasks, false, false);
+			result = parser.parse("1111");
 			assert.strictEqual(result.length, 2);
 			assert.isTrue(containsMatch(result, "????-11-11"), "????-11-11");
 			assert.isTrue(containsMatch(result, "2011-11-??"), "2011-11-??");
 		},
 		testParserXtnd: function() {
+			var parser, result;
 			today.set(new Date(2000, 0, 1));
 			pivot.set(15);
-			var parser = getParser(extendedPartialMasks, false, false);
-			var result = parser.parse("1111");
+			parser = getParser(extendedPartialMasks, false, false);
+			result = parser.parse("1111");
 			assert.strictEqual(result.length, 3);
 			// debugger;
 			assert.isTrue(containsMatch(result, "????-11-11"), "????-11-11");

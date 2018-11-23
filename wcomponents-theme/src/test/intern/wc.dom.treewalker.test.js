@@ -196,37 +196,37 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			assert.equal(treeWalker.currentNode, target.firstChild, "previousSibling is text");
 		},
 		testWalkAllNext: function() {
-			var target = document.getElementById("target");
+			var i, nodes, treeWalker, target = document.getElementById("target");
 
-			var nodes = [
+			nodes = [
 				target, target.childNodes[0], target.childNodes[1], target.childNodes[1].firstChild,
 				target.childNodes[2], target.childNodes[3], target.childNodes[3].firstChild, target.childNodes[4],
 				target.childNodes[5], target.childNodes[6], target.childNodes[7], target.childNodes[7].firstChild,
 				target.childNodes[7].firstChild.firstChild, target.childNodes[8]];
 
-			var treeWalker = document.createTreeWalker(document.documentElement, NodeFilter.SHOW_ALL, null, false);
+			treeWalker = document.createTreeWalker(document.documentElement, NodeFilter.SHOW_ALL, null, false);
 			treeWalker.currentNode = nodes[0];
 
 			// Next
-			for (var i = 1; i < nodes.length; i++) {
+			for (i = 1; i < nodes.length; i++) {
 				treeWalker.nextNode();
 				assert.equal(treeWalker.currentNode, nodes[i], "Next node " + i + " should match the currentNode");
 			}
 		},
 		testWalkAllPrevious: function() {
-			var target = document.getElementById("target");
+			var i, nodes, treeWalker, target = document.getElementById("target");
 
-			var nodes = [
+			nodes = [
 				target, target.childNodes[0], target.childNodes[1], target.childNodes[1].firstChild,
 				target.childNodes[2], target.childNodes[3], target.childNodes[3].firstChild, target.childNodes[4],
 				target.childNodes[5], target.childNodes[6], target.childNodes[7], target.childNodes[7].firstChild,
 				target.childNodes[7].firstChild.firstChild, target.childNodes[8]];
 
-			var treeWalker = document.createTreeWalker(document.documentElement, NodeFilter.SHOW_ALL, null, false);
+			treeWalker = document.createTreeWalker(document.documentElement, NodeFilter.SHOW_ALL, null, false);
 			treeWalker.currentNode = nodes[0];
 
 			// Next - just to get to the end
-			for (var i = 1; i < nodes.length; i++) {
+			for (i = 1; i < nodes.length; i++) {
 				treeWalker.nextNode();
 			}
 
@@ -237,27 +237,30 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			}
 		},
 		testWalkElementsNext: function() {
-			var target = document.getElementById("target");
+			var i, nodes, treeWalker, target = document.getElementById("target");
 
-			var nodes = [
+			nodes = [
 				target, target.childNodes[1], target.childNodes[3], target.childNodes[5], target.childNodes[7], target.childNodes[7].firstChild];
-			var treeWalker = document.createTreeWalker(document.documentElement, NodeFilter.SHOW_ELEMENT, null, false);
+
+			treeWalker = document.createTreeWalker(document.documentElement, NodeFilter.SHOW_ELEMENT, null, false);
 			treeWalker.currentNode = nodes[0];
 
 			// Next
-			for (var i = 1; i < nodes.length; i++) {
+			for (i = 1; i < nodes.length; i++) {
 				treeWalker.nextNode();
 				assert.equal(treeWalker.currentNode, nodes[i], "Next node " + i + " should match the currentNode");
 			}
 		},
 		testWalkElementsPrevious: function() {
-			var target = document.getElementById("target");
+			var i, nodes, treeWalker, target = document.getElementById("target");
 
-			var nodes = [
+			nodes = [
 				target, target.childNodes[1], target.childNodes[3], target.childNodes[5], target.childNodes[7], target.childNodes[7].firstChild];
-			var treeWalker = document.createTreeWalker(document.documentElement, NodeFilter.SHOW_ELEMENT, null, false);
+
+			treeWalker = document.createTreeWalker(document.documentElement, NodeFilter.SHOW_ELEMENT, null, false);
 			treeWalker.currentNode = nodes[0];
-			for (var i = 1; i < nodes.length; i++) {
+
+			for (i = 1; i < nodes.length; i++) {
 				treeWalker.nextNode();
 			}
 			// Previous
@@ -267,31 +270,31 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			}
 		},
 		testWalkTextNext: function() {
-			var target = document.getElementById("target");
+			var i, nodes, treeWalker, target = document.getElementById("target");
 
-			var nodes = [
+			nodes = [
 				target.childNodes[0], target.childNodes[1].firstChild, target.childNodes[2], target.childNodes[3].firstChild, target.childNodes[4], target.childNodes[6], target.childNodes[7].firstChild.firstChild, target.childNodes[8]];
 
-			var treeWalker = document.createTreeWalker(document.documentElement, NodeFilter.SHOW_TEXT, null, false);
+			treeWalker = document.createTreeWalker(document.documentElement, NodeFilter.SHOW_TEXT, null, false);
 			treeWalker.currentNode = nodes[0];
 
 			// Next
-			for (var i = 1; i < nodes.length; i++) {
+			for (i = 1; i < nodes.length; i++) {
 				treeWalker.nextNode();
 				assert.equal(treeWalker.currentNode, nodes[i], "Next node " + i + " should match the currentNode");
 			}
 		},
 		testWalkTextPrevious: function() {
-			var target = document.getElementById("target");
+			var i, nodes, treeWalker, target = document.getElementById("target");
 
-			var nodes = [
+			nodes = [
 				target.childNodes[0], target.childNodes[1].firstChild, target.childNodes[2], target.childNodes[3].firstChild, target.childNodes[4], target.childNodes[6], target.childNodes[7].firstChild.firstChild, target.childNodes[8]];
 
-			var treeWalker = document.createTreeWalker(document.documentElement, NodeFilter.SHOW_TEXT, null, false);
+			treeWalker = document.createTreeWalker(document.documentElement, NodeFilter.SHOW_TEXT, null, false);
 			treeWalker.currentNode = nodes[0];
 
 			// Next
-			for (var i = 1; i < nodes.length; i++) {
+			for (i = 1; i < nodes.length; i++) {
 				treeWalker.nextNode();
 			}
 			// Previous

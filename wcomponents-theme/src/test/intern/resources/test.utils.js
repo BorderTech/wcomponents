@@ -147,13 +147,14 @@ define(["wc/compat/compat!"], function() {
 		};
 
 		function submitEvent($event) {
+			var err;
 			/*
 			 * cancel all form submits - they should never happen in the tests but when something goes wrong they
 			 * can happen and that means BAAD things.
 			 */
 			if (!$event.defaultPrevented) {
 				$event.preventDefault();
-				var err = new ReferenceError("Trying to submit form in tests ");
+				err = new ReferenceError("Trying to submit form in tests ");
 				throw err;
 			}
 		}
