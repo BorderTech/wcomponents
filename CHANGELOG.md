@@ -14,6 +14,8 @@
   * Removed unused properties from POMs.
   * Strengthened vulnerability checking by re-instating fail on any error to the wcomponents-parent POM.
 * Updated tika-core version to address various vulnerabilities.
+* Can switch to debug version of client side resources without any parameter changes using HTTP request mechanisms #1602.
+* Enabled eslint `vars-on-top` (warn only) rule and refactored code accordingly #1579.
 
 ### Bug Fixes
 
