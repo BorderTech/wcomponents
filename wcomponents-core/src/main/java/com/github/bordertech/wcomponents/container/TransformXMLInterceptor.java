@@ -7,6 +7,7 @@ import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.servlet.ServletRequest;
+import com.github.bordertech.wcomponents.servlet.ServletUtil;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.SystemException;
@@ -50,6 +51,11 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	private static final String NO_XSLT_FLAG = "wcnoxslt";
 
 	/**
+	 * Allow client side resources to be forced to debug mode; issue #1602.
+	 */
+	private static final String DEBUG_REQUEST = "wcforcedebug";
+
+	/**
 	 * The logger instance for this class.
 	 */
 	private static final Log LOG = LogFactory.getLog(TransformXMLInterceptor.class);
@@ -71,6 +77,13 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	private boolean doTransform = true;
 
 	/**
+	 * If true then we will inject the debug parameter into the XSLT.
+	 * Note that the debug version of the XSLT itself will not be used, nor will backend debug mode be enabled.
+	 * This is purely to facilitate debugging client side issues.
+	 */
+	private boolean debugRequested = false;
+
+	/**
 	 * Override preparePaint in order to perform processing specific to this interceptor.
 	 *
 	 * @param request the request being responded to.
@@ -85,6 +98,10 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 			 */
 			if (userAgentString != null && userAgentString.contains(NO_XSLT_FLAG)) {
 				doTransform = false;
+			}
+			String debugCookie = ServletUtil.extractCookie(httpServletRequest, DEBUG_REQUEST);
+			if ("true".equals(debugCookie)) {
+				debugRequested = true;
 			}
 		}
 		super.preparePaint(request);
@@ -168,6 +185,9 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 		try {
 			inputXml = new StreamSource(new ByteArrayInputStream(xml.getBytes("utf-8")));
 			StreamResult result = new StreamResult(writer);
+			if (debugRequested) {
+				transformer.setParameter("isDebug", 1);
+			}
 			transformer.transform(inputXml, result);
 		} catch (UnsupportedEncodingException | TransformerException ex) {
 			throw new SystemException("Could not transform xml", ex);
