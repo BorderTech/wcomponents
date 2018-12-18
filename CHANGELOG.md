@@ -5,8 +5,11 @@
 ### API Changes
 
 ### Enhancements
-* Introduced JS module `wc/file/util`, it provides following file operations `blobToFile`, `fixFileExtension`, `dataURItoBlob` and `getMimeToExtMap`.
 
+* Updated slf4j version in wcomponents-bundle to fix a known vulnerability.
+  - exclude vulnerable dependency from ehCache
+  - add a suppression for slf4j as 1.8.0-beta2 has fix but is registering as a false negative.
+* Introduced JS module `wc/file/util`, it provides following file operations `blobToFile`, `fixFileExtension`, `dataURItoBlob` and `getMimeToExtMap`.
 * Removed site artefacts (see https://github.com/BorderTech/java-common/issues/11) - no value provided.
 * POM clean up #1592
   * Removed error state dependency version clashes
