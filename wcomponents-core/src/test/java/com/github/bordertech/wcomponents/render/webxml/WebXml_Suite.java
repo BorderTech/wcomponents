@@ -55,6 +55,7 @@ import org.junit.runners.Suite;
 	WLabelRenderer_Test.class,
 	WListRenderer_Test.class,
 	WLinkRenderer_Test.class,
+	WLocalDateFieldRenderer_Test.class,
 	WMenuItemGroupRenderer_Test.class,
 	WMenuItemRenderer_Test.class,
 	WMenuRenderer_Test.class,

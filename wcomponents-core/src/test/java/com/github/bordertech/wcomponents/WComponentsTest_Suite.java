@@ -119,6 +119,7 @@ import org.junit.runners.Suite;
 	WLabel_Test.class,
 	WLink_Test.class,
 	WList_Test.class,
+	WLocalDateField_Test.class,
 	WMenu_Test.class,
 	WMenuItem_Test.class,
 	WMenuItemGroup_Test.class,
