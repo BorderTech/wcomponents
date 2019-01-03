@@ -39,6 +39,12 @@
 			<groupId>org.ehcache</groupId>
 			<artifactId>ehcache</artifactId>
 			<version>3.6.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.terracotta</groupId>
@@ -51,7 +57,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
-			<version>1.7.25</version>
+			<version>1.8.0-beta2</version>
 		</dependency>
 
 	</dependencies>
@@ -66,7 +72,6 @@
 						update when a fix is made available.
 					-->
 					<suppressionFiles>${project.parent.basedir}/suppression.xml</suppressionFiles>
-					<nodeAnalyzerEnabled>false</nodeAnalyzerEnabled>
 				</configuration>
 			</plugin>
 		</plugins>

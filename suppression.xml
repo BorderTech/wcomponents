@@ -11,4 +11,23 @@
 		<gav regex="true">^org\.owasp\.antisamy:antisamy:.*$</gav>
 		<cpe>cpe:/a:antisamy_project:antisamy</cpe>
 	</suppress>
+	<suppress>
+		<notes>
+			<![CDATA[
+			file name: slf4j-api-1.8.0-beta2.jar
+			the vulnerability is fixed in 1.8.0-beta2 but is still registering as a false negative
+			]]>
+		</notes>
+		<gav regex="true">^org\.slf4j:slf4j-api:.*$</gav>
+		<cpe>cpe:/a:slf4j:slf4j</cpe>
+	</suppress>
+	<suppress>
+		<notes><![CDATA[
+			file name: slf4j-simple-1.8.0-beta2.jar
+			the vulnerability is fixed in 1.8.0-beta2 but is still registering as a false negative
+			]]>
+		</notes>
+		<gav regex="true">^org\.slf4j:slf4j-simple:.*$</gav>
+		<cve>CVE-2018-8088</cve>
+	</suppress>
 </suppressions>
