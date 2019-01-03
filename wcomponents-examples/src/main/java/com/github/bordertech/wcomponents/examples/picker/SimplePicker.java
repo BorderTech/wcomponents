@@ -86,6 +86,7 @@ import com.github.bordertech.wcomponents.examples.theme.WFieldSetExample;
 import com.github.bordertech.wcomponents.examples.theme.WHeadingExample;
 import com.github.bordertech.wcomponents.examples.theme.WHiddenCommentExample;
 import com.github.bordertech.wcomponents.examples.theme.WListExample;
+import com.github.bordertech.wcomponents.examples.theme.WLocalDateFieldExample;
 import com.github.bordertech.wcomponents.examples.theme.WMenuExample;
 import com.github.bordertech.wcomponents.examples.theme.WMenuSelectModeExample;
 import com.github.bordertech.wcomponents.examples.theme.WMenuWithAccessKeysExample;
@@ -510,6 +511,7 @@ public class SimplePicker extends WContainer implements MessageContainer {
 			WHeadingExample.class.getName(),
 			WHiddenCommentExample.class.getName(),
 			WListExample.class.getName(),
+			WLocalDateFieldExample.class.getName(),
 			WMenuExample.class.getName(),
 			WMenuWithAccessKeysExample.class.getName(),
 			WMenuSelectModeExample.class.getName(),

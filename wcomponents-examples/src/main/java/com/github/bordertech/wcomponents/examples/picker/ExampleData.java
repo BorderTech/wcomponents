@@ -132,6 +132,7 @@ import com.github.bordertech.wcomponents.examples.theme.WHiddenCommentExample;
 import com.github.bordertech.wcomponents.examples.theme.WLabelExample;
 import com.github.bordertech.wcomponents.examples.theme.WListExample;
 import com.github.bordertech.wcomponents.examples.theme.WListOptionsExample;
+import com.github.bordertech.wcomponents.examples.theme.WLocalDateFieldExample;
 import com.github.bordertech.wcomponents.examples.theme.WMenuSelectModeExample;
 import com.github.bordertech.wcomponents.examples.theme.WMessageBoxExample;
 import com.github.bordertech.wcomponents.examples.theme.WMessagesExample;
@@ -226,6 +227,7 @@ public final class ExampleData implements Serializable {
 		new ExampleData("Email field", WEmailFieldExample.class),
 		new ExampleData("File upload (simple)", SimpleFileUpload.class),
 		new ExampleData("Labels", WLabelExample.class),
+		new ExampleData("Local Date field", WLocalDateFieldExample.class),
 		new ExampleData("Multi-dropdown", WMultiDropdownExample.class),
 		new ExampleData("Multi-file upload", WMultiFileWidgetExample.class),
 		new ExampleData("Multi-file ajax", WMultiFileWidgetAjaxExample.class),
