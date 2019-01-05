@@ -6,6 +6,8 @@
 
 ### Enhancements
 
+* Updated parent to 1.0.7
+* Updated tika-core to fix known vulnerability.
 * Updated slf4j version in wcomponents-bundle to fix a known vulnerability.
   - exclude vulnerable dependency from ehCache
   - add a suppression for slf4j as 1.8.0-beta2 has fix but is registering as a false negative.
