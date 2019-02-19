@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
 import com.github.bordertech.wcomponents.util.Duplet;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

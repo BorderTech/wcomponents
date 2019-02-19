@@ -7,7 +7,7 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.mock.MockResponse;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.apache.commons.configuration.Configuration;
 import org.junit.Test;
 

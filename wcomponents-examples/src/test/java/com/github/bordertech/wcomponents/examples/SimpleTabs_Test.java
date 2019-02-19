@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
 import java.io.IOException;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;

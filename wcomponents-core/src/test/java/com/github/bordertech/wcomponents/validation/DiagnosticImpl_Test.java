@@ -5,7 +5,7 @@ import com.github.bordertech.wcomponents.UIContextImpl;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WTextField;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

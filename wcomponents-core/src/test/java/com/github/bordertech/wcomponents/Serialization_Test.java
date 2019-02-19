@@ -7,7 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 

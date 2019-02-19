@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.validator;
 
 import com.github.bordertech.wcomponents.Input;
 import com.github.bordertech.wcomponents.WTextField;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

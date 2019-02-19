@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.WStyledText.Type;
 import com.github.bordertech.wcomponents.WStyledText.WhitespaceMode;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

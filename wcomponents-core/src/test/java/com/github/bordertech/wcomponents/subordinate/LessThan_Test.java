@@ -6,7 +6,7 @@ import com.github.bordertech.wcomponents.SubordinateTrigger;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WNumberField;
 import java.math.BigDecimal;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.mock.MockResponse;
 import java.io.IOException;
 import java.util.Arrays;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.servlet;
 
 import com.github.bordertech.wcomponents.util.mock.servlet.MockHttpServletRequest;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

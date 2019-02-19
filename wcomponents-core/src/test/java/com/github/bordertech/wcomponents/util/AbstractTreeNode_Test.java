@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.util;
 
 import java.util.Iterator;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

@@ -6,7 +6,7 @@ import com.github.bordertech.wcomponents.Disableable;
 import com.github.bordertech.wcomponents.SubordinateTarget;
 import com.github.bordertech.wcomponents.WFieldSet;
 import com.github.bordertech.wcomponents.WPanel;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

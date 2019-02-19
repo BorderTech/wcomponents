@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.WButton.ImagePosition;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.io.Serializable;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

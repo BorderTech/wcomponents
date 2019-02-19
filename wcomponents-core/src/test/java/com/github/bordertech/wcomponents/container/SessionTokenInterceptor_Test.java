@@ -9,7 +9,7 @@ import com.github.bordertech.wcomponents.UIContextImpl;
 import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 

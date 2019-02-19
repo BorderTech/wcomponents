@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.Disableable;
 import com.github.bordertech.wcomponents.Input;
 import com.github.bordertech.wcomponents.SubordinateTarget;
 import com.github.bordertech.wcomponents.WComponent;
-import junit.framework.Assert;
+import org.junit.Assert;
 
 /**
  * Utility class used by the Subordinate Control tests.

@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.subordinate.builder;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

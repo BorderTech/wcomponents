@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents;
 
-import junit.framework.Assert;
-import static junit.framework.Assert.fail;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -35,7 +34,7 @@ public class AbstractContainer_Test extends AbstractWComponentTestCase {
 
 		try {
 			container.getChildren().add(new DefaultWComponent());
-			fail("getChildren() should return unmodifiable List");
+			Assert.fail("getChildren() should return unmodifiable List");
 		} catch (UnsupportedOperationException e) {
 			Assert.assertEquals("Incorrect child count", 1, container.getChildren().size());
 		}

@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WLabel;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
