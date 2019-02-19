@@ -24,6 +24,8 @@
 
 ### Bug Fixes
 
+* Fixed JavaDoc errors which caused failure to compile with Java 11 #1611
+
 ## Release 1.5.14
 
 ### Enhancements

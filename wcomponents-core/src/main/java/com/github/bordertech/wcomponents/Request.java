@@ -70,10 +70,10 @@ public interface Request {
 	FileItem getFileItem(String key);
 
 	/**
-	 * If the request parameter is a file attachment, use this method to access the parsed {@link FileItem[]}.
+	 * If the request parameter is a file attachment, use this method to access the parsed {@link FileItem}[].
 	 *
 	 * @param key the name of the parameter used to pass the file content.
-	 * @return {@link FileItem[]} representing the uploaded files.
+	 * @return {@link FileItem}[] representing the uploaded files.
 	 * @since 1.0.0
 	 */
 	FileItem[] getFileItems(String key);
