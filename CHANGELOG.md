@@ -6,11 +6,8 @@
 
 ### Enhancements
 
-* Updated parent to 1.0.7
-* Updated tika-core to fix known vulnerability.
-* Updated slf4j version in wcomponents-bundle to fix a known vulnerability.
-  - exclude vulnerable dependency from ehCache
-  - add a suppression for slf4j as 1.8.0-beta2 has fix but is registering as a false negative.
+* Updated parent to 1.0.11 and added required dependency management which had been removed from the parent.
+* Removed unused ant call from theme-parent POM.
 * Introduced JS module `wc/file/util`, it provides following file operations `blobToFile`, `fixFileExtension`, `dataURItoBlob` and `getMimeToExtMap`.
 * Removed site artefacts (see https://github.com/BorderTech/java-common/issues/11) - no value provided.
 * POM clean up #1592
@@ -18,7 +15,7 @@
   * Removed dependency and plugin versions which shadowed or _unnecessarily_ overrode inherited versions.
   * Removed unused properties from POMs.
   * Strengthened vulnerability checking by re-instating fail on any error to the wcomponents-parent POM.
-* Updated tika-core version to address various vulnerabilities.
+* Updated dependencies to address various vulnerabilities.
 * Can switch to debug version of client side resources without any parameter changes using HTTP request mechanisms #1602.
 * Enabled eslint `vars-on-top` (warn only) rule and refactored code accordingly #1579.
 

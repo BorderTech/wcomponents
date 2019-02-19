@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.2.xsd">
+	<!-- 
+		Suppressed as we are not able to update the shipped selenium (yet) and this is test-only code.
+	-->
+	<suppress>
+		<notes><![CDATA[
+		file name: guava-19.0.jar
+		]]></notes>
+		<gav regex="true">^com\.google\.guava:guava:.*$</gav>
+		<cve>CVE-2018-10237</cve>
+	</suppress>
+	<suppress>
+		<notes><![CDATA[
+		file name: netty-3.5.7.Final.jar
+		]]></notes>
+		<gav regex="true">^io\.netty:netty:.*$</gav>
+		<cpe>cpe:/a:netty_project:netty</cpe>
+	</suppress>
+</suppressions>

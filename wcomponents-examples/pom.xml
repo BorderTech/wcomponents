@@ -72,7 +72,7 @@
 			<scope>test</scope>
 			<groupId>org.ehcache</groupId>
 			<artifactId>ehcache</artifactId>
-			<version>3.6.0</version>
+			<version>3.6.3</version>
 		</dependency>
 		<dependency>
 			<scope>test</scope>
@@ -151,7 +151,7 @@
 						<phantomjs.binary.path>${phantomjs.binary}</phantomjs.binary.path>
 					</systemPropertyVariables>
 					<!-- Arg set by jacoco. -->
-					<argLine>${surefireArgLine} -Xmx512m -XX:MaxPermSize=128m</argLine>
+					<argLine>${surefireArgLine}</argLine>
 					<excludedGroups>${excludedTestGroups}</excludedGroups>
 				</configuration>
 			</plugin>
@@ -164,7 +164,9 @@
 						antisamy has an XSS vulnerability which is not exposed in the current use but we should
 						update when a fix is made available.
 					-->
-					<suppressionFiles>${project.parent.basedir}/suppression.xml</suppressionFiles>
+					<suppressionFiles>
+                        <suppressionFile>${project.parent.basedir}/suppression.xml</suppressionFile>
+					</suppressionFiles>
 				</configuration>
 			</plugin>
 		</plugins>
