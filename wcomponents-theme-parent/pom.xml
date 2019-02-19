@@ -59,7 +59,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>3.1.0</version>
+				<version>3.1.1</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -218,33 +218,6 @@
 							<goal>run</goal>
 						</goals>
 					</execution>
-					<execution>
-						<id>doco</id>
-						<phase>site</phase>
-						<configuration>
-							<skip>${theme.skip.antrun}</skip>
-							<target>
-								<echo>Attempting to start ANT documentation build at ${theme.core.dir}</echo>
-								<echo>basedir = ${basedir}</echo>
-								<property name="basedir" location="${basedir}" />
-				<property name="theme.inherit" value="${theme.inherit}" />
-								<property name="target.dir" location="${project.build.directory}" />
-								<property name="component.rootdir" location="${theme.core.dir}" />
-								<property name="build.number" value="${project.version}" />
-								<property name="build.rootdir" location="${theme.target.dir}" />
-								<property name="theme.skip.tests" value="true" />
-								<property name="maven.plugin.classpath" refid="maven.plugin.classpath" />
-								<property name="rjs.log.level" value="4" />
-								<property name="sass-lint-config" location="${basedir}/.sass-lint.yml" />
-								<ant antfile="${theme.core.dir}/build.xml">
-									<target name="document" />
-								</ant>
-							</target>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
 				</executions>
 				<dependencies>
 					<dependency>
@@ -255,24 +228,24 @@
 					<dependency>
 						<groupId>commons-io</groupId>
 						<artifactId>commons-io</artifactId>
-						<version>1.4</version>
+						<version>2.6</version>
 					</dependency>
 					<dependency>
 						<groupId>commons-codec</groupId>
 						<artifactId>commons-codec</artifactId>
-						<version>1.4</version>
+						<version>1.12</version>
 					</dependency>
 					<dependency>
 						<groupId>net.sf.saxon</groupId>
 						<artifactId>Saxon-HE</artifactId>
-						<version>9.6.0-7</version>
+						<version>9.9.1-1</version>
 					</dependency>
 				</dependencies>
 			</plugin>
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
-				<version>0.0.26</version>
+				<version>1.6</version>
 				<configuration>
 					<workingDirectory>${basedir}</workingDirectory>
 				</configuration>
