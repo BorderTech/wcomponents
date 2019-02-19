@@ -203,9 +203,8 @@ define(["wc/dom/attribute",
 
 			function reflowFileItemsAfterRemove(id) {
 				var container = document.getElementById(id),
-					itemContainer, itemContainers, i, items, itemContainerCount,
-					cols = container.getAttribute(COL_ATTR);
-				if (container.hasAttribute(COL_ATTR) && (cols = container.getAttribute(COL_ATTR)) && isNumeric(cols) && cols > 1) {
+					itemContainer, itemContainers, i, items, itemContainerCount, cols;
+				if (container && container.hasAttribute(COL_ATTR) && (cols = container.getAttribute(COL_ATTR)) && isNumeric(cols) && cols > 1) {
 					// cols 0 and cols 1 are handled as a single list
 					itemContainers = getColumns(container);
 					itemContainerCount = itemContainers.length;
