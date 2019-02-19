@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.WList.Separator;
 import com.github.bordertech.wcomponents.WList.Type;
 import com.github.bordertech.wcomponents.util.SpaceUtil;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

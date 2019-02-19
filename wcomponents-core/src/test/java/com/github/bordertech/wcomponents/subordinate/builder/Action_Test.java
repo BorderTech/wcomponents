@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.AbstractWComponent;
 import com.github.bordertech.wcomponents.SubordinateTarget;
 import com.github.bordertech.wcomponents.WComponentGroup;
 import com.github.bordertech.wcomponents.WLabel;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

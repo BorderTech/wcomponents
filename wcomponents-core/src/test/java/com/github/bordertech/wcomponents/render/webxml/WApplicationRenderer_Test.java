@@ -13,7 +13,7 @@ import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.apache.commons.configuration.Configuration;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;

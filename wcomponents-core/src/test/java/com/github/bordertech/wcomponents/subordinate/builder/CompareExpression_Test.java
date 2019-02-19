@@ -12,7 +12,7 @@ import com.github.bordertech.wcomponents.subordinate.LessThanOrEqual;
 import com.github.bordertech.wcomponents.subordinate.Match;
 import com.github.bordertech.wcomponents.subordinate.NotEqual;
 import java.util.Date;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents.util;
 import com.github.bordertech.wcomponents.AbstractWComponentTestCase;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WLabel;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.util;
 
 import com.github.bordertech.wcomponents.Message;
 import java.util.Locale;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.apache.commons.configuration.Configuration;
 import org.junit.Test;
 

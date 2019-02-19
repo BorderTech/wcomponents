@@ -11,7 +11,7 @@ import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
 import com.github.bordertech.wcomponents.autocomplete.segment.Person;
 import java.io.IOException;
 import java.util.Arrays;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;

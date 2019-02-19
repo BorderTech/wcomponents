@@ -19,7 +19,7 @@ import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.apache.commons.logging.Log;
 import org.junit.AfterClass;
 import org.junit.Test;

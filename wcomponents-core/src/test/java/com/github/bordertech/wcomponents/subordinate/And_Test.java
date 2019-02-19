@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents.subordinate;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.util.Arrays;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

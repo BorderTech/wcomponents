@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.WTabSet.TabMode;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

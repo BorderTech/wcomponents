@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.util;
 
 import java.io.Serializable;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

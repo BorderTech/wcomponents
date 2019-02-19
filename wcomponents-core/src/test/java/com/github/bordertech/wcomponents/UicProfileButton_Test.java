@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

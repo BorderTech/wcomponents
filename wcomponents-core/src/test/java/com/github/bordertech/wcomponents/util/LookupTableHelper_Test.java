@@ -6,7 +6,7 @@ import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.servlet.ServletRequest;
 import com.github.bordertech.wcomponents.util.mock.servlet.MockHttpServletRequest;
 import com.github.bordertech.wcomponents.util.mock.servlet.MockHttpSession;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

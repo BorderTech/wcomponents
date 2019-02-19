@@ -6,7 +6,7 @@ import com.github.bordertech.wcomponents.WColumn;
 import com.github.bordertech.wcomponents.WRow;
 import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.io.IOException;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;

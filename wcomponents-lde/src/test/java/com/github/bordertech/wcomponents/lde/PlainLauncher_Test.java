@@ -13,7 +13,7 @@ import com.github.bordertech.wcomponents.util.StreamUtil;
 import com.github.bordertech.wcomponents.util.mock.servlet.MockHttpServletRequest;
 import java.net.URL;
 import java.net.URLConnection;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.After;
 import org.junit.Test;
 

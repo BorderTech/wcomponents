@@ -7,7 +7,7 @@ import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

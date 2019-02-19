@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.util.mock.servlet.MockHttpServletReques
 import com.github.bordertech.wcomponents.util.mock.servlet.MockHttpSession;
 import java.io.UnsupportedEncodingException;
 import javax.servlet.http.HttpSession;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.WMultiSelect;
 import com.github.bordertech.wcomponents.WTextArea;
 import com.github.bordertech.wcomponents.WTextField;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 

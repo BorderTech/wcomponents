@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.WPanel.PanelMode;
 import com.github.bordertech.wcomponents.layout.BorderLayout;
 import java.io.Serializable;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

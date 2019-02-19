@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.subordinate.Not;
 import com.github.bordertech.wcomponents.subordinate.Or;
 import java.util.Arrays;
 import java.util.List;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

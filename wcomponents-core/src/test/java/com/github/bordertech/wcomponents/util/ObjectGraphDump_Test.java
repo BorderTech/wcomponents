@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.AbstractWComponentTestCase;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.layout.BorderLayout;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

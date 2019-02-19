@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.Headers;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.render.webxml.AbstractWebXmlRendererTestCase;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 

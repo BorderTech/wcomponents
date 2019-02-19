@@ -10,7 +10,7 @@ import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WFieldSet;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WTextArea;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
