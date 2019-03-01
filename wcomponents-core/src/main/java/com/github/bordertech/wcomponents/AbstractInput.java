@@ -26,9 +26,6 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 
 	// ================================
 	// Validation
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void addValidator(final FieldValidator validator) {
 		InputModel model = getOrCreateComponentModel();
@@ -43,9 +40,6 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 		MemoryUtil.checkSize(model.validators.size(), this.getClass().getSimpleName());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Iterator<FieldValidator> getValidators() {
 		List<FieldValidator> validators = getComponentModel().validators;
@@ -82,10 +76,8 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 	}
 
 	/**
-	 * <p>
 	 * This method is called by validateComponent to create the mandatory diagnostic error message if the mandatory
 	 * validation check does not pass.
-	 * </p>
 	 * <p>
 	 * Subclasses may override this method to customise the message, however in most cases it is easier to supply a
 	 * custom error message pattern to the setMandatory method.
@@ -101,43 +93,29 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 
 	// ================================
 	// Action on change
-	/**
-	 * {@inheritDoc}
-	 */
+
 	@Override
 	public void setActionOnChange(final Action actionOnChange) {
 		getOrCreateComponentModel().actionOnChange = actionOnChange;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Action getActionOnChange() {
 		return getComponentModel().actionOnChange;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Object getActionObject() {
 		InputModel model = getComponentModel();
 		return model.actionObject;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setActionObject(final Object data) {
 		InputModel model = getOrCreateComponentModel();
 		model.actionObject = data;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getActionCommand() {
 		return getValueAsString();
@@ -145,17 +123,12 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 
 	// ================================
 	// Default submit button
-	/**
-	 * {@inheritDoc}
-	 */
+
 	@Override
 	public void setDefaultSubmitButton(final WButton defaultSubmitButton) {
 		getOrCreateComponentModel().defaultSubmitButton = defaultSubmitButton;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public WButton getDefaultSubmitButton() {
 		return getComponentModel().defaultSubmitButton;
@@ -163,9 +136,7 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 
 	// ================================
 	// Mandatory flag
-	/**
-	 * {@inheritDoc}
-	 */
+
 	@Override
 	public void setMandatory(final boolean mandatory, final String message) {
 		setFlag(ComponentModel.MANDATORY_FLAG, mandatory);
@@ -174,17 +145,11 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 		getOrCreateComponentModel().errorMessage = message;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setMandatory(final boolean mandatory) {
 		setFlag(ComponentModel.MANDATORY_FLAG, mandatory);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isMandatory() {
 		return isFlagSet(ComponentModel.MANDATORY_FLAG);
@@ -192,17 +157,12 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 
 	// ================================
 	// ReadOnly Flag
-	/**
-	 * {@inheritDoc}
-	 */
+
 	@Override
 	public boolean isReadOnly() {
 		return isFlagSet(ComponentModel.READONLY_FLAG);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setReadOnly(final boolean readOnly) {
 		setFlag(ComponentModel.READONLY_FLAG, readOnly);
@@ -210,17 +170,12 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 
 	// ================================
 	// Disabled Flag
-	/**
-	 * {@inheritDoc}
-	 */
+
 	@Override
 	public boolean isDisabled() {
 		return isFlagSet(ComponentModel.DISABLED_FLAG);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setDisabled(final boolean disabled) {
 		setFlag(ComponentModel.DISABLED_FLAG, disabled);
@@ -331,35 +286,24 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 
 	// ================================
 	// Input Value
-	/**
-	 * {@inheritDoc}
-	 */
+
 	@Override
 	public Object getValue() {
 		return getData();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getValueAsString() {
 		Object data = getValue();
 		return data == null ? null : data.toString();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isEmpty() {
 		String value = getValueAsString();
 		return value == null || value.length() == 0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isChangedInLastRequest() {
 		return getComponentModel().changedInLastRequest;
@@ -449,25 +393,16 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected final void showErrorIndicatorsForComponent(final List<Diagnostic> diags) {
 		showIndicatorsForComponent(diags, Diagnostic.ERROR);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected final void showWarningIndicatorsForComponent(final List<Diagnostic> diags) {
 		showIndicatorsForComponent(diags, Diagnostic.WARNING);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public List<Diagnostic> getDiagnostics(final int severity) {
 		InputModel model = getComponentModel();
@@ -486,26 +421,17 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected InputModel newComponentModel() {
 		return new InputModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected InputModel getComponentModel() {
 		return (InputModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected InputModel getOrCreateComponentModel() {

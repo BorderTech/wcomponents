@@ -23,35 +23,23 @@ public abstract class AbstractRequest implements Request {
 
 	private boolean logout;
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getParameter(final String key) {
 		String[] value = getParameters().get(key);
 		return value == null || value.length == 0 ? null : value[0];
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String[] getParameterValues(final String key) {
 		return getParameters().get(key);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public byte[] getFileContents(final String key) {
 		FileItem file = getFileItem(key);
 		return file == null ? null : file.get();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public FileItem[] getFileItems(final String key) {
 		FileItem[] result = getFiles().get(key);
@@ -73,26 +61,17 @@ public abstract class AbstractRequest implements Request {
 		return result;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public FileItem getFileItem(final String key) {
 		FileItem[] value = getFileItems(key);
 		return value == null || value.length == 0 ? null : value[0];
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Enumeration getParameterNames() {
 		return new Enumerator(getParameters().keySet().iterator());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean containsSameData(final Request other) {
 		if (!(other instanceof AbstractRequest)) {
@@ -104,35 +83,25 @@ public abstract class AbstractRequest implements Request {
 		return Util.equals(ours, theirs);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getAppPreferenceParameter(final String key) {
 		return Config.getInstance().getString(key);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void logout() {
 		logout = true;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isLogout() {
 		return logout;
 	}
 
 	/**
-	 * <p>
 	 * {@link FileItem} classes (if attachements) will be kept as part of the request. The default behaviour of the file
 	 * item is to store the upload in memory until it reaches a certain size, after which the content is streamed to a
-	 * temp file.</p>
+	 * temp file.
 	 *
 	 * <p>
 	 * If, in the future, performance of uploads becomes a focus we can instead look into using the Jakarta Commons
