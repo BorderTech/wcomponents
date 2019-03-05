@@ -3,7 +3,38 @@
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0"
 	exclude-result-prefixes="xsl ui html">
-	<xsl:template match="ui:textfield[@readOnly] | ui:phonenumberfield[@readOnly] | ui:emailfield[@readOnly] | ui:passwordfield[@readOnly]">
+	
+	
+	
+	<xsl:template match="ui:phonenumberfield[@readOnly]">
+		<xsl:variable name="localClass" select="normalize-space(concat('wc-phonenumberfield wc-ro-input ', @class))" />
+		<xsl:choose>
+			<xsl:when test="text()">
+				<xsl:variable name="href">
+					<xsl:value-of select="text()"/>
+				</xsl:variable>
+				<a href="{concat('tel:', $href)}" id="{@id}"  class="{$localClass}" data-wc-component="phonenumberfield">
+					<xsl:if test="@hidden">
+						<xsl:attribute name="hidden">
+							<xsl:text>hidden</xsl:text>
+						</xsl:attribute>
+					</xsl:if>
+					<xsl:value-of select="text()"/>
+				</a>
+			</xsl:when>
+			<xsl:otherwise>
+				<span id="{@id}" class="{$localClass}" data-wc-component="phonenumberfield">
+					<xsl:if test="@hidden">
+						<xsl:attribute name="hidden">
+							<xsl:text>hidden</xsl:text>
+						</xsl:attribute>
+					</xsl:if>
+				</span>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	
+	<xsl:template match="ui:textfield[@readOnly] | ui:passwordfield[@readOnly]">
 		<span id="{@id}" class="{normalize-space(concat('wc-', local-name(), ' wc-ro-input ', @class))}" data-wc-component="{local-name()}">
 			<xsl:if test="@hidden">
 				<xsl:attribute name="hidden">
@@ -14,26 +45,33 @@
 		</span>
 	</xsl:template>
 
-	<xsl:template match="ui:phonenumberfield[@readOnly and ./text()] | ui:emailfield[@readOnly and ./text()]">
-		<xsl:variable name="href">
-			<xsl:choose>
-				<xsl:when test="self::ui:emailfield">
-					<xsl:text>mailto:</xsl:text>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:text>tel:</xsl:text>
-				</xsl:otherwise>
-			</xsl:choose>
-			<xsl:value-of select="text()"/>
-		</xsl:variable>
-		<a href="{$href}" id="{@id}"  class="{normalize-space(concat('wc-', local-name(), ' wc-ro-input ', @class))}" data-wc-component="{local-name()}">
-			<xsl:if test="@hidden">
-				<xsl:attribute name="hidden">
-					<xsl:text>hidden</xsl:text>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:value-of select="text()"/>
-		</a>
+	<xsl:template match="ui:emailfield[@readOnly]">
+		<xsl:variable name="localClass" select="normalize-space(concat('wc-emailfield wc-ro-input ', @class))" />
+		<xsl:choose>
+			<xsl:when test="text()">
+				<xsl:variable name="href">
+					<xsl:value-of select="text()"/>
+				</xsl:variable>
+				<a href="{$href}" id="{@id}"  class="{$localClass}" data-wc-component="emailfield">
+					<xsl:if test="@hidden">
+						<xsl:attribute name="hidden">
+							<xsl:text>hidden</xsl:text>
+						</xsl:attribute>
+					</xsl:if>
+					<xsl:value-of select="text()"/>
+				</a>
+			</xsl:when>
+			<xsl:otherwise>
+				<span id="{@id}" class="{$localClass}" data-wc-component="emailfield">
+					<xsl:if test="@hidden">
+						<xsl:attribute name="hidden">
+							<xsl:text>hidden</xsl:text>
+						</xsl:attribute>
+					</xsl:if>
+				</span>
+			</xsl:otherwise>
+		</xsl:choose>
+		
 	</xsl:template>
 
 	<!-- Single line input controls which may be associated with a datalist. -->
