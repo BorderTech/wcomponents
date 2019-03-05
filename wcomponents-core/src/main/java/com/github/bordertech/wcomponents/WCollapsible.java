@@ -3,10 +3,9 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.util.SystemException;
 
 /**
- * <p>
  * The WCollapsible component enables a given component to be expanded/collapsed (shown/hidden) via clicking on the
  * collapsible's header section. When a user clicks the heading, the visibility of the collapsible's content is
- * toggled.</p>
+ * toggled.
  *
  * <p>
  * Various {@link CollapsibleMode modes of operation} are supported, which allow developers to tune performance by only
@@ -159,17 +158,11 @@ public class WCollapsible extends AbstractNamingContextContainer implements Ajax
 		getOrCreateComponentModel().mode = CollapsibleMode.SERVER.equals(mode) ? CollapsibleMode.DYNAMIC : mode;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setMargin(final Margin margin) {
 		getOrCreateComponentModel().margin = margin;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Margin getMargin() {
 		return getComponentModel().margin;
@@ -350,17 +343,11 @@ public class WCollapsible extends AbstractNamingContextContainer implements Ajax
 		return new CollapsibleModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected CollapsibleModel getComponentModel() {
 		return (CollapsibleModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected CollapsibleModel getOrCreateComponentModel() {
 		return (CollapsibleModel) super.getOrCreateComponentModel();

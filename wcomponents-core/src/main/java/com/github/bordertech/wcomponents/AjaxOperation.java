@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * <p>
  * AjaxOperation describes an AJAX operation, which can replace one or more components.
  * <p>
  * See {@link #setTargetContainerId(String)} for details on how to set up lazy-loading.
@@ -54,9 +53,6 @@ public final class AjaxOperation implements Serializable {
 			return desc;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String toString() {
 			return desc;

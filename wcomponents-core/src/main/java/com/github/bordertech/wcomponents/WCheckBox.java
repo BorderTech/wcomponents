@@ -1,10 +1,8 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * <p>
  * A WCheckBox is a wcomponent used to display a checkbox input field. Note that WCheckBox does not render any text. To
  * display text for the check box, developers should associate a {@link WLabel} with the check box.
- * </p>
  * <p>
  * The {@link #isSelected()} method is used to determine if the checkbox has been ticked.
  * </p>
@@ -62,10 +60,8 @@ public class WCheckBox extends AbstractInput implements AjaxTrigger, AjaxTarget,
 	// ================================
 	// Action/Event handling
 	/**
-	 * <p>
 	 * Override handleRequest in order to perform processing for this component. This implementation checks the checkbox
 	 * state in the request.
-	 * </p>
 	 *
 	 * @param request the request being responded to.
 	 * @return true if the check box has changed
@@ -84,9 +80,6 @@ public class WCheckBox extends AbstractInput implements AjaxTrigger, AjaxTarget,
 		return changed;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Boolean getRequestValue(final Request request) {
 		if (isPresent(request)) {
@@ -99,9 +92,7 @@ public class WCheckBox extends AbstractInput implements AjaxTrigger, AjaxTarget,
 
 	// ================================
 	// Attributes
-	/**
-	 * {@inheritDoc}
-	 */
+
 	@Override
 	public Boolean getValue() {
 		return Boolean.TRUE.equals(getData());
@@ -174,18 +165,12 @@ public class WCheckBox extends AbstractInput implements AjaxTrigger, AjaxTarget,
 		return new CheckBoxModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected CheckBoxModel getComponentModel() {
 		return (CheckBoxModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected CheckBoxModel getOrCreateComponentModel() {

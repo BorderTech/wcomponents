@@ -93,7 +93,6 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 
 	// ================================
 	// Action on change
-
 	@Override
 	public void setActionOnChange(final Action actionOnChange) {
 		getOrCreateComponentModel().actionOnChange = actionOnChange;
@@ -123,7 +122,6 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 
 	// ================================
 	// Default submit button
-
 	@Override
 	public void setDefaultSubmitButton(final WButton defaultSubmitButton) {
 		getOrCreateComponentModel().defaultSubmitButton = defaultSubmitButton;
@@ -136,7 +134,6 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 
 	// ================================
 	// Mandatory flag
-
 	@Override
 	public void setMandatory(final boolean mandatory, final String message) {
 		setFlag(ComponentModel.MANDATORY_FLAG, mandatory);
@@ -157,7 +154,6 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 
 	// ================================
 	// ReadOnly Flag
-
 	@Override
 	public boolean isReadOnly() {
 		return isFlagSet(ComponentModel.READONLY_FLAG);
@@ -170,7 +166,6 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 
 	// ================================
 	// Disabled Flag
-
 	@Override
 	public boolean isDisabled() {
 		return isFlagSet(ComponentModel.DISABLED_FLAG);
@@ -286,7 +281,6 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 
 	// ================================
 	// Input Value
-
 	@Override
 	public Object getValue() {
 		return getData();

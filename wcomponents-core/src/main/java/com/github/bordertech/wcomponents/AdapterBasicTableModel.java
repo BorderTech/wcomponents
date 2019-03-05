@@ -37,57 +37,36 @@ public class AdapterBasicTableModel implements TableModel, Serializable {
 		return model;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Object getValueAt(final List<Integer> row, final int col) {
 		return getBacking().getValueAt(getRowIndex(row), col);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isCellEditable(final List<Integer> row, final int col) {
 		return getBacking().isCellEditable(getRowIndex(row), col);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setValueAt(final Object value, final List<Integer> row, final int col) {
 		getBacking().setValueAt(value, getRowIndex(row), col);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isSortable(final int col) {
 		return getBacking().isSortable(col);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int[] sort(final int col, final boolean ascending) {
 		return getBacking().sort(col, ascending);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isDisabled(final List<Integer> row) {
 		return getBacking().isDisabled(getRowIndex(row));
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isSelectable(final List<Integer> row) {
 		return getBacking().isSelectable(getRowIndex(row));
@@ -102,9 +81,6 @@ public class AdapterBasicTableModel implements TableModel, Serializable {
 		return false;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int getRowCount() {
 		return getBacking().getRowCount();
@@ -137,9 +113,6 @@ public class AdapterBasicTableModel implements TableModel, Serializable {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Object getRowKey(final List<Integer> row) {
 		return getBacking().getRowKey(getRowIndex(row));
@@ -154,10 +127,8 @@ public class AdapterBasicTableModel implements TableModel, Serializable {
 	}
 
 	/**
-	 * <p>
 	 * BasicTableModel provides a basic interface that can be adapted via {@link AdapterBasicTableModel} for
 	 * {@link WTable}. This model is used for data that is not in a tree like structure (ie not expandable).
-	 * </p>
 	 * <p>
 	 * As the data is not expandable, the interface only requires a single row index, instead of being like the
 	 * {@link TableModel} interface that uses a list of indexes.
@@ -208,9 +179,7 @@ public class AdapterBasicTableModel implements TableModel, Serializable {
 		boolean isSortable(int col);
 
 		/**
-		 * <p>
 		 * Sorts the data by the given column. Any previous sorting should be disregarded.
-		 * </p>
 		 * <p>
 		 * Data models must implement sorting in one of two ways.
 		 * </p>

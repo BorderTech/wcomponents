@@ -12,17 +12,12 @@ import java.util.List;
  */
 public class WContainer extends WBeanComponent implements MutableContainer {
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void add(final WComponent component) {
 		super.add(component);
 	}
 
 	/**
-	 * {@inheritDoc}
-	 *
 	 * @deprecated Use {@link WTemplate} instead.
 	 */
 	@Deprecated
@@ -31,57 +26,37 @@ public class WContainer extends WBeanComponent implements MutableContainer {
 		super.add(component, tag);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public WComponent getChildAt(final int index) {
 		return super.getChildAt(index);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int getChildCount() {
 		return super.getChildCount();
 	}
 
 	@Override
-	/**
-	 * {@inheritDoc}
-	 */
 	public List<WComponent> getChildren() {
 		return super.getChildren();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void remove(final WComponent child) {
 		super.remove(child);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void removeAll() {
 		super.removeAll();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int getIndexOfChild(final WComponent childComponent) {
 		return super.getIndexOfChild(childComponent);
 	}
 
 	/**
-	 * {@inheritDoc}
-	 *
 	 * @deprecated Use {@link WTemplate} instead
 	 */
 	@Deprecated
@@ -92,8 +67,6 @@ public class WContainer extends WBeanComponent implements MutableContainer {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 *
 	 * @deprecated Use {@link WTemplate} instead
 	 */
 	@Deprecated
@@ -131,17 +104,11 @@ public class WContainer extends WBeanComponent implements MutableContainer {
 		setFlag(ComponentModel.NAMING_CONTEXT_FLAG, context);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isNamingContext() {
 		return isFlagSet(ComponentModel.NAMING_CONTEXT_FLAG);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getNamingContextId() {
 		return getId();

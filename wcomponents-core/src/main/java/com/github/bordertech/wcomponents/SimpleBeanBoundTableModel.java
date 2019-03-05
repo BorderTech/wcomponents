@@ -212,9 +212,6 @@ public class SimpleBeanBoundTableModel extends AbstractBeanBoundTableModel {
 		this.iterateFirstLevel = iterateFirstLevel;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isSortable(final int col) {
 		return comparators != null && comparators.containsKey(col);
@@ -240,9 +237,6 @@ public class SimpleBeanBoundTableModel extends AbstractBeanBoundTableModel {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Object getValueAt(final List<Integer> row, final int col) {
 		Object rowBean = getRowBean(row);
@@ -283,9 +277,6 @@ public class SimpleBeanBoundTableModel extends AbstractBeanBoundTableModel {
 		return editable;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setValueAt(final Object value, final List<Integer> row, final int col) {
 		if (!isEditable()) {
@@ -329,9 +320,6 @@ public class SimpleBeanBoundTableModel extends AbstractBeanBoundTableModel {
 		this.editable = editable;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int[] sort(final int col, final boolean ascending) {
 		if (!isSortable(col)) {
@@ -342,18 +330,12 @@ public class SimpleBeanBoundTableModel extends AbstractBeanBoundTableModel {
 		return sort(comparators.get(col), col, ascending);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int getRowCount() {
 		List<?> root = getBeanList();
 		return root == null ? 0 : root.size();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int getChildCount(final List<Integer> row) {
 		// Should not occur
@@ -404,9 +386,6 @@ public class SimpleBeanBoundTableModel extends AbstractBeanBoundTableModel {
 
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Class<? extends WComponent> getRendererClass(final List<Integer> row) {
 		int idx = getLevelIndex(row);
@@ -414,9 +393,6 @@ public class SimpleBeanBoundTableModel extends AbstractBeanBoundTableModel {
 		return level.getRenderer();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Object getRowKey(final List<Integer> row) {
 		Object bean = getRowBean(row);

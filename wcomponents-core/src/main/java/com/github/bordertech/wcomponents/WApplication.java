@@ -11,11 +11,9 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * <p>
  * This component must be used as the top level component for an application. It provides application-wide state
  * information, such as unsaved changes. Applications cannot be nested but multiple applications can be present on a
  * single screen.
- * </p>
  *
  * @author Jonathan Austin
  * @since 1.0.0
@@ -37,10 +35,8 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 	}
 
 	/**
-	 * <p>
 	 * Sets the unsavedChanges flag. The unsavedChanges flag is used by the Themes to display a warning message if the
 	 * user invokes a cancel button and the flag is set to true.
-	 * </p>
 	 *
 	 * @param unsavedChanges true if there are unsavedChanges
 	 */
@@ -75,11 +71,9 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 	}
 
 	/**
-	 * <p>
 	 * Sets a flag to include the WApplication's ID as part of its descendant components' IDs. This is used to determine
-	 * if the application's components should include the application's ID in their own ID.</p>
-	 *
-	 * <p>
+	 * if the application's components should include the application's ID in their own ID.
+         * <p>
 	 * Examples of where this could be useful include: </p>
 	 * <ul>
 	 * <li>where there are multiple applications in a single view and there is a risk of IDs clashing; or
@@ -93,9 +87,6 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 		getOrCreateComponentModel().appendID = appendID;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getIdName() {
 		String name = super.getIdName();
@@ -110,9 +101,6 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 		return true;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getNamingContextId() {
 		boolean append = isAppendID();
@@ -134,10 +122,8 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 	}
 
 	/**
-	 * <p>
 	 * This method is called when a wrong step error has occurred, for example as a result of the user using the
 	 * browser's navigation controls.
-	 * </p>
 	 *
 	 * <p>
 	 * The method can be overridden to allow projects to handle the step error in a manner appropriate to their
@@ -360,17 +346,11 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 		return new WApplicationModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected WApplicationModel getComponentModel() {
 		return (WApplicationModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected WApplicationModel getOrCreateComponentModel() {
 		return (WApplicationModel) super.getOrCreateComponentModel();
@@ -480,17 +460,11 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 			return url == null ? resource.getTargetUrl() : url;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public boolean equals(final Object obj) {
 			return obj instanceof ApplicationResource && resourceId.equals(((ApplicationResource) obj).getResourceId());
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public int hashCode() {
 			return resourceId.hashCode();

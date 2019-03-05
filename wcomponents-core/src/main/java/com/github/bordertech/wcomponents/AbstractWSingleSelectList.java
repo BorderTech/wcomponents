@@ -79,9 +79,6 @@ public abstract class AbstractWSingleSelectList extends AbstractWSelectList {
 
 	// ================================
 	// DataBound
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void preparePaintComponent(final Request request) {
 		super.preparePaintComponent(request);
@@ -89,9 +86,6 @@ public abstract class AbstractWSingleSelectList extends AbstractWSelectList {
 		findValidOption(getOptions(), getData(), true);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Object getValue() {
 		// Validate the selected option (allow handle invalid option)
@@ -99,9 +93,6 @@ public abstract class AbstractWSingleSelectList extends AbstractWSelectList {
 		return validOption;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Object getData() {
 		Object data = super.getData();
@@ -124,9 +115,6 @@ public abstract class AbstractWSingleSelectList extends AbstractWSelectList {
 
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setData(final Object data) {
 		List<?> options = getOptions();
@@ -210,9 +198,6 @@ public abstract class AbstractWSingleSelectList extends AbstractWSelectList {
 				+ "\" is invalid. It is not an available option.");
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected boolean doHandleRequest(final Request request) {
 		// First we need to figure out if the new selection is the same as the
@@ -229,9 +214,6 @@ public abstract class AbstractWSingleSelectList extends AbstractWSelectList {
 		return changed;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Object getRequestValue(final Request request) {
 		if (isPresent(request)) {

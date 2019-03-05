@@ -8,11 +8,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * <p>
  * WAudio provides a means to play audio content. For most uses this means a HTML audio element. If the client does not
  * implement the audio element or cannot play any of the supplied sources then an alternate means to access the sources
  * is provided.
- *</p>
  * <p>
  * Each WAudio component must have at least one {@link Audio} resource. Each such resource should be appropriate for
  * delivery over the web and in a format suitable for the application's target browsers. If the application has a
@@ -122,10 +120,8 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 	}
 
 	/**
-	 * <p>
 	 * Creates a WAudio with the given static content. This is provided as a convenience method for when the audio file
 	 * is included as static content in the class path rather than in the web application's resources.
-	 * </p>
 	 * <p>
 	 * The mime type for the audio clip is looked up from the "mimeType.*" mapping configuration parameters using the
 	 * resource's file extension.
@@ -207,10 +203,8 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 	}
 
 	/**
-	 * <p>
 	 * Sets whether the clip should play automatically. It is <strong>recommended</strong> that this should not be set
 	 * true.
-	 * </p>
 	 * <p>
 	 * Each instance of WAudio which is set to auto-play must comply with
 	 * <a href="https://www.w3.org/WAI/WCAG20/quickref/#visual-audio-contrast-dis-audio">guideline 1.4.2</a>; therefore
@@ -458,17 +452,11 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 		return new AudioModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected AudioModel getComponentModel() {
 		return (AudioModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected AudioModel getOrCreateComponentModel() {
 		return (AudioModel) super.getOrCreateComponentModel();

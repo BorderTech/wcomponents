@@ -158,9 +158,6 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 
 	// ================================
 	// DataBound
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void preparePaintComponent(final Request request) {
 		super.preparePaintComponent(request);
@@ -198,10 +195,7 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * <p>
 	 * getData expects the data to be either null (for no selection) or a {@link List} of selected options.
-	 * </p>
 	 * <p>
 	 * getData will check that if no options have been selected (ie data is null) and the list component requires an
 	 * option to be selected (ie {@link #isAllowNoSelection()} is false), it will return a list containing the first
@@ -384,9 +378,6 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 
 	// ================================
 	// Handle Request
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected boolean doHandleRequest(final Request request) {
 		// First we need to figure out if the new selections are the same as the
@@ -403,9 +394,6 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 		return changed;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public List<?> getRequestValue(final Request request) {
 		if (isPresent(request)) {
@@ -593,26 +581,17 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 		getOrCreateComponentModel().maxSelect = maxSelect;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected MultiSelectionModel newComponentModel() {
 		return new MultiSelectionModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected MultiSelectionModel getComponentModel() {
 		return (MultiSelectionModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected MultiSelectionModel getOrCreateComponentModel() {

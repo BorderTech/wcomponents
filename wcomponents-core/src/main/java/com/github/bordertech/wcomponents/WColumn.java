@@ -110,17 +110,11 @@ public class WColumn extends AbstractMutableContainer implements AjaxTarget {
 		return new ColumnModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected ColumnModel getComponentModel() {
 		return (ColumnModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected ColumnModel getOrCreateComponentModel() {
 		return (ColumnModel) super.getOrCreateComponentModel();

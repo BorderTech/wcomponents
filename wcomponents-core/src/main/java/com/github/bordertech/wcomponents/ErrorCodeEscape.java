@@ -29,9 +29,6 @@ public class ErrorCodeEscape extends ActionEscape {
 		this.message = message;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void escape() throws IOException {
 		getResponse().sendError(code, message);

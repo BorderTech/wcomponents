@@ -59,9 +59,6 @@ public class SimpleBeanTreeTableDataModel extends AbstractTreeTableDataModel {
 		this.properties = properties;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isSortable(final int col) {
 		return comparators != null && comparators.containsKey(col);
@@ -87,9 +84,6 @@ public class SimpleBeanTreeTableDataModel extends AbstractTreeTableDataModel {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Object getValueAt(final TableTreeNode row, final int col) {
 		Object bean = row.getData();
@@ -123,9 +117,6 @@ public class SimpleBeanTreeTableDataModel extends AbstractTreeTableDataModel {
 		return editable;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setValueAt(final Object value, final int row, final int col) {
 		if (!editable) {
@@ -168,9 +159,6 @@ public class SimpleBeanTreeTableDataModel extends AbstractTreeTableDataModel {
 		this.editable = editable;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int[] sort(final int col, final boolean ascending) {
 		if (!isSortable(col)) {

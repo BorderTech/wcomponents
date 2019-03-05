@@ -5,9 +5,8 @@ import com.github.bordertech.wcomponents.util.TreeNode;
 import java.io.Serializable;
 
 /**
- * <p>
  * An extension of AbstractTreeNode that supports a data attribute, the concept of being expanded/collapsed and
- * node-specific renderers.</p>
+ * node-specific renderers.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -228,27 +227,18 @@ public class TableTreeNode extends AbstractTreeNode {
 		return nodeCount;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void add(final TreeNode node) {
 		super.add(node);
 		adjustNodeCount(((TableTreeNode) node).nodeCount + 1);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void remove(final TreeNode node) {
 		super.remove(node);
 		adjustNodeCount(-((TableTreeNode) node).nodeCount - 1);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void removeAll() {
 		super.removeAll();

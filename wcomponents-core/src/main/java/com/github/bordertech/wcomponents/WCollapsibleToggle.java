@@ -96,17 +96,11 @@ public class WCollapsibleToggle extends AbstractWComponent implements AjaxTarget
 		return new CollapsibleModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected CollapsibleModel getComponentModel() {
 		return (CollapsibleModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected CollapsibleModel getOrCreateComponentModel() {
 		return (CollapsibleModel) super.getOrCreateComponentModel();
