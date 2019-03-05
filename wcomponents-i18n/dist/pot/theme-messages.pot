@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-21 15:28+1100\n"
+"POT-Creation-Date: 2018-06-25 15:42+1000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,7 +25,6 @@ msgctxt "validation_common_incomplete"
 msgid "%s must be completed."
 msgstr ""
 
-#. 
 #. TRANSLATORS: Used to refer to a form field that has not been correctly labelled.
 #: validation_common_unlabelledfield
 #, java-format
@@ -33,7 +32,6 @@ msgctxt "validation_common_unlabelledfield"
 msgid "This field"
 msgstr ""
 
-#. 
 #. TRANSLATORS: The user is has provided data that does not match the formatting requirements.
 #: validation_common_pattern
 #, java-format
@@ -41,7 +39,6 @@ msgctxt "validation_common_pattern"
 msgid "%s is not in the required format."
 msgstr ""
 
-#. 
 #. TRANSLATORS: Used to concatenate multiple errors into a single error message
 #: validation_concatenator
 #, java-format
@@ -49,7 +46,6 @@ msgctxt "validation_concatenator"
 msgid "%1$s and %2$s"
 msgstr ""
 
-#. 
 #. TRANSLATORS: The user is required to complete at least one form field in a given set of fields.
 #: validation_common_incompletegroup
 #, java-format
@@ -57,21 +53,18 @@ msgctxt "validation_common_incompletegroup"
 msgid "%s must have at least one field completed."
 msgstr ""
 
-#. 
 #: validation_common_overmax
 #, java-format
 msgctxt "validation_common_overmax"
 msgid "%1$s must have no more than %2$s options selected."
 msgstr ""
 
-#. 
 #: validation_common_undermin
 #, java-format
 msgctxt "validation_common_undermin"
 msgid "%1$s must have at least %2$s options selected."
 msgstr ""
 
-#. 
 #. TRANSLATORS: A validation error has occurred but the user is able to override it and continue anyway
 #: validation_common_ignore
 #, java-format
@@ -79,7 +72,6 @@ msgctxt "validation_common_ignore"
 msgid "Do you wish to continue anyway?"
 msgstr ""
 
-#. 
 #: validation_ok
 #, java-format
 msgctxt "validation_ok"
@@ -93,133 +85,114 @@ msgctxt "validation_date_incomplete"
 msgid "%s must be a full date with day, month and year."
 msgstr ""
 
-#. 
 #: validation_date_undermin
 #, java-format
 msgctxt "validation_date_undermin"
 msgid "%1$s must be on or after %2$s."
 msgstr ""
 
-#. 
 #: validation_date_overmax
 #, java-format
 msgctxt "validation_date_overmax"
 msgid "%1$s must be on or before %2$s."
 msgstr ""
 
-#. 
 #: validation_textarea_overmax
 #, java-format
 msgctxt "validation_textarea_overmax"
 msgid "%1$s is limited to %2$s characters and currently %3$d are entered."
 msgstr ""
 
-#. 
 #: validation_multifile_incomplete
 #, java-format
 msgctxt "validation_multifile_incomplete"
 msgid "%s must have at least one file uploaded."
 msgstr ""
 
-#. 
 #: validation_multitext_undermin
 #, java-format
 msgctxt "validation_multitext_undermin"
 msgid "%1$s must have at least %2$s values entered."
 msgstr ""
 
-#. 
 #: validation_multitext_overmax
 #, java-format
 msgctxt "validation_multitext_overmax"
 msgid "%1$s must have no more than %2$s values entered."
 msgstr ""
 
-#. 
 #: validation_multiselectpair_incomplete
 #, java-format
 msgctxt "validation_multiselectpair_incomplete"
 msgid "%1$s must have at least one option added to the %2$s list."
 msgstr ""
 
-#. 
 #: validation_multiselectpair_overmax
 #, java-format
 msgctxt "validation_multiselectpair_overmax"
 msgid "%1$s must have no more than %2$s options in the %3$s list."
 msgstr ""
 
-#. 
 #: validation_multiselectpair_undermin
 #, java-format
 msgctxt "validation_multiselectpair_undermin"
 msgid "%1$s must have at least %2$s options in the %3$s list."
 msgstr ""
 
-#. 
 #: validation_number_undermin
 #, java-format
 msgctxt "validation_number_undermin"
 msgid "%1$s must be at least %2$s."
 msgstr ""
 
-#. 
 #: validation_number_overmax
 #, java-format
 msgctxt "validation_number_overmax"
 msgid "%1$s must be no more than %2$s."
 msgstr ""
 
-#. 
 #: validation_number_outofrange
 #, java-format
 msgctxt "validation_number_outofrange"
 msgid "%1$s must be between %2$s and %3$s."
 msgstr ""
 
-#. 
 #: validation_number_nan
 #, java-format
 msgctxt "validation_number_nan"
 msgid "%s must be a number."
 msgstr ""
 
-#. 
 #: validation_number_nanwithmin
 #, java-format
 msgctxt "validation_number_nanwithmin"
 msgid "%1$s must be a number of at least %2$s."
 msgstr ""
 
-#. 
 #: validation_number_nanwithmax
 #, java-format
 msgctxt "validation_number_nanwithmax"
 msgid "%1$s must be a number no more than %2$s."
 msgstr ""
 
-#. 
 #: validation_number_nanwithrange
 #, java-format
 msgctxt "validation_number_nanwithrange"
 msgid "%1$s must be a number between %2$s and %3$s."
 msgstr ""
 
-#. 
 #: validation_email_format
 #, java-format
 msgctxt "validation_email_format"
 msgid "%s must be an email address."
 msgstr ""
 
-#. 
 #: validation_text_belowmin
 #, java-format
 msgctxt "validation_text_belowmin"
 msgid "%1$s must contain a minimum of %2$s characters."
 msgstr ""
 
-#. 
 #. 
 #. # Common Messages ##
 #. 
@@ -230,7 +203,6 @@ msgctxt "expandall"
 msgid "Expand all"
 msgstr ""
 
-#. 
 #: submitOnChange
 #, java-format
 msgctxt "submitOnChange"
@@ -239,7 +211,6 @@ msgid ""
 "changes to be saved immediately."
 msgstr ""
 
-#. 
 #. 
 #. JS only
 #: letter
@@ -255,7 +226,6 @@ msgctxt "requiredLabel"
 msgid "This component requires a label"
 msgstr ""
 
-#. 
 #. List shuffle controls for WShuffler and WMultiSelectPair:
 #. XSLT only
 #: shuffle_top
@@ -264,28 +234,24 @@ msgctxt "shuffle_top"
 msgid "move to top"
 msgstr ""
 
-#. 
 #: shuffle_up
 #, java-format
 msgctxt "shuffle_up"
 msgid "move up"
 msgstr ""
 
-#. 
 #: shuffle_down
 #, java-format
 msgctxt "shuffle_down"
 msgid "move down"
 msgstr ""
 
-#. 
 #: shuffle_bottom
 #, java-format
 msgctxt "shuffle_bottom"
 msgid "move to bottom"
 msgstr ""
 
-#. 
 #. # Common toggling messages ##
 #. XSLT only
 #: toggle_label
@@ -294,42 +260,36 @@ msgctxt "toggle_label"
 msgid "Select:"
 msgstr ""
 
-#. 
 #: toggle_all
 #, java-format
 msgctxt "toggle_all"
 msgid "All"
 msgstr ""
 
-#. 
 #: toggle_none
 #, java-format
 msgctxt "toggle_none"
 msgid "None"
 msgstr ""
 
-#. 
 #: toggle_all_label
 #, java-format
 msgctxt "toggle_all_label"
 msgid "Select all"
 msgstr ""
 
-#. 
 #: toggle_none_label
 #, java-format
 msgctxt "toggle_none_label"
 msgid "Select none"
 msgstr ""
 
-#. 
 #: collapseall
 #, java-format
 msgctxt "collapseall"
 msgid "Collapse all"
 msgstr ""
 
-#. 
 #. # Common daynames ##
 #. JS only
 #. TRANSLATORS: First day of week (where the week starts on Sunday)
@@ -339,7 +299,6 @@ msgctxt "day0"
 msgid "Sunday"
 msgstr ""
 
-#. 
 #. TRANSLATORS: Second day of week (where the week starts on Sunday)
 #: day1
 #, java-format
@@ -347,7 +306,6 @@ msgctxt "day1"
 msgid "Monday"
 msgstr ""
 
-#. 
 #. TRANSLATORS: Third day of week (where the week starts on Sunday)
 #: day2
 #, java-format
@@ -355,7 +313,6 @@ msgctxt "day2"
 msgid "Tuesday"
 msgstr ""
 
-#. 
 #. TRANSLATORS: Fourth day of week (where the week starts on Sunday)
 #: day3
 #, java-format
@@ -363,7 +320,6 @@ msgctxt "day3"
 msgid "Wednesday"
 msgstr ""
 
-#. 
 #. TRANSLATORS: Fifth day of week (where the week starts on Sunday)
 #: day4
 #, java-format
@@ -371,7 +327,6 @@ msgctxt "day4"
 msgid "Thursday"
 msgstr ""
 
-#. 
 #. TRANSLATORS: Sixth day of week (where the week starts on Sunday)
 #: day5
 #, java-format
@@ -379,7 +334,6 @@ msgctxt "day5"
 msgid "Friday"
 msgstr ""
 
-#. 
 #. TRANSLATORS: Seventh day of week (where the week starts on Sunday)
 #: day6
 #, java-format
@@ -388,7 +342,6 @@ msgid "Saturday"
 msgstr ""
 
 #. 
-#. 
 #. TRANSLATORS: Abbreviated form of the first month of the year (to be used where space is limited)
 #: monthabbr0
 #, java-format
@@ -396,7 +349,6 @@ msgctxt "monthabbr0"
 msgid "Jan"
 msgstr ""
 
-#. 
 #. TRANSLATORS: Abbreviated form of the second month of the year (to be used where space is limited)
 #: monthabbr1
 #, java-format
@@ -404,7 +356,6 @@ msgctxt "monthabbr1"
 msgid "Feb"
 msgstr ""
 
-#. 
 #. TRANSLATORS: Abbreviated form of the third month of the year (to be used where space is limited)
 #: monthabbr2
 #, java-format
@@ -412,7 +363,6 @@ msgctxt "monthabbr2"
 msgid "Mar"
 msgstr ""
 
-#. 
 #. TRANSLATORS: Abbreviated form of the fourth month of the year (to be used where space is limited)
 #: monthabbr3
 #, java-format
@@ -420,7 +370,6 @@ msgctxt "monthabbr3"
 msgid "Apr"
 msgstr ""
 
-#. 
 #. TRANSLATORS: Abbreviated form of the fifth month of the year (to be used where space is limited)
 #: monthabbr4
 #, java-format
@@ -428,7 +377,6 @@ msgctxt "monthabbr4"
 msgid "May"
 msgstr ""
 
-#. 
 #. TRANSLATORS: Abbreviated form of the sixth month of the year (to be used where space is limited)
 #: monthabbr5
 #, java-format
@@ -436,7 +384,6 @@ msgctxt "monthabbr5"
 msgid "Jun"
 msgstr ""
 
-#. 
 #. TRANSLATORS: Abbreviated form of the seventh month of the year (to be used where space is limited)
 #: monthabbr6
 #, java-format
@@ -444,7 +391,6 @@ msgctxt "monthabbr6"
 msgid "Jul"
 msgstr ""
 
-#. 
 #. TRANSLATORS: Abbreviated form of the eighth month of the year (to be used where space is limited)
 #: monthabbr7
 #, java-format
@@ -452,7 +398,6 @@ msgctxt "monthabbr7"
 msgid "Aug"
 msgstr ""
 
-#. 
 #. TRANSLATORS: Abbreviated form of the ninth month of the year (to be used where space is limited)
 #: monthabbr8
 #, java-format
@@ -460,7 +405,6 @@ msgctxt "monthabbr8"
 msgid "Sep"
 msgstr ""
 
-#. 
 #. TRANSLATORS: Abbreviated form of the tenth month of the year (to be used where space is limited)
 #: monthabbr9
 #, java-format
@@ -468,7 +412,6 @@ msgctxt "monthabbr9"
 msgid "Oct"
 msgstr ""
 
-#. 
 #. TRANSLATORS: Abbreviated form of the eleventh month of the year (to be used where space is limited)
 #: monthabbrA
 #, java-format
@@ -476,7 +419,6 @@ msgctxt "monthabbrA"
 msgid "Nov"
 msgstr ""
 
-#. 
 #. TRANSLATORS: Abbreviated form of the twelfth month of the year (to be used where space is limited)
 #: monthabbrB
 #, java-format
@@ -485,7 +427,6 @@ msgid "Dec"
 msgstr ""
 
 #. 
-#. 
 #. TRANSLATORS: First month of year
 #: month0
 #, java-format
@@ -493,7 +434,6 @@ msgctxt "month0"
 msgid "January"
 msgstr ""
 
-#. 
 #. TRANSLATORS: Second month of year
 #: month1
 #, java-format
@@ -501,7 +441,6 @@ msgctxt "month1"
 msgid "February"
 msgstr ""
 
-#. 
 #. TRANSLATORS: Third month of year
 #: month2
 #, java-format
@@ -509,7 +448,6 @@ msgctxt "month2"
 msgid "March"
 msgstr ""
 
-#. 
 #. TRANSLATORS: Fourth month of year
 #: month3
 #, java-format
@@ -517,7 +455,6 @@ msgctxt "month3"
 msgid "April"
 msgstr ""
 
-#. 
 #. TRANSLATORS: Fifth month of year
 #: month4
 #, java-format
@@ -525,7 +462,6 @@ msgctxt "month4"
 msgid "May"
 msgstr ""
 
-#. 
 #. TRANSLATORS: Sixth month of year
 #: month5
 #, java-format
@@ -533,7 +469,6 @@ msgctxt "month5"
 msgid "June"
 msgstr ""
 
-#. 
 #. TRANSLATORS: Seventh month of year
 #: month6
 #, java-format
@@ -541,7 +476,6 @@ msgctxt "month6"
 msgid "July"
 msgstr ""
 
-#. 
 #. TRANSLATORS: Eighth month of year
 #: month7
 #, java-format
@@ -549,7 +483,6 @@ msgctxt "month7"
 msgid "August"
 msgstr ""
 
-#. 
 #. TRANSLATORS: Ninth month of year
 #: month8
 #, java-format
@@ -557,7 +490,6 @@ msgctxt "month8"
 msgid "September"
 msgstr ""
 
-#. 
 #. TRANSLATORS: Tenth month of year
 #: month9
 #, java-format
@@ -565,7 +497,6 @@ msgctxt "month9"
 msgid "October"
 msgstr ""
 
-#. 
 #. TRANSLATORS: Eleventh month of year
 #: monthA
 #, java-format
@@ -573,7 +504,6 @@ msgctxt "monthA"
 msgid "November"
 msgstr ""
 
-#. 
 #. TRANSLATORS: Twelfth month of year
 #: monthB
 #, java-format
@@ -582,7 +512,6 @@ msgid "December"
 msgstr ""
 
 #. 
-#. 
 #. TRANSLATORS: To be used in a message presented to the user warning them of unsaved pages. The name of the current view will be injected.
 #: cancel_message
 #, java-format
@@ -590,7 +519,6 @@ msgctxt "cancel_message"
 msgid "'%s' has unsaved changes. Would you like to discard them?"
 msgstr ""
 
-#. 
 #. TRANSLATORS: A default view title to be used in the unsaved changes warning.
 #: cancel_title
 #, java-format
@@ -598,7 +526,6 @@ msgctxt "cancel_title"
 msgid "This page"
 msgstr ""
 
-#. 
 #. 
 #. # ASCII map ##
 #. JS only
@@ -612,7 +539,6 @@ msgid ""
 msgstr ""
 
 #. 
-#. 
 #. # "Back to top" messages ##
 #. JS only
 #. 
@@ -624,7 +550,6 @@ msgid "Back to top (press the ESCAPE key to hide this)"
 msgstr ""
 
 #. 
-#. 
 #. # Checkable input messages ##
 #. XSLT only
 #. 
@@ -635,7 +560,6 @@ msgctxt "input_selected"
 msgid "selected"
 msgstr ""
 
-#. 
 #. TRANSLATORS: Indicates that a selectable widget is NOT in the selected state
 #: input_unselected
 #, java-format
@@ -643,7 +567,6 @@ msgctxt "input_unselected"
 msgid "not selected"
 msgstr ""
 
-#. 
 #. 
 #. # DateField messages and masks ##
 #. XSLT only
@@ -655,7 +578,6 @@ msgid ""
 "+7."
 msgstr ""
 
-#. 
 #. JS only
 #: datefield_masks_full
 #, java-format
@@ -668,7 +590,6 @@ msgid ""
 "d/yy,MMddyy,MMddyyyy,MMdyyyy,MMdyy,Mddyyyy,Mddyy,Mdyy,Mdyyyy"
 msgstr ""
 
-#. 
 #. Note that the partial masks extend the full masks (so any masks set in the full masks are automatically included in the partial masks)
 #: datefield_masks_partial
 #, java-format
@@ -680,56 +601,48 @@ msgid ""
 "dd,dMON,MONd,ddMON,MONdd,d,dd yyyy,ddyyyy,ddyy,dd yy,dyyyy,dyy"
 msgstr ""
 
-#. 
 #: datefield_mask_format
 #, java-format
 msgctxt "datefield_mask_format"
 msgid "dd MON yyyy"
 msgstr ""
 
-#. 
 #: datefield_calendarMonthLabel
 #, java-format
 msgctxt "datefield_calendarMonthLabel"
 msgid "Month"
 msgstr ""
 
-#. 
 #: datefield_calendarYearLabel
 #, java-format
 msgctxt "datefield_calendarYearLabel"
 msgid "Year"
 msgstr ""
 
-#. 
 #: datefield_lastMonth
 #, java-format
 msgctxt "datefield_lastMonth"
 msgid "Previous month"
 msgstr ""
 
-#. 
 #: datefield_nextMonth
 #, java-format
 msgctxt "datefield_nextMonth"
 msgid "Next month"
 msgstr ""
 
-#. 
 #: datefield_today
 #, java-format
 msgctxt "datefield_today"
 msgid "Today"
 msgstr ""
 
-#. 
 #: datefield_close
 #, java-format
 msgctxt "datefield_close"
 msgid "Close"
 msgstr ""
 
-#. 
 #. # Dialog Messages ##
 #. JS only
 #: dialog_noTitle
@@ -738,14 +651,12 @@ msgctxt "dialog_noTitle"
 msgid "Untitled Dialog"
 msgstr ""
 
-#. 
 #: dialog_move
 #, java-format
 msgctxt "dialog_move"
 msgid "ARROW to move dialog"
 msgstr ""
 
-#. 
 #: dialog_resize
 #, java-format
 msgctxt "dialog_resize"
@@ -754,21 +665,18 @@ msgid ""
 "shrink dialog"
 msgstr ""
 
-#. 
 #: dialog_close
 #, java-format
 msgctxt "dialog_close"
 msgid "Close dialog"
 msgstr ""
 
-#. 
 #: dialog_maxRestore
 #, java-format
 msgctxt "dialog_maxRestore"
 msgid "Maximise/restore dialog"
 msgstr ""
 
-#. 
 #. # ImageEdit Messages ##
 #. JS only
 #: imgedit_rotate
@@ -777,350 +685,300 @@ msgctxt "imgedit_rotate"
 msgid "Rotate"
 msgstr ""
 
-#. 
 #: imgedit_rotate_left
 #, java-format
 msgctxt "imgedit_rotate_left"
 msgid "Left"
 msgstr ""
 
-#. 
 #: imgedit_rotate_right
 #, java-format
 msgctxt "imgedit_rotate_right"
 msgid "Right"
 msgstr ""
 
-#. 
 #: imgedit_rotate_left90
 #, java-format
 msgctxt "imgedit_rotate_left90"
 msgid "Left 90�"
 msgstr ""
 
-#. 
 #: imgedit_rotate_right90
 #, java-format
 msgctxt "imgedit_rotate_right90"
 msgid "Right 90�"
 msgstr ""
 
-#. 
 #: imgedit_capture
 #, java-format
 msgctxt "imgedit_capture"
 msgid "Capture"
 msgstr ""
 
-#. 
 #: imgedit_move
 #, java-format
 msgctxt "imgedit_move"
 msgid "Move"
 msgstr ""
 
-#. 
 #: imgedit_move_left
 #, java-format
 msgctxt "imgedit_move_left"
 msgid "Left"
 msgstr ""
 
-#. 
 #: imgedit_move_right
 #, java-format
 msgctxt "imgedit_move_right"
 msgid "Right"
 msgstr ""
 
-#. 
 #: imgedit_move_up
 #, java-format
 msgctxt "imgedit_move_up"
 msgid "Up"
 msgstr ""
 
-#. 
 #: imgedit_move_down
 #, java-format
 msgctxt "imgedit_move_down"
 msgid "Down"
 msgstr ""
 
-#. 
 #: imgedit_move_center
 #, java-format
 msgctxt "imgedit_move_center"
 msgid "Center"
 msgstr ""
 
-#. 
 #: imgedit_redact
 #, java-format
 msgctxt "imgedit_redact"
 msgid "Redaction"
 msgstr ""
 
-#. 
 #: imgedit_zoom
 #, java-format
 msgctxt "imgedit_zoom"
 msgid "Zoom"
 msgstr ""
 
-#. 
 #: imgedit_zoom_in
 #, java-format
 msgctxt "imgedit_zoom_in"
 msgid "In"
 msgstr ""
 
-#. 
 #: imgedit_zoom_out
 #, java-format
 msgctxt "imgedit_zoom_out"
 msgid "Out"
 msgstr ""
 
-#. 
 #: imgedit_action_reset
 #, java-format
 msgctxt "imgedit_action_reset"
 msgid "Reset"
 msgstr ""
 
-#. 
 #: imgedit_action_redo
 #, java-format
 msgctxt "imgedit_action_redo"
 msgid "Redo"
 msgstr ""
 
-#. 
 #: imgedit_action_undo
 #, java-format
 msgctxt "imgedit_action_undo"
 msgid "Undo"
 msgstr ""
 
-#. 
 #: imgedit_action_cancel
 #, java-format
 msgctxt "imgedit_action_cancel"
 msgid "Cancel"
 msgstr ""
 
-#. 
 #: imgedit_action_save
 #, java-format
 msgctxt "imgedit_action_save"
 msgid "Save"
 msgstr ""
 
-#. 
 #: imgedit_action_snap
 #, java-format
 msgctxt "imgedit_action_snap"
 msgid "Photo"
 msgstr ""
 
-#. 
 #: imgedit_action_redact
 #, java-format
 msgctxt "imgedit_action_redact"
 msgid "Redact"
 msgstr ""
 
-#. 
 #: imgedit_action_camera
 #, java-format
 msgctxt "imgedit_action_camera"
 msgid "Camera"
 msgstr ""
 
-#. 
 #: imgedit_title
 #, java-format
 msgctxt "imgedit_title"
 msgid "Image Editor"
 msgstr ""
 
-#. 
 #: imgedit_message_nortcgum
 #, java-format
 msgctxt "imgedit_message_nortcgum"
 msgid "Your browser does not support webcam capture"
 msgstr ""
 
-#. 
 #: imgedit_message_novideo
 #, java-format
 msgctxt "imgedit_message_novideo"
 msgid "Video stream not available."
 msgstr ""
 
-#. 
 #: imgedit_message_nocapture
 #, java-format
 msgctxt "imgedit_message_nocapture"
 msgid "Your browser does not support image capture."
 msgstr ""
 
-#. 
 #: imgedit_message_rotate_left
 #, java-format
 msgctxt "imgedit_message_rotate_left"
 msgid "Rotate the image anti-clockwise"
 msgstr ""
 
-#. 
 #: imgedit_message_rotate_right
 #, java-format
 msgctxt "imgedit_message_rotate_right"
 msgid "Rotate the image clockwise"
 msgstr ""
 
-#. 
 #: imgedit_message_rotate_left90
 #, java-format
 msgctxt "imgedit_message_rotate_left90"
 msgid "Rotate anti-clockwise to next multiple of 90�"
 msgstr ""
 
-#. 
 #: imgedit_message_rotate_right90
 #, java-format
 msgctxt "imgedit_message_rotate_right90"
 msgid "Rotate clockwise to next multiple of 90�"
 msgstr ""
 
-#. 
 #: imgedit_message_move_left
 #, java-format
 msgctxt "imgedit_message_move_left"
 msgid "Move the image to the left"
 msgstr ""
 
-#. 
 #: imgedit_message_move_right
 #, java-format
 msgctxt "imgedit_message_move_right"
 msgid "Move the image to the right"
 msgstr ""
 
-#. 
 #: imgedit_message_move_up
 #, java-format
 msgctxt "imgedit_message_move_up"
 msgid "Move the image up"
 msgstr ""
 
-#. 
 #: imgedit_message_move_down
 #, java-format
 msgctxt "imgedit_message_move_down"
 msgid "Move the image down"
 msgstr ""
 
-#. 
 #: imgedit_message_move_center
 #, java-format
 msgctxt "imgedit_message_move_center"
 msgid "Center the image"
 msgstr ""
 
-#. 
 #: imgedit_message_zoom_in
 #, java-format
 msgctxt "imgedit_message_zoom_in"
 msgid "Zoom in"
 msgstr ""
 
-#. 
 #: imgedit_message_zoom_out
 #, java-format
 msgctxt "imgedit_message_zoom_out"
 msgid "Zoom out"
 msgstr ""
 
-#. 
 #: imgedit_message_reset
 #, java-format
 msgctxt "imgedit_message_reset"
 msgid "Undo all changes to the image"
 msgstr ""
 
-#. 
 #: imgedit_message_undo
 #, java-format
 msgctxt "imgedit_message_undo"
 msgid "Undo"
 msgstr ""
 
-#. 
 #: imgedit_message_redo
 #, java-format
 msgctxt "imgedit_message_redo"
 msgid "Redo"
 msgstr ""
 
-#. 
 #: imgedit_message_cancel
 #, java-format
 msgctxt "imgedit_message_cancel"
 msgid "Abort image editing"
 msgstr ""
 
-#. 
 #: imgedit_message_save
 #, java-format
 msgctxt "imgedit_message_save"
 msgid "Save the image"
 msgstr ""
 
-#. 
 #: imgedit_message_snap
 #, java-format
 msgctxt "imgedit_message_snap"
 msgid "Take a snapshot from the video stream"
 msgstr ""
 
-#. 
 #: imgedit_message_redact
 #, java-format
 msgctxt "imgedit_message_redact"
 msgid "Redaction mode"
 msgstr ""
 
-#. 
 #: imgedit_message_camera
 #, java-format
 msgctxt "imgedit_message_camera"
 msgid "Take a photo from your webcam"
 msgstr ""
 
-#. 
 #: imgedit_message_val_minface
 #, java-format
 msgctxt "imgedit_message_val_minface"
 msgid "The image must contain a face"
 msgstr ""
 
-#. 
 #: imgedit_message_val_maxface
 #, java-format
 msgctxt "imgedit_message_val_maxface"
 msgid "The image contains too many faces"
 msgstr ""
 
-#. 
 #: imgedit_edit
 #, java-format
 msgctxt "imgedit_edit"
 msgid "Edit"
 msgstr ""
 
-#. 
 #: imgedit_noimage
 #, java-format
 msgctxt "imgedit_noimage"
@@ -1128,7 +986,6 @@ msgid ""
 "First click the button to capture a snapshot from the live video stream."
 msgstr ""
 
-#. 
 #: imgedit_message_fixtoolarge
 #, java-format
 msgctxt "imgedit_message_fixtoolarge"
@@ -1136,7 +993,6 @@ msgid ""
 "You may be able to reduce the size by manipulating the image in the editor."
 msgstr ""
 
-#. 
 #. 
 #. # ListLoader Messages ##
 #. JS only
@@ -1146,14 +1002,12 @@ msgctxt "loader_loaderr"
 msgid "An error occurred loading the list %s"
 msgstr ""
 
-#. 
 #: loader_retry
 #, java-format
 msgctxt "loader_retry"
 msgid "Retry"
 msgstr ""
 
-#. 
 #. # Loading Messages ##
 #. JS only
 #: loading
@@ -1162,7 +1016,6 @@ msgctxt "loading"
 msgid "Loading"
 msgstr ""
 
-#. 
 #. # MaxLength messages ##
 #. JS only
 #: chars_remaining
@@ -1171,7 +1024,6 @@ msgctxt "chars_remaining"
 msgid "%d characters remaining"
 msgstr ""
 
-#. 
 #. # Media Player Messages ##
 #. XSLT only
 #. TRANSLATORS: Indicates that the user may commence media (video/audio) playback
@@ -1181,7 +1033,6 @@ msgctxt "media_play"
 msgid "play"
 msgstr ""
 
-#. 
 #. # Menu Messages ##
 #. JS only
 #: menu_close_label
@@ -1190,14 +1041,12 @@ msgctxt "menu_close_label"
 msgid "Close"
 msgstr ""
 
-#. 
 #: menu_open_label
 #, java-format
 msgctxt "menu_open_label"
 msgid "Open"
 msgstr ""
 
-#. 
 #. # Change the following for rtl opening menu collision detection support:
 #. # The direction in which a pop out menu will normally direct itself. East is towards the right edge of the screen.
 #: menu_popout_direction
@@ -1206,7 +1055,6 @@ msgctxt "menu_popout_direction"
 msgid "east"
 msgstr ""
 
-#. 
 #. # The reverse of the above.
 #: menu_popout_reverse
 #, java-format
@@ -1214,7 +1062,6 @@ msgctxt "menu_popout_reverse"
 msgid "west"
 msgstr ""
 
-#. 
 #. # Message Box (alert) Messages ##
 #. XSLT only
 #: messagetitle_error
@@ -1223,28 +1070,24 @@ msgctxt "messagetitle_error"
 msgid "An error has occurred"
 msgstr ""
 
-#. 
 #: messagetitle_warn
 #, java-format
 msgctxt "messagetitle_warn"
 msgid "Warning"
 msgstr ""
 
-#. 
 #: messagetitle_info
 #, java-format
 msgctxt "messagetitle_info"
 msgid "Information"
 msgstr ""
 
-#. 
 #: messagetitle_success
 #, java-format
 msgctxt "messagetitle_success"
 msgid "Success"
 msgstr ""
 
-#. 
 #. # File Uploader Messages ##
 #. JS only
 #: file_toolarge
@@ -1255,7 +1098,6 @@ msgid ""
 "%2$s %3$s."
 msgstr ""
 
-#. 
 #: file_wrongtype
 #, java-format
 msgctxt "file_wrongtype"
@@ -1264,7 +1106,6 @@ msgid ""
 "type/s are accepted: %s."
 msgstr ""
 
-#. 
 #: file_confirmnav
 #, java-format
 msgctxt "file_confirmnav"
@@ -1273,35 +1114,30 @@ msgid ""
 "cancelled. Are you sure you wish to proceed?"
 msgstr ""
 
-#. 
 #: file_size_kb
 #, java-format
 msgctxt "file_size_kb"
 msgid "kilobytes"
 msgstr ""
 
-#. 
 #: file_size_mb
 #, java-format
 msgctxt "file_size_mb"
 msgid "megabytes"
 msgstr ""
 
-#. 
 #: file_size_gb
 #, java-format
 msgctxt "file_size_gb"
 msgid "gigabytes"
 msgstr ""
 
-#. 
 #: file_confirmdelete
 #, java-format
 msgctxt "file_confirmdelete"
 msgid "Are you sure you wish to remove this file?"
 msgstr ""
 
-#. 
 #: file_confirmoverwrite
 #, java-format
 msgctxt "file_confirmoverwrite"
@@ -1310,28 +1146,24 @@ msgid ""
 "previously uploaded files will be automatically removed."
 msgstr ""
 
-#. 
 #: file_toomany
 #, java-format
 msgctxt "file_toomany"
 msgid "You cannot upload more files, the maximum allowed is %2$s."
 msgstr ""
 
-#. 
 #: file_errormsg
 #, java-format
 msgctxt "file_errormsg"
 msgid "An error occurred!"
 msgstr ""
 
-#. 
 #: file_abort
 #, java-format
 msgctxt "file_abort"
 msgid "Cancel uploading: %1$s"
 msgstr ""
 
-#. 
 #. both JS and XSLT
 #: file_size_
 #, java-format
@@ -1339,7 +1171,6 @@ msgctxt "file_size_"
 msgid "bytes"
 msgstr ""
 
-#. 
 #. XSLT only
 #: file_inputLabel
 #, java-format
@@ -1347,7 +1178,6 @@ msgctxt "file_inputLabel"
 msgid "file selector"
 msgstr ""
 
-#. 
 #. # Multi FormComponent Messages ##
 #. JS only
 #: mfc_max
@@ -1356,7 +1186,6 @@ msgctxt "mfc_max"
 msgid "You have reached the maximum options to select."
 msgstr ""
 
-#. 
 #. both JS and XSLT
 #: mfc_remove
 #, java-format
@@ -1364,7 +1193,6 @@ msgctxt "mfc_remove"
 msgid "Remove item. Shift + click remove button to remove all."
 msgstr ""
 
-#. 
 #. XSLT only
 #: mfc_add
 #, java-format
@@ -1372,7 +1200,6 @@ msgctxt "mfc_add"
 msgid "Add item"
 msgstr ""
 
-#. 
 #. # Select Pair Messages ##
 #. XSLT only
 #. TRANSLATORS: User may add the current available option to the selected list
@@ -1382,7 +1209,6 @@ msgctxt "msp_add"
 msgid "Add"
 msgstr ""
 
-#. 
 #. TRANSLATORS: User may add ALL the available options to the selected list
 #: msp_addAll
 #, java-format
@@ -1390,7 +1216,6 @@ msgctxt "msp_addAll"
 msgid "Add All"
 msgstr ""
 
-#. 
 #. TRANSLATORS: User may remove the current selected option from the selected list
 #: msp_remove
 #, java-format
@@ -1398,7 +1223,6 @@ msgctxt "msp_remove"
 msgid "Remove"
 msgstr ""
 
-#. 
 #. TRANSLATORS: User may remove ALL the selected options from the selected list
 #: msp_removeAll
 #, java-format
@@ -1406,7 +1230,6 @@ msgctxt "msp_removeAll"
 msgid "Remove All"
 msgstr ""
 
-#. 
 #. # Select Box Search ##
 #. JS only
 #. TRANSLATORS: When filtering a list of options by typing these are the characters we consider as "searchable"
@@ -1416,7 +1239,6 @@ msgctxt "select_typeahead"
 msgid "abcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:'\",<.>/?"
 msgstr ""
 
-#. 
 #. # Table Messages ##
 #. XSLT only
 #: table_pagination_page
@@ -1425,70 +1247,60 @@ msgctxt "table_pagination_page"
 msgid "Page"
 msgstr ""
 
-#. 
 #: table_pagination_button_first
 #, java-format
 msgctxt "table_pagination_button_first"
 msgid "First page"
 msgstr ""
 
-#. 
 #: table_pagination_button_previous
 #, java-format
 msgctxt "table_pagination_button_previous"
 msgid "Previous page"
 msgstr ""
 
-#. 
 #: table_pagination_button_next
 #, java-format
 msgctxt "table_pagination_button_next"
 msgid "Next page"
 msgstr ""
 
-#. 
 #: table_pagination_button_last
 #, java-format
 msgctxt "table_pagination_button_last"
 msgid "Last page"
 msgstr ""
 
-#. 
 #: table_pagination_label_rppChooser
 #, java-format
 msgctxt "table_pagination_label_rppChooser"
 msgid "Rows per page"
 msgstr ""
 
-#. 
 #: table_pagination_option_allRows
 #, java-format
 msgctxt "table_pagination_option_allRows"
 msgid "all"
 msgstr ""
 
-#. 
 #: table_rowExpansion_rowButtonDescription
 #, java-format
 msgctxt "table_rowExpansion_rowButtonDescription"
 msgid "Show/hide content"
 msgstr ""
 
-#. 
 #: table_rowExpansion_toggleAll
 #, java-format
 msgctxt "table_rowExpansion_toggleAll"
 msgid "Expand or collapse sections"
 msgstr ""
 
-#. 
 #: table_rowSelection_toggleAll
 #, java-format
 msgctxt "table_rowSelection_toggleAll"
 msgid "Select/deselect all"
 msgstr ""
 
-#. 
 #. JS only
 #: table_pagination_label_one
 #, java-format
@@ -1498,7 +1310,6 @@ msgid ""
 "\"wc_table_pag_total\">%2$s</span> results"
 msgstr ""
 
-#. 
 #: table_pagination_label_many
 #, java-format
 msgctxt "table_pagination_label_many"
@@ -1508,7 +1319,6 @@ msgid ""
 "\"wc_table_pag_total\">%3$s</span> results"
 msgstr ""
 
-#. 
 #. # Timeout Warning ##
 #. JS only
 #: timeout_warn_header
@@ -1517,7 +1327,6 @@ msgctxt "timeout_warn_header"
 msgid "Session expiry imminent."
 msgstr ""
 
-#. 
 #: timeout_warn_body
 #, java-format
 msgctxt "timeout_warn_body"
@@ -1529,14 +1338,12 @@ msgid ""
 "</li></ul>"
 msgstr ""
 
-#. 
 #: timeout_expired_header
 #, java-format
 msgctxt "timeout_expired_header"
 msgid "Session expired."
 msgstr ""
 
-#. 
 #: timeout_expired_body
 #, java-format
 msgctxt "timeout_expired_body"
@@ -1547,7 +1354,6 @@ msgid ""
 "a new application.</li></ul>"
 msgstr ""
 
-#. 
 #. # Headings ##
 #. JS only
 #: missingHeading
@@ -1557,7 +1363,6 @@ msgid "This heading requires text equivalent content"
 msgstr ""
 
 #. 
-#. 
 #. # WTree messages
 #: tree_resize_handle
 #, java-format
@@ -1565,7 +1370,6 @@ msgctxt "tree_resize_handle"
 msgid "ARROW RIGHT to widen column, ARROW LEFT to narrow column"
 msgstr ""
 
-#. 
 #: tree_toggle_branch
 #, java-format
 msgctxt "tree_toggle_branch"
