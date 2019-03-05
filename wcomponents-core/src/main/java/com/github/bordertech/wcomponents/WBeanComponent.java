@@ -42,8 +42,7 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	private static final String SCRATCHMAP_BEAN_OBJECT_KEY = "WBeanComponent.request.bean.obj";
 
 	/**
-	 * <p>
-	 * Retrieves the bean. The following are searched in order:</p>
+	 * Retrieves the bean. The following are searched in order:
 	 * <ul>
 	 * <li>a bean set explicitly using <code>setBean</code>;</li>
 	 * <li>a bean cached in the scratch map;</li>
@@ -186,9 +185,6 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 		return getComponentModel().getBeanProperty();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isSearchAncestors() {
 		return getComponentModel().isSearchAncestors();
@@ -456,17 +452,11 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 		return new BeanAndProviderBoundComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected BeanAndProviderBoundComponentModel getComponentModel() {
 		return (BeanAndProviderBoundComponentModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected BeanAndProviderBoundComponentModel getOrCreateComponentModel() {
 		return (BeanAndProviderBoundComponentModel) super.getOrCreateComponentModel();

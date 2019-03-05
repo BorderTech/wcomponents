@@ -69,25 +69,16 @@ public class WComponentGroup<T extends WComponent> extends AbstractWComponent im
 	// ---------------------------------------------------------------------------
 	// Extrinsic state management
 	// ---------------------------------------------------------------------------
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected ComponentGroupModel newComponentModel() {
 		return new ComponentGroupModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected ComponentGroupModel getComponentModel() {
 		return (ComponentGroupModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected ComponentGroupModel getOrCreateComponentModel() {
 		return (ComponentGroupModel) super.getOrCreateComponentModel();

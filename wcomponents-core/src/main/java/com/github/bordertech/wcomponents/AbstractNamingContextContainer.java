@@ -17,17 +17,11 @@ public abstract class AbstractNamingContextContainer extends AbstractContainer i
 		setFlag(ComponentModel.NAMING_CONTEXT_FLAG, context);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isNamingContext() {
 		return isFlagSet(ComponentModel.NAMING_CONTEXT_FLAG);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getNamingContextId() {
 		return getId();

@@ -438,9 +438,6 @@ public class UIContextImpl implements UIContext {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Map<Object, Object> getRequestScratchMap(final WComponent component) {
 		if (requestScratchMap == null) {
@@ -457,9 +454,6 @@ public class UIContextImpl implements UIContext {
 		return componentScratchMap;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void clearRequestScratchMap(final WComponent component) {
 		if (requestScratchMap != null) {
@@ -467,9 +461,6 @@ public class UIContextImpl implements UIContext {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void clearRequestScratchMap() {
 		if (requestScratchMap != null) {
@@ -498,17 +489,11 @@ public class UIContextImpl implements UIContext {
 		return headers;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Locale getLocale() {
 		return locale;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setLocale(final Locale locale) {
 		this.locale = locale;

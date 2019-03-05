@@ -343,9 +343,7 @@ public abstract class AbstractWSelectList extends AbstractInput {
 	}
 
 	/**
-	 * <p>
 	 * Indicates whether this list was present in the request.
-	 * </p>
 	 * <p>
 	 * Lists that allow no option to be selected have a hidden input field, whose name is name-h to indicate that it is
 	 * in the request.
@@ -404,18 +402,12 @@ public abstract class AbstractWSelectList extends AbstractInput {
 		return new SelectionModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected SelectionModel getComponentModel() {
 		return (SelectionModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected SelectionModel getOrCreateComponentModel() {

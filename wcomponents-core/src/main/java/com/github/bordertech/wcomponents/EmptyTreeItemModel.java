@@ -21,25 +21,16 @@ public final class EmptyTreeItemModel extends AbstractTreeItemModel {
 	private EmptyTreeItemModel() {
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int getRowCount() {
 		return 0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int getChildCount(final List<Integer> row) {
 		return 0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getItemLabel(final List<Integer> row) {
 		return null;

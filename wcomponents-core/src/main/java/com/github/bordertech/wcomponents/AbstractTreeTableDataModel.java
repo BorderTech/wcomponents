@@ -21,10 +21,8 @@ public abstract class AbstractTreeTableDataModel implements TreeTableDataModel, 
 	private final TableTreeNode root;
 
 	/**
-	 * <p>
 	 * Creates a SimpleTableDataModel containing the given data. Note that applications may wish to create their own
-	 * TableTreeNode extensions that dynamically load data on e.g. the first call to setExpanded(true)
-	 * .<p>
+	 * TableTreeNode extensions that dynamically load data on e.g. the first call to setExpanded(true).
 	 *
 	 * @param root the root node for the table. Must not be null.
 	 */
@@ -50,9 +48,6 @@ public abstract class AbstractTreeTableDataModel implements TreeTableDataModel, 
 		return node;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final int getRowCount() {
 		return root.getNodeCount();

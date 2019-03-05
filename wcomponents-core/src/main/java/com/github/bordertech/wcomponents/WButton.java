@@ -8,10 +8,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * <p>
  * A WButton is used to submit the contents of the form to the server. An {@link Action} can be associated with the
  * button to execute application-specific code when the button is pressed.
- * </p>
  * <pre>
  * // Create a button with the text &quot;Submit&quot;.
  * WButton button = new WButton(&quot;Submit&quot;);
@@ -697,27 +695,18 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// to make public
 	public int getChildCount() {
 		return super.getChildCount();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// to make public
 	public WComponent getChildAt(final int index) {
 		return super.getChildAt(index);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// to make public
 	public int getIndexOfChild(final WComponent childComponent) {
@@ -751,17 +740,11 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 		return new ButtonModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected ButtonModel getComponentModel() {
 		return (ButtonModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected ButtonModel getOrCreateComponentModel() {
 		return (ButtonModel) super.getOrCreateComponentModel();

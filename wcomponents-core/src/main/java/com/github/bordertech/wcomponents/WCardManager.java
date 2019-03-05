@@ -4,12 +4,10 @@ import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.List;
 
 /**
- * <p>
  * A WCardManager is a wcomponent used to control the visibility of its child components. It can help to think of a
  * WCardManager as a deck of cards, where only the top most card is visible. The WCardManager enables you to add cards
  * to the deck (using the "add" method) and to select which of the cards to place on the top of the deck (using the
  * "makeVisible" method).
- * </p>
  * <p>
  * You would expect a WComponent that is using a WCardManager to support its functionality, to add all the cards it will
  * need in its constructor. Note that the first card added will be the default visible component. Implementations of the
@@ -218,17 +216,11 @@ public class WCardManager extends AbstractMutableContainer {
 		return new CardManagerModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected CardManagerModel getComponentModel() {
 		return (CardManagerModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected CardManagerModel getOrCreateComponentModel() {
 		return (CardManagerModel) super.getOrCreateComponentModel();

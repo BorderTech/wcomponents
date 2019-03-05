@@ -70,9 +70,6 @@ public class InternalResource implements ContentStreamAccess {
 		return EMPTY;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public InputStream getStream() throws IOException {
 		try {
@@ -83,17 +80,11 @@ public class InternalResource implements ContentStreamAccess {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getDescription() {
 		return description;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getMimeType() {
 		int index = resourceName.indexOf('.');
@@ -110,9 +101,6 @@ public class InternalResource implements ContentStreamAccess {
 		return ConfigurationProperties.getDefaultMimeType();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		return getClass().getSimpleName() + (resourceName == null ? "(null)" : "(\"" + resourceName + "\")");

@@ -71,9 +71,6 @@ public class SimpleBeanListTableDataModel extends AbstractTableDataModel {
 		this.properties = properties;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isSortable(final int col) {
 		return comparators != null && comparators.containsKey(col);
@@ -99,17 +96,11 @@ public class SimpleBeanListTableDataModel extends AbstractTableDataModel {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int getRowCount() {
 		return data.length;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Object getValueAt(final int row, final int col) {
 		Object bean = data[row];
@@ -143,9 +134,6 @@ public class SimpleBeanListTableDataModel extends AbstractTableDataModel {
 		return editable;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setValueAt(final Object value, final int row, final int col) {
 		if (!editable) {
@@ -186,9 +174,6 @@ public class SimpleBeanListTableDataModel extends AbstractTableDataModel {
 		this.editable = editable;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int[] sort(final int col, final boolean ascending) {
 		if (!isSortable(col)) {

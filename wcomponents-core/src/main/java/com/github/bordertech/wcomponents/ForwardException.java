@@ -30,9 +30,6 @@ public class ForwardException extends ActionEscape {
 		return forwardTo;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void escape() throws IOException {
 		getResponse().sendRedirect(getForwardTo());

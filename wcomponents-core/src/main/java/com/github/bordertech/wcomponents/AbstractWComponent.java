@@ -30,9 +30,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * <p>
  * AbstractWComponent is the parent class of all standard WComponents.
- * </p>
  * <p>
  * WComponent trees (UIs) are intended to be shared between sessions in order to reduce their memory footprint. To
  * archive this a class called UIContext has been introduced to store WComponent information specific to an individual
@@ -83,9 +81,7 @@ public abstract class AbstractWComponent implements WComponent {
 
 	// ================================
 	// Identification
-	/**
-	 * {@inheritDoc}
-	 */
+
 	@Override
 	public String getInternalId() {
 		String iid = null;
@@ -131,18 +127,12 @@ public abstract class AbstractWComponent implements WComponent {
 		return iid;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getIdName() {
 		ComponentModel model = getComponentModel();
 		return model.getIdName();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setIdName(final String idName) {
 		// Not allow empty or null
@@ -166,8 +156,6 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 *
 	 * @deprecated no longer used. use {@link #getId()} instead.
 	 */
 	@Override
@@ -176,9 +164,6 @@ public abstract class AbstractWComponent implements WComponent {
 		return getId();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getId() {
 		// As determining the name involves a fair bit of tree traversal, it is cached in the scratch map.
@@ -381,11 +366,9 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * <p>
 	 * Retrieves a short-lived map which can be used to cache data during request processing. This map will be
 	 * guaranteed to be cleared at the end of processing a request, but may also be cleared during request processing.
 	 * Do not rely on the contents of this map to exist at any time.
-	 * </p>
 	 * <p>
 	 * This method will return <code>null</code> if called outside of request processing.
 	 * </p>
@@ -399,9 +382,6 @@ public abstract class AbstractWComponent implements WComponent {
 
 	// ================================
 	// Action/Event handling
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final void serviceRequest(final Request request) {
 		ArrayList<WComponent> visibles = new ArrayList<>();
@@ -461,9 +441,6 @@ public abstract class AbstractWComponent implements WComponent {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void invokeLater(final Runnable runnable) {
 		UIContext uic = UIContextHolder.getCurrent();
@@ -473,9 +450,6 @@ public abstract class AbstractWComponent implements WComponent {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void handleRequest(final Request request) {
 		// NOP - classes to override.
@@ -483,9 +457,6 @@ public abstract class AbstractWComponent implements WComponent {
 
 	// ---------------------------------
 	// Non-WComponent web interface methods
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void forward(final String url) {
 		invokeLater(new Runnable() {
@@ -693,9 +664,6 @@ public abstract class AbstractWComponent implements WComponent {
 
 	// ================================
 	// Validation
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void validate(final List<Diagnostic> diags) {
 		// Don't validate if it's invisible.
@@ -774,9 +742,6 @@ public abstract class AbstractWComponent implements WComponent {
 		return new DiagnosticImpl(Diagnostic.ERROR, source, message, args);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void showErrorIndicators(final List<Diagnostic> diags) {
 		// Don't show indicators if it's invisible.
@@ -798,10 +763,8 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * <p>
 	 * This does not affect the diag list at all. The ValidatableComponent should visually mark any fields or blocks
 	 * that have errors in the given diag list.
-	 * </p>
 	 *
 	 * @param diags the list of diagnostics for this component.
 	 */
@@ -809,9 +772,6 @@ public abstract class AbstractWComponent implements WComponent {
 		// NOP
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void showWarningIndicators(final List<Diagnostic> diags) {
 		// Don't show indicators if it's invisible.
@@ -833,10 +793,8 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * <p>
 	 * This does not affect the diag list at all. The ValidatableComponent should visually mark any fields or blocks
 	 * that have warnings in the given diag list.
-	 * </p>
 	 *
 	 * @param diags the list of diagnostics for this component.
 	 */
@@ -846,9 +804,6 @@ public abstract class AbstractWComponent implements WComponent {
 
 	// ================================
 	// Attributes
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setLocked(final boolean lock) {
 		this.locked = lock;
@@ -858,75 +813,49 @@ public abstract class AbstractWComponent implements WComponent {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isLocked() {
 		return locked;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isInitialised() {
 		return isFlagSet(ComponentModel.INITIALISED_FLAG);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setInitialised(final boolean flag) {
 		setFlag(ComponentModel.INITIALISED_FLAG, flag);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isValidate() {
 		return isFlagSet(ComponentModel.VALIDATE_FLAG);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setValidate(final boolean flag) {
 		setFlag(ComponentModel.VALIDATE_FLAG, flag);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isVisible() {
 		return isFlagSet(ComponentModel.VISIBLE_FLAG);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setVisible(final boolean visible) {
 		setFlag(ComponentModel.VISIBLE_FLAG, visible);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isHidden() {
 		return isFlagSet(ComponentModel.HIDE_FLAG);
 	}
 
 	/**
-	 * <p>
 	 * Sets the client visibility of this component. Hidden components take part in event handling and painting, but are
 	 * not <a href="https://html.spec.whatwg.org/multipage/dom.html#palpable-content-2">palpable</a> on the client.
-	 * <p>
 	 *
 	 * @param hidden true for hidden, false for displayed.
 	 */
@@ -934,25 +863,16 @@ public abstract class AbstractWComponent implements WComponent {
 		setFlag(ComponentModel.HIDE_FLAG, hidden);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setTrackingEnabled(final boolean track) {
 		setFlag(ComponentModel.TRACKABLE_FLAG, track);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isTrackingEnabled() {
 		return isFlagSet(ComponentModel.TRACKABLE_FLAG);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isTracking() {
 		if (isTrackingEnabled()) {
@@ -1019,36 +939,22 @@ public abstract class AbstractWComponent implements WComponent {
 		return isSet;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * @deprecated 1.4 causes a11y issues, no replacement.
-	 */
 	@Deprecated
 	@Override
 	public boolean hasTabIndex() {
 		return false;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * @deprecated 1.4 causes a11y issues, no replacement.
-	 */
 	@Deprecated
 	@Override
 	public int getTabIndex() {
 		return 0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	void setLabel(final WLabel label) {
 		getOrCreateComponentModel().setLabel(label);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public WLabel getLabel() {
 		return getComponentModel().getLabel();
@@ -1056,9 +962,6 @@ public abstract class AbstractWComponent implements WComponent {
 
 	// --------------------------------
 	// Focus management
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setFocussed() {
 		UIContext uic = UIContextHolder.getCurrent();
@@ -1081,10 +984,8 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * <p>
 	 * Performs initialisation that is required on this components model, and potentially its children. Subclasses can
 	 * override.
-	 * </p>
 	 * <p>
 	 * Note that the user's component model will automatically be populated from the shared model.
 	 * </p>
@@ -1166,9 +1067,7 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * <p>
 	 * Resets this component and its children to their initial state for the given user context / session.
-	 * </p>
 	 * <p>
 	 * <b>NOTE:</b> The exception to this rule is if this component has been dynamically added to the UI, then the
 	 * parent component will differ from the initial state.
@@ -1245,9 +1144,6 @@ public abstract class AbstractWComponent implements WComponent {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void tidyUpUIContextForTree() {
 		UIContext uic = UIContextHolder.getCurrent();
@@ -1276,9 +1172,6 @@ public abstract class AbstractWComponent implements WComponent {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isDefaultState() {
 		return getComponentModel().equals(sharedModel);
@@ -1517,8 +1410,6 @@ public abstract class AbstractWComponent implements WComponent {
 
 	// ----------------------------
 	/**
-	 * {@inheritDoc}
-	 *
 	 * @deprecated Use {@link WTemplate} instead
 	 */
 	@Deprecated
@@ -1529,8 +1420,6 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 *
 	 * @deprecated Use {@link WTemplate} instead
 	 */
 	@Deprecated
@@ -1542,18 +1431,12 @@ public abstract class AbstractWComponent implements WComponent {
 
 	// ================================
 	// Environment
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Environment getEnvironment() {
 		UIContext uic = UIContextHolder.getCurrent();
 		return uic == null ? null : uic.getEnvironment();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setEnvironment(final Environment environment) {
 		UIContext uic = UIContextHolder.getCurrent();
@@ -1565,9 +1448,6 @@ public abstract class AbstractWComponent implements WComponent {
 
 	// ------------------------------
 	// Header support
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Headers getHeaders() {
 		UIContext uic = UIContextHolder.getCurrent();
@@ -1575,9 +1455,6 @@ public abstract class AbstractWComponent implements WComponent {
 		return uic == null ? null : uic.getHeaders();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getBaseUrl() {
 		Environment env = getEnvironment();
@@ -1592,88 +1469,58 @@ public abstract class AbstractWComponent implements WComponent {
 
 	// ================================
 	// Component Attributes
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setAttribute(final String key, final Serializable value) {
 		ComponentModel model = getOrCreateComponentModel();
 		model.setAttribute(key, value);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Serializable getAttribute(final String key) {
 		ComponentModel model = getComponentModel();
 		return model.getAttribute(key);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Serializable removeAttribute(final String key) {
 		ComponentModel model = getOrCreateComponentModel();
 		return model.removeAttribute(key);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setToolTip(final String text, final Serializable... args) {
 		ComponentModel model = getOrCreateComponentModel();
 		model.setToolTip(text, args);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getToolTip() {
 		ComponentModel model = getComponentModel();
 		return I18nUtilities.format(null, model.getToolTip());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setAccessibleText(final String text, final Serializable... args) {
 		ComponentModel model = getOrCreateComponentModel();
 		model.setAccessibleText(text, args);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getAccessibleText() {
 		ComponentModel model = getComponentModel();
 		return I18nUtilities.format(null, model.getAccessibleText());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setHtmlClass(final String text) {
 		getOrCreateComponentModel().setHtmlClass(text);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setHtmlClass(final HtmlClassProperties className) {
 		getOrCreateComponentModel().setHtmlClass(className);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void addHtmlClass(final String className) {
 		if (!Util.empty(className)) {
@@ -1681,9 +1528,6 @@ public abstract class AbstractWComponent implements WComponent {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void addHtmlClass(final HtmlClassProperties className) {
 		if (null != className) {
@@ -1691,35 +1535,23 @@ public abstract class AbstractWComponent implements WComponent {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getHtmlClass() {
 		ComponentModel model = getComponentModel();
 		return I18nUtilities.format(null, model.getHtmlClass());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Set getHtmlClasses() {
 		ComponentModel model = getComponentModel();
 		return model.getHtmlClasses();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void removeHtmlClass(final String className) {
 		getOrCreateComponentModel().removeHtmlClass(className);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void removeHtmlClass(final HtmlClassProperties className) {
 		getOrCreateComponentModel().removeHtmlClass(className);
@@ -1825,14 +1657,12 @@ public abstract class AbstractWComponent implements WComponent {
 	// ================================
 	// Serialization
 	/**
-	 * <p>
 	 * This class is used to hold a reference to the shared singleton instance of a wcomponent for the purpose of
 	 * serialisation. Serialization of WComponent session information is tricky because of the separation of the session
 	 * state data (the UIContext) and the shared application definition (the wcompontent stored in the UIRegistry). When
 	 * serializing a UIContext, we don't want to serialize the entire shared application definition in each users
 	 * session. The problem is that the data stored in the UIContext is keyed using the shared WComponent instances, so
 	 * we must convert them all to references in order to prevent the entire application from being serialized.
-	 * </p>
 	 * <p>
 	 * This extends WComponent in order to fulfil the readResolve contract, however it overrides writeObject/readObject
 	 * to only write out the data needed to find the shared instance.
@@ -1928,9 +1758,6 @@ public abstract class AbstractWComponent implements WComponent {
 			return comp;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String toString() {
 			StringBuffer buf = new StringBuffer();

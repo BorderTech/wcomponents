@@ -8,9 +8,6 @@ package com.github.bordertech.wcomponents;
  */
 public class FatalErrorPageFactoryImpl implements FatalErrorPageFactory {
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public WComponent createErrorPage(final boolean developerFriendly, final Throwable throwable) {
 		return new FatalErrorPage(developerFriendly, throwable);

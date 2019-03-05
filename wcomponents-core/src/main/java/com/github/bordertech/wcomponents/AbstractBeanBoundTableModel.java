@@ -38,58 +38,37 @@ public abstract class AbstractBeanBoundTableModel extends AbstractTableModel imp
 	 */
 	private String beanProperty;
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setBeanProvider(final BeanProvider beanProvider) {
 		this.beanProvider = beanProvider;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setBeanId(final Object beanId) {
 		this.beanId = beanId;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Object getBeanId() {
 		return beanId;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setBeanProperty(final String propertyName) {
 		this.beanProperty = propertyName;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getBeanProperty() {
 		return beanProperty;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Object getBean() {
 		Object bean = beanProvider.getBean(this);
 		return bean;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Object getBeanValue() {
 		Object bean = getBean();

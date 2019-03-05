@@ -16,17 +16,11 @@ import java.util.List;
  */
 public abstract class AbstractTableModel implements TableModel, Serializable {
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Object getRowKey(final List<Integer> row) {
 		return row;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean hasChildren(final List<Integer> row) {
 		return getChildCount(row) > 0;

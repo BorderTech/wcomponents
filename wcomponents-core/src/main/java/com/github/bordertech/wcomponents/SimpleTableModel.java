@@ -69,9 +69,6 @@ public class SimpleTableModel extends AbstractBasicTableModel {
 		return data;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isSortable(final int col) {
 		return comparators != null && comparators.containsKey(col);
@@ -97,17 +94,11 @@ public class SimpleTableModel extends AbstractBasicTableModel {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int getRowCount() {
 		return data.length;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Object getValueAt(final int row, final int col) {
 		return data[row][col];
@@ -126,9 +117,6 @@ public class SimpleTableModel extends AbstractBasicTableModel {
 		return editable;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setValueAt(final Object value, final int row, final int col) {
 		if (!isEditable()) {
@@ -156,9 +144,6 @@ public class SimpleTableModel extends AbstractBasicTableModel {
 		this.editable = editable;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int[] sort(final int col, final boolean ascending) {
 		if (!isSortable(col)) {

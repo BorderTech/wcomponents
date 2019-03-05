@@ -5,9 +5,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * <p>
  * This class is used to create a group of radio buttons.
- * </p>
  * <p>
  * A {@link WRadioButton} can only be created by using the {@link #addRadioButton(Object)} method or
  * {@link #addRadioButton()} method. Call one of these methods to get an instance of a radio button and then add the
@@ -39,9 +37,6 @@ public class RadioButtonGroup extends AbstractInput implements AjaxTrigger, Subo
 	 */
 	private static final Log LOG = LogFactory.getLog(RadioButtonGroup.class);
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getValue() {
 		Object data = getData();
@@ -112,9 +107,6 @@ public class RadioButtonGroup extends AbstractInput implements AjaxTrigger, Subo
 		// Do Nothing - Allow radio buttons to set the focus if they are selected
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getRequestValue(final Request request) {
 		if (isPresent(request)) {
@@ -126,9 +118,6 @@ public class RadioButtonGroup extends AbstractInput implements AjaxTrigger, Subo
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected boolean isPresent(final Request request) {
 		return request.getParameter(getId() + "-h") != null;

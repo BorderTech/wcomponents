@@ -4,11 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * <p>
  * WCheckBoxSelect is a convenience class which presents a group of check boxes for the user to select one or more
  * options from. Unlike {@link WCheckBox}, the check boxes inside a WCheckBoxSelect will automatically have text labels
  * associated with them. The visual arrangement of the check boxes can be configured using the
- * {@link #setButtonLayout(Layout)} method.</p>
+ * {@link #setButtonLayout(Layout)} method.
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
@@ -148,17 +147,11 @@ public class WCheckBoxSelect extends AbstractWMultiSelectList implements AjaxTri
 		return new CheckBoxSelectModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected CheckBoxSelectModel getComponentModel() {
 		return (CheckBoxSelectModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected CheckBoxSelectModel getOrCreateComponentModel() {
 		return (CheckBoxSelectModel) super.getOrCreateComponentModel();
