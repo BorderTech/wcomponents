@@ -155,9 +155,6 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 		return getComponentModel().maxFileSize >  0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected boolean doHandleRequest(final Request request) {
 		FileItemWrap value = getRequestValue(request);
@@ -243,9 +240,6 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 		return getComponentModel().validFileSize;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void validateComponent(final List<Diagnostic> diags) {
 		super.validateComponent(diags);
@@ -265,17 +259,11 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getActionCommand() {
 		return getFileName();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public FileItemWrap getRequestValue(final Request request) {
 		if (isPresent(request)) {
@@ -293,9 +281,6 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 		}
 	}
 
-	/**
-	 * * {@inheritDoc}
-	 */
 	@Override
 	protected boolean isPresent(final Request request) {
 		return request.getFileItem(getId()) != null;
@@ -367,9 +352,6 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 		return getValue();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public FileItemWrap getValue() {
 		return (FileItemWrap) getData();
@@ -427,18 +409,12 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 		return new FileWidgetModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected FileWidgetModel getComponentModel() {
 		return (FileWidgetModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected FileWidgetModel getOrCreateComponentModel() {

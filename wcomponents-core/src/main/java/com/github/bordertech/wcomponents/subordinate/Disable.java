@@ -29,9 +29,6 @@ public class Disable extends AbstractSetEnable {
 		return ActionType.DISABLE;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		String targetName = getTarget().getClass().getSimpleName();

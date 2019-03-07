@@ -15,25 +15,16 @@ import org.openqa.selenium.remote.DesiredCapabilities;
  */
 public class PhantomJSWebDriverType extends WebDriverType<PhantomJSDriver> {
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public String getDriverTypeName() {
 		return "phantomjs";
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public PhantomJSDriver getDriverImplementation() {
 		return new PhantomJSDriver(getCapabilities());
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public DesiredCapabilities getDefaultDriverCapabilities() {
 		return DesiredCapabilities.phantomjs();

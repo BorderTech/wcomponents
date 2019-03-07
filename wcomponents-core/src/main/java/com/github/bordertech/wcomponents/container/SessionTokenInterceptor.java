@@ -64,9 +64,6 @@ public class SessionTokenInterceptor extends InterceptorComponent {
 
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void preparePaint(final Request request) {
 		// Set session token

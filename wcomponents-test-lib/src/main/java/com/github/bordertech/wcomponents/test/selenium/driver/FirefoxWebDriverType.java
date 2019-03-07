@@ -18,17 +18,11 @@ import org.openqa.selenium.remote.DesiredCapabilities;
  */
 public class FirefoxWebDriverType extends WebDriverType<FirefoxDriver> {
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public String getDriverTypeName() {
 		return "firefox";
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public FirefoxDriver getDriverImplementation() {
 		return new FirefoxDriver(getFirefoxBinary(), getFirefoxProfile(), getCapabilities());
@@ -43,9 +37,6 @@ public class FirefoxWebDriverType extends WebDriverType<FirefoxDriver> {
 		return new FirefoxBinary();
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public DesiredCapabilities getDefaultDriverCapabilities() {
 		return DesiredCapabilities.firefox();

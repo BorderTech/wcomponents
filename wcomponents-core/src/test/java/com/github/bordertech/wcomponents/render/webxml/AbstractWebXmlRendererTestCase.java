@@ -435,9 +435,6 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 			this.backing = backing;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getNamespaceURI(final String prefix) {
 			if ("ui".equals(prefix)) {
@@ -451,9 +448,6 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 			return null;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public Iterator<String> getPrefixes() {
 			Set<String> prefixes = new HashSet<>(2);

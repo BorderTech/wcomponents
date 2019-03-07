@@ -224,6 +224,8 @@ public abstract class AbstractEnvironment implements Environment {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 *
 	 * @deprecated portal specific
 	 */
 	@Deprecated
@@ -233,6 +235,8 @@ public abstract class AbstractEnvironment implements Environment {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 *
 	 * @deprecated portal specific
 	 */
 	@Deprecated

@@ -192,60 +192,39 @@ public class WHeading extends WText implements Container, AjaxTarget, Marginable
 		return label;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setMargin(final Margin margin) {
 		getOrCreateComponentModel().margin = margin;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Margin getMargin() {
 		return getComponentModel().margin;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// to make public
 	public int getChildCount() {
 		return super.getChildCount();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// to make public
 	public WComponent getChildAt(final int index) {
 		return super.getChildAt(index);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// to make public
 	public int getIndexOfChild(final WComponent childComponent) {
 		return super.getIndexOfChild(childComponent);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public List<WComponent> getChildren() {
 		return super.getChildren();
-	}
-
-	/**
-	 * @return a String representation of this component, for debugging purposes.
-	 */
+        }
+        
 	@Override
 	public String toString() {
 		String text = getText();
@@ -264,18 +243,12 @@ public class WHeading extends WText implements Container, AjaxTarget, Marginable
 		return new HeadingModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected HeadingModel getComponentModel() {
 		return (HeadingModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected HeadingModel getOrCreateComponentModel() {

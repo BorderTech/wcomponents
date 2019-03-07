@@ -89,9 +89,6 @@ public class AjaxPollingWButtonExample extends WContainer {
 		add(ajaxControl);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void preparePaintComponent(final Request request) {
 		super.preparePaintComponent(request);

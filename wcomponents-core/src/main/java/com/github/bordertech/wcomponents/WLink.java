@@ -519,36 +519,24 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		return toString(text, 1, 1);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// to make public
 	public int getChildCount() {
 		return super.getChildCount();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// to make public
 	public WComponent getChildAt(final int index) {
 		return super.getChildAt(index);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// to make public
 	public int getIndexOfChild(final WComponent childComponent) {
 		return super.getIndexOfChild(childComponent);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public List<WComponent> getChildren() {
 		return super.getChildren();
@@ -566,18 +554,12 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		return new LinkModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected LinkModel getComponentModel() {
 		return (LinkModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected LinkModel getOrCreateComponentModel() {
@@ -945,9 +927,6 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 			this.height = height;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public WindowAttributes clone() throws CloneNotSupportedException {
 			return (WindowAttributes) super.clone();

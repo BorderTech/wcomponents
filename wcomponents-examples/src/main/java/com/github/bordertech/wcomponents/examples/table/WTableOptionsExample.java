@@ -405,9 +405,6 @@ public class WTableOptionsExample extends WContainer {
 		table.addColumn(new WTableColumn("Date of birth", dateField));
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void preparePaintComponent(final Request request) {
 		if (!isInitialised()) {
@@ -593,18 +590,12 @@ public class WTableOptionsExample extends WContainer {
 			super(options);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		// for type-safety only
 		public T getSelected() {
 			return (T) super.getSelected();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getDesc(final Object option, final int index) {
 			String desc = super.getDesc(option, index);
@@ -657,9 +648,6 @@ public class WTableOptionsExample extends WContainer {
 			return col;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String toString() {
 			return desc;

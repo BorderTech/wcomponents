@@ -103,9 +103,6 @@ public class DateFieldPivotValidator extends AbstractFieldValidator {
 		setVariablePivot(pivot);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getErrorMessage() {
 		String errorMessage = super.getErrorMessage();
@@ -178,9 +175,6 @@ public class DateFieldPivotValidator extends AbstractFieldValidator {
 		this.operator = operator;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected boolean isValid() {
 		// Get the date we are validating.
@@ -232,9 +226,6 @@ public class DateFieldPivotValidator extends AbstractFieldValidator {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected List<Serializable> getMessageArguments() {
 		List<Serializable> args = super.getMessageArguments();

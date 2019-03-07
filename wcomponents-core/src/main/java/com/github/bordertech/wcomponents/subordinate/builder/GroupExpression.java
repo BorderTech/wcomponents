@@ -97,9 +97,6 @@ public class GroupExpression implements BooleanExpression {
 		return Collections.unmodifiableList(operands);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Boolean evaluate() {
 		switch (getType()) {
@@ -146,9 +143,6 @@ public class GroupExpression implements BooleanExpression {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Condition build() {
 		switch (getType()) {
@@ -202,9 +196,6 @@ public class GroupExpression implements BooleanExpression {
 
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		switch (getType()) {

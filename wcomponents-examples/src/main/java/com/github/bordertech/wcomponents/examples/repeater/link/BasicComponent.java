@@ -87,9 +87,6 @@ public class BasicComponent extends WDataRenderer {
 		data.setCount(dataCount);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void updateComponent(final Object data) {
 		MyData bean = (MyData) data;

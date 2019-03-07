@@ -182,17 +182,11 @@ public class WRadioButtonSelect extends AbstractWSingleSelectList implements Aja
 		return new RadioButtonSelectModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected RadioButtonSelectModel getComponentModel() {
 		return (RadioButtonSelectModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected RadioButtonSelectModel getOrCreateComponentModel() {
 		return (RadioButtonSelectModel) super.getOrCreateComponentModel();

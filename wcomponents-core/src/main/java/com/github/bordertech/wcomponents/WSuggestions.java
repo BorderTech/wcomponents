@@ -85,9 +85,6 @@ public class WSuggestions extends AbstractWComponent implements AjaxInternalTrig
 		getComponentModel().setLookupTable(lookupTable);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void handleRequest(final Request request) {
 		// Check if this suggestion list is the current AJAX trigger
@@ -260,18 +257,12 @@ public class WSuggestions extends AbstractWComponent implements AjaxInternalTrig
 		return getComponentModel().min;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected SuggestionsModel getComponentModel() {
 		return (SuggestionsModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected SuggestionsModel getOrCreateComponentModel() {

@@ -132,25 +132,16 @@ public class WTimeoutWarning extends AbstractWComponent {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected TimeoutWarningModel newComponentModel() {
 		return new TimeoutWarningModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected TimeoutWarningModel getComponentModel() {
 		return (TimeoutWarningModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected TimeoutWarningModel getOrCreateComponentModel() {
 		return (TimeoutWarningModel) super.getOrCreateComponentModel();

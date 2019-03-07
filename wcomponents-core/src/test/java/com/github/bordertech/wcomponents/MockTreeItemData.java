@@ -190,34 +190,22 @@ public final class MockTreeItemData {
 			this.data = data;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getItemId(final List<Integer> row) {
 			// Use the label as the key
 			return getRowBean(row).getId();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getItemLabel(final List<Integer> row) {
 			return getRowBean(row).getName();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public int getRowCount() {
 			return data.size();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public int getChildCount(final List<Integer> row) {
 			return getRowBean(row).getChildren().size();

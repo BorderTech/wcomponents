@@ -43,9 +43,6 @@ public class WText extends WBeanComponent {
 		getComponentModel().setData(I18nUtilities.asMessage(text, args));
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Object getData() {
 		Object data = super.getData();
@@ -170,17 +167,11 @@ public class WText extends WBeanComponent {
 		return new TextModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // for type safety
 	protected TextModel getOrCreateComponentModel() {
 		return (TextModel) super.getOrCreateComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // for type safety
 	protected TextModel getComponentModel() {
 		return (TextModel) super.getComponentModel();

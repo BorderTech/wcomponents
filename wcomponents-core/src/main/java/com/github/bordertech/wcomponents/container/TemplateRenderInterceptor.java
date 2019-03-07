@@ -29,9 +29,6 @@ public class TemplateRenderInterceptor extends InterceptorComponent {
 
 	private static final Map<String, ResourceBundle> RESOURCES = new HashMap<>();
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void paint(final RenderContext renderContext) {
 

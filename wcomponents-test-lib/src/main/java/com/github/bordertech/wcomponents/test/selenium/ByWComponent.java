@@ -168,18 +168,12 @@ public class ByWComponent extends By {
 		return result;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public List<WebElement> findElements(final SearchContext searchContext) {
 
 		return findElement(searchContext, context, component, value);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		return "ByWComponent:" + component.getId()

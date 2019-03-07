@@ -107,17 +107,11 @@ public final class SubSessionHttpServletRequestWrapper extends HttpServletReques
 		return subsession;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public HttpSession getSession() {
 		return getSubSession();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public HttpSession getSession(final boolean create) {
 		return getSubSession();
@@ -274,9 +268,6 @@ public final class SubSessionHttpServletRequestWrapper extends HttpServletReques
 			return backing.getServletContext();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		@Deprecated
 		public HttpSessionContext getSessionContext() {
@@ -342,9 +333,6 @@ public final class SubSessionHttpServletRequestWrapper extends HttpServletReques
 			return lastAccessedTime == creationTime;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		@Deprecated
 		public void putValue(final String name, final Object value) {
@@ -365,9 +353,6 @@ public final class SubSessionHttpServletRequestWrapper extends HttpServletReques
 			attributes.remove(name);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		@Deprecated
 		public void removeValue(final String name) {

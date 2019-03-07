@@ -146,9 +146,6 @@ public class Action {
 
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		String targetName = target.getClass().getSimpleName();

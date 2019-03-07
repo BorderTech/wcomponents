@@ -171,17 +171,11 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 		return getComponentModel().type;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setMargin(final Margin margin) {
 		getOrCreateComponentModel().margin = margin;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Margin getMargin() {
 		return getComponentModel().margin;
@@ -744,9 +738,6 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 		setFlag(ComponentModel.DISABLED_FLAG, disabled);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // to make public
 	public void remove(final WComponent child) {
 		super.remove(child);
@@ -860,17 +851,11 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 		return new TabSetModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected TabSetModel getComponentModel() {
 		return (TabSetModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected TabSetModel getOrCreateComponentModel() {
 		return (TabSetModel) super.getOrCreateComponentModel();

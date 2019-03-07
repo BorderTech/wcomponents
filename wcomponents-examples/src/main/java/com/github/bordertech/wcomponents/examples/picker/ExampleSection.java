@@ -244,9 +244,6 @@ final class ExampleSection extends WSection implements MessageContainer {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public WMessages getMessages() {
 		return messages;

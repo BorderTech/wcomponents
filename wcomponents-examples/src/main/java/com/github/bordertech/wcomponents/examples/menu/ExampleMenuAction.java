@@ -26,9 +26,6 @@ public final class ExampleMenuAction implements Action {
 		this.selectedMenuText = selectedMenuText;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void execute(final ActionEvent event) {
 		if (event.getActionObject() == null) {

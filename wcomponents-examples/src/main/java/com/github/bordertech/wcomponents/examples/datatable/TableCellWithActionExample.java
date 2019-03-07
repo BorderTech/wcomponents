@@ -128,9 +128,6 @@ public class TableCellWithActionExample extends WPanel {
 				new Person(456, "Jane", "Bloggs", parse("04/05/1976")),
 				new Person(789, "Kid", "Bloggs", parse("31/12/1999"))});
 
-			/**
-			 * {@inheritDoc}
-			 */
 			@Override
 			public Object getValueAt(final int row, final int col) {
 				Person person = data.get(row);
@@ -159,9 +156,6 @@ public class TableCellWithActionExample extends WPanel {
 				}
 			}
 
-			/**
-			 * {@inheritDoc}
-			 */
 			@Override
 			public int getRowCount() {
 				return data.size();

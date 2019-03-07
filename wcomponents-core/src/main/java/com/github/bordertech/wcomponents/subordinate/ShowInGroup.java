@@ -46,9 +46,6 @@ public class ShowInGroup extends AbstractSetVisible {
 		return ActionType.SHOWIN;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		String targetInName = getTargetInGroup().getClass().getSimpleName();

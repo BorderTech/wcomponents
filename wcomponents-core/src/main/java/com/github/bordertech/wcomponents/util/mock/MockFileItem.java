@@ -52,17 +52,11 @@ public final class MockFileItem implements FileItem {
 
 	private FileItemHeaders headers;
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void delete() {
 		deleted = true;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public byte[] get() {
 		if (deleted) {
@@ -96,25 +90,16 @@ public final class MockFileItem implements FileItem {
 		this.contentType = contentType;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getContentType() {
 		return contentType;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getFieldName() {
 		return fieldName;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public InputStream getInputStream() throws IOException {
 		return new ByteArrayInputStream(get());
@@ -147,81 +132,51 @@ public final class MockFileItem implements FileItem {
 		this.fileName = name;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getName() {
 		return fileName;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public OutputStream getOutputStream() throws IOException {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getSize() {
 		return contents == null ? 0 : contents.length;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getString() {
 		return new String(get());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getString(final String encoding) throws UnsupportedEncodingException {
 		return new String(get(), encoding);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isFormField() {
 		return formField;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isInMemory() {
 		return true;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setFieldName(final String name) {
 		this.fieldName = name;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setFormField(final boolean state) {
 		this.formField = state;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void write(final File file) throws IOException {
 		FileUtils.writeByteArrayToFile(file, get());

@@ -233,9 +233,6 @@ public class WTreeExample extends WContainer {
 			return data;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getItemLabel(final List<Integer> row) {
 
@@ -256,17 +253,11 @@ public class WTreeExample extends WContainer {
 			}
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public int getRowCount() {
 			return getData().size();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public int getChildCount(final List<Integer> row) {
 			if (useDocs) {

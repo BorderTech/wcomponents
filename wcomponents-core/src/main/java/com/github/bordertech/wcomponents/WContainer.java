@@ -18,6 +18,8 @@ public class WContainer extends WBeanComponent implements MutableContainer {
 	}
 
 	/**
+         * {@inheritDoc}
+	 *
 	 * @deprecated Use {@link WTemplate} instead.
 	 */
 	@Deprecated
@@ -57,6 +59,8 @@ public class WContainer extends WBeanComponent implements MutableContainer {
 	}
 
 	/**
+         * {@inheritDoc}
+	 * 
 	 * @deprecated Use {@link WTemplate} instead
 	 */
 	@Deprecated
@@ -67,6 +71,8 @@ public class WContainer extends WBeanComponent implements MutableContainer {
 	}
 
 	/**
+         * {@inheritDoc}
+	 *
 	 * @deprecated Use {@link WTemplate} instead
 	 */
 	@Deprecated

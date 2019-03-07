@@ -261,9 +261,6 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 	 */
 	private static final class SimpleWServlet extends WServlet {
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public WComponent getUI(final Object httpServletRequest) {
 			return UIRegistry.getInstance().getUI(SimpleApp.class.getName());
@@ -326,9 +323,6 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 		 */
 		private static final Log LOG = LogFactory.getLog(SimpleServlet.class);
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected void service(final HttpServletRequest request, final HttpServletResponse response)
 				throws ServletException {

@@ -281,17 +281,11 @@ public class AllComponents extends WApplication {
 			{"row5col1", "row5col2"}
 		};
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public Object getValueAt(final int row, final int col) {
 			return data[row][col];
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public int getRowCount() {
 			return data.length;

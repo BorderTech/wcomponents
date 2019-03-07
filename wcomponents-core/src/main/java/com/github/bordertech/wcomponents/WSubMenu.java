@@ -175,9 +175,6 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 		addMenuItem(item);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void addMenuItem(final MenuItem item) {
 		getContent().add(item);
@@ -196,25 +193,16 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void removeMenuItem(final MenuItem item) {
 		getContent().remove(item);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void removeAllMenuItems() {
 		getContent().removeAll();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public List<MenuItem> getMenuItems() {
 		List<MenuItem> items = new ArrayList(getContent().getChildren());
@@ -406,17 +394,11 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public SelectionMode getSelectionMode() {
 		return getComponentModel().selectionMode;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setSelectionMode(final SelectionMode selectionMode) {
 		getOrCreateComponentModel().selectionMode = selectionMode;
@@ -645,17 +627,11 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 		return new SubMenuModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected SubMenuModel getComponentModel() {
 		return (SubMenuModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected SubMenuModel getOrCreateComponentModel() {
 		return (SubMenuModel) super.getOrCreateComponentModel();

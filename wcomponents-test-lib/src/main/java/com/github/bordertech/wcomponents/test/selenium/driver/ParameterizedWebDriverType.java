@@ -40,17 +40,11 @@ public class ParameterizedWebDriverType extends WebDriverType<WebDriver> {
 		this.testClassName = testClassName;
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public String getDriverTypeName() {
 		return getDriverClassName();
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public WebDriver getDriverImplementation() {
 
@@ -69,9 +63,6 @@ public class ParameterizedWebDriverType extends WebDriverType<WebDriver> {
 
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public DesiredCapabilities getDefaultDriverCapabilities() {
 		throw new SystemException("Capabilities not supported by ParameterizedWebDriverType.");

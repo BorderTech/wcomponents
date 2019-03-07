@@ -90,9 +90,6 @@ public class LinkComponent extends WDataRenderer {
 		data.setCount(dataCount);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void updateComponent(final Object data) {
 		MyData bean = (MyData) data;

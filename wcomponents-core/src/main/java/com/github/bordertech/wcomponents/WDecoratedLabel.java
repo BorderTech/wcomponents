@@ -194,17 +194,11 @@ public final class WDecoratedLabel extends AbstractMutableContainer implements A
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected DecoratedLabelModel getComponentModel() {
 		return (DecoratedLabelModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected DecoratedLabelModel getOrCreateComponentModel() {
 		return (DecoratedLabelModel) super.getOrCreateComponentModel();

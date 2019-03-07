@@ -114,9 +114,6 @@ public class ValidatingAction_Test {
 			this.errorSeverity = errorLevel;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected void validateComponent(final List<Diagnostic> diags) {
 			super.validateComponent(diags);

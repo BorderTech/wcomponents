@@ -299,9 +299,6 @@ public class WBeanComponent_Test extends AbstractWComponentTestCase {
 
 		private boolean called = false;
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public Object getBean(final BeanProviderBound beanProviderBound) {
 			called = true;
@@ -366,17 +363,11 @@ public class WBeanComponent_Test extends AbstractWComponentTestCase {
 			this.value = value;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public int hashCode() {
 			return id.hashCode();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public boolean equals(final Object obj) {
 			return obj instanceof MyTestBean && Objects.equals(((MyTestBean) obj).getId(), getId());

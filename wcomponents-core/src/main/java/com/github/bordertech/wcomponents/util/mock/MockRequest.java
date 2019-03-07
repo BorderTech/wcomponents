@@ -151,25 +151,16 @@ public class MockRequest extends AbstractRequest {
 		return files;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Serializable getAttribute(final String key) {
 		return attributes.get(key);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setAttribute(final String key, final Serializable value) {
 		attributes.put(key, value);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Serializable getSessionAttribute(final String key) {
 		return sessionAttributes.get(key);
@@ -186,9 +177,6 @@ public class MockRequest extends AbstractRequest {
 		return getSessionAttribute(key);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setSessionAttribute(final String key, final Serializable value) {
 		sessionAttributes.put(key, value);
@@ -259,9 +247,6 @@ public class MockRequest extends AbstractRequest {
 		this.method = method;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int getMaxInactiveInterval() {
 		return maxInactiveInterval;

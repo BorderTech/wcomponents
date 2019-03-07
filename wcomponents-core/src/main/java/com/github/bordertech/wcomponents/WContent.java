@@ -242,9 +242,6 @@ public class WContent extends AbstractWComponent implements Targetable {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void afterPaint(final RenderContext renderContext) {
 		super.afterPaint(renderContext);
@@ -273,17 +270,11 @@ public class WContent extends AbstractWComponent implements Targetable {
 		return new ContentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected ContentModel getComponentModel() {
 		return (ContentModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected ContentModel getOrCreateComponentModel() {
 		return (ContentModel) super.getOrCreateComponentModel();

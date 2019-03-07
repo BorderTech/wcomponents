@@ -291,9 +291,6 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 
 	// ================================
 	// Action/Event handling
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected boolean doHandleRequest(final Request request) {
 		// Valid date entered by the user
@@ -339,9 +336,6 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 		model.text = text;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getRequestValue(final Request request) {
 		if (isPresent(request)) {
@@ -426,9 +420,6 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getValue() {
 		Object data = getData();
@@ -461,9 +452,6 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 		return getValue();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setData(final Object data) {
 		// This override is necessary to maintain other internal state
@@ -773,17 +761,11 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 		return new PartialDateFieldModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected PartialDateFieldModel getComponentModel() {
 		return (PartialDateFieldModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected PartialDateFieldModel getOrCreateComponentModel() {
 		return (PartialDateFieldModel) super.getOrCreateComponentModel();

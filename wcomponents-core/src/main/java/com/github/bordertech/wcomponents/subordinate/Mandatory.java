@@ -28,9 +28,6 @@ public class Mandatory extends AbstractSetMandatory {
 		return ActionType.MANDATORY;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		String targetName = getTarget().getClass().getSimpleName();

@@ -114,18 +114,12 @@ public class WToggleButton extends WCheckBox {
 		return new ToggleButtonModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected ToggleButtonModel getComponentModel() {
 		return (ToggleButtonModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected ToggleButtonModel getOrCreateComponentModel() {

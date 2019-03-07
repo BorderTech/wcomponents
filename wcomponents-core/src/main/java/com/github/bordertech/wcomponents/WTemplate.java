@@ -354,33 +354,21 @@ public class WTemplate extends WBeanComponent implements Container, NamingContex
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // to make public
 	public int getChildCount() {
 		return super.getChildCount();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // to make public
 	public WComponent getChildAt(final int index) {
 		return super.getChildAt(index);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // to make public
 	public int getIndexOfChild(final WComponent childComponent) {
 		return super.getIndexOfChild(childComponent);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public List<WComponent> getChildren() {
 		return super.getChildren();
@@ -396,34 +384,22 @@ public class WTemplate extends WBeanComponent implements Container, NamingContex
 		setFlag(ComponentModel.NAMING_CONTEXT_FLAG, context);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isNamingContext() {
 		return isFlagSet(ComponentModel.NAMING_CONTEXT_FLAG);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getNamingContextId() {
 		return getId();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected TemplateModel getComponentModel() {
 		return (TemplateModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected TemplateModel getOrCreateComponentModel() {

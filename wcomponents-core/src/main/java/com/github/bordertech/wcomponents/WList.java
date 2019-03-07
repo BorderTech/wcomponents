@@ -142,17 +142,11 @@ public class WList extends WRepeater implements Marginable {
 		return getComponentModel().type;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setMargin(final Margin margin) {
 		getOrCreateComponentModel().margin = margin;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Margin getMargin() {
 		return getComponentModel().margin;
@@ -245,18 +239,12 @@ public class WList extends WRepeater implements Marginable {
 		return new ListModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected ListModel getComponentModel() {
 		return (ListModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected ListModel getOrCreateComponentModel() {

@@ -18,9 +18,6 @@ import java.util.HashSet;
  */
 final class SelectExampleAction implements Action {
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void execute(final ActionEvent event) {
 		ExampleData data = (ExampleData) event.getActionObject();

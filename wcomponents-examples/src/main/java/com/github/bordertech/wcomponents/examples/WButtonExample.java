@@ -390,9 +390,6 @@ public class WButtonExample extends WPanel implements MessageContainer {
 
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public WMessages getMessages() {
 		return messages;
@@ -455,9 +452,6 @@ public class WButtonExample extends WPanel implements MessageContainer {
 			setHtmlClass("hellobutton");
 		}
 
-		/**
-		 * @inheritDoc
-		 */
 		@Override
 		protected void preparePaintComponent(final Request request) {
 			if (!isInitialised()) {

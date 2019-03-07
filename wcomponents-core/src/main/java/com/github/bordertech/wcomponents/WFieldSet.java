@@ -132,9 +132,6 @@ public class WFieldSet extends AbstractMutableContainer implements AjaxTarget, S
 		return isFlagSet(ComponentModel.MANDATORY_FLAG);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void validateComponent(final List<Diagnostic> diags) {
 		super.validateComponent(diags);
@@ -188,17 +185,11 @@ public class WFieldSet extends AbstractMutableContainer implements AjaxTarget, S
 		return createErrorDiagnostic(msg, getTitle().getText());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setMargin(final Margin margin) {
 		getOrCreateComponentModel().margin = margin;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Margin getMargin() {
 		return getComponentModel().margin;
@@ -241,25 +232,16 @@ public class WFieldSet extends AbstractMutableContainer implements AjaxTarget, S
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected final void showErrorIndicatorsForComponent(final List<Diagnostic> diags) {
 		showIndicatorsForComponent(diags, Diagnostic.ERROR);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected final void showWarningIndicatorsForComponent(final List<Diagnostic> diags) {
 		showIndicatorsForComponent(diags, Diagnostic.WARNING);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public List<Diagnostic> getDiagnostics(final int severity) {
 		FieldSetModel model = getComponentModel();
@@ -287,17 +269,11 @@ public class WFieldSet extends AbstractMutableContainer implements AjaxTarget, S
 		return new FieldSetModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected FieldSetModel getComponentModel() {
 		return (FieldSetModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected FieldSetModel getOrCreateComponentModel() {
 		return (FieldSetModel) super.getOrCreateComponentModel();

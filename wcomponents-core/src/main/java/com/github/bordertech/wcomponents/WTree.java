@@ -195,17 +195,11 @@ public class WTree extends AbstractInput
 		getOrCreateComponentModel().type = type == null ? Type.VERTICAL : type;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Margin getMargin() {
 		return getComponentModel().margin;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setMargin(final Margin margin) {
 		getOrCreateComponentModel().margin = margin;
@@ -400,17 +394,11 @@ public class WTree extends AbstractInput
 		getOrCreateComponentModel().expandedRows = itemIds;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getTargetId() {
 		return getId();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Set<String> getRequestValue(final Request request) {
 		if (isPresent(request)) {
@@ -586,9 +574,6 @@ public class WTree extends AbstractInput
 		return getAllItemIdIndexMap().get(itemId);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void initialiseComponentModel() {
 		super.initialiseComponentModel();
@@ -653,9 +638,6 @@ public class WTree extends AbstractInput
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void afterPaint(final RenderContext renderContext) {
 		super.afterPaint(renderContext);
@@ -663,9 +645,6 @@ public class WTree extends AbstractInput
 		setOpenRequestItemId(null);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected boolean beforeHandleRequest(final Request request) {
 
@@ -1354,18 +1333,12 @@ public class WTree extends AbstractInput
 		return new WTreeComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// for type safety only
 	protected WTreeComponentModel getComponentModel() {
 		return (WTreeComponentModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// for type safety only
 	protected WTreeComponentModel getOrCreateComponentModel() {

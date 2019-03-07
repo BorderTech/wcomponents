@@ -8,17 +8,11 @@ package com.github.bordertech.wcomponents;
  */
 public final class MockPanel extends WPanel {
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected PanelModel newComponentModel() {
 		return new CountModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void handleRequest(final Request request) {
 		super.handleRequest(request);
@@ -26,9 +20,6 @@ public final class MockPanel extends WPanel {
 		((MockPanel.CountModel) getOrCreateComponentModel()).handleRequestCount++;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void paintComponent(final RenderContext renderContext) {
 		super.paintComponent(renderContext);

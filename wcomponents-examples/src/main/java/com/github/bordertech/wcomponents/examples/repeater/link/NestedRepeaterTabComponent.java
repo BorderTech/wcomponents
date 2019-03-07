@@ -29,9 +29,6 @@ public class NestedRepeaterTabComponent extends WDataRenderer {
 		fieldset.add(repeater);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setData(final Object data) {
 		repeater.setData(data);

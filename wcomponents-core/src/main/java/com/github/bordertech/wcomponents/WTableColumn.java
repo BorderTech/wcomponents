@@ -181,17 +181,11 @@ public final class WTableColumn extends AbstractContainer {
 		return new WTableColumnModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected WTableColumnModel getOrCreateComponentModel() {
 		return (WTableColumnModel) super.getOrCreateComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected WTableColumnModel getComponentModel() {
 		return (WTableColumnModel) super.getComponentModel();

@@ -76,17 +76,11 @@ public class WDefinitionList extends AbstractNamingContextContainer implements A
 		getOrCreateComponentModel().type = layout;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setMargin(final Margin margin) {
 		getOrCreateComponentModel().margin = margin;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Margin getMargin() {
 		return getComponentModel().margin;
@@ -112,9 +106,6 @@ public class WDefinitionList extends AbstractNamingContextContainer implements A
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void remove(final WComponent child) {
 		content.remove(child);
@@ -196,17 +187,11 @@ public class WDefinitionList extends AbstractNamingContextContainer implements A
 		return new DefinitionListModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected DefinitionListModel getComponentModel() {
 		return (DefinitionListModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected DefinitionListModel getOrCreateComponentModel() {
 		return (DefinitionListModel) super.getOrCreateComponentModel();

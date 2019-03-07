@@ -254,9 +254,6 @@ public class CoreFields extends WPanel {
 		resetBtn.setAction(action);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void handleRequest(final Request request) {
 		// A dodgy example of using the unsaved changes flag on the

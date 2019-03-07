@@ -60,9 +60,6 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 		this.lenient = lenient;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setData(final Object data) {
 		// This override is necessary to maintain other internal state
@@ -97,9 +94,6 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 		return getValue();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Date getValue() {
 		return convertDate(getData());
@@ -165,9 +159,6 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 
 	// ================================
 	// Action/Event handling
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected boolean doHandleRequest(final Request request) {
 		// Valid DateType on the request
@@ -214,9 +205,6 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 		model.text = text;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Date getRequestValue(final Request request) {
 		if (isPresent(request)) {
@@ -353,18 +341,12 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 		return new DateFieldModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected DateFieldModel getComponentModel() {
 		return (DateFieldModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected DateFieldModel getOrCreateComponentModel() {

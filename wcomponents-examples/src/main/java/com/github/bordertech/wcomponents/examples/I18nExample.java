@@ -129,9 +129,6 @@ public class I18nExample extends WPanel implements MessageContainer {
 		);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public WMessages getMessages() {
 		return messages;

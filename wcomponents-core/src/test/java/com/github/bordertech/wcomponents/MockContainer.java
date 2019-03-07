@@ -11,44 +11,29 @@ import java.util.List;
  */
 public class MockContainer extends AbstractMutableContainer {
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected CountModel newComponentModel() {
 		return new CountModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void handleRequest(final Request request) {
 		super.handleRequest(request);
 		((CountModel) getOrCreateComponentModel()).handleRequestCount++;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void preparePaintComponent(final Request request) {
 		super.preparePaintComponent(request);
 		((CountModel) getOrCreateComponentModel()).preparePaintCount++;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void paintComponent(final RenderContext renderContext) {
 		super.paintComponent(renderContext);
 		((CountModel) getOrCreateComponentModel()).paintCount++;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void validate(final List<Diagnostic> diags) {
 		super.validate(diags);

@@ -20,9 +20,6 @@ public final class RendererFactoryImpl implements RendererFactory {
 	 */
 	private static final Renderer NULL_RENDERER = new NullRenderer();
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Renderer getRenderer(final Class<?> clazz) {
 		return NULL_RENDERER;

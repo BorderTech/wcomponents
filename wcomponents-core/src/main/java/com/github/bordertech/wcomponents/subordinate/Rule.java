@@ -179,9 +179,6 @@ public class Rule implements Serializable {
 		onFalse.add(action);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		return "if (" + condition + ")\nthen\n   " + onTrue + "\nelse\n   " + onFalse + "\n";

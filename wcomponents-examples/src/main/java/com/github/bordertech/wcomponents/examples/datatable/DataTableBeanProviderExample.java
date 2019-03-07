@@ -106,18 +106,12 @@ public class DataTableBeanProviderExample extends WBeanContainer {
 		 */
 		private static final int DOB = 2;
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public int getRowCount() {
 			List<PersonBean> bean = (List<PersonBean>) getBean();
 			return bean.size();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public Object getValueAt(final int row, final int col) {
 			List<PersonBean> bean = (List<PersonBean>) getBean();

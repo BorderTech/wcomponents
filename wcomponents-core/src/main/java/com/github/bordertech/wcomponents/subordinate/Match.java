@@ -37,9 +37,6 @@ public class Match extends AbstractCompare {
 		return CompareType.MATCH;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected boolean doCompare(final Object aVal, final Object bVal) {
 		// Cannot compare if either value is null (This matches client side logic)
@@ -58,9 +55,6 @@ public class Match extends AbstractCompare {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		String triggerName = getTrigger().getClass().getSimpleName();

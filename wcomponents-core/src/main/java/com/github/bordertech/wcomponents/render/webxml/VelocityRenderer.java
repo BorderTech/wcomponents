@@ -327,9 +327,6 @@ public final class VelocityRenderer implements Renderer {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		return "VelocityLayout: " + url;

@@ -220,9 +220,6 @@ public class MenuBarExample extends WContainer {
 			this.disableables = disableables;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void execute(final ActionEvent event) {
 			for (Disableable disableable : disableables) {

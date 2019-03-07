@@ -95,9 +95,6 @@ public class SimpleCancelButtonExample extends WPanel implements MessageContaine
 		});
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public WMessages getMessages() {
 		return messages;

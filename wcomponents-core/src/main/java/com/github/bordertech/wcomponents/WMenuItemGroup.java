@@ -127,9 +127,6 @@ public class WMenuItemGroup extends AbstractContainer implements Disableable, Me
 		addMenuItem(item);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void addMenuItem(final MenuItem item) {
 		if (item instanceof MenuItemGroup) {
@@ -151,25 +148,16 @@ public class WMenuItemGroup extends AbstractContainer implements Disableable, Me
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void removeMenuItem(final MenuItem item) {
 		getContent().remove(item);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void removeAllMenuItems() {
 		getContent().removeAll();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public List<MenuItem> getMenuItems() {
 		List<MenuItem> items = new ArrayList(getContent().getChildren());

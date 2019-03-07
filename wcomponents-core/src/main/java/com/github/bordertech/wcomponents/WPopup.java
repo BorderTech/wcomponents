@@ -216,17 +216,11 @@ public class WPopup extends AbstractWComponent {
 		return new PopupModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected PopupModel getComponentModel() {
 		return (PopupModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected PopupModel getOrCreateComponentModel() {
 		return (PopupModel) super.getOrCreateComponentModel();

@@ -132,9 +132,6 @@ public class TableExpandableContentModelExample extends WPanel {
 			return data;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public Object getValueAt(final List<Integer> row, final int col) {
 			int rootIdx = row.get(0);
@@ -159,9 +156,6 @@ public class TableExpandableContentModelExample extends WPanel {
 			return null;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public int[] sort(final int col, final boolean ascending) {
 			Comparator<Object> comp = new AbstractComparator() {
@@ -173,25 +167,16 @@ public class TableExpandableContentModelExample extends WPanel {
 			return sort(comp, col, ascending);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public boolean isSortable(final int col) {
 			return (col != COL3);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public int getRowCount() {
 			return getData().size();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public int getChildCount(final List<Integer> row) {
 			// Top Level - check if level has children (ie has documents)
@@ -203,9 +188,6 @@ public class TableExpandableContentModelExample extends WPanel {
 			return 0;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public Class<? extends WComponent> getRendererClass(final List<Integer> row) {
 			// Expandable Level - Renderer for expanded content
@@ -215,9 +197,6 @@ public class TableExpandableContentModelExample extends WPanel {
 			return null;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public boolean isExpandable(final List<Integer> row) {
 			return true;

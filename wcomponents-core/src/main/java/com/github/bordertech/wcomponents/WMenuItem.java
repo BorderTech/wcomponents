@@ -231,9 +231,6 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 		setSelectability(selectable);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isSelected() {
 		WMenu menu = WebUtilities.getAncestorOfClass(WMenu.class, this);
@@ -245,9 +242,6 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 		return false;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Boolean getSelectability() {
 		return getComponentModel().selectability;
@@ -498,18 +492,12 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 		return new MenuItemModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected MenuItemModel getComponentModel() {
 		return (MenuItemModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected MenuItemModel getOrCreateComponentModel() {

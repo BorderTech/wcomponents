@@ -28,9 +28,6 @@ import java.util.Map;
  */
 public class DefaultPageShell implements PageShell {
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void openDoc(final PrintWriter writer) {
 		UIContext uic = UIContextHolder.getCurrent();
@@ -90,9 +87,6 @@ public class DefaultPageShell implements PageShell {
 		return title == null ? "" : title;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void writeHeader(final PrintWriter writer) {
 		UIContext uic = UIContextHolder.getCurrent();
@@ -101,33 +95,21 @@ public class DefaultPageShell implements PageShell {
 		addCssHeadlines(writer, uic.getHeaders().getHeadLines(Headers.CSS_HEADLINE));
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void writeApplicationHeader(final PrintWriter writer) {
 		// This implementation does not write any visible app header
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void writeApplicationFooter(final PrintWriter writer) {
 		// This implementation does not write any visible app footer
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void writeFooter(final PrintWriter writer) {
 		// This implementation does not require a footer element
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void closeDoc(final PrintWriter writer) {
 		writer.write("</ui:root>");

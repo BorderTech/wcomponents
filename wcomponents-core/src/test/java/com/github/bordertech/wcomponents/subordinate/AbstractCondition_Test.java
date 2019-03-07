@@ -53,17 +53,11 @@ public class AbstractCondition_Test {
 		 */
 		private boolean testCondition;
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected boolean execute() {
 			return testCondition;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected boolean execute(final Request request) {
 			String param = request.getParameter("condition");

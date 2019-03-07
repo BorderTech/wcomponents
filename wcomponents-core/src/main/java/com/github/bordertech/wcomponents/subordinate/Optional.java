@@ -28,9 +28,6 @@ public class Optional extends AbstractSetMandatory {
 		return ActionType.OPTIONAL;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		String targetName = getTarget().getClass().getSimpleName();

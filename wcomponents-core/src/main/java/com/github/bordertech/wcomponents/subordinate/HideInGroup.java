@@ -45,9 +45,6 @@ public class HideInGroup extends AbstractSetVisible {
 		return ActionType.HIDEIN;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		String targetInName = getTargetInGroup().getClass().getSimpleName();

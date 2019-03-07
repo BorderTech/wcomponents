@@ -81,9 +81,6 @@ public class AjaxSetupInterceptor extends InterceptorComponent {
 		super.serviceRequest(request);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void paint(final RenderContext renderContext) {
 		try {

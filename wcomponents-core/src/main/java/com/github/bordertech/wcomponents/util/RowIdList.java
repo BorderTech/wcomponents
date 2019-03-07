@@ -113,9 +113,6 @@ public final class RowIdList implements List<Integer>, Serializable {
 		throw new UnsupportedOperationException(IMMUTABLE_MESSAGE);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean contains(final Object object) {
 		if (object instanceof Integer) {
@@ -126,9 +123,6 @@ public final class RowIdList implements List<Integer>, Serializable {
 		return false;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean containsAll(final Collection collection) {
 		for (Object object : collection) {
@@ -140,9 +134,6 @@ public final class RowIdList implements List<Integer>, Serializable {
 		return true;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Integer get(final int location) {
 		if (location < 0 || location >= size()) {
@@ -152,9 +143,6 @@ public final class RowIdList implements List<Integer>, Serializable {
 		return startIndex + location;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int indexOf(final Object object) {
 		if (object instanceof Integer) {
@@ -176,9 +164,6 @@ public final class RowIdList implements List<Integer>, Serializable {
 		return false;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Iterator<Integer> iterator() {
 		return new Iterator<Integer>() {
@@ -205,25 +190,16 @@ public final class RowIdList implements List<Integer>, Serializable {
 		};
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int lastIndexOf(final Object object) {
 		return indexOf(object);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public ListIterator<Integer> listIterator() {
 		return listIterator(0);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public ListIterator<Integer> listIterator(final int location) {
 		return new ListIterator<Integer>() {
@@ -340,17 +316,11 @@ public final class RowIdList implements List<Integer>, Serializable {
 		throw new UnsupportedOperationException(IMMUTABLE_MESSAGE);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int size() {
 		return endIndex - startIndex + 1;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public List<Integer> subList(final int start, final int end) {
 		if (start < 0) {
@@ -362,9 +332,6 @@ public final class RowIdList implements List<Integer>, Serializable {
 		return new RowIdList(get(start), get(end - 1));
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Integer[] toArray() {
 		final Integer[] indices = new Integer[size()];
@@ -376,9 +343,6 @@ public final class RowIdList implements List<Integer>, Serializable {
 		return indices;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Integer[] toArray(final Object[] array) {
 		Integer[] indices = (Integer[]) array;

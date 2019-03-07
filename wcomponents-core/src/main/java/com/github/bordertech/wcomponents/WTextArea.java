@@ -141,17 +141,11 @@ public class WTextArea extends WTextField implements AutocompleteableMultiline {
 		return new TextAreaModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected TextAreaModel getComponentModel() {
 		return (TextAreaModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected TextAreaModel getOrCreateComponentModel() {
 		return (TextAreaModel) super.getOrCreateComponentModel();

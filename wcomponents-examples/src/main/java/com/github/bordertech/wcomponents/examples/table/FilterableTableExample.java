@@ -174,9 +174,6 @@ public final class FilterableTableExample extends WContainer {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void preparePaintComponent(final Request request) {
 		super.preparePaintComponent(request);
@@ -321,9 +318,6 @@ public final class FilterableTableExample extends WContainer {
 	@SuppressWarnings("serial")
 	private class FilterAction implements Action {
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void execute(final ActionEvent event) {
 			getFilterableTableModel().filterBeanList();
@@ -339,9 +333,6 @@ public final class FilterableTableExample extends WContainer {
 	@SuppressWarnings("serial")
 	private class ClearFilterAction implements Action {
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void execute(final ActionEvent event) {
 			if (event.getActionObject() == null) {
@@ -385,9 +376,6 @@ public final class FilterableTableExample extends WContainer {
 			super(columnBeanProperties);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public List<?> getBeanList() {
 			if (fullList == null) {

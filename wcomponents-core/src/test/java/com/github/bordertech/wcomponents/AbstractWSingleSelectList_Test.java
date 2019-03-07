@@ -1206,25 +1206,16 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 			this.desc = desc;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public boolean equals(final Object o) {
 			return ((o instanceof MyObject) && ((MyObject) o).code.equals(code));
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public int hashCode() {
 			return code.hashCode();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String toString() {
 			return desc;

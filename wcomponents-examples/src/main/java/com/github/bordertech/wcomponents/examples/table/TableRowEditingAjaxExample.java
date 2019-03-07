@@ -332,25 +332,16 @@ public class TableRowEditingAjaxExample extends WPanel {
 		return model.editRows != null && model.editRows.contains(key);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected MyModel newComponentModel() {
 		return new MyModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected MyModel getComponentModel() {
 		return (MyModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected MyModel getOrCreateComponentModel() {
 		return (MyModel) super.getOrCreateComponentModel();

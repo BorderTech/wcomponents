@@ -60,9 +60,7 @@ public final class WebDriverCache {
 	//Register a shutdown hook to clean up all drivers when the JVM is terminated.
 	static {
 		Runtime.getRuntime().addShutdownHook(new Thread() {
-			/**
-			 * {@inheritDoc}.
-			 */
+
 			@Override
 			public void run() {
 				closeDriversForAllThreads();

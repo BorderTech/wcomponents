@@ -181,9 +181,6 @@ public class AccordionExample extends WContainer {
 			setEncodeText(false);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getText() {
 			return super.getText() + " generated at: " + new Date();

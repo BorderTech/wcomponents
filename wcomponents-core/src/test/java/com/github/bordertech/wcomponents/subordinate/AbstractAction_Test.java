@@ -97,18 +97,12 @@ public class AbstractAction_Test extends AbstractWComponentTestCase {
 			super(target, value);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected void applyAction(final SubordinateTarget target, final Object value) {
 			MyTarget test = (MyTarget) target;
 			test.setValue((String) value);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public ActionType getActionType() {
 			return null;

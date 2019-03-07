@@ -162,17 +162,11 @@ public class WStyledText extends WText {
 		return new StyledTextModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected StyledTextModel getComponentModel() {
 		return (StyledTextModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected StyledTextModel getOrCreateComponentModel() {
 		return (StyledTextModel) super.getOrCreateComponentModel();

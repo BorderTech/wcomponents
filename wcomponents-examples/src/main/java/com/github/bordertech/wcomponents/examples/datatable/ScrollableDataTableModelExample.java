@@ -100,17 +100,11 @@ public class ScrollableDataTableModelExample extends WPanel {
 			rowCount = DummyService.read(start, end, data);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public int getRowCount() {
 			return rowCount;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public Object getValueAt(final int row, final int col) {
 			// Since we only store a sub-set of data, we need to adjust the row index.

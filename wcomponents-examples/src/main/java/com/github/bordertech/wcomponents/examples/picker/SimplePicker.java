@@ -305,9 +305,6 @@ public class SimplePicker extends WContainer implements MessageContainer {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public WMessages getMessages() {
 		return messages;

@@ -163,9 +163,6 @@ public class WCancelButtonExample extends WPanel implements MessageContainer {
 		cancelButton.setUnsavedChanges(currentPage > 0);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public WMessages getMessages() {
 		return messages;

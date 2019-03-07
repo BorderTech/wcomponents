@@ -52,9 +52,6 @@ public class Not extends AbstractCondition {
 		return condition;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		return "not (" + condition + ")";

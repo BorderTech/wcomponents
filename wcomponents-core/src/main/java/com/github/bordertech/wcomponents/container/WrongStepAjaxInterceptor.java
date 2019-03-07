@@ -108,9 +108,6 @@ public class WrongStepAjaxInterceptor extends InterceptorComponent {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void preparePaint(final Request request) {
 		if (redirectUrl != null) {
@@ -119,9 +116,6 @@ public class WrongStepAjaxInterceptor extends InterceptorComponent {
 		super.preparePaint(request);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void paint(final RenderContext renderContext) {
 		if (redirectUrl != null) {

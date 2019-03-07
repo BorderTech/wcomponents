@@ -30,9 +30,6 @@ public class SuccessComponent extends WDataRenderer {
 		add(beanDetails);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void updateComponent(final Object data) {
 		MyDataBean myBean = (MyDataBean) data;

@@ -100,9 +100,6 @@ public abstract class ValidatingAction implements Action {
 		errorsBox.setFocussed();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public final void execute(final ActionEvent event) {
 		errorsBox.clearErrors();

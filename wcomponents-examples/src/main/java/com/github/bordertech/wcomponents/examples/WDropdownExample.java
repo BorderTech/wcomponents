@@ -242,9 +242,6 @@ public class WDropdownExample extends WContainer {
 			this.id = id;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String toString() {
 			return firstName + ' ' + lastName;
@@ -270,17 +267,11 @@ public class WDropdownExample extends WContainer {
 			this.person = person;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getCode() {
 			return person.getId();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getDesc() {
 			return person.getLastName() + ", " + person.getFirstName();

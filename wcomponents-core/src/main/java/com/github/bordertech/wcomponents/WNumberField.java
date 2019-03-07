@@ -41,9 +41,6 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 		return value == null ? getText() : value.toString();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected boolean doHandleRequest(final Request request) {
 		// Valid Number
@@ -90,9 +87,6 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 		model.text = text;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public BigDecimal getRequestValue(final Request request) {
 		if (isPresent(request)) {
@@ -179,9 +173,6 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 		return getValue();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setData(final Object data) {
 		// This override is necessary to maintain other internal state
@@ -472,18 +463,12 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 		return new NumberFieldModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected NumberFieldModel getComponentModel() {
 		return (NumberFieldModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected NumberFieldModel getOrCreateComponentModel() {

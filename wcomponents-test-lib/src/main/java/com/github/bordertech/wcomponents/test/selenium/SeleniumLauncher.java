@@ -60,9 +60,6 @@ public class SeleniumLauncher extends PlainLauncher {
 		CONTEXTS.remove(sessionId);
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	protected WServletHelper createServletHelper(final HttpServletRequest httpServletRequest, final HttpServletResponse httpServletResponse) {
 		return new SeleniumServletHelper(this, httpServletRequest, httpServletResponse);
@@ -85,9 +82,6 @@ public class SeleniumLauncher extends PlainLauncher {
 			super(servlet, httpServletRequest, httpServletResponse);
 		}
 
-		/**
-		 * {@inheritDoc}.
-		 */
 		@Override
 		protected void setUIContext(final UIContext uiContext) {
 			super.setUIContext(uiContext);

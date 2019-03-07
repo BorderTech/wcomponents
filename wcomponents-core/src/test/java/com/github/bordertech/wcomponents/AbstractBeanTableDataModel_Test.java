@@ -84,9 +84,6 @@ public class AbstractBeanTableDataModel_Test {
 	 */
 	private static final class MyDataModel extends AbstractBeanTableDataModel {
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public Object getValueAt(final int row, final int col) {
 			Object bean = getBean();
@@ -98,9 +95,6 @@ public class AbstractBeanTableDataModel_Test {
 			return null;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public int getRowCount() {
 			Object bean = getBean();

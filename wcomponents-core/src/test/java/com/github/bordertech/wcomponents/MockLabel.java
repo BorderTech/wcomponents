@@ -17,17 +17,11 @@ public final class MockLabel extends WLabel {
 		super(text);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected LabelModel newComponentModel() {
 		return new CountModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void handleRequest(final Request request) {
 		super.handleRequest(request);
@@ -35,9 +29,6 @@ public final class MockLabel extends WLabel {
 		((MockLabel.CountModel) getOrCreateComponentModel()).handleRequestCount++;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void paintComponent(final RenderContext renderContext) {
 		super.paintComponent(renderContext);

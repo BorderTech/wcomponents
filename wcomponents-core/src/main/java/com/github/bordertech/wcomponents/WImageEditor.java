@@ -131,17 +131,11 @@ public class WImageEditor extends AbstractWComponent {
 		return new ImageEditModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected ImageEditModel getComponentModel() {
 		return (ImageEditModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected ImageEditModel getOrCreateComponentModel() {
 		return (ImageEditModel) super.getOrCreateComponentModel();

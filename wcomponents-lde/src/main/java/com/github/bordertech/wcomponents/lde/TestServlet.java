@@ -260,9 +260,6 @@ public abstract class TestServlet extends WServlet implements LdeLauncher {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isRunning() {
 		return server != null && server.isRunning();

@@ -17,17 +17,11 @@ import org.openqa.selenium.remote.DesiredCapabilities;
  */
 public class InternetExplorerWebDriverType extends WebDriverType<InternetExplorerDriver> {
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public String getDriverTypeName() {
 		return "ie";
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public InternetExplorerDriver getDriverImplementation() {
 		return new InternetExplorerDriver(getInternetExplorerDriverService(), getCapabilities());
@@ -43,9 +37,6 @@ public class InternetExplorerWebDriverType extends WebDriverType<InternetExplore
 		return InternetExplorerDriverService.createDefaultService();
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public DesiredCapabilities getDefaultDriverCapabilities() {
 		return DesiredCapabilities.internetExplorer();

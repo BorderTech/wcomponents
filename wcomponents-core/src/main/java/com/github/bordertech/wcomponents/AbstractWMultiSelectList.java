@@ -195,7 +195,10 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	}
 
 	/**
+         * {@inheritDoc}
+         * <p>
 	 * getData expects the data to be either null (for no selection) or a {@link List} of selected options.
+         * </p>
 	 * <p>
 	 * getData will check that if no options have been selected (ie data is null) and the list component requires an
 	 * option to be selected (ie {@link #isAllowNoSelection()} is false), it will return a list containing the first

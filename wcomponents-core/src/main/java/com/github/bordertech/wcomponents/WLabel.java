@@ -69,9 +69,6 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	public WLabel() {
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getId() {
 		if (getIdName() == null && getForComponent() != null && getForComponent().getIdName() != null) {
@@ -80,9 +77,6 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 		return super.getId();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void add(final WComponent component) {
 		super.add(component);
@@ -292,17 +286,11 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 		return new LabelModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected LabelModel getComponentModel() {
 		return (LabelModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected LabelModel getOrCreateComponentModel() {
 		return (LabelModel) super.getOrCreateComponentModel();

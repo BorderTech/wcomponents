@@ -85,18 +85,12 @@ public class TableBeanProviderExample extends WBeanContainer {
 		 */
 		private static final int DOB = 2;
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public int getRowCount() {
 			List<PersonBean> bean = (List<PersonBean>) getBean();
 			return bean.size();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public Object getValueAt(final List<Integer> row, final int col) {
 			Integer idx = row.get(0);
@@ -120,9 +114,6 @@ public class TableBeanProviderExample extends WBeanContainer {
 			}
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public int getChildCount(final List<Integer> row) {
 			return 0;

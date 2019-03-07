@@ -30,9 +30,6 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable {
 	 */
 	private List<TreeNode> children;
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void add(final TreeNode node) {
 		if (node == this) {
@@ -58,9 +55,6 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Iterator<TreeNode> children() {
 		if (children == null) {
@@ -70,25 +64,16 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable {
 		return children.iterator();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Iterator<TreeNode> depthFirst() {
 		return new PostorderIterator(this);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Iterator<TreeNode> breadthFirst() {
 		return new BreadthFirstIterator(this);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public TreeNode getChildAt(final int index) {
 		if (children == null || index < 0 || index >= children.size()) {
@@ -98,9 +83,6 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable {
 		return children.get(index);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int getIndex(final TreeNode aChild) {
 		if (aChild == null) {
@@ -114,25 +96,16 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable {
 		return -1;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int getChildCount() {
 		return children == null ? 0 : children.size();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public TreeNode getParent() {
 		return parent;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void remove(final TreeNode child) {
 		if (children != null) {
@@ -144,9 +117,6 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void removeAll() {
 		if (children != null) {
@@ -162,17 +132,11 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isDescendant(final TreeNode otherNode) {
 		return this.isAncestor(otherNode);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isAncestor(final TreeNode otherNode) {
 		if (otherNode != null) {
@@ -186,9 +150,6 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable {
 		return false;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int getLevel() {
 		int level = 0;
@@ -200,25 +161,16 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable {
 		return level;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isLeaf() {
 		return !children().hasNext();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isRelated(final TreeNode otherNode) {
 		return (otherNode != null) && (getRoot() == otherNode.getRoot());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public TreeNode getRoot() {
 		TreeNode node = this;
@@ -230,9 +182,6 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable {
 		return node;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public TreeNode[] getPath() {
 		return getPathToRoot(this, 0);

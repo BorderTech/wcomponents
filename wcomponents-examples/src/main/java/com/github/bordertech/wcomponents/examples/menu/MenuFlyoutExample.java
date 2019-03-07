@@ -188,9 +188,6 @@ public class MenuFlyoutExample extends WPanel {
 			this.disableables = disableables;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void execute(final ActionEvent event) {
 			for (Disableable disableable : disableables) {

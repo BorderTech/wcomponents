@@ -36,9 +36,6 @@ public class VelocityRendererImpl implements TemplateRenderer {
 	 */
 	private static VelocityEngine engine;
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void renderTemplate(final String templateName, final Map<String, Object> context, final Map<String, WComponent> taggedComponents,
 			final Writer writer, final Map<String, Object> options) {
@@ -74,9 +71,6 @@ public class VelocityRendererImpl implements TemplateRenderer {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void renderInline(final String templateInline, final Map<String, Object> context, final Map<String, WComponent> taggedComponents,
 			final Writer writer, final Map<String, Object> options) {

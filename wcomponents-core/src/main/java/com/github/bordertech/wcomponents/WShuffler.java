@@ -48,9 +48,6 @@ public class WShuffler extends AbstractInput implements AjaxTrigger, AjaxTarget,
 		return getValue();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public List<?> getValue() {
 		// Convert data to list (if necessary)
@@ -82,9 +79,6 @@ public class WShuffler extends AbstractInput implements AjaxTrigger, AjaxTarget,
 		return getComponentModel().rows;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected boolean doHandleRequest(final Request request) {
 		List<?> values = getRequestValue(request);
@@ -99,9 +93,6 @@ public class WShuffler extends AbstractInput implements AjaxTrigger, AjaxTarget,
 		return changed;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public List<?> getRequestValue(final Request request) {
 		if (isPresent(request)) {
@@ -111,9 +102,6 @@ public class WShuffler extends AbstractInput implements AjaxTrigger, AjaxTarget,
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected boolean isPresent(final Request request) {
 		// Check the number of options have not changed
@@ -151,26 +139,17 @@ public class WShuffler extends AbstractInput implements AjaxTrigger, AjaxTarget,
 		return newOptions;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected ShufflerModel newComponentModel() {
 		return new ShufflerModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected ShufflerModel getComponentModel() {
 		return (ShufflerModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected ShufflerModel getOrCreateComponentModel() {

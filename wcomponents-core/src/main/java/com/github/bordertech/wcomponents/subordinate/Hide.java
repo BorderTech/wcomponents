@@ -29,9 +29,6 @@ public class Hide extends AbstractSetVisible {
 		return ActionType.HIDE;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		String targetName = getTarget().getClass().getSimpleName();

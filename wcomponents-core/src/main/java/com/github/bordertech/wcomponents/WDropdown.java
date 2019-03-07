@@ -261,17 +261,11 @@ public class WDropdown extends AbstractWSingleSelectList implements AjaxTrigger,
 		return new DropdownModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected DropdownModel getComponentModel() {
 		return (DropdownModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected DropdownModel getOrCreateComponentModel() {
 		return (DropdownModel) super.getOrCreateComponentModel();

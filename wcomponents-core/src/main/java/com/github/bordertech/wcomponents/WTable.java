@@ -671,17 +671,11 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setMargin(final Margin margin) {
 		getOrCreateComponentModel().margin = margin;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Margin getMargin() {
 		return getComponentModel().margin;
@@ -1663,9 +1657,6 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 			this.table = table;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public Object getBean(final BeanProviderBound beanProviderBound) {
 			return table.getBeanValue();
@@ -1687,9 +1678,6 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 			this.table = table;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public Object getBean(final BeanProviderBound beanProviderBound) {
 			TableModel dataModel = table.getTableModel();
@@ -2120,36 +2108,24 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// to make public
 	public int getChildCount() {
 		return super.getChildCount();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 // to make public
 	public WComponent getChildAt(final int index) {
 		return super.getChildAt(index);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// to make public
 	public int getIndexOfChild(final WComponent childComponent) {
 		return super.getIndexOfChild(childComponent);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
+        }
+        
 	@Override
 	// to make public
 	public List<WComponent> getChildren() {
@@ -2176,17 +2152,11 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 		setFlag(ComponentModel.NAMING_CONTEXT_FLAG, context);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isNamingContext() {
 		return isFlagSet(ComponentModel.NAMING_CONTEXT_FLAG);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getNamingContextId() {
 		return getId();
@@ -2202,18 +2172,12 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 		return new WTableComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// for type safety only
 	protected WTableComponentModel getComponentModel() {
 		return (WTableComponentModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// for type safety only
 	protected WTableComponentModel getOrCreateComponentModel() {
@@ -2439,9 +2403,6 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 			setNamingContext(true);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getId() {
 			return table.getId() + ID_CONTEXT_SEPERATOR + getIdName();
@@ -2457,17 +2418,11 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 			// Do nothing
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public List<RowIdWrapper> getBeanList() {
 			return super.getBeanList();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected void cleanupStaleContexts(final Set<?> rowIds) {
 			// Tables that are not editable, clean up contexts. Editable tables do not do the clean up so the contexts
@@ -2477,9 +2432,6 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 			}
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected String getRowIdName(final Object rowBean, final Object rowId) {
 			RowIdWrapper wrapper = (RowIdWrapper) rowBean;

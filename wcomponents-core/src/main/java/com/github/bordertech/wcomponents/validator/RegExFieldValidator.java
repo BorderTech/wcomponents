@@ -42,9 +42,6 @@ public class RegExFieldValidator extends AbstractFieldValidator {
 		this.pattern = Pattern.compile(pattern);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected boolean isValid() {
 		String value = getInputAsString();

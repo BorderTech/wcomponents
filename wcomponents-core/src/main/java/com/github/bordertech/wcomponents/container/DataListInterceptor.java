@@ -38,9 +38,6 @@ public class DataListInterceptor extends InterceptorComponent {
 	 */
 	private String key;
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void serviceRequest(final Request request) {
 		key = request.getParameter(WServlet.DATA_LIST_PARAM_NAME);
@@ -58,9 +55,6 @@ public class DataListInterceptor extends InterceptorComponent {
 		// No-Op
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void paint(final RenderContext renderContext) {
 		if (key == null) {

@@ -451,17 +451,11 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 		return new RepeaterModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected RepeaterModel getComponentModel() {
 		return (RepeaterModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected RepeaterModel getOrCreateComponentModel() {
 		return (RepeaterModel) super.getOrCreateComponentModel();
@@ -692,33 +686,21 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 		return getRepeatRoot().getRepeatedComponent();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // to make public
 	public int getChildCount() {
 		return super.getChildCount();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // to make public
 	public WComponent getChildAt(final int index) {
 		return super.getChildAt(index);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // to make public
 	public int getIndexOfChild(final WComponent childComponent) {
 		return super.getIndexOfChild(childComponent);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // to make public
 	public List<WComponent> getChildren() {
 		return super.getChildren();
@@ -744,17 +726,11 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 		setFlag(ComponentModel.NAMING_CONTEXT_FLAG, context);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isNamingContext() {
 		return isFlagSet(ComponentModel.NAMING_CONTEXT_FLAG);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getNamingContextId() {
 		return getId();
@@ -868,9 +844,6 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 			return iidBuf.toString();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getId() {
 			UIContext uic = UIContextHolder.getCurrent();
@@ -932,49 +905,31 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 			return false;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override // to make public
 		public int getChildCount() {
 			return super.getChildCount();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override // to make public
 		public WComponent getChildAt(final int index) {
 			return super.getChildAt(index);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override // to make public
 		public List<WComponent> getChildren() {
 			return super.getChildren();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override // to make public
 		public int getIndexOfChild(final WComponent childComponent) {
 			return super.getIndexOfChild(childComponent);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public boolean isNamingContext() {
 			return true;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getNamingContextId() {
 			return getId();
@@ -1039,9 +994,6 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 			this.rowRenderId = rowRenderId;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void invokeLater(final Runnable runnable) {
 			// Override to invoke the runnable against this context
@@ -1313,9 +1265,6 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 			// Don't do anything - the real UI Context will clear it out
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void setFocussed(final WComponent component) {
 			super.setFocussed(component, this);

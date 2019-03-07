@@ -9,6 +9,8 @@ package com.github.bordertech.wcomponents;
 public final class DefaultWComponent extends AbstractWComponent {
 
 	/**
+         * {@inheritDoc}
+	 *
 	 * @deprecated Use {@link WTemplate} instead.
 	 */
 	@Deprecated
@@ -18,6 +20,8 @@ public final class DefaultWComponent extends AbstractWComponent {
 	}
 
 	/**
+         * {@inheritDoc}
+	 *
 	 * @deprecated Use {@link WTemplate} instead.
 	 */
 	@Deprecated

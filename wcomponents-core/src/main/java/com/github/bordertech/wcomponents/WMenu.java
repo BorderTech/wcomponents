@@ -115,17 +115,11 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 		getOrCreateComponentModel().rows = rows;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Margin getMargin() {
 		return getComponentModel().margin;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setMargin(final Margin margin) {
 		getOrCreateComponentModel().margin = margin;
@@ -172,17 +166,11 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public SelectionMode getSelectionMode() {
 		return getComponentModel().selectionMode;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setSelectionMode(final SelectionMode selectionMode) {
 		getOrCreateComponentModel().selectionMode = selectionMode == null ? SelectionMode.NONE : selectionMode;
@@ -245,9 +233,6 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 		addMenuItem(item);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void addMenuItem(final MenuItem item) {
 		getContent().add(item);
@@ -266,25 +251,16 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void removeMenuItem(final MenuItem item) {
 		getContent().remove(item);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void removeAllMenuItems() {
 		getContent().removeAll();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public List<MenuItem> getMenuItems() {
 		List<MenuItem> items = new ArrayList(getContent().getChildren());
@@ -460,9 +436,6 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void afterPaint(final RenderContext renderContext) {
 		super.afterPaint(renderContext);
@@ -620,17 +593,11 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 		return new MenuModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected MenuModel getComponentModel() {
 		return (MenuModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected MenuModel getOrCreateComponentModel() {
 		return (MenuModel) super.getOrCreateComponentModel();

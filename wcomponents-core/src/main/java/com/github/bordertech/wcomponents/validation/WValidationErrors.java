@@ -185,17 +185,11 @@ public class WValidationErrors extends AbstractWComponent {
 		return new ValidationErrorsModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected ValidationErrorsModel getComponentModel() {
 		return (ValidationErrorsModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected ValidationErrorsModel getOrCreateComponentModel() {
 		return (ValidationErrorsModel) super.getOrCreateComponentModel();

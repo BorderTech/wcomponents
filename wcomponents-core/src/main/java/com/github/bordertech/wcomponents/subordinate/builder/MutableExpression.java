@@ -21,9 +21,6 @@ class MutableExpression implements BooleanExpression, Serializable {
 	 */
 	private BooleanExpression expression;
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Boolean evaluate() {
 		return expression == null ? Boolean.FALSE : expression.evaluate();
@@ -45,17 +42,11 @@ class MutableExpression implements BooleanExpression, Serializable {
 		this.expression = expression;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		return expression == null ? "" : expression.toString();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Condition build() {
 		return expression.build();

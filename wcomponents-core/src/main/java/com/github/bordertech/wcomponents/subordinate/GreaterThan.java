@@ -29,9 +29,6 @@ public class GreaterThan extends AbstractCompare {
 		return CompareType.GREATER_THAN;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected boolean doCompare(final Object aVal, final Object bVal) {
 		// Cannot compare if either value is null (This matches client side logic)
@@ -42,9 +39,6 @@ public class GreaterThan extends AbstractCompare {
 		return ((Comparable<Object>) aVal).compareTo(bVal) > 0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		String triggerName = getTrigger().getClass().getSimpleName();

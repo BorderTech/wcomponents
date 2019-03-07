@@ -342,9 +342,6 @@ public class DataTableOptionsExample extends WContainer {
 		return root;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void preparePaintComponent(final Request request) {
 		if (!isInitialised()) {
@@ -468,17 +465,11 @@ public class DataTableOptionsExample extends WContainer {
 			return data;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public int getRowCount() {
 			return getData().size();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public Object getValueAt(final int row, final int col) {
 			ExampleBean bean = getData().get(row);
@@ -494,9 +485,6 @@ public class DataTableOptionsExample extends WContainer {
 			}
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getRowHeader(final int row) {
 			return "Row " + row;
@@ -662,9 +650,6 @@ public class DataTableOptionsExample extends WContainer {
 			super(root);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public Object getValueAt(final TableTreeNode node, final int col) {
 			ExampleBean bean = (ExampleBean) node.getData();
@@ -743,9 +728,6 @@ public class DataTableOptionsExample extends WContainer {
 			return (col != COL3);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getRowHeader(final int row) {
 			return "Row " + row;
@@ -896,17 +878,11 @@ public class DataTableOptionsExample extends WContainer {
 			super(options);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override // for type-safety only
 		public T getSelected() {
 			return (T) super.getSelected();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getDesc(final Object option, final int index) {
 			String desc = super.getDesc(option, index);

@@ -19,9 +19,6 @@ public abstract class AbstractComparator implements Comparator, Serializable {
 	 */
 	protected abstract Comparable getComparable(Object obj);
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int compare(final Object obj1, final Object obj2) {
 		Comparable<?> comparable1 = getComparable(obj1);

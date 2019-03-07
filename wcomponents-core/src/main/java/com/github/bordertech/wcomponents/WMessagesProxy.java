@@ -265,9 +265,6 @@ class WMessagesProxy extends WMessages {
 			return messages == null ? null : messages.getValidationErrors();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void clearErrors() {
 			WValidationErrors instance = getWValidationErrors();
@@ -277,9 +274,6 @@ class WMessagesProxy extends WMessages {
 			}
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public List<Diagnostic> getErrors() {
 			WValidationErrors instance = getWValidationErrors();
@@ -291,9 +285,6 @@ class WMessagesProxy extends WMessages {
 			return new ArrayList<>(0);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public List<GroupedDiagnositcs> getGroupedErrors() {
 			WValidationErrors instance = getWValidationErrors();
@@ -305,9 +296,6 @@ class WMessagesProxy extends WMessages {
 			return new ArrayList<>(0);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected ValidationErrorsModel getOrCreateComponentModel() {
 			WValidationErrors instance = getWValidationErrors();
@@ -321,9 +309,6 @@ class WMessagesProxy extends WMessages {
 			return new ValidationErrorsModel();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected ValidationErrorsModel getComponentModel() {
 			WValidationErrors instance = getWValidationErrors();
@@ -336,9 +321,6 @@ class WMessagesProxy extends WMessages {
 			return new ValidationErrorsModel();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public boolean hasErrors() {
 			WValidationErrors instance = getWValidationErrors();
@@ -350,9 +332,6 @@ class WMessagesProxy extends WMessages {
 			return false;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void setErrors(final List<Diagnostic> errors) {
 			WValidationErrors instance = getWValidationErrors();
@@ -362,9 +341,6 @@ class WMessagesProxy extends WMessages {
 			}
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void setFocussed() {
 			WValidationErrors instance = getWValidationErrors();

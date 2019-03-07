@@ -11,18 +11,12 @@ import org.junit.runner.notification.RunListener;
  */
 public class ServerStartStopListener extends RunListener {
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void testRunStarted(final Description description) throws Exception {
 		ServerCache.setInSuite(true);
 		ServerCache.startServer();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void testRunFinished(final Result result) throws Exception {
 		ServerCache.setInSuite(false);

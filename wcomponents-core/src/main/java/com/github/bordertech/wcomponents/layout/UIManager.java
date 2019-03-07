@@ -63,9 +63,7 @@ public final class UIManager implements PropertyChangeListener {
 	 * Marker Layout instance for when no layout was found.
 	 */
 	private static final Renderer NULL_RENDERER = new Renderer() {
-		/**
-		 * {@inheritDoc}
-		 */
+
 		@Override
 		public void render(final WComponent component, final RenderContext renderContext) {
 			// NO-OP

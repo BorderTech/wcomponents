@@ -55,9 +55,6 @@ public class PlainTextRendererImpl implements TemplateRenderer {
 	 */
 	private static final Log LOG = LogFactory.getLog(PlainTextRendererImpl.class);
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void renderTemplate(final String templateName, final Map<String, Object> context, final Map<String, WComponent> taggedComponents,
 			final Writer writer, final Map<String, Object> options) {
@@ -105,9 +102,6 @@ public class PlainTextRendererImpl implements TemplateRenderer {
 
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void renderInline(final String templateInline, final Map<String, Object> context, final Map<String, WComponent> taggedComponents,
 			final Writer writer, final Map<String, Object> options) {

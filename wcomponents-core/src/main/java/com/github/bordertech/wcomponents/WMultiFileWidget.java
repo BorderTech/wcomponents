@@ -70,9 +70,6 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 */
 	public static final String FILE_UPLOAD_THUMB_NAIL_KEY = "wc_filetn";
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getValueAsString() {
 		List<FileWidgetUpload> files = getValue();
@@ -95,9 +92,6 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		return stringValues.toString();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public List<FileWidgetUpload> getValue() {
 		List<FileWidgetUpload> files = (List<FileWidgetUpload>) getData();
@@ -559,9 +553,6 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected boolean doHandleRequest(final Request request) {
 		// This is a normal page request.
@@ -583,9 +574,6 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		return changed;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public List<FileWidgetUpload> getRequestValue(final Request request) {
 		if (isPresent(request)) {
@@ -595,9 +583,6 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void afterPaint(final RenderContext renderContext) {
 		super.afterPaint(renderContext);
@@ -605,9 +590,6 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		setFileUploadRequestId(null);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected boolean beforeHandleRequest(final Request request) {
 
@@ -912,9 +894,6 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		return newSelection;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getTargetId() {
 		return getId();
@@ -965,18 +944,12 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		return new MultiFileWidgetModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected MultiFileWidgetModel getComponentModel() {
 		return (MultiFileWidgetModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected MultiFileWidgetModel getOrCreateComponentModel() {
@@ -1170,18 +1143,12 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 			this.thumbnailCacheKey = cacheKey;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public boolean equals(final Object o) {
 			return (o instanceof FileWidgetUpload) && Util.equals(fileId, ((FileWidgetUpload) o).
 					getFileId());
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public int hashCode() {
 			return fileId.hashCode();

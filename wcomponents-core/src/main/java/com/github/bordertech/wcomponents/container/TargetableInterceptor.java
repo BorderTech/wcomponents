@@ -24,9 +24,6 @@ public class TargetableInterceptor extends InterceptorComponent {
 	 */
 	private String targetId = null;
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void serviceRequest(final Request request) {
 		// Check if this is a targeted request
@@ -51,9 +48,6 @@ public class TargetableInterceptor extends InterceptorComponent {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void preparePaint(final Request request) {
 		ComponentWithContext target = WebUtilities.getComponentById(targetId, true);
@@ -69,9 +63,6 @@ public class TargetableInterceptor extends InterceptorComponent {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void paint(final RenderContext renderContext) {
 		ComponentWithContext target = WebUtilities.getComponentById(targetId, true);

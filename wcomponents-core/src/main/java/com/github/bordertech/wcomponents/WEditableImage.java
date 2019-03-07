@@ -42,18 +42,12 @@ public class WEditableImage extends WImage {
 		return new EditableImageModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected EditableImageModel getComponentModel() {
 		return (EditableImageModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected EditableImageModel getOrCreateComponentModel() {

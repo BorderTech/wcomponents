@@ -110,17 +110,11 @@ public class WSection extends AbstractNamingContextContainer implements AjaxInte
 		return label;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setMargin(final Margin margin) {
 		getOrCreateComponentModel().margin = margin;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Margin getMargin() {
 		return getComponentModel().margin;
@@ -146,18 +140,12 @@ public class WSection extends AbstractNamingContextContainer implements AjaxInte
 		return new SectionModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected SectionModel getComponentModel() {
 		return (SectionModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected SectionModel getOrCreateComponentModel() {

@@ -165,9 +165,6 @@ public class WTab extends AbstractNamingContextContainer implements Disableable,
 		setFlag(ComponentModel.DISABLED_FLAG, disabled);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void handleRequest(final Request request) {
 		// If is LAZY or DYNAMIC and is the current trigger, then process the WTabSet for the correct open/closed tabs
@@ -264,17 +261,11 @@ public class WTab extends AbstractNamingContextContainer implements Disableable,
 		return new TabModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected TabModel getComponentModel() {
 		return (TabModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected TabModel getOrCreateComponentModel() {
 		return (TabModel) super.getOrCreateComponentModel();

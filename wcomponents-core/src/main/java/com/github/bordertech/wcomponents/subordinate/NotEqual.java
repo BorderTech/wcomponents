@@ -30,17 +30,11 @@ public class NotEqual extends AbstractCompare {
 		return CompareType.NOT_EQUAL;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected boolean doCompare(final Object aVal, final Object bVal) {
 		return !Util.equals(aVal, bVal);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		String triggerName = getTrigger().getClass().getSimpleName();

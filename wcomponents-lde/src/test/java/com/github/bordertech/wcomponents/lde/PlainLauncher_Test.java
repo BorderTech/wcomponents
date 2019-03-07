@@ -146,9 +146,6 @@ public class PlainLauncher_Test {
 			return HELLO_WORLD;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void handleRequest(final Request request) {
 			super.handleRequest(request);
@@ -158,9 +155,6 @@ public class PlainLauncher_Test {
 			}
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected void paintComponent(final RenderContext renderContext) {
 			super.paintComponent(renderContext);

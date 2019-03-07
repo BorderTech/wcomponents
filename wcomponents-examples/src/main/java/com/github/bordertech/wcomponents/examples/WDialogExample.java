@@ -340,9 +340,6 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		ajaxTriggerButton.setAjaxTarget(ajaxTargetPanel);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public WMessages getMessages() {
 		return messages;
@@ -531,9 +528,6 @@ public class WDialogExample extends WPanel implements MessageContainer {
 			}
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public WMessages getMessages() {
 			return messages;

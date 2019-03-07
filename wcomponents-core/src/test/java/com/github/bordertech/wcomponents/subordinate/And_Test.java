@@ -139,25 +139,16 @@ public class And_Test {
 	 */
 	private static class TrueCondition extends AbstractCondition {
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected boolean execute() {
 			return true;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected boolean execute(final Request request) {
 			return true;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String toString() {
 			return "true";
@@ -169,25 +160,16 @@ public class And_Test {
 	 */
 	private static class FalseCondition extends AbstractCondition {
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected boolean execute() {
 			return false;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected boolean execute(final Request request) {
 			return false;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String toString() {
 			return "false";

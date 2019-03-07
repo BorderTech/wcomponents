@@ -10,9 +10,6 @@ import java.util.Comparator;
  */
 public final class ComparableComparator implements Comparator<Comparable<?>>, Serializable {
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int compare(final Comparable<?> obj1, final Comparable<?> obj2) {
 		return Util.compareAllowNull(obj1, obj2);

@@ -118,17 +118,11 @@ public class WFieldLayout extends AbstractNamingContextContainer implements Ajax
 		getOrCreateComponentModel().labelWidth = Math.max(0, labelWidth);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setMargin(final Margin margin) {
 		getOrCreateComponentModel().margin = margin;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Margin getMargin() {
 		return getComponentModel().margin;
@@ -212,9 +206,6 @@ public class WFieldLayout extends AbstractNamingContextContainer implements Ajax
 		return field;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // to make public
 	public void remove(final WComponent child) {
 		super.remove(child);
@@ -238,17 +229,11 @@ public class WFieldLayout extends AbstractNamingContextContainer implements Ajax
 		return new FieldLayoutModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected FieldLayoutModel getComponentModel() {
 		return (FieldLayoutModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected FieldLayoutModel getOrCreateComponentModel() {
 		return (FieldLayoutModel) super.getOrCreateComponentModel();

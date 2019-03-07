@@ -25,9 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 @Deprecated
 public class ThemeServlet extends HttpServlet {
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws
 			ServletException,

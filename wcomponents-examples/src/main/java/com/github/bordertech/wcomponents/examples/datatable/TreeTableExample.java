@@ -65,9 +65,6 @@ public class TreeTableExample extends WPanel {
 		return tbl;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void preparePaintComponent(final Request request) {
 		super.preparePaintComponent(request);
@@ -146,9 +143,6 @@ public class TreeTableExample extends WPanel {
 			super(root);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public Object getValueAt(final TableTreeNode node, final int col) {
 			PersonBean personBean = (PersonBean) node.getData();

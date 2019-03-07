@@ -16,17 +16,11 @@ import org.openqa.selenium.remote.DesiredCapabilities;
  */
 public class ChromeWebDriverType extends WebDriverType<ChromeDriver> {
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public String getDriverTypeName() {
 		return "chrome";
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public ChromeDriver getDriverImplementation() {
 		return new ChromeDriver(getChromeDriverService(), getCapabilities());
@@ -41,9 +35,6 @@ public class ChromeWebDriverType extends WebDriverType<ChromeDriver> {
 		return ChromeDriverService.createDefaultService();
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	protected DesiredCapabilities getDefaultDriverCapabilities() {
 		return DesiredCapabilities.chrome();

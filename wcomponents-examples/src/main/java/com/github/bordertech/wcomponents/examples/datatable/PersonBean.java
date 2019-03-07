@@ -81,9 +81,6 @@ public final class PersonBean implements Serializable {
 		this.dateOfBirth = dateOfBirth;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		return getFirstName() + ' ' + getLastName();

@@ -359,9 +359,6 @@ public class AbstractTreeNode_Test {
 			this.data = data;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String toString() {
 			return data;

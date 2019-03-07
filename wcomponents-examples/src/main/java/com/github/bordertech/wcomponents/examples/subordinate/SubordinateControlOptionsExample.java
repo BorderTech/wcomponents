@@ -173,9 +173,7 @@ public class SubordinateControlOptionsExample extends WContainer {
 	 * Compare type for the condition.
 	 */
 	private final WDropdown drpCompareType = new WDropdown(CompareType.values()) {
-		/**
-		 * {@inheritDoc}
-		 */
+
 		@Override
 		public String getDesc(final Object option, final int index) {
 			CompareType type = (CompareType) option;
@@ -357,9 +355,6 @@ public class SubordinateControlOptionsExample extends WContainer {
 			this.desc = desc;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String toString() {
 			return desc;
@@ -407,9 +402,6 @@ public class SubordinateControlOptionsExample extends WContainer {
 			this.desc = desc;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String toString() {
 			return desc;
@@ -864,9 +856,6 @@ public class SubordinateControlOptionsExample extends WContainer {
 		return condition;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void preparePaintComponent(final Request request) {
 		super.preparePaintComponent(request);

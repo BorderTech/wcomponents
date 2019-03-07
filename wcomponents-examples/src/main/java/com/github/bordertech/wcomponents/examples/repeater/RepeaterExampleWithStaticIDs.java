@@ -331,9 +331,6 @@ public class RepeaterExampleWithStaticIDs extends WContainer {
 			}
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void updateData(final Object data) {
 			ContactDetails details = (ContactDetails) data;
@@ -341,9 +338,6 @@ public class RepeaterExampleWithStaticIDs extends WContainer {
 			details.setRoles((List<String>) roleSelect.getSelected());
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void updateComponent(final Object data) {
 			ContactDetails details = (ContactDetails) data;

@@ -99,17 +99,11 @@ public class WFilterText extends WText {
 		return new FilterTextModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected FilterTextModel getComponentModel() {
 		return (FilterTextModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected FilterTextModel getOrCreateComponentModel() {
 		return (FilterTextModel) super.getOrCreateComponentModel();

@@ -301,9 +301,6 @@ public class AbstractInput_Test extends AbstractWComponentTestCase {
 	 */
 	private static class MyInput extends AbstractInput {
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected boolean doHandleRequest(final Request request) {
 			Object value = getRequestValue(request);
@@ -315,9 +312,6 @@ public class AbstractInput_Test extends AbstractWComponentTestCase {
 			return changed;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public Object getRequestValue(final Request request) {
 			if (isPresent(request)) {

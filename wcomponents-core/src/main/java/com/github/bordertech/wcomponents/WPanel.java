@@ -199,17 +199,11 @@ public class WPanel extends WContainer implements AjaxInternalTrigger, AjaxTarge
 		return I18nUtilities.format(null, getComponentModel().title);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setMargin(final com.github.bordertech.wcomponents.Margin margin) {
 		getOrCreateComponentModel().margin = margin;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public com.github.bordertech.wcomponents.Margin getMargin() {
 		return getComponentModel().margin;
@@ -302,9 +296,6 @@ public class WPanel extends WContainer implements AjaxInternalTrigger, AjaxTarge
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		Type type = getType();
@@ -327,18 +318,12 @@ public class WPanel extends WContainer implements AjaxInternalTrigger, AjaxTarge
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected PanelModel getComponentModel() {
 		return (PanelModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected PanelModel getOrCreateComponentModel() {

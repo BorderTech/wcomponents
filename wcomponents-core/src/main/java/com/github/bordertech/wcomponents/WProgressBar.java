@@ -253,17 +253,11 @@ public class WProgressBar extends WBeanComponent implements AjaxTarget, Labelabl
 		return new WProgressBarModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected WProgressBarModel getOrCreateComponentModel() {
 		return (WProgressBarModel) super.getOrCreateComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected WProgressBarModel getComponentModel() {
 		return (WProgressBarModel) super.getComponentModel();

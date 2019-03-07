@@ -54,9 +54,6 @@ public class WTextField extends AbstractInput implements AjaxTrigger, AjaxTarget
 		return changed;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getRequestValue(final Request request) {
 		if (isPresent(request)) {
@@ -68,9 +65,6 @@ public class WTextField extends AbstractInput implements AjaxTrigger, AjaxTarget
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getValue() {
 		Object data = getData();
@@ -101,17 +95,11 @@ public class WTextField extends AbstractInput implements AjaxTrigger, AjaxTarget
 		setData(text);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setPlaceholder(final String placeholder) {
 		getOrCreateComponentModel().placeholder = placeholder;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getPlaceholder() {
 		return getComponentModel().placeholder;
@@ -266,18 +254,12 @@ public class WTextField extends AbstractInput implements AjaxTrigger, AjaxTarget
 		return new TextFieldModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected TextFieldModel getComponentModel() {
 		return (TextFieldModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected TextFieldModel getOrCreateComponentModel() {

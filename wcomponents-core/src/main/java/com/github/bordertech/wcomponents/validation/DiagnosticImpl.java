@@ -84,9 +84,6 @@ public class DiagnosticImpl implements Diagnostic {
 		this.args = args;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getDescription() {
 		// We need to change references to input fields to their label or accessible text.
@@ -129,25 +126,16 @@ public class DiagnosticImpl implements Diagnostic {
 		return I18nUtilities.format(null, message, modifiedArgs);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int getSeverity() {
 		return severity;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public UIContext getContext() {
 		return uic;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public WComponent getComponent() {
 		return component;

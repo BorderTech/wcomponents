@@ -395,25 +395,16 @@ public final class GroupExpression_Test {
 			this.value = value;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public Condition build() {
 			return null;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public Boolean evaluate() {
 			return value;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String toString() {
 			return String.valueOf(value);

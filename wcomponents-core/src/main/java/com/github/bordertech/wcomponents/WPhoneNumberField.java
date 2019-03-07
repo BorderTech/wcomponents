@@ -29,9 +29,6 @@ import java.util.regex.Pattern;
 public class WPhoneNumberField extends AbstractInput implements AjaxTrigger, AjaxTarget, SubordinateTrigger, SubordinateTarget, Placeholderable,
 		AutocompleteablePhone {
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected boolean doHandleRequest(final Request request) {
 		String value = getRequestValue(request);
@@ -46,9 +43,6 @@ public class WPhoneNumberField extends AbstractInput implements AjaxTrigger, Aja
 		return changed;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getRequestValue(final Request request) {
 		if (isPresent(request)) {
@@ -60,9 +54,6 @@ public class WPhoneNumberField extends AbstractInput implements AjaxTrigger, Aja
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getValue() {
 		Object data = getData();
@@ -267,17 +258,11 @@ public class WPhoneNumberField extends AbstractInput implements AjaxTrigger, Aja
 		getOrCreateComponentModel().suggestions = suggestions;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setPlaceholder(final String placeholder) {
 		getOrCreateComponentModel().placeholder = placeholder;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getPlaceholder() {
 		return getComponentModel().placeholder;
@@ -293,18 +278,12 @@ public class WPhoneNumberField extends AbstractInput implements AjaxTrigger, Aja
 		return new PhoneFieldModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected PhoneFieldModel getComponentModel() {
 		return (PhoneFieldModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected PhoneFieldModel getOrCreateComponentModel() {

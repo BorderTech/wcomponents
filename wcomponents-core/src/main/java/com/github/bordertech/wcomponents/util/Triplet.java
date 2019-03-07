@@ -88,9 +88,6 @@ public class Triplet<T1, T2, T3> {
 		this.third = third;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int hashCode() {
 		int hash = (first == null ? 0 : first.hashCode());
@@ -100,9 +97,6 @@ public class Triplet<T1, T2, T3> {
 		return hash;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean equals(final Object obj) {
 		if (!(obj instanceof Triplet)) {

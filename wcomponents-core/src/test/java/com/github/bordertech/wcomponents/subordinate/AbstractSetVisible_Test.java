@@ -76,9 +76,6 @@ public class AbstractSetVisible_Test extends AbstractWComponentTestCase {
 			super(aTarget, aValue);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public ActionType getActionType() {
 			return ActionType.SHOW;

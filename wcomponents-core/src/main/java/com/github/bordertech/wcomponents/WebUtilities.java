@@ -920,9 +920,6 @@ public final class WebUtilities {
 			return new NumericEntityIgnorer(codepointLow, codepointHigh, true);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public boolean translate(final int codepoint, final Writer out) throws IOException {
 			if (between) {

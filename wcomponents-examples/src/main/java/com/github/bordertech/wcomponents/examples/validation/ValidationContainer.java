@@ -97,9 +97,6 @@ public class ValidationContainer extends WPanel implements MessageContainer {
 		cardManager.add(successPanel);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public WMessages getMessages() {
 		return messages;

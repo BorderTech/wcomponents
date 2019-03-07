@@ -293,17 +293,11 @@ public class WSelectToggle extends AbstractWComponent implements Disableable, Aj
 		return new SelectToggleModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected SelectToggleModel getComponentModel() {
 		return (SelectToggleModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected SelectToggleModel getOrCreateComponentModel() {
 		return (SelectToggleModel) super.getOrCreateComponentModel();

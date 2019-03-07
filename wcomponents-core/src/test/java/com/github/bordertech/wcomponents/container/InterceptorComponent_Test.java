@@ -80,41 +80,27 @@ public class InterceptorComponent_Test extends AbstractWComponentTestCase {
 	@Test(expected = IllegalStateException.class)
 	public void testAttachUIBadBacking() {
 		InterceptorComponent interceptor = new InterceptorComponent(new WebComponent() {
-			/**
-			 * {@inheritDoc}
-			 */
+
 			@Override
 			public void serviceRequest(final Request request) {
 				// NO-OP
 			}
 
-			/**
-			 * {@inheritDoc}
-			 */
 			@Override
 			public void preparePaint(final Request request) {
 				// NO-OP
 			}
 
-			/**
-			 * {@inheritDoc}
-			 */
 			@Override
 			public void paint(final RenderContext renderContext) {
 				// NO-OP
 			}
 
-			/**
-			 * {@inheritDoc}
-			 */
 			@Override
 			public String getName() {
 				return null;
 			}
 
-			/**
-			 * {@inheritDoc}
-			 */
 			@Override
 			public String getId() {
 				return null;

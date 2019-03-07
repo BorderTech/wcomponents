@@ -287,17 +287,11 @@ public class AjaxWRepeaterExample extends WContainer {
 			this.extraText = extraText;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public boolean equals(final Object o) {
 			return (o instanceof NameBean) && Util.equals(nameId, ((NameBean) o).getNameId());
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public int hashCode() {
 			return nameId.hashCode();

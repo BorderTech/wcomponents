@@ -104,17 +104,11 @@ public class WRow extends AbstractNamingContextContainer implements AjaxTarget, 
 		return gap;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setMargin(final Margin margin) {
 		getOrCreateComponentModel().margin = margin;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Margin getMargin() {
 		return getComponentModel().margin;
@@ -131,18 +125,12 @@ public class WRow extends AbstractNamingContextContainer implements AjaxTarget, 
 		return new RowModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected RowModel getComponentModel() {
 		return (RowModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected RowModel getOrCreateComponentModel() {

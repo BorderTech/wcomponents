@@ -172,9 +172,6 @@ public class HttpServletHelper extends AbstractContainerHelper {
 		return dataRequest;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected UIContext getUIContext() {
 		HttpSession session = getBackingRequest().getSession(false);
@@ -185,18 +182,12 @@ public class HttpServletHelper extends AbstractContainerHelper {
 		return uic;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void setUIContext(final UIContext uiContext) {
 		HttpSession session = getBackingRequest().getSession();
 		session.setAttribute(getUiContextSessionKey(), uiContext);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected UIContext createUIContext() {
 		if (getTargetComponentId() != null) {
@@ -205,9 +196,6 @@ public class HttpServletHelper extends AbstractContainerHelper {
 		return super.createUIContext();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected Environment createEnvironment() {
 		HttpServletRequest request = getBackingRequest();
@@ -226,9 +214,6 @@ public class HttpServletHelper extends AbstractContainerHelper {
 		return env;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void updateEnvironment(final Environment env) {
 		// Check if update already applied (so not applied in render phase)
@@ -240,60 +225,39 @@ public class HttpServletHelper extends AbstractContainerHelper {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected Request createRequest() {
 		Request request = new ServletRequest(backingRequest);
 		return request;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void updateRequest(final Request request) {
 		// Nothing required here.
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void setTitle(final String title) {
 		// nop
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected PrintWriter getPrintWriter() throws IOException {
 		PrintWriter writer = backingResponse.getWriter();
 		return writer;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected Response getResponse() {
 		return new ServletResponse(backingResponse);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void invalidateSession() {
 		HttpSession session = backingRequest.getSession(true);
 		session.invalidate();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void redirectForLogout() {
 		String url = ConfigurationProperties.getLogoutUrl();
@@ -367,9 +331,6 @@ public class HttpServletHelper extends AbstractContainerHelper {
 		return results.toString();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void addGenericHeaders(final UIContext uic, final WComponent ui) {
 		// Note: This effectively prevents caching of anything served up from a WServlet.
@@ -385,9 +346,6 @@ public class HttpServletHelper extends AbstractContainerHelper {
 		getBackingResponse().setHeader("X-Frame-Options", "SAMEORIGIN");
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void handleError(final Throwable error) throws IOException {
 		if (getTargetComponentId() != null || isDataRequest()) {
@@ -440,9 +398,6 @@ public class HttpServletHelper extends AbstractContainerHelper {
 			}
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getAppHostPath() {
 			return getHostFreeBaseUrl();

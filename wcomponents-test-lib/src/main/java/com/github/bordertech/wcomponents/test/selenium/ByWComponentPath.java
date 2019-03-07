@@ -139,9 +139,6 @@ public class ByWComponentPath extends ByWComponent {
 		this.visibleOnly = visibleOnly;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public List<WebElement> findElements(final SearchContext searchContext) {
 		List<WebElement> result = new ArrayList<>();
@@ -174,9 +171,6 @@ public class ByWComponentPath extends ByWComponent {
 		return result;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		return "ByWComponentPath:" + Arrays.asList(path)

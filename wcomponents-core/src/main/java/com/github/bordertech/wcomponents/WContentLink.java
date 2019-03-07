@@ -154,17 +154,11 @@ public class WContentLink extends AbstractContainer implements Disableable {
 		link.setAccessKey(accessKey);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isHidden() {
 		return link.isHidden();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setHidden(final boolean flag) {
 		link.setHidden(flag);

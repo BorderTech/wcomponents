@@ -49,41 +49,26 @@ public class ServletRequest extends AbstractRequest {
 		return backing;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Map<String, String[]> getParameters() {
 		return parameters;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Map<String, FileItem[]> getFiles() {
 		return files;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Serializable getAttribute(final String key) {
 		return (Serializable) backing.getAttribute(key);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setAttribute(final String key, final Serializable value) {
 		backing.setAttribute(key, value);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Serializable getSessionAttribute(final String key) {
 		HttpSession session = backing.getSession(false);
@@ -113,9 +98,6 @@ public class ServletRequest extends AbstractRequest {
 		return getSessionAttribute(key);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setSessionAttribute(final String key, final Serializable value) {
 		HttpSession session = backing.getSession(true);
@@ -190,9 +172,6 @@ public class ServletRequest extends AbstractRequest {
 		return backing.getMethod();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int getMaxInactiveInterval() {
 		HttpSession session = backing.getSession(false);

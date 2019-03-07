@@ -306,9 +306,6 @@ public class InputBeanBindingExample extends WBeanContainer {
 
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void preparePaintComponent(final Request request) {
 		super.preparePaintComponent(request);
@@ -489,9 +486,6 @@ public class InputBeanBindingExample extends WBeanContainer {
 			add(new WHorizontalRule());
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected void preparePaintComponent(final Request request) {
 			super.preparePaintComponent(request);
@@ -554,9 +548,6 @@ public class InputBeanBindingExample extends WBeanContainer {
 			this.desc = desc;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void execute(final ActionEvent event) {
 			messages.info(desc + " changed.");

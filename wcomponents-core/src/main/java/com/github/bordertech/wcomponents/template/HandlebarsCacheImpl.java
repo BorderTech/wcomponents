@@ -26,25 +26,16 @@ public class HandlebarsCacheImpl implements TemplateCache {
 	 */
 	private static final String CACHE_NAME = "wc-handlebars-templates";
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void clear() {
 		getCache().clear();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void evict(final TemplateSource source) {
 		getCache().remove(source);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Template get(final TemplateSource source, final Parser parser) throws IOException {
 		Template template = getCache().get(source);
@@ -55,9 +46,6 @@ public class HandlebarsCacheImpl implements TemplateCache {
 		return template;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public TemplateCache setReload(final boolean reload) {
 		// Dont need to support auto reload

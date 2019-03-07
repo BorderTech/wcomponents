@@ -137,9 +137,6 @@ public class HeadLineInterceptor_Test extends AbstractWebXmlRendererTestCase {
 			this.value = value;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected void preparePaintComponent(final Request request) {
 			super.preparePaintComponent(request);

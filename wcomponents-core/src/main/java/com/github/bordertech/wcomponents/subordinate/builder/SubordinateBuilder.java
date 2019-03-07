@@ -73,9 +73,6 @@ public class SubordinateBuilder {
 	 */
 	private final ExpressionBuilder conditionBuilder = new ExpressionBuilder(condition);
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		return "if (" + condition + ")\nthen\n   " + onTrue + "\nelse\n   " + onFalse;

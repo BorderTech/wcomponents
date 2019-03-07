@@ -161,9 +161,6 @@ public class WSuggestionsExample extends WContainer {
 			this.prefix = prefix;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void execute(final ActionEvent event) {
 			WSuggestions suggestions = (WSuggestions) event.getSource();

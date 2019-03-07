@@ -23,9 +23,6 @@ public class TargetableErrorInterceptor extends InterceptorComponent {
 	 */
 	private static final Log LOG = LogFactory.getLog(TargetableErrorInterceptor.class);
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void serviceRequest(final Request request) {
 		try {
@@ -38,9 +35,6 @@ public class TargetableErrorInterceptor extends InterceptorComponent {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void preparePaint(final Request request) {
 		try {

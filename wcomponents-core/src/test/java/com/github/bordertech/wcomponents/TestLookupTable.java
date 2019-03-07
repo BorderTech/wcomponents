@@ -41,9 +41,6 @@ public class TestLookupTable implements LookupTable {
 	 */
 	public static final String CACHEABLE_DAY_OF_WEEK_TABLE_WITH_NULL_OPTION = "cacheable_day_of_week_with_null_option";
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public List<Object> getTable(final Object table) {
 		if (table instanceof String) {
@@ -82,9 +79,6 @@ public class TestLookupTable implements LookupTable {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getCode(final Object table, final Object entry) {
 		if (entry instanceof TableEntry) {
@@ -96,9 +90,6 @@ public class TestLookupTable implements LookupTable {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getDescription(final Object table, final Object entry) {
 		if (entry instanceof TableEntry) {
@@ -264,9 +255,6 @@ public class TestLookupTable implements LookupTable {
 			return (obj instanceof TableEntry) && Util.equals(code, ((TableEntry) obj).code);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public int hashCode() {
 			return code == null ? 0 : code.hashCode();

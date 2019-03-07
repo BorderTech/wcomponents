@@ -72,9 +72,6 @@ public class WhiteSpaceExample extends WContainer {
 		add(button);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void preparePaintComponent(final Request request) {
 		if (!isInitialised()) {

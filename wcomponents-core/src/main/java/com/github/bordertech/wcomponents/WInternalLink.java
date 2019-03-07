@@ -86,17 +86,11 @@ public class WInternalLink extends AbstractWComponent implements AjaxTarget {
 		return new InternalLinkModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected InternalLinkModel getComponentModel() {
 		return (InternalLinkModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected InternalLinkModel getOrCreateComponentModel() {
 		return (InternalLinkModel) super.getOrCreateComponentModel();

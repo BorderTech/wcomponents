@@ -17,17 +17,11 @@ import org.openqa.selenium.remote.DesiredCapabilities;
  */
 public class EdgeWebDriverType extends WebDriverType<EdgeDriver> {
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public String getDriverTypeName() {
 		return "edge";
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public EdgeDriver getDriverImplementation() {
 		return new EdgeDriver(getEdgeDriverService(), getCapabilities());
@@ -42,9 +36,6 @@ public class EdgeWebDriverType extends WebDriverType<EdgeDriver> {
 		return EdgeDriverService.createDefaultService();
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public DesiredCapabilities getDefaultDriverCapabilities() {
 		return DesiredCapabilities.edge();

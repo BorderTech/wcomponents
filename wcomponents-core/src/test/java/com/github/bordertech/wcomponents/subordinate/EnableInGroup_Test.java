@@ -93,17 +93,11 @@ public class EnableInGroup_Test extends AbstractWComponentTestCase {
 	private static class MyTarget extends AbstractWComponent implements SubordinateTarget,
 			Disableable {
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public boolean isDisabled() {
 			return isFlagSet(ComponentModel.DISABLED_FLAG);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void setDisabled(final boolean disabled) {
 			setFlag(ComponentModel.DISABLED_FLAG, disabled);

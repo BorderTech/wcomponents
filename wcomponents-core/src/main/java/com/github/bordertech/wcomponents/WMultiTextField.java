@@ -59,9 +59,6 @@ public class WMultiTextField extends AbstractInput implements AjaxTrigger, AjaxT
 		getOrCreateComponentModel().setData(inputs);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String[] getValue() {
 		Object data = getData();
@@ -89,9 +86,6 @@ public class WMultiTextField extends AbstractInput implements AjaxTrigger, AjaxT
 		return removeEmptyStrings(array);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setData(final Object data) {
 		String[] inputs = (String[]) data;
@@ -219,17 +213,11 @@ public class WMultiTextField extends AbstractInput implements AjaxTrigger, AjaxT
 		return pattern == null ? null : pattern.toString();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setPlaceholder(final String placeholder) {
 		getOrCreateComponentModel().placeholder = placeholder;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getPlaceholder() {
 		return getComponentModel().placeholder;
@@ -285,9 +273,6 @@ public class WMultiTextField extends AbstractInput implements AjaxTrigger, AjaxT
 		return changed;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String[] getRequestValue(final Request request) {
 		if (isPresent(request)) {
@@ -390,18 +375,12 @@ public class WMultiTextField extends AbstractInput implements AjaxTrigger, AjaxT
 		return new MultiTextFieldModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected MultiTextFieldModel getComponentModel() {
 		return (MultiTextFieldModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected MultiTextFieldModel getOrCreateComponentModel() {

@@ -23,9 +23,6 @@ public class AjaxErrorInterceptor extends InterceptorComponent {
 	 */
 	private static final Log LOG = LogFactory.getLog(AjaxErrorInterceptor.class);
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void serviceRequest(final Request request) {
 		try {
@@ -38,9 +35,6 @@ public class AjaxErrorInterceptor extends InterceptorComponent {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void preparePaint(final Request request) {
 		try {

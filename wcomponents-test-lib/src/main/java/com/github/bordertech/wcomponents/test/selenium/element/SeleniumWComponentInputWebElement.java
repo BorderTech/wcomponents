@@ -80,9 +80,6 @@ public class SeleniumWComponentInputWebElement extends SeleniumWComponentWebElem
 		return !Util.empty(getAttribute("data-wc-component"));
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isEnabled() {
 		if (isReadOnly()) {
@@ -91,25 +88,16 @@ public class SeleniumWComponentInputWebElement extends SeleniumWComponentWebElem
 		return getInputField().isEnabled();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void sendKeys(final CharSequence... keys) {
 		getInputField().sendKeys(keys);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void sendKeys(final boolean wait, final CharSequence... keys) {
 		getInputField().sendKeys(wait, keys);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void clear() {
 		getInputField().clear();

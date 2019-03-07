@@ -18,9 +18,6 @@ public class MockTrack extends MockContentStreamAccess implements Track {
 	 */
 	private String language;
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Kind getKind() {
 		return kind;
@@ -33,9 +30,6 @@ public class MockTrack extends MockContentStreamAccess implements Track {
 		this.kind = kind;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getLanguage() {
 		return language;

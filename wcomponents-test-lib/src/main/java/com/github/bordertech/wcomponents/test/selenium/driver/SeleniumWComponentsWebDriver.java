@@ -162,9 +162,6 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 		return SeleniumWComponentsUtil.getDialog(this);
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public void get(final String url) {
 		driver.get(url);
@@ -172,18 +169,12 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 		waitForPageReady();
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public String getCurrentUrl() {
 		waitForPageReady();
 		return driver.getCurrentUrl();
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public String getTitle() {
 		waitForPageReady();
@@ -513,9 +504,6 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 		}
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public List<WebElement> findElements(final By by) {
 		return findElements(by, false);
@@ -538,9 +526,6 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 		}
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public SeleniumWComponentWebElement findElement(final By by) {
 		return findElement(by, false);
@@ -655,43 +640,28 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 		return wrapElement(driver.findElement(by));
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public String getPageSource() {
 		waitForPageReady();
 		return driver.getPageSource();
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public void close() {
 		driver.close();
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public void quit() {
 		driver.quit();
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public Set<String> getWindowHandles() {
 		waitForPageReady();
 		return driver.getWindowHandles();
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public String getWindowHandle() {
 		waitForPageReady();
@@ -724,25 +694,16 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 		return driver.navigate();
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public TargetLocator switchTo() {
 		return switchTo(false);
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public Navigation navigate() {
 		return navigate(false);
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public Options manage() {
 		return driver.manage();

@@ -44,9 +44,6 @@ public class RepeaterLinkTab extends WDataRenderer {
 		repeaterPanel.setData(data);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void updateComponent(final Object data) {
 		repeaterPanel.setData(data);

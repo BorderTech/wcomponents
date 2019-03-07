@@ -139,9 +139,6 @@ public class WTabGroup extends AbstractContainer implements Disableable {
 		super.add(tab);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // to make public
 	public void remove(final WComponent child) {
 		super.remove(child);

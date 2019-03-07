@@ -136,9 +136,6 @@ public class AbstractSetMandatory_Test {
 			super(aTarget, aValue);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public ActionType getActionType() {
 			return ActionType.MANDATORY;
@@ -152,17 +149,11 @@ public class AbstractSetMandatory_Test {
 	private static class MyTarget extends AbstractWComponent implements SubordinateTarget,
 			Mandatable {
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public boolean isMandatory() {
 			return isFlagSet(ComponentModel.MANDATORY_FLAG);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void setMandatory(final boolean mandatory) {
 			setFlag(ComponentModel.MANDATORY_FLAG, mandatory);

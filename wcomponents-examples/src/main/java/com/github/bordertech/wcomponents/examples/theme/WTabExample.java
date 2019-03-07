@@ -183,9 +183,6 @@ public class WTabExample extends WPanel {
 		add(builder.build());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void preparePaintComponent(final Request request) {
 		explanationWithTimeStamp.setText("The time the page was rendered was " + (new Date()).toString());

@@ -33,17 +33,11 @@ public class WTableRepeater extends WRepeater {
 		// Do nothing
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getId() {
 		return table.getId() + ID_CONTEXT_SEPERATOR + getIdName();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getIdName() {
 		return "row";

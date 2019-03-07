@@ -33,9 +33,6 @@ public class AjaxInterceptor extends InterceptorComponent {
 	 */
 	private static final Log LOG = LogFactory.getLog(AjaxInterceptor.class);
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void serviceRequest(final Request request) {
 		String triggerId = request.getParameter(WServlet.AJAX_TRIGGER_PARAM_NAME);

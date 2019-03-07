@@ -349,9 +349,6 @@ public class WDialog extends AbstractWComponent implements Container {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void preparePaintComponent(final Request request) {
 		super.preparePaintComponent(request);
@@ -407,25 +404,16 @@ public class WDialog extends AbstractWComponent implements Container {
 		return getComponentModel().state;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // to make public
 	public int getChildCount() {
 		return super.getChildCount();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // to make public
 	public WComponent getChildAt(final int index) {
 		return super.getChildAt(index);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // to make public
 	public int getIndexOfChild(final WComponent childComponent) {
 		return super.getIndexOfChild(childComponent);
@@ -456,17 +444,11 @@ public class WDialog extends AbstractWComponent implements Container {
 		return new DialogModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected DialogModel getComponentModel() {
 		return (DialogModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected DialogModel getOrCreateComponentModel() {
 		return (DialogModel) super.getOrCreateComponentModel();

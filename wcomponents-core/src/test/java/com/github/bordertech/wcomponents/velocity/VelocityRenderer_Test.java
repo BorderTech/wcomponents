@@ -148,9 +148,6 @@ public class VelocityRenderer_Test extends AbstractWComponentTestCase {
 			return "somePropertyValue";
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public Map getVelocityMap() {
 			Map<String, String> map = new HashMap<>(1);
@@ -158,9 +155,6 @@ public class VelocityRenderer_Test extends AbstractWComponentTestCase {
 			return map;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void mapUsed() {
 			mapUsedCalled = true;

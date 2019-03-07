@@ -70,9 +70,6 @@ public class WServlet extends HttpServlet {
 	 */
 	private final WComponent noUI = new WLabel("You must override the getUI method in " + getClass());
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void init() throws ServletException {
 		// To enable server-side generation of images
@@ -243,18 +240,12 @@ public class WServlet extends HttpServlet {
 			super(servlet, httpServletRequest, httpServletResponse);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected void addGenericHeaders(final UIContext uic, final WComponent ui) {
 			((WServlet) getServlet()).addGenericHeaders(uic, ui);
 			super.addGenericHeaders(uic, ui);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected Environment createEnvironment() {
 			HttpServletRequest request = getBackingRequest();

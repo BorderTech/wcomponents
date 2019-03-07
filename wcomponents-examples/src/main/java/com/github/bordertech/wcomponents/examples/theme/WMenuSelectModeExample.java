@@ -289,9 +289,6 @@ public class WMenuSelectModeExample extends WContainer {
 
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected void preparePaintComponent(final Request request) {
 			if (!isInitialised()) {

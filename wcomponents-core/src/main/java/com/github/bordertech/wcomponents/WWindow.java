@@ -534,36 +534,24 @@ public class WWindow extends AbstractWComponent implements Container {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// to make public
 	public int getChildCount() {
 		return super.getChildCount();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// to make public
 	public WComponent getChildAt(final int index) {
 		return super.getChildAt(index);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// to make public
 	public List<WComponent> getChildren() {
 		return super.getChildren();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// to make public
 	public int getIndexOfChild(final WComponent childComponent) {
@@ -593,18 +581,12 @@ public class WWindow extends AbstractWComponent implements Container {
 		return new WindowModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected WindowModel getComponentModel() {
 		return (WindowModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected WindowModel getOrCreateComponentModel() {

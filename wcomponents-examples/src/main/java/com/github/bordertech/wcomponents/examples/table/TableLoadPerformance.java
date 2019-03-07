@@ -79,9 +79,6 @@ public class TableLoadPerformance extends WApplication {
 			this.desc = desc;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String toString() {
 			return desc;
@@ -542,9 +539,6 @@ public class TableLoadPerformance extends WApplication {
 			def.addTerm("Total", total);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected void preparePaintComponent(final Request request) {
 			super.preparePaintComponent(request);
@@ -605,9 +599,6 @@ public class TableLoadPerformance extends WApplication {
 			inv.add(content);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void handleRequest(final Request request) {
 			long start = new Date().getTime();
@@ -617,9 +608,6 @@ public class TableLoadPerformance extends WApplication {
 			getOrCreateComponentModel().setAttribute("elapse_hr", elapse);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected void preparePaintComponent(final Request request) {
 			long start = new Date().getTime();
@@ -629,9 +617,6 @@ public class TableLoadPerformance extends WApplication {
 			getOrCreateComponentModel().setAttribute("elapse_prep", elapse);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected void paintComponent(final RenderContext renderContext) {
 			long start = new Date().getTime();
@@ -662,9 +647,6 @@ public class TableLoadPerformance extends WApplication {
 			return (Long) getComponentModel().getAttribute("elapse_paint");
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected void afterPaint(final RenderContext renderContext) {
 			// After painting, make the table not visible so it does not get included the following ajax requests.
@@ -703,9 +685,6 @@ public class TableLoadPerformance extends WApplication {
 	 */
 	public static final class MyWText extends WText {
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getText() {
 			// Bypass I18N (Performance hit)

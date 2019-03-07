@@ -160,9 +160,6 @@ final class DefaultInternalConfiguration implements Configuration {
 		} while (substitute());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public String get(final String key, final String defolt) {
 		String result = get(key);
 
@@ -173,9 +170,6 @@ final class DefaultInternalConfiguration implements Configuration {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public String get(final String key) {
 		return (String) backing.get(key);
 	}
@@ -213,9 +207,6 @@ final class DefaultInternalConfiguration implements Configuration {
 		return aStr.trim();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public Properties getProperties() {
 		// Don't return the backing directly; make a copy so that the caller can't change us...
 		Properties copy = new Properties();
@@ -785,9 +776,6 @@ final class DefaultInternalConfiguration implements Configuration {
 		return index;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public void refresh() {
 		synchronized (lockObject) {
 			// Now reset this object back to its initial state.
@@ -802,9 +790,6 @@ final class DefaultInternalConfiguration implements Configuration {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public void addOrModifyProperty(final String name, final String value) {
 		if (name == null) {
 			throw new SystemException("name parameter can not be null.");
@@ -913,9 +898,7 @@ final class DefaultInternalConfiguration implements Configuration {
 
 	// -----------------------------------------------------------------------------------------------------------------
 	// The rest of this class is the implementation of Configuration interface
-	/**
-	 * {@inheritDoc}
-	 */
+
 	@Override
 	public int getInt(final String key, final int defolt) {
 		try {
@@ -931,25 +914,16 @@ final class DefaultInternalConfiguration implements Configuration {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int getInt(final String key) {
 		return getInt(key, 0);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public short getShort(final String key) {
 		return getShort(key, (short) 0);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public short getShort(final String key, final short defaultValue) {
 		try {
@@ -965,9 +939,6 @@ final class DefaultInternalConfiguration implements Configuration {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Short getShort(final String key, final Short defaultValue) {
 		try {
@@ -983,9 +954,6 @@ final class DefaultInternalConfiguration implements Configuration {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void addProperty(final String key, final Object value) {
 		if (containsKey(key)) {
@@ -996,41 +964,26 @@ final class DefaultInternalConfiguration implements Configuration {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void clear() {
 		backing.clear();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void clearProperty(final String key) {
 		backing.remove(key);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean containsKey(final String key) {
 		return backing.containsKey(key);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public BigDecimal getBigDecimal(final String key) {
 		return getBigDecimal(key, new BigDecimal("0.0"));
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public BigDecimal getBigDecimal(final String key, final BigDecimal defaultValue) {
 		try {
@@ -1046,17 +999,11 @@ final class DefaultInternalConfiguration implements Configuration {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public BigInteger getBigInteger(final String key) {
 		return getBigInteger(key, BigInteger.ZERO);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public BigInteger getBigInteger(final String key, final BigInteger defaultValue) {
 		try {
@@ -1072,41 +1019,26 @@ final class DefaultInternalConfiguration implements Configuration {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean getBoolean(final String key) {
 		return booleanBacking.contains(key);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean getBoolean(final String key, final boolean defaultValue) {
 		return containsKey(key) ? getBoolean(key) : defaultValue;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Boolean getBoolean(final String key, final Boolean defaultValue) {
 		return containsKey(key) ? Boolean.valueOf(getBoolean(key)) : defaultValue;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public byte getByte(final String key) {
 		return getByte(key, (byte) 0);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public byte getByte(final String key, final byte defaultValue) {
 		try {
@@ -1122,9 +1054,6 @@ final class DefaultInternalConfiguration implements Configuration {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Byte getByte(final String key, final Byte defaultValue) {
 		try {
@@ -1140,17 +1069,11 @@ final class DefaultInternalConfiguration implements Configuration {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public double getDouble(final String key) {
 		return getDouble(key, 0.0);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public double getDouble(final String key, final double defaultValue) {
 		try {
@@ -1166,9 +1089,6 @@ final class DefaultInternalConfiguration implements Configuration {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Double getDouble(final String key, final Double defaultValue) {
 		try {
@@ -1184,17 +1104,11 @@ final class DefaultInternalConfiguration implements Configuration {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public float getFloat(final String key) {
 		return getFloat(key, 0.0f);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public float getFloat(final String key, final float defaultValue) {
 		try {
@@ -1210,9 +1124,6 @@ final class DefaultInternalConfiguration implements Configuration {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Float getFloat(final String key, final Float defaultValue) {
 		try {
@@ -1228,9 +1139,6 @@ final class DefaultInternalConfiguration implements Configuration {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Integer getInteger(final String key, final Integer defaultValue) {
 		try {
@@ -1246,17 +1154,11 @@ final class DefaultInternalConfiguration implements Configuration {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Iterator<String> getKeys() {
 		return backing.keySet().iterator();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Iterator<String> getKeys(final String prefix) {
 		Set<String> keys = new HashSet<>();
@@ -1270,17 +1172,11 @@ final class DefaultInternalConfiguration implements Configuration {
 		return keys.iterator();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public List getList(final String key) {
 		return getList(key, new ArrayList(1));
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public List getList(final String key, final List defaultValue) {
 		if (containsKey(key)) {
@@ -1290,17 +1186,11 @@ final class DefaultInternalConfiguration implements Configuration {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getLong(final String key) {
 		return getLong(key, 0L);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public long getLong(final String key, final long defaultValue) {
 		try {
@@ -1316,9 +1206,6 @@ final class DefaultInternalConfiguration implements Configuration {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Long getLong(final String key, final Long defaultValue) {
 		try {
@@ -1334,9 +1221,6 @@ final class DefaultInternalConfiguration implements Configuration {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Properties getProperties(final String key) {
 		String[] keyValuePairs = getStringArray(key);
@@ -1356,33 +1240,21 @@ final class DefaultInternalConfiguration implements Configuration {
 		return props;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Object getProperty(final String key) {
 		return get(key);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getString(final String key) {
 		return get(key);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getString(final String key, final String defaultValue) {
 		return get(key, defaultValue);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String[] getStringArray(final String key) {
 		String list = get(key);
@@ -1394,25 +1266,16 @@ final class DefaultInternalConfiguration implements Configuration {
 		return parseStringArray(list);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isEmpty() {
 		return backing.isEmpty();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setProperty(final String key, final Object value) {
 		addOrModifyProperty(key, value == null ? null : value.toString());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Configuration subset(final String prefix) {
 		return new MapConfiguration(getSubProperties(prefix, false));

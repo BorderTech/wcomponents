@@ -85,18 +85,12 @@ public class CompareExpression implements BooleanExpression {
 		return value;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Boolean evaluate() {
 		// Without re-implementing the subordinate logic, use the subordinate compare to evaluate the value
 		return build().isTrue();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Condition build() {
 		switch (type) {
@@ -126,9 +120,6 @@ public class CompareExpression implements BooleanExpression {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		String triggerName = trigger.getClass().getSimpleName();

@@ -110,9 +110,6 @@ public class MockResponse implements Response {
 		headers.put(name, value);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void sendError(final int code, final String description) throws IOException {
 		this.errorCode = code;

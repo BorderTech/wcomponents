@@ -177,9 +177,6 @@ public class WWindowInterceptor extends InterceptorComponent {
 			this.window = window;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getSessionToken() {
 			return backing.getSessionToken();
@@ -196,49 +193,31 @@ public class WWindowInterceptor extends InterceptorComponent {
 			return backing.getActionStep();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getAppHostPath() {
 			return backing.getAppHostPath();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getAppId() {
 			return backing.getAppId();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getBaseUrl() {
 			return backing.getBaseUrl();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getFormEncType() {
 			return backing.getFormEncType();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getHostFreeBaseUrl() {
 			return backing.getHostFreeBaseUrl();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getPostPath() {
 			if (windowId == null) {
@@ -251,33 +230,21 @@ public class WWindowInterceptor extends InterceptorComponent {
 			}
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getWServletPath() {
 			return backing.getWServletPath();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getThemePath() {
 			return backing.getThemePath();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public UserAgentInfo getUserAgentInfo() {
 			return backing.getUserAgentInfo();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void setSessionToken(final String token) {
 			backing.setSessionToken(token);
@@ -294,25 +261,16 @@ public class WWindowInterceptor extends InterceptorComponent {
 			backing.setActionStep(actionStep);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void setAppId(final String appId) {
 			backing.setAppId(appId);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void setFormEncType(final String enctype) {
 			backing.setFormEncType(enctype);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void setPostPath(final String postPath) {
 			backing.setPostPath(postPath);

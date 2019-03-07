@@ -10,41 +10,26 @@ import java.util.List;
  */
 public final class DefaultLookupTable implements LookupTable {
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public List<?> getTable(final Object table) {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getCacheKeyForTable(final Object table) {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Object getTableForCacheKey(final String key) {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getCode(final Object table, final Object entry) {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getDescription(final Object table, final Object entry) {
 		return null;

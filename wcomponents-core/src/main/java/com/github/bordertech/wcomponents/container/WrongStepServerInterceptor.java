@@ -80,9 +80,6 @@ public class WrongStepServerInterceptor extends InterceptorComponent {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void preparePaint(final Request request) {
 		// Increment the step counter

@@ -29,9 +29,6 @@ public class Show extends AbstractSetVisible {
 		return ActionType.SHOW;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		String targetName = getTarget().getClass().getSimpleName();

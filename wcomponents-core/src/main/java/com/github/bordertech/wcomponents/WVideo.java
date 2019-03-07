@@ -668,18 +668,12 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 		return new VideoModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected VideoModel getComponentModel() {
 		return (VideoModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected VideoModel getOrCreateComponentModel() {

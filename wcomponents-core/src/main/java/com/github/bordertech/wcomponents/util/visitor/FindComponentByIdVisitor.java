@@ -42,9 +42,6 @@ public class FindComponentByIdVisitor extends AbstractVisitorWithResult<Componen
 		return findId;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public VisitorResult visit(final WComponent comp) {
 		// Match

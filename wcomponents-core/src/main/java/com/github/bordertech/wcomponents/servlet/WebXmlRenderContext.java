@@ -41,9 +41,6 @@ public class WebXmlRenderContext implements RenderContext {
 		this.writer = new XmlStringBuilder(writer, locale);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getRenderPackage() {
 		return "com.github.bordertech.wcomponents.render.webxml";

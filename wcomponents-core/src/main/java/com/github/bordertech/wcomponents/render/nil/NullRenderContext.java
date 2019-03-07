@@ -10,9 +10,6 @@ import com.github.bordertech.wcomponents.RenderContext;
  */
 public class NullRenderContext implements RenderContext {
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getRenderPackage() {
 		return "com.github.bordertech.wcomponents.render.nil";

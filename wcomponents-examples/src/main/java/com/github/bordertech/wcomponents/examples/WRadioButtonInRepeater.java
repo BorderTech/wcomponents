@@ -108,9 +108,6 @@ public class WRadioButtonInRepeater extends WContainer {
 
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void preparePaintComponent(final Request request) {
 		if (!isInitialised()) {
@@ -148,9 +145,6 @@ public class WRadioButtonInRepeater extends WContainer {
 			add(new WHorizontalRule());
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected void preparePaintComponent(final Request request) {
 			super.preparePaintComponent(request);

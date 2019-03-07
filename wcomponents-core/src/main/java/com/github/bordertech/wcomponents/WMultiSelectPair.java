@@ -126,17 +126,11 @@ public class WMultiSelectPair extends WMultiSelect implements AjaxTrigger, AjaxT
 		return new MultiSelectPairModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected MultiSelectPairModel getComponentModel() {
 		return (MultiSelectPairModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected MultiSelectPairModel getOrCreateComponentModel() {
 		return (MultiSelectPairModel) super.getOrCreateComponentModel();

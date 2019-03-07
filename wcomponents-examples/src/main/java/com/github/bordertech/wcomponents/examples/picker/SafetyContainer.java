@@ -204,17 +204,11 @@ final class SafetyContainer extends AbstractMutableContainer {
 		shim.removeAll();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected SafetyContainerModel getComponentModel() {
 		return (SafetyContainerModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected SafetyContainerModel getOrCreateComponentModel() {
 		return (SafetyContainerModel) super.getOrCreateComponentModel();

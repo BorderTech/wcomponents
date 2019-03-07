@@ -182,9 +182,6 @@ public final class StandaloneLauncher {
 	 */
 	public static final class MyLauncher extends PlainLauncher {
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getUrl() {
 			return super.getUrl();
@@ -271,145 +268,91 @@ public final class StandaloneLauncher {
 			}
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void debug(final Object message, final Throwable cause) {
 			log(message, cause, DEBUG);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void debug(final Object message) {
 			log(message, null, DEBUG);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void error(final Object message, final Throwable cause) {
 			log(message, cause, ERROR);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void error(final Object message) {
 			log(message, null, ERROR);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void fatal(final Object message, final Throwable cause) {
 			log(message, cause, FATAL);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void fatal(final Object message) {
 			log(message, null, FATAL);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void info(final Object message, final Throwable cause) {
 			log(message, cause, INFO);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void info(final Object message) {
 			log(message, null, INFO);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void warn(final Object message, final Throwable cause) {
 			log(message, cause, WARN);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void warn(final Object message) {
 			log(message, null, WARN);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public boolean isDebugEnabled() {
 			return logLevel <= DEBUG;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public boolean isErrorEnabled() {
 			return logLevel <= ERROR;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public boolean isFatalEnabled() {
 			return logLevel <= FATAL;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public boolean isInfoEnabled() {
 			return logLevel <= INFO;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public boolean isWarnEnabled() {
 			return logLevel <= WARN;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public boolean isTraceEnabled() {
 			return logLevel <= TRACE;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void trace(final Object message, final Throwable cause) {
 			log(message, cause, TRACE);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void trace(final Object message) {
 			log(message, null, TRACE);

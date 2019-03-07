@@ -29,9 +29,6 @@ public class Enable extends AbstractSetEnable {
 		return ActionType.ENABLE;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		String targetName = getTarget().getClass().getSimpleName();

@@ -146,9 +146,6 @@ public class ExamplePickerTree extends WTree {
 			return null;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getItemLabel(final List<Integer> row) {
 			int rootIdx = row.get(0);
@@ -165,17 +162,11 @@ public class ExamplePickerTree extends WTree {
 			return null;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public int getRowCount() {
 			return getData().size();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public int getChildCount(final List<Integer> row) {
 			if (row.size() == 1) {

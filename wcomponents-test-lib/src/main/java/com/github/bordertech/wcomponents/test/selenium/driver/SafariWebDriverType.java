@@ -16,25 +16,16 @@ import org.openqa.selenium.safari.SafariDriver;
  */
 public class SafariWebDriverType extends WebDriverType<SafariDriver> {
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public String getDriverTypeName() {
 		return "safari";
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public SafariDriver getDriverImplementation() {
 		return new SafariDriver(getCapabilities());
 	}
 
-	/**
-	 * {@inheritDoc}.
-	 */
 	@Override
 	public DesiredCapabilities getDefaultDriverCapabilities() {
 		return DesiredCapabilities.safari();

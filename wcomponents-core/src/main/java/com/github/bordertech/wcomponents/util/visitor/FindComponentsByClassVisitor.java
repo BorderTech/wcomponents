@@ -66,9 +66,6 @@ public class FindComponentsByClassVisitor extends AbstractVisitorWithResult<List
 		this.includeRoot = includeRoot;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public VisitorResult visit(final WComponent comp) {
 

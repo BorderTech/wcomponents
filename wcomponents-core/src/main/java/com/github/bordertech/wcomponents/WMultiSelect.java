@@ -83,17 +83,11 @@ public class WMultiSelect extends AbstractWMultiSelectList implements AjaxTrigge
 		return new MultiSelectModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected MultiSelectModel getComponentModel() {
 		return (MultiSelectModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // For type safety only
 	protected MultiSelectModel getOrCreateComponentModel() {
 		return (MultiSelectModel) super.getOrCreateComponentModel();

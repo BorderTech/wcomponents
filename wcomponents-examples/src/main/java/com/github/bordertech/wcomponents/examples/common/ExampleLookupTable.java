@@ -25,9 +25,6 @@ public class ExampleLookupTable implements LookupTable {
 	private static final Map<String, Object> CACHE_MAP = Collections.synchronizedMap(
 			new HashMap<String, Object>());
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public List<Object> getTable(final Object table) {
 		List<Object> data = new ArrayList<>();
@@ -51,9 +48,6 @@ public class ExampleLookupTable implements LookupTable {
 		return data;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getCacheKeyForTable(final Object table) {
 		String tableName;
@@ -83,18 +77,12 @@ public class ExampleLookupTable implements LookupTable {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Object getTableForCacheKey(final String key) {
 		Object table = CACHE_MAP.get(key);
 		return table;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getCode(final Object table, final Object entry) {
 		if (table instanceof TableWithNullOption && entry == null) {
@@ -105,9 +93,6 @@ public class ExampleLookupTable implements LookupTable {
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getDescription(final Object table, final Object entry) {
 		if (table instanceof TableWithNullOption && entry == null) {
@@ -180,9 +165,6 @@ public class ExampleLookupTable implements LookupTable {
 			return code == null ? 0 : code.hashCode();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String toString() {
 			return desc;

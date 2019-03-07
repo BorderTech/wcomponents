@@ -62,9 +62,6 @@ public final class WAbbrTextExample extends WContainer {
 		add(unescapedAbbr);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void preparePaintComponent(final Request request) {
 		super.preparePaintComponent(request);

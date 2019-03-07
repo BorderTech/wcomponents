@@ -59,17 +59,11 @@ public class SeleniumWComponentWebElement implements WebElement {
 		return driver;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void clear() {
 		element.clear();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void click() {
 		// Wrapped element might already be a WComponent WebElement
@@ -137,17 +131,11 @@ public class SeleniumWComponentWebElement implements WebElement {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public SeleniumWComponentWebElement findElement(final By by) {
 		return wrapElement(element.findElement(by));
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public List<WebElement> findElements(final By by) {
 		List<WebElement> elements = new ArrayList<>();
@@ -157,41 +145,26 @@ public class SeleniumWComponentWebElement implements WebElement {
 		return elements;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getAttribute(final String name) {
 		return element.getAttribute(name);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getTagName() {
 		return element.getTagName();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getText() {
 		return element.getText();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isEnabled() {
 		return element.isEnabled();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isSelected() {
 		return element.isSelected();
@@ -206,9 +179,6 @@ public class SeleniumWComponentWebElement implements WebElement {
 		return element.getAttribute("hidden") != null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void sendKeys(final CharSequence... keys) {
 		element.sendKeys(keys);
@@ -226,58 +196,37 @@ public class SeleniumWComponentWebElement implements WebElement {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void submit() {
 		element.submit();
 		waitForPageReady();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isDisplayed() {
 		return element.isDisplayed();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Point getLocation() {
 		return element.getLocation();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Dimension getSize() {
 		return element.getSize();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getCssValue(final String propertyName) {
 		return element.getCssValue(propertyName);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Rectangle getRect() {
 		return element.getRect();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public <X> X getScreenshotAs(final OutputType<X> ot) throws WebDriverException {
 		return element.getScreenshotAs(ot);

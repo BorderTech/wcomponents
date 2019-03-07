@@ -529,9 +529,6 @@ public final class ExampleData implements Serializable {
 		return exampleClass;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean equals(final Object obj) {
 		if (!(obj instanceof ExampleData)) {
@@ -545,9 +542,6 @@ public final class ExampleData implements Serializable {
 				&& Util.equals(exampleGroupName, that.exampleGroupName);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int hashCode() {
 		return (exampleName == null ? 0 : exampleName.hashCode())

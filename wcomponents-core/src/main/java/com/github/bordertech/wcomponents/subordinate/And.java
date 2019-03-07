@@ -89,9 +89,6 @@ public class And extends AbstractCondition {
 		return Collections.unmodifiableList(conditions);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		StringBuffer buf = new StringBuffer();

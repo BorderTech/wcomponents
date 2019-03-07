@@ -87,17 +87,11 @@ public class SearchResultsPage extends WContainer {
 			this.data = data;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public int getRowCount() {
 			return data.size();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public Object getValueAt(final int row, final int col) {
 			SearchResultRowBO rowData = (SearchResultRowBO) data.get(row);

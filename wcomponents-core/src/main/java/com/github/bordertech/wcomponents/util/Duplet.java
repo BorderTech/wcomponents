@@ -68,9 +68,6 @@ public class Duplet<T1 extends Serializable, T2 extends Serializable> implements
 		this.second = second;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int hashCode() {
 		int hash = (first == null ? 0 : first.hashCode());
@@ -79,9 +76,6 @@ public class Duplet<T1 extends Serializable, T2 extends Serializable> implements
 		return hash;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean equals(final Object obj) {
 		if (!(obj instanceof Duplet)) {

@@ -45,9 +45,6 @@ public class DisableInGroup extends AbstractSetEnable {
 		return ActionType.DISABLEIN;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		String targetInName = getTargetInGroup().getClass().getSimpleName();

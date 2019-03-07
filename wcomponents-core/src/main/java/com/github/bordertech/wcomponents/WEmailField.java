@@ -29,10 +29,6 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 		SubordinateTrigger, SubordinateTarget, Placeholderable, AutocompleteableEmail {
 	// ================================
 	// Action/Event handling
-
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected boolean doHandleRequest(final Request request) {
 		String value = getRequestValue(request);
@@ -47,9 +43,6 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 		return changed;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getRequestValue(final Request request) {
 		if (isPresent(request)) {
@@ -61,9 +54,6 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getValue() {
 		Object data = getData();
@@ -142,17 +132,11 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 		getOrCreateComponentModel().suggestions = suggestions;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setPlaceholder(final String placeholder) {
 		getOrCreateComponentModel().placeholder = placeholder;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getPlaceholder() {
 		return getComponentModel().placeholder;
@@ -222,18 +206,12 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 		return new EmailFieldModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected EmailFieldModel getComponentModel() {
 		return (EmailFieldModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected EmailFieldModel getOrCreateComponentModel() {

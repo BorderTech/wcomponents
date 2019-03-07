@@ -464,25 +464,16 @@ public class WCheckBoxSelectExample extends WContainer {
 			this.car = new Car(id, make, model);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getCode() {
 			return car.getId();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getDesc() {
 			return car.getMake() + ", " + car.getModel();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String toString() {
 			return "{ " + getDesc() + " }";

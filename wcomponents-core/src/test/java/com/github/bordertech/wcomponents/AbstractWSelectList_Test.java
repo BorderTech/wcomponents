@@ -336,17 +336,11 @@ public class AbstractWSelectList_Test extends AbstractWComponentTestCase {
 			super(lookupTable, allowNoSelection);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected boolean doHandleRequest(final Request request) {
 			return false;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public Object getRequestValue(final Request request) {
 			return null;

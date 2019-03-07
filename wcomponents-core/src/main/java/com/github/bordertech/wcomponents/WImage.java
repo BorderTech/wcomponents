@@ -290,18 +290,12 @@ public class WImage extends WBeanComponent implements Targetable, AjaxTarget {
 		return new ImageModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected ImageModel getComponentModel() {
 		return (ImageModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected ImageModel getOrCreateComponentModel() {

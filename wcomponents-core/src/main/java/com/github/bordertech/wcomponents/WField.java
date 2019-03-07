@@ -88,9 +88,6 @@ public class WField extends AbstractContainer implements AjaxTarget, Subordinate
 	}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getId() {
 		if (getIdName() == null && field != null && field.getIdName() != null) {
@@ -294,17 +291,11 @@ public class WField extends AbstractContainer implements AjaxTarget, Subordinate
 		return new FieldModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override    // For type safety only
 	protected FieldModel getComponentModel() {
 		return (FieldModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override    // For type safety only
 	protected FieldModel getOrCreateComponentModel() {
 		return (FieldModel) super.getOrCreateComponentModel();

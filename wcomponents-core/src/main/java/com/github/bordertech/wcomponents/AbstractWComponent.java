@@ -81,7 +81,6 @@ public abstract class AbstractWComponent implements WComponent {
 
 	// ================================
 	// Identification
-
 	@Override
 	public String getInternalId() {
 		String iid = null;
@@ -156,6 +155,8 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
+         * {@inheritDoc}
+	 * 
 	 * @deprecated no longer used. use {@link #getId()} instead.
 	 */
 	@Override
@@ -938,13 +939,21 @@ public abstract class AbstractWComponent implements WComponent {
 		boolean isSet = (flags & mask) != 0;
 		return isSet;
 	}
-
+        
+        /**
+	 * {@inheritDoc}
+	 * @deprecated 1.4 causes a11y issues, no replacement.
+	 */
 	@Deprecated
 	@Override
 	public boolean hasTabIndex() {
 		return false;
 	}
-
+        
+	/**
+	 * {@inheritDoc}
+	 * @deprecated 1.4 causes a11y issues, no replacement.
+	 */
 	@Deprecated
 	@Override
 	public int getTabIndex() {
@@ -1410,6 +1419,8 @@ public abstract class AbstractWComponent implements WComponent {
 
 	// ----------------------------
 	/**
+         * {@inheritDoc}
+	 *
 	 * @deprecated Use {@link WTemplate} instead
 	 */
 	@Deprecated
@@ -1420,6 +1431,8 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
+         * {@inheritDoc}
+	 *
 	 * @deprecated Use {@link WTemplate} instead
 	 */
 	@Deprecated

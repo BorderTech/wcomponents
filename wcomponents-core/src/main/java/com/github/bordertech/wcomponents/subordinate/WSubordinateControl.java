@@ -102,9 +102,6 @@ public class WSubordinateControl extends AbstractWComponent {
 		return Collections.unmodifiableList(rules);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		StringBuffer buf = new StringBuffer();

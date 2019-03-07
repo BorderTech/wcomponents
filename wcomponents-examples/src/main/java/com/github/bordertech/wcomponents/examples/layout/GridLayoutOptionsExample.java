@@ -215,9 +215,6 @@ public class GridLayoutOptionsExample extends WContainer {
 	 */
 	private class ControlFieldLayout extends WFieldLayout {
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected void validateComponent(final List<Diagnostic> diags) {
 			super.validateComponent(diags);

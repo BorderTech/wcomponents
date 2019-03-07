@@ -87,9 +87,6 @@ public class MultiBrowserRunner extends Suite {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected List<Runner> getChildren() {
 		return runners;
@@ -126,9 +123,6 @@ public class MultiBrowserRunner extends Suite {
 			this.driverId = driverId;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public Object createTest() throws Exception {
 			Object test = super.createTest();
@@ -142,17 +136,11 @@ public class MultiBrowserRunner extends Suite {
 			return test;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected String getName() {
 			return super.getName() + getTestDetails();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected String testName(final FrameworkMethod method) {
 			return String.format("%s[%s]", method.getName(), getTestDetails());
@@ -163,9 +151,6 @@ public class MultiBrowserRunner extends Suite {
 			validateOnlyOneConstructor(errors);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		protected Statement classBlock(final RunNotifier notifier) {
 			return childrenInvoker(notifier);
@@ -196,9 +181,6 @@ public class MultiBrowserRunner extends Suite {
 			executor = Executors.newCachedThreadPool();
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void finished() {
 			executor.shutdown();
@@ -210,9 +192,6 @@ public class MultiBrowserRunner extends Suite {
 			}
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void schedule(final Runnable childStatement) {
 			executor.submit(childStatement);

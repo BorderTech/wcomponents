@@ -30,9 +30,6 @@ public class GreaterThanOrEqual extends AbstractCompare {
 		return CompareType.GREATER_THAN_OR_EQUAL;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected boolean doCompare(final Object aVal, final Object bVal) {
 		if (Util.equals(aVal, bVal)) {
@@ -47,9 +44,6 @@ public class GreaterThanOrEqual extends AbstractCompare {
 		return ((Comparable<Object>) aVal).compareTo(bVal) > 0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		String triggerName = getTrigger().getClass().getSimpleName();

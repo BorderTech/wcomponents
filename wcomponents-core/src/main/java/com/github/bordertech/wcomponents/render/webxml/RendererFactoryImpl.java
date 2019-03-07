@@ -28,9 +28,6 @@ public class RendererFactoryImpl implements RendererFactory {
 		packagePrefix = packageName + '.';
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Renderer getRenderer(final Class<?> clazz) {
 		String qualifiedClassName = clazz.getName();

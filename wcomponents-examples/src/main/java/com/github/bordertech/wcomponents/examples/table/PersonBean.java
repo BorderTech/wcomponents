@@ -142,9 +142,6 @@ public final class PersonBean implements Serializable {
 		this.selectable = selectable;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		return getFirstName() + ' ' + getLastName();
@@ -178,17 +175,11 @@ public final class PersonBean implements Serializable {
 		this.documents = documents;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean equals(final Object o) {
 		return (o instanceof PersonBean) && Util.equals(personId, ((PersonBean) o).getPersonId());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int hashCode() {
 		return personId.hashCode();
@@ -309,18 +300,12 @@ public final class PersonBean implements Serializable {
 			this.expiryDate = expiryDate;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public boolean equals(final Object o) {
 			return (o instanceof TravelDoc) && Util.equals(documentNumber, ((TravelDoc) o).
 					getDocumentNumber());
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public int hashCode() {
 			return documentNumber.hashCode();

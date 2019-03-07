@@ -270,9 +270,6 @@ public class WMessageBox extends AbstractWComponent implements AjaxTarget, Subor
 		return !msgs.isEmpty();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		String details = String.valueOf(getType()) + ':' + getMessages();
@@ -291,18 +288,12 @@ public class WMessageBox extends AbstractWComponent implements AjaxTarget, Subor
 		return new MessageModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected MessageModel getComponentModel() {
 		return (MessageModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected MessageModel getOrCreateComponentModel() {

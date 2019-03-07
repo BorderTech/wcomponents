@@ -125,9 +125,6 @@ public class AbstractSetEnable_Test {
 			super(aTarget, aValue);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public ActionType getActionType() {
 			return ActionType.ENABLE;
@@ -141,17 +138,11 @@ public class AbstractSetEnable_Test {
 	private static class MyTarget extends AbstractWComponent implements SubordinateTarget,
 			Disableable {
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public boolean isDisabled() {
 			return isFlagSet(ComponentModel.DISABLED_FLAG);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void setDisabled(final boolean disabled) {
 			setFlag(ComponentModel.DISABLED_FLAG, disabled);

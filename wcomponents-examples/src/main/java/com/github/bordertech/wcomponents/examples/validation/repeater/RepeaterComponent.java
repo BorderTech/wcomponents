@@ -57,9 +57,6 @@ public class RepeaterComponent extends WDataRenderer {
 
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void updateComponent(final Object data) {
 		SomeDataBean bean = (SomeDataBean) data;
@@ -67,9 +64,6 @@ public class RepeaterComponent extends WDataRenderer {
 		field2Text.setText(bean.getField2());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void updateData(final Object data) {
 		SomeDataBean bean = (SomeDataBean) data;

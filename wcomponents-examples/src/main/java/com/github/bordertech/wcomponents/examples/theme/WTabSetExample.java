@@ -279,9 +279,6 @@ public class WTabSetExample extends WContainer {
 			setEncodeText(false);
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getText() {
 			return super.getText() + "<br/> Text generated at: " + new Date();

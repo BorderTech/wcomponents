@@ -27,9 +27,6 @@ import java.util.List;
 public class WPasswordField extends AbstractInput implements AjaxTrigger, AjaxTarget,
 		SubordinateTrigger, SubordinateTarget, Placeholderable, AutocompleteablePassword {
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected boolean doHandleRequest(final Request request) {
 		String value = getRequestValue(request);
@@ -44,9 +41,6 @@ public class WPasswordField extends AbstractInput implements AjaxTrigger, AjaxTa
 		return changed;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getRequestValue(final Request request) {
 		if (isPresent(request)) {
@@ -58,9 +52,6 @@ public class WPasswordField extends AbstractInput implements AjaxTrigger, AjaxTa
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getValue() {
 		Object data = getData();
@@ -91,17 +82,11 @@ public class WPasswordField extends AbstractInput implements AjaxTrigger, AjaxTa
 		setData(text);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setPlaceholder(final String placeholder) {
 		getOrCreateComponentModel().placeholder = placeholder;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getPlaceholder() {
 		return getComponentModel().placeholder;
@@ -204,18 +189,12 @@ public class WPasswordField extends AbstractInput implements AjaxTrigger, AjaxTa
 		return new PasswordFieldModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected PasswordFieldModel getComponentModel() {
 		return (PasswordFieldModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	// For type safety only
 	protected PasswordFieldModel getOrCreateComponentModel() {

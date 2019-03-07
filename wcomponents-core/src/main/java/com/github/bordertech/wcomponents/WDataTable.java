@@ -1310,17 +1310,11 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		setFlag(ComponentModel.NAMING_CONTEXT_FLAG, context);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isNamingContext() {
 		return isFlagSet(ComponentModel.NAMING_CONTEXT_FLAG);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getNamingContextId() {
 		return getId();
@@ -1450,9 +1444,6 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 			this.table = table;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public Object getBean(final BeanProviderBound beanProviderBound) {
 			return table.getBeanValue();
@@ -1474,9 +1465,6 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 			this.table = table;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public Object getBean(final BeanProviderBound beanProviderBound) {
 			TableDataModel dataModel = table.getDataModel();
@@ -1797,25 +1785,16 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // to make public
 	public int getChildCount() {
 		return super.getChildCount();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // to make public
 	public WComponent getChildAt(final int index) {
 		return super.getChildAt(index);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // to make public
 	public int getIndexOfChild(final WComponent childComponent) {
 		return super.getIndexOfChild(childComponent);
@@ -1846,17 +1825,11 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		return new TableModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // for type safety only
 	protected TableModel getComponentModel() {
 		return (TableModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // for type safety only
 	protected TableModel getOrCreateComponentModel() {
 		return (TableModel) super.getOrCreateComponentModel();
