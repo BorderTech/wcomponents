@@ -23,6 +23,7 @@
 
 * Remove XSLT template match ambiguities #1617.
 * Fixed JavaDoc errors which caused failure to compile with Java 11 #1611.
+* Fixed issue where native date fields would not trigger a change event when updated using keyboard #1620.
 
 ## Release 1.5.14
 
