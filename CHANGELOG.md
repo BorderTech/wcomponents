@@ -21,7 +21,8 @@
 
 ### Bug Fixes
 
-* Fixed JavaDoc errors which caused failure to compile with Java 11 #1611
+* Remove XSLT template match ambiguities #1617.
+* Fixed JavaDoc errors which caused failure to compile with Java 11 #1611.
 
 ## Release 1.5.14
 
