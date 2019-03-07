@@ -721,45 +721,18 @@ define(["wc/has",
 				if ($event.defaultPrevented) {
 					return;
 				}
-				if (instance.hasNativeInput(element, true)) {
-					// if the input has an initial value then some methods of changing the value may fire immediate change events in some browsers.
-					startVal[element.id] = element.value;
-					onchangeSubmit.ignoreNextChange();
-					ajaxRegion.ignoreNextChange();
-					return;
-				}
 				if (isDateInput(element) && !attribute.get(element, BOOTSTRAPPED)) {
 					attribute.set(element, BOOTSTRAPPED, true);
 					event.add(element, event.TYPE.change, changeEvent);
+				}
+				if (instance.hasNativeInput(element, true)) {
+					return;
 				}
 				if ((dateField = instance.get(element)) && !attribute.get(dateField, BOOTSTRAPPED)) {
 					attribute.set(dateField, BOOTSTRAPPED, true);
 					event.add(dateField, event.TYPE.keydown, keydownEvent);
 				}
 				closeDateCombo(element);
-			}
-
-			/**
-			 * Blur event listener which tries to determine if a native date input has changed so we can fire a change event.
-			 * This is required as current implementations of date inputs fire a change event when any part of an existing
-			 * date is changed not just when the input loses focus.
-			 * @function
-			 * @private
-			 * @param {Event} $event The blur event.
-			 */
-			function blurEvent($event) {
-				var element = $event.target;
-				if ($event.defaultPrevented) {
-					return;
-				}
-				if (instance.hasNativeInput(element, true)) {
-					onchangeSubmit.clearIgnoreChange();
-					ajaxRegion.clearIgnoreChange();
-					if (startVal[element.id] !== element.value) {
-						startVal[element.id] = null;
-						event.fire(element, event.TYPE.change);
-					}
-				}
 			}
 
 			/**
@@ -1034,7 +1007,6 @@ define(["wc/has",
 			this.initialise = function(element) {
 				if (event.canCapture) {
 					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
-					event.add(element, event.TYPE.blur, blurEvent, null, null, true);
 				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
