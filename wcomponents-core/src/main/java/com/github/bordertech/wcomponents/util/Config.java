@@ -13,9 +13,8 @@ import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.MapConfiguration;
 
 /**
- * <p>
  * The Config class is the central access point to the WComponent configuration mechanism, and is used to read or modify
- * the current configuration.</p>
+ * the current configuration.
  *
  * <p>
  * The WComponent library is configured using the Apache Configuration API. This allows developers to programmatically
@@ -113,8 +112,7 @@ public final class Config {
 	}
 
 	/**
-	 * <p>
-	 * Sets the current configuration.</p>
+	 * Sets the current configuration.
 	 * <p>
 	 * <b>Warning: </b> this will ignore any defined ConfigurationLoaders</p>
 	 *

@@ -7,9 +7,7 @@ import java.io.Writer;
 import java.util.Locale;
 
 /**
- * <p>
  * This class is used by the Layout classes to assist with common but primitive html/xml string construction.
- * </p>
  * <p>
  * It extends PrintWriter to allow the same instance to be re-used by the old layout classes which use PrintWriters.
  * </p>
@@ -45,9 +43,7 @@ public final class XmlStringBuilder extends PrintWriter {
 	}
 
 	/**
-	 * <p>
 	 * Adds a starting xml tag to the end of this XmlStringBuilder.
-	 * </p>
 	 * <p>
 	 * Eg. &lt;name&gt;
 	 * </p>
@@ -61,9 +57,7 @@ public final class XmlStringBuilder extends PrintWriter {
 	}
 
 	/**
-	 * <p>
 	 * Adds an ending xml tag to the end of this XmlStringBuilder.
-	 * </p>
 	 * <p>
 	 * Eg. &lt;/name&gt;
 	 * </p>
@@ -78,9 +72,7 @@ public final class XmlStringBuilder extends PrintWriter {
 	}
 
 	/**
-	 * <p>
 	 * Adds a starting xml tag (but without the closing angle bracket) to the end of this XmlStringBuilder.
-	 * </p>
 	 * <p>
 	 * Eg. &lt;name
 	 * </p>
@@ -93,9 +85,7 @@ public final class XmlStringBuilder extends PrintWriter {
 	}
 
 	/**
-	 * <p>
 	 * Adds a closing angle bracket to the end of this XmlStringBuilder.
-	 * </p>
 	 * <p>
 	 * Eg. &gt;
 	 * </p>
@@ -105,9 +95,7 @@ public final class XmlStringBuilder extends PrintWriter {
 	}
 
 	/**
-	 * <p>
 	 * Adds a tag end character plus a closing angle bracket to the end of this XmlStringBuilder.
-	 * </p>
 	 * <p>
 	 * Eg. /&gt;
 	 * </p>
@@ -138,10 +126,8 @@ public final class XmlStringBuilder extends PrintWriter {
 
 	// === end formatting routines ===
 	/**
-	 * <p>
 	 * Adds an xml URL attribute name+value pair to the end of this XmlStringBuilder. All attribute values are URL
 	 * encoded to prevent malformed XML and XSS attacks.
-	 * </p>
 	 * <p>
 	 * If the value is null an empty string "" is output.
 	 * </p>
@@ -157,9 +143,8 @@ public final class XmlStringBuilder extends PrintWriter {
 	}
 
 	/**
-	 * <p>
 	 * If the value is not null, add an xml attribute name+value pair to the end of this XmlStringBuilder
-	 * <p>
+         * <p>
 	 * Eg. name="value"
 	 * </p>
 	 *
@@ -173,10 +158,8 @@ public final class XmlStringBuilder extends PrintWriter {
 	}
 
 	/**
-	 * <p>
 	 * Adds an xml attribute name+value pair to the end of this XmlStringBuilder. All attribute values are escaped to
 	 * prevent malformed XML and XSS attacks.
-	 * </p>
 	 * <p>
 	 * If the value is null an empty string "" is output.
 	 * </p>
@@ -202,9 +185,7 @@ public final class XmlStringBuilder extends PrintWriter {
 	}
 
 	/**
-	 * <p>
 	 * Adds an xml attribute name+value pair to the end of this XmlStringBuilder.
-	 * </p>
 	 * <p>
 	 * Eg. name="1"
 	 * </p>
@@ -221,9 +202,8 @@ public final class XmlStringBuilder extends PrintWriter {
 	}
 
 	/**
-	 * <p>
 	 * If the value is not null, add an xml attribute name+value pair to the end of this XmlStringBuilder
-	 * <p>
+         * <p>
 	 * Eg. name="value"
 	 * </p>
 	 *
@@ -237,9 +217,8 @@ public final class XmlStringBuilder extends PrintWriter {
 	}
 
 	/**
-	 * <p>
 	 * If the flag is true, add an xml attribute name+value pair to the end of this XmlStringBuilder
-	 * <p>
+         * <p>
 	 * Eg. name="1"
 	 * </p>
 	 *
@@ -254,8 +233,7 @@ public final class XmlStringBuilder extends PrintWriter {
 	}
 
 	/**
-	 * <p>
-	 * If the flag is true, add an xml attribute name+value pair to the end of this XmlStringBuilder
+	 * If the flag is true, add an xml attribute name+value pair to the end of this XmlStringBuilder.
 	 * <p>
 	 * Eg. name="value"
 	 * </p>

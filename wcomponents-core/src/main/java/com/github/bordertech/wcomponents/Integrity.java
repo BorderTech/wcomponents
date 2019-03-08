@@ -4,13 +4,12 @@ import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * <p>
  * A convenience class to raise integrity issues. An integrity issue is usually issued on misconfiguration of a
- * WComponent.</p>
+ * WComponent.
  *
  * <p>
  * If the <code>sfp.web.integrity.terminate.mode</code> parameter is set, an {@link IntegrityException} will be thrown,
- * otherwise a warning message will be logged.<p>
+ * otherwise a warning message will be logged.</p>
  *
  * @author Martin Shevchenko
  * @since 1.0.0

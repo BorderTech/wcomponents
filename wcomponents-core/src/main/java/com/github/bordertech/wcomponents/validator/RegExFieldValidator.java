@@ -4,10 +4,8 @@ import com.github.bordertech.wcomponents.util.InternalMessages;
 import java.util.regex.Pattern;
 
 /**
- * <p>
  * A <code>FieldValidator</code> implementation used to match an input fields value with the supplied regular
  * expression. An error is added if the value does not match the supplied pattern.
- * </p>
  * <p>
  * NOTE: When using this validator it is probably a good idea to always provide an error message.
  * </p>

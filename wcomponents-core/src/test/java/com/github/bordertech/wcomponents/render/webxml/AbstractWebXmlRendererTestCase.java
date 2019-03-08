@@ -35,9 +35,8 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 /**
- * <p>
  * This extension of junit TestCase includes assertions and other features useful for the testing WComponent XML
- * layouts.</p>
+ * layouts.
  *
  * <p>
  * This differs from WComponentTestCase in that developers do not need to specify the schema for each component; it is
@@ -508,10 +507,9 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	}
 
 	/**
-	 * <p>
 	 * Asserts that any unsafe content has been escaped correctly. Checks whether the XML is syntactically valid,
 	 * matches the component schema and doesn't contain any content returned by
-	 * {@link #getMaliciousAttribute()}, {@link #getMaliciousAttribute(String)} or {@link #getMaliciousContent()}.</p>
+	 * {@link #getMaliciousAttribute()}, {@link #getMaliciousAttribute(String)} or {@link #getMaliciousContent()}.
 	 *
 	 * <p>
 	 * Note: This method assumes that no components are emitting script tags themselves.</p>

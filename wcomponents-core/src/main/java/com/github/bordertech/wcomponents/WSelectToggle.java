@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <p>
  * This is component can be used to select all/none within a containing component, for example a {@link WPanel} or
- * {@link WFieldSet} containing {@link WCheckBox}es, or a {@link WDataTable} with multiple row selection enabled.</p>
+ * {@link WFieldSet} containing {@link WCheckBox}es, or a {@link WDataTable} with multiple row selection enabled.
  *
  * <p>
  * Note that the target component must render out with an ID, so a plain {@link WComponent} or {@link WContainer} is not

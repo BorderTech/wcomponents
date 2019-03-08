@@ -10,9 +10,8 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
 /**
- * <p>
  * This implementation of the List interface is not intended for general use, it exists solely to provide memory
- * efficient support for {@link WRepeater#getBeanList()}.</p>
+ * efficient support for {@link WRepeater#getBeanList()}.
  *
  * <p>
  * This list is immutable; any attempts to call a mutator method will result in an {@link UnsupportedOperationException}

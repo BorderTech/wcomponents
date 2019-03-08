@@ -10,10 +10,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 /**
- * <p>
  * A WEmailField is a wcomponent used to display an email input field. Use the method "getText" to get the text entered
  * into the field by the user.
- * </p>
  * <p>
  * An email field differs from a text field in the way in which some user agents interact with it. For example,
  * touchscreen devices may display a different soft keyboard from the default layout. In addition, they may present
@@ -154,10 +152,8 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 	}
 
 	/**
-	 * <p>
 	 * Performs validation of the email address. This only performs very basic validation - an email address must
 	 * contain some text, followed by an '@', and then something which resembles a domain/host name.
-	 * </p>
 	 * <p>
 	 * Subclasses can override this method to perform more specific validation.
 	 * </p>

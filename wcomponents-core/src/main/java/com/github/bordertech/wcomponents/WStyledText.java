@@ -1,9 +1,8 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * <p>
  * This component is used to render the different types of text. If the text contains special characters, they will be
- * escaped automatically, as in {@link WText}.</p>
+ * escaped automatically, as in {@link WText}.
  *
  * <p>
  * Note that the visual representation of the different types of text will depend on the current Theme in use.</p>

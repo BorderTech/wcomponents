@@ -30,9 +30,7 @@ import org.apache.commons.configuration.ConversionException;
 import org.apache.commons.configuration.MapConfiguration;
 
 /**
- * <p>
  * Implementation of the {@link Configuration} interface.
- * </p>
  * <p>
  * Note: We can't use the logging infrastructure in this class, because the logging infrastructure is probably not
  * initialised yet. Indeed, it will be via this mechanism that the logging configuration is loaded! Instead, we have a

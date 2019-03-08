@@ -1,8 +1,7 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * <p>
- * This interface is used to mark components which are able to trigger a client-side Subordinate.</p>
+ * This interface is used to mark components which are able to trigger a client-side Subordinate.
  *
  * <p>
  * <b>NOTE:</b> Components must not implement this interface unless they already support triggering client-side

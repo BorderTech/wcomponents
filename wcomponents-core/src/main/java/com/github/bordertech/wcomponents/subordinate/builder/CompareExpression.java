@@ -12,9 +12,7 @@ import com.github.bordertech.wcomponents.subordinate.Match;
 import com.github.bordertech.wcomponents.subordinate.NotEqual;
 
 /**
- * <p>
  * This class describes a boolean expression that compares a trigger and a value.
- * </p>
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin

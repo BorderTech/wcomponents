@@ -12,10 +12,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * <p>
  * This component is a date entry component. Individual themes may add features such as automatic text formatting and
  * date picker widgets. Convenience methods exist to set and get the value as a java date object.
- * </p>
  * <p>
  * "Partial dates" can be specified without day or month components, e.g. "JAN 2001", or just "2001".
  * </p>

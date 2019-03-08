@@ -13,9 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * <p>
  * This wrong step interceptor makes sure that content requests are only processed from the most recently rendered view.
- * </p>
  * <p>
  * It assumes the correct context has already been set via the {@link WWindowInterceptor}.
  * </p>

@@ -24,9 +24,8 @@ public interface LookupTable {
 	List<?> getTable(Object table);
 
 	/**
-	 * <p>
 	 * Retrieves the cache id for the given table. This is used to enable caching of data sets, including on the
-	 * client.</p>
+	 * client.
 	 *
 	 * <p>
 	 * If your data sets are session- or user-specific, your cache id must include this information so that the cache is

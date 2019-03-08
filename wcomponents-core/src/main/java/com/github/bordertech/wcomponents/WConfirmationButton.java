@@ -4,10 +4,8 @@ import com.github.bordertech.wcomponents.util.InternalMessages;
 import java.text.MessageFormat;
 
 /**
- * <p>
  * This component is a specialised version of a {@link WButton} that provides additional client-side functionality
  * commonly associated with a "cancel" button.
- * </p>
  * <p>
  * When a user presses the button, it displays a confirmation prompt before posting the form to the server.
  * </p>

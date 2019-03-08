@@ -10,10 +10,9 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 /**
- * <p>
  * Interceptor components are used to plug in features to a container that is serving WComponents. Interceptor
  * components can be chained together. The last component in the chain is normally the WComponent (UI) that is being
- * served up.</p>
+ * served up.
  *
  * <p>
  * A new interceptor chain is created for each request that is served, so interceptors do not need to be thread safe.

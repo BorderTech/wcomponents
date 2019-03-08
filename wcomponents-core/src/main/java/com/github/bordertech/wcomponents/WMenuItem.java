@@ -162,10 +162,8 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	}
 
 	/**
-	 * <p>
 	 * Indicates whether the form should be submitted when the menu item is selected. By default, the form will only be
 	 * submitted if an action has been set on this item.
-	 * </p>
 	 * <p>
 	 * Examples of where the form might should not be submitted include if the menu item is within a sub-menu which
 	 * supports multiple selection, or if the menu item points at an external URL.

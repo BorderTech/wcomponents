@@ -7,9 +7,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * <p>
  * This class is used to group multiple {@link WCollapsible} or [@link WTabSet} components and one {@link WCollapsibleToggle} component
- * together. Each collapsible component in the same group has the same name.</p>
+ * together. Each collapsible component in the same group has the same name.
  *
  * <p>
  * The <code>WCollapsibleToggle</code> component of the group applies to only the <code>collapsible</code> components in

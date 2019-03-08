@@ -9,10 +9,8 @@ import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.List;
 
 /**
- * <p>
  * A WPasswordField is a wcomponent used to display a password input field. Use the method "getText" to get the text
  * entered into the field by the user.
- * </p>
  * <p>
  * A password field differs from a text field in that the text entered is typically masked from the user, to prevent
  * over-the-shoulder attacks. For security reasons, the text value of a password field is never sent to the client. This

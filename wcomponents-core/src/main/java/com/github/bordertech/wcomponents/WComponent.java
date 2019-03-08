@@ -120,11 +120,9 @@ public interface WComponent extends WebComponent {
 	String getId();
 
 	/**
-	 * <p>
 	 * This is the main entry point during request handling. Only the "top-level" component will have this method called
 	 * - other components will have {@link #handleRequest(Request)} called. For efficiency, only {@link #isVisible()
 	 * visible} components are asked to handle the request.
-	 * </p>
 	 * The basic workflow is:
 	 * <ol>
 	 * <li>Collate the list of visible components, in depth-first order. Depth-first traversal is used to ensure that
@@ -145,11 +143,9 @@ public interface WComponent extends WebComponent {
 	void serviceRequest(final Request request);
 
 	/**
-	 * <p>
 	 * Adds a runnable that will be processed after the completion of the current serviceRequest method. This method is
 	 * intended to be called from subcomponents' handleRequest methods, to permit processing to continue once the entire
 	 * WComponent tree has been updated from the incoming HTTP request.
-	 * </p>
 	 * <p>
 	 * If this method is invoked more than once, each Runnable will be invoked in turn.
 	 * </p>
@@ -192,10 +188,8 @@ public interface WComponent extends WebComponent {
 	void paint(final RenderContext renderContext);
 
 	/**
-	 * <p>
 	 * The validate method should be called by an {@link Action}, or {@link ValidatingAction} at points in the
 	 * application lifecycle where it makes sense to perform validation.
-	 * </p>
 	 * <p>
 	 * No side effect of displaying error markers implied by this. This is a pure "function" except that it stores the
 	 * results in the <code>diags</code> list.
@@ -210,10 +204,8 @@ public interface WComponent extends WebComponent {
 	void validate(final List<Diagnostic> diags);
 
 	/**
-	 * <p>
 	 * This does not affect the diag list at all. The ValidatableComponent should visually mark any fields or blocks
 	 * that have errors in the given diag list.
-	 * </p>
 	 * <p>
 	 * It is the responsibility of the validatable component to call any of its children that may also be validatable.
 	 * </p>
@@ -223,10 +215,8 @@ public interface WComponent extends WebComponent {
 	void showErrorIndicators(final List<Diagnostic> diags);
 
 	/**
-	 * <p>
 	 * This does not affect the diag list at all. The ValidatableComponent should visually mark any fields or blocks
 	 * that have warnings in the given diag list.
-	 * </p>
 	 * <p>
 	 * It is the responsibility of the validatable component to call any of its children that may also be validatable.
 	 * The default implemntation does nothing.
@@ -237,10 +227,8 @@ public interface WComponent extends WebComponent {
 	void showWarningIndicators(final List<Diagnostic> diags);
 
 	/**
-	 * <p>
 	 * The shared attributes of a component (and all its children) can be locked, preventing users/developers from
 	 * making further updates. However, attribute values can still be updated on a per session basis.
-	 * </p>
 	 * <p>
 	 * This method should normally never be called from application code.
 	 * </p>
@@ -350,10 +338,8 @@ public interface WComponent extends WebComponent {
 	void tidyUpUIContextForTree();
 
 	/**
-	 * <p>
 	 * WComponents must implement this method in order to protect any session based information they store from being
 	 * incorrectly removed by the {@link #tidyUpUIContextForTree()} method.
-	 * </p>
 	 * <p>
 	 * It is possible you can write a more exact check for the default state here than the method on the component model
 	 * itself can provide.

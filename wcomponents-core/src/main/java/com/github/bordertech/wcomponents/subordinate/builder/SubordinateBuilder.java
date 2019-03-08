@@ -11,10 +11,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * <p>
  * The SubordinateBuilder is a utility class which provides a convenient way to build up simple logic rules so that they
  * executed on both the client and server. See the {@link WSubordinateControl} documentation for more information.
- * </p>
  * <p>
  * Consider a user interface which contains two "yes"/"no" radio button groups and two text inputs. To create a rule
  * that makes the text inputs mandatory if either "yes" option has been selected:

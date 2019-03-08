@@ -16,10 +16,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * <p>
  * This component is a date entry component. Individual themes may add features such as automatic text formatting and
  * date picker widgets. Convenience methods exist to set and get the value as a java date object.
- * </p>
  *
  * @author Ming Gao
  * @author Jonathan Austin
@@ -263,10 +261,8 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	}
 
 	/**
-	 * <p>
 	 * Performs validation of the date. Validation ensures that the entered date is between the minimum/maximum values
 	 * (if applicable).
-	 * </p>
 	 * <p>
 	 * Subclasses can override this method to perform more specific validation.
 	 * </p>

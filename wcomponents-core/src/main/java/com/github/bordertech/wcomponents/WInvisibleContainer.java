@@ -1,9 +1,8 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * <p>
  * This container is used as a marker for some special cases, where we want to skip normal WComponent life-cycle
- * processes.</p>
+ * processes.
  *
  * <p>
  * It is always invisible.</p>

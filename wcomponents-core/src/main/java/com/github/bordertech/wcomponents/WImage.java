@@ -5,10 +5,8 @@ import java.awt.Dimension;
 import java.util.Map;
 
 /**
- * <p>
  * The WImage component provides a way for applications to display images within their application. It may either serve
  * up a pre-defined image which is part of the application, or generate the image dynamically.
- * </p>
  *
  * <pre>
  * // Example of using a pre-defined image included in the applications class-path
@@ -56,10 +54,8 @@ public class WImage extends WBeanComponent implements Targetable, AjaxTarget {
 	}
 
 	/**
-	 * <p>
 	 * Creates a WImage with the given static content. This is provided as a convenience method for when the image is
 	 * included as static content in the class path rather than in the web application's resources.
-	 * </p>
 	 * <p>
 	 * The mime type for the image is looked up from the "mimeType.*" mapping configuration parameters using the
 	 * resource's file extension.

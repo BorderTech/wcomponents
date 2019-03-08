@@ -1,10 +1,8 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * <p>
  * The WSection component defines a major discrete section of a screen which is associated with, and described by, a
  * heading.
- * </p>
  * <p>
  * Various {@link SectionMode modes of operation} are supported, which allow developers to tune performance by only
  * loading content when it is needed.

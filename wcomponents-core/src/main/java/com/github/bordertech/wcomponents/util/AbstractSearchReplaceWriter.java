@@ -5,9 +5,8 @@ import java.io.Writer;
 import java.util.Arrays;
 
 /**
- * <p>
  * AbstractSearchReplaceWriter is a writer extension that allows programmatic replacement of strings contained in
- * written stream. For efficiency, it uses a buffer that is twice the size of the longest search string.</p>
+ * written stream. For efficiency, it uses a buffer that is twice the size of the longest search string.
  *
  * <p>
  * Data is only written to the underlying writer when the buffer is filled, or when the writer is closed; calling

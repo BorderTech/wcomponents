@@ -1,8 +1,7 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * <p>
- * This extension of junit TestCase includes assertions and other features useful for the testing WComponents.</p>
+ * This extension of junit TestCase includes assertions and other features useful for the testing WComponents.
  *
  * <p>
  * This differs from WComponentTestCase in that developers do not need to specify the schema for each component; it is

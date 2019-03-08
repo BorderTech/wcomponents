@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * <p>
  * WFigure represents a container that is used to associate a large graphical element with its text description. For
  * example, a graph and its description.
  * <p>

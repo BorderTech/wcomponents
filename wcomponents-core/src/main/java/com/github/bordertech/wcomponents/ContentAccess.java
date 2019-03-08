@@ -3,9 +3,8 @@ package com.github.bordertech.wcomponents;
 import java.io.Serializable;
 
 /**
- * <p>
  * This interface enables access to arbitrary document content such as a PDF. It could be fetched from the database or
- * it could be generated on the fly.</p>
+ * it could be generated on the fly.
  *
  * <p>
  * For larger content, consider using {@link ContentStreamAccess}, as it does not require the entire binary content to

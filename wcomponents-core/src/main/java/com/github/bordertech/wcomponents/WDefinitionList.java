@@ -7,8 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <p>
- * WDefinitionList is used to render pair lists of terms/data.</p>
+ * WDefinitionList is used to render pair lists of terms/data.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

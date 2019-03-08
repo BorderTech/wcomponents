@@ -14,10 +14,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * <p>
  * This interceptor temporarily replaces the primary UIContext's {@link Environment} with an Environment suitable for
  * processing a content request for a WWindow.
- * </p>
  * <p>
  * The replacement of the environment is not thread-safe, but the interceptor methods are only ever called from code in
  * {@link AbstractContainerHelper} which synchronizes on the primary context. This prevents any concurrency issues.

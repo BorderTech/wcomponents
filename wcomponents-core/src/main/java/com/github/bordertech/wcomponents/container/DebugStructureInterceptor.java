@@ -14,8 +14,7 @@ import com.github.bordertech.wcomponents.util.DebugUtil;
 import java.util.List;
 
 /**
- * <p>
- * An Interceptor used to output structural debugging information.</p>
+ * An Interceptor used to output structural debugging information.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

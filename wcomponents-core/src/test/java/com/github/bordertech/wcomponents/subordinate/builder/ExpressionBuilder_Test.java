@@ -9,9 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * <p>
  * JUnit tests for the {@link ExpressionBuilder} class.
- * </p>
  * <p>
  * The tests use the <code>toString()</code> representation of the conditions as they are easier to write and are easier
  * to diagnose when the tests fail.

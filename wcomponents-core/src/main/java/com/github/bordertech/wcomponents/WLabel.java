@@ -7,9 +7,8 @@ import java.text.MessageFormat;
 import java.util.Objects;
 
 /**
- * <p>
  * The WLabel component is used to display a textual label for an input field. A WLabel is associated with an input
- * field provided in the labels constructor, or via the {@link #setForComponent(WComponent) setForComponent} method.</p>
+ * field provided in the labels constructor, or via the {@link #setForComponent(WComponent) setForComponent} method.
  *
  * @author James Gifford
  * @since 1.0.0
@@ -171,12 +170,10 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	// ================================
 	// Access key
 	/**
-	 * <p>
 	 * Set the key (in combination with Alt) that should give focus to this label. The action that occurs when the label
 	 * is focussed depends on the type of component this label is for (the <code>forComponent</code>). For example,
 	 * WTextField will focus the cursor in the text input, WCheckBox will toggle the check box selection. Access keys
 	 * are not case sensitive.
-	 * </p>
 	 * <p>
 	 * Note: Setting the access key also sets the shared title of the component to indicate the access key combination.
 	 * </p>
@@ -224,8 +221,7 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	}
 
 	/**
-	 * <p>
-	 * Sets whether the heading text needs to be encoded.</p>
+	 * Sets whether the heading text needs to be encoded.
 	 *
 	 * <p>
 	 * When setting <code>encodeText</code> to <code>false</code>, it then becomes the responsibility of the application

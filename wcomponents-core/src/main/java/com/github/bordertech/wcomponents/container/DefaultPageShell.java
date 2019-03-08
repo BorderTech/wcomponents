@@ -16,8 +16,7 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * <p>
- * A default implementation of the PageShell interface.</p>
+ * A default implementation of the PageShell interface.
  *
  * <p>
  * This implementation writes the absolute minimum amount of mark-up necessary to support a WComponent application.

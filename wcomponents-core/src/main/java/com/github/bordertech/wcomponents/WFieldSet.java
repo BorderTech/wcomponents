@@ -168,10 +168,8 @@ public class WFieldSet extends AbstractMutableContainer implements AjaxTarget, S
 	}
 
 	/**
-	 * <p>
 	 * This method is called by validateComponent to create the mandatory diagnostic error message if the mandatory
 	 * validation check does not pass.
-	 * </p>
 	 * <p>
 	 * Subclasses may override this method to customise the message, however in most cases it is easier to supply a
 	 * custom error message pattern to the setMandatory method.

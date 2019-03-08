@@ -3,9 +3,7 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
- * <p>
  * This component is an extension of a {@link WRepeater} that is used to render a collection of items as a list.
- * </p>
  * <p>
  * The operation of this component is essentially the same as a WRepeater, but it allows for some basic control over how
  * the repeated components are arranged.

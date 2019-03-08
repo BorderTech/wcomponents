@@ -82,9 +82,8 @@ public final class WDataTableRowRenderer extends WDataRenderer {
 	}
 
 	/**
-	 * <p>
 	 * The preparePaintComponent method has been overridden to ensure that expanded row renderers have been correctly
-	 * initialised.</p>
+	 * initialised.
 	 *
 	 * <p>
 	 * Expanded row renderers are lazily instantiated and added to the shared structure as needed. This means for the
@@ -106,10 +105,9 @@ public final class WDataTableRowRenderer extends WDataRenderer {
 	}
 
 	/**
-	 * <p>
 	 * This is called to lazily add expanded renderers as necessary. To save memory, only one instance of a renderer
 	 * class is ever added to the row renderer instance. The RendererWrapper ensures that data binding occurs at the
-	 * right time.</p>
+	 * right time.
 	 *
 	 * @param rendererClass the renderer class.
 	 * @return the expanded renderer for the given row.

@@ -7,9 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * <p>
  * This component enables rendering of a set of tabbed components.
- * </p>
  *
  * <p>
  * A <code>WTabSet</code> WComponent has the following functionality:

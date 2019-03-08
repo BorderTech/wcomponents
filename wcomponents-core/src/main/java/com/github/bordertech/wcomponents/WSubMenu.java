@@ -7,9 +7,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * <p>
  * This component is used to provide either a dropmenu (when added directly to a {@link WMenu} or nestable sub menus
- * (when added to another <code>WSubMenu</code> instance).</p>
+ * (when added to another <code>WSubMenu</code> instance).
  *
  * <p>
  * Sub Menus may contain the following components:
@@ -239,9 +238,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	}
 
 	/**
-	 * <p>
 	 * Set the accesskey (shortcut key) that will activate the sub-menu.
-	 * </p>
 	 *
 	 * @param accesskey The key (in combination with the Alt key) that activates this element.
 	 */

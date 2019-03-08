@@ -12,10 +12,8 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * <p>
  * A <code>WMessageBox</code> is a component that renders a collection of informational messages. Most commonly placed
  * near the top of an application's UI.
- * </p>
  * <p>
  * The different message types catered for here are:
  * </p>

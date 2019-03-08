@@ -14,10 +14,8 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
 
 /**
- * <p>
  * This HttpServletRequestWrapper implementation changes the way in which sessions are managed, to allow multiple
  * "sub-sessions" per HTTP session.
- * </p>
  * <p>
  * The standard (cookie) mechanism is used to store the normal HTTP session, and an additional request parameter
  * ("ssid") is used to determine which sub-session to use. Using a wrapper approach limits the impact to the WServlet

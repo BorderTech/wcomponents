@@ -3,9 +3,8 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.WTable.TableModel;
 
 /**
- * <p>
  * TableDataModel provides the data for tables. In a MVC sense, the TableDataModel is the Model, the {@link WDataTable}
- * is the controller and the view is comprised of the WTable layout and column renderers.</p>
+ * is the controller and the view is comprised of the WTable layout and column renderers.
  *
  * <p>
  * Note that Data may be stored locally or sourced remotely, depending on the particular TableDataModel

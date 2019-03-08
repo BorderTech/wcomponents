@@ -3,10 +3,8 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 
 /**
- * <p>
  * This component is used to group together a collection of <code>WField</code> components to provide a consistent
  * layout template.
- * </p>
  * <p>
  * It also provides some helpful infrastructure around WComponent validation by supplying helper methods to validate and
  * set error indicators on each of its contained <code>WField</code> components. It is up the the parent

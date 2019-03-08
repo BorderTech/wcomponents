@@ -3,9 +3,8 @@ package com.github.bordertech.wcomponents;
 import java.util.List;
 
 /**
- * <p>
  * TableDataModel provides the data for tables. In a MVC sense, the TableDataModel is the Model, the {@link WDataTable}
- * is the controller and the view is comprised of the WDataTable layout and column renderers.</p>
+ * is the controller and the view is comprised of the WDataTable layout and column renderers.
  *
  * <p>
  * Note that Data may be stored locally or sourced remotely, depending on the particular TableDataModel
@@ -61,8 +60,7 @@ public interface TableDataModel {
 	boolean isSortable(int col);
 
 	/**
-	 * <p>
-	 * Sorts the data by the given column. Any previous sorting should be disregarded.</p>
+	 * Sorts the data by the given column. Any previous sorting should be disregarded.
 	 *
 	 * <p>
 	 * Data models must implement sorting in one of two ways.</p>

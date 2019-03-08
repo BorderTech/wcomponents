@@ -7,10 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * <p>
  * This servlet is designed to serve up theme files from within the WComponent project or jar file. This saves
  * developers from having to configure where the webdocs directory is, or extract the theme into their WAR file.
- * </p>
  * <p>
  * The ThemeServlet expects all static resources to be available in the classpath under <code>/theme/XXXXXX/</code>.
  * Where "XXXXX" is the value of the configuration parameter "<code>theme.name</code>".

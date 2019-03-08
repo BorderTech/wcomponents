@@ -4,10 +4,9 @@ import com.github.bordertech.wcomponents.util.Util;
 import java.util.Map;
 
 /**
- * <p>
  * This wcomponent enables the display of arbitrary document content from a WComponent application. This component does
  * not by default display anything until the {@link #display()} method is called. It then causes the browser to access
- * the content through the WContentHelperServlet.</p>
+ * the content through the WContentHelperServlet.
  *
  * <p>
  * By default, the browser will display the content in a new window, but the {@link #setDisplayMode(DisplayMode)} method
@@ -214,8 +213,7 @@ public class WContent extends AbstractWComponent implements Targetable {
 	}
 
 	/**
-	 * <p>
-	 * Override handleRequest in order to perform processing specific to this component.</p>
+	 * Override handleRequest in order to perform processing specific to this component.
 	 *
 	 * <p>
 	 * When the new browser window for the document content is opened, it will make another request to fetch the

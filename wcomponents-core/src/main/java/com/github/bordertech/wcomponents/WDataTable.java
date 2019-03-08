@@ -17,9 +17,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * <p>
  * The WDataTable component is used to display tabular data. It supports common functions such as sorting and pagination
- * of data.</p>
+ * of data.
  *
  * <p>
  * The WDataTable component is only concerned with how the UI functions, not the data behind the table. In a MVC sense,
@@ -455,8 +454,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	}
 
 	/**
-	 * <p>
-	 * Sets whether row headers should be displayed.</p>
+	 * Sets whether row headers should be displayed.
 	 *
 	 * <p>
 	 * To set the column heading for the row headers, use:

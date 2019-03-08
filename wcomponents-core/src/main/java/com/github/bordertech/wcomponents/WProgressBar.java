@@ -1,9 +1,8 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * <p>
  * WProgressBar is a component for displaying progress bars. The number of steps in the progress bar is configurable,
- * and the progress bar's value can either be set manually, or sourced from an Integer bean.</p>
+ * and the progress bar's value can either be set manually, or sourced from an Integer bean.
  *
  * @author Yiannis Paschalidis
  * @author Mark Reeves

@@ -8,10 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * <p>
  * A WPanel is used to group components together. It can optionally provide additional styling for the group, for
  * example to display a titled border. Layouts can be used to arrange components within the panel.
- * </p>
  * <p>
  * Users can add a {@link WButton} ({@link #setDefaultSubmitButton(WButton)}) to this component that will submit when
  * the user hits the Enter key and the cursor is in an input field inside the panel.
@@ -226,9 +224,8 @@ public class WPanel extends WContainer implements AjaxInternalTrigger, AjaxTarge
 	}
 
 	/**
-	 * <p>
 	 * Adds the given component as a child of this component. The constraints are made available to the
-	 * {@link LayoutManager} if it requires them.</p>
+	 * {@link LayoutManager} if it requires them.
 	 *
 	 * @param component the component to add.
 	 * @param constraints the layout constraints
@@ -248,9 +245,8 @@ public class WPanel extends WContainer implements AjaxInternalTrigger, AjaxTarge
 	}
 
 	/**
-	 * <p>
 	 * Adds the given component as a child of this component. The constraints are made available to the
-	 * {@link LayoutManager} if it requires them.</p>
+	 * {@link LayoutManager} if it requires them.
 	 *
 	 * @param component the component to add.
 	 * @param constraints the layout constraints

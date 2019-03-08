@@ -664,10 +664,9 @@ public final class ServletUtil {
 	}
 
 	/**
-	 * <p>
 	 * {@link FileItem} classes (if attachements) will be kept as part of the request. The default behaviour of the file
 	 * item is to store the upload in memory until it reaches a certain size, after which the content is streamed to a
-	 * temp file.</p>
+	 * temp file.
 	 *
 	 * <p>
 	 * If, in the future, performance of uploads becomes a focus we can instead look into using the Jakarta Commons

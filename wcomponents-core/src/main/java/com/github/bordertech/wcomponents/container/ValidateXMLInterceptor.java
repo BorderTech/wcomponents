@@ -11,9 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * <p>
  * An Interceptor used to report any WComponent that has generated HTML/XML that is not well formed.
- * </p>
  * <p>
  * To enable this Interceptor, both "bordertech.wcomponents.debug.enabled" and
  * "bordertech.wcomponents.debug.validateXML.enabled" must be set to true.

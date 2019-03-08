@@ -27,9 +27,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * <p>
  * This class exists to enable sharing of features that are common between Servlet and Portlet handling of WComponents.
- * </p>
  * <p>
  * Instances of this support class are intended to be short lived. An instance of this class is intended to be created
  * to help service a single request and then be thrown away.

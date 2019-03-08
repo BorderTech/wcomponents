@@ -370,8 +370,7 @@ public final class WebUtilities {
 	}
 
 	/**
-	 * <p>
-	 * Encodes the given fileName for output in the HTTP Content-Disposition header.</p>
+	 * Encodes the given fileName for output in the HTTP Content-Disposition header.
 	 *
 	 * <p>
 	 * This is a complete mess. There are multiple standards (rfc 2183, rfc 2231, rfc 5987) and some browsers don't even
@@ -532,8 +531,7 @@ public final class WebUtilities {
 	}
 
 	/**
-	 * <p>
-	 * Appends a key/value pair to a query string.</p>
+	 * Appends a key/value pair to a query string.
 	 *
 	 * <p>
 	 * A '{@literal ?}' or '{@literal &}' token will first be appended to the end of the vars StringBuffer, according to
@@ -877,10 +875,9 @@ public final class WebUtilities {
 	}
 
 	/**
-	 * <p>
 	 * Implementation of the CodePointTranslator to throw away the matching characters. This is copied from
 	 * org.apache.commons.lang3.text.translate.NumericEntityEscaper, but has been changed to discard the characters
-	 * rather than attempting to encode them.</p>
+	 * rather than attempting to encode them.
 	 * <p>
 	 * Discarding the characters is necessary because certain invalid characters (e.g. decimal 129) cannot be encoded
 	 * for HTML. An existing library was not available for this function because no HTML page should ever contain these
@@ -893,10 +890,9 @@ public final class WebUtilities {
 		private final boolean between;
 
 		/**
-		 * <p>
 		 * Constructs a <code>NumericEntityEscaper</code> for the specified range. This is the underlying method for the
 		 * other constructors/builders. The <code>below</code> and <code>above</code> boundaries are inclusive when
-		 * <code>between</code> is <code>true</code> and exclusive when it is <code>false</code>. </p>
+		 * <code>between</code> is <code>true</code> and exclusive when it is <code>false</code>.
 		 *
 		 * @param below int value representing the lowest codepoint boundary
 		 * @param above int value representing the highest codepoint boundary
@@ -909,8 +905,7 @@ public final class WebUtilities {
 		}
 
 		/**
-		 * <p>
-		 * Constructs a <code>NumericEntityEscaper</code> between the specified values (inclusive). </p>
+		 * Constructs a <code>NumericEntityEscaper</code> between the specified values (inclusive).
 		 *
 		 * @param codepointLow above which to escape
 		 * @param codepointHigh below which to escape

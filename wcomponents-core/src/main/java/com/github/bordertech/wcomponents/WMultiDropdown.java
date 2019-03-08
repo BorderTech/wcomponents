@@ -5,11 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * <p>
  * The WMultiDropdown component allows multiple dropdown elements to be generated dynamically on the client, without
  * requiring the page to be reloaded. This component takes its appearance and attributes from a regular drop down but
  * allows for one or more items of text to be entered via the add link adjacent to the right of the input.
- * </p>
  * <p>
  * This component is useful in instances where the user needs to select one or more items into the interfaces for a
  * particular field. For instance, the user may have one or more aliases that need to be entered into the system.

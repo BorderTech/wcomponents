@@ -5,11 +5,9 @@ import com.github.bordertech.wcomponents.validation.WFieldWarningIndicator;
 import com.github.bordertech.wcomponents.validator.FieldValidator;
 
 /**
- * <p>
  * This component is used to aggregate the common elements that are used to display an editable field (ie, the label,
  * the field itself and an error indicator). It can only be used by adding instances to a {@link WFieldLayout}
  * component. If input field is not present then it renders as read only field.
- * </p>
  *
  * @author Adam Millard
  * @since 1.0.0

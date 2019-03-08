@@ -8,9 +8,8 @@ import java.util.zip.CRC32;
 import java.util.zip.Checksum;
 
 /**
- * <p>
  * The ImageResourceMap map keeps a reference to all internal resources within an application. It is used by the
- * WContentHelperServlet to efficiently serve binary data without having to go through normal WComponent processing.</p>
+ * WContentHelperServlet to efficiently serve binary data without having to go through normal WComponent processing.
  *
  * Two things stop this map from consuming excessive amounts of memory:
  * <ol>

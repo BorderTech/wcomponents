@@ -11,9 +11,8 @@ import org.apache.commons.configuration.Configuration;
 public interface ConfigurationLoader {
 
 	/**
-	 * <p>
 	 * Provides the configuration for this loader. The result of this configuration will be added to a composite
-	 * configuration along with WComponents and the configuration from other ConfigurationLoaders.</p>
+	 * configuration along with WComponents and the configuration from other ConfigurationLoaders.
 	 *
 	 * @return The custom configuration for this loader.
 	 */

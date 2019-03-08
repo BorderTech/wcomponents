@@ -9,10 +9,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * <p>
  * This class describes a boolean expression. Since an expression evaluates to a boolean result, it may also be treated
  * as a BooleanExpression.
- * </p>
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin

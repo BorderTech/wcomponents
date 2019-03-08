@@ -10,10 +10,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * <p>
  * This component is used to render an error message box (commonly near the top of an application's UI) which contains
  * all supplied validation errors.
- * </p>
  * <p>
  * This provides (in conjuntion with {@link WFieldErrorIndicator} components) the ability to link error messages with
  * the input field that is in error.

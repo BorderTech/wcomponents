@@ -5,9 +5,8 @@ import com.github.bordertech.wcomponents.WComponent;
 import java.io.Serializable;
 
 /**
- * <p>
  * Stores an error, warning or informational message produced as part of WComponent validation. Each diagnostic will can
- * be associated with particular user context and component.</p>
+ * be associated with particular user context and component.
  *
  * <p>
  * In the case of a cross-field error the component may not be able to be specified, and may be null.</p>

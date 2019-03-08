@@ -7,11 +7,9 @@ import com.github.bordertech.wcomponents.autocomplete.type.Multiline;
 import com.github.bordertech.wcomponents.util.HtmlSanitizerUtil;
 
 /**
- * <p>
  * A WTextArea is a wcomponent used to display a html textarea. It is very much like WTextField except that it has
  * multiple lines of input. Use the "setRows" method to define the number of lines displayed. Since 2015 this component
  * may also be put into Rich Text Editor mode.
- * </p>
  *
  * @author James Gifford
  * @author Jonathan Austin

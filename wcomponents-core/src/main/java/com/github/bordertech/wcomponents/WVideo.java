@@ -114,10 +114,8 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 	}
 
 	/**
-	 * <p>
 	 * Creates a WVideo with the given static content. This is provided as a convenience method for when the video file
 	 * is included as static content in the class path rather than in the web application's resources.
-	 * </p>
 	 * <p>
 	 * The mime type for the video clip is looked up from the "mimeType.*" mapping configuration parameters using the
 	 * resource's file extension.

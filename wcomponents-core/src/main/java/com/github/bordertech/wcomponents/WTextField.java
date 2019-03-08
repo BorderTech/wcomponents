@@ -130,9 +130,7 @@ public class WTextField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	}
 
 	/**
-	 * <p>
 	 * Set the minimum number of characters that the user can enter into the text field.
-	 * </p>
 	 * <p>
 	 * Setting the minimum number of characters will not make a field mandatory as the validation is only applied once
 	 * the user has entered some text. Use {@link #setMandatory(boolean)} to make a field mandatory, which can be used

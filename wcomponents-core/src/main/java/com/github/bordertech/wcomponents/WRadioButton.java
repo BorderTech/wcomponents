@@ -3,9 +3,7 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.util.Util;
 
 /**
- * <p>
  * A WRadioButton is a wcomponent used to display a radio button and must be used with a {@link RadioButtonGroup}.
- * </p>
  * <p>
  * A WRadioButton instance can only be created by using the {@link RadioButtonGroup#addRadioButton(Object)
  * addRadioButton(value)} method or {@link RadioButtonGroup#addRadioButton() addRadioButton()} method. Call one of these

@@ -1,9 +1,8 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * <p>
  * The BeanProvider interface can be implemented by applications to dynamically supply BeanProviderBound WComponents
- * with the bean data they require, whenever they request it.</p>
+ * with the bean data they require, whenever they request it.
  *
  * <p>
  * The bean itself may be retrieved from any source, but using a caching DMS or the application cache is strongly

@@ -128,10 +128,8 @@ public final class ThemeUtil {
 	}
 
 	/**
-	 * <p>
 	 * Retrieves the complete path to the theme's XSLT. This method takes the current theme and user's locale into
 	 * account.
-	 * </p>
 	 * <p>
 	 * Note: The XSLT is the single integration point to the client-side rendering.
 	 * </p>

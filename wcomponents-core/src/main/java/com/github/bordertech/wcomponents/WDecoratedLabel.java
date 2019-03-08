@@ -4,10 +4,9 @@ import java.io.Serializable;
 import java.text.MessageFormat;
 
 /**
- * <p>
  * WDecorated is a "decorated label" which is typically displayed inside other components, for example
  * {@link com.github.bordertech.wcomponents.WTab}. The decorated label allows developers to mix text with other content,
- * e.g. images.</p>
+ * e.g. images.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

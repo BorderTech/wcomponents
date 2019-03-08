@@ -25,12 +25,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * <p>
  * The WMultiFileWidget component allows multiple file input elements to be uploaded, without requiring an entire page
  * reload for each item. After a file is uploaded to the server the client displays the file information with a checkbox
  * adjacent to it. The file information is a link that pops up the file content. Use {@link #getFiles()} to retrieve all
  * files uploaded by the client, use {@link #getSelectedFiles()} to retrieve only the selected file items. 
- * </p>
  * <p>
  * If one or more file types is set {@link #setFileTypes(java.util.Collection)}, then each uploaded file will be validated
  * against the accepted list. If accepted list contains any extension(s) then uploaded files will be first checked against 

@@ -97,10 +97,9 @@ public class ComponentModel implements WebModel, Externalizable {
 	public static final int HIDE_FLAG = 1 << 7;
 
 	/**
-	 * <p>
 	 * The bit-mask for the flag that indicates whether that user data has been set. This is necessary, as some
 	 * components do not contain enough values to determine this automatically. For example, WCheckBox only has two
-	 * states (on/off), and could already contain two different "default" values from the shared model and a bean.</p>
+	 * states (on/off), and could already contain two different "default" values from the shared model and a bean.
 	 *
 	 * <p>
 	 * <b>Note:</b> This bit mask must never be set on a component's shared model.</p>
@@ -683,9 +682,8 @@ public class ComponentModel implements WebModel, Externalizable {
 	}
 
 	/**
-	 * <p>
 	 * Implementation of the Externalizable interface to ensure that we don't serialize redundant data (anything
-	 * contained by the {@link #sharedModel}.</p>
+	 * contained by the {@link #sharedModel}.
 	 *
 	 * <p>
 	 * Data is obtained using reflection so that subclasses don't need concern themselves with the ComponentModel
@@ -722,9 +720,8 @@ public class ComponentModel implements WebModel, Externalizable {
 	}
 
 	/**
-	 * <p>
 	 * Implementation of the Externalizable interface to ensure that we don't serialize redundant data (anything
-	 * contained by the {@link #sharedModel}.</p>
+	 * contained by the {@link #sharedModel}.
 	 *
 	 * <p>
 	 * Data is obtained using reflection so that subclasses don't need concern themselves with the ComponentModel
@@ -820,7 +817,7 @@ public class ComponentModel implements WebModel, Externalizable {
 
 		/**
 		 * Compares two objects for order. Returns a negative integer, zero, or a positive integer as the first object
-		 * is less than, equal to, or greater than the second.<p>
+		 * is less than, equal to, or greater than the second.
 		 *
 		 * @param field1 the first field to compare.
 		 * @param field2 the second field to compare.

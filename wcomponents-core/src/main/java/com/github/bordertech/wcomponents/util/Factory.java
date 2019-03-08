@@ -4,9 +4,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * <p>
  * Provides a generic mechanism for obtaining objects which implement a requested interface. A new object will be
- * created each time the newImplementation method is called.</p>
+ * created each time the newImplementation method is called.
  *
  * <p>
  * The runtime {@link Config} class is used to look up the implementing class, based on the requested interface's

@@ -17,9 +17,7 @@ public class WAbbrText extends WText {
 	private static final LookupTable TABLE = Factory.newInstance(LookupTable.class);
 
 	/**
-	 * <p>
 	 * Creates an empty WAbbrText.
-	 * </p>
 	 * <p>
 	 * An instance of WAbbrText created in this manner must have abbreviated display text and a toolTip (the full text
 	 * represented by the abbreviation) set to be useful.
@@ -29,9 +27,7 @@ public class WAbbrText extends WText {
 	}
 
 	/**
-	 * <p>
 	 * Creates a WAbbrText with the specified abbreviated display text.
-	 * </p>
 	 * <p>
 	 * An instance of WAbbrText created in this manner must have a toolTip (the full text represented by the
 	 * abbreviation) set to be useful.

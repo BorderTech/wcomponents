@@ -84,8 +84,7 @@ public abstract class ValidatingAction implements Action {
 	public abstract void executeOnValid(final ActionEvent event);
 
 	/**
-	 * <p>
-	 * This method is called if errors are found from validation.</p>
+	 * This method is called if errors are found from validation.
 	 *
 	 * <p>
 	 * This method can be overriden, but don't forget to call super.executeOnError if you still want to see error

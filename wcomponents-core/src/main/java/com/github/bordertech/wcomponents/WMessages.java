@@ -7,10 +7,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * <p>
  * WMessages provides a convenient wrapper for the WMessageBox and WValidationErrors components, and lets the developer
  * use a "singleton" WMessages instance per application.
- * </p>
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin

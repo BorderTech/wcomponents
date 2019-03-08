@@ -3,10 +3,9 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.layout.UIManager;
 
 /**
- * <p>
  * The RenderContext is used to render a component. It is passed into the {@link WComponent#paint(RenderContext)} method
  * as an argument and also the specific {@link Renderer} instance used to render the component. Components themselves
- * must not rely on knowledge of the context.</p>
+ * must not rely on knowledge of the context.
  *
  * <p>
  * The appropriate {@link Renderer} for each component is obtained from the {@link UIManager}, which calls the

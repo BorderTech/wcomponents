@@ -22,8 +22,7 @@ final class WContentRenderer extends AbstractWebXmlRenderer {
 	private static final Log LOG = LogFactory.getLog(WContentRenderer.class);
 
 	/**
-	 * <p>
-	 * Paints the given WContent.</p>
+	 * Paints the given WContent.
 	 *
 	 * <p>
 	 * This paint method outputs a popup that opens browser window in which the content document will be displayed. The

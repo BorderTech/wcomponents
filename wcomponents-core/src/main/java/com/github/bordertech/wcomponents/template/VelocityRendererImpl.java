@@ -100,9 +100,8 @@ public class VelocityRendererImpl implements TemplateRenderer {
 	}
 
 	/**
-	 * <p>
 	 * Returns the VelocityEngine associated with this factory. If this is the first time we are using the engine,
-	 * create it and initialise it.</p>
+	 * create it and initialise it.
 	 *
 	 * <p>
 	 * Note that velocity engines are hugely resource intensive, so we don't want too many of them. For the time being

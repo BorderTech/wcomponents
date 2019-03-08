@@ -12,8 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * <p>
- * This UIRegistry implementation differs from the UIRegistryClassLoaderImpl in two ways.</p>
+ * This UIRegistry implementation differs from the UIRegistryClassLoaderImpl in two ways.
  *
  * <p>
  * 1. If the top level WComponent cannot be loaded, then an ErrorPage WComponent will be returned by

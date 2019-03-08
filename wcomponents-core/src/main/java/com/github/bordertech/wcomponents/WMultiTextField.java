@@ -12,11 +12,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * <p>
  * The WMultiTextField component allows multiple text input elements to be generated dynamically on the client without
  * requiring the page to be reloaded. This component takes its appearance and attributes from a regular text input but
  * allows for one or more items of text to be entered via the add link adjacent to the right of the text input.
- * </p>
  * <p>
  * This component is useful in instances where the user needs to enter one or more text items into the interfaces for a
  * particular field. For instance, the user may have one or more aliases that need to be entered into the system.

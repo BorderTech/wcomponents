@@ -107,9 +107,8 @@ public interface Request {
 	boolean containsSameData(Request other);
 
 	/**
-	 * <p>
 	 * Returns the value of the named attribute as an <code>Object</code>, or <code>null</code> if no attribute of the
-	 * given name exists.</p>
+	 * given name exists.
 	 *
 	 * <p>
 	 * Attributes can be set two ways. The container may set attributes to make available custom information about a

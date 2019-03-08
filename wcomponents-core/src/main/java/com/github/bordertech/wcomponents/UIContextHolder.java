@@ -11,8 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * <p>
- * This class holds the current (active) UIContext.</p>
+ * This class holds the current (active) UIContext.
  *
  * <p>
  * WComponents store user (session) component models within the UIContext, and the UIContextHolder provides a central

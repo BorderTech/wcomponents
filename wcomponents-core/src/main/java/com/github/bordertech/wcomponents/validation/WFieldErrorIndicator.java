@@ -4,10 +4,9 @@ import com.github.bordertech.wcomponents.WComponent;
 import java.util.List;
 
 /**
- * <p>
  * This component is used to render errors relating to an individual field. Generally, this is placed next to the input
  * field to help highlight the individual fields that are in error. An instance of the indicator is automatically
- * provided when adding a field to a WFieldLayout.</p>
+ * provided when adding a field to a WFieldLayout.
  *
  * @author Adam Millard
  */

@@ -18,10 +18,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * <p>
  * The WTable component is used to display tabular data. It supports common functions such as sorting and pagination of
  * data.
- * </p>
  * <p>
  * The WTable component is only concerned with how the UI functions, not the data behind the table. In a MVC sense, the
  * WTable is the Controller, the view is comprised of the WTable layout and column renderers, and the {@link TableModel}
@@ -825,10 +823,8 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	}
 
 	/**
-	 * <p>
 	 * For tables that are editable, extra details about each row must be stored to allow them to be updated. Therefore,
 	 * if the table is not editable, the table is able to have improved performance.
-	 * </p>
 	 *
 	 * @return true if table is editable
 	 */
@@ -2185,10 +2181,8 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	}
 
 	/**
-	 * <p>
 	 * TableModel provides the data for tables. In a MVC sense, the TableModel is the Model, the {@link WTable} is the
 	 * controller and the view is comprised of the WTable layout and column renderers.
-	 * </p>
 	 * <p>
 	 * Note that Data may be stored locally or sourced remotely, depending on the particular TableModel implementation.
 	 * </p>
@@ -2242,9 +2236,7 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 		boolean isSortable(int col);
 
 		/**
-		 * <p>
 		 * Sorts the data by the given column. Any previous sorting should be disregarded.
-		 * </p>
 		 * <p>
 		 * Data models must implement sorting in one of two ways.
 		 * </p>

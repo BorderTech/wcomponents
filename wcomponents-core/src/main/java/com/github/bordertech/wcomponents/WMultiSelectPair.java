@@ -5,10 +5,9 @@ import com.github.bordertech.wcomponents.util.InternalMessages;
 import java.util.List;
 
 /**
- * <p>
  * This component is functionally the same as {@link WMultiSelect} but it looks different. It has a list of options in a
  * box on the left, and a box on the right containing the selected options. Add and Remove buttons enable users to
- * select from the list of options.</p>
+ * select from the list of options.
  *
  * @author Ming Gao
  */

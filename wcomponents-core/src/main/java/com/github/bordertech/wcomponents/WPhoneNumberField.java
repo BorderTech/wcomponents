@@ -12,10 +12,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * <p>
  * A WPhoneNumberField is a wcomponent used to display a telephone number field. Use the method "getText" to get the
  * text entered into the field by the user.
- * </p>
  * <p>
  * A telephone number field differs from a text field in the way in which some user agents interact with it. For
  * example, touchscreen devices may display a numeric data entry pad rather than an alphanumeric keyboard.

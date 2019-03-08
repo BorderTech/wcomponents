@@ -6,11 +6,9 @@ import java.text.MessageFormat;
 import java.util.List;
 
 /**
- * <p>
  * WDialog is used to display pop-up content. It uses theme and skin features which keep the dialog associated with its
  * parent window. Using a {@link #MODAL} dialog eliminates much of the workflow complication involved when using the
  * {@link WWindow} component.
- * </p>
  * <p>
  * The content of the dialog is held in a {@link WNamingContext} with an id of "dlg" to make the ids of the content
  * unique and have the same id prefix.

@@ -5,11 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * <p>
  * WRadioButtonSelect is a convenience class which presents a group of radio buttons for the user to select one option
  * from. Unlike {@link WRadioButton}, an explicit {@link RadioButtonGroup} and individual labels for the radio buttons
  * do not need to be provided. The visual arrangement of the radio buttons can be configured using the
- * {@link #setButtonLayout(Layout)} method.</p>
+ * {@link #setButtonLayout(Layout)} method.
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin

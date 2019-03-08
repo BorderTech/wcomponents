@@ -724,9 +724,7 @@ public class WTree extends AbstractInput
 	}
 
 	/**
-	 * <p>
 	 * Indicates whether this tree was present in the request.
-	 * </p>
 	 *
 	 * @param request the request being responded to.
 	 * @return true if this tree was present in the request, false if not.

@@ -3,10 +3,8 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.util.InternalMessages;
 
 /**
- * <p>
  * This component is a specialised version of a {@link WButton} that provides additional client-side functionality
  * commonly associated with a "cancel" button.
- * </p>
  * <p>
  * Themes will typically display a confirmation prompt if there any "unsaved changes" when the button is clicked. The
  * following are considered as unsaved changes:

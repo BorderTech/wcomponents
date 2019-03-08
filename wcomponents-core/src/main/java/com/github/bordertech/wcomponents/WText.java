@@ -6,9 +6,7 @@ import java.io.Serializable;
 import java.text.MessageFormat;
 
 /**
- * <p>
  * WText is used to render some basic/raw text.
- * </p>
  *
  * @author Adam Millard
  * @since 1.0.0
@@ -62,8 +60,7 @@ public class WText extends WBeanComponent {
 	}
 
 	/**
-	 * <p>
-	 * Sets the text.</p>
+	 * Sets the text.
 	 *
 	 * <p>
 	 * NOTE: If the text is dynamically generated, it may be preferable to override {@link #getText()} instead. This
@@ -97,8 +94,7 @@ public class WText extends WBeanComponent {
 	}
 
 	/**
-	 * <p>
-	 * Sets whether the text needs to be encoded.</p>
+	 * Sets whether the text needs to be encoded.
 	 *
 	 * <p>
 	 * When setting <code>encodeText</code> to <code>false</code>, it then becomes the responsibility of the application

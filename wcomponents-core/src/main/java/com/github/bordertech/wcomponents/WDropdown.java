@@ -19,11 +19,10 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * <p>
  * The WDropdown component is used to let the user select a single option from a drop-down list. The list of options
  * that can be selected are supplied at construction time as a parameter in the constructor or via the
  * {@link #setOptions(List)} method. The list of options are java objects that are rendered using their toString() by
- * default.</p>
+ * default.
  *
  * <p>
  * Use the {@link #getSelected() getSelected} method to determine which of the list of options was chosen by the user.

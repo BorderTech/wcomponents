@@ -12,10 +12,8 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * <p>
  * A WNumberField is a wcomponent used to display a numeric input field. Use the method "{@link #getValue()}" to get the
  * number entered into the field by the user.
- * </p>
  * <p>
  * Additional methods are available to return the value entered as an integer or decimal value, and there are methods
  * which can be used to restrict the range of values which are allowed to be entered.
@@ -415,10 +413,8 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	}
 
 	/**
-	 * <p>
 	 * Performs validation of the number. Validation ensures that the entered text is a valid number, and is between the
 	 * minimum/maximum values (if applicable).
-	 * </p>
 	 * <p>
 	 * Subclasses can override this method to perform more specific validation.
 	 * </p>

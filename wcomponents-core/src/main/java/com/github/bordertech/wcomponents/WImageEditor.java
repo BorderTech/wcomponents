@@ -4,12 +4,10 @@ import java.awt.Dimension;
 import java.util.Objects;
 
 /**
- * <p>
  * EXPERIMENTAL API WARNING - this API is under development and is likely to change.
  *
  * The WImageEditor component provides a means for allowing the user to edit images and submit the result.
  * The edited image may be pre-existing and provided as a WImage or newly acquired (upload or camera).
- * </p>
  *
  * @author Rick Brown
  * @since 1.0.3

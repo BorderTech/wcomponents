@@ -3,9 +3,7 @@ package com.github.bordertech.wcomponents;
 import java.util.List;
 
 /**
- * <p>
  * The interface for WComponents which can contain child WComponents.
- * </p>
  * <p>
  * A basic Container is often used to group related components together. Grouping components together is good for
  * readability of the code and it is also how you create reusable chunks of UI.

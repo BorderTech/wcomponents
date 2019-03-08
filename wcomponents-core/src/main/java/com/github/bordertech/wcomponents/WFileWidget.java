@@ -14,11 +14,9 @@ import java.util.List;
 import org.apache.commons.fileupload.FileItem;
 
 /**
- * <p>
  * The WFileWidget represents a "File Chooser" form widget. The {@link #getBytes() "bytes"} property is updated with the
  * binary data from the uploaded file. If the user submits a form with no file chosen, the bytes array will be set to
  * null.
- * </p>
  * <p>
  * The current implementation creates a {@link FileItem} which will be written temporarily to disk if the size of the
  * file reaches a threshold. A reaper thread is started to clean up those temp files no longer being used. When using

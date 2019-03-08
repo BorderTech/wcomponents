@@ -1,8 +1,7 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * <p>
- * This interface is used to mark components which can be targeted by a Subordinate control.</p>
+ * This interface is used to mark components which can be targeted by a Subordinate control.
  *
  * <p>
  * <b>NOTE:</b> Components must not implement this interface unless they already support client-side Subordinate

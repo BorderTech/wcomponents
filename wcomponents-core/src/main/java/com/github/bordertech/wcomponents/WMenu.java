@@ -5,9 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * <p>
  * This component enables rendering of a menuing system for an application. A menu bar consists of a collection of
- * either "Menu Items" (see {@link WMenuItem} or "Sub Menus" (see {@link WSubMenu}).</p>
+ * either "Menu Items" (see {@link WMenuItem} or "Sub Menus" (see {@link WSubMenu}).
  *
  * @author Adam Millard
  * @author Yiannis Paschalidis

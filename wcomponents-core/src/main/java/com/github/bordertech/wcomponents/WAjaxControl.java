@@ -7,11 +7,9 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * <p>
  * The WAjaxControl links an AJAX trigger component with one or more AJAX target components. Creating an AJAX trigger
  * will result in an AJAX request being made on the 'onChange' event of the trigger element. The implication of this is
  * that an AJAX trigger component <em>should</em> have an Action attached (usually via setActionOnChanged).
- * </p>
  * <p>
  * During an AJAX request the whole UI tree is serviced in the action phase but only the 'target' components of this
  * control will be painted in the response.
@@ -168,9 +166,7 @@ public class WAjaxControl extends AbstractWComponent {
 	}
 
 	/**
-	 * <p>
 	 * Get the target WComponents that will be repainted as a consequence of the AJAX request.
-	 * </p>
 	 * <p>
 	 * When the AJAX request is triggered only the target component(s) will be re-painted. An empty list is returned if
 	 * no targets have been defined.
@@ -189,9 +185,7 @@ public class WAjaxControl extends AbstractWComponent {
 	}
 
 	/**
-	 * <p>
 	 * Get the target WComponents as an array.
-	 * </p>
 	 * <p>
 	 * When the AJAX request is triggered only the target component(s) will be re-painted. If no targets have been
 	 * registered then an empty array is returned.
@@ -216,11 +210,9 @@ public class WAjaxControl extends AbstractWComponent {
 	}
 
 	/**
-	 * <p>
 	 * Set a delay period, in milliseconds, between the WAjaxControl being rendered in the view and it being
 	 * <em>automatically</em> triggered. A WAjaxControl with a delay &gt; 0 will result in a request being made without
 	 * a change to any {@link AjaxTrigger} component.
-	 * </p>
 	 * <p>
 	 * The use of a delay may be useful for setting up a trigger which polls for changes in a part of a UI. See
 	 * {@link com.github.bordertech.wcomponents.WAjaxPollingRegion}.

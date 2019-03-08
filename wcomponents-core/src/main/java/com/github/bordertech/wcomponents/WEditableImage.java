@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * <p>
  * The WEditableImage component provides a way for the user to edit and upload modifications to an image.
  * Uploads are sent to the server by means of the associated file upload widget.
  *

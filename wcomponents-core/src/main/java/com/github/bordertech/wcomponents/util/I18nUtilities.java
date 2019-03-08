@@ -64,8 +64,7 @@ public final class I18nUtilities {
 	}
 
 	/**
-	 * <p>
-	 * Attempts to format the given message for the given locale.</p>
+	 * Attempts to format the given message for the given locale.
 	 *
 	 * <p>
 	 * If a locale is provided, this method will attempt to load the text from a resource bundle. If

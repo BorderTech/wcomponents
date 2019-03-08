@@ -6,9 +6,8 @@ import java.io.Serializable;
 import java.text.MessageFormat;
 
 /**
- * <p>
  * WContentLink is a convenience class to configure a {@link WLink} to display content, such as a pdf, that is rendered
- * by {@link WContent}. By default, the content is displayed in a new window.</p>
+ * by {@link WContent}. By default, the content is displayed in a new window.
  *
  * <p>
  * Be warned that this link does not post the entire form, as the client will opens the content directly via a "get"
