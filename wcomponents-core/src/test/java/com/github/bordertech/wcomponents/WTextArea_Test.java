@@ -17,6 +17,82 @@ import org.junit.Test;
 public class WTextArea_Test extends AbstractWComponentTestCase {
 
 	@Test
+	public void testCarriageReturn() {
+		WTextArea textArea = new WTextArea();
+		textArea.setText("\r");
+		Assert.assertNull("Value for CR by itself should return null", textArea.getText());
+		Assert.assertEquals("Data for CR by itself should be the CR", "\r", textArea.getData());
+		Assert.assertTrue("CR by itself should be treated as empty", textArea.isEmpty());
+	}
+
+	@Test
+	public void testCarriageReturnWithText() {
+		WTextArea textArea = new WTextArea();
+		textArea.setText("A\r");
+		Assert.assertEquals("Value for CR with text should have text and CR", "A\r", textArea.getText());
+		Assert.assertEquals("Data for CR with text should be the text and CR", "A\r", textArea.getData());
+		Assert.assertFalse("CR with text should not be empty", textArea.isEmpty());
+	}
+
+	@Test
+	public void testCarriageReturnRich() {
+		WTextArea textArea = new WTextArea();
+		textArea.setRichTextArea(true);
+		textArea.setText("\r");
+		Assert.assertNull("Value for CR by itself with RichText should return null", textArea.getText());
+		Assert.assertEquals("Data for CR by itself with RichText should be the CR", "\r", textArea.getData());
+		Assert.assertTrue("CR by itself with RichText should be treated as empty", textArea.isEmpty());
+	}
+
+	@Test
+	public void testCarriageReturnWithTextRich() {
+		WTextArea textArea = new WTextArea();
+		textArea.setRichTextArea(true);
+		textArea.setText("A\r");
+		Assert.assertEquals("Value for CR with text should have text and CR replaced", "A ", textArea.getText());
+		Assert.assertEquals("Data for CR with text should be the text and CR replaced", "A ", textArea.getData());
+		Assert.assertFalse("CR with text should not be empty", textArea.isEmpty());
+	}
+
+	@Test
+	public void testLineFeed() {
+		WTextArea textArea = new WTextArea();
+		textArea.setText("\n");
+		Assert.assertNull("Value for LF by itself should return null", textArea.getText());
+		Assert.assertEquals("Data for LF by itself should be the LF", "\n", textArea.getData());
+		Assert.assertTrue("LF by itself should be treated as empty", textArea.isEmpty());
+	}
+
+	@Test
+	public void testLineFeedWithText() {
+		WTextArea textArea = new WTextArea();
+		textArea.setText("A\n");
+		Assert.assertEquals("Value for LF with text should have text and LF", "A\n", textArea.getText());
+		Assert.assertEquals("Data for LF with text should be the text and LF", "A\n", textArea.getData());
+		Assert.assertFalse("CR with text should not be empty", textArea.isEmpty());
+	}
+
+	@Test
+	public void testLineFeedRich() {
+		WTextArea textArea = new WTextArea();
+		textArea.setRichTextArea(true);
+		textArea.setText("\n");
+		Assert.assertNull("Value for LF by itself with RichText should return null", textArea.getText());
+		Assert.assertEquals("Data for LF by itself with RichText should the LF", "\n", textArea.getData());
+		Assert.assertTrue("LF by itself with RichText should be treated as empty", textArea.isEmpty());
+	}
+
+	@Test
+	public void testLineFeedWithTextRich() {
+		WTextArea textArea = new WTextArea();
+		textArea.setRichTextArea(true);
+		textArea.setText("A\n");
+		Assert.assertEquals("Value for LF with text should have text and LF replaced", "A ", textArea.getText());
+		Assert.assertEquals("Data for LF with text should be the text and LF replaced", "A ", textArea.getData());
+		Assert.assertFalse("LF with text should not be empty", textArea.isEmpty());
+	}
+
+	@Test
 	public void testRowsAccessors() {
 		assertAccessorsCorrect(new WTextArea(), "rows", 0, 1, 2);
 	}
