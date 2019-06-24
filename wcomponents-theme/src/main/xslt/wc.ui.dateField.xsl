@@ -3,7 +3,7 @@
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0"
 	exclude-result-prefixes="xsl ui html">
-	<xsl:template match="ui:datefield[@readOnly and @allowPartial]">
+	<xsl:template match="ui:datefield[@readOnly and @allowPartial='true']">
 		<span id="{@id}" class="{normalize-space(concat('wc-datefield ', @class))}" data-wc-component="datefield">
 			<xsl:if test="@hidden">
 				<xsl:attribute name="hidden">
@@ -145,24 +145,18 @@
 				</xsl:if>
 			</xsl:element>
 			<xsl:apply-templates select="ui:fieldindicator"/>
+			<xsl:call-template name="partialSwitcher"/>
 		</div>
 	</xsl:template>
-
-
-
-
-
-
 
 	<!--
 		##############################################################################################################
 		##############################################################################################################
-		ui:datefield[@allowPartial and not(@readOnly)]
-		WPartialDateField: to be re-thought
+		ui:datefield[@allowPartial='true' and not(@readOnly)]
 		##############################################################################################################
 		##############################################################################################################
 	-->
-	<xsl:template match="ui:datefield[@allowPartial and not(@readOnly)]">
+	<xsl:template match="ui:datefield[@allowPartial='true' and not(@readOnly)]">
 		<div id="{@id}" class="{normalize-space(concat('wc-datefield wc_datefield_partial wc-input-wrapper ', @class))}" role="combobox" aria-autocomplete="list" aria-expanded="false">
 			<xsl:if test="@disabled">
 				<xsl:attribute name="aria-disabled">
@@ -262,11 +256,28 @@
 			</button>
 			<span aria-busy="true" role="listbox"/>
 			<xsl:apply-templates select="ui:fieldindicator"/>
+			<xsl:call-template name="partialSwitcher"/>
 		</div>
 	</xsl:template>
 
-
-
-
+	<xsl:template name="partialSwitcher">
+		<xsl:if test="@allowPartial">
+			<!-- The mere existence of @allowpartial indicates that we are dealing with a partial date field -->
+			<div>
+				<label>I'm not sure <!-- TODO i18n -->
+					<xsl:element name="input">
+						<xsl:attribute name="name">
+							<xsl:value-of select="concat(@id, '-partial')"/>
+						</xsl:attribute>
+						<xsl:attribute name="type">checkbox</xsl:attribute>
+						<xsl:attribute name="value">true</xsl:attribute>
+						<xsl:if test="@allowPartial='true'">
+							<xsl:attribute name="checked">checked</xsl:attribute>
+						</xsl:if>
+					</xsl:element>
+				</label>
+			</div>
+		</xsl:if>
+	</xsl:template>
 
 </xsl:stylesheet>

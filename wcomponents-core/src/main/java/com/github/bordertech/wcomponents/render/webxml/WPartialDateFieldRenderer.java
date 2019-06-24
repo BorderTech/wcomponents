@@ -37,7 +37,8 @@ final class WPartialDateFieldRenderer extends AbstractWebXmlRenderer {
 		if (readOnly) {
 			xml.appendAttribute("readOnly", "true");
 		} else {
-			xml.appendAttribute("allowPartial", "true");
+			xml.appendAttribute("allowPartial", dateField.isPartialRequested());
+			xml.appendAttribute("partialRequested", dateField.isPartialRequested());
 			xml.appendOptionalAttribute("disabled", dateField.isDisabled(), "true");
 			xml.appendOptionalAttribute("required", dateField.isMandatory(), "true");
 			xml.appendOptionalAttribute("toolTip", dateField.getToolTip());
