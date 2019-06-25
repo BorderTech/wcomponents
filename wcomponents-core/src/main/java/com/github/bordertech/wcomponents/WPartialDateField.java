@@ -334,7 +334,7 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 			changed = !Util.equals(dateValue, currentDate);
 		}
 
-		String newPartialRequested = request.getParameter(getId() + "-partial");
+		String newPartialRequested = request.getParameter(getId() + "_partial");
 		if (newPartialRequested == null) {
 			newPartialRequested = "false";
 		}
@@ -788,17 +788,6 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 
 			buf.append(num);
 		}
-	}
-
-	/**
-	 * Override preparePaintComponent in order to register partial date mode switch.
-	 *
-	 * @param request the request being responded to
-	 */
-	@Override
-	protected void preparePaintComponent(final Request request) {
-		super.preparePaintComponent(request);
-		AjaxHelper.registerContainer(getId(), getId(), getId());
 	}
 
 	// --------------------------------

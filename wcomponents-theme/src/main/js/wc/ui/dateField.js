@@ -20,9 +20,10 @@ define(["wc/has",
 	"wc/ui/ajax/processResponse",
 	"wc/ui/onchangeSubmit",
 	"wc/ui/feedback",
-	"wc/ui/listboxAnalog"],
+	"wc/ui/listboxAnalog",
+	"wc/render/dateField"],
 	function(has, unique, Parser, interchange, Format, attribute, cancelUpdate, event, focus, formUpdateManager, initialise, shed, tag, Widget, i18n,
-		timers, key, textContent, ajaxRegion, processResponse, onchangeSubmit, feedback, listboxAnalog) {
+		timers, key, textContent, ajaxRegion, processResponse, onchangeSubmit, feedback, listboxAnalog, renderer) {
 		"use strict";
 		var instance;
 
@@ -541,7 +542,10 @@ define(["wc/has",
 			 */
 			function setUpDateFields(container) {
 				var _container = container || document.body,
-					fields;
+					fields, customEls;
+
+				customEls = document.querySelectorAll("wc-dateinput");
+				Array.prototype.forEach.call(customEls, renderer.render);
 
 				if (container && DATE_WRAPPER_INCL_RO.isOneOfMe(container)) {
 					fields = [container];
@@ -557,38 +561,9 @@ define(["wc/has",
 					} else { // proper date inputs
 						next.removeAttribute(FAKE_VALUE_ATTRIB);
 					}
-					initPartialSwitcher(next);
 				});
 
 				cancelUpdate.resetAllFormState();
-			}
-
-			function initPartialSwitcher(dateField) {
-				var switcher,
-					id = dateField.id,
-					switcherId = id + "-partial",
-					allowPartial = dateField.getAttribute("data-wc-partial");
-				if (allowPartial !== null) {
-					/*
-					 * The mere existence of @allowPartial indicates that we are dealing with a partial date field.
-					 * The value is irrelevant, it really has three meaningful states:
-					 * "true" - allow partial dates and user requested partial
-					 * "false" - allow partial dates but user has not requested partial
-					 * null - does not allow partial dates
-					 */
-					switcher = dateField.appendChild(document.createElement("div"));
-					switcher = switcher.appendChild(document.createElement("input"));
-					switcher.name = switcherId;
-					switcher.type = "checkbox";
-					switcher.checked = (allowPartial === "true");
-					switcher.value = "true";
-					ajaxRegion.register({
-						id: switcherId,
-						loads: [id],
-						alias: id,
-						formRegion: id
-					});
-				}
 			}
 
 			/**

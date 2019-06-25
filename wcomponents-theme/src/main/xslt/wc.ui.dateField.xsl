@@ -43,114 +43,11 @@
 		</time>
 	</xsl:template>
 
-	<xsl:template match="ui:datefield">
-		<div id="{@id}" class="{normalize-space(concat('wc-datefield wc-input-wrapper ', @class))}">
-			<xsl:if test="@disabled">
-				<xsl:attribute name="aria-disabled">
-					<xsl:text>true</xsl:text>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:if test="@hidden">
-				<xsl:attribute name="hidden">
-					<xsl:text>hidden</xsl:text>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:if test="@allowPartial">
-				<xsl:attribute name="data-wc-partial">
-					<xsl:value-of select="@allowPartial"/>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:element name="input">
-				<xsl:attribute name="id">
-					<xsl:value-of select="concat(@id, '_input')"/>
-				</xsl:attribute>
-				<xsl:attribute name="name">
-					<xsl:value-of select="@id"/>
-				</xsl:attribute>
-				<xsl:attribute name="type">
-					<xsl:text>date</xsl:text>
-				</xsl:attribute>
-				<xsl:if test="@toolTip">
-					<xsl:attribute name="title">
-						<xsl:value-of select="@toolTip"/>
-					</xsl:attribute>
-				</xsl:if>
-				<xsl:if test="@required">
-					<xsl:attribute name="required">
-						<xsl:text>required</xsl:text>
-					</xsl:attribute>
-				</xsl:if>
-				<xsl:if test="@disabled">
-					<xsl:attribute name="disabled">
-						<xsl:text>disabled</xsl:text>
-					</xsl:attribute>
-				</xsl:if>
-				<xsl:if test="@accessibleText">
-					<xsl:attribute name="aria-label">
-						<xsl:value-of select="@accessibleText"/>
-					</xsl:attribute>
-				</xsl:if>
-				<xsl:if test="@buttonId">
-					<xsl:attribute name="data-wc-submit">
-						<xsl:value-of select="@buttonId"/>
-					</xsl:attribute>
-				</xsl:if>
-				<xsl:if test="ui:fieldindicator">
-					<xsl:if test="ui:fieldindicator[@id]">
-						<xsl:attribute name="aria-describedby">
-							<xsl:value-of select="ui:fieldindicator/@id" />
-						</xsl:attribute>
-					</xsl:if>
-					<xsl:if test="ui:fieldindicator[@type='error']">
-						<xsl:attribute name="aria-invalid">
-							<xsl:text>true</xsl:text>
-						</xsl:attribute>
-					</xsl:if>
-				</xsl:if>
-				<xsl:if test="@submitOnChange">
-					<xsl:attribute name="class">
-						<xsl:text>wc_soc</xsl:text>
-					</xsl:attribute>
-				</xsl:if>
-				<xsl:attribute name="value">
-					<xsl:choose>
-						<xsl:when test="@date">
-							<xsl:value-of select="@date"/>
-						</xsl:when>
-						<!-- QC157989 Keep bad value because of very bad reasons even though it won't work in browsers. -->
-						<xsl:otherwise>
-							<xsl:value-of select="text()"/>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:attribute>
-				<xsl:if test="@min">
-					<xsl:attribute name="min">
-						<xsl:value-of select="@min"/>
-					</xsl:attribute>
-				</xsl:if>
-				<xsl:if test="@max">
-					<xsl:attribute name="max">
-						<xsl:value-of select="@max"/>
-					</xsl:attribute>
-				</xsl:if>
-				<xsl:if test="@autocomplete">
-					<xsl:attribute name="autocomplete">
-						<xsl:value-of select="@autocomplete"/>
-					</xsl:attribute>
-				</xsl:if>
-				<xsl:if test="not(@date) and normalize-space(.) ne ''">
-					<xsl:attribute name="aria-invalid">
-						<xsl:text>true</xsl:text>
-					</xsl:attribute>
-				</xsl:if>
-				<xsl:if test="@placeholder">
-					<xsl:attribute name="placeholder">
-						<xsl:value-of select="@placeholder"/>
-					</xsl:attribute>
-				</xsl:if>
-			</xsl:element>
-			<xsl:apply-templates select="ui:fieldindicator"/>
-		</div>
+
+	<xsl:template match="ui:datefield/@*">
+		<xsl:attribute name="data-wc-{lower-case(name())}">
+			<xsl:value-of select="."/>
+		</xsl:attribute>
 	</xsl:template>
 
 	<!--
@@ -160,8 +57,8 @@
 		##############################################################################################################
 		##############################################################################################################
 	-->
-	<xsl:template match="ui:datefield[@allowPartial='true' and not(@readOnly)]">
-		<div id="{@id}" class="{normalize-space(concat('wc-datefield wc_datefield_partial wc-input-wrapper ', @class))}" role="combobox" aria-autocomplete="list" aria-expanded="false">
+	<xsl:template match="ui:datefield[not(@readOnly)]">
+		<div id="{@id}" class="{normalize-space(concat('wc-datefield wc-input-wrapper ', @class))}" role="combobox" aria-autocomplete="list" aria-expanded="false">
 			<xsl:if test="@disabled">
 				<xsl:attribute name="aria-disabled">
 					<xsl:text>true</xsl:text>
@@ -177,46 +74,8 @@
 					<xsl:value-of select="@date"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:if test="@allowPartial">
-				<xsl:attribute name="data-wc-partial">
-					<xsl:value-of select="@allowPartial"/>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:element name="input">
-				<xsl:attribute name="id">
-					<xsl:value-of select="concat(@id, '_input')"/>
-				</xsl:attribute>
-				<xsl:attribute name="type">
-					<xsl:text>text</xsl:text>
-				</xsl:attribute>
-				<xsl:attribute name="name">
-					<xsl:value-of select="@id"/>
-				</xsl:attribute>
-				<xsl:if test="@toolTip">
-					<xsl:attribute name="title">
-						<xsl:value-of select="@toolTip"/>
-					</xsl:attribute>
-				</xsl:if>
-				<xsl:if test="@required">
-					<xsl:attribute name="required">
-						<xsl:text>required</xsl:text>
-					</xsl:attribute>
-				</xsl:if>
-				<xsl:if test="@disabled">
-					<xsl:attribute name="disabled">
-						<xsl:text>disabled</xsl:text>
-					</xsl:attribute>
-				</xsl:if>
-				<xsl:if test="@accessibleText">
-					<xsl:attribute name="aria-label">
-						<xsl:value-of select="@accessibleText"/>
-					</xsl:attribute>
-				</xsl:if>
-				<xsl:if test="@buttonId">
-					<xsl:attribute name="data-wc-submit">
-						<xsl:value-of select="@buttonId"/>
-					</xsl:attribute>
-				</xsl:if>
+			<xsl:element name="wc-dateinput">
+				<xsl:apply-templates select="@*"/>
 				<xsl:if test="ui:fieldindicator">
 					<xsl:if test="ui:fieldindicator[@id]">
 						<xsl:attribute name="aria-describedby">
@@ -229,12 +88,7 @@
 						</xsl:attribute>
 					</xsl:if>
 				</xsl:if>
-				<xsl:if test="@submitOnChange">
-					<xsl:attribute name="class">
-						<xsl:text>wc_soc</xsl:text>
-					</xsl:attribute>
-				</xsl:if>
-				<xsl:attribute name="value">
+				<span class="wc_value">
 					<xsl:choose>
 						<xsl:when test="@date">
 							<xsl:value-of select="@date"/>
@@ -243,27 +97,8 @@
 							<xsl:value-of select="text()"/>
 						</xsl:otherwise>
 					</xsl:choose>
-				</xsl:attribute>
-				<!-- every input that implements combo should have autocomplete turned off -->
-				<xsl:attribute name="autocomplete">
-					<xsl:text>off</xsl:text>
-				</xsl:attribute>
-				<xsl:if test="@placeholder">
-					<xsl:attribute name="placeholder">
-						<xsl:value-of select="@placeholder"/>
-					</xsl:attribute>
-				</xsl:if>
+				</span>
 			</xsl:element>
-			<!-- This is the date picker launch control element. -->
-			<button aria-hidden="true" class="wc_wdf_cal wc-invite" tabindex="-1" type="button" value="{concat(@id,'_input')}">
-				<xsl:if test="@disabled">
-					<xsl:attribute name="disabled">
-						<xsl:text>disabled</xsl:text>
-					</xsl:attribute>
-				</xsl:if>
-				<i aria-hidden="true" class="fa fa-calendar"/>
-			</button>
-			<span aria-busy="true" role="listbox"/>
 			<xsl:apply-templates select="ui:fieldindicator"/>
 		</div>
 	</xsl:template>
