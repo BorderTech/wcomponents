@@ -55,6 +55,11 @@
 					<xsl:text>hidden</xsl:text>
 				</xsl:attribute>
 			</xsl:if>
+			<xsl:if test="@allowPartial">
+				<xsl:attribute name="data-wc-partial">
+					<xsl:value-of select="@allowPartial"/>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:element name="input">
 				<xsl:attribute name="id">
 					<xsl:value-of select="concat(@id, '_input')"/>
@@ -145,7 +150,6 @@
 				</xsl:if>
 			</xsl:element>
 			<xsl:apply-templates select="ui:fieldindicator"/>
-			<xsl:call-template name="partialSwitcher"/>
 		</div>
 	</xsl:template>
 
@@ -171,6 +175,11 @@
 			<xsl:if test="@date">
 				<xsl:attribute name="data-wc-value">
 					<xsl:value-of select="@date"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="@allowPartial">
+				<xsl:attribute name="data-wc-partial">
+					<xsl:value-of select="@allowPartial"/>
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:element name="input">
@@ -256,28 +265,7 @@
 			</button>
 			<span aria-busy="true" role="listbox"/>
 			<xsl:apply-templates select="ui:fieldindicator"/>
-			<xsl:call-template name="partialSwitcher"/>
 		</div>
-	</xsl:template>
-
-	<xsl:template name="partialSwitcher">
-		<xsl:if test="@allowPartial">
-			<!-- The mere existence of @allowpartial indicates that we are dealing with a partial date field -->
-			<div>
-				<label>I'm not sure <!-- TODO i18n -->
-					<xsl:element name="input">
-						<xsl:attribute name="name">
-							<xsl:value-of select="concat(@id, '-partial')"/>
-						</xsl:attribute>
-						<xsl:attribute name="type">checkbox</xsl:attribute>
-						<xsl:attribute name="value">true</xsl:attribute>
-						<xsl:if test="@allowPartial='true'">
-							<xsl:attribute name="checked">checked</xsl:attribute>
-						</xsl:if>
-					</xsl:element>
-				</label>
-			</div>
-		</xsl:if>
 	</xsl:template>
 
 </xsl:stylesheet>

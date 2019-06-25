@@ -790,6 +790,17 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 		}
 	}
 
+	/**
+	 * Override preparePaintComponent in order to register partial date mode switch.
+	 *
+	 * @param request the request being responded to
+	 */
+	@Override
+	protected void preparePaintComponent(final Request request) {
+		super.preparePaintComponent(request);
+		AjaxHelper.registerContainer(getId(), getId(), getId());
+	}
+
 	// --------------------------------
 	// Extrinsic state management
 	/**
