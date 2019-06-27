@@ -1,4 +1,6 @@
-define([], function() {
+define(["wc/dom/event"], function(eventManager) {
+
+	var EVENT_NAME_RE = /^on([A-Z][a-z]+)/;
 
 	/**
 	 * Takes the attributes from an Element and turns them into a key/value map for easy lookup.
@@ -51,6 +53,22 @@ define([], function() {
 		}
 	}
 
+	function wireEvents(element, elementConfig) {
+		var i, match, next, handler, configProps = Object.keys(elementConfig);
+		for (i = 0; i < configProps.length; i++) {
+			next = configProps[i];
+			if (next) {
+				handler = elementConfig[next];
+				match = next.match(EVENT_NAME_RE);
+				if (match && typeof handler === "function") {
+					match = match[1];
+					match = match.toLowerCase();
+					eventManager.add(element, match, handler);
+				}
+			}
+		}
+	}
+
 
 	/**
 	 * Creates a new Element.
@@ -63,10 +81,16 @@ define([], function() {
 		var element = document.createElement(name);
 		if (elementConfig) {
 			setAttributes(element, elementConfig.attrs);
+			wireEvents(element, elementConfig);
 		}
 		if (childNodes && childNodes.length) {
 			childNodes.forEach(function(next) {
-				element.appendChild(next);
+				if (next) {
+					if (next.constructor === String) {
+						next = document.createTextNode(next);
+					}
+					element.appendChild(next);
+				}
 			});
 		}
 		return element;

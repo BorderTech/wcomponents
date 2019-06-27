@@ -88,16 +88,14 @@
 						</xsl:attribute>
 					</xsl:if>
 				</xsl:if>
-				<span class="wc_value">
-					<xsl:choose>
-						<xsl:when test="@date">
-							<xsl:value-of select="@date"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:value-of select="text()"/>
-						</xsl:otherwise>
-					</xsl:choose>
-				</span>
+				<xsl:choose>
+					<xsl:when test="@date">
+						<xsl:value-of select="@date"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="text()"/>
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:element>
 			<xsl:apply-templates select="ui:fieldindicator"/>
 		</div>

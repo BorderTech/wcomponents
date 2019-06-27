@@ -11,7 +11,6 @@ define(["wc/has",
 	"wc/dom/initialise",
 	"wc/dom/shed",
 	"wc/dom/tag",
-	"wc/dom/Widget",
 	"wc/i18n/i18n",
 	"wc/timers",
 	"wc/key",
@@ -22,7 +21,7 @@ define(["wc/has",
 	"wc/ui/feedback",
 	"wc/ui/listboxAnalog",
 	"wc/render/dateField"],
-	function(has, unique, Parser, interchange, Format, attribute, cancelUpdate, event, focus, formUpdateManager, initialise, shed, tag, Widget, i18n,
+	function(has, unique, Parser, interchange, Format, attribute, cancelUpdate, event, focus, formUpdateManager, initialise, shed, tag, i18n,
 		timers, key, textContent, ajaxRegion, processResponse, onchangeSubmit, feedback, listboxAnalog, renderer) {
 		"use strict";
 		var instance;
@@ -33,31 +32,17 @@ define(["wc/has",
 		 * @private
 		 */
 		function DateInput() {
-			var parsers,  // this will store the Parser instances when first needed
+			var widgets = renderer.widgets,
+				parsers,  // this will store the Parser instances when first needed
 				formatter,
-				FIELD_CLASS = "wc-datefield",
 				hasNative = has("native-dateinput"),
 				BOOTSTRAPPED = "wc.ui.dateField_bootstrapped",
-				DATE_FIELD = new Widget("div", FIELD_CLASS),
-				DATE_WRAPPER_INCL_RO = new Widget("", FIELD_CLASS),
-				DATE_RO = new Widget("", "", {"data-wc-component": "datefield"}),
-				INPUT = new Widget("input"),
-				DATE = INPUT.extend("", {"type": "date"}),
-				DATE_PARTIAL = INPUT.extend("", {"type": "text"}),
-				SUGGESTION_LIST = new Widget("", "", {"role": "listbox"}),
-				OPTION_WD,
 				FAKE_VALUE_ATTRIB = "data-wc-value",
 				optionVal = {},
 				filterTimer,
-				LAUNCHER = new Widget("button", "wc_wdf_cal"),
 				startVal = {},
 				openDateCombo = "",  // {string} the id of the currently open date field (if any)
 				IETimeout = (has("ie") === 8) ? 50 : 0;  // IE cannot update itself fast enough to focus a newly opened list
-
-			INPUT.descendFrom(DATE_FIELD, true);
-			DATE.descendFrom(DATE_FIELD, true);
-			DATE_PARTIAL.descendFrom(DATE_FIELD, true);
-			SUGGESTION_LIST.descendFrom(DATE_FIELD, true);
 
 			/**
 			 * Get the SUGGESTION_LIST part of a dateField.
@@ -80,18 +65,18 @@ define(["wc/has",
 			 */
 			function getSuggestionList(element, force) {
 				var result, dateField;
-				if (force === -1 || (!force && DATE_FIELD.isOneOfMe(element))) {
-					result = SUGGESTION_LIST.findDescendant(element);
+				if (force === -1 || (!force && widgets.DATE_FIELD.isOneOfMe(element))) {
+					result = widgets.SUGGESTION_LIST.findDescendant(element);
 				} else if (force === 1) {
-					result = SUGGESTION_LIST.findAncestor(element);
+					result = widgets.SUGGESTION_LIST.findAncestor(element);
 				} else if ((dateField = instance.get(element))) {
-					result = SUGGESTION_LIST.findDescendant(dateField);
+					result = widgets.SUGGESTION_LIST.findDescendant(dateField);
 				}
 				return result;
 			}
 
 			function isPartial(dateField) {
-				return DATE_FIELD.isOneOfMe(dateField) && !DATE.findDescendant(dateField);
+				return widgets.DATE_FIELD.isOneOfMe(dateField) && !widgets.DATE.findDescendant(dateField);
 			}
 
 			/**
@@ -125,7 +110,7 @@ define(["wc/has",
 				diagnostic = feedback.getLast(element);
 
 				// Add the calendar launch button.
-				if (!(LAUNCHER.findDescendant(element))) {
+				if (!(widgets.LAUNCHER.findDescendant(element))) {
 					launcherHtml = "<button value='" + id + "_input' tabindex='-1' id='" + id +
 							"_cal' type='button' aria-hidden='true' class='wc_wdf_cal wc-invite' aria-haspopup='true'";
 					if (shed.isDisabled(childEl)) {
@@ -178,7 +163,7 @@ define(["wc/has",
 					if (filterTimer) {
 						timers.clearTimeout(filterTimer);
 					}
-					if (DATE_FIELD.isOneOfMe(_df)) {
+					if (widgets.DATE_FIELD.isOneOfMe(_df)) {
 						instance.acceptFirstMatch(instance.getTextBox(_df));
 					}
 					if (IETimeout) {
@@ -195,7 +180,7 @@ define(["wc/has",
 				if (openDateCombo) {
 					// close any open dateFields when focusing elsewhere
 					otherDateField = document.getElementById(openDateCombo);
-					if (otherDateField && DATE_FIELD.isOneOfMe(otherDateField) && (!dateField || dateField.id !== openDateCombo) && shed.isExpanded(otherDateField)) {
+					if (otherDateField && widgets.DATE_FIELD.isOneOfMe(otherDateField) && (!dateField || dateField.id !== openDateCombo) && shed.isExpanded(otherDateField)) {
 						_collapseHelper(otherDateField);
 					}
 				}
@@ -211,15 +196,13 @@ define(["wc/has",
 			 * @param {Element} suggestionList the SUGGESTION_LIST sub-component to focus
 			 */
 			function focusListbox(suggestionList) {
-				OPTION_WD = OPTION_WD || new Widget("", "", {"role": "option"});
-
 				function activateOption(option) {
 					if (!shed.isSelected(option)) {
 						listboxAnalog.activate(option);
 					}
 				}
 
-				if (suggestionList && OPTION_WD.findDescendant(suggestionList)) {
+				if (suggestionList && widgets.OPTION_WD.findDescendant(suggestionList)) {
 					onchangeSubmit.ignoreNextChange();
 					ajaxRegion.ignoreNextChange();
 
@@ -256,7 +239,7 @@ define(["wc/has",
 			 * @returns {Boolean} true if the element is a date field's input element.
 			 */
 			function isDateInput(element) {
-				return INPUT.isOneOfMe(element);
+				return widgets.INPUT.isOneOfMe(element);
 			}
 
 			/**
@@ -373,7 +356,7 @@ define(["wc/has",
 					initParsers();
 				}
 
-				if (DATE_PARTIAL.isOneOfMe(element)) {
+				if (widgets.DATE_PARTIAL.isOneOfMe(element)) {
 					result = parsers.partial;
 				} else {
 					result = parsers.standard;
@@ -497,7 +480,7 @@ define(["wc/has",
 					}
 				}
 
-				if (DATE_FIELD.isOneOfMe(dateField)) {
+				if (widgets.DATE_FIELD.isOneOfMe(dateField)) {
 					if (filterTimer) {
 						timers.clearTimeout(filterTimer);
 					}
@@ -524,7 +507,7 @@ define(["wc/has",
 					textVal,
 					textBox;
 				if ((value = (field.getAttribute(FAKE_VALUE_ATTRIB) || field.getAttribute("datetime"))) && (textVal = format(value))) {
-					if (DATE_RO.isOneOfMe(field)) {
+					if (widgets.DATE_RO.isOneOfMe(field)) {
 						textContent.set(field, textVal);
 					} else {
 						textBox = instance.getTextBox(field);
@@ -547,14 +530,14 @@ define(["wc/has",
 				customEls = document.querySelectorAll("wc-dateinput");
 				Array.prototype.forEach.call(customEls, renderer.render);
 
-				if (container && DATE_WRAPPER_INCL_RO.isOneOfMe(container)) {
+				if (container && widgets.DATE_WRAPPER_INCL_RO.isOneOfMe(container)) {
 					fields = [container];
 				} else {
-					fields = DATE_WRAPPER_INCL_RO.findDescendants(_container);
+					fields = widgets.DATE_WRAPPER_INCL_RO.findDescendants(_container);
 				}
 
 				Array.prototype.forEach.call(fields, function(next) {
-					if (DATE_RO.isOneOfMe(next) || isPartial(next)) {
+					if (widgets.DATE_RO.isOneOfMe(next) || isPartial(next)) {
 						setInputValue(next);
 					} else if (instance.isLameDateField(next)) {
 						fixLameDateField(next);
@@ -605,7 +588,7 @@ define(["wc/has",
 					target,
 					func;
 				if (element) {
-					if (DATE_FIELD.isOneOfMe(element)) {
+					if (widgets.DATE_FIELD.isOneOfMe(element)) {
 						if (action === shed.actions.EXPAND) {
 							if (shed.isExpanded(element)) {
 								openDateCombo = element.id;
@@ -625,7 +608,7 @@ define(["wc/has",
 							func = getFuncForAction(action);
 							if (func) {
 								shed[func](textbox);  // publish this to make changes to the label
-								if ((action === shed.actions.ENABLE || action === shed.actions.DISABLE) && (target = LAUNCHER.findDescendant(element))) {
+								if ((action === shed.actions.ENABLE || action === shed.actions.DISABLE) && (target = widgets.LAUNCHER.findDescendant(element))) {
 									shed[func](target, true);  // no need to publish changing the state of the calendar launcher
 								}
 							}
@@ -672,7 +655,7 @@ define(["wc/has",
 			 * @param {Element} stateContainer The element into which the state fields are written.
 			 */
 			function writeState(form, stateContainer) {
-				var dateFields = DATE_FIELD.findDescendants(form),
+				var dateFields = widgets.DATE_FIELD.findDescendants(form),
 					i, next, numVal, textBox,
 					nameSuffix = "-date", name;
 				for (i = 0; i < dateFields.length; i++) {
@@ -938,7 +921,7 @@ define(["wc/has",
 			 * @returns {module:wc/dom/Widget} The description of the calendar picker launch button.
 			 */
 			this.getLaunchWidget = function() {
-				return LAUNCHER;
+				return widgets.LAUNCHER;
 			};
 
 			/**
@@ -948,7 +931,7 @@ define(["wc/has",
 			 * @returns {module:wc/dom/Widget} the Partial Date Widget.
 			 */
 			this.getPartialDateWidget = function() {
-				return DATE_PARTIAL;
+				return widgets.DATE_PARTIAL;
 			};
 
 			/**
@@ -959,7 +942,7 @@ define(["wc/has",
 			 * @returns {Element} The input element of the dateField.
 			 */
 			this.getTextBox = function (element) {
-				return INPUT.findDescendant(element);
+				return widgets.INPUT.findDescendant(element);
 			};
 
 			/**
@@ -997,7 +980,7 @@ define(["wc/has",
 			 * @returns {module:wc/dom/Widget} the DateField Widget.
 			 */
 			this.getWidget = function() {
-				return DATE_WRAPPER_INCL_RO;
+				return widgets.DATE_WRAPPER_INCL_RO;
 			};
 
 			/**
@@ -1033,9 +1016,9 @@ define(["wc/has",
 					if (forceInput) {
 						textBox = el;
 					} else {
-						textBox = DATE_FIELD.isOneOfMe(el) ? instance.getTextBox(el) : el;
+						textBox = widgets.DATE_FIELD.isOneOfMe(el) ? instance.getTextBox(el) : el;
 					}
-					return textBox ? DATE.isOneOfMe(textBox) : false;
+					return textBox ? widgets.DATE.isOneOfMe(textBox) : false;
 				}
 				return false;
 			};
@@ -1050,7 +1033,7 @@ define(["wc/has",
 				if (hasNative) {
 					return false;
 				}
-				return !!DATE.findDescendant(dateField);
+				return !!widgets.DATE.findDescendant(dateField);
 			};
 
 			/**
@@ -1064,19 +1047,11 @@ define(["wc/has",
 			 *    dateField
 			 */
 			this.isOneOfMe = function (element, onlyContainer) {
-				var result;
-				if (onlyContainer) {
-					result = DATE_WRAPPER_INCL_RO.isOneOfMe(element);
-				} else if (onlyContainer === false) {
-					result = INPUT.isOneOfMe(element);
-				} else {
-					result = Widget.isOneOfMe(element, [INPUT, DATE_WRAPPER_INCL_RO]);
-				}
-				return result;
+				return renderer.isOneOfMe(element, onlyContainer);
 			};
 
 			this.isReadOnly = function (element) {
-				return DATE_RO.isOneOfMe(element);
+				return widgets.DATE_RO.isOneOfMe(element);
 			};
 
 			/**
@@ -1098,7 +1073,7 @@ define(["wc/has",
 			};
 
 			this.get = function(element) {
-				return DATE_FIELD.findAncestor(element);
+				return widgets.DATE_FIELD.findAncestor(element);
 			};
 
 			/*
@@ -1134,7 +1109,6 @@ define(["wc/has",
 		 * @requires module:wc/dom/initialise
 		 * @requires module:wc/dom/shed
 		 * @requires module:wc/dom/tag
-		 * @requires module:wc/dom/Widget
 		 * @requires module:wc/i18n/i18n
 		 * @requires module:wc/timers
 		 * @requires module:wc/key
