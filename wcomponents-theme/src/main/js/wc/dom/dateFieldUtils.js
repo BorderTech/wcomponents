@@ -97,11 +97,14 @@ define(["wc/date/Format", "wc/date/parsers", "wc/date/interchange", "wc/dom/Widg
 			hasPartialDate: function (element) {
 				var result = false,
 					value = this.getDateValue(element),
-					parser = this.getParser(element),
-					formatter = Format.getDefaultFormatter(),
-					reversed = formatter.reverse(parser, value);
-				if (reversed) {
-					result = !interchange.isComplete(reversed);
+					parser = parsers.get(parsers.type.PARTIAL),  // We always want the the most inclusive (the partial parser) here
+					formatter = Format.getDefaultFormatter();
+
+				if (!interchange.isValid(value)) {
+					value = formatter.reverse(parser, value);
+				}
+				if (value) {
+					result = !interchange.isComplete(value);
 				}
 				return result;
 			}
