@@ -72,6 +72,18 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			assert.strictEqual(result[0].month, 10);
 			assert.strictEqual(result[0].year, 1973);
 		},
+		testParserMatchEquals: function() {
+			var parser = getParser(standardMasks, false, false),
+				result = parser.parse("28101973")[0],
+				result2 = parser.parse("28/10/1973")[0],
+				diffYear = parser.parse("28101974")[0],
+				diffMon = parser.parse("28091973")[0],
+				diffDay = parser.parse("27101973")[0];
+			assert.isTrue(result.equals(result2), "Match should equal an identical date match");
+			assert.isFalse(result.equals(diffYear), "Match should not equal with year different");
+			assert.isFalse(result.equals(diffMon), "Match should not equal with month different");
+			assert.isFalse(result.equals(diffDay), "Match should not equal with day different");
+		},
 		testParserDayOfWeek: function() {
 			var parser = getParser(["E MON dd yyyy"], false, false),
 				result = parser.parse("Tue Nov 04 2003");
