@@ -13,7 +13,7 @@ define(["wc/date/Format", "wc/date/parsers", "wc/date/interchange", "wc/dom/Widg
 			getMatches: function (element, overrideVal) {
 				var value = overrideVal || element.value,
 					parser = utils.getParser(element),
-					matches = parser.getMatches(value);
+					matches = parser.parse(value);
 				return matches;
 			},
 

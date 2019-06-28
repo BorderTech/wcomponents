@@ -8,9 +8,8 @@
 define(["wc/date/today",
 	"wc/date/pattern",
 	"wc/date/interchange",
-	"wc/date/explodeMask",
-	"wc/array/unique"],
-	function($today, $pattern, interchange, explodeMask, unique) {
+	"wc/date/explodeMask"],
+	function($today, $pattern, interchange, explodeMask) {
 		"use strict";
 		var maskCache = null;
 
@@ -43,6 +42,14 @@ define(["wc/date/today",
 			this.toDate = function() {
 				var xfer = this.toString();
 				return interchange.toDate(xfer);
+			};
+
+			this.equals = function(match) {
+				var a = this, b = match, diff = 1;
+				if (a.day === b.day && a.month === b.month && a.year === b.year) {
+					diff = 0;
+				}
+				return !diff;
 			};
 		}
 
@@ -120,23 +127,6 @@ define(["wc/date/today",
 				}
 				return result;
 			}
-
-			/**
-			 * Get a list of potential date matches for this Parser instance based on the input string.
-			 * @param {String} value The input string to parse.
-			 * @returns {String[]} Potential dates as strings.
-			 */
-			this.getMatches = function(value) {
-				var matches = this.parse(value.trim());
-				matches = unique(matches, function(a, b) {
-					var result = 1;
-					if (a.day === b.day && a.month === b.month && a.year === b.year) {
-						result = 0;
-					}
-					return result;
-				});
-				return matches;
-			};
 
 			/**
 			 * Parse a string representing user input of a date-like piece of data to a list of possible matches.
@@ -227,7 +217,9 @@ define(["wc/date/today",
 						next.date = check;
 					}
 					// add to the successful matches list
-					result.push(next);
+					if (!result.some(next.equals.bind(next))) {
+						result.push(next);
+					}
 				}
 				return result;
 			};
