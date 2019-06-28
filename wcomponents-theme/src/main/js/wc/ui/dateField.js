@@ -968,8 +968,6 @@ define(["wc/has",
 		 * @module
 		 *
 		 * @requires module:wc/has
-		 * @requires module:wc/array/unique
-		 * @requires module:wc/date/Parser
 		 * @requires module:wc/date/interchange
 		 * @requires module:wc/date/Format
 		 * @requires module:wc/dom/attribute

@@ -1,10 +1,8 @@
 define(["wc/render/utils",
 	"wc/has",
 	"wc/dom/dateFieldUtils",
-	"wc/date/Format",
-	"wc/date/interchange",
 	"wc/mixin"],
-	function(renderUtils, has, dfUtils, Format, dateInterchange, mixin) {
+	function(renderUtils, has, dfUtils, mixin) {
 
 		var hasNative = has("native-dateinput"),
 			dataAttributeMap = {
@@ -19,24 +17,15 @@ define(["wc/render/utils",
 			},
 			widgets = dfUtils.getWidgets();
 
-		function isPartial(dateVal) {
-			var result = false,
-				formatter = Format.getDefaultFormatter(),
-				reversed = formatter.reverse(dateVal);
-			if (reversed) {
-				result = !dateInterchange.isComplete(reversed);
-			}
-			return result;
-		}
+
 
 		function renderDateField(element) {
 			var container = findContainer(element),
 				allowPartial = element.getAttribute("data-wc-allowpartial"),
-				dateVal = getDateValue(element),
 				launcher = widgets.LAUNCHER.findDescendant(container),
 				suggestionList = widgets.SUGGESTION_LIST.findDescendant(container),
 				elements;
-			if (!hasNative || allowPartial === "true" || isPartial(dateVal)) {
+			if (!hasNative || allowPartial === "true" || dfUtils.hasPartialDate(element)) {
 				elements = [createFakeDateInput(element)];
 				if (!launcher) {
 					elements.push(renderDatePickerLauncher(element));
@@ -69,18 +58,6 @@ define(["wc/render/utils",
 				wrapper.appendChild(element);
 			});
 			return wrapper;
-		}
-
-		function getDateValue(element) {
-			var result;
-			if ("value" in element) {
-				result = element.value;
-			} else if (element.children.length < 1) {
-				result = element.textContent;
-			} else {
-				result = "";
-			}
-			return result;
 		}
 
 		function createPartialSwitcher(element) {
@@ -148,7 +125,7 @@ define(["wc/render/utils",
 
 		function createDateInput(element) {
 			var input, fieldId = element.getAttribute("data-wc-id"),
-				dateVal = getDateValue(element),
+				dateVal = dfUtils.reverseFormat(element),
 				config = { attrs: {} };
 
 			renderUtils.extractAttributes(element, dataAttributeMap, config.attrs);
@@ -178,7 +155,7 @@ define(["wc/render/utils",
 				config = { attrs: {} };
 			renderUtils.extractAttributes(element, dataAttributeMap, config.attrs);
 			mixin({
-				value: getDateValue(element),
+				value: dfUtils.getDateValue(element),
 				id: fieldId + "_input",
 				name: fieldId,
 				type: "text",

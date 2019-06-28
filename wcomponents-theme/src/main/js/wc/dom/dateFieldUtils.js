@@ -1,4 +1,4 @@
-define(["wc/date/Format", "wc/date/parsers", "wc/dom/Widget"], function(Format, parsers, Widget) {
+define(["wc/date/Format", "wc/date/parsers", "wc/date/interchange", "wc/dom/Widget"], function(Format, parsers, interchange, Widget) {
 	var FIELD_CLASS = "wc-datefield",
 		widgets,
 		utils = {
@@ -30,12 +30,26 @@ define(["wc/date/Format", "wc/date/parsers", "wc/dom/Widget"], function(Format, 
 			reverseFormat: function (element, guess) {
 				var formatter = Format.getDefaultFormatter(),
 					parser = utils.getParser(element),
-					result = "";
+					result = "",
+					value = this.getDateValue(element);
+				if (value) {
+					if (interchange.isValid(value)) {
+						result = value;
+					} else {
+						result = formatter.reverse(parser, value, guess);
+					}
+				}
+				return result;
+			},
+			getDateValue: function getDateValue(element) {  // TODO there is a similar function in ui/dateField
+				var result;
 				if ("value" in element) {
-					result = formatter.reverse(parser, element.value, guess);
+					result = element.value;
 				} else if (element.children.length < 1) {
 					// something like <span>28 JUN 2019</span>
-					result = formatter.reverse(parser, element.textContent, guess);
+					result = element.textContent;
+				} else {
+					result = "";
 				}
 				return result;
 			},
@@ -77,6 +91,17 @@ define(["wc/date/Format", "wc/date/parsers", "wc/dom/Widget"], function(Format, 
 					result = widgetMap.INPUT.isOneOfMe(element);
 				} else {
 					result = Widget.isOneOfMe(element, [widgetMap.INPUT, widgetMap.DATE_WRAPPER_INCL_RO]);
+				}
+				return result;
+			},
+			hasPartialDate: function (element) {
+				var result = false,
+					value = this.getDateValue(element),
+					parser = this.getParser(element),
+					formatter = Format.getDefaultFormatter(),
+					reversed = formatter.reverse(parser, value);
+				if (reversed) {
+					result = !interchange.isComplete(reversed);
 				}
 				return result;
 			}

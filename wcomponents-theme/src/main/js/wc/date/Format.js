@@ -51,6 +51,10 @@ define(["wc/i18n/i18n", "wc/date/interchange", "wc/date/monthName"],
 				currentValue = dateString;
 
 			if (currentValue && (currentValue = currentValue.trim())) {
+				if (!parser || typeof parser.getMatches !== "function") {
+					console.warn("Does not look like parser instance:", parser);
+					return result;
+				}
 				matches = parser.getMatches(currentValue);
 				for (i = 0, len = matches.length; i < len; i++) {
 					next = matches[i];
