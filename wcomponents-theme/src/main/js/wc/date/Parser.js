@@ -8,9 +8,9 @@
 define(["wc/date/today",
 	"wc/date/pattern",
 	"wc/date/interchange",
-	"wc/date/explodeMask"],
-	/** @param $today wc/date/today @param $pattern wc/date/pattern @param interchange wc/date/interchange @param explodeMask wc/date/explodeMask @ignore */
-	function($today, $pattern, interchange, explodeMask) {
+	"wc/date/explodeMask",
+	"wc/array/unique"],
+	function($today, $pattern, interchange, explodeMask, unique) {
 		"use strict";
 		var maskCache = null;
 
@@ -120,6 +120,23 @@ define(["wc/date/today",
 				}
 				return result;
 			}
+
+			/**
+			 * Get a list of potential date matches for this Parser instance based on the input string.
+			 * @param {String} value The input string to parse.
+			 * @returns {String[]} Potential dates as strings.
+			 */
+			this.getMatches = function(value) {
+				var matches = this.parse(value.trim());
+				matches = unique(matches, function(a, b) {
+					var result = 1;
+					if (a.day === b.day && a.month === b.month && a.year === b.year) {
+						result = 0;
+					}
+					return result;
+				});
+				return matches;
+			};
 
 			/**
 			 * Parse a string representing user input of a date-like piece of data to a list of possible matches.

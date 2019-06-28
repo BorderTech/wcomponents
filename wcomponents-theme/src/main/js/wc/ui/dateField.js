@@ -1,6 +1,5 @@
 define(["wc/has",
-	"wc/array/unique",
-	"wc/date/Parser",
+	"wc/dom/dateFieldUtils",
 	"wc/date/interchange",
 	"wc/date/Format",
 	"wc/dom/attribute",
@@ -11,7 +10,6 @@ define(["wc/has",
 	"wc/dom/initialise",
 	"wc/dom/shed",
 	"wc/dom/tag",
-	"wc/i18n/i18n",
 	"wc/timers",
 	"wc/key",
 	"wc/dom/textContent",
@@ -21,7 +19,7 @@ define(["wc/has",
 	"wc/ui/feedback",
 	"wc/ui/listboxAnalog",
 	"wc/render/dateField"],
-	function(has, unique, Parser, interchange, Format, attribute, cancelUpdate, event, focus, formUpdateManager, initialise, shed, tag, i18n,
+	function(has, dfUtils, interchange, Format, attribute, cancelUpdate, event, focus, formUpdateManager, initialise, shed, tag,
 		timers, key, textContent, ajaxRegion, processResponse, onchangeSubmit, feedback, listboxAnalog, renderer) {
 		"use strict";
 		var instance;
@@ -32,9 +30,7 @@ define(["wc/has",
 		 * @private
 		 */
 		function DateInput() {
-			var widgets = renderer.widgets,
-				parsers,  // this will store the Parser instances when first needed
-				formatter,
+			var widgets = dfUtils.getWidgets(),
 				hasNative = has("native-dateinput"),
 				BOOTSTRAPPED = "wc.ui.dateField_bootstrapped",
 				FAKE_VALUE_ATTRIB = "data-wc-value",
@@ -226,9 +222,8 @@ define(["wc/has",
 			 * @returns {String} A human readable date as a string.
 			 */
 			function format(xfer) {
-				var myFormatter = formatter || (formatter = new Format(i18n.get("datefield_mask_format"))),
-					result = myFormatter.format(xfer);
-				return result;
+				var formatter = Format.getDefaultFormatter();
+				return formatter.format(xfer);
 			}
 
 			/*
@@ -271,24 +266,6 @@ define(["wc/has",
 			}
 
 			/**
-			 * Compares two formatted date strings (that is, the date as displayed to the user).
-			 * @function
-			 * @private
-			 * @param {string} valA A formatted date string.
-			 * @param {string} valB A formatted date string.
-			 * @returns {Boolean} true if they are the same for display purposes.
-			 */
-			function formattedDatesSame(valA, valB) {
-				var result = false,
-					s1 = valA.trim(),
-					s2 = valB.trim();
-				if (s1 === s2 || s1.toLocaleLowerCase() === s2.toLocaleLowerCase()) {
-					result = true;
-				}
-				return result;
-			}
-
-			/**
 			 * Takes an array of strings and builds them into HTML.
 			 * @function
 			 * @private
@@ -315,112 +292,6 @@ define(["wc/has",
 			}
 
 			/**
-			 * Initialises the "parsers" instance variable.
-			 * @function
-			 * @private
-			 */
-			function initParsers() {
-				var shortcuts = ["ytm", "+-"],
-					standardMasks = shortcuts.concat(i18n.get("datefield_masks_full").split(",")),
-					partialMasks = standardMasks.concat(i18n.get("datefield_masks_partial").split(","));
-
-				/*
-				 * Creates a new instance of a Parser
-				 */
-				function createParser(masks, expandYearIntoPast, rolling) {
-					var result = new Parser();
-					result.setRolling(!!rolling);
-					result.setMasks(masks || standardMasks);
-					result.setExpandYearIntoPast(!!expandYearIntoPast);
-					return result;
-				}
-
-				parsers = {
-					standard: createParser(),
-					past: createParser(null, true),
-					partial: createParser(partialMasks),
-					partialPast: createParser(partialMasks, true)
-				};
-			}
-
-			/**
-			 * Finds the correct date parser for this element.
-			 * @function
-			 * @private
-			 * @param {Element} element A date input element.
-			 * @returns {Parser} An instance of {@link module:wc/date/Parser}
-			 */
-			function getParser(element) {
-				var result;
-				if (!parsers) {
-					initParsers();
-				}
-
-				if (widgets.DATE_PARTIAL.isOneOfMe(element)) {
-					result = parsers.partial;
-				} else {
-					result = parsers.standard;
-				}
-
-				return result;
-			}
-
-			/**
-			 * Get a list of potential date matches based on the user's input.
-			 * @function
-			 * @private
-			 * @param {Element} element The input element of the date field.
-			 * @param {String} [overrideVal] Use this as the value to match, instead of the element's value.
-			 * @returns {String[]} Potential dates as strings.
-			 */
-			function getMatches(element, overrideVal) {
-				// trim leading & trailing spaces
-				var value = overrideVal || element.value,
-					parser = getParser(element),
-					matches = parser.parse(value.trim());
-
-				matches = unique(matches, function(a, b) {
-					var result = 1;
-					if (a.day === b.day && a.month === b.month && a.year === b.year) {
-						result = 0;
-					}
-					return result;
-				});
-				return matches;
-			}
-
-			/**
-			 * Converts a formatted date string (that is, a string formatted for display to the users) to a transfer
-			 * date string. It is assumed that you have already tried to get the transfer date from the value attribute.
-			 * @function
-			 * @private
-			 * @param {Element} element A dateField input element
-			 * @param {Boolean} [guess] If true then in the case that we can not precisely reverse format the
-			 * dateField's value we will return a "guess" which will be the first match (if there are possible matches).
-			 * @returns {String} A transfer date string if possible.
-			 */
-			function reverseFormat(element, guess) {
-				var result, matches, next, i, value, len,
-					currentValue = element.value;
-
-				if ((currentValue = currentValue.trim())) {
-					matches = getMatches(element);
-					for (i = 0, len = matches.length; i < len; i++) {
-						next = matches[i];
-						value = format(next.toXfer());
-						if (formattedDatesSame(value, currentValue)) {
-							result = next.toXfer();
-							break;
-						}
-					}
-					if (!result && len && guess) {
-						result = matches[0].toXfer();
-					}
-				}
-				return result;
-			}
-
-			/**
 			 * Put the list of potential matches for the value of a input element into the SUGGESTION_LIST sub-component
 			 * and expand the parent dateField.
 			 * @function
@@ -439,7 +310,7 @@ define(["wc/has",
 				if (matches.length && (suggestionList = getSuggestionList(dateField))) {
 					suggestionList.setAttribute("aria-busy", "true");
 					suggestionList.innerHTML = "";
-					if (!(matches.length === 1 && formattedDatesSame(lastVal, instance.getTextBox(dateField).value))) {
+					if (!(matches.length === 1 && Format.formattedDatesSame(lastVal, instance.getTextBox(dateField).value))) {
 						suggestionList.innerHTML = getSuggestions(matches);
 						suggestionList.removeAttribute("aria-busy");
 						if (!shed.isExpanded(dateField)) {
@@ -464,7 +335,7 @@ define(["wc/has",
 
 				function _filter() {
 					var textbox = instance.getTextBox(dateField),
-						matches = getMatches(textbox),
+						matches = dfUtils.getMatches(textbox),
 						suggestionList;
 					if (matches.length) {
 						if (!shed.isExpanded(dateField)) {
@@ -888,7 +759,7 @@ define(["wc/has",
 				if (this.hasNativeInput(element)) {
 					return;
 				}
-				if ((matches = getMatches(element)) && matches.length && (dateField = this.get(element))) {
+				if ((matches = dfUtils.getMatches(element)) && matches.length && (dateField = this.get(element))) {
 					_matches = matches.map(function(next) {
 						return format(next.toXfer());
 					});
@@ -951,7 +822,7 @@ define(["wc/has",
 			 * @public
 			 * @param {Element} element The date field we want to get the value from.
 			 * @param {Boolean} [guess] If true then try a best guess at the transfer format when formatting it. For
-			 *    more info see {@link module:wc/dom/dateField~reverseFormat}
+			 *    more info see {@link module:wc/dom/dateFieldUtils~reverseFormat}
 			 * @returns {String} The date in transfer format or an empty string if the field has no value.
 			 */
 			this.getValue = function(element, guess) {
@@ -967,7 +838,7 @@ define(["wc/has",
 
 					if (!result && (textbox = instance.getTextBox(_element)) && textbox.value) {
 						// we don't have a recorded xfer date for this element, check its value
-						return reverseFormat(textbox, guess);
+						return dfUtils.reverseFormat(textbox, guess);
 					}
 				}
 				return result || "";
@@ -1047,7 +918,7 @@ define(["wc/has",
 			 *    dateField
 			 */
 			this.isOneOfMe = function (element, onlyContainer) {
-				return renderer.isOneOfMe(element, onlyContainer);
+				return dfUtils.isOneOfMe(element, onlyContainer);
 			};
 
 			this.isReadOnly = function (element) {
@@ -1109,7 +980,6 @@ define(["wc/has",
 		 * @requires module:wc/dom/initialise
 		 * @requires module:wc/dom/shed
 		 * @requires module:wc/dom/tag
-		 * @requires module:wc/i18n/i18n
 		 * @requires module:wc/timers
 		 * @requires module:wc/key
 		 * @requires module:wc/dom/textContent

@@ -3,11 +3,12 @@
  * @requires module:wc/date/interchange
  * @requires module:wc/date/monthName
  */
-define(["wc/date/interchange", "wc/date/monthName"],
+define(["wc/i18n/i18n", "wc/date/interchange", "wc/date/monthName"],
 	/** @param interchange wc/date/interchange @param monthName wc/date/monthName @ignore */
-	function(interchange, monthName) {
+	function(i18n, interchange, monthName) {
 		"use strict";
-		var FORMAT_RE = /y{2,4}|d+|MON|M{2,4}|H+|m+|h+|a+|s+/g,
+		var formatter,
+			FORMAT_RE = /y{2,4}|d+|MON|M{2,4}|H+|m+|h+|a+|s+/g,
 			NORMALIZE_WHITESPACE_RE = /\s{2,}/g;
 
 		/**
@@ -35,6 +36,36 @@ define(["wc/date/interchange", "wc/date/monthName"],
 				throw new TypeError("mask must be provided");
 			}
 		}
+
+		/**
+		 * Converts a formatted date string (that is, a string formatted for display to the users) to a transfer
+		 * date string.
+		 * @param {wc/date/Parser} A configured parser instance.
+		 * @param {String} element A formatted date string
+		 * @param {Boolean} [guess] If true then in the case that we can not precisely reverse format the
+		 * input string we will return a "guess" which will be the first match (if there are possible matches).
+		 * @returns {String} A transfer date string if possible.
+		 */
+		Format.prototype.reverse = function (parser, dateString, guess) {
+			var result, matches, next, i, value, len,
+				currentValue = dateString;
+
+			if (currentValue && (currentValue = currentValue.trim())) {
+				matches = parser.getMatches(currentValue);
+				for (i = 0, len = matches.length; i < len; i++) {
+					next = matches[i];
+					value = this.format(next.toXfer());
+					if (Format.formattedDatesSame(value, currentValue)) {
+						result = next.toXfer();
+						break;
+					}
+				}
+				if (!result && len && guess) {
+					result = matches[0].toXfer();
+				}
+			}
+			return result;
+		};
 
 		/**
 		 * Formats a date according to a mask. The mask is provided in the constructor and the date is in the
@@ -148,6 +179,26 @@ define(["wc/date/interchange", "wc/date/monthName"],
 			}
 			return result;
 		}
+
+		/**
+		 * Compares two formatted date strings (that is, the date as displayed to the user).
+		 * @param {string} valA A formatted date string.
+		 * @param {string} valB A formatted date string.
+		 * @returns {Boolean} true if they are the same for display purposes.
+		 */
+		Format.formattedDatesSame = function(valA, valB) {
+			var result = false,
+				s1 = valA.trim(),
+				s2 = valB.trim();
+			if (s1 === s2 || s1.toLocaleLowerCase() === s2.toLocaleLowerCase()) {
+				result = true;
+			}
+			return result;
+		};
+
+		Format.getDefaultFormatter = function() {
+			return formatter || (formatter = new Format(i18n.get("datefield_mask_format")));
+		};
 
 		return Format;
 	});
