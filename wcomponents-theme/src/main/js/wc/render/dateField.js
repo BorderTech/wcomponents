@@ -1,8 +1,10 @@
 define(["wc/render/utils",
 	"wc/has",
+	"wc/i18n/i18n",
+	"wc/dom/shed",
 	"wc/dom/dateFieldUtils",
 	"wc/mixin"],
-	function(renderUtils, has, dfUtils, mixin) {
+	function(renderUtils, has, i18n, shed, dfUtils, mixin) {
 
 		var hasNative = has("native-dateinput"),
 			dataAttributeMap = {
@@ -17,16 +19,26 @@ define(["wc/render/utils",
 			},
 			widgets = dfUtils.getWidgets();
 
+		function renderAsync(element) {
+			var messageKeys = ["datefield_title_default", "datefield_partial_switcher_label"],
+				bundle = {};
+			return i18n.translate(messageKeys).then(function(messages) {
+				var i;
+				for (i = 0; i < messageKeys.length; i++) {
+					bundle[messageKeys[i]] = messages[i];
+				}
+				renderDateField(element, bundle);
+			});
+		}
 
-
-		function renderDateField(element) {
+		function renderDateField(element, i18nBundle) {
 			var container = findContainer(element),
 				allowPartial = element.getAttribute("data-wc-allowpartial"),
 				launcher = widgets.LAUNCHER.findDescendant(container),
 				suggestionList = widgets.SUGGESTION_LIST.findDescendant(container),
 				elements;
 			if (!hasNative || allowPartial === "true" || dfUtils.hasPartialDate(element)) {
-				elements = [createFakeDateInput(element)];
+				elements = [createFakeDateInput(element, i18nBundle)];
 				if (!launcher) {
 					elements.push(renderDatePickerLauncher(element));
 				}
@@ -45,7 +57,7 @@ define(["wc/render/utils",
 			if (allowPartial !== null) {
 				container.classList.add("wc_datefield_partial");
 				if (!widgets.SWITCHER.findDescendant(container)) {
-					elements.push(createPartialSwitcher(element));
+					elements.push(createPartialSwitcher(element, i18nBundle));
 				}
 			}
 			elements = createWrapper(elements);
@@ -60,7 +72,7 @@ define(["wc/render/utils",
 			return wrapper;
 		}
 
-		function createPartialSwitcher(element) {
+		function createPartialSwitcher(element, i18nBundle) {
 			var switcher,
 				dateFieldId = element.getAttribute("data-wc-id"),
 				switcherId = dateFieldId + "_partial",
@@ -85,7 +97,10 @@ define(["wc/render/utils",
 			 * null - does not allow partial dates
 			 */
 			switcher = renderUtils.createElement("input", config);
-			switcher = renderUtils.createElement("label", {}, [switcher, "I'm not sure"]);
+			if (isDisabled(element)) {
+				switcher.disabled = true;
+			}
+			switcher = renderUtils.createElement("label", {}, [switcher, i18nBundle["datefield_partial_switcher_label"]]);
 			switcher = renderUtils.createElement("div", {}, [switcher]);
 			return switcher;
 		}
@@ -106,7 +121,7 @@ define(["wc/render/utils",
 			result = renderUtils.createElement("button", config, [icon]);
 			result.className = "wc_wdf_cal wc-invite";
 
-			if (element.hasAttribute("data-wc-disabled")) {
+			if (isDisabled(element)) {
 				result.disabled = true;
 			}
 
@@ -149,10 +164,12 @@ define(["wc/render/utils",
 			return input;
 		}
 
-		function createFakeDateInput(element) {
+		function createFakeDateInput(element, i18nBundle) {
 			var input,
 				fieldId = element.getAttribute("data-wc-id"),
-				config = { attrs: {} };
+				config = { attrs: {
+					title: i18nBundle["datefield_title_default"]
+				} };
 			renderUtils.extractAttributes(element, dataAttributeMap, config.attrs);
 			mixin({
 				value: dfUtils.getDateValue(element),
@@ -176,7 +193,7 @@ define(["wc/render/utils",
 				dateField = document.getElementById(containerId + "_input");
 			if (dateField) {
 				dateField.setAttribute("data-wc-allowpartial", switcher.checked);
-				renderDateField(dateField);
+				renderAsync(dateField);
 			}
 		}
 
@@ -189,8 +206,12 @@ define(["wc/render/utils",
 			return result;
 		}
 
+		function isDisabled(element) {
+			return element.hasAttribute("data-wc-disabled") || shed.isDisabled(element);
+		}
+
 		return {
 			widgets: widgets,
-			render: renderDateField
+			render: renderAsync
 		};
 	});

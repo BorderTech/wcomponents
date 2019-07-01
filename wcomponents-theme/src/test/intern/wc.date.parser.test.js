@@ -72,6 +72,14 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			assert.strictEqual(result[0].month, 10);
 			assert.strictEqual(result[0].year, 1973);
 		},
+		testParserStndNeedsTrim: function() {
+			var parser = getParser(standardMasks, false, false),
+				result = parser.parse("    28101973    ");
+			assert.strictEqual(result.length, 1);
+			assert.strictEqual(result[0].day, 28);
+			assert.strictEqual(result[0].month, 10);
+			assert.strictEqual(result[0].year, 1973);
+		},
 		testParserMatchEquals: function() {
 			var parser = getParser(standardMasks, false, false),
 				result = parser.parse("28101973")[0],
@@ -83,6 +91,17 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			assert.isFalse(result.equals(diffYear), "Match should not equal with year different");
 			assert.isFalse(result.equals(diffMon), "Match should not equal with month different");
 			assert.isFalse(result.equals(diffDay), "Match should not equal with day different");
+		},
+		testParserEquals: function() {
+			var parser1 = getParser(standardMasks, false, false),
+				parser2 = getParser(standardMasks, true, false),
+				parser3 = getParser(standardMasks, false, true),
+				parser4 = getParser(partialMasks, false, false),
+				parser5 = getParser(standardMasks, false, false);
+			assert.isTrue(parser1.equals(parser5), "Functionally equivalent parsers should be equal");
+			assert.isFalse(parser1.equals(parser2), "'past' flag different");
+			assert.isFalse(parser1.equals(parser3), "'rolling' flag different");
+			assert.isFalse(parser1.equals(parser4), "'masks' different");
 		},
 		testParserDayOfWeek: function() {
 			var parser = getParser(["E MON dd yyyy"], false, false),

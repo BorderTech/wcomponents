@@ -396,28 +396,28 @@ define(["wc/has",
 			 */
 			function setUpDateFields(container) {
 				var _container = container || document.body,
-					fields, customEls;
+					fields,
+					promises = Array.prototype.map.call(container.querySelectorAll("wc-dateinput"), renderer.render);
 
-				customEls = document.querySelectorAll("wc-dateinput");
-				Array.prototype.forEach.call(customEls, renderer.render);
-
-				if (container && widgets.DATE_WRAPPER_INCL_RO.isOneOfMe(container)) {
-					fields = [container];
-				} else {
-					fields = widgets.DATE_WRAPPER_INCL_RO.findDescendants(_container);
-				}
-
-				Array.prototype.forEach.call(fields, function(next) {
-					if (widgets.DATE_RO.isOneOfMe(next) || isPartial(next)) {
-						setInputValue(next);
-					} else if (instance.isLameDateField(next)) {
-						fixLameDateField(next);
-					} else { // proper date inputs
-						next.removeAttribute(FAKE_VALUE_ATTRIB);
+				Promise.all(promises).then(function() {
+					if (container && widgets.DATE_WRAPPER_INCL_RO.isOneOfMe(container)) {
+						fields = [container];
+					} else {
+						fields = widgets.DATE_WRAPPER_INCL_RO.findDescendants(_container);
 					}
-				});
 
-				cancelUpdate.resetAllFormState();
+					Array.prototype.forEach.call(fields, function(next) {
+						if (widgets.DATE_RO.isOneOfMe(next) || isPartial(next)) {
+							setInputValue(next);
+						} else if (instance.isLameDateField(next)) {
+							fixLameDateField(next);
+						} else { // proper date inputs
+							next.removeAttribute(FAKE_VALUE_ATTRIB);
+						}
+					});
+
+					cancelUpdate.resetAllFormState();
+				});
 			}
 
 			/**

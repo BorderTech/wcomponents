@@ -313,6 +313,23 @@ define(["wc/date/today",
 			this.isExpandYearIntoPast = function () {
 				return expandYearIntoPast;
 			};
+
+			/**
+			 * Compare this instance of parser against another to determine if they are functionally equivalent.
+			 * @param {type} parser
+			 * @return {Boolean}
+			 */
+			this.equals = function(parser) {
+				var p1 = this,
+					result = false,
+					testMethods = ["getMasks", "isRolling", "isExpandYearIntoPast"];
+				if (parser) {
+					result = testMethods.every(function(testMethod) {
+						return p1[testMethod]() === parser[testMethod]();
+					});
+				}
+				return result;
+			};
 		}
 
 		return Parser;
