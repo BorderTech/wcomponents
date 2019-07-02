@@ -2,10 +2,10 @@
  * @module
  * @requires module:wc/date/interchange
  * @requires module:wc/date/monthName
+ * @requires module:wc/date/parsers
  */
-define(["wc/i18n/i18n", "wc/date/interchange", "wc/date/monthName"],
-	/** @param interchange wc/date/interchange @param monthName wc/date/monthName @ignore */
-	function(i18n, interchange, monthName) {
+define(["wc/i18n/i18n", "wc/date/interchange", "wc/date/monthName", "wc/date/parsers"],
+	function(i18n, interchange, monthName, parsers) {
 		"use strict";
 		var formatter,
 			FORMAT_RE = /y{2,4}|d+|MON|M{2,4}|H+|m+|h+|a+|s+/g,
@@ -37,35 +37,54 @@ define(["wc/i18n/i18n", "wc/date/interchange", "wc/date/monthName"],
 			}
 		}
 
+		function getParser(options) {
+			var parser;
+			if (options.parser && typeof options.parser.parse === "function") {
+				parser = options.parser;
+			} else {
+				parser = parsers.get(parsers.type.PARTIAL);  // the parser with the most masks
+				// should probably do this here:  options.guess = true;
+			}
+			return parser;
+		}
+
 		/**
-		 * Converts a formatted date string (that is, a string formatted for display to the users) to a transfer
-		 * date string.
-		 * @param {wc/date/Parser} A configured parser instance.
-		 * @param {String} element A formatted date string
-		 * @param {Boolean} [guess] If true then in the case that we can not precisely reverse format the
+		 * Converts a formatted date string (that is, a string formatted for display to the users) to a transfer date string.
+		 * @param {String} dateString A formatted date string
+		 * @param {Boolean} [options.guess] If true then in the case that we can not precisely reverse format the
+		 * @param {wc/date/Parser} [options.parser] A configured parser instance used to interpret the dateString.
 		 * input string we will return a "guess" which will be the first match (if there are possible matches).
 		 * @returns {String} A transfer date string if possible.
 		 */
-		Format.prototype.reverse = function (parser, dateString, guess) {
+		Format.prototype.reverse = function (dateString, options) {
 			var result, matches, next, i, value, len,
-				currentValue = dateString;
-
+				currentValue = dateString, parser;
+			if (!options) {
+				options = {
+					guess: false,
+					parser: null
+				};
+			}
 			if (currentValue && (currentValue = currentValue.trim())) {
-				if (!parser || typeof parser.parse !== "function") {
-					console.warn("Does not look like parser instance:", parser);
-					return result;
+				if (interchange.isValid(currentValue)) {
+					return currentValue;
 				}
-				matches = parser.parse(currentValue);
-				for (i = 0, len = matches.length; i < len; i++) {
-					next = matches[i];
-					value = this.format(next.toXfer());
-					if (Format.formattedDatesSame(value, currentValue)) {
-						result = next.toXfer();
-						break;
+				parser = getParser(options);
+				if (parser) {
+					matches = parser.parse(currentValue);
+					for (i = 0, len = matches.length; i < len; i++) {
+						next = matches[i];
+						value = this.format(next.toXfer());
+						if (Format.formattedDatesSame(value, currentValue)) {
+							result = next.toXfer();
+							break;
+						}
 					}
-				}
-				if (!result && len && guess) {
-					result = matches[0].toXfer();
+					if (!result && len && options.guess) {
+						result = matches[0].toXfer();
+					}
+				} else {
+					console.warn("Could not reverse ", dateString);
 				}
 			}
 			return result;

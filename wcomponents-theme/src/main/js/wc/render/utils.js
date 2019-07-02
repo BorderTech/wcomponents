@@ -17,8 +17,16 @@ define(["wc/dom/event"], function(eventManager) {
 				for (i = 0; i < attrs.length; i++) {
 					next = attrs[i];
 					nextName = next.name;  // .toLowerCase();
-					if (renameMap[nextName] && renameMap.hasOwnProperty(nextName)) {
+					if (renameMap.hasOwnProperty(nextName)) {
 						nextName = renameMap[nextName];
+						if (!nextName) {
+							continue;  // mapping to null means do not copy this attribute
+						}
+					}
+					if (nextName === "class") {
+						nextName = "className";
+					} else if (nextName === "for") {
+						nextName = "htmlFor";
 					}
 					if (next.value) {
 						if (next.value === "true") {
@@ -37,6 +45,19 @@ define(["wc/dom/event"], function(eventManager) {
 		return result;
 	}
 
+	function importKids(from, to) {
+		while (from.firstChild) {
+			if (to.appendChild) {
+				to.appendChild(from.firstChild);
+			} else if (Array.isArray(to)) {
+				to.push(from.removeChild(from.firstChild));
+			} else {
+				break;
+			}
+		}
+		return to;
+	}
+
 	/**
 	 * Helper for createElement - sets attributes on an Element from a provided associative array.
 	 * @param {Element} element The element on which the attributes are to be set.
@@ -47,6 +68,11 @@ define(["wc/dom/event"], function(eventManager) {
 		if (attrs) {
 			for (attrName in attrs) {
 				if (attrs.hasOwnProperty(attrName)) {
+					if (attrName === "className") {
+						attrName = "class";
+					} else if (attrName === "htmlFor") {
+						attrName = "for";
+					}
 					element.setAttribute(attrName, attrs[attrName]);
 				}
 			}
@@ -98,6 +124,7 @@ define(["wc/dom/event"], function(eventManager) {
 
 	return {
 		createElement: createElement,
-		extractAttributes: extractAttributes
+		extractAttributes: extractAttributes,
+		importKids: importKids
 	};
 });

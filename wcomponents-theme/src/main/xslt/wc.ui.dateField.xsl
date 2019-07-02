@@ -58,7 +58,35 @@
 		##############################################################################################################
 	-->
 	<xsl:template match="ui:datefield[not(@readOnly)]">
-		<div id="{@id}" class="{normalize-space(concat('wc-datefield wc-input-wrapper ', @class))}" role="combobox" aria-autocomplete="list" aria-expanded="false">
+		<xsl:element name="wc-dateinput">
+			<xsl:apply-templates select="@*"/>
+			<xsl:attribute name="aria-busy">true</xsl:attribute>
+			<xsl:if test="ui:fieldindicator">
+				<xsl:if test="ui:fieldindicator[@id]">
+					<xsl:attribute name="aria-describedby">
+						<xsl:value-of select="ui:fieldindicator/@id" />
+					</xsl:attribute>
+				</xsl:if>
+				<xsl:if test="ui:fieldindicator[@type='error']">
+					<xsl:attribute name="aria-invalid">
+						<xsl:text>true</xsl:text>
+					</xsl:attribute>
+				</xsl:if>
+			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="@date">
+					<xsl:value-of select="@date"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="text()"/>
+				</xsl:otherwise>
+			</xsl:choose>
+			<xsl:element name="wc-fieldindicator">
+				<xsl:apply-templates select="ui:fieldindicator"/>
+			</xsl:element>
+		</xsl:element>
+		<!--
+		<div id="{@id}" class="{normalize-space(concat('wc-datefield wc-input-wrapper ', @class))}" >
 			<xsl:if test="@disabled">
 				<xsl:attribute name="aria-disabled">
 					<xsl:text>true</xsl:text>
@@ -74,31 +102,10 @@
 					<xsl:value-of select="@date"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:element name="wc-dateinput">
-				<xsl:apply-templates select="@*"/>
-				<xsl:if test="ui:fieldindicator">
-					<xsl:if test="ui:fieldindicator[@id]">
-						<xsl:attribute name="aria-describedby">
-							<xsl:value-of select="ui:fieldindicator/@id" />
-						</xsl:attribute>
-					</xsl:if>
-					<xsl:if test="ui:fieldindicator[@type='error']">
-						<xsl:attribute name="aria-invalid">
-							<xsl:text>true</xsl:text>
-						</xsl:attribute>
-					</xsl:if>
-				</xsl:if>
-				<xsl:choose>
-					<xsl:when test="@date">
-						<xsl:value-of select="@date"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:value-of select="text()"/>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:element>
-			<xsl:apply-templates select="ui:fieldindicator"/>
+			
+			
 		</div>
+		-->
 	</xsl:template>
 
 </xsl:stylesheet>

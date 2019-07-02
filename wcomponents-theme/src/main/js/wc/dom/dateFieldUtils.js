@@ -1,57 +1,41 @@
-define(["wc/date/Format", "wc/date/parsers", "wc/date/interchange", "wc/dom/Widget"], function(Format, parsers, interchange, Widget) {
+define(["wc/date/Format", "wc/has", "wc/date/parsers", "wc/date/interchange", "wc/dom/Widget"], function(Format, has, parsers, interchange, Widget) {
 	var FIELD_CLASS = "wc-datefield",
 		widgets,
+		FAKE_VALUE_ATTRIB = "data-wc-value",  // TODO duplicated from dateField
 		utils = {
 			/**
 			 * Get a list of potential date matches based on the user's input.
 			 * @function
 			 * @private
 			 * @param {Element} element The input element of the date field.
-			 * @param {String} [overrideVal] Use this as the value to match, instead of the element's value.
 			 * @returns {String[]} Potential dates as strings.
 			 */
-			getMatches: function (element, overrideVal) {
-				var value = overrideVal || element.value,
+			getMatches: function (element) {
+				var value = element.value,
 					parser = utils.getParser(element),
 					matches = parser.parse(value);
 				return matches;
 			},
 
-			/**
-			 * Converts a formatted date string (that is, a string formatted for display to the users) to a transfer
-			 * date string. It is assumed that you have already tried to get the transfer date from the value attribute.
-			 * @function
-			 * @private
-			 * @param {Element} element A dateField input element
-			 * @param {Boolean} [guess] If true then in the case that we can not precisely reverse format the
-			 * dateField's value we will return a "guess" which will be the first match (if there are possible matches).
-			 * @returns {String} A transfer date string if possible.
-			 */
-			reverseFormat: function (element, guess) {
-				var formatter = Format.getDefaultFormatter(),
-					parser = utils.getParser(element),
-					result = "",
-					value = this.getDateValue(element);
-				if (value) {
-					if (interchange.isValid(value)) {
-						result = value;
-					} else {
-						result = formatter.reverse(parser, value, guess);
+			getRawValue: function getRawValue(element) {
+				var result, textbox, container;
+				if (element && (container = utils.get(element))) {
+					if ((result = container.getAttribute(FAKE_VALUE_ATTRIB))) {
+						return result;
 					}
-				}
-				return result;
-			},
-			getDateValue: function getDateValue(element) {  // TODO there is a similar function in ui/dateField
-				var result;
-				if ("value" in element) {
-					result = element.value;
-				} else if (element.children.length < 1) {
+					if (utils.hasNativeInput(element) && (result = element.value)) {
+						return result;
+					}
+
+					if (!result && (textbox = utils.getTextBox(container)) && textbox.value) {
+						// we don't have a recorded xfer date for this element, check its value
+						return textbox.value;
+					}
+				} else if (element && element.children.length < 1) {
 					// something like <span>28 JUN 2019</span>
 					result = element.textContent;
-				} else {
-					result = "";
 				}
-				return result;
+				return result || "";
 			},
 			/**
 			 * Finds the correct date parser for this element.
@@ -61,8 +45,8 @@ define(["wc/date/Format", "wc/date/parsers", "wc/date/interchange", "wc/dom/Widg
 			 * @returns {Parser} An instance of {@link module:wc/date/Parser}
 			 */
 			getParser: function getParser(element) {
-				var result;
-				if (widgets.DATE_PARTIAL.isOneOfMe(element)) {
+				var result, widgetMap = utils.getWidgets();
+				if (widgetMap.DATE_PARTIAL.isOneOfMe(element) || widgetMap.DATE_PARTIAL.findDescendant(element)) {
 					result = parsers.get(parsers.type.PARTIAL);
 				} else {
 					result = parsers.get();
@@ -96,17 +80,66 @@ define(["wc/date/Format", "wc/date/parsers", "wc/date/interchange", "wc/dom/Widg
 			},
 			hasPartialDate: function (element) {
 				var result = false,
-					value = this.getDateValue(element),
+					value = this.getRawValue(element),
 					parser = parsers.get(parsers.type.PARTIAL),  // We always want the the most inclusive (the partial parser) here
 					formatter = Format.getDefaultFormatter();
 
-				if (!interchange.isValid(value)) {
-					value = formatter.reverse(parser, value);
+				if (value && !interchange.isValid(value)) {
+					value = formatter.reverse(value, { parser: parser });
 				}
 				if (value) {
 					result = !interchange.isComplete(value);
 				}
 				return result;
+			},
+			/**
+			 * Get the value (in transfer format yyyy-mm-dd) from a date field component.
+			 * @function  module:wc/ui/dateField.getValue
+			 * @public
+			 * @param {Element} element The date field we want to get the value from.
+			 * @param {Boolean} [guess] If true then try a best guess at the transfer format when formatting it. For
+			 *    more info see {@link module:wc/date/Fomat~reverse}
+			 * @returns {String} The date in transfer format or an empty string if the field has no value.
+			 */
+			getValue: function(element, guess) {
+				var formatter, parser,  result = utils.getRawValue(element);
+				formatter = Format.getDefaultFormatter();
+				parser = utils.getParser(element);
+				result = formatter.reverse(result, { guess: guess, parser: parser });
+				return result || "";
+			},
+			/**
+			 * Get the text input element descendant of a date field.
+			 * @function module:wc/ui/dateField.getTextBox
+			 * @public
+			 * @param {Element} element A dateField.
+			 * @returns {Element} The input element of the dateField.
+			 */
+			getTextBox: function (element) {
+				return utils.getWidgets().INPUT.findDescendant(element);
+			},
+			get: function(element) {
+				return utils.getWidgets().DATE_FIELD.findAncestor(element);
+			},
+			/**
+			 * Is a particular date field or input a native date input?
+			 * @function module:wc/ui/dateField.hasNativeInput
+			 * @public
+			 * @param {Element} el The element to test.
+			 * @param {Boolean} [forceInput] Set true if we know we are calling with an input element to save a test.
+			 * @returns {Boolean} True if el is a native date input (or the datefield wrapper of one).
+			 */
+			hasNativeInput: function (el, forceInput) {
+				var textBox;
+				if (has("native-dateinput")) {
+					if (forceInput) {
+						textBox = el;
+					} else {
+						textBox = widgets.DATE_FIELD.isOneOfMe(el) ? utils.getTextBox(el) : el;
+					}
+					return textBox ? widgets.DATE.isOneOfMe(textBox) : false;
+				}
+				return false;
 			}
 		};
 

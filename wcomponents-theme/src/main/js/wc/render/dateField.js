@@ -6,8 +6,7 @@ define(["wc/render/utils",
 	"wc/mixin"],
 	function(renderUtils, has, i18n, shed, dfUtils, mixin) {
 
-		var hasNative = has("native-dateinput"),
-			dataAttributeMap = {
+		var inputAttributeMap = {
 				"data-wc-tooltip": "title",
 				"data-wc-required": "required",
 				"data-wc-disabled": "disabled",
@@ -15,7 +14,10 @@ define(["wc/render/utils",
 				"data-wc-buttonid": "data-wc-submit",
 				"data-wc-placeholder": "placeholder",
 				"data-wc-min": "min",
-				"data-wc-max": "max"
+				"data-wc-max": "max",
+				"aria-busy": null,
+				"aria-describedby": null,
+				"aria-invalid": null
 			},
 			widgets = dfUtils.getWidgets();
 
@@ -31,50 +33,49 @@ define(["wc/render/utils",
 			});
 		}
 
+		function getId(element) {
+			return element.id || element.getAttribute("data-wc-id");
+		}
+
+		function gatherFieldIndicators(element, target) {
+			// TODO how will this work with client side validation messages?
+			var result= target,
+				container = element.querySelector("wc-fieldindicator");
+			if (container) {
+				renderUtils.importKids(container, result);
+			}
+			return result;
+		}
+
 		function renderDateField(element, i18nBundle) {
-			var container = findContainer(element),
-				allowPartial = element.getAttribute("data-wc-allowpartial"),
-				launcher = widgets.LAUNCHER.findDescendant(container),
-				suggestionList = widgets.SUGGESTION_LIST.findDescendant(container),
+			var allowPartial = element.getAttribute("data-wc-allowpartial"),
 				elements;
-			if (!hasNative || allowPartial === "true" || dfUtils.hasPartialDate(element)) {
+			if (!has("native-dateinput") || allowPartial === "true" || dfUtils.hasPartialDate(element)) {
 				elements = [createFakeDateInput(element, i18nBundle)];
-				if (!launcher) {
-					elements.push(renderDatePickerLauncher(element));
-				}
-				if (!suggestionList) {
-					elements.push(createListBox());
-				}
+				elements.push(renderDatePickerLauncher(element));
+				elements.push(createListBox());
 			} else {
-				if (launcher) {
-					launcher.parentNode.removeChild(launcher);
-				}
-				if (suggestionList) {
-					suggestionList.parentNode.removeChild(suggestionList);
-				}
 				elements = [createDateInput(element)];
 			}
 			if (allowPartial !== null) {
-				container.classList.add("wc_datefield_partial");
-				if (!widgets.SWITCHER.findDescendant(container)) {
-					elements.push(createPartialSwitcher(element, i18nBundle));
-				}
+				elements.push(createPartialSwitcher(element, i18nBundle));
 			}
-			elements = createWrapper(elements);
-			container.replaceChild(elements, element);
+			gatherFieldIndicators(element, elements);
+			elements = createContainer(element, elements);
+			element.parentNode.replaceChild(elements, element);
 		}
 
-		function createWrapper(children) {
-			var wrapper = document.createDocumentFragment();
-			children.forEach(function(element) {
-				wrapper.appendChild(element);
-			});
-			return wrapper;
-		}
+//		function createWrapper(children) {
+//			var wrapper = document.createDocumentFragment();
+//			children.forEach(function(element) {
+//				wrapper.appendChild(element);
+//			});
+//			return wrapper;
+//		}
 
 		function createPartialSwitcher(element, i18nBundle) {
 			var switcher,
-				dateFieldId = element.getAttribute("data-wc-id"),
+				dateFieldId = getId(element),
 				switcherId = dateFieldId + "_partial",
 				allowPartial = element.getAttribute("data-wc-allowpartial"),
 				config = {
@@ -106,13 +107,12 @@ define(["wc/render/utils",
 		}
 
 		function renderDatePickerLauncher(element) {
-			var container = findContainer(element),
-				icon, result, config = {
+			var icon, result, config = {
 					attrs: {
 						"aria-hidden": "true",
 						tabindex: "-1",
 						type: "button",
-						value: container.id + "_input"
+						value: getId(element) + "_input"
 					}
 				};
 			icon = renderUtils.createElement("i", { attrs: {"aria-hidden": "true"} });
@@ -128,6 +128,27 @@ define(["wc/render/utils",
 			return result;
 		}
 
+		function createContainer(element, children) {
+			var container,
+				config = { attrs: {} };
+
+			renderUtils.extractAttributes(element, { "aria-busy": null, "data-wc-id": "id" }, config.attrs);
+
+			mixin({
+				role: "combobox",
+				"aria-autocomplete": "list",
+				"aria-expanded": "false" },
+			config.attrs);
+
+			container = renderUtils.createElement("div", config, children);
+			container.classList.add("wc-datefield");
+			container.classList.add("wc-input-wrapper");
+			if (element.hasAttribute("data-wc-allowpartial")) {
+				container.classList.add("wc_datefield_partial");
+			}
+			return container;
+		}
+
 		function createListBox() {
 			var config = {
 				attrs: {
@@ -139,11 +160,11 @@ define(["wc/render/utils",
 		}
 
 		function createDateInput(element) {
-			var input, fieldId = element.getAttribute("data-wc-id"),
-				dateVal = dfUtils.reverseFormat(element),
+			var input, fieldId = getId(element),
+				dateVal = dfUtils.getValue(element),
 				config = { attrs: {} };
 
-			renderUtils.extractAttributes(element, dataAttributeMap, config.attrs);
+			renderUtils.extractAttributes(element, inputAttributeMap, config.attrs);
 			mixin({
 				value: dateVal,
 				id: fieldId + "_input",
@@ -166,13 +187,13 @@ define(["wc/render/utils",
 
 		function createFakeDateInput(element, i18nBundle) {
 			var input,
-				fieldId = element.getAttribute("data-wc-id"),
+				fieldId = getId(element),
 				config = { attrs: {
 					title: i18nBundle["datefield_title_default"]
 				} };
-			renderUtils.extractAttributes(element, dataAttributeMap, config.attrs);
+			renderUtils.extractAttributes(element, inputAttributeMap, config.attrs);
 			mixin({
-				value: dfUtils.getDateValue(element),
+				value: dfUtils.getRawValue(element),
 				id: fieldId + "_input",
 				name: fieldId,
 				type: "text",
@@ -190,20 +211,11 @@ define(["wc/render/utils",
 		function changeEvent($event) {
 			var switcher = $event.target,
 				containerId = switcher.getAttribute("aria-controls"),
-				dateField = document.getElementById(containerId + "_input");
+				dateField = document.getElementById(containerId);
 			if (dateField) {
 				dateField.setAttribute("data-wc-allowpartial", switcher.checked);
 				renderAsync(dateField);
 			}
-		}
-
-		function findContainer(element) {
-			var containerId, result = widgets.DATE_FIELD.findAncestor(element);
-			if (!result) {
-				containerId = element.getAttribute("data-wc-id");
-				result = document.getElementById(containerId);
-			}
-			return result;
 		}
 
 		function isDisabled(element) {
