@@ -26,8 +26,9 @@ function watchDir(sourceRoot, targetRoot) {
 		if (filename && event === "change") {
 			let targetPath = path.join(targetRoot, filename);
 			let sourcePath = path.join(sourceRoot, filename);
+			let targetDir = path.dirname(targetPath);
 			console.log("File Changed ", sourcePath);
-			exists(targetPath, copyFile(sourcePath, targetPath));
+			exists(targetDir, copyFile(sourcePath, targetPath));
 		}
 	});
 }
