@@ -6,11 +6,12 @@ define(["wc/date/interchange",
 	"wc/dom/shed",
 	"wc/i18n/i18n",
 	"wc/ui/dateField",
+	"wc/dom/dateFieldUtils",
 	"wc/ui/validation/validationManager",
 	"lib/sprintf",
 	"wc/ui/validation/isComplete",
 	"wc/ui/feedback"],
-	function(interchange, getDifference, attribute, event, initialise, shed, i18n, dateField, validationManager, sprintf, isComplete, feedback) {
+	function(interchange, getDifference, attribute, event, initialise, shed, i18n, dateField, dateFieldUtils, validationManager, sprintf, isComplete, feedback) {
 		"use strict";
 		/**
 		 * @constructor
@@ -18,13 +19,7 @@ define(["wc/date/interchange",
 		 * @private
 		 */
 		function ValidationDateInput() {
-			/**
-			 * A descriptor for a WDateField.
-			 * @see {@link module:wc/ui/dateField#getWidget}.
-			 * @var {Widget}
-			 * @private
-			 */
-			var DATE_FIELD = dateField.getWidget();
+			var widgets = dateFieldUtils.getWidgets();
 
 			/**
 			 * Array filter function which checks if a date is within the future/past constraint (if any).
@@ -42,11 +37,11 @@ define(["wc/date/interchange",
 					minAttrib = "data-wc-min",
 					maxAttrib = "data-wc-max";
 
-				if (dateField.isReadOnly(element) || !(textbox = dateField.getTextBox(element)) || dateField.getPartialDateWidget().isOneOfMe(textbox)) {
+				if (dateFieldUtils.isReadOnly(element) || !(textbox = dateFieldUtils.getTextBox(element)) || widgets.DATE_PARTIAL.isOneOfMe(textbox)) {
 					return false;  // do not apply constraint validation to read-only or partial date fields, even if the date entered is a full date.
 				}
 
-				if ((value = dateField.getValue(element)) && !validationManager.isExempt(element)) {
+				if ((value = dateFieldUtils.getValue(element)) && !validationManager.isExempt(element)) {
 					if (textbox.getAttribute("type") === "date") {
 						minAttrib = "min";
 						maxAttrib = "max";
@@ -62,7 +57,7 @@ define(["wc/date/interchange",
 					 */
 					if (!date) {
 						dateField.acceptFirstMatch(textbox);
-						value = dateField.getValue(textbox);
+						value = dateFieldUtils.getValue(textbox);
 						date = interchange.toDate(value);
 					}
 
@@ -107,7 +102,7 @@ define(["wc/date/interchange",
 			 * @returns {String} The formatted validation message.
 			 */
 			function messageFunction(element) {
-				var textbox = dateField.getTextBox(element);
+				var textbox = dateFieldUtils.getTextBox(element);
 				return sprintf.sprintf(i18n.get("validation_common_incomplete"), validationManager.getLabelText(textbox));
 			}
 
@@ -132,25 +127,25 @@ define(["wc/date/interchange",
 					incomplete = [],
 					complete = true;
 
-				if (dateField.isOneOfMe(container, true)) {
+				if (dateFieldUtils.isOneOfMe(container, true)) {
 					candidates = [container];
 				} else {
-					candidates = DATE_FIELD.findDescendants(container);
+					candidates = widgets.DATE_WRAPPER_INCL_RO.findDescendants(container);
 				}
 				Array.prototype.forEach.call(candidates, function(next) {
 					var textBox;
-					if (dateField.isReadOnly(next)) {
+					if (dateFieldUtils.isReadOnly(next)) {
 						return;
 					}
 					if (dateField.isLameDateField(next)) {
 						if (!next.getAttribute("aria-required")) {
 							return;
 						}
-						if (!dateField.getValue(next)) {
+						if (!dateFieldUtils.getValue(next)) {
 							incomplete.push(next);
 						}
 					} else {
-						textBox = dateField.getTextBox(next);
+						textBox = dateFieldUtils.getTextBox(next);
 						if (!textBox.getAttribute("required")) {
 							return;
 						}
@@ -168,8 +163,8 @@ define(["wc/date/interchange",
 					});
 				}
 
-				if (dateField.isOneOfMe(container, true)) {
-					valid = dateField.isReadOnly(container) || !isDateInvalid(container);
+				if (dateFieldUtils.isOneOfMe(container, true)) {
+					valid = dateFieldUtils.isReadOnly(container) || !isDateInvalid(container);
 				} else {
 					invalid = Array.prototype.filter.call(candidates, isDateInvalid, this);
 					if (invalid && invalid.length) {
@@ -187,7 +182,7 @@ define(["wc/date/interchange",
 			 * @param {wc/dom/event} $event The wrapped change event as published by the WComponent event manager
 			 */
 			function changeEvent($event) {
-				var element = DATE_FIELD.findAncestor($event.target);
+				var element = widgets.DATE_WRAPPER_INCL_RO.findAncestor($event.target);
 				if (element) {
 					if (validationManager.isValidateOnChange()) {
 						if (validationManager.isInvalid(element)) {
@@ -202,7 +197,7 @@ define(["wc/date/interchange",
 			}
 
 			function blurEvent($event) {
-				var element = DATE_FIELD.findAncestor($event.target);
+				var element = widgets.DATE_WRAPPER_INCL_RO.findAncestor($event.target);
 				if (element && shed.isMandatory(element)) {
 					validate(element);
 				}
@@ -217,7 +212,7 @@ define(["wc/date/interchange",
 			function focusEvent($event) {
 				var element = $event.target,
 					BOOTSTRAPPED = "validation.dateField.bs";
-				if (!$event.defaultPrevented && dateField.isOneOfMe(element, false) && !attribute.get(element, BOOTSTRAPPED)) {
+				if (!$event.defaultPrevented && dateFieldUtils.isOneOfMe(element, false) && !attribute.get(element, BOOTSTRAPPED)) {
 					attribute.set(element, BOOTSTRAPPED, true);
 					event.add(element, event.TYPE.change, changeEvent, 1);
 					if (validationManager.isValidateOnBlur()) {
@@ -253,7 +248,7 @@ define(["wc/date/interchange",
 			 * @returns {boolean} true if element is complete.
 			 */
 			function isCompleteHelper(element) {
-				var textbox = dateField.getTextBox(element),
+				var textbox = dateFieldUtils.getTextBox(element),
 					iAmComplete = false;
 				if (textbox && textbox.value) {
 					iAmComplete = true;
@@ -269,7 +264,7 @@ define(["wc/date/interchange",
 			 * @returns {boolean} true if container is complete.
 			 */
 			function isCompleteSubscriber(container) {
-				return isComplete.isCompleteHelper(container, DATE_FIELD, isCompleteHelper);
+				return isComplete.isCompleteHelper(container, widgets.DATE_WRAPPER_INCL_RO, isCompleteHelper);
 			}
 
 			/**

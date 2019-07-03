@@ -44,7 +44,7 @@ define(["wc/dom/tag",
 		 */
 		function Subordinate() {
 			var event,
-				dateField,
+				dateFieldUtils,
 				numberField,
 				multiSelectPair,
 				ruleStore = {},  // stores the rule objects against their rule id
@@ -320,7 +320,7 @@ define(["wc/dom/tag",
 				 * button. But this selectable option cannot be the subordinate
 				 * condition determinant; therefore dateField needs to be
 				 * explicitly excluded from a test of having selected options.*/
-				if (!(dateField && dateField.isOneOfMe(element))) {
+				if (!(dateFieldUtils && dateFieldUtils.isOneOfMe(element))) {
 					if (multiSelectPair && multiSelectPair.isOneOfMe(element)) {
 						result = multiSelectPair.getValue(element);
 						result = toArray(result);
@@ -497,8 +497,8 @@ define(["wc/dom/tag",
 			function getTriggerValue(element, type) {
 				var result;
 				if (type === "date") {
-					if (dateField && dateField.isOneOfMe(element)) {
-						result = dateField.getValue(element);
+					if (dateFieldUtils && dateFieldUtils.isOneOfMe(element)) {
+						result = dateFieldUtils.getValue(element);
 					}
 					if (result !== "" && !interchange.isComplete(result)) {
 						return null;
@@ -528,7 +528,7 @@ define(["wc/dom/tag",
 			 */
 			function getCompareType(element) {
 				var result;
-				if ((dateField && dateField.isOneOfMe(element))) {
+				if ((dateFieldUtils && dateFieldUtils.isOneOfMe(element))) {
 					result = "date";
 				} else if (numberField && numberField.isOneOfMe(element)) {
 					result = "number";
@@ -575,9 +575,9 @@ define(["wc/dom/tag",
 			this.initialise = function(element) {
 				waitingForRules = true;
 				// always require these deps, even if there are no rules, because there are other public methods that need them
-				require(["wc/dom/event", "wc/ui/dateField", "wc/ui/numberField", "wc/ui/multiSelectPair"], function($event, $dateField, $numberField, $multiSelectPair) {
+				require(["wc/dom/event", "wc/dom/dateFieldUtils", "wc/ui/numberField", "wc/ui/multiSelectPair"], function($event, $dateField, $numberField, $multiSelectPair) {
 					event = $event;
-					dateField = $dateField;
+					dateFieldUtils = $dateField;
 					numberField = $numberField;
 					multiSelectPair = $multiSelectPair;
 					if ((Object.keys(elementToRuleMap)).length) {

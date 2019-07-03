@@ -3,8 +3,10 @@ define(["wc/render/utils",
 	"wc/i18n/i18n",
 	"wc/dom/shed",
 	"wc/dom/dateFieldUtils",
-	"wc/mixin"],
-	function(renderUtils, has, i18n, shed, dfUtils, mixin) {
+	"wc/date/Format",
+	"wc/mixin",
+	"wc/debounce"],
+	function(renderUtils, has, i18n, shed, dfUtils, Format, mixin, debounce) {
 
 		var inputAttributeMap = {
 				"data-wc-tooltip": "title",
@@ -19,6 +21,7 @@ define(["wc/render/utils",
 				"aria-describedby": null,
 				"aria-invalid": null
 			},
+			checkEnableSwitcherEvent = debounce(function($event) { checkEnableSwitcher($event.target) }, 330),
 			widgets = dfUtils.getWidgets();
 
 		function renderAsync(element) {
@@ -39,28 +42,31 @@ define(["wc/render/utils",
 
 		function gatherFieldIndicators(element, target) {
 			// TODO how will this work with client side validation messages?
-			var result= target,
+			var result= target || [],
 				container = element.querySelector("wc-fieldindicator");
 			if (container) {
 				renderUtils.importKids(container, result);
+				container.parentNode.removeChild(container);
 			}
 			return result;
 		}
 
 		function renderDateField(element, i18nBundle) {
-			var allowPartial = element.getAttribute("data-wc-allowpartial"),
-				elements;
-			if (!has("native-dateinput") || allowPartial === "true" || dfUtils.hasPartialDate(element)) {
+			var fieldIndicators,
+				allowPartial = element.getAttribute("data-wc-allowpartial"),
+				elements, hasPartialDate = dfUtils.hasPartialDate(element);
+			fieldIndicators = gatherFieldIndicators(element);
+			hasPartialDate = hasPartialDate || hasPartialDate === 0;
+			if (!has("native-dateinput") || allowPartial === "true" || hasPartialDate) {
 				elements = [createFakeDateInput(element, i18nBundle)];
 				elements.push(renderDatePickerLauncher(element));
 				elements.push(createListBox());
 			} else {
 				elements = [createDateInput(element)];
 			}
-			if (allowPartial !== null) {
-				elements.push(createPartialSwitcher(element, i18nBundle));
+			if (allowPartial !== null && has("native-dateinput")) {
+				elements.push(createPartialSwitcher(element, i18nBundle, hasPartialDate));
 			}
-			gatherFieldIndicators(element, elements);
 			elements = createContainer(element, elements);
 			element.parentNode.replaceChild(elements, element);
 		}
@@ -73,7 +79,7 @@ define(["wc/render/utils",
 //			return wrapper;
 //		}
 
-		function createPartialSwitcher(element, i18nBundle) {
+		function createPartialSwitcher(element, i18nBundle, disabled) {
 			var switcher,
 				dateFieldId = getId(element),
 				switcherId = dateFieldId + "_partial",
@@ -89,6 +95,9 @@ define(["wc/render/utils",
 				};
 			if (allowPartial === "true") {
 				config.attrs.checked = "checked";
+			}
+			if (disabled) {
+				config.attrs.disabled = "disabled";
 			}
 			/*
 			 * The mere existence of @allowPartial indicates that we are dealing with a partial date field.
@@ -187,13 +196,19 @@ define(["wc/render/utils",
 
 		function createFakeDateInput(element, i18nBundle) {
 			var input,
+				formatter = Format.getDefaultFormatter(),
+				value = dfUtils.getRawValue(element),
 				fieldId = getId(element),
-				config = { attrs: {
-					title: i18nBundle["datefield_title_default"]
+				config = {
+					onChange: checkEnableSwitcherEvent,
+					onKeydown: checkEnableSwitcherEvent,
+					attrs: {
+						title: i18nBundle["datefield_title_default"]
 				} };
 			renderUtils.extractAttributes(element, inputAttributeMap, config.attrs);
+			value = formatter.format(value) || value;
 			mixin({
-				value: dfUtils.getRawValue(element),
+				value: value,
 				id: fieldId + "_input",
 				name: fieldId,
 				type: "text",
@@ -213,8 +228,30 @@ define(["wc/render/utils",
 				containerId = switcher.getAttribute("aria-controls"),
 				dateField = document.getElementById(containerId);
 			if (dateField) {
-				dateField.setAttribute("data-wc-allowpartial", switcher.checked);
+				dateField.setAttribute("data-wc-allowpartial", shed.isSelected(switcher));
 				renderAsync(dateField);
+			}
+		}
+
+		/**
+		 * don't call this directly, call checkEnableSwitcherEvent instead
+		 */
+		function checkEnableSwitcher(element) {
+			var dateField = dfUtils.get(element),
+				switcher = widgets.SWITCHER.findDescendant(dateField),
+				hasPartial;
+			if (switcher) {
+				if (shed.isSelected(switcher)) {
+					hasPartial = dfUtils.hasPartialDate(element);
+					// Currently partial dates are accepted, disable switcher if date contains partial date
+					if (hasPartial || hasPartial === 0) {
+						shed.disable(switcher);
+					} else {
+						shed.enable(switcher);
+					}
+				} else {
+					shed.enable(switcher);
+				}
 			}
 		}
 
@@ -223,7 +260,6 @@ define(["wc/render/utils",
 		}
 
 		return {
-			widgets: widgets,
 			render: renderAsync
 		};
 	});

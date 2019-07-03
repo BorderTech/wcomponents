@@ -65,7 +65,7 @@ define(["wc/has",
 					result = widgets.SUGGESTION_LIST.findDescendant(element);
 				} else if (force === 1) {
 					result = widgets.SUGGESTION_LIST.findAncestor(element);
-				} else if ((dateField = instance.get(element))) {
+				} else if ((dateField = dfUtils.get(element))) {
 					result = widgets.SUGGESTION_LIST.findDescendant(dateField);
 				}
 				return result;
@@ -149,7 +149,7 @@ define(["wc/has",
 			 * @param {Element} element The element being focussed.
 			 */
 			function closeDateCombo(element) {
-				var dateField = instance.get(element),
+				var dateField = dfUtils.get(element),
 					otherDateField;
 				/*
 				 * When a date field combo is closed clear its filters, set its value and then collapse it.
@@ -259,7 +259,7 @@ define(["wc/has",
 						textbox.value = value;  // do not fire change event here: do it on collapse
 					}
 
-					if (optionVal[(dateField.id)] !== instance.getValue(dateField, true)) {
+					if (optionVal[(dateField.id)] !== dfUtils.getValue(dateField, true)) {
 						timers.setTimeout(event.fire, 0, dfUtils.getTextBox(dateField), event.TYPE.change);
 					}
 				}
@@ -440,7 +440,7 @@ define(["wc/has",
 			 */
 			function shedSelectSubscriber(element) {
 				var dateField;
-				if (element && element.hasAttribute(FAKE_VALUE_ATTRIB) && getSuggestionList(element, 1) && (dateField = instance.get(element))) {
+				if (element && element.hasAttribute(FAKE_VALUE_ATTRIB) && getSuggestionList(element, 1) && (dateField = dfUtils.get(element))) {
 					setValueFromOption(dateField, element);
 				}
 			}
@@ -463,7 +463,7 @@ define(["wc/has",
 						if (action === shed.actions.EXPAND) {
 							if (shed.isExpanded(element)) {
 								openDateCombo = element.id;
-								optionVal[(element.id)] = instance.getValue(element);
+								optionVal[(element.id)] = dfUtils.getValue(element);
 								filterOptions(element, 0);
 							}
 						} else if (action === shed.actions.COLLAPSE) {
@@ -537,7 +537,7 @@ define(["wc/has",
 							if ((textBox = dfUtils.getTextBox(next)) && textBox.value) {
 								formUpdateManager.writeStateField(stateContainer, name, textBox.value);
 							}
-						} else if ((numVal = instance.getValue(next))) {
+						} else if ((numVal = dfUtils.getValue(next))) {
 							formUpdateManager.writeStateField(stateContainer, name, numVal);
 						}
 					}
@@ -560,7 +560,7 @@ define(["wc/has",
 					return;
 				}
 
-				if ((dateField = instance.get(element))) {
+				if ((dateField = dfUtils.get(element))) {
 					instance.acceptFirstMatch(element);
 					dateField.removeAttribute(FAKE_VALUE_ATTRIB);
 				}
@@ -586,7 +586,7 @@ define(["wc/has",
 				if (instance.hasNativeInput(element, true)) {
 					return;
 				}
-				if ((dateField = instance.get(element)) && !attribute.get(dateField, BOOTSTRAPPED)) {
+				if ((dateField = dfUtils.get(element)) && !attribute.get(dateField, BOOTSTRAPPED)) {
 					attribute.set(dateField, BOOTSTRAPPED, true);
 					event.add(dateField, event.TYPE.keydown, keydownEvent);
 				}
@@ -605,7 +605,7 @@ define(["wc/has",
 				if ($event.defaultPrevented || instance.hasNativeInput(target, true)) {
 					return;
 				}
-				if ((dateField = instance.get(target)) && !shed.isDisabled(dateField) && getSuggestionList(target, 1)) {
+				if ((dateField = dfUtils.get(target)) && !shed.isDisabled(dateField) && getSuggestionList(target, 1)) {
 					// update on option click
 					// setValueFromOption(dateField, target);  // yes, revert to $event.target here: we want the option not the SUGGESTION_LIST
 					focus.setFocusRequest(dfUtils.getTextBox(dateField), function() {
@@ -642,7 +642,7 @@ define(["wc/has",
 					target = $event.target,
 					suggestionList;
 
-				// dateField = instance.get(target);
+				// dateField = dfUtils.get(target);
 				if (instance.hasNativeInput(target, true)) {
 					return;
 				}
@@ -759,7 +759,7 @@ define(["wc/has",
 				if (this.hasNativeInput(element)) {
 					return;
 				}
-				if ((matches = dfUtils.getMatches(element)) && matches.length && (dateField = this.get(element))) {
+				if ((matches = dfUtils.getMatches(element)) && matches.length && (dateField = dfUtils.get(element))) {
 					_matches = matches.map(function(next) {
 						return format(next.toXfer());
 					});
@@ -783,30 +783,6 @@ define(["wc/has",
 					}
 				}
 			};
-
-			/**
-			 * Get the {@link module:wc/dom/Widget} which describes a calendar launch button. This is required by
-			 * {@link module:wc/ui/calendar}.
-			 * @function module:wc/ui/dateField.getLaunchWidget
-			 * @public
-			 * @returns {module:wc/dom/Widget} The description of the calendar picker launch button.
-			 */
-			this.getLaunchWidget = function() {
-				return widgets.LAUNCHER;
-			};
-
-			/**
-			 * Get the partial date widget.
-			 * @function module:wc/ui/dateField.getPartialDateWidget
-			 * @public
-			 * @returns {module:wc/dom/Widget} the Partial Date Widget.
-			 */
-			this.getPartialDateWidget = function() {
-				return widgets.DATE_PARTIAL;
-			};
-
-			this.getTextBox = dfUtils.getTextBox;
-			this.getValue = dfUtils.getValue;
 
 			/**
 			 * Get the date field widget.
@@ -853,24 +829,6 @@ define(["wc/has",
 			};
 
 			/**
-			 * Indicates that the requested element is a dateField OR the textbox sub-component
-			 * @function module:wc/ui/dateField.isOneOfMe
-			 * @public
-			 * @param {Element} element The DOM element to test
-			 * @param {Boolean} [onlyContainer] Set `true` to test if the element is exactly the dateField, explicitly
-			 *    `false` to test if only the input element.
-			 * @returns {Boolean} true if the passed in element is a dateField or date input textbox sub-component of a
-			 *    dateField
-			 */
-			this.isOneOfMe = function (element, onlyContainer) {
-				return dfUtils.isOneOfMe(element, onlyContainer);
-			};
-
-			this.isReadOnly = function (element) {
-				return widgets.DATE_RO.isOneOfMe(element);
-			};
-
-			/**
 			 * Late initialisation to add other subscribers and set up the date fields for first use.
 			 * @function module:wc/ui/dateField.postInit
 			 * @public
@@ -887,8 +845,6 @@ define(["wc/has",
 				shed.subscribe(shed.actions.OPTIONAL, shedSubscriber);
 				processResponse.subscribe(ajaxSetup);
 			};
-
-			this.get = dfUtils.get;
 
 			/*
 			 * public for testing

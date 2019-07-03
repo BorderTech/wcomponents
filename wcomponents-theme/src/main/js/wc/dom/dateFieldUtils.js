@@ -19,7 +19,8 @@ define(["wc/date/Format", "wc/has", "wc/date/parsers", "wc/date/interchange", "w
 
 			getRawValue: function getRawValue(element) {
 				var result, textbox, container;
-				if (element && (container = utils.get(element))) {
+				if (element) {
+					container = utils.get(element) || element;
 					if ((result = container.getAttribute(FAKE_VALUE_ATTRIB))) {
 						return result;
 					}
@@ -27,13 +28,14 @@ define(["wc/date/Format", "wc/has", "wc/date/parsers", "wc/date/interchange", "w
 						return result;
 					}
 
-					if (!result && (textbox = utils.getTextBox(container)) && textbox.value) {
+					if ((textbox = utils.getTextBox(container)) && (result = textbox.value)) {
 						// we don't have a recorded xfer date for this element, check its value
-						return textbox.value;
+						return result;
 					}
-				} else if (element && element.children.length < 1) {
-					// something like <span>28 JUN 2019</span>
-					result = element.textContent;
+					if (element.firstChild && element.firstChild.nodeType === Node.TEXT_NODE) {
+						// something like <span>28 JUN 2019</span>
+						result = element.firstChild.textContent;
+					}
 				}
 				return result || "";
 			},
@@ -58,7 +60,7 @@ define(["wc/date/Format", "wc/has", "wc/date/parsers", "wc/date/interchange", "w
 			},
 			/**
 			 * Indicates that the requested element is a dateField OR the textbox sub-component
-			 * @function module:wc/ui/dateField.isOneOfMe
+			 * @function module:wc/dom/dateFieldUtils.isOneOfMe
 			 * @public
 			 * @param {Element} element The DOM element to test
 			 * @param {Boolean} [onlyContainer] Set `true` to test if the element is exactly the dateField, explicitly
@@ -84,17 +86,23 @@ define(["wc/date/Format", "wc/has", "wc/date/parsers", "wc/date/interchange", "w
 					parser = parsers.get(parsers.type.PARTIAL),  // We always want the the most inclusive (the partial parser) here
 					formatter = Format.getDefaultFormatter();
 
-				if (value && !interchange.isValid(value)) {
-					value = formatter.reverse(value, { parser: parser });
-				}
 				if (value) {
-					result = !interchange.isComplete(value);
+					if (!interchange.isValid(value)) {
+						value = formatter.reverse(value, { parser: parser });
+					}
+					if (value) {
+						result = !interchange.isComplete(value);
+					} else {
+						// if there is a value BUT it is not even a parseable date then return 0 to differentiate.
+						result = 0;
+					}
 				}
+
 				return result;
 			},
 			/**
 			 * Get the value (in transfer format yyyy-mm-dd) from a date field component.
-			 * @function  module:wc/ui/dateField.getValue
+			 * @function  module:wc/dom/dateFieldUtils.getValue
 			 * @public
 			 * @param {Element} element The date field we want to get the value from.
 			 * @param {Boolean} [guess] If true then try a best guess at the transfer format when formatting it. For
@@ -110,7 +118,7 @@ define(["wc/date/Format", "wc/has", "wc/date/parsers", "wc/date/interchange", "w
 			},
 			/**
 			 * Get the text input element descendant of a date field.
-			 * @function module:wc/ui/dateField.getTextBox
+			 * @function module:wc/dom/dateFieldUtils.getTextBox
 			 * @public
 			 * @param {Element} element A dateField.
 			 * @returns {Element} The input element of the dateField.
@@ -123,7 +131,7 @@ define(["wc/date/Format", "wc/has", "wc/date/parsers", "wc/date/interchange", "w
 			},
 			/**
 			 * Is a particular date field or input a native date input?
-			 * @function module:wc/ui/dateField.hasNativeInput
+			 * @function module:wc/dom/dateFieldUtils.hasNativeInput
 			 * @public
 			 * @param {Element} el The element to test.
 			 * @param {Boolean} [forceInput] Set true if we know we are calling with an input element to save a test.
@@ -140,6 +148,9 @@ define(["wc/date/Format", "wc/has", "wc/date/parsers", "wc/date/interchange", "w
 					return textBox ? widgets.DATE.isOneOfMe(textBox) : false;
 				}
 				return false;
+			},
+			isReadOnly: function (element) {
+				return utils.getWidgets().DATE_RO.isOneOfMe(element);
 			}
 		};
 

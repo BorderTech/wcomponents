@@ -18,12 +18,13 @@ define(["wc/dom/attribute",
 	"wc/i18n/i18n",
 	"wc/isNumeric",
 	"wc/ui/dateField",
+	"wc/dom/dateFieldUtils",
 	"wc/dom/initialise",
 	"wc/timers",
 	"wc/template",
 	"wc/config"],
 function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthName, today, interchange, classList, event,
-		focus, shed, tag, viewportCollision, getBox, Widget, i18n, isNumeric, dateField, initialise,
+		focus, shed, tag, viewportCollision, getBox, Widget, i18n, isNumeric, dateField, dateFieldUtils, initialise,
 		timers, template, wcconfig) {
 	"use strict";
 
@@ -33,7 +34,8 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 	 * @private
 	 */
 	function Calendar() {
-		var DATE_KEY = "date_key",
+		var widgets = dateFieldUtils.getWidgets(),
+			DATE_KEY = "date_key",
 			CONTAINER_ID = "wc_calbox",
 			DAY_CONTAINER_ID = "wc_caldaybox",
 			MONTH_SELECT_ID = "wc_calmonth",
@@ -47,7 +49,6 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				DATE_BUTTON: "wc_wdf_pick",
 				LAST: "wc_cal_last"
 			},
-			LAUNCHER = dateField.getLaunchWidget(),
 			PICKABLE = new Widget("button", CLASS.DATE_BUTTON),
 			ROW,
 			CAL_BUTTON = new Widget("button", "wc_wdf_mv"),
@@ -675,7 +676,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 
 							if (setSelected && (getDifference(_date, date) === 0)) {
 								shed.select(button, true);
-							} else if (!setSelected && (input = getInputForCalendar(cal)) && input.value && (inputDate = dateField.getValue(input)) && (inputDate = interchange.toDate(inputDate)) && getDifference(_date, inputDate) === 0) {
+							} else if (!setSelected && (input = getInputForCalendar(cal)) && input.value && (inputDate = dateFieldUtils.getValue(input)) && (inputDate = interchange.toDate(inputDate)) && getDifference(_date, inputDate) === 0) {
 								shed.select(button, true);
 							}
 
@@ -753,7 +754,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				input = document.getElementById(input);
 				setMinMaxYear(input);
 
-				date = dateField.getValue(input);
+				date = dateFieldUtils.getValue(input);
 				if (date) {
 					date = interchange.toDate(date);
 					selectDate = true;
@@ -938,7 +939,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		function clickEvent($event) {
 			var element;
 			if (!$event.defaultPrevented) {
-				if ((element = LAUNCHER.findAncestor($event.target))) {
+				if ((element = widgets.LAUNCHER.findAncestor($event.target))) {
 					doLaunch(element);
 				} else if (getCal()) {  // by using getCal() we can by-pass a widget descriptor lookup if the calendar has never been opened as document.getElementById is very fast.
 					if ((element = PICKABLE.findAncestor($event.target))) {
@@ -955,7 +956,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		function keydownEvent($event) {
 			var target = $event.currentTarget,
 				launcher;
-			if ($event.keyCode === KeyEvent.DOM_VK_DOWN && ($event.altKey || $event.metaKey) && (launcher = LAUNCHER.findDescendant(dateField.get(target)))) {
+			if ($event.keyCode === KeyEvent.DOM_VK_DOWN && ($event.altKey || $event.metaKey) && (launcher = widgets.LAUNCHER.findDescendant(dateFieldUtils.get(target)))) {
 				doLaunch(launcher);
 				$event.preventDefault();
 			}
@@ -1053,15 +1054,15 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			var target = $event.target,
 				element, cal;
 
-			if (dateField.isOneOfMe(target, false) && !attribute.get(target, INITED_ATTRIB)) {
+			if (dateFieldUtils.isOneOfMe(target, false) && !attribute.get(target, INITED_ATTRIB)) {
 				attribute.set(target, INITED_ATTRIB, true);
 				event.add(target, event.TYPE.keydown, keydownEvent);
 			}
 
 			if (target && (cal = getCal()) && !shed.isHidden(cal, true)) {
-				element = dateField.get(target);
+				element = dateFieldUtils.get(target);
 
-				if (!element || (element !== dateField.get(getCal()))) { // second: focused a different date field
+				if (!element || (element !== dateFieldUtils.get(getCal()))) { // second: focused a different date field
 					hideCalendar(true);
 				}
 			}
