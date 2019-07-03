@@ -21,7 +21,9 @@ define(["wc/render/utils",
 				"aria-describedby": null,
 				"aria-invalid": null
 			},
-			checkEnableSwitcherEvent = debounce(function($event) { checkEnableSwitcher($event.target) }, 330),
+			checkEnableSwitcherEvent = debounce(function($event) {
+				checkEnableSwitcher($event.target);
+			}, 330),
 			widgets = dfUtils.getWidgets();
 
 		function renderAsync(element) {
@@ -52,10 +54,8 @@ define(["wc/render/utils",
 		}
 
 		function renderDateField(element, i18nBundle) {
-			var fieldIndicators,
-				allowPartial = element.getAttribute("data-wc-allowpartial"),
+			var allowPartial = element.getAttribute("data-wc-allowpartial"),
 				elements, hasPartialDate = dfUtils.hasPartialDate(element);
-			fieldIndicators = gatherFieldIndicators(element);
 			hasPartialDate = hasPartialDate || hasPartialDate === 0;
 			if (!has("native-dateinput") || allowPartial === "true" || hasPartialDate) {
 				elements = [createFakeDateInput(element, i18nBundle)];
@@ -67,6 +67,7 @@ define(["wc/render/utils",
 			if (allowPartial !== null && has("native-dateinput")) {
 				elements.push(createPartialSwitcher(element, i18nBundle, hasPartialDate));
 			}
+			gatherFieldIndicators(element, elements);
 			elements = createContainer(element, elements);
 			element.parentNode.replaceChild(elements, element);
 		}
@@ -204,7 +205,7 @@ define(["wc/render/utils",
 					onKeydown: checkEnableSwitcherEvent,
 					attrs: {
 						title: i18nBundle["datefield_title_default"]
-				} };
+					} };
 			renderUtils.extractAttributes(element, inputAttributeMap, config.attrs);
 			value = formatter.format(value) || value;
 			mixin({
