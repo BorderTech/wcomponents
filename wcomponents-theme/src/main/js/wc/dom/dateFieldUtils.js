@@ -16,7 +16,11 @@ define(["wc/date/Format", "wc/has", "wc/date/parsers", "wc/date/interchange", "w
 					matches = parser.parse(value);
 				return matches;
 			},
-
+			/**
+			 * Gets the raw value for the given date field.
+			 * @param {Element} element Any part of any kind of date field supported by wc/ui/dateField
+			 * @return {String} The raw value of the date field.
+			 */
 			getRawValue: function getRawValue(element) {
 				var result, textbox, container;
 				if (element) {
@@ -24,7 +28,7 @@ define(["wc/date/Format", "wc/has", "wc/date/parsers", "wc/date/interchange", "w
 					if ((result = container.getAttribute(FAKE_VALUE_ATTRIB))) {
 						return result;
 					}
-					if (utils.hasNativeInput(element) && (result = element.value)) {
+					if (utils.hasNativeInput(element, true) && (result = element.value)) {
 						return result;
 					}
 
@@ -80,6 +84,16 @@ define(["wc/date/Format", "wc/has", "wc/date/parsers", "wc/date/interchange", "w
 				}
 				return result;
 			},
+			/**
+			 * Determine if this element contains a partial date.
+			 * Note the following:
+			 * - an empty value returns false
+			 * - an invalid value returns 1
+			 * - a partial date value returns true
+			 * - a full date returns false
+			 * @param {Element} element The date field to test.
+			 * @return {Number|Boolean} Truthy if it contains a partial date or unparseable date, otherwise false.
+			 */
 			hasPartialDate: function (element) {
 				var result = false,
 					value = this.getRawValue(element),
@@ -94,7 +108,7 @@ define(["wc/date/Format", "wc/has", "wc/date/parsers", "wc/date/interchange", "w
 						result = !interchange.isComplete(value);
 					} else {
 						// if there is a value BUT it is not even a parseable date then return 0 to differentiate.
-						result = 0;
+						result = 1;
 					}
 				}
 
@@ -163,7 +177,8 @@ define(["wc/date/Format", "wc/has", "wc/date/parsers", "wc/date/interchange", "w
 			SUGGESTION_LIST: new Widget("", "", { role: "listbox"}),
 			OPTION_WD: new Widget("", "", { role: "option"}),
 			LAUNCHER: new Widget("button", "wc_wdf_cal"),
-			SWITCHER: new Widget("input", "", { type: "checkbox" })
+			SWITCHER: new Widget("input", "", { type: "checkbox" }),
+			CUSTOM: new Widget("wc-dateinput")
 		};
 		widgetMap.DATE = widgetMap.INPUT.extend("", { type: "date"});
 		widgetMap.DATE_PARTIAL = widgetMap.INPUT.extend("", { type : "text"});

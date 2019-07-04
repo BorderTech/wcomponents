@@ -91,6 +91,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			assert.isFalse(result.equals(diffYear), "Match should not equal with year different");
 			assert.isFalse(result.equals(diffMon), "Match should not equal with month different");
 			assert.isFalse(result.equals(diffDay), "Match should not equal with day different");
+			assert.isFalse(result.equals(null), "Should not equal null");
 		},
 		testParserEquals: function() {
 			var parser1 = getParser(standardMasks, false, false),
@@ -102,6 +103,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			assert.isFalse(parser1.equals(parser2), "'past' flag different");
 			assert.isFalse(parser1.equals(parser3), "'rolling' flag different");
 			assert.isFalse(parser1.equals(parser4), "'masks' different");
+			assert.isFalse(parser1.equals(null), "Should not equal null");
 		},
 		testParserDayOfWeek: function() {
 			var parser = getParser(["E MON dd yyyy"], false, false),

@@ -3,10 +3,11 @@ define(["wc/render/utils",
 	"wc/i18n/i18n",
 	"wc/dom/shed",
 	"wc/dom/dateFieldUtils",
+	"wc/dom/fieldIndicatorUtils",
 	"wc/date/Format",
 	"wc/mixin",
 	"wc/debounce"],
-	function(renderUtils, has, i18n, shed, dfUtils, Format, mixin, debounce) {
+	function(renderUtils, has, i18n, shed, dfUtils, fieldIndicatorUtils, Format, mixin, debounce) {
 
 		var inputAttributeMap = {
 				"data-wc-tooltip": "title",
@@ -45,7 +46,7 @@ define(["wc/render/utils",
 		function gatherFieldIndicators(element, target) {
 			// TODO how will this work with client side validation messages?
 			var result= target || [],
-				container = element.querySelector("wc-fieldindicator");
+				container = fieldIndicatorUtils.findDescendant(element);
 			if (container) {
 				renderUtils.importKids(container, result);
 				container.parentNode.removeChild(container);
@@ -56,7 +57,6 @@ define(["wc/render/utils",
 		function renderDateField(element, i18nBundle) {
 			var allowPartial = element.getAttribute("data-wc-allowpartial"),
 				elements, hasPartialDate = dfUtils.hasPartialDate(element);
-			hasPartialDate = hasPartialDate || hasPartialDate === 0;
 			if (!has("native-dateinput") || allowPartial === "true" || hasPartialDate) {
 				elements = [createFakeDateInput(element, i18nBundle)];
 				elements.push(renderDatePickerLauncher(element));
@@ -245,7 +245,7 @@ define(["wc/render/utils",
 				if (shed.isSelected(switcher)) {
 					hasPartial = dfUtils.hasPartialDate(element);
 					// Currently partial dates are accepted, disable switcher if date contains partial date
-					if (hasPartial || hasPartial === 0) {
+					if (hasPartial) {
 						shed.disable(switcher);
 					} else {
 						shed.enable(switcher);
