@@ -69,7 +69,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid"], /** @param getAncestorOrSelf 
 		 */
 		this.attributes = attributes;
 		/**
-		 * The Widget instance's start container element. Set per dearch for descendant searches.
+		 * The Widget instance's start container element. Set per search for descendant searches.
 		 * @var
 		 * @type {?Element}
 		 * @public
@@ -388,6 +388,32 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid"], /** @param getAncestorOrSelf 
 	 */
 	Widget.prototype.clone = function() {
 		return this.extend("", {});
+	};
+
+	/**
+	 * Create a DOM element representation of this Widget instance.
+	 * @param {Boolean} [config.recurse] if true then "container Widgets" (set via descendFrom) will also be rendered recursively as ancestors.
+	 * @return {Element} A DOM element represeting this widget instance.
+	 */
+	Widget.prototype.render = function(config) {
+		var conf = config || {},
+			parentNode,
+			tagName = this.tagName || "span",
+			attributes = this.attributes || {},
+			className = this.className,
+			element = document.createElement(tagName);
+		if (className) {
+			element.className = className;
+		}
+		Object.keys(attributes).forEach(function(attrName) {
+			var attrValue = attributes[attrName] || uid();
+			element.setAttribute(attrName, attrValue);
+		});
+		if (conf.recurse && this.container) {
+			parentNode = this.container.render(conf);
+			parentNode.appendChild(element);
+		}
+		return element;
 	};
 
 	/**

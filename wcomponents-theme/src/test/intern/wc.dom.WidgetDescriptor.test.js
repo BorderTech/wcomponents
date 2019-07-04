@@ -7,7 +7,6 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 		staticNamedAnchor, matchId, allNamedElements, allElementsWithId, a3Owner, testHolder,
 		urlResource = "@RESOURCES@/domWidget.html";
 
-
 	registerSuite({
 		name: "Widget",
 		setup: function() {
@@ -722,6 +721,47 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 
 			assert.equal(widget.toString(), "div", "original widget should not be modified");
 			assert.notEqual(widgetClone.toString(), "div", "clone widget should be modified");
+		},
+		testRenderRecursiveKitchenSink: function() {
+			// This tests pretty much everything complex...
+			var widget = allStaticBartAnchorsWithANameAndImmediateDescendMooInFoo,
+				result = widget.render({ recurse: true });
+
+			assert.isTrue(widget.isOneOfMe(result));
+			assert.equal("a", result.tagName.toLowerCase());
+			assert.equal("static", result.getAttribute("rel"));
+			assert.isTrue(result.hasAttribute("name"));
+			assert.isTrue(result.classList.contains("bart"));
+			assert.equal("div", result.parentNode.tagName.toLowerCase());
+			assert.isTrue(result.parentNode.classList.contains("moo"));
+			assert.equal("div", result.parentNode.parentNode.tagName.toLowerCase());
+			assert.isTrue(result.parentNode.parentNode.classList.contains("foo"));
+		},
+		testRenderNotRecursive: function() {
+			var widget = allStaticBartAnchorsWithANameAndImmediateDescendMooInFoo,
+				result = widget.render({ recurse: false });
+
+			assert.equal("a", result.tagName.toLowerCase());
+			assert.equal("static", result.getAttribute("rel"));
+			assert.isTrue(result.hasAttribute("name"));
+			assert.isTrue(result.classList.contains("bart"));
+			assert.isNull(result.parentNode);
+		},
+		testRenderDefaultNotRecursive: function() {
+			// test that the default is not to recurse
+			var widget = allStaticBartAnchorsWithANameAndImmediateDescendMooInFoo,
+				result = widget.render();
+
+			assert.isNull(result.parentNode);
+		},
+		testRenderNullTagname: function() {
+			// test that the default is not to recurse
+			var widget = new Widget("", "bill", {"data-foo": "bar"}),
+				result = widget.render();
+
+			assert.equal("span", result.tagName.toLowerCase());
+			assert.isTrue(result.classList.contains("bill"));
+			assert.equal("bar", result.getAttribute("data-foo"));
 		}
 	});
 });
