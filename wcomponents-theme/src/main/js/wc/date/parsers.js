@@ -5,19 +5,25 @@ define(["wc/date/Parser", "wc/i18n/i18n"], function(Parser, i18n) {
 	 * @constructor
 	 */
 	function Parsers() {
-		var parsers, typeEnum = {
+		var parsers,
+			typeEnum = {
 				STANDARD: "standard",
 				PAST: "past",
 				PARTIAL: "partial",
 				PARTIAL_PAST: "partialPast"
 			};
 
-		this.type = typeEnum;
+		this.type = typeEnum;  // Make the type enum public.
 
+		/**
+		 * Gets a configured parser instance.
+		 * @param {wc/date/parsers~type} [type] The type of parser to retrieve, defaults to STANDARD.
+		 * @return {wc/date/Parser} A configured date parser.
+		 */
 		this.get = function(type) {
 			var result;
 			if (!parsers) {
-				initParsers();
+				initParsers();  // lazy init parser instances
 			}
 			result = parsers[typeEnum.STANDARD];
 			if (type) {
@@ -31,7 +37,7 @@ define(["wc/date/Parser", "wc/i18n/i18n"], function(Parser, i18n) {
 		};
 
 		/**
-		 * Initialises the "parsers" instance variable.
+		 * Initialises the "parsers" instance variable lazily, on demand.
 		 * @function
 		 * @private
 		 */

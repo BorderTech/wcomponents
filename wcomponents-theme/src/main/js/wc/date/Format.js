@@ -2,10 +2,10 @@
  * @module
  * @requires module:wc/date/interchange
  * @requires module:wc/date/monthName
- * @requires module:wc/date/parsers
+ * @requires module:wc/date/Parser
  */
-define(["wc/i18n/i18n", "wc/date/interchange", "wc/date/monthName", "wc/date/parsers"],
-	function(i18n, interchange, monthName, parsers) {
+define(["wc/i18n/i18n", "wc/date/interchange", "wc/date/monthName", "wc/date/Parser", "wc/date/pattern"],
+	function(i18n, interchange, monthName, Parser, pattern) {
 		"use strict";
 		var formatter,
 			FORMAT_RE = /y{2,4}|d+|MON|M{2,4}|H+|m+|h+|a+|s+/g,
@@ -22,7 +22,7 @@ define(["wc/i18n/i18n", "wc/date/interchange", "wc/date/monthName", "wc/date/par
 		 *
 		 * @throws {TypeError} Thrown if the mask is not provided (or is false equivalent).
 		 *
-		 * @example myFormatter = new Format("dd MON yyyy");//provides a formatter to dates of the form '31 Jan 2000'
+		 * @example myFormatter = new Format("dd MON yyyy");  // provides a formatter to dates of the form '31 Jan 2000'
 		 */
 		function Format(mask) {
 			/**
@@ -37,55 +37,55 @@ define(["wc/i18n/i18n", "wc/date/interchange", "wc/date/monthName", "wc/date/par
 			}
 		}
 
-		function getParser(options) {
-			var parser;
-			if (options.parser && typeof options.parser.parse === "function") {
-				parser = options.parser;
-			} else {
-				parser = parsers.get(parsers.type.PARTIAL);  // the parser with the most masks
-				// should probably do this here:  options.guess = true;
+		/**
+		 *
+		 * @return {Object.prototype.getParser.parser}
+		 */
+		Format.prototype.getParser = function() {
+			// Hmmm, maybe it would just make more sense to use wc/date/parsers and the the partial date parser?
+			var separators = pattern.D.constructor.separators,
+				parser = new Parser(),
+				masks = [this.mask],
+				maskParts = this.mask.match(FORMAT_RE);
+			if (maskParts && maskParts.length === 3) {
+				Object.keys(separators).forEach(function(key) {
+					var separator = separators[key];
+					masks.push(maskParts[0] + separator + maskParts[1]);
+					masks.push((maskParts[0] + separator + " " + separator + maskParts[2]).replace(NORMALIZE_WHITESPACE_RE, " "));
+					masks.push(maskParts[1] + separator + maskParts[2]);
+				});
+				this.partialParser = parser;
 			}
+			parser.setMasks(masks);
+			this.parser = parser;
 			return parser;
-		}
+		};
 
 		/**
-		 * Converts a formatted date string (that is, a string formatted for display to the users) to a transfer date string.
-		 * @param {String} dateString A formatted date string
-		 * @param {Boolean} [options.guess] If true then in the case that we can not precisely reverse format the
-		 * @param {wc/date/Parser} [options.parser] A configured parser instance used to interpret the dateString.
-		 * input string we will return a "guess" which will be the first match (if there are possible matches).
+		 * Converts a date which has been formatted for display to the users, back to a transfer date string.
+		 * @param {String} dateString A formatted date string.
 		 * @returns {String} A transfer date string if possible.
 		 */
-		Format.prototype.reverse = function (dateString, options) {
+		Format.prototype.reverse = function (dateString) {
 			var result, matches, next, i, value, len,
 				currentValue = dateString, parser;
-			if (!options) {
-				options = {
-					guess: false,
-					parser: null
-				};
-			}
 			if (currentValue && (currentValue = currentValue.trim())) {
 				if (interchange.isValid(currentValue)) {
 					return currentValue;
 				}
-				parser = getParser(options);
-				if (parser) {
-					matches = parser.parse(currentValue);
-					for (i = 0, len = matches.length; i < len; i++) {
-						next = matches[i];
-						value = this.format(next.toXfer());
-						if (Format.formattedDatesSame(value, currentValue)) {
-							result = next.toXfer();
-							break;
-						}
+				parser = this.parser || this.getParser();
+				matches = parser.parse(currentValue);
+				for (i = 0, len = matches.length; i < len; i++) {
+					next = matches[i];
+					value = this.format(next.toXfer());
+					if (Format.formattedDatesSame(value, currentValue)) {
+						result = next.toXfer();
+						break;
 					}
-					if (!result && len && options.guess) {
-						result = matches[0].toXfer();
-					}
-				} else {
-					console.warn("Could not reverse ", dateString);
 				}
+//				if (!result && len && options.guess) {
+//					result = matches[0].toXfer();
+//				}
 			}
 			return result;
 		};
@@ -104,8 +104,8 @@ define(["wc/i18n/i18n", "wc/date/interchange", "wc/date/monthName", "wc/date/par
 		 *
 		 * @todo Could this tie in with some of the existing date classes better (e.g. date.pattern, date.parser, date.explodeMask)?
 		 * @todo Add support for more format options in the mask.
-		 * @example var myFormatter = new Format("dd MON yyyy");//provides a formatter to dates of the form '31 Jan 2000'
-		 * myFormatter.format("2015-05-03");//output '03 May 2015'
+		 * @example var myFormatter = new Format("dd MON yyyy");  // provides a formatter to dates of the form '31 Jan 2000'
+		 * myFormatter.format("2015-05-03");  // output '03 May 2015'
 		 */
 		Format.prototype.format = function (xfer) {
 			var failFlag = false,

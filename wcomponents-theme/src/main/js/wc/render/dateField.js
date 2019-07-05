@@ -43,10 +43,17 @@ define(["wc/render/utils",
 			return element.id || element.getAttribute("data-wc-id");
 		}
 
+		/**
+		 * Imports all field indicators into a target array.
+		 * @param {Element} element  An element potentially containing field inidcators.
+		 * @param {Element[]} target An array to which the field indicators will be imported.
+		 * @return {Element[]} An array of field indicator elements.
+		 */
 		function gatherFieldIndicators(element, target) {
 			// TODO how will this work with client side validation messages?
 			var result= target || [],
-				container = fieldIndicatorUtils.findDescendant(element);
+				fiWidgets = fieldIndicatorUtils.getWidgets(),
+				container = fiWidgets.FIELDINDICATOR.findDescendant(element);
 			if (container) {
 				renderUtils.importKids(container, result);
 				container.parentNode.removeChild(container);

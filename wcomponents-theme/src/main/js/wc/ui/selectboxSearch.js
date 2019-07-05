@@ -10,10 +10,9 @@ define(["wc/string/escapeRe",
 	"wc/i18n/i18n",
 	"wc/timers",
 	"wc/config",
-	"wc/mixin",
 	"wc/debounce",
 	"wc/dom/textContent"],
-	function(escapeRe, tag, uid, classList, initialise, attribute, shed, event, group, i18n, timers, wcconfig, mixin, debounce, textContent) {
+	function(escapeRe, tag, uid, classList, initialise, attribute, shed, event, group, i18n, timers, wcconfig, debounce, textContent) {
 		"use strict";
 		var ns = uid();
 
@@ -444,7 +443,6 @@ define(["wc/string/escapeRe",
 		 * @requires module:wc/i18n/i18n
 		 * @requires module:wc/timers
 		 * @requires module:wc/config
-		 * @requires module:wc/mixin
 		 * @requires module:wc/debounce
 		 * @requires module:wc/dom/textContent
 		 *

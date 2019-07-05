@@ -108,8 +108,7 @@ define(["lib/sprintf", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/load
 			function getContainer() {
 				var container = document.getElementById(CONTAINER_ID);
 				if (!container) {
-					container = document.createElement(TIMEOUT_CONTAINER.tagName);
-					container.id = CONTAINER_ID;
+					container = TIMEOUT_CONTAINER.render();
 					document.body.appendChild(container);
 				}
 				return container;

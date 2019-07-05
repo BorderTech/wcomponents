@@ -64,6 +64,12 @@ define([
 			}
 		}
 
+		Pattern.separators = {
+			SPACE: " ",
+			FWD_SLASH: "/",
+			DASH: "-"
+		};
+
 		/**
 		 * The default output function is a no op. The output function for a date pattern is, if required, passed in on
 		 * the constructor.
@@ -124,7 +130,7 @@ define([
 		 * @returns {module:wc/date/pattern~patterns} The patterns to be used.
 		 */
 		function pattern() {
-			return /** @alias module:wc/date/pattern @type module:wc/date/pattern~patterns*/{
+			var patternMap = {
 				"G": new Pattern("era", "(BC|AD)"),
 				"y": new Pattern(YEAR, "(18[0-9]{2}|19[0-9]{2}|2[0-9]{3}|[0-9]{2}|[0-9]{2})", nYear),
 				"y?": new Pattern(YEAR, "([0-9]{2}|18[0-9]{2}|19[0-9]{2}|2[0-9]{3})", nYear),
@@ -133,6 +139,8 @@ define([
 				"M": new Pattern(MONTH, "(12|11|10|0[1-9]|[1-9])", nMonth),
 				"M?": new Pattern(MONTH, "([1-9]|0[1-9]|10|11|12)", nMonth),
 				"MM": new Pattern(MONTH, "(12|11|10|0[1-9])", nMonth),
+				"MMM": new Pattern(MNTHNAME, monthNameRe, nMonth),
+				"MMMM": new Pattern(MNTHNAME, monthNameRe, nMonth),
 				"MON": new Pattern(MNTHNAME, monthNameRe, nMonth),
 				"w": new Pattern("weekInYear", "[wW]([0-9]{2})"),
 				"W": new Pattern("weekInMonth", "_not_defined_"),
@@ -142,12 +150,14 @@ define([
 				"dd": new Pattern(DAY, "(31|30|[1-2][0-9]|0[1-9])", nDay),
 				"F": new Pattern("dayInWeek", "(0[1-7])"),
 				"E": new Pattern("dayInWeekName", weekdayNameRe),
-				" ": new Pattern(SEPARATOR, "([ \\\\\\/\\.-])"),
-				"/": new Pattern(SEPARATOR, "(\\/)"),
-				"-": new Pattern(SEPARATOR, "(\\-)"),
 				"+-": new Pattern("relative", "(\\+[0-9]+|\\-[0-9]+)", nRelative, null),
 				"ytm": new Pattern("shortForm", shortFormRe, nShortForm, null)
 			};
+
+			patternMap[Pattern.separators.SPACE] = new Pattern(SEPARATOR, "([ \\\\\\/\\.-])");
+			patternMap[Pattern.separators.FWD_SLASH] = new Pattern(SEPARATOR, "(\\/)");
+			patternMap[Pattern.separators.DASH] = new Pattern(SEPARATOR, "(\\-)");
+			return /** @alias module:wc/date/pattern @type module:wc/date/pattern~patterns*/ patternMap;
 		}
 
 		/**

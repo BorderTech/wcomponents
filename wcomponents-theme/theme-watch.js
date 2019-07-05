@@ -15,16 +15,18 @@ const srcDir = "./src/main/js/";
 const targetDir = "./target/classes/theme/wcomponents-theme/scripts_debug/";
 const testDir = "./src/test/intern/";
 const targetTestDir = "./target/test-classes/wcomponents-theme/intern/";
+const sassSrcDir = "./src/main/sass/";
+const sassTargetDir = "./target/classes/theme/wcomponents-theme/style/";
 
 const CLIEngine = require("eslint").CLIEngine;
 const eslintCli = new CLIEngine();
 
-console.log("Watching ", srcDir);
+const sass = require("sass");
+const sassLint = require("sass-lint");
 
-watchDir(srcDir, targetDir);
-watchDir(testDir, targetTestDir, function(data) {
-	return data.replace(/@RESOURCES@/g, "/target/test-classes/wcomponents-theme/intern/resources");
-});
+watchDir(srcDir, targetDir, fileProcessCopy.bind(null, regularCopy));
+watchDir(testDir, targetTestDir, fileProcessCopy.bind(null, processTestFile));
+watchDir(sassSrcDir, sassTargetDir, fileProcessCopy.bind(null, processSassFile));
 
 /**
  * Sets up a filesystem watch on the given source directory and copies any changed files to the corresponding subdirectory in targetRoot.
@@ -34,16 +36,51 @@ watchDir(testDir, targetTestDir, function(data) {
  * @param {Function(String)} [processFunc] Optionally provide a function to process file contents before it is copied.
  */
 function watchDir(sourceRoot, targetRoot, processFunc) {
+	console.log("Watching ", sourceRoot);
 	fs.watch(sourceRoot, { recursive: true }, (event, filename) => {
 		if (filename && event === "change") {
 			let targetPath = path.join(targetRoot, filename);
 			let sourcePath = path.join(sourceRoot, filename);
 			let targetDir = path.dirname(targetPath);
 			console.log("File Changed ", sourcePath);
-			exists(targetDir, copyFile(sourcePath, targetPath, processFunc));
-			runEslint(sourcePath);
+			lintFile(sourcePath);
+			if (fs.existsSync(targetDir)) {
+				processFunc(sourcePath, targetPath);
+			} else {
+				console.log("Nothing to overwrite, please complete a full build first", targetDir);
+			}
 		}
 	});
+}
+
+function lintFile(sourcePath) {
+	let ext = path.extname(sourcePath);
+	try {
+		if (ext === ".js") {
+			runEslint(sourcePath);
+		} else if (ext === ".scss") {
+			runSassLint(sourcePath);
+		}
+	} catch(ex) {
+		console.warn(ex);
+	}
+}
+
+function runSassLint(sourcePath) {
+	var results = sassLint.lintFiles(sourcePath, { formatter: "stylish" });
+	if (results) {
+		results.forEach(logLintReport);
+	}
+}
+
+function logLintReport(reportItem) {
+	if (reportItem.messages && reportItem.messages.length) {
+		console.log("Style issues found in ", reportItem.filePath);
+		reportItem.messages.forEach(function(message) {
+			var logString = `\t${message.message} - Ln ${message.line}, Col ${message.column}`;
+			console.log(logString);
+		});
+	}
 }
 
 /**
@@ -53,43 +90,39 @@ function watchDir(sourceRoot, targetRoot, processFunc) {
 function runEslint(filePath) {
 	let report = eslintCli.executeOnFiles([filePath]);
 	if (report && report.results) {
-		report.results.forEach(function(reportItem) {
-			if (reportItem.messages && reportItem.messages.length) {
-				console.log("Style issues found in ", reportItem.filePath);
-				reportItem.messages.forEach(function(message) {
-					var logString = `\t${message.message} - Ln ${message.line}, Col ${message.column}`;
-					console.log(logString);
-				});
-			}
-		});
+		report.results.forEach(logLintReport);
 	}
 }
 
-function copyFile(sourcePath, targetPath, processFunc) {
-	return function(exists) {
-		if (exists) {
-			if (processFunc) {
-				processCopy(sourcePath, targetPath, processFunc);
-			} else {
-				regularCopy(sourcePath, targetPath);
+function processSassFile(sourcePath, targetPath, callback) {
+	// TODO this should not actually compile the changed sass file but instead should recompile the top level file/s each time any sass file is changed
+	let sassProcess = function(err, result) {
+			let data;
+			try {
+				if (result && result.css) {
+					data = result.css.toString();
+				} else {
+					console.warn("No result from sass for ", sourcePath);
+				}
+			} finally {
+				callback(err, data);
 			}
-		} else {
-			console.log("Nothing to overwrite, please complete a full build first", targetPath);
-		}
-	};
+		};
+	sass.render({ file: sourcePath }, sassProcess);
 }
 
-/**
- * Given a filesystem path will call the callback with a boolean indicating whether the path exists or not.
- * @param {String} fsPath The filesystem path to check.
- * @param {Function(Boolean)} callback Called with true if the path exists.
- */
-function exists(fsPath, callback) {
-	fs.stat(fsPath, function(err, stat) {
-		if(err == null) {
-			callback(true);
-		} else {
-			callback(false);
+function processTestFile(sourcePath, targetPath, callback) {
+	let replacer = function(data) {
+			return data.replace(/@RESOURCES@/g, "/target/test-classes/wcomponents-theme/intern/resources");
+		};
+	fs.readFile(sourcePath, "utf8", function(err, data) {
+		var fileData;
+		try {
+			if (!err) {
+				fileData = replacer(data);
+			}
+		} finally {
+			callback(err, fileData);
 		}
 	});
 }
@@ -99,33 +132,33 @@ function exists(fsPath, callback) {
  * @param {String} sourcePath The path to the source file.
  * @param {String} targetPath The path to the destination file (will overwrite, parent directory must exist).
  */
-function regularCopy(sourcePath, targetPath) {
+function regularCopy(sourcePath, targetPath, callback) {
 	fs.copyFile(sourcePath, targetPath, (err) => {
-		if (err) {
-			console.error(err);
-		} else {
+		if (!err) {
 			console.log(`${sourcePath} was copied to ${targetPath}`);
 		}
+		callback(err);
 	});
 }
 
 /**
- * Performs a copy but allows a function to process the file content first.
+ * Performs a copy but allows a function to process the file first.
+ * @param {Function(String)} processFunc Will be passed the content of sourcePath, the return value will be copied to targetPath.
  * @param {String} sourcePath The path to the source file.
  * @param {String} targetPath The path to the destination file (will overwrite, parent directory must exist).
- * @param {Function(String)} processFunc Will be passed the content of sourcePath, the return value will be copied to targetPath.
  */
-function processCopy(sourcePath, targetPath, processFunc) {
-	fs.readFile(sourcePath, "utf8", function (err, data) {
-		var fileData;
+function fileProcessCopy(processFunc, sourcePath, targetPath) {
+	processFunc(sourcePath, targetPath, function (err, data) {
 		if (err) {
 			console.error(err);
-		} else {
-			fileData = processFunc(data);
+		} else if (data) {
+			fs.writeFile(targetPath, data, "utf8", function (err) {
+				if (err){
+					console.error(err);
+				} else {
+					console.log(`${sourcePath} was processed and written to ${targetPath}`);
+				}
+			});
 		}
-
-		fs.writeFile(targetPath, fileData, "utf8", function (err) {
-			if (err) console.error(err);
-		});
 	});
 }

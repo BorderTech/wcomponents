@@ -113,6 +113,30 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			assert.strictEqual(result[0].month, 11);
 			assert.strictEqual(result[0].year, 2003);
 		},
+		testParserMonthName: function() {
+			var parser = getParser(["dd MMM yyyy"], false, false),
+				result = parser.parse("28 Oct 2028");
+			assert.strictEqual(result.length, 1);
+			assert.strictEqual(result[0].day, 28);
+			assert.strictEqual(result[0].month, 10);
+			assert.strictEqual(result[0].year, 2028);
+		},
+		testParserMonthNameLong: function() {
+			var parser = getParser(["dd MMMM yyyy"], false, false),
+				result = parser.parse("28 October 2028");
+			assert.strictEqual(result.length, 1);
+			assert.strictEqual(result[0].day, 28);
+			assert.strictEqual(result[0].month, 10);
+			assert.strictEqual(result[0].year, 2028);
+		},
+		testParserMonthNameCustomMask: function() {
+			var parser = getParser(["dd MON yyyy"], false, false),
+				result = parser.parse("28 Oct 2028");
+			assert.strictEqual(result.length, 1);
+			assert.strictEqual(result[0].day, 28);
+			assert.strictEqual(result[0].month, 10);
+			assert.strictEqual(result[0].year, 2028);
+		},
 		testParserStndIsoDate: function() {
 			var parser = getParser(standardMasks, false, false),
 				result = parser.parse("1973-10-28");

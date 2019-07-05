@@ -397,7 +397,7 @@ define(["wc/has",
 			function setUpDateFields(container) {
 				var _container = container || document.body,
 					fields,
-					promises = widgets.CUSTOM.findDescendents(_container).map(renderer.render);
+					promises = Array.prototype.map.call(widgets.CUSTOM.findDescendants(_container), renderer.render);
 
 				return Promise.all(promises).then(function() {
 					if (container && widgets.DATE_WRAPPER_INCL_RO.isOneOfMe(container)) {

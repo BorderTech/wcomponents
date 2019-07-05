@@ -44,10 +44,17 @@ define(["wc/date/today",
 				return interchange.toDate(xfer);
 			};
 
+			/**
+			 * Determines if this Match instance is equivalent to another instance.
+			 * @param {Match} match The match to compare with.
+			 * @return {Boolean} True if the instance is logically equivalent to this instance.
+			 */
 			this.equals = function(match) {
 				var a = this, b = match, diff = 1;
-				if (a.day === b.day && a.month === b.month && a.year === b.year) {
-					diff = 0;
+				if (b) {
+					if (a.day === b.day && a.month === b.month && a.year === b.year) {
+						diff = 0;
+					}
 				}
 				return !diff;
 			};
