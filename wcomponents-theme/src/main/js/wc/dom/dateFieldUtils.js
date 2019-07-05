@@ -97,12 +97,11 @@ define(["wc/date/Format", "wc/has", "wc/date/parsers", "wc/date/interchange", "w
 			hasPartialDate: function (element) {
 				var result = false,
 					value = this.getRawValue(element),
-					parser = parsers.get(parsers.type.PARTIAL),  // We always want the the most inclusive (the partial parser) here
 					formatter = Format.getDefaultFormatter();
 
 				if (value) {
 					if (!interchange.isValid(value)) {
-						value = formatter.reverse(value, { parser: parser });
+						value = formatter.reverse(value);
 					}
 					if (value) {
 						result = !interchange.isComplete(value);
@@ -119,15 +118,12 @@ define(["wc/date/Format", "wc/has", "wc/date/parsers", "wc/date/interchange", "w
 			 * @function  module:wc/dom/dateFieldUtils.getValue
 			 * @public
 			 * @param {Element} element The date field we want to get the value from.
-			 * @param {Boolean} [guess] If true then try a best guess at the transfer format when formatting it. For
-			 *    more info see {@link module:wc/date/Fomat~reverse}
 			 * @returns {String} The date in transfer format or an empty string if the field has no value.
 			 */
-			getValue: function(element, guess) {
-				var formatter, parser,  result = utils.getRawValue(element);
+			getValue: function(element) {
+				var formatter, result = utils.getRawValue(element);
 				formatter = Format.getDefaultFormatter();
-				parser = utils.getParser(element);
-				result = formatter.reverse(result, { guess: guess, parser: parser });
+				result = formatter.reverse(result);
 				return result || "";
 			},
 			/**

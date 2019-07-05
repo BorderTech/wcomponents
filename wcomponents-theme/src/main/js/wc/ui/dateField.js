@@ -259,7 +259,7 @@ define(["wc/has",
 						textbox.value = value;  // do not fire change event here: do it on collapse
 					}
 
-					if (optionVal[(dateField.id)] !== dfUtils.getValue(dateField, true)) {
+					if (optionVal[(dateField.id)] !== dfUtils.getValue(dateField)) {
 						timers.setTimeout(event.fire, 0, dfUtils.getTextBox(dateField), event.TYPE.change);
 					}
 				}
