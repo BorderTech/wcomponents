@@ -762,6 +762,16 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			assert.equal("span", result.tagName.toLowerCase());
 			assert.isTrue(result.classList.contains("bill"));
 			assert.equal("bar", result.getAttribute("data-foo"));
+		},
+		testRenderMultipleClassname: function() {
+			// test that the default is not to recurse
+			var widget = new Widget("i", ["test", "icicles"], {"data-kung": "fu"}),
+				result = widget.render();
+
+			assert.equal("i", result.tagName.toLowerCase());
+			assert.isTrue(result.classList.contains("test"));
+			assert.isTrue(result.classList.contains("icicles"));
+			assert.equal("fu", result.getAttribute("data-kung"));
 		}
 	});
 });

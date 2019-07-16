@@ -1,6 +1,5 @@
 define(["wc/date/Format", "wc/has", "wc/date/parsers", "wc/date/interchange", "wc/dom/Widget"], function(Format, has, parsers, interchange, Widget) {
-	var FIELD_CLASS = "wc-datefield",
-		widgets,
+	var widgets,
 		FAKE_VALUE_ATTRIB = "data-wc-value",  // TODO duplicated from dateField
 		utils = {
 			/**
@@ -134,7 +133,11 @@ define(["wc/date/Format", "wc/has", "wc/date/parsers", "wc/date/interchange", "w
 			 * @returns {Element} The input element of the dateField.
 			 */
 			getTextBox: function (element) {
-				return utils.getWidgets().INPUT.findDescendant(element);
+				var widget = utils.getWidgets().INPUT;
+				if (widget.isOneOfMe(element)) {
+					return element;
+				}
+				return widget.findDescendant(element);
 			},
 			get: function(element) {
 				return utils.getWidgets().DATE_FIELD.findAncestor(element);
@@ -164,24 +167,30 @@ define(["wc/date/Format", "wc/has", "wc/date/parsers", "wc/date/interchange", "w
 			}
 		};
 
+
 	function createWidgets() {
 		var widgetMap = {
-			DATE_FIELD: new Widget("div", FIELD_CLASS),
-			DATE_WRAPPER_INCL_RO: new Widget("", FIELD_CLASS),
+			DATE_FIELD: new Widget("div", ["wc-input-wrapper", "wc-datefield"]),
+			DATE_WRAPPER_INCL_RO: new Widget("", "wc-datefield"),
 			DATE_RO: new Widget("", "", {"data-wc-component": "datefield"}),
 			INPUT: new Widget("input"),
 			SUGGESTION_LIST: new Widget("", "", { role: "listbox"}),
 			OPTION_WD: new Widget("", "", { role: "option"}),
-			LAUNCHER: new Widget("button", "wc_wdf_cal"),
+			LAUNCHER: new Widget("button", ["wc_wdf_cal", "wc-invite"], { type: "button" }),
+			LAUNCHER_ICON: new Widget("i", ["fa", "fa-calendar"], { "aria-hidden": "true" }),
 			SWITCHER: new Widget("input", "", { type: "checkbox" }),
 			CUSTOM: new Widget("wc-dateinput")
 		};
+		widgetMap.DATE_WRAPPER_FAKE = widgetMap.DATE_FIELD.extend("" , { role: "combobox", "aria-autocomplete": "list" });
+		widgetMap.DATE_WRAPPER_PARTIAL = widgetMap.DATE_WRAPPER_FAKE.extend("wc_datefield_partial");
 		widgetMap.DATE = widgetMap.INPUT.extend("", { type: "date"});
 		widgetMap.DATE_PARTIAL = widgetMap.INPUT.extend("", { type : "text"});
 		widgetMap.INPUT.descendFrom(widgetMap.DATE_FIELD, true);
 		widgetMap.DATE.descendFrom(widgetMap.DATE_FIELD, true);
 		widgetMap.DATE_PARTIAL.descendFrom(widgetMap.DATE_FIELD, true);
 		widgetMap.SUGGESTION_LIST.descendFrom(widgetMap.DATE_FIELD, true);
+		widgetMap.LAUNCHER_ICON.descendFrom(widgetMap.LAUNCHER);
+
 		return widgetMap;
 	}
 

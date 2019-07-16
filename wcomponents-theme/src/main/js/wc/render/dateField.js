@@ -62,12 +62,14 @@ define(["wc/render/utils",
 		}
 
 		function renderDateField(element, i18nBundle) {
-			var allowPartial = element.getAttribute("data-wc-allowpartial"),
+			var createContainerFunc = createContainer,
+				allowPartial = element.getAttribute("data-wc-allowpartial"),
 				elements, hasPartialDate = dfUtils.hasPartialDate(element);
 			if (!has("native-dateinput") || allowPartial === "true" || hasPartialDate) {
 				elements = [createFakeDateInput(element, i18nBundle)];
 				elements.push(renderDatePickerLauncher(element));
 				elements.push(createListBox());
+				createContainerFunc = createCustomContainer;
 			} else {
 				elements = [createDateInput(element)];
 			}
@@ -75,17 +77,10 @@ define(["wc/render/utils",
 				elements.push(createPartialSwitcher(element, i18nBundle, hasPartialDate));
 			}
 			gatherFieldIndicators(element, elements);
-			elements = createContainer(element, elements);
+			elements = createContainerFunc(element, elements, allowPartial);
 			element.parentNode.replaceChild(elements, element);
 		}
 
-//		function createWrapper(children) {
-//			var wrapper = document.createDocumentFragment();
-//			children.forEach(function(element) {
-//				wrapper.appendChild(element);
-//			});
-//			return wrapper;
-//		}
 
 		function createPartialSwitcher(element, i18nBundle, disabled) {
 			var switcher,
@@ -116,7 +111,7 @@ define(["wc/render/utils",
 			 */
 			switcher = renderUtils.createElement("input", config);
 			if (isDisabled(element)) {
-				switcher.disabled = true;
+				shed.disable(switcher, true);
 			}
 			switcher = renderUtils.createElement("label", {}, [switcher, i18nBundle["datefield_partial_switcher_label"]]);
 			switcher = renderUtils.createElement("div", {}, [switcher]);
@@ -124,52 +119,59 @@ define(["wc/render/utils",
 		}
 
 		function renderDatePickerLauncher(element) {
-			var icon, result, config = {
-					attrs: {
-						"aria-hidden": "true",
-						tabindex: "-1",
-						type: "button",
-						value: getId(element) + "_input"
-					}
-				};
-			icon = renderUtils.createElement("i", { attrs: {"aria-hidden": "true"} });
-			icon.className = "fa fa-calendar";
-
-			result = renderUtils.createElement("button", config, [icon]);
-			result.className = "wc_wdf_cal wc-invite";
+			var launcherWidget = widgets.LAUNCHER.extend("", {
+					"aria-hidden": "true",
+					tabindex: "-1",
+					value: getId(element) + "_input"
+				}),
+				result = launcherWidget.render();
+			renderUtils.appendKids(result, [widgets.LAUNCHER_ICON.render()]);
 
 			if (isDisabled(element)) {
-				result.disabled = true;
+				shed.disable(result, true);
 			}
 
 			return result;
 		}
 
-		function createContainer(element, children) {
-			var container,
-				config = { attrs: {} };
+		function createContainer(element, children, allowPartial) {
+			var renderWidget,
+				container,
+				attrs = {
+					id: getId(element)
+				};
 
-			renderUtils.extractAttributes(element, { "aria-busy": null, "data-wc-id": "id" }, config.attrs);
-
-			mixin({
-				role: "combobox",
-				"aria-autocomplete": "list",
-				"aria-expanded": "false" },
-			config.attrs);
-
-			container = renderUtils.createElement("div", config, children);
-			container.classList.add("wc-datefield");
-			container.classList.add("wc-input-wrapper");
-			if (element.hasAttribute("data-wc-allowpartial")) {
-				container.classList.add("wc_datefield_partial");
+			if (allowPartial !== null) {
+				attrs["data-wc-allowpartial"] = allowPartial;
 			}
+			renderWidget = widgets.DATE_FIELD.extend("", attrs);
+			container = renderWidget.render();
+			renderUtils.appendKids(container, children);
+			return container;
+		}
+
+		function createCustomContainer(element, children, allowPartial) {
+			var renderWidget,
+				container,
+				attrs = {
+					id: getId(element),
+					"aria-expanded": "false"
+				};
+			if (allowPartial !== null) {
+				renderWidget = widgets.DATE_WRAPPER_PARTIAL;
+				attrs["data-wc-allowpartial"] = allowPartial;
+			} else {
+				renderWidget = widgets.DATE_WRAPPER_FAKE;
+			}
+			renderWidget = renderWidget.extend("", attrs);
+			container = renderWidget.render();
+			renderUtils.appendKids(container, children);
 			return container;
 		}
 
 		function createListBox() {
 			var config = {
 				attrs: {
-					"aria-busy": "true",
 					role: "listbox"
 				}
 			};
@@ -241,7 +243,7 @@ define(["wc/render/utils",
 			}
 		}
 
-		/**
+		/*
 		 * don't call this directly, call checkEnableSwitcherEvent instead
 		 */
 		function checkEnableSwitcher(element) {
@@ -253,12 +255,12 @@ define(["wc/render/utils",
 					hasPartial = dfUtils.hasPartialDate(element);
 					// Currently partial dates are accepted, disable switcher if date contains partial date
 					if (hasPartial) {
-						shed.disable(switcher);
+						shed.disable(switcher, true);
 					} else {
-						shed.enable(switcher);
+						shed.enable(switcher, true);
 					}
 				} else {
-					shed.enable(switcher);
+					shed.enable(switcher, true);
 				}
 			}
 		}

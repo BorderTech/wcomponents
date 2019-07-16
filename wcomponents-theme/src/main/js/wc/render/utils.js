@@ -5,7 +5,7 @@ define(["wc/dom/event"], function(eventManager) {
 	/**
 	 * Takes the attributes from an Element and turns them into a key/value map for easy lookup.
 	 * @param {Element} element The element which may contain attributes to map.
-	 * @paramn {Object} renameMap A map of old attribute names to new ones if they should be changed while exxtracting.
+	 * @param {Object} renameMap A map of old attribute names to new ones if they should be changed while exxtracting.
 	 * @param {Object} [obj] Optionally the attributes will be mapped onto this object.
 	 * @returns {Object} A map of attributes set on this Element.
 	 */
@@ -64,16 +64,17 @@ define(["wc/dom/event"], function(eventManager) {
 	 * @param {Object} attrs key/value pairs of attributes to set.
 	 */
 	function setAttributes(element, attrs) {
-		var attrName;
+		var attrName, attrVal;
 		if (attrs) {
 			for (attrName in attrs) {
 				if (attrs.hasOwnProperty(attrName)) {
+					attrVal = attrs[attrName];
 					if (attrName === "className") {
 						attrName = "class";
 					} else if (attrName === "htmlFor") {
 						attrName = "for";
 					}
-					element.setAttribute(attrName, attrs[attrName]);
+					element.setAttribute(attrName, attrVal);
 				}
 			}
 		}
@@ -109,6 +110,11 @@ define(["wc/dom/event"], function(eventManager) {
 			setAttributes(element, elementConfig.attrs);
 			wireEvents(element, elementConfig);
 		}
+		appendKids(element, childNodes);
+		return element;
+	}
+
+	function appendKids(element, childNodes) {
 		if (childNodes && childNodes.length) {
 			childNodes.forEach(function(next) {
 				if (next) {
@@ -119,12 +125,12 @@ define(["wc/dom/event"], function(eventManager) {
 				}
 			});
 		}
-		return element;
 	}
 
 	return {
 		createElement: createElement,
 		extractAttributes: extractAttributes,
+		appendKids: appendKids,
 		importKids: importKids
 	};
 });

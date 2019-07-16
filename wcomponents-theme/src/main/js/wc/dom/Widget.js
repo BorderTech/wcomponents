@@ -19,7 +19,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid"], /** @param getAncestorOrSelf 
 	 * @alias module:wc/dom/Widget
 	 *
 	 * @param {String} [tagName] element tagName that describes this widget
-	 * @param {String|Array} [className] className/s that describe this widget - if it's an array then EVERY className
+	 * @param {String|String[]} [className] className/s that describe this widget - if it's an array then EVERY className
 	 *    must match (i.e. they are ANDed).
 	 * @param  {Object} [attributes] A map of attributes that describe this widget, each key is an attribute name, each
 	 *    value is an attribute value. E.g.: {type:'button',checked: null}. Note use null to test for the presence of an
@@ -347,7 +347,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid"], /** @param getAncestorOrSelf 
 	 * class of "invite" on top of the base definition.
 	 * @function
 	 * @public
-	 * @param {String} [additionalClassName] class name/s to add to the parent className/s.
+	 * @param {String|String[]} [additionalClassName] class name/s to add to the parent className/s.
 	 * @param {Object} [additionalAttributes] attribute/s to add to the parent attribute/s.
 	 * @returns {module:wc/dom/Widget} A "child" instance of this Widget (treat it like any other instance).
 	 * @throws {TypeError} Thrown if neither optiona attributeis present: we need one to do anything!
@@ -403,7 +403,11 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid"], /** @param getAncestorOrSelf 
 			className = this.className,
 			element = document.createElement(tagName);
 		if (className) {
-			element.className = className;
+			if (Array.isArray(className)) {
+				element.className = className.join(" ");
+			} else {
+				element.className = className;
+			}
 		}
 		Object.keys(attributes).forEach(function(attrName) {
 			var attrValue = attributes[attrName] || uid();
