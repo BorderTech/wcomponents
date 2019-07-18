@@ -26,9 +26,9 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				allBars = new Widget("", "bar");
 				allMoos = new Widget("", "moo");
 				allFooBarDivs = allDivs.extend(["foo", "bar"]);
-				mooDivInFooDiv = allDivs.extend("moo");
-				mooDivInFooDivImmediate = allDivs.extend("moo");
-				barSpanInMooDivInFooDiv = new Widget("span", "bar");
+				mooDivInFooDiv = allDivs.extend("moo").descendFrom(fooDiv);  // test chaining descendFrom
+				mooDivInFooDivImmediate = allDivs.extend("moo").descendFrom(fooDiv, true);
+				barSpanInMooDivInFooDiv = new Widget("span", "bar").descendFrom(mooDivInFooDiv);
 				allStaticAnchors = allAnchors.extend("", {
 					rel: "static"
 				});
@@ -38,7 +38,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				});
 				allStaticBartAnchorsWithANameAndImmediateDescendMooInFoo = allStaticBartAnchors.extend("", {
 					name: null
-				});
+				}).descendFrom(mooDivInFooDiv, true);
 				staticNamedAnchor = new Widget("a", "", {
 					rel: "static",
 					name: null
@@ -55,12 +55,6 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				a3Owner = new Widget("", "", {
 					"aria-owns": "a3"
 				});
-
-				/* these constrain the ancestor lookups */
-				mooDivInFooDiv.descendFrom(fooDiv);
-				mooDivInFooDivImmediate.descendFrom(fooDiv, true);
-				barSpanInMooDivInFooDiv.descendFrom(mooDivInFooDiv);
-				allStaticBartAnchorsWithANameAndImmediateDescendMooInFoo.descendFrom(mooDivInFooDiv, true);
 
 				return testutils.setUpExternalHTML(urlResource, testHolder);
 			});
@@ -725,25 +719,53 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 		testRenderRecursiveKitchenSink: function() {
 			// This tests pretty much everything complex...
 			var widget = allStaticBartAnchorsWithANameAndImmediateDescendMooInFoo,
-				result = widget.render({ recurse: true });
+				result = widget.render({ recurse: true, state: { name: "kungfu" } });
 
 			assert.isTrue(widget.isOneOfMe(result));
 			assert.equal("a", result.tagName.toLowerCase());
 			assert.equal("static", result.getAttribute("rel"));
-			assert.isTrue(result.hasAttribute("name"));
+			assert.equal("kungfu", result.getAttribute("name"));
 			assert.isTrue(result.classList.contains("bart"));
 			assert.equal("div", result.parentNode.tagName.toLowerCase());
 			assert.isTrue(result.parentNode.classList.contains("moo"));
 			assert.equal("div", result.parentNode.parentNode.tagName.toLowerCase());
 			assert.isTrue(result.parentNode.parentNode.classList.contains("foo"));
 		},
+		testRenderRecursiveKitchenSinkReturnOutermost: function() {
+			// This tests pretty much everything complex...
+			var widget = allStaticBartAnchorsWithANameAndImmediateDescendMooInFoo,
+				topElement = widget.render({ recurse: true, outermost: true, state: { name: "kungfu" } }),
+				result = widget.findDescendant(topElement);
+
+			assert.isTrue(widget.isOneOfMe(result));
+			assert.equal("a", result.tagName.toLowerCase());
+			assert.equal("static", result.getAttribute("rel"));
+			assert.equal("kungfu", result.getAttribute("name"));
+			assert.isTrue(result.classList.contains("bart"));
+			assert.equal("div", result.parentNode.tagName.toLowerCase());
+			assert.isTrue(result.parentNode.classList.contains("moo"));
+			assert.equal("div", result.parentNode.parentNode.tagName.toLowerCase());
+			assert.isTrue(result.parentNode.parentNode.classList.contains("foo"));
+			assert.equal(topElement, result.parentNode.parentNode);
+		},
 		testRenderNotRecursive: function() {
 			var widget = allStaticBartAnchorsWithANameAndImmediateDescendMooInFoo,
-				result = widget.render({ recurse: false });
+				result = widget.render({ recurse: false, state: { name: "fukung" } });
 
 			assert.equal("a", result.tagName.toLowerCase());
 			assert.equal("static", result.getAttribute("rel"));
-			assert.isTrue(result.hasAttribute("name"));
+			assert.equal("fukung", result.getAttribute("name"));
+			assert.isTrue(result.classList.contains("bart"));
+			assert.isNull(result.parentNode);
+		},
+		testRenderNotRecursiveOutermost: function() {
+			// outermost should have no effect here
+			var widget = allStaticBartAnchorsWithANameAndImmediateDescendMooInFoo,
+				result = widget.render({ recurse: false, outermost: true, state: { name: "fukung" } });
+
+			assert.equal("a", result.tagName.toLowerCase());
+			assert.equal("static", result.getAttribute("rel"));
+			assert.equal("fukung", result.getAttribute("name"));
 			assert.isTrue(result.classList.contains("bart"));
 			assert.isNull(result.parentNode);
 		},
@@ -763,15 +785,80 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			assert.isTrue(result.classList.contains("bill"));
 			assert.equal("bar", result.getAttribute("data-foo"));
 		},
+		testRenderNullAttribute: function() {
+			// test that null attributes are not written
+			var widget = new Widget("span", "bill", { "data-foo": null }),
+				result = widget.render();
+
+			assert.isFalse(result.hasAttribute("data-foo"));
+		},
+		testRenderStateNotRecursed: function() {
+			// This tests pretty much everything complex...
+			var widget = allStaticBartAnchorsWithANameAndImmediateDescendMooInFoo,
+				result = widget.render({ recurse: true, state: { name: "kungfu" } });
+
+			assert.isTrue(widget.isOneOfMe(result));
+			assert.equal("kungfu", result.getAttribute("name"));
+			assert.isFalse(result.parentNode.hasAttribute("name"));
+		},
 		testRenderMultipleClassname: function() {
 			// test that the default is not to recurse
-			var widget = new Widget("i", ["test", "icicles"], {"data-kung": "fu"}),
+			var widget = new Widget("i", ["test", "icicles"], { "data-kung": "fu" }),
 				result = widget.render();
 
 			assert.equal("i", result.tagName.toLowerCase());
 			assert.isTrue(result.classList.contains("test"));
 			assert.isTrue(result.classList.contains("icicles"));
 			assert.equal("fu", result.getAttribute("data-kung"));
+		},
+		testRenderWithStateClassname: function() {
+			// test that the default is not to recurse
+			var widget = new Widget("i"),
+				result = widget.render({ state: { className: "kungfu" } });
+
+			assert.isTrue(result.classList.contains("kungfu"));
+		},
+		testRenderWithStateClassnames: function() {
+			// test that the default is not to recurse
+			var widget = new Widget("i"),
+				result = widget.render({ state: { className: ["test", "icicles"] } });
+
+			assert.isTrue(result.classList.contains("test"));
+			assert.isTrue(result.classList.contains("icicles"));
+		},
+		testRenderSingleClassnameWithStateClassnames: function() {
+			// test that the default is not to recurse
+			var widget = new Widget("i", "kungfu"),
+				result = widget.render({ state: { className: ["test", "icicles"] } });
+
+			assert.isTrue(result.classList.contains("test"));
+			assert.isTrue(result.classList.contains("icicles"));
+			assert.isTrue(result.classList.contains("kungfu"));
+		},
+		testRenderMultipleClassnameWithStateClassname: function() {
+			// test that the default is not to recurse
+			var widget = new Widget("i", ["test", "icicles"]),
+				result = widget.render({ state: { className: "kungfu" } });
+
+			assert.equal("i", result.tagName.toLowerCase());
+			assert.isTrue(result.classList.contains("test"));
+			assert.isTrue(result.classList.contains("icicles"));
+			assert.isTrue(result.classList.contains("kungfu"));
+		},
+		testRenderStateOverrides: function() {
+			// test that the default is not to recurse
+			var widget = new Widget("i", "", { "data-kung": "kungfu" }),
+				result = widget.render({ state: { "data-kung": "fukung" } });
+
+			assert.equal("fukung", result.getAttribute("data-kung"));
+		},
+		testRenderStateAdds: function() {
+			// test that the default is not to recurse
+			var widget = new Widget("i", "", { "data-kung": "kungfu" }),
+				result = widget.render({ state: { "data-fu": "fukung" } });
+
+			assert.equal("kungfu", result.getAttribute("data-kung"));
+			assert.equal("fukung", result.getAttribute("data-fu"));
 		}
 	});
 });
