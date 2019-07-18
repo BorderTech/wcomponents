@@ -11,7 +11,7 @@ define(["wc/dom/uid", "wc/file/getMimeType", "wc/config"], function (uid, getMim
 	var instance = new FileUtil(),
 
 		/**
-		 * Map of mimetype to extension, used when checking the newly created file is named 
+		 * Map of mimetype to extension, used when checking the newly created file is named
 		 * with the correct extension.
 		 **/
 		mimeToExt = {
@@ -41,7 +41,7 @@ define(["wc/dom/uid", "wc/file/getMimeType", "wc/config"], function (uid, getMim
 			"application/vnd.oasis.opendocument.spreadsheet": ["ods"],
 			"application/vnd.oasis.opendocument.text": ["odt"]
 		};
-		
+
 	/**
 	 * Utility to create and modify file.
 	 * @constructor
@@ -88,6 +88,7 @@ define(["wc/dom/uid", "wc/file/getMimeType", "wc/config"], function (uid, getMim
 		 * If the file name does not match the mime type then the appropriate extension will be appended.
 		 * If there are multiple possible extensions the first will be used.
 		 * @param {Blob} file The file to check.
+		 * @returns {Blob} The fixed file.
 		 */
 		this.fixFileExtension = function (file) {
 			var expectedExtension,
@@ -103,10 +104,10 @@ define(["wc/dom/uid", "wc/file/getMimeType", "wc/config"], function (uid, getMim
 						file.name += "." + expectedExtension[0];
 					}
 				}
-
 			}
+			return file;
 		};
-		
+
 		/**
 		 * Getter for mimetype to extension map.
 		 * It returns default initialised map, if not overridden by 'wc/config'.

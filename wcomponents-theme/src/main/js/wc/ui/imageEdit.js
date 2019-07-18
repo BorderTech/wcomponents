@@ -1,4 +1,4 @@
-define(["wc/has", "wc/mixin", "wc/config", "wc/dom/Widget", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers", "wc/ui/prompt",
+define(["wc/has", "wc/mixin", "wc/config", "wc/dom/Widget", "wc/dom/event", "wc/dom/classList", "wc/timers", "wc/ui/prompt",
 	"wc/i18n/i18n", "fabric", "wc/ui/dialogFrame", "wc/template", "wc/ui/ImageCapture", "wc/ui/ImageUndoRedo", "wc/file/size", "wc/file/util"],
 function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, fabric, dialogFrame, template, ImageCapture, ImageUndoRedo, fileSize, fileUtil) {
 	var imageEdit, timer, imageCapture;

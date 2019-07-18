@@ -140,6 +140,16 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				fileUtil.fixFileExtension(file);
 				actualExt = file.name.split(".");
 				assert.strictEqual(actualExt[1], expectedExt);
+			},
+			testFixFileExtensionUnknownMimeReturnVal: function () {
+				var expectMime = "application/x-csh",
+					file = new Blob(["Unknown mime type in mime map"], {type: expectMime}),
+					expectedExt = "csh",
+					actualExt;
+				file.name = "testfile." + expectedExt;
+				file = fileUtil.fixFileExtension(file);
+				actualExt = file.name.split(".");
+				assert.strictEqual(actualExt[1], expectedExt);
 			}
 		});
 	});
