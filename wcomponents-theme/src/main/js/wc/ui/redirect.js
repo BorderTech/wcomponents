@@ -6,8 +6,9 @@
  * @module
  * @requires module:wc/dom/uid
  * @requires module:wc/timers
+ * @requires module:wc/dom/Widget
  */
-define(["wc/dom/uid", "wc/timers"], /** @param uid wc/dom/uid @param timers wc/timers @ignore */ function(uid, timers) {
+define(["wc/dom/uid", "wc/timers", "wc/dom/Widget"], function(uid, timers, Widget) {
 	"use strict";
 	var instance;
 
@@ -17,7 +18,7 @@ define(["wc/dom/uid", "wc/timers"], /** @param uid wc/dom/uid @param timers wc/t
 	 * @private
 	 */
 	function Redirect() {
-		var redirectFrameId = uid(),
+		var redirectFrameWd = new Widget("iframe", "", { id: uid() }),
 			launchLinkTests = [isPseudoProtocol, isAttachmentLink],
 			timer,
 			ATTACHMENT_FLAG = "wc_content=attach",
@@ -53,11 +54,9 @@ define(["wc/dom/uid", "wc/timers"], /** @param uid wc/dom/uid @param timers wc/t
 		 * @returns {Element} The redirect iframe.
 		 */
 		function getRedirectFrame() {
-			var result = document.getElementById(redirectFrameId);
+			var result = redirectFrameWd.findDescendant(document.body);
 			if (!result) {
-				result = document.createElement("iframe");
-				result.setAttribute("id", redirectFrameId);
-				result.style.display = "none";
+				result = redirectFrameWd.render({ state: { style: "display:none" } });
 				document.body.appendChild(result);
 			}
 			return result;

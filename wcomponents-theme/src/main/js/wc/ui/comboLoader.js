@@ -12,6 +12,7 @@ define(["wc/dom/initialise",
 		 */
 		function ComboLoader() {
 			var SELECT = new Widget("select"),
+				ITEM_WD = new Widget("span", "wc-invite", { role: "option", tabindex: "0" }),
 				SUGGESTION_LIST = comboBox.getListWidget(),
 				BUSY = "aria-busy";
 
@@ -36,12 +37,10 @@ define(["wc/dom/initialise",
 
 				for (i = 0, len = options.length; i < len; i++) {
 					next = options[i];
-					item = document.createElement("span");
-					item.setAttribute("data-wc-value", next.innerHTML);
-					item.setAttribute("role", "option");
-					item.className = "wc-invite";
+					item = ITEM_WD.render({ state: {
+						"data-wc-value": next.innerHTML
+					}});
 					item.innerHTML = next.innerHTML;
-					item.tabIndex = "0";
 					optionList.appendChild(item);
 				}
 			}

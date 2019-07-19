@@ -1,5 +1,6 @@
-define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc/dom/getViewportSize", "wc/dom/shed", "wc/dom/Widget", "wc/has", "wc/config"],
-	function(i18n, event, focus, initialise, getViewportSize, shed, Widget, has, wcconfig) {
+define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc/dom/getViewportSize", "wc/dom/shed",
+	"wc/dom/Widget", "wc/has", "wc/config", "wc/debounce"],
+	function(i18n, event, focus, initialise, getViewportSize, shed, Widget, has, wcconfig, debounce) {
 		"use strict";
 
 		if (has("ie")) {
@@ -44,7 +45,32 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 				 * Custon configuration
 				 * @type Object
 				 */
-				config;
+				config,
+				/**
+				 * Toggles the visibility of the back to top link based on the argument show.
+				 *
+				 * @function
+				 * @private
+				 * @param {boolean} [show] If true the back to top link is shown, otherwise it is hidden.
+				 */
+				toggle = debounce(
+					function (show) {
+						i18n.translate("back_to_top").then(function(msg) {
+							var link = backWidget.findDescendant(document.body);
+							if (show) {
+								if (!link) {
+									link = backWidget.render({ state: { href: "#" } });
+									link.innerHTML = "<i class='fa fa-chevron-circle-up fa-5x'></i><span class='wc-off'>" + msg + "</span>";
+									document.body.appendChild(link);
+									toggle(show);
+								} else {
+									shed.show(link, true);  // nothing needs to be notified that the back to top link is showing
+								}
+							} else if (link) {
+								shed.hide(link, true);  // nothing needs to be notified that the back to top link is hidden
+							}
+						});
+					}, 200);
 
 			/**
 			 * Click event handler to scroll the page when the back to top link is clicked.
@@ -70,28 +96,7 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 				}
 			}
 
-			/**
-			 * Toggles the visibility of the back to top link based on the argument show.
-			 *
-			 * @function
-			 * @private
-			 * @param {boolean} [show] If true the back to top link is shown, otherwise it is hidden.
-			 */
-			function toggle(show) {
-				var link = backWidget.findDescendant(document.body);
-				if (show) {
-					if (!link) {
-						link = document.createElement("a");
-						link.className = "wc_btt";
-						link.href = "#";
-						link.innerHTML = "<i class='fa fa-chevron-circle-up fa-5x'></i><span class='wc-off'>" + i18n.get("back_to_top") + "</span>";
-						document.body.appendChild(link);
-					}
-					shed.show(link, true);  // nothing needs to be notified that the back to top link is showing
-				} else if (link) {
-					shed.hide(link, true);  // nothing needs to be notified that the back to top link is hidden
-				}
-			}
+
 
 			/**
 			 * Hide the back to top link when the ESCAPE key is pressed.

@@ -14,6 +14,7 @@ define([ "wc/has", "wc/dom/classList", "wc/dom/initialise", "wc/dom/Widget", "wc
 				TRACK_LINK,
 				AUDIO = new Widget("audio"),
 				VIDEO = new Widget("video"),
+				IMG,
 				SOURCE,
 				MEDIA = [AUDIO, VIDEO];
 
@@ -25,24 +26,13 @@ define([ "wc/has", "wc/dom/classList", "wc/dom/initialise", "wc/dom/Widget", "wc
 			 * @param {Element) source The source link element.
 			 */
 			function makePosterLink(media, source) {
-				var poster = media.getAttribute("poster"),
-					WIDTH = "width",
-					HEIGHT = "height",
-					width = media.getAttribute(WIDTH),
-					height = media.getAttribute(HEIGHT),
-					alt = media.getAttribute("data-wc-alt") || media.getAttribute("title"),
-					img = document.createElement("img");
-
-				img.src = poster;
-				if (width) {
-					img.setAttribute(WIDTH, width);
-				}
-				if (height) {
-					img.setAttribute(HEIGHT, height);
-				}
-				if (alt) {
-					img.setAttribute("alt", alt);
-				}
+				var imgWd = IMG || (IMG = new Widget("img")),
+					img = imgWd.render({ state: {
+						src: media.getAttribute("poster"),
+						width: media.getAttribute("width"),
+						height: media.getAttribute("height"),
+						alt: media.getAttribute("data-wc-alt") || media.getAttribute("title")
+					} });
 				classList.remove(source, SOURCE_CLASS);
 				source.innerHTML = "";
 				source.appendChild(img);

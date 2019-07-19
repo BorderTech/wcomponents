@@ -73,10 +73,11 @@ define(["wc/dom/attribute",
 			containerWd = new Widget("", CLASS_NAME),
 			inputElementWd = new Widget("INPUT", "", {type: "file"}),
 			fileInfoContainerWd = new Widget("UL", CLASS_FILE_LIST),
+			fileInfoContainerWdNoBull = fileInfoContainerWd.extend(CLASS_NO_BULLET),
 			fileInfoWd = new Widget("LI", CLASS_FILE_INFO),
 			itemActivationWd = new Widget("A"),
 			BUTTON = new Widget("button"),
-			removeButtonWd = new Widget("BUTTON"),
+			removeButtonWd = new Widget("BUTTON", "", { type: "button" }),
 			filesWrapperWd = new Widget("div", CLASS_WRAPPER),
 			cameraButtonWd = new Widget("BUTTON", "wc_btn_camera"),
 			inflightXhrs = {},
@@ -643,14 +644,12 @@ define(["wc/dom/attribute",
 					if (cols > 1) {
 						filesWrapper = filesWrapperWd.findDescendant(container);
 						if (!filesWrapper) {
-							filesWrapper = document.createElement(filesWrapperWd.tagName);
-							filesWrapper.className = CLASS_WRAPPER;
+							filesWrapper = filesWrapperWd.render();
 							container.appendChild(filesWrapper);
 						}
 					}
 					for (i = itemContainers.length; i < cols; i++) {
-						col = document.createElement(fileInfoContainerWd.tagName);
-						col.className = CLASS_NO_BULLET + " " + CLASS_FILE_LIST;
+						col = fileInfoContainerWdNoBull.render();
 						if (filesWrapper) {
 							filesWrapper.appendChild(col);
 						} else {
@@ -659,8 +658,7 @@ define(["wc/dom/attribute",
 					}
 					itemContainers = fileInfoContainerWd.findDescendants(container);
 				} else if (cols === "0" && !itemContainers.length) {
-					col = document.createElement(fileInfoContainerWd.tagName);
-					col.className = CLASS_NO_BULLET + " wc-listlayout-type-flat " + CLASS_FILE_LIST;
+					col = fileInfoContainerWdNoBull.render({ state: { className: "wc-listlayout-type-flat" } });
 					container.appendChild(col);
 					itemContainers = fileInfoContainerWd.findDescendants(container);
 				}
@@ -697,22 +695,20 @@ define(["wc/dom/attribute",
 			this.createFileInfo = function (container, fileName) {
 				var id = uid(),
 					removeButton,
-					progress,
 					itemContainer = getNextColumn(container),
-					item = document.createElement(fileInfoWd.tagName);
-				item.className = CLASS_FILE_INFO;
-				removeButton = document.createElement(removeButtonWd.tagName);
-				removeButton.setAttribute("type", "button");  // .type causes issues in legacy IE
-				removeButton.className = "wc_btn_icon wc_btn_abort";
-				removeButton.value = i18n.get("file_abort", fileName);
+					item = fileInfoWd.render({ state: { id: id } });
+				removeButton = removeButtonWd.render({ state: {
+					value: i18n.get("file_abort", fileName),
+					className: ["wc_btn_icon", "wc_btn_abort"]
+				} });
 				icon.add(removeButton, "fa-ban");
 				item.appendChild(removeButton);
 				item.appendChild(document.createTextNode(fileName));
-				progress = item.appendChild(document.createElement("progress"));
-				progress.setAttribute("min", 0);
-				progress.setAttribute("max", 100);
-				progress.setAttribute("value", 0);
-				item.setAttribute("id", id);
+				item.appendChild(progressWd.render({ state: {
+					min: 0,
+					max: 100,
+					value: 0
+				} }));
 				itemContainer.appendChild(item);
 				return id;
 			};
@@ -772,7 +768,7 @@ define(["wc/dom/attribute",
 			return function (e) {
 				var progress, fileInfo = document.getElementById(fileInfoId);
 				if (e.lengthComputable && fileInfo) {
-					progress = fileInfo.querySelector("progress");
+					progress = progressWd.findDescendant(fileInfo);
 					if (progress) {
 						progress.value = (e.loaded / e.total) * 100;
 						console.log(fileInfoId, "loaded:", e.loaded, "total:", e.total);

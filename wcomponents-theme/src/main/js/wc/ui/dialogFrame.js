@@ -37,14 +37,14 @@ define(["wc/dom/event",
 					close: null
 				},
 				DIALOG = new Widget("dialog"),
-				DIALOG_CONTENT_WRAPPER = new Widget("div", CONTENT_BASE_CLASS, {"aria-live": "assertive"}),
+				DIALOG_CONTENT_WRAPPER = new Widget("div", CONTENT_BASE_CLASS, {"aria-live": "assertive"}).descendFrom(DIALOG, true),
 				BUTTON = new Widget("button"),
 				CLOSE_WD = BUTTON.extend("wc_dialog_close"),
 				RESIZERS,
 				RESIZE_WD,
 				MAX_BUTTON,
 				HEADER_WD = new Widget("header"),
-				TITLE_WD = new Widget("h1"),
+				TITLE_WD = new Widget("h1").descendFrom(HEADER_WD),
 				BUSY,
 				UNIT = "px",
 				repositionTimer,
@@ -55,9 +55,6 @@ define(["wc/dom/event",
 					UNKNOWN: "Failed to open dialog: readon unknown"
 				},
 				resizeTimeout;
-
-			TITLE_WD.descendFrom(HEADER_WD);
-			DIALOG_CONTENT_WRAPPER.descendFrom(DIALOG, true);
 			RESIZERS = resizeable.getWidget();
 			RESIZE_WD = RESIZERS.handle;
 			MAX_BUTTON = RESIZERS.maximise;

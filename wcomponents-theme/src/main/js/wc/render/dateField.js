@@ -96,12 +96,6 @@ define(["wc/render/utils",
 					},
 					onChange: changeEvent
 				};
-			if (allowPartial === "true") {
-				config.attrs.checked = "checked";
-			}
-			if (disabled) {
-				config.attrs.disabled = "disabled";
-			}
 			/*
 			 * The mere existence of @allowPartial indicates that we are dealing with a partial date field.
 			 * The value is irrelevant, it really has three meaningful states:
@@ -110,7 +104,10 @@ define(["wc/render/utils",
 			 * null - does not allow partial dates
 			 */
 			switcher = renderUtils.createElement("input", config);
-			if (isDisabled(element)) {
+			if (allowPartial === "true") {
+				shed.select(switcher, true);
+			}
+			if (disabled || isDisabled(element)) {
 				shed.disable(switcher, true);
 			}
 			switcher = renderUtils.createElement("label", {}, [switcher, i18nBundle["datefield_partial_switcher_label"]]);
@@ -135,8 +132,7 @@ define(["wc/render/utils",
 		}
 
 		function createContainer(element, children, allowPartial) {
-			var renderWidget,
-				container,
+			var container,
 				attrs = {
 					id: getId(element)
 				};
@@ -144,38 +140,31 @@ define(["wc/render/utils",
 			if (allowPartial !== null) {
 				attrs["data-wc-allowpartial"] = allowPartial;
 			}
-			renderWidget = widgets.DATE_FIELD.extend("", attrs);
-			container = renderWidget.render();
+			container = widgets.DATE_FIELD.render({ state: attrs });
 			renderUtils.appendKids(container, children);
 			return container;
 		}
 
 		function createCustomContainer(element, children, allowPartial) {
-			var renderWidget,
+			var widget,
 				container,
 				attrs = {
 					id: getId(element),
 					"aria-expanded": "false"
 				};
 			if (allowPartial !== null) {
-				renderWidget = widgets.DATE_WRAPPER_PARTIAL;
+				widget = widgets.DATE_WRAPPER_PARTIAL;
 				attrs["data-wc-allowpartial"] = allowPartial;
 			} else {
-				renderWidget = widgets.DATE_WRAPPER_FAKE;
+				widget = widgets.DATE_WRAPPER_FAKE;
 			}
-			renderWidget = renderWidget.extend("", attrs);
-			container = renderWidget.render();
+			container = widget.render({ state: attrs });
 			renderUtils.appendKids(container, children);
 			return container;
 		}
 
 		function createListBox() {
-			var config = {
-				attrs: {
-					role: "listbox"
-				}
-			};
-			return renderUtils.createElement("span", config);
+			return widgets.SUGGESTION_LIST.render();
 		}
 
 		function createDateInput(element) {
