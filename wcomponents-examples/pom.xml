@@ -165,7 +165,7 @@
 						update when a fix is made available.
 					-->
 					<suppressionFiles>
-                        <suppressionFile>${project.parent.basedir}/suppression.xml</suppressionFile>
+						<suppressionFile>${project.parent.basedir}/suppression.xml</suppressionFile>
 					</suppressionFiles>
 				</configuration>
 			</plugin>

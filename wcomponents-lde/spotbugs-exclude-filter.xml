@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+
+	<!-- Allow for launcher -->
+	<Match>
+		<Bug pattern="COMMAND_INJECTION,INFORMATION_EXPOSURE_THROUGH_AN_ERROR_MESSAGE" />
+	</Match>
+
+</FindBugsFilter>

@@ -13,7 +13,7 @@
 	</parent>
 
 	<packaging>jar</packaging>
-	
+
 	<properties>
 		<!-- Jetty 8 known to have a vulnerability but is not part of the shippable product. -->
 		<bt.owasp.fail.cvss.min>11</bt.owasp.fail.cvss.min>
@@ -85,7 +85,7 @@
 				<artifactId>dependency-check-maven</artifactId>
 				<configuration>
 					<suppressionFiles>
-                        <suppressionFile>${project.parent.basedir}/suppression.xml</suppressionFile>
+						<suppressionFile>${project.parent.basedir}/suppression.xml</suppressionFile>
 					</suppressionFiles>
 				</configuration>
 			</plugin>

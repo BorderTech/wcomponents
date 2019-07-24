@@ -1,17 +1,29 @@
+dist: trusty
+
+cache:
+  directories:
+  - $HOME/.m2
+
+addons:
+  sonarcloud:
+    organization: "bordertech-github"
+    token:
+      secure: $SONAR_TOKEN
+
 before_install:
 - echo "MAVEN_OPTS='-Xmx512m -XX:MaxPermSize=128m'" > ~/.mavenrc
 - mvn clean
+## Codacy coverage reporter download
+- wget https://github.com/codacy/codacy-coverage-reporter/releases/download/4.0.5/codacy-coverage-reporter-4.0.5-assembly.jar
 
 language: Java
 jdk:
-  - oraclejdk8
-
-env:
-  global:
-   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
-   #   via the "travis encrypt" command using the project repo's public key
-   - secure: "MAirt38nl74gOmupg6oWoghoXT8YDgjMJmPzrv6YcMLJ92tS8kv7PGtSfdM+BlxXwlvvXIlqXNwb2R+U4CnjsZUsL+28RGqFiKReAbDUON55Cucb/Yy0ZB+QC9NpCxM5LfC4BycDPI6HStx7ZmDy61/U9alogrbhiqomD/LlMTQ="
+ - oraclejdk8
 
 ## Travis installs the project with the following maven command:- "mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V"
 script:
- - mvn test
+ - mvn package sonar:sonar -Dsonar.projectKey="bordertech-wcomponents"
+
+## Send Coverage to Codacy
+after_success:
+  - java -jar codacy-coverage-reporter-4.0.5-assembly.jar report -l Java -r wcomponents-core/target/site/jacoco/jacoco.xml

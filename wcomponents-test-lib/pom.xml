@@ -15,7 +15,7 @@
 	<packaging>jar</packaging>
 
 	<properties>
-		<wc.qa.skip>false</wc.qa.skip>
+		<bt.qa.skip>true</bt.qa.skip>
 		<!-- Jetty 8 known to have a vulnerability but is not part of the shippable product. -->
 		<bt.owasp.fail.cvss.min>11</bt.owasp.fail.cvss.min>
 		<bt.owasp.fail.any>false</bt.owasp.fail.any>
@@ -43,10 +43,10 @@
 				<groupId>org.owasp</groupId>
 				<artifactId>dependency-check-maven</artifactId>
 				<configuration>
-                    <suppressionFiles>
-                        <suppressionFile>${project.parent.basedir}/suppression.xml</suppressionFile>
-                        <suppressionFile>${basedir}/suppressions.xml</suppressionFile>
-                    </suppressionFiles>
+					<suppressionFiles>
+						<suppressionFile>${project.parent.basedir}/suppression.xml</suppressionFile>
+						<suppressionFile>${basedir}/suppressions.xml</suppressionFile>
+					</suppressionFiles>
 				</configuration>
 			</plugin>
 		</plugins>

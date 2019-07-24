@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemHeaders;
 import org.apache.commons.io.FileUtils;
@@ -176,7 +177,7 @@ public final class MockFileItem implements FileItem {
 	 */
 	@Override
 	public String getString() {
-		return new String(get());
+		return new String(get(), StandardCharsets.UTF_8);
 	}
 
 	/**

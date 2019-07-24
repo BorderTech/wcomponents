@@ -258,7 +258,7 @@ public final class StandaloneLauncher {
 
 			if (message != null) {
 				String prefix = new SimpleDateFormat("dd/MM/yy HH:mm:ss").format(new Date()) + ": ";
-				StandaloneLauncher.getInstance().log(prefix + message.toString() + '\n');
+				StandaloneLauncher.getInstance().log(prefix + message + '\n');
 			}
 
 			if (throwable != null) {

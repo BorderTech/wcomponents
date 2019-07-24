@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.github.bordertech.common</groupId>
 		<artifactId>qa-parent</artifactId>
-		<version>1.0.12</version>
+		<version>1.0.15</version>
 	</parent>
 
 	<name>wcomponents-parent</name>
@@ -18,7 +18,10 @@
 
 	<properties>
 		<jetty.version>8.1.16.v20140903</jetty.version>
-		<bt.fail.enforcer>false</bt.fail.enforcer>
+		<enforcer.fail>false</enforcer.fail>
+		<bt.qa.skip>true</bt.qa.skip>
+		<dependency-check.skip>true</dependency-check.skip>
+
 	</properties>
 
 	<licenses>

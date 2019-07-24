@@ -1,8 +1,6 @@
 package com.github.bordertech.wcomponents.util;
 
-import java.io.UnsupportedEncodingException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.nio.charset.StandardCharsets;
 
 /**
  * WhiteSpaceFilterOutputStream is a state machine that filters out extraneous whitespace from XHTML content.
@@ -597,21 +595,8 @@ public class WhiteSpaceFilterStateMachine {
 			boolean suppressCurrentChar = ((Boolean) stateData[i][3]).booleanValue();
 			byte[] outputBytes = null;
 
-			try {
-				if (stateData[i][4] != null) {
-					outputBytes = ((String) stateData[i][4]).getBytes("UTF-8");
-				}
-			} catch (UnsupportedEncodingException e) {
-				//Ok, this shouldn't ever happen, but we want to do something sensible. Set up a single-state that does nothing
-				Log logger = LogFactory.getLog(WhiteSpaceFilterStateMachine.class);
-				logger.
-						error("UTF-8 encoding unsupported, white space filtering will be disabled",
-								e);
-
-				INITIAL_STATE.inputChars = new char[0];
-				INITIAL_STATE.stateChanges = new StateChange[0];
-				INITIAL_STATE.defaultStateChange = new StateChange(INITIAL_STATE, false, null);
-				break;
+			if (stateData[i][4] != null) {
+				outputBytes = ((String) stateData[i][4]).getBytes(StandardCharsets.UTF_8);
 			}
 
 			StateChange stateChange = new StateChange(targetState, suppressCurrentChar, outputBytes);

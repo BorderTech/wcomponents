@@ -19,7 +19,8 @@
 	</description>
 
 	<properties>
-		<wc.qa.skip>false</wc.qa.skip>
+		<bt.qa.skip>true</bt.qa.skip>
+		<bt.spotbugs.exclude.files>${bt.spotbugs.exclude.file},spotbugs-exclude-filter.xml</bt.spotbugs.exclude.files>
 	</properties>
 
 	<profiles>
@@ -81,7 +82,7 @@
 						update when a fix is made available.
 					-->
 					<suppressionFiles>
-                        <suppressionFile>${project.parent.basedir}/suppression.xml</suppressionFile>
+						<suppressionFile>${project.parent.basedir}/suppression.xml</suppressionFile>
 					</suppressionFiles>
 				</configuration>
 			</plugin>

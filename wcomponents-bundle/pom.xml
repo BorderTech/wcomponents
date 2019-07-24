@@ -68,7 +68,7 @@
 				<artifactId>dependency-check-maven</artifactId>
 				<configuration>
 					<suppressionFiles>
-                        <suppressionFile>${project.parent.basedir}/suppression.xml</suppressionFile>
+						<suppressionFile>${project.parent.basedir}/suppression.xml</suppressionFile>
 					</suppressionFiles>
 				</configuration>
 			</plugin>
