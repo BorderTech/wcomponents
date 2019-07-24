@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+
+	<!-- Review for WebElements -->
+	<Match>
+		<Bug pattern="S508C_NON_TRANSLATABLE_STRING,FCCD_FIND_CLASS_CIRCULAR_DEPENDENCY,PMB_POSSIBLE_MEMORY_BLOAT" />
+	</Match>
+
+</FindBugsFilter>

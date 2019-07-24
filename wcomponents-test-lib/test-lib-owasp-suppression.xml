@@ -12,7 +12,7 @@
 		<cve>CVE-2015-2156</cve>
 	</suppress>
 	<suppress>
-		<notes><![CDATA[ Netty 3.5.7.FInal]]></notes>
+		<notes><![CDATA[ Netty 3.5.7.Final]]></notes>
 		<cve>CVE-2014-3488</cve>
 	</suppress>
 </suppressions>

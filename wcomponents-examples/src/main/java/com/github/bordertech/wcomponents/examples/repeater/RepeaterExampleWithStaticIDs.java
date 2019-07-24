@@ -27,7 +27,6 @@ import com.github.bordertech.wcomponents.WTextArea;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.layout.BorderLayout;
-import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,7 +34,8 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * <p>An example demonstrating a WRepeater with editable fields with static IDs. There are a few aspects of the use of
+ * <p>
+ * An example demonstrating a WRepeater with editable fields with static IDs. There are a few aspects of the use of
  * static IDs with repeated components we are highlighting here:</p>
  * <ul>
  * <li> Setting a naming context's ID on the WRepeater;</li>
@@ -43,7 +43,8 @@ import java.util.UUID;
  * <li> Setting a custom ID on the repeated component - this is important to show the effect of repetition on a static
  * ID.</li>
  * </ul>
- * <p>NOTE: We also find the parent naming context for the examples content tab and prevent this from being a naming
+ * <p>
+ * NOTE: We also find the parent naming context for the examples content tab and prevent this from being a naming
  * context. This to prevent the naming context ID from being pre-pended to all of the IDs we are <em>really</em>
  * interested in. This is both dangerous and unnecessary and should <strong>NEVER</strong> be done in a real
  * application.</p>
@@ -87,11 +88,11 @@ public class RepeaterExampleWithStaticIDs extends WContainer {
 	 */
 	public RepeaterExampleWithStaticIDs() {
 		repeater = new WRepeater() {
-		@Override
+			@Override
 			protected String getRowIdName(final Object rowBean, final Object contact) {
 				ContactDetails bean = (ContactDetails) contact;
 				return "Contact_id_" + String.valueOf(bean.getUid());
-			};
+			}
 		};
 		repeater.setIdName(ID_LIST);
 		repeater.setRepeatedComponent(new ContactContainer());
@@ -119,7 +120,7 @@ public class RepeaterExampleWithStaticIDs extends WContainer {
 	private void createButtonBar() {
 		// Update and reset controls for the repeater.
 		WPanel buttonPanel = new WPanel(WPanel.Type.FEATURE);
-		buttonPanel.setMargin(new Margin(Size.MEDIUM, null , Size.LARGE, null));
+		buttonPanel.setMargin(new Margin(Size.MEDIUM, null, Size.LARGE, null));
 		buttonPanel.setLayout(new BorderLayout());
 
 		WButton updateButton = new WButton("Update");
@@ -226,11 +227,6 @@ public class RepeaterExampleWithStaticIDs extends WContainer {
 		if (!this.isInitialised()) {
 			// Give the repeater the list of data to display.
 			repeater.setData(fetchDataList());
-
-
-
-
-
 
 			// THIS IS THE BIT YOUSHOULD NEVER EVER DO SO LOOK AWAY NOW...
 			WNamingContext nc = (WNamingContext) WebUtilities.getAncestorOfClass(WNamingContext.class, this);

@@ -63,7 +63,7 @@ public class WPhoneNumberFieldExample extends WContainer {
 		layout.addField("With mobile autocomplete", field);
 
 		field = new WPhoneNumberField();
-		field.setFullPhoneAutocomplete((PhoneFormat)null);
+		field.setFullPhoneAutocomplete((PhoneFormat) null);
 		field.addAutocompleteSection("foo");
 		layout.addField("With autocomplete for section foo", field);
 

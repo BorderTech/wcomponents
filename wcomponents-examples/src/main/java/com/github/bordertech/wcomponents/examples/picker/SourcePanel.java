@@ -50,7 +50,7 @@ public class SourcePanel extends WPanel {
 	}
 
 	@Override
-	protected void preparePaintComponent(Request request) {
+	protected void preparePaintComponent(final Request request) {
 		if (!isInitialised()) {
 			String fileName = "/com/github/bordertech/wcomponents/examples/sunlight.dark.css";
 			InternalResource resource = new InternalResource(fileName, fileName);

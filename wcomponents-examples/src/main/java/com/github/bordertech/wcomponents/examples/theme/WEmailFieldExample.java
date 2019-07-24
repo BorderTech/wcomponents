@@ -3,7 +3,6 @@ package com.github.bordertech.wcomponents.examples.theme;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WEmailField;
 import com.github.bordertech.wcomponents.WFieldLayout;
-import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
 import com.github.bordertech.wcomponents.autocomplete.type.Email;
 
 /**
