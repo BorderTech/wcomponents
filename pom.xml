@@ -19,9 +19,7 @@
 	<properties>
 		<jetty.version>8.1.16.v20140903</jetty.version>
 		<enforcer.fail>false</enforcer.fail>
-		<bt.qa.skip>true</bt.qa.skip>
-		<dependency-check.skip>true</dependency-check.skip>
-
+		<dependency-check.skip>false</dependency-check.skip>
 	</properties>
 
 	<licenses>

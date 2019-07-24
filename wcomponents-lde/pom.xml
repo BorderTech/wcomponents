@@ -15,9 +15,8 @@
 	<packaging>jar</packaging>
 
 	<properties>
-		<!-- Jetty 8 known to have a vulnerability but is not part of the shippable product. -->
-		<bt.owasp.fail.cvss.min>11</bt.owasp.fail.cvss.min>
-		<bt.owasp.fail.any>false</bt.owasp.fail.any>
+		<spotbugs.excludeFilterFile>${basedir}/spotbugs-exclude-filter.xml</spotbugs.excludeFilterFile>
+		<suppressionFiles>${project.parent.basedir}/owasp-suppression.xml,${project.parent.basedir}/owasp-jetty-suppression.xml</suppressionFiles>
 	</properties>
 
 	<dependencies>
@@ -83,17 +82,8 @@
 					</includes>
 				</configuration>
 			</plugin>
-
-			<plugin>
-				<groupId>org.owasp</groupId>
-				<artifactId>dependency-check-maven</artifactId>
-				<configuration>
-					<suppressionFiles>
-						<suppressionFile>${project.parent.basedir}/suppression.xml</suppressionFile>
-					</suppressionFiles>
-				</configuration>
-			</plugin>
 		</plugins>
+
 	</build>
 
 </project>

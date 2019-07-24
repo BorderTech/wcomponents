@@ -405,12 +405,12 @@ final class DefaultInternalConfiguration implements Configuration {
 				URL url = urls.get(i);
 				found = true;
 
+				byte[] urlContentBytes;
 				// Load the contents of the resource, for comparison with existing resources.
-				InputStream urlContentStream = url.openStream();
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				StreamUtil.copy(urlContentStream, baos);
-				urlContentStream.close();
-				byte[] urlContentBytes = baos.toByteArray();
+				try (InputStream urlContentStream = url.openStream(); ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+					StreamUtil.copy(urlContentStream, baos);
+					urlContentBytes = baos.toByteArray();
+				}
 				String urlContent = new String(urlContentBytes, StandardCharsets.UTF_8);
 
 				// Check if we have already loaded this file.

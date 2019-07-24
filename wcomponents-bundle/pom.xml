@@ -22,6 +22,10 @@
 		and client-side artefacts.
 	</description>
 
+	<properties>
+		<suppressionFiles>${project.parent.basedir}/owasp-suppression.xml</suppressionFiles>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.github.bordertech.wcomponents</groupId>
@@ -38,7 +42,7 @@
 		<dependency>
 			<groupId>org.ehcache</groupId>
 			<artifactId>ehcache</artifactId>
-			<version>3.6.3</version>
+			<version>3.8.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.slf4j</groupId>
@@ -61,17 +65,5 @@
 		</dependency>
 
 	</dependencies>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.owasp</groupId>
-				<artifactId>dependency-check-maven</artifactId>
-				<configuration>
-					<suppressionFiles>
-						<suppressionFile>${project.parent.basedir}/suppression.xml</suppressionFile>
-					</suppressionFiles>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+
 </project>

@@ -123,7 +123,6 @@ import java.beans.XMLEncoder;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -319,16 +318,12 @@ public class SimplePicker extends WContainer implements MessageContainer {
 	 * @return the list of recently used examples.
 	 */
 	private List loadRecentList() {
-		try {
-			InputStream in = new BufferedInputStream(new FileInputStream(
-					RECENT_FILE_NAME));
-
-			XMLDecoder d = new XMLDecoder(in);
+		try (FileInputStream file = new FileInputStream(RECENT_FILE_NAME);
+				InputStream in = new BufferedInputStream(file);
+				XMLDecoder d = new XMLDecoder(in)) {
 			Object result = d.readObject();
-			d.close();
-
 			return (List) result;
-		} catch (FileNotFoundException ex) {
+		} catch (IOException ex) {
 			// This is ok, it's probably the first time the picker has been used.
 			return new ArrayList();
 		}
@@ -400,12 +395,11 @@ public class SimplePicker extends WContainer implements MessageContainer {
 			while (recent.size() > 8) {
 				recent.remove(recent.size() - 1);
 			}
-
-			OutputStream out = new BufferedOutputStream(new FileOutputStream(
-					RECENT_FILE_NAME));
-			XMLEncoder e = new XMLEncoder(out);
-			e.writeObject(recent);
-			e.close();
+			try (FileOutputStream file = new FileOutputStream(RECENT_FILE_NAME);
+					OutputStream out = new BufferedOutputStream(file);
+					XMLEncoder e = new XMLEncoder(out)) {
+				e.writeObject(recent);
+			}
 		} catch (IOException ex) {
 			LOG.error("Unable to save recent list", ex);
 		}

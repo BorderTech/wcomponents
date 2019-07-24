@@ -15,6 +15,7 @@ import com.github.bordertech.wcomponents.util.ThemeUtil;
 import com.github.bordertech.wcomponents.util.Util;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
@@ -222,11 +223,13 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 		try {
 			URL xsltURL = ThemeUtil.class.getResource(RESOURCE_NAME);
 			if (xsltURL != null) {
-				Source xsltSource = new StreamSource(xsltURL.openStream(), xsltURL.toExternalForm());
-				TransformerFactory factory = new net.sf.saxon.TransformerFactoryImpl();
-				Templates templates = factory.newTemplates(xsltSource);
-				LOG.debug("Generated XSLT templates for: " + RESOURCE_NAME);
-				return templates;
+				try (InputStream inStream = xsltURL.openStream()) {
+					Source xsltSource = new StreamSource(inStream, xsltURL.toExternalForm());
+					TransformerFactory factory = new net.sf.saxon.TransformerFactoryImpl();
+					Templates templates = factory.newTemplates(xsltSource);
+					LOG.debug("Generated XSLT templates for: " + RESOURCE_NAME);
+					return templates;
+				}
 			} else {
 				// Server-side XSLT enabled but theme resource not on classpath.
 				throw new IllegalStateException(RESOURCE_NAME + " not on classpath");

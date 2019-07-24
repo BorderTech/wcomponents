@@ -29,6 +29,10 @@
 		</profile>
 	</profiles>
 
+	<properties>
+		<suppressionFiles>${project.parent.basedir}/owasp-suppression.xml</suppressionFiles>
+	</properties>
+
 	<dependencies>
 
 		<dependency>
@@ -155,21 +159,8 @@
 					<excludedGroups>${excludedTestGroups}</excludedGroups>
 				</configuration>
 			</plugin>
-
-			<plugin>
-				<groupId>org.owasp</groupId>
-				<artifactId>dependency-check-maven</artifactId>
-				<configuration>
-					<!--
-						antisamy has an XSS vulnerability which is not exposed in the current use but we should
-						update when a fix is made available.
-					-->
-					<suppressionFiles>
-						<suppressionFile>${project.parent.basedir}/suppression.xml</suppressionFile>
-					</suppressionFiles>
-				</configuration>
-			</plugin>
 		</plugins>
+
 	</build>
 
 </project>

@@ -19,8 +19,8 @@
 	</description>
 
 	<properties>
-		<bt.qa.skip>true</bt.qa.skip>
-		<bt.spotbugs.exclude.files>${bt.spotbugs.exclude.file},spotbugs-exclude-filter.xml</bt.spotbugs.exclude.files>
+		<spotbugs.excludeFilterFile>${basedir}/spotbugs-exclude-filter.xml</spotbugs.excludeFilterFile>
+		<suppressionFiles>${project.parent.basedir}/owasp-suppression.xml</suppressionFiles>
 	</properties>
 
 	<profiles>
@@ -72,21 +72,8 @@
 					</includes>
 				</configuration>
 			</plugin>
-
-			<plugin>
-				<groupId>org.owasp</groupId>
-				<artifactId>dependency-check-maven</artifactId>
-				<configuration>
-					<!--
-						antisamy has an XSS vulnerability which is not exposed in the current use but we should
-						update when a fix is made available.
-					-->
-					<suppressionFiles>
-						<suppressionFile>${project.parent.basedir}/suppression.xml</suppressionFile>
-					</suppressionFiles>
-				</configuration>
-			</plugin>
 		</plugins>
+
 	</build>
 
 	<dependencies>
