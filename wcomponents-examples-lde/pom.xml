@@ -16,7 +16,7 @@
 
 	<properties>
 		<checkstyle.suppressions.location>${basedir}/checkstyle-exclude.xml</checkstyle.suppressions.location>
-		<suppressionFiles>${project.parent.basedir}/owasp-suppression.xml,${project.parent.basedir}/owasp-jetty-suppression.xml</suppressionFiles>
+		<suppressionFiles>${project.parent.basedir}/owasp-jetty-suppression.xml</suppressionFiles>
 	</properties>
 
 	<dependencies>
@@ -45,7 +45,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.1.1</version>
+				<version>3.2.1</version>
 				<executions>
 					<execution>
 						<phase>package</phase>

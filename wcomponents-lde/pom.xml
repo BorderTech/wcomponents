@@ -16,7 +16,7 @@
 
 	<properties>
 		<spotbugs.excludeFilterFile>${basedir}/spotbugs-exclude-filter.xml</spotbugs.excludeFilterFile>
-		<suppressionFiles>${project.parent.basedir}/owasp-suppression.xml,${project.parent.basedir}/owasp-jetty-suppression.xml</suppressionFiles>
+		<suppressionFiles>${project.parent.basedir}/owasp-jetty-suppression.xml</suppressionFiles>
 	</properties>
 
 	<dependencies>

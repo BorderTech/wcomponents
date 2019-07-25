@@ -20,7 +20,6 @@
 
 	<properties>
 		<spotbugs.excludeFilterFile>${basedir}/spotbugs-exclude-filter.xml</spotbugs.excludeFilterFile>
-		<suppressionFiles>${project.parent.basedir}/owasp-suppression.xml</suppressionFiles>
 	</properties>
 
 	<profiles>
@@ -94,7 +93,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.8.1</version>
+			<version>3.9</version>
 			<type>jar</type>
 		</dependency>
 
@@ -195,7 +194,7 @@
 		<dependency>
 			<groupId>javax.cache</groupId>
 			<artifactId>cache-api</artifactId>
-			<version>1.1.0</version>
+			<version>1.1.1</version>
 		</dependency>
 
 		<!-- JSR107 Caching provider. -->
@@ -203,7 +202,7 @@
 			<scope>test</scope>
 			<groupId>org.ehcache</groupId>
 			<artifactId>ehcache</artifactId>
-			<version>3.6.3</version>
+			<version>3.8.0</version>
 		</dependency>
 		<dependency>
 			<scope>test</scope>
@@ -235,7 +234,7 @@
 		<dependency>
 			<groupId>org.owasp.antisamy</groupId>
 			<artifactId>antisamy</artifactId>
-			<version>1.5.7</version>
+			<version>1.5.8</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.apache.xmlgraphics</groupId>
@@ -276,7 +275,7 @@
 		<dependency>
 			<groupId>org.apache.tika</groupId>
 			<artifactId>tika-core</artifactId>
-			<version>1.20</version>
+			<version>1.21</version>
 		</dependency>
 	</dependencies>
 

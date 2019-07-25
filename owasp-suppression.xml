@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.1.xsd">
-	<!-- Waiting for fix to antisamy 1.5.7 -->
-	<suppress>
-		<notes><![CDATA[antisamy 1.5.7]]></notes>
-		<cve>CVE-2018-1000643</cve>
-	</suppress>
-</suppressions>
