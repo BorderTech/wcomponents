@@ -22,7 +22,7 @@ jdk:
 
 ## Travis installs the project with the following maven command:- "mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V"
 script:
- - mvn package sonar:sonar -Dsonar.projectKey="bordertech-wcomponents"
+ - mvn package sonar:sonar -Dsonar.projectKey="bordertech-wcomponents" -DskipTests=true
 
 ## Send Coverage to Codacy
 after_success:
