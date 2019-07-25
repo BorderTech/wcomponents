@@ -13,7 +13,7 @@
 	<!--
 		Intern config options
 	-->
-	<property name="intern.capabilities" value="tunnel-identifier: ${env.TRAVIS_JOB_NUMBER}, recordVideo: false, recordScreenshots: false" />
+	<property name="intern.capabilities" value=" 'tunnel-identifier': '${env.TRAVIS_JOB_NUMBER}', recordVideo: false, recordScreenshots: false" />
 	<property name="intern.tunnel" value="SauceLabsTunnel" />
 	<property name="intern.tunnel.options" value="verbose: true" />
 	<!-- set true to force build to fail if tests fail when running a local tunnel using tunnel = "SeleniumTunnel" -->
