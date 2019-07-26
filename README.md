@@ -10,7 +10,7 @@ Its goal is to enable Java developers to build AJAX enabled, WCAG 2.0 compliant 
 
 ## Status
 
-[![Build Status](https://travis-ci.org/BorderTech/wcomponents.svg?branch=georgie)](https://travis-ci.org/BorderTech/wcomponents)
+[![Build Status](https://travis-ci.com/BorderTech/wcomponents.svg?branch=georgie)](https://travis-ci.com/BorderTech/wcomponents)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bordertech-wcomponents&metric=alert_status)](https://sonarcloud.io/dashboard?id=bordertech-wcomponents)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=bordertech-wcomponents&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=bordertech-wcomponents)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=bordertech-wcomponents&metric=coverage)](https://sonarcloud.io/dashboard?id=bordertech-wcomponents)
