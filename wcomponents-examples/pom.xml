@@ -30,8 +30,6 @@
 	</profiles>
 
 	<properties>
-		<!-- Skipping qa checks for now on examples -->
-		<bt.qa.skip>true</bt.qa.skip>
 		<pmd.excludeFromFailureFile>${basedir}/pmd-excludes.properties</pmd.excludeFromFailureFile>
 		<!-- Turn off spotbugs until example code cleaned up (will be replaced with showcase anyway) -->
 		<spotbugs.skip>true</spotbugs.skip>
@@ -158,8 +156,6 @@
 					<systemPropertyVariables>
 						<phantomjs.binary.path>${phantomjs.binary}</phantomjs.binary.path>
 					</systemPropertyVariables>
-					<!-- Arg set by jacoco. -->
-					<argLine>${surefireArgLine}</argLine>
 					<excludedGroups>${excludedTestGroups}</excludedGroups>
 				</configuration>
 			</plugin>
