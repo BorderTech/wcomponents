@@ -13,6 +13,20 @@
 	</parent>
 
 	<packaging>jar</packaging>
+	<profiles>
+		<profile>
+			<id>skipLdeOptionalQA</id>
+			<activation>
+				<property>
+					<name>skipOptionalQA</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<properties>
+				<bt.qa.skip>true</bt.qa.skip>
+			</properties>
+		</profile>
+	</profiles>
 
 	<properties>
 		<spotbugs.excludeFilterFile>${basedir}/spotbugs-exclude-filter.xml</spotbugs.excludeFilterFile>

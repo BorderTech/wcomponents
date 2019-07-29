@@ -14,6 +14,21 @@
 
 	<packaging>jar</packaging>
 
+	<profiles>
+		<profile>
+			<id>skipExamplesLdeOptionalQA</id>
+			<activation>
+				<property>
+					<name>skipOptionalQA</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<properties>
+				<bt.qa.skip>true</bt.qa.skip>
+			</properties>
+		</profile>
+	</profiles>
+
 	<properties>
 		<checkstyle.suppressions.location>${basedir}/checkstyle-exclude.xml</checkstyle.suppressions.location>
 		<suppressionFiles>${project.parent.basedir}/owasp-jetty-suppression.xml</suppressionFiles>

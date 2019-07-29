@@ -20,6 +20,8 @@
 		<jetty.version>8.1.16.v20140903</jetty.version>
 		<bt.qa.skip>false</bt.qa.skip>
 		<enforcer.fail>false</enforcer.fail>
+		<!-- Remove once qa-parent lets pmd.verbose be set via a property (as it is set in the config). -->
+		<wc.pmd.verbose>true</wc.pmd.verbose>
 	</properties>
 
 	<licenses>
@@ -120,6 +122,15 @@
 				</executions>
 			</plugin>
 
+			<!-- PMD Override -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<configuration>
+					<verbose>${wc.pmd.verbose}</verbose>
+				</configuration>
+			</plugin>
+
 		</plugins>
 
 		<pluginManagement>
@@ -145,14 +156,6 @@
 							<version>1.10.5</version>
 						</dependency>
 					</dependencies>
-				</plugin>
-
-				<plugin>
-					<groupId>org.owasp</groupId>
-					<artifactId>dependency-check-maven</artifactId>
-					<configuration>
-						<nodeAnalyzerEnabled>false</nodeAnalyzerEnabled>
-					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
