@@ -16,6 +16,18 @@
 
 	<profiles>
 		<profile>
+			<id>skipThemeAllTests</id>
+			<activation>
+				<property>
+					<name>skipTests</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<properties>
+				<skipThemeOptionalTests>true</skipThemeOptionalTests>
+			</properties>
+		</profile>
+		<profile>
 			<id>skipThemeOptionalTests</id>
 			<activation>
 				<property>
