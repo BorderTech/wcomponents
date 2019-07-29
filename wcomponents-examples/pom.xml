@@ -16,7 +16,7 @@
 
 	<profiles>
 		<profile>
-			<id>skipOptionalTests</id>
+			<id>skipExampleOptionalTests</id>
 			<activation>
 				<property>
 					<name>skipOptionalTests</name>

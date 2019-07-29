@@ -24,15 +24,12 @@
 
 	<profiles>
 		<profile>
-			<id>skipOptionalTests</id>
+			<id>skipCoreOptionalTests</id>
 			<activation>
-				<!-- TODO reinstate the selenium tests
 				<property>
 					<name>skipOptionalTests</name>
 					<value>true</value>
 				</property>
-				-->
-				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
 				<excludedTestGroups>com.github.bordertech.wcomponents.PerformanceTests</excludedTestGroups>
