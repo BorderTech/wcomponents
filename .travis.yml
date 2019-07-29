@@ -21,9 +21,12 @@ jdk:
  - oraclejdk8
 
 ## Travis installs the project with the following maven command:- "mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V"
+install:
+ - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -DskipOptionalQA=true -Dwc.pmd.verbose=false
+
 ## Activate skipThemeOptionalTests until Intern and Saucelabs integration fixed
 script:
- - mvn package sonar:sonar -Dsonar.projectKey="bordertech-wcomponents" -PskipThemeOptionalTests -DskipOptionQA=true -Dwc.pmd.verbose=false
+ - mvn package sonar:sonar -Dsonar.projectKey="bordertech-wcomponents" -PskipThemeOptionalTests
 
 ## Send Coverage to Codacy
 after_success:
