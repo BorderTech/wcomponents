@@ -17,21 +17,6 @@
 		Core client-side WComponents.
 	</description>
 
-	<profiles>
-		<profile>
-			<id>skipThemeOptionalTests</id>
-			<activation>
-				<property>
-					<name>skipOptionalTests</name>
-					<value>true</value>
-				</property>
-			</activation>
-			<properties>
-				<skipOptionalTests>true</skipOptionalTests>
-			</properties>
-		</profile>
-	</profiles>
-
 	<properties>
 		<theme.skip.antrun>false</theme.skip.antrun>
 	</properties>

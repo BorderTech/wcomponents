@@ -26,7 +26,7 @@ install:
 
 ## Activate skipThemeOptionalTests until Intern and Saucelabs integration fixed
 script:
- - mvn package sonar:sonar -Dsonar.projectKey="bordertech-wcomponents" -PskipThemeOptionalTests
+ - mvn package sonar:sonar -Dsonar.projectKey="bordertech-wcomponents" -PskipThemeOptionalTests -PskipCoreOptionalTests
 
 ## Send Coverage to Codacy
 after_success:
