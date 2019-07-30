@@ -201,12 +201,10 @@ final class MenuPanel extends WPanel {
 		File file = new File(RECENT_FILE_NAME);
 
 		if (file.exists()) {
-			try {
-				InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
-
-				XMLDecoder decoder = new XMLDecoder(inputStream);
+			try (InputStream fileStream = new FileInputStream(file);
+					InputStream inputStream = new BufferedInputStream(fileStream);
+					XMLDecoder decoder = new XMLDecoder(inputStream)) {
 				List result = (List) decoder.readObject();
-				decoder.close();
 				for (Object obj : result) {
 					if (obj instanceof ExampleData) {
 						recent.add((ExampleData) obj);
@@ -223,11 +221,10 @@ final class MenuPanel extends WPanel {
 	 */
 	private void storeRecentList() {
 		synchronized (recent) {
-			try {
-				OutputStream out = new BufferedOutputStream(new FileOutputStream(RECENT_FILE_NAME));
-				XMLEncoder encoder = new XMLEncoder(out);
+			try (FileOutputStream outFile = new FileOutputStream(RECENT_FILE_NAME);
+					OutputStream out = new BufferedOutputStream(outFile);
+					XMLEncoder encoder = new XMLEncoder(out)) {
 				encoder.writeObject(recent);
-				encoder.close();
 			} catch (IOException ex) {
 				LogFactory.getLog(getClass()).error("Unable to save recent list", ex);
 			}

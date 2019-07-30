@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.security.CodeSource;
 import java.security.ProtectionDomain;
 import java.util.ArrayList;
@@ -404,16 +405,16 @@ final class DefaultInternalConfiguration implements Configuration {
 				URL url = urls.get(i);
 				found = true;
 
+				byte[] urlContentBytes;
 				// Load the contents of the resource, for comparison with existing resources.
-				InputStream urlContentStream = url.openStream();
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				StreamUtil.copy(urlContentStream, baos);
-				urlContentStream.close();
-				byte[] urlContentBytes = baos.toByteArray();
-				String urlContent = new String(urlContentBytes, "UTF-8");
+				try (InputStream urlContentStream = url.openStream(); ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+					StreamUtil.copy(urlContentStream, baos);
+					urlContentBytes = baos.toByteArray();
+				}
+				String urlContent = new String(urlContentBytes, StandardCharsets.UTF_8);
 
 				// Check if we have already loaded this file.
-				if (loadedFiles.keySet().contains(urlContent)) {
+				if (loadedFiles.containsKey(urlContent)) {
 					recordMessage("Skipped url " + url + " - duplicate of " + loadedFiles.get(urlContent));
 					continue;
 				}

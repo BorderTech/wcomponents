@@ -29,13 +29,13 @@ import org.apache.commons.logging.LogFactory;
  * The WMultiFileWidget component allows multiple file input elements to be uploaded, without requiring an entire page
  * reload for each item. After a file is uploaded to the server the client displays the file information with a checkbox
  * adjacent to it. The file information is a link that pops up the file content. Use {@link #getFiles()} to retrieve all
- * files uploaded by the client, use {@link #getSelectedFiles()} to retrieve only the selected file items. 
+ * files uploaded by the client, use {@link #getSelectedFiles()} to retrieve only the selected file items.
  * </p>
  * <p>
- * If one or more file types is set {@link #setFileTypes(java.util.Collection)}, then each uploaded file will be validated
- * against the accepted list. If accepted list contains any extension(s) then uploaded files will be first checked against 
- * them. Developers can choose to have custom validation of file by retrieving it's MIME type, 
- * see {@link #getMimeType(java.lang.String)}.
+ * If one or more file types is set {@link #setFileTypes(java.util.Collection)}, then each uploaded file will be
+ * validated against the accepted list. If accepted list contains any extension(s) then uploaded files will be first
+ * checked against them. Developers can choose to have custom validation of file by retrieving it's MIME type, see
+ * {@link #getMimeType(java.lang.String)}.
  * </p>
  * <p>
  * The maximum number of allowed files, maximum individual file size, and allowed file types can be configured.
@@ -88,7 +88,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 			if (append) {
 				stringValues.append(", ");
 			}
-			stringValues.append(file.getFile().toString());
+			stringValues.append(file.getFile());
 			append = true;
 		}
 
@@ -165,8 +165,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	}
 
 	/**
-	 * Retrieves an mime type of the uploaded file's contents.
-	 * This is not the content type passed by the browser.
+	 * Retrieves an mime type of the uploaded file's contents. This is not the content type passed by the browser.
 	 *
 	 * @param fileId the file id
 	 * @return an file's mime type, or null if no file has been uploaded
@@ -234,21 +233,25 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 * <li><strong>MIME type</strong></li>
 	 * <li><strong>Extension</strong></li>
 	 * </ul>
-	 * <strong>MIME type</strong>: it is <em>type/subtype</em>, where <em>type</em> is <code>text, image, application</code> etc,
-	 * and <em>subtype</em> is <code>plain, jpeg, *</code> etc. Some example MIME types are:
+	 * <strong>MIME type</strong>: it is <em>type/subtype</em>, where <em>type</em> is
+	 * <code>text, image, application</code> etc, and <em>subtype</em> is <code>plain, jpeg, *</code> etc. Some example
+	 * MIME types are:
 	 * <ul>
-	 * <li><code>text/*</code> - indicates that all text files MIME types are accepted, <code>text/html, text/plain</code> etc.</li>
+	 * <li><code>text/*</code> - indicates that all text files MIME types are accepted,
+	 * <code>text/html, text/plain</code> etc.</li>
 	 * <li><code>image/jpeg</code> - indicates that only jpeg image files are accepted.</li>
 	 * </ul>
 	 * Setting mime type is more reliable, as the contents of the file is validated against accepted list.
 	 * <br>
-	 * <strong>Extension</strong>: A string whose first character is a "." (U+002E) character (Indicates that files with the specified file
-	 * extension are accepted). Some example extensions are: 
+	 * <strong>Extension</strong>: A string whose first character is a "." (U+002E) character (Indicates that files with
+	 * the specified file extension are accepted). Some example extensions are:
 	 * <ul>
 	 * <li><code>.txt</code> - indicates any files with extension <code>txt</code> are accepted.</li>
 	 * <li><code>.jpg</code> - indicates any files with extension <code>jpg</code> are accepted.</li>
 	 * </ul>
-	 * Setting extension is less reliable, as only the extension of uploaded file (if available) is validated against accepted list.
+	 * Setting extension is less reliable, as only the extension of uploaded file (if available) is validated against
+	 * accepted list.
+	 *
 	 * @param types The file types that will be accepted by the file input. Note that this is not additive, it will
 	 * overwrite any previously set fileTypes. Pass null or and empty collection to clear all file types.
 	 */
@@ -308,7 +311,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		result = new ArrayList<>(fileTypes);
 		return result;
 	}
-	
+
 	/**
 	 * @see #setFileTypes(java.util.Collection)
 	 * @see #setFileTypes(java.lang.String[])
@@ -339,13 +342,13 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	public long getMaxFileSize() {
 		return getComponentModel().maxFileSize;
 	}
-	
+
 	/**
 	 * @see #setMaxFileSize(long)
 	 * @return {@code true} if max file size is supplied.
 	 */
 	public boolean hasMaxFileSize() {
-		return getComponentModel().maxFileSize >  0;
+		return getComponentModel().maxFileSize > 0;
 	}
 
 	/**
@@ -740,7 +743,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 
 		// Wrap the file item
 		FileItemWrap wrap = new FileItemWrap(items[0]);
-		
+
 		// if fileType is supplied then validate it
 		if (hasFileTypes() && !FileUtil.validateFileType(wrap, getFileTypes())) {
 			String invalidMessage = FileUtil.getInvalidFileTypeMessage(getFileTypes());
@@ -752,7 +755,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 			String invalidMessage = FileUtil.getInvalidFileSizeMessage(getMaxFileSize());
 			throw new SystemException(invalidMessage);
 		}
-		
+
 		FileWidgetUpload file = new FileWidgetUpload(fileId, wrap);
 		addFile(file);
 
@@ -937,7 +940,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	/**
 	 * @param fileId the file id that has been uploaded successfully
 	 */
-	 private void setFileUploadRequestId(final String fileId) {
+	private void setFileUploadRequestId(final String fileId) {
 		String currFileId = getFileUploadRequestId();
 
 		if (!Objects.equals(fileId, currFileId)) {

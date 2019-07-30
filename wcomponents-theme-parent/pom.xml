@@ -14,11 +14,38 @@
 
 	<packaging>pom</packaging>
 
+	<profiles>
+		<profile>
+			<id>skipThemeAllTests</id>
+			<activation>
+				<property>
+					<name>skipTests</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<properties>
+				<skipThemeOptionalTests>true</skipThemeOptionalTests>
+			</properties>
+		</profile>
+		<profile>
+			<id>skipThemeOptionalTests</id>
+			<activation>
+				<property>
+					<name>skipOptionalTests</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<properties>
+				<skipThemeOptionalTests>true</skipThemeOptionalTests>
+			</properties>
+		</profile>
+	</profiles>
+
 	<properties>
-	<!--
-	  If a theme inherits from any theme other than wcomponents-theme then this property points to that theme. See `wcomponents-theme/build.xml.
-	-->
-	<theme.inherit />
+		<!--
+		  If a theme inherits from any theme other than wcomponents-theme then this property points to that theme. See `wcomponents-theme/build.xml.
+		-->
+		<theme.inherit />
 		<!--
 			We externalize download URLs so that in-house builds can override them to on-prem mirrors.
 		-->
@@ -172,7 +199,7 @@
 								<echo>Attempting to start ANT build at ${theme.core.dir}</echo>
 								<echo>basedir = ${basedir}</echo>
 								<property name="basedir" location="${basedir}" />
-				<property name="theme.inherit" value="${theme.inherit}" />
+								<property name="theme.inherit" value="${theme.inherit}" />
 								<property name="target.dir" location="${project.build.directory}" />
 								<property name="component.rootdir" location="${theme.core.dir}" />
 								<property name="build.number" value="${project.version}" />
@@ -199,13 +226,13 @@
 								<echo>Attempting to start ANT test at ${theme.core.dir}</echo>
 								<echo>basedir = ${basedir}</echo>
 								<property name="basedir" location="${basedir}" />
-				<property name="theme.inherit" value="${theme.inherit}" />
+								<property name="theme.inherit" value="${theme.inherit}" />
 								<property name="phantomjs.binary" value="${phantomjs.binary}" />
 								<property name="target.dir" location="${project.build.directory}" />
 								<property name="component.rootdir" location="${theme.core.dir}" />
 								<property name="build.number" value="${project.version}" />
 								<property name="build.rootdir" location="${theme.target.dir}" />
-								<property name="theme.skip.tests" value="${skipOptionalTests}" />
+								<property name="theme.skip.tests" value="${skipThemeOptionalTests}" />
 								<property name="maven.plugin.classpath" refid="maven.plugin.classpath" />
 								<property name="rjs.log.level" value="${rjs.log.level}" />
 								<property name="sass-lint-config" location="${basedir}/.sass-lint.yml" />

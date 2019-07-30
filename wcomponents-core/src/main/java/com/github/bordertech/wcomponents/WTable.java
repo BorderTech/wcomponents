@@ -1519,7 +1519,9 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 		if (isSorted()) {
 			sort(getSortColumnIndex(), isSortAscending());
 		}
-		setCurrentPage(getCurrentPage());
+		// Make sure current page is refreshed
+		int current = getCurrentPage();
+		setCurrentPage(current);
 	}
 
 	/**

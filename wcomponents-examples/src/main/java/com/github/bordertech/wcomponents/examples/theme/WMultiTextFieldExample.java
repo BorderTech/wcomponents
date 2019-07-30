@@ -65,11 +65,10 @@ public final class WMultiTextFieldExample extends WContainer {
 		mtfMandatory.setMandatory(true);
 		layout.addField("Mandatory", mtfMandatory);
 
-
 		WButton refresh = new WButton("Check Mandatory");
 		refresh.setAction(new ValidatingAction(messages.getValidationErrors(), layout) {
 			@Override
-			public void executeOnValid(ActionEvent event) {
+			public void executeOnValid(final ActionEvent event) {
 				messages.reset();
 			}
 		});

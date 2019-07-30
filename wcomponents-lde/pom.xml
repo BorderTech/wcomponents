@@ -13,11 +13,24 @@
 	</parent>
 
 	<packaging>jar</packaging>
+	<profiles>
+		<profile>
+			<id>skipLdeOptionalQA</id>
+			<activation>
+				<property>
+					<name>skipOptionalQA</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<properties>
+				<bt.qa.skip>true</bt.qa.skip>
+			</properties>
+		</profile>
+	</profiles>
 
 	<properties>
-		<!-- Jetty 8 known to have a vulnerability but is not part of the shippable product. -->
-		<bt.owasp.fail.cvss.min>11</bt.owasp.fail.cvss.min>
-		<bt.owasp.fail.any>false</bt.owasp.fail.any>
+		<spotbugs.excludeFilterFile>${basedir}/spotbugs-exclude-filter.xml</spotbugs.excludeFilterFile>
+		<suppressionFiles>${project.parent.basedir}/owasp-jetty-suppression.xml</suppressionFiles>
 	</properties>
 
 	<dependencies>
@@ -76,24 +89,13 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
-					<!-- Arg set by jacoco. -->
-					<argLine>${surefireArgLine}</argLine>
 					<includes>
 						<include>com/github/bordertech/wcomponents/lde/Lde_Suite.java</include>
 					</includes>
 				</configuration>
 			</plugin>
-
-			<plugin>
-				<groupId>org.owasp</groupId>
-				<artifactId>dependency-check-maven</artifactId>
-				<configuration>
-					<suppressionFiles>
-						<suppressionFile>${project.parent.basedir}/suppression.xml</suppressionFile>
-					</suppressionFiles>
-				</configuration>
-			</plugin>
 		</plugins>
+
 	</build>
 
 </project>

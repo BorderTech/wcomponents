@@ -78,12 +78,10 @@ public class ExamplePickerTree extends WTree {
 		if (allSelectedItems == null || allSelectedItems.isEmpty()) {
 			return null;
 		}
-		for (String selectedItem : allSelectedItems) {
-			// Only interested in the first selected item as it is a single select list.
-			List<Integer> rowIndex = TreeItemUtil.rowIndexStringToList(selectedItem);
-			return getTreeModel().getExampleData(rowIndex);
-		}
-		return null;
+		String selectedItem = allSelectedItems.iterator().next();
+		// Only interested in the first selected item as it is a single select list.
+		List<Integer> rowIndex = TreeItemUtil.rowIndexStringToList(selectedItem);
+		return getTreeModel().getExampleData(rowIndex);
 	}
 
 	/**

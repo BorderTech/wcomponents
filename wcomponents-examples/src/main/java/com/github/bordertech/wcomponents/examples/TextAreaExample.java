@@ -20,6 +20,7 @@ import com.github.bordertech.wcomponents.validation.ValidatingAction;
  * @since 1.0.0
  */
 public class TextAreaExample extends WPanel {
+
 	/**
 	 * Creates a TextAreaExample.
 	 */
@@ -102,11 +103,11 @@ public class TextAreaExample extends WPanel {
 		 * Action used to copy user-entered rich text to the read-only rich text field.
 		 */
 		Action setRTFContent = new Action() {
-				@Override
-				public void execute(final ActionEvent event) {
-					rtfReadOnly.setData(rtf.getValue());
-				}
-			};
+			@Override
+			public void execute(final ActionEvent event) {
+				rtfReadOnly.setData(rtf.getValue());
+			}
+		};
 		/**
 		 * A button used to copy the user-entered rich text to the read-only rich text field via a full round trip.
 		 */
@@ -141,7 +142,8 @@ public class TextAreaExample extends WPanel {
 		layout.addField("Read-only reflection of the rich text area.", rtfReadOnly);
 		WTextArea mandatoryTA = new WTextArea();
 		mandatoryTA.setMandatory(true);
-		layout.addField("Mandatory", mandatoryTA);mandatoryTA = new WTextArea();
+		layout.addField("Mandatory", mandatoryTA);
+		mandatoryTA = new WTextArea();
 		mandatoryTA.setMandatory(true);
 		mandatoryTA.setText("Remove me");
 		layout.addField("Mandatory with default content", mandatoryTA);
@@ -149,13 +151,12 @@ public class TextAreaExample extends WPanel {
 		WButton validatingButton = new WButton("Submit");
 		validatingButton.setAction(new ValidatingAction(messages.getValidationErrors(), layout) {
 			@Override
-			public void executeOnValid(ActionEvent event) {
+			public void executeOnValid(final ActionEvent event) {
 				messages.reset();
 				messages.addMessage(new Message(Message.SUCCESS_MESSAGE, "Hurray!"));
 			}
 		});
 		layout.addField(new WButton("Submit"));
-
 
 		add(new WAjaxControl(showReadOnlyContentButton, readOnlyReflector));
 		add(new WAjaxControl(rtAjaxButton, rtfReadOnly));

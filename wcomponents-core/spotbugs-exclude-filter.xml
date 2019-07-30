@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+
+	<!-- Allow -->
+	<Match>
+		<Class name="com.github.bordertech.wcomponents.DebugValidateXML"/>
+		<Bug pattern="XXE_SAXPARSER" />
+	</Match>
+	<Match>
+		<Class name="com.github.bordertech.wcomponents.util.ReflectionUtil"/>
+		<Bug pattern="RFI_SET_ACCESSIBLE" />
+	</Match>
+	<Match>
+		<Class name="com.github.bordertech.wcomponents.servlet.ServletResponse"/>
+		<Bug pattern="UNVALIDATED_REDIRECT" />
+	</Match>
+	<Match>
+		<Class name="com.github.bordertech.wcomponents.servlet.HttpServletHelper"/>
+		<Bug pattern="UNVALIDATED_REDIRECT" />
+	</Match>
+	<Match>
+		<Class name="com.github.bordertech.wcomponents.servlet.ServletUtil"/>
+		<Bug pattern="SSCU_SUSPICIOUS_SHADED_CLASS_USE,XSS_SERVLET,FILE_UPLOAD_FILENAME" />
+	</Match>
+	<Match>
+		<Class name="com.github.bordertech.wcomponents.util.mock.servlet.MockHttpServletRequest"/>
+		<Bug pattern="HTTPONLY_COOKIE,INSECURE_COOKIE" />
+	</Match>
+
+	<!-- Filename Vulnerability (Review) -->
+	<Match>
+		<Class name="com.github.bordertech.wcomponents.WFileWidget"/>
+		<Bug pattern="FILE_UPLOAD_FILENAME" />
+	</Match>
+	<Match>
+		<Class name="com.github.bordertech.wcomponents.file.FileItemWrap"/>
+		<Bug pattern="FILE_UPLOAD_FILENAME,PATH_TRAVERSAL_IN" />
+	</Match>
+	<!-- Loading property files -->
+	<Match>
+		<Class name="com.github.bordertech.wcomponents.util.DefaultInternalConfiguration"/>
+		<Bug pattern="PATH_TRAVERSAL_IN" />
+	</Match>
+
+	<!-- To be reviewed and give reasons why excluded. -->
+	<Match>
+		<Bug pattern="PDP_POORLY_DEFINED_PARAMETER,LUI_USE_SINGLETON_LIST,IMC_IMMATURE_CLASS_BAD_SERIALVERSIONUID,BED_BOGUS_EXCEPTION_DECLARATION,PMB_POSSIBLE_MEMORY_BLOAT,MUI_CONTAINSKEY_BEFORE_GET,SUI_CONTAINS_BEFORE_ADD,CLI_CONSTANT_LIST_INDEX,SPP_EQUALS_ON_ENUM,CRLF_INJECTION_LOGS,HTTP_RESPONSE_SPLITTING,LSYC_LOCAL_SYNCHRONIZED_COLLECTION,PCOA_PARTIALLY_CONSTRUCTED_OBJECT_ACCESS,FCCD_FIND_CLASS_CIRCULAR_DEPENDENCY" />
+	</Match>
+
+	<!-- Security Bugs -->
+	<Match>
+		<Bug pattern="OBJECT_DESERIALIZATION" />
+	</Match>
+
+</FindBugsFilter>

@@ -3,7 +3,6 @@ package com.github.bordertech.wcomponents.examples;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WNumberField;
-import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
 import com.github.bordertech.wcomponents.autocomplete.type.Numeric;
 
 /**
