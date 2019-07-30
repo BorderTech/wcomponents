@@ -24,7 +24,7 @@
     * ehcache 3.6.3 to 3.8.0
     * commons-lang3 3.8.1 to 3.9
     * cache-api 1.1.0 to 1.1.1
-    * anitsamy 1.5.7 to 1.5.8
+    * antisamy 1.5.7 to 1.5.8
     * tika-core 1.20 to 1.21
   * New maven profiles `skipCoreOptionalTests`, `skipExamplesOptionalTests` and `skipThemeOptionalTests` to control test runs.
   * New maven profile `skipOptionalQA` to skip QA analysis on non production modules.
