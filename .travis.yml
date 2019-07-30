@@ -31,3 +31,4 @@ script:
 ## Send Coverage to Codacy
 after_success:
   - java -jar codacy-coverage-reporter-4.0.5-assembly.jar report -l Java -r wcomponents-core/target/site/jacoco/jacoco.xml
+  
