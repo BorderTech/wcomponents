@@ -188,10 +188,10 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid", "wc/mixin"], function(getAnces
 	}
 
 	/**
-	 * Combines widget classes together in a pretty flexible way.
+	 * Combines widget CSS classes together in a pretty flexible way.
 	 * @param {String|String[]} [existing] Existing widget classes.
-	 * @param {String|String[]} [additiona] Additional widget classes.
-	 * @returns {String|String[]} Combind widget classes.
+	 * @param {String|String[]} [additional] Additional widget classes.
+	 * @returns {String|String[]} Combined widget classes.
 	 */
 	function addClasses(existing, additional) {
 		var result;
@@ -399,6 +399,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid", "wc/mixin"], function(getAnces
 	/**
 	 * Create a DOM element representation of this Widget instance.
 	 * Note that attributes with a null value will not be rendered.
+	 * @param config A map of configuration options(see below).
 	 * @param {Boolean} [config.recurse] if true then "container Widgets" (set via descendFrom) will also be rendered recursively as ancestors.
 	 * @param {Boolean} [config.outermost] If true returns the outermost rendered element (only makes sense in a recursive render).
 	 * @param {Object} [config.state] override existing attribute values or add new ones (note that the property "className" can be set to a string or array

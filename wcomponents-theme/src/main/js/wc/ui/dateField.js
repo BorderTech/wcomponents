@@ -259,7 +259,7 @@ define(["wc/has",
 						textbox.value = value;  // do not fire change event here: do it on collapse
 					}
 
-					if (optionVal[(dateField.id)] !== dfUtils.getValue(dateField)) {
+					if (optionVal[(dateField.id)] !== dfUtils.getValue(dateField).xfr) {
 						timers.setTimeout(event.fire, 0, dfUtils.getTextBox(dateField), event.TYPE.change);
 					}
 				}
@@ -463,7 +463,7 @@ define(["wc/has",
 						if (action === shed.actions.EXPAND) {
 							if (shed.isExpanded(element)) {
 								openDateCombo = element.id;
-								optionVal[(element.id)] = dfUtils.getValue(element);
+								optionVal[(element.id)] = dfUtils.getValue(element).xfr;
 								filterOptions(element, 0);
 							}
 						} else if (action === shed.actions.COLLAPSE) {
@@ -527,18 +527,15 @@ define(["wc/has",
 			 */
 			function writeState(form, stateContainer) {
 				var dateFields = widgets.DATE_FIELD.findDescendants(form),
-					i, next, numVal, textBox,
+					i, next, dateVal,
 					nameSuffix = "-date", name;
 				for (i = 0; i < dateFields.length; i++) {
 					next = dateFields[i];
 					name = next.id + nameSuffix;
 					if (!shed.isDisabled(next)) {
-						if (instance.hasNativeInput(next)) {
-							if ((textBox = dfUtils.getTextBox(next)) && textBox.value) {
-								formUpdateManager.writeStateField(stateContainer, name, textBox.value);
-							}
-						} else if ((numVal = dfUtils.getValue(next))) {
-							formUpdateManager.writeStateField(stateContainer, name, numVal);
+						dateVal = dfUtils.getValue(next);
+						if (dateVal.xfr) {
+							formUpdateManager.writeStateField(stateContainer, name, dateVal.xfr);
 						}
 					}
 				}

@@ -744,7 +744,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		function show(element) {
 			getOrCreateCal(function(cal) {
 				var input = element.value,
-					date,
+					date, dateVal,
 					selectDate = false,
 					constrained;
 				cal.setAttribute(CONTROL_ATTRIBUTE, input);
@@ -754,7 +754,8 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				input = document.getElementById(input);
 				setMinMaxYear(input);
 
-				date = dateFieldUtils.getValue(input);
+				dateVal = dateFieldUtils.getValue(input);
+				date = dateVal.xfr;
 				if (date) {
 					date = interchange.toDate(date);
 					selectDate = true;

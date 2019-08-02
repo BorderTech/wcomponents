@@ -4,8 +4,8 @@ define(["wc/date/Format", "wc/has", "wc/date/parsers", "wc/date/interchange", "w
 		utils = {
 			/**
 			 * Get a list of potential date matches based on the user's input.
-			 * @function
-			 * @private
+			 * @function module:wc/dom/dateFieldUtils.getMatches
+			 * @public
 			 * @param {Element} element The input element of the date field.
 			 * @returns {String[]} Potential dates as strings.
 			 */
@@ -17,6 +17,8 @@ define(["wc/date/Format", "wc/has", "wc/date/parsers", "wc/date/interchange", "w
 			},
 			/**
 			 * Gets the raw value for the given date field.
+			 * @function module:wc/dom/dateFieldUtils.getRawValue
+			 * @public
 			 * @param {Element} element Any part of any kind of date field supported by wc/ui/dateField
 			 * @return {String} The raw value of the date field.
 			 */
@@ -31,7 +33,7 @@ define(["wc/date/Format", "wc/has", "wc/date/parsers", "wc/date/interchange", "w
 						return result;
 					}
 
-					if ((textbox = utils.getTextBox(container)) && (result = textbox.value)) {
+					if ((textbox = utils.getTextBox(container)) && ((result = textbox.value) || (result = textbox.getAttribute("value")))) {
 						// we don't have a recorded xfer date for this element, check its value
 						return result;
 					}
@@ -44,8 +46,8 @@ define(["wc/date/Format", "wc/has", "wc/date/parsers", "wc/date/interchange", "w
 			},
 			/**
 			 * Finds the correct date parser for this element.
-			 * @function
-			 * @private
+			 * @function module:wc/dom/dateFieldUtils.getParser
+			 * @public
 			 * @param {Element} element A date input element.
 			 * @returns {Parser} An instance of {@link module:wc/date/Parser}
 			 */
@@ -58,6 +60,12 @@ define(["wc/date/Format", "wc/has", "wc/date/parsers", "wc/date/interchange", "w
 				}
 				return result;
 			},
+			/**
+			 * Gets the collection of Widget instances that know about various date field implementations.
+			 * @function module:wc/dom/dateFieldUtils.getWidgets
+			 * @public
+			 * @returns A map of Widget instances you will need when working with date fields.
+			 */
 			getWidgets: function() {
 				return widgets || (widgets = createWidgets());
 			},
@@ -90,6 +98,8 @@ define(["wc/date/Format", "wc/has", "wc/date/parsers", "wc/date/interchange", "w
 			 * - an invalid value returns 1
 			 * - a partial date value returns true
 			 * - a full date returns false
+			 * @function module:wc/dom/dateFieldUtils.hasPartialDate
+			 * @public
 			 * @param {Element} element The date field to test.
 			 * @return {Number|Boolean} Truthy if it contains a partial date or unparseable date, otherwise false.
 			 */
@@ -117,13 +127,20 @@ define(["wc/date/Format", "wc/has", "wc/date/parsers", "wc/date/interchange", "w
 			 * @function  module:wc/dom/dateFieldUtils.getValue
 			 * @public
 			 * @param {Element} element The date field we want to get the value from.
-			 * @returns {String} The date in transfer format or an empty string if the field has no value.
+			 * @returns {Object} The date in transfer format or an empty string if the field has no value.
 			 */
 			getValue: function(element) {
-				var formatter, result = utils.getRawValue(element);
-				formatter = Format.getDefaultFormatter();
-				result = formatter.reverse(result);
-				return result || "";
+				var result = { xfr: "", raw: "" },
+					formatter, value = utils.getRawValue(element);
+				if (value) {
+					result.raw = value;
+					formatter = Format.getDefaultFormatter();
+					result.xfr = formatter.reverse(value) || "";
+					if (result.xfr) {
+						result.complete = interchange.isComplete(result.xfr);
+					}
+				}
+				return result;
 			},
 			/**
 			 * Get the text input element descendant of a date field.
@@ -181,13 +198,17 @@ define(["wc/date/Format", "wc/has", "wc/date/parsers", "wc/date/interchange", "w
 			SWITCHER: new Widget("input", "", { type: "checkbox" }),
 			CUSTOM: new Widget("wc-dateinput")
 		};
+
 		widgetMap.DATE_WRAPPER_FAKE = widgetMap.DATE_FIELD.extend("" , { role: "combobox", "aria-autocomplete": "list" });
 		widgetMap.DATE_WRAPPER_PARTIAL = widgetMap.DATE_WRAPPER_FAKE.extend("wc_datefield_partial");
 		widgetMap.DATE = widgetMap.INPUT.extend("", { type: "date"});
 		widgetMap.DATE_PARTIAL = widgetMap.INPUT.extend("", { type : "text"});
-		widgetMap.INPUT.descendFrom(widgetMap.DATE_FIELD, true);
+		widgetMap.DATE_FAKE = widgetMap.INPUT.extend("", { type : "text"});
+
+		// widgetMap.INPUT.descendFrom(widgetMap.DATE_FIELD, true);
 		widgetMap.DATE.descendFrom(widgetMap.DATE_FIELD, true);
-		widgetMap.DATE_PARTIAL.descendFrom(widgetMap.DATE_FIELD, true);
+		widgetMap.DATE_PARTIAL.descendFrom(widgetMap.DATE_WRAPPER_PARTIAL, true);
+		widgetMap.DATE_FAKE.descendFrom(widgetMap.DATE_WRAPPER_FAKE, true);
 		widgetMap.SUGGESTION_LIST.descendFrom(widgetMap.DATE_FIELD, true);
 		widgetMap.LAUNCHER_ICON.descendFrom(widgetMap.LAUNCHER);
 

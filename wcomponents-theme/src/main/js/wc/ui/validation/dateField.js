@@ -41,7 +41,7 @@ define(["wc/date/interchange",
 					return false;  // do not apply constraint validation to read-only or partial date fields, even if the date entered is a full date.
 				}
 
-				if ((value = dateFieldUtils.getValue(element)) && !validationManager.isExempt(element)) {
+				if ((value = dateFieldUtils.getValue(element).xfr) && !validationManager.isExempt(element)) {
 					if (textbox.getAttribute("type") === "date") {
 						minAttrib = "min";
 						maxAttrib = "max";
@@ -57,7 +57,7 @@ define(["wc/date/interchange",
 					 */
 					if (!date) {
 						dateField.acceptFirstMatch(textbox);
-						value = dateFieldUtils.getValue(textbox);
+						value = dateFieldUtils.getValue(textbox).xfr;
 						date = interchange.toDate(value);
 					}
 
@@ -141,7 +141,7 @@ define(["wc/date/interchange",
 						if (!next.getAttribute("aria-required")) {
 							return;
 						}
-						if (!dateFieldUtils.getValue(next)) {
+						if (!dateFieldUtils.getValue(next).xfr) {
 							incomplete.push(next);
 						}
 					} else {

@@ -499,6 +499,7 @@ define(["wc/dom/tag",
 				if (type === "date") {
 					if (dateFieldUtils && dateFieldUtils.isOneOfMe(element)) {
 						result = dateFieldUtils.getValue(element);
+						result = result.xfr;
 					}
 					if (result !== "" && !interchange.isComplete(result)) {
 						return null;

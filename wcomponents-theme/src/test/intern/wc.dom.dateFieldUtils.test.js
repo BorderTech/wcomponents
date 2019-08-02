@@ -1,18 +1,17 @@
 define(["intern!object", "intern/chai!assert", "wc/dom/dateFieldUtils", "wc/dom/fieldIndicatorUtils", "wc/date/parsers", "wc/has", "./resources/test.utils!"],
 	function (registerSuite, assert, dateFieldUtils, fieldIndicatorUtils, parsers, has, testutils) {
 		"use strict";
-	//				testContent += "<span id='" + ids.PARTIAL_TEXT + "'>JUL 2019</span>";
-	//				testContent += "<span id='" + ids.FULL_TEXT + "'>02 JUL 2019</span>";
-	//				testContent += "<span id='" + ids.PARTIAL_TEXT_XFR + "'>2019-07-??</span>";
-	//				testContent += "<span id='" + ids.FULL_TEXT_XFR + "'>2019-07-02</span>";
 		var testHolder,
 			widgets,
 			values = {
 				DATE_PARTIAL_WITH_PARTIAL: "JUL 2019",
 				DATE_PARTIAL_WITH_FULL: "02 JUL 2019",
 				DATE_PARTIAL_WITH_INVALID: "kung fu",
+				DATE_PARTIAL_WITH_AMBIGUOUS: "111111",
 				CUSTOM_WITH_PARTIAL_XFR: "2019-07-??",
-				CUSTOM_WITH_FULL_XFR: "2019-07-02"
+				CUSTOM_WITH_FULL_XFR: "2019-07-02",
+				DATE_FAKE_WITH_FULL: "02 JUL 2019",
+				DATE_FAKE_WITH_AMBIGUOUS: "111111"
 			},
 			testSuite = {
 				name: "wc/dom/dateFieldUtils",
@@ -27,6 +26,9 @@ define(["intern!object", "intern/chai!assert", "wc/dom/dateFieldUtils", "wc/dom/
 						var element, fieldIndicatorWidgets = fieldIndicatorUtils.getWidgets();
 						if (widgetKey.indexOf("DATE_PARTIAL_") === 0) {
 							widgets[widgetKey] = widgets.DATE_PARTIAL.extend("", { id: widgetKey });
+							testutils.renderWidget(widgets[widgetKey], testHolder);
+						} else if (widgetKey.indexOf("DATE_FAKE_") === 0) {
+							widgets[widgetKey] = widgets.DATE_FAKE.extend("", { id: widgetKey });
 							testutils.renderWidget(widgets[widgetKey], testHolder);
 						} else if (widgetKey.indexOf("CUSTOM_") === 0) {
 							widgets[widgetKey] = widgets.CUSTOM.extend("", { id: widgetKey });
@@ -59,54 +61,69 @@ define(["intern!object", "intern/chai!assert", "wc/dom/dateFieldUtils", "wc/dom/
 					assert.isTrue(parser.equals(actual));
 				},
 				testGetRawValuePartialWithPartial: function() {
-					var element = widgets.DATE_PARTIAL_WITH_PARTIAL.findDescendant(testHolder),
+					var key = "DATE_PARTIAL_WITH_PARTIAL",
+						element = widgets[key].findDescendant(testHolder),
 						actual = dateFieldUtils.getRawValue(element);
-					assert.equal(actual, values.DATE_PARTIAL_WITH_PARTIAL);
+					assert.equal(actual, values[key]);
 				},
 				testGetRawValuePartialWithInvalid: function() {
-					var element = widgets.DATE_PARTIAL_WITH_INVALID.findDescendant(testHolder),
+					var key = "DATE_PARTIAL_WITH_INVALID",
+							element = widgets[key].findDescendant(testHolder),
 						actual = dateFieldUtils.getRawValue(element);
-					assert.equal(actual, values.DATE_PARTIAL_WITH_INVALID);
+					assert.equal(actual, values[key]);
 				},
 				testGetRawValuePartialWithFull: function() {
-					var element = widgets.DATE_PARTIAL_WITH_FULL.findDescendant(testHolder),
+					var key = "DATE_PARTIAL_WITH_FULL",
+							element = widgets[key].findDescendant(testHolder),
 						actual = dateFieldUtils.getRawValue(element);
-					assert.equal(actual, values.DATE_PARTIAL_WITH_FULL);
+					assert.equal(actual, values[key]);
 				},
 				testGetRawValueCustomPartialXfr: function() {
-					var element = widgets.CUSTOM_WITH_PARTIAL_XFR.findDescendant(testHolder),
+					var key = "CUSTOM_WITH_PARTIAL_XFR",
+							element = widgets[key].findDescendant(testHolder),
 						actual = dateFieldUtils.getRawValue(element);
-					assert.equal(actual, values.CUSTOM_WITH_PARTIAL_XFR);
+					assert.equal(actual, values[key]);
 				},
 				testGetRawValueCustomFullXfr: function() {
-					var element = widgets.CUSTOM_WITH_FULL_XFR.findDescendant(testHolder),
+					var key = "CUSTOM_WITH_FULL_XFR",
+						element = widgets[key].findDescendant(testHolder),
 						actual = dateFieldUtils.getRawValue(element);
-					assert.equal(actual, values.CUSTOM_WITH_FULL_XFR);
+					assert.equal(actual, values[key]);
 				},
 				testGetValuePartialWithPartial: function() {
-					var element = widgets.DATE_PARTIAL_WITH_PARTIAL.findDescendant(testHolder),
+					var key = "DATE_PARTIAL_WITH_PARTIAL",
+						element = widgets[key].findDescendant(testHolder),
 						actual = dateFieldUtils.getValue(element);
-					assert.equal(actual, "2019-07-??");
+					assert.equal(actual.xfr, "2019-07-??");
+					assert.equal(actual.raw, values[key]);
 				},
 				testGetValuePartialWithInvalid: function() {
-					var element = widgets.DATE_PARTIAL_WITH_INVALID.findDescendant(testHolder),
+					var key = "DATE_PARTIAL_WITH_INVALID",
+						element = widgets[key].findDescendant(testHolder),
 						actual = dateFieldUtils.getValue(element);
-					assert.equal(actual, "");
+					assert.equal(actual.xfr, "");
+					assert.equal(actual.raw, values[key]);
 				},
 				testGetValuePartialWithFull: function() {
-					var element = widgets.DATE_PARTIAL_WITH_FULL.findDescendant(testHolder),
+					var key = "DATE_PARTIAL_WITH_FULL",
+						element = widgets[key].findDescendant(testHolder),
 						actual = dateFieldUtils.getValue(element);
-					assert.equal(actual, "2019-07-02");
+					assert.equal(actual.xfr, "2019-07-02");
+					assert.equal(actual.raw, values[key]);
 				},
 				testGetValueCustomPartialXfr: function() {
-					var element = widgets.CUSTOM_WITH_PARTIAL_XFR.findDescendant(testHolder),
+					var key = "CUSTOM_WITH_PARTIAL_XFR",
+						element = widgets[key].findDescendant(testHolder),
 						actual = dateFieldUtils.getValue(element);
-					assert.equal(actual, values.CUSTOM_WITH_PARTIAL_XFR);
+					assert.equal(actual.xfr, values[key]);
+					assert.equal(actual.raw, values[key]);
 				},
 				testGetValueCustomFullXfr: function() {
-					var element = widgets.CUSTOM_WITH_FULL_XFR.findDescendant(testHolder),
+					var key = "CUSTOM_WITH_FULL_XFR",
+						element = widgets[key].findDescendant(testHolder),
 						actual = dateFieldUtils.getValue(element);
-					assert.equal(actual, values.CUSTOM_WITH_FULL_XFR);
+					assert.equal(actual.xfr, values[key]);
+					assert.equal(actual.raw, values[key]);
 				},
 				testHasPartialDateWithPartial: function() {
 					var element = widgets.DATE_PARTIAL_WITH_PARTIAL.findDescendant(testHolder),
@@ -137,6 +154,31 @@ define(["intern!object", "intern/chai!assert", "wc/dom/dateFieldUtils", "wc/dom/
 					var element = widgets.CUSTOM_WITH_FULL_XFR.findDescendant(testHolder),
 						actual = dateFieldUtils.hasPartialDate(element);
 					assert.isFalse(actual);
+				},
+				testGetMatches: function() {
+					var partialElement = widgets.DATE_PARTIAL_WITH_AMBIGUOUS.findDescendant(testHolder),
+						fakeElement = widgets.DATE_FAKE_WITH_AMBIGUOUS.findDescendant(testHolder),
+						actualPartial = dateFieldUtils.getMatches(partialElement),
+						actualFake = dateFieldUtils.getMatches(fakeElement);
+					/*
+					 * Note: this test could be more specifc about the matches however I did not want to bind it strongly to the specific date masks that
+					 * have been configured via i18n.
+					 *
+					 * The main thing to ensure is that partial date fields use a different parser than full date fields AND that the partial parser matches
+					 * a greater number of possible "dates".
+					 */
+					assert.isAbove(actualFake.length, 0, "There should be about two possible full date matches");
+					assert.isAbove(actualPartial.length, actualFake.length, "Partial date field should have more matches than full date ");
+				},
+				testGetMatchesPartialWithFullDate: function() {
+					var element = widgets.DATE_PARTIAL_WITH_FULL.findDescendant(testHolder),
+					actual = dateFieldUtils.getMatches(element);
+					assert.equal(1, actual.length, "There should be one date match for a full date");
+				},
+				testGetMatchesFakeWithFullDate: function() {
+					var element = widgets.DATE_FAKE_WITH_FULL.findDescendant(testHolder),
+					actual = dateFieldUtils.getMatches(element);
+					assert.equal(1, actual.length, "There should be one date match for a full date");
 				}
 			};
 
@@ -152,15 +194,17 @@ define(["intern!object", "intern/chai!assert", "wc/dom/dateFieldUtils", "wc/dom/
 			};
 
 			testSuite.testGetRawValueNative = function() {
-				var element = widgets.DATE.findDescendant(testHolder),
+				var key = "DATE",
+					element = widgets[key].findDescendant(testHolder),
 					actual = dateFieldUtils.getRawValue(element);
-				assert.equal(actual, values.DATE);
+				assert.equal(actual, values[key]);
 			};
 
 			testSuite.testGetValueNative = function() {
-				var element = widgets.DATE.findDescendant(testHolder),
+				var key = "DATE", element = widgets[key].findDescendant(testHolder),
 					actual = dateFieldUtils.getValue(element);
-				assert.equal(actual, values.DATE);
+				assert.equal(actual.xfr, values[key]);
+				assert.equal(actual.raw, values[key]);
 			};
 
 			testSuite.testHasPartialDateNative = function() {
@@ -169,6 +213,11 @@ define(["intern!object", "intern/chai!assert", "wc/dom/dateFieldUtils", "wc/dom/
 				assert.isFalse(actual);
 			};
 
+			testSuite.testGetMatchesNative = function() {
+				var element = widgets.DATE.findDescendant(testHolder),
+					actual = dateFieldUtils.getMatches(element);
+				assert.equal(1, actual.length, "There should be one date match for a full date");
+			};
 		}
 
 		registerSuite(testSuite);

@@ -17,7 +17,10 @@ import org.apache.commons.logging.LogFactory;
  * date picker widgets. Convenience methods exist to set and get the value as a java date object.
  * </p>
  * <p>
- * "Partial dates" can be specified without day or month components, e.g. "JAN 2001", or just "2001".
+ * "Partial dates" allow the user to provide incomplete dates where necessary. The specific formats accepted by the partial date field
+ * are controlled by setting date masks in the property "datefield_masks_partial".
+ * The default value is found in the wcomponents-i18n module in `theme-messages.properties`.
+ *
  * </p>
  * <p>
  * When the component is bound to a bean, the bean property must be a string containing the date in the format
