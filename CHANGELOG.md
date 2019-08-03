@@ -6,6 +6,12 @@
 
 ### Enhancements
 
+### Bug Fixes
+
+## Release 1.5.15
+
+### Enhancements
+
 * Updated parent to 1.0.12 and added required dependency management which had been removed from the parent.
 * Removed unused ant call from theme-parent POM.
 * Introduced JS module `wc/file/util`, it provides following file operations `blobToFile`, `fixFileExtension`, `dataURItoBlob` and `getMimeToExtMap`.
