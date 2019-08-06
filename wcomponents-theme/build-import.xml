@@ -64,65 +64,18 @@
 
 	<!--
 		Runs static analysis on javascript code.
-
-		Note we deliberately overwrite the config file so it's harder to change.
-		This is so we all code to the same standard - if you agree this is a noble goal then please work within this constraint.
-		If you don't like the standard get in touch and we can look at changing it.
+		If you don't like the standard get in present arguments and we can look at changing it.
 	-->
 	<macrodef name="javascript.lint">
 		<attribute name="jsdir" description="The directory that contains javascript to lint."/>
 		<attribute name="failonerror" default="true"/>
 		<sequential>
-			<property name="jshint.executable" location="${basedir}/node_modules/eslint/bin/eslint.js"/>
-			<property name="jshintrc" location="${basedir}/.eslintrc"/>
-			<property name="jshintignore" location="${basedir}/.eslintignore"/>
-			<echo file="${jshintrc}" force="true">{
-	"env": {
-		"browser": true,
-		"amd": true
-	},
-	"extends": "eslint:recommended",
-	"rules": {
-		"vars-on-top": "warn",
-		"no-console": 0,
-		"no-shadow": 2,
-		"brace-style": 2,
-		"semi": [2, "always"],
-		"space-before-blocks": [2, "always"],
-		"spaced-comment": [2, "always"],
-		"keyword-spacing": 2,
-		"indent": [2, "tab", { "SwitchCase": 1 } ],
-		"quotes": 0
-	},
-	"globals": {
-		"KeyEvent": true,
-		"Promise": true,
-		"DataView": true
-	}
-}
-</echo>
-			<echo file="${jshintignore}" force="true"># Only ignore third-party scripts
-**/lib/**
-</echo>
-			<echo>
-☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠
-If the build fails here it means static analysis has detected Javascript issues.
-Please read the issues below and remedy them.
-All issue descriptions will yield results on Google, or contact your tech lead for help.
-
-If you have "'variable' is not defined" then please fix it (your forgot to use 'var' or you have a typo).
-In AMD there should be no global variables besides 'require' and 'define'.
-☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠
-</echo>
-			<echo level="verbose">node ${jshint.executable} @{jsdir} --config ${jshintrc} --ignore-path ${jshintignore}</echo>
+			<property name="jshint.executable" location="${basedir}/lintfile.js"/>
+			<echo level="verbose">node ${jshint.executable} @{jsdir}</echo>
 			<nodejs.exec cwd="${basedir}" failonerror="@{failonerror}">
 				<arguments>
 					<arg value="${jshint.executable}"/>
 					<arg value="@{jsdir}"/>
-					<arg value="--config"/>
-					<arg value="${jshintrc}"/>
-					<arg value="--ignore-path"/>
-					<arg value="${jshintignore}"/>
 				</arguments>
 			</nodejs.exec>
 		</sequential>
@@ -143,6 +96,28 @@ In AMD there should be no global variables besides 'require' and 'define'.
 				<arg-elements>
 					<arg value="${npm.command}"/>
 					<arg value="@{package}"/>
+				</arg-elements>
+			</npm.exec>
+		</sequential>
+	</macrodef>
+
+	<!--
+		Does what "npm version" does.
+	-->
+	<macrodef name="npm.version">
+		<attribute name="version" default="${build.number}" description="The arg to pass to npm version"/>
+		<attribute name="cwd" default="${basedir}" description="The working directory"/>
+		<attribute name="failonerror" default="false"/>
+		<sequential>
+			<local name="npm.command"/>
+			<property name="npm.command" value="version"/>
+			<echo level="verbose">npm ${npm.command} @{version} --allow-same-version true</echo>
+			<npm.exec cwd="@{cwd}">
+				<arg-elements>
+					<arg value="${npm.command}"/>
+					<arg value="@{version}"/>
+					<arg value="--allow-same-version"/>
+					<arg value="true"/>
 				</arg-elements>
 			</npm.exec>
 		</sequential>

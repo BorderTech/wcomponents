@@ -1,6 +1,6 @@
 ### WComponents ###
 wcomponents-theme/node/
-wcomponents-theme/package.json
+wcomponents-theme/package-lock.json
 wcomponents-theme/bower.json
 wcomponents-theme/README.md
 wcomponents-theme/jsdoc.json

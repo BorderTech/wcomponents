@@ -38,7 +38,7 @@ define({
 			ccv: '${amd.src.dir}/lib/ccv',
 			face: '${amd.src.dir}/lib/face',
 			sprintf: '${amd.src.dir}/lib/sprintf',
-			Promise: '${amd.src.dir}/lib/Promise.min',
+			Promise: '${amd.src.dir}/lib/Promise',
 			compat: '${amd.src.dir}/wc/compat'
 		}
 	},

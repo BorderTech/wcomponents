@@ -11,12 +11,14 @@
  */
 const fs = require("fs");
 const path = require("path");
-const srcDir = "./src/main/js/";
-const targetDir = "./target/classes/theme/wcomponents-theme/scripts_debug/";
-const testDir = "./src/test/intern/";
-const targetTestDir = "./target/test-classes/wcomponents-theme/intern/";
-const sassSrcDir = "./src/main/sass/";
-const sassTargetDir = "./target/classes/theme/wcomponents-theme/style/";
+const pjson = require("./package.json");
+const themeLinter = require("./lintfile");
+const srcDir = path.join(pjson.directories.src, "js");
+const targetDir = path.join(pjson.directories.target, "classes/theme/wcomponents-theme/scripts_debug");
+const testDir = path.join(pjson.directories.test, "intern");
+const targetTestDir = path.join(pjson.directories.target, "test-classes/wcomponents-theme/intern");
+const sassSrcDir = path.join(pjson.directories.src, "sass");
+const sassTargetDir = path.join(pjson.directories.target, "classes/theme/wcomponents-theme/style");
 
 const CLIEngine = require("eslint").CLIEngine;
 const eslintCli = new CLIEngine();
@@ -88,7 +90,7 @@ function logLintReport(reportItem) {
  * @param {String} filePath The file to scan with ESLint
  */
 function runEslint(filePath) {
-	let report = eslintCli.executeOnFiles([filePath]);
+	let report = themeLinter.run(filePath);
 	if (report && report.results) {
 		report.results.forEach(logLintReport);
 	}
@@ -113,7 +115,7 @@ function processSassFile(sourcePath, targetPath, callback) {
 
 function processTestFile(sourcePath, targetPath, callback) {
 	let replacer = function(data) {
-			return data.replace(/@RESOURCES@/g, "/target/test-classes/wcomponents-theme/intern/resources");
+			return data.replace(/@RESOURCES@/g, "/target/test-classes/wcomponents-theme/intern/resources");  // this is a relative URI
 		};
 	fs.readFile(sourcePath, "utf8", function(err, data) {
 		var fileData;
@@ -131,6 +133,7 @@ function processTestFile(sourcePath, targetPath, callback) {
  * Performs a file simple copy.
  * @param {String} sourcePath The path to the source file.
  * @param {String} targetPath The path to the destination file (will overwrite, parent directory must exist).
+ * @param {Function} callback Called when done.
  */
 function regularCopy(sourcePath, targetPath, callback) {
 	fs.copyFile(sourcePath, targetPath, (err) => {

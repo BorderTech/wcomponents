@@ -101,7 +101,7 @@
 		<copy todir="${lib.build.target.dir}/bower_components" failonerror="false">
 			<fileset dir="${basedir}/bower_components" includes="**"/>
 		</copy>
-		<copy file="${basedir}/node_modules/promise-polyfill/Promise.min.js" tofile="${lib.build.target.dir}/Promise.min.js"/>
+		<copy file="${basedir}/node_modules/promise-polyfill/dist/polyfill.min.js" tofile="${lib.build.target.dir}/Promise.js"/>
 		<copy file="${basedir}/node_modules/axe-core/axe.min.js" tofile="${lib.build.target.dir}/axe.min.js"/>
 		<for param="dir">
 			<dirset dir="${lib.build.target.dir}">

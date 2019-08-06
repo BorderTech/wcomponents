@@ -39,9 +39,9 @@
 		<i18n.unpack.dir>${project.build.directory}${file.separator}i18n-unpacked</i18n.unpack.dir>
 		<nodejs.dist.dir>${project.build.directory}/nodejsdist</nodejs.dist.dir><!-- The nodejs binaries get unpacked to here -->
 		<nodejs.dir>${basedir}/node</nodejs.dir><!-- Where we expect to find Node installed -->
-		<nodejs.version>v6.9.5</nodejs.version><!-- the version of node to be installed -->
+		<nodejs.version>v8.11.3</nodejs.version><!-- the version of node to be installed -->
 		<npmjs.dir>${nodejs.dir}/node_modules/npm/bin</npmjs.dir><!-- Where we expect to find NPM installed -->
-		<npmjs.version>3.10.10</npmjs.version><!-- the version of npm to be installed - should be the version that goes with your version of node -->
+		<npmjs.version>6.9.0</npmjs.version><!-- the version of npm to be installed - should be the version that goes with your version of node -->
 		<theme.skip.antrun>true</theme.skip.antrun><!-- All child projects that want to build a theme should set this to false -->
 		<theme.skip.unpack>true</theme.skip.unpack><!-- child projects outside of wcomponents will set this to false -->
 		<theme.core.dir>${theme.dir}</theme.core.dir><!-- In child projects this would probably be ${theme.unpack.dir}${file.separator}${theme.default.name} -->
@@ -50,7 +50,6 @@
 		<xsltjson.dir>${project.build.directory}/xsltjson</xsltjson.dir><!-- Convert XML to JSON at build time -->
 		<timezonedata.download.url>http://www.iana.org/time-zones/repository/tzdata-latest.tar.gz</timezonedata.download.url>
 		<timezone.dir>${project.build.directory}/timezone</timezone.dir><!-- Fetch Timezone Database -->
-		<test.intern.version>3.4.6</test.intern.version><!-- intern version: use ~3.4.3 for nexus 3+, ~3.0.6 if you are stuck with Nexus 2 -->
 		<rjs.log.level>2</rjs.log.level><!-- Log level for r.js used to optimize JavaScript -->
 		<sass-lint-config>${basedir}/.sass-lint.yml</sass-lint-config>
 	</properties>

@@ -145,7 +145,7 @@
 					wc: "</xsl:text><xsl:value-of select="$wcScriptDir" /><xsl:text>",
 					lib: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>",
 					tinyMCE: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/tinymce/tinymce.min",
-					Promise: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/Promise.min",
+					Promise: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/Promise",
 					fabric: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/fabric",
 					ccv: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/ccv",
 					face: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/face",
