@@ -1,6 +1,6 @@
 define(["intern!object", "intern/chai!assert", "wc/dom/dateFieldUtils", "wc/render/dateField",
-	"wc/has", "wc/array/toArray"],
-	function (registerSuite, assert, dateFieldUtils, dateField, has, toArray) {
+	"wc/dom/shed", "wc/has", "wc/array/toArray"],
+	function (registerSuite, assert, dateFieldUtils, dateField, shed, has, toArray) {
 		"use strict";
 		var widgets,
 			hasNativeDate = has("native-dateinput"),
@@ -82,6 +82,9 @@ define(["intern!object", "intern/chai!assert", "wc/dom/dateFieldUtils", "wc/rend
 						assert.equal(state["data-wc-value"], actual.xfr);
 						assert.isFalse(invalid, "A date field with a full date should not be invalid");
 						assert.isTrue(widgets.DATE_WRAPPER_PARTIAL.isOneOfMe(results.wrapper), "allow-partial true should force a partial date field");
+						if (hasNativeDate) {
+							assert.isFalse(shed.isDisabled(results.switcher), "Switcher should be available");
+						}
 					});
 				},
 				testRenderPartialTrueWithPartialDate: function() {
@@ -101,6 +104,9 @@ define(["intern!object", "intern/chai!assert", "wc/dom/dateFieldUtils", "wc/rend
 						assert.equal(state["data-wc-value"], actual.xfr);
 						assert.isFalse(invalid, "A partial date field with a partial date should not be invalid");
 						assert.isTrue(widgets.DATE_WRAPPER_PARTIAL.isOneOfMe(results.wrapper), "allow-partial true should force a partial date field");
+						if (hasNativeDate) {
+							assert.isTrue(shed.isDisabled(results.switcher), "Switcher should be disabled with partial date");
+						}
 					});
 				},
 				testRenderPartialFalseWithPartialDate: function() {
@@ -120,6 +126,9 @@ define(["intern!object", "intern/chai!assert", "wc/dom/dateFieldUtils", "wc/rend
 						assert.equal(state["data-wc-value"], actual.xfr);
 						assert.isFalse(invalid, "A partial date field with a partial date should not be invalid");
 						assert.isTrue(widgets.DATE_WRAPPER_PARTIAL.isOneOfMe(results.wrapper), "A partial date value should force a partial date field");
+						if (hasNativeDate) {
+							assert.isTrue(shed.isDisabled(results.switcher), "Switcher should be disabled with partial date");
+						}
 					});
 				},
 				testRenderNotPartialWithPartialDate: function() {
@@ -257,14 +266,13 @@ define(["intern!object", "intern/chai!assert", "wc/dom/dateFieldUtils", "wc/rend
 							assert.equal(actualMin, state["data-wc-min"], "min should be set");
 							assert.equal(actualMax, state["data-wc-max"], "max should be set");
 						} else {
-							/* who cares?
+
 							assert.isNull(actualMin, "min should only ever be set on native date inputs");
 							assert.isNull(actualMax, "max should only ever be set on native date inputs");
-							 */
 						}
 					});
 				},
-				testSwitchNativeToCustom: function() {
+				testSwitchNativeToCustomAndBack: function() {
 					var state = {
 						id: "element-666",
 						"data-wc-buttonid": "some-fake-id",
@@ -283,12 +291,24 @@ define(["intern!object", "intern/chai!assert", "wc/dom/dateFieldUtils", "wc/rend
 							return renderHelper(state, { el: results.wrapper }).then(function(switchedResults) {
 								var actualSwitched = dateFieldUtils.getValue(switchedResults.wrapper);
 								assert.equal(state["data-wc-value"], actualSwitched.xfr);
+								return renderHelper(state, { el: switchedResults.wrapper }).then(function(twiceSwitchedResults) {
+									var actualTwiceSwitched = dateFieldUtils.getValue(twiceSwitchedResults.wrapper);
+									assert.equal(state["data-wc-value"], actualTwiceSwitched.xfr);
+								});
 							});
 						}
 					});
 				}
 			};
 
+
+		/**
+		 * Checks the class attribute on the rendered element - runs assertions.
+		 * This means that it has the classes expected for its widget AND no additional classes unless specified.
+		 * @param {Element} element The element to check.
+		 * @param {wc/dom/Widget} widget The widget that describes this element.
+		 * @param {String|String[]} additionalClasses Additional classes to expect on the element (beyond the widget).
+		 */
 		function checkClasses(element, widget, additionalClasses) {
 			var expectedElement = widget.render(),  // easiest way to generate the effective classes on a widget taking into account container widgets
 				expectedClasses = toArray(expectedElement.classList),
@@ -328,12 +348,14 @@ define(["intern!object", "intern/chai!assert", "wc/dom/dateFieldUtils", "wc/rend
 				};
 
 			return dateField.render(element).then(function(actual) {
-				var inputElement,
+				var switcherElement = widgets.SWITCHER.findDescendant(actual),
+					inputElement,
 					inputWidget,
 					containerWidget,
 					allowPartial = state["data-wc-allowpartial"] || state["data-wc-allowpartial"] === false,
 					additionalInputClasses = element.hasAttribute("data-wc-submitonchange") ? ["wc_soc"] : "";
 
+				// Determine what widgets to use to verify this element
 				if (conf.expectNative) {
 					containerWidget = "DATE_FIELD";
 					inputWidget = "DATE";
@@ -347,9 +369,6 @@ define(["intern!object", "intern/chai!assert", "wc/dom/dateFieldUtils", "wc/rend
 						inputWidget = "DATE_FAKE";
 					}
 					inputElement = widgets[inputWidget].findDescendant(actual);
-					if (!inputElement) {
-						debugger;
-					}
 					assert.equal("off", inputElement.getAttribute("autocomplete"), "every input that implements combo should have autocomplete turned off");
 				}
 
@@ -357,7 +376,10 @@ define(["intern!object", "intern/chai!assert", "wc/dom/dateFieldUtils", "wc/rend
 				checkClasses(actual, widgets[containerWidget], state["data-wc-class"]);
 				checkClasses(inputElement, widgets[inputWidget], additionalInputClasses);
 
-				// We have specific tests for these elsewhere but I decided to add some generic assertions here too
+				/*
+				 * Check that all the attributes have been set correctly on the rendered element.
+				 * We have specific tests for these elsewhere but I decided to add some generic assertions here too.
+				 */
 				Object.keys(inputAttrMap).forEach(function(attrName) {
 					var actualAttr,
 						stateVal = state[attrName],
@@ -372,12 +394,15 @@ define(["intern!object", "intern/chai!assert", "wc/dom/dateFieldUtils", "wc/rend
 							actualAttr = inputElement.getAttribute(attrVal);
 							assert.equal("off", actualAttr, "every input that implements combo should have autocomplete turned off");
 						} else if (attrVal === "min" || attrVal === "max") {
+							// min and max only for native date inputs
 							actualAttr = inputElement.getAttribute(attrVal);
 							if (conf.expectNative) {
-								// min and max only for native date inputs
 								assert.equal(actualAttr, stateVal, attrVal + " attribute should be "+ stateVal);
+							} else {
+								assert.isNull(actualAttr, "min and max  should only ever be set on native date inputs");
 							}
 						} else if (stateVal.constructor === String) {
+							// just a regular attribute with a value, make sure it has been renamed and set accordingly
 							actualAttr = inputElement.getAttribute(attrVal);
 							assert.equal(actualAttr, stateVal, attrVal + " attribute should be "+ stateVal);
 						}
@@ -388,7 +413,13 @@ define(["intern!object", "intern/chai!assert", "wc/dom/dateFieldUtils", "wc/rend
 
 				assert.equal(state.id, actual.id, "The date field ID should be the wrapper ID");
 
-				return { wrapper: actual, input: inputElement, switcher: widgets.SWITCHER.findDescendant(actual) };
+				if (!hasNativeDate) {
+					assert.isNull(switcherElement, "Should never provide option to switch when there is no native date field.");
+				} else if (allowPartial) {
+					assert.isNotNull(switcherElement, "Partial date should provide option to switch between native and custom date field.");
+				}
+
+				return { wrapper: actual, input: inputElement, switcher: switcherElement };
 			});
 		}
 
