@@ -278,7 +278,8 @@ public final class FilterableTableExample extends WContainer {
 		add(new WAjaxControl(item, table));
 
 		Object cellObject;
-		String cellContent, cellContentMatch;
+		String cellContent;
+		String cellContentMatch;
 		Object bean;
 
 		if (beanList != null) {

@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.util;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * A Base64 Encoder/Decoder.
@@ -159,16 +160,8 @@ public final class Base64Util {
 	 * @throws IllegalArgumentException if the input is not valid Base64 encoded data.
 	 */
 	public static String decodeString(final String string) {
-		String decodedString = null;
-
-		try {
-			byte[] decodedBytes = decode(string);
-			decodedString = new String(decodedBytes, "UTF-8");
-		} catch (UnsupportedEncodingException uue) {
-			// Should never happen, java has to support "UTF-8".
-		}
-
-		return decodedString;
+		byte[] decodedBytes = decode(string);
+		return new String(decodedBytes, StandardCharsets.UTF_8);
 	}
 
 	/**

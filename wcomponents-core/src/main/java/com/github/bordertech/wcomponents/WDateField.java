@@ -126,7 +126,7 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 				sdf.setLenient(lenient);
 				return sdf.parse((String) data);
 			} catch (ParseException e) {
-				throw new SystemException("Could not convert String data [" + data + "] to a date.");
+				throw new SystemException("Could not convert String data [" + data + "] to a date.", e);
 			}
 		}
 

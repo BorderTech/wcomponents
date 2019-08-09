@@ -120,7 +120,7 @@ public class TemplateRenderInterceptor extends InterceptorComponent {
 				bundle = ResourceBundle.getBundle(RESOUCRCE_BUNDLE_BASE_NAME, locale);
 				RESOURCES.put(key, bundle);
 			} catch (Exception e) {
-				throw new SystemException("Could not load theme resource bundle for locale [" + key + "].");
+				throw new SystemException("Could not load theme resource bundle for locale [" + key + "].", e);
 			}
 		}
 		return bundle;

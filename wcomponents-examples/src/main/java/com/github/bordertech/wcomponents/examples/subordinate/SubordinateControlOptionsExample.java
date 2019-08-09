@@ -245,6 +245,7 @@ public class SubordinateControlOptionsExample extends WContainer {
 	 */
 	private final WCheckBox cbReadOnlyTrigger = new WCheckBox();
 
+	// TODO Provide a "desc" value for the enum
 	/**
 	 * Trigger components.
 	 */
@@ -252,67 +253,67 @@ public class SubordinateControlOptionsExample extends WContainer {
 		/**
 		 * WCheckBox trigger.
 		 */
-		CheckBox,
+		CHECKBOX,
 		/**
 		 * WCheckBoxSelect trigger.
 		 */
-		CheckBoxSelect,
+		CHECKBOXSELECT,
 		/**
 		 * WDateField trigger.
 		 */
-		DateField,
+		DATEFIELD,
 		/**
 		 * WDropdown trigger.
 		 */
-		Dropdown,
+		DROPDOWN,
 		/**
 		 * WEmailField trigger.
 		 */
-		EmailField,
+		EMAILFIELD,
 		/**
 		 * WMultiSelect trigger.
 		 */
-		MultiSelect,
+		MULTISELECT,
 		/**
 		 * WMultiSelectPair trigger.
 		 */
-		MultiSelectPair,
+		MULTISELECTPAIR,
 		/**
 		 * NumberField trigger.
 		 */
-		NumberField,
+		NUMBERFIELD,
 		/**
 		 * WPartialDateField trigger.
 		 */
-		PartialDateField,
+		PARTIALDATEFIELD,
 		/**
 		 * WPasswordField trigger.
 		 */
-		PasswordField,
+		PASSWORDFIELD,
 		/**
 		 * WPhoneNumberField trigger.
 		 */
-		PhoneNumberField,
+		PHONENUMBERFIELD,
 		/**
 		 * RadioButtonGroup trigger.
 		 */
-		RadioButtonGroup,
+		RADIOBUTTONGROUP,
 		/**
 		 * WRadioButtonSelect trigger.
 		 */
-		RadioButtonSelect,
+		RADIOBUTTONSELECT,
 		/**
 		 * WSingleSelect trigger.
 		 */
-		SingleSelect,
+		SINGLESELECT,
 		/**
 		 * WTextField trigger.
 		 */
-		TextField,
+		TEXTFIELD,
 		/**
 		 * WTextArea trigger.
 		 */
-		TextArea
+		TEXTAREA
 	}
 
 	/**
@@ -682,7 +683,7 @@ public class SubordinateControlOptionsExample extends WContainer {
 		buildControlPanel.add(layout);
 
 		switch ((TriggerType) drpTriggerType.getSelected()) {
-			case RadioButtonGroup:
+			case RADIOBUTTONGROUP:
 
 				trigger = new RadioButtonGroup();
 
@@ -703,64 +704,64 @@ public class SubordinateControlOptionsExample extends WContainer {
 				layout.addField(label, rbSet);
 				return;
 
-			case CheckBox:
+			case CHECKBOX:
 				trigger = new WCheckBox();
 				break;
 
-			case CheckBoxSelect:
+			case CHECKBOXSELECT:
 				trigger = new WCheckBoxSelect(LOOKUP_TABLE_NAME);
 				break;
 
-			case DateField:
+			case DATEFIELD:
 				trigger = new WDateField();
 				break;
 
-			case Dropdown:
+			case DROPDOWN:
 				trigger = new WDropdown(new TableWithNullOption(LOOKUP_TABLE_NAME));
 				break;
 
-			case EmailField:
+			case EMAILFIELD:
 				trigger = new WEmailField();
 				break;
 
-			case MultiSelect:
+			case MULTISELECT:
 				trigger = new WMultiSelect(LOOKUP_TABLE_NAME);
 				break;
 
-			case MultiSelectPair:
+			case MULTISELECTPAIR:
 				trigger = new WMultiSelectPair(LOOKUP_TABLE_NAME);
 				break;
 
-			case NumberField:
+			case NUMBERFIELD:
 				trigger = new WNumberField();
 				break;
 
-			case PartialDateField:
+			case PARTIALDATEFIELD:
 				trigger = new WPartialDateField();
 				break;
 
-			case PasswordField:
+			case PASSWORDFIELD:
 				trigger = new WPasswordField();
 				break;
 
-			case PhoneNumberField:
+			case PHONENUMBERFIELD:
 				trigger = new WPhoneNumberField();
 				break;
 
-			case RadioButtonSelect:
+			case RADIOBUTTONSELECT:
 				trigger = new WRadioButtonSelect(LOOKUP_TABLE_NAME);
 				break;
 
-			case SingleSelect:
+			case SINGLESELECT:
 				trigger = new WSingleSelect(LOOKUP_TABLE_NAME);
 				break;
 
-			case TextArea:
+			case TEXTAREA:
 				trigger = new WTextArea();
 				((WTextArea) trigger).setMaxLength(1000);
 				break;
 
-			case TextField:
+			case TEXTFIELD:
 				trigger = new WTextField();
 				break;
 
@@ -813,11 +814,11 @@ public class SubordinateControlOptionsExample extends WContainer {
 		// Compare value
 		Object value;
 		switch ((TriggerType) drpTriggerType.getSelected()) {
-			case DateField:
+			case DATEFIELD:
 				value = dateCompareValue.getValue();
 				break;
 
-			case NumberField:
+			case NUMBERFIELD:
 				value = numberCompareValue.getValue();
 				break;
 
@@ -891,9 +892,9 @@ public class SubordinateControlOptionsExample extends WContainer {
 		TriggerType selectedTrigger = (TriggerType) drpTriggerType.getSelected();
 
 		comboField.setVisible(
-				selectedTrigger != TriggerType.DateField && selectedTrigger != TriggerType.NumberField);
-		dateField.setVisible(selectedTrigger == TriggerType.DateField);
-		numberField.setVisible(selectedTrigger == TriggerType.NumberField);
+				selectedTrigger != TriggerType.DATEFIELD && selectedTrigger != TriggerType.NUMBERFIELD);
+		dateField.setVisible(selectedTrigger == TriggerType.DATEFIELD);
+		numberField.setVisible(selectedTrigger == TriggerType.NUMBERFIELD);
 
 		// If a group action selected, then target can only be the field (as it is defined in a group)
 		switch ((ControlActionType) drpActionType.getSelected()) {

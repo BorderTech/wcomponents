@@ -40,17 +40,28 @@ import java.util.List;
  */
 public class EntryFieldExample extends WPanel {
 
-	private final WTextField tf1, tf2, tf3, tf4;
-	private final WNumberField nf1, nf2, nf3;
+	private final WTextField tf1;
+	private final WTextField tf2;
+	private final WTextField tf3;
+	private final WTextField tf4;
+	private final WNumberField nf1;
+	private final WNumberField nf2;
+	private final WNumberField nf3;
 	private final WEmailField ef1;
-	private final WDropdown drop1, drop2;
+	private final WDropdown drop1;
+	private final WDropdown drop2;
 	private final WSingleSelect single1;
-	private final WMultiSelect multi1, multi2;
+	private final WMultiSelect multi1;
+	private final WMultiSelect multi2;
 	private final WCheckBoxSelect multiCb;
 	private final WRadioButtonSelect rbSelect;
 	private final RadioButtonGroup radioButtonGroup;
-	private final WRadioButton rb1, rb2, rb3;
-	private final WCheckBox cb1, cb2, cb3;
+	private final WRadioButton rb1;
+	private final WRadioButton rb2;
+	private final WRadioButton rb3;
+	private final WCheckBox cb1;
+	private final WCheckBox cb2;
+	private final WCheckBox cb3;
 	private final WTextArea ta;
 
 	/**
@@ -62,7 +73,6 @@ public class EntryFieldExample extends WPanel {
 		WFieldLayout fieldLayout;
 		WValidationErrors errors = new WValidationErrors();
 		add(errors);
-
 
 		//
 		// Radios
@@ -199,7 +209,6 @@ public class EntryFieldExample extends WPanel {
 
 		add(fieldLayout);
 		add(new WHorizontalRule());
-
 
 		//
 		// Checkboxes

@@ -303,7 +303,6 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		add(dateDlg);
 		add(outputPanel);
 
-
 		add(new WHeading(HeadingLevel.H3, "Multi polling ajax inside a dialog"));
 		add(new ExplanatoryText("You really don't want to do this."));
 		WDialog pollingDialog = new WDialog(new MultiPollingExample());
@@ -312,7 +311,6 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		pollingDialog.setTrigger(openPollingButton);
 		add(openPollingButton);
 		add(pollingDialog);
-
 
 		add(new WHeading(HeadingLevel.H3, "WDialog with disabled launch button"));
 		add(new ExplanatoryText("This is here to test a workaround for an IE 'feature'."));
@@ -331,7 +329,7 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		ajaxTargetPanel.add(dlgInAjax);
 		ajaxTriggerButton.setAction(new Action() {
 			@Override
-			public void execute(ActionEvent event) {
+			public void execute(final ActionEvent event) {
 				if (dlgInAjax.getState() == WDialog.INACTIVE_STATE) {
 					dlgInAjax.display();
 				}

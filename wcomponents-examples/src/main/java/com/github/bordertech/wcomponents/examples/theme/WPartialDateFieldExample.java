@@ -198,7 +198,7 @@ public class WPartialDateFieldExample extends WContainer {
 	 */
 	private Integer parseInt(final String integerString) {
 		try {
-			return new Integer(integerString);
+			return Integer.valueOf(integerString);
 		} catch (NumberFormatException e) {
 			return null;
 		}

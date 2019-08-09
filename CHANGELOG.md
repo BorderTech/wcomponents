@@ -6,6 +6,12 @@
 
 ### Enhancements
 
+### Bug Fixes
+
+## Release 1.5.15
+
+### Enhancements
+
 * Updated parent to 1.0.12 and added required dependency management which had been removed from the parent.
 * Removed unused ant call from theme-parent POM.
 * Introduced JS module `wc/file/util`, it provides following file operations `blobToFile`, `fixFileExtension`, `dataURItoBlob` and `getMimeToExtMap`.
@@ -18,6 +24,19 @@
 * Updated dependencies to address various vulnerabilities.
 * Can switch to debug version of client side resources without any parameter changes using HTTP request mechanisms #1602.
 * Enabled eslint `vars-on-top` (warn only) rule and refactored code accordingly #1579.
+* Latest QA #1629.
+  * Updated to qa-parent 1.0.15 and adjusted configuration of QA analysis plugins accordingly.
+  * Updated dependency versions:
+    * ehcache 3.6.3 to 3.8.0
+    * commons-lang3 3.8.1 to 3.9
+    * cache-api 1.1.0 to 1.1.1
+    * antisamy 1.5.7 to 1.5.8
+    * tika-core 1.20 to 1.21
+  * New maven profiles `skipCoreOptionalTests`, `skipExamplesOptionalTests` and `skipThemeOptionalTests` to control test runs.
+  * New maven profile `skipOptionalQA` to skip QA analysis on non production modules.
+  * Fixed some QA issues as a result of the sonarcloud reports and upgrade to qa-parent.
+  * Migrated WComponents from travis-ci.org to travis-ci.com and integrated with sonarcloud.io and codacy.
+  * Updated README with new badges.
 
 ### Bug Fixes
 

@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
 		<artifactId>wcomponents-parent</artifactId>
-		<version>1.5.15-SNAPSHOT</version>
+		<version>1.5.16-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -16,7 +16,7 @@
 
 	<profiles>
 		<profile>
-			<id>skipOptionalTests</id>
+			<id>skipExamplesOptionalTests</id>
 			<activation>
 				<property>
 					<name>skipOptionalTests</name>
@@ -27,7 +27,27 @@
 				<excludedTestGroups>com.github.bordertech.wcomponents.examples.SeleniumTests</excludedTestGroups>
 			</properties>
 		</profile>
+		<profile>
+			<id>skipExamplesOptionalQA</id>
+			<activation>
+				<property>
+					<name>skipOptionalQA</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<properties>
+				<bt.qa.skip>true</bt.qa.skip>
+			</properties>
+		</profile>
 	</profiles>
+
+	<properties>
+		<!-- Reduce noise in build logs -->
+		<minimumPriority>3</minimumPriority>
+		<pmd.excludeFromFailureFile>${basedir}/pmd-excludes.properties</pmd.excludeFromFailureFile>
+		<!-- Turn off spotbugs until example code cleaned up (will be replaced with showcase anyway) -->
+		<spotbugs.skip>true</spotbugs.skip>
+	</properties>
 
 	<dependencies>
 
@@ -72,7 +92,7 @@
 			<scope>test</scope>
 			<groupId>org.ehcache</groupId>
 			<artifactId>ehcache</artifactId>
-			<version>3.6.3</version>
+			<version>3.8.0</version>
 		</dependency>
 		<dependency>
 			<scope>test</scope>
@@ -90,7 +110,7 @@
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.9</version>
+			<version>1.13</version>
 		</dependency>
 	</dependencies>
 
@@ -150,26 +170,11 @@
 					<systemPropertyVariables>
 						<phantomjs.binary.path>${phantomjs.binary}</phantomjs.binary.path>
 					</systemPropertyVariables>
-					<!-- Arg set by jacoco. -->
-					<argLine>${surefireArgLine}</argLine>
 					<excludedGroups>${excludedTestGroups}</excludedGroups>
 				</configuration>
 			</plugin>
-
-			<plugin>
-				<groupId>org.owasp</groupId>
-				<artifactId>dependency-check-maven</artifactId>
-				<configuration>
-					<!--
-						antisamy has an XSS vulnerability which is not exposed in the current use but we should
-						update when a fix is made available.
-					-->
-					<suppressionFiles>
-                        <suppressionFile>${project.parent.basedir}/suppression.xml</suppressionFile>
-					</suppressionFiles>
-				</configuration>
-			</plugin>
 		</plugins>
+
 	</build>
 
 </project>

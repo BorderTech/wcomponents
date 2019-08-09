@@ -9,6 +9,7 @@ import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.Util;
 import java.io.Serializable;
 import java.text.MessageFormat;
+import java.util.Arrays;
 
 /**
  * Default implementation of the {@link Diagnostic} interface.
@@ -81,7 +82,7 @@ public class DiagnosticImpl implements Diagnostic {
 		this.uic = uic;
 		this.component = source;
 		this.message = message;
-		this.args = args;
+		this.args = Arrays.copyOf(args, args.length);
 	}
 
 	/**

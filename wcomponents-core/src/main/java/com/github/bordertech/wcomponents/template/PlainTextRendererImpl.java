@@ -7,6 +7,7 @@ import com.github.bordertech.wcomponents.util.StreamUtil;
 import com.github.bordertech.wcomponents.util.SystemException;
 import java.io.InputStream;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import javax.cache.Cache;
@@ -86,7 +87,7 @@ public class PlainTextRendererImpl implements TemplateRenderer {
 				if (stream == null) {
 					throw new SystemException("Could not find plain text template [" + templateName + "].");
 				}
-				output = new String(StreamUtil.getBytes(stream));
+				output = new String(StreamUtil.getBytes(stream), StandardCharsets.UTF_8);
 				if (xmlEncode) {
 					output = WebUtilities.encode(output);
 				}

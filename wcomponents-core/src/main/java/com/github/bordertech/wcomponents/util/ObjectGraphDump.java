@@ -173,6 +173,7 @@ public final class ObjectGraphDump {
 			if (ComponentModel.class.equals(fields[i].getDeclaringClass())
 					&& "sharedModel".equals(fields[i].getName())) {
 				sharedModel = (ComponentModel) readField(fields[i], model);
+				break;
 			}
 		}
 

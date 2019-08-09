@@ -1,7 +1,16 @@
 package com.github.bordertech.wcomponents.examples.table;
 
-
-import com.github.bordertech.wcomponents.*;
+import com.github.bordertech.wcomponents.Action;
+import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.SimpleBeanBoundTableModel;
+import com.github.bordertech.wcomponents.WButton;
+import com.github.bordertech.wcomponents.WDateField;
+import com.github.bordertech.wcomponents.WPanel;
+import com.github.bordertech.wcomponents.WStyledText;
+import com.github.bordertech.wcomponents.WTable;
+import com.github.bordertech.wcomponents.WTableColumn;
+import com.github.bordertech.wcomponents.WText;
 
 /**
  * This example demonstrates a simple {@link WTable} that has been been bound, has pagination, and has row selection.
@@ -11,9 +20,9 @@ import com.github.bordertech.wcomponents.*;
  * <p>
  * Note: Action constraints on selected rows carry over across pages.
  * </p>
+ *
  * @author Jonathan Simmons
  */
-
 public class SimplePaginationTableWithSelectablesExample extends WPanel {
 
 	private final WTable wTable = new WTable();
@@ -34,8 +43,8 @@ public class SimplePaginationTableWithSelectablesExample extends WPanel {
 
 		// Setup model
 		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(
-			new String[]{"firstName", "lastName",
-				"dateOfBirth"});
+				new String[]{"firstName", "lastName",
+					"dateOfBirth"});
 		model.setSelectable(true);
 		wTable.setTableModel(model);
 
@@ -75,6 +84,7 @@ public class SimplePaginationTableWithSelectablesExample extends WPanel {
 
 	/**
 	 * Common action for the table buttons.
+	 *
 	 * @param preface the initial content for the text output.
 	 * @return an Action instance
 	 */

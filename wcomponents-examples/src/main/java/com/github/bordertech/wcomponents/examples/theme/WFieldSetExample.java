@@ -58,7 +58,7 @@ public class WFieldSetExample extends WPanel {
 		WButton validateButton = new WButton("Save");
 		validateButton.setAction(new ValidatingAction(messages.getValidationErrors(), fs) {
 			@Override
-			public void executeOnValid(ActionEvent event) {
+			public void executeOnValid(final ActionEvent event) {
 				messages.reset();
 				messages.addMessage(new Message(Message.SUCCESS_MESSAGE, "All done"));
 			}
@@ -74,7 +74,6 @@ public class WFieldSetExample extends WPanel {
 		addFieldSet(" ");
 		add(new WHeading(HeadingLevel.H3, "Another almost empty legend"));
 		addFieldSet("\u00a0");
-
 
 	}
 

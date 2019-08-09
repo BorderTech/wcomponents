@@ -15,10 +15,11 @@ import com.github.bordertech.wcomponents.util.ThemeUtil;
 import com.github.bordertech.wcomponents.util.Util;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.transform.Source;
 import javax.xml.transform.Templates;
@@ -77,9 +78,9 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	private boolean doTransform = true;
 
 	/**
-	 * If true then we will inject the debug parameter into the XSLT.
-	 * Note that the debug version of the XSLT itself will not be used, nor will backend debug mode be enabled.
-	 * This is purely to facilitate debugging client side issues.
+	 * If true then we will inject the debug parameter into the XSLT. Note that the debug version of the XSLT itself
+	 * will not be used, nor will backend debug mode be enabled. This is purely to facilitate debugging client side
+	 * issues.
 	 */
 	private boolean debugRequested = false;
 
@@ -183,13 +184,13 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 		Transformer transformer = newTransformer();
 		Source inputXml;
 		try {
-			inputXml = new StreamSource(new ByteArrayInputStream(xml.getBytes("utf-8")));
+			inputXml = new StreamSource(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
 			StreamResult result = new StreamResult(writer);
 			if (debugRequested) {
 				transformer.setParameter("isDebug", 1);
 			}
 			transformer.transform(inputXml, result);
-		} catch (UnsupportedEncodingException | TransformerException ex) {
+		} catch (TransformerException ex) {
 			throw new SystemException("Could not transform xml", ex);
 		}
 	}
@@ -222,11 +223,13 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 		try {
 			URL xsltURL = ThemeUtil.class.getResource(RESOURCE_NAME);
 			if (xsltURL != null) {
-				Source xsltSource = new StreamSource(xsltURL.openStream(), xsltURL.toExternalForm());
-				TransformerFactory factory = new net.sf.saxon.TransformerFactoryImpl();
-				Templates templates = factory.newTemplates(xsltSource);
-				LOG.debug("Generated XSLT templates for: " + RESOURCE_NAME);
-				return templates;
+				try (InputStream inStream = xsltURL.openStream()) {
+					Source xsltSource = new StreamSource(inStream, xsltURL.toExternalForm());
+					TransformerFactory factory = new net.sf.saxon.TransformerFactoryImpl();
+					Templates templates = factory.newTemplates(xsltSource);
+					LOG.debug("Generated XSLT templates for: " + RESOURCE_NAME);
+					return templates;
+				}
 			} else {
 				// Server-side XSLT enabled but theme resource not on classpath.
 				throw new IllegalStateException(RESOURCE_NAME + " not on classpath");

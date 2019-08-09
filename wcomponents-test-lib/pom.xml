@@ -8,17 +8,15 @@
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
 		<artifactId>wcomponents-parent</artifactId>
-		<version>1.5.15-SNAPSHOT</version>
+		<version>1.5.16-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<packaging>jar</packaging>
 
 	<properties>
-		<wc.qa.skip>false</wc.qa.skip>
-		<!-- Jetty 8 known to have a vulnerability but is not part of the shippable product. -->
-		<bt.owasp.fail.cvss.min>11</bt.owasp.fail.cvss.min>
-		<bt.owasp.fail.any>false</bt.owasp.fail.any>
+		<spotbugs.excludeFilterFile>${basedir}/spotbugs-exclude-filter.xml</spotbugs.excludeFilterFile>
+		<suppressionFiles>${project.parent.basedir}/owasp-jetty-suppression.xml,${basedir}/test-lib-owasp-suppression.xml</suppressionFiles>
 	</properties>
 
 	<build>
@@ -38,18 +36,6 @@
 				</excludes>
 			</resource>
 		</resources>
-		<plugins>
-			<plugin>
-				<groupId>org.owasp</groupId>
-				<artifactId>dependency-check-maven</artifactId>
-				<configuration>
-                    <suppressionFiles>
-                        <suppressionFile>${project.parent.basedir}/suppression.xml</suppressionFile>
-                        <suppressionFile>${basedir}/suppressions.xml</suppressionFile>
-                    </suppressionFiles>
-				</configuration>
-			</plugin>
-		</plugins>
 
 	</build>
 
