@@ -19,6 +19,7 @@
 
 	<properties>
 		<theme.skip.antrun>false</theme.skip.antrun>
+		<sonar.sources>src/main</sonar.sources>
 	</properties>
 	<name>wcomponents-theme</name>
 </project>
