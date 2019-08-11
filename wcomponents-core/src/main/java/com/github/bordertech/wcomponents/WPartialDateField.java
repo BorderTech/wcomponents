@@ -362,7 +362,7 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 	 * @param text the user text
 	 * @param partialRequested true if the user has requested a partial date
 	 */
-	protected void handleRequestValue(final String value, final boolean valid, final String text, boolean partialRequested) {
+	protected void handleRequestValue(final String value, final boolean valid, final String text, final boolean partialRequested) {
 		// As setData() clears the text value (if valid), this must be called first so it can be set after
 		setData(value);
 		PartialDateFieldModel model = getOrCreateComponentModel();
