@@ -267,6 +267,7 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/aja
 							data = JSON.parse(response);
 							callback(null, data);
 						} catch (ex) {
+							console.error(ex);  // It is important not to silently swallow these errors.
 							callback(ex, response);
 						}
 					},
