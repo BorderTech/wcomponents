@@ -1,6 +1,6 @@
 define(["intern!object", "intern/chai!assert", "wc/dom/dateFieldUtils", "wc/render/dateField",
-	"wc/dom/shed", "wc/has", "wc/array/toArray"],
-	function (registerSuite, assert, dateFieldUtils, dateField, shed, has, toArray) {
+	"wc/dom/shed", "wc/has", "wc/array/toArray", "wc/array/unique"],
+	function (registerSuite, assert, dateFieldUtils, dateField, shed, has, toArray, unique) {
 		"use strict";
 		var widgets,
 			hasNativeDate = has("native-dateinput"),
@@ -312,7 +312,8 @@ define(["intern!object", "intern/chai!assert", "wc/dom/dateFieldUtils", "wc/rend
 		function checkClasses(element, widget, additionalClasses) {
 			var expectedElement = widget.render(),  // easiest way to generate the effective classes on a widget taking into account container widgets
 				expectedClasses = toArray(expectedElement.classList),
-				actualClasses = toArray(element.classList);
+				actualClasses = element.className ? element.className.split(" ") : [],  // classList hides duplicates but className does not
+				actualDeduped = unique(actualClasses);
 			if (additionalClasses) {
 				if (!Array.isArray(additionalClasses)) {
 					additionalClasses = additionalClasses.split(" ");
@@ -320,7 +321,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/dateFieldUtils", "wc/rend
 				expectedClasses = expectedClasses.concat(additionalClasses);
 			}
 			assert.sameMembers(expectedClasses, actualClasses, "Actual: " + actualClasses.join());
-
+			assert.equal(actualClasses.length, actualDeduped.length, "Duplicate classes should not be added", actualClasses);  // yes this can really happen
 		}
 
 		/**
@@ -334,7 +335,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/dateFieldUtils", "wc/rend
 		 */
 		function renderHelper(state, config) {
 			var conf = config || {},
-				element = conf.el || widgets.CUSTOM.render({ state: state }),
+				element = conf.el || widgets.CUSTOM.extend("", { "aria-busy":true }).render({ state: state }),
 				inputAttrMap = {
 					"data-wc-tooltip": "title",
 					"data-wc-required": "required",
@@ -417,7 +418,10 @@ define(["intern!object", "intern/chai!assert", "wc/dom/dateFieldUtils", "wc/rend
 					assert.isNull(switcherElement, "Should never provide option to switch when there is no native date field.");
 				} else if (allowPartial) {
 					assert.isNotNull(switcherElement, "Partial date should provide option to switch between native and custom date field.");
+					checkClasses(switcherElement, widgets.SWITCHER);
 				}
+
+				assert.isFalse(actual.hasAttribute("aria-busy"), "aria-busy should not carry over");
 
 				return { wrapper: actual, input: inputElement, switcher: switcherElement };
 			});

@@ -6,7 +6,7 @@
  *
  * @todo needs to have its functions sorted properly.
  */
-define(["wc/dom/getAncestorOrSelf", "wc/dom/uid", "wc/mixin"], function(getAncestorOrSelf, uid, mixin) {
+define(["wc/dom/getAncestorOrSelf", "wc/dom/uid", "wc/array/unique", "wc/mixin", "wc/render/utils"], function(getAncestorOrSelf, uid, unique, mixin, renderutils) {
 	"use strict";
 
 	/**
@@ -191,16 +191,23 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid", "wc/mixin"], function(getAnces
 	 * Combines widget CSS classes together in a pretty flexible way.
 	 * @param {String|String[]} [existing] Existing widget classes.
 	 * @param {String|String[]} [additional] Additional widget classes.
-	 * @returns {String|String[]} Combined widget classes.
+	 * @returns {String[]} Combined widget classes.
 	 */
-	function addClasses(existing, additional) {
-		var result;
-		if (existing && additional) {
-			result = [].concat(existing, additional);
-		} else if (existing) {
-			result = existing;
-		} else if (additional) {
-			result = additional;
+	function addClasses(/* existing, additional */) {
+		var i, next, result = [];
+		for (i = 0; i < arguments.length; i++) {
+			next = arguments[i];
+			if (next) {
+				if (typeof next === "string") {
+					next = next.split(" ");
+				}
+				result = result.concat(next);
+			}
+		}
+		if (result.length) {
+			result = unique(result);
+		} else {
+			result = null;
 		}
 		return result;
 	}
@@ -413,24 +420,20 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid", "wc/mixin"], function(getAnces
 			tagName = this.tagName || "span",
 			attributes = mixin(this.attributes, {}, true),
 			className = this.className,
-			element = document.createElement(tagName);
+			element;
 		if (conf.state) {
 			attributes = mixin(conf.state, attributes);
 			className = addClasses(className, conf.state.className);
 		}
 		if (className) {
 			if (Array.isArray(className)) {
-				element.className = className.join(" ");
+				attributes.className = className.join(" ");
 			} else {
-				element.className = className;
+				attributes.className = className;
 			}
 		}
-		Object.keys(attributes).forEach(function(attrName) {
-			var attrValue = attributes[attrName];
-			if (attrValue && attrName !== "className") {
-				element.setAttribute(attrName, attrValue);
-			}
-		});
+		element = renderutils.createElement(tagName, attributes);
+
 		if (conf.recurse && this.container) {
 			parentNode = this.container.render({ recurse: true });
 			parentNode.appendChild(element);

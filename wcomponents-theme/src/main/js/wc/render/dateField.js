@@ -49,6 +49,28 @@ define(["wc/render/utils",
 			return result;
 		}
 
+		function getDatefieldProps(element) {
+			var props = renderUtils.getProps(element),
+				propMap = {
+					"data-wc-id": "id",
+					"data-wc-class": "className",
+					"aria-busy": null,
+					"aria-describedby": null,
+					"aria-invalid": null
+				};
+			Object.keys(propMap).forEach(function(prop) {
+				var propVal = propMap[prop];
+				if (propVal === null) {
+					// null means delete
+					delete props[prop];
+				} else if (props.hasOwnProperty(prop)) {
+					// map it to a new prop
+					props[propVal] = props[prop];
+				}
+			});
+			return props;
+		}
+
 		function renderDateField(element, i18nBundle) {
 			var parent = element.parentNode,
 				createContainerFunc = createContainer,
@@ -78,13 +100,11 @@ define(["wc/render/utils",
 				dateFieldId = getId(element),
 				switcherId = dateFieldId + "_partial",
 				allowPartial = element.getAttribute("data-wc-allowpartial"),
-				config = {
-					attrs: {
-						name: switcherId,
-						type: "checkbox",
-						value: "true",
-						"aria-controls": dateFieldId
-					},
+				attrs = {
+					name: switcherId,
+					value: "true",
+					type: "checkbox",
+					"aria-controls": dateFieldId,
 					onChange: changeEvent
 				};
 			/*
@@ -94,7 +114,7 @@ define(["wc/render/utils",
 			 * "false" - allow partial dates but user has not requested partialx
 			 * null - does not allow partial dates
 			 */
-			switcher = renderUtils.createElement("input", config);
+			switcher = renderUtils.createElement("input", attrs);
 			if (allowPartial === "true") {
 				shed.select(switcher, true);
 			}
@@ -124,15 +144,12 @@ define(["wc/render/utils",
 
 		function createContainer(element, children, allowPartial) {
 			var container,
-				attrs = {
-					id: getId(element)
-				};
+				props = getDatefieldProps(element);
 
 			if (allowPartial !== null) {
-				attrs["data-wc-allowpartial"] = allowPartial;
+				props["data-wc-allowpartial"] = allowPartial;
 			}
-			renderUtils.extractAttributes(element, { "data-wc-class": "className" }, attrs);
-			container = widgets.DATE_FIELD.render({ state: attrs });
+			container = widgets.DATE_FIELD.render({ state: props });
 			renderUtils.appendKids(container, children);
 			return container;
 		}
@@ -140,18 +157,16 @@ define(["wc/render/utils",
 		function createCustomContainer(element, children, allowPartial) {
 			var widget,
 				container,
-				attrs = {
-					id: getId(element),
-					"aria-expanded": "false"
-				};
+				props = getDatefieldProps(element);
+			props = mixin(props, { "aria-expanded": "false" });
 			if (allowPartial !== null) {
 				widget = widgets.DATE_WRAPPER_PARTIAL;
-				attrs["data-wc-allowpartial"] = allowPartial;
+				props["data-wc-allowpartial"] = allowPartial;
 			} else {
 				widget = widgets.DATE_WRAPPER_FAKE;
 			}
-			renderUtils.extractAttributes(element, { "data-wc-class": "className" }, attrs);
-			container = widget.render({ state: attrs });
+
+			container = widget.render({ state: props });
 			renderUtils.appendKids(container, children);
 			return container;
 		}
@@ -175,8 +190,7 @@ define(["wc/render/utils",
 				},
 				input, fieldId = getId(element),
 				dateVal = dfUtils.getValue(element),
-				attrs = {},
-				config = { attrs: attrs };
+				attrs = {};
 
 			mapInputAttributes(element, attrs, map);
 			if (attrs["data-wc-submitonchange"]) {
@@ -197,7 +211,7 @@ define(["wc/render/utils",
 				attrs["aria-invalid"] = "true";
 			}
 
-			input = renderUtils.createElement("input", config);
+			input = renderUtils.createElement("input", attrs);
 
 			return input;
 		}

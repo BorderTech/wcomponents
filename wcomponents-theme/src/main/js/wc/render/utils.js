@@ -3,38 +3,32 @@ define(["wc/dom/event"], function(eventManager) {
 	var EVENT_NAME_RE = /^on([A-Z][a-z]+)/;
 
 	/**
-	 * Takes the attributes from an Element and turns them into a key/value map for easy lookup.
-	 * @param {Element} element The element which may contain attributes to map.
-	 * @param {Object} renameMap A map of old attribute names to new ones if they should be changed while exxtracting.
-	 * @param {Object} [obj] Optionally the attributes will be mapped onto this object.
-	 * @returns {Object} A map of attributes set on this Element.
+	 * Gets the properties (attributes) from an Element.
+	 * These props could be fed into createElement.
+	 * @param {Element} element The element for which we want properties.
+	 * @returns {Object} A map of properties set on this Element.
 	 */
-	function extractAttributes(element, renameMap, obj) {
-		var result = obj || {}, next, nextName, attrs, i;
+	function getProps(element) {
+		var result = {}, next, nextName, nextValue, attrs, i;
 		if (element) {
 			attrs = element.attributes;
 			if (attrs) {
 				for (i = 0; i < attrs.length; i++) {
 					next = attrs[i];
-					nextName = next.name;  // .toLowerCase();
-					if (renameMap.hasOwnProperty(nextName)) {
-						nextName = renameMap[nextName];
-						if (!nextName) {
-							continue;  // mapping to null means do not copy this attribute
-						}
-					}
+					nextName = next.name;
+					nextValue = next.value;
 					if (nextName === "class") {
 						nextName = "className";
 					} else if (nextName === "for") {
 						nextName = "htmlFor";
 					}
-					if (next.value) {
-						if (next.value === "true") {
+					if (nextValue) {  // remember attributes are always strings - "0" and "false" are truthy (0 and false are falsey)
+						if (nextValue === "true") {
 							result[nextName] = true;
-						} else if (next.value === "false") {
+						} else if (nextValue === "false") {
 							result[nextName] = false;
 						} else {
-							result[nextName] = next.value;
+							result[nextName] = nextValue;
 						}
 					} else {
 						result[nextName] = true;  // The attribute is true because it is present
@@ -61,54 +55,55 @@ define(["wc/dom/event"], function(eventManager) {
 	/**
 	 * Helper for createElement - sets attributes on an Element from a provided associative array.
 	 * @param {Element} element The element on which the attributes are to be set.
-	 * @param {Object} attrs key/value pairs of attributes to set.
+	 * @param {Object} props key/value pairs of attributes to set.
 	 */
-	function setAttributes(element, attrs) {
+	function setAttributes(element, props) {
 		var attrName, attrVal;
-		if (attrs) {
-			for (attrName in attrs) {
-				if (attrs.hasOwnProperty(attrName)) {
-					attrVal = attrs[attrName];
-					if (attrName === "className") {
-						attrName = "class";
-					} else if (attrName === "htmlFor") {
-						attrName = "for";
+		if (props) {
+			for (attrName in props) {
+				if (props.hasOwnProperty(attrName)) {
+					attrVal = props[attrName];
+					if (attrVal !== null) {
+						if (attrName === "className") {
+							attrName = "class";
+						} else if (typeof attrVal === "function") {
+							wireEvent(element, attrName, attrVal);
+						} else if (attrName === "htmlFor") {
+							attrName = "for";
+						}
+						element.setAttribute(attrName, attrVal);
 					}
-					element.setAttribute(attrName, attrVal);
 				}
 			}
 		}
 	}
 
-	function wireEvents(element, elementConfig) {
-		var i, match, next, handler, configProps = Object.keys(elementConfig);
-		for (i = 0; i < configProps.length; i++) {
-			next = configProps[i];
-			if (next) {
-				handler = elementConfig[next];
-				match = next.match(EVENT_NAME_RE);
-				if (match && typeof handler === "function") {
-					match = match[1];
-					match = match.toLowerCase();
-					eventManager.add(element, match, handler);
-				}
-			}
+	/**
+	 * Register an event handler.
+	 * @param {Element} element The element on which to regsiter an event handler.
+	 * @param {string} type The event type to register e.g. "onClick"
+	 * @param {Function} handler The event handler.
+	 */
+	function wireEvent(element, type, handler) {
+		var match = type.match(EVENT_NAME_RE);
+		if (match) {
+			match = match[1];
+			match = match.toLowerCase();
+			eventManager.add(element, match, handler);
 		}
 	}
-
 
 	/**
 	 * Creates a new Element.
 	 * @param {string} name The node name.
-	 * @param {Object} elementConfig additional element attributes, properties etc.
+	 * @param {Object} props additional element attributes, properties etc.
 	 * @param {Element[]} childNodes Nodes to append to the newly created Element
 	 * @returns {Element} The newly created element.
 	 */
-	function createElement(name, elementConfig, childNodes) {
+	function createElement(name, props, childNodes) {
 		var element = document.createElement(name);
-		if (elementConfig) {
-			setAttributes(element, elementConfig.attrs);
-			wireEvents(element, elementConfig);
+		if (props) {
+			setAttributes(element, props);
 		}
 		appendKids(element, childNodes);
 		return element;
@@ -129,7 +124,7 @@ define(["wc/dom/event"], function(eventManager) {
 
 	return {
 		createElement: createElement,
-		extractAttributes: extractAttributes,
+		getProps: getProps,
 		appendKids: appendKids,
 		importKids: importKids
 	};

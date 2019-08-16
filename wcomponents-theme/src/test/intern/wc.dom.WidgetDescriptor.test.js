@@ -818,6 +818,15 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 
 			assert.isTrue(result.classList.contains("kungfu"));
 		},
+		testRenderWithStateWidgetNotModified: function() {
+			// test that the Widget is not modified by render
+			var widget = new Widget("i", "kungfu", { test: "icicles", fu: "kung"}),
+				afterQS,
+				beforeQS = widget.toString();
+			widget.render({ state: { className: "fukung", fu: "kong", king: "kong" } });
+			afterQS = widget.toString();
+			assert.equal(beforeQS, afterQS);
+		},
 		testRenderWithStateClassnames: function() {
 			// test that the default is not to recurse
 			var widget = new Widget("i"),
@@ -834,6 +843,27 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			assert.isTrue(result.classList.contains("test"));
 			assert.isTrue(result.classList.contains("icicles"));
 			assert.isTrue(result.classList.contains("kungfu"));
+		},
+		testRenderSingleClassnameWithStateClassnamesAndDuplicate: function() {
+			// test that the default is not to recurse
+			var widget = new Widget("i", "kungfu"),
+				result = widget.render({ state: { className: ["test", "kungfu", "icicles"] } });
+
+			assert.isTrue(result.classList.contains("test"));
+			assert.isTrue(result.classList.contains("icicles"));
+			assert.isTrue(result.classList.contains("kungfu"));
+			assert.equal(result.className.indexOf("kungfu"), result.className.lastIndexOf("kungfu"), "Duplicate class should not be added multiple times");
+		},
+		testRenderMultipleClassnameWithStateClassnameAndDuplicate: function() {
+			// test that the default is not to recurse
+			var widget = new Widget("i", ["test", "kungfu", "icicles"]),
+				result = widget.render({ state: { className: "kungfu" } });
+
+			assert.equal("i", result.tagName.toLowerCase());
+			assert.isTrue(result.classList.contains("test"));
+			assert.isTrue(result.classList.contains("icicles"));
+			assert.isTrue(result.classList.contains("kungfu"));
+			assert.equal(result.className.indexOf("kungfu"), result.className.lastIndexOf("kungfu"), "Duplicate class should not be added multiple times");
 		},
 		testRenderMultipleClassnameWithStateClassname: function() {
 			// test that the default is not to recurse
