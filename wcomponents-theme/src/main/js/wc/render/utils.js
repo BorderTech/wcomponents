@@ -109,6 +109,12 @@ define(["wc/dom/event"], function(eventManager) {
 		return element;
 	}
 
+	/**
+	 * Appends a collection of nodes to this element.
+	 * @param {Element} element The container to which the nodes should be appended.
+	 * @param {Array.<Element|String>} childNodes The nodes to append to the element;
+	 *    strings are treated as text nodes.
+	 */
 	function appendKids(element, childNodes) {
 		if (childNodes && childNodes.length) {
 			childNodes.forEach(function(next) {
