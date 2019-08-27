@@ -4,17 +4,22 @@ define(["wc/render/utils",
 	"wc/dom/shed",
 	"wc/dom/event",
 	"wc/dom/dateFieldUtils",
-	"wc/dom/fieldIndicatorUtils",
+	"wc/dom/diagnostic",
 	"wc/date/Format",
 	"wc/mixin",
 	"wc/debounce"],
-	function(renderUtils, has, i18n, shed, eventMgr, dfUtils, fieldIndicatorUtils, Format, mixin, debounce) {
+	function(renderUtils, has, i18n, shed, eventMgr, dfUtils, diagnostic, Format, mixin, debounce) {
 
 		var checkEnableSwitcherEvent = debounce(function($event) {
 				checkEnableSwitcher($event.target);
 			}, 330),
 			widgets = dfUtils.getWidgets();
 
+		/**
+		 * Renders an HTML date field based on the provided custom element.
+		 * @param {Element} element A custom date element (will be replaced with the rendered output).
+		 * @returns {Promise} A promise which will be resolved when the date field has been rendered into the DOM.
+		 */
 		function renderAsync(element) {
 			var messageKeys = ["datefield_title_default", "datefield_partial_switcher_label"],
 				bundle = {};
@@ -40,8 +45,8 @@ define(["wc/render/utils",
 		function gatherFieldIndicators(element, target) {
 			// TODO how will this work with client side validation messages?
 			var result= target || [],
-				fiWidgets = fieldIndicatorUtils.getWidgets(),
-				container = fiWidgets.FIELDINDICATOR.findDescendant(element);
+				fiWidget = diagnostic.getWidget(),
+				container = fiWidget.findDescendant(element);
 			if (container) {
 				renderUtils.importKids(container, result);
 				container.parentNode.removeChild(container);
@@ -49,6 +54,11 @@ define(["wc/render/utils",
 			return result;
 		}
 
+		/**
+		 * Gets a map of date field specific attributes and values from the provided element.
+		 * @param {Element} element The element from which to extract properties.
+		 * @returns {Object} A key/value map of property names and values.
+		 */
 		function getDatefieldProps(element) {
 			var props = renderUtils.getProps(element),
 				propMap = {

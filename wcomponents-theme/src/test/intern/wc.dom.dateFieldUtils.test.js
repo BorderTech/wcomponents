@@ -1,5 +1,5 @@
-define(["intern!object", "intern/chai!assert", "wc/dom/dateFieldUtils", "wc/dom/fieldIndicatorUtils", "wc/date/parsers", "wc/has", "./resources/test.utils!"],
-	function (registerSuite, assert, dateFieldUtils, fieldIndicatorUtils, parsers, has, testutils) {
+define(["intern!object", "intern/chai!assert", "wc/dom/dateFieldUtils", "wc/dom/diagnostic", "wc/date/parsers", "wc/has", "./resources/test.utils!"],
+	function (registerSuite, assert, dateFieldUtils, diagnostic, parsers, has, testutils) {
 		"use strict";
 		var testHolder,
 			widgets,
@@ -23,7 +23,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/dateFieldUtils", "wc/dom/
 					testutils.renderWidget(widgets.DATE_PARTIAL, testHolder);
 
 					Object.keys(values).forEach(function(widgetKey) {
-						var element, fieldIndicatorWidgets = fieldIndicatorUtils.getWidgets();
+						var element, fieldIndicatorWidget = diagnostic.getWidget();
 						if (widgetKey.indexOf("DATE_PARTIAL_") === 0) {
 							widgets[widgetKey] = widgets.DATE_PARTIAL.extend("", { id: widgetKey });
 							testutils.renderWidget(widgets[widgetKey], testHolder);
@@ -33,7 +33,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/dateFieldUtils", "wc/dom/
 						} else if (widgetKey.indexOf("CUSTOM_") === 0) {
 							widgets[widgetKey] = widgets.CUSTOM.extend("", { id: widgetKey });
 							element = testutils.renderWidget(widgets[widgetKey], testHolder);
-							element.appendChild(fieldIndicatorWidgets.FIELDINDICATOR.render());
+							element.appendChild(fieldIndicatorWidget.render());
 						}
 					});
 				},
