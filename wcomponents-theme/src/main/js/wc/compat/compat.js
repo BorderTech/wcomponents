@@ -218,6 +218,10 @@ define(["wc/has"], function(has) {
 			return result;
 		});
 
+		addtest("string-repeat", function() {
+			return !!String.prototype.repeat;
+		});
+
 		addtest("element-datalist", function() {
 			return "list" in document.createElement("input");
 		});
@@ -369,6 +373,10 @@ define(["wc/has"], function(has) {
 
 	if (!has("string-trim")) {
 		result.push("wc/ecma5/String.prototype.trim");
+	}
+
+	if (!has("string-repeat")) {
+		result.push("wc/ecma6/String.prototype.repeat");
 	}
 
 	if (!has("object-keys")) {
