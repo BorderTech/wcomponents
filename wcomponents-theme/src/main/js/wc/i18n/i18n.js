@@ -257,7 +257,7 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/aja
 				if (cacheBuster) {
 					url += "?" + cacheBuster;
 				}
-
+				url = require.toUrl(url);
 				ajax.simpleRequest({
 					url: url,
 					cache: true,

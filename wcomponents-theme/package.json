@@ -3,6 +3,10 @@
 	"version": "1.5.16-SNAPSHOT",
 	"description": "Client side code for WComponents UI tool kit.",
 	"private": true,
+	"scripts": {
+		"test": "intern",
+		"server": "intern serveOnly"
+	},
 	"directories": {
 		"src": "./src/main",
 		"test": "./src/test",
@@ -21,11 +25,11 @@
 		"dojo": "1.10.8"
 	},
 	"devDependencies": {
-		"rimraf": "3.0.0",
+		"fs-extra": "8.1.0",
 		"axe-core": "3.0.0",
 		"clean-css-cli": "4.1.11",
 		"eslint": "3.19.0",
-		"intern": "3.4.6",
+		"intern": "4.4.3",
 		"jsdoc": "3.6.3",
 		"properties": "1.2.1",
 		"sass": "1.5.1",

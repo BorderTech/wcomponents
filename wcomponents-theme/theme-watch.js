@@ -27,7 +27,7 @@ const sass = require("sass");
 const sassLint = require("sass-lint");
 
 watchDir(srcDir, targetDir, fileProcessCopy.bind(null, regularCopy));
-watchDir(testDir, targetTestDir, fileProcessCopy.bind(null, processTestFile));
+watchDir(testDir, targetTestDir, fileProcessCopy.bind(null, regularCopy));
 watchDir(sassSrcDir, sassTargetDir, fileProcessCopy.bind(null, processSassFile));
 
 /**
@@ -113,21 +113,22 @@ function processSassFile(sourcePath, targetPath, callback) {
 	sass.render({ file: sourcePath }, sassProcess);
 }
 
-function processTestFile(sourcePath, targetPath, callback) {
-	let replacer = function(data) {
-			return data.replace(/@RESOURCES@/g, "/target/test-classes/wcomponents-theme/intern/resources");  // this is a relative URI
-		};
-	fs.readFile(sourcePath, "utf8", function(err, data) {
-		var fileData;
-		try {
-			if (!err) {
-				fileData = replacer(data);
-			}
-		} finally {
-			callback(err, fileData);
-		}
-	});
-}
+//function processTestFile(sourcePath, targetPath, callback) {
+//	let replacer = function(data) {
+//			return data.replace(/@RESOURCES@/g, "/target/test-classes/wcomponents-theme/intern/resources");  // this is a relative URI
+//		};
+//	fs.readFile(sourcePath, "utf8", function(err, data) {
+//		var fileData;
+//		try {
+//			if (!err) {
+//				fileData = replacer(data);
+//			}
+//		} finally {
+//			callback(err, fileData);
+//		}
+//	});
+//}
+
 
 /**
  * Performs a file simple copy.

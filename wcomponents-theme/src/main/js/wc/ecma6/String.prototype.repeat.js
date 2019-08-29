@@ -13,10 +13,11 @@ define(["wc/has"], function (has) {
 	 * @returns {String} A new string containing the specified number of copies of the given string.
 	 */
 	function repeat(count) {
+		var maxCount, str;
 		if (this === null || this === undefined)
 			throw new TypeError("can't convert " + this + " to object");
 
-		var str = "" + this;
+		str = "" + this;
 		// To convert string to integer.
 		count = +count;
 		// Check NaN
@@ -39,7 +40,7 @@ define(["wc/has"], function (has) {
 		if (str.length * count >= 1 << 28)
 			throw new RangeError("repeat count must not overflow maximum string size");
 
-		var maxCount = str.length * count;
+		maxCount = str.length * count;
 		count = Math.floor(Math.log(count) / Math.log(2));
 		while (count) {
 			str += str;

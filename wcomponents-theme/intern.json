@@ -1,0 +1,63 @@
+{
+	"node": {
+		"loader": {
+			"script": "target/test-classes/wcomponents-theme/intern/resources/intern-loader.js"
+		}
+	},
+	"browser": {
+		"loader": {
+			"script": "target/test-classes/wcomponents-theme/intern/resources/intern-loader.js",
+			"options": {
+				"baseUrl": "/target/classes/theme/wcomponents-theme/",
+				"urlArgs": "build=1.5.16-SNAPSHOT&theme=wcomponents-theme",
+				"paths": {
+					"wc": "scripts_debug/wc",
+					"lib": "scripts_debug/lib",
+					"dojo": "scripts_debug/lib/dojo",
+					"fabric": "scripts_debug/lib/fabric",
+					"ccv": "scripts_debug/lib/ccv",
+					"face": "scripts_debug/lib/face",
+					"sprintf": "scripts_debug/lib/sprintf",
+					"Promise": "scripts_debug/lib/Promise",
+					"compat": "scripts_debug/wc/compat",
+					"translation": "resource/translation",
+					"intern/chai": "/target/test-classes/wcomponents-theme/intern/resources/intern-chai",
+					"intern/resources": "/target/test-classes/wcomponents-theme/intern/resources/",
+					"intern": "/target/test-classes/wcomponents-theme/intern/resources/intern-shim",
+					"target": "/target"
+				},
+				"config": {
+					"wc/i18n/i18n": { 
+						"options": { 
+							"backend": {
+								"cachebuster": "build=1.5.16-SNAPSHOT&theme=wcomponents-theme"
+							} 
+						} 
+					},
+					"wc/loader/resource": {
+						"resourceBaseUrl": "/target/classes/theme/wcomponents-theme/resource/",
+						"cachebuster": "build=1.5.16-SNAPSHOT&theme=wcomponents-theme"
+					}
+				}
+			}
+		}
+	},
+	"capabilities": {
+		"recordVideo": false, "recordScreenshots": false
+	},
+
+	"proxyPort": 9000,
+
+	"proxyUrl": "http://localhost:9000/",
+	
+	"tunnel": "saucelabs",
+	"tunnelOptions": {
+		"verbose": true
+	},
+	"environments": [ { "browserName": "firefox" } ],
+	"runnerClientReporter": {
+		"writeHtml": false
+	},
+	
+	"suites": ["target/test-classes/wcomponents-theme/intern/*.test.js"]
+}

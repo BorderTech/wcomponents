@@ -1,10 +1,9 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
+define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
 		var trig, trig2, trig3, trig4,
-			resourceUrl = "@RESOURCES@/",
 			manager, testHolder, Trigger,
-			urlResource = resourceUrl + "ajaxTriggerManager.html";
+			urlResource = require.toUrl("intern/resources/ajaxTriggerManager.html");
 
 		registerSuite({
 			name: "AjaxTriggerManager",

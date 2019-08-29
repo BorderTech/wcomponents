@@ -39,14 +39,28 @@ define(["wc/dom/event"], function(eventManager) {
 		return result;
 	}
 
+	/**
+	 * Import all child nodes from a given element to an array (or to another element).
+	 * Order will be maintained.
+	 * Existing nodes in the target `to` will be untouched.
+	 * @param {Element} from The element from which childNodes will be exported.
+	 * @param {Element|Node[]} to The target into which the childNodes will be imported.
+	 * @returns {Element|Node[]} An array of DOM nodes or a DOM element.
+	 */
 	function importKids(from, to) {
-		while (from.firstChild) {
-			if (to.appendChild) {
-				to.appendChild(from.firstChild);
-			} else if (Array.isArray(to)) {
-				to.push(from.removeChild(from.firstChild));
-			} else {
-				break;
+		if (from && to) {
+			if (from === to) {
+				// This would be an infinite loop - you shall not pass!
+				throw new Error("Cannot import to self");
+			}
+			while (from.firstChild) {
+				if (to.appendChild) {
+					to.appendChild(from.firstChild);
+				} else if (Array.isArray(to)) {
+					to.push(from.removeChild(from.firstChild));
+				} else {
+					break;
+				}
 			}
 		}
 		return to;

@@ -1,10 +1,10 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
+define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
 
 		var getAncestorOrSelf,
 			testHolder,
-			urlResource = "@RESOURCES@/domTest.html";
+			urlResource = require.toUrl("intern/resources/domTest.html");
 
 		registerSuite({
 			name: "domGetAncestorOrSelf",

@@ -52,7 +52,6 @@
 				<include name="**/*.js"/>
 			</fileset>
 			<filterset>
-				<filter token="RESOURCES" value="../../target/test-classes/${implementation.name}/intern/resources"/>
 				<filter token="HERE" value="${here}"/>
 			</filterset>
 			<filterchain>
@@ -129,17 +128,20 @@
 Running client side unit tests.
 ================================
 If you get errors and need to run them locally the easiest way is to run a local webserver from the theme directory.
-For your convenience we the WComponents theme comes with a jetty server ready to go. After building the tests run (from the theme project):
+For your convenience we provide a static server ready to go. After building the tests run (from the theme project):
 
-    mvn jetty:start
+    npm run server
 
-Now open a web browser and visit: http://localhost:8080/target/
+Now open a web browser and visit: http://localhost:9000/__intern/ and the tests should run.
 
-Clicky the linky and the tests should run.
+If you only want to run a certain test the use the "suites" querystring param, e.g.
+
+http://localhost:9000/__intern/?suites=target/test-classes/wcomponents-theme/intern/wc.dom.WidgetDescriptor.test.js
+
 			</echo>
 			<echo file="${build.rootdir}/index.html">
 				<![CDATA[
-					<a href="/node_modules/intern/client.html?config=target/test-classes/${implementation.name}/intern">Unit Tests</a>
+					<a href="http://localhost:9000/__intern/">Unit Tests</a>
 				]]>
 			</echo>
 			<if>
@@ -195,30 +197,6 @@ See: https://theintern.github.io/intern/#hosted-selenium
 					</echo>
 				</else>
 			</if>
-
-
-			<!--
-			<echo>${phantomjs.binary} - -webdriver=4444</echo>
-				<parallel>
-					<daemons>
-						<wc.exec executable="${phantomjs.binary}" needscmd="false" spawn="false">
-							<arguments>
-								<arg value="- -webdriver=4444"/>
-							</arguments>
-						</wc.exec>
-					</daemons>
-					<sequential>
-						<sleep seconds="3"/>
-						<echo>node ${intern.executable} config=@{relativePathToTestdir}/@{configModule}</echo>
-						<nodejs.exec cwd="${basedir}" failonerror="true" spawn="false">
-							<arguments>
-								<arg value="${intern.executable}"/>
-								<arg value="config=@{relativePathToTestdir}/@{configModule}"/>
-							</arguments>
-						</nodejs.exec>
-					</sequential>
-				</parallel>
-				-->
 		</sequential>
 	</macrodef>
 </project>

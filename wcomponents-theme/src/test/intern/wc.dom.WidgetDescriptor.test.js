@@ -1,11 +1,11 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], function(registerSuite, assert, testutils) {
+define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!", "wc/array/toArray"], function(registerSuite, assert, testutils, toArray) {
 	"use strict";
 
 	var Widget, allDivs, fooDiv, barDiv, mooDiv, staticDiv, monkeyDiv, barfooDiv, fooSpan, allAnchors, allBars, allMoos,
 		allFooBarDivs, mooDivInFooDiv, mooDivInFooDivImmediate, barSpanInMooDivInFooDiv, allStaticAnchors,
 		allStaticBartAnchors, allStaticBartAnchorsWithAName, allStaticBartAnchorsWithANameAndImmediateDescendMooInFoo,
 		staticNamedAnchor, matchId, allNamedElements, allElementsWithId, a3Owner, testHolder,
-		urlResource = "@RESOURCES@/domWidget.html";
+		urlResource = require.toUrl("intern/resources/domWidget.html");
 
 	registerSuite({
 		name: "Widget",
@@ -889,6 +889,12 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 
 			assert.equal("kungfu", result.getAttribute("data-kung"));
 			assert.equal("fukung", result.getAttribute("data-fu"));
+		},
+		testRenderWithChildren: function() {
+			var kids = [fooSpan.render()],
+				result = barSpanInMooDivInFooDiv.render({ children: kids });
+			result = toArray(result.childNodes);
+			assert.sameOrderedMembers(kids, result);
 		}
 	});
 });

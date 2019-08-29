@@ -406,15 +406,16 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid", "wc/array/unique", "wc/mixin",
 	/**
 	 * Create a DOM element representation of this Widget instance.
 	 * Note that attributes with a null value will not be rendered.
-	 * @param config A map of configuration options(see below).
-	 * @param {Boolean} [config.recurse] if true then "container Widgets" (set via descendFrom) will also be rendered recursively as ancestors.
-	 * @param {Boolean} [config.outermost] If true returns the outermost rendered element (only makes sense in a recursive render).
-	 * @param {Object} [config.state] override existing attribute values or add new ones (note that the property "className" can be set to a string or array
+	 * @param args A map of configuration options(see below).
+	 * @param {Boolean} [args.recurse] if true then "container Widgets" (set via descendFrom) will also be rendered recursively as ancestors.
+	 * @param {Boolean} [args.outermost] If true returns the outermost rendered element (only makes sense in a recursive render).
+	 * @param {Object} [args.state] override existing attribute values or add new ones (note that the property "className" can be set to a string or array
 	 *     to add additional values to the class attribute for rendering purposes.
+	 * @param {Node[]} [args.outermost] If true returns the outermost rendered element (only makes sense in a recursive render).
 	 * @return {Element} A DOM element represeting this widget instance.
 	 */
-	Widget.prototype.render = function(config) {
-		var conf = config || {},
+	Widget.prototype.render = function(args) {
+		var conf = args || {},
 			result,
 			parentNode,
 			tagName = this.tagName || "span",
@@ -432,7 +433,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid", "wc/array/unique", "wc/mixin",
 				attributes.className = className;
 			}
 		}
-		element = renderutils.createElement(tagName, attributes);
+		element = renderutils.createElement(tagName, attributes, conf.children);
 
 		if (conf.recurse && this.container) {
 			parentNode = this.container.render({ recurse: true });

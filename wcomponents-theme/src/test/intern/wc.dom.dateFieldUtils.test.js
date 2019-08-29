@@ -1,4 +1,4 @@
-define(["intern!object", "intern/chai!assert", "wc/dom/dateFieldUtils", "wc/dom/diagnostic", "wc/date/parsers", "wc/has", "./resources/test.utils!"],
+define(["intern!object", "intern/chai!assert", "wc/dom/dateFieldUtils", "wc/dom/diagnostic", "wc/date/parsers", "wc/has", "intern/resources/test.utils!"],
 	function (registerSuite, assert, dateFieldUtils, diagnostic, parsers, has, testutils) {
 		"use strict";
 		var testHolder,
@@ -179,45 +179,64 @@ define(["intern!object", "intern/chai!assert", "wc/dom/dateFieldUtils", "wc/dom/
 					var element = widgets.DATE_FAKE_WITH_FULL.findDescendant(testHolder),
 						actual = dateFieldUtils.getMatches(element);
 					assert.equal(1, actual.length, "There should be one date match for a full date");
+				},
+
+				testGetParserNative: function() {
+					var standardParser, nativeDate, actual;
+					if (!has("native-dateinput")) {
+						this.skip("Test onlty for browsers with native date field");
+					}
+					standardParser = parsers.get(parsers.type.STANDARD);
+					nativeDate = widgets.DATE.findDescendant(testHolder);
+					actual = dateFieldUtils.getParser(nativeDate);
+					assert.isTrue(standardParser.equals(actual));
+				},
+
+				testGetRawValueNative: function() {
+					var key, element, actual;
+					if (!has("native-dateinput")) {
+						this.skip("Test onlty for browsers with native date field");
+					}
+					key = "DATE";
+					element = widgets[key].findDescendant(testHolder);
+					actual = dateFieldUtils.getRawValue(element);
+					assert.equal(actual, values[key]);
+				},
+
+				testGetValueNative: function() {
+					var key, element, actual;
+					if (!has("native-dateinput")) {
+						this.skip("Test onlty for browsers with native date field");
+					}
+					key = "DATE", element = widgets[key].findDescendant(testHolder);
+					actual = dateFieldUtils.getValue(element);
+					assert.equal(actual.xfr, values[key]);
+					assert.equal(actual.raw, values[key]);
+				},
+
+				testHasPartialDateNative: function() {
+					var element, actual;
+					if (!has("native-dateinput")) {
+						this.skip("Test onlty for browsers with native date field");
+					}
+					element = widgets.DATE.findDescendant(testHolder);
+					actual = dateFieldUtils.hasPartialDate(element);
+					assert.isFalse(actual);
+				},
+
+				testGetMatchesNative: function() {
+					var element, actual;
+					if (!has("native-dateinput")) {
+						this.skip("Test onlty for browsers with native date field");
+					}
+					element = widgets.DATE.findDescendant(testHolder);
+					actual = dateFieldUtils.getMatches(element);
+					assert.equal(1, actual.length, "There should be one date match for a full date");
 				}
 			};
 
 		if (has("native-dateinput")) {
-
 			values.DATE = "1660-11-28";
-
-			testSuite.testGetParserNative = function() {
-				var standardParser = parsers.get(parsers.type.STANDARD),
-					nativeDate = widgets.DATE.findDescendant(testHolder),
-					actual = dateFieldUtils.getParser(nativeDate);
-				assert.isTrue(standardParser.equals(actual));
-			};
-
-			testSuite.testGetRawValueNative = function() {
-				var key = "DATE",
-					element = widgets[key].findDescendant(testHolder),
-					actual = dateFieldUtils.getRawValue(element);
-				assert.equal(actual, values[key]);
-			};
-
-			testSuite.testGetValueNative = function() {
-				var key = "DATE", element = widgets[key].findDescendant(testHolder),
-					actual = dateFieldUtils.getValue(element);
-				assert.equal(actual.xfr, values[key]);
-				assert.equal(actual.raw, values[key]);
-			};
-
-			testSuite.testHasPartialDateNative = function() {
-				var element = widgets.DATE.findDescendant(testHolder),
-					actual = dateFieldUtils.hasPartialDate(element);
-				assert.isFalse(actual);
-			};
-
-			testSuite.testGetMatchesNative = function() {
-				var element = widgets.DATE.findDescendant(testHolder),
-					actual = dateFieldUtils.getMatches(element);
-				assert.equal(1, actual.length, "There should be one date match for a full date");
-			};
 		}
 
 		registerSuite(testSuite);

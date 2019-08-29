@@ -31,6 +31,8 @@ define(["wc/array/toArray",
 	function(toArray, tag, Observer, getStyle, shed, uid, Widget, getFilteredGroup, timers) {
 		"use strict";
 
+		var focusInstance;
+
 		/**
 		 * @constructor
 		 * @alias module:wc/dom/focus~Focus
@@ -159,9 +161,8 @@ define(["wc/array/toArray",
 			 */
 			this.focusFirstTabstop = function (container, callback, reverse) {
 				var next,
-					boundAcceptNode = acceptNode.bind(this),
 					result = null,
-					tw = document.createTreeWalker(container, NodeFilter.SHOW_ELEMENT, boundAcceptNode, false);  // NOTE: yes passing a function rather than a NodeFilter object is non-standard but IE's treewalker is broken and others are happy with this
+					tw = document.createTreeWalker(container, NodeFilter.SHOW_ELEMENT, acceptNode, false);  // NOTE: yes passing a function rather than a NodeFilter object is non-standard but IE's treewalker is broken and others are happy with this
 				initialise();
 				next = reverse ? tw.lastChild() : tw.firstChild();
 				do {
@@ -400,13 +401,12 @@ define(["wc/array/toArray",
 			 * Treewalker filter for focusFirstTabstop.
 			 * @function
 			 * @private
-			 * @this {Focus} The instance of Focus managing focus (if that makes sense).
 			 * @param {Node} node The node to test.
 			 * @returns {number} One of NodeFilter.FILTER_ACCEPT, NodeFilter.FILTER_REJECT or NodeFilter.FILTER_SKIP.
 			 */
 			function acceptNode(node) {
 				var result = SKIP;
-				if (this.isTabstop(node) && this.canFocus(node)) {
+				if (focusInstance.isTabstop(node) && focusInstance.canFocus(node)) {
 					if (node !== document.activeElement) {
 						result = ACCEPT;
 					} else {
@@ -445,5 +445,5 @@ define(["wc/array/toArray",
 			}
 		}
 
-		return new Focus();
+		return (focusInstance = new Focus());
 	});
