@@ -30,11 +30,7 @@ intern.registerLoader(function (options) {
 				return nextModule;
 			});
 			return new Promise(function (resolve, reject) {
-				requirejs(modules, function () {
-					resolve();
-				}, function (error) {
-					reject(error);
-				});
+				requirejs(modules, resolve, reject);
 			});
 		};
 	}

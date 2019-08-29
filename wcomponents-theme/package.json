@@ -5,7 +5,8 @@
 	"private": true,
 	"scripts": {
 		"test": "intern config=@sauce",
-		"testGrid": "intern config=@selenium",
+		"test:grid": "intern config=@selenium",
+		"test:local": "intern config=@local",
 		"server": "intern serveOnly"
 	},
 	"directories": {

@@ -168,7 +168,7 @@ http://localhost:9000/__intern/?suites=target/test-classes/wcomponents-theme/int
 							</env-elements>
 							<arg-elements>
 								<arg value="run"/>
-								<arg value="testGrid"/>
+								<arg value="test:grid"/>
 							</arg-elements>
 						</npm.exec>
 					</then>
@@ -181,7 +181,14 @@ http://localhost:9000/__intern/?suites=target/test-classes/wcomponents-theme/int
 Skipping unit tests because you have set a NullTunnel:
 
 To manually start the tests try:
-node ${intern.executable} config=@{relativePathToTestdir}/@{configModule}
+npm run test:local
+
+You may override intern.json configuration using the INTERN_ARGS environment variable:
+
+export INTERN_ARGS="environments='{\"browserName\":\"chrome\"}'"
+
+See: https://github.com/theintern/intern/blob/master/docs/configuration.md#environment-variable
+
 ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠
 						</echo>
 					</then>

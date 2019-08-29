@@ -43,6 +43,9 @@
 		}
 	},
 	"configs": {
+		"local": {
+			"description": "Run tests on local system, automatically starting chromedriver"
+		},
 		"sauce": {
 			"description": "Run tests on SauceLabs",
 			"environments": [
@@ -75,6 +78,18 @@
 	"runnerClientReporter": {
 		"writeHtml": false
 	},
-	
+	"coverage": [
+		"test-classes/**",
+		"!node_modules/**",
+		"!lib/**"
+	],
+	"tunnelOptions": {
+		 "drivers": [
+			{ "name": "firefox" },
+			{ "name": "internet explorer" },
+			{ "name": "chrome", "version": "76.0.3809.12" }
+		]
+	},
+	"defaultTimeout": 240000,
 	"suites": ["target/test-classes/wcomponents-theme/intern/*.test.js"]
 }
