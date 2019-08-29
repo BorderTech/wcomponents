@@ -134,6 +134,7 @@
 		<attribute name="cwd" default="${basedir}" description="The working directory"/>
 		<attribute name="failonerror" default="false"/>
 		<element name="arg-elements" description="Ant 'arg' elements representing the args to pass to the npm command."/>
+		<element name="env-elements" description="Ant 'env' elements representing the environment variables set for the npm command." optional="true"/>
 		<sequential>
 			<local name="onwin"/>
 			<property environment="env"/>
@@ -146,6 +147,9 @@
 ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠
 			</echo>
 			<nodejs.exec cwd="@{cwd}" failonerror="@{failonerror}">
+				<envs>
+					<env-elements />
+				</envs>
 				<arguments>
 					<arg value="${npmjs.dir}/npm-cli.js"/>
 					<arg-elements />
@@ -170,6 +174,7 @@
 		<attribute name="spawn" default="false"/>
 		<attribute name="outfile" default=""/>
 		<element name="arguments" description="Ant 'arg' elements representing the args to pass to the nodejs command."/>
+		<element name="envs" description="Ant 'env' elements representing the environment variables set for the nodejs command." optional="true"/>
 		<sequential>
 			<local name="node.ok"/>
 			<local name="nodejs.dir.location"/>
@@ -190,12 +195,14 @@
 						<then>
 							<exec dir="@{cwd}" executable="${nodejs.dir.location}/node" failonerror="@{failonerror}" spawn="@{spawn}">
 								<env key="Path" path="${npmjs.dir};${nodejs.dir.location};${env.Path}"/>
+								<envs />
 								<arguments />
 							</exec>
 						</then>
 						<else>
 							<exec dir="@{cwd}" executable="${nodejs.dir.location}/node" failonerror="@{failonerror}" spawn="@{spawn}" output="@{outfile}" logError="yes">
 								<env key="Path" path="${npmjs.dir};${nodejs.dir.location};${env.Path}"/>
+								<envs />
 								<arguments />
 							</exec>
 						</else>
@@ -206,13 +213,15 @@
 						<equals arg1="@{outfile}" arg2=""/>
 						<then>
 							<exec dir="@{cwd}" executable="${nodejs.dir.location}/node" failonerror="@{failonerror}" spawn="@{spawn}">
-								<env key="PATH" path="/usr/bin:${npmjs.dir}:${nodejs.dir.location}:${env.PATH}"/>
+								<env key="PATH" path="/usr/bin:/Users/rick/webdriver:${npmjs.dir}:${nodejs.dir.location}:${env.PATH}"/>
+								<envs />
 								<arguments />
 							</exec>
 						</then>
 						<else>
 							<exec dir="@{cwd}" executable="${nodejs.dir.location}/node" failonerror="@{failonerror}" spawn="@{spawn}" output="@{outfile}" logError="yes">
-								<env key="PATH" path="/usr/bin:${npmjs.dir}:${nodejs.dir.location}:${env.PATH}"/>
+								<env key="PATH" path="/usr/bin:/Users/rick/webdriver:${npmjs.dir}:${nodejs.dir.location}:${env.PATH}"/>
+								<envs />
 								<arguments />
 							</exec>
 						</else>

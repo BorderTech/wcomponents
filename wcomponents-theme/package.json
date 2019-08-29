@@ -4,7 +4,8 @@
 	"description": "Client side code for WComponents UI tool kit.",
 	"private": true,
 	"scripts": {
-		"test": "intern",
+		"test": "intern config=@sauce",
+		"testGrid": "intern config=@selenium",
 		"server": "intern serveOnly"
 	},
 	"directories": {

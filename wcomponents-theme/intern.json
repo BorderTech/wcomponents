@@ -42,19 +42,36 @@
 			}
 		}
 	},
-	"capabilities": {
-		"recordVideo": false, "recordScreenshots": false
+	"configs": {
+		"sauce": {
+			"description": "Run tests on SauceLabs",
+			"environments": [
+				{ "browserName": "firefox" },
+				{ "browserName": "internet explorer", "version": "11.0", "platform": "Windows 10" }, 
+				{ "browserName": "chrome" }
+			],
+			"proxyPort": 9000,
+			"proxyUrl": "http://localhost:9000/",
+			"maxConcurrency": 5,
+			"coverage": false,
+			"tunnel": "saucelabs",
+			"tunnelOptions": {
+				"verbose": true
+			},
+			"capabilities": {
+				"recordVideo": false,
+				"recordScreenshots": false
+			}
+		},
+		"selenium": {
+			"description": "Run against manually started selenium server",
+			"tunnel": "null",
+			"environments": [
+				{ "browserName": "firefox" },
+				{ "browserName": "chrome" }
+			]
+		}
 	},
-
-	"proxyPort": 9000,
-
-	"proxyUrl": "http://localhost:9000/",
-	
-	"tunnel": "saucelabs",
-	"tunnelOptions": {
-		"verbose": true
-	},
-	"environments": [ { "browserName": "firefox" } ],
 	"runnerClientReporter": {
 		"writeHtml": false
 	},

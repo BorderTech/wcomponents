@@ -92,7 +92,7 @@
 			<local name="unit.test.src.dir.raw"/>
 			<local name="amd.src.dir"/>
 			<local name="test.baseurl"/>
-			<property name="test.environments" value="{ browserName: 'firefox' }, { browserName: 'internet explorer', version: '11.0', platform: 'Windows 10' }, { browserName: 'chrome' }"/>
+			<property name="test.environments" value="{ browserName: &quot;firefox&quot; }, { browserName: &quot;internet explorer&quot;, version: &quot;11.0&quot;, platform: &quot;Windows 10&quot; }, { browserName: &quot;chrome&quot; }"/>
 			<property name="amd.src.dir" value="@{relativePathToSource}"/>
 			<property name="unit.test.src.dir.raw" location="@{srcDir}"/>
 			<pathconvert targetos="unix" property="unit.test.src.dir">
@@ -162,13 +162,15 @@ http://localhost:9000/__intern/?suites=target/test-classes/wcomponents-theme/int
 				<elseif>
 					<equals arg1="${intern.tunnel}" arg2="SeleniumTunnel"/>
 					<then>
-						<echo level="verbose">node ${intern.executable} config=@{relativePathToTestdir}/@{configModule}</echo>
-						<nodejs.exec cwd="${basedir}" failonerror="${intern.fail.local.test}" spawn="false">
-							<arguments>
-								<arg value="${intern.executable}"/>
-								<arg value="config=@{relativePathToTestdir}/@{configModule}"/>
-							</arguments>
-						</nodejs.exec>
+						<npm.exec>
+							<env-elements>
+								<env key="INTERN_ARGS" value="environments='${test.environments}'" />
+							</env-elements>
+							<arg-elements>
+								<arg value="run"/>
+								<arg value="testGrid"/>
+							</arg-elements>
+						</npm.exec>
 					</then>
 				</elseif>
 				<elseif>
