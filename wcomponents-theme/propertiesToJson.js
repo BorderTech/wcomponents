@@ -1,8 +1,9 @@
+/* eslint-env node, es6  */
 /**
  * This is used to transform a java properties file to its JSON equivalent.
  */
-var properties = require ("properties");
-var fs = require("fs");
+const properties = require ("properties");
+const fs = require("fs");
 
 main(process.argv);
 
@@ -19,8 +20,9 @@ function main(argv) {
 
 function readPropertiesFile(propertiesFile, jsonFile) {
 	properties.parse (propertiesFile, { path: true }, function (error, obj) {
+		var jsonString;
 		if (error) return console.error (error);
-		var jsonString = JSON.stringify(obj, null, 1);
+		jsonString = JSON.stringify(obj, null, 1);
 		fs.writeFile(jsonFile, jsonString, function(err) {
 			if (err) {
 				return console.log(err);

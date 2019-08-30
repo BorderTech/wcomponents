@@ -4,15 +4,17 @@
 	"description": "Client side code for WComponents UI tool kit.",
 	"private": true,
 	"scripts": {
-		"test": "intern config=@sauce",
-		"test:grid": "intern config=@selenium",
-		"test:local": "intern config=@local",
-		"server": "intern serveOnly"
+		"lint": "node lintfile.js",
+		"watch": "node theme-watch.js",
+		"test": "grunt test:sauce",
+		"test:grid": "grunt test:grid",
+		"test:local": "grunt test:local",
+		"test:serve": "grunt test:serve"
 	},
 	"directories": {
-		"src": "./src/main",
-		"test": "./src/test",
-		"target": "./target"
+		"src": "src/main",
+		"test": "src/test",
+		"target": "target"
 	},
 	"dependencies": {
 		"sprintf-js": "1.1.2",
@@ -27,10 +29,11 @@
 		"dojo": "1.10.8"
 	},
 	"devDependencies": {
-		"fs-extra": "8.1.0",
 		"axe-core": "3.0.0",
 		"clean-css-cli": "4.1.11",
 		"eslint": "3.19.0",
+		"fs-extra": "8.1.0",
+		"grunt": "1.0.4",
 		"intern": "4.4.3",
 		"jsdoc": "3.6.3",
 		"properties": "1.2.1",

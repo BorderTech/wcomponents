@@ -1,3 +1,4 @@
+/* eslint-env node, es6  */
 /**
  * You can use this when working on theme JS to speed up development.
  * After running the initial complete build once you may then run this file:
@@ -20,9 +21,6 @@ const targetTestDir = path.join(__dirname, pjson.directories.target, "test-class
 const sassSrcDir = path.join(__dirname, pjson.directories.src, "sass");
 const sassTargetDir = path.join(__dirname, pjson.directories.target, "classes/theme/wcomponents-theme/style");
 
-const CLIEngine = require("eslint").CLIEngine;
-const eslintCli = new CLIEngine();
-
 const sass = require("sass");
 const sassLint = require("sass-lint");
 
@@ -43,10 +41,10 @@ function watchDir(sourceRoot, targetRoot, processFunc) {
 		if (filename && event === "change") {
 			let targetPath = path.join(targetRoot, filename);
 			let sourcePath = path.join(sourceRoot, filename);
-			let targetDir = path.dirname(targetPath);
+			let outputDir = path.dirname(targetPath);
 			console.log("File Changed ", sourcePath);
 			lintFile(sourcePath);
-			if (fs.existsSync(targetDir)) {
+			if (fs.existsSync(outputDir)) {
 				processFunc(sourcePath, targetPath);
 			} else {
 				console.log("Nothing to overwrite, please complete a full build first", targetDir);
@@ -63,7 +61,7 @@ function lintFile(sourcePath) {
 		} else if (ext === ".scss") {
 			runSassLint(sourcePath);
 		}
-	} catch(ex) {
+	} catch (ex) {
 		console.warn(ex);
 	}
 }
@@ -99,21 +97,21 @@ function runEslint(filePath) {
 function processSassFile(sourcePath, targetPath, callback) {
 	// TODO this should not actually compile the changed sass file but instead should recompile the top level file/s each time any sass file is changed
 	let sassProcess = function(err, result) {
-			let data;
-			try {
-				if (result && result.css) {
-					data = result.css.toString();
-				} else {
-					console.warn("No result from sass for ", sourcePath);
-				}
-			} finally {
-				callback(err, data);
+		let data;
+		try {
+			if (result && result.css) {
+				data = result.css.toString();
+			} else {
+				console.warn("No result from sass for ", sourcePath);
 			}
-		};
+		} finally {
+			callback(err, data);
+		}
+	};
 	sass.render({ file: sourcePath }, sassProcess);
 }
 
-//function processTestFile(sourcePath, targetPath, callback) {
+// function processTestFile(sourcePath, targetPath, callback) {
 //	let replacer = function(data) {
 //			return data.replace(/@RESOURCES@/g, "/target/test-classes/wcomponents-theme/intern/resources");  // this is a relative URI
 //		};
@@ -127,7 +125,7 @@ function processSassFile(sourcePath, targetPath, callback) {
 //			callback(err, fileData);
 //		}
 //	});
-//}
+// }
 
 
 /**
@@ -156,9 +154,9 @@ function fileProcessCopy(processFunc, sourcePath, targetPath) {
 		if (err) {
 			console.error(err);
 		} else if (data) {
-			fs.writeFile(targetPath, data, "utf8", function (err) {
-				if (err){
-					console.error(err);
+			fs.writeFile(targetPath, data, "utf8", function (ex) {
+				if (ex) {
+					console.error(ex);
 				} else {
 					console.log(`${sourcePath} was processed and written to ${targetPath}`);
 				}

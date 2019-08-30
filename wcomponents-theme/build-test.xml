@@ -151,13 +151,15 @@ http://localhost:9000/__intern/?suites=target/test-classes/wcomponents-theme/int
 					<isset property="env.SAUCE_ACCESS_KEY"/>
 				</and>
 				<then>
-					<echo level="verbose">node ${intern.executable} config=@{relativePathToTestdir}/@{configModule}</echo>
-					<nodejs.exec cwd="${basedir}" failonerror="true" spawn="false">
-						<arguments>
-							<arg value="${intern.executable}"/>
-							<arg value="config=@{relativePathToTestdir}/@{configModule}"/>
-						</arguments>
-					</nodejs.exec>
+					<npm.exec>
+						<env-elements>
+							<env key="INTERN_ARGS" value="environments='${test.environments}'" />
+						</env-elements>
+						<arg-elements>
+							<arg value="run"/>
+							<arg value="test:sauce"/>
+						</arg-elements>
+					</npm.exec>
 				</then>
 				<elseif>
 					<equals arg1="${intern.tunnel}" arg2="SeleniumTunnel"/>
@@ -191,6 +193,18 @@ See: https://github.com/theintern/intern/blob/master/docs/configuration.md#envir
 
 ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠
 						</echo>
+						<!--
+						Tempting, we could totally do this...
+						<npm.exec>
+							<env-elements>
+								<env key="INTERN_ARGS" value="environments='${test.environments}'" />
+							</env-elements>
+							<arg-elements>
+								<arg value="run"/>
+								<arg value="test:local"/>
+							</arg-elements>
+						</npm.exec>
+						-->
 					</then>
 				</elseif>
 				<else>

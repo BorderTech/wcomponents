@@ -1,3 +1,4 @@
+/* eslint-env node, es6  */
 /*
  * Runs eslint on the theme js.
  * This can be used directly from commandline:
@@ -8,9 +9,8 @@
  * If there is an error the exit code will not be 0.
  *
  * Or it can imported as a nodejs module via require.
- * 
+ *
  */
-const fs = require("fs");
 const path = require("path");
 const pjson = require("./package.json");
 const srcDir = path.join(pjson.directories.src, "js");
@@ -41,7 +41,7 @@ if (require.main === module) {
 function getLintTarget() {
 	let lintTarget = process.argv[process.argv.length - 1];
 	if (!lintTarget || /lintfile\.js$/.test(lintTarget)) {
-		return [srcDir, testSrcDir];
+		return ["*.js", srcDir, testSrcDir];
 	}
 	return [lintTarget];
 }
@@ -57,8 +57,7 @@ function main() {
 	let prettyReport = formatter(report.results);
 	if (prettyReport) {
 		console.log(prettyReport);
-	}
-	else {
+	} else {
 		console.log("THEME LINTER: Nothing to report besides the fact that you are awesome!");
 	}
 	return report;
