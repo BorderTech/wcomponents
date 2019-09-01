@@ -8,6 +8,12 @@
 
 ### Bug Fixes
 
+## Release 1.5.16
+
+### Bug Fixes
+
+* Fix XSLT error which caused double diagnostic messages on WMultiTextField with both one or more values and a Diagnostic message #1638.
+
 ## Release 1.5.15
 
 ### Enhancements

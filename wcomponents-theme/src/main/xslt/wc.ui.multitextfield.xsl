@@ -65,7 +65,7 @@
 			<ul class="wc_list_nb wc-vgap-sm">
 				<xsl:choose>
 					<xsl:when test="ui:value">
-						<xsl:apply-templates select="*"/>
+						<xsl:apply-templates select="ui:value"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<li>
