@@ -12,7 +12,7 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-final class WFieldSetRenderer extends AbstractWebXmlRenderer {
+final class WFieldSetRenderer extends AbstractWebXmlRenderer implements RendersMargin {
 
 	/**
 	 * Paints the given WFieldSet.
@@ -53,7 +53,7 @@ final class WFieldSetRenderer extends AbstractWebXmlRenderer {
 		xml.appendClose();
 
 		// Render margin
-		MarginRendererUtil.renderMargin(fieldSet, renderContext);
+		renderMargin(fieldSet, renderContext);
 
 		// Label
 		WDecoratedLabel label = fieldSet.getTitle();

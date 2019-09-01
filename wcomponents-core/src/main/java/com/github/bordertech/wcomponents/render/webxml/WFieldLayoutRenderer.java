@@ -12,7 +12,7 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-final class WFieldLayoutRenderer extends AbstractWebXmlRenderer {
+final class WFieldLayoutRenderer extends AbstractWebXmlRenderer implements RendersMargin {
 
 	/**
 	 * Paints the given WFieldLayout.
@@ -42,7 +42,7 @@ final class WFieldLayoutRenderer extends AbstractWebXmlRenderer {
 		xml.appendClose();
 
 		// Render margin
-		MarginRendererUtil.renderMargin(fieldLayout, renderContext);
+		renderMargin(fieldLayout, renderContext);
 
 		// Paint Fields
 		paintChildren(fieldLayout, renderContext);

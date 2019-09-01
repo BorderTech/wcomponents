@@ -17,7 +17,7 @@ import com.github.bordertech.wcomponents.util.Util;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-final class WPanelRenderer extends AbstractWebXmlRenderer {
+final class WPanelRenderer extends AbstractWebXmlRenderer implements RendersMargin {
 
 	/**
 	 * Paints the given container.
@@ -53,7 +53,7 @@ final class WPanelRenderer extends AbstractWebXmlRenderer {
 		xml.appendClose();
 
 		// Render margin
-		MarginRendererUtil.renderMargin(panel, renderContext);
+		renderMargin(panel, renderContext);
 
 		if (renderChildren) {
 			renderChildren(panel, renderContext);

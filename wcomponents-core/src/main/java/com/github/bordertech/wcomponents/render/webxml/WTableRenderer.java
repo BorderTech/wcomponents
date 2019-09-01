@@ -29,7 +29,7 @@ import java.util.Set;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-final class WTableRenderer extends AbstractWebXmlRenderer {
+final class WTableRenderer extends AbstractWebXmlRenderer implements RendersMargin {
 
 	/**
 	 * Paints the given WTable.
@@ -93,7 +93,7 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 		xml.appendClose();
 
 		// Render margin
-		MarginRendererUtil.renderMargin(table, renderContext);
+		renderMargin(table, renderContext);
 
 		if (table.getPaginationMode() != PaginationMode.NONE) {
 			paintPaginationDetails(table, xml);

@@ -15,7 +15,7 @@ import com.github.bordertech.wcomponents.util.SystemException;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-final class WCollapsibleRenderer extends AbstractWebXmlRenderer {
+final class WCollapsibleRenderer extends AbstractWebXmlRenderer implements RendersMargin {
 
 	/**
 	 * Paints the given WCollapsible.
@@ -66,7 +66,7 @@ final class WCollapsibleRenderer extends AbstractWebXmlRenderer {
 		xml.appendClose();
 
 		// Render margin
-		MarginRendererUtil.renderMargin(collapsible, renderContext);
+		renderMargin(collapsible, renderContext);
 
 		// Label
 		collapsible.getDecoratedLabel().paint(renderContext);

@@ -17,7 +17,7 @@ import java.util.List;
  * @author Mark Reeves
  * @since 1.0.0
  */
-final class WListRenderer extends AbstractWebXmlRenderer {
+final class WListRenderer extends AbstractWebXmlRenderer implements RendersMargin {
 
 	/**
 	 * Paints the given WList.
@@ -41,7 +41,7 @@ final class WListRenderer extends AbstractWebXmlRenderer {
 		xml.appendClose();
 
 		// Render margin
-		MarginRendererUtil.renderMargin(list, renderContext);
+		renderMargin(list, renderContext);
 
 		xml.appendTagOpen("ui:listlayout");
 		xml.appendOptionalAttribute("gap", gapString);

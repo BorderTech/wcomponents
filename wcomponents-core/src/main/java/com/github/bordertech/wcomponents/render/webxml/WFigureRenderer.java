@@ -14,7 +14,7 @@ import com.github.bordertech.wcomponents.util.SystemException;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-final class WFigureRenderer extends AbstractWebXmlRenderer {
+final class WFigureRenderer extends AbstractWebXmlRenderer implements RendersMargin {
 
 	/**
 	 * Paints the given WFigure.
@@ -56,7 +56,7 @@ final class WFigureRenderer extends AbstractWebXmlRenderer {
 		xml.appendClose();
 
 		// Render margin
-		MarginRendererUtil.renderMargin(figure, renderContext);
+		renderMargin(figure, renderContext);
 
 		if (renderChildren) {
 			// Label

@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-final class WDefinitionListRenderer extends AbstractWebXmlRenderer {
+final class WDefinitionListRenderer extends AbstractWebXmlRenderer implements RendersMargin {
 
 	/**
 	 * Paints the given definition list.
@@ -57,7 +57,7 @@ final class WDefinitionListRenderer extends AbstractWebXmlRenderer {
 		xml.appendClose();
 
 		// Render margin
-		MarginRendererUtil.renderMargin(list, renderContext);
+		renderMargin(list, renderContext);
 
 		for (Duplet<String, ArrayList<WComponent>> term : list.getTerms()) {
 			xml.appendTagOpen("ui:term");

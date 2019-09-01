@@ -11,7 +11,7 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-final class WMenuRenderer extends AbstractWebXmlRenderer {
+final class WMenuRenderer extends AbstractWebXmlRenderer implements RendersMargin {
 
 	/**
 	 * Paints the given WMenu.
@@ -74,7 +74,7 @@ final class WMenuRenderer extends AbstractWebXmlRenderer {
 		xml.appendClose();
 
 		// Render margin
-		MarginRendererUtil.renderMargin(menu, renderContext);
+		renderMargin(menu, renderContext);
 
 		paintChildren(menu, renderContext);
 

@@ -14,7 +14,7 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
  * @author Mark Reeves
  * @since 1.0.0
  */
-final class WRowRenderer extends AbstractWebXmlRenderer {
+final class WRowRenderer extends AbstractWebXmlRenderer implements RendersMargin {
 
 	/**
 	 * Paints the given WButton.
@@ -39,7 +39,7 @@ final class WRowRenderer extends AbstractWebXmlRenderer {
 			xml.appendClose();
 
 			// Render margin
-			MarginRendererUtil.renderMargin(row, renderContext);
+			renderMargin(row, renderContext);
 
 			paintChildren(row, renderContext);
 

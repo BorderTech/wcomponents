@@ -13,7 +13,7 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-final class WTabSetRenderer extends AbstractWebXmlRenderer {
+final class WTabSetRenderer extends AbstractWebXmlRenderer implements RendersMargin {
 
 	/**
 	 * Paints the given WTabSet.
@@ -44,7 +44,7 @@ final class WTabSetRenderer extends AbstractWebXmlRenderer {
 		xml.appendClose();
 
 		// Render margin
-		MarginRendererUtil.renderMargin(tabSet, renderContext);
+		renderMargin(tabSet, renderContext);
 
 		paintChildren(tabSet, renderContext);
 

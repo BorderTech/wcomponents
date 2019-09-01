@@ -20,7 +20,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Jonathan Austin
  * @since 1.1.0
  */
-final class WTreeRenderer extends AbstractWebXmlRenderer {
+final class WTreeRenderer extends AbstractWebXmlRenderer implements RendersMargin {
 
 	/**
 	 * The logger instance for this class.
@@ -82,7 +82,7 @@ final class WTreeRenderer extends AbstractWebXmlRenderer {
 		xml.appendClose();
 
 		// Render margin
-		MarginRendererUtil.renderMargin(tree, renderContext);
+		renderMargin(tree, renderContext);
 
 		if (tree.getCustomTree() == null) {
 			handlePaintItems(tree, xml);

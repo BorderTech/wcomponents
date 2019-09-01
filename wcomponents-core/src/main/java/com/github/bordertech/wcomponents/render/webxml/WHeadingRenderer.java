@@ -12,7 +12,7 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-final class WHeadingRenderer extends AbstractWebXmlRenderer {
+final class WHeadingRenderer extends AbstractWebXmlRenderer implements RendersMargin {
 
 	/**
 	 * Paints the given WHeading.
@@ -34,7 +34,7 @@ final class WHeadingRenderer extends AbstractWebXmlRenderer {
 		xml.appendClose();
 
 		// Render margin
-		MarginRendererUtil.renderMargin(heading, renderContext);
+		renderMargin(heading, renderContext);
 
 		if (heading.getDecoratedLabel() == null) {
 			// Constructed with a String
