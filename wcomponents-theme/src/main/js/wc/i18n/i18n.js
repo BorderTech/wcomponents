@@ -252,12 +252,15 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/aja
 			};
 
 			this.read = function(language, namespace, callback) {
-				var cacheBuster = this.options.cacheBuster || this.options.cachebuster || "",
+				var cacheBuster = this.options.cachebuster || "",
 					url = this.services.interpolator.interpolate(this.options.loadPath, { lng: language, ns: namespace });
-				if (cacheBuster) {
-					url += "?" + cacheBuster;
-				}
 				url = require.toUrl(url);
+				if (cacheBuster) {
+					cacheBuster = "?" + cacheBuster;
+					if (url.indexOf(cacheBuster) < 0) {  // requirejs will probably have added the cachebuster
+						url += cacheBuster;
+					}
+				}
 				ajax.simpleRequest({
 					url: url,
 					cache: true,

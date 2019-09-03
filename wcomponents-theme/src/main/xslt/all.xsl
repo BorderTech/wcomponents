@@ -172,10 +172,7 @@
 			</xsl:text>
 					<xsl:value-of select="concat('baseUrl:&quot;', normalize-space($resourceRoot), '&quot;,&#10;')" />
 					<xsl:value-of select="concat('urlArgs:&quot;', $cacheBuster, '&quot;&#10;')" />
-					<xsl:text>};&#10;wcconfig = {"wc/i18n/i18n": { </xsl:text>
-					<xsl:text>options:{ backend: {</xsl:text>
-					<xsl:value-of select="concat('cachebuster:&quot;', $cacheBuster, '&quot;')" />
-					<xsl:text>} } },&#10;"wc/loader/resource": {</xsl:text>
+					<xsl:text>};&#10;wcconfig = {"wc/loader/resource": {</xsl:text>
 					<xsl:value-of select="concat('resourceBaseUrl:&quot;', normalize-space($resourceRoot), 'resource/&quot;,&#10;')" />
 					<xsl:value-of select="concat('cachebuster:&quot;', $cacheBuster, '&quot;')" />
 					<xsl:text>}&#10;};&#10;</xsl:text>

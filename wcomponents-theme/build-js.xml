@@ -48,7 +48,7 @@
 			</fileset>
 		</copy>
 		<copy file="${basedir}/node_modules/i18next/i18next.js" tofile="${lib.tmp.src.dir}/i18next.js"/><!-- This is AMD and will be uglified -->
-		<copy file="${basedir}/node_modules/i18next-xhr-backend/i18nextXHRBackend.js" tofile="${lib.tmp.src.dir}/i18nextXHRBackend.js"/><!-- This is AMD and will be uglified -->
+<!--		<copy file="${basedir}/node_modules/i18next-xhr-backend/i18nextXHRBackend.js" tofile="${lib.tmp.src.dir}/i18nextXHRBackend.js"/> This is AMD and will be uglified -->
 		<copy file="${basedir}/node_modules/sprintf-js/src/sprintf.js" tofile="${lib.tmp.src.dir}/sprintf.js"/>
 		<copy file="${basedir}/node_modules/requirejs-domready/domReady.js" tofile="${lib.tmp.src.dir}/requirejs/domReady.js"/>
 		<copy todir="${lib.tmp.src.dir}/dojo" overwrite="true">
