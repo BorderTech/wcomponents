@@ -76,7 +76,7 @@ define(["wc/has",
 			function clickEvent($event) {
 				var element;
 				if (!$event.defaultPrevented && (element = BUTTON.findAncestor($event.target)) && !shed.isDisabled(element)) {
-					doClick(element, $event.shiftKey);
+					doClick(element, $event.shiftKey || event.shiftKey);  // event.shiftKey - see wc/fixes/shiftKey_ff
 				}
 			}
 
