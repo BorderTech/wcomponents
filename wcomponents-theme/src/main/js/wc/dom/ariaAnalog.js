@@ -486,7 +486,7 @@ define(["wc/has",
 		AriaAnalog.prototype.clickEvent = function($event) {
 			var target = $event.target, element;
 			if (!$event.defaultPrevented && (element = this.getActivableFromTarget(target)) && isAcceptableEventTarget(element, target)) {
-				this.activate(element, $event.shiftKey, ($event.ctrlKey || $event.metaKey));
+				this.activate(element, ($event.shiftKey || event.shiftKey), ($event.ctrlKey || $event.metaKey));  // event.shiftKey - see wc/fixes/shiftKey_ff
 			}
 		};
 
