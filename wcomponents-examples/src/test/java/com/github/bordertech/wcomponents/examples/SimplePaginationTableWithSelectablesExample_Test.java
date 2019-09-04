@@ -7,6 +7,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
+/*
+NOTE: clicking TD elements instead of TR elements because of this firefox/geckodriver bug: https://bugzilla.mozilla.org/show_bug.cgi?id=1448825
+*/
 public class SimplePaginationTableWithSelectablesExample_Test extends WComponentExamplesTestCase {
 
 	private final String SELECT_BUTTON = "WButton[0]";
@@ -30,7 +33,7 @@ public class SimplePaginationTableWithSelectablesExample_Test extends WComponent
 			);
 		SeleniumWTableWebElement wTableWebElement = getTable();
 
-		wTableWebElement.getTable().findElement(By.cssSelector("tr[role='row']")).click();
+		wTableWebElement.getTable().findElement(By.cssSelector("tr[role='row'] td:nth-of-type(3)")).click();
 		Assert.assertTrue("Buttons should be enabled", driver.findElement(byWComponentPath("WButton[1]"))
 			.isEnabled());
 		driver.clearUserContext();
@@ -70,7 +73,7 @@ public class SimplePaginationTableWithSelectablesExample_Test extends WComponent
 				Assert.assertFalse("Select button should be disabled with 4 or more items selected",
 					driver.findElement(byWComponentPath(SELECT_BUTTON)).isEnabled());
 			}
-			wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='"+i+"']")).click();
+			wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='"+i+"'] td:nth-of-type(3)")).click();
 		}
 		driver.clearUserContext();
 	}
@@ -81,8 +84,8 @@ public class SimplePaginationTableWithSelectablesExample_Test extends WComponent
 
 		SeleniumWTableWebElement wTableWebElement = getTable();
 
-		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='0']")).click();
-		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='1']")).click();
+		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='0'] td:nth-of-type(3)")).click();
+		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='1'] td:nth-of-type(3)")).click();
 		wTableWebElement.getNextPageButton().click();
 		driver.waitForPageReady();
 
@@ -96,8 +99,8 @@ public class SimplePaginationTableWithSelectablesExample_Test extends WComponent
 
 		wTableWebElement = getTable(); // Needs to be added after each refresh to prevent StaleElementReferenceException
 
-		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='5']")).click();
-		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='6']")).click();
+		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='5'] td:nth-of-type(3)")).click();
+		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='6'] td:nth-of-type(3)")).click();
 
 		Assert.assertFalse("Select button should be enabled",
 			driver.findElement(byWComponentPath(SELECT_BUTTON)).isEnabled());
@@ -110,12 +113,12 @@ public class SimplePaginationTableWithSelectablesExample_Test extends WComponent
 			driver.findElement(byWComponentPath(SELECT_BUTTON)).isEnabled());
 
 		wTableWebElement = getTable();
-		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='0']")).click();
+		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='0'] td:nth-of-type(3)")).click();
 
 		Assert.assertTrue("Select button should be enabled",
 			driver.findElement(byWComponentPath(SELECT_BUTTON)).isEnabled());
 
-		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='0']")).click();
+		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='0'] td:nth-of-type(3)")).click();
 
 		wTableWebElement.getLastPageButton().click();
 		driver.findElement(byWComponentPath(REFRESH_BUTTON)).click();
@@ -134,8 +137,8 @@ public class SimplePaginationTableWithSelectablesExample_Test extends WComponent
 
 		SeleniumWTableWebElement wTableWebElement = getTable();
 
-		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='0']")).click();
-		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='1']")).click();
+		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='0'] td:nth-of-type(3)")).click();
+		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='1'] td:nth-of-type(3)")).click();
 		wTableWebElement.getNextPageButton().click();
 		driver.waitForPageReady();
 
@@ -147,8 +150,8 @@ public class SimplePaginationTableWithSelectablesExample_Test extends WComponent
 
 		wTableWebElement = getTable(); // Needs to be added after ajax/refresh to prevent StaleElementReferenceException
 
-		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='5']")).click();
-		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='6']")).click();
+		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='5'] td:nth-of-type(3)")).click();
+		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='6'] td:nth-of-type(3)")).click();
 
 		Assert.assertFalse("Select button should be enabled",
 			driver.findElement(byWComponentPath(SELECT_BUTTON)).isEnabled());
@@ -160,12 +163,12 @@ public class SimplePaginationTableWithSelectablesExample_Test extends WComponent
 			driver.findElement(byWComponentPath(SELECT_BUTTON)).isEnabled());
 
 		wTableWebElement = getTable();
-		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='0']")).click();
+		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='0'] td:nth-of-type(3)")).click();
 
 		Assert.assertTrue("Select button should be enabled",
 			driver.findElement(byWComponentPath(SELECT_BUTTON)).isEnabled());
 
-		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='0']")).click();
+		wTableWebElement.getTable().findElement(By.cssSelector("tr[data-wc-rowindex='0'] td:nth-of-type(3)")).click();
 
 		wTableWebElement.getLastPageButton().click();
 

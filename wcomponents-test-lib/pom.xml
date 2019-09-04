@@ -17,6 +17,7 @@
 	<properties>
 		<spotbugs.excludeFilterFile>${basedir}/spotbugs-exclude-filter.xml</spotbugs.excludeFilterFile>
 		<suppressionFiles>${project.parent.basedir}/owasp-jetty-suppression.xml,${basedir}/test-lib-owasp-suppression.xml</suppressionFiles>
+		<selenium.version>3.141.59</selenium.version>
 	</properties>
 
 	<build>
@@ -61,7 +62,13 @@
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
-			<version>2.53.0</version>
+			<version>${selenium.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-server</artifactId>
+			<version>${jetty.version}</version>
 		</dependency>
 
 		<dependency>
@@ -71,9 +78,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-server</artifactId>
-			<version>${jetty.version}</version>
+			<groupId>io.github.bonigarcia</groupId>
+			<artifactId>webdrivermanager</artifactId>
+			<version>3.6.2</version>
 		</dependency>
 
 		<dependency>
