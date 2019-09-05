@@ -1,5 +1,7 @@
 package com.github.bordertech.wcomponents.test.selenium.driver;
 
+import io.github.bonigarcia.wdm.DriverManagerType;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -30,6 +32,7 @@ public class InternetExplorerWebDriverType extends WebDriverType<InternetExplore
 	 */
 	@Override
 	public InternetExplorerDriver getDriverImplementation() {
+		WebDriverManager.getInstance(DriverManagerType.IEXPLORER).setup();
 		return new InternetExplorerDriver(getInternetExplorerDriverService(), getCapabilities());
 	}
 
