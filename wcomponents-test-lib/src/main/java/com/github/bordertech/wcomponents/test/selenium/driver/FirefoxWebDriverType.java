@@ -1,7 +1,10 @@
 package com.github.bordertech.wcomponents.test.selenium.driver;
 
+import io.github.bonigarcia.wdm.DriverManagerType;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -14,6 +17,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
  * implementation.</p>
  *
  * @author Joshua Barclay
+ * @author Rick Brown
  * @since 1.2.0
  */
 public class FirefoxWebDriverType extends WebDriverType<FirefoxDriver> {
@@ -31,7 +35,17 @@ public class FirefoxWebDriverType extends WebDriverType<FirefoxDriver> {
 	 */
 	@Override
 	public FirefoxDriver getDriverImplementation() {
-		return new FirefoxDriver(getFirefoxBinary(), getFirefoxProfile(), getCapabilities());
+		WebDriverManager.getInstance(DriverManagerType.FIREFOX).setup();
+		FirefoxOptions options = new FirefoxOptions(getCapabilities());
+		FirefoxBinary binary = getFirefoxBinary();
+		FirefoxProfile profile = getFirefoxProfile();
+		if (profile != null) {
+			// it gets angry if you give it a null profile
+			options.setProfile(profile);
+		}
+		// options.setHeadless(true);
+		options.setBinary(binary);
+		return new FirefoxDriver(options);
 	}
 
 	/**
@@ -59,5 +73,4 @@ public class FirefoxWebDriverType extends WebDriverType<FirefoxDriver> {
 	public FirefoxProfile getFirefoxProfile() {
 		return null;
 	}
-
 }
