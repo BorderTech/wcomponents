@@ -39,7 +39,6 @@ intern.registerLoader(function (options) {
 		return intern.loadScript("node_modules/requirejs/require.js").then(function () {
 			return initLoader(window.requirejs);
 		});
-	} else {
-		return initLoader(require("requirejs"));
 	}
+	return initLoader(require("requirejs"));
 });
