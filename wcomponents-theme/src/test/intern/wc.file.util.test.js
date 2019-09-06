@@ -147,7 +147,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 					expectedExt = "csh",
 					actualExt;
 				file.name = "testfile." + expectedExt;
-				file = fileUtil.fixFileExtension(file);
+				fileUtil.fixFileExtension(file);
 				actualExt = file.name.split(".");
 				assert.strictEqual(actualExt[1], expectedExt);
 			}

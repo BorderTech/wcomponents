@@ -7,6 +7,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!", "
 		staticNamedAnchor, matchId, allNamedElements, allElementsWithId, a3Owner, testHolder,
 		urlResource = require.toUrl("intern/resources/domWidget.html");
 
+
 	registerSuite({
 		name: "Widget",
 		setup: function() {

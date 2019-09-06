@@ -1,6 +1,31 @@
 /* eslint-env node, es6  */
 const pkgJson = require("./package.json");
 
+let requireJsOptions = {
+	baseUrl: `/${pkgJson.directories.target}/classes/theme/${pkgJson.name}/`,
+	paths: {
+		wc: `scripts_debug/wc`,
+		lib: `scripts_debug/lib`,
+		dojo: `scripts_debug/lib/dojo`,
+		fabric: `scripts_debug/lib/fabric`,
+		ccv: `scripts_debug/lib/ccv`,
+		face: `scripts_debug/lib/face`,
+		sprintf: `scripts_debug/lib/sprintf`,
+		Promise: `scripts_debug/lib/Promise`,
+		compat: `scripts_debug/wc/compat`,
+		translation: `resource/translation`,
+		"intern/chai": `/${pkgJson.directories.target}/test-classes/${pkgJson.name}/intern/resources/intern-chai`,
+		"intern/resources": `/${pkgJson.directories.target}/test-classes/${pkgJson.name}/intern/resources/`,
+		intern: `/${pkgJson.directories.target}/test-classes/${pkgJson.name}/intern/resources/intern-shim`,
+		target: `/${pkgJson.directories.target}`
+	},
+	config: {
+		"wc/loader/resource": {
+			"resourceBaseUrl": `/${pkgJson.directories.target}/classes/theme/${pkgJson.name}/resource/`
+		}
+	}
+};
+
 /**
  * This is essentially a JS version of intern.json:
  * https://theintern.io/docs.html#Intern/4/docs/docs%2Fconfiguration.md/config-file
@@ -15,42 +40,16 @@ const pkgJson = require("./package.json");
  */
 let internConfig = {
 	suites: [`${pkgJson.directories.target}/test-classes/${pkgJson.name}/intern/*.test.js`],
+	node: {
+		loader: {
+			script: `${pkgJson.directories.target}/test-classes/${pkgJson.name}/intern/resources/intern-loader.js`,
+			options: requireJsOptions
+		}
+	},
 	browser: {
 		loader: {
 			script: `${pkgJson.directories.target}/test-classes/${pkgJson.name}/intern/resources/intern-loader.js`,
-			options: {
-				baseUrl: `/${pkgJson.directories.target}/classes/theme/${pkgJson.name}/`,
-				urlArgs: `build=${pkgJson.version}&theme=${pkgJson.name}`,
-				paths: {
-					wc: `scripts_debug/wc`,
-					lib: `scripts_debug/lib`,
-					dojo: `scripts_debug/lib/dojo`,
-					fabric: `scripts_debug/lib/fabric`,
-					ccv: `scripts_debug/lib/ccv`,
-					face: `scripts_debug/lib/face`,
-					sprintf: `scripts_debug/lib/sprintf`,
-					Promise: `scripts_debug/lib/Promise`,
-					compat: `scripts_debug/wc/compat`,
-					translation: `resource/translation`,
-					"intern/chai": `/${pkgJson.directories.target}/test-classes/${pkgJson.name}/intern/resources/intern-chai`,
-					"intern/resources": `/${pkgJson.directories.target}/test-classes/${pkgJson.name}/intern/resources/`,
-					intern: `/${pkgJson.directories.target}/test-classes/${pkgJson.name}/intern/resources/intern-shim`,
-					target: `/${pkgJson.directories.target}`
-				},
-				config: {
-					"wc/i18n/i18n": {
-						"options": {
-							"backend": {
-								"cachebuster": `build=${pkgJson.version}&theme=${pkgJson.name}`
-							}
-						}
-					},
-					"wc/loader/resource": {
-						"resourceBaseUrl": `/${pkgJson.directories.target}/classes/theme/${pkgJson.name}/resource/`,
-						"cachebuster": `build=${pkgJson.version}&theme=${pkgJson.name}`
-					}
-				}
-			}
+			options: requireJsOptions
 		}
 	},
 	"configs": {

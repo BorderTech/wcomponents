@@ -92,7 +92,6 @@
 			<local name="unit.test.src.dir.raw"/>
 			<local name="amd.src.dir"/>
 			<local name="test.baseurl"/>
-			<property name="test.environments" value="{ browserName: &quot;firefox&quot; }, { browserName: &quot;internet explorer&quot;, version: &quot;11.0&quot;, platform: &quot;Windows 10&quot; }, { browserName: &quot;chrome&quot; }"/>
 			<property name="amd.src.dir" value="@{relativePathToSource}"/>
 			<property name="unit.test.src.dir.raw" location="@{srcDir}"/>
 			<pathconvert targetos="unix" property="unit.test.src.dir">
@@ -124,6 +123,8 @@
 			</copy>
 
 			<property name="intern.executable" location="${basedir}/node_modules/intern/runner.js"/>
+			<property name="test.environments" value="{ &quot;browserName&quot;: &quot;firefox&quot; }"/>
+
 			<echo level="info">
 Running client side unit tests.
 ================================
@@ -157,7 +158,7 @@ http://localhost:9000/__intern/?suites=target/test-classes/wcomponents-theme/int
 						</env-elements>
 						<arg-elements>
 							<arg value="run"/>
-							<arg value="test:sauce"/>
+							<arg value="test"/>
 						</arg-elements>
 					</npm.exec>
 				</then>
