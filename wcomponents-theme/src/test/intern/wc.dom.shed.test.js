@@ -1,9 +1,9 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
+define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 	function(registerSuite, assert, testutils) {
 		"use strict";
 
 		var controller, testHolder,
-			urlResource = "@RESOURCES@/domShed.html";
+			urlResource = require.toUrl("intern/resources/domShed.html");
 
 		function _withSubscribeHelper(id, action) {
 			var element = document.getElementById(id),

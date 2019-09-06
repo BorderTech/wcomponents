@@ -19,6 +19,7 @@
 	"globals": {
 		"KeyEvent": true,
 		"Promise": true,
-		"DataView": true
+		"DataView": true,
+		"intern": true
 	}
 }

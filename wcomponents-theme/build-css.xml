@@ -9,8 +9,8 @@
 	<target name="init">
 		<mkdir dir="${target.rootdir}/style" />
 		<mkdir dir="${tmp.dir}/css-built" />
-    <delete dir="${component.rootdir}/src/main/sass/.sass-cache"/>
-    <delete dir="${impl.src.dir}/src/main/sass/sass/.sass-cache"/>
+		<delete dir="${component.rootdir}/src/main/sass/.sass-cache"/>
+		<delete dir="${impl.src.dir}/src/main/sass/sass/.sass-cache"/>
 	</target>
 
 	<!--
@@ -32,36 +32,36 @@
 	<!--
 		Compile Sass to CSS using sass ( https://www.npmjs.com/package/sass )
 	-->
-  <target name="lint">
-    <echo level="verbose" message="${basedir}/node_modules/sass-lint/bin/sass-lint -c ${sass-lint-config} -o ${tmp.dir}/sass-lint.txt -i ${tmp.dir}/sass/lib/** ${tmp.dir}/sass/**.scss"/>
-			<nodejs.exec failonerror="true" cwd="${target.rootdir}">
-				<arguments>
-					<arg value="${basedir}/node_modules/sass-lint/bin/sass-lint"/>
-          <arg value="-f"/>
-          <arg value="stylish"/>
-          <arg value="-v"/>
-          <arg value="-c"/>
-          <arg value="${sass-lint-config}" />
-          <arg value="-o"/>
-          <arg value="${tmp.dir}/sass-lint.txt"/>
-          <arg value="-i"/>
-          <arg value="${tmp.dir}/sass/lib/**" />
-					<arg value="${tmp.dir}/sass/**.scss"/>
-				</arguments>
-			</nodejs.exec>
-  </target>
+	<target name="lint">
+		<echo level="verbose" message="${basedir}/node_modules/sass-lint/bin/sass-lint -c ${sass-lint-config} -o ${tmp.dir}/sass-lint.txt -i ${tmp.dir}/sass/lib/** ${tmp.dir}/sass/**.scss"/>
+		<nodejs.exec failonerror="true" cwd="${target.rootdir}">
+			<arguments>
+				<arg value="${basedir}/node_modules/sass-lint/bin/sass-lint"/>
+				<arg value="-f"/>
+				<arg value="stylish"/>
+				<arg value="-v"/>
+				<arg value="-c"/>
+				<arg value="${sass-lint-config}" />
+				<arg value="-o"/>
+				<arg value="${tmp.dir}/sass-lint.txt"/>
+				<arg value="-i"/>
+				<arg value="${tmp.dir}/sass/lib/**" />
+				<arg value="${tmp.dir}/sass/**.scss"/>
+			</arguments>
+		</nodejs.exec>
+	</target>
 
-  <target name="compileSass" depends="lint">
+	<target name="compileSass" depends="lint">
 		<stopwatch name="compileSass" action="start" />
-    <property name="sass.executable" location="${basedir}/node_modules/sass/sass"/>
-    <echo level="verbose" message="${sass.executable} --no-source-map ${tmp.dir}/sass:${tmp.dir}/css-built"/>
-    <nodejs.exec failonerror="true" cwd="${target.rootdir}">
-      <arguments>
-        <arg value="${sass.executable}"/>
-        <arg value="--no-source-map"/>
-        <arg value="${tmp.dir}/sass:${tmp.dir}/css-built"/>
-      </arguments>
-    </nodejs.exec>
+		<property name="sass.executable" location="${basedir}/node_modules/sass/sass"/>
+		<echo level="verbose" message="${sass.executable} --no-source-map ${tmp.dir}/sass:${tmp.dir}/css-built"/>
+		<nodejs.exec failonerror="true" cwd="${target.rootdir}">
+			<arguments>
+				<arg value="${sass.executable}"/>
+				<arg value="--no-source-map"/>
+				<arg value="${tmp.dir}/sass:${tmp.dir}/css-built"/>
+			</arguments>
+		</nodejs.exec>
 		<stopwatch name="compileSass" action="total" />
 	</target>
 

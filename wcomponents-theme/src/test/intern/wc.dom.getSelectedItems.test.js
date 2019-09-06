@@ -1,10 +1,10 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], function(registerSuite, assert, testutils) {
+define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"], function(registerSuite, assert, testutils) {
 	"use strict";
 
-	var getFilteredGroup, Widget, urlResource = "@RESOURCES@/domUsefulDom.html",
+	var getFilteredGroup, Widget, urlResource = require.toUrl("intern/resources/domUsefulDom.html"),
 		testHolder;
 	registerSuite({
-		name: "getFilteredGroup",
+		name: "wc/dom/getSelectedItems",
 		setup: function() {
 			var result = testutils.setupHelper(["wc/dom/getFilteredGroup", "wc/dom/Widget"]).then(function(arr) {
 				getFilteredGroup = arr[0];

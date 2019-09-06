@@ -1,7 +1,7 @@
-// define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
+// define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 //	function (registerSuite, assert, testutils) {
 //		"use strict";
-//		var responseHtmlUrl = "@RESOURCES@/icao.html",
+//		var responseHtmlUrl = require.toUrl("intern/resources/icao.html"),
 //			TEST_MODULE = "wc/ui/listLoader",
 //			elementId = "txt1",
 //			testHolder,

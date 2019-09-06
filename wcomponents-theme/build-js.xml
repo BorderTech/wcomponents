@@ -48,7 +48,7 @@
 			</fileset>
 		</copy>
 		<copy file="${basedir}/node_modules/i18next/i18next.js" tofile="${lib.tmp.src.dir}/i18next.js"/><!-- This is AMD and will be uglified -->
-		<copy file="${basedir}/node_modules/i18next-xhr-backend/i18nextXHRBackend.js" tofile="${lib.tmp.src.dir}/i18nextXHRBackend.js"/><!-- This is AMD and will be uglified -->
+<!--		<copy file="${basedir}/node_modules/i18next-xhr-backend/i18nextXHRBackend.js" tofile="${lib.tmp.src.dir}/i18nextXHRBackend.js"/> This is AMD and will be uglified -->
 		<copy file="${basedir}/node_modules/sprintf-js/src/sprintf.js" tofile="${lib.tmp.src.dir}/sprintf.js"/>
 		<copy file="${basedir}/node_modules/requirejs-domready/domReady.js" tofile="${lib.tmp.src.dir}/requirejs/domReady.js"/>
 		<copy todir="${lib.tmp.src.dir}/dojo" overwrite="true">
@@ -101,7 +101,7 @@
 		<copy todir="${lib.build.target.dir}/bower_components" failonerror="false">
 			<fileset dir="${basedir}/bower_components" includes="**"/>
 		</copy>
-		<copy file="${basedir}/node_modules/promise-polyfill/Promise.min.js" tofile="${lib.build.target.dir}/Promise.min.js"/>
+		<copy file="${basedir}/node_modules/promise-polyfill/dist/polyfill.min.js" tofile="${lib.build.target.dir}/Promise.js"/>
 		<copy file="${basedir}/node_modules/axe-core/axe.min.js" tofile="${lib.build.target.dir}/axe.min.js"/>
 		<for param="dir">
 			<dirset dir="${lib.build.target.dir}">

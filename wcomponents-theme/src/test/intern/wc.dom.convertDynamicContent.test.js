@@ -1,4 +1,4 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
+define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
 		var convertDynamicContent, Widget, shed, CONVERTIBLES,
@@ -6,7 +6,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			form,
 			CONVERSION_TARGET_ID = "conversionTarget",
 			testHolder,
-			urlResource = "@RESOURCES@/domConvertDynamicContent.html";
+			urlResource = require.toUrl("intern/resources/domConvertDynamicContent.html");
 
 		registerSuite({
 			name: "domConvertDynamicContent",

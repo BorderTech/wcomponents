@@ -1,5 +1,6 @@
 define(["intern!object", "intern/chai!assert"], function(registerSuite, assert) {
 	"use strict";
+
 	/**
 	 * NOTE: the wc/Array.prototype function will not actually be tested
 	 * if there is a native implementation in the browser - that is ok because

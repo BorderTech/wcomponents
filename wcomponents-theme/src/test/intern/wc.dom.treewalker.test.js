@@ -26,7 +26,7 @@
  *	James A. Overton <james@overton.ca>
  *
  * ***** END LICENSE BLOCK ***** */
-define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], function(registerSuite, assert, testutils) {
+define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"], function(registerSuite, assert, testutils) {
 	"use strict";
 
 
@@ -34,7 +34,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 		ID_1 = "treewalkerTestId1",
 		ID_2 = "treewalkerTestId2",
 		testHolder,
-		urlResource = "@RESOURCES@/domTreeWalker.html";
+		urlResource = require.toUrl("intern/resources/domTreeWalker.html");
 
 	/*
 	 * Helper for a couple of the tests

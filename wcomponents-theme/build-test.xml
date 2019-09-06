@@ -52,7 +52,6 @@
 				<include name="**/*.js"/>
 			</fileset>
 			<filterset>
-				<filter token="RESOURCES" value="../../target/test-classes/${implementation.name}/intern/resources"/>
 				<filter token="HERE" value="${here}"/>
 			</filterset>
 			<filterchain>
@@ -93,7 +92,7 @@
 			<local name="unit.test.src.dir.raw"/>
 			<local name="amd.src.dir"/>
 			<local name="test.baseurl"/>
-			<property name="test.environments" value="{ browserName: 'firefox' }, { browserName: 'internet explorer', version: '11.0', platform: 'Windows 10' }, { browserName: 'chrome' }"/>
+			<property name="test.environments" value="{ browserName: &quot;firefox&quot; }, { browserName: &quot;internet explorer&quot;, version: &quot;11.0&quot;, platform: &quot;Windows 10&quot; }, { browserName: &quot;chrome&quot; }"/>
 			<property name="amd.src.dir" value="@{relativePathToSource}"/>
 			<property name="unit.test.src.dir.raw" location="@{srcDir}"/>
 			<pathconvert targetos="unix" property="unit.test.src.dir">
@@ -129,17 +128,20 @@
 Running client side unit tests.
 ================================
 If you get errors and need to run them locally the easiest way is to run a local webserver from the theme directory.
-For your convenience we the WComponents theme comes with a jetty server ready to go. After building the tests run (from the theme project):
+For your convenience we provide a static server ready to go. After building the tests run (from the theme project):
 
-    mvn jetty:start
+    npm run server
 
-Now open a web browser and visit: http://localhost:8080/target/
+Now open a web browser and visit: http://localhost:9000/__intern/ and the tests should run.
 
-Clicky the linky and the tests should run.
+If you only want to run a certain test the use the "suites" querystring param, e.g.
+
+http://localhost:9000/__intern/?suites=target/test-classes/wcomponents-theme/intern/wc.dom.WidgetDescriptor.test.js
+
 			</echo>
 			<echo file="${build.rootdir}/index.html">
 				<![CDATA[
-					<a href="/node_modules/intern/client.html?config=target/test-classes/${implementation.name}/intern">Unit Tests</a>
+					<a href="http://localhost:9000/__intern/">Unit Tests</a>
 				]]>
 			</echo>
 			<if>
@@ -149,24 +151,28 @@ Clicky the linky and the tests should run.
 					<isset property="env.SAUCE_ACCESS_KEY"/>
 				</and>
 				<then>
-					<echo level="verbose">node ${intern.executable} config=@{relativePathToTestdir}/@{configModule}</echo>
-					<nodejs.exec cwd="${basedir}" failonerror="true" spawn="false">
-						<arguments>
-							<arg value="${intern.executable}"/>
-							<arg value="config=@{relativePathToTestdir}/@{configModule}"/>
-						</arguments>
-					</nodejs.exec>
+					<npm.exec>
+						<env-elements>
+							<env key="INTERN_ARGS" value="environments='${test.environments}'" />
+						</env-elements>
+						<arg-elements>
+							<arg value="run"/>
+							<arg value="test:sauce"/>
+						</arg-elements>
+					</npm.exec>
 				</then>
 				<elseif>
 					<equals arg1="${intern.tunnel}" arg2="SeleniumTunnel"/>
 					<then>
-						<echo level="verbose">node ${intern.executable} config=@{relativePathToTestdir}/@{configModule}</echo>
-						<nodejs.exec cwd="${basedir}" failonerror="${intern.fail.local.test}" spawn="false">
-							<arguments>
-								<arg value="${intern.executable}"/>
-								<arg value="config=@{relativePathToTestdir}/@{configModule}"/>
-							</arguments>
-						</nodejs.exec>
+						<npm.exec>
+							<env-elements>
+								<env key="INTERN_ARGS" value="environments='${test.environments}'" />
+							</env-elements>
+							<arg-elements>
+								<arg value="run"/>
+								<arg value="test:grid"/>
+							</arg-elements>
+						</npm.exec>
 					</then>
 				</elseif>
 				<elseif>
@@ -177,9 +183,28 @@ Clicky the linky and the tests should run.
 Skipping unit tests because you have set a NullTunnel:
 
 To manually start the tests try:
-node ${intern.executable} config=@{relativePathToTestdir}/@{configModule}
+npm run test:local
+
+You may override intern.json configuration using the INTERN_ARGS environment variable:
+
+export INTERN_ARGS="environments='{\"browserName\":\"chrome\"}'"
+
+See: https://github.com/theintern/intern/blob/master/docs/configuration.md#environment-variable
+
 ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠
 						</echo>
+						<!--
+						Tempting, we could totally do this...
+						<npm.exec>
+							<env-elements>
+								<env key="INTERN_ARGS" value="environments='${test.environments}'" />
+							</env-elements>
+							<arg-elements>
+								<arg value="run"/>
+								<arg value="test:local"/>
+							</arg-elements>
+						</npm.exec>
+						-->
 					</then>
 				</elseif>
 				<else>
@@ -195,30 +220,6 @@ See: https://theintern.github.io/intern/#hosted-selenium
 					</echo>
 				</else>
 			</if>
-
-
-			<!--
-			<echo>${phantomjs.binary} - -webdriver=4444</echo>
-				<parallel>
-					<daemons>
-						<wc.exec executable="${phantomjs.binary}" needscmd="false" spawn="false">
-							<arguments>
-								<arg value="- -webdriver=4444"/>
-							</arguments>
-						</wc.exec>
-					</daemons>
-					<sequential>
-						<sleep seconds="3"/>
-						<echo>node ${intern.executable} config=@{relativePathToTestdir}/@{configModule}</echo>
-						<nodejs.exec cwd="${basedir}" failonerror="true" spawn="false">
-							<arguments>
-								<arg value="${intern.executable}"/>
-								<arg value="config=@{relativePathToTestdir}/@{configModule}"/>
-							</arguments>
-						</nodejs.exec>
-					</sequential>
-				</parallel>
-				-->
 		</sequential>
 	</macrodef>
 </project>

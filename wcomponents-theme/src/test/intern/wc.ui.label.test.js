@@ -1,4 +1,4 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils"], function (registerSuite, assert, testutils) {
+define(["intern!object", "intern/chai!assert", "intern/resources/test.utils"], function (registerSuite, assert, testutils) {
 	"use strict";
 
 	var
@@ -18,12 +18,11 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 		 */
 		deps = ["wc/dom/shed", "wc/dom/initialise", "wc/dom/classList", "wc/dom/tag"],
 		/**
-		 * Load test UI froman external resource e.g. "@RESOURCES@/SOME_PAGE.html". Leave undefined if not required. Simple test UIs may be set inline
+		 * Load test UI froman external resource e.g. "intern/resources/SOME_PAGE.html". Leave undefined if not required. Simple test UIs may be set inline
 		 * using testContent instead. If both are set testContent takes precedence and urlResource is ignored.
-		 * Note that the property `@RESOURCES@` will be mapped to the test/intern/resources directory as a URL.
 		 * @type URL
 		 */
-		urlResource = "@RESOURCES@/uiLabel.html",
+		urlResource = require.toUrl("intern/resources/uiLabel.html"),
 		// If you have extra dependencies you will want a way to reference them.
 		shed,
 		initialise,
