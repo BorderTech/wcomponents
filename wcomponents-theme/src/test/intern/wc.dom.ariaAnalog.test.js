@@ -1,4 +1,4 @@
-define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed", "wc/dom/event", "./resources/test.utils"],
+define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed", "wc/dom/event", "intern/resources/test.utils"],
 	function (registerSuite, assert, controller, shed, event, testutils) {
 		"use strict";
 
@@ -8,7 +8,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 			cbController,
 			listController,
 			radioController,
-			urlResource = "@RESOURCES@/ariaAnalog.html";
+			urlResource = require.toUrl("intern/resources/ariaAnalog.html");
 
 		function getDummyKeydownEvent(target, keyCode, ALT, SHIFT, CTRL) {
 			return {

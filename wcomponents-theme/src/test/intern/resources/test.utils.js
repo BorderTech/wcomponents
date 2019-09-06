@@ -76,6 +76,23 @@ define(["wc/compat/compat!"], function() {
 			return testHolder;
 		};
 
+		/**
+		 * Renders a wc/dom/Widget instance recursively into a container element (or fresh testHolder if no container provided)
+		 * @param {wc/dom/Widget} widget
+		 * @param {Element} [container]
+		 * @return {Element} The newly rendered element.
+		 */
+		this.renderWidget = function(widget, container) {
+			var topElement = container || this.getTestHolder(),
+				element = widget.render({ recurse: true }),
+				parent;
+			while ((parent = element.parentNode)) {
+				element = parent;
+			}
+			topElement.appendChild(element);
+			return element;
+		};
+
 		this.loadResource = function (url, callback, onerror) {
 			var result = new Promise(function(win, lose) {
 				ajax.simpleRequest({

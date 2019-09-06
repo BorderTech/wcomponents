@@ -1,4 +1,4 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
+define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
 
@@ -15,7 +15,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				BUTTONINP: "btninp",
 				BUTTON: "btn"
 			},
-			urlResource = "@RESOURCES@/domEvent.html",
+			urlResource = require.toUrl("intern/resources/domEvent.html"),
 			EVENT = "click",
 			called = false,
 			dom1called = false,

@@ -33,8 +33,6 @@ define(["wc/date/today", "lib/sprintf"],
 		function DateInterchange() {
 			var PLACEHOLDER = "?",
 				NON_NUMERRIC_RE = /[^\d]/g,
-				dmPlaceholder = sprintf.sprintf("%'?2s", ""),
-				yPlaceholder = sprintf.sprintf("%'?4s", ""),
 				FULL_DATE_TEMPLATE = "%04d-%02d-%02d",
 				PARTIAL_DATE_TEMPLATE = "%04s-%02s-%02s",
 				XFER_DATE_RE = /([\d\?]{4})-?([\d\?]{2})-?([\d\?]{2})(?:T(\d{2}):(\d{2}):(\d{2}))?/;
@@ -156,6 +154,8 @@ define(["wc/date/today", "lib/sprintf"],
 			 * @returns {String} The given object's values converted to a transfer date string.
 			 */
 			this.fromValues = function(obj) {
+				var dmPlaceholder = sprintf.sprintf("%'?2s", ""),
+					yPlaceholder = sprintf.sprintf("%'?4s", "");
 				var y = obj.year || yPlaceholder,  // there is no year zero
 					m = obj.month || dmPlaceholder,  // there is no month zero
 					d = obj.day || dmPlaceholder;  // there is no day zero

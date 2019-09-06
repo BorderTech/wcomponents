@@ -1,4 +1,4 @@
-define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils!"],
+define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
 
@@ -12,7 +12,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils!"
 		var formUpdateManager,
 			multipartEncType = "multipart/form-data",
 			testHolder,
-			urlResource = "@RESOURCES@/domCheckEnctype.html";
+			urlResource = require.toUrl("intern/resources/domCheckEnctype.html");
 		registerSuite({
 			name: "domEnctype",
 			setup: function() {

@@ -50,8 +50,10 @@ define(["wc/has"], function(has) {
 				document.body.innerHTML = "<h1>You are in Compatibility View. Please use Standards Mode</h1>";
 			}, 0);
 		}
-	}	else if (has("webkit")) {
+	} else if (has("webkit")) {
 		result.push("wc/fix/focus_webkit");
+	} else if (has("ff")) {
+		result.push("wc/fix/shiftKey_ff");
 	}
 
 	if (!has("global-performance")) {

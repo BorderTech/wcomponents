@@ -1,11 +1,11 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], function(registerSuite, assert, testutils) {
+define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"], function(registerSuite, assert, testutils) {
 	"use strict";
 	var controller,
-		urlResource = "@RESOURCES@/domUsefulDom.html",
+		urlResource = require.toUrl("intern/resources/domUsefulDom.html"),
 		testHolder;
 
 	registerSuite({
-		name: "toArray",
+		name: "wc/array/toArray",
 		setup: function() {
 			var result = testutils.setupHelper(["wc/array/toArray"]).then(function(arr) {
 				controller = arr[0];

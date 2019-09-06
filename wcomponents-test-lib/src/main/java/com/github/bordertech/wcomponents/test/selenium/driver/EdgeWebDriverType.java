@@ -1,5 +1,7 @@
 package com.github.bordertech.wcomponents.test.selenium.driver;
 
+import io.github.bonigarcia.wdm.DriverManagerType;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -30,6 +32,7 @@ public class EdgeWebDriverType extends WebDriverType<EdgeDriver> {
 	 */
 	@Override
 	public EdgeDriver getDriverImplementation() {
+		WebDriverManager.getInstance(DriverManagerType.EDGE).setup();
 		return new EdgeDriver(getEdgeDriverService(), getCapabilities());
 	}
 

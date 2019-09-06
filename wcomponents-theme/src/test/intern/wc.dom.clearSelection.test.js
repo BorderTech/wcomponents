@@ -3,7 +3,7 @@
  * Agreed. I got rid of lib/dojo/Deferred but leaving this comment as a flag that this test needs some serious review.
  *
  */
-define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils!"],
+define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
 		/*

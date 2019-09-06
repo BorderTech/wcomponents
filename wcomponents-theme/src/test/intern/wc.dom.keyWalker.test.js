@@ -1,9 +1,9 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], function(registerSuite, assert, testutils) {
+define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"], function(registerSuite, assert, testutils) {
 	"use strict";
 
 	var TEST_MODULE = "wc/dom/keyWalker",
 		controller, testHolder,
-		urlResource = "@RESOURCES@/domKeyWalker.html",
+		urlResource = require.toUrl("intern/resources/domKeyWalker.html"),
 		groupedElements,
 		treeRoot;
 
