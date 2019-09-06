@@ -1,9 +1,9 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
+define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
 		var testHolder,
 			impliedARIA,
-			urlResource = "@RESOURCES@/domAria.html",
+			urlResource = require.toUrl("intern/resources/domAria.html"),
 			ANY_SEL_STATE = "any";
 
 		function doNativeStateTest(elements, state, notThisState) {

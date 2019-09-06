@@ -1,9 +1,9 @@
-define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils!"],
+define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
 
 		var serialize, Widget, testHolder,
-			urlResource = "@RESOURCES@/domSerialiseForm.html",
+			urlResource = require.toUrl("intern/resources/domSerialiseForm.html"),
 			TEMP_CONTAINER_ID = "tempContainerId",
 			STRING_EXPECTED = "T3=%C2%A9%0AZ&H1=x&H2=&PWD=&T1=&T2=YES&My%20Name=me&S1=abc&S2=abc&S2=abc&S3=YES&S4=",
 			SERIALIZED_OBJ_EXPECTED = { T3: ["%C2%A9%0AZ"],

@@ -1,4 +1,4 @@
-define(["intern!object", "intern/chai!assert", "wc/ui/disabledLink", "wc/dom/event", "./resources/test.utils"],
+define(["intern!object", "intern/chai!assert", "wc/ui/disabledLink", "wc/dom/event", "intern/resources/test.utils"],
 	function (registerSuite, assert, controller, event, testutils) {
 		"use strict";
 

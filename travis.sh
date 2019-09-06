@@ -7,5 +7,5 @@ if [[ -n ${TRAVIS_SECURE_ENV_VARS+x} && ${TRAVIS_SECURE_ENV_VARS} == true && ! -
 	mvn --batch-mode package sonar:sonar -Dsonar.projectKey="bordertech-wcomponents" -PskipThemeOptionalTests -PskipCoreOptionalTests
 else
 	echo "Travis secure variables not available"
-	mvn --batch-mode package -PskipThemeOptionalTests -PskipCoreOptionalTests
+	mvn --batch-mode package -PskipCoreOptionalTests
 fi

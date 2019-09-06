@@ -1,11 +1,11 @@
-define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils!"],
+define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
 		var classlist,
 			testHolder,
 			DUMMY_CLASS = "handsallaroundjingjang",
 			SPACE = /\s+/,
-			urlResource = "@RESOURCES@/domClassList.html";
+			urlResource = require.toUrl("intern/resources/domClassList.html");
 
 		function getElementWithClass(multiple) {
 			var candidates = testHolder.getElementsByTagName("*"), i, next, result,

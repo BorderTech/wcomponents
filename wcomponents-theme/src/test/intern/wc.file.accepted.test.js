@@ -1,4 +1,4 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], function(registerSuite, assert, testutils) {
+define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"], function(registerSuite, assert, testutils) {
 	"use strict";
 	/* ACHTUNG!
 	 * Because these tests rely on a file input element we can't actually test the real thing in many of the tests
@@ -7,7 +7,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 	var TEST_MODULE = "wc/file/accepted",
 		controller,
 		testHolder,
-		urlResource = "@RESOURCES@/fileAccepted.html";
+		urlResource = require.toUrl("intern/resources/fileAccepted.html");
 	registerSuite({
 		name: TEST_MODULE,
 		setup: function() {

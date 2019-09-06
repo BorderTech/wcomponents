@@ -1,8 +1,8 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
+define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
 		var TEST_MODULE = "wc/dom/getLabelsForElement", controller, testHolder,
-			urlResource = "@RESOURCES@/domGetLabelsForElement.html";
+			urlResource = require.toUrl("intern/resources/domGetLabelsForElement.html");
 
 		registerSuite({
 			name: "wc/dom/getLabelsForElement",

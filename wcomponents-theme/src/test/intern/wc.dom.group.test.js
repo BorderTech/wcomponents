@@ -1,7 +1,7 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], function(registerSuite, assert, testutils) {
+define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"], function(registerSuite, assert, testutils) {
 	"use strict";
 
-	var $group, Widget, urlResource = "@RESOURCES@/domUsefulDom.html",
+	var $group, Widget, urlResource = require.toUrl("intern/resources/domUsefulDom.html"),
 		testHolder;
 
 	/**

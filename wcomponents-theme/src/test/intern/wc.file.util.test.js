@@ -1,4 +1,4 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
+define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
 		var fileUtil,
@@ -132,6 +132,16 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				assert.strictEqual(actualExt[1], expectedExt);
 			},
 			testFixFileExtensionUnknownMime: function () {
+				var expectMime = "application/x-csh",
+					file = new Blob(["Unknown mime type in mime map"], {type: expectMime}),
+					expectedExt = "csh",
+					actualExt;
+				file.name = "testfile." + expectedExt;
+				fileUtil.fixFileExtension(file);
+				actualExt = file.name.split(".");
+				assert.strictEqual(actualExt[1], expectedExt);
+			},
+			testFixFileExtensionUnknownMimeReturnVal: function () {
 				var expectMime = "application/x-csh",
 					file = new Blob(["Unknown mime type in mime map"], {type: expectMime}),
 					expectedExt = "csh",

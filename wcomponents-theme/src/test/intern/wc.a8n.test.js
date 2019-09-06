@@ -1,9 +1,8 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
+define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
-		var resourceUrl = "@RESOURCES@/",
-			a8n, Trigger, ajax, timers, testHolder,
-			xmlUrl = resourceUrl + "note.xml",
+		var a8n, Trigger, ajax, timers, testHolder,
+			xmlUrl = require.toUrl("intern/resources/note.xml"),
 			noop = function() {};
 
 		/**

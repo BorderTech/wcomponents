@@ -1,4 +1,4 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
+define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
 
@@ -8,7 +8,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			testWidthNoUnits = "200",
 			testWidthWithUnits = testWidthNoUnits + "px",
 			testDisplay = "block",
-			urlResource = "@RESOURCES@/domGetStyle.html";
+			urlResource = require.toUrl("intern/resources/domGetStyle.html");
 
 
 		function helpCompareResults(expectedResult, result) {

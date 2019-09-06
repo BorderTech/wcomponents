@@ -1,4 +1,4 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils"], function (registerSuite, assert, testutils) {
+define(["intern!object", "intern/chai!assert", "intern/resources/test.utils"], function (registerSuite, assert, testutils) {
 	"use strict";
 	/*
 	 * To create a new Intern unit test file:
@@ -37,9 +37,8 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 		 */
 		testContent,
 		/**
-		 * Load test UI froman external resource e.g. "@RESOURCES@/SOME_PAGE.html". Leave undefined if not required. Simple test UIs may be set inline
+		 * Load test UI froman external resource e.g. require.toUrl("intern/resources/SOME_PAGE.html"). Leave undefined if not required. Simple test UIs may be set inline
 		 * using testContent instead. If both are set testContent takes precedence and urlResource is ignored.
-		 * Note that the property `@RESOURCES@` will be mapped to the test/intern/resources directory as a URL.
 		 * @type URL
 		 */
 		urlResource,
