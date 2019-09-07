@@ -40,24 +40,10 @@ let requireJsOptions = {
  */
 let internConfig = {
 	suites: [`${pkgJson.directories.target}/test-classes/${pkgJson.name}/intern/*.test.js`],
-	"node": {
-		"loader": {
-			"script": `${pkgJson.directories.target}/test-classes/${pkgJson.name}/intern/resources/intern-loader.js`,
-			"options": {
-				"baseUrl": `/${pkgJson.directories.target}/classes/theme/${pkgJson.name}/`,
-				"packages": [
-					{
-						"name": "intern-requirejs-example",
-						"location": "."
-					}
-				]
-			}
-		}
-	},
-	"node": {
-		"loader": {
-			"script": `${pkgJson.directories.target}/test-classes/${pkgJson.name}/intern/resources/intern-loader.js`,
-			"options": requireJsOptions
+	node: {
+		loader: {
+			script: `${pkgJson.directories.target}/test-classes/${pkgJson.name}/intern/resources/intern-loader.js`,
+			options: requireJsOptions
 		}
 	},
 	browser: {
