@@ -499,7 +499,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	/**
 	 * Sets the active tab.
 	 *
-	 * @param content the active tab.
+	 * @param tab the active tab.
 	 */
 	public void setActiveTab(final WTab tab) {
 		int index = getTabIndex(tab);
