@@ -497,6 +497,19 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	}
 
 	/**
+	 * Sets the active tab.
+	 *
+	 * @param content the active tab.
+	 */
+	public void setActiveTab(final WTab tab) {
+		int index = getTabIndex(tab);
+
+		if (index != -1) {
+			setActiveIndex(index);
+		}
+	}
+
+	/**
 	 * Sets the visibility of the tab at the given index.
 	 *
 	 * @param idx the index of the WTab to get.
@@ -514,6 +527,16 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 */
 	public void setTabVisible(final WComponent tabContent, final boolean visible) {
 		setTabVisible(getTabIndex(tabContent), visible);
+	}
+
+	/**
+	 * Sets the visibility of the tab.
+	 *
+	 * @param tab the tab.
+	 * @param visible true to set the tab visible, false to set invisible.
+	 */
+	public void setTabVisible(final WTab tab, final boolean visible) {
+		setTabVisible(getTabIndex(tab), visible);
 	}
 
 	/**
@@ -544,6 +567,16 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	}
 
 	/**
+	 * Indicats whether the tab which holds the given content is visible.
+	 *
+	 * @param tabContent the tab content.
+	 * @return true if the tab at the given index is visible, false if it is invisible.
+	 */
+	public boolean isTabVisible(final WTab tabContent) {
+		return isTabVisible(getTabIndex(tabContent));
+	}
+
+	/**
 	 * Indicates whether the tab is active (selected).
 	 *
 	 * @param tab the WTab to check.
@@ -555,6 +588,16 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 		int idx = tabs.indexOf(tab);
 
 		return activeIndex == idx;
+	}
+
+	/**
+	 * Indicates whether the tab is active (selected).
+	 *
+	 * @param tab the WTab to check.
+	 * @return true if the tab is active, false otherwise.
+	 */
+	public boolean isActive(final WTab tab) {
+		return isActive((WComponent) tab);
 	}
 
 	/**
@@ -571,6 +614,27 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 			WTab tab = tabs.get(i);
 
 			if (content == tab.getContent()) {
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
+	/**
+	 * Retrieves the tab index for the given tab.
+	 *
+	 * @param tab the tab
+	 * @return the tab index, or -1 if the tab is not in this tab set.
+	 */
+	public int getTabIndex(final WTab tab) {
+		List<WTab> tabs = getTabs();
+		final int count = tabs.size();
+
+		for (int i = 0; i < count; i++) {
+			WTab next = tabs.get(i);
+
+			if (tab == next) {
 				return i;
 			}
 		}
