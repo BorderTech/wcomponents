@@ -194,31 +194,26 @@ See: https://github.com/theintern/intern/blob/master/docs/configuration.md#envir
 
 ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠
 						</echo>
-						<!--
-						Tempting, we could totally do this...
-						<npm.exec>
-							<env-elements>
-								<env key="INTERN_ARGS" value="environments='${test.environments}'" />
-							</env-elements>
-							<arg-elements>
-								<arg value="run"/>
-								<arg value="test:local"/>
-							</arg-elements>
-						</npm.exec>
-						-->
 					</then>
 				</elseif>
 				<else>
-					<echo level="info">
-☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠
-Skipping unit tests because you have not set environment variables:
-
-SAUCE_USERNAME
-SAUCE_ACCESS_KEY
-
-See: https://theintern.github.io/intern/#hosted-selenium
-☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠
-					</echo>
+					<!--
+						TODO what if Firefox not installed? Can we detect it?
+						If so, then what? Skip the tests? Download a portable Firefox? Look for Chrome?
+						Maybe we just don't care? Theme developers should have FF installed,
+						not all dev can occur on chromium
+					-->
+					<echo>Running theme tests requires Firefox to be installed...</echo>
+					<npm.exec>
+						<env-elements>
+							<env key="INTERN_ARGS" value="environments='${test.environments}'" />
+							<env key="MOZ_HEADLESS" value="1" />
+						</env-elements>
+						<arg-elements>
+							<arg value="run"/>
+							<arg value="test:local"/>
+						</arg-elements>
+					</npm.exec>
 				</else>
 			</if>
 		</sequential>
