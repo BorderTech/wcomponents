@@ -72,6 +72,39 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"], 
 			assert.strictEqual(result[0].month, 10);
 			assert.strictEqual(result[0].year, 1973);
 		},
+		testParserStndNeedsTrim: function() {
+			var parser = getParser(standardMasks, false, false),
+				result = parser.parse("    28101973    ");
+			assert.strictEqual(result.length, 1);
+			assert.strictEqual(result[0].day, 28);
+			assert.strictEqual(result[0].month, 10);
+			assert.strictEqual(result[0].year, 1973);
+		},
+		testParserMatchEquals: function() {
+			var parser = getParser(standardMasks, false, false),
+				result = parser.parse("28101973")[0],
+				result2 = parser.parse("28/10/1973")[0],
+				diffYear = parser.parse("28101974")[0],
+				diffMon = parser.parse("28091973")[0],
+				diffDay = parser.parse("27101973")[0];
+			assert.isTrue(result.equals(result2), "Match should equal an identical date match");
+			assert.isFalse(result.equals(diffYear), "Match should not equal with year different");
+			assert.isFalse(result.equals(diffMon), "Match should not equal with month different");
+			assert.isFalse(result.equals(diffDay), "Match should not equal with day different");
+			assert.isFalse(result.equals(null), "Should not equal null");
+		},
+		testParserEquals: function() {
+			var parser1 = getParser(standardMasks, false, false),
+				parser2 = getParser(standardMasks, true, false),
+				parser3 = getParser(standardMasks, false, true),
+				parser4 = getParser(partialMasks, false, false),
+				parser5 = getParser(standardMasks, false, false);
+			assert.isTrue(parser1.equals(parser5), "Functionally equivalent parsers should be equal");
+			assert.isFalse(parser1.equals(parser2), "'past' flag different");
+			assert.isFalse(parser1.equals(parser3), "'rolling' flag different");
+			assert.isFalse(parser1.equals(parser4), "'masks' different");
+			assert.isFalse(parser1.equals(null), "Should not equal null");
+		},
 		testParserDayOfWeek: function() {
 			var parser = getParser(["E MON dd yyyy"], false, false),
 				result = parser.parse("Tue Nov 04 2003");
@@ -79,6 +112,30 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"], 
 			assert.strictEqual(result[0].day, 4);
 			assert.strictEqual(result[0].month, 11);
 			assert.strictEqual(result[0].year, 2003);
+		},
+		testParserMonthName: function() {
+			var parser = getParser(["dd MMM yyyy"], false, false),
+				result = parser.parse("28 Oct 2028");
+			assert.strictEqual(result.length, 1);
+			assert.strictEqual(result[0].day, 28);
+			assert.strictEqual(result[0].month, 10);
+			assert.strictEqual(result[0].year, 2028);
+		},
+		testParserMonthNameLong: function() {
+			var parser = getParser(["dd MMMM yyyy"], false, false),
+				result = parser.parse("28 October 2028");
+			assert.strictEqual(result.length, 1);
+			assert.strictEqual(result[0].day, 28);
+			assert.strictEqual(result[0].month, 10);
+			assert.strictEqual(result[0].year, 2028);
+		},
+		testParserMonthNameCustomMask: function() {
+			var parser = getParser(["dd MON yyyy"], false, false),
+				result = parser.parse("28 Oct 2028");
+			assert.strictEqual(result.length, 1);
+			assert.strictEqual(result[0].day, 28);
+			assert.strictEqual(result[0].month, 10);
+			assert.strictEqual(result[0].year, 2028);
 		},
 		testParserStndIsoDate: function() {
 			var parser = getParser(standardMasks, false, false),

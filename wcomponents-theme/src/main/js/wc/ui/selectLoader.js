@@ -22,7 +22,8 @@ define(["wc/ui/listLoader",
 		 */
 		function SelectLoader() {
 			var DISABLED_BY_ME = "data-wc-selectloader-disabled",
-				OPTION_CONTAINER = new Widget("SELECT");
+				OPTION_CONTAINER = new Widget("SELECT"),
+				BUTTON = new Widget("button", "", { type: "button"});
 
 			/**
 			 * Generates new callback functions curried with the id of the element we want the callback to operate on.
@@ -135,8 +136,7 @@ define(["wc/ui/listLoader",
 					errorResult = feedback.flagError(element, label);
 					if (errorResult && (message = document.getElementById(errorResult))) {
 						classList.add(message, AJAX_ERROR_CLASS);
-						button = document.createElement("button");
-						button.type = "button";
+						button = BUTTON.render();
 						button.innerHTML = i18n.get("loader_retry", label);
 						event.add(button, "click", function($event) {
 							$event.preventDefault();  // important! stop any other listeners responding to this button

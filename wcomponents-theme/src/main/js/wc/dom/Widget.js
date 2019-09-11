@@ -2,10 +2,11 @@
  * @module
  * @requires module:wc/dom/getAncestorOrSelf
  * @requires module:wc/dom/uid
+ * @requires module:wc/mixin
  *
  * @todo needs to have its functions sorted properly.
  */
-define(["wc/dom/getAncestorOrSelf", "wc/dom/uid"], /** @param getAncestorOrSelf wc/dom/getAncestorOrSelf @param uid wc/dom/uid @ignore */ function(getAncestorOrSelf, uid) {
+define(["wc/dom/getAncestorOrSelf", "wc/dom/uid", "wc/array/unique", "wc/mixin", "wc/render/utils"], function(getAncestorOrSelf, uid, unique, mixin, renderutils) {
 	"use strict";
 
 	/**
@@ -19,7 +20,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid"], /** @param getAncestorOrSelf 
 	 * @alias module:wc/dom/Widget
 	 *
 	 * @param {String} [tagName] element tagName that describes this widget
-	 * @param {String|Array} [className] className/s that describe this widget - if it's an array then EVERY className
+	 * @param {String|String[]} [className] className/s that describe this widget - if it's an array then EVERY className
 	 *    must match (i.e. they are ANDed).
 	 * @param  {Object} [attributes] A map of attributes that describe this widget, each key is an attribute name, each
 	 *    value is an attribute value. E.g.: {type:'button',checked: null}. Note use null to test for the presence of an
@@ -69,7 +70,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid"], /** @param getAncestorOrSelf 
 		 */
 		this.attributes = attributes;
 		/**
-		 * The Widget instance's start container element. Set per dearch for descendant searches.
+		 * The Widget instance's start container element. Set per search for descendant searches.
 		 * @var
 		 * @type {?Element}
 		 * @public
@@ -183,6 +184,31 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid"], /** @param getAncestorOrSelf 
 				result += "[" + escapeQs(name) + (hasVal ? ( operator + "\"" + escapeQs(val) + "\"]") : "]");
 			}
 		});
+		return result;
+	}
+
+	/**
+	 * Combines widget CSS classes together in a pretty flexible way.
+	 * @param {String|String[]} [existing] Existing widget classes.
+	 * @param {String|String[]} [additional] Additional widget classes.
+	 * @returns {String[]} Combined widget classes.
+	 */
+	function addClasses(/* existing, additional */) {
+		var i, next, result = [];
+		for (i = 0; i < arguments.length; i++) {
+			next = arguments[i];
+			if (next) {
+				if (typeof next === "string") {
+					next = next.split(" ");
+				}
+				result = result.concat(next);
+			}
+		}
+		if (result.length) {
+			result = unique(result);
+		} else {
+			result = null;
+		}
 		return result;
 	}
 
@@ -335,10 +361,12 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid"], /** @param getAncestorOrSelf 
 	 * @param {module:wc/dom/Widget} containerWidget An instance of Widget that "contains" this instance.
 	 * @param {Boolean} [immediate] If true then this widget descends immediately from the containerWidget (ie
 	 *    containerWidget is immediate parent NOT distant ancestor).
+	 * @returns {module:wc/dom/Widget} The current Widget instance.
 	 */
 	Widget.prototype.descendFrom = function (containerWidget, immediate) {
 		this.container = containerWidget;
 		this.immediate = !!immediate;
+		return this;  // allow chaining
 	};
 
 	/**
@@ -347,34 +375,19 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid"], /** @param getAncestorOrSelf 
 	 * class of "invite" on top of the base definition.
 	 * @function
 	 * @public
-	 * @param {String} [additionalClassName] class name/s to add to the parent className/s.
+	 * @param {String|String[]} [additionalClassName] class name/s to add to the parent className/s.
 	 * @param {Object} [additionalAttributes] attribute/s to add to the parent attribute/s.
 	 * @returns {module:wc/dom/Widget} A "child" instance of this Widget (treat it like any other instance).
 	 * @throws {TypeError} Thrown if neither optiona attributeis present: we need one to do anything!
 	 */
 	Widget.prototype.extend = function(additionalClassName, additionalAttributes) {
-		var result,
-			F = function() {},
-			key;
-
+		var result;
 		if (additionalClassName || additionalAttributes) {
-			F.prototype = this;
-			result = new F();
-			if (additionalClassName) {
-				if (this.className) {
-					result.className = [].concat(this.className, additionalClassName);
-				} else {
-					result.className = additionalClassName;
-				}
-			}
+			result = Object.create(this);
+			result.className = addClasses(this.className, additionalClassName);
 			if (additionalAttributes || this.attributes) {
-				result.attributes = {};
-				for (key in additionalAttributes) {
-					result.attributes[key] = additionalAttributes[key];
-				}
-				for (key in this.attributes) {
-					result.attributes[key] = this.attributes[key];
-				}
+				result.attributes = mixin(additionalAttributes, {}, true);
+				mixin(this.attributes, result.attributes, true);
 			}
 		} else {
 			throw new TypeError("You do not need to extend this widget");
@@ -388,6 +401,52 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid"], /** @param getAncestorOrSelf 
 	 */
 	Widget.prototype.clone = function() {
 		return this.extend("", {});
+	};
+
+	/**
+	 * Create a DOM element representation of this Widget instance.
+	 * Note that attributes with a null value will not be rendered.
+	 * @param args A map of configuration options(see below).
+	 * @param {Boolean} [args.recurse] if true then "container Widgets" (set via descendFrom) will also be rendered recursively as ancestors.
+	 * @param {Boolean} [args.outermost] If true returns the outermost rendered element (only makes sense in a recursive render).
+	 * @param {Object} [args.state] override existing attribute values or add new ones (note that the property "className" can be set to a string or array
+	 *     to add additional values to the class attribute for rendering purposes.
+	 * @param {Node[]} [args.outermost] If true returns the outermost rendered element (only makes sense in a recursive render).
+	 * @return {Element} A DOM element represeting this widget instance.
+	 */
+	Widget.prototype.render = function(args) {
+		var conf = args || {},
+			result,
+			parentNode,
+			tagName = this.tagName || "span",
+			attributes = mixin(this.attributes, {}, true),
+			className = this.className,
+			element;
+		if (conf.state) {
+			attributes = mixin(conf.state, attributes);
+			className = addClasses(className, conf.state.className);
+		}
+		if (className) {
+			if (Array.isArray(className)) {
+				attributes.className = className.join(" ");
+			} else {
+				attributes.className = className;
+			}
+		}
+		element = renderutils.createElement(tagName, attributes, conf.children);
+
+		if (conf.recurse && this.container) {
+			parentNode = this.container.render({ recurse: true });
+			parentNode.appendChild(element);
+			if (conf.outermost) {
+				result =  Widget.findAncestor(element, this, { tree: true });
+				if (result && result.length) {
+					result = result[result.length - 1];
+					return result;
+				}
+			}
+		}
+		return element;
 	};
 
 	/**

@@ -5,12 +5,12 @@ define(["wc/dom/initialise",
 	"wc/dom/event",
 	"wc/dom/shed",
 	"lib/sprintf",
-	"wc/ui/dateField",
+	"wc/dom/dateFieldUtils",
 	"wc/ui/validation/required",
 	"wc/ui/validation/validationManager",
 	"wc/ui/feedback",
 	"wc/config"],
-	function(initialise, Widget, i18n, attribute, event, shed, sprintf, dateField, required, validationManager, feedback, wcconfig) {
+	function(initialise, Widget, i18n, attribute, event, shed, sprintf, dateFieldUtils, required, validationManager, feedback, wcconfig) {
 		"use strict";
 		/**
 		 * @constructor
@@ -47,7 +47,7 @@ define(["wc/dom/initialise",
 				if (!INPUT_WIDGETS) {
 					setUpWidgets();
 				}
-				return Widget.isOneOfMe(element, INPUT_WIDGETS) || (TEXT.isOneOfMe(element) && !dateField.isOneOfMe(element));
+				return Widget.isOneOfMe(element, INPUT_WIDGETS) || (TEXT.isOneOfMe(element) && !dateFieldUtils.isOneOfMe(element));
 			}
 
 			/**
@@ -141,7 +141,7 @@ define(["wc/dom/initialise",
 					container: container,
 					widget: INPUT_WIDGETS.concat(TEXT),
 					filter: function(next) {
-						return !(next.value || dateField.isOneOfMe(next));
+						return !(next.value || dateFieldUtils.isOneOfMe(next));
 					}
 				};
 
@@ -242,7 +242,7 @@ define(["wc/dom/initialise",
 		 * @requires wc/dom/event
 		 * @requires wc/dom/shed
 		 * @requires external:lib/sprintf
-		 * @requires wc/ui/dateField
+		 * @requires wc/dom/dateFieldUtils
 		 * @requires wc/ui/validation/required
 		 * @requires wc/ui/validation/validationManager
 		 * @requires wc/ui/feedback

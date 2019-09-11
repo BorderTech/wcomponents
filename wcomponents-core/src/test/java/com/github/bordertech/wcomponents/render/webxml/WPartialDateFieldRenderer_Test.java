@@ -48,7 +48,7 @@ public class WPartialDateFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 		// defaults
 		assertXpathExists("//ui:datefield", dateField);
 		assertXpathEvaluatesTo(dateField.getId(), "//ui:datefield/@id", dateField);
-		assertXpathEvaluatesTo("true", "//ui:datefield/@allowPartial", dateField);
+		assertXpathEvaluatesTo(dateField.isPartialRequested() ? "true" : "false", "//ui:datefield/@allowPartial", dateField);
 
 		// actual date value not set
 		assertXpathEvaluatesTo("", "//ui:datefield", dateField);
@@ -71,7 +71,7 @@ public class WPartialDateFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 		// Defaults
 		assertXpathExists("//ui:datefield", dateField);
 		assertXpathEvaluatesTo(dateField.getId(), "//ui:datefield/@id", dateField);
-		assertXpathEvaluatesTo("true", "//ui:datefield/@allowPartial", dateField);
+		assertXpathEvaluatesTo(dateField.isPartialRequested() ? "true" : "false", "//ui:datefield/@allowPartial", dateField);
 
 		// Optionals
 		assertXpathEvaluatesTo("true", "//ui:datefield/@disabled", dateField);
@@ -97,6 +97,15 @@ public class WPartialDateFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 	}
 
 	@Test
+	public void testPartialRequested() throws IOException, SAXException, XpathException {
+		WPartialDateField dateField = new WPartialDateField();
+
+		dateField.setIsPartialRequested(true);
+		assertSchemaMatch(dateField);
+		assertXpathEvaluatesTo("true", "//ui:datefield/@allowPartial", dateField);
+	}
+
+	@Test
 	public void testDoPaintPartialDate() throws IOException, SAXException, XpathException {
 		WPartialDateField dateField = new WPartialDateField();
 
@@ -108,7 +117,7 @@ public class WPartialDateFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 		// Defaults
 		assertXpathExists("//ui:datefield", dateField);
 		assertXpathEvaluatesTo(dateField.getId(), "//ui:datefield/@id", dateField);
-		assertXpathEvaluatesTo("true", "//ui:datefield/@allowPartial", dateField);
+		assertXpathEvaluatesTo(dateField.isPartialRequested() ? "true" : "false", "//ui:datefield/@allowPartial", dateField);
 
 		// Actual date value
 		assertXpathEvaluatesTo("2000-01-??", "//ui:datefield/@date", dateField);
@@ -126,7 +135,7 @@ public class WPartialDateFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 		// Defaults
 		assertXpathExists("//ui:datefield", dateField);
 		assertXpathEvaluatesTo(dateField.getId(), "//ui:datefield/@id", dateField);
-		assertXpathEvaluatesTo("true", "//ui:datefield/@allowPartial", dateField);
+		assertXpathEvaluatesTo(dateField.isPartialRequested() ? "true" : "false", "//ui:datefield/@allowPartial", dateField);
 
 		// Actual date value
 		assertXpathEvaluatesTo("2000-02-01", "//ui:datefield/@date", dateField);

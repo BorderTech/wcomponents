@@ -105,26 +105,26 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/tag"],
 					if (ref.constructor === String) {
 						// Just treating this as a string, no DOM awareness.
 						if (triggerRegister.hasOwnProperty(ref)) {
-							console.log("Finding trigger by id");
+							// console.log("Finding trigger by id");
 							result = triggerRegister[ref];
 						}
 					} else {  // it must be a DOM element
 						if ((id = ref.id)) {  // try id
-							console.log("Found trigger by element (id match)");
+							// console.log("Found trigger by element (id match)");
 							result = this.getTrigger(id);
 						}
 						if (!result && (id = ref.name)) {  // try name (esp. radio buttons)
-							console.log("Found trigger by element (name match)");
+							// console.log("Found trigger by element (name match)");
 							result = this.getTrigger(id);
 						}
 						if (!result && (id = ref.getAttribute(ALIAS))) {
-							console.log("Finding trigger by alias match");
+							// console.log("Finding trigger by alias match");
 							result = this.getTrigger(id);
 						}
 						if (!result && !ignoreAncestor) {
 							_ref = getTriggerContainer(ref);
 							if (_ref) {
-								console.log("Looking for ancestor trigger");
+								// console.log("Looking for ancestor trigger");
 								result = this.getTrigger(_ref, ignoreAncestor);
 							}
 						}

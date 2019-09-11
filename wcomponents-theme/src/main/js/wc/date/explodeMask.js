@@ -10,7 +10,7 @@ define(["wc/string/escapeRe", "wc/date/pattern"],
 		/**
 		 * Provides the ability to convert string date masks into a set of regular expressions which can be used to
 		 * format date-like user input into date-like potential matches. In general you should not need to call this
-		 * module directly but user a {@link module:wc/date/Parser} instance when you need to parse dates.
+		 * module directly but use a {@link module:wc/date/Parser} instance when you need to parse dates.
 		 *
 		 * The user sets a 'mask' in a string form, e.g. 'DD MON YYYY'. In order to use this efficiently we first
 		 * convert it into a regular expression. Each unique mask will get its own regular expression. The regular

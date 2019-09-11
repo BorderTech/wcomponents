@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-25 15:42+1000\n"
+"POT-Creation-Date: 2019-07-01 12:49+1000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -643,6 +643,12 @@ msgctxt "datefield_close"
 msgid "Close"
 msgstr ""
 
+#: datefield_partial_switcher_label
+#, java-format
+msgctxt "datefield_partial_switcher_label"
+msgid "I'm not sure"
+msgstr ""
+
 #. # Dialog Messages ##
 #. JS only
 #: dialog_noTitle
@@ -700,13 +706,13 @@ msgstr ""
 #: imgedit_rotate_left90
 #, java-format
 msgctxt "imgedit_rotate_left90"
-msgid "Left 90บ"
+msgid "Left 90ยบ"
 msgstr ""
 
 #: imgedit_rotate_right90
 #, java-format
 msgctxt "imgedit_rotate_right90"
-msgid "Right 90บ"
+msgid "Right 90ยบ"
 msgstr ""
 
 #: imgedit_capture
@@ -862,13 +868,13 @@ msgstr ""
 #: imgedit_message_rotate_left90
 #, java-format
 msgctxt "imgedit_message_rotate_left90"
-msgid "Rotate anti-clockwise to next multiple of 90บ"
+msgid "Rotate anti-clockwise to next multiple of 90ยบ"
 msgstr ""
 
 #: imgedit_message_rotate_right90
 #, java-format
 msgctxt "imgedit_message_rotate_right90"
-msgid "Rotate clockwise to next multiple of 90บ"
+msgid "Rotate clockwise to next multiple of 90ยบ"
 msgstr ""
 
 #: imgedit_message_move_left

@@ -1,6 +1,5 @@
 define(["wc/has",
-	"wc/array/unique",
-	"wc/date/Parser",
+	"wc/dom/dateFieldUtils",
 	"wc/date/interchange",
 	"wc/date/Format",
 	"wc/dom/attribute",
@@ -11,8 +10,6 @@ define(["wc/has",
 	"wc/dom/initialise",
 	"wc/dom/shed",
 	"wc/dom/tag",
-	"wc/dom/Widget",
-	"wc/i18n/i18n",
 	"wc/timers",
 	"wc/key",
 	"wc/dom/textContent",
@@ -20,9 +17,10 @@ define(["wc/has",
 	"wc/ui/ajax/processResponse",
 	"wc/ui/onchangeSubmit",
 	"wc/ui/feedback",
-	"wc/ui/listboxAnalog"],
-	function(has, unique, Parser, interchange, Format, attribute, cancelUpdate, event, focus, formUpdateManager, initialise, shed, tag, Widget, i18n,
-		timers, key, textContent, ajaxRegion, processResponse, onchangeSubmit, feedback, listboxAnalog) {
+	"wc/ui/listboxAnalog",
+	"wc/render/dateField"],
+	function(has, dfUtils, interchange, Format, attribute, cancelUpdate, event, focus, formUpdateManager, initialise, shed, tag,
+		timers, key, textContent, ajaxRegion, processResponse, onchangeSubmit, feedback, listboxAnalog, renderer) {
 		"use strict";
 		var instance;
 
@@ -32,31 +30,15 @@ define(["wc/has",
 		 * @private
 		 */
 		function DateInput() {
-			var parsers,  // this will store the Parser instances when first needed
-				formatter,
-				FIELD_CLASS = "wc-datefield",
+			var widgets = dfUtils.getWidgets(),
 				hasNative = has("native-dateinput"),
 				BOOTSTRAPPED = "wc.ui.dateField_bootstrapped",
-				DATE_FIELD = new Widget("div", FIELD_CLASS),
-				DATE_WRAPPER_INCL_RO = new Widget("", FIELD_CLASS),
-				DATE_RO = new Widget("", "", {"data-wc-component": "datefield"}),
-				INPUT = new Widget("input"),
-				DATE = INPUT.extend("", {"type": "date"}),
-				DATE_PARTIAL = INPUT.extend("", {"type": "text"}),
-				SUGGESTION_LIST = new Widget("", "", {"role": "listbox"}),
-				OPTION_WD,
 				FAKE_VALUE_ATTRIB = "data-wc-value",
 				optionVal = {},
 				filterTimer,
-				LAUNCHER = new Widget("button", "wc_wdf_cal"),
 				startVal = {},
 				openDateCombo = "",  // {string} the id of the currently open date field (if any)
 				IETimeout = (has("ie") === 8) ? 50 : 0;  // IE cannot update itself fast enough to focus a newly opened list
-
-			INPUT.descendFrom(DATE_FIELD, true);
-			DATE.descendFrom(DATE_FIELD, true);
-			DATE_PARTIAL.descendFrom(DATE_FIELD, true);
-			SUGGESTION_LIST.descendFrom(DATE_FIELD, true);
 
 			/**
 			 * Get the SUGGESTION_LIST part of a dateField.
@@ -79,18 +61,18 @@ define(["wc/has",
 			 */
 			function getSuggestionList(element, force) {
 				var result, dateField;
-				if (force === -1 || (!force && DATE_FIELD.isOneOfMe(element))) {
-					result = SUGGESTION_LIST.findDescendant(element);
+				if (force === -1 || (!force && widgets.DATE_FIELD.isOneOfMe(element))) {
+					result = widgets.SUGGESTION_LIST.findDescendant(element);
 				} else if (force === 1) {
-					result = SUGGESTION_LIST.findAncestor(element);
-				} else if ((dateField = instance.get(element))) {
-					result = SUGGESTION_LIST.findDescendant(dateField);
+					result = widgets.SUGGESTION_LIST.findAncestor(element);
+				} else if ((dateField = dfUtils.get(element))) {
+					result = widgets.SUGGESTION_LIST.findDescendant(dateField);
 				}
 				return result;
 			}
 
 			function isPartial(dateField) {
-				return DATE_FIELD.isOneOfMe(dateField) && !DATE.findDescendant(dateField);
+				return widgets.DATE_FIELD.isOneOfMe(dateField) && !widgets.DATE.findDescendant(dateField);
 			}
 
 			/**
@@ -107,7 +89,7 @@ define(["wc/has",
 					BEFORE_BEGIN = "beforebegin",
 					BEFORE_END = "beforeend";
 
-				childEl = instance.getTextBox(element);
+				childEl = dfUtils.getTextBox(element);
 				if (!childEl) {
 					return;
 				}
@@ -124,7 +106,7 @@ define(["wc/has",
 				diagnostic = feedback.getLast(element);
 
 				// Add the calendar launch button.
-				if (!(LAUNCHER.findDescendant(element))) {
+				if (!(widgets.LAUNCHER.findDescendant(element))) {
 					launcherHtml = "<button value='" + id + "_input' tabindex='-1' id='" + id +
 							"_cal' type='button' aria-hidden='true' class='wc_wdf_cal wc-invite' aria-haspopup='true'";
 					if (shed.isDisabled(childEl)) {
@@ -167,7 +149,7 @@ define(["wc/has",
 			 * @param {Element} element The element being focussed.
 			 */
 			function closeDateCombo(element) {
-				var dateField = instance.get(element),
+				var dateField = dfUtils.get(element),
 					otherDateField;
 				/*
 				 * When a date field combo is closed clear its filters, set its value and then collapse it.
@@ -177,8 +159,8 @@ define(["wc/has",
 					if (filterTimer) {
 						timers.clearTimeout(filterTimer);
 					}
-					if (DATE_FIELD.isOneOfMe(_df)) {
-						instance.acceptFirstMatch(instance.getTextBox(_df));
+					if (widgets.DATE_FIELD.isOneOfMe(_df)) {
+						instance.acceptFirstMatch(dfUtils.getTextBox(_df));
 					}
 					if (IETimeout) {
 						timers.setTimeout(function() {
@@ -194,7 +176,7 @@ define(["wc/has",
 				if (openDateCombo) {
 					// close any open dateFields when focusing elsewhere
 					otherDateField = document.getElementById(openDateCombo);
-					if (otherDateField && DATE_FIELD.isOneOfMe(otherDateField) && (!dateField || dateField.id !== openDateCombo) && shed.isExpanded(otherDateField)) {
+					if (otherDateField && widgets.DATE_FIELD.isOneOfMe(otherDateField) && (!dateField || dateField.id !== openDateCombo) && shed.isExpanded(otherDateField)) {
 						_collapseHelper(otherDateField);
 					}
 				}
@@ -210,15 +192,13 @@ define(["wc/has",
 			 * @param {Element} suggestionList the SUGGESTION_LIST sub-component to focus
 			 */
 			function focusListbox(suggestionList) {
-				OPTION_WD = OPTION_WD || new Widget("", "", {"role": "option"});
-
 				function activateOption(option) {
 					if (!shed.isSelected(option)) {
 						listboxAnalog.activate(option);
 					}
 				}
 
-				if (suggestionList && OPTION_WD.findDescendant(suggestionList)) {
+				if (suggestionList && widgets.OPTION_WD.findDescendant(suggestionList)) {
 					onchangeSubmit.ignoreNextChange();
 					ajaxRegion.ignoreNextChange();
 
@@ -242,9 +222,8 @@ define(["wc/has",
 			 * @returns {String} A human readable date as a string.
 			 */
 			function format(xfer) {
-				var myFormatter = formatter || (formatter = new Format(i18n.get("datefield_mask_format"))),
-					result = myFormatter.format(xfer);
-				return result;
+				var formatter = Format.getDefaultFormatter();
+				return formatter.format(xfer);
 			}
 
 			/*
@@ -255,7 +234,7 @@ define(["wc/has",
 			 * @returns {Boolean} true if the element is a date field's input element.
 			 */
 			function isDateInput(element) {
-				return INPUT.isOneOfMe(element);
+				return widgets.INPUT.isOneOfMe(element);
 			}
 
 			/**
@@ -276,32 +255,14 @@ define(["wc/has",
 						value = format(value);
 					}
 
-					if ((textbox = instance.getTextBox(dateField))) {
+					if ((textbox = dfUtils.getTextBox(dateField))) {
 						textbox.value = value;  // do not fire change event here: do it on collapse
 					}
 
-					if (optionVal[(dateField.id)] !== instance.getValue(dateField, true)) {
-						timers.setTimeout(event.fire, 0, instance.getTextBox(dateField), event.TYPE.change);
+					if (optionVal[(dateField.id)] !== dfUtils.getValue(dateField).xfr) {
+						timers.setTimeout(event.fire, 0, dfUtils.getTextBox(dateField), event.TYPE.change);
 					}
 				}
-			}
-
-			/**
-			 * Compares two formatted date strings (that is, the date as displayed to the user).
-			 * @function
-			 * @private
-			 * @param {string} valA A formatted date string.
-			 * @param {string} valB A formatted date string.
-			 * @returns {Boolean} true if they are the same for display purposes.
-			 */
-			function formattedDatesSame(valA, valB) {
-				var result = false,
-					s1 = valA.trim(),
-					s2 = valB.trim();
-				if (s1 === s2 || s1.toLocaleLowerCase() === s2.toLocaleLowerCase()) {
-					result = true;
-				}
-				return result;
 			}
 
 			/**
@@ -331,112 +292,6 @@ define(["wc/has",
 			}
 
 			/**
-			 * Initialises the "parsers" instance variable.
-			 * @function
-			 * @private
-			 */
-			function initParsers() {
-				var shortcuts = ["ytm", "+-"],
-					standardMasks = shortcuts.concat(i18n.get("datefield_masks_full").split(",")),
-					partialMasks = standardMasks.concat(i18n.get("datefield_masks_partial").split(","));
-
-				/*
-				 * Creates a new instance of a Parser
-				 */
-				function createParser(masks, expandYearIntoPast, rolling) {
-					var result = new Parser();
-					result.setRolling(!!rolling);
-					result.setMasks(masks || standardMasks);
-					result.setExpandYearIntoPast(!!expandYearIntoPast);
-					return result;
-				}
-
-				parsers = {
-					standard: createParser(),
-					past: createParser(null, true),
-					partial: createParser(partialMasks),
-					partialPast: createParser(partialMasks, true)
-				};
-			}
-
-			/**
-			 * Finds the correct date parser for this element.
-			 * @function
-			 * @private
-			 * @param {Element} element A date input element.
-			 * @returns {Parser} An instance of {@link module:wc/date/Parser}
-			 */
-			function getParser(element) {
-				var result;
-				if (!parsers) {
-					initParsers();
-				}
-
-				if (DATE_PARTIAL.isOneOfMe(element)) {
-					result = parsers.partial;
-				} else {
-					result = parsers.standard;
-				}
-
-				return result;
-			}
-
-			/**
-			 * Get a list of potential date matches based on the user's input.
-			 * @function
-			 * @private
-			 * @param {Element} element The input element of the date field.
-			 * @param {String} [overrideVal] Use this as the value to match, instead of the element's value.
-			 * @returns {String[]} Potential dates as strings.
-			 */
-			function getMatches(element, overrideVal) {
-				// trim leading & trailing spaces
-				var value = overrideVal || element.value,
-					parser = getParser(element),
-					matches = parser.parse(value.trim());
-
-				matches = unique(matches, function(a, b) {
-					var result = 1;
-					if (a.day === b.day && a.month === b.month && a.year === b.year) {
-						result = 0;
-					}
-					return result;
-				});
-				return matches;
-			}
-
-			/**
-			 * Converts a formatted date string (that is, a string formatted for display to the users) to a transfer
-			 * date string. It is assumed that you have already tried to get the transfer date from the value attribute.
-			 * @function
-			 * @private
-			 * @param {Element} element A dateField input element
-			 * @param {Boolean} [guess] If true then in the case that we can not precisely reverse format the
-			 * dateField's value we will return a "guess" which will be the first match (if there are possible matches).
-			 * @returns {String} A transfer date string if possible.
-			 */
-			function reverseFormat(element, guess) {
-				var result, matches, next, i, value, len,
-					currentValue = element.value;
-
-				if ((currentValue = currentValue.trim())) {
-					matches = getMatches(element);
-					for (i = 0, len = matches.length; i < len; i++) {
-						next = matches[i];
-						value = format(next.toXfer());
-						if (formattedDatesSame(value, currentValue)) {
-							result = next.toXfer();
-							break;
-						}
-					}
-					if (!result && len && guess) {
-						result = matches[0].toXfer();
-					}
-				}
-				return result;
-			}
-
-			/**
 			 * Put the list of potential matches for the value of a input element into the SUGGESTION_LIST sub-component
 			 * and expand the parent dateField.
 			 * @function
@@ -455,7 +310,7 @@ define(["wc/has",
 				if (matches.length && (suggestionList = getSuggestionList(dateField))) {
 					suggestionList.setAttribute("aria-busy", "true");
 					suggestionList.innerHTML = "";
-					if (!(matches.length === 1 && formattedDatesSame(lastVal, instance.getTextBox(dateField).value))) {
+					if (!(matches.length === 1 && Format.formattedDatesSame(lastVal, dfUtils.getTextBox(dateField).value))) {
 						suggestionList.innerHTML = getSuggestions(matches);
 						suggestionList.removeAttribute("aria-busy");
 						if (!shed.isExpanded(dateField)) {
@@ -479,8 +334,8 @@ define(["wc/has",
 				var _delay = delay;
 
 				function _filter() {
-					var textbox = instance.getTextBox(dateField),
-						matches = getMatches(textbox),
+					var textbox = dfUtils.getTextBox(dateField),
+						matches = dfUtils.getMatches(textbox),
 						suggestionList;
 					if (matches.length) {
 						if (!shed.isExpanded(dateField)) {
@@ -496,7 +351,7 @@ define(["wc/has",
 					}
 				}
 
-				if (DATE_FIELD.isOneOfMe(dateField)) {
+				if (widgets.DATE_FIELD.isOneOfMe(dateField)) {
 					if (filterTimer) {
 						timers.clearTimeout(filterTimer);
 					}
@@ -523,10 +378,10 @@ define(["wc/has",
 					textVal,
 					textBox;
 				if ((value = (field.getAttribute(FAKE_VALUE_ATTRIB) || field.getAttribute("datetime"))) && (textVal = format(value))) {
-					if (DATE_RO.isOneOfMe(field)) {
+					if (widgets.DATE_RO.isOneOfMe(field)) {
 						textContent.set(field, textVal);
 					} else {
-						textBox = instance.getTextBox(field);
+						textBox = dfUtils.getTextBox(field);
 						textBox.value = textVal;
 					}
 				}
@@ -541,25 +396,28 @@ define(["wc/has",
 			 */
 			function setUpDateFields(container) {
 				var _container = container || document.body,
-					fields;
+					fields,
+					promises = Array.prototype.map.call(widgets.CUSTOM.findDescendants(_container), renderer.render);
 
-				if (container && DATE_WRAPPER_INCL_RO.isOneOfMe(container)) {
-					fields = [container];
-				} else {
-					fields = DATE_WRAPPER_INCL_RO.findDescendants(_container);
-				}
-
-				Array.prototype.forEach.call(fields, function(next) {
-					if (DATE_RO.isOneOfMe(next) || isPartial(next)) {
-						setInputValue(next);
-					} else if (instance.isLameDateField(next)) {
-						fixLameDateField(next);
-					} else { // proper date inputs
-						next.removeAttribute(FAKE_VALUE_ATTRIB);
+				return Promise.all(promises).then(function() {
+					if (container && widgets.DATE_WRAPPER_INCL_RO.isOneOfMe(container)) {
+						fields = [container];
+					} else {
+						fields = widgets.DATE_WRAPPER_INCL_RO.findDescendants(_container);
 					}
-				});
 
-				cancelUpdate.resetAllFormState();
+					Array.prototype.forEach.call(fields, function(next) {
+						if (widgets.DATE_RO.isOneOfMe(next) || isPartial(next)) {
+							setInputValue(next);
+						} else if (instance.isLameDateField(next)) {
+							fixLameDateField(next);
+						} else { // proper date inputs
+							next.removeAttribute(FAKE_VALUE_ATTRIB);
+						}
+					});
+
+					cancelUpdate.resetAllFormState();
+				});
 			}
 
 			/**
@@ -582,7 +440,7 @@ define(["wc/has",
 			 */
 			function shedSelectSubscriber(element) {
 				var dateField;
-				if (element && element.hasAttribute(FAKE_VALUE_ATTRIB) && getSuggestionList(element, 1) && (dateField = instance.get(element))) {
+				if (element && element.hasAttribute(FAKE_VALUE_ATTRIB) && getSuggestionList(element, 1) && (dateField = dfUtils.get(element))) {
 					setValueFromOption(dateField, element);
 				}
 			}
@@ -601,11 +459,11 @@ define(["wc/has",
 					target,
 					func;
 				if (element) {
-					if (DATE_FIELD.isOneOfMe(element)) {
+					if (widgets.DATE_FIELD.isOneOfMe(element)) {
 						if (action === shed.actions.EXPAND) {
 							if (shed.isExpanded(element)) {
 								openDateCombo = element.id;
-								optionVal[(element.id)] = instance.getValue(element);
+								optionVal[(element.id)] = dfUtils.getValue(element).xfr;
 								filterOptions(element, 0);
 							}
 						} else if (action === shed.actions.COLLAPSE) {
@@ -617,11 +475,11 @@ define(["wc/has",
 									filterTimer = null;
 								}
 							}
-						} else if ((textbox = instance.getTextBox(element))) {
+						} else if ((textbox = dfUtils.getTextBox(element))) {
 							func = getFuncForAction(action);
 							if (func) {
 								shed[func](textbox);  // publish this to make changes to the label
-								if ((action === shed.actions.ENABLE || action === shed.actions.DISABLE) && (target = LAUNCHER.findDescendant(element))) {
+								if ((action === shed.actions.ENABLE || action === shed.actions.DISABLE) && (target = widgets.LAUNCHER.findDescendant(element))) {
 									shed[func](target, true);  // no need to publish changing the state of the calendar launcher
 								}
 							}
@@ -668,19 +526,16 @@ define(["wc/has",
 			 * @param {Element} stateContainer The element into which the state fields are written.
 			 */
 			function writeState(form, stateContainer) {
-				var dateFields = DATE_FIELD.findDescendants(form),
-					i, next, numVal, textBox,
+				var dateFields = widgets.DATE_FIELD.findDescendants(form),
+					i, next, dateVal,
 					nameSuffix = "-date", name;
 				for (i = 0; i < dateFields.length; i++) {
 					next = dateFields[i];
 					name = next.id + nameSuffix;
 					if (!shed.isDisabled(next)) {
-						if (instance.hasNativeInput(next)) {
-							if ((textBox = instance.getTextBox(next)) && textBox.value) {
-								formUpdateManager.writeStateField(stateContainer, name, textBox.value);
-							}
-						} else if ((numVal = instance.getValue(next))) {
-							formUpdateManager.writeStateField(stateContainer, name, numVal);
+						dateVal = dfUtils.getValue(next);
+						if (dateVal.xfr) {
+							formUpdateManager.writeStateField(stateContainer, name, dateVal.xfr);
 						}
 					}
 				}
@@ -702,7 +557,7 @@ define(["wc/has",
 					return;
 				}
 
-				if ((dateField = instance.get(element))) {
+				if ((dateField = dfUtils.get(element))) {
 					instance.acceptFirstMatch(element);
 					dateField.removeAttribute(FAKE_VALUE_ATTRIB);
 				}
@@ -728,7 +583,7 @@ define(["wc/has",
 				if (instance.hasNativeInput(element, true)) {
 					return;
 				}
-				if ((dateField = instance.get(element)) && !attribute.get(dateField, BOOTSTRAPPED)) {
+				if ((dateField = dfUtils.get(element)) && !attribute.get(dateField, BOOTSTRAPPED)) {
 					attribute.set(dateField, BOOTSTRAPPED, true);
 					event.add(dateField, event.TYPE.keydown, keydownEvent);
 				}
@@ -747,10 +602,10 @@ define(["wc/has",
 				if ($event.defaultPrevented || instance.hasNativeInput(target, true)) {
 					return;
 				}
-				if ((dateField = instance.get(target)) && !shed.isDisabled(dateField) && getSuggestionList(target, 1)) {
+				if ((dateField = dfUtils.get(target)) && !shed.isDisabled(dateField) && getSuggestionList(target, 1)) {
 					// update on option click
 					// setValueFromOption(dateField, target);  // yes, revert to $event.target here: we want the option not the SUGGESTION_LIST
-					focus.setFocusRequest(instance.getTextBox(dateField), function() {
+					focus.setFocusRequest(dfUtils.getTextBox(dateField), function() {
 						shed.collapse(dateField);
 					});
 					$event.preventDefault();
@@ -759,7 +614,7 @@ define(["wc/has",
 
 
 			function focusAndSetValue(element/* , option */) {
-				var textbox = instance.getTextBox(element);
+				var textbox = dfUtils.getTextBox(element);
 				// setValueFromOption(element, option);
 				if (textbox) {
 					focus.setFocusRequest(textbox, function() {
@@ -784,7 +639,7 @@ define(["wc/has",
 					target = $event.target,
 					suggestionList;
 
-				// dateField = instance.get(target);
+				// dateField = dfUtils.get(target);
 				if (instance.hasNativeInput(target, true)) {
 					return;
 				}
@@ -877,7 +732,7 @@ define(["wc/has",
 				var textbox;
 				if (shed.isExpanded(element)) {
 					// if we ESCAPE when on a SUGGESTION_LIST item focus the textbox
-					if (getSuggestionList(target, 1) && (textbox = instance.getTextBox(element))) {
+					if (getSuggestionList(target, 1) && (textbox = dfUtils.getTextBox(element))) {
 						focus.setFocusRequest(textbox, function() {
 							shed.collapse(element);
 						});
@@ -901,7 +756,7 @@ define(["wc/has",
 				if (this.hasNativeInput(element)) {
 					return;
 				}
-				if ((matches = getMatches(element)) && matches.length && (dateField = this.get(element))) {
+				if ((matches = dfUtils.getMatches(element)) && matches.length && (dateField = dfUtils.get(element))) {
 					_matches = matches.map(function(next) {
 						return format(next.toXfer());
 					});
@@ -927,73 +782,13 @@ define(["wc/has",
 			};
 
 			/**
-			 * Get the {@link module:wc/dom/Widget} which describes a calendar launch button. This is required by
-			 * {@link module:wc/ui/calendar}.
-			 * @function module:wc/ui/dateField.getLaunchWidget
-			 * @public
-			 * @returns {module:wc/dom/Widget} The description of the calendar picker launch button.
-			 */
-			this.getLaunchWidget = function() {
-				return LAUNCHER;
-			};
-
-			/**
-			 * Get the partial date widget.
-			 * @function module:wc/ui/dateField.getPartialDateWidget
-			 * @public
-			 * @returns {module:wc/dom/Widget} the Partial Date Widget.
-			 */
-			this.getPartialDateWidget = function() {
-				return DATE_PARTIAL;
-			};
-
-			/**
-			 * Get the text input element descendant of a date field.
-			 * @function module:wc/ui/dateField.getTextBox
-			 * @public
-			 * @param {Element} element A dateField.
-			 * @returns {Element} The input element of the dateField.
-			 */
-			this.getTextBox = function (element) {
-				return INPUT.findDescendant(element);
-			};
-
-			/**
-			 * Get the value (in transfer format yyyy-mm-dd) from a date field component.
-			 * @function  module:wc/ui/dateField.getValue
-			 * @public
-			 * @param {Element} element The date field we want to get the value from.
-			 * @param {Boolean} [guess] If true then try a best guess at the transfer format when formatting it. For
-			 *    more info see {@link module:wc/dom/dateField~reverseFormat}
-			 * @returns {String} The date in transfer format or an empty string if the field has no value.
-			 */
-			this.getValue = function(element, guess) {
-				var result, textbox, _element;
-				if (element && (_element = this.get(element))) {
-					if ((result = _element.getAttribute(FAKE_VALUE_ATTRIB))) {
-						return result;
-					}
-
-					if (this.hasNativeInput(element) && (result = element.value)) {
-						return result;
-					}
-
-					if (!result && (textbox = instance.getTextBox(_element)) && textbox.value) {
-						// we don't have a recorded xfer date for this element, check its value
-						return reverseFormat(textbox, guess);
-					}
-				}
-				return result || "";
-			};
-
-			/**
 			 * Get the date field widget.
 			 * @function module:wc/ui/dateField.getWidget
 			 * @public
 			 * @returns {module:wc/dom/Widget} the DateField Widget.
 			 */
 			this.getWidget = function() {
-				return DATE_WRAPPER_INCL_RO;
+				return widgets.DATE_WRAPPER_INCL_RO;
 			};
 
 			/**
@@ -1012,29 +807,10 @@ define(["wc/has",
 				}
 				event.add(element, event.TYPE.click, clickEvent);
 				formUpdateManager.subscribe(writeState);
-				setUpDateFields();
+				return setUpDateFields();  // Stuff should wait (e.g. wc/a8n)
 			};
 
-			/**
-			 * Is a particular date field or input a native date input?
-			 * @function module:wc/ui/dateField.hasNativeInput
-			 * @public
-			 * @param {Element} el The element to test.
-			 * @param {Boolean} [forceInput] Set true if we know we are calling with an input element to save a test.
-			 * @returns {Boolean} True if el is a native date input (or the datefield wrapper of one).
-			 */
-			this.hasNativeInput = function (el, forceInput) {
-				var textBox;
-				if (hasNative) {
-					if (forceInput) {
-						textBox = el;
-					} else {
-						textBox = DATE_FIELD.isOneOfMe(el) ? instance.getTextBox(el) : el;
-					}
-					return textBox ? DATE.isOneOfMe(textBox) : false;
-				}
-				return false;
-			};
+			this.hasNativeInput = dfUtils.hasNativeInput;
 
 			/**
 			 * Is a particular field a native date input?
@@ -1046,33 +822,7 @@ define(["wc/has",
 				if (hasNative) {
 					return false;
 				}
-				return !!DATE.findDescendant(dateField);
-			};
-
-			/**
-			 * Indicates that the requested element is a dateField OR the textbox sub-component
-			 * @function module:wc/ui/dateField.isOneOfMe
-			 * @public
-			 * @param {Element} element The DOM element to test
-			 * @param {Boolean} [onlyContainer] Set `true` to test if the element is exactly the dateField, explicitly
-			 *    `false` to test if only the input element.
-			 * @returns {Boolean} true if the passed in element is a dateField or date input textbox sub-component of a
-			 *    dateField
-			 */
-			this.isOneOfMe = function (element, onlyContainer) {
-				var result;
-				if (onlyContainer) {
-					result = DATE_WRAPPER_INCL_RO.isOneOfMe(element);
-				} else if (onlyContainer === false) {
-					result = INPUT.isOneOfMe(element);
-				} else {
-					result = Widget.isOneOfMe(element, [INPUT, DATE_WRAPPER_INCL_RO]);
-				}
-				return result;
-			};
-
-			this.isReadOnly = function (element) {
-				return DATE_RO.isOneOfMe(element);
+				return !!widgets.DATE.findDescendant(dateField);
 			};
 
 			/**
@@ -1091,10 +841,6 @@ define(["wc/has",
 				shed.subscribe(shed.actions.MANDATORY, shedSubscriber);
 				shed.subscribe(shed.actions.OPTIONAL, shedSubscriber);
 				processResponse.subscribe(ajaxSetup);
-			};
-
-			this.get = function(element) {
-				return DATE_FIELD.findAncestor(element);
 			};
 
 			/*
@@ -1118,8 +864,6 @@ define(["wc/has",
 		 * @module
 		 *
 		 * @requires module:wc/has
-		 * @requires module:wc/array/unique
-		 * @requires module:wc/date/Parser
 		 * @requires module:wc/date/interchange
 		 * @requires module:wc/date/Format
 		 * @requires module:wc/dom/attribute
@@ -1130,8 +874,6 @@ define(["wc/has",
 		 * @requires module:wc/dom/initialise
 		 * @requires module:wc/dom/shed
 		 * @requires module:wc/dom/tag
-		 * @requires module:wc/dom/Widget
-		 * @requires module:wc/i18n/i18n
 		 * @requires module:wc/timers
 		 * @requires module:wc/key
 		 * @requires module:wc/dom/textContent

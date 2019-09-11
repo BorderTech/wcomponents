@@ -9,7 +9,6 @@ define(["wc/date/today",
 	"wc/date/pattern",
 	"wc/date/interchange",
 	"wc/date/explodeMask"],
-	/** @param $today wc/date/today @param $pattern wc/date/pattern @param interchange wc/date/interchange @param explodeMask wc/date/explodeMask @ignore */
 	function($today, $pattern, interchange, explodeMask) {
 		"use strict";
 		var maskCache = null;
@@ -43,6 +42,21 @@ define(["wc/date/today",
 			this.toDate = function() {
 				var xfer = this.toString();
 				return interchange.toDate(xfer);
+			};
+
+			/**
+			 * Determines if this Match instance is equivalent to another instance.
+			 * @param {Match} match The match to compare with.
+			 * @return {Boolean} True if the instance is logically equivalent to this instance.
+			 */
+			this.equals = function(match) {
+				var a = this, b = match, diff = 1;
+				if (b) {
+					if (a.day === b.day && a.month === b.month && a.year === b.year) {
+						diff = 0;
+					}
+				}
+				return !diff;
 			};
 		}
 
@@ -210,7 +224,9 @@ define(["wc/date/today",
 						next.date = check;
 					}
 					// add to the successful matches list
-					result.push(next);
+					if (!result.some(next.equals.bind(next))) {
+						result.push(next);
+					}
 				}
 				return result;
 			};
@@ -303,6 +319,23 @@ define(["wc/date/today",
 			 */
 			this.isExpandYearIntoPast = function () {
 				return expandYearIntoPast;
+			};
+
+			/**
+			 * Compare this instance of parser against another to determine if they are functionally equivalent.
+			 * @param {type} parser
+			 * @return {Boolean}
+			 */
+			this.equals = function(parser) {
+				var p1 = this,
+					result = false,
+					testMethods = ["getMasks", "isRolling", "isExpandYearIntoPast"];
+				if (parser) {
+					result = testMethods.every(function(testMethod) {
+						return p1[testMethod]() === parser[testMethod]();
+					});
+				}
+				return result;
 			};
 		}
 

@@ -23,11 +23,11 @@ define(["wc/has",
 		 * @private
 		 */
 		function ComboBox() {
-			var COMBO = new Widget("", "wc-combo", {"role": "combobox"}),
-				LISTBOX = listboxAnalog.CONTAINER.clone(),
-				TEXTBOX = new Widget("input"),
+			var COMBO = new Widget("", "wc-combo", { role: "combobox" }),
+				LISTBOX = listboxAnalog.CONTAINER.clone().descendFrom(COMBO, true),
+				TEXTBOX = new Widget("input").descendFrom(COMBO, true),
 				OPTION = listboxAnalog.ITEM,
-				OPENER_BUTTON = new Widget("button"),
+				OPENER_BUTTON = new Widget("button").descendFrom(COMBO, true),
 				filterTimer,
 				filter = true,
 				optionVal = {},
@@ -46,10 +46,6 @@ define(["wc/has",
 				}),
 				CHAR_KEYS,  // used in the keydown event handler if we cannot use the input event
 				nothingLeftReg = {};  // last search returned no match, keep the search term for future reference
-
-			LISTBOX.descendFrom(COMBO, true);
-			TEXTBOX.descendFrom(COMBO, true);
-			OPENER_BUTTON.descendFrom(COMBO, true);
 
 			if (has("ie") <= 8) {
 				require(["wc/fix/inlineBlock_ie8"], function(inlineBlock) {

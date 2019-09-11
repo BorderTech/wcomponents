@@ -172,7 +172,7 @@ define(["wc/dom/attribute",
 								result = true;
 							} else {
 								// we need to make an optgroup in toList, but where?
-								optgroup = document.createElement(tag.OPTGROUP);
+								optgroup = OPTGROUP.render();
 								optgroup.label = parent.label;
 								originalIndex = selectboxSearch.indexOf(next, orderList);
 								toIndex = calcToIndex(originalIndex, fromIndex);

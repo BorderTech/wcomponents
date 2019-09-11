@@ -17,7 +17,10 @@ import org.apache.commons.logging.LogFactory;
  * date picker widgets. Convenience methods exist to set and get the value as a java date object.
  * </p>
  * <p>
- * "Partial dates" can be specified without day or month components, e.g. "JAN 2001", or just "2001".
+ * "Partial dates" allow the user to provide incomplete dates where necessary. The specific formats accepted by the partial date field
+ * are controlled by setting date masks in the property "datefield_masks_partial".
+ * The default value is found in the wcomponents-i18n module in `theme-messages.properties`.
+ *
  * </p>
  * <p>
  * When the component is bound to a bean, the bean property must be a string containing the date in the format
@@ -275,6 +278,23 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 	}
 
 	/**
+	 * Determine if the user has indicated they wish to enter a partial date.
+	 * By default we attempt to gather a full date from the user.
+	 * @return true if the user has explicitly requested a partial date.
+	 */
+	public boolean isPartialRequested() {
+		return getComponentModel().partialRequested;
+	}
+
+	/**
+	 * Set whether the user has indicated they wish to enter a partial date.
+	 * @param partialRequested Set to true to indicate that the user wants to enter a partial date.
+	 */
+	public void setIsPartialRequested(final boolean partialRequested) {
+		getOrCreateComponentModel().partialRequested = partialRequested;
+	}
+
+	/**
 	 * The padding character used in the partial date value. The default padding character is a space. If the padding
 	 * character is a space, then the date value will be right trimmed to remove the trailing spaces.
 	 *
@@ -301,11 +321,12 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 		// Text entered by the user (An empty string is treated as null)
 		String value = request.getParameter(getId());
 		String text = (Util.empty(value)) ? null : value;
+		boolean partialRequested = isPartialRequested();
 
 		// Current date value
 		String currentDate = getValue();
 
-		boolean changed = false;
+		boolean changed;
 
 		// If a "valid" date value has not been entered, then check if the "user text" has changed
 		if (dateValue == null) {
@@ -316,9 +337,18 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 			changed = !Util.equals(dateValue, currentDate);
 		}
 
+		String newPartialRequested = request.getParameter(getId() + "_partial");
+		if (newPartialRequested == null) {
+			newPartialRequested = "false";
+		}
+		if (!Boolean.toString(partialRequested).equals(newPartialRequested)) {
+			partialRequested = !partialRequested;
+			changed = true;
+		}
+
 		if (changed) {
 			boolean valid = dateValue != null || text == null;
-			handleRequestValue(dateValue, valid, text);
+			handleRequestValue(dateValue, valid, text, partialRequested);
 		}
 
 		return changed;
@@ -330,13 +360,15 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 	 * @param value the date value
 	 * @param valid true if valid value
 	 * @param text the user text
+	 * @param partialRequested true if the user has requested a partial date
 	 */
-	protected void handleRequestValue(final String value, final boolean valid, final String text) {
+	protected void handleRequestValue(final String value, final boolean valid, final String text, final boolean partialRequested) {
 		// As setData() clears the text value (if valid), this must be called first so it can be set after
 		setData(value);
 		PartialDateFieldModel model = getOrCreateComponentModel();
 		model.validDate = valid;
 		model.text = text;
+		model.partialRequested = partialRequested;
 	}
 
 	/**
@@ -815,6 +847,13 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 		private String errorMessage = InternalMessages.DEFAULT_VALIDATION_ERROR_INVALID_PARTIAL_DATE;
 
 		/**
+		 * Flag to indicate if the user has explicitly requested a partial date field.
+		 * @since 1.5.15 Partial date fields default to full, native, date fields, unless the user indicates they cannot enter a full date.
+		 * See https://github.com/bordertech/wcomponents/issues/1624
+		 */
+		private boolean partialRequested = false;
+
+		/**
 		 * Maintain internal state.
 		 */
 		@Override
@@ -825,6 +864,7 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 				PartialDateFieldModel shared = (PartialDateFieldModel) model;
 				this.text = shared.text;
 				this.validDate = shared.validDate;
+				this.partialRequested = shared.partialRequested;
 			}
 		}
 

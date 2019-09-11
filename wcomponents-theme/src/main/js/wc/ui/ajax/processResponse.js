@@ -13,17 +13,22 @@ define(["wc/Observer",
 		 */
 		function AjaxProcessor() {
 			var observer,
+				/*
+				 * The module that can provide ADVANCED error feedback, otherwise rudimentary fallback used.
+				 * We fetch this lazily because it is only used if errors occur (therefore should not always be needed).
+				 * If the network is down then it will not be available in which case we use fallback.
+				 */
+				feedbackModule = "wc/ui/feedback",
 				errorUtils = {
 					ajaxAttr: "data-wc-ajaxalias",
 					replaceElement: function(element) {
 						// not all elements can contain an error message (e.g. img, iframe, input) so replace it
-						var errorElement = document.createElement("span");
+						var errorElement,
+							state = { id: element.id },
+							errorWd = ERROR_WD || (ERROR_WD = new Widget("span", "wc_magic"));  // if this happened to be lazy, let it be so once more
+						state[this.ajaxAttr] = element.getAttribute(this.ajaxAttr);
+						errorElement = errorWd.render({ state: state });
 						element.parentNode.replaceChild(errorElement, element);
-						errorElement.id = element.id;
-						errorElement.className = "wc_magic";  // if this happened to be lazy, let it be so once more
-						if (element.hasAttribute(this.ajaxAttr)) {
-							errorElement.setAttribute(this.ajaxAttr, element.getAttribute(this.ajaxAttr));
-						}
 						return errorElement;
 					},
 					flagError: function(args) {
@@ -31,21 +36,37 @@ define(["wc/Observer",
 						var element = this.replaceElement(args.element);
 						element.innerHTML = args.message;
 					},
-					fetch: function(callback) {
-						var cb = function(errors) {
-							if (errors && errors.flagError) {
-								errorUtils._errors = errors;
+					/**
+					 * Loads module that knows how to present error feedback to user.
+					 *
+					 * @param {Function} callback Will be called with module instance when loaded.
+					 * @param {boolean} [forceFallback] If true the rudimentary feedback utilities will be returned to simulate a network error in
+					 *    loading the advanced module. This is for testing purposes because code that only runs in error conditions is hard to test.
+					 */
+					fetch: function(callback, forceFallback) {
+						/*
+						 * Module loader callback for both success and failure conditions.
+						 * @param {module:wc/ui/feedback} [feedback] If not present (network down?) will fall back to errorUtils.
+						 */
+						var cb = function(feedback) {
+							if (feedback && feedback.flagError) {
+								errorUtils._feedback = feedback;  // store the feedback module for later use
 							}
 							if (callback) {  // could be a prefetch
-								callback(errorUtils._errors || errorUtils);
+								callback(errorUtils._feedback || errorUtils);  // continue with whichever feedback utility we have
 							}
 						};
-						if (this._errors) {
-							cb(this._errors);
+						if (forceFallback) {
+							callback(errorUtils);
+						} else if (this._feedback) {
+							cb(this._feedback);  // the feedback module has already been loaded, reuse it.
+						} else {
+							require([feedbackModule], cb, cb);  // try to load the feedback module but go ahead either way
 						}
 					}
 				},
 				FORM,
+				ERROR_WD,
 				OBSERVER_GROUP = "after";
 
 			/**
@@ -185,25 +206,32 @@ define(["wc/Observer",
 			 * @public
 			 * @param {String} response An error message.
 			 * @param {module:wc/ajax/Trigger} trigger The trigger which triggered the ajax request.
+			 * @param {boolean} [forceFallback] If true the rudimentary feedback utilities will be returned to simulate a network error in
+			 *    loading the advanced module. This is for testing purposes because code that only runs in error conditions is hard to test.
 			 */
-			this.processError = function(response, trigger) {
-				var i, element, ids = trigger.loads,
-					callback = function(feedback) {
-						var errorElement;
-						for (i = 0; i < ids.length; i++) {
-							element = document.getElementById(ids[i]);
-							if (element) {
-								errorElement = errorUtils.replaceElement(element);
-								feedback.flagError({
-									element: errorElement,
-									message: response
-								});
+			this.processError = function(response, trigger, forceFallback) {
+				return new Promise(function(win) {
+					var i, element, ids = trigger.loads,
+						callback = function(feedback) {
+							var errorElement;
+							for (i = 0; i < ids.length; i++) {
+								element = document.getElementById(ids[i]);
+								if (element) {
+									errorElement = errorUtils.replaceElement(element);
+									feedback.flagError({
+										element: errorElement,
+										message: response
+									});
+								}
 							}
-						}
-					};
-				if (ids && response) {
-					errorUtils.fetch(callback);
-				}
+							win();
+						};
+					if (ids && response) {
+						errorUtils.fetch(callback, forceFallback);
+					} else {
+						win();
+					}
+				});
 			};
 
 			/*

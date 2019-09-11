@@ -14,6 +14,7 @@ define(["wc/dom/attribute", "wc/dom/uid", "wc/dom/classList", "wc/dom/event", "w
 				activeElement,
 				UNIT = "px",
 				ACCESS_KEY_WD = new Widget("", "", {accesskey: null}),
+				SHIM_WD = new Widget("div", "", { id: MODAL_BACKGROUND_ID }),
 				AKEY = "accesskey",
 				accessKeyMap = {},
 				HAS_EVENTS = "wc/ui/modalShim.wired",
@@ -67,8 +68,7 @@ define(["wc/dom/attribute", "wc/dom/uid", "wc/dom/classList", "wc/dom/event", "w
 			function create() {
 				var d = document,
 					b = d.body,
-					result = d.createElement("div");
-				result.id = MODAL_BACKGROUND_ID;
+					result = SHIM_WD.render();
 				shed.hide(result, true);
 				if (b.firstChild) {
 					b.insertBefore(result, b.firstChild);
