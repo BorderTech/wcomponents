@@ -39,14 +39,14 @@ define(["fabric"], function(fabric) {
 				shape.set("width", width);
 				shape.set("height", height);
 				if (width < 0) {
-					shape.setOriginX("right");
+					shape.originX = "right";
 				} else {
-					shape.setOriginX("left");
+					shape.originX = "left";
 				}
 				if (height < 0) {
-					shape.setOriginY("bottom");
+					shape.originY = "bottom";
 				} else {
-					shape.setOriginY("top");
+					shape.originY = "top";
 				}
 				imageEdit.renderCanvas();
 			},
