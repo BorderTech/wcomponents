@@ -7,6 +7,7 @@
 ### Enhancements
 
 * PhantomJS replaced with Firefox Headless for selenium testing #1650.
+* Added WTab based methods to WTabSet corresponding to the content methods
 
 ### Bug Fixes
 
