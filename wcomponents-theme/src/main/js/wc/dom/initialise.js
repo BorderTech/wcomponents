@@ -6,11 +6,11 @@
  * @requires module:wc/Observer
  * @requires module:wc/timers
  * @requires module:wc/global
- * @requires external:lib/requirejs/domReady
+ * @requires module:wc/dom/Event
  * @todo re-order code, document private members.
  */
-define(["wc/Observer", "wc/timers", "wc/global", "lib/requirejs/domReady"],
-	function(Observer, timers, global, domReady) {
+define(["wc/Observer", "wc/timers", "wc/global", "wc/dom/event"],
+	function(Observer, timers, global, eventMgr) {
 		"use strict";
 		var /** @alias module:wc/dom/initialise */ instance;
 
@@ -185,6 +185,18 @@ define(["wc/Observer", "wc/timers", "wc/global", "lib/requirejs/domReady"],
 				}, 0);
 			}
 		});
+
+		/**
+		 * With all the old IE pain behind us this should work in every browser.
+		 * @param {Function} cb Called when dom is interactive / loaded.
+		 */
+		function domReady(cb) {
+			if (global.document && global.document.readyState !== "loading") {
+				cb(global.document);
+			} else {
+				eventMgr.add(global, "DOMContentLoaded", cb);
+			}
+		}
 
 		return instance = new Initialise();
 	});
