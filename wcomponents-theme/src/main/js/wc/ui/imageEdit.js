@@ -1,4 +1,4 @@
-define(["wc/has", "wc/mixin", "wc/config", "wc/dom/Widget", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers", "wc/ui/prompt",
+define(["wc/has", "wc/mixin", "wc/config", "wc/dom/Widget", "wc/dom/event", "wc/dom/classList", "wc/timers", "wc/ui/prompt",
 	"wc/i18n/i18n", "fabric", "wc/ui/dialogFrame", "wc/template", "wc/ui/ImageCapture", "wc/ui/ImageUndoRedo", "wc/file/size", "wc/file/util"],
 function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, fabric, dialogFrame, template, ImageCapture, ImageUndoRedo, fileSize, fileUtil) {
 	var imageEdit, timer, imageCapture;
@@ -317,8 +317,8 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 			} else if (config.redact) {
 				require(["wc/ui/imageRedact"], function(imageRedact) {
 					config.redactor = imageRedact;
-					getEditor(config, callbacks, file).then(function() {
-						gotEditor();
+					getEditor(config, callbacks, file).then(function(editor) {
+						gotEditor(editor);
 						config.redactor.activate(imageEdit);
 					});
 				});
@@ -407,8 +407,8 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 					centeredScaling: true,
 					centeredRotation: true
 				});
-				imageWidth = fabricImage.getWidth();
-				imageHeight = fabricImage.getHeight();
+				imageWidth = fabricImage.getScaledWidth();
+				imageHeight = fabricImage.getScaledHeight();
 				if (imageWidth > imageHeight) {
 					// fbCanvas.setZoom(width / imageWidth);
 					fabricImage.scaleToWidth(width).setCoords();
@@ -823,11 +823,13 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 			var newValue,
 				currentValue,
 				fbImage = imageEdit.getFbImage(),  // this could be a group, does it matter?
-				getter = config.getter || ("get" + config.prop),
-				setter = config.setter || ("set" + config.prop),
 				step = config.step || 1; // do not allow step to be 0
 			if (fbImage) {
-				currentValue = fbImage[getter]();
+				if (config.getter) {
+					currentValue = fbImage[config.getter]();
+				} else if (config.prop) {
+					currentValue = fbImage[config.prop];
+				}
 				if (config.exact) {
 					newValue = rotateToStepHelper(currentValue, step);
 				} else if (speed) {
@@ -838,7 +840,11 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 				if (config.min) {
 					newValue = Math.max(config.min, newValue);
 				}
-				fbImage[setter](newValue);
+				if (config.setter) {
+					fbImage[config.setter](newValue);
+				} else if (config.prop) {
+					fbImage[config.prop] = newValue;
+				}
 				imageEdit.renderCanvas(function() {
 					if (undoRedo) {
 						undoRedo.save();
@@ -856,25 +862,25 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 				click = eventConfig.click;
 			press.up = {
 				func: numericProp,
-				prop: "Top",
+				prop: "top",
 				step: -1
 			};
 
 			press.down = {
 				func: numericProp,
-				prop: "Top",
+				prop: "top",
 				step: 1
 			};
 
 			press.left = {
 				func: numericProp,
-				prop: "Left",
+				prop: "left",
 				step: -1
 			};
 
 			press.right = {
 				func: numericProp,
-				prop: "Left",
+				prop: "left",
 				step: 1
 			};
 
@@ -895,14 +901,14 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 			var press = eventConfig.press;
 			press.in = {
 				func: numericProp,
-				getter: "getScaleX",
+				prop: "scaleX",
 				setter: "scale",
 				step: 0.05
 			};
 
 			press.out = {
 				func: numericProp,
-				getter: "getScaleX",
+				prop: "scaleX",
 				setter: "scale",
 				step: -0.05,
 				min: 0.1
@@ -916,27 +922,31 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 			var click, press = eventConfig.press;
 			press.clock = {
 				func: numericProp,
-				prop: "Angle",
+				prop: "angle",
+				setter: "rotate",
 				step: 1
 			};
 
 			press.anticlock = {
 				func: numericProp,
-				prop: "Angle",
+				prop: "angle",
+				setter: "rotate",
 				step: -1
 			};
 
 			click = eventConfig.click;
 			click.clock90 = {
 				func: numericProp,
-				prop: "Angle",
+				prop: "angle",
+				setter: "rotate",
 				step: 90,
 				exact: true
 			};
 
 			click.anticlock90 = {
 				func: numericProp,
-				prop: "Angle",
+				prop: "angle",
+				setter: "rotate",
 				step: -90,
 				exact: true
 			};
@@ -1260,16 +1270,16 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 					toDataUrlParams = {
 						left: 0,
 						top: 0,
-						width: Math.min(fbCanvas.getWidth(), object.getWidth()),
-						height: Math.min(fbCanvas.getHeight(), object.getHeight())
+						width: Math.min(fbCanvas.getWidth(), object.getScaledWidth()),
+						height: Math.min(fbCanvas.getHeight(), object.getScaledHeight())
 					};
 				} else {
 					object = unscale(fbImage);
 					toDataUrlParams = {
 						left: object.getLeft(),
 						top: object.getTop(),
-						width: object.getWidth(),
-						height: object.getHeight()
+						width: object.getScaledWidth(),
+						height: object.getScaledHeight()
 					};
 				}
 				// Add params such as format, quality, multiplier etc

@@ -6,7 +6,12 @@
 
 ### Enhancements
 
+* PhantomJS replaced with Firefox Headless for selenium testing #1650.
+
 ### Bug Fixes
+
+* Work around "shift + keyboard click" broken in Firefox #1647.
+* Fix broken imageEdit #1657
 
 ## Release 1.5.16
 

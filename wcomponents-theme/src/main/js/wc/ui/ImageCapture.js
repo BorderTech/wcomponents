@@ -136,8 +136,12 @@ define(["wc/has", "wc/dom/classList", "wc/dom/event", "wc/ui/prompt", "wc/config
 			if (currentOptions.context === "webrtc") {
 
 				video = currentOptions.videoEl;
-				vendorURL = window.URL || window.webkitURL;
-				video.src = vendorURL ? vendorURL.createObjectURL(stream) : stream;
+				try {
+					vendorURL = window.URL || window.webkitURL;
+					video.src = vendorURL ? vendorURL.createObjectURL(stream) : stream;
+				} catch (error) {
+					video.srcObject = stream;
+				}
 
 				video.onerror = function () {
 					stream.getVideoTracks()[0].stop();
