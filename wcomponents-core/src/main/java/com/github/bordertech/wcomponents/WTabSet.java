@@ -628,18 +628,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * @return the tab index, or -1 if the tab is not in this tab set.
 	 */
 	public int getTabIndex(final WTab tab) {
-		List<WTab> tabs = getTabs();
-		final int count = tabs.size();
-
-		for (int i = 0; i < count; i++) {
-			WTab next = tabs.get(i);
-
-			if (tab == next) {
-				return i;
-			}
-		}
-
-		return -1;
+		return getTabs().indexOf(tab);
 	}
 
 	/**
