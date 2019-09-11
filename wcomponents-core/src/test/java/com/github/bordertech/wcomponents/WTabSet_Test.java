@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.WTabSet.TabMode;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.util.Arrays;
 import java.util.List;
@@ -222,6 +223,31 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 		resetContext();
 		Assert.assertTrue("Tab should be visible for other contexts", tabset.isTabVisible(0));
 		Assert.assertTrue("Other tabs should be visible for other contexts", tabset.isTabVisible(1));
+	}
+
+	@Test
+	public void testSetTabVisible_WTab() {
+		WTabSet tabset = new WTabSet();
+		WTab tab1 = tabset.addTab(new WLabel("tab1"), "tab1", WTabSet.TAB_MODE_DYNAMIC);
+		WTab tab2 = tabset.addTab(new WLabel("tab2"), "tab2", WTabSet.TAB_MODE_DYNAMIC);
+
+		Assert.assertTrue("Tab should be visible by default", tabset.isTabVisible(tab1));
+		Assert.assertTrue("Tab should be visible by default", tabset.isTabVisible(tab2));
+
+		tabset.setTabVisible(tab1, false);
+		Assert.assertFalse("Tab should not be visible", tabset.isTabVisible(tab1));
+		Assert.assertTrue("Other tabs should be visible", tabset.isTabVisible(tab2));
+
+		tabset.setTabVisible(tab1, true);
+		tabset.setLocked(true);
+		setActiveContext(createUIContext());
+		tabset.setTabVisible(tab1, false);
+		Assert.assertFalse("Tab should not be visible for affected context", tabset.isTabVisible(tab1));
+		Assert.assertTrue("Other tabs should be visible for affected context", tabset.isTabVisible(tab2));
+
+		resetContext();
+		Assert.assertTrue("Tab should be visible for other contexts", tabset.isTabVisible(tab1));
+		Assert.assertTrue("Other tabs should be visible for other contexts", tabset.isTabVisible(tab2));
 	}
 
 	@Test
@@ -472,10 +498,43 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Test setActiveTab - when the tab to be set active isnt even in the tabset.
+	 * Test setActiveTab - when the tab to be set active isn't even in the tabset.
 	 */
 	@Test
 	public void testSetActiveTabWhenNotThere() {
+		WTabSet tabset = new WTabSet();
+		WTabSet.TabMode mode = WTabSet.TabMode.DYNAMIC;
+
+		WComponent content0 = new DefaultWComponent();
+		WComponent content1 = new DefaultWComponent();
+		WDecoratedLabel label1 = new WDecoratedLabel("label1");
+		WComponent content2 = new DefaultWComponent();
+		WDecoratedLabel label2 = new WDecoratedLabel("label2");
+		tabset.addTab(content1, label1, mode);
+		tabset.addTab(content2, label2, mode);
+		int activeIndex = 1;
+		tabset.setActiveIndex(activeIndex);
+
+		WTab tab = new WTab(content0, "tabname", mode);
+		// but not added to tabset
+
+		Assert.assertEquals("activeIndex should be value set", activeIndex, tabset.getActiveIndex());
+		tabset.setActiveTab((WComponent) tab);
+		Assert.assertEquals("activeIndex should be unchanged", activeIndex, tabset.getActiveIndex());
+
+		setActiveContext(createUIContext());
+		activeIndex = 0;
+		tabset.setActiveIndex(activeIndex);
+		Assert.assertEquals("activeIndex should be value set", activeIndex, tabset.getActiveIndex());
+		tabset.setActiveTab((WComponent) tab);
+		Assert.assertEquals("activeIndex should be unchanged", activeIndex, tabset.getActiveIndex());
+	}
+        
+	/**
+	 * Test setActiveTab - when the tab to be set active isn't even in the tabset.
+	 */
+	@Test
+	public void testSetActiveTabWhenNotThere_WTab() {
 		WTabSet tabset = new WTabSet();
 		WTabSet.TabMode mode = WTabSet.TabMode.DYNAMIC;
 
@@ -549,7 +608,26 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 		int activeIndex = 0;
 		tabset.setActiveIndex(activeIndex);
 
-		boolean isActive = tabset.isActive(tabset.getTab(0));
+		boolean isActive = tabset.isActive((WComponent) tabset.getTab(0));
+		Assert.assertTrue("tab active", isActive);
+	}
+
+	/**
+	 * Test isActive - finding by tab.
+	 */
+	@Test
+	public void testIsActive_WTab() {
+		WTabSet tabset = new WTabSet();
+		WTabSet.TabMode mode = WTabSet.TabMode.DYNAMIC;
+
+		WComponent content1 = new DefaultWComponent();
+		WDecoratedLabel label1 = new WDecoratedLabel("label1");
+		WTab tab1 = tabset.addTab(content1, label1, mode);
+
+		int activeIndex = 0;
+		tabset.setActiveIndex(activeIndex);
+
+		boolean isActive = tabset.isActive(tab1);
 		Assert.assertTrue("tab active", isActive);
 	}
 
@@ -574,6 +652,30 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 
 		// now look for content not in a tab in the tabset
 		WComponent content3 = new DefaultWComponent();
+		Assert.assertEquals("should return -1 for not found", -1, tabset.getTabIndex(content3));
+	}
+
+	/**
+	 * Test getTabIndex - by content when its there and when it isnt.
+	 */
+	@Test
+	public void testGetTabIndexByTab() {
+		WTabSet tabset = new WTabSet();
+		WTabSet.TabMode mode = WTabSet.TabMode.DYNAMIC;
+
+		WComponent content1 = new DefaultWComponent();
+		WDecoratedLabel label1 = new WDecoratedLabel("label1");
+		tabset.addTab(content1, label1, mode);
+
+		WComponent content2 = new DefaultWComponent();
+		WDecoratedLabel label2 = new WDecoratedLabel("label1");
+		WTab tab2 = tabset.addTab(content2, label2, mode);
+
+		Assert.assertEquals("should find content2 at index 1", 1, tabset.getTabIndex(tab2));
+		Assert.assertEquals("should find content2 at index 1", 1, tabset.getTabIndex(tab2));
+
+		// now look for content not in a tab in the tabset
+		WTab content3 = new WTab(new WDecoratedLabel("label3"), "tab3", TabMode.CLIENT);
 		Assert.assertEquals("should return -1 for not found", -1, tabset.getTabIndex(content3));
 	}
 
