@@ -7,9 +7,10 @@
 		"description": "Custom config here. JSON has no comment syntax, argh!"
 	},
 	"scripts": {
+		"build": "node build-js.js",
 		"lint": "node lintfile.js",
 		"watch": "node theme-watch.js",
-		"test": "grunt test:sauce",
+		"test": "grunt test",
 		"test:grid": "grunt test:grid",
 		"test:local": "grunt test:local",
 		"test:serve": "grunt test:serve"
@@ -36,6 +37,7 @@
 		"eslint": "3.19.0",
 		"fs-extra": "8.1.0",
 		"grunt": "1.0.4",
+		"grunt-contrib-copy": "^1.0.0",
 		"intern": "4.4.3",
 		"jsdoc": "3.6.3",
 		"properties": "1.2.1",

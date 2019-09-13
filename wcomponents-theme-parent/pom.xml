@@ -66,7 +66,7 @@
 		<i18n.unpack.dir>${project.build.directory}${file.separator}i18n-unpacked</i18n.unpack.dir>
 		<nodejs.dist.dir>${project.build.directory}/nodejsdist</nodejs.dist.dir><!-- The nodejs binaries get unpacked to here -->
 		<nodejs.dir>${basedir}/node</nodejs.dir><!-- Where we expect to find Node installed -->
-		<nodejs.version>v8.11.3</nodejs.version><!-- the version of node to be installed -->
+		<nodejs.version>v10.16.3</nodejs.version><!-- the version of node to be installed -->
 		<npmjs.dir>${nodejs.dir}/node_modules/npm/bin</npmjs.dir><!-- Where we expect to find NPM installed -->
 		<npmjs.version>6.9.0</npmjs.version><!-- the version of npm to be installed - should be the version that goes with your version of node -->
 		<theme.skip.antrun>true</theme.skip.antrun><!-- All child projects that want to build a theme should set this to false -->
@@ -216,34 +216,6 @@
 							<goal>run</goal>
 						</goals>
 					</execution>
-					<execution>
-						<id>test</id>
-						<phase>test</phase>
-						<configuration>
-							<skip>${theme.skip.antrun}</skip>
-							<target>
-								<echo>Attempting to start ANT test at ${theme.core.dir}</echo>
-								<echo>basedir = ${basedir}</echo>
-								<property name="basedir" location="${basedir}" />
-								<property name="theme.inherit" value="${theme.inherit}" />
-								<property name="phantomjs.binary" value="${phantomjs.binary}" />
-								<property name="target.dir" location="${project.build.directory}" />
-								<property name="component.rootdir" location="${theme.core.dir}" />
-								<property name="build.number" value="${project.version}" />
-								<property name="build.rootdir" location="${theme.target.dir}" />
-								<property name="theme.skip.tests" value="${skipThemeOptionalTests}" />
-								<property name="maven.plugin.classpath" refid="maven.plugin.classpath" />
-								<property name="rjs.log.level" value="${rjs.log.level}" />
-								<property name="sass-lint-config" location="${basedir}/.sass-lint.yml" />
-								<ant antfile="${theme.core.dir}/build.xml">
-									<target name="test" />
-								</ant>
-							</target>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
 				</executions>
 				<dependencies>
 					<dependency>
@@ -271,7 +243,7 @@
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
-				<version>1.6</version>
+				<version>1.8.0</version>
 				<configuration>
 					<workingDirectory>${basedir}</workingDirectory>
 				</configuration>
@@ -291,6 +263,47 @@
 							-->
 							<nodeDownloadRoot>${node.download.root}</nodeDownloadRoot>
 							<npmDownloadRoot>${npm.download.root}</npmDownloadRoot>
+						</configuration>
+					</execution>
+					<execution>
+						<id>npm install</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<skip>${theme.skip.antrun}</skip>
+						</configuration>
+					</execution>
+					<execution>
+						<id>npm version</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<skip>${theme.skip.antrun}</skip>
+							 <arguments>version ${project.version} --allow-same-version true</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>npm run build</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<skip>${theme.skip.antrun}</skip>
+							 <arguments>run build</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>npm run test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<skip>${theme.skip.antrun}</skip>
+							 <arguments>run test</arguments>
 						</configuration>
 					</execution>
 				</executions>
