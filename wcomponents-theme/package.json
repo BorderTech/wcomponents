@@ -3,10 +3,14 @@
 	"version": "1.5.17-SNAPSHOT",
 	"description": "Client side code for WComponents UI tool kit.",
 	"private": true,
+	"com_github_bordertech": {
+		"description": "Custom config here. JSON has no comment syntax, argh!"
+	},
 	"scripts": {
+		"build": "node build-js.js",
 		"lint": "node lintfile.js",
 		"watch": "node theme-watch.js",
-		"test": "grunt test:sauce",
+		"test": "grunt test",
 		"test:grid": "grunt test:grid",
 		"test:local": "grunt test:local",
 		"test:serve": "grunt test:serve"
@@ -17,14 +21,13 @@
 		"target": "target"
 	},
 	"dependencies": {
-		"dojo": "1.10.8",
+		"dojo": "1.15.0",
 		"fabric": "3.4.0",
 		"getusermedia-js": "1.0.0",
 		"i18next": "10.6.0",
 		"mustache": "2.3.0",
 		"promise-polyfill": "8.1.3",
 		"requirejs": "2.3.6",
-		"requirejs-domready": "2.0.3",
 		"sprintf-js": "1.1.2",
 		"tinymce": "5.0.13"
 	},
@@ -34,10 +37,12 @@
 		"eslint": "3.19.0",
 		"fs-extra": "8.1.0",
 		"grunt": "1.0.4",
+		"grunt-contrib-copy": "^1.0.0",
 		"intern": "4.4.3",
 		"jsdoc": "3.6.3",
 		"properties": "1.2.1",
 		"sass": "1.5.1",
-		"sass-lint": "1.12.1"
+		"sass-lint": "1.12.1",
+		"uglify-es": "3.3.9"
 	}
 }

@@ -81,47 +81,6 @@
 		</sequential>
 	</macrodef>
 
-	<!--
-		Does what "npm install" does.
-	-->
-	<macrodef name="npm.install">
-		<attribute name="package" default="" description="The name of the package to install."/>
-		<attribute name="cwd" default="${basedir}" description="The working directory"/>
-		<attribute name="failonerror" default="false"/>
-		<sequential>
-			<local name="npm.command"/>
-			<property name="npm.command" value="install"/>
-			<echo level="verbose">npm ${npm.command} @{package}</echo>
-			<npm.exec cwd="@{cwd}">
-				<arg-elements>
-					<arg value="${npm.command}"/>
-					<arg value="@{package}"/>
-				</arg-elements>
-			</npm.exec>
-		</sequential>
-	</macrodef>
-
-	<!--
-		Does what "npm version" does.
-	-->
-	<macrodef name="npm.version">
-		<attribute name="version" default="${build.number}" description="The arg to pass to npm version"/>
-		<attribute name="cwd" default="${basedir}" description="The working directory"/>
-		<attribute name="failonerror" default="false"/>
-		<sequential>
-			<local name="npm.command"/>
-			<property name="npm.command" value="version"/>
-			<echo level="verbose">npm ${npm.command} @{version} --allow-same-version true</echo>
-			<npm.exec cwd="@{cwd}">
-				<arg-elements>
-					<arg value="${npm.command}"/>
-					<arg value="@{version}"/>
-					<arg value="--allow-same-version"/>
-					<arg value="true"/>
-				</arg-elements>
-			</npm.exec>
-		</sequential>
-	</macrodef>
 
 	<!--
 	This macro knows how to call the npm executable on different platforms.
