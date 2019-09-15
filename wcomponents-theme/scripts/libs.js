@@ -58,6 +58,9 @@ let libs = {
 	},
 	"getusermedia-js/dist": {
 		dest: "getusermedia-js"
+	},
+	"socket.io-client/dist" : {
+		dest: "socketio"
 	}
 };
 
