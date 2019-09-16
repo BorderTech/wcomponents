@@ -1,7 +1,7 @@
 /* eslint-env node, es6  */
 
 /*
- * This module is responsible for the server side hot module reloading.
+ * This module is responsible for hot module reloading on the server side.
  *
  * @author Rick Brown
  */
@@ -9,7 +9,7 @@ const socketio = require("socket.io");
 let io;
 
 /**
- * Beginning listening for hot relaod clients.
+ * Begin listening for hot reload clients.
  * @param config Override default configuration if you wish.
  */
 function listen(config = { port: "3002"}) {
@@ -33,12 +33,14 @@ function listen(config = { port: "3002"}) {
 
 /**
  * Call this when a module has changed.
- * @param {type} moduleName The name of the module that has changed.
+ * @param {string|string[]} changed The name of the module or modules that have changed.
+ * @param {string} [type] The type of change.
  */
-function notify(moduleName) {
+function notify(changed, type=null) {
 	if (io && io.engine.clientsCount > 0) {
-		console.log("Hot reloading", moduleName);
-		io.sockets.emit("wcjschange", moduleName);
+		let payload = { changed, type };
+		console.log("Hot reloading", payload);
+		io.sockets.emit("wc-change", payload);
 	}
 }
 

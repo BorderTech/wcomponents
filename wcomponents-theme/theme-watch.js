@@ -12,59 +12,72 @@
  */
 const fs = require("fs");
 const { dirs } = require("./build-util");
-const buildJs = require("./build-js");
 const themeLinter = require("./lintfile");
+const buildJs = require("./build-js");
+const buildCss = require("./build-css");
 const grunt = require("grunt");
 const path = require("path");
 const hotReload = require("./scripts/hotReloadServer");
+const handlers = {
+	script: /**
+		 * Knows how to respond when a JS source module is changed.
+		 * @param {string} dir The path to the directory being watched.
+		* @param {string} filename The relative path to the file that changed.
+		* @returns {Promise} resolved when the change has been handled.
+		*/
+		function(dir, filename) {
+			let filePath = path.join(dir, filename);
+			return buildJs.build(filePath).then(function() {
+				return buildJs.pathToModule(filename);
+			});
+		},
+	style: /**
+		 * Knows how to respond when a sass source file is changed.
+		 * @param {string} dir The path to the directory being watched.
+		 * @param {string} filename The relative path to the file that changed.
+		 * @returns {Promise} resolved when the change has been handled.
+		 */
+		function(dir, filename) {
+			let filePath = path.join(dir, filename);
+			return buildCss.build(filePath);
+		},
+	test: /**
+		 * Knows how to respond when a test suite is changed.
+		 * @param {string} dir The path to the directory being watched.
+		 * @param {string} filename The relative path to the file that changed.
+		 * @returns {Promise} resolved when the change has been handled.
+		 */
+		function(dir, filename) {
+			return new Promise(function(win) {
+				themeLinter.run(path.join(dir, filename));
+				grunt.option("filename", filename);
+				grunt.tasks(["copy:test"], { filename: filename }, win);
+			});
+		}
+};
 
 hotReload.listen();
-
-watchDir(dirs.script, handleJsChange);
-watchDir(dirs.test, handleTestChange);
+Object.keys(handlers).forEach(watchDir);
 
 /**
  * Sets up a filesystem watch on the given source directory and copies any changed files to the corresponding subdirectory in targetRoot.
- * @param dir.src The path to the source root directory to watch.
- * @param {Function(String)} [processFunc] The function that will handle the file change.
+ * @param {string} type "build-util dirs" key defining The path to the source root directory to watch.
  */
-function watchDir(dir, processFunc) {
-	console.log("Watching ", dir.src);
-	fs.watch(dir.src, { recursive: true }, (event, filename) => {
-		if (filename && event === "change") {
-			console.log("File Changed ", filename);
-			processFunc(dir.src, filename).then(function(moduleName) {
-				if (moduleName) {
-					hotReload.notify(moduleName);
-				}
-			});
-		}
-	});
-}
-
-/**
- * Knows how to respond when a JS source module is changed.
- * @param {string} dir The path to the directory being watched.
- * @param {string} filename The relative path to the file that changed.
- * @returns {Promise} resolved when the change has been handled.
- */
-function handleJsChange(dir, filename) {
-	let filePath = path.join(dir, filename);
-	return buildJs.build(filePath).then(function() {
-		return buildJs.pathToModule(filename);
-	});
-}
-
-/**
- * Knows how to respond when a test suite is changed.
- * @param {string} dir The path to the directory being watched.
- * @param {string} filename The relative path to the file that changed.
- * @returns {Promise} resolved when the change has been handled.
- */
-function handleTestChange(dir, filename) {
-	return new Promise(function(win) {
-		themeLinter.run(path.join(dir, filename));
-		grunt.option("filename", filename);
-		grunt.tasks(["copy:test"], { filename: filename }, win);
-	});
+function watchDir(type) {
+	let dir = dirs[type];
+	if (dir && dir.src) {
+		console.log("Watching ", type, dir.src);
+		fs.watch(dir.src, { recursive: true }, (event, filename) => {
+			if (filename && event === "change") {
+				console.log("File Changed ", filename);
+				handlers[type](dir.src, filename).then(function(moduleName) {
+					if (moduleName) {
+						hotReload.notify(moduleName, type);
+					}
+				});
+			}
+		});
+	} else {
+		console.warn("Cannot find dirs, not watching", type);
+	}
 }

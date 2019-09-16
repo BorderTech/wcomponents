@@ -3,46 +3,95 @@
  *
  * @author Rick Brown
  */
-define(["lib/socketio/socket.io"], function (io) {
-	var socketHotReload;
+define(["lib/socketio/socket.io", "wc/debounce", "wc/urlParser"], function (io, debounce, urlParser) {
+	var socketHotReload,
+		handlers = {
+			script: /**
+				 * Force requirejs to reload a module.
+				 * @param {object} payload The data received from the update event.
+				 */
+				function (payload) {
+					var component,
+						moduleName = payload.changed,
+						callback = function(err, result) {
+							if (err) {
+								console.error(err);
+							} else {
+								console.log(result);
+							}
+						};
+					if (require.defined(moduleName)) {
+						try {
+							component = require(moduleName);
+							if (component && component.deinit) {
+								console.log("deinitialising", moduleName);
+								component.deinit();
+							}
+						} catch (ex) {
+							console.warn(ex);
+						}
+					}
+					require.undef(moduleName);
+					require([moduleName], function (module) {
+						callback(null, module);
+					});
+				},
+			style: /**
+				 * Force style loader to reload CSS.
+				 * Note that all loaded CSS is forced to reload regardless, hence the debounce, it could be called heaps.
+				 * It is not feasible to detect what actually needs to be updated when Sass source is modified.
+				 * @param {object} payload The data received from the update event.
+				 */
+				debounce(function() {
+					var i, forceParam = "wcforce=" + Date.now(),
+						myLinks = document.querySelectorAll("link[data-wc-loader]");
+					for (i = 0; i < myLinks.length; i++) {
+						bumpCacheBuster(myLinks[i]);
+					}
+
+					function bumpCacheBuster(link) {
+						var parsedUrl = urlParser.parse(link.getAttribute("href"));
+
+						if (parsedUrl.search) {
+							link.href += "&" + forceParam;
+						} else {
+							link.href += "?" + forceParam;
+						}
+					}
+				}, 333)
+		};
 
 	/**
 	 * Establish a socket connection with the hot reload server.
 	 * @returns The socket connection.
 	 */
 	function getConnection() {
-		if (!socketHotReload) {
-			socketHotReload = io.connect("http://127.0.0.1:3002");
-			socketHotReload.on("wcjschange", handleJsChange);
-		}
-		return socketHotReload;
-	}
-
-	/**
-	 * Called when a JS module needs to be hot reloaded.
-	 * @param moduleName The module to reload.
-	 */
-	function handleJsChange(moduleName) {
-		console.log("Hot reloading", moduleName);
-		reloadModule(moduleName, function(err, result) {
-			if (err) {
-				console.error(err);
-			} else {
-				console.log(result);
+		try {
+			if (!socketHotReload) {
+				socketHotReload = io.connect("http://127.0.0.1:3002");
+				socketHotReload.on("wc-change", handleModuleChange);
 			}
-		});
+			return socketHotReload;
+		} catch (ex) {
+			console.error(ex);
+		}
+		return null;
 	}
 
 	/**
-	 * Force requirejs to reload a module.
-	 * @param {string} moduleName The name of the module to reload.
-	 * @param {Function} callback called when the module is reloaded.
+	 * Called when a module needs to be hot reloaded.
+	 * @param payload The event payload including module names to reload.
 	 */
-	function reloadModule(moduleName, callback) {
-		require.undef(moduleName);
-		require([moduleName], function (module) {
-			callback(null, module);
-		});
+	function handleModuleChange(payload) {
+		if (payload.type && typeof handlers[payload.type] === "function") {
+			try {
+				handlers[payload.type](payload);
+			} catch (ex) {
+				console.error(ex);
+			}
+		} else {
+			console.warn("Could not hot reload", payload);
+		}
 	}
 
 	return {
