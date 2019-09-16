@@ -12,7 +12,7 @@ const {dirs: {test: dirs}} = require("./build-util");
 const defaultInternArgs = "environments='{\"browserName\":\"firefox\"}'";
 
 module.exports = function (grunt) {
-	var testSrc = "intern/"  + grunt.option("filename") || "**";
+	var testSrc = "intern/"  + (grunt.option("filename") || "**");
 	logIt("Building tests " + testSrc);
 	grunt.initConfig({
 		copy: {

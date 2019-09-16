@@ -61,9 +61,8 @@ function build(singleFile) {
 		libBuilder.build(__dirname, dirs.max);
 		createDebugVersion();
 		return optimize(config);
-	} else {
-		return buildSingle(singleFile);
 	}
+	return buildSingle(singleFile);
 }
 
 /*
