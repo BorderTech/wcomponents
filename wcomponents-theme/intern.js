@@ -1,8 +1,10 @@
 /* eslint-env node, es6  */
 const pkgJson = require("./package.json");
+const testRootPath = `${pkgJson.directories.target}/test-classes/${pkgJson.name}/intern`;
+const srcRootPath = `${pkgJson.directories.target}/classes/theme/${pkgJson.name}`;
 
 let requireJsOptions = {
-	baseUrl: `/${pkgJson.directories.target}/classes/theme/${pkgJson.name}/`,
+	baseUrl: `/${srcRootPath}/`,
 	paths: {
 		wc: `scripts_debug/wc`,
 		lib: `scripts_debug/lib`,
@@ -14,14 +16,14 @@ let requireJsOptions = {
 		Promise: `scripts_debug/lib/Promise`,
 		compat: `scripts_debug/wc/compat`,
 		translation: `resource/translation`,
-		"intern/chai": `/${pkgJson.directories.target}/test-classes/${pkgJson.name}/intern/resources/intern-chai`,
-		"intern/resources": `/${pkgJson.directories.target}/test-classes/${pkgJson.name}/intern/resources/`,
-		intern: `/${pkgJson.directories.target}/test-classes/${pkgJson.name}/intern/resources/intern-shim`,
+		"intern/chai": `/${testRootPath}/resources/intern-chai`,
+		"intern/resources": `/${testRootPath}/resources/`,
+		intern: `/${testRootPath}/resources/intern-shim`,
 		target: `/${pkgJson.directories.target}`
 	},
 	config: {
 		"wc/loader/resource": {
-			"resourceBaseUrl": `/${pkgJson.directories.target}/classes/theme/${pkgJson.name}/resource/`
+			"resourceBaseUrl": `/${srcRootPath}/resource/`
 		}
 	}
 };
@@ -39,16 +41,10 @@ let requireJsOptions = {
  * https://theintern.io/docs.html#Intern/4/docs/docs%2Fconfiguration.md/environment-variable
  */
 let internConfig = {
-	suites: [`${pkgJson.directories.target}/test-classes/${pkgJson.name}/intern/*.test.js`],
-	node: {
-		loader: {
-			script: `${pkgJson.directories.target}/test-classes/${pkgJson.name}/intern/resources/intern-loader.js`,
-			options: requireJsOptions
-		}
-	},
+	suites: [`${testRootPath}/*.test.js`],
 	browser: {
 		loader: {
-			script: `${pkgJson.directories.target}/test-classes/${pkgJson.name}/intern/resources/intern-loader.js`,
+			script: `${testRootPath}/resources/intern-loader.js`,
 			options: requireJsOptions
 		}
 	},

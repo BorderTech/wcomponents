@@ -16,7 +16,7 @@ intern.registerLoader(function (options) {
 		 * @returns {Promise} resolved when done.
 		 */
 		return function (modules) {
-			var testFileRe = /^target\/test-classes\/.+\/intern\/(.+).js$/;
+			var testFileRe = /.+\/intern\/(.+).js$/;
 			modules = modules.map(function(nextModule) {
 				if (testFileRe.test(nextModule)) {
 					/*
