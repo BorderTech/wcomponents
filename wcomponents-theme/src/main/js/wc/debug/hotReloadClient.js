@@ -6,6 +6,19 @@
 define(["lib/socketio/socket.io", "wc/debounce", "wc/urlParser", "wc/dom/cookie"], function (io, debounce, urlParser, cookie) {
 	var socketHotReload,
 		handlers = {
+			images: /**
+				 * Force an image to reload.
+				 * @param {object} payload The data received from the update event.
+				 */
+				function(payload) {
+					var i, images, imgHref = require.toUrl(payload.changed);
+					imgHref = urlParser.parse(imgHref);
+					imgHref = imgHref.pathnameArray.join("/");
+					images = document.querySelectorAll("img[src*='" + imgHref + "']");
+					for (i = 0; i < images.length; i++) {
+						bumpCacheBuster(images[i]);
+					}
+				},
 			script: /**
 				 * Force requirejs to reload a module.
 				 * @param {object} payload The data received from the update event.
@@ -42,23 +55,28 @@ define(["lib/socketio/socket.io", "wc/debounce", "wc/urlParser", "wc/dom/cookie"
 				 * It is not feasible to detect what actually needs to be updated when Sass source is modified.
 				 */
 				debounce(function() {
-					var i, forceParam = "wcforce=" + Date.now(),
-						myLinks = document.querySelectorAll("link[data-wc-loader]");
+					var i, myLinks = document.querySelectorAll("link[data-wc-loader]");
 					for (i = 0; i < myLinks.length; i++) {
 						bumpCacheBuster(myLinks[i]);
 					}
-
-					function bumpCacheBuster(link) {
-						var parsedUrl = urlParser.parse(link.getAttribute("href"));
-
-						if (parsedUrl.search) {
-							link.href += "&" + forceParam;
-						} else {
-							link.href += "?" + forceParam;
-						}
-					}
 				}, 333)
 		};
+
+	/**
+	 * Force cache bypass by manipulating queryString.
+	 * @param {Element} element An element with a src or href
+	 */
+	function bumpCacheBuster(element) {
+		var forceParam = "wcforce=" + Date.now(),
+			attr = element.hasAttribute("href") ? "href" : "src",
+			parsedUrl = urlParser.parse(element.getAttribute(attr));
+
+		if (parsedUrl.search) {
+			element[attr] += "&" + forceParam;
+		} else {
+			element[attr] += "?" + forceParam;
+		}
+	}
 
 	/**
 	 * Determines if we should try to connect.
@@ -122,7 +140,7 @@ define(["lib/socketio/socket.io", "wc/debounce", "wc/urlParser", "wc/dom/cookie"
 				console.error(ex);
 			}
 		} else {
-			console.warn("Could not hot reload", payload);
+			console.info("Could not hot reload", payload);
 		}
 	}
 
