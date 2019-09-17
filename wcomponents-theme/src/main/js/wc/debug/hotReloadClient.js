@@ -3,7 +3,7 @@
  *
  * @author Rick Brown
  */
-define(["lib/socketio/socket.io", "wc/debounce", "wc/urlParser"], function (io, debounce, urlParser) {
+define(["lib/socketio/socket.io", "wc/debounce", "wc/urlParser", "wc/dom/cookie"], function (io, debounce, urlParser, cookie) {
 	var socketHotReload,
 		handlers = {
 			script: /**
@@ -40,7 +40,6 @@ define(["lib/socketio/socket.io", "wc/debounce", "wc/urlParser"], function (io, 
 				 * Force style loader to reload CSS.
 				 * Note that all loaded CSS is forced to reload regardless, hence the debounce, it could be called heaps.
 				 * It is not feasible to detect what actually needs to be updated when Sass source is modified.
-				 * @param {object} payload The data received from the update event.
 				 */
 				debounce(function() {
 					var i, forceParam = "wcforce=" + Date.now(),
@@ -62,14 +61,47 @@ define(["lib/socketio/socket.io", "wc/debounce", "wc/urlParser"], function (io, 
 		};
 
 	/**
+	 * Determines if we should try to connect.
+	 * @param {boolean} force If true will bypass regular checks and try to give you a connection.
+	 * @returns {boolean} true if we should try to connect.
+	 */
+	function shouldConnect(force) {
+		if (force) {
+			// this allows you to `require("wc/debug/hotReloadClient").getConnection(true)`
+			return true;
+		}
+		if (navigator.webdriver) {
+			// by default don't connect when running selenium tests
+			return false;
+		}
+		// If you want hot module reloading to autoconnect then `require("wc/dom/cookie").create("wchotmod", "true", 800)`
+		return cookie.read("wchotmod");
+	}
+
+	/**
 	 * Establish a socket connection with the hot reload server.
+	 * @param {boolean} force If true will bypass regular checks and try to give you a connection.
 	 * @returns The socket connection.
 	 */
-	function getConnection() {
+	function getConnection(force) {
+		if (!shouldConnect(force)) {
+			return null;
+		}
 		try {
 			if (!socketHotReload) {
-				socketHotReload = io.connect("http://127.0.0.1:3002");
+				socketHotReload = io.connect("//" + window.location.hostname + ":3002", {
+					reconnectionAttempts: 6,
+					reconnectionDelay: 10000
+				});
 				socketHotReload.on("wc-change", handleModuleChange);
+
+				socketHotReload.on("connect_error", function(err) {
+					console.log("Hot reload client could not connect", err);
+				});
+
+				socketHotReload.on("reconnect_failed", function () {
+					console.log("Hot reload client given up retrying");
+				});
 			}
 			return socketHotReload;
 		} catch (ex) {

@@ -5,7 +5,7 @@
  *
  * @author Rick Brown
  */
-const socketio = require("socket.io");
+const Server = require("socket.io");
 let io;
 
 /**
@@ -14,11 +14,7 @@ let io;
  */
 function listen(config = { port: "3002"}) {
 	if (!io) {
-		io = socketio.listen(config.port, function (err) {
-			if (err) {
-				console.error(err);
-			}
-		});
+		io = new Server(config.port, {});
 
 		console.log("Hot reload server listening on port", config.port);
 
