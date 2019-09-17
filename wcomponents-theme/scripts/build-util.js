@@ -1,15 +1,18 @@
 /* eslint-env node, es6  */
-const pkgJson = require("./package.json");
+const pkgJson = require("../package.json");
 const path = require("path");
 const fs = require("fs-extra");
+const projectRoot = path.normalize(path.join(__dirname, ".."));
+const srcRoot = path.join(projectRoot, pkgJson.directories.src);
+const targetRoot = path.join(projectRoot, pkgJson.directories.target, "classes", "theme", pkgJson.name);
 const dirs = {
 	images: {
-		src: path.join(__dirname, pkgJson.directories.src, "images"),
-		target: path.join(__dirname, pkgJson.directories.target, "classes", "theme", pkgJson.name, "images")
+		src: path.join(srcRoot, "images"),
+		target: path.join(targetRoot, "images")
 	},
 	script: {
-		src: path.join(__dirname, pkgJson.directories.src, "js"),
-		target: path.join(__dirname, pkgJson.directories.target, "classes", "theme", pkgJson.name),
+		src: path.join(srcRoot, "js"),
+		target: targetRoot,
 		get max() {
 			return path.join(this.target, "scripts_debug");
 		},
@@ -19,12 +22,12 @@ const dirs = {
 	},
 
 	style: {
-		src: path.join(__dirname, pkgJson.directories.src, "sass"),
-		target: path.join(__dirname, pkgJson.directories.target, "classes", "theme", pkgJson.name, "style")
+		src: path.join(srcRoot, "sass"),
+		target: path.join(targetRoot, "style")
 	},
 	test: {
-		src: path.join(__dirname, pkgJson.directories.test),
-		target: path.join(__dirname, pkgJson.directories.target, "test-classes", pkgJson.name)
+		src: path.join(projectRoot, pkgJson.directories.test),
+		target: path.join(projectRoot, pkgJson.directories.target, "test-classes", pkgJson.name)
 	}
 };
 
@@ -44,7 +47,6 @@ function logLintReport(reportItem) {
  * @param {string} [singleFile] If you simply want to build a single file.
  */
 function buildMax(dirPaths, singleFile) {
-	console.time("buildMax");
 	let src = dirPaths.src,
 		dest = dirPaths.max || dirPaths.target;
 	if (singleFile) {
@@ -58,7 +60,6 @@ function buildMax(dirPaths, singleFile) {
 	 */
 	// fs.symlinkSync(src, dest);
 	fs.copySync(src, dest);
-	console.timeEnd("buildMax");
 }
 
 // Note that `join` with `__dirname` better than `resolve` as it cwd agnostic

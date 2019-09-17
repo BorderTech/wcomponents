@@ -8,7 +8,7 @@
  * Use npx, e.g.`npx grunt test`
  */
 let internConfig = require("./intern").config;
-const {dirs: {test: dirs}} = require("./build-util");
+const {dirs: {test: dirs}} = require("./scripts/build-util");
 const defaultInternArgs = "environments='{\"browserName\":\"firefox\"}'";
 
 module.exports = function (grunt) {

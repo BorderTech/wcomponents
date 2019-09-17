@@ -12,7 +12,7 @@
  *
  */
 const path = require("path");
-const { logLintReport, dirs } = require("./build-util");
+const { logLintReport, dirs } = require("./scripts/build-util");
 const testSrcDir = path.join(dirs.test.src, "intern");
 const sassLint = require("sass-lint");
 
