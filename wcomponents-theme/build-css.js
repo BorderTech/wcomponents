@@ -1,7 +1,7 @@
 /* eslint-env node, es6  */
 const fs = require("fs-extra");
 const path = require("path");
-const { dirs: {style: dirs}} = require("./build-util");
+const { dirs: { style: dirs } } = require("./build-util");
 const sass = require("sass");
 const themeLinter = require("./lintfile");
 
@@ -17,11 +17,13 @@ if (require.main === module) {
 function build(singleFile) {
 	return new Promise(function (win, lose) {
 		try {
-			console.time("build");
+			console.time("buildCss");
 			themeLinter.runSass(singleFile);
 			clean();
 			fs.mkdirpSync(dirs.target);
-			win(compileAllSass());
+			let result = compileAllSass();
+			console.timeEnd("buildCss");
+			win(result);
 		} catch (ex) {
 			lose(ex);
 		}

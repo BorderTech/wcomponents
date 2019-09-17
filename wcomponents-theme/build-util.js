@@ -3,6 +3,10 @@ const pkgJson = require("./package.json");
 const path = require("path");
 const fs = require("fs-extra");
 const dirs = {
+	images: {
+		src: path.join(__dirname, pkgJson.directories.src, "images"),
+		target: path.join(__dirname, pkgJson.directories.target, "classes", "theme", pkgJson.name, "images")
+	},
 	script: {
 		src: path.join(__dirname, pkgJson.directories.src, "js"),
 		target: path.join(__dirname, pkgJson.directories.target, "classes", "theme", pkgJson.name),
@@ -13,13 +17,14 @@ const dirs = {
 			return path.join(this.target, "scripts");
 		}
 	},
-	test: {
-		src: path.join(__dirname, pkgJson.directories.test),
-		target: path.join(__dirname, pkgJson.directories.target, "test-classes", pkgJson.name)
-	},
+
 	style: {
 		src: path.join(__dirname, pkgJson.directories.src, "sass"),
 		target: path.join(__dirname, pkgJson.directories.target, "classes", "theme", pkgJson.name, "style")
+	},
+	test: {
+		src: path.join(__dirname, pkgJson.directories.test),
+		target: path.join(__dirname, pkgJson.directories.target, "test-classes", pkgJson.name)
 	}
 };
 
@@ -41,7 +46,7 @@ function logLintReport(reportItem) {
 function buildMax(dirPaths, singleFile) {
 	console.time("buildMax");
 	let src = dirPaths.src,
-		dest = dirPaths.max;
+		dest = dirPaths.max || dirPaths.target;
 	if (singleFile) {
 		src = path.join(src, singleFile);
 		dest = path.join(dest, singleFile);

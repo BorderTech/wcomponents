@@ -54,7 +54,7 @@ if (require.main === module) {
  * @param {string} [singleFile] If you want to build a single JS file.
  */
 function build(singleFile) {
-	console.time("build");
+	console.time("buildJS");
 	if (!singleFile) {
 		themeLinter.run("", true);
 		clean();
@@ -91,7 +91,7 @@ function optimize(conf) {
 	return new Promise(function(win, lose) {
 		requirejs.optimize(conf, function (buildResponse) {
 			noisyLog(buildResponse);
-			console.timeEnd("build");
+			console.timeEnd("buildJS");
 			win();
 		}, function(err) {
 			console.error(err);
