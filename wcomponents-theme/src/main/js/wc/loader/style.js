@@ -78,10 +78,10 @@ define(["wc/has", "wc/mixin", "wc/urlParser", "wc/config", "wc/dom/tag"], functi
 			 * @private
 			 */
 			defaultStylesToAdd = {
-				"edge": "edge",
-				"ie11": {
-					"test": "trident",
-					"version": 7
+				edge: "edge",
+				ie11: {
+					test: "trident",
+					version: 7
 				}
 			};
 
@@ -182,6 +182,7 @@ define(["wc/has", "wc/mixin", "wc/urlParser", "wc/config", "wc/dom/tag"], functi
 			}
 
 			linkAttribs = {
+				"data-wc-loader": "style",
 				"type" : "text/css",
 				"rel": "stylesheet",
 				"href": url
@@ -253,10 +254,11 @@ define(["wc/has", "wc/mixin", "wc/urlParser", "wc/config", "wc/dom/tag"], functi
 				return;
 			}
 			fullUrl = CSS_BASE_URL + nameOrUrl;
-			if (!CACHEBUSTER || nameOrUrl.indexOf(DOT_EX) > 0) {
+			if (nameOrUrl.indexOf(DOT_EX) < 0) {
 				fullUrl += DOT_EX;
-			} else {
-				fullUrl += DOT_EX + "?" + CACHEBUSTER;
+			}
+			if (CACHEBUSTER) {
+				fullUrl += "?" + CACHEBUSTER;
 			}
 			addLinkElement(fullUrl, media);
 		}
@@ -335,7 +337,7 @@ define(["wc/has", "wc/mixin", "wc/urlParser", "wc/config", "wc/dom/tag"], functi
 		 * @param {String} nameOrUrl The file name (with or without extension) or URL to a CSS file.
 		 *
 		 *   1. Supported URLs are of the form "//blah", "/blah", "http[s]://blah" or ".[.]/blah".
-		 *   2. If the String is not in one of the URL patterns we assume you are getting a CSS file built from yhour
+		 *   2. If the String is not in one of the URL patterns we assume you are getting a CSS file built from your
 		 *     theme in the /style/ directory.
 		 *     1. If the String contains ".css" we do not add the extension or cache-buster.
 		 *     2. If the file name is not a URL and does not contain .css we add the extension (including the debug
@@ -386,7 +388,7 @@ define(["wc/has", "wc/mixin", "wc/urlParser", "wc/config", "wc/dom/tag"], functi
 	 * @typedef {Object} module:wc/loader/style~cssConfig
 	 * @property {String} key The file name extension used in the CSS build. This is the bit immediately after the `wc-` part and before the `.css`
 	 *    part of the CSS file's name (eg 'ff'). This can be anything (well, anything which is a valid object property name) if the value is a
-	 *    `loadRules` object and thar object defines both the `test` and `name` properties.
+	 *    `loadRules` object and that object defines both the `test` and `name` properties.
 	 * @property {(String|module:wc/loader/style~loadRules)} value The rules for describing and load testing for the CSS. If this property is
 	 *    a string then it is a simple has test passing in that string and using the key as the building block for the CSS file name as described
 	 *    above. Otherwise see {@link module:wc/loader/style~loadRules}

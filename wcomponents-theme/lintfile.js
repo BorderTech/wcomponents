@@ -12,8 +12,9 @@
  *
  */
 const path = require("path");
-const { dirs } = require("./build-util");
+const { logLintReport, dirs } = require("./build-util");
 const testSrcDir = path.join(dirs.test.src, "intern");
+const sassLint = require("sass-lint");
 
 const CLIEngine = require("eslint").CLIEngine;
 const eslintCli = new CLIEngine({
@@ -26,13 +27,15 @@ const eslintCli = new CLIEngine({
 if (require.main === module) {
 	let len = process.argv.length,
 		target = len > 2 ? process.argv[len - 1] : "";
+	runSassLint();
 	runEslint(target, true);
+
 }
 
 
 /**
  * What are we linting?
- * If no target is provided will fall back to linting the theme js.
+ * If no target is provided will fall back to linting the entire theme.
  * @returns {String[]} Paths to lint.
  */
 function getLintTarget(target) {
@@ -70,6 +73,21 @@ function runEslint(target, failOnErr) {
 	return uglyReport;
 }
 
+/**
+ * Runs sass lint.
+ * @param {string} [sourcePath] The path to a single sass file, if not provided the entire sass directory will be linted.
+ * @returns The raw lint report.
+ */
+function runSassLint(sourcePath) {
+	let glob = sourcePath || "**/!(fa)/*.scss";
+	let results = sassLint.lintFiles(glob, { formatter: "stylish" }, path.join(__dirname, ".sass-lint.yml"));
+	if (results) {
+		results.forEach(logLintReport);
+	}
+	return results;
+}
+
 module.exports = {
-	run: runEslint
+	run: runEslint,
+	runSass: runSassLint
 };

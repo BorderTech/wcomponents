@@ -7,7 +7,9 @@
 		"description": "Custom config here. JSON has no comment syntax, argh!"
 	},
 	"scripts": {
-		"build": "node build-js.js",
+		"build": "node build-images.js && node build-css.js && node build-js.js",
+		"build:js": "node build-js.js",
+		"build:css": "node build-css.js",
 		"lint": "node lintfile.js",
 		"watch": "node theme-watch.js",
 		"test": "grunt test",

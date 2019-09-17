@@ -153,6 +153,14 @@ define(["wc/dom/event",
 			this.getWidget = function() {
 				return CONTAINER;
 			};
+
+			/**
+			 * Unsubscribes event listeners etc.
+			 */
+			this.deinit = function() {
+				event.remove(document.body, event.TYPE.click, clickEvent);
+				formUpdateManager.unsubscribe(writeState);
+			};
 		}
 
 		/**

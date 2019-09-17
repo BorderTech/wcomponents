@@ -104,8 +104,8 @@
 						<xsl:with-param name="filename" select="'wc'" />
 					</xsl:call-template>
 				</xsl:variable>
-				<!-- the id is used by the style loader js -->
-				<link type="text/css" rel="stylesheet" id="wc_css_screen"
+				<!-- the id and data-attributes are used by the style loader js -->
+				<link type="text/css" rel="stylesheet" id="wc_css_screen" data-wc-loader="style"
 					href="{$mainCssUrl}" media="screen" />
 				<xsl:if test="$isDebug = 1">
 					<xsl:variable name="debugCssUrl">
@@ -114,7 +114,7 @@
 							 />
 						</xsl:call-template>
 					</xsl:variable>
-					<link type="text/css" rel="stylesheet" href="{$debugCssUrl}" media="screen" />
+					<link type="text/css" rel="stylesheet" href="{$debugCssUrl}" media="screen" data-wc-loader="style" />
 				</xsl:if>
 				<link type="text/css" rel="stylesheet" href="{concat($resourceRoot, 'resource/fontawesome/css/font-awesome.min.css')}" media="screen" />
 				<xsl:call-template name="addOldIECSS"/>

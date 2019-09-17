@@ -9,7 +9,7 @@ const pkgJson = require("./package.json");
 const fs = require("fs-extra");
 const path = require("path");
 const libBuilder = require("./scripts/libs");
-const { dirs: { script: dirs } } = require("./build-util");
+const { buildMax, dirs: { script: dirs } } = require("./build-util");
 const UglifyJS = require("uglify-es");
 const themeLinter = require("./lintfile");
 let config = {
@@ -54,12 +54,12 @@ if (require.main === module) {
  * @param {string} [singleFile] If you want to build a single JS file.
  */
 function build(singleFile) {
-	console.time("build");
+	console.time("buildJS");
 	if (!singleFile) {
 		themeLinter.run("", true);
 		clean();
 		libBuilder.build(__dirname, dirs.max);
-		createDebugVersion();
+		buildMax(dirs);
 		return optimize(config);
 	}
 	return buildSingle(singleFile);
@@ -79,38 +79,8 @@ function buildSingle(singleFile) {
 	conf.dir = "";
 	conf.name = pathToModule(fileName);
 	conf.out = path.join(dirs.max, fileName + ".js");
-	createDebugVersion(fileName);
+	buildMax(dirs, fileName);
 	return optimize(conf);
-}
-
-/**
- * Creates the unoptimized, unminified verion of the build.
- * @param {string} [singleFile] If you simply want to build a single JS file.
- */
-function createDebugVersion(singleFile) {
-	console.time("createDebugVersion");
-	let src = dirs.src,
-		dest = dirs.max;
-	if (singleFile) {
-		src = path.join(src, singleFile);
-		dest = path.join(dest, singleFile);
-	}
-	console.log(src, "->", dest);
-	/*
-	 * The symlink was lightning fast and meant changes in the src were instantly available with a browser reload.
-	 * It was a little annoying when I deleted the content of target directory and deleted my entire src accidentially.
-	 */
-	// fs.symlinkSync(src, dest);
-	fs.copySync(src, dest);
-	console.timeEnd("createDebugVersion");
-}
-
-/**
- * Clean the output of previous builds.
- */
-function clean() {
-	fs.removeSync(dirs.max);
-	fs.removeSync(dirs.min);
 }
 
 /**
@@ -121,13 +91,21 @@ function optimize(conf) {
 	return new Promise(function(win, lose) {
 		requirejs.optimize(conf, function (buildResponse) {
 			noisyLog(buildResponse);
-			console.timeEnd("build");
+			console.timeEnd("buildJS");
 			win();
 		}, function(err) {
 			console.error(err);
 			lose(err);
 		});
 	});
+}
+
+/**
+ * Clean the output of previous builds.
+ */
+function clean() {
+	fs.removeSync(dirs.max);
+	fs.removeSync(dirs.min);
 }
 
 /**
