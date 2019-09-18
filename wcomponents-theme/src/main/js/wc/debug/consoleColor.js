@@ -19,11 +19,9 @@ define(function() {
 	 * Override a console method to add a flagging facility to it.
 	 * @function logFactory
 	 * @private
-	 * @param {String} mthd The console method to apply "warn" or "error" (you could recolour on log or info but that
-	 *    would be silly).
+	 * @param {String} mthd The console method to apply "warn" or "error" (you could recolour on log or info but that would be silly).
 	 * @param {String} flag The className to add to body when this method is logged.
-	 * @returns {unresolved} The return value of the original console method beforeit was overridden, should be
-	 *    undefined.
+	 * @returns The return value of the original console method beforeit was overridden, should be undefined.
 	 */
 	function logFactory(mthd, flag) {
 		var func = global[console][mthd] || noop;
@@ -51,5 +49,16 @@ define(function() {
 		global[console].warn = logFactory("warn", "wc_loggedwarn");
 		global[console].error = logFactory("error", "wc_loggederror");
 	}
-	return {};
+	return {
+		/**
+		 * Clears any consoleColor flags.
+		 */
+		reset: function() {
+			var docBody;
+			if ( global.document && (docBody = global.document.body) && ("classList" in docBody)) {
+				docBody.classList.remove("wc_loggedwarn");
+				docBody.classList.remove("wc_loggedwarn");
+			}
+		}
+	};
 });

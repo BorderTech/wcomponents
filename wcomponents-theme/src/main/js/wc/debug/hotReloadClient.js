@@ -33,21 +33,25 @@ define(["lib/socketio/socket.io", "wc/debounce", "wc/urlParser", "wc/dom/cookie"
 								console.log(result);
 							}
 						};
+					resetConsoleColor();
 					if (require.defined(moduleName)) {
 						try {
 							component = require(moduleName);
 							if (component && component.deinit) {
 								console.log("deinitialising", moduleName);
-								component.deinit();
+								component.deinit(document.body);
 							}
+							require.undef(moduleName);
+							require([moduleName], function (module) {
+								callback(null, module);
+								console.log("Reloaded", moduleName);
+							});
 						} catch (ex) {
 							console.warn(ex);
 						}
+					} else {
+						console.log("Module not loaded, skipping hot reload", moduleName);
 					}
-					require.undef(moduleName);
-					require([moduleName], function (module) {
-						callback(null, module);
-					});
 				},
 			style: /**
 				 * Force style loader to reload CSS.
@@ -61,6 +65,19 @@ define(["lib/socketio/socket.io", "wc/debounce", "wc/urlParser", "wc/dom/cookie"
 					}
 				}, 333)
 		};
+
+	/**
+	 * Since the point of hot module reloading is not to refresh the page often it makes sense to reset concoleColor flags.
+	 */
+	function resetConsoleColor() {
+		var mod = "wc/debug/consoleColor";
+		if (require.defined(mod)) {
+			mod = require(mod);
+			if (mod && mod.reset) {
+				mod.reset();
+			}
+		}
+	}
 
 	/**
 	 * Force cache bypass by manipulating queryString.
@@ -145,6 +162,15 @@ define(["lib/socketio/socket.io", "wc/debounce", "wc/urlParser", "wc/dom/cookie"
 	}
 
 	return {
-		getConnection: getConnection
+		getConnection: getConnection,
+		/**
+		 * The hot reload client can hot reload itself!
+		 */
+		deinit: function() {
+			var socket = this.getConnection();
+			if (socket) {
+				socket.close();
+			}
+		}
 	};
 });
