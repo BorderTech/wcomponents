@@ -15,6 +15,9 @@ module.exports = function (grunt) {
 	var testSrc = "intern/"  + (grunt.option("filename") || "**");
 	logIt("Building tests " + testSrc);
 	grunt.initConfig({
+		clean: {
+			test: [dirs.target]
+		},
 		copy: {
 			test: {
 				cwd: dirs.src,
@@ -51,6 +54,7 @@ module.exports = function (grunt) {
 	});
 
 	grunt.loadNpmTasks("intern");
+	grunt.loadNpmTasks("grunt-contrib-clean");
 	grunt.loadNpmTasks("grunt-contrib-copy");
 
 	/**
@@ -85,6 +89,8 @@ module.exports = function (grunt) {
 				process.env.MOZ_HEADLESS = 1;
 			}
 		}
+
+		grunt.task.run("clean:test");
 		grunt.task.run("copy:test");
 
 		if (!/:serve/.test(internTask)) {
