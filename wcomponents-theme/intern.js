@@ -1,25 +1,30 @@
 /* eslint-env node, es6  */
-const pkgJson = require("./package.json");
-const testRootPath = `${pkgJson.directories.target}/test-classes/${pkgJson.name}/intern`;
-const srcRootPath = `${pkgJson.directories.target}/classes/theme/${pkgJson.name}`;
+const path = require("path");
+const { dirs } = require("./scripts/build-util");
+const scriptDir = path.relative(dirs.script.target, dirs.script.min);  // dirs.script.min will test minifed code, dirs.script.max tests debug code
+const targetDir = path.relative(".", dirs.project.build);
+let testRootPath = path.join(dirs.test.target, "intern");
+let srcRootPath = dirs.script.target;
+
+testRootPath = path.relative(".", testRootPath);
+srcRootPath = path.relative(".", srcRootPath);
 
 let requireJsOptions = {
 	baseUrl: `/${srcRootPath}/`,
 	paths: {
-		wc: `scripts_debug/wc`,
-		lib: `scripts_debug/lib`,
-		dojo: `scripts_debug/lib/dojo`,
-		fabric: `scripts_debug/lib/fabric`,
-		ccv: `scripts_debug/lib/ccv`,
-		face: `scripts_debug/lib/face`,
-		sprintf: `scripts_debug/lib/sprintf`,
-		Promise: `scripts_debug/lib/Promise`,
-		compat: `scripts_debug/wc/compat`,
+		wc: `${scriptDir}/wc`,
+		lib: `${scriptDir}/lib`,
+		dojo: `${scriptDir}/lib/dojo`,
+		ccv: `${scriptDir}/lib/ccv`,
+		face: `${scriptDir}/lib/face`,
+		"lib/sprintf": `${scriptDir}/lib/sprintf.min`,
+		Promise: `${scriptDir}/lib/Promise`,
+		compat: `${scriptDir}/wc/compat`,
 		translation: `resource/translation`,
 		"intern/chai": `/${testRootPath}/resources/intern-chai`,
 		"intern/resources": `/${testRootPath}/resources/`,
 		intern: `/${testRootPath}/resources/intern-shim`,
-		target: `/${pkgJson.directories.target}`
+		target: `/${targetDir}`
 	},
 	config: {
 		"wc/loader/resource": {

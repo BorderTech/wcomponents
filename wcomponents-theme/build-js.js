@@ -38,6 +38,7 @@ let config = {
 		name: "wc/common"
 	}],
 	paths: {
+		"lib/sprintf": `lib/sprintf.min`,
 		tinyMCE: "lib/tinymce/tinymce.min",
 		fabric: "empty:",
 		axs: "empty:",

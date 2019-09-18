@@ -44,7 +44,7 @@ let libs = {
 		min: true
 	},
 	"sprintf-js/dist/sprintf.min.js": {
-		dest: "sprintf.js"
+		dest: "sprintf.min.js"
 	},
 	"i18next/i18next.min.js": {
 		dest: "i18next.js"
@@ -103,6 +103,21 @@ function ensureLib(nodeModule, libTarget) {
 		}
 		// fs.symlinkSync(nodeModule, libTarget);
 		fs.copySync(nodeModule, libTarget);
+		sourceMap(nodeModule, libTarget);
+	}
+}
+
+/**
+ * Some of the minified libs will have sourcemap entries.
+ * We shouldn't need them but having them prevents errors in the dev tools.
+ * @param {{string} nodeModule the path to the lib in node_modules.
+ * @param {string} libTarget The location where the resource will be created in the lib directory.
+ */
+function sourceMap(nodeModule, libTarget) {
+	let mapFile = nodeModule + ".map";
+	if (fs.existsSync(mapFile)) {
+		let mapTarget = path.join(path.dirname(libTarget), path.basename(mapFile));
+		fs.copySync(nodeModule, mapTarget);
 	}
 }
 

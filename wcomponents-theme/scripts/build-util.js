@@ -4,8 +4,14 @@ const path = require("path");
 const fs = require("fs-extra");
 const projectRoot = path.normalize(path.join(__dirname, ".."));
 const srcRoot = path.join(projectRoot, pkgJson.directories.src);
-const targetRoot = path.join(projectRoot, pkgJson.directories.target, "classes", "theme", pkgJson.name);
+const buildRoot = path.join(projectRoot, pkgJson.directories.target);
+const targetRoot = path.join(buildRoot, "classes", "theme", pkgJson.name);
 const dirs = {
+	project: {
+		basedir: projectRoot,
+		src: srcRoot,
+		build: buildRoot
+	},
 	images: {
 		src: path.join(srcRoot, "images"),
 		target: path.join(targetRoot, "images")
@@ -27,7 +33,7 @@ const dirs = {
 	},
 	test: {
 		src: path.join(projectRoot, pkgJson.directories.test),
-		target: path.join(projectRoot, pkgJson.directories.target, "test-classes", pkgJson.name)
+		target: path.join(buildRoot, "test-classes", pkgJson.name)
 	}
 };
 
