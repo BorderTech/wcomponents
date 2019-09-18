@@ -28,7 +28,7 @@ define(["wc/dom/classList", "wc/dom/initialise", "wc/dom/Widget", "wc/ui/ajax/pr
 				FORM = new Widget("form");
 
 			/**
-			 * Mark the form as having unsaved changes if a falgged cancel button is inserted via ajax.
+			 * Mark the form as having unsaved changes if a flagged cancel button is inserted via ajax.
 			 * @function
 			 * @private
 			 * @param {Element} element The AJAX target element.
@@ -62,6 +62,13 @@ define(["wc/dom/classList", "wc/dom/initialise", "wc/dom/Widget", "wc/ui/ajax/pr
 				} else {
 					processResponse.subscribe(ajaxSubscriber, true);
 				}
+			};
+
+			/**
+			 * Unsubscribes event listeners etc.
+			 */
+			this.deinit = function() {
+				processResponse.unsubscribe(ajaxSubscriber, true);
 			};
 		}
 

@@ -124,6 +124,14 @@ define(["wc/dom/initialise",
 				formUpdateManager.subscribe(writeState);
 				processResponse.subscribe(ajaxSubscriber);
 			};
+
+			/**
+			 * Unsubscribes event listeners etc.
+			 */
+			this.deinit = function() {
+				formUpdateManager.unsubscribe(writeState);
+				processResponse.unsubscribe(ajaxSubscriber);
+			};
 		}
 
 		/**

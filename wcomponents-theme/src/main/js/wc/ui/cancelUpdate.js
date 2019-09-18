@@ -389,6 +389,16 @@ define(["wc/i18n/i18n",
 			};
 
 			/**
+			 * Unsubscribes event listeners etc.
+			 * @param {Element} The element being deinitialised, usually document.body.
+			 */
+			this.deinit = function(element) {
+				event.remove(element, event.TYPE.click, clickEvent, -100);
+				processResponse.unsubscribe(ajaxSubscriber);
+				processResponse.unsubscribe(postAjaxSubscriber, true);
+			};
+
+			/**
 			 * Determines if we should cancel a form submission (not a submit event). If a cancelUpdateButton has been
 			 * clicked this function checks to see if the form has been changed and if so it will confirm with the user
 			 * that they wish to continue.

@@ -156,9 +156,10 @@ define(["wc/dom/event",
 
 			/**
 			 * Unsubscribes event listeners etc.
+			 * @param {Element} The element being deinitialised, usually document.body.
 			 */
-			this.deinit = function() {
-				event.remove(document.body, event.TYPE.click, clickEvent);
+			this.deinit = function(element) {
+				event.remove(element, event.TYPE.click, clickEvent);
 				formUpdateManager.unsubscribe(writeState);
 			};
 		}
