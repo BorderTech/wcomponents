@@ -37,6 +37,6 @@ rules:
   trailing-semicolon: 0
   final-newline: 2
   ## these next ones may be reviewed, they are here to match the old scss-lint rules.
-#  force-pseudo-nesting: 0
-#  force-attribute-nesting: 0
-#  force-element-nesting: 0
+  force-pseudo-nesting: 0
+  force-attribute-nesting: 0
+  force-element-nesting: 0
