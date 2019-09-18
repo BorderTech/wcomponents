@@ -18,7 +18,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				assert.strictEqual(elementIGot, element);
 				assert.strictEqual(actionIGot, action);
 			} finally {
-				controller._unsubscribe(action, subscriber);
+				controller.unsubscribe(action, subscriber);
 			}
 		}
 
@@ -354,8 +354,8 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 					}
 					assert.strictEqual(called, repeat);
 				} finally {  // clean up subscribers
-					controller._unsubscribe(controller.actions.HIDE, subscriberHideRval);
-					controller._unsubscribe(controller.actions.SHOW, subscriberShowRval);
+					controller.unsubscribe(controller.actions.HIDE, subscriberHideRval);
+					controller.unsubscribe(controller.actions.SHOW, subscriberShowRval);
 				}
 			},
 			testUnsubscribe: function() {
@@ -376,8 +376,8 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 					controller[action](element);
 					i++;
 				}
-				controller._unsubscribe(controller.actions.HIDE, subscriberHideRval);
-				controller._unsubscribe(controller.actions.SHOW, subscriberShowRval);
+				controller.unsubscribe(controller.actions.HIDE, subscriberHideRval);
+				controller.unsubscribe(controller.actions.SHOW, subscriberShowRval);
 				i = 0;
 				while (i <= repeat) {
 					action = (i % 2) ? controller.actions.SHOW : controller.actions.HIDE;
