@@ -1,5 +1,6 @@
 /* eslint-env node, es6  */
-const { buildMax, dirs: { images: dirs } } = require("./build-util");
+const { buildMax, dirs: { images: dirs } } = require("./scripts/build-util");
+const fs = require("fs-extra");
 
 if (require.main === module) {
 	build();
@@ -13,7 +14,10 @@ function build(singleFile) {
 	return new Promise(function (win, lose) {
 		try {
 			console.time("buildImages");
-			buildMax(dirs,singleFile);
+			if (!singleFile) {
+				clean();
+			}
+			buildMax(dirs, singleFile);
 			console.timeEnd("buildImages");
 			win(singleFile);
 		} catch (ex) {
@@ -21,3 +25,14 @@ function build(singleFile) {
 		}
 	});
 }
+
+/**
+ * Clean the output of previous builds.
+ */
+function clean() {
+	fs.removeSync(dirs.target);
+}
+
+module.exports = {
+	build
+};

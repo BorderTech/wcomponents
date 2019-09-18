@@ -1,7 +1,7 @@
 /* eslint-env node, es6  */
 const fs = require("fs-extra");
 const path = require("path");
-const { dirs: { style: dirs } } = require("./build-util");
+const { dirs: { style: dirs } } = require("./scripts/build-util");
 const sass = require("sass");
 const themeLinter = require("./lintfile");
 

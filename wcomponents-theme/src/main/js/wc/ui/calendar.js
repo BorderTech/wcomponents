@@ -1065,7 +1065,37 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 					hideCalendar(true);
 				}
 			}
+		}
 
+		/**
+		 * Helper for initialising and de-initialising this module.
+		 * @param {boolean} init true if initialising, otherwise deinitialising.
+		 * @param {Element} element The element being de/initialised, usually document.body.
+		 * @function
+		 * @private
+		 */
+		function initialiseHelper(init, element) {
+			var func = init ? "add" : "remove";
+			if (event.canCapture) {
+				event[func](element, event.TYPE.focus, focusEvent, null, null, true);
+			} else {
+				event[func](element, event.TYPE.focusin, focusEvent);
+			}
+			event[func](element, event.TYPE.click, clickEvent);
+		}
+
+		/**
+		 * Helper for late initialising and de-initialising this module.
+		 * @param {boolean} init true if initialising, otherwise deinitialising.
+		 * @function
+		 * @private
+		 */
+		function postInit(init) {
+			var ar = init ? "add" : "remove",
+				su = init ? "subscribe" : "unsubscribe";
+			event[ar](window, event.TYPE.resize, reposEvent);
+			shed[su](shed.actions.SHOW, shedSubscriber);
+			shed[su](shed.actions.HIDE, shedSubscriber);
 		}
 
 		/**
@@ -1075,24 +1105,22 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @public
 		 * @param {Element} element The element being initialised, usually document.body.
 		 */
-		this.initialise = function(element) {
-			if (event.canCapture) {
-				event.add(element, event.TYPE.focus, focusEvent, null, null, true);
-			} else {
-				event.add(element, event.TYPE.focusin, focusEvent);
-			}
-			event.add(element, event.TYPE.click, clickEvent);
-		};
+		this.initialise = initialiseHelper.bind(this, true);
 
 		/**
 		 * Late initialisation to set up the {@link module:wc/dom/shed} subscribers.
 		 * @function module:wc/ui/calendar.postInit
 		 * @public
 		 */
-		this.postInit = function() {
-			event.add(window, event.TYPE.resize, reposEvent);
-			shed.subscribe(shed.actions.SHOW, shedSubscriber);
-			shed.subscribe(shed.actions.HIDE, shedSubscriber);
+		this.postInit = postInit.bind(this, true);
+
+		/**
+		 * Unsubscribes event listeners etc.
+		 * @param {Element} The element being deinitialised, usually document.body.
+		 */
+		this.deinit = function(element) {
+			initialiseHelper(false, element);
+			postInit(false);
 		};
 
 		/**

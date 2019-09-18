@@ -12,7 +12,7 @@
  *
  */
 const path = require("path");
-const { logLintReport, dirs } = require("./build-util");
+const { logLintReport, dirs } = require("./scripts/build-util");
 const testSrcDir = path.join(dirs.test.src, "intern");
 const sassLint = require("sass-lint");
 
@@ -61,9 +61,9 @@ function runEslint(target, failOnErr) {
 	let prettyReport = formatter(uglyReport.results);
 	if (prettyReport) {
 		console.log(prettyReport);
-		if (failOnErr && uglyReport && uglyReport.errorCount > 0) {
-			process.exitCode = 1;
+		if (uglyReport && uglyReport.errorCount > 0) {
 			if (failOnErr) {
+				process.exitCode = 1;
 				process.exit();
 			}
 		} else {

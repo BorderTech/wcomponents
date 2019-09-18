@@ -9,7 +9,7 @@ const pkgJson = require("./package.json");
 const fs = require("fs-extra");
 const path = require("path");
 const libBuilder = require("./scripts/libs");
-const { buildMax, dirs: { script: dirs } } = require("./build-util");
+const { buildMax, dirs: { script: dirs } } = require("./scripts/build-util");
 const UglifyJS = require("uglify-es");
 const themeLinter = require("./lintfile");
 let config = {
@@ -38,6 +38,7 @@ let config = {
 		name: "wc/common"
 	}],
 	paths: {
+		"lib/sprintf": `lib/sprintf.min`,
 		tinyMCE: "lib/tinymce/tinymce.min",
 		fabric: "empty:",
 		axs: "empty:",

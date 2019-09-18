@@ -11,14 +11,27 @@
  * Note, you will generally be running in debug mode while developing: https://github.com/BorderTech/wcomponents/wiki/Debugging-a-theme
  */
 const fs = require("fs");
-const { dirs } = require("./build-util");
+const { dirs } = require("./scripts/build-util");
 const themeLinter = require("./lintfile");
 const buildJs = require("./build-js");
 const buildCss = require("./build-css");
+const buildImages = require("./build-images");
 const grunt = require("grunt");
 const path = require("path");
 const hotReload = require("./scripts/hotReloadServer");
 const handlers = {
+	images: /**
+		 * Knows how to respond when an image is changed - this is possibly only useful when editing SVGs
+		 * and showing off how cool our dev environment is.
+		 * @param {string} dir The path to the directory being watched.
+		* @param {string} filename The relative path to the file that changed.
+		* @returns {Promise} resolved when the change has been handled.
+		*/
+		function(dir, filename) {
+			return buildImages.build(filename).then(() => {
+				return path.join(path.basename(dir), filename);
+			});
+		},
 	script: /**
 		 * Knows how to respond when a JS source module is changed.
 		 * @param {string} dir The path to the directory being watched.
