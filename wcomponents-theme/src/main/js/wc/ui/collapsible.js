@@ -223,6 +223,37 @@ define(["wc/dom/event",
 			}
 
 			/**
+			 * Helper for late initialising and de-initialising this module.
+			 * @param {boolean} init true if initialising, otherwise deinitialising.
+			 * @function
+			 * @private
+			 */
+			function postInit(init) {
+				var su = init ? "subscribe" : "unsubscribe";
+				shed[su](shed.actions.DISABLE, shedSubscriber);
+				shed[su](shed.actions.EXPAND, shedSubscriber);
+				shed[su](shed.actions.COLLAPSE, shedSubscriber);
+				formUpdateManager[su](writeState);
+			}
+
+			/**
+			 * Helper for initialising and de-initialising this module.
+			 * @param {boolean} init true if initialising, otherwise deinitialising.
+			 * @param {Element} element The element being de/initialised, usually document.body.
+			 * @function
+			 * @private
+			 */
+			function initialiseHelper(init, element) {
+				var func = init ? "add" : "remove";
+				if (event.canCapture) {
+					event[func](element, event.TYPE.focus, focusEvent, null, null, true);
+				} else {
+					event[func](element, event.TYPE.focusin, focusEvent);
+				}
+				event[func](element, event.TYPE.click, clickEvent);
+			}
+
+			/**
 			 * Indicates if a given element is a collapsible.
 			 *
 			 * @function module:wc/ui/collapsible.isOneOfMe
@@ -265,14 +296,7 @@ define(["wc/dom/event",
 			 * @function module:wc/ui/collapsible.initialise
 			 * @param {Element} element document.body.
 			 */
-			this.initialise = function(element) {
-				if (event.canCapture) {
-					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
-				} else {
-					event.add(element, event.TYPE.focusin, focusEvent);
-				}
-				event.add(element, event.TYPE.click, clickEvent);
-			};
+			this.initialise = initialiseHelper.bind(this, true);
 
 			/**
 			 * Late initialiser callback to set up the shed subscribers. This is required because we have to give the
@@ -281,11 +305,15 @@ define(["wc/dom/event",
 			 *
 			 * @function module:wc/ui/collapsible.postInit
 			 */
-			this.postInit = function() {
-				shed.subscribe(shed.actions.DISABLE, shedSubscriber);
-				shed.subscribe(shed.actions.EXPAND, shedSubscriber);
-				shed.subscribe(shed.actions.COLLAPSE, shedSubscriber);
-				formUpdateManager.subscribe(writeState);
+			this.postInit = postInit.bind(this, true);
+
+			/**
+			 * Unsubscribes event listeners etc.
+			 * @param {Element} The element being deinitialised, usually document.body.
+			 */
+			this.deinit = function(element) {
+				postInit(false);
+				initialiseHelper(false, element);
 			};
 
 			/**

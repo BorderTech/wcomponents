@@ -111,7 +111,7 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 			 *
 			 * @function
 			 * @private
-			 */
+			 */ 
 			function genericEvent() {
 				var scroll = document.documentElement.scrollTop || document.body.scrollTop,
 					min;
@@ -163,6 +163,13 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 					toggle(false); // just in case the link is showing at the time it is turned off.
 				}
 				addRemoveEventHandlers(enable);
+			};
+
+			/**
+			 * Unsubscribes event listeners etc.
+			 */
+			this.deinit = function() {
+				addRemoveEventHandlers(false);
 			};
 		}
 

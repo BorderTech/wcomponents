@@ -22,7 +22,7 @@ define(["wc/ajax/ajax", "wc/loader/prefetch", "wc/config", "wc/Observer", "modul
 			 */
 			this.preload = function(fileName) {
 				var url = this.getResourceUrl(fileName);
-				prefetch.request(url);
+				prefetch.request(url, "fetch");
 			};
 
 			/**

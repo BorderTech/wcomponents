@@ -1,27 +1,34 @@
 /* eslint-env node, es6  */
-const pkgJson = require("./package.json");
+const path = require("path");
+const { dirs } = require("./scripts/build-util");
+const scriptDir = path.relative(dirs.script.target, dirs.script.min);  // dirs.script.min will test minifed code, dirs.script.max tests debug code
+const targetDir = path.relative(".", dirs.project.build);
+let testRootPath = path.join(dirs.test.target, "intern");
+let srcRootPath = dirs.script.target;
+
+testRootPath = path.relative(".", testRootPath);
+srcRootPath = path.relative(".", srcRootPath);
 
 let requireJsOptions = {
-	baseUrl: `/${pkgJson.directories.target}/classes/theme/${pkgJson.name}/`,
+	baseUrl: `/${srcRootPath}/`,
 	paths: {
-		wc: `scripts_debug/wc`,
-		lib: `scripts_debug/lib`,
-		dojo: `scripts_debug/lib/dojo`,
-		fabric: `scripts_debug/lib/fabric`,
-		ccv: `scripts_debug/lib/ccv`,
-		face: `scripts_debug/lib/face`,
-		sprintf: `scripts_debug/lib/sprintf`,
-		Promise: `scripts_debug/lib/Promise`,
-		compat: `scripts_debug/wc/compat`,
+		wc: `${scriptDir}/wc`,
+		lib: `${scriptDir}/lib`,
+		dojo: `${scriptDir}/lib/dojo`,
+		ccv: `${scriptDir}/lib/ccv`,
+		face: `${scriptDir}/lib/face`,
+		"lib/sprintf": `${scriptDir}/lib/sprintf.min`,
+		Promise: `${scriptDir}/lib/Promise`,
+		compat: `${scriptDir}/wc/compat`,
 		translation: `resource/translation`,
-		"intern/chai": `/${pkgJson.directories.target}/test-classes/${pkgJson.name}/intern/resources/intern-chai`,
-		"intern/resources": `/${pkgJson.directories.target}/test-classes/${pkgJson.name}/intern/resources/`,
-		intern: `/${pkgJson.directories.target}/test-classes/${pkgJson.name}/intern/resources/intern-shim`,
-		target: `/${pkgJson.directories.target}`
+		"intern/chai": `/${testRootPath}/resources/intern-chai`,
+		"intern/resources": `/${testRootPath}/resources/`,
+		intern: `/${testRootPath}/resources/intern-shim`,
+		target: `/${targetDir}`
 	},
 	config: {
 		"wc/loader/resource": {
-			"resourceBaseUrl": `/${pkgJson.directories.target}/classes/theme/${pkgJson.name}/resource/`
+			"resourceBaseUrl": `/${srcRootPath}/resource/`
 		}
 	}
 };
@@ -39,16 +46,10 @@ let requireJsOptions = {
  * https://theintern.io/docs.html#Intern/4/docs/docs%2Fconfiguration.md/environment-variable
  */
 let internConfig = {
-	suites: [`${pkgJson.directories.target}/test-classes/${pkgJson.name}/intern/*.test.js`],
-	node: {
-		loader: {
-			script: `${pkgJson.directories.target}/test-classes/${pkgJson.name}/intern/resources/intern-loader.js`,
-			options: requireJsOptions
-		}
-	},
+	suites: [`${testRootPath}/*.test.js`],
 	browser: {
 		loader: {
-			script: `${pkgJson.directories.target}/test-classes/${pkgJson.name}/intern/resources/intern-loader.js`,
+			script: `${testRootPath}/resources/intern-loader.js`,
 			options: requireJsOptions
 		}
 	},
