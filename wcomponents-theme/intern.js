@@ -46,12 +46,15 @@ let requireJsOptions = {
  * https://theintern.io/docs.html#Intern/4/docs/docs%2Fconfiguration.md/environment-variable
  */
 let internConfig = {
-	suites: [`${testRootPath}/*.test.js`],
 	browser: {
+		suites: [`${testRootPath}/*.test.js`],
 		loader: {
 			script: `${testRootPath}/resources/intern-loader.js`,
 			options: requireJsOptions
 		}
+	},
+	node: {
+		suites: [path.join(dirs.test.target, "unit", "*.test.js")]
 	},
 	"configs": {
 		"local": {

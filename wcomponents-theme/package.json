@@ -13,9 +13,10 @@
 		"build:js": "node build-js.js",
 		"lint": "node lintfile.js",
 		"watch": "node theme-watch.js",
-		"test": "grunt test",
+		"test": "grunt test && grunt intern:node",
 		"test:grid": "grunt test:grid",
 		"test:local": "grunt test:local",
+		"test:node": "grunt intern:node",
 		"test:serve": "grunt test:serve"
 	},
 	"directories": {

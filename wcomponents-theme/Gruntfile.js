@@ -8,11 +8,12 @@
  * Use npx, e.g.`npx grunt test`
  */
 let internConfig = require("./intern").config;
-const {dirs: {test: dirs}} = require("./scripts/build-util");
+const path = require("path");
+const {dirs: { test: dirs }} = require("./scripts/build-util");
 const defaultInternArgs = "environments='{\"browserName\":\"firefox\"}'";
 
 module.exports = function (grunt) {
-	var testSrc = "intern/"  + (grunt.option("filename") || "**");
+	var testSrc = "./"  + (grunt.option("filename") || "**");
 	logIt("Building tests " + testSrc);
 	grunt.initConfig({
 		clean: {
@@ -27,6 +28,12 @@ module.exports = function (grunt) {
 			}
 		},
 		intern: {
+			node: {
+				options: {
+					suites: path.join(dirs.target, "unit/*.js"),
+					reporters: "runner"
+				}
+			},
 			local: {
 				options: {
 					config: "@local",
