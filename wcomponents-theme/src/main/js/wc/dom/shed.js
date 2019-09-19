@@ -12,7 +12,7 @@ define(["wc/Observer",
 	function(Observer, aria, impliedAria, classList, tag, Widget, getLabelsForElement, $role, getStyle) {
 		"use strict";
 		var instance;
-		
+
 		/**
 		 * @constructor
 		 * @alias module:wc/dom/shed~Shed
@@ -812,15 +812,14 @@ define(["wc/Observer",
 			};
 
 			/**
-			 * Unsubscribe from a SHED action. Public for testing.
+			 * Unsubscribe from a SHED action.
 			 *
-			 * @function module:wc/dom/shed._unsubscribe
+			 * @function module:wc/dom/shed.unsubscribe
 			 * @param {String} type The action you want to unsubscribe from (one of shed.actions)
 			 * @param {Function} subscriber The subscriber to unsubscribe.
 			 * @returns {Function} The result of {@link module:wc/Observer#subscribe}
-			 * @ignore
 			 */
-			this._unsubscribe = function (type, subscriber) {
+			this.unsubscribe = function (type, subscriber) {
 				var result;
 				if (observer) {
 					result = observer.unsubscribe(subscriber, type);

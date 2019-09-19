@@ -63,13 +63,8 @@ define(["intern!object", "intern/chai!assert", "wc/dom/messageBox", "wc/dom/clas
 			testGetWidget: function() {
 				var widget = controller.getWidget();
 				assert.isOk(widget);
-				if (widget.constructor && widget.constructor.name) {
-					assert.strictEqual(widget.constructor.name, "Widget");
-				} else {
-					// rough but (barely) adequate test
-					// once we stop supporting IE we should be able to remove this
-					assert.isTrue(!!widget.isOneOfMe && !!widget.constructor.isOneOfMe);
-				}
+				// rough test but don't use constructor.name because it will change when minified
+				assert.isTrue(typeof widget.isOneOfMe === "function" && typeof widget.constructor.isOneOfMe === "function");
 				assert.isTrue(widget.isOneOfMe(getTestBox()));
 			},
 			testIsOneOfMe_noArgs: function() {

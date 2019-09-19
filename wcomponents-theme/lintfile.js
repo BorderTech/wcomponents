@@ -12,9 +12,9 @@
  *
  */
 const path = require("path");
-const pjson = require("./package.json");
-const srcDir = path.join(pjson.directories.src, "js");
-const testSrcDir = path.join(pjson.directories.test, "intern");
+const { logLintReport, dirs } = require("./scripts/build-util");
+const testSrcDir = path.join(dirs.test.src, "intern");
+const sassLint = require("sass-lint");
 
 const CLIEngine = require("eslint").CLIEngine;
 const eslintCli = new CLIEngine({
@@ -25,59 +25,69 @@ const eslintCli = new CLIEngine({
 });
 
 if (require.main === module) {
-	let report = main();
-	if (report && report.errorCount > 0) {
-		process.exit(1);
-	}
-	process.exit();
+	let len = process.argv.length,
+		target = len > 2 ? process.argv[len - 1] : "";
+	runSassLint();
+	runEslint(target, true);
+
 }
 
 
 /**
  * What are we linting?
- * Either the last arg to the script OR will fall back to simply linting the theme js.
+ * If no target is provided will fall back to linting the entire theme.
  * @returns {String[]} Paths to lint.
  */
-function getLintTarget() {
-	let lintTarget = process.argv[process.argv.length - 1];
-	if (!lintTarget || /lintfile\.js$/.test(lintTarget)) {
-		return ["*.js", srcDir, testSrcDir];
+function getLintTarget(target) {
+	let lintTarget = target;
+	if (!lintTarget) {
+		return ["*.js", dirs.script.src, testSrcDir];
+	} else if (!Array.isArray(lintTarget)) {
+		lintTarget = [lintTarget];
 	}
-	return [lintTarget];
+	return lintTarget;
 }
-
-/**
- * Run the linting - this is invoked when running as an executable directly (not imported as a module).
- * @returns The raw ESLint report.
- */
-function main() {
-	let lintTarget = getLintTarget();
-	let report = runEslint(lintTarget);
-	let formatter = eslintCli.getFormatter();
-	let prettyReport = formatter(report.results);
-	if (prettyReport) {
-		console.log(prettyReport);
-	} else {
-		console.log("THEME LINTER: Nothing to report besides the fact that you are awesome!");
-	}
-	return report;
-}
-
 
 /**
  * Runs ESLint rules on the file in question and logs any warnings or errors discovered.
- * @param {String} filePath The file to scan with ESLint
+ * @param {string} target The path to the file to lint
+ * @param {boolean} if true the process will be terminated if any errors are encountered.
  * @returns The raw ESLint report when done.
  */
-function runEslint(filePath) {
-	let lintTarget = filePath;
-	if (lintTarget && !Array.isArray(lintTarget)) {
-		lintTarget = [lintTarget];
+function runEslint(target, failOnErr) {
+	let lintTarget = getLintTarget(target);
+	let uglyReport =  eslintCli.executeOnFiles(lintTarget);
+	let formatter = eslintCli.getFormatter();
+	let prettyReport = formatter(uglyReport.results);
+	if (prettyReport) {
+		console.log(prettyReport);
+		if (uglyReport && uglyReport.errorCount > 0) {
+			if (failOnErr) {
+				process.exitCode = 1;
+				process.exit();
+			}
+		} else {
+			console.log("THEME LINTER: Nothing to report besides the fact that you are awesome!");
+		}
 	}
-	return eslintCli.executeOnFiles(lintTarget);
+	return uglyReport;
+}
 
+/**
+ * Runs sass lint.
+ * @param {string} [sourcePath] The path to a single sass file, if not provided the entire sass directory will be linted.
+ * @returns The raw lint report.
+ */
+function runSassLint(sourcePath) {
+	let glob = sourcePath || "**/!(fa)/*.scss";
+	let results = sassLint.lintFiles(glob, { formatter: "stylish" }, path.join(__dirname, ".sass-lint.yml"));
+	if (results) {
+		results.forEach(logLintReport);
+	}
+	return results;
 }
 
 module.exports = {
-	run: runEslint
+	run: runEslint,
+	runSass: runSassLint
 };

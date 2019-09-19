@@ -1,7 +1,7 @@
 /* eslint-env node, es6  */
 /*
  * This script is responsible for the JS build.
- * 
+ *
  * @author Rick Brown
  */
 const requirejs = require("requirejs");
@@ -9,21 +9,19 @@ const pkgJson = require("./package.json");
 const fs = require("fs-extra");
 const path = require("path");
 const libBuilder = require("./scripts/libs");
-const scriptSrcDir = path.join(__dirname, pkgJson.directories.src, "js");  // `join` with `__dirname` better than `resolve` as it cwd agnostic
-const scriptRootDir = path.join(__dirname, pkgJson.directories.target, "classes", "theme", pkgJson.name);
-const scriptDebugDir = path.join(scriptRootDir, "scripts_debug");
-const scriptMinDir = path.join(scriptRootDir, "scripts");
+const { buildMax, dirs: { script: dirs } } = require("./scripts/build-util");
 const UglifyJS = require("uglify-es");
+const themeLinter = require("./lintfile");
 let config = {
 	keepBuildDir: true,  // well not really but we'll manage this ourselves thank you
 	preserveLicenseComments: false,
 	// appDir: `${pkgJson.directories.src}/js`,
-	baseUrl: scriptDebugDir,
+	baseUrl: dirs.max,
 	optimize: "none",
 	optimizeAllPluginResources: true,
 	normalizeDirDefines: "all",
 	generateSourceMaps: false,
-	onBuildWrite(moduleName, fsPath, contents) {
+	onBuildWrite: function (moduleName, fsPath, contents) {
 		// r.js overrides `require` saving the original function as `require.nodeRequire`
 		let result = contents;
 		if (libBuilder.doMinify(moduleName)) {  // Most libs should be pre-minified
@@ -34,12 +32,13 @@ let config = {
 		}
 		return result;
 	},
-	dir: scriptMinDir,
+	dir: dirs.min,
 	logLevel: 2,
 	modules: [{
 		name: "wc/common"
 	}],
 	paths: {
+		"lib/sprintf": `lib/sprintf.min`,
 		tinyMCE: "lib/tinymce/tinymce.min",
 		fabric: "empty:",
 		axs: "empty:",
@@ -47,52 +46,67 @@ let config = {
 	}
 };
 
-build();
-
-/**
- * The entry point to kick off the entire build.
- */
-function build() {
-	console.time("build");
-	clean();
-	createDebugVersion();
-	libBuilder.build(__dirname, scriptDebugDir);
-	optimize();
+if (require.main === module) {
+	build();
 }
 
 /**
- * Creates the unoptimized, unminified verion of the build.
+ * The entry point to kick off the entire build.
+ * @param {string} [singleFile] If you want to build a single JS file.
  */
-function createDebugVersion() {
-	console.time("createDebugVersion");
-	console.log(scriptSrcDir, "->", scriptDebugDir);
-	/*
-	 * The symlink was lightning fast and meant changes in the src were instantly available with a browser reload.
-	 * It was a little annoying when I deleted the content of target directory and deleted my entire src accidentially.
-	 */
-	// fs.symlinkSync(scriptSrcDir, scriptDebugDir);
-	fs.copySync(scriptSrcDir, scriptDebugDir);
-	console.timeEnd("createDebugVersion");
+function build(singleFile) {
+	console.time("buildJS");
+	if (!singleFile) {
+		themeLinter.run("", true);
+		clean();
+		libBuilder.build(__dirname, dirs.max);
+		buildMax(dirs);
+		return optimize(config);
+	}
+	return buildSingle(singleFile);
+}
+
+/*
+ * Entry point for building a single file.
+ * @param {string} singleFile If you want to build a single JS file.
+ */
+function buildSingle(singleFile) {
+	let fileName = singleFile;
+	themeLinter.run(singleFile);
+	fileName = fileName.replace(dirs.src, "");
+	let conf = config;
+	Object.assign({}, conf);
+	delete conf.modules;
+	conf.dir = "";
+	conf.name = pathToModule(fileName);
+	conf.out = path.join(dirs.max, fileName + ".js");
+	buildMax(dirs, fileName);
+	return optimize(conf);
+}
+
+/**
+ * Generate optimized and minified version of the scripts.
+ * @param conf Configuration options for r.js.
+ */
+function optimize(conf) {
+	return new Promise(function(win, lose) {
+		requirejs.optimize(conf, function (buildResponse) {
+			noisyLog(buildResponse);
+			console.timeEnd("buildJS");
+			win();
+		}, function(err) {
+			console.error(err);
+			lose(err);
+		});
+	});
 }
 
 /**
  * Clean the output of previous builds.
  */
 function clean() {
-	fs.removeSync(scriptDebugDir);
-	fs.removeSync(scriptMinDir);
-}
-
-/**
- * Generate optimized and minified version of the scripts.
- */
-function optimize() {
-	requirejs.optimize(config, function (buildResponse) {
-		noisyLog(buildResponse);
-		console.timeEnd("build");
-	}, function(err) {
-		console.error(err);
-	});
+	fs.removeSync(dirs.max);
+	fs.removeSync(dirs.min);
 }
 
 /**
@@ -103,3 +117,21 @@ function noisyLog() {
 		console.log.apply(console, arguments);
 	}
 }
+
+/**
+ * Determines a module name from a filesystem path.
+ * @param {string} modulePath The full path to a JS file on the filesystem.
+ * @returns {string} The module name.
+ */
+function pathToModule(modulePath) {
+	let moduleName = modulePath.replace(dirs.src, "");
+	moduleName = modulePath.replace(dirs.target, "");
+	moduleName = moduleName.replace(/\\/g, "/").replace(/^\/|\.js$/g, "");
+	return moduleName;
+}
+
+module.exports = {
+	build,
+	buildSingle,
+	pathToModule
+};

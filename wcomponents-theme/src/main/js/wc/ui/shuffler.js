@@ -153,6 +153,15 @@ define(["wc/dom/event",
 			this.getWidget = function() {
 				return CONTAINER;
 			};
+
+			/**
+			 * Unsubscribes event listeners etc.
+			 * @param {Element} The element being deinitialised, usually document.body.
+			 */
+			this.deinit = function(element) {
+				event.remove(element, event.TYPE.click, clickEvent);
+				formUpdateManager.unsubscribe(writeState);
+			};
 		}
 
 		/**

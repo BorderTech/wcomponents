@@ -8,21 +8,20 @@
  * Use npx, e.g.`npx grunt test`
  */
 let internConfig = require("./intern").config;
-const path = require("path");
-const pkgJson = require("./package.json");
-const testSrcDir = path.join(__dirname, pkgJson.directories.test);
-const testTargetDir = path.join(__dirname, pkgJson.directories.target, "test-classes", pkgJson.name);
+const {dirs: {test: dirs}} = require("./scripts/build-util");
 const defaultInternArgs = "environments='{\"browserName\":\"firefox\"}'";
 
 module.exports = function (grunt) {
+	var testSrc = "intern/"  + (grunt.option("filename") || "**");
+	logIt("Building tests " + testSrc);
 	grunt.initConfig({
 		copy: {
 			test: {
-				cwd: testSrcDir,
+				cwd: dirs.src,
 				expand: true,
-				src: "intern/**",
-				dest: testTargetDir,
-			},
+				src: testSrc,
+				dest: dirs.target
+			}
 		},
 		intern: {
 			local: {
@@ -61,14 +60,14 @@ module.exports = function (grunt) {
 	 * Simply run the "test" target and it will do the "guessing" for you: `npx grunt test`
 	 * Or you can be specific and tell it what you want: `npx grunt test:local` or `npx grunt test:sauce`.
 	 */
-	grunt.registerTask("test", "Configures and invokes intern tests", function() {
+	grunt.registerTask("test", "Configures and invokes intern tests", function () {
 		let internTask = "intern";
 		/*
-		 * This (writing config.json to file) should not be necessary, we can pass config directly like so:
-			options: Object.assign({
-				config: "@sauce",
-				reporters: "runner"
-			}, internConfig)
+		 * This (writing intern json to file) should not be necessary, we can pass config directly like so:
+		 options: Object.assign({
+		 config: "@sauce",
+		 reporters: "runner"
+		 }, internConfig)
 		 * The problem is that when running "serveOnly" intern ignores such config and only reads intern.json
 		 * That's probably an intern bug but this works around it.
 		 */

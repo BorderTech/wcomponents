@@ -7,7 +7,10 @@
 		"description": "Custom config here. JSON has no comment syntax, argh!"
 	},
 	"scripts": {
-		"build": "node build-js.js",
+		"build": "node build-images.js && node build-css.js && node build-js.js",
+		"build:css": "node build-css.js",
+		"build:img": "node build-images.js",
+		"build:js": "node build-js.js",
 		"lint": "node lintfile.js",
 		"watch": "node theme-watch.js",
 		"test": "grunt test",
@@ -37,12 +40,13 @@
 		"eslint": "3.19.0",
 		"fs-extra": "8.1.0",
 		"grunt": "1.0.4",
-		"grunt-contrib-copy": "^1.0.0",
+		"grunt-contrib-copy": "1.0.0",
 		"intern": "4.4.3",
 		"jsdoc": "3.6.3",
 		"properties": "1.2.1",
 		"sass": "1.5.1",
 		"sass-lint": "1.12.1",
+		"socket.io": "2.2.0",
 		"uglify-es": "3.3.9"
 	}
 }
