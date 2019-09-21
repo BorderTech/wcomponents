@@ -1791,7 +1791,7 @@ define(["wc/dom/attribute",
 			this._setupKeymap();
 
 			if (event.canCapture) {
-				event.add(window, event.TYPE.focus, eventWrapper.bind(this), null, null, true);
+				event.add(window, { type: "focus", listener: eventWrapper.bind(this), capture: true });
 				event.add(window, event.TYPE.click, eventWrapper.bind(this));
 			} else {
 				// oddly IE8 does not suffer from the body smaller than the viewport issue!

@@ -222,7 +222,7 @@ define(["wc/date/interchange",
 					event.add(element, event.TYPE.change, changeEvent, 1);
 					if (validationManager.isValidateOnBlur()) {
 						if (event.canCapture) {
-							event.add(element, event.TYPE.blur, blurEvent, 1, null, true);
+							event.add(element, { type: "blur", listener: blurEvent, pos: 1, capture: true });
 						} else {
 							event.add(element, event.TYPE.focusout, blurEvent);
 						}
@@ -237,7 +237,7 @@ define(["wc/date/interchange",
 			 */
 			this.initialise = function(element) {
 				if (event.canCapture) {
-					event.add(element, event.TYPE.focus, focusEvent, 1, null, true);
+					event.add(element, { type: "focus", listener: focusEvent, pos: 1, capture: true });
 				} else {
 					event.add(element, event.TYPE.focusin, focusEvent, 1);
 				}

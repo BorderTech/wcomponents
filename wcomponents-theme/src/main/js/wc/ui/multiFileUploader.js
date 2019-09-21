@@ -602,7 +602,7 @@ define(["wc/dom/attribute",
 			this.initialise = function (element) {
 				formUpdateManager.subscribe(this);
 				if (event.canCapture) {
-					event.add(element, event.TYPE.focus, bootStrap, null, null, true);
+					event.add(element, { type: "focus", listener: bootStrap, capture: true });
 				} else {
 					event.add(element, event.TYPE.focusin, bootStrap);
 				}

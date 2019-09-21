@@ -585,7 +585,7 @@ define(["wc/dom/tag",
 						if (!changeInited) {
 							changeInited = true;
 							if (event.canCapture) {
-								event.add(element, event.TYPE.change, changeEvent, null, null, true);
+								event.add(element, { type: "change", listener: changeEvent, capture: true });
 							} else {
 								event.add(element, event.TYPE.focusin, focusEvent);
 							}

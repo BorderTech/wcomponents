@@ -22,10 +22,10 @@ require(["wc/has"], /** @param has @ignore */ function(has) {
 			function(getAncestorOrSelf, Widget, focus, tag, event, timers) {
 				var FOCUS_WIDGET;
 				console.log("Adding webkit focus fix for mouse users.");
-				event.add(window, event.TYPE.mousedown, mouseDownEvent, null, null, true);
-				event.add(window, event.TYPE.click, clickEvent/* , null, null, true */);
+				event.add(window, { type: "mousedown", listener: mouseDownEvent, capture: true });
+				event.add(window, { type: "click", listener: clickEvent /* , capture: true */ });
 				if (has("event-ontouchstart")) {
-					event.add(window, event.TYPE.touchstart, mouseDownEvent, null, null, true);
+					event.add(window, { type: "touchstart", listener: mouseDownEvent, capture: true });
 				}
 				function mouseDownEvent($event) {
 					var activeElement = document.activeElement,
