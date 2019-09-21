@@ -250,7 +250,7 @@ define(["wc/dom/attribute",
 					if (container && !attribute.get(container, BOOTSTRAPPED) && validationManager.isValidateOnBlur()) {
 						attribute.set(container, BOOTSTRAPPED, true);
 						if (event.canCapture) {
-							event.add(container, event.TYPE.blur, blurEvent, 1, null, true);
+							event.add(container, { type: "blur", listener: blurEvent, pos: 1, capture: true });
 						} else {
 							event.add(container, event.TYPE.focusout, blurEvent);
 						}
@@ -265,7 +265,7 @@ define(["wc/dom/attribute",
 			 */
 			this.initialise = function(element) {
 				if (event.canCapture) {
-					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
+					event.add(element, { type: "focus", listener: focusEvent, capture: true });
 				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}

@@ -421,7 +421,7 @@ define(["wc/string/escapeRe",
 			this.initialise = function(element) {
 				ALLOWED = i18n.get("select_typeahead");
 				if (event.canCapture) {
-					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
+					event.add(element, { type: "focus", listener: focusEvent, capture: true });
 				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}

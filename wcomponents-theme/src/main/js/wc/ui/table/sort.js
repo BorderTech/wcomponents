@@ -126,7 +126,7 @@ define(["wc/dom/initialise",
 
 			this.initialise = function(element) {
 				if (event.canCapture) {
-					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
+					event.add(element, { type: "focus", listener: focusEvent, capture: true });
 				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}

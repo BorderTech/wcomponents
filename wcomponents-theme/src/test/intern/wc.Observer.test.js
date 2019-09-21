@@ -25,13 +25,6 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"], 
 		},
 		/* NOTE: The subscribe() tests rely on an assumption that notify() works as expected. */
 
-		/* Why does subscribe() return the subscriber? Who knows; but it does so it gets tested. */
-		testObserverSubscribeReturnsSubscriber: function() {
-			function subscriber() {
-				return true;
-			}
-			assert.strictEqual(observer.subscribe(subscriber), subscriber, "Observer.subscribe should return the subscribed function.");
-		},
 		testObserverSubscribe: function() {
 			var wasNotified = false;
 
@@ -101,23 +94,10 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"], 
 				assert.isTrue(true, "Error expected.");
 			}
 		},
-		/* Subscribing an object allows late binding of the subscriber function. The intent of this is that a method
-		 * name is always passed to Observer.subscribe but lack of overloading in JS makes this impractical to enforce.
-		 * This tests that subscribing an Object works. Later we test subscribing with a method name to testnotify of
-		 * that method.*/
-		testObserverSubscribeToNotAFunction: function() {
-			var someObject = {
-				prop1: null,
-				prop2: function() {
-					return true;
-				} };
-
-			assert.strictEqual(observer.subscribe(someObject), someObject, "We should be able to subscribe anything and have it returned.");
-		},
 		/* Subscriber groups are really an issue for notify(). This just tests that  the subscriber gets subscribed (by returning itself) and does not throw an exception. */
 		testObserverSubscribeWithGroup: function() {
 			function subscriber() { }
-			assert.strictEqual(observer.subscribe(subscriber, { group: ns }), subscriber, "Subscribe with a group should return the subscriber.");
+			assert.isNotNull(observer.subscribe(subscriber, { group: ns }), "Subscribe with a group should return something.");
 		},
 		/* Tests of Observer context applied to a subscriber. The context supplied by a call to subscribe should be the "this" of the subscriber when notified. */
 		testObserverSubscribeWithContext: function() {
@@ -523,18 +503,6 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"], 
 				assert.isTrue(isSubscribed, "Notify called and unsubscribe should have failed.");
 			}
 		},
-		testObserverUnubscribeNoGroupReturnsSubscriber: function() {
-			var theSubscriber = null,
-				unsubSubscriber = null;
-
-			function subscriber() {
-				return true;
-			}
-
-			theSubscriber = observer.subscribe(subscriber);
-			unsubSubscriber = observer.unsubscribe(theSubscriber);
-			assert.strictEqual(unsubSubscriber, theSubscriber, "unsubscribe() should return the subscriber.");
-		},
 		testObserverUnubscribeNoGroup: function() {
 			var isSubscribed = false;
 
@@ -549,35 +517,19 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"], 
 			observer.notify();
 			assert.isFalse(isSubscribed, "notify called after unsubscribe should not change value of isSubscribed");
 		},
-		testObserverUnubscribeWithGroup: function() {
-			var theSubscriber = null;
+		testObserverUnubscribeUsingRvalNoGroup: function() {
+			var rval, isSubscribed = false;
 
 			function subscriber() {
-				return true;
+				isSubscribed = true;
 			}
 
-			theSubscriber = observer.subscribe(subscriber, { group: ns });
-			assert.strictEqual(observer.unsubscribe(subscriber, ns), theSubscriber, "unsubscribe with group should return the subscriber.");
-		},
-		testObserverUnsubscribeWithGroupMismatchNotSubscriber: function() {
-			/* note: this depends on working observer.filter (see below) */
-			var theSubscriber = null;
+			rval = observer.subscribe(subscriber);
+			observer.unsubscribe(rval);
 
-			function subscriber() {
-				return true;
-			}
-
-			theSubscriber = observer.subscribe(subscriber, { group: ns });
-			assert.notEqual(observer.unsubscribe(subscriber), theSubscriber, "unsubscribe should not return the subscriber if not using the same group.");
-		},
-		testObserverUnsubscribeWithGroupMismatchIsNull: function() {
-			/* note: this depends on working observer.filter (see below) */
-			function subscriber() {
-				return true;
-			}
-
-			observer.subscribe(subscriber, { group: ns });
-			assert.isNull(observer.unsubscribe(subscriber), "unsubscribe when subscribe used a different group should return null.");
+			// if we now call notify having unsubscribed then wasSubscribed should not be changed
+			observer.notify();
+			assert.isFalse(isSubscribed, "notify called after unsubscribe should not change value of isSubscribed");
 		},
 		testObserverUnsubscribeWithGroupMismatch: function() {
 			/* note: this depends on working observer.filter (see below) */
@@ -597,7 +549,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"], 
 		testObserverNotify: function() {
 			// NOTE: most subscribe/unsubscribe tests rely on a working notify() so there is some double-up.
 			// this is same test as testObserverSubscribeSubscriberNeedsArgs() and is here for completeness.
-			var wasNotified = false;
+			var rval, wasNotified = false;
 
 			function subscriber(arg1, arg2) {
 				if (arg1 === "foo" && arg2 === "bar") {
@@ -605,21 +557,25 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"], 
 				}
 			}
 
-			observer.subscribe(subscriber);
+			rval = observer.subscribe(subscriber);
 			observer.notify("foo", "bar");
 			assert.isTrue(wasNotified);
+			wasNotified = false;
+			observer.unsubscribe(rval);
+			assert.isFalse(wasNotified, "Should not be notified after unsubscribe");
 		},
 		testObserverNotifyOrderWithMultipleImportantAndNotImportant: function() {
 			var idx = 0,
+				rval = [],
 				result = { },
 				expected = { 0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5 };
 
-			observer.subscribe(curriedSubscriber(2), { priority: Observer.priority.MED });
-			observer.subscribe(curriedSubscriber(5), { priority: Observer.priority.LOW });
-			observer.subscribe(curriedSubscriber(0), { priority: Observer.priority.HIGH });
-			observer.subscribe(curriedSubscriber(3));
-			observer.subscribe(curriedSubscriber(4));
-			observer.subscribe(curriedSubscriber(1), { priority: Observer.priority.HIGH });
+			rval.push(observer.subscribe(curriedSubscriber(2), { priority: Observer.priority.MED }));
+			rval.push(observer.subscribe(curriedSubscriber(5), { priority: Observer.priority.LOW }));
+			rval.push(observer.subscribe(curriedSubscriber(0), { priority: Observer.priority.HIGH }));
+			rval.push(observer.subscribe(curriedSubscriber(3)));
+			rval.push(observer.subscribe(curriedSubscriber(4)));
+			rval.push(observer.subscribe(curriedSubscriber(1), { priority: Observer.priority.HIGH }));
 
 			observer.notify();
 			assert.deepEqual(expected, result);
@@ -629,6 +585,12 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"], 
 					result[idx++] = sauce;
 				};
 			}
+
+			result = {};
+			observer.unsubscribe(rval);
+			assert.strictEqual(0, rval.length, "Array should be emptied for me");
+			observer.notify();
+			assert.deepEqual({}, result, "Should be able to unsubscribe with array of rvals");
 		},
 		/* Check that adding order is honored across groups. */
 		testObserverNotifyOrderWithDifferentGroups: function() {

@@ -7,7 +7,8 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/shed", "wc/dom/Widget", "wc
 		 * @private
 		 */
 		function Tooltip() {
-			var showing,
+			var events = [],
+				showing,
 				isOpen = false,
 				TOOLTIP_TTL = 5000,
 				TOOLTIPS = new Widget("span", "", {"role": "tooltip"});
@@ -70,8 +71,15 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/shed", "wc/dom/Widget", "wc
 			 * @param {Element} element The element being initialised, usually document.body.
 			 */
 			this.initialise = function(element) {
-				event.add(element, event.TYPE.keydown, keydownEvent);
-				event.add(element, event.TYPE.keyup, keyupEvent);
+				events.push(event.add(element, event.TYPE.keydown, keydownEvent));
+				events.push(event.add(element, event.TYPE.keyup, keyupEvent));
+			};
+
+			/**
+			 * Unsubscribes event listeners etc.
+			 */
+			this.deinit = function() {
+				event.remove(events);
 			};
 
 			/**
