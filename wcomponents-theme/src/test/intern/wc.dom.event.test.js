@@ -124,6 +124,42 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				}
 			},
 
+			testFireCustomEvent: function() {
+				var handle,
+					kungActual,
+					dataExpected = { kung: "fu" },
+					element = document.getElementById(ids.TXTAREA);
+				try {
+					handle = event.add(element, "kungfu", function($event) {
+						kungActual = $event.detail.kung;
+					});
+					event.fire(element, "kungfu", { detail: dataExpected });
+					assert.strictEqual(kungActual, dataExpected.kung);
+				} finally {
+					event.remove(handle);
+				}
+			},
+
+			testRemoveCustomEvent: function() {
+				var handle,
+					kungActual,
+					dataExpected = { kung: "fu" },
+					element = document.getElementById(ids.TXTAREA);
+				try {
+					handle = event.add(element, "kungfu", function($event) {
+						kungActual = $event.detail.kung;
+					});
+					event.fire(element, "kungfu", { detail: dataExpected });
+					assert.strictEqual(kungActual, dataExpected.kung);
+					kungActual = null;
+					event.remove(handle);
+					event.fire(element, "kungfu", { detail: dataExpected });
+					assert.isNull(kungActual);
+				} finally {
+					event.remove(handle);
+				}
+			},
+
 			testAddFireEventButtonInput: function() {
 				var element = document.getElementById(ids.BUTTONINP);
 				try {

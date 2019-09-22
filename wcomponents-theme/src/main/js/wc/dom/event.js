@@ -312,10 +312,11 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 			 * @function module:wc/dom/event.fire
 			 * @param {Element} element The element to fire the event on.
 			 * @param {Event} $event The event to fire (eg 'click')
+			 * @param options bubbles, cancelable, detail (for custom events).
 			 * @returns {Boolean} Should probably be undefined: use defaultPrevented to check if an event has ceased.
 			 */
-			this.fire = function (element, $event) {
-				var rval, evt, tagName, type;
+			this.fire = function (element, $event, options) {
+				var rval, evt, tagName, type, conf = options || { bubbles: true, cancelable: false };
 				if (!currentEvent[$event]) {
 					if (element && $event) {
 						tagName = element.tagName;
@@ -324,13 +325,23 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 								!(type === "text" || type === "password" || tagName === tag.TEXTAREA || tagName === tag.SELECT)) {
 							element[$event]();
 						} else if (document.createEvent) {
-							// won't fully simulate a click (ie naviagate a link)
-							evt = document.createEvent("HTMLEvents");
-							evt.initEvent($event, true, true); // type, bubbling, cancelable
-							rval = !element.dispatchEvent(evt);
-							if (!isFirefox && $event === $this.TYPE.submit) {
-								// webkit browsers AND IE9 and above need this, firefox doesn't
-								element[$event]();
+							if (conf.detail) {
+								if (has("event-custom")) {
+									evt = new CustomEvent($event, conf);
+								} else {
+									evt = document.createEvent("CustomEvent");
+									evt.initCustomEvent($event, conf.bubbles, conf.cancelable, conf.detail);
+								}
+								rval = !element.dispatchEvent(evt);
+							} else {
+								// won't fully simulate a click (ie naviagate a link)
+								evt = document.createEvent("HTMLEvents");
+								evt.initEvent($event, conf.bubbles, conf.cancelable);
+								rval = !element.dispatchEvent(evt);
+								if (!isFirefox && $event === $this.TYPE.submit) {
+									// webkit browsers AND IE9 and above need this, firefox doesn't
+									element[$event]();
+								}
 							}
 						} else {
 							// won't fully simulate a click (ie naviagate a link)
@@ -347,7 +358,7 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 					}
 				} else {
 					console.log("Not firing ", $event, " while firing ", currentEvent, " Action queued.");
-					timers.setTimeout($this.fire, 0, element, $event);
+					timers.setTimeout($this.fire, 0, element, $event, options);
 				}
 				return rval;
 			};
@@ -622,6 +633,19 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 
 		has.add("event-ontouchmove", function(g) {
 			return ("ontouchmove" in g);
+		});
+
+		has.add("event-custom", function(g) {
+			if (g.CustomEvent) {
+				try {
+					new g.CustomEvent("x");
+					return true;
+				} catch (ex) {
+					// IE11 - window.CustomEvent object exists but cannot be constructed
+					return false;
+				}
+			}
+			return false;  // this should not happen in modern times
 		});
 
 		return /** @alias module:wc/dom/event */ new EventManager();
