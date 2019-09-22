@@ -835,7 +835,7 @@ define(["wc/has",
 			this.initialise = function(element) {
 				setUpSuggestions(element);
 				if (event.canCapture) {
-					event.add(window, event.TYPE.focus, focusEvent, null, null, true);
+					event.add(window, { type: "focus", listener: focusEvent, capture: true });
 				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}

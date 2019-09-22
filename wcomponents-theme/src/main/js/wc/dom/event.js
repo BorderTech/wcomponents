@@ -188,56 +188,75 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 			 *
 			 * @function module:wc/dom/event.add
 			 * @param {Element} element The element to which the event listener will be associated.
-			 * @param {string} type The type of event (eg 'click', 'focus' NOT 'onclick', 'onfocus')
-			 * @param {Function} listener The event listener that will be called on the event
-			 * @param {number} [pos] positive number = runs later, negative number = runs earlier
+			 * @param {string} eventArgs.type The type of event (eg 'click', 'focus' NOT 'onclick', 'onfocus')
+			 * @param {Function} eventArgs.listener The event listener that will be called on the event
+			 * @param {number} [eventArgs.pos] positive number = runs later, negative number = runs earlier
 			 *    Note, the weird numbering convention is due to backwards compatibility support. Think of the
 			 *    numbers as belonging to a timeline: |-ve ---- 0 ---- +ve|
-			 * @param {object} [scope] The scope in which to call the listener (ie override the 'this')
-			 * @param {boolean} [capture] If true the event will listen at the capture phase. Default is false
+			 * @param {object} [eventArgs.scope] The scope in which to call the listener (ie override the 'this')
+			 * @param {boolean} [eventArgs.capture] If true the event will listen at the capture phase. Default is false
 			 *    (listens at the bubble phase). If you set capture to true in a browser that does not support
 			 *    capture an exception will be thrown.
-			 * @returns {Boolean} true if the listener was able to be added as an event subscriber.
+			 * @returns A dto that can be used to "remove" if the listener was able to be added as an event subscriber.
 			 * @throws {TypeError} Thrown if the capture parameter is set true and the browser is not dom2 compliant.
 			 */
-			this.add = function (element, type, listener, pos, scope, capture) {
-				var result, observer, group,
-					priority = pos ? ((pos > 0) ? PRI.LOW : PRI.HIGH) : PRI.MED,
+			this.add = function (element/* , args */) {
+				var args = addApi(arguments),
+					result, observer, group,
+					priority = args.pos ? ((args.pos > 0) ? PRI.LOW : PRI.HIGH) : PRI.MED,
 					elementElid = attribute.get(element, ELID_ATTR);
-
 				if (!elementElid) {
 					elementElid = attribute.set(element, ELID_ATTR, uid());
 				}
-				if ((capture = !!capture)) {  // test and cast to keep it pure for addEventListener
+				if ((args.capture = !!args.capture)) {  // test and cast to keep it pure for addEventListener
 					if (dom2) {
-						group = type + CAPTURE_SUFFIX;
+						group = args.type + CAPTURE_SUFFIX;
 					} else {
 						throw new TypeError("Can not use capture in this browser");
 					}
 				} else {
-					group = type + BUBBLE_SUFFIX;
+					group = args.type + BUBBLE_SUFFIX;
 				}
 				observer = events[elementElid] || (events[elementElid] = new Observer());
-				if (observer.isSubscribed(listener, group)) {
-					console.warn("listener: ", listener, " already bound to: ", type, " on element: ", element);
+				if (observer.isSubscribed(args.listener, group)) {
+					console.warn("listener: ", args.listener, " already bound to: ", args.type, " on element: ", element);
 					result = false;
 				} else {
 					if (observer.subscriberCount(group) < 0) {
 						// if less than zero this is the first subscriber for this type on this element
 						if (dom2) {
 							// wham bam lighting fast test for modern browsers
-							element.addEventListener(type, eventListener, capture);
+							element.addEventListener(args.type, eventListener, args.capture);
 						} else {
 							// WARNING: with attachEvent "this" is ALWAYS "window" so we must bind it to the element
-							element.attachEvent("on" + type, eventListener.bind(element));
+							element.attachEvent("on" + args.type, eventListener.bind(element));
 						}
 						// could fall back to dom 0 binding but meh, get with the program
 					}
-					observer.subscribe(listener, {group: group, context: scope, priority: priority});
-					result = true;
+					result = observer.subscribe(args.listener, { group: group, context: args.scope, priority: priority });
+					result.elid = elementElid;
 				}
 				return result;
 			};
+
+			/**
+			 * This little helper adapts the horrible old organically grown event API to the new one.
+			 * The problem with having three optional args in a row is you get this sort of thing:
+			 * `event.add(element, "click", handler, null, null, true)`
+			 * @param {Arguments} args The arguments from a call to event.add..
+			 * @returns An eventArgs object, no matter if it was called with the new or old API.
+			 */
+			function addApi(args) {
+				var i, argMap = ["type", "listener", "pos", "scope", "capture"],
+					result = args[1];
+				if (args.length > 2) {
+					result = {};
+					for (i = 0; i < argMap.length; i++) {
+						result[argMap[i]] = args[i + 1];
+					}
+				}
+				return result;
+			}
 
 			/**
 			 * Remove an event subscription from a particular element.
@@ -247,23 +266,36 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 			 * eventListener() code where a static snapshot of event listeners is taken before any of them are notified.
 			 *
 			 * @function module:wc/dom/event.remove
-			 * @param {Element} element The element from which the event is removed.
-			 * @param {string} type The type we are removing.
-			 * @param {Function} listener The subscriber (listener) for the event.
-			 * @param {boolean} capture True if the event is to be removed from the capture phase. Make sure this
-			 *    matches where it was attached!
-			 * @returns {Boolean} Returns true if the event was removed, false indicates the event was never on the
-			 *    element in the first place.
+			 * @param {Element|Object|Object[]} element The element from which the event is removed.
+			 *    Alternatively simply pass the result from a call to the "add" method of this module.
+			 *    You may also pass an array of these - note the array will be modfied! It will be emptied.
+			 * @param {string} [type] The type we are removing. Not used if called with return value of "add".
+			 * @param {Function} [listener] The subscriber (listener) for the event. Not used if called with return value of "add".
+			 * @param {boolean} [capture] True if the event is to be removed from the capture phase. Make sure this
+			 *    matches where it was attached! Not used if called with return value of "add".
 			 */
 			this.remove = function (element, type, listener, capture) {
-				var result = false,
-					group = capture ? type + CAPTURE_SUFFIX : type + BUBBLE_SUFFIX,
-					elementElid = attribute.get(element, ELID_ATTR),
-					observer = events[elementElid];
-				if (observer) {
-					result = !!observer.unsubscribe(listener, group);
+				var group, observer,
+					subscriber = listener,
+					dto = arguments[0],
+					unsub = function(elid, args) {
+						observer = events[elid];
+						if (observer) {
+							observer.unsubscribe.apply(observer, args);
+						}
+					};
+				if (arguments.length === 1) {
+					if (Array.isArray(dto)) {
+						while (dto.length) {
+							this.remove(dto.pop());
+						}
+					} else {
+						unsub(dto.elid, [dto]);
+					}
+				} else {
+					group = capture ? type + CAPTURE_SUFFIX : type + BUBBLE_SUFFIX;
+					unsub(attribute.get(element, ELID_ATTR), [subscriber, group]);
 				}
-				return result;
 			};
 
 			/**

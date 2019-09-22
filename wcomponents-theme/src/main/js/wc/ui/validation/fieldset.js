@@ -160,7 +160,7 @@ define(["wc/i18n/i18n",
 				// 	return;
 				// }
 				if (event.canCapture) {
-					event.add(element, event.TYPE.focus, focusEvent, 1, null, true);
+					event.add(element, { type: "focus", listener: focusEvent, pos: 1, capture: true });
 				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}

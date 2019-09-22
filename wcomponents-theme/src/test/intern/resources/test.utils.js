@@ -71,7 +71,7 @@ define(["wc/compat/compat!"], function() {
 
 			if (event.canCapture) {
 				event.remove(testHolder, event.TYPE.submit, submitEvent, true);
-				event.add(testHolder, event.TYPE.submit, submitEvent, 1, null, true);
+				event.add(testHolder, { type: "submit", listener: submitEvent, pos: 1, capture: true });
 			}
 			return testHolder;
 		};

@@ -54,7 +54,8 @@ define(["wc/dom/attribute",
 		 * @private
 		 */
 		function TextArea() {
-			var INITED_KEY = "__maxlength_inited__",
+			var events = [],
+				INITED_KEY = "__maxlength_inited__",
 				TEXTAREA = new Widget("textarea"),
 				TEXTAREA_MAXLENGTH = TEXTAREA.extend("", {"maxLength": null}),
 				TEXTAREA_MAXLENGTH_FAUX = TEXTAREA.extend("", {"data-wc-maxlength": null}),
@@ -194,8 +195,8 @@ define(["wc/dom/attribute",
 						attribute.set(element, INITED_KEY, true);
 						if (Widget.isOneOfMe(element, TEXTAREA_CONSTRAINED)) {
 							if (canCapture) {  // see note in comment for this.initialise
-								event.add(element, event.TYPE.input, handleInput, null, null, true);
-								event.add(element, event.TYPE.blur, blurEvent, null, null, true);
+								events.push(event.add(element, { type: "input", listener: handleInput, capture: true }));
+								events.push(event.add(element, { type: "blur", listener: blurEvent, capture: true }));
 								tick(element);  // tick on focusIn to set initial title attribute (not available in XSLT1)
 							}
 						}
@@ -214,10 +215,17 @@ define(["wc/dom/attribute",
 			 */
 			this.initialise = function(element) {
 				if (event.canCapture) {
-					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
+					events.push(event.add(element, { type: "focus", listener: focusEvent, capture: true }));
 				} else {
-					event.add(element, event.TYPE.focusin, focusEvent);
+					events.push(event.add(element, event.TYPE.focusin, focusEvent));
 				}
+			};
+
+			/**
+			 * Unsubscribes event listeners etc.
+			 */
+			this.deinit = function() {
+				event.remove(events);
 			};
 
 			/**

@@ -79,7 +79,7 @@ function buildSingle(singleFile) {
 	delete conf.modules;
 	conf.dir = "";
 	conf.name = pathToModule(fileName);
-	conf.out = path.join(dirs.max, fileName + ".js");
+	conf.out = path.join(dirs.min, fileName);
 	buildMax(dirs, fileName);
 	return optimize(conf);
 }

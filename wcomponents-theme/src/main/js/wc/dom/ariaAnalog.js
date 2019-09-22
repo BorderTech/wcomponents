@@ -407,8 +407,8 @@ define(["wc/has",
 			genericAnalog = new Widget("", "", {"role": null});
 
 			if (event.canCapture) {
-				event.add(element, event.TYPE.focus, eventWrapper.bind(this), null, null, true);
-				event.add(element, event.TYPE.click, eventWrapper.bind(this), null, null, true);
+				event.add(element, { type: "focus", listener: eventWrapper.bind(this), capture: true });
+				event.add(element, { type: "click", listener: eventWrapper.bind(this), capture: true });
 			} else {
 				event.add(element, event.TYPE.focusin, eventWrapper.bind(this));
 				event.add(element, event.TYPE.click, eventWrapper.bind(this));
