@@ -283,15 +283,16 @@ define(["wc/has",
 			}
 
 			/**
-			 * Subscriber to SHED pseudo-event publisher.
+			 * Event listener for shed custom events.
 			 *
 			 * @function
 			 * @private
-			 * @param {Element} element the element SHED has acted upon.
-			 * @param {String} action the SHED action.
+			 * @param {Event} $event The shed event that fired.
 			 */
-			function shedSubscriber(element, action) {
-				var textbox, opener;
+			function shedSubscriber($event) {
+				var textbox, opener,
+					element = $event.target,
+					action = $event.type;
 
 				if (!(element && COMBO.isOneOfMe(element))) {
 					return;
@@ -299,7 +300,7 @@ define(["wc/has",
 
 				textbox = TEXTBOX.findDescendant(element);
 
-				if (action === shed.actions.EXPAND) {
+				if (action === shed.events.EXPAND) {
 					if (shed.isExpanded(element)) {
 						onchangeSubmit.ignoreNextChange();
 						ajaxRegion.ignoreNextChange();
@@ -312,7 +313,7 @@ define(["wc/has",
 					return;
 				}
 
-				if (action === shed.actions.COLLAPSE) {
+				if (action === shed.events.COLLAPSE) {
 					if (!shed.isExpanded(element)) {
 						onchangeSubmit.clearIgnoreChange();
 						ajaxRegion.clearIgnoreChange();
@@ -329,7 +330,7 @@ define(["wc/has",
 					return;
 				}
 
-				if (action === shed.actions.DISABLE) {
+				if (action === shed.events.DISABLE) {
 					shed.disable(textbox, true);
 					if ((opener = OPENER_BUTTON.findDescendant(element))) {
 						shed.disable(opener, true);
@@ -338,7 +339,7 @@ define(["wc/has",
 					return;
 				}
 
-				if (action === shed.actions.ENABLE) {
+				if (action === shed.events.ENABLE) {
 					shed.enable(textbox, true);
 					if ((opener = OPENER_BUTTON.findDescendant(element))) {
 						shed.enable(opener, true);
@@ -346,7 +347,7 @@ define(["wc/has",
 					return;
 				}
 
-				if (action === shed.actions.HIDE && shed.isExpanded(element)) {
+				if (action === shed.events.HIDE && shed.isExpanded(element)) {
 					shed.collapse(element, true);
 				}
 			}
@@ -356,10 +357,11 @@ define(["wc/has",
 			 *
 			 * @function
 			 * @private
-			 * @param {Element} element The element being selected.
+			 * @param {Event} $event Fired when an element is selected.
 			 */
-			function shedSelectSubscriber(element) {
-				var listbox, combo;
+			function shedSelectSubscriber($event) {
+				var listbox, combo,
+					element = $event.target;
 				if (element && OPTION.isOneOfMe(element) && (listbox = getListBox(element)) && (combo = getCombo(listbox))) {
 					setValue(combo, element);
 				}
@@ -855,12 +857,12 @@ define(["wc/has",
 			 * @public
 			 */
 			this.postInit = function() {
-				shed.subscribe(shed.actions.EXPAND, shedSubscriber);
-				shed.subscribe(shed.actions.COLLAPSE, shedSubscriber);
-				shed.subscribe(shed.actions.HIDE, shedSubscriber);
-				shed.subscribe(shed.actions.DISABLE, shedSubscriber);
-				shed.subscribe(shed.actions.ENABLE, shedSubscriber);
-				shed.subscribe(shed.actions.SELECT, shedSelectSubscriber);
+				event.add(document.body, shed.events.EXPAND, shedSubscriber);
+				event.add(document.body, shed.events.COLLAPSE, shedSubscriber);
+				event.add(document.body, shed.events.HIDE, shedSubscriber);
+				event.add(document.body, shed.events.DISABLE, shedSubscriber);
+				event.add(document.body, shed.events.ENABLE, shedSubscriber);
+				event.add(document.body, shed.events.SELECT, shedSelectSubscriber);
 				processResponse.subscribe(postAjaxSubscriber, true);
 			};
 
