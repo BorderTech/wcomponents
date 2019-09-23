@@ -124,6 +124,45 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				}
 			},
 
+			/**
+			 * This tests that events fire synchronously even if another event is firing.
+			 */
+			testAddFireEventFromAnotherEvent: function() {
+				var handles = [],
+					element = document.getElementById(ids.TXTAREA);
+				try {
+					handles.push(event.add(element, "kungfu", function($event) {
+						handles.push(event.add(element, EVENT, clickEvent));
+						event.fire($event.target, EVENT);
+					}));
+					assert.isFalse(called, "tear down is not cleaning up called as expected");
+					event.fire(element, "kungfu", { detail: "foo" });
+					assert.isTrue(called);
+				} finally {
+					event.remove(handles);
+				}
+			},
+
+			/**
+			 * This tests that events fire synchronously even if THE SAME event is firing.
+			 * This would fail on all versions of event manager before Sep 2019.
+			 */
+			testAddFireEventFromSameEvent: function() {
+				var handles = [],
+					element = document.getElementById(ids.TXTAREA);
+				try {
+					handles.push(event.add(element, "kungfu", function($event) {
+						handles.push(event.add(element, "kungfu", clickEvent));
+						event.fire($event.target, "kungfu");
+					}));
+					assert.isFalse(called, "tear down is not cleaning up called as expected");
+					event.fire(element, "kungfu", { detail: "foo" });
+					assert.isTrue(called);
+				} finally {
+					event.remove(handles);
+				}
+			},
+
 			testFireCustomEvent: function() {
 				var handle,
 					kungActual,
