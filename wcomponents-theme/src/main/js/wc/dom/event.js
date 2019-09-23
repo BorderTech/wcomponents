@@ -4,6 +4,9 @@
  * If the HTML5 "write once, run anywhere" dream comes true then this class can hopefully be deleted. The support for
  * DOM Level 2 events in Internet Explorer 9 is a major step in the right direction.
  *
+ * Well actually what it still gives us into the 2020s is a way to easily unsubscribe events.
+ * It is handy to have an event manager, everything still does - how often do you write "addEventListener" in React and Angular?
+
  * Features implemented:
  *
  * * this keyword applies correctly in listener functions (it is the element the event is attached to);
@@ -33,7 +36,6 @@
  * @todo re-order the code. Fix the public member mechanism, maybe move or get rid of $this as per more recent modules.
  */
 define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has", "wc/timers"],
-	/** @param Observer wc/Observer @param tag wc/dom/tag @param attribute wc/dom/attribute @param uid wc/dom/uid @param has wc/has @param timers wc/timers @ignore */
 	function(Observer, tag, attribute, uid, has, timers) {
 		"use strict";
 		var UNDEFINED = (typeof undefined);
@@ -42,6 +44,7 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 		 * Set up the event types we can handle. If you need one that is not here then add it. Keep this list
 		 * alphabetically sorted! Note, to help prevent typos the TYPE map is generated programatically off this array.
 		 *
+		 * @deprecated This is a bit silly, stop using it I'm going to delete it.
 		 * @function initialise
 		 * @private
 		 * @returns {Array} An array of strings representing the event types such as "touchstart" or "click".
@@ -75,6 +78,7 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 		 */
 		function EventManager() {
 			var $this = this,
+				MAX_RECURSE = 3,
 				BUBBLE_SUFFIX = ".bubble",
 				CAPTURE_SUFFIX = ".capture",
 				PRI = Observer.priority,
@@ -101,8 +105,8 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 			 *
 			 * @function
 			 * @private
-			 * @throws {Error} Throws a generic error if the currentEvent[type] property is set (not false) as this
-			 *    would mean an event calling itself for example by calling element.onXXXX().
+			 * @throws {Error} Throws a generic error if there is too much recursion which looks like an event calling itself
+			 *    for example by calling element.onXXXX().
 			 */
 			function eventListener(/* $event */) {
 				var $event = arguments[0] || window.event,
@@ -112,7 +116,9 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 					elementElid;
 
 				if (!currentEvent[type]) {
-					currentEvent[type] = true;
+					currentEvent[type] = 1;
+				} else if (currentEvent[type] < MAX_RECURSE) {
+					currentEvent[type]++;
 				} else {
 					throw new Error("eventListener calling itself? calling element.onXXXX() directly?");
 				}
@@ -158,7 +164,7 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 					 */
 					// return !($event.defaultPrevented);
 				} finally {
-					currentEvent[type] = false;
+					currentEvent[type]--;
 				}
 			}
 
@@ -307,7 +313,10 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 			 *
 			 * I have prevented events from firing while another event is currently firing to help prevent infinite
 			 * loops (change call click which calls change). May be overly protective, could reduce it so that you can't
-			 * fire the same event (eg click can't fire while click is firing).
+			 * fire the same event (eg click can't fire while click is firing). Ok we did that and it is fine.
+			 * I still think it's over protective - I NEARLY removed the currentEvent check completely but🐔chickened out.
+			 * Now it has a recursion couter and it will allow the first few through (simply setting it to 2 would cater
+			 * for the vast majority of legitimate cases).
 			 *
 			 * @function module:wc/dom/event.fire
 			 * @param {Element} element The element to fire the event on.
@@ -317,7 +326,7 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 			 */
 			this.fire = function (element, $event, options) {
 				var rval, evt, tagName, type, conf = options || { bubbles: true, cancelable: false };
-				if (!currentEvent[$event]) {
+				if (!currentEvent[$event] || currentEvent[$event] < MAX_RECURSE) {
 					if (element && $event) {
 						tagName = element.tagName;
 						type = element.type;
@@ -357,7 +366,7 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 						throw new TypeError("arguments can not be null");
 					}
 				} else {
-					console.log("Not firing ", $event, " while firing ", currentEvent, " Action queued.");
+					console.log("Too much recursion, queueing", element, $event, options);
 					timers.setTimeout($this.fire, 0, element, $event, options);
 				}
 				return rval;
