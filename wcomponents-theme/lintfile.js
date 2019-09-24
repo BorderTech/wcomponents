@@ -40,7 +40,7 @@ if (require.main === module) {
 function getLintTarget(target) {
 	let lintTarget = target;
 	if (!lintTarget) {
-		return ["*.js", dirs.script.src, dirs.test.src];
+		return ["*.js", dirs.script.src, dirs.test.src, "./scripts"];
 	} else if (!Array.isArray(lintTarget)) {
 		lintTarget = [lintTarget];
 	}
