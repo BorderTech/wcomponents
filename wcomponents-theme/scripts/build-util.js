@@ -18,6 +18,10 @@ const dirs = {
 		src: srcRoot,
 		build: buildRoot
 	},
+	i18n: {
+		src: path.normalize(path.join(projectRoot, "..", "wcomponents-i18n", "src", "main", "resources")),
+		target: path.join(targetRoot, "resource")
+	},
 	images: {
 		src: path.join(srcRoot, "images"),
 		target: path.join(targetRoot, "images")
@@ -32,7 +36,10 @@ const dirs = {
 			return path.join(this.target, "scripts");
 		}
 	},
-
+	resource: {
+		src: path.join(srcRoot, "resource"),
+		target: path.join(targetRoot, "resource")
+	},
 	style: {
 		src: path.join(srcRoot, "sass"),
 		target: path.join(targetRoot, "style")

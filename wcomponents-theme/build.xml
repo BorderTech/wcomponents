@@ -122,9 +122,9 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 		<echo level="info">************************ BUILDING ${impl.dir.name} ************************</echo>
 		<initImplTmpDir />
 <!--		<callant antFile="build-images.xml" target="build"/>-->
-		<callant antFile="build-resource.xml" target="build"/>
+<!--		<callant antFile="build-resource.xml" target="build"/>-->
 <!--		<callant antFile="build-css.xml" target="build"/> build after images -->
-		<callant antFile="build-i18n.xml" target="build"/>
+		<!--<callant antFile="build-i18n.xml" target="build"/>-->
 		<callant antFile="build-xslt.xml" target="build"/>
 		<!--<callant antFile="build-js.xml" target="build"/>-->
 		<writeVersionInfo implName="${impl.dir.name}"/>

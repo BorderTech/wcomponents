@@ -19,7 +19,7 @@ function main(argv) {
 }
 
 function readPropertiesFile(propertiesFile, jsonFile) {
-	properties.parse (propertiesFile, { path: true }, function (error, obj) {
+	properties.parse(propertiesFile, { path: true }, function (error, obj) {
 		var jsonString;
 		if (error) return console.error (error);
 		jsonString = JSON.stringify(obj, null, 1);
