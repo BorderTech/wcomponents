@@ -1,5 +1,5 @@
 
-define(["wc/Observer",
+define(["wc/dom/event",
 	"wc/dom/aria",
 	"wc/dom/impliedARIA",
 	"wc/dom/classList",
@@ -8,8 +8,7 @@ define(["wc/Observer",
 	"wc/dom/getLabelsForElement",
 	"wc/dom/role",
 	"wc/dom/getStyle"],
-	/** @param Observer @param aria @param impliedAria @param classList  @param tag @param Widget @param getLabelsForElement @param $role @param getStyle @ignore */
-	function(Observer, aria, impliedAria, classList, tag, Widget, getLabelsForElement, $role, getStyle) {
+	function(event, aria, impliedAria, classList, tag, Widget, getLabelsForElement, $role, getStyle) {
 		"use strict";
 		var instance;
 
@@ -19,8 +18,7 @@ define(["wc/Observer",
 		 * @private
 		 */
 		function Shed() {
-			var observer,
-				actions = {
+			var actions = {
 					SHOW: "show",
 					HIDE: "hide",
 					ENABLE: "enable",
@@ -53,6 +51,19 @@ define(["wc/Observer",
 				"aria-pressed"];
 			NATIVE_STATE[REQUIRED] = "required";
 			NATIVE_STATE[DISABLED] = "disabled";
+
+			/**
+			 * Map from actions to events and vice versa.
+			 */
+			this.events = {};
+			Object.keys(actions).forEach(function(key) {
+				var val = actions[key],
+					eventName = "wc" + val;
+				this.events[val] = eventName;  // shed.events.select = "wcselect"
+				this.events[key] = eventName;  // shed.events.SELECT = "wcselect"
+				this.events[eventName] = val;  // shed.events.wcselect = "select"
+			}, this);
+
 
 
 			function disabledMandatoryHelper(element, STATE, reverse) {
@@ -734,10 +745,7 @@ define(["wc/Observer",
 			 * @returns {Promise} when publish is complete (waits for subscribers that return a "thenable").
 			 */
 			this.publish = function(element, action) {
-				if (observer) {
-					observer.setFilter(action);
-					return observer.notify(element, action);
-				}
+				event.fire(element, this.events[action], { bubbles: true, cancelable: false, detail: { action: action } });
 				return Promise.resolve();
 			};
 
@@ -757,23 +765,30 @@ define(["wc/Observer",
 
 			/**
 			 * Be notified of an element being shown or hidden.
-			 *
+			 * @deprecated Subscribe to the events instead so this:
+			 *    shed.subscribe(shed.actions.SELECT, function(element, action) {});
+			 *    Becomes this:
+			 *    event.add(document.body, shed.events.SELECT, function($event) { var element = $event.target, action = $event.detail.action });
 			 * @function module:wc/dom/shed.subscribe
 			 * @param {string} type The action you want to be notified about (one of shed.actions)
 			 * @param {Function} subscriber A callback function, will be passed the args: (element, action)
-			 * @returns {Function} The result of observer.subscribe
+			 * @returns {Function} The result of event.add
 			 */
 			this.subscribe = function (type, subscriber) {
-				function _subscribe(_type, _subscriber) {
-					return observer.subscribe(_subscriber, {group: _type});
-				}
-
-				if (!observer) {
-					observer = new Observer();
-					instance.subscribe = _subscribe;
-				}
-				return _subscribe(type, subscriber);
+				return event.add(document.body, this.events[type], eventToObserverAdapter(subscriber));
 			};
+
+			/**
+			 * Event to observer API adapter factory.
+			 * This returns event handler wrappers that adapt from the new custom event API to the old pub/sub API.
+			 * We should delete this when all subscribers are listening to custom events (i.e. you delete shed.subscribe).
+			 * @returns {function} Intercepts custom events and calls the subscriber in the old way.
+			 */
+			function eventToObserverAdapter(subscriber) {
+				return function($event) {
+					subscriber($event.target, $event.detail.action);
+				};
+			}
 
 			/**
 			 * Toggles a state of an element.
@@ -817,14 +832,10 @@ define(["wc/Observer",
 			 * @function module:wc/dom/shed.unsubscribe
 			 * @param {String} type The action you want to unsubscribe from (one of shed.actions)
 			 * @param {Function} subscriber The subscriber to unsubscribe.
-			 * @returns {Function} The result of {@link module:wc/Observer#subscribe}
+			 * @returns {Function} The result of {@link module:wc/dom/event#remove}
 			 */
 			this.unsubscribe = function (type, subscriber) {
-				var result;
-				if (observer) {
-					result = observer.unsubscribe(subscriber, type);
-				}
-				return result;
+				return event.remove(document.body, type, subscriber);
 			};
 		}
 
@@ -853,7 +864,7 @@ define(["wc/Observer",
 		 * enabled/disabled.</li></ul>
 		 *
 		 * @module
-		 * @requires module:wc/Observer
+		 * @requires module:wc/dom/event
 		 * @requires module:wc/dom/aria
 		 * @requires module:wc/dom/impliedARIA
 		 * @requires module:wc/dom/classList

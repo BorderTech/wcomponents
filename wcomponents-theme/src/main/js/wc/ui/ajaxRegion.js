@@ -85,8 +85,9 @@ define(["wc/dom/event",
 				return result;
 			}
 
-			function shedSubscriber(element) {
-				var type = element.type;
+			function shedSubscriber($event) {
+				var element = $event.target,
+					type = element.type;
 
 				if (element && element.tagName === tag.INPUT && (type === "radio" || type === "checkbox")) {
 					checkActivateTrigger(element);
@@ -228,8 +229,8 @@ define(["wc/dom/event",
 			this.postInit = function() {
 				setControlsAttribute();
 				processResponse.subscribe(setControlsAttribute, true);
-				shed.subscribe(shed.actions.SELECT, shedSubscriber);
-				shed.subscribe(shed.actions.DESELECT, shedSubscriber);
+				event.add(document.body, shed.events.SELECT, shedSubscriber);
+				event.add(document.body, shed.events.DESELECT, shedSubscriber);
 			};
 
 			/**
