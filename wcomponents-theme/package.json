@@ -4,7 +4,8 @@
 	"description": "Client side code for WComponents UI tool kit.",
 	"private": true,
 	"com_github_bordertech": {
-		"description": "Custom config here. JSON has no comment syntax, argh!"
+		"description": "Custom config here. JSON has no comment syntax, argh!",
+		"testMinOrMax": "min"
 	},
 	"scripts": {
 		"build": "node build-images.js && node build-resource.js && node build-css.js && node build-js.js",

@@ -13,7 +13,6 @@
  */
 const path = require("path");
 const { logLintReport, dirs } = require("./scripts/build-util");
-const testSrcDir = path.join(dirs.test.src, "intern");
 const sassLint = require("sass-lint");
 
 const CLIEngine = require("eslint").CLIEngine;
@@ -41,7 +40,7 @@ if (require.main === module) {
 function getLintTarget(target) {
 	let lintTarget = target;
 	if (!lintTarget) {
-		return ["*.js", dirs.script.src, testSrcDir];
+		return ["*.js", dirs.script.src, dirs.test.src];
 	} else if (!Array.isArray(lintTarget)) {
 		lintTarget = [lintTarget];
 	}

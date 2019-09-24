@@ -1,6 +1,7 @@
 /* eslint-env node, es6  */
 const pkgJson = require("../package.json");
 const path = require("path");
+const os = require("os");
 const fs = require("fs-extra");
 const projectRoot = path.normalize(path.join(__dirname, ".."));
 const srcRoot = path.join(projectRoot, pkgJson.directories.src);
@@ -86,10 +87,36 @@ function buildMax(dirPaths, singleFile, filter) {
 	fs.copySync(src, dest, filter);
 }
 
-requirejs.config({
-	baseUrl: dirs.script.src,
-	nodeRequire: require
-});
+/**
+ * Returns the project configuration, this is the section in the package.json under "com_github_bordertech".
+ * @param {string} [prop] Optionally look up a specific property.
+ * @returns {Object} Project specific configuration.
+ */
+function getConfig (prop) {
+	let result = Object.assign({}, pkgJson.com_github_bordertech);
+	let username = os.userInfo().username;
+	let userFile = path.join(projectRoot, `${username}.json`);
+	if (fs.existsSync(userFile)) {
+		let mixin = requireAmd("wc/mixin");
+		let overrides = require(userFile);
+		mixin(overrides, result);
+	}
+	if (prop) {
+		return result[prop];
+	}
+	return result;
+}
+
+function requireAmd() {
+	if (!requireAmd._inited) {
+		requireAmd._inited = true;
+		requirejs.config({
+			baseUrl: dirs.script.src,
+			nodeRequire: require
+		});
+	}
+	return requirejs.apply(this, arguments);
+}
 
 // Note that `join` with `__dirname` better than `resolve` as it cwd agnostic
 
@@ -97,6 +124,7 @@ module.exports = {
 	dirs,
 	logLintReport,
 	buildMax,
+	getConfig,
 	/**
 	 * This allows you to require a module from the actual wcomponents-theme source code for use in NodeJS.
 	 * This is crazy madness and you have to be careful what you try to use, obviously anything that needs a DOM will not work.
@@ -107,5 +135,5 @@ module.exports = {
 	 * @example
 		requireAmd(["wc/debounce"], function (debounce) { var brokenLogger = debounce(console.log, 100); })
 	 */
-	requireAmd: requirejs
+	requireAmd
 };
