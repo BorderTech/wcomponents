@@ -17,7 +17,8 @@ const dirs = {
 	project: {
 		basedir: projectRoot,
 		src: srcRoot,
-		build: buildRoot
+		build: buildRoot,
+		target: targetRoot
 	},
 	i18n: {
 		src: path.normalize(path.join(projectRoot, "..", "wcomponents-i18n", "src", "main", "resources")),
@@ -107,6 +108,16 @@ function getConfig (prop) {
 	return result;
 }
 
+/**
+ * This allows you to require a module from the actual wcomponents-theme source code for use in NodeJS.
+ * This is crazy madness and you have to be careful what you try to use, obviously anything that needs a DOM will not work.
+ * For low-level utils, however, it is pretty handy. I wrote it so I could use "wc/debounce".
+ *
+ * Use it jsut like you would use "require" in AMD.
+ *
+ * @example
+	requireAmd(["wc/debounce"], function (debounce) { var brokenLogger = debounce(console.log, 100); })
+ */
 function requireAmd() {
 	if (!requireAmd._inited) {
 		requireAmd._inited = true;
@@ -125,15 +136,6 @@ module.exports = {
 	logLintReport,
 	buildMax,
 	getConfig,
-	/**
-	 * This allows you to require a module from the actual wcomponents-theme source code for use in NodeJS.
-	 * This is crazy madness and you have to be careful what you try to use, obviously anything that needs a DOM will not work.
-	 * For low-level utils, however, it is pretty handy. I wrote it so I could use "wc/debounce".
-	 *
-	 * Use it jsut like you would use "require" in AMD.
-	 *
-	 * @example
-		requireAmd(["wc/debounce"], function (debounce) { var brokenLogger = debounce(console.log, 100); })
-	 */
-	requireAmd
+	requireAmd,
+	version: pkgJson.version
 };

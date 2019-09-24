@@ -1,5 +1,5 @@
 /* eslint-env node, es6  */
-const { buildMax, dirs } = require("./scripts/build-util");
+const { version, buildMax, dirs } = require("./scripts/build-util");
 const fs = require("fs-extra");
 const path = require("path");
 const properties = require ("properties");
@@ -25,6 +25,7 @@ function build() {
 			buildMax(dirs.resource);
 			console.timeEnd("buildResource");
 			buildI18n();
+			buildProps();
 			win();
 		} catch (ex) {
 			lose(ex);
@@ -55,6 +56,16 @@ function readPropertiesFile(propertiesFile, jsonFile) {
 	});
 }
 
+/**
+ * This is largely superfluous and a legacy of debugging builds many years in the past.
+ * It used to dump many different properties.
+ * HOWEVER one part of it has found new life (in ThemeUtil.java) and we must rewrite that
+ * before we get rid of this.
+ */
+function buildProps() {
+	let propFile = path.join(dirs.project.target, "version.properties");
+	fs.writeFileSync(propFile, `build.number=${version}\n`, "utf8");
+}
 
 /**
  * Clean the output of previous builds.
