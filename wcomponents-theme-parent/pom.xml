@@ -154,39 +154,6 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>com.googlecode.maven-download-plugin</groupId>
-				<artifactId>download-maven-plugin</artifactId>
-				<version>1.3.0</version>
-				<executions>
-					<execution>
-						<id>unpack-xsltjson</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>wget</goal>
-						</goals>
-						<configuration>
-							<skip>${theme.skip.antrun}</skip>
-							<url>${xsltjson.download.url}</url>
-							<unpack>false</unpack>
-							<outputDirectory>${xsltjson.dir}</outputDirectory>
-						</configuration>
-					</execution>
-					<execution>
-						<id>fetch-timezonedb</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>wget</goal>
-						</goals>
-						<configuration>
-							<skip>${theme.skip.antrun}</skip>
-							<url>${timezonedata.download.url}</url>
-							<unpack>true</unpack>
-							<outputDirectory>${timezone.dir}</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>
 					<execution>
@@ -194,22 +161,28 @@
 						<phase>compile</phase>
 						<configuration>
 							<skip>${theme.skip.antrun}</skip>
-							<target>
-								<echo>Attempting to start ANT build at ${theme.core.dir}</echo>
-								<echo>basedir = ${basedir}</echo>
-								<property name="basedir" location="${basedir}" />
-								<property name="theme.inherit" value="${theme.inherit}" />
-								<property name="target.dir" location="${project.build.directory}" />
-								<property name="component.rootdir" location="${theme.core.dir}" />
-								<property name="build.number" value="${project.version}" />
-								<property name="build.rootdir" location="${theme.target.dir}" />
-								<property name="theme.skip.tests" value="true" />
-								<property name="maven.plugin.classpath" refid="maven.plugin.classpath" />
-								<property name="rjs.log.level" value="${rjs.log.level}" />
-								<property name="sass-lint-config" location="${basedir}/.sass-lint.yml" />
-								<ant antfile="${theme.core.dir}/build.xml">
-									<target name="build" />
-								</ant>
+							<target name="build" description="Builds XSLT artifacts">
+								<property name="tmp.dir" location="${java.io.tmpdir}${file.separator}wcomponents-theme-tmp"/>
+								<property name="target.rootdir" location="${project.build.directory}/classes/theme/${project.name}"/>
+								<basename property="impl.dir.name" file="${basedir}" />
+
+								<concat destfile="${tmp.dir}/all-int.xsl" fixlastline="yes" ignoreempty="false">
+									<header filtering="no">&lt;concat&gt;</header>
+									<footer filtering="no">&lt;/concat&gt;</footer>
+									<fileset dir="${project.basedir}/src/main/xslt" includes="*.xsl"/>
+								</concat>
+								<copy file="${project.basedir}/build_all.xsl" todir="${tmp.dir}" overwrite="true"/>
+								<xslt in="${tmp.dir}/all-int.xsl"
+									out="${target.rootdir}/xslt/all.xsl"
+									style="${tmp.dir}/build_all.xsl">
+									<factory name="net.sf.saxon.TransformerFactoryImpl"/>
+								</xslt>
+								<copy file="${target.rootdir}/xslt/all.xsl"
+									tofile="${target.rootdir}/xslt/all_debug.xsl"/>
+								<replaceregexp file="${target.rootdir}/xslt/all_debug.xsl"
+									match="xsl:param name=&quot;isDebug&quot; select=&quot;0&quot;"
+									replace="xsl:param name=&quot;isDebug&quot; select=&quot;1&quot;"/>
+								<echo level="verbose" message="Done XSLT"/>
 							</target>
 						</configuration>
 						<goals>
