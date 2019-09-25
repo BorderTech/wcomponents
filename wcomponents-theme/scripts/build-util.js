@@ -8,6 +8,7 @@ const srcRoot = path.join(projectRoot, pkgJson.directories.src);
 const buildRoot = path.join(projectRoot, pkgJson.directories.target);
 const targetRoot = path.join(buildRoot, "classes", "theme", pkgJson.name);
 const requirejs = require("requirejs");
+let mixin;
 
 /**
  * These are used all over the place.
@@ -98,7 +99,7 @@ function getConfig (prop) {
 	let username = os.userInfo().username;
 	let userFile = path.join(projectRoot, `${username}.json`);
 	if (fs.existsSync(userFile)) {
-		let mixin = requireAmd("wc/mixin");
+		mixin = mixin || requireAmd("wc/mixin");
 		let overrides = require(userFile);
 		mixin(overrides, result);
 	}
