@@ -12,16 +12,15 @@
  *
  */
 const path = require("path");
-const { logLintReport, dirs } = require("./scripts/build-util");
-const testSrcDir = path.join(dirs.test.src, "intern");
+const { logLintReport, dirs } = require("./build-util");
 const sassLint = require("sass-lint");
 
 const CLIEngine = require("eslint").CLIEngine;
 const eslintCli = new CLIEngine({
 	useEslintrc: true,
 	ignore: true,
-	configFile: path.join(__dirname, ".eslintrc"),
-	ignorePath: path.join(__dirname, ".eslintignore")
+	configFile: path.join(dirs.project.basedir, ".eslintrc"),
+	ignorePath: path.join(dirs.project.basedir, ".eslintignore")
 });
 
 if (require.main === module) {
@@ -36,12 +35,13 @@ if (require.main === module) {
 /**
  * What are we linting?
  * If no target is provided will fall back to linting the entire theme.
+ * *@param {target} target The path to the file or dir to lint.
  * @returns {String[]} Paths to lint.
  */
 function getLintTarget(target) {
 	let lintTarget = target;
 	if (!lintTarget) {
-		return ["*.js", dirs.script.src, testSrcDir];
+		return [path.join(dirs.project.basedir, "*.js"), dirs.script.src, dirs.test.src, path.join(dirs.project.basedir, "scripts", "*.js")];
 	} else if (!Array.isArray(lintTarget)) {
 		lintTarget = [lintTarget];
 	}
@@ -79,8 +79,8 @@ function runEslint(target, failOnErr) {
  * @returns The raw lint report.
  */
 function runSassLint(sourcePath) {
-	let glob = sourcePath || "**/!(fa)/*.scss";
-	let results = sassLint.lintFiles(glob, { formatter: "stylish" }, path.join(__dirname, ".sass-lint.yml"));
+	let glob = sourcePath || path.join(dirs.project.basedir, "**/!(fa)/*.scss");
+	let results = sassLint.lintFiles(glob, { formatter: "stylish" }, path.join(dirs.project.basedir, ".sass-lint.yml"));
 	if (results) {
 		results.forEach(logLintReport);
 	}

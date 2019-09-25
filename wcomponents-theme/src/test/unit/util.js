@@ -12,7 +12,7 @@ const fs = require("fs-extra");
  * @returns {string} The project root.
  */
 function getProjectRoot(here) {
-	let landmarks = ["package.json", "node_modules", "intern.js"].map(landmark => path.join(here, landmark));
+	let landmarks = ["package.json", "node_modules"].map(landmark => path.join(here, landmark));
 	let found = landmarks.every(landmark => fs.existsSync(landmark));
 	if (!found) {
 		let parent = path.dirname(here);
