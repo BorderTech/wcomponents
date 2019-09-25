@@ -391,7 +391,7 @@ define(["wc/dom/attribute",
 				var container = CONTAINER.findAncestor($event.target);
 				if (container && !attribute.get(container, CONTAINER_INITIALISED_KEY)) {
 					attribute.set(container, CONTAINER_INITIALISED_KEY, true);
-					event.add(container, event.TYPE.keydown, keydownEvent);
+					event.add(container, "keydown", keydownEvent);
 				}
 			}
 
@@ -547,11 +547,11 @@ define(["wc/dom/attribute",
 				if (event.canCapture) {
 					event.add(element, { type: "focus", listener: focusEvent, capture: true });
 				} else {
-					event.add(element, event.TYPE.focusin, focusEvent);
+					event.add(element, "focusin", focusEvent);
 				}
 
-				event.add(element, event.TYPE.click, clickEvent);
-				event.add(element, event.TYPE.dblclick, dblClickEvent);
+				event.add(element, "click", clickEvent);
+				event.add(element, "dblclick", dblClickEvent);
 			};
 
 			/**

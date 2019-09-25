@@ -217,7 +217,7 @@ define(["wc/dom/attribute",
 				if (event.canCapture) {
 					events.push(event.add(element, { type: "focus", listener: focusEvent, capture: true }));
 				} else {
-					events.push(event.add(element, event.TYPE.focusin, focusEvent));
+					events.push(event.add(element, "focusin", focusEvent));
 				}
 			};
 

@@ -97,7 +97,7 @@ define(["wc/array/toArray",
 						COLLAPSIBLE_TRIGGER.descendFrom(COLLAPSIBLE, true);
 					}
 					if (open !== collapsible.hasAttribute("open") && (collapser = COLLAPSIBLE_TRIGGER.findDescendant(collapsible))) {
-						event.fire(collapser, event.TYPE.click);
+						event.fire(collapser, "click");
 					}
 				} else if (TABSET.isOneOfMe(collapsible) && !shed.isDisabled(collapsible)) {
 					if (open) {

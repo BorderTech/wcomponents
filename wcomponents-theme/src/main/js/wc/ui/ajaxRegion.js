@@ -149,7 +149,7 @@ define(["wc/dom/event",
 				var element = $event.target;
 				if (!$event.defaultPrevented && !attribute.get(element, INITED_FLAG) && triggersOnChange(element)) {
 					attribute.set(element, INITED_FLAG, true);
-					event.add(element, event.TYPE.change, debounce(changeEvent, 250), 100);
+					event.add(element, "change", debounce(changeEvent, 250), 100);
 				}
 			}
 
@@ -212,11 +212,11 @@ define(["wc/dom/event",
 			 * @param {Element} element document body.
 			 */
 			this.initialise = function(element) {
-				event.add(element, event.TYPE.click, clickEvent, 50); // Trigger ajax AFTER other events to avoid submitting form fields before they can be updated.
+				event.add(element, "click", clickEvent, 50); // Trigger ajax AFTER other events to avoid submitting form fields before they can be updated.
 				if (event.canCapture) {
 					event.add(element, { type: "focus", listener: focusEvent, capture: true });
 				} else {
-					event.add(element, event.TYPE.focusin, focusEvent);
+					event.add(element, "focusin", focusEvent);
 				}
 				console.log("Initialising trigger listeners");
 			};

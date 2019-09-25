@@ -133,7 +133,7 @@ define(["wc/dom/shed",
 				if (element) {
 					if (LAME_CONTAINER.isOneOfMe(element)) {
 						if ((form = getForm(element, true))) {
-							timers.setTimeout(event.fire, 0, form, event.TYPE.submit);
+							timers.setTimeout(event.fire, 0, form, "submit");
 						}
 					} else if (MAGIC_CONTAINER.isOneOfMe(element)) {
 						promise = requestLoad(element, false, true);

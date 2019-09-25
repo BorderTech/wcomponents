@@ -323,7 +323,7 @@ define(["wc/has",
 						}
 						openSelect = "";
 						if (optionVal[(element.id)] !== textbox.value) {
-							timers.setTimeout(event.fire, 0, textbox, event.TYPE.change);
+							timers.setTimeout(event.fire, 0, textbox, "change");
 						}
 						optionVal[(element.id)] = null;
 					}
@@ -662,15 +662,15 @@ define(["wc/has",
 				if (TEXTBOX.isOneOfMe(element)) {
 					if ((combo = element.parentNode) && !attribute.get(combo, INITED)) {
 						attribute.set(combo, INITED, true);
-						event.add(combo, event.TYPE.keydown, keydownEvent);
+						event.add(combo, "keydown", keydownEvent);
 
 						// chatty ajax combos need a special input listener
 						if ((listbox = getListBox(combo)) && listbox.hasAttribute("data-wc-chat")) {
 							classList.add(combo, CLASS_CHATTY);
 							if (event.canCapture) {
-								event.add(element, event.TYPE.input, inputEvent);
+								event.add(element, "input", inputEvent);
 							} else {
-								event.add(element, event.TYPE.keydown, lameInputEvent);
+								event.add(element, "keydown", lameInputEvent);
 							}
 						}
 					}
@@ -839,14 +839,14 @@ define(["wc/has",
 				if (event.canCapture) {
 					event.add(window, { type: "focus", listener: focusEvent, capture: true });
 				} else {
-					event.add(element, event.TYPE.focusin, focusEvent);
+					event.add(element, "focusin", focusEvent);
 				}
-				event.add(element, event.TYPE.click, clickEvent);
+				event.add(element, "click", clickEvent);
 
 				if (has("event-ontouchstart")) {
-					event.add(element, event.TYPE.touchstart, touchstartEvent);
-					event.add(element, event.TYPE.touchend, touchendEvent);
-					event.add(element, event.TYPE.touchcancel, touchcancelEvent);
+					event.add(element, "touchstart", touchstartEvent);
+					event.add(element, "touchend", touchendEvent);
+					event.add(element, "touchcancel", touchcancelEvent);
 				}
 			};
 

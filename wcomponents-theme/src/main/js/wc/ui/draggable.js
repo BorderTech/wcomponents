@@ -278,10 +278,10 @@ define(["wc/dom/attribute",
 					return; // do not add more than once
 				}
 				try {
-					event[func](element, event.TYPE.mousedown, mousedownEvent);
-					event[func](element, event.TYPE.keydown, keydownEvent);
+					event[func](element, "mousedown", mousedownEvent);
+					event[func](element, "keydown", keydownEvent);
 					if (has("event-ontouchstart")) {
-						event[func](element, event.TYPE.touchstart, touchstartEvent);
+						event[func](element, "touchstart", touchstartEvent);
 					}
 				} finally {
 					func = remove ? "remove" : "set";
@@ -345,17 +345,17 @@ define(["wc/dom/attribute",
 			 * @param {Element} element The element being initialised, usually document.body.
 			 */
 			this.initialise = function(element) {
-				event.add(element, event.TYPE.mouseup, mouseupTouchendTouchcancelEvent);
-				event.add(element, event.TYPE.mousemove, mousemoveEvent);
+				event.add(element, "mouseup", mouseupTouchendTouchcancelEvent);
+				event.add(element, "mousemove", mousemoveEvent);
 
 				if (has("event-ontouchmove")) {
-					event.add(element, event.TYPE.touchmove, touchmoveEvent);
+					event.add(element, "touchmove", touchmoveEvent);
 				}
 				if (has("event-ontouchend")) {
-					event.add(element, event.TYPE.touchend, mouseupTouchendTouchcancelEvent);
+					event.add(element, "touchend", mouseupTouchendTouchcancelEvent);
 				}
 				if (has("event-ontouchcancel")) {
-					event.add(element, event.TYPE.touchcancel, mouseupTouchendTouchcancelEvent);
+					event.add(element, "touchcancel", mouseupTouchendTouchcancelEvent);
 				}
 			};
 

@@ -98,7 +98,7 @@ define(["wc/dom/event",
 					} else if ((focusableAncestor = focus.getFocusableAncestor(target))) {
 						if (focusableAncestor !== target) {
 							$event.preventDefault();
-							timers.setTimeout(event.fire, 0, focusableAncestor, event.TYPE.click);
+							timers.setTimeout(event.fire, 0, focusableAncestor, "click");
 						} else {
 							result = focusableAncestor;
 						}
@@ -122,7 +122,7 @@ define(["wc/dom/event",
 					details;
 				if (!$event.defaultPrevented && (COLLAPSIBLE_HEADER.isOneOfMe(element)) && !attribute.get(element, BOOTSTRAPPED)) {
 					attribute.set(element, BOOTSTRAPPED, true);
-					event.add(element, event.TYPE.keydown, keydownEvent);
+					event.add(element, "keydown", keydownEvent);
 					if (!has("element-details") && (details = element.parentNode)) {
 						element.setAttribute("role", "button");
 						element.setAttribute("aria-controls", details.id);
@@ -246,11 +246,11 @@ define(["wc/dom/event",
 			function initialiseHelper(init, element) {
 				var func = init ? "add" : "remove";
 				if (event.canCapture) {
-					event[func](element, event.TYPE.focus, focusEvent, null, null, true);
+					event[func](element, "focus", focusEvent, null, null, true);
 				} else {
-					event[func](element, event.TYPE.focusin, focusEvent);
+					event[func](element, "focusin", focusEvent);
 				}
-				event[func](element, event.TYPE.click, clickEvent);
+				event[func](element, "click", clickEvent);
 			}
 
 			/**

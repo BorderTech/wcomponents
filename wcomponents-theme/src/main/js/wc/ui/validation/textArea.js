@@ -132,12 +132,12 @@ define(["wc/dom/attribute",
 				var element = $event.target;
 				if (TEXTAREA.isOneOfMe(element) && !attribute.get(element, INITED_KEY)) {
 					attribute.set(element, INITED_KEY, true);
-					event.add(element, event.TYPE.change, changeEvent, 1);
+					event.add(element, "change", changeEvent, 1);
 					if (validationManager.isValidateOnBlur()) {
 						if (event.canCapture) {
 							event.add(element, { type: "blur", listener: blurEvent, pos: 1, capture: true });
 						} else {
-							event.add(element, event.TYPE.focusout, blurEvent);
+							event.add(element, "focusout", blurEvent);
 						}
 					}
 				}
@@ -152,7 +152,7 @@ define(["wc/dom/attribute",
 				if (event.canCapture) {
 					event.add(element, { type: "focus", listener: focusEvent, pos: 1, capture: true });
 				} else {
-					event.add(element, event.TYPE.focusin, focusEvent);
+					event.add(element, "focusin", focusEvent);
 				}
 			};
 

@@ -113,12 +113,12 @@ define(["wc/dom/attribute",
 
 				if (INPUT_ELEMENT.isOneOfMe(element) && !attribute.get(element, INITED_KEY)) {
 					attribute.set(element, INITED_KEY, true);
-					event.add(element, event.TYPE.change, changeEvent);
+					event.add(element, "change", changeEvent);
 					if (validationManager.isValidateOnBlur()) {
 						if (event.canCapture) {
 							event.add(element, { type: "blur", listener: blurEvent, pos: 1, capture: true });
 						} else {
-							event.add(element, event.TYPE.focusout, blurEvent);
+							event.add(element, "focusout", blurEvent);
 						}
 					}
 				}
@@ -133,7 +133,7 @@ define(["wc/dom/attribute",
 				if (event.canCapture) {
 					event.add(element, { type: "focus", listener: focusEvent, capture: true });
 				} else {
-					event.add(element, event.TYPE.focusin, focusEvent);
+					event.add(element, "focusin", focusEvent);
 				}
 			};
 

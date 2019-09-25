@@ -94,7 +94,7 @@ define(["wc/has",
 					tryAjax = true;
 				} else if (type === BUTTON_TYPE.remove) {
 					removeField(button, SHIFT);
-					if (button.type === event.TYPE.submit) {
+					if (button.type === "submit") {
 						shed.hide(button);
 						button.form.appendChild(button);
 					}
@@ -336,7 +336,7 @@ define(["wc/has",
 			 * @param {Element} element a DOM element: in practice BODY
 			 */
 			this.initialise = function(element) {
-				event.add(element, event.TYPE.click, clickEvent);
+				event.add(element, "click", clickEvent);
 				return i18n.translate("mfc_remove").then(function(s) {
 					REMOVE_BUTTON_TITLE = s;
 				});

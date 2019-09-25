@@ -140,7 +140,7 @@ define(["wc/dom/event",
 			 * @param {Element} element The element being initialised, usually document.body
 			 */
 			this.initialise = function (element) {
-				event.add(element, event.TYPE.click, clickEvent);
+				event.add(element, "click", clickEvent);
 				formUpdateManager.subscribe(writeState);
 			};
 
@@ -159,7 +159,7 @@ define(["wc/dom/event",
 			 * @param {Element} The element being deinitialised, usually document.body.
 			 */
 			this.deinit = function(element) {
-				event.remove(element, event.TYPE.click, clickEvent);
+				event.remove(element, "click", clickEvent);
 				formUpdateManager.unsubscribe(writeState);
 			};
 		}

@@ -122,7 +122,7 @@ define(["wc/dom/tag",
 		initialise.addBodyListener({initialise: function () {
 			busyWd = new Widget("", "", { "aria-busy": "true" });
 			if (has("ie") && has("ie") < 10) {
-				event.add(window, event.TYPE.beforeunload,
+				event.add(window, "beforeunload",
 					/**
 					 * <p>Beforeunload event handler to set an unloading flag to prevent more triggers from firing. Only applied in
 					 * IE with version below 10. IE (tested on IE8) has some serious issues when processing stale AJAX which  means

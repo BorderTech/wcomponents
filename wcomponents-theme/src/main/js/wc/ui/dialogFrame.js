@@ -421,7 +421,7 @@ define(["wc/dom/event",
 									headerTitle,
 									resizeHandleTitle;
 								if ((dialog = instance.getDialog())) {
-									event.add(dialog, event.TYPE.keydown, keydownEvent);
+									event.add(dialog, "keydown", keydownEvent);
 									if ((dialogHeader = HEADER_WD.findDescendant(dialog, true)) && (headerTitle = translations[3])) {
 										dialogHeader.title = headerTitle;
 									}
@@ -589,10 +589,10 @@ define(["wc/dom/event",
 			 *
 			 * @function
 			 * @private
-			 * @param {Element} element The element being hidden.
+			 * @param {Event} $event The hide event.
 			 */
-			function shedHideSubscriber(element) {
-				var control, callback, clearOpener;
+			function shedHideSubscriber($event) {
+				var control, callback, clearOpener, element = $event.target;
 				try {
 					if (element && element.id === DIALOG_ID) {
 						clearOpener = true;
@@ -634,9 +634,10 @@ define(["wc/dom/event",
 			 *
 			 * @function
 			 * @private
-			 * @param {Element} element The element being shown.
+			 * @param {Event} $event The show event.
 			 */
-			function shedShowSubscriber(element) {
+			function shedShowSubscriber($event) {
+				var element = $event.target;
 				if (element && element === instance.getDialog()) {
 					focus.focusFirstTabstop(element);
 				}
@@ -765,26 +766,26 @@ define(["wc/dom/event",
 			}
 
 			/**
-			 * Component initialisation simply attaches a click event handler
+			 * Component initialisation.
 			 * @function module:wc/ui/dialogFrame.initialise
 			 * @public
 			 * @param {Element} element The element being initialised, usually document.body.
 			 */
 			this.initialise = function (element) {
-				event.add(element, event.TYPE.click, clickEvent);
-				event.add(window, event.TYPE.resize, resizeEvent, -1);
+				event.add(element, "click", clickEvent);
+				event.add(window, "resize", resizeEvent, -1);
+				event.add(element, shed.events.SHOW, shedShowSubscriber);
+				event.add(element, shed.events.HIDE, shedHideSubscriber);
 			};
 
 			/**
-			 * Late initialisation to add ajax and shed subscribers.
+			 * Late initialisation.
 			 * @function module:wc/ui/dialogFrame.postInit
 			 * @public
 			 */
 			this.postInit = function () {
 				processResponse.subscribe(preOpenSubscriber);
 				processResponse.subscribe(ajaxSubscriber, true);
-				shed.subscribe(shed.actions.SHOW, shedShowSubscriber);
-				shed.subscribe(shed.actions.HIDE, shedHideSubscriber);
 			};
 
 			/**

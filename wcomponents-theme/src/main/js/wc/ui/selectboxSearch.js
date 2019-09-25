@@ -41,7 +41,7 @@ define(["wc/string/escapeRe",
 					 * dropdown may be displaying a value that is not appropriate for the current state (only resolved when the user
 					 * moves on in the form).
 					 */
-					event.fire(element, event.TYPE.change);
+					event.fire(element, "change");
 				}, 0),
 				debouncedSearch,
 				NO_ENDS_WITH_STRING_RE = /[^ ]$/,
@@ -161,10 +161,10 @@ define(["wc/string/escapeRe",
 				var inited = attribute.get(element, ns);
 				if (!inited) {
 					attribute.set(element, ns, true);
-					event.add(element, event.TYPE.click, focusEvent);
-					event.add(element, event.TYPE.blur, closeSearch);
-					event.add(element, event.TYPE.keydown, keydownEvent);
-					event.add(element, event.TYPE.keypress, keypressEvent);
+					event.add(element, "click", focusEvent);
+					event.add(element, "blur", closeSearch);
+					event.add(element, "keydown", keydownEvent);
+					event.add(element, "keypress", keypressEvent);
 				}
 			}
 
@@ -423,7 +423,7 @@ define(["wc/string/escapeRe",
 				if (event.canCapture) {
 					event.add(element, { type: "focus", listener: focusEvent, capture: true });
 				} else {
-					event.add(element, event.TYPE.focusin, focusEvent);
+					event.add(element, "focusin", focusEvent);
 				}
 			};
 		}

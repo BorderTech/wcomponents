@@ -410,8 +410,8 @@ define(["wc/has",
 				event.add(element, { type: "focus", listener: eventWrapper.bind(this), capture: true });
 				event.add(element, { type: "click", listener: eventWrapper.bind(this), capture: true });
 			} else {
-				event.add(element, event.TYPE.focusin, eventWrapper.bind(this));
-				event.add(element, event.TYPE.click, eventWrapper.bind(this));
+				event.add(element, "focusin", eventWrapper.bind(this));
+				event.add(element, "click", eventWrapper.bind(this));
 			}
 			shed.subscribe(shed.actions.SELECT, this.shedObserver.bind(this));
 			shed.subscribe(shed.actions.DESELECT, this.shedObserver.bind(this));
@@ -452,7 +452,7 @@ define(["wc/has",
 
 			if (!attribute.get(container, INIT_ATTRIB)) {
 				attribute.set(container, INIT_ATTRIB, true);
-				event.add(container, event.TYPE.keydown, eventWrapper.bind(instance));
+				event.add(container, "keydown", eventWrapper.bind(instance));
 			}
 		}
 

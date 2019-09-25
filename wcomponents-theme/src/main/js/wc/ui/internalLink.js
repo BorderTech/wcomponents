@@ -59,7 +59,7 @@ define(["wc/dom/focus",
 			 * @param {Element} element The element being initialised, usually document.body
 			 */
 			this.initialise = function(element) {
-				event.add(element, event.TYPE.click, clickEvent);
+				event.add(element, "click", clickEvent);
 			};
 		}
 

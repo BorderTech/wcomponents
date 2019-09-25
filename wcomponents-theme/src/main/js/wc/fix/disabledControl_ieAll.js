@@ -18,9 +18,9 @@ function(event, initialise, shed) {
 		 * @ignore
 		 */
 		this.initialise = 	function(element) {
-			event.add(element, event.TYPE.focus, genericEvent, -100);
-			event.add(element, event.TYPE.click, genericEvent, -100);
-			event.add(element, event.TYPE.dblclick, genericEvent, -100);
+			event.add(element, "focus", genericEvent, -100);
+			event.add(element, "click", genericEvent, -100);
+			event.add(element, "dblclick", genericEvent, -100);
 		};
 
 		/**

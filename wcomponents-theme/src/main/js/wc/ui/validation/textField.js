@@ -196,12 +196,12 @@ define(["wc/dom/initialise",
 				var element = $event.target;
 				if (!$event.defaultPrevented && !attribute.get(element, BOOTSTRAPPED) && isValidatingInput(element)) {
 					attribute.set(element, BOOTSTRAPPED, true);
-					event.add(element, event.TYPE.change, changeEvent, 1);
+					event.add(element, "change", changeEvent, 1);
 					if (validationManager.isValidateOnBlur()) {
 						if (event.canCapture) {
 							event.add(element, { type: "blur", listener: blurEvent, pos: 1, capture: true });
 						} else {
-							event.add(element, event.TYPE.focusout, blurEvent);
+							event.add(element, "focusout", blurEvent);
 						}
 					}
 				}
@@ -216,7 +216,7 @@ define(["wc/dom/initialise",
 				if (event.canCapture) {
 					event.add(element, { type: "focus", listener: focusEvent, pos: 1, capture: true });
 				} else {
-					event.add(element, event.TYPE.focusin, focusEvent);
+					event.add(element, "focusin", focusEvent);
 				}
 			};
 

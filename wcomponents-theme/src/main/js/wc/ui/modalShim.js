@@ -91,18 +91,18 @@ define(["wc/dom/attribute", "wc/dom/uid", "wc/dom/classList", "wc/dom/event", "w
 					} else {
 						attribute.remove(element, HAS_EVENTS);
 					}
-					event[action](element, event.TYPE.keydown, keyEvent, false);
-					event[action](element, event.TYPE.keyup, keyEvent, false);
+					event[action](element, "keydown", keyEvent, false);
+					event[action](element, "keyup", keyEvent, false);
 					if (event.canCapture) {
 						if (add) {
-							event[action](element, event.TYPE.focus, focusEvent, null, null, true);
-							event[action](document.body, event.TYPE.touchstart, touchstartEvent, null, null, true);
+							event[action](element, "focus", focusEvent, null, null, true);
+							event[action](document.body, "touchstart", touchstartEvent, null, null, true);
 						} else {
-							event[action](element, event.TYPE.focus, focusEvent, true);
-							event[action](document.body, event.TYPE.touchstart, touchstartEvent, true);
+							event[action](element, "focus", focusEvent, true);
+							event[action](document.body, "touchstart", touchstartEvent, true);
 						}
 					} else {
-						event[action](element, event.TYPE.focusin, focusEvent);
+						event[action](element, "focusin", focusEvent);
 					}
 				}
 			}

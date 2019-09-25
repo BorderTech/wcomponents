@@ -374,7 +374,7 @@ define(["wc/dom/event",
 			 * @param {Element} element The element to show.
 			 * @param {Boolean} [quiet] If true then do not publish this show event.
 			 */
-			this[actions.SHOW] = function (element, quiet) {
+			this.show = function (element, quiet) {
 				shedHelper(element, HIDDEN, null);
 				if (!quiet) {
 					return instance.publish(element, actions.SHOW);
@@ -388,7 +388,7 @@ define(["wc/dom/event",
 			 * @param {Element} element The element to hide.
 			 * @param {Boolean} [quiet] If true then do not publish this hide event.
 			 */
-			this[actions.HIDE] = function (element, quiet) {
+			this.hide = function (element, quiet) {
 				shedHelper(element, HIDDEN, HIDDEN);
 				if (!quiet) {
 					return instance.publish(element, actions.HIDE);
@@ -403,7 +403,7 @@ define(["wc/dom/event",
 			 * @param {Element} element The element to enable.
 			 * @param {Boolean} [quiet] If true then do not publish this enable event.
 			 */
-			this[actions.ENABLE] = function (element, quiet) {
+			this.enable = function (element, quiet) {
 				disabledMandatoryHelper(element, NATIVE_STATE[DISABLED], true);
 				if (!quiet) {
 					return instance.publish(element, actions.ENABLE);
@@ -420,7 +420,7 @@ define(["wc/dom/event",
 			 * @param {Element} element The element to disable.
 			 * @param {Boolean} [quiet] If true then do not publish this disable event.
 			 */
-			this[actions.DISABLE] = function (element, quiet) {
+			this.disable = function (element, quiet) {
 				disabledMandatoryHelper(element, NATIVE_STATE[DISABLED], false);
 				if (!quiet) {
 					return instance.publish(element, actions.DISABLE);
@@ -436,7 +436,7 @@ define(["wc/dom/event",
 			 * @param {Element} element The element to deselect.
 			 * @param {Boolean} [quiet] If true then do not publish this deselect event.
 			 */
-			this[actions.DESELECT] = function (element, quiet) {
+			this.deselect = function (element, quiet) {
 				selectHelper(instance.state.DESELECTED, element);
 				if (!quiet) {
 					return instance.publish(element, actions.DESELECT);
@@ -452,7 +452,7 @@ define(["wc/dom/event",
 			 * @param {Element} element The element to select.
 			 * @param {Boolean} [quiet] If true then do not publish this select event.
 			 */
-			this[actions.SELECT] = function (element, quiet) {
+			this.select = function (element, quiet) {
 				selectHelper(instance.state.SELECTED, element);
 				if (!quiet) {
 					return instance.publish(element, actions.SELECT);
@@ -467,7 +467,7 @@ define(["wc/dom/event",
 			 * @param {Element} element The element to set to indeterminate.
 			 * @param {Boolean} [quiet] If true then do not publish this event.
 			 */
-			this[actions.MIX] = function (element, quiet) {
+			this.mix = function (element, quiet) {
 				selectHelper(instance.state.MIXED, element);
 				if (!quiet) {
 					return instance.publish(element, actions.MIX);
@@ -482,7 +482,7 @@ define(["wc/dom/event",
 			 * @param {Element} element The element to expand.
 			 * @param {Boolean} [quiet] If true then do not publish this event.
 			 */
-			this[actions.EXPAND] = function (element, quiet) {
+			this.expand = function (element, quiet) {
 				if (expandWithOpen(element)) {
 					setMyAttribute(element, OPEN, OPEN);
 				} else {
@@ -501,7 +501,7 @@ define(["wc/dom/event",
 			 * @param {Element} element The element to collapse.
 			 * @param {Boolean} [quiet] If true then do not publish this event.
 			 */
-			this[actions.COLLAPSE] = function (element, quiet) {
+			this.collapse = function (element, quiet) {
 				if (expandWithOpen(element)) {
 					setMyAttribute(element, OPEN, null);
 				} else {
@@ -520,7 +520,7 @@ define(["wc/dom/event",
 			 * @param {Element} element The element to make mandatory.
 			 * @param {Boolean} [quiet] If true then do not publish this event.
 			 */
-			this[actions.MANDATORY] = function (element, quiet) {
+			this.mandatory = function (element, quiet) {
 				disabledMandatoryHelper(element, REQUIRED, false);
 				if (!quiet) {
 					return instance.publish(element, actions.MANDATORY);
@@ -535,7 +535,7 @@ define(["wc/dom/event",
 			 * @param {Element} element The element to make optional.
 			 * @param {Boolean} [quiet] If true then do not publish this event.
 			 */
-			this[actions.OPTIONAL] = function (element, quiet) {
+			this.optional = function (element, quiet) {
 				disabledMandatoryHelper(element, REQUIRED, true);
 				if (!quiet) {
 					return instance.publish(element, actions.OPTIONAL);
@@ -806,19 +806,19 @@ define(["wc/dom/event",
 				switch (action) {
 					case actions.SHOW:
 					case actions.HIDE:
-						func = instance.isHidden(element, true) ? instance[actions.SHOW] : instance[actions.HIDE];
+						func = instance.isHidden(element, true) ? instance.show : instance.hide;
 						break;
 					case actions.ENABLE:
 					case actions.DISABLE:
-						func = instance.isDisabled(element) ? instance[actions.ENABLE] : instance[actions.DISABLE];
+						func = instance.isDisabled(element) ? instance.enable : instance.disable;
 						break;
 					case actions.DESELECT:
 					case actions.SELECT:
-						func = instance.isSelected(element) !== instance.state.DESELECTED ? instance[actions.DESELECT] : instance[actions.SELECT];
+						func = instance.isSelected(element) !== instance.state.DESELECTED ? instance.deselect : instance.select;
 						break;
 					case actions.EXPAND:
 					case actions.COLLAPSE:
-						func = instance.isExpanded(element) ? instance[actions.COLLAPSE] : instance[actions.EXPAND];
+						func = instance.isExpanded(element) ? instance.collapse : instance.expand;
 						break;
 					default:
 						throw new TypeError("Unknown action: " + action);

@@ -296,10 +296,11 @@ define(["wc/dom/classList",
 			 *
 			 * @function
 			 * @private
-			 * @param {Element} element The element being hidden.
+			 * @param {Event} $event A shed hide event.
 			 */
-			function shedSubscriber(element) {
-				var content,
+			function shedSubscriber($event) {
+				var element = $event.target,
+					content,
 					id,
 					regObj;
 				if (element && element === dialogFrame.getDialog() && (content = dialogFrame.getContent()) && (id = content.id) && (regObj = getRegistryObjectByDialogId(id))) { // we are ONLY interested in WDialog inited dialogs.
@@ -328,23 +329,23 @@ define(["wc/dom/classList",
 			}
 
 			/**
-			 * Component initialisation simply attaches a click event handler
+			 * Component initialisation.
 			 * @function module:wc/ui/dialog.initialise
 			 * @public
 			 * @param {Element} element The element being initialised, usually document.body.
 			 */
 			this.initialise = function(element) {
-				event.add(element, event.TYPE.click, clickEvent);
+				event.add(element, "click", clickEvent);
+				event.add(element, shed.events.HIDE, shedSubscriber);
 			};
 
 			/**
-			 * Late initialisation to add ajax and shed subscribers.
+			 * Late initialisation.
 			 * @function module:wc/ui/dialog.postInit
 			 * @public
 			 */
 			this.postInit = function() {
 				processResponse.subscribe(postOpenSubscriber, true);
-				shed.subscribe(shed.actions.HIDE, shedSubscriber);
 			};
 
 			/**

@@ -1659,7 +1659,7 @@ define(["wc/dom/attribute",
 			if (root && (root === genericRoot)) {
 				if (!attribute.get(root, BOOTSTRAPPED)) {
 					attribute.set(root, BOOTSTRAPPED, true);
-					event.add(root, event.TYPE.keydown, eventWrapper.bind(this));
+					event.add(root, "keydown", eventWrapper.bind(this));
 				}
 				if (openMenu && (localOpenMenu = document.getElementById(openMenu)) && localOpenMenu !== root) {
 					closeOpenMenu(localOpenMenu, target, this);
@@ -1667,7 +1667,7 @@ define(["wc/dom/attribute",
 				if (this.isTransient) {
 					if (!attribute.get(root, BOOTSTRAPPED_TRANSIENT)) {
 						attribute.set(root, BOOTSTRAPPED_TRANSIENT, true);
-						event.add(root, event.TYPE.mouseover, mouseoverEvent.bind(this));
+						event.add(root, "mouseover", mouseoverEvent.bind(this));
 					}
 				}
 				if ((item = this.getItem(target)) && !shed.isDisabled(item)) {
@@ -1792,11 +1792,11 @@ define(["wc/dom/attribute",
 
 			if (event.canCapture) {
 				event.add(window, { type: "focus", listener: eventWrapper.bind(this), capture: true });
-				event.add(window, event.TYPE.click, eventWrapper.bind(this));
+				event.add(window, "click", eventWrapper.bind(this));
 			} else {
 				// oddly IE8 does not suffer from the body smaller than the viewport issue!
-				event.add(element, event.TYPE.focusin, eventWrapper.bind(this));
-				event.add(element, event.TYPE.click, eventWrapper.bind(this));
+				event.add(element, "focusin", eventWrapper.bind(this));
+				event.add(element, "click", eventWrapper.bind(this));
 			}
 			if (this.preAjaxSubscriber) {
 				processResponse.subscribe(this.preAjaxSubscriber.bind(this));

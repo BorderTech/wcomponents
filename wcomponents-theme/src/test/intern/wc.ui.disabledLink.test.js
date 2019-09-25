@@ -22,7 +22,7 @@ define(["intern!object", "intern/chai!assert", "wc/ui/disabledLink", "wc/dom/eve
 			},
 			testDisabledLink: function() {
 				var target = document.getElementById(linkId);
-				event.fire(target, event.TYPE.click); // target.click();
+				event.fire(target, "click"); // target.click();
 				assert.isFalse(called, "Expected the click to be ignored.");
 			}
 		});

@@ -146,7 +146,7 @@ define(["wc/i18n/i18n",
 					targetFieldset;
 				if (element && validationManager.isValidateOnChange() && (targetFieldset = FIELDSET.findAncestor(element)) &&  !attribute.get(targetFieldset, INITED_KEY)) {
 					attribute.set(targetFieldset, INITED_KEY, true);
-					event.add(targetFieldset, event.TYPE.change, changeEvent, 1);
+					event.add(targetFieldset, "change", changeEvent, 1);
 				}
 			}
 
@@ -162,7 +162,7 @@ define(["wc/i18n/i18n",
 				if (event.canCapture) {
 					event.add(element, { type: "focus", listener: focusEvent, pos: 1, capture: true });
 				} else {
-					event.add(element, event.TYPE.focusin, focusEvent);
+					event.add(element, "focusin", focusEvent);
 				}
 			};
 

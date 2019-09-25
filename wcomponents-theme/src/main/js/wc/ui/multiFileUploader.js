@@ -488,7 +488,7 @@ define(["wc/dom/attribute",
 							 * it should bubble but doesn't. This is fixed in IE9 no matter
 							 * how you attach the event (attachEvent or addEventListener)
 							 */
-							event.add(element, event.TYPE.change, changeEvent);
+							event.add(element, "change", changeEvent);
 						}
 						initialiseForm(element.form);
 					}
@@ -506,9 +506,9 @@ define(["wc/dom/attribute",
 				if (!inited) {
 					attribute.set(form, INITED_KEY, true);
 					if (!classList.contains(form, CLASS_NAME)) {
-						event.add(form, event.TYPE.submit, submitEvent, -50);
+						event.add(form, "submit", submitEvent, -50);
 						if (!has("ie") || has("ie") > 8) {
-							event.add(form, event.TYPE.change, changeEvent);
+							event.add(form, "change", changeEvent);
 						}
 					}
 				}
@@ -604,9 +604,9 @@ define(["wc/dom/attribute",
 				if (event.canCapture) {
 					event.add(element, { type: "focus", listener: bootStrap, capture: true });
 				} else {
-					event.add(element, event.TYPE.focusin, bootStrap);
+					event.add(element, "focusin", bootStrap);
 				}
-				event.add(element, event.TYPE.click, clickEvent);
+				event.add(element, "click", clickEvent);
 				if (has("rtc-gum") || has("flash")) {
 					classList.add(element, "wc-rtc-gum");
 				}

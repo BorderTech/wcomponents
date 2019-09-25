@@ -491,16 +491,16 @@ define(["wc/dom/attribute",
 			 * @param {Element} element The element being initialised, usually document.body
 			 */
 			this.initialise = function(element) {
-				event.add(element, event.TYPE.mouseup, mouseupTouchendTouchcancelEvent);
-				event.add(element, event.TYPE.click, clickEvent);
-				event.add(element, event.TYPE.dblclick, doubleClickEvent);
+				event.add(element, "mouseup", mouseupTouchendTouchcancelEvent);
+				event.add(element, "click", clickEvent);
+				event.add(element, "dblclick", doubleClickEvent);
 
 				if (has("event-ontouchend")) {
-					event.add(element, event.TYPE.touchend, mouseupTouchendTouchcancelEvent);
+					event.add(element, "touchend", mouseupTouchendTouchcancelEvent);
 				}
 
 				if (has("event-ontouchcancel")) {
-					event.add(document.body, event.TYPE.touchcancel, mouseupTouchendTouchcancelEvent);
+					event.add(document.body, "touchcancel", mouseupTouchendTouchcancelEvent);
 				}
 			};
 
@@ -515,18 +515,18 @@ define(["wc/dom/attribute",
 				var body = document.body;
 				if (!attribute.get(element, BS)) {
 					attribute.set(element, BS, true);
-					event.add(element, event.TYPE.mousedown, mousedownEvent);
-					event.add(element, event.TYPE.keydown, keydownEvent);
+					event.add(element, "mousedown", mousedownEvent);
+					event.add(element, "keydown", keydownEvent);
 					if (has("event-ontouchstart")) {
-						event.add(element, event.TYPE.touchstart, touchstartEvent);
+						event.add(element, "touchstart", touchstartEvent);
 					}
 				}
 				if (!attribute.get(body, MM_EVENT)) {
 					attribute.set(body, MM_EVENT, true);
-					event.add(body, event.TYPE.mousemove, mousemoveEvent);
+					event.add(body, "mousemove", mousemoveEvent);
 
 					if (has("event-ontouchmove")) {
-						event.add(body, event.TYPE.touchmove, touchmoveEvent);
+						event.add(body, "touchmove", touchmoveEvent);
 					}
 				}
 			}

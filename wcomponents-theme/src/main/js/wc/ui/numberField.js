@@ -73,7 +73,7 @@ define(["wc/dom/attribute",
 						}
 						element.value = tempVal;
 						if (!doNotFireChange) {
-							event.fire(element, event.TYPE.change);
+							event.fire(element, "change");
 						}
 					}
 				}
@@ -128,7 +128,7 @@ define(["wc/dom/attribute",
 				if (!$event.defaultPrevented) {
 					if (instance.isOneOfMe(element) && !attribute.get(element, BOOTSTRAPPED)) {
 						attribute.set(element, BOOTSTRAPPED, true);
-						event.add(element, event.TYPE.keydown, keydownEvent);
+						event.add(element, "keydown", keydownEvent);
 					}
 				}
 			}
@@ -151,7 +151,7 @@ define(["wc/dom/attribute",
 				if (event.canCapture) {
 					event.add(element, { type: "focus", listener: focusEvent, capture: true });
 				} else {
-					event.add(element, event.TYPE.focusin, focusEvent);
+					event.add(element, "focusin", focusEvent);
 				}
 			};
 

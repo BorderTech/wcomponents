@@ -83,7 +83,7 @@ function(attribute, event, initialise, has, clearSelector, validate, Widget) {
 				_el = isLowIE ? element : element.form;
 				if (!attribute.get(_el, INITED_KEY)) {
 					attribute.set(_el, INITED_KEY, true);
-					event.add(_el, event.TYPE.change, changeEvent);
+					event.add(_el, "change", changeEvent);
 				}
 			}
 		}
@@ -107,7 +107,7 @@ function(attribute, event, initialise, has, clearSelector, validate, Widget) {
 			if (event.canCapture) {
 				event.add(element, { type: "focus", listener: focusEvent, capture: true });
 			} else {
-				event.add(element, event.TYPE.focusin, focusEvent);
+				event.add(element, "focusin", focusEvent);
 			}
 		};
 

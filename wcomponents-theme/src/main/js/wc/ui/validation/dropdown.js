@@ -98,12 +98,12 @@ define(["wc/dom/attribute",
 					BOOTSTRAPPED = "wc/ui/dropdown.bootstrapped";
 				if (!$event.defaultPrevented && SELECT.isOneOfMe(element) && !attribute.get(element, BOOTSTRAPPED)) {
 					attribute.set(element, BOOTSTRAPPED, true);
-					event.add(element, event.TYPE.change, changeEvent, 1);
+					event.add(element, "change", changeEvent, 1);
 					if (validationManager.isValidateOnBlur()) {
 						if (event.canCapture) {
 							event.add(element, { type: "blur", listener: blurEvent, pos: 1, capture: true });
 						} else {
-							event.add(element, event.TYPE.focusout, blurEvent);
+							event.add(element, "focusout", blurEvent);
 						}
 					}
 				}
@@ -118,7 +118,7 @@ define(["wc/dom/attribute",
 				if (event.canCapture) {
 					event.add(element, { type: "focus", listener: focusEvent, pos: 1, capture: true });
 				} else {
-					event.add(element, event.TYPE.focusin, focusEvent);
+					event.add(element, "focusin", focusEvent);
 				}
 			};
 

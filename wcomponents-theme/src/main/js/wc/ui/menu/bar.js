@@ -455,7 +455,7 @@ define(["wc/ui/menu/core",
 				processResponse.subscribe(ajaxSubscriber);
 				processResponse.subscribe(attachClosebuttons, true);
 				processResponse.subscribe(toggleIconMenus, true);
-				event.add(window, event.TYPE.resize, resizeEvent, 1);
+				event.add(window, "resize", resizeEvent, 1);
 			};
 		}
 

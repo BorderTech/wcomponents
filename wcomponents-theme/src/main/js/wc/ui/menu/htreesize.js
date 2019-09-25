@@ -143,7 +143,7 @@ define(["wc/dom/event",
 			function focusEvent($event) {
 				var target = $event.target, BS = "htreesize.inited";
 				if (HANDLE.isOneOfMe(target) && !attribute.get(target, BS)) {
-					event.add(target, event.TYPE.keydown, keydownEvent);
+					event.add(target, "keydown", keydownEvent);
 					attribute.set(target, BS, true);
 				}
 			}
@@ -161,10 +161,10 @@ define(["wc/dom/event",
 				if (event.canCapture) {
 					event.add(element, { type: "focus", listener: focusEvent, capture: true });
 				} else {
-					event.add(element, event.TYPE.focusin, focusEvent);
+					event.add(element, "focusin", focusEvent);
 				}
 
-				event.add(element, event.TYPE.dblclick, dblClickEvent);
+				event.add(element, "dblclick", dblClickEvent);
 				processResponse.subscribe(ajaxSubscriber, true);
 				resizeable.subscribe(resizeSubscriber);
 

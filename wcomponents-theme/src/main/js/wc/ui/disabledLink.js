@@ -44,7 +44,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/shed"],
 			 * @param {Element} element document.body.
 			 */
 			this.initialise = function(element) {
-				event.add(element, event.TYPE.click, clickEvent, -1);
+				event.add(element, "click", clickEvent, -1);
 			};
 		}
 	});

@@ -104,7 +104,7 @@ define(["wc/dom/initialise",
 				var element = $event.target;
 				if (!$event.defaultPrevented && (SORT_CONTROL.isOneOfMe(element)) && !attribute.get(element, BOOTSTRAPPED)) {
 					attribute.set(element, BOOTSTRAPPED, true);
-					event.add(element, event.TYPE.keydown, keydownEvent);
+					event.add(element, "keydown", keydownEvent);
 				}
 			}
 
@@ -128,9 +128,9 @@ define(["wc/dom/initialise",
 				if (event.canCapture) {
 					event.add(element, { type: "focus", listener: focusEvent, capture: true });
 				} else {
-					event.add(element, event.TYPE.focusin, focusEvent);
+					event.add(element, "focusin", focusEvent);
 				}
-				event.add(element, event.TYPE.click, clickEvent);
+				event.add(element, "click", clickEvent);
 			};
 
 			this.postInit = function() {

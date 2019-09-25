@@ -150,7 +150,7 @@ define(["wc/dom/event",
 				var forms, i, len;
 				if (event.canCapture) {
 					// ok i did a lazy test for non-ie by checking to see if capture was available even tho we not using it
-					event.add(element, event.TYPE.submit, submitEvent);
+					event.add(element, "submit", submitEvent);
 				} else {  // Internet Explorer
 					/*
 					 * This block handles Internet Explorer < 9.
@@ -169,7 +169,7 @@ define(["wc/dom/event",
 					 */
 					forms = document.forms;
 					for (i = 0, len = forms.length; i < len; i++) {
-						event.add(forms[i], event.TYPE.submit, submitEvent);
+						event.add(forms[i], "submit", submitEvent);
 					}
 				}
 			};
@@ -198,24 +198,24 @@ define(["wc/dom/event",
 				var func = add ? "add" : "remove";
 				if (event.canCapture) {
 					if (add) {
-						event[func](el, event.TYPE.click, genericEventCancel, -1, null, true);
-						event[func](el, event.TYPE.change, genericEventCancel, -1, null, true);
-						event[func](el, event.TYPE.keydown, genericEventCancel, -1, null, true);
-						event[func](el, event.TYPE.keypress, genericEventCancel, -1, null, true);
+						event[func](el, "click", genericEventCancel, -1, null, true);
+						event[func](el, "change", genericEventCancel, -1, null, true);
+						event[func](el, "keydown", genericEventCancel, -1, null, true);
+						event[func](el, "keypress", genericEventCancel, -1, null, true);
 					} else {
-						event[func](el, event.TYPE.click, genericEventCancel, true);
-						event[func](el, event.TYPE.change, genericEventCancel, true);
-						event[func](el, event.TYPE.keydown, genericEventCancel, true);
-						event[func](el, event.TYPE.keypress, genericEventCancel, true);
+						event[func](el, "click", genericEventCancel, true);
+						event[func](el, "change", genericEventCancel, true);
+						event[func](el, "keydown", genericEventCancel, true);
+						event[func](el, "keypress", genericEventCancel, true);
 					}
 				} else  if (add) {
-					event[func](el, event.TYPE.click, genericEventCancel, -1);
-					event[func](el, event.TYPE.keydown, genericEventCancel, -1);
-					event[func](el, event.TYPE.keypress, genericEventCancel, -1);
+					event[func](el, "click", genericEventCancel, -1);
+					event[func](el, "keydown", genericEventCancel, -1);
+					event[func](el, "keypress", genericEventCancel, -1);
 				} else {
-					event[func](el, event.TYPE.click, genericEventCancel);
-					event[func](el, event.TYPE.keydown, genericEventCancel);
-					event[func](el, event.TYPE.keypress, genericEventCancel);
+					event[func](el, "click", genericEventCancel);
+					event[func](el, "keydown", genericEventCancel);
+					event[func](el, "keypress", genericEventCancel);
 				}
 			}
 

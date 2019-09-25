@@ -82,7 +82,7 @@ define(["wc/dom/event",
 			 * @param {Element} element The HTML element being initialised, usually document.body.
 			 */
 			this.initialise = function(element) {
-				event.add(element, event.TYPE.click, clickEvent, 1);
+				event.add(element, "click", clickEvent, 1);
 			};
 		}
 

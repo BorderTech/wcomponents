@@ -25,7 +25,7 @@ define([
 
 			this.preInit = function() {
 				setWidth();
-				event.add(window, event.TYPE.resize, resizeEvent, 1);
+				event.add(window, "resize", resizeEvent, 1);
 			};
 		}
 		return initialise.register(new Width());

@@ -281,7 +281,7 @@ define(["wc/has",
 					}
 
 					if (optionVal[(dateField.id)] !== instance.getValue(dateField, true)) {
-						timers.setTimeout(event.fire, 0, instance.getTextBox(dateField), event.TYPE.change);
+						timers.setTimeout(event.fire, 0, instance.getTextBox(dateField), "change");
 					}
 				}
 			}
@@ -723,14 +723,14 @@ define(["wc/has",
 				}
 				if (isDateInput(element) && !attribute.get(element, BOOTSTRAPPED)) {
 					attribute.set(element, BOOTSTRAPPED, true);
-					event.add(element, event.TYPE.change, changeEvent);
+					event.add(element, "change", changeEvent);
 				}
 				if (instance.hasNativeInput(element, true)) {
 					return;
 				}
 				if ((dateField = instance.get(element)) && !attribute.get(dateField, BOOTSTRAPPED)) {
 					attribute.set(dateField, BOOTSTRAPPED, true);
-					event.add(dateField, event.TYPE.keydown, keydownEvent);
+					event.add(dateField, "keydown", keydownEvent);
 				}
 				closeDateCombo(element);
 			}
@@ -919,7 +919,7 @@ define(["wc/has",
 							 * See issue #1455 https://github.com/BorderTech/wcomponents/issues/1455
 							 */
 							if (document.body && document.body.contains(element)) {
-								timers.setTimeout(event.fire, 0, element, event.TYPE.change);
+								timers.setTimeout(event.fire, 0, element, "change");
 							}
 						}
 					}
@@ -1008,9 +1008,9 @@ define(["wc/has",
 				if (event.canCapture) {
 					event.add(element, { type: "focus", listener: focusEvent, capture: true });
 				} else {
-					event.add(element, event.TYPE.focusin, focusEvent);
+					event.add(element, "focusin", focusEvent);
 				}
-				event.add(element, event.TYPE.click, clickEvent);
+				event.add(element, "click", clickEvent);
 				formUpdateManager.subscribe(writeState);
 				setUpDateFields();
 			};

@@ -63,7 +63,7 @@ define(["wc/dom/formUpdateManager",
 					if (form) {
 						this.writeState(form, dto.container, dto.element);
 						try {
-							event.fire(form, event.TYPE.submit);
+							event.fire(form, "submit");
 						} catch (ex) {  // this can happen if user types invalid path in file input element (can't happen in FF)
 							console.log(ex);
 						}
@@ -109,9 +109,9 @@ define(["wc/dom/formUpdateManager",
 					document.body.insertAdjacentHTML("beforeEnd", iframeHTML);
 					result = document.getElementById(iframeId);
 					if (result.addEventListener) {
-						result.addEventListener(event.TYPE.load, callback, false);
+						result.addEventListener("load", callback, false);
 					} else {
-						result.attachEvent("on" + event.TYPE.load, callback);
+						result.attachEvent("on" + "load", callback);
 					}
 				}
 				return result;

@@ -219,12 +219,12 @@ define(["wc/date/interchange",
 					BOOTSTRAPPED = "validation.dateField.bs";
 				if (!$event.defaultPrevented && dateField.isOneOfMe(element, false) && !attribute.get(element, BOOTSTRAPPED)) {
 					attribute.set(element, BOOTSTRAPPED, true);
-					event.add(element, event.TYPE.change, changeEvent, 1);
+					event.add(element, "change", changeEvent, 1);
 					if (validationManager.isValidateOnBlur()) {
 						if (event.canCapture) {
 							event.add(element, { type: "blur", listener: blurEvent, pos: 1, capture: true });
 						} else {
-							event.add(element, event.TYPE.focusout, blurEvent);
+							event.add(element, "focusout", blurEvent);
 						}
 					}
 				}
@@ -239,7 +239,7 @@ define(["wc/date/interchange",
 				if (event.canCapture) {
 					event.add(element, { type: "focus", listener: focusEvent, pos: 1, capture: true });
 				} else {
-					event.add(element, event.TYPE.focusin, focusEvent, 1);
+					event.add(element, "focusin", focusEvent, 1);
 				}
 			};
 

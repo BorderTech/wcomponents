@@ -456,9 +456,9 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				context: calendarProps,
 				callback: function() {
 					document.getElementById(MONTH_SELECT_ID).selectedIndex = _today.getMonth();
-					event.add(container, event.TYPE.keydown, _calendarKeydownEvent);
-					event.add(findMonthSelect(), event.TYPE.change, monthChangeEvent);
-					event.add(findYearField(), event.TYPE.change, yearChangeEvent);
+					event.add(container, "keydown", _calendarKeydownEvent);
+					event.add(findMonthSelect(), "change", monthChangeEvent);
+					event.add(findYearField(), "change", yearChangeEvent);
 					callback(container);
 				}
 			});
@@ -1055,7 +1055,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 
 			if (dateField.isOneOfMe(target, false) && !attribute.get(target, INITED_ATTRIB)) {
 				attribute.set(target, INITED_ATTRIB, true);
-				event.add(target, event.TYPE.keydown, keydownEvent);
+				event.add(target, "keydown", keydownEvent);
 			}
 
 			if (target && (cal = getCal()) && !shed.isHidden(cal, true)) {
@@ -1077,11 +1077,11 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		function initialiseHelper(init, element) {
 			var func = init ? "add" : "remove";
 			if (event.canCapture) {
-				event[func](element, event.TYPE.focus, focusEvent, null, null, true);
+				event[func](element, "focus", focusEvent, null, null, true);
 			} else {
-				event[func](element, event.TYPE.focusin, focusEvent);
+				event[func](element, "focusin", focusEvent);
 			}
-			event[func](element, event.TYPE.click, clickEvent);
+			event[func](element, "click", clickEvent);
 		}
 
 		/**
@@ -1093,7 +1093,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		function postInit(init) {
 			var ar = init ? "add" : "remove",
 				su = init ? "subscribe" : "unsubscribe";
-			event[ar](window, event.TYPE.resize, reposEvent);
+			event[ar](window, "resize", reposEvent);
 			shed[su](shed.actions.SHOW, shedSubscriber);
 			shed[su](shed.actions.HIDE, shedSubscriber);
 		}

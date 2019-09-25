@@ -104,13 +104,13 @@ define(["wc/dom/attribute",
 
 								if (loadedOption !== testValue) {
 									console.warn(DEP_WARNING);
-									timers.setTimeout(event.fire, 0, form, event.TYPE.submit);
+									timers.setTimeout(event.fire, 0, form, "submit");
 								}
 								removeLoadedOptionRegistry(element);
 							} else {
 								submitting = true;
 								console.warn(DEP_WARNING);
-								timers.setTimeout(event.fire, 0, form, event.TYPE.submit);
+								timers.setTimeout(event.fire, 0, form, "submit");
 							}
 						}
 					}
@@ -132,7 +132,7 @@ define(["wc/dom/attribute",
 				if (SUBMITTER.isOneOfMe(target)) {
 					if (!attribute.get(target, inited)) {
 						attribute.set(target, inited, true);
-						event.add(target, event.TYPE.change, changeEvent);
+						event.add(target, "change", changeEvent);
 					}
 					if (LOAD_SELECT.isOneOfMe(target)) {
 						setLoadedOptionRegistry(target);
@@ -241,7 +241,7 @@ define(["wc/dom/attribute",
 					event.add(element, { type: "focus", listener: domFocusEvent, capture: true });
 					event.add(element, { type: "change", listener: changeEvent, capture: true });
 				} else {
-					event.add(element, event.TYPE.focusin, focusEvent);
+					event.add(element, "focusin", focusEvent);
 				}
 				timers.setTimeout(addAllWarnings, 0, element);
 			};

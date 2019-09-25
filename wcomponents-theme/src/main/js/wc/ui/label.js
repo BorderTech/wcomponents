@@ -1,6 +1,7 @@
 define(["wc/dom/classList",
 	"wc/dom/initialise",
 	"wc/dom/shed",
+	"wc/dom/event",
 	"wc/dom/tag",
 	"wc/dom/Widget",
 	"wc/dom/getLabelsForElement",
@@ -10,7 +11,7 @@ define(["wc/dom/classList",
 	"wc/dom/wrappedInput",
 	"wc/ui/checkBox",
 	"wc/ui/feedback"],
-	function (classList, initialise, shed, tag, Widget, getLabelsForElement, processResponse, $role, textContent, wrappedInput, checkBox, feedback) {
+	function (classList, initialise, shed, event, tag, Widget, getLabelsForElement, processResponse, $role, textContent, wrappedInput, checkBox, feedback) {
 		"use strict";
 		/**
 		 * @constructor
@@ -56,17 +57,16 @@ define(["wc/dom/classList",
 			 * Manipulate a label when a labelled element is made mandatory or optional.
 			 * @function
 			 * @private
-			 * @param {Element} element The element being made optional/mandatory.
-			 * @param {String} action The shed action shed.actions.MANDATORY or shed.actions.OPTIONAL.
+			 * @param {Event} $event An optional/mandatory event.
 			 */
-			function shedMandatorySubscriber(element, action) {
-				var input, func;
+			function shedMandatorySubscriber($event) {
+				var input, func, element = $event.target, action = $event.type;
 				if (!element) {
 					return;
 				}
 				input = wrappedInput.isOneOfMe(element) ? wrappedInput.getInput(element) : element;
 				if (input && input.type !== "radio" && (TAGS.indexOf(input.tagName) > -1 || $role.has(input))) {
-					func = action === shed.actions.OPTIONAL ? "remove" : "add";
+					func = action === shed.events.OPTIONAL ? "remove" : "add";
 					getLabelsForElement(element).forEach(function (next) {
 						mandateLabel(next, func);
 					});
@@ -77,13 +77,12 @@ define(["wc/dom/classList",
 			 * Show/hide label[s] when a labelled element (even readOnly) is shown/hidden.
 			 * @function
 			 * @private
-			 * @param {Element} element The element being made optional/mandatory
-			 * @param {String} action The shed action shed.actions.SHOW or shed.actions.HIDE
+			 * @param {Event} $event A show/hide event.
 			 */
-			function shedHideSubscriber(element, action) {
-				var func;
+			function shedHideSubscriber($event) {
+				var func, element = $event.target, action = $event.type;
 				if (element) {
-					func = action === shed.actions.SHOW ? "show" : "hide";
+					func = action === shed.events.SHOW ? "show" : "hide";
 					// anything, even read-only, can be hidden/shown
 					getLabelsForElement(element, true).forEach(function (next) {
 						showHideLabel(next, func);
@@ -346,15 +345,15 @@ define(["wc/dom/classList",
 			/**
 			 * Initialiser callback to subscribe to {@link module:wc/dom/shed} and
 			 * {@link module:wc/ui/ajax/processResponse}.
-			 *
+			 * @param {Element} element Usually document.body
 			 * @function module:wc/ui/label.postInit
 			 * @public
 			 */
-			this.postInit = function () {
-				shed.subscribe(shed.actions.MANDATORY, shedMandatorySubscriber);
-				shed.subscribe(shed.actions.OPTIONAL, shedMandatorySubscriber);
-				shed.subscribe(shed.actions.SHOW, shedHideSubscriber);
-				shed.subscribe(shed.actions.HIDE, shedHideSubscriber);
+			this.postInit = function (element) {
+				event.add(element, shed.events.MANDATORY, shedMandatorySubscriber);
+				event.add(element, shed.events.OPTIONAL, shedMandatorySubscriber);
+				event.add(element, shed.events.SHOW, shedHideSubscriber);
+				event.add(element, shed.events.HIDE, shedHideSubscriber);
 				processResponse.subscribe(preInsertionAjaxSubscriber);
 				processResponse.subscribe(ajaxSubscriber, true);
 			};

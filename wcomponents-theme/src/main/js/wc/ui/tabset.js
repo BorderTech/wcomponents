@@ -850,7 +850,7 @@ define(["wc/array/toArray",
 				shed.subscribe(shed.actions.COLLAPSE, this.shedObserver.bind(this));
 				shed.subscribe(shed.actions.ENABLE, this.shedObserver.bind(this));
 				shed.subscribe(shed.actions.DISABLE, this.shedObserver.bind(this));
-				event.add(window, event.TYPE.resize, resizeEvent, 1);
+				event.add(window, "resize", resizeEvent, 1);
 			};
 		}
 

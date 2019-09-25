@@ -587,7 +587,7 @@ define(["wc/dom/tag",
 							if (event.canCapture) {
 								event.add(element, { type: "change", listener: changeEvent, capture: true });
 							} else {
-								event.add(element, event.TYPE.focusin, focusEvent);
+								event.add(element, "focusin", focusEvent);
 							}
 						}
 						shed.subscribe(shed.actions.SELECT, shedObserver);
@@ -613,7 +613,7 @@ define(["wc/dom/tag",
 						bootstrapped = attribute.get(target, BOOTSTRAPPED);
 						if (!bootstrapped) {
 							attribute.set(target, BOOTSTRAPPED, true);
-							event.add(target, event.TYPE.change, changeEvent);
+							event.add(target, "change", changeEvent);
 						}
 					}
 				}

@@ -370,7 +370,7 @@ define(["wc/i18n/i18n",
 			 * @param {Element} element The element being initialised, usually document.body.
 			 */
 			this.initialise = function(element) {
-				event.add(element, event.TYPE.click, clickEvent, -100);
+				event.add(element, "click", clickEvent, -100);
 				return i18n.translate(["cancel_title", "cancel_message"]).then(function(translations) {
 					CANCEL_TITLE = translations[0];
 					CANCEL_MESSAGE = translations[1];
@@ -393,7 +393,7 @@ define(["wc/i18n/i18n",
 			 * @param {Element} The element being deinitialised, usually document.body.
 			 */
 			this.deinit = function(element) {
-				event.remove(element, event.TYPE.click, clickEvent, -100);
+				event.remove(element, "click", clickEvent, -100);
 				processResponse.unsubscribe(ajaxSubscriber);
 				processResponse.unsubscribe(postAjaxSubscriber, true);
 			};

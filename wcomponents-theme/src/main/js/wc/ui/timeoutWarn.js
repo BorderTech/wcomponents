@@ -26,8 +26,8 @@ define(["lib/sprintf", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/load
 			 */
 			function closeWarning(element) {
 				if (element && !shed.isHidden(element, true)) {
-					event.remove(document.body, event.TYPE.keydown, keydownEvent);
-					event.remove(element, event.TYPE.click, clickEvent);
+					event.remove(document.body, "keydown", keydownEvent);
+					event.remove(element, "click", clickEvent);
 					shed.hide(element);
 				}
 			}
@@ -53,8 +53,8 @@ define(["lib/sprintf", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/load
 			 * @param {Element} container The top level container element of the warning container.
 			 */
 			function showDialog(container) {
-				event.add(document.body, event.TYPE.keydown, keydownEvent);
-				event.add(container, event.TYPE.click, clickEvent);
+				event.add(document.body, "keydown", keydownEvent);
+				event.add(container, "click", clickEvent);
 				shed.show(container);
 			}
 

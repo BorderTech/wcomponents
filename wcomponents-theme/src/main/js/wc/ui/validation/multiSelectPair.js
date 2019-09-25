@@ -155,9 +155,9 @@ define(["wc/dom/attribute",
 				var container;
 				if (!$event.defaultPrevented && (container = getContainer($event.target)) && !attribute.get(container, CONTAINER_INITIALISED_KEY)) {
 					attribute.set(container, CONTAINER_INITIALISED_KEY, true);
-					event.add(container, event.TYPE.click, clickEvent, 1);
-					event.add(container, event.TYPE.dblclick, clickEvent, 1);
-					event.add(container, event.TYPE.keydown, keydownEvent, 1);
+					event.add(container, "click", clickEvent, 1);
+					event.add(container, "dblclick", clickEvent, 1);
+					event.add(container, "keydown", keydownEvent, 1);
 				}
 			}
 
@@ -258,7 +258,7 @@ define(["wc/dom/attribute",
 				if (event.canCapture) {
 					event.add(element, { type: "focus", listener: focusEvent, capture: true });
 				} else {
-					event.add(element, event.TYPE.focusin, focusEvent);
+					event.add(element, "focusin", focusEvent);
 				}
 			};
 

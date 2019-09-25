@@ -245,14 +245,14 @@ define(["wc/dom/attribute",
 					container;
 				if (element && !attribute.get(element, BOOTSTRAPPED) && Widget.isOneOfMe(element, multiFormComponent.getInputWidget())) {
 					attribute.set(element, BOOTSTRAPPED, true);
-					event.add(element, event.TYPE.change, changeEvent);
+					event.add(element, "change", changeEvent);
 					container = getContainer(element);
 					if (container && !attribute.get(container, BOOTSTRAPPED) && validationManager.isValidateOnBlur()) {
 						attribute.set(container, BOOTSTRAPPED, true);
 						if (event.canCapture) {
 							event.add(container, { type: "blur", listener: blurEvent, pos: 1, capture: true });
 						} else {
-							event.add(container, event.TYPE.focusout, blurEvent);
+							event.add(container, "focusout", blurEvent);
 						}
 					}
 				}
@@ -267,9 +267,9 @@ define(["wc/dom/attribute",
 				if (event.canCapture) {
 					event.add(element, { type: "focus", listener: focusEvent, capture: true });
 				} else {
-					event.add(element, event.TYPE.focusin, focusEvent);
+					event.add(element, "focusin", focusEvent);
 				}
-				event.add(element, event.TYPE.click, clickEvent, 1);  // we want the click handler late so that add/remove runs first.
+				event.add(element, "click", clickEvent, 1);  // we want the click handler late so that add/remove runs first.
 			};
 
 			/**

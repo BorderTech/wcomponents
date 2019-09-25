@@ -520,7 +520,7 @@ define(["wc/dom/attribute",
 					selector = SELECTOR.findDescendants(footer);
 					if (selector && selector.length) {
 						Array.prototype.forEach.call(selector, function(next) {
-							event.add(next, event.TYPE.change, changeEvent, 1);
+							event.add(next, "change", changeEvent, 1);
 						});
 					}
 				}
@@ -555,11 +555,11 @@ define(["wc/dom/attribute",
 			this.initialise = function(element) {
 				if (event.canCapture) {
 					// event.add(element, { type: "focus", listener: focusEvent, capture: true });
-					event.add(element, event.TYPE.change, changeEvent, 1);
+					event.add(element, "change", changeEvent, 1);
 				} else {
-					event.add(element, event.TYPE.focusin, focusEvent);
+					event.add(element, "focusin", focusEvent);
 				}
-				event.add(element, event.TYPE.click, clickEvent);
+				event.add(element, "click", clickEvent);
 			};
 
 			/**

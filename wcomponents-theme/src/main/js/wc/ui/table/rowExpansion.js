@@ -287,7 +287,7 @@ define(["wc/array/toArray",
 					switch ($event.keyCode) {
 						case KeyEvent["DOM_VK_SPACE"]: // The control is a td with a role - some browsers do not have a default click from SPACE.
 						case KeyEvent["DOM_VK_RETURN"]:
-							timers.setTimeout(event.fire, 0, element, event.TYPE.click);
+							timers.setTimeout(event.fire, 0, element, "click");
 							$event.preventDefault();
 							break;
 						case KeyEvent["DOM_VK_LEFT"] :
@@ -312,7 +312,7 @@ define(["wc/array/toArray",
 				var element;
 				if (!$event.defaultPrevented && (element = ROW_TRIGGER.findAncestor($event.target, tag.TD)) && !attribute.get(element, BOOTSTRAPPED)) {
 					attribute.set(element, BOOTSTRAPPED, true);
-					event.add(element, event.TYPE.keydown, keydownEvent);
+					event.add(element, "keydown", keydownEvent);
 				}
 			}
 
@@ -455,9 +455,9 @@ define(["wc/array/toArray",
 				if (event.canCapture) {
 					event.add(element, { type: "focus", listener: focusEvent, capture: true });
 				} else {
-					event.add(element, event.TYPE.focusin, focusEvent);
+					event.add(element, "focusin", focusEvent);
 				}
-				event.add(element, event.TYPE.click, clickEvent);
+				event.add(element, "click", clickEvent);
 			};
 
 			/**
