@@ -469,7 +469,7 @@ define(["wc/has",
 			if (this.ITEM.isOneOfMe(element) && !shed.isDisabled(element)) {
 				bootstrap(element, this);
 				if (this.groupNavigation) {
-					if (this.setFocusIndex && !(has("event-ontouchstart"))) {
+					if (this.setFocusIndex) {
 						this.setFocusIndex(element);
 					}
 				}
