@@ -7,8 +7,9 @@
  * @requires module:wc/dom/initialise
  * @requires module:wc/dom/shed
  */
-define(["wc/dom/event", "wc/dom/initialise", "wc/dom/shed"],
-/** @param event wc/dom/event @param initialise wc/dom/initialise @param shed wc/dom/shed @ignore */
+define(["wc/dom/event",
+	"wc/dom/initialise",
+	"wc/dom/shed"],
 function(event, initialise, shed) {
 	"use strict";
 	function DisabledControl() {

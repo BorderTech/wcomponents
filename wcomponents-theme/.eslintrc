@@ -14,7 +14,9 @@
 		"spaced-comment": [2, "always"],
 		"keyword-spacing": 2,
 		"indent": [2, "tab", { "SwitchCase": 1 } ],
-		"quotes": 0
+		"quotes": 0,
+		"no-prototype-builtins" : 0,
+		"no-constant-condition": 0
 	},
 	"globals": {
 		"KeyEvent": true,

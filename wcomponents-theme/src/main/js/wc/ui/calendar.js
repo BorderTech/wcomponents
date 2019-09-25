@@ -23,8 +23,8 @@ define(["wc/dom/attribute",
 	"wc/template",
 	"wc/config"],
 function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthName, today, interchange, classList, event,
-		focus, shed, tag, viewportCollision, getBox, Widget, i18n, isNumeric, dateField, initialise,
-		timers, template, wcconfig) {
+	focus, shed, tag, viewportCollision, getBox, Widget, i18n, isNumeric, dateField, initialise,
+	timers, template, wcconfig) {
 	"use strict";
 
 	/**
