@@ -1,13 +1,13 @@
 /* eslint-env node, es6  */
 const path = require("path");
-const { getConfig, dirs } = require("./scripts/build-util");
+const { getConfig, dirs } = require("./build-util");
 const scriptDir = path.relative(dirs.script.target, dirs.script[getConfig("testMinOrMax")]);  // dirs.script.min will test minifed code, dirs.script.max tests debug code
-const targetDir = path.relative(".", dirs.project.build);
+const targetDir = path.relative(dirs.project.basedir, dirs.project.build);
 let testRootPath = path.join(dirs.test.target, "intern");
 let srcRootPath = dirs.script.target;
 
-testRootPath = path.relative(".", testRootPath);
-srcRootPath = path.relative(".", srcRootPath);
+testRootPath = path.relative(dirs.project.basedir, testRootPath);
+srcRootPath = path.relative(dirs.project.basedir, srcRootPath);
 
 console.log("Testing", scriptDir);
 

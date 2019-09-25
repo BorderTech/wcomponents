@@ -3,7 +3,7 @@ const fs = require("fs-extra");
 const path = require("path");
 const { dirs: { style: dirs } } = require("./scripts/build-util");
 const sass = require("sass");
-const themeLinter = require("./lintfile");
+const themeLinter = require("./scripts/lintfile");
 
 if (require.main === module) {
 	build();

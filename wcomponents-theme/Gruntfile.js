@@ -7,7 +7,7 @@
  * OR
  * Use npx, e.g.`npx grunt test`
  */
-let internConfig = require("./intern").config;
+let internConfig = require("./scripts/intern").config;
 const path = require("path");
 const { dirs } = require("./scripts/build-util");
 const defaultInternArgs = "environments='{\"browserName\":\"firefox\"}'";

@@ -169,7 +169,7 @@
 		<module>wcomponents-examples-lde</module>
 		<module>wcomponents-lde</module>
 		<module>wcomponents-test-lib</module>
-		<module>wcomponents-theme-parent</module>
+		<module>wcomponents-theme</module>
 		<module>wcomponents-bundle</module>
 	</modules>
 
