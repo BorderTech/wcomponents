@@ -455,7 +455,7 @@ define(["wc/Observer",
 				}
 
 				function checkDuplicateIdsHtml(html) {
-					var idRe = /id=[\'|\"]?(([a-zA-Z0-9_*\-*]+))[\'|\"]/g,
+					var idRe = /id=['|"]?(([a-zA-Z0-9_*\-*]+))['|"]/g,
 						matches,
 						nextElement, nextId;
 					while ((matches = idRe.exec(html))) {

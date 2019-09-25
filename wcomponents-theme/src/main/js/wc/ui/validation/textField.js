@@ -26,7 +26,7 @@ define(["wc/dom/initialise",
 				WITH_PATTERN,
 				PATTERNS,
 				WITH_MIN,
-				DEFAULT_RX = /^(?:\".+\"|[a-zA-Z0-9\.!#\$%&'\*\+/=\?\^_`\{\|\}~]+)@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$/,
+				DEFAULT_RX = /^(?:".+"|[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~]+)@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$/,
 				RX_STRING = "";
 
 			function setUpWidgets() {

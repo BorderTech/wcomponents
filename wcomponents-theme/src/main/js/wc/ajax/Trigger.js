@@ -373,7 +373,7 @@ define(["wc/dom/tag",
 		 */
 		Trigger.getUrl = function(trigger) {
 			var url,
-				ampCheckRE	=	/\&amp;/gi,
+				ampCheckRE	=	/&amp;/gi,
 				fragmentRe	=	/#.+$/g;
 			/**
 			 * <p>If the trigger is an instance of Trigger we will try to return, in order of preference:</p>

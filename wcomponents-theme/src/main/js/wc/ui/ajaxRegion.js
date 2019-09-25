@@ -25,7 +25,7 @@ define(["wc/dom/event",
 			var INITED_FLAG = "wc.ui.ajaxRegion.inited",
 				ANCHOR = new Widget(tag.A),
 				BUTTON,
-				PSEUDO_PROTOCOL_RE = /^[\w]+\:[^\/].*$/,
+				PSEUDO_PROTOCOL_RE = /^[\w]+:[^/].*$/,
 				ALIAS = "data-wc-ajaxalias",
 				ignoreChange = false,
 				triggers = [];
