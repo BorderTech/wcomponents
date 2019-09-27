@@ -18,7 +18,6 @@ import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.SystemException;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -37,8 +36,8 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 	 * @param component the WTable to paint.
 	 * @param renderContext the RenderContext to paint to.
 	 */
-
 	private int selectedOnOther;
+
 	@Override
 	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
 		WTable table = (WTable) component;
@@ -111,8 +110,15 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 			paintSortDetails(table, xml);
 		}
 
-		paintColumnHeadings(table, renderContext);
+		// Headers
+		paintColumnHeaderFooter(table, renderContext, true);
+		// Body
 		paintRows(table, renderContext);
+		// Footers
+		if (table.isRenderColumnFooters()) {
+			paintColumnHeaderFooter(table, renderContext, false);
+		}
+		// Actions
 		paintTableActions(table, renderContext);
 
 		xml.appendEndTag("ui:table");
@@ -120,6 +126,7 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 
 	/**
 	 * Paint the pagination aspects of the table.
+	 *
 	 * @param table the WDataTable being rendered
 	 * @param xml the string builder in use
 	 */
@@ -179,6 +186,7 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 
 	/**
 	 * Paint the row selection aspects of the table.
+	 *
 	 * @param table the WDataTable being rendered
 	 * @param xml the string builder in use
 	 */
@@ -210,6 +218,7 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 
 	/**
 	 * Paint the row selection aspects of the table.
+	 *
 	 * @param table the WDataTable being rendered
 	 * @param xml the string builder in use
 	 */
@@ -413,28 +422,47 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 	 *
 	 * @param table the table to paint the headings for.
 	 * @param renderContext the RenderContext to paint to.
+	 * @param renderHeaders true if rendering headers otherwise render footers
 	 */
-	private void paintColumnHeadings(final WTable table, final WebXmlRenderContext renderContext) {
+	private void paintColumnHeaderFooter(final WTable table, final WebXmlRenderContext renderContext, final boolean renderHeaders) {
 		XmlStringBuilder xml = renderContext.getWriter();
 		int[] columnOrder = table.getColumnOrder();
 		TableModel model = table.getTableModel();
 		final int columnCount = columnOrder == null ? table.getColumnCount() : columnOrder.length;
 
-		xml.appendTagOpen("ui:thead");
-		xml.appendOptionalAttribute("hidden", !table.isShowColumnHeaders(), "true");
-		xml.appendClose();
+		if (renderHeaders) {
+			// Headers
+			xml.appendTagOpen("ui:thead");
+			xml.appendOptionalAttribute("hidden", !table.isShowColumnHeaders(), "true");
+			xml.appendClose();
+		} else {
+			// Footers
+			xml.appendTag("tfoot");
+			xml.appendTag("tr");
+		}
 
 		for (int i = 0; i < columnCount; i++) {
 			int colIndex = columnOrder == null ? i : columnOrder[i];
 			WTableColumn col = table.getColumn(colIndex);
 
 			if (col.isVisible()) {
-				boolean sortable = model.isSortable(colIndex);
-				paintColumnHeading(col, sortable, renderContext);
+				if (renderHeaders) {
+					// Header
+					boolean sortable = model.isSortable(colIndex);
+					paintColumnHeading(col, sortable, renderContext);
+				} else {
+					// Footer
+					paintColumnFooting(col, renderContext);
+				}
 			}
 		}
 
-		xml.appendEndTag("ui:thead");
+		if (renderHeaders) {
+			xml.appendEndTag("ui:thead");
+		} else {
+			xml.appendEndTag("tr");
+			xml.appendEndTag("tfoot");
+		}
 	}
 
 	/**
@@ -465,6 +493,34 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 		col.paint(renderContext);
 
 		xml.appendEndTag("ui:th");
+	}
+
+	/**
+	 * Paints a single column footing.
+	 *
+	 * @param col the column to paint.
+	 * @param renderContext the RenderContext to paint to.
+	 */
+	private void paintColumnFooting(final WTableColumn col, final WebXmlRenderContext renderContext) {
+
+		XmlStringBuilder xml = renderContext.getWriter();
+
+		xml.appendTagOpen("td");
+
+		Alignment align = col.getAlign();
+		if (Alignment.RIGHT.equals(align)) {
+			xml.appendAttribute("align", "right");
+		} else if (Alignment.CENTER.equals(align)) {
+			xml.appendAttribute("align", "center");
+		}
+
+		xml.appendClose();
+
+		if (col.getFooterRender() != null) {
+			col.getFooterRender().paint(renderContext);
+		}
+
+		xml.appendEndTag("td");
 	}
 
 }

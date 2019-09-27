@@ -33,7 +33,9 @@ public class SimpleTableExample extends WPanel {
 		// Columns
 		table.addColumn(new WTableColumn("First name", new WText()));
 		table.addColumn(new WTableColumn("Last name", new WText()));
-		table.addColumn(new WTableColumn("DOB", new WDateField()));
+		table.addColumn(new WTableColumn("DOB", new WDateField(), new WText("FOOTER 3")));
+
+		table.setRenderColumnFooters(true);
 
 		// Setup model
 		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(
@@ -43,8 +45,7 @@ public class SimpleTableExample extends WPanel {
 	}
 
 	/**
-	 * Override preparePaintComponent in order to set up the example data the first time that the example is accessed by
-	 * each user.
+	 * Override preparePaintComponent in order to set up the example data the first time that the example is accessed by each user.
 	 *
 	 * @param request the request being responded to.
 	 */

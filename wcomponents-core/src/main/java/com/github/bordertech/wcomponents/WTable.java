@@ -19,26 +19,23 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
- * The WTable component is used to display tabular data. It supports common functions such as sorting and pagination of
- * data.
+ * The WTable component is used to display tabular data. It supports common functions such as sorting and pagination of data.
  * </p>
  * <p>
- * The WTable component is only concerned with how the UI functions, not the data behind the table. In a MVC sense, the
- * WTable is the Controller, the view is comprised of the WTable layout and column renderers, and the {@link TableModel}
- * is the model.
+ * The WTable component is only concerned with how the UI functions, not the data behind the table. In a MVC sense, the WTable is the Controller, the
+ * view is comprised of the WTable layout and column renderers, and the {@link TableModel} is the model.
  * </p>
  * <p>
- * Columns may only be added statically to the table, but individual columns can be shown/hidden per user by toggling
- * their visibility. See {@link #getColumn(int)} and {@link WComponent#setVisible(boolean)}. Making columns not visible
- * can be problematic with sorting.
+ * Columns may only be added statically to the table, but individual columns can be shown/hidden per user by toggling their visibility. See
+ * {@link #getColumn(int)} and {@link WComponent#setVisible(boolean)}. Making columns not visible can be problematic with sorting.
  * </p>
  * <p>
- * Another way to make columns not visible is by using {@link #setColumnOrder(int[])}. This can be used to change the
- * column order but also hide columns by not including their index in the array.
+ * Another way to make columns not visible is by using {@link #setColumnOrder(int[])}. This can be used to change the column order but also hide
+ * columns by not including their index in the array.
  * </p>
  * <p>
- * For data that is not in a tree like structure (ie not expandable), the {@link BasicTableModel} interface can be used
- * via the {@link AdapterBasicTableModel}.
+ * For data that is not in a tree like structure (ie not expandable), the {@link BasicTableModel} interface can be used via the
+ * {@link AdapterBasicTableModel}.
  * </p>
  *
  * @author Jonathan Austin
@@ -59,9 +56,14 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	private static final int DEFAULT_ROWS = 10;
 
 	/**
-	 * For easy access to the columns, including the ability to hide them all at once.
+	 * Hold columns.
 	 */
 	private final WContainer columns = new WContainer();
+
+	/**
+	 * Hold column footers.
+	 */
+	private final WContainer footers = new WContainer();
 
 	/**
 	 * The repeater that is used to handle the repeated (row) content.
@@ -255,10 +257,31 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	public WTable() {
 		add(columns);
 		add(repeater);
+		add(footers);
 		add(actions);
 
 		repeater.setRepeatedComponent(new WTableRowRenderer(this));
 		repeater.setBeanProvider(new RepeaterRowIdBeanProvider(this));
+	}
+
+	/**
+	 * @param renderColumnFooters true if render column footers
+	 */
+	public void setRenderColumnFooters(final boolean renderColumnFooters) {
+		getOrCreateComponentModel().renderColumnFooters = renderColumnFooters;
+	}
+
+	/**
+	 * Control if column footers should be rendered.
+	 * <p>
+	 * When true, column footers are rendered on each page. Projects who need to control which page the footers are rendered on (e.g last page) can
+	 * override this method.
+	 * </p>
+	 *
+	 * @return true if render column footers
+	 */
+	public boolean isRenderColumnFooters() {
+		return getComponentModel().renderColumnFooters;
 	}
 
 	/**
@@ -268,6 +291,9 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	 */
 	public void addColumn(final WTableColumn column) {
 		columns.add(column);
+		if (column.getFooterRender() != null) {
+			footers.add(column.getFooterRender());
+		}
 		WTableRowRenderer renderer = (WTableRowRenderer) repeater.getRepeatedComponent();
 		renderer.addColumn(column, columns.getChildCount() - 1);
 	}
@@ -342,8 +368,8 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	/**
 	 * Updates the bean using the table data model's {@link TableModel#setValueAt(Object, List, int)} method.
 	 * <p>
-	 * The update is only applied if the table has been set as editable via {@link #setEditable(boolean)}. Only rows
-	 * that have been rendered are updated.
+	 * The update is only applied if the table has been set as editable via {@link #setEditable(boolean)}. Only rows that have been rendered are
+	 * updated.
 	 * </p>
 	 * <p>
 	 * For {@link ScrollableTableModel}, only the rows on the current page are updated.
@@ -394,8 +420,8 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	}
 
 	/**
-	 * Updates the bean using the table data model's {@link TableModel#setValueAt(Object, List, int)} method. This
-	 * method only updates the data for the currently set row ids.
+	 * Updates the bean using the table data model's {@link TableModel#setValueAt(Object, List, int)} method. This method only updates the data for
+	 * the currently set row ids.
 	 */
 	private void updateBeanValueForRenderedRows() {
 		WTableRowRenderer rowRenderer = (WTableRowRenderer) repeater.getRepeatedComponent();
@@ -512,8 +538,7 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	}
 
 	/**
-	 * Sets whether the de/selection of a row with sub rows should de/select the sub rows. This is a client-side only
-	 * feature.
+	 * Sets whether the de/selection of a row with sub rows should de/select the sub rows. This is a client-side only feature.
 	 *
 	 * @param toggleSubRowSelection true to turn on this feature.
 	 */
@@ -598,8 +623,7 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 
 	/**
 	 * @return the table summary text.
-	 * @deprecated the summary field has been removed from the client side. API preserved temporarily for backwards
-	 * compatibility.
+	 * @deprecated the summary field has been removed from the client side. API preserved temporarily for backwards compatibility.
 	 */
 	@Deprecated
 	public String getSummary() {
@@ -610,8 +634,7 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	 * Sets the table summary text.
 	 *
 	 * @param summary the table summary text to set.
-	 * @deprecated the summary field has been removed from the client side. API preserved temporarily for backwards
-	 * compatibility.
+	 * @deprecated the summary field has been removed from the client side. API preserved temporarily for backwards compatibility.
 	 */
 	@Deprecated
 	public void setSummary(final String summary) {
@@ -704,8 +727,8 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	}
 
 	/**
-	 * The number of rows to display per page. A value of zero, which is only valid when used with
-	 * {@link #setRowsPerPageOptions(java.util.List)}, indicates display all rows.
+	 * The number of rows to display per page. A value of zero, which is only valid when used with {@link #setRowsPerPageOptions(java.util.List)},
+	 * indicates display all rows.
 	 *
 	 * @return the number of rows to display per page.
 	 */
@@ -716,8 +739,8 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	/**
 	 * Sets the number of rows to display per page when pagination is enabled.
 	 * <p>
-	 * If rows per page options have been set, then the value must be a valid option, which can include zero to indicate
-	 * show all rows, otherwise the value must be greater than zero.
+	 * If rows per page options have been set, then the value must be a valid option, which can include zero to indicate show all rows, otherwise the
+	 * value must be greater than zero.
 	 * </p>
 	 *
 	 * @param rowsPerPage the rowsPerPage to set
@@ -832,8 +855,8 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 
 	/**
 	 * <p>
-	 * For tables that are editable, extra details about each row must be stored to allow them to be updated. Therefore,
-	 * if the table is not editable, the table is able to have improved performance.
+	 * For tables that are editable, extra details about each row must be stored to allow them to be updated. Therefore, if the table is not editable,
+	 * the table is able to have improved performance.
 	 * </p>
 	 *
 	 * @return true if table is editable
@@ -845,8 +868,8 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	/**
 	 * Sets the table to be editable.
 	 * <p>
-	 * For tables that are editable, extra details about each row must be stored to allow them to be updated. Therefore,
-	 * if the table is not editable, the table is able to have improved performance.
+	 * For tables that are editable, extra details about each row must be stored to allow them to be updated. Therefore, if the table is not editable,
+	 * the table is able to have improved performance.
 	 * </p>
 	 *
 	 * @param editable true if editable
@@ -982,8 +1005,7 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	/**
 	 * Set the row keys that are expanded.
 	 * <p>
-	 * A row key uniquely identifies each row and is determined by the {@link TableModel}. Refer to
-	 * {@link TableModel#getRowKey(List)}.
+	 * A row key uniquely identifies each row and is determined by the {@link TableModel}. Refer to {@link TableModel#getRowKey(List)}.
 	 * </p>
 	 *
 	 * @param rowKeys the keys of expanded rows.
@@ -995,8 +1017,7 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	/**
 	 * Retrieve the row keys that are expanded.
 	 * <p>
-	 * A row key uniquely identifies each row and is determined by the {@link TableModel}. Refer to
-	 * {@link TableModel#getRowKey(List)}.
+	 * A row key uniquely identifies each row and is determined by the {@link TableModel}. Refer to {@link TableModel#getRowKey(List)}.
 	 * </p>
 	 *
 	 * @return the expanded row keys.
@@ -1013,8 +1034,7 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	/**
 	 * Set the row keys that are selected.
 	 * <p>
-	 * A row key uniquely identifies each row and is determined by the {@link TableModel}. Refer to
-	 * {@link TableModel#getRowKey(List)}.
+	 * A row key uniquely identifies each row and is determined by the {@link TableModel}. Refer to {@link TableModel#getRowKey(List)}.
 	 * </p>
 	 *
 	 * @param rowKeys the keys of selected rows.
@@ -1026,8 +1046,7 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	/**
 	 * Retrieve the row keys that are selected.
 	 * <p>
-	 * A row key uniquely identifies each row and is determined by the {@link TableModel}. Refer to
-	 * {@link TableModel#getRowKey(List)}.
+	 * A row key uniquely identifies each row and is determined by the {@link TableModel}. Refer to {@link TableModel#getRowKey(List)}.
 	 * </p>
 	 *
 	 * @return the selected row keys.
@@ -1154,8 +1173,8 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	}
 
 	/**
-	 * Indicates whether the sort on this table is ascending. Note that a return value of false does not necessarily
-	 * indicate a descending sort - see {@link #isSorted()}.
+	 * Indicates whether the sort on this table is ascending. Note that a return value of false does not necessarily indicate a descending sort - see
+	 * {@link #isSorted()}.
 	 *
 	 * @return true if the sort order is ascending, false for descending.
 	 */
@@ -1525,8 +1544,7 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	}
 
 	/**
-	 * Allows a subclass to provide the ID used in the row naming context. It is important this ID is unique for each
-	 * row.
+	 * Allows a subclass to provide the ID used in the row naming context. It is important this ID is unique for each row.
 	 * <p>
 	 * The returned ID must only contain letters, digits or underscores.
 	 * </p>
@@ -1570,10 +1588,8 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 		/**
 		 * Creates an action constraint.
 		 *
-		 * @param minSelectedRowCount the minimum number of rows which must be selected to fulfil the constraint, or
-		 * zero for any number of rows.
-		 * @param maxSelectedRowCount the maximum number of rows which can be selected to fulfil the constraint, or zero
-		 * for any number of rows.
+		 * @param minSelectedRowCount the minimum number of rows which must be selected to fulfil the constraint, or zero for any number of rows.
+		 * @param maxSelectedRowCount the maximum number of rows which can be selected to fulfil the constraint, or zero for any number of rows.
 		 * @param error true if the constraint is an error, false for a warning.
 		 * @param message the message to display when the constraint is not met.
 		 */
@@ -1675,8 +1691,8 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	}
 
 	/**
-	 * A bean provider implementation which provides beans to the table repeater. This provider takes the table's
-	 * pagination state into account, so that only visible rows are rendered.
+	 * A bean provider implementation which provides beans to the table repeater. This provider takes the table's pagination state into account, so
+	 * that only visible rows are rendered.
 	 */
 	private static final class RepeaterRowIdBeanProvider implements BeanProvider, Serializable {
 
@@ -1920,6 +1936,11 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	public static final class WTableComponentModel extends BeanAndProviderBoundComponentModel {
 
 		/**
+		 * Flag to render column footers.
+		 */
+		private boolean renderColumnFooters;
+
+		/**
 		 * The margins to be used on the table.
 		 */
 		private Margin margin;
@@ -1962,8 +1983,7 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 		/**
 		 * The table summary text.
 		 *
-		 * @deprecated the summary field has been removed from the client side. API preserved temporarily for backwards
-		 * compatibility.
+		 * @deprecated the summary field has been removed from the client side. API preserved temporarily for backwards compatibility.
 		 */
 		private String summary;
 
@@ -2072,8 +2092,7 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 		private boolean sortAscending;
 
 		/**
-		 * This is used to map rendered table row indices to table model row indices, if the table model supports this
-		 * mode of sorting.
+		 * This is used to map rendered table row indices to table model row indices, if the table model supports this mode of sorting.
 		 */
 		private int[] rowIndexMapping;
 
@@ -2169,8 +2188,8 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	}
 
 	/**
-	 * A naming context is only considered active if it has been set active via {@link #setNamingContext(boolean)} and
-	 * also has an id name set via {@link #setIdName(String)}.
+	 * A naming context is only considered active if it has been set active via {@link #setNamingContext(boolean)} and also has an id name set via
+	 * {@link #setIdName(String)}.
 	 *
 	 * @param context set true if this is a naming context.
 	 */
@@ -2224,19 +2243,18 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 
 	/**
 	 * <p>
-	 * TableModel provides the data for tables. In a MVC sense, the TableModel is the Model, the {@link WTable} is the
-	 * controller and the view is comprised of the WTable layout and column renderers.
+	 * TableModel provides the data for tables. In a MVC sense, the TableModel is the Model, the {@link WTable} is the controller and the view is
+	 * comprised of the WTable layout and column renderers.
 	 * </p>
 	 * <p>
 	 * Note that Data may be stored locally or sourced remotely, depending on the particular TableModel implementation.
 	 * </p>
 	 * <p>
-	 * The row indexes used in the interface are a list of row indexes. Each item in the list is the index of the row
-	 * for that level. The size of the list passed in matches the depth of the row.
+	 * The row indexes used in the interface are a list of row indexes. Each item in the list is the index of the row for that level. The size of the
+	 * list passed in matches the depth of the row.
 	 * </p>
 	 * <p>
-	 * Row and column indices for all methods are zero-based, and TableModels are not expected to perform
-	 * bounds-checking.
+	 * Row and column indices for all methods are zero-based, and TableModels are not expected to perform bounds-checking.
 	 * </p>
 	 *
 	 * @author Jonathan Austin
@@ -2289,20 +2307,19 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 		 * <ol>
 		 * <li>
 		 * <p>
-		 * If the data is accessible locally by the data model (ie. a sort won't result in a service call to obtain
-		 * sorted data), then this method should not sort the actual data, but return a row-index mapping which the
-		 * table will use to access the data. Row selection and expansion will be updated to use the new row indices.
+		 * If the data is accessible locally by the data model (ie. a sort won't result in a service call to obtain sorted data), then this method
+		 * should not sort the actual data, but return a row-index mapping which the table will use to access the data. Row selection and expansion
+		 * will be updated to use the new row indices.
 		 * </p>
 		 * <p>
-		 * For example, if the data for the column is {"a", "b", "d", "c"}, then an ascending sort should return {0, 1,
-		 * 3, 2}, and a descending sort {2, 3, 1, 0}.
+		 * For example, if the data for the column is {"a", "b", "d", "c"}, then an ascending sort should return {0, 1, 3, 2}, and a descending sort
+		 * {2, 3, 1, 0}.
 		 * </p>
 		 * </li>
 		 * <li>
 		 * <p>
-		 * If the data is not accessible locally by the data model, or the model is otherwise unable to perform a
-		 * mapping between old and new row indices, then the model should sort the actual data, and return null. In this
-		 * case, the table will reset any row selection or expansion.
+		 * If the data is not accessible locally by the data model, or the model is otherwise unable to perform a mapping between old and new row
+		 * indices, then the model should sort the actual data, and return null. In this case, the table will reset any row selection or expansion.
 		 * </p>
 		 * </li>
 		 * </ol>
@@ -2345,8 +2362,7 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 		int getRowCount();
 
 		/**
-		 * Allows the model to report if the row has children without actually having to determine the number of
-		 * children (as it might not be known).
+		 * Allows the model to report if the row has children without actually having to determine the number of children (as it might not be known).
 		 *
 		 * @param row the row index
 		 * @return true if the row has children
@@ -2375,8 +2391,8 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 		 * The usual implementation of this method would just return the row id passed in.
 		 * </p>
 		 * <p>
-		 * However, if you are required to dynamically add/remove rows in the model, which would change the row index,
-		 * then the implementation of this method needs to return an object that uniquely identifies this row.
+		 * However, if you are required to dynamically add/remove rows in the model, which would change the row index, then the implementation of this
+		 * method needs to return an object that uniquely identifies this row.
 		 * </p>
 		 * <p>
 		 * When rows have been added/removed, the {@link WTable#handleDataChanged} method on WTable needs to be called.
@@ -2389,9 +2405,8 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	}
 
 	/**
-	 * This extension of {@link TableModel} is primarily for models that do not store their data locally. Models
-	 * implementing this interface can provide more efficient calls to back-end systems, as the data model is notified
-	 * of which rows are likely to be used in the near future.
+	 * This extension of {@link TableModel} is primarily for models that do not store their data locally. Models implementing this interface can
+	 * provide more efficient calls to back-end systems, as the data model is notified of which rows are likely to be used in the near future.
 	 * <p>
 	 * It is expected this TableModel is always used with Pagination.
 	 * </p>
@@ -2402,8 +2417,7 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	public interface ScrollableTableModel extends TableModel {
 
 		/**
-		 * This method will be called by the table to notify the TableModel of which rows are likely to be used in the
-		 * near future.
+		 * This method will be called by the table to notify the TableModel of which rows are likely to be used in the near future.
 		 *
 		 * @param start the starting row index.
 		 * @param end the ending row index.

@@ -22,8 +22,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import org.junit.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
+import org.junit.Assert;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -616,7 +616,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo(((new Integer(maxSelectedRowCount1))).toString(),
 				"//ui:table/ui:actions/ui:action[1]/ui:condition/@maxSelectedRows", component);
 		assertXpathEvaluatesTo(((new Integer(selectedOnOther1))).toString(),
-			"//ui:table/ui:actions/ui:action[1]/ui:condition/@selectedOnOther", component);
+				"//ui:table/ui:actions/ui:action[1]/ui:condition/@selectedOnOther", component);
 		assertXpathEvaluatesTo(expectedWarning,
 				"//ui:table/ui:actions/ui:action[1]/ui:condition/@type", component);
 		assertXpathEvaluatesTo(message1, "//ui:table/ui:actions/ui:action[1]/ui:condition/@message",
@@ -628,7 +628,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo(((new Integer(maxSelectedRowCount2))).toString(),
 				"//ui:table/ui:actions/ui:action[2]/ui:condition/@maxSelectedRows", component);
 		assertXpathEvaluatesTo(((new Integer(selectedOnOther2))).toString(),
-			"//ui:table/ui:actions/ui:action[1]/ui:condition/@selectedOnOther", component);
+				"//ui:table/ui:actions/ui:action[1]/ui:condition/@selectedOnOther", component);
 		assertXpathEvaluatesTo(expectedWarning,
 				"//ui:table/ui:actions/ui:action[2]/ui:condition/@type", component);
 		assertXpathEvaluatesTo(message2, "//ui:table/ui:actions/ui:action[2]/ui:condition/@message",
@@ -725,6 +725,27 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("med", "//ui:table/ui:margin/@east", table);
 		assertXpathEvaluatesTo("lg", "//ui:table/ui:margin/@south", table);
 		assertXpathEvaluatesTo("xl", "//ui:table/ui:margin/@west", table);
+	}
+
+	@Test
+	public void testColumnFooter() throws IOException, SAXException, XpathException {
+
+		WTable table = new WTable();
+		table.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class, new WText("FOOTER1")));
+		table.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
+		table.addColumn(new WTableColumn(COL3_HEADING_TEST, WTextField.class, new WText("FOOTER3")));
+
+		// Turn on column footers
+		table.setRenderColumnFooters(true);
+
+		TableModel tableModel = createTableModel();
+		table.setTableModel(tableModel);
+
+		String footerPath = "//ui:table/html:tfoot/html:tr/html:td";
+
+		assertXpathEvaluatesTo("FOOTER1", footerPath + "[1]", table);
+		assertXpathEvaluatesTo("", footerPath + "[2]", table);
+		assertXpathEvaluatesTo("FOOTER3", footerPath + "[3]", table);
 	}
 
 	@Test
