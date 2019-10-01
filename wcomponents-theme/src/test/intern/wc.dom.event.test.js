@@ -153,7 +153,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				try {
 					handles.push(event.add(element, "kungfu", function($event) {
 						handles.push(event.add(element, "kungfu", clickEvent));
-						event.fire($event.target, "kungfu");
+						event.fire($event.target, "kungfu", { detail: "bar" });
 					}));
 					assert.isFalse(called, "tear down is not cleaning up called as expected");
 					event.fire(element, "kungfu", { detail: "foo" });

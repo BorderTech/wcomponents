@@ -7,30 +7,29 @@
  * OR
  * Use npx, e.g.`npx grunt test`
  */
-let internConfig = require("./intern").config;
+let internConfig = require("./scripts/intern").config;
 const path = require("path");
-const {dirs: { test: dirs }} = require("./scripts/build-util");
+const { dirs } = require("./scripts/build-util");
 const defaultInternArgs = "environments='{\"browserName\":\"firefox\"}'";
 
 module.exports = function (grunt) {
-	var testSrc = "./"  + (grunt.option("filename") || "**");
-	logIt("Building tests " + testSrc);
+	var testSrc = (grunt.option("filename") || "**");
 	grunt.initConfig({
 		clean: {
-			test: [dirs.target]
+			test: [dirs.test.target]
 		},
 		copy: {
 			test: {
-				cwd: dirs.src,
+				cwd: dirs.test.src,
 				expand: true,
 				src: testSrc,
-				dest: dirs.target
+				dest: dirs.test.target
 			}
 		},
 		intern: {
 			node: {
 				options: {
-					suites: path.join(dirs.target, "unit/*.js"),
+					suites: path.join(dirs.test.target, "unit/*.js"),
 					reporters: "runner"
 				}
 			},

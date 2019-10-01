@@ -11,14 +11,15 @@
  * Note, you will generally be running in debug mode while developing: https://github.com/BorderTech/wcomponents/wiki/Debugging-a-theme
  */
 const fs = require("fs");
-const { requireAmd, dirs } = require("./scripts/build-util");
+const { requireAmd, dirs } = require("./build-util");
 const themeLinter = require("./lintfile");
-const buildJs = require("./build-js");
-const buildCss = require("./build-css");
-const buildImages = require("./build-images");
+const buildCss = require("../build-css");
+const buildImages = require("../build-images");
+const buildJs = require("../build-js");
+const buildResources = require("../build-resource");
 const grunt = require("grunt");
 const path = require("path");
-const hotReload = require("./scripts/hotReloadServer");
+const hotReload = require("./hotReloadServer");
 
 const handlers = {
 	images: /**
@@ -33,6 +34,10 @@ const handlers = {
 				return path.join(path.basename(dir), filename);
 			});
 		},
+	resource: function(dir, filename) {
+		let filePath = path.join(dir, filename);
+		return buildResources.build(filePath);
+	},
 	script: /**
 		 * Knows how to respond when a JS source module is changed.
 		 * @param {string} dir The path to the directory being watched.
