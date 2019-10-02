@@ -505,16 +505,7 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 
 		XmlStringBuilder xml = renderContext.getWriter();
 
-		xml.appendTagOpen("td");
-
-		Alignment align = col.getAlign();
-		if (Alignment.RIGHT.equals(align)) {
-			xml.appendAttribute("align", "right");
-		} else if (Alignment.CENTER.equals(align)) {
-			xml.appendAttribute("align", "center");
-		}
-
-		xml.appendClose();
+		xml.appendTag("td");
 
 		if (col.getFooterRender() != null) {
 			col.getFooterRender().paint(renderContext);
