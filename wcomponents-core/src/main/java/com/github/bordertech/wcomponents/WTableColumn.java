@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * WTableColumn represents a column in a {@link WDataTable}. It only holds configuration and state information relating to the UI, and does not know
- * about the data model.
+ * WTableColumn represents a column in a {@link WDataTable}. It only holds configuration and state information relating
+ * to the UI, and does not know about the data model.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
