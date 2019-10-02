@@ -13,7 +13,7 @@
 		"build:img": "node build-images.js",
 		"build:js": "node build-js.js",
 		"lint": "node scripts/lintfile.js",
-		"site": "npx jsdoc -c jsdoc.config.json",
+		"site": "node node_modules/jsdoc/jsdoc.js -c jsdoc.config.json",
 		"test": "grunt test && grunt intern:node",
 		"test:grid": "grunt test:grid",
 		"test:local": "grunt test:local",
