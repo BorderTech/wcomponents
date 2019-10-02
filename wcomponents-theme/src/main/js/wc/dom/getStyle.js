@@ -20,7 +20,7 @@ define(["wc/dom/color"], function(color) {
 	 * @returns {(String|number)} The value of the CSS rule if found (even if "") If the cssRule is not found or cannot be determined return null.
 	 */
 	function getStyle(element, cssRule, includeUnits, notAColor) {
-		var re = /\-(\w)/g,
+		var re = /-(\w)/g,
 			testRe = /^\d+[A-Za-z]+$/,
 			unitRe = /[A-Za-z]+$/g,
 			jsStyleNameRe = /^([a-z]+)([A-Z])([a-z]+)$/,

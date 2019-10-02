@@ -32,7 +32,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!", "
 			if (!element) {
 				assert.isTrue(false, "no element to click");
 			}
-			// event.fire(element, event.TYPE.click);
+			// event.fire(element, "click");
 			element.click();
 		}
 
@@ -99,21 +99,21 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!", "
 					var id = "cb1",
 						element = document.getElementById(id);
 					testDoFocus(element);
-					event.fire(element, event.TYPE.change);
+					event.fire(element, "change");
 					assert.isTrue(done);
 				},
 				"change event on unchecked radio publishes": function() {
 					var id = "r1",
 						element = document.getElementById(id);
 					testDoFocus(element);
-					event.fire(element, event.TYPE.change);
+					event.fire(element, "change");
 					assert.isTrue(done);
 				},
 				"change event on checked radio publishes": function() {
 					var id = "r2",
 						element = document.getElementById(id);
 					testDoFocus(element);
-					event.fire(element, event.TYPE.change);
+					event.fire(element, "change");
 					assert.isTrue(done);
 				},
 				"change event on unfocussed checkbox does not publish if event cannot capture": function() {
@@ -122,7 +122,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!", "
 						this.skip("test for non-capturing browsers only");
 					}
 					element = document.getElementById(id);
-					event.fire(element, event.TYPE.change);
+					event.fire(element, "change");
 					assert.isFalse(done);
 				},
 				"change event on unfocussed radio does not publish if event cannot capture": function() {
@@ -131,7 +131,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!", "
 						this.skip("test for non-capturing browsers only");
 					}
 					element = document.getElementById(id);
-					event.fire(element, event.TYPE.change);
+					event.fire(element, "change");
 					assert.isFalse(done);
 				},
 				"get radio widget": function() {

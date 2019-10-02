@@ -6,8 +6,8 @@ define(function() {
 
 	// mootools 1.2
 	//  /([-.*+?^{}$()|[\]\/\\])/g
-	var RE_RE = /([.*+?^{}$()|[\]\/\\])/g,
-		NO_WILDCARD_RE = /([.+?^{}$()|[\]\/\\])/g,
+	var RE_RE = /([.*+?^{}$()|[\]/\\])/g,
+		NO_WILDCARD_RE = /([.+?^{}$()|[\]/\\])/g,
 		WILDCARD_RE = /\*/g,
 		REPLACER = "\\$1";
 

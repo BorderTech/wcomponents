@@ -24,7 +24,7 @@ define(["wc/has"], function(has) {
 			},
 			bound = function () {
 				return self.apply( (Nop.prototype && this instanceof Nop) ? this : ( obj || (global || {} )),
-						args.concat(slice.call(arguments)));
+					args.concat(slice.call(arguments)));
 			};
 		Nop.prototype = self.prototype;
 		bound.prototype = new Nop();

@@ -40,7 +40,7 @@ define(["wc/dom/attribute", "wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"
 				var element = $event.target;
 				if (element && Widget.isOneOfMe(element, WIDGETS) && !attribute.get(element, BS)) {
 					attribute.set(element, BS, true);
-					event.add(element, event.TYPE.change, changeEvent);
+					event.add(element, "change", changeEvent);
 				}
 			}
 
@@ -53,9 +53,9 @@ define(["wc/dom/attribute", "wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"
 			 */
 			this.initialise = function(element) {
 				if (event.canCapture) {
-					event.add(element, event.TYPE.change, changeEvent);
+					event.add(element, "change", changeEvent);
 				} else {
-					event.add(element, event.TYPE.focusin, focusEvent);
+					event.add(element, "focusin", focusEvent);
 				}
 			};
 

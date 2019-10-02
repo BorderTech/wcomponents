@@ -7,9 +7,9 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
 		/*
-		 * NOTE: why are these asynchronous? because even Chrome has trouble selecting a
-		 * range in time to test its selection.
-		 */
+	 * NOTE: why are these asynchronous? because even Chrome has trouble selecting a
+	 * range in time to test its selection.
+	 */
 		var clearSelection, timers,
 			TEXT = "This is some known text",
 			testHolder,
@@ -62,12 +62,12 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				}
 			},
 			doSetRangeTest: function() {
-				/* This test is to make sure we have a selection before we test if we can clear it
-				var deferred = new doh.Deferred();
-				timers.setTimeout(
-					deferred.getTestCallback(function() {assert.strictEqual(TEXT, getSelectedText());}),
-					DELAY);
-				return deferred; */
+			/* This test is to make sure we have a selection before we test if we can clear it
+			var deferred = new doh.Deferred();
+			timers.setTimeout(
+				deferred.getTestCallback(function() {assert.strictEqual(TEXT, getSelectedText());}),
+				DELAY);
+			return deferred; */
 
 				var dfd = this.async(TIMEOUT);
 				timers.setTimeout(function() {
@@ -87,13 +87,13 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				return dfd;
 			},
 			doClearSelectionTest: function() {
-				/* var deferred = new doh.Deferred();
-				timers.setTimeout(deferred.getTestCallback(
-					function() {
-						clearSelection();
-						assert.notStrictEqual(TEXT, getSelectedText());
-				}), DELAY);
-				return deferred; */
+			/* var deferred = new doh.Deferred();
+			timers.setTimeout(deferred.getTestCallback(
+				function() {
+					clearSelection();
+					assert.notStrictEqual(TEXT, getSelectedText());
+			}), DELAY);
+			return deferred; */
 				var dfd = this.async(TIMEOUT);
 				timers.setTimeout(function() {
 					var wait = function(ms) {
@@ -112,13 +112,13 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				return dfd;
 			},
 			doClearSelectionReallyClears: function() {
-				/* var deferred = new doh.Deferred();
-				timers.setTimeout(deferred.getTestCallback(
-					function() {
-						clearSelection();
-						assert.strictEqual("", getSelectedText());
-				}), DELAY);
-				return deferred; */
+			/* var deferred = new doh.Deferred();
+			timers.setTimeout(deferred.getTestCallback(
+				function() {
+					clearSelection();
+					assert.strictEqual("", getSelectedText());
+			}), DELAY);
+			return deferred; */
 
 				var dfd = this.async(TIMEOUT);
 				timers.setTimeout(function() {

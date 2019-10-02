@@ -6,11 +6,11 @@ define(["wc/isNumeric", "wc/i18n/i18n", "ccv", "face"], function(isNumeric, i18n
 		track: trackFace,
 		getValidator: getValidator,
 		validationIgnorable: true
-	}; //
-//		constraints = {  // constraints would ideally allow larger images on more powerful devices (or should we resize image?)
-//			px: 640 * 480,
-//			len: 99999
-//		};
+	};
+	// constraints = {  // constraints would ideally allow larger images on more powerful devices (or should we resize image?)
+	//	px: 640 * 480,
+	//	len: 99999
+	// };
 
 	function getValidator(config) {
 		/**
@@ -29,8 +29,8 @@ define(["wc/isNumeric", "wc/i18n/i18n", "ccv", "face"], function(isNumeric, i18n
 			if (faceCount) {
 				return instance.track(element).then(function(arr) {
 					var confidentFaces, error = {
-							ignorable: instance.validationIgnorable
-						};
+						ignorable: instance.validationIgnorable
+					};
 					if (arr) {
 						confidentFaces = arr.filter(isFace);
 						if (confidentFaces.length < config.face) {
@@ -80,12 +80,12 @@ define(["wc/isNumeric", "wc/i18n/i18n", "ccv", "face"], function(isNumeric, i18n
 		return result;
 	}
 
-//	function getSize(obj) {
-//		if (obj) {
-//			return obj.width * obj.height;
-//		}
-//		return 0;
-//	}
+	// function getSize(obj) {
+	//	if (obj) {
+	//		return obj.width * obj.height;
+	//	}
+	//	return 0;
+	// }
 
 	return instance;
 });

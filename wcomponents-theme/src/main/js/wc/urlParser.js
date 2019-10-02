@@ -243,7 +243,7 @@ define(function() {
 		 * @param {String} url A URL.
 		 */
 		function ParsedUrl(url) {
-			var schemeRe = /^([^:^\/]+:)\/{0,2}/;
+			var schemeRe = /^([^:^/]+:)\/{0,2}/;
 			if (!url) {
 				return;
 			}

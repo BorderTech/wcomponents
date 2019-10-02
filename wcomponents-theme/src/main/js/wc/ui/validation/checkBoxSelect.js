@@ -20,92 +20,92 @@ define(["wc/dom/initialise",
 	"wc/ui/validation/minMax",
 	"wc/ui/checkBoxSelect",
 	"wc/ui/validation/isComplete"],
-	function(initialise, getFilteredGroup, group, shed, validationManager, required, minMax, checkBoxSelect, isComplete) {
-		"use strict";
+function(initialise, getFilteredGroup, group, shed, validationManager, required, minMax, checkBoxSelect, isComplete) {
+	"use strict";
 
+	/**
+	 * @constructor
+	 * @alias module:wc/ui/validation/checkBoxSelect~ValidationCheckBoxSelect
+	 * @extends module:wc/ui/validation/ariaAnalog~ValidationAriaAnalog
+	 * @private
+	 */
+	function ValidationCheckBoxSelect() {
 		/**
-		 * @constructor
-		 * @alias module:wc/ui/validation/checkBoxSelect~ValidationCheckBoxSelect
-		 * @extends module:wc/ui/validation/ariaAnalog~ValidationAriaAnalog
+		 * Determines whether a container is valid.
+		 * @function
 		 * @private
+		 * @param {Element} container The container being validated, may be a WCheckBoxSelect root container or an
+		 *    element which contains WCheckBoxSelects such as a form.
+		 * @returns {Boolean} true if valid.
 		 */
-		function ValidationCheckBoxSelect() {
-			/**
-			 * Determines whether a container is valid.
-			 * @function
-			 * @private
-			 * @param {Element} container The container being validated, may be a WCheckBoxSelect root container or an
-			 *    element which contains WCheckBoxSelects such as a form.
-			 * @returns {Boolean} true if valid.
-			 */
-			function validate (container) {
-				var result = true,
-					obj = {container: container,
-						widget: checkBoxSelect.CONTAINER,
-						constraint: required.CONSTRAINTS.CLASSNAME,
-						position: "beforeEnd"},
-					_required = required.complexValidationHelper(obj);
+		function validate (container) {
+			var result = true,
+				obj = {container: container,
+					widget: checkBoxSelect.CONTAINER,
+					constraint: required.CONSTRAINTS.CLASSNAME,
+					position: "beforeEnd"},
+				_required = required.complexValidationHelper(obj);
 
-				// add a selectedFunc to be able to do min/max validation
-				obj.selectedFunc = function(fs) {
-					return getFilteredGroup(fs, {itemWd: checkBoxSelect.ITEM}) || [];
-				};
-
-				result = minMax(obj);
-				return _required && result;
-			}
-
-			/**
-			 * Re-validate a previously invalid WCheckBoxSelect when the component's selection is changed.
-			 *
-			 * @function
-			 * @private
-			 * @param {Element} element A WCheckBoxSelect
-			 */
-			function revalidate (element) {
-				validationManager.revalidationHelper(element, validate);
-			}
-
-			function shedSubscriber(element) {
-				var container = group.getContainer(element, checkBoxSelect.CONTAINER);
-
-				if (!container) {
-					return;
-				}
-
-				if (validationManager.isValidateOnChange()) {
-					if (validationManager.isInvalid(element)) {
-						revalidate(container);
-						return;
-					}
-					validate(container);
-					return;
-				}
-				revalidate(container);
-			}
-
-			/**
-			 * Filter function for isComplete.isCompleteHelper.
-			 * @function
-			 * @private
-			 * @param {Element} next The component being passed in from the array in isComplete.isCompleteHelper.
-			 * @returns {boolean} `true` if the component 'next' is complete (selected).
-			 */
-			function isCompleteFilter(next) {
-				return shed.isSelected(next);
-			}
-
-			function isCompleteSubscriber (container) {
-				return isComplete.isCompleteHelper(container, checkBoxSelect.ITEM, isCompleteFilter);
-			}
-
-			this.initialise = function() {
-				validationManager.subscribe(validate);
-				isComplete.subscribe(isCompleteSubscriber);
-				shed.subscribe(shed.actions.SELECT, shedSubscriber);
-				shed.subscribe(shed.actions.DESELECT, shedSubscriber);
+			// add a selectedFunc to be able to do min/max validation
+			obj.selectedFunc = function(fs) {
+				return getFilteredGroup(fs, {itemWd: checkBoxSelect.ITEM}) || [];
 			};
+
+			result = minMax(obj);
+			return _required && result;
 		}
 
-		return /** @alias module:wc/ui/validation/checkBoxSelect */ initialise.register(new ValidationCheckBoxSelect());
-	});
+		/**
+		 * Re-validate a previously invalid WCheckBoxSelect when the component's selection is changed.
+		 *
+		 * @function
+		 * @private
+		 * @param {Element} element A WCheckBoxSelect
+		 */
+		function revalidate (element) {
+			validationManager.revalidationHelper(element, validate);
+		}
+
+		function shedSubscriber(element) {
+			var container = group.getContainer(element, checkBoxSelect.CONTAINER);
+
+			if (!container) {
+				return;
+			}
+
+			if (validationManager.isValidateOnChange()) {
+				if (validationManager.isInvalid(element)) {
+					revalidate(container);
+					return;
+				}
+				validate(container);
+				return;
+			}
+			revalidate(container);
+		}
+
+		/**
+		 * Filter function for isComplete.isCompleteHelper.
+		 * @function
+		 * @private
+		 * @param {Element} next The component being passed in from the array in isComplete.isCompleteHelper.
+		 * @returns {boolean} `true` if the component 'next' is complete (selected).
+		 */
+		function isCompleteFilter(next) {
+			return shed.isSelected(next);
+		}
+
+		function isCompleteSubscriber (container) {
+			return isComplete.isCompleteHelper(container, checkBoxSelect.ITEM, isCompleteFilter);
+		}
+
+		this.initialise = function() {
+			validationManager.subscribe(validate);
+			isComplete.subscribe(isCompleteSubscriber);
+			shed.subscribe(shed.actions.SELECT, shedSubscriber);
+			shed.subscribe(shed.actions.DESELECT, shedSubscriber);
+		};
+	}
+
+	return /** @alias module:wc/ui/validation/checkBoxSelect */ initialise.register(new ValidationCheckBoxSelect());
+});
