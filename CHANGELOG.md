@@ -7,6 +7,7 @@
 ### Enhancements
 
 * PhantomJS replaced with Firefox Headless for selenium testing #1650.
+* WTableColumn now supports a column footer renderer #1645.
 
 ### Bug Fixes
 
