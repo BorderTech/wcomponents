@@ -7,8 +7,9 @@
  * @requires module:wc/dom/initialise
  * @requires module:wc/dom/shed
  */
-define(["wc/dom/event", "wc/dom/initialise", "wc/dom/shed"],
-/** @param event wc/dom/event @param initialise wc/dom/initialise @param shed wc/dom/shed @ignore */
+define(["wc/dom/event",
+	"wc/dom/initialise",
+	"wc/dom/shed"],
 function(event, initialise, shed) {
 	"use strict";
 	function DisabledControl() {
@@ -18,9 +19,9 @@ function(event, initialise, shed) {
 		 * @ignore
 		 */
 		this.initialise = 	function(element) {
-			event.add(element, event.TYPE.focus, genericEvent, -100);
-			event.add(element, event.TYPE.click, genericEvent, -100);
-			event.add(element, event.TYPE.dblclick, genericEvent, -100);
+			event.add(element, "focus", genericEvent, -100);
+			event.add(element, "click", genericEvent, -100);
+			event.add(element, "dblclick", genericEvent, -100);
 		};
 
 		/**

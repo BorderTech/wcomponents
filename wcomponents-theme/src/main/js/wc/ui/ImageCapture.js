@@ -34,9 +34,9 @@ define(["wc/has", "wc/dom/classList", "wc/dom/event", "wc/ui/prompt", "wc/config
 		 * Flash event handler
 		 */
 		function onCapture() {
-//				context = fbCanvas.getContext("2d");
-//				context.clearRect(0, 0, currentOptions.width, currentOptions.height);
-//				image = context.getImageData(0, 0, currentOptions.width, currentOptions.height);
+			// context = fbCanvas.getContext("2d");
+			// context.clearRect(0, 0, currentOptions.width, currentOptions.height);
+			// image = context.getImageData(0, 0, currentOptions.width, currentOptions.height);
 			canvas = document.createElement("canvas");
 			canvas.height = currentOptions.height;
 			canvas.width = currentOptions.width;
@@ -171,7 +171,7 @@ define(["wc/has", "wc/dom/classList", "wc/dom/event", "wc/ui/prompt", "wc/config
 
 		function errCb(err) {
 			console.log("An error occured! " + err);
-//				dialogFrame.close();
+			// dialogFrame.close();
 		}
 
 		/**

@@ -304,7 +304,7 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/getStyle", "wc/dom/ui
 			 * @public
 			 */
 			this.postInit = function() {
-				event.add(window, event.TYPE.resize, resizeEvent, 1);
+				event.add(window, "resize", resizeEvent, 1);
 				resizeable.subscribe(resizeableSubscriber);
 			};
 		}

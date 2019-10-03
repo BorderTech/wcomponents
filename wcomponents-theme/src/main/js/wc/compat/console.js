@@ -22,10 +22,10 @@
  */
 define(["wc/has", "wc/global"], function(has, global) {
 	"use strict";
-		/**
-		 * @var {String[]} methods The function names of console methods we have to add.
-		 * @private
-		 */
+	/**
+	 * @var {String[]} methods The function names of console methods we have to add.
+	 * @private
+	 */
 	var methods = ["log", "debug", "info", "warn", "error", "group", "groupCollapsed", "groupEnd"],
 		$console,
 		timers,

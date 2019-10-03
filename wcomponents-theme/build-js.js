@@ -5,13 +5,14 @@
  * @author Rick Brown
  */
 const requirejs = require("requirejs");
-const pkgJson = require("./package.json");
 const fs = require("fs-extra");
 const path = require("path");
 const libBuilder = require("./scripts/libs");
-const { buildMax, dirs } = require("./scripts/build-util");
+const { getConfig, buildMax, dirs } = require("./scripts/build-util");
 const UglifyJS = require("uglify-es");
 const themeLinter = require("./scripts/lintfile");
+const verbose = getConfig("verbose");
+
 let config = {
 	keepBuildDir: true,  // well not really but we'll manage this ourselves thank you
 	preserveLicenseComments: false,
@@ -89,6 +90,7 @@ function buildSingle(singleFile) {
  * @param conf Configuration options for r.js.
  */
 function optimize(conf) {
+	noisyLog("r.js config", conf);
 	return new Promise(function(win, lose) {
 		requirejs.optimize(conf, function (buildResponse) {
 			noisyLog(buildResponse);
@@ -113,7 +115,7 @@ function clean() {
  * Particularly noisy logging can go through here as it is off by default.
  */
 function noisyLog() {
-	if (pkgJson.com_github_bordertech.verbose) {
+	if (verbose) {
 		console.log.apply(console, arguments);
 	}
 }

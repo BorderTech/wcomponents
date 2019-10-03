@@ -35,7 +35,7 @@ define(["wc/date/today", "lib/sprintf"],
 				NON_NUMERRIC_RE = /[^\d]/g,
 				FULL_DATE_TEMPLATE = "%04d-%02d-%02d",
 				PARTIAL_DATE_TEMPLATE = "%04s-%02s-%02s",
-				XFER_DATE_RE = /([\d\?]{4})-?([\d\?]{2})-?([\d\?]{2})(?:T(\d{2}):(\d{2}):(\d{2}))?/;
+				XFER_DATE_RE = /([\d?]{4})-?([\d?]{2})-?([\d?]{2})(?:T(\d{2}):(\d{2}):(\d{2}))?/;
 
 			/**
 			 * Split the transfer format into its constituent parts. Any missing parts of the date will be replaced with

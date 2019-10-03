@@ -1,11 +1,11 @@
-define(["wc/has"], function(has) {
-	"use strict";
 /*
  * Implemented in: 	JavaScript 1.6 (Gecko 1.8b2 and later).
  * Compatibility code taken from here:
  * https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Global_Objects/Array/filter
  */
 
+define(["wc/has"], function(has) {
+	"use strict";
 	if (!has("array-filter")) {
 		Array.prototype.filter = filter;
 	}

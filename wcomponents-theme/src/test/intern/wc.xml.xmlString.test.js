@@ -23,7 +23,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				 * ie the previous test must pass for this test to pass.  So if both of these
 				 * tests fail then fix the other one first. */
 				var whitespaceRe = /\s/g,
-					xmlHeaderRe = /\<\?xmlversion.*\?\>/,
+					xmlHeaderRe = /<\?xmlversion.*\?>/,
 					result = xmlString.from(testXmlString),
 					expected = testXmlString;
 				result = xmlString.to(result);

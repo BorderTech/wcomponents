@@ -126,7 +126,7 @@ define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/t
 			};
 		}
 
-			/**
+		/**
 		 * Attempts to focus a given element based on an ID passed in from XSLT.
 		 *
 		 * NOTE there is a separate issue also being handled in this module:

@@ -18,9 +18,7 @@ const sassLint = require("sass-lint");
 const CLIEngine = require("eslint").CLIEngine;
 const eslintCli = new CLIEngine({
 	useEslintrc: true,
-	ignore: true,
-	configFile: path.join(dirs.project.basedir, ".eslintrc"),
-	ignorePath: path.join(dirs.project.basedir, ".eslintignore")
+	ignore: true
 });
 
 if (require.main === module) {

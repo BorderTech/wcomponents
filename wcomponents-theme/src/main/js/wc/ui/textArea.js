@@ -43,232 +43,231 @@ define(["wc/dom/attribute",
 	"lib/sprintf",
 	"wc/timers",
 	"wc/dom/wrappedInput"],
-	/** @param attribute wc/dom/attribute @param classList wc/dom/classList @param event wc/dom/event @param initialise wc/dom/initialise @param shed wc/dom/shed @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param sprintf lib/sprintf @param timers wc/timers @ignore */
-	function(attribute, classList, event, initialise, shed, Widget, i18n, sprintf, timers, wrappedInput) {
-		"use strict";
-		var instance;
+function(attribute, classList, event, initialise, shed, Widget, i18n, sprintf, timers, wrappedInput) {
+	"use strict";
+	var instance;
 
-		/**
-		 * @constructor
-		 * @alias module:wc/ui/textarea~TextArea
-		 * @private
-		 */
-		function TextArea() {
-			var events = [],
-				INITED_KEY = "__maxlength_inited__",
-				TEXTAREA = new Widget("textarea"),
-				TEXTAREA_MAXLENGTH = TEXTAREA.extend("", {"maxLength": null}),
-				TEXTAREA_MAXLENGTH_FAUX = TEXTAREA.extend("", {"data-wc-maxlength": null}),
-				TEXTAREA_CONSTRAINED = [TEXTAREA_MAXLENGTH, TEXTAREA_MAXLENGTH_FAUX, TEXTAREA.extend("", {"data-wc-min": null})],
-				TICKER_DELAY = 250,
-				tickerTimeout;
+	/**
+	 * @constructor
+	 * @alias module:wc/ui/textarea~TextArea
+	 * @private
+	 */
+	function TextArea() {
+		var events = [],
+			INITED_KEY = "__maxlength_inited__",
+			TEXTAREA = new Widget("textarea"),
+			TEXTAREA_MAXLENGTH = TEXTAREA.extend("", {"maxLength": null}),
+			TEXTAREA_MAXLENGTH_FAUX = TEXTAREA.extend("", {"data-wc-maxlength": null}),
+			TEXTAREA_CONSTRAINED = [TEXTAREA_MAXLENGTH, TEXTAREA_MAXLENGTH_FAUX, TEXTAREA.extend("", {"data-wc-min": null})],
+			TICKER_DELAY = 250,
+			tickerTimeout;
 
 
-			function hideCounter(element) {
-				var counter;
-				if ((counter = instance.getCounter(element)) && !shed.isHidden(counter, true)) {
-					shed.hide(counter, true);
-				}
+		function hideCounter(element) {
+			var counter;
+			if ((counter = instance.getCounter(element)) && !shed.isHidden(counter, true)) {
+				shed.hide(counter, true);
 			}
-
-			function showCounter(element) {
-				var counter;
-				if ((counter = instance.getCounter(element)) && shed.isHidden(counter, true)) {
-					shed.show(counter, true);
-				}
-			}
-
-			/**
-			 * Get the 'real' length of the string in a textarea including double chrs for new lines.
-			 *
-			 * @function
-			 * @public
-			 * @param {Element} element The textarea to test
-			 * @returns {Number} The 'length' of the value string amended for new lines.
-			 */
-			this.getLength = function(element) {
-				var len = 0, raw = element.value, arr, arrLen;
-				if (!raw) {
-					return 0;
-				}
-				arr = raw.split("\n");
-				arrLen = arr.length;
-				if (arrLen === 1) {
-					return raw.length;
-				}
-				arr.forEach(function(next, idx) {
-					var l = next.length;
-					if (idx < arrLen - 1) {
-						len += l + 2; // add two chars for each new line after an existing line of text
-					} else if (next) { // if the last item in the array is content add its length
-						len += l;
-					}
-					/*
-					else { // if the last member of the array is an empty string then this means the last char entered by the user was a return and its extra chars were counted above.
-
-					}
-					*/
-				});
-				return len;
-			};
-
-			/**
-			 * There has been a change to the field's content, recalculate the maxlength counter.
-			 *
-			 * @function
-			 * @private
-			 * @param {Element} element The field in question.
-			 */
-			function tick(element) {
-				var maxLength, count, counter, ERR = "wc-err";
-				if ((counter = instance.getCounter(element))) {
-					maxLength = instance.getMaxlength(element);
-					count = (maxLength - instance.getLength(element));
-					counter.setAttribute("value", count);
-					counter.setAttribute("title", sprintf.sprintf(i18n.get("chars_remaining", count)));
-					if (count < 0) {
-						/* NOTE: this is not part of revalidation since we just want to
-						 * set a visual flag on the ticker, not insert a visible error message
-						 * since maxLength violation is an allowed transient state until
-						 * such time as the control is part of a form submission.*/
-						classList.add(counter, ERR);
-					} else {
-						classList.remove(counter, ERR);
-					}
-				}
-			}
-
-			/**
-			 * There has been a change to the field's content, queue up a recalculation of the maxlength counter.
-			 *
-			 * @function
-			 * @private
-			 * @param {Element} element The textarea requiring the ticker.
-			 */
-			function queueTick(element) {
-				if (tickerTimeout) {
-					timers.clearTimeout(tickerTimeout);
-					tickerTimeout = null;
-				}
-				tickerTimeout = timers.setTimeout(tick, TICKER_DELAY, element);
-			}
-
-			/*
-			 * Responds to new input in a textual form field.
-			 * @param {Event} $event The current event.
-			 */
-			function handleInput($event) {
-				var which = $event.keyCode,
-					element = $event.target;
-
-				if (which === undefined || (which < KeyEvent.DOM_VK_END || which > KeyEvent.DOM_VK_DOWN)) {  // would be undefined if called from a non-key driven event
-					queueTick(element);
-				}
-			}
-			/*
-			 * When the text field loses focus we must hide the counter
-			 */
-			function blurEvent($event) {
-				hideCounter($event.currentTarget);
-			}
-
-			/**
-			 * Check to see if an element with a maxlength has been focused
-			 * and wire up events and show the counter if necessary.
-			 *
-			 * NOTE: browsers which do not support event capture do not get a ticker.
-			 * This is because of a series of bugs in IE8 which make it impossible to
-			 * have the characters remaining ticker AND keep the undo stack AND not
-			 * trigger a cursor reset bug if the textarea element has content which
-			 * includes a soft wrap, a hard break and has enough lines of text to
-			 * cause a scroll (this is more common than it sounds).
-			 *
-			 * @function
-			 * @private
-			 * @param {Event} $event The current event.
-			 */
-			function focusEvent($event) {
-				var element = $event.target, canCapture;
-				if (TEXTAREA.isOneOfMe(element)) {
-					canCapture = event.canCapture;
-					if (!attribute.get(element, INITED_KEY)) {
-						attribute.set(element, INITED_KEY, true);
-						if (Widget.isOneOfMe(element, TEXTAREA_CONSTRAINED)) {
-							if (canCapture) {  // see note in comment for this.initialise
-								events.push(event.add(element, { type: "input", listener: handleInput, capture: true }));
-								events.push(event.add(element, { type: "blur", listener: blurEvent, capture: true }));
-								tick(element);  // tick on focusIn to set initial title attribute (not available in XSLT1)
-							}
-						}
-					}
-					if (canCapture) {
-						queueTick(element);
-						showCounter(element);
-					}
-				}
-			}
-
-			/**
-			 * Set up event handlers.
-			 * @function module:wc/ui/textarea.initialise
-			 * @param {Element} element the element being initialised, usually document.body
-			 */
-			this.initialise = function(element) {
-				if (event.canCapture) {
-					events.push(event.add(element, { type: "focus", listener: focusEvent, capture: true }));
-				} else {
-					events.push(event.add(element, event.TYPE.focusin, focusEvent));
-				}
-			};
-
-			/**
-			 * Unsubscribes event listeners etc.
-			 */
-			this.deinit = function() {
-				event.remove(events);
-			};
-
-			/**
-			 * Get the description of a textarea component.
-			 * @function module:wc/ui/textarea.getWidget
-			 * @param {Boolean} [withConstraints] true to only get constrained text areas (with max-length and/or
-			 *    min-length constraints).
-			 * @returns {module:wc/dom/Widget}
-			 */
-			this.getWidget = function(withConstraints) {
-				return (withConstraints ? TEXTAREA_CONSTRAINED : TEXTAREA);
-			};
-
-			/**
-			 * Get the counter element related to a text area.
-			 * @function module:wc/ui/textarea.getCounter
-			 * @param {Element} element A text field with a maxlength property.
-			 * @returns {Element} The counter element associated with this field (if any).
-			 */
-			this.getCounter = function(element) {
-				var wrapper = TEXTAREA.isOneOfMe(element) ? wrappedInput.getWrapper(element) : element;
-				if (wrapper) {
-					return document.getElementById((wrapper.id + "_tick"));
-				}
-				return null;
-			};
-
-			/**
-			 * The the maximum number of characters allowed in a textarea.
-			 * @function module:wc/ui/textarea.getMaxlength
-			 * @param {Element} element A textarea.
-			 * @returns {number} The maximum character count for this textarea or 0 if it is not constrained.
-			 */
-			this.getMaxlength = function(element) {
-				var result = element.getAttribute("maxLength") || element.getAttribute("data-wc-maxlength");
-				if (result) {
-					result = parseInt(result);
-				}
-				return result || 0;
-			};
 		}
 
-		/** @alias module:wc/ui/textarea*/ instance = new TextArea();
-		instance.constructor = TextArea;
-		return initialise.register(instance);
-	});
+		function showCounter(element) {
+			var counter;
+			if ((counter = instance.getCounter(element)) && shed.isHidden(counter, true)) {
+				shed.show(counter, true);
+			}
+		}
+
+		/**
+		 * Get the 'real' length of the string in a textarea including double chrs for new lines.
+		 *
+		 * @function
+		 * @public
+		 * @param {Element} element The textarea to test
+		 * @returns {Number} The 'length' of the value string amended for new lines.
+		 */
+		this.getLength = function(element) {
+			var len = 0, raw = element.value, arr, arrLen;
+			if (!raw) {
+				return 0;
+			}
+			arr = raw.split("\n");
+			arrLen = arr.length;
+			if (arrLen === 1) {
+				return raw.length;
+			}
+			arr.forEach(function(next, idx) {
+				var l = next.length;
+				if (idx < arrLen - 1) {
+					len += l + 2; // add two chars for each new line after an existing line of text
+				} else if (next) { // if the last item in the array is content add its length
+					len += l;
+				}
+				/*
+				else { // if the last member of the array is an empty string then this means the last char entered by the user was a return and its extra chars were counted above.
+
+				}
+				*/
+			});
+			return len;
+		};
+
+		/**
+		 * There has been a change to the field's content, recalculate the maxlength counter.
+		 *
+		 * @function
+		 * @private
+		 * @param {Element} element The field in question.
+		 */
+		function tick(element) {
+			var maxLength, count, counter, ERR = "wc-err";
+			if ((counter = instance.getCounter(element))) {
+				maxLength = instance.getMaxlength(element);
+				count = (maxLength - instance.getLength(element));
+				counter.setAttribute("value", count);
+				counter.setAttribute("title", sprintf.sprintf(i18n.get("chars_remaining", count)));
+				if (count < 0) {
+					/* NOTE: this is not part of revalidation since we just want to
+					 * set a visual flag on the ticker, not insert a visible error message
+					 * since maxLength violation is an allowed transient state until
+					 * such time as the control is part of a form submission.*/
+					classList.add(counter, ERR);
+				} else {
+					classList.remove(counter, ERR);
+				}
+			}
+		}
+
+		/**
+		 * There has been a change to the field's content, queue up a recalculation of the maxlength counter.
+		 *
+		 * @function
+		 * @private
+		 * @param {Element} element The textarea requiring the ticker.
+		 */
+		function queueTick(element) {
+			if (tickerTimeout) {
+				timers.clearTimeout(tickerTimeout);
+				tickerTimeout = null;
+			}
+			tickerTimeout = timers.setTimeout(tick, TICKER_DELAY, element);
+		}
+
+		/*
+		 * Responds to new input in a textual form field.
+		 * @param {Event} $event The current event.
+		 */
+		function handleInput($event) {
+			var which = $event.keyCode,
+				element = $event.target;
+
+			if (which === undefined || (which < KeyEvent.DOM_VK_END || which > KeyEvent.DOM_VK_DOWN)) {  // would be undefined if called from a non-key driven event
+				queueTick(element);
+			}
+		}
+		/*
+		 * When the text field loses focus we must hide the counter
+		 */
+		function blurEvent($event) {
+			hideCounter($event.currentTarget);
+		}
+
+		/**
+		 * Check to see if an element with a maxlength has been focused
+		 * and wire up events and show the counter if necessary.
+		 *
+		 * NOTE: browsers which do not support event capture do not get a ticker.
+		 * This is because of a series of bugs in IE8 which make it impossible to
+		 * have the characters remaining ticker AND keep the undo stack AND not
+		 * trigger a cursor reset bug if the textarea element has content which
+		 * includes a soft wrap, a hard break and has enough lines of text to
+		 * cause a scroll (this is more common than it sounds).
+		 *
+		 * @function
+		 * @private
+		 * @param {Event} $event The current event.
+		 */
+		function focusEvent($event) {
+			var element = $event.target, canCapture;
+			if (TEXTAREA.isOneOfMe(element)) {
+				canCapture = event.canCapture;
+				if (!attribute.get(element, INITED_KEY)) {
+					attribute.set(element, INITED_KEY, true);
+					if (Widget.isOneOfMe(element, TEXTAREA_CONSTRAINED)) {
+						if (canCapture) {  // see note in comment for this.initialise
+							events.push(event.add(element, { type: "input", listener: handleInput, capture: true }));
+							events.push(event.add(element, { type: "blur", listener: blurEvent, capture: true }));
+							tick(element);  // tick on focusIn to set initial title attribute (not available in XSLT1)
+						}
+					}
+				}
+				if (canCapture) {
+					queueTick(element);
+					showCounter(element);
+				}
+			}
+		}
+
+		/**
+		 * Set up event handlers.
+		 * @function module:wc/ui/textarea.initialise
+		 * @param {Element} element the element being initialised, usually document.body
+		 */
+		this.initialise = function(element) {
+			if (event.canCapture) {
+				events.push(event.add(element, { type: "focus", listener: focusEvent, capture: true }));
+			} else {
+				events.push(event.add(element, "focusin", focusEvent));
+			}
+		};
+
+		/**
+		 * Unsubscribes event listeners etc.
+		 */
+		this.deinit = function() {
+			event.remove(events);
+		};
+
+		/**
+		 * Get the description of a textarea component.
+		 * @function module:wc/ui/textarea.getWidget
+		 * @param {Boolean} [withConstraints] true to only get constrained text areas (with max-length and/or
+		 *    min-length constraints).
+		 * @returns {module:wc/dom/Widget}
+		 */
+		this.getWidget = function(withConstraints) {
+			return (withConstraints ? TEXTAREA_CONSTRAINED : TEXTAREA);
+		};
+
+		/**
+		 * Get the counter element related to a text area.
+		 * @function module:wc/ui/textarea.getCounter
+		 * @param {Element} element A text field with a maxlength property.
+		 * @returns {Element} The counter element associated with this field (if any).
+		 */
+		this.getCounter = function(element) {
+			var wrapper = TEXTAREA.isOneOfMe(element) ? wrappedInput.getWrapper(element) : element;
+			if (wrapper) {
+				return document.getElementById((wrapper.id + "_tick"));
+			}
+			return null;
+		};
+
+		/**
+		 * The the maximum number of characters allowed in a textarea.
+		 * @function module:wc/ui/textarea.getMaxlength
+		 * @param {Element} element A textarea.
+		 * @returns {number} The maximum character count for this textarea or 0 if it is not constrained.
+		 */
+		this.getMaxlength = function(element) {
+			var result = element.getAttribute("maxLength") || element.getAttribute("data-wc-maxlength");
+			if (result) {
+				result = parseInt(result);
+			}
+			return result || 0;
+		};
+	}
+
+	/** @alias module:wc/ui/textarea*/ instance = new TextArea();
+	instance.constructor = TextArea;
+	return initialise.register(instance);
+});

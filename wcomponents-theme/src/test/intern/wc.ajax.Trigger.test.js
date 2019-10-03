@@ -257,52 +257,52 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				promise = trigger.fire();
 				return promise;
 			}
-//			,
-//			testTwoTriggersSameTarget: function() {
-//				var promise = new Promise(function(win, lose) {
-//					var pending = 0,
-//						tested = false,
-//						request0 = {
-//							id: "foobar0",
-//							url: xmlUrl,
-//							loads: ["mrDiv0", "mrDiv2"]
-//						},
-//						trigger0 = new Controller(request0, callback0),
-//						request1 = {
-//							id: "foobar1",
-//							url: xmlUrl,
-//							loads: ["mrDiv1", "mrDiv2"]
-//						},
-//						trigger1 = new Controller(request1, callback1);
-//
-//					function callback0(response, trigger) {
-//						responseReceived(trigger);
-//					}
-//
-//					function callback1(response, trigger) {
-//						responseReceived(trigger);
-//					}
-//
-//					function responseReceived(trigger) {
-//						pending--;
-//						if (pending) {
-//							testBusy([trigger.loads[0]]);
-//							testBusy(["mrDiv2"], true);
-//							tested = true;
-//						}
-//						else {
-//							testBusy(["mrDiv2"]);
-//							assert.isTrue(tested, "The test didn't work");
-//							win();
-//						}
-//					}
-//
-//					trigger0.fire();
-//					pending++;
-//					trigger1.fire();
-//					pending++;
-//				});
-//				return promise;
-//			}
+			//			,
+			//			testTwoTriggersSameTarget: function() {
+			//				var promise = new Promise(function(win, lose) {
+			//					var pending = 0,
+			//						tested = false,
+			//						request0 = {
+			//							id: "foobar0",
+			//							url: xmlUrl,
+			//							loads: ["mrDiv0", "mrDiv2"]
+			//						},
+			//						trigger0 = new Controller(request0, callback0),
+			//						request1 = {
+			//							id: "foobar1",
+			//							url: xmlUrl,
+			//							loads: ["mrDiv1", "mrDiv2"]
+			//						},
+			//						trigger1 = new Controller(request1, callback1);
+			//
+			//					function callback0(response, trigger) {
+			//						responseReceived(trigger);
+			//					}
+			//
+			//					function callback1(response, trigger) {
+			//						responseReceived(trigger);
+			//					}
+			//
+			//					function responseReceived(trigger) {
+			//						pending--;
+			//						if (pending) {
+			//							testBusy([trigger.loads[0]]);
+			//							testBusy(["mrDiv2"], true);
+			//							tested = true;
+			//						}
+			//						else {
+			//							testBusy(["mrDiv2"]);
+			//							assert.isTrue(tested, "The test didn't work");
+			//							win();
+			//						}
+			//					}
+			//
+			//					trigger0.fire();
+			//					pending++;
+			//					trigger1.fire();
+			//					pending++;
+			//				});
+			//				return promise;
+			//			}
 		});
 	});

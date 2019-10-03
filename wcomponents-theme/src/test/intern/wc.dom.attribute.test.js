@@ -3,11 +3,11 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
 		/**
-		 * Note
-		 * You can't test get without testing set and vice versa
-		 * You can't test remove without testing get and set
-		 * You can't test has without testing set
-		 */
+	 * Note
+	 * You can't test get without testing set and vice versa
+	 * You can't test remove without testing get and set
+	 * You can't test has without testing set
+	 */
 		var attribute,
 			KEY = "test.attribute.key",
 			ID = "semperfi",
@@ -31,13 +31,13 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				testHolder.innerHTML = "";
 			},
 			teardown: function() {
-				/*
-				 * this is a bit superfluous since we blow away each iteration of element but
-				 * that assumption is based on the test testHasAttributeNewDomNodeInnerHTML
-				 * below always passing. This will at least clean up the mess for other
-				 * tests if attribute changes in such a way that an element with the same
-				 * id retains custom attributes even when it is not the same element.
-				 */
+			/*
+			 * this is a bit superfluous since we blow away each iteration of element but
+			 * that assumption is based on the test testHasAttributeNewDomNodeInnerHTML
+			 * below always passing. This will at least clean up the mess for other
+			 * tests if attribute changes in such a way that an element with the same
+			 * id retains custom attributes even when it is not the same element.
+			 */
 				var element = document.getElementById(ID);
 				if (element) {
 					attribute.remove(element, KEY, true);
@@ -45,13 +45,13 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				testHolder.innerHTML = "";
 			},
 			testElementExists: function() {
-				/*
-				 * OK, so this is really pointless but is is still an assumption in
-				 * all following tests. If the innerHTML of testHolder changes or if
-				 * the utility function to get testHolder changes such that setting its
-				 * innerHTML fails then this test may fail and it is better to have
-				 * an explicit fail than just get errors in the following tests.
-				 */
+			/*
+			 * OK, so this is really pointless but is is still an assumption in
+			 * all following tests. If the innerHTML of testHolder changes or if
+			 * the utility function to get testHolder changes such that setting its
+			 * innerHTML fails then this test may fail and it is better to have
+			 * an explicit fail than just get errors in the following tests.
+			 */
 				var element = document.getElementById(ID);
 				assert.isNotNull(element);
 			},
@@ -85,7 +85,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				assert.isTrue(OBJ === attribute.set(element, KEY, expected));
 			},
 			testGetNotSet: function() {
-				/* no element should have an attribute without it being set and get shoudl return null*/
+			/* no element should have an attribute without it being set and get shoudl return null*/
 				var element = document.getElementById(ID);
 				assert.isNull(attribute.get(element, KEY));
 			},
@@ -112,7 +112,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				assert.isTrue(expected === attribute.get(element, KEY));
 			},
 			testGetAttributeWithObjectReturnsSameInstance: function() {
-				/* set of set/get tests with simple object to test that we get a particular instance of an object */
+			/* set of set/get tests with simple object to test that we get a particular instance of an object */
 				var val = new String(VAL),
 					element = document.getElementById(ID);
 				attribute.set(element, KEY, val);
@@ -125,7 +125,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				assert.isTrue( VAL !== attribute.get(element, KEY));
 			},
 			testGetAttributeSameInstanceSimpleMatch: function() {
-				/* the objects are different but are they still the same string? */
+			/* the objects are different but are they still the same string? */
 				var val = new String(VAL),
 					element = document.getElementById(ID);
 				attribute.set(element, KEY, val);
@@ -133,7 +133,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				assert.equal(VAL, attribute.get(element, KEY));
 			},
 			testSetAttributeNewValue: function() {
-				/* change the set value */
+			/* change the set value */
 				var element = document.getElementById(ID);
 				attribute.set(element, KEY, false);
 				// assert.assertFalse(attribute.get(element, KEY)); - from earlier test
@@ -156,15 +156,15 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				assert.isNull(attribute.get(element, KEY));
 			},
 			testHasAttributeNewDomNodeInnerHTML: function() {
-				/* --------------------------------------------------------------------
-				* inheritance (or lack of)
-				* When an element is cloned, replaced (even with same HTML) it should
-				* not 'inherit' custom attributes.
-				*/
+			/* --------------------------------------------------------------------
+			* inheritance (or lack of)
+			* When an element is cloned, replaced (even with same HTML) it should
+			* not 'inherit' custom attributes.
+			*/
 				var element = document.getElementById(ID);
 				attribute.set(element, KEY, VAL);
 				// Commented below - Check with Rick
-				element.parentNode.innerHTML = element.parentNode.innerHTML;
+				element.parentNode.innerHTML = element.parentNode.innerHTML + "";
 				element = document.getElementById(ID);
 				assert.isFalse(attribute.has(element, KEY), "element should not have inherited custom attribute");
 			},
@@ -202,17 +202,17 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				assert.strictEqual(VAL, attribute.get(element, KEY), "original element should still have a custom attribute");
 			},
 			testGetAttributeClonedNodesNotSame: function() {
-				/*
-				* Test of assumption in following tests.
-				*
-				* It should be obvious that when an element is replaced (directly or by
-				* replacing its parent) that the new element with the same ID as the
-				* previous element is not the same as the previous element.
-				* This test is used to check that cloning a parentNode and replacing the
-				* original with its clone causes the new parent's children to be different
-				* from the original parent's children. This is normal behaviour but
-				* we need to be certain that the behaviour has not changed because if it
-				* ever does then the subsequent tests will be invalid. */
+			/*
+			* Test of assumption in following tests.
+			*
+			* It should be obvious that when an element is replaced (directly or by
+			* replacing its parent) that the new element with the same ID as the
+			* previous element is not the same as the previous element.
+			* This test is used to check that cloning a parentNode and replacing the
+			* original with its clone causes the new parent's children to be different
+			* from the original parent's children. This is normal behaviour but
+			* we need to be certain that the behaviour has not changed because if it
+			* ever does then the subsequent tests will be invalid. */
 				var newElement,
 					element = document.getElementById(ID),
 					parent = element.parentNode;
