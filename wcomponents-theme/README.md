@@ -4,18 +4,19 @@ This directory contains the client side codebase for WComponents.
 
 ## Fixtures
 
-You will need either Java + Maven and/or Node + NPM.
+You will need either Java + Maven and/or Node + Yarn or NPM.
+The examples below use yarn but you can substitute with npm.
 
 By default tests require Firefox browser to be installed on your system.
 
 ## Building
 
 ```bash
-# First time only run npm install
-npm install
+# First time only run yarn install
+yarn install
 
 # thenceforth
-npm run build
+yarn run build
 ```
 
 OR
@@ -51,7 +52,7 @@ Auto-detect local headless firefox or remote saucelabs:
 ```bash
 # If SAUCE_USERNAME and SAUCE_ACCESS_KEY env variables are set it will tunnel to saucelabs.
 
-npm run test
+yarn run test
 ```
 
 OR
@@ -63,7 +64,7 @@ OR
 Run the tests in a browser on your machine:
 
 ```bash
-npm run test:local
+yarn run test:local
 ```
 
 ### Server Mode
@@ -73,7 +74,7 @@ Create a test server which you can visit in your browser to run tests:
 ```bash
 # Run this then visit http://localhost:9000/__intern/
 
-npm run test:serve
+yarn run test:serve
 ```
 
 ### Selenium Grid Mode
@@ -81,7 +82,7 @@ npm run test:serve
 Test against a running selenium server.
 
 ```bash
-npm run test:grid
+yarn run test:grid
 ```
 
 ## Developing
@@ -93,7 +94,7 @@ Client side development is facilitated by automatic code compilation. This will 
 ```bash
 # Watches for changes to source code and compiles automatically
 
-npm run watch
+yarn run watch
 ```
 
 ### Hot Module Reloading
