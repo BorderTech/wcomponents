@@ -441,11 +441,13 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 			xml.appendTag("tr");
 			// Allow for expandable column
 			if (table.getExpandMode() != ExpandMode.NONE) {
-				xml.append("<td/>");
+				xml.appendTag("td");
+				xml.appendEndTag("td");
 			}
 			// Allow for selectable column
 			if (table.getSelectMode() != SelectMode.NONE) {
-				xml.append("<td/>");
+				xml.appendTag("td");
+				xml.appendEndTag("td");
 			}
 		}
 
