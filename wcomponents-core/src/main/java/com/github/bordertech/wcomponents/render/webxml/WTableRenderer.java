@@ -439,6 +439,14 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 			// Footers
 			xml.appendTag("tfoot");
 			xml.appendTag("tr");
+			// Allow for expandable column
+			if (table.getExpandMode() != ExpandMode.NONE) {
+				xml.append("<td/>");
+			}
+			// Allow for selectable column
+			if (table.getSelectMode() != SelectMode.NONE) {
+				xml.append("<td/>");
+			}
 		}
 
 		for (int i = 0; i < columnCount; i++) {

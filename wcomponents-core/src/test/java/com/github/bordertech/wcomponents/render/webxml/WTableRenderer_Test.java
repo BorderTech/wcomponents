@@ -70,6 +70,11 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	 */
 	private static final String TRUE = "true";
 
+	/**
+	 * Path for footer column.
+	 */
+	private static final String FOOTER_PATH = "//ui:table/html:tfoot/html:tr/html:td";
+
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WTable component = new WTable();
@@ -728,24 +733,86 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testColumnFooter() throws IOException, SAXException, XpathException {
+	public void testDoPaintColumnFooter() throws IOException, SAXException, XpathException {
 
+		WTable table = createTableWithColumnFooters();
+
+		// Should be 3 columns
+		assertXpathEvaluatesTo("3", "count(" + FOOTER_PATH + ")", table);
+
+		assertXpathEvaluatesTo("FOOTER1", FOOTER_PATH + "[1]", table);
+		assertXpathEvaluatesTo("", FOOTER_PATH + "[2]", table);
+		assertXpathEvaluatesTo("FOOTER3", FOOTER_PATH + "[3]", table);
+	}
+
+	@Test
+	public void testDoPaintColumnFooterExpandable() throws IOException, SAXException, XpathException {
+
+		WTable table = createTableWithColumnFooters();
+
+		// Make table expandable
+		table.setExpandMode(ExpandMode.DYNAMIC);
+
+		// Should be 4 columns (Should have extra column for expand controls)
+		assertXpathEvaluatesTo("4", "count(" + FOOTER_PATH + ")", table);
+
+		assertXpathEvaluatesTo("FOOTER1", FOOTER_PATH + "[2]", table);
+		assertXpathEvaluatesTo("", FOOTER_PATH + "[3]", table);
+		assertXpathEvaluatesTo("FOOTER3", FOOTER_PATH + "[4]", table);
+	}
+
+	@Test
+	public void testDoPaintColumnFooterSelectable() throws IOException, SAXException, XpathException {
+
+		WTable table = createTableWithColumnFooters();
+
+		// Make table selectable
+		table.setSelectMode(WTable.SelectMode.SINGLE);
+
+		// Should be 4 columns (Should have extra column for select controls)
+		assertXpathEvaluatesTo("4", "count(" + FOOTER_PATH + ")", table);
+
+		assertXpathEvaluatesTo("FOOTER1", FOOTER_PATH + "[2]", table);
+		assertXpathEvaluatesTo("", FOOTER_PATH + "[3]", table);
+		assertXpathEvaluatesTo("FOOTER3", FOOTER_PATH + "[4]", table);
+	}
+
+	@Test
+	public void testDoPaintColumnFooterExpandableSelectable() throws IOException, SAXException, XpathException {
+
+		WTable table = createTableWithColumnFooters();
+
+		// Make table expandable
+		table.setExpandMode(ExpandMode.DYNAMIC);
+		// Make table selectable
+		table.setSelectMode(WTable.SelectMode.SINGLE);
+
+		// Should be 5 columns (Should have two extra column for expand controls)
+		assertXpathEvaluatesTo("5", "count(" + FOOTER_PATH + ")", table);
+
+		assertXpathEvaluatesTo("FOOTER1", FOOTER_PATH + "[3]", table);
+		assertXpathEvaluatesTo("", FOOTER_PATH + "[4]", table);
+		assertXpathEvaluatesTo("FOOTER3", FOOTER_PATH + "[5]", table);
+	}
+
+	@Test
+	public void testDoPaintColumnFooterNoColumns() throws IOException, SAXException, XpathException {
+
+		// Table with columns and no footers defined
 		WTable table = new WTable();
-		table.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class, new WText("FOOTER1")));
+		table.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
 		table.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
-		table.addColumn(new WTableColumn(COL3_HEADING_TEST, WTextField.class, new WText("FOOTER3")));
+		table.addColumn(new WTableColumn(COL3_HEADING_TEST, WTextField.class));
 
-		// Turn on column footers
+		// Should have no footers. ie Footer path not exist
+		assertXpathNotExists(FOOTER_PATH, table);
+
+		// Turn on footers
 		table.setRenderColumnFooters(true);
 
-		TableModel tableModel = createTableModel();
-		table.setTableModel(tableModel);
+		// Should have 3 empty footers for each column
+		assertXpathEvaluatesTo("3", "count(" + FOOTER_PATH + ")", table);
 
-		String footerPath = "//ui:table/html:tfoot/html:tr/html:td";
-
-		assertXpathEvaluatesTo("FOOTER1", footerPath + "[1]", table);
-		assertXpathEvaluatesTo("", footerPath + "[2]", table);
-		assertXpathEvaluatesTo("FOOTER3", footerPath + "[3]", table);
 	}
 
 	@Test
@@ -821,4 +888,23 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 			return str1.compareTo(str2);
 		}
 	}
+
+	/**
+	 * @return a table setup with column footers
+	 */
+	private WTable createTableWithColumnFooters() {
+		WTable table = new WTable();
+		table.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class, new WText("FOOTER1")));
+		table.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
+		table.addColumn(new WTableColumn(COL3_HEADING_TEST, WTextField.class, new WText("FOOTER3")));
+
+		// Turn on column footers
+		table.setRenderColumnFooters(true);
+
+		TableModel tableModel = createTableModel();
+		table.setTableModel(tableModel);
+
+		return table;
+	}
+
 }
