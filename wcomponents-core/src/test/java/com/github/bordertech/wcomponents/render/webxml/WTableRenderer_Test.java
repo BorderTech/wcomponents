@@ -22,8 +22,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import org.junit.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
+import org.junit.Assert;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -70,6 +70,11 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	 */
 	private static final String TRUE = "true";
 
+	/**
+	 * Path for footer column.
+	 */
+	private static final String FOOTER_PATH = "//ui:table/html:tfoot/html:tr/html:td";
+
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WTable component = new WTable();
@@ -88,6 +93,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		setActiveContext(createUIContext());
 		assertXpathEvaluatesTo(component.getNoDataMessage(), "//ui:table/ui:tbody/ui:nodata",
 				component);
+
+		assertSchemaMatch(component);
 	}
 
 	@Test
@@ -100,6 +107,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		component.setVisible(true);
 		component.setStripingType(WTable.StripingType.NONE);
 		component.setSeparatorType(WTable.SeparatorType.NONE);
+
+		assertSchemaMatch(component);
 
 		assertXpathNotExists("//ui:table/@caption", component);
 		assertXpathEvaluatesTo("table", "//ui:table/@type", component);
@@ -119,6 +128,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		component.setStripingType(WTable.StripingType.ROWS);
 		component.setSeparatorType(WTable.SeparatorType.HORIZONTAL);
 
+		assertSchemaMatch(component);
+
 		assertXpathNotExists("//ui:table/@caption", component);
 		assertXpathEvaluatesTo("table", "//ui:table/@type", component);
 		assertXpathEvaluatesTo("rows", "//ui:table/@striping", component);
@@ -136,6 +147,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		component.setVisible(true);
 		component.setStripingType(WTable.StripingType.COLUMNS);
 		component.setSeparatorType(WTable.SeparatorType.VERTICAL);
+
+		assertSchemaMatch(component);
 
 		assertXpathNotExists("//ui:table/@caption", component);
 		assertXpathEvaluatesTo("table", "//ui:table/@type", component);
@@ -156,6 +169,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		component.setStripingType(WTable.StripingType.COLUMNS);
 		component.setSeparatorType(WTable.SeparatorType.BOTH);
 
+		assertSchemaMatch(component);
+
 		assertXpathNotExists("//ui:table/@caption", component);
 		assertXpathEvaluatesTo("table", "//ui:table/@type", component);
 		assertXpathEvaluatesTo("cols", "//ui:table/@striping", component);
@@ -175,6 +190,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		component.setType(WTable.Type.HIERARCHIC);
 
 		setActiveContext(createUIContext());
+
+		assertSchemaMatch(component);
 
 		// check ui:table attributes
 		String tableId = component.getId();
@@ -216,6 +233,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		setActiveContext(createUIContext());
 
+		assertSchemaMatch(component);
+
 		assertXpathEvaluatesTo("client", "//ui:table/ui:pagination/@mode", component);
 		assertXpathEvaluatesTo((new Integer(component.getCurrentPage())).toString(),
 				"//ui:table/ui:pagination/@currentPage", component);
@@ -228,6 +247,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//ui:table/ui:pagination/@controls", component);
 
 		component.setPaginationLocation(PaginationLocation.BOTTOM);
+
+		assertSchemaMatch(component);
 
 		assertXpathEvaluatesTo("bottom", "//ui:table/ui:pagination/@controls", component);
 
@@ -246,6 +267,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		component.setPaginationMode(PaginationMode.DYNAMIC);
 
 		setActiveContext(createUIContext());
+
+		assertSchemaMatch(component);
 
 		assertXpathEvaluatesTo("dynamic", "//ui:table/ui:pagination/@mode", component);
 		assertXpathEvaluatesTo((new Integer(component.getCurrentPage())).toString(),
@@ -272,6 +295,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		component.setRowsPerPageOptions(Arrays.asList(10, 20, 30));
 
 		setActiveContext(createUIContext());
+
+		assertSchemaMatch(component);
 
 		assertXpathEvaluatesTo("dynamic", "//ui:table/ui:pagination/@mode", component);
 		assertXpathEvaluatesTo((new Integer(component.getCurrentPage())).toString(),
@@ -302,6 +327,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		component.setSelectMode(WTable.SelectMode.SINGLE);
 
+		assertSchemaMatch(component);
+
 		assertXpathExists("//ui:table/ui:rowselection", component);
 	}
 
@@ -318,6 +345,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		component.setSelectMode(WTable.SelectMode.MULTIPLE);
 		component.setSelectAllMode(WTable.SelectAllType.TEXT);
+
+		assertSchemaMatch(component);
 
 		assertXpathExists("//ui:table/ui:rowselection", component);
 		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:rowselection/@multiple", component);
@@ -337,6 +366,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		component.setSelectMode(WTable.SelectMode.MULTIPLE);
 		component.setSelectAllMode(WTable.SelectAllType.CONTROL);
+
+		assertSchemaMatch(component);
 
 		assertXpathExists("//ui:table/ui:rowselection", component);
 		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:rowselection/@multiple", component);
@@ -360,6 +391,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		component.setToggleSubRowSelection(true);
 		component.setExpandMode(ExpandMode.CLIENT);
 
+		assertSchemaMatch(component);
+
 		assertXpathExists("//ui:table/ui:rowselection", component);
 		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:rowselection/@toggle", component);
 	}
@@ -381,6 +414,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		setActiveContext(createUIContext());
 
+		assertSchemaMatch(component);
+
 		assertXpathExists("//ui:table/ui:rowselection", component);
 		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:rowselection/@multiple", component);
 		assertXpathEvaluatesTo("control", "//ui:table/ui:rowselection/@selectAll", component);
@@ -398,6 +433,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		component.setExpandMode(ExpandMode.CLIENT);
 
+		assertSchemaMatch(component);
+
 		assertXpathEvaluatesTo("client", "//ui:table/ui:rowexpansion/@mode", component);
 	}
 
@@ -413,6 +450,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		component.setExpandMode(ExpandMode.LAZY);
 
+		assertSchemaMatch(component);
+
 		assertXpathEvaluatesTo("lazy", "//ui:table/ui:rowexpansion/@mode", component);
 	}
 
@@ -427,6 +466,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		component.setVisible(true);
 
 		component.setExpandMode(ExpandMode.DYNAMIC);
+
+		assertSchemaMatch(component);
 
 		assertXpathEvaluatesTo("dynamic", "//ui:table/ui:rowexpansion/@mode", component);
 	}
@@ -444,6 +485,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		component.setVisible(true);
 
 		component.setSortMode(SortMode.DYNAMIC); // sortMode dynamic
+
+		assertSchemaMatch(component);
 
 		assertXpathEvaluatesTo("dynamic", "//ui:table/ui:sort/@mode", component);
 		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:thead/ui:th[1]/@sortable", component);
@@ -465,6 +508,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		TableModel tableModel = createTableModel();
 		table.setTableModel(tableModel);
 
+		assertSchemaMatch(table);
+
 		assertXpathNotExists("//ui:table/ui:thead/ui:th[1]/@align", table);
 		assertXpathEvaluatesTo("center", "//ui:table/ui:thead/ui:th[2]/@align", table);
 		assertXpathEvaluatesTo("right", "//ui:table/ui:thead/ui:th[3]/@align", table);
@@ -485,6 +530,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		TableModel tableModel = createTableModel();
 		table.setTableModel(tableModel);
 
+		assertSchemaMatch(table);
+
 		assertXpathNotExists("//ui:table/ui:thead/ui:th[1]/@width", table);
 		assertXpathEvaluatesTo("1", "//ui:table/ui:thead/ui:th[2]/@width", table);
 		assertXpathEvaluatesTo("100", "//ui:table/ui:thead/ui:th[3]/@width", table);
@@ -502,6 +549,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		TableModel tableModel = createTableModel();
 		table.setTableModel(tableModel);
 
+		assertSchemaMatch(table);
+
 		assertXpathNotExists("//ui:table/ui:tbody/ui:tr/ui:th", table);
 	}
 
@@ -517,6 +566,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		TableModel tableModel = createTableModel();
 		table.setTableModel(tableModel);
+
+		assertSchemaMatch(table);
 
 		assertXpathExists("//ui:table/ui:tbody/ui:tr/ui:th", table);
 		assertXpathNotExists("//ui:table/ui:tbody/ui:tr/ui:th[2]", table);
@@ -543,6 +594,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		request.setParameter(component.getId() + ".sortDesc", TRUE);
 		component.handleRequest(request);
 
+		assertSchemaMatch(component);
+
 		assertXpathEvaluatesTo("dynamic", "//ui:table/ui:sort/@mode", component);
 		assertXpathEvaluatesTo(colIndexStr, "//ui:table/ui:sort/@col", component);
 		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:sort/@descending", component);
@@ -564,6 +617,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		component.addAction(new WButton(TEST_ACTION_ONE));
 		component.addAction(new WButton(TEST_ACTION_TWO));
+
+		assertSchemaMatch(component);
 
 		assertXpathExists("//ui:table/ui:actions", component);
 		assertXpathEvaluatesTo(TEST_ACTION_ONE, "//ui:table/ui:actions/ui:action[1]/html:button",
@@ -604,6 +659,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 				maxSelectedRowCount2,
 				false, message2));
 
+		assertSchemaMatch(component);
+
 		assertXpathExists("//ui:table/ui:actions", component);
 		assertXpathEvaluatesTo(TEST_ACTION_ONE, "//ui:table/ui:actions/ui:action[1]/html:button",
 				component);
@@ -616,7 +673,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo(((new Integer(maxSelectedRowCount1))).toString(),
 				"//ui:table/ui:actions/ui:action[1]/ui:condition/@maxSelectedRows", component);
 		assertXpathEvaluatesTo(((new Integer(selectedOnOther1))).toString(),
-			"//ui:table/ui:actions/ui:action[1]/ui:condition/@selectedOnOther", component);
+				"//ui:table/ui:actions/ui:action[1]/ui:condition/@selectedOnOther", component);
 		assertXpathEvaluatesTo(expectedWarning,
 				"//ui:table/ui:actions/ui:action[1]/ui:condition/@type", component);
 		assertXpathEvaluatesTo(message1, "//ui:table/ui:actions/ui:action[1]/ui:condition/@message",
@@ -628,7 +685,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo(((new Integer(maxSelectedRowCount2))).toString(),
 				"//ui:table/ui:actions/ui:action[2]/ui:condition/@maxSelectedRows", component);
 		assertXpathEvaluatesTo(((new Integer(selectedOnOther2))).toString(),
-			"//ui:table/ui:actions/ui:action[1]/ui:condition/@selectedOnOther", component);
+				"//ui:table/ui:actions/ui:action[1]/ui:condition/@selectedOnOther", component);
 		assertXpathEvaluatesTo(expectedWarning,
 				"//ui:table/ui:actions/ui:action[2]/ui:condition/@type", component);
 		assertXpathEvaluatesTo(message2, "//ui:table/ui:actions/ui:action[2]/ui:condition/@message",
@@ -648,6 +705,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		WButton button1 = new WButton(TEST_ACTION_ONE);
 		component.addAction(button1);
+
+		assertSchemaMatch(component);
 
 		// Visible
 		assertXpathExists("//ui:table/ui:actions", component);
@@ -672,6 +731,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		final boolean testShowColHeaders = false;
 		component.getColumn(testColIndex).setVisible(false);
 		component.setShowColumnHeaders(testShowColHeaders);
+
+		assertSchemaMatch(component);
 
 		// head hidden=true
 		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:thead/@hidden", component);
@@ -712,6 +773,9 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		margin = new Margin(Size.SMALL);
 		table.setMargin(margin);
+
+		assertSchemaMatch(table);
+
 		assertXpathEvaluatesTo("sm", "//ui:table/ui:margin/@all", table);
 		assertXpathEvaluatesTo("", "//ui:table/ui:margin/@north", table);
 		assertXpathEvaluatesTo("", "//ui:table/ui:margin/@east", table);
@@ -720,11 +784,107 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		margin = new Margin(Size.SMALL, Size.MEDIUM, Size.LARGE, Size.XL);
 		table.setMargin(margin);
+
+		assertSchemaMatch(table);
+
 		assertXpathEvaluatesTo("", "//ui:table/ui:margin/@all", table);
 		assertXpathEvaluatesTo("sm", "//ui:table/ui:margin/@north", table);
 		assertXpathEvaluatesTo("med", "//ui:table/ui:margin/@east", table);
 		assertXpathEvaluatesTo("lg", "//ui:table/ui:margin/@south", table);
 		assertXpathEvaluatesTo("xl", "//ui:table/ui:margin/@west", table);
+	}
+
+	@Test
+	public void testDoPaintColumnFooter() throws IOException, SAXException, XpathException {
+
+		WTable table = createTableWithColumnFooters();
+
+		assertSchemaMatch(table);
+
+		// Should be 3 columns
+		assertXpathEvaluatesTo("3", "count(" + FOOTER_PATH + ")", table);
+
+		assertXpathEvaluatesTo("FOOTER1", FOOTER_PATH + "[1]", table);
+		assertXpathEvaluatesTo("", FOOTER_PATH + "[2]", table);
+		assertXpathEvaluatesTo("FOOTER3", FOOTER_PATH + "[3]", table);
+	}
+
+	@Test
+	public void testDoPaintColumnFooterExpandable() throws IOException, SAXException, XpathException {
+
+		WTable table = createTableWithColumnFooters();
+
+		// Make table expandable
+		table.setExpandMode(ExpandMode.DYNAMIC);
+
+		assertSchemaMatch(table);
+
+		// Should be 4 columns (Should have extra column for expand controls)
+		assertXpathEvaluatesTo("4", "count(" + FOOTER_PATH + ")", table);
+
+		assertXpathEvaluatesTo("FOOTER1", FOOTER_PATH + "[2]", table);
+		assertXpathEvaluatesTo("", FOOTER_PATH + "[3]", table);
+		assertXpathEvaluatesTo("FOOTER3", FOOTER_PATH + "[4]", table);
+	}
+
+	@Test
+	public void testDoPaintColumnFooterSelectable() throws IOException, SAXException, XpathException {
+
+		WTable table = createTableWithColumnFooters();
+
+		// Make table selectable
+		table.setSelectMode(WTable.SelectMode.SINGLE);
+
+		assertSchemaMatch(table);
+
+		// Should be 4 columns (Should have extra column for select controls)
+		assertXpathEvaluatesTo("4", "count(" + FOOTER_PATH + ")", table);
+
+		assertXpathEvaluatesTo("FOOTER1", FOOTER_PATH + "[2]", table);
+		assertXpathEvaluatesTo("", FOOTER_PATH + "[3]", table);
+		assertXpathEvaluatesTo("FOOTER3", FOOTER_PATH + "[4]", table);
+	}
+
+	@Test
+	public void testDoPaintColumnFooterExpandableSelectable() throws IOException, SAXException, XpathException {
+
+		WTable table = createTableWithColumnFooters();
+
+		// Make table expandable
+		table.setExpandMode(ExpandMode.DYNAMIC);
+		// Make table selectable
+		table.setSelectMode(WTable.SelectMode.SINGLE);
+
+		assertSchemaMatch(table);
+
+		// Should be 5 columns (Should have two extra column for expand controls)
+		assertXpathEvaluatesTo("5", "count(" + FOOTER_PATH + ")", table);
+
+		assertXpathEvaluatesTo("FOOTER1", FOOTER_PATH + "[3]", table);
+		assertXpathEvaluatesTo("", FOOTER_PATH + "[4]", table);
+		assertXpathEvaluatesTo("FOOTER3", FOOTER_PATH + "[5]", table);
+	}
+
+	@Test
+	public void testDoPaintColumnFooterNoColumns() throws IOException, SAXException, XpathException {
+
+		// Table with columns and no footers defined
+		WTable table = new WTable();
+		table.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
+		table.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
+		table.addColumn(new WTableColumn(COL3_HEADING_TEST, WTextField.class));
+
+		// Should have no footers. ie Footer path not exist
+		assertXpathNotExists(FOOTER_PATH, table);
+
+		// Turn on footers
+		table.setRenderColumnFooters(true);
+
+		assertSchemaMatch(table);
+
+		// Should have 3 empty footers for each column
+		assertXpathEvaluatesTo("3", "count(" + FOOTER_PATH + ")", table);
+
 	}
 
 	@Test
@@ -800,4 +960,23 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 			return str1.compareTo(str2);
 		}
 	}
+
+	/**
+	 * @return a table setup with column footers
+	 */
+	private WTable createTableWithColumnFooters() {
+		WTable table = new WTable();
+		table.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class, new WText("FOOTER1")));
+		table.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
+		table.addColumn(new WTableColumn(COL3_HEADING_TEST, WTextField.class, new WText("FOOTER3")));
+
+		// Turn on column footers
+		table.setRenderColumnFooters(true);
+
+		TableModel tableModel = createTableModel();
+		table.setTableModel(tableModel);
+
+		return table;
+	}
+
 }

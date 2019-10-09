@@ -59,9 +59,14 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	private static final int DEFAULT_ROWS = 10;
 
 	/**
-	 * For easy access to the columns, including the ability to hide them all at once.
+	 * Hold columns.
 	 */
 	private final WContainer columns = new WContainer();
+
+	/**
+	 * Hold column footers.
+	 */
+	private final WContainer footers = new WContainer();
 
 	/**
 	 * The repeater that is used to handle the repeated (row) content.
@@ -255,10 +260,31 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	public WTable() {
 		add(columns);
 		add(repeater);
+		add(footers);
 		add(actions);
 
 		repeater.setRepeatedComponent(new WTableRowRenderer(this));
 		repeater.setBeanProvider(new RepeaterRowIdBeanProvider(this));
+	}
+
+	/**
+	 * @param renderColumnFooters true if render column footers
+	 */
+	public void setRenderColumnFooters(final boolean renderColumnFooters) {
+		getOrCreateComponentModel().renderColumnFooters = renderColumnFooters;
+	}
+
+	/**
+	 * Control if column footers should be rendered.
+	 * <p>
+	 * When true, column footers are rendered on each page. Projects who need to control which page the footers are
+	 * rendered on (e.g last page) can override this method.
+	 * </p>
+	 *
+	 * @return true if render column footers
+	 */
+	public boolean isRenderColumnFooters() {
+		return getComponentModel().renderColumnFooters;
 	}
 
 	/**
@@ -268,6 +294,9 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	 */
 	public void addColumn(final WTableColumn column) {
 		columns.add(column);
+		if (column.getFooterRender() != null) {
+			footers.add(column.getFooterRender());
+		}
 		WTableRowRenderer renderer = (WTableRowRenderer) repeater.getRepeatedComponent();
 		renderer.addColumn(column, columns.getChildCount() - 1);
 	}
@@ -1918,6 +1947,11 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	 * @since 1.0.0
 	 */
 	public static final class WTableComponentModel extends BeanAndProviderBoundComponentModel {
+
+		/**
+		 * Flag to render column footers.
+		 */
+		private boolean renderColumnFooters;
 
 		/**
 		 * The margins to be used on the table.

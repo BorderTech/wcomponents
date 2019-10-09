@@ -126,6 +126,12 @@ public class WTableOptionsExample extends WContainer {
 	 * Column header toggle.
 	 */
 	private final WCheckBox showColHeaders = new WCheckBox();
+
+	/**
+	 * Column footers toggle.
+	 */
+	private final WCheckBox showColFooters = new WCheckBox();
+
 	/**
 	 * Expand all toggle.
 	 */
@@ -209,6 +215,7 @@ public class WTableOptionsExample extends WContainer {
 		layout.addField("Separator Type", rbsSeparator);
 		layout.addField("Sort Mode", rbsSorting);
 		layout.addField("Show col headers", showColHeaders);
+		layout.addField("Show col footers", showColFooters);
 		WField fieldExpandAll = layout.addField("Expand all", expandAll);
 		/* show and hide the row expansion sub-options */
 		WSubordinateControl subShowExpandOptions = new WSubordinateControl();
@@ -392,22 +399,19 @@ public class WTableOptionsExample extends WContainer {
 		// Column - First name
 		WTextField textField = new WTextField();
 		textField.setToolTip("First name");
-		table.addColumn(new WTableColumn("First name", textField));
+		table.addColumn(new WTableColumn("First name", textField, new WText("Footer 1")));
 
 		// Column - Last name
 		textField = new WTextField();
 		textField.setToolTip("Last name");
-		table.addColumn(new WTableColumn("Last name", textField));
+		table.addColumn(new WTableColumn("Last name", textField, new WText("Footer 2")));
 
 		// Column - Date field
 		WDateField dateField = new WDateField();
 		dateField.setToolTip("Date of birth");
-		table.addColumn(new WTableColumn("Date of birth", dateField));
+		table.addColumn(new WTableColumn("Date of birth", dateField, new WText("Footer 3")));
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void preparePaintComponent(final Request request) {
 		if (!isInitialised()) {
@@ -489,6 +493,7 @@ public class WTableOptionsExample extends WContainer {
 		table.setStripingType(rbsStriping.getSelected());
 		table.setSeparatorType(rbsSeparator.getSelected());
 		table.setShowColumnHeaders(showColHeaders.isSelected());
+		table.setRenderColumnFooters(showColFooters.isSelected());
 		table.setExpandAll(expandAll.isSelected());
 		table.setEditable(chbEditable.isSelected());
 		table.setToggleSubRowSelection(table.getType() == WTable.Type.HIERARCHIC
@@ -537,6 +542,7 @@ public class WTableOptionsExample extends WContainer {
 			order[i++] = col.getCol();
 		}
 		table.setColumnOrder(order);
+
 	}
 
 	/**
@@ -674,6 +680,7 @@ public class WTableOptionsExample extends WContainer {
 
 		/**
 		 * Create a Bean bound table model.
+		 *
 		 * @param columnBeanProperties the column properties in this model.
 		 */
 		public MyBeanBoundTableModel(final String[] columnBeanProperties) {
@@ -701,9 +708,9 @@ public class WTableOptionsExample extends WContainer {
 			super(columnBeanProperties, new LevelDetails(levelBeanProperty, columnBeanProperties));
 		}
 
-
 		/**
 		 * Is a given row selectable?
+		 *
 		 * @param row The row to test.
 		 * @return true if the row is selectable.
 		 */

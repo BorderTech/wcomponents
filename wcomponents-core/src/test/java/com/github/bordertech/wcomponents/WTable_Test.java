@@ -2,8 +2,8 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.WRepeater.SubUIContext;
 import com.github.bordertech.wcomponents.WTable.ExpandMode;
-import com.github.bordertech.wcomponents.WTable.PaginationMode;
 import com.github.bordertech.wcomponents.WTable.PaginationLocation;
+import com.github.bordertech.wcomponents.WTable.PaginationMode;
 import com.github.bordertech.wcomponents.WTable.RowIdWrapper;
 import com.github.bordertech.wcomponents.WTable.SelectAllType;
 import com.github.bordertech.wcomponents.WTable.SelectMode;
@@ -63,6 +63,11 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 
 		Assert.assertSame("Incorrect first column", col1, table.getColumn(0));
 		Assert.assertSame("Incorrect second column", col2, table.getColumn(1));
+	}
+
+	@Test
+	public void testRenderFootersAccessors() {
+		assertAccessorsCorrect(new WTable(), "renderColumnFooters", false, true, false);
 	}
 
 	@Test
@@ -342,16 +347,16 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		otherSelectedRows = calculateOtherSelectedRows(table);
 		// On initial load, nothing selected
 		Assert.assertEquals("Incorrect number of selections on other pages",
-			0, otherSelectedRows);
+				0, otherSelectedRows);
 
 		MockRequest request = new MockRequest();
 		request.setParameter(table.getId() + "-h", "x");
-		request.setParameter(table.getId() + ".selected", new String[]{"1","2","3"});
+		request.setParameter(table.getId() + ".selected", new String[]{"1", "2", "3"});
 
 		// Select items on current page
 		table.handleRequest(request);
 		Assert.assertEquals("Incorrect number of selections on other pages after selections",
-			0, otherSelectedRows);
+				0, otherSelectedRows);
 
 		resetContext();
 
@@ -361,17 +366,17 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		otherSelectedRows = calculateOtherSelectedRows(table);
 
 		Assert.assertEquals("Incorrect number of selections on other pages after page change",
-			3, otherSelectedRows);
+				3, otherSelectedRows);
 
 		request = new MockRequest();
 		request.setParameter(table.getId() + "-h", "x");
-		request.setParameter(table.getId() + ".selected", new String[]{"5","6","7","8"});
+		request.setParameter(table.getId() + ".selected", new String[]{"5", "6", "7", "8"});
 		table.handleRequest(request);
 
 		Assert.assertEquals("Incorrect number of total selections after more selections",
-			7, table.getSelectedRows().size());
+				7, table.getSelectedRows().size());
 		Assert.assertEquals("Incorrect number of selections on other pages after more selections",
-			3, otherSelectedRows);
+				3, otherSelectedRows);
 
 		resetContext();
 
@@ -381,13 +386,13 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 
 		request = new MockRequest();
 		request.setParameter(table.getId() + "-h", "x");
-		request.setParameter(table.getId() + ".selected", new String[]{"11","12"});
+		request.setParameter(table.getId() + ".selected", new String[]{"11", "12"});
 		table.handleRequest(request);
 
 		Assert.assertEquals("Incorrect number of total selections after more selections",
-			9, table.getSelectedRows().size());
+				9, table.getSelectedRows().size());
 		Assert.assertEquals("Incorrect number of selections on other pages after page change",
-			7, otherSelectedRows);
+				7, otherSelectedRows);
 
 		resetContext();
 
@@ -398,13 +403,13 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		// Deselect some
 		request = new MockRequest();
 		request.setParameter(table.getId() + "-h", "x");
-		request.setParameter(table.getId() + ".selected", new String[]{"5","6"});
+		request.setParameter(table.getId() + ".selected", new String[]{"5", "6"});
 		table.handleRequest(request);
 
 		Assert.assertEquals("Incorrect number of total selections pages after page change",
-			7, table.getSelectedRows().size());
+				7, table.getSelectedRows().size());
 		Assert.assertEquals("Incorrect number of selections on other pages after page change",
-			5, otherSelectedRows);
+				5, otherSelectedRows);
 
 		resetContext();
 
@@ -412,9 +417,9 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		table.setCurrentPage(0);
 		otherSelectedRows = calculateOtherSelectedRows(table);
 		Assert.assertEquals("Incorrect number of total selections pages after page change",
-			7, table.getSelectedRows().size());
+				7, table.getSelectedRows().size());
 		Assert.assertEquals("Incorrect number of selections on other pages after page change",
-			4, otherSelectedRows);
+				4, otherSelectedRows);
 	}
 
 	// selectedRowsOtherPages is calculated and updated in WTableRenderer so this is a modification straight from there.
@@ -573,7 +578,7 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		resetContext();
 		Assert.assertTrue("Incorrect default expanded rows after handleRequest with no expansions",
 				table
-				.getExpandedRows().isEmpty());
+						.getExpandedRows().isEmpty());
 	}
 
 	@Test
@@ -594,7 +599,7 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		table.handleRequest(request);
 		Assert.assertEquals("Should only have selected the first item after handleRequest", 1,
 				table.getSelectedRows()
-				.size());
+						.size());
 		Assert.assertTrue("Should only have selected the first item after handleRequest",
 				selected.containsAll(table.getSelectedRows()));
 
@@ -641,7 +646,7 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		resetContext();
 		Assert.assertTrue("Incorrect default selection after handleRequest with no selection set",
 				table
-				.getSelectedRows().isEmpty());
+						.getSelectedRows().isEmpty());
 	}
 
 	@Test
@@ -1103,7 +1108,7 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		// Repeater repeat root ID
 		Assert.assertEquals("Incorrect default id for table repeater root", tableId + "-row-r",
 				table.getRepeater()
-				.getRepeatRoot().getId());
+						.getRepeatRoot().getId());
 
 		String rowPrefix = table.getRepeater().getRepeatRoot().getId();
 		// Allow for WTableColumn between repeated component

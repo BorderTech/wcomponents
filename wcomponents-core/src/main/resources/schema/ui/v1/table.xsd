@@ -330,7 +330,16 @@
 					</xs:complexType>
 				</xs:element>
 
-				<!-- Arbitrary content in the tfoot is unsupported. Instead, we have table actions (buttons). -->
+				<!-- Arbitrary content in the tfoot (Expects this to be html:tfoot). -->
+				<xs:any minOccurs="0" namespace="##other" processContents="lax">
+					<xs:annotation>
+						<xs:documentation>
+							<p>If present represents the tfoot element.</p>
+						</xs:documentation>
+					</xs:annotation>
+				</xs:any>
+
+				<!-- Table actions (buttons). -->
 				<xs:element name="actions" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>A container for actions which are bound to the table. Some of the options of each action are dependant on the table supporting row selection.</xs:documentation>
@@ -389,7 +398,7 @@
 												</xs:attribute>
 											</xs:complexType>
 										</xs:element>
-										<xs:any namespace="##other"/>
+										<xs:any namespace="##other" processContents="lax"/>
 										<!-- This must only be used for buttons included in the actions -->
 										<xs:element ref="ui:ajaxtrigger" minOccurs="0"/>
 									</xs:sequence>
@@ -465,7 +474,7 @@
 			</xs:element>
 			<xs:element name="subtr" minOccurs="0">
 				<xs:complexType>
-				<!-- Temporary fix to allow for empty subTr. Waiting on fix from T&S in WC6 and then the empty subTr will not need to be rendered. -->
+					<!-- Temporary fix to allow for empty subTr. Waiting on fix from T&S in WC6 and then the empty subTr will not need to be rendered. -->
 					<xs:choice minOccurs="0">
 						<xs:element name="tr" type="ui:trType" maxOccurs="unbounded"/>
 						<xs:element name="content">

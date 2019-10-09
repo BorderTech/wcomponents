@@ -21,6 +21,7 @@ Client side:
 * Update event manager to allow limited recursive firing #1667
 * Update Eslint from 3.19.0 > 6.4.0 (this touched a LOT of files) #1672
 * Use yarn for client side build instead of npm.
+* WTableColumn now supports a column footer renderer #1645.
 
 ### Bug Fixes
 

@@ -55,8 +55,7 @@ final class SafetyContainer extends AbstractMutableContainer {
 	@Override
 	public void handleRequest(final Request request) {
 		if (!isInitialised()) {
-			getOrCreateComponentModel().delegate = new SafetyContainerDelegate(UIContextHolder.
-					getCurrent());
+			getOrCreateComponentModel().delegate = new SafetyContainerDelegate(UIContextHolder.getCurrent());
 			setInitialised(true);
 		}
 
