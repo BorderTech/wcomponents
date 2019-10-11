@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
 		<artifactId>wcomponents-parent</artifactId>
-		<version>1.5.17-SNAPSHOT</version>
+		<version>1.5.18-SNAPSHOT</version>
 	</parent>
 
 	<packaging>jar</packaging>
@@ -56,27 +56,22 @@
 						<configuration>
 							<skip>${theme.skip.antrun}</skip>
 							<target name="build" description="Builds XSLT artifacts">
-								<property name="tmp.dir" location="${java.io.tmpdir}${file.separator}wcomponents-theme-tmp"/>
-								<property name="target.rootdir" location="${project.build.directory}/classes/theme/${project.name}"/>
+								<property name="tmp.dir" location="${java.io.tmpdir}${file.separator}wcomponents-theme-tmp" />
+								<property name="target.rootdir" location="${project.build.directory}/classes/theme/${project.name}" />
 								<basename property="impl.dir.name" file="${basedir}" />
 
 								<concat destfile="${tmp.dir}/all-int.xsl" fixlastline="yes" ignoreempty="false">
 									<header filtering="no">&lt;concat&gt;</header>
 									<footer filtering="no">&lt;/concat&gt;</footer>
-									<fileset dir="${project.basedir}/src/main/xslt" includes="*.xsl"/>
+									<fileset dir="${project.basedir}/src/main/xslt" includes="*.xsl" />
 								</concat>
-								<copy file="${project.basedir}/scripts/build_all.xsl" todir="${tmp.dir}" overwrite="true"/>
-								<xslt in="${tmp.dir}/all-int.xsl"
-									out="${target.rootdir}/xslt/all.xsl"
-									style="${tmp.dir}/build_all.xsl">
-									<factory name="net.sf.saxon.TransformerFactoryImpl"/>
+								<copy file="${project.basedir}/scripts/build_all.xsl" todir="${tmp.dir}" overwrite="true" />
+								<xslt in="${tmp.dir}/all-int.xsl" out="${target.rootdir}/xslt/all.xsl" style="${tmp.dir}/build_all.xsl">
+									<factory name="net.sf.saxon.TransformerFactoryImpl" />
 								</xslt>
-								<copy file="${target.rootdir}/xslt/all.xsl"
-									tofile="${target.rootdir}/xslt/all_debug.xsl"/>
-								<replaceregexp file="${target.rootdir}/xslt/all_debug.xsl"
-									match="xsl:param name=&quot;isDebug&quot; select=&quot;0&quot;"
-									replace="xsl:param name=&quot;isDebug&quot; select=&quot;1&quot;"/>
-								<echo level="verbose" message="Done XSLT"/>
+								<copy file="${target.rootdir}/xslt/all.xsl" tofile="${target.rootdir}/xslt/all_debug.xsl" />
+								<replaceregexp file="${target.rootdir}/xslt/all_debug.xsl" match="xsl:param name=&quot;isDebug&quot; select=&quot;0&quot;" replace="xsl:param name=&quot;isDebug&quot; select=&quot;1&quot;" />
+								<echo level="verbose" message="Done XSLT" />
 							</target>
 						</configuration>
 						<goals>
