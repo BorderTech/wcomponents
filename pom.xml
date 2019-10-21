@@ -12,7 +12,7 @@
 
 	<groupId>com.github.bordertech.wcomponents</groupId>
 	<artifactId>wcomponents-parent</artifactId>
-	<version>1.5.17-SNAPSHOT</version>
+	<version>1.5.18-SNAPSHOT</version>
 
 	<packaging>pom</packaging>
 
@@ -22,6 +22,10 @@
 		<enforcer.fail>false</enforcer.fail>
 		<!-- Remove once qa-parent lets pmd.verbose be set via a property (as it is set in the config). -->
 		<wc.pmd.verbose>true</wc.pmd.verbose>
+		<!-- Report Vulnerabilities. -->
+		<failBuildOnCVSS>11</failBuildOnCVSS>
+		<!-- Update every 168 hours (7 days) -->
+		<cveValidForHours>168</cveValidForHours>
 	</properties>
 
 	<licenses>

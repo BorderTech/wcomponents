@@ -128,11 +128,11 @@ define(["wc/dom/tag", "wc/array/toArray",  "wc/dom/getAncestorOrSelf", "wc/dom/a
 						container = getAncestorOrSelf(element, tag.SELECT);
 					}
 				}
-//				else if (element.name) {
-//					if (document.getElementsByName(element.name).length > 1) {
-//						return null;  // elements grouped by name do not have a container to define the group
-//					}
-//				}
+				// else if (element.name) {
+				//	if (document.getElementsByName(element.name).length > 1) {
+				//		return null;  // elements grouped by name do not have a container to define the group
+				//	}
+				// }
 
 				if (!container) {
 					container = ariaGroup.getContainer(element, containerWd);

@@ -438,7 +438,7 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 			 */
 			$this.fixInstance = false;
 
-/**
+			/**
 			 * Curry to create a default event prevention function polyfill.
 			 * @function
 			 * @private

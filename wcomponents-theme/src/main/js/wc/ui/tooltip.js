@@ -71,8 +71,8 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/shed", "wc/dom/Widget", "wc
 			 * @param {Element} element The element being initialised, usually document.body.
 			 */
 			this.initialise = function(element) {
-				events.push(event.add(element, event.TYPE.keydown, keydownEvent));
-				events.push(event.add(element, event.TYPE.keyup, keyupEvent));
+				events.push(event.add(element, "keydown", keydownEvent));
+				events.push(event.add(element, "keyup", keyupEvent));
 			};
 
 			/**

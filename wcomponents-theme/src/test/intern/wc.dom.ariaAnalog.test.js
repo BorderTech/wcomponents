@@ -13,7 +13,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 		function getDummyKeydownEvent(target, keyCode, ALT, SHIFT, CTRL) {
 			return {
 				target: target,
-				type: event.TYPE.keydown,
+				type: "keydown",
 				defaultPrevented: false,
 				preventDefault: function() {
 					this.defaultPrevented = true;

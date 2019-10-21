@@ -142,12 +142,12 @@ define(["wc/has", "wc/dom/event", "wc/dom/storage", "wc/dom/initialise", "wc/isN
 				} else {
 					checkOrigin();  // everyone else can do origin check immediately
 				}
-				event.add(window, event.TYPE.unload, unloadStart, -101);
-				event.add(window, event.TYPE.unload, unloadEnd, 101);
-				event.add(window, event.TYPE.load, loadStart, -101);
-				event.add(window, event.TYPE.load, loadEnd, 101);
-				event.add(window, event.TYPE.beforeunload, beforeunloadEnd, 101);
-				event.add(window, event.TYPE.readystatechange, beforeunloadEnd, 101);
+				event.add(window, "unload", unloadStart, -101);
+				event.add(window, "unload", unloadEnd, 101);
+				event.add(window, "load", loadStart, -101);
+				event.add(window, "load", loadEnd, 101);
+				event.add(window, "beforeunload", beforeunloadEnd, 101);
+				event.add(window, "readystatechange", beforeunloadEnd, 101);
 
 				initialise.addCallback(function() {
 					// could simply change this to the end (+101) of the readystatechange "complete" event

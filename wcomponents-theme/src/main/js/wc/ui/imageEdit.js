@@ -269,11 +269,11 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 					});
 					fbCanvas.setWidth(config.width);
 					fbCanvas.setHeight(config.height);
-//					fbCanvas.on("selection:cleared", function() {
-//						if (fbImage) {
-//							fbCanvas.setActiveObject(fbImage);
-//						}
-//					});
+					// fbCanvas.on("selection:cleared", function() {
+					//	if (fbImage) {
+					//		fbCanvas.setActiveObject(fbImage);
+					//	}
+					// });
 					overlayUrl = config.overlay;
 					if (typeof file === "string") {
 						imageEdit.renderImage(file);
@@ -466,13 +466,13 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 				if (objects && objects.length) {
 					return objects[0];
 				}
-//				for (i = 0; i < objects.length; i++) {
-//					next = objects[i];
-//					result = imageEdit.getFbImage(next);
-//					if (result) {
-//						return result;
-//					}
-//				}
+				// for (i = 0; i < objects.length; i++) {
+				//	next = objects[i];
+				//	result = imageEdit.getFbImage(next);
+				//	if (result) {
+				//		return result;
+				//	}
+				// }
 			}
 			return null;
 		};
@@ -1162,7 +1162,7 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 					callbacks.win(result);
 				}
 			} finally {
-//				dialogFrame.close();
+				// dialogFrame.close();
 				dialogFrame.resetContent();
 			}
 		}

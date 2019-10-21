@@ -53,15 +53,15 @@ define(["fabric"], function(fabric) {
 			paintShape: function(shape) {
 				var fbCanvas = imageEdit.getCanvas();
 				fbCanvas.add(shape);
-//				var lft, top, group;
-//				group = getGroup();
-//				group.add(shape);
-//				lft = shape.getLeft() - group.getBoundingRectWidth() / 2;
-//				top = shape.getTop() - group.getBoundingRectHeight() / 2;
-// //				lft = lft / group.scaleX;
-// //				top = top / group.scaleY;
-//				shape.setLeft(lft);
-//				shape.setTop(top);
+				//	var lft, top, group;
+				//	group = getGroup();
+				//	group.add(shape);
+				//	lft = shape.getLeft() - group.getBoundingRectWidth() / 2;
+				//	top = shape.getTop() - group.getBoundingRectHeight() / 2;
+				// //	lft = lft / group.scaleX;
+				// //	top = top / group.scaleY;
+				//	shape.setLeft(lft);
+				//	shape.setTop(top);
 			}
 		},
 		redactor = {
@@ -102,27 +102,27 @@ define(["fabric"], function(fabric) {
 			}
 		};
 
-//	function getGroup() {
-//		var fbImage, group = fbCanvas.getObjects("group");
-//		if (group && group.length) {
-//			group = group[0];
-//		}
-//		else {
-//			fbImage = imageEdit.getFbImage();
-//			if (fbImage) {
-//				group = new fabric.Group([fbImage.cloneAsImage()], {
-//					top: fbImage.getTop(),
-//					left: fbImage.getLeft(),
-//					originX: "left",
-//					originY: "top",
-//					selectable: fbImage.selectable
-//				});
-//				fbCanvas.clear().renderAll();
-//				fbCanvas.add(group);
-//			}
-//		}
-//		return group;
-//	}
+	// function getGroup() {
+	//	var fbImage, group = fbCanvas.getObjects("group");
+	//	if (group && group.length) {
+	//		group = group[0];
+	//	}
+	//	else {
+	//		fbImage = imageEdit.getFbImage();
+	//		if (fbImage) {
+	//			group = new fabric.Group([fbImage.cloneAsImage()], {
+	//				top: fbImage.getTop(),
+	//				left: fbImage.getLeft(),
+	//				originX: "left",
+	//				originY: "top",
+	//				selectable: fbImage.selectable
+	//			});
+	//			fbCanvas.clear().renderAll();
+	//			fbCanvas.add(group);
+	//		}
+	//	}
+	//	return group;
+	// }
 
 	function wireEventListeners(handlers) {
 		var initedKey = "wc_redact_inited",

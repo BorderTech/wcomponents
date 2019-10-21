@@ -3,8 +3,10 @@
  * This Gruntfile is primarily responsible for driving the unit tests.
  * YOU DO NOT HAVE TO INSTALL GRUNT GLOBALLY TO USE IT!
  *
- * Either use the npm scripts, e.g. `npm run test`
- * OR
+ * Either use the package scripts, e.g. `yarn run test`
+ *
+ * OR with npm:
+ *
  * Use npx, e.g.`npx grunt test`
  */
 let internConfig = require("./scripts/intern").config;

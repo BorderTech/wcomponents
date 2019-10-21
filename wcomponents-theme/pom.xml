@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
 		<artifactId>wcomponents-parent</artifactId>
-		<version>1.5.17-SNAPSHOT</version>
+		<version>1.5.18-SNAPSHOT</version>
 	</parent>
 
 	<packaging>jar</packaging>
@@ -19,15 +19,12 @@
 	<properties>
 		<theme.skip.antrun>false</theme.skip.antrun>
 		<sonar.sources>src/main</sonar.sources>
-		<mvn.repo.url>http://repo.maven.apache.org/maven2</mvn.repo.url>
-		<npm.registry.url>https://registry.npmjs.org/</npm.registry.url>
 		<node.download.root>http://nodejs.org/dist/</node.download.root>
 		<npm.download.root>http://registry.npmjs.org/npm/-/</npm.download.root>
-		<nodejs.dist.dir>${project.build.directory}/nodejsdist</nodejs.dist.dir><!-- The nodejs binaries get unpacked to here -->
-		<nodejs.dir>${basedir}/node</nodejs.dir><!-- Where we expect to find Node installed -->
+		<yarn.download.root>https://github.com/yarnpkg/yarn/releases/download/</yarn.download.root>
 		<nodejs.version>v10.16.3</nodejs.version><!-- the version of node to be installed -->
-		<npmjs.dir>${nodejs.dir}/node_modules/npm/bin</npmjs.dir><!-- Where we expect to find NPM installed -->
 		<npmjs.version>6.9.0</npmjs.version><!-- the version of npm to be installed - should be the version that goes with your version of node -->
+		<yarn.version>v1.19.0</yarn.version>
 	</properties>
 	<name>wcomponents-theme</name>
 	<build>
@@ -59,27 +56,22 @@
 						<configuration>
 							<skip>${theme.skip.antrun}</skip>
 							<target name="build" description="Builds XSLT artifacts">
-								<property name="tmp.dir" location="${java.io.tmpdir}${file.separator}wcomponents-theme-tmp"/>
-								<property name="target.rootdir" location="${project.build.directory}/classes/theme/${project.name}"/>
+								<property name="tmp.dir" location="${java.io.tmpdir}${file.separator}wcomponents-theme-tmp" />
+								<property name="target.rootdir" location="${project.build.directory}/classes/theme/${project.name}" />
 								<basename property="impl.dir.name" file="${basedir}" />
 
 								<concat destfile="${tmp.dir}/all-int.xsl" fixlastline="yes" ignoreempty="false">
 									<header filtering="no">&lt;concat&gt;</header>
 									<footer filtering="no">&lt;/concat&gt;</footer>
-									<fileset dir="${project.basedir}/src/main/xslt" includes="*.xsl"/>
+									<fileset dir="${project.basedir}/src/main/xslt" includes="*.xsl" />
 								</concat>
-								<copy file="${project.basedir}/scripts/build_all.xsl" todir="${tmp.dir}" overwrite="true"/>
-								<xslt in="${tmp.dir}/all-int.xsl"
-									out="${target.rootdir}/xslt/all.xsl"
-									style="${tmp.dir}/build_all.xsl">
-									<factory name="net.sf.saxon.TransformerFactoryImpl"/>
+								<copy file="${project.basedir}/scripts/build_all.xsl" todir="${tmp.dir}" overwrite="true" />
+								<xslt in="${tmp.dir}/all-int.xsl" out="${target.rootdir}/xslt/all.xsl" style="${tmp.dir}/build_all.xsl">
+									<factory name="net.sf.saxon.TransformerFactoryImpl" />
 								</xslt>
-								<copy file="${target.rootdir}/xslt/all.xsl"
-									tofile="${target.rootdir}/xslt/all_debug.xsl"/>
-								<replaceregexp file="${target.rootdir}/xslt/all_debug.xsl"
-									match="xsl:param name=&quot;isDebug&quot; select=&quot;0&quot;"
-									replace="xsl:param name=&quot;isDebug&quot; select=&quot;1&quot;"/>
-								<echo level="verbose" message="Done XSLT"/>
+								<copy file="${target.rootdir}/xslt/all.xsl" tofile="${target.rootdir}/xslt/all_debug.xsl" />
+								<replaceregexp file="${target.rootdir}/xslt/all_debug.xsl" match="xsl:param name=&quot;isDebug&quot; select=&quot;0&quot;" replace="xsl:param name=&quot;isDebug&quot; select=&quot;1&quot;" />
+								<echo level="verbose" message="Done XSLT" />
 							</target>
 						</configuration>
 						<goals>
@@ -104,46 +96,44 @@
 				</configuration>
 				<executions>
 					<execution>
-						<id>install node and npm</id>
+						<id>install node and yarn</id>
 						<goals>
-							<goal>install-node-and-npm</goal>
+							<goal>install-node-and-yarn</goal>
 						</goals>
 						<phase>generate-resources</phase>
 						<configuration>
 							<skip>${theme.skip.antrun}</skip>
 							<nodeVersion>${nodejs.version}</nodeVersion>
-							<npmVersion>${npmjs.version}</npmVersion>
-							<!--
-								This will only work if the nodejs binaries are unpacked first (see the execution with ID "unpack-nodejs").
-							-->
+							<yarnVersion>${yarn.version}</yarnVersion>
 							<nodeDownloadRoot>${node.download.root}</nodeDownloadRoot>
-							<npmDownloadRoot>${npm.download.root}</npmDownloadRoot>
+							<yarnDownloadRoot>${yarn.download.root}</yarnDownloadRoot>
 						</configuration>
 					</execution>
 					<execution>
-						<id>npm install</id>
+						<id>yarn install</id>
 						<goals>
-							<goal>npm</goal>
+							<goal>yarn</goal>
 						</goals>
 						<configuration>
 							<skip>${theme.skip.antrun}</skip>
 						</configuration>
 					</execution>
 					<execution>
-						<id>npm version</id>
+						<id>yarn version</id>
 						<goals>
-							<goal>npm</goal>
+							<goal>yarn</goal>
 						</goals>
 						<configuration>
 							<skip>${theme.skip.antrun}</skip>
-							 <arguments>version ${project.version} --allow-same-version true</arguments>
+							<arguments>version --no-git-tag-version --new-version ${project.version}</arguments>
+							<!--<arguments>version ${project.version} - -allow-same-version true</arguments>-->
 						</configuration>
 					</execution>
 					<execution>
-						<id>npm run build</id>
+						<id>yarn run build</id>
 						<phase>compile</phase>
 						<goals>
-							<goal>npm</goal>
+							<goal>yarn</goal>
 						</goals>
 						<configuration>
 							<skip>${theme.skip.antrun}</skip>
@@ -151,10 +141,10 @@
 						</configuration>
 					</execution>
 					<execution>
-						<id>npm run test</id>
+						<id>yarn run test</id>
 						<phase>test</phase>
 						<goals>
-							<goal>npm</goal>
+							<goal>yarn</goal>
 						</goals>
 						<configuration>
 							<skip>${theme.skip.antrun}</skip>

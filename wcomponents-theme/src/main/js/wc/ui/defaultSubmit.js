@@ -37,7 +37,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"],
 			 * @param {Element} element document.body
 			 */
 			this.initialise = function(element) {
-				event.add(element, event.TYPE.keypress, keyEvent, -1);
+				event.add(element, "keypress", keyEvent, -1);
 			};
 
 			/**
@@ -53,7 +53,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"],
 				if (!$event.defaultPrevented && keyCode === KeyEvent.DOM_VK_RETURN && element.form && isPotentialSubmitter(element)) {
 					if ((correctSubmit = findCorrectSubmit(element))) {
 						$event.preventDefault();
-						event.fire(correctSubmit, event.TYPE.click);
+						event.fire(correctSubmit, "click");
 					}
 				}
 			}

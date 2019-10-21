@@ -55,7 +55,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/ui/popup", "wc
 			 * @param {Element} element The element being initialised, usually document.body.
 			 */
 			this.initialise = function(element) {
-				event.add(element, event.TYPE.click, clickEvent);
+				event.add(element, "click", clickEvent);
 			};
 		}
 		return /** @alias module:wc/ui/navigationButton */ initialise.register(new NavigationButton());

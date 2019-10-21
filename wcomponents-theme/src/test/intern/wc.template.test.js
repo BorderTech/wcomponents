@@ -4,9 +4,9 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 
 		var template, testHolder; // , i = 0;
 
-//		function getNewKeyName() {
-//			return "key" + i++;
-//		}
+		//		function getNewKeyName() {
+		//			return "key" + i++;
+		//		}
 
 		registerSuite({
 			name: "template",
@@ -20,8 +20,8 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 			beforeEach: function() {
 				testHolder.innerHTML = "";
 			},
-//			afterEach: function() {
-//			},
+			//			afterEach: function() {
+			//			},
 			teardown: function() {
 				testHolder.innerHTML = "";
 			},
