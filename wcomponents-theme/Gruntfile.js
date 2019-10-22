@@ -3,27 +3,38 @@
  * This Gruntfile is primarily responsible for driving the unit tests.
  * YOU DO NOT HAVE TO INSTALL GRUNT GLOBALLY TO USE IT!
  *
- * Either use the npm scripts, e.g. `npm run test`
- * OR
+ * Either use the package scripts, e.g. `yarn run test`
+ *
+ * OR with npm:
+ *
  * Use npx, e.g.`npx grunt test`
  */
-let internConfig = require("./intern").config;
-const {dirs: {test: dirs}} = require("./scripts/build-util");
+let internConfig = require("./scripts/intern").config;
+const path = require("path");
+const { dirs } = require("./scripts/build-util");
 const defaultInternArgs = "environments='{\"browserName\":\"firefox\"}'";
 
 module.exports = function (grunt) {
-	var testSrc = "intern/"  + (grunt.option("filename") || "**");
-	logIt("Building tests " + testSrc);
+	var testSrc = (grunt.option("filename") || "**");
 	grunt.initConfig({
+		clean: {
+			test: [dirs.test.target]
+		},
 		copy: {
 			test: {
-				cwd: dirs.src,
+				cwd: dirs.test.src,
 				expand: true,
 				src: testSrc,
-				dest: dirs.target
+				dest: dirs.test.target
 			}
 		},
 		intern: {
+			node: {
+				options: {
+					suites: path.join(dirs.test.target, "unit/*.js"),
+					reporters: "runner"
+				}
+			},
 			local: {
 				options: {
 					config: "@local",
@@ -51,6 +62,7 @@ module.exports = function (grunt) {
 	});
 
 	grunt.loadNpmTasks("intern");
+	grunt.loadNpmTasks("grunt-contrib-clean");
 	grunt.loadNpmTasks("grunt-contrib-copy");
 
 	/**
@@ -85,6 +97,8 @@ module.exports = function (grunt) {
 				process.env.MOZ_HEADLESS = 1;
 			}
 		}
+
+		grunt.task.run("clean:test");
 		grunt.task.run("copy:test");
 
 		if (!/:serve/.test(internTask)) {

@@ -11,7 +11,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils"], f
 		 * A human readable name for the suite. This could be as simpl as TEST_MODULE.
 		 * @type String
 		 */
-		suiteName = TEST_MODULE.match(/\/([^\/]+)$/)[1],
+		suiteName = TEST_MODULE.match(/\/([^/]+)$/)[1],
 		/**
 		 * An options array of dependency names in addition to TEST_MODULE, Define a String Array here and setup will convert it to a module array.
 		 * @type arg

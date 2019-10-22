@@ -108,7 +108,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/ui/redirect"],
 			 * @returns {undefined}
 			 */
 			this.initialise = function(element) {
-				event.add(element, event.TYPE.click, clickEvent, 100);
+				event.add(element, "click", clickEvent, 100);
 			};
 		}
 

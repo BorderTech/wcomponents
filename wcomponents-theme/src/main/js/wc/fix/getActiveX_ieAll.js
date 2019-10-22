@@ -30,9 +30,9 @@ define(function() {
 			nextVersion = versions ? versions[i] : "";
 			nextEngine = nextVersion ? (engine + "." + nextVersion) : engine;
 			try {
-				/*eslint-disable */
+				/* eslint-disable */
 				new window.ActiveXObject(nextEngine);
-				/*eslint-enable */
+				/* eslint-enable */
 				result = {
 					version: nextVersion,
 					engine: nextEngine

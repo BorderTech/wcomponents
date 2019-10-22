@@ -1,8 +1,8 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
-	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0"
-	exclude-result-prefixes="xsl ui html">
+				xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+				xmlns:html="http://www.w3.org/1999/xhtml" version="2.0"
+				exclude-result-prefixes="xsl ui html">
 	<!--
 		WTable
 
@@ -186,6 +186,8 @@
 				</colgroup>
 				<xsl:apply-templates select="ui:thead"/>
 				<xsl:apply-templates select="ui:tbody"/>
+				<xsl:apply-templates select="html:tfoot"/>
+
 			</table>
 			<!--
 				Add table controls which do not form part of the table structure but which control and reference the
@@ -242,7 +244,7 @@
 		</col>
 	</xsl:template>
 
-<!-- THEAD -->
+	<!-- THEAD -->
 
 	<!-- Template for ui:thead to html thead element -->
 	<xsl:template match="ui:thead">
@@ -354,7 +356,7 @@
 		</th>
 	</xsl:template>
 
-<!-- TBODY -->
+	<!-- TBODY -->
 	<!--
 		Transform of ui:tbody to tbody.
 	-->
@@ -373,7 +375,7 @@
 			</xsl:apply-templates>
 		</tbody>
 	</xsl:template>
-<!--
+	<!--
 		Structural: do not override.
 
 		Transform for each row in the WTable.
@@ -581,7 +583,7 @@
 									<!-- these controllers control this row too -->
 								</xsl:if>
 								<xsl:apply-templates mode="subRowControlIdentifier"
-									select="ui:subtr//ui:tr[not(@unselectable) and ancestor::ui:table[1]/@id eq $tableId]">
+													 select="ui:subtr//ui:tr[not(@unselectable) and ancestor::ui:table[1]/@id eq $tableId]">
 									<xsl:with-param name="tableId" select="$tableId"/>
 								</xsl:apply-templates>
 							</xsl:variable>
@@ -606,20 +608,20 @@
 								<div class="wc-menu wc-menu-type-flyout wc_menu_bar" id="{$subRowToggleControlId}" role="menubar">
 									<div class="wc-submenu" role="presentation">
 										<button aria-controls="{$subRowToggleControlContentId}" aria-haspopup="true"
-											class="wc-nobutton wc-invite wc-submenu-o" id="{$subRowToggleControlButtonId}" type="button">
+												class="wc-nobutton wc-invite wc-submenu-o" id="{$subRowToggleControlButtonId}" type="button">
 											<span class="wc-decoratedlabel">
 												<span class="wc-off wc-labelbody">{{#i18n}}table_rowSelection_toggleAll{{/i18n}}</span>
 											</span>
 											<i aria-hidden="true" class="fa fa-caret-down"/>
 										</button>
 										<div aria-expanded="false" aria-labelledby="{$subRowToggleControlButtonId}"
-											class="wc_submenucontent wc_seltog" id="{$subRowToggleControlContentId}" role="menu">
+											 class="wc_submenucontent wc_seltog" id="{$subRowToggleControlContentId}" role="menu">
 											<xsl:variable name="allSelectableSubRows"
-												select="count(.//ui:subtr[ancestor::ui:table[1]/@id eq $tableId]/ui:tr[not(@unselectable)])"/>
+														  select="count(.//ui:subtr[ancestor::ui:table[1]/@id eq $tableId]/ui:tr[not(@unselectable)])"/>
 											<xsl:variable name="allUnselectedSubRows"
-												select="count(.//ui:subtr[ancestor::ui:table[1]/@id eq $tableId]/ui:tr[not(@unselectable or @selected)])"/>
+														  select="count(.//ui:subtr[ancestor::ui:table[1]/@id eq $tableId]/ui:tr[not(@unselectable or @selected)])"/>
 											<button aria-controls="{$subRowControlList}" class="wc-menuitem wc_seltog wc-nobutton wc-invite"
-												data-wc-value="all" role="menuitemradio" type="button">
+													data-wc-value="all" role="menuitemradio" type="button">
 												<xsl:attribute name="aria-checked">
 													<xsl:choose>
 														<xsl:when test="number($allUnselectedSubRows) eq 0">
@@ -634,7 +636,7 @@
 												<span class="wc-off">{{#i18n}}toggle_all_label{{/i18n}}</span>
 											</button>
 											<button aria-controls="{$subRowControlList}" class="wc-menuitem wc_seltog wc-nobutton wc-invite"
-												data-wc-value="none" role="menuitemradio" type="button">
+													data-wc-value="none" role="menuitemradio" type="button">
 												<xsl:attribute name="aria-checked">
 													<xsl:choose>
 														<xsl:when test="number($allSelectableSubRows) eq number($allUnselectedSubRows)">
@@ -821,7 +823,7 @@
 					<xsl:value-of select="normalize-space(concat($colHeader,' ',$rowHeader))"/>
 				</xsl:attribute>
 			</xsl:if>
-<!-- END OF TD ATTRIBUTES -->
+			<!-- END OF TD ATTRIBUTES -->
 			<xsl:apply-templates />
 		</td>
 	</xsl:template>
@@ -1053,7 +1055,9 @@
 			</xsl:if>
 			<span class="wc_table_pag_btns">
 				<xsl:call-template name="paginationButton">
-					<xsl:with-param name="title"><xsl:text>{{#i18n}}table_pagination_button_first{{/i18n}}</xsl:text></xsl:with-param>
+					<xsl:with-param name="title">
+						<xsl:text>{{#i18n}}table_pagination_button_first{{/i18n}}</xsl:text>
+					</xsl:with-param>
 					<xsl:with-param name="idSuffix" select="concat($idSuffix,'1')"/>
 					<xsl:with-param name="disabled">
 						<xsl:choose>
@@ -1068,7 +1072,9 @@
 					<xsl:with-param name="name" select="'f'"/>
 				</xsl:call-template>
 				<xsl:call-template name="paginationButton">
-					<xsl:with-param name="title"><xsl:text>{{#i18n}}table_pagination_button_previous{{/i18n}}</xsl:text></xsl:with-param>
+					<xsl:with-param name="title">
+						<xsl:text>{{#i18n}}table_pagination_button_previous{{/i18n}}</xsl:text>
+					</xsl:with-param>
 					<xsl:with-param name="idSuffix" select="concat($idSuffix,'2')"/>
 					<xsl:with-param name="disabled">
 						<xsl:choose>
@@ -1083,7 +1089,9 @@
 					<xsl:with-param name="name" select="'p'"/>
 				</xsl:call-template>
 				<xsl:call-template name="paginationButton">
-					<xsl:with-param name="title"><xsl:text>{{#i18n}}table_pagination_button_next{{/i18n}}</xsl:text></xsl:with-param>
+					<xsl:with-param name="title">
+						<xsl:text>{{#i18n}}table_pagination_button_next{{/i18n}}</xsl:text>
+					</xsl:with-param>
 					<xsl:with-param name="idSuffix" select="concat($idSuffix,'3')"/>
 					<xsl:with-param name="disabled">
 						<xsl:choose>
@@ -1098,7 +1106,9 @@
 					<xsl:with-param name="name" select="'n'"/>
 				</xsl:call-template>
 				<xsl:call-template name="paginationButton">
-					<xsl:with-param name="title"><xsl:text>{{#i18n}}table_pagination_button_last{{/i18n}}</xsl:text></xsl:with-param>
+					<xsl:with-param name="title">
+						<xsl:text>{{#i18n}}table_pagination_button_last{{/i18n}}</xsl:text>
+					</xsl:with-param>
 					<xsl:with-param name="idSuffix" select="concat($idSuffix,'4')"/>
 					<xsl:with-param name="disabled">
 						<xsl:choose>

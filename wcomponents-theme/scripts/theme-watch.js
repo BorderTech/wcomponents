@@ -11,14 +11,16 @@
  * Note, you will generally be running in debug mode while developing: https://github.com/BorderTech/wcomponents/wiki/Debugging-a-theme
  */
 const fs = require("fs");
-const { dirs } = require("./scripts/build-util");
+const { requireAmd, dirs } = require("./build-util");
 const themeLinter = require("./lintfile");
-const buildJs = require("./build-js");
-const buildCss = require("./build-css");
-const buildImages = require("./build-images");
+const buildCss = require("../build-css");
+const buildImages = require("../build-images");
+const buildJs = require("../build-js");
+const buildResources = require("../build-resource");
 const grunt = require("grunt");
 const path = require("path");
-const hotReload = require("./scripts/hotReloadServer");
+const hotReload = require("./hotReloadServer");
+
 const handlers = {
 	images: /**
 		 * Knows how to respond when an image is changed - this is possibly only useful when editing SVGs
@@ -32,6 +34,10 @@ const handlers = {
 				return path.join(path.basename(dir), filename);
 			});
 		},
+	resource: function(dir, filename) {
+		let filePath = path.join(dir, filename);
+		return buildResources.build(filePath);
+	},
 	script: /**
 		 * Knows how to respond when a JS source module is changed.
 		 * @param {string} dir The path to the directory being watched.
@@ -79,16 +85,18 @@ Object.keys(handlers).forEach(watchDir);
 function watchDir(type) {
 	let dir = dirs[type];
 	if (dir && dir.src) {
-		console.log("Watching ", type, dir.src);
-		fs.watch(dir.src, { recursive: true }, (event, filename) => {
-			if (filename && event === "change") {
-				console.log("File Changed ", filename);
-				handlers[type](dir.src, filename).then(function(moduleName) {
-					if (moduleName) {
-						hotReload.notify(moduleName, type);
-					}
-				});
-			}
+		requireAmd(["wc/debounce"], function (debounce) {
+			console.log("Watching ", type, dir.src);
+			fs.watch(dir.src, { recursive: true }, debounce(function(event, filename) {
+				if (filename && event === "change") {
+					console.log("File Changed ", filename);
+					handlers[type](dir.src, filename).then(function(moduleName) {
+						if (moduleName) {
+							hotReload.notify(moduleName, type);
+						}
+					});
+				}
+			}, 200));
 		});
 	} else {
 		console.warn("Cannot find dirs, not watching", type);

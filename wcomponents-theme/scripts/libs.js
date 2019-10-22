@@ -1,3 +1,4 @@
+/* eslint-env node, es6  */
 /*
  * This module is responsible for third party library code in the build.
  * This may include:

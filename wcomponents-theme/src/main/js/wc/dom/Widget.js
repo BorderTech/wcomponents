@@ -101,7 +101,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid"], /** @param getAncestorOrSelf 
 	 * @returns {String} qs with potentially hazardous characters escaped.
 	 */
 	function escapeQs(qs) {
-		var RX = /(.)?([?(\$\.\*\#\{\}\[\]\(\):;+~|=>"'])/g,
+		var RX = /(.)?([?($.*#{}[\]():;+~|=>"'])/g,
 			result = qs;
 		if (RX.test(result)) {
 			result = result.replace(RX, function (match, p1, p2) {

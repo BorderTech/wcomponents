@@ -5,18 +5,19 @@
  * @author Rick Brown
  */
 const requirejs = require("requirejs");
-const pkgJson = require("./package.json");
 const fs = require("fs-extra");
 const path = require("path");
 const libBuilder = require("./scripts/libs");
-const { buildMax, dirs: { script: dirs } } = require("./scripts/build-util");
+const { getConfig, buildMax, dirs } = require("./scripts/build-util");
 const UglifyJS = require("uglify-es");
-const themeLinter = require("./lintfile");
+const themeLinter = require("./scripts/lintfile");
+const verbose = getConfig("verbose");
+
 let config = {
 	keepBuildDir: true,  // well not really but we'll manage this ourselves thank you
 	preserveLicenseComments: false,
 	// appDir: `${pkgJson.directories.src}/js`,
-	baseUrl: dirs.max,
+	baseUrl: dirs.script.max,
 	optimize: "none",
 	optimizeAllPluginResources: true,
 	normalizeDirDefines: "all",
@@ -32,7 +33,7 @@ let config = {
 		}
 		return result;
 	},
-	dir: dirs.min,
+	dir: dirs.script.min,
 	logLevel: 2,
 	modules: [{
 		name: "wc/common"
@@ -59,8 +60,8 @@ function build(singleFile) {
 	if (!singleFile) {
 		themeLinter.run("", true);
 		clean();
-		libBuilder.build(__dirname, dirs.max);
-		buildMax(dirs);
+		libBuilder.build(dirs.project.basedir, dirs.script.max);
+		buildMax(dirs.script);
 		return optimize(config);
 	}
 	return buildSingle(singleFile);
@@ -73,14 +74,14 @@ function build(singleFile) {
 function buildSingle(singleFile) {
 	let fileName = singleFile;
 	themeLinter.run(singleFile);
-	fileName = fileName.replace(dirs.src, "");
+	fileName = fileName.replace(dirs.script.src, "");
 	let conf = config;
 	Object.assign({}, conf);
 	delete conf.modules;
 	conf.dir = "";
 	conf.name = pathToModule(fileName);
-	conf.out = path.join(dirs.max, fileName + ".js");
-	buildMax(dirs, fileName);
+	conf.out = path.join(dirs.script.min, fileName);
+	buildMax(dirs.script, fileName);
 	return optimize(conf);
 }
 
@@ -89,6 +90,7 @@ function buildSingle(singleFile) {
  * @param conf Configuration options for r.js.
  */
 function optimize(conf) {
+	noisyLog("r.js config", conf);
 	return new Promise(function(win, lose) {
 		requirejs.optimize(conf, function (buildResponse) {
 			noisyLog(buildResponse);
@@ -105,15 +107,15 @@ function optimize(conf) {
  * Clean the output of previous builds.
  */
 function clean() {
-	fs.removeSync(dirs.max);
-	fs.removeSync(dirs.min);
+	fs.removeSync(dirs.script.max);
+	fs.removeSync(dirs.script.min);
 }
 
 /**
  * Particularly noisy logging can go through here as it is off by default.
  */
 function noisyLog() {
-	if (pkgJson.com_github_bordertech.verbose) {
+	if (verbose) {
 		console.log.apply(console, arguments);
 	}
 }
@@ -124,8 +126,8 @@ function noisyLog() {
  * @returns {string} The module name.
  */
 function pathToModule(modulePath) {
-	let moduleName = modulePath.replace(dirs.src, "");
-	moduleName = modulePath.replace(dirs.target, "");
+	let moduleName = modulePath.replace(dirs.script.src, "");
+	moduleName = modulePath.replace(dirs.script.target, "");
 	moduleName = moduleName.replace(/\\/g, "/").replace(/^\/|\.js$/g, "");
 	return moduleName;
 }

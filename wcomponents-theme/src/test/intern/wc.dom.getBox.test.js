@@ -18,7 +18,8 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"], 
 			document.body[scroll] = SCROLL;  // browsers
 			document.documentElement[scroll] = SCROLL;  // IE
 		}
-		assert.strictEqual(controller(element)[dimension], expected);
+		// actual width depends on browser rounding
+		assert.closeTo(controller(element)[dimension], expected, 0.01);
 	}
 
 	registerSuite({
@@ -67,7 +68,10 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"], 
 			element.style.height = "20.4px";
 			box = controller(element);
 			// actual width depends on browser rounding
-			assert.isTrue(100.4 < box.width && 100.5 >= box.width);
+			// .isBelow(valueToCheck, valueToBeBelow)
+			assert.isBelow(100.4, box.width);
+			// .isAtLeast(valueToCheck, valueToBeAtLeast)
+			assert.isAtLeast(box.width, 100.5);
 		},
 		testGetBox_height: function() {
 			var element = document.getElementById(TEST_ID),

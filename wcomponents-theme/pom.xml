@@ -6,9 +6,8 @@
 
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
-		<artifactId>wcomponents-theme-parent</artifactId>
-		<version>1.5.17-SNAPSHOT</version>
-		<relativePath>../wcomponents-theme-parent/pom.xml</relativePath>
+		<artifactId>wcomponents-parent</artifactId>
+		<version>1.5.18-SNAPSHOT</version>
 	</parent>
 
 	<packaging>jar</packaging>
@@ -20,6 +19,140 @@
 	<properties>
 		<theme.skip.antrun>false</theme.skip.antrun>
 		<sonar.sources>src/main</sonar.sources>
+		<node.download.root>http://nodejs.org/dist/</node.download.root>
+		<npm.download.root>http://registry.npmjs.org/npm/-/</npm.download.root>
+		<yarn.download.root>https://github.com/yarnpkg/yarn/releases/download/</yarn.download.root>
+		<nodejs.version>v10.16.3</nodejs.version><!-- the version of node to be installed -->
+		<npmjs.version>6.9.0</npmjs.version><!-- the version of npm to be installed - should be the version that goes with your version of node -->
+		<yarn.version>v1.19.0</yarn.version>
 	</properties>
 	<name>wcomponents-theme</name>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.1.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<ignoreMissingDescriptor>true</ignoreMissingDescriptor>
+					<descriptors>
+						<descriptor>sources.xml</descriptor>
+					</descriptors>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>compile</id>
+						<phase>compile</phase>
+						<configuration>
+							<skip>${theme.skip.antrun}</skip>
+							<target name="build" description="Builds XSLT artifacts">
+								<property name="tmp.dir" location="${java.io.tmpdir}${file.separator}wcomponents-theme-tmp" />
+								<property name="target.rootdir" location="${project.build.directory}/classes/theme/${project.name}" />
+								<basename property="impl.dir.name" file="${basedir}" />
+
+								<concat destfile="${tmp.dir}/all-int.xsl" fixlastline="yes" ignoreempty="false">
+									<header filtering="no">&lt;concat&gt;</header>
+									<footer filtering="no">&lt;/concat&gt;</footer>
+									<fileset dir="${project.basedir}/src/main/xslt" includes="*.xsl" />
+								</concat>
+								<copy file="${project.basedir}/scripts/build_all.xsl" todir="${tmp.dir}" overwrite="true" />
+								<xslt in="${tmp.dir}/all-int.xsl" out="${target.rootdir}/xslt/all.xsl" style="${tmp.dir}/build_all.xsl">
+									<factory name="net.sf.saxon.TransformerFactoryImpl" />
+								</xslt>
+								<copy file="${target.rootdir}/xslt/all.xsl" tofile="${target.rootdir}/xslt/all_debug.xsl" />
+								<replaceregexp file="${target.rootdir}/xslt/all_debug.xsl" match="xsl:param name=&quot;isDebug&quot; select=&quot;0&quot;" replace="xsl:param name=&quot;isDebug&quot; select=&quot;1&quot;" />
+								<echo level="verbose" message="Done XSLT" />
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>net.sf.saxon</groupId>
+						<artifactId>Saxon-HE</artifactId>
+						<version>9.9.1-1</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<version>1.8.0</version>
+				<configuration>
+					<workingDirectory>${basedir}</workingDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<id>install node and yarn</id>
+						<goals>
+							<goal>install-node-and-yarn</goal>
+						</goals>
+						<phase>generate-resources</phase>
+						<configuration>
+							<skip>${theme.skip.antrun}</skip>
+							<nodeVersion>${nodejs.version}</nodeVersion>
+							<yarnVersion>${yarn.version}</yarnVersion>
+							<nodeDownloadRoot>${node.download.root}</nodeDownloadRoot>
+							<yarnDownloadRoot>${yarn.download.root}</yarnDownloadRoot>
+						</configuration>
+					</execution>
+					<execution>
+						<id>yarn install</id>
+						<goals>
+							<goal>yarn</goal>
+						</goals>
+						<configuration>
+							<skip>${theme.skip.antrun}</skip>
+						</configuration>
+					</execution>
+					<execution>
+						<id>yarn version</id>
+						<goals>
+							<goal>yarn</goal>
+						</goals>
+						<configuration>
+							<skip>${theme.skip.antrun}</skip>
+							<arguments>version --no-git-tag-version --new-version ${project.version}</arguments>
+							<!--<arguments>version ${project.version} - -allow-same-version true</arguments>-->
+						</configuration>
+					</execution>
+					<execution>
+						<id>yarn run build</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>yarn</goal>
+						</goals>
+						<configuration>
+							<skip>${theme.skip.antrun}</skip>
+							 <arguments>run build</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>yarn run test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>yarn</goal>
+						</goals>
+						<configuration>
+							<skip>${theme.skip.antrun}</skip>
+							 <arguments>run test</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

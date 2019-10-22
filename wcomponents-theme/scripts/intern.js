@@ -1,13 +1,15 @@
 /* eslint-env node, es6  */
 const path = require("path");
-const { dirs } = require("./scripts/build-util");
-const scriptDir = path.relative(dirs.script.target, dirs.script.min);  // dirs.script.min will test minifed code, dirs.script.max tests debug code
-const targetDir = path.relative(".", dirs.project.build);
+const { getConfig, dirs } = require("./build-util");
+const scriptDir = path.relative(dirs.script.target, dirs.script[getConfig("testMinOrMax")]);  // dirs.script.min will test minifed code, dirs.script.max tests debug code
+const targetDir = path.relative(dirs.project.basedir, dirs.project.build);
 let testRootPath = path.join(dirs.test.target, "intern");
 let srcRootPath = dirs.script.target;
 
-testRootPath = path.relative(".", testRootPath);
-srcRootPath = path.relative(".", srcRootPath);
+testRootPath = path.relative(dirs.project.basedir, testRootPath);
+srcRootPath = path.relative(dirs.project.basedir, srcRootPath);
+
+console.log("Testing", scriptDir);
 
 let requireJsOptions = {
 	baseUrl: `/${srcRootPath}/`,
@@ -46,12 +48,15 @@ let requireJsOptions = {
  * https://theintern.io/docs.html#Intern/4/docs/docs%2Fconfiguration.md/environment-variable
  */
 let internConfig = {
-	suites: [`${testRootPath}/*.test.js`],
 	browser: {
+		suites: [`${testRootPath}/*.test.js`],
 		loader: {
 			script: `${testRootPath}/resources/intern-loader.js`,
 			options: requireJsOptions
 		}
+	},
+	node: {
+		suites: [path.join(dirs.test.target, "unit", "*.test.js")]
 	},
 	"configs": {
 		"local": {

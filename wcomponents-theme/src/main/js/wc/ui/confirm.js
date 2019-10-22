@@ -61,7 +61,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/ui/cancelButto
 			 */
 			this.initialise = function(element) {
 				// rule of thumb - any event listener that has the potential to cancel the event should probably be high priority
-				event.add(element, event.TYPE.click, clickEvent, -1);
+				event.add(element, "click", clickEvent, -1);
 			};
 		}
 		return /** @alias module:wc/ui/confirm */ initialise.register(new Confirm());

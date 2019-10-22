@@ -1,22 +1,25 @@
 {
 	"name": "wcomponents-theme",
-	"version": "1.5.17-SNAPSHOT",
+	"version": "1.5.18-SNAPSHOT",
 	"description": "Client side code for WComponents UI tool kit.",
 	"private": true,
 	"com_github_bordertech": {
-		"description": "Custom config here. JSON has no comment syntax, argh!"
+		"description": "Custom config here. JSON has no comment syntax, argh!",
+		"testMinOrMax": "min"
 	},
 	"scripts": {
-		"build": "node build-images.js && node build-css.js && node build-js.js",
+		"build": "node build-images.js && node build-resource.js && node build-css.js && node build-js.js",
 		"build:css": "node build-css.js",
 		"build:img": "node build-images.js",
 		"build:js": "node build-js.js",
-		"lint": "node lintfile.js",
-		"watch": "node theme-watch.js",
-		"test": "grunt test",
+		"lint": "node scripts/lintfile.js",
+		"site": "node node_modules/jsdoc/jsdoc.js -c jsdoc.config.json",
+		"test": "grunt test && grunt intern:node",
 		"test:grid": "grunt test:grid",
 		"test:local": "grunt test:local",
-		"test:serve": "grunt test:serve"
+		"test:node": "grunt intern:node",
+		"test:serve": "grunt test:serve",
+		"watch": "node scripts/theme-watch.js"
 	},
 	"directories": {
 		"src": "src/main",
@@ -37,9 +40,10 @@
 	"devDependencies": {
 		"axe-core": "3.0.0",
 		"clean-css-cli": "4.1.11",
-		"eslint": "3.19.0",
+		"eslint": "6.4.0",
 		"fs-extra": "8.1.0",
 		"grunt": "1.0.4",
+		"grunt-contrib-clean": "2.0.0",
 		"grunt-contrib-copy": "1.0.0",
 		"intern": "4.4.3",
 		"jsdoc": "3.6.3",

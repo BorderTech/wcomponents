@@ -96,6 +96,20 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				}
 			},
 
+			testAddFireEventTextFieldWithEventArgs: function() {
+				var element = document.getElementById(ids.TEXTFIELD2);
+				try {
+					if (called) {
+						assert.fail("tear down is not cleaning up called as expected");
+					}
+					event.add(element, { type: EVENT, listener: clickEvent });
+					event.fire(element, EVENT);
+					assert.isTrue(called);
+				} finally {
+					event.remove(element, EVENT, clickEvent);
+				}
+			},
+
 			testAddFireEventTextArea: function() {
 				var element = document.getElementById(ids.TXTAREA);
 				try {
@@ -108,7 +122,81 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				} finally {
 					event.remove(element, EVENT, clickEvent);
 				}
+			},
 
+			/**
+			 * This tests that events fire synchronously even if another event is firing.
+			 */
+			testAddFireEventFromAnotherEvent: function() {
+				var handles = [],
+					element = document.getElementById(ids.TXTAREA);
+				try {
+					handles.push(event.add(element, "kungfu", function($event) {
+						handles.push(event.add(element, EVENT, clickEvent));
+						event.fire($event.target, EVENT);
+					}));
+					assert.isFalse(called, "tear down is not cleaning up called as expected");
+					event.fire(element, "kungfu", { detail: "foo" });
+					assert.isTrue(called);
+				} finally {
+					event.remove(handles);
+				}
+			},
+
+			/**
+			 * This tests that events fire synchronously even if THE SAME event is firing.
+			 * This would fail on all versions of event manager before Sep 2019.
+			 */
+			testAddFireEventFromSameEvent: function() {
+				var handles = [],
+					element = document.getElementById(ids.TXTAREA);
+				try {
+					handles.push(event.add(element, "kungfu", function($event) {
+						handles.push(event.add(element, "kungfu", clickEvent));
+						event.fire($event.target, "kungfu", { detail: "bar" });
+					}));
+					assert.isFalse(called, "tear down is not cleaning up called as expected");
+					event.fire(element, "kungfu", { detail: "foo" });
+					assert.isTrue(called);
+				} finally {
+					event.remove(handles);
+				}
+			},
+
+			testFireCustomEvent: function() {
+				var handle,
+					kungActual,
+					dataExpected = { kung: "fu" },
+					element = document.getElementById(ids.TXTAREA);
+				try {
+					handle = event.add(element, "kungfu", function($event) {
+						kungActual = $event.detail.kung;
+					});
+					event.fire(element, "kungfu", { detail: dataExpected });
+					assert.strictEqual(kungActual, dataExpected.kung);
+				} finally {
+					event.remove(handle);
+				}
+			},
+
+			testRemoveCustomEvent: function() {
+				var handle,
+					kungActual,
+					dataExpected = { kung: "fu" },
+					element = document.getElementById(ids.TXTAREA);
+				try {
+					handle = event.add(element, "kungfu", function($event) {
+						kungActual = $event.detail.kung;
+					});
+					event.fire(element, "kungfu", { detail: dataExpected });
+					assert.strictEqual(kungActual, dataExpected.kung);
+					kungActual = null;
+					event.remove(handle);
+					event.fire(element, "kungfu", { detail: dataExpected });
+					assert.isNull(kungActual);
+				} finally {
+					event.remove(handle);
+				}
 			},
 
 			testAddFireEventButtonInput: function() {
@@ -259,9 +347,51 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				assert.strictEqual((element.checked ? true : false), !checked, "Checkbox state should be toggled");
 			},
 
+			testAddRemoveEventWithHandle: function() {
+				var element = document.getElementById(ids.CHKBOX),
+					checked,
+					handle = event.add(element, EVENT, clickEvent);
+				event.fire(element, EVENT);
+				assert.isTrue(called);
+				called = false;
+				event.remove(handle);
+				checked = element.checked ? true : false;
+				event.fire(element, EVENT);
+				assert.isFalse(called, "Event was removed and should not have fired");
+				assert.strictEqual((element.checked ? true : false), !checked, "Checkbox state should be toggled");
+			},
+
+			testAddRemoveEventWithHandleAndEventArgs: function() {
+				var element = document.getElementById(ids.CHKBOX),
+					checked,
+					handle = event.add(element, { type: EVENT, listener: clickEvent });
+				event.fire(element, EVENT);
+				assert.isTrue(called);
+				called = false;
+				event.remove(handle);
+				checked = element.checked ? true : false;
+				event.fire(element, EVENT);
+				assert.isFalse(called, "Event was removed and should not have fired");
+				assert.strictEqual((element.checked ? true : false), !checked, "Checkbox state should be toggled");
+			},
+
+			testAddRemoveEventWithHandleArray: function() {
+				var element = document.getElementById(ids.CHKBOX),
+					checked,
+					handle = event.add(element, EVENT, clickEvent);
+				event.fire(element, EVENT);
+				assert.isTrue(called);
+				called = false;
+				event.remove([handle]);
+				checked = element.checked ? true : false;
+				event.fire(element, EVENT);
+				assert.isFalse(called, "Event was removed and should not have fired");
+				assert.strictEqual((element.checked ? true : false), !checked, "Checkbox state should be toggled");
+			},
+
 			testAddRemoveEventWithCapture: function() {
 				var element = document.getElementById(ids.CHKBOX),
-					checked = element.checked ? true : false;
+					checked;
 				if (event.canCapture) {
 					event.add(element, EVENT, clickEvent, null, null, true);
 					event.fire(element, EVENT);
@@ -298,6 +428,25 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 					}
 					if (event.canCapture) {
 						event.add(element, EVENT, clickEvent, null, null, true);
+						event.remove(element, EVENT, clickEvent);
+						event.fire(element, EVENT);
+						assert.isTrue(called);
+					}
+				} finally {
+					if (event.canCapture) {
+						event.remove(element, EVENT, clickEvent, true);
+					}
+				}
+			},
+
+			testRemoveBubbleIgnoresCaptureWithEventArgs: function() {
+				var element = document.getElementById(ids.CHKBOX);
+				try {
+					if (called) {
+						assert.fail("tear down is not cleaning up called as expected");
+					}
+					if (event.canCapture) {
+						event.add(element, { type: EVENT, listener: clickEvent, capture: true });
 						event.remove(element, EVENT, clickEvent);
 						event.fire(element, EVENT);
 						assert.isTrue(called);
@@ -358,11 +507,11 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				}
 			},
 
-			testEventPropertiesAndCapture: function() {
+			testEventPropertiesAndCaptureAndEventArgs: function() {
 				var element = document.getElementById(ids.CHKBOX),
 					ePhase, eTarget, eCurrentTarget, eThis, ePreventDefault, eStopProp;
 				if (event.canCapture) {
-					event.add(eventContainer, EVENT, clickEventCheckProps, null, null, true);
+					event.add(eventContainer, { type: EVENT, listener: clickEventCheckProps, capture: true });
 					event.fire(element, EVENT);
 					assert.isTrue(called);
 					event.remove(eventContainer, EVENT, clickEventCheckProps);
@@ -482,8 +631,8 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				if (event.canCapture) {
 					event.add(element, EVENT, clickEventCheckSecond, null, null, true);
 					event.add(element, EVENT, clickEventCheckThird, 50);
-					event.add(element, EVENT, clickEventCheckFourth, 50, null, true);
-					event.add(element, EVENT, clickEventCheckFirst, -50);
+					event.add(element, { type: EVENT, listener: clickEventCheckFourth, pos: 50, capture: true });
+					event.add(element, { type: EVENT, listener: clickEventCheckFirst, pos: -50 });
 
 					event.fire(element, EVENT);
 					event.remove(element, EVENT, clickEventCheckThird);
@@ -619,7 +768,27 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				} finally {
 					event.remove(element, EVENT, clickEventScopeCheck);
 				}
+			},
 
+			testEventSetScopeWithEventArgs: function() {
+				var scope = {
+						gremlin: "gremlin"
+					},
+					element = document.getElementById(ids.BUTTONINP),
+					scopeChecked = false;
+
+				function clickEventScopeCheck() {
+					if (this === scope) {
+						scopeChecked = true;
+					}
+				}
+				try {
+					event.add(element, { type: EVENT, listener: clickEventScopeCheck, scope: scope });
+					event.fire(element, EVENT);
+					assert.isTrue(scopeChecked);
+				} finally {
+					event.remove(element, EVENT, clickEventScopeCheck);
+				}
 			},
 
 			/**
@@ -666,6 +835,17 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				var before = event.toString(),
 					after;
 				event.add(document.body, "click", function() {}, null, null, false);
+				after = event.toString();
+				assert.notStrictEqual(after, before, "adding an event should be reflected in 'toString'");
+			},
+
+			/**
+			 * Check same outcome with the new EventArgs API
+			 */
+			testEventToStringWithEventArgs: function() {
+				var before = event.toString(),
+					after;
+				event.add(document.body, { type: "click", listener: function() {}, capture: false });
 				after = event.toString();
 				assert.notStrictEqual(after, before, "adding an event should be reflected in 'toString'");
 			}

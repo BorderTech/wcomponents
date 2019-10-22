@@ -3,15 +3,37 @@
 ## Release in-progress
 
 ### API Changes
+### Enhancements
+### Bug Fixes
+
+## Release 1.5.17
+
+### API Changes
+
+Client side:
+
+* Move SHED from pub/sub to custom events and deprecated `wc/dom/shed.subscribe` #1665
+* Changed return value of `wc/dom/event.add` and `wc/Observer.subscribe` to return handle objects which can
+  be passed to the corresponding `remove` and `unsubscribe` methods (which therefore also have changed) #1664.
 
 ### Enhancements
 
+* Bring wcomponents-theme out from the land of java build tools into the promised land of nodejs based build scripts #1492.
+* Added "theme-watch" compile on change for Sass, JS etc
+* Added hot-module live reloading for theme Sass, JS, etc in development mode.
 * PhantomJS replaced with Firefox Headless for selenium testing #1650.
+* Upgrade theme testing library from Intern 3 to Intern 4 #1653
+* Fetch JS libraries from NPM instead of including in source #1658
+* Update event manager to allow limited recursive firing #1667
+* Update Eslint from 3.19.0 > 6.4.0 (this touched a LOT of files) #1672
+* Use yarn for client side build instead of npm.
+* WTableColumn now supports a column footer renderer #1645.
 
 ### Bug Fixes
 
 * Work around "shift + keyboard click" broken in Firefox #1647.
 * Fix broken imageEdit #1657
+* Stop browsers complaining about prefetch links #1662.
 
 ## Release 1.5.16
 

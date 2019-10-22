@@ -35,7 +35,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/uid", "wc/dom/Widget", "wc/
 				NAME_INDEX = 1,
 				SPECS_INDEX = 2,
 				SPACE,
-				POPPER = new Widget("button", "", {"aria-haspopup": "true", "data-wc-url": null});
+				POPPER = new Widget("button", "", { "aria-haspopup": "true", "data-wc-url": null });
 
 			/**
 			 * Does the popup, includes an IE sanity check on window name.
@@ -121,7 +121,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/uid", "wc/dom/Widget", "wc/
 			 * @param {Element} element the HTML Element being initialised (document.body in practice).
 			 */
 			this.initialise = function(element) {
-				event.add(element, event.TYPE.click, clickEvent);
+				event.add(element, "click", clickEvent);
 			};
 
 

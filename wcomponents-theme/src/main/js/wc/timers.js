@@ -1,10 +1,10 @@
 /**
  * This module wraps the functionality of native timers for the following main reasons:
  *
+ * * Automated testing (selenium) - helps tools determine if the page is "ready" THIS IS REALLY IMPORTANT!
  * * Cross browser compatibility - in particular support for varargs to be passed to the callback/handler.
  * * Unit testing - we can mess with our timers without affecting those used by other libraries or the unit
  *   testing framework itself.
- * * Automated testing - we can provide hooks to help tools determine if the page is "ready".
  *
  * Note that we **do NOT** accept a string as a callback/handler.
  *
@@ -87,9 +87,7 @@ define(["wc/global"], function(global) {
 		 * Helper for the clear methods.
 		 */
 		function clearTimer(handle, type) {
-			if (!isNaN(handle)) {
-				global[type](handle);
-			}
+			global[type](handle);
 		}
 
 		/**

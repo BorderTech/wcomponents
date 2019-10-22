@@ -30,12 +30,28 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 			compiledGroups = {};  // this results in HUGE performance benefits, up to 800ms saved in FF3.5 (on a 1050ms page with profiling turned on)
 
 		/**
-		 * Remove a subscriber.
+		 * Unsubscribe from this Observer instance.
+		 *
 		 * @function
 		 * @public
-		 * @see module:wc/Observer~SubscriberRegistry#deregister
+		 * @param {Function|Object} subscriber The subscriber (as passed to the subscribe method).
+		 *    Alternatively simply pass the result from the subscribe method.
+		 *    You may also pass an array of results from the subscribe method, it will be emptied which is likely what you want.
+		 * @param {String} group The group from which to unsubscribe (otherwise defaults will be used). There is
+		 *    currently no way to remove a subscriber from all groups without multiple calls.
 		 */
-		this.unsubscribe = registry.deregister;
+		this.unsubscribe = function(subscriber, group) {
+			var ref, grp;
+			if (Array.isArray(subscriber)) {
+				while (subscriber.length) {
+					this.unsubscribe(subscriber.pop());
+				}
+			} else if (subscriber) {
+				ref = subscriber.ref || subscriber;
+				grp = subscriber.grp || group;
+				registry.deregister(ref, grp);
+			}
+		};
 
 		/**
 		 * Remove all subscribers and reset the publish registry.
@@ -124,7 +140,10 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 					newSubscriber = new Subscriber(subscriber, context, method);
 					registry.register(newSubscriber, group, priority);
 				}
-				result = subscriber;  // this is stupid, maybe we should return newSubscriber and that can be used to unsubscribe?
+				result = {
+					ref: subscriber,
+					grp: group
+				};
 			} else {
 				throw new ReferenceError("Call to Observer.subscribe without a subscriber");
 			}

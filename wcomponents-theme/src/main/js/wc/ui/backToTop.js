@@ -131,10 +131,10 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 			function addRemoveEventHandlers(enable) {
 				var func = enable ? "add" : "remove",
 					el = document.body;
-				event[func](el, event.TYPE.click, clickEvent);
-				event[func](el, event.TYPE.keydown, keyEvent);
-				event[func](window, event.TYPE.scroll, genericEvent);
-				event[func](window, event.TYPE.resize, genericEvent);
+				event[func](el, "click", clickEvent);
+				event[func](el, "keydown", keyEvent);
+				event[func](window, "scroll", genericEvent);
+				event[func](window, "resize", genericEvent);
 			}
 
 			/**

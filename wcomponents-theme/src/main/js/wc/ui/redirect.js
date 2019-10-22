@@ -21,7 +21,7 @@ define(["wc/dom/uid", "wc/timers"], /** @param uid wc/dom/uid @param timers wc/t
 			launchLinkTests = [isPseudoProtocol, isAttachmentLink],
 			timer,
 			ATTACHMENT_FLAG = "wc_content=attach",
-			PSEUDO_PROTOCOL_RE = /^[\w]+\:[^\/].*$/;
+			PSEUDO_PROTOCOL_RE = /^[\w]+:[^/].*$/;
 
 		/**
 		 * Is a url a link to a (known) atachment?

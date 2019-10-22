@@ -25,6 +25,11 @@ public final class WTableColumn extends AbstractContainer {
 	private final WDecoratedLabel label;
 
 	/**
+	 * The renderer that will be used to render the footer for this column.
+	 */
+	private final WComponent footerRender;
+
+	/**
 	 * An enumeration of possible values for horizontal alignment of table column content.
 	 */
 	public enum Alignment {
@@ -49,7 +54,7 @@ public final class WTableColumn extends AbstractContainer {
 	 * @param rendererClass the renderer class for rendering row data.
 	 */
 	public WTableColumn(final String heading, final Class<? extends WComponent> rendererClass) {
-		this(new WDecoratedLabel(heading), rendererClass);
+		this(heading, rendererClass, null);
 	}
 
 	/**
@@ -59,11 +64,7 @@ public final class WTableColumn extends AbstractContainer {
 	 * @param rendererClass the renderer class for rendering row data.
 	 */
 	public WTableColumn(final WDecoratedLabel label, final Class<? extends WComponent> rendererClass) {
-		add(label);
-
-		this.label = label;
-		this.rendererClass = rendererClass;
-		this.renderer = null;
+		this(label, rendererClass, null);
 	}
 
 	/**
@@ -73,7 +74,7 @@ public final class WTableColumn extends AbstractContainer {
 	 * @param renderer the component for rendering row data.
 	 */
 	public WTableColumn(final String heading, final WComponent renderer) {
-		this(new WDecoratedLabel(heading), renderer);
+		this(heading, renderer, null);
 	}
 
 	/**
@@ -83,11 +84,59 @@ public final class WTableColumn extends AbstractContainer {
 	 * @param renderer the component for rendering row data.
 	 */
 	public WTableColumn(final WDecoratedLabel label, final WComponent renderer) {
-		add(label);
+		this(label, renderer, null);
+	}
 
+	/**
+	 * Creates a WTableColumn.
+	 *
+	 * @param heading the column heading text.
+	 * @param rendererClass the renderer class for rendering row data.
+	 * @param footerRender the footer renderer or null for no footer
+	 */
+	public WTableColumn(final String heading, final Class<? extends WComponent> rendererClass, final WComponent footerRender) {
+		this(new WDecoratedLabel(heading), rendererClass, footerRender);
+	}
+
+	/**
+	 * Creates a WTableColumn.
+	 *
+	 * @param label the column heading.
+	 * @param rendererClass the renderer class for rendering row data.
+	 * @param footerRender the footer renderer or null for no footer
+	 */
+	public WTableColumn(final WDecoratedLabel label, final Class<? extends WComponent> rendererClass, final WComponent footerRender) {
+		add(label);
+		this.label = label;
+		this.rendererClass = rendererClass;
+		this.renderer = null;
+		this.footerRender = footerRender;
+	}
+
+	/**
+	 * Creates a WTableColumn.
+	 *
+	 * @param heading the column heading text.
+	 * @param renderer the component for rendering row data.
+	 * @param footerRender the footer renderer or null for no footer
+	 */
+	public WTableColumn(final String heading, final WComponent renderer, final WComponent footerRender) {
+		this(new WDecoratedLabel(heading), renderer, footerRender);
+	}
+
+	/**
+	 * Creates a WTableColumn.
+	 *
+	 * @param label the column heading.
+	 * @param renderer the component for rendering row data.
+	 * @param footerRender the footer renderer or null for no footer
+	 */
+	public WTableColumn(final WDecoratedLabel label, final WComponent renderer, final WComponent footerRender) {
+		add(label);
 		this.label = label;
 		this.renderer = renderer;
 		this.rendererClass = renderer.getClass();
+		this.footerRender = footerRender;
 	}
 
 	/**
@@ -102,6 +151,13 @@ public final class WTableColumn extends AbstractContainer {
 	 */
 	public WComponent getRenderer() {
 		return renderer;
+	}
+
+	/**
+	 * @return the footer renderer or null
+	 */
+	public WComponent getFooterRender() {
+		return footerRender;
 	}
 
 	/**

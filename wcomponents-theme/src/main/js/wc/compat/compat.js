@@ -206,7 +206,7 @@ define(["wc/has"], function(has) {
 			/* eslint-disable */
 			var s = new String(" "),
 				result = ("trim" in s);
-			/*eslint-enable */
+			/* eslint-enable */
 			// Safari (5, Windows) has String.prototype.trim() but it is incompatible with strict mode
 			if (result) {
 				try {
@@ -216,6 +216,10 @@ define(["wc/has"], function(has) {
 				}
 			}
 			return result;
+		});
+
+		addtest("string-repeat", function() {
+			return !!String.prototype.repeat;
 		});
 
 		addtest("element-datalist", function() {
@@ -371,6 +375,10 @@ define(["wc/has"], function(has) {
 		result.push("wc/ecma5/String.prototype.trim");
 	}
 
+	if (!has("string-repeat")) {
+		result.push("wc/ecma6/String.prototype.repeat");
+	}
+
 	if (!has("object-keys")) {
 		result.push("wc/ecma5/Object.keys");
 	}
@@ -409,7 +417,7 @@ define(["wc/has"], function(has) {
 				},
 				bound = function() {
 					return self.apply((Nop.prototype && this instanceof Nop) ? this : ( obj || (global || {} )),
-							args.concat(slice.call(arguments)));
+						args.concat(slice.call(arguments)));
 				};
 			Nop.prototype = self.prototype;
 			bound.prototype = new Nop();

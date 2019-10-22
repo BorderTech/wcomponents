@@ -9,25 +9,25 @@ define([
 	"wc/dom/event",
 	"wc/debounce",
 	"wc/ui/getForm"],
-	function(initialise, getViewportSize, event, debounce, getForm) {
-		"use strict";
+function(initialise, getViewportSize, event, debounce, getForm) {
+	"use strict";
 
-		function setWidth() {
-			var form = getForm(),
-				vp;
-			if (form && (vp = getViewportSize())) {
-				form.style.width = vp.width  + "px";
-			}
+	function setWidth() {
+		var form = getForm(),
+			vp;
+		if (form && (vp = getViewportSize())) {
+			form.style.width = vp.width  + "px";
 		}
-
-		function Width() {
-			var resizeEvent = debounce(setWidth, 100);
-
-			this.preInit = function() {
-				setWidth();
-				event.add(window, event.TYPE.resize, resizeEvent, 1);
-			};
-		}
-		return initialise.register(new Width());
 	}
+
+	function Width() {
+		var resizeEvent = debounce(setWidth, 100);
+
+		this.preInit = function() {
+			setWidth();
+			event.add(window, "resize", resizeEvent, 1);
+		};
+	}
+	return initialise.register(new Width());
+}
 );

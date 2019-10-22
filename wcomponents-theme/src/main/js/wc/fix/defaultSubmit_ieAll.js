@@ -28,7 +28,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/tag"],
 				submittables = [BUTTON, A, INPUT_WD];
 
 			this.initialise = function (element) {
-				event.add(element, event.TYPE.keypress, keyEvent, 100);
+				event.add(element, "keypress", keyEvent, 100);
 				console.log("initialising IE default submit bug fix");
 			};
 
