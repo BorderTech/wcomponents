@@ -139,24 +139,24 @@ public final class ThemeUtil {
 	 * @param uic the current user's UIContext.
 	 * @return the theme XSLT.
 	 */
-	public static String getThemeXslt(final UIContext uic) {
-		String themePath = uic.getEnvironment().getThemePath();
-		StringBuffer path = new StringBuffer(themePath.length() + 20);
-
-		// Path
-		path.append(themePath);
-		if (themePath.length() > 0 && !themePath.endsWith("/")) {
-			path.append('/');
-		}
-		path.append("xslt/");
-		path.append(getThemeXsltName());
-
-		// Add cache busting suffix
-		path.append("?build=").append(WebUtilities.escapeForUrl(THEME_BUILD))
-				.append("&theme=").append(WebUtilities.escapeForUrl(THEME_NAME));
-
-		return path.toString();
-	}
+//	public static String getThemeXslt(final UIContext uic) {
+//		String themePath = uic.getEnvironment().getThemePath();
+//		StringBuffer path = new StringBuffer(themePath.length() + 20);
+//
+//		// Path
+//		path.append(themePath);
+//		if (themePath.length() > 0 && !themePath.endsWith("/")) {
+//			path.append('/');
+//		}
+//		path.append("xslt/");
+//		path.append(getThemeXsltName());
+//
+//		// Add cache busting suffix
+//		path.append("?build=").append(WebUtilities.escapeForUrl(THEME_BUILD))
+//				.append("&theme=").append(WebUtilities.escapeForUrl(THEME_NAME));
+//
+//		return path.toString();
+//	}
 
 	/**
 	 * Get the name of the XSLT file to use taking locale and debug mode into consideration.
