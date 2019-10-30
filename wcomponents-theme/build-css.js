@@ -32,6 +32,7 @@ function build(singleFile) {
 
 function compileAllSass() {
 	let compiled = [];
+	let errors = [];
 	let files = fs.readdirSync(dirs.src);
 	files.forEach(function (file) {
 		if (/^[^_].+\.scss$/.test(file)) {
@@ -39,9 +40,16 @@ function compileAllSass() {
 			let cssFile = path.basename(file, ".scss");
 			compiled.push(cssFile);
 			cssFile = path.join(dirs.target, cssFile + ".css");
-			compileSass(sassFile, cssFile, file.indexOf("debug") >= 0);
+			try {
+				compileSass(sassFile, cssFile, file.indexOf("debug") >= 0);
+			} catch (ex) {
+				errors.push(ex);
+			}
 		}
 	});
+	if (errors.length) {
+		throw (errors);
+	}
 	return compiled;
 }
 
