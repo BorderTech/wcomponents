@@ -134,6 +134,9 @@ public final class ThemeUtil {
 	 * </p>
 	 * <p>
 	 * Note: The XSLT is the single integration point to the client-side rendering.
+	 * Since we no longer perform client side XSLT and the xsl file is not even part of the theme
+	 * it is also a lie, the URL does not reference the XSLT file any more. It is now really just a
+	 * way of passing configuration to the XSLT, i.e. the theme resource path and the cachebuster.
 	 * </p>
 	 *
 	 * @param uic the current user's UIContext.

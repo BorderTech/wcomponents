@@ -2,6 +2,10 @@
 
 ## Release in-progress
 
+This release removes the XSLT from the theme module. It is now in its own module `wcomponents-xslt`.
+If you depend on a `-bundle` version of wcomponents this will not affect you.
+If you explicitly depend on core and theme separately then you must now also add the xslt dependency.
+
 ### API Changes
 ### Enhancements
 ### Bug Fixes
