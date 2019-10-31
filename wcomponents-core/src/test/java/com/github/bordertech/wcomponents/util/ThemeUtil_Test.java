@@ -31,26 +31,26 @@ public class ThemeUtil_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrect theme name", "wcomponents-theme", ThemeUtil.getThemeName());
 	}
 
-//	@Test
-//	public void testGetThemeXslt() {
-//		String themePath = "/testGetThemeXslt";
-//		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, themePath);
-//
-//		String build = ThemeUtil.getThemeBuild();
-//		String themeName = ThemeUtil.getThemeName();
-//		String versionSuffix = "?build=" + WebUtilities.escapeForUrl(build) + "&theme=" + WebUtilities.
-//				escapeForUrl(themeName);
-//
-//		UIContext uic = createUIContext();
-//		Assert.assertEquals("Incorrect theme path", themePath + "/xslt/all.xsl" + versionSuffix,
-//				ThemeUtil.getThemeXslt(uic));
-//
-//		uic.setLocale(Locale.ENGLISH);  // We used to fetch a different XSL file based on locale, this is no longer the case.
-//		Assert.assertEquals("Incorrect theme path", themePath + "/xslt/all.xsl" + versionSuffix,
-//				ThemeUtil.getThemeXslt(uic));
-//
-//		uic.setLocale(Locale.CANADA_FRENCH);  // We used to fetch a different XSL file based on locale, this is no longer the case.
-//		Assert.assertEquals("Incorrect theme path",
-//				themePath + "/xslt/all.xsl" + versionSuffix, ThemeUtil.getThemeXslt(uic));
-//	}
+	@Test
+	public void testGetThemeXslt() {
+		String themePath = "/testGetThemeXslt";
+		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, themePath);
+
+		String build = ThemeUtil.getThemeBuild();
+		String themeName = ThemeUtil.getThemeName();
+		String versionSuffix = "?build=" + WebUtilities.escapeForUrl(build) + "&theme=" + WebUtilities.
+				escapeForUrl(themeName);
+
+		UIContext uic = createUIContext();
+		Assert.assertEquals("Incorrect theme path", themePath + "/xslt/all.xsl" + versionSuffix,
+				ThemeUtil.getThemeXslt(uic));
+
+		uic.setLocale(Locale.ENGLISH);  // We used to fetch a different XSL file based on locale, this is no longer the case.
+		Assert.assertEquals("Incorrect theme path", themePath + "/xslt/all.xsl" + versionSuffix,
+				ThemeUtil.getThemeXslt(uic));
+
+		uic.setLocale(Locale.CANADA_FRENCH);  // We used to fetch a different XSL file based on locale, this is no longer the case.
+		Assert.assertEquals("Incorrect theme path",
+				themePath + "/xslt/all.xsl" + versionSuffix, ThemeUtil.getThemeXslt(uic));
+	}
 }
