@@ -178,7 +178,7 @@ function(toArray, event, focus, initialise, Widget, shed, timers, tabset, proces
 		 */
 		function collapsibleObserver($event) {
 			var controllers,
-			    element = $event.target;
+				element = $event.target;
 			if (!element || (!((controllers = getControllers(element)) && controllers.length))) {
 				return;
 			}
@@ -241,7 +241,7 @@ function(toArray, event, focus, initialise, Widget, shed, timers, tabset, proces
 		 */
 		function shedObserver($event) {
 			var wrapper,
-			    element = $event.target;
+				element = $event.target;
 			if (element && EXPAND_COLLAPSE_ALL.isOneOfMe(element)) {
 				toggleGroup(element);
 				// just in case we were not able to toggle any controlled components.
@@ -257,9 +257,9 @@ function(toArray, event, focus, initialise, Widget, shed, timers, tabset, proces
 		 */
 		this.postInit = function() {
 			setControls();
-			event.add(document.body, "select", shedObserver);
-			event.add(document.body, "expand", collapsibleObserver);
-			event.add(document.body, "collapse", collapsibleObserver);
+			event.add(document.body, shed.events.SELECT, shedObserver);
+			event.add(document.body, shed.events.EXPAND, collapsibleObserver);
+			event.add(document.body, shed.events.COLLAPSE, collapsibleObserver);
 			processResponse.subscribe(setControls, true);
 		};
 	}
