@@ -171,7 +171,7 @@ function(shed, triggerManager, ajaxRegion, initialise, uid, Widget, classList, c
 				event.add(document.body, shed.events.COLLAPSE, handleCollapseOrHide);
 				event.add(document.body, shed.events.SHOW, instance.onshow);
 				event.add(document.body, shed.events.HIDE, handleCollapseOrHide);
-                    }
+			}
 		}
 
 
