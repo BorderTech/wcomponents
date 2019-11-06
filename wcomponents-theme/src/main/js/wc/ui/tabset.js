@@ -468,29 +468,29 @@ function(toArray, ariaAnalog, formUpdateManager, getFilteredGroup, initialise, s
 		 */
 		this.shedObserver = function ($event) {
 			var element = $event.target,
-				action = $event.type;
+				action = shed.events[$event.type];
 			if (element) {
 				if (this.ITEM.isOneOfMe(element)) {
 					switch (action) {
-						case shed.events.SELECT:
-						case shed.events.DESELECT:
+						case shed.actions.SELECT:
+						case shed.actions.DESELECT:
 							onItemSelection(action, element);
 							break;
-						case shed.events.EXPAND:
-						case shed.events.COLLAPSE:
+						case shed.actions.EXPAND:
+						case shed.actions.COLLAPSE:
 							onItemExpansion(action, element);
 							break;
-						case shed.events.DISABLE:
+						case shed.actions.DISABLE:
 							onItemDisabled(element);
 							break;
-						case shed.events.ENABLE:
+						case shed.actions.ENABLE:
 							onItemEnabled(element);
 							break;
 						default:
 							console.warn("Unknown action", action);
 							break;
 					}
-				} else if ((action === shed.events.DISABLE || action === shed.events.ENABLE) && TABLIST.isOneOfMe(element)) {
+				} else if ((action === shed.actions.DISABLE || action === shed.actions.ENABLE) && TABLIST.isOneOfMe(element)) {
 					// if the tablist is disabled or enabled, diable/enable all the tabs.
 					Array.prototype.forEach.call(this.ITEM.findDescendants(element), function (next) {
 						shed[action](next);
