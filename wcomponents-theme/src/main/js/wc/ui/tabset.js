@@ -464,32 +464,33 @@ function(toArray, ariaAnalog, formUpdateManager, getFilteredGroup, initialise, s
 		 * @function module:wc/ui/tabset.shedObserver
 		 * @protected
 		 * @override
-		 * @param {Element} element The element on which the shed action acted.
-		 * @param {String} action The type of shed event. One of EXPAND, COLLAPSE, SELECT or DESELECT.
+		 * @param {Event} $event The shed event that fired.
 		 */
-		this.shedObserver = function (element, action) {
+		this.shedObserver = function ($event) {
+			var element = $event.target,
+				action = $event.type;
 			if (element) {
 				if (this.ITEM.isOneOfMe(element)) {
 					switch (action) {
-						case shed.actions.SELECT:
-						case shed.actions.DESELECT:
+						case shed.events.SELECT:
+						case shed.events.DESELECT:
 							onItemSelection(action, element);
 							break;
-						case shed.actions.EXPAND:
-						case shed.actions.COLLAPSE:
+						case shed.events.EXPAND:
+						case shed.events.COLLAPSE:
 							onItemExpansion(action, element);
 							break;
-						case shed.actions.DISABLE:
+						case shed.events.DISABLE:
 							onItemDisabled(element);
 							break;
-						case shed.actions.ENABLE:
+						case shed.events.ENABLE:
 							onItemEnabled(element);
 							break;
 						default:
 							console.warn("Unknown action", action);
 							break;
 					}
-				} else if ((action === shed.actions.DISABLE || action === shed.actions.ENABLE) && TABLIST.isOneOfMe(element)) {
+				} else if ((action === shed.events.DISABLE || action === shed.events.ENABLE) && TABLIST.isOneOfMe(element)) {
 					// if the tablist is disabled or enabled, diable/enable all the tabs.
 					Array.prototype.forEach.call(this.ITEM.findDescendants(element), function (next) {
 						shed[action](next);
@@ -846,10 +847,10 @@ function(toArray, ariaAnalog, formUpdateManager, getFilteredGroup, initialise, s
 		this._extendedInitialisation = function(element) {
 			toggleToFromAccordions(element);
 			processResponse.subscribe(toggleToFromAccordions, true);
-			shed.subscribe(shed.actions.EXPAND, this.shedObserver.bind(this));
-			shed.subscribe(shed.actions.COLLAPSE, this.shedObserver.bind(this));
-			shed.subscribe(shed.actions.ENABLE, this.shedObserver.bind(this));
-			shed.subscribe(shed.actions.DISABLE, this.shedObserver.bind(this));
+			event.add(document.body, shed.events.EXPAND, this.shedObserver.bind(this));
+			event.add(document.body, shed.events.COLLAPSE, this.shedObserver.bind(this));
+			event.add(document.body, shed.events.ENABLE, this.shedObserver.bind(this));
+			event.add(document.body, shed.events.DISABLE, this.shedObserver.bind(this));
 			event.add(window, "resize", resizeEvent, 1);
 		};
 	}
