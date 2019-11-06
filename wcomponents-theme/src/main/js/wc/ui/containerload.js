@@ -146,14 +146,15 @@ function(shed, triggerManager, ajaxRegion, initialise, uid, Widget, classList, c
 		 * Helper for shedSubscriber.
 		 * Deal with an element being collapsed or hidden.
 		 *
-		 * @param element The element being collapsed or hidden.
-		 * @param action The action, COLLAPSE or HIDE.
+		 * @param $event The shed event that fired.
 		 * @private
 		 * @function
 		 */
-		function handleCollapseOrHide(element, action) {
-			var el, widgets = [LAME_CONTAINER, DYNAMIC_CONTAINER];
-			if (action === shed.actions.COLLAPSE) {
+		function handleCollapseOrHide($event) {
+			var el, widgets = [LAME_CONTAINER, DYNAMIC_CONTAINER],
+				element = $event.target,
+				action = $event.type;
+			if (action === shed.events.COLLAPSE) {
 				el = Widget.isOneOfMe(element, widgets) ? element : (Widget.findDescendant(element, widgets, true) || element);
 			} else {
 				el = element;
@@ -166,11 +167,11 @@ function(shed, triggerManager, ajaxRegion, initialise, uid, Widget, classList, c
 		function init() {
 			if (!inited) {
 				inited = true;
-				shed.subscribe(shed.actions.EXPAND, instance.onexpand);
-				shed.subscribe(shed.actions.COLLAPSE, handleCollapseOrHide);
-				shed.subscribe(shed.actions.SHOW, instance.onshow);
-				shed.subscribe(shed.actions.HIDE, handleCollapseOrHide);
-			}
+				event.add(document.body, shed.events.EXPAND, instance.onexpand);
+				event.add(document.body, shed.events.COLLAPSE, handleCollapseOrHide);
+				event.add(document.body, shed.events.SHOW, instance.onshow);
+				event.add(document.body, shed.events.HIDE, handleCollapseOrHide);
+                    }
 		}
 
 
@@ -221,20 +222,20 @@ function(shed, triggerManager, ajaxRegion, initialise, uid, Widget, classList, c
 		/**
 		 * To be called when a candidate element is made visible.
 		 *
-		 * @param {Element} element The element being made visisble.
+		 * @param {Event} $event The shed event that fired.
 		 */
-		this.onshow = function(element) {
-			return handleExpandOrShow(element);
+		this.onshow = function($event) {
+			return handleExpandOrShow($event.target);
 		};
 
 		/**
 		 * To be called when a candidate element is expanded.
 		 *
-		 * @param {Element} element The element being expanded.
+		 * @param {Event} $event The shed event that fired.
 		 */
-		this.onexpand = function(element) {
+		this.onexpand = function($event) {
 			var _widgets = [LAME_CONTAINER, MAGIC_CONTAINER],
-				_element = Widget.isOneOfMe(element, _widgets) ? element : Widget.findDescendant(element, _widgets, true);
+				_element = Widget.isOneOfMe($event.target, _widgets) ? $event.target : Widget.findDescendant($event.target, _widgets, true);
 			return handleExpandOrShow(_element);
 		};
 
