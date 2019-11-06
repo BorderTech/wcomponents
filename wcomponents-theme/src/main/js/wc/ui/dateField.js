@@ -578,10 +578,11 @@ function(has, unique, Parser, interchange, Format, attribute, cancelUpdate, even
 		 *
 		 * @function
 		 * @private
-		 * @param {Element} element The element being selected.
+		 * @param {Event} $event The shed event that fired.
 		 */
-		function shedSelectSubscriber(element) {
-			var dateField;
+		function shedSelectSubscriber($event) {
+			var dateField,
+				element = $event.target;
 			if (element && element.hasAttribute(FAKE_VALUE_ATTRIB) && getSuggestionList(element, 1) && (dateField = instance.get(element))) {
 				setValueFromOption(dateField, element);
 			}
@@ -593,22 +594,23 @@ function(has, unique, Parser, interchange, Format, attribute, cancelUpdate, even
 		 * various sub-components on ENABLE, DISABLE, MANDATORY, OPTIONAL, HIDE and SHOW.
 		 * @function
 		 * @private
-		 * @param {Element} element The element SHED has acted upon.
-		 * @param {String} action The SHED action.
+		 * @param {Event} $event The shed event that fired.
 		 */
-		function shedSubscriber(element, action) {
+		function shedSubscriber($event) {
 			var textbox,
 				target,
-				func;
+				func,
+				element = $event.target,
+				action = $event.type;
 			if (element) {
 				if (DATE_FIELD.isOneOfMe(element)) {
-					if (action === shed.actions.EXPAND) {
+					if (action === shed.events.EXPAND) {
 						if (shed.isExpanded(element)) {
 							openDateCombo = element.id;
 							optionVal[(element.id)] = instance.getValue(element);
 							filterOptions(element, 0);
 						}
-					} else if (action === shed.actions.COLLAPSE) {
+					} else if (action === shed.events.COLLAPSE) {
 						if (!shed.isExpanded(element)) {
 							optionVal[(element.id)] = null;
 							openDateCombo = "";
@@ -621,7 +623,7 @@ function(has, unique, Parser, interchange, Format, attribute, cancelUpdate, even
 						func = getFuncForAction(action);
 						if (func) {
 							shed[func](textbox);  // publish this to make changes to the label
-							if ((action === shed.actions.ENABLE || action === shed.actions.DISABLE) && (target = LAUNCHER.findDescendant(element))) {
+							if ((action === shed.events.ENABLE || action === shed.events.DISABLE) && (target = LAUNCHER.findDescendant(element))) {
 								shed[func](target, true);  // no need to publish changing the state of the calendar launcher
 							}
 						}
@@ -1081,15 +1083,15 @@ function(has, unique, Parser, interchange, Format, attribute, cancelUpdate, even
 		 * @public
 		 */
 		this.postInit = function() {
-			shed.subscribe(shed.actions.SELECT, shedSelectSubscriber);
-			shed.subscribe(shed.actions.ENABLE, shedSubscriber);
-			shed.subscribe(shed.actions.DISABLE, shedSubscriber);
-			shed.subscribe(shed.actions.SHOW, shedSubscriber);
-			shed.subscribe(shed.actions.HIDE, shedSubscriber);
-			shed.subscribe(shed.actions.EXPAND, shedSubscriber);
-			shed.subscribe(shed.actions.COLLAPSE, shedSubscriber);
-			shed.subscribe(shed.actions.MANDATORY, shedSubscriber);
-			shed.subscribe(shed.actions.OPTIONAL, shedSubscriber);
+			event.add(document.body, shed.events.SELECT, shedSelectSubscriber);
+			event.add(document.body, shed.events.ENABLE, shedSubscriber);
+			event.add(document.body, shed.events.DISABLE, shedSubscriber);
+			event.add(document.body, shed.events.SHOW, shedSubscriber);
+			event.add(document.body, shed.events.HIDE, shedSubscriber);
+			event.add(document.body, shed.events.EXPAND, shedSubscriber);
+			event.add(document.body, shed.events.COLLAPSE, shedSubscriber);
+			event.add(document.body, shed.events.MANDATORY, shedSubscriber);
+			event.add(document.body, shed.events.OPTIONAL, shedSubscriber);
 			processResponse.subscribe(ajaxSetup);
 		};
 
