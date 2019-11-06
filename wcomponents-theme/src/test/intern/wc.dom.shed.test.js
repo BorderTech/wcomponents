@@ -358,6 +358,52 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 					controller.unsubscribe(controller.actions.SHOW, subscriberShowRval);
 				}
 			},
+			testUnsubscribe: function() {
+				var subscriberHideRval,
+					subscriberShowRval,
+					called = 0,
+					repeat = 4,
+					action,
+					i = 0,
+					element = document.getElementById("subscriberDiv1"),
+					subscriber = function() {
+						called++;
+					};
+				subscriberHideRval = controller.subscribe(controller.actions.HIDE, subscriber);
+				subscriberShowRval = controller.subscribe(controller.actions.SHOW, subscriber);
+				while (i < repeat) {
+					action = (i % 2) ? controller.actions.SHOW : controller.actions.HIDE;
+					controller[action](element);
+					i++;
+				}
+				controller.unsubscribe(controller.actions.HIDE, subscriberHideRval);
+				controller.unsubscribe(controller.actions.SHOW, subscriberShowRval);
+				i = 0;
+				while (i <= repeat) {
+					action = (i % 2) ? controller.actions.SHOW : controller.actions.HIDE;
+					controller[action](element);
+					i++;
+				}
+				assert.strictEqual(called, repeat, "unsubscribed shed subscribers should not have been called");
+			},
+			testSubscribeWithHide: function() {
+				_withSubscribeHelper("subscriberDiv1", controller.actions.HIDE);
+			},
+			testSubscribeWithShow: function() {
+				_withSubscribeHelper("subscriberDiv1", controller.actions.SHOW);
+			},
+			testSubscribeWithEnable: function() {
+				_withSubscribeHelper("subscriberDiv1", controller.actions.ENABLE);
+			},
+			testSubscribeWithDisable: function() {
+				_withSubscribeHelper("subscriberDiv1", controller.actions.DISABLE);
+			},
+			testSubscribeWithSelect: function() {
+				_withSubscribeHelper("fauxOpt1", controller.actions.SELECT);
+			},
+			testSubscribeWithDeselect: function() {
+				_withSubscribeHelper("fauxOpt1", controller.actions.DESELECT);
+			},
 			testIsExpandedFalse: function() {
 				assert.isFalse(controller.isExpanded(document.getElementById("exp1")));
 			},
