@@ -380,19 +380,20 @@ function(shed, getFilteredGroup, classList, toArray, formUpdateManager, Widget, 
 		 *
 		 * @function
 		 * @private
-		 * @param {Element} element The element being selected/deselected.
-		 * @param {String} action shed.SELECT or shed.DESELECT.
+		 * @param {Event} $event The shed event that fired.
 		 */
-		function shedObserver(element, action) {
-			var allControllers;
+		function shedObserver($event) {
+			var allControllers,
+				element = $event.target,
+				action = $event.type;
 
 			if (!element) {
 				return;
 			}
 
 			// Change the selected stae of a WSelectToggle button:
-			if ((action === shed.actions.SELECT && Widget.isOneOfMe(element, SUBCONTROLLER_WD)) ||
-				((action === shed.actions.SELECT || action === shed.actions.DESELECT) && (CONTROLLER_CHECKBOX_WD.isOneOfMe(element)))) {
+			if ((action === shed.events.SELECT && Widget.isOneOfMe(element, SUBCONTROLLER_WD)) ||
+				((action === shed.events.SELECT || action === shed.events.DESELECT) && (CONTROLLER_CHECKBOX_WD.isOneOfMe(element)))) {
 				/* If activateTrigger returns exactly 0 we did not change the state of any controls so we won't
 				 * have set the state of the controller and it may be in the incorrect state. This _will_ be the
 				 * case if, for example, someone clicks a "select all" which controls only selected and hidden
@@ -543,9 +544,9 @@ function(shed, getFilteredGroup, classList, toArray, formUpdateManager, Widget, 
 		this.postInit = function() {
 			setControls();
 			setLabelledBy();
-			shed.subscribe(shed.actions.SELECT, shedObserver);
-			shed.subscribe(shed.actions.DESELECT, shedObserver);
-			shed.subscribe(shed.actions.MIX, shedObserver);
+			event.add(document.body, shed.events.SELECT, shedObserver);
+			event.add(document.body, shed.events.DESELECT, shedObserver);
+			event.add(document.body, shed.events.MIX, shedObserver);
 			formUpdateManager.subscribe(writeState);
 			processResponse.subscribe(setControls, true);
 			processResponse.subscribe(setLabelledBy, true);
