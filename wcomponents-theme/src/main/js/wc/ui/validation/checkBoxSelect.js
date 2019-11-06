@@ -66,8 +66,9 @@ function(initialise, getFilteredGroup, group, shed, validationManager, required,
 			validationManager.revalidationHelper(element, validate);
 		}
 
-		function shedSubscriber(element) {
-			var container = group.getContainer(element, checkBoxSelect.CONTAINER);
+		function shedSubscriber($event) {
+			var element = $event.target,
+				container = group.getContainer(element, checkBoxSelect.CONTAINER);
 
 			if (!container) {
 				return;
@@ -102,8 +103,8 @@ function(initialise, getFilteredGroup, group, shed, validationManager, required,
 		this.initialise = function() {
 			validationManager.subscribe(validate);
 			isComplete.subscribe(isCompleteSubscriber);
-			shed.subscribe(shed.actions.SELECT, shedSubscriber);
-			shed.subscribe(shed.actions.DESELECT, shedSubscriber);
+			event.add(document.body, shed.events.SELECT, shedSubscriber);
+			event.add(document.body, shed.events.DESELECT, shedSubscriber);
 		};
 	}
 
