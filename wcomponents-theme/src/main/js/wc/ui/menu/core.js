@@ -824,37 +824,38 @@ function(attribute, classList, event, focus, formUpdateManager, getFilteredGroup
 	 * @function
 	 * @protected
 	 * @see {@link module:wc/dom/shed}
-	 * @param {Element} element The SHED target.
-	 * @param {String} action The SHED action.
+	 * @param {Event} $event The shed event that fired.
 	 */
-	AbstractMenu.prototype._shedSubscriber = function(element, action) {
+	AbstractMenu.prototype._shedSubscriber = function($event) {
 		var root,
-			branch;
+			branch,
+			element = $event.target,
+			action = $event.type;
 
 		if (!(element && (root = this.getRoot(element)))) {
 			return;
 		}
-		if (action === shed.actions.ENABLE || action === shed.actions.DISABLE) {
+		if (action === shed.events.ENABLE || action === shed.events.DISABLE) {
 			this._enableDisable(element, action, root);
 			return;
 		}
-		if (action === shed.actions.HIDE) {
+		if (action === shed.events.HIDE) {
 			this._hideDisableHelper(element, root);
 			return;
 		}
 		if (this.isTransient) { // collision detection on branch open
-			if (action === shed.actions.EXPAND || action === shed.actions.COLLAPSE) {
+			if (action === shed.events.EXPAND || action === shed.events.COLLAPSE) {
 				if (this.isSubMenu(element) && (branch = this._getBranch(element))) {
 					expandCollapseTransientBranch(branch, action, root, this);
 				}
 			}
 			return;
 		}
-		if (action === shed.actions.COLLAPSE) {
+		if (action === shed.events.COLLAPSE) {
 			this._shedCollapseHelper(element, root);
 			return;
 		}
-		if (action === shed.actions.EXPAND && this._enterOnOpen) {
+		if (action === shed.events.EXPAND && this._enterOnOpen) {
 			if (this._isBranch(element)) {
 				this._expand(element, root);
 			} else if (this.isSubMenu(element) && (branch = this._getBranch(element))) {
@@ -1804,13 +1805,13 @@ function(attribute, classList, event, focus, formUpdateManager, getFilteredGroup
 		processResponse.subscribe(postAjaxSubscriber.bind(this), true);
 		formUpdateManager.subscribe(this.writeState.bind(this));
 
-		shed.subscribe(shed.actions.SELECT, this._shedSubscriber.bind(this));
-		shed.subscribe(shed.actions.DESELECT, this._shedSubscriber.bind(this));
-		shed.subscribe(shed.actions.EXPAND, this._shedSubscriber.bind(this));
-		shed.subscribe(shed.actions.COLLAPSE, this._shedSubscriber.bind(this));
-		shed.subscribe(shed.actions.HIDE, this._shedSubscriber.bind(this));
-		shed.subscribe(shed.actions.ENABLE, this._shedSubscriber.bind(this));
-		shed.subscribe(shed.actions.DISABLE, this._shedSubscriber.bind(this));
+		event.add(document.body, shed.events.SELECT, this._shedSubscriber.bind(this));
+		event.add(document.body, shed.events.DESELECT, this._shedSubscriber.bind(this));
+		event.add(document.body, shed.events.EXPAND, this._shedSubscriber.bind(this));
+		event.add(document.body, shed.events.COLLAPSE, this._shedSubscriber.bind(this));
+		event.add(document.body, shed.events.HIDE, this._shedSubscriber.bind(this));
+		event.add(document.body, shed.events.ENABLE, this._shedSubscriber.bind(this));
+		event.add(document.body, shed.events.DISABLE, this._shedSubscriber.bind(this));
 	};
 
 	/**
