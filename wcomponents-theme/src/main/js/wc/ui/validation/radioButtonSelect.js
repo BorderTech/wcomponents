@@ -31,10 +31,11 @@ function(initialise, shed, required, validationManager, radioButtonSelect) {
 		 * most re-validation because of the single-select nature of a WRadioButtonSelect.
 		 * @function
 		 * @private
-		 * @param {Element} element A html element which has been selected.
+		 * @param {Event} $event The shed event that fired.
 		 */
-		function validationShedSubscriber(element) {
-			var container;
+		function validationShedSubscriber($event) {
+			var container,
+				element = $event.target;
 			if (radioButtonSelect.getInputWidget().isOneOfMe(element) &&
 				(container = radioButtonSelect.getWidget().findAncestor(element)) &&
 				validationManager.isInvalid(container)) {
@@ -48,7 +49,7 @@ function(initialise, shed, required, validationManager, radioButtonSelect) {
 		 */
 		this.postInit = function () {
 			validationManager.subscribe(validate);
-			shed.subscribe(shed.actions.SELECT, validationShedSubscriber);
+			event.add(document.body, shed.events.SELECT, validationShedSubscriber);
 		};
 	}
 
