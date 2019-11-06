@@ -555,11 +555,13 @@ function(attribute, classList, clearSelection, event, getMouseEventOffset, isAcc
 		 * @param {Element} element A dom node, we are only interested in max/restore buttons.
 		 * @param {String} action The shed action:  shed.actions.SELECT or shed.actions.DESELECT.
 		 */
-		function shedSelectSubscriber(element, action) {
-			var target;
+		function shedSelectSubscriber($event) {
+			var target,
+				element = $event.target,
+				action = $event.type;
 			if (element && MAX.isOneOfMe(element) && (target = getResizeTarget(element))) {
-				classList[(action === shed.actions.SELECT ? "add" : "remove")](target, CLASS_MAX);
-				if (action === shed.actions.SELECT) {
+				classList[(action === shed.events.SELECT ? "add" : "remove")](target, CLASS_MAX);
+				if (action === shed.events.SELECT) {
 					icon.change(element, "fa-minus", "fa-plus");
 				} else {
 					icon.change(element, "fa-plus", "fa-minus");
@@ -597,8 +599,8 @@ function(attribute, classList, clearSelection, event, getMouseEventOffset, isAcc
 			classList.remove(element, CLASS_MAX_CONTROL);
 		};
 
-		function setup(element) {
-			var el = element || document.body;
+		function setup($event) {
+			var el = ($event ? $event.target : document.body);
 			Array.prototype.forEach.call(RESIZE.findDescendants(el), bootstrap);
 		}
 
@@ -609,9 +611,9 @@ function(attribute, classList, clearSelection, event, getMouseEventOffset, isAcc
 		 */
 		this.postInit = function() {
 			setup();
-			shed.subscribe(shed.actions.SELECT, shedSelectSubscriber);
-			shed.subscribe(shed.actions.DESELECT, shedSelectSubscriber);
-			shed.subscribe(shed.actions.SHOW, setup);
+			event.add(document.body, shed.events.SELECT, shedSelectSubscriber);
+			event.add(document.body, shed.events.DESELECT, shedSelectSubscriber);
+			event.add(document.body, shed.actions.SHOW, setup);
 			processResponse.subscribe(ajaxSubscriber, true);
 		};
 
