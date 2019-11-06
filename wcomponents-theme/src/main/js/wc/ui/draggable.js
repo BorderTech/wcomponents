@@ -295,10 +295,11 @@ function(attribute, clearSelection, event, getMouseEventOffset, isAcceptableEven
 		 *
 		 * @function
 		 * @private
-		 * @param {Element} element the element being shown.
-		 * @param {String} action The shed action SHOW or HIDE.
+		 * @param {Event} $event The shed event that fired.
 		 */
-		function shedAjaxSubscriber(element, action) {
+		function shedAjaxSubscriber($event) {
+			var element = $event.target,
+				action = $event.type;
 			if (element) {
 				if (DRAGGABLE.isOneOfMe(element)) {
 					addRemoveEvents(element);
@@ -365,8 +366,8 @@ function(attribute, clearSelection, event, getMouseEventOffset, isAcceptableEven
 		 */
 		this.postInit = function() {
 			Array.prototype.forEach.call(DRAGGABLE.findDescendants(document.body), addRemoveEvents);
-			shed.subscribe(shed.actions.SHOW, shedAjaxSubscriber);
-			shed.subscribe(shed.actions.HIDE, shedAjaxSubscriber);
+			event.add(document.body, shed.events.SHOW, shedAjaxSubscriber);
+			event.add(document.body, shed.events.HIDE, shedAjaxSubscriber);
 			processResponse.subscribe(shedAjaxSubscriber, true);
 		};
 	}
