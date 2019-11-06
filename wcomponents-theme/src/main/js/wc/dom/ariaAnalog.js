@@ -362,12 +362,13 @@ function(has, attribute, clearSelection, event, group, shed, uid, Widget, toArra
 	 *
 	 * @function
 	 * @public
-	 * @param {Element} element The element SHED is acting on.
-	 * @param {String} action The select or deselect action.
+	 * @param {Event} $event The shed event that fired.
 	 */
-	AriaAnalog.prototype.shedObserver = function(element, action) {
-		var _group, container, deselectOthers = false, config;
-		if (action === shed.actions.SELECT && this.ITEM.isOneOfMe(element)) {
+	AriaAnalog.prototype.shedObserver = function($event) {
+		var _group, container, deselectOthers = false, config,
+			element = $event.target,
+			action = $event.type;
+		if (action === shed.events.SELECT && this.ITEM.isOneOfMe(element)) {
 			if (this.exclusiveSelect === this.SELECT_MODE.SINGLE) {
 				deselectOthers = true;
 			} else if (this.exclusiveSelect === this.SELECT_MODE.MIXED) {
@@ -413,8 +414,8 @@ function(has, attribute, clearSelection, event, group, shed, uid, Widget, toArra
 			event.add(element, "focusin", eventWrapper.bind(this));
 			event.add(element, "click", eventWrapper.bind(this));
 		}
-		shed.subscribe(shed.actions.SELECT, this.shedObserver.bind(this));
-		shed.subscribe(shed.actions.DESELECT, this.shedObserver.bind(this));
+		event.add(document.body, shed.events.SELECT, this.shedObserver.bind(this));
+		event.add(document.body, shed.events.DESELECT, this.shedObserver.bind(this));
 
 		if (this._extendedInitialisation) {
 			this._extendedInitialisation(element);

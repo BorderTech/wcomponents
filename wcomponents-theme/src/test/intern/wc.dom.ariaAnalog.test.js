@@ -115,14 +115,14 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 				var start = document.getElementById("rb0-1"),
 					initialSelection = document.getElementById("rb0-0");
 				assert.isTrue(shed.isSelected(initialSelection), "initial selection should be selected");
-				radioController.shedObserver(start, shed.actions.SELECT);
+				event.fire(start, shed.events.SELECT);
 				assert.isFalse(shed.isSelected(initialSelection), "initial selection should not be selected");
 			},
 			testShedObserver_listSingle: function() {
 				var start = document.getElementById("lb0-1"),
 					initialSelection = document.getElementById("lb0-0");
 				assert.isTrue(shed.isSelected(initialSelection), "initial selection should be selected");
-				listController.shedObserver(start, shed.actions.SELECT);
+				event.fire(start, shed.events.SELECT);
 				assert.isFalse(shed.isSelected(initialSelection), "initial selection should not be selected");
 			},
 			testShedObserver_listSingle_explicit: function() {
@@ -131,7 +131,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 					container = document.getElementById("lb0");
 				container.setAttribute("aria-multiselectable", "false");
 				assert.isTrue(shed.isSelected(initialSelection), "initial selection should be selected");
-				listController.shedObserver(start, shed.actions.SELECT);
+				event.fire(start, shed.events.SELECT);
 				assert.isFalse(shed.isSelected(initialSelection), "initial selection should not be selected");
 			},
 			testShedObserver_listMulti: function() {
