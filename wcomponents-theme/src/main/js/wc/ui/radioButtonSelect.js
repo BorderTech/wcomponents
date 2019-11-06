@@ -23,10 +23,11 @@ function(group, initialise, shed, Widget, getFilteredGroup, cbrShedPublisher) {
 		 * Listen for mandatory/optional and set the group's radio buttons.
 		 * @function
 		 * @private
-		 * @param {Element} element The element being acted upon.
-		 * @param {String} action One of the {@link module:wc/dom/shed~actions}: MANDATORY or OPTIONAL
+		 * @param {Event} $event The shed event that fired.
 		 */
-		function shedSubscriber(element, action) {
+		function shedSubscriber($event) {
+			var element = $event.target,
+				action = $event.type;
 			if (element && RADIO_BUTTON_SELECT.isOneOfMe(element)) {
 				group.getGroup(element, RADIO).forEach(function (next) {
 					shed[action](next);
@@ -88,8 +89,8 @@ function(group, initialise, shed, Widget, getFilteredGroup, cbrShedPublisher) {
 		 * @public
 		 */
 		this.postInit = function () {
-			shed.subscribe(shed.actions.MANDATORY, shedSubscriber);
-			shed.subscribe(shed.actions.OPTIONAL, shedSubscriber);
+			event.add(document.body, shed.events.MANDATORY, shedSubscriber);
+			event.add(document.body, shed.events.OPTIONAL, shedSubscriber);
 		};
 	}
 
