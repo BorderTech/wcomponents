@@ -40,12 +40,12 @@ define(["wc/has", "wc/dom/classList", "wc/timers"], function(has, classList, tim
 
 	if (has("ie") === 8) {
 		require(["wc/dom/shed"], function(shed) {
-			shed.subscribe(shed.actions.SHOW, checkRepaint);
-			shed.subscribe(shed.actions.HIDE, checkRepaint);
-			shed.subscribe(shed.actions.SELECT, checkRepaint);
-			shed.subscribe(shed.actions.DESELECT, checkRepaint);
-			shed.subscribe(shed.actions.EXPAND, checkRepaint);
-			shed.subscribe(shed.actions.COLLAPSE, checkRepaint);
+			event.add(document.body, shed.events.SHOW, checkRepaint);
+			event.add(document.body, shed.events.HIDE, checkRepaint);
+			event.add(document.body, shed.events.SELECT, checkRepaint);
+			event.add(document.body, shed.events.DESELECT, checkRepaint);
+			event.add(document.body, shed.events.EXPAND, checkRepaint);
+			event.add(document.body, shed.events.COLLAPSE, checkRepaint);
 		});
 	}
 	/**
