@@ -49,13 +49,13 @@ function(attribute, event, initialise, focus, formUpdateManager, getBox, shed, t
 		 *
 		 * @function
 		 * @private
-		 * @param {Element} [container] A WMultiSelectPair or any container component.
+		 * @param {Event} $event The shed event that fired.
 		 */
-		function fixWidthHeight(container) {
-			var el = container || document.body,
+		function fixWidthHeight($event) {
+			var el = ($event ? $event.target : document.body),
 				components, PX = "px";
 			if (CONTAINER.isOneOfMe(el)) {
-				components = [container];
+				components = [$event.target];
 			} else {
 				components = CONTAINER.findDescendants(el);
 			}
@@ -561,7 +561,7 @@ function(attribute, event, initialise, focus, formUpdateManager, getBox, shed, t
 		 * @public
 		 */
 		this.postInit = function () {
-			shed.subscribe(shed.actions.SHOW, fixWidthHeight);
+			event.add(document.body, shed.events.SHOW, fixWidthHeight);
 			processResponse.subscribe(fixWidthHeight, true);
 			formUpdateManager.subscribe(writeState);
 		};
