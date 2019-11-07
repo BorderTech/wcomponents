@@ -798,18 +798,6 @@ function(event, aria, impliedAria, classList, tag, Widget, getLabelsForElement, 
 			}
 			return func(element, quiet);
 		};
-
-		/**
-		 * Unsubscribe from a SHED action.
-		 *
-		 * @function module:wc/dom/shed.unsubscribe
-		 * @param {String} type The action you want to unsubscribe from (one of shed.actions)
-		 * @param {Function} subscriber The subscriber to unsubscribe.
-		 * @returns {Function} The result of {@link module:wc/dom/event#remove}
-		 */
-		this.unsubscribe = function (type, subscriber) {
-			return event.remove(document.body, type, subscriber);
-		};
 	}
 
 	/**

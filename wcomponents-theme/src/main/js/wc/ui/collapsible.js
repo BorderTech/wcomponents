@@ -182,11 +182,12 @@ function(event, attribute, focus, formUpdateManager, has, initialise, Widget, sh
 		 *
 		 * @function
 		 * @private
-		 * @param {Element} element the element being selected.
-		 * @param {String} action The shed action being pne of "disable", "expand" or "collapse".
+		 * @param {Event} $event The shed event that fired.
 		 */
-		function shedSubscriber(element, action) {
-			var header;
+		function shedSubscriber($event) {
+			var header,
+				element = $event.target,
+				action = $event.type;
 			if (element && COLLAPSIBLE_CONTAINER.isOneOfMe(element) && (header = COLLAPSIBLE_HEADER.findDescendant(element))) {
 				if (action === shed.actions.DISABLE) {
 					if (shed.isDisabled(header)) {
@@ -229,10 +230,15 @@ function(event, attribute, focus, formUpdateManager, has, initialise, Widget, sh
 		 * @private
 		 */
 		function postInit(init) {
-			var su = init ? "subscribe" : "unsubscribe";
-			shed[su](shed.actions.DISABLE, shedSubscriber);
-			shed[su](shed.actions.EXPAND, shedSubscriber);
-			shed[su](shed.actions.COLLAPSE, shedSubscriber);
+			if(init) {
+				event.add(document.body, shed.events.DISABLE, shedSubscriber);
+				event.add(document.body, shed.events.EXPAND, shedSubscriber);
+				event.add(document.body, shed.events.COLLAPSE, shedSubscriber);
+			} else {
+				event.remove(document.body, shed.events.DISABLE, shedSubscriber);
+				event.remove(document.body, shed.events.EXPAND, shedSubscriber);
+				event.remove(document.body, shed.events.COLLAPSE, shedSubscriber);
+			}
 			formUpdateManager[su](writeState);
 		}
 

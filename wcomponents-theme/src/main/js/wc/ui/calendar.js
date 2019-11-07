@@ -987,10 +987,12 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		/*
 		 * strip aria- attributes on hide
 		 */
-		function shedSubscriber(element, action) {
-			var cal, input;
+		function shedSubscriber($event) {
+			var cal, input,
+				element = $event.target,
+				action = $event.type;
 			if (element.id === CONTAINER_ID) {
-				if (action === shed.actions.HIDE) {
+				if (action === shed.events.HIDE) {
 					element.removeAttribute(CONTROL_ATTRIBUTE);
 					clearMinMaxYear();
 					classList.remove(element, CLASS.WEST);
@@ -1004,11 +1006,11 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 						}
 						refocusId = null;
 					}
-				} else if (action === shed.actions.SHOW) {
+				} else if (action === shed.events.SHOW) {
 					position(element);
 					focus.focusFirstTabstop(element);
 				}
-			} else if (action === shed.actions.HIDE && ((cal = getCal()) && !!(element.compareDocumentPosition(cal) & Node.DOCUMENT_POSITION_CONTAINS))) {  // if we are hiding something inside the calendar it is probably a row
+			} else if (action === shed.events.HIDE && ((cal = getCal()) && !!(element.compareDocumentPosition(cal) & Node.DOCUMENT_POSITION_CONTAINS))) {  // if we are hiding something inside the calendar it is probably a row
 				ROW = ROW || new Widget("tr");
 				if (ROW.isOneOfMe(element)) {
 					// we have to remove the pickable elements from any dates which are no longer in the visible calendar
@@ -1091,11 +1093,10 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @private
 		 */
 		function postInit(init) {
-			var ar = init ? "add" : "remove",
-				su = init ? "subscribe" : "unsubscribe";
+			var ar = init ? "add" : "remove";
 			event[ar](window, "resize", reposEvent);
-			shed[su](shed.actions.SHOW, shedSubscriber);
-			shed[su](shed.actions.HIDE, shedSubscriber);
+			event[ar](document.body, shed.events.SHOW, shedSubscriber);
+			event[ar](document.body, shed.events.HIDE, shedSubscriber);
 		}
 
 		/**
