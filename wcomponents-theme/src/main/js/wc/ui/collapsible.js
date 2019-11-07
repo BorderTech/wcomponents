@@ -230,7 +230,8 @@ function(event, attribute, focus, formUpdateManager, has, initialise, Widget, sh
 		 * @private
 		 */
 		function postInit(init) {
-			if(init) {
+			var su = init ? "subscribe" : "unsubscribe";
+			if (init) {
 				event.add(document.body, shed.events.DISABLE, shedSubscriber);
 				event.add(document.body, shed.events.EXPAND, shedSubscriber);
 				event.add(document.body, shed.events.COLLAPSE, shedSubscriber);
