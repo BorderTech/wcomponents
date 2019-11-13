@@ -64,7 +64,7 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	/**
 	 * The theme XSLT resource name.
 	 */
-	private static final String RESOURCE_NAME = ThemeUtil.getThemeBase() + "xslt/" + ThemeUtil.getThemeXsltName();
+	private static final String RESOURCE_NAME = "/theme/wcomponents-xslt/xslt/" + ThemeUtil.getThemeXsltName();
 
 	/**
 	 * The XSLT cached templates.
