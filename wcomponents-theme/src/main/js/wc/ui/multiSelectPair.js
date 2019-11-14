@@ -42,6 +42,15 @@ function(attribute, event, initialise, focus, formUpdateManager, getBox, shed, t
 		SELECT.descendFrom(CONTAINER);
 
 		/**
+		 * @function
+		 * @private
+		 * @param {Event} $event The shed event that was fired.
+		 */
+		function showFixWidthHeight($event) {
+			fixWidthHeight($event.target);
+		}
+
+		/**
 		 * Fix the width and height of the available and selected lists so that they are the same size. This was
 		 * reintroduced (with the addition of a height fix) because some very common browsers will render a
 		 * select Element with a size attribute at a different height if it has no options. Since I had to fix
@@ -561,7 +570,7 @@ function(attribute, event, initialise, focus, formUpdateManager, getBox, shed, t
 		 * @public
 		 */
 		this.postInit = function () {
-			shed.subscribe(shed.actions.SHOW, fixWidthHeight);
+			event.add(document.body, shed.events.SHOW, showFixWidthHeight);
 			processResponse.subscribe(fixWidthHeight, true);
 			formUpdateManager.subscribe(writeState);
 		};
