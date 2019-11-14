@@ -26,7 +26,6 @@
 				<exclude>**/.settings/**</exclude>
 				<exclude>**/.*</exclude>
 				<exclude>**/nb-*</exclude>
-				<exclude>**/package.json</exclude>
 				<exclude>**/node/**</exclude>
 				<exclude>**/node_modules/**</exclude>
 				<exclude>**/etc/**</exclude>
