@@ -24,7 +24,6 @@
 				<exclude>**/*.contrib*</exclude>
 				<exclude>**/.sass-cache/**</exclude>
 				<exclude>**/.settings/**</exclude>
-				<exclude>**/.*</exclude>
 				<exclude>**/nb-*</exclude>
 				<exclude>**/node/**</exclude>
 				<exclude>**/node_modules/**</exclude>
