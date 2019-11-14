@@ -1,11 +1,12 @@
 define(["wc/dom/group",
 	"wc/dom/initialise",
 	"wc/dom/shed",
+	"wc/dom/event",
 	"wc/dom/Widget",
 	"wc/dom/getFilteredGroup",
 	"wc/dom/cbrShedPublisher",
 	"wc/ui/fieldset"],
-function(group, initialise, shed, Widget, getFilteredGroup, cbrShedPublisher) {
+function(group, initialise, shed, event, Widget, getFilteredGroup, cbrShedPublisher) {
 	"use strict";
 
 	// Note `wc/ui/fieldset` is implicitly required to handle various aspects of managing the wrapper element.
@@ -23,10 +24,11 @@ function(group, initialise, shed, Widget, getFilteredGroup, cbrShedPublisher) {
 		 * Listen for mandatory/optional and set the group's radio buttons.
 		 * @function
 		 * @private
-		 * @param {Element} element The element being acted upon.
-		 * @param {String} action One of the {@link module:wc/dom/shed~actions}: MANDATORY or OPTIONAL
+		 * @param {Event} $event The shed event that was fired.
 		 */
-		function shedSubscriber(element, action) {
+		function shedListener($event) {
+			var element = $event.target,
+				action = shed.events[$event.type];
 			if (element && RADIO_BUTTON_SELECT.isOneOfMe(element)) {
 				group.getGroup(element, RADIO).forEach(function (next) {
 					shed[action](next);
@@ -83,13 +85,13 @@ function(group, initialise, shed, Widget, getFilteredGroup, cbrShedPublisher) {
 		};
 
 		/**
-		 * Late setup - subscribers to {@link module:wc/dom/shed}.
+		 * Late setup - listeners for {@link module:wc/dom/shed}.
 		 * @function module:wc/ui/radioButtonSelect.postInit
 		 * @public
 		 */
 		this.postInit = function () {
-			shed.subscribe(shed.actions.MANDATORY, shedSubscriber);
-			shed.subscribe(shed.actions.OPTIONAL, shedSubscriber);
+			event.add(document.body, shed.events.MANDATORY, shedListener);
+			event.add(document.body, shed.events.OPTIONAL, shedListener);
 		};
 	}
 
