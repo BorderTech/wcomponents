@@ -366,8 +366,8 @@ function(has, attribute, clearSelection, event, group, shed, uid, Widget, toArra
 	 */
 	AriaAnalog.prototype.shedObserver = function($event) {
 		var _group, container, deselectOthers = false, config,
-                        element = $event.target,
-                        action = $event.type;
+			element = $event.target,
+			action = $event.type;
 		if (action === shed.events.SELECT && this.ITEM.isOneOfMe(element)) {
 			if (this.exclusiveSelect === this.SELECT_MODE.SINGLE) {
 				deselectOthers = true;
