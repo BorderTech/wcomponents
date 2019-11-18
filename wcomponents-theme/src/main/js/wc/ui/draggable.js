@@ -295,16 +295,17 @@ function(attribute, clearSelection, event, getMouseEventOffset, isAcceptableEven
 		 *
 		 * @function
 		 * @private
-		 * @param {Element} element the element being shown.
-		 * @param {String} action The shed action SHOW or HIDE.
+		 * @param {Event} $event the shed event that fired.
 		 */
-		function shedAjaxSubscriber(element, action) {
+		function shedAjaxSubscriber($event) {
+			var element = $event.target,
+				action = $event.type;
 			if (element) {
 				if (DRAGGABLE.isOneOfMe(element)) {
 					addRemoveEvents(element);
 				}
 				Array.prototype.forEach.call(DRAGGABLE.findDescendants(element), function (next) {
-					addRemoveEvents(next, action === shed.actions.HIDE);
+					addRemoveEvents(next, action === shed.events.HIDE);
 				});
 			}
 		}
@@ -365,8 +366,8 @@ function(attribute, clearSelection, event, getMouseEventOffset, isAcceptableEven
 		 */
 		this.postInit = function() {
 			Array.prototype.forEach.call(DRAGGABLE.findDescendants(document.body), addRemoveEvents);
-			shed.subscribe(shed.actions.SHOW, shedAjaxSubscriber);
-			shed.subscribe(shed.actions.HIDE, shedAjaxSubscriber);
+			event.add(document.body, shed.events.SHOW, shedAjaxSubscriber);
+			event.add(document.body, shed.events.HIDE, shedAjaxSubscriber);
 			processResponse.subscribe(shedAjaxSubscriber, true);
 		};
 	}
