@@ -122,23 +122,25 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 			};
 
 
-			this._shedSubscriber = function(element, action) {
-				var opener;
+			this._shedSubscriber = function($event) {
+				var opener,
+					element = $event.target,
+					action = $event.type;
 				if (!(element && this.getRoot(element))) {
 					return;
 				}
 
-				if (action === shed.actions.EXPAND || action === shed.actions.COLLAPSE) {
+				if (action === shed.events.EXPAND || action === shed.events.COLLAPSE) {
 					if ((opener = this._getBranch(element)) && (opener = this._getBranchOpener(opener))) {
-						if (action === shed.actions.EXPAND) {
+						if (action === shed.events.EXPAND) {
 							icon.change(opener, "fa-caret-down", "fa-caret-right");
-						} else if (action === shed.actions.COLLAPSE) {
+						} else if (action === shed.events.COLLAPSE) {
 							icon.change(opener, "fa-caret-right", "fa-caret-down");
 						}
 					}
 				}
 
-				this.constructor.prototype._shedSubscriber.call(this, element, action);
+				this.constructor.prototype._shedSubscriber.call(this, $event);
 			};
 		}
 		TreeMenu.prototype = abstractMenu;
