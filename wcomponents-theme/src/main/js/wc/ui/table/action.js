@@ -157,10 +157,11 @@ function(event, getFilteredGroup, initialise, shed, common, Widget, debounce) {
 		 * Subscriber to row select/deselect which is the trigger for changing the button's disabled state.
 		 * @function
 		 * @private
-		 * @param {Element} element the element being selected/deselected.
+		 * @param {Event} $event The shed event that fired.
 		 */
-		function shedSubscriber(element) {
-			var table;
+		function shedSubscriber($event) {
+			var table,
+				element = $event.target;
 
 			if (element && ROW.isOneOfMe(element) && (table = ACTION_TABLE.findAncestor(element))) {
 				Array.prototype.forEach.call(ACTION_BUTTON.findDescendants(table), function(next) {
@@ -182,8 +183,8 @@ function(event, getFilteredGroup, initialise, shed, common, Widget, debounce) {
 			// setUp();
 			// processResponse.subscribe(setUp, true);  // Re-evaluation will be triggered when the register method is called by AJAX scripts
 			registry.update();  // Probably not strictly necessary but just in case...
-			shed.subscribe(shed.actions.SELECT, shedSubscriber);
-			shed.subscribe(shed.actions.DESELECT, shedSubscriber);
+			event.add(document.body, shed.events.SELECT, shedSubscriber);
+			event.add(document.body, shed.events.DESELECT, shedSubscriber);
 		};
 
 		/**
