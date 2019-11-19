@@ -10,6 +10,8 @@ If you explicitly depend on core and theme separately then you must now also add
 ### Enhancements
 ### Bug Fixes
 
+* Fix ServletUtil.extractCookie throws exception when no cookies on the request (which normally never happens) #1683
+
 ## Release 1.5.17
 
 ### API Changes
