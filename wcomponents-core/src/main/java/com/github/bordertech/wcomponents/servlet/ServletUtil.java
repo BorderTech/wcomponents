@@ -655,9 +655,12 @@ public final class ServletUtil {
 	 * @return The value of the cookie, if present, otherwise null.
 	 */
 	public static String extractCookie(final HttpServletRequest request, final String name) {
-		for (Cookie cookie : request.getCookies()) {
-			if (cookie.getName().equals(name)) {
-				return cookie.getValue();
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals(name)) {
+					return cookie.getValue();
+				}
 			}
 		}
 		return null;
