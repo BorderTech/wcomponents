@@ -83,6 +83,10 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	@Override
 	public Cookie[] getCookies() {
 		Collection<Cookie> entries = cookies.values();
+		if (entries.size() < 1) {
+			// see https://javaee.github.io/javaee-spec/javadocs/javax/servlet/http/HttpServletRequest.html#getCookies--
+			return null;  // NOTE: initially incorrectly implemented, must return null when no cookies set.
+		}
 		return entries.toArray(new Cookie[0]);
 	}
 
