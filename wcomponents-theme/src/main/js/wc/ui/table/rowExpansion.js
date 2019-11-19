@@ -201,7 +201,7 @@ function(toArray, attribute, event, focus, formUpdateManager, initialise, shed, 
 		 * @param {String} action A {@link module:wc/dom/shed} action: one of shed.actions.EXPAND or shed.actions.COLLAPSE.
 		 */
 		function showHideContent(triggerRow, action) {
-			var shedFunc = action === shed.actions.EXPAND ? "show" : "hide",
+			var shedFunc = action === shed.events.EXPAND ? "show" : "hide",
 				controllers,
 				controlled = getControlled(triggerRow);
 
@@ -223,18 +223,19 @@ function(toArray, attribute, event, focus, formUpdateManager, initialise, shed, 
 		 *
 		 * @function
 		 * @private
-		 * @param {Element} element The expandable row being expanded or collapsed.
-		 * @param {String} action The shed action EXPAND or COLLAPSE.
+		 * @param {Event} $event The shed event that fired.
 		 */
-		function expCollapseObserver(element, action) {
-			var control, add, remove;
+		function expCollapseObserver($event) {
+			var control, add, remove,
+				element = $event.target,
+				action = $event.type;
 			if (element && TBL_EXPANDABLE_ROW.isOneOfMe(element)) {
 				if ((control = ROW_TRIGGER.findDescendant(element, true))) {
-					add = action === shed.actions.EXPAND ? "fa-caret-down" : "fa-caret-right";
-					remove = action === shed.actions.EXPAND ? "fa-caret-right" : "fa-caret-down";
+					add = action === shed.events.EXPAND ? "fa-caret-down" : "fa-caret-right";
+					remove = action === shed.events.EXPAND ? "fa-caret-right" : "fa-caret-down";
 					icon.change(control, add, remove);
 				}
-				if (action === shed.actions.EXPAND && isAjaxExpansion(element)) {
+				if (action === shed.events.EXPAND && isAjaxExpansion(element)) {
 					if (element.getAttribute(NO_AJAX) === TRUE) {
 						element.removeAttribute(NO_AJAX);
 					} else if (element.getAttribute(MODE) !== CLIENT) {
@@ -254,9 +255,10 @@ function(toArray, attribute, event, focus, formUpdateManager, initialise, shed, 
 		 *
 		 * @function
 		 * @private
-		 * @param {Element} element The expandable row being hidden.
+		 * @param {Event} $event The shed event that fired.
 		 */
-		function closeOnHide(element) {
+		function closeOnHide($event) {
+			var element = $event.target;
 			if (element && TBL_EXPANDABLE_ROW.isOneOfMe(element) && shed.isExpanded(element)) {
 				toggleRow(element, true);
 			}
@@ -390,10 +392,11 @@ function(toArray, attribute, event, focus, formUpdateManager, initialise, shed, 
 
 		/**
 		 * Toggle rows whan the select/deselect all options are triggered.
-		 * @param {Element} element The element being selected.
+		 * @param {Event} $event The shed event that fired.
 		 */
-		function activateOnSelect(element) {
-			var toggled, wrapper;
+		function activateOnSelect($event) {
+			var toggled, wrapper,
+				element = $event.target;
 
 			if (element && EXPAND_COLLAPSE_ALL.isOneOfMe(element)) {
 				toggled = toggleAll(element);
@@ -468,10 +471,10 @@ function(toArray, attribute, event, focus, formUpdateManager, initialise, shed, 
 		this.postInit = function() {
 			setControls();
 			processResponse.subscribe(ajaxSubscriber, true);
-			shed.subscribe(shed.actions.EXPAND, expCollapseObserver);
-			shed.subscribe(shed.actions.COLLAPSE, expCollapseObserver);
-			shed.subscribe(shed.actions.HIDE, closeOnHide);
-			shed.subscribe(shed.actions.SELECT, activateOnSelect);
+			event.add(document.body, shed.events.EXPAND, expCollapseObserver);
+			event.add(document.body, shed.events.COLLAPSE, expCollapseObserver);
+			event.add(document.body, shed.events.HIDE, closeOnHide);
+			event.add(document.body, shed.events.SELECT, activateOnSelect);
 			formUpdateManager.subscribe(writeState);
 		};
 
