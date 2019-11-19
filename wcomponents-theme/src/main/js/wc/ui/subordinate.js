@@ -589,10 +589,10 @@ function(tag, attribute, interchange, getFilteredGroup, initialise, Action, uniq
 							event.add(element, "focusin", focusEvent);
 						}
 					}
-					shed.subscribe(shed.actions.SELECT, shedObserver);
-					shed.subscribe(shed.actions.DESELECT, shedObserver);
-					shed.subscribe(shed.actions.ENABLE, shedObserver);
-					shed.subscribe(shed.actions.DISABLE, shedObserver);
+					event.add(document.body, shed.events.SELECT, shedObserver);
+					event.add(document.body, shed.events.DESELECT, shedObserver);
+					event.add(document.body, shed.events.ENABLE, shedObserver);
+					event.add(document.body, shed.events.DISABLE, shedObserver);
 					console.log("Subordinate rules exist: added listeners");
 				}
 			});
@@ -622,10 +622,10 @@ function(tag, attribute, interchange, getFilteredGroup, initialise, Action, uniq
 		 * Listen for shed "events" that could be subordinate triggers.
 		 * @function
 		 * @private
-		 * @param {Element} element The element to check.
+		 * @param {Event} $event The shed event that fired.
 		 */
-		function shedObserver(element) {
-			timers.setTimeout(activateSubordinateRules, 0, element);
+		function shedObserver($event) {
+			timers.setTimeout(activateSubordinateRules, 0, $event.target);
 		}
 
 		/**
