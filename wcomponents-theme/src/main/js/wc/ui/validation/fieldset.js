@@ -102,11 +102,11 @@ function(i18n, attribute, event, initialise, shed, isComplete, validationManager
 		 *
 		 * @function
 		 * @private
-		 * @param {Element} element The element acted on by shed.
+		 * @param {Event} $event The shed event that fired.
 		 */
-		function validationShedSubscriber(element) {
+		function validationShedSubscriber($event) {
 			var targetFieldset;
-			if (!(element && (targetFieldset = FIELDSET.findAncestor(element)))) {
+			if (!($event && (targetFieldset = FIELDSET.findAncestor($event.target)))) {
 				return;
 			}
 			if (validationManager.isValidateOnChange()) {
@@ -174,12 +174,12 @@ function(i18n, attribute, event, initialise, shed, isComplete, validationManager
 		this.postInit = function() {
 			validationManager.subscribe(validate);
 			validationManager.subscribe(revalidate, true);
-			shed.subscribe(shed.actions.SELECT, validationShedSubscriber);
-			shed.subscribe(shed.actions.DESELECT, validationShedSubscriber);
-			shed.subscribe(shed.actions.ENABLE, validationShedSubscriber);
-			shed.subscribe(shed.actions.DISABLE, validationShedSubscriber);
-			shed.subscribe(shed.actions.SHOW, validationShedSubscriber);
-			shed.subscribe(shed.actions.HIDE, validationShedSubscriber);
+			event.add(document.body, shed.events.SELECT, validationShedSubscriber);
+			event.add(document.body, shed.events.DESELECT, validationShedSubscriber);
+			event.add(document.body, shed.events.ENABLE, validationShedSubscriber);
+			event.add(document.body, shed.events.DISABLE, validationShedSubscriber);
+			event.add(document.body, shed.events.SHOW, validationShedSubscriber);
+			event.add(document.body, shed.events.HIDE, validationShedSubscriber);
 		};
 	}
 	/**
