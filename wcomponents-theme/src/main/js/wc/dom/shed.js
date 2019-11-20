@@ -764,33 +764,6 @@ function(event, aria, impliedAria, classList, tag, Widget, getLabelsForElement, 
 		};
 
 		/**
-		 * Be notified of an element being shown or hidden.
-		 * @deprecated Subscribe to the events instead so this:
-		 *    shed.subscribe(shed.actions.SELECT, function(element, action) {});
-		 *    Becomes this:
-		 *    event.add(document.body, shed.events.SELECT, function($event) { var element = $event.target, action = $event.detail.action });
-		 * @function module:wc/dom/shed.subscribe
-		 * @param {string} type The action you want to be notified about (one of shed.actions)
-		 * @param {Function} subscriber A callback function, will be passed the args: (element, action)
-		 * @returns {Function} The result of event.add
-		 */
-		this.subscribe = function (type, subscriber) {
-			return event.add(document.body, this.events[type], eventToObserverAdapter(subscriber));
-		};
-
-		/**
-		 * Event to observer API adapter factory.
-		 * This returns event handler wrappers that adapt from the new custom event API to the old pub/sub API.
-		 * We should delete this when all subscribers are listening to custom events (i.e. you delete shed.subscribe).
-		 * @returns {function} Intercepts custom events and calls the subscriber in the old way.
-		 */
-		function eventToObserverAdapter(subscriber) {
-			return function($event) {
-				subscriber($event.target, $event.detail.action);
-			};
-		}
-
-		/**
 		 * Toggles a state of an element.
 		 *
 		 * @function module:wc/dom/shed.toggle
@@ -824,18 +797,6 @@ function(event, aria, impliedAria, classList, tag, Widget, getLabelsForElement, 
 					throw new TypeError("Unknown action: " + action);
 			}
 			return func(element, quiet);
-		};
-
-		/**
-		 * Unsubscribe from a SHED action.
-		 *
-		 * @function module:wc/dom/shed.unsubscribe
-		 * @param {String} type The action you want to unsubscribe from (one of shed.actions)
-		 * @param {Function} subscriber The subscriber to unsubscribe.
-		 * @returns {Function} The result of {@link module:wc/dom/event#remove}
-		 */
-		this.unsubscribe = function (type, subscriber) {
-			return event.remove(document.body, type, subscriber);
 		};
 	}
 
