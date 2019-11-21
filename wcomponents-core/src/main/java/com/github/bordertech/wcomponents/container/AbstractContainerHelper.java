@@ -179,6 +179,11 @@ public abstract class AbstractContainerHelper {
 		} catch (Escape esc) {
 			LOG.debug("Escape performed during action phase.");
 			// We can't handle the escape until the render phase.
+		} catch (SessionTokenException e) {
+			// This session token exception can occur on a page submit action phase.
+			// Do a warn level to create less noise in the error logs.
+			LOG.warn(e.getMessage());
+			propogateError(e);
 		} catch (Throwable t) {
 			// We try not to let any exception propagate to container.
 			String message = "Caught exception during action phase.";

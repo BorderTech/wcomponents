@@ -26,7 +26,6 @@ public class DefaultSystemFailureMapper implements SystemFailureMapper {
 	 */
 	@Override
 	public Message toMessage(final Throwable throwable) {
-		LOG.error("The system is currently unavailable", throwable);
 		return new Message(Message.ERROR_MESSAGE, InternalMessages.DEFAULT_SYSTEM_ERROR);
 	}
 }

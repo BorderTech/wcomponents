@@ -4,13 +4,8 @@ import com.github.bordertech.wcomponents.Environment;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
-import com.github.bordertech.wcomponents.util.I18nUtilities;
-import com.github.bordertech.wcomponents.util.InternalMessages;
-import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
 import java.util.UUID;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * This session token interceptor makes sure the request being processed is for the correct session.
@@ -23,11 +18,6 @@ import org.apache.commons.logging.LogFactory;
  * @since 1.0.0
  */
 public class SessionTokenInterceptor extends InterceptorComponent {
-
-	/**
-	 * The logger instance for this class.
-	 */
-	private static final Log LOG = LogFactory.getLog(SessionTokenInterceptor.class);
 
 	/**
 	 * Override to check whether the session token variable in the incoming request matches what we expect.
@@ -56,17 +46,11 @@ public class SessionTokenInterceptor extends InterceptorComponent {
 				msg = "Wrong session token detected for servlet request. Expected token [" + expected
 						+ "] but got token [" + got + "].";
 			}
-			LOG.error(msg);
-			String message = I18nUtilities.format(uic.getLocale(),
-					InternalMessages.DEFAULT_SESSION_TOKEN_ERROR);
-			throw new SystemException(message);
+			throw new SessionTokenException(msg);
 		}
 
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void preparePaint(final Request request) {
 		// Set session token

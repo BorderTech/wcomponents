@@ -27,17 +27,17 @@ public class AjaxSetupInterceptor extends InterceptorComponent {
 	@Override
 	public void serviceRequest(final Request request) {
 
-		// Get trigger id
+		// Check the trigger id is on the request (should be as was detected when creating the intereceptor chain)
 		String triggerId = request.getParameter(WServlet.AJAX_TRIGGER_PARAM_NAME);
 		if (triggerId == null) {
 			throw new SystemException("No AJAX trigger id to on request");
 		}
 
 		// Find the Component for this trigger
-		ComponentWithContext trigger = WebUtilities.getComponentById(triggerId,
-				true);
+		ComponentWithContext trigger = WebUtilities.getComponentById(triggerId, true);
 		if (trigger == null) {
-			throw new SystemException("No component found for AJAX trigger " + triggerId + ".");
+			// This exception usually occurs when a trigger has become not visible due to other AJAX activity on the page
+			throw new AjaxTriggerException("No visible component found for AJAX trigger " + triggerId + ".");
 		}
 		WComponent triggerComponent = trigger.getComponent();
 
@@ -81,9 +81,6 @@ public class AjaxSetupInterceptor extends InterceptorComponent {
 		super.serviceRequest(request);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void paint(final RenderContext renderContext) {
 		try {

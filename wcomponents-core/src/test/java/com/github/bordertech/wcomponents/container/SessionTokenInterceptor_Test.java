@@ -7,7 +7,6 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextImpl;
 import com.github.bordertech.wcomponents.WApplication;
-import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import org.junit.Assert;
 import org.junit.Before;
@@ -73,7 +72,7 @@ public class SessionTokenInterceptor_Test extends AbstractWComponentTestCase {
 				component.handleRequestCalled);
 		Assert.assertEquals("Step count should not have been incremented for correct token", 10,
 				uic.getEnvironment()
-				.getStep());
+						.getStep());
 	}
 
 	@Test
@@ -84,12 +83,12 @@ public class SessionTokenInterceptor_Test extends AbstractWComponentTestCase {
 		try {
 			interceptor.serviceRequest(request);
 			Assert.fail("Should have thrown an excpetion for incorrect token");
-		} catch (SystemException e) {
+		} catch (SessionTokenException e) {
 			Assert.assertFalse("Action phase should not have occurred for token error",
 					component.handleRequestCalled);
 			Assert.assertEquals("Step count should not have been incremented for token error", 10,
 					uic.getEnvironment()
-					.getStep());
+							.getStep());
 		}
 	}
 
@@ -100,13 +99,13 @@ public class SessionTokenInterceptor_Test extends AbstractWComponentTestCase {
 		try {
 			interceptor.serviceRequest(request);
 			Assert.fail("Should have thrown an excpetion for incorrect token");
-		} catch (SystemException e) {
+		} catch (SessionTokenException e) {
 			Assert.assertFalse("Action phase should not have occurred for session timeout",
 					component.handleRequestCalled);
 			Assert.
 					assertEquals("Step count should not have been incremented for session timeout",
 							0, uic
-							.getEnvironment().getStep());
+									.getEnvironment().getStep());
 		}
 	}
 

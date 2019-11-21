@@ -10,7 +10,6 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.container.AbstractContainerHelper;
 import com.github.bordertech.wcomponents.container.ResponseCacheInterceptor.CacheType;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
-import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -200,7 +199,7 @@ public class HttpServletHelper extends AbstractContainerHelper {
 	@Override
 	protected UIContext createUIContext() {
 		if (getTargetComponentId() != null) {
-			throw new SystemException("AJAX request for a session with no context set");
+			throw new NoContextException("AJAX request for a session with no context set");
 		}
 		return super.createUIContext();
 	}

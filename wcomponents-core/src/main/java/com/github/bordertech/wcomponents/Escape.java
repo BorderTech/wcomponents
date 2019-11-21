@@ -22,6 +22,22 @@ public class Escape extends RuntimeException {
 	private Response response;
 
 	/**
+	 * Default constructor.
+	 */
+	public Escape() {
+	}
+
+	/**
+	 * Constructor that allows a message and cause to be provided.
+	 *
+	 * @param message the exception message
+	 * @param cause the original cause
+	 */
+	protected Escape(final String message, final Throwable cause) {
+		super(message, cause);
+	}
+
+	/**
 	 * @return the request being responded to.
 	 */
 	public Request getRequest() {

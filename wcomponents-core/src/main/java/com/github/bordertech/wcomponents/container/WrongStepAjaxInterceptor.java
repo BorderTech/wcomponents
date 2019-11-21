@@ -1,6 +1,5 @@
 package com.github.bordertech.wcomponents.container;
 
-import com.github.bordertech.wcomponents.ActionEscape;
 import com.github.bordertech.wcomponents.AjaxHelper;
 import com.github.bordertech.wcomponents.ComponentWithContext;
 import com.github.bordertech.wcomponents.Environment;
@@ -95,8 +94,6 @@ public class WrongStepAjaxInterceptor extends InterceptorComponent {
 			if ("GET".equals(request.getMethod())) {
 				LOG.warn("Error code will be sent in the response for AJAX GET Request.");
 				handleErrorCode();
-				// Make sure the render phase is not processed
-				throw new ActionEscape();
 			} else if (StepCountUtil.isErrorRedirect()) { // Redirect to error page
 				LOG.warn("User will be redirected to an error page.");
 				redirectUrl = StepCountUtil.getErrorUrl();
@@ -194,9 +191,8 @@ public class WrongStepAjaxInterceptor extends InterceptorComponent {
 	 * Throw the default error code.
 	 */
 	private void handleErrorCode() {
-		String msg = I18nUtilities
-				.format(UIContextHolder.getCurrent().getLocale(),
-						InternalMessages.DEFAULT_STEP_ERROR);
+		String msg = I18nUtilities.format(UIContextHolder.getCurrent().getLocale(),
+				InternalMessages.DEFAULT_STEP_ERROR);
 		throw new ErrorCodeEscape(HttpServletResponse.SC_BAD_REQUEST, msg);
 	}
 

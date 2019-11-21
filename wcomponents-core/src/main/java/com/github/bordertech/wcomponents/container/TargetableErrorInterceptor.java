@@ -23,24 +23,26 @@ public class TargetableErrorInterceptor extends InterceptorComponent {
 	 */
 	private static final Log LOG = LogFactory.getLog(TargetableErrorInterceptor.class);
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void serviceRequest(final Request request) {
 		try {
 			super.serviceRequest(request);
 		} catch (Escape escape) {
 			throw escape;
+		} catch (SessionTokenException e) {
+			// Log session token exception as warn to reduce noise in error logs
+			LOG.warn(e.getMessage());
+			handleError(getSessionErrorMessage(), e);
+		} catch (TargetableIdException e) {
+			// Log targetable ID exception as warn to reduce noise in error logs
+			LOG.warn(e.getMessage());
+			handleError(getDefaultMessage(), e);
 		} catch (Exception e) {
 			LOG.error("Error processing content request in action phase. " + e.getMessage(), e);
-			handleError();
+			handleError(getDefaultMessage(), e);
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void preparePaint(final Request request) {
 		try {
@@ -49,16 +51,35 @@ public class TargetableErrorInterceptor extends InterceptorComponent {
 			throw escape;
 		} catch (Exception e) {
 			LOG.error("Error processing content request in prepare paint. " + e.getMessage(), e);
-			handleError();
+			handleError(getDefaultMessage(), e);
 		}
 	}
 
 	/**
 	 * Throw the default error code.
+	 *
+	 * @param msg the error message
+	 * @param original the original exception
 	 */
-	private void handleError() {
+	private void handleError(final String msg, final Throwable original) {
+		throw new ErrorCodeEscape(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, msg, original);
+	}
+
+	/**
+	 * @return the default content error message
+	 */
+	private String getDefaultMessage() {
 		String msg = I18nUtilities.format(UIContextHolder.getCurrent().getLocale(),
 				InternalMessages.DEFAULT_CONTENT_ERROR);
-		throw new ErrorCodeEscape(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, msg);
+		return msg;
+	}
+
+	/**
+	 * @return the session token error message
+	 */
+	private String getSessionErrorMessage() {
+		String msg = I18nUtilities.format(UIContextHolder.getCurrent().getLocale(),
+				InternalMessages.DEFAULT_SESSION_TOKEN_ERROR);
+		return msg;
 	}
 }
