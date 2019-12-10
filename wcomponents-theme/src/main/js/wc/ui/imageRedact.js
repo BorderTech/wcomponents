@@ -1,4 +1,4 @@
-define(["fabric"], function(fabric) {
+define(["lib/fabric"], function(fabric) {
 	var imageEdit, redactMode = false, startX, startY,
 		fabricRedact = {
 			drawStart: function() {
