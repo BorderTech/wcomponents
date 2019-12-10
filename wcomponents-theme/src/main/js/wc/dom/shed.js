@@ -595,27 +595,27 @@ function(event, aria, impliedAria, classList, tag, Widget, getLabelsForElement, 
 		 *   for example, the element being tested is not in the DOM.
 		 * @returns {boolean} true if the element is hidden.
 		 */
-		this.isHidden = function (element, onlyHiddenAttribute, ignoreOffset) {
-			var result, _el;
-			if (showWithOpen(element)) {
-				result = !element.hasAttribute(OPEN);
+		this.isHidden = function (node, onlyHiddenAttribute, ignoreOffset) {
+			var result, _el = node;
+			// troublesome stuff inside hidden stuff.
+			if (node.nodeType !== Node.ELEMENT_NODE) {
+				if (node.nodeType === Node.TEXT_NODE) {
+					_el = node.parentNode;
+					if (!_el || _el.nodeType !== Node.ELEMENT_NODE) {
+						return false;
+					}
+				} else {
+					// why are we testing a document or documentFragment?
+					return false;
+				}
+			}
+			if (showWithOpen(_el)) {
+				result = !_el.hasAttribute(OPEN);
 			} else {
-				result = element.hasAttribute(HIDDEN);
+				result = _el.hasAttribute(HIDDEN);
 			}
 			if (onlyHiddenAttribute || result) {
 				return result;
-			}
-			// troublesome stuff inside hidden stuff.
-			_el = element;
-			if (element.nodeType !== Node.ELEMENT_NODE) {
-				if (element.nodeType === Node.TEXT_NODE) {
-					if (!element.parentNode) {
-						return false;
-					}
-					_el = element.parentNode;
-				}
-				// why are we testing a document or documentFragment?
-				return false;
 			}
 			if (getStyle(_el, "visibility", false, true) === HIDDEN) {
 				return true;
