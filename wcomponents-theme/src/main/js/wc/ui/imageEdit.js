@@ -581,7 +581,7 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 							zoomControls(actions.events);
 							moveControls(actions.events);
 							resetControl(actions.events);
-							cancelControl(actions.events, cntnr, callbacks, file);
+							cancelControl(actions.events, cntnr, callbacks);
 							saveControl(actions.events, cntnr, callbacks, file);
 							rotationControls(actions.events);
 							if (config.redactor) {
