@@ -543,15 +543,6 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				assert.isTrue(controller.isHidden(parent));
 				assert.isTrue(controller.isHidden(child));
 			},
-			testIsHiddenCommentNodeChildOfElement: function() {
-				var parent = document.createElement("span");
-				var child = parent.appendChild(document.createComment("comment"));
-				assert.isFalse(controller.isHidden(parent));
-				assert.isFalse(controller.isHidden(child));
-				controller.hide(parent);
-				assert.isTrue(controller.isHidden(parent));
-				assert.isFalse(controller.isHidden(child));
-			},
 			testIsHiddenTextNodeChildOfDocumentFragment: function() {
 				var parent = document.createDocumentFragment();
 				var child = parent.appendChild(document.createTextNode("tn"));
