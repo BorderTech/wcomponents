@@ -187,8 +187,8 @@ function(event, attribute, focus, formUpdateManager, has, initialise, Widget, sh
 		 */
 		function shedSubscriber($event) {
 			var header,
-					element = $event.target,
-					action = $event.type;
+				element = $event.target,
+				action = $event.type;
 			if (element && COLLAPSIBLE_CONTAINER.isOneOfMe(element) && (header = COLLAPSIBLE_HEADER.findDescendant(element))) {
 				if (action === shed.events.DISABLE) {
 					if (shed.isDisabled(header)) {
