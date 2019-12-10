@@ -1,0 +1,86 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>wcomponents-xslt</artifactId>
+
+	<parent>
+		<groupId>com.github.bordertech.wcomponents</groupId>
+		<artifactId>wcomponents-parent</artifactId>
+		<version>1.5.19-SNAPSHOT</version>
+	</parent>
+
+	<packaging>jar</packaging>
+
+	<description>
+		WComponents XSLT.
+	</description>
+
+	<properties>
+		<theme.skip.antrun>false</theme.skip.antrun>
+		<sonar.sources>src/main</sonar.sources>
+	</properties>
+	<name>wcomponents-xslt</name>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.1.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<ignoreMissingDescriptor>true</ignoreMissingDescriptor>
+					<descriptors>
+						<descriptor>sources.xml</descriptor>
+					</descriptors>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>compile</id>
+						<phase>compile</phase>
+						<configuration>
+							<skip>${theme.skip.antrun}</skip>
+							<target name="build" description="Builds XSLT artifacts">
+								<property name="tmp.dir" location="${java.io.tmpdir}${file.separator}wcomponents-theme-tmp" />
+								<property name="target.rootdir" location="${project.build.directory}/classes/theme/${project.name}" />
+								<basename property="impl.dir.name" file="${basedir}" />
+
+								<concat destfile="${tmp.dir}/all-int.xsl" fixlastline="yes" ignoreempty="false">
+									<header filtering="no">&lt;concat&gt;</header>
+									<footer filtering="no">&lt;/concat&gt;</footer>
+									<fileset dir="${project.basedir}/src/main/xslt" includes="*.xsl" />
+								</concat>
+								<copy file="${project.basedir}/scripts/build_all.xsl" todir="${tmp.dir}" overwrite="true" />
+								<xslt in="${tmp.dir}/all-int.xsl" out="${target.rootdir}/xslt/all.xsl" style="${tmp.dir}/build_all.xsl">
+									<factory name="net.sf.saxon.TransformerFactoryImpl" />
+								</xslt>
+								<copy file="${target.rootdir}/xslt/all.xsl" tofile="${target.rootdir}/xslt/all_debug.xsl" />
+								<replaceregexp file="${target.rootdir}/xslt/all_debug.xsl" match="xsl:param name=&quot;isDebug&quot; select=&quot;0&quot;" replace="xsl:param name=&quot;isDebug&quot; select=&quot;1&quot;" />
+								<echo level="verbose" message="Done XSLT" />
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>net.sf.saxon</groupId>
+						<artifactId>Saxon-HE</artifactId>
+						<version>9.9.1-1</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+</project>

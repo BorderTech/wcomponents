@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
 		<artifactId>wcomponents-parent</artifactId>
-		<version>1.5.18-SNAPSHOT</version>
+		<version>1.5.19-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -33,7 +33,11 @@
 			<artifactId>wcomponents-theme</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>com.github.bordertech.wcomponents</groupId>
+			<artifactId>wcomponents-xslt</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<!-- JSR107 Caching provider. -->
 		<dependency>
 			<groupId>org.ehcache</groupId>
