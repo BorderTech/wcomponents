@@ -8,6 +8,8 @@
 
 ### Bug Fixes
 
+* Fix regression in previous few versions which broken ImageCapture component #1687
+
 ## 1.5.18
 
 This release removes the XSLT from the theme module. It is now in its own module `wcomponents-xslt`.
