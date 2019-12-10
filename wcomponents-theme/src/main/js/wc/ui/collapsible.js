@@ -177,13 +177,12 @@ function(event, attribute, focus, formUpdateManager, has, initialise, Widget, sh
 		 * non-HTML5 aware AT so get disabled due to its role of "button". We do not republish the enable action
 		 * though as we do not need to apply the same rule to nested disableable components.
 		 *
-		 * When the action is "wxpand" or "collapse" and the SUMMARY has a role then update the aria-expanded
+		 * When the action is "wc-expand" or "wc-collapse" and the SUMMARY has a role then update the aria-expanded
 		 * attribute.
 		 *
 		 * @function
 		 * @private
-		 * @param {Element} element the element being selected.
-		 * @param {String} action The shed action being pne of "disable", "expand" or "collapse".
+		 * @param {Event} $event the shed event that was fired.
 		 */
 		function shedSubscriber($event) {
 			var header,
