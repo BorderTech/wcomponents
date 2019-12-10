@@ -1,5 +1,6 @@
 define(["wc/has",
 	"wc/dom/initialise",
+	"wc/dom/event",
 	"wc/dom/shed",
 	"wc/dom/tag",
 	"wc/dom/Widget",
@@ -8,7 +9,7 @@ define(["wc/has",
 	"wc/ui/getFirstLabelForElement",
 	"wc/ui/feedback",
 	"wc/config"],
-function(has, initialise, shed, tag, Widget, Observer, i18n, getFirstLabelForElement, feedback, wcconfig) {
+function(has, initialise, event, shed, tag, Widget, Observer, i18n, getFirstLabelForElement, feedback, wcconfig) {
 	"use strict";
 	var repainter;
 
