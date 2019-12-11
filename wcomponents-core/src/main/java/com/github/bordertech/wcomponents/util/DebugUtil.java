@@ -1,8 +1,5 @@
 package com.github.bordertech.wcomponents.util;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
 /**
  * Utility class used by WComponents for accessing {@link Config configuration} parameters used in debug features.
  *
@@ -24,16 +21,8 @@ public final class DebugUtil {
 	 * When this class is loaded by the application, register a property change listener.
 	 */
 	static {
-		PropertyChangeListener paramChange = new PropertyChangeListener() {
-			@Override
-			public void propertyChange(final PropertyChangeEvent evt) {
-				retrieveDebugParameters();
-			}
-		};
-
 		// register the change listener with the configuration.
-		Config.addPropertyChangeListener(paramChange);
-
+		Config.addPropertyChangeListener(evt -> retrieveDebugParameters());
 		// set current values
 		retrieveDebugParameters();
 	}

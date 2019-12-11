@@ -673,14 +673,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 
 		// Set the selected file id as the action object
 		final ActionEvent event = new ActionEvent(this, "fileajax", fileId);
-		Runnable later = new Runnable() {
-			@Override
-			public void run() {
-				action.execute(event);
-			}
-		};
-
-		invokeLater(later);
+		invokeLater(() -> action.execute(event));
 	}
 
 	/**

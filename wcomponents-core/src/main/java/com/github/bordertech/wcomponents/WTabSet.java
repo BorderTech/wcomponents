@@ -669,15 +669,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 
 			if (action != null && !changes.isEmpty()) {
 				final ActionEvent event = new ActionEvent(this, changes.toString(), null);
-
-				Runnable later = new Runnable() {
-					@Override
-					public void run() {
-						action.execute(event);
-					}
-				};
-
-				invokeLater(later);
+				invokeLater(() -> action.execute(event));
 			}
 		}
 
