@@ -202,7 +202,7 @@ define(["wc/dom/tag", "wc/dom/isSuccessfulElement", "wc/dom/getFilteredGroup"],
 				}
 				result = sb.join("&");  // .replace(/%20/g, "+");  // verdict seems to have changed on this one
 				if (returnAsObject) {
-					result = deserializeToObject(result, false);
+					result = deserializeToObject(result);
 				}
 				return result;
 			};
@@ -221,7 +221,7 @@ define(["wc/dom/tag", "wc/dom/isSuccessfulElement", "wc/dom/getFilteredGroup"],
 			this.deserialize = function(input, container) {
 				var n, result = {}, name, value, i, nextVal;
 				if (input.constructor === String) {
-					input = deserializeToObject(input, true);
+					input = deserializeToObject(input);
 				}
 				for (n in input) {
 					name = decodeName(n);
