@@ -286,8 +286,7 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 				return null;
 			}
 
-			FileItemWrap wrapper = new FileItemWrap(value);
-			return wrapper;
+			return new FileItemWrap(value);
 		} else {
 			return getValue();
 		}

@@ -103,7 +103,6 @@ public final class StreamUtil {
 	public static byte[] streamToByteArray(final InputStream is) throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		copy(is, baos);
-		byte[] bytes = baos.toByteArray();
-		return bytes;
+		return baos.toByteArray();
 	}
 }

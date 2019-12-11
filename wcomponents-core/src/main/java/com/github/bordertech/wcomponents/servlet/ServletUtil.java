@@ -517,9 +517,8 @@ public final class ServletUtil {
 	 */
 	public static boolean isMultipart(final HttpServletRequest request) {
 		String contentType = request.getContentType();
-		boolean isMultipart = (contentType != null && contentType.toLowerCase().startsWith(
-				"multipart/form-data"));
-		return isMultipart;
+		return (contentType != null 
+				&& contentType.toLowerCase().startsWith("multipart/form-data"));
 	}
 
 	/**

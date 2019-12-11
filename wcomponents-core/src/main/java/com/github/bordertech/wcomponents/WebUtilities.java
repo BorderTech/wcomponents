@@ -643,10 +643,8 @@ public final class WebUtilities {
 	 * @return the component and context for the given id, or null if not found.
 	 */
 	public static ComponentWithContext getComponentById(final String id, final boolean visibleOnly) {
-		UIContext uic = UIContextHolder.getCurrent();
-		WComponent root = uic.getUI();
-		ComponentWithContext comp = TreeUtil.getComponentWithContextForId(root, id, visibleOnly);
-		return comp;
+		WComponent root = UIContextHolder.getCurrent().getUI();
+		return TreeUtil.getComponentWithContextForId(root, id, visibleOnly);
 	}
 
 	/**
@@ -657,10 +655,8 @@ public final class WebUtilities {
 	 * @return the component and context for the given id, or null if not found.
 	 */
 	public static UIContext findClosestContext(final String id) {
-		UIContext uic = UIContextHolder.getCurrent();
-		WComponent root = uic.getUI();
-		UIContext closest = TreeUtil.getClosestContextForId(root, id);
-		return closest;
+		WComponent root = UIContextHolder.getCurrent().getUI();
+		return TreeUtil.getClosestContextForId(root, id);
 	}
 
 	/**
@@ -841,8 +837,7 @@ public final class WebUtilities {
 	public static boolean isActiveNamingContext(final WComponent component) {
 		if (component instanceof NamingContextable) {
 			NamingContextable naming = (NamingContextable) component;
-			boolean active = naming.isNamingContext() && naming.getIdName() != null;
-			return active;
+			return naming.isNamingContext() && naming.getIdName() != null;
 		}
 		return false;
 	}

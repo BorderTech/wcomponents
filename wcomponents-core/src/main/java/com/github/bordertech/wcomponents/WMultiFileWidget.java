@@ -775,8 +775,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 			Image thumbnail = createThumbNail(file.getFile());
 			file.setThumbnail(thumbnail);
 		}
-		ContentEscape escape = new ContentEscape(file.getThumbnail());
-		throw escape;
+		throw new ContentEscape(file.getThumbnail());
 	}
 
 	/**
@@ -785,8 +784,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 * @param file the file to process
 	 */
 	protected void doHandleFileContentRequest(final FileWidgetUpload file) {
-		ContentEscape escape = new ContentEscape(file.getFile());
-		throw escape;
+		throw new ContentEscape(file.getFile());
 	}
 
 	/**

@@ -419,8 +419,7 @@ public class SimpleBeanBoundTableModel extends AbstractBeanBoundTableModel {
 	 */
 	@Override
 	public Object getRowKey(final List<Integer> row) {
-		Object bean = getRowBean(row);
-		return bean;
+		return getRowBean(row);
 	}
 
 	/**
@@ -443,9 +442,7 @@ public class SimpleBeanBoundTableModel extends AbstractBeanBoundTableModel {
 		String util = buildBeanUtilString(row);
 
 		// Get value
-		Object value = getBeanPropertyValue(util, rootData);
-
-		return value;
+		return getBeanPropertyValue(util, rootData);
 	}
 
 	/**
@@ -463,8 +460,7 @@ public class SimpleBeanBoundTableModel extends AbstractBeanBoundTableModel {
 
 		// Get root row bean (ie top level)
 		int rowIdx = row.get(0);
-		Object rowData = lvl.get(rowIdx);
-		return rowData;
+		return lvl.get(rowIdx);
 	}
 
 	/**
@@ -528,8 +524,7 @@ public class SimpleBeanBoundTableModel extends AbstractBeanBoundTableModel {
 		}
 
 		try {
-			Object data = PropertyUtils.getProperty(bean, property);
-			return data;
+			return PropertyUtils.getProperty(bean, property);
 		} catch (Exception e) {
 			LOG.error("Failed to get bean property " + property + " on " + bean, e);
 			return null;
@@ -584,8 +579,7 @@ public class SimpleBeanBoundTableModel extends AbstractBeanBoundTableModel {
 	 * @return the index of the level
 	 */
 	protected int getLevelIndex(final List<Integer> row) {
-		int idx = isIterateFirstLevel() && row.size() > 1 ? 1 : row.size() - 1;
-		return idx;
+		return isIterateFirstLevel() && row.size() > 1 ? 1 : row.size() - 1;
 	}
 
 	/**

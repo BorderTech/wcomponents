@@ -193,9 +193,8 @@ public class HandlebarsRendererImpl implements TemplateRenderer {
 	 * @return the handlebars context
 	 */
 	protected Context createContext(final Map<String, Object> componentContext) {
-		Context handlebarsContext = Context.newBuilder(componentContext)
+		return Context.newBuilder(componentContext)
 				.resolver(MapValueResolver.INSTANCE, JavaBeanValueResolver.INSTANCE).build();
-		return handlebarsContext;
 	}
 
 	/**

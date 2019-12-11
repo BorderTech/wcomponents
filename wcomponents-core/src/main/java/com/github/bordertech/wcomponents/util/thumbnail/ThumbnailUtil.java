@@ -147,8 +147,7 @@ public final class ThumbnailUtil {
 		}
 
 		// Use default thumbnail depending on mime type
-		com.github.bordertech.wcomponents.Image image = handleDefaultImage(mimeType, name, scale);
-		return image;
+		return handleDefaultImage(mimeType, name, scale);
 	}
 
 	/**

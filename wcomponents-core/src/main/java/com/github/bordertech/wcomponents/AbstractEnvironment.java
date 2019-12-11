@@ -116,8 +116,7 @@ public abstract class AbstractEnvironment implements Environment {
 
 		// No theme path, so use the main servlet to feed up the theme resources
 		if (Util.empty(themePath)) {
-			String path = getWServletPath() + "/" + Environment.THEME_RESOURCE_PATH_NAME;
-			return path;
+			return getWServletPath() + "/" + Environment.THEME_RESOURCE_PATH_NAME;
 		}
 
 		return themePath;

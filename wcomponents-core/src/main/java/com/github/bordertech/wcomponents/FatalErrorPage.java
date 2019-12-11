@@ -39,8 +39,7 @@ public class FatalErrorPage extends AbstractWComponent implements ErrorPage {
 	 */
 	protected String getMessage() {
 		SystemFailureMapper mapper = Factory.newInstance(SystemFailureMapper.class);
-		String desc = I18nUtilities.format(null, mapper.toMessage(error));
-		return desc;
+		return I18nUtilities.format(null, mapper.toMessage(error));
 	}
 
 	/**

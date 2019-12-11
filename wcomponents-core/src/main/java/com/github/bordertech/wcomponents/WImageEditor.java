@@ -106,8 +106,7 @@ public class WImageEditor extends AbstractWComponent {
 	 * @return the size of the image editor.
 	 */
 	public Dimension getSize() {
-		Dimension size = getComponentModel().size;
-		return size;
+		return getComponentModel().size;
 	}
 
 	/**

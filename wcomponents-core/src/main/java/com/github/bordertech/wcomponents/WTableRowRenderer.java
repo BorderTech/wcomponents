@@ -143,8 +143,7 @@ public final class WTableRowRenderer extends WDataRenderer {
 		UIContext uic = UIContextHolder.getCurrent();
 		if (uic instanceof SubUIContext) {
 			int index = ((SubUIContext) uic).getRowIndex();
-			RowIdWrapper wrapper = table.getRepeater().getBeanList().get(index);
-			return wrapper;
+			return table.getRepeater().getBeanList().get(index);
 		}
 		return null;
 	}

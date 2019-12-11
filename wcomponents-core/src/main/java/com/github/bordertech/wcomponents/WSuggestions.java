@@ -157,8 +157,7 @@ public class WSuggestions extends AbstractWComponent implements AjaxInternalTrig
 		Object table = getLookupTable();
 
 		if (table != null && ConfigurationProperties.getDatalistCaching()) {
-			String key = APPLICATION_LOOKUP_TABLE.getCacheKeyForTable(table);
-			return key;
+			return APPLICATION_LOOKUP_TABLE.getCacheKeyForTable(table);
 		}
 
 		return null;

@@ -57,7 +57,6 @@ public final class XMLUtil {
 	 */
 	public static String getXMLDeclarationWithThemeXslt(final UIContext uic) {
 		String theme = WebUtilities.encode(ThemeUtil.getThemeXslt(uic));
-		String dec = XML_DECLARATION + "\n<?xml-stylesheet type=\"text/xsl\" href=\"" + theme + "\"?>";
-		return dec;
+		return XML_DECLARATION + "\n<?xml-stylesheet type=\"text/xsl\" href=\"" + theme + "\"?>";
 	}
 }

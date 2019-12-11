@@ -189,8 +189,7 @@ public class WServlet extends HttpServlet {
 	protected WServletHelper createServletHelper(final HttpServletRequest httpServletRequest,
 			final HttpServletResponse httpServletResponse) {
 		LOG.debug("Creating a new WServletHelper instance");
-		WServletHelper helper = new WServletHelper(this, httpServletRequest, httpServletResponse);
-		return helper;
+		return new WServletHelper(this, httpServletRequest, httpServletResponse);
 	}
 
 	/**

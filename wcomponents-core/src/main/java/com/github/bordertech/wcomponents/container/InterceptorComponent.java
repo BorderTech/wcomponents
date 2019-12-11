@@ -200,8 +200,7 @@ public class InterceptorComponent implements WebComponent {
 		PrintWriter printWriter = new PrintWriter(stringWriter);
 		component.paint(new WebXmlRenderContext(printWriter));
 		printWriter.flush();
-		String content = stringWriter.toString();
-		return content;
+		return stringWriter.toString();
 	}
 
 	/**

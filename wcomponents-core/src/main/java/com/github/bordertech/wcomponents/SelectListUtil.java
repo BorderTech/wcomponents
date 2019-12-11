@@ -177,8 +177,7 @@ public final class SelectListUtil {
 		// Support legacy matching, which supported setSelected using String representations...
 		String optionAsString = String.valueOf(option);
 		String matchAsString = String.valueOf(data);
-		boolean equal = Util.equals(optionAsString, matchAsString);
-		return equal;
+		return Util.equals(optionAsString, matchAsString);
 	}
 
 	/**
@@ -193,8 +192,7 @@ public final class SelectListUtil {
 		if (option instanceof Option) {
 			String optionCode = ((Option) option).getCode();
 			String matchAsString = String.valueOf(data);
-			boolean equal = Util.equals(optionCode, matchAsString);
-			return equal;
+			return Util.equals(optionCode, matchAsString);
 		}
 		return false;
 	}

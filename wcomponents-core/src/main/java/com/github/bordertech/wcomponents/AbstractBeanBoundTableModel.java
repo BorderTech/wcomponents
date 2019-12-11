@@ -83,8 +83,7 @@ public abstract class AbstractBeanBoundTableModel extends AbstractTableModel imp
 	 */
 	@Override
 	public Object getBean() {
-		Object bean = beanProvider.getBean(this);
-		return bean;
+		return beanProvider.getBean(this);
 	}
 
 	/**

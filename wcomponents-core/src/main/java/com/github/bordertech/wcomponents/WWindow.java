@@ -384,8 +384,7 @@ public class WWindow extends AbstractWComponent implements Container {
 	 */
 	private boolean isPresent(final Request request) {
 		String target = request.getParameter(WWINDOW_REQUEST_PARAM_KEY);
-		boolean targeted = target != null && target.equals(getId());
-		return targeted;
+		return target != null && target.equals(getId());
 	}
 
 	/**

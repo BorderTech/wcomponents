@@ -54,7 +54,6 @@ public abstract class AbstractRequest implements Request {
 	 */
 	@Override
 	public FileItem[] getFileItems(final String key) {
-		FileItem[] result = getFiles().get(key);
 		/* The commented code below would allow us to transparently handle serialized file uploads encoded as Base64
 		if (result == null) {
 			String[] params = getParameterValues(key);
@@ -70,7 +69,7 @@ public abstract class AbstractRequest implements Request {
 			}
 		}
 		*/
-		return result;
+		return getFiles().get(key);
 	}
 
 	/**

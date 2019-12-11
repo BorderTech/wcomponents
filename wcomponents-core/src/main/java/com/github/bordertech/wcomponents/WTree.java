@@ -883,8 +883,7 @@ public class WTree extends AbstractInput
 			throw new SystemException("Tree item id [" + itemId + "] does not have an image.");
 		}
 
-		ContentEscape escape = new ContentEscape(image.getImage());
-		throw escape;
+		throw new ContentEscape(image.getImage());
 	}
 
 	/**

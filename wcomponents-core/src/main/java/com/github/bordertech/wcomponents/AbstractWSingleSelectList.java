@@ -95,8 +95,7 @@ public abstract class AbstractWSingleSelectList extends AbstractWSelectList {
 	@Override
 	public Object getValue() {
 		// Validate the selected option (allow handle invalid option)
-		Object validOption = findValidOption(getOptions(), getData(), true);
-		return validOption;
+		return findValidOption(getOptions(), getData(), true);
 	}
 
 	/**
@@ -115,8 +114,7 @@ public abstract class AbstractWSingleSelectList extends AbstractWSelectList {
 					return null;
 				}
 				// Use the first option
-				Object firstOption = SelectListUtil.getFirstOption(options);
-				return firstOption;
+				return SelectListUtil.getFirstOption(options);
 			}
 			return null;
 		}
@@ -289,10 +287,8 @@ public abstract class AbstractWSingleSelectList extends AbstractWSelectList {
 		}
 
 		// Invalid option. Ignore and use the current selection
-		LOG.warn(
-				"Option \"" + paramValue + "\" on the request is not a valid option. Will be ignored.");
-		Object currentOption = getValue();
-		return currentOption;
+		LOG.warn("Option \"" + paramValue + "\" on the request is not a valid option. Will be ignored.");
+		return getValue();
 	}
 
 }

@@ -991,8 +991,7 @@ public abstract class AbstractWComponent implements WComponent {
 	 * @return the new set of flags.
 	 */
 	private static int switchFlag(final int flags, final int mask, final boolean value) {
-		int newFlags = value ? flags | mask : flags & ~mask;
-		return newFlags;
+		return value ? flags | mask : flags & ~mask;
 	}
 
 	/**
@@ -1015,8 +1014,7 @@ public abstract class AbstractWComponent implements WComponent {
 	 * @return true if any flags are set, false otherwise.
 	 */
 	private static boolean isFlagSet(final int flags, final int mask) {
-		boolean isSet = (flags & mask) != 0;
-		return isSet;
+		return (flags & mask) != 0;
 	}
 
 	/**

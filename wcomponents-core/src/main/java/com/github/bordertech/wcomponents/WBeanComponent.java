@@ -389,8 +389,7 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 		if (scratchMap == null) {
 			return null;
 		}
-		Object bean = scratchMap.get(SCRATCHMAP_BEAN_OBJECT_KEY);
-		return bean;
+		return scratchMap.get(SCRATCHMAP_BEAN_OBJECT_KEY);
 	}
 
 	/**

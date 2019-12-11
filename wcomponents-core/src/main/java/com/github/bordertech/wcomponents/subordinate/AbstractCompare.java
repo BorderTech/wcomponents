@@ -191,8 +191,7 @@ public abstract class AbstractCompare extends AbstractCondition {
 				selected = list.getRequestValue(request);
 			}
 			// Convert selected option to its "code" (Should always have a value)
-			String code = list.optionToCode(selected);
-			return code;
+			return list.optionToCode(selected);
 		} else if (trigger instanceof AbstractWMultiSelectList) { // String Compare for Multi Select Lists (Use the Option's Code)
 			final AbstractWMultiSelectList list = (AbstractWMultiSelectList) trigger;
 			final List<?> selected;
@@ -259,8 +258,7 @@ public abstract class AbstractCompare extends AbstractCondition {
 			// Check if the value is a valid option allowing for "Legacy" matching
 			if (SelectListUtil.containsOptionWithMatching(options, value)) {
 				Object option = SelectListUtil.getOptionWithMatching(options, value);
-				String code = listTrigger.optionToCode(option);
-				return code;
+				return listTrigger.optionToCode(option);
 			}
 
 			// Return the value as a String - Treat empty the same as null

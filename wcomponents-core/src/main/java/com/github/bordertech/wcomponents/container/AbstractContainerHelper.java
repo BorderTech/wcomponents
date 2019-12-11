@@ -101,8 +101,7 @@ public abstract class AbstractContainerHelper {
 	 * @return the WComponent UI which will handle the request.
 	 */
 	public WComponent getUI() {
-		WComponent ui = getInterceptor().getUI();
-		return ui;
+		return getInterceptor().getUI();
 	}
 
 	/**

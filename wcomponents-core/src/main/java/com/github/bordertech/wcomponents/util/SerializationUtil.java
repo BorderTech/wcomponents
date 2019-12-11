@@ -34,8 +34,7 @@ public final class SerializationUtil {
 			byte[] bytes = bos.toByteArray();
 			ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
 			ObjectInputStream is = new ObjectInputStream(bis);
-			Object out = is.readObject();
-			return out;
+			return is.readObject();
 		} catch (Exception ex) {
 			throw new SystemException("Failed to pipe " + in, ex);
 		}

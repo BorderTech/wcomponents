@@ -126,9 +126,8 @@ public class UIRegistryAmicableImpl extends UIRegistry {
 			boolean friendly = ConfigurationProperties.getDeveloperErrorHandling();
 
 			FatalErrorPageFactory factory = Factory.newInstance(FatalErrorPageFactory.class);
-			WComponent errorPage = factory.createErrorPage(friendly, ex);
 
-			return errorPage;
+			return factory.createErrorPage(friendly, ex);
 		}
 	}
 }

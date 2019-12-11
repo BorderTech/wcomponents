@@ -155,8 +155,7 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 	 * @return the closest WApplication instance from the given base component
 	 */
 	public static WApplication instance(final WComponent base) {
-		WApplication appl = WebUtilities.getClosestOfClass(WApplication.class, base);
-		return appl;
+		return WebUtilities.getClosestOfClass(WApplication.class, base);
 	}
 
 	/**

@@ -181,8 +181,7 @@ public class HttpServletHelper extends AbstractContainerHelper {
 		if (session == null) {
 			return null;
 		}
-		UIContext uic = (UIContext) session.getAttribute(getUiContextSessionKey());
-		return uic;
+		return (UIContext) session.getAttribute(getUiContextSessionKey());
 	}
 
 	/**
@@ -245,8 +244,7 @@ public class HttpServletHelper extends AbstractContainerHelper {
 	 */
 	@Override
 	protected Request createRequest() {
-		Request request = new ServletRequest(backingRequest);
-		return request;
+		return new ServletRequest(backingRequest);
 	}
 
 	/**
@@ -270,8 +268,7 @@ public class HttpServletHelper extends AbstractContainerHelper {
 	 */
 	@Override
 	protected PrintWriter getPrintWriter() throws IOException {
-		PrintWriter writer = backingResponse.getWriter();
-		return writer;
+		return backingResponse.getWriter();
 	}
 
 	/**
