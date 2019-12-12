@@ -535,15 +535,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 				if (action != null) {
 					final ActionEvent event = new ActionEvent(this, this.getActionCommand(),
 							this.getActionObject());
-
-					Runnable later = new Runnable() {
-						@Override
-						public void run() {
-							action.execute(event);
-						}
-					};
-
-					invokeLater(later);
+					invokeLater(() -> action.execute(event));
 				}
 			}
 

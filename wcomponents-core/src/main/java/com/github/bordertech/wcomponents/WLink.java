@@ -392,15 +392,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 
 		if (pressed && action != null) {
 			final ActionEvent event = new ActionEvent(this, getActionCommand(), getActionObject());
-
-			Runnable later = new Runnable() {
-				@Override
-				public void run() {
-					action.execute(event);
-				}
-			};
-
-			invokeLater(later);
+			invokeLater(() -> action.execute(event));
 		}
 	}
 

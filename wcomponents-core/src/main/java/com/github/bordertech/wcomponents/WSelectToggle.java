@@ -104,12 +104,7 @@ public class WSelectToggle extends AbstractWComponent implements Disableable, Aj
 				// We need to change the selections *after* all components
 				// Have updated themselves from the request, as they may change
 				// their values when their handleRequest methods are called.
-				invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						setSelections(model.target, State.ALL.equals(newValue));
-					}
-				});
+				invokeLater(() -> setSelections(model.target, State.ALL.equals(newValue)));
 			}
 		}
 	}

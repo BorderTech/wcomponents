@@ -534,6 +534,27 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				var test = document.getElementById("visibletests1");
 				assert.isFalse(controller.isHidden(test));
 			},
+			testIsHiddenTextNodeChildOfElement: function() {
+				var parent = document.createElement("span");
+				var child = parent.appendChild(document.createTextNode("tn"));
+				assert.isFalse(controller.isHidden(parent));
+				assert.isFalse(controller.isHidden(child));
+				controller.hide(parent);
+				assert.isTrue(controller.isHidden(parent));
+				assert.isTrue(controller.isHidden(child));
+			},
+			testIsHiddenTextNodeChildOfDocumentFragment: function() {
+				var parent = document.createDocumentFragment();
+				var child = parent.appendChild(document.createTextNode("tn"));
+				assert.isFalse(controller.isHidden(parent));
+				assert.isFalse(controller.isHidden(child));
+			},
+			testIsHiddenCommentNodeChildOfDocumentFragment: function() {
+				var parent = document.createDocumentFragment();
+				var child = parent.appendChild(document.createComment("comment"));
+				assert.isFalse(controller.isHidden(parent));
+				assert.isFalse(controller.isHidden(child));
+			},
 			testIsHiddenByAncestorWithDisplay: function() {
 				var parent = document.getElementById("visibletests"),
 					test = document.getElementById("visibletests1");

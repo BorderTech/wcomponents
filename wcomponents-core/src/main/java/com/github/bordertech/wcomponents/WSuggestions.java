@@ -108,14 +108,7 @@ public class WSuggestions extends AbstractWComponent implements AjaxInternalTrig
 		}
 
 		final ActionEvent event = new ActionEvent(this, AJAX_REFRESH_ACTION_COMMAND, getAjaxFilter());
-		Runnable later = new Runnable() {
-			@Override
-			public void run() {
-				action.execute(event);
-			}
-		};
-
-		invokeLater(later);
+		invokeLater(() -> action.execute(event));
 	}
 
 	/**

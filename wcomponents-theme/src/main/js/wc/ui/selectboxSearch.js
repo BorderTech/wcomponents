@@ -111,7 +111,7 @@ function(escapeRe, tag, uid, classList, initialise, attribute, shed, event, grou
 					queueSearch(element, textContent.get(search));
 				}
 			} else if (keyCode === KeyEvent.DOM_VK_RETURN) {
-				closeSearch(element);
+				closeSearch();
 			}
 		}
 
