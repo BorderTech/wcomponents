@@ -210,28 +210,17 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 				// Reset focus only if the current Request is an Ajax request.
 				if (AjaxHelper.isCurrentAjaxTrigger(this)) {
 					// Need to run the "afterActionExecute" as late as possible.
-					Runnable later = new Runnable() {
-						@Override
-						public void run() {
-							focusMe();
-						}
-					};
-					invokeLater(later);
+					invokeLater(() -> focusMe());
 				}
 			} else {
 				final ActionEvent event = new ActionEvent(this, getActionCommand(),
 						getActionObject());
 
-				Runnable later = new Runnable() {
-					@Override
-					public void run() {
-						beforeActionExecute(request);
-						action.execute(event);
-						afterActionExecute(request);
-					}
-				};
-
-				invokeLater(later);
+				invokeLater(() -> {
+					beforeActionExecute(request);
+					action.execute(event);
+					afterActionExecute(request);                    
+                });
 			}
 		}
 	}

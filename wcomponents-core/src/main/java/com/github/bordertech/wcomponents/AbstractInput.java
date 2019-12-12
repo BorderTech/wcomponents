@@ -303,17 +303,13 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 		if (getActionOnChange() != null) {
 			final ActionEvent event = new ActionEvent(this, getActionCommand(), getActionObject());
 			final boolean isCAT = isCurrentAjaxTrigger();
-			Runnable later = new Runnable() {
-				@Override
-				public void run() {
-					getActionOnChange().execute(event);
-					if (isCAT && UIContextHolder.getCurrent().getFocussed() == null) {
-						setFocussed();
-					}
-				}
-			};
 
-			invokeLater(later);
+			invokeLater(() -> {
+				getActionOnChange().execute(event);
+				if (isCAT && UIContextHolder.getCurrent().getFocussed() == null) {
+					setFocussed();
+				}
+			});
 		} else if (AjaxHelper.isCurrentAjaxTrigger(this) && UIContextHolder.getCurrent().getFocussed() == null) {
 			setFocussed();
 		}

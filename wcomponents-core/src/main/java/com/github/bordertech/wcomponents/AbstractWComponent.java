@@ -488,12 +488,9 @@ public abstract class AbstractWComponent implements WComponent {
 	 */
 	@Override
 	public void forward(final String url) {
-		invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				throw new ForwardException(url);
-			}
-		});
+		invokeLater(() -> {
+            throw new ForwardException(url);
+        });
 	}
 
 	// ================================

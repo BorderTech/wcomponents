@@ -339,13 +339,7 @@ public class WDialog extends AbstractWComponent implements Container {
 		final Action action = getTriggerOpenAction();
 		if (action != null) {
 			final ActionEvent event = new ActionEvent(this, OPEN_DIALOG_ACTION);
-			Runnable later = new Runnable() {
-				@Override
-				public void run() {
-					action.execute(event);
-				}
-			};
-			invokeLater(later);
+			invokeLater(() -> action.execute(event));
 		}
 	}
 
