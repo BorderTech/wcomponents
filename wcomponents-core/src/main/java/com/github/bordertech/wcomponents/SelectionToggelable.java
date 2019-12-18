@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * Components that have a selection which can be toggled to all selected or to 
- * all unselected, can implement this interface.
+ * Components that have a selection which can be toggled by {@link WSelectToggle}
+ * must implement this interface.
  */
 public interface SelectionToggelable {
 
