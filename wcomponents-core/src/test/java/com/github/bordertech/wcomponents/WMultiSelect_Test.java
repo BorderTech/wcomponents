@@ -58,12 +58,12 @@ public class WMultiSelect_Test extends AbstractWComponentTestCase {
 		List<String> options = Arrays.asList("A", "B", "C");
 		WMultiSelect multi = new WMultiSelect(options);
 		
-		Assert.assertEquals("Initial selection should be empty", 0, multi.getSelected().size());
+		Assert.assertTrue("Initial selection should be empty", multi.getSelected().isEmpty());
 		
 		multi.toggleSelection(true);
 		Assert.assertEquals("Selection after toggleSelection(true) should include all options", 3, multi.getSelected().size());
 		
 		multi.toggleSelection(false);
-		Assert.assertEquals("Selection after toggleSelection(false) should be empty", 0, multi.getSelected().size());
+		Assert.assertTrue("Selection after toggleSelection(false) should be empty", multi.getSelected().isEmpty());
 	}
 }
