@@ -69,4 +69,18 @@ public class WCheckBoxSelect_Test extends AbstractWComponentTestCase {
 		assertAccessorsCorrect(new WCheckBoxSelect(), "buttonLayout", WCheckBoxSelect.LAYOUT_STACKED,
 				WCheckBoxSelect.LAYOUT_COLUMNS, WCheckBoxSelect.LAYOUT_FLAT);
 	}
+
+	@Test
+	public void testToggleSelection() {
+		List<String> options = Arrays.asList("A", "B", "C");
+		WCheckBoxSelect checkBoxSelect = new WCheckBoxSelect(options);
+		
+		Assert.assertEquals("Initial selection should be empty", 0, checkBoxSelect.getSelected().size());
+		
+		checkBoxSelect.toggleSelection(true);
+		Assert.assertEquals("Selection after toggleSelection(true) should include all options", 3, checkBoxSelect.getSelected().size());
+		
+		checkBoxSelect.toggleSelection(false);
+		Assert.assertEquals("Selection after toggleSelection(false) should be empty", 0, checkBoxSelect.getSelected().size());
+	}
 }

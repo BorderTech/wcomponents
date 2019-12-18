@@ -176,6 +176,19 @@ public class WCheckBox_Test extends AbstractWComponentTestCase {
 				getActionCommand());
 	}
 
+	@Test
+	public void testToggleSelection() {
+		WCheckBox wcbTest = new WCheckBox();
+		setActiveContext(createUIContext());
+		Assert.assertFalse("CheckBox should initially be not selected", wcbTest.isSelected());
+		
+		wcbTest.toggleSelection(true);
+		Assert.assertTrue("CheckBox should be selected after toggleSelection(true)", wcbTest.isSelected());
+		
+		wcbTest.toggleSelection(false);
+		Assert.assertFalse("CheckBox should not be selected after toggleSelection(false)", wcbTest.isSelected());
+	}
+	
 	/**
 	 * @param target the target component
 	 * @param selected true if the component is selected
