@@ -37,7 +37,7 @@ import org.apache.commons.logging.LogFactory;
  */
 @Deprecated
 public class WDataTable extends WBeanComponent implements Disableable, Container, AjaxInternalTrigger, AjaxTarget,
-		SubordinateTarget, NamingContextable, SelectionToggelable {
+		SubordinateTarget, NamingContextable, SelectionToggleable {
 
 	/**
 	 * The logger instance for this class.

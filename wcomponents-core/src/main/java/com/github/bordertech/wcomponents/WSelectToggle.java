@@ -112,8 +112,8 @@ public class WSelectToggle extends AbstractWComponent implements Disableable, Aj
 	 * @param selected if true, select everything. If false, deselect everything.
 	 */
 	private static void setSelections(final WComponent component, final boolean selected) {
-		if (component instanceof SelectionToggelable) {
-			((SelectionToggelable) component).toggleSelection(selected);
+		if (component instanceof SelectionToggleable) {
+			((SelectionToggleable) component).toggleSelection(selected);
 		} else if (component instanceof Container) {
 			Container container = (Container) component;
 			final int childCount = container.getChildCount();

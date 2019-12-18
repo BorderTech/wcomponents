@@ -20,7 +20,7 @@ import java.util.List;
  * @since 1.0.0
  */
 public class WMultiSelect extends AbstractWMultiSelectList implements AjaxTrigger, AjaxTarget,
-		SubordinateTrigger, SubordinateTarget, SelectionToggelable {
+		SubordinateTrigger, SubordinateTarget, SelectionToggleable {
 
 	/**
 	 * Creates an empty WMultiSelect.

@@ -14,7 +14,7 @@ package com.github.bordertech.wcomponents;
  * @since 1.0.0
  */
 public class WCheckBox extends AbstractInput implements AjaxTrigger, AjaxTarget, SubordinateTrigger,
-		SubordinateTarget, SelectionToggelable {
+		SubordinateTarget, SelectionToggleable {
 
 	/**
 	 * Creates an initially unselected check box with no set text.
