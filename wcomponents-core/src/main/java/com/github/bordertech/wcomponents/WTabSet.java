@@ -502,11 +502,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * @param tab the active tab.
 	 */
 	public void setActiveTab(final WTab tab) {
-		int index = getTabIndex(tab);
-
-		if (index != -1) {
-			setActiveIndex(index);
-		}
+		setActiveTab(tab.getContent());
 	}
 
 	/**
@@ -536,7 +532,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * @param visible true to set the tab visible, false to set invisible.
 	 */
 	public void setTabVisible(final WTab tab, final boolean visible) {
-		setTabVisible(getTabIndex(tab), visible);
+		setTabVisible(tab.getContent(), visible);
 	}
 
 	/**
@@ -557,7 +553,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	}
 
 	/**
-	 * Indicats whether the tab which holds the given content is visible.
+	 * Indicates whether the tab which holds the given content is visible.
 	 *
 	 * @param tabContent the tab content.
 	 * @return true if the tab at the given index is visible, false if it is invisible.
@@ -567,13 +563,13 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	}
 
 	/**
-	 * Indicats whether the tab which holds the given content is visible.
+	 * Indicates whether the tab which holds the given content is visible.
 	 *
-	 * @param tabContent the tab content.
+	 * @param tab the tab content.
 	 * @return true if the tab at the given index is visible, false if it is invisible.
 	 */
-	public boolean isTabVisible(final WTab tabContent) {
-		return isTabVisible(getTabIndex(tabContent));
+	public boolean isTabVisible(final WTab tab) {
+		return isTabVisible(tab.getContent());
 	}
 
 	/**
@@ -628,7 +624,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * @return the tab index, or -1 if the tab is not in this tab set.
 	 */
 	public int getTabIndex(final WTab tab) {
-		return getTabs().indexOf(tab);
+		return getTabIndex(tab.getContent());
 	}
 
 	/**

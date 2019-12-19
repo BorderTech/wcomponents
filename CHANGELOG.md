@@ -6,6 +6,8 @@
 
 ### Enhancements
 
+* Added WTab based methods to WTabSet corresponding to the content methods
+
 ### Bug Fixes
 
 * Fix regression in previous few versions which broken ImageCapture component #1687
@@ -44,7 +46,6 @@ Client side:
 * Update Eslint from 3.19.0 > 6.4.0 (this touched a LOT of files) #1672
 * Use yarn for client side build instead of npm.
 * WTableColumn now supports a column footer renderer #1645.
-* Added WTab based methods to WTabSet corresponding to the content methods
 
 ### Bug Fixes
 
