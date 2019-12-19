@@ -1374,4 +1374,24 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 				getNamingContextId());
 	}
 
+	@Test
+	public void testToggleSelection() {
+		WDataTable table = new WDataTable();
+		table.setDataModel(new SimpleTableDataModel(new String[100][1]) {
+			@Override
+			public boolean isSelectable(int row) {
+				return row < 50;
+			}
+		});
+		
+		table.setSelectMode(WDataTable.SelectMode.MULTIPLE);
+		
+		Assert.assertTrue("The default selection should be empty", table.getSelectedRows().isEmpty());
+		
+		table.toggleSelection(true);
+		Assert.assertEquals("After toggleSelection(true) is run, the selection should include all rows", 50, table.getSelectedRows().size());
+		
+		table.toggleSelection(false);
+		Assert.assertTrue("After toggleSelection(false) is run, the selection should be empty", table.getSelectedRows().isEmpty());
+	}
 }

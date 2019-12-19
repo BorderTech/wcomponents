@@ -14,7 +14,7 @@ package com.github.bordertech.wcomponents;
  * @since 1.0.0
  */
 public class WCheckBox extends AbstractInput implements AjaxTrigger, AjaxTarget, SubordinateTrigger,
-		SubordinateTarget {
+		SubordinateTarget, SelectionToggleable {
 
 	/**
 	 * Creates an initially unselected check box with no set text.
@@ -57,6 +57,11 @@ public class WCheckBox extends AbstractInput implements AjaxTrigger, AjaxTarget,
 	 */
 	public WComponentGroup<WCheckBox> getGroup() {
 		return getComponentModel().group;
+	}
+
+	@Override
+	public final void toggleSelection(final boolean selected) {
+		setSelected(selected);
 	}
 
 	// ================================
