@@ -6,6 +6,8 @@
 
 ### Enhancements
 
+* Added WTab based methods to WTabSet corresponding to the content methods
+
 ### Bug Fixes
 
 * Fix regression in previous few versions which broken ImageCapture component #1687
