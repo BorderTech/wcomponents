@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,8 +20,7 @@ import java.util.List;
  * @since 1.0.0
  */
 public class WMultiSelect extends AbstractWMultiSelectList implements AjaxTrigger, AjaxTarget,
-		SubordinateTrigger,
-		SubordinateTarget {
+		SubordinateTrigger, SubordinateTarget, SelectionToggleable {
 
 	/**
 	 * Creates an empty WMultiSelect.
@@ -73,6 +73,11 @@ public class WMultiSelect extends AbstractWMultiSelectList implements AjaxTrigge
 		return getComponentModel().rows;
 	}
 
+	@Override
+	public void toggleSelection(final boolean selected) {
+		setSelected(selected ? getOptions() : new ArrayList(0));
+	}
+	
 	/**
 	 * Creates a new Component model.
 	 *
