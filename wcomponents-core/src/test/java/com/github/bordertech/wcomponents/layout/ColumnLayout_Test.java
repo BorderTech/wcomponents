@@ -69,6 +69,23 @@ public class ColumnLayout_Test {
 	}
 
 	@Test
+	public void testIntCellAlignmentConstructor() {
+		final int[] cols = new int[]{30, 70};
+		final CellAlignment[] align = new CellAlignment[]{CellAlignment.CENTER, CellAlignment.RIGHT};
+
+		ColumnLayout layout = new ColumnLayout(cols, align);
+		Assert.assertEquals("Incorrect column count", 2, layout.getColumnCount());
+		Assert.assertEquals("Incorrect column 1 width", 30, layout.getColumnWidth(0));
+		Assert.assertEquals("Incorrect column 2 width", 70, layout.getColumnWidth(1));
+		Assert.assertEquals("Incorrect column 1 alignment", CellAlignment.CENTER, layout.
+				getColumnCellAlignment(0));
+		Assert.assertEquals("Incorrect column 2 alignment", CellAlignment.RIGHT, layout.
+				getColumnCellAlignment(1));
+		Assert.assertNull("Incorrect default HGAP", layout.getHorizontalGap());
+		Assert.assertNull("Incorrect default VGAP", layout.getVerticalGap());
+	}
+
+	@Test
 	public void testIntAlignGapConstructor() {
 		final int[] cols = new int[]{100};
 		final ColumnLayout.Alignment[] align = new ColumnLayout.Alignment[]{ColumnLayout.Alignment.RIGHT};
@@ -78,6 +95,20 @@ public class ColumnLayout_Test {
 		Assert.assertEquals("Incorrect column width", 100, layout.getColumnWidth(0));
 		Assert.assertEquals("Incorrect column alignment", ColumnLayout.Alignment.RIGHT, layout.
 				getColumnAlignment(0));
+		Assert.assertEquals("Incorrect HGAP", GAP, layout.getHorizontalGap());
+		Assert.assertEquals("Incorrect VGAP", BIG_GAP, layout.getVerticalGap());
+	}
+
+	@Test
+	public void testIntCellAlignmentGapConstructor() {
+		final int[] cols = new int[]{100};
+		final CellAlignment[] align = new CellAlignment[]{CellAlignment.RIGHT};
+
+		ColumnLayout layout = new ColumnLayout(cols, align, GAP, BIG_GAP);
+		Assert.assertEquals("Incorrect column count", 1, layout.getColumnCount());
+		Assert.assertEquals("Incorrect column width", 100, layout.getColumnWidth(0));
+		Assert.assertEquals("Incorrect column alignment", CellAlignment.RIGHT, layout.
+				getColumnCellAlignment(0));
 		Assert.assertEquals("Incorrect HGAP", GAP, layout.getHorizontalGap());
 		Assert.assertEquals("Incorrect VGAP", BIG_GAP, layout.getVerticalGap());
 	}
@@ -94,6 +125,20 @@ public class ColumnLayout_Test {
 				getColumnAlignment(0));
 		Assert.assertEquals("Incorrect HGAP", GAP, layout.getHorizontalGap());
 		Assert.assertEquals("Incorrect VGAP", BIG_GAP, layout.getVerticalGap());
+	}
+
+	@Test
+	public void testIntCellAlignmentSizeConstructor() {
+		final int[] cols = new int[]{100};
+		final CellAlignment[] align = new CellAlignment[]{CellAlignment.RIGHT};
+
+		ColumnLayout layout = new ColumnLayout(cols, align, Size.MEDIUM, Size.SMALL);
+		Assert.assertEquals("Incorrect column count", 1, layout.getColumnCount());
+		Assert.assertEquals("Incorrect column width", 100, layout.getColumnWidth(0));
+		Assert.assertEquals("Incorrect column alignment", CellAlignment.RIGHT, layout.
+				getColumnCellAlignment(0));
+		Assert.assertEquals("Incorrect HGAP", Size.MEDIUM, layout.getHorizontalGap());
+		Assert.assertEquals("Incorrect VGAP", Size.SMALL, layout.getVerticalGap());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -119,6 +164,6 @@ public class ColumnLayout_Test {
 	@Test(expected = IllegalArgumentException.class)
 	public void testMismatchingColumnCount() {
 		new ColumnLayout(new int[]{50, 50},
-				new ColumnLayout.Alignment[]{ColumnLayout.Alignment.LEFT});
+				new CellAlignment[]{CellAlignment.LEFT});
 	}
 }

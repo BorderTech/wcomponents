@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.layout.CellAlignment;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -108,6 +109,13 @@ public final class WTableColumn_Test extends AbstractWComponentTestCase {
 		assertAccessorsCorrect(new WTableColumn("align", WText.class), "align", null,
 				WTableColumn.Alignment.LEFT,
 				WTableColumn.Alignment.RIGHT);
+	}
+
+	@Test
+	public void testCellAlignmentAccessors() {
+		assertAccessorsCorrect(new WTableColumn("cellAlignment", WText.class), "cellAlignment", null,
+				CellAlignment.LEFT,
+				CellAlignment.RIGHT);
 	}
 
 	@Test

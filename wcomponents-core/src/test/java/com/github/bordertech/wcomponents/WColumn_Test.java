@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.WColumn.Alignment;
+import com.github.bordertech.wcomponents.layout.CellAlignment;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -35,6 +36,12 @@ public class WColumn_Test extends AbstractWComponentTestCase {
 	public void testAlignmentAccessors() {
 		assertAccessorsCorrect(new WColumn(10), "alignment", Alignment.LEFT, Alignment.CENTER,
 				Alignment.RIGHT);
+	}
+
+	@Test
+	public void testCellAlignmentAccessors() {
+		assertAccessorsCorrect(new WColumn(10), "cellAlignment", CellAlignment.LEFT, CellAlignment.CENTER,
+				CellAlignment.RIGHT);
 	}
 
 	@Test

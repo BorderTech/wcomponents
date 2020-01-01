@@ -32,7 +32,7 @@ final class WColumnRenderer extends AbstractWebXmlRenderer {
 		int width = col.getWidth();
 		xml.appendOptionalAttribute("width", width > 0, width);
 
-		switch (col.getAlignment()) {
+		switch (col.getCellAlignment()) {
 			case LEFT:
 				// left is assumed if omitted
 				break;
@@ -46,7 +46,7 @@ final class WColumnRenderer extends AbstractWebXmlRenderer {
 				break;
 
 			default:
-				throw new IllegalArgumentException("Invalid alignment: " + col.getAlignment());
+				throw new IllegalArgumentException("Invalid alignment: " + col.getCellAlignment());
 		}
 
 		xml.appendClose();

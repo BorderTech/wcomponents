@@ -46,7 +46,7 @@ final class ColumnLayoutRenderer extends AbstractWebXmlRenderer {
 			int width = layout.getColumnWidth(col);
 			xml.appendOptionalAttribute("width", width > 0, width);
 
-			switch (layout.getColumnAlignment(col)) {
+			switch (layout.getColumnCellAlignment(col)) {
 				case LEFT:
 					// left is assumed if omitted
 					break;
@@ -61,7 +61,7 @@ final class ColumnLayoutRenderer extends AbstractWebXmlRenderer {
 
 				default:
 					throw new IllegalArgumentException("Invalid alignment: " + layout.
-							getColumnAlignment(col));
+							getColumnCellAlignment(col));
 			}
 
 			xml.appendEnd();
