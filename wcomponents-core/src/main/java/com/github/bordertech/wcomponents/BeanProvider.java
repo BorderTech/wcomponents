@@ -12,6 +12,7 @@ package com.github.bordertech.wcomponents;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
+@FunctionalInterface
 public interface BeanProvider {
 
 	/**

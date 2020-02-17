@@ -18,6 +18,7 @@ import java.io.Serializable;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
+@FunctionalInterface
 public interface Renderer extends Serializable {
 
 	/**
