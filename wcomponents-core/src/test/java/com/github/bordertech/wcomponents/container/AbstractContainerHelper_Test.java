@@ -22,8 +22,8 @@ import com.github.bordertech.wcomponents.util.mock.MockResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import org.junit.Assert;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -214,7 +214,32 @@ public class AbstractContainerHelper_Test {
 
 		String output = helper.stringWriter.toString();
 		String expected = error.getMessage();
-		Assert.assertTrue("Missing error message", output.indexOf(expected) != -1);
+		Assert.assertTrue("Missing error message", output.contains(expected));
+	}
+
+	@Test
+	public void testErrorDuringActionPhaseSessionToken() throws IOException {
+		MyContainerHelper helper = new MyContainerHelper();
+		final SessionTokenException error = new SessionTokenException("Simulate session error");
+
+		// Errors should be handled gracefully
+		MyInterceptor interceptor = new MyInterceptor() {
+			@Override
+			public void serviceRequest(final Request request) {
+				super.serviceRequest(request);
+				throw error;
+			}
+		};
+
+		helper.setWebComponent(interceptor);
+		helper.prepareUserContext();
+
+		helper.processAction();
+		helper.render();
+
+		String output = helper.stringWriter.toString();
+		String expected = error.getMessage();
+		Assert.assertTrue("Output should contain session error message", output.contains(expected));
 	}
 
 	@Test

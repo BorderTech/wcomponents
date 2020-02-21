@@ -38,7 +38,7 @@ public class ErrorCodeEscape extends ActionEscape {
 
 	@Override
 	public void escape() throws IOException {
-		getResponse().sendError(code, getMessage());
+		getResponse().sendError(getCode(), getMessage());
 	}
 
 	/**
