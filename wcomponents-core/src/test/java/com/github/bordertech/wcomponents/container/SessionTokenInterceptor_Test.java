@@ -5,108 +5,105 @@ import com.github.bordertech.wcomponents.Environment;
 import com.github.bordertech.wcomponents.MockWEnvironment;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.UIContextImpl;
 import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
- * SessionTokenInterceptor - unit tests for {@link SessionTokenInterceptor}.
+ * Unit tests for {@link SessionTokenInterceptor}.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
 public class SessionTokenInterceptor_Test extends AbstractWComponentTestCase {
 
-	/**
-	 * Backing component.
-	 */
-	private MyBackingComponent component;
-	/**
-	 * Interceptor being tested.
-	 */
-	private SessionTokenInterceptor interceptor;
-	/**
-	 * User context.
-	 */
-	private UIContext uic;
-	/**
-	 * Mock request.
-	 */
-	private MockRequest request;
-
-	@Before
-	public void setUp() {
-		component = new MyBackingComponent();
-		interceptor = new SessionTokenInterceptor();
-		interceptor.setBackingComponent(component);
-		uic = new UIContextImpl();
-		uic.setUI(component);
-		uic.setEnvironment(new MockWEnvironment());
-		setActiveContext(uic);
-
-		request = new MockRequest();
-	}
-
-	@Test
-	public void testServiceRequestDefaultState() {
-		// Test default state (ie no params and new session)
-		interceptor.serviceRequest(request);
-		Assert.assertTrue("Action phase should have occurred by default",
-				component.handleRequestCalled);
-		Assert
-				.assertEquals("Step count should not have been incremented by default", 0, uic.
-						getEnvironment().getStep());
-	}
-
 	@Test
 	public void testServiceRequestCorrectToken() {
+
+		// Setup interceptor
+		SessionTokenInterceptor interceptor = setupInterceptor();
+		MyBackingComponent component = (MyBackingComponent) interceptor.getBackingComponent();
+		UIContext uic = UIContextHolder.getCurrent();
+		MockRequest request = new MockRequest();
+
+		// Setup matching tokens on session and request
 		uic.getEnvironment().setSessionToken("X");
-		uic.getEnvironment().setStep(10);
 		request.setParameter(Environment.SESSION_TOKEN_VARIABLE, "X");
 
+		// Process request
 		interceptor.serviceRequest(request);
-		Assert.assertTrue("Action phase should have occurred for corret token",
-				component.handleRequestCalled);
-		Assert.assertEquals("Step count should not have been incremented for correct token", 10,
-				uic.getEnvironment()
-						.getStep());
+		Assert.assertTrue("Action phase should have occurred for corret token", component.handleRequestCalled);
 	}
 
 	@Test
 	public void testServiceRequestIncorrectToken() {
+		// Setup interceptor
+		SessionTokenInterceptor interceptor = setupInterceptor();
+		MyBackingComponent component = (MyBackingComponent) interceptor.getBackingComponent();
+		UIContext uic = UIContextHolder.getCurrent();
+		MockRequest request = new MockRequest();
+
+		// Setup tokens that dont match on session and request
 		uic.getEnvironment().setSessionToken("X");
-		uic.getEnvironment().setStep(10);
 		request.setParameter(Environment.SESSION_TOKEN_VARIABLE, "Y");
+
 		try {
+			// Process request
 			interceptor.serviceRequest(request);
 			Assert.fail("Should have thrown an excpetion for incorrect token");
 		} catch (SessionTokenException e) {
-			Assert.assertFalse("Action phase should not have occurred for token error",
-					component.handleRequestCalled);
-			Assert.assertEquals("Step count should not have been incremented for token error", 10,
-					uic.getEnvironment()
-							.getStep());
+			Assert.assertFalse("Action phase should not have occurred for token error", component.handleRequestCalled);
 		}
 	}
 
 	@Test
 	public void testSessionTimeout() {
-		// Simulate request parameter from previous session
+		// Setup interceptor
+		SessionTokenInterceptor interceptor = setupInterceptor();
+		MyBackingComponent component = (MyBackingComponent) interceptor.getBackingComponent();
+		UIContext uic = UIContextHolder.getCurrent();
+		MockRequest request = new MockRequest();
+
+		// Simulate request parameter from previous session (new session has null token)
 		request.setParameter(Environment.SESSION_TOKEN_VARIABLE, "X");
 		try {
+			// Process request
 			interceptor.serviceRequest(request);
 			Assert.fail("Should have thrown an excpetion for incorrect token");
 		} catch (SessionTokenException e) {
-			Assert.assertFalse("Action phase should not have occurred for session timeout",
-					component.handleRequestCalled);
-			Assert.
-					assertEquals("Step count should not have been incremented for session timeout",
-							0, uic
-									.getEnvironment().getStep());
+			Assert.assertFalse("Action phase should not have occurred for session timeout", component.handleRequestCalled);
+			Assert.assertEquals("Step count should not have been incremented for session timeout", 0, uic.getEnvironment().getStep());
 		}
+	}
+
+	@Test
+	public void testNewSession() {
+		// Setup interceptor
+		SessionTokenInterceptor interceptor = setupInterceptor();
+		UIContext uic = UIContextHolder.getCurrent();
+
+		// Check no session token (ie new session)
+		Assert.assertNull("Session token should be null for new session", uic.getEnvironment().getSessionToken());
+
+		// Test default state (ie no params and new session)
+		MockRequest request = new MockRequest();
+		interceptor.serviceRequest(request);
+		interceptor.preparePaint(request);
+		Assert.assertNotNull("Session token should be set for new session", uic.getEnvironment().getSessionToken());
+	}
+
+	private SessionTokenInterceptor setupInterceptor() {
+		MyBackingComponent component = new MyBackingComponent();
+		SessionTokenInterceptor interceptor = new SessionTokenInterceptor();
+		interceptor.setBackingComponent(component);
+		UIContext uic = new UIContextImpl();
+		uic.setUI(component);
+		uic.setEnvironment(new MockWEnvironment());
+		setActiveContext(uic);
+		return interceptor;
 	}
 
 	/**

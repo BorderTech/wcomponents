@@ -32,11 +32,11 @@ public class AjaxErrorInterceptor extends InterceptorComponent {
 		} catch (SessionTokenException e) {
 			// Log Session token exception as warn to reduce noise in error logs
 			LOG.warn(e.getMessage());
-			handleError(getSessionErrorMessage(), e);
+			handleRequestError(getSessionErrorMessage(), e);
 		} catch (AjaxTriggerException e) {
 			// Log AJAX trigger exception as warn to reduce noise in error logs
 			LOG.warn(e.getMessage());
-			handleError(getDefaultMessage(), e);
+			handleRequestError(getDefaultMessage(), e);
 		} catch (Exception e) {
 			LOG.error("Error processing AJAX request in action phase. " + e.getMessage(), e);
 			handleError(getDefaultMessage(), e);
@@ -63,6 +63,16 @@ public class AjaxErrorInterceptor extends InterceptorComponent {
 	 */
 	private void handleError(final String msg, final Throwable original) {
 		throw new ErrorCodeEscape(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, msg, original);
+	}
+
+	/**
+	 * Throw the request error code.
+	 *
+	 * @param msg the error message
+	 * @param original the original exception
+	 */
+	private void handleRequestError(final String msg, final Throwable original) {
+		throw new ErrorCodeEscape(HttpServletResponse.SC_BAD_REQUEST, msg, original);
 	}
 
 	/**
