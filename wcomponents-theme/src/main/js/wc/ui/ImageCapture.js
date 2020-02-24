@@ -1,4 +1,4 @@
-define(["wc/has", "wc/dom/classList", "wc/dom/event", "wc/ui/prompt", "wc/config", "getUserMedia"], function(has, classList, event, prompt, wcconfig, getUserMedia) {
+define(["wc/has", "wc/dom/classList", "wc/dom/event", "wc/ui/prompt", "wc/config", "lib/getusermedia-js/getUserMedia"], function(has, classList, event, prompt, wcconfig) {
 	/**
 	 * Encapsulates the image capture functionality.
 	 * This is not a truly reusable module, it is part of imageEdit.js but has been split out for ease of maintenance.
@@ -125,8 +125,8 @@ define(["wc/has", "wc/dom/classList", "wc/dom/event", "wc/ui/prompt", "wc/config
 		 * Uses native getUserMedia if possible and falls back to plugins if it must.
 		 */
 		function gumWithFallback(constraints, playCallback, errorCallback) {
-			if (getUserMedia && arguments.length === 3) {
-				getUserMedia(constraints, playCallback, errorCallback);
+			if (window.getUserMedia && arguments.length === 3) {
+				window.getUserMedia(constraints, playCallback, errorCallback);
 			}
 		}
 

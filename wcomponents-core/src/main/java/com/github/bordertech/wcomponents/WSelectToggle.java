@@ -1,9 +1,5 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.WDataTable.SelectMode;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * <p>
  * This is component can be used to select all/none within a containing component, for example a {@link WPanel} or
@@ -104,12 +100,7 @@ public class WSelectToggle extends AbstractWComponent implements Disableable, Aj
 				// We need to change the selections *after* all components
 				// Have updated themselves from the request, as they may change
 				// their values when their handleRequest methods are called.
-				invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						setSelections(model.target, State.ALL.equals(newValue));
-					}
-				});
+				invokeLater(() -> setSelections(model.target, State.ALL.equals(newValue)));
 			}
 		}
 	}
@@ -121,35 +112,8 @@ public class WSelectToggle extends AbstractWComponent implements Disableable, Aj
 	 * @param selected if true, select everything. If false, deselect everything.
 	 */
 	private static void setSelections(final WComponent component, final boolean selected) {
-		if (component instanceof WCheckBox) {
-			((WCheckBox) component).setSelected(selected);
-		} else if (component instanceof WCheckBoxSelect) {
-			WCheckBoxSelect select = (WCheckBoxSelect) component;
-			select.setSelected(selected ? select.getOptions() : new ArrayList(0));
-		} else if (component instanceof WMultiSelect) {
-			WMultiSelect list = (WMultiSelect) component;
-			list.setSelected(selected ? list.getOptions() : new ArrayList(0));
-		} else if (component instanceof WDataTable) {
-			WDataTable table = (WDataTable) component;
-
-			if (table.getSelectMode() == SelectMode.MULTIPLE) {
-				if (selected) {
-					TableDataModel model = table.getDataModel();
-					int rowCount = model.getRowCount();
-
-					List<Integer> indices = new ArrayList<>(rowCount);
-
-					for (int i = 0; i < rowCount; i++) {
-						if (model.isSelectable(i)) {
-							indices.add(i);
-						}
-					}
-
-					table.setSelectedRows(indices);
-				} else {
-					table.setSelectedRows(new ArrayList<Integer>(0));
-				}
-			}
+		if (component instanceof SelectionToggleable) {
+			((SelectionToggleable) component).toggleSelection(selected);
 		} else if (component instanceof Container) {
 			Container container = (Container) component;
 			final int childCount = container.getChildCount();

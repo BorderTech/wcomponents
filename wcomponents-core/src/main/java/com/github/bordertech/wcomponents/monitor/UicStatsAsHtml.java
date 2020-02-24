@@ -67,26 +67,9 @@ public final class UicStatsAsHtml {
 		// Copy all the stats into a list so we can sort and cull.
 		List<UicStats.Stat> statList = new ArrayList<>(treeStats.values());
 
-		Comparator<UicStats.Stat> comparator = new Comparator<UicStats.Stat>() {
-			@Override
-			public int compare(final UicStats.Stat stat1, final UicStats.Stat stat2) {
-				if (stat1.getModelState() > stat2.getModelState()) {
-					return -1;
-				} else if (stat1.getModelState() < stat2.getModelState()) {
-					return 1;
-				} else {
-					int diff = stat1.getClassName().compareTo(stat2.getClassName());
-
-					if (diff == 0) {
-						diff = stat1.getName().compareTo(stat2.getName());
-					}
-
-					return diff;
-				}
-			}
-		};
-
-		Collections.sort(statList, comparator);
+		Collections.sort(statList,
+            Comparator.comparing(UicStats.Stat::getModelState)
+                .thenComparing(UicStats.Stat::getClassName));
 
 		for (int i = 0; i < statList.size(); i++) {
 			UicStats.Stat stat = statList.get(i);

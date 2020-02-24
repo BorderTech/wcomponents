@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
  * @since 1.0.0
  */
 public class WCheckBoxSelect extends AbstractWMultiSelectList implements AjaxTrigger, AjaxTarget, SubordinateTrigger, SubordinateTarget,
-		MultiInputComponent {
+		MultiInputComponent, SelectionToggleable {
 
 	/**
 	 * An enumeration of button layouts.
@@ -138,6 +139,11 @@ public class WCheckBoxSelect extends AbstractWMultiSelectList implements AjaxTri
 		getOrCreateComponentModel().frameless = frameless;
 	}
 
+	@Override
+	public void toggleSelection(final boolean selected) {
+		setSelected(selected ? getOptions() : new ArrayList(0));
+	}
+	
 	/**
 	 * Creates a new Component model.
 	 *

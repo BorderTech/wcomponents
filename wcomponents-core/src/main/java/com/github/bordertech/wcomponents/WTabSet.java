@@ -497,6 +497,15 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	}
 
 	/**
+	 * Sets the active tab.
+	 *
+	 * @param tab the active tab.
+	 */
+	public void setActiveTab(final WTab tab) {
+		setActiveTab(tab.getContent());
+	}
+
+	/**
 	 * Sets the visibility of the tab at the given index.
 	 *
 	 * @param idx the index of the WTab to get.
@@ -517,6 +526,16 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	}
 
 	/**
+	 * Sets the visibility of the tab.
+	 *
+	 * @param tab the tab.
+	 * @param visible true to set the tab visible, false to set invisible.
+	 */
+	public void setTabVisible(final WTab tab, final boolean visible) {
+		setTabVisible(tab.getContent(), visible);
+	}
+
+	/**
 	 * Indicates whether the tab at the given index is visible.
 	 *
 	 * @param idx the index of the WTab to test.
@@ -534,13 +553,23 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	}
 
 	/**
-	 * Indicats whether the tab which holds the given content is visible.
+	 * Indicates whether the tab which holds the given content is visible.
 	 *
 	 * @param tabContent the tab content.
 	 * @return true if the tab at the given index is visible, false if it is invisible.
 	 */
 	public boolean isTabVisible(final WComponent tabContent) {
 		return isTabVisible(getTabIndex(tabContent));
+	}
+
+	/**
+	 * Indicates whether the tab which holds the given content is visible.
+	 *
+	 * @param tab the tab content.
+	 * @return true if the tab at the given index is visible, false if it is invisible.
+	 */
+	public boolean isTabVisible(final WTab tab) {
+		return isTabVisible(tab.getContent());
 	}
 
 	/**
@@ -555,6 +584,16 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 		int idx = tabs.indexOf(tab);
 
 		return activeIndex == idx;
+	}
+
+	/**
+	 * Indicates whether the tab is active (selected).
+	 *
+	 * @param tab the WTab to check.
+	 * @return true if the tab is active, false otherwise.
+	 */
+	public boolean isActive(final WTab tab) {
+		return isActive((WComponent) tab);
 	}
 
 	/**
@@ -576,6 +615,16 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 		}
 
 		return -1;
+	}
+
+	/**
+	 * Retrieves the tab index for the given tab.
+	 *
+	 * @param tab the tab
+	 * @return the tab index, or -1 if the tab is not in this tab set.
+	 */
+	public int getTabIndex(final WTab tab) {
+		return getTabIndex(tab.getContent());
 	}
 
 	/**
@@ -669,15 +718,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 
 			if (action != null && !changes.isEmpty()) {
 				final ActionEvent event = new ActionEvent(this, changes.toString(), null);
-
-				Runnable later = new Runnable() {
-					@Override
-					public void run() {
-						action.execute(event);
-					}
-				};
-
-				invokeLater(later);
+				invokeLater(() -> action.execute(event));
 			}
 		}
 

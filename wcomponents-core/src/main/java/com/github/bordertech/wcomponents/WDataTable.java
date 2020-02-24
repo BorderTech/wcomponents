@@ -37,7 +37,7 @@ import org.apache.commons.logging.LogFactory;
  */
 @Deprecated
 public class WDataTable extends WBeanComponent implements Disableable, Container, AjaxInternalTrigger, AjaxTarget,
-		SubordinateTarget, NamingContextable {
+		SubordinateTarget, NamingContextable, SelectionToggleable {
 
 	/**
 	 * The logger instance for this class.
@@ -962,6 +962,29 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	public List<ActionConstraint> getActionConstraints(final WButton button) {
 		List<ActionConstraint> constraints = getComponentModel().actionConstraints.get(button);
 		return constraints == null ? null : Collections.unmodifiableList(constraints);
+	}
+
+	@Override
+	public void toggleSelection(final boolean selected) {
+
+		if (getSelectMode() == SelectMode.MULTIPLE) {
+			if (selected) {
+				TableDataModel model = getDataModel();
+				int rowCount = model.getRowCount();
+
+				List<Integer> indices = new ArrayList<>(rowCount);
+
+				for (int i = 0; i < rowCount; i++) {
+					if (model.isSelectable(i)) {
+						indices.add(i);
+					}
+				}
+
+				setSelectedRows(indices);
+			} else {
+				setSelectedRows(new ArrayList<>(0));
+			}
+		}		
 	}
 
 	/**

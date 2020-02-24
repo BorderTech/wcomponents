@@ -205,17 +205,17 @@ define(["wc/has"], function(has) {
 			/* jshint -W053 */
 			/* eslint-disable */
 			var s = new String(" "),
-				result = ("trim" in s);
+				hasTrim = ("trim" in s);
 			/* eslint-enable */
 			// Safari (5, Windows) has String.prototype.trim() but it is incompatible with strict mode
-			if (result) {
+			if (hasTrim) {
 				try {
 					s.trim();
 				} catch (e) {
-					result = false;  // not good enough to count
+					hasTrim = false;  // not good enough to count
 				}
 			}
-			return result;
+			return hasTrim;
 		});
 
 		addtest("string-repeat", function() {
@@ -248,7 +248,6 @@ define(["wc/has"], function(has) {
 				return false;
 			} finally {
 				d.body.removeChild(c);
-				c = null;
 			}
 		});
 
@@ -262,8 +261,6 @@ define(["wc/has"], function(has) {
 				res = d === el.type;
 			} catch (e) {
 				res = false;
-			} finally {
-				el = null;
 			}
 			return res;
 		});
