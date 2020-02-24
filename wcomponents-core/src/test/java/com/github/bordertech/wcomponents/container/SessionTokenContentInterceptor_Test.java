@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.container;
 import com.github.bordertech.wcomponents.AbstractWComponentTestCase;
 import com.github.bordertech.wcomponents.ContentEscape;
 import com.github.bordertech.wcomponents.Environment;
+import com.github.bordertech.wcomponents.MockWEnvironment;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
@@ -19,7 +20,9 @@ public class SessionTokenContentInterceptor_Test extends AbstractWComponentTestC
 
 	@Before
 	public void setupUIC() {
-		setActiveContext(createUIContext());
+		UIContext uic = createUIContext();
+		uic.setEnvironment(new MockWEnvironment());
+		setActiveContext(uic);
 	}
 
 	@Test(expected = SessionTokenException.class)

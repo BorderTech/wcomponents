@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.AbstractWComponentTestCase;
 import com.github.bordertech.wcomponents.ErrorCodeEscape;
 import com.github.bordertech.wcomponents.Escape;
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.SystemException;
@@ -25,6 +26,20 @@ public class TargetableErrorInterceptor_Test extends AbstractWComponentTestCase 
 	@Before
 	public void setupUIC() {
 		setActiveContext(createUIContext());
+	}
+
+	@Test
+	public void testNoErrors() {
+		// Setup interceptor
+		MyBackingComponent component = new MyBackingComponent();
+		TargetableErrorInterceptor interceptor = new TargetableErrorInterceptor();
+		interceptor.setBackingComponent(component);
+		MockRequest request = new MockRequest();
+		// Process request
+		interceptor.serviceRequest(request);
+		interceptor.preparePaint(request);
+		Assert.assertTrue("Handle request not called", component.handleRequestCalled);
+		Assert.assertTrue("Prepare paint not called", component.preparePaintCalled);
 	}
 
 	@Test(expected = Escape.class)
@@ -171,4 +186,25 @@ public class TargetableErrorInterceptor_Test extends AbstractWComponentTestCase 
 		}
 	}
 
+	/**
+	 * A simple component that records when the handleRequest method is called.
+	 */
+	private static final class MyBackingComponent extends WApplication {
+
+		private boolean handleRequestCalled = false;
+		private boolean preparePaintCalled = false;
+
+		@Override
+		public void handleRequest(final Request request) {
+			handleRequestCalled = true;
+			super.handleRequest(request);
+		}
+
+		@Override
+		protected void preparePaintComponent(final Request request) {
+			preparePaintCalled = true;
+			super.preparePaintComponent(request);
+		}
+
+	}
 }

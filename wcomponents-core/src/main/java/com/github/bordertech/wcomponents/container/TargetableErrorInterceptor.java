@@ -32,14 +32,14 @@ public class TargetableErrorInterceptor extends InterceptorComponent {
 		} catch (SessionTokenException e) {
 			// Log session token exception as warn to reduce noise in error logs
 			LOG.warn(e.getMessage());
-			handleRequestError(getSessionErrorMessage(), e);
+			handleContentRequestError(getSessionErrorMessage(), e);
 		} catch (TargetableIdException e) {
 			// Log targetable ID exception as warn to reduce noise in error logs
 			LOG.warn(e.getMessage());
-			handleRequestError(getDefaultMessage(), e);
+			handleContentRequestError(getContentErrorMessage(), e);
 		} catch (Exception e) {
 			LOG.error("Error processing content request in action phase. " + e.getMessage(), e);
-			handleError(getDefaultMessage(), e);
+			handleContentSystemError(getContentErrorMessage(), e);
 		}
 	}
 
@@ -51,45 +51,41 @@ public class TargetableErrorInterceptor extends InterceptorComponent {
 			throw escape;
 		} catch (Exception e) {
 			LOG.error("Error processing content request in prepare paint. " + e.getMessage(), e);
-			handleError(getDefaultMessage(), e);
+			handleContentSystemError(getContentErrorMessage(), e);
 		}
 	}
 
 	/**
-	 * Throw the default error code.
+	 * Throw the default content error code.
 	 *
 	 * @param msg the error message
 	 * @param original the original exception
 	 */
-	private void handleError(final String msg, final Throwable original) {
+	private void handleContentSystemError(final String msg, final Throwable original) {
 		throw new ErrorCodeEscape(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, msg, original);
 	}
 
 	/**
-	 * Throw the request error code.
+	 * Throw the content request error code.
 	 *
 	 * @param msg the error message
 	 * @param original the original exception
 	 */
-	private void handleRequestError(final String msg, final Throwable original) {
+	private void handleContentRequestError(final String msg, final Throwable original) {
 		throw new ErrorCodeEscape(HttpServletResponse.SC_BAD_REQUEST, msg, original);
 	}
 
 	/**
 	 * @return the default content error message
 	 */
-	private String getDefaultMessage() {
-		String msg = I18nUtilities.format(UIContextHolder.getCurrent().getLocale(),
-				InternalMessages.DEFAULT_CONTENT_ERROR);
-		return msg;
+	private String getContentErrorMessage() {
+		return I18nUtilities.format(UIContextHolder.getCurrent().getLocale(), InternalMessages.DEFAULT_CONTENT_ERROR);
 	}
 
 	/**
 	 * @return the session token error message
 	 */
 	private String getSessionErrorMessage() {
-		String msg = I18nUtilities.format(UIContextHolder.getCurrent().getLocale(),
-				InternalMessages.DEFAULT_SESSION_TOKEN_ERROR);
-		return msg;
+		return I18nUtilities.format(UIContextHolder.getCurrent().getLocale(), InternalMessages.DEFAULT_SESSION_TOKEN_ERROR);
 	}
 }
