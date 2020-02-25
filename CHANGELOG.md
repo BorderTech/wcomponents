@@ -8,6 +8,9 @@
 
 * Added WTab based methods to WTabSet corresponding to the content methods
 
+* Add `@FunctionalInterface` to `Action` and `BeanProvider` to indicate that
+  these can be instantiated as lambda expressions.
+
 ### Bug Fixes
 
 * Fix regression in previous few versions which broken ImageCapture component #1687
