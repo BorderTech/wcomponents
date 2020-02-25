@@ -27,31 +27,28 @@ public class SessionTokenContentInterceptor extends InterceptorComponent {
 	 */
 	@Override
 	public void serviceRequest(final Request request) {
+
 		// Get the expected session token
 		UIContext uic = UIContextHolder.getCurrent();
 		String expected = uic.getEnvironment().getSessionToken();
 
-		// Session token should already be set
+		// Session token should already be set for a content request
 		if (expected == null) {
-			String msg = "Session token should already be set on the session before content request. Can be due to the session timing out.";
-			throw new SessionTokenException(msg);
+			throw new SessionTokenException("Session token should already be set on the session before content request."
+					+ " Can be due to the session timing out.");
 		}
 
-		// Get the session token from the request
+		// Get the session token from the content request
 		String got = request.getParameter(Environment.SESSION_TOKEN_VARIABLE);
 
-		// Check tokens match (both must be provided)
-		if (Util.equals(expected, got)) {
-			// Process Service Request
+		// Check tokens match (both must be provided) or check if cached content (no session token on request)
+		if (Util.equals(expected, got) || (got == null && StepCountUtil.isCachedContentRequest(request))) {
+			// Process content request
 			getBackingComponent().serviceRequest(request);
-		} else if (got == null && StepCountUtil.isCachedContentRequest(request)) {  // Check cached content (no session token on request)
-			// Process Service Request
-			getBackingComponent().serviceRequest(request);
-		} else {  // Invalid token
-			// Set an error code
-			String msg = "Wrong session token detected for content request. Expected token [" + expected
-					+ "] but got token [" + got + "].";
-			throw new SessionTokenException(msg);
+		} else {
+			// Invalid token on content request
+			throw new SessionTokenException("Wrong session token detected for content request. Expected token ["
+					+ expected + "] but got token [" + got + "].");
 		}
 
 	}
