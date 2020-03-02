@@ -23,24 +23,26 @@ public class AjaxErrorInterceptor extends InterceptorComponent {
 	 */
 	private static final Log LOG = LogFactory.getLog(AjaxErrorInterceptor.class);
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void serviceRequest(final Request request) {
 		try {
 			super.serviceRequest(request);
 		} catch (Escape escape) {
 			throw escape;
+		} catch (SessionTokenException e) {
+			// Log Session token exception as warn to reduce noise in error logs
+			LOG.warn(e.getMessage());
+			handleAjaxRequestError(getSessionErrorMessage(), e);
+		} catch (AjaxTriggerException e) {
+			// Log AJAX trigger exception as warn to reduce noise in error logs
+			LOG.warn(e.getMessage());
+			handleAjaxRequestError(getAjaxErrorMessage(), e);
 		} catch (Exception e) {
 			LOG.error("Error processing AJAX request in action phase. " + e.getMessage(), e);
-			handleError();
+			handleAjaxSystemError(getAjaxErrorMessage(), e);
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void preparePaint(final Request request) {
 		try {
@@ -49,17 +51,41 @@ public class AjaxErrorInterceptor extends InterceptorComponent {
 			throw escape;
 		} catch (Exception e) {
 			LOG.error("Error processing AJAX request in prepare paint. " + e.getMessage(), e);
-			handleError();
+			handleAjaxSystemError(getAjaxErrorMessage(), e);
 		}
 	}
 
 	/**
-	 * Throw the default error code.
+	 * Throw the ajax system error code.
+	 *
+	 * @param msg the error message
+	 * @param original the original exception
 	 */
-	private void handleError() {
-		String msg = I18nUtilities
-				.format(UIContextHolder.getCurrent().getLocale(),
-						InternalMessages.DEFAULT_AJAX_ERROR);
-		throw new ErrorCodeEscape(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, msg);
+	private void handleAjaxSystemError(final String msg, final Throwable original) {
+		throw new ErrorCodeEscape(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, msg, original);
+	}
+
+	/**
+	 * Throw the ajax request error code.
+	 *
+	 * @param msg the error message
+	 * @param original the original exception
+	 */
+	private void handleAjaxRequestError(final String msg, final Throwable original) {
+		throw new ErrorCodeEscape(HttpServletResponse.SC_BAD_REQUEST, msg, original);
+	}
+
+	/**
+	 * @return the default AJAX error message
+	 */
+	private String getAjaxErrorMessage() {
+		return I18nUtilities.format(UIContextHolder.getCurrent().getLocale(), InternalMessages.DEFAULT_AJAX_ERROR);
+	}
+
+	/**
+	 * @return the session token error message
+	 */
+	private String getSessionErrorMessage() {
+		return I18nUtilities.format(UIContextHolder.getCurrent().getLocale(), InternalMessages.DEFAULT_SESSION_TOKEN_ERROR);
 	}
 }

@@ -24,20 +24,18 @@ public class TargetableInterceptor extends InterceptorComponent {
 	 */
 	private String targetId = null;
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void serviceRequest(final Request request) {
-		// Check if this is a targeted request
+		// Check this is a targeted request (should be as was detected when creating the intereceptor chain)
 		targetId = request.getParameter(Environment.TARGET_ID);
 		if (targetId == null) {
 			throw new SystemException("No target id request parameter");
 		}
 
+		// Check the target is valid and visible
 		ComponentWithContext target = WebUtilities.getComponentById(targetId, true);
 		if (target == null) {
-			throw new SystemException("No target component found for id " + targetId);
+			throw new TargetableIdException("No visible target component found for id " + targetId);
 		}
 
 		// go straight to the target component.
@@ -51,11 +49,9 @@ public class TargetableInterceptor extends InterceptorComponent {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void preparePaint(final Request request) {
+		// Should still be visible
 		ComponentWithContext target = WebUtilities.getComponentById(targetId, true);
 		if (target == null) {
 			throw new SystemException("No target component found for id " + targetId);
@@ -69,11 +65,9 @@ public class TargetableInterceptor extends InterceptorComponent {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void paint(final RenderContext renderContext) {
+		// Should still be visible
 		ComponentWithContext target = WebUtilities.getComponentById(targetId, true);
 		if (target == null) {
 			throw new SystemException("No target component found for id " + targetId);

@@ -109,6 +109,10 @@ public class WServlet extends HttpServlet {
 			} else {
 				serviceInt(httpServletRequest, httpServletResponse);
 			}
+		} catch (NoContextException e) {
+			// Log as WARN to reduce noise in the error logs (usually caused by session time out)
+			LOG.warn(e.getMessage());
+			handleError(httpServletRequest, httpServletResponse, e);
 		} catch (Throwable t) {
 			// We don't let any exception propagate to the servlet container.
 			LOG.error("WServlet caught exception.", t);

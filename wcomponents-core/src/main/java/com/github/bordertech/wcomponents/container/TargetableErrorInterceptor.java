@@ -23,24 +23,26 @@ public class TargetableErrorInterceptor extends InterceptorComponent {
 	 */
 	private static final Log LOG = LogFactory.getLog(TargetableErrorInterceptor.class);
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void serviceRequest(final Request request) {
 		try {
 			super.serviceRequest(request);
 		} catch (Escape escape) {
 			throw escape;
+		} catch (SessionTokenException e) {
+			// Log session token exception as warn to reduce noise in error logs
+			LOG.warn(e.getMessage());
+			handleContentRequestError(getSessionErrorMessage(), e);
+		} catch (TargetableIdException e) {
+			// Log targetable ID exception as warn to reduce noise in error logs
+			LOG.warn(e.getMessage());
+			handleContentRequestError(getContentErrorMessage(), e);
 		} catch (Exception e) {
 			LOG.error("Error processing content request in action phase. " + e.getMessage(), e);
-			handleError();
+			handleContentSystemError(getContentErrorMessage(), e);
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void preparePaint(final Request request) {
 		try {
@@ -49,16 +51,41 @@ public class TargetableErrorInterceptor extends InterceptorComponent {
 			throw escape;
 		} catch (Exception e) {
 			LOG.error("Error processing content request in prepare paint. " + e.getMessage(), e);
-			handleError();
+			handleContentSystemError(getContentErrorMessage(), e);
 		}
 	}
 
 	/**
-	 * Throw the default error code.
+	 * Throw the default content error code.
+	 *
+	 * @param msg the error message
+	 * @param original the original exception
 	 */
-	private void handleError() {
-		String msg = I18nUtilities.format(UIContextHolder.getCurrent().getLocale(),
-				InternalMessages.DEFAULT_CONTENT_ERROR);
-		throw new ErrorCodeEscape(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, msg);
+	private void handleContentSystemError(final String msg, final Throwable original) {
+		throw new ErrorCodeEscape(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, msg, original);
+	}
+
+	/**
+	 * Throw the content request error code.
+	 *
+	 * @param msg the error message
+	 * @param original the original exception
+	 */
+	private void handleContentRequestError(final String msg, final Throwable original) {
+		throw new ErrorCodeEscape(HttpServletResponse.SC_BAD_REQUEST, msg, original);
+	}
+
+	/**
+	 * @return the default content error message
+	 */
+	private String getContentErrorMessage() {
+		return I18nUtilities.format(UIContextHolder.getCurrent().getLocale(), InternalMessages.DEFAULT_CONTENT_ERROR);
+	}
+
+	/**
+	 * @return the session token error message
+	 */
+	private String getSessionErrorMessage() {
+		return I18nUtilities.format(UIContextHolder.getCurrent().getLocale(), InternalMessages.DEFAULT_SESSION_TOKEN_ERROR);
 	}
 }

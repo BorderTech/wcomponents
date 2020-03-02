@@ -13,23 +13,28 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
 	AbstractContainerHelper_Test.class,
 	AjaxDebugStructureInterceptor_Test.class,
+	AjaxErrorInterceptor_Test.class,
+	AjaxSetupInterceptor_Test.class,
 	ContextCleanupInterceptor_Test.class,
 	DataListInterceptor_Test.class,
 	DebugStructureInterceptor_Test.class,
 	HeadLineInterceptor_Test.class,
 	InterceptorComponent_Test.class,
 	ResponseCacheInterceptor_Test.class,
+	SessionTokenAjaxInterceptor_Test.class,
+	SessionTokenContentInterceptor_Test.class,
 	SessionTokenInterceptor_Test.class,
 	SubordinateControlInterceptor_Test.class,
+	TargetableErrorInterceptor_Test.class,
 	TargetableInterceptor_Test.class,
 	TransformXMLInterceptor_Test.class,
-	VelocityInterceptor_Test.class,
 	ValidateXMLInterceptor_Test.class,
+	VelocityInterceptor_Test.class,
+	WWindowInterceptor_Test.class,
 	WhitespaceFilterInterceptor_Test.class,
 	WrongStepAjaxInterceptor_Test.class,
 	WrongStepContentInterceptor_Test.class,
-	WrongStepServerInterceptor_Test.class,
-	WWindowInterceptor_Test.class
+	WrongStepServerInterceptor_Test.class
 })
 public class Container_Suite {
 }

@@ -21,27 +21,18 @@ public class HeadLineInterceptor_Test extends AbstractWebXmlRendererTestCase {
 	 */
 	private static final String LABEL_TEXT = "FormComponent_Test.labelText";
 
-	/**
-	 * The headline interceptor being tested.
-	 */
-	private HeadLineInterceptor headLineComponent;
-
-	/**
-	 * The backing WComponent UI.
-	 */
-	private WLabel content;
-
 	@Before
-	public void setUp() {
-		headLineComponent = new HeadLineInterceptor();
-
-		content = new WLabel(LABEL_TEXT);
-		headLineComponent.setBackingComponent(content);
+	public void setupUIC() {
 		setActiveContext(createUIContext());
 	}
 
 	@Test
 	public void testBasicRenderedFormat() throws Exception {
+
+		WLabel content = new WLabel(LABEL_TEXT);
+		HeadLineInterceptor headLineComponent = new HeadLineInterceptor();
+		headLineComponent.setBackingComponent(content);
+
 		assertSchemaMatch(headLineComponent);
 		assertXpathNotExists("//script", headLineComponent);
 		assertXpathNotExists("//style", headLineComponent);
@@ -50,12 +41,13 @@ public class HeadLineInterceptor_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
 	public void testRenderedFormatWithGeneralHeader() throws Exception {
+
 		final String generic1 = "(Generic heading 1)";
 		final String generic2 = "(Generic heading 2)";
 
-		content.getHeaders().addHeadLine(Headers.UNTYPED_HEADLINE, generic1);
+		WLabel content = new WLabelWithHeaders(LABEL_TEXT, Headers.UNTYPED_HEADLINE, generic2);
 
-		content = new WLabelWithHeaders(LABEL_TEXT, Headers.UNTYPED_HEADLINE, generic2);
+		HeadLineInterceptor headLineComponent = new HeadLineInterceptor();
 		headLineComponent.setBackingComponent(content);
 
 		// Script 1 emulates a previous render, and should have been cleared out.
@@ -66,17 +58,16 @@ public class HeadLineInterceptor_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo(LABEL_TEXT, "normalize-space(//ui:label)", headLineComponent);
 
 		String headings = evaluateXPath(headLineComponent, "/");
-		Assert.assertTrue("Headings should contain generic 2", headings.indexOf(generic2) != -1);
-		Assert.
-				assertFalse("Headings should not contain generic 1",
-						headings.indexOf(generic1) != -1);
+		Assert.assertTrue("Headings should contain generic 2", headings.contains(generic2));
+		Assert.assertFalse("Headings should not contain generic 1", headings.contains(generic1));
 	}
 
 	@Test
 	public void testRenderedFormatWithJavascript() throws Exception {
 		final String script = "function blah1() { alert(\"blah1\") }";
 
-		content = new WLabelWithHeaders(LABEL_TEXT, Headers.JAVASCRIPT_HEADLINE, script);
+		WLabel content = new WLabelWithHeaders(LABEL_TEXT, Headers.JAVASCRIPT_HEADLINE, script);
+		HeadLineInterceptor headLineComponent = new HeadLineInterceptor();
 		headLineComponent.setBackingComponent(content);
 
 		assertSchemaMatch(headLineComponent);
@@ -86,15 +77,15 @@ public class HeadLineInterceptor_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo(LABEL_TEXT, "normalize-space(//ui:label)", headLineComponent);
 
 		String renderedScript = evaluateXPath(headLineComponent, "//html:script");
-		Assert.assertTrue("Javascript should contain given script",
-				renderedScript.indexOf(script) != -1);
+		Assert.assertTrue("Javascript should contain given script", renderedScript.contains(script));
 	}
 
 	@Test
 	public void testRenderedFormatWithCss() throws Exception {
 		final String aCss = "a { color: blue; dummy1: dummy1; }";
 
-		content = new WLabelWithHeaders(LABEL_TEXT, Headers.CSS_HEADLINE, aCss);
+		WLabel content = new WLabelWithHeaders(LABEL_TEXT, Headers.CSS_HEADLINE, aCss);
+		HeadLineInterceptor headLineComponent = new HeadLineInterceptor();
 		headLineComponent.setBackingComponent(content);
 
 		// css should be present.
@@ -106,7 +97,7 @@ public class HeadLineInterceptor_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo(LABEL_TEXT, "normalize-space(//ui:label)", headLineComponent);
 
 		String style = evaluateXPath(headLineComponent, "//html:style");
-		Assert.assertTrue("Style should contain aCss", style.indexOf(aCss) != -1);
+		Assert.assertTrue("Style should contain aCss", style.contains(aCss));
 	}
 
 	/**
