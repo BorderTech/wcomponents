@@ -54,7 +54,6 @@ public class WImageRenderer_Test extends AbstractWebXmlRendererTestCase {
 		setActiveContext(createUIContext());
 		image.setImage(content);
 		assertXpathEvaluatesTo("", "//html:img/@alt", image);
-		// positive test: dimensions are rational
 		String expected = "alt text";
 		image.setAlternativeText(expected);
 		assertXpathEvaluatesTo(expected, "//html:img/@alt", image);
@@ -67,7 +66,6 @@ public class WImageRenderer_Test extends AbstractWebXmlRendererTestCase {
 		setActiveContext(createUIContext());
 		image.setImage(content);
 		assertXpathEvaluatesTo("", "//html:img/@alt", image);
-		// positive test: dimensions are rational
 		content.setDescription("WImage_Test.testRenderedFormat.description");
 		assertXpathEvaluatesTo(content.getDescription(), "//html:img/@alt", image);
 	}
