@@ -15,6 +15,7 @@ import java.awt.Dimension;
  * @since 1.0.0
  */
 final class WImageRenderer extends AbstractWebXmlRenderer {
+
 	/**
 	 * Builds the "open tag" part of the XML, that is the tagname and attributes.
 	 *
@@ -26,6 +27,10 @@ final class WImageRenderer extends AbstractWebXmlRenderer {
 	 * @param xml The buffer to render the XML into.
 	 */
 	protected static void renderTagOpen(final WImage imageComponent, final XmlStringBuilder xml) {
+		xml.appendTagOpen("img");
+		xml.appendAttribute("id", imageComponent.getId());
+		xml.appendOptionalAttribute("class", imageComponent.getHtmlClass());
+		xml.appendUrlAttribute("src", imageComponent.getTargetUrl());
 
 		// Check for alternative text on the image
 		String alternativeText = imageComponent.getAlternativeText();
@@ -34,13 +39,14 @@ final class WImageRenderer extends AbstractWebXmlRenderer {
 		} else {
 			alternativeText = I18nUtilities.format(null, alternativeText);
 		}
-
-		xml.appendTagOpen("img");
-		xml.appendAttribute("id", imageComponent.getId());
-		xml.appendOptionalAttribute("class", imageComponent.getHtmlClass());
-		xml.appendOptionalAttribute("track", imageComponent.isTracking(), "true");
-		xml.appendUrlAttribute("src", imageComponent.getTargetUrl());
 		xml.appendAttribute("alt", alternativeText);
+
+		// Title attribute must not be the same as alt text
+		String toolTip = imageComponent.getToolTip();
+		if (toolTip != null && !alternativeText.equalsIgnoreCase(toolTip)) {
+			xml.appendAttribute("title", toolTip);
+		}
+
 		xml.appendOptionalAttribute("hidden", imageComponent.isHidden(), "hidden");
 
 		// Check for size information on the image
