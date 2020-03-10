@@ -11,6 +11,7 @@
 
 ### Bug Fixes
 
+* Fix WImageRenderer to output title attribute when appropriate #1697.
 * Fix regression in previous few versions which broken ImageCapture component #1687
 
 ## 1.5.18
