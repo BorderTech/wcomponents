@@ -28,7 +28,12 @@ define(["wc/dom/initialise", "wc/config", "wc/loader/style", "tinyMCE"],
 				config = wcconfig.get("wc/ui/rtf", {
 					initObj: {
 						content_css: styleLoader.getMainCss(true),
-						plugins: "autolink link lists print preview paste",
+						menubar: false,
+						plugins: "autolink link lists advlist print preview paste help",
+						toolbar: 'undo redo | formatselect | ' +
+							' bold italic | alignleft aligncenter ' +
+							' alignright alignjustify | bullist numlist outdent indent |' +
+							' removeformat | help',
 						setup: function (editor) {
 							editor.on("change", function () {
 								tinyMCE.triggerSave();

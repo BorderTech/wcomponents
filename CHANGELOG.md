@@ -6,11 +6,13 @@
 
 ### Enhancements
 
+* Updated TinyMCE to resolve security vulnerability #1696.
 * Added WTab based methods to WTabSet corresponding to the content methods
 * Introduced new SystemExceptions to make it easier to identify what exception occurred (eg invalid session token) #1627
 
 ### Bug Fixes
 
+* Fixed default TinyMCE config regression error introduced in update form v4 to v5 #1696.
 * Fix WImageRenderer to output title attribute when appropriate #1697.
 * Fix regression in previous few versions which broken ImageCapture component #1687
 
