@@ -7,6 +7,7 @@
 ### Enhancements
 
 * Added WTab based methods to WTabSet corresponding to the content methods
+* Introduced new SystemExceptions to make it easier to identify what exception occurred (eg invalid session token) #1627
 
 * Add `@FunctionalInterface` to `Action` and `BeanProvider` to indicate that
   these can be instantiated as lambda expressions.

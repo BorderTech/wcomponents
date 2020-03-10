@@ -14,6 +14,7 @@ import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import com.github.bordertech.wcomponents.util.mock.MockResponse;
 import java.io.IOException;
 import org.custommonkey.xmlunit.exceptions.XpathException;
+import org.junit.After;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -24,6 +25,12 @@ import org.xml.sax.SAXException;
  * @since 1.0.0
  */
 public class AjaxDebugStructureInterceptor_Test extends AbstractWebXmlRendererTestCase {
+
+	@After
+	public void resetConfig() {
+		Config.reset();
+		AjaxHelper.clearCurrentOperationDetails();
+	}
 
 	@Test
 	public void testInterceptorDisabled() throws XpathException, SAXException, IOException {
