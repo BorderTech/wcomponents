@@ -10,6 +10,7 @@ import java.io.Serializable;
  * @author Martin Shevchenko
  * @since 1.0.0
  */
+@FunctionalInterface
 public interface Action extends Serializable {
 
 	/**
