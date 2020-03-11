@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import com.github.bordertech.wcomponents.util.mock.MockResponse;
+import java.awt.Dimension;
 import java.io.IOException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -142,10 +143,50 @@ public class WImage_Test extends AbstractWComponentTestCase {
 			Assert.assertEquals("Incorrect content returned", new String(data, CHAR_ENCODING),
 					output);
 			Assert.assertTrue("Cache flag should be set", escape.isCacheable());
-			Assert
-					.assertEquals("Response should have header set for caching",
-							ConfigurationProperties.RESPONSE_DEFAULT_CACHE_SETTINGS, response.getHeaders().
+			Assert.assertEquals("Response should have header set for caching",
+					ConfigurationProperties.RESPONSE_DEFAULT_CACHE_SETTINGS, response.getHeaders().
 							get("Cache-Control"));
 		}
+	}
+
+	@Test
+	public void testToString() {
+		MockImage defaultImage = new MockImage();
+		WImage image = new WImage();
+		image.setImage(defaultImage);
+		Assert.assertNull(defaultImage.getDescription());
+		String expected = WImage.class.getSimpleName() + "(null)"; // yep, null as a string
+		Assert.assertEquals(expected, image.toString());
+
+		expected = "some description";
+		defaultImage.setDescription(expected);
+		Assert.assertEquals(WImage.class.getSimpleName() + "(\"" + expected + "\")", image.toString());
+	}
+
+	@Test
+	public void testSetGetSize() {
+		MockImage defaultImage = new MockImage();
+		WImage image = new WImage();
+		image.setImage(defaultImage);
+		Assert.assertNull(image.getSize());
+		int w = 123;
+		int h = 456;
+		image.setSize(new Dimension(w, h));
+		Assert.assertNotNull(image.getSize());
+		Assert.assertEquals(h, image.getSize().height);
+		Assert.assertEquals(w, image.getSize().width);
+	}
+
+	@Test
+	public void testGetSizeWithSetSizeOnContent() {
+		MockImage defaultImage = new MockImage();
+		WImage image = new WImage();
+		image.setImage(defaultImage);
+		int w = 123;
+		int h = 456;
+		defaultImage.setSize(new Dimension(w, h));
+		Assert.assertNotNull(image.getSize());
+		Assert.assertEquals(h, image.getSize().height);
+		Assert.assertEquals(w, image.getSize().width);
 	}
 }

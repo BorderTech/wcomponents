@@ -12,8 +12,7 @@ addons:
   firefox: latest
   sonarcloud:
     organization: "bordertech-github"
-    token:
-      secure: $SONAR_TOKEN
+    token: $SONAR_TOKEN
 
 before_install:
 - echo "MAVEN_OPTS='-Xmx512m -XX:MaxPermSize=128m'" > ~/.mavenrc
