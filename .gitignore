@@ -1,6 +1,7 @@
 ### WComponents ###
 wcomponents-theme/node/
 wcomponents-theme/package-lock.json
+wcomponents-theme/yarn.lock
 wcomponents-theme/intern.json
 wcomponents-theme/bower.json
 wcomponents-theme/jsdoc.json
