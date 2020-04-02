@@ -11,15 +11,12 @@ $wc-tabset-allow-left-right: true !default;
 // The width of the tab in left/right TabSets. Ignored if
 // $wc-tabset-allow-left-right != true
 $wc-tabset-left-right-tab-width: 15% !default;
-$wc-tabset-border-radius: $wc-gap-small !default;
 
 // We apply a border to the top of the tabpanel (in a regular tabset) which
 // allows us to separate the tabs from the content. It is also used to offset
 // the position of the tablist so that the active tab covers this border.
 $wc-tabset-tab-border: 1px !default;
 $wc-tabpanel-border-width: 1px !default;
-
-@import '../mixins/tabset';
 // #############################################################################
 
 .wc-tabset {
@@ -52,10 +49,6 @@ $wc-tabpanel-border-width: 1px !default;
 
   &[aria-expanded = 'false'] + [role='tabpanel'] + [aria-expanded] {
     border-top: 0;
-  }
-
-  &[aria-selected] {
-    @include wc-ui-tabset-top-border-radius;
   }
 
   &[aria-selected='true'] {

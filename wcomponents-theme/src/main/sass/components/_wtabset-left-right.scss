@@ -30,7 +30,6 @@
       left: $wc-tabpanel-border-width;
 
       [role='tab'] {
-        @include wc-ui-tabset-left-border-radius;
         @include border($pos: right, $width: 0);
       }
     }
@@ -43,7 +42,6 @@
       right: $wc-tabpanel-border-width;
 
       [role='tab'] {
-        @include wc-ui-tabset-right-border-radius;
         @include border($pos: left, $width: 0);
         text-align: right;
       }
