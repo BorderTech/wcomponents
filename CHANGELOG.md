@@ -6,7 +6,7 @@
 
 ### Enhancements
 
-* Added xcomponents-xslt as a dependency in wcomponents-core and removed it from wcomponents-bundle #1709.
+* Added wcomponents-xslt as a dependency in wcomponents-core and removed it from wcomponents-bundle #1709.
 * Removed decorative Sass which created rounded corners on tabs. This was forgotten in the changes for 1.5.1 which separated structure from style as 
   much as possible #1711.
 * Updated TinyMCE to resolve security vulnerability #1696.
