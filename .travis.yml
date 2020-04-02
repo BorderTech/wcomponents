@@ -26,7 +26,7 @@ jdk:
 
 ## Travis installs the project with the following maven command:- "mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V"
 install:
- - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -DskipOptionalQA=true -Dwc.pmd.verbose=false
+ - mvn --settings ci-settings.xml install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -DskipOptionalQA=true -Dwc.pmd.verbose=false
 
 script:
  - ./travis.sh
