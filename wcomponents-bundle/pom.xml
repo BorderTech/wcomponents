@@ -33,11 +33,6 @@
 			<artifactId>wcomponents-theme</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.github.bordertech.wcomponents</groupId>
-			<artifactId>wcomponents-xslt</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 		<!-- JSR107 Caching provider. -->
 		<dependency>
 			<groupId>org.ehcache</groupId>
