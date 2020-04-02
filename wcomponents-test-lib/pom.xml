@@ -74,7 +74,8 @@
 		<dependency>
 			<groupId>io.github.bonigarcia</groupId>
 			<artifactId>webdrivermanager</artifactId>
-			<version>3.6.2</version>
+			<!-- Temporary version, see ci-settings.xml -->
+			<version>3.8.2-alpha</version>
 		</dependency>
 
 		<dependency>
