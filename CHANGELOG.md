@@ -9,9 +9,10 @@
 * Updated TinyMCE to resolve security vulnerability #1696.
 * Added WTab based methods to WTabSet corresponding to the content methods
 * Introduced new SystemExceptions to make it easier to identify what exception occurred (eg invalid session token) #1627
-
 * Add `@FunctionalInterface` to `Action` and `BeanProvider` to indicate that
   these can be instantiated as lambda expressions.
+* Removed decorative Sass which created rounded corners on tabs. This was forgotten in the changes for 1.5.1 which separated structure from style as 
+  much as possible #1711.
 
 ### Bug Fixes
 
