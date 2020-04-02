@@ -17,6 +17,7 @@
 
 ### Bug Fixes
 
+* Removed decorative border from dialog content #1714.
 * Fixed default TinyMCE config regression error introduced in update form v4 to v5 #1696.
 * Fix WImageRenderer to output title attribute when appropriate #1697.
 * Fix regression in previous few versions which broken ImageCapture component #1687

@@ -81,7 +81,7 @@ dialog {
   }
 
   > div { // dialog content container
-    @include padded-box;
+    @include padded-box($border: false);
     @include flex-grow(1);
     // height: 100%;
     overflow: auto;
