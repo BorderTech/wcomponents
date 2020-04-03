@@ -1,11 +1,12 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
-import com.github.bordertech.wcomponents.ComponentModel;
+import com.github.bordertech.wcomponents.Audio;
 import com.github.bordertech.wcomponents.MockAudio;
 import com.github.bordertech.wcomponents.WAudio;
 import java.io.IOException;
 import org.junit.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
+import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -17,103 +18,204 @@ import org.xml.sax.SAXException;
  */
 public class WAudioRenderer_Test extends AbstractWebXmlRendererTestCase {
 
+	private WAudio audio;
+
+	private MockAudio mockAudio;
+
+	@Before
+	public void setUp() {
+		mockAudio = new MockAudio();
+		mockAudio.setMimeType("audio/basic");
+		audio = new WAudio(mockAudio);
+		audio.setCacheKey("x{}<>"); // so that the URIs are consistent
+	}
+
 	@Test
 	public void testRendererCorrectlyConfigured() {
-		WAudio audio = new WAudio();
-		Assert.assertTrue("Incorrect renderer supplied",
-				getWebXmlRenderer(audio) instanceof WAudioRenderer);
+		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(audio) instanceof WAudioRenderer);
+	}
+
+	// Test with no audio tracks - should not render
+	@Test
+	public void testDoPaint_noAudioNoRender() throws IOException, SAXException, XpathException {
+		WAudio emptyAudio = new WAudio();
+		assertXpathNotExists("//html:audio", emptyAudio);
 	}
 
 	@Test
 	public void testDoPaint() throws IOException, SAXException, XpathException {
-		MockAudio mockAudio = new MockAudio();
-		mockAudio.setMimeType("audio/basic");
-
-		// Test with no audio tracks - should not render
-		WAudio audio = new WAudio();
-
-		assertSchemaMatch(audio);
-		assertXpathNotExists("//ui:audio", audio);
-
 		// Test with minimal options
-		audio = new WAudio(mockAudio);
-		audio.setCacheKey("x{}<>"); // so that the URIs are consistent
 		setActiveContext(createUIContext());
 
-		assertSchemaMatch(audio);
-		assertXpathExists("//ui:audio", audio);
-		assertXpathEvaluatesTo(audio.getId(), "//ui:audio/@id", audio);
-		assertXpathEvaluatesTo("none", "//ui:audio/@preload", audio);
-		assertXpathNotExists("//ui:audio/@alt", audio);
-		assertXpathNotExists("//ui:audio/@autoplay", audio);
-		assertXpathNotExists("//ui:audio/@loop", audio);
-		assertXpathNotExists("//ui:audio/@muted", audio);
-		assertXpathNotExists("//ui:audio/@controls", audio);
-		assertXpathNotExists("//ui:audio/@hidden", audio);
-		assertXpathNotExists("//ui:audio/@disabled", audio);
-		assertXpathNotExists("//ui:audio/@tooltip", audio);
-		assertXpathNotExists("//ui:audio/@duration", audio);
-		assertXpathEvaluatesTo("1", "count(//ui:audio/ui:src)", audio);
-		assertXpathUrlEvaluatesTo(audio.getAudioUrls()[0], "//ui:audio/ui:src/@uri", audio);
-		assertXpathEvaluatesTo(audio.getAudio()[0].getMimeType(), "//ui:audio/ui:src/@type", audio);
+		assertXpathExists("//html:audio", audio);
+		assertXpathEvaluatesTo(audio.getId(), "//html:audio/@id", audio);
+		assertXpathEvaluatesTo("wc-audio", "//html:audio/@class", audio);
+		assertXpathEvaluatesTo("none", "//html:audio/@preload", audio);
+		assertXpathNotExists("//html:audio/@autoplay", audio);
+		assertXpathNotExists("//html:audio/@loop", audio);
+		assertXpathNotExists("//html:audio/@muted", audio);
+		assertXpathEvaluatesTo("controls", "//html:audio/@controls", audio);
+		assertXpathNotExists("//html:audio/@hidden", audio);
+		assertXpathNotExists("//html:audio/@title", audio);
+		assertXpathEvaluatesTo("0", "count(//html:audio/html:source)", audio);
+		assertXpathEvaluatesTo(audio.getAudioUrls()[0], "//html:audio/@src", audio);
+		assertXpathNotExists("//html:audio/@hidden", audio);
+	}
 
-		// Test other options, resetting them after each test
+	@Test
+	public void testPaintMultipleSources() throws IOException, SAXException, XpathException {
+		MockAudio mock2 = new MockAudio();
+		mock2.setMimeType("audio/ogg");
+		audio.setAudio(new Audio[]{mock2, mockAudio});
+		setActiveContext(createUIContext());
+		assertXpathNotExists("//html:audio/@src", audio);
+		assertXpathEvaluatesTo("2", "count(//html:audio/html:source)", audio);
+		assertXpathUrlEvaluatesTo(audio.getAudioUrls()[0], "//html:audio/html:source/@src", audio);
+		assertXpathEvaluatesTo(audio.getAudio()[0].getMimeType(), "//html:audio/html:source/@type", audio);
+	}
+
+	@Test
+	public void testHtmlClass() throws IOException, SAXException, XpathException {
+		assertXpathEvaluatesTo("wc-audio", "//html:audio/@class", audio);
+		String addOnClass = "new-class";
+		audio.setHtmlClass(addOnClass);
+		assertXpathEvaluatesTo("wc-audio ".concat(addOnClass), "//html:audio/@class", audio);
+	}
+
+	@Test
+	public void testHtmlClass_emptyDoesNothing() throws IOException, SAXException, XpathException {
+		assertXpathEvaluatesTo("wc-audio", "//html:audio/@class", audio);
+		String addOnClass = "";
+		audio.setHtmlClass(addOnClass);
+		assertXpathEvaluatesTo("wc-audio", "//html:audio/@class", audio);
+	}
+
+	@Test
+	public void testHtmlClass_nullDoesNothing() throws IOException, SAXException, XpathException {
+		assertXpathEvaluatesTo("wc-audio", "//html:audio/@class", audio);
+		audio.setHtmlClass((String) null);
+		assertXpathEvaluatesTo("wc-audio", "//html:audio/@class", audio);
+	}
+
+	@Test
+	public void testAlt() throws IOException, SAXException, XpathException {
+		assertXpathNotExists("//html:audio/@alt", audio);
+		// Setting AltText should do nothing
 		audio.setAltText("altText");
-		assertSchemaMatch(audio);
-		assertXpathEvaluatesTo("altText", "//ui:audio/@alt", audio);
-		audio.reset();
+		assertXpathNotExists("//html:audio/@alt", audio);
+	}
 
+	@Test
+	public void testPreload() throws IOException, SAXException, XpathException {
+		assertXpathEvaluatesTo("none", "//html:audio/@preload", audio);
 		audio.setPreload(WAudio.Preload.META_DATA);
-		assertSchemaMatch(audio);
-		assertXpathEvaluatesTo("metadata", "//ui:audio/@preload", audio);
-		audio.reset();
+		assertXpathEvaluatesTo("metadata", "//html:audio/@preload", audio);
+		audio.setPreload(WAudio.Preload.AUTO);
+		assertXpathNotExists("//html:audio/@preload", audio);
+		audio.setPreload(WAudio.Preload.NONE);
+		assertXpathEvaluatesTo("none", "//html:audio/@preload", audio);
+	}
 
+	@Test
+	public void testAutoplay() throws IOException, SAXException, XpathException {
+		assertXpathNotExists("//html:audio/@autoplay", audio);
 		audio.setAutoplay(true);
-		assertSchemaMatch(audio);
-		assertXpathEvaluatesTo("true", "//ui:audio/@autoplay", audio);
-		audio.reset();
+		assertXpathEvaluatesTo("true", "//html:audio/@autoplay", audio);
+		audio.setAutoplay(false);
+		assertXpathNotExists("//html:audio/@autoplay", audio);
+	}
 
+	@Test
+	public void testLoop() throws IOException, SAXException, XpathException {
+		assertXpathNotExists("//html:audio/@loop", audio);
 		audio.setLoop(true);
-		assertSchemaMatch(audio);
-		assertXpathEvaluatesTo("true", "//ui:audio/@loop", audio);
-		audio.reset();
+		assertXpathEvaluatesTo("true", "//html:audio/@loop", audio);
+		audio.setLoop(false);
+		assertXpathNotExists("//html:audio/@loop", audio);
+	}
 
-		audio.setControls(WAudio.Controls.NONE);
-		assertSchemaMatch(audio);
-		assertXpathEvaluatesTo("none", "//ui:audio/@controls", audio);
-		audio.reset();
+	@Test
+	public void testControls() throws IOException, SAXException, XpathException {
+		assertXpathEvaluatesTo("controls", "//html:audio/@controls", audio);
+		audio.setRenderControls(false);
+		assertXpathNotExists("//html:audio/@controls", audio);
+	}
 
-		audio.setControls(WAudio.Controls.ALL);
-		assertSchemaMatch(audio);
-		assertXpathEvaluatesTo("all", "//ui:audio/@controls", audio);
-		audio.reset();
+	@Test
+	public void testHidden() throws IOException, SAXException, XpathException {
+		assertXpathNotExists("//html:audio/@hidden", audio);
+		audio.setHidden(true);
+		assertXpathEvaluatesTo("hidden", "//html:audio/@hidden", audio);
+		audio.setHidden(false);
+		assertXpathNotExists("//html:audio/@hidden", audio);
+	}
 
-		audio.setControls(WAudio.Controls.PLAY_PAUSE);
-		assertSchemaMatch(audio);
-		assertXpathEvaluatesTo("play", "//ui:audio/@controls", audio);
-		audio.reset();
-
-		audio.setControls(WAudio.Controls.DEFAULT);
-		assertSchemaMatch(audio);
-		assertXpathEvaluatesTo("default", "//ui:audio/@controls", audio);
-		audio.reset();
-
-		setFlag(audio, ComponentModel.HIDE_FLAG, true);
-		assertSchemaMatch(audio);
-		assertXpathEvaluatesTo("true", "//ui:audio/@hidden", audio);
-		audio.reset();
-
+	@Test
+	public void testDisabledDoesNothing() throws IOException, SAXException, XpathException {
+		assertXpathNotExists("//html:audio/@adisabled", audio);
 		audio.setDisabled(true);
-		assertSchemaMatch(audio);
-		assertXpathEvaluatesTo("true", "//ui:audio/@disabled", audio);
-		audio.reset();
+		assertXpathNotExists("//html:audio/@adisabled", audio);
+	}
 
+	@Test
+	public void testTitle() throws IOException, SAXException, XpathException {
+		assertXpathNotExists("//html:audio/@title", audio);
 		audio.setToolTip("toolTip");
-		assertSchemaMatch(audio);
-		assertXpathEvaluatesTo("toolTip", "//ui:audio/@toolTip", audio);
-		audio.reset();
+		assertXpathEvaluatesTo("toolTip", "//html:audio/@title", audio);
+	}
 
+	@Test
+	public void testTitle_emptyStringRemovesTitle() throws IOException, SAXException, XpathException {
+		assertXpathNotExists("//html:audio/@title", audio);
+		String title = "some title";
+		audio.setToolTip(title);
+		assertXpathEvaluatesTo(title, "//html:audio/@title", audio);
+		audio.setToolTip("");
+		assertXpathNotExists("//html:audio/@title", audio);
+	}
+
+	@Test
+	public void testTitle_nullRemovesTitle() throws IOException, SAXException, XpathException {
+		assertXpathNotExists("//html:audio/@title", audio);
+		String title = "some title";
+		audio.setToolTip(title);
+		assertXpathEvaluatesTo(title, "//html:audio/@title", audio);
+		audio.setToolTip(null);
+		assertXpathNotExists("//html:audio/@title", audio);
+	}
+
+	@Test
+	public void testDurationDoesNothing() throws IOException, SAXException, XpathException {
+		assertXpathNotExists("//html:audio/@duration", audio);
 		mockAudio.setDuration(123);
-		assertXpathEvaluatesTo("123", "//ui:audio/@duration", audio);
+		assertXpathNotExists("//html:audio/@duration", audio);
+	}
+
+	@Test
+	public void testMediagroup() throws IOException, SAXException, XpathException {
+		assertXpathNotExists("//html:audio/@mediagroup", audio);
+		String expected = "media-group";
+		audio.setMediaGroup(expected);
+		assertXpathEvaluatesTo(expected, "//html:audio/@mediagroup", audio);
+	}
+
+	@Test
+	public void testMediagroup_emptyStringRemoves() throws IOException, SAXException, XpathException {
+		assertXpathNotExists("//html:audio/@mediagroup", audio);
+		String expected = "media-group";
+		audio.setMediaGroup(expected);
+		assertXpathEvaluatesTo(expected, "//html:audio/@mediagroup", audio);
+		audio.setMediaGroup("");
+		assertXpathNotExists("//html:audio/@mediagroup", audio);
+	}
+
+	@Test
+	public void testMediagroup_nullRemoves() throws IOException, SAXException, XpathException {
+		assertXpathNotExists("//html:audio/@mediagroup", audio);
+		String expected = "media-group";
+		audio.setMediaGroup(expected);
+		assertXpathEvaluatesTo(expected, "//html:audio/@mediagroup", audio);
+		audio.setMediaGroup(null);
+		assertXpathNotExists("//html:audio/@mediagroup", audio);
 	}
 }

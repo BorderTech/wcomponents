@@ -11,7 +11,6 @@
 	-->
 	<xs:include schemaLocation="ajaxTrigger.xsd" />
 	<xs:include schemaLocation="application.xsd" />
-	<xs:include schemaLocation="audio.xsd" />
 	<xs:include schemaLocation="collapsible.xsd" />
 	<xs:include schemaLocation="collapsibleToggle.xsd" />
 	<xs:include schemaLocation="comment.xsd" />
@@ -68,5 +67,4 @@
 	<xs:include schemaLocation="tree.xsd"/>
 	<xs:include schemaLocation="validationErrors.xsd" />
 	<xs:include schemaLocation="version.xsd" />
-	<xs:include schemaLocation="video.xsd" />
 </xs:schema>

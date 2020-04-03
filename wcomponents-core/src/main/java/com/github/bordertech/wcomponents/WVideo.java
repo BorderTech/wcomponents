@@ -15,7 +15,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget, Disableable {
+public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget, Disableable, SubordinateTarget {
 
 	/**
 	 * The logger instance for this class.
@@ -60,26 +60,19 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 	 *
 	 * <p>
 	 * <strong>Note:</strong>
-	 * Advancements in video support in clients since this API was first implemented means that most of this is now
-	 * redundant. Under most circumstances the UI will display their native video controls. Where a particular WVideo
-	 * does not have any source which is able to be played by the client then links to all sources will be provided.
-	 * This enum is not worthless as the values NONE and PLAY_PAUSE are used to turn off native video controls in the
-	 * client. The value NONE however causes major problems and is incompatible with autoplay for a11y reasons so it
-	 * basically makes the media worthless. This enum may be replaced in the future with a simple boolean to trigger
-	 * native controls or play/pause only (see https://github.com/BorderTech/wcomponents/issues/503).
+	 * Advancements in video support in clients since this API was first implemented means that this is now redundant.
 	 * </p>
 	 */
+	@Deprecated
 	public enum Controls {
 		/**
 		 * Do not display any controls: not recommended. May be incompatible with any of {@link #isAutoplay()} == true,
 		 * {@link #isMuted()} == true or {@link #isLoop()} == true. If this value is set then the WVideo control
 		 * <strong>MAY NOT WORK AT ALL</strong>.
-		 * @deprecated since 1.1.1 as this is incompatible with WCAG requirements.
 		 */
 		NONE,
 		/**
 		 * Display all controls.
-		 * @deprecated since 1.1.1 as themes use native video controls.
 		 */
 		ALL,
 		/**
@@ -88,7 +81,6 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 		PLAY_PAUSE,
 		/**
 		 * Displays the "default" set of controls for the theme.
-		 * @deprecated since 1.1.1 as themes use native video controls.
 		 */
 		DEFAULT,
 		/**
@@ -175,8 +167,10 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 	 * Indicates whether the video component is disabled.
 	 *
 	 * @return true if the component is disabled, otherwise false.
+	 * @deprecated as not supported by HTML video
 	 */
 	@Override
+	@Deprecated
 	public boolean isDisabled() {
 		return isFlagSet(ComponentModel.DISABLED_FLAG);
 	}
@@ -185,8 +179,10 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 	 * Sets whether the video component is disabled.
 	 *
 	 * @param disabled if true, the component is disabled. If false, it is enabled.
+	 * @deprecated as not supported by HTML video
 	 */
 	@Override
+	@Deprecated
 	public void setDisabled(final boolean disabled) {
 		setFlag(ComponentModel.DISABLED_FLAG, disabled);
 	}
@@ -273,9 +269,18 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 	 * Indicates which playback controls (e.g. stop/start/pause) to display on the video component.
 	 *
 	 * @return the playback controls to display.
+	 * @deprecated use {@link #isRenderControls()}
 	 */
+	@Deprecated
 	public Controls getControls() {
 		return getComponentModel().controls;
+	}
+
+	/**
+	 * @return true is the browser should render the default video controls
+	 */
+	public boolean isRenderControls() {
+		return getComponentModel().renderControls;
 	}
 
 	/**
@@ -284,10 +289,28 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 	 * of controls will cause the client's default set of controls to be used.
 	 *
 	 * @param controls the playback controls to display.
+	 * @deprecated use {@link #setRenderControls(boolean)}
 	 */
+	@Deprecated
 	public void setControls(final Controls controls) {
 		if (controls != getControls()) {
 			getOrCreateComponentModel().controls = controls;
+		}
+
+		if (controls == Controls.NONE) {
+			setRenderControls(false);
+		} else {
+			setRenderControls(true);
+		}
+	}
+
+	/**
+	 * Sets whether the browser should display default controls. You almost always want this true.
+	 * @param renderControls if true then the default controls are shown by the browser
+	 */
+	public void setRenderControls(final boolean renderControls) {
+		if (renderControls != isRenderControls()) {
+			getOrCreateComponentModel().renderControls = renderControls;
 		}
 	}
 
@@ -313,7 +336,9 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 
 	/**
 	 * @return alternative text to display when the video clip can not be played.
+	 * @deprecated as not supported by HTML spec
 	 */
+	@Deprecated
 	public String getAltText() {
 		return getComponentModel().altText;
 	}
@@ -322,7 +347,9 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 	 * Sets the alternative text to display when the video clip can not be played.
 	 *
 	 * @param altText the text to set.
+	 * @deprecated as not supported by HTML spec
 	 */
+	@Deprecated
 	public void setAltText(final String altText) {
 		String currAltText = getAltText();
 
@@ -724,6 +751,7 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 		/**
 		 * Indicates which playback controls to display.
 		 */
+		@Deprecated
 		private Controls controls;
 
 		/**
@@ -734,6 +762,7 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 		/**
 		 * Alternate text to display if the video clip can not be played.
 		 */
+		@Deprecated
 		private String altText;
 
 		/**
@@ -755,5 +784,10 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 		 * This is used to group related media together, for example to synchronize tracks.
 		 */
 		private String mediaGroup;
+
+		/**
+		 * Indicates if the browser should render the default controls. Default is true and setting false may result in your video being unusable.
+		 */
+		private boolean renderControls = true;
 	}
 }
