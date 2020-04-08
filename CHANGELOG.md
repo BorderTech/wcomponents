@@ -20,6 +20,8 @@
 * Introduced new SystemExceptions to make it easier to identify what exception occurred (eg invalid session token) #1627
 * Add `@FunctionalInterface` to `Action` and `BeanProvider` to indicate that
   these can be instantiated as lambda expressions.
+* Allow client side unit tests to be configured using [Theme Build Options](wcomponents-theme#build-options) to facilitate running behind corporate firewall #1722
+* Adopt patched version of webdrivermanager so that Selenium tests can be run behind corporate firewall #1715
 
 ### Bug Fixes
 

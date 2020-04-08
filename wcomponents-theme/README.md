@@ -11,17 +11,22 @@ By default tests require Firefox browser to be installed on your system.
 
 ## Building
 
+### Without Maven
+
 ```bash
 # First time only run yarn install
 yarn install
 
 # thenceforth
 yarn run build
+
 ```
 
-OR
+### With Maven
 
-`mvn compile`
+```bash
+mvn compile
+```
 
 ### Build Options
 
@@ -35,15 +40,47 @@ To override these without modifying a file tracked by source control:
 
 ```json
 {
-  "testMinOrMax": "max"
+  "testMinOrMax": "max",
+  "internOverrides": {
+    "tunnelOptions": {
+      "baseUrl": "http://nexus.example.com/repository/my_raw/selenium/",
+      "drivers": [{
+          "baseUrl": "http://nexus.example.com/repository/my_raw/selenium/driver/gecko/",
+          "name": "firefox"
+        }]
+    }
+  }
 }
 ```
 
 ## Testing
 
-We use [Intern](https://theintern.io/docs.html#Intern/4/) to run tests. You can therefore override much of the config, such as what tests, which browser, what port etc using the [`INTERN_ARGS` environment variable](https://theintern.io/docs.html#Intern/4/docs/docs%2Fconfiguration.md/environment-variable).
+### TL;DR
 
-By default we test the minified code but for debugging you will want to use the unminified version: set `testMinOrMax` to `"max` (see Build Options above).
+```bash
+cd wcomponents-theme
+# "mvn test" or the commands below
+yarn install
+yarn run test
+```
+
+### Configuring Tests
+
+We use [Intern](https://theintern.io/docs.html#Intern/4/) to run tests.
+
+#### Using Build Options
+Tests can be configured using  [Build Options](#build-options) (see above). Test specific options include:
+
+* internOverrides
+
+  Here you can override anything the [intern configuration file](https://github.com/theintern/intern/blob/master/docs/configuration.md#properties), this is often an easier alternative to using `INTERN_ARGS`.
+
+* testMinOrMax
+
+  By default we test the minified code but for debugging you will want to use the unminified version: set `testMinOrMax` to `"max"`
+
+#### Using INTERN_ARGS
+Because we use Intern for testing, you can override much of the configuration such as what tests, which browser, etc using the [`INTERN_ARGS` environment variable](https://theintern.io/docs.html#Intern/4/docs/docs%2Fconfiguration.md/environment-variable).
 
 ### Auto-Detect Test Environment
 
