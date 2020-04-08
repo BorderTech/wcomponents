@@ -62,6 +62,8 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 	 * <strong>Note:</strong>
 	 * Advancements in video support in clients since this API was first implemented means that this is now redundant.
 	 * </p>
+	 *
+	 * @deprecated replaced with renderControls accessors {@link #isRenderControls() } and {@link #setRenderControls(boolean) }
 	 */
 	@Deprecated
 	public enum Controls {
@@ -296,12 +298,7 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 		if (controls != getControls()) {
 			getOrCreateComponentModel().controls = controls;
 		}
-
-		if (controls == Controls.NONE) {
-			setRenderControls(false);
-		} else {
-			setRenderControls(true);
-		}
+		setRenderControls(controls != Controls.NONE);
 	}
 
 	/**
@@ -570,10 +567,6 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 			handlePosterRequest();
 		}
 
-		if (isDisabled()) {
-			return;
-		}
-
 		if (contentReqested) {
 			if (request.getParameter(VIDEO_INDEX_REQUEST_PARAM_KEY) != null) {
 				handleVideoRequest(request);
@@ -674,15 +667,6 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 		return getId();
 	}
 
-	/**
-	 * @return a String representation of this component, for debugging purposes.
-	 */
-	@Override
-	public String toString() {
-		String text = getAltText();
-		return toString(text == null ? null : ('"' + text + '"'));
-	}
-
 	// --------------------------------
 	// Extrinsic state management
 	/**
@@ -750,6 +734,8 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 
 		/**
 		 * Indicates which playback controls to display.
+		 *
+		 * @deprecated use {@link #renderControls} instead
 		 */
 		@Deprecated
 		private Controls controls;
@@ -761,6 +747,8 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 
 		/**
 		 * Alternate text to display if the video clip can not be played.
+		 *
+		 * @depreacted no replacement, not used in HTML
 		 */
 		@Deprecated
 		private String altText;

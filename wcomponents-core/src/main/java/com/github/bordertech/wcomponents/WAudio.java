@@ -378,10 +378,6 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 	public void handleRequest(final Request request) {
 		super.handleRequest(request);
 
-		if (isDisabled()) {
-			return;
-		}
-
 		String targ = request.getParameter(Environment.TARGET_ID);
 		String audioFileRequested = request.getParameter(AUDIO_INDEX_REQUEST_PARAM_KEY);
 		boolean contentReqested = targ != null && targ.equals(getTargetId());
@@ -465,11 +461,8 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 		if (getControls() != controls) {
 			getOrCreateComponentModel().controls = controls;
 		}
-		if (controls == Controls.NONE) {
-			setRenderControls(false);
-		} else {
-			setRenderControls(true);
-		}
+
+		setRenderControls(controls != Controls.NONE);
 	}
 
 	/**
@@ -480,15 +473,6 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 	@Override
 	public String getTargetId() {
 		return getId();
-	}
-
-	/**
-	 * @return a String representation of this component usually for debugging purposes
-	 */
-	@Override
-	public String toString() {
-		String text = getAltText();
-		return toString(text == null ? null : '"' + text + '"');
 	}
 
 	// --------------------------------
@@ -546,6 +530,7 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 
 		/**
 		 * Indicates which playback controls to display.
+		 * @deprecated use {@link #renderControls} instead
 		 */
 		@Deprecated
 		private Controls controls;
