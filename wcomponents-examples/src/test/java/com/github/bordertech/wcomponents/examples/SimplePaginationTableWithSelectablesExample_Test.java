@@ -1,15 +1,20 @@
 package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.examples.table.SimplePaginationTableWithSelectablesExample;
+import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
 import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTableWebElement;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 
 /*
 NOTE: clicking TD elements instead of TR elements because of this firefox/geckodriver bug: https://bugzilla.mozilla.org/show_bug.cgi?id=1448825
 */
+@Category(SeleniumTests.class)
+@RunWith(MultiBrowserRunner.class)
 public class SimplePaginationTableWithSelectablesExample_Test extends WComponentExamplesTestCase {
 
 	private final String SELECT_BUTTON = "WButton[0]";
