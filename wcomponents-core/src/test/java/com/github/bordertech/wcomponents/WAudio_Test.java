@@ -9,9 +9,6 @@ import org.junit.Test;
 
 /**
  * Unit tests for {@link WAudio}.
- *
- * @author Yiannis Paschalidis
- * @since 1.0.0
  */
 public class WAudio_Test extends AbstractWComponentTestCase {
 
@@ -126,90 +123,20 @@ public class WAudio_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
-	public void testGetAltText() {
-		WAudio audio = new WAudio();
-		Assert.assertNull("Should not have alt text set by default", audio.getAltText());
-
+	public void testAltTextAccessors() {
 		String defaultText = "WAudio_Test.testGetAltText.defaultText";
 		String userText = "WAudio_Test.testGetAltText.userText";
-		audio.setAltText(defaultText);
-
-		Assert.assertEquals("Incorrect default alt text", defaultText, audio.getAltText());
-
-		// Set test for a users session
-		audio.setLocked(true);
-		setActiveContext(createUIContext());
-		audio.setAltText(userText);
-		Assert.assertEquals("User session should have session alt text", userText, audio.
-				getAltText());
-
-		resetContext();
-		Assert.assertEquals("Other sessions should have default alt text", defaultText, audio.
-				getAltText());
-
-		//Test nulls
-		audio.setAltText("");
-		Assert.assertEquals("Alt text should be empty string", "", audio.getAltText());
-		audio.setAltText(null);
-		Assert.assertNull("Alt text should be null", audio.getAltText());
+		assertAccessorsCorrect(new WAudio(), "altText", null, defaultText, userText);
 	}
 
 	@Test
-	public void testGetLoop() {
-		WAudio audio = new WAudio();
-		audio.setLocked(true);
-
-		Assert.assertFalse("Audio should not loop by default", audio.isLoop());
-
-		setActiveContext(createUIContext());
-		audio.setLoop(true);
-		Assert.assertTrue("Audio should loop for affected context", audio.isLoop());
-
-		resetContext();
-		Assert.assertFalse("Audio should not loop for other contexts", audio.isLoop());
-
-		audio = new WAudio();
-		audio.setLoop(true);
-		audio.setLocked(true);
-
-		Assert.assertTrue("Audio should loop by default", audio.isLoop());
-		Assert.assertTrue("Audio should loop by default", audio.isLoop());
-
-		setActiveContext(createUIContext());
-		audio.setLoop(false);
-		Assert.assertFalse("Audio should not loop for affected context", audio.isLoop());
-
-		resetContext();
-		Assert.assertTrue("Audio should loop for other contexts", audio.isLoop());
+	public void testLoopAccessors() {
+		assertAccessorsCorrect(new WAudio(), "loop", false, true, false);
 	}
 
 	@Test
-	public void testGetAutoplay() {
-		WAudio audio = new WAudio();
-		audio.setLocked(true);
-
-		Assert.assertFalse("Audio should not auto-play by default", audio.isAutoplay());
-
-		setActiveContext(createUIContext());
-		audio.setAutoplay(true);
-		Assert.assertTrue("Audio should auto-play for affected context", audio.isAutoplay());
-
-		resetContext();
-		Assert.assertFalse("Audio should not auto-play for other contexts", audio.isAutoplay());
-
-		audio = new WAudio();
-		audio.setAutoplay(true);
-		audio.setLocked(true);
-
-		Assert.assertTrue("Audio should auto-play by default", audio.isAutoplay());
-		Assert.assertTrue("Audio should auto-play by default", audio.isAutoplay());
-
-		setActiveContext(createUIContext());
-		audio.setAutoplay(false);
-		Assert.assertFalse("Audio should not auto-play for affected context", audio.isAutoplay());
-
-		resetContext();
-		Assert.assertTrue("Audio should auto-play for other contexts", audio.isAutoplay());
+	public void testAutoplayAccessors() {
+		assertAccessorsCorrect(new WAudio(), "autoplay", false, true, false);
 	}
 
 	@Test
@@ -222,104 +149,81 @@ public class WAudio_Test extends AbstractWComponentTestCase {
 		audio.setControls(WAudio.Controls.ALL);
 		Assert.assertNotNull("Audio should have controls after setControls", audio.getControls());
 		Assert.assertEquals("Incorrect default controls", WAudio.Controls.ALL, audio.getControls());
+		Assert.assertTrue(audio.isRenderControls());
 
 		// Set to null - shared
 		audio.setControls(null);
 		Assert.assertNull("Audio should not have controls", audio.getControls());
+		Assert.assertTrue(audio.isRenderControls());
 
 		// Set simple control - session
 		audio.setLocked(true);
 		setActiveContext(createUIContext());
 		audio.setControls(WAudio.Controls.PLAY_PAUSE);
 		Assert.assertNotNull("Audio should have controls for affected context", audio.getControls());
-		Assert.assertEquals("Incorrect controls for affected context", WAudio.Controls.PLAY_PAUSE,
-				audio.getControls());
+		Assert.assertEquals("Incorrect controls for affected context", WAudio.Controls.PLAY_PAUSE, audio.getControls());
 
 		resetContext();
 		Assert.assertNull("Audio should not have controls for other contexts", audio.getControls());
 	}
 
 	@Test
-	public void testIsDisabled() {
-		WAudio audio = new WAudio();
-		audio.setLocked(true);
-
-		Assert.assertFalse("Audio should not be disabled by default", audio.isDisabled());
-
-		setActiveContext(createUIContext());
-		audio.setDisabled(true);
-		Assert.assertTrue("Audio should be disabled for affected context", audio.isDisabled());
-
-		resetContext();
-		Assert.assertFalse("Audio should not be disabled for other contexts", audio.isDisabled());
-
-		audio = new WAudio();
-		audio.setDisabled(true);
-		audio.setLocked(true);
-
-		Assert.assertTrue("Audio should be disabled by default", audio.isDisabled());
-		Assert.assertTrue("Audio should be disabled by default", audio.isDisabled());
-
-		setActiveContext(createUIContext());
-		audio.setDisabled(false);
-		Assert.assertFalse("Audio should not be disabled for affected context", audio.isDisabled());
-
-		resetContext();
-		Assert.assertTrue("Audio should be disabled for other contexts", audio.isDisabled());
+	public void testRenderControlsAccessors() {
+		assertAccessorsCorrect(new WAudio(), "renderControls", true, false, true);
 	}
 
 	@Test
-	public void testGetPreload() {
+	public void testSetControlsAffectsRenderControls() {
+		WAudio audio = new WAudio();
+		Assert.assertTrue(audio.isRenderControls());
+
+		for (WAudio.Controls c : WAudio.Controls.values()) {
+			audio.setControls(c);
+			Assert.assertEquals(audio.isRenderControls(), c != WAudio.Controls.NONE);
+		}
+
+		// null is not a magic equivalent of NONE
+		audio.setControls(WAudio.Controls.NONE);
+		Assert.assertFalse(audio.isRenderControls());
+		audio.setControls(null);
+		Assert.assertTrue(audio.isRenderControls());
+	}
+
+	@Test
+	public void testDisabledAccessors() {
+		assertAccessorsCorrect(new WAudio(), "disabled", false, true, false);
+	}
+
+	@Test
+	public void testPreloadAccessors() {
 		WAudio.Preload preload1 = WAudio.Preload.AUTO;
 		WAudio.Preload preload2 = WAudio.Preload.META_DATA;
-
-		// Test default preload
 		WAudio audio = new WAudio();
-		Assert.assertEquals("Default preload should be NONE", WAudio.Preload.NONE, audio.
-				getPreload());
-
-		// Test set default preload
-		audio.setPreload(preload1);
-		Assert.assertEquals("Incorrect default preload", preload1, audio.getPreload());
-
-		// Test setting preload per user
-		audio.setLocked(true);
-		setActiveContext(createUIContext());
-		audio.setPreload(preload2);
-		Assert.assertSame("Incorrect session 1 preload", preload2, audio.getPreload());
+		assertAccessorsCorrect(audio, "preload", WAudio.Preload.NONE, preload1, preload2);
 
 		resetContext();
 		Assert.assertSame("Incorrect default preload", preload1, audio.getPreload());
 	}
 
 	@Test
-	public void testGetMediaGroup() {
+	public void testMediaGroupAccessors() {
 		String mediaGroup = "WAudio_Test.testGetMediaGroup.mediaGroup";
+		String mediaGroup2 = "WAudio_Test.testGetMediaGroup.mediaGroup";
 
-		WAudio audio = new WAudio();
-		Assert.assertNull("Should not have a media group by default", audio.getMediaGroup());
-
-		audio.setMediaGroup(mediaGroup);
-		Assert.assertEquals("Incorrect media group", mediaGroup, audio.getMediaGroup());
+		assertAccessorsCorrect(new WAudio(), "mediaGroup", null, mediaGroup, mediaGroup2);
 	}
 
 	@Test
-	public void testGetCacheKey() {
+	public void testCacheKeyAccessors() {
 		String cacheKey1 = "WAudio_Test.testGetCacheKey.cacheKey1";
 		String cacheKey2 = "WAudio_Test.testGetCacheKey.cacheKey2";
 
-		WAudio audio = new WAudio();
-		Assert.assertNull("Should not have a cache key by default", audio.getCacheKey());
+		assertAccessorsCorrect(new WAudio(), "cacheKey", null, cacheKey1, cacheKey2);
+	}
 
-		audio.setCacheKey(cacheKey1);
-		Assert.assertEquals("Incorrect cache key", cacheKey1, audio.getCacheKey());
+	@Test
+	public void testMutedAccessors() {
+		assertAccessorsCorrect(new WAudio(), "muted", false, true, false);
 
-		audio.setLocked(true);
-		setActiveContext(createUIContext());
-		audio.setCacheKey(cacheKey2);
-		Assert.assertEquals("Incorrect session cache key", cacheKey2, audio.getCacheKey());
-
-		resetContext();
-		Assert.assertEquals("Incorrect default cache key", cacheKey1, audio.getCacheKey());
 	}
 }

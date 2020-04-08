@@ -6,9 +6,6 @@ import com.github.bordertech.wcomponents.WAudio;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-import com.github.bordertech.wcomponents.util.I18nUtilities;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * {@link Renderer} for the {@link WAudio} component.
@@ -16,12 +13,17 @@ import org.apache.commons.logging.LogFactory;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-final class WAudioRenderer extends AbstractWebXmlRenderer {
+class WAudioRenderer extends AbstractWebXmlRenderer {
 
 	/**
-	 * The logger instance for this class.
+	 * The HTML element to render.
 	 */
-	private static final Log LOG = LogFactory.getLog(WAudioRenderer.class);
+	private static final String HTML_ELEMENT_NAME = "audio";
+
+	/**
+	 * Fixed value used in the HTML class attribute output.
+	 */
+	private static final String HTML_FIXED_CLASS_NAME = "wc-audio";
 
 	/**
 	 * Paints the given WAudio.
@@ -39,80 +41,74 @@ final class WAudioRenderer extends AbstractWebXmlRenderer {
 			return;
 		}
 
-		WAudio.Controls controls = audioComponent.getControls();
-		int duration = audio[0].getDuration();
-
-		// Check for alternative text
-		String alternativeText = audioComponent.getAltText();
-
-		if (alternativeText == null) {
-			LOG.warn("Audio should have a description.");
-			alternativeText = null;
-		} else {
-			alternativeText = I18nUtilities.format(null, alternativeText);
-		}
-
-		xml.appendTagOpen("ui:audio");
+		xml.appendTagOpen(HTML_ELEMENT_NAME);
 		xml.appendAttribute("id", component.getId());
-		xml.appendOptionalAttribute("class", component.getHtmlClass());
-		xml.appendOptionalAttribute("track", component.isTracking(), "true");
-		xml.appendOptionalAttribute("alt", alternativeText);
+
+		String htmlClass = component.getHtmlClass();
+		htmlClass = (htmlClass == null || "".equals(htmlClass)) ? HTML_FIXED_CLASS_NAME : HTML_FIXED_CLASS_NAME.concat(" ").concat(htmlClass);
+		xml.appendAttribute("class", htmlClass);
+
+		xml.appendOptionalAttribute("controls", audioComponent.isRenderControls(), "controls");
+		xml.appendOptionalAttribute("preload", preloadToString(audioComponent.getPreload()));
+
 		xml.appendOptionalAttribute("autoplay", audioComponent.isAutoplay(), "true");
-		xml.appendOptionalAttribute("mediagroup", audioComponent.getMediaGroup());
 		xml.appendOptionalAttribute("loop", audioComponent.isLoop(), "true");
-		xml.appendOptionalAttribute("hidden", audioComponent.isHidden(), "true");
-		xml.appendOptionalAttribute("disabled", audioComponent.isDisabled(), "true");
-		xml.appendOptionalAttribute("toolTip", audioComponent.getToolTip());
-		xml.appendOptionalAttribute("duration", duration > 0, duration);
+		xml.appendOptionalAttribute("muted", audioComponent.isMuted(), "true");
+		xml.appendOptionalAttribute("hidden", audioComponent.isHidden(), "hidden");
 
-		switch (audioComponent.getPreload()) {
-			case NONE:
-				xml.appendAttribute("preload", "none");
-				break;
-
-			case META_DATA:
-				xml.appendAttribute("preload", "metadata");
-				break;
-
-			case AUTO:
-			default:
-				break;
+		String title = audioComponent.getToolTip();
+		if ("".equals(title)) {
+			title = null;
 		}
+		xml.appendOptionalAttribute("title", title);
 
-		if (controls != null && !WAudio.Controls.NATIVE.equals(controls)) {
-			switch (controls) {
-				case NONE:
-					xml.appendAttribute("controls", "none");
-					break;
+		String mediaGroup = audioComponent.getMediaGroup();
+		if ("".equals(mediaGroup)) {
+			mediaGroup = null;
+		}
+		xml.appendOptionalAttribute("mediagroup", mediaGroup);
 
-				case ALL:
-					xml.appendAttribute("controls", "all");
-					break;
-
-				case PLAY_PAUSE:
-					xml.appendAttribute("controls", "play");
-					break;
-
-				case DEFAULT:
-					xml.appendAttribute("controls", "default");
-					break;
-
-				default:
-					LOG.error("Unknown control type: " + controls);
-			}
+		// if only one media source then use src attribute
+		String[] urls = audioComponent.getAudioUrls();
+		if (urls != null && urls.length == 1) {
+			xml.appendAttribute("src", urls[0]);
 		}
 
 		xml.appendClose();
-
-		String[] urls = audioComponent.getAudioUrls();
-
-		for (int i = 0; i < urls.length; i++) {
-			xml.appendTagOpen("ui:src");
-			xml.appendUrlAttribute("uri", urls[i]);
-			xml.appendOptionalAttribute("type", audio[i].getMimeType());
-			xml.appendEnd();
+		// if more than one media source then use src elements
+		if (urls != null && urls.length > 1) {
+			for (int i = 0; i < urls.length; i++) {
+				xml.appendTagOpen("source");
+				xml.appendUrlAttribute("src", urls[i]);
+				xml.appendOptionalAttribute("type", audio[i].getMimeType());
+				xml.appendEnd();
+			}
 		}
 
-		xml.appendEndTag("ui:audio");
+		xml.appendEndTag(HTML_ELEMENT_NAME);
+	}
+
+
+
+	/**
+	 * Converts Preload to HTMl attribute value with empty preload being none.
+	 * @param preload the current WVideo.Preload value
+	 * @return the value of the HTML attribute (if any)
+	 */
+	private String preloadToString(final WAudio.Preload preload) {
+		if (preload == null) {
+			return "none";
+		}
+		switch (preload) {
+			case NONE:
+				return "none";
+
+			case META_DATA:
+				return "metadata";
+
+			case AUTO:
+			default:
+				return null;
+		}
 	}
 }

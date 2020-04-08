@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.ImageResource;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.Request;
@@ -13,13 +14,15 @@ import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WFieldLayout;
+import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WVideo;
-import com.github.bordertech.wcomponents.subordinate.Disable;
-import com.github.bordertech.wcomponents.subordinate.Enable;
 import com.github.bordertech.wcomponents.subordinate.Equal;
+import com.github.bordertech.wcomponents.subordinate.Hide;
 import com.github.bordertech.wcomponents.subordinate.Rule;
+import com.github.bordertech.wcomponents.subordinate.Show;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
+import java.awt.Dimension;
 
 /**
  * An example showing the basic use of the {@link WVideo} component.
@@ -53,12 +56,12 @@ public class WVideoExample extends WContainer {
 	/**
 	 * Used to set the controls option on video to PLAY_PAUSE.
 	 */
-	private final WCheckBox cbControls = new WCheckBox();
+	private final WCheckBox cbControls = new WCheckBox(true);
 
 	/**
-	 * Used to set the disabled option on video.
+	 * Used to hide video.
 	 */
-	private final WCheckBox cbDisable = new WCheckBox();
+	private final WCheckBox cbHidden = new WCheckBox();
 
 	/**
 	 * A button used to apply new settings to the audio component.
@@ -82,7 +85,6 @@ public class WVideoExample extends WContainer {
 		video.setPoster(new ImageResource("/video/poster_image.png", "Video poster image"));
 		video.setWidth(300);
 		video.setHeight(200);
-		video.setAltText("Example WVideo content");
 		btnApply.setAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
@@ -91,7 +93,6 @@ public class WVideoExample extends WContainer {
 		});
 		buildUI();
 	}
-
 
 	/**
 	 * Build the UI for this example.
@@ -104,25 +105,28 @@ public class WVideoExample extends WContainer {
 		layout.addField("Autoplay", cbAutoPlay);
 		layout.addField("Loop", cbLoop);
 		layout.addField("Mute", cbMute);
-		layout.addField("Disable", cbDisable);
-		layout.addField("Show separate play/pause", cbControls);
+		layout.addField("Hide", cbHidden);
+		layout.addField("Show default controls", cbControls);
 		layout.addField((WLabel) null, btnApply);
 
 		// add the video to the UI
 		add(video);
 
-		// disable mute and enable disable if PLAY_PAUSE is used
+		// show/hide video
 		WSubordinateControl control = new WSubordinateControl();
 		add(control);
 		Rule rule = new Rule();
-		rule.setCondition(new Equal(cbControls, Boolean.TRUE.toString()));
-		rule.addActionOnTrue(new Disable(cbMute));
-		rule.addActionOnTrue(new Enable(cbDisable));
-		rule.addActionOnFalse(new Enable(cbMute));
-		rule.addActionOnFalse(new Disable(cbDisable));
+		rule.setCondition(new Equal(cbHidden, Boolean.TRUE.toString()));
+		rule.addActionOnTrue(new Hide(video));
+		rule.addActionOnFalse(new Show(video));
 		control.addRule(rule);
 		// Allow the config to be updated without reloading the whole UI.
 		add(new WAjaxControl(btnApply, video));
+
+		add(new WHeading(HeadingLevel.H2, "WVideo with single resource"));
+		// also sets Dimension on the video
+		VideoResource resource = new VideoResource("/video/ogv.ogv", "Ogg video file", new Dimension(360, 240));
+		add(new WVideo(resource));
 	}
 
 
@@ -146,8 +150,7 @@ public class WVideoExample extends WContainer {
 	private void setupVideo() {
 		video.setAutoplay(cbAutoPlay.isSelected());
 		video.setLoop(cbLoop.isSelected());
-		video.setMuted(!cbMute.isDisabled() && cbMute.isSelected());
-		video.setControls(cbControls.isSelected() ? WVideo.Controls.PLAY_PAUSE : WVideo.Controls.NATIVE);
-		video.setDisabled(cbControls.isSelected() && cbDisable.isSelected());
+		video.setMuted(cbMute.isSelected());
+		video.setRenderControls(cbControls.isSelected());
 	}
 }

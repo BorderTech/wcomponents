@@ -7,7 +7,7 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WVideo;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-import com.github.bordertech.wcomponents.util.I18nUtilities;
+import java.awt.Dimension;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -17,12 +17,22 @@ import org.apache.commons.logging.LogFactory;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-final class WVideoRenderer extends AbstractWebXmlRenderer {
+class WVideoRenderer extends AbstractWebXmlRenderer {
 
 	/**
 	 * The logger instance for this class.
 	 */
 	private static final Log LOG = LogFactory.getLog(WVideoRenderer.class);
+
+	/**
+	 * The HTML element to render.
+	 */
+	private static final String HTML_ELEMENT = "video";
+
+	/**
+	 * The fixed value for the HTML class attribute applied to all videos.
+	 */
+	private static final String HTML_FIXED_CLASS_NAME = "wc-video";
 
 	/**
 	 * Paints the given WVideo.
@@ -40,100 +50,73 @@ final class WVideoRenderer extends AbstractWebXmlRenderer {
 			return;
 		}
 
-		Track[] tracks = videoComponent.getTracks();
-		WVideo.Controls controls = videoComponent.getControls();
 		int width = videoComponent.getWidth();
 		int height = videoComponent.getHeight();
-		int duration = video[0].getDuration();
-
-		// Check for alternative text
-		String alternativeText = videoComponent.getAltText();
-
-		if (alternativeText == null) {
-			LOG.warn("Video should have a description.");
-			alternativeText = null;
-		} else {
-			alternativeText = I18nUtilities.format(null, alternativeText);
+		if (width == 0 || height == 0) {
+			// If width or height are not set on the WVideo, get them from the first video that has a Dimension and hope for the best.
+			// My first cuts of this were way over engineered with zero checks. This one: if a Dimension has been set then use it.
+			// The other (less efficient but maybe better) option is the set them to the maximum dimensions of the resources.
+			Dimension d;
+			for (Video v : video) {
+				d = v.getSize();
+				if (d != null) {
+					width = d.width;
+					height = d.height;
+					break;
+				}
+			}
 		}
 
-		xml.appendTagOpen("ui:video");
+		xml.appendTagOpen(HTML_ELEMENT);
 		xml.appendAttribute("id", component.getId());
-		xml.appendOptionalAttribute("class", component.getHtmlClass());
-		xml.appendOptionalAttribute("track", component.isTracking(), "true");
+		String htmlClass = component.getHtmlClass();
+		htmlClass = (htmlClass == null || "".equals(htmlClass)) ? HTML_FIXED_CLASS_NAME : HTML_FIXED_CLASS_NAME.concat(" ").concat(htmlClass);
+		xml.appendAttribute("class", htmlClass);
+		xml.appendOptionalAttribute("controls", videoComponent.isRenderControls(), "controls");
 		xml.appendOptionalUrlAttribute("poster", videoComponent.getPosterUrl());
-		xml.appendOptionalAttribute("alt", alternativeText);
 		xml.appendOptionalAttribute("autoplay", videoComponent.isAutoplay(), "true");
-		xml.appendOptionalAttribute("mediagroup", videoComponent.getMediaGroup());
 		xml.appendOptionalAttribute("loop", videoComponent.isLoop(), "true");
 		xml.appendOptionalAttribute("muted", videoComponent.isMuted(), "true");
-		xml.appendOptionalAttribute("hidden", videoComponent.isHidden(), "true");
-		xml.appendOptionalAttribute("disabled", videoComponent.isDisabled(), "true");
-		xml.appendOptionalAttribute("toolTip", videoComponent.getToolTip());
+		xml.appendOptionalAttribute("hidden", videoComponent.isHidden(), "hidden");
+
+		String title = videoComponent.getToolTip();
+		if ("".equals(title)) {
+			title = null;
+		}
+		xml.appendOptionalAttribute("title", title);
 		xml.appendOptionalAttribute("width", width > 0, width);
 		xml.appendOptionalAttribute("height", height > 0, height);
-		xml.appendOptionalAttribute("duration", duration > 0, duration);
+		xml.appendOptionalAttribute("preload", preloadToString(videoComponent.getPreload()));
 
-		switch (videoComponent.getPreload()) {
-			case NONE:
-				xml.appendAttribute("preload", "none");
-				break;
-
-			case META_DATA:
-				xml.appendAttribute("preload", "metadata");
-				break;
-
-			case AUTO:
-			default:
-				break;
+		String mediaGroup = videoComponent.getMediaGroup();
+		if ("".equals(mediaGroup)) {
+			mediaGroup = null;
 		}
+		xml.appendOptionalAttribute("mediagroup", mediaGroup);
 
-		if (controls != null && !WVideo.Controls.NATIVE.equals(controls)) {
-			switch (controls) {
-				case NONE:
-					xml.appendAttribute("controls", "none");
-					break;
+		String[] urls = videoComponent.getVideoUrls();
 
-				case ALL:
-					xml.appendAttribute("controls", "all");
-					break;
-
-				case PLAY_PAUSE:
-					xml.appendAttribute("controls", "play");
-					break;
-
-				case DEFAULT:
-					xml.appendAttribute("controls", "default");
-					break;
-
-				default:
-					LOG.error("Unknown control type: " + controls);
-			}
+		if (urls != null && urls.length == 1) {
+			xml.appendAttribute("src", urls[0]);
 		}
 
 		xml.appendClose();
 
-		String[] urls = videoComponent.getVideoUrls();
-
-		for (int i = 0; i < urls.length; i++) {
-			xml.appendTagOpen("ui:src");
-			xml.appendUrlAttribute("uri", urls[i]);
-			xml.appendOptionalAttribute("type", video[i].getMimeType());
-
-			if (video[i].getSize() != null) {
-				xml.appendOptionalAttribute("width", video[i].getSize().width > 0, video[i].
-						getSize().width);
-				xml.appendOptionalAttribute("height", video[i].getSize().height > 0, video[i].
-						getSize().height);
+		if (urls != null && urls.length > 1) {
+			for (int i = 0; i < urls.length; i++) {
+				xml.appendTagOpen("source");
+				xml.appendUrlAttribute("src", urls[i]);
+				xml.appendOptionalAttribute("type", video[i].getMimeType());
+				xml.appendEnd();
 			}
-
-			xml.appendEnd();
 		}
 
+		Track[] tracks = videoComponent.getTracks();
 		if (tracks != null && tracks.length > 0) {
 			String[] trackUrls = videoComponent.getTrackUrls();
 
 			for (int i = 0; i < tracks.length; i++) {
-				xml.appendTagOpen("ui:track");
+				xml.appendTagOpen("track");
 				xml.appendUrlAttribute("src", trackUrls[i]);
 				xml.appendOptionalAttribute("lang", tracks[i].getLanguage());
 				xml.appendOptionalAttribute("desc", tracks[i].getDescription());
@@ -142,7 +125,7 @@ final class WVideoRenderer extends AbstractWebXmlRenderer {
 			}
 		}
 
-		xml.appendEndTag("ui:video");
+		xml.appendEndTag(HTML_ELEMENT);
 	}
 
 	/**
@@ -174,6 +157,28 @@ final class WVideoRenderer extends AbstractWebXmlRenderer {
 
 			default:
 				LOG.error("Unknown track kind " + kind);
+				return null;
+		}
+	}
+
+	/**
+	 * Converts Preload to HTMl attribute value with empty preload being none.
+	 * @param preload the current WVideo.Preload value
+	 * @return the value of the HTML attribute (if any)
+	 */
+	private String preloadToString(final WVideo.Preload preload) {
+		if (preload == null) {
+			return "none";
+		}
+		switch (preload) {
+			case NONE:
+				return "none";
+
+			case META_DATA:
+				return "metadata";
+
+			case AUTO:
+			default:
 				return null;
 		}
 	}

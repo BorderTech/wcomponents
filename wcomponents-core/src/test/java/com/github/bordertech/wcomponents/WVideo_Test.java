@@ -486,4 +486,26 @@ public class WVideo_Test extends AbstractWComponentTestCase {
 		assertNoDuplicateComponentModels(video, "width",120);
 		assertNoDuplicateComponentModels(video, "height", 568);
 	}
+
+	@Test
+	public void testRenderControlsAccessors() {
+		assertAccessorsCorrect(new WVideo(), "renderControls", true, false, true);
+	}
+
+	@Test
+	public void testSetControlsAffectsRenderControls() {
+		WVideo video = new WVideo();
+		Assert.assertTrue(video.isRenderControls());
+
+		for (WVideo.Controls c : WVideo.Controls.values()) {
+			video.setControls(c);
+			Assert.assertEquals(video.isRenderControls(), c != WVideo.Controls.NONE);
+		}
+
+		// null is not a magic equivalent of NONE
+		video.setControls(WVideo.Controls.NONE);
+		Assert.assertFalse(video.isRenderControls());
+		video.setControls(null);
+		Assert.assertTrue(video.isRenderControls());
+	}
 }

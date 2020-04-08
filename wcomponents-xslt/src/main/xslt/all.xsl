@@ -392,9 +392,6 @@
 				The following are in alphabetical order of local-name of the first element in the test, then in alphabetical order of attribute. Just
 				because we think they are less common does not mean they should not be in wc.common.js.
 			-->
-			<xsl:if test=".//ui:audio or .//ui:video">
-				<xsl:text>"wc/ui/mediaplayer",</xsl:text>
-			</xsl:if>
 			<xsl:if
 				test=".//ui:checkbox[not(@readOnly)] or .//ui:checkboxselect[not(@readOnly)]">
 				<xsl:text>"wc/ui/checkBox",</xsl:text>
@@ -752,61 +749,4 @@
 			<xsl:apply-templates select="@*" />
 		</xsl:element>
 	</xsl:template>
-
-	<!--
-	###########################################################################
-	###########################################################################
-	# Include all of the actual component XSLT.
-	###########################################################################
-	###########################################################################
-	-->
-	<!--<xsl:include href="wc.ajax.xsl" />
-	<xsl:include href="wc.checkablegroup.xsl" />
-	<xsl:include href="wc.containers.xsl" />
-	<xsl:include href="wc.fileupload.xsl" />
-	<xsl:include href="wc.inputs.xsl" />
-	<xsl:include href="wc.shuffleable.xsl" />
-	<xsl:include href="wc.toggles.xsl" />
-	<xsl:include href="wc.ui.application.xsl" />
-	<xsl:include href="wc.ui.audio.xsl" />
-	<xsl:include href="wc.ui.collapsible.xsl" />
-	<xsl:include href="wc.ui.dateField.xsl" />
-	<xsl:include href="wc.ui.decoratedLabel.xsl" />
-	<xsl:include href="wc.ui.definitionList.xsl" />
-	<xsl:include href="wc.ui.dialog.xsl" />
-	<xsl:include href="wc.ui.dropdown.xsl" />
-	<xsl:include href="wc.ui.fieldindicator.xsl"/>
-	<xsl:include href="wc.ui.fieldLayout.xsl" />
-	<xsl:include href="wc.ui.fieldSet.xsl" />
-	<xsl:include href="wc.ui.figure.xsl" />
-	<xsl:include href="wc.ui.heading.xsl" />
-	<xsl:include href="wc.ui.imageEdit.xsl" />
-	<xsl:include href="wc.ui.label.xsl" />
-	<xsl:include href="wc.ui.link.xsl" />
-	<xsl:include href="wc.ui.listbox.xsl" />
-	<xsl:include href="wc.ui.margin.xsl" />
-	<xsl:include href="wc.ui.menu.xsl" />
-	<xsl:include href="wc.ui.messagebox.xsl"/>
-	<xsl:include href="wc.ui.multidropdown.xsl" />
-	<xsl:include href="wc.ui.multitextfield.xsl" />
-	<xsl:include href="wc.ui.numberfield.xsl" />
-	<xsl:include href="wc.ui.optgroup.xsl" />
-	<xsl:include href="wc.ui.option.xsl" />
-	<xsl:include href="wc.ui.popup.xsl" />
-	<xsl:include href="wc.ui.redirect.xsl" />
-	<xsl:include href="wc.ui.section.xsl" />
-	<xsl:include href="wc.ui.session.xsl" />
-	<xsl:include href="wc.ui.skiplinks.xsl" />
-	<xsl:include href="wc.ui.src.xsl" />
-	<xsl:include href="wc.ui.subordinate.xsl" />
-	<xsl:include href="wc.ui.suggestions.xsl" />
-	<xsl:include href="wc.ui.table.xsl" />
-	<xsl:include href="wc.ui.tabset.xsl" />
-	<xsl:include href="wc.ui.text.xsl" />
-	<xsl:include href="wc.ui.textarea.xsl" />
-	<xsl:include href="wc.ui.togglebutton.xsl" />
-	<xsl:include href="wc.ui.tree.xsl" />
-	<xsl:include href="wc.ui.version.xsl" />
-	<xsl:include href="wc.ui.video.xsl" />-->
-
 </xsl:stylesheet>

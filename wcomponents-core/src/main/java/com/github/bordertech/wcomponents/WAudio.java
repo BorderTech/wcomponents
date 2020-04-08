@@ -9,9 +9,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
- * WAudio provides a means to play audio content. For most uses this means a HTML audio element. If the client does not
- * implement the audio element or cannot play any of the supplied sources then an alternate means to access the sources
- * is provided.
+ * WAudio provides a means to play audio content.
  *</p>
  * <p>
  * Each WAudio component must have at least one {@link Audio} resource. Each such resource should be appropriate for
@@ -31,7 +29,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget, Disableable {
+public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget, Disableable, SubordinateTarget {
 
 	/**
 	 * The logger instance for this class.
@@ -68,26 +66,22 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 	 * This is used to indicate which playback controls to display for the audio.
 	 *
 	 * <p>
-	 * <strong>Note:</strong>
-	 * Advancements in audio support in clients since this API was first implemented means that most of this is now
-	 * redundant. Under most circumstances the UI will display their native audio controls. Where a particular WAudio
-	 * does not have any source which is able to be played by the client then links to all sources will be provided.
-	 * This enum is not worthless as the values NONE and PLAY_PAUSE are used to turn off native audio controls in the
-	 * client. The value NONE however causes major problems and is incompatible with autoplay for a11y reasons so it
-	 * basically makes the media worthless. This enum may be replaced in the future with a simple boolean to trigger
-	 * native controls or play/pause only (see https://github.com/BorderTech/wcomponents/issues/503).
+	 * <strong>Note:</strong> Advances in audio support in browsers since this API was first implemented means that this is now redundant.
 	 * </p>
+	 *
+	 * @deprecated Note that the only options for HTML audio element are to show native controls or not. Not showing native controls
+	 * if not an option within WComponents for a11y reasons so this whole enum is superfluous and has not been implemented in themes
+	 * for years.
 	 */
+	@Deprecated
 	public enum Controls {
 		/**
 		 * Do not display any controls. May be incompatible with either {@link #isAutoplay()} == true or
 		 * {@link #isLoop()} == true. If this is set then the WAudio control <strong>MAY NOT WORK</strong>.
-		 * @deprecated since 1.1.1 as this is incompatible with WCAG requirements.
 		 */
 		NONE,
 		/**
 		 * Display all controls. What this actually means depends upon the theme.
-		 * @deprecated since 1.1.1 as themes use native controls.
 		 */
 		ALL,
 		/**
@@ -96,7 +90,6 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 		PLAY_PAUSE,
 		/**
 		 * Displays the "default" set of controls for the theme.
-		 * @deprecated since 1.1.1 as themes use native audio controls.
 		 */
 		DEFAULT,
 		/**
@@ -183,8 +176,10 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 	 * Indicates whether the audio component is disabled.
 	 *
 	 * @return true if the component is disabled, otherwise false
+	 * @deprecated never supported, not part of HTML spec, no browser support for disabled audio
 	 */
 	@Override
+	@Deprecated
 	public boolean isDisabled() {
 		return isFlagSet(ComponentModel.DISABLED_FLAG);
 	}
@@ -193,8 +188,10 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 	 * Sets whether the audio component is disabled.
 	 *
 	 * @param disabled if true, the component is disabled. If false, it is enabled
+	 * @deprecated never supported, not part of HTML spec, no browser support for disabled audio
 	 */
 	@Override
+	@Deprecated
 	public void setDisabled(final boolean disabled) {
 		setFlag(ComponentModel.DISABLED_FLAG, disabled);
 	}
@@ -278,7 +275,9 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 
 	/**
 	 * @return alternative text to display when the audio clip can not be played.
+	 * @deprecated Not part of HTML spec
 	 */
+	@Deprecated
 	public String getAltText() {
 		return getComponentModel().altText;
 	}
@@ -287,9 +286,27 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 	 * Sets the alternative text to display when the audio clip can not be played.
 	 *
 	 * @param altText the text to set
+	 * @deprecated Not part of HTML spec
 	 */
+	@Deprecated
 	public void setAltText(final String altText) {
 		getOrCreateComponentModel().altText = altText;
+	}
+
+	/**
+	 * Sets the muted-on-load state of the audio player.
+	 * @param muted if true the media player loads in a muted state
+	 */
+	public void setMuted(final boolean muted) {
+		getOrCreateComponentModel().muted = muted;
+	}
+
+	/**
+	 *
+	 * @return the on-load muted state of the audio player
+	 */
+	public boolean isMuted() {
+		return getComponentModel().muted;
 	}
 
 	/**
@@ -361,10 +378,6 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 	public void handleRequest(final Request request) {
 		super.handleRequest(request);
 
-		if (isDisabled()) {
-			return;
-		}
-
 		String targ = request.getParameter(Environment.TARGET_ID);
 		String audioFileRequested = request.getParameter(AUDIO_INDEX_REQUEST_PARAM_KEY);
 		boolean contentReqested = targ != null && targ.equals(getTargetId());
@@ -412,19 +425,44 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 	 * Indicates which playback controls to display on the audio component.
 	 *
 	 * @return the playback controls to display
+	 * @deprecated use {@link #isRenderControls()}
 	 */
+	@Deprecated
 	public Controls getControls() {
 		return getComponentModel().controls;
 	}
 
 	/**
-	 * Sets which playback controls to display on the audio component. Passing a null or empty set of controls will
-	 * cause the client's default set of controls to be used.
+	 * @return true if the browser should render the default controls.
+	 */
+	public boolean isRenderControls() {
+		return getComponentModel().renderControls;
+	}
+
+
+	/**
+	 * Sets whether the browser should render the default controls. The default is true.
+	 * @param renderControls if true then the controls are rendered
+	 */
+	public void setRenderControls(final boolean renderControls) {
+		if (isRenderControls() != renderControls) {
+			getOrCreateComponentModel().renderControls = renderControls;
+		}
+	}
+
+	/**
+	 * Sets which playback controls to display on the audio component. The browser controls will be used unless Controls.NONE is passed in.
 	 *
 	 * @param controls the playback controls to display
+	 * @deprecated use {@link #setRenderControls(boolean) }
 	 */
+	@Deprecated
 	public void setControls(final Controls controls) {
-		getOrCreateComponentModel().controls = controls;
+		if (getControls() != controls) {
+			getOrCreateComponentModel().controls = controls;
+		}
+
+		setRenderControls(controls != Controls.NONE);
 	}
 
 	/**
@@ -435,15 +473,6 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 	@Override
 	public String getTargetId() {
 		return getId();
-	}
-
-	/**
-	 * @return a String representation of this component usually for debugging purposes
-	 */
-	@Override
-	public String toString() {
-		String text = getAltText();
-		return toString(text == null ? null : '"' + text + '"');
 	}
 
 	// --------------------------------
@@ -501,7 +530,9 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 
 		/**
 		 * Indicates which playback controls to display.
+		 * @deprecated use {@link #renderControls} instead
 		 */
+		@Deprecated
 		private Controls controls;
 
 		/**
@@ -511,12 +542,25 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 
 		/**
 		 * Alternate text to display if the audio clip can not be played.
+		 * @deprecated Not part of HTML spec
 		 */
+		@Deprecated
 		private String altText;
 
 		/**
 		 * This is used to group related media together, for example to synchronize tracks.
 		 */
 		private String mediaGroup;
+
+		/**
+		 * Indicates if the audio file is to load muted. Pointless but it is in the HTML spec and the WC schema for the old
+		 * XML element so we should have it in WAudio.
+		 */
+		private boolean muted;
+
+		/**
+		 * Indicates if the browser should render audio controls.
+		 */
+		private boolean renderControls = true;
 	}
 }

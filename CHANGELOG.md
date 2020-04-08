@@ -6,8 +6,15 @@
 
 ### Enhancements
 
-* Added xcomponents-xslt as a dependency in wcomponents-core and removed it from wcomponents-bundle #1709.
-* Removed decorative Sass which created rounded corners on tabs. This was forgotten in the changes for 1.5.1 which separated structure from style as
+
+* Added boolean controller of HTML controls attribute on WAudio and WVideo. Use `setRenderControls(boolean)` and `isRenderControls` and added 
+  deprecation notes / use instead to `setControls(Control)` and `getControls()`. Part of #503
+* WAudioRenderer and WVideoRenderer changed to render (X)HTML not custom XML. Part of #1569.
+    - removed XSLT
+    - removed schemas
+* Removed obsolete A/V 'fixes' #1717
+* Added wcomponents-xslt as a dependency in wcomponents-core and removed it from wcomponents-bundle #1709.
+* Removed decorative Sass which created rounded corners on tabs. This was forgotten in the changes for 1.5.1 which separated structure from style as 
   much as possible #1711.
 * Updated TinyMCE to resolve security vulnerability #1696.
 * Added WTab based methods to WTabSet corresponding to the content methods
@@ -19,6 +26,9 @@
 
 ### Bug Fixes
 
+* Added support for muted to WAudio #1719.
+* Remove Final modifier from WAudioRenderer and WVideoRenderer as a small step towards #633.
+* Removed decorative border from dialog content #1714.
 * Fixed default TinyMCE config regression error introduced in update form v4 to v5 #1696.
 * Fix WImageRenderer to output title attribute when appropriate #1697.
 * Fix regression in previous few versions which broken ImageCapture component #1687
