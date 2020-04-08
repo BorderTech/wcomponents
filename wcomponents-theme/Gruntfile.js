@@ -106,6 +106,8 @@ module.exports = function (grunt) {
 			let internArgs = process.env.INTERN_ARGS;
 			if (internArgs) {
 				logIt("INTERN_ARGS: " + process.env.INTERN_ARGS);
+			} else if (internConfig.environments) {
+				logIt("INTERN_ARGS not set, using environments from config");
 			} else {
 				logIt("INTERN_ARGS not set, using default: " + defaultInternArgs);
 				logIt("https://github.com/theintern/intern/blob/master/docs/configuration.md#environment-variable");

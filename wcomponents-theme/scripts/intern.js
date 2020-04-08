@@ -1,8 +1,10 @@
 /* eslint-env node, es6  */
 const path = require("path");
-const { getConfig, dirs } = require("./build-util");
+const { getConfig, dirs, requireAmd } = require("./build-util");
 const scriptDir = path.relative(dirs.script.target, dirs.script[getConfig("testMinOrMax")]);  // dirs.script.min will test minifed code, dirs.script.max tests debug code
 const targetDir = path.relative(dirs.project.basedir, dirs.project.build);
+const mixin = requireAmd("wc/mixin");
+const internOverrides = getConfig("internOverrides");
 let testRootPath = path.join(dirs.test.target, "intern");
 let srcRootPath = dirs.script.target;
 
@@ -124,6 +126,11 @@ let internConfig = {
 	},
 	"defaultTimeout": 240000
 };
+
+if (internOverrides) {
+	console.log("Got internOverrides from config", internOverrides);
+	mixin(internOverrides, internConfig);
+}
 
 module.exports = {
 	config: internConfig
