@@ -6,6 +6,7 @@
 
 ### Enhancements
 
+
 * Added boolean controller of HTML controls attribute on WAudio and WVideo. Use `setRenderControls(boolean)` and `isRenderControls` and added 
   deprecation notes / use instead to `setControls(Control)` and `getControls()`. Part of #503
 * WAudioRenderer and WVideoRenderer changed to render (X)HTML not custom XML. Part of #1569.
