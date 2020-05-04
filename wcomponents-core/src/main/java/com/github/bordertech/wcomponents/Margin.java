@@ -18,6 +18,31 @@ import java.util.Set;
 public class Margin implements Serializable {
 
 	/**
+	 * A margin with a size of {@link Size.ZERO} on all sides.
+	 */
+	public static final Margin ZERO = new Margin(Size.ZERO);
+
+	/**
+	 * A margin with a size of {@link Size.SMALL} on all sides.
+	 */
+	public static final Margin SMALL = new Margin(Size.SMALL);
+
+	/**
+	 * A margin with a size of {@link Size.MEDIUM} on all sides.
+	 */
+	public static final Margin MEDIUM = new Margin(Size.MEDIUM);
+
+	/**
+	 * A margin with a size of {@link Size.LARGE} on all sides.
+	 */
+	public static final Margin LARGE = new Margin(Size.LARGE);
+
+	/**
+	 * A margin with a size of {@link Size.XL} on all sides.
+	 */
+	public static final Margin XL = new Margin(Size.XL);
+
+	/**
 	 * The size of the margins on all sides of the panel.
 	 */
 	private final Size all;
@@ -111,7 +136,9 @@ public class Margin implements Serializable {
 	/**
 	 * A margin equal on all sizes.
 	 * @param all the size of the margin to be used on all sides of the component.
+	 * @deprecated Use Margin.ZERO, Margin.SMALL, Margin.MEDIUM, Margin.LARGE or Margin.XL.
 	 */
+	@Deprecated
 	public Margin(final Size all) {
 		this.all = all;
 		this.top = null;
