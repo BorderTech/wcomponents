@@ -18,27 +18,27 @@ import java.util.Set;
 public class Margin implements Serializable {
 
 	/**
-	 * A margin with a size of {@link Size.ZERO} on all sides.
+	 * A margin with a size of Size.ZERO on all sides.
 	 */
 	public static final Margin ZERO = new Margin(Size.ZERO);
 
 	/**
-	 * A margin with a size of {@link Size.SMALL} on all sides.
+	 * A margin with a size of Size.SMALL on all sides.
 	 */
 	public static final Margin SMALL = new Margin(Size.SMALL);
 
 	/**
-	 * A margin with a size of {@link Size.MEDIUM} on all sides.
+	 * A margin with a size of Size.MEDIUM on all sides.
 	 */
 	public static final Margin MEDIUM = new Margin(Size.MEDIUM);
 
 	/**
-	 * A margin with a size of {@link Size.LARGE} on all sides.
+	 * A margin with a size of Size.LARGE on all sides.
 	 */
 	public static final Margin LARGE = new Margin(Size.LARGE);
 
 	/**
-	 * A margin with a size of {@link Size.XL} on all sides.
+	 * A margin with a size of Size.XL on all sides.
 	 */
 	public static final Margin XL = new Margin(Size.XL);
 
