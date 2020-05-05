@@ -84,8 +84,7 @@ public abstract class AbstractWComponentTestCase {
 		assertAccessorsCorrect(component, method, initValue, defaultValue, userContextValue, null);
 	}
 
-
-	/**
+/**
 	 * This method will test that the getter/setter methods on a component are returning the correct values in its (i)
 	 * initial state (ii) default state and (iii) user context.
 	 * <p>
@@ -129,6 +128,69 @@ public abstract class AbstractWComponentTestCase {
 
 			// Set user value
 			setter.accept(component, userContextValue);
+
+			// Check user value
+			Assert.assertEquals("User value.", userContextValue, getter.apply(component));
+
+			// Reset the context
+			resetContext();
+
+			// Check default value still correct
+			Assert.assertEquals("Reset.", defaultValue, getter.apply(component));
+			
+		} finally {
+			resetContext();
+		}
+	}
+	
+	/**
+	 * This method will test that the getter/setter methods on a component are returning the correct values in its (i)
+	 * initial state (ii) default state and (iii) user context.
+	 * <p>
+	 * Note that the component will be left in a dirty state after this method is invoked and the UIContext will be
+	 * reset.
+	 * </p>
+	 *
+	 * @param <C> the type of the component being tested
+	 * @param <T> the type of the property being tested
+	 * @param <U> the type of the setter's second argument
+	 * @param component the component to test the accessors on
+	 * @param getter the property's getter to be tested
+	 * @param setter the property's setter to be tested
+	 * @param initValue the initial value expected from the component
+	 * @param defaultValue the default value to be used on the shared model
+	 * @param userContextValue the value to be used with a user context
+	 * @param setterArgs the value of the setter's second argument
+	 */
+	protected <C extends WComponent, T, U> void assertAccessorsCorrect(
+		final C component, 
+		final Function<C, T> getter,
+		final TriConsumer<C, T, U> setter,
+		final T initValue,
+		final T defaultValue,
+		final T userContextValue,
+		final U setterArgs) {
+		try {
+			// Check initial value
+			Assert.assertEquals("Initial value.", initValue, getter.apply(component));
+
+			// Set default value
+			setter.accept(component, defaultValue, setterArgs);
+
+			// Check default value set correctly
+			Assert.assertEquals("Default value.", defaultValue, getter.apply(component));
+
+			// The component passed in might be a child component so find the top component to lock
+			WebUtilities.getTop(component).setLocked(true);
+
+			// Create a user context
+			setActiveContext(createUIContext());
+
+			// Check default value returned for user context
+			Assert.assertEquals("User default value.", defaultValue, getter.apply(component));
+
+			// Set user value
+			setter.accept(component, userContextValue, setterArgs);
 
 			// Check user value
 			Assert.assertEquals("User value.", userContextValue, getter.apply(component));
