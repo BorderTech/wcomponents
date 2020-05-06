@@ -57,7 +57,7 @@ public class WShuffler_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testOptionAccessors() {
-		assertAccessorsCorrect(new WShuffler(), "options", null, OPTIONS, OPTIONS2);
+		assertAccessorsCorrect(new WShuffler(), WShuffler::getOptions, WShuffler::setOptions, null, OPTIONS, OPTIONS2);
 	}
 
 	@Test
@@ -101,7 +101,7 @@ public class WShuffler_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testRowAccessors() {
-		assertAccessorsCorrect(new WShuffler(), "rows", 0, 1, 2);
+		assertAccessorsCorrect(new WShuffler(), WShuffler::getRows, WShuffler::setRows, 0, 1, 2);
 	}
 
 	@Test

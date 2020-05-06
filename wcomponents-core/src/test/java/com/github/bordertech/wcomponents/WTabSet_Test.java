@@ -191,12 +191,12 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 		tabset.addTab(new WLabel("tab2"), "tab2", WTabSet.TAB_MODE_DYNAMIC);
 		tabset.addTab(new WLabel("tab3"), "tab3", WTabSet.TAB_MODE_DYNAMIC);
 
-		assertAccessorsCorrect(tabset, "activeIndex", 0, 1, 2);
+		assertAccessorsCorrect(tabset, WTabSet::getActiveIndex, WTabSet::setActiveIndex, 0, 1, 2);
 	}
 
 	@Test
 	public void testContentHeightAccessors() {
-		assertAccessorsCorrect(new WTabSet(), "contentHeight", null, "1", "2");
+		assertAccessorsCorrect(new WTabSet(), WTabSet::getContentHeight, WTabSet::setContentHeight, null, "1", "2");
 	}
 
 	@Test
@@ -684,7 +684,7 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 	 */
 	@Test
 	public void testSetDisabled() {
-		assertAccessorsCorrect(new WTabSet(), "disabled", false, true, false);
+		assertAccessorsCorrect(new WTabSet(), WTabSet::isDisabled, WTabSet::setDisabled, false, true, false);
 	}
 
 	/**
@@ -692,8 +692,8 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 	 */
 	@Test
 	public void testSetActionOnChange() {
-		assertAccessorsCorrect(new WTabSet(), "actionOnChange", null, new TestAction(),
-				new TestAction());
+		assertAccessorsCorrect(new WTabSet(), WTabSet::getActionOnChange, WTabSet::setActionOnChange,
+			null, e -> {}, e -> {});
 	}
 
 	@Test
@@ -720,12 +720,13 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testMarginAccessors() {
-		assertAccessorsCorrect(new WTabSet(), "margin", null, new Margin(1), new Margin(2));
+		assertAccessorsCorrect(new WTabSet(), WTabSet::getMargin, WTabSet::setMargin,
+			null, new Margin(1), new Margin(2));
 	}
 
 	@Test
 	public void testSingleAccessors() {
-		assertAccessorsCorrect(new WTabSet(), "single", false, true, false);
+		assertAccessorsCorrect(new WTabSet(), WTabSet::isSingle, WTabSet::setSingle, false, true, false);
 	}
 
 	@Test

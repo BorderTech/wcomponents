@@ -67,7 +67,7 @@ public class WAjaxControl_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testLoadOnceAccessors() {
 		WAjaxControl control = new WAjaxControl(new WButton());
-		assertAccessorsCorrect(control, "loadOnce", Boolean.FALSE, Boolean.TRUE, Boolean.FALSE);
+		assertAccessorsCorrect(control, WAjaxControl::isLoadOnce, WAjaxControl::setLoadOnce, false, true, false);
 	}
 
 	@Test
@@ -152,7 +152,7 @@ public class WAjaxControl_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testDelayAccessors() {
 		WAjaxControl control = new WAjaxControl(new WCheckBox());
-		assertAccessorsCorrect(control, "delay", 0, 1, 2);
+		assertAccessorsCorrect(control, WAjaxControl::getDelay, WAjaxControl::setDelay, 0, 1, 2);
 	}
 
 	// This tests that the old setLoadCount method correctly sets loadOnce.

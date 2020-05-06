@@ -80,14 +80,14 @@ public class AbstractWSelectList_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testSetSubmitOnChange() {
-		assertAccessorsCorrect(new MyWSelectList(null, true), "submitOnChange", false, true, false);
+		assertAccessorsCorrect(new MyWSelectList(null, true), MyWSelectList::isSubmitOnChange, MyWSelectList::setSubmitOnChange, false, true, false);
 	}
 
 	@Test
 	public void testOptionsAccessors() {
 		List<String> list1 = Arrays.asList("A", "B");
 		List<String> list2 = Arrays.asList("X", "Y");
-		assertAccessorsCorrect(new MyWSelectList(null, true), "options", null, list1, list2);
+		assertAccessorsCorrect(new MyWSelectList(null, true), MyWSelectList::getOptions, MyWSelectList::setOptions, null, list1, list2);
 	}
 
 	@Test

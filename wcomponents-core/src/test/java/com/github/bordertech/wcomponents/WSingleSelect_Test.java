@@ -65,7 +65,7 @@ public class WSingleSelect_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testRowAccessors() {
-		assertAccessorsCorrect(new WSingleSelect(), "rows", 0, 1, 2);
+		assertAccessorsCorrect(new WSingleSelect(), WSingleSelect::getRows, WSingleSelect::setRows, 0, 1, 2);
 	}
 
 	// autocomplete

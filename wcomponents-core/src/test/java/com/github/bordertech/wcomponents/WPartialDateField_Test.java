@@ -343,7 +343,7 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testPaddingCharAccessors() {
 		WPartialDateField partial = new WPartialDateField();
-		assertAccessorsCorrect(partial, "paddingChar", ' ', '@', '#');
+		assertAccessorsCorrect(partial, WPartialDateField::getPaddingChar, WPartialDateField::setPaddingChar, ' ', '@', '#');
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -988,9 +988,8 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 	 */
 	@Test
 	public void testDateAccessors() {
-		assertAccessorsCorrect(new WPartialDateField(), "date", null, DateUtilities.createDate(01,
-				01, 2010),
-				DateUtilities.createDate(2, 2, 2012));
+		assertAccessorsCorrect(new WPartialDateField(), WPartialDateField::getDate, WPartialDateField::setDate,
+			null, DateUtilities.createDate(01, 01, 2010), DateUtilities.createDate(2, 2, 2012));
 	}
 
 	/**

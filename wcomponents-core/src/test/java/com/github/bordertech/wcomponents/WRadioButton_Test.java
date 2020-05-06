@@ -121,7 +121,7 @@ public class WRadioButton_Test extends AbstractWComponentTestCase {
 		root.add(group);
 		root.add(rb1);
 
-		assertAccessorsCorrect(rb1, "selected", false, true, false);
+		assertAccessorsCorrect(rb1, WRadioButton::isSelected, WRadioButton::setSelected, false, true, false);
 	}
 
 	@Test
@@ -205,7 +205,7 @@ public class WRadioButton_Test extends AbstractWComponentTestCase {
 		root.add(group);
 		root.add(rb1);
 
-		assertAccessorsCorrect(rb1, "disabled", false, true, false);
+		assertAccessorsCorrect(rb1, WRadioButton::isDisabled, WRadioButton::setDisabled, false, true, false);
 	}
 
 	@Test
@@ -230,7 +230,7 @@ public class WRadioButton_Test extends AbstractWComponentTestCase {
 		root.add(group);
 		root.add(rb1);
 
-		assertAccessorsCorrect(rb1, "readOnly", false, true, false);
+		assertAccessorsCorrect(rb1, WRadioButton::isReadOnly, WRadioButton::setReadOnly, false, true, false);
 	}
 
 	@Test

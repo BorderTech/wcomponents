@@ -94,22 +94,22 @@ public class WTextArea_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testRowsAccessors() {
-		assertAccessorsCorrect(new WTextArea(), "rows", 0, 1, 2);
+		assertAccessorsCorrect(new WTextArea(), WTextArea::getRows, WTextArea::setRows, 0, 1, 2);
 	}
 
 	@Test
 	public void testRTFAccessors() {
-		assertAccessorsCorrect(new WTextArea(), "richTextArea", false, true, false);
+		assertAccessorsCorrect(new WTextArea(), WTextArea::isRichTextArea, WTextArea::setRichTextArea, false, true, false);
 	}
 
 	@Test
 	public void testSanitizeOnOutputAccessors() {
-		assertAccessorsCorrect(new WTextArea(), "sanitizeOnOutput", true, false, true);
+		assertAccessorsCorrect(new WTextArea(), WTextArea::isSanitizeOnOutput, WTextArea::setSanitizeOnOutput, true, false, true);
 	}
 
 	@Test
 	public void testPlaceholderAccessors() {
-		assertAccessorsCorrect(new WTextArea(), "placeholder", null, "A", "B");
+		assertAccessorsCorrect(new WTextArea(), WTextArea::getPlaceholder, WTextArea::setPlaceholder, null, "A", "B");
 	}
 
 	@Test

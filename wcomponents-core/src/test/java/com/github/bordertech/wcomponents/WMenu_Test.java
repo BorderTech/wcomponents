@@ -33,29 +33,30 @@ public class WMenu_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testRowsAccessors() {
-		assertAccessorsCorrect(new WMenu(), "rows", 0, 1, 2);
+		assertAccessorsCorrect(new WMenu(), WMenu::getRows, WMenu::setRows, 0, 1, 2);
 	}
 
 	@Test
 	public void testMarginAccessors() {
-		assertAccessorsCorrect(new WMenu(), "margin", null, new Margin(1), new Margin(2));
+		assertAccessorsCorrect(new WMenu(), WMenu::getMargin, WMenu::setMargin,
+			null, new Margin(1), new Margin(2));
 	}
 
 	@Test
 	public void testSelectModeAccessors() {
-		assertAccessorsCorrect(new WMenu(), "selectMode", SelectMode.NONE, SelectMode.MULTIPLE,
-				SelectMode.SINGLE);
+		assertAccessorsCorrect(new WMenu(), WMenu::getSelectMode, WMenu::setSelectMode,
+			SelectMode.NONE, SelectMode.MULTIPLE, SelectMode.SINGLE);
 	}
 
 	@Test
 	public void testSelectionModeAccessors() {
-		assertAccessorsCorrect(new WMenu(), "selectionMode", MenuSelectContainer.SelectionMode.NONE, SelectionMode.MULTIPLE,
-				SelectionMode.SINGLE);
+		assertAccessorsCorrect(new WMenu(), WMenu::getSelectionMode, WMenu::setSelectionMode,
+			MenuSelectContainer.SelectionMode.NONE, SelectionMode.MULTIPLE, SelectionMode.SINGLE);
 	}
 
 	@Test
 	public void testDisabledAccessors() {
-		assertAccessorsCorrect(new WMenu(), "disabled", false, true, false);
+		assertAccessorsCorrect(new WMenu(), WMenu::isDisabled, WMenu::setDisabled, false, true, false);
 	}
 
 	@Test
@@ -192,7 +193,8 @@ public class WMenu_Test extends AbstractWComponentTestCase {
 		menu.add(itemA);
 		WMenuItem itemB = new WMenuItem("B");
 		menu.add(itemB);
-		assertAccessorsCorrect(menu, "selectedItems", Collections.EMPTY_LIST, Arrays.asList(itemA), Arrays.asList(itemB));
+		assertAccessorsCorrect(menu, WMenu::getSelectedItems, WMenu::setSelectedItems,
+			Collections.EMPTY_LIST, Arrays.asList(itemA), Arrays.asList(itemB));
 	}
 
 	@Test
@@ -203,7 +205,7 @@ public class WMenu_Test extends AbstractWComponentTestCase {
 		menu.add(itemA);
 		WMenuItem itemB = new WMenuItem("B");
 		menu.add(itemB);
-		assertAccessorsCorrect(menu, "selectedItem", null, itemA, itemB);
+		assertAccessorsCorrect(menu, WMenu::getSelectedItem, WMenu::setSelectedItem, null, itemA, itemB);
 	}
 
 	@Test
@@ -248,7 +250,8 @@ public class WMenu_Test extends AbstractWComponentTestCase {
 		menu.add(itemA);
 		WMenuItem itemB = new WMenuItem("B");
 		menu.add(itemB);
-		assertAccessorsCorrect(menu, "selectedMenuItems", Collections.EMPTY_LIST, Arrays.asList(itemA), Arrays.asList(itemB));
+		assertAccessorsCorrect(menu, WMenu::getSelectedMenuItems, WMenu::setSelectedMenuItems,
+			Collections.EMPTY_LIST, Arrays.asList(itemA), Arrays.asList(itemB));
 	}
 
 	@Test
@@ -259,7 +262,7 @@ public class WMenu_Test extends AbstractWComponentTestCase {
 		menu.add(itemA);
 		WMenuItem itemB = new WMenuItem("B");
 		menu.add(itemB);
-		assertAccessorsCorrect(menu, "selectedMenuItem", null, itemA, itemB);
+		assertAccessorsCorrect(menu, WMenu::getSelectedMenuItem, WMenu::setSelectedMenuItem, null, itemA, itemB);
 	}
 
 	@Test

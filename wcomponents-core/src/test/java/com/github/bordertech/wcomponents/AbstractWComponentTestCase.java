@@ -63,27 +63,6 @@ public abstract class AbstractWComponentTestCase {
 		UIContextHolder.reset();
 	}
 
-	/**
-	 * This method will test that the getter/setter methods on a component are returning the correct values in its (i)
-	 * initial state (ii) default state and (iii) user context.
-	 * <p>
-	 * Note that the component will be left in a dirty state after this method is invoked and the UIContext will be
-	 * reset.
-	 * </p>
-	 *
-	 * @param component the component to test the accessors on
-	 * @param method the method to test
-	 * @param initValue the initial value expected from the component
-	 * @param defaultValue the default value to be used on the shared model
-	 * @param userContextValue the value to be used with a user context
-	 */
-	protected void assertAccessorsCorrect(final WComponent component, final String method,
-			final Object initValue,
-			final Object defaultValue, final Object userContextValue) {
-
-		assertAccessorsCorrect(component, method, initValue, defaultValue, userContextValue, null);
-	}
-
 /**
 	 * This method will test that the getter/setter methods on a component are returning the correct values in its (i)
 	 * initial state (ii) default state and (iii) user context.
@@ -109,13 +88,13 @@ public abstract class AbstractWComponentTestCase {
 		final T defaultValue, final T userContextValue) {
 		try {
 			// Check initial value
-			Assert.assertEquals("Initial value.", initValue, getter.apply(component));
+			checkValue("", "Initial value.", initValue, getter.apply(component));
 
 			// Set default value
 			setter.accept(component, defaultValue);
 
 			// Check default value set correctly
-			Assert.assertEquals("Default value.", defaultValue, getter.apply(component));
+			checkValue("", "Default value.", defaultValue, getter.apply(component));
 
 			// The component passed in might be a child component so find the top component to lock
 			WebUtilities.getTop(component).setLocked(true);
@@ -124,25 +103,25 @@ public abstract class AbstractWComponentTestCase {
 			setActiveContext(createUIContext());
 
 			// Check default value returned for user context
-			Assert.assertEquals("User default value.", defaultValue, getter.apply(component));
+			checkValue("", "User default value.", defaultValue, getter.apply(component));
 
 			// Set user value
 			setter.accept(component, userContextValue);
 
 			// Check user value
-			Assert.assertEquals("User value.", userContextValue, getter.apply(component));
+			checkValue("", "User value.", userContextValue, getter.apply(component));
 
 			// Reset the context
 			resetContext();
 
 			// Check default value still correct
-			Assert.assertEquals("Reset.", defaultValue, getter.apply(component));
-			
+			checkValue("", "Reset.", defaultValue, getter.apply(component));
+
 		} finally {
 			resetContext();
 		}
 	}
-	
+
 	/**
 	 * This method will test that the getter/setter methods on a component are returning the correct values in its (i)
 	 * initial state (ii) default state and (iii) user context.
@@ -172,13 +151,13 @@ public abstract class AbstractWComponentTestCase {
 		final U setterArgs) {
 		try {
 			// Check initial value
-			Assert.assertEquals("Initial value.", initValue, getter.apply(component));
+			checkValue("", "Initial value.", initValue, getter.apply(component));
 
 			// Set default value
 			setter.accept(component, defaultValue, setterArgs);
 
 			// Check default value set correctly
-			Assert.assertEquals("Default value.", defaultValue, getter.apply(component));
+			checkValue("", "Default value.", defaultValue, getter.apply(component));
 
 			// The component passed in might be a child component so find the top component to lock
 			WebUtilities.getTop(component).setLocked(true);
@@ -187,86 +166,20 @@ public abstract class AbstractWComponentTestCase {
 			setActiveContext(createUIContext());
 
 			// Check default value returned for user context
-			Assert.assertEquals("User default value.", defaultValue, getter.apply(component));
+			checkValue("", "User default value.", defaultValue, getter.apply(component));
 
 			// Set user value
 			setter.accept(component, userContextValue, setterArgs);
 
 			// Check user value
-			Assert.assertEquals("User value.", userContextValue, getter.apply(component));
+			checkValue("", "User value.", userContextValue, getter.apply(component));
 
 			// Reset the context
 			resetContext();
 
 			// Check default value still correct
-			Assert.assertEquals("Reset.", defaultValue, getter.apply(component));
+			checkValue("", "Reset.", defaultValue, getter.apply(component));
 			
-		} finally {
-			resetContext();
-		}
-	}
-
-	/**
-	 * This method will test that the getter/setter methods on a component are returning the correct values in its (i)
-	 * initial state (ii) default state and (iii) user context.
-	 * <p>
-	 * If a setter method on the component has a variable argument, then an array of the variable argument type needs to
-	 * be provided via the setterArgs parameter.
-	 * </p>
-	 * <p>
-	 * For example, if the variable argument is a type {@link Serializable} then the setterArgs parameter would be set
-	 * as new Serializable[]{}. Values can also be passed in via the array.
-	 * </p>
-	 * <p>
-	 * Note that the component will be left in a dirty state after this method is invoked and the UIContext will be
-	 * reset.
-	 * </p>
-	 *
-	 * @param component the component to test the accessors on
-	 * @param method the method to test
-	 * @param initValue the initial value expected from the component
-	 * @param defaultValue the default value to be used on the shared model
-	 * @param userContextValue the value to be used with a user context
-	 * @param setterArgs array matching the variable argument type
-	 */
-	protected void assertAccessorsCorrect(final WComponent component, final String method,
-			final Object initValue,
-			final Object defaultValue, final Object userContextValue, final Object[] setterArgs) {
-		try {
-			// Check initial value
-			Object getvalue = invokeGetMethod(component, method);
-			checkValue(method, "Initial value.", initValue, getvalue);
-
-			// Set default value
-			invokeSetMethod(component, method, defaultValue, setterArgs);
-
-			// Check default value set correctly
-			getvalue = invokeGetMethod(component, method);
-			checkValue(method, "Default value.", defaultValue, getvalue);
-
-			// The component passed in might be a child component so find the top component to lock
-			WebUtilities.getTop(component).setLocked(true);
-
-			// Create a user context
-			setActiveContext(createUIContext());
-
-			// Check default value returned for user context
-			getvalue = invokeGetMethod(component, method);
-			checkValue(method, "User default value.", defaultValue, getvalue);
-
-			// Set user value
-			invokeSetMethod(component, method, userContextValue, setterArgs);
-
-			// Check user value
-			getvalue = invokeGetMethod(component, method);
-			checkValue(method, "User value.", userContextValue, getvalue);
-
-			// Reset the context
-			resetContext();
-
-			// Check default value still correct
-			getvalue = invokeGetMethod(component, method);
-			checkValue(method, "Reset.", defaultValue, getvalue);
 		} finally {
 			resetContext();
 		}
@@ -396,23 +309,6 @@ public abstract class AbstractWComponentTestCase {
 	protected void assertNoDuplicateComponentModels(AbstractWComponent wComponent, String method,
 													Object userContextValue) {
 		assertNoDuplicateComponentModels(wComponent, method, userContextValue, null);
-	}
-
-
-	/**
-	 * @param component the component to invoke the getter method on
-	 * @param methodName the name of the method
-	 * @return the value returned by the getter method
-	 */
-	private Object invokeGetMethod(final WComponent component, final String methodName) {
-		// Try property utils first
-		try {
-			return PropertyUtils.getProperty(component, methodName);
-		} catch (Exception e) {
-			throw new SystemException(
-					"Failed to get value on component for method " + methodName + " on "
-					+ component.getClass(), e);
-		}
 	}
 
 	/**

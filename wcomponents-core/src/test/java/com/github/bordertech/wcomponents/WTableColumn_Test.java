@@ -105,14 +105,13 @@ public final class WTableColumn_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testAlignAccessors() {
-		assertAccessorsCorrect(new WTableColumn("align", WText.class), "align", null,
-				WTableColumn.Alignment.LEFT,
-				WTableColumn.Alignment.RIGHT);
+		assertAccessorsCorrect(new WTableColumn("align", WText.class), WTableColumn::getAlign, WTableColumn::setAlign,
+			null, WTableColumn.Alignment.LEFT, WTableColumn.Alignment.RIGHT);
 	}
 
 	@Test
 	public void testWidthAccessors() {
-		assertAccessorsCorrect(new WTableColumn("width", WText.class), "width", 0, 1, 2);
+		assertAccessorsCorrect(new WTableColumn("width", WText.class), WTableColumn::getWidth, WTableColumn::setWidth, 0, 1, 2);
 	}
 
 	@Test

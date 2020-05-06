@@ -90,13 +90,12 @@ public class AbstractInput_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testActionOnChangeAccessors() {
-		assertAccessorsCorrect(new MyInput(), "actionOnChange", null, new TestAction(),
-				new TestAction());
+		assertAccessorsCorrect(new MyInput(), MyInput::getActionOnChange, MyInput::setActionOnChange, null, e -> {}, e -> {});
 	}
 
 	@Test
 	public void testActionObjectAccessors() {
-		assertAccessorsCorrect(new MyInput(), "actionObject", null, new Object(), new Object());
+		assertAccessorsCorrect(new MyInput(), MyInput::getActionObject, MyInput::setActionObject, null, new Object(), new Object());
 	}
 
 	@Test
@@ -113,13 +112,12 @@ public class AbstractInput_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testDefaultSubmitButtonAccessors() {
-		assertAccessorsCorrect(new MyInput(), "defaultSubmitButton", null, new WButton(),
-				new WButton());
+		assertAccessorsCorrect(new MyInput(), MyInput::getDefaultSubmitButton, MyInput::setDefaultSubmitButton, null, new WButton(), new WButton());
 	}
 
 	@Test
 	public void testMandatoryAccessors() {
-		assertAccessorsCorrect(new MyInput(), "mandatory", false, true, false);
+		assertAccessorsCorrect(new MyInput(), MyInput::isMandatory, MyInput::setMandatory, false, true, false);
 	}
 
 	@Test
@@ -137,12 +135,12 @@ public class AbstractInput_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testReadOnlyAccessors() {
-		assertAccessorsCorrect(new MyInput(), "readOnly", false, true, false);
+		assertAccessorsCorrect(new MyInput(), MyInput::isReadOnly, MyInput::setReadOnly, false, true, false);
 	}
 
 	@Test
 	public void testDisabledAccessors() {
-		assertAccessorsCorrect(new MyInput(), "disabled", false, true, false);
+		assertAccessorsCorrect(new MyInput(), MyInput::isDisabled, MyInput::setDisabled, false, true, false);
 	}
 
 	@Test

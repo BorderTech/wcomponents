@@ -52,24 +52,19 @@ public class WMultiSelectPair_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testAvailableListNameAccessors() {
-		assertAccessorsCorrect(new WMultiSelectPair(), "availableListName",
-				I18nUtilities.format(null,
-						InternalMessages.DEFAULT_MULTI_SELECT_PAIR_OPTIONS_LIST_HEADING),
-				"A", "B");
+		assertAccessorsCorrect(new WMultiSelectPair(), WMultiSelectPair::getAvailableListName, WMultiSelectPair::setAvailableListName,
+			I18nUtilities.format(null, InternalMessages.DEFAULT_MULTI_SELECT_PAIR_OPTIONS_LIST_HEADING), "A", "B");
 	}
 
 	@Test
 	public void testSelectableListNameAccessors() {
-		assertAccessorsCorrect(new WMultiSelectPair(),
-				"selectedListName",
-				I18nUtilities.format(null,
-						InternalMessages.DEFAULT_MULTI_SELECT_PAIR_SELECTIONS_LIST_HEADING),
-				"A", "B");
+		assertAccessorsCorrect(new WMultiSelectPair(), WMultiSelectPair::getSelectedListName, WMultiSelectPair::setSelectedListName,
+				I18nUtilities.format(null, InternalMessages.DEFAULT_MULTI_SELECT_PAIR_SELECTIONS_LIST_HEADING), "A", "B");
 	}
 
 	@Test
 	public void testShuffleAccessors() {
-		assertAccessorsCorrect(new WMultiSelectPair(), "shuffle", false, true, false);
+		assertAccessorsCorrect(new WMultiSelectPair(), WMultiSelectPair::isShuffle, WMultiSelectPair::setShuffle, false, true, false);
 	}
 
 	@Test

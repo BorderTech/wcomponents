@@ -87,8 +87,8 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testDateAccessors() throws ParseException {
-		assertAccessorsCorrect(new WDateField(), "date", null, DateUtilities.createDate(1, 0, 2008),
-				DateUtilities.createDate(1, 0, 2009));
+		assertAccessorsCorrect(new WDateField(), WDateField::getDate, WDateField::setDate,
+			null, DateUtilities.createDate(1, 0, 2008), DateUtilities.createDate(1, 0, 2009));
 	}
 
 	@Test
@@ -703,15 +703,15 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testMinDateAccessors() {
 		WDateField dateField = new WDateField();
-		assertAccessorsCorrect(dateField, "minDate", null, DateUtilities.createDate(01, 02, 2003),
-				DateUtilities.createDate(02, 03, 2004));
+		assertAccessorsCorrect(dateField, WDateField::getMinDate, WDateField::setMinDate,
+			null, DateUtilities.createDate(01, 02, 2003), DateUtilities.createDate(02, 03, 2004));
 	}
 
 	@Test
 	public void testMaxDateAccessors() {
 		WDateField dateField = new WDateField();
-		assertAccessorsCorrect(dateField, "maxDate", null, DateUtilities.createDate(01, 02, 2003),
-				DateUtilities.createDate(02, 03, 2004));
+		assertAccessorsCorrect(dateField, WDateField::getMaxDate, WDateField::setMaxDate,
+			null, DateUtilities.createDate(01, 02, 2003), DateUtilities.createDate(02, 03, 2004));
 	}
 
 	@Test

@@ -54,12 +54,13 @@ public class WStyledText_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testTypeAccessors() {
-		assertAccessorsCorrect(new WStyledText(), "type", Type.PLAIN, Type.DELETE, Type.EMPHASISED);
+		assertAccessorsCorrect(new WStyledText(), WStyledText::getType, WStyledText::setType,
+			Type.PLAIN, Type.DELETE, Type.EMPHASISED);
 	}
 
 	@Test
 	public void testWhitespaceModeAccessors() {
-		assertAccessorsCorrect(new WStyledText(), "whitespaceMode", WhitespaceMode.DEFAULT,
-				WhitespaceMode.PARAGRAPHS, WhitespaceMode.PRESERVE);
+		assertAccessorsCorrect(new WStyledText(), WStyledText::getWhitespaceMode, WStyledText::setWhitespaceMode,
+			WhitespaceMode.DEFAULT, WhitespaceMode.PARAGRAPHS, WhitespaceMode.PRESERVE);
 	}
 }

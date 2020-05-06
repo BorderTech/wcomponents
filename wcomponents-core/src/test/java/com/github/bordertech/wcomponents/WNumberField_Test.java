@@ -478,7 +478,8 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 		BigDecimal value = new BigDecimal(100);
 
 		// BigDecimal
-		assertAccessorsCorrect(numberField, "number", null, BigDecimal.valueOf(1), BigDecimal.valueOf(2));
+		assertAccessorsCorrect(numberField, WNumberField::getNumber, WNumberField::setNumber,
+			null, BigDecimal.valueOf(1), BigDecimal.valueOf(2));
 
 		// Long Value
 		numberField.setNumber(value.longValue());
@@ -493,7 +494,8 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 	public void testMinValueAccessors() {
 
 		WNumberField numberField = new WNumberField();
-		assertAccessorsCorrect(numberField, "minValue", null, BigDecimal.valueOf(1), BigDecimal.valueOf(2));
+		assertAccessorsCorrect(numberField, WNumberField::getMinValue, WNumberField::setMinValue,
+			null, BigDecimal.valueOf(1), BigDecimal.valueOf(2));
 
 		BigDecimal value = new BigDecimal(100);
 
@@ -511,7 +513,8 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testMaxValueAccessors() {
 		WNumberField numberField = new WNumberField();
-		assertAccessorsCorrect(numberField, "maxValue", null, BigDecimal.valueOf(1), BigDecimal.valueOf(2));
+		assertAccessorsCorrect(numberField, WNumberField::getMaxValue, WNumberField::setMaxValue,
+			null, BigDecimal.valueOf(1), BigDecimal.valueOf(2));
 
 		BigDecimal value = new BigDecimal(100);
 
@@ -529,7 +532,8 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testStepAccessors() {
 		WNumberField numberField = new WNumberField();
-		assertAccessorsCorrect(numberField, "step", null, BigDecimal.valueOf(1), BigDecimal.valueOf(2));
+		assertAccessorsCorrect(numberField, WNumberField::getStep, WNumberField::setStep,
+			null, BigDecimal.valueOf(1), BigDecimal.valueOf(2));
 
 		BigDecimal value = new BigDecimal(100);
 
@@ -546,7 +550,7 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testDecimalPlacesAccessors() {
 		WNumberField numberField = new WNumberField();
-		assertAccessorsCorrect(numberField, "decimalPlaces", 0, 1, 2);
+		assertAccessorsCorrect(numberField, WNumberField::getDecimalPlaces, WNumberField::setDecimalPlaces, 0, 1, 2);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -557,7 +561,7 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testColumnsAccessors() {
 		WNumberField numberField = new WNumberField();
-		assertAccessorsCorrect(numberField, "columns", 0, 1, 2);
+		assertAccessorsCorrect(numberField, WNumberField::getColumns, WNumberField::setColumns, 0, 1, 2);
 	}
 
 	@Test

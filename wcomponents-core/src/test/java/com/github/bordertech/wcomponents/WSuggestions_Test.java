@@ -75,30 +75,30 @@ public class WSuggestions_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testSuggestionAccessors() {
-		assertAccessorsCorrect(new WSuggestions(), "suggestions", Collections.EMPTY_LIST,
-				DEFAULT_OPTIONS,
-				DEFAULT_OPTIONS2);
+		assertAccessorsCorrect(new WSuggestions(), WSuggestions::getSuggestions, WSuggestions::setSuggestions,
+			Collections.EMPTY_LIST, DEFAULT_OPTIONS, DEFAULT_OPTIONS2);
 	}
 
 	@Test
 	public void testLookupTableAccessors() {
-		assertAccessorsCorrect(new WSuggestions(), "lookupTable", null, "X", "Y");
+		assertAccessorsCorrect(new WSuggestions(), WSuggestions::getLookupTable, WSuggestions::setLookupTable, null, "X", "Y");
 	}
 
 	@Test
 	public void testRefreshActionAccessors() {
-		assertAccessorsCorrect(new WSuggestions(), "refreshAction", null, new TestAction(),
-				new TestAction());
+		assertAccessorsCorrect(new WSuggestions(), WSuggestions::getRefreshAction, WSuggestions::setRefreshAction,
+			null, e -> {}, e -> {});
 	}
 
 	@Test
 	public void testAutocompleteAccessors() {
-		assertAccessorsCorrect(new WSuggestions(), "autocomplete", WSuggestions.Autocomplete.BOTH, WSuggestions.Autocomplete.LIST, WSuggestions.Autocomplete.BOTH);
+		assertAccessorsCorrect(new WSuggestions(), WSuggestions::getAutocomplete, WSuggestions::setAutocomplete,
+			WSuggestions.Autocomplete.BOTH, WSuggestions.Autocomplete.LIST, WSuggestions.Autocomplete.BOTH);
 	}
 
 	@Test
 	public void testMinRefreshAccessors() {
-		assertAccessorsCorrect(new WSuggestions(), "minRefresh", 0, 1, 2);
+		assertAccessorsCorrect(new WSuggestions(), WSuggestions::getMinRefresh, WSuggestions::setMinRefresh, 0, 1, 2);
 	}
 
 	@Test(expected = IllegalArgumentException.class)

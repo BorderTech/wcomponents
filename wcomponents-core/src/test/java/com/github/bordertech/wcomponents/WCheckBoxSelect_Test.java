@@ -49,12 +49,12 @@ public class WCheckBoxSelect_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testFramelessAccessors() {
-		assertAccessorsCorrect(new WCheckBoxSelect(), "frameless", false, true, false);
+		assertAccessorsCorrect(new WCheckBoxSelect(), WCheckBoxSelect::isFrameless, WCheckBoxSelect::setFrameless, false, true, false);
 	}
 
 	@Test
 	public void testButtonColumnsAccessors() {
-		assertAccessorsCorrect(new WCheckBoxSelect(), "buttonColumns", 0, 1, 2);
+		assertAccessorsCorrect(new WCheckBoxSelect(), WCheckBoxSelect::getButtonColumns, WCheckBoxSelect::setButtonColumns, 0, 1, 2);
 		try {
 			WCheckBoxSelect checkboxSelect = new WCheckBoxSelect();
 			checkboxSelect.setButtonColumns(0);
@@ -66,8 +66,8 @@ public class WCheckBoxSelect_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testButtonlayoutAccessors() {
-		assertAccessorsCorrect(new WCheckBoxSelect(), "buttonLayout", WCheckBoxSelect.LAYOUT_STACKED,
-				WCheckBoxSelect.LAYOUT_COLUMNS, WCheckBoxSelect.LAYOUT_FLAT);
+		assertAccessorsCorrect(new WCheckBoxSelect(), WCheckBoxSelect::getButtonLayout, WCheckBoxSelect::setButtonLayout,
+			WCheckBoxSelect.LAYOUT_STACKED, WCheckBoxSelect.LAYOUT_COLUMNS, WCheckBoxSelect.LAYOUT_FLAT);
 	}
 
 	@Test

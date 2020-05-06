@@ -20,12 +20,12 @@ public class WWindow_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testSetWidth() {
-		assertAccessorsCorrect(new WWindow(), "width", 800, 123, 456);
+		assertAccessorsCorrect(new WWindow(), WWindow::getWidth, WWindow::setWidth, 800, 123, 456);
 	}
 
 	@Test
 	public void testSetHeight() {
-		assertAccessorsCorrect(new WWindow(), "height", 600, 123, 456);
+		assertAccessorsCorrect(new WWindow(), WWindow::getHeight, WWindow::setHeight, 600, 123, 456);
 	}
 
 	@Test

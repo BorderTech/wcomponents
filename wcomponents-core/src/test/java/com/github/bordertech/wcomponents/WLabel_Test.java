@@ -84,7 +84,7 @@ public class WLabel_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testSanitizeOnOutputAccessors() {
-		assertAccessorsCorrect(new WLabel("test"), "sanitizeOnOutput", false, true, false);
+		assertAccessorsCorrect(new WLabel("test"), WLabel::isSanitizeOnOutput, WLabel::setSanitizeOnOutput, false, true, false);
 	}
 
 	// sanitizeOnOutput runs a lax HTML sanitizer rule set but only if encodeText is false. FORM elements are always

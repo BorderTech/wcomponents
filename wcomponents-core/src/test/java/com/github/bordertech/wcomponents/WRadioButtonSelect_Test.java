@@ -49,12 +49,12 @@ public class WRadioButtonSelect_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testFramelessAccessors() {
-		assertAccessorsCorrect(new WRadioButtonSelect(), "frameless", false, true, false);
+		assertAccessorsCorrect(new WRadioButtonSelect(), WRadioButtonSelect::isFrameless, WRadioButtonSelect::setFrameless, false, true, false);
 	}
 
 	@Test
 	public void testButtonColumnsAccessors() {
-		assertAccessorsCorrect(new WRadioButtonSelect(), "buttonColumns", 0, 1, 2);
+		assertAccessorsCorrect(new WRadioButtonSelect(), WRadioButtonSelect::getButtonColumns, WRadioButtonSelect::setButtonColumns, 0, 1, 2);
 		try {
 			WRadioButtonSelect radioButtonSelect = new WRadioButtonSelect();
 			radioButtonSelect.setButtonColumns(0);
@@ -66,9 +66,8 @@ public class WRadioButtonSelect_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testButtonlayoutAccessors() {
-		assertAccessorsCorrect(new WRadioButtonSelect(), "buttonLayout",
-				WRadioButtonSelect.LAYOUT_STACKED,
-				WRadioButtonSelect.LAYOUT_COLUMNS, WRadioButtonSelect.LAYOUT_FLAT);
+		assertAccessorsCorrect(new WRadioButtonSelect(), WRadioButtonSelect::getButtonLayout, WRadioButtonSelect::setButtonLayout,
+			WRadioButtonSelect.LAYOUT_STACKED, WRadioButtonSelect.LAYOUT_COLUMNS, WRadioButtonSelect.LAYOUT_FLAT);
 	}
 
 	@Test
@@ -91,8 +90,8 @@ public class WRadioButtonSelect_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testAjaxTargetAccessors() {
-		assertAccessorsCorrect(new WRadioButtonSelect(), "ajaxTarget", null, new WPanel(),
-				new WPanel());
+		assertAccessorsCorrect(new WRadioButtonSelect(), WRadioButtonSelect::getAjaxTarget, WRadioButtonSelect::setAjaxTarget,
+			null, new WPanel(), new WPanel());
 	}
 
 }

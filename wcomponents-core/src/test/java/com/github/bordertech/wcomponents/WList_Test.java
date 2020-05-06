@@ -49,22 +49,26 @@ public class WList_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testMarginAccessors() {
-		assertAccessorsCorrect(new WList(Type.FLAT), "margin", null, new Margin(GAP), new Margin(Size.LARGE));
+		assertAccessorsCorrect(new WList(Type.FLAT), WList::getMargin, WList::setMargin,
+			null, new Margin(GAP), new Margin(Size.LARGE));
 	}
 
 	@Test
 	public void testTypeAccessors() {
-		assertAccessorsCorrect(new WList(Type.FLAT), "type", Type.FLAT, Type.STACKED, Type.STRIPED);
+		assertAccessorsCorrect(new WList(Type.FLAT), WList::getType, WList::setType,
+			Type.FLAT, Type.STACKED, Type.STRIPED);
 	}
 
 	@Test
 	public void testSeparatorAccessors() {
-		assertAccessorsCorrect(new WList(Type.FLAT), "separator", null, Separator.BAR, Separator.DOT);
+		assertAccessorsCorrect(new WList(Type.FLAT), WList::getSeparator, WList::setSeparator,
+			null, Separator.BAR, Separator.DOT);
 	}
 
 	@Test
 	public void testRenderBorderAccessors() {
-		assertAccessorsCorrect(new WList(Type.FLAT), "renderBorder", false, true, false);
+		assertAccessorsCorrect(new WList(Type.FLAT), WList::isRenderBorder, WList::setRenderBorder,
+			false, true, false);
 	}
 
 	// Test of the deprecated constructor.

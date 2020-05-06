@@ -162,9 +162,8 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testSelectedAccessors() {
-		assertAccessorsCorrect(new MyWMultiSelectList(OPTIONS, true), "selected",
-				Collections.EMPTY_LIST, SELECTED_A,
-				SELECTED_A_B);
+		assertAccessorsCorrect(new MyWMultiSelectList(OPTIONS, true), MyWMultiSelectList::getSelected, MyWMultiSelectList::setSelected,
+				Collections.EMPTY_LIST, SELECTED_A, SELECTED_A_B);
 	}
 
 	@Test
@@ -1373,13 +1372,13 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testMinSelectAccessors() {
 		AbstractWMultiSelectList multi = new MyWMultiSelectList(OPTIONS, false);
-		assertAccessorsCorrect(multi, "minSelect", 0, 1, 2);
+		assertAccessorsCorrect(multi, AbstractWMultiSelectList::getMinSelect, AbstractWMultiSelectList::setMinSelect, 0, 1, 2);
 	}
 
 	@Test
 	public void testMaxSelectAccessors() {
 		AbstractWMultiSelectList multi = new MyWMultiSelectList(OPTIONS, false);
-		assertAccessorsCorrect(multi, "maxSelect", 0, 1, 2);
+		assertAccessorsCorrect(multi, AbstractWMultiSelectList::getMaxSelect, AbstractWMultiSelectList::setMaxSelect, 0, 1, 2);
 	}
 
 	@Test
