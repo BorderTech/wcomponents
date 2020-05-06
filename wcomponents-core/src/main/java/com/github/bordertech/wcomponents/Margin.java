@@ -136,9 +136,7 @@ public class Margin implements Serializable {
 	/**
 	 * A margin equal on all sizes.
 	 * @param all the size of the margin to be used on all sides of the component.
-	 * @deprecated Use Margin.ZERO, Margin.SMALL, Margin.MEDIUM, Margin.LARGE or Margin.XL.
 	 */
-	@Deprecated
 	public Margin(final Size all) {
 		this.all = all;
 		this.top = null;
