@@ -307,7 +307,7 @@ public class WRepeater_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testNamingContextAccessors() {
-		assertAccessorsCorrect(new WRepeater(), "namingContext", false, true, false);
+		assertAccessorsCorrect(new WRepeater(), WRepeater::isNamingContext, WRepeater::setNamingContext, false, true, false);
 	}
 
 	@Test

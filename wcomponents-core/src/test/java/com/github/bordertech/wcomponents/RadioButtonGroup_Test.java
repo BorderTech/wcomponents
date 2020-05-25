@@ -274,12 +274,12 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testSelectedValueAccessors() {
-		assertAccessorsCorrect(new RadioButtonGroup(), "selectedValue", null, "A", "B");
+		assertAccessorsCorrect(new RadioButtonGroup(), RadioButtonGroup::getSelectedValue, RadioButtonGroup::setSelectedValue, null, "A", "B");
 	}
 
 	@Test
 	public void testSubmitOnChangeAccessors() {
-		assertAccessorsCorrect(new RadioButtonGroup(), "submitOnChange", false, true, false);
+		assertAccessorsCorrect(new RadioButtonGroup(), RadioButtonGroup::isSubmitOnChange, RadioButtonGroup::setSubmitOnChange, false, true, false);
 	}
 
 	@Test

@@ -131,8 +131,8 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testSelectedAccessors() {
-		assertAccessorsCorrect(new MyWSingleSelectList(OPTIONS, true), "selected", null, OPTION_A,
-				OPTION_B);
+		assertAccessorsCorrect(new MyWSingleSelectList(OPTIONS, true), MyWSingleSelectList::getSelected, MyWSingleSelectList::setSelected,
+			null, OPTION_A, OPTION_B);
 	}
 
 	@Test

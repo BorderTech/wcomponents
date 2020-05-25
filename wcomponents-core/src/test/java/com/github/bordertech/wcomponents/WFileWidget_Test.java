@@ -47,8 +47,8 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testFileTypesAccessors() {
-		assertAccessorsCorrect(new WFileWidget(), "fileTypes", Collections.EMPTY_LIST,
-				Arrays.asList("text/plain", "image/gif"), Arrays.asList("image/jpeg"));
+		assertAccessorsCorrect(new WFileWidget(), WFileWidget::getFileTypes, WFileWidget::setFileTypes,
+			Collections.EMPTY_LIST, Arrays.asList("text/plain", "image/gif"), Arrays.asList("image/jpeg"));
 	}
 
 	@Test
@@ -86,8 +86,7 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testMaxFileSizeAccessors() {
-		assertAccessorsCorrect(new WFileWidget(), "maxFileSize", Long.valueOf(0), Long.valueOf(1),
-				Long.valueOf(2));
+		assertAccessorsCorrect(new WFileWidget(), WFileWidget::getMaxFileSize, WFileWidget::setMaxFileSize, 0L, 1L, 2L);
 	}
 
 	@Test

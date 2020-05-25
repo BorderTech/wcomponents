@@ -109,12 +109,12 @@ public class WMenuItem_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testActionAccessors() {
-		assertAccessorsCorrect(new WMenuItem(""), "action", null, new TestAction(), new TestAction());
+		assertAccessorsCorrect(new WMenuItem(""), WMenuItem::getAction, WMenuItem::setAction, null, e -> {}, e -> {});
 	}
 
 	@Test
 	public void testUrlAccessors() {
-		assertAccessorsCorrect(new WMenuItem(""), "url", null, "A", "B");
+		assertAccessorsCorrect(new WMenuItem(""), WMenuItem::getUrl, WMenuItem::setUrl, null, "A", "B");
 	}
 
 	@Test
@@ -139,12 +139,12 @@ public class WMenuItem_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testTextAccessors() {
-		assertAccessorsCorrect(new WMenuItem("test"), "text", "test", "A", "B");
+		assertAccessorsCorrect(new WMenuItem("test"), WMenuItem::getText, WMenuItem::setText, "test", "A", "B");
 	}
 
 	@Test
 	public void testTargetWindowAccessors() {
-		assertAccessorsCorrect(new WMenuItem(""), "targetWindow", null, "A", "B");
+		assertAccessorsCorrect(new WMenuItem(""), WMenuItem::getTargetWindow, WMenuItem::setTargetWindow, null, "A", "B");
 	}
 
 	@Test
@@ -180,12 +180,12 @@ public class WMenuItem_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testSelectabilityAccessors() {
-		assertAccessorsCorrect(new WMenuItem(""), "selectability", null, true, false);
+		assertAccessorsCorrect(new WMenuItem(""), WMenuItem::getSelectability, WMenuItem::setSelectability, null, true, false);
 	}
 
 	@Test
 	public void testDisabledAccessors() {
-		assertAccessorsCorrect(new WMenuItem(""), "disabled", false, true, false);
+		assertAccessorsCorrect(new WMenuItem(""), WMenuItem::isDisabled, WMenuItem::setDisabled, false, true, false);
 	}
 
 	@Test
@@ -193,7 +193,7 @@ public class WMenuItem_Test extends AbstractWComponentTestCase {
 		WMenu menu = new WMenu();
 		WMenuItem item = new WMenuItem("");
 		menu.add(item);
-		assertAccessorsCorrect(item, "accessKey", '\0', 'A', 'B');
+		assertAccessorsCorrect(item, WMenuItem::getAccessKey, WMenuItem::setAccessKey, '\0', 'A', 'B');
 	}
 
 	@Test
@@ -235,22 +235,22 @@ public class WMenuItem_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testActionCommandAccessors() {
-		assertAccessorsCorrect(new WMenuItem(""), "actionCommand", null, "A", "B");
+		assertAccessorsCorrect(new WMenuItem(""), WMenuItem::getActionCommand, WMenuItem::setActionCommand, null, "A", "B");
 	}
 
 	@Test
 	public void testActionObjectAccessors() {
-		assertAccessorsCorrect(new WMenuItem(""), "actionObject", null, "A", "B");
+		assertAccessorsCorrect(new WMenuItem(""), WMenuItem::getActionObject, WMenuItem::setActionObject, null, "A", "B");
 	}
 
 	@Test
 	public void testMessageAccessors() {
-		assertAccessorsCorrect(new WMenuItem(""), "message", null, "A", "B", new Serializable[]{});
+		assertAccessorsCorrect(new WMenuItem(""), WMenuItem::getMessage, WMenuItem::setMessage, null, "A", "B", new Serializable[]{});
 	}
 
 	@Test
 	public void testCancelAccessors() {
-		assertAccessorsCorrect(new WMenuItem(""), "cancel", false, true, false);
+		assertAccessorsCorrect(new WMenuItem(""), WMenuItem::isCancel, WMenuItem::setCancel, false, true, false);
 	}
 
 	@Test

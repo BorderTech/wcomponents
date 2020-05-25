@@ -78,7 +78,7 @@ public class WField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testInputWidthAccessors() {
 		WField field = new WField("dummy1", new WTextField());
-		assertAccessorsCorrect(field, "inputWidth", 0, 1, 2);
+		assertAccessorsCorrect(field, WField::getInputWidth, WField::setInputWidth, 0, 1, 2);
 	}
 
 	@Test

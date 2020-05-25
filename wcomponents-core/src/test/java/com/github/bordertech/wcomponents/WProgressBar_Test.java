@@ -69,8 +69,8 @@ public class WProgressBar_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testTypeAccessors() {
-		assertAccessorsCorrect(new WProgressBar(), "progressBarType", WProgressBar.DEFAULT_TYPE, WProgressBar.ProgressBarType.SMALL,
-				WProgressBar.ProgressBarType.NORMAL);
+		assertAccessorsCorrect(new WProgressBar(), WProgressBar::getProgressBarType, WProgressBar::setProgressBarType,
+			WProgressBar.DEFAULT_TYPE, WProgressBar.ProgressBarType.SMALL, WProgressBar.ProgressBarType.NORMAL);
 	}
 
 	@Test
@@ -82,7 +82,7 @@ public class WProgressBar_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testMaxAccessors() {
-		assertAccessorsCorrect(new WProgressBar(), "max", 0, 10, 20);
+		assertAccessorsCorrect(new WProgressBar(), WProgressBar::getMax, WProgressBar::setMax, 0, 10, 20);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -94,7 +94,8 @@ public class WProgressBar_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testValueAccessors() {
 		int max = 10;
-		assertAccessorsCorrect(new WProgressBar(max), "value", 0, (max - 2), (max - 1));
+		assertAccessorsCorrect(new WProgressBar(max), WProgressBar::getValue, WProgressBar::setValue,
+			0, (max - 2), (max - 1));
 	}
 
 	@Test(expected = IllegalArgumentException.class)

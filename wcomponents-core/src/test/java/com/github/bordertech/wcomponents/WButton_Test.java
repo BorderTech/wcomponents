@@ -590,7 +590,7 @@ public class WButton_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testClientCommandOnlyAccessors() {
-		assertAccessorsCorrect(new WButton("client"), "clientCommandOnly", false, true, false);
+		assertAccessorsCorrect(new WButton("client"), WButton::isClientCommandOnly, WButton::setClientCommandOnly, false, true, false);
 	}
 
 	/**

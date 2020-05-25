@@ -322,8 +322,8 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testMaxFileSizeAccessors() {
-		assertAccessorsCorrect(new WMultiFileWidget(), "maxFileSize", (long) 10240000, (long) 1,
-				(long) 2);
+		assertAccessorsCorrect(new WMultiFileWidget(), WMultiFileWidget::getMaxFileSize, WMultiFileWidget::setMaxFileSize,
+			10240000L, 1L, 2L);
 	}
 
 	@Test
@@ -341,7 +341,7 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testMaxFilesAccessors() {
-		assertAccessorsCorrect(new WMultiFileWidget(), "maxFiles", 0, 1, 2);
+		assertAccessorsCorrect(new WMultiFileWidget(), WMultiFileWidget::getMaxFiles, WMultiFileWidget::setMaxFiles, 0, 1, 2);
 	}
 
 //    @Test

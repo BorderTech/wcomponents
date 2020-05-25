@@ -13,7 +13,7 @@ public class AbstractNamingContextContainer_Test extends AbstractWComponentTestC
 
 	@Test
 	public void testNamingContextAccessors() {
-		assertAccessorsCorrect(new MyContainer(), "namingContext", false, true, false);
+		assertAccessorsCorrect(new MyContainer(), MyContainer::isNamingContext, MyContainer::setNamingContext, false, true, false);
 	}
 
 	@Test

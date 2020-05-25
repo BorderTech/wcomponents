@@ -49,7 +49,7 @@ public class WBeanContainer_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testNamingContextAccessors() {
-		assertAccessorsCorrect(new WBeanContainer(), "namingContext", false, true, false);
+		assertAccessorsCorrect(new WBeanContainer(), WBeanContainer::isNamingContext, WBeanContainer::setNamingContext, false, true, false);
 	}
 
 	@Test

@@ -67,108 +67,106 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testRenderFootersAccessors() {
-		assertAccessorsCorrect(new WTable(), "renderColumnFooters", false, true, false);
+		assertAccessorsCorrect(new WTable(), WTable::isRenderColumnFooters, WTable::setRenderColumnFooters, false, true, false);
 	}
 
 	@Test
 	public void testMarginAccessors() {
-		assertAccessorsCorrect(new WTable(), "margin", null, new Margin(1), new Margin(2));
+		assertAccessorsCorrect(new WTable(), WTable::getMargin, WTable::setMargin,
+			null, new Margin(1), new Margin(2));
 	}
 
 	@Test
 	public void testDataModelAccessors() {
 		TableModel model1 = createModel(new String[0][0]);
 		TableModel model2 = createModel(new String[0][0]);
-		assertAccessorsCorrect(new WTable(), "tableModel", EmptyTableModel.INSTANCE, model1, model2);
+		assertAccessorsCorrect(new WTable(), WTable::getTableModel, WTable::setTableModel,
+			EmptyTableModel.INSTANCE, model1, model2);
 	}
 
 	@Test
 	public void testSeparatorTypeAccessors() {
-		assertAccessorsCorrect(new WTable(), "separatorType", SeparatorType.NONE,
-				SeparatorType.HORIZONTAL,
-				SeparatorType.VERTICAL);
+		assertAccessorsCorrect(new WTable(), WTable::getSeparatorType, WTable::setSeparatorType,
+			SeparatorType.NONE, SeparatorType.HORIZONTAL, SeparatorType.VERTICAL);
 	}
 
 	@Test
 	public void testStripingTypeAccessors() {
-		assertAccessorsCorrect(new WTable(), "stripingType", StripingType.NONE, StripingType.ROWS,
-				StripingType.COLUMNS);
+		assertAccessorsCorrect(new WTable(), WTable::getStripingType, WTable::setStripingType,
+			StripingType.NONE, StripingType.ROWS, StripingType.COLUMNS);
 	}
 
 	@Test
 	public void testExpandAllTypeAccessors() {
-		assertAccessorsCorrect(new WTable(), "expandAll", false, true, false);
+		assertAccessorsCorrect(new WTable(), WTable::isExpandAll, WTable::setExpandAll, false, true, false);
 	}
 
 	@Test
 	public void testExpandModeAccessors() {
-		assertAccessorsCorrect(new WTable(), "expandMode", ExpandMode.NONE, ExpandMode.LAZY,
-				ExpandMode.DYNAMIC);
+		assertAccessorsCorrect(new WTable(), WTable::getExpandMode, WTable::setExpandMode,
+			ExpandMode.NONE, ExpandMode.LAZY, ExpandMode.DYNAMIC);
 	}
 
 	@Test
 	public void testPaginationModeAccessors() {
-		assertAccessorsCorrect(new WTable(), "paginationMode", PaginationMode.NONE,
-				PaginationMode.CLIENT,
-				PaginationMode.DYNAMIC);
+		assertAccessorsCorrect(new WTable(), WTable::getPaginationMode, WTable::setPaginationMode,
+			PaginationMode.NONE, PaginationMode.CLIENT, PaginationMode.DYNAMIC);
 	}
 
 	@Test
 	public void testPaginationLocationAccessors() {
-		assertAccessorsCorrect(new WTable(), "paginationLocation", PaginationLocation.AUTO,
-				PaginationLocation.TOP,
-				PaginationLocation.BOTH);
+		assertAccessorsCorrect(new WTable(), WTable::getPaginationLocation, WTable::setPaginationLocation,
+			PaginationLocation.AUTO, PaginationLocation.TOP, PaginationLocation.BOTH);
 	}
 
 	@Test
 	public void testSortModeAccessors() {
-		assertAccessorsCorrect(new WTable(), "sortMode", SortMode.NONE, SortMode.DYNAMIC,
-				SortMode.NONE);
+		assertAccessorsCorrect(new WTable(), WTable::getSortMode, WTable::setSortMode,
+			SortMode.NONE, SortMode.DYNAMIC, SortMode.NONE);
 	}
 
 	@Test
 	public void testSelectModeAccessors() {
-		assertAccessorsCorrect(new WTable(), "selectMode", SelectMode.NONE, SelectMode.SINGLE,
-				SelectMode.MULTIPLE);
+		assertAccessorsCorrect(new WTable(), WTable::getSelectMode, WTable::setSelectMode,
+			SelectMode.NONE, SelectMode.SINGLE, SelectMode.MULTIPLE);
 	}
 
 	@Test
 	public void testSelectAllTypeAccessors() {
-		assertAccessorsCorrect(new WTable(), "selectAllMode", SelectAllType.TEXT,
-				SelectAllType.CONTROL,
-				SelectAllType.TEXT);
+		assertAccessorsCorrect(new WTable(), WTable::getSelectAllMode, WTable::setSelectAllMode,
+			SelectAllType.TEXT, SelectAllType.CONTROL, SelectAllType.TEXT);
 	}
 
 	@Test
 	public void testToggleSubRowSelectionAccessors() {
-		assertAccessorsCorrect(new WTable(), "toggleSubRowSelection", false, true, false);
+		assertAccessorsCorrect(new WTable(), WTable::isToggleSubRowSelection, WTable::setToggleSubRowSelection, false, true, false);
 	}
 
 	@Test
 	public void testCaptionAccessors() {
-		assertAccessorsCorrect(new WTable(), "caption", null, "caption1", "caption2");
+		assertAccessorsCorrect(new WTable(), WTable::getCaption, WTable::setCaption, null, "caption1", "caption2");
 	}
 
 	@Test
 	public void testRowHeadersAccessors() {
-		assertAccessorsCorrect(new WTable(), "rowHeaders", false, true, false);
+		assertAccessorsCorrect(new WTable(), WTable::isRowHeaders, WTable::setRowHeaders, false, true, false);
 	}
 
 	@Test
 	public void testNoDataMessageAccessors() {
 		String msg = I18nUtilities.format(null, InternalMessages.DEFAULT_NO_TABLE_DATA);
-		assertAccessorsCorrect(new WTable(), "noDataMessage", msg, "nodata1", "nodata2");
+		assertAccessorsCorrect(new WTable(), WTable::getNoDataMessage, WTable::setNoDataMessage, msg, "nodata1", "nodata2");
 	}
 
 	@Test
 	public void testSelectionChangeActionAccessors() {
-		assertAccessorsCorrect(new WTable(), "selectionChangeAction", null, new TestAction(),
-				new TestAction());
+		assertAccessorsCorrect(new WTable(), WTable::getSelectionChangeAction, WTable::setSelectionChangeAction,
+			null, e -> {}, e -> {});
 	}
 
 	@Test
 	public void testRowsPerPageAccessors() {
-		assertAccessorsCorrect(new WTable(), "rowsPerPage", 10, 5, 7);
+		assertAccessorsCorrect(new WTable(), WTable::getRowsPerPage, WTable::setRowsPerPage, 10, 5, 7);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -202,13 +200,13 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		table.setPaginationMode(PaginationMode.CLIENT);
 		table.setRowsPerPageOptions(Arrays.asList(0, 1, 2));
 		table.setRowsPerPage(0);
-		assertAccessorsCorrect(table, "rowsPerPage", 0, 1, 2);
+		assertAccessorsCorrect(table, WTable::getRowsPerPage, WTable::setRowsPerPage, 0, 1, 2);
 	}
 
 	@Test
 	public void testRowsPerPageOptionsAccessors() {
-		assertAccessorsCorrect(new WTable(), "rowsPerPageOptions", null, Arrays.asList(10, 20, 30),
-				Arrays.asList(11, 22, 33));
+		assertAccessorsCorrect(new WTable(), WTable::getRowsPerPageOptions, WTable::setRowsPerPageOptions,
+			null, Arrays.asList(10, 20, 30), Arrays.asList(11, 22, 33));
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -268,7 +266,7 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		table.setTableModel(createModel(new String[100][1]));
 		table.setPaginationMode(PaginationMode.CLIENT);
 		table.setRowsPerPage(10);
-		assertAccessorsCorrect(table, "currentPage", 0, 5, 7);
+		assertAccessorsCorrect(table, WTable::getCurrentPage, WTable::setCurrentPage, 0, 5, 7);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -329,7 +327,8 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		Set<Object> rows2 = new HashSet<Object>(Arrays.asList(Arrays.asList(3), Arrays.asList(4),
 				Arrays.asList(5)));
 
-		assertAccessorsCorrect(table, "selectedRows", Collections.EMPTY_SET, rows1, rows2);
+		assertAccessorsCorrect(table, WTable::getSelectedRows, WTable::setSelectedRows,
+			Collections.EMPTY_SET, rows1, rows2);
 	}
 
 	@Test
@@ -447,7 +446,8 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		Set<Object> rows2 = new HashSet<Object>(Arrays.asList(Arrays.asList(3), Arrays.asList(4),
 				Arrays.asList(5)));
 
-		assertAccessorsCorrect(table, "expandedRows", Collections.EMPTY_SET, rows1, rows2);
+		assertAccessorsCorrect(table, WTable::getExpandedRows, WTable::setExpandedRows,
+			Collections.EMPTY_SET, rows1, rows2);
 	}
 
 	@Test
@@ -758,7 +758,7 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 
 		int[] order1 = new int[]{0, 1};
 		int[] order2 = new int[]{1};
-		assertAccessorsCorrect(table, "columnOrder", null, order1, order2);
+		assertAccessorsCorrect(table, WTable::getColumnOrder, WTable::setColumnOrder, null, order1, order2);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -1230,7 +1230,7 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testNamingContextAccessors() {
-		assertAccessorsCorrect(new WTable(), "namingContext", false, true, false);
+		assertAccessorsCorrect(new WTable(), WTable::isNamingContext, WTable::setNamingContext, false, true, false);
 	}
 
 	@Test

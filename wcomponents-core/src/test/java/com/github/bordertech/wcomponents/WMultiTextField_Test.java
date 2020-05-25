@@ -124,37 +124,40 @@ public class WMultiTextField_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testTextInputsAccessors() {
-		assertAccessorsCorrect(new WMultiTextField(), "textInputs", null, ENTERED_1, ENTERED_1_2);
+		assertAccessorsCorrect(new WMultiTextField(), WMultiTextField::getTextInputs, WMultiTextField::setTextInputs,
+			null, ENTERED_1, ENTERED_1_2);
 	}
 
 	@Test
 	public void testMaxInputsAccessors() {
-		assertAccessorsCorrect(new WMultiTextField(), "maxInputs", 0, 1, 2);
+		assertAccessorsCorrect(new WMultiTextField(), WMultiTextField::getMaxInputs, WMultiTextField::setMaxInputs, 0, 1, 2);
 	}
 
 	@Test
 	public void testColumnsAccessors() {
-		assertAccessorsCorrect(new WMultiTextField(), "columns", 0, 1, 2);
+		assertAccessorsCorrect(new WMultiTextField(), WMultiTextField::getColumns, WMultiTextField::setColumns, 0, 1, 2);
 	}
 
 	@Test
 	public void testMinLengthAccessors() {
-		assertAccessorsCorrect(new WMultiTextField(), "minLength", 0, 1, 2);
+		assertAccessorsCorrect(new WMultiTextField(), WMultiTextField::getMinLength, WMultiTextField::setMinLength, 0, 1, 2);
 	}
 
 	@Test
 	public void testMaxLengthAccessors() {
-		assertAccessorsCorrect(new WMultiTextField(), "maxLength", 0, 1, 2);
+		assertAccessorsCorrect(new WMultiTextField(), WMultiTextField::getMaxLength, WMultiTextField::setMaxLength, 0, 1, 2);
 	}
 
 	@Test
 	public void testPatternAccessors() {
-		assertAccessorsCorrect(new WMultiTextField(), "pattern", null, "test1", "test2");
+		assertAccessorsCorrect(new WMultiTextField(), WMultiTextField::getPattern, WMultiTextField::setPattern,
+			null, "test1", "test2");
 	}
 
 	@Test
 	public void testplaceholderAccessors() {
-		assertAccessorsCorrect(new WMultiTextField(), "placeholder", null, "test1", "test2");
+		assertAccessorsCorrect(new WMultiTextField(), WMultiTextField::getPlaceholder, WMultiTextField::setPlaceholder,
+			null, "test1", "test2");
 	}
 
 	@Test(expected = PatternSyntaxException.class)

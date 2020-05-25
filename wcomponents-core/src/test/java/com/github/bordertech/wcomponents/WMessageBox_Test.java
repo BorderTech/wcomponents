@@ -57,8 +57,8 @@ public class WMessageBox_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testTypeAccessors() {
-		assertAccessorsCorrect(new WMessageBox(WMessageBox.SUCCESS), "type", WMessageBox.SUCCESS,
-				WMessageBox.ERROR, WMessageBox.WARN);
+		assertAccessorsCorrect(new WMessageBox(WMessageBox.SUCCESS), WMessageBox::getType, WMessageBox::setType,
+			WMessageBox.SUCCESS, WMessageBox.ERROR, WMessageBox.WARN);
 	}
 
 	@Test

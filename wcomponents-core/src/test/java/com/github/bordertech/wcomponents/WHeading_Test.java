@@ -59,15 +59,14 @@ public class WHeading_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testMarginAccessors() {
-		assertAccessorsCorrect(new WHeading(HeadingLevel.H1, "test"), "margin", null, new Margin(1),
-				new Margin(2));
+		assertAccessorsCorrect(new WHeading(HeadingLevel.H1, "test"), WHeading::getMargin, WHeading::setMargin,
+			null, new Margin(1), new Margin(2));
 	}
 
 	@Test
 	public void testHeadingLevelAccessors() {
-		assertAccessorsCorrect(new WHeading(HeadingLevel.H1, "test"), "headingLevel",
-				HeadingLevel.H1, HeadingLevel.H2,
-				HeadingLevel.H3);
+		assertAccessorsCorrect(new WHeading(HeadingLevel.H1, "test"), WHeading::getHeadingLevel, WHeading::setHeadingLevel,
+			HeadingLevel.H1, HeadingLevel.H2, HeadingLevel.H3);
 	}
 
 }
