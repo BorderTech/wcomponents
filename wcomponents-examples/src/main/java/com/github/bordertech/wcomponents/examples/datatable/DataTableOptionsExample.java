@@ -8,7 +8,6 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.TableDataModel;
 import com.github.bordertech.wcomponents.TableTreeNode;
 import com.github.bordertech.wcomponents.TreeTableDataModel;
-import com.github.bordertech.wcomponents.WBeanContainer;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WContainer;
@@ -852,7 +851,7 @@ public class DataTableOptionsExample extends WContainer {
 	 *
 	 * @since 1.0.0
 	 */
-	public static final class ExtraDetailsPanel extends WBeanContainer {
+	public static final class ExtraDetailsPanel extends WContainer {
 
 		/**
 		 * Construct the component.

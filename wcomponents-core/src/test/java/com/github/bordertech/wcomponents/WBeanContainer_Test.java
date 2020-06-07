@@ -13,7 +13,7 @@ public class WBeanContainer_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testChildAccessors() {
-		WBeanContainer container = new WBeanContainer();
+		WContainer container = new WContainer();
 
 		// Check no children
 		Assert.assertEquals("Should have no child count", 0, container.getChildCount());
@@ -49,13 +49,13 @@ public class WBeanContainer_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testNamingContextAccessors() {
-		assertAccessorsCorrect(new WBeanContainer(), WBeanContainer::isNamingContext, WBeanContainer::setNamingContext, false, true, false);
+		assertAccessorsCorrect(new WContainer(), WContainer::isNamingContext, WContainer::setNamingContext, false, true, false);
 	}
 
 	@Test
 	public void testNamingContextIdAccessor() {
 		String id = "test";
-		NamingContextable naming = new WBeanContainer();
+		NamingContextable naming = new WContainer();
 		naming.setIdName(id);
 		Assert.assertEquals("Incorrect component id", id, naming.getId());
 		Assert.assertEquals("Naming context should match component id", id, naming.
