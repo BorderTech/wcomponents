@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.examples.table;
 
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.SimpleBeanBoundTableModel;
 import com.github.bordertech.wcomponents.SimpleBeanBoundTableModel.LevelDetails;
@@ -278,19 +279,19 @@ public class WTableOptionsExample extends WContainer {
 		table2 = createExpandedDataTable();
 		table3 = createHierarchicDataTable();
 
-		add(new WHeading(WHeading.SECTION, "Basic Table"));
+		add(new WHeading(HeadingLevel.H3, "Basic Table"));
 		add(table1);
 		add(selected1);
 
 		add(new WHorizontalRule());
 
-		add(new WHeading(WHeading.SECTION, "Expanded Content Table"));
+		add(new WHeading(HeadingLevel.H3, "Expanded Content Table"));
 		add(table2);
 		add(selected2);
 
 		add(new WHorizontalRule());
 
-		add(new WHeading(WHeading.SECTION, "Hierarchic Table"));
+		add(new WHeading(HeadingLevel.H3, "Hierarchic Table"));
 		add(table3);
 		add(selected3);
 

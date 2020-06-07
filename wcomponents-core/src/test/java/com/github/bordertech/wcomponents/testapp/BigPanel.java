@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.testapp;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.RadioButtonGroup;
 import com.github.bordertech.wcomponents.TestLookupTable;
 import com.github.bordertech.wcomponents.WButton;
@@ -47,7 +48,7 @@ public class BigPanel extends WContainer {
 
 		List<String> progTypeList = getProgrammerTypeList();
 
-		add(new WHeading(WHeading.MAJOR, "Programmer social network"));
+		add(new WHeading(HeadingLevel.H2, "Programmer social network"));
 		leftColumn.addField("Name", new WTextField());
 		leftColumn.addField("Date Of birth", new WDateField());
 		leftColumn.addField("Day of week", new WDropdown(TestLookupTable.DayOfWeekTable.class));

@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.examples.theme;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
@@ -281,9 +282,9 @@ public class WMenuSelectModeExample extends WContainer {
 					"Selectable");
 
 			add(menu);
-			add(new WHeading(WHeading.SECTION, "Details"));
+			add(new WHeading(HeadingLevel.H3, "Details"));
 			add(layout1);
-			add(new WHeading(WHeading.SECTION, "Configuration"));
+			add(new WHeading(HeadingLevel.H3, "Configuration"));
 			add(layout2);
 			add(new WButton("Submit"));
 

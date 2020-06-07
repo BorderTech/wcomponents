@@ -251,13 +251,13 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		add(dialogWithHeight2);
 		add(dialogWithMode);
 
-		add(new WHeading(WHeading.MAJOR, "Dialogs which open without page reload"));
+		add(new WHeading(HeadingLevel.H2, "Dialogs which open without page reload"));
 		//remember the button of an immediate is part of the dialog: it will be place into the UI wherever the dialog is placed
 		add(nonModalDialog);
 		add(modalDialog);
 		// for buttons which will result in a dialog on reload the button is added to the UI explicitly
 
-		add(new WHeading(WHeading.MAJOR, "Dialogs which open after page reload"));
+		add(new WHeading(HeadingLevel.H2, "Dialogs which open after page reload"));
 		add(dialogButton1);
 		add(dialogButton2);
 

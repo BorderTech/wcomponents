@@ -40,7 +40,7 @@ public class WColumnLayout extends AbstractNamingContextContainer {
 	 * @param heading the heading text.
 	 */
 	public WColumnLayout(final String heading) {
-		this(new WHeading(WHeading.SECTION, heading));
+		this(new WHeading(HeadingLevel.H3, heading));
 	}
 
 	/**
@@ -80,7 +80,7 @@ public class WColumnLayout extends AbstractNamingContextContainer {
 	 * @param content the content.
 	 */
 	public void setLeftColumn(final String heading, final WComponent content) {
-		setLeftColumn(new WHeading(WHeading.MINOR, heading), content);
+		setLeftColumn(new WHeading(HeadingLevel.H4, heading), content);
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class WColumnLayout extends AbstractNamingContextContainer {
 	 * @param content the content.
 	 */
 	public void setRightColumn(final String heading, final WComponent content) {
-		setRightColumn(new WHeading(WHeading.MINOR, heading), content);
+		setRightColumn(new WHeading(HeadingLevel.H4, heading), content);
 	}
 
 	/**

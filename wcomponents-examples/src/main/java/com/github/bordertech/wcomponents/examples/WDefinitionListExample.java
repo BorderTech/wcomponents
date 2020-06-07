@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.examples;
 
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDefinitionList;
 import com.github.bordertech.wcomponents.WHeading;
@@ -17,22 +18,22 @@ public class WDefinitionListExample extends WContainer {
 	 * Creates a WDefinitionListExample.
 	 */
 	public WDefinitionListExample() {
-		add(new WHeading(WHeading.SECTION, "Normal layout"));
+		add(new WHeading(HeadingLevel.H3, "Normal layout"));
 		WDefinitionList list = new WDefinitionList();
 		addListItems(list);
 		add(list);
 
-		add(new WHeading(WHeading.SECTION, "Flat layout"));
+		add(new WHeading(HeadingLevel.H3, "Flat layout"));
 		list = new WDefinitionList(WDefinitionList.Type.FLAT);
 		addListItems(list);
 		add(list);
 
-		add(new WHeading(WHeading.SECTION, "Stacked layout"));
+		add(new WHeading(HeadingLevel.H3, "Stacked layout"));
 		list = new WDefinitionList(WDefinitionList.Type.STACKED);
 		addListItems(list);
 		add(list);
 
-		add(new WHeading(WHeading.SECTION, "Column layout"));
+		add(new WHeading(HeadingLevel.H3, "Column layout"));
 		list = new WDefinitionList(WDefinitionList.Type.COLUMN);
 		addListItems(list);
 		add(list);
