@@ -5,6 +5,7 @@
 package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WDateField;
 import com.github.bordertech.wcomponents.WPanel;
@@ -29,7 +30,7 @@ public class MultiPollingExample extends WPanel {
 	 * Construct example.
 	 */
 	public MultiPollingExample() {
-		setLayout(new FlowLayout(FlowLayout.VERTICAL, 0, 12));
+		setLayout(new FlowLayout(FlowLayout.VERTICAL, Size.LARGE));
 		add(new WText(
 				"This example is for framework testing only. It is not to be used as an example of setting up a polling region."));
 

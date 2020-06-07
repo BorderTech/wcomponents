@@ -27,7 +27,7 @@ public class WToggleButtonExample extends WPanel {
 	 * Construct example.
 	 */
 	public WToggleButtonExample() {
-		setLayout(new FlowLayout(FlowLayout.Alignment.VERTICAL, 8));
+		setLayout(new FlowLayout(FlowLayout.Alignment.VERTICAL, Size.MEDIUM));
 		WToggleButton toggle;
 
 		add(new ExplanatoryText("Simple toggle button, no action."));

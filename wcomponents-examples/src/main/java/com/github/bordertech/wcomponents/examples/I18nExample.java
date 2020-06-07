@@ -66,7 +66,7 @@ public class I18nExample extends WPanel implements MessageContainer {
 		add(messages);
 
 		WPanel buttons = new WPanel(WPanel.Type.FEATURE);
-		buttons.setLayout(new FlowLayout(Alignment.LEFT, 10, 0));
+		buttons.setLayout(new FlowLayout(Alignment.LEFT, Size.LARGE));
 		add(buttons);
 
 		buttons.add(new ChangeLocaleButton(null));

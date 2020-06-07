@@ -62,7 +62,7 @@ public class AjaxWRepeaterExample extends WContainer {
 		add(panel);
 
 		WPanel buttonPanel = new WPanel(WPanel.Type.FEATURE);
-		buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 3, 0));
+		buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, Size.SMALL));
 		buttonPanel.setMargin(new Margin(Size.LARGE, null, null, null));
 		add(buttonPanel);
 		buttonPanel.add(button);

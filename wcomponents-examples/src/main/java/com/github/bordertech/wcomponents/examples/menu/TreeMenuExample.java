@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.examples.menu;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WDecoratedLabel;
 import com.github.bordertech.wcomponents.WImage;
@@ -33,7 +34,7 @@ public class TreeMenuExample extends WPanel {
 	 * Creates a TreeMenuExample.
 	 */
 	public TreeMenuExample() {
-		setLayout(new FlowLayout(Alignment.VERTICAL, 0, 24));
+		setLayout(new FlowLayout(Alignment.VERTICAL, Size.XL));
 		add(new WText("Example java object hierarchy"));
 
 		WPanel content = new WPanel(WPanel.Type.BLOCK);

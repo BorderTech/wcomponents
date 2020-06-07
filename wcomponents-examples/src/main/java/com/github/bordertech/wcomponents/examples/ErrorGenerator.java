@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WPanel;
@@ -40,7 +41,7 @@ public class ErrorGenerator extends WPanel {
 	 * Creates an ErrorGenerator.
 	 */
 	public ErrorGenerator() {
-		setLayout(new FlowLayout(FlowLayout.VERTICAL, 24));
+		setLayout(new FlowLayout(FlowLayout.VERTICAL, Size.XL));
 
 		actionErrorBtn.setAction(new Action() {
 			@Override

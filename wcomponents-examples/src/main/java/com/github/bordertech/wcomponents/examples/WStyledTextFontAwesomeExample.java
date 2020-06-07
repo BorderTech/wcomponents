@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.HeadingLevel;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WPanel;
@@ -24,7 +25,7 @@ public class WStyledTextFontAwesomeExample extends WPanel {
 	 * Create the example.
 	 */
 	public WStyledTextFontAwesomeExample() {
-		setLayout(new FlowLayout(FlowLayout.Alignment.VERTICAL, 0, 12));
+		setLayout(new FlowLayout(FlowLayout.Alignment.VERTICAL, Size.LARGE));
 
 		add(new WHeading(HeadingLevel.H2, "A simple icon"));
 		WStyledText text = new WStyledText("Fort Awesome");

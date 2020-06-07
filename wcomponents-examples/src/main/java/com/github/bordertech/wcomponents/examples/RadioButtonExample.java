@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.RadioButtonGroup;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WRadioButton;
@@ -54,7 +55,7 @@ public class RadioButtonExample extends WPanel {
 		WRadioButton rb6 = group.addRadioButton("C");
 
 		panel = new WPanel();
-		panel.setLayout(new FlowLayout(Alignment.LEFT, 5, 0));
+		panel.setLayout(new FlowLayout(Alignment.LEFT, Size.MEDIUM));
 		add(new WLabel("Group"));
 		panel.add(new WLabel("A", rb4));
 		panel.add(rb4);

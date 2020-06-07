@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.examples.subordinate;
 
 import com.github.bordertech.wcomponents.RadioButtonGroup;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.WField;
@@ -93,7 +94,7 @@ public class SubordinateBuilderComplexExample extends WContainer {
 			WRadioButton cardCButton = creditCardType.addRadioButton("cardC");
 
 			WPanel cardTypePanel = new WPanel();
-			cardTypePanel.setLayout(new FlowLayout(Alignment.LEFT, 10, 0));
+			cardTypePanel.setLayout(new FlowLayout(Alignment.LEFT, Size.LARGE));
 			cardTypePanel.add(cardAButton);
 			cardTypePanel.add(createCardImage("A"));
 			cardTypePanel.add(cardBButton);
@@ -182,7 +183,7 @@ public class SubordinateBuilderComplexExample extends WContainer {
 		 */
 		private TransferPanel() {
 			super(WPanel.Type.BLOCK);
-			setLayout(new FlowLayout(Alignment.VERTICAL, 0, 10));
+			setLayout(new FlowLayout(Alignment.VERTICAL, Size.LARGE));
 
 			add(new WHeading(WHeading.SECTION, "Transfer details"));
 

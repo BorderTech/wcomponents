@@ -137,7 +137,7 @@ public class FlowLayoutExample extends WPanel {
 
 		add(new WHeading(HeadingLevel.H3, "Flow layout - left, horizontal gap and ignored vertical gap"));
 		flowPanel = new WPanel();
-		flowPanel.setLayout(new FlowLayout(Alignment.LEFT, 6, 12));
+		flowPanel.setLayout(new FlowLayout(Alignment.LEFT, Size.MEDIUM));
 		add(flowPanel);
 		addBoxes(flowPanel, 12);
 		flowPanel.add(new WText("some text"));
@@ -145,7 +145,7 @@ public class FlowLayoutExample extends WPanel {
 
 		add(new WHeading(HeadingLevel.H3, "Vertical, ignored horizontal gap and implemented vertical gap"));
 		flowPanel = new WPanel();
-		flowPanel.setLayout(new FlowLayout(Alignment.VERTICAL, 6, 12));
+		flowPanel.setLayout(new FlowLayout(Alignment.VERTICAL, Size.LARGE));
 		add(flowPanel);
 		addBoxes(flowPanel, 5);
 		flowPanel.add(new WText("some text"));
@@ -153,7 +153,7 @@ public class FlowLayoutExample extends WPanel {
 
 		add(new WHeading(HeadingLevel.H3, "Left, horizontal gap and ignored vertical gap, content align bottom"));
 		flowPanel = new WPanel();
-		flowPanel.setLayout(new FlowLayout(Alignment.LEFT, 6, 12, ContentAlignment.BOTTOM));
+		flowPanel.setLayout(new FlowLayout(Alignment.LEFT, Size.MEDIUM, ContentAlignment.BOTTOM));
 		add(flowPanel);
 		addBoxesWithDiffContent(flowPanel, 5);
 		flowPanel.add(new WText("some text"));
@@ -162,7 +162,7 @@ public class FlowLayoutExample extends WPanel {
 
 		add(new WHeading(HeadingLevel.H3, "VERTICAL, ignored horizontal gap, vertical gap, ignored content align bottom"));
 		flowPanel = new WPanel();
-		flowPanel.setLayout(new FlowLayout(Alignment.VERTICAL, 6, 12, ContentAlignment.BOTTOM));
+		flowPanel.setLayout(new FlowLayout(Alignment.VERTICAL, Size.LARGE, ContentAlignment.BOTTOM));
 		add(flowPanel);
 		addBoxes(flowPanel, 5);
 		flowPanel.add(new WText("some text"));
@@ -191,7 +191,7 @@ public class FlowLayoutExample extends WPanel {
 	private static void addBoxesWithDiffContent(final WPanel panel, final int amount) {
 		for (int i = 1; i <= amount; i++) {
 			WPanel content = new WPanel(WPanel.Type.BOX);
-			content.setLayout(new FlowLayout(FlowLayout.VERTICAL, 3));
+			content.setLayout(new FlowLayout(FlowLayout.VERTICAL, Size.SMALL));
 			for (int j = 1; j <= i; j++) {
 				content.add(new WText(Integer.toString(i)));
 			}
