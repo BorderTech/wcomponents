@@ -6,6 +6,7 @@ import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.TableDataModel;
 import com.github.bordertech.wcomponents.TableTreeNode;
 import com.github.bordertech.wcomponents.TreeTableDataModel;
@@ -860,7 +861,7 @@ public class DataTableOptionsExample extends WContainer {
 		 */
 		public ExtraDetailsPanel() {
 			WPanel panel = new WPanel();
-			panel.setLayout(new FlowLayout(Alignment.LEFT, 5, 0));
+			panel.setLayout(new FlowLayout(Alignment.LEFT, Size.MEDIUM));
 			add(panel);
 
 			WText colA = new WText();

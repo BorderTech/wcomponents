@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.examples.theme;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.HeadingLevel;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WHeading;
@@ -95,7 +96,7 @@ public class WMultiFileWidgetExample extends WContainer {
 		add(new WHorizontalRule());
 
 		WPanel panel = new WPanel();
-		panel.setLayout(new FlowLayout(Alignment.VERTICAL, 0, 6));
+		panel.setLayout(new FlowLayout(Alignment.VERTICAL, Size.MEDIUM));
 		add(panel);
 
 		// Actions

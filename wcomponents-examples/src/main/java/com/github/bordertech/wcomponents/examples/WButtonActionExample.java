@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
@@ -36,7 +37,7 @@ public class WButtonActionExample extends WPanel {
 	 * Creates a WButtonActionExample.
 	 */
 	public WButtonActionExample() {
-		setLayout(new FlowLayout(Alignment.VERTICAL, 0, 6));
+		setLayout(new FlowLayout(Alignment.VERTICAL, Size.MEDIUM));
 		add(message);
 
 		// Add the button to the panel.

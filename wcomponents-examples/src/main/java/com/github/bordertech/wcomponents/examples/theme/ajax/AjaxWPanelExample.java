@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.examples.theme.ajax;
 
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WHorizontalRule;
@@ -54,7 +55,7 @@ public class AjaxWPanelExample extends WPanel {
 		// Create the "lazy" WPanel
 		WPanel panel = new WPanel();
 		panel.setMode(WPanel.PanelMode.LAZY);
-		panel.setLayout(new FlowLayout(FlowLayout.VERTICAL, 0, 6));
+		panel.setLayout(new FlowLayout(FlowLayout.VERTICAL, Size.MEDIUM));
 		panel.add(new WText("This is the content in a lazy panel"));
 
 		// Subordinate to Show/Hide the panel

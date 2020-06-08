@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.BeanProvider;
 import com.github.bordertech.wcomponents.BeanProviderBound;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WProgressBar;
@@ -27,7 +28,7 @@ public class WProgressBarExample extends WPanel {
 	 * Creates a WProgressBarExample.
 	 */
 	public WProgressBarExample() {
-		setLayout(new FlowLayout(Alignment.VERTICAL, 4));
+		setLayout(new FlowLayout(Alignment.VERTICAL, Size.SMALL));
 
 		add(new WText("Default, 10 max"));
 		WProgressBar progressBar = new WProgressBar(10);
@@ -110,7 +111,7 @@ public class WProgressBarExample extends WPanel {
 		 * @param bar the progress bar.
 		 */
 		private ProgressBarWithButtons(final WProgressBar bar) {
-			setLayout(new FlowLayout(Alignment.LEFT, 6, 0));
+			setLayout(new FlowLayout(Alignment.LEFT, Size.MEDIUM));
 			//setLayout(new ColumnLayout(EXAMPLE_COLUMN_WIDTHS, 6, 0));
 			add(bar);
 			//WPanel buttonPanel = new WPanel();

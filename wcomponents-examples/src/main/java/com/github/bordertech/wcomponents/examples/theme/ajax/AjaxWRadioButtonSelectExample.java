@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.examples.theme.ajax;
 
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WRadioButtonSelect;
 import com.github.bordertech.wcomponents.WText;
@@ -49,7 +50,7 @@ public class AjaxWRadioButtonSelectExample extends WPanel {
 	 * Construct the WRadioButtonSelect AJAX example.
 	 */
 	public AjaxWRadioButtonSelectExample() {
-		setLayout(new FlowLayout(Alignment.VERTICAL, 0, 6));
+		setLayout(new FlowLayout(Alignment.VERTICAL, Size.MEDIUM));
 
 		rbSelect.setAccessibleText("Content selection");
 		rbSelect.setFrameless(true);

@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.MessageContainer;
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WButton.ImagePosition;
@@ -144,7 +145,7 @@ public class WButtonExample extends WPanel implements MessageContainer {
 		add(new WHeading(HeadingLevel.H4, "Rendered as a button"));
 
 		WPanel buttonLayoutPanel = new WPanel(WPanel.Type.BOX);
-		buttonLayoutPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 6, 0,
+		buttonLayoutPanel.setLayout(new FlowLayout(FlowLayout.LEFT, Size.MEDIUM,
 				FlowLayout.ContentAlignment.BOTTOM));
 		add(buttonLayoutPanel);
 		buttonLayoutPanel.
@@ -158,7 +159,7 @@ public class WButtonExample extends WPanel implements MessageContainer {
 		add(new ExplanatoryText(
 				"This example shows how to use an image and text as the content of a button without the button styling."));
 		buttonLayoutPanel = new WPanel(WPanel.Type.BOX);
-		buttonLayoutPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 6, 0,
+		buttonLayoutPanel.setLayout(new FlowLayout(FlowLayout.LEFT, Size.MEDIUM,
 				FlowLayout.ContentAlignment.BOTTOM));
 		add(buttonLayoutPanel);
 		buttonLayoutPanel.add(makeImageButtonWithPosition("Image on the North", ImagePosition.NORTH,
@@ -317,7 +318,7 @@ public class WButtonExample extends WPanel implements MessageContainer {
 		add(new WHeading(HeadingLevel.H2, "Examples of disabled buttons"));
 
 		WPanel disabledButtonLayoutPanel = new WPanel(WPanel.Type.BOX);
-		disabledButtonLayoutPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 6, 0,
+		disabledButtonLayoutPanel.setLayout(new FlowLayout(FlowLayout.LEFT, Size.MEDIUM,
 				FlowLayout.ContentAlignment.BASELINE));
 		add(disabledButtonLayoutPanel);
 
@@ -331,7 +332,7 @@ public class WButtonExample extends WPanel implements MessageContainer {
 
 		add(new WHeading(HeadingLevel.H3, "Examples of disabled buttons displaying only an image"));
 		disabledButtonLayoutPanel = new WPanel(WPanel.Type.BOX);
-		disabledButtonLayoutPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 6, 0,
+		disabledButtonLayoutPanel.setLayout(new FlowLayout(FlowLayout.LEFT, Size.MEDIUM,
 				FlowLayout.ContentAlignment.BASELINE));
 		add(disabledButtonLayoutPanel);
 
@@ -351,7 +352,7 @@ public class WButtonExample extends WPanel implements MessageContainer {
 				"Examples of disabled buttons displaying an image with imagePosition EAST"));
 
 		disabledButtonLayoutPanel = new WPanel(WPanel.Type.BOX);
-		disabledButtonLayoutPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 6, 0,
+		disabledButtonLayoutPanel.setLayout(new FlowLayout(FlowLayout.LEFT, Size.MEDIUM,
 				FlowLayout.ContentAlignment.BASELINE));
 		add(disabledButtonLayoutPanel);
 		button = new WButton("Disabled button");
