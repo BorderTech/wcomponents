@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Image;
 import com.github.bordertech.wcomponents.ImageResource;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WImage;
 import com.github.bordertech.wcomponents.WPanel;
@@ -43,7 +44,7 @@ public class WImageExample extends WPanel {
 	 * Creates a WImageExample.
 	 */
 	public WImageExample() {
-		setLayout(new FlowLayout(Alignment.VERTICAL, 0, 6));
+		setLayout(new FlowLayout(Alignment.VERTICAL, Size.MEDIUM));
 
 		// This image is a static resource, and will be cached on the client.
 		final ImageResource bannerImage = new ImageResource(

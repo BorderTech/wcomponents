@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.SimpleBeanBoundTableDataModel;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WDataTable;
 import com.github.bordertech.wcomponents.WDateField;
@@ -37,7 +38,7 @@ public class DataTableBeanExample extends WPanel {
 	 * Creates a DataTableBeanExample.
 	 */
 	public DataTableBeanExample() {
-		setLayout(new FlowLayout(Alignment.VERTICAL, 0, 5));
+		setLayout(new FlowLayout(Alignment.VERTICAL, Size.MEDIUM));
 
 		// Since this data model doesn't store any user state information within it,
 		// we can safely use a single shared instance.
@@ -66,7 +67,7 @@ public class DataTableBeanExample extends WPanel {
 		});
 
 		WPanel buttonPanel = new WPanel();
-		buttonPanel.setLayout(new FlowLayout(Alignment.LEFT, 5, 0));
+		buttonPanel.setLayout(new FlowLayout(Alignment.LEFT, Size.MEDIUM));
 		buttonPanel.add(saveButton);
 		buttonPanel.add(new WButton("Refresh page"));
 		add(buttonPanel);

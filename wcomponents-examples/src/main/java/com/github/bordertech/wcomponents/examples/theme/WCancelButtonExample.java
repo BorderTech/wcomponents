@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Message;
 import com.github.bordertech.wcomponents.MessageContainer;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCancelButton;
 import com.github.bordertech.wcomponents.WCardManager;
@@ -80,7 +81,7 @@ public class WCancelButtonExample extends WPanel implements MessageContainer {
 		}
 
 		WPanel buttonPanel = new WPanel(Type.FEATURE);
-		buttonPanel.setLayout(new FlowLayout(Alignment.LEFT, 3, 0));
+		buttonPanel.setLayout(new FlowLayout(Alignment.LEFT, Size.SMALL));
 		buttonPanel.setMargin(new com.github.bordertech.wcomponents.Margin(12, 0, 0, 0));
 		buttonPanel.add(prevButton);
 		buttonPanel.add(nextButton);
