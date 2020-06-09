@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.examples.theme;
 
 import com.github.bordertech.wcomponents.CollapsibleGroup;
 import com.github.bordertech.wcomponents.HeadingLevel;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WCollapsible;
 import com.github.bordertech.wcomponents.WCollapsibleToggle;
 import com.github.bordertech.wcomponents.WDecoratedLabel;
@@ -26,7 +27,7 @@ public class WCollapsibleExample extends WPanel {
 	 * Creates a WCollapsibleExample.
 	 */
 	public WCollapsibleExample() {
-		setLayout(new FlowLayout(FlowLayout.Alignment.VERTICAL, 0, 12));
+		setLayout(new FlowLayout(FlowLayout.Alignment.VERTICAL, Size.LARGE));
 
 		WTextField component3 = new WTextField() {
 			// We want some dynamic text to show that there's a trip to the server.

@@ -1,5 +1,7 @@
 package com.github.bordertech.wcomponents.examples;
 
+import com.github.bordertech.wcomponents.HeadingLevel;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WLabel;
@@ -27,11 +29,11 @@ public class WSkipLinksExample extends WPanel {
 	 * Creates a WSkipLinksExample.
 	 */
 	public WSkipLinksExample() {
-		setLayout(new FlowLayout(Alignment.VERTICAL, 0, 10));
+		setLayout(new FlowLayout(Alignment.VERTICAL, Size.LARGE));
 		//note: the WSKipLinks component is actually added to the ancestor WApplication
 		//and is invoked by the presence of WPanel with an accessKey.
 
-		add(new WHeading(WHeading.SECTION, "WPanel skip-links targets"));
+		add(new WHeading(HeadingLevel.H3, "WPanel skip-links targets"));
 
 		add(buildPanel("Panel One Title", '1'));
 		add(buildPanel("Panel 2 - no access key is set on this panel"));
