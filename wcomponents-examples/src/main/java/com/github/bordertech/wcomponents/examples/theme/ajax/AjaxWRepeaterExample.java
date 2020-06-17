@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.examples.theme.ajax;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.Size;
@@ -57,7 +58,7 @@ public class AjaxWRepeaterExample extends WContainer {
 		});
 		button.setAjaxTarget(panel);
 
-		add(new WHeading(WHeading.MAJOR, "WRepeater using ajax"));
+		add(new WHeading(HeadingLevel.H2, "WRepeater using ajax"));
 		add(panel);
 
 		WPanel buttonPanel = new WPanel(WPanel.Type.FEATURE);
