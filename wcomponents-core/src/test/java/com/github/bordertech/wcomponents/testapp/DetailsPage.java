@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.testapp;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.RadioButtonGroup;
 import com.github.bordertech.wcomponents.TestLookupTable;
 import com.github.bordertech.wcomponents.WButton;
@@ -34,7 +35,7 @@ public class DetailsPage extends WContainer {
 	 * Creates a DetailsPage.
 	 */
 	public DetailsPage() {
-		add(new WHeading(WHeading.MAJOR, "Details"));
+		add(new WHeading(HeadingLevel.H2, "Details"));
 		// core input fields, tabs, collapsible, menu
 
 		WTabSet tabs = new WTabSet();

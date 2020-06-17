@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WDefinitionList;
@@ -126,7 +127,7 @@ public class TextFieldExample extends WPanel {
 		fieldLayout.addField("Ten column field", tf5);
 
 		add(new WHorizontalRule());
-		WHeading heading = new WHeading(WHeading.MAJOR, "Values read from fields");
+		WHeading heading = new WHeading(HeadingLevel.H2, "Values read from fields");
 		add(heading);
 		WDefinitionList defList = new WDefinitionList(WDefinitionList.Type.COLUMN);
 		defList.addTerm(tf1.getLabel().getText(), plain);

@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
@@ -55,7 +56,7 @@ public class KitchenSink extends WPanel {
 		tabs.addTab(new DuplicatorGroup(), "Dynamic Additions", WTabSet.TAB_MODE_CLIENT);
 		tabs.addTab(new TextDuplicator(), "Text Duplicator", WTabSet.TAB_MODE_CLIENT);
 
-		add(new WHeading(WHeading.MAJOR, "Selection of tests"));
+		add(new WHeading(HeadingLevel.H2, "Selection of tests"));
 		add(tabs);
 	}
 

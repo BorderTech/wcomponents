@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.examples.theme;
 
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WFieldLayout;
@@ -29,7 +30,7 @@ public class WMultiDropdownExample extends WContainer {
 	 * Creates a WMultiDropdownExample.
 	 */
 	public WMultiDropdownExample() {
-		add(new WHeading(WHeading.SECTION, "Dynamic Multi-dropdown examples"));
+		add(new WHeading(HeadingLevel.H3, "Dynamic Multi-dropdown examples"));
 		add(layout);
 
 		WMultiDropdown dropdown = new WMultiDropdown("icao");

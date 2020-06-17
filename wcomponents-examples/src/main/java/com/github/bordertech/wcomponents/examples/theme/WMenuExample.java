@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.examples.theme;
 
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WMenu;
@@ -19,13 +20,13 @@ public class WMenuExample extends WContainer {
 	 * Creates a WMenu example.
 	 */
 	public WMenuExample() {
-		add(new WHeading(WHeading.MAJOR, "Menu bar"));
+		add(new WHeading(HeadingLevel.H2, "Menu bar"));
 		add(new MenuBarExample());
 
-		add(new WHeading(WHeading.MAJOR, "Tree menu"));
+		add(new WHeading(HeadingLevel.H2, "Tree menu"));
 		add(new TreeMenuExample());
 
-		add(new WHeading(WHeading.MAJOR, "Column  menu"));
+		add(new WHeading(HeadingLevel.H2, "Column  menu"));
 		add(new ColumnMenuExample());
 	}
 }
