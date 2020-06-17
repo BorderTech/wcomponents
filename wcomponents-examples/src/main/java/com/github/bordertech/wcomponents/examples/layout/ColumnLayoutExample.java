@@ -75,7 +75,7 @@ public class ColumnLayoutExample extends WContainer {
 				+ "The columns have width and alignment and there is also a hgap and a vgap."));
 				WPanel panel = new WPanel();
 		panel.setLayout(new ColumnLayout(new int[]{33, 33, 33},
-				new Alignment[]{Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT}, 12, 18));
+				new Alignment[]{Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT}, Size.LARGE, Size.XL));
 		panel.setHtmlClass(HtmlClassProperties.RESPOND);
 		add(panel);
 		panel.add(new BoxComponent("Left"));
