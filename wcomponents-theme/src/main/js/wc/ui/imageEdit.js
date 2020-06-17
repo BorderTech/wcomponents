@@ -449,8 +449,10 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 			});
 
 			fbCanvas._activeObject = null;
-
-			fbCanvas.setActiveGroup(group.setCoords()).renderAll();
+			// remove all objects and re-render
+			fbCanvas.clear().renderAll();
+			// add group onto canvas
+			fbCanvas.add(group);
 			return group;
 		};
 
@@ -1180,7 +1182,10 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 					originX: "left",
 					originY: "top"
 				});
-			fbCanvas.setActiveGroup(group.setCoords()).renderAll();
+			// remove all objects and re-render
+			fbCanvas.clear().renderAll();
+			// add group onto canvas
+			fbCanvas.add(group);
 			group.scaleToWidth(originaSize.width);
 			group.scaleToHeight(originaSize.height);
 			return group;
@@ -1275,8 +1280,8 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 				} else {
 					object = unscale(fbImage);
 					toDataUrlParams = {
-						left: object.getLeft(),
-						top: object.getTop(),
+						left: object.get('left'),
+						top: object.get('top'),
 						width: object.getScaledWidth(),
 						height: object.getScaledHeight()
 					};

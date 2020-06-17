@@ -45,6 +45,8 @@ import com.github.bordertech.wcomponents.examples.WDropdownSubmitOnChangeExample
 import com.github.bordertech.wcomponents.examples.WDropdownTriggerActionExample;
 import com.github.bordertech.wcomponents.examples.WFigureExample;
 import com.github.bordertech.wcomponents.examples.WImageCachedExample;
+import com.github.bordertech.wcomponents.examples.WImageEditorForImageExample;
+import com.github.bordertech.wcomponents.examples.WImageEditorForMultiFileWidgetExample;
 import com.github.bordertech.wcomponents.examples.WImageExample;
 import com.github.bordertech.wcomponents.examples.WLinkActionExample;
 import com.github.bordertech.wcomponents.examples.WMultiFileWidgetAjaxExample;
@@ -282,6 +284,8 @@ public final class ExampleData implements Serializable {
 		new ExampleData("Figure", WFigureExample.class),
 		new ExampleData("Headings", WHeadingExample.class),
 		new ExampleData("Images", WImageExample.class),
+		new ExampleData("Image Editor For Static Image", WImageEditorForImageExample.class),
+		new ExampleData("Image Editor For File Upload", WImageEditorForMultiFileWidgetExample.class),
 		new ExampleData("Message Box", WMessageBoxExample.class),
 		new ExampleData("Messages", WMessagesExample.class),
 		new ExampleData("Progress bar", WProgressBarExample.class),
