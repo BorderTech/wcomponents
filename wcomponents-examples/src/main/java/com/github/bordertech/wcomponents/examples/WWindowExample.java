@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WHeading;
@@ -36,7 +37,7 @@ public class WWindowExample extends WContainer {
 			}
 		});
 
-		add(new WHeading(WHeading.SECTION, "Window with functional content, round-trip"));
+		add(new WHeading(HeadingLevel.H3, "Window with functional content, round-trip"));
 		add(button1);
 		add(window1);
 
@@ -56,7 +57,7 @@ public class WWindowExample extends WContainer {
 			}
 		});
 
-		add(new WHeading(WHeading.SECTION, "Window with functional content, AJAX-enabled"));
+		add(new WHeading(HeadingLevel.H3, "Window with functional content, AJAX-enabled"));
 		add(button2);
 		add(window2);
 
@@ -74,7 +75,7 @@ public class WWindowExample extends WContainer {
 			}
 		});
 
-		add(new WHeading(WHeading.SECTION, "Nested targetable content"));
+		add(new WHeading(HeadingLevel.H3, "Nested targetable content"));
 		add(button3);
 		add(window3);
 
@@ -92,7 +93,7 @@ public class WWindowExample extends WContainer {
 			}
 		});
 
-		add(new WHeading(WHeading.SECTION, "Window that uses change flag"));
+		add(new WHeading(HeadingLevel.H3, "Window that uses change flag"));
 		add(button4);
 		add(window4);
 

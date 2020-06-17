@@ -102,7 +102,7 @@ public class WMultiFileWidgetAjaxExample extends WContainer {
 		paramsLayout.addField("Readonly", readonly);
 
 		WPanel split = new WPanel();
-		split.setLayout(new ColumnLayout(new int[]{50, 50}, 12, 0));
+		split.setLayout(new ColumnLayout(new int[]{50, 50}, Size.LARGE, Size.ZERO));
 		split.setHtmlClass(HtmlClassProperties.RESPOND);
 		add(split);
 
