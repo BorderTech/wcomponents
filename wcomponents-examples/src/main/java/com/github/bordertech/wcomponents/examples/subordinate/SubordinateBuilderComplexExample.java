@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.examples.subordinate;
 
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.RadioButtonGroup;
 import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WContainer;
@@ -46,7 +47,7 @@ public class SubordinateBuilderComplexExample extends WContainer {
 	 * Creates a SubordinateBuilderComplexExample.
 	 */
 	public SubordinateBuilderComplexExample() {
-		add(new WHeading(WHeading.SECTION, "Payment options"));
+		add(new WHeading(HeadingLevel.H3, "Payment options"));
 
 		WRadioButtonSelect paymentType = new WRadioButtonSelect(new String[]{CREDIT_CARD, TRANSFER});
 		paymentType.setFrameless(true);
@@ -185,7 +186,7 @@ public class SubordinateBuilderComplexExample extends WContainer {
 			super(WPanel.Type.BLOCK);
 			setLayout(new FlowLayout(Alignment.VERTICAL, Size.LARGE));
 
-			add(new WHeading(WHeading.SECTION, "Transfer details"));
+			add(new WHeading(HeadingLevel.H3, "Transfer details"));
 
 			WStyledText text = new WStyledText(
 					"If paying by electronic transfer:"

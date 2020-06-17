@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
@@ -45,16 +46,16 @@ public class WhiteSpaceExample extends WContainer {
 	 */
 	public WhiteSpaceExample() {
 
-		add(new WHeading(WHeading.SECTION, "Messages with Whitespace"));
+		add(new WHeading(HeadingLevel.H3, "Messages with Whitespace"));
 		add(new WMessageBox(WMessageBox.INFO, EXAMPLE_MESSAGE));
 		add(new WMessageBox(WMessageBox.SUCCESS, EXAMPLE_MESSAGE));
 		add(new WMessageBox(WMessageBox.WARN, EXAMPLE_MESSAGE));
 		add(new WMessageBox(WMessageBox.ERROR, EXAMPLE_MESSAGE));
 
-		add(new WHeading(WHeading.SECTION, "Error Message with Whitespace"));
+		add(new WHeading(HeadingLevel.H3, "Error Message with Whitespace"));
 		add(errors);
 
-		add(new WHeading(WHeading.SECTION, "Text Areas with Whitespace"));
+		add(new WHeading(HeadingLevel.H3, "Text Areas with Whitespace"));
 		WFieldLayout layout = new WFieldLayout();
 		layout.addField("Text area", textArea);
 		WTextArea textArea2 = new WTextArea();

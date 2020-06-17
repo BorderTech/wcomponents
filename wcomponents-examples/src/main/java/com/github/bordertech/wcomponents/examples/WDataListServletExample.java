@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.examples;
 
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WComponent;
@@ -53,7 +54,7 @@ public class WDataListServletExample extends WContainer {
 	 * Construct the example.
 	 */
 	public WDataListServletExample() {
-		add(new WHeading(WHeading.SECTION,
+		add(new WHeading(HeadingLevel.H3,
 				"Example of components using cached lists (WDataListServlet)"));
 
 		add(layout);

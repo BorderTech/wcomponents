@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.examples;
 
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WHeading;
@@ -26,7 +27,7 @@ public class WPanelExample extends WContainer {
 				add(new WHorizontalRule());
 			}
 
-			add(new WHeading(WHeading.SECTION, panelType.toString()));
+			add(new WHeading(HeadingLevel.H3, panelType.toString()));
 
 			WPanel panel = new WPanel(panelType);
 			panel.setTitleText("Panel title");

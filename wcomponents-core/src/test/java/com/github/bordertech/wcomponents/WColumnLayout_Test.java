@@ -36,7 +36,7 @@ public class WColumnLayout_Test extends AbstractWComponentTestCase {
 		WColumnLayout col = new WColumnLayout();
 		WLabel label = new WLabel("leftLabel");
 		String headingText = "leftHeading";
-		WHeading heading = new WHeading(WHeading.MINOR, headingText);
+		WHeading heading = new WHeading(HeadingLevel.H4, headingText);
 
 		Assert.assertFalse("Should not have any content by default", col.hasLeftContent());
 		col.setLeftColumn(label);
@@ -68,7 +68,7 @@ public class WColumnLayout_Test extends AbstractWComponentTestCase {
 		WColumnLayout col = new WColumnLayout();
 		WLabel label = new WLabel("rightLabel");
 		String headingText = "rightHeading";
-		WHeading heading = new WHeading(WHeading.MINOR, headingText);
+		WHeading heading = new WHeading(HeadingLevel.H4, headingText);
 
 		Assert.assertFalse("Should not have any content by default", col.hasRightContent());
 		col.setRightColumn(label);
