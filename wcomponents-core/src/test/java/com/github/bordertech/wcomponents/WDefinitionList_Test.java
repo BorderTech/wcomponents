@@ -12,6 +12,8 @@ import org.junit.Test;
  */
 public class WDefinitionList_Test extends AbstractWComponentTestCase {
 
+	private static final String TERM_ATTRIBUTE = "WDefinitionList.term";
+
 	@Test
 	public void testConstructors() {
 		WDefinitionList list = new WDefinitionList();
@@ -49,15 +51,15 @@ public class WDefinitionList_Test extends AbstractWComponentTestCase {
 		list.addTerm(term1);
 		Container termContainer = (Container) list.getChildAt(0);
 		Assert.assertEquals("Term1 should have been added", 1, termContainer.getChildCount());
-		Assert.assertEquals("Incorrect value for Term1", term1, termContainer.getChildAt(0).getTag());
+		Assert.assertEquals("Incorrect value for Term1", term1, termContainer.getChildAt(0).getAttribute(TERM_ATTRIBUTE));
 
 		// Test addition of term with multiple components
 		list.addTerm(term2, term2data1, term2data2);
 		list.addTerm(term2, term2data3);
 
-		Assert.assertEquals("Incorrect term for component 1", term2, term2data1.getTag());
-		Assert.assertEquals("Incorrect term for component 2", term2, term2data2.getTag());
-		Assert.assertEquals("Incorrect term for component 3", term2, term2data3.getTag());
+		Assert.assertEquals("Incorrect term for component 1", term2, term2data1.getAttribute(TERM_ATTRIBUTE));
+		Assert.assertEquals("Incorrect term for component 2", term2, term2data2.getAttribute(TERM_ATTRIBUTE));
+		Assert.assertEquals("Incorrect term for component 3", term2, term2data3.getAttribute(TERM_ATTRIBUTE));
 	}
 
 	@Test
@@ -78,6 +80,6 @@ public class WDefinitionList_Test extends AbstractWComponentTestCase {
 
 		list.removeTerm(term2);
 		Assert.assertEquals("Incorrect term data", 1, termContainer.getChildCount());
-		Assert.assertEquals("Incorrect value for Term1", term1, termContainer.getChildAt(0).getTag());
+		Assert.assertEquals("Incorrect value for Term1", term1, termContainer.getChildAt(0).getAttribute(TERM_ATTRIBUTE));
 	}
 }

@@ -16,6 +16,8 @@ import java.util.Map;
 public class WDefinitionList extends AbstractNamingContextContainer implements AjaxTarget,
 		SubordinateTarget, Marginable {
 
+	private static final String TERM_ATTRIBUTE = "WDefinitionList.term";
+
 	/**
 	 * The layout options.
 	 */
@@ -102,13 +104,16 @@ public class WDefinitionList extends AbstractNamingContextContainer implements A
 	public void addTerm(final String term, final WComponent... data) {
 		for (WComponent component : data) {
 			if (component != null) {
-				content.add(component, term);
+				component.setAttribute(TERM_ATTRIBUTE, term);
+				content.add(component);
 			}
 		}
 
 		// If the term doesn't exist, we may need to add a dummy component
 		if (getComponentsForTerm(term).isEmpty()) {
-			content.add(new DefaultWComponent(), term);
+			WComponent component = new DefaultWComponent();
+			component.setAttribute(TERM_ATTRIBUTE, term);
+			content.add(component);
 		}
 	}
 
@@ -145,7 +150,7 @@ public class WDefinitionList extends AbstractNamingContextContainer implements A
 		if (childList != null) {
 			for (int i = 0; i < childList.size(); i++) {
 				WComponent child = childList.get(i);
-				String term = child.getTag();
+				String term = (String) child.getAttribute(TERM_ATTRIBUTE);
 
 				Duplet<String, ArrayList<WComponent>> termComponents = componentsByTerm.get(term);
 
@@ -177,7 +182,7 @@ public class WDefinitionList extends AbstractNamingContextContainer implements A
 			for (int i = 0; i < childList.size(); i++) {
 				WComponent child = childList.get(i);
 
-				if (term.equals(child.getTag())) {
+				if (term.equals(child.getAttribute(TERM_ATTRIBUTE))) {
 					result.add(child);
 				}
 			}

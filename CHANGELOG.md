@@ -5,6 +5,8 @@
 ### API Changes
 
 ### Enhancements
+* Removed usage of deprecated APIs from the framework and examples. Including the following:
+    - Removed usage of `WComponents::getTag` and `WComponents::setTag` from `WDefinitionList`.
 
 ### Bug Fixes
 
