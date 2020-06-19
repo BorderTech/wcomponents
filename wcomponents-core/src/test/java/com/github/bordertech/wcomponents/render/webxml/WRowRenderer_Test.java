@@ -4,7 +4,6 @@ import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WColumn;
 import com.github.bordertech.wcomponents.WRow;
-import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.io.IOException;
 import org.junit.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -67,7 +66,7 @@ public class WRowRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertXpathNotExists("//ui:row/ui:margin", row);
 
-		Margin margin = new Margin(0);
+		Margin margin = new Margin(null);
 		row.setMargin(margin);
 		assertXpathNotExists("//ui:row/ui:margin", row);
 

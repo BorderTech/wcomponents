@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.examples.theme;
 
 import com.github.bordertech.wcomponents.HeadingLevel;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDecoratedLabel;
@@ -258,7 +259,7 @@ public class WTabSetExample extends WContainer {
 			addTab(new DateText("Content 4"), "Tab 4 (lazy)", WTabSet.TAB_MODE_LAZY);
 			addTab(new DateText("Content 5"), "Tab 5 (dynamic)", WTabSet.TAB_MODE_DYNAMIC);
 			addTab(new DateText("Content 6"), "Tab 6 (eager)", WTabSet.TAB_MODE_EAGER);
-			setMargin(new com.github.bordertech.wcomponents.Margin(0, 0, 12, 0));
+			setMargin(new com.github.bordertech.wcomponents.Margin(Size.ZERO, Size.ZERO, Size.LARGE, Size.ZERO));
 		}
 	}
 

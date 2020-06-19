@@ -85,7 +85,7 @@ public class WHeadingRenderer_Test extends AbstractWebXmlRendererTestCase {
 		WHeading heading = new WHeading(HeadingLevel.H1, "test");
 		assertXpathNotExists("//ui:heading/ui:margin", heading);
 
-		Margin margin = new Margin(0);
+		Margin margin = new Margin(null);
 		heading.setMargin(margin);
 		assertXpathNotExists("//ui:heading/ui:margin", heading);
 

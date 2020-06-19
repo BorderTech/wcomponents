@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.examples.validation;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.MessageContainer;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCardManager;
 import com.github.bordertech.wcomponents.WComponent;
@@ -89,7 +90,7 @@ public class ValidationContainer extends WPanel implements MessageContainer {
 
 		WPanel buttonPanel = new WPanel(WPanel.Type.FEATURE);
 		mainPanel.add(buttonPanel);
-		buttonPanel.setMargin(new com.github.bordertech.wcomponents.Margin(12, 0, 0, 0));
+		buttonPanel.setMargin(new com.github.bordertech.wcomponents.Margin(Size.LARGE, Size.ZERO, Size.ZERO, Size.ZERO));
 		buttonPanel.setLayout(new BorderLayout());
 		buttonPanel.add(validateBtn, BorderLayout.EAST);
 		buttonPanel.add(resetBtn, BorderLayout.WEST);

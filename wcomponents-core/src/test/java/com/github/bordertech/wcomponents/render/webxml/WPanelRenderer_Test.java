@@ -151,7 +151,7 @@ public class WPanelRenderer_Test extends AbstractWebXmlRendererTestCase {
 		WPanel panel = new WPanel();
 		assertXpathNotExists("//ui:panel/ui:margin", panel);
 
-		Margin margin = new Margin(0);
+		Margin margin = new Margin(null);
 		panel.setMargin(margin);
 		assertXpathNotExists("//ui:panel/ui:margin", panel);
 

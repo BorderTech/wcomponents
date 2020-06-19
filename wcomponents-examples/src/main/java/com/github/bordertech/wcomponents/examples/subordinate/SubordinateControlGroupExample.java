@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.examples.subordinate;
 
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.SubordinateTarget;
 import com.github.bordertech.wcomponents.WComponentGroup;
 import com.github.bordertech.wcomponents.WDropdown;
@@ -35,7 +36,7 @@ public class SubordinateControlGroupExample extends WPanel {
 		WFieldLayout layout = new WFieldLayout();
 		add(layout);
 		layout.setLabelWidth(25);
-		layout.setMargin(new com.github.bordertech.wcomponents.Margin(0, 0, 12, 0));
+		layout.setMargin(new com.github.bordertech.wcomponents.Margin(Size.ZERO, Size.ZERO, Size.LARGE, Size.ZERO));
 
 		WDropdown select = new WDropdown();
 		select.setOptions(new String[]{SHOW_FIRST, SHOW_ALL, HIDE_ALL, HIDE_LAYOUT});
