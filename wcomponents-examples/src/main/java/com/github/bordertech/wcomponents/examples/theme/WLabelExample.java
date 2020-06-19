@@ -261,7 +261,7 @@ public final class WLabelExample extends WPanel {
 		WTextField myField = new WTextField();
 		WLabel myFieldLabel = new WLabel("I am not the label for my nested text field", myField);
 		nestingErrorPanel = new WPanel();
-		nestingErrorPanel.setLayout(new ColumnLayout(new int[]{50, 50}, 12, 6));
+		nestingErrorPanel.setLayout(new ColumnLayout(new int[]{50, 50}, Size.LARGE, Size.MEDIUM));
 		errorLayoutPanel.add(nestingErrorPanel);
 		nestingErrorPanel.add(myFieldLabel);
 		nestingErrorPanel.add(myField);

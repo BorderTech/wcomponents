@@ -295,7 +295,7 @@ public class TableLoadPerformance extends WApplication {
 
 		// Table layouts
 		root.add(tablePanel);
-		tableLayout.setLayout(new ColumnLayout(new int[]{50, 50}, 6, 6));
+		tableLayout.setLayout(new ColumnLayout(new int[]{50, 50}, Size.MEDIUM, Size.MEDIUM));
 		tableLayout.setMargin(new Margin(Size.LARGE, null, Size.LARGE, null));
 		tableLayout.setVisible(false);
 		tablePanel.add(tableLayout);
