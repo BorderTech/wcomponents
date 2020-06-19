@@ -13,7 +13,6 @@ import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.TableTreeNode;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WApplication;
-import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WContainer;

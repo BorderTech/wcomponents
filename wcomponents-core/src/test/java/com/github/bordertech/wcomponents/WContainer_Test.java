@@ -4,16 +4,16 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Unit tests for {@link AbstractNamingContextContainer}.
+ * Unit tests for {@link WContainer}.
  *
- * @author Jonathan Austin
- * @since 1.0.0
+ * @author John McGuinness
+ * @since 1.5.20
  */
-public class WBeanContainer_Test extends AbstractWComponentTestCase {
+public class WContainer_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testChildAccessors() {
-		WBeanContainer container = new WBeanContainer();
+		WContainer container = new WContainer();
 
 		// Check no children
 		Assert.assertEquals("Should have no child count", 0, container.getChildCount());
@@ -49,17 +49,16 @@ public class WBeanContainer_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testNamingContextAccessors() {
-		assertAccessorsCorrect(new WBeanContainer(), WBeanContainer::isNamingContext, WBeanContainer::setNamingContext, false, true, false);
+		assertAccessorsCorrect(new WContainer(), WContainer::isNamingContext, WContainer::setNamingContext, false, true, false);
 	}
 
 	@Test
 	public void testNamingContextIdAccessor() {
 		String id = "test";
-		NamingContextable naming = new WBeanContainer();
+		NamingContextable naming = new WContainer();
 		naming.setIdName(id);
 		Assert.assertEquals("Incorrect component id", id, naming.getId());
 		Assert.assertEquals("Naming context should match component id", id, naming.
 				getNamingContextId());
 	}
-
 }
