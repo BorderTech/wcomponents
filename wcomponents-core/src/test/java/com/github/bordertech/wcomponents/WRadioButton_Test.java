@@ -250,7 +250,7 @@ public class WRadioButton_Test extends AbstractWComponentTestCase {
 	public void testRadioButtonInRepeater() {
 		RadioButtonGroup group = new RadioButtonGroup();
 
-		WBeanContainer repeated = new WBeanContainer();
+		WContainer repeated = new WContainer();
 		repeated.add(group.addRadioButton());
 
 		WRepeater repeater = new WRepeater(repeated);

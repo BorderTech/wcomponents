@@ -6,7 +6,7 @@ import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.SimpleBeanBoundTableModel;
 import com.github.bordertech.wcomponents.WAjaxControl;
-import com.github.bordertech.wcomponents.WBeanContainer;
+import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WConfirmationButton;
 import com.github.bordertech.wcomponents.WDateField;
@@ -66,7 +66,7 @@ public class TableRowEditingAjaxExample extends WPanel {
 	/**
 	 * Action button container.
 	 */
-	private final WBeanContainer actionContainer = new WBeanContainer();
+	private final WContainer container = new WContainer();
 
 	/**
 	 * Create example.
@@ -107,7 +107,7 @@ public class TableRowEditingAjaxExample extends WPanel {
 		// Column - Action buttons
 		label = new WDecoratedLabel("Action");
 		label.setIdName("col_action");
-		WTableColumn column = new WTableColumn(label, actionContainer);
+		WTableColumn column = new WTableColumn(label, container);
 		column.setWidth(5);
 		table.addColumn(column);
 		setUpActionButtons();
@@ -184,7 +184,7 @@ public class TableRowEditingAjaxExample extends WPanel {
 	private void setUpActionButtons() {
 		// Buttons Panel
 		WPanel buttonPanel = new WPanel();
-		actionContainer.add(buttonPanel);
+		container.add(buttonPanel);
 
 		// Edit Button
 		final WButton editButton = new WButton("Edit") {
@@ -244,7 +244,7 @@ public class TableRowEditingAjaxExample extends WPanel {
 			public void execute(final ActionEvent event) {
 				Object key = TableUtil.getCurrentRowKey();
 				removeEditRow(key);
-				PersonBean bean = (PersonBean) actionContainer.getBean();
+				PersonBean bean = (PersonBean) container.getBean();
 				List<PersonBean> beans = (List<PersonBean>) table.getBean();
 				beans.remove(bean);
 				table.handleDataChanged();
