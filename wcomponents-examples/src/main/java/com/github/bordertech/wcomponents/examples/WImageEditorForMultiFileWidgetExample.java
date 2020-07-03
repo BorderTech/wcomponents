@@ -46,7 +46,7 @@ public class WImageEditorForMultiFileWidgetExample extends WPanel {
 		fileUploadWidget.setUseThumbnails(true);
 		fileUploadWidget.setFileTypes(new String[]{"image/*"});
 		fileUploadWidget.setMandatory(true);
-		layout.addField("Upload a file", fileUploadWidget);
+		layout.addField("Select a file to edit", fileUploadWidget);
 
 		// Upload button
 		WButton submit = new WButton("Submit");
@@ -54,9 +54,9 @@ public class WImageEditorForMultiFileWidgetExample extends WPanel {
 			@Override
 			public void executeOnValid(final ActionEvent event) {
 				// Create a message for each file uploaded
-				for (WMultiFileWidget.FileWidgetUpload uploaded : fileUploadWidget.getFiles()) {
+				fileUploadWidget.getFiles().forEach(uploaded -> {
 					messages.success("Uploaded file [" + uploaded.getFile().getFileName() + "].");
-				}
+				});
 			}
 		});
 		layout.addField(submit);

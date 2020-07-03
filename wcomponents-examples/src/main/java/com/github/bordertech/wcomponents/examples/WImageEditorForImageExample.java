@@ -1,7 +1,5 @@
 package com.github.bordertech.wcomponents.examples;
 
-import com.github.bordertech.wcomponents.Action;
-import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Image;
 import com.github.bordertech.wcomponents.ImageResource;
 import com.github.bordertech.wcomponents.WAjaxControl;
@@ -72,11 +70,8 @@ public class WImageEditorForImageExample extends WPanel {
 
 		// Setup the file upload to handle editted file
 		fileUploadWidget.setFileTypes(new String[]{"image/*"});
-		fileUploadWidget.setActionOnChange(new Action() {
-			@Override
-			public void execute(final ActionEvent event) {
-				handleFileEditted();
-			}
+		fileUploadWidget.setActionOnChange(event -> {
+			handleFileEditted();
 		});
 		detail.add(fileUploadWidget);
 
