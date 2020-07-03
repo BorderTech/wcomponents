@@ -776,15 +776,15 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		// Set Bean Property
 		single.setBeanProperty("myOption");
 
-		WBeanContainer beanContainer = new WBeanContainer();
-		beanContainer.add(single);
+		WContainer container = new WContainer();
+		container.add(single);
 
 		single.setLocked(true);
 		setActiveContext(createUIContext());
 
 		// Set a Bean that has no selections
 		MyBean bean = new MyBean();
-		beanContainer.setBean(bean);
+		container.setBean(bean);
 
 		// Test Nothing Selected and Empty Request (No Change)
 		MockRequest request = setupNothingSelectedRequest(single);

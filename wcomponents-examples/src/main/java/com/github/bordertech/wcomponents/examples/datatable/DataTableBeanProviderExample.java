@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents.examples.datatable;
 import com.github.bordertech.wcomponents.AbstractBeanTableDataModel;
 import com.github.bordertech.wcomponents.BeanProvider;
 import com.github.bordertech.wcomponents.BeanProviderBound;
-import com.github.bordertech.wcomponents.WBeanContainer;
+import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WDataTable;
 import com.github.bordertech.wcomponents.WTableColumn;
@@ -22,7 +22,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public class DataTableBeanProviderExample extends WBeanContainer {
+public class DataTableBeanProviderExample extends WContainer {
 
 	/**
 	 * A fake "application cache", that holds the data which is displayed by the table.

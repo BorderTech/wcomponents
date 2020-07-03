@@ -5,6 +5,11 @@
 ### API Changes
 
 ### Enhancements
+* Removed usage of deprecated APIs from the framework and examples. Including the following:
+    - Replaced usage of `WBeanContainer` with `WContainer`. #1733
+    - Replaced usage of `int` heading levels with `HeadingLevel` values. #1734
+    - Replaced usage of `int` spacing for `FlowLayout` with `Size` based spacing, #1735
+    - Replaced usage of `int` spacing for `ColumnLayout` with `Size` based spacing. #1736
 
 ### Bug Fixes
 
