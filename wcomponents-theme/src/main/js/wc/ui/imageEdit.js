@@ -447,12 +447,16 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 				originX: 'center',
 				originY: 'center'
 			});
+			
+			// Create active selection from the objects in the group
+			var selection = new fabric.ActiveSelection(objects, {
+				canvas: fbCanvas
+			});
 
 			fbCanvas._activeObject = null;
-			// remove all objects and re-render
-			fbCanvas.clear().renderAll();
-			// add group onto canvas
-			fbCanvas.add(group);
+			fbCanvas.setActiveObject(selection);
+			fbCanvas.renderAll();
+
 			return group;
 		};
 
@@ -1182,12 +1186,19 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 					originX: "left",
 					originY: "top"
 				});
-			// remove all objects and re-render
-			fbCanvas.clear().renderAll();
-			// add group onto canvas
-			fbCanvas.add(group);
+
+			// Create active selection from the objects in the group
+			var selection = new fabric.ActiveSelection(objects, {
+				canvas: fbCanvas
+			});
+
+			fbCanvas._activeObject = null;
+			fbCanvas.setActiveObject(selection);
+			fbCanvas.renderAll();
+
 			group.scaleToWidth(originaSize.width);
 			group.scaleToHeight(originaSize.height);
+
 			return group;
 		}
 

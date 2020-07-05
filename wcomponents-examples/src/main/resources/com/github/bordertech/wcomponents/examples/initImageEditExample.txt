@@ -2,7 +2,7 @@
 
 // Custom editor config turning on redact
 require(["wc/config"], function(config) {
-  config.set({redact:true, crop:false, format:'jpg'}, "wc/ui/imageEdit");
+  config.set({redact:true, crop:true, format:'jpg'}, "wc/ui/imageEdit");
 });
 
 // When using a static WImage, you need to link the imageEditor and fileUploader
