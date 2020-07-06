@@ -2,8 +2,13 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.Image;
 import com.github.bordertech.wcomponents.ImageResource;
+import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
+import com.github.bordertech.wcomponents.WButton;
+import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WEditableImage;
+import com.github.bordertech.wcomponents.WFieldLayout;
+import com.github.bordertech.wcomponents.WFieldSet;
 import com.github.bordertech.wcomponents.WFigure;
 import com.github.bordertech.wcomponents.WImageEditor;
 import com.github.bordertech.wcomponents.WMultiFileWidget;
@@ -35,9 +40,12 @@ import java.awt.Dimension;
  */
 public class WImageEditorForImageExample extends WPanel {
 
-	private static final Dimension REDACT_DIMENION = new Dimension(180, 240);
+	private static final Dimension REDACT_DIMENION = new Dimension(600, 800);
 
-	private final WTemplate script = new WTemplate("com/github/bordertech/wcomponents/examples/initImageEditExample.txt", TemplateRendererFactory.TemplateEngine.PLAINTEXT);
+	private final WTemplate script = new WTemplate("com/github/bordertech/wcomponents/examples/initImageEditExample.hbs", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
+
+	private final WCheckBox chbCrop = new WCheckBox(true);
+	private final WCheckBox chbRedact = new WCheckBox(true);
 
 	private final WMultiFileWidget fileUploadWidget = new WMultiFileWidget() {
 		@Override
@@ -48,17 +56,35 @@ public class WImageEditorForImageExample extends WPanel {
 
 	private final WEditableImage editImage = new WEditableImage(fileUploadWidget);
 
+	private final WPanel detail = new WPanel();
+
 	/**
 	 * Create example.
 	 */
 	public WImageEditorForImageExample() {
 
-		// Add the script to Config the Editor
-		add(script);
+		// Edit options
+		WFieldSet optionSet = new WFieldSet("Editor options");
+		add(optionSet);
+
+		WFieldLayout optionLayout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
+		optionSet.add(optionLayout);
+
+		optionLayout.addField("Allow crop image", chbCrop);
+		optionLayout.addField("Enable Redact image", chbRedact);
+
+		WButton applyButton = new WButton("Apply");
+		optionLayout.addField(applyButton);
+
+		applyButton.setAction(event -> {
+			setupEditor();
+		});
 
 		// Panel that can be used via AJAX to refresh image
-		final WPanel detail = new WPanel();
 		add(detail);
+
+		// Add the script to Config the Editor
+		detail.add(script);
 
 		// Add the image editor widget
 		final WImageEditor editor = new WImageEditor();
@@ -75,17 +101,33 @@ public class WImageEditorForImageExample extends WPanel {
 		});
 		detail.add(fileUploadWidget);
 
-		// Setup the image content
-		ImageResource content = new ImageResource("/com/github/bordertech/wcomponents/examples/portlet-portrait.jpg", "portrait", REDACT_DIMENION);
-		editImage.setImage(new MyContent(content));
-
 		// Put the image in a Figure
-		final WFigure imageHolder = new WFigure(editImage, content.getDescription());
+		final WFigure imageHolder = new WFigure(editImage, "Sample portrait");
 		detail.add(imageHolder);
 
 		// Create the AJAX trigger to refresh the Image
 		WAjaxControl ajax = new WAjaxControl(fileUploadWidget, detail);
 		detail.add(ajax);
+	}
+
+	@Override
+	protected void preparePaintComponent(final Request request) {
+		super.preparePaintComponent(request);
+		if (!isInitialised()) {
+			// Setup editor defaults
+			setupEditor();
+			setInitialised(true);
+		}
+	}
+
+	private void setupEditor() {
+		detail.reset();
+		// Editor config parameters
+		script.addParameter("paramCrop", chbCrop.isSelected());
+		script.addParameter("paramRedact", chbRedact.isSelected());
+		// Setup the image content
+		ImageResource content = new ImageResource("/com/github/bordertech/wcomponents/examples/Einstein.jpg", "portrait", REDACT_DIMENION);
+		editImage.setImage(new MyContent(content));
 	}
 
 	private void handleFileEditted() {

@@ -439,25 +439,23 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 		}
 
 		this.selectAll = function() {
+			// All objects on the canvas
 			var objects = fbCanvas.getObjects().map(function(o) {
 				return o.set('active', true);
 			});
 
-			var group = new fabric.Group(objects, {
+			// Create active selection from the objects (ActiveSelection extends Group)
+			var selection = new fabric.ActiveSelection(objects, {
+				canvas: fbCanvas,
 				originX: 'center',
 				originY: 'center'
-			});
-			
-			// Create active selection from the objects in the group
-			var selection = new fabric.ActiveSelection(objects, {
-				canvas: fbCanvas
 			});
 
 			fbCanvas._activeObject = null;
 			fbCanvas.setActiveObject(selection);
 			fbCanvas.renderAll();
 
-			return group;
+			return selection;
 		};
 
 		this.getFbImage = function(container) {
@@ -1178,28 +1176,29 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 		 * @param {fabric.Image} fbImage The image to un-scale.
 		 */
 		function unscale(fbImage) {
-			var originaSize = fbImage.getOriginalSize(),
-				objects = fbCanvas.getObjects().map(function(o) {
-					return o.set("active", true);
-				}),
-				group = new fabric.Group(objects, {
-					originX: "left",
-					originY: "top"
-				});
+			// Original size of image
+			var originaSize = fbImage.getOriginalSize();
 
-			// Create active selection from the objects in the group
-			var selection = new fabric.ActiveSelection(objects, {
-				canvas: fbCanvas
+			// All objects on the canvas
+			var objects = fbCanvas.getObjects().map(function(o) {
+				return o.set("active", true);
 			});
+
+			// Create active selection from the objects (ActiveSelection extends Group)
+			var selection = new fabric.ActiveSelection(objects, {
+				canvas: fbCanvas,
+				originX: "left",
+				originY: "top"
+			});
+
+			selection.scaleToWidth(originaSize.width);
+			selection.scaleToHeight(originaSize.height);
 
 			fbCanvas._activeObject = null;
 			fbCanvas.setActiveObject(selection);
 			fbCanvas.renderAll();
 
-			group.scaleToWidth(originaSize.width);
-			group.scaleToHeight(originaSize.height);
-
-			return group;
+			return selection;
 		}
 
 		/**
