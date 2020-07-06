@@ -3,8 +3,13 @@
 ## Release in-progress
 
 ### API Changes
+### Enhancements
+### Bug Fixes
+
+## 1.5.20
 
 ### Enhancements
+
 * Removed usage of deprecated APIs from the framework and examples. Including the following:
     - Replaced usage of `WBeanContainer` with `WContainer`. #1733
     - Replaced usage of `int` heading levels with `HeadingLevel` values. #1734
