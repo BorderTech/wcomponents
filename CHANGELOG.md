@@ -6,6 +6,10 @@
 ### Enhancements
 ### Bug Fixes
 
+## 1.5.21
+
+### Bug Fixes
+
 * Fixed regress in CROP function in imageEdit.js with fabric.js API fix and provided enhanced image editor example #1737.
 
 ## 1.5.20
