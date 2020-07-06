@@ -447,10 +447,16 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 				originX: 'center',
 				originY: 'center'
 			});
+			
+			// Create active selection from the objects in the group
+			var selection = new fabric.ActiveSelection(objects, {
+				canvas: fbCanvas
+			});
 
 			fbCanvas._activeObject = null;
+			fbCanvas.setActiveObject(selection);
+			fbCanvas.renderAll();
 
-			fbCanvas.setActiveGroup(group.setCoords()).renderAll();
 			return group;
 		};
 
@@ -1180,9 +1186,19 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 					originX: "left",
 					originY: "top"
 				});
-			fbCanvas.setActiveGroup(group.setCoords()).renderAll();
+
+			// Create active selection from the objects in the group
+			var selection = new fabric.ActiveSelection(objects, {
+				canvas: fbCanvas
+			});
+
+			fbCanvas._activeObject = null;
+			fbCanvas.setActiveObject(selection);
+			fbCanvas.renderAll();
+
 			group.scaleToWidth(originaSize.width);
 			group.scaleToHeight(originaSize.height);
+
 			return group;
 		}
 
@@ -1275,8 +1291,8 @@ function(has, mixin, wcconfig, Widget, event, classList, timers, prompt, i18n, f
 				} else {
 					object = unscale(fbImage);
 					toDataUrlParams = {
-						left: object.getLeft(),
-						top: object.getTop(),
+						left: object.get('left'),
+						top: object.get('top'),
 						width: object.getScaledWidth(),
 						height: object.getScaledHeight()
 					};

@@ -43,6 +43,8 @@ import com.github.bordertech.wcomponents.examples.WDropdownSpaceHandlingExample;
 import com.github.bordertech.wcomponents.examples.WDropdownSpecialCharHandlingExample;
 import com.github.bordertech.wcomponents.examples.WDropdownSubmitOnChangeExample;
 import com.github.bordertech.wcomponents.examples.WDropdownTriggerActionExample;
+import com.github.bordertech.wcomponents.examples.WImageEditorForImageExample;
+import com.github.bordertech.wcomponents.examples.WImageEditorForMultiFileWidgetExample;
 import com.github.bordertech.wcomponents.examples.WImageExample;
 import com.github.bordertech.wcomponents.examples.WRadioButtonTriggerActionExample;
 import com.github.bordertech.wcomponents.examples.WTextExample;
@@ -456,6 +458,8 @@ public class SimplePicker extends WContainer implements MessageContainer {
 			WDropdownSpecialCharHandlingExample.class.getName(),
 			WDropdownSubmitOnChangeExample.class.getName(),
 			WDropdownTriggerActionExample.class.getName(),
+			WImageEditorForImageExample.class.getName(),
+			WImageEditorForMultiFileWidgetExample.class.getName(),
 			WImageExample.class.getName(),
 			WWindowExample.class.getName(),
 			WTextExample.class.getName(),

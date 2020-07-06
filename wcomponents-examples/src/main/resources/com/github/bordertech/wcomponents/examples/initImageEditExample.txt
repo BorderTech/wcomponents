@@ -1,0 +1,15 @@
+<script type="text/javascript">
+
+// Custom editor config turning on redact
+require(["wc/config"], function(config) {
+  config.set({redact:true, crop:true, format:'jpg'}, "wc/ui/imageEdit");
+});
+
+// When using a static WImage, you need to link the imageEditor and fileUploader
+window.setTimeout(function() {
+  require(["wc/ui/imageEdit", "wc/ui/multiFileUploader"], function(imageEdit, multiFile) {
+    imageEdit.upload = multiFile.upload;
+  });
+}, 750);
+
+</script>

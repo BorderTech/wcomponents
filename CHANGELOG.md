@@ -13,6 +13,8 @@
 
 ### Bug Fixes
 
+* Fixed imageEdit.js to handle new fabric.js API and provided new image editor examples #1737.
+
 ## 1.5.19
 
 ### Enhancements
