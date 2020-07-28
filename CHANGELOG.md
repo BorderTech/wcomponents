@@ -3,8 +3,12 @@
 ## Release in-progress
 
 ### API Changes
+
 ### Enhancements
+
 ### Bug Fixes
+
+* Removed a selector ambiguity which caused position to be overridden in combo listboxes when the listbox was busy #1747.
 
 ## 1.5.21
 
