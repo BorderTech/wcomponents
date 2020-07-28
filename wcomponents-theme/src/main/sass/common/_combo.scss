@@ -62,8 +62,14 @@
   max-height: (7 * 1.125 * (1 + (2 * $wc-gap-small)));
   max-width: 100%;
   overflow: auto;
-  position: absolute;
   z-index: $wc-z-index-common;
+  
+  // #1747 build-source-order dependent flaw - single attibute selector
+  // can clash with [aria-busy='true'] which uses position:relative to place spinner
+  &,
+  &[aria-busy='true'] {
+	position: absolute;  
+  }
 
   dialog & {
     position: fixed;
