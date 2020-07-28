@@ -944,7 +944,7 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testIdNameAccessors() {
-		assertAccessorsCorrect(new SimpleComponent(), "idName", null, "A", "B");
+		assertAccessorsCorrect(new SimpleComponent(), SimpleComponent::getIdName, SimpleComponent::setIdName, null, "A", "B");
 	}
 
 	@Test
@@ -1079,7 +1079,7 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testTrackingEnabledAccessors() {
-		assertAccessorsCorrect(new SimpleComponent(), "trackingEnabled", false, true, false);
+		assertAccessorsCorrect(new SimpleComponent(), SimpleComponent::isTrackingEnabled, SimpleComponent::setTrackingEnabled, false, true, false);
 	}
 
 	@Test

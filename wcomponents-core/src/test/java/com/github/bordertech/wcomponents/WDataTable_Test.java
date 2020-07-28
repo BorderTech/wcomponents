@@ -1361,7 +1361,7 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testNamingContextAccessors() {
-		assertAccessorsCorrect(new WDataTable(), "namingContext", false, true, false);
+		assertAccessorsCorrect(new WDataTable(), WDataTable::isNamingContext, WDataTable::setNamingContext, false, true, false);
 	}
 
 	@Test

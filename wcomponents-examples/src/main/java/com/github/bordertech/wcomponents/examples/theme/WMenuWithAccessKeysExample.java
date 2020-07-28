@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.examples.theme;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WPanel;
@@ -56,7 +57,7 @@ public class WMenuWithAccessKeysExample extends WPanel {
 		subMenu.add(externalLink);
 
 		// Layout the UI
-		setLayout(new FlowLayout(Alignment.VERTICAL, 0, 5));
+		setLayout(new FlowLayout(Alignment.VERTICAL, Size.MEDIUM));
 		add(bar);
 		add(console);
 	}

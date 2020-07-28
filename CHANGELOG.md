@@ -3,18 +3,41 @@
 ## Release in-progress
 
 ### API Changes
+### Enhancements
+### Bug Fixes
+
+## 1.5.21
+
+### Bug Fixes
+
+* Fixed regress in CROP function in imageEdit.js with fabric.js API fix and provided enhanced image editor example #1737.
+
+## 1.5.20
 
 ### Enhancements
 
+* Removed usage of deprecated APIs from the framework and examples. Including the following:
+    - Replaced usage of `WBeanContainer` with `WContainer`. #1733
+    - Replaced usage of `int` heading levels with `HeadingLevel` values. #1734
+    - Replaced usage of `int` spacing for `FlowLayout` with `Size` based spacing, #1735
+    - Replaced usage of `int` spacing for `ColumnLayout` with `Size` based spacing. #1736
 
-* Added boolean controller of HTML controls attribute on WAudio and WVideo. Use `setRenderControls(boolean)` and `isRenderControls` and added 
+### Bug Fixes
+
+* Fixed imageEdit.js to handle new fabric.js API and provided new image editor examples #1737.
+
+## 1.5.19
+
+### Enhancements
+
+* Added boolean controller of HTML controls attribute on WAudio and WVideo. Use `setRenderControls(boolean)` and `isRenderControls` and added
   deprecation notes / use instead to `setControls(Control)` and `getControls()`. Part of #503
 * WAudioRenderer and WVideoRenderer changed to render (X)HTML not custom XML. Part of #1569.
     - removed XSLT
     - removed schemas
 * Removed obsolete A/V 'fixes' #1717
 * Added wcomponents-xslt as a dependency in wcomponents-core and removed it from wcomponents-bundle #1709.
-* Removed decorative Sass which created rounded corners on tabs. This was forgotten in the changes for 1.5.1 which separated structure from style as 
+* Removed decorative Sass which created rounded corners on tabs. This was forgotten in the changes for 1.5.1 which separated structure from style as
   much as possible #1711.
 * Updated TinyMCE to resolve security vulnerability #1696.
 * Added WTab based methods to WTabSet corresponding to the content methods
@@ -22,7 +45,7 @@
 * Add `@FunctionalInterface` to `Action` and `BeanProvider` to indicate that
   these can be instantiated as lambda expressions.
 * Allow client side unit tests to be configured using [Theme Build Options](wcomponents-theme#build-options) to facilitate running behind corporate firewall #1722
-* Adopt patched version of webdrivermanager so that Selenium tests can be run behind corporate firewall #1715
+* Adopt WebDriverManager 4.0.0 so that Selenium tests can be run behind corporate firewall #1715
 
 ### Bug Fixes
 
@@ -32,6 +55,8 @@
 * Fixed default TinyMCE config regression error introduced in update form v4 to v5 #1696.
 * Fix WImageRenderer to output title attribute when appropriate #1697.
 * Fix regression in previous few versions which broken ImageCapture component #1687
+
+### API Changes
 
 ## 1.5.18
 

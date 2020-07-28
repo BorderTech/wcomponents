@@ -2,8 +2,10 @@ package com.github.bordertech.wcomponents.examples.theme;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Message;
 import com.github.bordertech.wcomponents.MessageContainer;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCancelButton;
 import com.github.bordertech.wcomponents.WCardManager;
@@ -80,15 +82,15 @@ public class WCancelButtonExample extends WPanel implements MessageContainer {
 		}
 
 		WPanel buttonPanel = new WPanel(Type.FEATURE);
-		buttonPanel.setLayout(new FlowLayout(Alignment.LEFT, 3, 0));
-		buttonPanel.setMargin(new com.github.bordertech.wcomponents.Margin(12, 0, 0, 0));
+		buttonPanel.setLayout(new FlowLayout(Alignment.LEFT, Size.SMALL));
+		buttonPanel.setMargin(new com.github.bordertech.wcomponents.Margin(Size.LARGE, Size.ZERO, Size.ZERO, Size.ZERO));
 		buttonPanel.add(prevButton);
 		buttonPanel.add(nextButton);
 		buttonPanel.add(finishButton);
 		buttonPanel.add(cancelButton);
 		add(buttonPanel);
 
-		add(new WHeading(WHeading.MAJOR, "Testing example for Internet Explorer"));
+		add(new WHeading(HeadingLevel.H2, "Testing example for Internet Explorer"));
 		add(new ExplanatoryText(
 				"Internet Explorer (up to and including IE11) honours clicks on disabled buttons and causes the event handlers to be called."
 				+ " This example is only used to check that we are correctly handling these click on disabled buttons. To undertake the test enter some text"

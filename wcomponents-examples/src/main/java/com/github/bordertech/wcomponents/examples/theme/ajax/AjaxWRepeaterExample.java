@@ -2,11 +2,11 @@ package com.github.bordertech.wcomponents.examples.theme.ajax;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WAjaxControl;
-import com.github.bordertech.wcomponents.WBeanContainer;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WContainer;
@@ -58,11 +58,11 @@ public class AjaxWRepeaterExample extends WContainer {
 		});
 		button.setAjaxTarget(panel);
 
-		add(new WHeading(WHeading.MAJOR, "WRepeater using ajax"));
+		add(new WHeading(HeadingLevel.H2, "WRepeater using ajax"));
 		add(panel);
 
 		WPanel buttonPanel = new WPanel(WPanel.Type.FEATURE);
-		buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 3, 0));
+		buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, Size.SMALL));
 		buttonPanel.setMargin(new Margin(Size.LARGE, null, null, null));
 		add(buttonPanel);
 		buttonPanel.add(button);
@@ -96,7 +96,7 @@ public class AjaxWRepeaterExample extends WContainer {
 	/**
 	 * Component used by the repeater, that demonstrates using ajax.
 	 */
-	public static class RowComponent extends WBeanContainer {
+	public static class RowComponent extends WContainer {
 
 		/**
 		 * Checkbox that initiates ajax request.

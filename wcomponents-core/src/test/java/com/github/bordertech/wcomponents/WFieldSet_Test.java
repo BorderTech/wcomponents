@@ -48,13 +48,13 @@ public class WFieldSet_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testFrameTypeAccessors() {
-		assertAccessorsCorrect(new WFieldSet(""), "frameType", FrameType.NORMAL, FrameType.NO_TEXT,
-				FrameType.NO_BORDER);
+		assertAccessorsCorrect(new WFieldSet(""), WFieldSet::getFrameType, WFieldSet::setFrameType,
+			FrameType.NORMAL, FrameType.NO_TEXT, FrameType.NO_BORDER);
 	}
 
 	@Test
 	public void testMandatoryAccessors() {
-		assertAccessorsCorrect(new WFieldSet(""), "mandatory", false, true, false);
+		assertAccessorsCorrect(new WFieldSet(""), WFieldSet::isMandatory, WFieldSet::setMandatory, false, true, false);
 	}
 
 	@Test
@@ -67,7 +67,8 @@ public class WFieldSet_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testMarginAccessors() {
-		assertAccessorsCorrect(new WFieldSet(""), "margin", null, new Margin(1), new Margin(2));
+		assertAccessorsCorrect(new WFieldSet(""), WFieldSet::getMargin, WFieldSet::setMargin,
+			null, new Margin(Size.SMALL), new Margin(Size.MEDIUM));
 	}
 
 	@Test

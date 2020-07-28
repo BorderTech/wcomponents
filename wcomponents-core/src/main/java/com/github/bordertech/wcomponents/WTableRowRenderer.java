@@ -153,7 +153,7 @@ public final class WTableRowRenderer extends WDataRenderer {
 	 * The renderer wrapper is responsible for ensuring that the renderer is only used when needed (ie. it is only
 	 * involved in processing of certain rows), and ensuring that data is passed to / from the renderer when required.
 	 */
-	private static final class RendererWrapper extends WBeanContainer implements BeanProvider {
+	private static final class RendererWrapper extends WContainer implements BeanProvider {
 
 		/**
 		 * The table that this wrapper belongs to.

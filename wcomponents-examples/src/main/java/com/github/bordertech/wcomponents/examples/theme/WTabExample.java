@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.examples.theme;
 
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WDecoratedLabel;
 import com.github.bordertech.wcomponents.WFieldLayout;
@@ -82,7 +83,7 @@ public class WTabExample extends WPanel {
 		tabset1TabClient = tabset1.addTab(new ExplanatoryText(
 				"This content was present when the page first rendered."), "Another Client",
 				TabMode.CLIENT);
-		tabset1.setMargin(new com.github.bordertech.wcomponents.Margin(0, 0, 24, 0));
+		tabset1.setMargin(new com.github.bordertech.wcomponents.Margin(Size.ZERO, Size.ZERO, Size.XL, Size.ZERO));
 		add(tabset1);
 
 		add(new WHeading(HeadingLevel.H3, "One tab disabled."));
@@ -113,7 +114,7 @@ public class WTabExample extends WPanel {
 		add(new WHeading(HeadingLevel.H3, "Tabs with access keys"));
 		WTabSet tabset5 = new WTabSet();
 		add(tabset5);
-		tabset5.setMargin(new com.github.bordertech.wcomponents.Margin(0, 0, 24, 0));
+		tabset5.setMargin(new com.github.bordertech.wcomponents.Margin(Size.ZERO, Size.ZERO, Size.XL, Size.ZERO));
 
 		tabset5.addTab(new ExplanatoryText("Some content should go into here."), "First tab",
 				WTabSet.TAB_MODE_CLIENT, 'T');
@@ -238,7 +239,7 @@ public class WTabExample extends WPanel {
 		 * Setup tabs et.
 		 */
 		private void init() {
-			setMargin(new com.github.bordertech.wcomponents.Margin(0, 0, 24, 0));
+			setMargin(new com.github.bordertech.wcomponents.Margin(Size.ZERO, Size.ZERO, Size.XL, Size.ZERO));
 			addTab(new ExplanatoryText("Some content should go into here."), "First tab",
 					WTabSet.TAB_MODE_CLIENT);
 			addTab(new ExplanatoryText(LONG_TEXT), "Second tab", WTabSet.TAB_MODE_CLIENT);

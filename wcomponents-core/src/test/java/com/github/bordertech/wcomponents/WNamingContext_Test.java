@@ -13,7 +13,8 @@ public class WNamingContext_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testIdNameAccessors() {
-		assertAccessorsCorrect(new WNamingContext("TEST"), "idName", "TEST", "XX", "YY");
+		assertAccessorsCorrect(new WNamingContext("TEST"), WNamingContext::getIdName, WNamingContext::setIdName,
+			"TEST", "XX", "YY");
 	}
 
 	@Test

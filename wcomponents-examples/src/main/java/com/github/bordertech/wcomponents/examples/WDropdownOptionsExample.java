@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.examples;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.SubordinateTarget;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
@@ -147,7 +148,7 @@ public class WDropdownOptionsExample extends WContainer {
 		WFieldSet fieldSet = getDropDownControls();
 		add(fieldSet);
 		add(new WHorizontalRule());
-		container.setLayout(new FlowLayout(Alignment.VERTICAL, 0, 6));
+		container.setLayout(new FlowLayout(Alignment.VERTICAL, Size.MEDIUM));
 		add(container);
 		add(new WHorizontalRule());
 		add(infoPanel);

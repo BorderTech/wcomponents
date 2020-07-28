@@ -124,7 +124,7 @@ public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
 		list.setRepeatedComponent(new WText());
 		assertXpathNotExists("//ui:panel/ui:margin", list);
 
-		Margin margin = new Margin(0);
+		Margin margin = new Margin(null);
 		list.setMargin(margin);
 		assertXpathNotExists("//ui:panel/ui:margin", list);
 

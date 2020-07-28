@@ -55,14 +55,14 @@ public class WTimeoutWarning_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testTimeoutAccessors() {
-		assertAccessorsCorrect(new WTimeoutWarning(), "timeoutPeriod", DEFAULT_TIMEOUT_PERIOD, 300,
-				TIMEOUT);
+		assertAccessorsCorrect(new WTimeoutWarning(), WTimeoutWarning::getTimeoutPeriod, WTimeoutWarning::setTimeoutPeriod,
+			DEFAULT_TIMEOUT_PERIOD, 300, TIMEOUT);
 	}
 
 	@Test
 	public void testWarningAccessors() {
-		assertAccessorsCorrect(new WTimeoutWarning(), "warningPeriod", DEFAULT_WARNING_PERIOD, 60,
-				WARN_AT);
+		assertAccessorsCorrect(new WTimeoutWarning(), WTimeoutWarning::getWarningPeriod, WTimeoutWarning::setWarningPeriod,
+			DEFAULT_WARNING_PERIOD, 60, WARN_AT);
 	}
 
 	@Test

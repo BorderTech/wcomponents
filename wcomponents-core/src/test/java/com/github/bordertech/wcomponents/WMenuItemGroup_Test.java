@@ -27,12 +27,12 @@ public class WMenuItemGroup_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testHeadingTextAccessors() {
-		assertAccessorsCorrect(new WMenuItemGroup("A"), "headingText", "A", "B", "C");
+		assertAccessorsCorrect(new WMenuItemGroup("A"), WMenuItemGroup::getHeadingText, WMenuItemGroup::setHeadingText, "A", "B", "C");
 	}
 
 	@Test
 	public void testDisabledAccessors() {
-		assertAccessorsCorrect(new WMenuItemGroup(""), "disabled", false, true, false);
+		assertAccessorsCorrect(new WMenuItemGroup(""), WMenuItemGroup::isDisabled, WMenuItemGroup::setDisabled, false, true, false);
 	}
 
 	@Test

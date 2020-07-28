@@ -70,11 +70,11 @@ public class TreePicker extends WContainer {
 	/**
 	 * column hgap.
 	 */
-	private static final int COL_HGAP = 12;
+	private static final Size COL_HGAP = Size.LARGE;
 	/**
 	 * column vgap.
 	 */
-	private static final int COL_VGAP = 0;
+	private static final Size COL_VGAP = Size.ZERO;
 
 	/**
 	 * Creates a TreePicker.

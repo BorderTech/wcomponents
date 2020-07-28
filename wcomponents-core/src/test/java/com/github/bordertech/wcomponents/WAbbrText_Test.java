@@ -42,7 +42,7 @@ public class WAbbrText_Test extends AbstractWComponentTestCase {
 	/** @deprecated */
 	@Test
 	public void testGetSetAbbrText() {
-		assertAccessorsCorrect(new WAbbrText(), "abbrText", null, "toolTip 1", "toolTip 2");
+		assertAccessorsCorrect(new WAbbrText(), WAbbrText::getAbbrText, WAbbrText::setAbbrText, null, "toolTip 1", "toolTip 2");
 	}
 
 	@Test

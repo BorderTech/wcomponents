@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.examples.theme;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.HeadingLevel;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WConfirmationButton;
@@ -53,7 +54,7 @@ public class WConfirmationButtonExample extends WContainer {
 		clearLink.setRenderAsLink(true);
 
 		WPanel buttonPanel = new WPanel();
-		buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 6, 0,
+		buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, Size.MEDIUM,
 				FlowLayout.ContentAlignment.BASELINE));
 		buttonPanel.add(clear);
 		buttonPanel.add(clearLink);

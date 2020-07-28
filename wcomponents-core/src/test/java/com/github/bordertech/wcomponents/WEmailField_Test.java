@@ -147,23 +147,23 @@ public class WEmailField_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testTextAccessors() {
-		assertAccessorsCorrect(new WEmailField(), "text", null, "A", "B");
+		assertAccessorsCorrect(new WEmailField(), WEmailField::getText, WEmailField::setText, null, "A", "B");
 	}
 
 	@Test
 	public void testColumnsAccessors() {
-		assertAccessorsCorrect(new WEmailField(), "columns", 0, 1, 2);
+		assertAccessorsCorrect(new WEmailField(), WEmailField::getColumns, WEmailField::setColumns, 0, 1, 2);
 	}
 
 	@Test
 	public void testMaxLengthAccessors() {
-		assertAccessorsCorrect(new WEmailField(), "maxLength", 0, 1, 2);
+		assertAccessorsCorrect(new WEmailField(), WEmailField::getMaxLength, WEmailField::setMaxLength, 0, 1, 2);
 	}
 
 	@Test
 	public void testSuggestionsAccessors() {
-		assertAccessorsCorrect(new WEmailField(), "suggestions", null, new WSuggestions(),
-				new WSuggestions());
+		assertAccessorsCorrect(new WEmailField(), WEmailField::getSuggestions, WEmailField::setSuggestions,
+			null, new WSuggestions(), new WSuggestions());
 	}
 
 	@Test
@@ -272,7 +272,7 @@ public class WEmailField_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testPlaceholderAccessors() {
-		assertAccessorsCorrect(new WEmailField(), "placeholder", null, "A", "B");
+		assertAccessorsCorrect(new WEmailField(), WEmailField::getPlaceholder, WEmailField::setPlaceholder, null, "A", "B");
 	}
 
 	// AUTOCOMPLETE

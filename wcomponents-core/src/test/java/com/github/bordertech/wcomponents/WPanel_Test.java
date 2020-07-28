@@ -127,16 +127,19 @@ public class WPanel_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testModeAccessors() {
-		assertAccessorsCorrect(new WPanel(), "mode", null, PanelMode.EAGER, PanelMode.LAZY);
+		assertAccessorsCorrect(new WPanel(), WPanel::getMode, WPanel::setMode,
+			null, PanelMode.EAGER, PanelMode.LAZY);
 	}
 
 	@Test
 	public void testTypeAccessors() {
-		assertAccessorsCorrect(new WPanel(), "type", WPanel.Type.PLAIN, WPanel.Type.CHROME, WPanel.Type.BOX);
+		assertAccessorsCorrect(new WPanel(), WPanel::getType, WPanel::setType,
+			WPanel.Type.PLAIN, WPanel.Type.CHROME, WPanel.Type.BOX);
 	}
 
 	@Test
 	public void testMarginAccessors() {
-		assertAccessorsCorrect(new WPanel(), "margin", null, new Margin(Size.SMALL), new Margin(Size.LARGE));
+		assertAccessorsCorrect(new WPanel(), WPanel::getMargin, WPanel::setMargin,
+			null, new Margin(Size.SMALL), new Margin(Size.LARGE));
 	}
 }

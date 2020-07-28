@@ -108,21 +108,23 @@ public class WCollapsible_Test extends AbstractWComponentTestCase {
 	public void testMarginAccessors() {
 		WCollapsible collapsible = new WCollapsible(new WText(""), "",
 				WCollapsible.CollapsibleMode.CLIENT);
-		assertAccessorsCorrect(collapsible, "margin", null, new Margin(1), new Margin(2));
+		assertAccessorsCorrect(collapsible, WCollapsible::getMargin, WCollapsible::setMargin,
+			null, new Margin(Size.SMALL), new Margin(Size.MEDIUM));
 	}
 
 	@Test
 	public void testHeadingLevelAccessors() {
-		WCollapsible collapsible = new WCollapsible(new WText(""), "",
-				WCollapsible.CollapsibleMode.CLIENT);
-		assertAccessorsCorrect(collapsible, "headingLevel", null, HeadingLevel.H1, HeadingLevel.H2);
+		WCollapsible collapsible = new WCollapsible(new WText(""), "",WCollapsible.CollapsibleMode.CLIENT);
+		assertAccessorsCorrect(collapsible, WCollapsible::getHeadingLevel, WCollapsible::setHeadingLevel,
+			null, HeadingLevel.H1, HeadingLevel.H2);
 	}
 
 	@Test
 	public void testModeAccessors() {
 		WCollapsible collapsible = new WCollapsible(new WText(""), "",
 				WCollapsible.CollapsibleMode.CLIENT);
-		assertAccessorsCorrect(collapsible, "mode", WCollapsible.CollapsibleMode.CLIENT, WCollapsible.CollapsibleMode.LAZY, WCollapsible.CollapsibleMode.DYNAMIC);
+		assertAccessorsCorrect(collapsible, WCollapsible::getMode, WCollapsible::setMode,
+			WCollapsible.CollapsibleMode.CLIENT, WCollapsible.CollapsibleMode.LAZY, WCollapsible.CollapsibleMode.DYNAMIC);
 	}
 
 }

@@ -42,11 +42,13 @@ public class WSection_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testModeAccessors() {
-		assertAccessorsCorrect(new WSection(""), "mode", null, SectionMode.EAGER, SectionMode.LAZY);
+		assertAccessorsCorrect(new WSection(""), WSection::getMode, WSection::setMode,
+			null, SectionMode.EAGER, SectionMode.LAZY);
 	}
 
 	@Test
 	public void testMarginAccessors() {
-		assertAccessorsCorrect(new WSection(""), "margin", null, new Margin(1), new Margin(2));
+		assertAccessorsCorrect(new WSection(""), WSection::getMargin, WSection::setMargin,
+			null, new Margin(Size.SMALL), new Margin(Size.MEDIUM));
 	}
 }

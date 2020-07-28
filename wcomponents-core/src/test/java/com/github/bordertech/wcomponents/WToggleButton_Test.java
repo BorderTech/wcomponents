@@ -74,7 +74,7 @@ public class WToggleButton_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testTextAccessors() {
-		assertAccessorsCorrect(new WToggleButton(), "text", null, "A", "B");
+		assertAccessorsCorrect(new WToggleButton(), WToggleButton::getText, WToggleButton::setText, null, "A", "B");
 	}
 
 }

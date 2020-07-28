@@ -323,13 +323,14 @@ public class WTab_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testModeAccessors() {
 		WTab tab = new WTab(new WContainer(), "test", WTabSet.TabMode.CLIENT);
-		assertAccessorsCorrect(tab, "mode", TabMode.CLIENT, TabMode.DYNAMIC, TabMode.LAZY);
+		assertAccessorsCorrect(tab, WTab::getMode, WTab::setMode,
+			TabMode.CLIENT, TabMode.DYNAMIC, TabMode.LAZY);
 	}
 
 	@Test
 	public void testAccessKeyAccessors() {
 		WTab tab = new WTab(new WContainer(), "test", WTabSet.TabMode.CLIENT);
-		assertAccessorsCorrect(tab, "accessKey", '\0', 'A', 'B');
+		assertAccessorsCorrect(tab, WTab::getAccessKey, WTab::setAccessKey, '\0', 'A', 'B');
 	}
 
 	/**

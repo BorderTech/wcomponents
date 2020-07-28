@@ -126,17 +126,17 @@ public class WAudio_Test extends AbstractWComponentTestCase {
 	public void testAltTextAccessors() {
 		String defaultText = "WAudio_Test.testGetAltText.defaultText";
 		String userText = "WAudio_Test.testGetAltText.userText";
-		assertAccessorsCorrect(new WAudio(), "altText", null, defaultText, userText);
+		assertAccessorsCorrect(new WAudio(), WAudio::getAltText, WAudio::setAltText, null, defaultText, userText);
 	}
 
 	@Test
 	public void testLoopAccessors() {
-		assertAccessorsCorrect(new WAudio(), "loop", false, true, false);
+		assertAccessorsCorrect(new WAudio(), WAudio::isLoop, WAudio::setLoop, false, true, false);
 	}
 
 	@Test
 	public void testAutoplayAccessors() {
-		assertAccessorsCorrect(new WAudio(), "autoplay", false, true, false);
+		assertAccessorsCorrect(new WAudio(), WAudio::isAutoplay, WAudio::setAutoplay, false, true, false);
 	}
 
 	@Test
@@ -169,7 +169,7 @@ public class WAudio_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testRenderControlsAccessors() {
-		assertAccessorsCorrect(new WAudio(), "renderControls", true, false, true);
+		assertAccessorsCorrect(new WAudio(), WAudio::isRenderControls, WAudio::setRenderControls, true, false, true);
 	}
 
 	@Test
@@ -191,7 +191,7 @@ public class WAudio_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testDisabledAccessors() {
-		assertAccessorsCorrect(new WAudio(), "disabled", false, true, false);
+		assertAccessorsCorrect(new WAudio(), WAudio::isDisabled, WAudio::setDisabled, false, true, false);
 	}
 
 	@Test
@@ -199,7 +199,7 @@ public class WAudio_Test extends AbstractWComponentTestCase {
 		WAudio.Preload preload1 = WAudio.Preload.AUTO;
 		WAudio.Preload preload2 = WAudio.Preload.META_DATA;
 		WAudio audio = new WAudio();
-		assertAccessorsCorrect(audio, "preload", WAudio.Preload.NONE, preload1, preload2);
+		assertAccessorsCorrect(audio, WAudio::getPreload, WAudio::setPreload, WAudio.Preload.NONE, preload1, preload2);
 
 		resetContext();
 		Assert.assertSame("Incorrect default preload", preload1, audio.getPreload());
@@ -210,7 +210,7 @@ public class WAudio_Test extends AbstractWComponentTestCase {
 		String mediaGroup = "WAudio_Test.testGetMediaGroup.mediaGroup";
 		String mediaGroup2 = "WAudio_Test.testGetMediaGroup.mediaGroup";
 
-		assertAccessorsCorrect(new WAudio(), "mediaGroup", null, mediaGroup, mediaGroup2);
+		assertAccessorsCorrect(new WAudio(), WAudio::getMediaGroup, WAudio::setMediaGroup, null, mediaGroup, mediaGroup2);
 	}
 
 	@Test
@@ -218,12 +218,12 @@ public class WAudio_Test extends AbstractWComponentTestCase {
 		String cacheKey1 = "WAudio_Test.testGetCacheKey.cacheKey1";
 		String cacheKey2 = "WAudio_Test.testGetCacheKey.cacheKey2";
 
-		assertAccessorsCorrect(new WAudio(), "cacheKey", null, cacheKey1, cacheKey2);
+		assertAccessorsCorrect(new WAudio(), WAudio::getCacheKey, WAudio::setCacheKey, null, cacheKey1, cacheKey2);
 	}
 
 	@Test
 	public void testMutedAccessors() {
-		assertAccessorsCorrect(new WAudio(), "muted", false, true, false);
+		assertAccessorsCorrect(new WAudio(), WAudio::isMuted, WAudio::setMuted, false, true, false);
 
 	}
 }

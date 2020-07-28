@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.examples;
 
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
@@ -30,7 +31,7 @@ public class WShufflerExample extends WContainer {
 	 * Construct the example.
 	 */
 	public WShufflerExample() {
-		add(new WHeading(WHeading.SECTION, "WShuffler examples"));
+		add(new WHeading(HeadingLevel.H3, "WShuffler examples"));
 
 		WFieldLayout layout = new WFieldLayout();
 		add(layout);

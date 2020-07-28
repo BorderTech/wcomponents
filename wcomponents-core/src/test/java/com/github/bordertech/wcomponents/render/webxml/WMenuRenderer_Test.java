@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.Margin;
+import com.github.bordertech.wcomponents.MenuSelectContainer.SelectionMode;
 import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenu.SelectMode;
@@ -51,6 +52,14 @@ public class WMenuRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("true", "//ui:menu/@disabled", menu);
 		assertXpathEvaluatesTo("true", "//ui:menu/@hidden", menu);
 
+		menu.setSelectionMode(SelectionMode.SINGLE);
+		assertSchemaMatch(menu);
+		assertXpathEvaluatesTo("single", "//ui:menu/@selectMode", menu);
+
+		menu.setSelectionMode(SelectionMode.MULTIPLE);
+		assertSchemaMatch(menu);
+		assertXpathEvaluatesTo("multiple", "//ui:menu/@selectMode", menu);
+
 		menu.setSelectMode(SelectMode.SINGLE);
 		assertSchemaMatch(menu);
 		assertXpathEvaluatesTo("single", "//ui:menu/@selectMode", menu);
@@ -86,7 +95,7 @@ public class WMenuRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertXpathNotExists("//ui:menu/ui:margin", menu);
 
-		Margin margin = new Margin(0);
+		Margin margin = new Margin(null);
 		menu.setMargin(margin);
 		assertXpathNotExists("//ui:menu/ui:margin", menu);
 

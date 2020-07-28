@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.examples.validation.basic;
 
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WContainer;
@@ -49,7 +50,7 @@ public class BasicDiagnosticComponentExample extends ValidationContainer {
 		public WDiagnosticComponent() {
 			WFieldLayout layout = new WFieldLayout();
 			layout.setLabelWidth(30);
-			layout.setMargin(new com.github.bordertech.wcomponents.Margin(0, 0, 12, 0));
+			layout.setMargin(new com.github.bordertech.wcomponents.Margin(Size.ZERO, Size.ZERO, Size.LARGE, Size.ZERO));
 			//mandatory fields
 			inputText1.setMandatory(true);
 			layout.addField("Unique Input 1", inputText1).getLabel().setHint("required");

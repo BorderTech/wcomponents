@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.examples.theme;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.RadioButtonGroup;
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WCheckBoxSelect;
@@ -205,7 +206,7 @@ public class WFieldInputWidthExample extends WPanel {
 		// Now it gets confusing. We want the radio buttons to flow with their labels but be apart from each other...
 		//The WPanel which flowLayout and hgap will make the two control:label pairs sit apart from each other
 		WPanel rbLayout = new WPanel();
-		rbLayout.setLayout(new FlowLayout(FlowLayout.LEFT, 12, 0,
+		rbLayout.setLayout(new FlowLayout(FlowLayout.LEFT, Size.MEDIUM,
 				FlowLayout.ContentAlignment.BASELINE));
 		//then we use WContainer to add each control:label pair to the WPanel
 		WContainer rbContainer = new WContainer();

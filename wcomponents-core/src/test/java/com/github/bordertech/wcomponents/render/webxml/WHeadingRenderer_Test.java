@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WDecoratedLabel;
@@ -21,7 +22,7 @@ public class WHeadingRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
 	public void testRendererCorrectlyConfigured() {
-		WHeading component = new WHeading(WHeading.TITLE, "");
+		WHeading component = new WHeading(HeadingLevel.H1, "");
 		Assert.assertTrue("Incorrect renderer supplied",
 				getWebXmlRenderer(component) instanceof WHeadingRenderer);
 	}
@@ -30,27 +31,27 @@ public class WHeadingRenderer_Test extends AbstractWebXmlRendererTestCase {
 	public void testPaint() throws IOException, SAXException, XpathException {
 		final String text = "WHeading_Test.testPaint.heading";
 
-		WHeading heading = new WHeading(WHeading.TITLE, text);
+		WHeading heading = new WHeading(HeadingLevel.H1, text);
 		assertSchemaMatch(heading);
 		assertXpathEvaluatesTo(text, "//ui:heading[@level=1]", heading);
 
-		heading = new WHeading(WHeading.MAJOR, text);
+		heading = new WHeading(HeadingLevel.H2, text);
 		assertSchemaMatch(heading);
 		assertXpathEvaluatesTo(text, "//ui:heading[@level=2]", heading);
 
-		heading = new WHeading(WHeading.SECTION, text);
+		heading = new WHeading(HeadingLevel.H3, text);
 		assertSchemaMatch(heading);
 		assertXpathEvaluatesTo(text, "//ui:heading[@level=3]", heading);
 
-		heading = new WHeading(WHeading.MINOR, text);
+		heading = new WHeading(HeadingLevel.H4, text);
 		assertSchemaMatch(heading);
 		assertXpathEvaluatesTo(text, "//ui:heading[@level=4]", heading);
 
-		heading = new WHeading(WHeading.SUB_HEADING, text);
+		heading = new WHeading(HeadingLevel.H5, text);
 		assertSchemaMatch(heading);
 		assertXpathEvaluatesTo(text, "//ui:heading[@level=5]", heading);
 
-		heading = new WHeading(WHeading.SUB_SUB_HEADING, text);
+		heading = new WHeading(HeadingLevel.H6, text);
 		assertSchemaMatch(heading);
 		assertXpathEvaluatesTo(text, "//ui:heading[@level=6]", heading);
 
@@ -67,7 +68,7 @@ public class WHeadingRenderer_Test extends AbstractWebXmlRendererTestCase {
 		final String text1 = "WHeading_Test.testPaintWithDecoratedLabel.text1";
 		final String text2 = "WHeading_Test.testPaintWithDecoratedLabel.text2";
 
-		WHeading heading = new WHeading(WHeading.TITLE, new WDecoratedLabel(new WText(text1)));
+		WHeading heading = new WHeading(HeadingLevel.H1, new WDecoratedLabel(new WText(text1)));
 		assertSchemaMatch(heading);
 
 		assertXpathEvaluatesTo(text1, "//ui:heading[@level=1]/ui:decoratedlabel/ui:labelbody/text()",
@@ -81,10 +82,10 @@ public class WHeadingRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
 	public void testRenderedWithMargins() throws IOException, SAXException, XpathException {
-		WHeading heading = new WHeading(WHeading.TITLE, "test");
+		WHeading heading = new WHeading(HeadingLevel.H1, "test");
 		assertXpathNotExists("//ui:heading/ui:margin", heading);
 
-		Margin margin = new Margin(0);
+		Margin margin = new Margin(null);
 		heading.setMargin(margin);
 		assertXpathNotExists("//ui:heading/ui:margin", heading);
 
@@ -109,7 +110,7 @@ public class WHeadingRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
 	public void testXssEscaping() throws IOException, SAXException, XpathException {
-		WHeading heading = new WHeading(WHeading.TITLE, new WDecoratedLabel(new WText("dummy")));
+		WHeading heading = new WHeading(HeadingLevel.H1, new WDecoratedLabel(new WText("dummy")));
 
 		assertSafeContent(heading);
 

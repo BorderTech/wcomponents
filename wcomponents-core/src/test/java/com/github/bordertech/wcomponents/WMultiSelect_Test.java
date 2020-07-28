@@ -50,7 +50,7 @@ public class WMultiSelect_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testRowAccessors() {
-		assertAccessorsCorrect(new WMultiSelect(), "rows", 0, 1, 2);
+		assertAccessorsCorrect(new WMultiSelect(), WMultiSelect::getRows, WMultiSelect::setRows, 0, 1, 2);
 	}
 	
 	@Test

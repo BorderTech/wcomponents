@@ -31,7 +31,7 @@ public class WFieldLayout_Test extends AbstractWComponentTestCase {
 	}
 	@Test
 	public void testLabelWidthAccessors() {
-		assertAccessorsCorrect(new WFieldLayout(), "labelWidth", 0, 1, 2);
+		assertAccessorsCorrect(new WFieldLayout(), WFieldLayout::getLabelWidth, WFieldLayout::setLabelWidth, 0, 1, 2);
 	}
 
 	@Test
@@ -58,22 +58,24 @@ public class WFieldLayout_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testTitleAccessors() {
-		assertAccessorsCorrect(new WFieldLayout(), "title", null, "Title1", "Title2");
+		assertAccessorsCorrect(new WFieldLayout(), WFieldLayout::getTitle, WFieldLayout::setTitle,
+			null, "Title1", "Title2");
 	}
 
 	@Test
 	public void testMarginAccessors() {
-		assertAccessorsCorrect(new WFieldLayout(), "margin", null, new Margin(1), new Margin(2));
+		assertAccessorsCorrect(new WFieldLayout(), WFieldLayout::getMargin, WFieldLayout::setMargin,
+			null, new Margin(Size.SMALL), new Margin(Size.MEDIUM));
 	}
 
 	@Test
 	public void testOrderedAccessors() {
-		assertAccessorsCorrect(new WFieldLayout(), "ordered", false, true, false);
+		assertAccessorsCorrect(new WFieldLayout(), WFieldLayout::isOrdered, WFieldLayout::setOrdered, false, true, false);
 	}
 
 	@Test
 	public void testOrderedOffsetAccessors() {
-		assertAccessorsCorrect(new WFieldLayout(), "orderedOffset", 1, 2, 3);
+		assertAccessorsCorrect(new WFieldLayout(), WFieldLayout::getOrderedOffset, WFieldLayout::setOrderedOffset, 1, 2, 3);
 	}
 
 	@Test(expected = IllegalArgumentException.class)

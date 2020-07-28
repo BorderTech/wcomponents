@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.examples.theme;
 
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.RadioButtonGroup;
 import com.github.bordertech.wcomponents.Size;
@@ -24,7 +25,7 @@ public class WRadioButtonExample extends WContainer {
 	 */
 	public WRadioButtonExample() {
 		//Normal WRadioButtons in a RadioButtonGroup
-		add(new WHeading(WHeading.MAJOR, "Radio buttons are answers to a particular question."));
+		add(new WHeading(HeadingLevel.H2, "Radio buttons are answers to a particular question."));
 
 		add(new ExplanatoryText(
 				"It is not required that all WRadioButtons in a group be in the same field set (or even in the same part of the UI)"
@@ -32,7 +33,7 @@ public class WRadioButtonExample extends WContainer {
 				+ " A table column (or, less commonly a row) may server to provide the question context. There are no other arrangements which can be"
 				+ " guaranteed to provide adequate accessible context for the relationship between the question and the answers."));
 
-		add(new WHeading(WHeading.SECTION, "Normal, interactive radio buttons."));
+		add(new WHeading(HeadingLevel.H3, "Normal, interactive radio buttons."));
 		RadioButtonGroup quest = new RadioButtonGroup();
 		add(quest);
 
@@ -42,7 +43,7 @@ public class WRadioButtonExample extends WContainer {
 
 		WFieldSet fset = new WFieldSet("What is your quest?");
 		add(fset);
-		fset.setMargin(new com.github.bordertech.wcomponents.Margin(0, 0, 12, 0));
+		fset.setMargin(new com.github.bordertech.wcomponents.Margin(Size.ZERO, Size.ZERO, Size.LARGE, Size.ZERO));
 
 		WFieldLayout layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
 		fset.add(layout);
@@ -68,7 +69,7 @@ public class WRadioButtonExample extends WContainer {
 
 		//now for the other properties
 		//disabled
-		add(new WHeading(WHeading.SECTION, "Radio buttons may be disabled."));
+		add(new WHeading(HeadingLevel.H3, "Radio buttons may be disabled."));
 		fset = new WFieldSet("What ails thee my Lord?");
 		add(fset);
 		layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
@@ -86,7 +87,7 @@ public class WRadioButtonExample extends WContainer {
 		layout.addField("Speak not of mild and bitter in this holy house.", rb);
 
 		add(new WHorizontalRule());
-		add(new WHeading(WHeading.SECTION, "Radio buttons may be read-only."));
+		add(new WHeading(HeadingLevel.H3, "Radio buttons may be read-only."));
 		add(new ExplanatoryText(
 				"Radio Buttons may be read-only. In this case the widget is replaced with a render which does not allow for malicious or accidental change of state."));
 		fset = new WFieldSet("Here's some we answered earlier.");

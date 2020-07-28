@@ -59,15 +59,30 @@ public class WHeading_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testMarginAccessors() {
-		assertAccessorsCorrect(new WHeading(HeadingLevel.H1, "test"), "margin", null, new Margin(1),
-				new Margin(2));
+		assertAccessorsCorrect(new WHeading(HeadingLevel.H1, "test"), WHeading::getMargin, WHeading::setMargin,
+			null, new Margin(Size.SMALL), new Margin(Size.MEDIUM));
 	}
 
 	@Test
 	public void testHeadingLevelAccessors() {
-		assertAccessorsCorrect(new WHeading(HeadingLevel.H1, "test"), "headingLevel",
-				HeadingLevel.H1, HeadingLevel.H2,
-				HeadingLevel.H3);
+		assertAccessorsCorrect(new WHeading(HeadingLevel.H1, "test"), WHeading::getHeadingLevel, WHeading::setHeadingLevel,
+			HeadingLevel.H1, HeadingLevel.H2, HeadingLevel.H3);
 	}
 
+	@Test
+	public void testHeadingTypeToHeadingLevelConversion() {
+
+		testHeadingLevelConversion(WHeading.TITLE, HeadingLevel.H1);
+		testHeadingLevelConversion(WHeading.MAJOR, HeadingLevel.H2);
+		testHeadingLevelConversion(WHeading.SECTION, HeadingLevel.H3);
+		testHeadingLevelConversion(WHeading.MINOR, HeadingLevel.H4);
+		testHeadingLevelConversion(WHeading.SUB_HEADING, HeadingLevel.H5);
+		testHeadingLevelConversion(WHeading.SUB_SUB_HEADING, HeadingLevel.H6);
+	}
+
+	private void testHeadingLevelConversion(int type, HeadingLevel headingLevel) {
+		WHeading heading = new WHeading(type, "dummy");
+		Assert.assertEquals("WHeading type conversion to HeadingLevel failed",
+			headingLevel, heading.getHeadingLevel());
+	}
 }

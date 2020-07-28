@@ -43,12 +43,12 @@ public class WTemplate_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testTemplateNameAccessors() {
-		assertAccessorsCorrect(new WTemplate(), "templateName", null, "X", "Y");
+		assertAccessorsCorrect(new WTemplate(), WTemplate::getTemplateName, WTemplate::setTemplateName, null, "X", "Y");
 	}
 
 	@Test
 	public void testInlineTemplateAccessors() {
-		assertAccessorsCorrect(new WTemplate(), "inlineTemplate", null, "X", "Y");
+		assertAccessorsCorrect(new WTemplate(), WTemplate::getInlineTemplate, WTemplate::setInlineTemplate, null, "X", "Y");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -103,7 +103,7 @@ public class WTemplate_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testEngineNameAccessors() {
-		assertAccessorsCorrect(new WTemplate(), "engineName", null, "X", "Y");
+		assertAccessorsCorrect(new WTemplate(), WTemplate::getEngineName, WTemplate::setEngineName, null, "X", "Y");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -123,7 +123,7 @@ public class WTemplate_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testNamingContextAccessors() {
-		assertAccessorsCorrect(new WTemplate(), "namingContext", false, true, false);
+		assertAccessorsCorrect(new WTemplate(), WTemplate::isNamingContext, WTemplate::setNamingContext, false, true, false);
 	}
 
 }

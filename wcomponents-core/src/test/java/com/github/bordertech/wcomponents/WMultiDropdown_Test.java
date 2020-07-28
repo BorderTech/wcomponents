@@ -106,7 +106,7 @@ public class WMultiDropdown_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testMaxInputsAccessors() {
-		assertAccessorsCorrect(new WMultiDropdown(), "maxInputs", 0, 2, 3);
+		assertAccessorsCorrect(new WMultiDropdown(), WMultiDropdown::getMaxInputs, WMultiDropdown::setMaxInputs, 0, 2, 3);
 	}
 
 }

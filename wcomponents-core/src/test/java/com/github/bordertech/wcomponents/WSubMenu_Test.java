@@ -42,7 +42,8 @@ public class WSubMenu_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testModeAccessors() {
-		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "mode", WSubMenu.MenuMode.CLIENT, WSubMenu.MenuMode.DYNAMIC, WSubMenu.MenuMode.EAGER);
+		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), WSubMenu::getMode, WSubMenu::setMode,
+			WSubMenu.MenuMode.CLIENT, WSubMenu.MenuMode.DYNAMIC, WSubMenu.MenuMode.EAGER);
 	}
 
 	@Test
@@ -172,7 +173,7 @@ public class WSubMenu_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testDisabledAccessors() {
-		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "disabled", false, true, false);
+		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), WSubMenu::isDisabled, WSubMenu::setDisabled, false, true, false);
 	}
 
 	@Test
@@ -190,7 +191,7 @@ public class WSubMenu_Test extends AbstractWComponentTestCase {
 	 */
 	@Test
 	public void testAccessKeyAccessors() {
-		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "accessKey", '\0', 'A', 'B');
+		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), WSubMenu::getAccessKey, WSubMenu::setAccessKey, '\0', 'A', 'B');
 	}
 
 	@Test
@@ -207,43 +208,44 @@ public class WSubMenu_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testTextAccessors() throws Exception {
-		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "text", TEST_TEXT, "A", "B");
+		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), WSubMenu::getText, WSubMenu::setText, TEST_TEXT, "A", "B");
 	}
 
 	@Test
 	public void testSelectabilityAccessors() {
-		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "selectability", null, true, false);
+		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), WSubMenu::getSelectability, WSubMenu::setSelectability, null, Boolean.TRUE, Boolean.FALSE);
 	}
 
 	@Test
 	public void testMultipleSelectionAccessors() {
-		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "multipleSelection", false, true, false);
+		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), WSubMenu::isMultipleSelection, WSubMenu::setMultipleSelection, false, true, false);
 	}
 
 	@Test
 	public void testSelectModeAccessors() {
-		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "selectMode", WMenu.SelectMode.NONE, WMenu.SelectMode.MULTIPLE, WMenu.SelectMode.SINGLE);
+		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), WSubMenu::getSelectMode, WSubMenu::setSelectMode,
+			WMenu.SelectMode.NONE, WMenu.SelectMode.MULTIPLE, WMenu.SelectMode.SINGLE);
 	}
 
 	@Test
 	public void testSelectionModeAccessors() {
-		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "selectionMode", MenuSelectContainer.SelectionMode.NONE,
-				MenuSelectContainer.SelectionMode.MULTIPLE, MenuSelectContainer.SelectionMode.SINGLE);
+		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), WSubMenu::getSelectionMode, WSubMenu::setSelectionMode,
+			MenuSelectContainer.SelectionMode.NONE, MenuSelectContainer.SelectionMode.MULTIPLE, MenuSelectContainer.SelectionMode.SINGLE);
 	}
 
 	@Test
 	public void testActionCommandAccessors() {
-		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "actionCommand", null, "A", "B");
+		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), WSubMenu::getActionCommand, WSubMenu::setActionCommand, null, "A", "B");
 	}
 
 	@Test
 	public void testActionObjectAccessors() {
-		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "actionObject", null, "A", "B");
+		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), WSubMenu::getActionObject, WSubMenu::setActionObject, null, "A", "B");
 	}
 
 	@Test
 	public void testOpenAccessors() {
-		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "open", false, true, false);
+		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), WSubMenu::isOpen, WSubMenu::setOpen, false, true, false);
 	}
 
 	@Test

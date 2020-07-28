@@ -8,7 +8,6 @@ import com.github.bordertech.wcomponents.RadioButtonGroup;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WAjaxControl;
-import com.github.bordertech.wcomponents.WBeanContainer;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WFieldLayout;
@@ -126,7 +125,7 @@ public class WRadioButtonInRepeater extends WContainer {
 	/**
 	 * A Class that has a radio button that is repeated.
 	 */
-	public static class MyComponent extends WBeanContainer {
+	public static class MyComponent extends WContainer {
 
 		/**
 		 * Label for the radio button.

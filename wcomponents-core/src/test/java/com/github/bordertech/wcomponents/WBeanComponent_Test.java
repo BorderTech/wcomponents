@@ -50,32 +50,32 @@ public class WBeanComponent_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testBeanAccessors() {
-		assertAccessorsCorrect(new WBeanComponent(), "bean", null, new MyTestBean("A"), new MyTestBean("B"));
+		assertAccessorsCorrect(new WBeanComponent(), WBeanComponent::getBean, WBeanComponent::setBean, null, new MyTestBean("A"), new MyTestBean("B"));
 	}
 
 	@Test
 	public void testBeanIdAccessors() {
-		assertAccessorsCorrect(new WBeanComponent(), "beanId", null, "A", "B");
+		assertAccessorsCorrect(new WBeanComponent(), WBeanComponent::getBeanId, WBeanComponent::setBeanId, null, "A", "B");
 	}
 
 	@Test
 	public void testBeanPropertyAccessors() {
-		assertAccessorsCorrect(new WBeanComponent(), "beanProperty", null, "A", "B");
+		assertAccessorsCorrect(new WBeanComponent(), WBeanComponent::getBeanProperty, WBeanComponent::setBeanProperty, null, "A", "B");
 	}
 
 	@Test
 	public void testSearchAncestorsAccessors() {
-		assertAccessorsCorrect(new WBeanComponent(), "searchAncestors", true, false, true);
+		assertAccessorsCorrect(new WBeanComponent(), WBeanComponent::isSearchAncestors, WBeanComponent::setSearchAncestors, true, false, true);
 	}
 
 	@Test
 	public void testBeanProviderAccessors() {
-		assertAccessorsCorrect(new WBeanComponent(), "beanProvider", null, new MyTestBeanProvider(), new MyTestBeanProvider());
+		assertAccessorsCorrect(new WBeanComponent(), WBeanComponent::getBeanProvider, WBeanComponent::setBeanProvider, null, new MyTestBeanProvider(), new MyTestBeanProvider());
 	}
 
 	@Test
 	public void testDataAccessors() {
-		assertAccessorsCorrect(new WBeanComponent(), "data", null, "A", "B");
+		assertAccessorsCorrect(new WBeanComponent(), WBeanComponent::getData, WBeanComponent::setData, null, "A", "B");
 	}
 
 	@Test

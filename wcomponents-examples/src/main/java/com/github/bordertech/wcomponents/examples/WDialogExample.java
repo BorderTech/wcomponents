@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.MessageContainer;
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCancelButton;
@@ -251,13 +252,13 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		add(dialogWithHeight2);
 		add(dialogWithMode);
 
-		add(new WHeading(WHeading.MAJOR, "Dialogs which open without page reload"));
+		add(new WHeading(HeadingLevel.H2, "Dialogs which open without page reload"));
 		//remember the button of an immediate is part of the dialog: it will be place into the UI wherever the dialog is placed
 		add(nonModalDialog);
 		add(modalDialog);
 		// for buttons which will result in a dialog on reload the button is added to the UI explicitly
 
-		add(new WHeading(WHeading.MAJOR, "Dialogs which open after page reload"));
+		add(new WHeading(HeadingLevel.H2, "Dialogs which open after page reload"));
 		add(dialogButton1);
 		add(dialogButton2);
 
@@ -427,7 +428,7 @@ public class WDialogExample extends WPanel implements MessageContainer {
 
 			final WPanel buttonPanel = new WPanel(WPanel.Type.FEATURE);
 			buttonPanel.setLayout(new BorderLayout());
-			buttonPanel.setMargin(new com.github.bordertech.wcomponents.Margin(12, 0, 0, 0));
+			buttonPanel.setMargin(new com.github.bordertech.wcomponents.Margin(Size.LARGE, Size.ZERO, Size.ZERO, Size.ZERO));
 			add(buttonPanel);
 			buttonPanel.add(cancelButton, BorderLayout.WEST);
 			buttonPanel.add(selectButton, BorderLayout.EAST);
@@ -557,7 +558,7 @@ public class WDialogExample extends WPanel implements MessageContainer {
 			 */
 			private SearchFieldSet() {
 				super("Search for person");
-				setMargin(new com.github.bordertech.wcomponents.Margin(0, 0, 12, 0));
+				setMargin(new com.github.bordertech.wcomponents.Margin(Size.ZERO, Size.ZERO, Size.LARGE, Size.ZERO));
 				firstName.setMandatory(true);
 				WFieldLayout fieldLayout = new WFieldLayout();
 				add(fieldLayout);

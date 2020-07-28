@@ -16,10 +16,16 @@ public class Margin_Test {
 		// Create Margin with "all"
 		Margin margin = new Margin(Size.SMALL);
 		Assert.assertEquals("Incorrect all margin returned", Size.SMALL, margin.getMargin());
-		Assert.assertEquals("Incorrect north margin returned", null, margin.getTop());
-		Assert.assertEquals("Incorrect east margin returned", null, margin.getRight());
-		Assert.assertEquals("Incorrect south margin returned", null, margin.getBottom());
-		Assert.assertEquals("Incorrect west margin returned", null, margin.getLeft());
+		Assert.assertEquals("Incorrect top margin returned", null, margin.getTop());
+		Assert.assertEquals("Incorrect right margin returned", null, margin.getRight());
+		Assert.assertEquals("Incorrect bottom margin returned", null, margin.getBottom());
+		Assert.assertEquals("Incorrect left margin returned", null, margin.getLeft());
+
+		Assert.assertEquals("Incorrect all margin returned", -1, margin.getAll());
+		Assert.assertEquals("Incorrect north margin returned", -1, margin.getNorth());
+		Assert.assertEquals("Incorrect east margin returned", -1, margin.getEast());
+		Assert.assertEquals("Incorrect south margin returned", -1, margin.getSouth());
+		Assert.assertEquals("Incorrect west margin returned", -1, margin.getWest());
 	}
 
 	@Test
@@ -27,10 +33,51 @@ public class Margin_Test {
 		// Create Margin for all sides
 		Margin margin = new Margin(Size.SMALL, Size.MEDIUM, Size.LARGE, Size.XL);
 		Assert.assertEquals("Incorrect all margin returned", null, margin.getMargin());
-		Assert.assertEquals("Incorrect north margin returned", Size.SMALL, margin.getTop());
-		Assert.assertEquals("Incorrect east margin returned", Size.MEDIUM, margin.getRight());
-		Assert.assertEquals("Incorrect south margin returned", Size.LARGE, margin.getBottom());
-		Assert.assertEquals("Incorrect west margin returned", Size.XL, margin.getLeft());
+		Assert.assertEquals("Incorrect top margin returned", Size.SMALL, margin.getTop());
+		Assert.assertEquals("Incorrect right margin returned", Size.MEDIUM, margin.getRight());
+		Assert.assertEquals("Incorrect bottom margin returned", Size.LARGE, margin.getBottom());
+		Assert.assertEquals("Incorrect left margin returned", Size.XL, margin.getLeft());
+
+		Assert.assertEquals("Incorrect all margin returned", -1, margin.getAll());
+		Assert.assertEquals("Incorrect north margin returned", -1, margin.getNorth());
+		Assert.assertEquals("Incorrect east margin returned", -1, margin.getEast());
+		Assert.assertEquals("Incorrect south margin returned", -1, margin.getSouth());
+		Assert.assertEquals("Incorrect west margin returned", -1, margin.getWest());
+	}
+
+	// Deprecated constructors
+	@Test
+	public void testConstructor3() {
+		// Create Margin with "all"
+		Margin margin = new Margin(2);
+		Assert.assertEquals("Incorrect all margin returned", 2, margin.getAll());
+		Assert.assertEquals("Incorrect north margin returned", -1, margin.getNorth());
+		Assert.assertEquals("Incorrect east margin returned", -1, margin.getEast());
+		Assert.assertEquals("Incorrect south margin returned", -1, margin.getSouth());
+		Assert.assertEquals("Incorrect west margin returned", -1, margin.getWest());
+
+		Assert.assertEquals("Incorrect all margin returned", SpaceUtil.intToSize(2), margin.getMargin());
+		Assert.assertEquals("Incorrect top margin returned", null, margin.getTop());
+		Assert.assertEquals("Incorrect right margin returned", null, margin.getRight());
+		Assert.assertEquals("Incorrect bottom margin returned", null, margin.getBottom());
+		Assert.assertEquals("Incorrect left margin returned", null, margin.getLeft());
+	}
+
+	@Test
+	public void testConstructor4() {
+		// Create Margin for all sides
+		Margin margin = new Margin(1, 5, 9, 17);
+		Assert.assertEquals("Incorrect all margin returned", -1, margin.getAll());
+		Assert.assertEquals("Incorrect north margin returned", 1, margin.getNorth());
+		Assert.assertEquals("Incorrect east margin returned", 5, margin.getEast());
+		Assert.assertEquals("Incorrect south margin returned", 9, margin.getSouth());
+		Assert.assertEquals("Incorrect west margin returned", 17, margin.getWest());
+
+		Assert.assertEquals("Incorrect all margin returned", null, margin.getMargin());
+		Assert.assertEquals("Incorrect top margin returned", SpaceUtil.intToSize(1), margin.getTop());
+		Assert.assertEquals("Incorrect right margin returned", SpaceUtil.intToSize(5), margin.getRight());
+		Assert.assertEquals("Incorrect bottom margin returned", SpaceUtil.intToSize(9), margin.getBottom());
+		Assert.assertEquals("Incorrect left margin returned", SpaceUtil.intToSize(17), margin.getLeft());
 	}
 
 	@Test

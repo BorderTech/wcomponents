@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.examples.subordinate;
 
 import com.github.bordertech.wcomponents.Input;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.SubordinateTarget;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WComponent;
@@ -109,7 +110,7 @@ public class SubordinateControlExample extends ValidationContainer {
 			WFieldLayout layout = new WFieldLayout();
 			add(layout);
 			layout.setLabelWidth(25);
-			layout.setMargin(new com.github.bordertech.wcomponents.Margin(0, 0, 12, 0));
+			layout.setMargin(new com.github.bordertech.wcomponents.Margin(Size.ZERO, Size.ZERO, Size.LARGE, Size.ZERO));
 
 			//
 			//

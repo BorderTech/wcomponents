@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.examples.theme;
 
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.WColumnLayout;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WPanel;
@@ -29,7 +30,7 @@ public class WColumnLayoutExample extends WPanel {
 	public WColumnLayoutExample() {
 		super(Type.BLOCK);
 
-		add(new WHeading(WHeading.MAJOR, "Major Heading"));
+		add(new WHeading(HeadingLevel.H2, "Major Heading"));
 
 		WColumnLayout colLayout = new WColumnLayout("Section Heading - WColumnLayout");
 		colLayout.setLeftColumn("Minor Heading", new WText(LONG_TEXT));

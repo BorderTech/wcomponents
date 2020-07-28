@@ -149,27 +149,28 @@ public class WPhoneNumberField_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testTextAccessors() {
-		assertAccessorsCorrect(new WPhoneNumberField(), "text", null, "A", "B");
+		assertAccessorsCorrect(new WPhoneNumberField(), WPhoneNumberField::getText, WPhoneNumberField::setText, null, "A", "B");
 	}
 
 	@Test
 	public void testColumnsAccessors() {
-		assertAccessorsCorrect(new WPhoneNumberField(), "columns", 0, 1, 2);
+		assertAccessorsCorrect(new WPhoneNumberField(), WPhoneNumberField::getColumns, WPhoneNumberField::setColumns, 0, 1, 2);
 	}
 
 	@Test
 	public void testMaxLengthAccessors() {
-		assertAccessorsCorrect(new WPhoneNumberField(), "maxLength", 0, 1, 2);
+		assertAccessorsCorrect(new WPhoneNumberField(), WPhoneNumberField::getMaxLength, WPhoneNumberField::setMaxLength, 0, 1, 2);
 	}
 
 	@Test
 	public void testMinLengthAccessors() {
-		assertAccessorsCorrect(new WPhoneNumberField(), "minLength", 0, 1, 2);
+		assertAccessorsCorrect(new WPhoneNumberField(), WPhoneNumberField::getMinLength, WPhoneNumberField::setMinLength, 0, 1, 2);
 	}
 
 	@Test
 	public void testPatternAccessors() {
-		assertAccessorsCorrect(new WPhoneNumberField(), "pattern", null, "test1", "test2");
+		assertAccessorsCorrect(new WPhoneNumberField(), WPhoneNumberField::getPattern, WPhoneNumberField::setPattern,
+			null, "test1", "test2");
 	}
 
 	@Test(expected = PatternSyntaxException.class)
@@ -180,8 +181,8 @@ public class WPhoneNumberField_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testSuggestionsAccessors() {
-		assertAccessorsCorrect(new WPhoneNumberField(), "suggestions", null, new WSuggestions(),
-				new WSuggestions());
+		assertAccessorsCorrect(new WPhoneNumberField(), WPhoneNumberField::getSuggestions, WPhoneNumberField::setSuggestions,
+			null, new WSuggestions(), new WSuggestions());
 	}
 
 	@Test
@@ -323,7 +324,7 @@ public class WPhoneNumberField_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testPlaceholderAccessors() {
-		assertAccessorsCorrect(new WPhoneNumberField(), "placeholder", null, "A", "B");
+		assertAccessorsCorrect(new WPhoneNumberField(), WPhoneNumberField::getPlaceholder, WPhoneNumberField::setPlaceholder, null, "A", "B");
 	}
 
 	@Test

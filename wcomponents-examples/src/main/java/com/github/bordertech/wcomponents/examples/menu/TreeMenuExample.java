@@ -2,11 +2,12 @@ package com.github.bordertech.wcomponents.examples.menu;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.MenuSelectContainer.SelectionMode;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WDecoratedLabel;
 import com.github.bordertech.wcomponents.WImage;
 import com.github.bordertech.wcomponents.WMenu;
-import com.github.bordertech.wcomponents.WMenu.SelectMode;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WMenuItemGroup;
 import com.github.bordertech.wcomponents.WPanel;
@@ -33,7 +34,7 @@ public class TreeMenuExample extends WPanel {
 	 * Creates a TreeMenuExample.
 	 */
 	public TreeMenuExample() {
-		setLayout(new FlowLayout(Alignment.VERTICAL, 0, 24));
+		setLayout(new FlowLayout(Alignment.VERTICAL, Size.XL));
 		add(new WText("Example java object hierarchy"));
 
 		WPanel content = new WPanel(WPanel.Type.BLOCK);
@@ -54,7 +55,7 @@ public class TreeMenuExample extends WPanel {
 	 */
 	private WMenu buildTreeMenu(final WText selectedMenuText) {
 		WMenu menu = new WMenu(WMenu.MenuType.TREE);
-		menu.setSelectMode(SelectMode.SINGLE);
+		menu.setSelectionMode(SelectionMode.SINGLE);
 
 		mapTreeHierarchy(menu, createExampleHierarchy(), selectedMenuText);
 
@@ -81,7 +82,7 @@ public class TreeMenuExample extends WPanel {
 			}
 		} else {
 			WSubMenu subMenu = new WSubMenu(currentNode.getData());
-			subMenu.setSelectMode(SelectMode.SINGLE);
+			subMenu.setSelectionMode(SelectionMode.SINGLE);
 
 			if (currentComponent instanceof WMenu) {
 				((WMenu) currentComponent).add(subMenu);

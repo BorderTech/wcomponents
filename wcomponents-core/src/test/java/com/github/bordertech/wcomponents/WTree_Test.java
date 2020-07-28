@@ -31,7 +31,8 @@ public class WTree_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testTypeAccessors() {
-		assertAccessorsCorrect(new WTree(), "type", WTree.Type.VERTICAL, WTree.Type.HORIZONTAL, WTree.Type.VERTICAL);
+		assertAccessorsCorrect(new WTree(), WTree::getType, WTree::setType,
+			WTree.Type.VERTICAL, WTree.Type.HORIZONTAL, WTree.Type.VERTICAL);
 	}
 
 	@Test
@@ -43,32 +44,37 @@ public class WTree_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testMarginAccessors() {
-		assertAccessorsCorrect(new WTree(), "margin", null, new Margin(1), new Margin(2));
+		assertAccessorsCorrect(new WTree(), WTree::getMargin, WTree::setMargin,
+			null, new Margin(Size.SMALL), new Margin(Size.MEDIUM));
 	}
 
 	@Test
 	public void testTreeModelAccessors() {
-		assertAccessorsCorrect(new WTree(), "treeModel", EmptyTreeItemModel.INSTANCE, new MockTreeItemData.MyTestModel(Collections.EMPTY_LIST), new MockTreeItemData.MyTestModel(Collections.EMPTY_LIST));
+		assertAccessorsCorrect(new WTree(), WTree::getTreeModel, WTree::setTreeModel,
+			EmptyTreeItemModel.INSTANCE, new MockTreeItemData.MyTestModel(Collections.EMPTY_LIST), new MockTreeItemData.MyTestModel(Collections.EMPTY_LIST));
 	}
 
 	@Test
 	public void testOpenActionAccessors() {
-		assertAccessorsCorrect(new WTree(), "openAction", null, new TestAction(), new TestAction());
+		assertAccessorsCorrect(new WTree(), WTree::getOpenAction, WTree::setOpenAction,
+			null, e -> {}, e -> {});
 	}
 
 	@Test
 	public void testShuffleAccessors() {
-		assertAccessorsCorrect(new WTree(), "shuffle", false, true, false);
+		assertAccessorsCorrect(new WTree(), WTree::isShuffle, WTree::setShuffle, false, true, false);
 	}
 
 	@Test
 	public void testShuffleActionAccessors() {
-		assertAccessorsCorrect(new WTree(), "shuffleAction", null, new TestAction(), new TestAction());
+		assertAccessorsCorrect(new WTree(), WTree::getShuffleAction, WTree::setShuffleAction,
+			null, e -> {}, e -> {});
 	}
 
 	@Test
 	public void testSelectModeAccessors() {
-		assertAccessorsCorrect(new WTree(), "selectMode", WTree.SelectMode.SINGLE, WTree.SelectMode.MULTIPLE, WTree.SelectMode.SINGLE);
+		assertAccessorsCorrect(new WTree(), WTree::getSelectMode, WTree::setSelectMode,
+			WTree.SelectMode.SINGLE, WTree.SelectMode.MULTIPLE, WTree.SelectMode.SINGLE);
 	}
 
 	@Test
@@ -80,7 +86,8 @@ public class WTree_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testExpandModeAccessors() {
-		assertAccessorsCorrect(new WTree(), "expandMode", WTree.ExpandMode.CLIENT, WTree.ExpandMode.DYNAMIC, WTree.ExpandMode.LAZY);
+		assertAccessorsCorrect(new WTree(), WTree::getExpandMode, WTree::setExpandMode,
+			WTree.ExpandMode.CLIENT, WTree.ExpandMode.DYNAMIC, WTree.ExpandMode.LAZY);
 	}
 
 	@Test
@@ -92,12 +99,14 @@ public class WTree_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testSelectedRowsAccessors() {
-		assertAccessorsCorrect(new WTree(), "selectedRows", Collections.EMPTY_SET, new HashSet<>(Arrays.asList("A", "B")), new HashSet<>(Arrays.asList("X", "Y")));
+		assertAccessorsCorrect(new WTree(), WTree::getSelectedRows, WTree::setSelectedRows,
+			Collections.EMPTY_SET, new HashSet<>(Arrays.asList("A", "B")), new HashSet<>(Arrays.asList("X", "Y")));
 	}
 
 	@Test
 	public void testExpandedRowsAccessors() {
-		assertAccessorsCorrect(new WTree(), "expandedRows", Collections.EMPTY_SET, new HashSet<>(Arrays.asList("A", "B")), new HashSet<>(Arrays.asList("X", "Y")));
+		assertAccessorsCorrect(new WTree(), WTree::getExpandedRows, WTree::setExpandedRows,
+			Collections.EMPTY_SET, new HashSet<>(Arrays.asList("A", "B")), new HashSet<>(Arrays.asList("X", "Y")));
 	}
 
 	@Test
@@ -185,7 +194,8 @@ public class WTree_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testCustomTreeAccessors() {
-		assertAccessorsCorrect(new WTree(), "customTree", null, new TreeItemIdNode("A"), new TreeItemIdNode("B"));
+		assertAccessorsCorrect(new WTree(), WTree::getCustomTree, WTree::setCustomTree,
+			null, new TreeItemIdNode("A"), new TreeItemIdNode("B"));
 	}
 
 	@Test

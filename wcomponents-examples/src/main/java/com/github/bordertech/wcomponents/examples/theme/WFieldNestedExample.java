@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.examples.theme;
 
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Message;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WDateField;
@@ -58,7 +59,7 @@ public class WFieldNestedExample extends WPanel {
 		});
 
 		add(messages);
-		add(new WHeading(WHeading.MAJOR, "Nested WField Example With Validation"));
+		add(new WHeading(HeadingLevel.H2, "Nested WField Example With Validation"));
 		add(layout);
 
 	}

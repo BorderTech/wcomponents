@@ -45,18 +45,17 @@ public class WApplication_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testTitleAccessors() {
-		assertAccessorsCorrect(new WApplication(), "title", null, "A", "B");
+		assertAccessorsCorrect(new WApplication(), WApplication::getTitle, WApplication::setTitle, null, "A", "B");
 	}
 
 	@Test
 	public void testAppendIdAccessors() {
-		assertAccessorsCorrect(new WApplication(), "appendID", false, true, false);
+		assertAccessorsCorrect(new WApplication(), WApplication::isAppendID, WApplication::setAppendID, false, true, false);
 	}
 
 	@Test
 	public void testIdNameAccessors() {
-		assertAccessorsCorrect(new WApplication(), "idName", WApplication.DEFAULT_APPLICATION_ID,
-				"XX", "YY");
+		assertAccessorsCorrect(new WApplication(), WApplication::getIdName, WApplication::setIdName, WApplication.DEFAULT_APPLICATION_ID, "XX", "YY");
 	}
 
 	@Test

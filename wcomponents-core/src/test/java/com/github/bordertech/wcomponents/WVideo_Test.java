@@ -489,7 +489,7 @@ public class WVideo_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testRenderControlsAccessors() {
-		assertAccessorsCorrect(new WVideo(), "renderControls", true, false, true);
+		assertAccessorsCorrect(new WVideo(), WVideo::isRenderControls, WVideo::setRenderControls, true, false, true);
 	}
 
 	@Test

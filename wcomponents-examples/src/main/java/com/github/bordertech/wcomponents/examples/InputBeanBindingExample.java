@@ -5,10 +5,10 @@ import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Input;
 import com.github.bordertech.wcomponents.RadioButtonGroup;
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.SubordinateTarget;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WBeanComponent;
-import com.github.bordertech.wcomponents.WBeanContainer;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WCheckBoxSelect;
@@ -65,7 +65,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class InputBeanBindingExample extends WBeanContainer {
+public class InputBeanBindingExample extends WContainer {
 
 	/**
 	 * Example options.
@@ -481,7 +481,7 @@ public class InputBeanBindingExample extends WBeanContainer {
 			add(input);
 
 			WPanel details = new WPanel();
-			details.setLayout(new FlowLayout(Alignment.VERTICAL, 0, 5));
+			details.setLayout(new FlowLayout(Alignment.VERTICAL, Size.MEDIUM));
 			add(details);
 			details.add(stringValue);
 			details.add(dataValue);

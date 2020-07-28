@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.examples;
 
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.WCollapsible;
 import com.github.bordertech.wcomponents.WCollapsible.CollapsibleMode;
 import com.github.bordertech.wcomponents.WContainer;
@@ -42,21 +43,21 @@ public class LoadAjaxControlsExample extends WContainer {
 				CollapsibleMode.DYNAMIC);
 		add(collapse);
 
-		content.add(new WHeading(WHeading.SECTION, "Lists using datalist"));
+		content.add(new WHeading(HeadingLevel.H3, "Lists using datalist"));
 
 		WFieldLayout layout = new WFieldLayout();
 		createFields(layout, "icao");
 		content.add(layout);
 
 		content.add(new WHorizontalRule());
-		content.add(new WHeading(WHeading.SECTION, "Lists using different datalist"));
+		content.add(new WHeading(HeadingLevel.H3, "Lists using different datalist"));
 
 		WFieldLayout layout2 = new WFieldLayout();
 		createFields(layout2, new TableWithNullOption("icao"));
 		content.add(layout2);
 
 		content.add(new WHorizontalRule());
-		content.add(new WHeading(WHeading.SECTION, "Eager Panel"));
+		content.add(new WHeading(HeadingLevel.H3, "Eager Panel"));
 
 		WPanel eager = new WPanel(WPanel.Type.BOX);
 		eager.setMode(PanelMode.EAGER);
@@ -64,39 +65,39 @@ public class LoadAjaxControlsExample extends WContainer {
 		content.add(eager);
 
 		content.add(new WHorizontalRule());
-		content.add(new WHeading(WHeading.SECTION, "Ajax - Button"));
+		content.add(new WHeading(HeadingLevel.H3, "Ajax - Button"));
 		content.add(new AjaxWButtonExample());
 
 		content.add(new WHorizontalRule());
-		content.add(new WHeading(WHeading.SECTION, "Ajax - CheckBox"));
+		content.add(new WHeading(HeadingLevel.H3, "Ajax - CheckBox"));
 		content.add(new AjaxWCheckboxExample());
 
 		content.add(new WHorizontalRule());
-		content.add(new WHeading(WHeading.SECTION, "Ajax - Dropdown"));
+		content.add(new WHeading(HeadingLevel.H3, "Ajax - Dropdown"));
 		content.add(new AjaxWDropdownExample());
 
 		content.add(new WHorizontalRule());
-		content.add(new WHeading(WHeading.SECTION, "Ajax - Table"));
+		content.add(new WHeading(HeadingLevel.H3, "Ajax - Table"));
 		content.add(new TreeTableExample());
 
 		content.add(new WHorizontalRule());
-		content.add(new WHeading(WHeading.SECTION, "Ajax - Polling"));
+		content.add(new WHeading(HeadingLevel.H3, "Ajax - Polling"));
 		content.add(new AjaxPollingWButtonExample());
 
 		content.add(new WHorizontalRule());
-		content.add(new WHeading(WHeading.SECTION, "Ajax - Lazy Panel"));
+		content.add(new WHeading(HeadingLevel.H3, "Ajax - Lazy Panel"));
 		content.add(new AjaxWPanelExample());
 
 		content.add(new WHorizontalRule());
-		content.add(new WHeading(WHeading.SECTION, "Ajax - RadioButtonSelect"));
+		content.add(new WHeading(HeadingLevel.H3, "Ajax - RadioButtonSelect"));
 		content.add(new AjaxWRadioButtonSelectExample());
 
 		content.add(new WHorizontalRule());
-		content.add(new WHeading(WHeading.SECTION, "Dialog"));
+		content.add(new WHeading(HeadingLevel.H3, "Dialog"));
 		content.add(new WDialogExample());
 
 		content.add(new WHorizontalRule());
-		content.add(new WHeading(WHeading.SECTION, "Tab Modes"));
+		content.add(new WHeading(HeadingLevel.H3, "Tab Modes"));
 		WTabSet tabset1 = new WTabSet();
 		tabset1.
 				addTab(new DateText("Tab Content 1"), "Tab 1 (client)", WTabSet.TAB_MODE_CLIENT, '1');
@@ -111,7 +112,7 @@ public class LoadAjaxControlsExample extends WContainer {
 		content.add(tabset1);
 
 		content.add(new WHorizontalRule());
-		content.add(new WHeading(WHeading.SECTION, "Collapsibles"));
+		content.add(new WHeading(HeadingLevel.H3, "Collapsibles"));
 		content.add(new WCollapsible(new DateText("Eager Collapsible Content"), "Eager Mode",
 				CollapsibleMode.EAGER));
 		content.add(new WCollapsible(new DateText("Lazy Collapsible Content"), "Lazy Mode",

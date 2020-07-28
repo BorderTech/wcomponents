@@ -4,11 +4,12 @@ import com.github.bordertech.wcomponents.AbstractTableDataModel;
 import com.github.bordertech.wcomponents.AbstractTreeTableDataModel;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.TableDataModel;
 import com.github.bordertech.wcomponents.TableTreeNode;
 import com.github.bordertech.wcomponents.TreeTableDataModel;
-import com.github.bordertech.wcomponents.WBeanContainer;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WContainer;
@@ -166,19 +167,19 @@ public class DataTableOptionsExample extends WContainer {
 		table2 = createExpandedDataTable();
 		table3 = createHierarchicDataTable();
 
-		add(new WHeading(WHeading.SECTION, "Table"));
+		add(new WHeading(HeadingLevel.H3, "Table"));
 		add(table1);
 		add(selected1);
 
 		add(new WHorizontalRule());
 
-		add(new WHeading(WHeading.SECTION, "Expanded Content Table"));
+		add(new WHeading(HeadingLevel.H3, "Expanded Content Table"));
 		add(table2);
 		add(selected2);
 
 		add(new WHorizontalRule());
 
-		add(new WHeading(WHeading.SECTION, "Hierarchic Table"));
+		add(new WHeading(HeadingLevel.H3, "Hierarchic Table"));
 		add(table3);
 		add(selected3);
 	}
@@ -852,14 +853,14 @@ public class DataTableOptionsExample extends WContainer {
 	 *
 	 * @since 1.0.0
 	 */
-	public static final class ExtraDetailsPanel extends WBeanContainer {
+	public static final class ExtraDetailsPanel extends WContainer {
 
 		/**
 		 * Construct the component.
 		 */
 		public ExtraDetailsPanel() {
 			WPanel panel = new WPanel();
-			panel.setLayout(new FlowLayout(Alignment.LEFT, 5, 0));
+			panel.setLayout(new FlowLayout(Alignment.LEFT, Size.MEDIUM));
 			add(panel);
 
 			WText colA = new WText();

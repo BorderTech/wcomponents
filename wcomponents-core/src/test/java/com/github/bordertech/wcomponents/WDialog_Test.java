@@ -48,37 +48,42 @@ public class WDialog_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testModeAccessors() {
-		assertAccessorsCorrect(new WDialog(), "mode", WDialog.MODELESS, WDialog.MODAL, WDialog.MODELESS);
+		assertAccessorsCorrect(new WDialog(), WDialog::getMode, WDialog::setMode,
+			WDialog.MODELESS, WDialog.MODAL, WDialog.MODELESS);
 	}
 
 	@Test
 	public void testContentAccessors() {
-		assertAccessorsCorrect(new WDialog(), "content", null, new WText(), new WText());
+		assertAccessorsCorrect(new WDialog(), WDialog::getContent, WDialog::setContent,
+			null, new WText(), new WText());
 	}
 
 	@Test
 	public void testTitleAccessors() {
-		assertAccessorsCorrect(new WDialog(), "title", null, "A", "B", new Serializable[]{});
+		assertAccessorsCorrect(new WDialog(), WDialog::getTitle, WDialog::setTitle,
+			null, "A", "B", new Serializable[]{});
 	}
 
 	@Test
 	public void testTriggerAccessors() {
-		assertAccessorsCorrect(new WDialog(), "trigger", null, new WButton(), new WMenuItem("A"));
+		assertAccessorsCorrect(new WDialog(), WDialog::getTrigger, WDialog::setTrigger,
+			null, new WButton(), new WMenuItem("A"));
 	}
 	
 	@Test
 	public void testHeightAccessors() {
-		assertAccessorsCorrect(new WDialog(), "height", 0, 1, 2);
+		assertAccessorsCorrect(new WDialog(), WDialog::getHeight, WDialog::setHeight, 0, 1, 2);
 	}
 
 	@Test
 	public void testWidthAccessors() {
-		assertAccessorsCorrect(new WDialog(), "width", 0, 1, 2);
+		assertAccessorsCorrect(new WDialog(), WDialog::getWidth, WDialog::setWidth, 0, 1, 2);
 	}
 
 	@Test
 	public void testTriggerOpenActionAccessors() {
-		assertAccessorsCorrect(new WDialog(), "triggerOpenAction", null, new TestAction(), new TestAction());
+		assertAccessorsCorrect(new WDialog(), WDialog::getTriggerOpenAction, WDialog::setTriggerOpenAction,
+			null, new TestAction(), new TestAction());
 	}
 
 	@Test

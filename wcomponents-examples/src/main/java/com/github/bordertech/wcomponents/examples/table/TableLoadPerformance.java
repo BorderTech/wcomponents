@@ -13,7 +13,6 @@ import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.TableTreeNode;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WApplication;
-import com.github.bordertech.wcomponents.WBeanContainer;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WContainer;
@@ -296,7 +295,7 @@ public class TableLoadPerformance extends WApplication {
 
 		// Table layouts
 		root.add(tablePanel);
-		tableLayout.setLayout(new ColumnLayout(new int[]{50, 50}, 6, 6));
+		tableLayout.setLayout(new ColumnLayout(new int[]{50, 50}, Size.MEDIUM, Size.MEDIUM));
 		tableLayout.setMargin(new Margin(Size.LARGE, null, Size.LARGE, null));
 		tableLayout.setVisible(false);
 		tablePanel.add(tableLayout);
@@ -677,7 +676,7 @@ public class TableLoadPerformance extends WApplication {
 	/**
 	 * An example component to display travel document details. Expects that the supplied bean is a {@link TravelDoc}.
 	 */
-	public static final class TravelDocPanel extends WBeanContainer {
+	public static final class TravelDocPanel extends WContainer {
 
 		/**
 		 * Creates a TravelDocPanel.

@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.examples.theme;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WField;
@@ -37,7 +38,7 @@ public class WHiddenCommentExample extends WContainer {
 	 * Create the WHiddenComment example.
 	 */
 	public WHiddenCommentExample() {
-		add(new WHeading(WHeading.SECTION, "Hidden Comments Example"));
+		add(new WHeading(HeadingLevel.H3, "Hidden Comments Example"));
 		WStyledText text = new WStyledText(
 				"Right click the page to view the source and the hidden comments.");
 		text.setWhitespaceMode(WhitespaceMode.PARAGRAPHS);

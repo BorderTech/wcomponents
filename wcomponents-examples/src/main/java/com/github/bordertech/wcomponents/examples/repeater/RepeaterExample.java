@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.examples.repeater;
 
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.WBeanContainer;
 import com.github.bordertech.wcomponents.WCollapsible;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDataRenderer;
@@ -78,7 +77,7 @@ public class RepeaterExample extends WContainer {
 	/**
 	 * Product item renderer.
 	 */
-	static class ProductItemRenderer extends WBeanContainer {
+	static class ProductItemRenderer extends WContainer {
 
 		/**
 		 * Creates a ProductItemRenderer.

@@ -24,12 +24,14 @@ public class WDefinitionList_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testTypeAccessors() {
-		assertAccessorsCorrect(new WDefinitionList(), "type", Type.NORMAL, Type.FLAT, Type.STACKED);
+		assertAccessorsCorrect(new WDefinitionList(), WDefinitionList::getType, WDefinitionList::setType,
+			Type.NORMAL, Type.FLAT, Type.STACKED);
 	}
 
 	@Test
 	public void testMarginAccessors() {
-		assertAccessorsCorrect(new WDefinitionList(), "margin", null, new Margin(1), new Margin(2));
+		assertAccessorsCorrect(new WDefinitionList(), WDefinitionList::getMargin, WDefinitionList::setMargin,
+			null, new Margin(Size.SMALL), new Margin(Size.MEDIUM));
 	}
 
 	@Test

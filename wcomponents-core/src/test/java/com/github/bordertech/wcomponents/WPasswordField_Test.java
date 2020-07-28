@@ -147,27 +147,27 @@ public class WPasswordField_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testTextAccessors() {
-		assertAccessorsCorrect(new WPasswordField(), "text", null, "A", "B");
+		assertAccessorsCorrect(new WPasswordField(), WPasswordField::getText, WPasswordField::setText, null, "A", "B");
 	}
 
 	@Test
 	public void testColumnsAccessors() {
-		assertAccessorsCorrect(new WPasswordField(), "columns", 0, 1, 2);
+		assertAccessorsCorrect(new WPasswordField(), WPasswordField::getColumns, WPasswordField::setColumns, 0, 1, 2);
 	}
 
 	@Test
 	public void testMaxLengthAccessors() {
-		assertAccessorsCorrect(new WPasswordField(), "maxLength", 0, 1, 2);
+		assertAccessorsCorrect(new WPasswordField(), WPasswordField::getMaxLength, WPasswordField::setMaxLength, 0, 1, 2);
 	}
 
 	@Test
 	public void testMinLengthAccessors() {
-		assertAccessorsCorrect(new WPasswordField(), "minLength", 0, 1, 2);
+		assertAccessorsCorrect(new WPasswordField(), WPasswordField::getMinLength, WPasswordField::setMinLength, 0, 1, 2);
 	}
 
 	@Test
 	public void testPlaceholderAccessors() {
-		assertAccessorsCorrect(new WPasswordField(), "placeholder", null, "A", "B");
+		assertAccessorsCorrect(new WPasswordField(), WPasswordField::getPlaceholder, WPasswordField::setPlaceholder, null, "A", "B");
 	}
 
 	@Test

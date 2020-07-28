@@ -40,8 +40,8 @@ public class WCheckBox_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testGroupAccessors() {
-		assertAccessorsCorrect(new WCheckBox(), "group", null, new WComponentGroup<WCheckBox>(),
-				new WComponentGroup<WCheckBox>());
+		assertAccessorsCorrect(new WCheckBox(), WCheckBox::getGroup, WCheckBox::setGroup,
+			null, new WComponentGroup<WCheckBox>(), new WComponentGroup<WCheckBox>());
 	}
 
 	@Test
@@ -160,12 +160,12 @@ public class WCheckBox_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testSelectedAccessors() {
-		assertAccessorsCorrect(new WCheckBox(), "selected", false, true, false);
+		assertAccessorsCorrect(new WCheckBox(), WCheckBox::isSelected, WCheckBox::setSelected, false, true, false);
 	}
 
 	@Test
 	public void testSubmitOnChangeAccessors() {
-		assertAccessorsCorrect(new WCheckBox(), "submitOnChange", false, true, false);
+		assertAccessorsCorrect(new WCheckBox(), WCheckBox::isSubmitOnChange, WCheckBox::setSubmitOnChange, false, true, false);
 	}
 
 	@Test

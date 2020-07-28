@@ -54,7 +54,7 @@ public class WPartialDateFieldExample extends WContainer {
 		WButton btnGetDate = new WButton("Copy the Java Date");
 
 		WPanel buttonPanel = new WPanel(WPanel.Type.FEATURE);
-		buttonPanel.setLayout(new FlowLayout(Alignment.LEFT, 6));
+		buttonPanel.setLayout(new FlowLayout(Alignment.LEFT, Size.MEDIUM));
 		buttonPanel.setMargin(new Margin(Size.MEDIUM, null, null, null));
 		buttonPanel.add(copyBtn);
 		buttonPanel.add(btnGetDay);
@@ -80,8 +80,8 @@ public class WPartialDateFieldExample extends WContainer {
 
 		WPanel setDateButtonPanel = new WPanel(WPanel.Type.FEATURE);
 		wrapper.add(setDateButtonPanel);
-		setDateButtonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 6));
-		setDateButtonPanel.setMargin(new com.github.bordertech.wcomponents.Margin(6, 0, 0, 0));
+		setDateButtonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, Size.MEDIUM));
+		setDateButtonPanel.setMargin(new com.github.bordertech.wcomponents.Margin(Size.MEDIUM, Size.ZERO, Size.ZERO, Size.ZERO));
 
 		final WButton btnSetDMY = new WButton("Set the day month year");
 		setDateButtonPanel.add(btnSetDMY);

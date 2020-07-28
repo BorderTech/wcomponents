@@ -35,6 +35,7 @@ public class WRow_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testMarginAccessors() {
-		assertAccessorsCorrect(new WRow(), "margin", null, new Margin(Size.SMALL), new Margin(Size.ZERO));
+		assertAccessorsCorrect(new WRow(), WRow::getMargin, WRow::setMargin,
+			null, new Margin(Size.SMALL), new Margin(Size.ZERO));
 	}
 }

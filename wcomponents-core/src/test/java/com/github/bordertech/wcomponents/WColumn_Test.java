@@ -33,13 +33,13 @@ public class WColumn_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testAlignmentAccessors() {
-		assertAccessorsCorrect(new WColumn(10), "alignment", Alignment.LEFT, Alignment.CENTER,
-				Alignment.RIGHT);
+		assertAccessorsCorrect(new WColumn(10), WColumn::getAlignment, WColumn::setAlignment,
+			Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT);
 	}
 
 	@Test
 	public void testWidthAccessors() {
-		assertAccessorsCorrect(new WColumn(10), "width", 10, 2, 3);
+		assertAccessorsCorrect(new WColumn(10), WColumn::getWidth, WColumn::setWidth, 10, 2, 3);
 	}
 
 	@Test

@@ -13,7 +13,7 @@ public class WText_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testEncodeAccessors() {
-		assertAccessorsCorrect(new WText(), "encodeText", true, false, true);
+		assertAccessorsCorrect(new WText(), WText::isEncodeText, WText::setEncodeText, true, false, true);
 	}
 
 	@Test
@@ -57,7 +57,7 @@ public class WText_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testSanitizeOnOutputAccessors() {
-		assertAccessorsCorrect(new WText(), "sanitizeOnOutput", false, true, false);
+		assertAccessorsCorrect(new WText(), WText::isSanitizeOnOutput, WText::setSanitizeOnOutput, false, true, false);
 	}
 
 	// sanitizeOnOutput runs a lax HTML sanitizer rule set but only if encodeTexrt is false. FORM elements are always

@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.examples.theme;
 
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.WBeanContainer;
+import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WHeading;
@@ -77,7 +77,7 @@ public class WListExample extends WPanel {
 	 *
 	 * @author Yiannis Paschalidis
 	 */
-	public static class SimpleListRenderer extends WBeanContainer {
+	public static class SimpleListRenderer extends WContainer {
 
 		/**
 		 * Creates a SimpleListRenderer.

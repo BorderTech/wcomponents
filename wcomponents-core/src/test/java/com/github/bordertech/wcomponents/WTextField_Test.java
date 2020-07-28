@@ -161,27 +161,27 @@ public class WTextField_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testTextAccessors() {
-		assertAccessorsCorrect(new WTextField(), "text", null, "A", "B");
+		assertAccessorsCorrect(new WTextField(), WTextField::getText, WTextField::setText, null, "A", "B");
 	}
 
 	@Test
 	public void testColumnsAccessors() {
-		assertAccessorsCorrect(new WTextField(), "columns", 0, 1, 2);
+		assertAccessorsCorrect(new WTextField(), WTextField::getColumns, WTextField::setColumns, 0, 1, 2);
 	}
 
 	@Test
 	public void testMaxLengthAccessors() {
-		assertAccessorsCorrect(new WTextField(), "maxLength", 0, 1, 2);
+		assertAccessorsCorrect(new WTextField(), WTextField::getMaxLength, WTextField::setMaxLength, 0, 1, 2);
 	}
 
 	@Test
 	public void testMinLengthAccessors() {
-		assertAccessorsCorrect(new WTextField(), "minLength", 0, 1, 2);
+		assertAccessorsCorrect(new WTextField(), WTextField::getMinLength, WTextField::setMinLength, 0, 1, 2);
 	}
 
 	@Test
 	public void testPatternAccessors() {
-		assertAccessorsCorrect(new WTextField(), "pattern", null, "test1", "test2");
+		assertAccessorsCorrect(new WTextField(), WTextField::getPattern, WTextField::setPattern, null, "test1", "test2");
 	}
 
 	@Test(expected = PatternSyntaxException.class)
@@ -192,8 +192,7 @@ public class WTextField_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testSuggestionsAccessors() {
-		assertAccessorsCorrect(new WTextField(), "suggestions", null, new WSuggestions(),
-				new WSuggestions());
+		assertAccessorsCorrect(new WTextField(), WTextField::getSuggestions, WTextField::setSuggestions, null, new WSuggestions(), new WSuggestions());
 	}
 
 	@Test
@@ -335,7 +334,7 @@ public class WTextField_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testPlaceholderAccessors() {
-		assertAccessorsCorrect(new WTextField(), "placeholder", null, "A", "B");
+		assertAccessorsCorrect(new WTextField(), WTextField::getPlaceholder, WTextField::setPlaceholder, null, "A", "B");
 	}
 
 
