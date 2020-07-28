@@ -85,6 +85,7 @@ public class WDefinitionList_Test extends AbstractWComponentTestCase {
 
 		list.removeTerm(term2);
 		Assert.assertEquals("Incorrect term data", 1, termContainer.getChildCount());
+		Assert.assertEquals("Incorrect value for Term1", term1, termContainer.getChildAt(0).getTag());
 		Assert.assertEquals("Incorrect value for Term1", term1, termContainer.getChildAt(0).getAttribute(TERM_ATTRIBUTE));
 	}
 }
