@@ -52,6 +52,7 @@ public class WDefinitionList_Test extends AbstractWComponentTestCase {
 		Container termContainer = (Container) list.getChildAt(0);
 		Assert.assertEquals("Term1 should have been added", 1, termContainer.getChildCount());
 		Assert.assertEquals("Incorrect value for Term1", term1, termContainer.getChildAt(0).getAttribute(TERM_ATTRIBUTE));
+		Assert.assertEquals("Incorrect value for Term1", term1, termContainer.getChildAt(0).getTag());
 
 		// Test addition of term with multiple components
 		list.addTerm(term2, term2data1, term2data2);
@@ -60,6 +61,10 @@ public class WDefinitionList_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrect term for component 1", term2, term2data1.getAttribute(TERM_ATTRIBUTE));
 		Assert.assertEquals("Incorrect term for component 2", term2, term2data2.getAttribute(TERM_ATTRIBUTE));
 		Assert.assertEquals("Incorrect term for component 3", term2, term2data3.getAttribute(TERM_ATTRIBUTE));
+
+		Assert.assertEquals("Incorrect term for component 1", term2, term2data1.getTag());
+		Assert.assertEquals("Incorrect term for component 2", term2, term2data2.getTag());
+		Assert.assertEquals("Incorrect term for component 3", term2, term2data3.getTag());
 	}
 
 	@Test

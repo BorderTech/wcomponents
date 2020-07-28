@@ -105,6 +105,7 @@ public class WDefinitionList extends AbstractNamingContextContainer implements A
 		for (WComponent component : data) {
 			if (component != null) {
 				component.setAttribute(TERM_ATTRIBUTE, term);
+				component.setTag(term);
 				content.add(component);
 			}
 		}
@@ -113,6 +114,7 @@ public class WDefinitionList extends AbstractNamingContextContainer implements A
 		if (getComponentsForTerm(term).isEmpty()) {
 			WComponent component = new DefaultWComponent();
 			component.setAttribute(TERM_ATTRIBUTE, term);
+			component.setTag(term);
 			content.add(component);
 		}
 	}
