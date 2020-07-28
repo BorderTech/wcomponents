@@ -109,7 +109,7 @@ public class WCollapsible_Test extends AbstractWComponentTestCase {
 		WCollapsible collapsible = new WCollapsible(new WText(""), "",
 				WCollapsible.CollapsibleMode.CLIENT);
 		assertAccessorsCorrect(collapsible, WCollapsible::getMargin, WCollapsible::setMargin,
-			null, new Margin(1), new Margin(2));
+			null, new Margin(Size.SMALL), new Margin(Size.MEDIUM));
 	}
 
 	@Test

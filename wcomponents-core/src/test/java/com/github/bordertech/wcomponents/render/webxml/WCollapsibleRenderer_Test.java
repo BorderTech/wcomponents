@@ -88,7 +88,7 @@ public class WCollapsibleRenderer_Test extends AbstractWebXmlRendererTestCase {
 				COLLAPSIBLE_HEADING, WCollapsible.CollapsibleMode.EAGER);
 		assertXpathNotExists("//ui:collapsible/ui:margin", collapsible);
 
-		Margin margin = new Margin(0);
+		Margin margin = new Margin(null);
 		collapsible.setMargin(margin);
 		assertXpathNotExists("//ui:collapsible/ui:margin", collapsible);
 

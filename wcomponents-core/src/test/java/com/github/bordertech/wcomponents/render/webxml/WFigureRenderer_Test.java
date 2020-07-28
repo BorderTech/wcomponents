@@ -109,7 +109,7 @@ public class WFigureRenderer_Test extends AbstractWebXmlRendererTestCase {
 		WFigure figure = new WFigure(new WText(FIGURE_CONTENT), FIGURE_HEADING);
 		assertXpathNotExists("//ui:figure/ui:margin", figure);
 
-		Margin margin = new Margin(0);
+		Margin margin = new Margin(null);
 		figure.setMargin(margin);
 		assertXpathNotExists("//ui:figure/ui:margin", figure);
 

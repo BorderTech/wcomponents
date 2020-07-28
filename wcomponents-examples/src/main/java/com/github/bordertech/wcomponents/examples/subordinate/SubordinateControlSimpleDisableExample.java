@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.examples.subordinate;
 
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WCheckBoxSelect;
@@ -31,7 +32,7 @@ public class SubordinateControlSimpleDisableExample extends WPanel {
 	public SubordinateControlSimpleDisableExample() {
 		WFieldLayout layout = new WFieldLayout();
 		layout.setLabelWidth(25);
-		layout.setMargin(new com.github.bordertech.wcomponents.Margin(0, 0, 12, 0));
+		layout.setMargin(new com.github.bordertech.wcomponents.Margin(Size.ZERO, Size.ZERO, Size.LARGE, Size.ZERO));
 		add(layout);
 
 		// The toggle used to enable/disable the other fields.

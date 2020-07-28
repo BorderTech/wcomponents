@@ -45,7 +45,7 @@ public class WTree_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testMarginAccessors() {
 		assertAccessorsCorrect(new WTree(), WTree::getMargin, WTree::setMargin,
-			null, new Margin(1), new Margin(2));
+			null, new Margin(Size.SMALL), new Margin(Size.MEDIUM));
 	}
 
 	@Test

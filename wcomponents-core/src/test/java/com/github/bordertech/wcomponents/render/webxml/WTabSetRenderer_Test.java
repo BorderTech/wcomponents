@@ -67,7 +67,7 @@ public class WTabSetRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertXpathNotExists("//ui:tabset/ui:margin", tabSet);
 
-		Margin margin = new Margin(0);
+		Margin margin = new Margin(null);
 		tabSet.setMargin(margin);
 		assertXpathNotExists("//ui:tabset/ui:margin", tabSet);
 

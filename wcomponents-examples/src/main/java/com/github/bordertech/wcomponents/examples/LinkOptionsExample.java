@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WContainer;
@@ -129,7 +130,7 @@ public class LinkOptionsExample extends WPanel {
 		layout.addField("Open in a new window", cbOpenNew);
 		layout.addField("setImage ('/image/attachment.png')", cbSetImage);
 		layout.addField("Image Position", ddImagePosition);
-		layout.setMargin(new com.github.bordertech.wcomponents.Margin(0, 0, 6, 0));
+		layout.setMargin(new com.github.bordertech.wcomponents.Margin(Size.ZERO, Size.ZERO, Size.MEDIUM, Size.ZERO));
 
 		// Apply Button
 		WButton apply = new WButton("Apply");

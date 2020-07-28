@@ -63,7 +63,7 @@ public class WFieldSetRenderer_Test extends AbstractWebXmlRendererTestCase {
 		WFieldSet fieldSet = new WFieldSet("");
 		assertXpathNotExists("//ui:fieldset/ui:margin", fieldSet);
 
-		Margin margin = new Margin(0);
+		Margin margin = new Margin(null);
 		fieldSet.setMargin(margin);
 		assertXpathNotExists("//ui:fieldset/ui:margin", fieldSet);
 

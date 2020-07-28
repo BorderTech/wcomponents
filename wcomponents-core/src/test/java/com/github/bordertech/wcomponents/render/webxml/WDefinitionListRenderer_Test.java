@@ -101,7 +101,7 @@ public class WDefinitionListRenderer_Test extends AbstractWebXmlRendererTestCase
 		WDefinitionList section = new WDefinitionList();
 		assertXpathNotExists("//ui:definitionlist/ui:margin", section);
 
-		Margin margin = new Margin(0);
+		Margin margin = new Margin(null);
 		section.setMargin(margin);
 		assertXpathNotExists("//ui:definitionlist/ui:margin", section);
 

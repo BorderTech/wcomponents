@@ -721,7 +721,7 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testMarginAccessors() {
 		assertAccessorsCorrect(new WTabSet(), WTabSet::getMargin, WTabSet::setMargin,
-			null, new Margin(1), new Margin(2));
+			null, new Margin(Size.SMALL), new Margin(Size.MEDIUM));
 	}
 
 	@Test
