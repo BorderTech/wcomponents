@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents.examples.datatable;
 import com.github.bordertech.wcomponents.AbstractTreeTableDataModel;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.TableTreeNode;
-import com.github.bordertech.wcomponents.WBeanContainer;
+import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WDataTable;
 import com.github.bordertech.wcomponents.WDataTable.ExpandMode;
@@ -379,7 +379,7 @@ public class TreeTableExample extends WPanel {
 	 *
 	 * @author Yiannis Paschalidis
 	 */
-	public static final class TravelDocPanel extends WBeanContainer {
+	public static final class TravelDocPanel extends WContainer {
 
 		/**
 		 * Creates a TravelDocPanel.

@@ -49,6 +49,6 @@ public class WFigure_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testMarginAccessors() {
 		assertAccessorsCorrect(new WFigure(new WText(), ""), WFigure::getMargin, WFigure::setMargin,
-			null, new Margin(1), new Margin(2));
+			null, new Margin(Size.SMALL), new Margin(Size.MEDIUM));
 	}
 }

@@ -110,7 +110,7 @@ public class WFieldLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		WFieldLayout layout = new WFieldLayout();
 		assertXpathNotExists("//ui:fieldlayout/ui:margin", layout);
 
-		Margin margin = new Margin(0);
+		Margin margin = new Margin(null);
 		layout.setMargin(margin);
 		assertXpathNotExists("//ui:fieldlayout/ui:margin", layout);
 

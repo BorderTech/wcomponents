@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents.examples.table;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.SimpleBeanBoundTableModel;
 import com.github.bordertech.wcomponents.SimpleBeanBoundTableModel.LevelDetails;
-import com.github.bordertech.wcomponents.WBeanContainer;
+import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDateField;
 import com.github.bordertech.wcomponents.WDefinitionList;
 import com.github.bordertech.wcomponents.WHorizontalRule;
@@ -79,7 +79,7 @@ public class SimpleExpandableContentTableExample extends WPanel {
 	/**
 	 * An example component to display travel document details. Expects that the supplied bean is a {@link TravelDoc}.
 	 */
-	public static final class TravelDocPanel extends WBeanContainer {
+	public static final class TravelDocPanel extends WContainer {
 
 		/**
 		 * Creates a TravelDocPanel.

@@ -416,7 +416,7 @@ public class UIContextImpl_Test extends AbstractWComponentTestCase {
 
 		// Setup the top level repeater
 		WRepeater repeater = new WRepeater();
-		WBeanContainer content = new WBeanContainer() {
+		WContainer content = new WContainer() {
 			@Override
 			public void handleRequest(final Request request) {
 				super.handleRequest(request);
@@ -513,7 +513,7 @@ public class UIContextImpl_Test extends AbstractWComponentTestCase {
 
 		// Setup the top level repeater
 		WRepeater repeater = new WRepeater();
-		WBeanContainer content = new WBeanContainer();
+		WContainer content = new WContainer();
 		content.add(repeater2);
 		repeater.setRepeatedComponent(content);
 

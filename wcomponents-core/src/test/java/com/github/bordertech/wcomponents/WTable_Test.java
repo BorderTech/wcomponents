@@ -73,7 +73,7 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testMarginAccessors() {
 		assertAccessorsCorrect(new WTable(), WTable::getMargin, WTable::setMargin,
-			null, new Margin(1), new Margin(2));
+			null, new Margin(Size.SMALL), new Margin(Size.MEDIUM));
 	}
 
 	@Test

@@ -7,7 +7,6 @@ import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WAjaxControl;
-import com.github.bordertech.wcomponents.WBeanContainer;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WContainer;
@@ -97,7 +96,7 @@ public class AjaxWRepeaterExample extends WContainer {
 	/**
 	 * Component used by the repeater, that demonstrates using ajax.
 	 */
-	public static class RowComponent extends WBeanContainer {
+	public static class RowComponent extends WContainer {
 
 		/**
 		 * Checkbox that initiates ajax request.

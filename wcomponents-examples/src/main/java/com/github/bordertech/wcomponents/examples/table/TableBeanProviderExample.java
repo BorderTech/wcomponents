@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents.examples.table;
 import com.github.bordertech.wcomponents.AbstractBeanBoundTableModel;
 import com.github.bordertech.wcomponents.BeanProvider;
 import com.github.bordertech.wcomponents.BeanProviderBound;
-import com.github.bordertech.wcomponents.WBeanContainer;
+import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WDateField;
 import com.github.bordertech.wcomponents.WTable;
@@ -22,7 +22,7 @@ import java.util.Map;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class TableBeanProviderExample extends WBeanContainer {
+public class TableBeanProviderExample extends WContainer {
 
 	/**
 	 * A fake "application cache", that holds the data which is displayed by the table.

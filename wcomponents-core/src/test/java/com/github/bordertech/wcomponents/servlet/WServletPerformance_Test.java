@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.PerformanceTests;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.WApplication;
-import com.github.bordertech.wcomponents.WBeanContainer;
+import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WLabel;
@@ -76,9 +76,9 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 		setActiveContext(uic);
 		Assert.assertEquals("Incorrect step", 2, uic.getEnvironment().getStep());
 		Assert.assertEquals("Incorrect property1 value", "p1_1",
-				((SimpleFormBean) app.beanContainer.getBean()).getProperty1());
+				((SimpleFormBean) app.container.getBean()).getProperty1());
 		Assert.assertEquals("Incorrect property2 value", "p2_1",
-				((SimpleFormBean) app.beanContainer.getBean()).getProperty2());
+				((SimpleFormBean) app.container.getBean()).getProperty2());
 	}
 
 	/**
@@ -275,34 +275,34 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 	 */
 	public static final class SimpleApp extends WApplication {
 
-		private final WBeanContainer beanContainer = new WBeanContainer();
+		private final WContainer container = new WContainer();
 
 		/**
 		 * Creates a SimpleApp.
 		 */
 		public SimpleApp() {
-			add(beanContainer);
+			add(container);
 
 			WTextField property1 = new WTextField();
 			property1.setBeanProperty("property1");
 			WTextField property2 = new WTextField();
 			property2.setBeanProperty("property2");
 
-			beanContainer.add(new WLabel("Property 1:", property1));
-			beanContainer.add(property1);
-			beanContainer.add(new WLabel("Property 2:", property2));
-			beanContainer.add(property2);
+			container.add(new WLabel("Property 1:", property1));
+			container.add(property1);
+			container.add(new WLabel("Property 2:", property2));
+			container.add(property2);
 
 			WButton submit = new WButton("Submit");
 
 			submit.setAction(new Action() {
 				@Override
 				public void execute(final ActionEvent event) {
-					WebUtilities.updateBeanValue(beanContainer);
+					WebUtilities.updateBeanValue(container);
 				}
 			});
 
-			beanContainer.add(submit);
+			container.add(submit);
 		}
 
 		@Override
@@ -310,7 +310,7 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 			super.preparePaintComponent(request);
 
 			if (!isInitialised()) {
-				beanContainer.setBean(new SimpleFormBean());
+				container.setBean(new SimpleFormBean());
 				setInitialised(true);
 			}
 		}
