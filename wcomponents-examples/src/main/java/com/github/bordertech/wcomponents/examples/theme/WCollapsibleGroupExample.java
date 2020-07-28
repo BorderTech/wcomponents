@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.examples.theme;
 
 import com.github.bordertech.wcomponents.CollapsibleGroup;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WCollapsible;
 import com.github.bordertech.wcomponents.WCollapsibleToggle;
 import com.github.bordertech.wcomponents.WHorizontalRule;
@@ -28,7 +29,7 @@ public class WCollapsibleGroupExample extends WPanel {
 
 		WPanel panel = new WPanel();
 		panel.setLayout(new GridLayout(3, 2, 6, 12));
-		panel.setMargin(new com.github.bordertech.wcomponents.Margin(0, 0, 12, 0));
+		panel.setMargin(new com.github.bordertech.wcomponents.Margin(Size.ZERO, Size.ZERO, Size.LARGE, Size.ZERO));
 		add(panel);
 
 		CollapsibleGroup group1 = new CollapsibleGroup();

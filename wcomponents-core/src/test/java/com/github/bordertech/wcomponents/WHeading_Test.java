@@ -60,7 +60,7 @@ public class WHeading_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testMarginAccessors() {
 		assertAccessorsCorrect(new WHeading(HeadingLevel.H1, "test"), WHeading::getMargin, WHeading::setMargin,
-			null, new Margin(1), new Margin(2));
+			null, new Margin(Size.SMALL), new Margin(Size.MEDIUM));
 	}
 
 	@Test

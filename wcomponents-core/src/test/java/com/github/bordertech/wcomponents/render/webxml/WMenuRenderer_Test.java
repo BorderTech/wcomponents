@@ -95,7 +95,7 @@ public class WMenuRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertXpathNotExists("//ui:menu/ui:margin", menu);
 
-		Margin margin = new Margin(0);
+		Margin margin = new Margin(null);
 		menu.setMargin(margin);
 		assertXpathNotExists("//ui:menu/ui:margin", menu);
 

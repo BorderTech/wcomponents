@@ -43,7 +43,7 @@ public class WRadioButtonExample extends WContainer {
 
 		WFieldSet fset = new WFieldSet("What is your quest?");
 		add(fset);
-		fset.setMargin(new com.github.bordertech.wcomponents.Margin(0, 0, 12, 0));
+		fset.setMargin(new com.github.bordertech.wcomponents.Margin(Size.ZERO, Size.ZERO, Size.LARGE, Size.ZERO));
 
 		WFieldLayout layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
 		fset.add(layout);

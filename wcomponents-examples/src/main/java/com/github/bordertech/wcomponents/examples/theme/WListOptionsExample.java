@@ -2,7 +2,6 @@ package com.github.bordertech.wcomponents.examples.theme;
 
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.WBeanContainer;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WCheckBoxSelect;
@@ -168,7 +167,7 @@ public class WListOptionsExample extends WPanel {
 	 *
 	 * @author Steve Harney
 	 */
-	public static class SimpleListRenderer extends WBeanContainer {
+	public static class SimpleListRenderer extends WContainer {
 
 		/**
 		 * Creates a SimpleListRenderer.

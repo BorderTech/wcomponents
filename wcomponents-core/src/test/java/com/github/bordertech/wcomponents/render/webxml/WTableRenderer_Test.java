@@ -767,7 +767,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		table.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
 		assertXpathNotExists("//ui:table/ui:margin", table);
 
-		Margin margin = new Margin(0);
+		Margin margin = new Margin(null);
 		table.setMargin(margin);
 		assertXpathNotExists("//ui:table/ui:margin", table);
 

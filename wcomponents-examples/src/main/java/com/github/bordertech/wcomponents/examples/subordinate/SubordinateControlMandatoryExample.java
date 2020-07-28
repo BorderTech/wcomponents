@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.examples.subordinate;
 
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WContainer;
@@ -42,7 +43,7 @@ public class SubordinateControlMandatoryExample extends ValidationContainer {
 
 		WFieldLayout layout = new WFieldLayout();
 		layout.setLabelWidth(25);
-		layout.setMargin(new com.github.bordertech.wcomponents.Margin(0, 0, 12, 0));
+		layout.setMargin(new com.github.bordertech.wcomponents.Margin(Size.ZERO, Size.ZERO, Size.LARGE, Size.ZERO));
 		WCheckBox checkBox = new WCheckBox();
 		layout.addField("Set Mandatory", checkBox);
 

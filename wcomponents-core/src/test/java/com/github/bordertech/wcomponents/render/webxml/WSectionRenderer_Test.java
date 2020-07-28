@@ -113,7 +113,7 @@ public class WSectionRenderer_Test extends AbstractWebXmlRendererTestCase {
 		WSection section = new WSection("");
 		assertXpathNotExists("//ui:section/ui:margin", section);
 
-		Margin margin = new Margin(0);
+		Margin margin = new Margin(null);
 		section.setMargin(margin);
 		assertXpathNotExists("//ui:section/ui:margin", section);
 

@@ -83,7 +83,7 @@ public class WCancelButtonExample extends WPanel implements MessageContainer {
 
 		WPanel buttonPanel = new WPanel(Type.FEATURE);
 		buttonPanel.setLayout(new FlowLayout(Alignment.LEFT, Size.SMALL));
-		buttonPanel.setMargin(new com.github.bordertech.wcomponents.Margin(12, 0, 0, 0));
+		buttonPanel.setMargin(new com.github.bordertech.wcomponents.Margin(Size.LARGE, Size.ZERO, Size.ZERO, Size.ZERO));
 		buttonPanel.add(prevButton);
 		buttonPanel.add(nextButton);
 		buttonPanel.add(finishButton);

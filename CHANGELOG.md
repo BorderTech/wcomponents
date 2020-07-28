@@ -3,10 +3,28 @@
 ## Release in-progress
 
 ### API Changes
+### Enhancements
+### Bug Fixes
+
+## 1.5.21
+
+### Bug Fixes
+
+* Fixed regress in CROP function in imageEdit.js with fabric.js API fix and provided enhanced image editor example #1737.
+
+## 1.5.20
 
 ### Enhancements
 
+* Removed usage of deprecated APIs from the framework and examples. Including the following:
+    - Replaced usage of `WBeanContainer` with `WContainer`. #1733
+    - Replaced usage of `int` heading levels with `HeadingLevel` values. #1734
+    - Replaced usage of `int` spacing for `FlowLayout` with `Size` based spacing, #1735
+    - Replaced usage of `int` spacing for `ColumnLayout` with `Size` based spacing. #1736
+
 ### Bug Fixes
+
+* Fixed imageEdit.js to handle new fabric.js API and provided new image editor examples #1737.
 
 ## 1.5.19
 

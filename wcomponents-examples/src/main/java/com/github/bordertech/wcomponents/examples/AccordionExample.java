@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.HeadingLevel;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WContainer;
@@ -136,7 +137,7 @@ public class AccordionExample extends WContainer {
 			addTab(sampleTabContent("Content 4"), "Tab 4 (lazy)", WTabSet.TAB_MODE_LAZY);
 			addTab(sampleTabContent("Content 5"), "Tab 5 (dynamic)", WTabSet.TAB_MODE_DYNAMIC);
 			addTab(sampleTabContent("Content 6"), "Tab 6 (eager)", WTabSet.TAB_MODE_EAGER);
-			setMargin(new com.github.bordertech.wcomponents.Margin(0, 0, 12, 0));
+			setMargin(new com.github.bordertech.wcomponents.Margin(Size.ZERO, Size.ZERO, Size.LARGE, Size.ZERO));
 		}
 
 

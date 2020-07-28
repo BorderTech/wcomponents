@@ -1029,15 +1029,15 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 		// Set Bean Property
 		multi.setBeanProperty("myOptions");
 
-		WBeanContainer beanContainer = new WBeanContainer();
-		beanContainer.add(multi);
+		WContainer container = new WContainer();
+		container.add(multi);
 
 		multi.setLocked(true);
 		setActiveContext(createUIContext());
 
 		// Set a Bean that has no selections
 		MyBean bean = new MyBean();
-		beanContainer.setBean(bean);
+		container.setBean(bean);
 
 		// Test Nothing Selected and Empty Request (No Change)
 		MockRequest request = setupNothingSelectedRequest(multi);
