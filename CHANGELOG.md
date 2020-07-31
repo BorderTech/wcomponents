@@ -8,6 +8,11 @@
 
 ### Bug Fixes
 
+## 1.5.23
+
+### Bug Fixes
+
+* Controls using column-count render incorrectly in read-only mode #1752
 
 ## 1.5.22
 
