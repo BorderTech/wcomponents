@@ -3,8 +3,30 @@
 ## Release in-progress
 
 ### API Changes
+
 ### Enhancements
+
 ### Bug Fixes
+
+## 1.5.23
+
+### Bug Fixes
+
+* Controls using column-count render incorrectly in read-only mode #1752
+
+## 1.5.22
+
+### API Changes
+
+* Remove usage of margin int sizing #1742
+
+### Enhancements
+
+* Remove usage of SelectMode from examples #1741
+
+### Bug Fixes
+
+* Removed a selector ambiguity which caused position to be overridden in combo listboxes when the listbox was busy #1747.
 
 ## 1.5.21
 
