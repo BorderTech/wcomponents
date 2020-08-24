@@ -17,6 +17,7 @@ Its goal is to enable Java developers to build AJAX enabled, WCAG 2.0 compliant 
 [![Codacy](https://api.codacy.com/project/badge/grade/7ba92824eb1f4d60abeddf1e72108bbc)](https://www.codacy.com/app/BorderTech/wcomponents)
 [![Javadocs](https://javadoc.io/badge/com.github.bordertech.wcomponents/wcomponents-core.svg)](https://javadoc.io/doc/com.github.bordertech.wcomponents/wcomponents-core)
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.bordertech.wcomponents/wcomponents-core.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.github.bordertech.wcomponents%22%20AND%20a:%22wcomponents-core%22)
+![LGTM Alerts](https://img.shields.io/lgtm/alerts/github/bordertech/wcomponents)
 
 ## Contributing
 
