@@ -2,6 +2,8 @@ package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.WMultiTextField;
+import com.github.bordertech.wcomponents.util.I18nUtilities;
+import com.github.bordertech.wcomponents.util.InternalMessages;
 import java.io.IOException;
 import org.junit.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -30,14 +32,11 @@ public class WMultiTextFieldRenderer_Test extends AbstractWebXmlRendererTestCase
 		assertSchemaMatch(wmtf);
 
 		assertXpathEvaluatesTo("0", "count(//ui:multitextfield/ui:value)", wmtf);
-
 		wmtf.setTextInputs(new String[]{"a", "b"});
-
 		assertXpathEvaluatesTo("2", "count(//ui:multitextfield/ui:value)", wmtf);
-		assertXpathEvaluatesTo("a", "normalize-space(//ui:multitextfield/ui:value[position()=1])",
-				wmtf);
-		assertXpathEvaluatesTo("b", "normalize-space(//ui:multitextfield/ui:value[position()=2])",
-				wmtf);
+		assertXpathEvaluatesTo("a", "normalize-space(//ui:multitextfield/ui:value[position()=1])", wmtf);
+		assertXpathEvaluatesTo("b", "normalize-space(//ui:multitextfield/ui:value[position()=2])", wmtf);
+		assertXpathEvaluatesTo(I18nUtilities.format(null, InternalMessages.DEFAULT_MULTITEXTFIELD_TIP), "//ui:multitextfield/@title", wmtf);
 	}
 
 	@Test
@@ -130,6 +129,7 @@ public class WMultiTextFieldRenderer_Test extends AbstractWebXmlRendererTestCase
 		field.setReadOnly(true);
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo("true", "//ui:multitextfield/@readOnly", field);
+		assertXpathNotExists("//ui:multitextfield/@title", field);
 	}
 
 }
