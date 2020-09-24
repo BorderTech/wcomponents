@@ -8,6 +8,8 @@
 
 ### Bug Fixes
 
+* Fix XSLT errors which resulted in missing option labels in WMultiDropdown and incorrect option labels in WMultiTextField #1760.
+
 ## 1.5.23
 
 ### Bug Fixes

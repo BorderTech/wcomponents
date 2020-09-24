@@ -68,7 +68,7 @@
 			<ul class="wc_list_nb wc-vgap-sm">
 				<xsl:choose>
 					<xsl:when test="count(.//ui:option[@selected]) eq 0">
-						<xsl:apply-templates mode="multiDropDown" select="(ui:option | ui:optgroup/ui:option)[1]"> </xsl:apply-templates>
+						<xsl:apply-templates mode="multiDropDown" select="(ui:option | ui:optgroup/ui:option)[1]"/> 
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:apply-templates mode="multiDropDown" select=".//ui:option[@selected]"/>
@@ -86,7 +86,7 @@
 		<xsl:variable name="selectId" select="concat($id, generate-id(), '-', position())"/>
 		<li>
 			<label for="{$selectId}" class="wc-off">
-				<xsl:value-of select="@title"/>
+				<xsl:value-of select="$mdd/@title"/>
 			</label>
 			<select id="{$selectId}" name="{$id}">
 				<xsl:if test="$mdd/@submitOnChange">

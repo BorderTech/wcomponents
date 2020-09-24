@@ -4,6 +4,8 @@ import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.OptionGroup;
 import com.github.bordertech.wcomponents.TestLookupTable;
 import com.github.bordertech.wcomponents.WMultiDropdown;
+import com.github.bordertech.wcomponents.util.I18nUtilities;
+import com.github.bordertech.wcomponents.util.InternalMessages;
 import java.io.IOException;
 import java.util.Arrays;
 import org.junit.Assert;
@@ -36,8 +38,8 @@ public class WMultiDropdownRenderer_Test extends AbstractWebXmlRendererTestCase 
 		assertXpathNotExists("//ui:multidropdown/@rows", dropdown);
 
 		// Check selected (default to first option)
-		assertXpathEvaluatesTo("a",
-				"normalize-space(//ui:multidropdown/ui:option[@selected='true'])", dropdown);
+		assertXpathEvaluatesTo("a", "normalize-space(//ui:multidropdown/ui:option[@selected='true'])", dropdown);
+		assertXpathEvaluatesTo(I18nUtilities.format(null, InternalMessages.DEFAULT_MULTIDROPDOWN_TIP), "//ui:multidropdown/@title", dropdown);
 
 		setActiveContext(createUIContext());
 		dropdown.setSelected(Arrays.asList(new String[]{"b"}));
@@ -63,6 +65,7 @@ public class WMultiDropdownRenderer_Test extends AbstractWebXmlRendererTestCase 
 		assertXpathEvaluatesTo("true", "//ui:multidropdown/@readOnly", dropdown);
 		assertXpathEvaluatesTo("1", "count(//ui:multidropdown/ui:option)", dropdown);
 		assertXpathEvaluatesTo("b", "normalize-space(//ui:multidropdown/ui:option[@selected='true'])", dropdown);
+		assertXpathNotExists("//ui:multidropdown/@title", dropdown);
 	}
 
 	@Test
