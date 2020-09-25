@@ -45,6 +45,7 @@ $wc-checkableselect-option-horizontal-gap: $wc-gap-normal !default;
 [data-wc-colcount] {
   column-count: 2;
   column-gap: $wc-checkableselect-option-horizontal-gap;
+  display: block; // fix #1752 when columns used in read-only mode
 }
 
 @for $colcount from 3 through $wc-checkableselect-max-cols {

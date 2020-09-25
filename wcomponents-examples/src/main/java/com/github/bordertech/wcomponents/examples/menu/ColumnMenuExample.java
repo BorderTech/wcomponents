@@ -3,10 +3,10 @@ package com.github.bordertech.wcomponents.examples.menu;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.MenuItem;
+import com.github.bordertech.wcomponents.MenuSelectContainer.SelectionMode;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WMenu;
-import com.github.bordertech.wcomponents.WMenu.SelectMode;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WStyledText;
@@ -52,7 +52,7 @@ public class ColumnMenuExample extends WPanel {
 	 */
 	private WMenu buildColumnMenu(final WText selectedMenuText) {
 		WMenu menu = new WMenu(WMenu.MenuType.COLUMN);
-		menu.setSelectMode(SelectMode.SINGLE);
+		menu.setSelectionMode(SelectionMode.SINGLE);
 		menu.setRows(8);
 
 		StringTreeNode root = getOrgHierarchyTree();
@@ -97,7 +97,7 @@ public class ColumnMenuExample extends WPanel {
 
 		} else {
 			WSubMenu subMenu = new WSubMenu(currentNode.getData());
-			subMenu.setSelectMode(SelectMode.SINGLE);
+			subMenu.setSelectionMode(SelectionMode.SINGLE);
 			subMenu.setSelectable(false);
 
 			subMenu.setAction(new ExampleMenuAction(selectedMenuText));
