@@ -23,6 +23,8 @@ before_install:
 language: Java
 jdk:
  - oraclejdk11
+## Pre install node V10
+node_js: 10.16.3
 
 ## Travis installs the project with the following maven command:- "mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V"
 install:
