@@ -19,12 +19,12 @@ before_install:
 - mvn clean
 ## Codacy coverage reporter download
 - wget https://github.com/codacy/codacy-coverage-reporter/releases/download/4.0.5/codacy-coverage-reporter-4.0.5-assembly.jar
+## Install node (for sonar scanner)
+- nvm install v10.16.3
 
-language: Java
+language: java
 jdk:
  - oraclejdk11
-## Pre install node V10
-node_js: 10.16.3
 
 ## Travis installs the project with the following maven command:- "mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V"
 install:
