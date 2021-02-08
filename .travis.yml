@@ -22,7 +22,7 @@ before_install:
 
 language: Java
 jdk:
- - oraclejdk8
+ - oraclejdk11
 
 ## Travis installs the project with the following maven command:- "mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V"
 install:
@@ -34,4 +34,3 @@ script:
 ## Send Coverage to Codacy
 after_success:
   - java -jar codacy-coverage-reporter-4.0.5-assembly.jar report -l Java -r wcomponents-core/target/site/jacoco/jacoco.xml
-  
