@@ -17,8 +17,6 @@ addons:
 before_install:
 - echo "MAVEN_OPTS='-Xmx512m -XX:MaxPermSize=128m'" > ~/.mavenrc
 - mvn clean
-## Codacy coverage reporter download
-- wget https://github.com/codacy/codacy-coverage-reporter/releases/download/11.9.2/codacy-coverage-reporter-assembly-11.9.2.jar
 
 language: java
 jdk:
@@ -30,7 +28,3 @@ install:
 
 script:
  - ./travis.sh
-
-## Send Coverage to Codacy
-after_success:
-  - java -jar codacy-coverage-reporter-assembly-11.9.2.jar report -l Java -r wcomponents-core/target/site/jacoco/jacoco.xml
