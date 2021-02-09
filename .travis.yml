@@ -1,4 +1,4 @@
-dist: trusty
+dist: focal
 
 env:
   global:
@@ -19,8 +19,6 @@ before_install:
 - mvn clean
 ## Codacy coverage reporter download
 - wget https://github.com/codacy/codacy-coverage-reporter/releases/download/4.0.5/codacy-coverage-reporter-4.0.5-assembly.jar
-## Install node (for sonar scanner)
-- nvm install v10.16.3
 
 language: java
 jdk:
