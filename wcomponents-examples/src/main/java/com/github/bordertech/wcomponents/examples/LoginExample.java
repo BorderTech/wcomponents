@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.Margin;
@@ -15,10 +10,13 @@ import com.github.bordertech.wcomponents.WSection;
 import com.github.bordertech.wcomponents.WTextField;
 
 /**
- *
+ * Demonstrate a basic login screen.
  */
 public class LoginExample extends WSection {
 
+	/**
+	 * Construct example.
+	 */
 	public LoginExample() {
 		super("Log in");
 		setMargin(new Margin(Size.XL));

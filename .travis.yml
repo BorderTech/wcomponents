@@ -1,4 +1,4 @@
-dist: trusty
+dist: focal
 
 env:
   global:
@@ -17,21 +17,14 @@ addons:
 before_install:
 - echo "MAVEN_OPTS='-Xmx512m -XX:MaxPermSize=128m'" > ~/.mavenrc
 - mvn clean
-## Codacy coverage reporter download
-- wget https://github.com/codacy/codacy-coverage-reporter/releases/download/4.0.5/codacy-coverage-reporter-4.0.5-assembly.jar
 
-language: Java
+language: java
 jdk:
- - oraclejdk8
+ - oraclejdk11
 
 ## Travis installs the project with the following maven command:- "mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V"
 install:
- - mvn --settings ci-settings.xml install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -DskipOptionalQA=true -Dwc.pmd.verbose=false
+ - mvn --settings ci-settings.xml install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -DskipOptionalQA=true -Dpmd.verbose=false
 
 script:
  - ./travis.sh
-
-## Send Coverage to Codacy
-after_success:
-  - java -jar codacy-coverage-reporter-4.0.5-assembly.jar report -l Java -r wcomponents-core/target/site/jacoco/jacoco.xml
-  

@@ -29,6 +29,9 @@ public class SimplePaginationTableWithSelectablesExample extends WPanel {
 
 	private final WStyledText selectionText = new WStyledText();
 
+	/**
+	 * Construct example.
+	 */
 	public SimplePaginationTableWithSelectablesExample() {
 		selectionText.setWhitespaceMode(WStyledText.WhitespaceMode.PRESERVE);
 		add(wTable);
@@ -108,8 +111,7 @@ public class SimplePaginationTableWithSelectablesExample extends WPanel {
 	}
 
 	/**
-	 * Override preparePaintComponent in order to set up the example data the first time that the example is accessed by
-	 * each user.
+	 * Override preparePaintComponent in order to set up the example data the first time that the example is accessed by each user.
 	 *
 	 * @param request the request being responded to.
 	 */

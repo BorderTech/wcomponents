@@ -6,6 +6,10 @@
 
 ### Enhancements
 
+* Update to latest qa-parent.
+* Update travis.yml to build WComponents with JDK 11 and Node V10 to support sonarcloud analysis. However, WComponents is still built and published with JDK 8.
+* Added a temporary profile in wcomponents-core to exclude test ObjectGraphDump_Test from JDK 9 and above until the reflection code that fails due to the changes in JDK 9 are fixed or removed.
+
 ### Bug Fixes
 
 * Fix XSLT errors which resulted in missing option labels in WMultiDropdown and incorrect option labels in WMultiTextField #1760.
