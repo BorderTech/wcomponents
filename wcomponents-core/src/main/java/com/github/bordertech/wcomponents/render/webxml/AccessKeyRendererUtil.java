@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.util.Util;
 /**
  * Utility methods for rendering access key details.
  */
-public class AccessKeyRendererUtil {
+public final class AccessKeyRendererUtil {
 
 	/**
 	 * Prevent instantiation of utility class.
