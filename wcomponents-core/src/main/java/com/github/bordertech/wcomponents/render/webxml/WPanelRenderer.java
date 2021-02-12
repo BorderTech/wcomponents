@@ -9,7 +9,6 @@ import com.github.bordertech.wcomponents.WPanel.PanelMode;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.layout.LayoutManager;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-import com.github.bordertech.wcomponents.util.Util;
 
 /**
  * The {@link Renderer} for the {@link WPanel} component.
@@ -46,9 +45,10 @@ final class WPanelRenderer extends AbstractWebXmlRenderer {
 		}
 		xml.appendOptionalAttribute("buttonId", submitId);
 		xml.appendOptionalAttribute("title", titleText);
-		xml.appendOptionalAttribute("accessKey", Util.upperCase(panel.getAccessKeyAsString()));
 		xml.appendOptionalAttribute("type", getPanelType(panel));
 		xml.appendOptionalAttribute("mode", getPanelMode(panel));
+
+		AccessKeyRendererUtil.appendOptionalAccessKeyXMLAttribute(panel, renderContext);
 
 		xml.appendClose();
 

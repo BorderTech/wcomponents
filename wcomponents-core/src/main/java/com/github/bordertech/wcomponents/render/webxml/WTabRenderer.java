@@ -57,10 +57,7 @@ final class WTabRenderer extends AbstractWebXmlRenderer {
 				throw new SystemException("Unknown tab mode: " + tab.getMode());
 		}
 
-		if (tab.getAccessKey() != 0) {
-			xml.appendAttribute("accessKey", String.valueOf(Character.
-					toUpperCase(tab.getAccessKey())));
-		}
+		AccessKeyRendererUtil.appendOptionalAccessKeyXMLAttribute(tab, renderContext);
 
 		xml.appendClose();
 

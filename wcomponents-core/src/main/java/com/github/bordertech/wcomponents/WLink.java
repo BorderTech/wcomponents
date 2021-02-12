@@ -23,7 +23,7 @@ import org.apache.commons.logging.LogFactory;
  * @since 1.0.0
  */
 public class WLink extends WBeanComponent implements Container, Disableable, AjaxInternalTrigger, AjaxTarget,
-		SubordinateTarget {
+		SubordinateTarget, AccessKeyable {
 
 	/**
 	 * The logger instance for this class.
@@ -157,38 +157,12 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		getOrCreateComponentModel().url = url;
 	}
 
-	// ================================
-	// Access key
-	/**
-	 * The accesskey is a shortcut key that will focus the input element when used in combination with the Alt key.
-	 *
-	 * @return The key that in combination with Alt will focus this input.
-	 */
+	@Override
 	public char getAccessKey() {
 		return getComponentModel().accessKey;
 	}
 
-	/**
-	 * Returns the accesskey character as a String. If the character is not a letter or digit then <code>null</code> is
-	 * returned.
-	 *
-	 * @return The accesskey character as a String (may be <code>null</code>).
-	 */
-	public String getAccessKeyAsString() {
-		char accessKey = getAccessKey();
-
-		if (Character.isLetterOrDigit(accessKey)) {
-			return String.valueOf(accessKey);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Set the accesskey (shortcut key) that will activate the link.
-	 *
-	 * @param accessKey The key (in combination with the Alt key) that activates this element.
-	 */
+	@Override
 	public void setAccessKey(final char accessKey) {
 		getOrCreateComponentModel().accessKey = accessKey;
 	}

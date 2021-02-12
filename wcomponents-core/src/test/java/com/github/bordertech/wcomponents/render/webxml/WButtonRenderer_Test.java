@@ -12,8 +12,8 @@ import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
 import com.github.bordertech.wcomponents.validation.WValidationErrors;
 import java.io.IOException;
-import org.junit.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
+import org.junit.Assert;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -51,11 +51,14 @@ public class WButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//html:button[@hidden]", button);
 		assertXpathNotExists("//html:button[@title]", button);
 		assertXpathNotExists("//html:button[//html:img]", button);
-		assertXpathNotExists("//html:button[@accesskey]", button);
+		assertXpathNotExists("//html:button[@accessKey]", button);
 		assertXpathNotExists("//html:button[following-sibling::ui:ajaxcontrol]", button);
 		assertXpathNotExists("//html:button[@data-wc-validate]", button);
 		assertXpathNotExists("//html:button[@aria-haspopup]", button);
 		assertXpathNotExists("//html:button[@type='button']", button);
+		String spanId = button.getId() + "_wctt";
+		assertXpathNotExists("//html:button/html:span[contains(@id, '" + spanId + "')]", button);
+
 	}
 
 	@Test
@@ -64,7 +67,6 @@ public class WButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 		button.setDisabled(true);
 		setFlag(button, ComponentModel.HIDE_FLAG, true);
 		button.setToolTip("Title");
-		button.setAccessKey('T');
 		button.setImageUrl("http://localhost/image.png");
 		button.setImagePosition(ImagePosition.EAST);
 		button.setRenderAsLink(true);
@@ -92,7 +94,6 @@ public class WButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo(button.getToolTip(), "//html:button/@title", button);
 		assertXpathUrlEvaluatesTo(button.getImageUrl(), "//html:button//html:img/@src", button);
 		assertXpathExists("//html:button/html:span[contains(@class, 'wc_btn_imge')]", button);
-		assertXpathEvaluatesTo(button.getAccessKeyAsString(), "//html:button/@accesskey", button);
 		assertXpathEvaluatesTo("true", "//html:button/@aria-haspopup", button);
 		assertXpathEvaluatesTo(validationComponent.getId(), "//html:button/@data-wc-validate", button);
 		assertXpathEvaluatesTo(button.getId(), "//ui:ajaxtrigger/@triggerId", button);
@@ -108,6 +109,15 @@ public class WButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		button.setClientCommandOnly(true);
 		assertXpathEvaluatesTo("button", "//html:button/@type", button);
+
+		// Access key
+		button.setAccessKey('T');
+		// Access key attribute
+		assertXpathEvaluatesTo(button.getAccessKeyAsString(), "//html:button/@accessKey", button);
+		// Access key label
+		String spanId = button.getId() + "_wctt";
+		assertXpathEvaluatesTo(button.getAccessKeyAsString(), "//html:button/html:span[contains(@id, '" + spanId + "')]", button);
+
 	}
 
 	@Test
