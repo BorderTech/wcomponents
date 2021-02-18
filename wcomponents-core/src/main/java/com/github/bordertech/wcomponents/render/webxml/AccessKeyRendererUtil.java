@@ -49,6 +49,7 @@ public final class AccessKeyRendererUtil {
 		xml.appendAttribute("id", component.getId() + "_wctt");
 		xml.appendAttribute("role", "tooltip");
 		xml.appendAttribute("hidden", "hidden");
+		xml.appendAttribute("aria-hidden", "true");
 		xml.appendClose();
 		xml.append(key);
 		xml.appendEndTag("span");

@@ -1,8 +1,8 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
-	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0"
-	exclude-result-prefixes="xsl ui html">
+				xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+				xmlns:html="http://www.w3.org/1999/xhtml" version="2.0"
+				exclude-result-prefixes="xsl ui html">
 	<!--
 		Transform for ui:fieldset which is the XML output of WFieldSet.
 	-->
@@ -48,7 +48,7 @@
 					<xsl:attribute name="aria-describedby">
 						<xsl:value-of select="concat(@id,'_wctt')"/>
 					</xsl:attribute>
-					<span id="{concat(@id,'_wctt')}" role="tooltip" hidden="hidden">
+					<span id="{concat(@id,'_wctt')}" role="tooltip" hidden="hidden" aria-hidden="true">
 						<xsl:value-of select="@accessKey"/>
 					</span>
 				</xsl:if>
