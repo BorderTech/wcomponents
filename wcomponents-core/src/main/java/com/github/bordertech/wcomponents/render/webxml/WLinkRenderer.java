@@ -43,7 +43,8 @@ final class WLinkRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("accessibleText", link.getAccessibleText());
 		xml.appendUrlAttribute("url", link.getUrl());
 		xml.appendOptionalAttribute("rel", link.getRel());
-		xml.appendOptionalAttribute("accessKey", Util.upperCase(link.getAccessKeyAsString()));
+
+		AccessKeyRendererUtil.appendOptionalAccessKeyXMLAttribute(link, renderContext);
 
 		if (imageUrl != null) {
 			xml.appendUrlAttribute("imageUrl", imageUrl);

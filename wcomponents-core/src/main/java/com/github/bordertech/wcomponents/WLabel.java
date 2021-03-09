@@ -14,7 +14,7 @@ import java.util.Objects;
  * @author James Gifford
  * @since 1.0.0
  */
-public class WLabel extends AbstractMutableContainer implements AjaxTarget {
+public class WLabel extends AbstractMutableContainer implements AjaxTarget, AccessKeyable {
 
 	/**
 	 * Creates a new WLabel. Sets the label text, access key and the component that label is for.
@@ -174,50 +174,28 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 		return forComponent.getId();
 	}
 
-	// ================================
-	// Access key
 	/**
+	 * Set the key (in combination with Alt) that should give focus to this label.
 	 * <p>
-	 * Set the key (in combination with Alt) that should give focus to this label. The action that occurs when the label
-	 * is focussed depends on the type of component this label is for (the <code>forComponent</code>). For example,
-	 * WTextField will focus the cursor in the text input, WCheckBox will toggle the check box selection. Access keys
-	 * are not case sensitive.
+	 * The action that occurs when the label is focussed depends on the type of component this label is for (the
+	 * <code>forComponent</code>). For example, WTextField will focus the cursor in the text input, WCheckBox will
+	 * toggle the check box selection. Access keys are not case sensitive.
 	 * </p>
 	 * <p>
 	 * Note: Setting the access key also sets the shared title of the component to indicate the access key combination.
 	 * </p>
 	 *
-	 * @param accesskey The key (in combination with the Alt key) that activates this label.
+	 * @param accessKey The key (in combination with the Alt key) that activates this label.
 	 * @since 1.0.0
 	 */
-	public void setAccessKey(final char accesskey) {
-		getOrCreateComponentModel().accessKey = accesskey;
+	@Override
+	public void setAccessKey(final char accessKey) {
+		getOrCreateComponentModel().accessKey = accessKey;
 	}
 
-	/**
-	 * The access key is a shortcut key that will focus the label when used in combination with the Alt key.
-	 *
-	 * @return The key that in combination with Alt will focus this label.
-	 * @since 1.0.0
-	 */
+	@Override
 	public char getAccessKey() {
 		return getComponentModel().accessKey;
-	}
-
-	/**
-	 * Returns the accesskey character as a String. If the character is not a letter or digit then <code>null</code> is
-	 * returned.
-	 *
-	 * @return The accesskey character as a String (may be <code>null</code>).
-	 */
-	public String getAccessKeyAsString() {
-		char accessKey = getComponentModel().accessKey;
-
-		if (Character.isLetterOrDigit(accessKey)) {
-			return String.valueOf(accessKey);
-		}
-
-		return null;
 	}
 
 	/**

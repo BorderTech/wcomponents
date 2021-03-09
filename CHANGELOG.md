@@ -12,6 +12,7 @@
 
 ### Bug Fixes
 
+* Reimplement rendering of Access Key labels for buttons. Added new interface AccessKeyable and helper util AccessKeyRendererUtil #1769.
 * Fix XSLT errors which resulted in missing option labels in WMultiDropdown and incorrect option labels in WMultiTextField #1760.
 
 ## 1.5.23

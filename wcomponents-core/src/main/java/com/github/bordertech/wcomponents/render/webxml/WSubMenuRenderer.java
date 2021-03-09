@@ -30,6 +30,7 @@ final class WSubMenuRenderer extends AbstractWebXmlRenderer {
 
 	/**
 	 * Only SubMenus in a TREE are allowed to be open.
+	 *
 	 * @param submenu the WSubMenu to test
 	 * @return the open state of submenus inside a tree or false for all other submenus
 	 */
@@ -42,6 +43,7 @@ final class WSubMenuRenderer extends AbstractWebXmlRenderer {
 
 	/**
 	 * Get the string value of a WMenu.MenuType.
+	 *
 	 * @param submenu he WSubMenu currently being rendered
 	 * @return the menu type as a string
 	 */
@@ -82,7 +84,7 @@ final class WSubMenuRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("disabled", menu.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", menu.isHidden(), "true");
 		if (menu.isTopLevelMenu()) {
-			xml.appendOptionalAttribute("accessKey", menu.getAccessKeyAsString());
+			AccessKeyRendererUtil.appendOptionalAccessKeyXMLAttribute(menu, renderContext);
 		} else {
 			xml.appendAttribute("nested", "true");
 		}

@@ -17,7 +17,7 @@ import org.apache.commons.logging.LogFactory;
  * @since 1.0.0
  */
 public class WMenuItem extends AbstractContainer implements Disableable, AjaxTrigger, MenuItemSelectable,
-		DialogOpenTrigger {
+		DialogOpenTrigger, AccessKeyable {
 
 	/**
 	 * The logger instance for this class.
@@ -281,8 +281,8 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	}
 
 	/**
-	 * @return {@code true} if a WMenuItem is allowed to have a selection state. This is determined by its nearest ancestor
-	 * {@link MenuSelectContainer}'s selectionMode.
+	 * @return {@code true} if a WMenuItem is allowed to have a selection state. This is determined by its nearest
+	 * ancestor {@link MenuSelectContainer}'s selectionMode.
 	 */
 	@Override
 	public boolean isSelectAllowed() {
@@ -309,8 +309,8 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	}
 
 	/**
-	 * @return {@code true} if the WMenuItem is either an immediate child of a WMenu or an immediate child of a WMenuItemGroup which is itself
-	 * an immediate child of a WMenu.
+	 * @return {@code true} if the WMenuItem is either an immediate child of a WMenu or an immediate child of a
+	 * WMenuItemGroup which is itself an immediate child of a WMenu.
 	 */
 	public final boolean isTopLevelItem() {
 		MenuContainer container = WebUtilities.getAncestorOfClass(MenuContainer.class, this);
@@ -320,36 +320,14 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 		return container instanceof WMenu;
 	}
 
-	/**
-	 * @return the menu item's accesskey.
-	 */
+	@Override
 	public char getAccessKey() {
 		return getComponentModel().accessKey;
 	}
 
-	/**
-	 * Set the accesskey on the menu item.
-	 *
-	 * @param accesskey The key that will form a keyboard shortcut to the menu item.
-	 */
-	public void setAccessKey(final char accesskey) {
-		getOrCreateComponentModel().accessKey = accesskey;
-	}
-
-	/**
-	 * Returns the accesskey character as a String. If the character is not a letter or digit then <code>null</code> is
-	 * returned.
-	 *
-	 * @return The accesskey character as a String (may be <code>null</code>).
-	 */
-	public String getAccessKeyAsString() {
-		char accessKey = getAccessKey();
-
-		if (Character.isLetterOrDigit(accessKey)) {
-			return String.valueOf(accessKey);
-		}
-
-		return null;
+	@Override
+	public void setAccessKey(final char accessKey) {
+		getOrCreateComponentModel().accessKey = accessKey;
 	}
 
 	/**

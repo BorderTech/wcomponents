@@ -61,8 +61,9 @@ class WButtonRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("title", toolTip);
 		xml.appendOptionalAttribute("aria-label", accessibleText);
 		xml.appendOptionalAttribute("aria-haspopup", button.isPopupTrigger(), "true");
-		xml.appendOptionalAttribute("accesskey", Util.upperCase(button.getAccessKeyAsString()));
 		xml.appendOptionalAttribute("data-wc-btnmsg", button.getMessage());
+
+		AccessKeyRendererUtil.appendOptionalAccessKeyXMLAttribute(button, renderContext);
 
 		if (button.isCancel()) {
 			xml.appendAttribute("formnovalidate", "formnovalidate");
@@ -78,7 +79,7 @@ class WButtonRenderer extends AbstractWebXmlRenderer {
 
 		if (imageUrl != null) {
 			xml.appendTagOpen("span");
-			String imageHolderClass =  "wc_nti";
+			String imageHolderClass = "wc_nti";
 			if (pos != null) {
 				StringBuffer imageHolderClassBuffer = new StringBuffer("wc_btn_img wc_btn_img");
 				switch (pos) {
@@ -117,6 +118,9 @@ class WButtonRenderer extends AbstractWebXmlRenderer {
 		} else if (text != null) {
 			xml.appendEscaped(text);
 		}
+
+		// Optional Access Key Label
+		AccessKeyRendererUtil.renderAccessKeyHtmlLabel(button, renderContext);
 
 		xml.appendEndTag(getTagName(button));
 

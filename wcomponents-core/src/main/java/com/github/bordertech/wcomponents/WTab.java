@@ -11,7 +11,7 @@ import java.text.MessageFormat;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public class WTab extends AbstractNamingContextContainer implements Disableable, SubordinateTarget {
+public class WTab extends AbstractNamingContextContainer implements Disableable, SubordinateTarget, AccessKeyable {
 
 	/**
 	 * The tab label.
@@ -127,22 +127,14 @@ public class WTab extends AbstractNamingContextContainer implements Disableable,
 		return getComponentModel().mode;
 	}
 
-	/**
-	 * Set the accesskey (shortcut key) that will activate the tab.
-	 *
-	 * @param accesskey The key (in combination with the Alt key) that activates this element.
-	 */
-	public void setAccessKey(final char accesskey) {
-		getOrCreateComponentModel().accessKey = accesskey;
-	}
-
-	/**
-	 * Te accesskey (shortcut key) that will activate the tab.
-	 *
-	 * @return The key that in combination with Alt will focus this input.
-	 */
+	@Override
 	public char getAccessKey() {
 		return getComponentModel().accessKey;
+	}
+
+	@Override
+	public void setAccessKey(final char accessKey) {
+		getOrCreateComponentModel().accessKey = accessKey;
 	}
 
 	/**

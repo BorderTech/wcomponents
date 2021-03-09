@@ -28,7 +28,7 @@ import org.apache.commons.logging.LogFactory;
  * @since 1.0.0
  */
 public class WButton extends WBeanComponent implements Container, Disableable, AjaxTrigger,
-		AjaxTarget, SubordinateTarget, DialogOpenTrigger {
+		AjaxTarget, SubordinateTarget, DialogOpenTrigger, AccessKeyable {
 
 	/**
 	 * The logger instance for this class.
@@ -219,8 +219,8 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 				invokeLater(() -> {
 					beforeActionExecute(request);
 					action.execute(event);
-					afterActionExecute(request);                    
-                });
+					afterActionExecute(request);
+				});
 			}
 		}
 	}
@@ -551,40 +551,14 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 		}
 	}
 
-	/**
-	 * The accesskey is a shortcut key that will focus the input element when used in combination with the Alt key.
-	 *
-	 * @return The key that in combination with Alt will focus this input.
-	 */
+	@Override
 	public char getAccessKey() {
 		return getComponentModel().accessKey;
 	}
 
-	/**
-	 * Returns the accesskey character as a String. If the character is not a letter or digit then <code>null</code> is
-	 * returned.
-	 *
-	 * @return The accesskey character as a String (may be <code>null</code>).
-	 */
-	public String getAccessKeyAsString() {
-		char accessKey = getAccessKey();
-
-		if (Character.isLetterOrDigit(accessKey)) {
-			return String.valueOf(accessKey);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Set the accesskey (shortcut key) that will activate the button. Some chars will not work in some browsers and
-	 * most chars are reserved for use by some AT or other so the actual number of available access keys is pretty much
-	 * zero. Good luck!
-	 *
-	 * @param accesskey the key (in combination with the Alt/Meta key) that activates this element
-	 */
-	public void setAccessKey(final char accesskey) {
-		getOrCreateComponentModel().accessKey = accesskey;
+	@Override
+	public void setAccessKey(final char accessKey) {
+		getOrCreateComponentModel().accessKey = accessKey;
 	}
 
 	/**
