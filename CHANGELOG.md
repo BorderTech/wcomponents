@@ -3,6 +3,10 @@
 ## Release in-progress
 
 ### API Changes
+### Enhancements
+### Bug Fixes
+
+## 1.5.24
 
 ### Enhancements
 
