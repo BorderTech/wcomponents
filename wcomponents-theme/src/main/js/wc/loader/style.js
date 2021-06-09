@@ -1,4 +1,4 @@
-define(["wc/has", "wc/mixin", "wc/urlParser", "wc/config", "wc/dom/tag"], function(has, mixin, urlParser, wcconfig, tag) {
+define(["wc/has", "wc/mixin", "wc/urlParser", "wc/config", "wc/dom/tag"], function (has, mixin, urlParser, wcconfig, tag) {
 	"use strict";
 
 	/**
@@ -183,13 +183,13 @@ define(["wc/has", "wc/mixin", "wc/urlParser", "wc/config", "wc/dom/tag"], functi
 
 			linkAttribs = {
 				"data-wc-loader": "style",
-				"type" : "text/css",
+				"type": "text/css",
 				"rel": "stylesheet",
 				"href": url
 			};
 
 			if (media) {
-				linkAttribs["media"] =  media;
+				linkAttribs["media"] = media;
 			}
 
 			el = tag.toTag("link", false, linkAttribs, true);
@@ -216,10 +216,10 @@ define(["wc/has", "wc/mixin", "wc/urlParser", "wc/config", "wc/dom/tag"], functi
 		 * @param {boolean} urlOnly If true returns only the URL of the main CSS.
 		 * @returns {Element|String} The main CSS.
 		 */
-		this.getMainCss = function(urlOnly) {
+		this.getMainCss = function (urlOnly) {
 			var mainCss = document.getElementById("wc_css_screen");
 			if (mainCss && urlOnly) {
-				return mainCss.getAttribute("href");
+				return mainCss.href;
 			}
 			return mainCss;
 		};
@@ -271,7 +271,7 @@ define(["wc/has", "wc/mixin", "wc/urlParser", "wc/config", "wc/dom/tag"], functi
 		 * @public
 		 * @param {module:wc/loader/style~config} [config] a dto describing the CSS to load. If not defined use module config
 		 */
-		this.load = function(config) {
+		this.load = function (config) {
 			var what = configure(config),
 				key,
 				value,
@@ -352,7 +352,7 @@ define(["wc/has", "wc/mixin", "wc/urlParser", "wc/config", "wc/dom/tag"], functi
 		 * @param {String} [media] A CSS media query appropriate to the link element.
 		 * @param {module:wc/loader/style~config} [config] a dto describing the CSS to load. If not defined use module config
 		 */
-		this.add = function(nameOrUrl, media, config) {
+		this.add = function (nameOrUrl, media, config) {
 			configure(config);
 			addByName(nameOrUrl, media);
 		};

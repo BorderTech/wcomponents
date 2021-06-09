@@ -6,6 +6,8 @@
 ### Enhancements
 ### Bug Fixes
 
+* Fix style.js loader to handle relative theme path URLs #1774.
+
 ## 1.5.24
 
 ### Enhancements
