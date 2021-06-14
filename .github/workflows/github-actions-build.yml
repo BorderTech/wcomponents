@@ -23,16 +23,11 @@ jobs:
         restore-keys: ${{ runner.os }}-m2
 
     - name: Build with Maven
+      run: mvn -B --settings ci-settings.xml clean install -DskipTests=true -Dmaven.javadoc.skip=true -Dpmd.verbose=false -DskipOptionalQA=true
+
+    - name: SonarCloud Scan with Tests
+      run: mvn -B --settings ci-settings.xml sonar:sonar -Dsonar.projectKey="bordertech-wcomponents" -Dsonar.organization="bordertech-github" -PskipCoreOptionalTests
       env:
         MOZ_HEADLESS: 1
-      run: mvn --settings ci-settings.xml clean install -Dmaven.javadoc.skip=true -B -V -Dpmd.verbose=false -PskipCoreOptionalTests
-
-    - name: SonarCloud Scan
-      uses: sonarsource/sonarcloud-github-action@master
-      with:
-        args: >
-          -Dsonar.organization=bordertech-github
-          -Dsonar.projectKey=bordertech-wcomponents
-      env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
