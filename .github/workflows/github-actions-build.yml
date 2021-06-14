@@ -1,6 +1,8 @@
 name: Java CI
 
-on: [push]
+# Trigger workflow on push or pull_request
+# Note - the first pull_request from a forked repo will need to be given approval to run
+on: [push, pull_request]
 
 jobs:
   build:
@@ -26,7 +28,14 @@ jobs:
       run: mvn -B --settings ci-settings.xml clean install -DskipTests=true -Dmaven.javadoc.skip=true -Dpmd.verbose=false -DskipOptionalQA=true
 
     - name: SonarCloud Scan with Tests
-      run: mvn -B --settings ci-settings.xml package sonar:sonar -Dsonar.projectKey="bordertech-wcomponents" -Dsonar.organization="bordertech-github" -Dsonar.host.url="https://sonarcloud.io" -PskipCoreOptionalTests
+      run: |
+          if ["$SONAR_TOKEN"] == ""; then
+            echo "Sonar secure variables NOT available"
+            mvn -B --settings ci-settings.xml package -PskipCoreOptionalTests
+          else
+            echo "Sonar secure variables ARE available"
+            mvn -B --settings ci-settings.xml package -PskipCoreOptionalTests sonar:sonar -Dsonar.projectKey="bordertech-wcomponents" -Dsonar.organization="bordertech-github" -Dsonar.host.url="https://sonarcloud.io"
+          fi
       env:
         MOZ_HEADLESS: 1
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
