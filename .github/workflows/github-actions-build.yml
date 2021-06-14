@@ -24,19 +24,19 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
 
-    - name: Build with Maven
-      run: mvn -B --settings ci-settings.xml clean install -DskipTests=true -Dmaven.javadoc.skip=true -Dpmd.verbose=false -DskipOptionalQA=true
+    - name: Build and Tests
+      run: mvn -B --settings ci-settings.xml clean install -Dmaven.javadoc.skip=true -Dpmd.verbose=false -DskipOptionalQA=true -PskipCoreOptionalTests
+      env:
+        MOZ_HEADLESS: 1
 
-    - name: SonarCloud Scan with Tests
+    - name: SonarCloud Scan
       run: |
           if ["$SONAR_TOKEN"] == ""; then
             echo "Sonar secure variables NOT available"
-            mvn -B --settings ci-settings.xml package -PskipCoreOptionalTests
           else
             echo "Sonar secure variables ARE available"
-            mvn -B --settings ci-settings.xml package -PskipCoreOptionalTests sonar:sonar -Dsonar.projectKey="bordertech-wcomponents" -Dsonar.organization="bordertech-github" -Dsonar.host.url="https://sonarcloud.io"
+            mvn -B sonar:sonar -Dsonar.projectKey="bordertech-wcomponents" -Dsonar.organization="bordertech-github" -Dsonar.host.url="https://sonarcloud.io"
           fi
       env:
-        MOZ_HEADLESS: 1
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
