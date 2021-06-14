@@ -26,7 +26,7 @@ jobs:
       run: mvn -B --settings ci-settings.xml clean install -DskipTests=true -Dmaven.javadoc.skip=true -Dpmd.verbose=false -DskipOptionalQA=true
 
     - name: SonarCloud Scan with Tests
-      run: mvn -B --settings ci-settings.xml sonar:sonar -Dsonar.projectKey="bordertech-wcomponents" -Dsonar.organization="bordertech-github" -PskipCoreOptionalTests
+      run: mvn -B --settings ci-settings.xml sonar:sonar -Dsonar.projectKey="bordertech-wcomponents" -Dsonar.organization="bordertech-github" -Dsonar.host.url="https://sonarcloud.io" -PskipCoreOptionalTests
       env:
         MOZ_HEADLESS: 1
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
