@@ -24,8 +24,8 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
 
-    - name: Build and Tests
-      run: mvn -B --settings ci-settings.xml clean install -Dmaven.javadoc.skip=true -Dpmd.verbose=false -DskipOptionalQA=true -PskipCoreOptionalTests
+    - name: Build Test and Verify
+      run: mvn -B -U --settings ci-settings.xml clean verify -Dmaven.javadoc.skip=true -Dpmd.verbose=false -DskipOptionalQA=true -PskipCoreOptionalTests
       env:
         MOZ_HEADLESS: 1
 
