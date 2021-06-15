@@ -6,6 +6,8 @@
 ### Enhancements
 ### Bug Fixes
 
+* Fix style.js loader to add the cache buster to URLs loaded #1778.
+
 ## 1.5.25
 
 ### Bug Fixes

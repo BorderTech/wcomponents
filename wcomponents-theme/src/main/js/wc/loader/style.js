@@ -124,9 +124,11 @@ define(["wc/has", "wc/mixin", "wc/urlParser", "wc/config", "wc/dom/tag"], functi
 		 */
 		function getCachebusterFromMainCss() {
 			var cssUrl = instance.getMainCss(true),
-				parsedUrl;
-			if (cssUrl && (parsedUrl = urlParser.parse(cssUrl))) {
-				return parsedUrl.queryString;
+				parsedUrl,
+				parsedSearch;
+			if (cssUrl && (parsedUrl = urlParser.parse(cssUrl)) && (parsedSearch = parsedUrl.search)) {
+				// If parsed URL has a search queryString it is always prefixed with a ?
+				return parsedSearch.substring(1, parsedSearch.length);
 			}
 			return ""; // no cachebuster
 		}
