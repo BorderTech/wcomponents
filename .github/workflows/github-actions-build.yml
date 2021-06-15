@@ -17,7 +17,7 @@ jobs:
         java-version: '11'
         distribution: 'adopt'
 
-    - name: Cache Maven packages
+    - name: Cache Maven Repo
       uses: actions/cache@v2
       with:
         path: ~/.m2
@@ -25,7 +25,7 @@ jobs:
         restore-keys: ${{ runner.os }}-m2
 
     - name: Build Test and Verify
-      run: mvn -B -U --settings ci-settings.xml clean verify -Dmaven.javadoc.skip=true -Dpmd.verbose=false -DskipOptionalQA=true -PskipCoreOptionalTests
+      run: mvn -B -U clean verify -Dmaven.javadoc.skip=true -Dpmd.verbose=false -DskipOptionalQA=true -PskipCoreOptionalTests
       env:
         MOZ_HEADLESS: 1
 
