@@ -28,15 +28,17 @@ jobs:
       run: mvn -B -U clean install -Dmaven.javadoc.skip=true -Dpmd.verbose=false -DskipOptionalQA=true -PskipCoreOptionalTests
       env:
         MOZ_HEADLESS: 1
+        SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+        SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
 
     - name: SonarCloud Scan
       run: |
-          if ["$SONAR_TOKEN" == ""]; then
-            echo "Sonar secure variables NOT available"
-          else
-            echo "Sonar secure variables ARE available"
-            mvn -B sonar:sonar -Dsonar.projectKey="bordertech-wcomponents" -Dsonar.organization="bordertech-github" -Dsonar.host.url="https://sonarcloud.io"
-          fi
+        if ["$SONAR_TOKEN" == ""]; then
+          echo "Sonar secure variables NOT available"
+        else
+          echo "Sonar secure variables ARE available"
+          mvn -B sonar:sonar -Dsonar.projectKey="bordertech-wcomponents" -Dsonar.organization="bordertech-github" -Dsonar.host.url="https://sonarcloud.io"
+        fi
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
