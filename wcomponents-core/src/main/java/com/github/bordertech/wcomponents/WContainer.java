@@ -22,6 +22,14 @@ public class WContainer extends WBeanComponent implements MutableContainer {
 
 	/**
 	 * {@inheritDoc}
+	 */
+	@Override
+	public void addAll(final WComponent... components) {
+		super.addAll(components);
+	}
+
+	/**
+	 * {@inheritDoc}
 	 *
 	 * @deprecated Use {@link WTemplate} instead.
 	 */

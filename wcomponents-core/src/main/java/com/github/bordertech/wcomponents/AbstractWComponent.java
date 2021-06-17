@@ -1385,6 +1385,17 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
+	 * Adds the given components as children of this component.
+	 *
+	 * @param components the components to add.
+	 */
+	void addAll(final WComponent... components) {
+		for (WComponent component : components) {
+			add(component);
+		}
+	}
+
+	/**
 	 * Adds the given component as a child of this component. The tag is used to identify the child in a velocity
 	 * template.
 	 *
