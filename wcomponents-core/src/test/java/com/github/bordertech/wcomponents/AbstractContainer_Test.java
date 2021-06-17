@@ -46,12 +46,12 @@ public class AbstractContainer_Test extends AbstractWComponentTestCase {
 
 		// Check no children
 		Assert.assertEquals("Should have no child count", 0, container.getChildCount());
-		
+
 		WComponent child1 = new DefaultWComponent();
 		WComponent child2 = new DefaultWComponent();
-		
+
 		container.addAll(child1, child2);
-		
+
 		// Check getChildren
 		Assert.assertEquals("Incorrect child count", 2, container.getChildren().size());
 		Assert.assertEquals("Incorrect child index", 0, container.getChildren().indexOf(child1));
