@@ -4,8 +4,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 /**
- * This class is the <a href="http://www.junit.org">JUnit</a> TestSuite for the classes within
- * {@link com.github.bordertech} package.
+ * This class is the <a href="http://www.junit.org">JUnit</a> TestSuite for the
+ * classes within {@link com.github.bordertech} package.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -25,7 +25,8 @@ import org.junit.runners.Suite;
 	HtmlSanitizerUtil_Test.class,
 	I18nUtilities_Test.class,
 	LookupTableHelper_Test.class,
-	ObjectGraphDump_Test.class,
+	// Needs to be excluded for Java 9 and above until Reflection fixed, so is included specifically in surefire plugin for java 8 testing
+	//	ObjectGraphDump_Test.class,
 	ObjectGraphNode_Test.class,
 	ReflectionUtil_Test.class,
 	StepCountUtil_Test.class,

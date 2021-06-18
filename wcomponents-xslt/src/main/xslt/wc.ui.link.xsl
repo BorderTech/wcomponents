@@ -1,8 +1,8 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
-	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0"
-	exclude-result-prefixes="xsl ui html">
+				xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+				xmlns:html="http://www.w3.org/1999/xhtml" version="2.0"
+				exclude-result-prefixes="xsl ui html">
 	<!--
 		WLink and WInternalLink.
 	-->
@@ -122,7 +122,7 @@
 				<xsl:attribute name="aria-describedby">
 					<xsl:value-of select="concat(@id, '_wctt')"/>
 				</xsl:attribute>
-				<span hidden="hidden" id="{concat(@id,'_wctt')}" role="tooltip">
+				<span hidden="hidden" id="{concat(@id,'_wctt')}" role="tooltip" aria-hidden="true">
 					<xsl:value-of select="@accessKey"/>
 				</span>
 			</xsl:if>

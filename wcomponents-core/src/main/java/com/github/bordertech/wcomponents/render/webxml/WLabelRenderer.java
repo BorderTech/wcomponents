@@ -8,7 +8,6 @@ import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WRadioButton;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-import com.github.bordertech.wcomponents.util.Util;
 
 /**
  * The Renderer for {@link WLabel}.
@@ -53,10 +52,12 @@ final class WLabelRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("required", isMandatory, "true");
 		xml.appendOptionalAttribute("hiddencomponent", (what != null && what.isHidden()), "true");
 		xml.appendOptionalAttribute("hint", label.getHint());
-		xml.appendOptionalAttribute("accessKey", Util.upperCase(label.getAccessKeyAsString()));
 		xml.appendOptionalAttribute("hidden", label.isHidden(), "true");
 		xml.appendOptionalAttribute("toolTip", label.getToolTip());
 		xml.appendOptionalAttribute("accessibleText", label.getAccessibleText());
+
+		AccessKeyRendererUtil.appendOptionalAccessKeyXMLAttribute(label, renderContext);
+
 		xml.appendClose();
 
 		xml.append(label.getText(), label.isEncodeText());

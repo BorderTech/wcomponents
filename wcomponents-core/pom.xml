@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
 		<artifactId>wcomponents-parent</artifactId>
-		<version>1.5.22-SNAPSHOT</version>
+		<version>1.5.27-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -35,6 +35,29 @@
 				<excludedTestGroups>com.github.bordertech.wcomponents.PerformanceTests</excludedTestGroups>
 			</properties>
 		</profile>
+
+		<!-- Temporary profile to allow sonar to run QA on java 9 or above. However WC is still built for java 8. -->
+		<profile>
+			<id>test.java.9.profile</id>
+			<activation>
+				<jdk>[9,)</jdk>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration>
+							<excludes>
+								<!-- Needs to be excluded for Java 9 and above until Reflection fixed -->
+								<exclude>com.github.bordertech.wcomponents.util.ObjectGraphDump_Test.java</exclude>
+							</excludes>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
 	</profiles>
 
 	<build>
@@ -62,7 +85,9 @@
 				<configuration>
 					<excludedGroups>${excludedTestGroups}</excludedGroups>
 					<includes>
-						<include>com/github/bordertech/wcomponents/WComponentsTest_Suite.java</include>
+						<include>com.github.bordertech.wcomponents.WComponentsTest_Suite.java</include>
+						<!-- Included specifically in surefire plugin for java 8 testing -->
+						<include>com.github.bordertech.wcomponents.util.ObjectGraphDump_Test.java</include>
 					</includes>
 				</configuration>
 			</plugin>

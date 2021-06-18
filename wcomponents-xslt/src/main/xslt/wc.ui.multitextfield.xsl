@@ -141,7 +141,7 @@
 			</xsl:variable>
 			<xsl:variable name="inputId" select="concat($fieldId, generate-id(), '-', position())"/>
 			<label for="{$inputId}" class="wc-off">
-				<xsl:text>{{#i18n}}mfc_value{{/i18n}}</xsl:text>
+				<xsl:value-of select="@title"/>
 			</label>
 			<xsl:element name="input">
 				<xsl:attribute name="type">

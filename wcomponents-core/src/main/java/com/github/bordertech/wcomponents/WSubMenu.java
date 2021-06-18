@@ -25,7 +25,7 @@ import java.util.List;
  * @author Yiannis Paschalidis
  * @author Mark Reeves
  */
-public class WSubMenu extends AbstractNamingContextContainer implements Disableable, MenuSelectContainer, MenuItemSelectable {
+public class WSubMenu extends AbstractNamingContextContainer implements Disableable, MenuSelectContainer, MenuItemSelectable, AccessKeyable {
 
 	/**
 	 * The available types of operation.
@@ -250,40 +250,14 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 		setFlag(ComponentModel.DISABLED_FLAG, disabled);
 	}
 
-	/**
-	 * <p>
-	 * Set the accesskey (shortcut key) that will activate the sub-menu.
-	 * </p>
-	 *
-	 * @param accesskey The key (in combination with the Alt key) that activates this element.
-	 */
-	public void setAccessKey(final char accesskey) {
-		getOrCreateComponentModel().accesskey = accesskey;
-	}
-
-	/**
-	 * The accesskey is a shortcut key that will focus the input element when used in combination with the Alt key.
-	 *
-	 * @return The key that in combination with Alt will focus this input.
-	 */
+	@Override
 	public char getAccessKey() {
-		return getComponentModel().accesskey;
+		return getComponentModel().accessKey;
 	}
 
-	/**
-	 * Returns the accesskey character as a String. If the character is not a letter or digit then <code>null</code> is
-	 * returned.
-	 *
-	 * @return The accesskey character as a String (may be <code>null</code>).
-	 */
-	public String getAccessKeyAsString() {
-		char accessKey = getAccessKey();
-
-		if (Character.isLetterOrDigit(accessKey)) {
-			return String.valueOf(accessKey);
-		}
-
-		return null;
+	@Override
+	public void setAccessKey(final char accessKey) {
+		getOrCreateComponentModel().accessKey = accessKey;
 	}
 
 	/**
@@ -694,7 +668,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 		/**
 		 * The key shortcut that activates the menu.
 		 */
-		private char accesskey = '\0';
+		private char accessKey = '\0';
 
 		/**
 		 * The {@link MenuMode | ajax mode}.

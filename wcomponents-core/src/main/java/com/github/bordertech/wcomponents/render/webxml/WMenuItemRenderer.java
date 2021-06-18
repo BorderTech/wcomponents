@@ -17,7 +17,8 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 final class WMenuItemRenderer extends AbstractWebXmlRenderer {
 
 	/**
-	 * The value of the {@code role} attribute when a menu item is independently selectable or is a part of a multiple select MenuSelectContainer.
+	 * The value of the {@code role} attribute when a menu item is independently selectable or is a part of a multiple
+	 * select MenuSelectContainer.
 	 */
 	private static final String CHECKBOX_ROLE = "menuitemcheckbox";
 	/**
@@ -27,6 +28,7 @@ final class WMenuItemRenderer extends AbstractWebXmlRenderer {
 
 	/**
 	 * The selection mode of the menu item.
+	 *
 	 * @param item the WMenuItem to test
 	 * @return the selection mode if any
 	 */
@@ -73,7 +75,7 @@ final class WMenuItemRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("toolTip", item.getToolTip());
 
 		if (item.isTopLevelItem()) {
-			xml.appendOptionalAttribute("accessKey", item.getAccessKeyAsString());
+			AccessKeyRendererUtil.appendOptionalAccessKeyXMLAttribute(item, renderContext);
 		}
 
 		xml.appendClose();
