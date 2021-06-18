@@ -135,5 +135,7 @@ public class Margin_Test {
 		Assert.assertNull(Margin.all(XL).getBottom());
 		Assert.assertNull(Margin.all(XL).getLeft());
 		Assert.assertEquals(XL, Margin.all(XL).getMargin());
+		
+		Assert.assertNull(Margin.all(null));
 	}
 }
