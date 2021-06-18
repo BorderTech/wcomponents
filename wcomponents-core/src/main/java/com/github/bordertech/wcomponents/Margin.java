@@ -20,27 +20,27 @@ public class Margin implements Serializable {
 	/**
 	 * A margin with a size of Size.ZERO on all sides.
 	 */
-	public static final Margin ZERO = new Margin(Size.ZERO);
+	private static final Margin ZERO = new Margin(Size.ZERO);
 
 	/**
 	 * A margin with a size of Size.SMALL on all sides.
 	 */
-	public static final Margin SMALL = new Margin(Size.SMALL);
+	private static final Margin SMALL = new Margin(Size.SMALL);
 
 	/**
 	 * A margin with a size of Size.MEDIUM on all sides.
 	 */
-	public static final Margin MEDIUM = new Margin(Size.MEDIUM);
+	private static final Margin MEDIUM = new Margin(Size.MEDIUM);
 
 	/**
 	 * A margin with a size of Size.LARGE on all sides.
 	 */
-	public static final Margin LARGE = new Margin(Size.LARGE);
+	private static final Margin LARGE = new Margin(Size.LARGE);
 
 	/**
 	 * A margin with a size of Size.XL on all sides.
 	 */
-	public static final Margin XL = new Margin(Size.XL);
+	private static final Margin XL = new Margin(Size.XL);
 
 	/**
 	 * The size of the margins on all sides of the panel.
@@ -192,6 +192,27 @@ public class Margin implements Serializable {
 	@Deprecated
 	public Margin(final int north, final int east, final int south, final int west) {
 		this(SpaceUtil.intToSize(north), SpaceUtil.intToSize(east), SpaceUtil.intToSize(south), SpaceUtil.intToSize(west), north, east, south, west);
+	}
+
+	/**
+	 * Returns a margin with all sides of the specified {@link Size}.
+	 * @param size the size of the margin on all sides.
+	 * @return a Margin with all sides with a size of <code>size</code>.
+	 */
+	public static Margin all(final Size size) {
+		
+		if (size == null) {
+			return null;
+		}
+
+		switch (size) {
+			case ZERO: return Margin.ZERO;
+			case SMALL: return Margin.SMALL;
+			case MEDIUM: return Margin.MEDIUM;
+			case LARGE: return Margin.LARGE;
+			case XL: return Margin.XL;
+			default: return null;
+		}
 	}
 
 	/**

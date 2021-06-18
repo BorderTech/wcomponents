@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents;
 
+import static com.github.bordertech.wcomponents.Size.*;
 import com.github.bordertech.wcomponents.util.SpaceUtil;
 import org.junit.Assert;
 import org.junit.Test;
@@ -105,34 +106,34 @@ public class Margin_Test {
 	@Test
 	public void testConvenienceInstances() {
 
-		Assert.assertNull(Margin.ZERO.getTop());
-		Assert.assertNull(Margin.ZERO.getRight());
-		Assert.assertNull(Margin.ZERO.getBottom());
-		Assert.assertNull(Margin.ZERO.getLeft());
-		Assert.assertEquals(Size.ZERO, Margin.ZERO.getMargin());
+		Assert.assertNull(Margin.all(ZERO).getTop());
+		Assert.assertNull(Margin.all(ZERO).getRight());
+		Assert.assertNull(Margin.all(ZERO).getBottom());
+		Assert.assertNull(Margin.all(ZERO).getLeft());
+		Assert.assertEquals(ZERO, Margin.all(ZERO).getMargin());
 
-		Assert.assertNull(Margin.SMALL.getTop());
-		Assert.assertNull(Margin.SMALL.getRight());
-		Assert.assertNull(Margin.SMALL.getBottom());
-		Assert.assertNull(Margin.SMALL.getLeft());
-		Assert.assertEquals(Size.SMALL, Margin.SMALL.getMargin());
+		Assert.assertNull(Margin.all(SMALL).getTop());
+		Assert.assertNull(Margin.all(SMALL).getRight());
+		Assert.assertNull(Margin.all(SMALL).getBottom());
+		Assert.assertNull(Margin.all(SMALL).getLeft());
+		Assert.assertEquals(SMALL, Margin.all(SMALL).getMargin());
 
-		Assert.assertNull(Margin.MEDIUM.getTop());
-		Assert.assertNull(Margin.MEDIUM.getRight());
-		Assert.assertNull(Margin.MEDIUM.getBottom());
-		Assert.assertNull(Margin.MEDIUM.getLeft());
-		Assert.assertEquals(Size.MEDIUM, Margin.MEDIUM.getMargin());
+		Assert.assertNull(Margin.all(MEDIUM).getTop());
+		Assert.assertNull(Margin.all(MEDIUM).getRight());
+		Assert.assertNull(Margin.all(MEDIUM).getBottom());
+		Assert.assertNull(Margin.all(MEDIUM).getLeft());
+		Assert.assertEquals(MEDIUM, Margin.all(MEDIUM).getMargin());
 
-		Assert.assertNull(Margin.LARGE.getTop());
-		Assert.assertNull(Margin.LARGE.getRight());
-		Assert.assertNull(Margin.LARGE.getBottom());
-		Assert.assertNull(Margin.LARGE.getLeft());
-		Assert.assertEquals(Size.LARGE, Margin.LARGE.getMargin());
+		Assert.assertNull(Margin.all(LARGE).getTop());
+		Assert.assertNull(Margin.all(LARGE).getRight());
+		Assert.assertNull(Margin.all(LARGE).getBottom());
+		Assert.assertNull(Margin.all(LARGE).getLeft());
+		Assert.assertEquals(LARGE, Margin.all(LARGE).getMargin());
 
-		Assert.assertNull(Margin.XL.getTop());
-		Assert.assertNull(Margin.XL.getRight());
-		Assert.assertNull(Margin.XL.getBottom());
-		Assert.assertNull(Margin.XL.getLeft());
-		Assert.assertEquals(Size.XL, Margin.XL.getMargin());
+		Assert.assertNull(Margin.all(XL).getTop());
+		Assert.assertNull(Margin.all(XL).getRight());
+		Assert.assertNull(Margin.all(XL).getBottom());
+		Assert.assertNull(Margin.all(XL).getLeft());
+		Assert.assertEquals(XL, Margin.all(XL).getMargin());
 	}
 }
