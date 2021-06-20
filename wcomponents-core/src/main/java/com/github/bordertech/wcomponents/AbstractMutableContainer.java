@@ -22,16 +22,6 @@ public abstract class AbstractMutableContainer extends AbstractNamingContextCont
 	}
 
 	/**
-	 * Adds the given components as children of this component.
-	 *
-	 * @param components the components to add.
-	 */
-	@Override
-	public void addAll(final WComponent... components) {
-		super.addAll(components);
-	}
-
-	/**
 	 * Add the given component as a child of this component. The tag is used to identify the child in this component's
 	 * velocity template.
 	 *
