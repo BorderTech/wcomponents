@@ -1,8 +1,8 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
-	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0"
-	exclude-result-prefixes="xsl ui html">
+				xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+				xmlns:html="http://www.w3.org/1999/xhtml" version="2.0"
+				exclude-result-prefixes="xsl ui html">
 	<!--
 		This template builds the basic tabset. The tabset is a wrapper container. It has a list of tabs and content.
 	-->
@@ -15,8 +15,14 @@
 			</xsl:if>
 		</xsl:variable>
 		<div id="{@id}" class="{normalize-space(concat('wc-tabset ', $additional))}">
-			<xsl:if test="@disabled"><xsl:attribute name="aria-disabled">true</xsl:attribute></xsl:if>
-			<xsl:if test="@hidden"><xsl:attribute name="hidden"><xsl:text>hidden</xsl:text></xsl:attribute></xsl:if>
+			<xsl:if test="@disabled">
+				<xsl:attribute name="aria-disabled">true</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="@hidden">
+				<xsl:attribute name="hidden">
+					<xsl:text>hidden</xsl:text>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:if test="@groupName">
 				<xsl:attribute name="data-wc-group">
 					<xsl:value-of select="@groupName"/>
@@ -102,7 +108,11 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:attribute>
-			<xsl:if test="@toolTip"><xsl:attribute name="title"><xsl:value-of select="@toolTip"/></xsl:attribute></xsl:if>
+			<xsl:if test="@toolTip">
+				<xsl:attribute name="title">
+					<xsl:value-of select="@toolTip"/>
+				</xsl:attribute>
+			</xsl:if>
 			<!--
 				This is cheaper than calling template disabledElement for the tab and the tabset in turn
 			-->
@@ -113,7 +123,11 @@
 			</xsl:if>
 			<!-- do not allow open tabs to be hidden -->
 			<xsl:if test="not(@open)">
-				<xsl:if test="@hidden"><xsl:attribute name="hidden"><xsl:text>hidden</xsl:text></xsl:attribute></xsl:if>
+				<xsl:if test="@hidden">
+					<xsl:attribute name="hidden">
+						<xsl:text>hidden</xsl:text>
+					</xsl:attribute>
+				</xsl:if>
 			</xsl:if>
 			<xsl:if test="@accessKey">
 				<xsl:attribute name="accesskey">
@@ -122,7 +136,7 @@
 				<xsl:attribute name="aria-describedby">
 					<xsl:value-of select="concat(@id,'_wctt')"/>
 				</xsl:attribute>
-				<span id="{concat(@id,'_wctt')}" role="tooltip" hidden="hidden">
+				<span id="{concat(@id,'_wctt')}" role="tooltip" hidden="hidden" aria-hidden="true">
 					<xsl:value-of select="@accessKey"/>
 				</span>
 			</xsl:if>

@@ -9,7 +9,6 @@ import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WProgressBar;
 import com.github.bordertech.wcomponents.WProgressBar.ProgressBarType;
-import com.github.bordertech.wcomponents.WProgressBar.UnitType;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
@@ -32,23 +31,18 @@ public class WProgressBarExample extends WPanel {
 
 		add(new WText("Default, 10 max"));
 		WProgressBar progressBar = new WProgressBar(10);
+		progressBar.setToolTip("Default progress bar type");
+		add(new ProgressBarWithButtons(progressBar));
+
+		add(new WText("Normal, 10 max"));
+		progressBar = new WProgressBar(ProgressBarType.NORMAL, 10);
 		progressBar.setToolTip("Page progress");
 		add(new ProgressBarWithButtons(progressBar));
 
-		add(new WText("Percent, 4 max"));
-		progressBar = new WProgressBar(ProgressBarType.NORMAL, UnitType.PERCENTAGE, 4);
+		add(new WText("Small, 4 max"));
+		progressBar = new WProgressBar(ProgressBarType.SMALL, 4);
 		progressBar.setToolTip("Progress out of 4");
 		add(new ProgressBarWithButtons(progressBar));
-
-		add(new WText("Small"));
-		progressBar = new WProgressBar(ProgressBarType.SMALL, UnitType.PERCENTAGE, 10);
-		progressBar.setToolTip("Small progress bar with meaningless title.");
-		add(new ProgressBarWithButtons(progressBar));
-
-		add(new WText("Small, fraction"));
-		progressBar = new WProgressBar(ProgressBarType.SMALL, UnitType.FRACTION, 33);
-		progressBar.setBeanProperty("value");
-		progressBar.setAccessibleText("progress based on a pseudo-random value");
 
 		progressBar.setBeanProvider(new BeanProvider() {
 			private final RandomValueGenerator bean = new RandomValueGenerator(33);

@@ -3,11 +3,34 @@
 ## Release in-progress
 
 ### API Changes
+* Add addAll method to MutableContainer and subclasses
 
 ### Enhancements
+### Bug Fixes
+
+## 1.5.26
 
 ### Bug Fixes
 
+* Fix style.js loader to add the cache buster to URLs loaded #1778.
+
+## 1.5.25
+
+### Bug Fixes
+
+* Fix style.js loader to handle relative theme path URLs #1774.
+
+## 1.5.24
+
+### Enhancements
+
+* Update to latest qa-parent.
+* Update travis.yml to build WComponents with JDK 11 and Node V10 to support sonarcloud analysis. However, WComponents is still built and published with JDK 8.
+* Added a temporary profile in wcomponents-core to exclude test ObjectGraphDump_Test from JDK 9 and above until the reflection code that fails due to the changes in JDK 9 are fixed or removed.
+
+### Bug Fixes
+
+* Reimplement rendering of Access Key labels for buttons. Added new interface AccessKeyable and helper util AccessKeyRendererUtil #1769.
 * Fix XSLT errors which resulted in missing option labels in WMultiDropdown and incorrect option labels in WMultiTextField #1760.
 
 ## 1.5.23

@@ -22,7 +22,7 @@ import java.util.Map;
  * @author Yiannis Paschalidis
  */
 public class WPanel extends WContainer implements AjaxInternalTrigger, AjaxTarget, SubordinateTarget, Marginable,
-		DropZone {
+		DropZone, AccessKeyable {
 
 	/**
 	 * An enumeration of available panel types.
@@ -35,16 +35,19 @@ public class WPanel extends WContainer implements AjaxInternalTrigger, AjaxTarge
 		/**
 		 * An action panel is similar to CHROME but with a different appearance. It is intended to be used once per
 		 * screen to highlight the main area of activity.
+		 *
 		 * @deprecated v1.2.7 use {@link WSection} instead
 		 */
 		ACTION,
 		/**
 		 * A titled panel which is similar to CHROME but with a fancier border.
+		 *
 		 * @deprecated v1.2.7 use {@link WSection} instead
 		 */
 		BANNER,
 		/**
 		 * A 'block' type panel has padding around the edges.
+		 *
 		 * @deprecated v1.2.7 use Type.PLAIN and {@link Margin} instead
 		 */
 		BLOCK,
@@ -54,6 +57,7 @@ public class WPanel extends WContainer implements AjaxInternalTrigger, AjaxTarge
 		BOX,
 		/**
 		 * A panel with a title displayed in a border.
+		 *
 		 * @deprecated v1.2.7 use {@link WSection} instead
 		 */
 		CHROME,
@@ -149,36 +153,14 @@ public class WPanel extends WContainer implements AjaxInternalTrigger, AjaxTarge
 		getOrCreateComponentModel().mode = mode;
 	}
 
-	/**
-	 * Set the accesskey (shortcut key) that will activate the panel.
-	 *
-	 * @param accessKey The key which activates this panel.
-	 */
+	@Override
 	public void setAccessKey(final char accessKey) {
 		getOrCreateComponentModel().accessKey = accessKey;
 	}
 
-	/**
-	 * @return the shortcut key that will focus the panel when used.
-	 */
+	@Override
 	public char getAccessKey() {
 		return getComponentModel().accessKey;
-	}
-
-	/**
-	 * Returns the accesskey character as a String. If the character is not a letter or digit then <code>null</code> is
-	 * returned.
-	 *
-	 * @return The accesskey character as a String (may be <code>null</code>).
-	 */
-	public String getAccessKeyAsString() {
-		char accessKey = getAccessKey();
-
-		if (Character.isLetterOrDigit(accessKey)) {
-			return String.valueOf(accessKey);
-		}
-
-		return null;
 	}
 
 	/**

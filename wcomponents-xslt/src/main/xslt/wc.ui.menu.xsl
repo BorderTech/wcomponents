@@ -1,8 +1,8 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
-	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0"
-	exclude-result-prefixes="xsl ui html">
+				xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+				xmlns:html="http://www.w3.org/1999/xhtml" version="2.0"
+				exclude-result-prefixes="xsl ui html">
 	<!-- Transform for WMenu. Menus may not be nested. -->
 	<xsl:template match="ui:menu">
 		<xsl:variable name="id" select="@id"/>
@@ -145,7 +145,7 @@
 					<xsl:attribute name="aria-describedby">
 						<xsl:value-of select="concat(@id, '_wctt')"/>
 					</xsl:attribute>
-					<span hidden="hidden" id="{concat(@id,'_wctt')}" role="tooltip">
+					<span hidden="hidden" id="{concat(@id,'_wctt')}" role="tooltip" aria-hidden="true">
 						<xsl:value-of select="@accessKey"/>
 					</span>
 				</xsl:if>
@@ -273,7 +273,11 @@
 					<xsl:text>hidden</xsl:text>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:if test="@toolTip"><xsl:attribute name="title"><xsl:value-of select="@toolTip"/></xsl:attribute></xsl:if>
+			<xsl:if test="@toolTip">
+				<xsl:attribute name="title">
+					<xsl:value-of select="@toolTip"/>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:choose>
 				<xsl:when test="number($actionType) eq 1">
 					<xsl:attribute name="data-wc-url">
@@ -339,7 +343,7 @@
 				<xsl:attribute name="aria-describedby">
 					<xsl:value-of select="concat(@id,'_wctt')"/>
 				</xsl:attribute>
-				<span id="{concat(@id,'_wctt')}" role="tooltip" hidden="hidden">
+				<span id="{concat(@id,'_wctt')}" role="tooltip" hidden="hidden" aria-hidden="true">
 					<xsl:value-of select="@accessKey"/>
 				</span>
 			</xsl:if>

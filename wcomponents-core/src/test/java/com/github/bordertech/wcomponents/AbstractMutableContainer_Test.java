@@ -47,6 +47,27 @@ public class AbstractMutableContainer_Test extends AbstractWComponentTestCase {
 		}
 	}
 
+	@Test
+	public void testAddAll() {
+		AbstractMutableContainer container = new MyContainer();
+
+		// Check no children
+		Assert.assertEquals("Should have no child count", 0, container.getChildCount());
+
+		// Add child
+		WComponent child1 = new DefaultWComponent();
+		WComponent child2 = new DefaultWComponent();
+
+		container.addAll(child1, child2);
+
+		// Check child
+		Assert.assertEquals("Incorrect child count", 2, container.getChildCount());
+		Assert.assertEquals("Incorrect child index", 0, container.getIndexOfChild(child1));
+		Assert.assertEquals("Incorrect child index", 1, container.getIndexOfChild(child2));
+		Assert.assertEquals("Incorrect child returned", child1, container.getChildAt(0));
+		Assert.assertEquals("Incorrect child returned", child2, container.getChildAt(1));
+	}
+
 	/**
 	 * Test instance of AbstractContainer.
 	 */
