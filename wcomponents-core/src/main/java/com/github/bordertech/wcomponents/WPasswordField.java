@@ -7,6 +7,7 @@ import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * <p>
@@ -52,7 +53,7 @@ public class WPasswordField extends AbstractInput implements AjaxTrigger, AjaxTa
 		if (isPresent(request)) {
 			String value = request.getParameter(getId());
 			// An empty string is treated as null
-			return (Util.empty(value)) ? null : value;
+			return StringUtils.isBlank(value) ? null : value;
 		} else {
 			return getValue();
 		}
@@ -68,7 +69,7 @@ public class WPasswordField extends AbstractInput implements AjaxTrigger, AjaxTa
 			return null;
 		}
 		// An empty string is treated as null
-		return Util.empty(data.toString()) ? null : data.toString();
+		return StringUtils.isBlank(data.toString()) ? null : data.toString();
 	}
 
 	// ================================

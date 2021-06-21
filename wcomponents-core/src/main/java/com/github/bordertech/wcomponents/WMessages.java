@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.WValidationErrors;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -398,7 +398,7 @@ public class WMessages extends WPanel {
 	private void addMessage(final WMessageBox box, final Message message, final boolean encode) {
 		String code = message.getMessage();
 
-		if (!Util.empty(code)) {
+		if (StringUtils.isNotBlank(code)) {
 			box.addMessage(encode, code, message.getArgs());
 		}
 	}

@@ -6,10 +6,10 @@ import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
-import com.github.bordertech.wcomponents.util.Util;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.Arrays;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Default implementation of the {@link Diagnostic} interface.
@@ -105,7 +105,7 @@ public class DiagnosticImpl implements Diagnostic {
 						text = input.getLabel().getText();
 
 						// Some apps use colons at the end of labels. We trim these off automatically
-						if (!Util.empty(text) && text.charAt(text.length() - 1) == ':') {
+						if (StringUtils.isNotBlank(text) && text.charAt(text.length() - 1) == ':') {
 							text = text.substring(0, text.length() - 1);
 						}
 					}

@@ -19,6 +19,7 @@ import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A WTextField is a wcomponent used to display a html text input field. Use the method "getText" to get the text
@@ -62,7 +63,7 @@ public class WTextField extends AbstractInput implements AjaxTrigger, AjaxTarget
 		if (isPresent(request)) {
 			String value = request.getParameter(getId());
 			// An empty string is treated as null
-			return (Util.empty(value)) ? null : value;
+			return StringUtils.isBlank(value) ? null : value;
 		} else {
 			return getValue();
 		}
@@ -78,7 +79,7 @@ public class WTextField extends AbstractInput implements AjaxTrigger, AjaxTarget
 			return null;
 		}
 		// An empty string is treated as null
-		return Util.empty(data.toString()) ? null : data.toString();
+		return StringUtils.isBlank(data.toString()) ? null : data.toString();
 	}
 
 	// ================================
@@ -289,7 +290,7 @@ public class WTextField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	 * @param autocompleteValue the value to set as a (optionally space delimited list of) String value(s).
 	 */
 	protected void setAutocomplete(final String autocompleteValue) {
-		final String newValue = Util.empty(autocompleteValue) ? null : autocompleteValue;
+		final String newValue = StringUtils.isBlank(autocompleteValue) ? null : autocompleteValue;
 		if (!Util.equals(newValue, getAutocomplete())) {
 			getOrCreateComponentModel().autocomplete = newValue;
 		}

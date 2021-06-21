@@ -4,10 +4,10 @@ import com.github.bordertech.wcomponents.WDateField;
 import com.github.bordertech.wcomponents.util.DateUtilities;
 import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.util.Util;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * This class can be used to validate that a WDateField is "before" or "after" a particular "pivot" date. If no pivot
@@ -110,7 +110,7 @@ public class DateFieldPivotValidator extends AbstractFieldValidator {
 	public String getErrorMessage() {
 		String errorMessage = super.getErrorMessage();
 
-		if (!Util.empty(errorMessage)) {
+		if (StringUtils.isNotBlank(errorMessage)) {
 			return errorMessage;
 		}
 

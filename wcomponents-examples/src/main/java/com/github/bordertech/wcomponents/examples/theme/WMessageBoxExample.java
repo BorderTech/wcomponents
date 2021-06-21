@@ -15,9 +15,9 @@ import com.github.bordertech.wcomponents.WMessageBox;
 import com.github.bordertech.wcomponents.WRadioButtonSelect;
 import com.github.bordertech.wcomponents.WTextArea;
 import com.github.bordertech.wcomponents.WTextField;
-import com.github.bordertech.wcomponents.util.Util;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * This component shows the different usages of the {@link WMessageBox} component.
@@ -111,7 +111,7 @@ public class WMessageBoxExample extends WContainer {
 			@Override
 			public void execute(final ActionEvent event) {
 				String txt = txtAdd.getText();
-				if (!Util.empty(txt)) {
+				if (StringUtils.isNotBlank(txt)) {
 					// NOTE: one would NOT usually unencode content from a user input: this is VERY dangerous.
 					messageBox.addMessage(false, txt.trim());
 					applySettings();

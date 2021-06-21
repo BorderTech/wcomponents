@@ -9,7 +9,6 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.TreeUtil;
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import com.github.bordertech.wcomponents.util.mock.MockResponse;
 import java.io.IOException;
@@ -22,6 +21,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.util.URIUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.translate.AggregateTranslator;
 import org.apache.commons.lang3.text.translate.CharSequenceTranslator;
 import org.apache.commons.lang3.text.translate.CodePointTranslator;
@@ -282,7 +282,7 @@ public final class WebUtilities {
 	 * @return the URL percent encoded
 	 */
 	public static String encodeUrl(final String urlStr) {
-		if (Util.empty(urlStr)) {
+		if (StringUtils.isBlank(urlStr)) {
 			return urlStr;
 		}
 		// Percent Encode
@@ -298,7 +298,7 @@ public final class WebUtilities {
 	 * @return the URL percent encoded
 	 */
 	public static String percentEncodeUrl(final String urlStr) {
-		if (Util.empty(urlStr)) {
+		if (StringUtils.isBlank(urlStr)) {
 			return urlStr;
 		}
 
@@ -808,7 +808,7 @@ public final class WebUtilities {
 	 */
 	public static String getContentType(final String fileName) {
 
-		if (Util.empty(fileName)) {
+		if (StringUtils.isBlank(fileName)) {
 			return ConfigurationProperties.getDefaultMimeType();
 		}
 

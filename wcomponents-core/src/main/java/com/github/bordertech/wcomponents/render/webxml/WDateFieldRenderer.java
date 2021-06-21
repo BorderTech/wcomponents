@@ -4,9 +4,9 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WDateField;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-import com.github.bordertech.wcomponents.util.Util;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * The Renderer for {@link WDateField}.
@@ -63,7 +63,7 @@ final class WDateFieldRenderer extends AbstractWebXmlRenderer {
 			}
 
 			String autocomplete = dateField.getAutocomplete();
-			xml.appendOptionalAttribute("autocomplete", !Util.empty(autocomplete), autocomplete);
+			xml.appendOptionalAttribute("autocomplete", StringUtils.isNotBlank(autocomplete), autocomplete);
 		}
 
 		if (date != null) {

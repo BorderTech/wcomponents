@@ -19,6 +19,7 @@ import com.github.bordertech.wcomponents.util.visitor.FindComponentsByClassVisit
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Utility methods for navigating WComponent trees.
@@ -535,7 +536,7 @@ public final class TreeUtil {
 			// Check for Name Context
 			if (WebUtilities.isActiveNamingContext(comp)) {
 				String context = ((NamingContextable) comp).getNamingContextId();
-				if (!Util.empty(context)) {
+				if (StringUtils.isNotBlank(context)) {
 					context += WComponent.ID_CONTEXT_SEPERATOR;
 				}
 				// Only process branch if ID starts with the name context

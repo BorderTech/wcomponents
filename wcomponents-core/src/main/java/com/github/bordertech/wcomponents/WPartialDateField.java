@@ -8,6 +8,7 @@ import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -300,7 +301,7 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 		String dateValue = getRequestValue(request);
 		// Text entered by the user (An empty string is treated as null)
 		String value = request.getParameter(getId());
-		String text = (Util.empty(value)) ? null : value;
+		String text = StringUtils.isBlank(value) ? null : value;
 
 		// Current date value
 		String currentDate = getValue();
@@ -435,7 +436,7 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 		String value = data == null ? null : data.toString();
 
 		// Empty date is treated as null
-		if (Util.empty(value)) {
+		if (StringUtils.isBlank(value)) {
 			return null;
 		}
 
@@ -470,7 +471,7 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 		String value = data == null ? null : data.toString();
 
 		// Empty date is treated as null
-		if (Util.empty(value)) {
+		if (StringUtils.isBlank(value)) {
 			value = null;
 		}
 
@@ -648,7 +649,7 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 	 */
 	private boolean isValidPartialDateStringFormat(final String component, final char padding) {
 		// Empty is not valid
-		if (Util.empty(component)) {
+		if (StringUtils.isBlank(component)) {
 			return false;
 		}
 

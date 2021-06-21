@@ -12,7 +12,6 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.ThemeUtil;
-import com.github.bordertech.wcomponents.util.Util;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,6 +28,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.translate.AggregateTranslator;
 import org.apache.commons.lang3.text.translate.CharSequenceTranslator;
 import org.apache.commons.lang3.text.translate.LookupTranslator;
@@ -152,7 +152,7 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 		response.setContentType(WebUtilities.CONTENT_TYPE_HTML);
 
 		String xml = xmlBuffer.toString();
-		if (isAllowCorruptCharacters() && !Util.empty(xml)) {
+		if (isAllowCorruptCharacters() && StringUtils.isNotBlank(xml)) {
 			// Remove illegal HTML characters from the content before transforming it.
 			xml = removeCorruptCharacters(xml);
 		}
@@ -253,7 +253,7 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	 * @return the clean string
 	 */
 	private static String removeCorruptCharacters(final String input) {
-		if (Util.empty(input)) {
+		if (StringUtils.isBlank(input)) {
 			return input;
 		}
 		return ESCAPE_BAD_XML10.translate(input);

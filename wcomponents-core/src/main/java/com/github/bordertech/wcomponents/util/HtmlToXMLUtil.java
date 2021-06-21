@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.util;
 
 import com.github.bordertech.wcomponents.WebUtilities;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.translate.AggregateTranslator;
 import org.apache.commons.lang3.text.translate.CharSequenceTranslator;
 import org.apache.commons.lang3.text.translate.EntityArrays;
@@ -49,7 +50,7 @@ public final class HtmlToXMLUtil {
 	 * @return the input with all HTML4 character entities unescaped except those which are also XML entities.
 	 */
 	public static String unescapeToXML(final String input) {
-		if (Util.empty(input)) {
+		if (StringUtils.isBlank(input)) {
 			return input;
 		}
 		// Check if input has encoded brackets

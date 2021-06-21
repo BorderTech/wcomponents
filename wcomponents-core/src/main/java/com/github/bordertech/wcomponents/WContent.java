@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.Util;
 import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * <p>
@@ -190,7 +190,7 @@ public class WContent extends AbstractWComponent implements Targetable {
 		Map<String, String> parameters = env.getHiddenParameters();
 		parameters.put(Environment.TARGET_ID, getTargetId());
 
-		if (Util.empty(getCacheKey())) {
+		if (StringUtils.isBlank(getCacheKey())) {
 			// Add some randomness to the URL to prevent caching
 			String random = WebUtilities.generateRandom();
 			parameters.put(Environment.UNIQUE_RANDOM_PARAM, random);
@@ -236,7 +236,7 @@ public class WContent extends AbstractWComponent implements Targetable {
 
 		if (contentReqested) {
 			ContentEscape escape = new ContentEscape(getContentAccess());
-			escape.setCacheable(!Util.empty(getCacheKey()));
+			escape.setCacheable(StringUtils.isNotBlank(getCacheKey()));
 			escape.setDisplayInline(getDisplayMode() != DisplayMode.PROMPT_TO_SAVE);
 			throw escape;
 		}

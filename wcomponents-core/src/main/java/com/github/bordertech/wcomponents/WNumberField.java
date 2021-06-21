@@ -10,6 +10,7 @@ import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * <p>
@@ -51,7 +52,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 
 		// Text entered by the user (An empty string is treated as null)
 		String value = request.getParameter(getId());
-		String text = (Util.empty(value)) ? null : value;
+		String text = (StringUtils.isBlank(value)) ? null : value;
 
 		// Current Value
 		BigDecimal current = getValue();
@@ -98,7 +99,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 		if (isPresent(request)) {
 			String value = request.getParameter(getId());
 			// An empty string is treated as null
-			if (Util.empty(value)) {
+			if (StringUtils.isBlank(value)) {
 				return null;
 			}
 			// Check number is valid
@@ -137,7 +138,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 
 		// Try and convert "String" value
 		String dataString = value.toString();
-		if (Util.empty(dataString)) {
+		if (StringUtils.isBlank(dataString)) {
 			return null;
 		}
 

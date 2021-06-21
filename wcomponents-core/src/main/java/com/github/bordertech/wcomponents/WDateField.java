@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -175,7 +176,7 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 
 		// Text entered by the user (An empty string is treated as null)
 		String value = request.getParameter(getId());
-		String text = Util.empty(value) ? null : value;
+		String text = StringUtils.isBlank(value) ? null : value;
 
 		// Current DateType
 		Date currentDate = getValue();
@@ -227,7 +228,7 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 			}
 
 			// Check the date is not empty and correct length
-			if (Util.empty(dateParam) || dateParam.length() != INTERNAL_DATE_FORMAT.length()) {
+			if (StringUtils.isBlank(dateParam) || dateParam.length() != INTERNAL_DATE_FORMAT.length()) {
 				LOG.warn("Date parameter is not the valid length of " + INTERNAL_DATE_FORMAT.
 						length() + " characters ("
 						+ dateParam + ") and will be treated as null");

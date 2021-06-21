@@ -30,7 +30,7 @@ import com.github.bordertech.wcomponents.subordinate.Rule;
 import com.github.bordertech.wcomponents.subordinate.Show;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
-import com.github.bordertech.wcomponents.util.Util;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * This class demonstrates setting a {@link WPanel} type dynamically. The rest of the configuration infrastructure of this example is used to
@@ -179,7 +179,7 @@ public class WPanelTypeExample extends WContainer {
 	 * Set up the WPanel so that the appropriate items are visible based on configuration settings.
 	 */
 	public void updateUI() {
-		if (!Util.empty(panelContent.getText())) {
+		if (StringUtils.isNotBlank(panelContent.getText())) {
 			panelContentRO.setData(panelContent.getData());
 		} else {
 			panelContentRO.setText(SAMPLE_CONTENT);
@@ -188,7 +188,7 @@ public class WPanelTypeExample extends WContainer {
 		panel.setType((WPanel.Type) panelType.getSelected());
 
 		String headingText = tfHeading.getText();
-		if (!Util.empty(tfHeading.getText())) {
+		if (StringUtils.isNotBlank(tfHeading.getText())) {
 			heading.setText(tfHeading.getText());
 			panel.setTitleText(headingText);
 		} else {

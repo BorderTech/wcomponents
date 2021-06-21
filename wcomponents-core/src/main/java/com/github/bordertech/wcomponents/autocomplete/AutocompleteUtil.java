@@ -6,7 +6,7 @@ import com.github.bordertech.wcomponents.autocomplete.segment.PhoneFormat;
 import com.github.bordertech.wcomponents.autocomplete.segment.PhonePart;
 import com.github.bordertech.wcomponents.autocomplete.type.Telephone;
 import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.util.Util;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Provides help to acquire and format values for the {@code autocomplete} attribute found on some HTML controls. See
@@ -70,7 +70,7 @@ public final class AutocompleteUtil {
 
 		if (args != null) {
 			for (String val : args) {
-				if (!Util.empty(val)) {
+				if (StringUtils.isNotBlank(val)) {
 					if (OFF.equalsIgnoreCase(val)) {
 						return OFF;
 					}
@@ -81,7 +81,7 @@ public final class AutocompleteUtil {
 		}
 
 		String built = builder.toString().trim();
-		if (Util.empty(built)) {
+		if (StringUtils.isBlank(built)) {
 			return null;
 		}
 		return built;
@@ -100,7 +100,7 @@ public final class AutocompleteUtil {
 	 * @return an autocomplete value for a named section
 	 */
 	public static String getNamedSection(final String sectionName) {
-		if (Util.empty(sectionName)) {
+		if (StringUtils.isBlank(sectionName)) {
 			throw new IllegalArgumentException("argument must not be empty");
 		}
 		return SECTION_PREFIX.concat(sectionName);
@@ -169,7 +169,7 @@ public final class AutocompleteUtil {
 	 * @return a value for the {@code autocomplete} attribute which is pre-pended by the formatted auto-fill section name
 	 */
 	public static String getCombinedForAddSection(final String sectionName, final Autocompleteable component) {
-		if (Util.empty(sectionName)) {
+		if (StringUtils.isBlank(sectionName)) {
 			throw new IllegalArgumentException("Auto-fill section names must not be empty.");
 		}
 		if (component == null) {

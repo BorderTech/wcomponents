@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.util;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -71,6 +72,6 @@ public final class Factory {
 	 * @return true if an implementation of the interface is available to this factory.
 	 */
 	public static boolean implementationExists(final Class<?> interfaz) {
-		return !Util.empty(ConfigurationProperties.getFactoryImplementation(interfaz.getName()));
+		return StringUtils.isNotBlank(ConfigurationProperties.getFactoryImplementation(interfaz.getName()));
 	}
 }

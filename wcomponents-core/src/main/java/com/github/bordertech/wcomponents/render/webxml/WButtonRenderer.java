@@ -9,8 +9,8 @@ import com.github.bordertech.wcomponents.WImage;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * {@link Renderer} for the {@link WButton} component.
@@ -35,7 +35,8 @@ class WButtonRenderer extends AbstractWebXmlRenderer {
 		String accessibleText = button.getAccessibleText();
 		String toolTip = button.getToolTip();
 
-		if (Util.empty(text) && imageUrl == null && Util.empty(accessibleText) && Util.empty(toolTip)) {
+		if (StringUtils.isBlank(text) && imageUrl == null && StringUtils.isBlank(accessibleText) 
+			&& StringUtils.isBlank(toolTip)) {
 			throw new SystemException("WButton text or imageUrl must be specified");
 		}
 
@@ -43,7 +44,8 @@ class WButtonRenderer extends AbstractWebXmlRenderer {
 
 		String buttonId = button.getId();
 		ImagePosition pos = button.getImagePosition();
-		if (Util.empty(text) && Util.empty(toolTip) && Util.empty(accessibleText)) {
+		if (StringUtils.isBlank(text) && StringUtils.isBlank(toolTip) 
+			&& StringUtils.isBlank(accessibleText)) {
 			// If the button has an imageUrl but no text equivalent get the text equivalent off of the image
 			WImage imgHolder = button.getImageHolder();
 			if (null != imgHolder) {

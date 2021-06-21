@@ -12,9 +12,9 @@ import com.github.bordertech.wcomponents.WAjaxPollingRegion;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WText;
-import com.github.bordertech.wcomponents.util.Util;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -142,7 +142,7 @@ public class AjaxPollingWButtonExample extends WContainer {
 				public Object getBean(final BeanProviderBound beanProviderBound) {
 					String result = (String) Cache.getCache().get(DATA_KEY);
 
-					if (!Util.empty(result)) {
+					if (StringUtils.isNotBlank(result)) {
 						return result;
 					} else if (result == null) {
 						return "Loading...";

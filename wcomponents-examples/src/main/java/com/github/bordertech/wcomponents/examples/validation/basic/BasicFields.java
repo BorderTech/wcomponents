@@ -11,13 +11,13 @@ import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import com.github.bordertech.wcomponents.validation.DiagnosticImpl;
 import com.github.bordertech.wcomponents.validator.DateFieldPivotValidator;
 import com.github.bordertech.wcomponents.validator.FieldValidator;
 import com.github.bordertech.wcomponents.validator.RegExFieldValidator;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * This component contains three simple fields and a couple of field validations.
@@ -125,7 +125,7 @@ public class BasicFields extends WContainer {
 		}
 
 		// Sample Warning Message
-		if (Util.empty(text3)) {
+		if (StringUtils.isBlank(text3)) {
 			diags.add(new DiagnosticImpl(Diagnostic.WARNING, UIContextHolder.getCurrent(), field3,
 					"Warning that this should not be blank"));
 		}

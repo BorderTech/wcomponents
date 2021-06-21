@@ -8,6 +8,7 @@ import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.List;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * <p>
@@ -55,7 +56,7 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 		if (isPresent(request)) {
 			String value = request.getParameter(getId());
 			// An empty string is treated as null
-			return Util.empty(value) ? null : value;
+			return StringUtils.isBlank(value) ? null : value;
 		} else {
 			return getValue();
 		}
@@ -71,7 +72,7 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 			return null;
 		}
 		// An empty string is treated as null
-		return Util.empty(data.toString()) ? null : data.toString();
+		return StringUtils.isBlank(data.toString()) ? null : data.toString();
 	}
 
 	// ================================

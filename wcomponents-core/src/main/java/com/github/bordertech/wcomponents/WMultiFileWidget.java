@@ -21,6 +21,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -814,7 +815,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		Map<String, String> parameters = env.getHiddenParameters();
 		parameters.put(Environment.TARGET_ID, getTargetId());
 
-		if (Util.empty(file.getFileCacheKey())) {
+		if (StringUtils.isBlank(file.getFileCacheKey())) {
 			// Add some randomness to the URL to prevent caching
 			String random = WebUtilities.generateRandom();
 			parameters.put(Environment.UNIQUE_RANDOM_PARAM, random);
@@ -858,7 +859,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		Map<String, String> parameters = env.getHiddenParameters();
 		parameters.put(Environment.TARGET_ID, getTargetId());
 
-		if (Util.empty(file.getThumbnailCacheKey())) {
+		if (StringUtils.isBlank(file.getThumbnailCacheKey())) {
 			// Add some randomness to the URL to prevent caching
 			String random = WebUtilities.generateRandom();
 			parameters.put(Environment.UNIQUE_RANDOM_PARAM, random);

@@ -1,9 +1,9 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
-import com.github.bordertech.wcomponents.util.Util;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -100,7 +100,7 @@ public abstract class AbstractEnvironment implements Environment {
 
 		String context = getHostFreeBaseUrl();
 
-		if (!Util.empty(context)) {
+		if (StringUtils.isNotBlank(context)) {
 			return context + relativePath;
 		}
 
@@ -115,7 +115,7 @@ public abstract class AbstractEnvironment implements Environment {
 		String themePath = ConfigurationProperties.getThemeContentPath();
 
 		// No theme path, so use the main servlet to feed up the theme resources
-		if (Util.empty(themePath)) {
+		if (StringUtils.isBlank(themePath)) {
 			String path = getWServletPath() + "/" + Environment.THEME_RESOURCE_PATH_NAME;
 			return path;
 		}

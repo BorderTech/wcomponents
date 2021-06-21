@@ -6,7 +6,7 @@ import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.InternalMessages;
-import com.github.bordertech.wcomponents.util.Util;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * The Renderer for {@link WMultiTextField}.
@@ -55,10 +55,10 @@ class WMultiTextFieldRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("minLength", minLength > 0, minLength);
 			xml.appendOptionalAttribute("maxLength", maxLength > 0, maxLength);
 			xml.appendOptionalAttribute("max", maxInputs > 0, maxInputs);
-			xml.appendOptionalAttribute("pattern", !Util.empty(pattern), pattern);
+			xml.appendOptionalAttribute("pattern", StringUtils.isNotBlank(pattern), pattern);
 			// NOTE: do not use HtmlRenderUtil.getEffectivePlaceholder for placeholder - we do not want to echo "required" in every field.
 			String placeholder = textField.getPlaceholder();
-			xml.appendOptionalAttribute("placeholder", !Util.empty(placeholder), placeholder);
+			xml.appendOptionalAttribute("placeholder", StringUtils.isNotBlank(placeholder), placeholder);
 			xml.appendOptionalAttribute("title", I18nUtilities.format(null, InternalMessages.DEFAULT_MULTITEXTFIELD_TIP));
 		}
 		xml.appendClose();

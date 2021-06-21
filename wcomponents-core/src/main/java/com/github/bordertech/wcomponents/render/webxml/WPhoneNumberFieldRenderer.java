@@ -5,7 +5,7 @@ import com.github.bordertech.wcomponents.WPhoneNumberField;
 import com.github.bordertech.wcomponents.WSuggestions;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-import com.github.bordertech.wcomponents.util.Util;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * The Renderer for {@link WPhoneNumberField}.
@@ -57,11 +57,11 @@ class WPhoneNumberFieldRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("accessibleText", field.getAccessibleText());
 			xml.appendOptionalAttribute("size", cols > 0, cols);
 			xml.appendOptionalAttribute("buttonId", submitControlId);
-			xml.appendOptionalAttribute("pattern", !Util.empty(pattern), pattern);
-			xml.appendOptionalAttribute("autocomplete", !Util.empty(autocomplete), autocomplete);
+			xml.appendOptionalAttribute("pattern", StringUtils.isNotBlank(pattern), pattern);
+			xml.appendOptionalAttribute("autocomplete", StringUtils.isNotBlank(autocomplete), autocomplete);
 			xml.appendOptionalAttribute("list", suggestionsId);
 			String placeholder = field.getPlaceholder();
-			xml.appendOptionalAttribute("placeholder", !Util.empty(placeholder), placeholder);
+			xml.appendOptionalAttribute("placeholder", StringUtils.isNotBlank(placeholder), placeholder);
 		}
 		xml.appendClose();
 

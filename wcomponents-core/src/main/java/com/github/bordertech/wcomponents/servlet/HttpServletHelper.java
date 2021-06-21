@@ -10,7 +10,6 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.container.AbstractContainerHelper;
 import com.github.bordertech.wcomponents.container.ResponseCacheInterceptor.CacheType;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
-import com.github.bordertech.wcomponents.util.Util;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
@@ -20,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -297,7 +297,7 @@ public class HttpServletHelper extends AbstractContainerHelper {
 	protected void redirectForLogout() {
 		String url = ConfigurationProperties.getLogoutUrl();
 
-		if (Util.empty(url)) {
+		if (StringUtils.isBlank(url)) {
 			LOG.warn("No logout URL specified");
 
 			try {

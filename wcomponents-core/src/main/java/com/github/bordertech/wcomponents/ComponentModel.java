@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -587,7 +588,7 @@ public class ComponentModel implements WebModel, Externalizable {
 	 * @param text The HTML class name text to set.
 	 */
 	protected void addHtmlClass(final String text) {
-		if (!Util.empty(text)) {
+		if (StringUtils.isNotBlank(text)) {
 			if (this.htmlClasses == null) {
 				this.htmlClasses = new HashSet<>();
 			}
@@ -616,7 +617,7 @@ public class ComponentModel implements WebModel, Externalizable {
 	 * @param className the value to remove
 	 */
 	protected void removeHtmlClass(final String className) {
-		if (this.htmlClasses != null && !Util.empty(className)) {
+		if (this.htmlClasses != null && StringUtils.isNotBlank(className)) {
 			this.htmlClasses.remove(className);
 		}
 	}

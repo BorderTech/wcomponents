@@ -7,7 +7,7 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WRepeater;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.util.TreeUtil;
-import com.github.bordertech.wcomponents.util.Util;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * An implementation of WComponentTreeVisitor which searches for a component with a matching id.
@@ -90,7 +90,7 @@ public class FindComponentByIdVisitor extends AbstractVisitorWithResult<Componen
 		// Check for Name Context
 		if (WebUtilities.isActiveNamingContext(comp)) {
 			String context = ((NamingContextable) comp).getNamingContextId();
-			if (!Util.empty(context)) {
+			if (StringUtils.isNotBlank(context)) {
 				context += WComponent.ID_CONTEXT_SEPERATOR;
 			}
 			// Only process branch if ID starts with the name context

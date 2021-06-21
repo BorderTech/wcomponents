@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.util.Util;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * <p>
@@ -151,7 +152,7 @@ public class WRadioButton extends WBeanComponent implements AjaxTarget, Subordin
 			return null;
 		}
 		// Treat empty the same as null
-		return Util.empty(data.toString()) ? null : data.toString();
+		return StringUtils.isBlank(data.toString()) ? null : data.toString();
 	}
 
 	/**

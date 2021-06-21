@@ -3,7 +3,6 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.file.FileItemWrap;
 import com.github.bordertech.wcomponents.portlet.context.WFileWidgetCleanup;
 import com.github.bordertech.wcomponents.util.FileUtil;
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import com.github.bordertech.wcomponents.validation.DiagnosticImpl;
 import java.io.IOException;
@@ -12,6 +11,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * <p>
@@ -282,7 +282,7 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 			FileItem value = request.getFileItem(getId());
 
 			// No file selected
-			if (Util.empty(value.getName()) && value.getSize() == 0) {
+			if (StringUtils.isBlank(value.getName()) && value.getSize() == 0) {
 				return null;
 			}
 

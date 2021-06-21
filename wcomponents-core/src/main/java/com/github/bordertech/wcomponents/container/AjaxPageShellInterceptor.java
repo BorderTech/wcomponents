@@ -11,8 +11,8 @@ import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.util.XMLUtil;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * This {@link InterceptorComponent} provides the XML wrapper necessary for serving up an AJAX response.
@@ -61,7 +61,7 @@ public class AjaxPageShellInterceptor extends InterceptorComponent {
 		xml.append(XMLUtil.getXMLDeclarationWithThemeXslt(uic));
 		xml.appendTagOpen("ui:ajaxresponse");
 		xml.append(XMLUtil.STANDARD_NAMESPACES);
-		xml.appendOptionalAttribute("defaultFocusId", uic.isFocusRequired() && !Util.empty(focusId),
+		xml.appendOptionalAttribute("defaultFocusId", uic.isFocusRequired() && StringUtils.isNotBlank(focusId),
 				focusId);
 		xml.appendClose();
 

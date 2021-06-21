@@ -3,9 +3,9 @@ package com.github.bordertech.wcomponents.template;
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.util.Util;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Return the {@link TemplateRenderer} implementation for a given template engine.
@@ -91,7 +91,7 @@ public final class TemplateRendererFactory {
 
 		String clazzName = ConfigurationProperties.getTemplateRenderingEngine(engineName);
 
-		if (Util.empty(clazzName)) {
+		if (StringUtils.isBlank(clazzName)) {
 			throw new SystemException("No implementation set for template engine [" + engineName + "].");
 		}
 

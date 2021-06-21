@@ -2,7 +2,6 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.TreeItemUtil;
-import com.github.bordertech.wcomponents.util.Util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -438,7 +438,7 @@ public class WTree extends AbstractInput
 
 		// Check if has image url
 		String url = item.getUrl();
-		if (!Util.empty(url)) {
+		if (StringUtils.isNotBlank(url)) {
 			return url;
 		}
 
@@ -460,7 +460,7 @@ public class WTree extends AbstractInput
 
 		String cacheKey = item.getImageCacheKey();
 
-		if (Util.empty(cacheKey)) {
+		if (StringUtils.isBlank(cacheKey)) {
 			// Add some randomness to the URL to prevent caching
 			String random = WebUtilities.generateRandom();
 			parameters.put(Environment.UNIQUE_RANDOM_PARAM, random);
@@ -946,7 +946,7 @@ public class WTree extends AbstractInput
 	private void handleShuffleState(final Request request) {
 
 		String json = request.getParameter(SHUFFLE_REQUEST_KEY);
-		if (Util.empty(json)) {
+		if (StringUtils.isBlank(json)) {
 			return;
 		}
 
@@ -1169,7 +1169,7 @@ public class WTree extends AbstractInput
 	 */
 	private void processCustomIdNodeMapping(final Map<String, TreeItemIdNode> map, final TreeItemIdNode node) {
 		String itemId = node.getItemId();
-		if (!Util.empty(itemId)) {
+		if (StringUtils.isNotBlank(itemId)) {
 			map.put(itemId, node);
 		}
 
@@ -1214,7 +1214,7 @@ public class WTree extends AbstractInput
 			final Map<String, List<Integer>> map) {
 
 		String itemId = node.getItemId();
-		if (!Util.empty(itemId)) {
+		if (StringUtils.isNotBlank(itemId)) {
 			List<Integer> rowIndex = getRowIndexForCustomItemId(itemId);
 			map.put(itemId, rowIndex);
 		}

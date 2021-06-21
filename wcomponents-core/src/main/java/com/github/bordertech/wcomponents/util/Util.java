@@ -1,5 +1,7 @@
 package com.github.bordertech.wcomponents.util;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * A storage point for utility methods that are generally useful.
  *
@@ -19,21 +21,12 @@ public final class Util {
 	 *
 	 * @param aString the string to check.
 	 * @return true if the given String is null or contains only whitespace.
+	 * 
+	 * @deprecated use org.apache.commons.lang3.StringUtils.isBlank instead.
 	 */
+	@Deprecated
 	public static boolean empty(final String aString) {
-		if (aString != null) {
-			final int len = aString.length();
-
-			for (int i = 0; i < len; i++) {
-				// This mirrors String.trim(), which removes ASCII
-				// control characters as well as whitespace.
-				if (aString.charAt(i) > ' ') {
-					return false;
-				}
-			}
-		}
-
-		return true;
+		return StringUtils.isBlank(aString);
 	}
 
 	/**

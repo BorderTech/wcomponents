@@ -7,9 +7,9 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.template.TemplateRenderer;
 import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
-import com.github.bordertech.wcomponents.util.Util;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * {@link Renderer} for the {@link WTemplate} component.
@@ -38,17 +38,17 @@ final class WTemplateRenderer extends AbstractWebXmlRenderer {
 
 		// Get template renderer for the engine
 		String engine = template.getEngineName();
-		if (Util.empty(engine)) {
+		if (StringUtils.isBlank(engine)) {
 			engine = ConfigurationProperties.getDefaultRenderingEngine();
 		}
 		TemplateRenderer templateRenderer = TemplateRendererFactory.newInstance(engine);
 
 		// Render
-		if (!Util.empty(template.getTemplateName())) {
+		if (StringUtils.isNotBlank(template.getTemplateName())) {
 			// Render the template
 			templateRenderer.renderTemplate(template.getTemplateName(), context, template.getTaggedComponents(), renderContext.getWriter(),
 					template.getEngineOptions());
-		} else if (!Util.empty(template.getInlineTemplate())) {
+		} else if (StringUtils.isNotBlank(template.getInlineTemplate())) {
 			// Render inline
 			templateRenderer.renderInline(template.getInlineTemplate(), context, template.getTaggedComponents(), renderContext.getWriter(),
 					template.getEngineOptions());

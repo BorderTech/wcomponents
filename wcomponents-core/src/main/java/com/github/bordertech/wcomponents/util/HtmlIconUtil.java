@@ -1,5 +1,7 @@
 package com.github.bordertech.wcomponents.util;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Provides helpers to attach icons to components.
  *
@@ -78,7 +80,7 @@ public final class HtmlIconUtil {
 					break;
 			}
 		}
-		if (!(icon == null || Util.empty(icon))) {
+		if (StringUtils.isNotBlank(icon)) {
 			builder.append(" ");
 			builder.append(icon);
 		}

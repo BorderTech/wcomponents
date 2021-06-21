@@ -13,12 +13,12 @@ import com.github.bordertech.wcomponents.WDateField;
 import com.github.bordertech.wcomponents.WNumberField;
 import com.github.bordertech.wcomponents.WRadioButton;
 import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.util.Util;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A logical condition that compares the trigger and its compare value.
@@ -222,7 +222,7 @@ public abstract class AbstractCompare extends AbstractCondition {
 				inputValue = input.getRequestValue(request);
 			}
 			// Treat empty the same as null
-			return (inputValue == null || Util.empty(inputValue.toString())) ? null : inputValue.
+			return (inputValue == null || StringUtils.isBlank(inputValue.toString())) ? null : inputValue.
 					toString();
 		} else {
 			throw new SystemException("Trigger is not a valid type.");
@@ -264,7 +264,7 @@ public abstract class AbstractCompare extends AbstractCondition {
 			}
 
 			// Return the value as a String - Treat empty the same as null
-			return (value == null || Util.empty(value.toString())) ? null : value.toString();
+			return (value == null || StringUtils.isBlank(value.toString())) ? null : value.toString();
 		} else if (trigger instanceof RadioButtonGroup && value instanceof WRadioButton) {
 			// String Compare for RadioButtonGroup and value is WRadioButton (Use the button value)
 			// Note - This is only for backward compatibility where projects have used a radio button
@@ -273,10 +273,10 @@ public abstract class AbstractCompare extends AbstractCondition {
 
 			String data = ((WRadioButton) value).getValue();
 			// Treat empty the same as null
-			return Util.empty(data) ? null : data;
+			return StringUtils.isBlank(data) ? null : data;
 		} else { // String Compare
 			// Treat empty the same as null
-			return (value == null || Util.empty(value.toString())) ? null : value.toString();
+			return (value == null || StringUtils.isBlank(value.toString())) ? null : value.toString();
 		}
 	}
 

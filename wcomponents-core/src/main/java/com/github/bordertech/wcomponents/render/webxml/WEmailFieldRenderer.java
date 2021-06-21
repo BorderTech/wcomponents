@@ -5,7 +5,7 @@ import com.github.bordertech.wcomponents.WEmailField;
 import com.github.bordertech.wcomponents.WSuggestions;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-import com.github.bordertech.wcomponents.util.Util;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * The Renderer for {@link WEmailField}.
@@ -55,10 +55,10 @@ class WEmailFieldRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("buttonId", submitControlId);
 			xml.appendOptionalAttribute("list", suggestionsId);
 			String placeholder = field.getPlaceholder();
-			xml.appendOptionalAttribute("placeholder", !Util.empty(placeholder), placeholder);
+			xml.appendOptionalAttribute("placeholder", StringUtils.isNotBlank(placeholder), placeholder);
 
 			String autocomplete = field.getAutocomplete();
-			xml.appendOptionalAttribute("autocomplete", !Util.empty(autocomplete), autocomplete);
+			xml.appendOptionalAttribute("autocomplete", StringUtils.isNotBlank(autocomplete), autocomplete);
 		}
 		xml.appendClose();
 

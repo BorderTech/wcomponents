@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -67,7 +68,7 @@ public final class TreeItemUtil {
 	public static TreeItemIdNode convertJsonToTree(final String jsonString) {
 
 		TreeItemIdNode root = new TreeItemIdNode(null);
-		if (Util.empty(jsonString)) {
+		if (StringUtils.isBlank(jsonString)) {
 			return root;
 		}
 
