@@ -544,17 +544,18 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, h
 		 * @function module:wc/ui/menu/tree._shedSubscriber
 		 * @protected
 		 * @override
-		 * @param {Element} element The element being acted upon.
-		 * @param {String} action The action being taken.
+		 * @param {Event} $event The shed event that fired.
 		 */
-		this._shedSubscriber = function(element, action) {
-			var root, iconContainer;
+		this._shedSubscriber = function($event) {
+			var root, iconContainer,
+				element = $event.target,
+				action = $event.type;
 
 			if (!(element && (root = this.getRoot(element)))) {
 				return;
 			}
 
-			if (action === shed.actions.SELECT || action === shed.actions.DESELECT) {
+			if (action === shed.events.SELECT || action === shed.events.DESELECT) {
 				if (ajaxRegion.getTrigger(root, true)) {
 					if (ajaxTimer) {
 						timers.clearTimeout(ajaxTimer);
@@ -562,7 +563,7 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, h
 					}
 					ajaxTimer = timers.setTimeout(ajaxRegion.requestLoad, 0, root);
 				}
-				if (this.isHTree(root) && action === shed.actions.SELECT) {
+				if (this.isHTree(root) && action === shed.events.SELECT) {
 					if (this._isBranch(element) && !shed.isExpanded(element)) {
 						this[this._FUNC_MAP.OPEN](element);
 					} else {
@@ -572,10 +573,10 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, h
 				return;
 			}
 
-			this.constructor.prototype._shedSubscriber.call(this, element, action);
+			this.constructor.prototype._shedSubscriber.call(this, $event);
 			VOPENER = VOPENER || new Widget ("", "wc_leaf_vopener");
 			IMAGE_HOLDER_WD = IMAGE_HOLDER_WD || new Widget("", "wc_leaf_img");
-			if (action === shed.actions.EXPAND) {
+			if (action === shed.events.EXPAND) {
 				ajaxExpand(element, root);
 				if (!this.isHTree(root) && (iconContainer = VOPENER.findDescendant(element, true))) {
 					icon.change(iconContainer, "fa-caret-down", "fa-caret-right");

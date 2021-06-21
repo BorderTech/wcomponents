@@ -178,9 +178,10 @@ function(attribute, event, initialise, shed, triggerManager, serialize, Widget, 
 		 *
 		 * @function
 		 * @private
-		 * @param {Element} element The element being acted upon.
+		 * @param {Event} $event The shed event that fired.
 		 */
-		function shedObserver(element) {
+		function shedListener($event) {
+			var element = $event.target;
 			if (Widget.isOneOfMe(element, TRIGGERS)) {
 				fireElement(element);
 			}
@@ -252,9 +253,9 @@ function(attribute, event, initialise, shed, triggerManager, serialize, Widget, 
 		 * @public
 		 */
 		this.postInit = function() {
-			shed.subscribe(shed.actions.SELECT, shedObserver);
-			shed.subscribe(shed.actions.DESELECT, shedObserver);
-			shed.subscribe(shed.actions.COLLAPSE, shedObserver);
+			event.add(document.body, shed.events.SELECT, shedListener);
+			event.add(document.body, shed.events.DESELECT, shedListener);
+			event.add(document.body, shed.events.COLLAPSE, shedListener);
 			processResponse.subscribe(addAllWarnings, true);
 		};
 

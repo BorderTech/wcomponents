@@ -67,16 +67,17 @@ function(ariaAnalog, initialise, shed, Widget, table, icon) {
 		 * @function
 		 * @public
 		 * @override
-		 * @param {Element} element the element being acted upon
-		 * @param {String} action the shed action
+		 * @param {Event} $event The shed event that was fired.
 		 */
-		this.shedObserver = function(element, action) {
-			var cell, isMultiSelect, add, remove;
-			if (element && (action === shed.actions.SELECT || action === shed.actions.DESELECT) && this.ITEM.isOneOfMe(element)) {
+		this.shedObserver = function($event) {
+			var cell, isMultiSelect, add, remove,
+				element = $event.target,
+				action = $event.type;
+			if (element && (action === shed.events.SELECT || action === shed.events.DESELECT) && this.ITEM.isOneOfMe(element)) {
 				EXPANDER = EXPANDER || new Widget("td", "wc_table_sel_wrapper");
 				if ((cell = EXPANDER.findDescendant(element, true))) {
 					isMultiSelect = this.isMultiSelect(element);
-					if (action === shed.actions.SELECT) {
+					if (action === shed.events.SELECT) {
 						add = isMultiSelect ? "fa-check-square-o" : "fa-dot-circle-o";
 						remove = isMultiSelect ? "fa-square-o" : "fa-circle-o";
 					} else {
@@ -87,7 +88,7 @@ function(ariaAnalog, initialise, shed, Widget, table, icon) {
 				}
 			}
 
-			this.constructor.prototype.shedObserver.call(this, element, action);
+			this.constructor.prototype.shedObserver.call(this, $event);
 		};
 	}
 

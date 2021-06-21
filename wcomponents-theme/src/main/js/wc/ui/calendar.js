@@ -1091,11 +1091,10 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @private
 		 */
 		function postInit(init) {
-			var ar = init ? "add" : "remove",
-				su = init ? "subscribe" : "unsubscribe";
+			var ar = init ? "add" : "remove";
 			event[ar](window, "resize", reposEvent);
-			shed[su](shed.actions.SHOW, shedSubscriber);
-			shed[su](shed.actions.HIDE, shedSubscriber);
+			event[ar](document.body, shed.events.SHOW, shedSubscriber);
+			event[ar](document.body, shed.events.HIDE, shedSubscriber);
 		}
 
 		/**

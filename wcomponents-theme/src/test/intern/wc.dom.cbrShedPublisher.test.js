@@ -32,8 +32,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!", "
 			if (!element) {
 				assert.isTrue(false, "no element to click");
 			}
-			// event.fire(element, "click");
-			element.click();
+			event.fire(element, "click");
 		}
 
 		registerSuite({
@@ -41,8 +40,8 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!", "
 			setup: function() {
 				testHolder = testutils.getTestHolder();
 				testHolder.innerHTML = testContent;
-				shed.subscribe(shed.actions.SELECT, subscriber);
-				shed.subscribe(shed.actions.DESELECT, subscriber);
+				event.add(document.body, shed.events.SELECT, subscriber);
+				event.add(document.body, shed.events.DESELECT, subscriber);
 				controller.initialise(testHolder);
 			},
 			beforeEach: function() {

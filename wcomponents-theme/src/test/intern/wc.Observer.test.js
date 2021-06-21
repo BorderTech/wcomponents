@@ -269,27 +269,27 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"], 
 				order = [];
 			observer.subscribe(function() {
 				order.push("medium");
-				return Promise.reject("Observer testing reject in medium subscriber");
+				return Promise.reject("Intentional error: Observer testing reject in medium subscriber");
 			});
 			observer.subscribe(function() {
 				order.push("medium");
-				throw new Error("Observer testing error in medium subscriber");
+				throw new Error("Intentional error: Observer testing error in medium subscriber");
 			});
 			observer.subscribe(function() {
 				order.push("low");
-				throw new Error("Observer testing error in low subscriber");
+				throw new Error("Intentional error: Observer testing error in low subscriber");
 			}, { priority: Observer.priority.LOW });
 			observer.subscribe(function() {
 				order.push("low");
-				return Promise.reject("Observer testing reject in low subscriber");
+				return Promise.reject("Intentional error: Observer testing reject in low subscriber");
 			}, { priority: Observer.priority.LOW });
 			observer.subscribe(function() {
 				order.push("high");
-				throw new Error("Observer testing error in high subscriber");
+				throw new Error("Intentional error: Observer testing error in high subscriber");
 			}, { priority: Observer.priority.HIGH });
 			observer.subscribe(function() {
 				order.push("high");
-				return Promise.reject("Observer testing reject in high subscriber");
+				return Promise.reject("Intentional error: Observer testing reject in high subscriber");
 			}, { priority: Observer.priority.HIGH });
 			return observer.notify().then(function() {
 				assert.equal(order.join(), expected.join());

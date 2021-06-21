@@ -38,16 +38,6 @@ define(["wc/has", "wc/dom/classList", "wc/timers"], function(has, classList, tim
 		}
 	}
 
-	if (has("ie") === 8) {
-		require(["wc/dom/shed"], function(shed) {
-			shed.subscribe(shed.actions.SHOW, checkRepaint);
-			shed.subscribe(shed.actions.HIDE, checkRepaint);
-			shed.subscribe(shed.actions.SELECT, checkRepaint);
-			shed.subscribe(shed.actions.DESELECT, checkRepaint);
-			shed.subscribe(shed.actions.EXPAND, checkRepaint);
-			shed.subscribe(shed.actions.COLLAPSE, checkRepaint);
-		});
-	}
 	/**
 	 * IE 8 has a flawed implementation of display:inline-block which results in the screen failing to repaint
 	 * when certain components are shown/expanded. Some combinations of attribute selectors are also flawed which

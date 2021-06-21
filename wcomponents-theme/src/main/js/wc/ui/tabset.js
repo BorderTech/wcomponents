@@ -341,19 +341,21 @@ function(toArray, ariaAnalog, formUpdateManager, getFilteredGroup, initialise, s
 		 * @param {string} action either shed.actions.SELECT or shed.actions.DESELECT
 		 * @param {Element} element Guaranteed to pass `this.ITEM.isOneOfMe(element)`
 		 */
-		function onItemSelection(action, element) {
+		function onItemSelection($event) {
 			var content,
 				contentContainer,
 				container,
+				element = $event.target,
+				action = $event.type,
 				onShown = function() {
 					if (contentContainer) {
 						clearSize(contentContainer);
 					}
 				};
 
-			if (action === shed.actions.SELECT) {
+			if (action === shed.events.SELECT) {
 				instance.setFocusIndex(element);
-				instance.constructor.prototype.shedObserver.call(instance, element, action);
+				instance.constructor.prototype.shedObserver.call(instance, $event);
 			}
 			container = instance.getGroupContainer(element);
 			if (container) {
@@ -361,10 +363,10 @@ function(toArray, ariaAnalog, formUpdateManager, getFilteredGroup, initialise, s
 					if (!getAccordion(container)) {
 						contentContainer = content.parentNode;
 					}
-					if (action === shed.actions.SELECT) {
+					if (action === shed.events.SELECT) {
 						shed.show(content, true);
 						containerload.onshow(content).then(onShown).catch(onShown);
-					} else if (action === shed.actions.DESELECT) {
+					} else if (action === shed.events.DESELECT) {
 						if (contentContainer) {
 							fixSize(contentContainer);  // TODO only do this if it's an AJAX tab
 						}
@@ -464,16 +466,17 @@ function(toArray, ariaAnalog, formUpdateManager, getFilteredGroup, initialise, s
 		 * @function module:wc/ui/tabset.shedObserver
 		 * @protected
 		 * @override
-		 * @param {Element} element The element on which the shed action acted.
-		 * @param {String} action The type of shed event. One of EXPAND, COLLAPSE, SELECT or DESELECT.
+		 * @param {Evnet} $event The shed event that fired.
 		 */
-		this.shedObserver = function (element, action) {
+		this.shedObserver = function ($event) {
+			var element = $event.target,
+				action = shed.events[$event.type];
 			if (element) {
 				if (this.ITEM.isOneOfMe(element)) {
 					switch (action) {
 						case shed.actions.SELECT:
 						case shed.actions.DESELECT:
-							onItemSelection(action, element);
+							onItemSelection($event);
 							break;
 						case shed.actions.EXPAND:
 						case shed.actions.COLLAPSE:
@@ -846,10 +849,10 @@ function(toArray, ariaAnalog, formUpdateManager, getFilteredGroup, initialise, s
 		this._extendedInitialisation = function(element) {
 			toggleToFromAccordions(element);
 			processResponse.subscribe(toggleToFromAccordions, true);
-			shed.subscribe(shed.actions.EXPAND, this.shedObserver.bind(this));
-			shed.subscribe(shed.actions.COLLAPSE, this.shedObserver.bind(this));
-			shed.subscribe(shed.actions.ENABLE, this.shedObserver.bind(this));
-			shed.subscribe(shed.actions.DISABLE, this.shedObserver.bind(this));
+			event.add(document.body, shed.events.EXPAND, this.shedObserver.bind(this));
+			event.add(document.body, shed.events.COLLAPSE, this.shedObserver.bind(this));
+			event.add(document.body, shed.events.ENABLE, this.shedObserver.bind(this));
+			event.add(document.body, shed.events.DISABLE, this.shedObserver.bind(this));
 			event.add(window, "resize", resizeEvent, 1);
 		};
 	}

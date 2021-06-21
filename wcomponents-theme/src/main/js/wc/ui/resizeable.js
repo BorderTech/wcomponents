@@ -552,14 +552,15 @@ function(attribute, classList, clearSelection, event, getMouseEventOffset, isAcc
 		 * Provides the max/restore functionality by toggling a class on the resize target.
 		 * @function
 		 * @private
-		 * @param {Element} element A dom node, we are only interested in max/restore buttons.
-		 * @param {String} action The shed action:  shed.actions.SELECT or shed.actions.DESELECT.
+		 * @param {Event} $event The shed event that was fired.
 		 */
-		function shedSelectSubscriber(element, action) {
-			var target;
+		function shedSelectListener($event) {
+			var target,
+				element = $event.target,
+				action = $event.type;
 			if (element && MAX.isOneOfMe(element) && (target = getResizeTarget(element))) {
-				classList[(action === shed.actions.SELECT ? "add" : "remove")](target, CLASS_MAX);
-				if (action === shed.actions.SELECT) {
+				classList[(action === shed.events.SELECT ? "add" : "remove")](target, CLASS_MAX);
+				if (action === shed.events.SELECT) {
 					icon.change(element, "fa-minus", "fa-plus");
 				} else {
 					icon.change(element, "fa-plus", "fa-minus");
@@ -602,6 +603,10 @@ function(attribute, classList, clearSelection, event, getMouseEventOffset, isAcc
 			Array.prototype.forEach.call(RESIZE.findDescendants(el), bootstrap);
 		}
 
+		function showListener($event) {
+			setup($event.target);
+		}
+
 		/**
 		 * Late initialisation for ajax and shed subscribers.
 		 * @function module:wc/ui/resizeable.postInit
@@ -609,9 +614,9 @@ function(attribute, classList, clearSelection, event, getMouseEventOffset, isAcc
 		 */
 		this.postInit = function() {
 			setup();
-			shed.subscribe(shed.actions.SELECT, shedSelectSubscriber);
-			shed.subscribe(shed.actions.DESELECT, shedSelectSubscriber);
-			shed.subscribe(shed.actions.SHOW, setup);
+			event.add(document.body, shed.events.SELECT, shedSelectListener);
+			event.add(document.body, shed.events.DESELECT, shedSelectListener);
+			event.add(document.body, shed.events.SHOW, showListener);
 			processResponse.subscribe(ajaxSubscriber, true);
 		};
 

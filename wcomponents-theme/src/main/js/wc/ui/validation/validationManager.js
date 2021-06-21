@@ -1,5 +1,6 @@
 define(["wc/has",
 	"wc/dom/initialise",
+	"wc/dom/event",
 	"wc/dom/shed",
 	"wc/dom/tag",
 	"wc/dom/Widget",
@@ -8,7 +9,7 @@ define(["wc/has",
 	"wc/ui/getFirstLabelForElement",
 	"wc/ui/feedback",
 	"wc/config"],
-function(has, initialise, shed, tag, Widget, Observer, i18n, getFirstLabelForElement, feedback, wcconfig) {
+function(has, initialise, event, shed, tag, Widget, Observer, i18n, getFirstLabelForElement, feedback, wcconfig) {
 	"use strict";
 	var repainter;
 
@@ -52,11 +53,11 @@ function(has, initialise, shed, tag, Widget, Observer, i18n, getFirstLabelForEle
 		 * Listen for DISABLE, HIDE or OPTIONAL actions and clear any error message for the component.
 		 * @function
 		 * @private
-		 * @param {Element} element The element being acted upon.
+		 * @param {Event} $event The shed event that fired.
 		 */
-		function shedSubscriber(element) {
-			if (element && INVALID_COMPONENT.isOneOfMe(element)) {
-				feedback.remove(element);
+		function shedSubscriber($event) {
+			if ($event && INVALID_COMPONENT.isOneOfMe($event.target)) {
+				feedback.remove($event.target);
 			}
 		}
 
@@ -193,9 +194,9 @@ function(has, initialise, shed, tag, Widget, Observer, i18n, getFirstLabelForEle
 		 * @function module:wc/ui/validation/validationManager.postInit
 		 */
 		this.postInit = function() {
-			shed.subscribe(shed.actions.DISABLE, shedSubscriber);
-			shed.subscribe(shed.actions.HIDE, shedSubscriber);
-			shed.subscribe(shed.actions.OPTIONAL, shedSubscriber);
+			event.add(document.body, shed.events.DISABLE, shedSubscriber);
+			event.add(document.body, shed.events.HIDE, shedSubscriber);
+			event.add(document.body, shed.events.OPTIONAL, shedSubscriber);
 		};
 
 		/**

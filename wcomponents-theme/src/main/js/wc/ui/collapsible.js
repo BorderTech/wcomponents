@@ -177,28 +177,29 @@ function(event, attribute, focus, formUpdateManager, has, initialise, Widget, sh
 		 * non-HTML5 aware AT so get disabled due to its role of "button". We do not republish the enable action
 		 * though as we do not need to apply the same rule to nested disableable components.
 		 *
-		 * When the action is "wxpand" or "collapse" and the SUMMARY has a role then update the aria-expanded
+		 * When the action is "wc-expand" or "wc-collapse" and the SUMMARY has a role then update the aria-expanded
 		 * attribute.
 		 *
 		 * @function
 		 * @private
-		 * @param {Element} element the element being selected.
-		 * @param {String} action The shed action being pne of "disable", "expand" or "collapse".
+		 * @param {Event} $event the shed event that was fired.
 		 */
-		function shedSubscriber(element, action) {
-			var header;
+		function shedSubscriber($event) {
+			var header,
+				element = $event.target,
+				action = $event.type;
 			if (element && COLLAPSIBLE_CONTAINER.isOneOfMe(element) && (header = COLLAPSIBLE_HEADER.findDescendant(element))) {
-				if (action === shed.actions.DISABLE) {
+				if (action === shed.events.DISABLE) {
 					if (shed.isDisabled(header)) {
 						shed.enable(header, true);
 					}
 				} else if ($role.get(header) === "button") {
-					header.setAttribute("aria-expanded", action === shed.actions.EXPAND ? TRUE : FALSE);
+					header.setAttribute("aria-expanded", action === shed.events.EXPAND ? TRUE : FALSE);
 				}
 
-				if (action === shed.actions.EXPAND) {
+				if (action === shed.events.EXPAND) {
 					icon.change(header, "fa-caret-down", "fa-caret-right");
-				} else if (action === shed.actions.COLLAPSE) {
+				} else if (action === shed.events.COLLAPSE) {
 					icon.change(header, "fa-caret-right", "fa-caret-down");
 				}
 			}
@@ -229,10 +230,11 @@ function(event, attribute, focus, formUpdateManager, has, initialise, Widget, sh
 		 * @private
 		 */
 		function postInit(init) {
-			var su = init ? "subscribe" : "unsubscribe";
-			shed[su](shed.actions.DISABLE, shedSubscriber);
-			shed[su](shed.actions.EXPAND, shedSubscriber);
-			shed[su](shed.actions.COLLAPSE, shedSubscriber);
+			var su = init ? "subscribe" : "unsubscribe",
+				ar = init ? "add" : "remove";
+			event[ar](document.body, shed.events.DISABLE, shedSubscriber);
+			event[ar](document.body, shed.events.EXPAND, shedSubscriber);
+			event[ar](document.body, shed.events.COLLAPSE, shedSubscriber);
 			formUpdateManager[su](writeState);
 		}
 

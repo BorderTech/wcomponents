@@ -1,24 +1,24 @@
-define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
-	function(registerSuite, assert, testutils) {
+define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!", "wc/dom/event"],
+	function(registerSuite, assert, testutils, event) {
 		"use strict";
 
 		var controller, testHolder,
 			urlResource = require.toUrl("intern/resources/domShed.html");
 
-		function _withSubscribeHelper(id, action) {
+		function _withEventHelper(id, action) {
 			var element = document.getElementById(id),
 				actionIGot, elementIGot,
-				subscriber = function($element, $action) {
-					elementIGot = $element;
-					actionIGot = $action;
+				listener = function($event) {
+					elementIGot = $event.target;
+					actionIGot = $event.type;
 				};
 			try {
-				controller.subscribe(action, subscriber);
-				controller[action](element);
+				event.add(testHolder, action, listener);
+				event.fire(element, action);
 				assert.strictEqual(elementIGot, element);
 				assert.strictEqual(actionIGot, action);
 			} finally {
-				controller.unsubscribe(action, subscriber);
+				event.remove(testHolder, action, listener);
 			}
 		}
 
@@ -333,76 +333,23 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				controller.show(element);
 				assert.isFalse(controller.isHidden(element));
 			},
-			testSubscribe: function() {
-				var subscriberHideRval,
-					subscriberShowRval,
-					called = 0,
-					repeat = 4,
-					action,
-					i = 0,
-					element = document.getElementById("subscriberDiv1"),
-					subscriber = function() {
-						called++;
-					};
-				try {
-					subscriberHideRval = controller.subscribe(controller.actions.HIDE, subscriber);
-					subscriberShowRval = controller.subscribe(controller.actions.SHOW, subscriber);
-					while (i < repeat) {
-						action = (i % 2) ? controller.actions.SHOW : controller.actions.HIDE;
-						controller[action](element);
-						i++;
-					}
-					assert.strictEqual(called, repeat);
-				} finally {  // clean up subscribers
-					controller.unsubscribe(controller.actions.HIDE, subscriberHideRval);
-					controller.unsubscribe(controller.actions.SHOW, subscriberShowRval);
-				}
+			testEventWithHide: function() {
+				_withEventHelper("subscriberDiv1", controller.actions.HIDE);
 			},
-			testUnsubscribe: function() {
-				var subscriberHideRval,
-					subscriberShowRval,
-					called = 0,
-					repeat = 4,
-					action,
-					i = 0,
-					element = document.getElementById("subscriberDiv1"),
-					subscriber = function() {
-						called++;
-					};
-				subscriberHideRval = controller.subscribe(controller.actions.HIDE, subscriber);
-				subscriberShowRval = controller.subscribe(controller.actions.SHOW, subscriber);
-				while (i < repeat) {
-					action = (i % 2) ? controller.actions.SHOW : controller.actions.HIDE;
-					controller[action](element);
-					i++;
-				}
-				controller.unsubscribe(controller.actions.HIDE, subscriberHideRval);
-				controller.unsubscribe(controller.actions.SHOW, subscriberShowRval);
-				i = 0;
-				while (i <= repeat) {
-					action = (i % 2) ? controller.actions.SHOW : controller.actions.HIDE;
-					controller[action](element);
-					i++;
-				}
-				assert.strictEqual(called, repeat, "unsubscribed shed subscribers should not have been called");
+			testEventWithShow: function() {
+				_withEventHelper("subscriberDiv1", controller.events.SHOW);
 			},
-			testSubscribeWithHide: function() {
-				_withSubscribeHelper("subscriberDiv1", controller.actions.HIDE);
+			testEventWithEnable: function() {
+				_withEventHelper("subscriberDiv1", controller.events.ENABLE);
 			},
-			testSubscribeWithShow: function() {
-				_withSubscribeHelper("subscriberDiv1", controller.actions.SHOW);
+			testEventWithDisable: function() {
+				_withEventHelper("subscriberDiv1", controller.events.DISABLE);
 			},
-			testSubscribeWithEnable: function() {
-				_withSubscribeHelper("subscriberDiv1", controller.actions.ENABLE);
+			testEventWithSelect: function() {
+				_withEventHelper("fauxOpt1", controller.events.SELECT);
 			},
-			testSubscribeWithDisable: function() {
-				_withSubscribeHelper("subscriberDiv1", controller.actions.DISABLE);
-			},
-			testSubscribeWithSelect: function() {
-				_withSubscribeHelper("fauxOpt1", controller.actions.SELECT);
-			},
-			testSubscribeWithDeselect: function() {
-				_withSubscribeHelper("fauxOpt1", controller.actions.DESELECT);
+			testEventWithDeselect: function() {
+				_withEventHelper("fauxOpt1", controller.events.DESELECT);
 			},
 			testIsExpandedFalse: function() {
 				assert.isFalse(controller.isExpanded(document.getElementById("exp1")));
@@ -441,11 +388,11 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				controller.collapse(element);
 				assert.isFalse(controller.isExpanded(element));
 			},
-			testSubscribeWithExpand: function() {
-				_withSubscribeHelper("exp1", controller.actions.EXPAND);
+			testEventWithExpand: function() {
+				_withEventHelper("exp1", controller.events.EXPAND);
 			},
-			testSubscribeWithCollapse: function() {
-				_withSubscribeHelper("exp2", controller.actions.COLLAPSE);
+			testEventWithCollapse: function() {
+				_withEventHelper("exp2", controller.events.COLLAPSE);
 			},
 			testIsMandatoryFalse: function() {
 				assert.isFalse(controller.isMandatory(document.getElementById("inp7")));
@@ -480,11 +427,11 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				controller.optional(element);
 				assert.isFalse(controller.isMandatory(element));
 			},
-			testSubscribeWithMandatory: function() {
-				_withSubscribeHelper("inp7", controller.actions.MANDATORY);
+			testEventWithMandatory: function() {
+				_withEventHelper("inp7", controller.events.MANDATORY);
 			},
-			testSubscribeWithOptional: function() {
-				_withSubscribeHelper("inp8", controller.actions.OPTIONAL);
+			testEventWithOptional: function() {
+				_withEventHelper("inp8", controller.events.OPTIONAL);
 			},
 			testIsSelectableCheckBox: function() {
 				assert.isTrue(controller.isSelectable(document.getElementById("chk1")));

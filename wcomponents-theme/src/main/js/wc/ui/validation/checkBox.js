@@ -1,9 +1,10 @@
 define(["wc/dom/initialise",
+	"wc/dom/event",
 	"wc/dom/Widget",
 	"wc/dom/shed",
 	"wc/ui/validation/required",
 	"wc/ui/validation/validationManager"],
-function(initialise, Widget, shed, required, validationManager) {
+function(initialise, event, Widget, shed, required, validationManager) {
 	"use strict";
 	/**
 	 * @constructor
@@ -29,15 +30,16 @@ function(initialise, Widget, shed, required, validationManager) {
 		}
 
 		/**
-		 * Subscriber to {@link module:wc/wc/dom/shed} select/deselect to manage validity and feedback.
+		 * Listens for {@link module:wc/wc/dom/shed} select/deselect events to manage validity and feedback.
 		 * @function
 		 * @private
-		 * @param {Element} element The DOM element being selected.
-		 * @param {String} action The shed action.
+		 * @param {Event} $event The shed event that fired.
 		 */
-		function shedSubscriber(element, action) {
+		function shedListener($event) {
+			var element = $event.target,
+				action = $event.type;
 			if (element && REQUIRED.isOneOfMe(element)) {
-				if (action === shed.actions.SELECT) {
+				if (action === shed.events.SELECT) {
 					if (validationManager.isInvalid(element)) {
 						validationManager.setOK(element);
 					}
@@ -54,8 +56,8 @@ function(initialise, Widget, shed, required, validationManager) {
 		 * @public
 		 */
 		this.initialise = function() {
-			shed.subscribe(shed.actions.SELECT, shedSubscriber);
-			shed.subscribe(shed.actions.DESELECT, shedSubscriber);
+			event.add(document.body, shed.events.SELECT, shedListener);
+			event.add(document.body, shed.events.DESELECT, shedListener);
 			validationManager.subscribe(validate);
 		};
 	}

@@ -12,6 +12,7 @@
  * @requires module:wc/ui/checkBoxSelect
  */
 define(["wc/dom/initialise",
+	"wc/dom/event",
 	"wc/dom/getFilteredGroup",
 	"wc/dom/group",
 	"wc/dom/shed",
@@ -20,7 +21,7 @@ define(["wc/dom/initialise",
 	"wc/ui/validation/minMax",
 	"wc/ui/checkBoxSelect",
 	"wc/ui/validation/isComplete"],
-function(initialise, getFilteredGroup, group, shed, validationManager, required, minMax, checkBoxSelect, isComplete) {
+function(initialise, event, getFilteredGroup, group, shed, validationManager, required, minMax, checkBoxSelect, isComplete) {
 	"use strict";
 
 	/**
@@ -66,15 +67,15 @@ function(initialise, getFilteredGroup, group, shed, validationManager, required,
 			validationManager.revalidationHelper(element, validate);
 		}
 
-		function shedSubscriber(element) {
-			var container = group.getContainer(element, checkBoxSelect.CONTAINER);
+		function shedSubscriber($event) {
+			var container = group.getContainer($event.target, checkBoxSelect.CONTAINER);
 
 			if (!container) {
 				return;
 			}
 
 			if (validationManager.isValidateOnChange()) {
-				if (validationManager.isInvalid(element)) {
+				if (validationManager.isInvalid($event.target)) {
 					revalidate(container);
 					return;
 				}
@@ -102,8 +103,8 @@ function(initialise, getFilteredGroup, group, shed, validationManager, required,
 		this.initialise = function() {
 			validationManager.subscribe(validate);
 			isComplete.subscribe(isCompleteSubscriber);
-			shed.subscribe(shed.actions.SELECT, shedSubscriber);
-			shed.subscribe(shed.actions.DESELECT, shedSubscriber);
+			event.add(document.body, shed.events.SELECT, shedSubscriber);
+			event.add(document.body, shed.events.DESELECT, shedSubscriber);
 		};
 	}
 
