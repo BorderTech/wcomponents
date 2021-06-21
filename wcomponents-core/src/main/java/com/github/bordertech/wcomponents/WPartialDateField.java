@@ -3,7 +3,6 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.util.DateUtilities;
 import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.Calendar;
 import java.util.Date;
@@ -607,8 +606,28 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 		append(dateString, day, DAY_DIGITS, padding);
 
 		// TRIM trailing spaces (will only "trim" if the padding character is a space)
-		String trimmed = Util.rightTrim(dateString.toString());
+		String trimmed = rightTrim(dateString.toString());
 		return trimmed;
+	}
+
+	/**
+	 * Copies this String removing white space characters from the end of the string.
+	 *
+	 * @param aString the String to trim.
+	 * @return a new String with characters <code>\\u0020</code> removed from the end
+	 */
+	private static String rightTrim(final String aString) {
+		if (aString == null) {
+			return null;
+		}
+		int end = aString.length() - 1;
+		while ((end >= 0) && (aString.charAt(end) <= ' ')) {
+			end--;
+		}
+		if (end == aString.length() - 1) {
+			return aString;
+		}
+		return aString.substring(0, end + 1);
 	}
 
 	/**

@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.util;
 
 import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.ObjectUtils;
 
 /**
  * A storage point for utility methods that are generally useful.
@@ -52,17 +53,12 @@ public final class Util {
 	 * @param c2 the second comparable
 	 *
 	 * @return a negative integer, zero, or a positive integer if c1 is less than, equal to, or greater than the c2.
+	 * 
+	 * @deprecated use org.apache.commons.lang3.ObjectUtils.compare(T, T) instead.
 	 */
+	@Deprecated
 	public static int compareAllowNull(final Comparable c1, final Comparable c2) {
-		if (c1 == null && c2 == null) {
-			return 0;
-		} else if (c1 == null) {
-			return -1;
-		} else if (c2 == null) {
-			return 1;
-		} else {
-			return c1.compareTo(c2);
-		}
+		return ObjectUtils.compare(c1, c2);
 	}
 
 	/**
@@ -70,13 +66,12 @@ public final class Util {
 	 *
 	 * @param aString the string to convert.
 	 * @return the string converted to upper case, or null if the supplied string was null.
+	 * 
+	 * @deprecated Use org.apache.commons.lang3.StringUtils.upperCase(String) instead.
 	 */
+	@Deprecated
 	public static String upperCase(final String aString) {
-		if (!empty(aString)) {
-			return aString.toUpperCase();
-		}
-
-		return aString;
+		return StringUtils.upperCase(aString);
 	}
 
 	/**
@@ -84,7 +79,10 @@ public final class Util {
 	 *
 	 * @param aString the String to trim.
 	 * @return a new String with characters <code>\\u0020</code> removed from the end
+	 * 
+	 * @deprecated Don't use. No replacement.
 	 */
+	@Deprecated
 	public static String rightTrim(final String aString) {
 		if (aString == null) {
 			return null;
@@ -104,7 +102,10 @@ public final class Util {
 	 *
 	 * @param aString the String to trim.
 	 * @return a new String with characters <code>\\u0020</code> removed from the beginning
+	 * 
+	 * @deprecated Don't use. No replacement.
 	 */
+	@Deprecated
 	public static String leftTrim(final String aString) {
 		if (aString == null) {
 			return null;

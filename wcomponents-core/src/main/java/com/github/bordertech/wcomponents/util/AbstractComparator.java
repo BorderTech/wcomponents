@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.util;
 
 import java.io.Serializable;
 import java.util.Comparator;
+import org.apache.commons.lang3.ObjectUtils;
 
 /**
  * Helper class used to provide common functionality for <code>Comparator</code> instances used by e.g. table sorting.
@@ -24,9 +25,9 @@ public abstract class AbstractComparator implements Comparator, Serializable {
 	 */
 	@Override
 	public int compare(final Object obj1, final Object obj2) {
-		Comparable<?> comparable1 = getComparable(obj1);
-		Comparable<?> comparable2 = getComparable(obj2);
+		Comparable comparable1 = getComparable(obj1);
+		Comparable comparable2 = getComparable(obj2);
 
-		return Util.compareAllowNull(comparable1, comparable2);
+		return ObjectUtils.compare(comparable1, comparable2);
 	}
 }
