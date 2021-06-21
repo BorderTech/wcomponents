@@ -1,12 +1,12 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import com.github.bordertech.wcomponents.validator.AbstractFieldValidator;
 import com.github.bordertech.wcomponents.validator.FieldValidator;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -306,7 +306,7 @@ public class AbstractInput_Test extends AbstractWComponentTestCase {
 		protected boolean doHandleRequest(final Request request) {
 			Object value = getRequestValue(request);
 			Object current = getValue();
-			boolean changed = !Util.equals(value, current);
+			boolean changed = !Objects.equals(value, current);
 			if (changed) {
 				setData(value);
 			}

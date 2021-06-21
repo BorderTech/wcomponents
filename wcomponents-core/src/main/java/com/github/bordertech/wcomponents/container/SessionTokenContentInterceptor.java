@@ -6,7 +6,7 @@ import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WImage;
 import com.github.bordertech.wcomponents.util.StepCountUtil;
-import com.github.bordertech.wcomponents.util.Util;
+import java.util.Objects;
 
 /**
  * This session token interceptor makes sure the content request being processed is for the correct session.
@@ -42,7 +42,7 @@ public class SessionTokenContentInterceptor extends InterceptorComponent {
 		String got = request.getParameter(Environment.SESSION_TOKEN_VARIABLE);
 
 		// Check tokens match (both must be provided) or check if cached content (no session token on request)
-		if (Util.equals(expected, got) || (got == null && StepCountUtil.isCachedContentRequest(request))) {
+		if (Objects.equals(expected, got) || (got == null && StepCountUtil.isCachedContentRequest(request))) {
 			// Process content request
 			getBackingComponent().serviceRequest(request);
 		} else {

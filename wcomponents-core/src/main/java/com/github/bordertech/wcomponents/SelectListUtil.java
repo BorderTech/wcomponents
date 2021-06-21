@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.Util;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Utility class used by {@link AbstractWSelectList} for processing options and list of options.
@@ -32,12 +32,12 @@ public final class SelectListUtil {
 					List<?> groupOptions = ((OptionGroup) option).getOptions();
 					if (groupOptions != null) {
 						for (Object nestedOption : groupOptions) {
-							if (Util.equals(nestedOption, findOption)) {
+							if (Objects.equals(nestedOption, findOption)) {
 								return true;
 							}
 						}
 					}
-				} else if (Util.equals(option, findOption)) {
+				} else if (Objects.equals(option, findOption)) {
 					return true;
 				}
 			}
@@ -94,7 +94,7 @@ public final class SelectListUtil {
 					if (groupOptions != null) {
 						for (Object nestedOption : groupOptions) {
 							// Check for match via equals/code
-							if (Util.equals(nestedOption, data) || isOptionCodeMatch(nestedOption,
+							if (Objects.equals(nestedOption, data) || isOptionCodeMatch(nestedOption,
 									data)) {
 								return nestedOption;
 							}
@@ -108,7 +108,7 @@ public final class SelectListUtil {
 					}
 				} else {
 					// Check for match via equals/code
-					if (Util.equals(option, data) || isOptionCodeMatch(option, data)) {
+					if (Objects.equals(option, data) || isOptionCodeMatch(option, data)) {
 						return option;
 					}
 
@@ -160,7 +160,7 @@ public final class SelectListUtil {
 	 * @return true if the option and data are a match
 	 */
 	private static boolean isEqualWithMatching(final Object option, final Object data) {
-		return Util.equals(option, data) || isOptionCodeMatch(option, data) || isLegacyMatch(option,
+		return Objects.equals(option, data) || isOptionCodeMatch(option, data) || isLegacyMatch(option,
 				data);
 	}
 
@@ -177,7 +177,7 @@ public final class SelectListUtil {
 		// Support legacy matching, which supported setSelected using String representations...
 		String optionAsString = String.valueOf(option);
 		String matchAsString = String.valueOf(data);
-		boolean equal = Util.equals(optionAsString, matchAsString);
+		boolean equal = Objects.equals(optionAsString, matchAsString);
 		return equal;
 	}
 
@@ -193,7 +193,7 @@ public final class SelectListUtil {
 		if (option instanceof Option) {
 			String optionCode = ((Option) option).getCode();
 			String matchAsString = String.valueOf(data);
-			boolean equal = Util.equals(optionCode, matchAsString);
+			boolean equal = Objects.equals(optionCode, matchAsString);
 			return equal;
 		}
 		return false;

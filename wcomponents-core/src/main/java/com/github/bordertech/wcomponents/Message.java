@@ -1,10 +1,10 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.util.I18nUtilities;
-import com.github.bordertech.wcomponents.util.Util;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Message - encapsulates a simple message that is to be displayed to the user.
@@ -139,7 +139,7 @@ public class Message implements Serializable {
 		Message other = (Message) obj;
 
 		return type == other.type
-				&& Util.equals(message, other.message)
+				&& Objects.equals(message, other.message)
 				&& Arrays.equals(args, other.args);
 	}
 

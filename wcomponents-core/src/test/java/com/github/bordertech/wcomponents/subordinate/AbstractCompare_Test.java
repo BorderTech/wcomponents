@@ -11,7 +11,6 @@ import com.github.bordertech.wcomponents.WDateField;
 import com.github.bordertech.wcomponents.WNumberField;
 import com.github.bordertech.wcomponents.util.DateUtilities;
 import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -19,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -584,7 +584,7 @@ public class AbstractCompare_Test {
 		@Override
 		protected boolean doCompare(final Object aVal, final Object bVal) {
 			// Basic Equals
-			return Util.equals(aVal, bVal);
+			return Objects.equals(aVal, bVal);
 		}
 	}
 
@@ -652,7 +652,7 @@ public class AbstractCompare_Test {
 		protected boolean doHandleRequest(final Request request) {
 			Object value = getRequestValue(request);
 			Object current = getValue();
-			boolean changed = !Util.equals(value, current);
+			boolean changed = !Objects.equals(value, current);
 			if (changed) {
 				setData(value);
 			}

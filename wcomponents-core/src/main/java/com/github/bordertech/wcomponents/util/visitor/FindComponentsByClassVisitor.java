@@ -4,9 +4,9 @@ import com.github.bordertech.wcomponents.ComponentWithContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.util.TreeUtil;
-import com.github.bordertech.wcomponents.util.Util;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A tree visitor implementation which finds components in the tree with a given class.
@@ -124,11 +124,11 @@ public class FindComponentsByClassVisitor extends AbstractVisitorWithResult<List
 		int index1 = name1.lastIndexOf('.');
 		int index2 = name2.lastIndexOf('.');
 		if (index1 == -1 && index2 != -1) {
-			return Util.equals(name1, name2.substring(index2 + 1));
+			return Objects.equals(name1, name2.substring(index2 + 1));
 		} else if (index1 != -1 && index2 == -1) {
-			return Util.equals(name1.substring(index1 + 1), name2);
+			return Objects.equals(name1.substring(index1 + 1), name2);
 		} else {
-			return Util.equals(name1, name2);
+			return Objects.equals(name1, name2);
 		}
 	}
 

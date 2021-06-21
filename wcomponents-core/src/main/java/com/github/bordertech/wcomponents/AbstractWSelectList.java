@@ -5,10 +5,10 @@ import com.github.bordertech.wcomponents.util.Factory;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.LookupTable;
 import com.github.bordertech.wcomponents.util.LookupTableHelper;
-import com.github.bordertech.wcomponents.util.Util;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * AbstractWSelectList provides the basis for components that allow the user to select an item from a list.
@@ -185,7 +185,7 @@ public abstract class AbstractWSelectList extends AbstractInput {
 					}
 
 					optionCount += groupOptions.size();
-				} else if (Util.equals(option, obj)) {
+				} else if (Objects.equals(option, obj)) {
 					return optionCount;
 				} else {
 					optionCount++;

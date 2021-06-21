@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.Util;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -93,7 +93,7 @@ public class RadioButtonGroup extends AbstractInput implements AjaxTrigger, Subo
 		String value = getRequestValue(request);
 		String current = getValue();
 
-		boolean changed = !Util.equals(value, current);
+		boolean changed = !Objects.equals(value, current);
 
 		if (changed) {
 			setChangedInLastRequest(true);

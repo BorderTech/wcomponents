@@ -7,7 +7,7 @@ import com.github.bordertech.wcomponents.monitor.ProfileContainer;
 import com.github.bordertech.wcomponents.registry.UIRegistry;
 import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
-import com.github.bordertech.wcomponents.util.Util;
+import java.util.Objects;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -62,7 +62,7 @@ public class PlainLauncher extends TestServlet {
 	public synchronized WComponent getUI(final Object httpServletRequest) {
 		String configuredUIClassName = getComponentToLaunchClassName();
 
-		if (sharedUI == null || !Util.equals(configuredUIClassName, uiClassName)) {
+		if (sharedUI == null || !Objects.equals(configuredUIClassName, uiClassName)) {
 			uiClassName = configuredUIClassName;
 			WComponent ui = createUI();
 

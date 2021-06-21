@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.subordinate;
 
 import com.github.bordertech.wcomponents.SubordinateTrigger;
 import com.github.bordertech.wcomponents.WLabel;
-import com.github.bordertech.wcomponents.util.Util;
+import java.util.Objects;
 
 /**
  * A logical condition that tests if the trigger is not equal to the compare value.
@@ -35,7 +35,7 @@ public class NotEqual extends AbstractCompare {
 	 */
 	@Override
 	protected boolean doCompare(final Object aVal, final Object bVal) {
-		return !Util.equals(aVal, bVal);
+		return !Objects.equals(aVal, bVal);
 	}
 
 	/**

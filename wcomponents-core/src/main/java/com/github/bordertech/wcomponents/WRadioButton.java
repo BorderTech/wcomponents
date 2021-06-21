@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.Util;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -89,7 +89,7 @@ public class WRadioButton extends WBeanComponent implements AjaxTarget, Subordin
 		String requestValue = currentGroup.getRequestValue(request);
 
 		// Check if this button's value matches the request
-		boolean onRequest = Util.equals(requestValue, getValue());
+		boolean onRequest = Objects.equals(requestValue, getValue());
 
 		if (onRequest) {
 			boolean changed = currentGroup.handleButtonOnRequest(request);
@@ -116,7 +116,7 @@ public class WRadioButton extends WBeanComponent implements AjaxTarget, Subordin
 	 */
 	public boolean isSelected() {
 		// Check if the Groups current value matches this radio button's value
-		return Util.equals(getGroup().getValue(), getValue());
+		return Objects.equals(getGroup().getValue(), getValue());
 	}
 
 	/**

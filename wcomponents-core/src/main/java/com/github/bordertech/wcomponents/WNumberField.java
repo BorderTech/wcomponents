@@ -5,7 +5,6 @@ import com.github.bordertech.wcomponents.autocomplete.AutocompleteableNumeric;
 import com.github.bordertech.wcomponents.autocomplete.type.Numeric;
 import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.math.BigDecimal;
 import java.util.List;
@@ -62,10 +61,10 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 		// If a "valid" number value has not been entered, then check if the "user text" has changed
 		if (numberValue == null) {
 			// User entered text
-			changed = !Util.equals(text, getText()) || current != null;
+			changed = !Objects.equals(text, getText()) || current != null;
 		} else {
 			// Valid Number
-			changed = !Util.equals(numberValue, current);
+			changed = !Objects.equals(numberValue, current);
 		}
 
 		if (changed) {
@@ -495,7 +494,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	public void setAutocomplete(final Numeric value) {
 		String newVal = value == null ? null : value.getValue();
 
-		if (!Util.equals(getAutocomplete(), newVal)) {
+		if (!Objects.equals(getAutocomplete(), newVal)) {
 			getOrCreateComponentModel().autocomplete = newVal;
 		}
 	}
@@ -515,7 +514,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	@Override
 	public void addAutocompleteSection(final String sectionName) {
 		String newValue = AutocompleteUtil.getCombinedForAddSection(sectionName, this);
-		if (!Util.equals(getAutocomplete(), newValue)) {
+		if (!Objects.equals(getAutocomplete(), newValue)) {
 			getOrCreateComponentModel().autocomplete = newValue;
 		}
 	}

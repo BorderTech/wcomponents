@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -95,7 +96,7 @@ public final class TreeItemUtil {
 	public static boolean isTreeSame(final TreeItemIdNode tree1, final TreeItemIdNode tree2) {
 
 		// Check IDs match
-		if (!Util.equals(tree1.getItemId(), tree2.getItemId())) {
+		if (!Objects.equals(tree1.getItemId(), tree2.getItemId())) {
 			return false;
 		}
 

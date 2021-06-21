@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.util;
 
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -35,16 +36,12 @@ public final class Util {
 	 * @param obj1 the first object to check.
 	 * @param obj2 the second object to check.
 	 * @return true if the two objects are the same according to Object.equals.
+	 * 
+	 * @deprecated use java.util.Objects.equals(Object, Object) instead.
 	 */
+	@Deprecated
 	public static boolean equals(final Object obj1, final Object obj2) {
-		if (obj1 == null) {
-			return obj2 == null;
-		} else if (obj1 == obj2) {
-			return true;
-		}
-
-		// obj1 is not null, obj2 may be
-		return obj1.equals(obj2);
+		return Objects.equals(obj1, obj2);
 	}
 
 	/**

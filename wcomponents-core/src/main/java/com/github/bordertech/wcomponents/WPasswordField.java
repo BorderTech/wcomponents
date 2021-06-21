@@ -4,9 +4,9 @@ import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
 import com.github.bordertech.wcomponents.autocomplete.AutocompleteablePassword;
 import com.github.bordertech.wcomponents.autocomplete.type.Password;
 import com.github.bordertech.wcomponents.util.InternalMessages;
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.List;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -36,7 +36,7 @@ public class WPasswordField extends AbstractInput implements AjaxTrigger, AjaxTa
 		String value = getRequestValue(request);
 		String current = getValue();
 
-		boolean changed = !Util.equals(value, current);
+		boolean changed = !Objects.equals(value, current);
 
 		if (changed) {
 			setData(value);
@@ -227,7 +227,7 @@ public class WPasswordField extends AbstractInput implements AjaxTrigger, AjaxTa
 	public void setAutocomplete(final Password value) {
 		String newValue = value == null ? null : value.getValue();
 
-		if (!Util.equals(getAutocomplete(), newValue)) {
+		if (!Objects.equals(getAutocomplete(), newValue)) {
 			getOrCreateComponentModel().autocomplete = newValue;
 		}
 	}
@@ -247,7 +247,7 @@ public class WPasswordField extends AbstractInput implements AjaxTrigger, AjaxTa
 	@Override
 	public void addAutocompleteSection(final String sectionName) {
 		String newValue = AutocompleteUtil.getCombinedForAddSection(sectionName, this);
-		if (!Util.equals(getAutocomplete(), newValue)) {
+		if (!Objects.equals(getAutocomplete(), newValue)) {
 			getOrCreateComponentModel().autocomplete = newValue;
 		}
 	}

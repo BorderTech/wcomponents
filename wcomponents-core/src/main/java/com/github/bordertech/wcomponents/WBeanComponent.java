@@ -2,7 +2,6 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.util.Util;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
@@ -252,7 +251,7 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 		if (beanProperty != null) {
 			Object sharedData = ((BeanAndProviderBoundComponentModel) getDefaultModel()).getData();
 
-			if (!isFlagSet(ComponentModel.USER_DATA_SET) && Util.equals(data, sharedData)) {
+			if (!isFlagSet(ComponentModel.USER_DATA_SET) && Objects.equals(data, sharedData)) {
 				Object bean = getBean();
 
 				if (bean != null) {
@@ -284,7 +283,7 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 			}
 
 			getOrCreateComponentModel().setData(data);
-			setFlag(ComponentModel.USER_DATA_SET, !Util.equals(data, sharedValue));
+			setFlag(ComponentModel.USER_DATA_SET, !Objects.equals(data, sharedValue));
 		}
 	}
 
@@ -335,7 +334,7 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 			if (bean != null) {
 				try {
 					Object beanValue = getBeanValue();
-					if (!Util.equals(beanValue, value)) {
+					if (!Objects.equals(beanValue, value)) {
 						PropertyUtils.setProperty(bean, beanProperty, value);
 					}
 				} catch (Exception e) {
@@ -436,7 +435,7 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 			sharedValue = getBeanValue();
 		}
 
-		return !Util.equals(currentValue, sharedValue);
+		return !Objects.equals(currentValue, sharedValue);
 	}
 
 	/**

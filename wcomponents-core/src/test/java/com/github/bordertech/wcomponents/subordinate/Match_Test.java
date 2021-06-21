@@ -6,7 +6,7 @@ import com.github.bordertech.wcomponents.AbstractWComponentTestCase;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.SubordinateTrigger;
 import com.github.bordertech.wcomponents.WLabel;
-import com.github.bordertech.wcomponents.util.Util;
+import java.util.Objects;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -116,7 +116,7 @@ public class Match_Test extends AbstractWComponentTestCase {
 		protected boolean doHandleRequest(final Request request) {
 			Object value = getRequestValue(request);
 			Object current = getValue();
-			boolean changed = !Util.equals(value, current);
+			boolean changed = !Objects.equals(value, current);
 			if (changed) {
 				setData(value);
 			}

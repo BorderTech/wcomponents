@@ -4,7 +4,6 @@ import com.github.bordertech.wcomponents.AdapterBasicTableModel.BasicTableModel;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.TableUtil;
-import com.github.bordertech.wcomponents.util.Util;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,6 +12,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -482,7 +482,7 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 			} else if (renderer instanceof DataBound) { // Update Databound renderer
 				Object oldValue = model.getValueAt(rowIndex, col);
 				Object newValue = ((DataBound) renderer).getData();
-				if (!Util.equals(oldValue, newValue)) {
+				if (!Objects.equals(oldValue, newValue)) {
 					model.setValueAt(newValue, rowIndex, col);
 				}
 			}

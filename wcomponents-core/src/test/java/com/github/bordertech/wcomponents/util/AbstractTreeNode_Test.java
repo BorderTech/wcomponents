@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.util;
 
 import java.util.Iterator;
+import java.util.Objects;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -270,7 +271,7 @@ public class AbstractTreeNode_Test {
 		for (Iterator<TreeNode> i = root.depthFirst(); i.hasNext();) {
 			TreeNode node = i.next();
 
-			if (node instanceof TestNode && Util.equals(((TestNode) node).data, data)) {
+			if (node instanceof TestNode && Objects.equals(((TestNode) node).data, data)) {
 				return node;
 			}
 		}

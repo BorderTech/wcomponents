@@ -18,11 +18,11 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WRepeater;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
-import com.github.bordertech.wcomponents.util.Util;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Demonstrates how AJAX can be used with a {@link WRepeater}.
@@ -292,7 +292,7 @@ public class AjaxWRepeaterExample extends WContainer {
 		 */
 		@Override
 		public boolean equals(final Object o) {
-			return (o instanceof NameBean) && Util.equals(nameId, ((NameBean) o).getNameId());
+			return (o instanceof NameBean) && Objects.equals(nameId, ((NameBean) o).getNameId());
 		}
 
 		/**

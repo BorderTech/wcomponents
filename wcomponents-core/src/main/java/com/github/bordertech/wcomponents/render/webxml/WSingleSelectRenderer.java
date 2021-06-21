@@ -5,8 +5,8 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WSingleSelect;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-import com.github.bordertech.wcomponents.util.Util;
 import java.util.List;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -97,7 +97,7 @@ final class WSingleSelectRenderer extends AbstractWebXmlRenderer {
 	private void renderOption(final WSingleSelect listBox, final Object option,
 			final int optionIndex, final XmlStringBuilder html,
 			final Object selectedOption, final boolean renderSelectionsOnly) {
-		boolean selected = Util.equals(option, selectedOption);
+		boolean selected = Objects.equals(option, selectedOption);
 
 		if (selected || !renderSelectionsOnly) {
 			// Get Code and Desc

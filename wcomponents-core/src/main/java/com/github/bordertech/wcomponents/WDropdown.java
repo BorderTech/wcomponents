@@ -13,10 +13,10 @@ import com.github.bordertech.wcomponents.autocomplete.type.Numeric;
 import com.github.bordertech.wcomponents.autocomplete.type.Password;
 import com.github.bordertech.wcomponents.autocomplete.type.Telephone;
 import com.github.bordertech.wcomponents.autocomplete.type.Url;
-import com.github.bordertech.wcomponents.util.Util;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -57,7 +57,7 @@ public class WDropdown extends AbstractWSingleSelectList implements AjaxTrigger,
 	@Override
 	public void addAutocompleteSection(final String sectionName) {
 		String newValue = AutocompleteUtil.getCombinedForAddSection(sectionName, this);
-		if (!Util.equals(getAutocomplete(), newValue)) {
+		if (!Objects.equals(getAutocomplete(), newValue)) {
 			getOrCreateComponentModel().autocomplete = newValue;
 		}
 	}
@@ -74,7 +74,7 @@ public class WDropdown extends AbstractWSingleSelectList implements AjaxTrigger,
 	 * @param value the value for the {@code autocomplete} attribute
 	 */
 	private void setAutocomplete(final String value) {
-		if (!Util.equals(getAutocomplete(), value)) {
+		if (!Objects.equals(getAutocomplete(), value)) {
 			getOrCreateComponentModel().autocomplete = value;
 		}
 	}

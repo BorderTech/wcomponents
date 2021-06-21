@@ -5,9 +5,9 @@ import com.github.bordertech.wcomponents.autocomplete.AutocompleteablePhone;
 import com.github.bordertech.wcomponents.autocomplete.segment.PhoneFormat;
 import com.github.bordertech.wcomponents.autocomplete.type.Telephone;
 import com.github.bordertech.wcomponents.util.InternalMessages;
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
@@ -38,7 +38,7 @@ public class WPhoneNumberField extends AbstractInput implements AjaxTrigger, Aja
 		String value = getRequestValue(request);
 		String current = getValue();
 
-		boolean changed = !Util.equals(value, current);
+		boolean changed = !Objects.equals(value, current);
 
 		if (changed) {
 			setData(value);
@@ -179,7 +179,7 @@ public class WPhoneNumberField extends AbstractInput implements AjaxTrigger, Aja
 	public void setAutocomplete(final Telephone phone, final PhoneFormat phoneType) {
 		String newValue = AutocompleteUtil.getCombinedFullPhone(phoneType, phone);
 
-		if (!Util.equals(getAutocomplete(), newValue)) {
+		if (!Objects.equals(getAutocomplete(), newValue)) {
 			getOrCreateComponentModel().autocomplete = newValue;
 		}
 	}
@@ -194,7 +194,7 @@ public class WPhoneNumberField extends AbstractInput implements AjaxTrigger, Aja
 	@Override
 	public void addAutocompleteSection(final String sectionName) {
 		String newValue = AutocompleteUtil.getCombinedForAddSection(sectionName, this);
-		if (!Util.equals(getAutocomplete(), newValue)) {
+		if (!Objects.equals(getAutocomplete(), newValue)) {
 			getOrCreateComponentModel().autocomplete = newValue;
 		}
 	}

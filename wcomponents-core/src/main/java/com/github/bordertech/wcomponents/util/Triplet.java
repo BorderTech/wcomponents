@@ -1,5 +1,7 @@
 package com.github.bordertech.wcomponents.util;
 
+import java.util.Objects;
+
 /**
  * A type-safe generic collection of three items.
  *
@@ -111,8 +113,8 @@ public class Triplet<T1, T2, T3> {
 
 		Triplet other = (Triplet) obj;
 
-		return Util.equals(first, other.first)
-				&& Util.equals(second, other.second)
-				&& Util.equals(third, other.third);
+		return Objects.equals(first, other.first)
+				&& Objects.equals(second, other.second)
+				&& Objects.equals(third, other.third);
 	}
 }

@@ -8,6 +8,7 @@ import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -311,10 +312,10 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 		// If a "valid" date value has not been entered, then check if the "user text" has changed
 		if (dateValue == null) {
 			// User entered text
-			changed = !Util.equals(text, getText()) || currentDate != null;
+			changed = !Objects.equals(text, getText()) || currentDate != null;
 		} else {
 			// Valid Date
-			changed = !Util.equals(dateValue, currentDate);
+			changed = !Objects.equals(dateValue, currentDate);
 		}
 
 		if (changed) {

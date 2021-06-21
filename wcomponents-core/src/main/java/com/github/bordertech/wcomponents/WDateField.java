@@ -5,13 +5,13 @@ import com.github.bordertech.wcomponents.autocomplete.AutocompleteableDate;
 import com.github.bordertech.wcomponents.autocomplete.type.DateType;
 import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -186,10 +186,10 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 		// If a "valid" date value has not been entered, then check if the "user text" has changed
 		if (dateValue == null) {
 			// User entered text
-			changed = !Util.equals(text, getText()) || currentDate != null;
+			changed = !Objects.equals(text, getText()) || currentDate != null;
 		} else {
 			// Valid DateType
-			changed = !Util.equals(dateValue, currentDate);
+			changed = !Objects.equals(dateValue, currentDate);
 		}
 
 		if (changed) {
@@ -379,7 +379,7 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 			return;
 		}
 		String newValue = value.getValue();
-		if (!Util.equals(getAutocomplete(), newValue)) {
+		if (!Objects.equals(getAutocomplete(), newValue)) {
 			getOrCreateComponentModel().autocomplete = newValue;
 		}
 	}
@@ -399,7 +399,7 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	@Override
 	public void addAutocompleteSection(final String sectionName) {
 		String newValue = AutocompleteUtil.getCombinedForAddSection(sectionName, this);
-		if (!Util.equals(getAutocomplete(), newValue)) {
+		if (!Objects.equals(getAutocomplete(), newValue)) {
 			getOrCreateComponentModel().autocomplete = newValue;
 		}
 	}

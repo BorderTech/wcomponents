@@ -6,7 +6,6 @@ import com.github.bordertech.wcomponents.file.FileItemWrap;
 import com.github.bordertech.wcomponents.util.FileUtil;
 import com.github.bordertech.wcomponents.util.MemoryUtil;
 import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.util.thumbnail.ThumbnailUtil;
 import java.awt.Dimension;
 import java.io.Serializable;
@@ -158,7 +157,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 */
 	public FileWidgetUpload getFile(final String fileId) {
 		for (FileWidgetUpload file : getFiles()) {
-			if (Util.equals(file.getFileId(), fileId)) {
+			if (Objects.equals(file.getFileId(), fileId)) {
 				return file;
 			}
 		}
@@ -1172,7 +1171,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		 */
 		@Override
 		public boolean equals(final Object o) {
-			return (o instanceof FileWidgetUpload) && Util.equals(fileId, ((FileWidgetUpload) o).
+			return (o instanceof FileWidgetUpload) && Objects.equals(fileId, ((FileWidgetUpload) o).
 					getFileId());
 		}
 
