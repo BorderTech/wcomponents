@@ -16,6 +16,17 @@ public interface MutableContainer extends NamingContextable {
 	void add(WComponent component);
 
 	/**
+	 * Adds the given components as "shared" children of this component.
+	 *
+	 * @param components the components to add.
+	 */
+	default void addAll(final WComponent... components) {
+		for (WComponent component : components) {
+			add(component);
+		}
+	}
+
+	/**
 	 * Removes the given component from this components "shared" list of children.
 	 *
 	 * @param aChild the child component to remove
