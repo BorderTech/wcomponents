@@ -23,10 +23,10 @@ import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTableWeb
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTextAreaWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTextFieldWebElement;
 import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.util.Util;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
@@ -399,7 +399,7 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	 * @return a usable WButton specific WebElement containing the required text
 	 */
 	public SeleniumWButtonWebElement findWButtonByText(final String text, final boolean searchAttributes, final int idx) {
-		if (Util.empty(text)) {
+		if (StringUtils.isBlank(text)) {
 			throw new IllegalArgumentException("Cannot find a button with no text");
 		}
 		List<WebElement> buttons = findElements(By.cssSelector(SeleniumWButtonWebElement.getCssSelector()));
@@ -449,7 +449,7 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	 * @return a WebElement representing a button described by the required text.
 	 */
 	public WebElement findButton(final String buttonTextOrTitle, final boolean searchAttributes) {
-		if (Util.empty(buttonTextOrTitle)) {
+		if (StringUtils.isBlank(buttonTextOrTitle)) {
 			throw new IllegalArgumentException("Cannot find a button with no text");
 		}
 		List<WebElement> buttons = findElements(By.tagName("button"));

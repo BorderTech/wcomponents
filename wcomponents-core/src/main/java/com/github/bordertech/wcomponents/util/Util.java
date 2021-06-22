@@ -9,7 +9,10 @@ import org.apache.commons.lang3.ObjectUtils;
  *
  * @author James Gifford
  * @since 1.0.0
+ *
+ * @deprecated No longer used by WComponents.
  */
+@Deprecated
 public final class Util {
 
 	/**
@@ -23,10 +26,9 @@ public final class Util {
 	 *
 	 * @param aString the string to check.
 	 * @return true if the given String is null or contains only whitespace.
-	 * 
+	 *
 	 * @deprecated use org.apache.commons.lang3.StringUtils.isBlank instead.
 	 */
-	@Deprecated
 	public static boolean empty(final String aString) {
 		return StringUtils.isBlank(aString);
 	}
@@ -37,10 +39,9 @@ public final class Util {
 	 * @param obj1 the first object to check.
 	 * @param obj2 the second object to check.
 	 * @return true if the two objects are the same according to Object.equals.
-	 * 
+	 *
 	 * @deprecated use java.util.Objects.equals(Object, Object) instead.
 	 */
-	@Deprecated
 	public static boolean equals(final Object obj1, final Object obj2) {
 		return Objects.equals(obj1, obj2);
 	}
@@ -53,10 +54,9 @@ public final class Util {
 	 * @param c2 the second comparable
 	 *
 	 * @return a negative integer, zero, or a positive integer if c1 is less than, equal to, or greater than the c2.
-	 * 
+	 *
 	 * @deprecated use org.apache.commons.lang3.ObjectUtils.compare(T, T) instead.
 	 */
-	@Deprecated
 	public static int compareAllowNull(final Comparable c1, final Comparable c2) {
 		return ObjectUtils.compare(c1, c2);
 	}
@@ -66,10 +66,9 @@ public final class Util {
 	 *
 	 * @param aString the string to convert.
 	 * @return the string converted to upper case, or null if the supplied string was null.
-	 * 
+	 *
 	 * @deprecated Use org.apache.commons.lang3.StringUtils.upperCase(String) instead.
 	 */
-	@Deprecated
 	public static String upperCase(final String aString) {
 		return StringUtils.upperCase(aString);
 	}
@@ -79,10 +78,9 @@ public final class Util {
 	 *
 	 * @param aString the String to trim.
 	 * @return a new String with characters <code>\\u0020</code> removed from the end
-	 * 
+	 *
 	 * @deprecated Don't use. No replacement.
 	 */
-	@Deprecated
 	public static String rightTrim(final String aString) {
 		if (aString == null) {
 			return null;
@@ -102,10 +100,9 @@ public final class Util {
 	 *
 	 * @param aString the String to trim.
 	 * @return a new String with characters <code>\\u0020</code> removed from the beginning
-	 * 
+	 *
 	 * @deprecated Don't use. No replacement.
 	 */
-	@Deprecated
 	public static String leftTrim(final String aString) {
 		if (aString == null) {
 			return null;

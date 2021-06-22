@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.test.selenium.element;
 
 import com.github.bordertech.wcomponents.test.selenium.SeleniumWComponentsUtil;
 import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.util.Util;
+import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -74,13 +74,13 @@ public class SeleniumWLabelWebElement extends SeleniumWComponentWebElement {
 		String tagName = getTagName();
 		String attribName = LABEL_ELEMENT.equalsIgnoreCase(tagName) ? LABEL_FOR_ATTRIB : FAUX_FOR_ATTRIBUTE;
 		String forId = getAttribute(attribName);
-		if (Util.empty(forId)) {
+		if (StringUtils.isBlank(forId)) {
 			// could be in a read-only state
 			if (FAUX_LABEL_ELEMENT.equalsIgnoreCase(tagName)) {
 				forId = getAttribute(RO_FOR_ATTRIBUTE);
 			}
 		}
-		if (Util.empty(forId)) {
+		if (StringUtils.isBlank(forId)) {
 			throw new SystemException("No labelled component found, expected id " + forId);
 		}
 		// TODO Maybe should not be immediate!!
@@ -105,7 +105,7 @@ public class SeleniumWLabelWebElement extends SeleniumWComponentWebElement {
 	 */
 	public boolean isReadOnly() {
 		String forId = getAttribute(RO_FOR_ATTRIBUTE);
-		return !Util.empty(forId);
+		return StringUtils.isNotBlank(forId);
 	}
 
 	/**

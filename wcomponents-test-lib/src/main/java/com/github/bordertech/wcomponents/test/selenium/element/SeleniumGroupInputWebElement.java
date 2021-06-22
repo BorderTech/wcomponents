@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.test.selenium.element;
 
-import com.github.bordertech.wcomponents.util.Util;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -49,7 +49,7 @@ public abstract class SeleniumGroupInputWebElement extends SeleniumWComponentWeb
 	 * @return {@code true} if the component is in a read only state.
 	 */
 	public final boolean isReadOnly() {
-		return !Util.empty(getAttribute("data-wc-component"));
+		return StringUtils.isNotBlank(getAttribute("data-wc-component"));
 	}
 
 	/**
