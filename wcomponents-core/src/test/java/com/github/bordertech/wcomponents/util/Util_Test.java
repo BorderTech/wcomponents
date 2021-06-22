@@ -19,6 +19,7 @@ public class Util_Test {
 		Assert.assertTrue("\"  \" should be empty", Util.empty("  "));
 		Assert.assertTrue("\"\\n\" should be empty", Util.empty("\n"));
 		Assert.assertTrue("\"\\t \\n \\r\" should be empty", Util.empty("\t \n \r"));
+		Assert.assertTrue("A String with only an 'en space' \"\u2002\" should be empty", Util.empty("\u2002"));
 
 		Assert.assertFalse("\"a\" should not be empty", Util.empty("a"));
 		Assert.assertFalse("\"a \" should not be empty", Util.empty("a "));
