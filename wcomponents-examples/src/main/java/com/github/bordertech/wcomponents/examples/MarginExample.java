@@ -43,7 +43,7 @@ public class MarginExample extends WContainer {
 	/**
 	 * Default example margin.
 	 */
-	private static final Margin DEFAULT_MARGIN = new Margin(Size.XL);
+	private static final Margin DEFAULT_MARGIN = Margin.all(Size.XL);
 
 	/**
 	 * Build example.

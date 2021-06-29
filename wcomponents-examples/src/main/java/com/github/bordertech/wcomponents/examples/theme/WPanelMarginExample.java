@@ -29,8 +29,8 @@ public class WPanelMarginExample extends WContainer {
 	 */
 	public WPanelMarginExample() {
 		add(new WHeading(HeadingLevel.H2, "Panels with large margin all around"));
-		add(createPanel(new Margin(Size.LARGE)));
-		add(createPanel(new Margin(Size.LARGE)));
+		add(createPanel(Margin.all(Size.LARGE)));
+		add(createPanel(Margin.all(Size.LARGE)));
 
 		add(new WHorizontalRule());
 		add(new WHeading(HeadingLevel.H2, "Panel with margin east, XL and Panel with margin west XL"));
