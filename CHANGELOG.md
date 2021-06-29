@@ -6,6 +6,8 @@
 * Add addAll method to MutableContainer and subclasses
 
 ### Enhancements
+* Updated XMLUnit
+
 ### Bug Fixes
 
 ## 1.5.26
