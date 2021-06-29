@@ -6,7 +6,6 @@ import com.github.bordertech.wcomponents.WPartialDateField;
 import com.github.bordertech.wcomponents.util.SystemException;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -41,7 +40,7 @@ public class WPartialDateFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 	}
 
 	@Test
-	public void testDoPaintDefaults() throws IOException, SAXException, XpathException {
+	public void testDoPaintDefaults() throws IOException, SAXException {
 		WPartialDateField dateField = new WPartialDateField();
 		assertSchemaMatch(dateField);
 
@@ -55,7 +54,7 @@ public class WPartialDateFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 	}
 
 	@Test
-	public void testDoPaintOptionals() throws IOException, SAXException, XpathException {
+	public void testDoPaintOptionals() throws IOException, SAXException {
 		WPartialDateField dateField = new WPartialDateField();
 
 		// Optional attributes
@@ -88,7 +87,7 @@ public class WPartialDateFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 	}
 
 	@Test
-	public void testReadOnly() throws IOException, SAXException, XpathException {
+	public void testReadOnly() throws IOException, SAXException {
 		WPartialDateField dateField = new WPartialDateField();
 
 		dateField.setReadOnly(true);
@@ -97,7 +96,7 @@ public class WPartialDateFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 	}
 
 	@Test
-	public void testDoPaintPartialDate() throws IOException, SAXException, XpathException {
+	public void testDoPaintPartialDate() throws IOException, SAXException {
 		WPartialDateField dateField = new WPartialDateField();
 
 		// Set actual date value
@@ -115,7 +114,7 @@ public class WPartialDateFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 	}
 
 	@Test
-	public void testDoPaintActualDate() throws IOException, SAXException, XpathException {
+	public void testDoPaintActualDate() throws IOException, SAXException {
 		WPartialDateField dateField = new WPartialDateField();
 
 		// Set actual date value
@@ -133,7 +132,7 @@ public class WPartialDateFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WPartialDateField dateField = new WPartialDateField();
 
 		dateField.setData(getMaliciousContent());

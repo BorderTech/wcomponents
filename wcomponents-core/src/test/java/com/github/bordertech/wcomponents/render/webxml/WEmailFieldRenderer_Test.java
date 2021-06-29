@@ -9,7 +9,6 @@ import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
 import com.github.bordertech.wcomponents.autocomplete.type.Email;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -30,7 +29,7 @@ public class WEmailFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		WEmailField field = new WEmailField();
 		WButton button = new WButton();
 		WSuggestions suggestions = new WSuggestions();
@@ -101,7 +100,7 @@ public class WEmailFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testReadOnly() throws IOException, SAXException, XpathException {
+	public void testReadOnly() throws IOException, SAXException {
 		WEmailField field = new WEmailField();
 		field.setReadOnly(true);
 		assertSchemaMatch(field);
@@ -109,7 +108,7 @@ public class WEmailFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testAutocomplete() throws IOException, SAXException, XpathException {
+	public void testAutocomplete() throws IOException, SAXException {
 		WEmailField field = new WEmailField();
 		field.setAutocomplete(Email.EMAIL);
 		assertSchemaMatch(field);
@@ -117,7 +116,7 @@ public class WEmailFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testAutocompleteOff() throws IOException, SAXException, XpathException {
+	public void testAutocompleteOff() throws IOException, SAXException {
 		WEmailField field = new WEmailField();
 		field.setAutocompleteOff();
 		assertSchemaMatch(field);
@@ -125,7 +124,7 @@ public class WEmailFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WEmailField field = new WEmailField();
 
 		field.setText(getMaliciousContent());

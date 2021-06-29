@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.Map;
 import org.junit.Assert;
 import org.apache.commons.configuration.Configuration;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -35,7 +34,7 @@ public class WApplicationRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		WApplication application = new WApplication();
 
 		MockWEnvironment environment = new MockWEnvironment();
@@ -58,7 +57,7 @@ public class WApplicationRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintWithChildren() throws IOException, SAXException, XpathException {
+	public void testDoPaintWithChildren() throws IOException, SAXException {
 		WApplication application = new WApplication();
 		WText text = new WText("test text");
 		WButton button = new WButton("button");
@@ -84,7 +83,7 @@ public class WApplicationRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testBasicRenderedFormat() throws XpathException, IOException, SAXException {
+	public void testBasicRenderedFormat() throws IOException, SAXException {
 		// Basic component (no optional fields)
 		MockWEnvironment environment = new MockWEnvironment();
 		WApplication application = new WApplication();
@@ -104,7 +103,7 @@ public class WApplicationRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testRenderedFormatWithFocussedComponent() throws XpathException, IOException,
+	public void testRenderedFormatWithFocussedComponent() throws IOException,
 			SAXException {
 		MockWEnvironment environment = new MockWEnvironment();
 		WApplication application = new WApplication();
@@ -136,7 +135,7 @@ public class WApplicationRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testRenderedFormatWithHiddenFields() throws XpathException, IOException,
+	public void testRenderedFormatWithHiddenFields() throws IOException,
 			SAXException {
 		MockWEnvironment environment = new MockWEnvironment();
 		environment.setPostPath("WApplicationRendererTest.postPath");
@@ -166,7 +165,7 @@ public class WApplicationRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		MockWEnvironment environment = new MockWEnvironment();
 		environment.setPostPath("WApplicationRendererTest.postPath");
 
@@ -186,7 +185,7 @@ public class WApplicationRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testRendererTracking() throws IOException, SAXException, XpathException {
+	public void testRendererTracking() throws IOException, SAXException {
 		// No tracking
 		WApplication application = new WApplication();
 		assertSchemaMatch(application);
@@ -214,7 +213,7 @@ public class WApplicationRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testJsResources() throws IOException, SAXException, XpathException {
+	public void testJsResources() throws IOException, SAXException {
 		// No resource
 		WApplication application = new WApplication();
 		assertSchemaMatch(application);
@@ -227,7 +226,7 @@ public class WApplicationRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testCssResources() throws IOException, SAXException, XpathException {
+	public void testCssResources() throws IOException, SAXException {
 		// No resource
 		WApplication application = new WApplication();
 		assertSchemaMatch(application);

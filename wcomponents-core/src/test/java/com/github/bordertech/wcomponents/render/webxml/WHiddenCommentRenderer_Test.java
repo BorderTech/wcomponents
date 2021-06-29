@@ -4,7 +4,6 @@ import com.github.bordertech.wcomponents.WHiddenComment;
 import com.github.bordertech.wcomponents.WPanel;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -32,7 +31,7 @@ public class WHiddenCommentRenderer_Test extends AbstractWebXmlRendererTestCase 
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		String textString1 = "test comment1";
 		String textString2 = "test comment2";
 		WHiddenComment comment = new WHiddenComment();
@@ -54,7 +53,7 @@ public class WHiddenCommentRenderer_Test extends AbstractWebXmlRendererTestCase 
 	}
 
 	@Test
-	public void testMultipleComments() throws IOException, SAXException, XpathException {
+	public void testMultipleComments() throws IOException, SAXException {
 		String textString1 = "test comment1";
 		String textString2 = "test comment2";
 		WHiddenComment comment1 = new WHiddenComment(textString1);
@@ -69,7 +68,7 @@ public class WHiddenCommentRenderer_Test extends AbstractWebXmlRendererTestCase 
 	}
 
 	@Test
-	public void testEncodedComment() throws IOException, SAXException, XpathException {
+	public void testEncodedComment() throws IOException, SAXException {
 		String textString = "test <br/> > <";
 		WHiddenComment comment = new WHiddenComment(textString);
 
@@ -79,7 +78,7 @@ public class WHiddenCommentRenderer_Test extends AbstractWebXmlRendererTestCase 
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WHiddenComment comment = new WHiddenComment(getMaliciousContent());
 		assertSafeContent(comment);
 	}

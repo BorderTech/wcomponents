@@ -7,7 +7,6 @@ import com.github.bordertech.wcomponents.util.SystemException;
 import java.io.IOException;
 import java.util.Arrays;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -27,7 +26,7 @@ public class WCheckBoxSelectRenderer_Test extends AbstractWebXmlRendererTestCase
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		WCheckBoxSelect wcbTest = new WCheckBoxSelect(new String[]{"a", "b", "c"});
 		assertSchemaMatch(wcbTest);
 		assertXpathEvaluatesTo("3", "count(//ui:checkboxselect/ui:option)", wcbTest);
@@ -54,7 +53,7 @@ public class WCheckBoxSelectRenderer_Test extends AbstractWebXmlRendererTestCase
 
 
 	@Test
-	public void testDoPaintReadOnly() throws IOException, SAXException, XpathException {
+	public void testDoPaintReadOnly() throws IOException, SAXException {
 		WCheckBoxSelect wcbTest = new WCheckBoxSelect(new String[]{"a", "b", "c"});
 		assertSchemaMatch(wcbTest);
 		setActiveContext(createUIContext());
@@ -72,7 +71,7 @@ public class WCheckBoxSelectRenderer_Test extends AbstractWebXmlRendererTestCase
 
 
 	@Test
-	public void testDoPaintAllOptions() throws IOException, SAXException, XpathException {
+	public void testDoPaintAllOptions() throws IOException, SAXException {
 		WCheckBoxSelect wcbTest = new WCheckBoxSelect(new String[]{"a", "b", "c"});
 		assertSchemaMatch(wcbTest);
 
@@ -115,14 +114,14 @@ public class WCheckBoxSelectRenderer_Test extends AbstractWebXmlRendererTestCase
 	}
 
 	@Test(expected = SystemException.class)
-	public void testOptGroupException() throws IOException, SAXException, XpathException {
+	public void testOptGroupException() throws IOException, SAXException {
 		OptionGroup optionGroup = new OptionGroup("Test", Arrays.asList(new String[]{"A", "B"}));
 		WCheckBoxSelect group = new WCheckBoxSelect(Arrays.asList(new Object[]{"X", optionGroup}));
 		assertSchemaMatch(group);
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WCheckBoxSelect wcb = new WCheckBoxSelect(Arrays.asList(
 				new Object[]{getInvalidCharSequence(),
 					getMaliciousContent()}));

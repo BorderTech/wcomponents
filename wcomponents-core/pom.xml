@@ -20,6 +20,7 @@
 
 	<properties>
 		<spotbugs.excludeFilterFile>${basedir}/spotbugs-exclude-filter.xml</spotbugs.excludeFilterFile>
+                <xmlunit.version>2.8.2</xmlunit.version>
 	</properties>
 
 	<profiles>
@@ -167,12 +168,26 @@
 
 		<dependency>
 			<scope>test</scope>
-			<groupId>xmlunit</groupId>
-			<artifactId>xmlunit</artifactId>
-			<version>1.6</version>
+			<groupId>org.xmlunit</groupId>
+			<artifactId>xmlunit-core</artifactId>
+			<version>${xmlunit.version}</version>
 		</dependency>
 
 		<dependency>
+			<scope>test</scope>
+			<groupId>org.xmlunit</groupId>
+			<artifactId>xmlunit-matchers</artifactId>
+			<version>${xmlunit.version}</version>
+		</dependency>
+
+		<dependency>
+			<scope>test</scope>
+			<groupId>org.xmlunit</groupId>
+			<artifactId>xmlunit-assertj3</artifactId>
+			<version>${xmlunit.version}</version>
+		</dependency>
+
+                <dependency>
 			<scope>test</scope>
 			<groupId>junitperf</groupId>
 			<artifactId>junitperf</artifactId>

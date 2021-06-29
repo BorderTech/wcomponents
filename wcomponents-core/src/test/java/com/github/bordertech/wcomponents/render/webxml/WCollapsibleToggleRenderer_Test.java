@@ -3,7 +3,6 @@ package com.github.bordertech.wcomponents.render.webxml;
 import com.github.bordertech.wcomponents.WCollapsibleToggle;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -23,7 +22,7 @@ public class WCollapsibleToggleRenderer_Test extends AbstractWebXmlRendererTestC
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		// Client-side
 		WCollapsibleToggle toggle = new WCollapsibleToggle(true);
 		setActiveContext(createUIContext());

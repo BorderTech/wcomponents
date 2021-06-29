@@ -8,7 +8,6 @@ import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.io.IOException;
 import java.util.Date;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -42,7 +41,7 @@ public class WDateFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintBasic() throws IOException, SAXException, XpathException {
+	public void testDoPaintBasic() throws IOException, SAXException {
 		WDateField dateField = new WDateField();
 
 		setActiveContext(createUIContext());
@@ -67,7 +66,7 @@ public class WDateFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintAllOptions() throws IOException, SAXException, XpathException {
+	public void testDoPaintAllOptions() throws IOException, SAXException {
 		WButton button = new WButton();
 		WDateField dateField = new WDateField();
 		dateField.setDate(TEST_DATE);
@@ -99,7 +98,7 @@ public class WDateFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintReadOnly() throws IOException, SAXException, XpathException {
+	public void testDoPaintReadOnly() throws IOException, SAXException {
 		WDateField dateField = new WDateField();
 		dateField.setDate(TEST_DATE);
 		dateField.setReadOnly(true);
@@ -112,7 +111,7 @@ public class WDateFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintAutocomplete() throws IOException, SAXException, XpathException {
+	public void testDoPaintAutocomplete() throws IOException, SAXException {
 		WDateField dateField = new WDateField();
 		dateField.setDate(TEST_DATE);
 		dateField.setBirthdayAutocomplete();
@@ -123,7 +122,7 @@ public class WDateFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintAutocompleteOff() throws IOException, SAXException, XpathException {
+	public void testDoPaintAutocompleteOff() throws IOException, SAXException {
 		WDateField dateField = new WDateField();
 		dateField.setDate(TEST_DATE);
 		dateField.setAutocompleteOff();
@@ -134,7 +133,7 @@ public class WDateFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WDateField dateField = new WDateField();
 		setActiveContext(createUIContext());
 

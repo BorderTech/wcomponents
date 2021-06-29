@@ -5,7 +5,6 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.GridLayout;
 import java.io.IOException;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -27,7 +26,7 @@ public class GridLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 	private static final Size BIG_GAP = Size.LARGE;
 
 	@Test
-	public void testDoRenderWhenEmpty() throws IOException, SAXException, XpathException {
+	public void testDoRenderWhenEmpty() throws IOException, SAXException {
 		WPanel panel = new WPanel();
 		panel.setLayout(new GridLayout(0, 1));
 		assertSchemaMatch(panel);
@@ -41,7 +40,7 @@ public class GridLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoRender() throws IOException, SAXException, XpathException {
+	public void testDoRender() throws IOException, SAXException {
 		final String text1 = "GridRenderer_Test.testPaint.text1";
 		final String text2 = "GridRenderer_Test.testPaint.text2";
 

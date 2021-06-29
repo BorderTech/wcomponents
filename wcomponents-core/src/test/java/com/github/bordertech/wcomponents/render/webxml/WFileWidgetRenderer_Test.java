@@ -4,7 +4,6 @@ import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.WFileWidget;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -25,7 +24,7 @@ public class WFileWidgetRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		WFileWidget fileUpload = new WFileWidget();
 
 		assertSchemaMatch(fileUpload);
@@ -70,7 +69,7 @@ public class WFileWidgetRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testReadOnly() throws IOException, SAXException, XpathException {
+	public void testReadOnly() throws IOException, SAXException {
 		WFileWidget fileUpload = new WFileWidget();
 
 		fileUpload.setReadOnly(true);
@@ -79,7 +78,7 @@ public class WFileWidgetRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WFileWidget fileUpload = new WFileWidget();
 		fileUpload.setFileTypes(new String[]{getMaliciousAttribute("ui:fileupload")});
 

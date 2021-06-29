@@ -9,7 +9,6 @@ import com.github.bordertech.wcomponents.autocomplete.type.Numeric;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -32,7 +31,7 @@ public class WNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		WNumberField numberField = new WNumberField();
 		WButton button = new WButton("Test");
 
@@ -103,7 +102,7 @@ public class WNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testReadOnly() throws IOException, SAXException, XpathException {
+	public void testReadOnly() throws IOException, SAXException {
 		WNumberField numberField = new WNumberField();
 
 		numberField.setReadOnly(true);
@@ -112,7 +111,7 @@ public class WNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testSetAutocomplete() throws IOException, SAXException, XpathException {
+	public void testSetAutocomplete() throws IOException, SAXException {
 		WNumberField field = new WNumberField();
 
 		for (Numeric number : Numeric.values()) {
@@ -123,7 +122,7 @@ public class WNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testSetAutocompleteOff() throws IOException, SAXException, XpathException {
+	public void testSetAutocompleteOff() throws IOException, SAXException {
 		WNumberField field = new WNumberField();
 		field.setAutocompleteOff();
 		assertSchemaMatch(field);
@@ -131,7 +130,7 @@ public class WNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WNumberField numberField = new WNumberField();
 
 		MockRequest request = new MockRequest();

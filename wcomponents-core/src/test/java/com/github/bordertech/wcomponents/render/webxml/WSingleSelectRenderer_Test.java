@@ -9,7 +9,6 @@ import com.github.bordertech.wcomponents.autocomplete.segment.Person;
 import java.io.IOException;
 import java.util.Arrays;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -29,7 +28,7 @@ public class WSingleSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		WSingleSelect single = new WSingleSelect(new String[]{"a", "b", "c"});
 		assertSchemaMatch(single);
 		assertXpathEvaluatesTo(single.getId(), "//ui:listbox/@id", single);
@@ -52,7 +51,7 @@ public class WSingleSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testReadOnly() throws IOException, SAXException, XpathException {
+	public void testReadOnly() throws IOException, SAXException {
 		WSingleSelect single = new WSingleSelect(new String[]{"a", "b", "c"});
 		single.setSelected("b");
 		single.setReadOnly(true);
@@ -63,7 +62,7 @@ public class WSingleSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintOptions() throws IOException, SAXException, XpathException {
+	public void testDoPaintOptions() throws IOException, SAXException {
 		String tooltip = "test tooltip";
 		String accessible = "test accessible text";
 		int rows = 2;
@@ -96,7 +95,7 @@ public class WSingleSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDataList() throws IOException, SAXException, XpathException {
+	public void testDataList() throws IOException, SAXException {
 		WSingleSelect single = new WSingleSelect(TestLookupTable.CACHEABLE_DAY_OF_WEEK_TABLE);
 		assertSchemaMatch(single);
 
@@ -115,7 +114,7 @@ public class WSingleSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testOptionGroups() throws IOException, SAXException, XpathException {
+	public void testOptionGroups() throws IOException, SAXException {
 		OptionGroup optionGroup = new OptionGroup("B", Arrays.asList(
 				new String[]{"B.1", "B.2", "B.3", "B.4"}));
 		Object[] options = new Object[]{"A", optionGroup, "C"};
@@ -161,7 +160,7 @@ public class WSingleSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		OptionGroup optionGroup = new OptionGroup(getMaliciousAttribute("ui:optgroup"),
 				Arrays.asList(new String[]{"dummy"}));
 		WSingleSelect single = new WSingleSelect(Arrays.asList(
@@ -178,7 +177,7 @@ public class WSingleSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testIsNullOption() throws IOException, SAXException, XpathException {
+	public void testIsNullOption() throws IOException, SAXException {
 		String[] options = new String[]{null, "", "A", "B", "C"};
 
 		WSingleSelect single = new WSingleSelect(options);

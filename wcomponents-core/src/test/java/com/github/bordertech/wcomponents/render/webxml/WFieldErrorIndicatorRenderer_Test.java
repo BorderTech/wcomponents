@@ -9,7 +9,6 @@ import com.github.bordertech.wcomponents.validation.WFieldErrorIndicator;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -32,7 +31,7 @@ public class WFieldErrorIndicatorRenderer_Test extends AbstractWebXmlRendererTes
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		WContainer root = new WContainer();
 		WPanel target = new WPanel();
 		WFieldErrorIndicator indicator = new WFieldErrorIndicator(target);
@@ -56,7 +55,7 @@ public class WFieldErrorIndicatorRenderer_Test extends AbstractWebXmlRendererTes
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WContainer root = new WContainer();
 		WPanel target = new WPanel();
 		WFieldErrorIndicator indicator = new WFieldErrorIndicator(target);

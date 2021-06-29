@@ -3,7 +3,6 @@ package com.github.bordertech.wcomponents.render.webxml;
 import com.github.bordertech.wcomponents.WPopup;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -23,7 +22,7 @@ public class WPopupRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		final String testUrl = "www.testurl.invalid";
 		final String testUrl2 = "www.testurl2.invalid";
 		final String testWindow = "window";
@@ -65,7 +64,7 @@ public class WPopupRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		// Popup with only URL and default settings
 		WPopup popup = new WPopup("www.invalid") {
 			@Override

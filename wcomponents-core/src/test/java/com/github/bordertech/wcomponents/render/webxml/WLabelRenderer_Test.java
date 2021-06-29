@@ -16,7 +16,6 @@ import com.github.bordertech.wcomponents.WRadioButtonSelect;
 import com.github.bordertech.wcomponents.WTextArea;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -39,7 +38,7 @@ public class WLabelRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintBasic() throws IOException, SAXException, XpathException {
+	public void testDoPaintBasic() throws IOException, SAXException {
 		WLabel label = new WLabel();
 
 		// Validate Schema
@@ -59,7 +58,7 @@ public class WLabelRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintAllOptions() throws IOException, SAXException, XpathException {
+	public void testDoPaintAllOptions() throws IOException, SAXException {
 		WTextArea text = new WTextArea();
 		text.setText("text1");
 		WLabel label = new WLabel();
@@ -92,7 +91,7 @@ public class WLabelRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testWhatForInput() throws IOException, SAXException, XpathException {
+	public void testWhatForInput() throws IOException, SAXException {
 		MyInput comp = new MyInput();
 		WLabel label = new WLabel("label", comp);
 		assertSchemaMatch(label);
@@ -100,14 +99,14 @@ public class WLabelRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testWhatForNotAnInput() throws IOException, SAXException, XpathException {
+	public void testWhatForNotAnInput() throws IOException, SAXException {
 		MyComponent comp = new MyComponent();
 		WLabel label = new WLabel("label", comp);
 		assertXpathEvaluatesTo("", "//ui:label/@what", label);
 	}
 
 	@Test
-	public void testWhatForGroup1() throws IOException, SAXException, XpathException {
+	public void testWhatForGroup1() throws IOException, SAXException {
 		WCheckBoxSelect comp = new WCheckBoxSelect();
 		WLabel label = new WLabel("label", comp);
 		assertSchemaMatch(label);
@@ -115,14 +114,14 @@ public class WLabelRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testWhatForGroup2() throws IOException, SAXException, XpathException {
+	public void testWhatForGroup2() throws IOException, SAXException {
 		WMultiDropdown comp = new WMultiDropdown();
 		WLabel label = new WLabel("label", comp);
 		assertXpathEvaluatesTo("group", "//ui:label/@what", label);
 	}
 
 	@Test
-	public void testWhatForGroup3() throws IOException, SAXException, XpathException {
+	public void testWhatForGroup3() throws IOException, SAXException {
 		WMultiTextField comp = new WMultiTextField();
 		WLabel label = new WLabel("label", comp);
 		assertSchemaMatch(label);
@@ -130,7 +129,7 @@ public class WLabelRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testWhatForGroup4() throws IOException, SAXException, XpathException {
+	public void testWhatForGroup4() throws IOException, SAXException {
 		WMultiSelectPair comp = new WMultiSelectPair();
 		WLabel label = new WLabel("label", comp);
 		assertSchemaMatch(label);
@@ -138,7 +137,7 @@ public class WLabelRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testWhatForGroup5() throws IOException, SAXException, XpathException {
+	public void testWhatForGroup5() throws IOException, SAXException {
 		WRadioButtonSelect comp = new WRadioButtonSelect();
 		WLabel label = new WLabel("label", comp);
 		assertSchemaMatch(label);
@@ -146,7 +145,7 @@ public class WLabelRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testWhatForGroup6() throws IOException, SAXException, XpathException {
+	public void testWhatForGroup6() throws IOException, SAXException {
 		RadioButtonGroup comp = new RadioButtonGroup();
 		WLabel label = new WLabel("label", comp);
 		assertSchemaMatch(label);
@@ -154,7 +153,7 @@ public class WLabelRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testWhatForGroup7() throws IOException, SAXException, XpathException {
+	public void testWhatForGroup7() throws IOException, SAXException {
 		WMultiFileWidget comp = new WMultiFileWidget();
 		WLabel label = new WLabel("label", comp);
 		assertSchemaMatch(label);
@@ -162,14 +161,14 @@ public class WLabelRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testWhatForGroupWFieldSet() throws IOException, SAXException, XpathException {
+	public void testWhatForGroupWFieldSet() throws IOException, SAXException {
 		WFieldSet comp = new WFieldSet("legend");
 		WLabel label = new WLabel("label", comp);
 		assertXpathEvaluatesTo("group", "//ui:label/@what", label);
 	}
 
 	@Test
-	public void testReadOnlyWithInput() throws IOException, SAXException, XpathException {
+	public void testReadOnlyWithInput() throws IOException, SAXException {
 		MyInput comp = new MyInput();
 		WLabel label = new WLabel("label", comp);
 		comp.setReadOnly(true);
@@ -178,7 +177,7 @@ public class WLabelRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testMandatoryWithInput() throws IOException, SAXException, XpathException {
+	public void testMandatoryWithInput() throws IOException, SAXException {
 		MyInput comp = new MyInput();
 		WLabel label = new WLabel("label", comp);
 		comp.setMandatory(true);
@@ -187,7 +186,7 @@ public class WLabelRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testHiddenComponentWithInput() throws IOException, SAXException, XpathException {
+	public void testHiddenComponentWithInput() throws IOException, SAXException {
 		MyInput comp = new MyInput();
 		WLabel label = new WLabel("label", comp);
 		comp.setHidden(true);
@@ -196,7 +195,7 @@ public class WLabelRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testHidden() throws IOException, SAXException, XpathException {
+	public void testHidden() throws IOException, SAXException {
 		MyInput comp = new MyInput();
 		WLabel label = new WLabel("label", comp);
 		label.setHidden(true);
@@ -206,7 +205,7 @@ public class WLabelRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testHiddenBoth() throws IOException, SAXException, XpathException {
+	public void testHiddenBoth() throws IOException, SAXException {
 		MyInput comp = new MyInput();
 		WLabel label = new WLabel("label", comp);
 		label.setHidden(true);
@@ -217,7 +216,7 @@ public class WLabelRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WLabel label = new WLabel(getMaliciousContent());
 		assertSafeContent(label);
 		label.setHint(getMaliciousAttribute("ui:label"));

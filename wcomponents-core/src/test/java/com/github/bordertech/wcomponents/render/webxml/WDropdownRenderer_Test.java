@@ -12,7 +12,6 @@ import com.github.bordertech.wcomponents.autocomplete.segment.Person;
 import java.io.IOException;
 import java.util.Arrays;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -32,7 +31,7 @@ public class WDropdownRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		// Shared options.
 		WDropdown drop = new WDropdown();
 		drop.setLocked(true);
@@ -65,7 +64,7 @@ public class WDropdownRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintReadOnly() throws IOException, SAXException, XpathException {
+	public void testDoPaintReadOnly() throws IOException, SAXException {
 		// Shared options.
 		WDropdown drop = new WDropdown();
 		drop.setOptions(new String[]{"A", "B", "C"});
@@ -82,7 +81,7 @@ public class WDropdownRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintOptions() throws IOException, SAXException, XpathException {
+	public void testDoPaintOptions() throws IOException, SAXException {
 		WDropdown drop = new WDropdown(TestLookupTable.CACHEABLE_DAY_OF_WEEK_TABLE);
 
 		assertSchemaMatch(drop);
@@ -138,7 +137,7 @@ public class WDropdownRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintTypeOptions() throws IOException, SAXException, XpathException {
+	public void testDoPaintTypeOptions() throws IOException, SAXException {
 		WDropdown drop = new WDropdown(TestLookupTable.CACHEABLE_DAY_OF_WEEK_TABLE);
 		drop.setType(DropdownType.COMBO);
 		assertSchemaMatch(drop);
@@ -146,7 +145,7 @@ public class WDropdownRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testCrtEntryExpiration() throws IOException, SAXException, XpathException {
+	public void testCrtEntryExpiration() throws IOException, SAXException {
 		UIContext uic1 = new UIContextImpl();
 
 		UIContext uic2 = new UIContextImpl() {
@@ -170,7 +169,7 @@ public class WDropdownRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testSpecialCharacters() throws IOException, SAXException, XpathException {
+	public void testSpecialCharacters() throws IOException, SAXException {
 		String optionA = "<A";
 		String optionB = "B&B";
 		String optionC = "C";
@@ -181,7 +180,7 @@ public class WDropdownRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testNullOption() throws IOException, SAXException, XpathException {
+	public void testNullOption() throws IOException, SAXException {
 		String[] options = new String[]{null, "A", "B", "C"};
 
 		WDropdown drop = new WDropdown(options);
@@ -204,7 +203,7 @@ public class WDropdownRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testIsNullOption() throws IOException, SAXException, XpathException {
+	public void testIsNullOption() throws IOException, SAXException {
 		String[] options = new String[]{null, "", "A", "B", "C"};
 
 		WDropdown drop = new WDropdown(options);
@@ -231,7 +230,7 @@ public class WDropdownRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testEditableComboOption() throws IOException, SAXException, XpathException {
+	public void testEditableComboOption() throws IOException, SAXException {
 		String[] options = new String[]{"A", "B", "C"};
 
 		WDropdown drop = new WDropdown(options);
@@ -251,7 +250,7 @@ public class WDropdownRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDataList() throws IOException, SAXException, XpathException {
+	public void testDataList() throws IOException, SAXException {
 		WDropdown drop = new WDropdown(TestLookupTable.CACHEABLE_DAY_OF_WEEK_TABLE);
 		assertSchemaMatch(drop);
 
@@ -264,7 +263,7 @@ public class WDropdownRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testOptionGroups() throws IOException, SAXException, XpathException {
+	public void testOptionGroups() throws IOException, SAXException {
 		OptionGroup optionGroup = new OptionGroup("B", Arrays.asList(
 				new String[]{"B.1", "B.2", "B.3", "B.4"}));
 		Object[] options = new Object[]{"A", optionGroup, "C"};
@@ -302,7 +301,7 @@ public class WDropdownRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		OptionGroup optionGroup = new OptionGroup(getMaliciousAttribute("ui:optgroup"), Arrays.
 				asList(new String[]{"dummy"}));
 		WDropdown drop = new WDropdown(Arrays.asList(

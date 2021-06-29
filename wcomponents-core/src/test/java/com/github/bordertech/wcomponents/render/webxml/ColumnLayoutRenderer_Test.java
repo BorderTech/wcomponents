@@ -6,7 +6,6 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.layout.ColumnLayout.Alignment;
 import java.io.IOException;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -28,7 +27,7 @@ public class ColumnLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 	private static final Size BIG_GAP = Size.LARGE;
 
 	@Test
-	public void testDoRenderWhenEmpty() throws IOException, SAXException, XpathException {
+	public void testDoRenderWhenEmpty() throws IOException, SAXException {
 		WPanel container = new WPanel();
 		container.setLayout(new ColumnLayout(new int[]{50, 50}));
 		assertSchemaMatch(container);
@@ -37,7 +36,7 @@ public class ColumnLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoRender() throws IOException, SAXException, XpathException {
+	public void testDoRender() throws IOException, SAXException {
 		final int[] cols = new int[]{1, 100};
 		final Alignment[] aligns = new Alignment[]{Alignment.RIGHT, Alignment.CENTER};
 

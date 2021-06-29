@@ -3,7 +3,6 @@ package com.github.bordertech.wcomponents.render.webxml;
 import com.github.bordertech.wcomponents.WPrintButton;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -23,13 +22,13 @@ public class WPrintButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		WPrintButton button = new WPrintButton("Print");
 		assertXpathExists("//html:button[contains(@class, 'wc-printbutton')]", button);
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WPrintButton button = new WPrintButton(getMaliciousContent());
 
 		assertSafeContent(button);

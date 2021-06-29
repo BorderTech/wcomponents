@@ -7,7 +7,6 @@ import com.github.bordertech.wcomponents.WTabSet.TabMode;
 import com.github.bordertech.wcomponents.WText;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -27,7 +26,7 @@ public class WTabGroupRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		String groupName = "WTabGroupRenderer_Test.testDoPaint.groupName";
 
 		WTabGroup tabGroup = new WTabGroup(groupName);
@@ -40,7 +39,7 @@ public class WTabGroupRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WTabGroup tabGroup = new WTabGroup(getMaliciousContent());
 		tabGroup.addTab(new WText("dummy"), "dummy", TabMode.CLIENT);
 		WComponent wrapped = wrapTabGroup(tabGroup);

@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -83,7 +82,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintEmptyTableNoAttributes() throws IOException, SAXException, XpathException {
+	public void testDoPaintEmptyTableNoAttributes() throws IOException, SAXException {
 		WTable component = new WTable();
 		component.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
 		component.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
@@ -98,7 +97,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintMissingAttributes() throws IOException, SAXException, XpathException {
+	public void testDoPaintMissingAttributes() throws IOException, SAXException {
 		WTable component = new WTable();
 		component.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
 		component.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
@@ -117,8 +116,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintMissingAttributesRowStriping() throws IOException, SAXException,
-			XpathException {
+	public void testDoPaintMissingAttributesRowStriping() throws IOException, SAXException {
 		WTable component = new WTable();
 		component.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
 		component.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
@@ -137,8 +135,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintMissingAttributesColumnStriping() throws IOException, SAXException,
-			XpathException {
+	public void testDoPaintMissingAttributesColumnStriping() throws IOException, SAXException {
 		WTable component = new WTable();
 		component.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
 		component.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
@@ -157,9 +154,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintMissingAttributesColumnStripingSeparatorsBoth() throws IOException,
-			SAXException,
-			XpathException {
+	public void testDoPaintMissingAttributesColumnStripingSeparatorsBoth() throws IOException, SAXException {
 		WTable component = new WTable();
 		component.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
 		component.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
@@ -178,7 +173,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintAttributesAndContent() throws IOException, SAXException, XpathException {
+	public void testDoPaintAttributesAndContent() throws IOException, SAXException {
 		WTable component = new WTable();
 		component.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class)); // renderer class
 		component.addColumn(new WTableColumn(COL2_HEADING_TEST, new WTextField())); // renderer instance
@@ -220,7 +215,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintPaginatedClient() throws IOException, SAXException, XpathException {
+	public void testDoPaintPaginatedClient() throws IOException, SAXException {
 		WTable component = new WTable();
 		component.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
 		component.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
@@ -255,7 +250,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintPaginatedDynamic() throws IOException, SAXException, XpathException {
+	public void testDoPaintPaginatedDynamic() throws IOException, SAXException {
 		WTable component = new WTable();
 		component.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
 		component.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
@@ -282,7 +277,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintWithRowsPerPageOptions() throws IOException, SAXException, XpathException {
+	public void testDoPaintWithRowsPerPageOptions() throws IOException, SAXException {
 		WTable component = new WTable();
 		component.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
 		component.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
@@ -316,7 +311,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintSelectModeSingle() throws IOException, SAXException, XpathException {
+	public void testDoPaintSelectModeSingle() throws IOException, SAXException {
 		WTable component = new WTable();
 		component.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
 		component.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
@@ -333,8 +328,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintSelectModeMultipleSelectAllText() throws IOException, SAXException,
-			XpathException {
+	public void testDoPaintSelectModeMultipleSelectAllText() throws IOException, SAXException {
 		WTable component = new WTable();
 		component.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
 		component.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
@@ -354,8 +348,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintSelectModeMultipleSelectAllControl() throws IOException, SAXException,
-			XpathException {
+	public void testDoPaintSelectModeMultipleSelectAllControl() throws IOException, SAXException {
 		WTable component = new WTable();
 		component.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
 		component.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
@@ -377,8 +370,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintToggleSubRowSelection() throws IOException, SAXException,
-			XpathException {
+	public void testDoPaintToggleSubRowSelection() throws IOException, SAXException {
 		WTable component = new WTable();
 		component.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
 		component.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
@@ -400,7 +392,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testDoPaintSelectModeMultipleSelectAllControlSubmitOnChangeAndGroupName() throws
 			IOException,
-			SAXException, XpathException {
+			SAXException {
 		WTable component = new WTable();
 		component.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
 		component.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
@@ -422,7 +414,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintExpandModeClient() throws IOException, SAXException, XpathException {
+	public void testDoPaintExpandModeClient() throws IOException, SAXException {
 		WTable component = new WTable();
 		component.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
 		component.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
@@ -439,7 +431,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintExpandModeLazy() throws IOException, SAXException, XpathException {
+	public void testDoPaintExpandModeLazy() throws IOException, SAXException {
 		WTable component = new WTable();
 		component.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
 		component.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
@@ -456,7 +448,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintExpandModeDynamic() throws IOException, SAXException, XpathException {
+	public void testDoPaintExpandModeDynamic() throws IOException, SAXException {
 		WTable component = new WTable();
 		component.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
 		component.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
@@ -473,8 +465,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintSortableSortModeDynamic() throws IOException, SAXException,
-			XpathException {
+	public void testDoPaintSortableSortModeDynamic() throws IOException, SAXException {
 		WTable component = new WTable();
 		component.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
 		component.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
@@ -495,7 +486,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintWithColAlignment() throws IOException, SAXException, XpathException {
+	public void testDoPaintWithColAlignment() throws IOException, SAXException {
 		WTable table = new WTable();
 		table.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
 		table.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
@@ -516,7 +507,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintWithColWidth() throws IOException, SAXException, XpathException {
+	public void testDoPaintWithColWidth() throws IOException, SAXException {
 
 		WTable table = new WTable();
 		table.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
@@ -538,7 +529,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintOfRowHeaderWithNoRowHeaderColumn() throws IOException, SAXException, XpathException {
+	public void testDoPaintOfRowHeaderWithNoRowHeaderColumn() throws IOException, SAXException {
 
 		WTable table = new WTable();
 		table.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
@@ -555,7 +546,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPainWithRowHeaderColumn() throws IOException, SAXException, XpathException {
+	public void testDoPainWithRowHeaderColumn() throws IOException, SAXException {
 
 		WTable table = new WTable();
 		table.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
@@ -574,8 +565,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintSortableSortModeDynamicClientSettings() throws IOException, SAXException,
-			XpathException {
+	public void testDoPaintSortableSortModeDynamicClientSettings() throws IOException, SAXException {
 		WTable component = new WTable();
 		component.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
 		component.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
@@ -606,7 +596,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintTableActions() throws IOException, SAXException, XpathException {
+	public void testDoPaintTableActions() throws IOException, SAXException {
 		WTable component = new WTable();
 		component.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
 		component.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
@@ -628,8 +618,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintTableActionsWithConstraints() throws IOException, SAXException,
-			XpathException {
+	public void testDoPaintTableActionsWithConstraints() throws IOException, SAXException {
 		final int minSelectedRowCount1 = 1;
 		final int maxSelectedRowCount1 = 2;
 		final int selectedOnOther1 = 0;
@@ -693,8 +682,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintTableActionsInvisibleButton() throws IOException, SAXException,
-			XpathException {
+	public void testDoPaintTableActionsInvisibleButton() throws IOException, SAXException {
 		WTable component = new WTable();
 		component.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
 		component.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
@@ -717,8 +705,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintWithInvisibleColumnAndNoColumnHeaders() throws IOException, SAXException,
-			XpathException {
+	public void testDoPaintWithInvisibleColumnAndNoColumnHeaders() throws IOException, SAXException {
 		WTable component = new WTable();
 		component.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
 		component.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
@@ -762,7 +749,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testRenderedWithMargins() throws IOException, SAXException, XpathException {
+	public void testRenderedWithMargins() throws IOException, SAXException {
 		WTable table = new WTable();
 		table.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
 		assertXpathNotExists("//ui:table/ui:margin", table);
@@ -795,7 +782,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintColumnFooter() throws IOException, SAXException, XpathException {
+	public void testDoPaintColumnFooter() throws IOException, SAXException {
 
 		WTable table = createTableWithColumnFooters();
 
@@ -810,7 +797,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintColumnFooterExpandable() throws IOException, SAXException, XpathException {
+	public void testDoPaintColumnFooterExpandable() throws IOException, SAXException {
 
 		WTable table = createTableWithColumnFooters();
 
@@ -828,7 +815,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintColumnFooterSelectable() throws IOException, SAXException, XpathException {
+	public void testDoPaintColumnFooterSelectable() throws IOException, SAXException {
 
 		WTable table = createTableWithColumnFooters();
 
@@ -846,7 +833,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintColumnFooterExpandableSelectable() throws IOException, SAXException, XpathException {
+	public void testDoPaintColumnFooterExpandableSelectable() throws IOException, SAXException {
 
 		WTable table = createTableWithColumnFooters();
 
@@ -866,7 +853,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintColumnFooterNoColumns() throws IOException, SAXException, XpathException {
+	public void testDoPaintColumnFooterNoColumns() throws IOException, SAXException {
 
 		// Table with columns and no footers defined
 		WTable table = new WTable();
@@ -888,7 +875,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WTable table = new WTable();
 		table.addColumn(new WTableColumn(getMaliciousContent(), WText.class));
 		table.addColumn(new WTableColumn(getMaliciousContent(), WText.class));

@@ -12,7 +12,6 @@ import com.github.bordertech.wcomponents.WFigure.FigureMode;
 import com.github.bordertech.wcomponents.WText;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -42,7 +41,7 @@ public class WFigureRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testRenderedLazyMode() throws IOException, SAXException, XpathException {
+	public void testRenderedLazyMode() throws IOException, SAXException {
 		WFigure figure = new WFigure(new WText(FIGURE_CONTENT), FIGURE_HEADING);
 		figure.setMode(FigureMode.LAZY);
 
@@ -69,7 +68,7 @@ public class WFigureRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testRenderedEagerMode() throws IOException, SAXException, XpathException {
+	public void testRenderedEagerMode() throws IOException, SAXException {
 		WFigure figure = new WFigure(new WText(FIGURE_CONTENT), FIGURE_HEADING);
 		figure.setMode(FigureMode.EAGER);
 
@@ -99,13 +98,13 @@ public class WFigureRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WFigure figure = new WFigure(new WText(getMaliciousContent()), getMaliciousContent());
 		assertSafeContent(figure);
 	}
 
 	@Test
-	public void testRenderedWithMargins() throws IOException, SAXException, XpathException {
+	public void testRenderedWithMargins() throws IOException, SAXException {
 		WFigure figure = new WFigure(new WText(FIGURE_CONTENT), FIGURE_HEADING);
 		assertXpathNotExists("//ui:figure/ui:margin", figure);
 

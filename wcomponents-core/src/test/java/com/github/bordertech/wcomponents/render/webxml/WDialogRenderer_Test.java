@@ -4,7 +4,6 @@ import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WDialog;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -39,7 +38,7 @@ public class WDialogRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoRender() throws IOException, SAXException, XpathException {
+	public void testDoRender() throws IOException, SAXException {
 		WDialog dialog = new WDialog();
 		dialog.setTitle(TEST_TITLE);
 		dialog.setMode(WDialog.MODELESS);
@@ -69,7 +68,7 @@ public class WDialogRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testRenderTrigger() throws IOException, SAXException, XpathException {
+	public void testRenderTrigger() throws IOException, SAXException {
 		WButton trigger = new WButton("Launch dialog");
 		WButton content = new WButton("Dialog content");
 
@@ -97,7 +96,7 @@ public class WDialogRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WDialog dialog = new WDialog();
 		dialog.setTitle(TEST_TITLE);
 		dialog.setMode(WDialog.MODAL);

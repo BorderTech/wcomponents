@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -33,7 +32,7 @@ public class WSuggestionsRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoBasicPaint() throws IOException, SAXException, XpathException {
+	public void testDoBasicPaint() throws IOException, SAXException {
 		WSuggestions field = new WSuggestions();
 
 		assertSchemaMatch(field);
@@ -51,7 +50,7 @@ public class WSuggestionsRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintLookupTableOptions() throws IOException, SAXException, XpathException {
+	public void testDoPaintLookupTableOptions() throws IOException, SAXException {
 		WSuggestions field = new WSuggestions(TestLookupTable.CACHEABLE_DAY_OF_WEEK_TABLE);
 
 		assertSchemaMatch(field);
@@ -73,7 +72,7 @@ public class WSuggestionsRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintStaticOptions() throws IOException, SAXException, XpathException {
+	public void testDoPaintStaticOptions() throws IOException, SAXException {
 		List<String> options = Arrays.asList("A", "B", "C");
 		WSuggestions field = new WSuggestions(options);
 
@@ -91,7 +90,7 @@ public class WSuggestionsRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintAjaxOptions() throws IOException, SAXException, XpathException {
+	public void testDoPaintAjaxOptions() throws IOException, SAXException {
 		List<String> options = Arrays.asList("A", "B", "C");
 		WSuggestions field = new WSuggestions(options);
 
@@ -133,7 +132,7 @@ public class WSuggestionsRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 
 	@Test
-	public void testDoPaintAutocomplete() throws IOException, SAXException, XpathException {
+	public void testDoPaintAutocomplete() throws IOException, SAXException {
 		List<String> options = Arrays.asList("A", "B", "C");
 		WSuggestions field = new WSuggestions(options);
 

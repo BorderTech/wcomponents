@@ -7,7 +7,6 @@ import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WText;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -27,7 +26,7 @@ public class WDecoratedLabelRenderer_Test extends AbstractWebXmlRendererTestCase
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		final String bodyText = "WDecoratedLabelRenderer_Test.testDoPaint.bodyText";
 		final String headText = "WDecoratedLabelRenderer_Test.testDoPaint.headText";
 		final String tailText = "WDecoratedLabelRenderer_Test.testDoPaint.tailText";

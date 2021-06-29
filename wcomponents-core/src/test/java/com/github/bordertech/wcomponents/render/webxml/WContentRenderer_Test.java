@@ -5,7 +5,6 @@ import com.github.bordertech.wcomponents.WContent;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -25,7 +24,7 @@ public class WContentRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		MockRequest request = new MockRequest();
 
 		MockContentAccess content = new MockContentAccess();

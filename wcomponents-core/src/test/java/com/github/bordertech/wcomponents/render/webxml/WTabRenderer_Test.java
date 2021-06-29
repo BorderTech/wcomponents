@@ -6,7 +6,6 @@ import com.github.bordertech.wcomponents.WTabSet.TabMode;
 import com.github.bordertech.wcomponents.WText;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -29,7 +28,7 @@ public class WTabRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		String tabName = "WTabRenderer_Test.testDoPaint.tabName";
 		String tabContent = "WTabRenderer_Test.testDoPaint.tabContent";
 
@@ -77,7 +76,7 @@ public class WTabRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WTabSet tabSet = new WTabSet();
 		WTab tab = tabSet.addTab(new WText("dummy"), getMaliciousContent(), TabMode.CLIENT);
 

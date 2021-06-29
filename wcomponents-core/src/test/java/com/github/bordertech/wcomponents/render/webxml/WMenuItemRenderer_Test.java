@@ -8,7 +8,6 @@ import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WSubMenu;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -39,7 +38,7 @@ public class WMenuItemRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintDefaults() throws IOException, SAXException, XpathException {
+	public void testDoPaintDefaults() throws IOException, SAXException {
 
 		WMenuItem item = new WMenuItem(itemText);
 		WMenu wrapped = wrapMenuItem(item);
@@ -60,7 +59,7 @@ public class WMenuItemRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testUrl() throws IOException, SAXException, XpathException {
+	public void testUrl() throws IOException, SAXException {
 		// Test with URL
 		WMenuItem item = new WMenuItem(itemText, url);
 		WMenu wrapped = wrapMenuItem(item);
@@ -71,7 +70,7 @@ public class WMenuItemRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testAction() throws IOException, SAXException, XpathException {
+	public void testAction() throws IOException, SAXException {
 		// Test with action
 		WMenuItem item = new WMenuItem(itemText, new TestAction());
 		WMenu wrapped = wrapMenuItem(item);
@@ -82,7 +81,7 @@ public class WMenuItemRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testTargetWindow() throws IOException, SAXException, XpathException {
+	public void testTargetWindow() throws IOException, SAXException {
 		final String targetWindow = "WMenuItemLayout-targetWindow";
 		// Test with target window
 		WMenuItem item = new WMenuItem(itemText, url);
@@ -94,7 +93,7 @@ public class WMenuItemRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDisabled() throws IOException, SAXException, XpathException {
+	public void testDisabled() throws IOException, SAXException {
 		// Disabled
 		WMenuItem item = new WMenuItem(itemText, url);
 		WMenu wrapped = wrapMenuItem(item);
@@ -110,7 +109,7 @@ public class WMenuItemRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testAccessKey() throws IOException, SAXException, XpathException {
+	public void testAccessKey() throws IOException, SAXException {
 		// AccessKey
 		WMenuItem item = new WMenuItem(itemText, url);
 		WMenu wrapped = wrapMenuItem(item);
@@ -128,7 +127,7 @@ public class WMenuItemRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testHidden() throws IOException, SAXException, XpathException {
+	public void testHidden() throws IOException, SAXException {
 		WMenuItem item = new WMenuItem(itemText, url);
 		WMenu wrapped = wrapMenuItem(item);
 		setFlag(item, ComponentModel.HIDE_FLAG, true);
@@ -137,7 +136,7 @@ public class WMenuItemRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testSelection() throws IOException, SAXException, XpathException {
+	public void testSelection() throws IOException, SAXException {
 		// Test selection
 		WMenuItem item = new WMenuItem(itemText);
 		WMenu wrapped = wrapMenuItem(item);
@@ -149,7 +148,7 @@ public class WMenuItemRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testSelectability() throws IOException, SAXException, XpathException {
+	public void testSelectability() throws IOException, SAXException {
 		// Selectability - output as @role
 		WMenuItem item = new WMenuItem(itemText);
 		WMenu wrapped = wrapMenuItem(item);
@@ -183,7 +182,7 @@ public class WMenuItemRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testRoleWhenSelectedNotSelectable() throws IOException, SAXException, XpathException {
+	public void testRoleWhenSelectedNotSelectable() throws IOException, SAXException {
 		/*
 		 * A WMenuItem may be set as selected even if it is not in a selection container. This is a flaw in an
 		 * old part of the WComponents API.
@@ -198,7 +197,7 @@ public class WMenuItemRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WMenu menu = new WMenu();
 		WMenuItem item = new WMenuItem(getMaliciousAttribute());
 		menu.add(item);

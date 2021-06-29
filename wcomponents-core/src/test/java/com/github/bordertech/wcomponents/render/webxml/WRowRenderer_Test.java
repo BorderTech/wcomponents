@@ -6,7 +6,6 @@ import com.github.bordertech.wcomponents.WColumn;
 import com.github.bordertech.wcomponents.WRow;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -34,14 +33,14 @@ public class WRowRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testRenderedFormatWhenEmpty() throws IOException, SAXException, XpathException {
+	public void testRenderedFormatWhenEmpty() throws IOException, SAXException {
 		WRow row = new WRow();
 		assertSchemaMatch(row);
 		assertXpathNotExists("//ui:row", row);
 	}
 
 	@Test
-	public void testRenderedFormatWithColumn() throws IOException, SAXException, XpathException {
+	public void testRenderedFormatWithColumn() throws IOException, SAXException {
 		WRow row = new WRow();
 		row.add(new WColumn(100));
 
@@ -52,7 +51,7 @@ public class WRowRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testRenderedWithSmallGap() throws IOException, SAXException, XpathException {
+	public void testRenderedWithSmallGap() throws IOException, SAXException {
 		WRow row = new WRow(GAP);
 		row.add(new WColumn(100));
 		assertSchemaMatch(row);
@@ -60,7 +59,7 @@ public class WRowRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testRenderedWithMargins() throws IOException, SAXException, XpathException {
+	public void testRenderedWithMargins() throws IOException, SAXException {
 		WRow row = new WRow();
 		row.add(new WColumn(100));
 

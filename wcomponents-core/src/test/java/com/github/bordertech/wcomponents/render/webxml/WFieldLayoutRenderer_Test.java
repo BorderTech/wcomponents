@@ -7,7 +7,6 @@ import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WTextField;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -30,7 +29,7 @@ public class WFieldLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintBasic() throws IOException, SAXException, XpathException {
+	public void testDoPaintBasic() throws IOException, SAXException {
 		WFieldLayout layout = new WFieldLayout();
 
 		// Validate Schema
@@ -47,7 +46,7 @@ public class WFieldLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintAllOptions() throws IOException, SAXException, XpathException {
+	public void testDoPaintAllOptions() throws IOException, SAXException {
 		WFieldLayout layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
 		setFlag(layout, ComponentModel.HIDE_FLAG, true);
 		layout.setLabelWidth(10);
@@ -87,7 +86,7 @@ public class WFieldLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintWithFields() throws IOException, SAXException, XpathException {
+	public void testDoPaintWithFields() throws IOException, SAXException {
 		WFieldLayout layout = new WFieldLayout();
 		layout.addField("Test1", new WTextField());
 		layout.addField("Test2", new WTextField());
@@ -99,14 +98,14 @@ public class WFieldLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WFieldLayout layout = new WFieldLayout();
 		layout.setTitle(getMaliciousAttribute("ui:fieldlayout"));
 		assertSafeContent(layout);
 	}
 
 	@Test
-	public void testRenderedWithMargins() throws IOException, SAXException, XpathException {
+	public void testRenderedWithMargins() throws IOException, SAXException {
 		WFieldLayout layout = new WFieldLayout();
 		assertXpathNotExists("//ui:fieldlayout/ui:margin", layout);
 

@@ -8,7 +8,6 @@ import com.github.bordertech.wcomponents.util.mock.MockFileItem;
 import java.io.IOException;
 import java.util.Arrays;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -29,7 +28,7 @@ public class WMultiFileWidgetRenderer_Test extends AbstractWebXmlRendererTestCas
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		WMultiFileWidget fileUpload = new WMultiFileWidget();
 
 		assertSchemaMatch(fileUpload);
@@ -97,7 +96,7 @@ public class WMultiFileWidgetRenderer_Test extends AbstractWebXmlRendererTestCas
 	}
 
 	@Test
-	public void testReadOnly() throws IOException, SAXException, XpathException {
+	public void testReadOnly() throws IOException, SAXException {
 		WMultiFileWidget fileUpload = new WMultiFileWidget();
 		fileUpload.setReadOnly(true);
 		assertSchemaMatch(fileUpload);
@@ -105,7 +104,7 @@ public class WMultiFileWidgetRenderer_Test extends AbstractWebXmlRendererTestCas
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WMultiFileWidget fileUpload = new WMultiFileWidget();
 		fileUpload.setFileTypes(new String[]{getMaliciousAttribute("ui:multifileupload")});
 

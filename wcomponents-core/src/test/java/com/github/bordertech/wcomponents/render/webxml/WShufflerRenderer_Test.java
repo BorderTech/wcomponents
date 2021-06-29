@@ -4,7 +4,6 @@ import com.github.bordertech.wcomponents.WShuffler;
 import java.io.IOException;
 import java.util.Arrays;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -24,7 +23,7 @@ public class WShufflerRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		String optionA = "A";
 		String optionB = "B";
 		String optionC = "C";
@@ -78,7 +77,7 @@ public class WShufflerRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testReadOnly() throws IOException, SAXException, XpathException {
+	public void testReadOnly() throws IOException, SAXException {
 		String optionA = "A";
 		String optionB = "B";
 		String optionC = "C";
@@ -96,7 +95,7 @@ public class WShufflerRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WShuffler shuffler = new WShuffler(Arrays.asList(
 				new String[]{getInvalidCharSequence(), getMaliciousContent()}));
 
@@ -110,7 +109,7 @@ public class WShufflerRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testSpecialCharacters() throws IOException, SAXException, XpathException {
+	public void testSpecialCharacters() throws IOException, SAXException {
 		String optionA = "<A";
 		String optionB = "B&B";
 		String optionC = "C";

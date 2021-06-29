@@ -5,7 +5,6 @@ import com.github.bordertech.wcomponents.BeanProviderBound;
 import com.github.bordertech.wcomponents.WProgressBar;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -25,7 +24,7 @@ public class WProgressBarRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		BeanProvider provider = new BeanProvider() {
 			@Override
 			public Object getBean(final BeanProviderBound beanProviderBound) {
@@ -45,7 +44,7 @@ public class WProgressBarRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WProgressBar progressBar = new WProgressBar(WProgressBar.ProgressBarType.NORMAL, 100);
 		assertSafeContent(progressBar);
 

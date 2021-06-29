@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -26,28 +25,28 @@ public class WTreeRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintWhenEmpty() throws IOException, SAXException, XpathException {
+	public void testDoPaintWhenEmpty() throws IOException, SAXException {
 		WTree tree = new WTree();
 		setActiveContext(createUIContext());
 		assertSchemaMatch(tree);
 	}
 
 	@Test
-	public void testDoPaintWithData() throws IOException, SAXException, XpathException {
+	public void testDoPaintWithData() throws IOException, SAXException {
 		WTree tree = MockTreeItemData.setupWTree();
 		setActiveContext(createUIContext());
 		assertSchemaMatch(tree);
 	}
 
 	@Test
-	public void testDoPaintWithCustomTree() throws IOException, SAXException, XpathException {
+	public void testDoPaintWithCustomTree() throws IOException, SAXException {
 		WTree tree = MockTreeItemData.setupWTreeWithCustom();
 		setActiveContext(createUIContext());
 		assertSchemaMatch(tree);
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		List<MockTreeItemData.MyBean> data = new ArrayList<>();
 		// Invalid chars
 		data.add(new MockTreeItemData.MyBean(getInvalidCharSequence(), "X"));

@@ -9,7 +9,6 @@ import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
 import com.github.bordertech.wcomponents.autocomplete.segment.Person;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -30,7 +29,7 @@ public class WTextFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		WTextField textField = new WTextField();
 		WButton button = new WButton();
 		WSuggestions suggestions = new WSuggestions();
@@ -123,7 +122,7 @@ public class WTextFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testReadOnly() throws IOException, SAXException, XpathException {
+	public void testReadOnly() throws IOException, SAXException {
 		WTextField field = new WTextField();
 		field.setReadOnly(true);
 		assertSchemaMatch(field);
@@ -131,7 +130,7 @@ public class WTextFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WTextField textField = new WTextField();
 
 		textField.setText(getMaliciousContent());

@@ -8,7 +8,6 @@ import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
 import com.github.bordertech.wcomponents.autocomplete.segment.AddressType;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -28,7 +27,7 @@ public class WTextAreaRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		WTextArea field = new WTextArea();
 		WButton button = new WButton();
 
@@ -128,7 +127,7 @@ public class WTextAreaRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testReadOnly() throws IOException, SAXException, XpathException {
+	public void testReadOnly() throws IOException, SAXException {
 		WTextArea field = new WTextArea();
 		field.setReadOnly(true);
 		assertSchemaMatch(field);
@@ -136,7 +135,7 @@ public class WTextAreaRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WTextArea textArea = new WTextArea();
 
 		textArea.setText(getMaliciousContent());

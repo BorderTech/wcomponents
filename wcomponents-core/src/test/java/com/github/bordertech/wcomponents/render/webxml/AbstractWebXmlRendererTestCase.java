@@ -12,27 +12,25 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.NullWriter;
 import com.github.bordertech.wcomponents.util.XMLUtil;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.StringReader;
 import java.io.StringWriter;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import org.junit.Assert;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.custommonkey.xmlunit.NamespaceContext;
-import org.custommonkey.xmlunit.Validator;
-import org.custommonkey.xmlunit.XMLAssert;
-import org.custommonkey.xmlunit.XMLUnit;
-import org.custommonkey.xmlunit.XpathEngine;
-import org.custommonkey.xmlunit.exceptions.XpathException;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.w3c.dom.Document;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.core.IsNot;
+import org.junit.Assert;
 import org.xml.sax.SAXException;
+import org.xmlunit.matchers.HasXPathMatcher;
+import org.xmlunit.assertj3.XmlAssert;
+import org.xmlunit.builder.Input;
+import org.xmlunit.validation.Languages;
+import org.xmlunit.validation.ValidationResult;
+import org.xmlunit.validation.Validator;
+import org.xmlunit.xpath.JAXPXPathEngine;
+import org.xmlunit.xpath.XPathEngine;
 
 /**
  * <p>
@@ -53,26 +51,6 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	 * The logger instance for this class.
 	 */
 	private static final Log LOG = LogFactory.getLog(AbstractWebXmlRendererTestCase.class);
-
-	/**
-	 * We need to register the "ui" prefix with XMLUnit so that we can use it in XPath expressions.
-	 */
-	@BeforeClass
-	public static void registerUINamespace() {
-		NamespaceContext context = XMLUnit.getXpathNamespaceContext();
-		context = new XmlLayoutTestNamespaceContext(context);
-		XMLUnit.setXpathNamespaceContext(context);
-	}
-
-	/**
-	 * Restores the initial XMLUnit namespace context.
-	 */
-	@AfterClass
-	public static void restoreNamespaces() {
-		XmlLayoutTestNamespaceContext context = (XmlLayoutTestNamespaceContext) XMLUnit.
-				getXpathNamespaceContext();
-		XMLUnit.setXpathNamespaceContext(context.backing);
-	}
 
 	/**
 	 * Return the path to the schema to test against. This can be overridden if client applications wish to validate
@@ -103,8 +81,7 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	 * @throws SAXException if there is a parsing error
 	 */
 	public void assertSchemaMatch(final String xhtml) throws IOException, SAXException {
-		Validator validator = getSchemaValidator(xhtml);
-		validator.assertIsValid();
+		Assert.assertTrue("xhtml should validate", validateXhtml(xhtml).isValid());
 	}
 
 	/**
@@ -115,37 +92,31 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	 * @throws IOException if there is an I/O error
 	 * @throws SAXException if there is a parsing error
 	 */
-	public void assertSchemaMismatch(final String xhtml) throws IOException,
-			SAXException {
-		Validator validator = getSchemaValidator(xhtml);
-		Assert.assertFalse("xhtml should not validate", validator.isValid());
+	public void assertSchemaMismatch(final String xhtml) throws IOException, SAXException {
+		Assert.assertFalse("xhtml should not validate", validateXhtml(xhtml).isValid());
+	}
+
+	public ValidationResult validateXhtml(final String xhtml) {
+		return getSchemaValidator().validateInstance(Input.fromString(wrapXHtml(xhtml)).build());
 	}
 
 	/**
-	 * Obtains an XMLUnit schema validator for validating the output.
+	 * Obtains an XMLUnit schema validator.
 	 *
-	 * @param xhtml the html to validate
 	 * @return the validator to use.
 	 */
-	protected Validator getSchemaValidator(final String xhtml) {
+	protected Validator getSchemaValidator() {
 		// Some web components generate a fragment of xhtml markup that does not
 		// have a single root element, so we add a "body" root element to the
 		// markup fragment and the schema fragment.
 
 		try {
 			// Load the schema.
-			String schemaPath = getSchemaPath();
-			Object schema = AbstractWebXmlRendererTestCase.class.getResource(schemaPath).toString();
-
-			String wrappedXhtml = wrapXHtml(xhtml);
+			final Source schemaSource = new StreamSource(AbstractWebXmlRendererTestCase.class.getResource(getSchemaPath()).toString());
 
 			// Validate the xhtml.
-			Validator validator;
-			StringReader reader = new StringReader(wrappedXhtml);
-			validator = new Validator(reader);
-			validator.useXMLSchema(true);
-			validator.setJAXP12SchemaSource(schema);
-			// validator.
+			final Validator validator = Validator.forLanguage(Languages.W3C_XML_SCHEMA_NS_URI);
+			validator.setSchemaSource(schemaSource);
 
 			return validator;
 		} catch (Exception e) {
@@ -175,10 +146,9 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	 * @param component the component to validate
 	 * @throws IOException if there is an I/O error
 	 * @throws SAXException if there is a parsing error
-	 * @throws XpathException if there is a xpath error
 	 */
 	public void assertXpathUrlEvaluatesTo(final String expectedUrlValue, final String xpathExpression,
-			final WebComponent component) throws SAXException, IOException, XpathException {
+			final WebComponent component) throws SAXException, IOException {
 		String xhtml = toWrappedXHtml(component);
 		assertXpathUrlEvaluatesTo(expectedUrlValue, xpathExpression, xhtml);
 	}
@@ -191,11 +161,10 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	 * @param xml the xml to validate
 	 * @throws IOException if there is an I/O error
 	 * @throws SAXException if there is a parsing error
-	 * @throws XpathException if there is a xpath error
 	 */
 	public void assertXpathUrlEvaluatesTo(final String expectedUrlValue, final String xpathExpression,
-			final String xml) throws SAXException, IOException, XpathException {
-		XMLAssert.assertXpathEvaluatesTo(expectedUrlValue, xpathExpression, xml);
+			final String xml) throws SAXException, IOException {
+		assertXpathEvaluatesTo(expectedUrlValue, xpathExpression, xml);
 	}
 
 	/**
@@ -207,10 +176,9 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	 * @param component the component to validate
 	 * @throws IOException if there is an I/O error
 	 * @throws SAXException if there is a parsing error
-	 * @throws XpathException if there is a xpath error
 	 */
 	public void assertXpathEvaluatesTo(final String expectedValue, final String xpathExpression,
-			final WebComponent component) throws SAXException, IOException, XpathException {
+			final WebComponent component) throws SAXException, IOException {
 		String xhtml = toWrappedXHtml(component);
 		assertXpathEvaluatesTo(expectedValue, xpathExpression, xhtml);
 	}
@@ -223,11 +191,13 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	 * @param xml the xml to validate
 	 * @throws IOException if there is an I/O error
 	 * @throws SAXException if there is a parsing error
-	 * @throws XpathException if there is a xpath error
 	 */
 	public void assertXpathEvaluatesTo(final String expectedValue, final String xpathExpression,
-			final String xml) throws SAXException, IOException, XpathException {
-		XMLAssert.assertXpathEvaluatesTo(expectedValue, xpathExpression, xml);
+			final String xml) throws SAXException, IOException {
+		XmlAssert
+			.assertThat(xml).withNamespaceContext(XMLUtil.NAMESPACE_CONTEXT)
+			.valueByXPath(xpathExpression).asString()
+			.isEqualTo(expectedValue);
 	}
 
 	/**
@@ -238,11 +208,9 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	 * @param component the component to validate
 	 * @throws IOException if there is an I/O error
 	 * @throws SAXException if there is a parsing error
-	 * @throws XpathException if there is a xpath error
 	 */
-	public void assertXpathExists(final String xpathExpression, final WebComponent component) throws
-			XpathException,
-			IOException, SAXException {
+	public void assertXpathExists(final String xpathExpression, final WebComponent component)
+		throws IOException, SAXException {
 		String xhtml = toWrappedXHtml(component);
 		assertXpathExists(xpathExpression, xhtml);
 	}
@@ -257,10 +225,9 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	 * @throws SAXException if there is a parsing error
 	 * @throws XpathException if there is a xpath error
 	 */
-	public void assertXpathExists(final String xpathExpression, final String xhtml) throws
-			XpathException,
-			IOException, SAXException {
-		XMLAssert.assertXpathExists(xpathExpression, xhtml);
+	public void assertXpathExists(final String xpathExpression, final String xhtml)
+		throws IOException, SAXException {
+		MatcherAssert.assertThat(xhtml, HasXPathMatcher.hasXPath(xpathExpression).withNamespaceContext(XMLUtil.NAMESPACE_CONTEXT));
 	}
 
 	/**
@@ -271,11 +238,9 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	 * @param component the component to validate
 	 * @throws IOException if there is an I/O error
 	 * @throws SAXException if there is a parsing error
-	 * @throws XpathException if there is a xpath error
 	 */
 	public void assertXpathNotExists(final String xpathExpression, final WebComponent component)
-			throws XpathException,
-			IOException, SAXException {
+			throws IOException, SAXException {
 		String xhtml = toWrappedXHtml(component);
 		assertXpathNotExists(xpathExpression, xhtml);
 	}
@@ -290,10 +255,9 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	 * @throws SAXException if there is a parsing error
 	 * @throws XpathException if there is a xpath error
 	 */
-	public void assertXpathNotExists(final String xpathExpression, final String xhtml) throws
-			XpathException,
-			IOException, SAXException {
-		XMLAssert.assertXpathNotExists(xpathExpression, xhtml);
+	public void assertXpathNotExists(final String xpathExpression, final String xhtml)
+		throws IOException, SAXException {
+		MatcherAssert.assertThat(xhtml, IsNot.not(HasXPathMatcher.hasXPath(xpathExpression).withNamespaceContext(XMLUtil.NAMESPACE_CONTEXT)));
 	}
 
 	/**
@@ -332,25 +296,6 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	protected String toWrappedXHtml(final WebComponent component) {
 		String xhtmlFrag = toXHtml(component);
 		return wrapXHtml(xhtmlFrag);
-	}
-
-	/**
-	 * Creates an XML Unit validator for the given xml.
-	 *
-	 * @param xml the xml to validate
-	 * @return an XML Unit validator that for validating the xml.
-	 */
-	public Validator setupValidator(final String xml) {
-		try {
-			StringReader reader = new StringReader(xml);
-			Validator validator = new Validator(reader);
-			validator.useXMLSchema(true);
-			validator.setJAXP12SchemaSource(new File(getSchemaPath()));
-			return validator;
-		} catch (SAXException ex) {
-			LOG.error("Unexpected error while testing", ex);
-			throw new IllegalStateException("Unable to set up validator");
-		}
 	}
 
 	/**
@@ -404,70 +349,14 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	 *
 	 * @throws IOException if there is an I/O error
 	 * @throws SAXException if there is a parsing error
-	 * @throws XpathException if there is a xpath error
 	 */
 	protected String evaluateXPath(final WebComponent component, final String xpathExpression)
-			throws IOException,
-			SAXException, XpathException {
-		String xml = render(component);
-		Document doc = XMLUnit.buildControlDocument(wrapXHtml(xml));
-		XpathEngine simpleXpathEngine = XMLUnit.newXpathEngine();
-		return simpleXpathEngine.evaluate(xpathExpression, doc);
-	}
-
-	/**
-	 * A namespace context which can resolve the html and ui namespaces without requiring network access. This is
-	 * necessary when running tests behing a firewall.
-	 */
-	private static final class XmlLayoutTestNamespaceContext implements NamespaceContext {
-
-		/**
-		 * The backing namespace.
-		 */
-		private final NamespaceContext backing;
-
-		/**
-		 * Creates an XmlLayoutTestNamespaceContext.
-		 *
-		 * @param backing the backing context, used to resolve other namespaces.
-		 */
-		XmlLayoutTestNamespaceContext(final NamespaceContext backing) {
-			this.backing = backing;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public String getNamespaceURI(final String prefix) {
-			if ("ui".equals(prefix)) {
-				return getThemeURI();
-			} else if ("html".equals(prefix)) {
-				return XMLUtil.XHTML_URI;
-			} else if (backing != null) {
-				return backing.getNamespaceURI(prefix);
-			}
-
-			return null;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public Iterator<String> getPrefixes() {
-			Set<String> prefixes = new HashSet<>(2);
-			prefixes.add("ui");
-			prefixes.add("html");
-
-			if (backing != null) {
-				for (Iterator i = backing.getPrefixes(); i.hasNext();) {
-					prefixes.add((String) i.next());
-				}
-			}
-
-			return prefixes.iterator();
-		}
+			throws IOException, SAXException {
+		final String xml = toWrappedXHtml(component);
+		final Source source = Input.fromString(xml).build();
+		final XPathEngine engine = new JAXPXPathEngine();
+		engine.setNamespaceContext(XMLUtil.NAMESPACE_CONTEXT);
+		return engine.evaluate(xpathExpression, source);
 	}
 
 	/**

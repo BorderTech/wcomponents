@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -34,7 +33,7 @@ public class WValidationErrorsRenderer_Test extends AbstractWebXmlRendererTestCa
 	}
 
 	@Test
-	public void testDoPaintBasic() throws IOException, SAXException, XpathException {
+	public void testDoPaintBasic() throws IOException, SAXException {
 		WValidationErrors errors = new WValidationErrors();
 
 		WTextArea text1 = new WTextArea();
@@ -76,7 +75,7 @@ public class WValidationErrorsRenderer_Test extends AbstractWebXmlRendererTestCa
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WValidationErrors errors = new WValidationErrors();
 		String content = getMaliciousContent();
 

@@ -9,7 +9,6 @@ import com.github.bordertech.wcomponents.autocomplete.segment.PhoneFormat;
 import com.github.bordertech.wcomponents.autocomplete.type.Telephone;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -29,7 +28,7 @@ public class WPhoneNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		WPhoneNumberField field = new WPhoneNumberField();
 		WButton button = new WButton();
 		WSuggestions suggestions = new WSuggestions();
@@ -114,7 +113,7 @@ public class WPhoneNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 	}
 
 	@Test
-	public void testPaintAutocomplete() throws IOException, SAXException, XpathException {
+	public void testPaintAutocomplete() throws IOException, SAXException {
 		WPhoneNumberField field = new WPhoneNumberField();
 		WContainer root = new WContainer();
 		root.add(field);
@@ -124,7 +123,7 @@ public class WPhoneNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 	}
 
 	@Test
-	public void testPaintAutocompleteType() throws IOException, SAXException, XpathException {
+	public void testPaintAutocompleteType() throws IOException, SAXException {
 		WPhoneNumberField field = new WPhoneNumberField();
 		WContainer root = new WContainer();
 		root.add(field);
@@ -134,7 +133,7 @@ public class WPhoneNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 	}
 
 	@Test
-	public void testPaintAutocompleteOff() throws IOException, SAXException, XpathException {
+	public void testPaintAutocompleteOff() throws IOException, SAXException {
 		WPhoneNumberField field = new WPhoneNumberField();
 		WContainer root = new WContainer();
 		root.add(field);
@@ -144,7 +143,7 @@ public class WPhoneNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 	}
 
 	@Test
-	public void testPaintAutocompleteAllArgs() throws IOException, SAXException, XpathException {
+	public void testPaintAutocompleteAllArgs() throws IOException, SAXException {
 		WPhoneNumberField field = new WPhoneNumberField();
 		WContainer root = new WContainer();
 		root.add(field);
@@ -155,7 +154,7 @@ public class WPhoneNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 	}
 
 	@Test
-	public void testPaintAutocompleteAllNull() throws IOException, SAXException, XpathException {
+	public void testPaintAutocompleteAllNull() throws IOException, SAXException {
 		WPhoneNumberField field = new WPhoneNumberField();
 		WContainer root = new WContainer();
 		root.add(field);
@@ -165,7 +164,7 @@ public class WPhoneNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 	}
 
 	@Test
-	public void testReadOnly() throws IOException, SAXException, XpathException {
+	public void testReadOnly() throws IOException, SAXException {
 		WPhoneNumberField field = new WPhoneNumberField();
 		field.setReadOnly(true);
 		assertSchemaMatch(field);
@@ -173,7 +172,7 @@ public class WPhoneNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WPhoneNumberField field = new WPhoneNumberField();
 
 		field.setText(getMaliciousContent());

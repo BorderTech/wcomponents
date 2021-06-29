@@ -12,7 +12,6 @@ import com.github.bordertech.wcomponents.util.mock.MockResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -25,7 +24,7 @@ import org.xml.sax.SAXException;
 public class DataListInterceptor_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
-	public void testInterecptor() throws XpathException, SAXException, IOException {
+	public void testInterecptor() throws SAXException, IOException {
 		String tableKey = TestLookupTable.CACHEABLE_DAY_OF_WEEK_TABLE;
 
 		// Create interceptor
@@ -60,7 +59,7 @@ public class DataListInterceptor_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testInterecptorWithNullOption() throws XpathException, SAXException, IOException {
+	public void testInterecptorWithNullOption() throws SAXException, IOException {
 		String tableKey = TestLookupTable.CACHEABLE_DAY_OF_WEEK_TABLE_WITH_NULL_OPTION;
 
 		// Create interceptor

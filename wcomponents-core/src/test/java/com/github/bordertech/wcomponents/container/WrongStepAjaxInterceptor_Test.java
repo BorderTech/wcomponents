@@ -15,7 +15,6 @@ import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import com.github.bordertech.wcomponents.util.mock.MockResponse;
 import java.io.IOException;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.After;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -39,7 +38,7 @@ public class WrongStepAjaxInterceptor_Test extends AbstractWebXmlRendererTestCas
 	}
 
 	@Test
-	public void testInterceptorOkStep() throws XpathException, SAXException, IOException {
+	public void testInterceptorOkStep() throws SAXException, IOException {
 		MyApp app = new MyApp();
 		app.setLocked(true);
 
@@ -48,7 +47,7 @@ public class WrongStepAjaxInterceptor_Test extends AbstractWebXmlRendererTestCas
 	}
 
 	@Test
-	public void testInterceptorRedirect() throws XpathException, SAXException, IOException {
+	public void testInterceptorRedirect() throws SAXException, IOException {
 		Config.getInstance().setProperty(ConfigurationProperties.STEP_ERROR_URL, "http://test.test");
 
 		MyApp app = new MyApp();
@@ -59,7 +58,7 @@ public class WrongStepAjaxInterceptor_Test extends AbstractWebXmlRendererTestCas
 	}
 
 	@Test
-	public void testInterceptorWarp() throws XpathException, SAXException, IOException {
+	public void testInterceptorWarp() throws SAXException, IOException {
 		Config.getInstance().setProperty(ConfigurationProperties.STEP_ERROR_URL, "");
 
 		MyApp app = new MyApp();

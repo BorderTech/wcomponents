@@ -5,7 +5,6 @@ import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItemGroup;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -25,7 +24,7 @@ public class WMenuItemGroupRenderer_Test extends AbstractWebXmlRendererTestCase 
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		String groupName = "WMenuItemGroupRenderer_Test.testDoPaint.groupName";
 
 		WMenuItemGroup menuGroup = new WMenuItemGroup(groupName);

@@ -8,7 +8,6 @@ import com.github.bordertech.wcomponents.util.SystemException;
 import java.io.IOException;
 import java.util.Arrays;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -28,7 +27,7 @@ public class WRadioButtonSelectRenderer_Test extends AbstractWebXmlRendererTestC
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		WRadioButtonSelect buttonGroup = new WRadioButtonSelect(new String[]{"a", "b", "c"});
 		assertSchemaMatch(buttonGroup);
 		assertXpathEvaluatesTo("3", "count(//ui:radiobuttonselect/ui:option)", buttonGroup);
@@ -41,7 +40,7 @@ public class WRadioButtonSelectRenderer_Test extends AbstractWebXmlRendererTestC
 	}
 
 	@Test
-	public void testReadOnly() throws IOException, SAXException, XpathException {
+	public void testReadOnly() throws IOException, SAXException {
 		WRadioButtonSelect buttonGroup = new WRadioButtonSelect(new String[]{"a", "b", "c"});
 		// Check Readonly - only render selected option
 		buttonGroup.setReadOnly(true);
@@ -53,7 +52,7 @@ public class WRadioButtonSelectRenderer_Test extends AbstractWebXmlRendererTestC
 	}
 
 	@Test
-	public void testDoPaintAllOptions() throws IOException, SAXException, XpathException {
+	public void testDoPaintAllOptions() throws IOException, SAXException {
 		WRadioButtonSelect group = new WRadioButtonSelect();
 
 		// Set ALL Options
@@ -82,7 +81,7 @@ public class WRadioButtonSelectRenderer_Test extends AbstractWebXmlRendererTestC
 	}
 
 	@Test(expected = SystemException.class)
-	public void testOptGroupException() throws IOException, SAXException, XpathException {
+	public void testOptGroupException() throws IOException, SAXException {
 		OptionGroup optionGroup = new OptionGroup("Test", Arrays.asList(new String[]{"A", "B"}));
 		WRadioButtonSelect group = new WRadioButtonSelect(Arrays.asList(
 				new Object[]{"X", optionGroup}));
@@ -90,7 +89,7 @@ public class WRadioButtonSelectRenderer_Test extends AbstractWebXmlRendererTestC
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WRadioButtonSelect group = new WRadioButtonSelect(Arrays.asList(
 				new Object[]{getInvalidCharSequence(), getMaliciousContent()}));
 
@@ -104,7 +103,7 @@ public class WRadioButtonSelectRenderer_Test extends AbstractWebXmlRendererTestC
 	}
 
 	@Test
-	public void testIsNullOption() throws IOException, SAXException, XpathException {
+	public void testIsNullOption() throws IOException, SAXException {
 		String[] options = new String[]{null, "", "A", "B", "C"};
 
 		WRadioButtonSelect select = new WRadioButtonSelect(options);

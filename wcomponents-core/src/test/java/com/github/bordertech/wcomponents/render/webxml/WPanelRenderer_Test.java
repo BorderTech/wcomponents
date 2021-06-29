@@ -13,7 +13,6 @@ import com.github.bordertech.wcomponents.WPanel.PanelMode;
 import com.github.bordertech.wcomponents.WText;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -33,14 +32,14 @@ public class WPanelRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testRenderedFormatNoButton() throws IOException, SAXException, XpathException {
+	public void testRenderedFormatNoButton() throws IOException, SAXException {
 		WPanel panel = new WPanel();
 		assertSchemaMatch(panel);
 		assertXpathNotExists("//ui:panel/@buttonId", panel);
 	}
 
 	@Test
-	public void testRenderedFormatWithButton() throws IOException, SAXException, XpathException {
+	public void testRenderedFormatWithButton() throws IOException, SAXException {
 		WPanel panel = new WPanel();
 		WButton button = new WButton("submit");
 		panel.add(button);
@@ -51,7 +50,7 @@ public class WPanelRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testRenderedLazyModePanel() throws IOException, SAXException, XpathException {
+	public void testRenderedLazyModePanel() throws IOException, SAXException {
 		String content = "TEST CONTENT";
 
 		WPanel panel = new WPanel();
@@ -81,7 +80,7 @@ public class WPanelRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testRenderedEagerModePanel() throws IOException, SAXException, XpathException {
+	public void testRenderedEagerModePanel() throws IOException, SAXException {
 
 		String content = "TEST CONTENT";
 
@@ -116,7 +115,7 @@ public class WPanelRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testRenderedFormatWithAccessKey() throws IOException, SAXException, XpathException {
+	public void testRenderedFormatWithAccessKey() throws IOException, SAXException {
 		WPanel panel = new WPanel();
 		assertXpathNotExists("//ui:panel/@accessKey", panel);
 		panel.setAccessKey('x');
@@ -126,7 +125,7 @@ public class WPanelRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testRenderAllPanelTypes() throws IOException, SAXException, XpathException {
+	public void testRenderAllPanelTypes() throws IOException, SAXException {
 		// Tests that all panel types are schema valid
 		for (WPanel.Type type : WPanel.Type.values()) {
 			WPanel panel = new WPanel(type);
@@ -140,14 +139,14 @@ public class WPanelRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WPanel panel = new WPanel();
 		panel.setTitleText(getMaliciousAttribute("ui:panel"));
 		assertSafeContent(panel);
 	}
 
 	@Test
-	public void testRenderedWithMargins() throws IOException, SAXException, XpathException {
+	public void testRenderedWithMargins() throws IOException, SAXException {
 		WPanel panel = new WPanel();
 		assertXpathNotExists("//ui:panel/ui:margin", panel);
 

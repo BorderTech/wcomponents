@@ -7,7 +7,6 @@ import com.github.bordertech.wcomponents.WFieldSet.FrameType;
 import com.github.bordertech.wcomponents.WTextField;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -30,7 +29,7 @@ public class WFieldSetRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		final String title = "WFieldSetRenderer_Test.testDoPaint.title";
 
 		WTextField text = new WTextField();
@@ -59,7 +58,7 @@ public class WFieldSetRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testRenderedWithMargins() throws IOException, SAXException, XpathException {
+	public void testRenderedWithMargins() throws IOException, SAXException {
 		WFieldSet fieldSet = new WFieldSet("");
 		assertXpathNotExists("//ui:fieldset/ui:margin", fieldSet);
 

@@ -6,7 +6,6 @@ import com.github.bordertech.wcomponents.WMultiSelectPair;
 import java.io.IOException;
 import java.util.Arrays;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -26,7 +25,7 @@ public class WMultiSelectPairRenderer_Test extends AbstractWebXmlRendererTestCas
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		final String option1 = "WMultiSelectPairRenderer_Test.testDoPaint.option1";
 		final String option2 = "WMultiSelectPairRenderer_Test.testDoPaint.option2";
 		final String option3 = "WMultiSelectPairRenderer_Test.testDoPaint.option3";
@@ -95,7 +94,7 @@ public class WMultiSelectPairRenderer_Test extends AbstractWebXmlRendererTestCas
 	}
 
 	@Test
-	public void testReadOnlyOption() throws IOException, SAXException, XpathException {
+	public void testReadOnlyOption() throws IOException, SAXException {
 		final String option1 = "WMultiSelectPairRenderer_Test.testDoPaint.option1";
 		final String option2 = "WMultiSelectPairRenderer_Test.testDoPaint.option2";
 		final String option3 = "WMultiSelectPairRenderer_Test.testDoPaint.option3";
@@ -116,7 +115,7 @@ public class WMultiSelectPairRenderer_Test extends AbstractWebXmlRendererTestCas
 
 
 	@Test
-	public void testDoPaintOptions() throws IOException, SAXException, XpathException {
+	public void testDoPaintOptions() throws IOException, SAXException {
 		WMultiSelectPair select = new WMultiSelectPair(new String[]{"a", "b", "c"});
 
 		select.setRows(3);
@@ -146,7 +145,7 @@ public class WMultiSelectPairRenderer_Test extends AbstractWebXmlRendererTestCas
 	}
 
 	@Test
-	public void testOptionGroups() throws IOException, SAXException, XpathException {
+	public void testOptionGroups() throws IOException, SAXException {
 		OptionGroup optionGroup = new OptionGroup("B", Arrays.asList(
 				new String[]{"B.1", "B.2", "B.3", "B.4"}));
 		Object[] options = new Object[]{"A", optionGroup, "C"};
@@ -186,7 +185,7 @@ public class WMultiSelectPairRenderer_Test extends AbstractWebXmlRendererTestCas
 	}
 
 	@Test
-	public void testOptionGroupsWithShuffle() throws IOException, SAXException, XpathException {
+	public void testOptionGroupsWithShuffle() throws IOException, SAXException {
 		OptionGroup optionGroup = new OptionGroup("B", Arrays.asList(
 				new String[]{"B.1", "B.2", "B.3", "B.4"}));
 		Object[] options = new Object[]{"A", optionGroup, "C"};
@@ -235,7 +234,7 @@ public class WMultiSelectPairRenderer_Test extends AbstractWebXmlRendererTestCas
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		OptionGroup optionGroup = new OptionGroup(getMaliciousAttribute("ui:optgroup"), Arrays.
 				asList(new String[]{"dummy"}));
 		WMultiSelectPair select = new WMultiSelectPair(Arrays.asList(

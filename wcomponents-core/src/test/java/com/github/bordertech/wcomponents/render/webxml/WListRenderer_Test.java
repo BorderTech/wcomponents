@@ -8,7 +8,6 @@ import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.io.IOException;
 import java.util.Arrays;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -39,7 +38,7 @@ public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testRenderedFormatEmptyNoBorder() throws IOException, SAXException, XpathException {
+	public void testRenderedFormatEmptyNoBorder() throws IOException, SAXException {
 		// empty list, no border
 		WList list = new WList(WList.Type.STRIPED);
 		list.setRepeatedComponent(new WText());
@@ -64,7 +63,7 @@ public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testRenderedFormatEmptyWithBorder() throws IOException, SAXException, XpathException {
+	public void testRenderedFormatEmptyWithBorder() throws IOException, SAXException {
 		// empty list, with border
 		WList list = new WList(WList.Type.STRIPED);
 		list.setRenderBorder(true);
@@ -101,7 +100,7 @@ public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 
 	@Test
-	public void testRenderedFormaGap() throws IOException, SAXException, XpathException {
+	public void testRenderedFormaGap() throws IOException, SAXException {
 		// No hgap, vgap
 		WList list = new WList(WList.Type.STRIPED);
 		list.setRepeatedComponent(new WText());
@@ -119,7 +118,7 @@ public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 
 	@Test
-	public void testRenderedWithMargins() throws IOException, SAXException, XpathException {
+	public void testRenderedWithMargins() throws IOException, SAXException {
 		WList list = new WList(WList.Type.STRIPED);
 		list.setRepeatedComponent(new WText());
 		assertXpathNotExists("//ui:panel/ui:margin", list);
@@ -151,7 +150,7 @@ public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	// deprecated hgap vgap constructor render
 	@Test
-	public void testRenderedFormatHgapVgap() throws IOException, SAXException, XpathException {
+	public void testRenderedFormatHgapVgap() throws IOException, SAXException {
 		WList list;
 
 		for (WList.Type t : WList.Type.values()) {

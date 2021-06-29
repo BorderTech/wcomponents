@@ -3,7 +3,6 @@ package com.github.bordertech.wcomponents.render.webxml;
 import com.github.bordertech.wcomponents.WHorizontalRule;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -23,7 +22,7 @@ public class WHorizontalRuleRenderer_Test extends AbstractWebXmlRendererTestCase
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		WHorizontalRule horizontalRule = new WHorizontalRule();
 		assertXpathExists("//html:hr", horizontalRule); /* The html namespace is required. */
 	}

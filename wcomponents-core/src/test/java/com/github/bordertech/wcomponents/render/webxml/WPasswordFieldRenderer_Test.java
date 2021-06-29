@@ -8,7 +8,6 @@ import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
 import com.github.bordertech.wcomponents.autocomplete.type.Password;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -29,7 +28,7 @@ public class WPasswordFieldRenderer_Test extends AbstractWebXmlRendererTestCase 
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		WPasswordField field = new WPasswordField();
 		WButton button = new WButton();
 
@@ -108,7 +107,7 @@ public class WPasswordFieldRenderer_Test extends AbstractWebXmlRendererTestCase 
 	}
 
 	@Test
-	public void testReadOnly() throws IOException, SAXException, XpathException {
+	public void testReadOnly() throws IOException, SAXException {
 		WPasswordField field = new WPasswordField();
 		field.setReadOnly(true);
 		assertSchemaMatch(field);
@@ -116,7 +115,7 @@ public class WPasswordFieldRenderer_Test extends AbstractWebXmlRendererTestCase 
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WPasswordField field = new WPasswordField();
 
 		field.setToolTip(getMaliciousAttribute("ui:passwordfield"));

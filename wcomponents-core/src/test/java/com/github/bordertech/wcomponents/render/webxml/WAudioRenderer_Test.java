@@ -5,7 +5,6 @@ import com.github.bordertech.wcomponents.MockAudio;
 import com.github.bordertech.wcomponents.WAudio;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -37,13 +36,13 @@ public class WAudioRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	// Test with no audio tracks - should not render
 	@Test
-	public void testDoPaint_noAudioNoRender() throws IOException, SAXException, XpathException {
+	public void testDoPaint_noAudioNoRender() throws IOException, SAXException {
 		WAudio emptyAudio = new WAudio();
 		assertXpathNotExists("//html:audio", emptyAudio);
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		// Test with minimal options
 		setActiveContext(createUIContext());
 
@@ -63,7 +62,7 @@ public class WAudioRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testPaintMultipleSources() throws IOException, SAXException, XpathException {
+	public void testPaintMultipleSources() throws IOException, SAXException {
 		MockAudio mock2 = new MockAudio();
 		mock2.setMimeType("audio/ogg");
 		audio.setAudio(new Audio[]{mock2, mockAudio});
@@ -75,7 +74,7 @@ public class WAudioRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testHtmlClass() throws IOException, SAXException, XpathException {
+	public void testHtmlClass() throws IOException, SAXException {
 		assertXpathEvaluatesTo("wc-audio", "//html:audio/@class", audio);
 		String addOnClass = "new-class";
 		audio.setHtmlClass(addOnClass);
@@ -83,7 +82,7 @@ public class WAudioRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testHtmlClass_emptyDoesNothing() throws IOException, SAXException, XpathException {
+	public void testHtmlClass_emptyDoesNothing() throws IOException, SAXException {
 		assertXpathEvaluatesTo("wc-audio", "//html:audio/@class", audio);
 		String addOnClass = "";
 		audio.setHtmlClass(addOnClass);
@@ -91,14 +90,14 @@ public class WAudioRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testHtmlClass_nullDoesNothing() throws IOException, SAXException, XpathException {
+	public void testHtmlClass_nullDoesNothing() throws IOException, SAXException {
 		assertXpathEvaluatesTo("wc-audio", "//html:audio/@class", audio);
 		audio.setHtmlClass((String) null);
 		assertXpathEvaluatesTo("wc-audio", "//html:audio/@class", audio);
 	}
 
 	@Test
-	public void testAlt() throws IOException, SAXException, XpathException {
+	public void testAlt() throws IOException, SAXException {
 		assertXpathNotExists("//html:audio/@alt", audio);
 		// Setting AltText should do nothing
 		audio.setAltText("altText");
@@ -106,7 +105,7 @@ public class WAudioRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testPreload() throws IOException, SAXException, XpathException {
+	public void testPreload() throws IOException, SAXException {
 		assertXpathEvaluatesTo("none", "//html:audio/@preload", audio);
 		audio.setPreload(WAudio.Preload.META_DATA);
 		assertXpathEvaluatesTo("metadata", "//html:audio/@preload", audio);
@@ -117,7 +116,7 @@ public class WAudioRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testAutoplay() throws IOException, SAXException, XpathException {
+	public void testAutoplay() throws IOException, SAXException {
 		assertXpathNotExists("//html:audio/@autoplay", audio);
 		audio.setAutoplay(true);
 		assertXpathEvaluatesTo("true", "//html:audio/@autoplay", audio);
@@ -126,7 +125,7 @@ public class WAudioRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testLoop() throws IOException, SAXException, XpathException {
+	public void testLoop() throws IOException, SAXException {
 		assertXpathNotExists("//html:audio/@loop", audio);
 		audio.setLoop(true);
 		assertXpathEvaluatesTo("true", "//html:audio/@loop", audio);
@@ -135,14 +134,14 @@ public class WAudioRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testControls() throws IOException, SAXException, XpathException {
+	public void testControls() throws IOException, SAXException {
 		assertXpathEvaluatesTo("controls", "//html:audio/@controls", audio);
 		audio.setRenderControls(false);
 		assertXpathNotExists("//html:audio/@controls", audio);
 	}
 
 	@Test
-	public void testHidden() throws IOException, SAXException, XpathException {
+	public void testHidden() throws IOException, SAXException {
 		assertXpathNotExists("//html:audio/@hidden", audio);
 		audio.setHidden(true);
 		assertXpathEvaluatesTo("hidden", "//html:audio/@hidden", audio);
@@ -151,21 +150,21 @@ public class WAudioRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDisabledDoesNothing() throws IOException, SAXException, XpathException {
+	public void testDisabledDoesNothing() throws IOException, SAXException {
 		assertXpathNotExists("//html:audio/@adisabled", audio);
 		audio.setDisabled(true);
 		assertXpathNotExists("//html:audio/@adisabled", audio);
 	}
 
 	@Test
-	public void testTitle() throws IOException, SAXException, XpathException {
+	public void testTitle() throws IOException, SAXException {
 		assertXpathNotExists("//html:audio/@title", audio);
 		audio.setToolTip("toolTip");
 		assertXpathEvaluatesTo("toolTip", "//html:audio/@title", audio);
 	}
 
 	@Test
-	public void testTitle_emptyStringRemovesTitle() throws IOException, SAXException, XpathException {
+	public void testTitle_emptyStringRemovesTitle() throws IOException, SAXException {
 		assertXpathNotExists("//html:audio/@title", audio);
 		String title = "some title";
 		audio.setToolTip(title);
@@ -175,7 +174,7 @@ public class WAudioRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testTitle_nullRemovesTitle() throws IOException, SAXException, XpathException {
+	public void testTitle_nullRemovesTitle() throws IOException, SAXException {
 		assertXpathNotExists("//html:audio/@title", audio);
 		String title = "some title";
 		audio.setToolTip(title);
@@ -185,14 +184,14 @@ public class WAudioRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDurationDoesNothing() throws IOException, SAXException, XpathException {
+	public void testDurationDoesNothing() throws IOException, SAXException {
 		assertXpathNotExists("//html:audio/@duration", audio);
 		mockAudio.setDuration(123);
 		assertXpathNotExists("//html:audio/@duration", audio);
 	}
 
 	@Test
-	public void testMediagroup() throws IOException, SAXException, XpathException {
+	public void testMediagroup() throws IOException, SAXException {
 		assertXpathNotExists("//html:audio/@mediagroup", audio);
 		String expected = "media-group";
 		audio.setMediaGroup(expected);
@@ -200,7 +199,7 @@ public class WAudioRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testMediagroup_emptyStringRemoves() throws IOException, SAXException, XpathException {
+	public void testMediagroup_emptyStringRemoves() throws IOException, SAXException {
 		assertXpathNotExists("//html:audio/@mediagroup", audio);
 		String expected = "media-group";
 		audio.setMediaGroup(expected);
@@ -210,7 +209,7 @@ public class WAudioRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testMediagroup_nullRemoves() throws IOException, SAXException, XpathException {
+	public void testMediagroup_nullRemoves() throws IOException, SAXException {
 		assertXpathNotExists("//html:audio/@mediagroup", audio);
 		String expected = "media-group";
 		audio.setMediaGroup(expected);

@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -33,7 +32,7 @@ public class WFieldWarningIndicatorRenderer_Test extends AbstractWebXmlRendererT
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		WContainer root = new WContainer();
 		WPanel target = new WPanel();
 		WFieldWarningIndicator indicator = new WFieldWarningIndicator(target);
@@ -58,7 +57,7 @@ public class WFieldWarningIndicatorRenderer_Test extends AbstractWebXmlRendererT
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WContainer root = new WContainer();
 		WPanel target = new WPanel();
 		WFieldWarningIndicator indicator = new WFieldWarningIndicator(target);

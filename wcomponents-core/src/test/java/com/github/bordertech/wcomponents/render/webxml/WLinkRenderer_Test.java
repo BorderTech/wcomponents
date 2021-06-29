@@ -7,7 +7,6 @@ import com.github.bordertech.wcomponents.WLink;
 import com.github.bordertech.wcomponents.WPanel;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -34,7 +33,7 @@ public class WLinkRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testRenderedFormat() throws IOException, SAXException, XpathException {
+	public void testRenderedFormat() throws IOException, SAXException {
 		// Test individual options
 		WLink link = new WLink();
 		assertSchemaMatch(link);
@@ -95,7 +94,7 @@ public class WLinkRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WLink link = new WLink(getMaliciousContent(), "#");
 		link.setRel(getMaliciousAttribute("ui:link"));
 
@@ -112,7 +111,7 @@ public class WLinkRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testWindowSizeAttributes() throws IOException, SAXException, XpathException {
+	public void testWindowSizeAttributes() throws IOException, SAXException {
 		WLink link = new WLink.Builder(TEXT, LINK_URL).build();
 		assertSchemaMatch(link);
 		assertXpathEvaluatesTo(TEXT, "normalize-space(//ui:link)", link);
@@ -141,7 +140,7 @@ public class WLinkRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testWindowFlags() throws IOException, SAXException, XpathException {
+	public void testWindowFlags() throws IOException, SAXException {
 		WLink link = new WLink.Builder(TEXT, LINK_URL).build();
 		assertSchemaMatch(link);
 		assertXpathEvaluatesTo(TEXT, "normalize-space(//ui:link)", link);
@@ -177,7 +176,7 @@ public class WLinkRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintWithAction() throws IOException, SAXException, XpathException {
+	public void testDoPaintWithAction() throws IOException, SAXException {
 		WContainer root = new WContainer();
 		WLink link = new WLink("test", "http://test");
 		WPanel target1 = new WPanel();
@@ -206,7 +205,7 @@ public class WLinkRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testButtonImageToolTipRender() throws IOException, SAXException, XpathException {
+	public void testButtonImageToolTipRender() throws IOException, SAXException {
 		WLink link = new WLink();
 		String expected = "alt text";
 		WImage buttonImage = new WImage("http://localhost/image.png", expected);

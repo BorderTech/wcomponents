@@ -7,7 +7,6 @@ import com.github.bordertech.wcomponents.WComponentGroup;
 import com.github.bordertech.wcomponents.WContainer;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -28,7 +27,7 @@ public class WCheckBoxRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		WCheckBox wcbTest = new WCheckBox();
 		WComponentGroup<WCheckBox> group = new WComponentGroup<>();
 		WButton button = new WButton("test");
@@ -100,7 +99,7 @@ public class WCheckBoxRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testReadOnly() throws IOException, SAXException, XpathException {
+	public void testReadOnly() throws IOException, SAXException {
 		WCheckBox wcbTest = new WCheckBox();
 
 		// Check readOnly
@@ -111,7 +110,7 @@ public class WCheckBoxRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WCheckBox checkBox = new WCheckBox();
 
 		assertSafeContent(checkBox);

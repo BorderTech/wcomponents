@@ -7,7 +7,6 @@ import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WSubMenu;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -47,7 +46,7 @@ public class WSubMenuRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		assertSchemaMatch(menu);
 		assertXpathExists("//ui:submenu", menu);
 		assertXpathEvaluatesTo(subMenu.getId(), "//ui:submenu/@id", menu);
@@ -65,7 +64,7 @@ public class WSubMenuRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testOpen() throws IOException, SAXException, XpathException {
+	public void testOpen() throws IOException, SAXException {
 		subMenu.setOpen(true);
 		assertSchemaMatch(menu);
 		// Open on first paint
@@ -75,21 +74,21 @@ public class WSubMenuRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDisabled() throws IOException, SAXException, XpathException {
+	public void testDisabled() throws IOException, SAXException {
 		subMenu.setDisabled(true);
 		assertSchemaMatch(menu);
 		assertXpathEvaluatesTo("true", "//ui:submenu/@disabled", menu);
 	}
 
 	@Test
-	public void testHidden() throws IOException, SAXException, XpathException {
+	public void testHidden() throws IOException, SAXException {
 		subMenu.setHidden(true);
 		assertSchemaMatch(menu);
 		assertXpathEvaluatesTo("true", "//ui:submenu/@hidden", menu);
 	}
 
 	@Test
-	public void testUnusedSelectabled() throws IOException, SAXException, XpathException {
+	public void testUnusedSelectabled() throws IOException, SAXException {
 		subMenu.setSelectable(true);
 		// selectable no longer written.
 		assertSchemaMatch(menu);
@@ -97,7 +96,7 @@ public class WSubMenuRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testMode() throws IOException, SAXException, XpathException {
+	public void testMode() throws IOException, SAXException {
 		subMenu.setMode(WSubMenu.MenuMode.LAZY);
 		assertSchemaMatch(menu);
 		assertXpathEvaluatesTo("lazy", "//ui:submenu/@mode", menu);
@@ -117,7 +116,7 @@ public class WSubMenuRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testUnusedSelected() throws IOException, SAXException, XpathException {
+	public void testUnusedSelected() throws IOException, SAXException {
 		menu.setSelectedItem(subMenu);
 		// selectable and selected no longer written.
 		assertSchemaMatch(menu);
@@ -125,7 +124,7 @@ public class WSubMenuRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testSelectionMode() throws IOException, SAXException, XpathException {
+	public void testSelectionMode() throws IOException, SAXException {
 		// @selectMode no longer written
 		subMenu.setSelectionMode(SelectionMode.SINGLE);
 		assertSchemaMatch(menu);
@@ -136,7 +135,7 @@ public class WSubMenuRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testUnusedSelectMode() throws IOException, SAXException, XpathException {
+	public void testUnusedSelectMode() throws IOException, SAXException {
 		// SelectMode no longer written.
 		subMenu.setSelectMode(SelectMode.SINGLE);
 		assertSchemaMatch(menu);
@@ -147,7 +146,7 @@ public class WSubMenuRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testOpenTree() throws IOException, SAXException, XpathException {
+	public void testOpenTree() throws IOException, SAXException {
 		menu = new WMenu(WMenu.MenuType.TREE);
 		subMenu = new WSubMenu("SubMenu");
 		menu.add(subMenu);
@@ -159,14 +158,14 @@ public class WSubMenuRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testAccessKey() throws IOException, SAXException, XpathException {
+	public void testAccessKey() throws IOException, SAXException {
 		subMenu.setAccessKey('A');
 		assertSchemaMatch(menu);
 		assertXpathEvaluatesTo("A", "//ui:submenu/@accessKey", menu);
 	}
 
 	@Test
-	public void testAccessKeyNotAtSubLevel() throws IOException, SAXException, XpathException {
+	public void testAccessKeyNotAtSubLevel() throws IOException, SAXException {
 		WSubMenu nestedSubmenu = new WSubMenu("nested");
 		subMenu.add(nestedSubmenu);
 		nestedSubmenu.setAccessKey('A');
@@ -175,7 +174,7 @@ public class WSubMenuRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		assertSafeContent(menu);
 
 		subMenu.setToolTip(getMaliciousAttribute("ui:submenu"));

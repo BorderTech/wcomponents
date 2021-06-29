@@ -5,7 +5,6 @@ import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WRow;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -35,7 +34,7 @@ public class WColumnRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testPaint() throws IOException, SAXException, XpathException {
+	public void testPaint() throws IOException, SAXException {
 		WRow row = new WRow();
 		WColumn column = new WColumn(100);
 		row.add(column);

@@ -7,7 +7,6 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WToggleButton;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -28,7 +27,7 @@ public class WToggleButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		WToggleButton toggle = new WToggleButton();
 		WComponentGroup<WToggleButton> group = new WComponentGroup<>();
 		WButton button = new WButton("test");
@@ -77,7 +76,7 @@ public class WToggleButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void textReadOnly() throws IOException, SAXException, XpathException {
+	public void textReadOnly() throws IOException, SAXException {
 		WToggleButton toggle = new WToggleButton();
 
 		// Check readOnly
@@ -88,7 +87,7 @@ public class WToggleButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WToggleButton checkBox = new WToggleButton();
 
 		assertSafeContent(checkBox);

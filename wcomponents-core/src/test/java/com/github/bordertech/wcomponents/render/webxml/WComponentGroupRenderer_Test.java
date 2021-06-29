@@ -6,7 +6,6 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WTextField;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -26,7 +25,7 @@ public class WComponentGroupRenderer_Test extends AbstractWebXmlRendererTestCase
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		// Setup Group
 		WComponent actionTarget1 = new WTextField();
 		WComponent actionTarget2 = new WTextField();

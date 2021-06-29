@@ -6,7 +6,6 @@ import com.github.bordertech.wcomponents.WDefinitionList;
 import com.github.bordertech.wcomponents.WText;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -26,7 +25,7 @@ public class WDefinitionListRenderer_Test extends AbstractWebXmlRendererTestCase
 	}
 
 	@Test
-	public void testRenderedFormat() throws IOException, SAXException, XpathException {
+	public void testRenderedFormat() throws IOException, SAXException {
 		final String term1 = "WDefinitionListRenderer_Test.testRenderedFormat.term1";
 		final String term2 = "WDefinitionListRenderer_Test.testRenderedFormat.term2";
 		final String term3 = "WDefinitionListRenderer_Test.testRenderedFormat.term3";
@@ -97,7 +96,7 @@ public class WDefinitionListRenderer_Test extends AbstractWebXmlRendererTestCase
 	}
 
 	@Test
-	public void testRenderedWithMargins() throws IOException, SAXException, XpathException {
+	public void testRenderedWithMargins() throws IOException, SAXException {
 		WDefinitionList section = new WDefinitionList();
 		assertXpathNotExists("//ui:definitionlist/ui:margin", section);
 
@@ -125,7 +124,7 @@ public class WDefinitionListRenderer_Test extends AbstractWebXmlRendererTestCase
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WDefinitionList list = new WDefinitionList();
 
 		list.addTerm(getMaliciousAttribute("ui:term"), new WText("dummy"));

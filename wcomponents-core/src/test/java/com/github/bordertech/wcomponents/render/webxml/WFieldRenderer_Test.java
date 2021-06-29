@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -36,7 +35,7 @@ public class WFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintBasic() throws IOException, SAXException, XpathException {
+	public void testDoPaintBasic() throws IOException, SAXException {
 		WTextField text = new WTextField();
 		WFieldLayout test = new WFieldLayout();
 		WField field = test.addField("label1", text);
@@ -71,7 +70,7 @@ public class WFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testNoInputField() throws IOException, SAXException, XpathException {
+	public void testNoInputField() throws IOException, SAXException {
 		// No Input field, so label created by WTextWithColon.
 		WText text = new WText("text1");
 		WFieldLayout test = new WFieldLayout();
@@ -88,7 +87,7 @@ public class WFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testWithValidationMessages() throws IOException, SAXException, XpathException {
+	public void testWithValidationMessages() throws IOException, SAXException {
 		WTextField text = new WTextField();
 		text.setText("text1");
 		WFieldLayout test = new WFieldLayout();

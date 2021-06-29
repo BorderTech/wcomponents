@@ -12,7 +12,6 @@ import com.github.bordertech.wcomponents.WSection.SectionMode;
 import com.github.bordertech.wcomponents.WText;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -42,7 +41,7 @@ public class WSectionRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testRenderedLazyMode() throws IOException, SAXException, XpathException {
+	public void testRenderedLazyMode() throws IOException, SAXException {
 		WSection section = new WSection(SECTION_HEADING);
 		section.setMode(SectionMode.LAZY);
 		section.getContent().add(new WText(SECTION_CONTENT));
@@ -70,7 +69,7 @@ public class WSectionRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testRenderedEagerMode() throws IOException, SAXException, XpathException {
+	public void testRenderedEagerMode() throws IOException, SAXException {
 		WSection section = new WSection(SECTION_HEADING);
 		section.setMode(SectionMode.EAGER);
 		section.getContent().add(new WText(SECTION_CONTENT));
@@ -102,14 +101,14 @@ public class WSectionRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WSection section = new WSection(getMaliciousContent());
 		section.getContent().add(new WText(getMaliciousContent()));
 		assertSafeContent(section);
 	}
 
 	@Test
-	public void testRenderedWithMargins() throws IOException, SAXException, XpathException {
+	public void testRenderedWithMargins() throws IOException, SAXException {
 		WSection section = new WSection("");
 		assertXpathNotExists("//ui:section/ui:margin", section);
 

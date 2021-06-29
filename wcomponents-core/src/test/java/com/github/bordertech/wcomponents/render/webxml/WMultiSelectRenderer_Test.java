@@ -7,7 +7,6 @@ import com.github.bordertech.wcomponents.WMultiSelect;
 import java.io.IOException;
 import java.util.Arrays;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -27,7 +26,7 @@ public class WMultiSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		WMultiSelect multi = new WMultiSelect(new String[]{"a", "b", "c"});
 		assertSchemaMatch(multi);
 		assertXpathEvaluatesTo("3", "count(//ui:listbox/ui:option)", multi);
@@ -50,7 +49,7 @@ public class WMultiSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testReadOnly() throws IOException, SAXException, XpathException {
+	public void testReadOnly() throws IOException, SAXException {
 		WMultiSelect multi = new WMultiSelect(new String[]{"a", "b", "c"});
 		setActiveContext(createUIContext());
 		multi.setSelected(Arrays.asList(new String[]{"b"}));
@@ -64,7 +63,7 @@ public class WMultiSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintOptions() throws IOException, SAXException, XpathException {
+	public void testDoPaintOptions() throws IOException, SAXException {
 		String tooltip = "test tooltip";
 		String accessible = "test accessible text";
 		int rows = 2;
@@ -97,7 +96,7 @@ public class WMultiSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDataList() throws IOException, SAXException, XpathException {
+	public void testDataList() throws IOException, SAXException {
 		WMultiSelect multi = new WMultiSelect(TestLookupTable.CACHEABLE_DAY_OF_WEEK_TABLE);
 		setActiveContext(createUIContext());
 
@@ -118,7 +117,7 @@ public class WMultiSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testOptionGroups() throws IOException, SAXException, XpathException {
+	public void testOptionGroups() throws IOException, SAXException {
 		OptionGroup optionGroup = new OptionGroup("B", Arrays.asList(
 				new String[]{"B.1", "B.2", "B.3", "B.4"}));
 		Object[] options = new Object[]{"A", optionGroup, "C"};
@@ -157,7 +156,7 @@ public class WMultiSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		OptionGroup optionGroup = new OptionGroup(getMaliciousAttribute("ui:optgroup"),
 				Arrays.asList(new String[]{"dummy"}));
 		WMultiSelect multi = new WMultiSelect(Arrays.asList(new Object[]{getInvalidCharSequence(),

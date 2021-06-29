@@ -4,7 +4,6 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WebUtilities;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -24,14 +23,14 @@ public class WTextRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintWhenEmpty() throws IOException, SAXException, XpathException {
+	public void testDoPaintWhenEmpty() throws IOException, SAXException {
 		WText text = new WText();
 		String xml = toXHtml(text);
 		Assert.assertEquals("Text output should be empty by default", "", xml);
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WText text = new WText();
 
 		text.setText(getInvalidCharSequence());
@@ -42,7 +41,7 @@ public class WTextRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testEncodeText() throws IOException, SAXException, XpathException {
+	public void testEncodeText() throws IOException, SAXException {
 		String value = "T1<b>T2</b>T3";
 		String encoded = WebUtilities.encode(value);
 

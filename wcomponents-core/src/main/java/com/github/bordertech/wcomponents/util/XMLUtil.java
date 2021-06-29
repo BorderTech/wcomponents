@@ -2,6 +2,8 @@ package com.github.bordertech.wcomponents.util;
 
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.WebUtilities;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Utility class for rendering file element.
@@ -43,6 +45,16 @@ public final class XMLUtil {
 	 */
 	@Deprecated
 	public static final String XML_DECLERATION = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+
+	/**
+	 * Namespace context including ui and html namespaces.
+	 */
+	public static final Map<String, String> NAMESPACE_CONTEXT = new HashMap<>();
+	
+	static {
+		NAMESPACE_CONTEXT.put("ui", XMLUtil.THEME_URI);
+		NAMESPACE_CONTEXT.put("html", XMLUtil.XHTML_URI);
+	}
 
 	/**
 	 * Prevent instantiation of utility class.

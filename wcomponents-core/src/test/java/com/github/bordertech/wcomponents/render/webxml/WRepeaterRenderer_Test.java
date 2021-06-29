@@ -5,7 +5,6 @@ import com.github.bordertech.wcomponents.WTextField;
 import java.io.IOException;
 import java.util.Arrays;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -31,7 +30,7 @@ public class WRepeaterRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		WRepeater repeater = new WRepeater();
 		repeater.setRepeatedComponent(new WTextField());
 		repeater.setBeanList(Arrays.asList(ROW_DATA));

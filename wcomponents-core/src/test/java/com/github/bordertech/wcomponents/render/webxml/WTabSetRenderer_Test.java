@@ -7,7 +7,6 @@ import com.github.bordertech.wcomponents.WTabSet.TabMode;
 import com.github.bordertech.wcomponents.WText;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -27,7 +26,7 @@ public class WTabSetRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		WTabSet tabSet = new WTabSet();
 		tabSet.addTab(new WText("1"), "1", TabMode.CLIENT);
 		tabSet.addTab(new WText("2"), "3", TabMode.CLIENT);
@@ -61,7 +60,7 @@ public class WTabSetRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testRenderedWithMargins() throws IOException, SAXException, XpathException {
+	public void testRenderedWithMargins() throws IOException, SAXException {
 		WTabSet tabSet = new WTabSet();
 		tabSet.addTab(new WText("1"), "1", TabMode.CLIENT);
 
@@ -82,7 +81,7 @@ public class WTabSetRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testSingleAccordian() throws IOException, SAXException, XpathException {
+	public void testSingleAccordian() throws IOException, SAXException {
 		WTabSet tabSet = new WTabSet(WTabSet.TabSetType.ACCORDION);
 		tabSet.addTab(new WText("1"), "1", TabMode.CLIENT);
 

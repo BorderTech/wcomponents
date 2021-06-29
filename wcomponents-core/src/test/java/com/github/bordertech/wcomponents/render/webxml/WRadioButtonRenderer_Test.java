@@ -6,7 +6,6 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WRadioButton;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -27,7 +26,7 @@ public class WRadioButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		RadioButtonGroup group = new RadioButtonGroup();
 		WRadioButton button = group.addRadioButton(1);
 
@@ -82,7 +81,7 @@ public class WRadioButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testReadOnly() throws IOException, SAXException, XpathException {
+	public void testReadOnly() throws IOException, SAXException {
 		RadioButtonGroup group = new RadioButtonGroup();
 		WRadioButton button = group.addRadioButton(1);
 
@@ -100,7 +99,7 @@ public class WRadioButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		RadioButtonGroup group = new RadioButtonGroup();
 		WRadioButton button = group.addRadioButton(1);
 
@@ -114,7 +113,7 @@ public class WRadioButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testIsNullOption() throws IOException, SAXException, XpathException {
+	public void testIsNullOption() throws IOException, SAXException {
 		WPanel root = new WPanel();
 
 		RadioButtonGroup group = new RadioButtonGroup();

@@ -3,7 +3,6 @@ package com.github.bordertech.wcomponents.render.webxml;
 import com.github.bordertech.wcomponents.WTimeoutWarning;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -23,13 +22,13 @@ public class WTimeoutWarningRenderer_Test extends AbstractWebXmlRendererTestCase
 	}
 
 	@Test
-	public void testDoPaintDefault() throws IOException, SAXException, XpathException {
+	public void testDoPaintDefault() throws IOException, SAXException {
 		WTimeoutWarning warning = new WTimeoutWarning();
 		assertSchemaMatch(warning);
 	}
 
 	@Test
-	public void testDoPaintWithBoth() throws IOException, SAXException, XpathException {
+	public void testDoPaintWithBoth() throws IOException, SAXException {
 		WTimeoutWarning warning = new WTimeoutWarning(3000, 300);
 		assertXpathEvaluatesTo("3000", "//ui:session/@timeout", warning);
 		assertXpathEvaluatesTo("300", "//ui:session/@warn", warning);
@@ -45,7 +44,7 @@ public class WTimeoutWarningRenderer_Test extends AbstractWebXmlRendererTestCase
 	 * @throws XpathException an exception
 	 */
 	@Test
-	public void testDoPaintWithMinusOne() throws IOException, SAXException, XpathException {
+	public void testDoPaintWithMinusOne() throws IOException, SAXException {
 		WTimeoutWarning warning = new WTimeoutWarning(3000, 300);
 		warning.setTimeoutPeriod(-1);
 		assertXpathNotExists("//ui:session", warning);
@@ -60,7 +59,7 @@ public class WTimeoutWarningRenderer_Test extends AbstractWebXmlRendererTestCase
 	 * @throws XpathException an exception
 	 */
 	@Test
-	public void testDoPaintWithZeroWarning() throws IOException, SAXException, XpathException {
+	public void testDoPaintWithZeroWarning() throws IOException, SAXException {
 		WTimeoutWarning warning = new WTimeoutWarning(3000, 0);
 		assertXpathExists("//ui:session", warning);
 		assertXpathNotExists("//ui:session/@warn", warning);

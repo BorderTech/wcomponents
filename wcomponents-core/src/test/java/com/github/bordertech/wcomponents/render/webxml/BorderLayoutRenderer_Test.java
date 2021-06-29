@@ -5,7 +5,6 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.BorderLayout;
 import java.io.IOException;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -27,7 +26,7 @@ public class BorderLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 	private static final Size BIG_GAP = Size.LARGE;
 
 	@Test
-	public void testDoRenderWhenEmpty() throws IOException, SAXException, XpathException {
+	public void testDoRenderWhenEmpty() throws IOException, SAXException {
 		WPanel container = new WPanel();
 		container.setLayout(new BorderLayout());
 		assertSchemaMatch(container);
@@ -43,7 +42,7 @@ public class BorderLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoRender() throws IOException, SAXException, XpathException {
+	public void testDoRender() throws IOException, SAXException {
 		final String northText = "BorderRenderer_Test.testPaint.northText";
 		final String westText = "BorderRenderer_Test.testPaint.westText";
 		final String southText = "BorderRenderer_Test.testPaint.southText";

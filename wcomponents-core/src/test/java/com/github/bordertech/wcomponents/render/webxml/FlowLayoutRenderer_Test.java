@@ -5,7 +5,6 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import java.io.IOException;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -30,7 +29,7 @@ public class FlowLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	// The expected render of the default constructor.
 	@Test
-	public void testDoRenderWhenEmpty() throws IOException, SAXException, XpathException {
+	public void testDoRenderWhenEmpty() throws IOException, SAXException {
 		WPanel panel = new WPanel();
 		panel.setLayout(new FlowLayout());
 		assertSchemaMatch(panel);
@@ -43,7 +42,7 @@ public class FlowLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoRenderWithContent() throws IOException, SAXException, XpathException {
+	public void testDoRenderWithContent() throws IOException, SAXException {
 		final String text1 = "FlowRenderer_Test.testPaint.text1";
 		final String text2 = "FlowRenderer_Test.testPaint.text2";
 
@@ -60,7 +59,7 @@ public class FlowLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testRenderAlignment() throws IOException, SAXException, XpathException {
+	public void testRenderAlignment() throws IOException, SAXException {
 		WPanel panel = new WPanel();
 		String expected;
 
@@ -74,7 +73,7 @@ public class FlowLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testRenderContentAlignment() throws IOException, SAXException, XpathException {
+	public void testRenderContentAlignment() throws IOException, SAXException {
 		WPanel panel = new WPanel();
 		String expected;
 
@@ -97,7 +96,7 @@ public class FlowLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testRenderGap() throws IOException, SAXException, XpathException {
+	public void testRenderGap() throws IOException, SAXException {
 		WPanel panel = new WPanel();
 
 		for (FlowLayout.Alignment a : FlowLayout.Alignment.values()) {
@@ -109,7 +108,7 @@ public class FlowLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	// Test that use of deprecated two-gap constructors output the expected gap
 	@Test
-	public void testHVGaps() throws IOException, SAXException, XpathException {
+	public void testHVGaps() throws IOException, SAXException {
 		WPanel panel = new WPanel();
 		String expected;
 
@@ -122,7 +121,7 @@ public class FlowLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testHVGapsWithContentAlign() throws IOException, SAXException, XpathException {
+	public void testHVGapsWithContentAlign() throws IOException, SAXException {
 		WPanel panel = new WPanel();
 		String expected;
 

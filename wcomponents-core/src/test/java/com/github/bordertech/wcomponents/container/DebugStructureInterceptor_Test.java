@@ -9,7 +9,6 @@ import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import com.github.bordertech.wcomponents.util.mock.MockResponse;
 import java.io.IOException;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -22,7 +21,7 @@ import org.xml.sax.SAXException;
 public class DebugStructureInterceptor_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
-	public void testInterceptorDisabled() throws XpathException, SAXException, IOException {
+	public void testInterceptorDisabled() throws SAXException, IOException {
 		Config.getInstance().setProperty(ConfigurationProperties.DEVELOPER_DEBUG_ENABLED, "false");
 		Config.notifyListeners();
 
@@ -32,7 +31,7 @@ public class DebugStructureInterceptor_Test extends AbstractWebXmlRendererTestCa
 	}
 
 	@Test
-	public void testInterceptor() throws XpathException, SAXException, IOException {
+	public void testInterceptor() throws SAXException, IOException {
 		Config.getInstance().setProperty(ConfigurationProperties.DEVELOPER_DEBUG_ENABLED, "true");
 		Config.notifyListeners();
 

@@ -1,6 +1,5 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
-import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.MockImage;
 import com.github.bordertech.wcomponents.MockTrack;
 import com.github.bordertech.wcomponents.MockVideo;
@@ -10,7 +9,6 @@ import com.github.bordertech.wcomponents.WVideo;
 import java.awt.Dimension;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -43,14 +41,14 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaint_noMedia() throws IOException, SAXException, XpathException {
+	public void testDoPaint_noMedia() throws IOException, SAXException {
 		// Test with no video tracks - should not render
 		video = new WVideo();
 		assertXpathNotExists("//html:video", video);
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		setActiveContext(createUIContext());
 		assertXpathExists("//html:video", video);
 		assertXpathEvaluatesTo(video.getId(), "//html:video/@id", video);
@@ -68,7 +66,7 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaint_multiVideo() throws IOException, SAXException, XpathException {
+	public void testDoPaint_multiVideo() throws IOException, SAXException {
 
 		MockVideo mv2 = new MockVideo();
 		mv2.setMimeType("video/avi");
@@ -83,7 +81,7 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 	// negative tests of members which no longer take part in rendering but cannot (yet) be deleted from API as
 	// this would require a braking API change.
 	@Test
-	public void testDoPaint_altDisabledDurationNotImplemented() throws IOException, SAXException, XpathException {
+	public void testDoPaint_altDisabledDurationNotImplemented() throws IOException, SAXException {
 		assertXpathNotExists("//html:video/@disabled", video);
 		assertXpathNotExists("//html:video/@alt", video);
 		assertXpathNotExists("//html:video/@duration", video);
@@ -103,7 +101,7 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testHtmlClass() throws IOException, SAXException, XpathException {
+	public void testHtmlClass() throws IOException, SAXException {
 		assertXpathEvaluatesTo("wc-video", "//html:video/@class", video);
 		String addOnClass = "new-class";
 		video.setHtmlClass(addOnClass);
@@ -111,7 +109,7 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testHtmlClass_emptyDoesNothing() throws IOException, SAXException, XpathException {
+	public void testHtmlClass_emptyDoesNothing() throws IOException, SAXException {
 		assertXpathEvaluatesTo("wc-video", "//html:video/@class", video);
 		String addOnClass = "";
 		video.setHtmlClass(addOnClass);
@@ -119,14 +117,14 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testHtmlClass_nullDoesNothing() throws IOException, SAXException, XpathException {
+	public void testHtmlClass_nullDoesNothing() throws IOException, SAXException {
 		assertXpathEvaluatesTo("wc-video", "//html:video/@class", video);
 		video.setHtmlClass((String) null);
 		assertXpathEvaluatesTo("wc-video", "//html:video/@class", video);
 	}
 
 	@Test
-	public void testPreload() throws IOException, SAXException, XpathException {
+	public void testPreload() throws IOException, SAXException {
 		assertXpathEvaluatesTo("none", "//html:video/@preload", video);
 		video.setPreload(WVideo.Preload.META_DATA);
 		assertXpathEvaluatesTo("metadata", "//html:video/@preload", video);
@@ -137,7 +135,7 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testPreloadNullIsNone() throws IOException, SAXException, XpathException {
+	public void testPreloadNullIsNone() throws IOException, SAXException {
 		assertXpathEvaluatesTo("none", "//html:video/@preload", video);
 		video.setPreload(WVideo.Preload.META_DATA);
 		assertXpathEvaluatesTo("metadata", "//html:video/@preload", video);
@@ -146,7 +144,7 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testAutoplay() throws IOException, SAXException, XpathException {
+	public void testAutoplay() throws IOException, SAXException {
 		assertXpathNotExists("//html:video/@autoplay", video);
 		video.setAutoplay(true);
 		assertXpathEvaluatesTo("true", "//html:video/@autoplay", video);
@@ -155,7 +153,7 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testLoop() throws IOException, SAXException, XpathException {
+	public void testLoop() throws IOException, SAXException {
 		assertXpathNotExists("//html:video/@loop", video);
 		video.setLoop(true);
 		assertXpathEvaluatesTo("true", "//html:video/@loop", video);
@@ -164,7 +162,7 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testMuted() throws IOException, SAXException, XpathException {
+	public void testMuted() throws IOException, SAXException {
 		assertXpathNotExists("//html:video/@muted", video);
 		video.setMuted(true);
 		assertXpathEvaluatesTo("true", "//html:video/@muted", video);
@@ -173,7 +171,7 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testRenderControls() throws IOException, SAXException, XpathException {
+	public void testRenderControls() throws IOException, SAXException {
 		assertXpathEvaluatesTo("controls", "//html:video/@controls", video);
 		video.setRenderControls(false);
 		assertXpathNotExists("//html:video/@controls", video);
@@ -183,7 +181,7 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 
 	@Test
-	public void testControls() throws IOException, SAXException, XpathException {
+	public void testControls() throws IOException, SAXException {
 		assertXpathEvaluatesTo("controls", "//html:video/@controls", video);
 
 		video.setControls(WVideo.Controls.NONE);
@@ -213,7 +211,7 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	// explicit Controls == null check
 	@Test
-	public void testControls_nullIsNone() throws IOException, SAXException, XpathException {
+	public void testControls_nullIsNone() throws IOException, SAXException {
 		// remove controls using known good method
 		video.setRenderControls(false);
 		assertXpathNotExists("//html:video/@controls", video);
@@ -223,7 +221,7 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testHidden() throws IOException, SAXException, XpathException {
+	public void testHidden() throws IOException, SAXException {
 		assertXpathNotExists("//html:video/@hidden", video);
 		video.setHidden(true);
 		assertXpathEvaluatesTo("hidden", "//html:video/@hidden", video);
@@ -232,7 +230,7 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testTitle() throws IOException, SAXException, XpathException {
+	public void testTitle() throws IOException, SAXException {
 		assertXpathNotExists("//html:video/@title", video);
 		String title = "some title";
 		video.setToolTip(title);
@@ -240,7 +238,7 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testTitle_emptyStringRemovesTitle() throws IOException, SAXException, XpathException {
+	public void testTitle_emptyStringRemovesTitle() throws IOException, SAXException {
 		assertXpathNotExists("//html:video/@title", video);
 		String title = "some title";
 		video.setToolTip(title);
@@ -250,7 +248,7 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testTitle_nullRemovesTitle() throws IOException, SAXException, XpathException {
+	public void testTitle_nullRemovesTitle() throws IOException, SAXException {
 		assertXpathNotExists("//html:video/@title", video);
 		String title = "some title";
 		video.setToolTip(title);
@@ -260,13 +258,13 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDimensionsFromResource() throws IOException, SAXException, XpathException {
+	public void testDimensionsFromResource() throws IOException, SAXException {
 		assertXpathEvaluatesTo(String.valueOf(mockVideo.getSize().width), "//html:video/@width", video);
 		assertXpathEvaluatesTo(String.valueOf(mockVideo.getSize().height), "//html:video/@height", video);
 	}
 
 	@Test
-	public void testDimensionsFromResource_ZeroDimensions() throws IOException, SAXException, XpathException {
+	public void testDimensionsFromResource_ZeroDimensions() throws IOException, SAXException {
 		assertXpathEvaluatesTo(String.valueOf(mockVideo.getSize().width), "//html:video/@width", video);
 		assertXpathEvaluatesTo(String.valueOf(mockVideo.getSize().height), "//html:video/@height", video);
 		mockVideo.setSize(new Dimension(0, 0));
@@ -275,7 +273,7 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDimensionsFromResource_NullDimensions() throws IOException, SAXException, XpathException {
+	public void testDimensionsFromResource_NullDimensions() throws IOException, SAXException {
 		assertXpathEvaluatesTo(String.valueOf(mockVideo.getSize().width), "//html:video/@width", video);
 		assertXpathEvaluatesTo(String.valueOf(mockVideo.getSize().height), "//html:video/@height", video);
 		mockVideo.setSize(null);
@@ -284,7 +282,7 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDimensions_WVideoDimensionWins() throws IOException, SAXException, XpathException {
+	public void testDimensions_WVideoDimensionWins() throws IOException, SAXException {
 		int width = mockVideo.getSize().width + 50;
 		int height = mockVideo.getSize().height + 50;
 		video.setWidth(width);
@@ -294,7 +292,7 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDimensions_ZeroWVideoDimensionLoses() throws IOException, SAXException, XpathException {
+	public void testDimensions_ZeroWVideoDimensionLoses() throws IOException, SAXException {
 		video.setWidth(0);
 		video.setHeight(0);
 		assertXpathEvaluatesTo(String.valueOf(mockVideo.getSize().width), "//html:video/@width", video);
@@ -302,7 +300,7 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testPoster() throws IOException, SAXException, XpathException {
+	public void testPoster() throws IOException, SAXException {
 		assertXpathNotExists("//html:video/@poster", video);
 		setActiveContext(createUIContext());
 
@@ -314,7 +312,7 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testMediagroup() throws IOException, SAXException, XpathException {
+	public void testMediagroup() throws IOException, SAXException {
 		assertXpathNotExists("//html:video/@mediagroup", video);
 		String expected = "media-group";
 		video.setMediaGroup(expected);
@@ -322,7 +320,7 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testMediagroup_emptyStringRemoves() throws IOException, SAXException, XpathException {
+	public void testMediagroup_emptyStringRemoves() throws IOException, SAXException {
 		assertXpathNotExists("//html:video/@mediagroup", video);
 		String expected = "media-group";
 		video.setMediaGroup(expected);
@@ -332,7 +330,7 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testMediagroup_nullRemoves() throws IOException, SAXException, XpathException {
+	public void testMediagroup_nullRemoves() throws IOException, SAXException {
 		assertXpathNotExists("//html:video/@mediagroup", video);
 		String expected = "media-group";
 		video.setMediaGroup(expected);
@@ -342,7 +340,7 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testTracks() throws IOException, SAXException, XpathException {
+	public void testTracks() throws IOException, SAXException {
 		MockTrack track = new MockTrack();
 		track.setLanguage("en");
 		track.setDescription("trackDesc");

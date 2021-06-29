@@ -1,13 +1,11 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
-import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.MockImage;
 import com.github.bordertech.wcomponents.WImage;
 import com.github.bordertech.wcomponents.WebUtilities;
 import java.awt.Dimension;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -28,7 +26,7 @@ public class WImageRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 
 		MockImage content = new MockImage();
 		WImage image = new WImage();
@@ -48,7 +46,7 @@ public class WImageRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testAlt() throws IOException, SAXException, XpathException {
+	public void testAlt() throws IOException, SAXException {
 		MockImage content = new MockImage();
 		WImage image = new WImage();
 		setActiveContext(createUIContext());
@@ -60,7 +58,7 @@ public class WImageRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testAltOnContent() throws IOException, SAXException, XpathException {
+	public void testAltOnContent() throws IOException, SAXException {
 		MockImage content = new MockImage();
 		WImage image = new WImage();
 		setActiveContext(createUIContext());
@@ -71,7 +69,7 @@ public class WImageRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDimensions() throws IOException, SAXException, XpathException {
+	public void testDimensions() throws IOException, SAXException {
 		MockImage content = new MockImage();
 		WImage image = new WImage();
 		setActiveContext(createUIContext());
@@ -85,7 +83,7 @@ public class WImageRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testBadDimensions() throws IOException, SAXException, XpathException {
+	public void testBadDimensions() throws IOException, SAXException {
 		MockImage content = new MockImage();
 		WImage image = new WImage();
 		setActiveContext(createUIContext());
@@ -99,7 +97,7 @@ public class WImageRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testZeroDimensions() throws IOException, SAXException, XpathException {
+	public void testZeroDimensions() throws IOException, SAXException {
 		MockImage content = new MockImage();
 		WImage image = new WImage();
 		setActiveContext(createUIContext());
@@ -113,7 +111,7 @@ public class WImageRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDimensionsOnContent() throws IOException, SAXException, XpathException {
+	public void testDimensionsOnContent() throws IOException, SAXException {
 		MockImage content = new MockImage();
 		WImage image = new WImage();
 		setActiveContext(createUIContext());
@@ -127,7 +125,7 @@ public class WImageRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testBadDimensionsOnContent() throws IOException, SAXException, XpathException {
+	public void testBadDimensionsOnContent() throws IOException, SAXException {
 		MockImage content = new MockImage();
 		WImage image = new WImage();
 		setActiveContext(createUIContext());
@@ -141,7 +139,7 @@ public class WImageRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testZeroDimensionsOnContent() throws IOException, SAXException, XpathException {
+	public void testZeroDimensionsOnContent() throws IOException, SAXException {
 		MockImage content = new MockImage();
 		WImage image = new WImage();
 		setActiveContext(createUIContext());
@@ -155,7 +153,7 @@ public class WImageRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testWithToolTip() throws IOException, SAXException, XpathException {
+	public void testWithToolTip() throws IOException, SAXException {
 		MockImage content = new MockImage();
 		WImage image = new WImage();
 		setActiveContext(createUIContext());
@@ -167,7 +165,7 @@ public class WImageRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testWithAltAndToolTip() throws IOException, SAXException, XpathException {
+	public void testWithAltAndToolTip() throws IOException, SAXException {
 		MockImage content = new MockImage();
 		WImage image = new WImage();
 		setActiveContext(createUIContext());
@@ -183,7 +181,7 @@ public class WImageRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testWithAltAndToolTipSame() throws IOException, SAXException, XpathException {
+	public void testWithAltAndToolTipSame() throws IOException, SAXException {
 		MockImage content = new MockImage();
 		WImage image = new WImage();
 		setActiveContext(createUIContext());
@@ -207,7 +205,7 @@ public class WImageRenderer_Test extends AbstractWebXmlRendererTestCase {
 	 * @throws SAXException a SAX exception
 	 * @throws XpathException an xpath exception
 	 */
-	private void assertSrcMatch(final WImage image) throws IOException, SAXException, XpathException {
+	private void assertSrcMatch(final WImage image) throws IOException, SAXException {
 
 		final String noCacheRegexp = "no-cache=[^&]*";
 
@@ -218,7 +216,7 @@ public class WImageRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 
 		WImage image = new WImage();
 		MockImage content = new MockImage();
@@ -234,7 +232,7 @@ public class WImageRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testHidden() throws IOException, SAXException, XpathException {
+	public void testHidden() throws IOException, SAXException {
 		MockImage content = new MockImage();
 		WImage image = new WImage();
 		setActiveContext(createUIContext());

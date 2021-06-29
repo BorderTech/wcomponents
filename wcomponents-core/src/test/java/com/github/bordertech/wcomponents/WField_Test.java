@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -59,7 +58,7 @@ public class WField_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
-	public void testSetLabelText() throws IOException, SAXException, XpathException {
+	public void testSetLabelText() throws IOException, SAXException {
 		String label1 = "WField_Test.testRenderedFormat";
 		String label2 = "WField_Test.testRenderedFormat";
 

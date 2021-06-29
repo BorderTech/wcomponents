@@ -5,7 +5,6 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.ListLayout;
 import java.io.IOException;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -22,7 +21,7 @@ public class ListLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 
 	@Test
-	public void testDoRenderWhenEmpty() throws IOException, SAXException, XpathException {
+	public void testDoRenderWhenEmpty() throws IOException, SAXException {
 		WPanel panel = new WPanel();
 		panel.setLayout(new ListLayout(ListLayout.Type.FLAT, ListLayout.Alignment.LEFT, ListLayout.Separator.NONE, false));
 		assertSchemaMatch(panel);
@@ -53,7 +52,7 @@ public class ListLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoRender() throws IOException, SAXException, XpathException {
+	public void testDoRender() throws IOException, SAXException {
 		final String text1 = "FlowRenderer_Test.testPaint.text1";
 		final String text2 = "FlowRenderer_Test.testPaint.text2";
 

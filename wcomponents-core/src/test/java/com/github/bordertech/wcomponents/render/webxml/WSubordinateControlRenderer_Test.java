@@ -36,7 +36,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -56,7 +55,7 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 	}
 
 	@Test
-	public void testBasicCondition() throws IOException, SAXException, XpathException {
+	public void testBasicCondition() throws IOException, SAXException {
 		SubordinateTrigger condTrigger = new WCheckBox();
 		SubordinateTarget actionTarget = new WTextField();
 
@@ -105,7 +104,7 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 	}
 
 	@Test
-	public void testBasicConditionWithGroup() throws IOException, SAXException, XpathException {
+	public void testBasicConditionWithGroup() throws IOException, SAXException {
 		SubordinateTrigger condTrigger = new WCheckBox();
 		// Setup Group
 		SubordinateTarget actionTarget1 = new WTextField();
@@ -179,7 +178,7 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 	}
 
 	@Test
-	public void testMultipleControlsAndGroups() throws IOException, SAXException, XpathException {
+	public void testMultipleControlsAndGroups() throws IOException, SAXException {
 		SubordinateTrigger condTrigger = new WCheckBox();
 		// Setup Groups
 		SubordinateTarget actionTarget1 = new WTextField();
@@ -239,7 +238,7 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 	}
 
 	@Test
-	public void testShowHideActions() throws IOException, SAXException, XpathException {
+	public void testShowHideActions() throws IOException, SAXException {
 		SubordinateTrigger condTrigger = new WCheckBox();
 		// Setup Group
 		SubordinateTarget actionTarget = new WTextField();
@@ -321,7 +320,7 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 	}
 
 	@Test
-	public void testEnableDisableActions() throws IOException, SAXException, XpathException {
+	public void testEnableDisableActions() throws IOException, SAXException {
 		SubordinateTrigger condTrigger = new WCheckBox();
 		// Setup Group
 		SubordinateTarget actionTarget = new WTextField();
@@ -403,7 +402,7 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 	}
 
 	@Test
-	public void testMandatoryOptionalActions() throws IOException, SAXException, XpathException {
+	public void testMandatoryOptionalActions() throws IOException, SAXException {
 		WCheckBox condTrigger = new WCheckBox();
 		// Setup Group
 		SubordinateTarget actionTarget = new WTextField();
@@ -486,7 +485,7 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 	}
 
 	@Test
-	public void testGroupShowInHideInAction() throws IOException, SAXException, XpathException {
+	public void testGroupShowInHideInAction() throws IOException, SAXException {
 		SubordinateTrigger condTrigger = new WCheckBox();
 		// Setup Group
 		SubordinateTarget actionTarget1 = new WTextField();
@@ -550,7 +549,7 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 	}
 
 	@Test
-	public void testGroupEnableInDisableInAction() throws IOException, SAXException, XpathException {
+	public void testGroupEnableInDisableInAction() throws IOException, SAXException {
 		SubordinateTrigger condTrigger = new WCheckBox();
 		// Setup Group
 		SubordinateTarget actionTarget1 = new WTextField();
@@ -614,7 +613,7 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 	}
 
 	@Test
-	public void testAndCondition() throws IOException, SAXException, XpathException {
+	public void testAndCondition() throws IOException, SAXException {
 		SubordinateTrigger condTrigger1 = new WCheckBox();
 		SubordinateTrigger condTrigger2 = new WCheckBox();
 		SubordinateTrigger condTrigger3 = new WCheckBox();
@@ -661,7 +660,7 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 	}
 
 	@Test
-	public void testOrCondition() throws IOException, SAXException, XpathException {
+	public void testOrCondition() throws IOException, SAXException {
 		SubordinateTrigger condTrigger1 = new WCheckBox();
 		SubordinateTrigger condTrigger2 = new WCheckBox();
 		SubordinateTrigger condTrigger3 = new WCheckBox();
@@ -712,7 +711,7 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 	}
 
 	@Test
-	public void testNestedConditions() throws IOException, SAXException, XpathException {
+	public void testNestedConditions() throws IOException, SAXException {
 		SubordinateTrigger condTrigger = new WCheckBox();
 		// Create Nested Condition
 		Condition cond1 = new Equal(condTrigger, Boolean.TRUE);
@@ -756,7 +755,7 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 	}
 
 	@Test
-	public void testConditionWithListTrigger() throws IOException, SAXException, XpathException {
+	public void testConditionWithListTrigger() throws IOException, SAXException {
 		WDropdown condTrigger = new WDropdown();
 		SubordinateTarget actionTarget = new WTextField();
 
@@ -790,8 +789,7 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 	}
 
 	@Test
-	public void testConditionWithRadioButtonGroupTarget() throws IOException, SAXException,
-			XpathException {
+	public void testConditionWithRadioButtonGroupTarget() throws IOException, SAXException {
 		RadioButtonGroup rbg = new RadioButtonGroup();
 
 		WRadioButton button1 = rbg.addRadioButton("B1");
@@ -831,7 +829,7 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 	}
 
 	@Test
-	public void testAllConditions() throws IOException, SAXException, XpathException {
+	public void testAllConditions() throws IOException, SAXException {
 		SubordinateTrigger condTrigger = new WNumberField();
 		SubordinateTrigger condTrigger2 = new WTextField();
 		SubordinateTarget actionTarget = new WTextField();

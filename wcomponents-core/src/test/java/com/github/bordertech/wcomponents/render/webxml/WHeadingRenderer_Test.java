@@ -8,7 +8,6 @@ import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WText;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -28,7 +27,7 @@ public class WHeadingRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testPaint() throws IOException, SAXException, XpathException {
+	public void testPaint() throws IOException, SAXException {
 		final String text = "WHeading_Test.testPaint.heading";
 
 		WHeading heading = new WHeading(HeadingLevel.H1, text);
@@ -64,7 +63,7 @@ public class WHeadingRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testPaintWithDecoratedLabel() throws IOException, SAXException, XpathException {
+	public void testPaintWithDecoratedLabel() throws IOException, SAXException {
 		final String text1 = "WHeading_Test.testPaintWithDecoratedLabel.text1";
 		final String text2 = "WHeading_Test.testPaintWithDecoratedLabel.text2";
 
@@ -81,7 +80,7 @@ public class WHeadingRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testRenderedWithMargins() throws IOException, SAXException, XpathException {
+	public void testRenderedWithMargins() throws IOException, SAXException {
 		WHeading heading = new WHeading(HeadingLevel.H1, "test");
 		assertXpathNotExists("//ui:heading/ui:margin", heading);
 
@@ -109,7 +108,7 @@ public class WHeadingRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WHeading heading = new WHeading(HeadingLevel.H1, new WDecoratedLabel(new WText("dummy")));
 
 		assertSafeContent(heading);

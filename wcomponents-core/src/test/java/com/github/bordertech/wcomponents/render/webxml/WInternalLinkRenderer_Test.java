@@ -6,7 +6,6 @@ import com.github.bordertech.wcomponents.WInternalLink;
 import com.github.bordertech.wcomponents.WPanel;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -26,7 +25,7 @@ public class WInternalLinkRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		WPanel refer = new WPanel();
 		WInternalLink link = new WInternalLink();
 
@@ -61,7 +60,7 @@ public class WInternalLinkRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WInternalLink link = new WInternalLink(getMaliciousContent(), new DefaultWComponent());
 		assertSafeContent(link);
 

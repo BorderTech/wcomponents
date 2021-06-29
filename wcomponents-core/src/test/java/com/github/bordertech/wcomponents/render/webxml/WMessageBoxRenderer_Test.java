@@ -4,7 +4,6 @@ import com.github.bordertech.wcomponents.WMessageBox;
 import com.github.bordertech.wcomponents.WebUtilities;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -24,14 +23,14 @@ public class WMessageBoxRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaintWhenEmpty() throws IOException, SAXException, XpathException {
+	public void testDoPaintWhenEmpty() throws IOException, SAXException {
 		WMessageBox messageBox = new WMessageBox(WMessageBox.SUCCESS);
 		assertSchemaMatch(messageBox);
 		assertXpathNotExists("//ui:messagebox", messageBox);
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		String message1 = "WMessageBox_Test.testDoPaint.message1";
 		String message2 = "WMessageBox_Test.testDoPaint.message2";
 		String message3 = "WMessageBox_Test.testDoPaint.message3";
@@ -69,7 +68,7 @@ public class WMessageBoxRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WMessageBox messageBox = new WMessageBox(WMessageBox.INFO);
 
 		messageBox.addMessage(getInvalidCharSequence());
@@ -80,7 +79,7 @@ public class WMessageBoxRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testEncodeText() throws IOException, SAXException, XpathException {
+	public void testEncodeText() throws IOException, SAXException {
 
 		String text = "T1<b>T2</b>T3";
 		String encoded = WebUtilities.encode(text);

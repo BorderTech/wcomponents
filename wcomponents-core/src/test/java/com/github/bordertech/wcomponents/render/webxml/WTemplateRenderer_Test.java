@@ -6,7 +6,6 @@ import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
 import com.github.bordertech.wcomponents.util.SystemException;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -38,7 +37,7 @@ public class WTemplateRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testHandlebarsInlineTemplate() throws IOException, SAXException, XpathException {
+	public void testHandlebarsInlineTemplate() throws IOException, SAXException {
 
 		StringBuffer inline = new StringBuffer();
 		inline.append("id={{wc.id}}");
@@ -59,7 +58,7 @@ public class WTemplateRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testHandlebarsTemplate() throws IOException, SAXException, XpathException {
+	public void testHandlebarsTemplate() throws IOException, SAXException {
 		WTemplate template = new WTemplate("templates/Test_Handlebars.hbs", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
 		setupTemplate(template);
 		String output = toXHtml(template);
@@ -73,7 +72,7 @@ public class WTemplateRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testVelocityTemplate() throws IOException, SAXException, XpathException {
+	public void testVelocityTemplate() throws IOException, SAXException {
 		WTemplate template = new WTemplate("templates/Test_Velocity.vm", TemplateRendererFactory.TemplateEngine.VELOCITY);
 		setupTemplate(template);
 		String output = toXHtml(template);
@@ -81,7 +80,7 @@ public class WTemplateRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testVelocityInlineTemplate() throws IOException, SAXException, XpathException {
+	public void testVelocityInlineTemplate() throws IOException, SAXException {
 
 		StringBuffer inline = new StringBuffer();
 		inline.append("id=${wc.id}");
@@ -108,7 +107,7 @@ public class WTemplateRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testPlainTextTemplate() throws IOException, SAXException, XpathException {
+	public void testPlainTextTemplate() throws IOException, SAXException {
 		WTemplate template = new WTemplate("templates/Test_Plain.txt", TemplateRendererFactory.TemplateEngine.PLAINTEXT);
 		setupTemplate(template);
 		String output = toXHtml(template);
@@ -117,7 +116,7 @@ public class WTemplateRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testPlainTextInlineTemplate() throws IOException, SAXException, XpathException {
+	public void testPlainTextInlineTemplate() throws IOException, SAXException {
 
 		String inline = "Hello from plain text.";
 

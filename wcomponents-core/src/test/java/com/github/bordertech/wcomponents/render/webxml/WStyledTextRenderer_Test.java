@@ -3,7 +3,6 @@ package com.github.bordertech.wcomponents.render.webxml;
 import com.github.bordertech.wcomponents.WStyledText;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -23,7 +22,7 @@ public class WStyledTextRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testPaint() throws IOException, SAXException, XpathException {
+	public void testPaint() throws IOException, SAXException {
 		String text = "WStyledText_Test.testRenderedFormat.text";
 
 		WStyledText styledText = new WStyledText(text);
@@ -79,7 +78,7 @@ public class WStyledTextRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testParagraphText() throws IOException, SAXException, XpathException {
+	public void testParagraphText() throws IOException, SAXException {
 		WStyledText styledText = new WStyledText("abc def");
 		styledText.setWhitespaceMode(WStyledText.WhitespaceMode.PARAGRAPHS);
 		assertSchemaMatch(styledText);
@@ -124,7 +123,7 @@ public class WStyledTextRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WStyledText styledText = new WStyledText(getMaliciousContent());
 
 		assertSafeContent(styledText);

@@ -3,7 +3,6 @@ package com.github.bordertech.wcomponents.render.webxml;
 import com.github.bordertech.wcomponents.WConfirmationButton;
 import java.io.IOException;
 import org.junit.Assert;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -23,7 +22,7 @@ public class WConfirmationButtonRenderer_Test extends AbstractWebXmlRendererTest
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
+	public void testDoPaint() throws IOException, SAXException {
 		WConfirmationButton button = new WConfirmationButton("dummy");
 		assertXpathExists("//html:button", button);
 
@@ -33,7 +32,7 @@ public class WConfirmationButtonRenderer_Test extends AbstractWebXmlRendererTest
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WConfirmationButton button = new WConfirmationButton(getMaliciousContent());
 
 		assertSafeContent(button);

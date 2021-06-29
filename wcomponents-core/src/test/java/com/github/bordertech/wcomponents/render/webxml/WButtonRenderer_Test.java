@@ -12,7 +12,6 @@ import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
 import com.github.bordertech.wcomponents.validation.WValidationErrors;
 import java.io.IOException;
-import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -42,7 +41,7 @@ public class WButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testBasic() throws IOException, SAXException, XpathException {
+	public void testBasic() throws IOException, SAXException {
 		WButton button = new WButton("Basic");
 
 		assertXpathExists("//html:button[@id]", button);
@@ -62,7 +61,7 @@ public class WButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testAllOptions() throws IOException, SAXException, XpathException {
+	public void testAllOptions() throws IOException, SAXException {
 		WButton button = new WButton("All");
 		button.setDisabled(true);
 		setFlag(button, ComponentModel.HIDE_FLAG, true);
@@ -121,7 +120,7 @@ public class WButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
+	public void testXssEscaping() throws IOException, SAXException {
 		WButton button = new WButton(getMaliciousContent());
 
 		assertSafeContent(button);
@@ -137,7 +136,7 @@ public class WButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testButtonImageToolTipRender() throws IOException, SAXException, XpathException {
+	public void testButtonImageToolTipRender() throws IOException, SAXException {
 		WButton button = new WButton();
 		String expected = "alt text";
 		WImage buttonImage = new WImage("http://localhost/image.png", expected);
