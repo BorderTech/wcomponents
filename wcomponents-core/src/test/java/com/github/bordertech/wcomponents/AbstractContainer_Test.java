@@ -45,5 +45,4 @@ public class AbstractContainer_Test extends AbstractWComponentTestCase {
 	 */
 	private static class MyContainer extends AbstractContainer {
 	};
-
 }
