@@ -6,12 +6,13 @@ import com.github.bordertech.wcomponents.MessageContainer;
 import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCardManager;
+import com.github.bordertech.wcomponents.WColumn;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WMessageBox;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
-import com.github.bordertech.wcomponents.layout.BorderLayout;
+import com.github.bordertech.wcomponents.WRow;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
 import com.github.bordertech.wcomponents.validation.WValidationErrors;
 
@@ -91,9 +92,19 @@ public class ValidationContainer extends WPanel implements MessageContainer {
 		WPanel buttonPanel = new WPanel(WPanel.Type.FEATURE);
 		mainPanel.add(buttonPanel);
 		buttonPanel.setMargin(new com.github.bordertech.wcomponents.Margin(Size.LARGE, Size.ZERO, Size.ZERO, Size.ZERO));
-		buttonPanel.setLayout(new BorderLayout());
-		buttonPanel.add(validateBtn, BorderLayout.EAST);
-		buttonPanel.add(resetBtn, BorderLayout.WEST);
+
+		final WRow row = new WRow();
+		buttonPanel.add(row);
+
+		final WColumn left = new WColumn(50);
+		final WColumn right = new WColumn(50);
+		right.setAlignment(WColumn.Alignment.RIGHT);
+
+		row.add(left);
+		row.add(right);
+
+		right.add(validateBtn);
+		left.add(resetBtn);
 
 		cardManager.add(successPanel);
 	}

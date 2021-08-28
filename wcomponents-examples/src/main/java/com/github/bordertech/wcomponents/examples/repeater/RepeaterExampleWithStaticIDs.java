@@ -12,6 +12,7 @@ import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBoxSelect;
+import com.github.bordertech.wcomponents.WColumn;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDataRenderer;
 import com.github.bordertech.wcomponents.WDecoratedLabel;
@@ -22,11 +23,11 @@ import com.github.bordertech.wcomponents.WNamingContext;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WPhoneNumberField;
 import com.github.bordertech.wcomponents.WRepeater;
+import com.github.bordertech.wcomponents.WRow;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextArea;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.WebUtilities;
-import com.github.bordertech.wcomponents.layout.BorderLayout;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -121,12 +122,21 @@ public class RepeaterExampleWithStaticIDs extends WContainer {
 		// Update and reset controls for the repeater.
 		WPanel buttonPanel = new WPanel(WPanel.Type.FEATURE);
 		buttonPanel.setMargin(new Margin(Size.MEDIUM, null, Size.LARGE, null));
-		buttonPanel.setLayout(new BorderLayout());
+
+		final WRow row = new WRow();
+		buttonPanel.add(row);
+
+		final WColumn left = new WColumn(50);
+		final WColumn right = new WColumn(50);
+		right.setAlignment(WColumn.Alignment.RIGHT);
+
+		row.add(left);
+		row.add(right);
 
 		WButton updateButton = new WButton("Update");
 		updateButton.setImage("/image/document-save-5.png");
 		updateButton.setImagePosition(WButton.ImagePosition.EAST);
-		buttonPanel.add(updateButton, BorderLayout.EAST);
+		right.add(updateButton);
 
 		WButton resetButton = new WButton("Reset");
 		resetButton.setImage("/image/edit-undo-8.png");
@@ -137,7 +147,7 @@ public class RepeaterExampleWithStaticIDs extends WContainer {
 				repeater.setData(fetchDataList());
 			}
 		});
-		buttonPanel.add(resetButton, BorderLayout.WEST);
+		left.add(resetButton);
 		add(buttonPanel);
 		add(new WAjaxControl(updateButton, repeater));
 		add(new WAjaxControl(resetButton, repeater));
