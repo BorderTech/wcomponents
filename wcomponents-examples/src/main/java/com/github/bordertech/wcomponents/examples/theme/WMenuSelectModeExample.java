@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.examples.theme;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.HeadingLevel;
+import com.github.bordertech.wcomponents.MenuItemSelectable;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
@@ -25,6 +26,7 @@ import com.github.bordertech.wcomponents.WTabSet;
 import com.github.bordertech.wcomponents.WTabSet.TabMode;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.subordinate.builder.SubordinateBuilder;
+
 import java.util.List;
 
 /**
@@ -333,9 +335,9 @@ public class WMenuSelectModeExample extends WContainer {
 		 * Handle selected text.
 		 */
 		private void handleSelectedText() {
-			List<WComponent> list = menu.getSelectedItems();
+			List<MenuItemSelectable> list = menu.getSelectedMenuItems();
 			StringBuffer selected = new StringBuffer();
-			for (WComponent comp : list) {
+			for (MenuItemSelectable comp : list) {
 				if (comp instanceof WMenuItem) {
 					WMenuItem item = (WMenuItem) comp;
 					selected.append(item.getText()).append(", ");
