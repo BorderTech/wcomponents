@@ -50,7 +50,7 @@
 		"properties": "1.2.1",
 		"sass": "1.5.1",
 		"sass-lint": "1.12.1",
-		"socket.io": "2.2.0",
+		"socket.io": "2.4.1",
 		"uglify-es": "3.3.9"
 	}
 }
