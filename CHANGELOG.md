@@ -3,7 +3,8 @@
 ## Release in-progress
 
 ### API Changes
-* Add addAll method to MutableContainer and subclasses
+* Add addAll method to MutableContainer and subclasses #1782.
+* Deprecate com.github.bordertech.wcomponents.util.Util, and replace usage with methods in existing dependencies #1622 #1785.
 
 ### Enhancements
 ### Bug Fixes

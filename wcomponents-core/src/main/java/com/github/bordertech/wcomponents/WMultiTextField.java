@@ -1,13 +1,13 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.util.InternalMessages;
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -342,7 +342,7 @@ public class WMultiTextField extends AbstractInput implements AjaxTrigger, AjaxT
 			for (String value : values) {
 				boolean invalid = false;
 
-				if (Util.empty(value)) {
+				if (StringUtils.isBlank(value)) {
 					continue;
 				}
 

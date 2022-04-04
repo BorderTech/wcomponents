@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.Util;
+import java.util.Objects;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -49,7 +50,7 @@ public class RadioButtonGroup extends AbstractInput implements AjaxTrigger, Subo
 			return null;
 		}
 		// An empty string is treated as null
-		return Util.empty(data.toString()) ? null : data.toString();
+		return StringUtils.isBlank(data.toString()) ? null : data.toString();
 	}
 
 	/**
@@ -92,7 +93,7 @@ public class RadioButtonGroup extends AbstractInput implements AjaxTrigger, Subo
 		String value = getRequestValue(request);
 		String current = getValue();
 
-		boolean changed = !Util.equals(value, current);
+		boolean changed = !Objects.equals(value, current);
 
 		if (changed) {
 			setChangedInLastRequest(true);
@@ -120,7 +121,7 @@ public class RadioButtonGroup extends AbstractInput implements AjaxTrigger, Subo
 		if (isPresent(request)) {
 			String value = request.getParameter(getId());
 			// Treat empty as null
-			return Util.empty(value) ? null : value;
+			return StringUtils.isBlank(value) ? null : value;
 		} else {
 			return getValue();
 		}

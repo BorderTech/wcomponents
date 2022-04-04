@@ -378,10 +378,6 @@ public class WButtonExample extends WPanel implements MessageContainer {
 		add(new WMessageBox(WMessageBox.WARN,
 				"These examples are purposely bad and should not be used as samples of how to use WComponents but samples of how NOT to use them."));
 
-		add(new WHeading(HeadingLevel.H3, "WButton without a good label"));
-		add(new WButton("\u2002"));
-		add(new ExplanatoryText("A button without a text label is very bad"));
-
 		add(new WHeading(HeadingLevel.H3, "WButton with a WImage but without a good label"));
 		WButton button = new WButton("");
 		button.setImage("/image/help.png");

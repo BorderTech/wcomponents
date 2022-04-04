@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.Util;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -220,7 +220,7 @@ public abstract class AbstractWSingleSelectList extends AbstractWSelectList {
 		final Object newSelection = getRequestValue(request);
 		final Object priorSelection = getValue();
 
-		boolean changed = !Util.equals(newSelection, priorSelection);
+		boolean changed = !Objects.equals(newSelection, priorSelection);
 
 		if (changed) {
 			setData(newSelection);

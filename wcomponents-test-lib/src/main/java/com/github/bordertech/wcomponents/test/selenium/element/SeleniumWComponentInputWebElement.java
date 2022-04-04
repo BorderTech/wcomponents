@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.test.selenium.element;
 
 import com.github.bordertech.wcomponents.test.selenium.SeleniumWComponentsUtil;
-import com.github.bordertech.wcomponents.util.Util;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -77,7 +77,7 @@ public class SeleniumWComponentInputWebElement extends SeleniumWComponentWebElem
 	 * @return true if the field is in a read-only state.
 	 */
 	public boolean isReadOnly() {
-		return !Util.empty(getAttribute("data-wc-component"));
+		return StringUtils.isNotBlank(getAttribute("data-wc-component"));
 	}
 
 	/**
@@ -170,7 +170,7 @@ public class SeleniumWComponentInputWebElement extends SeleniumWComponentWebElem
 			return null;
 		}
 		String listId = getAttribute("data-wc-suggest");
-		if (Util.empty(listId)) {
+		if (StringUtils.isBlank(listId)) {
 			return null;
 		}
 		return SeleniumWComponentsUtil.findElementImmediateForDriver(getDriver(), By.xpath("//*[@id='" + listId + "']"));

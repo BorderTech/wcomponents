@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.util;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * A type-safe generic collection of two Serializable items.
@@ -90,7 +91,7 @@ public class Duplet<T1 extends Serializable, T2 extends Serializable> implements
 
 		Duplet other = (Duplet) obj;
 
-		return Util.equals(first, other.first)
-				&& Util.equals(second, other.second);
+		return Objects.equals(first, other.first)
+				&& Objects.equals(second, other.second);
 	}
 }

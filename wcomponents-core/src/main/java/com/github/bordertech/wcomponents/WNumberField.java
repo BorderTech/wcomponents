@@ -5,11 +5,11 @@ import com.github.bordertech.wcomponents.autocomplete.AutocompleteableNumeric;
 import com.github.bordertech.wcomponents.autocomplete.type.Numeric;
 import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * <p>
@@ -51,7 +51,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 
 		// Text entered by the user (An empty string is treated as null)
 		String value = request.getParameter(getId());
-		String text = (Util.empty(value)) ? null : value;
+		String text = (StringUtils.isBlank(value)) ? null : value;
 
 		// Current Value
 		BigDecimal current = getValue();
@@ -61,10 +61,10 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 		// If a "valid" number value has not been entered, then check if the "user text" has changed
 		if (numberValue == null) {
 			// User entered text
-			changed = !Util.equals(text, getText()) || current != null;
+			changed = !Objects.equals(text, getText()) || current != null;
 		} else {
 			// Valid Number
-			changed = !Util.equals(numberValue, current);
+			changed = !Objects.equals(numberValue, current);
 		}
 
 		if (changed) {
@@ -98,7 +98,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 		if (isPresent(request)) {
 			String value = request.getParameter(getId());
 			// An empty string is treated as null
-			if (Util.empty(value)) {
+			if (StringUtils.isBlank(value)) {
 				return null;
 			}
 			// Check number is valid
@@ -137,7 +137,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 
 		// Try and convert "String" value
 		String dataString = value.toString();
-		if (Util.empty(dataString)) {
+		if (StringUtils.isBlank(dataString)) {
 			return null;
 		}
 
@@ -494,7 +494,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	public void setAutocomplete(final Numeric value) {
 		String newVal = value == null ? null : value.getValue();
 
-		if (!Util.equals(getAutocomplete(), newVal)) {
+		if (!Objects.equals(getAutocomplete(), newVal)) {
 			getOrCreateComponentModel().autocomplete = newVal;
 		}
 	}
@@ -514,7 +514,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	@Override
 	public void addAutocompleteSection(final String sectionName) {
 		String newValue = AutocompleteUtil.getCombinedForAddSection(sectionName, this);
-		if (!Util.equals(getAutocomplete(), newValue)) {
+		if (!Objects.equals(getAutocomplete(), newValue)) {
 			getOrCreateComponentModel().autocomplete = newValue;
 		}
 	}

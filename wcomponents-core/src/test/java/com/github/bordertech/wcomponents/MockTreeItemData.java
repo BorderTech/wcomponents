@@ -1,6 +1,5 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.Util;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -324,7 +323,7 @@ public final class MockTreeItemData {
 
 		@Override
 		public boolean equals(final Object obj) {
-			return (obj instanceof MyBean && Util.equals(this.id, ((MyBean) obj).getId()));
+			return (obj instanceof MyBean && Objects.equals(this.id, ((MyBean) obj).getId()));
 		}
 
 	}

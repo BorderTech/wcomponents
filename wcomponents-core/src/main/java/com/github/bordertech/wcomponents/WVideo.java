@@ -1,10 +1,10 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.Util;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import org.apache.commons.lang3.StringUtils;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -518,7 +518,7 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 		Map<String, String> parameters = env.getHiddenParameters();
 		parameters.put(Environment.TARGET_ID, getTargetId());
 
-		if (Util.empty(getCacheKey())) {
+		if (StringUtils.isBlank(getCacheKey())) {
 			// Add some randomness to the URL to prevent caching
 			String random = WebUtilities.generateRandom();
 			parameters.put(Environment.UNIQUE_RANDOM_PARAM, random);
@@ -584,7 +584,7 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 
 		if (poster != null) {
 			ContentEscape escape = new ContentEscape(poster);
-			escape.setCacheable(!Util.empty(getCacheKey()));
+			escape.setCacheable(StringUtils.isNotBlank(getCacheKey()));
 			throw escape;
 		} else {
 			LOG.warn("Client requested non-existant poster");
@@ -610,7 +610,7 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 
 		if (video != null && videoFileIndex >= 0 && videoFileIndex < video.length) {
 			ContentEscape escape = new ContentEscape(video[videoFileIndex]);
-			escape.setCacheable(!Util.empty(getCacheKey()));
+			escape.setCacheable(StringUtils.isNotBlank(getCacheKey()));
 			throw escape;
 		} else {
 			LOG.warn("Client requested invalid video clip: " + videoFileIndex);
@@ -636,7 +636,7 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 
 		if (tracks != null && trackIndex >= 0 && trackIndex < tracks.length) {
 			ContentEscape escape = new ContentEscape(tracks[trackIndex]);
-			escape.setCacheable(!Util.empty(getCacheKey()));
+			escape.setCacheable(StringUtils.isNotBlank(getCacheKey()));
 			throw escape;
 		} else {
 			LOG.warn("Client requested invalid track: " + trackIndex);

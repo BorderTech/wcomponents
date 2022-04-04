@@ -6,7 +6,6 @@ import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import com.github.bordertech.wcomponents.validation.DiagnosticImpl;
 import com.github.bordertech.wcomponents.velocity.VelocityTemplateManager;
@@ -28,6 +27,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * <p>
@@ -146,7 +146,7 @@ public abstract class AbstractWComponent implements WComponent {
 	@Override
 	public void setIdName(final String idName) {
 		// Not allow empty or null
-		if (Util.empty(idName)) {
+		if (StringUtils.isBlank(idName)) {
 			throw new IllegalArgumentException("idName cannot be null or empty");
 		}
 
@@ -1673,7 +1673,7 @@ public abstract class AbstractWComponent implements WComponent {
 	 */
 	@Override
 	public void addHtmlClass(final String className) {
-		if (!Util.empty(className)) {
+		if (StringUtils.isNotBlank(className)) {
 			getOrCreateComponentModel().addHtmlClass(className);
 		}
 	}
@@ -1757,7 +1757,7 @@ public abstract class AbstractWComponent implements WComponent {
 		// which is not particularly useful, so we recurse until we find a suitable one.
 		String className = null;
 
-		for (Class<?> clazz = getClass(); Util.empty(className) && clazz != null; clazz = clazz.
+		for (Class<?> clazz = getClass(); StringUtils.isBlank(className) && clazz != null; clazz = clazz.
 				getSuperclass()) {
 			className = clazz.getSimpleName();
 		}

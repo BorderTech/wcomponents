@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WInternalLink;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-import com.github.bordertech.wcomponents.util.Util;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * The Renderer for {@link WInternalLink}.
@@ -25,7 +25,7 @@ final class WInternalLinkRenderer extends AbstractWebXmlRenderer {
 		WInternalLink link = (WInternalLink) component;
 		XmlStringBuilder xml = renderContext.getWriter();
 
-		if (Util.empty(link.getText())) {
+		if (StringUtils.isBlank(link.getText())) {
 			return;
 		}
 

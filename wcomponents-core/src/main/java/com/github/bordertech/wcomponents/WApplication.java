@@ -4,11 +4,11 @@ import com.github.bordertech.wcomponents.registry.UIRegistry;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.MemoryUtil;
-import com.github.bordertech.wcomponents.util.Util;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * <p>
@@ -166,7 +166,7 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 	 * @return the application resource in which the URL details are held
 	 */
 	public ApplicationResource addJsUrl(final String url) {
-		if (Util.empty(url)) {
+		if (StringUtils.isBlank(url)) {
 			throw new IllegalArgumentException("A URL must be provided.");
 		}
 		ApplicationResource res = new ApplicationResource(url);
@@ -181,7 +181,7 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 	 * @return the application resource in which the resource details are held
 	 */
 	public ApplicationResource addJsFile(final String fileName) {
-		if (Util.empty(fileName)) {
+		if (StringUtils.isBlank(fileName)) {
 			throw new IllegalArgumentException("A file name must be provided.");
 		}
 		InternalResource resource = new InternalResource(fileName, fileName);
@@ -243,7 +243,7 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 	 * @return the application resource in which the URL details are held
 	 */
 	public ApplicationResource addCssUrl(final String url) {
-		if (Util.empty(url)) {
+		if (StringUtils.isBlank(url)) {
 			throw new IllegalArgumentException("A URL must be provided.");
 		}
 		ApplicationResource res = new ApplicationResource(url);
@@ -258,7 +258,7 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 	 * @return the application resource in which the resource details are held
 	 */
 	public ApplicationResource addCssFile(final String fileName) {
-		if (Util.empty(fileName)) {
+		if (StringUtils.isBlank(fileName)) {
 			throw new IllegalArgumentException("A file name must be provided.");
 		}
 		InternalResource resource = new InternalResource(fileName, fileName);
@@ -431,7 +431,7 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 		 * @param url URL to a resource
 		 */
 		public ApplicationResource(final String url) {
-			if (Util.empty(url)) {
+			if (StringUtils.isBlank(url)) {
 				throw new IllegalArgumentException("A URL must be provided.");
 			}
 			this.resourceId = "url:" + url;

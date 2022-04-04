@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.autocomplete;
 
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.util.Util;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Marks a component as being able to implement the {@code autocomplete} attribute.
@@ -46,7 +46,7 @@ public interface Autocompleteable extends WComponent {
 	 */
 	default boolean isAutocompleteOff() {
 		String autocomplete = getAutocomplete();
-		if (Util.empty(autocomplete)) {
+		if (StringUtils.isBlank(autocomplete)) {
 			return false;
 		}
 		return AutocompleteUtil.getOff().equalsIgnoreCase(autocomplete);

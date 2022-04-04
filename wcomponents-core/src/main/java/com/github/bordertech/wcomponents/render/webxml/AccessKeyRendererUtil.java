@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents.render.webxml;
 import com.github.bordertech.wcomponents.AccessKeyable;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-import com.github.bordertech.wcomponents.util.Util;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Utility methods for rendering access key details.
@@ -25,7 +25,7 @@ public final class AccessKeyRendererUtil {
 	 */
 	public static void appendOptionalAccessKeyXMLAttribute(final AccessKeyable component, final WebXmlRenderContext renderContext) {
 		XmlStringBuilder xml = renderContext.getWriter();
-		xml.appendOptionalAttribute("accessKey", Util.upperCase(component.getAccessKeyAsString()));
+		xml.appendOptionalAttribute("accessKey", StringUtils.upperCase(component.getAccessKeyAsString()));
 	}
 
 	/**
@@ -37,7 +37,7 @@ public final class AccessKeyRendererUtil {
 	public static void renderAccessKeyHtmlLabel(final AccessKeyable component, final WebXmlRenderContext renderContext) {
 
 		// Check if key provided
-		String key = Util.upperCase(component.getAccessKeyAsString());
+		String key = StringUtils.upperCase(component.getAccessKeyAsString());
 		if (key == null) {
 			return;
 		}

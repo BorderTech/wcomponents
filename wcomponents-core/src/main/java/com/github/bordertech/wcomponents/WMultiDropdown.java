@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.Util;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -100,7 +100,7 @@ public class WMultiDropdown extends AbstractWMultiSelectList implements AjaxTrig
 				Object selection = selections.get(i);
 
 				for (int j = i + 1; j < selections.size(); j++) {
-					if (Util.equals(selection, selections.get(j))) {
+					if (Objects.equals(selection, selections.get(j))) {
 						selections.remove(j--);
 					}
 				}

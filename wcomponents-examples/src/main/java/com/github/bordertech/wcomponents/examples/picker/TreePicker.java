@@ -19,11 +19,11 @@ import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.layout.ListLayout;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 import com.github.bordertech.wcomponents.util.HtmlIconUtil;
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A component which enables users to pick an example to display.
@@ -209,7 +209,7 @@ public class TreePicker extends WContainer {
 			selectOtherButton.setAction(new ValidatingAction(exampleSection.getMessages().getValidationErrors(), selectOtherButton) {
 				@Override
 				public void executeOnValid(final ActionEvent event) {
-					if (!Util.empty(selectOther.getText())) {
+					if (StringUtils.isNotBlank(selectOther.getText())) {
 						ExampleData example = menuPanel.getClosestMatch(selectOther.getText());
 						if (example != null) {
 							selectExample(example);

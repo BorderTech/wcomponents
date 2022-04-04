@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.Environment;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
-import com.github.bordertech.wcomponents.util.Util;
+import java.util.Objects;
 
 /**
  * This session token interceptor makes sure the ajax request being processed is for the correct session.
@@ -39,7 +39,7 @@ public class SessionTokenAjaxInterceptor extends InterceptorComponent {
 		String got = request.getParameter(Environment.SESSION_TOKEN_VARIABLE);
 
 		// Check tokens match (both must be provided)
-		if (Util.equals(expected, got)) {
+		if (Objects.equals(expected, got)) {
 			// Process AJAX request
 			getBackingComponent().serviceRequest(request);
 		} else {

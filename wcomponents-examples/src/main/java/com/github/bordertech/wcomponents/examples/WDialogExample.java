@@ -28,11 +28,11 @@ import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.BorderLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
 import java.util.Date;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * This example demonstrates the use of the {@link WDialog} component.
@@ -519,8 +519,8 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		 * @return the formatted name
 		 */
 		private String formatName(final String firstName, final String lastName) {
-			if (!Util.empty(firstName)) {
-				if (!Util.empty(lastName)) {
+			if (StringUtils.isNotBlank(firstName)) {
+				if (StringUtils.isNotBlank(lastName)) {
 					return lastName.trim() + ", " + firstName.trim();
 				}
 

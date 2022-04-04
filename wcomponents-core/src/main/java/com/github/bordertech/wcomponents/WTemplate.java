@@ -2,11 +2,11 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.template.TemplateRenderer;
 import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
-import com.github.bordertech.wcomponents.util.Util;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Allows the use of custom templates to layout components, insert custom css and javascript.
@@ -130,7 +130,7 @@ public class WTemplate extends WBeanComponent implements Container, NamingContex
 	 * @param component the component to add
 	 */
 	public void addTaggedComponent(final String tag, final WComponent component) {
-		if (Util.empty(tag)) {
+		if (StringUtils.isBlank(tag)) {
 			throw new IllegalArgumentException("A tag must be provided.");
 		}
 		if (component == null) {
@@ -221,7 +221,7 @@ public class WTemplate extends WBeanComponent implements Container, NamingContex
 	 * @param value the value for the template parameter
 	 */
 	public void addParameter(final String tag, final Object value) {
-		if (Util.empty(tag)) {
+		if (StringUtils.isBlank(tag)) {
 			throw new IllegalArgumentException("A tag must be provided");
 		}
 
@@ -311,7 +311,7 @@ public class WTemplate extends WBeanComponent implements Container, NamingContex
 	 * @param value the engine option value
 	 */
 	public void addEngineOption(final String key, final Object value) {
-		if (Util.empty(key)) {
+		if (StringUtils.isBlank(key)) {
 			throw new IllegalArgumentException("A key must be provided");
 		}
 		TemplateModel model = getOrCreateComponentModel();

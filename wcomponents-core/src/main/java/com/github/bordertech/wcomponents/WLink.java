@@ -2,11 +2,11 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.util.Util;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -1107,7 +1107,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		 */
 		public WLink build() {
 			// add a default unique name for the window if not provided
-			if (Util.empty(windowAttrs.getWindowName())) {
+			if (StringUtils.isBlank(windowAttrs.getWindowName())) {
 				windowName("myWindow");
 			}
 

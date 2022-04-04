@@ -6,8 +6,8 @@ import com.github.bordertech.wcomponents.WRadioButtonSelect;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.util.Util;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The Renderer for {@link WRadioButtonSelect}.
@@ -103,7 +103,7 @@ final class WRadioButtonSelectRenderer extends AbstractWebXmlRenderer {
 	private void renderOption(final WRadioButtonSelect rbSelect, final Object option,
 			final int optionIndex, final XmlStringBuilder html,
 			final Object selectedOption, final boolean renderSelectionsOnly) {
-		boolean selected = Util.equals(option, selectedOption);
+		boolean selected = Objects.equals(option, selectedOption);
 
 		if (selected || !renderSelectionsOnly) {
 			// Get Code and Desc

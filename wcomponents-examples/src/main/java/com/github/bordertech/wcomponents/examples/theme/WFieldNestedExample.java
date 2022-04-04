@@ -12,12 +12,12 @@ import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
 import com.github.bordertech.wcomponents.validator.AbstractFieldValidator;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * This class demonstrates how nested {@link WField}s work with validation messages and labels.
@@ -165,7 +165,7 @@ public class WFieldNestedExample extends WPanel {
 		@Override
 		protected boolean isValid() {
 			// Assume Mandatory Validator Catches Empty Fields
-			if (Util.empty(innerLayout.getDateStart().getText()) || Util.empty(innerLayout.
+			if (StringUtils.isBlank(innerLayout.getDateStart().getText()) || StringUtils.isBlank(innerLayout.
 					getDateFinish().getText())) {
 				return true;
 			}

@@ -4,8 +4,8 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WNumberField;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-import com.github.bordertech.wcomponents.util.Util;
 import java.math.BigDecimal;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * The Renderer for {@link WNumberField}.
@@ -56,7 +56,7 @@ final class WNumberFieldRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("buttonId", submitControlId);
 
 			String autocomplete = field.getAutocomplete();
-			xml.appendOptionalAttribute("autocomplete", !Util.empty(autocomplete), autocomplete);
+			xml.appendOptionalAttribute("autocomplete", StringUtils.isNotBlank(autocomplete), autocomplete);
 		}
 
 		xml.appendClose();

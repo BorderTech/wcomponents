@@ -1,9 +1,10 @@
 package com.github.bordertech.wcomponents.test.selenium.element;
 
 import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.util.Util;
 import java.util.Arrays;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -97,7 +98,7 @@ public class SeleniumWSelectWebElement extends SeleniumWComponentInputWebElement
 				}
 			}
 			String text = getText();
-			if (Util.empty(text)) {
+			if (StringUtils.isBlank(text)) {
 				return null;
 			}
 			return this;

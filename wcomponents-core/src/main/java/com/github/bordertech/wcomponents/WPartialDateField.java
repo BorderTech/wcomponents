@@ -3,11 +3,12 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.util.DateUtilities;
 import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -300,7 +301,7 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 		String dateValue = getRequestValue(request);
 		// Text entered by the user (An empty string is treated as null)
 		String value = request.getParameter(getId());
-		String text = (Util.empty(value)) ? null : value;
+		String text = StringUtils.isBlank(value) ? null : value;
 
 		// Current date value
 		String currentDate = getValue();
@@ -310,10 +311,10 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 		// If a "valid" date value has not been entered, then check if the "user text" has changed
 		if (dateValue == null) {
 			// User entered text
-			changed = !Util.equals(text, getText()) || currentDate != null;
+			changed = !Objects.equals(text, getText()) || currentDate != null;
 		} else {
 			// Valid Date
-			changed = !Util.equals(dateValue, currentDate);
+			changed = !Objects.equals(dateValue, currentDate);
 		}
 
 		if (changed) {
@@ -435,7 +436,7 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 		String value = data == null ? null : data.toString();
 
 		// Empty date is treated as null
-		if (Util.empty(value)) {
+		if (StringUtils.isBlank(value)) {
 			return null;
 		}
 
@@ -470,7 +471,7 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 		String value = data == null ? null : data.toString();
 
 		// Empty date is treated as null
-		if (Util.empty(value)) {
+		if (StringUtils.isBlank(value)) {
 			value = null;
 		}
 
@@ -605,8 +606,28 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 		append(dateString, day, DAY_DIGITS, padding);
 
 		// TRIM trailing spaces (will only "trim" if the padding character is a space)
-		String trimmed = Util.rightTrim(dateString.toString());
+		String trimmed = rightTrim(dateString.toString());
 		return trimmed;
+	}
+
+	/**
+	 * Copies this String removing white space characters from the end of the string.
+	 *
+	 * @param aString the String to trim.
+	 * @return a new String with characters <code>\\u0020</code> removed from the end
+	 */
+	private static String rightTrim(final String aString) {
+		if (aString == null) {
+			return null;
+		}
+		int end = aString.length() - 1;
+		while ((end >= 0) && (aString.charAt(end) <= ' ')) {
+			end--;
+		}
+		if (end == aString.length() - 1) {
+			return aString;
+		}
+		return aString.substring(0, end + 1);
 	}
 
 	/**
@@ -648,7 +669,7 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 	 */
 	private boolean isValidPartialDateStringFormat(final String component, final char padding) {
 		// Empty is not valid
-		if (Util.empty(component)) {
+		if (StringUtils.isBlank(component)) {
 			return false;
 		}
 

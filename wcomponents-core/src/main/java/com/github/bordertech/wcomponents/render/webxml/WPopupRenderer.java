@@ -5,7 +5,7 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WPopup;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-import com.github.bordertech.wcomponents.util.Util;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * The {@link Renderer} for {@link WPopup}.
@@ -35,7 +35,7 @@ final class WPopupRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("height", height > 0, height);
 		xml.appendOptionalAttribute("resizable", popup.isResizable(), "true");
 		xml.appendOptionalAttribute("showScrollbars", popup.isScrollable(), "true");
-		xml.appendOptionalAttribute("targetWindow", !Util.empty(targetWindow), targetWindow);
+		xml.appendOptionalAttribute("targetWindow", StringUtils.isNotBlank(targetWindow), targetWindow);
 		xml.appendClose();
 		xml.appendEndTag("ui:popup");
 	}

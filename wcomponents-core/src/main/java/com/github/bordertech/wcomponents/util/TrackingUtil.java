@@ -1,5 +1,7 @@
 package com.github.bordertech.wcomponents.util;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Utility class for tracking config.
  *
@@ -18,7 +20,7 @@ public final class TrackingUtil {
 	 * @return true if tracking is enabled for the application.
 	 */
 	public static boolean isTrackingEnabled() {
-		return !Util.empty(getClientId()) && !Util.empty(getApplicationName());
+		return StringUtils.isNotBlank(getClientId()) && StringUtils.isNotBlank(getApplicationName());
 	}
 
 	/**

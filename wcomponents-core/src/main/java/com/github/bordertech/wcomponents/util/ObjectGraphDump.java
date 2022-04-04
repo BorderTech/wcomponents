@@ -7,6 +7,7 @@ import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -147,7 +148,7 @@ public final class ObjectGraphDump {
 				Object fieldValue = readField(fields[i], node.getValue());
 				Object otherValue = readField(fields[i], otherInstance);
 				String fieldType = fields[i].getType().getName();
-				String nodeFieldName = fields[i].getName() + (Util.equals(fieldValue, otherValue) ? "" : "*");
+				String nodeFieldName = fields[i].getName() + (Objects.equals(fieldValue, otherValue) ? "" : "*");
 
 				ObjectGraphNode childNode = new ObjectGraphNode(++nodeCount, nodeFieldName,
 						fieldType, fieldValue);

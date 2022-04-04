@@ -8,8 +8,8 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.TrackingUtil;
-import com.github.bordertech.wcomponents.util.Util;
 import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -52,7 +52,7 @@ final class WApplicationRenderer extends AbstractWebXmlRenderer {
 		xml.appendUrlAttribute("ajaxUrl", uic.getEnvironment().getWServletPath());
 		xml.appendOptionalAttribute("unsavedChanges", application.hasUnsavedChanges(), "true");
 		xml.appendOptionalAttribute("title", application.getTitle());
-		xml.appendOptionalAttribute("defaultFocusId", uic.isFocusRequired() && !Util.empty(focusId),
+		xml.appendOptionalAttribute("defaultFocusId", uic.isFocusRequired() && StringUtils.isNotBlank(focusId),
 				focusId);
 		xml.appendOptionalUrlAttribute("icon", WApplication.getIcon());
 		xml.appendClose();
@@ -81,7 +81,7 @@ final class WApplicationRenderer extends AbstractWebXmlRenderer {
 		// Custom CSS Resources (if any)
 		for (WApplication.ApplicationResource resource : application.getCssResources()) {
 			String url = resource.getTargetUrl();
-			if (!Util.empty(url)) {
+			if (StringUtils.isNotBlank(url)) {
 				xml.appendTagOpen("ui:css");
 				xml.appendUrlAttribute("url", url);
 				xml.appendEnd();
@@ -91,7 +91,7 @@ final class WApplicationRenderer extends AbstractWebXmlRenderer {
 		// Custom JavaScript Resources (if any)
 		for (WApplication.ApplicationResource resource : application.getJsResources()) {
 			String url = resource.getTargetUrl();
-			if (!Util.empty(url)) {
+			if (StringUtils.isNotBlank(url)) {
 				xml.appendTagOpen("ui:js");
 				xml.appendUrlAttribute("url", url);
 				xml.appendEnd();

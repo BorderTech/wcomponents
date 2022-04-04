@@ -4,7 +4,6 @@ import com.github.bordertech.wcomponents.servlet.ServletUtil;
 import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.Enumerator;
 import com.github.bordertech.wcomponents.util.StreamUtil;
-import com.github.bordertech.wcomponents.util.Util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -12,6 +11,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import org.apache.commons.fileupload.FileItem;
 
 /**
@@ -101,7 +101,7 @@ public abstract class AbstractRequest implements Request {
 
 		Map ours = getParameters();
 		Map theirs = ((AbstractRequest) other).getParameters();
-		return Util.equals(ours, theirs);
+		return Objects.equals(ours, theirs);
 	}
 
 	/**

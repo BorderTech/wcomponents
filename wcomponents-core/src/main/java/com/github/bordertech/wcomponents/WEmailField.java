@@ -4,10 +4,11 @@ import com.github.bordertech.wcomponents.autocomplete.AutocompleteUtil;
 import com.github.bordertech.wcomponents.autocomplete.AutocompleteableEmail;
 import com.github.bordertech.wcomponents.autocomplete.type.Email;
 import com.github.bordertech.wcomponents.util.InternalMessages;
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * <p>
@@ -38,7 +39,7 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 		String value = getRequestValue(request);
 		String current = getValue();
 
-		boolean changed = !Util.equals(value, current);
+		boolean changed = !Objects.equals(value, current);
 
 		if (changed) {
 			setData(value);
@@ -55,7 +56,7 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 		if (isPresent(request)) {
 			String value = request.getParameter(getId());
 			// An empty string is treated as null
-			return Util.empty(value) ? null : value;
+			return StringUtils.isBlank(value) ? null : value;
 		} else {
 			return getValue();
 		}
@@ -71,7 +72,7 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 			return null;
 		}
 		// An empty string is treated as null
-		return Util.empty(data.toString()) ? null : data.toString();
+		return StringUtils.isBlank(data.toString()) ? null : data.toString();
 	}
 
 	// ================================
@@ -243,7 +244,7 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 	@Override
 	public void setAutocomplete(final Email value) {
 		String newValue = value == null ? null : value.getValue();
-		if (!Util.equals(getAutocomplete(), newValue)) {
+		if (!Objects.equals(getAutocomplete(), newValue)) {
 			getOrCreateComponentModel().autocomplete = newValue;
 		}
 	}
@@ -263,7 +264,7 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 	@Override
 	public void addAutocompleteSection(final String sectionName) {
 		String newValue = AutocompleteUtil.getCombinedForAddSection(sectionName, this);
-		if (!Util.equals(getAutocomplete(), newValue)) {
+		if (!Objects.equals(getAutocomplete(), newValue)) {
 			getOrCreateComponentModel().autocomplete = newValue;
 		}
 	}

@@ -6,7 +6,6 @@ import com.github.bordertech.wcomponents.file.FileItemWrap;
 import com.github.bordertech.wcomponents.util.FileUtil;
 import com.github.bordertech.wcomponents.util.MemoryUtil;
 import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.util.thumbnail.ThumbnailUtil;
 import java.awt.Dimension;
 import java.io.Serializable;
@@ -21,6 +20,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -157,7 +157,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 */
 	public FileWidgetUpload getFile(final String fileId) {
 		for (FileWidgetUpload file : getFiles()) {
-			if (Util.equals(file.getFileId(), fileId)) {
+			if (Objects.equals(file.getFileId(), fileId)) {
 				return file;
 			}
 		}
@@ -814,7 +814,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		Map<String, String> parameters = env.getHiddenParameters();
 		parameters.put(Environment.TARGET_ID, getTargetId());
 
-		if (Util.empty(file.getFileCacheKey())) {
+		if (StringUtils.isBlank(file.getFileCacheKey())) {
 			// Add some randomness to the URL to prevent caching
 			String random = WebUtilities.generateRandom();
 			parameters.put(Environment.UNIQUE_RANDOM_PARAM, random);
@@ -858,7 +858,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		Map<String, String> parameters = env.getHiddenParameters();
 		parameters.put(Environment.TARGET_ID, getTargetId());
 
-		if (Util.empty(file.getThumbnailCacheKey())) {
+		if (StringUtils.isBlank(file.getThumbnailCacheKey())) {
 			// Add some randomness to the URL to prevent caching
 			String random = WebUtilities.generateRandom();
 			parameters.put(Environment.UNIQUE_RANDOM_PARAM, random);
@@ -1171,7 +1171,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		 */
 		@Override
 		public boolean equals(final Object o) {
-			return (o instanceof FileWidgetUpload) && Util.equals(fileId, ((FileWidgetUpload) o).
+			return (o instanceof FileWidgetUpload) && Objects.equals(fileId, ((FileWidgetUpload) o).
 					getFileId());
 		}
 

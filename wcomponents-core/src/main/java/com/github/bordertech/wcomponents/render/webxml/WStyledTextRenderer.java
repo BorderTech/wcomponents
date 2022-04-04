@@ -7,7 +7,7 @@ import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.HtmlToXMLUtil;
-import com.github.bordertech.wcomponents.util.Util;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * {@link Renderer} for the {@link WStyledText} component.
@@ -113,7 +113,7 @@ final class WStyledTextRenderer extends AbstractWebXmlRenderer {
 	 * @param xml the XmlStringBuilder to paint to.
 	 */
 	private static void writeParagraphs(final String text, final XmlStringBuilder xml) {
-		if (!Util.empty(text)) {
+		if (StringUtils.isNotBlank(text)) {
 			int start = 0;
 			int end = text.length() - 1;
 

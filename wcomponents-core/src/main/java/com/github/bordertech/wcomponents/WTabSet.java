@@ -1,10 +1,10 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.Util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * <p>
@@ -685,7 +685,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 			List<Integer> changes = new ArrayList<>(1);
 			int[] indices = new int[indicesStr.length];
 
-			if (Util.empty(indicesStr[0])) {
+			if (StringUtils.isBlank(indicesStr[0])) {
 				// Special case - no tab selected
 				if (getType() == TYPE_ACCORDION) {
 					indices = null;

@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.Environment;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
-import com.github.bordertech.wcomponents.util.Util;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -35,7 +35,7 @@ public class SessionTokenInterceptor extends InterceptorComponent {
 
 		// Check tokens match (Both null if new session)
 		// or processing a GET and no token
-		if (Util.equals(expected, got) || (got == null && "GET".equals(request.getMethod()))) {
+		if (Objects.equals(expected, got) || (got == null && "GET".equals(request.getMethod()))) {
 			// Process request
 			getBackingComponent().serviceRequest(request);
 		} else {  // Invalid token

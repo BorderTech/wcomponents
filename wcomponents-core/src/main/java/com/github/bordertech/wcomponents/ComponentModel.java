@@ -3,7 +3,6 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.ReflectionUtil;
-import com.github.bordertech.wcomponents.util.Util;
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
@@ -20,8 +19,10 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.Stack;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -279,7 +280,7 @@ public class ComponentModel implements WebModel, Externalizable {
 					Object value = fields[i].get(this);
 					Object otherValue = fields[i].get(obj);
 
-					if (!Util.equals(value, otherValue)) {
+					if (!Objects.equals(value, otherValue)) {
 						return false;
 					}
 				}
@@ -587,7 +588,7 @@ public class ComponentModel implements WebModel, Externalizable {
 	 * @param text The HTML class name text to set.
 	 */
 	protected void addHtmlClass(final String text) {
-		if (!Util.empty(text)) {
+		if (StringUtils.isNotBlank(text)) {
 			if (this.htmlClasses == null) {
 				this.htmlClasses = new HashSet<>();
 			}
@@ -616,7 +617,7 @@ public class ComponentModel implements WebModel, Externalizable {
 	 * @param className the value to remove
 	 */
 	protected void removeHtmlClass(final String className) {
-		if (this.htmlClasses != null && !Util.empty(className)) {
+		if (this.htmlClasses != null && StringUtils.isNotBlank(className)) {
 			this.htmlClasses.remove(className);
 		}
 	}
@@ -753,7 +754,7 @@ public class ComponentModel implements WebModel, Externalizable {
 					Object sharedValue = field.get(sharedModel);
 					Object value = field.get(this);
 
-					if (Util.equals(value, sharedValue)) {
+					if (Objects.equals(value, sharedValue)) {
 						out.writeObject(NoOverride.INSTANCE);
 					} else {
 						out.writeObject(value);

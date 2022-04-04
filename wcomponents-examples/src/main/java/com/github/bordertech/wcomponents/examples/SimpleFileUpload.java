@@ -12,10 +12,10 @@ import com.github.bordertech.wcomponents.WImage;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.file.FileItemWrap;
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.util.thumbnail.BytesImage;
 import java.util.ArrayList;
 import java.util.Arrays;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * This example demonstrates the use of WFileWidget to select and upload a file. The contents of the uploaded file in
@@ -52,7 +52,7 @@ public class SimpleFileUpload extends WContainer {
 			public void execute(final ActionEvent event) {
 				String fileText;
 
-				if (Util.empty(fileWidget.getFileName())) {
+				if (StringUtils.isBlank(fileWidget.getFileName())) {
 					fileText = "nothing uploaded";
 				} else {
 					fileText = new String(fileWidget.getFile().getBytes());

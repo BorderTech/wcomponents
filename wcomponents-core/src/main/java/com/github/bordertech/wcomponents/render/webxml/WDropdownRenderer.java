@@ -6,8 +6,9 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-import com.github.bordertech.wcomponents.util.Util;
 import java.util.List;
+import java.util.Objects;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * The {@link Renderer} for {@link WDropdown}.
@@ -48,7 +49,7 @@ final class WDropdownRenderer extends AbstractWebXmlRenderer {
 			int optionWidth = dropdown.getOptionWidth();
 			xml.appendOptionalAttribute("optionWidth", optionWidth > 0, optionWidth);
 			String autocomplete = dropdown.getAutocomplete();
-			xml.appendOptionalAttribute("autocomplete", !Util.empty(autocomplete), autocomplete);
+			xml.appendOptionalAttribute("autocomplete", StringUtils.isNotBlank(autocomplete), autocomplete);
 			xml.appendOptionalAttribute("type", getTypeAsString(dropdown.getType()));
 		}
 		xml.appendClose();
@@ -112,7 +113,7 @@ final class WDropdownRenderer extends AbstractWebXmlRenderer {
 	private void renderOption(final WDropdown dropdown, final Object option,
 			final int optionIndex, final XmlStringBuilder html, final Object selectedOption,
 			final boolean renderSelectionsOnly) {
-		boolean selected = Util.equals(option, selectedOption);
+		boolean selected = Objects.equals(option, selectedOption);
 
 		if (selected || !renderSelectionsOnly) {
 			// Get Code and Desc

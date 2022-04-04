@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.util;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.WebUtilities;
 import java.io.InputStream;
+import java.util.Objects;
 import java.util.Properties;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -89,7 +90,7 @@ public final class ThemeUtil {
 		// Check the theme wcomponent version against the project wcomponent version
 		if (themeWcVersion != null) {
 			String wcProject = WebUtilities.getProjectVersion();
-			if (!Util.equals(themeWcVersion, wcProject)) {
+			if (!Objects.equals(themeWcVersion, wcProject)) {
 				LOG.warn("The theme wcomponent version \"" + themeWcVersion
 						+ "\" does not match the project wcomponent version \"" + wcProject + "\".");
 			}

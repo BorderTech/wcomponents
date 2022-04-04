@@ -1,9 +1,9 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.Util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The WShuffler is a WComponent that allows a list of options to have its order manually shuffled by the user. The
@@ -90,7 +90,7 @@ public class WShuffler extends AbstractInput implements AjaxTrigger, AjaxTarget,
 		List<?> values = getRequestValue(request);
 		List<?> current = getOptions();
 
-		boolean changed = !Util.equals(values, current);
+		boolean changed = !Objects.equals(values, current);
 
 		if (changed) {
 			setOptions(values);
@@ -140,7 +140,7 @@ public class WShuffler extends AbstractInput implements AjaxTrigger, AjaxTarget,
 			for (Object oldOption : copyOldOptions) {
 				// Match the string value of the option
 				String stringOldOption = String.valueOf(oldOption);
-				if (Util.equals(stringOldOption, param)) {
+				if (Objects.equals(stringOldOption, param)) {
 					newOptions.add(oldOption);
 					copyOldOptions.remove(oldOption);
 					break;

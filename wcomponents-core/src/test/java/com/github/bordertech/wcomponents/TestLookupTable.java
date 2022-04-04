@@ -2,11 +2,11 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.util.LookupTable;
 import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.util.Util;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Lookup table implementation for the WComponent tests.
@@ -261,7 +261,7 @@ public class TestLookupTable implements LookupTable {
 		 */
 		@Override
 		public boolean equals(final Object obj) {
-			return (obj instanceof TableEntry) && Util.equals(code, ((TableEntry) obj).code);
+			return (obj instanceof TableEntry) && Objects.equals(code, ((TableEntry) obj).code);
 		}
 
 		/**

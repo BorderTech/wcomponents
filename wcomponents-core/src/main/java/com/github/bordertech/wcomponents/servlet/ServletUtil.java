@@ -47,7 +47,6 @@ import com.github.bordertech.wcomponents.util.RequestUtil;
 import com.github.bordertech.wcomponents.util.StreamUtil;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.ThemeUtil;
-import com.github.bordertech.wcomponents.util.Util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -67,6 +66,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -301,7 +301,7 @@ public final class ServletUtil {
 		String fileName = req.getParameter("f");
 
 		String path = req.getPathInfo();
-		if (fileName == null && !Util.empty(path)) {
+		if (fileName == null && StringUtils.isNotBlank(path)) {
 			int offset = path.startsWith(THEME_RESOURCE_PATH_PARAM) ? THEME_RESOURCE_PATH_PARAM.
 					length() : 1;
 			fileName = path.substring(offset);
@@ -372,7 +372,7 @@ public final class ServletUtil {
 	 * @return true if the requested file name is ok, false if not.
 	 */
 	private static boolean checkThemeFile(final String name) {
-		return !(Util.empty(name) // name must exist
+		return !(StringUtils.isBlank(name) // name must exist
 				|| name.contains("..") // prevent directory traversal
 				|| name.charAt(0) == '/' // all theme references should be relative
 				|| name.indexOf(':') != -1 // forbid use of protocols such as jar:, http: etc.
@@ -721,7 +721,7 @@ public final class ServletUtil {
 	public static DeviceType getDevice(final HttpServletRequest request) {
 		// User agent
 		String userAgent = ((HttpServletRequest) request).getHeader("User-Agent");
-		if (Util.empty(userAgent)) {
+		if (StringUtils.isBlank(userAgent)) {
 			LOG.warn("No User-Agent details in the request headers. Will assume normal device.");
 			return DeviceType.NORMAL;
 		}

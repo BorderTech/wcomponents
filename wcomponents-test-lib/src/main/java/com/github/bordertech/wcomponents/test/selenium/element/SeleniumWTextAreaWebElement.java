@@ -1,9 +1,10 @@
 package com.github.bordertech.wcomponents.test.selenium.element;
 
 import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.util.Util;
 import java.util.Arrays;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -92,7 +93,7 @@ public class SeleniumWTextAreaWebElement extends SeleniumWComponentInputWebEleme
 	 */
 	public int getMaxLength() {
 		String maxLength = getAttribute(ATTR_MAX_LENGTH);
-		if (Util.empty(maxLength)) {
+		if (StringUtils.isBlank(maxLength)) {
 			return 0;
 		}
 		try {

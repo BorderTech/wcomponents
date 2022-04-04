@@ -4,7 +4,6 @@ import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.RowIdList;
 import com.github.bordertech.wcomponents.util.TreeNode;
-import com.github.bordertech.wcomponents.util.Util;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,6 +12,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -386,7 +386,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 							UIContextHolder.popContext();
 						}
 
-						if (!Util.equals(oldValue, newValue)) {
+						if (!Objects.equals(oldValue, newValue)) {
 							model.setValueAt(newValue, row, col);
 						}
 					}

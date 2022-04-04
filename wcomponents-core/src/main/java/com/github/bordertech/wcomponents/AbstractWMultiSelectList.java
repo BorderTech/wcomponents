@@ -1,12 +1,12 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.util.InternalMessages;
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -513,7 +513,7 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	 */
 	private boolean selectionsEqual(final List<?> list1, final List<?> list2) {
 		if (isSelectionOrderable()) {
-			return Util.equals(list1, list2);
+			return Objects.equals(list1, list2);
 		}
 
 		// Empty or null lists

@@ -1,9 +1,9 @@
 package com.github.bordertech.wcomponents.examples.table;
 
-import com.github.bordertech.wcomponents.util.Util;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * An example Person bean.
@@ -183,7 +183,7 @@ public final class PersonBean implements Serializable {
 	 */
 	@Override
 	public boolean equals(final Object o) {
-		return (o instanceof PersonBean) && Util.equals(personId, ((PersonBean) o).getPersonId());
+		return (o instanceof PersonBean) && Objects.equals(personId, ((PersonBean) o).getPersonId());
 	}
 
 	/**
@@ -314,7 +314,7 @@ public final class PersonBean implements Serializable {
 		 */
 		@Override
 		public boolean equals(final Object o) {
-			return (o instanceof TravelDoc) && Util.equals(documentNumber, ((TravelDoc) o).
+			return (o instanceof TravelDoc) && Objects.equals(documentNumber, ((TravelDoc) o).
 					getDocumentNumber());
 		}
 

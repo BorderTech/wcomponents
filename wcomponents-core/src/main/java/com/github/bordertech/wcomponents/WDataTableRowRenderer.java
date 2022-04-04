@@ -1,9 +1,9 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.WRepeater.SubUIContext;
-import com.github.bordertech.wcomponents.util.Util;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -256,7 +256,7 @@ public final class WDataTableRowRenderer extends WDataRenderer {
 				return rendererClass == null;
 			} else {
 				// expanded content renderer
-				return renderer != null && Util.equals(renderer.getClass(), rendererClass);
+				return renderer != null && Objects.equals(renderer.getClass(), rendererClass);
 			}
 		}
 

@@ -11,6 +11,7 @@ import com.github.bordertech.wcomponents.WContent;
 import com.github.bordertech.wcomponents.WImage;
 import com.github.bordertech.wcomponents.WVideo;
 import com.github.bordertech.wcomponents.WebUtilities;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Static utility methods related to working with the step count.
@@ -37,7 +38,7 @@ public final class StepCountUtil {
 	 * @return true if users are to be redirected when a step error occurs
 	 */
 	public static boolean isErrorRedirect() {
-		return !Util.empty(getErrorUrl());
+		return StringUtils.isNotBlank(getErrorUrl());
 	}
 
 	/**
@@ -116,7 +117,7 @@ public final class StepCountUtil {
 			} else if (target instanceof WAudio) {
 				key = ((WAudio) target).getCacheKey();
 			}
-			return !Util.empty(key);
+			return StringUtils.isNotBlank(key);
 		} finally {
 			UIContextHolder.popContext();
 		}

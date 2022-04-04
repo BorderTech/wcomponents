@@ -10,6 +10,7 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -153,7 +154,7 @@ public final class I18nUtilities {
 		String message = null;
 		String resourceBundleBaseName = getResourceBundleBaseName();
 
-		if (!Util.empty(resourceBundleBaseName)) {
+		if (StringUtils.isNotBlank(resourceBundleBaseName)) {
 			Locale effectiveLocale = locale;
 
 			if (effectiveLocale == null) {

@@ -105,7 +105,7 @@ public final class HtmlSanitizerUtil {
 		if (policy == null) {
 			throw new SystemException("AntiSamy policy cannot be null");
 		}
-		if (Util.empty(input)) {
+		if (StringUtils.isBlank(input)) {
 			return input;
 		}
 		try {
@@ -124,7 +124,7 @@ public final class HtmlSanitizerUtil {
 	 * @return the sanitized text
 	 */
 	public static String sanitizeOutputText(final String text) {
-		if (Util.empty(text)) {
+		if (StringUtils.isBlank(text)) {
 			return text;
 		}
 		return sanitize(text, true);
@@ -135,7 +135,7 @@ public final class HtmlSanitizerUtil {
 	 * @return the sanitized text
 	 */
 	public static String sanitizeInputText(final String text) {
-		if (Util.empty(text)) {
+		if (StringUtils.isBlank(text)) {
 			return text;
 		}
 		return sanitize(text);

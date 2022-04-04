@@ -5,7 +5,7 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WHiddenComment;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-import com.github.bordertech.wcomponents.util.Util;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * {@link Renderer} for the {@link WHiddenComment} component.
@@ -28,7 +28,7 @@ final class WHiddenCommentRenderer extends AbstractWebXmlRenderer {
 
 		String hiddenText = hiddenComponent.getText();
 
-		if (!Util.empty(hiddenText)) {
+		if (StringUtils.isNotBlank(hiddenText)) {
 			xml.appendTag("ui:comment");
 			xml.appendEscaped(hiddenText);
 			xml.appendEndTag("ui:comment");

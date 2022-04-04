@@ -9,7 +9,7 @@ import com.github.bordertech.wcomponents.WLink.ImagePosition;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.util.Util;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * The {@link Renderer} for the {@link WLink} component.
@@ -69,7 +69,8 @@ final class WLinkRenderer extends AbstractWebXmlRenderer {
 				}
 			}
 			// we have an image. We must have a text equivalent
-			if (Util.empty(text) && Util.empty(link.getToolTip()) && Util.empty(link.getAccessibleText())) {
+			if (StringUtils.isBlank(text) && StringUtils.isBlank(link.getToolTip())
+				&& StringUtils.isBlank(link.getAccessibleText())) {
 				// If the link has an umageUrl but no text equivalent get the text equivalent off of the image
 				WImage linkImage = link.getImageHolder();
 				if (null != linkImage) {

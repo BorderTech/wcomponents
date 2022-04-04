@@ -189,8 +189,8 @@ import com.github.bordertech.wcomponents.examples.validation.ValidationExamples;
 import com.github.bordertech.wcomponents.examples.validation.basic.BasicDiagnosticComponentExample;
 import com.github.bordertech.wcomponents.examples.validation.basic.BasicFieldsValidationExample2;
 import com.github.bordertech.wcomponents.examples.validation.fields.FieldValidation;
-import com.github.bordertech.wcomponents.util.Util;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * ExampleData contains the information necessary to describe an example. It also provides some groupings for the
@@ -563,9 +563,9 @@ public final class ExampleData implements Serializable {
 
 		ExampleData that = (ExampleData) obj;
 
-		return Util.equals(exampleName, that.exampleName)
-				&& Util.equals(exampleClass, that.exampleClass)
-				&& Util.equals(exampleGroupName, that.exampleGroupName);
+		return Objects.equals(exampleName, that.exampleName)
+				&& Objects.equals(exampleClass, that.exampleClass)
+				&& Objects.equals(exampleGroupName, that.exampleGroupName);
 	}
 
 	/**

@@ -1,11 +1,18 @@
 package com.github.bordertech.wcomponents.util;
 
+import java.util.Objects;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.ObjectUtils;
+
 /**
  * A storage point for utility methods that are generally useful.
  *
  * @author James Gifford
  * @since 1.0.0
+ *
+ * @deprecated No longer used by WComponents.
  */
+@Deprecated
 public final class Util {
 
 	/**
@@ -19,21 +26,11 @@ public final class Util {
 	 *
 	 * @param aString the string to check.
 	 * @return true if the given String is null or contains only whitespace.
+	 *
+	 * @deprecated use org.apache.commons.lang3.StringUtils.isBlank instead.
 	 */
 	public static boolean empty(final String aString) {
-		if (aString != null) {
-			final int len = aString.length();
-
-			for (int i = 0; i < len; i++) {
-				// This mirrors String.trim(), which removes ASCII
-				// control characters as well as whitespace.
-				if (aString.charAt(i) > ' ') {
-					return false;
-				}
-			}
-		}
-
-		return true;
+		return StringUtils.isBlank(aString);
 	}
 
 	/**
@@ -42,16 +39,11 @@ public final class Util {
 	 * @param obj1 the first object to check.
 	 * @param obj2 the second object to check.
 	 * @return true if the two objects are the same according to Object.equals.
+	 *
+	 * @deprecated use java.util.Objects.equals(Object, Object) instead.
 	 */
 	public static boolean equals(final Object obj1, final Object obj2) {
-		if (obj1 == null) {
-			return obj2 == null;
-		} else if (obj1 == obj2) {
-			return true;
-		}
-
-		// obj1 is not null, obj2 may be
-		return obj1.equals(obj2);
+		return Objects.equals(obj1, obj2);
 	}
 
 	/**
@@ -62,17 +54,11 @@ public final class Util {
 	 * @param c2 the second comparable
 	 *
 	 * @return a negative integer, zero, or a positive integer if c1 is less than, equal to, or greater than the c2.
+	 *
+	 * @deprecated use org.apache.commons.lang3.ObjectUtils.compare(T, T) instead.
 	 */
 	public static int compareAllowNull(final Comparable c1, final Comparable c2) {
-		if (c1 == null && c2 == null) {
-			return 0;
-		} else if (c1 == null) {
-			return -1;
-		} else if (c2 == null) {
-			return 1;
-		} else {
-			return c1.compareTo(c2);
-		}
+		return ObjectUtils.compare(c1, c2);
 	}
 
 	/**
@@ -80,13 +66,11 @@ public final class Util {
 	 *
 	 * @param aString the string to convert.
 	 * @return the string converted to upper case, or null if the supplied string was null.
+	 *
+	 * @deprecated Use org.apache.commons.lang3.StringUtils.upperCase(String) instead.
 	 */
 	public static String upperCase(final String aString) {
-		if (!empty(aString)) {
-			return aString.toUpperCase();
-		}
-
-		return aString;
+		return StringUtils.upperCase(aString);
 	}
 
 	/**
@@ -94,6 +78,8 @@ public final class Util {
 	 *
 	 * @param aString the String to trim.
 	 * @return a new String with characters <code>\\u0020</code> removed from the end
+	 *
+	 * @deprecated Don't use. No replacement.
 	 */
 	public static String rightTrim(final String aString) {
 		if (aString == null) {
@@ -114,6 +100,8 @@ public final class Util {
 	 *
 	 * @param aString the String to trim.
 	 * @return a new String with characters <code>\\u0020</code> removed from the beginning
+	 *
+	 * @deprecated Don't use. No replacement.
 	 */
 	public static String leftTrim(final String aString) {
 		if (aString == null) {
