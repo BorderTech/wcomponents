@@ -42,7 +42,7 @@
 		"clean-css-cli": "4.1.11",
 		"eslint": "6.4.0",
 		"fs-extra": "8.1.0",
-		"grunt": "1.0.4",
+		"grunt": "1.4.1",
 		"grunt-contrib-clean": "2.0.0",
 		"grunt-contrib-copy": "1.0.0",
 		"intern": "4.4.3",
@@ -50,7 +50,7 @@
 		"properties": "1.2.1",
 		"sass": "1.5.1",
 		"sass-lint": "1.12.1",
-		"socket.io": "2.2.0",
+		"socket.io": "2.4.1",
 		"uglify-es": "3.3.9"
 	}
 }

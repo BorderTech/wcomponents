@@ -63,12 +63,12 @@
   max-width: 100%;
   overflow: auto;
   z-index: $wc-z-index-common;
-  
+
   // #1747 build-source-order dependent flaw - single attibute selector
   // can clash with [aria-busy='true'] which uses position:relative to place spinner
   &,
   &[aria-busy='true'] {
-	position: absolute;  
+    position: absolute;
   }
 
   dialog & {
