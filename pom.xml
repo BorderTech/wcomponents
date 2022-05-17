@@ -5,7 +5,8 @@
 	<parent>
 		<groupId>com.github.bordertech.common</groupId>
 		<artifactId>qa-parent</artifactId>
-		<version>1.0.17</version>
+		<version>1.0.19</version>
+		<relativePath/>
 	</parent>
 
 	<name>wcomponents-parent</name>
@@ -19,7 +20,7 @@
 	<properties>
 		<jetty.version>8.1.16.v20140903</jetty.version>
 		<bt.qa.skip>false</bt.qa.skip>
-		<enforcer.fail>false</enforcer.fail>
+		<bt.convergence.check.fail>false</bt.convergence.check.fail>
 		<!-- Report Vulnerabilities. -->
 		<failBuildOnCVSS>11</failBuildOnCVSS>
 		<!-- Update every 168 hours (7 days) -->
@@ -54,8 +55,8 @@
 	</issueManagement>
 
 	<ciManagement>
-		<system>TravisCI</system>
-		<url>https://travis-ci.org/BorderTech/wcomponents/</url>
+		<system>Github Actions</system>
+		<url>https://github.com/BorderTech/wcomponents/actions</url>
 	</ciManagement>
 
 	<dependencyManagement>
@@ -63,7 +64,7 @@
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
-				<version>4.12</version>
+				<version>4.13.2</version>
 				<scope>test</scope>
 			</dependency>
 		</dependencies>
@@ -147,7 +148,7 @@
 						<dependency>
 							<groupId>org.apache.ant</groupId>
 							<artifactId>ant</artifactId>
-							<version>1.10.11</version>
+							<version>1.10.12</version>
 						</dependency>
 					</dependencies>
 				</plugin>
