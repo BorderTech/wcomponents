@@ -67,6 +67,35 @@
 				<version>4.13.2</version>
 				<scope>test</scope>
 			</dependency>
+
+			<!-- JSR107 Caching provider. -->
+			<dependency>
+				<groupId>org.ehcache</groupId>
+				<artifactId>ehcache</artifactId>
+				<version>3.10.0</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>javax.cache</groupId>
+						<artifactId>cache-api</artifactId>
+					</exclusion>
+					<!-- Exclude jaxb runtime as ehcache has a wildcard dependency that breaks the build -->
+					<exclusion>
+						<groupId>org.glassfish.jaxb</groupId>
+						<artifactId>jaxb-runtime</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<!-- Specific JAXB runtime for cache provider -->
+			<dependency>
+				<groupId>org.glassfish.jaxb</groupId>
+				<artifactId>jaxb-runtime</artifactId>
+				<version>3.0.2</version>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
