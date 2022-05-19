@@ -6,6 +6,8 @@
 * Add addAll method to MutableContainer and subclasses
 
 ### Enhancements
+* Latest qa-parent and dependencies
+
 ### Bug Fixes
 
 ## 1.5.26
