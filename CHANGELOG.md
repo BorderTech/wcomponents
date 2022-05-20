@@ -3,6 +3,12 @@
 ## Release in-progress
 
 ### API Changes
+### Enhancements
+### Bug Fixes
+
+## 1.5.27
+
+### API Changes
 * Add addAll method to MutableContainer and subclasses
 
 ### Enhancements
