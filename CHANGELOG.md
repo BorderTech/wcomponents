@@ -5,6 +5,10 @@
 ### API Changes
 ### Enhancements
 ### Bug Fixes
+
+## 1.5.28
+
+### Bug Fixes
 * Revert maven-shade-plugin in wcomponents-examples-lde to previous version as latest version is breaking the installed pom file #1797
 
 ## 1.5.27
