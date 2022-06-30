@@ -1,4 +1,4 @@
-define(["wc/has", "wc/dom/classList", "wc/dom/event", "wc/ui/prompt", "wc/config", "lib/getusermedia-js/getUserMedia"], function(has, classList, event, prompt, wcconfig) {
+define(["wc/has", "wc/dom/event", "wc/ui/prompt", "wc/config", "lib/getusermedia-js/getUserMedia"], function(has, event, prompt, wcconfig) {
 	/**
 	 * Encapsulates the image capture functionality.
 	 * This is not a truly reusable module, it is part of imageEdit.js but has been split out for ease of maintenance.
@@ -79,7 +79,7 @@ define(["wc/has", "wc/dom/classList", "wc/dom/event", "wc/ui/prompt", "wc/config
 				click = eventConfig.click,
 				done = function(_video) {
 					var video = _video || getVideo();
-					classList.remove(container, "wc_showcam");
+					container.classList.remove("wc_showcam");
 					imageCapture.stop();
 					video.parentNode.removeChild(video);
 				};
@@ -97,7 +97,7 @@ define(["wc/has", "wc/dom/classList", "wc/dom/event", "wc/ui/prompt", "wc/config
 						}
 					} else if (currentOptions.context === "flash") {
 						currentOptions.capture();
-						classList.remove(container, "wc_showcam");
+						container.classList.remove("wc_showcam");
 					} else {
 						prompt.alert("No context was supplied to getSnapshot()");
 					}
@@ -115,7 +115,7 @@ define(["wc/has", "wc/dom/classList", "wc/dom/event", "wc/ui/prompt", "wc/config
 						width: fbCanvas.getWidth(),
 						height: fbCanvas.getHeight()
 					});
-					classList.add(container, "wc_showcam");
+					container.classList.add("wc_showcam");
 				}
 			};
 		}

@@ -8,9 +8,9 @@
  * @requires module:wc/dom/Widget
  * @requires module:wc/dom/initialise
  */
-define(["wc/ui/ajax/processResponse", "wc/dom/Widget", "wc/dom/initialise", "wc/dom/classList"],
-	/** @param processResponse wc/ui/ajax/processResponse @param Widget wc/dom/Widget @param initialise wc/dom/initialise  @param classList wc/dom/classList @ignore */
-	function(processResponse, Widget, initialise, classList) {
+define(["wc/ui/ajax/processResponse", "wc/dom/Widget", "wc/dom/initialise"],
+	/** @param processResponse wc/ui/ajax/processResponse @param Widget wc/dom/Widget @param initialise wc/dom/initialise @ignore */
+	function(processResponse, Widget, initialise) {
 		"use strict";
 
 		/**
@@ -60,7 +60,7 @@ define(["wc/ui/ajax/processResponse", "wc/dom/Widget", "wc/dom/initialise", "wc/
 
 				if (fieldElement.getAttribute(NO_PARENT_ATTRIB) === "true") {
 					fieldElement.removeAttribute(NO_PARENT_ATTRIB);
-					if (classList.contains(layout, "stacked")) {
+					if (layout.classList.contains("stacked")) {
 						PLACEHOLDER = PLACEHOLDER || new Widget("", "wc_fld_pl");
 						if ((pl = PLACEHOLDER.findDescendant(fieldElement))) {
 							pl.parentElement.removeChild(pl);

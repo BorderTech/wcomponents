@@ -22,7 +22,6 @@
  *
  * @module
  * @requires module:wc/dom/attribute
- * @requires module:wc/dom/classList
  * @requires module:wc/dom/event
  * @requires module:wc/dom/initialise
  * @requires module:wc/dom/shed
@@ -34,7 +33,6 @@
  * @todo Document private members, fix source order.
  */
 define(["wc/dom/attribute",
-	"wc/dom/classList",
 	"wc/dom/event",
 	"wc/dom/initialise",
 	"wc/dom/shed",
@@ -43,7 +41,7 @@ define(["wc/dom/attribute",
 	"lib/sprintf",
 	"wc/timers",
 	"wc/dom/wrappedInput"],
-function(attribute, classList, event, initialise, shed, Widget, i18n, sprintf, timers, wrappedInput) {
+function(attribute, event, initialise, shed, Widget, i18n, sprintf, timers, wrappedInput) {
 	"use strict";
 	var instance;
 
@@ -130,9 +128,9 @@ function(attribute, classList, event, initialise, shed, Widget, i18n, sprintf, t
 					 * set a visual flag on the ticker, not insert a visible error message
 					 * since maxLength violation is an allowed transient state until
 					 * such time as the control is part of a form submission.*/
-					classList.add(counter, ERR);
+					counter.classList.add(ERR);
 				} else {
-					classList.remove(counter, ERR);
+					counter.classList.remove(ERR);
 				}
 			}
 		}

@@ -1,6 +1,5 @@
 define(["wc/has",
 	"wc/dom/attribute",
-	"wc/dom/classList",
 	"wc/dom/event",
 	"wc/dom/focus",
 	"wc/dom/initialise",
@@ -14,7 +13,7 @@ define(["wc/has",
 	"wc/ui/listboxAnalog",
 	"wc/config"
 ],
-function(has, attribute, classList, event, focus, initialise, shed, Widget, key, timers, ajaxRegion, processResponse, onchangeSubmit, listboxAnalog, wcconfig) {
+function(has, attribute, event, focus, initialise, shed, Widget, key, timers, ajaxRegion, processResponse, onchangeSubmit, listboxAnalog, wcconfig) {
 	"use strict";
 
 	/**
@@ -666,7 +665,7 @@ function(has, attribute, classList, event, focus, initialise, shed, Widget, key,
 
 					// chatty ajax combos need a special input listener
 					if ((listbox = getListBox(combo)) && listbox.hasAttribute("data-wc-chat")) {
-						classList.add(combo, CLASS_CHATTY);
+						combo.classList.add(CLASS_CHATTY);
 						if (event.canCapture) {
 							event.add(element, "input", inputEvent);
 						} else {
@@ -918,7 +917,6 @@ function(has, attribute, classList, event, focus, initialise, shed, Widget, key,
 	 * @module
 	 * @requires module:wc/has
 	 * @requires module:wc/dom/attribute
-	 * @requires module:wc/dom/classList
 	 * @requires module:wc/dom/event
 	 * @requires module:wc/dom/focus
 	 * @requires module:wc/dom/initialise

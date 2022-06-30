@@ -7,7 +7,6 @@ define(["wc/dom/attribute",
 	"wc/date/monthName",
 	"wc/date/today",
 	"wc/date/interchange",
-	"wc/dom/classList",
 	"wc/dom/event",
 	"wc/dom/focus",
 	"wc/dom/shed",
@@ -22,7 +21,7 @@ define(["wc/dom/attribute",
 	"wc/timers",
 	"wc/template",
 	"wc/config"],
-function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthName, today, interchange, classList, event,
+function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthName, today, interchange, event,
 	focus, shed, tag, viewportCollision, getBox, Widget, i18n, isNumeric, dateField, initialise,
 	timers, template, wcconfig) {
 	"use strict";
@@ -354,7 +353,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 					setDate(new Date(), true);
 					break;
 				case KeyEvent.DOM_VK_TAB:
-					if (!shiftKey && classList.contains(element, CLASS.LAST)) {  // tabbing fwd past last day
+					if (!shiftKey && element.classList.contains(CLASS.LAST)) {  // tabbing fwd past last day
 						focus.setFocusRequest(findMonthSelect());  // move focus to first element
 						return true;
 					}
@@ -680,7 +679,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 							}
 
 							if (getDifference(_date, _today) === 0) {
-								classList.add(button, CLASS.TODAY);
+								button.classList.add(CLASS.TODAY);
 							}
 
 							if (setFocus && !focusDay && (getDifference(_date, date) === 0)) {
@@ -697,7 +696,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				}  // end of weeks
 
 				if (lastDay) {
-					classList.add(lastDay, CLASS.LAST);
+					lastDay.classList.add(CLASS.LAST);
 				}
 				if (focusDay) {
 					focus.setFocusRequest(focusDay);
@@ -813,7 +812,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				}
 			}
 			if (initiallyCollideWest) {
-				classList.add(cal, CLASS.WEST);
+				cal.classList.add(CLASS.WEST);
 				collision = viewportCollision(cal);
 				if (collision.e > 0) {
 					box = getBox(cal);
@@ -993,7 +992,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				if (action === shed.actions.HIDE) {
 					element.removeAttribute(CONTROL_ATTRIBUTE);
 					clearMinMaxYear();
-					classList.remove(element, CLASS.WEST);
+					element.classList.remove(CLASS.WEST);
 					element.style.left = "";
 					element.style.top = "";
 					element.removeAttribute("style"); // remove any inline styles
@@ -1147,7 +1146,6 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 	 * @requires module:wc/date/monthName
 	 * @requires module:wc/date/today
 	 * @requires module:wc/date/interchange
-	 * @requires module:wc/dom/classList
 	 * @requires module:wc/dom/event
 	 * @requires module:wc/dom/focus
 	 * @requires module:wc/dom/shed

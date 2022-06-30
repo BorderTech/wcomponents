@@ -1,6 +1,4 @@
-define(["wc/dom/classList",
-	"wc/dom/Widget"],
-function (classList, Widget) {
+define(["wc/dom/Widget"], function (Widget) {
 	"use strict";
 
 	/**
@@ -63,7 +61,7 @@ function (classList, Widget) {
 		iconElement = getIcon(element);
 		if (iconElement) {
 			func = add ? "add" : "remove";
-			classList[func](iconElement, icon);
+			iconElement.classList[func](icon);
 			return true;
 		}
 		return false;
@@ -94,10 +92,10 @@ function (classList, Widget) {
 			return;
 		}
 		if (remove) {
-			classList.remove(icon, remove);
+			icon.classList.remove(remove);
 		}
 		if (add) {
-			classList.add(icon, add);
+			icon.classList.add(add);
 		}
 	};
 
@@ -112,7 +110,7 @@ function (classList, Widget) {
 		var icon;
 		if (addRemoveIcon(element, remove)) {
 			icon = getIcon(element);
-			if (classList.getLength(icon) === 1) {
+			if (icon.classList.length === 1) {
 				// only `fa` left
 				icon.parentNode.removeChild(icon);
 			}
@@ -147,7 +145,6 @@ function (classList, Widget) {
 	/**
 	 * Allows for manipulation of icons.
 	 * @module
-	 * @requires module:wc/dom/classList
 	 * @requires module:wc/dom/Widget
 	 */
 	return new Icon();
