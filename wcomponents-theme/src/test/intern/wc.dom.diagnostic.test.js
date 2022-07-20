@@ -1,5 +1,5 @@
-define(["intern!object", "intern/chai!assert", "wc/dom/diagnostic", "wc/dom/classList", "intern/resources/test.utils!"],
-	function (registerSuite, assert, controller, classList, testutils) {
+define(["intern!object", "intern/chai!assert", "wc/dom/diagnostic", "intern/resources/test.utils!"],
+	function (registerSuite, assert, controller, testutils) {
 		"use strict";
 
 		var testHolder,
@@ -46,8 +46,8 @@ define(["intern!object", "intern/chai!assert", "wc/dom/diagnostic", "wc/dom/clas
 				className = controller.getBoxClass(level),
 				lvl;
 			try {
-				classList.add(box, className);
-				classList.add(other, className);
+				box.classList.add(className);
+				other.classList.add(className);
 
 				// a diagnostic box is a diagnostic box
 				assert.isTrue(controller.isOneOfMe(box), "Level class should still be a diagnostic");
@@ -67,8 +67,8 @@ define(["intern!object", "intern/chai!assert", "wc/dom/diagnostic", "wc/dom/clas
 					}
 				}
 			} finally {
-				classList.remove(box, className);
-				classList.remove(other, className);
+				box.classList.remove(className);
+				other.classList.remove(className);
 			}
 		}
 
@@ -78,7 +78,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/diagnostic", "wc/dom/clas
 				className = controller.getBoxClass(level),
 				lvl;
 			try {
-				classList.add(box, className);
+				box.classList.add(className);
 				msg = getMessageElement();
 
 				// a diagnostic box is a diagnostic box
@@ -96,7 +96,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/diagnostic", "wc/dom/clas
 					}
 				}
 			} finally {
-				classList.remove(box, className);
+				box.classList.remove(className);
 			}
 		}
 
@@ -105,7 +105,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/diagnostic", "wc/dom/clas
 				className = controller.getBoxClass(level),
 				lvl;
 			try {
-				classList.add(box, className);
+				box.classList.add(className);
 				assert.strictEqual(controller.getLevel(box), level, "Level class should be sufficient");
 				// a diagnostic box at any one level is NOT a box at other levels
 				for (lvl in controller.LEVEL) {
@@ -117,7 +117,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/diagnostic", "wc/dom/clas
 					}
 				}
 			} finally {
-				classList.remove(box, className);
+				box.classList.remove(className);
 			}
 		}
 
@@ -130,7 +130,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/diagnostic", "wc/dom/clas
 			target.id = expected;
 			testHolder.appendChild(target);
 			box.setAttribute("data-wc-dfor", expected);
-			classList.add(box, className);
+			box.classList.add(className);
 			assert.strictEqual((controller.getTarget(box).id), expected);
 		}
 

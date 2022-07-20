@@ -1,5 +1,4 @@
 define(["wc/dom/attribute",
-	"wc/dom/classList",
 	"wc/dom/clearSelection",
 	"wc/dom/event",
 	"wc/dom/getEventOffset",
@@ -16,7 +15,7 @@ define(["wc/dom/attribute",
 	"wc/timers",
 	"wc/ui/icon",
 	"wc/config"],
-function(attribute, classList, clearSelection, event, getMouseEventOffset, isAcceptableTarget, getBox, getStyle,
+function(attribute, clearSelection, event, getMouseEventOffset, isAcceptableTarget, getBox, getStyle,
 	initialise, shed, uid, Widget, has, processResponse, Observer, timers, icon, wcconfig) {
 
 	"use strict";
@@ -558,7 +557,7 @@ function(attribute, classList, clearSelection, event, getMouseEventOffset, isAcc
 		function shedSelectSubscriber(element, action) {
 			var target;
 			if (element && MAX.isOneOfMe(element) && (target = getResizeTarget(element))) {
-				classList[(action === shed.actions.SELECT ? "add" : "remove")](target, CLASS_MAX);
+				target.classList[(action === shed.actions.SELECT ? "add" : "remove")](CLASS_MAX);
 				if (action === shed.actions.SELECT) {
 					icon.change(element, "fa-minus", "fa-plus");
 				} else {
@@ -584,7 +583,7 @@ function(attribute, classList, clearSelection, event, getMouseEventOffset, isAcc
 		 * @param {Element} element The element we wish to change.
 		 */
 		this.setMaxBar = function(element) {
-			classList.add(element, CLASS_MAX_CONTROL);
+			element.classList.add(CLASS_MAX_CONTROL);
 		};
 
 		/**
@@ -594,7 +593,7 @@ function(attribute, classList, clearSelection, event, getMouseEventOffset, isAcc
 		 * @param {Element} element The element we wish to change.
 		 */
 		this.clearMaxBar = function(element) {
-			classList.remove(element, CLASS_MAX_CONTROL);
+			element.classList.remove(CLASS_MAX_CONTROL);
 		};
 
 		function setup(element) {
@@ -708,7 +707,7 @@ function(attribute, classList, clearSelection, event, getMouseEventOffset, isAcc
 		 * @param {Element} element The element to animate.
 		 */
 		this.makeAnimatable = function(element) {
-			classList.add(element, RESIZEABLE_HAS_ANIMATION_CLASS);
+			element.classList.add(RESIZEABLE_HAS_ANIMATION_CLASS);
 		};
 
 		/**
@@ -719,7 +718,7 @@ function(attribute, classList, clearSelection, event, getMouseEventOffset, isAcc
 		 * @param {Element} element The element to stop animating.
 		 */
 		this.clearAnimatable = function(element) {
-			classList.remove(element, RESIZEABLE_HAS_ANIMATION_CLASS);
+			element.classList.remove(RESIZEABLE_HAS_ANIMATION_CLASS);
 		};
 
 		/**
@@ -730,7 +729,7 @@ function(attribute, classList, clearSelection, event, getMouseEventOffset, isAcc
 		 * @param {Element} element The resizeable element to manipulate.
 		 */
 		this.disableAnimation = function(element) {
-			if (classList.contains(element, RESIZEABLE_HAS_ANIMATION_CLASS)) {
+			if (element.classList.contains(RESIZEABLE_HAS_ANIMATION_CLASS)) {
 				this.clearAnimatable(element);
 				element.setAttribute(CLASS_REMOVED_ATTRIB, TRUE);
 			}
@@ -756,7 +755,6 @@ function(attribute, classList, clearSelection, event, getMouseEventOffset, isAcc
 	 *
 	 * @module
 	 * @requires module:wc/dom/attribute
-	 * @requires module:wc/dom/classList
 	 * @requires module:wc/dom/clearSelection
 	 * @requires module:wc/dom/event
 	 * @requires module:wc/dom/getEventOffset

@@ -9,10 +9,9 @@ define(["wc/dom/event",
 	"wc/dom/Widget",
 	"wc/dom/initialise",
 	"wc/ui/ajax/processResponse",
-	"wc/dom/classList",
 	"wc/mixin",
 	"wc/timers"],
-function(event, debounce, attribute, isSuccessfulElement, tag, Trigger, triggerManager, shed, Widget, initialise, processResponse, classList, mixin, timers) {
+function(event, debounce, attribute, isSuccessfulElement, tag, Trigger, triggerManager, shed, Widget, initialise, processResponse, mixin, timers) {
 	"use strict";
 	var instance;
 
@@ -107,7 +106,7 @@ function(event, debounce, attribute, isSuccessfulElement, tag, Trigger, triggerM
 			var tagName = element.tagName,
 				type = element.type;
 			// NOTE: a standalone listbox or dropdown is an ajax trigger, a select element as a sub element of a compund controller is not
-			if (shed.isSelectable(element) || classList.contains(element, "wc-noajax")) {
+			if (shed.isSelectable(element) || element.classList.contains("wc-noajax")) {
 				return false;
 			}
 			// Don't allow file to trigger on change it breaks multiFileUploader when large number of files are selected

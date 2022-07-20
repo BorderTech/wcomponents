@@ -11,7 +11,6 @@
  * @requires module:wc/dom/Widget
  * @requires module:wc/ui/containerload
  * @requires module:wc/dom/focus
- * @requires module:wc/dom/classList
  * @requires module:wc/ui/viewportUtils
  * @requires module:wc/ui/ajax/processResponse
  * @requires module:wc/dom/event
@@ -26,14 +25,13 @@ define(["wc/array/toArray",
 	"wc/dom/Widget",
 	"wc/ui/containerload",
 	"wc/dom/focus",
-	"wc/dom/classList",
 	"wc/ui/viewportUtils",
 	"wc/ui/ajax/processResponse",
 	"wc/dom/event",
 	"wc/debounce",
 	"wc/dom/getStyle"],
 function(toArray, ariaAnalog, formUpdateManager, getFilteredGroup, initialise, shed, Widget, containerload,
-	focus, classList, viewportUtils, processResponse, event, debounce, getStyle) {
+	focus, viewportUtils, processResponse, event, debounce, getStyle) {
 	"use strict";
 	var instance;
 
@@ -754,8 +752,8 @@ function(toArray, ariaAnalog, formUpdateManager, getFilteredGroup, initialise, s
 				}
 			} finally {
 				if (successful) {
-					classList.remove(accordion, ACCORDION_CLASS);
-					if (classList.contains(accordion, "wc-tabset-type-left") || classList.contains(accordion, "wc-tabset-type-right")) {
+					accordion.classList.remove(ACCORDION_CLASS);
+					if (accordion.classList.contains("wc-tabset-type-left") || accordion.classList.contains("wc-tabset-type-right")) {
 						tablist.setAttribute("aria-orientation", "vertical");
 					}
 					tablist.removeAttribute(MULTISELECT);
@@ -801,7 +799,7 @@ function(toArray, ariaAnalog, formUpdateManager, getFilteredGroup, initialise, s
 				}
 			} finally {
 				if (successful) {
-					classList.add(tabset, ACCORDION_CLASS);
+					tabset.classList.add(ACCORDION_CLASS);
 					tablist.setAttribute(MULTISELECT, FALSE); // must be a single select accordion.
 					tablist.removeAttribute("aria-orientation");
 					clearSize(tabset);

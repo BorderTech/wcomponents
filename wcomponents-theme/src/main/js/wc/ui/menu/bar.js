@@ -7,13 +7,12 @@ define(["wc/ui/menu/core",
 	"wc/dom/initialise",
 	"wc/dom/uid",
 	"wc/i18n/i18n",
-	"wc/dom/classList",
 	"wc/timers",
 	"wc/ui/ajax/processResponse",
 	"wc/template",
 	"wc/ui/viewportUtils",
 	"wc/ui/menu/menuItem"],
-function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid, i18n, classList, timers,
+function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid, i18n, timers,
 	processResponse, template, viewportUtils) {
 	"use strict";
 	var instance;
@@ -242,7 +241,7 @@ function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid,
 			var burger,
 				submenuContent,
 				current;
-			if (!classList.contains(nextMenu, MENU_FIXED)) {
+			if (!nextMenu.classList.contains(MENU_FIXED)) {
 				return;
 			}
 
@@ -257,7 +256,7 @@ function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid,
 					return;
 				}
 				while ((current = submenuContent.firstChild)) {
-					if (classList.contains(current, "wc_closesubmenu")) {
+					if (current.classList.contains("wc_closesubmenu")) {
 						submenuContent.removeChild(current);
 					} else {
 						nextMenu.appendChild(current);
@@ -266,7 +265,7 @@ function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid,
 				burger.parentNode.removeChild(burger);
 
 			} finally {
-				classList.remove(nextMenu, MENU_FIXED);
+				nextMenu.classList.remove(MENU_FIXED);
 			}
 		}
 
@@ -325,7 +324,7 @@ function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid,
 		 * @param {Element} nextMenu The menu to be processed.
 		 */
 		function makeIconified(nextMenu) {
-			if (classList.contains(nextMenu, MENU_FIXED)) {
+			if (nextMenu.classList.contains(MENU_FIXED)) {
 				return;
 			}
 			i18n.translate(["menu_open_label", "menu_close_label"]).then(function(strings) {
@@ -347,7 +346,7 @@ function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid,
 					target: nextMenu,
 					context: props,
 					callback: function() {
-						classList.add(nextMenu, MENU_FIXED);
+						nextMenu.classList.add(MENU_FIXED);
 					}
 				});
 			});
@@ -479,7 +478,6 @@ function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid,
 	 * @requires module:wc/dom/initialise
 	 * @requires module:wc/dom/uid
 	 * @requires module:wc/i18n/i18n
-	 * @requires module:wc/dom/classList
 	 * @requires module:wc/timers
 	 * @requires module:wc/ui/ajax/processResponse
 	 * @requires:module:wc/template

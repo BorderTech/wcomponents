@@ -1,5 +1,5 @@
-define(["intern!object", "intern/chai!assert", "wc/ui/icon", "wc/dom/classList", "intern/resources/test.utils"],
-	function (registerSuite, assert, controller, classList, testutils) {
+define(["intern!object", "intern/chai!assert", "wc/ui/icon", "intern/resources/test.utils"],
+	function (registerSuite, assert, controller, testutils) {
 		"use strict";
 
 		var testHolder,
@@ -98,16 +98,16 @@ define(["intern!object", "intern/chai!assert", "wc/ui/icon", "wc/dom/classList",
 			testAdd_toIcon: function() {
 				var target = getElement(true),
 					icon = target.firstElementChild;
-				assert.isFalse(classList.contains(icon, newIconClass));
+				assert.isFalse(icon.classList.contains(newIconClass));
 				controller.add(icon, newIconClass);
-				assert.isTrue(classList.contains(icon, newIconClass));
+				assert.isTrue(icon.classList.contains(newIconClass));
 			},
 			testAdd_toContainingElementWithIcon: function() {
 				var target = getElement(true),
 					icon = target.firstElementChild;
-				assert.isFalse(classList.contains(icon, newIconClass));
+				assert.isFalse(icon.classList.contains(newIconClass));
 				controller.add(target, newIconClass);
-				assert.isTrue(classList.contains(icon, newIconClass));
+				assert.isTrue(icon.classList.contains(newIconClass));
 			},
 			testAdd_toContainingElementNoIcon: function() {
 				var target = getElement(),
@@ -116,8 +116,8 @@ define(["intern!object", "intern/chai!assert", "wc/ui/icon", "wc/dom/classList",
 				controller.add(target, newIconClass);
 				icon = target.firstElementChild;
 				assert.isOk(icon);
-				assert.isTrue(classList.contains(icon, newIconClass));
-				assert.isTrue(classList.contains(icon, "fa"));
+				assert.isTrue(icon.classList.contains(newIconClass));
+				assert.isTrue(icon.classList.contains("fa"));
 			},
 			testRemove_noArgs: function() {
 				try {
@@ -154,13 +154,13 @@ define(["intern!object", "intern/chai!assert", "wc/ui/icon", "wc/dom/classList",
 			testRemove_multipleClasses: function() {
 				var target = getElement(true),
 					icon = target.firstElementChild;
-				classList.add(icon, newIconClass);
-				assert.isTrue(classList.contains(icon, startIconClass));
+				icon.classList.add(newIconClass);
+				assert.isTrue(icon.classList.contains(startIconClass));
 				controller.remove(icon, startIconClass);
 				// remove only the class, not the icon element
 				icon = target.firstElementChild;
 				assert.isOk(icon);
-				assert.isFalse(classList.contains(icon, startIconClass));
+				assert.isFalse(icon.classList.contains(startIconClass));
 			},
 			testRemove_lastIconClass: function() {
 				var target = getElement(true),
@@ -173,13 +173,13 @@ define(["intern!object", "intern/chai!assert", "wc/ui/icon", "wc/dom/classList",
 			testRemove_withContainingElement: function() {
 				var target = getElement(true),
 					icon = target.firstElementChild;
-				classList.add(icon, newIconClass);
-				assert.isTrue(classList.contains(icon, startIconClass));
+				icon.classList.add(newIconClass);
+				assert.isTrue(icon.classList.contains(startIconClass));
 				controller.remove(target, startIconClass);
 				// remove only the class, not the icon element
 				icon = target.firstElementChild;
 				assert.isOk(icon);
-				assert.isFalse(classList.contains(icon, startIconClass));
+				assert.isFalse(icon.classList.contains(startIconClass));
 			},
 			testRemove_lastIconClassWithContainingElement: function() {
 				var target = getElement(true),
@@ -192,18 +192,18 @@ define(["intern!object", "intern/chai!assert", "wc/ui/icon", "wc/dom/classList",
 			testRemove_classNotPresent: function() {
 				var target = getElement(true),
 					icon = target.firstElementChild;
-				assert.isTrue(classList.contains(icon, startIconClass));
-				assert.isFalse(classList.contains(icon, newIconClass));
+				assert.isTrue(icon.classList.contains(startIconClass));
+				assert.isFalse(icon.classList.contains(newIconClass));
 				controller.remove(icon, newIconClass);
 				icon = target.firstElementChild;
-				assert.isTrue(classList.contains(icon, startIconClass));
-				assert.isFalse(classList.contains(icon, newIconClass));
+				assert.isTrue(icon.classList.contains(startIconClass));
+				assert.isFalse(icon.classList.contains(newIconClass));
 			},
 			testChange_noIconArgs: function() {
 				var target = getElement(true),
 					icon = target.firstElementChild;
 				assert.isUndefined(controller.change(target));
-				assert.isTrue(classList.contains(icon, startIconClass));
+				assert.isTrue(icon.classList.contains(startIconClass));
 			},
 			testChange_noElement: function() {
 				try {
@@ -216,46 +216,46 @@ define(["intern!object", "intern/chai!assert", "wc/ui/icon", "wc/dom/classList",
 			testChange: function() {
 				var target = getElement(true),
 					icon = target.firstElementChild;
-				assert.isTrue(classList.contains(icon, startIconClass));
-				assert.isFalse(classList.contains(icon, newIconClass));
+				assert.isTrue(icon.classList.contains(startIconClass));
+				assert.isFalse(icon.classList.contains(newIconClass));
 				controller.change(icon, newIconClass, startIconClass);
-				assert.isTrue(classList.contains(icon, newIconClass));
-				assert.isFalse(classList.contains(icon, startIconClass));
+				assert.isTrue(icon.classList.contains(newIconClass));
+				assert.isFalse(icon.classList.contains(startIconClass));
 			},
 			testChange_withContainingElement: function() {
 				var target = getElement(true),
 					icon = target.firstElementChild;
-				assert.isTrue(classList.contains(icon, startIconClass));
-				assert.isFalse(classList.contains(icon, newIconClass));
+				assert.isTrue(icon.classList.contains(startIconClass));
+				assert.isFalse(icon.classList.contains(newIconClass));
 				controller.change(target, newIconClass, startIconClass);
-				assert.isTrue(classList.contains(icon, newIconClass));
-				assert.isFalse(classList.contains(icon, startIconClass));
+				assert.isTrue(icon.classList.contains(newIconClass));
+				assert.isFalse(icon.classList.contains(startIconClass));
 			},
 			testChange_noRemove: function () {
 				var target = getElement(true),
 					icon = target.firstElementChild;
-				assert.isTrue(classList.contains(icon, startIconClass));
-				assert.isFalse(classList.contains(icon, newIconClass));
+				assert.isTrue(icon.classList.contains(startIconClass));
+				assert.isFalse(icon.classList.contains(newIconClass));
 				controller.change(target, newIconClass);
-				assert.isTrue(classList.contains(icon, startIconClass));
-				assert.isTrue(classList.contains(icon, newIconClass));
+				assert.isTrue(icon.classList.contains(startIconClass));
+				assert.isTrue(icon.classList.contains(newIconClass));
 			},
 			testChange_noAdd: function () {
 				var target = getElement(true),
 					icon = target.firstElementChild;
-				assert.isTrue(classList.contains(icon, startIconClass));
-				classList.add(icon, "someOtherClass");
+				assert.isTrue(icon.classList.contains(startIconClass));
+				icon.classList.add("someOtherClass");
 				controller.change(target, null, startIconClass);
-				assert.isFalse(classList.contains(icon, startIconClass));
+				assert.isFalse(icon.classList.contains(startIconClass));
 			},
 			testChange_removeNotPresent: function() {
 				var target = getElement(true),
 					icon = target.firstElementChild;
-				assert.isTrue(classList.contains(icon, startIconClass));
-				assert.isFalse(classList.contains(icon, newIconClass));
+				assert.isTrue(icon.classList.contains(startIconClass));
+				assert.isFalse(icon.classList.contains(newIconClass));
 				controller.change(icon, newIconClass, "someOtherClass");
-				assert.isTrue(classList.contains(icon, newIconClass));
-				assert.isTrue(classList.contains(icon, startIconClass));
+				assert.isTrue(icon.classList.contains(newIconClass));
+				assert.isTrue(icon.classList.contains(startIconClass));
 			}
 		});
 	});

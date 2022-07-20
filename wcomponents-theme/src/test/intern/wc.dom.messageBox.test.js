@@ -1,5 +1,5 @@
-define(["intern!object", "intern/chai!assert", "wc/dom/messageBox", "wc/dom/classList", "wc/ui/icon", "wc/i18n/i18n", "intern/resources/test.utils!"],
-	function (registerSuite, assert, controller, classList, icon, i18n, testutils) {
+define(["intern!object", "intern/chai!assert", "wc/dom/messageBox", "wc/ui/icon", "wc/i18n/i18n", "intern/resources/test.utils!"],
+	function (registerSuite, assert, controller, icon, i18n, testutils) {
 		"use strict";
 		/*
 		 * Unit tests for wc/dom/messageBox
@@ -20,7 +20,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/messageBox", "wc/dom/clas
 			boxHeading = box.firstElementChild;
 
 			if (type && !icon.get(boxHeading)) {
-				classList.add(box, type);
+				box.classList.add(type);
 				switch (type) {
 					case "wc-messagebox-type-error" :
 						iconName = "fa-minus-circle";

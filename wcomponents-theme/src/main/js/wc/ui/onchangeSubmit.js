@@ -10,9 +10,8 @@ define(["wc/dom/attribute",
 	"wc/ui/label",
 	"wc/i18n/i18n",
 	"wc/dom/textContent",
-	"wc/ui/ajax/processResponse",
-	"wc/dom/classList"],
-function(attribute, event, initialise, shed, triggerManager, serialize, Widget, timers, getFirstLabelForElement, label, i18n, textContent, processResponse, classList) {
+	"wc/ui/ajax/processResponse"],
+function(attribute, event, initialise, shed, triggerManager, serialize, Widget, timers, getFirstLabelForElement, label, i18n, textContent, processResponse) {
 	"use strict";
 	var instance;
 
@@ -225,7 +224,7 @@ function(attribute, event, initialise, shed, triggerManager, serialize, Widget, 
 						label.setHint(myLabel, realSoCHint);
 					}
 					// if the label is off-screen force it back on.
-					classList.remove(myLabel, "wc-off");
+					myLabel.classList.remove("wc-off");
 				});
 			}
 		};
@@ -287,7 +286,6 @@ function(attribute, event, initialise, shed, triggerManager, serialize, Widget, 
 	 *
 	 * @module
 	 * @requires module:wc/dom/attribute
-	 * @requires module:wc/dom/classList
 	 * @requires module:wc/dom/event
 	 * @requires module:wc/dom/initialise
 	 * @requires module:wc/dom/shed

@@ -1,12 +1,11 @@
-define(["wc/dom/classList",
-	"wc/dom/initialise",
+define(["wc/dom/initialise",
 	"wc/dom/tag",
 	"wc/ui/ajax/processResponse",
 	"wc/i18n/i18n",
 	"wc/ui/getFirstLabelForElement",
 	"wc/ui/getVisibleText",
 	"wc/timers"],
-function (classList, initialise, tag, processResponse, i18n, getFirstLabelForElement, getVisibleText, timers) {
+function (initialise, tag, processResponse, i18n, getFirstLabelForElement, getVisibleText, timers) {
 	"use strict";
 
 	/**
@@ -72,7 +71,7 @@ function (classList, initialise, tag, processResponse, i18n, getFirstLabelForEle
 			if (label) {
 				if (isLabelEmpty(label)) {
 					label.insertAdjacentHTML("beforeend", i18n.get("requiredLabel"));
-					classList.add(label, "wc-err");
+					label.classList.add("wc-err");
 				}
 				return false;
 			}
@@ -81,7 +80,7 @@ function (classList, initialise, tag, processResponse, i18n, getFirstLabelForEle
 
 		function testLabel(element) {
 			// hidden inputs do not need to be labelled.
-			if (element.type === "hidden" || classList.contains(element, "wc_nolabel")) {
+			if (element.type === "hidden" || element.classList.contains("wc_nolabel")) {
 				return;
 			}
 			// Any one (or more) of aria-label, title or aria-describedby is OK
@@ -159,7 +158,6 @@ function (classList, initialise, tag, processResponse, i18n, getFirstLabelForEle
 	 * 3. no title
 	 *
 	 * @module
-	 * @requires module:wc/dom/classList
 	 * @requires module:wc/dom/initialise
 	 * @requires module:wc/dom/tag
 	 * @requires module:wc/ui/ajax/processResponse

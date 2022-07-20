@@ -6,13 +6,12 @@ define(["wc/ui/menu/core",
 	"wc/ui/menu/treeItem",
 	"wc/dom/initialise",
 	"wc/has",
-	"wc/dom/classList",
 	"wc/dom/formUpdateManager",
 	"wc/dom/getFilteredGroup",
 	"wc/ui/ajaxRegion",
 	"wc/timers",
 	"wc/ui/icon"],
-function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, has, classList, formUpdateManager, getFilteredGroup, ajaxRegion, timers, icon) {
+function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, has, formUpdateManager, getFilteredGroup, ajaxRegion, timers, icon) {
 	"use strict";
 	var instance;
 
@@ -45,7 +44,7 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, h
 			if (!root) {
 				return false;
 			}
-			return classList.contains(root, "wc_htree");
+			return root.classList.contains("wc_htree");
 		};
 
 		/**
@@ -628,7 +627,7 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, h
 		this._textMatchFilter = function(textNode) {
 			var parent = textNode.parentNode;
 
-			if (!classList.contains(parent, "wc_leaf_name")) {
+			if (!parent.classList.contains("wc_leaf_name")) {
 				return  NodeFilter.FILTER_SKIP;
 			}
 
@@ -702,7 +701,6 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, h
 	 * @requires module:wc/ui/menu/treeItem
 	 * @requires module:wc/dom/initialise
 	 * @requires module:wc/has
-	 * @requires module:wc/dom/classList
 	 * @requires module:wc/dom/formUpdateManager
 	 * @requires module:wc/dom/getFilteredGroup
 	 * @requires module:wc/ui/ajaxRegion

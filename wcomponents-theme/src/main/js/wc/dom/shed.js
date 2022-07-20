@@ -2,13 +2,12 @@
 define(["wc/dom/event",
 	"wc/dom/aria",
 	"wc/dom/impliedARIA",
-	"wc/dom/classList",
 	"wc/dom/tag",
 	"wc/dom/Widget",
 	"wc/dom/getLabelsForElement",
 	"wc/dom/role",
 	"wc/dom/getStyle"],
-function(event, aria, impliedAria, classList, tag, Widget, getLabelsForElement, $role, getStyle) {
+function(event, aria, impliedAria, tag, Widget, getLabelsForElement, $role, getStyle) {
 	"use strict";
 	var instance;
 
@@ -122,7 +121,7 @@ function(event, aria, impliedAria, classList, tag, Widget, getLabelsForElement, 
 				 * NOTE: do the native/aria stuff first because the fieldset may have a role.
 				 */
 				func = reverse ? "remove" : "add";
-				classList[func](element, CLASS_REQUIRED);
+				element.classList[func](CLASS_REQUIRED);
 			} else {
 				applyStateToChildren(element, STATE, reverse);
 			}
@@ -621,7 +620,7 @@ function(event, aria, impliedAria, classList, tag, Widget, getLabelsForElement, 
 				return true;
 			}
 			if (ignoreOffset) {
-				if (classList.contains(_el, "wc-off") || getStyle(_el, "display", false, true) === "none"
+				if (_el.classList.contains("wc-off") || getStyle(_el, "display", false, true) === "none"
 						|| getStyle(_el, "visibility", false, true) === "hidden") {
 					return true;
 				}
@@ -643,7 +642,7 @@ function(event, aria, impliedAria, classList, tag, Widget, getLabelsForElement, 
 
 			if (element.hasAttribute(NATIVE_STATE[REQUIRED]) ||
 				element.getAttribute(ARIA_STATE[REQUIRED]) === "true" ||
-				(element.tagName === tag.FIELDSET && classList.contains(element, CLASS_REQUIRED))) {
+				(element.tagName === tag.FIELDSET && element.classList.contains(CLASS_REQUIRED))) {
 				result = true;
 			}
 			return result;
@@ -867,7 +866,6 @@ function(event, aria, impliedAria, classList, tag, Widget, getLabelsForElement, 
 	 * @requires module:wc/dom/event
 	 * @requires module:wc/dom/aria
 	 * @requires module:wc/dom/impliedARIA
-	 * @requires module:wc/dom/classList
 	 * @requires module:wc/dom/tag
 	 * @requires module:wc/dom/Widget
 	 * @requires module:wc/dom/getLabelsForElement

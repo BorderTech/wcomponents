@@ -1,5 +1,5 @@
 require(["wc/compat/compat!"], function() {
-	require(["wc/dom/event", "wc/dom/classList", "wc/dom/initialise"], function(event, classList, initialise){
+	require(["wc/dom/event", "wc/dom/initialise"], function(event, initialise){
 		// This script exists _only_ as an example to show use of WButton setClientCommandOnly(boolean);
 
 		/**
@@ -9,7 +9,7 @@ require(["wc/compat/compat!"], function() {
 		function clickEvent($event) {
 			var target = $event.target;
 
-			if (target && classList.contains(target, "hellobutton")) {
+			if (target && target.classList.contains("hellobutton")) {
 				window.alert("hello");
 			}
 		}

@@ -5,15 +5,14 @@
  * any screen with such a WCancelButton.
  *
  * @module
- * @requires module:wc/dom/classList
  * @requires module:wc/dom/initialise
  * @requires module:wc/dom/Widget
  * @requires module:wc/ui/ajax/processResponse
  * @requires module:wc/ui/cancelUpdate
  */
-define(["wc/dom/classList", "wc/dom/initialise", "wc/dom/Widget", "wc/ui/ajax/processResponse", "wc/ui/cancelUpdate"],
+define(["wc/dom/initialise", "wc/dom/Widget", "wc/ui/ajax/processResponse", "wc/ui/cancelUpdate"],
 	/* cancelUpdate is added as a requirement because any cancel button will need it implicitly */
-	function(classList, initialise, Widget, processResponse) {
+	function(initialise, Widget, processResponse) {
 		"use strict";
 
 		/**
@@ -36,7 +35,7 @@ define(["wc/dom/classList", "wc/dom/initialise", "wc/dom/Widget", "wc/ui/ajax/pr
 			function ajaxSubscriber(element) {
 				var form;
 				if (element && (UNSAVED_BUTTON.isOneOfMe(element) || UNSAVED_BUTTON.findDescendant(element)) && (form = FORM.findAncestor(element))) {
-					classList.add(form, UNSAVED);
+					form.classList.add(UNSAVED);
 				}
 			}
 
@@ -58,7 +57,7 @@ define(["wc/dom/classList", "wc/dom/initialise", "wc/dom/Widget", "wc/ui/ajax/pr
 			this.postInit = function() {
 				var button, form;
 				if ((button = UNSAVED_BUTTON.findDescendant(document.body)) && (form = FORM.findAncestor(button))) {
-					classList.add(form, UNSAVED);
+					form.classList.add(UNSAVED);
 				} else {
 					processResponse.subscribe(ajaxSubscriber, true);
 				}

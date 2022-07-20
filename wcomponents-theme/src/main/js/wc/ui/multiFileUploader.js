@@ -4,7 +4,6 @@ define(["wc/dom/attribute",
 	"wc/dom/initialise",
 	"wc/dom/uid",
 	"wc/ajax/Trigger",
-	"wc/dom/classList",
 	"wc/has",
 	"wc/file/clearSelector",
 	"wc/file/validate",
@@ -23,7 +22,7 @@ define(["wc/dom/attribute",
 	"wc/ui/feedback",
 	"wc/ui/icon",
 	"wc/ui/fieldset"],
-function (attribute, prefetch, event, initialise, uid, Trigger, classList, has, clearSelector, validate, i18n, Widget, formUpdateManager,
+function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelector, validate, i18n, Widget, formUpdateManager,
 	filedrop, ajax, prompt, focus, isNumeric, ajaxRegion, wcconfig, debounce, toDocFragment, feedback, icon) {
 	"use strict";
 
@@ -40,7 +39,6 @@ function (attribute, prefetch, event, initialise, uid, Trigger, classList, has, 
 		 * @requires wc/dom/initialise
 		 * @requires wc/dom/uid
 		 * @requires wc/ajax/Trigger
-		 * @requires wc/dom/classList
 		 * @requires wc/has
 		 * @requires wc/file/clearSelector
 		 * @requires wc/file/validate
@@ -162,7 +160,7 @@ function (attribute, prefetch, event, initialise, uid, Trigger, classList, has, 
 						if (proceed) {
 							removeFileItem(fileInfo);
 						}
-					} else if ((container = containerWd.findAncestor(fileInfo)) && classList.contains(container, CLASS_AJAX_UPLOADER)) {
+					} else if ((container = containerWd.findAncestor(fileInfo)) && container.classList.contains(CLASS_AJAX_UPLOADER)) {
 						trigger = itemActivationWd.isOneOfMe(element) ? element : itemActivationWd.findAncestor(element);
 						if (trigger) {
 							// trigger.removeAttribute("target");
@@ -505,7 +503,7 @@ function (attribute, prefetch, event, initialise, uid, Trigger, classList, has, 
 			var inited = attribute.get(form, INITED_KEY);
 			if (!inited) {
 				attribute.set(form, INITED_KEY, true);
-				if (!classList.contains(form, CLASS_NAME)) {
+				if (!form.classList.contains(CLASS_NAME)) {
 					event.add(form, "submit", submitEvent, -50);
 					if (!has("ie") || has("ie") > 8) {
 						event.add(form, "change", changeEvent);
@@ -608,7 +606,7 @@ function (attribute, prefetch, event, initialise, uid, Trigger, classList, has, 
 			}
 			event.add(element, "click", clickEvent);
 			if (has("rtc-gum") || has("flash")) {
-				classList.add(element, "wc-rtc-gum");
+				element.classList.add("wc-rtc-gum");
 			}
 		};
 

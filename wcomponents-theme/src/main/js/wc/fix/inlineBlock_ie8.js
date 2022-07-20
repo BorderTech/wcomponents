@@ -1,4 +1,4 @@
-define(["wc/has", "wc/dom/classList", "wc/timers"], function(has, classList, timers) {
+define(["wc/has", "wc/timers"], function(has, timers) {
 	"use strict";
 	var redrawTimer,
 		TRIGGER_CLASS = "noop",
@@ -14,7 +14,7 @@ define(["wc/has", "wc/dom/classList", "wc/timers"], function(has, classList, tim
 	 */
 	function repaint() {
 		redrawTimer = null;
-		classList.toggle(document.body, TRIGGER_CLASS);
+		document.body.classList.toggle(TRIGGER_CLASS);
 		console.log("Forcing IE8 to repaint...");
 	}
 
@@ -59,7 +59,6 @@ define(["wc/has", "wc/dom/classList", "wc/timers"], function(has, classList, tim
 	 * @module
 	 * @private
 	 * @requires module:wc/has
-	 * @requires module:wc/dom/classList
 	 * @requires module:wc/timers
 	 */
 	return { checkRepaint: checkRepaint };

@@ -1,5 +1,4 @@
-define(["wc/dom/classList",
-	"wc/dom/initialise",
+define(["wc/dom/initialise",
 	"wc/dom/shed",
 	"wc/dom/event",
 	"wc/dom/tag",
@@ -11,7 +10,7 @@ define(["wc/dom/classList",
 	"wc/dom/wrappedInput",
 	"wc/ui/checkBox",
 	"wc/ui/feedback"],
-function (classList, initialise, shed, event, tag, Widget, getLabelsForElement, processResponse, $role, textContent, wrappedInput, checkBox, feedback) {
+function (initialise, shed, event, tag, Widget, getLabelsForElement, processResponse, $role, textContent, wrappedInput, checkBox, feedback) {
 	"use strict";
 	/**
 	 * @constructor
@@ -36,7 +35,7 @@ function (classList, initialise, shed, event, tag, Widget, getLabelsForElement, 
 		 */
 		function mandateLabel(label, func) {
 			if (label.tagName !== tag.LEGEND) {
-				classList[func](label, "wc_req");
+				label.classList[func]("wc_req");
 			}
 		}
 
@@ -428,7 +427,6 @@ function (classList, initialise, shed, event, tag, Widget, getLabelsForElement, 
 	 * those controls are always kept in the right state.
 	 *
 	 * @module
-	 * @requires wc/dom/classList
 	 * @requires wc/dom/initialise
 	 * @requires wc/dom/shed
 	 * @requires wc/dom/tag

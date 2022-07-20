@@ -9,9 +9,8 @@ define(["wc/ui/listLoader",
 	"wc/i18n/i18n",
 	"wc/dom/getLabelsForElement",
 	"wc/ui/feedback",
-	"wc/has",
-	"wc/dom/classList"],
-function(listLoader, initialise, Widget, getFilteredGroup, selectboxSearch, shed, event, textContent, i18n, getLabelsForElement, feedback, has, classList) {
+	"wc/has"],
+function(listLoader, initialise, Widget, getFilteredGroup, selectboxSearch, shed, event, textContent, i18n, getLabelsForElement, feedback, has) {
 	"use strict";
 	var instance;
 
@@ -120,7 +119,7 @@ function(listLoader, initialise, Widget, getFilteredGroup, selectboxSearch, shed
 				button,
 				message = feedback.getBox(element, feedback.LEVEL.ERROR),
 				errorResult;
-			if (message && classList.contains(message, AJAX_ERROR_CLASS)) {
+			if (message && message.classList.contains(AJAX_ERROR_CLASS)) {
 				return message;
 			}
 			if (!message && element && create) {
@@ -134,7 +133,7 @@ function(listLoader, initialise, Widget, getFilteredGroup, selectboxSearch, shed
 				label = i18n.get("loader_loaderr", label);
 				errorResult = feedback.flagError(element, label);
 				if (errorResult && (message = document.getElementById(errorResult))) {
-					classList.add(message, AJAX_ERROR_CLASS);
+					message.classList.add(AJAX_ERROR_CLASS);
 					button = document.createElement("button");
 					button.type = "button";
 					button.innerHTML = i18n.get("loader_retry", label);

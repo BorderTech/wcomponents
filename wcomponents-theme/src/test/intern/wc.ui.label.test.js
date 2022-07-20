@@ -16,7 +16,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils"], f
 		 * An options array of dependency names in addition to TEST_MODULE, Define a String Array here and setup will convert it to a module array.
 		 * @type arr
 		 */
-		deps = ["wc/dom/shed", "wc/dom/initialise", "wc/dom/classList", "wc/dom/tag"],
+		deps = ["wc/dom/shed", "wc/dom/initialise", "wc/dom/tag"],
 		/**
 		 * Load test UI froman external resource e.g. "intern/resources/SOME_PAGE.html". Leave undefined if not required. Simple test UIs may be set inline
 		 * using testContent instead. If both are set testContent takes precedence and urlResource is ignored.
@@ -26,7 +26,6 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils"], f
 		// If you have extra dependencies you will want a way to reference them.
 		shed,
 		initialise,
-		classList,
 		tag,
 		CLASS_REQ = "wc_req",
 		testContent,
@@ -51,8 +50,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils"], f
 				// If you want to have named dependencies the vars are assigned here
 				shed = arg[1];
 				initialise = arg[2];
-				classList = arg[3];
-				tag = arg[4];
+				tag = arg[3];
 				testHolder = testutils.getTestHolder();
 				return testutils.setUpExternalHTML(urlResource, testHolder).then(function(response) {
 					testContent = response;
@@ -148,27 +146,27 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils"], f
 		testMandate: function() {
 			var input = document.getElementById("wcuilabel-i6"),
 				label = document.getElementById("wcuilabel-l6");
-			assert.isFalse(classList.contains(label, CLASS_REQ));
+			assert.isFalse(label.classList.contains(CLASS_REQ));
 			assert.isFalse(shed.isMandatory(input));
 			shed.mandatory(input);
-			assert.isTrue(classList.contains(label, CLASS_REQ));
+			assert.isTrue(label.classList.contains(CLASS_REQ));
 		},
 		testMandateRadio: function() {
 			// note: we do not decorate labels for mandatory radios
 			var input = document.getElementById("wcuilabel-i6a"),
 				label = document.getElementById("wcuilabel-l6a");
-			assert.isFalse(classList.contains(label, CLASS_REQ));
+			assert.isFalse(label.classList.contains(CLASS_REQ));
 			assert.isFalse(shed.isMandatory(input));
 			shed.mandatory(input);
-			assert.isFalse(classList.contains(label, CLASS_REQ));
+			assert.isFalse(label.classList.contains(CLASS_REQ));
 			assert.isTrue(shed.isMandatory(input));
 		},
 		testOptionalise: function() {
 			var input = document.getElementById("wcuilabel-i5"),
 				label = document.getElementById("wcuilabel-l5");
-			assert.isTrue(classList.contains(label, CLASS_REQ));
+			assert.isTrue(label.classList.contains(CLASS_REQ));
 			shed.optional(input);
-			assert.isFalse(classList.contains(label, CLASS_REQ));
+			assert.isFalse(label.classList.contains(CLASS_REQ));
 		},
 		testHide: function() {
 			var input = document.getElementById("wcuilabel-i7"),
@@ -234,17 +232,17 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils"], f
 			assert.isTrue(shed.isHidden(label), "fake label should be hidden");
 
 			label = document.getElementById("wcuilabel-fake-ajax-l5");
-			assert.isTrue(classList.contains(label, CLASS_REQ), "real label should be flagged required");
+			assert.isTrue(label.classList.contains(CLASS_REQ), "real label should be flagged required");
 
 			label = document.getElementById("wcuilabel-fake-ajax-l6");
-			assert.isFalse(classList.contains(label, CLASS_REQ), "fake label should not be flagged required");
+			assert.isFalse(label.classList.contains(CLASS_REQ), "fake label should not be flagged required");
 
 			// change of property but not of read-only state
 			// mandatory
 			label = document.getElementById("wcuilabel-fake-ajax-l7");
-			assert.isTrue(classList.contains(label, CLASS_REQ), "label should now be flagged required");
+			assert.isTrue(label.classList.contains(CLASS_REQ), "label should now be flagged required");
 			label = document.getElementById("wcuilabel-fake-ajax-l8");
-			assert.isFalse(classList.contains(label, CLASS_REQ), "label should no longer be flagged required");
+			assert.isFalse(label.classList.contains(CLASS_REQ), "label should no longer be flagged required");
 			label = document.getElementById("wcuilabel-fake-ajax-l9");
 			assert.isTrue(shed.isHidden(label), "label should now be hidden");
 			label = document.getElementById("wcuilabel-fake-ajax-l10");

@@ -1,12 +1,11 @@
 define(["wc/array/toArray",
 	"wc/dom/diagnostic",
-	"wc/dom/classList",
 	"wc/dom/tag",
 	"wc/dom/wrappedInput",
 	"wc/ui/icon",
 	"wc/dom/getLabelsForElement",
 	"wc/config"],
-function(toArray, diagnostic, classList, tag, wrappedInput, icon, getLabelsForElement, wcconfig) {
+function(toArray, diagnostic, tag, wrappedInput, icon, getLabelsForElement, wcconfig) {
 	"use strict";
 	var instance;
 
@@ -281,8 +280,8 @@ function(toArray, diagnostic, classList, tag, wrappedInput, icon, getLabelsForEl
 				this.clear(box);
 				return;
 			}
-			classList.add(box, newClass);
-			classList.remove(box, oldClass);
+			box.classList.add(newClass);
+			box.classList.remove(oldClass);
 			box.id = testId;
 			this.clear(box);
 			// now change the icon

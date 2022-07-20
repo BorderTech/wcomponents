@@ -3,9 +3,8 @@ define(["wc/dom/initialise",
 	"wc/ui/getFirstLabelForElement",
 	"wc/dom/Widget",
 	"wc/dom/tag",
-	"wc/ui/onchangeSubmit",
-	"wc/dom/classList"],
-function(initialise, processResponse, getFirstLabelForElement, Widget, tag, onchangeSubmit, classList) {
+	"wc/ui/onchangeSubmit"],
+function(initialise, processResponse, getFirstLabelForElement, Widget, tag, onchangeSubmit) {
 	"use strict";
 	/**
 	 * @constructor
@@ -48,7 +47,7 @@ function(initialise, processResponse, getFirstLabelForElement, Widget, tag, onch
 				">" + labelContent + "</legend>");
 			// label is now the first child of el.
 			label = el.firstChild;
-			classList.remove(label, WLABEL_CLASS);
+			label.classList.remove(WLABEL_CLASS);
 			onchangeSubmit.warn(el, label);
 		}
 

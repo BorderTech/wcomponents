@@ -1,9 +1,8 @@
 /**
  * @module
  * @requires module:wc/dom/tag
- * @requires module:wc/dom/classList
  */
-define(["wc/dom/tag", "wc/dom/classList"], /** @param {wc/dom/tag} tag @param {wc/dom/classList} classList @ignore*/function(tag, classList) {
+define(["wc/dom/tag"], /** @param {wc/dom/tag} tag @ignore*/function(tag) {
 	"use strict";
 
 	/*
@@ -33,8 +32,8 @@ define(["wc/dom/tag", "wc/dom/classList"], /** @param {wc/dom/tag} tag @param {w
 	function classNamesMatch(element, className, logic) {
 		var result = false;
 		if (element.nodeType === Node.ELEMENT_NODE && ((Array.isArray(className) && className[logic](function($class) {
-			return classList.contains(element, $class);
-		})) || classList.contains(element, className))) {
+			return element.classList.contains($class);
+		})) || element.classList.contains(className))) {
 			result = true;
 		}
 		return result;
