@@ -145,6 +145,7 @@
 					wc: "</xsl:text><xsl:value-of select="$wcScriptDir" /><xsl:text>",
 					lib: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>",
 					"lib/sprintf": "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/sprintf.min",
+					"mailcheck": "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/mailcheck",
 					"tinyMCE": "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/tinymce/tinymce.min",
 					Promise: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/Promise",
 					ccv: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/ccv",
@@ -164,7 +165,8 @@
 					face: {exports: "cascade"},
 					getUserMedia: {exports: "getUserMedia"},
 					axs: {exports: "axs"},
-					axe: {exports: "axe"}
+					axe: {exports: "axe"},
+					mailcheck: {exports: "Mailcheck"}
 				},
 				deps:[],&#10;
 			</xsl:text>
@@ -404,6 +406,9 @@
 			</xsl:if>
 			<xsl:if test=".//ui:collapsibletoggle">
 				<xsl:text>"wc/ui/collapsibleToggle",</xsl:text>
+			</xsl:if>
+			<xsl:if test=".//ui:emailfield">
+				<xsl:text>"wc/ui/email",</xsl:text>
 			</xsl:if>
 			<xsl:if test=".//ui:fileupload">
 				<xsl:text>"wc/ui/fileUpload",</xsl:text>

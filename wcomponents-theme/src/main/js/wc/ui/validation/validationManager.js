@@ -10,7 +10,6 @@ define(["wc/has",
 	"wc/config"],
 function(has, initialise, shed, tag, Widget, Observer, i18n, getFirstLabelForElement, feedback, wcconfig) {
 	"use strict";
-	var repainter;
 
 	/**
 	 * This module know when to mark things and valid/invalid but not "how".
@@ -119,12 +118,13 @@ function(has, initialise, shed, tag, Widget, Observer, i18n, getFirstLabelForEle
 		};
 
 		/**
-		 * Most validating components have a pretty similar mechanism to revalidate whern their input changes so
+		 * Most validating components have a pretty similar mechanism to revalidate when their input changes so
 		 * this helper exists to take care of it.
 		 *
 		 * @function module:wc/ui/validation/validationManager.revalidationHelper
 		 * @param {Element} element The component being re-validated.
 		 * @param {Function} _validateFunc The component's validation function.
+		 * @return {Promise} When revalidation is complete.
 		 */
 		this.revalidationHelper = function(element, _validateFunc) {
 			var initiallyInvalid = this.isInvalid(element),
@@ -137,14 +137,15 @@ function(has, initialise, shed, tag, Widget, Observer, i18n, getFirstLabelForEle
 				} else {
 					isNowInvalid = true;
 				}
-			} else if (isMarkedOK(element, this)) {
+			} else if (isMarkedOK(element)) {
 				isNowInvalid = !_validateFunc(element);
 			}
 
-			if (observer && isNowInvalid !== initiallyInvalid) { // if the current component's validity has changed
+			if (observer && isNowInvalid !== initiallyInvalid) {  // if the current component's validity has changed
 				observer.setFilter(REVALIDATE_OBSERVER_GROUP);
-				observer.notify(element);
+				return observer.notify(element);
 			}
+			return Promise.resolve();
 		};
 
 		/**
@@ -181,14 +182,11 @@ function(has, initialise, shed, tag, Widget, Observer, i18n, getFirstLabelForEle
 
 			result = !!result;  // convert the potentially bitwise result to a Boolean
 
-			if (!result && repainter) {  // IE8 has repaint issues when validation errors are inserted into columns
-				repainter.checkRepaint(container);
-			}
 			return result;
 		};
 
 		/**
-		 * Late intialisation callback to subscribe to shed to listen for state changes which impact any existing
+		 * Late initialisation callback to subscribe to shed to listen for state changes which impact any existing
 		 * validation error messages.
 		 * @function module:wc/ui/validation/validationManager.postInit
 		 */
@@ -223,7 +221,7 @@ function(has, initialise, shed, tag, Widget, Observer, i18n, getFirstLabelForEle
 		};
 
 		/**
-		 * Updates an error box to a succcess box and its error box once an error is corrected.
+		 * Updates an error box to a success box and its error box once an error is corrected.
 		 *
 		 * @function
 		 * @public
@@ -261,13 +259,6 @@ function(has, initialise, shed, tag, Widget, Observer, i18n, getFirstLabelForEle
 			setValidateRules();
 			return allowValidateOnBlur;
 		};
-	}
-
-	/* ie8's interesting inline-block bug means we need to force a repaint after all validating activites.*/
-	if (has("ie") === 8) {
-		require(["wc/fix/inlineBlock_ie8"], function(inlineBlock) {
-			repainter = inlineBlock;
-		});
 	}
 
 	/**
