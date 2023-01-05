@@ -39,6 +39,7 @@
 	},
 	"devDependencies": {
 		"axe-core": "3.0.0",
+		"chokidar": "3.5.3",
 		"clean-css-cli": "4.1.11",
 		"eslint": "6.4.0",
 		"fs-extra": "8.1.0",
