@@ -1,5 +1,4 @@
 define(["wc/dom/attribute",
-	"wc/dom/classList",
 	"wc/dom/event",
 	"wc/dom/focus",
 	"wc/dom/formUpdateManager",
@@ -16,7 +15,7 @@ define(["wc/dom/attribute",
 	"wc/array/toArray",
 	"wc/ui/viewportUtils"
 ],
-function(attribute, classList, event, focus, formUpdateManager, getFilteredGroup, keyWalker, shed,
+function(attribute, event, focus, formUpdateManager, getFilteredGroup, keyWalker, shed,
 	viewportCollision, Widget, key, processResponse, timers, i18n, getBox, toArray, viewportUtils) {
 	"use strict";
 
@@ -592,7 +591,7 @@ function(attribute, classList, event, focus, formUpdateManager, getFilteredGroup
 			result = false;
 
 		if (parent && (ancestor = instance.getSubMenu(parent))) {
-			result = classList.contains(ancestor, CLASS.DEFAULT_DIRECTION);
+			result = ancestor.classList.contains(CLASS.DEFAULT_DIRECTION);
 		}
 		return result;
 	}
@@ -629,8 +628,8 @@ function(attribute, classList, event, focus, formUpdateManager, getFilteredGroup
 			 * so it is possible. Also, predetermining if we have both collisions helps later.
 			 */
 			if (iCollideInDefaultDirection && iCollideAgainstDefaultDirection) {
-				classList.add(_submenu, CLASS.DEFAULT_DIRECTION);
-				classList.add(_submenu, CLASS.AGAINST_DEFAULT);
+				_submenu.classList.add(CLASS.DEFAULT_DIRECTION);
+				_submenu.classList.add(CLASS.AGAINST_DEFAULT);
 				console.warn("There is something seriously wrong with this menu design, it overflows both edges of the screen");
 			} else {
 				/* If my parent menu is colliding in the default direction I am deemed
@@ -638,25 +637,25 @@ function(attribute, classList, event, focus, formUpdateManager, getFilteredGroup
 				 * in the other direction.
 				 */
 				if (iCollideInDefaultDirection || (!iCollideAgainstDefaultDirection && isParentSubmenuColliding(_submenu, instance))) {
-					classList.add(_submenu, CLASS.DEFAULT_DIRECTION);
+					_submenu.classList.add(CLASS.DEFAULT_DIRECTION);
 					// this could make me collide west so I need to recalculate
 					collision = viewportCollision(_submenu);
 				}
 				// if the submenu has been moved because of a default direction collision it may now collide the other way, so we have to test again
 				if (doICollide(collision, true)) {
-					classList.add(_submenu, CLASS.AGAINST_DEFAULT);
+					_submenu.classList.add(CLASS.AGAINST_DEFAULT);
 					/*
 					 * A submenu may have been moved because its nearest ancestor submenu was deemed to
 					 * collide rather than because it collided itself. If this was the case
 					 * and moving it caused the other collision, remove the default collision.
 					 */
 					if (!iCollideInDefaultDirection) {
-						classList.remove(_submenu, CLASS.DEFAULT_DIRECTION);
+						_submenu.classList.remove(CLASS.DEFAULT_DIRECTION);
 					}
 				}
 			}
 			if (collision.s > 0) {
-				classList.add(_submenu, CLASS.COLLIDE_SOUTH);
+				_submenu.classList.add(CLASS.COLLIDE_SOUTH);
 				// after a south collision test for overflow to the North
 				if ((box = getBox(_submenu)) && box.top < 0) {
 					_submenu.style.bottom = box.top + "px";
@@ -879,10 +878,10 @@ function(attribute, classList, event, focus, formUpdateManager, getFilteredGroup
 			instance._expand(branch, root);
 		} else if (action === shed.actions.COLLAPSE && (content = instance.getSubMenu(branch, true))) {
 			if (CLASS.DEFAULT_DIRECTION) {
-				classList.remove(content, CLASS.DEFAULT_DIRECTION);
-				classList.remove(content, CLASS.AGAINST_DEFAULT);
+				content.classList.remove(CLASS.DEFAULT_DIRECTION);
+				content.classList.remove(CLASS.AGAINST_DEFAULT);
 			}
-			classList.remove(content, CLASS.COLLIDE_SOUTH);
+			content.classList.remove(CLASS.COLLIDE_SOUTH);
 			content.style.bottom = "";
 			content.removeAttribute("style");
 			instance._shedCollapseHelper(branch, root);
@@ -1834,7 +1833,6 @@ function(attribute, classList, event, focus, formUpdateManager, getFilteredGroup
 	 * @module
 	 *
 	 * @requires module:wc/dom/attribute
-	 * @requires module:wc/dom/classList
 	 * @requires module:wc/dom/event
 	 * @requires module:wc/dom/focus
 	 * @requires module:wc/dom/formUpdateManager

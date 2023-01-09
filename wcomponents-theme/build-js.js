@@ -41,6 +41,7 @@ let config = {
 	paths: {
 		"lib/sprintf": `lib/sprintf.min`,
 		tinyMCE: "lib/tinymce/tinymce.min",
+		mailcheck: "lib/mailcheck",
 		fabric: "empty:",
 		axs: "empty:",
 		axe: "empty:"

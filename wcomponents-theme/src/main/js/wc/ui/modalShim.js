@@ -1,6 +1,6 @@
-define(["wc/dom/attribute", "wc/dom/uid", "wc/dom/classList", "wc/dom/event", "wc/dom/focus", "wc/dom/Widget", "wc/dom/shed", "wc/timers",
+define(["wc/dom/attribute", "wc/dom/uid", "wc/dom/event", "wc/dom/focus", "wc/dom/Widget", "wc/dom/shed", "wc/timers",
 	"wc/Observer"],
-function(attribute, uid, classList, event, focus, Widget, shed, timers, Observer) {
+function(attribute, uid, event, focus, Widget, shed, timers, Observer) {
 	"use strict";
 
 	/**
@@ -121,7 +121,7 @@ function(attribute, uid, classList, event, focus, Widget, shed, timers, Observer
 			activeElement = activeRegion || shimElement;
 			addRemoveEvents(true);
 			if (className) {
-				classList.add(shimElement, className);
+				shimElement.classList.add(className);
 			}
 
 			// remove the accesskey attribute from controls with access keys which are not in the activeRegion
@@ -216,7 +216,6 @@ function(attribute, uid, classList, event, focus, Widget, shed, timers, Observer
 	 * @module
 	 * @requires module:wc/dom/attribute
 	 * @requires module:wc/dom/uid
-	 * @requires module:wc/dom/classList
 	 * @requires module:wc/dom/event
 	 * @requires module:wc/dom/focus
 	 * @requires module:wc/dom/Widget

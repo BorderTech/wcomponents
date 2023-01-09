@@ -1,11 +1,10 @@
-define(["wc/dom/classList",
-	"wc/dom/initialise",
+define(["wc/dom/initialise",
 	"wc/dom/tag",
 	"wc/ui/ajax/processResponse",
 	"wc/i18n/i18n",
 	"wc/ui/getVisibleText",
 	"wc/timers"],
-function (classList, initialise, tag, processResponse, i18n, getVisibleText, timers) {
+function (initialise, tag, processResponse, i18n, getVisibleText, timers) {
 	"use strict";
 
 	/**
@@ -37,7 +36,7 @@ function (classList, initialise, tag, processResponse, i18n, getVisibleText, tim
 		function testHeading(element) {
 			if (isHeadingEmpty(element)) {
 				element.insertAdjacentHTML("beforeend", MISSING_HEADING);
-				classList.add(element, "wc-err");
+				element.classList.add("wc-err");
 			}
 		}
 
@@ -102,7 +101,6 @@ function (classList, initialise, tag, processResponse, i18n, getVisibleText, tim
 	 * 3. no title
 	 *
 	 * @module
-	 * @requires module:wc/dom/classList
 	 * @requires module:wc/dom/initialise
 	 * @requires module:wc/dom/tag
 	 * @requires module:wc/ui/ajax/processResponse

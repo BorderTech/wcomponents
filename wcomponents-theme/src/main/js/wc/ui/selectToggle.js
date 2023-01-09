@@ -1,6 +1,5 @@
 define(["wc/dom/shed",
 	"wc/dom/getFilteredGroup",
-	"wc/dom/classList",
 	"wc/array/toArray",
 	"wc/dom/formUpdateManager",
 	"wc/dom/Widget",
@@ -15,7 +14,7 @@ define(["wc/dom/shed",
 	"wc/ui/checkBox",
 	"wc/ui/checkboxAnalog",
 	"wc/ui/radioAnalog"],
-function(shed, getFilteredGroup, classList, toArray, formUpdateManager, Widget, initialise, uid, table, rowAnalog, processResponse,
+function(shed, getFilteredGroup, toArray, formUpdateManager, Widget, initialise, uid, table, rowAnalog, processResponse,
 	getFirstLabelForElement, i18n, icon, checkBox) {
 	"use strict";
 	var CHECKBOX = "checkbox",
@@ -94,7 +93,7 @@ function(shed, getFilteredGroup, classList, toArray, formUpdateManager, Widget, 
 		}
 
 		function isWSelectToggleContainer(element) {
-			return element && classList.contains(element, WSELECTTOGGLE_CLASS);
+			return element && element.classList.contains(WSELECTTOGGLE_CLASS);
 		}
 
 		function isWSelectToggle(element) {
@@ -579,7 +578,6 @@ function(shed, getFilteredGroup, classList, toArray, formUpdateManager, Widget, 
 	 * @module
 	 * @requires wc/dom/shed
 	 * @requires wc/dom/getFilteredGroup
-	 * @requires wc/dom/classList,
 	 * @requires wc/array/toArray
 	 * @requires wc/dom/formUpdateManager
 	 * @requires wc/dom/Widget

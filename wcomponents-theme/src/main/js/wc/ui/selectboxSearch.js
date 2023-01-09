@@ -1,7 +1,6 @@
 define(["wc/string/escapeRe",
 	"wc/dom/tag",
 	"wc/dom/uid",
-	"wc/dom/classList",
 	"wc/dom/initialise",
 	"wc/dom/attribute",
 	"wc/dom/shed",
@@ -13,7 +12,7 @@ define(["wc/string/escapeRe",
 	"wc/mixin",
 	"wc/debounce",
 	"wc/dom/textContent"],
-function(escapeRe, tag, uid, classList, initialise, attribute, shed, event, group, i18n, timers, wcconfig, mixin, debounce, textContent) {
+function(escapeRe, tag, uid, initialise, attribute, shed, event, group, i18n, timers, wcconfig, mixin, debounce, textContent) {
 	"use strict";
 	var ns = uid();
 
@@ -214,10 +213,10 @@ function(escapeRe, tag, uid, classList, initialise, attribute, shed, event, grou
 				}
 
 				if (match) {
-					classList.remove(getSearchElement(), CLASS_NOT_FOUND);
+					getSearchElement().classList.remove(CLASS_NOT_FOUND);
 					selectMatch(element, match);
 				} else {
-					classList.add(getSearchElement(), CLASS_NOT_FOUND);
+					getSearchElement().classList.add(CLASS_NOT_FOUND);
 				}
 			} else if (search === "") {
 				// we have previously searched and have backspaced to an empty string
@@ -353,7 +352,7 @@ function(escapeRe, tag, uid, classList, initialise, attribute, shed, event, grou
 		}
 
 		function hideSearch(search) {
-			classList.remove(search, CLASS_NOT_FOUND);
+			search.classList.remove(CLASS_NOT_FOUND);
 			shed.hide(search);
 		}
 
@@ -435,7 +434,6 @@ function(escapeRe, tag, uid, classList, initialise, attribute, shed, event, grou
 	 * @requires module:wc/string/escapeRe
 	 * @requires module:wc/dom/tag
 	 * @requires module:wc/dom/uid
-	 * @requires module:wc/dom/classList
 	 * @requires module:wc/dom/initialise
 	 * @requires module:wc/dom/attribute
 	 * @requires module:wc/dom/shed

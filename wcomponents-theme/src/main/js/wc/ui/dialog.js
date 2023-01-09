@@ -1,5 +1,4 @@
-define(["wc/dom/classList",
-	"wc/dom/event",
+define(["wc/dom/event",
 	"wc/dom/initialise",
 	"wc/dom/shed",
 	"wc/dom/tag",
@@ -12,7 +11,7 @@ define(["wc/dom/classList",
 	"wc/timers",
 	"wc/ui/dialogFrame",
 	"wc/ui/getForm"],
-function(classList, event, initialise, shed, tag, uid, Widget, i18n, ajaxRegion, processResponse, eagerLoader, timers, dialogFrame, getForm) {
+function(event, initialise, shed, tag, uid, Widget, i18n, ajaxRegion, processResponse, eagerLoader, timers, dialogFrame, getForm) {
 	"use strict";
 	var instance;
 
@@ -237,8 +236,8 @@ function(classList, event, initialise, shed, tag, uid, Widget, i18n, ajaxRegion,
 					} else {
 						content.removeAttribute(GET_ATTRIB);
 					}
-					classList.add(content, "wc_magic");
-					classList.add(content, "wc_dynamic");
+					content.classList.add("wc_magic");
+					content.classList.add("wc_dynamic");
 					eagerLoader.load(content, false, false);
 				} else {
 					console.warn("Could not find dialog content wrapper.");
@@ -397,7 +396,6 @@ function(classList, event, initialise, shed, tag, uid, Widget, i18n, ajaxRegion,
 	 * The custom dialog also provides somewhat better options for mobile use and cross platform consistency.
 	 *
 	 * @module
-	 * @requires module:wc/dom/classList
 	 * @requires module:wc/dom/event
 	 * @requires module:wc/dom/initialise
 	 * @requires module:wc/dom/shed

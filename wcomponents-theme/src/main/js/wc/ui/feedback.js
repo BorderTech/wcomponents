@@ -1,12 +1,11 @@
 define(["wc/array/toArray",
 	"wc/dom/diagnostic",
-	"wc/dom/classList",
 	"wc/dom/tag",
 	"wc/dom/wrappedInput",
 	"wc/ui/icon",
 	"wc/dom/getLabelsForElement",
 	"wc/config"],
-function(toArray, diagnostic, classList, tag, wrappedInput, icon, getLabelsForElement, wcconfig) {
+function(toArray, diagnostic, tag, wrappedInput, icon, getLabelsForElement, wcconfig) {
 	"use strict";
 	var instance;
 
@@ -38,7 +37,7 @@ function(toArray, diagnostic, classList, tag, wrappedInput, icon, getLabelsForEl
 		/**
 		 * Type check for diagnostic boxes.
 		 * @param {Element} diag the element to test
-		 * @param {type} lenient if `true` do not error on a failed test, instread return false
+		 * @param {Boolean} lenient if `true` do not error on a failed test, instead return false
 		 * @returns {Boolean} `true` if `diag` is a diagnostic box, otherwise `false` if `lenient` is `true`.
 		 * @throws {TypeError} if `diag` is not a diagnostic box and `lenient` is not `true`.
 		 */
@@ -151,21 +150,30 @@ function(toArray, diagnostic, classList, tag, wrappedInput, icon, getLabelsForEl
 			return tag.toTag(tagName, false, attrib) + message + tag.toTag(tagName, true);
 		}
 
+		/**
+		 * Adds a message to a container.
+		 * If the message already exists in the container it will not be added again.
+		 * @param {Element} box The message container
+		 * @param message The message to add
+		 * @return {Element} The message element in the DOM.
+		 */
 		function addHelper(box, message) {
-			var i,
-				current;
+			var i, current;
 			if (!(message && message.constructor === String)) {
 				throw new TypeError("Message must be a string");
 			}
-			if ((current = instance.getMessages(box))) {
+			current = instance.getMessages(box);
+			if (current) {
 				for (i = 0; i < current.length; ++i) {
 					if (message.toLocaleLowerCase() === current[i].innerHTML.toLocaleLowerCase()) {
 						// already have this message
-						return;
+						return current[i];
 					}
 				}
 			}
 			box.insertAdjacentHTML(BEFORE_END, getMessageHTML(message));
+			current = instance.getMessages(box);
+			return current[current.length - 1];
 		}
 
 		/**
@@ -241,7 +249,7 @@ function(toArray, diagnostic, classList, tag, wrappedInput, icon, getLabelsForEl
 		}
 
 		/**
-		 * Change the doagnostic level of an existing diagnostic box.
+		 * Change the diagnostic level of an existing diagnostic box.
 		 * @function
 		 * @public
 		 * @param {Element} box the diagnostic box to change
@@ -256,7 +264,7 @@ function(toArray, diagnostic, classList, tag, wrappedInput, icon, getLabelsForEl
 				oldIdExtension,
 				newIdExtension,
 				testId;
-			check(box);
+			check(box, false);
 			if (!toLevel || toLevel < 1) {
 				console.log("twit");
 				return;
@@ -281,8 +289,8 @@ function(toArray, diagnostic, classList, tag, wrappedInput, icon, getLabelsForEl
 				this.clear(box);
 				return;
 			}
-			classList.add(box, newClass);
-			classList.remove(box, oldClass);
+			box.classList.add(newClass);
+			box.classList.remove(oldClass);
 			box.id = testId;
 			this.clear(box);
 			// now change the icon
@@ -301,7 +309,7 @@ function(toArray, diagnostic, classList, tag, wrappedInput, icon, getLabelsForEl
 		 */
 		this.clear = function(box) {
 			var messages;
-			check(box);
+			check(box, false);
 			if ((messages = this.getMessages(box))) {
 				Array.prototype.forEach.call(messages, function(next) {
 					box.removeChild(next);
@@ -315,16 +323,19 @@ function(toArray, diagnostic, classList, tag, wrappedInput, icon, getLabelsForEl
 		 * @public
 		 * @param {Element} box the disgnostic box
 		 * @param {String|String[]} messages the message(s) to add
+		 * @return {Element|Element[]} The message element(s) in the DOM.
 		 */
 		this.addMessages = function(box, messages) {
-			check(box);
+			var result;
+			check(box, false);
 			if (Array.isArray(messages)) {
-				messages.forEach(function(next) {
-					addHelper(box, next);
+				result = messages.map(function(next) {
+					return addHelper(box, next);
 				});
 			} else {
-				addHelper(box, messages);
+				result = addHelper(box, messages);
 			}
+			return result;
 		};
 
 		/**
@@ -349,7 +360,7 @@ function(toArray, diagnostic, classList, tag, wrappedInput, icon, getLabelsForEl
 		 * @param {String|String[]} messages
 		 */
 		this.set = function(box, messages) {
-			check(box);
+			check(box, false);
 			this.clear(box);
 			if (messages) {
 				this.addMessages(box, messages);
@@ -363,7 +374,7 @@ function(toArray, diagnostic, classList, tag, wrappedInput, icon, getLabelsForEl
 		 * @param {String} targetId the id of the component to which the message box is added
 		 * @param {String|String[]} messages the message(s) to add
 		 * @param {int} [level=1] the diagnostic level
-		 * @returns {String} the error box HTML
+		 * @returns {Object} property html: The HTML which creates a complete diagnostic box, property id: the id of the box
 		 */
 		function getBoxHTML(targetId, messages, level) {
 			var msgArray;
@@ -519,7 +530,7 @@ function(toArray, diagnostic, classList, tag, wrappedInput, icon, getLabelsForEl
 		}
 
 		/**
-		 * Public for testing
+		 * Public for testing.
 		 * @ignore
 		 */
 		this._removeDiagnostic = removeDiagnostic;
@@ -580,7 +591,8 @@ function(toArray, diagnostic, classList, tag, wrappedInput, icon, getLabelsForEl
 			}
 
 			// if the target already has an appropriate box then use it
-			if ((errorContainer = instance.getBox(target, level))) {
+			errorContainer = instance.getBox(target, level);
+			if (errorContainer) {
 				instance.change(errorContainer, level);
 				instance.addMessages(errorContainer, messages);
 				return errorContainer.id;
@@ -665,6 +677,7 @@ function(toArray, diagnostic, classList, tag, wrappedInput, icon, getLabelsForEl
 	 * @typedef {Object} module:wc/ui/feedback~flagDto The properties used to describe a custom error message.
 	 * @property {String|String[]} message The message to display.
 	 * @property {Element} element The element which is to be flagged with the error message.
+	 * @property {module:wc/dom/diagnostic.LEVEL} level The message severity.
 	 *
 	 * @typedef {Object} module:wc/ui/feedback~config Optional run-time configuration for this module.
 	 * @property {String} [icon=fa-times-circle] The font-awesome classname for the icon to display in the error box.

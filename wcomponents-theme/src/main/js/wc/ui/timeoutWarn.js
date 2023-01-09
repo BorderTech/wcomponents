@@ -1,6 +1,6 @@
 define(["lib/sprintf", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/loader/resource",
-	"wc/dom/shed", "wc/timers", "wc/dom/classList", "wc/ui/icon", "wc/config"],
-function(sprintf, event, Widget, i18n, loader, shed, timers, classList, icon, wcconfig) {
+	"wc/dom/shed", "wc/timers", "wc/ui/icon", "wc/config"],
+function(sprintf, event, Widget, i18n, loader, shed, timers, icon, wcconfig) {
 	"use strict";
 	/**
 	 * @constructor
@@ -128,8 +128,8 @@ function(sprintf, event, Widget, i18n, loader, shed, timers, classList, icon, wc
 						container.innerHTML = "";
 						container.innerHTML = sprintf.sprintf(errorDf, title, header, body);
 						if ((section = container.firstChild)) {
-							classList.remove(section, "wc-messagebox-type-warn");
-							classList.add(section, "wc-messagebox-type-error");
+							section.classList.remove("wc-messagebox-type-warn");
+							section.classList.add("wc-messagebox-type-error");
 							icon.change(section, "fa-times-circle", "fa-exclamation-triangle");
 						}
 						if (shed.isHidden(container, true)) {
@@ -210,7 +210,6 @@ function(sprintf, event, Widget, i18n, loader, shed, timers, classList, icon, wc
 	 * @requires module:wc/loader/resource
 	 * @requires module:wc/dom/shed
 	 * @requires module:wc/timers
-	 * @requires module:wc/dom/classList
 	 * @requires module:wc/config
 	 *
 	 * @todo Document private members, check source order.

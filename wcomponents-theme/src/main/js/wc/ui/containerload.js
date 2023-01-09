@@ -1,8 +1,8 @@
 define(["wc/dom/shed",
 	"wc/ajax/triggerManager",
 	"wc/ui/ajaxRegion", "wc/dom/initialise", "wc/dom/uid", "wc/dom/Widget",
-	"wc/dom/classList", "wc/dom/convertDynamicContent", "wc/timers", "wc/dom/event", "wc/ui/getForm"],
-function(shed, triggerManager, ajaxRegion, initialise, uid, Widget, classList, convertDynamicContent, timers, event, getForm) {
+	"wc/dom/convertDynamicContent", "wc/timers", "wc/dom/event", "wc/ui/getForm"],
+function(shed, triggerManager, ajaxRegion, initialise, uid, Widget, convertDynamicContent, timers, event, getForm) {
 	"use strict";
 
 	/**
@@ -17,7 +17,6 @@ function(shed, triggerManager, ajaxRegion, initialise, uid, Widget, classList, c
 	 * @requires module:wc/dom/initialise
 	 * @requires module:wc/dom/uid
 	 * @requires module:wc/dom/Widget
-	 * @requires module:wc/dom/classList
 	 * @requires module:wc/dom/convertDynamicContent
 	 * @requires module:wc/timers
 	 * @requires module:wc/dom/event
@@ -104,7 +103,7 @@ function(shed, triggerManager, ajaxRegion, initialise, uid, Widget, classList, c
 							 * because we build a new trigger for each AJAX load just in case it is closed/hidden
 							 * inside a dynamic ancestor
 							 */
-							classList.remove(element, MAGIC_CLASS);
+							element.classList.remove(MAGIC_CLASS);
 						}
 						// Fire in a timeout to ensure controls have set state for form serialisation
 						timers.setTimeout(function() {
