@@ -35,14 +35,14 @@ function(has, unique, Parser, interchange, Format, attribute, cancelUpdate, even
 		var parsers,  // this will store the Parser instances when first needed
 			formatter,
 			FIELD_CLASS = "wc-datefield",
-			hasNative = has("native-dateinput"),
 			BOOTSTRAPPED = "wc.ui.dateField_bootstrapped",
 			DATE_FIELD = new Widget("div", FIELD_CLASS),
+			DATE_FIELD_PARTIAL = DATE_FIELD.extend("wc_datefield_partial"),
 			DATE_WRAPPER_INCL_RO = new Widget("", FIELD_CLASS),
 			DATE_RO = new Widget("", "", {"data-wc-component": "datefield"}),
 			INPUT = new Widget("input"),
-			DATE = INPUT.extend("", {"type": "date"}),
-			DATE_PARTIAL = INPUT.extend("", {"type": "text"}),
+			DATE_WC = INPUT.extend("", {"type": "text"}),
+			DATE_PARTIAL = DATE_WC.clone(),
 			SUGGESTION_LIST = new Widget("", "", {"role": "listbox"}),
 			OPTION_WD,
 			FAKE_VALUE_ATTRIB = "data-wc-value",
@@ -54,8 +54,8 @@ function(has, unique, Parser, interchange, Format, attribute, cancelUpdate, even
 			IETimeout = (has("ie") === 8) ? 50 : 0;  // IE cannot update itself fast enough to focus a newly opened list
 
 		INPUT.descendFrom(DATE_FIELD, true);
-		DATE.descendFrom(DATE_FIELD, true);
-		DATE_PARTIAL.descendFrom(DATE_FIELD, true);
+		DATE_WC.descendFrom(DATE_FIELD, true);
+		DATE_PARTIAL.descendFrom(DATE_FIELD_PARTIAL, true);
 		SUGGESTION_LIST.descendFrom(DATE_FIELD, true);
 
 		/**
@@ -63,7 +63,7 @@ function(has, unique, Parser, interchange, Format, attribute, cancelUpdate, even
 		 * @function
 		 * @private
 		 * @param {Element} element A dateField or an option in the list.
-		 * @param {integer} [force] Use a specific direction rather than doing a component lookup:
+		 * @param {Number} [force] Use a specific direction rather than doing a component lookup:
 		 *    <ul>
 		 *    <li>-1 look down (findDescendant)</li>
 		 *    <li>1 look up (findAncestor)</li>
@@ -90,14 +90,14 @@ function(has, unique, Parser, interchange, Format, attribute, cancelUpdate, even
 		}
 
 		function isPartial(dateField) {
-			return DATE_FIELD.isOneOfMe(dateField) && !DATE.findDescendant(dateField);
+			return DATE_FIELD_PARTIAL.isOneOfMe(dateField);
 		}
 
 		/**
 		 * Polyfill for input type date.
 		 * @param {Element} element the WDateField wrapper.
 		 */
-		function fixLameDateField(element) {
+		function initWcDateField(element) {
 			var childEl,
 				value,
 				launcherHtml,
@@ -113,7 +113,8 @@ function(has, unique, Parser, interchange, Format, attribute, cancelUpdate, even
 			}
 
 			id = element.id;
-			if ((value = element.getAttribute(FAKE_VALUE_ATTRIB))) {
+			value = element.getAttribute(FAKE_VALUE_ATTRIB);
+			if (value) {
 				if (document.activeElement === childEl) {
 					startVal[id] = value;
 					onchangeSubmit.ignoreNextChange();
@@ -154,7 +155,8 @@ function(has, unique, Parser, interchange, Format, attribute, cancelUpdate, even
 			childEl.setAttribute("aria-owns", id + "_cal");
 
 			// set the value of the input control.
-			if ((value = childEl.value)) {
+			value = childEl.value;
+			if (value) {
 				instance.acceptFirstMatch(childEl);
 			}
 		}
@@ -553,8 +555,8 @@ function(has, unique, Parser, interchange, Format, attribute, cancelUpdate, even
 				if (DATE_RO.isOneOfMe(next) || isPartial(next)) {
 					setInputValue(next);
 				} else if (instance.isLameDateField(next)) {
-					fixLameDateField(next);
-				} else { // proper date inputs
+					initWcDateField(next);
+				} else { // native date inputs
 					next.removeAttribute(FAKE_VALUE_ATTRIB);
 				}
 			});
@@ -901,7 +903,8 @@ function(has, unique, Parser, interchange, Format, attribute, cancelUpdate, even
 			if (this.hasNativeInput(element)) {
 				return;
 			}
-			if ((matches = getMatches(element)) && matches.length && (dateField = this.get(element))) {
+			matches = getMatches(element);
+			if (matches && matches.length && (dateField = this.get(element))) {
 				_matches = matches.map(function(next) {
 					return format(next.toXfer());
 				});
@@ -1015,38 +1018,19 @@ function(has, unique, Parser, interchange, Format, attribute, cancelUpdate, even
 			setUpDateFields();
 		};
 
-		/**
-		 * Is a particular date field or input a native date input?
-		 * @function module:wc/ui/dateField.hasNativeInput
-		 * @public
-		 * @param {Element} el The element to test.
-		 * @param {Boolean} [forceInput] Set true if we know we are calling with an input element to save a test.
-		 * @returns {Boolean} True if el is a native date input (or the datefield wrapper of one).
-		 */
-		this.hasNativeInput = function (el, forceInput) {
-			var textBox;
-			if (hasNative) {
-				if (forceInput) {
-					textBox = el;
-				} else {
-					textBox = DATE_FIELD.isOneOfMe(el) ? instance.getTextBox(el) : el;
-				}
-				return textBox ? DATE.isOneOfMe(textBox) : false;
-			}
+		this.hasNativeInput = function () {
 			return false;
 		};
 
 		/**
 		 * Is a particular field a native date input?
+		 * Not so lame according to the feedback from users.
 		 *
 		 * @param {Element} dateField a date field container.
 		 * @returns {Boolean}
 		 */
 		this.isLameDateField = function(dateField) {
-			if (hasNative) {
-				return false;
-			}
-			return !!DATE.findDescendant(dateField);
+			return !!DATE_WC.findDescendant(dateField);
 		};
 
 		/**
