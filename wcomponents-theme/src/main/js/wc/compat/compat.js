@@ -20,8 +20,7 @@
  */
 define(["wc/has"], function(has) {
 	"use strict";
-	var global = window,
-		result = ["lib/dojo/sniff"];
+	var result = ["lib/dojo/sniff"];
 
 	(function(addtest) {
 		// This block taken from tests from hasjs project. Didn't want to load the whole script.
@@ -219,71 +218,6 @@ define(["wc/has"], function(has) {
 		});
 	})(has.add);
 
-	/*
-	 * Q. Why do we patch the Array prototype instead of providing a set of array library functions?
-	 * A. Many reasons, one of the main ones is that once you have provided library functions they are
-	 * very hard to take away. So even when ES5 array methods are completely taken for granted and available
-	 * in even the lowest of the low you will still be stuck with the overhead of your library functions.
-	 *
-	 * This has already happened, we used to ship with many more array fixes but they are no longer necessary
-	 * so we deleted the code. That simple, we did not need to change any application code because everything
-	 * simply kept working using native methods that are now ubiquitous.
-	 *
-	 * Q. Extending the DOM is bad isn't it?
-	 * A. Yes. But we never extend it, we "standardize" it. At no time do we ever add any feature to the DOM that is
-	 * not 100% standard.
-	 *
-	 */
-	(function(Array, addtest) {
-
-		addtest("array-every", function() {
-			return !!Array.prototype.every;
-		});
-
-		addtest("array-filter", function() {
-			return !!Array.prototype.filter;
-		});
-
-		addtest("array-foreach", function() {
-			return !!Array.prototype.forEach;
-		});
-
-		addtest("array-indexof", function() {
-			return !!Array.prototype.indexOf;
-		});
-
-		addtest("array-isarray", function() {
-			return !!Array.isArray;
-		});
-
-		addtest("array-lastindexof", function() {
-			return !!Array.prototype.lastIndexOf;
-		});
-
-		addtest("array-map", function() {
-			return !!Array.prototype.map;
-		});
-
-		addtest("array-reduce", function() {
-			return !!Array.prototype.reduce;
-		});
-
-		addtest("array-reduceright", function() {
-			return !!Array.prototype.reduceRight;
-		});
-
-		addtest("array-some", function() {
-			return !!Array.prototype.some;
-		});
-
-		addtest("array-es5", function() {
-			return has("array-every") && has("array-filter") && has("array-foreach") &&
-				has("array-indexof") && has("array-isarray") && has("array-lastindexof") &&
-				has("array-map") && has("array-reduce") && has("array-reduceright") &&
-				has("array-some");
-		});
-	})(global.Array, has.add);
-
 	// ALWAYS FETCH
 	// as little as possible
 
@@ -317,36 +251,6 @@ define(["wc/has"], function(has) {
 	}
 	if (!has("dom-comparedocumentposition")) {
 		result.push("wc/compat/compareDocumentPosition");
-	}
-	if (!has("array-every")) {
-		result.push("wc/ecma5/Array.prototype.every");
-	}
-	if (!has("array-filter")) {
-		result.push("wc/ecma5/Array.prototype.filter");
-	}
-	if (!has("array-foreach")) {
-		result.push("wc/ecma5/Array.prototype.forEach");
-	}
-	if (!has("array-indexof")) {
-		result.push("wc/ecma5/Array.prototype.indexOf");
-	}
-	if (!has("array-isarray")) {
-		result.push("wc/ecma5/Array.isArray");
-	}
-	if (!has("array-lastindexof")) {
-		result.push("wc/ecma5/Array.prototype.lastIndexOf");
-	}
-	if (!has("array-map")) {
-		result.push("wc/ecma5/Array.prototype.map");
-	}
-	if (!has("array-reduce")) {
-		result.push("wc/ecma5/Array.prototype.reduce");
-	}
-	if (!has("array-reduceright")) {
-		result.push("wc/ecma5/Array.prototype.reduceRight");
-	}
-	if (!has("array-some")) {
-		result.push("wc/ecma5/Array.prototype.some");
 	}
 	if (has("bug-getelementsbyname")) {
 		result.push("wc/fix/getElementsByName_ie9");
