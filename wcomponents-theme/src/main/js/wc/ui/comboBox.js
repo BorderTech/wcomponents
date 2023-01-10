@@ -33,8 +33,6 @@ function(has, attribute, event, focus, initialise, shed, Widget, key, timers, aj
 			touching,
 			INITED = "wc.ui.comboBox.init",
 			openSelect = "",  // the id of the currently open combo (if any)
-			repainter,
-			IETimeout = 0,  // IE cannot update itself fast enough to focus a newly opened list
 			// stuff for chatty combox
 			CLASS_CHATTY = "wc_combo_dyn",
 			CHATTY_COMBO = COMBO.extend(CLASS_CHATTY),
@@ -49,13 +47,6 @@ function(has, attribute, event, focus, initialise, shed, Widget, key, timers, aj
 		LISTBOX.descendFrom(COMBO, true);
 		TEXTBOX.descendFrom(COMBO, true);
 		OPENER_BUTTON.descendFrom(COMBO, true);
-
-		if (has("ie") <= 8) {
-			require(["wc/fix/inlineBlock_ie8"], function(inlineBlock) {
-				repainter = inlineBlock;
-			});
-			IETimeout = 150;  // IE cannot update itself fast enough to focus a newly opened list
-		}
 
 		/**
 		 * Get the listbox part of a combo.
@@ -147,9 +138,6 @@ function(has, attribute, event, focus, initialise, shed, Widget, key, timers, aj
 						next.tabIndex = -1;
 					}
 				});
-				if (repainter) {
-					repainter.checkRepaint(combo);
-				}
 			};
 
 			if (!shed.isExpanded(combo)) {
@@ -242,7 +230,7 @@ function(has, attribute, event, focus, initialise, shed, Widget, key, timers, aj
 		 */
 		function focusListbox(listbox) {
 			if (listbox && OPTION.findDescendant(listbox)) {
-				timers.setTimeout(focus.focusFirstTabstop, IETimeout, listbox, function(target) {
+				timers.setTimeout(focus.focusFirstTabstop, 0, listbox, function(target) {
 					if (!shed.isSelected(target)) {
 						listboxAnalog.activate(target);
 					}
