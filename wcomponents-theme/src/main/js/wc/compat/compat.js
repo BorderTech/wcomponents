@@ -160,23 +160,6 @@ define(["wc/has"], function(has) {
 			return (typeof g.Object.assign === "function");
 		});
 
-		addtest("string-trim", function() {
-			/* jshint -W053 */
-			/* eslint-disable */
-			var s = new String(" "),
-				hasTrim = ("trim" in s);
-			/* eslint-enable */
-			// Safari (5, Windows) has String.prototype.trim() but it is incompatible with strict mode
-			if (hasTrim) {
-				try {
-					s.trim();
-				} catch (e) {
-					hasTrim = false;  // not good enough to count
-				}
-			}
-			return hasTrim;
-		});
-
 		addtest("string-repeat", function() {
 			return !!String.prototype.repeat;
 		});
@@ -305,10 +288,6 @@ define(["wc/has"], function(has) {
 	// as little as possible
 
 	// CONDITIONALLY FETCH
-	if (!has("string-trim")) {
-		result.push("wc/ecma5/String.prototype.trim");
-	}
-
 	if (!has("string-repeat")) {
 		result.push("wc/ecma6/String.prototype.repeat");
 	}
