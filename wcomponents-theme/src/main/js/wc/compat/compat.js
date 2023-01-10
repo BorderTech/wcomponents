@@ -156,10 +156,6 @@ define(["wc/has"], function(has) {
 			return ("Promise" in g);
 		});
 
-		addtest("object-keys", function(g) {
-			return !!g.Object.keys;
-		});
-
 		addtest("object-assign", function(g) {
 			return (typeof g.Object.assign === "function");
 		});
@@ -315,10 +311,6 @@ define(["wc/has"], function(has) {
 
 	if (!has("string-repeat")) {
 		result.push("wc/ecma6/String.prototype.repeat");
-	}
-
-	if (!has("object-keys")) {
-		result.push("wc/ecma5/Object.keys");
 	}
 
 	if (!has("object-assign")) {
