@@ -156,15 +156,6 @@ define(["wc/has"], function(has) {
 			return ("Promise" in g);
 		});
 
-		addtest("object-definesetter", function(g) {
-			return (typeof g.Object.__defineSetter__ !== "undefined");
-		});
-
-
-		addtest("object-getownpropertydescriptor", function(g) {
-			return !!g.Object.getOwnPropertyDescriptor;
-		});
-
 		addtest("object-keys", function(g) {
 			return !!g.Object.keys;
 		});
@@ -318,10 +309,6 @@ define(["wc/has"], function(has) {
 	// as little as possible
 
 	// CONDITIONALLY FETCH
-	if (!has("object-getownpropertydescriptor") && has("object-definesetter")) {
-		result.push("wc/ecma5/Object.getOwnPropertyDescriptor");
-	}
-
 	if (!has("string-trim")) {
 		result.push("wc/ecma5/String.prototype.trim");
 	}
