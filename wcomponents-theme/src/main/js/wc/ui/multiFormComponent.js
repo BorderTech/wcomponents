@@ -1,5 +1,4 @@
-define(["wc/has",
-	"wc/dom/event",
+define(["wc/dom/event",
 	"wc/dom/initialise",
 	"wc/dom/focus",
 	"wc/dom/shed",
@@ -12,9 +11,9 @@ define(["wc/has",
 	"wc/ui/ajaxRegion",
 	"wc/ui/fieldset",
 	"wc/ui/icon"],
-function(has, event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers, prompt, ajaxRegion, fieldset, icon) {
+function(event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers, prompt, ajaxRegion, fieldset, icon) {
 	"use strict";
-	var instance, repainter = null;
+	var instance;
 
 	/**
 	 * @constructor
@@ -249,7 +248,6 @@ function(has, event, initialise, focus, shed, uid, Widget, i18n, selectLoader, t
 					resetField(newField);
 					setSelectValues(newField, prototypeField);
 					resetPrototypeField(prototypeField);
-					repaint(element);
 				} else {
 					prompt.alert(i18n.get("mfc_max"));
 				}
@@ -281,7 +279,6 @@ function(has, event, initialise, focus, shed, uid, Widget, i18n, selectLoader, t
 					focus.focusFirstTabstop(container);
 				});
 			}
-			repaint(container);
 		}
 
 		function queue(func) {
@@ -289,12 +286,6 @@ function(has, event, initialise, focus, shed, uid, Widget, i18n, selectLoader, t
 				timers.clearTimeout(queueTimer);
 			}
 			queueTimer = timers.setTimeout(func, 100);
-		}
-
-		function repaint(element) {
-			if (repainter) {
-				repainter.checkRepaint(element);
-			}
 		}
 
 		/**
@@ -352,7 +343,6 @@ function(has, event, initialise, focus, shed, uid, Widget, i18n, selectLoader, t
 	 *   line text input controls.
 	 *
 	 * @module
-	 * @requires module:wc/has
 	 * @requires module:wc/dom/event
 	 * @requires module:wc/dom/initialise
 	 * @requires module:wc/dom/focus
@@ -372,10 +362,5 @@ function(has, event, initialise, focus, shed, uid, Widget, i18n, selectLoader, t
 
 	initialise.register(instance);
 
-	if (has("ie") === 8) {
-		require(["wc/fix/inlineBlock_ie8"], function(inlineBlock) {
-			repainter = inlineBlock;
-		});
-	}
 	return instance;
 });

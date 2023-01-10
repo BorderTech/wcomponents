@@ -5,13 +5,12 @@ define(["wc/ui/menu/core",
 	"wc/array/toArray",
 	"wc/ui/menu/treeItem",
 	"wc/dom/initialise",
-	"wc/has",
 	"wc/dom/formUpdateManager",
 	"wc/dom/getFilteredGroup",
 	"wc/ui/ajaxRegion",
 	"wc/timers",
 	"wc/ui/icon"],
-function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, has, formUpdateManager, getFilteredGroup, ajaxRegion, timers, icon) {
+function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, formUpdateManager, getFilteredGroup, ajaxRegion, timers, icon) {
 	"use strict";
 	var instance;
 
@@ -27,11 +26,6 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, h
 			LEAF_WD,
 			ajaxTimer,
 			IMAGE_HOLDER_WD;
-
-		if (has("ie") === 8) {
-			// IE8 fails to repaint closes in a timely manner if the repainter is not included explicitly.
-			require(["wc/fix/inlineBlock_ie8"]);
-		}
 
 		/**
 		 * Test a tree to determine if it is a HTree.
@@ -700,7 +694,6 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, h
 	 * @requires module:wc/array/toArray
 	 * @requires module:wc/ui/menu/treeItem
 	 * @requires module:wc/dom/initialise
-	 * @requires module:wc/has
 	 * @requires module:wc/dom/formUpdateManager
 	 * @requires module:wc/dom/getFilteredGroup
 	 * @requires module:wc/ui/ajaxRegion
