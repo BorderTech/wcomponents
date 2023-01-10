@@ -156,22 +156,6 @@ define(["wc/has"], function(has) {
 			return ("Promise" in g);
 		});
 
-		addtest("object-defineproperty", function(g) {
-			return !!g.Object.defineProperty;
-		});
-
-		addtest("object-defineproperty-dom", function(g, d, el) {
-			return hasWorkingObjectDefineProperty(g, el);
-		});
-
-		addtest("object-defineproperty-pojo", function(g) {
-			return hasWorkingObjectDefineProperty(g, {});
-		});
-
-		addtest("object-definegetter", function(g) {
-			return (typeof g.Object.__defineGetter__ !== "undefined");
-		});
-
 		addtest("object-definesetter", function(g) {
 			return (typeof g.Object.__defineSetter__ !== "undefined");
 		});
@@ -263,20 +247,6 @@ define(["wc/has"], function(has) {
 			}
 			return false;
 		});
-
-		function hasWorkingObjectDefineProperty(g, obj) {
-			var res = has("object-defineproperty");
-			if (res) {  // it has defineProperty but does it work?
-				try {
-					g.Object.defineProperty(obj, "id", { get: function() {
-						return "c";
-					}});
-				} catch (ex) {
-					res = false;  // this is not a working defineProperty (i.e. perhaps Safari 5 which does not support defineProperty on DOM objects)
-				}
-			}
-			return res;
-		}
 	})(has.add);
 
 	/*
@@ -348,10 +318,6 @@ define(["wc/has"], function(has) {
 	// as little as possible
 
 	// CONDITIONALLY FETCH
-	if (!has("object-defineproperty-dom") && has("object-definegetter")) {
-		result.push("wc/ecma5/Object.defineProperty");
-	}
-
 	if (!has("object-getownpropertydescriptor") && has("object-definesetter")) {
 		result.push("wc/ecma5/Object.getOwnPropertyDescriptor");
 	}
