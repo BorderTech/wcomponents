@@ -152,10 +152,6 @@ define(["wc/has"], function(has) {
 			return ("compareDocumentPosition" in el);
 		});
 
-		addtest("function-bind", function(g) {
-			return !!g.Function.prototype.bind;
-		});
-
 		addtest("promise-es6", function(g) {
 			return ("Promise" in g);
 		});
@@ -386,31 +382,6 @@ define(["wc/has"], function(has) {
 
 	if (!has("promise-es6")) {
 		result.push("Promise");
-	}
-
-	if (!has("function-bind")) {
-		/*
-		 * NOTE: this is an ugly fix for an IE8 race condition exacerbated by
-		 * the memory leak issue fixed by a MS hotfix: see KB2032595.
-		 * result.push("wc/ecma5/Function.prototype.bind");
-		 */
-		global.Function.prototype.bind = function (obj) {
-			var slice = [].slice,
-				args = slice.call(arguments, 1),
-				self = this,
-				Nop = function() {
-					this.toString = function() {
-						return self.toString();
-					};
-				},
-				bound = function() {
-					return self.apply((Nop.prototype && this instanceof Nop) ? this : ( obj || (global || {} )),
-						args.concat(slice.call(arguments)));
-				};
-			Nop.prototype = self.prototype;
-			bound.prototype = new Nop();
-			return bound;
-		};
 	}
 
 	if (!(has("native-console") && has("native-console-debug") && has("native-console-table") && has("native-console-group"))) {
