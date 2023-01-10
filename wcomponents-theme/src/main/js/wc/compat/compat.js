@@ -160,10 +160,6 @@ define(["wc/has"], function(has) {
 			return ("Promise" in g);
 		});
 
-		addtest("date-now", function(g) {
-			return !!g.Date.now;
-		});
-
 		addtest("object-defineproperty", function(g) {
 			return !!g.Object.defineProperty;
 		});
@@ -386,11 +382,6 @@ define(["wc/has"], function(has) {
 
 	if (!has("object-assign")) {
 		result.push("wc/ecma6/Object.assign");
-	}
-
-
-	if (!has("date-now")) {
-		result.push("wc/ecma5/Date.now");
 	}
 
 	if (!has("promise-es6")) {
