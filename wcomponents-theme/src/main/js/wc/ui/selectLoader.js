@@ -8,9 +8,8 @@ define(["wc/ui/listLoader",
 	"wc/dom/textContent",
 	"wc/i18n/i18n",
 	"wc/dom/getLabelsForElement",
-	"wc/ui/feedback",
-	"wc/has"],
-function(listLoader, initialise, Widget, getFilteredGroup, selectboxSearch, shed, event, textContent, i18n, getLabelsForElement, feedback, has) {
+	"wc/ui/feedback"],
+function(listLoader, initialise, Widget, getFilteredGroup, selectboxSearch, shed, event, textContent, i18n, getLabelsForElement, feedback) {
 	"use strict";
 	var instance;
 
@@ -51,15 +50,7 @@ function(listLoader, initialise, Widget, getFilteredGroup, selectboxSearch, shed
 						currentOptions = getFilteredGroup(selectList);
 						optContainer = OPTION_CONTAINER.findDescendant(datalist);
 						if (optContainer) {
-							if (has("ie") < 10) {
-								console.info("Forced to populate list slowly due to IE8 bugs");
-								selectList.innerHTML = "";
-								Array.prototype.forEach.call(optContainer.options, function(next) {
-									selectList.appendChild(next.cloneNode(true));
-								});
-							} else {
-								selectList.innerHTML = optContainer.innerHTML;
-							}
+							selectList.innerHTML = optContainer.innerHTML;
 							// re-select all the options that were originally selected
 							Array.prototype.forEach.call(currentOptions, function(next) {
 								var nextIdx = selectboxSearch.indexOf(next, optContainer), selIdx;
@@ -214,7 +205,6 @@ function(listLoader, initialise, Widget, getFilteredGroup, selectboxSearch, shed
 	 * @requires module:wc/dom/textContent
 	 * @requires module:wc/dom/i18n
 	 * @requires module:wc/dom/getLabelsForElement
-	 * @requires module:wc/has
 	 *
 	 * @todo Document private members, check source order.
 	 */

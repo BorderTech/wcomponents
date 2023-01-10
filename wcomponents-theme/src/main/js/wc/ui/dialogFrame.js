@@ -8,7 +8,6 @@ define(["wc/dom/event",
 	"wc/ui/ajax/processResponse",
 	"wc/ui/modalShim",
 	"wc/timers",
-	"wc/has",
 	"wc/ui/resizeable",
 	"wc/ui/positionable",
 	"wc/ui/draggable",
@@ -17,10 +16,10 @@ define(["wc/dom/event",
 	"wc/ui/viewportUtils",
 	"wc/ui/getForm",
 	"wc/config"],
-function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, modalShim, timers, has, resizeable, positionable, draggable, $role,
+function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, modalShim, timers, resizeable, positionable, draggable, $role,
 	template, viewportUtils, getForm, wcconfig) {
 	"use strict";
-	var repainter, instance;
+	var instance;
 	/**
 	 * @constructor
 	 * @alias module:wc/ui/dialogFrame~DialogFrame
@@ -535,9 +534,6 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 				}
 				setUnsetDimensionsPosition(element);
 				setUpMoveResizeControls(element);
-				if (repainter) {
-					repainter.checkRepaint(element);
-				}
 			} finally {
 				if (!animate) {
 					resizeable.restoreAnimation(element);
@@ -885,7 +881,6 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 	 * @requires module:wc/ui/ajax/processResponse
 	 * @requires module:wc/ui/modalShim
 	 * @requires module:wc/timers
-	 * @requires module:wc/has
 	 * @requires module:wc/ui/resizeable
 	 * @requires module:wc/ui/positionable
 	 * @requires module:wc/ui/draggable
@@ -897,12 +892,6 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 	instance = new DialogFrame();
 
 	initialise.register(instance);
-
-	if (has("ie") === 8) {
-		require(["wc/fix/inlineBlock_ie8"], function (inlineBlock) {
-			repainter = inlineBlock;
-		});
-	}
 
 	return instance;
 
