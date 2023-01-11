@@ -39,7 +39,10 @@
 		"tinymce": "5.10.3"
 	},
 	"devDependencies": {
+		"@babel/cli": "7.20.7",
+		"@babel/core": "7.20.12",
 		"axe-core": "3.0.0",
+		"babel-plugin-transform-import-as-amd": "0.0.12",
 		"chokidar": "3.5.3",
 		"clean-css-cli": "4.1.11",
 		"eslint": "8.31.0",
