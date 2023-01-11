@@ -20,8 +20,7 @@
  */
 define(["wc/has"], function(has) {
 	"use strict";
-	var global = window,
-		result = ["lib/dojo/sniff"];
+	var result = ["lib/dojo/sniff"];
 
 	(function(addtest) {
 		// This block taken from tests from hasjs project. Didn't want to load the whole script.
@@ -152,70 +151,12 @@ define(["wc/has"], function(has) {
 			return ("compareDocumentPosition" in el);
 		});
 
-		addtest("function-bind", function(g) {
-			return !!g.Function.prototype.bind;
-		});
-
 		addtest("promise-es6", function(g) {
 			return ("Promise" in g);
 		});
 
-		addtest("date-now", function(g) {
-			return !!g.Date.now;
-		});
-
-		addtest("object-defineproperty", function(g) {
-			return !!g.Object.defineProperty;
-		});
-
-		addtest("object-defineproperty-dom", function(g, d, el) {
-			return hasWorkingObjectDefineProperty(g, el);
-		});
-
-		addtest("object-defineproperty-pojo", function(g) {
-			return hasWorkingObjectDefineProperty(g, {});
-		});
-
-		addtest("object-definegetter", function(g) {
-			return (typeof g.Object.__defineGetter__ !== "undefined");
-		});
-
-		addtest("object-definesetter", function(g) {
-			return (typeof g.Object.__defineSetter__ !== "undefined");
-		});
-
-
-		addtest("object-getownpropertydescriptor", function(g) {
-			return !!g.Object.getOwnPropertyDescriptor;
-		});
-
-		addtest("object-keys", function(g) {
-			return !!g.Object.keys;
-		});
-
-		addtest("object-create", function(g) {
-			return (typeof g.Object.create === "function");
-		});
-
 		addtest("object-assign", function(g) {
 			return (typeof g.Object.assign === "function");
-		});
-
-		addtest("string-trim", function() {
-			/* jshint -W053 */
-			/* eslint-disable */
-			var s = new String(" "),
-				hasTrim = ("trim" in s);
-			/* eslint-enable */
-			// Safari (5, Windows) has String.prototype.trim() but it is incompatible with strict mode
-			if (hasTrim) {
-				try {
-					s.trim();
-				} catch (e) {
-					hasTrim = false;  // not good enough to count
-				}
-			}
-			return hasTrim;
 		});
 
 		addtest("string-repeat", function() {
@@ -275,151 +216,22 @@ define(["wc/has"], function(has) {
 			}
 			return false;
 		});
-
-		function hasWorkingObjectDefineProperty(g, obj) {
-			var res = has("object-defineproperty");
-			if (res) {  // it has defineProperty but does it work?
-				try {
-					g.Object.defineProperty(obj, "id", { get: function() {
-						return "c";
-					}});
-				} catch (ex) {
-					res = false;  // this is not a working defineProperty (i.e. perhaps Safari 5 which does not support defineProperty on DOM objects)
-				}
-			}
-			return res;
-		}
 	})(has.add);
-
-	/*
-	 * Q. Why do we patch the Array prototype instead of providing a set of array library functions?
-	 * A. Many reasons, one of the main ones is that once you have provided library functions they are
-	 * very hard to take away. So even when ES5 array methods are completely taken for granted and available
-	 * in even the lowest of the low you will still be stuck with the overhead of your library functions.
-	 *
-	 * This has already happened, we used to ship with many more array fixes but they are no longer necessary
-	 * so we deleted the code. That simple, we did not need to change any application code because everything
-	 * simply kept working using native methods that are now ubiquitous.
-	 *
-	 * Q. Extending the DOM is bad isn't it?
-	 * A. Yes. But we never extend it, we "standardize" it. At no time do we ever add any feature to the DOM that is
-	 * not 100% standard.
-	 *
-	 */
-	(function(Array, addtest) {
-
-		addtest("array-every", function() {
-			return !!Array.prototype.every;
-		});
-
-		addtest("array-filter", function() {
-			return !!Array.prototype.filter;
-		});
-
-		addtest("array-foreach", function() {
-			return !!Array.prototype.forEach;
-		});
-
-		addtest("array-indexof", function() {
-			return !!Array.prototype.indexOf;
-		});
-
-		addtest("array-isarray", function() {
-			return !!Array.isArray;
-		});
-
-		addtest("array-lastindexof", function() {
-			return !!Array.prototype.lastIndexOf;
-		});
-
-		addtest("array-map", function() {
-			return !!Array.prototype.map;
-		});
-
-		addtest("array-reduce", function() {
-			return !!Array.prototype.reduce;
-		});
-
-		addtest("array-reduceright", function() {
-			return !!Array.prototype.reduceRight;
-		});
-
-		addtest("array-some", function() {
-			return !!Array.prototype.some;
-		});
-
-		addtest("array-es5", function() {
-			return has("array-every") && has("array-filter") && has("array-foreach") &&
-				has("array-indexof") && has("array-isarray") && has("array-lastindexof") &&
-				has("array-map") && has("array-reduce") && has("array-reduceright") &&
-				has("array-some");
-		});
-	})(global.Array, has.add);
 
 	// ALWAYS FETCH
 	// as little as possible
 
 	// CONDITIONALLY FETCH
-	if (!has("object-defineproperty-dom") && has("object-definegetter")) {
-		result.push("wc/ecma5/Object.defineProperty");
-	}
-
-	if (!has("object-getownpropertydescriptor") && has("object-definesetter")) {
-		result.push("wc/ecma5/Object.getOwnPropertyDescriptor");
-	}
-
-	if (!has("string-trim")) {
-		result.push("wc/ecma5/String.prototype.trim");
-	}
-
 	if (!has("string-repeat")) {
 		result.push("wc/ecma6/String.prototype.repeat");
-	}
-
-	if (!has("object-keys")) {
-		result.push("wc/ecma5/Object.keys");
-	}
-
-	if (!has("object-create")) {
-		result.push("wc/ecma5/Object.create");
 	}
 
 	if (!has("object-assign")) {
 		result.push("wc/ecma6/Object.assign");
 	}
 
-
-	if (!has("date-now")) {
-		result.push("wc/ecma5/Date.now");
-	}
-
 	if (!has("promise-es6")) {
 		result.push("Promise");
-	}
-
-	if (!has("function-bind")) {
-		/*
-		 * NOTE: this is an ugly fix for an IE8 race condition exacerbated by
-		 * the memory leak issue fixed by a MS hotfix: see KB2032595.
-		 * result.push("wc/ecma5/Function.prototype.bind");
-		 */
-		global.Function.prototype.bind = function (obj) {
-			var slice = [].slice,
-				args = slice.call(arguments, 1),
-				self = this,
-				Nop = function() {
-					this.toString = function() {
-						return self.toString();
-					};
-				},
-				bound = function() {
-					return self.apply((Nop.prototype && this instanceof Nop) ? this : ( obj || (global || {} )),
-						args.concat(slice.call(arguments)));
-				};
-			Nop.prototype = self.prototype;
-			bound.prototype = new Nop();
-			return bound;
-		};
 	}
 
 	if (!(has("native-console") && has("native-console-debug") && has("native-console-table") && has("native-console-group"))) {
@@ -439,36 +251,6 @@ define(["wc/has"], function(has) {
 	}
 	if (!has("dom-comparedocumentposition")) {
 		result.push("wc/compat/compareDocumentPosition");
-	}
-	if (!has("array-every")) {
-		result.push("wc/ecma5/Array.prototype.every");
-	}
-	if (!has("array-filter")) {
-		result.push("wc/ecma5/Array.prototype.filter");
-	}
-	if (!has("array-foreach")) {
-		result.push("wc/ecma5/Array.prototype.forEach");
-	}
-	if (!has("array-indexof")) {
-		result.push("wc/ecma5/Array.prototype.indexOf");
-	}
-	if (!has("array-isarray")) {
-		result.push("wc/ecma5/Array.isArray");
-	}
-	if (!has("array-lastindexof")) {
-		result.push("wc/ecma5/Array.prototype.lastIndexOf");
-	}
-	if (!has("array-map")) {
-		result.push("wc/ecma5/Array.prototype.map");
-	}
-	if (!has("array-reduce")) {
-		result.push("wc/ecma5/Array.prototype.reduce");
-	}
-	if (!has("array-reduceright")) {
-		result.push("wc/ecma5/Array.prototype.reduceRight");
-	}
-	if (!has("array-some")) {
-		result.push("wc/ecma5/Array.prototype.some");
 	}
 	if (has("bug-getelementsbyname")) {
 		result.push("wc/fix/getElementsByName_ie9");

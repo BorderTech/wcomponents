@@ -125,14 +125,7 @@ define(["wc/has", "wc/dom/event", "wc/dom/storage", "wc/dom/initialise", "wc/isN
 			}
 
 			if (!has("global-performance")) {
-				if (has("object-defineproperty")) {  // FF 17 will not let you set window.performance any other way.
-					Object.defineProperty(window, "performance", {get: function() {
-						return performance;
-					}});
-				} else {
-					window.performance = performance;
-				}
-
+				window.performance = performance;
 				window.performance[ORIGIN_CHECK_PROP] = ORIGIN_CHECK.unknown;  // flag that we have not done an origin check yet
 				timing = window.performance.timing = new PerformanceTiming();
 				initialiseCrossPageTimers();
