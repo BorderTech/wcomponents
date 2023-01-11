@@ -22,14 +22,13 @@ define([], function() {
 	 * @param {Boolean} [unset] If true we are clearing the loading state, otherwise we are setting it.
 	 */
 	function setLoading(request, unset) {
-		var trigger = request.trigger,
+		const trigger = request.trigger,
 			ids = trigger.loads,
-			len = ids.length,
-			conflicts,
+			len = ids.length;
+		let conflicts,
 			element,
-			next,
-			i;
-		for (i = 0; i < len; i++) {
+			next;
+		for (let i = 0; i < len; i++) {
 			next = ids[i];
 			if (next) {
 				try {

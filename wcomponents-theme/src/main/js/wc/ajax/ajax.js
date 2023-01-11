@@ -16,27 +16,30 @@
 define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "wc/dom/uid", "wc/fix/getActiveX_ieAll", "require"],
 	function(Observer, global, xmlString, timers, has, uid, getActiveX, require) {
 		"use strict";
-		var handleError,
+		const
 			W3C_IFACE = "XMLHttpRequest",
-			ieXmlHttpEngine,
 			/**
 			 * AJAX request limit:
 			 *  Exists primarily for Internet Explorer bugs, IE could not handle more than about 8 pending ajax requests.
 			 *  Firefox (15) can also be swamped (but it takes a lot more, can handle about 80). Now applied to all
 			 *  browsers for the sake of consistency.
-			 * @var {int} limit
+			 * @constant {int} limit
 			 * @private
 			 */
 			limit = (has("ie") ? 5 : (has("ff") ? 8 : 20)),
-			markProfiles = has("global-performance-marking"),
-			pending = 0,
-			queue = [],
 			/**
 			 * The singleton returned by the module.
-			 * @var
+			 * @constant
 			 * @type {module:wc/ajax/ajax~Ajax}
-			 * @alias module:wc/ajax/ajax */
+			 * @alias module:wc/ajax/ajax
+			 */
 			ajax = new Ajax();
+
+		let handleError,
+			ieXmlHttpEngine,
+			markProfiles = has("global-performance-marking"),
+			pending = 0,
+			queue = [];
 
 		/**
 		 * @constructor
@@ -44,7 +47,7 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 		 * @private
 		 */
 		function Ajax() {
-			var observer, xBrowserRequest;
+			let observer, xBrowserRequest;
 
 			this.subscribe = function(subscriber) {
 				if (!observer) {
@@ -96,7 +99,7 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 			 * @param {XMLHTTPRequest} request The request that has just finished.
 			 */
 			function endProfile(request) {
-				var markStart, markEnd, mark;
+				let markStart, markEnd, mark;
 				if (request.uid) {
 					markStart = request.uid + "_start";
 					markEnd = request.uid + "_end";
@@ -171,7 +174,8 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 			 * @returns {XMLHTTPRequest} A Microsoft proprietary XML HTTPRequest.
 			 */
 			function getMsRequest() {
-				var result, supported, ieVersion = has("ie");
+				const ieVersion = has("ie");
+				let result, supported;
 				if (ieXmlHttpEngine === undefined) {
 					if (ieVersion && ieVersion < 10 && (supported = getActiveX("Msxml2.XMLHTTP", ["6.0", "3.0"]))) {
 						// This is intended for IE9 and earlier - ActiveX is better in ancient IE
@@ -202,7 +206,7 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 			 * @returns {XMLHTTPRequest} An XMLHTTPRequest relevant to the particular browser
 			 */
 			function generateXBrowserRequest() {
-				var result;
+				let result;
 				if (has("activex")) {  // do this test first, see comments on getMsRequest
 					result = getMsRequest;
 				} else if (global[W3C_IFACE]) {
@@ -224,7 +228,7 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 			 */
 			function stateChange(request, config) {
 				// request can be null in some circumstances, don't remove the null check
-				var done = false;
+				let done = false;
 				if (request && request.readyState === 4) {
 					try {
 						done = true;
@@ -290,9 +294,9 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 			 * @param {function} onError The error callback
 			 */
 			function notifyError(request, onError) {
-				var fallbackMessage = "ERROR! Unable to communicate with server",
-					doNotify = function(errorHandler) {
-						var message;
+				const fallbackMessage = "ERROR! Unable to communicate with server",
+					doNotify = function (errorHandler) {
+						let message;
 						try {
 							if (errorHandler && errorHandler.getErrorMessage) {
 								message = errorHandler.getErrorMessage(request);
@@ -355,7 +359,7 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 			 * @private
 			 */
 			function applyPostOpenConfig(request, config) {
-				var trident = has("trident"),
+				const trident = has("trident"),
 					allowCaching = config.cache || false;
 				if (trident && trident >= 6 && config.responseType === ajax.responseType.XML) {
 					// IE10 and greater need this to prevent the XML dom that is not an XML dom
@@ -384,9 +388,9 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 			 * @returns {XMLHTTPRequest} The XHR instance.
 			 */
 			function ajaxRqst(config) {
-				var done,
+				let done,
 					request = ajax.getXBrowserRequestFactory()(),
-					onStateChange = function() {
+					onStateChange = function () {
 						done = stateChange(request, config);
 					};
 
@@ -418,7 +422,7 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 			 * @returns {XMLHTTPRequest} The XHR instance.
 			 */
 			this.simpleRequest = function(request) {
-				var result;
+				let result;
 				request.async = (request.async === undefined) ? true : request.async;
 				request.uid = uid();
 				if (markProfiles) {
@@ -460,7 +464,7 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 			 * @returns {Object} an XML DOM loaded from the URI.
 			 */
 			this.loadXmlDoc = function(uri, callback, asText, asPromise) {
-				var responseType = (asText ? this.responseType.TEXT : this.responseType.XML),
+				const responseType = (asText ? this.responseType.TEXT : this.responseType.XML),
 					request = {
 						url: uri,
 						async: !!asPromise,
@@ -475,11 +479,11 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 			};
 
 			function loadXmlDocAsync(request, callback, asText) {
-				var result;
+				let result;
 				function executor(win) {
 					request.callback = callbackWrapper;
 					function callbackWrapper(response) {
-						var innerResult = response;
+						let innerResult = response;
 						if (!asText) {
 							if (!(innerResult && innerResult.documentElement)) {
 								/*
@@ -504,7 +508,7 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 			}
 
 			function loadXmlDocSync(request, callback, asText) {
-				var result;
+				let result;
 				request.callback = callbackWrapper;
 
 				function callbackWrapper(response) {
@@ -563,7 +567,7 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 			 * @returns {String} The string representation of the object
 			 */
 			this.toString = function () {
-				var s = "AJAX Limit: ";
+				let s = "AJAX Limit: ";
 				s += limit;
 				s += "\nPending: " + (pending || 0);
 				s += "\nQueued: " + (queue ? queue.length : 0);
@@ -590,7 +594,7 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 		 * @param {function} errback May possibly be invoked if there is an error loading the module.
 		 */
 		function fetchErrorHandler(callback, errback) {
-			var cb = function(err) {
+			const cb = function (err) {
 				if (callback) {
 					callback(err);
 				}
