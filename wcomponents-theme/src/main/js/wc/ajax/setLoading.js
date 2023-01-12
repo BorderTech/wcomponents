@@ -25,16 +25,13 @@ define([], function() {
 		const trigger = request.trigger,
 			ids = trigger.loads,
 			len = ids.length;
-		let conflicts,
-			element,
-			next;
 		for (let i = 0; i < len; i++) {
-			next = ids[i];
+			const next = ids[i];
 			if (next) {
 				try {
-					element = document.getElementById(next);
+					const element = document.getElementById(next);
 					if (unset) {
-						conflicts = trigger.getTriggersFor(next, trigger.getRequestBuffer(), true);
+						const conflicts = trigger.getTriggersFor(next, trigger.getRequestBuffer(), true);
 						/*
 						 * hasAttribute is tested to prevent us from enabling a region of the
 						 * form that should remain disabled. In other words if the AJAX response

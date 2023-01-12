@@ -25,10 +25,10 @@ define(["wc/config", "wc/i18n/i18n", "wc/mixin"], function(wcconfig, i18n, mixin
 	 * - The default WComponents error message for this.
 	 */
 	function getErrorMessage(response) {
-		let message, msgs;
+		let message;
 		if (response) {
 			if (response.status || response.status === 0) {  // I have seen response status 0 when, for example, a network cable is unplugged
-				msgs = getMessageOverrides();
+				const msgs = getMessageOverrides();
 				message = msgs[response.status];
 				if (!message) {
 					message = msgs.error;

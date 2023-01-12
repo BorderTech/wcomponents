@@ -17,7 +17,9 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 	function(Observer, global, xmlString, timers, has, uid, getActiveX, require) {
 		"use strict";
 		const
+			markProfiles = has("global-performance-marking"),
 			W3C_IFACE = "XMLHttpRequest",
+			queue = [],
 			/**
 			 * AJAX request limit:
 			 *  Exists primarily for Internet Explorer bugs, IE could not handle more than about 8 pending ajax requests.
@@ -36,10 +38,7 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 			ajax = new Ajax();
 
 		let handleError,
-			ieXmlHttpEngine,
-			markProfiles = has("global-performance-marking"),
-			pending = 0,
-			queue = [];
+			pending = 0;
 
 		/**
 		 * @constructor
@@ -175,7 +174,7 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 			 */
 			function getMsRequest() {
 				const ieVersion = has("ie");
-				let result, supported;
+				let result, supported, ieXmlHttpEngine;
 				if (ieXmlHttpEngine === undefined) {
 					if (ieVersion && ieVersion < 10 && (supported = getActiveX("Msxml2.XMLHTTP", ["6.0", "3.0"]))) {
 						// This is intended for IE9 and earlier - ActiveX is better in ancient IE
@@ -388,8 +387,8 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 			 * @returns {XMLHTTPRequest} The XHR instance.
 			 */
 			function ajaxRqst(config) {
-				let done,
-					request = ajax.getXBrowserRequestFactory()(),
+				let done;
+				const request = ajax.getXBrowserRequestFactory()(),
 					onStateChange = function () {
 						done = stateChange(request, config);
 					};
@@ -479,7 +478,6 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 			};
 
 			function loadXmlDocAsync(request, callback, asText) {
-				let result;
 				function executor(win) {
 					request.callback = callbackWrapper;
 					function callbackWrapper(response) {
@@ -502,7 +500,7 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 						}
 					}
 				}
-				result = new Promise(executor);
+				const result = new Promise(executor);
 				ajax.simpleRequest(request);
 				return result;
 			}
