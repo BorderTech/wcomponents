@@ -20,7 +20,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/tag"],
 		 * @private
 		 */
 		function TriggerManager() {
-			var ALIAS = "data-wc-ajaxalias",
+			const ALIAS = "data-wc-ajaxalias",
 				triggerRegister = {};
 
 
@@ -34,7 +34,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/tag"],
 			 * @todo Just return the output of Array.some...
 			 */
 			function isFormControlOrLink(element) {
-				var result = [tag.INPUT, tag.BUTTON, tag.SELECT, tag.TEXTAREA, tag.A].some(function(item) {
+				const result = [tag.INPUT, tag.BUTTON, tag.SELECT, tag.TEXTAREA, tag.A].some(function (item) {
 					return element.tagName === item;
 				});
 				return result;
@@ -61,7 +61,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/tag"],
 			 *    is associated with the trigger. This is either a A element or a FIELDSET element.
 			 */
 			function getTriggerContainer(element) {
-				var result;
+				let result;
 				if (element.tagName === tag.A) {  // if we pass in an A element then we know it is not itself the trigger container.
 					if (element.parentNode) {
 						result = getAncestorOrSelf(element.parentNode, tag.A);
@@ -81,7 +81,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/tag"],
 			 * @param { module:wc/ajax/Trigger} trigger The trigger to add.
 			 */
 			this.addTrigger = function(trigger) {
-				var id = trigger.id;
+				const id = trigger.id;
 				if (this.getTrigger(id)) {
 					console.info("Overwriting existing trigger", id);
 				}
@@ -100,7 +100,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/tag"],
 			 * @returns {module:wc/ajax/Trigger} The trigger, if any.
 			 */
 			this.getTrigger = function(ref, ignoreAncestor) {
-				var result, id, triggerParams, _ref;
+				let result;
 				if (ref) {
 					if (ref.constructor === String) {
 						// Just treating this as a string, no DOM awareness.
@@ -109,6 +109,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/tag"],
 							result = triggerRegister[ref];
 						}
 					} else {  // it must be a DOM element
+						let id;
 						if ((id = ref.id)) {  // try id
 							console.log("Found trigger by element (id match)");
 							result = this.getTrigger(id);
@@ -122,7 +123,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/tag"],
 							result = this.getTrigger(id);
 						}
 						if (!result && !ignoreAncestor) {
-							_ref = getTriggerContainer(ref);
+							const _ref = getTriggerContainer(ref);
 							if (_ref) {
 								console.log("Looking for ancestor trigger");
 								result = this.getTrigger(_ref, ignoreAncestor);
@@ -131,6 +132,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/tag"],
 					}
 				}
 				if (result) {
+					let triggerParams;
 					if (ref.getAttribute && (triggerParams = ref.getAttribute("data-wc-params"))) {
 						result._triggerParams = triggerParams;
 					} else {

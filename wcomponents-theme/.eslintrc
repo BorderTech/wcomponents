@@ -1,4 +1,7 @@
 {
+	"parserOptions": {
+		"ecmaVersion": 6
+	},
 	"env": {
 		"browser": true,
 		"amd": true
@@ -23,5 +26,15 @@
 		"Promise": true,
 		"DataView": true,
 		"intern": true
-	}
+	},
+	"overrides": [{
+		"files": [ "*.mjs" ],
+		"parserOptions": {
+			"sourceType": "module"
+		}}, {
+		"files": [ "scripts/*.js", "build-js.js" ],
+		"parserOptions": {
+			"ecmaVersion": 2020
+		}
+	}]
 }

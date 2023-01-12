@@ -1,10 +1,6 @@
-define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc/dom/getViewportSize", "wc/dom/shed", "wc/dom/Widget", "wc/has", "wc/config"],
-	function(i18n, event, focus, initialise, getViewportSize, shed, Widget, has, wcconfig) {
+define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc/dom/getViewportSize", "wc/dom/shed", "wc/dom/Widget", "wc/config"],
+	function(i18n, event, focus, initialise, getViewportSize, shed, Widget, wcconfig) {
 		"use strict";
-
-		if (has("ie")) {
-			return null;
-		}
 
 		/**
 		 * @constructor
@@ -12,14 +8,15 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 		 * @private
 		 */
 		function BackToTop() {
-			var
-				/**
-				 * The description of the back to top link HTML artifact.
-				 * @var
-				 * @type {module:wc/dom/Widget}
-				 * @private
-				 */
-				backWidget = new Widget("a", "wc_btt"),
+			/**
+			 * The description of the back to top link HTML artifact.
+			 * @constant
+			 * @type {module:wc/dom/Widget}
+			 * @private
+			 */
+			const backWidget = new Widget("a", "wc_btt");
+
+			let
 				/**
 				 * This property can be set to a positive integer to force showing the scroll to top link at X pixels of
 				 * scroll. If it is not set (or set to 0) then the scroll to top link will appear when more than one
@@ -27,12 +24,12 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 				 *
 				 * Can be set in module configuration as property "scroll".
 				 *
-				 * @constant
+				 * @var
 				 * @type {int}
 				 * @private
 				 * @default 0
 				 */
-				MIN_SCROLL_BEFORE_SHOW = 0,
+				minScrollBeforeShow = 0,
 				/**
 				 * Is the back to top link enabled?
 				 * @var
@@ -41,7 +38,7 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 				 */
 				isEnabled = true,
 				/**
-				 * Custon configuration
+				 * Custom configuration
 				 * @type Object
 				 */
 				config;
@@ -54,7 +51,7 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 			 * @param {Event} $event The wrapped click event.
 			 */
 			function clickEvent($event) {
-				var docEl = document.documentElement;
+				const docEl = document.documentElement;
 
 				if (!isEnabled || $event.defaultPrevented) {
 					return;
@@ -78,7 +75,7 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 			 * @param {boolean} [show] If true the back to top link is shown, otherwise it is hidden.
 			 */
 			function toggle(show) {
-				var link = backWidget.findDescendant(document.body);
+				let link = backWidget.findDescendant(document.body);
 				if (show) {
 					if (!link) {
 						link = document.createElement("a");
@@ -111,13 +108,13 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 			 *
 			 * @function
 			 * @private
-			 */ 
+			 */
 			function genericEvent() {
-				var scroll = document.documentElement.scrollTop || document.body.scrollTop,
-					min;
+				const scroll = document.documentElement.scrollTop || document.body.scrollTop;
+				let	min;
 
-				if (MIN_SCROLL_BEFORE_SHOW > 0) {
-					min = MIN_SCROLL_BEFORE_SHOW;
+				if (minScrollBeforeShow > 0) {
+					min = minScrollBeforeShow;
 				} else {
 					min = getViewportSize().height;
 				}
@@ -129,7 +126,7 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 			 * @param {Boolean} enable Indicates if the BTT link is enabled (true) or disabled.
 			 */
 			function addRemoveEventHandlers(enable) {
-				var func = enable ? "add" : "remove",
+				const func = enable ? "add" : "remove",
 					el = document.body;
 				event[func](el, "click", clickEvent);
 				event[func](el, "keydown", keyEvent);
@@ -156,9 +153,9 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 				isEnabled = !!enable;
 				if (enable) {
 					config = config || wcconfig.get("wc/ui/backToTop", {
-						scroll: MIN_SCROLL_BEFORE_SHOW
+						scroll: minScrollBeforeShow
 					});
-					MIN_SCROLL_BEFORE_SHOW = config.scroll;
+					minScrollBeforeShow = config.scroll;
 				} else {
 					toggle(false); // just in case the link is showing at the time it is turned off.
 				}
