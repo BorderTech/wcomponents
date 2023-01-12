@@ -57,6 +57,9 @@ let libs = {
 	"fabric/dist/fabric.min.js": {
 		dest: "fabric.js"
 	},
+	"mailcheck/src/mailcheck.min.js": {
+		dest: "mailcheck.js"
+	},
 	"getusermedia-js/dist": {
 		dest: "getusermedia-js"
 	},

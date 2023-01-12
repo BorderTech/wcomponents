@@ -1,15 +1,8 @@
-define(["wc/dom/shed", "wc/has"],
-	function(shed, has) {
+define(["wc/dom/shed"],
+	function(shed) {
 		"use strict";
 		var actionRegister = {},  // Map of subordinate action keywords to functions which implement the action.
-			groupRegister = {},
-			repainter;
-
-		if (has("ie") === 8) {
-			require(["wc/fix/inlineBlock_ie8"], function(inlineBlock) {
-				repainter = inlineBlock;
-			});
-		}
+			groupRegister = {};
 
 		/**
 		 * Provides actions used by {@link module:wc/ui/subordinate}.
@@ -21,7 +14,6 @@ define(["wc/dom/shed", "wc/has"],
 		 *
 		 * @module
 		 * @requires module:wc/dom/shed
-		 * @requires module:wc/has
 		 * @constructor
 		 * @alias module:wc/ui/SubordinateAction
 		 * @param {module:wc/ui/SubordinateAction~ActionDTO} dto The object defining the action.
@@ -287,10 +279,6 @@ define(["wc/dom/shed", "wc/has"],
 						}
 					}
 				}
-
-				if (repainter) {
-					repainter.checkRepaint(element);
-				}
 			}
 
 			/**
@@ -301,9 +289,6 @@ define(["wc/dom/shed", "wc/has"],
 			 */
 			function hideItem(element) {
 				shed.hide(element);
-				if (repainter) {
-					repainter.checkRepaint(element);
-				}
 			}
 
 			/**
@@ -314,7 +299,6 @@ define(["wc/dom/shed", "wc/has"],
 			 */
 			function showItem(element) {
 				shed.show(element);
-				applyEffects(element);
 			}
 
 			/**
@@ -344,9 +328,7 @@ define(["wc/dom/shed", "wc/has"],
 			 * @param {Element} element The element to act on.
 			 */
 			function disableItem(element) {
-				if (disable(element)) {
-					applyEffects(element);
-				}
+				disable(element, false);
 			}
 
 			/**
@@ -356,9 +338,7 @@ define(["wc/dom/shed", "wc/has"],
 			 * @param {Element} element The element to act on.
 			 */
 			function enableItem(element) {
-				if (disable(element, true)) {
-					applyEffects(element);
-				}
+				disable(element, true);
 			}
 
 			/**
@@ -454,18 +434,6 @@ define(["wc/dom/shed", "wc/has"],
 					shed.disable(element);
 				}
 				return (shed.isDisabled(element) !== originalState);
-			}
-
-			/**
-			 * Apply some kind of visual effect to an element that would otherwise change state "quietly".
-			 * @function applyEffects
-			 * @private
-			 * @param {Element} element The element to whch the effect is applied.
-			 */
-			function applyEffects(element) {
-				if (repainter) {
-					repainter.checkRepaint(element);
-				}
 			}
 		}
 

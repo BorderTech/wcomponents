@@ -10,7 +10,7 @@
  *
  * Note, you will generally be running in debug mode while developing: https://github.com/BorderTech/wcomponents/wiki/Debugging-a-theme
  */
-const fs = require("fs");
+const chokidar = require('chokidar');
 const { requireAmd, dirs } = require("./build-util");
 const themeLinter = require("./lintfile");
 const buildCss = require("../build-css");
@@ -30,12 +30,13 @@ const handlers = {
 		* @returns {Promise} resolved when the change has been handled.
 		*/
 		function(dir, filename) {
+			let filePath = getPath(path.basename(dir), filename);
 			return buildImages.build(filename).then(() => {
-				return path.join(path.basename(dir), filename);
+				return filePath;
 			});
 		},
 	resource: function(dir, filename) {
-		let filePath = path.join(dir, filename);
+		let filePath = getPath(dir, filename);
 		return buildResources.build(filePath);
 	},
 	script: /**
@@ -45,7 +46,7 @@ const handlers = {
 		* @returns {Promise} resolved when the change has been handled.
 		*/
 		function(dir, filename) {
-			let filePath = path.join(dir, filename);
+			let filePath = getPath(dir, filename);
 			return buildJs.build(filePath).then(function() {
 				return buildJs.pathToModule(filename);
 			});
@@ -57,7 +58,7 @@ const handlers = {
 		 * @returns {Promise} resolved when the change has been handled.
 		 */
 		function(dir, filename) {
-			let filePath = path.join(dir, filename);
+			let filePath = getPath(dir, filename);
 			return buildCss.build(filePath);
 		},
 	test: /**
@@ -68,7 +69,8 @@ const handlers = {
 		 */
 		function(dir, filename) {
 			return new Promise(function(win) {
-				themeLinter.run(path.join(dir, filename));
+				let filePath = getPath(dir, filename);
+				themeLinter.run(filePath);
 				grunt.option("filename", filename);
 				grunt.tasks(["copy:test"], { filename: filename }, win);
 			});
@@ -77,6 +79,10 @@ const handlers = {
 
 hotReload.listen();
 Object.keys(handlers).forEach(watchDir);
+
+function getPath(dir, filename) {
+	return path.isAbsolute(filename) ? filename : path.join(dir, filename);
+}
 
 /**
  * Sets up a filesystem watch on the given source directory and copies any changed files to the corresponding subdirectory in targetRoot.
@@ -87,10 +93,11 @@ function watchDir(type) {
 	if (dir && dir.src) {
 		requireAmd(["wc/debounce"], function (debounce) {
 			console.log("Watching ", type, dir.src);
-			fs.watch(dir.src, { recursive: true }, debounce(function(event, filename) {
-				if (filename && event === "change") {
-					console.log("File Changed ", filename);
-					handlers[type](dir.src, filename).then(function(moduleName) {
+			chokidar.watch(dir.src).on('all', debounce(function(event, filePath) {
+				// console.log(filePath, event);
+				if (filePath && event === "change") {
+					console.log("File Changed ", filePath);
+					handlers[type](dir.src, filePath).then(function(moduleName) {
 						if (moduleName) {
 							hotReload.notify(moduleName, type);
 						}

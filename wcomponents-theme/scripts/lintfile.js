@@ -1,4 +1,4 @@
-/* eslint-env node, es6  */
+/* eslint-env node, es2020  */
 /*
  * Runs eslint on the theme js.
  * This can be used directly from commandline:
@@ -15,17 +15,21 @@ const path = require("path");
 const { logLintReport, dirs } = require("./build-util");
 const sassLint = require("sass-lint");
 
-const CLIEngine = require("eslint").CLIEngine;
-const eslintCli = new CLIEngine({
+const { ESLint } = require("eslint");
+const eslintCli = new ESLint({
 	useEslintrc: true,
-	ignore: true
+	ignore: true,
+	extensions: ['.js', '.mjs']
 });
 
 if (require.main === module) {
 	let len = process.argv.length,
 		target = len > 2 ? process.argv[len - 1] : "";
 	runSassLint();
-	runEslint(target, true);
+	runEslint(target).catch((error) => {
+		process.exitCode = 1;
+		console.error(error);
+	});
 
 }
 
@@ -49,23 +53,21 @@ function getLintTarget(target) {
 /**
  * Runs ESLint rules on the file in question and logs any warnings or errors discovered.
  * @param {string} target The path to the file to lint
- * @param {boolean} if true the process will be terminated if any errors are encountered.
- * @returns The raw ESLint report when done.
+ * @returns The raw ESLint results when done.
  */
-function runEslint(target, failOnErr) {
+async function runEslint(target) {
 	let lintTarget = getLintTarget(target);
-	let uglyReport =  eslintCli.executeOnFiles(lintTarget);
-	let formatter = eslintCli.getFormatter();
-	let prettyReport = formatter(uglyReport.results);
+	let uglyReport =  await eslintCli.lintFiles(lintTarget);
+	let formatter = await eslintCli.loadFormatter();
+	let prettyReport = formatter.format(uglyReport);
+	const message = "THEME LINTER: Nothing to report besides the fact that you are awesome!";
 	if (prettyReport) {
 		console.log(prettyReport);
-		if (uglyReport && uglyReport.errorCount > 0) {
-			if (failOnErr) {
-				process.exitCode = 1;
-				process.exit();
-			}
-		} else {
-			console.log("THEME LINTER: Nothing to report besides the fact that you are awesome!");
+		let fatalErrorResults = ESLint.getErrorResults(uglyReport).filter((result) => {
+			return result.fatalErrorCount > 0;
+		});
+		if (!fatalErrorResults.length) {
+			console.log(message);
 		}
 	}
 	return uglyReport;

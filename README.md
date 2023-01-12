@@ -40,8 +40,6 @@ Out of the box WComponents supports all modern desktop and mobile browsers inclu
 - Mobile Safari
 - Chrome
 - Mobile Firefox
-- UC
-- Mobile IE (Windows Phone) and Edge (Windows 10 mobile)
 
 ### Desktop
 
@@ -49,7 +47,6 @@ Out of the box WComponents supports all modern desktop and mobile browsers inclu
 - Firefox
 - Safari
 - Microsoft Edge
-- Internet Explorer 11
 
 WComponents client side code is extensible and configurable therefore it is perfectly feasible to add support for older browsers not listed above.
 

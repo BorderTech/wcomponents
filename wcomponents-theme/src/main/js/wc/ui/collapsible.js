@@ -13,7 +13,7 @@ define(["wc/dom/event",
 	"wc/ui/icon"],
 function(event, attribute, focus, formUpdateManager, has, initialise, Widget, shed, timers, isEventInLabel, isAcceptableEventTarget, $role, icon) {
 	"use strict";
-	var instance, repainter = null;
+	var instance;
 
 	/**
 	 * @constructor
@@ -60,10 +60,6 @@ function(event, attribute, focus, formUpdateManager, has, initialise, Widget, sh
 					shed.expand(container);
 				} else {
 					shed.publish(container, shed.actions.EXPAND);
-				}
-
-				if (repainter) {
-					repainter.checkRepaint(element);
 				}
 			}
 			if (container) {
@@ -344,10 +340,5 @@ function(event, attribute, focus, formUpdateManager, has, initialise, Widget, sh
 	 */
 	instance = new Collapsible();
 
-	if (has("ie") === 8) {
-		require(["wc/fix/inlineBlock_ie8"], function(inlineBlock) {
-			repainter = inlineBlock;
-		});
-	}
 	return initialise.register(instance);
 });

@@ -1,4 +1,4 @@
-/* eslint-env node, es6  */
+/* eslint-env node, es2020  */
 /*
  * This script is responsible for the JS build.
  *
@@ -7,6 +7,7 @@
 const requirejs = require("requirejs");
 const fs = require("fs-extra");
 const path = require("path");
+const esmBuilder = require("./scripts/esmBuilder");
 const libBuilder = require("./scripts/libs");
 const { getConfig, buildMax, dirs } = require("./scripts/build-util");
 const UglifyJS = require("uglify-es");
@@ -21,6 +22,7 @@ let config = {
 	optimize: "none",
 	optimizeAllPluginResources: true,
 	normalizeDirDefines: "all",
+	// fileExclusionRegExp: /\.mjs$/,
 	generateSourceMaps: false,
 	onBuildWrite: function (moduleName, fsPath, contents) {
 		// r.js overrides `require` saving the original function as `require.nodeRequire`
@@ -41,6 +43,7 @@ let config = {
 	paths: {
 		"lib/sprintf": `lib/sprintf.min`,
 		tinyMCE: "lib/tinymce/tinymce.min",
+		mailcheck: "lib/mailcheck",
 		fabric: "empty:",
 		axs: "empty:",
 		axe: "empty:"
@@ -55,11 +58,12 @@ if (require.main === module) {
  * The entry point to kick off the entire build.
  * @param {string} [singleFile] If you want to build a single JS file.
  */
-function build(singleFile) {
+async function build(singleFile) {
 	console.time("buildJS");
 	if (!singleFile) {
 		themeLinter.run("", true);
 		clean();
+		await esmBuilder.build(dirs.script.src, dirs.script.max);
 		libBuilder.build(dirs.project.basedir, dirs.script.max);
 		buildMax(dirs.script);
 		return optimize(config);
@@ -126,8 +130,7 @@ function noisyLog() {
  * @returns {string} The module name.
  */
 function pathToModule(modulePath) {
-	let moduleName = modulePath.replace(dirs.script.src, "");
-	moduleName = modulePath.replace(dirs.script.target, "");
+	let moduleName = modulePath.replace(dirs.script.target, "");
 	moduleName = moduleName.replace(/\\/g, "/").replace(/^\/|\.js$/g, "");
 	return moduleName;
 }

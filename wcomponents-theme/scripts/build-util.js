@@ -123,7 +123,10 @@ function requireAmd() {
 	if (!requireAmd._inited) {
 		requireAmd._inited = true;
 		requirejs.config({
-			baseUrl: dirs.script.src,
+
+			// baseUrl: dirs.script.src,  // Can't do this with .mjs files, so either we JIT babel or we use the build dir
+			baseUrl: dirs.script.max,  // which means the build must have already run - temporary until we get rid of RequireJS
+
 			nodeRequire: require
 		});
 	}
