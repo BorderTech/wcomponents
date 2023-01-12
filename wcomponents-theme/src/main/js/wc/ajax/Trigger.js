@@ -36,7 +36,7 @@ define(["wc/dom/tag",
 function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManager, has, initialise, timers, setLoading, Observer) {
 	"use strict";
 
-	var
+	const
 		/**
 		 * @constant {String} EMPTY_VALUE A Default value for INPUT elements in the submit button state or image
 		 * button state which do not have a value set. The default value is that commonly set for such controls.
@@ -47,6 +47,12 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 		 */
 		EMPTY_VALUE = "Submit Query",
 		/**
+		 * @constant {module:wc/dom/Widget} busyWd A {@link module:wc/dom/Widget} description of a busy element
+		 * (pending a UI update). Instantiated only when and if first needed.
+		 * @private
+		 */
+		busyWd = new Widget("", "", { "aria-busy": "true" }),
+		/**
 		 * @constant {int} REQUEST_DELAY The delay, in milliseconds, before sending a request to prevent rapid fire
 		 * requests (double clickers).
 		 * @see {@link module:wc/ajax/Trigger~requestTimer}
@@ -55,24 +61,20 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 		 */
 		REQUEST_DELAY = 500,
 		/**
-		 * @var {Object} TAG An object used to map HTML tag names. Instantiated only when first needed.
-		 * @see {@link module:wc/dom/tag}
-		 * @private
-		 */
-		TAG,
-		/**
 		 * @constant {String} UNDEFINED  Undefined. Here to improve compression.
 		 * @private
 		 * @default "undefined"
 		 * @ignore
 		 */
-		UNDEFINED = "undefined",
+		UNDEFINED = "undefined";
+
+	let
 		/**
-		 * @var {module:wc/dom/Widget} busyWd A {@link module:wc/dom/Widget} description of a busy element
-		 * (pending a UI update). Instantiated only when and if first needed.
+		 * @var {Object} TAG An object used to map HTML tag names. Instantiated only when first needed.
+		 * @see {@link module:wc/dom/tag}
 		 * @private
 		 */
-		busyWd,
+		TAG,
 		/**
 		 * @var {module:wc/ajax/Trigger~Request[]} pendingList An array of AJAX requests that have been sent but
 		 * not received.
@@ -110,7 +112,7 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 		observer;
 
 	initialise.addInitRoutine(function() {
-		var afterCallback = function(trigger) {
+		const afterCallback = function (trigger) {
 			setLoading({
 				trigger: trigger
 			}, true);
@@ -119,7 +121,6 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 	});
 	// add an early initialisation
 	initialise.addBodyListener({initialise: function () {
-		busyWd = new Widget("", "", { "aria-busy": "true" });
 		if (has("ie") && has("ie") < 10) {
 			event.add(window, "beforeunload",
 				/**
@@ -169,7 +170,7 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 	 * @returns {String} An amended queryString
 	 */
 	function addToQueryString(queryString, newArgs) {
-		var result = queryString;
+		let result = queryString;
 		if (newArgs) {
 			if (queryString) {
 				result += "&";
@@ -191,7 +192,7 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 	 * @returns {Element} The element which is expected to fire the trigger.
 	 */
 	function getElement(trigger) {
-		var result, element;
+		let result, element;
 		if (trigger.id) {
 			if ((element = document.getElementById(trigger.id))) {
 				result = element;
@@ -213,7 +214,7 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 	 * @returns {Element} the ancestor form element if any or undefined.
 	 */
 	function getForm(element) {
-		var form;
+		let form;
 		if (typeof element.form !== UNDEFINED) {
 			form = element.form;
 		} else if (element.tagName !== tag.FORM) {  // if you want an infinte loop remove this check :P
@@ -236,7 +237,8 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 			this.successful = (typeof obj.successful === UNDEFINED) ? null : obj.successful;
 			this.formRegion = obj.formRegion;
 			this.callback = function() {
-				var scope = this, cbresult;
+				const scope = this;
+				let cbresult;
 				try {
 					if (onsuccess) {
 						cbresult = onsuccess.apply(scope, arguments);
@@ -249,7 +251,7 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 				}
 			};
 			this.onerror = function(err) {
-				var trigger = this;
+				const trigger = this;
 				try {
 					if (onerror) {
 						onerror.apply(trigger, arguments);
@@ -301,7 +303,7 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 	 *	if positive number then after the response callback has been called
 	 */
 	Trigger.subscribe = function(subscriber, phase) {
-		var group = null;
+		let group = null;
 		if (phase) {
 			if (phase < 0) {
 				group = { group: "before" };
@@ -322,7 +324,7 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 	 * @param {number} [phase] If a negative number is provided the subscriber will be removed from the "before" phase.
 	 */
 	Trigger.unsubscribe = function(subscriber, phase) {
-		var group;
+		let group;
 		if (observer) {
 			if (phase) {
 				if (phase < 0) {
@@ -342,7 +344,7 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 	 * @param {object} [cbresult] The result of the trigger callback, if relevant to this phase.
 	 */
 	function notify(trigger, groupName, cbresult) {
-		var pending, proxyObj;
+		let pending;
 		trigger.profile.received = Date.now();
 		if (observer) {
 			pending = pendingList.length > 0;
@@ -353,7 +355,7 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 					pending = true;
 				}
 			}
-			proxyObj = Object.create(trigger);
+			const proxyObj = Object.create(trigger);
 			proxyObj.cbresult = cbresult;
 			observer.notify(proxyObj, pending);
 		}
@@ -371,9 +373,8 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 	 * @returns {String} The url.
 	 */
 	Trigger.getUrl = function(trigger) {
-		var url,
-			ampCheckRE	=	/&amp;/gi,
-			fragmentRe	=	/#.+$/g;
+		const ampCheckRE =	/&amp;/gi,
+			fragmentRe = /#.+$/g;
 		/**
 		 * <p>If the trigger is an instance of Trigger we will try to return, in order of preference:</p>
 		 * <ol><li>trigger.url;
@@ -389,16 +390,15 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 		 * @returns {String} The AJAX URL associated with the trigger.
 		 */
 		function getUrlHtml5(trig) {
-			var element,
-				result,
-				form,
-				URL_DATA_ATTRIBUTE = "data-wc-ajaxurl";
+			const URL_DATA_ATTRIBUTE = "data-wc-ajaxurl";
+			let result;
 			if (trig) {
 				if (trig.constructor === Trigger) {
 					result = trig.url;
 					if (!result) {
 						console.log("Could not find URL on trigger Instance");
-						if ((element = getElement(trig))) {
+						const element = getElement(trig);
+						if (element) {
 							result = getUrlHtml5(element);
 						}
 					}
@@ -406,7 +406,8 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 					result = trig.getAttribute(URL_DATA_ATTRIBUTE);
 					if (!result) {
 						console.log("Could not find URL for element ", trig.id);
-						if ((form = getForm(trig))) {
+						const form = getForm(trig);
+						if (form) {
 							if (!(result = getUrlHtml5(form))) {
 								console.log("Could not find URL on form");
 							}
@@ -419,7 +420,7 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 			return result;
 		}
 
-		url = getUrlHtml5(trigger);
+		let url = getUrlHtml5(trigger);
 		if (url) {
 			/* Note that XMLHttpRequest can not send the anchor part of a URL (ie the hash and anything following)
 			 * See: http://www.w3.org/TR/XMLHttpRequest/#the-open-method
@@ -443,12 +444,10 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 	 *	 return an empty array.
 	 */
 	Trigger.prototype.getTriggersFor = function(id, requests, stopAtFirstMatch) {
-		var result = [],
-			len = requests.length,
-			trigger,
-			i;
-		for (i = 0; i < len; i++) {
-			trigger = requests[i].trigger;
+		const result = [],
+			len = requests.length;
+		for (let i = 0; i < len; i++) {
+			const trigger = requests[i].trigger;
 			if (trigger.loads.indexOf(id) >= 0) {
 				result[result.length] = requests[i];
 				if (stopAtFirstMatch) {
@@ -487,22 +486,18 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 		 * @param {module:wc/ajax/Trigger~Request} request The request we wish to send
 		 * @returns {Boolean} true If the request may be sent.*/
 		function canSendRequest(request) {
-			var i,
-				next,
-				busy,
-				conflict,
-				trigger = request.trigger,
+			const trigger = request.trigger,
 				ids = trigger.loads,
 				len = ids.length;
 
-			for (i = 0; i < len; i++) {
-				conflict = trigger.getTriggersFor(ids[i], pendingList, true);
+			for (let i = 0; i < len; i++) {
+				const conflict = trigger.getTriggersFor(ids[i], pendingList, true);
 				if (conflict.length) {
 					return false;
 				}
-				next = document.getElementById(ids[i]);
+				const next = document.getElementById(ids[i]);
 				if (next) {
-					busy = busyWd.findAncestor(next) || busyWd.findDescendant(next);
+					const busy = busyWd.findAncestor(next) || busyWd.findDescendant(next);
 					if (busy && busy !== next) {  // the element itself will ALWAYS be busy
 						// this element is contained in or contains a "busy" region
 						return false;
@@ -516,7 +511,6 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 			timers.clearTimeout(requestTimer);
 		}
 		requestTimer = timers.setTimeout(function() {
-			var request;
 			/* When invoked will attempt to remove the oldest item from the queue and send its AJAX request.
 			 * If the oldest item can not be removed from the queue then no other items will be removed from
 			 * the queue even though they themselves may not be blocked.
@@ -525,7 +519,7 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 			while (requestBuffer.length) {
 				if (canSendRequest(requestBuffer[0])) {
 					queueBlocked = false;
-					request = requestBuffer.shift();
+					let request = requestBuffer.shift();
 					request.send();
 				} else {
 					queueBlocked = true;  // flag that we are blocked. next response will check this flag and reinvoke.
@@ -553,10 +547,8 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 	 * @public
 	 */
 	Trigger.prototype.fire = function() {
-		var promise,
-			trigger = this,
-			endOfQueue,
-			request;
+		const trigger = this;
+		let promise;
 
 		if (trigger.oneShot) {  // will be a negative number if it is not oneshot, therefore will equate to true
 			notify(trigger, "before");
@@ -564,9 +556,9 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 				trigger.oneShot--;
 			}
 			// queueRequest();
-			endOfQueue = (requestBuffer.length - 1);
+			const endOfQueue = (requestBuffer.length - 1);
 			trigger.profile.fired = Date.now();
-			request = new Request(trigger);
+			const request = new Request(trigger);
 			if (!requestBuffer[endOfQueue] || requestBuffer[endOfQueue].trigger.id !== trigger.id) {  // yes, use id for equality
 				requestBuffer.push(request);
 				setLoading(request);  // do this AFTER the form has been serialized (because it will disable stuff)
@@ -584,11 +576,10 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 
 	function getFirePromise(trigger) {
 		return new Promise(function(resolve, reject) {
-			var subscriber = function(triggerArg) {
-				var result;
+			const subscriber = function (triggerArg) {
 				if (triggerArg && trigger.id === triggerArg.id) {
 					Trigger.unsubscribe(subscriber, 1);
-					result = triggerArg.cbresult;
+					const result = triggerArg.cbresult;
 					if (result) {
 						if (result.error) {
 							reject(result.error);
@@ -622,9 +613,8 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 	 * @returns {String} The serialized parameters or "".
 	 */
 	Trigger.prototype.getParams = function() {
-		var result = "",
-			triggerId,
-			element = getElement(this);
+		const element = getElement(this);
+		let result = "";
 		try {
 			if (this.serialiseForm && element) {
 				result = getFormParams(element, this);
@@ -642,6 +632,7 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 				result = addToQueryString(result, this._triggerParams);
 			}
 
+			let triggerId;
 			if (this.alias) {
 				triggerId = this.alias;
 				console.log("Reporting alias to server");
@@ -669,7 +660,7 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 	 * @returns {String} The serialized parameters or "".
 	 */
 	function getSubmitButtonParams(element) {
-		var params = "", triggerName = element.name;
+		let params = "", triggerName = element.name;
 		if (triggerName) {
 			triggerName = encodeURIComponent(triggerName);
 			if (element.tagName === tag.BUTTON && element.type === "submit") {
@@ -698,14 +689,16 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 	 * @returns {String} The serialized parameters or "".
 	 */
 	function getFormParams(element, instance) {
-		var result = "", form, region, stateContainer;
-		if ((form = getForm(element))) {
+		let result = "";
+		const form = getForm(element);
+		if (form) {
+			let region;
 			if (typeof instance.formRegion !== UNDEFINED) {
 				region = document.getElementById(instance.formRegion);
 			}
 			if (region) {
 				formUpdateManager.update(form, region);
-				stateContainer = formUpdateManager.getStateContainer(form);
+				const stateContainer = formUpdateManager.getStateContainer(form);
 				TAG = TAG || { INPUT: tag.INPUT, SELECT: tag.SELECT, TEXTAREA: tag.TEXTAREA };
 				result = addToQueryString(result, serialize.serialize(region.getElementsByTagName(TAG.INPUT)));
 				result = addToQueryString(result, serialize.serialize(region.getElementsByTagName(TAG.SELECT)));
@@ -744,7 +737,7 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 		 * Hold on to this reference to self as the callback function is applied... some things will break
 		 * if you rely on 'this'.
 		 */
-		var $self = this;
+		const $self = this;
 		/**
 		 * Cache responses to this request?
 		 * @var {Boolean}
@@ -777,7 +770,7 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 		this.callback = function(response) {
 			// response would be null if the XML has already been transformed to HTML on the server
 			// or in the case of IE it will be an "empty" XML DOM.
-			var payload = (response && response.documentElement) ? response : this.responseText;
+			const payload = (response && response.documentElement) ? response : this.responseText;
 			handleResponse($self, payload, trigger, false);
 		};
 
@@ -787,7 +780,7 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 	}
 
 	function handleResponse($self, response, trigger, isError) {
-		var idx, done = function() {
+		const done = function () {
 			notify(trigger);
 		};
 		console.log("Got response for trigger", trigger.id);
@@ -799,7 +792,7 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 				 *
 				 * Therefore it is safe to delete it from the pending queue - no need for counters.
 				 */
-				idx = pendingList.indexOf($self);
+				const idx = pendingList.indexOf($self);
 				if (idx >= 0) {
 					pendingList.splice(idx, 1);
 				} else {
@@ -833,7 +826,7 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 	 * @function
 	 */
 	Request.prototype.send = function () {
-		var trigger = this.trigger;
+		const trigger = this.trigger;
 		if (!unloading) {
 			this.url = Trigger.getUrl(trigger);
 			if (this.url) {
