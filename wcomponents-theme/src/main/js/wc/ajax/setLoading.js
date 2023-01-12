@@ -22,20 +22,16 @@ define([], function() {
 	 * @param {Boolean} [unset] If true we are clearing the loading state, otherwise we are setting it.
 	 */
 	function setLoading(request, unset) {
-		var trigger = request.trigger,
+		const trigger = request.trigger,
 			ids = trigger.loads,
-			len = ids.length,
-			conflicts,
-			element,
-			next,
-			i;
-		for (i = 0; i < len; i++) {
-			next = ids[i];
+			len = ids.length;
+		for (let i = 0; i < len; i++) {
+			const next = ids[i];
 			if (next) {
 				try {
-					element = document.getElementById(next);
+					const element = document.getElementById(next);
 					if (unset) {
-						conflicts = trigger.getTriggersFor(next, trigger.getRequestBuffer(), true);
+						const conflicts = trigger.getTriggersFor(next, trigger.getRequestBuffer(), true);
 						/*
 						 * hasAttribute is tested to prevent us from enabling a region of the
 						 * form that should remain disabled. In other words if the AJAX response

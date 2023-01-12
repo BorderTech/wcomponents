@@ -25,10 +25,10 @@ define(["wc/config", "wc/i18n/i18n", "wc/mixin"], function(wcconfig, i18n, mixin
 	 * - The default WComponents error message for this.
 	 */
 	function getErrorMessage(response) {
-		var message, msgs;
+		let message;
 		if (response) {
 			if (response.status || response.status === 0) {  // I have seen response status 0 when, for example, a network cable is unplugged
-				msgs = getMessageOverrides();
+				const msgs = getMessageOverrides();
 				message = msgs[response.status];
 				if (!message) {
 					message = msgs.error;
@@ -65,7 +65,7 @@ define(["wc/config", "wc/i18n/i18n", "wc/mixin"], function(wcconfig, i18n, mixin
 	 * If there is a conflict then the message set in the messages argument takes precedence over those in module config.
 	 */
 	function getMessageOverrides() {
-		var result = {}, config = wcconfig.get("wc/ui/xhr"),
+		const result = {}, config = wcconfig.get("wc/ui/xhr"),
 			mfuConfig = wcconfig.get("wc/ui/multiFileUploader");  // this is for legacy support, the functionality was introduced in multiFileUploader
 		if (config && config.messages) {
 			mixin(config.messages, result);
