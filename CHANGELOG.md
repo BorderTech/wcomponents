@@ -11,6 +11,7 @@
   the native date field is not used.)
 * Drop Internet Explorer support.
 * Modernize codebase to use ES6 features such as modules with the aim of reducing complexity and payload size.
+* Update TinyMCE (Rich Text Editor)
 
 ### Bug Fixes
 
