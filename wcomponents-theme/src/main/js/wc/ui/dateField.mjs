@@ -812,7 +812,7 @@ function DateInput() {
 		if (shed.isExpanded(element)) {
 			if (target.hasAttribute(FAKE_VALUE_ATTRIB) && getSuggestionList(target, 1)) {
 				preventDefault = true;  // so we don't submit from the suggestion list - yes this is needed I checked.
-				focusAndSetValue(element /*, target */);
+				focusAndSetValue(element /* , target */);
 			} else if (isDateInput(target)) {
 				instance.acceptFirstMatch(target);
 			}

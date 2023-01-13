@@ -10,7 +10,7 @@ const path = require("path");
 const esmBuilder = require("./scripts/esmBuilder");
 const libBuilder = require("./scripts/libs");
 const { getConfig, buildMax, dirs } = require("./scripts/build-util");
-const UglifyJS = require("uglify-es");
+const UglifyJS = require("uglify-js");
 const themeLinter = require("./scripts/lintfile");
 const verbose = getConfig("verbose");
 
