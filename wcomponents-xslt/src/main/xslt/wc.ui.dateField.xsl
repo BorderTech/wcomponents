@@ -61,11 +61,16 @@
 				<xsl:attribute name="name">
 					<xsl:value-of select="@id"/>
 				</xsl:attribute>
-				<xsl:if test="@toolTip">
-					<xsl:attribute name="title">
-						<xsl:value-of select="@toolTip"/>
-					</xsl:attribute>
-				</xsl:if>
+				<xsl:attribute name="title">
+					<xsl:choose>
+						<xsl:when test="@toolTip">
+							<xsl:value-of select="@toolTip"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>{{#i18n}}datefield_title_default{{/i18n}}</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:attribute>
 				<xsl:if test="@required">
 					<xsl:attribute name="required">
 						<xsl:text>required</xsl:text>
