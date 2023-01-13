@@ -6,6 +6,11 @@
 
 ### Enhancements
 * Add client side email typo hints.
+* Always render to custom date component, never use native HTML date fields.
+  (As requested and in keeping with every other web framework, web app, booking system etc
+  the native date field is not used.)
+* Drop Internet Explorer support.
+* Modernize codebase to use ES6 features such as modules with the aim of reducing complexity and payload size.
 
 ### Bug Fixes
 
