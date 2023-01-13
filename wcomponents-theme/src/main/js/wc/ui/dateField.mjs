@@ -655,13 +655,8 @@ function DateInput() {
 			const next = dateFields[i];
 			const name = next.id + nameSuffix;
 			if (!shed.isDisabled(next)) {
-				let numVal;
-				if (instance.hasNativeInput(next)) {
-					const textBox = instance.getTextBox(next);
-					if (textBox && textBox.value) {
-						formUpdateManager.writeStateField(stateContainer, name, textBox.value);
-					}
-				} else if ((numVal = instance.getValue(next))) {
+				let numVal = instance.getValue(next);
+				if (numVal) {
 					formUpdateManager.writeStateField(stateContainer, name, numVal);
 				}
 			}
@@ -678,11 +673,6 @@ function DateInput() {
 	 */
 	function changeEvent($event) {
 		const element = $event.target;
-
-		if (instance.hasNativeInput(element, true)) {
-			return;
-		}
-
 		const dateField = instance.get(element);
 		if (dateField) {
 			instance.acceptFirstMatch(element);
@@ -709,9 +699,7 @@ function DateInput() {
 			attribute.set(element, BOOTSTRAPPED, true);
 			event.add(element, "change", changeEvent);
 		}
-		if (instance.hasNativeInput(element, true)) {
-			return;
-		}
+
 		let dateField = instance.get(element);
 		if (dateField && !attribute.get(dateField, BOOTSTRAPPED)) {
 			attribute.set(dateField, BOOTSTRAPPED, true);
@@ -729,7 +717,7 @@ function DateInput() {
 	 */
 	function clickEvent($event) {
 		const target = $event.target;
-		if ($event.defaultPrevented || instance.hasNativeInput(target, true)) {
+		if ($event.defaultPrevented) {
 			return;
 		}
 		const dateField = instance.get(target);
@@ -770,9 +758,6 @@ function DateInput() {
 			target = $event.target;
 
 		// dateField = instance.get(target);
-		if (instance.hasNativeInput(target, true)) {
-			return;
-		}
 
 		if (!dateField || shed.isDisabled(dateField)) {
 			return;
@@ -827,7 +812,7 @@ function DateInput() {
 		if (shed.isExpanded(element)) {
 			if (target.hasAttribute(FAKE_VALUE_ATTRIB) && getSuggestionList(target, 1)) {
 				preventDefault = true;  // so we don't submit from the suggestion list - yes this is needed I checked.
-				focusAndSetValue(element, target);
+				focusAndSetValue(element /*, target */);
 			} else if (isDateInput(target)) {
 				instance.acceptFirstMatch(target);
 			}
@@ -884,9 +869,6 @@ function DateInput() {
 	 */
 	this.acceptFirstMatch = function(element) {
 		let dateField;
-		if (this.hasNativeInput(element)) {
-			return;
-		}
 		const matches = getMatches(element);
 		if (matches && matches.length && (dateField = this.get(element))) {
 			const _matches = matches.map(function(next) {
@@ -960,10 +942,6 @@ function DateInput() {
 			let textbox;
 			result = _element.getAttribute(FAKE_VALUE_ATTRIB);
 			if (result) {
-				return result;
-			}
-
-			if (this.hasNativeInput(element) && (result = element.value)) {
 				return result;
 			}
 
