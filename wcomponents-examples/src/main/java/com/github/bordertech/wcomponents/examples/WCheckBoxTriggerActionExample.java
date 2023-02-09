@@ -13,8 +13,8 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 
 /**
- * This example demonstrates the use of {@link WCheckBox#setActionOnChange(Action)}. The action associated with the
- * checkbox gets executed whenever the checkbox selection changes.
+ * This example demonstrates the use of {@link WCheckBox#setActionOnChange(Action)}. The action associated with the checkbox gets executed whenever
+ * the checkbox selection changes.
  *
  * @author Christina Harris
  * @since 1.0.0
@@ -103,8 +103,8 @@ public class WCheckBoxTriggerActionExample extends WContainer {
 		});
 
 		/*
-         * NOTE: you should not use WCheckBox to submit a form, so if you need to
-         * trigger an action on change it should be done using AJAX.
+		 * NOTE: you should not use WCheckBox to submit a form, so if you need to
+		 * trigger an action on change it should be done using AJAX.
 		 */
 		WAjaxControl ajaxControl = new WAjaxControl(breakfastCheckbox, infoPanel);
 		add(ajaxControl);
