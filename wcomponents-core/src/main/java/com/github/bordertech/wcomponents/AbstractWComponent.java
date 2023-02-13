@@ -10,9 +10,6 @@ import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import com.github.bordertech.wcomponents.validation.DiagnosticImpl;
 import com.github.bordertech.wcomponents.velocity.VelocityTemplateManager;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -28,6 +25,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
@@ -489,8 +488,8 @@ public abstract class AbstractWComponent implements WComponent {
 	@Override
 	public void forward(final String url) {
 		invokeLater(() -> {
-            throw new ForwardException(url);
-        });
+			throw new ForwardException(url);
+		});
 	}
 
 	// ================================
@@ -922,7 +921,8 @@ public abstract class AbstractWComponent implements WComponent {
 	/**
 	 * <p>
 	 * Sets the client visibility of this component. Hidden components take part in event handling and painting, but are
-	 * not <a href="https://html.spec.whatwg.org/multipage/dom.html#palpable-content-2">palpable</a> on the client.
+	 * not
+	 * <a href="https://html.spec.whatwg.org/multipage/dom.html#palpable-content-2">palpable</a> on the client.
 	 * <p>
 	 *
 	 * @param hidden true for hidden, false for displayed.
@@ -1018,6 +1018,7 @@ public abstract class AbstractWComponent implements WComponent {
 
 	/**
 	 * {@inheritDoc}
+	 *
 	 * @deprecated 1.4 causes a11y issues, no replacement.
 	 */
 	@Deprecated
@@ -1028,6 +1029,7 @@ public abstract class AbstractWComponent implements WComponent {
 
 	/**
 	 * {@inheritDoc}
+	 *
 	 * @deprecated 1.4 causes a11y issues, no replacement.
 	 */
 	@Deprecated
@@ -1992,7 +1994,7 @@ public abstract class AbstractWComponent implements WComponent {
 			if (LOG.isDebugEnabled()) {
 				LOG.debug(
 						"WComponent converted to reference. Ref = " + ref + ". Component = " + getClass().
-						getName());
+								getName());
 			}
 
 			return ref;

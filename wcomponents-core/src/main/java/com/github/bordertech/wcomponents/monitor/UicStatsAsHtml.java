@@ -68,8 +68,8 @@ public final class UicStatsAsHtml {
 		List<UicStats.Stat> statList = new ArrayList<>(treeStats.values());
 
 		Collections.sort(statList,
-            Comparator.comparing(UicStats.Stat::getModelState)
-                .thenComparing(UicStats.Stat::getClassName));
+				Comparator.comparing(UicStats.Stat::getModelState)
+						.thenComparing(UicStats.Stat::getClassName));
 
 		for (int i = 0; i < statList.size(); i++) {
 			UicStats.Stat stat = statList.get(i);

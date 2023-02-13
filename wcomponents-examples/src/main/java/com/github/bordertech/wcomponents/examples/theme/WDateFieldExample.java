@@ -138,8 +138,8 @@ public class WDateFieldExample extends WContainer {
 		innerButtonPanel.add(copyDateBtn);
 		innerButtonPanel.add(copyJavaDateBtn);
 		/*
-         * NOTE: the cancel button is here to test a previous race condition in the theme.
-         * If you do not change the WDateFields it should not cause an unsaved changes warning.
+		 * NOTE: the cancel button is here to test a previous race condition in the theme.
+		 * If you do not change the WDateFields it should not cause an unsaved changes warning.
 		 */
 		WCancelButton cancelButton = new WCancelButton("Cancel");
 		cancelButton.setAction(new Action() {

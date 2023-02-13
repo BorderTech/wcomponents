@@ -40,7 +40,7 @@ public interface Container extends WComponent {
 	/**
 	 * Retrieves a list of this Container's.
 	 *
-         * @return an immutable list of this Container.
+	 * @return an immutable list of this Container.
 	 */
 	List<WComponent> getChildren();
 }

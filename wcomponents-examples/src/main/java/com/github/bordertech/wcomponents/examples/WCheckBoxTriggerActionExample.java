@@ -103,8 +103,8 @@ public class WCheckBoxTriggerActionExample extends WContainer {
 		});
 
 		/*
-         * NOTE: you should not use WCheckBox to submit a form, so if you need to
-         * trigger an action on change it should be done using AJAX.
+		 * NOTE: you should not use WCheckBox to submit a form, so if you need to
+		 * trigger an action on change it should be done using AJAX.
 		 */
 		WAjaxControl ajaxControl = new WAjaxControl(breakfastCheckbox, infoPanel);
 		add(ajaxControl);

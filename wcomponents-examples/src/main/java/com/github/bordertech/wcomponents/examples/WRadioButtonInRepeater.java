@@ -51,11 +51,11 @@ public class WRadioButtonInRepeater extends WContainer {
 	public WRadioButtonInRepeater() {
 
 		/*
-         * NOTE
-         * a set of radio buttons represent answers to a question where each radio
-         * button is unique and mutually-exclusive response. To create an accessible
-         * group of radio buttons there must be some way to supply an adequate
-         * 'question'. This is most commonly a WFieldSet or a column in a WTable.
+		 * NOTE
+		 * a set of radio buttons represent answers to a question where each radio
+		 * button is unique and mutually-exclusive response. To create an accessible
+		 * group of radio buttons there must be some way to supply an adequate
+		 * 'question'. This is most commonly a WFieldSet or a column in a WTable.
 		 */
 		add(group);
 
@@ -70,8 +70,8 @@ public class WRadioButtonInRepeater extends WContainer {
 		layout.addField("Outside Repeater - Option F", group.addRadioButton("F"));
 
 		/*
-         * An ajax control should only control items which are placed AFTER the
-         * controller (in source order)
+		 * An ajax control should only control items which are placed AFTER the
+		 * controller (in source order)
 		 */
 		WPanel msgPanel = new WPanel();
 		add(msgPanel);
