@@ -27,37 +27,51 @@ function(attribute, uid, event, focus, Widget, shed, timers, Observer) {
 		 *
 		 * @function
 		 * @private
-		 * @param {Event} $event The keydown event.
+		 * @param {KeyboardEvent} $event The keydown event.
 		 */
 		function keyEvent($event) {
 			SHIFTKEY_ON = $event.shiftKey;
 		}
 
 		/**
+		 * Returns truthy if the container contains, or is identical to, the element.
+		 * @param container The candidate for container.
+		 * @param element The candidate for contained.
+		 * @returns truthy if container contains, or is, element.
+		 */
+		function elementContains(container, element) {
+			var result = container === element;
+			// noinspection JSBitwiseOperatorUsage
+			return result || (element.compareDocumentPosition(container) & Node.DOCUMENT_POSITION_CONTAINS);
+		}
+
+		/**
 		 * The activeElement (or something within it) has received focus. Cancel any outstanding calls to refocus it.
 		 * @function
 		 * @private
-		 * @param {Event} $event The focus event.
+		 * @param {KeyboardEvent} $event The focus event.
 		 */
 		function focusEvent($event) {
 			if (!$event.defaultPrevented && activeElement) {
-				if (!( $event.target.compareDocumentPosition(activeElement) & Node.DOCUMENT_POSITION_CONTAINS)) {
+				if (!elementContains(activeElement, $event.target)) {
 					timers.setTimeout(focus.focusFirstTabstop, 0, activeElement, null, SHIFTKEY_ON);
 				}
 			}
 		}
+
 		/**
 		 * Use the shim to prevent touch events by cancelling touchstart.
 		 * @function
 		 * @private
-		 * @param {Event} $event The touch start event.
+		 * @param {TouchEvent} $event The touch start event.
 		 */
 		function touchstartEvent($event) {
 			if (!$event.defaultPrevented && activeElement &&
-				!($event.target.compareDocumentPosition(activeElement) & Node.DOCUMENT_POSITION_CONTAINS)) {
+				!elementContains(activeElement, $event.target)) {
 				$event.preventDefault();
 			}
 		}
+
 		/**
 		 * create a new modalShim if required.
 		 * @function
@@ -127,7 +141,7 @@ function(attribute, uid, event, focus, Widget, shed, timers, Observer) {
 			// remove the accesskey attribute from controls with access keys which are not in the activeRegion
 			Array.prototype.forEach.call(ACCESS_KEY_WD.findDescendants(document), function(next) {
 				var nextId = next.id || (next.id = uid());
-				if (activeRegion && !(next.compareDocumentPosition(activeRegion) & Node.DOCUMENT_POSITION_CONTAINS)) {
+				if (activeRegion && !elementContains(activeRegion, next)) {
 					accessKeyMap[nextId] = next.getAttribute(AKEY);
 					next.removeAttribute(AKEY);
 				}
@@ -197,7 +211,7 @@ function(attribute, uid, event, focus, Widget, shed, timers, Observer) {
 		 * @function module:wc/ui/modalShim.unsubscribe
 		 * @public
 		 * @param {Function} subscriber the function to unsubscribe
-		 * @param {boolean} onshow if true unsubscribe from the group notified when the modalShim is shown. The unsubscribe will only succeed if
+		 * @param {boolean} onshow if true unsubscribe from the group notified when the modalShim is shown. The 'unsubscribe' will only succeed if
 		 * the group is the same as when the subscriber was subscribed.
 		 * @returns {Function} the unsubscribed function
 		 */
