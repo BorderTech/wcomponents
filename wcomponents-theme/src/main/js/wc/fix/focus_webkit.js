@@ -2,6 +2,8 @@
  * Fix for Chrome / Safari failure to move focus when the user clicks with the mouse on any inputs of type
  * "button", "file", "submit", "radio", "checkbox", or "range"; any anchor; or on non-form element with a tabIndex.
  *
+ * Verified this is still the behaviour of Safari in 2023, v16.4
+ *
  * Includes searching for the nearest focusable ancestor. This was done, along with a touchstart listener, to fix an
  * issue in webkit mobile browsers (especially noticeable in Safari on iOS).
  * @module

@@ -15,6 +15,8 @@
 * Update to latest qa-parent 1.0.20
 
 ### Bug Fixes
+* Allow user to select text in a modal dialog #1816
+* Browser sniffer now recognises Chromium Edge
 
 ## 1.5.28
 
