@@ -29,7 +29,12 @@ define(["wc/has"], function(has) {
 		addTest("iemobile", parseFloat(dua.split("IEMobile/")[1]) || parseFloat(dua.split("IEMobile ")[1]) || undefined);
 	}
 
-	addTest("edge", parseFloat(dua.split("Edge/")[1]) || undefined);
+	addTest("edge", function() {
+		var matches = dua.match(/Edg.*\/(\S+)/);  // for example: Edge/1.2.3 or Edg/1.2.3
+		if (matches) {
+			return parseFloat(matches[1]);
+		}
+	});
 
 	addTest("uc", function () {
 		return !has("css-flex");
@@ -50,7 +55,7 @@ define(["wc/has"], function(has) {
 				document.body.innerHTML = "<h1>You are in Compatibility View. Please use Standards Mode</h1>";
 			}, 0);
 		}
-	} else if (has("webkit")) {
+	} else if (has("webkit") && !has("edge")) {
 		result.push("wc/fix/focus_webkit");
 	} else if (has("ff")) {
 		result.push("wc/fix/shiftKey_ff");
