@@ -31,7 +31,7 @@
 
 	<properties>
 		<checkstyle.suppressions.location>${basedir}/checkstyle-exclude.xml</checkstyle.suppressions.location>
-		<suppressionFiles>${project.parent.basedir}/owasp-jetty-suppression.xml</suppressionFiles>
+		<suppressionFiles>${project.parent.basedir}/owasp-jetty-suppression.xml,${project.parent.basedir}/owasp-velocity-suppression.xml</suppressionFiles>
 	</properties>
 
 	<dependencies>

@@ -20,6 +20,7 @@
 
 	<properties>
 		<spotbugs.excludeFilterFile>${basedir}/spotbugs-exclude-filter.xml</spotbugs.excludeFilterFile>
+		<suppressionFiles>${project.parent.basedir}/owasp-velocity-suppression.xml</suppressionFiles>
 	</properties>
 
 	<profiles>

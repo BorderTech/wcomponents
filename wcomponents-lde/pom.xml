@@ -30,7 +30,7 @@
 
 	<properties>
 		<spotbugs.excludeFilterFile>${basedir}/spotbugs-exclude-filter.xml</spotbugs.excludeFilterFile>
-		<suppressionFiles>${project.parent.basedir}/owasp-jetty-suppression.xml</suppressionFiles>
+		<suppressionFiles>${project.parent.basedir}/owasp-jetty-suppression.xml,${project.parent.basedir}/owasp-velocity-suppression.xml</suppressionFiles>
 	</properties>
 
 	<dependencies>
@@ -64,7 +64,7 @@
 			<artifactId>wcomponents-theme</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<scope>test</scope>
 			<groupId>com.github.bordertech.wcomponents</groupId>
