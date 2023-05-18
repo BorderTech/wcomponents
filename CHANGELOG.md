@@ -12,6 +12,7 @@
 * Drop Internet Explorer support.
 * Modernize codebase to use ES6 features such as modules with the aim of reducing complexity and payload size.
 * Update TinyMCE (Rich Text Editor)
+* Add 'copy to clipboard' button to readonly text area
 * Update to latest qa-parent 1.0.20
 
 ### Bug Fixes

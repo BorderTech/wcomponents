@@ -49,6 +49,9 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:element>
+		<xsl:call-template name="clipboard">
+			<xsl:with-param name="target" select="@id"/>
+		</xsl:call-template>
 	</xsl:template>
 
 	<xsl:template match="ui:textarea">
