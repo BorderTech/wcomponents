@@ -44,12 +44,14 @@ public class WProgressBarExample extends WPanel {
 		progressBar.setToolTip("Progress out of 4");
 		add(new ProgressBarWithButtons(progressBar));
 
+		progressBar = new WProgressBar(ProgressBarType.SMALL, 33);
+		progressBar.setToolTip("Progress out of 33");
 		progressBar.setBeanProvider(new BeanProvider() {
 			private final RandomValueGenerator bean = new RandomValueGenerator(33);
 
 			@Override
 			public Object getBean(final BeanProviderBound beanProviderBound) {
-				return bean;
+				return bean.getValue();
 			}
 		});
 
