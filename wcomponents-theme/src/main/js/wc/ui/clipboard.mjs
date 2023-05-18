@@ -27,6 +27,8 @@ function copyContent(element) {
 			if (text) {
 				navigator.clipboard.writeText(text).then(function() {
 					console.log("Copied to clipboard", text);
+				}).catch(function(error) {
+					console.info("Error copying to clipboard", error);
 				});
 			}
 		}
