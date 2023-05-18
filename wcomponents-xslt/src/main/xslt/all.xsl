@@ -150,6 +150,7 @@
 					Promise: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/Promise",
 					ccv: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/ccv",
 					face: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/face",
+					getUserMedia: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/getusermedia-js/getUserMedia.min",
 					axs: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/axs_testing",
 					axe: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/axe.min"
 				},
