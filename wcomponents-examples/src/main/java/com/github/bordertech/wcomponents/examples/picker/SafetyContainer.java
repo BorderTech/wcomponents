@@ -3,7 +3,6 @@ package com.github.bordertech.wcomponents.examples.picker;
 import com.github.bordertech.wcomponents.AbstractMutableContainer;
 import com.github.bordertech.wcomponents.ActionEscape;
 import com.github.bordertech.wcomponents.ComponentModel;
-import com.github.bordertech.wcomponents.MutableContainer;
 import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.UIContext;
@@ -32,7 +31,7 @@ final class SafetyContainer extends AbstractMutableContainer {
 	/**
 	 * An invisible shim is used to exclude the contents from normal WComponent processing.
 	 */
-	private final MutableContainer shim = new WInvisibleContainer();
+	private final WInvisibleContainer shim = new WInvisibleContainer();
 
 	/**
 	 * An attribute key used to temporarily store any exception which occurs in the example.
@@ -44,6 +43,9 @@ final class SafetyContainer extends AbstractMutableContainer {
 	 */
 	SafetyContainer() {
 		super.add(shim);
+		// Set a static ID on container and it becomes a naming context for the example.
+		shim.setIdName("eg");
+		shim.setNamingContext(true);
 	}
 
 	/**
@@ -173,6 +175,14 @@ final class SafetyContainer extends AbstractMutableContainer {
 		}
 
 		removeAttribute(SafetyContainer.ERROR_KEY);
+	}
+
+	/**
+	 * Remove the content.
+	 */
+	public void removeContent() {
+		// Remove the content by resetting the shim which also clears any static IDs from the naming context
+		shim.reset();
 	}
 
 	/**

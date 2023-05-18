@@ -14,6 +14,8 @@
 * Update TinyMCE (Rich Text Editor)
 * Add 'copy to clipboard' button to readonly text area
 * Update to latest qa-parent 1.0.20
+* Update dependencies to the latest version and fix convergence errors
+* Include OWASP suppression file for velocity dependency
 
 ### Bug Fixes
 * Allow user to select text in a modal dialog #1816

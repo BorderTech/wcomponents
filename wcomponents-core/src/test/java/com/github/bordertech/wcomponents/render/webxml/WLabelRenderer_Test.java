@@ -15,8 +15,8 @@ import com.github.bordertech.wcomponents.WMultiTextField;
 import com.github.bordertech.wcomponents.WRadioButtonSelect;
 import com.github.bordertech.wcomponents.WTextArea;
 import java.io.IOException;
-import org.junit.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
+import org.junit.Assert;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -89,6 +89,17 @@ public class WLabelRenderer_Test extends AbstractWebXmlRendererTestCase {
 		label.add(text2);
 		assertSchemaMatch(root);
 		assertXpathEvaluatesTo("text2", "//ui:label/ui:textarea", label);
+	}
+
+	@Test
+	public void testSanitizedText() throws IOException, SAXException, XpathException {
+		MyInput comp = new MyInput();
+		WLabel label = new WLabel("<form>content</form><br />", comp);
+		label.setEncodeText(false);
+		label.setSanitizeOnOutput(true);
+		assertSchemaMatch(label);
+		String xml = toXHtml(label);
+		Assert.assertTrue("Label text should contain sanitized xml", xml.contains("content<br />"));
 	}
 
 	@Test
@@ -239,6 +250,7 @@ public class WLabelRenderer_Test extends AbstractWebXmlRendererTestCase {
 	 * A simple input used for testing aspects of WLabel which are dependant on the labeled control's states.
 	 */
 	private class MyInput extends AbstractInput {
+
 		@Override
 		protected boolean doHandleRequest(final Request request) {
 			return false; // never changes
