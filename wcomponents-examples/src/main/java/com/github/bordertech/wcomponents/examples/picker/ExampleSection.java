@@ -80,8 +80,6 @@ final class ExampleSection extends WSection implements MessageContainer {
 		// add(new AccessibilityWarningContainer());
 
 		container.add(new WText("Select an example from the menu"));
-		// Set a static ID on container and it becomes a de-facto naming context.
-		container.setIdName("eg");
 		tabset.addTab(container, "(no selection)", WTabSet.TAB_MODE_CLIENT);
 
 		WImage srcImage = new WImage(new ImageResource("/image/text-x-source.png", "View Source"));
@@ -154,8 +152,7 @@ final class ExampleSection extends WSection implements MessageContainer {
 			return;
 		}
 
-		resetExample();
-		container.removeAll();
+		container.removeContent();
 
 		this.getDecoratedLabel().setBody(new WText(exampleName));
 

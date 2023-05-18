@@ -15,7 +15,6 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WMessages;
-import com.github.bordertech.wcomponents.WNamingContext;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
@@ -189,9 +188,7 @@ public class SimplePicker extends WContainer implements MessageContainer {
 		mainDisplay.add(profileBtn);
 		mainDisplay.add(lineBreak);
 
-		WNamingContext context = new WNamingContext("eg");
-		context.add(container);
-		mainDisplay.add(context);
+		mainDisplay.add(container);
 
 		chooseBtn.setAction(new Action() {
 			@Override
@@ -378,7 +375,7 @@ public class SimplePicker extends WContainer implements MessageContainer {
 		}
 
 		// We have a new selection so display it.
-		container.removeAll();
+		container.removeContent();
 		container.add(selectedComponent);
 	}
 
