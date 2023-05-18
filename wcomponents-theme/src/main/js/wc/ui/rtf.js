@@ -29,7 +29,7 @@ define(["wc/dom/initialise", "wc/config", "wc/loader/style", "tinyMCE"],
 					initObj: {
 						content_css: styleLoader.getMainCss(true),
 						menubar: false,
-						plugins: "autolink link lists advlist print preview paste help",
+						plugins: "autolink link lists advlist preview help",
 						toolbar: 'undo redo | formatselect | ' +
 							' bold italic | alignleft aligncenter ' +
 							' alignright alignjustify | bullist numlist outdent indent |' +

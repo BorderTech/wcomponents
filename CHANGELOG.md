@@ -18,6 +18,7 @@
 ### Bug Fixes
 * Allow user to select text in a modal dialog #1816
 * Browser sniffer now recognises Chromium Edge
+* Removed TinyMCE paste and print plugins as they are now [part of the core product](https://www.tiny.cloud/docs/tinymce/6/migration-from-5x/).
 
 ## 1.5.28
 
