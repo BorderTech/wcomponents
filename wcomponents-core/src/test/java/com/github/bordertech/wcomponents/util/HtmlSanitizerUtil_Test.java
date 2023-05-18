@@ -173,8 +173,9 @@ public class HtmlSanitizerUtil_Test {
 	}
 
 	@Test
-	public void testLaxScanElement() throws ScanException, PolicyException {
-		String input = "<input name=\"foo\" type=\"text\" value=\"bar\" />";
+	public void testLaxScanVoidElements() throws ScanException, PolicyException {
+		// Antisamy as of 1.7.X does not support xhtml and will remove the closing tag on "void" elements which will break the XML
+		String input = "<input name=\"foo\" type=\"text\" value=\"bar\" /><br />";
 		Assert.assertEquals(input, HtmlSanitizerUtil.sanitize(input, true));
 	}
 

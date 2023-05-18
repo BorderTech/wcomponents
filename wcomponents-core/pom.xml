@@ -246,6 +246,8 @@
 		</dependency>
 
 		<!-- Required for HTML input sanitization of WTextArea -->
+		<!-- Antisamy as of 1.7.X does not support xhtml and will remove the closing tag on "void" elements which will break the XML-->
+		<!-- https://html.spec.whatwg.org/multipage/syntax.html#void-elements -->
 		<dependency>
 			<groupId>org.owasp.antisamy</groupId>
 			<artifactId>antisamy</artifactId>
