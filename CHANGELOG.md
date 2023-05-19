@@ -3,6 +3,10 @@
 ## Release in-progress
 
 ### API Changes
+### Enhancements
+### Bug Fixes
+
+## 1.5.29
 
 ### Enhancements
 * Add client side email typo hints.
