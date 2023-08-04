@@ -13,6 +13,7 @@ let internConfig = require("./scripts/intern").config;
 const path = require("path");
 const { dirs } = require("./scripts/build-util");
 const defaultInternArgs = "environments='{\"browserName\":\"firefox\"}'";
+const coverageDir = path.join(dirs.project.build, "coverage");
 
 module.exports = function (grunt) {
 	var testSrc = (grunt.option("filename") || "**");
@@ -32,13 +33,25 @@ module.exports = function (grunt) {
 			node: {
 				options: {
 					suites: path.join(dirs.test.target, "unit/*.js"),
-					reporters: "runner"
+					reporters:  ["runner", {
+						"name": "lcov",
+						"options": {
+							"directory": coverageDir,
+							"filename": "node.lcov"
+						}
+					}]
 				}
 			},
 			local: {
 				options: {
 					config: "@local",
-					reporters: "runner"
+					reporters:  ["runner", {
+						"name": "lcov",
+						"options": {
+							"directory": coverageDir,
+							"filename": "local.lcov"
+						}
+					}]
 				}
 			},
 			sauce: {
@@ -60,7 +73,7 @@ module.exports = function (grunt) {
 			}
 		}
 	});
-
+	logIt(`Coverage dir ${coverageDir}`);
 	grunt.loadNpmTasks("intern");
 	grunt.loadNpmTasks("grunt-contrib-clean");
 	grunt.loadNpmTasks("grunt-contrib-copy");
