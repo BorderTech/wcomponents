@@ -1,6 +1,6 @@
-define(["lib/sprintf", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/loader/resource",
+define(["lib/sprintf", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n",
 	"wc/dom/shed", "wc/timers", "wc/ui/icon", "wc/config"],
-function(sprintf, event, Widget, i18n, loader, shed, timers, icon, wcconfig) {
+function(sprintf, event, Widget, i18n, shed, timers, icon, wcconfig) {
 	"use strict";
 	/**
 	 * @constructor
@@ -59,14 +59,25 @@ function(sprintf, event, Widget, i18n, loader, shed, timers, icon, wcconfig) {
 		}
 
 		/**
-		 * Create a message box for display to the user. NOTE: this resuses structures and styles from WMessageBox
+		 * Create a message box for display to the user. NOTE: this reuses structures and styles from WMessageBox
 		 * for convenience and consistency.
 		 * @function
 		 * @private
-		 * @returns {Promise} resolved with the messagebox documentFragment.
+		 * @returns {String} The HTML content of the dialog.
 		 */
-		function getDialog() {
-			return loader.load("wc.ui.timeoutWarn.handlebars", true, true);
+		function getDialog(title, header, body) {
+			return `<section class="wc-messagebox wc-messagebox-type-warn wc-timeoutwarning" role="alert">
+				<h1>
+					<i aria-hidden="true" class="fa fa-window-close-o" style="float:right;"></i>
+					<i aria-hidden="true" class="fa fa-exclamation-triangle"></i>
+					<span>${title}</span>
+				</h1>
+				<div class="wc_messages">
+					<strong>${header}</strong>
+					<br/>
+					${body}
+				</div>
+			</section>`;
 		}
 
 		/**
@@ -79,23 +90,18 @@ function(sprintf, event, Widget, i18n, loader, shed, timers, icon, wcconfig) {
 		 */
 		function warn(minsRemaining) {
 			function showWarn(title, header, body) {
-				getDialog().then(function(warningDf) {
-					var container = getContainer(),
-						minutes = expiresAt.getMinutes(),
-						readableMins, secs, mins;
-					if (container) {
-						container.innerHTML = "";
-
-						mins = parseInt(minsRemaining);
-						secs = minsRemaining - mins;
-						readableMins = (secs === 0 ? minsRemaining : (mins + (Math.round(secs * 100)) / 100));
-
-						body = sprintf.sprintf(body, readableMins, (expiresAt.getHours() + ":" + ((minutes < 10) ? "0" + minutes : minutes)));
-						container.innerHTML = sprintf.sprintf(warningDf, title, header, body);
-						showDialog(container);
-						console.info("warning shown at", new Date());
-					}
-				});
+				const mins = parseInt(minsRemaining);
+				const secs = minsRemaining - mins;
+				const readableMins = (secs === 0 ? minsRemaining : (mins + (Math.round(secs * 100)) / 100));
+				const readableTime = expiresAt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+				const fullBody = sprintf.sprintf(body, readableMins, readableTime);
+				const warningDf = getDialog(title, header, fullBody);
+				const container = getContainer();
+				if (container) {
+					container.innerHTML = warningDf;
+					showDialog(container);
+					console.info("warning shown at", new Date());
+				}
 			}
 			getTranslations(["messagetitle_warn", "timeout_warn_header", "timeout_warn_body"], showWarn);
 		}
@@ -122,22 +128,20 @@ function(sprintf, event, Widget, i18n, loader, shed, timers, icon, wcconfig) {
 		 */
 		function expire() {
 			function showExpire(title, header, body) {
-				getDialog().then(function (errorDf) {
-					var container = getContainer(), section;
-					if (container) {
-						container.innerHTML = "";
-						container.innerHTML = sprintf.sprintf(errorDf, title, header, body);
-						if ((section = container.firstChild)) {
-							section.classList.remove("wc-messagebox-type-warn");
-							section.classList.add("wc-messagebox-type-error");
-							icon.change(section, "fa-times-circle", "fa-exclamation-triangle");
-						}
-						if (shed.isHidden(container, true)) {
-							showDialog(container);  // re-show it if the warning was closed by the user
-						}
-						console.info("expired shown at", new Date());
+				const container = getContainer();
+				if (container) {
+					container.innerHTML = getDialog(title, header, body);
+					const section = container.firstChild;
+					if (section) {
+						section.classList.remove("wc-messagebox-type-warn");
+						section.classList.add("wc-messagebox-type-error");
+						icon.change(section, "fa-times-circle", "fa-exclamation-triangle");
 					}
-				});
+					if (shed.isHidden(container, true)) {
+						showDialog(container);  // re-show it if the warning was closed by the user
+					}
+					console.info("expired shown at", new Date());
+				}
 			}
 			getTranslations(["messagetitle_error", "timeout_expired_header", "timeout_expired_body"], showExpire);
 		}
@@ -207,7 +211,6 @@ function(sprintf, event, Widget, i18n, loader, shed, timers, icon, wcconfig) {
 	 * @requires module:wc/dom/event
 	 * @requires module:wc/dom/Widget
 	 * @requires module:wc/i18n/i18n
-	 * @requires module:wc/loader/resource
 	 * @requires module:wc/dom/shed
 	 * @requires module:wc/timers
 	 * @requires module:wc/config
