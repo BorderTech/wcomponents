@@ -337,7 +337,7 @@
 		<xsl:variable name="subordinates" select=".//ui:subordinate" />
 		<xsl:variable name="eagerness" select="//*[@mode eq 'eager']" />
 		<xsl:variable name="hasAjaxTriggers" select=".//ui:ajaxtrigger" />
-		<xsl:variable name="timeoutWarn" select=".//ui:session[1]" />
+		<xsl:variable name="timeoutWarn" select=".//html:wc-session[1]" />
 		<xsl:variable name="editors" select=".//html:wc-imageedit" />
 		<xsl:variable name="tableActions" select=".//ui:table/ui:actions/ui:action" />
 
@@ -472,7 +472,7 @@
 				<!-- htreesize requires tree and resizeable, tree requires treeitem. -->
 				<xsl:text>"wc/ui/menu/htreesize",</xsl:text>
 			</xsl:if>
-			<xsl:if test=".//ui:session">
+			<xsl:if test=".//html:wc-session">
 				<xsl:text>"wc/ui/timeoutWarn",</xsl:text>
 			</xsl:if>
 			<xsl:if test=".//*[@submitOnChange and not(@readOnly)]">
@@ -560,16 +560,6 @@
 				<xsl:text>require(["wc/ui/subordinate","wc/ui/SubordinateAction"], function(c){c.register([</xsl:text>
 				<xsl:apply-templates select="$subordinates" mode="JS" />
 				<xsl:text>]);});</xsl:text>
-			</xsl:if>
-			<xsl:if test="$timeoutWarn">
-				<xsl:text>require(["wc/ui/timeoutWarn"], function(c){</xsl:text>
-				<xsl:text>c.initTimer(</xsl:text>
-				<xsl:value-of select="$timeoutWarn/@timeout" />
-				<xsl:if test="$timeoutWarn/@warn">
-					<xsl:text>,</xsl:text>
-					<xsl:value-of select="$timeoutWarn/@warn" />
-				</xsl:if>
-				<xsl:text>);});</xsl:text>
 			</xsl:if>
 			<xsl:if test="$eagerness">
 				<xsl:text>require(["wc/ui/containerload"], function(c){c.register([</xsl:text>

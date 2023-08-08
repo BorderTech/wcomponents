@@ -26,7 +26,7 @@ final class WTimeoutWarningRenderer extends AbstractWebXmlRenderer {
 		XmlStringBuilder xml = renderContext.getWriter();
 		final int timoutPeriod = warning.getTimeoutPeriod();
 		if (timoutPeriod > 0) {
-			xml.appendTagOpen("ui:session");
+			xml.appendTagOpen("wc-session");
 			xml.appendAttribute("timeout", String.valueOf(timoutPeriod));
 			int warningPeriod = warning.getWarningPeriod();
 			xml.appendOptionalAttribute("warn", warningPeriod > 0, warningPeriod);
