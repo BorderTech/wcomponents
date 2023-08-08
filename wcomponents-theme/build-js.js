@@ -68,14 +68,14 @@ async function build(singleFile) {
 		buildMax(dirs.script);
 		return optimize(config);
 	}
-	return buildSingle(singleFile);
+	return await buildSingle(singleFile);
 }
 
 /*
  * Entry point for building a single file.
  * @param {string} singleFile If you want to build a single JS file.
  */
-function buildSingle(singleFile) {
+async function buildSingle(singleFile) {
 	let fileName = singleFile;
 	themeLinter.run(singleFile);
 	fileName = fileName.replace(dirs.script.src, "");
@@ -83,9 +83,14 @@ function buildSingle(singleFile) {
 	Object.assign({}, conf);
 	delete conf.modules;
 	conf.dir = "";
-	conf.name = pathToModule(fileName);
+	conf.name = pathToModule(fileName.replace(/.mjs$/, '.js'));
 	conf.out = path.join(dirs.script.min, fileName);
-	buildMax(dirs.script, fileName);
+	if (singleFile.endsWith('.mjs')) {
+		const targetDir = path.dirname(path.join(dirs.script.max, conf.name));
+		await esmBuilder.build(singleFile, targetDir);
+	} else {
+		buildMax(dirs.script, fileName);
+	}
 	return optimize(conf);
 }
 
@@ -137,6 +142,5 @@ function pathToModule(modulePath) {
 
 module.exports = {
 	build,
-	buildSingle,
 	pathToModule
 };
