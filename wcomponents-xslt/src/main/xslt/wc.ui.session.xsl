@@ -5,7 +5,7 @@
 	exclude-result-prefixes="xsl ui html">
 
 	<xsl:template match="ui:session[count(.|((//ui:session)[1])) eq 1]">
-		<div id="wc_session_container" class="wc_session" role="alert" hidden="hiddden" aria-live="polite"></div>
+		<div id="wc_session_container" class="wc_session" role="alert" hidden="hidden" aria-live="polite"></div>
 	</xsl:template>
 
 	<xsl:template match="ui:session"/>

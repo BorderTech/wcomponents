@@ -2,6 +2,17 @@ define(["lib/sprintf", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n",
 	"wc/dom/shed", "wc/timers", "wc/ui/icon", "wc/config"],
 function(sprintf, event, Widget, i18n, shed, timers, icon, wcconfig) {
 	"use strict";
+
+	class TimeoutWarn extends HTMLElement {
+		constructor() {
+			// Always call super first in constructor
+			super();
+
+			// write element functionality in here
+		}
+	}
+	customElements.define("wc-session", TimeoutWarn);
+
 	/**
 	 * @constructor
 	 * @alias module:wc/ui/timeoutWarning~TimeoutWarner
