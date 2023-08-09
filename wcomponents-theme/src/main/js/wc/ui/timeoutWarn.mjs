@@ -15,13 +15,149 @@ import sprintf from "lib/sprintf";
 import i18n from "wc/i18n/i18n";
 import timers from "wc/timers";
 import wcconfig from "wc/config";
+import debounce from "wc/debounce";
 
-const instance = new TimeoutWarner();
+const minimumWarnAt =  20000;  // warn user when this many milliseconds remaining, this default is the WCAG 2.0 minimum of 20 seconds
+const pendingTimers = [];
+let expiresAt;
+
+const template = function getDialog(isExpired, title, header, body) {
+	let type, icon;
+	if (isExpired) {
+		type = "error";
+		icon = "fa-times-circle";
+	} else {
+		type = "warn";
+		icon = "fa-exclamation-triangle";
+	}
+	return `
+		<style>
+			:host {
+				width: fit-content;
+				bottom: 0;
+				max-width: 100%;
+				position: fixed;
+				right: 0;
+				z-index: 27;
+			}
+		</style>
+		<section class="wc-messagebox wc-messagebox-type-${type} wc-timeoutwarning">
+		<h1>
+			<i aria-hidden="true" class="fa fa-window-close-o" style="float:right;"></i>
+			<i aria-hidden="true" class="fa ${icon}"></i>
+			<span>${title}</span>
+		</h1>
+		<div class="wc_messages">
+			<strong>${header}</strong>
+			<br/>
+			${body}
+		</div>
+		</section>`;
+};
+
+const instance = {
+	/**
+	 * Call to start or restart the timer.
+	 * @function module:wc/ui/timeoutWarning.initTimer
+	 * @param {number} seconds The number of seconds until the HTTPSession expires. Using seconds because that
+	 *    is what Java HttpSession.getMaxInactiveInterval() uses.
+	 *
+	 * @param {number} [warnAt] Set the number of seconds before the warning is shown. If not set then a
+	 *    default (20) is used. This can also NEVER be less than 20 (WCAG 2.0 requirement).
+	 */
+	initTimer(seconds, warnAt) {
+		let warning = minimumWarnAt;
+
+		const conf = wcconfig.get("wc/ui/timeoutWarn", {
+			min: 30
+		});
+
+		try {
+			warning = Math.max(warnAt * 1000, warning);  // never let the timeout be less than the default
+		} catch (ex) {
+			console.warn("Could not use warning interval", warnAt, ex.message);
+			warning = minimumWarnAt;
+		}
+
+		if (seconds >= conf.min) {
+			let millisToExpiry = seconds * 1000;
+			expiresAt = new Date();
+			expiresAt.setTime(expiresAt.getTime() + millisToExpiry);
+			expiresAt.setSeconds(0);  // round down, we can't be that precise, expire on the turn of the minute
+			this.resetTimers(warning);
+		} else {
+			console.warn("Timeout invalid or too short: ", seconds);
+		}
+	},
+	resetTimers: debounce(resetTimers, 500)
+};
+
+/**
+ * Sets or resets all the timers using the value stored in `expiresAt`.
+ * @param warnBeforeMillis How long before expiresAt should the warning be shown.
+ */
+function resetTimers(warnBeforeMillis) {
+	const remainingMillis = calculateRemaining(true);
+	pendingTimers.forEach(timers.clearTimeout);  // That's right, clears all timers for all instances by design
+	if (remainingMillis >= 0) {
+		const millisToWarn = remainingMillis - warnBeforeMillis;
+		if (millisToWarn >= 0) {
+			pendingTimers.push(timers.setTimeout(findAndShowAlert, millisToWarn));
+			pendingTimers.push(timers.setTimeout(getWarnDialog, millisToWarn / 2));  // To prefetch any translations, images etc
+		}
+		pendingTimers.push(timers.setTimeout(findAndShowAlert, remainingMillis));
+		console.log("Session will expire at", expiresAt);
+		console.log(`Preload will be in ${millisToWarn / 2} milliseconds`);
+		console.log(`Warning will be shown in ${millisToWarn} milliseconds`);
+		console.log(`Expired will be shown in ${remainingMillis} milliseconds`);
+	}
+}
+
+/**
+ * Get dialog HTML to warn the user about an imminent session expiry.
+ * @return {Promise<String>} resolved with the error dialog HTML.
+ */
+function getExpiredDialog() {
+	const messageKeys = ["messagetitle_error", "timeout_expired_header", "timeout_expired_body"];
+	return getTranslations(messageKeys).then(([title, header, body]) => {
+		return template(true, title, header, body);
+	});
+}
+
+/**
+ * Get dialog HTML to warn the user about an imminent session expiry.
+ * The dialog content will "react" to being shown.
+ * @return {Promise<String>} resolved with the warning dialog HTML.
+ */
+function getWarnDialog() {
+	const messageKeys = ["messagetitle_warn", "timeout_warn_header", "timeout_warn_body"];
+	return getTranslations(messageKeys).then(([title, header, body]) => {
+		const minsRemaining = calculateRemaining();
+		const readableMins = minsRemaining < 1 ? '< 1' : minsRemaining;
+		const readableTime = expiresAt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+		const fullBody = sprintf.sprintf(body, readableMins, readableTime);
+		return template(false, title, header, fullBody);
+	});
+}
+
+/**
+ * Gets the appropriate dialog content based on how much session time is remaining..
+ * @return {Promise<String>} resolved with the dialog HTML.
+ */
+function getDialog() {
+	const minsRemaining = calculateRemaining();
+	if (minsRemaining > 0) {
+		return getWarnDialog();
+	} else if (minsRemaining === 0) {
+		return getExpiredDialog();
+	}
+	return Promise.resolve('');
+}
 
 class TimeoutWarn extends HTMLElement {
 	// These static properties are too new for the current build tools to handle them (revisit when r.js is gone)
 	// static tagName = "wc-session";
-	// static observedAttributes = ["src", "title"];
+	// static observedAttributes = ["timeout", "warn", "hidden"];
 
 	static get observedAttributes() {
 		return [ "timeout", "warn", "hidden" ];
@@ -33,6 +169,9 @@ class TimeoutWarn extends HTMLElement {
 			alertdialog is the correct aria role for a session expiry warning.
 			In fact that is "Example 1" on the MDN alertdialog page:
 			https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/alertdialog_role#example_1_a_basic_alert_dialog
+
+			It is also "Example 2" here:
+			https://www.digitala11y.com/alertdialog-role/
 		 */
 		this.setAttribute("role", "alertdialog");
 		this.setAttribute("hidden", "hidden");  // It will always start hidden
@@ -43,31 +182,51 @@ class TimeoutWarn extends HTMLElement {
 	}
 
 	connectedCallback() {
-		const sessionLengthSeconds = this.getAttribute("timeout") * 1;
-		const warnAt = this.hasAttribute("warn") ? this.getAttribute("warn") * 1 : 0;
 
-		instance.initTimer(sessionLengthSeconds, warnAt);
+	}
+
+	/**
+	 * Call to start or restart the timer.
+	 */
+	initTimer() {
+		if (this.hasAttribute("timeout")) {
+			const sessionLengthSeconds = this.getAttribute("timeout") * 1;
+			const warnAt = this.hasAttribute("warn") ? this.getAttribute("warn") * 1 : 0;
+			instance.initTimer(sessionLengthSeconds, warnAt);
+		}
 	}
 
 	attributeChangedCallback(attrName, oldVal, newVal) {
-		console.log('attrName', attrName, 'oldVal', oldVal, 'newVal', newVal);
+		if (attrName === 'timeout' || attrName === 'warn') {
+			this.initTimer();
+		} else if (attrName === "hidden") {
+			if (this.hasAttribute("hidden")) {
+				this.innerHTML = "";
+			} else {
+				getDialog().then((html) => {
+					if (html) {
+						this.innerHTML = html;
+					}
+				});
+			}
+		}
 	}
-
 
 	get timeout() {
 		return this.getAttribute("timeout");
 	}
 
-	set timeout(val) {
-		this.setAttribute("timeout", val);
+	set timeout(seconds) {
+		// Using seconds because this is the unit used in Java HttpSession.getMaxInactiveInterval()
+		this.setAttribute("timeout", seconds);
 	}
 
 	get warn() {
 		return this.getAttribute("warn");
 	}
 
-	set warn(val) {
-		this.setAttribute("warn", val);
+	set warn(seconds) {
+		this.setAttribute("warn", seconds);
 	}
 }
 TimeoutWarn.tagName = "wc-session";
@@ -96,6 +255,44 @@ function findAndDismissAlert() {
 }
 
 /**
+ * Shows the session alert dialog.
+ */
+function findAndShowAlert() {
+	const alert = document.querySelector(TimeoutWarn.tagName);
+	if (alert.hidden) {
+		showAlert(alert);
+	} else {
+		dismissAlert(alert);
+		timers.setTimeout(findAndShowAlert, 0);
+	}
+}
+
+/**
+ * How long between right now and the current session expiry.
+ * @param {boolean} asMillis If true the result is milliseconds.
+ * @return {number} How much time remaining until the session expires.
+ *    Zero means there is no time remaining.
+ *    A negative number means there is no session expiry.
+ */
+function calculateRemaining(asMillis = false) {
+	if (expiresAt) {
+		let millisRemaining = Math.max(expiresAt.getTime() - Date.now(), 0);
+		if (millisRemaining) {
+			if (asMillis) {
+				return millisRemaining;
+			}
+			let minutesRemaining = millisRemaining / 60000;
+			if (minutesRemaining > 1) {
+				minutesRemaining = Math.floor(minutesRemaining);  // Part minutes aren't important
+			}
+			return minutesRemaining;
+		}
+		return 0;
+	}
+	return -1;
+}
+
+/**
  * Dismisses the given alert.
  * @param {HTMLElement} element A wc-session element.
  */
@@ -113,175 +310,20 @@ function showAlert(container) {
 	}
 }
 
-const getWarnDialog = getDialog.bind(this, false);
-const getExpiredDialog = getDialog.bind(this, true);
-
 /**
- * Create a message box for display to the user. NOTE: this reuses structures and styles from WMessageBox
- * for convenience and consistency.
- * @function
- * @private
- * @returns {String} The HTML content of the dialog.
+ * Helper for warn and expire.
+ * @param {string[]} keys The i18n keys to look up
+ * @return {Promise<String[]>} resolved with translations in order they were found in the keys array.
  */
-function getDialog(error, title, header, body) {
-	let type, icon;
-	if (error) {
-		type = "error";
-		icon = "fa-times-circle";
-	} else {
-		type = "warn";
-		icon = "fa-exclamation-triangle";
-	}
-	return `<section class="wc-messagebox wc-messagebox-type-${type} wc-timeoutwarning">
-		<h1>
-			<i aria-hidden="true" class="fa fa-window-close-o" style="float:right;"></i>
-			<i aria-hidden="true" class="fa ${icon}"></i>
-			<span>${title}</span>
-		</h1>
-		<div class="wc_messages">
-			<strong>${header}</strong>
-			<br/>
-			${body}
-		</div>
-		</section>`;
-}
-
-/**
- * @constructor
- * @alias module:wc/ui/timeoutWarning~TimeoutWarner
- * @private
- */
-function TimeoutWarner() {
-	var expiresAt,
-		WARN_AT = 20000,  // warn user when this many milliseconds remaining, this default is the WCAG 2.0 minimum of 20 seconds
-		conf = wcconfig.get("wc/ui/timeoutWarn", {
-			min: 30
-		}),
-		timerWarn,
-		timerExpired,
-		CONTAINER_ID = "wc_session_container";
-
-
-
-
-
-
-
-	/**
-	 * Call when you want to warn the user about an imminent session expiry.
-	 * Note: due to poor implementation of WAI-ARIA in IE the timeout warning is only announced if
-	 * the containing element exists on the page at load time and is populated when required.
-	 * @function
-	 * @private
-	 * @param {number} minsRemaining The number of minutes until the session will expire.
-	 */
-	function warn(minsRemaining) {
-		function showWarn(title, header, body) {
-			const mins = parseInt(minsRemaining);
-			const secs = minsRemaining - mins;
-
-			const readableMins = (secs === 0 ? minsRemaining : (mins + (Math.round(secs * 100)) / 100));
-			const readableTime = expiresAt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-			const fullBody = sprintf.sprintf(body, readableMins, readableTime);
-			const warningDf = getWarnDialog(title, header, fullBody);
-			const container = getContainer();
-			if (container) {
-				container.innerHTML = warningDf;
-				showAlert(container);
-				console.info("warning shown at", new Date());
-			}
-		}
-		getTranslations(["messagetitle_warn", "timeout_warn_header", "timeout_warn_body"], showWarn);
-	}
-
-	/**
-	 * Gets the container in which to show the timeout messages.
-	 * If not found it creates one.
-	 * @returns {Element} The timeout warning container.
-	 */
-	function getContainer() {
-		let container = document.querySelector(TimeoutWarn.tagName);
-		if (!container) {
-			container = document.createElement(TimeoutWarn.tagName);
-			container.id = CONTAINER_ID;
-			document.body.appendChild(container);
-		}
-		return container;
-	}
-
-	/**
-	 * Call when the session has expired.
-	 * @function
-	 * @private
-	 */
-	function expire() {
-		function showExpire(title, header, body) {
-			const container = getContainer();
-
-			if (container) {
-				container.innerHTML = getExpiredDialog(title, header, body);
-				showAlert(container);
-				console.info("expired shown at", new Date());
-			}
-		}
-		getTranslations(["messagetitle_error", "timeout_expired_header", "timeout_expired_body"], showExpire);
-	}
-
-	/**
-	 * Helper for warn and expire
-	 * @param {string[]} keys The i18n keys to look up
-	 * @param {function} callback Called with translations in order they were found in the keys array.
-	 * @private
-	 */
-	function getTranslations(keys, callback) {
-		return i18n.translate(keys).then(function(vals) {
-			callback.apply(this, vals);
-		});
-	}
-
-	/**
-	 * Call to start or restart the timer.
-	 * @function module:wc/ui/timeoutWarning.initTimer
-	 * @param {number} seconds The number of seconds until the HTTPSession expires. Using seconds because that
-	 *    is what Java HttpSession.getMaxInactiveInterval() uses.
-	 *
-	 * @param {number} [warnAt] Set the number of seconds before the warning is shown. If not set then a
-	 *    default (20) is used. This can also NEVER be less than 20 (WCAG 2.0 requirement).
-	 */
-	this.initTimer = function(seconds, warnAt) {
-		var millis,
-			warning = (warnAt) ? Math.max((warnAt * 1000), WARN_AT) : WARN_AT;  // never let the timeout be less than the default
-
-		if (seconds >= conf.min) {
-			millis = seconds * 1000;
-
-			if (timerWarn) {
-
-				timers.clearTimeout(timerWarn);
-			}
-			if (timerExpired) {
-				timers.clearTimeout(timerExpired);
-
-			}
-			expiresAt = new Date();
-
-			expiresAt.setTime(expiresAt.getTime() + millis);
-			expiresAt.setSeconds(0);  // round down, we can't be that precise, expire on the turn of the minute
-			millis = expiresAt.getTime() - Date.now();
-			timerWarn = timers.setTimeout(warn, (millis - warning), warning / 60000);
-			timerExpired = timers.setTimeout(expire, millis);
-			console.log("Session will expire at ", expiresAt);
-		} else {
-			console.warn("Timeout invalid or too short: ", seconds);
-		}
-	};
+function getTranslations(keys) {
+	return i18n.translate(keys);
 }
 
 /**
  * @typedef {Object} module:wc/ui/timeoutWarn.config() Optional module configuration.
  * @property {int} min The minimum timeout (in seconds). If the requested session timeout is less than this we will not
  * attempt to warn the user.
- * @default 60
+ * @default 30
  */
 
 export default instance;
