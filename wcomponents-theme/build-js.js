@@ -76,7 +76,7 @@ async function buildSingle(singleFile) {
 	Object.assign({}, conf);
 	delete conf.modules;
 	conf.dir = "";
-	conf.name = pathToModule(fileName.replace(/.mjs$/, '.js'));
+	conf.name = pathToModule(fileName);
 	conf.out = path.join(dirs.script.min, fileName);
 	if (singleFile.endsWith('.mjs')) {
 		const targetDir = path.dirname(path.join(dirs.script.max, conf.name));
@@ -129,7 +129,7 @@ function noisyLog() {
  */
 function pathToModule(modulePath) {
 	let moduleName = modulePath.replace(dirs.script.target, "");
-	moduleName = moduleName.replace(/\\/g, "/").replace(/^\/|\.js$/g, "");
+	moduleName = moduleName.replace(/\\/g, "/").replace(/^\/|\.m?js$/g, "");
 	return moduleName;
 }
 

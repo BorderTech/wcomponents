@@ -30,14 +30,14 @@ const handlers = {
 		* @returns {Promise} resolved when the change has been handled.
 		*/
 		function(dir, filename) {
-			let filePath = getPath(path.basename(dir), filename);
-			return buildImages.build(filename).then(() => {
-				return filePath;
+			const paths = getPaths(path.basename(dir), filename);
+			return buildImages.build(paths.relative).then(() => {
+				return paths.absolute;
 			});
 		},
 	resource: function(dir, filename) {
-		let filePath = getPath(dir, filename);
-		return buildResources.build(filePath);
+		const paths = getPaths(dir, filename);
+		return buildResources.build(paths.absolute);
 	},
 	script: /**
 		 * Knows how to respond when a JS source module is changed.
@@ -46,9 +46,9 @@ const handlers = {
 		* @returns {Promise} resolved when the change has been handled.
 		*/
 		function(dir, filename) {
-			let filePath = getPath(dir, filename);
-			return buildJs.build(filePath).then(function() {
-				return buildJs.pathToModule(filename);
+			const paths = getPaths(dir, filename);
+			return buildJs.build(paths.absolute).then(function() {
+				return buildJs.pathToModule(paths.relative);
 			});
 		},
 	style: /**
@@ -58,8 +58,8 @@ const handlers = {
 		 * @returns {Promise} resolved when the change has been handled.
 		 */
 		function(dir, filename) {
-			let filePath = getPath(dir, filename);
-			return buildCss.build(filePath);
+			const paths = getPaths(dir, filename);
+			return buildCss.build(paths.absolute);
 		},
 	test: /**
 		 * Knows how to respond when a test suite is changed.
@@ -69,19 +69,10 @@ const handlers = {
 		 */
 		function(dir, filename) {
 			return new Promise(function(win) {
-				let relativePath, absolutePath;
-				// We don't know if it will be absolute because it has different behaviour on different platforms.
-				if (path.isAbsolute(filename)) {
-					absolutePath = filename;
-					relativePath = path.relative(dir, filename);
-				} else {
-					relativePath = filename;
-					absolutePath = getPath(dir, filename);
-				}
-
-				themeLinter.run(absolutePath);
-				grunt.option("filename", relativePath);
-				grunt.tasks(["copy:test"], { filename: relativePath }, win);
+				const paths = getPaths(dir, filename);
+				themeLinter.run(paths.absolute);
+				grunt.option("filename", paths.relative);
+				grunt.tasks(["copy:test"], { filename: paths.relative }, win);
 			});
 		}
 };
@@ -89,8 +80,17 @@ const handlers = {
 hotReload.listen();
 Object.keys(handlers).forEach(watchDir);
 
-function getPath(dir, filename) {
-	return path.isAbsolute(filename) ? filename : path.join(dir, filename);
+function getPaths(dir, filename) {
+	// We don't know if it will be absolute because it has different behaviour on different platforms.
+	let relative, absolute;
+	if (path.isAbsolute(filename)) {
+		absolute = filename;
+		relative = path.relative(dir, filename);
+	} else {
+		relative = filename;
+		absolute = path.join(dir, filename);
+	}
+	return { relative: relative, absolute: absolute};
 }
 
 /**
