@@ -131,7 +131,7 @@ function noisyLog() {
  */
 function pathToModule(modulePath) {
 	let moduleName = modulePath.replace(dirs.script.target, "");
-	moduleName = moduleName.replace(/\\/g, "/").replace(/^\/|\.js$/g, "");
+	moduleName = moduleName.replace(/\\/g, "/").replace(/^\/|\.m?js$/g, "");
 	return moduleName;
 }
 
