@@ -9,7 +9,7 @@ const fs = require("fs-extra");
 const path = require("path");
 const esmBuilder = require("./scripts/esmBuilder");
 const libBuilder = require("./scripts/libs");
-const { getConfig, buildMax, dirs } = require("./scripts/build-util");
+const { paths, getConfig, buildMax, dirs } = require("./scripts/build-util");
 const UglifyJS = require("uglify-js");
 const themeLinter = require("./scripts/lintfile");
 const verbose = getConfig("verbose");
@@ -40,14 +40,7 @@ let config = {
 	modules: [{
 		name: "wc/common"
 	}],
-	paths: {
-		"lib/sprintf": `lib/sprintf.min`,
-		tinyMCE: "lib/tinymce/tinymce.min",
-		mailcheck: "lib/mailcheck",
-		fabric: "empty:",
-		axs: "empty:",
-		axe: "empty:"
-	}
+	paths: paths
 };
 
 if (require.main === module) {
