@@ -69,10 +69,19 @@ const handlers = {
 		 */
 		function(dir, filename) {
 			return new Promise(function(win) {
-				let filePath = getPath(dir, filename);
-				themeLinter.run(filePath);
-				grunt.option("filename", filename);
-				grunt.tasks(["copy:test"], { filename: filename }, win);
+				let relativePath, absolutePath;
+				// We don't know if it will be absolute because it has different behaviour on different platforms.
+				if (path.isAbsolute(filename)) {
+					absolutePath = filename;
+					relativePath = path.relative(dir, filename);
+				} else {
+					relativePath = filename;
+					absolutePath = getPath(dir, filename);
+				}
+
+				themeLinter.run(absolutePath);
+				grunt.option("filename", relativePath);
+				grunt.tasks(["copy:test"], { filename: relativePath }, win);
 			});
 		}
 };
