@@ -21,7 +21,7 @@ const minimumWarnAt =  20000;  // warn user when this many milliseconds remainin
 const pendingTimers = [];
 let expiresAt;
 
-const template = function getDialog(isExpired, title, header, body) {
+const template = (isExpired, title, header, body) => {
 	let type, icon;
 	if (isExpired) {
 		type = "error";
@@ -55,17 +55,42 @@ const template = function getDialog(isExpired, title, header, body) {
 		</section>`;
 };
 
-const instance = {
-	/**
-	 * Call to start or restart the timer.
-	 * @function module:wc/ui/timeoutWarning.initTimer
-	 * @param {number} seconds The number of seconds until the HTTPSession expires. Using seconds because that
-	 *    is what Java HttpSession.getMaxInactiveInterval() uses.
-	 *
-	 * @param {number} [warnAt] Set the number of seconds before the warning is shown. If not set then a
-	 *    default (20) is used. This can also NEVER be less than 20 (WCAG 2.0 requirement).
-	 */
-	initTimer(seconds, warnAt) {
+/**
+ * Sets or resets all the timers using the value stored in `expiresAt`.
+ * @param warnBeforeMillis How long before expiresAt should the warning be shown.
+ */
+const resetTimers = debounce(function resetTimers(warnBeforeMillis) {
+	const remainingMillis = calculateRemaining(true);
+	pendingTimers.forEach(timers.clearTimeout);  // That's right, clears all timers for all instances by design
+	if (remainingMillis >= 0) {
+		const millisToWarn = remainingMillis - warnBeforeMillis;
+		if (millisToWarn >= 0) {
+			pendingTimers.push(timers.setTimeout(findAndShowAlert, millisToWarn));
+			pendingTimers.push(timers.setTimeout(getWarnDialog, millisToWarn / 2));  // To prefetch any translations, images etc
+		}
+		pendingTimers.push(timers.setTimeout(findAndShowAlert, remainingMillis));
+		console.log("Session will expire at", expiresAt);
+		console.log(`Preload will be in ${millisToWarn / 2} milliseconds`);
+		console.log(`Warning will be shown in ${millisToWarn} milliseconds`);
+		console.log(`Expired will be shown in ${remainingMillis} milliseconds`);
+	}
+}, 500);
+
+/**
+ * Call to start or restart the timer.
+ * @param {TimeoutWarn} element The attributes on this element will be used to determine session length etc.
+ */
+function initTimer(element) {
+	if (element.hasAttribute("timeout")) {
+		const sessionLengthSeconds = element.getAttribute("timeout") * 1;
+		let warnAt = 0;
+		if (element.hasAttribute("warn")) {
+			warnAt = element.getAttribute("warn") * 1;
+		}
+		setupTimers(sessionLengthSeconds, warnAt);
+	}
+
+	function setupTimers(seconds, warnAt) {
 		let warning = minimumWarnAt;
 
 		const conf = wcconfig.get("wc/ui/timeoutWarn", {
@@ -84,34 +109,13 @@ const instance = {
 			expiresAt = new Date();
 			expiresAt.setTime(expiresAt.getTime() + millisToExpiry);
 			expiresAt.setSeconds(0);  // round down, we can't be that precise, expire on the turn of the minute
-			this.resetTimers(warning);
+			resetTimers(warning);
 		} else {
 			console.warn("Timeout invalid or too short: ", seconds);
 		}
-	},
-	resetTimers: debounce(resetTimers, 500)
-};
-
-/**
- * Sets or resets all the timers using the value stored in `expiresAt`.
- * @param warnBeforeMillis How long before expiresAt should the warning be shown.
- */
-function resetTimers(warnBeforeMillis) {
-	const remainingMillis = calculateRemaining(true);
-	pendingTimers.forEach(timers.clearTimeout);  // That's right, clears all timers for all instances by design
-	if (remainingMillis >= 0) {
-		const millisToWarn = remainingMillis - warnBeforeMillis;
-		if (millisToWarn >= 0) {
-			pendingTimers.push(timers.setTimeout(findAndShowAlert, millisToWarn));
-			pendingTimers.push(timers.setTimeout(getWarnDialog, millisToWarn / 2));  // To prefetch any translations, images etc
-		}
-		pendingTimers.push(timers.setTimeout(findAndShowAlert, remainingMillis));
-		console.log("Session will expire at", expiresAt);
-		console.log(`Preload will be in ${millisToWarn / 2} milliseconds`);
-		console.log(`Warning will be shown in ${millisToWarn} milliseconds`);
-		console.log(`Expired will be shown in ${remainingMillis} milliseconds`);
 	}
 }
+
 
 /**
  * Get dialog HTML to warn the user about an imminent session expiry.
@@ -181,24 +185,16 @@ class TimeoutWarn extends HTMLElement {
 		});
 	}
 
+
 	connectedCallback() {
-
-	}
-
-	/**
-	 * Call to start or restart the timer.
-	 */
-	initTimer() {
-		if (this.hasAttribute("timeout")) {
-			const sessionLengthSeconds = this.getAttribute("timeout") * 1;
-			const warnAt = this.hasAttribute("warn") ? this.getAttribute("warn") * 1 : 0;
-			instance.initTimer(sessionLengthSeconds, warnAt);
+		if (!this.hasAttribute("timeout")) {
+			console.log(`${this.tagName} missing required attribute 'timeout'`);
 		}
 	}
 
-	attributeChangedCallback(attrName, oldVal, newVal) {
-		if (attrName === 'timeout' || attrName === 'warn') {
-			this.initTimer();
+	attributeChangedCallback(attrName /* , oldVal, newVal */) {
+		if (attrName === "timeout" || attrName === "warn") {
+			initTimer(this);
 		} else if (attrName === "hidden") {
 			if (this.hasAttribute("hidden")) {
 				this.innerHTML = "";
@@ -228,8 +224,44 @@ class TimeoutWarn extends HTMLElement {
 	set warn(seconds) {
 		this.setAttribute("warn", seconds);
 	}
+
+	get expiresat() {
+		return expiresAt ? new Date(expiresAt) : null;
+	}
 }
+
+/**
+ * @static
+ */
 TimeoutWarn.tagName = "wc-session";
+
+
+/**
+ * Call to start or restart the timer.
+ * This is provided for legacy compatibility. It is probably now easier to reset the timers through HTML using the
+ * <wc-session> element. That's all this does under the hood anyway.
+ * @static
+ * @param {number} seconds The number of seconds until the HTTPSession expires. Using seconds because that
+ *    is what Java HttpSession.getMaxInactiveInterval() uses.
+ *
+ * @param {number} [warnAt] Set the number of seconds before the warning is shown. If not set then a
+ *    default (20) is used. This can also NEVER be less than 20 (WCAG 2.0 requirement).
+ */
+TimeoutWarn.initTimer = function(seconds, warnAt) {
+	if (typeof seconds === "number") {
+		const alert = document.querySelector(TimeoutWarn.tagName);  // Find the first one, there's only meant to be one
+		if (alert) {
+			alert.setAttribute("timeout", `${seconds}`);
+			if (warnAt && typeof warnAt === "number") {
+				alert.setAttribute("warn", `${warnAt}`);
+			}
+		}
+	} else {
+		console.warn("'seconds' must be a number");
+	}
+
+};
+
 
 if (!customElements.get(TimeoutWarn.tagName)) {
 	customElements.define(TimeoutWarn.tagName, TimeoutWarn);
@@ -326,4 +358,4 @@ function getTranslations(keys) {
  * @default 30
  */
 
-export default instance;
+export default TimeoutWarn;
