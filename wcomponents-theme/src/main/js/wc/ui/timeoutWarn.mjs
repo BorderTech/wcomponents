@@ -5,7 +5,7 @@
  *
  * * What renews the session? An AJAX request? Loading an image?
  * * Can we be sure that those actions will always renew the session? What if the resource is loaded from cache
- *   instead of hitting the server... then the session will not renew.
+ *   instead of hitting the server...
  *
  * There will always be a chance of getting the session timeout wrong, but there is wrong and then
  * there is WRONG. It is better to warn the user too early rather than too late.
@@ -13,12 +13,13 @@
  */
 import sprintf from "lib/sprintf";
 import i18n from "wc/i18n/i18n";
-import timers from "wc/timers";
 import wcconfig from "wc/config";
 import debounce from "wc/debounce";
 
 const minimumWarnAt =  20000;  // warn user when this many milliseconds remaining, this default is the WCAG 2.0 minimum of 20 seconds
+const minimumSession = minimumWarnAt * 2;  // Never let a session be less than this
 const pendingTimers = [];
+const expiresAttribute = "data-expires";  // Expose the expiry time as a convenience attribute, mainly for testing
 let expiresAt;
 
 const template = (isExpired, title, header, body) => {
@@ -57,30 +58,35 @@ const template = (isExpired, title, header, body) => {
 
 /**
  * Sets or resets all the timers using the value stored in `expiresAt`.
+ * This is a debounced function, rapid-fire calls will be ignored, only the last will be honored.
  * @param warnBeforeMillis How long before expiresAt should the warning be shown.
  */
 const resetTimers = debounce(function resetTimers(warnBeforeMillis) {
+	cancelAllTimers();
 	const remainingMillis = calculateRemaining(true);
-	pendingTimers.forEach(timers.clearTimeout);  // That's right, clears all timers for all instances by design
-	if (remainingMillis >= 0) {
-		const millisToWarn = remainingMillis - warnBeforeMillis;
-		if (millisToWarn >= 0) {
-			pendingTimers.push(timers.setTimeout(findAndShowAlert, millisToWarn));
-			pendingTimers.push(timers.setTimeout(getWarnDialog, millisToWarn / 2));  // To prefetch any translations, images etc
-		}
-		pendingTimers.push(timers.setTimeout(findAndShowAlert, remainingMillis));
-		console.log("Session will expire at", expiresAt);
-		console.log(`Preload will be in ${millisToWarn / 2} milliseconds`);
-		console.log(`Warning will be shown in ${millisToWarn} milliseconds`);
-		console.log(`Expired will be shown in ${remainingMillis} milliseconds`);
+	const millisToWarn = remainingMillis - warnBeforeMillis;
+	const preloadMillis = millisToWarn / 2;
+	console.log("Session will expire at", expiresAt);
+	if (millisToWarn >= 0) {
+		pendingTimers.push(window.setTimeout(findAndShowAlert, millisToWarn));
+		pendingTimers.push(window.setTimeout(getWarnDialog, preloadMillis));  // To prefetch any translations, images etc
+		console.log(`Preload will be in ${(preloadMillis) / 1000} seconds`);
+		console.log(`Warning will be shown in ${millisToWarn / 1000} seconds`);
 	}
+	pendingTimers.push(window.setTimeout(findAndShowAlert, remainingMillis));
+	console.log(`Expired will be shown in ${remainingMillis / 1000 } seconds`);
 }, 500);
+
+function cancelAllTimers() {
+	pendingTimers.forEach(window.clearTimeout);  // That's right, clears all timers for all instances by design
+}
 
 /**
  * Call to start or restart the timer.
  * @param {TimeoutWarn} element The attributes on this element will be used to determine session length etc.
  */
 function initTimer(element) {
+	cancelAllTimers();
 	if (element.hasAttribute("timeout")) {
 		const sessionLengthSeconds = element.getAttribute("timeout") * 1;
 		let warnAt = 0;
@@ -88,23 +94,25 @@ function initTimer(element) {
 			warnAt = element.getAttribute("warn") * 1;
 		}
 		setupTimers(sessionLengthSeconds, warnAt);
+		element.setAttribute(expiresAttribute, element.expires);
 	}
 
 	function setupTimers(seconds, warnAt) {
 		let warning = minimumWarnAt;
-
-		const conf = wcconfig.get("wc/ui/timeoutWarn", {
-			min: 30
-		});
-
 		try {
-			warning = Math.max(warnAt * 1000, warning);  // never let the timeout be less than the default
+			const warnAtMillis = warnAt * 1000;
+			warning = Math.max(warnAtMillis, warning);  // never let the timeout be less than the default
 		} catch (ex) {
 			console.warn("Could not use warning interval", warnAt, ex.message);
 			warning = minimumWarnAt;
 		}
 
-		if (seconds >= conf.min) {
+		const conf = wcconfig.get("wc/ui/timeoutWarn", {
+			min: 30
+		});
+
+		const minimumSessionMins = Math.max(minimumSession / 60000, conf.min);
+		if (seconds >= minimumSessionMins) {
 			let millisToExpiry = seconds * 1000;
 			expiresAt = new Date();
 			expiresAt.setTime(expiresAt.getTime() + millisToExpiry);
@@ -187,8 +195,24 @@ class TimeoutWarn extends HTMLElement {
 
 
 	connectedCallback() {
-		if (!this.hasAttribute("timeout")) {
+		if (this.hasAttribute("timeout")) {
+			initTimer(this);
+		} else {
 			console.log(`${this.tagName} missing required attribute 'timeout'`);
+		}
+	}
+
+	adoptedCallback() {
+		this.connectedCallback();
+	}
+
+	disconnectedCallback() {
+		if (!document.querySelector(TimeoutWarn.tagName)) {
+			// There should only be one so this should be called always
+			console.log(`${TimeoutWarn.tagName} removed so clearing all timers`);
+			cancelAllTimers();
+			expiresAt = null;
+			this.removeAttribute(expiresAttribute);
 		}
 	}
 
@@ -225,8 +249,8 @@ class TimeoutWarn extends HTMLElement {
 		this.setAttribute("warn", seconds);
 	}
 
-	get expiresat() {
-		return expiresAt ? new Date(expiresAt) : null;
+	get expires() {
+		return expiresAt ? expiresAt.toString() : '';
 	}
 }
 
@@ -249,17 +273,16 @@ TimeoutWarn.tagName = "wc-session";
  */
 TimeoutWarn.initTimer = function(seconds, warnAt) {
 	if (typeof seconds === "number") {
-		const alert = document.querySelector(TimeoutWarn.tagName);  // Find the first one, there's only meant to be one
-		if (alert) {
-			alert.setAttribute("timeout", `${seconds}`);
+		const element = document.querySelector(TimeoutWarn.tagName);  // Find the first one, there's only meant to be one
+		if (element) {
+			element.setAttribute("timeout", `${seconds}`);
 			if (warnAt && typeof warnAt === "number") {
-				alert.setAttribute("warn", `${warnAt}`);
+				element.setAttribute("warn", `${warnAt}`);
 			}
 		}
 	} else {
 		console.warn("'seconds' must be a number");
 	}
-
 };
 
 
@@ -290,12 +313,14 @@ function findAndDismissAlert() {
  * Shows the session alert dialog.
  */
 function findAndShowAlert() {
-	const alert = document.querySelector(TimeoutWarn.tagName);
-	if (alert.hidden) {
-		showAlert(alert);
-	} else {
-		dismissAlert(alert);
-		timers.setTimeout(findAndShowAlert, 0);
+	const element = document.querySelector(TimeoutWarn.tagName);
+	if (element) {
+		if (element.hidden) {
+			showAlert(element);
+		} else {
+			dismissAlert(element);
+			window.setTimeout(findAndShowAlert, 0);
+		}
 	}
 }
 
