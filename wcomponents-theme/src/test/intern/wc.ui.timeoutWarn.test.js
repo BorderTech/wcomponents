@@ -11,6 +11,30 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!", "
 			afterEach: function () {
 				container.innerHTML = "";
 			},
+			testLegacyApi: function () {
+				const timeout = '600';
+				const warnat = '30';
+				const testId = `uid-${Date.now()}-${uid++}`;
+				container.innerHTML = `<${timeoutWarn.tagName} data-testid='${testId}'></${timeoutWarn.tagName}>`;
+				const element = domTesting.within(container).getByTestId(testId);
+				assert.isFalse(element.hasAttribute("timeout"));
+				assert.isFalse(element.hasAttribute("warn"));
+				timeoutWarn.initTimer(timeout, warnat);
+				return domTesting.waitFor(() => {
+					assert.equal(element.getAttribute('timeout'), timeout);
+					assert.equal(element.getAttribute('warn'), warnat);
+				});
+			},
+			testLegacyApiWithBadSecondsArg: function () {
+				assert.throws(() => timeoutWarn.initTimer('foo'), TypeError);
+			},
+			testLegacyApiWithNoDomElement: function () {
+				assert.throws(() => timeoutWarn.initTimer(600, 30), Error);
+			},
+			testLegacyApiWithBadWarnatArg: function () {
+				container.innerHTML = `<${timeoutWarn.tagName}></${timeoutWarn.tagName}>`;
+				assert.throws(() => timeoutWarn.initTimer(600, 'bar'), TypeError);
+			},
 			testBasicRender: function () {
 				const testId = `uid-${Date.now()}-${uid++}`;
 				container.innerHTML = `<${timeoutWarn.tagName} data-testid='${testId}'></${timeoutWarn.tagName}>`;
@@ -36,7 +60,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!", "
 				});
 			},
 			testErrorDialogIsShown: function () {
-				const timeout = 45;  // seconds
+				const timeout = 60;  // seconds
 				const expected = new Date();
 				expected.setTime(expected.getTime() + (timeout * 1000));  // expect at least this far in the future
 
@@ -60,5 +84,4 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!", "
 				}, { timeout: timeout * 1000 });
 			}
 		});
-
 	});

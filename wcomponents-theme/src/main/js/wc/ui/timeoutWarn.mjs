@@ -32,16 +32,6 @@ const template = (isExpired, title, header, body) => {
 		icon = "fa-exclamation-triangle";
 	}
 	return `
-		<style>
-			:host {
-				width: fit-content;
-				bottom: 0;
-				max-width: 100%;
-				position: fixed;
-				right: 0;
-				z-index: 27;
-			}
-		</style>
 		<section class="wc-messagebox wc-messagebox-type-${type} wc-timeoutwarning">
 		<h1>
 			<i aria-hidden="true" class="fa fa-window-close-o" style="float:right;"></i>
@@ -272,16 +262,20 @@ TimeoutWarn.tagName = "wc-session";
  *    default (20) is used. This can also NEVER be less than 20 (WCAG 2.0 requirement).
  */
 TimeoutWarn.initTimer = function(seconds, warnAt) {
-	if (typeof seconds === "number") {
-		const element = document.querySelector(TimeoutWarn.tagName);  // Find the first one, there's only meant to be one
-		if (element) {
-			element.setAttribute("timeout", `${seconds}`);
-			if (warnAt && typeof warnAt === "number") {
-				element.setAttribute("warn", `${warnAt}`);
+	const element = document.querySelector(TimeoutWarn.tagName);  // Find the first one, there's only meant to be one
+	if (isNaN(seconds)) {
+		throw new TypeError("seconds must be a number");
+	}
+	if (element) {
+		element.setAttribute("timeout", `${seconds}`);
+		if (warnAt) {
+			if (isNaN(warnAt)) {
+				throw new TypeError("warnAt must be a number");
 			}
+			element.setAttribute("warn", `${warnAt}`);
 		}
 	} else {
-		console.warn("'seconds' must be a number");
+		throw new Error(`Could not set timers, no <${TimeoutWarn.tagName}> in the DOM`);
 	}
 };
 
