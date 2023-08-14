@@ -42,6 +42,21 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!", "
 				assert.isOk(element);
 				assert.isTrue(element.hasAttribute("hidden"), "The element should be hidden at first");
 			},
+			testPropertiesMatchAttrs: function () {
+				const testId = `uid-${Date.now()}-${uid++}`;
+				const timeout = 900;
+				const warn = 60;
+				container.innerHTML = `<${timeoutWarn.tagName} data-testid='${testId}'></${timeoutWarn.tagName}>`;
+				const element = domTesting.within(container).getByTestId(testId);
+
+				element.timeout = timeout;
+				element.warn = warn;
+				assert.equal(element.getAttribute("timeout"), `${timeout}`, "timeout property should update attribute");
+				assert.equal(element.getAttribute("warn"), `${warn}`, "warn property should update attribute");
+
+				assert.equal(element.getAttribute("timeout"), element.timeout, "timeout property should equal attribute");
+				assert.equal(element.getAttribute("warn"), element.warn, "warn property should equal attribute");
+			},
 			testExpiresAt: function () {
 				const timeout = 600;  // seconds
 				const expected = new Date();
