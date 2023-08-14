@@ -26,14 +26,21 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!", "
 				});
 			},
 			testLegacyApiWithBadSecondsArg: function () {
-				assert.throws(() => timeoutWarn.initTimer('foo'), TypeError);
+				assert.throws(() => timeoutWarn.initTimer("foo"), TypeError);
 			},
 			testLegacyApiWithNoDomElement: function () {
 				assert.throws(() => timeoutWarn.initTimer(600, 30), Error);
 			},
 			testLegacyApiWithBadWarnatArg: function () {
 				container.innerHTML = `<${timeoutWarn.tagName}></${timeoutWarn.tagName}>`;
-				assert.throws(() => timeoutWarn.initTimer(600, 'bar'), TypeError);
+				assert.throws(() => timeoutWarn.initTimer(600, "bar"), TypeError);
+			},
+			testProgrammaticCreation: function () {
+				try {
+					document.createElement(timeoutWarn.tagName);
+				} catch (ignore) {
+					assert.fail("Should be able to programmatically create the element.");
+				}
 			},
 			testBasicRender: function () {
 				const testId = `uid-${Date.now()}-${uid++}`;

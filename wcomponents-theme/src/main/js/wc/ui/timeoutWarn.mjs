@@ -167,7 +167,15 @@ class TimeoutWarn extends HTMLElement {
 	}
 
 	constructor() {
+		// NOTE: don't add attributes here, it is "illegal" in the custom elements spec.
 		super();
+		this.addEventListener("click", (event) => {
+			dismissAlert(event.currentTarget);  // assuming it is visible, otherwise how else did you click it?
+		});
+	}
+
+
+	connectedCallback() {
 		/*
 			alertdialog is the correct aria role for a session expiry warning.
 			In fact that is "Example 1" on the MDN alertdialog page:
@@ -179,13 +187,6 @@ class TimeoutWarn extends HTMLElement {
 		this.setAttribute("role", "alertdialog");
 		this.setAttribute("hidden", "hidden");  // It will always start hidden
 		this.classList.add("wc_session");
-		this.addEventListener("click", (event) => {
-			dismissAlert(event.currentTarget);  // assuming it is visible, otherwise how else did you click it?
-		});
-	}
-
-
-	connectedCallback() {
 		if (this.hasAttribute("timeout")) {
 			initTimer(this);
 		} else {
