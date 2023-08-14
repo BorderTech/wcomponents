@@ -15,6 +15,7 @@ import sprintf from "lib/sprintf";
 import i18n from "wc/i18n/i18n";
 import wcconfig from "wc/config";
 import debounce from "wc/debounce";
+import timers from "wc/timers";
 
 const minimumWarnAt =  20000;  // warn user when this many milliseconds remaining, this default is the WCAG 2.0 minimum of 20 seconds
 const minimumSession = minimumWarnAt * 2;  // Never let a session be less than this
@@ -58,17 +59,17 @@ const resetTimers = debounce(function resetTimers(warnBeforeMillis) {
 	const preloadMillis = millisToWarn / 2;
 	console.log("Session will expire at", expiresAt);
 	if (millisToWarn >= 0) {
-		pendingTimers.push(window.setTimeout(findAndShowAlert, millisToWarn));
-		pendingTimers.push(window.setTimeout(getWarnDialog, preloadMillis));  // To prefetch any translations, images etc
+		pendingTimers.push(timers.setTimeout(findAndShowAlert, millisToWarn));
+		pendingTimers.push(timers.setTimeout(getWarnDialog, preloadMillis));  // To prefetch any translations, images etc
 		console.log(`Preload will be in ${(preloadMillis) / 1000} seconds`);
 		console.log(`Warning will be shown in ${millisToWarn / 1000} seconds`);
 	}
-	pendingTimers.push(window.setTimeout(findAndShowAlert, remainingMillis));
+	pendingTimers.push(timers.setTimeout(findAndShowAlert, remainingMillis));
 	console.log(`Expired will be shown in ${remainingMillis / 1000 } seconds`);
 }, 500);
 
 function cancelAllTimers() {
-	pendingTimers.forEach(window.clearTimeout);  // That's right, clears all timers for all instances by design
+	pendingTimers.forEach(timers.clearTimeout);  // That's right, clears all timers for all instances by design
 }
 
 /**
@@ -313,7 +314,7 @@ function findAndShowAlert() {
 			showAlert(element);
 		} else {
 			dismissAlert(element);
-			window.setTimeout(findAndShowAlert, 0);
+			timers.setTimeout(findAndShowAlert, 0);
 		}
 	}
 }
