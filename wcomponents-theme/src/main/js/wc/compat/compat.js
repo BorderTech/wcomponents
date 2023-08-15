@@ -137,11 +137,6 @@ define(["wc/has"], function(has) {
 			return (has("global-performance") && "mark" in g.performance);
 		});
 
-
-		addtest("dom-createtreewalker", function(g, d) {
-			return ("createTreeWalker" in d);
-		});
-
 		addtest("dom-canvas", function(g, d) {
 			var e = d.createElement("canvas");
 			return !!(e.getContext && e.getContext("2d"));
@@ -240,15 +235,11 @@ define(["wc/has"], function(has) {
 	if (!has("global-node")) {
 		result.push("wc/compat/Node");
 	}
-	if (!has("global-nodefilter") || !has("dom-createtreewalker")) {
-		result.push("wc/compat/TreeWalker");
-	}
+
 	if (!has("global-keyevent")) {
 		result.push("wc/compat/KeyEvent");
 	}
-	if (!has("dom-createtreewalker")) {
-		result.push("wc/compat/TreeWalker");
-	}
+
 	if (!has("dom-comparedocumentposition")) {
 		result.push("wc/compat/compareDocumentPosition");
 	}
