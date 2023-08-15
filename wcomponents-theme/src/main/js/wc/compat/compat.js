@@ -225,9 +225,6 @@ define(["wc/has"], function(has) {
 		result.push("wc/compat/KeyEvent");
 	}
 
-	if (has("bug-getelementsbyname")) {
-		result.push("wc/fix/getElementsByName_ie9");
-	}
 	if (has("activex")) {
 		// while not strictly a fix classes can't put this in their dependency lists so we need to load it really early for conditional loading.
 		result.push("wc/fix/getActiveX_ieAll");
