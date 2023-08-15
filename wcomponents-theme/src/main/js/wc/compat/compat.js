@@ -134,10 +134,6 @@ define(["wc/has"], function(has) {
 			return !!(e.getContext && e.getContext("2d"));
 		});
 
-		addtest("dom-comparedocumentposition", function(g, d, el) {
-			return ("compareDocumentPosition" in el);
-		});
-
 		addtest("promise-es6", function(g) {
 			return ("Promise" in g);
 		});
@@ -229,9 +225,6 @@ define(["wc/has"], function(has) {
 		result.push("wc/compat/KeyEvent");
 	}
 
-	if (!has("dom-comparedocumentposition")) {
-		result.push("wc/compat/compareDocumentPosition");
-	}
 	if (has("bug-getelementsbyname")) {
 		result.push("wc/fix/getElementsByName_ie9");
 	}
