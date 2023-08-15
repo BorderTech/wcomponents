@@ -117,14 +117,6 @@ define(["wc/has"], function(has) {
 			return (has("native-console") && "table" in g.console);
 		});
 
-		addtest("global-node", function(g) {
-			return ("Node" in g);
-		});
-
-		addtest("global-nodefilter", function(g) {
-			return ("NodeFilter" in g);
-		});
-
 		addtest("global-keyevent", function(g) {
 			return ("KeyEvent" in g);
 		});
@@ -231,9 +223,6 @@ define(["wc/has"], function(has) {
 
 	if (!(has("native-console") && has("native-console-debug") && has("native-console-table") && has("native-console-group"))) {
 		result.push("wc/compat/console");
-	}
-	if (!has("global-node")) {
-		result.push("wc/compat/Node");
 	}
 
 	if (!has("global-keyevent")) {
