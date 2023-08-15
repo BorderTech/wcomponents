@@ -10,6 +10,15 @@ const targetRoot = path.join(buildRoot, "classes", "theme", pkgJson.name);
 const requirejs = require("requirejs");
 let mixin;
 
+const paths = {
+	"lib/sprintf": `lib/sprintf.min`,
+	tinyMCE: "lib/tinymce/tinymce.min",
+	mailcheck: "lib/mailcheck",
+	fabric: "empty:",
+	axs: "empty:",
+	axe: "empty:"
+};
+
 /**
  * These are used all over the place.
  * It's brittle to keep calculating them everywhere, it is done once here and available for resuse.
@@ -126,7 +135,7 @@ function requireAmd() {
 
 			// baseUrl: dirs.script.src,  // Can't do this with .mjs files, so either we JIT babel or we use the build dir
 			baseUrl: dirs.script.max,  // which means the build must have already run - temporary until we get rid of RequireJS
-
+			"paths": paths,
 			nodeRequire: require
 		});
 	}
@@ -141,5 +150,6 @@ module.exports = {
 	buildMax,
 	getConfig,
 	requireAmd,
+	paths,
 	version: pkgJson.version
 };

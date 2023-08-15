@@ -26,9 +26,9 @@ async function transform(sourcePath, outputDir) {
 	});
 }
 
-async function build(srcDir, targetDir) {
+async function build(sourcePath, targetDir) {
 	console.time("buildEsm");
-	await transform(srcDir, targetDir);
+	await transform(sourcePath, targetDir);
 	console.timeEnd("buildEsm");
 }
 
