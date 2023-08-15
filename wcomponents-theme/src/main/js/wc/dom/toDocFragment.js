@@ -1,24 +1,13 @@
-define(["wc/has"],
-	function (has) {
+define([],
+	function () {
 		"use strict";
 
-		var sandbox,
-			document, // purposely shadow document.
-			html5Fix = null,
-			noScope = null;
-
-		if (has("ie") < 9) {
-			require(["wc/fix/html5Fix_ie8", "wc/fix/noScope_ie8"], function (arg1, arg2) {
-				html5Fix = arg1;
-				noScope = arg2;
-			});
-		}
+		var document; // purposely shadow document.
 
 		/**
 		 * "Safe" conversion of HTML to DocumentFragment.
-		 * @module
-		 * @requires module:wc/has
-		 * @param {String) html the HTML to convert to a document fragment
+
+		 * @param {String} html the HTML to convert to a document fragment
 		 */
 		function toDocFragment(html) {
 			var result,
@@ -34,30 +23,11 @@ define(["wc/has"],
 			result = document.createDocumentFragment();
 			preloadResources(html);
 
-			if (has("ie") < 9) {
-				if (!sandbox || !sandbox.parentNode) {  // check sandbox exists AND is in the DOM
-					sandbox = document.createElement("iframe");
-					sandbox.setAttribute("style", "display:none");
-					sandbox.setAttribute("security", "restricted");
-					document.body.appendChild(sandbox);
-				}
-				tmpDF = sandbox.contentWindow.document.createDocumentFragment();
-
-				if (html5Fix) {
-					html5Fix(tmpDF);
-				}
-			} else {
-				tmpDF = document.createDocumentFragment();
-			}
+			tmpDF = document.createDocumentFragment();
 
 			tmpElement = (tmpDF.createElement ? tmpDF : document).createElement("div");
 			tmpContainer = tmpDF.appendChild(tmpElement);
-			if (noScope) {
-				tmpContainer.innerHTML = noScope(html);
-				noScope(tmpContainer);
-			} else {
-				tmpContainer.innerHTML = html;
-			}
+			tmpContainer.innerHTML = html;
 			while ((next = tmpContainer.firstChild)) {
 				result.appendChild(next);
 			}
