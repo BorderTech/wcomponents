@@ -88,8 +88,7 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 				currentEvent = {},  // the type of the event currently being processed or null when no event being processed
 				atTargetEvent,  // used to prevent eventListener firing twice in the target phase if attached using bubble and capture
 				dom2 = has("dom-addeventlistener"),
-				isFirefox = has("ff"),
-				IE = has("ie");
+				isFirefox = has("ff");
 
 			/**
 			 * Provides a wrapper for an event listener. This listens for events then uses an instance of
@@ -146,10 +145,6 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 						});
 						observer.setFilter(filter);
 						observer.notify.call(this, $event);  // "call" so we pass through the scope
-						if (type === $this.TYPE.beforeunload && IE > 0) {
-							// we get a confirm dialog in IE if onbeforeunload returnValue is not undefined
-							$event.returnValue = undefined;
-						}
 					}
 					/*
 					 * Returning ANYTHING from a beforeUnload event in IE will cause a confirmation dialog to

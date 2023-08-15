@@ -1,6 +1,6 @@
 define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/ajax",
-	"wc/loader/resource", "wc/has", "wc/dom/initialise"],
-function(sprintf, toArray, wcconfig, mixin, ajax, resource, has, initialise) {
+	"wc/loader/resource", "wc/dom/initialise"],
+function(sprintf, toArray, wcconfig, mixin, ajax, resource, initialise) {
 	"use strict";
 
 	/**
@@ -85,26 +85,21 @@ function(sprintf, toArray, wcconfig, mixin, ajax, resource, has, initialise) {
 		 */
 		this.initialize = function(config) {
 			return new Promise(function(win, lose) {
-				// If we're not in an old version of Internet Explorer
-				if (!has("ie") || has("ie") > 9) {
-					if (config || instance.get === noop) {
-						require(["lib/i18next"], function(engine) {  // Should we prefetch this? Does this make it load too late? Does it NEED to be in the layer?
-							var useConfig = config || wcconfig.get("wc/i18n/i18n") || {};
-							initI18next(engine, useConfig, function(err, translate) {
-								if (translate) {
-									instance.get = translatorFactory(translate);
-								}
-								if (err) {
-									lose(err);
-								} else {
-									win();
-								}
+				if (config || instance.get === noop) {
+					require(["lib/i18next"], function(engine) {  // Should we prefetch this? Does this make it load too late? Does it NEED to be in the layer?
+						var useConfig = config || wcconfig.get("wc/i18n/i18n") || {};
+						initI18next(engine, useConfig, function(err, translate) {
+							if (translate) {
+								instance.get = translatorFactory(translate);
+							}
+							if (err) {
+								lose(err);
+							} else {
+								win();
+							}
 
-							});
 						});
-					} else {
-						win();
-					}
+					});
 				} else {
 					win();
 				}

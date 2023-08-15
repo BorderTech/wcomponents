@@ -1,5 +1,5 @@
-define(["wc/dom/textContent", "wc/has"],
-	function(textContent, has) {
+define(["wc/dom/textContent"],
+	function(textContent) {
 		"use strict";
 
 		/**
@@ -108,18 +108,16 @@ define(["wc/dom/textContent", "wc/has"],
 							console.warn("error processing template " + err);
 						}
 					};
-				if (!has("ie") || has("ie") > 9) {
-					if (params && params.source) {
-						if (params.loadSource) {
-							require(["wc/loader/resource"], function(loader) {
-								loader.load(params.source, true, true).then(processSource, onerror);
-							});
-						} else {
-							processSource(params.source);
-						}
-					} else if (document.body) {
-						processContainer(document.body);
+				if (params && params.source) {
+					if (params.loadSource) {
+						require(["wc/loader/resource"], function(loader) {
+							loader.load(params.source, true, true).then(processSource, onerror);
+						});
+					} else {
+						processSource(params.source);
 					}
+				} else if (document.body) {
+					processContainer(document.body);
 				}
 			};
 		}

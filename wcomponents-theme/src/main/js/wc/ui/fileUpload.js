@@ -77,10 +77,9 @@ function(attribute, event, initialise, has, clearSelector, validate, Widget) {
 		 * @param {Element} element A file input.
 		 */
 		function initialiseFileInput(element) {
-			var isLowIE = has("ie") < 9,
-				_el = element;
+			var _el = element;
 			if (inputElementWd.isOneOfMe(element)) {
-				_el = isLowIE ? element : element.form;
+				_el = element.form;
 				if (!attribute.get(_el, INITED_KEY)) {
 					attribute.set(_el, INITED_KEY, true);
 					event.add(_el, "change", changeEvent);

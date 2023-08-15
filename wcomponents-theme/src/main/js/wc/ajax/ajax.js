@@ -9,12 +9,12 @@
  * @requires module:wc/timers
  * @requires module:wc/has
  * @requires module:wc/dom/uid
- * @requires module:wc/fix/getActiveX_ieAll
  *
  * @todo Document private members
+ * TODO totally redo this module
  */
-define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "wc/dom/uid", "wc/fix/getActiveX_ieAll", "require"],
-	function(Observer, global, xmlString, timers, has, uid, getActiveX, require) {
+define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "wc/dom/uid", "require"],
+	function(Observer, global, xmlString, timers, has, uid, require) {
 		"use strict";
 		const
 			markProfiles = has("global-performance-marking"),
@@ -28,7 +28,7 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 			 * @constant {int} limit
 			 * @private
 			 */
-			limit = (has("ie") ? 5 : (has("ff") ? 8 : 20)),
+			limit = 20,
 			/**
 			 * The singleton returned by the module.
 			 * @constant
@@ -173,13 +173,9 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 			 * @returns {XMLHTTPRequest} A Microsoft proprietary XML HTTPRequest.
 			 */
 			function getMsRequest() {
-				const ieVersion = has("ie");
-				let result, supported, ieXmlHttpEngine;
+				let result, ieXmlHttpEngine;
 				if (ieXmlHttpEngine === undefined) {
-					if (ieVersion && ieVersion < 10 && (supported = getActiveX("Msxml2.XMLHTTP", ["6.0", "3.0"]))) {
-						// This is intended for IE9 and earlier - ActiveX is better in ancient IE
-						ieXmlHttpEngine = supported.engine;
-					} else if (global[W3C_IFACE]) {
+					if (global[W3C_IFACE]) {
 						// All browsers including IE10 and above
 						ieXmlHttpEngine = W3C_IFACE;
 					} else {
@@ -358,16 +354,7 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 			 * @private
 			 */
 			function applyPostOpenConfig(request, config) {
-				const trident = has("trident"),
-					allowCaching = config.cache || false;
-				if (trident && trident >= 6 && config.responseType === ajax.responseType.XML) {
-					// IE10 and greater need this to prevent the XML dom that is not an XML dom
-					try {
-						request.responseType = "msxml-document";
-					} catch (ignore) {
-						// Do nothing
-					}
-				}
+				const allowCaching = config.cache || false;
 				if (!allowCaching) {
 					request.setRequestHeader("If-Modified-Since", "Fri, 31 Dec 1999 23:59:59 GMT");  // added by Rick Brown
 				}

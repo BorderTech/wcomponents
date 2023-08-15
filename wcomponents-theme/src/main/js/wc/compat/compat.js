@@ -225,11 +225,6 @@ define(["wc/has"], function(has) {
 		result.push("wc/compat/KeyEvent");
 	}
 
-	if (has("activex")) {
-		// while not strictly a fix classes can't put this in their dependency lists so we need to load it really early for conditional loading.
-		result.push("wc/fix/getActiveX_ieAll");
-	}
-
 	/*
 	 * The polyfill for global performance gets loaded up too late to attach load event listeners.
 	 * Putting it into wc/fixes gets loaded up too late to attach load event listeners. They have

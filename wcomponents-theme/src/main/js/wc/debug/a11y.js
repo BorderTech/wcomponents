@@ -1,4 +1,4 @@
-define(["wc/dom/initialise", "wc/timers", "axe", "wc/has", "wc/ui/ajax/processResponse"], function(initialise, timers, axe, has, processResponse) {
+define(["wc/dom/initialise", "wc/timers", "axe", "wc/ui/ajax/processResponse"], function(initialise, timers, axe, processResponse) {
 	"use strict";
 
 	var DEFAULT_DELAY = 3000,
@@ -10,7 +10,6 @@ define(["wc/dom/initialise", "wc/timers", "axe", "wc/has", "wc/ui/ajax/processRe
 		},
 		ignoreBestPracticeIssues = true,
 		ignoreExperimentalIssues = true,
-		warnIE = true,
 		defaultRunConfig = {
 			runOnly: {
 				type: "tags",
@@ -187,10 +186,6 @@ define(["wc/dom/initialise", "wc/timers", "axe", "wc/has", "wc/ui/ajax/processRe
 	function doA11yCheck() {
 		var excludeArray,
 			bail = false;
-		if (warnIE && has("ie")) {
-			bail = !window.confirm("Running Accessibility tools in IE is very slow, are you sure you want to do this?");
-			showOnScreen = true;
-		}
 		if (bail) {
 			return;
 		}

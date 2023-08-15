@@ -1,13 +1,12 @@
 define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
-		var has, testHolder;
+		var testHolder;
 
 		registerSuite({
 			name: "domGetElementsByName",
 			setup: function() {
-				return testutils.setupHelper(["wc/has"], function(obj) {
-					has = obj;
+				return testutils.setupHelper([], function() {
 					testHolder = testutils.getTestHolder();
 					testHolder.innerHTML = "<form><input name='animal' value='woof' /> <input name='animal' value='woof' id='dog1' /><input name='dog1' value='woof' /></form>";
 				});
@@ -27,12 +26,8 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				var gebnToString,
 					isNativeRe = /\[native code\]/;
 
-				if (!has("ie")) {
-					gebnToString = document.getElementsByName.toString();
-					assert.isTrue(isNativeRe.test(gebnToString), "Do not override native methods that don't need it");
-				} else {
-					assert.isFalse(isNativeRe.test(gebnToString), "IE below 10 should have a custom getElementsByName");
-				}
+				gebnToString = document.getElementsByName.toString();
+				assert.isTrue(isNativeRe.test(gebnToString), "Do not override native methods that don't need it");
 			}
 		});
 	});

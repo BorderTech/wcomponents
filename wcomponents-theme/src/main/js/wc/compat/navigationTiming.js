@@ -129,12 +129,7 @@ define(["wc/has", "wc/dom/event", "wc/dom/storage", "wc/dom/initialise", "wc/isN
 				window.performance[ORIGIN_CHECK_PROP] = ORIGIN_CHECK.unknown;  // flag that we have not done an origin check yet
 				timing = window.performance.timing = new PerformanceTiming();
 				initialiseCrossPageTimers();
-				if (has("ie") === 8) {
-					console.info("Queuing 'origin check' for profiling to work around IE8 bugs.");
-					window.setTimeout(checkOrigin, 10000);  // ie8 bugs mean we have to wait 10 secs to do origin check
-				} else {
-					checkOrigin();  // everyone else can do origin check immediately
-				}
+				checkOrigin();  // everyone else can do origin check immediately
 				event.add(window, "unload", unloadStart, -101);
 				event.add(window, "unload", unloadEnd, 101);
 				event.add(window, "load", loadStart, -101);

@@ -15,7 +15,6 @@
  * @requires module:wc/dom/getAncestorOrSelf
  * @requires module:wc/ajax/ajax
  * @requires module:wc/dom/formUpdateManager
- * @requires module:wc/has
  * @requires module:wc/dom/initialise
  * @requires module:wc/timers
  * @requires module:wc/ajax/setLoading
@@ -28,12 +27,11 @@ define(["wc/dom/tag",
 	"wc/dom/getAncestorOrSelf",
 	"wc/ajax/ajax",
 	"wc/dom/formUpdateManager",
-	"wc/has",
 	"wc/dom/initialise",
 	"wc/timers",
 	"wc/ajax/setLoading",
 	"wc/Observer"],
-function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManager, has, initialise, timers, setLoading, Observer) {
+function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManager, initialise, timers, setLoading, Observer) {
 	"use strict";
 
 	const
@@ -119,46 +117,6 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 		};
 		Trigger.subscribe(afterCallback, 1);
 	});
-	// add an early initialisation
-	initialise.addBodyListener({initialise: function () {
-		if (has("ie") && has("ie") < 10) {
-			event.add(window, "beforeunload",
-				/**
-				 * <p>Beforeunload event handler to set an unloading flag to prevent more triggers from firing. Only applied in
-				 * IE with version below 10. IE (tested on IE8) has some serious issues when processing stale AJAX which  means
-				 * we need to check whether the page is unloading before we action any AJAX requests. While I have put guard
-				 * code on both the requests and the callback for the response, we could actually get by with just one of these.
-				 * Since it is such a small amount of code it is best to leave it in both places.</p>
-				 *
-				 * <p>The bug is this:</p>
-				 * <ol>
-				 *	 <li>Send an AJAX request.</li>
-				 *	 <li>Quite quickly submit the form (click a submit button).</li>
-				 *	 <li>IE will send the form submit request first even though the AJAX request should have come first.</li>
-				 * </ol>
-				 *
-				 * <p>That's already enough of a bug right there but it gets worse with another bug:</p>
-				 *
-				 * <ol start=4><li>AJAX response comes back to IE AFTER the beforeunload event fires, despite the fact that the
-				 * page is being unloaded and that the response for the next page has already been received IE still honors the
-				 * AJAX response and processes it fully.</li>
-				 * </ol>
-				 *
-				 * <p>These bugs cause all sorts of massive problems, particularly with keeping track of "step counters" on the
-				 * server.</p>
-				 *
-				 * @function
-				 * @private
-				 * @param {Event} $event The beforeunload event.
-				 * @ignore
-				 */
-				function ($event) {
-					if (!$event.defaultPrevented) {
-						unloading = true;
-					}
-				}, 1);  // fire late in case is cancelled
-		}
-	}});
 
 	/**
 	 * Joins strings with the "&" character.

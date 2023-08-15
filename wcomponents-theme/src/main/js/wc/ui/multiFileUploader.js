@@ -275,9 +275,8 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 						});
 					},
 					upload = function(obj) {
-						var editorId = element.getAttribute("data-wc-editor"),
-							skipEdit = suppressEdit || (has("ie") > 0 && has("ie") < 10);
-						if (!skipEdit && editorId) {
+						var editorId = element.getAttribute("data-wc-editor");
+						if (!suppressEdit && editorId) {
 							require(["wc/ui/imageEdit"], function (imageEdit) {
 								obj.editorId = editorId;
 								if (imageEdit.upload !== instance.upload) {
@@ -480,14 +479,6 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 				if (!inited) {
 					console.log("Initialising on first use", element.name);
 					attribute.set(element, INITED_KEY, true);
-					if (has("ie") < 9) {
-						/*
-						 * IE8 and earlier do not implement the change event properly
-						 * it should bubble but doesn't. This is fixed in IE9 no matter
-						 * how you attach the event (attachEvent or addEventListener)
-						 */
-						event.add(element, "change", changeEvent);
-					}
 					initialiseForm(element.form);
 				}
 			}
@@ -505,9 +496,7 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 				attribute.set(form, INITED_KEY, true);
 				if (!form.classList.contains(CLASS_NAME)) {
 					event.add(form, "submit", submitEvent, -50);
-					if (!has("ie") || has("ie") > 8) {
-						event.add(form, "change", changeEvent);
-					}
+					event.add(form, "change", changeEvent);
 				}
 			}
 		}
