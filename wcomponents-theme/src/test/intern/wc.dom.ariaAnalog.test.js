@@ -1,4 +1,4 @@
-define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed", "wc/dom/event", "intern/resources/test.utils"],
+define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed", "wc/dom/event", "intern/resources/test.utils!"],
 	function (registerSuite, assert, controller, shed, event, testutils) {
 		"use strict";
 
@@ -10,7 +10,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 			radioController,
 			urlResource = require.toUrl("intern/resources/ariaAnalog.html");
 
-		function getDummyKeydownEvent(target, keyCode, ALT, SHIFT, CTRL) {
+		function getDummyKeydownEvent(target, key, code, ALT, SHIFT, CTRL) {
 			return {
 				target: target,
 				type: "keydown",
@@ -18,7 +18,8 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 				preventDefault: function() {
 					this.defaultPrevented = true;
 				},
-				keyCode: keyCode,
+				key,
+				code,
 				altKey: ALT,
 				shiftKey: SHIFT,
 				ctrlKey: CTRL
@@ -216,14 +217,14 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 			},
 			testKeydownEvent: function() {
 				var start = document.getElementById("rb0-0"),
-					evt = getDummyKeydownEvent(start, KeyEvent.DOM_VK_DOWN);
+					evt = getDummyKeydownEvent(start, "ArrowDown", "ArrowDown");
 				assert.isFalse(evt.defaultPrevented, "evt.defaultPrevented not as expected");
 				radioController.keydownEvent(evt);
 				assert.isTrue(evt.defaultPrevented, "evt.defaultPrevented should be true");
 			},
 			testKeydownEvent_alt: function() {
 				var start = document.getElementById("rb0-0"),
-					evt = getDummyKeydownEvent(start, KeyEvent.DOM_VK_DOWN, true);
+					evt = getDummyKeydownEvent(start, "ArrowDown", "ArrowDown", true);
 				assert.isFalse(evt.defaultPrevented, "evt.defaultPrevented not as expected");
 				radioController.keydownEvent(evt);
 				assert.isFalse(evt.defaultPrevented, "evt.defaultPrevented should still not be true");
@@ -231,7 +232,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 			testKeydownEvent_selectOnNavigate: function() {
 				var start = document.getElementById("rb0-0"),
 					expectedEnd = document.getElementById("rb0-1"),
-					evt = getDummyKeydownEvent(start, KeyEvent.DOM_VK_DOWN);
+					evt = getDummyKeydownEvent(start, "ArrowDown", "ArrowDown");
 
 				assert.isFalse(shed.isSelected(expectedEnd));
 				radioController.keydownEvent(evt);
@@ -239,7 +240,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 			},
 			testKeydownEvent_SPACE: function() {
 				var target = document.getElementById("rb0-1"),
-					evt = getDummyKeydownEvent(target, KeyEvent.DOM_VK_SPACE);
+					evt = getDummyKeydownEvent(target, "Space", " ");
 				assert.isFalse(evt.defaultPrevented, "evt.defaultPrevented not as expected");
 				assert.isFalse(shed.isSelected(target));
 				radioController.keydownEvent(evt);
@@ -248,7 +249,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 			},
 			testKeydownEvent_RETURN: function() {
 				var target = document.getElementById("rb0-1"),
-					evt = getDummyKeydownEvent(target, KeyEvent.DOM_VK_RETURN);
+					evt = getDummyKeydownEvent(target, "Enter", "Enter");
 				assert.isFalse(evt.defaultPrevented, "evt.defaultPrevented not as expected");
 				assert.isFalse(shed.isSelected(target));
 				radioController.keydownEvent(evt);
@@ -258,7 +259,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 			testKeydownEvent_END: function() {
 				var start = document.getElementById("rb0-0"),
 					expectedEnd = document.getElementById("rb0-4"),
-					evt = getDummyKeydownEvent(start, KeyEvent.DOM_VK_END);
+					evt = getDummyKeydownEvent(start, "End", "End");
 
 				assert.isFalse(shed.isSelected(expectedEnd));
 				radioController.keydownEvent(evt);
@@ -267,7 +268,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 			testKeydownEvent_HOME: function() {
 				var start = document.getElementById("rb0-4"),
 					expectedEnd = document.getElementById("rb0-0"),
-					evt = getDummyKeydownEvent(start, KeyEvent.DOM_VK_HOME);
+					evt = getDummyKeydownEvent(start, "Home", "Home");
 
 				shed.select(start); // changes radio selection
 				assert.isFalse(shed.isSelected(expectedEnd));
@@ -277,7 +278,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 			testKeydownEvent_DOWN_ctrl: function() {
 				var start = document.getElementById("rb0-0"),
 					expectedEnd = document.getElementById("rb0-1"),
-					evt = getDummyKeydownEvent(start, KeyEvent.DOM_VK_DOWN, false, false, true);
+					evt = getDummyKeydownEvent(start, "ArrowDown", "ArrowDown", false, false, true);
 				assert.isFalse(evt.defaultPrevented, "evt.defaultPrevented not as expected");
 				assert.isFalse(shed.isSelected(expectedEnd));
 				radioController.keydownEvent(evt);
@@ -287,7 +288,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 			testKeydownEvent_skip_disabled: function() {
 				var start = document.getElementById("rb0-4"),
 					expectedEnd = document.getElementById("rb0-2"),
-					evt = getDummyKeydownEvent(start, KeyEvent.DOM_VK_UP);
+					evt = getDummyKeydownEvent(start, "ArrowUp", "ArrowUp");
 
 				shed.select(start); // changes radio selection
 				assert.isFalse(shed.isSelected(expectedEnd));
@@ -297,7 +298,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 			testKeydownEvent_LEFT_is_previous: function() {
 				var start = document.getElementById("rb0-4"),
 					expectedEnd = document.getElementById("rb0-2"),
-					evt = getDummyKeydownEvent(start, KeyEvent.DOM_VK_LEFT);
+					evt = getDummyKeydownEvent(start, "ArrowLeft", "ArrowLeft");
 
 				shed.select(start); // changes radio selection
 				assert.isFalse(shed.isSelected(expectedEnd));
@@ -307,7 +308,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 			testKeydownEvent_RIGHT_is_next: function() {
 				var start = document.getElementById("rb0-0"),
 					expectedEnd = document.getElementById("rb0-1"),
-					evt = getDummyKeydownEvent(start, KeyEvent.DOM_VK_RIGHT);
+					evt = getDummyKeydownEvent(start, "ArrowRight", "ArrowRight");
 
 				assert.isFalse(shed.isSelected(expectedEnd));
 				radioController.keydownEvent(evt);
@@ -317,7 +318,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 				var start = document.getElementById("lb0-0"),
 					expectedEnd = document.getElementById("lb0-1"),
 					container = document.getElementById("lb0"),
-					evt = getDummyKeydownEvent(start, KeyEvent.DOM_VK_DOWN, false, true);
+					evt = getDummyKeydownEvent(start, "ArrowDown", "ArrowDown", false, true);
 				container.setAttribute("aria-multiselectable", "true");
 				assert.isFalse(evt.defaultPrevented, "evt.defaultPrevented not as expected");
 				assert.isTrue(shed.isSelected(start), "start element not in expected selected state");
@@ -331,7 +332,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 				var start = document.getElementById("lb0-0"),
 					expectedEnd = document.getElementById("lb0-1"),
 					container = document.getElementById("lb0"),
-					evt = getDummyKeydownEvent(start, KeyEvent.DOM_VK_DOWN, false, true);
+					evt = getDummyKeydownEvent(start, "ArrowDown", "ArrowDown", false, true);
 				container.removeAttribute("aria-multiselectable"); // just in case
 				assert.isFalse(evt.defaultPrevented, "evt.defaultPrevented not as expected");
 				assert.isTrue(shed.isSelected(start), "start element not in expected selected state");
@@ -345,7 +346,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 				var start = document.getElementById("lb0-0"),
 					expectedEnd = document.getElementById("lb0-1"),
 					container = document.getElementById("lb0"),
-					evt = getDummyKeydownEvent(start, KeyEvent.DOM_VK_DOWN, false, true, true);
+					evt = getDummyKeydownEvent(start, "ArrowDown", "ArrowDown", false, true, true);
 				container.setAttribute("aria-multiselectable", "true");
 				assert.isFalse(evt.defaultPrevented, "evt.defaultPrevented not as expected");
 				assert.isTrue(shed.isSelected(start), "start element not in expected selected state");

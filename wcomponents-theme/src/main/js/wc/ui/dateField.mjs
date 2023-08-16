@@ -750,11 +750,11 @@ function DateInput() {
 	 * on the selected (or first) option in the suggestion list.
 	 * @function
 	 * @private
-	 * @param {Event} $event The keydown event.
+	 * @param {KeyboardEvent} $event The keydown event.
 	 */
 	function keydownEvent($event) {
 		const dateField = $event.currentTarget,
-			keyCode = $event.keyCode,
+			keyCode = $event.key,
 			target = $event.target;
 
 		// dateField = instance.get(target);
@@ -763,21 +763,21 @@ function DateInput() {
 			return;
 		}
 
-		if (keyCode === KeyEvent.DOM_VK_ESCAPE) {
+		if (keyCode === "Escape") {
 			if (handleEscapeKey(dateField, target)) {
 				$event.preventDefault();
 			}
 			return;
 		}
 
-		if (keyCode === KeyEvent.DOM_VK_RETURN) {
+		if (keyCode === "Enter") {
 			if (handleEnterKey(dateField, target)) {
 				$event.preventDefault();
 			}
 			return;
 		}
 
-		if ((keyCode === KeyEvent.DOM_VK_DOWN || keyCode === KeyEvent.DOM_VK_UP) && !(getSuggestionList(target, 1))) {
+		if ((keyCode === "ArrowDown" || keyCode === "ArrowUp") && !(getSuggestionList(target, 1))) {
 			let suggestionList;
 			if (shed.isExpanded(dateField) && (suggestionList = getSuggestionList(dateField, -1))) {
 				focusListbox(suggestionList);
@@ -793,7 +793,7 @@ function DateInput() {
 		//				return;
 		//			}
 
-		if (keyCode === KeyEvent.DOM_VK_TAB) {
+		if (keyCode === "Tab") {
 			handleTabKey(dateField, target);
 			return;
 		}

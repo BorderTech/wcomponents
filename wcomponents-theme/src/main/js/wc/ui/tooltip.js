@@ -49,8 +49,12 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/shed", "wc/dom/Widget", "wc
 				scheduledCleanup(hide);
 			}
 
+			/**
+			 * Handles a key down.
+			 * @param {KeyboardEvent} $event
+			 */
 			function keydownEvent($event) {
-				if (!$event.defaultPrevented && !isOpen && $event.keyCode === KeyEvent.DOM_VK_ALT && !($event.repeat)) {
+				if (!$event.defaultPrevented && !isOpen && $event.key === "Alt" && !($event.repeat)) {
 					isOpen = true;
 					toggleTooltips(false);
 				}
@@ -58,6 +62,10 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/shed", "wc/dom/Widget", "wc
 
 			/* NOTE IE8 does not fire keyup when releasing ALT if there is a previous keyup (such as releasing the accesskey key) and if the browser
 			 * native accesskey functionality (for menus) has been invoked.
+			 */
+			/**
+			 * Handles a key up.
+			 * @param {KeyboardEvent} $event
 			 */
 			function keyupEvent($event) {
 				if (isOpen && !$event.defaultPrevented) {

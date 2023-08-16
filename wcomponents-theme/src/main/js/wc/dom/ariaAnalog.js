@@ -33,12 +33,12 @@ function(has, attribute, clearSelection, event, group, shed, uid, Widget, toArra
 	 * Helper for keydownEvent. Determine if the user has pressed an arrow key or similar.
 	 * @function
 	 * @private
-	 * @param {Number} keyCode The key pressed.
+	 * @param {KeyboardEvent} $event The key pressed.
 	 * @returns {boolean} true if it's a direction key
 	 */
-	function isDirectionKey(keyCode) {
-		return (keyCode === KeyEvent.DOM_VK_HOME || keyCode === KeyEvent.DOM_VK_END ||
-				keyCode >= KeyEvent.DOM_VK_LEFT && keyCode <= KeyEvent.DOM_VK_DOWN);
+	function isDirectionKey($event) {
+		const keyCode = $event.key || $event.code;
+		return (keyCode === "Home" || keyCode === "End" || keyCode.startsWith("Arrow"));
 	}
 
 	/**
@@ -47,24 +47,25 @@ function(has, attribute, clearSelection, event, group, shed, uid, Widget, toArra
 	 * @function
 	 * @private
 	 * @param {AriaAnalog} instance The AriaAnalog controller.
-	 * @param {Number} keyCode The key pressed.
+	 * @param {KeyboardEvent} $event The key pressed.
 	 * @returns {instance.KEY_DIRECTION.NEXT|instance.KEY_DIRECTION.LAST|instance.KEY_DIRECTION.FIRST|instance.KEY_DIRECTION.PREVIOUS}
 	 */
-	function calcMoveTo(instance, keyCode) {
-		var moveTo;
+	function calcMoveTo(instance, $event) {
+		let moveTo;
+		const keyCode = $event.key;
 		switch (keyCode) {
-			case KeyEvent.DOM_VK_HOME:
+			case "Home":
 				moveTo = instance.KEY_DIRECTION.FIRST;
 				break;
-			case KeyEvent.DOM_VK_END:
+			case "End":
 				moveTo = instance.KEY_DIRECTION.LAST;
 				break;
-			case KeyEvent.DOM_VK_LEFT:
-			case KeyEvent.DOM_VK_UP:
+			case "ArrowLeft":
+			case "ArrowUp":
 				moveTo = instance.KEY_DIRECTION.PREVIOUS;
 				break;
-			case KeyEvent.DOM_VK_RIGHT:
-			case KeyEvent.DOM_VK_DOWN:
+			case "ArrowRight":
+			case "ArrowDown":
 				moveTo = instance.KEY_DIRECTION.NEXT;
 				break;
 		}
@@ -495,22 +496,22 @@ function(has, attribute, clearSelection, event, group, shed, uid, Widget, toArra
 	 *
 	 * @function
 	 * @protected
-	 * @param {Event} $event The keydown event.
+	 * @param {KeyboardEvent} $event The keydown event.
 	 */
 	AriaAnalog.prototype.keydownEvent = function($event) {
-		var element, keyCode = $event.keyCode, target = $event.target, moveTo;
+		let target = $event.target;
 
 		if ($event.defaultPrevented || $event.altKey) {
 			return;
 		}
 
-		element = this.getActivableFromTarget(target);
+		const element = this.getActivableFromTarget(target);
 		if (!element) {
 			return;
 		}
 
-		if (this.groupNavigation && isDirectionKey(keyCode)) {
-			moveTo = calcMoveTo(this, keyCode);
+		if (this.groupNavigation && isDirectionKey($event)) {
+			const moveTo = calcMoveTo(this, $event);
 			if (moveTo && (target = this.navigate(element, moveTo))) {
 				if (this.selectOnNavigate(target) && !($event.ctrlKey || $event.metaKey)) {
 					this.activate(target, $event.shiftKey, ($event.ctrlKey || $event.metaKey));
@@ -519,13 +520,13 @@ function(has, attribute, clearSelection, event, group, shed, uid, Widget, toArra
 			}
 			return;
 		}
-
-		if ((keyCode === KeyEvent.DOM_VK_SPACE || keyCode === KeyEvent.DOM_VK_RETURN) &&
+		const keyCode = $event.key;
+		if ((keyCode === "Space" || keyCode === "Enter") &&
 			!Widget.isOneOfMe(element, this.actionable) &&
 			isAcceptableEventTarget(element, target)) {
 
 			this.activate(element, $event.shiftKey, ($event.ctrlKey || $event.metaKey));
-			$event.preventDefault(); // preventDefault here otherwise you get a page scroll
+			$event.preventDefault();  // preventDefault here otherwise you get a page scroll
 		}
 	};
 

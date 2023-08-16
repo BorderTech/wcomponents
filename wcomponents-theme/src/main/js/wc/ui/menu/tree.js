@@ -12,7 +12,7 @@ define(["wc/ui/menu/core",
 	"wc/ui/icon"],
 function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, formUpdateManager, getFilteredGroup, ajaxRegion, timers, icon) {
 	"use strict";
-	var instance;
+	let instance;
 
 	/**
 	 * Extends menu functionality to provide a specific implementation of a tree.
@@ -22,7 +22,7 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, f
 	 * @private
 	 */
 	function Tree() {
-		var VOPENER,
+		let VOPENER,
 			LEAF_WD,
 			ajaxTimer,
 			IMAGE_HOLDER_WD;
@@ -93,13 +93,12 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, f
 		 * @returns {Element} A tree root node.
 		 */
 		function getRootHelper(element) {
-			var _root;
 
 			if (!element) {
 				throw new ReferenceError("Argument 'element' is required.");
 			}
 
-			_root = instance.isRoot(element) ? element : instance.getRoot(element);
+			const _root = instance.isRoot(element) ? element : instance.getRoot(element);
 			if (!_root) {
 				throw new TypeError("Argument is not in a tree node.");
 			}
@@ -117,12 +116,12 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, f
 		 * @returns {Boolean} true if only one branch may be open at a time.
 		 */
 		this._oneOpen = function(element) {
-			var _root = getRootHelper(element);
+			const _root = getRootHelper(element);
 			return this.isHTree(_root);
 		};
 
 		/**
-		 * Trees do not require a branch item to be seleted when a branch is opened.
+		 * Trees do not require a branch item to be selected when a branch is opened.
 		 *
 		 * @var
 		 * @type Boolean
@@ -205,7 +204,7 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, f
 		 *     create a (potentially) non-contiguous multiple selection (where allowed).
 		 */
 		this._select = function(item, silent, SHIFT, CTRL) {
-			var root = this.getRoot(item);
+			const root = this.getRoot(item);
 			if (root && root.getAttribute("aria-multiselectable")) {
 				if (silent) {
 					shed.select(item, silent);
@@ -214,6 +213,28 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, f
 				}
 			}
 		};
+
+
+		const mapReturnKey = mapKeyToAction.bind(this, ["Enter", "NumpadEnter"]);
+		const mapSpaceKey = mapKeyToAction.bind(this, [" ", "Space"]);
+		const mapLeftKey = mapKeyToAction.bind(this, ["ArrowLeft"]);
+		const mapRightKey = mapKeyToAction.bind(this, ["ArrowRight"]);
+		const mapUpKey = mapKeyToAction.bind(this, ["ArrowUp"]);
+		const mapDownKey = mapKeyToAction.bind(this, ["ArrowDown"]);
+		const mapHomeKey = mapKeyToAction.bind(this, ["Home"]);
+		const mapPageDownKey = mapKeyToAction.bind(this, ["PageDown"]);
+		const mapEndKey = mapKeyToAction.bind(this, ["End"]);
+		const mapMultiplyKey = mapKeyToAction.bind(this, ["*", "NumpadMultiply"]);
+
+		/**
+		 * Helps set up key map so it can respond to KeyBoardEvent code or key properties.
+		 * @param keys An array of KeyBoardEven code and or key properties.
+		 * @param map The key to action map to update.
+		 * @param action The action to map to the keys.
+		 */
+		function mapKeyToAction(keys, map, action) {
+			keys.forEach(nextKey => map[nextKey] = action);
+		}
 
 		/**
 		 * Resets this._keyMap based on the type and/or state of the menu item passed in. In the top level the left
@@ -226,25 +247,19 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, f
 		 * @param {Element} _item The item which has focus.
 		 */
 		this._remapKeys = function(_item) {
-			var isOpener,
+			let isOpener,
 				item = _item,
-				root = this.getRoot(item),
-				VK_LEFT = "DOM_VK_LEFT",
-				VK_RIGHT = "DOM_VK_RIGHT",
-				VK_RETURN = "DOM_VK_RETURN",
-				VK_SPACE = "DOM_VK_SPACE",
-				isHTree,
-				expandable;
+				root = this.getRoot(item);
 
 			if (!root) {
 				return;
 			}
-			isHTree = this.isHTree(root);
 
-			this._keyMap[VK_RETURN] = null;
-			this._keyMap[VK_SPACE] = null;
-			this._keyMap[VK_LEFT] = keyWalker.MOVE_TO.PARENT;
-			this._keyMap[VK_RIGHT] = null;
+
+			mapReturnKey(this._keyMap, null);
+			mapSpaceKey(this._keyMap, null);
+			mapLeftKey(this._keyMap, keyWalker.MOVE_TO.PARENT);
+			mapRightKey(this._keyMap, null);
 
 			if (this._isBranch(item) || (isOpener = this._isOpener(item))) {
 				if (isOpener) {
@@ -252,22 +267,23 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, f
 				}
 
 				if (item) {
+					const isHTree = this.isHTree(root);
 					if (!this.isHTree(root)) {
-						this._keyMap[VK_RETURN] = this._FUNC_MAP.ACTION;
-						this._keyMap[VK_SPACE] = this._FUNC_MAP.ACTION;
+						mapReturnKey(this._keyMap, this._FUNC_MAP.ACTION);
+						mapSpaceKey(this._keyMap, this._FUNC_MAP.ACTION);
 					}
-					expandable = this._getBranchExpandableElement(item);
+					const expandable = this._getBranchExpandableElement(item);
 
 					if (expandable && shed.isExpanded(expandable)) {
 						if (isHTree) {
-							this._keyMap[VK_RIGHT] = keyWalker.MOVE_TO.CHILD;
-							this._keyMap[VK_LEFT] = keyWalker.MOVE_TO.PARENT;
+							mapRightKey(this._keyMap, keyWalker.MOVE_TO.CHILD);
+							mapLeftKey(this._keyMap, keyWalker.MOVE_TO.PARENT);
 						} else {
-							this._keyMap[VK_LEFT] = this._FUNC_MAP.CLOSE;
+							mapLeftKey(this._keyMap, this._FUNC_MAP.CLOSE);
 						}
 					} else {
-						this._keyMap[VK_RIGHT] = this._FUNC_MAP.ACTION;
-						this._keyMap[VK_LEFT] = keyWalker.MOVE_TO.PARENT;
+						mapRightKey(this._keyMap, this._FUNC_MAP.ACTION);
+						mapLeftKey(this._keyMap, keyWalker.MOVE_TO.PARENT);
 					}
 				}
 			}
@@ -282,15 +298,15 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, f
 		 * @override
 		 */
 		this._setupKeymap = function() {
-			this._keyMap = {
-				DOM_VK_UP: keyWalker.MOVE_TO.PREVIOUS,
-				DOM_VK_DOWN: keyWalker.MOVE_TO.NEXT,
-				DOM_VK_LEFT: keyWalker.MOVE_TO.PARENT,
-				DOM_VK_HOME: keyWalker.MOVE_TO.TOP,
-				DOM_VK_PAGE_DOWN: keyWalker.MOVE_TO.END,
-				DOM_VK_END: keyWalker.MOVE_TO.END,
-				DOM_VK_MULTIPLY: "_openAllBranches"
-			};
+			const keyMap = {};
+			mapUpKey(keyMap, keyWalker.MOVE_TO.PREVIOUS);
+			mapDownKey(keyMap, keyWalker.MOVE_TO.NEXT);
+			mapLeftKey(keyMap, keyWalker.MOVE_TO.PARENT);
+			mapHomeKey(keyMap, keyWalker.MOVE_TO.TOP);
+			mapPageDownKey(keyMap, keyWalker.MOVE_TO.END);
+			mapEndKey(keyMap, keyWalker.MOVE_TO.END);
+			mapMultiplyKey(keyMap, "_openAllBranches");
+			this._keyMap = keyMap;
 		};
 
 		/**
@@ -300,7 +316,7 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, f
 		 * @override
 		 */
 		this._setUpWidgets = function() {
-			var opener = new Widget("", "", { "aria-controls": null });
+			const opener = new Widget("", "", { "aria-controls": null });
 			LEAF_WD = LEAF_WD || new Widget("", "", { "role": "treeitem" });
 			this._wd.submenu = new Widget("", "", { "role": "group" });
 			this._wd.branch = LEAF_WD.extend("", { "aria-expanded": null });
@@ -318,12 +334,11 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, f
 		 * @param {Element} from the start point for opening all branches
 		 */
 		this._openAllBranches = function(from) {
-			var root = this.getRoot(from),
-				allBranchOpeners;
+			const root = this.getRoot(from);
 			if (!root || this.isHTree(root)) {
 				return;
 			}
-
+			let allBranchOpeners;
 			if ((allBranchOpeners = this._wd.opener.findDescendants(root)) && allBranchOpeners.length) {
 				/* NOTE: Array.prototype.reverse.call does not work in IE8 so I have to convert the nodeList to a real array then reverse it */
 				allBranchOpeners = toArray(allBranchOpeners);
@@ -365,9 +380,10 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, f
 		 * @param {Element} target theelement clicked.
 		 */
 		function htreeClickHelper(target) {
-			var item = instance.getItem(target), parentBranch;
+			const item = instance.getItem(target);
 			if (item && instance._isBranch(item) && shed.isExpanded(item)) {
-				if ((parentBranch = instance.getSubMenu(item)) && (parentBranch = instance._getBranch(parentBranch))) {
+				let parentBranch;
+				if ((parentBranch = instance.getSubMenu(item)) && (parentBranch = instance._getBranch(parentBranch))) {  // mind bending
 					instance._select(parentBranch, false, false, true);
 					return;
 				}
@@ -382,11 +398,11 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, f
 		 * @function module:wc/ui/menu/tree.clickEvent
 		 * @public
 		 * @override
-		 * @param {Event} $event The wrapped click event.
+		 * @param {MouseEvent} $event The click event.
 		 */
 		this.clickEvent = function($event) {
-			var target = $event.target,
-				root;
+			const target = $event.target;
+			let root;
 			// target === window is an IE thing
 			if ($event.defaultPrevented || target === document.body || target === window || !(root = this.getRoot(target))) {
 				return;
@@ -415,35 +431,30 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, f
 		 * @param {Element} toContainer the state container
 		 */
 		this.writeMenuState = function(next, toContainer) {
-			var root, rootId;
 
 			if (!next) {
 				return; // called from the wrong menu type maybe?
 			}
 
-			root = this.getRoot(next);
+			const root = this.getRoot(next);
 
 			if (!root) {
 				return;
 			}
 
-			rootId = root.id;
+			const rootId = root.id;
 
 			// expanded branches
 			(toArray(this._wd.branch.findDescendants(next))).filter(function(nextBranch) {
-				var expandable = this._getBranchExpandableElement(nextBranch);
+				const expandable = this._getBranchExpandableElement(nextBranch);
 				if (!expandable) {
 					return false;
 				}
 				return !shed.isDisabled(nextBranch) && shed.isExpanded(expandable);
 			}, this).forEach(function(nextBranch) {
-				var name;
+				const name = this._isBranch(nextBranch) ? nextBranch.id : "";
 
-				if (this._isBranch(nextBranch)) { // tree
-					name = nextBranch.id;
-				}
-
-				if (name) {
+				if (name) {  // tree
 					formUpdateManager.writeStateField(toContainer, rootId + ".open", name);
 				}
 			}, this);
@@ -464,13 +475,12 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, f
 		 * @param action a wc/ui/ajax/processResponse action
 		 */
 		this.preAjaxSubscriber = function(element, content, action) {
-			var i, kids, newBranch, currentBranch;
 			if (this.isRoot(element) && content && action === "in") {
-				kids = content.childNodes;
-				for (i = 0; kids && i < kids.length; i++) {
-					newBranch = this._getBranch(kids[i]);
+				const kids = content.childNodes;
+				for (let i = 0; kids && i < kids.length; i++) {
+					let newBranch = this._getBranch(kids[i]);
 					if (newBranch) {
-						currentBranch = document.getElementById(newBranch.id);
+						let currentBranch = document.getElementById(newBranch.id);
 						if (currentBranch && shed.isSelected(currentBranch)) {
 							/*
 							 * This is really handling an HTree situation:
@@ -495,7 +505,7 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, f
 		 * @returns {Boolean} true if the element is the only selected item at its level.
 		 */
 		function isLastSelectedItemAtLevel(element, root) {
-			var level = instance.getSubMenu(element) || ((root && instance.isRoot(root)) ? root : instance.getRoot(element));
+			const level = instance.getSubMenu(element) || ((root && instance.isRoot(root)) ? root : instance.getRoot(element));
 
 			return getFilteredGroup(level, {
 				itemWd: LEAF_WD
@@ -511,12 +521,11 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, f
 		 * @param {Element} root The root of the currect tree.
 		 */
 		function ajaxExpand(element, root) {
-			var mode = root.getAttribute("data-wc-mode"),
-				obj,
-				elId = element.id;
+			const mode = root.getAttribute("data-wc-mode");
 
 			if (mode && mode !== "client") {
-				obj = {
+				const elId = element.id;
+				const obj = {
 					id: elId,
 					alias: root.id,
 					loads: [elId + "-content"],
@@ -541,7 +550,7 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, f
 		 * @param {String} action The action being taken.
 		 */
 		this._shedSubscriber = function(element, action) {
-			var root, iconContainer;
+			let root;
 
 			if (!(element && (root = this.getRoot(element)))) {
 				return;
@@ -569,6 +578,7 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, f
 			VOPENER = VOPENER || new Widget ("", "wc_leaf_vopener");
 			IMAGE_HOLDER_WD = IMAGE_HOLDER_WD || new Widget("", "wc_leaf_img");
 			if (action === shed.actions.EXPAND) {
+				let iconContainer;
 				ajaxExpand(element, root);
 				if (!this.isHTree(root) && (iconContainer = VOPENER.findDescendant(element, true))) {
 					icon.change(iconContainer, "fa-caret-down", "fa-caret-right");
@@ -591,7 +601,7 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, f
 		 * @returns {Boolean} true if the branch is able to animate.
 		 */
 		this._animateBranch = function(item, open) {
-			var root = this.getRoot(item);
+			let root = this.getRoot(item);
 
 			if (!(item && (root = this.getRoot(item)))) {
 				return false;
@@ -619,7 +629,7 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, f
 		 * @returns {Number}
 		 */
 		this._textMatchFilter = function(textNode) {
-			var parent = textNode.parentNode;
+			const parent = textNode.parentNode;
 
 			if (!parent.classList.contains("wc_leaf_name")) {
 				return  NodeFilter.FILTER_SKIP;
@@ -643,16 +653,14 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, f
 		 * @param {Element} [root] the tree's root
 		 */
 		this._shedCollapseHelper = function (element, root) {
-			var group,
-				groupContainer,
-				iconContainer,
-				_root = root || this.getRoot(element);
+			const _root = root || this.getRoot(element);
 
 			if (!_root) {
 				return;
 			}
 
 			if (element && this._isBranch(element)) {
+				let iconContainer;
 				VOPENER = VOPENER || new Widget ("", "wc_leaf_vopener");
 				IMAGE_HOLDER_WD = IMAGE_HOLDER_WD || new Widget("", "wc_leaf_img");
 				if (!this.isHTree(root) && (iconContainer = VOPENER.findDescendant(element, true))) {
@@ -664,7 +672,8 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, f
 					icon.change(iconContainer, "fa-folder-o", "fa-folder-open-o");
 				}
 
-				groupContainer = this.getSubMenu(element, true);
+				const groupContainer = this.getSubMenu(element, true);
+				let group;
 				if (groupContainer && (group = getFilteredGroup(groupContainer, {itemWd: this._wd.leaf[0]})) && group.length) {
 					group.forEach(function(next) {
 						shed.deselect(next);

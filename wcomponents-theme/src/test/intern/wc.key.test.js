@@ -1,89 +1,79 @@
-define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
-	function (registerSuite, assert, testutils) {
+define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!", "/node_modules/@testing-library/dom/dist/@testing-library/dom.umd.js"],
+	function (registerSuite, assert, testutils, domTesting) {
 		"use strict";
 
-		var key;
-
-		function getMockKeyEvent(code, alt, ctrl, shift, altGr, meta) {
-			return {
-				"altGraphKey": !!altGr,
-				"metaKey": !!meta,
-				"altKey": !!alt,
-				"shiftKey": !!shift,
-				"ctrlKey": !!ctrl,
-				"which": code,
-				"pageY": 0,
-				"pageX": 0,
-				"layerY": 0,
-				"layerX": 0,
-				"charCode": code,
-				"keyCode": code,
-				"detail": 0,
-				"cancelBubble": false,
-				"returnValue": true,
-				"defaultPrevented": false,
-				"timeStamp": Date.now(),
-				"cancelable": true,
-				"bubbles": true,
-				"eventPhase": 0,
-				"type": "keypress"
-			};
-		}
+		let key, container, testId = "test-element";
 
 		registerSuite({
 			name: "key",
 			setup: function() {
 				return testutils.setupHelper(["wc/key"], function(obj) {
 					key = obj;
+					container = testutils.getTestHolder();
+					container.innerHTML = `<button type="button" data-testid="${testId}"></button>`;
 				});
 			},
-			testGetLiteral: function() {
-				var code = 88,
-					expected = "DOM_VK_X",
-					actual = key.getLiteral(code);
-				assert.strictEqual(expected, actual);
+			"testIsMetaWithNoMeta": function() {
+				return new Promise((win, lose) => {
+					container.addEventListener("keydown", (event) => {
+						try {
+							assert.isFalse(key.isMeta(event.key));
+							assert.isFalse(key.isMeta(event.code));
+							assert.isFalse(key.isMeta(event));
+							win();
+						} catch (ex) {
+							lose(ex.message);
+						}
+					});
+					const element = domTesting.getByTestId(container, testId);
+					domTesting.fireEvent.keyDown(element, {
+						key: 'A', code: 'KeyA'
+					});
+				});
 			},
-			testGetKeysPressed: function() {
-				var evt = getMockKeyEvent(88),
-					expected = "DOM_VK_X",
-					actual = key.getKeysPressed(evt);
-				assert.strictEqual(expected, actual);
+			"testIsMetaWithLeftShift": function() {
+				return metaTest('Shift', 'ShiftLeft');
 			},
-			testGetKeysPressedWithAlt: function() {
-				var evt = getMockKeyEvent(88, true),
-					expected = "DOM_VK_ALT+DOM_VK_X",
-					actual = key.getKeysPressed(evt);
-				assert.strictEqual(expected, actual);
+			"testIsMetaWithRightShift": function() {
+				return metaTest('Shift', 'ShiftRight');
 			},
-			testGetKeysPressedWithCtrl: function() {
-				var evt = getMockKeyEvent(88, false, true),
-					expected = "DOM_VK_CONTROL+DOM_VK_X",
-					actual = key.getKeysPressed(evt);
-				assert.strictEqual(expected, actual);
+			"testIsMetaWithRightAlt": function() {
+				return metaTest('Alt', 'AltRight');
 			},
-			testGetKeysPressedWithShift: function() {
-				var evt = getMockKeyEvent(88, false, false, true),
-					expected = "DOM_VK_SHIFT+DOM_VK_X",
-					actual = key.getKeysPressed(evt);
-				assert.strictEqual(expected, actual);
+			"testIsMetaWithLeftAlt": function() {
+				return metaTest('Alt', 'AltLeft');
 			},
-			testGetKeysPressedWithAltAndShift: function() {
-				var evt = getMockKeyEvent(88, true, false, true),
-					expected = "DOM_VK_ALT+DOM_VK_SHIFT+DOM_VK_X",
-					actual = key.getKeysPressed(evt);
-				assert.strictEqual(expected, actual);
+			"testIsMetaWithLeftMeta": function() {
+				return metaTest('Meta', 'MetaLeft');
 			},
-			testGetKeysPressedWithCtrlAndShift: function() {
-				var evt = getMockKeyEvent(88, false, true, true),
-					expected = "DOM_VK_CONTROL+DOM_VK_SHIFT+DOM_VK_X",
-					actual = key.getKeysPressed(evt);
-				assert.strictEqual(expected, actual);
+			"testIsMetaWithRightMeta": function() {
+				return metaTest('Meta', 'MetaRight');
 			},
-			testGetKeysPressedWithAltAndCtrlAndShift: function() {
-				var evt = getMockKeyEvent(88, true, true, true),
-					expected = "DOM_VK_ALT+DOM_VK_CONTROL+DOM_VK_SHIFT+DOM_VK_X",
-					actual = key.getKeysPressed(evt);
-				assert.strictEqual(expected, actual);
+			"testIsMetaWithRightControl": function() {
+				return metaTest('Control', 'ControlRight');
+			},
+			"testIsMetaWithLefttControl": function() {
+				return metaTest('Control', 'ControlLeft');
 			}
 		});
+
+		function metaTest(eventKey, eventCode) {
+			return new Promise((win, lose) => {
+				container.addEventListener("keydown", (event) => {
+					try {
+						assert.isTrue(key.isMeta(event.key));
+						assert.isTrue(key.isMeta(event.code));
+						assert.isTrue(key.isMeta(event));
+						win();
+					} catch (ex) {
+						lose(ex.message);
+					}
+
+				});
+				const element = domTesting.getByTestId(container, testId);
+				domTesting.fireEvent.keyDown(element, {
+					key: eventKey, code: eventCode
+				});
+			});
+		}
 	});

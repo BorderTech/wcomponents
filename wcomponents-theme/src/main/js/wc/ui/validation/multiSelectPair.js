@@ -101,32 +101,32 @@ function(attribute, event, initialise, shed, multiSelectPair, isComplete, minMax
 		 * Listen for keydown events which can cause a change in the selection of the component and revalidate.
 		 * @function
 		 * @private
-		 * @param {module:wc/dom/event} $event A wrapped keydown event.
+		 * @param {KeyboardEvent} $event A  keydown event.
 		 */
 		function keydownEvent($event) {
-			var selectList, keyCode = $event.keyCode, selectType, container, carryOn;
+			const keyCode = $event.key;
 			// this is cheaper than any other test in this function
-			if ($event.defaultPrevented || !(keyCode === KeyEvent.DOM_VK_RETURN || keyCode === KeyEvent.DOM_VK_RIGHT || keyCode === KeyEvent.DOM_VK_LEFT)) {
+			if ($event.defaultPrevented || !(keyCode === "Enter" || keyCode === "ArrowRight" || keyCode === "ArrowLeft")) {
 				return;
 			}
-			selectList = SELECT.findAncestor($event.target);
+			const selectList = SELECT.findAncestor($event.target);
 			if (!selectList) {
 				return;
 			}
-			container = getContainer(selectList);
+			const container = getContainer(selectList);
 			if (!container) {
 				return;
 			}
-			selectType = multiSelectPair.getListType(selectList);
+			const selectType = multiSelectPair.getListType(selectList);
 			if (!(selectType || selectType === 0)) {
 				return;
 			}
-			carryOn = keyCode === KeyEvent.DOM_VK_RETURN;
+			let carryOn = keyCode === "Enter";
 			if (!carryOn) {
-				carryOn = keyCode === KeyEvent.DOM_VK_RIGHT && selectType === multiSelectPair.LIST_TYPE_AVAILABLE;
+				carryOn = keyCode === "ArrowRight" && selectType === multiSelectPair.LIST_TYPE_AVAILABLE;
 			}
 			if (!carryOn) {
-				carryOn = keyCode === KeyEvent.DOM_VK_LEFT && selectType === multiSelectPair.LIST_TYPE_CHOSEN;
+				carryOn = keyCode === "ArrowLeft" && selectType === multiSelectPair.LIST_TYPE_CHOSEN;
 			}
 			if (!carryOn) {
 				return;

@@ -14,7 +14,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"],
 		 * @requires module:wc/dom/initialise
 		 * @requires module:wc/dom/Widget
 		 */
-		var instance;
+		let instance;
 
 		/**
 		 * @constructor
@@ -22,36 +22,36 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"],
 		 * @private
 		 */
 		function DefaultSubmit() {
-			var INPUT_WD =  new Widget("input"),
+			const INPUT_WD =  new Widget("input"),
 				FILE_WD = INPUT_WD.extend("", {"type": "file"}),
 				SUBMIT_CONTROL_WD = new Widget("button", "", {"type": "submit"}),
 				SUBMITTER = new Widget("", "", {"data-wc-submit": null}),
-				SUBMIT_ATTRIB = "data-wc-submit",
-				SELECT_WD;
+				SUBMIT_ATTRIB = "data-wc-submit";
+			let SELECT_WD;
 
 			/**
-			 * Initialise default sumit finctinality by wiring up focus listeners which will lazily attach other
+			 * Initialise default submit functionality by wiring up focus listeners which will lazily attach other
 			 * required listeners later.
 			 * @function  module:wc/dom/defaultSubmit.initialise
 			 * @public
-			 * @param {Element} element document.body
+			 * @param {HTMLBodyElement} element document.body
 			 */
 			this.initialise = function(element) {
-				event.add(element, "keypress", keyEvent, -1);
+				event.add(element, "keydown", keyEvent, -1);
 			};
 
 			/**
-			 * Event listener for keypress event. Used to determine the correct submit button to use as the form submit
+			 * Event listener for keydown event. Used to determine the correct submit button to use as the form submit
 			 * based on the form submit or the over-ridden defaultSubmit of the input.
 			 * @function
 			 * @private
-			 * @param {Event} $event the keypress event.
+			 * @param {KeyboardEvent} $event the keydown event.
 			 */
 			function keyEvent($event) {
-				var keyCode = $event.keyCode,
-					element = $event.target, correctSubmit;
-				if (!$event.defaultPrevented && keyCode === KeyEvent.DOM_VK_RETURN && element.form && isPotentialSubmitter(element)) {
-					if ((correctSubmit = findCorrectSubmit(element))) {
+				const element = $event.target;
+				if (!$event.defaultPrevented && $event.key === "Enter" && element.form && isPotentialSubmitter(element)) {
+					const correctSubmit = findCorrectSubmit(element);
+					if (correctSubmit) {
 						$event.preventDefault();
 						event.fire(correctSubmit, "click");
 					}
@@ -76,16 +76,14 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"],
 			 * Find the correct submit button to "click" when the ENTER key is pressed on element.
 			 * NOTE: we do not need this if the element is not in a form
 			 * @param {Element} element A form control element.
-			 * @returns {Element} The default submit for the element which may be the form's regular submit button.
+			 * @returns {HTMLInputElement} The default submit for the element which may be the form's regular submit button.
 			 */
 			function findCorrectSubmit(element) {
-				var result,
-					form = element.form,
-					submitId,
-					container;
+				let result;
+				const form = element.form;
 
 				if (form && !(result = SUBMIT_CONTROL_WD.findAncestor(element))) {
-					submitId = element.getAttribute(SUBMIT_ATTRIB);
+					let container, submitId = element.getAttribute(SUBMIT_ATTRIB);
 					if (!submitId && (container = SUBMITTER.findAncestor(element))) {
 						submitId = container.getAttribute(SUBMIT_ATTRIB);
 					}

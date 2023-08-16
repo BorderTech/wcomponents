@@ -319,14 +319,13 @@ function(attribute, clearSelection, event, getMouseEventOffset, isAcceptableTarg
 		 * keydown event handler for keyboard driven resize.
 		 * @function
 		 * @private
-		 * @param {event} $event A keydown event
+		 * @param {KeyboardEvent} $event A keydown event
 		 */
 		function keydownEvent($event) {
 			var target = $event.target,
 				element,
 				x = 0,
 				y = 0,
-				keyCode = $event.keyCode,
 				resizeTarget,
 				allowed,
 				conf,
@@ -351,23 +350,23 @@ function(attribute, clearSelection, event, getMouseEventOffset, isAcceptableTarg
 			if (conf.step && !isNaN(conf.step) && conf.step > 0) {
 				step = conf.step;
 			}
-			switch (keyCode) {
-				case KeyEvent.DOM_VK_RIGHT:
+			switch ($event.key) {
+				case "ArrowRight":
 					if (allowed !== "v") {
 						x = step;
 					}
 					break;
-				case KeyEvent.DOM_VK_LEFT:
+				case "ArrowLeft":
 					if (allowed !== "v") {
 						x = 0 - step;
 					}
 					break;
-				case KeyEvent.DOM_VK_DOWN:
+				case "ArrowDown":
 					if (allowed !== "h") {
 						y = step;
 					}
 					break;
-				case KeyEvent.DOM_VK_UP:
+				case "ArrowUp":
 					if (allowed !== "h") {
 						y = 0 - step;
 					}
@@ -651,7 +650,7 @@ function(attribute, clearSelection, event, getMouseEventOffset, isAcceptableTarg
 		 * @public
 		 * @public
 		 * @param {Element} element The resize handle.
-		 * @param {boolean} keep If true store the size for later use.
+		 * @param {boolean} [keep] If true store the size for later use.
 		 * @returns {Boolean} true if a resizeable target was found and reset.
 		 */
 		this.clearSize = function(element, keep) {

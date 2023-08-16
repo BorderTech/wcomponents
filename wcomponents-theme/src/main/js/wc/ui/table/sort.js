@@ -91,11 +91,15 @@ function(initialise, event, formUpdateManager, attribute, group, ajaxRegion, isE
 			}
 		}
 
+		/**
+		 *
+		 * @param {KeyboardEvent} $event
+		 */
 		function keydownEvent($event) {
 			if ($event.defaultPrevented) {
 				return;
 			}
-			if ($event.keyCode === KeyEvent["DOM_VK_RETURN"]) { // remember this event is only attached to an element which is a SORT_CONTROL.
+			if ($event.key === "Enter") {  // remember this event is only attached to an element which is a SORT_CONTROL.
 				toggleEventHelper($event, $event.target);
 			}
 		}

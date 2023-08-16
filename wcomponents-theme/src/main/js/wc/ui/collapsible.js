@@ -147,19 +147,17 @@ function(event, attribute, focus, formUpdateManager, has, initialise, Widget, sh
 		 * Operate collapsibles via the keyboard.
 		 * @function
 		 * @private
-		 * @param {Event} $event A keydown event.
+		 * @param {KeyboardEvent} $event A keydown event.
 		 */
 		function keydownEvent($event) {
-			var element = $event.target,
-				keyCode = $event.keyCode,
-				trigger,
-				foundFocusableElement;
+			const element = $event.target;
 			if ($event.defaultPrevented || $event.altKey || $event.ctrlKey) {
 				return;
 			}
 
-			if ((keyCode === KeyEvent["DOM_VK_SPACE"] || keyCode === KeyEvent["DOM_VK_RETURN"]) && (trigger = COLLAPSIBLE_HEADER.findAncestor(element)) && !shed.isDisabled(trigger)) {
-				foundFocusableElement = toggleEventHelper($event, trigger);
+			let trigger;
+			if (($event.code === "Space" || $event.key ==="Enter") && (trigger = COLLAPSIBLE_HEADER.findAncestor(element)) && !shed.isDisabled(trigger)) {
+				const foundFocusableElement = toggleEventHelper($event, trigger);
 				if (element === trigger || !foundFocusableElement) {
 					$event.preventDefault();
 				}

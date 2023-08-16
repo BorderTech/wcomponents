@@ -130,11 +130,13 @@ function(event, Widget, initialise, tree, resizeable, storage, processResponse, 
 			}
 		}
 
+		/**
+		 * Handle key down.
+		 * @param {KeyboardEvent} $event
+		 */
 		function keydownEvent($event) {
-			var target = $event.target;
-
-			if (!$event.defaultPrevented && $event.keyCode === KeyEvent.DOM_VK_RETURN) {
-				if (resizeable.clearSize(target)) {
+			if (!$event.defaultPrevented && $event.key === "Enter") {
+				if (resizeable.clearSize($event.target)) {
 					$event.preventDefault();
 				}
 			}

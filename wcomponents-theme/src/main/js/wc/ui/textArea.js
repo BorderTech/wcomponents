@@ -150,17 +150,12 @@ function(attribute, event, initialise, shed, Widget, i18n, sprintf, timers, wrap
 			tickerTimeout = timers.setTimeout(tick, TICKER_DELAY, element);
 		}
 
-		/*
+		/**
 		 * Responds to new input in a textual form field.
-		 * @param {Event} $event The current event.
+		 * @param {InputEvent} $event The current event.
 		 */
 		function handleInput($event) {
-			var which = $event.keyCode,
-				element = $event.target;
-
-			if (which === undefined || (which < KeyEvent.DOM_VK_END || which > KeyEvent.DOM_VK_DOWN)) {  // would be undefined if called from a non-key driven event
-				queueTick(element);
-			}
+			queueTick($event.target);
 		}
 		/*
 		 * When the text field loses focus we must hide the counter

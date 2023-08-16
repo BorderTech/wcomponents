@@ -40,12 +40,10 @@ function(attribute, initialise, event, isNumeric, shed, Widget, timers) {
 		 * @private
 		 * @param {Element} element The element to step.
 		 * @param {Boolean} [up] If true increment otherwise decrement.
-		 * @param {Boolean} [doNotFireChange] If true then do not call fire the change event.
-		 * @todo I am pretty sure that last arg is only for unit testing: check this.
 		 */
-		function stepValue(element, up, doNotFireChange) {
-			var step = element.getAttribute("step") || "1",
-				value = instance.getValueAsNumber(element),
+		function stepValue(element, up) {
+			const value = instance.getValueAsNumber(element);
+			let step = element.getAttribute("step") || "1",
 				min = element.getAttribute(MIN),
 				max = element.getAttribute(MAX),
 				dec, sigFig, factor;
@@ -57,9 +55,9 @@ function(attribute, initialise, event, isNumeric, shed, Widget, timers) {
 			 * @private
 			 */
 			function checkDoIncrement() {
-				var nowWhatsMyValue = instance.getValueAsNumber(element), tempVal;
+				const nowWhatsMyValue = instance.getValueAsNumber(element);
 				if (value === nowWhatsMyValue) {
-					tempVal = value - step;
+					let tempVal = value - step;
 
 					if (min && (tempVal < min)) {
 						tempVal = min;
@@ -71,9 +69,7 @@ function(attribute, initialise, event, isNumeric, shed, Widget, timers) {
 						tempVal = Math.round(tempVal * factor) / factor;
 					}
 					element.value = tempVal;
-					if (!doNotFireChange) {
-						event.fire(element, "change");
-					}
+					event.fire(element, "change");
 				}
 			}
 
@@ -99,18 +95,17 @@ function(attribute, initialise, event, isNumeric, shed, Widget, timers) {
 		 * Operate number fields via the keyboard.
 		 * @function
 		 * @private
-		 * @param {Event} $event A keydown event.
+		 * @param {KeyboardEvent} $event A keydown event.
 		 */
 		function keydownEvent($event) {
-			var element = $event.target;
+			const element = $event.target;
 			if (!$event.defaultPrevented && !$event.altKey && !($event.ctrlKey || $event.metaKey) && (instance.isOneOfMe(element)) && !shed.isDisabled(element)) {
-				switch ($event.keyCode) {
-					/* NOTE: $event.fake is set in the unit tests - this should be removed! */
-					case KeyEvent["DOM_VK_UP"]:
-						stepValue(element, true, $event.fake);
+				switch ($event.code) {
+					case "ArrowUp":
+						stepValue(element, true);
 						break;
-					case KeyEvent["DOM_VK_DOWN"]:
-						stepValue(element, false, $event.fake);
+					case "ArrowDown":
+						stepValue(element, false);
 						break;
 				}
 			}
@@ -123,7 +118,7 @@ function(attribute, initialise, event, isNumeric, shed, Widget, timers) {
 		 * @param $event a focus/focusin event
 		 */
 		function focusEvent($event) {
-			var element = $event.target;
+			const element = $event.target;
 			if (!$event.defaultPrevented) {
 				if (instance.isOneOfMe(element) && !attribute.get(element, BOOTSTRAPPED)) {
 					attribute.set(element, BOOTSTRAPPED, true);

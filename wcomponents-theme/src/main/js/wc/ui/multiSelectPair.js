@@ -290,10 +290,10 @@ function(attribute, event, initialise, focus, formUpdateManager, getBox, shed, t
 		 *
 		 * @function
 		 * @private
-		 * @param {Element} element A WMultiSelectPair.
+		 * @param {HTMLElement} element A WMultiSelectPair.
 		 */
 		function addAll(element) {
-			var availableBucket = instance.getListByType(element, LIST_TYPE_AVAILABLE);
+			const availableBucket = instance.getListByType(element, LIST_TYPE_AVAILABLE);
 			actionAllOptions(availableBucket, addSelected);
 		}
 
@@ -302,17 +302,17 @@ function(attribute, event, initialise, focus, formUpdateManager, getBox, shed, t
 		 *
 		 * @function
 		 * @private
-		 * @param {Element} element A WMultiSelectPair.
+		 * @param {HTMLElement} element A WMultiSelectPair.
 		 */
 		function removeAll(element) {
-			var selectedBucket = instance.getListByType(element, LIST_TYPE_CHOSEN);
+			const selectedBucket = instance.getListByType(element, LIST_TYPE_CHOSEN);
 			actionAllOptions(selectedBucket, removeSelected);
 		}
 
 
 		/**
 		 * Writes the state of the MultiSelectPair. All options in the "selected" list are deemed to be selected
-		 * even when they are not selected in the DOM. Equally no options in the "available" list are selected
+		 * even when they are not selected in the DOM. Equally, no options in the "available" list are selected
 		 * irrespective of their actual selected state.
 		 *
 		 * @function
@@ -341,7 +341,6 @@ function(attribute, event, initialise, focus, formUpdateManager, getBox, shed, t
 		 */
 		function keydownEvent($event) {
 			var selectList,
-				keyCode,
 				selectType,
 				focusOpposite,
 				opposite;
@@ -353,17 +352,15 @@ function(attribute, event, initialise, focus, formUpdateManager, getBox, shed, t
 				return;
 			}
 
-			keyCode = $event.keyCode;
+			const keyCode = $event.key;
 
-			if (keyCode === KeyEvent.DOM_VK_RETURN) {
+			if (keyCode === "Enter") {
 				$event.preventDefault();  // chrome submits form for "enter" in select multiple="multiple"
 				addRemoveSelected(selectList);
 			} else {
 				selectType = instance.getListType(selectList);
-				focusOpposite = false;
-				if ((keyCode === KeyEvent.DOM_VK_RIGHT && selectType === LIST_TYPE_AVAILABLE) || (keyCode === KeyEvent.DOM_VK_LEFT && selectType === LIST_TYPE_CHOSEN)) {
-					focusOpposite = true;
-				}
+
+				focusOpposite = (keyCode === "ArrowRight" && selectType === LIST_TYPE_AVAILABLE) || (keyCode === "ArrowLeft" && selectType === LIST_TYPE_CHOSEN);
 
 				if (!focusOpposite) {
 					return;
@@ -503,7 +500,7 @@ function(attribute, event, initialise, focus, formUpdateManager, getBox, shed, t
 
 		/**
 		 * Get the selected options - these may not actually be marked as selected in the DOM, but they are in the
-		 * selected bucket so they are logically selected.
+		 * selected bucket, so they are logically selected.
 		 *
 		 * @function module:wc/ui/multiSelectPair.getValue
 		 * @public
@@ -540,7 +537,7 @@ function(attribute, event, initialise, focus, formUpdateManager, getBox, shed, t
 		 *
 		 * @function module:wc/ui/multiSelectPair.initialise
 		 * @public
-		 * @param {Element} element The element being initialised: usually document.body
+		 * @param {HTMLElement} element The element being initialised: usually `document.body`
 		 */
 		this.initialise = function(element) {
 			fixWidthHeight();

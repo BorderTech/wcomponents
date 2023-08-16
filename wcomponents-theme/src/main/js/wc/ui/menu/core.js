@@ -65,15 +65,15 @@ function(attribute, event, focus, formUpdateManager, getFilteredGroup, keyWalker
 		/**
 		 * An array of keys which will cause us to call preventDefault in the keydown event handler if they are
 		 * handled. This is here just so we do not have to rebuild this array every time a key is pressed!
-		 * @var {int[]} keysToCancel
+		 * @var {string[]} keysToCancel
 		 * @private
 		 */
 		keysToCancel = [
-			KeyEvent.DOM_VK_SPACE,
-			KeyEvent.DOM_VK_UP,
-			KeyEvent.DOM_VK_DOWN,
-			KeyEvent.DOM_VK_LEFT,
-			KeyEvent.DOM_VK_RIGHT
+			"Space",  // KeyboardEvent.code only! Not .key!
+			"ArrowUp",
+			"ArrowDown",
+			"ArrowLeft",
+			"ArrowRight"
 		];
 
 	/**
@@ -117,7 +117,7 @@ function(attribute, event, focus, formUpdateManager, getFilteredGroup, keyWalker
 	 * Sets the tabIndex of the current element and removes it from the previous 'tab-able' element (if different).
 	 * @function
 	 * @private
-	 * @param {Element} element A menu node.
+	 * @param {HTMLElement} element A menu node.
 	 * @param {Object} instance The subclass.
 	 */
 	function setTabstop(element, instance) {
@@ -256,9 +256,9 @@ function(attribute, event, focus, formUpdateManager, getFilteredGroup, keyWalker
 	 *
 	 * @function
 	 * @private
-	 * @param {Element} element The menu node being tested.
+	 * @param {HTMLElement} element The menu node being tested.
 	 * @param {String} letter The letter on the key the user pressed.
-	 * @returns {Integer} A NodeFilter STATIC variable
+	 * @returns {int} A NodeFilter STATIC variable
 	 */
 	AbstractMenu.prototype.hasTextNodeMatch = function(element, letter) {
 		var tw,
@@ -269,7 +269,7 @@ function(attribute, event, focus, formUpdateManager, getFilteredGroup, keyWalker
 		LETTER = LETTER || new RegExp(i18n.get("letter"));
 
 		if (letter && LETTER.test(letter)) {
-			tw = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, this._textMatchFilter.bind(this), false);
+			tw = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, this._textMatchFilter.bind(this));
 			tw.currentNode = element;
 			tw.nextNode();
 			node = tw.currentNode;
@@ -405,19 +405,17 @@ function(attribute, event, focus, formUpdateManager, getFilteredGroup, keyWalker
 	 * menu even if the menu supports cycling on key nevigation.
 	 * @function
 	 * @protected
-	 * @param {Element} item The menu node on which we started when the user pressed a letter key.
+	 * @param {HTMLElement} item The menu node on which we started when the user pressed a letter key.
 	 * @param {String} letter The letter pressed by the user.
-	 * @param {Element} root The current menu root node.
-	 * @returns {Element} The next available menu item with visible text which starts with keyName or null if not
+	 * @param {HTMLElement} root The current menu root node.
+	 * @returns {HTMLElement} The next available menu item with visible text which starts with keyName or null if not
 	 *    found.
 	 */
 	AbstractMenu.prototype._getTextTarget = function(item, letter, root) {
-		var target = null,
-			keyWalkerConfig = this._getkeyWalkerConfig(item, root);
+		const keyWalkerConfig = this._getkeyWalkerConfig(item, root);
 		keyWalkerConfig.filter = this.getNavigationTreeWalkerFilter(true, letter);
 		keyWalkerConfig[keyWalker.OPTIONS.CYCLE] = false;  // do not cycle on key match
-		target = keyWalker.getTarget(keyWalkerConfig, item, keyWalker.MOVE_TO.NEXT);
-		return target;
+		return keyWalker.getTarget(keyWalkerConfig, item, keyWalker.MOVE_TO.NEXT);
 	};
 
 	/**
@@ -434,8 +432,8 @@ function(attribute, event, focus, formUpdateManager, getFilteredGroup, keyWalker
 	 *
 	 * @function
 	 * @private
-	 * @param {Element} menu The menu to close.
-	 * @param {Element} [element] the element which has caused the menu to close (most commonly by receiving focus). if not set then close all
+	 * @param {HTMLElement} menu The menu to close.
+	 * @param {HTMLElement} [element] the element which has caused the menu to close (most commonly by receiving focus). if not set then close all
 	 * @param {Object} instance the singleton instance which is the actual menu controller
 	 * paths.
 	 */
@@ -463,8 +461,8 @@ function(attribute, event, focus, formUpdateManager, getFilteredGroup, keyWalker
 	 * @returns {TreeWalker} A treeWalker for the menu starting at root.
 	 */
 	AbstractMenu.prototype._getTreeWalker = function(root, ignoreClosed) {
-		var filter = this.getNavigationTreeWalkerFilter(ignoreClosed);
-		return document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT, filter, false);
+		const filter = this.getNavigationTreeWalkerFilter(ignoreClosed);
+		return document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT, filter);
 	};
 
 	/**
@@ -1598,16 +1596,15 @@ function(attribute, event, focus, formUpdateManager, getFilteredGroup, keyWalker
 	 * @protected
 	 *
 	 * @param {Element} item Where we start
-	 * @param {KeyEvent.keyCode} $key The key that was pressed
+	 * @param {String} $key The KeyboardEvent key that was pressed
 	 * @param {Element} root The menu Root node
 	 * @param {Boolean} [SHIFT] was the SHIFT key down during the event?
 	 * @param {Boolean} [CTRL] was the CTRL key down during the event?
 	 * @returns {Boolean} true if the event has been fully handled and we can prevent default
 	 */
 	AbstractMenu.prototype._keyActivator = function(item, $key, root, SHIFT, CTRL) {
-		var target,
-			keyName = key.getLiteral($key),
-			action = this._keyMap[keyName];
+		let target;
+		const action = this._keyMap[$key];
 
 		LETTER = LETTER || new RegExp(i18n.get("letter"));
 
@@ -1616,8 +1613,8 @@ function(attribute, event, focus, formUpdateManager, getFilteredGroup, keyWalker
 				return this[action](item);
 			}
 			target = this._getTargetItem(item, action, root);
-		} else if (keyName && (keyName = keyName.replace(/^DOM_VK_/, "")) && keyName.length === 1 && LETTER.test(keyName)) {
-			target = this._getTextTarget(item, keyName, root);
+		} else if ($key && $key.length === 1 && LETTER.test($key)) {
+			target = this._getTextTarget(item, $key, root);
 		}
 		if (target) {
 			this._focusItem(target, root);
@@ -1734,19 +1731,19 @@ function(attribute, event, focus, formUpdateManager, getFilteredGroup, keyWalker
 	 *
 	 * @function
 	 * @protected
-	 * @param {Event} $event the keydown event wrapped by {@link module:wc/dom/event}.
+	 * @param {KeyboardEvent} $event the keydown event.
 	 */
 	AbstractMenu.prototype.keydownEvent = function($event) {
-		var result = false,
-			target,
-			root,
-			$key = $event.keyCode;
+		let result = false;
 
 		if (!$event.defaultPrevented) {
-			if ((root = this.getRoot($event.target)) && (target = this.getItem($event.target))) {
-				result = this._keyActivator(target, $key, root, $event.shiftKey, ($event.ctrlKey || $event.metaKey));
+			const root = this.getRoot($event.target);
+			const target = root ? this.getItem($event.target) : null;
+			if (root && target) {
 
-				if (result && ~keysToCancel.indexOf($key)) {
+				result = this._keyActivator(target, $event.key, root, $event.shiftKey, ($event.ctrlKey || $event.metaKey));
+
+				if (result && keysToCancel.indexOf($event.code) >= 0) {
 					$event.preventDefault();
 				}
 			}

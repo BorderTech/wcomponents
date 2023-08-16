@@ -111,7 +111,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @function
 		 * @private
 		 * @param {Element} currentElement The element that is currently active (ie the one to which our navigation is relative)
-		 * @param {number} direction Left, right, up or down (expressed in "arrow key" codes).
+		 * @param {string} direction Left, right, up or down (expressed in "arrow key" literals).
 		 */
 		function navigateDayLeftRightUpDown(currentElement, direction) {
 			// UP    7 days before
@@ -126,16 +126,16 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				}
 			}
 			switch (direction) {
-				case KeyEvent.DOM_VK_LEFT:
+				case "ArrowLeft":
 					i = Math.max(0, i - 1);
 					break;
-				case KeyEvent.DOM_VK_UP:
+				case "ArrowUp":
 					i = Math.max(0, i - 7);
 					break;
-				case KeyEvent.DOM_VK_RIGHT:
+				case "ArrowRight":
 					i = Math.min(days.length - 1, i + 1);
 					break;
-				case KeyEvent.DOM_VK_DOWN:
+				case "ArrowDown":
 					i = Math.min(days.length - 1, i + 7);
 					break;
 			}
@@ -189,7 +189,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @function
 		 */
 		function getLimits(yearField, input) {
-			var result = {
+			return {
 				yearMin: yearField.getAttribute(MIN_ATTRIB),
 				yearMax: yearField.getAttribute(MAX_ATTRIB),
 				monthMin: getMinMaxMonthDay(input),
@@ -197,7 +197,6 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				dayMin: getMinMaxMonthDay(input, false, true),
 				dayMax: getMinMaxMonthDay(input, true, true)
 			};
-			return result;
 		}
 
 		/*
@@ -206,7 +205,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @function
 		 */
 		function setYear(date, year) {
-			var newDate = copy(date);
+			const newDate = copy(date);
 			newDate.setDate(1);  // ALWAYS set date to something less than 29 !!BEFORE!! calling setMonth
 			newDate.setFullYear(year);
 			return newDate;
@@ -319,16 +318,13 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 *
 		 * @function
 		 * @private
-		 * @param {Element} element The calendar's year input.
-		 * @param {int} keyCode The keydown event's keyCode.
+		 * @param {HTMLElement} element The calendar's year input.
+		 * @param {string} keyCode The keydown event's key literal.
 		 * @returns {Boolean} true if the event's default action is to be prevented.
 		 */
 		function keydownHelperChangeYear(element, keyCode) {
 			yearChanged(element);
-			if (keyCode === KeyEvent.DOM_VK_RETURN) { // do not submit on enter/return in year field
-				return true;
-			}
-			return false;
+			return keyCode === "Enter";  // do not submit on enter/return in year field
 		}
 
 		/**
@@ -336,28 +332,24 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 *
 		 * @function
 		 * @private
-		 * @param {Element} element the target of the keydown event previously determined as a picker button.
-		 * @param {int} keyCode the keydown event's keyCode.
-		 * @param {Boolean} shiftKey was the SHIFT key down?
+		 * @param {HTMLElement} element the target of the keydown event previously determined as a picker button.
+		 * @param {KeyboardEvent} $event the keydown event.
 		 * @returns {Boolean} true if the event is to have its default action prevented.
 		 */
-		function keydownHelperDateButton(element, keyCode, shiftKey) {
-			switch (keyCode) {
-				case KeyEvent.DOM_VK_LEFT:
-				case KeyEvent.DOM_VK_RIGHT:
-				case KeyEvent.DOM_VK_UP:
-				case KeyEvent.DOM_VK_DOWN:
-					navigateDayLeftRightUpDown(element, keyCode);
+		function keydownHelperDateButton(element, $event) {
+			const keyCode = $event.code;
+			if (keyCode.startsWith("Arrow")) {
+				navigateDayLeftRightUpDown(element, keyCode);
+				return true;
+			}
+			if (keyCode === "KeyT") {
+				setDate(new Date(), true);
+			}
+			if (keyCode === "Tab") {
+				if (!$event.shiftKey && element.classList.contains(CLASS.LAST)) {  // tabbing fwd past last day
+					focus.setFocusRequest(findMonthSelect());  // move focus to first element
 					return true;
-				case KeyEvent.DOM_VK_T:
-					setDate(new Date(), true);
-					break;
-				case KeyEvent.DOM_VK_TAB:
-					if (!shiftKey && element.classList.contains(CLASS.LAST)) {  // tabbing fwd past last day
-						focus.setFocusRequest(findMonthSelect());  // move focus to first element
-						return true;
-					}
-					break;
+				}
 			}
 			return false;
 		}
@@ -367,32 +359,31 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * selection of pickable date, Year change handler is target is the year field.
 		 * @function
 		 * @private
-		 * @param {Event} $event The keydown event.
+		 * @param {KeyboardEvent} $event The keydown event.
 		 */
 		function _calendarKeydownEvent($event) {
-			var buttons,
-				element = $event.target,
-				shiftKey = $event.shiftKey,
-				keyCode = $event.keyCode,
-				handled = false;
-
 			if ($event.defaultPrevented) {
 				return;
 			}
 
-			if (keyCode === KeyEvent.DOM_VK_ESCAPE) {
+			let element = $event.target,
+				handled = false;
+			const shiftKey = $event.shiftKey,
+				keyCode = $event.key;
+
+			if (keyCode === "Escape") {
 				hideCalendar();
 				handled = true;  // if the date field is in a dialog, do not close dialog
-			} else if (element.id === YEAR_ELEMENT_ID && keyCode !== KeyEvent.DOM_VK_TAB && keyCode !== KeyEvent.DOM_VK_SHIFT) {
+			} else if (element.id === YEAR_ELEMENT_ID && keyCode !== "Tab" && keyCode !== "Shift") {
 				handled = keydownHelperChangeYear(element, keyCode);
-			} else if (keyCode === KeyEvent.DOM_VK_TAB && shiftKey && element === findMonthSelect()) {  // tabbing back past month select
+			} else if (keyCode === "Tab" && shiftKey && element === findMonthSelect()) {  // tabbing back past month select
 				getOrCreateCal(function(cal) {
-					buttons = PICKABLE.findDescendants(cal);
+					const buttons = PICKABLE.findDescendants(cal);
 					focus.setFocusRequest(buttons[buttons.length - 1]);  // move focus to last element
 				});
 				handled = true;
 			} else if ((element = PICKABLE.findAncestor(element))) {
-				handled = keydownHelperDateButton(element, keyCode, shiftKey);
+				handled = keydownHelperDateButton(element, $event);
 			}
 
 			if (handled) {
@@ -426,11 +417,9 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * Builds the actual HTML calendar component
 		 */
 		function create(callback) {
-			var _today = today.get(),
-				container,
-				calendarProps;
+			const _today = today.get();
 
-			calendarProps = {
+			const calendarProps = {
 				dayName: dayName.get(true),
 				monthName: monthName.get(),
 				fullYear: _today.getFullYear(),
@@ -443,7 +432,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				dayColHeader: dayColHeader
 			};
 
-			container = document.createElement("div");
+			const container = document.createElement("div");
 			container.id = CONTAINER_ID;
 			container.setAttribute("role", "dialog");
 			document.body.appendChild(container);
@@ -481,7 +470,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 
 		/**
 		 * Get the calendar's containing element.
-		 * @returns {Element} The calendar.
+		 * @returns {HTMLElement} The calendar.
 		 */
 		function getCal() {
 			return document.getElementById(CONTAINER_ID);
@@ -532,11 +521,10 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 */
 		function storeDate(dateObj) {
 			getOrCreateCal(function(cal) {
-				var millis;
 				if (!dateObj || dateObj.constructor !== Date) {
 					throw new TypeError("storeDate expects a date object");
 				}
-				millis = dateObj.getTime();
+				const millis = dateObj.getTime();
 				console.log("storing date", new Date(millis));
 				attribute.set(cal, DATE_KEY, millis);
 			});
@@ -737,7 +725,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * Show the calendar.
 		 * @function
 		 * @private
-		 * @param {Element} element The calendar launch button.
+		 * @param {HTMLInputElement} element The calendar launch button.
 		 */
 		function show(element) {
 			getOrCreateCal(function(cal) {
@@ -792,7 +780,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * adds a class to move it.
 		 * @function
 		 * @private
-		 * @param {Element} cal the calendar.
+		 * @param {HTMLElement} cal the calendar.
 		 */
 		function detectCollision(cal) {
 			var collision = viewportCollision(cal),
@@ -880,7 +868,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 *
 		 * @function
 		 * @private
-		 * @param {Element} element The launch control button or date input.
+		 * @param {HTMLElement} element The launch control button or date input.
 		 */
 		function doLaunch(element) {
 			try {
@@ -897,7 +885,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * The user has clicked a day in the calendar, set the selected date into the date input.
 		 * @function
 		 * @private
-		 * @param {Element} dayElement The selected day.
+		 * @param {HTMLElement} dayElement The selected day.
 		 */
 		function selectDay(dayElement) {
 			getOrCreateCal(function(calendar) {
@@ -935,7 +923,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * Calendar icon click listener.
 		 */
 		function clickEvent($event) {
-			var element;
+			let element;
 			if (!$event.defaultPrevented) {
 				if ((element = LAUNCHER.findAncestor($event.target))) {
 					doLaunch(element);
@@ -951,10 +939,14 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			}
 		}
 
+		/**
+		 * Handle a keydown event.
+		 * @param {KeyboardEvent} $event
+		 */
 		function keydownEvent($event) {
-			var target = $event.currentTarget,
-				launcher;
-			if ($event.keyCode === KeyEvent.DOM_VK_DOWN && ($event.altKey || $event.metaKey) && (launcher = LAUNCHER.findDescendant(dateField.get(target)))) {
+			const target = $event.currentTarget;
+			let launcher;
+			if ($event.key === "ArrowDown" && ($event.altKey || $event.metaKey) && (launcher = LAUNCHER.findDescendant(dateField.get(target)))) {
 				doLaunch(launcher);
 				$event.preventDefault();
 			}
@@ -962,7 +954,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 
 		/**
 		 * Positions the calendar relative to its input element.
-		 * @param {Element} [element] The calendar element (if you already have it, otherwise we'll find it for you).
+		 * @param {HTMLElement} [element] The calendar element (if you already have it, otherwise we'll find it for you).
 		 */
 		function position(element) {
 			var input, box,
@@ -1069,7 +1061,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		/**
 		 * Helper for initialising and de-initialising this module.
 		 * @param {boolean} init true if initialising, otherwise deinitialising.
-		 * @param {Element} element The element being de/initialised, usually document.body.
+		 * @param {HTMLElement} element The element being de/initialised, usually document.body.
 		 * @function
 		 * @private
 		 */
@@ -1102,7 +1094,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 *
 		 * @function module:wc/ui/calendar.initialise
 		 * @public
-		 * @param {Element} element The element being initialised, usually document.body.
+		 * @param {HTMLElement} element The element being initialised, usually document.body.
 		 */
 		this.initialise = initialiseHelper.bind(this, true);
 
@@ -1115,7 +1107,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 
 		/**
 		 * Unsubscribes event listeners etc.
-		 * @param {Element} The element being deinitialised, usually document.body.
+		 * @param {HTMLElement} element The element being deinitialised, usually document.body.
 		 */
 		this.deinit = function(element) {
 			initialiseHelper(false, element);

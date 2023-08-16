@@ -95,10 +95,10 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 			 *
 			 * @function
 			 * @private
-			 * @param {Event} $event The wrapped keydown event.
+			 * @param {KeyboardEvent} $event The wrapped keydown event.
 			 */
 			function keyEvent($event) {
-				if ($event.keyCode === window.KeyEvent.DOM_VK_ESCAPE) {
+				if ($event.key === "Escape") {
 					toggle();
 				}
 			}

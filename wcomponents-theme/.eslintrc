@@ -22,7 +22,6 @@
 		"no-constant-condition": 0
 	},
 	"globals": {
-		"KeyEvent": true,
 		"Promise": true,
 		"DataView": true,
 		"intern": true

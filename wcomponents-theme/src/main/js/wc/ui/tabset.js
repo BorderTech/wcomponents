@@ -666,14 +666,10 @@ function(toArray, ariaAnalog, formUpdateManager, getFilteredGroup, initialise, s
 		 * @function
 		 * @protected
 		 * @override
-		 * @param {Event} $event The wrapped keydown event.
+		 * @param {KeyboardEvent} $event The wrapped keydown event.
 		*/
 		this.keydownEvent = function($event) {
-			var keyCode = $event.keyCode,
-				target = $event.target,
-				tab,
-				targetTab,
-				direction;
+			const target = $event.target;
 
 			if ($event.shiftKey || !($event.ctrlKey || $event.metaKey)) {
 				this.constructor.prototype.keydownEvent.call(this, $event);
@@ -684,14 +680,15 @@ function(toArray, ariaAnalog, formUpdateManager, getFilteredGroup, initialise, s
 			if (!isInAccordion(target)) {
 				return;
 			}
-
-			if (keyCode === KeyEvent.DOM_VK_PAGE_UP || keyCode === KeyEvent.DOM_VK_PAGE_DOWN) {
-				tab = getTabFor(target);
+			let targetTab;
+			const keyCode = $event.key;
+			if (keyCode === "PageUp" || keyCode === "PageDown") {
+				const tab = getTabFor(target);
 				if (tab) {
-					direction = (keyCode === KeyEvent.DOM_VK_PAGE_UP ? instance.KEY_DIRECTION.PREVIOUS : instance.KEY_DIRECTION.NEXT);
+					const direction = (keyCode === "PageUp" ? instance.KEY_DIRECTION.PREVIOUS : instance.KEY_DIRECTION.NEXT);
 					targetTab = instance.navigate(tab, direction);
 				}
-			} else if (keyCode === KeyEvent.DOM_VK_UP) {
+			} else if (keyCode === "ArrowUp") {
 				targetTab = getTabFor(target);
 			} else {
 				this.constructor.prototype.keydownEvent.call(this, $event);

@@ -115,26 +115,25 @@ function(attribute, clearSelection, event, getMouseEventOffset, isAcceptableEven
 		 *
 		 * @function
 		 * @private
-		 * @param {Event} $event The keydown event.
+		 * @param {KeyboardEvent} $event The keydown event.
 		 */
 		function keydownEvent($event) {
-			var target = $event.target,
-				element,
-				x,
-				y,
-				keyCode = $event.keyCode;
+			const target = $event.target;
+			let element;
+			let x, y;
 			if (!$event.defaultPrevented && (element = DRAGGABLE.findAncestor(target))) {
-				switch (keyCode) {
-					case KeyEvent.DOM_VK_RIGHT:
+
+				switch ($event.key) {
+					case "ArrowRight":
 						x = conf.step;
 						break;
-					case KeyEvent.DOM_VK_LEFT:
+					case "ArrowLeft":
 						x = 0 - conf.step;
 						break;
-					case KeyEvent.DOM_VK_DOWN:
+					case "ArrowDown":
 						y = conf.step;
 						break;
-					case KeyEvent.DOM_VK_UP:
+					case "ArrowUp":
 						y = 0 - conf.step;
 						break;
 				}

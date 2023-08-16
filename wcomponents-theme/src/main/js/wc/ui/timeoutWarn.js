@@ -39,8 +39,12 @@ function(sprintf, event, Widget, i18n, loader, shed, timers, icon, wcconfig) {
 			}
 		}
 
+		/**
+		 *
+		 * @param {KeyboardEvent} $event
+		 */
 		function keydownEvent($event) {
-			if ($event.keyCode === KeyEvent.DOM_VK_ESCAPE) {
+			if ($event.code === "Escape") {
 				closeWarning(getContainer());
 			}
 		}

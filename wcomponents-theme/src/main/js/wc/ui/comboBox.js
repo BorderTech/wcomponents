@@ -41,7 +41,6 @@ function(has, attribute, event, focus, initialise, shed, Widget, key, timers, aj
 				delay: 250,  // Wait this long before updating the list on keydown
 				min: 3  // Only update the list if the user has entered at least this number of characters.
 			}),
-			CHAR_KEYS,  // used in the keydown event handler if we cannot use the input event
 			nothingLeftReg = {};  // last search returned no match, keep the search term for future reference
 
 		LISTBOX.descendFrom(COMBO, true);
@@ -358,19 +357,20 @@ function(has, attribute, event, focus, initialise, shed, Widget, key, timers, aj
 		 * Handles a keypress on "listbox".
 		 * @function
 		 * @private
-		 * @param {Element} listbox The listbox.
-		 * @param {number} keyCode The key that was pressed.
+		 * @param {HTMLElement} listbox The listbox.
+		 * @param {string} keyCode The key that was pressed.
 		 * @returns {boolean} true if the key event needs to be cancelled.
 		 */
 		function handleKeyListbox(listbox, keyCode) {
-			var combo = getCombo(listbox),
-				textbox;
+			const combo = getCombo(listbox);
+
 			if (!combo) {
 				return false;
 			}
 
-			if ((keyCode === KeyEvent.DOM_VK_ESCAPE || keyCode === KeyEvent.DOM_VK_RETURN)) {
-				textbox = TEXTBOX.findDescendant(combo);
+			// Check for NumpadEnter too just in case KeyboardEvent .code is sent instead of .key
+			if ((keyCode === "Escape" || keyCode === "Enter" || keyCode === "NumpadEnter")) {
+				const textbox = TEXTBOX.findDescendant(combo);
 				focus.setFocusRequest(textbox, function() {
 					shed.collapse(combo);
 				});
@@ -387,10 +387,10 @@ function(has, attribute, event, focus, initialise, shed, Widget, key, timers, aj
 		 *
 		 * @function
 		 * @private
-		 * @param {Event} $event The keydown event.
+		 * @param {KeyboardEvent} $event The keydown event.
 		 */
 		function keydownEvent($event) {
-			var keyCode = $event.keyCode,
+			var keyCode = $event.key,
 				target = $event.target,
 				listbox,
 				openCombo;
@@ -409,7 +409,7 @@ function(has, attribute, event, focus, initialise, shed, Widget, key, timers, aj
 				return;
 			}
 
-			if (openSelect && keyCode === KeyEvent.DOM_VK_ESCAPE) {
+			if (openSelect && keyCode === "Escape") {
 				openCombo = document.getElementById(openSelect);
 				if (openCombo && shed.isExpanded(openCombo)) {
 					shed.collapse(openCombo);
@@ -461,34 +461,33 @@ function(has, attribute, event, focus, initialise, shed, Widget, key, timers, aj
 		 * @function
 		 * @private
 		 * @param {Element} target The combobox
-		 * @param {number} keyCode The key that was pressed.
+		 * @param {string} keyCode The key that was pressed.
 		 * @param {boolean} altKey
 		 * @returns {boolean} true if the key event needs to be cancelled.
 		 */
 		function handleKeyTextbox(target, keyCode, altKey) {
-			var combo;
 			/* keydown happens when a combo input is focused */
-			if (keyCode === KeyEvent.DOM_VK_TAB) {
+			if (keyCode === "Tab") {
 				// TAB out, do nothing, focus will take care of it.
 				return false;
 			}
 
-			combo = getCombo(target);
+			const combo = getCombo(target);
 			if (!combo) {
 				return false;
 			}
 
 			switch (keyCode) {
-				case KeyEvent.DOM_VK_ESCAPE:
+				case "Escape":
 					if (shed.isExpanded(combo)) {
 						shed.collapse(combo);
 						return true;
 					}
 					break;
-				case KeyEvent.DOM_VK_DOWN:
+				case "ArrowDown":
 					doDownButton(combo, altKey);
 					break;
-				case KeyEvent.DOM_VK_UP:
+				case "ArrowUp":
 					doUpKey(combo, altKey);
 					break;
 				default:
@@ -497,41 +496,6 @@ function(has, attribute, event, focus, initialise, shed, Widget, key, timers, aj
 					}
 			}
 			return false;
-		}
-
-		/**
-		 * Handles keydown events in a chatty combo: updates the datalist. This is a primitive effort compared
-		 * to using the input event.
-		 *
-		 * @function
-		 * @private
-		 * @param {Event} $event The keydown event.
-		 */
-		function lameInputEvent($event) {
-			var element = $event.currentTarget, keyCode = $event.keyCode, keyName,
-				KEY_NAME_RE = /^DOM_VK_/,
-				NUMPAD = "NUMPAD";
-			if (!$event.defaultPrevented) {
-				if (updateTimeout) {
-					timers.clearTimeout(updateTimeout);
-					updateTimeout = null;
-				}
-				CHAR_KEYS = CHAR_KEYS || [KeyEvent.DOM_VK_BACK_SPACE, KeyEvent.DOM_VK_SPACE, KeyEvent.DOM_VK_DELETE, KeyEvent.DOM_VK_SEMICOLON, KeyEvent.DOM_VK_EQUALS, KeyEvent.DOM_VK_MULTIPLY, KeyEvent.DOM_VK_ADD, KeyEvent.DOM_VK_SUBTRACT, KeyEvent.DOM_VK_DECIMAL, KeyEvent.DOM_VK_DIVIDE, KeyEvent.DOM_VK_COMMA, KeyEvent.DOM_VK_PERIOD, KeyEvent.DOM_VK_SLASH, KeyEvent.DOM_VK_BACK_QUOTE, KeyEvent.DOM_VK_OPEN_BRACKET, KeyEvent.DOM_VK_BACK_SLASH, KeyEvent.DOM_VK_CLOSE_BRACKET, KeyEvent.DOM_VK_QUOTE];
-
-				if (CHAR_KEYS.indexOf(keyCode) > -1) {
-					updateList(element);
-				} else if ((keyName = key.getLiteral(keyCode))) {
-					if (keyName.indexOf("+") > -1) {
-						keyName = keyName.split("+");
-						keyName = keyName[keyName.length - 1];
-					}
-					if ((keyName = keyName.replace(KEY_NAME_RE, ""))) {
-						if (keyName.length === 1 || keyName.indexOf(NUMPAD) === 0) {
-							updateList(element);
-						}
-					}
-				}
-			}
 		}
 
 		/**
@@ -654,11 +618,7 @@ function(has, attribute, event, focus, initialise, shed, Widget, key, timers, aj
 					// chatty ajax combos need a special input listener
 					if ((listbox = getListBox(combo)) && listbox.hasAttribute("data-wc-chat")) {
 						combo.classList.add(CLASS_CHATTY);
-						if (event.canCapture) {
-							event.add(element, "input", inputEvent);
-						} else {
-							event.add(element, "keydown", lameInputEvent);
-						}
+						event.add(element, "input", inputEvent);
 					}
 				}
 			}

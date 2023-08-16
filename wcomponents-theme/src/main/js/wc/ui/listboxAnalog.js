@@ -98,11 +98,14 @@ function(ariaAnalog, initialise, Widget, key, focus, getFilteredGroup, shed, tex
 			return result;
 		}
 
+		/**
+		 * Handle a keyboard event.
+		 * @param {KeyboardEvent} $event
+		 */
 		this.keydownEvent = function($event) {
 			var keyName,
 				PRINTABLE_RE = /[ -~]/,
-				KEY_NAME_RE = /^DOM_VK_/,
-				keyCode = $event.keyCode,
+				keyCode = $event.key,
 				target = $event.target,
 				listbox;
 			this.constructor.prototype.keydownEvent.call(this, $event);
@@ -110,9 +113,12 @@ function(ariaAnalog, initialise, Widget, key, focus, getFilteredGroup, shed, tex
 				return;
 			}
 
-			if ((keyName = key.getLiteral(keyCode)) &&
-					(keyName = keyName.replace(KEY_NAME_RE, "")) &&
-					keyName.length === 1 && PRINTABLE_RE.test(keyName)) {
+			/*
+				Here we are trying to determine if a printable character was pressed.
+				Using the Regular Expression restricts it to English, well ascii codes 32 to 126.
+				We could simply use the length = 1 check in to handle unicode characters too.
+			 */
+			if (keyCode.length === 1 && PRINTABLE_RE.test(keyCode)) {
 
 				/* printable char pressed: find the next matching option */
 				listbox = this.CONTAINER.findAncestor(target);

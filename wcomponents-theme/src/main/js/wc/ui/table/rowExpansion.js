@@ -276,22 +276,25 @@ function(toArray, attribute, event, focus, formUpdateManager, initialise, shed, 
 		 * Keydown event listener to operate collapsibles via the keyboard.
 		 * @function
 		 * @private
-		 * @param {Event} $event The keydown event.
+		 * @param {KeyboardEvent} $event The keydown event.
 		 */
 		function keydownEvent($event) {
-			var element, row;
 			if (event.defaultPrevented || $event.altKey || $event.ctrlKey || $event.metaKey) {
 				return;
 			}
-			if ((element = ROW_TRIGGER.findAncestor($event.target, tag.TD))) {
-				switch ($event.keyCode) {
-					case KeyEvent["DOM_VK_SPACE"]: // The control is a td with a role - some browsers do not have a default click from SPACE.
-					case KeyEvent["DOM_VK_RETURN"]:
+			const element = ROW_TRIGGER.findAncestor($event.target, tag.TD);
+			if (element) {
+				let row;
+				switch ($event.key) {
+					case "Space":
+					case " ": // The control is a td with a role - some browsers do not have a default click from SPACE.
+					case "Enter":
 						timers.setTimeout(event.fire, 0, element, "click");
 						$event.preventDefault();
 						break;
-					case KeyEvent["DOM_VK_LEFT"] :
-						if ((row = rowAnalog.ITEM.findAncestor(element, tag.TR)) && !shed.isDisabled(row)) {
+					case "ArrowLeft" :
+						row = rowAnalog.ITEM.findAncestor(element, tag.TR);
+						if (row && !shed.isDisabled(row)) {
 							rowAnalog.setFocusIndex(row);
 							focus.setFocusRequest(row);
 							$event.preventDefault();

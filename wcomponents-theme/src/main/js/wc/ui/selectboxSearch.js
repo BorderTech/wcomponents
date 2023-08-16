@@ -74,18 +74,21 @@ function(escapeRe, tag, uid, initialise, attribute, shed, event, group, i18n, ti
 			}
 		}
 
+		/**
+		 * Handle a keydown event
+		 * @param {KeyboardEvent} evt
+		 */
 		function keydownEvent(evt) {
-			var element = evt.target,
-				keyCode = evt.keyCode || evt.which,
-				search,
-				val;
+			const element = evt.target,
+				keyCode = evt.code;
+			let search, val;
 			/*
 			 * We handle some keys on keydown because:
 			 * BACKSPACE and DELETE do not trigger keypress event
 			 * SPACE does not trigger keypress in IE and Chrome when the activeElement is not
 			 * a form control (for example a span has focus).
 			 */
-			if (keyCode === KeyEvent.DOM_VK_DELETE || keyCode === KeyEvent.DOM_VK_BACK_SPACE) {
+			if (keyCode === "Delete" || keyCode === "Backspace") {
 				search = getSearchElement();
 				val = textContent.get(search);
 				textContent.set(search, val.substr(0, val.length - 1));
@@ -96,7 +99,7 @@ function(escapeRe, tag, uid, initialise, attribute, shed, event, group, i18n, ti
 				// we still queue a search so that we can return to a null/no value option if we backspace/delete to nothing
 				queueSearch(element, val);
 				evt.preventDefault();
-			} else if (keyCode === KeyEvent.DOM_VK_SPACE) {
+			} else if (keyCode === "Space") {
 				search = getSearchElement();
 				val = textContent.get(search);
 				if (NO_ENDS_WITH_STRING_RE.test(val)) {
@@ -109,7 +112,7 @@ function(escapeRe, tag, uid, initialise, attribute, shed, event, group, i18n, ti
 					textContent.set(search, val + " ");
 					queueSearch(element, textContent.get(search));
 				}
-			} else if (keyCode === KeyEvent.DOM_VK_RETURN) {
+			} else if (keyCode === "Enter") {
 				closeSearch();
 			}
 		}
@@ -119,40 +122,39 @@ function(escapeRe, tag, uid, initialise, attribute, shed, event, group, i18n, ti
 		 * list is OPEN (i.e. you focused it with the mouse). That means this WILL NOT WORK
 		 * in Chrome. Probably other webkit browsers affected too.
 		 */
+		/**
+		 *
+		 * @param {KeyboardEvent} evt
+		 */
 		function keypressEvent(evt) {
 			var element = evt.target,
-				keyCode = evt.keyCode || evt.which,
-				character,
 				search,
 				val;
 			// shiftkey lets user enter, for example <shift> + <5> to get
 			// percent symbol, keyCode is 37, same as left arrow, so we need to
 			// sniff shift key
-			if (keyCode > KeyEvent.DOM_VK_DOWN || evt.shiftKey) {
-				character = String.fromCharCode(keyCode);
-				if (ALLOWED.search(escapeRe(character.toLocaleLowerCase())) > -1) {
-					search = getSearchElement();
-					val = textContent.get(search);
-					textContent.set(search, val + character);
-					val = textContent.get(search);
-					if (val.length) {
-						if (shed.isHidden(search, true)) {
-							element.parentNode.insertBefore(search, element);
-							shed.show(search);
-						}
-						queueSearch(element, val);
+			if (ALLOWED.search(escapeRe(evt.key.toLocaleLowerCase())) > -1) {
+				search = getSearchElement();
+				val = textContent.get(search);
+				textContent.set(search, val + evt.key);
+				val = textContent.get(search);
+				if (val.length) {
+					if (shed.isHidden(search, true)) {
+						element.parentNode.insertBefore(search, element);
+						shed.show(search);
 					}
-					/*
-					 * If you preventDefault IE won't add its own typeahead behaviour, however
-					 * it can work to leave IE's own behaviour alongside our own.
-					 * This means when there is no match against our own algorithm IE will take
-					 * over and match the Nth item starting with the character typed N times.
-					 * Some users prefer this and will cry a lot if you take it out, they would
-					 * rather type "C" 20 times than type "CZ".  That's because some legacy systems
-					 * work this way.
-					 */
-					// evt.preventDefault();
+					queueSearch(element, val);
 				}
+				/*
+				 * If you preventDefault IE won't add its own typeahead behaviour, however
+				 * it can work to leave IE's own behaviour alongside our own.
+				 * This means when there is no match against our own algorithm IE will take
+				 * over and match the Nth item starting with the character typed N times.
+				 * Some users prefer this and will cry a lot if you take it out, they would
+				 * rather type "C" 20 times than type "CZ".  That's because some legacy systems
+				 * work this way.
+				 */
+				// evt.preventDefault();
 			}
 		}
 
@@ -163,7 +165,8 @@ function(escapeRe, tag, uid, initialise, attribute, shed, event, group, i18n, ti
 				event.add(element, "click", focusEvent);
 				event.add(element, "blur", closeSearch);
 				event.add(element, "keydown", keydownEvent);
-				event.add(element, "keypress", keypressEvent);
+				// event.add(element, "keypress", keypressEvent);
+				event.add(element, "keyup", keypressEvent);
 			}
 		}
 

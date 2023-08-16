@@ -408,7 +408,7 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		 * @function
 		 * @private
 		 * @param {String} [formId] The id of the WApplication (HTML FORM) to which the dialog belongs.
-		 * @returns {Promise} resolved with {Element} dialog The dialog element.
+		 * @returns {Promise<HTMLElement>} resolved with the dialog element.
 		 */
 		function buildDialog(formId) {
 			return new Promise(function(win, lose) {
@@ -473,12 +473,11 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		 *
 		 * @function
 		 * @private
-		 * @param {Element} element Not used here.
-		 * @param {documentFragment} docFragment The content of the AJAX response.
+		 * @param {HTMLElement} element Not used here.
+		 * @param {DocumentFragment} docFragment The content of the AJAX response.
 		 */
 		function preOpenSubscriber(element, docFragment) {
-			var removeShim = false,
-				dialog;
+			let removeShim = false;
 			if (docFragment.querySelector) {
 				if (docFragment.querySelector("#" + DIALOG_ID)) {
 					removeShim = true;
@@ -486,6 +485,7 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 			} else if (docFragment.getElementById && docFragment.getElementById(DIALOG_ID)) {
 				removeShim = true;
 			}
+			let dialog;
 			if (removeShim && (dialog = instance.getDialog()) && instance.isOpen(dialog)) {
 				modalShim.clearShim(dialog);
 			}
@@ -496,13 +496,13 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		 *
 		 * @function
 		 * @private
-		 * @param {Element} element The AJAX target element.
+		 * @param {HTMLElement} element The AJAX target element.
 		 */
 		function ajaxSubscriber(element) {
-			var content, dialog;
+			let content;
 
 			if (element && (content = instance.getContent()) && content.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_CONTAINED_BY) {
-				dialog = instance.getDialog();
+				const dialog = instance.getDialog();
 				// if we are refreshing inside the dialog we may need to reposition
 				if (instance.isOpen(dialog)) {  // it damn well better be
 					if (!(dialog.style.width && dialog.style.height && hasBusyContent())) {
@@ -523,6 +523,7 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		 * @param {int} [obj.width] the dialog width
 		 * @param {int} [obj.height] the dialog height
 		 * @param {int} [obj.topOffsetPC] the offset from the top of the dialog
+		 * @param {boolean} animate If animation should be enabled.
 		 */
 		function setPositionBySize(element, obj, animate) {
 			try {
@@ -549,13 +550,12 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		 * @param {int} [height] The height of the dialog.
 		 */
 		this.reposition = function (width, height, animate) {
-			var dialog;
-
 			if (repositionTimer) {
 				timers.clearTimeout(repositionTimer);
 				repositionTimer = null;
 			}
-			if (!(dialog = this.getDialog())) {
+			const dialog = this.getDialog();
+			if (!dialog) {
 				return;
 			}
 
@@ -571,7 +571,7 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		 * @returns {boolean} true if there is a dialog to hide.
 		 */
 		this.close = function () {
-			var dialog = this.getDialog();
+			const dialog = this.getDialog();
 			if (dialog && this.isOpen(dialog)) {
 				shed.hide(dialog);
 				return true;
@@ -633,7 +633,7 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		 * @param {Event} $event The show event.
 		 */
 		function shedShowSubscriber($event) {
-			var element = $event.target;
+			const element = $event.target;
 			if (element && element === instance.getDialog()) {
 				focus.focusFirstTabstop(element);
 			}
@@ -647,9 +647,8 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		 * @param {Event} $event a click event.
 		 */
 		function clickEvent($event) {
-			var dialog;
 			if (!$event.defaultPrevented && CLOSE_WD.findAncestor($event.target)) {
-				dialog = document.getElementById(DIALOG_ID);
+				const dialog = document.getElementById(DIALOG_ID);
 				if (dialog && instance.isOpen(dialog)) {
 					instance.close();
 					$event.preventDefault();
@@ -674,8 +673,8 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		 *
 		 * @function
 		 * @private
-		 * @param {Element} element The target element.
-		 * @param {Elelemt} dialog A dialog frame.
+		 * @param {HTMLElement} element The target element.
+		 * @param {HTMLElement} dialog A dialog frame.
 		 * @param {Boolean} hasShift Was teh SHIFT key down during the event?
 		 * @returns {Boolean} Returns true if we are refocussing the dialog (due to trying to TAB out of it).
 		 */
@@ -698,22 +697,21 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		 * and http://www.w3.org/TR/wai-aria-practices/#dialog_nonmodal.
 		 * @function
 		 * @private
-		 * @param {Event} $event A keydown event.
+		 * @param {KeyboardEvent} $event A keydown event.
 		 */
 		function keydownEvent($event) {
-			var element = $event.target,
-				dialog,
-				result = false,
-				keyCode = $event.keyCode;
+			const element = $event.target;
+			let dialog;
 			if (!$event.defaultPrevented && (dialog = document.getElementById(DIALOG_ID)) && instance.isOpen(dialog)) {
-				switch (keyCode) {
-					case KeyEvent.DOM_VK_ESCAPE:
+				let result = false;
+				switch ($event.code) {
+					case "Escape":
 						result = instance.close();
 						break;
-					case KeyEvent.DOM_VK_TAB:
+					case "Tab":
 						result = tabKeyHelper(element, dialog, $event.shiftKey);
 						break;
-					case KeyEvent.DOM_VK_F6:
+					case "F6":
 						if (!isModalDialog(dialog) && openerId) {
 							result = true;
 							focus.setFocusRequest(openerId);
@@ -765,7 +763,7 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		 * Component initialisation.
 		 * @function module:wc/ui/dialogFrame.initialise
 		 * @public
-		 * @param {Element} element The element being initialised, usually document.body.
+		 * @param {HTMLElement} element The element being initialised, usually document.body.
 		 */
 		this.initialise = function (element) {
 			event.add(element, "click", clickEvent);
@@ -798,7 +796,7 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		 * Get a dialog if one exists.
 		 * @function  module:wc/ui/dialogFrame.getDialog
 		 * @public
-		 * @returns {Element} The dialog.
+		 * @returns {HTMLElement} The dialog.
 		 */
 		this.getDialog = function () {
 			return document.getElementById(DIALOG_ID);
@@ -809,10 +807,10 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		 *
 		 * @function module:wc/ui/dialogFrame.getContent
 		 * @public
-		 * @returns {Element} The content wrapper if present.
+		 * @returns {HTMLElement} The content wrapper if present.
 		 */
 		this.getContent = function () {
-			var dialog = this.getDialog();
+			const dialog = this.getDialog();
 			if (dialog) {
 				return DIALOG_CONTENT_WRAPPER.findDescendant(dialog);
 			}
