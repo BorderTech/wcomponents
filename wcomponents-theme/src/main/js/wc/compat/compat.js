@@ -23,46 +23,9 @@ define(["wc/has"], function(has) {
 	var result = ["lib/dojo/sniff"];
 
 	(function(addtest) {
-		// This block taken from tests from hasjs project. Didn't want to load the whole script.
-		addtest("bug-getelementsbyname", function(g, d) {
-			var buggy,
-				script = d.createElement("script"),
-				id = "__test_" + Number(new Date()),
-				root = d.getElementsByTagName("script")[0].parentNode;
-
-			script.id = id;
-			script.type = "text/javascript";
-			root.insertBefore(script, root.firstChild);
-			buggy = d.getElementsByName(id)[0] === script;
-			root.removeChild(script);
-			return buggy;
-		});
-
-		// true for IE < 9
-		// http://msdn.microsoft.com/en-us/library/ms536389(VS.85).aspx vs
-		// http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-2141741547
-		addtest("dom-create-attr", function(g, d) {
-			var input,
-				supported = false;
-			try {
-				input = d.createElement("<input type='hidden' name='hasjs'>");
-				supported = input.type === "hidden" && input.name === "hasjs";
-			} catch (e) {
-				// Do nothing
-			}
-			return supported;
-		});
-	})(has.add);
-
-	(function(addtest) {
-
-		addtest("ie-compat-mode", function(g) {
-			var isCompatModeRe = /MSIE 7\..+Trident\/\d/;
-			return isCompatModeRe.test(g.navigator.userAgent);
-		});
 
 		addtest("activex", function(g) {
-			return !!("ActiveXObject" in g);
+			return ("ActiveXObject" in g);
 		});
 
 		addtest("flash", function(g) {
@@ -79,14 +42,6 @@ define(["wc/has"], function(has) {
 			}
 			hasFlash = hasFlash || g.navigator && g.navigator.plugins && g.navigator.plugins["Shockwave Flash"];
 			return hasFlash;
-		});
-
-		addtest("bug-button-value", function(g, d) {
-			var button, value = "hi";
-			button = d.createElement("button");
-			button.value = value;
-			button.innerHTML = "<span>howdy</span>";
-			return button.value !== value;
 		});
 
 		addtest("formdata", function(g) {
@@ -128,10 +83,6 @@ define(["wc/has"], function(has) {
 		addtest("dom-canvas", function(g, d) {
 			var e = d.createElement("canvas");
 			return !!(e.getContext && e.getContext("2d"));
-		});
-
-		addtest("promise-es6", function(g) {
-			return ("Promise" in g);
 		});
 
 		addtest("object-assign", function(g) {
@@ -201,21 +152,6 @@ define(["wc/has"], function(has) {
 	// as little as possible
 
 	// CONDITIONALLY FETCH
-	if (!has("string-repeat")) {
-		result.push("wc/ecma6/String.prototype.repeat");
-	}
-
-	if (!has("object-assign")) {
-		result.push("wc/ecma6/Object.assign");
-	}
-
-	if (!has("promise-es6")) {
-		result.push("Promise");
-	}
-
-	if (!(has("native-console") && has("native-console-debug") && has("native-console-table") && has("native-console-group"))) {
-		result.push("wc/compat/console");
-	}
 
 	/*
 	 * The polyfill for global performance gets loaded up too late to attach load event listeners.

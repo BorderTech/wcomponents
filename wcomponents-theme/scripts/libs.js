@@ -33,9 +33,6 @@ let libs = {
 	mustache: {
 		dest: "mustache"
 	},
-	"promise-polyfill/dist/polyfill.min.js": {
-		dest: "Promise.js"
-	},
 	"axe-core/axe.min.js": {
 		dest: "axe.min.js"
 	},

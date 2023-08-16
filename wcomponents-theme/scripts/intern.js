@@ -22,7 +22,6 @@ let requireJsOptions = {
 		ccv: `${scriptDir}/lib/ccv`,
 		face: `${scriptDir}/lib/face`,
 		"lib/sprintf": `${scriptDir}/lib/sprintf.min`,
-		Promise: `${scriptDir}/lib/Promise`,
 		compat: `${scriptDir}/wc/compat`,
 		translation: `resource/translation`,
 		"intern/chai": `/${testRootPath}/resources/intern-chai`,
