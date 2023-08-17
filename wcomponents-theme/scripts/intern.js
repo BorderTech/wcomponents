@@ -19,8 +19,6 @@ let requireJsOptions = {
 		wc: `${scriptDir}/wc`,
 		lib: `${scriptDir}/lib`,
 		dojo: `${scriptDir}/lib/dojo`,
-		ccv: `${scriptDir}/lib/ccv`,
-		face: `${scriptDir}/lib/face`,
 		"lib/sprintf": `${scriptDir}/lib/sprintf.min`,
 		compat: `${scriptDir}/wc/compat`,
 		translation: `resource/translation`,

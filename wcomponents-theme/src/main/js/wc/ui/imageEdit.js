@@ -1,6 +1,6 @@
-define(["wc/mixin", "wc/config", "wc/dom/Widget", "wc/dom/event", "wc/timers", "wc/ui/prompt",
-	"wc/i18n/i18n", "lib/fabric", "wc/ui/dialogFrame", "wc/template", "wc/ui/ImageCapture", "wc/ui/ImageUndoRedo", "wc/file/size", "wc/file/util"],
-function(mixin, wcconfig, Widget, event, timers, prompt, i18n, fabric, dialogFrame, template, ImageCapture, ImageUndoRedo, fileSize, fileUtil) {
+define(["wc/has", "wc/mixin", "wc/config", "wc/dom/Widget", "wc/dom/event", "wc/timers", "wc/ui/prompt",
+	"wc/i18n/i18n", "lib/fabric", "wc/ui/dialogFrame", "wc/ui/ImageCapture", "wc/ui/ImageUndoRedo", "wc/file/size", "wc/file/util"],
+function(has, mixin, wcconfig, Widget, event, timers, prompt, i18n, fabric, dialogFrame, ImageCapture, ImageUndoRedo, fileSize, fileUtil) {
 	var imageEdit, timer, imageCapture;
 
 	ImageEdit.prototype.renderCanvas = function(callback) {
@@ -23,7 +23,6 @@ function(mixin, wcconfig, Widget, event, timers, prompt, i18n, fabric, dialogFra
 		format: "png",  // png or jpeg
 		quality: 1,  // only if format is jpeg
 		multiplier: 1,
-		face: false,
 		rotate: true,
 		zoom: true,
 		move: true,
@@ -60,7 +59,6 @@ function(mixin, wcconfig, Widget, event, timers, prompt, i18n, fabric, dialogFra
 	function ImageEdit() {
 
 		var inited,
-			TEMPLATE_NAME = "imageEdit.xml",
 			overlayUrl,
 			undoRedo,
 			registeredIds = {},
@@ -304,12 +302,7 @@ function(mixin, wcconfig, Widget, event, timers, prompt, i18n, fabric, dialogFra
 						};
 					}
 				};
-			if (config.face) {
-				require(["wc/ui/facetracking"], function(facetracking) {
-					callbacks.validate = facetracking.getValidator(config);
-					getEditor(config, callbacks, file).then(gotEditor);
-				});
-			} else if (config.redact) {
+			if (config.redact) {
 				require(["wc/ui/imageRedact"], function(imageRedact) {
 					config.redactor = imageRedact;
 					getEditor(config, callbacks, file).then(function(editor) {
@@ -555,7 +548,7 @@ function(mixin, wcconfig, Widget, event, timers, prompt, i18n, fabric, dialogFra
 			callbacks.render = renderEditor;
 
 			function renderEditor(contentContainer) {
-				var result = new Promise(function (win, lose) {
+				return new Promise(function (win, lose) {
 					var container = document.body.appendChild(document.createElement("div")),
 						editorProps = {
 							style: {
@@ -565,7 +558,6 @@ function(mixin, wcconfig, Widget, event, timers, prompt, i18n, fabric, dialogFra
 								btnclass: "wc_btn_icon"
 							},
 							feature: {
-								face: false,
 								rotate: config.rotate,
 								zoom: config.zoom,
 								move: config.move,
@@ -608,25 +600,111 @@ function(mixin, wcconfig, Widget, event, timers, prompt, i18n, fabric, dialogFra
 						return getTranslations(editorProps).then(function() {
 							container.className = "wc_img_editor";
 							container.setAttribute("data-wc-editor", config.id);
-							template.process({
-								source: TEMPLATE_NAME,
-								loadSource: true,
-								target: container,
-								context: editorProps,
-								callback: function() {
-									done(container);
-								}
-							});
+							timers.setTimeout(() => {
+								container.innerHTML = getDialogContent(editorProps);
+								done(container);
+							}, 0);
 							return container;
 						}, lose);
 					} catch (ex) {
 						lose(ex);
 					}
 				});
-				return result;  // a promise
 			}  // end "renderEditor"
 			return getEditorContext(config, callbacks);
 		}
+
+		function getDialogContent(context) {
+			const featureFilter = name => context.feature[name];
+			return `
+				<div class="wc-row">
+					<div class="wc_img_editpane wc-column">
+						<div class="wc_img_canvas">
+							<canvas id="wc_img_canvas"></canvas>
+						</div>
+					</div>
+					<div class="wc_img_cap wc-column" style="height: ${context.style.height}px">
+						<div id="wc_img_video_container"></div>
+						<button title="${context.imgedit_message_snap}" type="button" class="wc_btn_snap ${context.style.btnclass}" name="snap"><i aria-hidden="true" class="fa fa-camera"></i><span class="${context.style.textclass}">${context.imgedit_action_snap}</span></button>
+					</div>
+					<div class="wc_img_nocap wc-column">
+						<p>${context.imgedit_message_nocapture}</p>
+					</div>
+					<div class="wc_img_controls wc-column">
+						${controlsTemplate(context, ["rotate", "zoom", "move", "redact", "reset"].filter(featureFilter))}
+						<div>
+							${controlsTemplate(context, ["undo", "cancel", "save"].filter(featureFilter))}
+						</div>
+					</div>
+				</div>`;
+		}
+
+		/**
+		 *
+		 * @param context
+		 * @param {String[]} features
+		 */
+		function controlsTemplate(context, features) {
+			const templates = {
+				rotate: `
+			<fieldset>
+				<legend>${context.imgedit_rotate}</legend>
+				<button title="${context.imgedit_message_rotate_left90}" type="button" class="wc_btn_anticlock90 ${context.style.btnclass}" name="anticlock90"><i aria-hidden="true" class="fa fa-step-backward"></i><span class="${context.style.textclass}">${context.imgedit_rotate_left90}</span></button>
+				<button title="${context.imgedit_message_rotate_left}" type="button" class="wc_btn_anticlock ${context.style.btnclass}" name="anticlock"><i aria-hidden="true" class="fa fa-undo"></i><span class="${context.style.textclass}">${context.imgedit_rotate_left}</span></button>
+				<button title="${context.imgedit_message_rotate_right}" type="button" class="wc_btn_clock ${context.style.btnclass}" name="clock"><i aria-hidden="true" class="fa fa-repeat"></i><span class="${context.style.textclass}">${context.imgedit_rotate_right}</span></button>
+				<button title="${context.imgedit_message_rotate_right90}" type="button" class="wc_btn_clock90 ${context.style.btnclass}" name="clock90"><i aria-hidden="true" class="fa fa-step-forward"></i><span class="${context.style.textclass}">${context.imgedit_rotate_right90}</span></button>
+			</fieldset>`,
+				zoom: `
+			<fieldset>
+				<legend>${context.imgedit_zoom}</legend>
+				<button title="${context.imgedit_message_zoom_out}" type="button" class="wc_btn_out ${context.style.btnclass}" name="out"><i aria-hidden="true" class="fa fa-search-minus"></i><span class="${context.style.textclass}">${context.imgedit_zoom_out}</span></button>
+				<button title="${context.imgedit_message_zoom_in}" type="button" class="wc_btn_in ${context.style.btnclass}" name="in"><i aria-hidden="true" class="fa fa-search-plus"></i><span class="${context.style.textclass}">${context.imgedit_zoom_in}</span></button>
+			</fieldset>`,
+				move: `
+			<fieldset class="wc_img_buttons">
+				<legend>${context.imgedit_move}</legend>
+				<button title="${context.imgedit_message_move_up}" type="button" class="wc_btn_up ${context.style.btnclass}" name="up"><i aria-hidden="true" class="fa fa-caret-up"></i><span class="${context.style.textclass}">${context.imgedit_move_up}</span></button>
+				<button title="${context.imgedit_message_move_left}" type="button" class="wc_btn_left ${context.style.btnclass}" name="left"><i aria-hidden="true" class="fa fa-caret-left"></i><span class="${context.style.textclass}">${context.imgedit_move_left}</span></button>
+				<button title="${context.imgedit_message_move_center}" type="button" class="wc_btn_center ${context.style.btnclass}" name="center"><i aria-hidden="true" class="fa fa-bullseye"></i><span class="${context.style.textclass}">${context.imgedit_move_center}</span></button>
+				<button title="${context.imgedit_message_move_right}" type="button" class="wc_btn_right ${context.style.btnclass}" name="right"><i aria-hidden="true" class="fa fa-caret-right"></i><span class="${context.style.textclass}">${context.imgedit_move_right}</span></button>
+				<button title="${context.imgedit_message_move_down}" type="button" class="wc_btn_down ${context.style.btnclass}" name="down"><i aria-hidden="true" class="fa fa-caret-down"></i><span class="${context.style.textclass}">${context.imgedit_move_down}</span></button>
+			</fieldset>`,
+				redact: `
+			<fieldset>
+				<legend>${context.imgedit_redact}</legend>
+				<label>${context.imgedit_action_redact}
+					<input title="${context.imgedit_message_redact}" type="checkbox" name="redact"/>
+				</label>
+			</fieldset>
+		`,
+				capture: `
+			<fieldset class="wc_img_capture">
+				<legend>${context.imgedit_capture}</legend>
+				<button title="${context.imgedit_message_camera}" type="button" class="wc_btn_camera ${context.style.btnclass}" name="camera"><i aria-hidden="true" class="fa fa-video-camera"></i><span class="${context.style.textclass}">${context.imgedit_action_camera}</span></button>
+			</fieldset>`,
+				reset: `
+			<div>
+				<button title="${context.imgedit_message_reset}" type="button" name="reset">${context.imgedit_action_reset}</button>
+			</div>`,
+				undo: `
+			<button title="${context.imgedit_message_undo}" type="button" class="wc_btn_undo ${context.style.btnclass}" name="undo">
+				<i aria-hidden="true" class="fa fa-reply"></i><span class="${context.style.textclass}">${context.imgedit_action_undo}</span>
+			</button>
+			<button title="${context.imgedit_message_redo}" type="button" class="wc_btn_redo ${context.style.btnclass}" name="redo">
+				<i aria-hidden="true" class="fa fa-share"></i><span class="${context.style.textclass}">${context.imgedit_action_redo}</span>
+			</button>`,
+				cancel: `
+			<button title="${context.imgedit_message_cancel}" type="button" class="wc_btn_cancel ${context.style.btnclass}" name="cancel">
+				<i aria-hidden="true" class="fa fa-trash"></i><span class="${context.style.textclass}">${context.imgedit_action_cancel}</span>
+			</button>`,
+				save: `
+			<button title="${context.imgedit_message_save}" type="button" class="wc_btn_save ${context.style.btnclass}" name="save">
+				<i aria-hidden="true" class="fa fa-floppy-o"></i><span class="${context.style.textclass}">${context.imgedit_action_save}</span>
+			</button>`
+			};
+			return features.map(feature => templates[feature]).join("\n");
+		}
+
 
 		function getTranslations(obj) {
 			var messages = ["imgedit_action_camera", "imgedit_action_cancel", "imgedit_action_redact",
@@ -644,7 +722,6 @@ function(mixin, wcconfig, Widget, event, timers, prompt, i18n, fabric, dialogFra
 				var result = obj || {};
 				messages.forEach(function(message, idx) {
 					result[message] = translations[idx];
-
 				});
 				return result;
 			});
