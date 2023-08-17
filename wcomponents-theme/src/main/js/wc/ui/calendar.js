@@ -10,7 +10,6 @@ define(["wc/dom/attribute",
 	"wc/dom/event",
 	"wc/dom/focus",
 	"wc/dom/shed",
-	"wc/dom/tag",
 	"wc/dom/viewportCollision",
 	"wc/dom/getBox",
 	"wc/dom/Widget",
@@ -19,11 +18,10 @@ define(["wc/dom/attribute",
 	"wc/ui/dateField",
 	"wc/dom/initialise",
 	"wc/timers",
-	"wc/template",
 	"wc/config"],
 function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthName, today, interchange, event,
-	focus, shed, tag, viewportCollision, getBox, Widget, i18n, isNumeric, dateField, initialise,
-	timers, template, wcconfig) {
+	focus, shed, viewportCollision, getBox, Widget, i18n, isNumeric, dateField, initialise,
+	timers, wcconfig) {
 	"use strict";
 
 	/**
@@ -32,7 +30,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 	 * @private
 	 */
 	function Calendar() {
-		var DATE_KEY = "date_key",
+		const  DATE_KEY = "date_key",
 			CONTAINER_ID = "wc_calbox",
 			DAY_CONTAINER_ID = "wc_caldaybox",
 			MONTH_SELECT_ID = "wc_calmonth",
@@ -48,12 +46,8 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			},
 			LAUNCHER = dateField.getLaunchWidget(),
 			PICKABLE = new Widget("button", CLASS.DATE_BUTTON),
-			ROW,
 			CAL_BUTTON = new Widget("button", "wc_wdf_mv"),
 			CLOSE_BUTTON = new Widget("button", "wc_wdf_cls"),
-			isOpening = false,
-			yearChangedTimeout,
-			refocusId,
 			MIN_ATTRIB = "min",
 			MAX_ATTRIB = "max",
 			conf = wcconfig.get("wc/ui/calendar", {
@@ -62,6 +56,60 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			}),
 			INITED_ATTRIB = "wc/ui/calendar.BOOTSTAPPED";
 
+		let isOpening = false,
+			ROW,
+			yearChangedTimeout,
+			refocusId;
+
+		function calendarTemplate(context) {
+			const currentMonth = today.get().getMonth();
+			const monthOption = (name, idx) => `<option ${currentMonth === idx ? "selected" : ""}>${name}</option>`;
+			/*
+			 * A template helper that takes a day name and returns the shortest possible meaningful
+			 * abbreviation for use when building a month-view calendar as each "day of week" column header.
+			 * For example in English this suffices: M, T, W, T, F, S, S (even though S and S are theoretically
+			 * ambiguous we can tell by their relative position what they are, same with T and T).
+			 * As long as we aren't working with a language where every day of the week starts with the same
+			 * letter we're golden.
+			 */
+			const dayCol = (name) => `<th><abbr title="${name}">${name.charAt(0)}</abbr></th>`;
+
+			return `
+			<div class="wc-row">
+				<div class="wc-column">
+					<select id="${MONTH_SELECT_ID}" title="${context.monthLabel}"><!-- DON'T GIVE NAME! -->
+						${context.monthName ? context.monthName.map(monthOption).join("\n") || "" : ""}
+					</select>
+					<input id="${YEAR_ELEMENT_ID}" value="${context.fullYear}" autocomplete="off" type="number" title="${context.yearLabel}" min="1000" max="9999"/><!-- DON'T GIVE NAME! -->
+				</div>
+				<div class="wc-column">
+				<button type="button" class="wc_wdf_mv wc_btn_icon wc-invite" value="-1" title="${context.lastMonth}"><i aria-hidden="true" class="fa fa-calendar-minus-o"></i></button>
+					<button type="button" class="wc_wdf_mv wc_btn_icon wc-invite" value="t" title="${context.today}"><i aria-hidden="true" class="fa fa-calendar-o"></i></button>
+					<button type="button" class="wc_wdf_mv wc_btn_icon wc-invite" value="1" title="${context.nextMonth}"><i aria-hidden="true" class="fa fa-calendar-plus-o"></i></button>
+				</div>
+				<div class="wc-column">
+					<button type="button" class="wc_wdf_cls wc_btn_icon wc-invite" title="${context.closeLabel}"><i aria-hidden="true" class="fa fa-calendar-times-o"></i></button>
+				</div>
+			</div>
+			<table id="wc_calendar" cellpadding="0" cellspacing="0" border="0">
+				<thead>
+					<tr>
+						${context.dayName ? context.dayName.map(dayCol).join("\n") || "" : ""}
+					</tr>
+				</thead>
+				<tbody id="${DAY_CONTAINER_ID}">
+					${`<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>`.repeat(6)}
+				</tbody>
+			</table>`;
+		}
 
 		function findMonthSelect() {
 			return document.getElementById(MONTH_SELECT_ID);
@@ -72,10 +120,9 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		}
 
 		function resetMonthPickerOptions(disable) {
-			var monthSelect = findMonthSelect(),
-				i;
+			const monthSelect = findMonthSelect();
 			if (monthSelect && monthSelect.options && monthSelect.options.length) {
-				for (i = 0; i < monthSelect.options.length; ++i) {
+				for (let i = 0; i < monthSelect.options.length; ++i) {
 					if (disable) {
 						shed.disable(monthSelect.options[i], true);
 					} else {
@@ -86,11 +133,9 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		}
 
 		function getMinMaxMonthDay(input, isMax, isDay) {
-			var constraint,
-				xfrObj,
-				defaultVal = -1,
-				what = (isDay ? "day" : "month"),
-				attrib = (isMax ? MAX_ATTRIB : MIN_ATTRIB), result;
+			let constraint, result, defaultVal = -1;
+			const what = (isDay ? "day" : "month"),
+				attrib = (isMax ? MAX_ATTRIB : MIN_ATTRIB);
 
 			if (isMax) {
 				defaultVal = isDay ? 32 : 12;
@@ -99,7 +144,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				// nothing to do
 				return defaultVal;
 			}
-			xfrObj = interchange.toValues(constraint);
+			const xfrObj = interchange.toValues(constraint);
 			result = xfrObj[what];
 
 			return (isDay ? (result * 1) : (result - 1));
@@ -118,8 +163,8 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			// DOWN  7 days after
 			// LEFT  1 day before
 			// RIGHT 1 day after
-			var days = PICKABLE.findDescendants(document.getElementById(DAY_CONTAINER_ID)),
-				i = days.length;
+			const days = PICKABLE.findDescendants(document.getElementById(DAY_CONTAINER_ID));
+			let i = days.length;
 			while (i--) {
 				if (days[i] === currentElement) {
 					break;
@@ -152,7 +197,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @returns number or NaN if the input is not numeric
 		 */
 		function getYearValueAsNumber(element) {
-			var result = element.value.trim();
+			let result = element.value.trim();
 			if (result && isNumeric(result)) {
 				result = parseInt(result, 10);
 			} else {
@@ -165,7 +210,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * check if the month or year was changed, then rebuild calendar
 		 */
 		function refresh() {
-			var yearField = findYearField(),
+			const yearField = findYearField(),
 				input = getInputForCalendar(),
 				limit = getLimits(yearField, input),
 				year = getYearValueAsNumber(yearField);
@@ -173,9 +218,8 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			// ignore invalid years
 			if (!isNaN(year)) {
 				retrieveDate(function(current) {
-					var month, newDate;
-					newDate = setYear(current, year);  // YEAR
-					month = setMonth(newDate, year, limit);  // MONTH
+					const newDate = setYear(current, year);  // YEAR
+					const month = setMonth(newDate, year, limit);  // MONTH
 					setDay(current, newDate, year, month, limit);  // DAY
 
 					setDate(newDate, false);
@@ -217,7 +261,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @function
 		 */
 		function setMonth(date, year, limit) {
-			var monthSelect = findMonthSelect(),
+			const monthSelect = findMonthSelect(),
 				month = monthSelect.selectedIndex;
 			if (limit.yearMin === year || limit.yearMax === year) {
 				if (limit.yearMin === year) {
@@ -250,8 +294,8 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		function setDay(current, date, year, month, limit) {
 			// check if the date was rolled forward
 			// this can happen if we go from, say, 31 march back to feb
-			var days = current.getDate(),
-				daysMax = daysInMonth(date.getFullYear(), date.getMonth() + 1);
+			let days = current.getDate();
+			const daysMax = daysInMonth(date.getFullYear(), date.getMonth() + 1);
 
 			if (limit.yearMin === year || limit.yearMax === year) {
 				if (limit.monthMin === month) {
@@ -278,11 +322,11 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @param {Element} yearElement The input element holding the year.
 		 */
 		function yearChanged(yearElement) {
-			var min = yearElement.getAttribute(MIN_ATTRIB) || conf.min,
+			const min = yearElement.getAttribute(MIN_ATTRIB) || conf.min,
 				max = yearElement.getAttribute(MAX_ATTRIB) || conf.max;
 			timers.clearTimeout(yearChangedTimeout);
 			yearChangedTimeout = timers.setTimeout(function() {
-				var value = getYearValueAsNumber(yearElement);
+				const value = getYearValueAsNumber(yearElement);
 				if (!isNaN(value) && value >= min && value <= max) {
 					yearElement.value = value;
 					refresh();
@@ -298,12 +342,12 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * in order to bootstrap the field.
 		 */
 		function hideCalendar(ignoreFocusReset) {
-			var cal = getCal(),
-				input;
+			const cal = getCal();
 
 			// touching = null;
 			if (cal && !shed.isHidden(cal, true)) {
 				// focus the dateField if required
+				let input;
 				if (!ignoreFocusReset && (input = getInputForCalendar(cal))) {
 					refocusId = input.id;
 				} else {
@@ -428,44 +472,18 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				lastMonth: i18n.get("datefield_lastMonth"),
 				today: i18n.get("datefield_today"),
 				nextMonth: i18n.get("datefield_nextMonth"),
-				closeLabel: i18n.get("datefield_close"),
-				dayColHeader: dayColHeader
+				closeLabel: i18n.get("datefield_close")
 			};
 
 			const container = document.createElement("div");
 			container.id = CONTAINER_ID;
 			container.setAttribute("role", "dialog");
 			document.body.appendChild(container);
-
-			template.process({
-				source: "wc.ui.dateField.calendar.html",
-				loadSource: true,
-				target: container,
-				context: calendarProps,
-				callback: function() {
-					document.getElementById(MONTH_SELECT_ID).selectedIndex = _today.getMonth();
-					event.add(container, "keydown", _calendarKeydownEvent);
-					event.add(findMonthSelect(), "change", monthChangeEvent);
-					event.add(findYearField(), "change", yearChangeEvent);
-					callback(container);
-				}
-			});
-		}
-
-		/*
-		 * A template helper that takes a dayname and returns the shortest possible meaningful
-		 * abbreviation for use when building a month-view calendar as each "day of week" column header.
-		 * For example in English this suffices: M, T, W, T, F, S, S (even though S and S are theoretically
-		 * ambiguous we can tell by their relative position what they are, same with T and T).
-		 * As long as there is no language where every day of the week starts with the same letter we're golden.
-		 */
-		function dayColHeader() {
-			return function(text, render) {
-				if (text && text.length) {
-					return render(text)[0];
-				}
-				return render(text);
-			};
+			container.innerHTML = calendarTemplate(calendarProps);
+			event.add(container, "keydown", _calendarKeydownEvent);
+			event.add(findMonthSelect(), "change", monthChangeEvent);
+			event.add(findYearField(), "change", yearChangeEvent);
+			callback(container);
 		}
 
 		/**
@@ -481,7 +499,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @param {function} callback Called with the calendar DOM element.
 		 */
 		function getOrCreateCal(callback) {
-			var cal = getCal();
+			const cal = getCal();
 			if (cal) {
 				callback(cal);
 			} else {
@@ -494,9 +512,9 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 */
 		function retrieveDate(callback) {
 			getOrCreateCal(function(cal) {
-				var dateObj, millis = attribute.get(cal, DATE_KEY);
+				const millis = attribute.get(cal, DATE_KEY);
 				if (millis || millis === 0) {
-					dateObj = new Date(millis);
+					const dateObj = new Date(millis);
 					callback(dateObj);
 				} else {
 					callback(null);
@@ -506,9 +524,8 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 
 
 		function getInputForCalendar($cal) {
-			var cal = ($cal || getCal()),
-				inputId,
-				result;
+			const cal = ($cal || getCal());
+			let inputId, result;
 			if (cal && (inputId = cal.getAttribute(CONTROL_ATTRIBUTE))) {
 				result = document.getElementById(inputId);
 			}
@@ -561,8 +578,8 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				endDate = copy(_date);
 				addDays(34, endDate);
 
-				tbody = cal.getElementsByTagName(tag.TBODY)[0];
-				weeks = tbody.getElementsByTagName(tag.TR);
+				tbody = cal.querySelector("tbody");
+				weeks = tbody.querySelectorAll("tr");
 				monthEnd = false;
 				inMonth = false;
 
@@ -637,7 +654,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 						shed.show(weeks[i]);
 					}
 
-					days = weeks[i].getElementsByTagName(tag.TD);
+					days = weeks[i].querySelectorAll("td");
 
 					// build each day
 					for (j = 0; j < days.length; j++) {
@@ -694,13 +711,15 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 
 
 		function setMinMaxYear(input) {
-			var year, max, min, xfrObj;
+			let max, min;
 
 			if (!(input && ((max = input.getAttribute(MAX_ATTRIB)) || (min = input.getAttribute(MIN_ATTRIB))))) {
 				// nothing to do
 				return;
 			}
-			if ((year = document.getElementById(YEAR_ELEMENT_ID))) {
+			const year = findYearField();
+			if (year) {
+				let xfrObj;
 				if (min) {
 					xfrObj = interchange.toValues(min);
 					if (xfrObj.year) {
@@ -729,10 +748,8 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 */
 		function show(element) {
 			getOrCreateCal(function(cal) {
-				var input = element.value,
-					date,
-					selectDate = false,
-					constrained;
+				let input = element.value,
+					selectDate = false;
 				cal.setAttribute(CONTROL_ATTRIBUTE, input);
 
 				// get the date to use as the default. If there is a date in the input we use that,
@@ -740,13 +757,14 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				input = document.getElementById(input);
 				setMinMaxYear(input);
 
-				date = dateField.getValue(input);
+				let date = dateField.getValue(input);
 				if (date) {
 					date = interchange.toDate(date);
 					selectDate = true;
 				}
 				if (!date) {
 					date = new Date();
+					let constrained;
 					if ((constrained = input.getAttribute(MIN_ATTRIB)) && (constrained = interchange.toDate(constrained))) {
 						if (getDifference(constrained, date, false) > 0) {
 							date = constrained;
@@ -783,10 +801,9 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @param {HTMLElement} cal the calendar.
 		 */
 		function detectCollision(cal) {
-			var collision = viewportCollision(cal),
-				initiallyCollideSouth = collision.s > 0,
-				initiallyCollideWest = collision.w < 0,
-				box, left, top;
+			let collision = viewportCollision(cal);
+			const initiallyCollideSouth = collision.s > 0,
+				initiallyCollideWest = collision.w < 0;
 
 			/*
 			 * NOTE: default open is below input field and lined up at the right edge of the combo so we do not need to
@@ -794,7 +811,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			 * it is either fully in viewport OR touches the left edge of the viewport leaving a horizontal scroll.
 			 */
 			if (initiallyCollideSouth) {
-				top = cal.offsetTop;
+				const top = cal.offsetTop;
 				if (!isNaN(top)) {
 					cal.style.top = (top - collision.s) + "px";
 				}
@@ -803,8 +820,8 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				cal.classList.add(CLASS.WEST);
 				collision = viewportCollision(cal);
 				if (collision.e > 0) {
-					box = getBox(cal);
-					left = Math.min(box.left, collision.e);  // we have to move this far left to move the entire calendar into view
+					const box = getBox(cal);
+					const left = Math.min(box.left, collision.e);  // we have to move this far left to move the entire calendar into view
 					if (left > 0) {
 						cal.style.left = (-1 * left) + "px";
 					}
@@ -813,25 +830,22 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		}
 
 		function changeMonth(element) {
-			var monthList,
-				yearBox,
-				currentYear,
-				_today = new Date(),
-				numberOfMonths, // should be 12 but who knows when this may change!!
-				minYear, maxYear;
+			const _today = new Date();
 
 			if (element.value === "t") {
 				setDate(_today, true);
 			} else {
-				monthList = findMonthSelect();
-				numberOfMonths = monthList.options.length;
-				yearBox = document.getElementById(YEAR_ELEMENT_ID);
+				const monthList = findMonthSelect();
+				const numberOfMonths = monthList.options.length;  // should be 12 but who knows when this may change!!
+				const yearBox = findYearField();
 				// If we do not have a year set then default to this year before change
-				currentYear = getYearValueAsNumber(yearBox);
+				let currentYear = getYearValueAsNumber(yearBox);
+				let maxYear;
 				if (isNaN(currentYear)) {
 					yearBox.value = currentYear = _today.getFullYear();
 				}
 				if (element.value === "-1") {
+					let minYear;
 					// go to previous month
 					if (monthList.selectedIndex === 0) {
 						// change the year first. If we do not have a year set then default to this year then change
@@ -889,17 +903,16 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 */
 		function selectDay(dayElement) {
 			getOrCreateCal(function(calendar) {
-				var day, sb, newValue, input = getInputForCalendar(calendar);
+				const input = getInputForCalendar(calendar);
 
 				if (input && !shed.isDisabled(input)) {
 					retrieveDate(function(date) {
-						day = dayElement.value;
+						const day = dayElement.value;
 						date.setDate(day);
 
-						sb = [date.getDate(), (date.getMonth() + 1), date.getFullYear()];
-						newValue = sb.join(" ");
+						const sb = [date.getDate(), (date.getMonth() + 1), date.getFullYear()];
 
-						input.value = newValue;
+						input.value = sb.join(" ");
 						focus.setFocusRequest(input, function(_el) {
 							dateField.acceptFirstMatch(_el);
 						});
@@ -912,7 +925,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		}
 
 		function clearMinMaxYear() {
-			var year = document.getElementById(YEAR_ELEMENT_ID);
+			const year = findYearField();
 			if (year) {
 				year.setAttribute(MIN_ATTRIB, conf.min);
 				year.setAttribute(MAX_ATTRIB, conf.max);
@@ -957,15 +970,13 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @param {HTMLElement} [element] The calendar element (if you already have it, otherwise we'll find it for you).
 		 */
 		function position(element) {
-			var input, box,
-				cal = element || getCal(),
-				fixed;
+			const cal = element || getCal();
 			if (cal && !shed.isHidden(cal, true)) {
-				fixed = (window.getComputedStyle && window.getComputedStyle(cal).position === "fixed");
+				const fixed = (window.getComputedStyle && window.getComputedStyle(cal).position === "fixed");
 				if (fixed) {
-					input = getInputForCalendar(cal);
+					const input = getInputForCalendar(cal);
 					if (input) {
-						box = getBox(input);
+						const box = getBox(input);
 						cal.style.top = box.bottom + "px";
 					}
 				} else {
@@ -979,7 +990,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * strip aria- attributes on hide
 		 */
 		function shedSubscriber(element, action) {
-			var cal, input;
+			let cal;
 			if (element.id === CONTAINER_ID) {
 				if (action === shed.actions.HIDE) {
 					element.removeAttribute(CONTROL_ATTRIBUTE);
@@ -990,7 +1001,8 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 					element.removeAttribute("style"); // remove any inline styles
 					// touching = null;
 					if (refocusId) {
-						if ((input = document.getElementById(refocusId)) && focus.canFocus(input)) {
+						const input = document.getElementById(refocusId);
+						if (input && focus.canFocus(input)) {
 							focus.setFocusRequest(input);
 						}
 						refocusId = null;
@@ -1015,17 +1027,15 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * The use can reopen it when they are done messing with the viewport.
 		 */
 		function reposEvent() {
-			var cal,
-				getCompStyle = window.getComputedStyle,
-				top,
-				left;
+			const getCompStyle = window.getComputedStyle;
+
 			if (!getCompStyle) {
 				hideCalendar();
 			}
-
-			if ((cal = getCal())) {
-				top = getCompStyle(cal)["top"];
-				left = getCompStyle(cal)["left"];
+			const cal = getCal();
+			if (cal) {
+				const top = getCompStyle(cal)["top"];
+				const left = getCompStyle(cal)["left"];
 
 				if (!(top === "0px" && left === "0px")) {
 					hideCalendar();
@@ -1041,16 +1051,15 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @param {Event} $event A focus[in] event.
 		 */
 		function focusEvent($event) {
-			var target = $event.target,
-				element, cal;
+			const target = $event.target;
 
 			if (dateField.isOneOfMe(target, false) && !attribute.get(target, INITED_ATTRIB)) {
 				attribute.set(target, INITED_ATTRIB, true);
 				event.add(target, "keydown", keydownEvent);
 			}
-
+			let cal;
 			if (target && (cal = getCal()) && !shed.isHidden(cal, true)) {
-				element = dateField.get(target);
+				const element = dateField.get(target);
 
 				if (!element || (element !== dateField.get(getCal()))) { // second: focused a different date field
 					hideCalendar(true);
@@ -1066,12 +1075,8 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @private
 		 */
 		function initialiseHelper(init, element) {
-			var func = init ? "add" : "remove";
-			if (event.canCapture) {
-				event[func](element, "focus", focusEvent, null, null, true);
-			} else {
-				event[func](element, "focusin", focusEvent);
-			}
+			const func = init ? "add" : "remove";
+			event[func](element, "focus", focusEvent, null, null, true);
 			event[func](element, "click", clickEvent);
 		}
 
@@ -1082,7 +1087,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @private
 		 */
 		function postInit(init) {
-			var ar = init ? "add" : "remove",
+			const ar = init ? "add" : "remove",
 				su = init ? "subscribe" : "unsubscribe";
 			event[ar](window, "resize", reposEvent);
 			shed[su](shed.actions.SHOW, shedSubscriber);
@@ -1141,7 +1146,6 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 	 * @requires module:wc/dom/event
 	 * @requires module:wc/dom/focus
 	 * @requires module:wc/dom/shed
-	 * @requires module:wc/dom/tag
 	 * @requires module:wc/dom/viewportCollision
 	 * @requires module:wc/dom/getBox
 	 * @requires module:wc/dom/Widget
@@ -1150,7 +1154,6 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 	 * @requires module:wc/ui/dateField
 	 * @requires module:wc/dom/initialise
 	 * @requires module:wc/timers
-	 * @requires module:wc/template
 	 * @requires module:wc/config
 	 *
 	 * @see {@link module:wc/ui/datefield}
