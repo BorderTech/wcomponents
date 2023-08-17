@@ -4,7 +4,6 @@ define(["wc/dom/attribute",
 	"wc/dom/initialise",
 	"wc/dom/uid",
 	"wc/ajax/Trigger",
-	"wc/has",
 	"wc/file/clearSelector",
 	"wc/file/validate",
 	"wc/i18n/i18n",
@@ -22,13 +21,13 @@ define(["wc/dom/attribute",
 	"wc/ui/feedback",
 	"wc/ui/icon",
 	"wc/ui/fieldset"],
-function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelector, validate, i18n, Widget, formUpdateManager,
+function (attribute, prefetch, event, initialise, uid, Trigger, clearSelector, validate, i18n, Widget, formUpdateManager,
 	filedrop, ajax, prompt, focus, isNumeric, ajaxRegion, wcconfig, debounce, toDocFragment, feedback, icon) {
 	"use strict";
 
 	// Note `wc/ui/fieldset` is implicitly required to handle various aspects of managing the wrapper element.
 
-	var
+	const
 		/**
 		 * Provides functionality associated with uploading multiple files using a WMultiFileWidget.
 		 *
@@ -111,8 +110,8 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 	 * @private
 	 */
 	function MultiFileUploader() {
-		var INITED_KEY = "wc/ui/multiFileUploader.inited",
-			uploader;
+		const INITED_KEY = "wc/ui/multiFileUploader.inited";
+		let uploader;
 
 		prefetch.jsModule("wc/ui/imageEdit");
 
@@ -124,7 +123,7 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 		 * @param {Event} $event The change event.
 		 */
 		function changeEvent($event) {
-			var element = $event.target;
+			const element = $event.target;
 			if (!$event.defaultPrevented && inputElementWd.isOneOfMe(element)) {
 				checkDoUpload(element, null);
 			}
@@ -135,7 +134,7 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 		 * @param {string} id The id of a multiFileWidget.
 		 */
 		function filesChanged(id) {
-			var element = document.getElementById(id);
+			const element = document.getElementById(id);
 			if (element && ajaxRegion.getTrigger(element, true)) {
 				ajaxRegion.requestLoad(element, null, true);
 			}
@@ -149,19 +148,19 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 		 * @param {Event} $event The click event.
 		 */
 		function clickEvent($event) {
-			var fileInfo, container, trigger, proceed, element;
 			if (!$event.defaultPrevented) {
-				element = BUTTON.findAncestor($event.target) || $event.target;
+				const element = BUTTON.findAncestor($event.target) || $event.target;
 				initialiseFileInput(element);
-				fileInfo = fileInfoWd.findAncestor(element);
+				const fileInfo = fileInfoWd.findAncestor(element);
 				if (fileInfo) {
+					let container;
 					if (removeButtonWd.isOneOfMe(element)) {
-						proceed = prompt.confirm(i18n.get("file_confirmdelete"));
+						const proceed = prompt.confirm(i18n.get("file_confirmdelete"));
 						if (proceed) {
 							removeFileItem(fileInfo);
 						}
 					} else if ((container = containerWd.findAncestor(fileInfo)) && container.classList.contains(CLASS_AJAX_UPLOADER)) {
-						trigger = itemActivationWd.isOneOfMe(element) ? element : itemActivationWd.findAncestor(element);
+						const trigger = itemActivationWd.isOneOfMe(element) ? element : itemActivationWd.findAncestor(element);
 						if (trigger) {
 							// trigger.removeAttribute("target");
 							trigger.setAttribute("data-wc-params", "wc_fileid=" + window.encodeURIComponent(fileInfo.id));
@@ -181,10 +180,10 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 		}
 
 		function removeFileItem(fileInfo) {
-			var xhr,
-				container = containerWd.findAncestor(fileInfo);
+			const container = containerWd.findAncestor(fileInfo);
 			if (container) {
 				fileInfo.parentNode.removeChild(fileInfo);
+				let xhr;
 				if (inflightXhrs.hasOwnProperty(fileInfo.id) && (xhr = inflightXhrs[fileInfo.id])) {
 					if (xhr.abort) {
 						xhr.abort();
@@ -200,16 +199,16 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 		}
 
 		function reflowFileItemsAfterRemove(id) {
-			var container = document.getElementById(id),
-				itemContainer, itemContainers, i, items, itemContainerCount, cols;
+			const container = document.getElementById(id);
+			let itemContainer, cols;
 			if (container && container.hasAttribute(COL_ATTR) && (cols = container.getAttribute(COL_ATTR)) && isNumeric(cols) && cols > 1) {
 				// cols 0 and cols 1 are handled as a single list
-				itemContainers = getColumns(container);
-				itemContainerCount = itemContainers.length;
+				const itemContainers = getColumns(container);
+				const itemContainerCount = itemContainers.length;
 				if (itemContainerCount > 1) {
 					// We only care if there is more than one UL therefore testing "greater than one"
-					items = fileInfoWd.findDescendants(container);
-					for (i = 0; i < items.length; i++) {
+					const items = fileInfoWd.findDescendants(container);
+					for (let i = 0; i < items.length; i++) {
 						itemContainer = itemContainers[i % cols];
 						itemContainer.appendChild(items[i]);
 					}
@@ -220,12 +219,12 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 		/**
 		 * This allows other code to request an async file upload using a WMultiFileWidget.
 		 * For example file dropzones.
-		 * @param {Element} element A file input or an element that contains a file input.
+		 * @param {HTMLElement} element A file input or an element that contains a file input.
 		 * @param {File[]} files Binary file data.
 		 * @param {boolean} [suppressEdit] true if image editing should be bypassed regardless of whether it is configured or not.
 		 */
 		this.upload = function (element, files, suppressEdit) {
-			var input = inputElementWd.isOneOfMe(element) ? element : inputElementWd.findDescendant(element);
+			const input = inputElementWd.isOneOfMe(element) ? element : inputElementWd.findDescendant(element);
 			if (input) {
 				focus.setFocusRequest(input, function () {
 					/*
@@ -242,18 +241,17 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 		 * Validate the file chosen and commence the asynchronous upload if all is well.
 		 * @function
 		 * @private
-		 * @param {Element} element A file input element.
+		 * @param {HTMLInputElement} element A file input element.
 		 * @param {File[]} [files] A collection of File items to use instead of element.files.
 		 * @param {boolean} [suppressEdit] true if image editing should be bypassed regardless of whether it is configured or not.
 		 */
 		function checkDoUpload(element, files, suppressEdit) {
-			var testObj, maxFileInfo, filesToAdd,
-				useFilesArg = (!element.value && (files && files.length > 0)),
+			const useFilesArg = (!element.value && (files && files.length > 0)),
 				done = function () {
 					instance.clearInput(element);
 				};
-			getUploader(function (theUploader) { // this wraps the possible async wait for the fauxjax module to load, otherwise clearInput has been called before the upload begins
-				var checkAndUpload = function (useTheseFiles) {
+			getUploader(function (theUploader) {  // this wraps the possible async wait for the fauxjax module to load, otherwise clearInput has been called before the upload begins
+				const checkAndUpload = function (useTheseFiles) {
 						validate.check({
 							selector: element,
 							files: useTheseFiles,
@@ -275,7 +273,7 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 						});
 					},
 					upload = function(obj) {
-						var editorId = element.getAttribute("data-wc-editor");
+						const editorId = element.getAttribute("data-wc-editor");
 						if (!suppressEdit && editorId) {
 							require(["wc/ui/imageEdit"], function (imageEdit) {
 								obj.editorId = editorId;
@@ -289,9 +287,9 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 						}
 					};
 				if (element.value || useFilesArg) {
-					testObj = useFilesArg ? {files: files, name: element.name, value: element.value, accept: element.accept} : element;
-					filesToAdd = (testObj.files ? testObj.files.length : 1);
-					maxFileInfo = checkMaxFiles(element, filesToAdd);
+					const testObj = useFilesArg ? {files: files, name: element.name, value: element.value, accept: element.accept} : element;
+					const filesToAdd = (testObj.files ? testObj.files.length : 1);
+					const maxFileInfo = checkMaxFiles(element, filesToAdd);
 					if (maxFileInfo.valid) {
 						upload(testObj);
 					} else {
@@ -304,17 +302,15 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 
 		/**
 		 * Checks if the maxFiles count will be exceeded if we proceed with the upload
-		 * @param {Element} element The DOM element responsible for the upload
+		 * @param {HTMLElement} element The DOM element responsible for the upload
 		 * @param {Number} newFileCount The number of files being added
 		 * @returns {Object} the property 'valid' will be false if the maxFiles count will be exceeded
 		 */
 		function checkMaxFiles(element, newFileCount) {
-			var message,
-				config = wcconfig.get("wc/ui/multiFileUploader", {
+			let currentFiles;
+			const config = wcconfig.get("wc/ui/multiFileUploader", {
 					overwrite: false
 				}),
-				currentFiles,
-				container,
 				result = {
 					valid: true,
 					max: 0,
@@ -327,8 +323,8 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 						This function implements some pretty dangerous behavior: it will enforce the max file limit
 						by removing already uploaded files to make way for new ones.
 					 */
-					var i, removeCount = resObj.after - resObj.max;  // this is how many we need to remove
-					for (i = 0; i < removeCount; i++) {
+					const removeCount = resObj.after - resObj.max;  // this is how many we need to remove
+					for (let i = 0; i < removeCount; i++) {
 						removeFileItem(currentFiles[i]);
 						resObj.removed++;
 					}
@@ -337,14 +333,14 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 			if (newFileCount) {
 				result.max = getMaxFiles(element);
 				if (result.max) {
-					container = containerWd.findAncestor(element);
+					const container = containerWd.findAncestor(element);
 					if (container) {
 						currentFiles = fileInfoWd.findDescendants(container);
 						result.before = currentFiles.length;
 						result.after = result.before + newFileCount;
 						if (result.after > result.max) {
 							if (config.overwrite && newFileCount <= result.max) {
-								message = i18n.get("file_confirmoverwrite", newFileCount, result.max, result.before);
+								const message = i18n.get("file_confirmoverwrite", newFileCount, result.max, result.before);
 								if (message) {
 									if (prompt.confirm(message)) {
 										fix(result);
@@ -364,17 +360,15 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 		/**
 		 * Gets the "max files" constraint for this file input.
 		 * Sets a limit for the number of files this file selector should allow.
-		 * @param {Element} element A file input.
+		 * @param {HTMLInputElement} element A file input.
 		 * @returns {Number} The max files constraint if set, otherwise 0.
 		 */
 		function getMaxFiles(element) {
-			var maxFiles;
 			if (element) {
 				if (element.hasAttribute(MAX_FILES_ATTR)) {
-					maxFiles = element.getAttribute(MAX_FILES_ATTR);
+					const maxFiles = element.getAttribute(MAX_FILES_ATTR);
 					if (isNumeric(maxFiles)) {
-						maxFiles *= 1;
-						return Math.max(maxFiles, 0);
+						return Math.max(maxFiles * 1, 0);
 					}
 				}
 			}
@@ -386,12 +380,12 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 		 * @function
 		 * @private
 		 * @param {Object} config an object with the following properties:
-		 *    {Element} element A file input element.
+		 *    {HTMLInputElement} element A file input element.
 		 *    {Function} callback A function that will be called if and when all of the files are uploaded correctly
 		 *    {File[]} [files] A collection of File items to use instead of element.files.
 		 */
 		function commenceUpload(config) {
-			var element = config.element,
+			const element = config.element,
 				files = (config.files || element.files || []),
 				container = containerWd.findAncestor(element),
 				url = getUploadUrl(element),
@@ -410,15 +404,8 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 
 		function getUploader(callback) {
 			if (!uploader) {
-				if (has("formdata")) {
-					uploader = new TrueAjax();
-					callback(uploader);
-				} else {
-					require(["wc/file/FauxJax"], function (FauxJax) {
-						uploader = new FauxJax(instance.createFileInfo, getUploadUrl);
-						callback(uploader);
-					});
-				}
+				uploader = new TrueAjax();
+				callback(uploader);
 			} else {
 				callback(uploader);
 			}
@@ -430,12 +417,12 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 		 * Note that this is called for EACH uploaded file.
 		 * @function
 		 * @private
-		 * @param {Element} response An HTML element which contains the content to display in the list of uploaded files.
+		 * @param {HTMLElement} response An HTML element which contains the content to display in the list of uploaded files.
 		 */
 		function processResponse(response) {
-			var i, newFiles = response.getElementsByTagName(fileInfoWd.tagName);
+			const newFiles = response.getElementsByTagName(fileInfoWd.tagName);
 			if (newFiles && newFiles.length > 0) {
-				for (i = 0; i < newFiles.length; i++) {
+				for (let i = 0; i < newFiles.length; i++) {
 					updateFileInfo(newFiles[i]);
 				}
 			} else {
@@ -444,7 +431,8 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 		}
 
 		function updateFileInfo(newFile) {
-			var container, containerId, fileId = newFile.getAttribute("id"),
+			let container, containerId;
+			const fileId = newFile.getAttribute("id"),
 				oldFile = document.getElementById(fileId);
 			delete inflightXhrs[fileId];
 			if (oldFile) {
@@ -464,18 +452,17 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 		 * @param {Event} $event The event that triggers bootstrapping.
 		 */
 		function bootStrap($event) {
-			var element = $event.target;
+			const element = $event.target;
 			initialiseFileInput(element);
 		}
 
 		/**
 		 * Set up a file selector on first use.
-		 * @param {Element} element A file input.
+		 * @param {HTMLInputElement} element A file input.
 		 */
 		function initialiseFileInput(element) {
-			var inited;
 			if (inputElementWd.isOneOfMe(element)) {
-				inited = attribute.get(element, INITED_KEY);
+				const inited = attribute.get(element, INITED_KEY);
 				if (!inited) {
 					console.log("Initialising on first use", element.name);
 					attribute.set(element, INITED_KEY, true);
@@ -488,10 +475,10 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 		 * Initialise the form that contains the multifile widget.
 		 * @function
 		 * @private
-		 * @param {Element} form The form to initialise.
+		 * @param {HTMLFormElement} form The form to initialise.
 		 */
 		function initialiseForm(form) {
-			var inited = attribute.get(form, INITED_KEY);
+			const inited = attribute.get(form, INITED_KEY);
 			if (!inited) {
 				attribute.set(form, INITED_KEY, true);
 				if (!form.classList.contains(CLASS_NAME)) {
@@ -505,12 +492,11 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 		 * Listen to submit events on the page that contains the file widgets.
 		 * If the user tries to submit the form while there are uploads pending we should warn them
 		 * that it will cancel their uploads.
-		 * @param {Event} $event The submit event.
+		 * @param {SubmitEvent} $event The submit event.
 		 */
 		function submitEvent($event) {
-			var proceed;
 			if (!$event.defaultPrevented && uploader && uploader.getUploading() > 0) {
-				proceed = prompt.confirm(i18n.get("file_confirmnav"));
+				const proceed = prompt.confirm(i18n.get("file_confirmnav"));
 				if (!proceed) {
 					$event.preventDefault();
 				}
@@ -523,13 +509,14 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 		 * @param {string} id The id of a mutliFileWidget (i.e. the top level container).
 		 */
 		function registerDropzone(id) {
-			var dropzoneId, input, element = document.getElementById(id);
+			let input;
+			const element = document.getElementById(id);
 			if (element && (input = inputElementWd.findDescendant(element))) {
-				dropzoneId = input.getAttribute("data-dropzone");
+				const dropzoneId = input.getAttribute("data-dropzone");
 				if (dropzoneId) {
 					input = null;
 					filedrop.register(dropzoneId, function (type, files) {
-						var className = "wc_dragging";
+						const className = "wc_dragging";
 						if (type === "drop") {
 							instance.upload(element, files);
 							element.classList.remove(className);
@@ -548,7 +535,7 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 		 * @param {String[]} idArr An array of element ids.
 		 */
 		function processNow(idArr) {
-			var id;
+			let id;
 			while ((id = idArr.shift())) {
 				registerDropzone(id);
 			}
@@ -569,12 +556,12 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 		};
 
 		this.writeState = function (form, container) {
-			var multiFileWidgets = containerWd.findDescendants(form);
+			const multiFileWidgets = containerWd.findDescendants(form);
 			Array.prototype.forEach.call(multiFileWidgets, function (multiFileWidget) {
-				var i, next, stateField, fileInfos = fileInfoWd.findDescendants(multiFileWidget);
-				for (i = 0; i < fileInfos.length; i++) {
-					next = fileInfos[i];
-					stateField = formUpdateManager.writeStateField(container, multiFileWidget.id + ".selected", next.id);
+				const fileInfos = fileInfoWd.findDescendants(multiFileWidget);
+				for (let i = 0; i < fileInfos.length; i++) {
+					let next = fileInfos[i];
+					let stateField = formUpdateManager.writeStateField(container, multiFileWidget.id + ".selected", next.id);
 					stateField.checked = true;
 					container.appendChild(stateField);
 				}
@@ -584,19 +571,13 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 		/**
 		 * Initialise file upload functionality by adding a focus listener.
 		 * @function module:wc/ui/multiFileUpload.initialise
-		 * @param {Element} element The element being initialised - usually document.body.
+		 * @param {HTMLElement} element The element being initialised - usually document.body.
 		 */
 		this.initialise = function (element) {
 			formUpdateManager.subscribe(this);
-			if (event.canCapture) {
-				event.add(element, { type: "focus", listener: bootStrap, capture: true });
-			} else {
-				event.add(element, "focusin", bootStrap);
-			}
+			event.add(element, { type: "focus", listener: bootStrap, capture: true });
 			event.add(element, "click", clickEvent);
-			if (has("rtc-gum") || has("flash")) {
-				element.classList.add("wc-rtc-gum");
-			}
+			element.classList.add("wc-rtc-gum");
 		};
 
 		/**
@@ -620,13 +601,12 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 		};
 
 		function getColumns(container) {
-			var cols = container.getAttribute(COL_ATTR) || 1, i,
-				itemContainers = fileInfoContainerWd.findDescendants(container),
-				filesWrapper,
-				col;
+			const cols = container.getAttribute(COL_ATTR) || 1;
+			let col, itemContainers = fileInfoContainerWd.findDescendants(container);
 			// cols 0 and cols 1 are handled as a single list
 
 			if (itemContainers.length < cols) {
+				let filesWrapper;
 				if (cols > 1) {
 					filesWrapper = filesWrapperWd.findDescendant(container);
 					if (!filesWrapper) {
@@ -635,9 +615,9 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 						container.appendChild(filesWrapper);
 					}
 				}
-				for (i = itemContainers.length; i < cols; i++) {
+				for (let i = itemContainers.length; i < cols; i++) {
 					col = document.createElement(fileInfoContainerWd.tagName);
-					col.className = CLASS_NO_BULLET + " " + CLASS_FILE_LIST;
+					col.className = `${CLASS_NO_BULLET} ${CLASS_FILE_LIST}`;
 					if (filesWrapper) {
 						filesWrapper.appendChild(col);
 					} else {
@@ -647,7 +627,7 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 				itemContainers = fileInfoContainerWd.findDescendants(container);
 			} else if (cols === "0" && !itemContainers.length) {
 				col = document.createElement(fileInfoContainerWd.tagName);
-				col.className = CLASS_NO_BULLET + " wc-listlayout-type-flat " + CLASS_FILE_LIST;
+				col.className = `${CLASS_NO_BULLET} wc-listlayout-type-flat ${CLASS_FILE_LIST}`;
 				container.appendChild(col);
 				itemContainers = fileInfoContainerWd.findDescendants(container);
 			}
@@ -655,14 +635,14 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 		}
 
 		function getNextColumn(container) {
-			var i, next, items, smallest = {
+			const smallest = {
 					idx: 0,
 					count: -1
 				},
 				columns = getColumns(container);
-			for (i = 0; i < columns.length; i++) {
-				next = columns[i];
-				items = fileInfoWd.findDescendants(next);
+			for (let i = 0; i < columns.length; i++) {
+				let next = columns[i];
+				let items = fileInfoWd.findDescendants(next);
 				if (smallest.count < 0 || items.length < smallest.count) {
 					smallest.idx = i;
 					smallest.count = items.length;
@@ -677,28 +657,26 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 		/**
 		 * Creates the UI widget presented to the user while a file is uploading.
 		 * It will be created and added to the DOM.
-		 * @param {Element} container The multiFileUploader top level element.
+		 * @param {HTMLElement} container The multiFileUploader top level element.
 		 * @param {string} fileName The name of the file being uploaded.
 		 * @returns {string} The ID of the newly created UI widget.
 		 */
 		this.createFileInfo = function (container, fileName) {
-			var id = uid(),
-				removeButton,
-				progress,
+			const id = uid(),
 				itemContainer = getNextColumn(container),
 				item = document.createElement(fileInfoWd.tagName);
 			item.className = CLASS_FILE_INFO;
-			removeButton = document.createElement(removeButtonWd.tagName);
+			const removeButton = document.createElement(removeButtonWd.tagName);
 			removeButton.setAttribute("type", "button");  // .type causes issues in legacy IE
 			removeButton.className = "wc_btn_icon wc_btn_abort";
 			removeButton.value = i18n.get("file_abort", fileName);
 			icon.add(removeButton, "fa-ban");
 			item.appendChild(removeButton);
 			item.appendChild(document.createTextNode(fileName));
-			progress = item.appendChild(document.createElement("progress"));
-			progress.setAttribute("min", 0);
-			progress.setAttribute("max", 100);
-			progress.setAttribute("value", 0);
+			const progress = item.appendChild(document.createElement("progress"));
+			progress.setAttribute("min", "0");
+			progress.setAttribute("max", "100");
+			progress.setAttribute("value", "0");
 			item.setAttribute("id", id);
 			itemContainer.appendChild(item);
 			return id;
@@ -707,12 +685,12 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 		/**
 		 * Tests if an element is a file upload.
 		 * @function module:wc/ui/multiFileUpload.isOneOfMe
-		 * @param {Element} element The DOM element to test
+		 * @param {HTMLElement} element The DOM element to test
 		 * @param {Boolean} input If true test the input element, not the container
 		 * @returns {Boolean} true if element is the Widget type rewuested
 		 */
 		this.isOneOfMe = function (element, input) {
-			var result = false;
+			let result = false;
 			if (element) {
 				if (input) {
 					result = inputElementWd.isOneOfMe(element);
@@ -726,7 +704,7 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 		/**
 		 * Sets a file selector to an empty value.
 		 * As usual this apparently simple task is made complex due to Internet Explorer.
-		 * @param {Element} element A file input.
+		 * @param {HTMLInputElement} element A file input.
 		 */
 		this.clearInput = function (element) {
 			clearSelector(element, function (selector, cloned) {
@@ -739,11 +717,11 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 
 	/**
 	 *
-	 * @param {Element} element A file selector
+	 * @param {HTMLInputElement} element A file selector
 	 * @returns {string} The file upload URL for this fileselector
 	 */
 	function getUploadUrl(element) {
-		var result = Trigger.getUrl(element);
+		let result = Trigger.getUrl(element);
 		if (!result && element.form) {
 			result = element.form.action;
 			console.log("File upload URL not set, attempting to use original form action instead", result);
@@ -756,10 +734,13 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 	 * @param {string} fileInfoId The ID of the widget tracking the upload in the DOM.
 	 */
 	function progressEventFactory(fileInfoId) {
+		/**
+		 * @param {ProgressEvent} e
+		 */
 		return function (e) {
-			var progress, fileInfo = document.getElementById(fileInfoId);
+			const fileInfo = document.getElementById(fileInfoId);
 			if (e.lengthComputable && fileInfo) {
-				progress = fileInfo.querySelector("progress");
+				const progress = fileInfo.querySelector("progress");
 				if (progress) {
 					progress.value = (e.loaded / e.total) * 100;
 					console.log(fileInfoId, "loaded:", e.loaded, "total:", e.total);
@@ -774,7 +755,7 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 	 */
 	function errorHandlerFactory(fileInfoId) {
 		return function (errorMessage) {
-			var fileInfo = document.getElementById(fileInfoId);
+			const fileInfo = document.getElementById(fileInfoId);
 			delete inflightXhrs[fileInfoId];
 			if (fileInfo) {
 				feedback.flagError({
@@ -809,7 +790,7 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 		 * @returns {Number} The total number of uploads in progress.
 		 */
 		this.getUploading = function () {
-			var progress = progressWd.findDescendants(document.body);
+			const progress = progressWd.findDescendants(document.body);
 			return progress ? progress.length : 0;
 		};
 
@@ -818,12 +799,12 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 		 * @param {module:wc/file/MultiFileUploader~fileInfo} dto
 		 */
 		this.request = function (dto) {
-			var i, uploadName = dto.element.name, id, file,
+			const uploadName = dto.element.name,
 				container = dto.container;
 			try {
-				for (i = 0; i < dto.files.length; i++) {
-					file = dto.files[i];
-					id = instance.createFileInfo(container, file.name);
+				for (let i = 0; i < dto.files.length; i++) {
+					let file = dto.files[i];
+					let id = instance.createFileInfo(container, file.name);
 					sendFile(dto.url, uploadName, id, file, callbackWrapper(dto, id));
 				}
 			} finally {
@@ -848,13 +829,12 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 		}
 
 		function processResponse(response, fileId) {
-			var onError = function () {
+			const onError = function () {
 					errorHandlerFactory(fileId).call(response.xhr);
 				},
-				df = toDocFragment(response.xhr.responseText),
 				dto = response.dto,
-				inflight,
 				container = document.createElement(fileInfoContainerWd.tagName);
+			let df = toDocFragment(response.xhr.responseText);
 
 			if (df) {
 				if (df.NodeType === Node.DOCUMENT_NODE) {
@@ -862,7 +842,7 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 				}
 				container.appendChild(df);
 				dto.callback(container);
-				inflight = Object.keys(inflightXhrs);
+				const inflight = Object.keys(inflightXhrs);
 				if (inflight.length === 0) {
 					dto.complete(dto.container.id);
 				}
@@ -881,7 +861,7 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 		 * @param {Function} callback The function to call on success.
 		 */
 		function sendFile(uri, uploadName, fileId, file, callback) {
-			var request, xhr, formData = new FormData(),
+			const formData = new FormData(),
 				onProgress = progressEventFactory(fileId),
 				onError = errorHandlerFactory(fileId),
 				onAbort = abortHandlerFactory(fileId);
@@ -895,7 +875,7 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 			 */
 			formData.append(uploadName, file, file.name);
 
-			request = {
+			const request = {
 				url: uri,
 				callback: callback,
 				onProgress: onProgress,
@@ -905,8 +885,8 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 				responseType: ajax.responseType.XML,
 				postData: formData
 			};
-			xhr = ajax.simpleRequest(request);
-			inflightXhrs[fileId] = xhr;
+
+			inflightXhrs[fileId] = ajax.simpleRequest(request);
 		}
 	}
 

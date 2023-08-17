@@ -1,4 +1,4 @@
-define(["wc/has", "wc/dom/event", "wc/ui/prompt", "wc/config", "lib/getusermedia-js/getUserMedia"], function(has, event, prompt, wcconfig) {
+define(["wc/dom/event", "wc/ui/prompt", "wc/config"], function(event, prompt, wcconfig) {
 	/**
 	 * Encapsulates the image capture functionality.
 	 * This is not a truly reusable module, it is part of imageEdit.js but has been split out for ease of maintenance.
@@ -8,77 +8,31 @@ define(["wc/has", "wc/dom/event", "wc/ui/prompt", "wc/config", "lib/getusermedia
 	 * @constructor
 	 */
 	function ImageCapture(imageEdit) {
-		var VIDEO_CONTAINER = "wc_img_video_container",
-			context,
-			canvas,
-			image,
-			streaming,
-			_stream,
-			pos = 0,
-			currentOptions,
+		const VIDEO_CONTAINER = "wc_img_video_container",
 			defaultOptions = {
 				video: true,  // { facingMode: "user" },
 				audio: false,
 				extern: null,
 				append: true,
 				context: "",
-				swffile: window.require.toUrl("lib/getusermedia-js/fallback/jscam_canvas_only.swf"),
 				el: VIDEO_CONTAINER,
 				mode: "callback",
-				quality: 85,
-				onCapture: onCapture,
-				onSave: onSave
+				quality: 85
 			};
 
-		/*
-		 * Flash event handler
-		 */
-		function onCapture() {
-			// context = fbCanvas.getContext("2d");
-			// context.clearRect(0, 0, currentOptions.width, currentOptions.height);
-			// image = context.getImageData(0, 0, currentOptions.width, currentOptions.height);
-			canvas = document.createElement("canvas");
-			canvas.height = currentOptions.height;
-			canvas.width = currentOptions.width;
-			context = canvas.getContext("2d");
-			context.clearRect(0, 0, currentOptions.width, currentOptions.height);
-			image = context.getImageData(0, 0, currentOptions.width, currentOptions.height);
-			currentOptions.save();
-		}
+		let streaming,
+			_stream,
+			currentOptions;
 
-		/*
-		 * Flash event handler
-		 */
-		function onSave(data) {
-			var i, col = data.split(";"),
-				tmp = null,
-				width = currentOptions.width,
-				height = currentOptions.height;
-			for (i = 0; i < width; i++) {
-				tmp = parseInt(col[i], 10);
-				image.data[pos + 0] = (tmp >> 16) & 0xff;
-				image.data[pos + 1] = (tmp >> 8) & 0xff;
-				image.data[pos + 2] = tmp & 0xff;
-				image.data[pos + 3] = 0xff;
-				pos += 4;
-			}
-
-			if (pos >= 4 * width * height) {
-				// fbCanvas.getContext("2d").putImageData(image, 0, 0);
-				context.putImageData(image, 0, 0);
-				imageEdit.renderImage(canvas.toDataURL());
-				pos = 0;
-			}
-		}
 
 		/*
 		 * Wires up the "take photo" feature.
 		 */
 		this.snapshotControl = function (eventConfig, container) {
-			var imageCapture = this,
+			const imageCapture = this,
 				click = eventConfig.click,
 				done = function(_video) {
-					var video = _video || getVideo();
+					const video = _video || getVideo();
 					container.classList.remove("wc_showcam");
 					imageCapture.stop();
 					video.parentNode.removeChild(video);
@@ -86,27 +40,19 @@ define(["wc/has", "wc/dom/event", "wc/ui/prompt", "wc/config", "lib/getusermedia
 			activateCameraControl.call(this, eventConfig, container);
 			click.snap = {
 				func: function() {
-					var video;
-					if (currentOptions.context === "webrtc") {
-						video = getVideo();
-						if (video) {
-							video.pause();
-							videoToImage(video, null, function($event) {
-								imageEdit.renderImage($event.target, done);
-							});
-						}
-					} else if (currentOptions.context === "flash") {
-						currentOptions.capture();
-						container.classList.remove("wc_showcam");
-					} else {
-						prompt.alert("No context was supplied to getSnapshot()");
+					const video = getVideo();
+					if (video) {
+						video.pause();
+						videoToImage(video, null, function($event) {
+							imageEdit.renderImage($event.target, done);
+						});
 					}
 				}
 			};
 		};
 
 		function activateCameraControl(eventConfig, container) {
-			var imageCapture = this,
+			const imageCapture = this,
 				click = eventConfig.click;
 			click.camera = {
 				func: function() {
@@ -125,48 +71,50 @@ define(["wc/has", "wc/dom/event", "wc/ui/prompt", "wc/config", "lib/getusermedia
 		 * Uses native getUserMedia if possible and falls back to plugins if it must.
 		 */
 		function gumWithFallback(constraints, playCallback, errorCallback) {
-			if (window.getUserMedia && arguments.length === 3) {
+			if (window.navigator.mediaDevices && window.navigator.mediaDevices.getUserMedia) {
+				window.navigator.mediaDevices.getUserMedia(constraints).then(playCallback).catch(errorCallback);
+			} else if (window.getUserMedia && arguments.length === 3) {
 				window.getUserMedia(constraints, playCallback, errorCallback);
 			}
 		}
 
+		/**
+		 *
+		 * @param {MediaStream} stream
+		 */
 		function playCb(stream) {
-			var video, vendorURL;
 			_stream = stream;
-			if (currentOptions.context === "webrtc") {
-
-				video = currentOptions.videoEl;
-				try {
-					vendorURL = window.URL || window.webkitURL;
-					video.src = vendorURL ? vendorURL.createObjectURL(stream) : stream;
-				} catch (error) {
-					video.srcObject = stream;
-				}
-
-				video.onerror = function () {
-					stream.getVideoTracks()[0].stop();
-					errCb(arguments[0]);
-				};
-
-				video.setAttribute("width", currentOptions.width);
-				streaming = false;
-				video.addEventListener("canplay", function() {
-					var height;
-					if (!streaming) {
-						height = video.videoHeight / (video.videoWidth / currentOptions.width);
-
-						// Firefox currently has a bug where the height can't be read from the video
-						if (isNaN(height)) {
-							height = currentOptions.width / (currentOptions.width / currentOptions.height);
-						}
-
-						video.setAttribute("width", currentOptions.width);
-						video.setAttribute("height", height);
-
-						streaming = true;
-					}
-				}, false);
+			const video = getVideo(true);
+			try {
+				const vendorURL = window.URL || window.webkitURL;
+				video.src = vendorURL ? vendorURL.createObjectURL(stream) : stream;
+			} catch (error) {
+				video.srcObject = stream;
 			}
+
+			video.onerror = function () {
+				stream.getVideoTracks()[0].stop();
+				errCb(arguments[0]);
+			};
+
+			video.setAttribute("width", currentOptions.width);
+			streaming = false;
+			video.addEventListener("canplay", function() {
+				let height;
+				if (!streaming) {
+					height = video.videoHeight / (video.videoWidth / currentOptions.width);
+
+					// Firefox currently has a bug where the height can't be read from the video
+					if (isNaN(height)) {
+						height = currentOptions.width / (currentOptions.width / currentOptions.height);
+					}
+
+					video.setAttribute("width", currentOptions.width);
+					video.setAttribute("height", height);
+
+					streaming = true;
+				}
+			}, false);
 		}
 
 		function errCb(err) {
@@ -178,15 +126,15 @@ define(["wc/has", "wc/dom/event", "wc/ui/prompt", "wc/config", "lib/getusermedia
 		 * Close the web camera video stream.
 		 */
 		this.stop = function(pause) {
-			var i, track, tracks, video = getVideo();
+			const video = getVideo();
 			if (video && !pause) {
 				video.src = "";
 			}
 			if (_stream) {
 				if (_stream.getTracks) {
-					tracks = _stream.getTracks();
-					for (i = 0; i < tracks.length; i++) {
-						track = tracks[i];
+					const tracks = _stream.getTracks();
+					for (let i = 0; i < tracks.length; i++) {
+						const track = tracks[i];
 						if (track.stop) {
 							track.stop();
 						}
@@ -214,37 +162,17 @@ define(["wc/has", "wc/dom/event", "wc/ui/prompt", "wc/config", "lib/getusermedia
 		 * To understand the options take a look at: https://github.com/addyosmani/getUserMedia.js and/or https://github.com/infusion/jQuery-webcam
 		 */
 		this.play = function(options) {
-			var play = function() {
-					gumWithFallback(currentOptions, playCb, errCb);
-				},
-				globalConf = wcconfig.get("wc/ui/imageEdit", {
-					options: {}
-				});
+			const globalConf = wcconfig.get("wc/ui/imageEdit", {
+				options: {}
+			});
 			currentOptions = Object.assign({}, defaultOptions, globalConf.options, options);
 			currentOptions.width *= 1;
 			currentOptions.height *= 1;
-			window.webcam = currentOptions;  // Needed for flash fallback
-			if (has("rtc-gum")) {
-				play();
-			} else if (has("flash")) {
-				if (currentOptions.swffile === defaultOptions.swffile && (currentOptions.width !== 320 || currentOptions.height !== 240)) {
-					/*
-					 * The default swffile can only support 320 x 240.
-					 * Compile new swf files at different resolutions if you need them: https://github.com/infusion/jQuery-webcam
-					 * You can then change the swffile location in the options using wc/config
-					 */
-					console.warn("The default flash fallback only supports 320 x 240");
-					currentOptions.width = 320;
-					currentOptions.height = 240;
-				}
-				play();
-			} else {
-				console.error("Browser does not support web-rtc or flash. It should not be possible to get here.");
-			}
+			gumWithFallback(currentOptions, playCb, errCb);
 		};
 
 		function videoToDataUrl(video, scale) {
-			var scaleFactor = scale || 1,
+			const scaleFactor = scale || 1,
 				onCanvas = document.createElement("canvas");
 			onCanvas.width = video.videoWidth * scaleFactor;
 			onCanvas.height = video.videoHeight * scaleFactor;
@@ -253,7 +181,7 @@ define(["wc/has", "wc/dom/event", "wc/ui/prompt", "wc/config", "lib/getusermedia
 		}
 
 		function videoToImage(video, scale, onload) {
-			var dataUrl = videoToDataUrl(video, scale),
+			const dataUrl = videoToDataUrl(video, scale),
 				img = new Image();
 			if (onload) {
 				event.add(img, "load", onload);
@@ -264,14 +192,30 @@ define(["wc/has", "wc/dom/event", "wc/ui/prompt", "wc/config", "lib/getusermedia
 
 		/**
 		 * Gets the video element.
-		 * @returns {Element} The video element.
+		 * @param {boolean} [createNew] If true, create the element if it doesn't exist.
+		 * @returns {HTMLVideoElement} The video element.
 		 */
-		function getVideo() {
-			var container = document.getElementById(VIDEO_CONTAINER);
+		function getVideo(createNew) {
+			const container = document.getElementById(VIDEO_CONTAINER);
 			if (!container) {
 				return null;
 			}
-			return container.querySelector("video");
+			let result = container.querySelector("video");
+			if (createNew && !result) {
+				result = document.createElement('video');
+				const offsetWidth = parseInt(container.offsetWidth, 10);
+				const offsetHeight = parseInt(container.offsetHeight, 10);
+
+				if (currentOptions.width < offsetWidth && currentOptions.height < offsetHeight) {
+					currentOptions.width = offsetWidth;
+					currentOptions.height = offsetHeight;
+				}
+				result.width = currentOptions.width;
+				result.height = currentOptions.height;
+				result.autoplay = true;
+				container.appendChild(result);
+			}
+			return result;
 		}
 	}
 

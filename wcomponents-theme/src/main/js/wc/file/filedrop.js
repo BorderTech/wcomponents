@@ -1,8 +1,8 @@
-define(["wc/has", "wc/dom/event", "wc/timers"], function(has, event, timers) {
+define(["wc/dom/event", "wc/timers"], function(event, timers) {
 	"use strict";
-	var CLASSNAME = "wc_dragging",
+	let dragging = false;
+	const CLASSNAME = "wc_dragging",
 		timer = {},
-		dragging = false,
 		handlers = {
 			dragenter: function($event, callback) {
 				if (!dragging) {
@@ -17,12 +17,12 @@ define(["wc/has", "wc/dom/event", "wc/timers"], function(has, event, timers) {
 				$event.stopPropagation();
 			},
 			dragleave: function($event, callback) {
-				var element = $event.currentTarget;
+				const element = $event.currentTarget;
 				$event.stopPropagation();
 				timer[element.id] = timers.setTimeout(draggingStopped, 500, element, callback, "dragstop", null);
 			},
 			drop: function ($event, callback) {
-				var element = $event.currentTarget,
+				const element = $event.currentTarget,
 					files = $event.dataTransfer.files;
 				draggingStopped(element);
 				timer[element.id] = timers.setTimeout(draggingStopped, 100, element, callback, $event.type, files);
@@ -53,7 +53,7 @@ define(["wc/has", "wc/dom/event", "wc/timers"], function(has, event, timers) {
 
 	function callbackWrapper(callback) {
 		return function ($event) {
-			var handler = handlers[$event.type];
+			const handler = handlers[$event.type];
 			if (handler) {
 				$event.preventDefault();
 				handler($event, callback);
@@ -75,6 +75,6 @@ define(["wc/has", "wc/dom/event", "wc/timers"], function(has, event, timers) {
 	}
 
 	return {
-		register: has("draganddrop") ? register : function() {}
+		register
 	};
 });

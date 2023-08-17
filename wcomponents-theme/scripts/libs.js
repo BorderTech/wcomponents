@@ -57,9 +57,6 @@ let libs = {
 	"mailcheck/src/mailcheck.min.js": {
 		dest: "mailcheck.js"
 	},
-	"getusermedia-js/dist": {
-		dest: "getusermedia-js"
-	},
 	"socket.io-client/dist" : {
 		dest: "socketio"
 	}

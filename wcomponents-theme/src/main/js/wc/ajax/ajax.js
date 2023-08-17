@@ -13,11 +13,10 @@
  * @todo Document private members
  * TODO totally redo this module
  */
-define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "wc/dom/uid", "require"],
-	function(Observer, global, xmlString, timers, has, uid, require) {
+define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/dom/uid", "require"],
+	function(Observer, global, xmlString, timers, uid, require) {
 		"use strict";
 		const
-			markProfiles = has("global-performance-marking"),
 			W3C_IFACE = "XMLHttpRequest",
 			queue = [],
 			/**
@@ -46,7 +45,7 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 		 * @private
 		 */
 		function Ajax() {
-			let observer, xBrowserRequest;
+			let observer;
 
 			this.subscribe = function(subscriber) {
 				if (!observer) {
@@ -95,7 +94,7 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 			/**
 			 * When a request is "complete" we need to ensure that we record the duration of the AJAX request
 			 * for the benefit of auditability / testability.
-			 * @param {XMLHTTPRequest} request The request that has just finished.
+			 * @param {XMLHttpRequest} request The request that has just finished.
 			 */
 			function endProfile(request) {
 				let markStart, markEnd, mark;
@@ -128,91 +127,6 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 			}
 
 			/**
-			 * Since 2015 we prefer XMLHttpRequest despite the drawbacks discussed below because we need to use advanced modern features
-			 * like FormData and progress events (i.e. file upload over AJAX).
-			 *
-			 * <p>Note that in IE we will reluctantly prefer Msxml2.XMLHTTP.6.0 over the W3C standard XMLHttpRequest
-			 * This is because Msxml2.XMLHTTP.6.0 does MUCH faster XSLT. The difference is only noticeable with
-			 * complex XSLT and large XML docs, but we are certainly noticing it in our web apps.</p>
-			 *
-			 * <p>We really only need this when loading XSL docs, however you can not mix docs loaded from different
-			 * engines in IE, so the XML and XSL must all be loaded from the same engine.</p>
-			 *
-			 * <p>IE XSLT speed tests on IE8/XPsp3 (using a real page):<br />
-			 * Msxml2.XMLHTTP.6.0:	1016<br />
-			 * Msxml2.XMLHTTP.3.0:	4359<br />
-			 * XMLHttpRequest:		4360<br />
-			 * Microsoft.XMLHTTP:	4391</p>
-			 *
-			 * <p>On IE9(beta)/VistaSp2<br />
-			 * Msxml2.XMLHTTP.6.0:	1182<br />
-			 * Msxml2.XMLHTTP.3.0:	4606<br />
-			 * XMLHttpRequest:		4617<br />
-			 * Microsoft.XMLHTTP:	4626</p>
-			 *
-			 * <p>So for XSLT in IE we prefer, in this order:</p>
-			 * <ol><li>Msxml2.XMLHTTP.6.0
-			 * <li>XMLHttpRequest (cos it's the standard)
-			 * <li>Microsoft.XMLHTTP (cos it's the standard IE fallback)</ol>
-			 *
-			 * <p>Note: Msxml2.XMLHTTP.6.0 seems to have some limitations on the number of rapid fire AJAX
-			 * requests/responses it can handle. Our real world example bombed out with 20 requests,
-			 * however we could replicate the issue with a smaller number by increasing the size of the
-			 * response. Note that the result is a totally non-functioning IE, requiring user to restart IE.
-			 * The scenario would occur when eager-loading data on page load.
-			 * Microsoft.XMLHTTP also has this bug, I'd say all the engines in IE do except for XMLHttpRequest.</p>
-			 *
-			 * <p>The workaround we have implemented is to limit the number of pending AJAX requests in IE.
-			 * Subsequent requests are queued.</p>
-			 *
-			 * <p>Note that I have excluded synchronous AJAX from the queueing so if the limit is set to N
-			 * pending AJAX requests there can really be N+1 if a synchronous request comes along.</p>
-			 *
-			 * @function
-			 * @private
-			 * @returns {XMLHTTPRequest} A Microsoft proprietary XML HTTPRequest.
-			 */
-			function getMsRequest() {
-				let result, ieXmlHttpEngine;
-				if (ieXmlHttpEngine === undefined) {
-					if (global[W3C_IFACE]) {
-						// All browsers including IE10 and above
-						ieXmlHttpEngine = W3C_IFACE;
-					} else {
-						ieXmlHttpEngine = null;
-					}
-					console.log("Using XMLHTTP engine: " + ieXmlHttpEngine);
-				}
-
-				if (ieXmlHttpEngine === W3C_IFACE) {
-					result = getW3cRequest();
-				} else if (ieXmlHttpEngine) {
-					result = new global.ActiveXObject(ieXmlHttpEngine);
-				} else {
-					throw new Error("No AJAX support");
-				}
-				return result;
-			}
-
-			/**
-			 * Generates a XMLHTTPRequest.
-			 * @function
-			 * @private
-			 * @returns {XMLHTTPRequest} An XMLHTTPRequest relevant to the particular browser
-			 */
-			function generateXBrowserRequest() {
-				let result;
-				if (has("activex")) {  // do this test first, see comments on getMsRequest
-					result = getMsRequest;
-				} else if (global[W3C_IFACE]) {
-					result = getW3cRequest;
-				} else {
-					console.error("User agent does not provide necessary XML support");
-				}
-				return result;
-			}
-
-			/**
 			 * Called when the readystate of the request changes.
 			 *
 			 * @param request The XHR created by ajaxRqst
@@ -236,9 +150,7 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 						} else {
 							logErrorAndNotify(request, config);
 						}
-						if (markProfiles) {
-							endProfile(config);
-						}
+						endProfile(config);
 					} finally {
 						if (config.async) {
 							updatePending(true);
@@ -371,7 +283,7 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 			 * @private
 			 * @alias module:wc/ajax/ajax~ajaxRqst
 			 * @param {module:wc/ajax/ajax~Request} config Holds the details of the request to be sent.
-			 * @returns {XMLHTTPRequest} The XHR instance.
+			 * @returns {XMLHttpRequest} The XHR instance.
 			 */
 			function ajaxRqst(config) {
 				let done;
@@ -405,15 +317,13 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 			 * @alias module:wc/ajax/ajax.simpleRequest
 			 * @public
 			 * @param {module:wc/ajax/ajax~Request} request Holds the details of the request to be sent.
-			 * @returns {XMLHTTPRequest} The XHR instance.
+			 * @returns {XMLHttpRequest} The XHR instance.
 			 */
 			this.simpleRequest = function(request) {
 				let result;
 				request.async = (request.async === undefined) ? true : request.async;
 				request.uid = uid();
-				if (markProfiles) {
-					global.performance.mark(request.uid + "_start");
-				}
+				global.performance.mark(request.uid + "_start");
 				if (!request.async) {
 					result = ajaxRqst(request);
 				} else if (pending < limit) {
@@ -526,10 +436,10 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "
 			 * @function
 			 * @alias module:wc/ajax/ajax.getXBrowserRequestFactory
 			 * @public
-			 * @returns {XMLHTTPRequest}
+			 * @returns {XMLHttpRequest}
 			 */
 			this.getXBrowserRequestFactory = function() {
-				return xBrowserRequest || (xBrowserRequest = generateXBrowserRequest());
+				return getW3cRequest;
 			};
 
 			/**

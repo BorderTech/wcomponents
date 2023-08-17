@@ -33,11 +33,6 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				expected = expected.replace(xmlHeaderRe, "");
 				assert.strictEqual(expected, result);
 			},
-			testToPretendToBeIE9: function() {
-				var expected = "<p>foo</p>",
-					dummy = {xml: expected};
-				assert.strictEqual(expected, xmlString.to(dummy));
-			},
 			testToWithfalseyNode: function() {
 				assert.isNull(xmlString.to(false));
 			}

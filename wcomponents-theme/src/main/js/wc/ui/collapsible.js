@@ -114,16 +114,10 @@ function(event, attribute, focus, formUpdateManager, has, initialise, Widget, sh
 		 * @param {Event} $event A focus/focusin event.
 		 */
 		function focusEvent($event) {
-			var element = $event.target,
-				details;
+			const element = $event.target;
 			if (!$event.defaultPrevented && (COLLAPSIBLE_HEADER.isOneOfMe(element)) && !attribute.get(element, BOOTSTRAPPED)) {
 				attribute.set(element, BOOTSTRAPPED, true);
 				event.add(element, "keydown", keydownEvent);
-				if (!has("element-details") && (details = element.parentNode)) {
-					element.setAttribute("role", "button");
-					element.setAttribute("aria-controls", details.id);
-					element.setAttribute("aria-expanded", shed.isExpanded(details) ? TRUE : FALSE);
-				}
 			}
 		}
 
@@ -137,7 +131,7 @@ function(event, attribute, focus, formUpdateManager, has, initialise, Widget, sh
 		 * @param {Event} $event A click event.
 		 */
 		function clickEvent($event) {
-			var element;
+			let element;
 			if (!$event.defaultPrevented && (element = COLLAPSIBLE_HEADER.findAncestor($event.target))) {
 				toggleEventHelper($event, element);
 			}

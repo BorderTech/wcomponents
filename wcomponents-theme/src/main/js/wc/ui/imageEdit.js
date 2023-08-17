@@ -1,6 +1,6 @@
-define(["wc/has", "wc/mixin", "wc/config", "wc/dom/Widget", "wc/dom/event", "wc/timers", "wc/ui/prompt",
+define(["wc/mixin", "wc/config", "wc/dom/Widget", "wc/dom/event", "wc/timers", "wc/ui/prompt",
 	"wc/i18n/i18n", "lib/fabric", "wc/ui/dialogFrame", "wc/template", "wc/ui/ImageCapture", "wc/ui/ImageUndoRedo", "wc/file/size", "wc/file/util"],
-function(has, mixin, wcconfig, Widget, event, timers, prompt, i18n, fabric, dialogFrame, template, ImageCapture, ImageUndoRedo, fileSize, fileUtil) {
+function(mixin, wcconfig, Widget, event, timers, prompt, i18n, fabric, dialogFrame, template, ImageCapture, ImageUndoRedo, fileSize, fileUtil) {
 	var imageEdit, timer, imageCapture;
 
 	ImageEdit.prototype.renderCanvas = function(callback) {
@@ -199,11 +199,7 @@ function(has, mixin, wcconfig, Widget, event, timers, prompt, i18n, fabric, dial
 			try {
 				if (files) {
 					sizes = fileSize.get(obj);
-					if (has("dom-canvas")) {
-						editNextFile();
-					} else {
-						done(files);
-					}
+					editNextFile();
 				} else if (config.camera) {
 					editFile(config, null, saveEditedFile, onError);
 				}

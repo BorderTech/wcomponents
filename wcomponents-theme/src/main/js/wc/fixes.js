@@ -44,9 +44,6 @@ define(["wc/has"], function(has) {
 		result.push("wc/fix/shiftKey_ff");
 	}
 
-	if (!has("global-performance")) {
-		result.push("wc/compat/navigationTiming");
-	}
 
 	if (has("uc") && has("android")) {
 		result.push("wc/fix/width_uc");
