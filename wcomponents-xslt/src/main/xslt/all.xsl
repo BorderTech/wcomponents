@@ -199,7 +199,6 @@
 				<script type="text/javascript" src="{concat($resourceRoot, $scriptDir, '/lib/require.js?', $cacheBuster)}" />
 
 				<script type="text/javascript" class="registrationScripts">
-					<xsl:text>require(["wc/compat/compat!"], function(){</xsl:text>
 					<xsl:text>require(["wc/common"], function(){</xsl:text>
 					<xsl:if test="$registeredComponents ne ''">
 						<xsl:value-of select="$registeredComponents" />
@@ -211,8 +210,6 @@
 						end style loader//-->
 					<xsl:text>});</xsl:text><!--
 						end common//-->
-					<xsl:text>});</xsl:text><!--
-						end compat//-->
 				</script>
 
 				<!--
@@ -603,13 +600,12 @@
 					<xsl:variable name="scriptId"
 						select="concat('wcscript_', generate-id())" />
 					<script type="text/javascript" class="registrationScripts" id="{$scriptId}">
-						<xsl:text>require(["wc/compat/compat!"], function(){</xsl:text>
 						<xsl:text>require(["wc/common"], function(){</xsl:text>
 						<xsl:value-of select="$rego" />
 						<xsl:text>require(["wc/dom/removeElement"], function(r){ r("</xsl:text>
 							<xsl:value-of select="$scriptId" />
 						<xsl:text>", true);});</xsl:text>
-						<xsl:text>});});</xsl:text>
+						<xsl:text>});</xsl:text>
 					</script>
 				</xsl:otherwise>
 			</xsl:choose>

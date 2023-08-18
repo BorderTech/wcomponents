@@ -20,7 +20,6 @@ let requireJsOptions = {
 		lib: `${scriptDir}/lib`,
 		dojo: `${scriptDir}/lib/dojo`,
 		"lib/sprintf": `${scriptDir}/lib/sprintf.min`,
-		compat: `${scriptDir}/wc/compat`,
 		translation: `resource/translation`,
 		"intern/chai": `/${testRootPath}/resources/intern-chai`,
 		"intern/resources": `/${testRootPath}/resources/`,

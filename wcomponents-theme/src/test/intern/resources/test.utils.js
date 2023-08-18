@@ -1,4 +1,4 @@
-define(["wc/compat/compat!"], function() {
+define([], function() {
 	"use strict";
 	var instance = new WcTestUtils();
 

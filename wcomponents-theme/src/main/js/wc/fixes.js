@@ -33,9 +33,6 @@ define(["wc/has"], function(has) {
 		}
 	});
 
-	addTest("uc", function () {
-		return !has("css-flex");
-	});
 	/* end sniff additions */
 
 	if (has("webkit") && !has("edge")) {
@@ -44,9 +41,5 @@ define(["wc/has"], function(has) {
 		result.push("wc/fix/shiftKey_ff");
 	}
 
-
-	if (has("uc") && has("android")) {
-		result.push("wc/fix/width_uc");
-	}
 	return result;
 });
