@@ -29,11 +29,11 @@ function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid,
 	 * @private
 	 */
 	function Menubar() {
-		var HAMBURGER,
-			MENU_FIXED = "wc_menu_fix",
+		var MENU_FIXED = "wc_menu_fix",
 			resizeTimer,
 			BURGER_MENU_CLASS = "wc_menu_hbgr",
-			DECORATED_LABEL,
+			hamburgerSelector = `div.${BURGER_MENU_CLASS}`,
+			decoratedLabelSelector = ".wc-decoratedlabel",
 			RESPONSIVE_MENU,
 			SEPARATOR;
 
@@ -246,8 +246,8 @@ function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid,
 			}
 
 			try {
-				HAMBURGER = HAMBURGER || new Widget("div", BURGER_MENU_CLASS);
-				if (!(burger = HAMBURGER.findDescendant(nextMenu))) {
+				burger = nextMenu.querySelector(hamburgerSelector);
+				if (!burger) {
 					return;
 				}
 
@@ -277,39 +277,29 @@ function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid,
 		 * @param {Element} el the element to test and (possibly) manipulate.
 		 */
 		function attachSubMenuCloseButton(el) {
-			var branch,
-				opener,
-				label,
-				closeButton,
-				tempWrapper,
-				closeButtonHTML;
-			try {
-				if (el && instance.isSubMenu(el)) {
-					if ((branch = instance._getBranch(el)) && (opener = instance._getBranchOpener(branch))) {
-						DECORATED_LABEL = DECORATED_LABEL || new Widget("", "wc-decoratedlabel");
-						label = DECORATED_LABEL.findDescendant(opener);
+			if (el && instance.isSubMenu(el)) {
+				const branch = instance._getBranch(el);
+				let opener;
+				if (branch && (opener = instance._getBranchOpener(branch))) {
+					let label = opener.querySelector(decoratedLabelSelector);
 
+					if (label) {
+						const tempWrapper = document.createElement("span");
+						const closeButtonHTML = `<button class="wc-menuitem wc_closesubmenu wc-nobutton wc-invite" role="menuitem" type="button">${label.outerHTML}</button>`;
+						tempWrapper.insertAdjacentHTML("afterbegin", closeButtonHTML);
+						const closeButton = tempWrapper.firstChild;
+						label = closeButton.querySelector(decoratedLabelSelector);
 						if (label) {
-							tempWrapper = document.createElement("span");
-							closeButtonHTML = "<button class=\"wc-menuitem wc_closesubmenu wc-nobutton wc-invite\" role=\"menuitem\" type=\"button\">" +
-								label.outerHTML +
-								"</button>";
-							tempWrapper.insertAdjacentHTML("afterbegin", closeButtonHTML);
-							closeButton = tempWrapper.firstChild;
-							if ((label = DECORATED_LABEL.findDescendant(closeButton))) {
-								label.insertAdjacentHTML("afterbegin", "<i class=\"fa fa-caret-left wc_dlbl_seg\" aria-hidden=\"true\"></i>");
-							}
-							Array.prototype.forEach.call(closeButton.querySelectorAll("[id]"), function(next) {
-								next.id = uid();
-							});
-							if (el.hasChildNodes()) {
-								el.insertBefore(closeButton, el.firstChild);
-							}
+							label.insertAdjacentHTML("afterbegin", '<i class="fa fa-caret-left wc_dlbl_seg" aria-hidden="true"></i>');
+						}
+						Array.prototype.forEach.call(closeButton.querySelectorAll("[id]"), function(next) {
+							next.id = uid();
+						});
+						if (el.hasChildNodes()) {
+							el.insertBefore(closeButton, el.firstChild);
 						}
 					}
 				}
-			} finally {
-				tempWrapper = null;
 			}
 		}
 
@@ -328,7 +318,7 @@ function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid,
 				return;
 			}
 			i18n.translate(["menu_open_label", "menu_close_label"]).then(function(strings) {
-				var props = {
+				const props = {
 					id: uid(),
 					class: " " + BURGER_MENU_CLASS,
 					opener: {
