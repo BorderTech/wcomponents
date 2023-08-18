@@ -30,9 +30,6 @@ let libs = {
 	tinymce: {
 		dest: "tinymce"
 	},
-	mustache: {
-		dest: "mustache"
-	},
 	"axe-core/axe.min.js": {
 		dest: "axe.min.js"
 	},
