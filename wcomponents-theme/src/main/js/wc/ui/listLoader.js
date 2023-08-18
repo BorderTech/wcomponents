@@ -1,11 +1,9 @@
 define(["wc/ajax/ajax",
 	"wc/urlParser",
-	"wc/dom/tag",
 	"wc/Observer",
-	"wc/dom/getAncestorOrSelf",
 	"wc/dom/toDocFragment",
 	"wc/timers"],
-function(ajax, urlParser, tag, Observer, getAncestorOrSelf, toDocFragment, timers) {
+function(ajax, urlParser, Observer, toDocFragment, timers) {
 	"use strict";
 
 	/**
@@ -14,10 +12,10 @@ function(ajax, urlParser, tag, Observer, getAncestorOrSelf, toDocFragment, timer
 	 * @private
 	 */
 	function ListLoader() {
-		var LIST_ID_PARAM = "wc_data",
-			observer,
+		const LIST_ID_PARAM = "wc_data",
 			pending = {},
 			prefetched = {};
+		let observer;
 
 		/**
 		 * Queues an ajax request to fetch a given datalist.
@@ -36,14 +34,14 @@ function(ajax, urlParser, tag, Observer, getAncestorOrSelf, toDocFragment, timer
 		 * @param {Function} config.onerror The callback to call if an error occurs
 		 */
 		function queueRequest(config) {
-			var groupWin = config.url,
+			const groupWin = config.url,
 				groupLose = config.url + "_error";
 			/*
 			 * This function should never be called directly (therefore it is an inner/private function).
 			 * Instead requests must always be queued through queueRequest.
 			 */
 			function sendRequest() {
-				var promiseDone = function(group, response) {
+				const promiseDone = function(group, response) {
 						try {
 							observer.setFilter(group);  // WARNING! IT IS CRITICAL!!! (in IE) THAT THIS CALL HAPPENS AFTER THE TRANSFORMATION!
 							observer.notify(response);
@@ -93,7 +91,8 @@ function(ajax, urlParser, tag, Observer, getAncestorOrSelf, toDocFragment, timer
 		 * @returns {String} The base URL used to fetch the datalist.
 		 */
 		function getUrl(element) {
-			var result, form = getAncestorOrSelf(element, tag.FORM);
+			let result;
+			const form = element.closest("form");
 			if (form) {
 				result = form.getAttribute("data-wc-datalisturl");
 			}
@@ -110,11 +109,12 @@ function(ajax, urlParser, tag, Observer, getAncestorOrSelf, toDocFragment, timer
 		 * @param {boolean} [prefetch] If true treat this request as a prefetch for performance optimization rather than a genuine load.
 		 */
 		this.load = function(id, element, prefetch) {
-			var result = new Promise(function(win, lose) {
-				var urlParsed, qsSeparator, url = getUrl(element);
+			return new Promise(function(win, lose) {
 				if (id && id.constructor === String) {
+					let url = getUrl(element);
 					if (url) {
-						urlParsed = urlParser.parse(url);
+						let qsSeparator;
+						const urlParsed = urlParser.parse(url);
 						if (urlParsed && urlParsed.search) {
 							qsSeparator = "&";
 						} else {
@@ -141,14 +141,13 @@ function(ajax, urlParser, tag, Observer, getAncestorOrSelf, toDocFragment, timer
 					timers.setTimeout(lose, 0, "param 'id' must be a string");
 				}
 			});
-			return result;
 		};
 	}
 
 	/**
 	 * Loads named datalists, allowing other classes to reuse the same datalists. The purpose of this functionality is a
 	 * performance enhancement. It allows for significantly reduced page sizes (compared to embedding datalists in
-	 * non-cachable pages).
+	 * non-cacheable pages).
 
 	 * Could store a checksum of the datalist against the full url (including querystring) so we can make sure applications
 	 * are correctly assigning identifiers to lists. This could be done in a timeout so it does not slow down the actual
@@ -160,9 +159,8 @@ function(ajax, urlParser, tag, Observer, getAncestorOrSelf, toDocFragment, timer
 	 * @module
 	 * @requires module:wc/ajax/ajax
 	 * @requires module:wc/urlParser
-	 * @requires module:wc/dom/tag
+	 * @requires module:wc/urlParser
 	 * @requires module:wc/Observer
-	 * @requires module:wc/dom/getAncestorOrSelf
 	 * @requires module:wc/dom/toDocFragment
 	 */
 	return new ListLoader();

@@ -8,11 +8,8 @@
  *
  * @module
  *
- * @requires module:wc/dom/tag
  * @requires module:wc/dom/event
  * @requires module:wc/dom/serialize
- * @requires module:wc/dom/Widget
- * @requires module:wc/dom/getAncestorOrSelf
  * @requires module:wc/ajax/ajax
  * @requires module:wc/dom/formUpdateManager
  * @requires module:wc/dom/initialise
@@ -20,18 +17,15 @@
  * @requires module:wc/ajax/setLoading
  * @requires module:wc/Observer
  */
-define(["wc/dom/tag",
-	"wc/dom/event",
+define(["wc/dom/event",
 	"wc/dom/serialize",
-	"wc/dom/Widget",
-	"wc/dom/getAncestorOrSelf",
 	"wc/ajax/ajax",
 	"wc/dom/formUpdateManager",
 	"wc/dom/initialise",
 	"wc/timers",
 	"wc/ajax/setLoading",
 	"wc/Observer"],
-function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManager, initialise, timers, setLoading, Observer) {
+function(event, serialize, ajax, formUpdateManager, initialise, timers, setLoading, Observer) {
 	"use strict";
 
 	const
@@ -44,12 +38,6 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 		 * @default "Submit Query"
 		 */
 		EMPTY_VALUE = "Submit Query",
-		/**
-		 * @constant {module:wc/dom/Widget} busyWd A {@link module:wc/dom/Widget} description of a busy element
-		 * (pending a UI update). Instantiated only when and if first needed.
-		 * @private
-		 */
-		busyWd = new Widget("", "", { "aria-busy": "true" }),
 		/**
 		 * @constant {int} REQUEST_DELAY The delay, in milliseconds, before sending a request to prevent rapid fire
 		 * requests (double clickers).
@@ -67,12 +55,6 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 		UNDEFINED = "undefined";
 
 	let
-		/**
-		 * @var {Object} TAG An object used to map HTML tag names. Instantiated only when first needed.
-		 * @see {@link module:wc/dom/tag}
-		 * @private
-		 */
-		TAG,
 		/**
 		 * @var {module:wc/ajax/Trigger~Request[]} pendingList An array of AJAX requests that have been sent but
 		 * not received.
@@ -164,21 +146,15 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 	}
 
 	/**
-	 * Find the form ancestor of any element.
+	 * Find the form ancestor (or self) of any element.
 	 *
 	 * @function getForm
 	 * @private
-	 * @param {Element} element the start element.
-	 * @returns {Element} the ancestor form element if any or undefined.
+	 * @param {HTMLElement} element the start element.
+	 * @returns {HTMLFormElement} the ancestor form element if any or undefined.
 	 */
 	function getForm(element) {
-		let form;
-		if (typeof element.form !== UNDEFINED) {
-			form = element.form;
-		} else if (element.tagName !== tag.FORM) {  // if you want an infinte loop remove this check :P
-			form = getAncestorOrSelf(element, tag.FORM);
-		}
-		return form;
+		return element["form"] || element.closest("form");
 	}
 
 	/**
@@ -455,7 +431,8 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 				}
 				const next = document.getElementById(ids[i]);
 				if (next) {
-					const busy = busyWd.findAncestor(next) || busyWd.findDescendant(next);
+					const busySelector = "[aria-busy='true']";
+					const busy = next.closest(busySelector) || next.querySelector(busySelector);
 					if (busy && busy !== next) {  // the element itself will ALWAYS be busy
 						// this element is contained in or contains a "busy" region
 						return false;
@@ -614,17 +591,17 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 	 *    is only successful when it is clicked, that is what we are honoring here
 	 * @private
 	 * @function
-	 * @param {Element} element The trigger element.
+	 * @param {HTMLElement} element The trigger element.
 	 * @returns {String} The serialized parameters or "".
 	 */
 	function getSubmitButtonParams(element) {
 		let params = "", triggerName = element.name;
 		if (triggerName) {
 			triggerName = encodeURIComponent(triggerName);
-			if (element.tagName === tag.BUTTON && element.type === "submit") {
+			if (element.matches("button[type='submit']")) {
 				params = triggerName + "=";
 				params += element.value;
-			} else if (element.tagName === tag.INPUT && (element.type === "submit" || element.type === "image")) {
+			} else if (element.matches("input[type='submit']") || element.matches("input[type='image']")) {
 				params = triggerName + "=";
 				if (element.hasAttribute && !element.hasAttribute("value")) {
 					params += EMPTY_VALUE;
@@ -657,11 +634,10 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 			if (region) {
 				formUpdateManager.update(form, region);
 				const stateContainer = formUpdateManager.getStateContainer(form);
-				TAG = TAG || { INPUT: tag.INPUT, SELECT: tag.SELECT, TEXTAREA: tag.TEXTAREA };
-				result = addToQueryString(result, serialize.serialize(region.getElementsByTagName(TAG.INPUT)));
-				result = addToQueryString(result, serialize.serialize(region.getElementsByTagName(TAG.SELECT)));
-				result = addToQueryString(result, serialize.serialize(region.getElementsByTagName(TAG.TEXTAREA)));
-				result = addToQueryString(result, serialize.serialize(stateContainer.getElementsByTagName(TAG.INPUT)));
+				result = addToQueryString(result, serialize.serialize(region.querySelectorAll("input")));
+				result = addToQueryString(result, serialize.serialize(region.querySelectorAll("select")));
+				result = addToQueryString(result, serialize.serialize(region.querySelectorAll("textarea")));
+				result = addToQueryString(result, serialize.serialize(stateContainer.querySelectorAll("input")));
 			} else {
 				formUpdateManager.update(form);
 				result = serialize.serialize(form);

@@ -8,31 +8,27 @@
  * "foo" then show the div with the id of "bar".
  *
  * @module
- * @requires module:wc/dom/tag
  * @requires module:wc/dom/attribute
  * @requires module:wc/date/interchange
  * @requires module:wc/dom/getFilteredGroup
  * @requires module:wc/dom/initialise
  * @requires module:wc/ui/SubordinateAction
  * @requires module:wc/array/unique
- * @requires module:wc/dom/getAncestorOrSelf
  * @requires module:wc/dom/shed
  * @requires module:wc/timers
  * @requires module:wc/array/toArray
  * @todo Check source order.
  */
-define(["wc/dom/tag",
-	"wc/dom/attribute",
+define(["wc/dom/attribute",
 	"wc/date/interchange",
 	"wc/dom/getFilteredGroup",
 	"wc/dom/initialise",
 	"wc/ui/SubordinateAction",
 	"wc/array/unique",
-	"wc/dom/getAncestorOrSelf",
 	"wc/dom/shed",
 	"wc/timers",
 	"wc/array/toArray"],
-function(tag, attribute, interchange, getFilteredGroup, initialise, Action, unique, getAncestorOrSelf, shed, timers, toArray) {
+function(attribute, interchange, getFilteredGroup, initialise, Action, unique, shed, timers, toArray) {
 	"use strict";
 	var instance;
 
@@ -50,8 +46,7 @@ function(tag, attribute, interchange, getFilteredGroup, initialise, Action, uniq
 			elementToRuleMap = {},  // maps dom element ids to rule ids
 			regexCache = {},  // cache any dynamically created RegExp instances we may need repeatedly
 			waitingForRules = false,  // flag if we don't add event listeners when dom is loaded
-			changeInited = false,
-			BOOTSTRAPPED = "wc/ui/subordinate.bootstrapped";  // ie8 change event bootstrapped flag
+			changeInited = false;
 
 		/**
 		 * Takes an array of uninitialized actions and returns a new array containing corresponding initialized
@@ -151,13 +146,9 @@ function(tag, attribute, interchange, getFilteredGroup, initialise, Action, uniq
 		 *   controls not the wrappers.
 		 */
 		function getElement(identifier) {
-			var result = document.getElementsByName(identifier);
-			if (result.length && (result[0].tagName === tag.INPUT || result[0].tagName === tag.SELECT || result[0].tagName === tag.TEXTAREA || result[0].tagName === tag.BUTTON)) {// gebn always returns a nodelist even if nothing found
-				result = result[0];
-			} else {
-				result = document.getElementById(identifier);
-			}
-			return result;
+			const namedElements = ['input', 'select', 'textarea', 'button'];
+			const selector = namedElements.map(tn => `${tn}[name='${identifier}']`).join();
+			return document.querySelector(selector) || document.getElementById(identifier);
 		}
 
 		/**
@@ -203,7 +194,7 @@ function(tag, attribute, interchange, getFilteredGroup, initialise, Action, uniq
 				element = getElement(id),
 				selectedItems;
 			if (element && !shed.isDisabled(element)) {
-				if (shed.isSelectable(element) || element.tagName === tag.FIELDSET) {
+				if (shed.isSelectable(element) || element.matches("fieldset")) {
 					selectedItems = getSelectedOptions(element);
 				}
 				if (selectedItems) {
@@ -583,11 +574,7 @@ function(tag, attribute, interchange, getFilteredGroup, initialise, Action, uniq
 					waitingForRules = false;
 					if (!changeInited) {
 						changeInited = true;
-						if (event.canCapture) {
-							event.add(element, { type: "change", listener: changeEvent, capture: true });
-						} else {
-							event.add(element, "focusin", focusEvent);
-						}
+						event.add(element, { type: "change", listener: changeEvent, capture: true });
 					}
 					shed.subscribe(shed.actions.SELECT, shedObserver);
 					shed.subscribe(shed.actions.DESELECT, shedObserver);
@@ -597,26 +584,6 @@ function(tag, attribute, interchange, getFilteredGroup, initialise, Action, uniq
 				}
 			});
 		};
-
-		/**
-		 * Bootstrapping function to wire up change event for browsers which do not support capture.
-		 * @function
-		 * @private
-		 * @param {Event} $event The focus event.
-		 */
-		function focusEvent($event) {
-			var target, bootstrapped;
-			if (!$event.defaultPrevented) {
-				target = $event.target;
-				if (target && triggersOnChange(target)) {
-					bootstrapped = attribute.get(target, BOOTSTRAPPED);
-					if (!bootstrapped) {
-						attribute.set(target, BOOTSTRAPPED, true);
-						event.add(target, "change", changeEvent);
-					}
-				}
-			}
-		}
 
 		/**
 		 * Listen for shed "events" that could be subordinate triggers.
@@ -645,10 +612,10 @@ function(tag, attribute, interchange, getFilteredGroup, initialise, Action, uniq
 		 * @param {Event} $event The event that has fired.
 		 */
 		function changeEvent($event) {
-			var element = $event.target;
+			let element = $event.target;
 			if (!$event.defaultPrevented && element) {  // strictly speaking change event can not be cancelled
-				if (element.tagName === tag.OPTION) {// FF with <select multiple="multiple">
-					element = getAncestorOrSelf(element, tag.SELECT);
+				if (element.matches("option")) {  // FF with <select multiple="multiple">
+					element = element.closest("select");
 				}
 				if (triggersOnChange(element)) {
 					timers.setTimeout(activateSubordinateRules, 0, element);
