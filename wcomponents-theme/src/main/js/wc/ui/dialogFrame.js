@@ -12,14 +12,14 @@ define(["wc/dom/event",
 	"wc/ui/positionable",
 	"wc/ui/draggable",
 	"wc/dom/role",
-	"wc/template",
 	"wc/ui/viewportUtils",
 	"wc/ui/getForm",
 	"wc/config"],
 function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, modalShim, timers, resizeable, positionable, draggable, $role,
-	template, viewportUtils, getForm, wcconfig) {
+	viewportUtils, getForm, wcconfig) {
 	"use strict";
-	var instance;
+	let instance;
+
 	/**
 	 * @constructor
 	 * @alias module:wc/ui/dialogFrame~DialogFrame
@@ -60,6 +60,23 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		RESIZERS = resizeable.getWidget();
 		RESIZE_WD = RESIZERS.handle;
 		MAX_BUTTON = RESIZERS.maximise;
+
+		const template = context => `
+			<dialog id="${DIALOG_ID}" role="dialog">
+				<header tabindex="0">
+					<span>
+						<button class="wc_maxcont wc_btn_icon" type="button" title="${context.heading.maxRestore}" aria-pressed="false" data-wc-resize="${DIALOG_ID}"><i aria-hidden="true" class="fa fa-plus"></i></button>
+						<button class="wc_dialog_close wc_btn_icon" type="button" title="${context.heading.close}"><i aria-hidden="true" class="fa fa-times"></i></button>
+					</span>
+					<h1>&#x2002;</h1>
+				</header>
+				<div class="content" aria-live="assertive">
+					${context.message.loading}
+				</div>
+				<footer>
+					<button class="wc-nobutton wc_resize" data-wc-resize="${DIALOG_ID}" type="button"><i aria-hidden="true" class="fa fa-arrows-alt"></i></button>
+				</footer>
+			</dialog>`;
 
 		/**
 		 * Indicates that the dialog is modal.
@@ -114,8 +131,8 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		 * @returns {Element} The form element.
 		 */
 		function getDlgForm(dto) {
-			var formId = (dto ? (dto.formId || dto.openerId) : null),
-				el;
+			const formId = (dto ? (dto.formId || dto.openerId) : null);
+			let el;
 
 			if (formId) {
 				el = document.getElementById(formId);
@@ -132,8 +149,8 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		 * @returns {Promise} The promise will be a rejection if the dialog is not able to be opened.
 		 */
 		this.open = function (dto) {
-			var dialog = this.getDialog(),
-				form, formId;
+			const dialog = this.getDialog();
+			let form;
 
 			if (dialog) {
 				if (!this.isOpen(dialog)) {
@@ -141,7 +158,7 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 				}
 				return Promise.reject(REJECT.ALREADY_OPEN);
 			} else if ((form = getDlgForm(dto))) {
-				formId = form.id || (form.id = uid());
+				const formId = form.id || (form.id = uid());
 
 				if (formId) {
 					return buildDialog(formId).then(function () {
@@ -159,7 +176,7 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		 * @returns {boolean} true if the dialog is open.
 		 */
 		this.isOpen = function (element) {
-			var dialog = element || this.getDialog();
+			const dialog = element || this.getDialog();
 			return (dialog && !shed.isHidden(dialog, true));
 		};
 
@@ -173,7 +190,7 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		 */
 		function openDlgHelper(dto) {
 			return i18n.translate("dialog_noTitle").then(function(defaultTitle) {
-				var effectiveDto = dto || {},
+				const effectiveDto = dto || {},
 					dialog = instance.getDialog();
 
 				if (dialog && !instance.isOpen(dialog)) {
@@ -224,20 +241,19 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		 * @param {module:wc/ui/dialogFrame~dto} obj The registry item that contains configuration data for this dialog.
 		 */
 		function reinitializeDialog(dialog, obj) {
-			var title, isModal;
-
 			instance.unsetAllDimensions(dialog);
 			dialog.className = (obj.className || "");
 			instance.resetContent(false, (obj.id  || ""));
 			// set the dialog title
-			if ((title = TITLE_WD.findDescendant(dialog))) {
+			const title = TITLE_WD.findDescendant(dialog);
+			if (title) {
 				title.innerHTML = ""; // ??? This _cannot_ really still be needed?
 				title.innerHTML = obj.title;
 			}
 			subscriber.close = obj.onclose;
 			initDialogControls(dialog, obj);
 			initDialogDimensions(dialog, obj);
-			isModal = (typeof obj.modal !== "undefined") ? obj.modal : true;
+			const isModal = (typeof obj.modal !== "undefined") ? obj.modal : true;
 			setModality(dialog, isModal);
 		}
 
@@ -250,9 +266,9 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		 * @param {Element} dialog The dialogFrame being manipulated.
 		 */
 		function setUpMoveResizeControls(dialog) {
-			var control;
+			const control = HEADER_WD.findDescendant(dialog, true);
 
-			if ((control = HEADER_WD.findDescendant(dialog, true))) {
+			if (control) {
 				if (canMoveResize()) {
 					draggable.makeDraggable(control, DIALOG_ID);
 					resizeable.setMaxBar(control);
@@ -274,7 +290,7 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		 * @param {Element} dialog The dialogFrame being manipulated.
 		 */
 		function setUnsetDimensionsPosition(dialog) {
-			var animationsDisabled;
+			let animationsDisabled;
 
 			try {
 				if (canMoveResize()) {
@@ -301,7 +317,7 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		 * @function
 		 */
 		function initDialogControls(dialog, obj) {
-			var control;
+			let control;
 
 			setUpMoveResizeControls(dialog);
 			if (obj.max && (control = MAX_BUTTON.findDescendant(dialog))) {
@@ -317,7 +333,7 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		 * @param {Element} [dlg] The dialog wrapper element if known.
 		 */
 		this.unsetAllDimensions = function (dlg) {
-			var dialog = dlg || this.getDialog();
+			const dialog = dlg || this.getDialog();
 			if (dialog) {
 				dialog.style.width = "";
 				dialog.style.height = "";
@@ -353,8 +369,8 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		}
 
 		function getResizeConfig(width, height) {
-			var globalConf = wcconfig.get("wc/ui/dialogFrame", {}),
-				offset = INITIAL_TOP_PROPORTION;
+			const globalConf = wcconfig.get("wc/ui/dialogFrame", {});
+			let offset = INITIAL_TOP_PROPORTION;
 
 			if (globalConf.offset) {
 				if (isNaN(globalConf.offset)) {
@@ -380,10 +396,10 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		 * @param {module:wc/ui/dialogFrame~dto} obj The registry item that contains configuration data for this dialog.
 		 */
 		function initDialogPosition(dialog, obj) {
-			var disabledAnimations, configObj;
+			let disabledAnimations;
 			try {
 				if (obj) {
-					configObj = getResizeConfig(obj.width, obj.height);
+					const configObj = getResizeConfig(obj.width, obj.height);
 					// set the initial position. If the position (top, left) is set in the config object we do not need to calculate position.
 					if (!((obj.top || obj.top === 0) && (obj.left || obj.left === 0))) {
 						if (canMoveResize()) {
@@ -413,18 +429,16 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		function buildDialog(formId) {
 			return new Promise(function(win, lose) {
 				i18n.translate(["dialog_maxRestore", "dialog_close", "loading", "dialog_move", "dialog_resize"]).then(function(translations) {
-					var done = function () {
-							var dialog,
-								dialogHeader,
-								resizeHandle,
-								headerTitle,
-								resizeHandleTitle;
-							if ((dialog = instance.getDialog())) {
+					const done = function () {
+							const dialog = instance.getDialog();
+							if (dialog) {
+								let headerTitle;
 								event.add(dialog, "keydown", keydownEvent);
-								if ((dialogHeader = HEADER_WD.findDescendant(dialog, true)) && (headerTitle = translations[3])) {
+								const dialogHeader = HEADER_WD.findDescendant(dialog, true);
+								if (dialogHeader && (headerTitle = translations[3])) {
 									dialogHeader.title = headerTitle;
 								}
-
+								let resizeHandle, resizeHandleTitle;
 								if (RESIZE_WD && (resizeHandle = RESIZE_WD.findDescendant(dialog)) && (resizeHandleTitle = translations[4])) {
 									resizeHandle.title = resizeHandleTitle;
 								}
@@ -433,7 +447,7 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 								lose(null);
 							}
 						},
-						form, dialogProps = {
+						dialogProps = {
 							heading: {
 								maxRestore: translations[0],
 								close: translations[1]
@@ -442,26 +456,20 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 								loading: translations[2]
 							}
 						};
-
-					if (formId) {
-						form = document.getElementById(formId);
-					}
+					let form = formId ? document.getElementById(formId) : null;
 					form = getForm(form);
 					if (!form) {
 						console.error("Cannot find form for dialog frame");
 						lose(null);
 						return null;
 					}
-
-					template.process({
-						source: "dialog.xml",
-						loadSource: true,
-						target: form,
-						context: dialogProps,
-						position: "beforeEnd",
-						callback: done,
-						errback: lose
-					});
+					try {
+						const html = template(dialogProps);
+						form.insertAdjacentHTML("beforeEnd", html);
+						done();
+					} catch (ex) {
+						lose();
+					}
 				});
 			});
 		}
@@ -588,8 +596,10 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		 * @param {Event} $event The hide event.
 		 */
 		function shedHideSubscriber($event) {
-			var control, callback, clearOpener, element = $event.target;
+			let clearOpener;
+			const element = $event.target;
 			try {
+				let control;
 				if (element && element.id === DIALOG_ID) {
 					clearOpener = true;
 					modalShim.clearModal();
@@ -610,7 +620,7 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 					}
 					if (subscriber.close) {
 						try {
-							callback = subscriber.close;
+							const callback = subscriber.close;
 							subscriber.close = null;
 							callback();
 						} catch (ex) {
@@ -679,10 +689,9 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		 * @returns {Boolean} Returns true if we are refocussing the dialog (due to trying to TAB out of it).
 		 */
 		function tabKeyHelper(element, dialog, hasShift) {
-			var tw,
-				result = false;
+			let result = false;
 			if (!hasShift && isModalDialog(dialog)) {
-				tw = document.createTreeWalker(dialog, NodeFilter.SHOW_ELEMENT, tabstopNodeFilter, false);
+				const tw = document.createTreeWalker(dialog, NodeFilter.SHOW_ELEMENT, tabstopNodeFilter, false);
 				tw.lastChild();
 				if (element === tw.currentNode) {
 					result = true;
@@ -732,7 +741,7 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		 * @private
 		 */
 		function resizeEventHelper() {
-			var dialog = document.getElementById(DIALOG_ID);
+			const dialog = document.getElementById(DIALOG_ID);
 
 			if (!dialog || !instance.isOpen(dialog)) {
 				return;
@@ -826,7 +835,7 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		 * @param {String} [id] The id to set on the content.
 		 */
 		this.resetContent = function (keepContent, id) {
-			var content = this.getContent();
+			const content = this.getContent();
 
 			if (content) {
 				content.removeAttribute("data-wc-get");
@@ -883,7 +892,6 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 	 * @requires module:wc/ui/positionable
 	 * @requires module:wc/ui/draggable
 	 * @requires module:wc/dom/role
-	 * @requires module:wc/template
 	 * @requires module:wc/ui/viewportUtils
 	 * @requires module:wc/ui/getForm
 	 */
