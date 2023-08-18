@@ -13,9 +13,7 @@
  * @requires module:wc/dom/initialise
  * @requires module:wc/Observer
  * @requires module:wc/dom/uid
- * @requires module:wc/dom/getAncestorOrSelf
  * @requires module:wc/dom/shed
- * @requires module:wc/dom/Widget
  *
  * @todo reorder code, document private members.
  * @todo OK so we have a melange, a trifle, a veritable stone soup of functions on the prototype chain and public
@@ -27,11 +25,9 @@ define(["wc/dom/event",
 	"wc/dom/initialise",
 	"wc/Observer",
 	"wc/dom/uid",
-	"wc/dom/getAncestorOrSelf",
 	"wc/dom/shed",
-	"wc/dom/attribute",
-	"wc/dom/Widget"],
-function(event, initialise, Observer, uid, getAncestorOrSelf, shed, attribute, Widget) {
+	"wc/dom/attribute"],
+function(event, initialise, Observer, uid, shed, attribute) {
 	"use strict";
 	var STATE_CONTAINER_SUFFIX = "_state_container",
 		SUB_METHOD = "writeState",
@@ -41,8 +37,7 @@ function(event, initialise, Observer, uid, getAncestorOrSelf, shed, attribute, W
 		 * @var
 		 * @alias module:wc/dom/formUpdateManager
 		 */
-		formUpdateManager,
-		FILESELECTORWD;
+		formUpdateManager;
 
 	/**
 	 * @constructor
@@ -50,8 +45,7 @@ function(event, initialise, Observer, uid, getAncestorOrSelf, shed, attribute, W
 	 * @private
 	 */
 	function FormUpdateManager() {
-		var observer,
-			FORM = "FORM";
+		let observer;
 
 		/**
 		 * Subscribe to formUpdateManager so a module can take care of its own state writing needs.
@@ -126,7 +120,7 @@ function(event, initialise, Observer, uid, getAncestorOrSelf, shed, attribute, W
 				stateContainer,
 				_container = container;
 			if (!ignoreForm) {
-				_container = getAncestorOrSelf(_container, FORM);
+				_container = _container.closest("form");
 			}
 
 			checkEnctype(_container);
@@ -194,27 +188,17 @@ function(event, initialise, Observer, uid, getAncestorOrSelf, shed, attribute, W
 		 * @param {boolean} [add] Indicates if we are adding or removing the event listeners.
 		 */
 		function addRemoveEvents(el, add) {
-			var func = add ? "add" : "remove";
-			if (event.canCapture) {
-				if (add) {
-					event[func](el, "click", genericEventCancel, -1, null, true);
-					event[func](el, "change", genericEventCancel, -1, null, true);
-					event[func](el, "keydown", genericEventCancel, -1, null, true);
-					event[func](el, "keypress", genericEventCancel, -1, null, true);
-				} else {
-					event[func](el, "click", genericEventCancel, true);
-					event[func](el, "change", genericEventCancel, true);
-					event[func](el, "keydown", genericEventCancel, true);
-					event[func](el, "keypress", genericEventCancel, true);
-				}
-			} else  if (add) {
-				event[func](el, "click", genericEventCancel, -1);
-				event[func](el, "keydown", genericEventCancel, -1);
-				event[func](el, "keypress", genericEventCancel, -1);
+			const func = add ? "add" : "remove";
+			if (add) {
+				event[func](el, "click", genericEventCancel, -1, null, true);
+				event[func](el, "change", genericEventCancel, -1, null, true);
+				event[func](el, "keydown", genericEventCancel, -1, null, true);
+				event[func](el, "keyup", genericEventCancel, -1, null, true);
 			} else {
-				event[func](el, "click", genericEventCancel);
-				event[func](el, "keydown", genericEventCancel);
-				event[func](el, "keypress", genericEventCancel);
+				event[func](el, "click", genericEventCancel, true);
+				event[func](el, "change", genericEventCancel, true);
+				event[func](el, "keydown", genericEventCancel, true);
+				event[func](el, "keyup", genericEventCancel, true);
 			}
 		}
 
@@ -260,15 +244,15 @@ function(event, initialise, Observer, uid, getAncestorOrSelf, shed, attribute, W
 		 *
 		 * @function
 		 * @private
-		 * @param {Element} form A HTML form.
+		 * @param {HTMLFormElement} form A HTML form.
 		 */
 		function checkEnctype(form) {
-			var enctype = "multipart/form-data",
+			const enctype = "multipart/form-data",
 				enctypeAttr = "enctype",
-				_form;
-			if ((_form = getAncestorOrSelf(form, FORM))) {
-				FILESELECTORWD = FILESELECTORWD || new Widget("input", "", {type: "file"});
-				if (form[enctypeAttr] !== enctype && FILESELECTORWD.findDescendant(_form)) {
+				_form = form.closest("form");
+			if (_form) {
+				const fileInputSelector = "input[type='file']";
+				if (_form[enctypeAttr] !== enctype && _form.querySelector(fileInputSelector)) {
 					// there is a file selector in the form
 					_form[enctypeAttr] = enctype;  // browsers are happy with this
 					_form.setAttribute(enctypeAttr, enctype);  // IE8 seems to need this
