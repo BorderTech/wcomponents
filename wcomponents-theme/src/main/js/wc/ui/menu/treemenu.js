@@ -98,9 +98,9 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 				if (this._isBranchOrOpener(element)) {
 					element = this._getBranchExpandableElement(element);
 					if (!shed.isExpanded(element)) {
-						this._keyMap["DOM_VK_RIGHT"] = this._FUNC_MAP.ACTION;
+						this._keyMap["ArrowRight"] = this._FUNC_MAP.ACTION;
 					} else {
-						this._keyMap["DOM_VK_RIGHT"] = keyWalker.MOVE_TO.CHILD;
+						this._keyMap["ArrowRight"] = keyWalker.MOVE_TO.CHILD;
 					}
 				}
 			};
@@ -114,10 +114,10 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 			 */
 			this._setupKeymap = function() {
 				this._keyMap = {
-					"DOM_VK_UP": keyWalker.MOVE_TO.PREVIOUS,
-					"DOM_VK_DOWN": keyWalker.MOVE_TO.NEXT,
-					"DOM_VK_LEFT": this._FUNC_MAP.CLOSE_MY_BRANCH,
-					"DOM_VK_ESCAPE": this._FUNC_MAP.CLOSE_MY_BRANCH
+					"ArrowUp": keyWalker.MOVE_TO.PREVIOUS,
+					"ArrowDown": keyWalker.MOVE_TO.NEXT,
+					"ArrowLeft": this._FUNC_MAP.CLOSE_MY_BRANCH,
+					"Escape": this._FUNC_MAP.CLOSE_MY_BRANCH
 				};
 			};
 

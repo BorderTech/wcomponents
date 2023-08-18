@@ -9,13 +9,27 @@ define(["wc/ui/menu/core",
 	"wc/i18n/i18n",
 	"wc/timers",
 	"wc/ui/ajax/processResponse",
-	"wc/template",
 	"wc/ui/viewportUtils",
 	"wc/ui/menu/menuItem"],
 function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid, i18n, timers,
-	processResponse, template, viewportUtils) {
+	processResponse, viewportUtils) {
 	"use strict";
-	var instance;
+	let instance;
+
+	const barTemplate = context => `
+		<div id="${context.id}" role="presentation" class="wc-submenu ${context.class}"
+			${context.tooltip ? `title=${context.tooltip}` : ""}>
+			<button type="button" role="menuitem" aria-haspopup="true" class="wc-nobutton wc-submenu-o${context.opener.class}"
+				${context.opener.tooltip ? `title=${context.opener.tooltip}` : ""}
+				aria-controls="${context.contentId}">
+			</button>
+			<div id="${context.contentId}" class="wc_submenucontent wc-content" role="menu" aria-expanded="${context.open}">
+				<button class="wc-menuitem wc_closesubmenu wc-nobutton wc-invite" role="menuitem" type="button">
+					<span class="wc-decoratedlabel"><span class="fa fa-caret-left wc_dlbl_seg" aria-hidden="true"></span><span class="wc-labelbody wc_dlbl_seg">${context.closeText}</span></span>
+				</button>
+				${context.items}
+			</div>
+		</div>`;
 
 	/* Unused dependencies:
 	 * We will need "wc/ui/menu/menuItem" if we have any selectable items so we get it just in case rather than
@@ -29,11 +43,11 @@ function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid,
 	 * @private
 	 */
 	function Menubar() {
-		var MENU_FIXED = "wc_menu_fix",
-			resizeTimer,
+		const MENU_FIXED = "wc_menu_fix",
 			BURGER_MENU_CLASS = "wc_menu_hbgr",
 			hamburgerSelector = `div.${BURGER_MENU_CLASS}`,
-			decoratedLabelSelector = ".wc-decoratedlabel",
+			decoratedLabelSelector = ".wc-decoratedlabel";
+		let resizeTimer,
 			RESPONSIVE_MENU,
 			SEPARATOR;
 
@@ -76,13 +90,13 @@ function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid,
 		 * @returns {Boolean} true if first/last item.
 		 */
 		function isFirstLastItem(element, root, isLast) {
-			var target,
-				direction = isLast ? keyWalker.MOVE_TO.NEXT : keyWalker.MOVE_TO.PREVIOUS;
+			const direction = isLast ? keyWalker.MOVE_TO.NEXT : keyWalker.MOVE_TO.PREVIOUS;
 
 			/* get the element which would be focussed if we were to use findFn without
 			 * allowing cycling and forcing depthFirstNavigation false. If we don't get anything then
 			 * the element passed in is the first/last*/
-			if ((target = instance._getTargetItem(element, direction, root, false))) {
+			const target = instance._getTargetItem(element, direction, root, false);
+			if (target) {
 				return element === target;  // if the target is the same as target then element is first &/or last
 			}
 			return true;
@@ -133,20 +147,21 @@ function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid,
 		 * @param {Element} item The item which has focus.
 		 */
 		this._remapKeys = function(item) {
-			var submenu,
-				_item = item,
-				VK_UP = "DOM_VK_UP",
-				VK_DOWN = "DOM_VK_DOWN",
-				VK_RIGHT = "DOM_VK_RIGHT",
-				VK_LEFT = "DOM_VK_LEFT",
-				branch, grandparent,
+			let _item = item;
+			const VK_UP = "ArrowUp",
+				VK_DOWN = "ArrowDown",
+				VK_RIGHT = "ArrowRight",
+				VK_LEFT = "ArrowLeft",
 				root = this.getRoot(_item);
 
 			if (!root) {
 				return;
 			}
-			if ((submenu = this.getSubMenu(_item))) {
-				if ((branch = this._getBranch(submenu)) && (grandparent = this.getSubMenu(branch))) {
+			const submenu = this.getSubMenu(_item);
+			if (submenu) {
+				const branch = this._getBranch(submenu);
+				let grandparent;
+				if (branch && (grandparent = this.getSubMenu(branch))) {
 					// more than one level deep.
 					/* If a submenu left closes the current branch and right will
 					 * trigger the action if the item is a branch or opener but
@@ -220,13 +235,13 @@ function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid,
 		 */
 		this._setupKeymap = function() {
 			this._keyMap = {
-				DOM_VK_LEFT: keyWalker.MOVE_TO.PREVIOUS,
-				DOM_VK_RIGHT: keyWalker.MOVE_TO.NEXT,
-				DOM_VK_HOME: keyWalker.MOVE_TO.FIRST,
-				DOM_VK_END: keyWalker.MOVE_TO.LAST,
-				DOM_VK_ESCAPE: this._FUNC_MAP.ESCAPE,
-				DOM_VK_UP: this._FUNC_MAP.ACTION,
-				DOM_VK_DOWN: this._FUNC_MAP.ACTION
+				ArrowLeft: keyWalker.MOVE_TO.PREVIOUS,
+				ArrowRight: keyWalker.MOVE_TO.NEXT,
+				Home: keyWalker.MOVE_TO.FIRST,
+				End: keyWalker.MOVE_TO.LAST,
+				Escape: this._FUNC_MAP.ESCAPE,
+				ArrowUp: this._FUNC_MAP.ACTION,
+				ArrowDown: this._FUNC_MAP.ACTION
 			};
 		};
 
@@ -238,23 +253,22 @@ function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid,
 		 * @param {Element} nextMenu the menu to manipulate
 		 */
 		function removeIconified(nextMenu) {
-			var burger,
-				submenuContent,
-				current;
 			if (!nextMenu.classList.contains(MENU_FIXED)) {
 				return;
 			}
 
 			try {
-				burger = nextMenu.querySelector(hamburgerSelector);
+				const burger = nextMenu.querySelector(hamburgerSelector);
 				if (!burger) {
 					return;
 				}
 
-				submenuContent = instance._wd.submenu.findDescendant(burger);
+				const submenuContent = instance._wd.submenu.findDescendant(burger);
 				if (!submenuContent) {
 					return;
 				}
+
+				let current;
 				while ((current = submenuContent.firstChild)) {
 					if (current.classList.contains("wc_closesubmenu")) {
 						submenuContent.removeChild(current);
@@ -320,9 +334,9 @@ function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid,
 			i18n.translate(["menu_open_label", "menu_close_label"]).then(function(strings) {
 				const props = {
 					id: uid(),
-					class: " " + BURGER_MENU_CLASS,
+					class: BURGER_MENU_CLASS,
 					opener: {
-						class: " wc_hbgr fa fa-bars",
+						class: "wc_hbgr fa fa-bars",
 						tooltip: strings[0]
 					},
 					contentId: uid(),
@@ -330,15 +344,8 @@ function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid,
 					closeText: strings[1],
 					items: nextMenu.innerHTML
 				};
-				template.process({
-					source: "submenu.mustache",
-					loadSource: true,
-					target: nextMenu,
-					context: props,
-					callback: function() {
-						nextMenu.classList.add(MENU_FIXED);
-					}
-				});
+				nextMenu.innerHTML = barTemplate(props);
+				nextMenu.classList.add(MENU_FIXED);
 			});
 		}
 
@@ -351,7 +358,8 @@ function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid,
 		 * @param {Element} el the element to test which may be a menu, submenu or something containing a menu.
 		 */
 		function toggleIconMenus(el) {
-			var candidates, element = el || document.body;
+			let candidates;
+			const element = el || document.body;
 			if (instance.isSubMenu(element)) {
 				return;
 			}
@@ -397,7 +405,7 @@ function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid,
 		 *
 		 * @function
 		 * @private
-		 * @param {Element} element any element which may contain a bar/flyout menu separators
+		 * @param {HTMLElement} element any element which may contain a bar/flyout menu separators
 		 */
 		function setSeparatorOrientation(element) {
 			if (!SEPARATOR) {
@@ -422,7 +430,7 @@ function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid,
 		}
 
 		function attachClosebuttons(container) {
-			var el = container || document.body;
+			const el = container || document.body;
 			if (container && instance.isSubMenu(container)) {
 				attachSubMenuCloseButton(container);
 			}
@@ -470,7 +478,6 @@ function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid,
 	 * @requires module:wc/i18n/i18n
 	 * @requires module:wc/timers
 	 * @requires module:wc/ui/ajax/processResponse
-	 * @requires:module:wc/template
 	 * @requires module:wc/ui/viewportUtils
 	 */
 	instance = new Menubar();
