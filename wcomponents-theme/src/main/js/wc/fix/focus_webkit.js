@@ -8,21 +8,12 @@
  * issue in webkit mobile browsers (especially noticeable in Safari on iOS).
  * @module
  * @private
- *
- * @requires module:wc.has
- * @requires module:wc/dom/getAncestorOrSelf
- * @requires module:wc/dom/Widget
- * @requires module:wc/dom/focus
- * @requires module:wc/dom/tag"
- * @requires module:wc/dom/event
- * @requires module:wc/timers
  */
 require(["wc/has"], /** @param has @ignore */ function(has) {
 	"use strict";
 	if (has("webkit") && !has("edge")) {
-		require(["wc/dom/getAncestorOrSelf", "wc/dom/Widget", "wc/dom/focus", "wc/dom/tag", "wc/dom/event", "wc/timers"],
-			function(getAncestorOrSelf, Widget, focus, tag, event, timers) {
-				var FOCUS_WIDGET;
+		require(["wc/dom/focus", "wc/dom/event", "wc/timers"],
+			function(focus, event, timers) {
 				console.log("Adding webkit focus fix for mouse users.");
 				event.add(window, { type: "mousedown", listener: mouseDownEvent, capture: true });
 				event.add(window, { type: "click", listener: clickEvent /* , capture: true */ });
@@ -34,10 +25,7 @@ require(["wc/has"], /** @param has @ignore */ function(has) {
 						targetElement = $event.target;
 					if (targetElement !== activeElement) {  // clicked away from focused element
 						if (!focus.canFocus(targetElement)) {
-							FOCUS_WIDGET = FOCUS_WIDGET || new Widget("", "", {"tabIndex": "0"});
-							targetElement = getAncestorOrSelf($event.target, tag.A) ||
-										getAncestorOrSelf($event.target, tag.BUTTON) ||
-										FOCUS_WIDGET.findAncestor($event.target);
+							targetElement = targetElement.closest("a, button, [tabindex='0']");
 						}
 						if (targetElement && needsFocusFix(targetElement) && targetElement !== activeElement) {
 							tryFocusFix(targetElement);
@@ -50,7 +38,7 @@ require(["wc/has"], /** @param has @ignore */ function(has) {
 						activeElement = document.activeElement;
 					if (!$event.defaultPrevented && target !== activeElement) {
 						if ((target.tabIndex === 0 && !focus.isNativelyFocusable(target.tagName)) ||
-							(target.tagName === tag.INPUT && needsFocusFix(target))) {
+							(target.matches("input") && needsFocusFix(target))) {
 							tryFocusFix(target);
 						}
 					}
@@ -59,7 +47,7 @@ require(["wc/has"], /** @param has @ignore */ function(has) {
 				function needsFocusFix(element) {
 					var result = false,
 						inputTypesNeedFix = ["button", "file", "submit", "radio", "checkbox", "range"];
-					if (inputTypesNeedFix.indexOf(element.type) >= 0 || element.tagName === tag.A) {
+					if (inputTypesNeedFix.indexOf(element.type) >= 0 || element.matches("a")) {
 						result = true;
 					} else if (!focus.isNativelyFocusable(element.tagName)) {
 						result = element.tabIndex > -1;

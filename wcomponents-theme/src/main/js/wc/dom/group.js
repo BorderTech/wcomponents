@@ -14,15 +14,12 @@
  * </dl>
  *
  * @module
- * @requires module:wc/dom/tag
  * @requires module:wc/array/toArray
- * @requires module:wc/dom/getAncestorOrSelf
  * @requires module:wc/dom/ariaGroup
  * @requires module:wc/dom/role
  */
-define(["wc/dom/tag", "wc/array/toArray",  "wc/dom/getAncestorOrSelf", "wc/dom/ariaGroup", "wc/dom/role"],
-	/** @param tag wc/dom/tag @param toArray wc/array/toArray @param getAncestorOrSelf wc/dom/getAncestorOrSelf @param ariaGroup wc/dom/ariaGroup @param $role wc/dom/role @ignore */
-	function(tag, toArray, getAncestorOrSelf, ariaGroup, $role) {
+define(["wc/array/toArray", "wc/dom/ariaGroup", "wc/dom/role"],
+	function(toArray, ariaGroup, $role) {
 		"use strict";
 
 		/**
@@ -112,20 +109,20 @@ define(["wc/dom/tag", "wc/array/toArray",  "wc/dom/getAncestorOrSelf", "wc/dom/a
 			 * they could be grouped by name (which has no container) or by container. This is not a good thing!
 			 *
 			 * @function module:wc/dom/group.getContainer
-			 * @param {Element} element An element which may be a group container or a member of a group or neither.
+			 * @param {HTMLElement} element An element which may be a group container or a member of a group or neither.
 			 * @param {module:wc/dom/Widget} [containerWd] A container widget for a subclass of
 			 *    {@link module:wc/dom/AriaAnalog}.
-			 * @returns {Element} The element which contains the group.
+			 * @returns {HTMLElement} The element which contains the group.
 			 */
 			this.getContainer = function(element, containerWd) {
-				var container;
+				let container;
 
 				if (containerWd) {
 					container = containerWd.findAncestor(element);
-				} else if (element.tagName === tag.OPTION || element.tagName === tag.OPTGROUP) {
-					container = getAncestorOrSelf(element, tag.OPTGROUP, tag.SELECT);
+				} else if (element.matches("option, optgroup")) {
+					container = element.closest("select optgroup");
 					if (!container) {
-						container = getAncestorOrSelf(element, tag.SELECT);
+						container = element.closest("select");
 					}
 				}
 				// else if (element.name) {
@@ -144,30 +141,29 @@ define(["wc/dom/tag", "wc/array/toArray",  "wc/dom/getAncestorOrSelf", "wc/dom/a
 		/**
 		 * Get a "native" DOM group.
 		 * @param {ElementGroup} elementGroup
-		 * @param {Element} element The reference element.
-		 * @returns {Element[]} The group, if found.
+		 * @param {HTMLElement} element The reference element.
+		 * @returns {HTMLElement[]} The group, if found.
 		 * @private
 		 * @function
 		 */
 		function getNativeGroup(elementGroup, element) {
-			var group, container,
-				tagName = element.tagName;
-			if (tagName) {
-				if (tagName === tag.INPUT && (element.type === "checkbox" || element.type === "radio")) {
-					if (element.name) {
-						group = document.getElementsByName(element.name);
+			let group;
+			if (element.tagName) {
+				if (element.matches("input[type='radio'], input[type='checkbox']")) {
+					if (element.hasAttribute("name")) {
+						group = document.getElementsByName(element.getAttribute("name"));
 					}
-				} else if (tagName === tag.SELECT) {
+				} else if (element.matches("select")) {
 					group = element.options;
-				} else if (tagName === tag.OPTGROUP) {
-					group = element.getElementsByTagName(tag.OPTION);
-				} else if (tagName === tag.OPTION) {
-					container = elementGroup.getContainer(element);
+				} else if (element.matches("optgroup")) {
+					group = element.querySelectorAll("option");
+				} else if (element.matches("option")) {
+					let container = elementGroup.getContainer(element);
 					if (container) {
 						group = elementGroup.get(container);
 					}
-				} else if (tagName === tag.TBODY) {  // yes a tbody is a grouping element for trs
-					group = element.getElementsByTagName(tag.TR);
+				} else if (element.matches("tbody")) {  // yes a tbody is a grouping element for trs
+					group = element.querySelectorAll("tr");
 				}
 			}
 			return group;
