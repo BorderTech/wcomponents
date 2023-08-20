@@ -8,7 +8,6 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WRadioButton;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.util.Util;
-import java.util.ArrayList;
 import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
@@ -134,19 +133,11 @@ public class ByWComponent extends By {
 	 */
 	protected List<WebElement> findElement(final SearchContext searchContext, final UIContext uiContext,
 			final WComponent component, final Object compValue) {
-		List<WebElement> result = new ArrayList<>();
+		List<WebElement> result;
 		UIContextHolder.pushContext(uiContext);
 		try {
 			if (searchContext instanceof FindsById) {
 				String componentId = component.getId();
-//				try {
-//					WebElement element = ((FindsById) searchContext).findElementById(componentId);
-//					if (element != null) {
-//						result.add(element);
-//					}
-//				} catch (Exception e) {
-//					System.out.println("Could not find element by ID [" + componentId + "]. " + e.getMessage());
-//				}
 				result = ((FindsById) searchContext).findElementsById(componentId);
 			} else if (searchContext instanceof FindsByName) {
 				String name = component.getId();

@@ -1,5 +1,4 @@
-define(["wc/has",
-	"wc/dom/attribute",
+define(["wc/dom/attribute",
 	"wc/dom/event",
 	"wc/dom/focus",
 	"wc/dom/initialise",
@@ -13,7 +12,7 @@ define(["wc/has",
 	"wc/ui/listboxAnalog",
 	"wc/config"
 ],
-function(has, attribute, event, focus, initialise, shed, Widget, key, timers, ajaxRegion, processResponse, onchangeSubmit, listboxAnalog, wcconfig) {
+function(attribute, event, focus, initialise, shed, Widget, key, timers, ajaxRegion, processResponse, onchangeSubmit, listboxAnalog, wcconfig) {
 	"use strict";
 
 	/**
@@ -783,18 +782,12 @@ function(has, attribute, event, focus, initialise, shed, Widget, key, timers, aj
 		 */
 		this.initialise = function(element) {
 			setUpSuggestions(element);
-			if (event.canCapture) {
-				event.add(window, { type: "focus", listener: focusEvent, capture: true });
-			} else {
-				event.add(element, "focusin", focusEvent);
-			}
+			event.add(window, { type: "focus", listener: focusEvent, capture: true });
 			event.add(element, "click", clickEvent);
 
-			if (has("event-ontouchstart")) {
-				event.add(element, "touchstart", touchstartEvent);
-				event.add(element, "touchend", touchendEvent);
-				event.add(element, "touchcancel", touchcancelEvent);
-			}
+			event.add(element, "touchstart", touchstartEvent);
+			event.add(element, "touchend", touchendEvent);
+			event.add(element, "touchcancel", touchcancelEvent);
 		};
 
 		/**
@@ -863,7 +856,6 @@ function(has, attribute, event, focus, initialise, shed, Widget, key, timers, aj
 	 * Provides combo functionality.
 	 *
 	 * @module
-	 * @requires module:wc/has
 	 * @requires module:wc/dom/attribute
 	 * @requires module:wc/dom/event
 	 * @requires module:wc/dom/focus

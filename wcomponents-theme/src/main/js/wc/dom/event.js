@@ -18,7 +18,7 @@
  * * event order is guaranteed, events will be fired in the order they are added except you can add an event at **different
  *   priorities**: HIGH, MED, LOW (see {@link module:wc/dom/event.add} for more detail);
  * * a listener is prevented from being attached to the same element for than particular event type more than once;
- * * can programatically fire an event on an element even if that is a custom event.
+ * * can programmatically fire an event on an element even if that is a custom event.
  *
  * Historically this class had some other concerns, such as helping prevent memory leaks in IE. It was originally
  * loosely based on [this](http://therealcrisp.xs4all.nl/upload/addEvent_dean.html) but has since been reworked
@@ -86,9 +86,7 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 				ELID_ATTR = "elid",
 				events = {},
 				currentEvent = {},  // the type of the event currently being processed or null when no event being processed
-				atTargetEvent,  // used to prevent eventListener firing twice in the target phase if attached using bubble and capture
-				dom2 = has("dom-addeventlistener"),
-				isFirefox = has("ff");
+				atTargetEvent;  // used to prevent eventListener firing twice in the target phase if attached using bubble and capture
 
 			/**
 			 * Provides a wrapper for an event listener. This listens for events then uses an instance of
@@ -210,11 +208,7 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 					elementElid = attribute.set(element, ELID_ATTR, uid());
 				}
 				if ((args.capture = !!args.capture)) {  // test and cast to keep it pure for addEventListener
-					if (dom2) {
-						group = args.type + CAPTURE_SUFFIX;
-					} else {
-						throw new TypeError("Can not use capture in this browser");
-					}
+					group = args.type + CAPTURE_SUFFIX;
 				} else {
 					group = args.type + BUBBLE_SUFFIX;
 				}
@@ -225,13 +219,7 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 				} else {
 					if (observer.subscriberCount(group) < 0) {
 						// if less than zero this is the first subscriber for this type on this element
-						if (dom2) {
-							// wham bam lighting fast test for modern browsers
-							element.addEventListener(args.type, eventListener, args.capture);
-						} else {
-							// WARNING: with attachEvent "this" is ALWAYS "window" so we must bind it to the element
-							element.attachEvent("on" + args.type, eventListener.bind(element));
-						}
+						element.addEventListener(args.type, eventListener, args.capture);
 						// could fall back to dom 0 binding but meh, get with the program
 					}
 					result = observer.subscribe(args.listener, { group: group, context: args.scope, priority: priority });
@@ -328,33 +316,15 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 						if ($event !== $this.TYPE.submit && element[$event] &&
 								!(type === "text" || type === "password" || tagName === tag.TEXTAREA || tagName === tag.SELECT)) {
 							element[$event]();
-						} else if (document.createEvent) {
+						} else {
 							if (conf.detail) {
-								if (has("event-custom")) {
-									evt = new CustomEvent($event, conf);
-								} else {
-									evt = document.createEvent("CustomEvent");
-									evt.initCustomEvent($event, conf.bubbles, conf.cancelable, conf.detail);
-								}
+								evt = new CustomEvent($event, conf);
 								rval = !element.dispatchEvent(evt);
 							} else {
 								// won't fully simulate a click (ie naviagate a link)
 								evt = document.createEvent("HTMLEvents");
 								evt.initEvent($event, conf.bubbles, conf.cancelable);
 								rval = !element.dispatchEvent(evt);
-								if (!isFirefox && $event === $this.TYPE.submit) {
-									// webkit browsers AND IE9 and above need this, firefox doesn't
-									element[$event]();
-								}
-							}
-						} else {
-							// won't fully simulate a click (ie naviagate a link)
-							evt = document.createEventObject();
-							rval = element.fireEvent("on" + $event, evt);
-							if (rval !== false) {
-								if ($event === $this.TYPE.submit) {
-									element[$event]();
-								}
 							}
 						}
 					} else {
@@ -390,7 +360,7 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 			 * @alias module:wc/dom/event.canCapture
 			 * @public
 			 */
-			this.canCapture = dom2;
+			this.canCapture = true;
 		}  // END EventManager
 
 		/**

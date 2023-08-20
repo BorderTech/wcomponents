@@ -1,7 +1,6 @@
 /**
  * Utility for serializing and deserializing XML.
  * @module
- * @requires module:wc/has
  */
 define([], function() {
 	"use strict";

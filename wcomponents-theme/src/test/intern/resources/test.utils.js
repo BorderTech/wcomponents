@@ -14,12 +14,9 @@ define([], function() {
 		 */
 		this.load = function (id, parentRequire, callback/* , config */) {
 			/* If you want to test IE then you must ensure compat is loaded before trying to load ajax. */
-			parentRequire(["wc/ajax/ajax", "wc/dom/event", "wc/has", "wc/fixes", "wc/i18n/i18n"], function (a, evt, has, f, i18n) {
+			parentRequire(["wc/ajax/ajax", "wc/dom/event", "wc/fixes", "wc/i18n/i18n"], function (a, evt, f, i18n) {
 				ajax = a;
 				event = evt;
-				if (has("edge") || has("trident")) {
-					setupTimeout = 1000;
-				}
 				i18n.initialize().then(function() {
 					callback(instance);
 				});

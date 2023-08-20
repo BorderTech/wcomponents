@@ -1,10 +1,9 @@
 define([
 	"wc/ui/validation/isComplete",
-	"wc/dom/Widget",
 	"wc/i18n/i18n",
 	"wc/ui/validation/validationManager",
 	"wc/ui/feedback"],
-function(isComplete, Widget, i18n, validationManager, feedback) {
+function(isComplete, i18n, validationManager, feedback) {
 	"use strict";
 	/**
 	 * @constructor
@@ -45,7 +44,7 @@ function(isComplete, Widget, i18n, validationManager, feedback) {
 		 * @param {module:wc/ui/validation/required~config} [config] Configuration object.
 		 */
 		function flagAllThese(elements, config) {
-			var messageFunc = (config && config.messageFunc) ? config.messageFunc : getRequiredMessage;
+			const messageFunc = (config && config.messageFunc) ? config.messageFunc : getRequiredMessage;
 
 			Array.prototype.forEach.call(elements, function (next) {
 				feedback.flagError({ element: next, message: messageFunc(next)});
@@ -57,12 +56,12 @@ function(isComplete, Widget, i18n, validationManager, feedback) {
 		 *
 		 * @function module:wc/ui/validation/required.getRequired
 		 * @param {Element} container Where to look (we look inside, container doesn't count).
-		 * @param {module:wc/dom/Widget} widget A Widget describing the type of component for which we are looking.
+		 * @param {module:wc/dom/Widget|string} widget A Widget describing the type of component for which we are looking (or a query selector).
 		 * @param {module:wc/ui/validation/required.CONSTRAINTS} [requiredConstraint] Sets the required constraint if not using the required attribute.
 		 * @returns {Element[]} Will return an empty array if there are no required components in the container(including the container itself).
 		 */
 		this.getRequired = function(container, widget, requiredConstraint) {
-			var reqWidget,
+			let selector,
 				result,
 				exObj;
 
@@ -72,56 +71,43 @@ function(isComplete, Widget, i18n, validationManager, feedback) {
 			 * @function
 			 * @private
 			 * @param {module:wc/dom/Widget} nextWidget The widget we are extending.
+			 * @return {String}
 			 */
 			function _mapFn(nextWidget) {
-				var extendedWidget = nextWidget;  // if no extension just return itself
-				if (typeof exObj === "string") {
-					extendedWidget = nextWidget.extend(exObj);
-				} else if (exObj) {
-					extendedWidget = nextWidget.extend("", exObj);
+				let extendedWidget = nextWidget.toString();  // if no extension just return itself
+				if (exObj) {
+					extendedWidget += exObj;
 				}
 				return extendedWidget;
 			}
 
-			/**
-			 * Array filter function to remove controls exempt from validation.
-			 *
-			 * @function
-			 * @private
-			 * @param {Element} next The element to test.
-			 */
-			function _filter(next) {
-				return !validationManager.isExempt(next);
-			}
-
 			switch (requiredConstraint) {
 				case this.CONSTRAINTS.ARIA:
-					exObj = {"aria-required": "true"};
+					exObj = "[aria-required='true']";
 					break;
 				case this.CONSTRAINTS.CLASSNAME:
-					exObj = "wc_req";
+					exObj = ".wc_req";
 					break;
 				default:
-					exObj = {required: null};
+					exObj = "[required]";
 					break;
 			}
 
-			if (!Array.isArray(widget) && (widget = _mapFn(widget))) {
-				if (widget.isOneOfMe(container)) {
-					result = [container];
-				} else {
-					result = widget.findDescendants(container);
-				}
+			if (Array.isArray(widget)) {
+				selector = widget.map(_mapFn).join();  // selector is now a comma separated list of extended selectors
 			} else {
-				reqWidget = widget.map(_mapFn);
-				if (Widget.isOneOfMe(container, reqWidget)) {
+				selector = _mapFn(widget);  // selector is a single selector
+			}
+
+			if (selector) {
+				if (container.matches(selector)) {
 					result = [container];
 				} else {
-					result = Widget.findDescendants(container, reqWidget);
+					result = container.querySelectorAll(selector);
 				}
 			}
 			if (result) {
-				result = Array.prototype.filter.call(result, _filter);
+				result = Array.prototype.filter.call(result, (next) => !validationManager.isExempt(next));
 			}
 			return result || [];
 		};
@@ -144,13 +130,13 @@ function(isComplete, Widget, i18n, validationManager, feedback) {
 		 *
 		 * @function module:wc/ui/validation/required.doItAllForMe
 		 * @param {Element} container the container being validated.
-		 * @param {module:dom/Widget} widget the descriptor of the component being tested.
+		 * @param {module:dom/Widget|string} widget the descriptor of the component being tested.
 		 * @param {Boolean} [useAria] set true to use aria-required as the indicator of mandatory-ness, otherwise
 		 *    use required attribute.
 		 * @returns {Boolean} true if the container is valid.
 		 */
 		this.doItAllForMe = function(container, widget, useAria) {
-			var elements = this.getRequired(container, widget, useAria),
+			let elements = this.getRequired(container, widget, useAria),
 				result = true;
 			// just get the failures for flagging
 			elements = elements.filter(isNotComplete);
@@ -170,18 +156,15 @@ function(isComplete, Widget, i18n, validationManager, feedback) {
 		 * @returns {Boolean} true if obj.container is valid.
 		 */
 		this.complexValidationHelper = function(obj) {
-			var result = true,
-				widget = obj.widget,
+			let result = true;
+			const widget = obj.widget,
 				container = obj.container,
 				constraint = obj.constraint,
 				filterFunc = obj.filter || isNotComplete,
-				flagFunc = obj.flag || flagAllThese,
-				elements;
+				flagFunc = obj.flag || flagAllThese;
 
 			if (widget && container) {
-				elements = this.getRequired(container, widget, constraint);
-				elements = elements.filter(filterFunc);
-
+				const elements = this.getRequired(container, widget, constraint).filter(filterFunc);
 				if (elements && elements.length) {
 					result = false;
 					flagFunc(elements, obj);
@@ -202,7 +185,7 @@ function(isComplete, Widget, i18n, validationManager, feedback) {
 		 * @param {module:wc/ui/validation/required~config} config Configuration parameters.
 		 */
 		this.revalidate = function (element, config) {
-			var result = isComplete.isComplete(element);
+			const result = isComplete.isComplete(element);
 			if (!result) {
 				flagAllThese([element], config);
 			}
@@ -228,7 +211,7 @@ function(isComplete, Widget, i18n, validationManager, feedback) {
 	 * Configuration object for several functions.
 	 * @typedef {Object} module:wc/ui/validation/required~config
 	 * @property {Element} container The container being validated.
-	 * @property {module:wc/dom/Widget} widget The description of the component we are currently testing.
+	 * @property {module:wc/dom/Widget|string} widget The description of the component we are currently testing.
 	 * @property {Function} [filterFunc] A function to call to test for completeness, defaults to
 	 *    {@link module:wc/ui/validation/required~isNotComplete}.
 	 * @property {Function} [flagFunc] A function to set the error message box. Defaults to

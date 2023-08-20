@@ -3,7 +3,6 @@ define(["wc/dom/event",
 	"wc/dom/focus",
 	"wc/dom/shed",
 	"wc/dom/uid",
-	"wc/dom/Widget",
 	"wc/i18n/i18n",
 	"wc/ui/selectLoader",
 	"wc/timers",
@@ -11,9 +10,9 @@ define(["wc/dom/event",
 	"wc/ui/ajaxRegion",
 	"wc/ui/fieldset",
 	"wc/ui/icon"],
-function(event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers, prompt, ajaxRegion, fieldset, icon) {
+function(event, initialise, focus, shed, uid, i18n, selectLoader, timers, prompt, ajaxRegion, fieldset, icon) {
 	"use strict";
-	var instance;
+	let instance;
 
 	/**
 	 * @constructor
@@ -21,21 +20,16 @@ function(event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers
 	 * @private
 	 */
 	function MultiFormComponent() {
-		var BUTTON_TYPE = {add: 0, remove: 1},
-			MAX = "data-wc-max",
-			queueTimer,
-			CONTAINER = fieldset.getWidget().clone().extend("wc_mfc"),
-			FIELD = new Widget("li"),
-			BUTTON = new Widget("button"),
-			SELECT_WD = new Widget("select"),
-			INPUT_WD = new Widget("input"),
-			CONTROLS = [SELECT_WD, INPUT_WD],
-			REMOVE_BUTTON_TITLE;
+		const containerSelector = "fieldset.wc_mfc";
+		const fieldSelector = `${containerSelector} li`;
+		const buttonSelector = `${fieldSelector} button`;
+		const selectSelector = `${fieldSelector} select`;
+		const inputSelector = `${fieldSelector} input`;
+		const controlsSelectors = [selectSelector, inputSelector];
+		const BUTTON_TYPE = {add: 0, remove: 1};
+		const MAX = "data-wc-max";
+		let queueTimer, REMOVE_BUTTON_TITLE;
 
-		FIELD.descendFrom(CONTAINER);
-		BUTTON.descendFrom(FIELD);
-		SELECT_WD.descendFrom(FIELD);
-		INPUT_WD.descendFrom(FIELD);
 
 		/**
 		 * Load data list for cachable WMultiDropdown.
@@ -46,35 +40,35 @@ function(event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers
 		 * @param {String} id The id of a multiDropdown.
 		 */
 		function load(id) {
-			var element = document.getElementById(id),
-				selects;
+			const element = document.getElementById(id);
 			if (element) {
-				selects = SELECT_WD.findDescendants(element);
+				const selects = element.querySelectorAll(selectSelector);
 				Array.prototype.forEach.call(selects, function(next) {
-					var nextId = next.id;
+					const nextId = next.id;
 					selectLoader.load(nextId);
 				});
 			}
 		}
 
 		function processNow(idArr) {
-			var id;
+			let id;
 			while ((id = idArr.shift())) {
 				load(id);
 			}
 		}
 
-		/*
+		/**
 		 * on click:
 		 * 1. Am I a button?
 		 * 2. Am I a button that belongs to multiFormComponent?
 		 * 3. Am I an add button?
 		 * 	- Yes: add a new field
 		 *  - No: remove field
+		 *  @param {MouseEvent} $event
 		 */
 		function clickEvent($event) {
-			var element;
-			if (!$event.defaultPrevented && (element = BUTTON.findAncestor($event.target)) && !shed.isDisabled(element)) {
+			let element;
+			if (!$event.defaultPrevented && (element = $event.target.closest(buttonSelector)) && !shed.isDisabled(element)) {
 				doClick(element, $event.shiftKey || event.shiftKey);  // event.shiftKey - see wc/fixes/shiftKey_ff
 			}
 		}
@@ -109,13 +103,14 @@ function(event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers
 		 * an add, the others are all remove.
 		 *
 		 * @function module:wc/ui/multiFormComponent.getButtonType
-		 * @param {Element} element An add or remove button.
+		 * @param {HTMLElement} element An add or remove button.
 		 * @returns {int} either BUTTON_TYPE.add (0) or BUTTON_TYPE.remove (1).
 		 */
 		this.getButtonType = function (element) {
-			var container = getContainer(element), result = -1;
+			const container = getContainer(element);
+			let result = -1;
 			if (container) {
-				result = (element === BUTTON.findDescendant(container)) ? BUTTON_TYPE.add : BUTTON_TYPE.remove;
+				result = (element === container.querySelector(buttonSelector)) ? BUTTON_TYPE.add : BUTTON_TYPE.remove;
 			}
 			return result;
 		};
@@ -130,7 +125,7 @@ function(event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers
 		 * @returns {Element} The container if element is a multi form control or one of its descendent elements.
 		 */
 		function getContainer(element) {
-			return CONTAINER.findAncestor(element);
+			return element.closest(containerSelector);
 		}
 
 		/**
@@ -141,9 +136,8 @@ function(event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers
 		 * @returns {(NodeList|Element)} A collection of fields OR a single fielt if firstOnly is true.
 		 */
 		function getFields(container, firstOnly) {
-			var method = firstOnly ? "findDescendant" : "findDescendants",
-				result = FIELD[method](container);
-			return result;
+			const method = firstOnly ? "querySelector" : "querySelectorAll";
+			return container[method](fieldSelector);
 		}
 
 		/*
@@ -151,7 +145,8 @@ function(event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers
 		 * @returns true if max has not been reached yet
 		 */
 		function checkMaxInputs(element) {
-			var result = true, container = getContainer(element),
+			let result = true;
+			const container = getContainer(element),
 				max = container.getAttribute(MAX);
 
 			if (max) {
@@ -165,18 +160,16 @@ function(event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers
 		 * @param field Any DOM element node
 		 */
 		function resetField(field) {
-			var idWd = new Widget("", "", {id: null}),
-				candidates = idWd.findDescendants(field),
-				labelWd, buttonWd,
-				nextLabel, nextButton, next, nextId, i;
-			for (i = 0; i < candidates.length; i++) {
-				next = candidates[i];
+			const idSelector = "[id]",
+				candidates = field.querySelectorAll(idSelector);
+			for (let i = 0; i < candidates.length; i++) {
+				let next = candidates[i];
 				next.elid = "";
-				labelWd = new Widget("label", "", {"for": next.id});
-				nextLabel = labelWd.findDescendant(field);
-				buttonWd = BUTTON.extend("", {"aria-controls": null});
-				nextButton = buttonWd.findDescendant(field);
-				nextId = uid();
+				let labelSelector = `label[for='${next.id}']`;
+				let nextLabel = field.querySelector(labelSelector);
+				let nextButtonSelector = `${buttonSelector}[aria-controls]`;
+				let nextButton = field.querySelector(nextButtonSelector);
+				let nextId = uid();
 				if (nextLabel) {
 					nextLabel.htmlFor = nextId;
 				}
@@ -204,9 +197,9 @@ function(event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers
 		 * select into the DOM so call this function AFTER insertion.
 		 */
 		function setSelectValues(newField, prototypeField) {
-			var i, newSelects = SELECT_WD.findDescendants(newField),
-				selects = SELECT_WD.findDescendants(prototypeField);
-			for (i = 0; i < selects.length; i++) {
+			const newSelects = newField.querySelectorAll(selectSelector),
+				selects = prototypeField.querySelectorAll(selectSelector);
+			for (let i = 0; i < selects.length; i++) {
 				newSelects[i].selectedIndex = selects[i].selectedIndex;
 			}
 		}
@@ -217,12 +210,12 @@ function(event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers
 		 * @param field
 		 */
 		function resetPrototypeField(field) {
-			Array.prototype.forEach.call(INPUT_WD.findDescendants(field), processCandidateField);
-			Array.prototype.forEach.call(SELECT_WD.findDescendants(field), processCandidateField);
+			Array.prototype.forEach.call(field.querySelectorAll(inputSelector), processCandidateField);
+			Array.prototype.forEach.call(field.querySelectorAll(selectSelector), processCandidateField);
 			// Array.prototype.forEach.call(TEXTAREA_WD.findDescendants(field), processCandidateField);
 
 			function processCandidateField($element) {
-				if (SELECT_WD.isOneOfMe($element)) {
+				if ($element.matches(selectSelector)) {
 					$element.selectedIndex = 0;
 				} else {
 					$element.value = "";
@@ -234,11 +227,11 @@ function(event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers
 		 * @param element The "add button" that initiated this action
 		 */
 		function addNewField(element) {
-			var container = getContainer(element),
-				prototypeField = getFields(container, true), newField;
+			const container = getContainer(element),
+				prototypeField = getFields(container, true);
 			if (prototypeField) {
 				if (checkMaxInputs(element)) {
-					newField = prototypeField.cloneNode(true);
+					const newField = prototypeField.cloneNode(true);
 					if (prototypeField.nextSibling) {
 						prototypeField.parentNode.insertBefore(newField, prototypeField.nextSibling);
 					} else {
@@ -261,23 +254,20 @@ function(event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers
 		 * @param removeAll Boolean if true all additional fields are removed
 		 */
 		function removeField(element, removeAll) {
-			var field,
-				container,
-				fields, i;
+			let field,
+				container;
 			if (removeAll) {
 				container = getContainer(element);
-				fields = getFields(container);
-				i = fields.length;
+				let fields = getFields(container);
+				let i = fields.length;
 				while (--i > 0) {
 					removeField(fields[i]);
 				}
-			} else if ((field = FIELD.findAncestor(element))) {
+			} else if ((field = element.closest(fieldSelector))) {
 				container = field.parentNode;
 				container.removeChild(field);
 
-				queue(function() {
-					focus.focusFirstTabstop(container);
-				});
+				queue(() => focus.focusFirstTabstop(container));
 			}
 		}
 
@@ -305,20 +295,20 @@ function(event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers
 		/**
 		 * Get the description of a multiFormControl container.
 		 * @function module:wc/ui/multiFormComponent.getWidget
-		 * @returns {wc/dom/Widget}
+		 * @returns {string}
 		 */
-		this.getWidget = function() {
-			return CONTAINER;
+		this.getSelector = function() {
+			return containerSelector;
 		};
 
 		/**
 		 * Get the description of an input witin a multiFormControl.
 		 * @function module:wc/ui/multiFormComponent.getInputWidgets
-		 * @returns {Array} The Widgets which describe the individual dropdowns (in a WMultiDropdown) or
+		 * @returns {string} The selector which describes the individual dropdowns (in a WMultiDropdown) or
 		 *    text inputs (in a WMultiTextField).
 		 */
-		this.getInputWidget = function() {
-			return CONTROLS;
+		this.getInputSelector = function() {
+			return controlsSelectors.join();
 		};
 
 		/**
@@ -348,7 +338,6 @@ function(event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers
 	 * @requires module:wc/dom/focus
 	 * @requires module:wc/dom/shed
 	 * @requires module:wc/dom/uid
-	 * @requires module:wc/dom/Widget
 	 * @requires module:wc/i18n/i18n
 	 * @requires module:wc/ui/selectLoader
 	 * @requires module:wc/timers

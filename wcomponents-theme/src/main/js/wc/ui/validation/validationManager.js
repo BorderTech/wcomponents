@@ -1,14 +1,12 @@
 define(["wc/has",
 	"wc/dom/initialise",
 	"wc/dom/shed",
-	"wc/dom/tag",
-	"wc/dom/Widget",
 	"wc/Observer",
 	"wc/i18n/i18n",
 	"wc/ui/getFirstLabelForElement",
 	"wc/ui/feedback",
 	"wc/config"],
-function(has, initialise, shed, tag, Widget, Observer, i18n, getFirstLabelForElement, feedback, wcconfig) {
+function(has, initialise, shed, Observer, i18n, getFirstLabelForElement, feedback, wcconfig) {
 	"use strict";
 
 	/**
@@ -29,23 +27,10 @@ function(has, initialise, shed, tag, Widget, Observer, i18n, getFirstLabelForEle
 			 * @private
 			 */
 			observer,
-			/**
-			 * The description of a FORM. Instantiated on first use.
-			 * @constant
-			 * @type {module:wc/dom/Widget}
-			 * @private
-			 */
-			FORM,
-			/**
-			 * The description of a component in an invalid state.
-			 * @constant
-			 * @type {module:wc/dom/Widget}
-			 * @private
-			 */
-			INVALID_COMPONENT = new Widget("", "", { "aria-invalid": "true" }),
 			REVALIDATE_OBSERVER_GROUP = "reval",
 			allowValidateOnChange = null,
-			allowValidateOnBlur = null;
+			allowValidateOnBlur = null,
+			invalidSelector = "[aria-invalid='true']";
 
 		/**
 		 * Listen for DISABLE, HIDE or OPTIONAL actions and clear any error message for the component.
@@ -54,7 +39,7 @@ function(has, initialise, shed, tag, Widget, Observer, i18n, getFirstLabelForEle
 		 * @param {Element} element The element being acted upon.
 		 */
 		function shedSubscriber(element) {
-			if (element && INVALID_COMPONENT.isOneOfMe(element)) {
+			if (element && element.matches(invalidSelector)) {
 				feedback.remove(element);
 			}
 		}
@@ -97,8 +82,8 @@ function(has, initialise, shed, tag, Widget, Observer, i18n, getFirstLabelForEle
 		 * @returns {Boolean} true if the component is exempt from client side validation.
 		 */
 		this.isExempt = function(element) {
-			var result = false;
-			if ((element.tagName === tag.INPUT && element.type === "hidden") || shed.isDisabled(element) || shed.isHidden(element)) {
+			let result = false;
+			if (element.matches("input[type='hidden']") || shed.isDisabled(element) || shed.isHidden(element)) {
 				result = true;
 			}
 			return result;
@@ -114,7 +99,7 @@ function(has, initialise, shed, tag, Widget, Observer, i18n, getFirstLabelForEle
 		 * @returns {Boolean} true if the element is invalid.
 		 */
 		this.isInvalid = function(element) {
-			return INVALID_COMPONENT.isOneOfMe(element);
+			return element.matches(invalidSelector);
 		};
 
 		/**
@@ -171,9 +156,8 @@ function(has, initialise, shed, tag, Widget, Observer, i18n, getFirstLabelForEle
 				result &= decision;  // we are only valid if all observers are valid
 			}
 
-			if (!container) {
-				FORM = FORM || new Widget("form");
-				container = FORM.findAncestor(document.activeElement);
+			if (!container && document.activeElement) {
+				container = document.activeElement.closest("form");
 			}
 			if (container && observer) {
 				observer.setCallback(_callback);
@@ -269,8 +253,6 @@ function(has, initialise, shed, tag, Widget, Observer, i18n, getFirstLabelForEle
 	 * @requires wc/has
 	 * @requires wc/dom/initialise
 	 * @requires wc/dom/shed
-	 * @requires wc/dom/tag
-	 * @requires wc/dom/Widget
 	 * @requires wc/Observer
 	 * @requires wc/i18n/i18n
 	 * @requires wc/ui/getFirstLabelForElement

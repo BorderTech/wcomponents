@@ -8,12 +8,11 @@ define(["wc/dom/attribute",
 	"wc/dom/shed",
 	"wc/dom/uid",
 	"wc/dom/Widget",
-	"wc/has",
 	"wc/ui/ajax/processResponse",
 	"wc/ui/positionable",
 	"wc/ui/resizeable",
 	"wc/config"],
-function(attribute, clearSelection, event, getMouseEventOffset, isAcceptableEventTarget, getBox, initialise, shed, uid, Widget, has, processResponse, positionable, resizeable, wcconfig) {
+function(attribute, clearSelection, event, getMouseEventOffset, isAcceptableEventTarget, getBox, initialise, shed, uid, Widget, processResponse, positionable, resizeable, wcconfig) {
 	"use strict";
 
 	/**
@@ -271,7 +270,7 @@ function(attribute, clearSelection, event, getMouseEventOffset, isAcceptableEven
 		 * @param {boolean} remove If true then remove event listeners rather than adding them.
 		 */
 		function addRemoveEvents(element, remove) {
-			var func = remove ? "remove" : "add";
+			let func = remove ? "remove" : "add";
 
 			if (!remove && attribute.get(element, BS)) {
 				return; // do not add more than once
@@ -279,9 +278,7 @@ function(attribute, clearSelection, event, getMouseEventOffset, isAcceptableEven
 			try {
 				event[func](element, "mousedown", mousedownEvent);
 				event[func](element, "keydown", keydownEvent);
-				if (has("event-ontouchstart")) {
-					event[func](element, "touchstart", touchstartEvent);
-				}
+				event[func](element, "touchstart", touchstartEvent);
 			} finally {
 				func = remove ? "remove" : "set";
 				attribute[func](element, BS, true);
@@ -346,16 +343,9 @@ function(attribute, clearSelection, event, getMouseEventOffset, isAcceptableEven
 		this.initialise = function(element) {
 			event.add(element, "mouseup", mouseupTouchendTouchcancelEvent);
 			event.add(element, "mousemove", mousemoveEvent);
-
-			if (has("event-ontouchmove")) {
-				event.add(element, "touchmove", touchmoveEvent);
-			}
-			if (has("event-ontouchend")) {
-				event.add(element, "touchend", mouseupTouchendTouchcancelEvent);
-			}
-			if (has("event-ontouchcancel")) {
-				event.add(element, "touchcancel", mouseupTouchendTouchcancelEvent);
-			}
+			event.add(element, "touchmove", touchmoveEvent);
+			event.add(element, "touchend", mouseupTouchendTouchcancelEvent);
+			event.add(element, "touchcancel", mouseupTouchendTouchcancelEvent);
 		};
 
 		/**

@@ -1,7 +1,6 @@
 define(["wc/dom/attribute",
 	"wc/dom/event",
 	"wc/dom/initialise",
-	"wc/dom/Widget",
 	"wc/i18n/i18n",
 	"wc/ui/multiFormComponent",
 	"wc/array/unique",
@@ -10,7 +9,7 @@ define(["wc/dom/attribute",
 	"wc/ui/validation/validationManager",
 	"wc/ui/validation/isComplete",
 	"wc/ui/feedback"],
-function(attribute, event, initialise, Widget, i18n, multiFormComponent, unique, sprintf, required, validationManager, isComplete, feedback) {
+function(attribute, event, initialise, i18n, multiFormComponent, unique, sprintf, required, validationManager, isComplete, feedback) {
 	"use strict";
 	/**
 	 * @constructor
@@ -18,10 +17,7 @@ function(attribute, event, initialise, Widget, i18n, multiFormComponent, unique,
 	 * @private
 	 */
 	function ValidationMultiFormComponent() {
-		var CONTAINER = multiFormComponent.getWidget(),
-			BUTTON = new Widget("button"),
-			SELECT_WD = new Widget("select"),
-			INPUT_WD = new Widget("input");
+		const containerSelector = multiFormComponent.getSelector();
 
 		/**
 		 * Get the top level element which contains all the sub-elements ie that which contains all of the fields.
@@ -31,7 +27,7 @@ function(attribute, event, initialise, Widget, i18n, multiFormComponent, unique,
 		 * @returns {Element} The container element if element is a descendant of a multiFormComponent.
 		 */
 		function getContainer(element) {
-			return CONTAINER.findAncestor(element);
+			return element.closest(containerSelector);
 		}
 
 		/**
@@ -59,18 +55,16 @@ function(attribute, event, initialise, Widget, i18n, multiFormComponent, unique,
 		 * @returns {boolean} true if the selected items list in the component has one or more options.
 		 */
 		function amIComplete(next) {
-			var candidates = INPUT_WD.findDescendants(next);
+			let candidates = next.querySelectorAll("input");
 			if (!(candidates && candidates.length)) {
-				candidates = SELECT_WD.findDescendants(next);
+				candidates = next.querySelectorAll("select");
 			}
 			if (!(candidates && candidates.length)) {
 				return false;
 			}
 
 			// candidates = toArray(candidates);
-			return Array.prototype.some.call(candidates, function (n) {
-				return isComplete.isComplete(n);
-			});
+			return Array.prototype.some.call(candidates, n => isComplete.isComplete(n));
 		}
 
 		/**
@@ -81,7 +75,7 @@ function(attribute, event, initialise, Widget, i18n, multiFormComponent, unique,
 		 * @returns {boolean} true if the container is complete.
 		 */
 		function _isComplete(container) {
-			return isComplete.isCompleteHelper(container, CONTAINER, amIComplete);
+			return isComplete.isCompleteHelper(container, containerSelector, amIComplete);
 		}
 
 		/**
@@ -101,11 +95,11 @@ function(attribute, event, initialise, Widget, i18n, multiFormComponent, unique,
 				isInvalid = false,
 				count, flag, limit;
 			if (min || max) {
-				if ((count = SELECT_WD.findDescendants(next)) && count.length) {
+				if ((count = next.querySelectorAll("select")) && count.length) {
 					count = unique(Array.prototype.filter.call(count, selectValidOptionFilter), function(a, b) {
 						return a.selectedIndex - b.selectedIndex;
 					}).length;
-				} else if ((count = INPUT_WD.findDescendants(next)) && count.length) {
+				} else if ((count = next.querySelectorAll("input")) && count.length) {
 					// WMultiTextField may have empty inputs to fool the validator!
 					count = unique(Array.prototype.filter.call(count, function(input) {
 						return input.value;
@@ -160,15 +154,15 @@ function(attribute, event, initialise, Widget, i18n, multiFormComponent, unique,
 		 * @returns {boolean} true if the container is valid.
 		 */
 		function validate(container) {
-			var result = true,
-				controls,
-				obj = {container: container,
-					widget: CONTAINER,
+			let result = true,
+				controls;
+			const obj = { container: container,
+					widget: containerSelector,
 					constraint: required.CONSTRAINTS.CLASSNAME,
-					position: "beforeEnd"},
+					position: "beforeEnd" },
 				_required = required.complexValidationHelper(obj);
 
-			if ((controls = (CONTAINER.isOneOfMe(container)) ? [container] : CONTAINER.findDescendants(container))) {
+			if ((controls = (container.matches(containerSelector)) ? [container] : container.querySelectorAll(containerSelector))) {
 				controls = Array.prototype.filter.call(controls, filter);
 				result = !(controls && controls.length);
 			}
@@ -183,7 +177,7 @@ function(attribute, event, initialise, Widget, i18n, multiFormComponent, unique,
 		 * @param {Element} element The MultiFormComponent container element wrapping the component which invoked the event.
 		 */
 		function revalidate(element) {
-			var container = getContainer(element);
+			const container = getContainer(element);
 			if (container) {
 				validationManager.revalidationHelper(container, validate);
 			}
@@ -196,7 +190,7 @@ function(attribute, event, initialise, Widget, i18n, multiFormComponent, unique,
 		 * @param {module:wc/dom/event} $event a change event as wrapped by the WComponent event module.
 		 */
 		function changeEvent($event) {
-			var container = getContainer($event.target);
+			const container = getContainer($event.target);
 			if (container) {
 				if (validationManager.isValidateOnChange()) {
 					if (validationManager.isInvalid(container)) {
@@ -211,7 +205,7 @@ function(attribute, event, initialise, Widget, i18n, multiFormComponent, unique,
 		}
 
 		function blurEvent($event) {
-			var element = $event.target,
+			const element = $event.target,
 				container = getContainer(element);
 			if (container && !validationManager.isInvalid(container)) {
 				validate(container);
@@ -225,8 +219,9 @@ function(attribute, event, initialise, Widget, i18n, multiFormComponent, unique,
 		 * @param {module:wc/dom/event} $event a click event as wrapped by the WComponent event module.
 		 */
 		function clickEvent($event) {
-			var element, container;
-			if (!$event.defaultPrevented && (element = BUTTON.findAncestor($event.target))) {
+			let element;
+			if (!$event.defaultPrevented && (element = $event.target.closest("button"))) {
+				let container;
 				if (multiFormComponent.getButtonType(element) && (container = getContainer(element))) {
 					revalidate(container);
 				}
@@ -240,20 +235,15 @@ function(attribute, event, initialise, Widget, i18n, multiFormComponent, unique,
 		 * @param {module:wc/dom/event} $event a focus[in] event as wrapped by the WComponent event module.
 		 */
 		function focusEvent($event) {
-			var element = $event.target,
-				BOOTSTRAPPED = "validation.multiFormComponent.bs",
-				container;
-			if (element && !attribute.get(element, BOOTSTRAPPED) && Widget.isOneOfMe(element, multiFormComponent.getInputWidget())) {
+			const element = $event.target,
+				BOOTSTRAPPED = "validation.multiFormComponent.bs";
+			if (element && !attribute.get(element, BOOTSTRAPPED) && element.matches(multiFormComponent.getInputSelector())) {
 				attribute.set(element, BOOTSTRAPPED, true);
 				event.add(element, "change", changeEvent);
-				container = getContainer(element);
+				let container = getContainer(element);
 				if (container && !attribute.get(container, BOOTSTRAPPED) && validationManager.isValidateOnBlur()) {
 					attribute.set(container, BOOTSTRAPPED, true);
-					if (event.canCapture) {
-						event.add(container, { type: "blur", listener: blurEvent, pos: 1, capture: true });
-					} else {
-						event.add(container, "focusout", blurEvent);
-					}
+					event.add(container, { type: "blur", listener: blurEvent, pos: 1, capture: true });
 				}
 			}
 		}
@@ -289,7 +279,6 @@ function(attribute, event, initialise, Widget, i18n, multiFormComponent, unique,
 	 * @requires wc/dom/attribute
 	 * @requires wc/dom/event
 	 * @requires wc/dom/initialise
-	 * @requires wc/dom/Widget
 	 * @requires wc/i18n/i18n
 	 * @requires wc/ui/multiFormComponent
 	 * @requires wc/array/unique

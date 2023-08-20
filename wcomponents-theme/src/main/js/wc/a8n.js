@@ -1,11 +1,13 @@
 /**
  * This module provides affordances for automated testing tools.
  */
-define(["wc/dom/initialise", "wc/ajax/ajax", "wc/ajax/Trigger", "wc/timers", "wc/Observer", "wc/dom/storage"],
-	function(initialise, ajax, Trigger, timers, Observer, storage) {
-		var observer,
+define(["wc/dom/initialise", "wc/ajax/ajax", "wc/ajax/Trigger", "wc/timers", "wc/Observer", "wc/dom/storage", "wc/fixes"],
+	function(initialise, ajax, Trigger, timers, Observer, storage, fixes) {
+		let observer,
 			timer,
-			instance = {
+			globalPending = 0;
+
+		const instance = {
 				preInit: preInit,
 				postInit: postInit,
 				subscribe: subscribe,
@@ -19,27 +21,18 @@ define(["wc/dom/initialise", "wc/ajax/ajax", "wc/ajax/Trigger", "wc/timers", "wc
 				AJAX: 1,
 				TIMERS: 2,
 				AJAX_TRIGGER: 4,
-				DOM_READY: 8
-			},
-			globalPending = 0;
+				DOM_READY: 8,
+				FIXES: 16
+			};
 
 		timers._subscribe(pendingTimers);
-		ajax.subscribe(pendingAjax);
-		Trigger.subscribe(pendingAjaxTrigger);
-		Trigger.subscribe(pendingAjaxTrigger, -1);
-
 		/*
 		 * Subscriber for pending AJAX requests.
 		 */
-		function pendingAjax(pending) {
-			var element = document.body;
-			// console.log("AJAX ", pending);
-			if (element) {
-				// TODO remove this attribute - it is not needed any more now we have data-wc-domready
-				element.setAttribute("data-wc-ajaxp", pending);
-			}
-			pendingUpdated(pending, flags.AJAX);
-		}
+		ajax.subscribe((pending) => pendingUpdated(pending, flags.AJAX));
+		Trigger.subscribe(pendingAjaxTrigger);
+		Trigger.subscribe(pendingAjaxTrigger, -1);
+
 
 		/*
 		 * Subscriber for pending AJAX requests that will update the DOM.
@@ -54,12 +47,21 @@ define(["wc/dom/initialise", "wc/ajax/ajax", "wc/ajax/Trigger", "wc/timers", "wc
 		 */
 		function pendingTimers(pending) {
 			// console.log("TIMER ", pending);
-			var element = document.body;
-			if (element) {
-				// TODO remove this attribute - it is not needed any more now we have data-wc-domready
-				element.setAttribute("data-wc-timers", pending);
-			}
 			pendingUpdated(pending, flags.TIMERS);
+		}
+
+		function waitForFixes() {
+			const needsFixes = fixes.length;
+			const fixesLoaded = () => pendingUpdated(false, flags.FIXES);
+			if (needsFixes) {
+				pendingUpdated(true, flags.FIXES);
+				try {
+					require(fixes, fixesLoaded);
+				} catch (ex) {
+					fixesLoaded();
+				}
+				// with native modules: Promise.all(fixes.map(fix => import(fix))).then(fixesLoaded).catch(fixesLoaded);
+			}
 		}
 
 		/*
@@ -80,23 +82,20 @@ define(["wc/dom/initialise", "wc/ajax/ajax", "wc/ajax/Trigger", "wc/timers", "wc
 		}
 
 		function checkNotify() {
-			var delay, notify, currentState, isReady,
-				element = document.body;
+			const element = document.body;
 			if (element) {
-				isReady = !globalPending;
-				currentState = instance.isReady();
+				const isReady = !globalPending;  // When nothing is pwnding it will be zero
+				const currentState = instance.isReady();
 				if (isReady !== currentState) {
 					if (timer) {
 						window.clearTimeout(timer);
 					}
-					notify = stateChangeFactory(element, instance.attr);
+					const notify = stateChangeFactory(element, instance.attr);
 					if (!isReady) {  // If the DOM is busy we want to notify ASAP
 						notify();
 					} else {  // If the DOM is ready notify "soon" in case another action is about to start
-						delay = storage.get("wc.a8n.delay") || 501;  // String should be ok without casting...
-						timer = window.setTimeout(function() {
-							notify();
-						}, delay);
+						const delay = storage.get("wc.a8n.delay") || 251;  // String should be ok without casting...
+						timer = window.setTimeout(notify, delay);
 					}
 				}
 			}
@@ -106,8 +105,8 @@ define(["wc/dom/initialise", "wc/ajax/ajax", "wc/ajax/Trigger", "wc/timers", "wc
 		 * Handle a change of state from ready to busy and vice versa.
 		 */
 		function stateChangeFactory(element, attr) {
-			return function() {
-				var isReady = !globalPending;
+			return function () {
+				const isReady = !globalPending;
 				element.setAttribute(attr, isReady);
 				if (observer) {
 					observer.notify(isReady);
@@ -125,21 +124,22 @@ define(["wc/dom/initialise", "wc/ajax/ajax", "wc/ajax/Trigger", "wc/timers", "wc
 		 * @returns {Boolean} true if the page is ready
 		 */
 		function isFlaggedReady() {
-			var element = document.body;
+			const element = document.body;
 			return (element && element.getAttribute(instance.attr) === "true");
 		}
 
 		/*
-		 * Called before initialisation rotuines run.
+		 * Called before initialisation routines run.
 		 */
 		function preInit() {
 			pendingUpdated(true, flags.DOM_READY);
 		}
 
 		/*
-		 * Called after initialisation rotuines run.
+		 * Called after initialisation routines run.
 		 */
 		function postInit() {
+			waitForFixes();
 			pendingUpdated(false, flags.DOM_READY);
 		}
 
@@ -177,7 +177,7 @@ define(["wc/dom/initialise", "wc/ajax/ajax", "wc/ajax/Trigger", "wc/timers", "wc
 					if (!observer) {
 						observer = new Observer();
 					}
-					observer.subscribe(callback, { group: "onready" });
+					observer.subscribe(callback, {group: "onready"});
 				}
 			}
 		}

@@ -27,7 +27,7 @@ public class SimplePaginationWithRowOptionsTableExample_Test extends WComponentE
 	}
 
 	/**
-	 * Test the bahviour of a paginated table.
+	 * Test the behaviour of a paginated table.
 	 */
 	@Test
 	public void testPagination() {
@@ -59,19 +59,19 @@ public class SimplePaginationWithRowOptionsTableExample_Test extends WComponentE
 		assertPageButtons(table, firstIndex, firstIndex + 1, false, true);
 
 		table.getNextPageButton().click();
-		//The table has now been reloaded - have to fetch again.
+		// The table has now been reloaded - have to fetch again.
 		table = getTable();
 
 		assertPageButtons(table, firstIndex + rowsPerPage, firstIndex + rowsPerPage + 1, true, true);
 
 		table.getLastPageButton().click();
-		//The table has now been reloaded - have to fetch again.
+		// The table has now been reloaded - have to fetch again.
 		table = getTable();
 
 		assertPageButtons(table, totalRows - 1, totalRows, true, false);
 
 		table.getPreviousPageButton().click();
-		//The table has now been reloaded - have to fetch again.
+		// The table has now been reloaded - have to fetch again.
 		table = getTable();
 
 		assertPageButtons(table, (totalRows - rowsPerPage) - 1, totalRows - rowsPerPage, true, true);

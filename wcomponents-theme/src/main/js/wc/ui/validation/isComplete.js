@@ -7,18 +7,14 @@
  * @requires module:wc/array/toArray
  * @requires module:wc/dom/getFilteredGroup
  * @requires module:wc/dom/isSuccessfulElement
- * @requires module:wc/dom/tag
- * @requires module:wc/dom/Widget
  * @requires module:wc/ui/validation/validationManager
  */
 define(["wc/Observer",
 	"wc/array/toArray",
 	"wc/dom/getFilteredGroup",
 	"wc/dom/isSuccessfulElement",
-	"wc/dom/tag",
-	"wc/dom/Widget",
 	"wc/ui/validation/validationManager"],
-function(Observer, toArray, getFilteredGroup, isSuccessfulElement, tag, Widget, validationManager) {
+function(Observer, toArray, getFilteredGroup, isSuccessfulElement, validationManager) {
 	"use strict";
 	/**
 	 * @constructor
@@ -26,9 +22,10 @@ function(Observer, toArray, getFilteredGroup, isSuccessfulElement, tag, Widget, 
 	 * @private
 	 */
 	function IsComplete() {
-		var observer,
-			CONTROLS,
-			ANALOGS,
+		let observer;
+		const controlsSelector = "[name]",
+			analogsSelector = "[data-wc-name][data-wc-value]",
+			allSelector = `${controlsSelector}, ${analogsSelector}`,
 			OBSERVER_GROUP = "completeness",
 			NULL_OPTION_ATTRIBUTE = "data-wc-null";
 
@@ -70,9 +67,9 @@ function(Observer, toArray, getFilteredGroup, isSuccessfulElement, tag, Widget, 
 		 * @returns {boolean} true if the element is not exempt from the completeness test.
 		 */
 		function isNotExempt(candidate) {
-			var result;
+			let result;
 			/* input of type hidden is exempt from validation but is not allowed to determine that a container is complete. */
-			if (candidate.tagName === tag.INPUT && candidate.type === "hidden") {
+			if (candidate.matches("input[type='hidden']")) {
 				result = true;
 			} else {
 				// remove any elements which are exempt from validation as these are also exempt from completeness tests
@@ -88,15 +85,14 @@ function(Observer, toArray, getFilteredGroup, isSuccessfulElement, tag, Widget, 
 		 *
 		 * @function module:wc/ui/validation/isComplete.isCompleteHelper
 		 * @param {Element} container A DOM node, usually one containing components but could be the component.
-		 * @param {module:wc/dom/Widget} widget A Widget describing the component calling this function.
+		 * @param {module:wc/dom/Widget|string} widget A Widget describing the component calling this function (or a query selector string).
 		 * @param {Function} filter A function which returns true if an instance of the component is complete.
 		 * @param {object} [theOtherThis] A reference to a "this" to pass to Array.some if the filter func needs this.
 		 * @returns {boolean} true if complete. Note: we assume false because a component cannot be complete if the
 		 *    container does not contain any of them.
 		 */
 		this.isCompleteHelper = function(container, widget, filter, theOtherThis) {
-			var result, candidates;
-
+			let result, candidates, widgetSelector;
 			if (!(container && widget)) {
 				return result;
 			}
@@ -105,12 +101,16 @@ function(Observer, toArray, getFilteredGroup, isSuccessfulElement, tag, Widget, 
 				throw new ReferenceError("Call to isCompleteHelper without a filter function");
 			}
 
-			if (Widget.isOneOfMe(container, widget)) {
-				return isNotExempt(container) && filter(container);
-			} else if (Array.isArray(widget)) {
-				candidates = Widget.findDescendants(container, widget);
+			if (Array.isArray(widget)) {
+				widgetSelector = widget.map(next => next.toString()).join();
 			} else {
-				candidates = widget.findDescendants(container);
+				widgetSelector = widget.toString();
+			}
+
+			if (container.matches(widgetSelector)) {
+				return isNotExempt(container) && filter(container);
+			} else {
+				candidates = container.querySelectorAll(widgetSelector);
 			}
 			if (candidates && candidates.length) {
 				candidates = toArray(candidates);
@@ -129,13 +129,11 @@ function(Observer, toArray, getFilteredGroup, isSuccessfulElement, tag, Widget, 
 		 *
 		 * @function
 		 * @private
-		 * @param {Element} container The place to look for candidates.
+		 * @param {HTMLElement} container The place to look for candidates.
 		 * @returns {Element[]} If not null an array of elements (<strong>not</strong> a node list).
 		 */
 		function getComponents(container) {
-			var result;
-			CONTROLS = CONTROLS || new Widget("", "", {name: null});
-			ANALOGS = ANALOGS || new Widget("", "", {"data-wc-name": null, "data-wc-value": null});
+			let result;
 
 			/*
 			 * NOTE:
@@ -143,10 +141,10 @@ function(Observer, toArray, getFilteredGroup, isSuccessfulElement, tag, Widget, 
 			 * unnecessary since if we are testing a specific component it will have been through the analog tests
 			 * already.
 			 */
-			if (CONTROLS.isOneOfMe(container)) {
+			if (container.matches(controlsSelector)) {
 				result = [container];
 			} else {
-				result = Widget.findDescendants(container, [CONTROLS, ANALOGS]);
+				result = container.querySelectorAll(allSelector);
 			}
 
 			if (result && result.length) {
@@ -171,13 +169,7 @@ function(Observer, toArray, getFilteredGroup, isSuccessfulElement, tag, Widget, 
 		 * @returns {boolean} true if the container is "complete".
 		 */
 		this.isContainerComplete = function(container) {
-			var result,  // start by assuming that nothing is complete but undefined is needed too
-				candidates;
-
-			// helper function because we do not want to confuse arguments of Array.some with those of isComplete
-			function _amIComplete(next) {
-				return this.isComplete(next);
-			}
+			let result;  // start by assuming that nothing is complete but undefined is needed too
 
 			if (container.getAttribute("data-wc-name") && container.hasAttribute("data-wc-value")) {
 				// a control may have a name analog but no value analog and still not be incomplete, weird eh? (see selectToggle)
@@ -195,7 +187,7 @@ function(Observer, toArray, getFilteredGroup, isSuccessfulElement, tag, Widget, 
 				 * enough to need this. A few complex components and all ARIA based components have a subscriber but
 				 * most components are actually rather simple.*/
 				if (!result) {
-					candidates = getComponents(container);
+					let candidates = getComponents(container);
 					if (candidates === null) {  // nothing of interest in the container
 						result = true;  // nothing in the container, must be complete
 					} else if (!candidates.length) {  // empty array, so we had candidates but they are all exempt.
@@ -206,7 +198,7 @@ function(Observer, toArray, getFilteredGroup, isSuccessfulElement, tag, Widget, 
 						 * otherwise there would have been at least one true amongst them. */
 					} else {
 						candidates = toArray(candidates);
-						result = candidates.some(_amIComplete, this);
+						result = candidates.some(next => this.isComplete(next));
 					}
 				}
 			}
@@ -220,28 +212,29 @@ function(Observer, toArray, getFilteredGroup, isSuccessfulElement, tag, Widget, 
 		 *
 		 * @function
 		 * @private
-		 * @param {Element} element A component with native support for the "required" attribute.
+		 * @param {HTMLElement} element A component with native support for the "required" attribute.
 		 * @returns {boolean} true if complete.
 		 */
 		function isNativeComplete(element) {
-			var result = false, allInGroup, tagName = element.tagName, option;
+			let result;
 
-			if (tagName === tag.INPUT && element.type === "radio") {
+			if (element.matches("input[type='radio']")) {
 				// isSuccessfulElement is insufficient for radio buttons which could be all over the place
-				allInGroup = getFilteredGroup(element);
+				const allInGroup = getFilteredGroup(element);
 				result = allInGroup && allInGroup.length === 1;
 				if (result && allInGroup[0].getAttribute(NULL_OPTION_ATTRIBUTE)) {
 					result = false;
 				}
 			} else if ((result = isSuccessfulElement(element))) {
 				/* if isSuccessfulElement returns false we know the control is not complete */
-				if (tagName === tag.SELECT && !element.multiple) {
-					if ((option = element.options[element.selectedIndex]) && option.getAttribute(NULL_OPTION_ATTRIBUTE)) {
+				if (element.matches("select:not([multiple])")) {
+					const option = element.options[element.selectedIndex];
+					if (option && option.getAttribute(NULL_OPTION_ATTRIBUTE)) {
 						result = false;
 					}
-				} else if (tagName === tag.INPUT && element.type === "hidden") {
+				} else if (element.matches("input[type='hidden']")) {
 					result = false;
-				} else if ((tagName === tag.INPUT && element.type !== "checkbox") || tagName === tag.TEXTAREA) {
+				} else if ((element.matches("input:not([type='checkbox'])")) || element.matches("textarea")) {
 					result = !!(element.value);
 				}
 			}

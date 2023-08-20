@@ -116,7 +116,7 @@ public class WDialogExample_Test extends WComponentExamplesTestCase {
 		// Display the modeless dialog
 		driver.findElement(byWComponent(testButton)).click();
 
-		Assert.assertTrue("Should not be displaying the dialog", driver.getPageSource().contains(
+		Assert.assertTrue("Should be displaying the dialog", driver.getPageSource().contains(
 				expectedText));
 	}
 }

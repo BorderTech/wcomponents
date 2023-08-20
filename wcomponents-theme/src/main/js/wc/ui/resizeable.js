@@ -9,14 +9,13 @@ define(["wc/dom/attribute",
 	"wc/dom/shed",
 	"wc/dom/uid",
 	"wc/dom/Widget",
-	"wc/has",
 	"wc/ui/ajax/processResponse",
 	"wc/Observer",
 	"wc/timers",
 	"wc/ui/icon",
 	"wc/config"],
 function(attribute, clearSelection, event, getMouseEventOffset, isAcceptableTarget, getBox, getStyle,
-	initialise, shed, uid, Widget, has, processResponse, Observer, timers, icon, wcconfig) {
+	initialise, shed, uid, Widget, processResponse, Observer, timers, icon, wcconfig) {
 
 	"use strict";
 	var instance;
@@ -492,14 +491,8 @@ function(attribute, clearSelection, event, getMouseEventOffset, isAcceptableTarg
 			event.add(element, "mouseup", mouseupTouchendTouchcancelEvent);
 			event.add(element, "click", clickEvent);
 			event.add(element, "dblclick", doubleClickEvent);
-
-			if (has("event-ontouchend")) {
-				event.add(element, "touchend", mouseupTouchendTouchcancelEvent);
-			}
-
-			if (has("event-ontouchcancel")) {
-				event.add(document.body, "touchcancel", mouseupTouchendTouchcancelEvent);
-			}
+			event.add(element, "touchend", mouseupTouchendTouchcancelEvent);
+			event.add(document.body, "touchcancel", mouseupTouchendTouchcancelEvent);
 		};
 
 		/**
@@ -515,17 +508,13 @@ function(attribute, clearSelection, event, getMouseEventOffset, isAcceptableTarg
 				attribute.set(element, BS, true);
 				event.add(element, "mousedown", mousedownEvent);
 				event.add(element, "keydown", keydownEvent);
-				if (has("event-ontouchstart")) {
-					event.add(element, "touchstart", touchstartEvent);
-				}
+				event.add(element, "touchstart", touchstartEvent);
 			}
 			if (!attribute.get(body, MM_EVENT)) {
 				attribute.set(body, MM_EVENT, true);
 				event.add(body, "mousemove", mousemoveEvent);
 
-				if (has("event-ontouchmove")) {
-					event.add(body, "touchmove", touchmoveEvent);
-				}
+				event.add(body, "touchmove", touchmoveEvent);
 			}
 		}
 

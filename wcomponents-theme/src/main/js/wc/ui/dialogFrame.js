@@ -114,7 +114,7 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 		 * @returns {Boolean} true if the dialog has any content in an aria-busy state.
 		 */
 		function hasBusyContent() {
-			var content = instance.getContent();
+			const content = instance.getContent();
 			if (content) {
 				BUSY = BUSY || new Widget("","",{"aria-busy": "true"});
 				return !!BUSY.findDescendant(content);
@@ -843,10 +843,7 @@ function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, mo
 				content.className = CONTENT_BASE_CLASS;
 
 				if (!keepContent) {
-					content.innerHTML = ""; // Do we really still need this IE 6 fix?
-					i18n.translate("loading").then(function(loadingText) {
-						content.innerHTML = loadingText;
-					});
+					i18n.translate("loading").then(loadingText => content.innerHTML = loadingText);
 				}
 			}
 		};
