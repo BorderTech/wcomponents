@@ -192,7 +192,9 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 				}];
 			try {
 				subscribers = registry.getSubscribers(filterFn);
-				if (notifyInStages) {
+				if (!subscribers) {
+					result = Promise.resolve();
+				} else if (notifyInStages) {
 					// notify sequentially
 					result = Promise.resolve();
 					promiseFactories.forEach(function (promiseFactory) {
