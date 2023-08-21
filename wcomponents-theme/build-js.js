@@ -59,7 +59,8 @@ async function build(singleFile) {
 		await esmBuilder.build(dirs.script.src, dirs.script.max);
 		libBuilder.build(dirs.project.basedir, dirs.script.max);
 		buildMax(dirs.script);
-		return optimize(config);
+		// return optimize(config);
+		return fs.copy(config.baseUrl, config.dir);  // TODO rewrite optimisation without r.js
 	}
 	return await buildSingle(singleFile);
 }
@@ -84,7 +85,7 @@ async function buildSingle(singleFile) {
 	} else {
 		buildMax(dirs.script, fileName);
 	}
-	return optimize(conf);
+	// return optimize(conf);  // TODO rewrite optimisation without r.js
 }
 
 /**
