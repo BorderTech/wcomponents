@@ -36,7 +36,7 @@ function(ariaAnalog, initialise, Widget, key, focus, getFilteredGroup, shed, tex
 		 */
 		this.exclusiveSelect = this.SELECT_MODE.MIXED;
 		/**
-		 * The defnition of a grouped item in a listbox analog. This is the equivalent of an option element.
+		 * The definition of a grouped item in a listbox analog. This is the equivalent of an option element.
 		 * @var
 		 * @public
 		 * @type {module:wc/dom/Widget}
@@ -57,7 +57,7 @@ function(ariaAnalog, initialise, Widget, key, focus, getFilteredGroup, shed, tex
 
 		/**
 		 * According to the WAI-ARIA spec listbox MUST contain option and option must be contained by listbox.
-		 * However the rdf is broken on this point with regard to looking up what 'option' is contained by. So this
+		 * However, the rdf is broken on this point with regard to looking up what 'option' is contained by. So this
 		 * is a fill for that bug.
 		 *
 		 * @constant

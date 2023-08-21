@@ -1,12 +1,11 @@
-define(["wc/has",
-	"wc/dom/initialise",
+define(["wc/dom/initialise",
 	"wc/dom/shed",
 	"wc/Observer",
 	"wc/i18n/i18n",
 	"wc/ui/getFirstLabelForElement",
 	"wc/ui/feedback",
 	"wc/config"],
-function(has, initialise, shed, Observer, i18n, getFirstLabelForElement, feedback, wcconfig) {
+function(initialise, shed, Observer, i18n, getFirstLabelForElement, feedback, wcconfig) {
 	"use strict";
 
 	/**
@@ -250,7 +249,6 @@ function(has, initialise, shed, Observer, i18n, getFirstLabelForElement, feedbac
 	 * requires custom validation subscribes to this using validationManager.subscribe.
 	 *
 	 * @module
-	 * @requires wc/has
 	 * @requires wc/dom/initialise
 	 * @requires wc/dom/shed
 	 * @requires wc/Observer
