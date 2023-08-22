@@ -168,7 +168,7 @@ function Collapsible() {
 	function shedSubscriber(element, action) {
 		let header;
 		// Can't use optional chaining until we get off R.js
-		if (element && element.matches(containerSelector) && (header = element.querySelector(headerSelector))) {
+		if (element?.matches(containerSelector) && (header = element.querySelector(headerSelector))) {
 			if (action === shed.actions.DISABLE) {
 				if (shed.isDisabled(header)) {
 					shed.enable(header, true);

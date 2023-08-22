@@ -43,7 +43,7 @@
 		"babel-plugin-transform-import-as-amd": "0.0.12",
 		"chokidar": "3.5.3",
 		"clean-css-cli": "4.1.11",
-		"eslint": "8.31.0",
+		"eslint": "8.47.0",
 		"fs-extra": "8.1.0",
 		"grunt": "1.5.3",
 		"grunt-contrib-clean": "2.0.1",

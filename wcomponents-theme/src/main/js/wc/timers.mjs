@@ -16,7 +16,6 @@
 //	global.setTimeout(function(varargs) {
 //		hasNativeVarargSupport = !!varargs;
 //	}, 0, true);
-const global = window;
 
 /**
  * @constructor
@@ -70,7 +69,7 @@ function Timers() {
 		const timeout = args[1],
 			callback = callbackWrapperFactory(args);
 		if (timeout >= ignoreThreshold) {
-			result = global[type](callback, timeout);
+			result = globalThis[type](callback, timeout);
 			callback[CB_HANDLE_PROP] = result;
 		} else {
 			console.info("Ignoring timeout delay!", timeout);
@@ -83,7 +82,7 @@ function Timers() {
 	 * Helper for the clear methods.
 	 */
 	function clearTimer(handle, type) {
-		global[type](handle);
+		globalThis[type](handle);
 	}
 
 	/**
@@ -101,7 +100,7 @@ function Timers() {
 			for (let i = 2, l = outerArgs.length; i < l; i++) {
 				args[args.length] = outerArgs[i];
 			}
-			handler.apply(global, args);  // notify the callback
+			handler.apply(globalThis, args);  // notify the callback
 			updatePending(handle, true);
 		};
 		return callbackWrapper;

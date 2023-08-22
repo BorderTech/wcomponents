@@ -24,12 +24,14 @@
 	"globals": {
 		"Promise": true,
 		"DataView": true,
-		"intern": true
+		"intern": true,
+		"globalThis": true
 	},
 	"overrides": [{
 		"files": [ "*.mjs" ],
 		"parserOptions": {
-			"sourceType": "module"
+			"sourceType": "module",
+			"ecmaVersion": 2021
 		}}, {
 		"files": [ "scripts/*.js", "build-js.js" ],
 		"parserOptions": {
