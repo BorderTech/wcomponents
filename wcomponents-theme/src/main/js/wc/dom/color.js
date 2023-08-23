@@ -56,7 +56,7 @@ define(["wc/loader/resource"],
 			 * @example hex2rgb(#FFFFFF") returns {r:255 g:255 b:255}
 			 * @function
 			 * @alias module:wc/dom/color.hex2rgb
-			 * @param {Stering} hex The colour as a hex string.
+			 * @param {String} hex The colour as a hex string.
 			 * @throws {TypeError} Throws a type error if hex is not a string.
 			 * @returns {Object} The color as an object with properties r:red, g:green and b:blue.
 			 */

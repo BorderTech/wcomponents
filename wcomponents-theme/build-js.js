@@ -53,16 +53,20 @@ if (require.main === module) {
  */
 async function build(singleFile) {
 	console.time("buildJS");
-	if (!singleFile) {
-		themeLinter.run("", true);
-		clean();
-		await esmBuilder.build(dirs.script.src, dirs.script.max);
-		libBuilder.build(dirs.project.basedir, dirs.script.max);
-		buildMax(dirs.script);
-		// return optimize(config);
-		return fs.copy(config.baseUrl, config.dir);  // TODO rewrite optimisation without r.js
+	try {
+		if (!singleFile) {
+			themeLinter.run("", true);
+			clean();
+			await esmBuilder.build(dirs.script.src, dirs.script.max);
+			libBuilder.build(dirs.project.basedir, dirs.script.max);
+			buildMax(dirs.script);
+			// return optimize(config);
+			return fs.copy(config.baseUrl, config.dir);  // TODO rewrite optimisation without r.js
+		}
+		return await buildSingle(singleFile);
+	} finally {
+		console.timeEnd("buildJS");
 	}
-	return await buildSingle(singleFile);
 }
 
 /*
