@@ -248,8 +248,7 @@ function ComboBox() {
 	 * @param {HTMLOptionElement} option The option which caused the update.
 	 */
 	function setValue(combo, option) {
-		const textbox = Array.prototype.find.call(combo.children, child => child.matches(textboxSelector));
-
+		const textbox = getTextbox(combo);
 		if (textbox) {
 			textbox.value = listboxAnalog.getOptionValue(option);
 		}
@@ -589,11 +588,9 @@ function ComboBox() {
 	 * @private
 	 * @param {FocusEvent} $event The focus/focusin event as published by the wc event manager.
 	 */
-	function focusEvent($event) {
-		const element = $event.target;
-
-		if (element.matches(textboxSelector)) {
-			const combo = element.parentNode;
+	function focusEvent({ target }) {
+		if (target.matches(textboxSelector)) {
+			const combo = target.parentNode;
 			if (combo && !attribute.get(combo, INITED)) {
 				attribute.set(combo, INITED, true);
 				event.add(combo, "keydown", keydownEvent);
@@ -601,13 +598,13 @@ function ComboBox() {
 				// chatty ajax combos need a special input listener
 				if (listbox && listbox.hasAttribute("data-wc-chat")) {
 					combo.classList.add(CLASS_CHATTY);
-					event.add(element, "input", inputEvent);
+					event.add(target, "input", inputEvent);
 				}
 			}
 		}
 
 		if (openSelect) {
-			const combo = getCombo(element);
+			const combo = getCombo(target);
 			// check openSelect before trying to collapse element in case we have gone straight from an open combo to another combo
 			if (!(combo && combo.id === openSelect)) {
 				const openCombo = document.getElementById(openSelect);
@@ -616,7 +613,7 @@ function ComboBox() {
 					 * if I have focussed in the current combo's list box (or something silly like the body)
 					 * do not close the combo.*/
 					let listbox;
-					if (element !== window && element !== document.body) {
+					if (target !== window && target !== document.body) {
 						listbox = getListBox(combo);
 						if (listbox !== getListBox(openCombo)) {
 							shed.collapse(openCombo);
@@ -658,7 +655,7 @@ function ComboBox() {
 		if (element.matches(listBoxSelector)) {
 			const combo = getCombo(element);
 
-			if (!combo) { // this would be a disaster.
+			if (!combo) {  // this would be a disaster.
 				shed.hide(element, true);
 				return;
 			}
@@ -679,6 +676,19 @@ function ComboBox() {
 	}
 
 	/**
+	 * Get the textbox for a combo.
+	 * @param {HTMLElement} combo
+	 * @return {HTMLInputElement} the textbox
+	 */
+	function getTextbox(combo) {
+		if (!combo) {
+			return null;
+		}
+		const {find} = Array.prototype;
+		return find.call(combo.children, child => child.matches(textboxSelector));
+	}
+
+	/**
 	 * Force the value of the given element to be parsed according to its parser and the first resulting match (if any) to be chosen. Allows
 	 * us to force selection from a list making a broken combo or an overly complicated SELECT.
 	 * @function
@@ -686,7 +696,7 @@ function ComboBox() {
 	 * @param {HTMLElement} element A combo element.
 	 */
 	function acceptFirstMatch(element) {
-		const textbox = Array.prototype.find.call(element.children, child => child.matches(textboxSelector));
+		const textbox = getTextbox(element);
 		let value = textbox ? textbox.value.toLocaleLowerCase() : "";
 		if (!value) {
 			return;
@@ -758,7 +768,7 @@ function ComboBox() {
 	 */
 	this.initialise = function(element) {
 		setUpSuggestions(element);
-		event.add(window, { type: "focus", listener: focusEvent, capture: true });
+		event.add(element, { type: "focus", listener: focusEvent, capture: true });
 		event.add(element, "click", clickEvent);
 
 		event.add(element, "touchstart", touchstartEvent);

@@ -2,13 +2,14 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 	function (registerSuite, assert, controller, shed, event, testutils) {
 		"use strict";
 
-		var testHolder,
+		const allDeps = ["wc/ui/checkboxAnalog", "wc/ui/listboxAnalog", "wc/ui/radioAnalog"],
+			urlResource = require.toUrl("intern/resources/ariaAnalog.html");
+
+		let testHolder,
 			testContent,
-			allDeps = ["wc/ui/checkboxAnalog", "wc/ui/listboxAnalog", "wc/ui/radioAnalog"],
 			cbController,
 			listController,
-			radioController,
-			urlResource = require.toUrl("intern/resources/ariaAnalog.html");
+			radioController;
 
 		function getDummyKeydownEvent(target, key, code, ALT, SHIFT, CTRL) {
 			return {
@@ -29,7 +30,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 		registerSuite({
 			name: "wc/dom/ariaAnalog",
 			setup: function() {
-				var result = testutils.setupHelper(allDeps).then(function(arg) {
+				return testutils.setupHelper(allDeps).then(function(arg) {
 					cbController = arg[0];
 					listController = arg[1];
 					radioController = arg[2];
@@ -39,7 +40,6 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 						return Promise.resolve();
 					});
 				});
-				return result;
 			},
 			beforeEach: function() {
 				testHolder.innerHTML = testContent;
@@ -50,7 +50,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 			teardown: function() {
 				testHolder.innerHTML = "";
 			},
-			testDefaults: function() {
+			"testDefaults": function() {
 				// default property values
 				assert.strictEqual(controller.VALUE_ATTRIB, "data-wc-value", "VALUE_ATTRIBUTE default not as expected.");
 				assert.deepEqual(controller.SELECT_MODE, { MULTIPLE: 0, SINGLE: 1, MIXED: 2 }, "SELECT_MODE default not as expected.");
@@ -64,16 +64,16 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 				assert.isFalse(controller.simpleSelection, "simpleSelection default not as expected");
 				assert.isNull(controller._extendedInitialisation, "_extendedInitialisation default not as expected");
 			},
-			testFreeze: function() {
+			"testFreeze": function() {
 				if (typeof Object.freeze === "undefined") {
 					this.skip("no freeze to test");
 				}
 				assert.isFrozen(controller);
 			},
-			testITEM: function() {
+			"testITEM": function() {
 				assert.isUndefined(controller.ITEM);
 			},
-			testSelectOnNavigate_noElement: function() {
+			"testSelectOnNavigate_noElement": function() {
 				try {
 					controller.selectOnNavigate();
 					assert.isTrue(false, "Expected an error to be thrown.");
@@ -81,53 +81,54 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 					assert.strictEqual(e.message, "Argument must not be null");
 				}
 			},
-			testSelectOnNavigate: function() {
+			"testSelectOnNavigate": function() {
 				assert.isFalse(controller.selectOnNavigate(document.body));
 			}
 			/* NOTE: below this is a proxy test of module wc/dom/ariaAnalog using some of its real descendant modules. */
-			,testGetGroupContainer_noContainer: function() {
+			,
+			"testGetGroupContainer_noContainer": function() {
 				// use checkboxAnalog to get a group container as that analog does not have a natural container.
-				var start = document.getElementById("cb0");
+				const start = document.getElementById("cb0");
 				// using ariaAnalog directly - we do not determine the null/undefined return type for this function - it is a pass-thru
 				assert.isNotOk(controller.getGroupContainer(start), "did not expect to find container using ariaAnalog");
 				// using checkboxAnalog
 				assert.isNotOk(cbController.getGroupContainer(start), "did not expect to find container using checkboxAnalog");
 			},
-			testGetGroupContainer_byRole: function() {
+			"testGetGroupContainer_byRole": function() {
 				// use an analog with a defined container scoped by the ARAI rdf - in this case radioAnalog
-				var start = document.getElementById("rb0-0"),
+				const start = document.getElementById("rb0-0"),
 					expected = "rb0";
 				assert.strictEqual(radioController.getGroupContainer(start).id, expected, "did not find expected container using ariaAnalog");
 			},
-			testGetGroupContainer_withWidget: function() {
+			"testGetGroupContainer_withWidget": function() {
 				// use an analog with a container not defined container scoped by the ARAI rdf - in this case listboxAnalog
-				var start = document.getElementById("lb0-0"),
+				const start = document.getElementById("lb0-0"),
 					expected = "lb0";
 				assert.strictEqual(listController.getGroupContainer(start).id, expected, "did not find expected container using ariaAnalog");
 			},
-			testShedObserver_cb: function() {
-				var start = document.getElementById("cb1"),
+			"testShedObserver_cb": function() {
+				const start = document.getElementById("cb1"),
 					initialSelection = document.getElementById("cb0");
 				assert.isTrue(shed.isSelected(initialSelection), "initial selection should be selected");
 				cbController.shedObserver(start, shed.actions.SELECT);
 				assert.isTrue(shed.isSelected(initialSelection), "initial selection should still be selected");
 			},
-			testShedObserver_rb: function() {
-				var start = document.getElementById("rb0-1"),
+			"testShedObserver_rb": function() {
+				const start = document.getElementById("rb0-1"),
 					initialSelection = document.getElementById("rb0-0");
 				assert.isTrue(shed.isSelected(initialSelection), "initial selection should be selected");
 				radioController.shedObserver(start, shed.actions.SELECT);
 				assert.isFalse(shed.isSelected(initialSelection), "initial selection should not be selected");
 			},
-			testShedObserver_listSingle: function() {
-				var start = document.getElementById("lb0-1"),
+			"testShedObserver_listSingle": function() {
+				const start = document.getElementById("lb0-1"),
 					initialSelection = document.getElementById("lb0-0");
 				assert.isTrue(shed.isSelected(initialSelection), "initial selection should be selected");
 				listController.shedObserver(start, shed.actions.SELECT);
 				assert.isFalse(shed.isSelected(initialSelection), "initial selection should not be selected");
 			},
-			testShedObserver_listSingle_explicit: function() {
-				var start = document.getElementById("lb0-1"),
+			"testShedObserver_listSingle_explicit": function() {
+				const start = document.getElementById("lb0-1"),
 					initialSelection = document.getElementById("lb0-0"),
 					container = document.getElementById("lb0");
 				container.setAttribute("aria-multiselectable", "false");
@@ -135,8 +136,8 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 				listController.shedObserver(start, shed.actions.SELECT);
 				assert.isFalse(shed.isSelected(initialSelection), "initial selection should not be selected");
 			},
-			testShedObserver_listMulti: function() {
-				var start = document.getElementById("lb0-1"),
+			"testShedObserver_listMulti": function() {
+				const start = document.getElementById("lb0-1"),
 					initialSelection = document.getElementById("lb0-0"),
 					container = document.getElementById("lb0");
 				container.setAttribute("aria-multiselectable", "true");
@@ -144,10 +145,9 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 				listController.shedObserver(start, shed.actions.SELECT);
 				assert.isTrue(shed.isSelected(initialSelection), "initial selection should still be selected");
 			},
-			testWriteState: function() {
-				var stateContainer = document.createElement("div"),
-					testForm = document.getElementById("aria-analog-writestate-test-content"),
-					stateField;
+			"testWriteState": function() {
+				const stateContainer = document.createElement("div"),
+					testForm = document.getElementById("aria-analog-writestate-test-content");
 				stateContainer.id = "ariaanalogtest-statecontainer";
 				testHolder.appendChild(stateContainer);
 				assert.isNotOk(stateContainer.firstElementChild, "state container should not have child nodes before writing state");
@@ -155,16 +155,15 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 				assert.isOk(stateContainer.firstElementChild, "state container should have child nodes after writing state");
 				// expect only one statefield written
 				assert.strictEqual(stateContainer.childNodes.length, 1);
-				stateField = stateContainer.firstElementChild;
+				const stateField = stateContainer.firstElementChild;
 				assert.isOk(stateField);
 				assert.strictEqual(stateField.name, "rb1name");
 				assert.strictEqual(stateField.value, "0");
 			},
-			testWriteState_changeSelection: function() {
+			"testWriteState_changeSelection": function() {
 				// all this does is show Mark he is not just writing the state of the first item.
-				var stateContainer = document.createElement("div"),
-					testForm = document.getElementById("aria-analog-writestate-test-content"),
-					stateField;
+				const stateContainer = document.createElement("div"),
+					testForm = document.getElementById("aria-analog-writestate-test-content");
 				stateContainer.id = "ariaanalogtest-statecontainer";
 				testHolder.appendChild(stateContainer);
 				assert.isNotOk(stateContainer.firstElementChild, "state container should not have child element(s) before writing state");
@@ -173,64 +172,64 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 				assert.isOk(stateContainer.firstElementChild, "state container should have child element(s) after writing state");
 				// expect only one statefield written
 				assert.strictEqual(stateContainer.childNodes.length, 1);
-				stateField = stateContainer.firstElementChild;
+				const stateField = stateContainer.firstElementChild;
 				assert.isOk(stateField);
 				assert.strictEqual(stateField.name, "rb1name");
 				assert.strictEqual(stateField.value, "1");
 			},
-			testFocusEvent: function() {
-				var testTarget = document.getElementById("lb0-1"),
+			"testFocusEvent": function() {
+				const testTarget = document.getElementById("lb0-1"),
 					focusTarget = document.getElementById("lb0-0"),
 					fakeEvent = {defaultPrevented: false, target: focusTarget};
 				assert.isFalse(testTarget.hasAttribute("tabindex"), "expect tabindex not set");
 				listController.focusEvent(fakeEvent);
 				assert.isTrue(testTarget.hasAttribute("tabindex"), "tabindex should now be set");
 			},
-			testFocusEvent_differentController: function() {
-				var testTarget = document.getElementById("lb0-1"),
+			"testFocusEvent_differentController": function() {
+				const testTarget = document.getElementById("lb0-1"),
 					focusTarget = document.getElementById("lb0-0"),
 					fakeEvent = {defaultPrevented: false, target: focusTarget};
 				assert.isFalse(testTarget.hasAttribute("tabindex"), "expect tabindex not set");
 				radioController.focusEvent(fakeEvent);
 				assert.isFalse(testTarget.hasAttribute("tabindex"), "tabindex should still not be set");
 			},
-			testClickEvent: function() {
-				var target = document.getElementById("cb0"),
+			"testClickEvent": function() {
+				const target = document.getElementById("cb0"),
 					fakeEvent = {defaultPrevented: false, target: target};
 				assert.isTrue(shed.isSelected(target), "target should be initially selected");
 				cbController.clickEvent(fakeEvent);
 				assert.isFalse(shed.isSelected(target), "target should not be selected");
 			},
-			testClickEvent_defaultPrevented: function() {
-				var target = document.getElementById("cb0"),
+			"testClickEvent_defaultPrevented": function() {
+				const target = document.getElementById("cb0"),
 					fakeEvent = {defaultPrevented: true, target: target};
 				assert.isTrue(shed.isSelected(target), "target should be initially selected");
 				cbController.clickEvent(fakeEvent);
 				assert.isTrue(shed.isSelected(target), "target should still be selected");
 			},
-			testClickEvent_differentController: function() {
-				var target = document.getElementById("cb0"),
+			"testClickEvent_differentController": function() {
+				const target = document.getElementById("cb0"),
 					fakeEvent = {defaultPrevented: false, target: target};
 				assert.isTrue(shed.isSelected(target), "target should be initially selected");
 				listController.clickEvent(fakeEvent);
 				assert.isTrue(shed.isSelected(target), "target should still be selected");
 			},
-			testKeydownEvent: function() {
-				var start = document.getElementById("rb0-0"),
+			"testKeydownEvent": function() {
+				const start = document.getElementById("rb0-0"),
 					evt = getDummyKeydownEvent(start, "ArrowDown", "ArrowDown");
 				assert.isFalse(evt.defaultPrevented, "evt.defaultPrevented not as expected");
 				radioController.keydownEvent(evt);
 				assert.isTrue(evt.defaultPrevented, "evt.defaultPrevented should be true");
 			},
-			testKeydownEvent_alt: function() {
-				var start = document.getElementById("rb0-0"),
+			"testKeydownEvent_alt": function() {
+				const start = document.getElementById("rb0-0"),
 					evt = getDummyKeydownEvent(start, "ArrowDown", "ArrowDown", true);
 				assert.isFalse(evt.defaultPrevented, "evt.defaultPrevented not as expected");
 				radioController.keydownEvent(evt);
 				assert.isFalse(evt.defaultPrevented, "evt.defaultPrevented should still not be true");
 			},
-			testKeydownEvent_selectOnNavigate: function() {
-				var start = document.getElementById("rb0-0"),
+			"testKeydownEvent_selectOnNavigate": function() {
+				const start = document.getElementById("rb0-0"),
 					expectedEnd = document.getElementById("rb0-1"),
 					evt = getDummyKeydownEvent(start, "ArrowDown", "ArrowDown");
 
@@ -238,8 +237,8 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 				radioController.keydownEvent(evt);
 				assert.isTrue(shed.isSelected(expectedEnd));
 			},
-			testKeydownEvent_SPACE: function() {
-				var target = document.getElementById("rb0-1"),
+			"testKeydownEvent_SPACE": function() {
+				const target = document.getElementById("rb0-1"),
 					evt = getDummyKeydownEvent(target, "Space", " ");
 				assert.isFalse(evt.defaultPrevented, "evt.defaultPrevented not as expected");
 				assert.isFalse(shed.isSelected(target));
@@ -247,8 +246,8 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 				assert.isTrue(evt.defaultPrevented, "evt.defaultPrevented should be true");
 				assert.isTrue(shed.isSelected(target), "target should now be selected");
 			},
-			testKeydownEvent_RETURN: function() {
-				var target = document.getElementById("rb0-1"),
+			"testKeydownEvent_RETURN": function() {
+				const target = document.getElementById("rb0-1"),
 					evt = getDummyKeydownEvent(target, "Enter", "Enter");
 				assert.isFalse(evt.defaultPrevented, "evt.defaultPrevented not as expected");
 				assert.isFalse(shed.isSelected(target));
@@ -256,8 +255,8 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 				assert.isTrue(evt.defaultPrevented, "evt.defaultPrevented should be true");
 				assert.isTrue(shed.isSelected(target), "target should now be selected");
 			},
-			testKeydownEvent_END: function() {
-				var start = document.getElementById("rb0-0"),
+			"testKeydownEvent_END": function() {
+				const start = document.getElementById("rb0-0"),
 					expectedEnd = document.getElementById("rb0-4"),
 					evt = getDummyKeydownEvent(start, "End", "End");
 
@@ -265,8 +264,8 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 				radioController.keydownEvent(evt);
 				assert.isTrue(shed.isSelected(expectedEnd));
 			},
-			testKeydownEvent_HOME: function() {
-				var start = document.getElementById("rb0-4"),
+			"testKeydownEvent_HOME": function() {
+				const start = document.getElementById("rb0-4"),
 					expectedEnd = document.getElementById("rb0-0"),
 					evt = getDummyKeydownEvent(start, "Home", "Home");
 
@@ -275,8 +274,8 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 				radioController.keydownEvent(evt);
 				assert.isTrue(shed.isSelected(expectedEnd));
 			},
-			testKeydownEvent_DOWN_ctrl: function() {
-				var start = document.getElementById("rb0-0"),
+			"testKeydownEvent_DOWN_ctrl": function() {
+				const start = document.getElementById("rb0-0"),
 					expectedEnd = document.getElementById("rb0-1"),
 					evt = getDummyKeydownEvent(start, "ArrowDown", "ArrowDown", false, false, true);
 				assert.isFalse(evt.defaultPrevented, "evt.defaultPrevented not as expected");
@@ -285,8 +284,8 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 				assert.isFalse(shed.isSelected(expectedEnd), "Should not select if ctrl key pressed");
 				assert.isTrue(evt.defaultPrevented, "evt.defaultPrevented should be true");
 			},
-			testKeydownEvent_skip_disabled: function() {
-				var start = document.getElementById("rb0-4"),
+			"testKeydownEvent_skip_disabled": function() {
+				const start = document.getElementById("rb0-4"),
 					expectedEnd = document.getElementById("rb0-2"),
 					evt = getDummyKeydownEvent(start, "ArrowUp", "ArrowUp");
 
@@ -295,8 +294,8 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 				radioController.keydownEvent(evt);
 				assert.isTrue(shed.isSelected(expectedEnd));
 			},
-			testKeydownEvent_LEFT_is_previous: function() {
-				var start = document.getElementById("rb0-4"),
+			"testKeydownEvent_LEFT_is_previous": function() {
+				const start = document.getElementById("rb0-4"),
 					expectedEnd = document.getElementById("rb0-2"),
 					evt = getDummyKeydownEvent(start, "ArrowLeft", "ArrowLeft");
 
@@ -305,8 +304,8 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 				radioController.keydownEvent(evt);
 				assert.isTrue(shed.isSelected(expectedEnd));
 			},
-			testKeydownEvent_RIGHT_is_next: function() {
-				var start = document.getElementById("rb0-0"),
+			"testKeydownEvent_RIGHT_is_next": function() {
+				const start = document.getElementById("rb0-0"),
 					expectedEnd = document.getElementById("rb0-1"),
 					evt = getDummyKeydownEvent(start, "ArrowRight", "ArrowRight");
 
@@ -314,8 +313,8 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 				radioController.keydownEvent(evt);
 				assert.isTrue(shed.isSelected(expectedEnd));
 			}, // tests of multi selection based on chordal strokes need a multi-selectable grouped analog, listAnalog calls ariaAnalog#keydownEvent
-			testKeydownEvent_shift_multiSelect: function() {
-				var start = document.getElementById("lb0-0"),
+			"testKeydownEvent_shift_multiSelect": function() {
+				const start = document.getElementById("lb0-0"),
 					expectedEnd = document.getElementById("lb0-1"),
 					container = document.getElementById("lb0"),
 					evt = getDummyKeydownEvent(start, "ArrowDown", "ArrowDown", false, true);
@@ -328,8 +327,8 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 				assert.isTrue(shed.isSelected(start), "start element should still be selected");
 				assert.isTrue(evt.defaultPrevented, "evt.defaultPrevented should be true");
 			},
-			testKeydownEvent_shift_notMulti: function() {
-				var start = document.getElementById("lb0-0"),
+			"testKeydownEvent_shift_notMulti": function() {
+				const start = document.getElementById("lb0-0"),
 					expectedEnd = document.getElementById("lb0-1"),
 					container = document.getElementById("lb0"),
 					evt = getDummyKeydownEvent(start, "ArrowDown", "ArrowDown", false, true);
@@ -342,8 +341,8 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 				assert.isFalse(shed.isSelected(start), "start element should no longer be selected as not multi-selectable");
 				assert.isTrue(evt.defaultPrevented, "evt.defaultPrevented should be true");
 			},
-			testKeydownEvent_shift_ctrl_withMultiSelect: function() {
-				var start = document.getElementById("lb0-0"),
+			"testKeydownEvent_shift_ctrl_withMultiSelect": function() {
+				const start = document.getElementById("lb0-0"),
 					expectedEnd = document.getElementById("lb0-1"),
 					container = document.getElementById("lb0"),
 					evt = getDummyKeydownEvent(start, "ArrowDown", "ArrowDown", false, true, true);
@@ -356,11 +355,11 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 				assert.isTrue(shed.isSelected(start), "start element should still be selected");
 				assert.isTrue(evt.defaultPrevented, "evt.defaultPrevented should be true");
 			},
-			testDoGroupSelect: function() {
-				var lastSelected = document.getElementById("lb0-0"),
+			"testDoGroupSelect": function() {
+				const lastSelected = document.getElementById("lb0-0"),
 					target = document.getElementById("lb0-4"),
 					container = document.getElementById("lb0"),
-					options = listController.ITEM.findDescendants(container);
+					options = container.querySelectorAll(listController.ITEM.toString());
 				container.setAttribute("aria-multiselectable", "true");
 
 				Array.prototype.forEach.call(options, function(next) {
@@ -380,11 +379,11 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 					}
 				});
 			},
-			testDoGroupSelect_deselect: function() {
-				var lastSelected = document.getElementById("lb0-0"),
+			"testDoGroupSelect_deselect": function() {
+				const lastSelected = document.getElementById("lb0-0"),
 					target = document.getElementById("lb0-4"),
 					container = document.getElementById("lb0"),
-					options = listController.ITEM.findDescendants(container);
+					options = container.querySelectorAll(listController.ITEM.toString());
 				container.setAttribute("aria-multiselectable", "true");
 
 				Array.prototype.forEach.call(options, function(next) {
@@ -406,12 +405,12 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 					assert.isFalse(shed.isSelected(next), "Option " + next.id + " should not be selected");
 				});
 			},
-			testDoGroupSelect_deselect_outsideSelection: function() {
-				var lastSelected = document.getElementById("lb0-0"),
+			"testDoGroupSelect_deselect_outsideSelection": function() {
+				const lastSelected = document.getElementById("lb0-0"),
 					target = document.getElementById("lb0-2"),
 					outsider = document.getElementById("lb0-4"),
 					container = document.getElementById("lb0"),
-					options = listController.ITEM.findDescendants(container);
+					options = container.querySelectorAll(listController.ITEM.toString());
 				container.setAttribute("aria-multiselectable", "true");
 				shed.select(outsider, true);
 
@@ -436,12 +435,12 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaAnalog", "wc/dom/shed
 			 *
 			 * NOTE to SELF: I know what I should be testing here but this doesn't seem to test it
 			 * What was I thinking?
-			testDoGroupSelect_noDeselect_outsideSelection_with_CTRL: function() {
-				var lastSelected = document.getElementById("lb0-0"),
+			"testDoGroupSelect_noDeselect_outsideSelection_with_CTRL": function() {
+				const lastSelected = document.getElementById("lb0-0"),
 					target = document.getElementById("lb0-2"),
 					outsider = document.getElementById("lb0-4"),
 					container = document.getElementById("lb0"),
-					options = listController.ITEM.findDescendants(container);
+					options = container.querySelectorAll(listController.ITEM.toString());
 				container.setAttribute("aria-multiselectable", "true");
 				shed.select(outsider, true);
 

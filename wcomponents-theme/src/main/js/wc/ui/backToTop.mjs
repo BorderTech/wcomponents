@@ -43,6 +43,21 @@ const template = () => `<a href="#" class="${className}"><i class='fa fa-chevron
 	${i18n.get("back_to_top")}
 </span></a>`;
 
+const style = () => `
+	<style>
+		@media (max-width: 773px) {
+			:host(.my-text-field) [part="input-field"] {
+				width: 20em;
+			}
+		}
+		@media (min-width: 1024px) {
+			:host(.my-text-field) [part="input-field"] {
+				width: 50em;
+			}
+		}
+	</style>
+`;
+
 /**
  * Event listener to show or hide the back to top link after scroll or resize events.
  *
