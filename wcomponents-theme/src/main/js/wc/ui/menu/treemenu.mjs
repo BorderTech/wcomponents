@@ -5,9 +5,6 @@ import initialise from "wc/dom/initialise";
 import icon from "wc/ui/icon";
 import "wc/ui/menu/menuItem";
 
-
-let instance;
-
 /**
  * Menu controller extension for WMenu of type TREE. This represents a vertical menu with optional sliding submenus
  * which may be indented. See WTree which produces a WAI-ARIA tree widget which is a selection tool.
@@ -132,8 +129,8 @@ function TreeMenu() {
 
 
 	this._shedSubscriber = function(element, action) {
-
-		if (!(element && this.getRoot(element))) {
+		const inTreeMenu = element && this.getRoot(element);
+		if (!inTreeMenu) {
 			return;
 		}
 
@@ -154,6 +151,6 @@ function TreeMenu() {
 }
 TreeMenu.prototype = abstractMenu;
 
-instance = new TreeMenu();
+let instance = new TreeMenu();
 instance.constructor = TreeMenu;
 export default initialise.register(instance);

@@ -11,6 +11,27 @@ import icon from "wc/ui/icon";
 
 let instance;
 
+const mapReturnKey = mapKeyToAction.bind(this, ["Enter", "NumpadEnter"]);
+const mapSpaceKey = mapKeyToAction.bind(this, [" ", "Space"]);
+const mapLeftKey = mapKeyToAction.bind(this, ["ArrowLeft"]);
+const mapRightKey = mapKeyToAction.bind(this, ["ArrowRight"]);
+const mapUpKey = mapKeyToAction.bind(this, ["ArrowUp"]);
+const mapDownKey = mapKeyToAction.bind(this, ["ArrowDown"]);
+const mapHomeKey = mapKeyToAction.bind(this, ["Home"]);
+const mapPageDownKey = mapKeyToAction.bind(this, ["PageDown"]);
+const mapEndKey = mapKeyToAction.bind(this, ["End"]);
+const mapMultiplyKey = mapKeyToAction.bind(this, ["*", "NumpadMultiply"]);
+
+/**
+ * Helps set up key map so it can respond to KeyBoardEvent code or key properties.
+ * @param keys An array of KeyBoardEven code and or key properties.
+ * @param map The key to action map to update.
+ * @param action The action to map to the keys.
+ */
+function mapKeyToAction(keys, map, action) {
+	keys.forEach(nextKey => map[nextKey] = action);
+}
+
 /**
  * QuerySelector, considering immediate children only.
  * @param {HTMLElement} parent
@@ -39,7 +60,7 @@ function querySelectorImmediate(parent, selector) {
  */
 function Tree() {
 	const vopenerSelector = ".wc_leaf_vopener";
-	const leafSelector = "[role='treeitem']"
+	const leafSelector = "[role='treeitem']";
 	const imageHolderSelector = ".wc_leaf_img";
 	let ajaxTimer;
 
@@ -228,28 +249,6 @@ function Tree() {
 		}
 	};
 
-
-	const mapReturnKey = mapKeyToAction.bind(this, ["Enter", "NumpadEnter"]);
-	const mapSpaceKey = mapKeyToAction.bind(this, [" ", "Space"]);
-	const mapLeftKey = mapKeyToAction.bind(this, ["ArrowLeft"]);
-	const mapRightKey = mapKeyToAction.bind(this, ["ArrowRight"]);
-	const mapUpKey = mapKeyToAction.bind(this, ["ArrowUp"]);
-	const mapDownKey = mapKeyToAction.bind(this, ["ArrowDown"]);
-	const mapHomeKey = mapKeyToAction.bind(this, ["Home"]);
-	const mapPageDownKey = mapKeyToAction.bind(this, ["PageDown"]);
-	const mapEndKey = mapKeyToAction.bind(this, ["End"]);
-	const mapMultiplyKey = mapKeyToAction.bind(this, ["*", "NumpadMultiply"]);
-
-	/**
-	 * Helps set up key map so it can respond to KeyBoardEvent code or key properties.
-	 * @param keys An array of KeyBoardEven code and or key properties.
-	 * @param map The key to action map to update.
-	 * @param action The action to map to the keys.
-	 */
-	function mapKeyToAction(keys, map, action) {
-		keys.forEach(nextKey => map[nextKey] = action);
-	}
-
 	/**
 	 * Resets this._keyMap based on the type and/or state of the menu item passed in. In the top level the left
 	 * and right go to siblings and down goes to child in sub menus up and down go to siblings, right to child
@@ -349,8 +348,8 @@ function Tree() {
 		if (!root || this.isHTree(root)) {
 			return;
 		}
-		let allBranchOpeners;
-		if ((allBranchOpeners = this._wd.opener.findDescendants(root)) && allBranchOpeners.length) {
+		let allBranchOpeners = root.querySelectorAll(this._wd.opener.toString());
+		if (allBranchOpeners.length) {
 			/* NOTE: Array.prototype.reverse.call does not work in IE8 so I have to convert the nodeList to a real array then reverse it */
 			allBranchOpeners = Array.from(allBranchOpeners);
 			allBranchOpeners.reverse();
@@ -448,7 +447,6 @@ function Tree() {
 		}
 
 		const root = this.getRoot(next);
-
 		if (!root) {
 			return;
 		}
@@ -456,27 +454,24 @@ function Tree() {
 		const rootId = root.id;
 
 		// expanded branches
-		(Array.from(this._wd.branch.findDescendants(next))).filter(function(nextBranch) {
+		Array.from(next.querySelectorAll(this._wd.branch.toString())).filter(function(nextBranch) {
 			const expandable = this._getBranchExpandableElement(nextBranch);
 			if (!expandable) {
 				return false;
 			}
 			return !shed.isDisabled(nextBranch) && shed.isExpanded(expandable);
-		}, this).forEach(function(nextBranch) {
+		}, this).forEach((nextBranch) => {
 			const name = this._isBranch(nextBranch) ? nextBranch.id : "";
-
 			if (name) {  // tree
-				formUpdateManager.writeStateField(toContainer, rootId + ".open", name);
+				formUpdateManager.writeStateField(toContainer, `${rootId}.open`, name);
 			}
-		}, this);
+		});
 
 		// selected tree items (would prefer to be devolved to tree item but that just ain't possible ...)
-		Array.prototype.forEach.call(getFilteredGroup(next, {
+		Array.from(getFilteredGroup(next, {
 			ignoreInnerGroups: true
-		}), function(nextSelectedItem) {
-			formUpdateManager.writeStateField(toContainer, rootId, nextSelectedItem.id);
-		}, this);
-		formUpdateManager.writeStateField(toContainer, rootId + "-h", "x");
+		})).forEach(nextSelectedItem => formUpdateManager.writeStateField(toContainer, rootId, nextSelectedItem.id));
+		formUpdateManager.writeStateField(toContainer, `${rootId}-h`, "x");
 	};
 
 	/**
@@ -561,9 +556,9 @@ function Tree() {
 	 * @param {String} action The action being taken.
 	 */
 	this._shedSubscriber = function(element, action) {
-		let root;
+		const root = element ? this.getRoot(element) : null;
 
-		if (!(element && (root = this.getRoot(element)))) {
+		if (!root) {
 			return;
 		}
 
@@ -588,13 +583,15 @@ function Tree() {
 		this.constructor.prototype._shedSubscriber.call(this, element, action);
 
 		if (action === shed.actions.EXPAND) {
-			let iconContainer;
 			ajaxExpand(element, root);
-			if (!this.isHTree(root) && (iconContainer = querySelectorImmediate(element, vopenerSelector))) {
+
+			let iconContainer = !this.isHTree(root) ? querySelectorImmediate(element, vopenerSelector) : null;
+			if (iconContainer) {
 				icon.change(iconContainer, "fa-caret-down", "fa-caret-right");
 			}
-			if ((iconContainer = this._getBranchOpener(element)) &&
-				(iconContainer = querySelectorImmediate(iconContainer, imageHolderSelector))) {
+			iconContainer = this._getBranchOpener(element);
+			iconContainer = iconContainer ? querySelectorImmediate(iconContainer, imageHolderSelector) : null;
+			if (iconContainer) {
 				icon.change(iconContainer, "fa-folder-open-o", "fa-folder-o");
 			}
 		}
@@ -669,22 +666,20 @@ function Tree() {
 		}
 
 		if (element && this._isBranch(element)) {
-			let iconContainer;
-			if (!this.isHTree(root) && (iconContainer = querySelectorImmediate(element, vopenerSelector))) {
+			let iconContainer = !this.isHTree(root) ? querySelectorImmediate(element, vopenerSelector) : null;
+			if (iconContainer) {
 				icon.change(iconContainer, "fa-caret-right", "fa-caret-down");
 			}
-
-			if ((iconContainer = this._getBranchOpener(element)) &&
-				(iconContainer = querySelectorImmediate(iconContainer, imageHolderSelector))) {
+			iconContainer = this._getBranchOpener(element);
+			iconContainer = iconContainer ? querySelectorImmediate(iconContainer, imageHolderSelector) : null;
+			if (iconContainer) {
 				icon.change(iconContainer, "fa-folder-o", "fa-folder-open-o");
 			}
 
 			const groupContainer = this.getSubMenu(element, true);
-			let group;
-			if (groupContainer && (group = getFilteredGroup(groupContainer, {itemWd: this._wd.leaf[0]})) && group.length) {
-				group.forEach(function(next) {
-					shed.deselect(next);
-				});
+			let group = groupContainer ? getFilteredGroup(groupContainer, { itemWd: this._wd.leaf[0] }) : [];
+			if (group?.length) {
+				group.forEach((next) => shed.deselect(next));
 				if (!this.isHTree(_root)) {
 					shed.select(element);
 				}

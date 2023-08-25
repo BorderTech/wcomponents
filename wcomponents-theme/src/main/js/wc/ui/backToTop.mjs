@@ -14,7 +14,7 @@ import initialise from "wc/dom/initialise";
  * Custom configuration
  * @type Object
  */
-let config,
+let config;
 /**
  * This property can be set to a positive integer to force showing the scroll to top link at X pixels of
  * scroll. If it is not set (or set to 0) then the scroll to top link will appear when more than one
@@ -27,7 +27,7 @@ let config,
  * @private
  * @default 0
  */
-minScrollBeforeShow = 0;
+let minScrollBeforeShow = 0;
 
 /**
  * The description of the back to top link HTML artifact.
@@ -43,21 +43,6 @@ const template = () => `<a href="#" class="${className}"><i class='fa fa-chevron
 	${i18n.get("back_to_top")}
 </span></a>`;
 
-const style = () => `
-	<style>
-		@media (max-width: 773px) {
-			:host(.my-text-field) [part="input-field"] {
-				width: 20em;
-			}
-		}
-		@media (min-width: 1024px) {
-			:host(.my-text-field) [part="input-field"] {
-				width: 50em;
-			}
-		}
-	</style>
-`;
-
 /**
  * Event listener to show or hide the back to top link after scroll or resize events.
  *
@@ -66,7 +51,7 @@ const style = () => `
  */
 function genericEvent() {
 	const scroll = document.documentElement.scrollTop || document.body.scrollTop;
-	let	min;
+	let min;
 
 	if (minScrollBeforeShow > 0) {
 		min = minScrollBeforeShow;

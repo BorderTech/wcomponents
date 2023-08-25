@@ -17,7 +17,7 @@ ariaGroup.getOwner = function(element) {
 	const { id } = element;
 	let result = null;
 	if (id) {
-		const ownerWd = `[aria-owns='${id}']`;
+		const ownerWd = `[aria-owns~='${id}']`;
 		result = document.body.querySelector(ownerWd);  // something may not be aria-owned by more than one element at a time
 	}
 	return result;
@@ -75,7 +75,7 @@ ariaGroup.getGroup = function (element, role, ignoreInnerGroups) {
 	}
 
 	// a group is defined by an element if the element role has something "scopedTo" it
-	if ((scopedRoles && scopedRoles.length)) {
+	if (scopedRoles?.length) {
 		container = element;
 		rescope = false;
 	} else {
@@ -98,7 +98,7 @@ ariaGroup.getGroup = function (element, role, ignoreInnerGroups) {
 			if (widgets.length) {
 				const selector = widgets.join();
 				const candidates = Array.from(container.querySelectorAll(selector));
-				if (candidates && candidates.length) {
+				if (candidates?.length) {
 					if (ignoreInnerGroups) {
 						result = candidates;
 					} else {
