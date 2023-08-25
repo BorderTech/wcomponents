@@ -2,7 +2,6 @@
  * Provides tab and tab set functionality.
  *
  * @module
- * @extends module:wc/dom/ariaAnalog
  * @requires module:wc/dom/ariaAnalog
  * @requires module:wc/dom/formUpdateManager
  * @requires module:wc/dom/getFilteredGroup
@@ -16,8 +15,7 @@
  * @requires module:wc/dom/event
  *
  */
-define(["wc/array/toArray",
-	"wc/dom/ariaAnalog",
+define(["wc/dom/ariaAnalog",
 	"wc/dom/formUpdateManager",
 	"wc/dom/getFilteredGroup",
 	"wc/dom/initialise",
@@ -30,7 +28,7 @@ define(["wc/array/toArray",
 	"wc/dom/event",
 	"wc/debounce",
 	"wc/dom/getStyle"],
-function(toArray, ariaAnalog, formUpdateManager, getFilteredGroup, initialise, shed, Widget, containerload,
+function(ariaAnalog, formUpdateManager, getFilteredGroup, initialise, shed, Widget, containerload,
 	focus, viewportUtils, processResponse, event, debounce, getStyle) {
 	"use strict";
 	var instance;
@@ -467,7 +465,7 @@ function(toArray, ariaAnalog, formUpdateManager, getFilteredGroup, initialise, s
 		 */
 		this.shedObserver = function (element, action) {
 			if (element) {
-				if (this.ITEM.isOneOfMe(element)) {
+				if (element.matches(this.ITEM.toString())) {
 					switch (action) {
 						case shed.actions.SELECT:
 						case shed.actions.DESELECT:
@@ -487,11 +485,9 @@ function(toArray, ariaAnalog, formUpdateManager, getFilteredGroup, initialise, s
 							console.warn("Unknown action", action);
 							break;
 					}
-				} else if ((action === shed.actions.DISABLE || action === shed.actions.ENABLE) && TABLIST.isOneOfMe(element)) {
+				} else if ((action === shed.actions.DISABLE || action === shed.actions.ENABLE) && element.matches(TABLIST.toString())) {
 					// if the tablist is disabled or enabled, diable/enable all the tabs.
-					Array.prototype.forEach.call(this.ITEM.findDescendants(element), function (next) {
-						shed[action](next);
-					});
+					Array.from(element.querySelectorAll(this.ITEM.toString())).forEach(next => shed[action](next));
 				}
 			}
 		};
@@ -534,13 +530,13 @@ function(toArray, ariaAnalog, formUpdateManager, getFilteredGroup, initialise, s
 		 * @param {Element} stateContainer The element into which the state is being written.
 		 */
 		this.writeState = function(container, stateContainer) {
-			var tabsets = TABLIST.findDescendants(container),
+			var tabsets = container.querySelectorAll(TABLIST.toString()),
 				writeTabState = writeTabStateHelper.bind(this, stateContainer);
 
 			if (tabsets.length) {
 				Array.prototype.forEach.call(tabsets, writeTabState);
 			}
-			if (this.ITEM.isOneOfMe(container)) {
+			if (container.matches(this.ITEM.toString())) {
 				writeTabState(TABLIST.findAncestor(container));
 			}
 		};
@@ -572,7 +568,7 @@ function(toArray, ariaAnalog, formUpdateManager, getFilteredGroup, initialise, s
 			var target = $event.target, tab, lastTab, lastTabList;
 			this.constructor.prototype.focusEvent.call(this, $event);
 
-			if ((tab = instance.ITEM.findAncestor(target))) {
+			if ((tab = target.closest(instance.ITEM.toString()))) {
 				if (lastTabId && (lastTab = document.getElementById(lastTabId))) {
 					lastTabList = TABLIST.findAncestor(lastTab);
 				}
@@ -628,14 +624,14 @@ function(toArray, ariaAnalog, formUpdateManager, getFilteredGroup, initialise, s
 				tabWidget,
 				tabset;
 
-			if (instance.ITEM.findAncestor(element)) {
+			if (element.closest(instance.ITEM.toString())) {
 				return null;
 			}
 
 			if ((panel = TABPANEL.findAncestor(element)) && (panelId = panel.id)) {
 				if ((tabset = TABSET.findAncestor(panel))) {
 					tabWidget = instance.ITEM.extend("", {"aria-controls": panelId});
-					result = tabWidget.findDescendant(tabset);
+					result = tabset.querySelector(tabWidget.toString());
 				}
 			}
 			return result;
@@ -651,8 +647,9 @@ function(toArray, ariaAnalog, formUpdateManager, getFilteredGroup, initialise, s
 		 * @returns {Boolean} true if element is inside an accordion tabset.
 		 */
 		function isInAccordion(element) {
-			var tablist;
-			if ((tablist = TABPANEL.findAncestor(element)) && (tablist = tablist.parentNode) &&  TABLIST.isOneOfMe(tablist)) {
+			var tablist = element.closest(TABPANEL.toString());
+			tablist = tablist.parentElement;
+			if (tablist && (tablist = tablist.parentNode) &&  tablist.matches(TABLIST.toString())) {
 				return !!getAccordion(tablist);
 			}
 			return false;
@@ -727,16 +724,17 @@ function(toArray, ariaAnalog, formUpdateManager, getFilteredGroup, initialise, s
 			var tablist,
 				successful,
 				candidates;
-			if (!(TABSET.isOneOfMe(accordion) && accordion.getAttribute(CONVERTED))) {
+			if (!(accordion.matches(TABSET.toString()) && accordion.getAttribute(CONVERTED))) {
 				return;
 			}
-			tablist = TABLIST.findDescendant(accordion, true);
+			tablist = Array.from(accordion.children).find(child => child.matches(TABLIST.toString()));
 			if (!(tablist && getAccordion(tablist))) {
 				return;
 			}
 
 			try {
-				if ((candidates = instance.ITEM.findDescendants(tablist, true)) && candidates.length) {
+				candidates = Array.from(tablist.children).filter(child => child.matches(instance.ITEM.toString()));
+				if (candidates.length) {
 					Array.prototype.forEach.call(candidates, function(tab) {
 						var tabPanel = getPanel(tab);
 						if (tabPanel) {
@@ -769,7 +767,7 @@ function(toArray, ariaAnalog, formUpdateManager, getFilteredGroup, initialise, s
 			var tablist,
 				successful,
 				candidates;
-			if (!TABSET.isOneOfMe(tabset) ) {
+			if (!tabset.matches(TABSET.toString()) ) {
 				return;
 			}
 			tablist = TABLIST.findDescendant(tabset, true);
@@ -815,10 +813,10 @@ function(toArray, ariaAnalog, formUpdateManager, getFilteredGroup, initialise, s
 			var candidates,
 				element = container || document.body;
 
-			if (TABSET.isOneOfMe(element)) {
+			if (element.matches(TABSET.toString())) {
 				candidates = [element];
 			} else {
-				candidates = toArray(TABSET.findDescendants(element));
+				candidates = Array.from(TABSET.findDescendants(element));
 			}
 
 			if (!candidates.length) {

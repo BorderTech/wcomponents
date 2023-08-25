@@ -1,5 +1,5 @@
-define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!", "wc/dom/cbrShedPublisher", "wc/dom/shed", "wc/dom/event", "wc/dom/Widget"],
-	function (registerSuite, assert, testutils, controller, shed, event, Widget) {
+define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!", "wc/dom/cbrShedPublisher", "wc/dom/shed", "wc/dom/event"],
+	function (registerSuite, assert, testutils, cbrShedPublisher, shed, event) {
 		"use strict";
 
 		var testHolder,
@@ -43,7 +43,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!", "
 				testHolder.innerHTML = testContent;
 				shed.subscribe(shed.actions.SELECT, subscriber);
 				shed.subscribe(shed.actions.DESELECT, subscriber);
-				controller.initialise(testHolder);
+				cbrShedPublisher.initialise(testHolder);
 			},
 			beforeEach: function() {
 				testHolder.innerHTML = testContent;
@@ -135,24 +135,24 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!", "
 					assert.isFalse(done);
 				},
 				"get radio widget": function() {
-					var w = controller.getWidget("r"),
+					var w = cbrShedPublisher.getWidget("r"),
 						element = document.getElementById("r1");
 					assert.isOk(w);
-					assert.isTrue(w.isOneOfMe(element));
+					assert.isTrue(element.matches(w));
 				},
 				"get checkbox widget": function() {
-					var w = controller.getWidget("cb"),
+					var w = cbrShedPublisher.getWidget("cb"),
 						element = document.getElementById("cb1");
 					assert.isOk(w);
-					assert.isTrue(w.isOneOfMe(element));
+					assert.isTrue(element.matches(w));
 				},
 				"get widgets": function() {
-					var w = controller.getWidget(),
+					var w = cbrShedPublisher.getWidget(),
 						element = document.getElementById("cb1");
 					assert.isTrue(Array.isArray(w));
-					assert.isTrue(Widget.isOneOfMe(element, w), "Expected a check box to be a match for the Widget array");
+					assert.isTrue(element.matches(w.join()), "Expected a check box to be a match for the Widget array");
 					element = document.getElementById("r1");
-					assert.isTrue(Widget.isOneOfMe(element, w), "Expected a radio button to be a match for the Widget array");
+					assert.isTrue(element.matches(w.join()), "Expected a radio button to be a match for the Widget array");
 				}
 			}
 		});

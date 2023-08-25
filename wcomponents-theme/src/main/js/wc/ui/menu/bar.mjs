@@ -1,5 +1,4 @@
 import abstractMenu from "wc/ui/menu/core";
-import toArray from "wc/array/toArray";
 import event from "wc/dom/event";
 import keyWalker from "wc/dom/keyWalker";
 import shed from "wc/dom/shed";
@@ -369,17 +368,14 @@ function Menubar() {
 		if (element.matches(responsiveMenuSelector)) {
 			candidates = [element];
 		} else {
-			candidates = toArray(element.querySelectorAll(responsiveMenuSelector));
+			candidates = Array.from(element.querySelectorAll(responsiveMenuSelector));
 		}
 
 		if (!candidates.length) {
 			return;
 		}
 
-		candidates = candidates.filter(function(next) {
-			return next.childNodes.length > 1;
-		});
-
+		candidates = candidates.filter(next => next.childNodes.length > 1);
 		if (candidates.length) {
 			if (viewportUtils.isPhoneLike()) {
 				candidates.forEach(makeIconified);

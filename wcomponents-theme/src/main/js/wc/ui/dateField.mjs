@@ -972,11 +972,7 @@ function DateInput() {
 	 * @param {Element} element The element being initialised, usually document.body.
 	 */
 	this.initialise = function(element) {
-		if (event.canCapture) {
-			event.add(element, { type: "focus", listener: focusEvent, capture: true });
-		} else {
-			event.add(element, "focusin", focusEvent);
-		}
+		event.add(element, { type: "focus", listener: focusEvent, capture: true });
 		event.add(element, "click", clickEvent);
 		formUpdateManager.subscribe(writeState);
 		setUpDateFields();

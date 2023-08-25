@@ -1,10 +1,31 @@
 # Change log
 
 ## Release in-progress
+The major focus of this release is frontend code modernization, especially:
+* Move off deprecated browser APIs (there are many, for example `substr`).
+* Replace custom code with features now available natively in browsers.
+* Adopt new language features to enhance performance (for example passive event listeners), maintainability and reduce complex and error-prone code.
+* Remove Internet Explorer specific code.
 
 ### API Changes
+Java API:
+* Removed (experimental) face tracking from [WImageEditor.java](wcomponents-core/src/main/java/com/github/bordertech/wcomponents/WImageEditor.java)
+* Removed selenium Edge WebDriver (Chromium Edge uses a different WebDriver)
+* Removed selenium InternetExplorer WebDriver
+
+Client Side API:
+* Removed `window.KeyEvent` as this was a polyfill for a browser API that is now totally dead.
+* Removed `wc/ui/backToTop.setEnabled`. Use a `disabled` attribute on the new `<wc-backtotop>` custom element instead.
+* Removed `wc/compat` RequireJS loader plugin.
+* Removed `wc/template`, use native template options like JS template strings and HTML template.
+* Removed `wc/array/toArray`, use native `Array.from`.
+* Nerfed `wc/has`, it is no longer poweful and backed by dojo (we don't do this as much anymore).
+* Removed RequireJS (`window.require` and `window.define`) - use native modules.
+
 ### Enhancements
+
 ### Bug Fixes
+* SelectToggle label attribute fix, `wc-data-for` > `data-wc-for`.
 
 ## 1.5.29
 

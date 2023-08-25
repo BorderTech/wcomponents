@@ -226,11 +226,7 @@ function Collapsible() {
 	 */
 	function initialiseHelper(init, element) {
 		const func = init ? "add" : "remove";
-		if (event.canCapture) {
-			event[func](element, "focus", focusEvent, null, null, true);
-		} else {
-			event[func](element, "focusin", focusEvent);
-		}
+		event[func](element, "focus", focusEvent, null, null, true);
 		event[func](element, "click", clickEvent);
 	}
 

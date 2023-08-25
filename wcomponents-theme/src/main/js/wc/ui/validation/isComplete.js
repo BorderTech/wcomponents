@@ -4,17 +4,15 @@
  *
  * @module wc/ui/validation/isComplete
  * @requires module:wc/Observer
- * @requires module:wc/array/toArray
  * @requires module:wc/dom/getFilteredGroup
  * @requires module:wc/dom/isSuccessfulElement
  * @requires module:wc/ui/validation/validationManager
  */
 define(["wc/Observer",
-	"wc/array/toArray",
 	"wc/dom/getFilteredGroup",
 	"wc/dom/isSuccessfulElement",
 	"wc/ui/validation/validationManager"],
-function(Observer, toArray, getFilteredGroup, isSuccessfulElement, validationManager) {
+function(Observer, getFilteredGroup, isSuccessfulElement, validationManager) {
 	"use strict";
 	/**
 	 * @constructor
@@ -113,7 +111,7 @@ function(Observer, toArray, getFilteredGroup, isSuccessfulElement, validationMan
 				candidates = container.querySelectorAll(widgetSelector);
 			}
 			if (candidates && candidates.length) {
-				candidates = toArray(candidates);
+				candidates = Array.from(candidates);
 				// filter candidates to remove exempt
 				candidates = candidates.filter(isNotExempt);
 				result = candidates.some(filter, theOtherThis);
@@ -197,7 +195,7 @@ function(Observer, toArray, getFilteredGroup, isSuccessfulElement, validationMan
 						/* else result was explicitly false from all interested subscribers so we can assume notComplete
 						 * otherwise there would have been at least one true amongst them. */
 					} else {
-						candidates = toArray(candidates);
+						candidates = Array.from(candidates);
 						result = candidates.some(next => this.isComplete(next));
 					}
 				}

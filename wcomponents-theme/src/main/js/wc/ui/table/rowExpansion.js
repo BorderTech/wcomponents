@@ -1,5 +1,4 @@
-define(["wc/array/toArray",
-	"wc/dom/attribute",
+define(["wc/dom/attribute",
 	"wc/dom/event",
 	"wc/dom/focus",
 	"wc/dom/formUpdateManager",
@@ -15,7 +14,7 @@ define(["wc/array/toArray",
 	"wc/ajax/triggerManager",
 	"wc/ui/icon",
 	"wc/ui/radioAnalog"],
-function(toArray, attribute, event, focus, formUpdateManager, initialise, shed, tag, Widget, ajaxRegion, timers, processResponse, rowAnalog, common, triggerManager, icon) {
+function(attribute, event, focus, formUpdateManager, initialise, shed, tag, Widget, ajaxRegion, timers, processResponse, rowAnalog, common, triggerManager, icon) {
 	"use strict";
 
 	/**
@@ -80,7 +79,7 @@ function(toArray, attribute, event, focus, formUpdateManager, initialise, shed, 
 				return null;
 			}
 
-			return (toArray(candidates));
+			return (Array.from(candidates));
 		}
 
 		/**
@@ -153,7 +152,7 @@ function(toArray, attribute, event, focus, formUpdateManager, initialise, shed, 
 		function writeState(form, stateContainer) {
 			Array.prototype.forEach.call(TABLE.findDescendants(form), function(next) {
 				var id = next.parentElement.id,
-					rows = toArray(TBL_EXPANDABLE_ROW.findDescendants(next)).filter(function(row) {
+					rows = Array.from(TBL_EXPANDABLE_ROW.findDescendants(next)).filter(function(row) {
 						return shed.isExpanded(row);
 					});
 				rows.forEach(function(row) {
@@ -492,7 +491,6 @@ function(toArray, attribute, event, focus, formUpdateManager, initialise, shed, 
 	/**
 	 * Provides controller for expanding and collapsing table rows.
 	 * @module
-	 * @requires module:wc/array/toArray
 	 * @requires module:wc/dom/attribute
 	 * @requires module:wc/dom/event
 	 * @requires module:wc/dom/focus

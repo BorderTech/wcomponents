@@ -16,7 +16,6 @@
  * @requires module:wc/array/unique
  * @requires module:wc/dom/shed
  * @requires module:wc/timers
- * @requires module:wc/array/toArray
  * @todo Check source order.
  */
 define(["wc/dom/attribute",
@@ -26,9 +25,8 @@ define(["wc/dom/attribute",
 	"wc/ui/SubordinateAction",
 	"wc/array/unique",
 	"wc/dom/shed",
-	"wc/timers",
-	"wc/array/toArray"],
-function(attribute, interchange, getFilteredGroup, initialise, Action, unique, shed, timers, toArray) {
+	"wc/timers"],
+function(attribute, interchange, getFilteredGroup, initialise, Action, unique, shed, timers) {
 	"use strict";
 	var instance;
 
@@ -313,7 +311,7 @@ function(attribute, interchange, getFilteredGroup, initialise, Action, unique, s
 			if (!(dateField && dateField.isOneOfMe(element))) {
 				if (multiSelectPair && multiSelectPair.isOneOfMe(element)) {
 					result = multiSelectPair.getValue(element);
-					result = toArray(result);
+					result = Array.from(result);
 				} else if ((group = gfg(element, gfgConf)) && (group.filtered.length || group.unfiltered.length)) {
 					result = group.filtered;
 				} else if (shed.isSelectable(element)) {

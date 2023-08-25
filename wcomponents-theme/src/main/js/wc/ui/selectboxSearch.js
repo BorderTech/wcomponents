@@ -422,11 +422,7 @@ function(escapeRe, tag, uid, initialise, attribute, shed, event, group, i18n, ti
 		 */
 		this.initialise = function(element) {
 			ALLOWED = i18n.get("select_typeahead");
-			if (event.canCapture) {
-				event.add(element, { type: "focus", listener: focusEvent, capture: true });
-			} else {
-				event.add(element, "focusin", focusEvent);
-			}
+			event.add(element, { type: "focus", listener: focusEvent, capture: true });
 		};
 	}
 

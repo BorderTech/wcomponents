@@ -63,7 +63,7 @@ function(attribute, event, initialise, i18n, multiFormComponent, unique, sprintf
 				return false;
 			}
 
-			// candidates = toArray(candidates);
+			// candidates = Array.from(candidates);
 			return Array.prototype.some.call(candidates, n => isComplete.isComplete(n));
 		}
 

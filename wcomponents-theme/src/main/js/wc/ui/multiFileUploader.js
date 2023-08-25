@@ -38,7 +38,6 @@ function (attribute, prefetch, event, initialise, uid, Trigger, clearSelector, v
 		 * @requires wc/dom/initialise
 		 * @requires wc/dom/uid
 		 * @requires wc/ajax/Trigger
-		 * @requires wc/has
 		 * @requires wc/file/clearSelector
 		 * @requires wc/file/validate
 		 * @requires wc/i18n/i18n

@@ -6,7 +6,6 @@
  *
  * @module
  *
- * @requires module:wc/array/toArray
  * @requires module:wc/dom/tag
  * @requires module:wc/Observer
  * @requires module:wc/dom/getStyle
@@ -18,8 +17,7 @@
  *
  * @todo re-order code, comment private members.
  */
-define(["wc/array/toArray",
-	"wc/dom/tag",
+define(["wc/dom/tag",
 	"wc/Observer",
 	"wc/dom/getStyle",
 	"wc/dom/shed",
@@ -27,7 +25,7 @@ define(["wc/array/toArray",
 	"wc/dom/Widget",
 	"wc/dom/getFilteredGroup",
 	"wc/timers"],
-function(toArray, tag, Observer, getStyle, shed, uid, Widget, getFilteredGroup, timers) {
+function(tag, Observer, getStyle, shed, uid, Widget, getFilteredGroup, timers) {
 	"use strict";
 
 	var focusInstance;
@@ -200,7 +198,7 @@ function(toArray, tag, Observer, getStyle, shed, uid, Widget, getFilteredGroup, 
 				}
 				candidates = Widget.findDescendants(element, widgetMap);
 				if (candidates && candidates.length) {
-					candidates = toArray(candidates);
+					candidates = Array.from(candidates);
 					result = candidates.some(this.canFocus, this);
 				}
 			}

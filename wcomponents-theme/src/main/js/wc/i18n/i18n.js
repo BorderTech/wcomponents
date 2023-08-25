@@ -1,6 +1,6 @@
-define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/ajax",
+define(["lib/sprintf", "wc/config", "wc/mixin", "wc/ajax/ajax",
 	"wc/loader/resource", "wc/dom/initialise"],
-function(sprintf, toArray, wcconfig, mixin, ajax, resource, initialise) {
+function(sprintf, wcconfig, mixin, ajax, resource, initialise) {
 	"use strict";
 
 	/**
@@ -19,7 +19,6 @@ function(sprintf, toArray, wcconfig, mixin, ajax, resource, initialise) {
 	 *
 	 * @module
 	 * @requires external:lib/sprintf
-	 * @requires module:wc/array/toArray
 	 * @requires module:wc/config
 	 * @requires module:wc/mixin
 	 * @requires external:lib/i18next
@@ -165,7 +164,7 @@ function(sprintf, toArray, wcconfig, mixin, ajax, resource, initialise) {
 			function translator(key/* , args */) {
 				var args, result, printfArgs;
 				if (arguments.length > 1) {
-					args = toArray(arguments);
+					args = Array.from(arguments);
 					args.shift();
 				}
 				if (Array.isArray(key)) {

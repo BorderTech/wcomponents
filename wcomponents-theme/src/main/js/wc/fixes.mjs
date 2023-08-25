@@ -7,18 +7,14 @@
  *
  * @module
  */
-const global = window,
-	result = [],
-	n = global.navigator,
-	dua = n.userAgent;
+import has from "wc/has";
 
-const isFirefox = /Gecko\/(\S+)/.test(dua);
-const isEdge = /Edg.*\/(\S+)/.test(dua);
-const isWebkit = /AppleWebKit\/(\S+)/.test(dua);
+const result = [];
 
-if (isWebkit && !isEdge) {
+if (has("webkit") && !has("edge")) {
 	result.push("wc/fix/focus_webkit");
-} else if (isFirefox) {
+} else if (has("ff")) {
 	result.push("wc/fix/shiftKey_ff");
 }
+
 export default result;

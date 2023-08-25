@@ -1,11 +1,10 @@
-define(["wc/array/toArray",
-	"wc/dom/diagnostic",
+define(["wc/dom/diagnostic",
 	"wc/dom/tag",
 	"wc/dom/wrappedInput",
 	"wc/ui/icon",
 	"wc/dom/getLabelsForElement",
 	"wc/config"],
-function(toArray, diagnostic, tag, wrappedInput, icon, getLabelsForElement, wcconfig) {
+function(diagnostic, tag, wrappedInput, icon, getLabelsForElement, wcconfig) {
 	"use strict";
 	var instance;
 
@@ -226,7 +225,7 @@ function(toArray, diagnostic, tag, wrappedInput, icon, getLabelsForElement, wcco
 			}
 			if (messages) {
 				if (messages.constructor === NodeList) {
-					messages = (toArray(messages)).map(function(next) {
+					messages = (Array.from(messages)).map(function(next) {
 						if (next.nodeType === Node.ELEMENT_NODE) {
 							return next.innerHTML;
 						}

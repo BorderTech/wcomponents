@@ -27,7 +27,6 @@
 		"target": "target"
 	},
 	"dependencies": {
-		"dojo": "1.15.3",
 		"fabric": "3.4.0",
 		"i18next": "10.6.0",
 		"mailcheck": "1.1.1",

@@ -33,11 +33,6 @@ let libs = {
 	"axe-core/axe.min.js": {
 		dest: "axe.min.js"
 	},
-	"dojo": {
-		dest: "dojo",
-		incl: ["has.js", "global.js", "sniff.js"],
-		min: true
-	},
 	"sprintf-js/dist/sprintf.min.js": {
 		dest: "sprintf.min.js"
 	},

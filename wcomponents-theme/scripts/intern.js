@@ -18,7 +18,6 @@ let requireJsOptions = {
 	paths: {
 		wc: `${scriptDir}/wc`,
 		lib: `${scriptDir}/lib`,
-		dojo: `${scriptDir}/lib/dojo`,
 		"lib/sprintf": `${scriptDir}/lib/sprintf.min`,
 		translation: `resource/translation`,
 		"intern/chai": `/${testRootPath}/resources/intern-chai`,

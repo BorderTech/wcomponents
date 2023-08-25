@@ -7,7 +7,6 @@
  * @requires module:wc/global
  * @requires module:wc/xml/xmlString
  * @requires module:wc/timers
- * @requires module:wc/has
  * @requires module:wc/dom/uid
  *
  * @todo Document private members
@@ -16,9 +15,7 @@
 define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/dom/uid", "require"],
 	function(Observer, global, xmlString, timers, uid, require) {
 		"use strict";
-		const
-			W3C_IFACE = "XMLHttpRequest",
-			queue = [],
+		const queue = [],
 			/**
 			 * AJAX request limit:
 			 *  Exists primarily for Internet Explorer bugs, IE could not handle more than about 8 pending ajax requests.
@@ -123,7 +120,7 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/dom/uid
 			 * @returns A XMLHTTPRequest.
 			 */
 			function getW3cRequest() {
-				return new global[W3C_IFACE]();
+				return new global["XMLHttpRequest"]();
 			}
 
 			/**

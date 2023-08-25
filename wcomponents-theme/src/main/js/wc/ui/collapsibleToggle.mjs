@@ -6,7 +6,6 @@
  * and think "this is the same as collapsibleToggle", and you would be
  * right. But it isn't, and you aren't.
  */
-import toArray from "wc/array/toArray";
 import event from "wc/dom/event";
 import focus from "wc/dom/focus";
 import initialise from "wc/dom/initialise";
@@ -34,7 +33,7 @@ function CollapsibleToggle() {
 		const actualTrigger = trigger.matches(containerSelector) ? trigger.querySelector(expandCollapseAllSelector) : trigger,
 			idList = actualTrigger.getAttribute(CONTROLS);
 		if (!idList) {
-			return toArray(document.body.querySelectorAll(collapsibleSelector));
+			return Array.from(document.body.querySelectorAll(collapsibleSelector));
 		}
 		return idList.split(/\s+/).map(function (next) {
 			return document.getElementById(next);
@@ -142,7 +141,7 @@ function CollapsibleToggle() {
 			return null;
 		}
 
-		return (toArray(candidates));
+		return (Array.from(candidates));
 	}
 
 	function setControllerState(controller) {

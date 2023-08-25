@@ -6,7 +6,6 @@
  * @requires module:wc/dom/event
  * @requires module:wc/dom/initialise
  * @requires external:lib/sprintf
- * @requires module:wc/has
  * @requires module:wc/i18n/i18n
  * @requires module:wc/file/getFileSize
  * @requires module:wc/file/accepted
@@ -17,14 +16,13 @@
 define(["wc/dom/attribute",
 	"wc/dom/event",
 	"wc/dom/initialise",
-	"wc/has",
 	"wc/file/clearSelector",
 	"wc/file/validate",
 	"wc/dom/Widget",
 	"wc/dom/focus",
 	"wc/isNumeric",
 	"wc/ui/ajaxRegion"],
-function(attribute, event, initialise, has, clearSelector, validate, Widget) {
+function(attribute, event, initialise, clearSelector, validate, Widget) {
 	"use strict";
 	var instance;
 
