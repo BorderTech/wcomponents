@@ -17,12 +17,10 @@ import focus from "wc/dom/focus";
 import formUpdateManager from "wc/dom/formUpdateManager";
 import initialise from "wc/dom/initialise";
 import shed from "wc/dom/shed";
-import tag from "wc/dom/tag";
 import Widget from "wc/dom/Widget";
 import i18n from "wc/i18n/i18n";
 import timers from "wc/timers";
 import key from "wc/key";
-import textContent from "wc/dom/textContent";
 import ajaxRegion from "wc/ui/ajaxRegion";
 import processResponse from "wc/ui/ajax/processResponse";
 import onchangeSubmit from "wc/ui/onchangeSubmit";
@@ -252,14 +250,14 @@ function DateInput() {
 	 * not update on select of the options!
 	 * @function
 	 * @private
-	 * @param {Element} dateField The dateField to update.
-	 * @param {Element} option The option which caused the update.
+	 * @param {HTMLElement} dateField The dateField to update.
+	 * @param {HTMLElement} option The option which caused the update.
 	 */
 	function setValueFromOption(dateField, option) {
 		const suggestionList = getSuggestionList(dateField, -1);
 
 		if (suggestionList) {
-			let value = option.hasAttribute(FAKE_VALUE_ATTRIB) ? option.getAttribute(FAKE_VALUE_ATTRIB) : textContent.get(option);
+			let value = option.hasAttribute(FAKE_VALUE_ATTRIB) ? option.getAttribute(FAKE_VALUE_ATTRIB) : option.textContent;
 
 			if (value && interchange.isValid(value)) {
 				value = format(value);
@@ -300,18 +298,15 @@ function DateInput() {
 	 * @returns {String} The suggestion elements as a single string.
 	 */
 	function getSuggestions(suggestions) {
-		const html = [],
-			DATE_FIELD_TAGNAME = "SPAN",
-			close = tag.toTag(DATE_FIELD_TAGNAME, true);
-
+		const baseAttrs = "role='option' class='wc-invite'";
+		const html = [];
 		for (let i = 0; i < suggestions.length; i++) {
-			const tabIndex = i === 0 ? "0" : "-1";
-			suggestions[i].attributes = suggestions[i].attributes || "";
-			suggestions[i].attributes += " role='option' class='wc-invite' " + FAKE_VALUE_ATTRIB + "='" + suggestions[i].html + "' tabindex='" + tabIndex + "'";
-
-			html.push(tag.toTag(DATE_FIELD_TAGNAME, false, suggestions[i].attributes));
-			html.push(suggestions[i].html);
-			html.push(close);
+			let tabIndex = i === 0 ? "0" : "-1";
+			let {
+				attributes = "",
+				html: h
+			} = suggestions[i];
+			html.push(`<span ${baseAttrs} ${attributes} tabindex='${tabIndex}' ${FAKE_VALUE_ATTRIB}='${h}'>${h}</span>`);
 		}
 		return html.join("");
 	}
@@ -500,14 +495,14 @@ function DateInput() {
 	 * based on its initial XML value.
 	 * @function
 	 * @private
-	 * @param {Element} field The date field wrapper element.
+	 * @param {HTMLElement} field The date field wrapper element.
 	 */
 	function setInputValue(field) {
 		const value = field.getAttribute(FAKE_VALUE_ATTRIB);
 		let textVal;
 		if ((value || field.getAttribute("datetime")) && (textVal = format(value))) {
 			if (DATE_RO.isOneOfMe(field)) {
-				textContent.set(field, textVal);
+				field.textContent = textVal;
 			} else {
 				const textBox = instance.getTextBox(field);
 				textBox.value = textVal;
@@ -986,7 +981,7 @@ function DateInput() {
 	 * Is a particular field a native date input?
 	 * Not so lame according to the feedback from users.
 	 *
-	 * @param {Element} dateField a date field container.
+	 * @param {HTMLElement} dateField a date field container.
 	 * @returns {Boolean}
 	 */
 	this.isLameDateField = function(dateField) {
