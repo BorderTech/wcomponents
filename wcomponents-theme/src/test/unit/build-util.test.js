@@ -2,7 +2,6 @@
 const { registerSuite } = intern.getPlugin("interface.object");
 const { requireRoot } = require("./util");
 const buildUtil = requireRoot("scripts/build-util");
-const assert = require("assert");
 // const { assert } = intern.getPlugin("chai");
 
 registerSuite("build-util", {
@@ -11,11 +10,11 @@ registerSuite("build-util", {
 		 * Test requireAmd on our build utils.
 		 * @returns {Promise} resolved when done.
 		 */
-		testRequireAmd: function () {
+		"testRequireAmd": function () {
 			return new Promise(function (win) {
-				buildUtil.requireAmd(["wc/global"], function(global) {
-					assert.strictEqual(global, this);
-					win();
+				buildUtil.requireAmd(["wc/debounce"], function(debounce) {
+
+					debounce(win, 0);
 				});
 			});
 		}

@@ -4,7 +4,6 @@
  * @module
  *
  * @requires module:wc/Observer
- * @requires module:wc/global
  * @requires module:wc/xml/xmlString
  * @requires module:wc/timers
  * @requires module:wc/dom/uid
@@ -12,8 +11,8 @@
  * @todo Document private members
  * TODO totally redo this module
  */
-define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/dom/uid", "require"],
-	function(Observer, global, xmlString, timers, uid, require) {
+define(["wc/Observer", "wc/xml/xmlString", "wc/timers", "wc/dom/uid", "require"],
+	function(Observer, xmlString, timers, uid, require) {
 		"use strict";
 		const queue = [],
 			/**
@@ -98,12 +97,12 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/dom/uid
 				if (request.uid) {
 					markStart = request.uid + "_start";
 					markEnd = request.uid + "_end";
-					mark = global.performance.getEntriesByName(markStart);
+					mark = globalThis.performance.getEntriesByName(markStart);
 					if (mark && mark.length) {
-						global.performance.mark(markEnd);
-						global.performance.measure(request.url, markStart, markEnd);
-						global.performance.clearMarks(markStart);
-						global.performance.clearMarks(markEnd);
+						globalThis.performance.mark(markEnd);
+						globalThis.performance.measure(request.url, markStart, markEnd);
+						globalThis.performance.clearMarks(markStart);
+						globalThis.performance.clearMarks(markEnd);
 					} else {
 						console.warn("could not find start mark", markStart);
 					}
@@ -120,7 +119,7 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/dom/uid
 			 * @returns A XMLHTTPRequest.
 			 */
 			function getW3cRequest() {
-				return new global["XMLHttpRequest"]();
+				return new globalThis["XMLHttpRequest"]();
 			}
 
 			/**
@@ -320,7 +319,7 @@ define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/dom/uid
 				let result;
 				request.async = (request.async === undefined) ? true : request.async;
 				request.uid = uid();
-				global.performance.mark(request.uid + "_start");
+				globalThis.performance.mark(request.uid + "_start");
 				if (!request.async) {
 					result = ajaxRqst(request);
 				} else if (pending < limit) {
