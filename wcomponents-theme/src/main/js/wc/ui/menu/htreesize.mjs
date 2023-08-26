@@ -2,7 +2,6 @@ import event from "wc/dom/event";
 import initialise from "wc/dom/initialise";
 import tree from "wc/ui/menu/tree";
 import resizeable from "wc/ui/resizeable";
-import storage from "wc/dom/storage";
 import processResponse from "wc/ui/ajax/processResponse";
 import attribute from "wc/dom/attribute";
 
@@ -39,7 +38,7 @@ function TreeSizer() {
 			}
 
 			if (store) {
-				storage.put(STORE_KEY, JSON.stringify(resized));
+				globalThis.localStorage[STORE_KEY] = JSON.stringify(resized);
 			}
 		}
 	}
@@ -94,7 +93,7 @@ function TreeSizer() {
 	 * @param {Element} element The ajax target.
 	 */
 	function ajaxSubscriber(element) {
-		let stored = storage.get(STORE_KEY);
+		let stored = globalThis.localStorage[STORE_KEY];
 		if (stored) {
 			stored = JSON.parse(stored);
 
@@ -167,7 +166,7 @@ function TreeSizer() {
 		event.add(element, "dblclick", dblClickEvent);
 		processResponse.subscribe(ajaxSubscriber, true);
 		resizeable.subscribe(resizeSubscriber);
-		let stored = storage.get(STORE_KEY);
+		let stored = globalThis.localStorage[STORE_KEY];
 		if (stored) {
 			stored = JSON.parse(stored);
 			for (let o in stored) {

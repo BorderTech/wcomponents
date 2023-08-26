@@ -15,6 +15,7 @@ Java API:
 
 Client Side API:
 * Removed `window.KeyEvent` as this was a polyfill for a browser API that is now totally dead.
+* Removed `wc/dom/storage` as the storage APIs are universally supported in browsers now.
 * Removed `wc/ui/backToTop.setEnabled`. Use a `disabled` attribute on the new `<wc-backtotop>` custom element instead.
 * Removed `wc/compat` RequireJS loader plugin.
 * Removed `wc/template`, use native template options like JS template strings and HTML template.
@@ -22,6 +23,7 @@ Client Side API:
 * Removed `wc/global`, use native `globalThis` instead.
 * Nerfed `wc/has`, it is no longer poweful and backed by dojo (we don't do this as much anymore).
 * Removed RequireJS (`window.require` and `window.define`) - use native modules.
+* Removed `wc/dom/diagnostic.getMessageClass()` as nothing was using it.
 
 ### Enhancements
 
