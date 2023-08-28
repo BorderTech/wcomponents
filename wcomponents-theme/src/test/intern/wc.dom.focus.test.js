@@ -1,9 +1,9 @@
-define(["intern!object", "intern/chai!assert", "wc/dom/focus", "intern/resources/test.utils!", "wc/dom/tag"],
-	function (registerSuite, assert, controller, testutils, tag) {
+define(["intern!object", "intern/chai!assert", "wc/dom/focus", "intern/resources/test.utils!"],
+	function (registerSuite, assert, controller, testutils) {
 		"use strict";
 
-		var testHolder,
-			NATIVE_TRUE = "<button type='button' id='button1'>button</button>",
+		let testHolder;
+		const NATIVE_TRUE = "<button type='button' id='button1'>button</button>",
 			NATIVE_FALSE = "<div id='div1'>hello</div>",
 			NATIVE_LINK = "<a href='#' id='a1'>link</a>",
 			RADIOS_NO_SELECTION = "<input type='radio' name='radio1' id='r1' value='true'><input type='radio' name='radio1' id='r2' value='false'>",
@@ -27,59 +27,59 @@ define(["intern!object", "intern/chai!assert", "wc/dom/focus", "intern/resources
 				testHolder.innerHTML = "";
 			},
 			testIsTabstopNative: function() {
-				var id = "button1";
+				const id = "button1";
 				testHolder.innerHTML = NATIVE_TRUE;
 				assert.isTrue(controller.isTabstop(document.getElementById(id)));
 			},
 			testIsTabstopNotNative: function() {
-				var id = "div1";
+				const id = "div1";
 				testHolder.innerHTML = NATIVE_FALSE;
 				assert.isFalse(controller.isTabstop(document.getElementById(id)));
 			},
 			testIsTabstopNativeDisabled: function() {
-				var id = "button1", element;
+				const id = "button1";
 				testHolder.innerHTML = NATIVE_TRUE;
-				element = document.getElementById(id);
+				const element = document.getElementById(id);
 				element.disabled = true;
 				assert.isFalse(controller.isTabstop(element));
 			},
 			testIsTabstopNativeLink: function() {
-				var id = "a1";
+				const id = "a1";
 				testHolder.innerHTML = NATIVE_LINK;
 				assert.isTrue(controller.isTabstop(document.getElementById(id)));
 			},
 			testIsTabstopNativeAriaDisabled: function() {
-				var id = "a1", element;
+				const id = "a1";
 				testHolder.innerHTML = NATIVE_LINK;
-				element = document.getElementById(id);
+				const element = document.getElementById(id);
 				element.setAttribute("aria-disabled", "true");
 				assert.isFalse(controller.isTabstop(element));
 			},
 			testIsTabstopTabindex: function() {
-				var id = "div1", element;
+				const id = "div1";
 				testHolder.innerHTML = NATIVE_FALSE;
-				element = document.getElementById(id);
+				const element = document.getElementById(id);
 				element.tabIndex = "0";
 				assert.isTrue(controller.isTabstop(element));
 			},
 			testIsTabstopTabindexFalse: function() {
-				var id = "button1", element;
+				const id = "button1";
 				testHolder.innerHTML = NATIVE_TRUE;
-				element = document.getElementById(id);
+				const element = document.getElementById(id);
 				element.tabIndex = "-1";
 				assert.isFalse(controller.isTabstop(document.getElementById(id)));
 			},
 			testIsTabstopNativeHidden: function() {
-				var id = "button1", element;
+				const id = "button1";
 				testHolder.innerHTML = NATIVE_TRUE;
-				element = document.getElementById(id);
+				const element = document.getElementById(id);
 				element.hidden = true;
 				assert.isFalse(controller.isTabstop(document.getElementById(id)));
 			},
 			testIsTabstopTabindexHidden: function() {
-				var id = "div1", element;
+				const id = "div1";
 				testHolder.innerHTML = NATIVE_FALSE;
-				element = document.getElementById(id);
+				const element = document.getElementById(id);
 				element.tabIndex = "0";
 				element.hidden = true;
 				assert.isFalse(controller.isTabstop(document.getElementById(id)));
@@ -98,17 +98,15 @@ define(["intern!object", "intern/chai!assert", "wc/dom/focus", "intern/resources
 				assert.isFalse(controller.isTabstop());
 			},
 			testIsNativelyFocusable: function() {
-				var focusable = [tag.A, tag.AREA, tag.AUDIO, tag.BUTTON, tag.FRAME, tag.IFRAME, tag.INPUT, tag.OBJECT, tag.SELECT, tag.TEXTAREA, tag.VIDEO],
-					i;
-				for (i = 0; i < focusable.length; ++i) {
+				const focusable = ["a", "area", "audio", "button", "frame", "iframe", "input", "object", "select", "textarea", "video"];
+				for (let i = 0; i < focusable.length; ++i) {
 					assert.isTrue(controller.isNativelyFocusable(focusable[i]));
 				}
 			},
 			testIsNativelyFocusableFalse: function() {
-				// a cross section of not focusable tagNames:
-				var focusable = [tag.P, tag.DIV, tag.SPAN, tag.UL, tag.LI, tag.HTML, tag.BODY, tag.HEADER, tag.FOOTER, tag.H1, tag.FORM],
-					i;
-				for (i = 0; i < focusable.length; ++i) {
+				// a cross-section of not focusable tagNames:
+				const focusable = ["p", "div", "span", "ul", "li", "html", "body", "header", "footer", "h1", "form"];
+				for (let i = 0; i < focusable.length; ++i) {
 					assert.isFalse(controller.isNativelyFocusable(focusable[i]));
 				}
 			},
@@ -116,42 +114,42 @@ define(["intern!object", "intern/chai!assert", "wc/dom/focus", "intern/resources
 				assert.isFalse(controller.isNativelyFocusable());
 			},
 			testCanFocusNativeYes: function() {
-				var id = "button1";
+				const id = "button1";
 				testHolder.innerHTML = NATIVE_TRUE;
 				assert.isTrue(controller.canFocus(document.getElementById(id)));
 			},
 			testCanFocusHiddenNo: function() {
-				var id = "button1", element;
+				const id = "button1";
 				testHolder.innerHTML = NATIVE_TRUE;
-				element = document.getElementById(id);
+				const element = document.getElementById(id);
 				element.hidden = "true";
 				assert.isFalse(controller.canFocus(element));
 			},
 			testCanFocusDisabledNo: function() {
-				var id = "button1", element;
+				const id = "button1";
 				testHolder.innerHTML = NATIVE_TRUE;
-				element = document.getElementById(id);
+				const element = document.getElementById(id);
 				element.disabled = "true";
 				assert.isFalse(controller.canFocus(element));
 			},
 			testCanFocusInvisibleNo: function() {
-				var id = "button1", element;
+				const id = "button1";
 				testHolder.innerHTML = NATIVE_TRUE;
-				element = document.getElementById(id);
+				const element = document.getElementById(id);
 				element.style.visibility = "hidden";
 				assert.isFalse(controller.canFocus(element));
 			},
 			testCanFocusNoDisplayNo: function() {
-				var id = "button1", element;
+				const id = "button1";
 				testHolder.innerHTML = NATIVE_TRUE;
-				element = document.getElementById(id);
+				const element = document.getElementById(id);
 				element.style.display = "none";
 				assert.isFalse(controller.canFocus(element));
 			},
 			testCanFocusZeroDimensionNo: function() {
-				var id = "button1", element;
+				const id = "button1";
 				testHolder.innerHTML = NATIVE_TRUE;
-				element = document.getElementById(id);
+				const element = document.getElementById(id);
 				element.style.width = "0";
 				element.style.height = "0";
 				element.style.overflow = "hidden";
@@ -162,21 +160,19 @@ define(["intern!object", "intern/chai!assert", "wc/dom/focus", "intern/resources
 			},
 			// setFocusRequest needs async tests
 			testFocusFirstTabstop: function() {
-				var expected = "hf1",
-					target;
+				const expected = "hf1";
 				testHolder.innerHTML = FOCUSABLE_CONTAINER;
-				target = controller.focusFirstTabstop(document.getElementById("hasfocusable"));
+				const target = controller.focusFirstTabstop(document.getElementById("hasfocusable"));
 				assert.strictEqual(expected, target.id);
 			},
 			testFocusFirstTabstopReverse: function() {
-				var expected = "hf2",
-					target;
+				const expected = "hf2";
 				testHolder.innerHTML = FOCUSABLE_CONTAINER;
-				target = controller.focusFirstTabstop(document.getElementById("hasfocusable"), null, true);
+				const target = controller.focusFirstTabstop(document.getElementById("hasfocusable"), null, true);
 				assert.strictEqual(expected, target.id);
 			},
 			testFocusFirstTabstopCallback: function() {
-				var result = false;
+				let result = false;
 				function callback() {
 					result = true;
 				}
@@ -185,12 +181,9 @@ define(["intern!object", "intern/chai!assert", "wc/dom/focus", "intern/resources
 				assert.isTrue(result);
 			},
 			testFocusFirstTabstopCallbackReverse: function() {
-				var result = false;
-				function callback() {
-					result = true;
-				}
+				let result = false;
 				testHolder.innerHTML = FOCUSABLE_CONTAINER;
-				controller.focusFirstTabstop(document.getElementById("hasfocusable"), callback, true);
+				controller.focusFirstTabstop(document.getElementById("hasfocusable"), () => result = true, true);
 				assert.isTrue(result);
 			},
 			testFocusFirstTabstopNoFocus: function() {
@@ -202,7 +195,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/focus", "intern/resources
 				assert.isNull(controller.focusFirstTabstop(document.getElementById("nofocus"), null, true));
 			},
 			testFocusFirstTabstopNoFocusCallback: function() {
-				var result = false;
+				let result = false;
 				testHolder.innerHTML = NOT_FOCUSABLE_CONTAINER;
 				function callback() {
 					result = true;
@@ -211,7 +204,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/focus", "intern/resources
 				assert.isFalse(result);
 			},
 			testFocusFirstTabstopNoFocusCallbackReverse: function() {
-				var result = false;
+				let result = false;
 				testHolder.innerHTML = NOT_FOCUSABLE_CONTAINER;
 				function callback() {
 					result = true;

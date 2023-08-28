@@ -21,7 +21,7 @@ Client Side API:
 * Removed `wc/template`, use native template options like JS template strings and HTML template.
 * Removed `wc/array/toArray`, use native `Array.from`.
 * Removed `wc/global`, use native `globalThis` instead.
-* Nerfed `wc/has`, it is no longer poweful and backed by dojo (we don't do this as much anymore).
+* Nerfed `wc/has`, it is no longer backed by dojo sniff (we don't often need sniffing anymore).
 * Removed RequireJS (`window.require` and `window.define`) - use native modules.
 * Removed `wc/dom/diagnostic.getMessageClass()` as nothing was using it.
 

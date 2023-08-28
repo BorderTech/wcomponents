@@ -1,27 +1,35 @@
 define(["intern!object", "intern/chai!assert", "wc/dom/diagnostic", "intern/resources/test.utils!"],
 	function (registerSuite, assert, diagnostic, testutils) {
 		"use strict";
+		const testBoxId = "wcdiagnostictest1";
+		const dummyElementId = "wcdiagnostictest_notdiagnostic";
+		const fakeMessageId = "wcdiagnostictest_notmessage";
 
-		var testHolder,
-			testContent = "<span id='wcdiagnostictest1' class='wc-fieldindicator'><span class='wc-message'>Message one</span></span>\n\
-<span id='wcdiagnostictest_notdiagnostic'>placeholder</span>\n\
-<span id='wcdiagnostictest_notmessage' class='wc-message'>not a message</span>";
+		const testContent = `
+			<span id='${testBoxId}' class='wc-fieldindicator'>
+				<span class='wc-message'>Message one</span>
+			</span>
+			<span id='${dummyElementId}'>placeholder</span>
+			<span id='${fakeMessageId}' class='wc-message'>not a message</span>
+		`;
+
+		let testHolder;
 
 		function getTestBox() {
-			return document.getElementById("wcdiagnostictest1");
+			return document.getElementById(testBoxId);
 		}
 
 		function getDummyElement() {
-			return document.getElementById("wcdiagnostictest_notdiagnostic");
+			return document.getElementById(dummyElementId);
 		}
 
 		function getMessageElement() {
-			var box = getTestBox();
+			const box = getTestBox();
 			return box.firstElementChild;
 		}
 
 		function getFakeMessage() {
-			return document.getElementById("wcdiagnostictest_notmessage");
+			return document.getElementById(fakeMessageId);
 		}
 
 		function doIdExtensionTest(level, expected) {
@@ -33,7 +41,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/diagnostic", "intern/reso
 		}
 
 		function doGetByTypeTest(level) {
-			var widget = diagnostic.getByType(),
+			const widget = diagnostic.getByType(),
 				qs = widget.toString(),
 				expected = qs + "." + diagnostic.getBoxClass(level),
 				actual = diagnostic.getByType(level);
@@ -41,10 +49,9 @@ define(["intern!object", "intern/chai!assert", "wc/dom/diagnostic", "intern/reso
 		}
 
 		function doIsOneOfMeTest(level) {
-			var box = getTestBox(),
+			const box = getTestBox(),
 				other = getDummyElement(),
-				className = diagnostic.getBoxClass(level),
-				lvl;
+				className = diagnostic.getBoxClass(level);
 			try {
 				box.classList.add(className);
 				other.classList.add(className);
@@ -54,11 +61,11 @@ define(["intern!object", "intern/chai!assert", "wc/dom/diagnostic", "intern/reso
 				// matching level
 				assert.isTrue(diagnostic.isOneOfMe(box, level), "Expected a diagnostic at a specific level");
 
-				assert.isFalse(diagnostic.isOneOfMe(other, "Not a diagnistic box should never be a diagnostic box"));
+				assert.isFalse(diagnostic.isOneOfMe(other, "Not a diagnostic box should never be a diagnostic box. What never? No never!"));
 				assert.isFalse(diagnostic.isOneOfMe(other, level), "The level classes should not be sufficient");
 
 				// a diagnostic box at any one level is NOT a box at other levels
-				for (lvl in diagnostic.LEVEL) {
+				for (let lvl in diagnostic.LEVEL) {
 					if (diagnostic.hasOwnProperty(lvl)) {
 						if (diagnostic.LEVEL[lvl] === level) {
 							continue;
@@ -73,13 +80,11 @@ define(["intern!object", "intern/chai!assert", "wc/dom/diagnostic", "intern/reso
 		}
 
 		function doIsMessageTest(level) {
-			var box = getTestBox(),
-				msg,
-				className = diagnostic.getBoxClass(level),
-				lvl;
+			const box = getTestBox(),
+				className = diagnostic.getBoxClass(level);
 			try {
 				box.classList.add(className);
-				msg = getMessageElement();
+				const msg = getMessageElement();
 
 				// a diagnostic box is a diagnostic box
 				assert.isTrue(diagnostic.isMessage(msg), "box with level should still hold a message");
@@ -87,7 +92,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/diagnostic", "intern/reso
 				assert.isTrue(diagnostic.isMessage(msg, level), "Expected a message at a specific level");
 
 				// a diagnostic box at any one level is NOT a box at other levels
-				for (lvl in diagnostic.LEVEL) {
+				for (let lvl in diagnostic.LEVEL) {
 					if (diagnostic.hasOwnProperty(lvl)) {
 						if (diagnostic.LEVEL[lvl] === level) {
 							continue;
@@ -101,14 +106,13 @@ define(["intern!object", "intern/chai!assert", "wc/dom/diagnostic", "intern/reso
 		}
 
 		function doGetLevelTest(level) {
-			var box = getTestBox(),
-				className = diagnostic.getBoxClass(level),
-				lvl;
+			const box = getTestBox(),
+				className = diagnostic.getBoxClass(level);
 			try {
 				box.classList.add(className);
 				assert.strictEqual(diagnostic.getLevel(box), level, "Level class should be sufficient");
 				// a diagnostic box at any one level is NOT a box at other levels
-				for (lvl in diagnostic.LEVEL) {
+				for (let lvl in diagnostic.LEVEL) {
 					if (diagnostic.hasOwnProperty(lvl)) {
 						if (diagnostic.LEVEL[lvl] === level) {
 							continue;
@@ -122,7 +126,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/diagnostic", "intern/reso
 		}
 
 		function doGetTargetTest(level) {
-			var box = getTestBox(),
+			const box = getTestBox(),
 				className = diagnostic.getBoxClass(level),
 				target = document.createElement("span"),
 				expected = "foo";
@@ -186,29 +190,25 @@ define(["intern!object", "intern/chai!assert", "wc/dom/diagnostic", "intern/reso
 				assert.isNull(diagnostic.getBoxClass(-1));
 			},
 			testGetWidget: function() {
-				var widget = diagnostic.getWidget();
+				const widget = diagnostic.getWidget();
 				assert.isOk(widget);
-				// the folowing fails in IE 11 (of course)
-				// assert.strictEqual(widget.constructor.name, "Widget");
 			},
 			testGetWidgetIsCorrectWidget: function() {
-				var widget = diagnostic.getWidget(),
+				const widget = diagnostic.getWidget(),
 					element = getTestBox();
-				assert.isTrue(widget.isOneOfMe(element));
+				assert.isTrue(element.matches(widget.toString()));
 			},
 			testGetMessage: function() {
-				var widget = diagnostic.getMessage();
+				const widget = diagnostic.getMessage();
 				assert.isOk(widget);
-				// the folowing fails in IE 11 (of course)
-				// assert.strictEqual(widget.constructor.name, "Widget");
 			},
 			testGetMessageIsCorrectWidget: function() {
-				var widget = diagnostic.getMessage(),
+				const widget = diagnostic.getMessage(),
 					element = getMessageElement();
-				assert.isTrue(widget.isOneOfMe(element));
+				assert.isTrue(element.matches(widget.toString()));
 			},
 			testGetByTypeNoType: function() {
-				var expected = diagnostic.getWidget(),
+				const expected = diagnostic.getWidget(),
 					actual = diagnostic.getByType();
 				assert.strictEqual(actual, expected);
 			},
@@ -216,8 +216,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/diagnostic", "intern/reso
 				assert.isNull(diagnostic.getByType(-1));
 			},
 			testGetByType: function() {
-				var lvl;
-				for (lvl in diagnostic.LEVEL) {
+				for (let lvl in diagnostic.LEVEL) {
 					if (diagnostic.LEVEL.hasOwnProperty(lvl)) {
 						doGetByTypeTest(diagnostic.LEVEL[lvl]);
 					}
@@ -227,16 +226,16 @@ define(["intern!object", "intern/chai!assert", "wc/dom/diagnostic", "intern/reso
 				assert.isFalse(diagnostic.isOneOfMe(null));
 			},
 			testIsOneOfMeNoLevel_withBox: function() {
-				var box = getTestBox();
+				const box = getTestBox();
 				assert.isTrue(diagnostic.isOneOfMe(box));
 			},
 			testIsOneOfMeNoLevel_notDiagnostic: function() {
-				var box = getDummyElement();
+				const box = getDummyElement();
 				assert.isFalse(diagnostic.isOneOfMe(box));
 			},
 			testIsOneOfMeWithLevel_false: function() {
-				var box = getTestBox(),lvl;
-				for (lvl in diagnostic.LEVEL) {
+				const box = getTestBox();
+				for (let lvl in diagnostic.LEVEL) {
 					if (diagnostic.LEVEL.hasOwnProperty(lvl)) {
 						assert.isFalse(diagnostic.isOneOfMe(box, diagnostic.LEVEL[lvl]), "Unexpected match '" + box.className +
 							"' should not match '" + diagnostic.getBoxClass(diagnostic.LEVEL[lvl]));
@@ -244,8 +243,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/diagnostic", "intern/reso
 				}
 			},
 			testIsOneOfMe: function() {
-				var lvl;
-				for (lvl in diagnostic.LEVEL) {
+				for (let lvl in diagnostic.LEVEL) {
 					if (diagnostic.LEVEL.hasOwnProperty(lvl)) {
 						doIsOneOfMeTest(diagnostic.LEVEL[lvl]);
 					}
@@ -258,39 +256,38 @@ define(["intern!object", "intern/chai!assert", "wc/dom/diagnostic", "intern/reso
 				assert.isFalse(diagnostic.isMessage("I am a message"), "Only an Element can be a message");
 			},
 			testIsMessage_noLevel_notAMessage: function() {
-				var msg = getFakeMessage();
+				const msg = getFakeMessage();
 				assert.isFalse(diagnostic.isMessage(msg));
 			},
 			testIsMessage_withLevel_notAMessage: function() {
-				var msg = getFakeMessage(), lvl;
-				for (lvl in diagnostic.LEVEL) {
+				const msg = getFakeMessage();
+				for (let lvl in diagnostic.LEVEL) {
 					if (diagnostic.LEVEL.hasOwnProperty(lvl)) {
 						assert.isFalse(diagnostic.isMessage(msg, diagnostic.LEVEL[lvl]));
 					}
 				}
 			},
 			testIsMessage_noLevel_message: function() {
-				var msg = getMessageElement();
+				const msg = getMessageElement();
 				assert.isTrue(diagnostic.isMessage(msg));
 			},
 			testIsMessage_level_messageInDefaultBox: function() {
-				var msg = getMessageElement(), lvl;
-				for (lvl in diagnostic.LEVEL) {
+				const msg = getMessageElement();
+				for (let lvl in diagnostic.LEVEL) {
 					if (diagnostic.LEVEL.hasOwnProperty(lvl)) {
 						assert.isFalse(diagnostic.isMessage(msg, diagnostic.LEVEL[lvl]));
 					}
 				}
 			},
 			testIsMessage_level_messageInLevelBox: function() {
-				var lvl;
-				for (lvl in diagnostic.LEVEL) {
+				for (let lvl in diagnostic.LEVEL) {
 					if (diagnostic.LEVEL.hasOwnProperty(lvl)) {
 						doIsMessageTest(diagnostic.LEVEL[lvl]);
 					}
 				}
 			},
 			testIsMessage_badLevel: function() {
-				var msg = getMessageElement();
+				const msg = getMessageElement();
 				assert.isFalse(diagnostic.isMessage(msg, -1));
 			},
 			testGetLevel_noArg: function() {
@@ -313,8 +310,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/diagnostic", "intern/reso
 				assert.strictEqual(diagnostic.getLevel(getTestBox()), -1);
 			},
 			testGetLevel: function() {
-				var lvl;
-				for (lvl in diagnostic.LEVEL) {
+				for (let lvl in diagnostic.LEVEL) {
 					if (diagnostic.LEVEL.hasOwnProperty(lvl)) {
 						doGetLevelTest(diagnostic.LEVEL[lvl]);
 					}
@@ -330,7 +326,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/diagnostic", "intern/reso
 				assert.isNull(diagnostic.getTarget(getDummyElement()));
 			},
 			testGetTarget_diagnosticNoId: function() {
-				var box = getTestBox();
+				const box = getTestBox();
 				box.removeAttribute("data-wc-dfor");
 				assert.isNull(diagnostic.getTarget(box), "well that was unexpected");
 			},
@@ -348,16 +344,16 @@ define(["intern!object", "intern/chai!assert", "wc/dom/diagnostic", "intern/reso
 				doGetTargetTest(diagnostic.LEVEL.SUCCESS);
 			},
 			testGetTarget_noTarget: function() {
-				var box = getTestBox();
+				const box = getTestBox();
 				assert.isNull(diagnostic.getTarget(box));
 			},
 			testGetBoxNoTarget: function() {
-				var box = getTestBox();
+				const box = getTestBox();
 				box.id = box.id + "_err"; // make a real diagnostic box with no target element.
 				assert.isNull(diagnostic.getTarget(box));
 			},
 			testStupidMadeUpTestForGetTargetBranchConverage: function() {
-				var box = getTestBox();
+				const box = getTestBox();
 				box.id = "_err"; // the silly default which should not be a default
 				assert.isNull(diagnostic.getTarget(box));
 			}

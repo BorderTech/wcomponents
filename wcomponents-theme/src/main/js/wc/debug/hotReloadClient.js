@@ -1,9 +1,16 @@
 /*
  * This module handles hot module reloading for fast development.
+ * If you are wondering at the value of this, I have now used it extensively during JS development and it is AWESOME!
+ * It saves me hours a week.
  *
  * @author Rick Brown
  */
-define(["lib/socketio/socket.io", "wc/debounce", "wc/urlParser", "wc/dom/cookie"], function (io, debounce, urlParser, cookie) {
+define([
+	"lib/socketio/socket.io",
+	"wc/debounce",
+	"wc/urlParser",
+	"wc/dom/cookie"
+], function (io, debounce, urlParser, cookie) {
 	var socketHotReload,
 		handlers = {
 			images: /**

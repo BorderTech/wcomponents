@@ -55,20 +55,20 @@ const diagnostic = {
 	 * @returns {String} the value of the HTML class attribute for the required diagnostic box.
 	 */
 	getBoxClass: function (level) {
-		const baseclass = CLASS.DIAGNOSTIC;
+		const baseClass = CLASS.DIAGNOSTIC;
 		if (!level) {
-			return baseclass;
+			return baseClass;
 		}
-		const levelclass = baseclass + CLASS.TYPE_SUFFIX;
+		const levelClass = baseClass + CLASS.TYPE_SUFFIX;
 		switch (level) {
 			case this.LEVEL.ERROR:
-				return levelclass + "error";
+				return levelClass + "error";
 			case this.LEVEL.WARN:
-				return levelclass + "warn";
+				return levelClass + "warn";
 			case this.LEVEL.INFO:
-				return levelclass + "info";
+				return levelClass + "info";
 			case this.LEVEL.SUCCESS:
-				return levelclass + "success";
+				return levelClass + "success";
 			default:
 				return null;
 		}
@@ -196,7 +196,7 @@ const diagnostic = {
 	 * @returns {Number|diagnosticL#1.Diagnostic.LEVEL} the diagnostic level from module:wc/dom/diagnostic.LEVEL or -1 if not found
 	 */
 	getLevel: function (diag) {
-		if (!diag.matches(diagnosticSelector)) {
+		if (!diag?.matches(diagnosticSelector)) {
 			throw new TypeError("Argument must be a diagnostic box");
 		}
 		for (let lvl in this.LEVEL) {

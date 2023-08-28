@@ -8,7 +8,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils"], f
 		 */
 		TEST_MODULE = "wc/ui/label",
 		/**
-		 * A human readable name for the suite. This could be as simpl as TEST_MODULE.
+		 * A human-readable name for the suite. This could be as simpl as TEST_MODULE.
 		 * @type String
 		 */
 		suiteName = TEST_MODULE,// .match(/\/([^\/]+)$/)[1],
@@ -16,7 +16,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils"], f
 		 * An options array of dependency names in addition to TEST_MODULE, Define a String Array here and setup will convert it to a module array.
 		 * @type arr
 		 */
-		deps = ["wc/dom/shed", "wc/dom/initialise", "wc/dom/tag"],
+		deps = ["wc/dom/shed", "wc/dom/initialise"],
 		/**
 		 * Load test UI froman external resource e.g. "intern/resources/SOME_PAGE.html". Leave undefined if not required. Simple test UIs may be set inline
 		 * using testContent instead. If both are set testContent takes precedence and urlResource is ignored.
@@ -26,7 +26,6 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils"], f
 		// If you have extra dependencies you will want a way to reference them.
 		shed,
 		initialise,
-		tag,
 		CLASS_REQ = "wc_req",
 		testContent,
 		//
@@ -50,7 +49,6 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils"], f
 				// If you want to have named dependencies the vars are assigned here
 				shed = arg[1];
 				initialise = arg[2];
-				tag = arg[3];
 				testHolder = testutils.getTestHolder();
 				return testutils.setUpExternalHTML(urlResource, testHolder).then(function(response) {
 					testContent = response;
@@ -185,12 +183,12 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils"], f
 		testConvertInputToRO: function() {
 			var input = document.getElementById("wcuilabel-i12"),
 				label = document.getElementById("wcuilabel-l12");
-			assert.isTrue(label.tagName === tag.LABEL, "wrong start tagname");
+			assert.isTrue(label.matches("label"), "wrong start tagname");
 			assert.isOk(label.getAttribute("for"), "should have for attribute");
 			assert.isNotOk(label.getAttribute("data-wc-rofor"), "should not have data-wc-for attribute");
 			controller._convert(input, label, true);
 			label = document.getElementById("wcuilabel-l12");
-			assert.isTrue(label.tagName === tag.SPAN, "wrong end tagname");
+			assert.isTrue(label.matches("span"), "wrong end tagname");
 			assert.isNotOk(label.getAttribute("for"), "for attribute should have been removed");
 			assert.isOk(label.getAttribute("data-wc-rofor"), "data-ro-for should have been added");
 			assert.strictEqual(label.getAttribute("data-wc-rofor"), "wcuilabel-i12");
@@ -198,13 +196,13 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils"], f
 		testConvertROtoInput: function() {
 			var input = document.getElementById("wcuilabel-i13"),
 				label = document.getElementById("wcuilabel-l13");
-			assert.isTrue(label.tagName === tag.SPAN, "wrong start tagname");
+			assert.isTrue(label.matches("span"), "wrong start tagname");
 			assert.isNotOk(label.getAttribute("for"), "should not have for attribute");
 			assert.isOk(label.getAttribute("data-wc-rofor"), "should have data-wc-for attribute");
 			assert.strictEqual(label.getAttribute("data-wc-rofor"), "wcuilabel-i13");
 			controller._convert(input, label, false);
 			label = document.getElementById("wcuilabel-l13");
-			assert.isTrue(label.tagName === tag.LABEL, "wrong end tagname");
+			assert.isTrue(label.matches("label"), "wrong end tagname");
 			assert.isOk(label.getAttribute("for"), "for attribute should have been added");
 			assert.isNotOk(label.getAttribute("data-wc-rofor"), "data-ro-for should have been removed");
 			assert.strictEqual(label.getAttribute("for"), "wcuilabel-i13");
@@ -216,12 +214,12 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils"], f
 			controller._ajax(container);
 
 			label = document.getElementById("wcuilabel-fake-ajax-l1");
-			assert.strictEqual(label.tagName, tag.LABEL);
+			assert.isTrue(label.matches("label"));
 			assert.isNotOk(label.getAttribute("data-wc-rofor"), "data-ro-for should have been removed");
 			assert.strictEqual(label.getAttribute("for"), "wcuilabel-fake-ajax-i1_input", "for attribute should have been added");
 
 			label = document.getElementById("wcuilabel-fake-ajax-l2");
-			assert.strictEqual(label.tagName, tag.SPAN);
+			assert.isTrue(label.matches("span"));
 			assert.isNotOk(label.getAttribute("for"), "data-ro-for should have been removed");
 			assert.strictEqual(label.getAttribute("data-wc-rofor"), "wcuilabel-fake-ajax-i2", "data-wc-rofor attribute should have been added");
 
