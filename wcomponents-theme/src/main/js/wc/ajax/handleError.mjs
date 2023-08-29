@@ -81,6 +81,6 @@ function getMessageOverrides() {
 	return result;
 }
 
-export {
+export default {
 	getErrorMessage
 };

@@ -18,12 +18,9 @@ function setWidth() {
 	}
 }
 
-function Width() {
-	const resizeEvent = debounce(setWidth, 100);
-
-	this.preInit = function() {
+initialise.register({
+	preInit: function() {
 		setWidth();
-		event.add(window, "resize", resizeEvent, 1);
-	};
-}
-export default initialise.register(new Width());
+		event.add(window, "resize", debounce(setWidth, 100), 1);
+	}
+});

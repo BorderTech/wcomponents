@@ -14,8 +14,6 @@ let observer,
 	globalPending = 0;
 
 const instance = {
-		preInit: preInit,
-		postInit: postInit,
 		subscribe: subscribe,
 		unsubscribe: unsubscribe,
 		clearSubscribers: clearSubscribers,
@@ -134,21 +132,6 @@ function isFlaggedReady() {
 	return (element && element.getAttribute(instance.attr) === "true");
 }
 
-/*
- * Called before initialisation routines run.
- */
-function preInit() {
-	pendingUpdated(true, flags.DOM_READY);
-}
-
-/*
- * Called after initialisation routines run.
- */
-function postInit() {
-	waitForFixes();
-	pendingUpdated(false, flags.DOM_READY);
-}
-
 /**
  * Remove ALL subscribers.
  */
@@ -202,6 +185,16 @@ function subscribe(subscriber) {
 	}
 	return observer.subscribe(subscriber);
 }
+const initialiser = {
+	preInit: function() {
+		pendingUpdated(true, flags.DOM_READY);
+	},
+	postInit: function() {
+		waitForFixes();
+		pendingUpdated(false, flags.DOM_READY);
+	}
+};
+instance._initialiser = initialiser;  // testing only
 
 try {
 	if (Object.freeze) {
@@ -210,4 +203,6 @@ try {
 } catch (ex) {
 	console.warn(ex);
 }
-export default initialise.register(instance);
+
+initialise.register(initialiser);
+export default instance;

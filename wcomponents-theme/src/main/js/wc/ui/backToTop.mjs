@@ -147,9 +147,8 @@ initialise.register({ initialise: () => {
 	minScrollBeforeShow = config.scroll;
 
 	if (!customElements.get(tagName)) {
-		// TODO Ye olde event manager cannot register passive events.
-		globalThis.addEventListener("scroll", genericEvent, { passive: true });
-		globalThis.addEventListener("resize", genericEvent, { passive: true });
+		event.add(globalThis, { type: "scroll", listener: genericEvent, passive: true });
+		event.add(globalThis, { type: "resize", listener: genericEvent, passive: true });
 		customElements.define(tagName, BackToTop);
 	}
 }});

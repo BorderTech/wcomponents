@@ -15,7 +15,7 @@ const wCheckboxSelector = `${wrapperSelector} > ${checkboxSelector}`;
  *
  * @function
  * @private
- * @param {Element} element The reference element (element being replaced).
+ * @param {HTMLElement} element The reference element (element being replaced).
  * @param {DocumentFragment} documentFragment The document fragment which will be inserted.
  */
 function ajaxSubscriber(element, documentFragment) {
@@ -72,8 +72,8 @@ function ensureControls(myId) {
  *
  * @function
  * @private
- * @param {Element} form The form or form segment which is having its state written.
- * @param {Element} container The HTML element into which the state is written.
+ * @param {HTMLElement} form The form or form segment which is having its state written.
+ * @param {HTMLElement} container The HTML element into which the state is written.
  */
 function writeState(form, container) {
 	const checkboxes = Array.from(
@@ -85,12 +85,8 @@ function writeState(form, container) {
 /**
  * Provides Ajax and state writing functionality for check boxes.
  * @todo Get rid of the state writing: it is nuts!
- *
- * @constructor
- * @alias module:wc/ui/checkbox~CheckBox
- * @private
  */
-class CheckBox {
+const instance = {
 	/**
 	 * Provides the description of a CHECKBOX.
 	 * @function module:wc/ui/checkbox.getWidget
@@ -98,9 +94,7 @@ class CheckBox {
 	 * @param {boolean} [onlyWcb] if `true` return the Widget to explicitly match WCheckBox
 	 * @returns {string} the description of a CHECKBOX; or WCHECKBOX is onlyWcb is `truthy`.
 	 */
-	getWidget(onlyWcb) {
-		return onlyWcb ? wCheckboxSelector : checkboxSelector;
-	}
+	getWidget: (onlyWcb) => onlyWcb ? wCheckboxSelector : checkboxSelector,
 
 	/**
 	 * Provides the description of a WCheckBox wrapper element
@@ -108,27 +102,28 @@ class CheckBox {
 	 * @public
 	 * @returns {string}
 	 */
-	getWrapper() {
-		return wrapperSelector;
-	}
+	getWrapper: () => wrapperSelector,
 
+}
+
+initialise.register({
 	/**
 	 * Wire up subscribers after initialisation.
 	 * @function module:wc/ui/checkbox.postInit
 	 * @public
 	 */
-	postInit() {
+	postInit: () => {
 		formUpdateManager.subscribe(writeState);
 		processResponse.subscribe(ajaxSubscriber);
-	}
+	},
 
 	/**
 	 * Unsubscribes event listeners etc.
 	 */
-	deinit() {
+	deinit: () => {
 		formUpdateManager.unsubscribe(writeState);
 		processResponse.unsubscribe(ajaxSubscriber);
 	}
-}
+});
 
-export default initialise.register(new CheckBox());
+export default instance;

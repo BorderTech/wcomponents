@@ -24,7 +24,8 @@
  * loosely based on [this](http://therealcrisp.xs4all.nl/upload/addEvent_dean.html) but has since been reworked
  * and rewritten to the point that it is completely unique.
  *
- * @todo re-order the code. Fix the public member mechanism.
+ * @todo Fix the public member mechanism - add and remove should pretty much match addEventListener and should take the same args as each other.
+ * @todo redo event.fire
  */
 
 import Observer from "wc/Observer";
@@ -72,13 +73,13 @@ function eventListener(/* $event */) {
 	}
 	try {
 		let filter;
-		if (phase === window.Event.BUBBLING_PHASE) {  // if both are undefined or if it actually is bubbling phase
+		if (phase === globalThis.Event.BUBBLING_PHASE) {  // if both are undefined or if it actually is bubbling phase
 			filter = type + BUBBLE_SUFFIX;
 			atTargetEvent = null;
-		} else if (phase === window.Event.CAPTURING_PHASE) {
+		} else if (phase === globalThis.Event.CAPTURING_PHASE) {
 			filter = type + CAPTURE_SUFFIX;
 			atTargetEvent = null;
-		} else if (phase === window.Event.AT_TARGET && atTargetEvent !== $event) {
+		} else if (phase === globalThis.Event.AT_TARGET && atTargetEvent !== $event) {
 			filter = targetPhaseFilterFactory(type);
 			atTargetEvent = $event;  // flag that this event has already been handled in the target phase
 		}
@@ -96,7 +97,7 @@ function eventListener(/* $event */) {
 		/*
 		 * Returning ANYTHING from a beforeUnload event in IE will cause a confirmation dialog to
 		 * be presented to the user every time they try to leave the page.
-		 * I have decided to remove the return value mainly because of this. However I can see no
+		 * I have decided to remove the return value mainly because of this. However, I can see no
 		 * reason why we should return anything when the event should be cancelled using preventDefault
 		 * not by returning false.
 		 *
@@ -134,10 +135,10 @@ function targetPhaseFilterFactory(type) {
  * The problem with having three optional args in a row is you get this sort of thing:
  * `event.add(element, "click", handler, null, null, true)`
  * @param {IArguments} args The arguments from a call to event.add.
- * @returns An eventArgs object, no matter if it was called with the new or old API.
+ * @returns {{ type: string, listener: function, pos: int, scope: Object, capture: boolean, passive: boolean }} An eventArgs object, no matter if it was called with the new or old API.
  */
 function addApi(args) {
-	const argMap = ["type", "listener", "pos", "scope", "capture"];
+	const argMap = ["type", "listener", "pos", "scope", "capture", "passive"];
 	let result = args[1];
 	if (args.length > 2) {
 		result = {};
@@ -154,7 +155,7 @@ const instance = {
 	 * event. NOTE: we no longer support dom0 binding: get over it.
 	 *
 	 * @function module:wc/dom/event.add
-	 * @param {Element} element The element to which the event listener will be associated.
+	 * @param {HTMLElement} element The element to which the event listener will be associated.
 	 * @param {string} eventArgs.type The type of event (eg 'click', 'focus' NOT 'onclick', 'onfocus')
 	 * @param {Function} eventArgs.listener The event listener that will be called on the event
 	 * @param {number} [eventArgs.pos] positive number = runs later, negative number = runs earlier
@@ -172,7 +173,12 @@ const instance = {
 		const args = addApi(arguments),
 			priority = args.pos ? ((args.pos > 0) ? PRI.LOW : PRI.HIGH) : PRI.MED;
 		const elementElid = element[ELID_ATTR] || (element[ELID_ATTR] = uid());
-		const group = (args.capture = !!args.capture) ? `${args.type}${CAPTURE_SUFFIX}` : `${args.type}${BUBBLE_SUFFIX}`;
+		const capture = !!args.capture;
+		const passive = !!args.passive;
+		let group = (capture) ? `${args.type}${CAPTURE_SUFFIX}` : `${args.type}${BUBBLE_SUFFIX}`;
+		if (passive) {
+			group = `${group}_passive`;
+		}
 		const observer = events[elementElid] || (events[elementElid] = new Observer());
 		if (observer.isSubscribed(args.listener, group)) {
 			console.warn("listener: ", args.listener, " already bound to: ", args.type, " on element: ", element);
@@ -180,7 +186,7 @@ const instance = {
 		} else {
 			if (observer.subscriberCount(group) < 0) {
 				// if less than zero this is the first subscriber for this type on this element
-				element.addEventListener(args.type, eventListener, args.capture);
+				element.addEventListener(args.type, eventListener, { capture, passive });
 				// could fall back to dom 0 binding but meh, get with the program
 			}
 			result = observer.subscribe(args.listener, { group: group, context: args.scope, priority: priority });
@@ -197,15 +203,16 @@ const instance = {
 	 * eventListener() code where a static snapshot of event listeners is taken before any of them are notified.
 	 *
 	 * @function module:wc/dom/event.remove
-	 * @param {Element|Object|Object[]} element The element from which the event is removed.
+	 * @param {HTMLElement|Object|Object[]} element The element from which the event is removed.
 	 *    Alternatively simply pass the result from a call to the "add" method of this module.
 	 *    You may also pass an array of these - note the array will be modified! It will be emptied.
 	 * @param {string} [type] The type we are removing. Not used if called with return value of "add".
 	 * @param {Function} [listener] The subscriber (listener) for the event. Not used if called with return value of "add".
 	 * @param {boolean} [capture] True if the event is to be removed from the capture phase. Make sure this
 	 *    matches where it was attached! Not used if called with return value of "add".
+	 * @param {boolean} [passive] If you registered it as passive you need to remove it as passive.
 	 */
-	remove: function (element, type, listener, capture) {
+	remove: function (element, type, listener, capture, passive) {
 		const dto = arguments[0],
 			unsub = function(elid, args) {
 				const observer = events[elid];
@@ -222,7 +229,10 @@ const instance = {
 				unsub(dto.elid, [dto]);
 			}
 		} else {
-			const group = capture ? `${type}${CAPTURE_SUFFIX}` : `${type}${BUBBLE_SUFFIX}`;
+			let group = capture ? `${type}${CAPTURE_SUFFIX}` : `${type}${BUBBLE_SUFFIX}`;
+			if (passive) {
+				group = `${group}_passive`;
+			}
 			unsub(element[ELID_ATTR], [listener, group]);
 		}
 	},

@@ -60,7 +60,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils"], f
 
 		beforeEach: function () {
 			testHolder.innerHTML = testContent;
-			controller.preInit(testHolder);
+			controller.moveLabels(testHolder);
 			initialise.go();
 		},
 
@@ -68,42 +68,40 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils"], f
 			testHolder.innerHTML = "";
 		},
 		testMoveLabelWCheckBox: function() {
-			var input = document.getElementById("wcuilabel-i2"),
+			const input = document.getElementById("wcuilabel-i2"),
 				expected = "wcuilabel-l2",
 				target = input.lastElementChild;
 			assert.strictEqual(target.id, expected, "WCheckBox label should have been moved in pre-init");
 		},
 		testMoveLabelWRadioButton: function() {
-			var input = document.getElementById("wcuilabel-i2a"),
+			const input = document.getElementById("wcuilabel-i2a"),
 				expected = "wcuilabel-l2a",
 				target = input.nextElementSibling;
 			assert.strictEqual(target.id, expected, "WRadioButton label should have been moved in pre-init");
 		},
 		testMoveLabelWSelectToggle: function() {
-			var input = document.getElementById("wcuilabel-i2b"),
+			const input = document.getElementById("wcuilabel-i2b"),
 				expected = "wcuilabel-l2b",
 				target = input.nextElementSibling;
 			assert.strictEqual(target.id, expected, "WSelectToggle label should have been moved in pre-init");
 		},
 		testMoveLabelWCheckBoxRO: function() {
-			var input = document.getElementById("wcuilabel-i2c"),
+			const input = document.getElementById("wcuilabel-i2c"),
 				expected = "wcuilabel-l2c",
 				target = input.nextElementSibling;
 			assert.strictEqual(target.id, expected, "Read-only WCheckBox label should have been moved in pre-init");
 		},
 		testMoveLabelWRadioButtonRO: function() {
-			var input = document.getElementById("wcuilabel-i2d"),
+			const input = document.getElementById("wcuilabel-i2d"),
 				expected = "wcuilabel-l2d",
 				target = input.nextElementSibling;
 			assert.strictEqual(target.id, expected, "Read-only WRadioButton label should have been moved in pre-init");
 		},
 		testMoveLabelFalse: function() {
-			var input,
-				found,
-				inputIds = ["wcuilabel-i3", "wcuilabel-i3a", "wcuilabel-i3b"];
+			const inputIds = ["wcuilabel-i3", "wcuilabel-i3a", "wcuilabel-i3b"];
 			inputIds.forEach(function(nextId) {
-				input = document.getElementById(nextId);
-				found = input.previousElementSibling;
+				const input = document.getElementById(nextId);
+				const found = input.previousElementSibling;
 				assert.strictEqual(found.getAttribute("for"), nextId, "label should not have been moved in pre-init");
 			});
 		},
@@ -142,7 +140,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils"], f
 			assert.strictEqual(controller.getHint(label).innerHTML.toLowerCase(), hint + "<br>" + content);
 		},
 		testMandate: function() {
-			var input = document.getElementById("wcuilabel-i6"),
+			const input = document.getElementById("wcuilabel-i6"),
 				label = document.getElementById("wcuilabel-l6");
 			assert.isFalse(label.classList.contains(CLASS_REQ));
 			assert.isFalse(shed.isMandatory(input));
@@ -151,7 +149,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils"], f
 		},
 		testMandateRadio: function() {
 			// note: we do not decorate labels for mandatory radios
-			var input = document.getElementById("wcuilabel-i6a"),
+			const input = document.getElementById("wcuilabel-i6a"),
 				label = document.getElementById("wcuilabel-l6a");
 			assert.isFalse(label.classList.contains(CLASS_REQ));
 			assert.isFalse(shed.isMandatory(input));
@@ -160,29 +158,29 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils"], f
 			assert.isTrue(shed.isMandatory(input));
 		},
 		testOptionalise: function() {
-			var input = document.getElementById("wcuilabel-i5"),
+			const input = document.getElementById("wcuilabel-i5"),
 				label = document.getElementById("wcuilabel-l5");
 			assert.isTrue(label.classList.contains(CLASS_REQ));
 			shed.optional(input);
 			assert.isFalse(label.classList.contains(CLASS_REQ));
 		},
 		testHide: function() {
-			var input = document.getElementById("wcuilabel-i7"),
+			const input = document.getElementById("wcuilabel-i7"),
 				label = document.getElementById("wcuilabel-l7");
 			assert.isFalse(shed.isHidden(label));
 			shed.hide(input);
 			assert.isTrue(shed.isHidden(label));
 		},
 		testShow: function() {
-			var input = document.getElementById("wcuilabel-i8"),
+			const input = document.getElementById("wcuilabel-i8"),
 				label = document.getElementById("wcuilabel-l8");
 			assert.isTrue(shed.isHidden(label));
 			shed.show(input);
 			assert.isFalse(shed.isHidden(label));
 		},
 		testConvertInputToRO: function() {
-			var input = document.getElementById("wcuilabel-i12"),
-				label = document.getElementById("wcuilabel-l12");
+			const input = document.getElementById("wcuilabel-i12");
+			let label = document.getElementById("wcuilabel-l12");
 			assert.isTrue(label.matches("label"), "wrong start tagname");
 			assert.isOk(label.getAttribute("for"), "should have for attribute");
 			assert.isNotOk(label.getAttribute("data-wc-rofor"), "should not have data-wc-for attribute");
@@ -194,8 +192,8 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils"], f
 			assert.strictEqual(label.getAttribute("data-wc-rofor"), "wcuilabel-i12");
 		},
 		testConvertROtoInput: function() {
-			var input = document.getElementById("wcuilabel-i13"),
-				label = document.getElementById("wcuilabel-l13");
+			const input = document.getElementById("wcuilabel-i13");
+			let label = document.getElementById("wcuilabel-l13");
 			assert.isTrue(label.matches("span"), "wrong start tagname");
 			assert.isNotOk(label.getAttribute("for"), "should not have for attribute");
 			assert.isOk(label.getAttribute("data-wc-rofor"), "should have data-wc-for attribute");
@@ -274,7 +272,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils"], f
 			assert.isUndefined(controller._checkboxLabelPositionHelper(document.getElementById("wcuilabel-i1"), {}));
 		},
 		testCheckboxLabelPositionHelper_stringLabel: function() {
-			var inputId = "wclabeltest-testinput",
+			const inputId = "wclabeltest-testinput",
 				input = "<span class='wc-checkbox wc-input-wrapper' id='" + inputId + "'><input id='" + inputId + "_input' type='checkbox'></span>",
 				labelId = inputId + "-label";
 			testHolder.insertAdjacentHTML("beforeend", input);
@@ -283,7 +281,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils"], f
 			assert.strictEqual(document.getElementById(inputId).lastChild.tagName.toLowerCase(), "label");
 		},
 		testCheckboxLabelPositionHelper_stringNotElement: function() {
-			var inputId = "wclabeltest-testinput",
+			const inputId = "wclabeltest-testinput",
 				input = "<span class='wc-checkbox wc-input-wrapper' id='" + inputId + "'><input id='" + inputId + "_input' type='checkbox'></span>";
 
 			testHolder.insertAdjacentHTML("beforeend", input);
