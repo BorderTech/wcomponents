@@ -4,6 +4,7 @@ import impliedAria from "wc/dom/impliedARIA";
 import getLabelsForElement from "wc/dom/getLabelsForElement";
 import $role from "wc/dom/role";
 import getStyle from "wc/dom/getStyle";
+import getForm from "wc/ui/getForm";
 
 const actions = {
 		SHOW: "show",
@@ -280,7 +281,7 @@ const instance = {
 		if (expandWithOpen(element)) {
 			result = element.hasAttribute(OPEN);
 		} else {
-			result = !!isThisMyAttribute(element, ARIA_STATE.expanded, true);
+			result = element.getAttribute(ARIA_STATE.expanded) === "true";
 		}
 		return result;
 	},
@@ -289,7 +290,7 @@ const instance = {
 	 * Determine if the element is hidden in accordance with the way shed hides things.
 	 *
 	 * @function module:wc/dom/shed.isHidden
-	 * @param {Node} node The element to test.
+	 * @param {HTMLElement} node The element to test.
 	 * @param {boolean} [onlyHiddenAttribute] if true base test only on the existance of the hidden attribute.
 	 *   This should only ever be used internally by toggle or for components which can _only_ be hidden by
 	 *   attribute (e.g. dialog with open attribute).
@@ -302,8 +303,8 @@ const instance = {
 		// troublesome stuff inside hidden stuff.
 		if (node.nodeType !== Node.ELEMENT_NODE) {
 			if (node.nodeType === Node.TEXT_NODE) {
-				_el = node.parentNode;
-				if (!_el || _el.nodeType !== Node.ELEMENT_NODE) {
+				_el = node.parentElement;
+				if (!_el) {
 					return false;
 				}
 			} else {
@@ -352,11 +353,11 @@ const instance = {
 	 * Determine if the element is in a "read only" state.
 	 *
 	 * @function module:wc/dom/shed.isReadOnly
-	 * @param {HTMLInputElement|HTMLElement} element The element to test.
+	 * @param {HTMLElement} element The element to test.
 	 * @returns {boolean} true if the element is read only.
 	 */
 	isReadOnly: function (element) {
-		return element.readOnly || !!isThisMyAttribute(element, ARIA_STATE.readonly, true);
+		return element.matches(`:read-only, [${ARIA_STATE.readonly}='true']`);
 	},
 
 	/**
@@ -385,7 +386,7 @@ const instance = {
 	},
 
 	/**
-	 * Determine if an element is current selected. Selected means either:
+	 * Determine if an element is currently selected. Selected means either:
 	 *
 	 * * the element has an aria role which supports any of the states in ARIA_STATE[SELECTED] and the correct
 	 *   state attribute for that role is set to true.; OR
@@ -394,7 +395,7 @@ const instance = {
 	 *
 	 * @function module:wc/dom/shed.isSelected
 	 * @param {HTMLElement} element The element to test.
-	 * @returns {(Boolean|int)} A property of {@link module:wc/dom/shed.state} being:
+	 * @returns {(Boolean|number)} A property of {@link module:wc/dom/shed.state} being:
 	 *
 	 *    * SELECTED (which equates to true) if this element is selected; or
 	 *    * MIXED (which equates to false) if mixed; otherwise
@@ -405,15 +406,15 @@ const instance = {
 		const role = $role.get(element, true);
 		if (role && !(impliedAria.supportsNativeState(element, ANY_SEL_STATE))) {
 			const supported = aria.getSupported(role);
-			for (let i = (ARIA_STATE[SELECTED].length - 1); i >= 0; i--) {
-				let next = ARIA_STATE[SELECTED][i];
+			const selectedAttrs = ARIA_STATE[SELECTED];
+			for (const next of selectedAttrs) {
 				let level = supported[next];
 				if (level) {
-					let nextResult = isThisMyAttribute(element, next, true);
-					if (nextResult !== null) {
-						if (nextResult) {
+					if (element.hasAttribute(next)) {
+						let nextResult = element.getAttribute(next);
+						if (nextResult === "true") {
 							result = instance.state.SELECTED;
-						} else if (isThisMyAttribute(element, next, "mixed")) {
+						} else if (nextResult === "mixed") {
 							result = instance.state.MIXED;
 						} else {
 							result = instance.state.DESELECTED;
@@ -515,10 +516,9 @@ const instance = {
 	 * @function module:wc/dom/shed.unsubscribe
 	 * @param {String} type The action you want to unsubscribe from (one of shed.actions)
 	 * @param {Function} subscriber The subscriber to unsubscribe.
-	 * @returns {Function} The result of {@link module:wc/dom/event#remove}
 	 */
 	unsubscribe: function (type, subscriber) {
-		return event.remove(document.body, type, subscriber);
+		event.remove(document.body, type, subscriber);
 	}
 };
 
@@ -533,8 +533,12 @@ Object.keys(actions).forEach(function(key) {
 	instance.events[eventName] = val;  // shed.events.wcselect = "select"
 });
 
-
-
+/**
+ *
+ * @param {HTMLElement} element
+ * @param STATE
+ * @param reverse
+ */
 function disabledMandatoryHelper(element, STATE, reverse) {
 	const _nativeState = NATIVE_STATE[STATE],
 		_ariaState = ARIA_STATE[STATE],
@@ -629,8 +633,8 @@ function expandWithOpen(element) {
  *
  * @function
  * @private
- * @param {HTMLElement|HTMLSelectElement} element The element to be manipulated.
- * @param {boolean} [value] true if the item is to be selected, explicitly false if it is to be deselcted if
+ * @param {HTMLInputElement|HTMLSelectElement} element The element to be manipulated.
+ * @param {boolean} [value] true if the item is to be selected, explicitly false if it is to be deselected if
  *    neither true nor false then the selected state will not be modified at all
  * @param {boolean} [mix] If true then the checkbox will be set to "indeterminate". Only relevant when all
  * the following are true:
@@ -638,7 +642,7 @@ function expandWithOpen(element) {
  *  * element is a checkbox (or has checkbox role); and
  *  * value is false.
  *
- * @returns {(Boolean|int)} A property of {@link module:wc/dom/shed.state} or null if it does not
+ * @returns {(Boolean|number)} A property of {@link module:wc/dom/shed.state} or null if it does not
  *     natively support a selected state. Note that that mixed (indeterminate) and checked is ignored.
  */
 function getSetNativeSelected(element, value, mix) {
@@ -657,7 +661,7 @@ function getSetNativeSelected(element, value, mix) {
 			element[attribute] = false;
 			element.removeAttribute(attribute);
 			if (attribute === CHECKED) {
-				element.indeterminate = !!mix;
+				element["indeterminate"] = !!mix;
 			}
 			/*
 			 * This is for a well known browser which takes an interesting direction when
@@ -669,13 +673,13 @@ function getSetNativeSelected(element, value, mix) {
 					const selectElement = element.closest("select");
 					selectElement.selectedIndex = 0;  // this is the default in other browsers
 				} else if (attribute === CHECKED) {  // this appears to be fixed in IE8, so I moved it to the second test
-					element.checked = false;
+					element["checked"] = false;
 					element[attribute] = false;
 					// delete element[attribute];  // don't do this, it breaks webkit
 				}
 			}
 		}
-		if (element.indeterminate) {
+		if (element["indeterminate"]) {
 			result = instance.state.MIXED;
 		} else {
 			result = !!element[attribute];
@@ -738,9 +742,9 @@ function showWithOpen(element) {
  *
  * @function
  * @private
- * @param {HTMLElement|HTMLInputElement} element The element which we will act on.
+ * @param {HTMLElement} element The element which we will act on.
  * @param {String} attribute The attribute to set on the element.
- * @param {String} [action] The value of the attribute to set.
+ * @param {string|boolean|number} [action] The value of the attribute to set.
  */
 function shedHelper(element, attribute, action) {
 
@@ -749,9 +753,9 @@ function shedHelper(element, attribute, action) {
 		action = action ? null : OPEN;
 	}
 	setMyAttribute(element, attribute, action);
-	if (element.form) {
+	if (getForm(element, true)) {
 		const labels = getLabelsForElement(element, true);
-		let i = labels.length
+		let i = labels.length;
 		if (i) {
 			while (i--) {
 				setMyAttribute(labels[i], attribute, action);
@@ -773,7 +777,7 @@ function shedHelper(element, attribute, action) {
  *
  * @function
  * @private
- * @param {(Boolean|int)} action A property of {@link module:wc/dom/shed.state} SELECTED, DESELECTED or MIXED.
+ * @param {string|boolean|number} action A property of {@link module:wc/dom/shed.state} SELECTED, DESELECTED or MIXED.
  * @param {HTMLElement} element The element to which we apply the state.
  */
 function selectHelper(action, element) {
@@ -783,9 +787,7 @@ function selectHelper(action, element) {
 	if (role && !(impliedAria.supportsNativeState(element, ANY_SEL_STATE))) {
 		const supported = aria.getSupported(role);
 		// If there is a required attribute use that one
-		let preferred = ARIA_STATE[SELECTED].filter(function(attr) {
-			return supported[attr] === aria.REQUIRED;
-		});
+		let preferred = ARIA_STATE[SELECTED].filter(attr => supported[attr] === aria.REQUIRED);
 		if (!preferred.length) {
 			// If there is a supported attribute which is SET then use that one
 			preferred = ARIA_STATE[SELECTED].filter(function(attr) {
@@ -793,9 +795,7 @@ function selectHelper(action, element) {
 			});
 			if (!preferred.length) {
 				// Otherwise get a list of supported "select" attributes
-				preferred = ARIA_STATE[SELECTED].filter(function(attr) {
-					return supported[attr] === aria.SUPPORTED;
-				});
+				preferred = ARIA_STATE[SELECTED].filter((attr) => supported[attr] === aria.SUPPORTED);
 			}
 		}
 		const len = Math.min(preferred.length, 1);  // we only want to use the first attribute we found above
@@ -808,35 +808,15 @@ function selectHelper(action, element) {
 }
 
 /**
- * Tests if this element has an attribute which matches the provided value.
- *
- * @function
- * @private
- * @param {HTMLElement} element The element to test.
- * @param {string} attribute The name of the attribute to check.
- * @param {string|number|boolean} value The value to check.
- * @returns {(null|boolean)} true if the element has the attribute and the value matches;
- *    false if the element has the attribute and the value does not match; or
- *    null if the element does not have the attribute at all
- */
-function isThisMyAttribute(element, attribute, value) {
-	let result = element.getAttribute(attribute);
-	if (result !== null) {
-		result = (value.toString() === result);
-	}
-	return result;
-}
-
-/**
  * Event to observer API adapter factory.
  * This returns event handler wrappers that adapt from the new custom event API to the old pub/sub API.
  * We should delete this when all subscribers are listening to custom events (i.e. you delete shed.subscribe).
+ * @param {function} subscriber
  * @returns {function} Intercepts custom events and calls the subscriber in the old way.
  */
 function eventToObserverAdapter(subscriber) {
-	return function($event) {
-		subscriber($event.target, $event.detail.action);
-	};
+	/** @param {CustomEvent} $event */
+	return ($event) => subscriber($event.target, $event.detail.action);
 }
 
 export default instance;

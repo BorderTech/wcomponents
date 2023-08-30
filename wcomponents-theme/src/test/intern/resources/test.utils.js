@@ -17,7 +17,7 @@ define([], function() {
 			parentRequire(["wc/ajax/ajax", "wc/dom/event", "wc/fixes", "wc/i18n/i18n"], function (a, evt, f, i18n) {
 				ajax = a;
 				event = evt;
-				i18n.initialize().then(function() {
+				i18n.translate().then(function() {
 					callback(instance);
 				});
 			});

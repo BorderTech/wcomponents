@@ -24,14 +24,14 @@ const elementGroup = {};
  * defines a group (for example a select).
  *
  * @function module:wc/dom/group.get
- * @param {Element} element An element which belongs to (or defines) the group. BEWARE OF AMBIGUOUS
+ * @param {HTMLElement} element An element which belongs to (or defines) the group. BEWARE OF AMBIGUOUS
  *    CONTAINERS. Think about it, if you pass a fieldset or a "menu" to this function what do you expect to
  *    get as the group? For example an element with role of "menu" could contain menuitems, menuitemradios
  *    or menuitemcheckboxes. Amibiguous contains will currently return as a group ALL of the possible
  *    matches, for example if you pass a menu the result may contain a mix of all different types mentioned
  *    above.
  * @param {Boolean} [ignoreInnerGroups] see {@link module:wc/dom/ariaGroup.getGroup}
- * @returns {Element[]} An array containing the members of this dom group. If the element is not part of
+ * @returns {HTMLElement[]} An array containing the members of this dom group. If the element is not part of
  *    any group the array is empty.
  */
 elementGroup.get = function (element, ignoreInnerGroups) {
@@ -70,11 +70,11 @@ elementGroup.get = function (element, ignoreInnerGroups) {
  * (by being descendants of the container) BUT NOT explicitly (using the "aria-owns" attribute).
  *
  * @function module:wc/dom/group.getGroup
- * @param {Element} element The container/owner itself unless containerWd is specified in which case any
+ * @param {HTMLElement} element The container/owner itself unless containerWd is specified in which case any
  *    descendant of a container/owner.
  * @param {module:wc/dom/Widget|string} itemWd The widget that describes the items in the group
  * @param {module:wc/dom/Widget|string} [containerWd] A widget that describes a group container.
- * @returns {Element[]} An array of elements in the group.
+ * @returns {HTMLElement[]} An array of elements in the group.
  * @todo This is used rather than this.get when we start at a known group container (such as a fieldset or
  * a known ARIA container) but the naming is a bit ambiguous. Maybe we should change it?
  */
@@ -138,19 +138,19 @@ function getNativeGroup(element) {
 	if (element.tagName) {
 		if (element.matches("input[type='radio'], input[type='checkbox']")) {
 			if (element.hasAttribute("name")) {
-				group = document.getElementsByName(element.getAttribute("name"));
+				group = Array.from(document.getElementsByName(element.getAttribute("name")));
 			}
-		} else if (element.matches("select")) {
-			group = element.options;
+		} else if (element instanceof HTMLSelectElement) {
+			group = Array.from(element.options);
 		} else if (element.matches("optgroup")) {
-			group = element.querySelectorAll("option");
+			group = Array.from(element.querySelectorAll("option"));
 		} else if (element.matches("option")) {
 			let container = elementGroup.getContainer(element);
 			if (container) {
 				group = elementGroup.get(container);
 			}
 		} else if (element.matches("tbody")) {  // yes a tbody is a grouping element for trs
-			group = element.querySelectorAll("tr");
+			group = Array.from(element.querySelectorAll("tr"));
 		}
 	}
 	return group || [];

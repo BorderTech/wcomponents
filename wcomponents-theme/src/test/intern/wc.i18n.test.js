@@ -34,7 +34,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				}
 			},
 			testGet: function() {
-				return i18n.initialize().then(function() {
+				return i18n.translate().then(function() {
 					/*
 					 * In this test we simply test that we are getting a message when we ask
 					 * for one that we know exists.
@@ -45,7 +45,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				});
 			},
 			testGetWithFormattingArgs: function() {
-				return i18n.initialize().then(function() {
+				return i18n.translate().then(function() {
 					/*
 					 * In this test we chose a message that accepts at least one printf arg
 					 * and check that it is inserted into the string.
@@ -59,7 +59,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				});
 			},
 			testGetWithSuperfluousFormattingArgs: function() {
-				return i18n.initialize().then(function() {
+				return i18n.translate().then(function() {
 					/*
 					 * In this test we chose a message that doesn't accept a printf arg,
 					 * pass it one anyway, and check that it is not inserted into the string.
@@ -73,7 +73,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				});
 			},
 			testGetNoMessageFoundReturnsKey: function() {
-				return i18n.initialize().then(function() {
+				return i18n.translate().then(function() {
 					/*
 					 * In this test we test that the key is returned when we
 					 * ask for a message that does not exist.
@@ -84,7 +84,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				});
 			},
 			testGetWithFormattingArgsAndZero: function() {
-				return i18n.initialize().then(function() {
+				return i18n.translate().then(function() {
 					/*
 					 * This test checks that primative zero is accepted as an arg.
 					 * This is based on a real-world defect we encountered.

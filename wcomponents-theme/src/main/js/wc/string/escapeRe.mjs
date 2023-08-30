@@ -11,7 +11,7 @@ const RE_RE = /([.*+?^{}$()|[\]/\\])/g,
  *
  * @function module:wc/string/escapeRe
  * @param {String} string The string in which we wish to escape regex characters.
- * @param {Boolean} allowWildcard If true asterisk will not be escaped, it will be replaced with ".*" meaning it
+ * @param {Boolean} [allowWildcard] If true asterisk will not be escaped, it will be replaced with ".*" meaning it
  *    will be converted to a wildcard match.
  * @returns {String} The escaped string
  * @example escapeRe("kungfu*");// returns "kungfu\*"

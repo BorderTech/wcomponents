@@ -13,7 +13,7 @@ const
  *
  * @function buildBitMask
  * @private
- * @param {Array} keys An array of strings that will become the keys of the bitmask.
+ * @param {Array<string>} keys An array of strings that will become the keys of the bitmask.
  * @returns {Object} An object where the strings in the array form the properties and each property has a value
  *    which is a bitmask.
  * @see {@link module:wc/dom/getFilteredGroup.FILTERS} for the supported options.
@@ -51,14 +51,14 @@ function buildBitMask(keys) {
  *         filter:getFilteredGroup.FILTERS.selected + getFilteredGroup.FILTERS.disabled
  *     });
  *
- * @param {Element|Element[]} element An element which belongs to (or defines) the group OR the group itself as
+ * @param {HTMLElement|HTMLElement[]} element An element which belongs to (or defines) the group OR the group itself as
  *    an array.
  * @param {module:wc/dom/getFilteredGroup~config} [config] Arguments to tweak the default behavior of this
  *    function.
- * @returns {(Element[]|module:wc/dom/getFilteredGroup~groupAsObject)} A nullable array of elements which match
+ * @returns {HTMLElement[]|{ filtered: HTMLElement[], unfiltered: HTMLElement[] }} A nullable array of elements which match
  *    the filters (or are "selected" if no custom filter supplied); or an object encapsulating both the filtered
  *    and unfiltered groups.
- * @throws {TypeError} Throws a TypeError if element is false-y.
+ * @throws {TypeError} Throws a TypeError if element is falsy.
  */
 function getFilteredGroup(element, config = {}) {
 	let result, filter,
@@ -72,11 +72,12 @@ function getFilteredGroup(element, config = {}) {
 				let nextMask = positive + negative;  // combine flags that relate to this property
 				let flags = filter & nextMask;  // extract the relevant flags from the provided filter
 				if (flags && flags !== nextMask) {  // if one flag is set (but not BOTH flags)
-					let reverse = !!(flags & negative);  // do we need to reverse the results from SHED?
-					_result = reverse ^ shed[SHED_FILTERS[Math.floor(i / 2)]](el, shedAttributeOnly);
+					// eslint-disable-next-line no-extra-boolean-cast
+					let reverse = !!(flags & negative) ? 1 : 0;  // do we need to reverse the results from SHED?
+					_result = !!(reverse ^ shed[SHED_FILTERS[Math.floor(i / 2)]](el, shedAttributeOnly));
 				}
 			}
-			return !!_result;  // XOR returns a bitmask not === true
+			return _result;
 		};
 	if (element) {
 		let group;
@@ -113,10 +114,9 @@ function getFilteredGroup(element, config = {}) {
  * An object each property of which is a bitmask representing one of the available filters. These are then used
  * to build a filter property to pass in the configuration object {@link module:wc/dom/getFilteredGroup~config}.
  *
- * @var module:wc/dom/getFilteredGroup.FILTERS
  * @public
  * @static
- * @type {Object}
+ * @typedef {Object} getFilteredGroup.FILTERS
  * @property {number} selected Used to filter for members of the group in any selected state.
  * @property {number} deselected Used to filter for members of the group in any deselected state.
  * @property {number} disabled Used to filter for members of the group in a disabled state.
@@ -132,25 +132,17 @@ export default getFilteredGroup;
 
 /**
  * @typedef {Object} module:wc/dom/getFilteredGroup~config
- * @property {boolean} [asObject] If true return an Object: {module:wc/dom/getFilteredGroup~groupAsObject}.
- * @property {module:wc/dom/Widget|string} [itemWd] Describes the type of item you are looking for. This
+ * @property {boolean} [asObject] If true return an Object: {{ filtered: HTMLElement[], unfiltered: HTMLElement[] }}.
+ * @property {string} [itemWd] Describes the type of item you are looking for. This
  *    only works if the "element" parameter is a container (not an item itself and not an array). It is useful
  *    when you have a container which could contain any sort of item (like a form or a fieldset) and you want to
  *    find all selected items of a given type within that container.
- * @property {module:wc/dom/Widget|string} [containerWd] Describes the group container.
- * @property {number} [filter={module:wc/dom/getFilteredGroup.FILTERS}#selected] Bitmask comprised of flags in
- *    {@link module:wc/dom/getFilteredGroup.FILTERS} If not provided the mask will default to "selected". Note
+ * @property {string} [containerWd] Describes the group container.
+ * @property {getFilteredGroup.FILTERS} [filter] Bitmask comprised of flags in
+ *    {@link getFilteredGroup.FILTERS} If not provided the mask will default to "selected". Note
  *    that setting BOTH flags for a given property (e.g. hidden + visible) is the same as setting NEITHER of the
  *    flags so don't bother.
  * @property {boolean} shedAttributeOnly If true use only the simple attribute test in shedFilters (at present
  *    this applies only to isHidden).
- */
-
-/**
- * The return type when set as an object.
- * @typedef {Object} module:wc/dom/getFilteredGroup~groupAsObject
- * @property {Element[]} filtered The filtered group; may be empty but will always be an array.
- * @property {Element[]} unfiltered The whole group from which the filtered group was extracted; may be empty
- *    but will always be an array.
  */
 

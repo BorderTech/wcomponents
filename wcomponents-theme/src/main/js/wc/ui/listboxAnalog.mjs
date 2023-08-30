@@ -3,14 +3,13 @@ import initialise from "wc/dom/initialise";
 import focus from "wc/dom/focus";
 import getFilteredGroup from "wc/dom/getFilteredGroup";
 import shed from "wc/dom/shed";
-import textContent from "wc/dom/textContent";
 
 let instance;
 
 /**
  * @constructor
  * @alias module:wc/ui/listboxAnalog~ListboxAnalog
- * @extends module:wc/dom/ariaAnalog~AriaAnalog
+ * @extends AriaAnalog
  * @private
  */
 function ListboxAnalog() {
@@ -21,14 +20,12 @@ function ListboxAnalog() {
 	 * @returns {Boolean} always true for this analog.
 	 * @override
 	 */
-	this.selectOnNavigate = function() {
-		return true;
-	};
+	this.selectOnNavigate = () => true;
 	/**
 	 * The selection mode is mixed: list boxes may be single or multiple as per select elements.
 	 * @var
 	 * @protected
-	 * @type int
+	 * @type {number}
 	 * @override
 	 */
 	this.exclusiveSelect = this.SELECT_MODE.MIXED;
@@ -70,28 +67,27 @@ function ListboxAnalog() {
 	 *
 	 * @function
 	 * @private
-	 * @param {Element} listbox The container for the list of options, already calculated in the calling
+	 * @param {HTMLElement} listbox The container for the list of options, already calculated in the calling
 	 *     function so just passed through for convenience.
-	 * @param {Element} start The element from which we start the search. This will not return even if
+	 * @param {HTMLElement} start The element from which we start the search. This will not return even if
 	 *     it starts with the character we want.
 	 * @param {String} keyName The character we are searching for.
-	 * @returns {Element} The next available option which starts with keyName (if any), or undefined.
+	 * @returns {HTMLElement} The next available option which starts with keyName (if any), or undefined.
 	 */
 	function getTextTarget(listbox, start, keyName) {
-		var options = instance.getAvailableOptions(listbox),
-			result,
-			startIdx = options.indexOf(start), i, next, txt;
-
+		const options = instance.getAvailableOptions(listbox),
+			startIdx = options.indexOf(start);
+		let result;
 		if (startIdx > -1) {
-			for (i = startIdx + 1; i < options.length; ++i) {
-				next = options[i];
-				if ((txt = textContent.get(next)) && txt[0].toLocaleLowerCase() === keyName) {
+			for (let i = startIdx + 1; i < options.length; ++i) {
+				let next = options[i];
+				let txt = next.textContent;
+				if (txt && txt[0].toLocaleLowerCase() === keyName) {
 					result = next;
 					break;
 				}
 			}
 		}
-
 		return result;
 	}
 
@@ -100,12 +96,11 @@ function ListboxAnalog() {
 	 * @param {KeyboardEvent} $event
 	 */
 	this.keydownEvent = function($event) {
-		var PRINTABLE_RE = /[ -~]/,
+		const PRINTABLE_RE = /[ -~]/,
 			keyCode = $event.key,
-			target = $event.target,
-			listbox;
+			target = $event.target;
 		this.constructor.prototype.keydownEvent.call(this, $event);
-		if ($event.defaultPrevented) {
+		if ($event.defaultPrevented || !(target instanceof HTMLElement)) {
 			return;
 		}
 
@@ -117,11 +112,11 @@ function ListboxAnalog() {
 		if (keyCode.length === 1 && PRINTABLE_RE.test(keyCode)) {
 
 			/* printable char pressed: find the next matching option */
-			listbox = target.closest(this.CONTAINER);
-			if (listbox) {
-				target = getTextTarget(listbox, target, keyCode.toLocaleLowerCase());
+			const listbox = target.closest(this.CONTAINER);
+			if (listbox && listbox instanceof  HTMLElement) {
+				const element = getTextTarget(listbox, target, keyCode.toLocaleLowerCase());
 				if (target) {
-					focus.setFocusRequest(target);
+					focus.setFocusRequest(element);
 				}
 			}
 		}
@@ -133,11 +128,16 @@ function ListboxAnalog() {
 	 * @function
 	 * @alias module:wc/ui/listboxAnalog.getAvailableOptions
 	 * @public
-	 * @param {Element} listbox an instance of a listbox
-	 * @returns {Element[]} the available options in listbox
+	 * @param {HTMLElement} listbox an instance of a listbox
+	 * @returns {HTMLElement[]} the available options in listbox
 	 */
 	this.getAvailableOptions = function(listbox) {
-		return getFilteredGroup(listbox, {filter: (getFilteredGroup.FILTERS.visible|getFilteredGroup.FILTERS.enabled), containerWd: this.CONTAINER, itemWd: this.ITEM, shedAttributeOnly: true});
+		return getFilteredGroup(listbox, {
+			filter: (getFilteredGroup.FILTERS.visible|getFilteredGroup.FILTERS.enabled),
+			containerWd: this.CONTAINER,
+			itemWd: this.ITEM,
+			shedAttributeOnly: true
+		});
 	};
 
 	/**
@@ -146,11 +146,15 @@ function ListboxAnalog() {
 	 * @function
 	 * @alias module:wc/ui/listboxAnalog.clearAllOptions
 	 * @public
-	 * @param {Element} listbox an instance of a listbox
+	 * @param {HTMLElement} listbox an instance of a listbox
 	 */
 	this.clearAllOptions = function(listbox) {
-		var options;
-		if (listbox && (options = getFilteredGroup(listbox, {containerWd: this.CONTAINER, itemWd: this.ITEM, shedAttributeOnly: true}))) {
+		const options = listbox ? getFilteredGroup(listbox, {
+			containerWd: this.CONTAINER,
+			itemWd: this.ITEM,
+			shedAttributeOnly: true
+		}): null;
+		if (options) {
 			options.forEach(function(next) {
 				shed.deselect(next, true);  // do not publish they are already hidden and are not important for anything else.
 				next.tabIndex = 0;
@@ -165,14 +169,14 @@ function ListboxAnalog() {
 	 * @function
 	 * @alias module:wc/ui/listboxAnalog.getOptionValue
 	 * @public
-	 * @param {Element} option the option in which we are interested
+	 * @param {HTMLElement} option the option in which we are interested
 	 * @param {boolean} [lowerCase] if true return a lowercase version of the value
 	 * @param {boolean} [forceText] if true get the textContent in preference to the value
 	 * @returns {String} the value of the option.
 	 */
 	this.getOptionValue = function (option, lowerCase, forceText) {
-		var txt = forceText ? textContent.get(option) :
-			(option.hasAttribute(this.VALUE_ATTRIB) ? option.getAttribute(this.VALUE_ATTRIB) : textContent.get(option));
+		const txt = forceText ? option.textContent :
+			(option.hasAttribute(this.VALUE_ATTRIB) ? option.getAttribute(this.VALUE_ATTRIB) : option.textContent);
 		return lowerCase ? txt.toLocaleLowerCase() : txt;
 	};
 }

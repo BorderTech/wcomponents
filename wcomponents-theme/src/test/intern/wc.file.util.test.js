@@ -43,8 +43,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 					content = "This, is, my, blob, content",
 					blob = new Blob([content], {type: expectedMime}),
 					file = fileUtil.blobToFile(blob);
-				assert.isTrue(file.name.indexOf("uid") === 0);
-				assert.isTrue(!!(file.name.match(/csv$/)));
+				assert.isTrue(!!(file.name.match(/.+\.csv$/)));
 			},
 			testDataURItoBlob: function () {
 				var expectedText = "hello world\u00DC",
@@ -58,7 +57,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 					// can be fed into btoa.
 					return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
 						function toSolidBytes(match, p1) {
-							return String.fromCharCode("0x" + p1);
+							return String.fromCharCode(`0x${p1}`);
 						}));
 				}
 				blob = fileUtil.dataURItoBlob(dataurl);

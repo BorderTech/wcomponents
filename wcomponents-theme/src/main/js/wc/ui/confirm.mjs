@@ -18,9 +18,10 @@ const cancelButtonSelector = cancelButton.getWidget();
  */
 function clickEvent($event) {
 	const { target, defaultPrevented } = $event;
-	if (defaultPrevented) {
+	if (defaultPrevented || !(target instanceof HTMLElement)) {
 		return;
 	}
+	/** @type HTMLButtonElement */
 	const element = target.closest(confirmSelector);
 	if (element && !element.matches(cancelButtonSelector) && focus.canFocus(element)) {
 		const message = element.getAttribute("data-wc-btnmsg");

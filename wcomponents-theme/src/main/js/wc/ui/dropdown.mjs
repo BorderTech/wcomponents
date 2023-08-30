@@ -1,5 +1,4 @@
 import group from "wc/dom/group";
-import tag from "wc/dom/tag";
 import shed from "wc/dom/shed";
 
 /**
@@ -14,7 +13,7 @@ const instance = {
 	 * @param {String} value the value of the option to select.
 	 */
 	setSelectionByValue: function(element, value) {
-		if (element && element.tagName === tag.SELECT) {
+		if (element && element.matches("select")) {
 			const _group = group.get(element);
 			for (const option of _group) {
 				if (option.value === value || option.text === value) {

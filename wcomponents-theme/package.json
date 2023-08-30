@@ -3,6 +3,7 @@
 	"version": "1.5.30-SNAPSHOT",
 	"description": "Client side code for WComponents UI tool kit.",
 	"private": true,
+	"type": "module",
 	"com_github_bordertech": {
 		"description": "Custom config here. JSON has no comment syntax, argh!",
 		"testMinOrMax": "min"

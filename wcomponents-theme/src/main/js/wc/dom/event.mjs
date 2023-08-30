@@ -254,7 +254,10 @@ const instance = {
 	 * @function module:wc/dom/event.fire
 	 * @param {HTMLElement} element The element to fire the event on.
 	 * @param {string} $event The event to fire (eg 'click')
-	 * @param options bubbles, cancelable, detail (for custom events).
+	 * @param {Object} [options]
+	 * @param {boolean} [options.bubbles]
+	 * @param {boolean} [options.cancelable]
+	 * @param {string} [options.detail] for custom events
 	 * @returns {Boolean} Should probably be undefined: use defaultPrevented to check if an event has ceased.
 	 */
 	fire: function (element, $event, options) {
