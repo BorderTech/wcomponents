@@ -781,8 +781,8 @@ function shedHelper(element, attribute, action) {
  * @param {HTMLElement} element The element to which we apply the state.
  */
 function selectHelper(action, element) {
-		const role = $role.get(element, true),
-			mixed = (action === instance.state.MIXED);
+	const role = $role.get(element, true),
+		mixed = (action === instance.state.MIXED);
 
 	if (role && !(impliedAria.supportsNativeState(element, ANY_SEL_STATE))) {
 		const supported = aria.getSupported(role);

@@ -16,11 +16,11 @@ import debounce from "wc/debounce";
 const ns = uid();
 
 let config = {
-		textTrumpsValue: true,
-		minLenSubstring: 3,
-		minLenVal: 1,
-		debounceDelay: 125  // making this too long can be counter-productive
-	};
+	textTrumpsValue: true,
+	minLenSubstring: 3,
+	minLenVal: 1,
+	debounceDelay: 125  // making this too long can be counter-productive
+};
 
 const selectionChanged = debounce(function(element) {
 		// programatically changing the select will not fire change so we gots to do it ourselves
@@ -218,27 +218,27 @@ const highlightSearch = debounce(/**
 	 * @param {string} search The string to search for
 	 */
 	function (element, search) {
-	let match;
-	if (search) {
-		if (config.textTrumpsValue) {
-			match = getMatchByText(element, search) || getMatchByValue(element, search);
-		} else {
-			match = getMatchByValue(element, search) || getMatchByText(element, search);
-		}
+		let match;
+		if (search) {
+			if (config.textTrumpsValue) {
+				match = getMatchByText(element, search) || getMatchByValue(element, search);
+			} else {
+				match = getMatchByValue(element, search) || getMatchByText(element, search);
+			}
 
-		if (match) {
-			getSearchElement().classList.remove(CLASS_NOT_FOUND);
-			selectMatch(element, match);
-		} else {
-			getSearchElement().classList.add(CLASS_NOT_FOUND);
+			if (match) {
+				getSearchElement().classList.remove(CLASS_NOT_FOUND);
+				selectMatch(element, match);
+			} else {
+				getSearchElement().classList.add(CLASS_NOT_FOUND);
+			}
+		} else if (search === "") {
+			// we have previously searched and have backspaced to an empty string
+			if ((match = getMatchByValue(element, search)) && !shed.isSelected(match)) {
+				selectMatch(element, match);
+			}
 		}
-	} else if (search === "") {
-		// we have previously searched and have backspaced to an empty string
-		if ((match = getMatchByValue(element, search)) && !shed.isSelected(match)) {
-			selectMatch(element, match);
-		}
-	}
-}, config.debounceDelay);
+	}, config.debounceDelay);
 
 /**
  * select the matching element or first option if empty match string
@@ -271,7 +271,7 @@ function getOptions(element) {
  * @returns {HTMLOptionElement} The matching option element if found
  */
 function getMatchByText(element, search) {
-	let containsRe, startsWithRe, result;
+	let containsRe, startsWithRe, result, length;
 
 	if (regexCache.starts.hasOwnProperty(search)) {
 		startsWithRe = regexCache.starts[search];
@@ -314,23 +314,19 @@ function getMatchByText(element, search) {
  * @returns {HTMLOptionElement} The matching option element if found
  */
 function getMatchByValue(element, search) {
-	var options,
-		length,
-		next,
-		nextVal,
-		i = 0,
-		result;
+	let result;
 	// allow for reset to null option if search is ""
 	if (search === "" || search.length >= config.minLenVal) {
 		if (search !== "") {
 			search = search.toLocaleLowerCase();
 		}
-		options = getOptions(element);
-		length = options.length;
-		while (i < length) {
-			next = options[i];
+		const options = getOptions(element);
+		let i = 0;
+		while (i < options.length) {
+			let next = options[i];
 			i++;
-			if ((nextVal = next.getAttribute("value")) || nextVal === "") {
+			let nextVal = next.getAttribute("value");
+			if (nextVal || nextVal === "") {
 				nextVal = nextVal.toLocaleLowerCase();
 				if (nextVal === search) {
 					result = next;
@@ -346,13 +342,16 @@ function getMatchByValue(element, search) {
  * "Close" the little box thingy that shows what you have typed so far
  */
 function closeSearch() {
-	var search = getSearchElement();
+	const search = getSearchElement();
 	search.textContent = "";
 	if (!shed.isHidden(search, true)) {
 		hideSearch(search);
 	}
 }
 
+/**
+ * @param {HTMLElement} search
+ */
 function hideSearch(search) {
 	search.classList.remove(CLASS_NOT_FOUND);
 	shed.hide(search);

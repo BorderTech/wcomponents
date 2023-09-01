@@ -38,9 +38,11 @@ const instance = {
 	 * Do the redirect. The intended use case is to launch custom protocols or attachments on page load.
 	 * @param {String} url The url to redirect to.
 	 */
-	register: url => { if (url) {
-		doRedirect(url);
-	}},
+	register: url => {
+		if (url) {
+			doRedirect(url);
+		}
+	},
 
 	/**
 	 * Tries to determine if this URL will launch another application (attachment or pseudo protocol) or

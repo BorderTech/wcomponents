@@ -52,7 +52,7 @@
 	</xsl:template>
 
 	<xsl:template match="ui:message">
-		<div class="wc-message">
+		<div is="wc-message">
 			<xsl:apply-templates />
 		</div>
 	</xsl:template>

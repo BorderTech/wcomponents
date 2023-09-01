@@ -155,7 +155,7 @@ const instance = {
 	 * event. NOTE: we no longer support dom0 binding: get over it.
 	 *
 	 * @function module:wc/dom/event.add
-	 * @param {HTMLElement} element The element to which the event listener will be associated.
+	 * @param {HTMLElement|global} element The element to which the event listener will be associated.
 	 * @param {string} eventArgs.type The type of event (eg 'click', 'focus' NOT 'onclick', 'onfocus')
 	 * @param {Function} eventArgs.listener The event listener that will be called on the event
 	 * @param {number} [eventArgs.pos] positive number = runs later, negative number = runs earlier

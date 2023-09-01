@@ -102,9 +102,8 @@ const instance = {
 	 * @public
 	 * @returns {string}
 	 */
-	getWrapper: () => wrapperSelector,
-
-}
+	getWrapper: () => wrapperSelector
+};
 
 initialise.register({
 	/**

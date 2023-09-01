@@ -20,10 +20,10 @@ import uid from "wc/dom/uid";
 import table from "wc/ui/table/common";
 import rowAnalog from "wc/ui/rowAnalog";
 import processResponse from "wc/ui/ajax/processResponse";
-import getFirstLabelForElement from "wc/ui/getFirstLabelForElement";
 import i18n from "wc/i18n/i18n";
 import icon from "wc/ui/icon";
 import checkBox from "wc/ui/checkBox";
+import getLabelsForElement from "wc/dom/getLabelsForElement";
 import "wc/ui/checkboxAnalog";
 import "wc/ui/radioAnalog";
 
@@ -188,7 +188,7 @@ function getGroup(controller) {
 		return null;
 	}
 	let candidates;
-	const targetElement = document.getElementById(targetId)
+	const targetElement = document.getElementById(targetId);
 	if (targetElement) {
 		if (targetElement.matches(checkboxSelector)) {
 			const groupName = targetElement.getAttribute("data-wc-group");
@@ -222,12 +222,12 @@ function getGroup(controller) {
  *
  * @function
  * @private
- * @param {Element} trigger The select toggle trigger element.
+ * @param {HTMLElement} trigger The select toggle trigger element.
  * @returns {?number} The number of items affected by this activation. This is needed to prevent a double
  * activation of a SUB_CONTROLLER from erroneously setting the sub-controllers state.
  */
 function activateTrigger(trigger) {
-	const _group = getControlledElements(trigger);
+	let _group = getControlledElements(trigger);
 	if (_group?.length) {
 		let state;
 		if (trigger.matches(controllerCheckboxSelector) || !(state = trigger.getAttribute("data-wc-value"))) {
@@ -277,7 +277,7 @@ function activateTrigger(trigger) {
 		if (state === STATE.ALL) { // we have to allow "hidden" controls to be deslected but not selected.
 			groupFilter = groupFilter | getFilteredGroup.FILTERS.visible;
 		}
-		let _group = getFilteredGroup(_group, {filter: groupFilter});
+		_group = getFilteredGroup(_group, {filter: groupFilter});
 
 		_group = _group.filter(function (next) {
 			return !(next.matches(controllerSelector) || next.getAttribute("aria-readonly") === "true");
@@ -382,6 +382,7 @@ function controlStatusHelper(controller) {
 		// no grouped items means no controller to set state on.
 		return;
 	}
+	/** @type {HTMLElement[]} */
 	let selected;
 	if (controlledElements.length === 0) {
 		groupState = STATE.NONE;
@@ -439,7 +440,8 @@ function setControls() {
 }
 
 function setAriaLabelAttrib(element) {
-	let label = getFirstLabelForElement(element);
+	const labels = getLabelsForElement(element);
+	let label = labels.length ? labels[0] : null;
 	const elId = element.id;
 
 	if (!label) {
@@ -457,8 +459,8 @@ function setAriaLabelAttrib(element) {
 }
 
 function setTextEquivalent(element) {
-	const label = getFirstLabelForElement(element);
-
+	const labels = getLabelsForElement(element);
+	let label = labels.length ? labels[0] : null;
 	if (label) {
 		element.setAttribute("aria-labelledby", label.id);
 		return;

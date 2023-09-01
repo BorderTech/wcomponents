@@ -52,7 +52,7 @@ public class WFieldErrorIndicatorRenderer_Test extends AbstractWebXmlRendererTes
 		assertXpathEvaluatesTo("error", "//ui:fieldindicator/@type", root);
 		assertXpathEvaluatesTo(target.getId(), "//ui:fieldindicator/@for", root);
 		// Check Message
-		assertXpathEvaluatesTo("Test Error", "//ui:fieldindicator/ui:message", root);
+		assertXpathEvaluatesTo("Test Error", "//ui:fieldindicator/wc-message", root);
 	}
 
 	@Test

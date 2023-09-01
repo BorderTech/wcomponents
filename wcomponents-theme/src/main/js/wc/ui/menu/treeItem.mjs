@@ -160,7 +160,7 @@ function TreeItem() {
 	 */
 	this.activate = function(element, SHIFT, CTRL) {
 		const container = element.closest(this.CONTAINER.toString());
-		const multiSelect = container?.getAttribute("aria-multiselectable")
+		const multiSelect = container?.getAttribute("aria-multiselectable");
 		if (multiSelect) {
 			let selectMode;
 			try {

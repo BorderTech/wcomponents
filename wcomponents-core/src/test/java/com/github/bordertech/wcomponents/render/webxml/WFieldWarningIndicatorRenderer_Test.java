@@ -54,7 +54,7 @@ public class WFieldWarningIndicatorRenderer_Test extends AbstractWebXmlRendererT
 		assertXpathEvaluatesTo("warn", "//ui:fieldindicator/@type", root);
 		assertXpathEvaluatesTo(target.getId(), "//ui:fieldindicator/@for", root);
 		// Check Message
-		assertXpathEvaluatesTo("Test Warning", "//ui:fieldindicator/ui:message", root);
+		assertXpathEvaluatesTo("Test Warning", "//ui:fieldindicator/wc-message", root);
 	}
 
 	@Test

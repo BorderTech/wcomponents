@@ -15,7 +15,6 @@ import viewportUtils from "wc/ui/viewportUtils";
 import getForm from "wc/ui/getForm";
 import wcconfig from "wc/config";
 
-let instance;
 const subscriber = {
 		close: null
 	},
@@ -59,14 +58,151 @@ const template = context => `
 		</footer>
 	</dialog>`;
 
-/**
- * Get a dialog if one exists.
- * @function  module:wc/ui/dialogFrame.getDialog
- * @public
- * @returns {HTMLDialogElement} The dialog.
- */
-DialogFrame.prototype.getDialog = function() {
-	return document.getElementById(DIALOG_ID);
+const instance = {
+	/**
+	 * Get a dialog if one exists.
+	 * @function  module:wc/ui/dialogFrame.getDialog
+	 * @public
+	 * @returns {HTMLDialogElement} The dialog.
+	 */
+	getDialog: function() {
+		return /** @type {HTMLDialogElement} */ (document.getElementById(DIALOG_ID));
+	},
+
+	/**
+	 * Request a dialog be opened.
+	 *
+	 * @function module:wc/ui/dialogFrame.open
+	 * @public
+	 * @param {module:wc/ui/dialogFrame~dto} dto The config options for the dialog to be opened.
+	 * @returns {Promise} The promise will be a rejection if the dialog is not able to be opened.
+	 */
+	open: function (dto) {
+		const dialog = instance.getDialog();
+		let form;
+
+		if (dialog) {
+			if (!this.isOpen(dialog)) {
+				return openDlgHelper(dto);
+			}
+			return Promise.reject(REJECT.ALREADY_OPEN);
+		} else if ((form = getDlgForm(dto))) {
+			const formId = form.id || (form.id = uid());
+
+			if (formId) {
+				return buildDialog(formId).then(function () {
+					return openDlgHelper(dto);
+				});
+			}
+			return Promise.reject(REJECT.NO_FORM);
+		}
+		return Promise.reject(REJECT.UNKNOWN);
+	},
+
+	/**
+	 * Determine if the dialog is already open.
+	 * @param {HTMLDialogElement} [element] Optionally provide the dialog element.
+	 * @returns {boolean} true if the dialog is open.
+	 */
+	isOpen: function (element) {
+		const dialog = element || instance.getDialog();
+		return (dialog && !shed.isHidden(dialog, true));
+	},
+
+	/**
+	 * Remove all inline dimension styles from the dialog.
+	 *
+	 * @function module:wc/ui/dialogFrame.unsetAllDimensions
+	 * @public
+	 * @param {HTMLDialogElement} [dlg] The dialog wrapper element if known.
+	 */
+	unsetAllDimensions: function (dlg) {
+		const dialog = dlg || instance.getDialog();
+		if (dialog) {
+			dialog.style.width = "";
+			dialog.style.height = "";
+			dialog.style.margin = "";
+			positionable.clear(dialog);
+		}
+	},
+
+	reposition: debounce(/**
+		 * Ask to reposition a dialog frame (usually after Ajax).
+		 *
+		 * @function module:wc/ui/dialogFrame.reposition
+		 * @public
+		 * @param {number} [width] The width of the dialog.
+		 * @param {number} [height] The height of the dialog.
+		 * @param {boolean} [animate]
+		 */
+		(width, height, animate) => {
+			const dialog = instance.getDialog();
+			if (dialog && canMoveResize()) {
+				setPositionBySize(dialog, getResizeConfig(width, height), animate);
+			}
+		}, 100),
+
+	/**
+	 * Close a dialog frame.
+	 * @function module:wc/ui/dialogFrame.close
+	 * @public
+	 * @returns {boolean} true if there is a dialog to hide.
+	 */
+	close: function () {
+		const dialog = instance.getDialog();
+		if (dialog && this.isOpen(dialog)) {
+			shed.hide(dialog);
+			return true;
+		}
+		return false;
+	},
+
+	/**
+	 * Get the widget which describes a dialog frame.
+	 * @function module:wc/ui/dialogFrame.getWidget
+	 * @public
+	 * @returns {string} The selector describing a dialog frame.
+	 */
+	getWidget: function () {
+		return dialogSelector;
+	},
+
+	/**
+	 * Get the dialog content wrapper element.
+	 *
+	 * @function module:wc/ui/dialogFrame.getContent
+	 * @public
+	 * @returns {HTMLDialogElement} The content wrapper if present.
+	 */
+	getContent: function () {
+		const dialog = instance.getDialog();
+		if (dialog) {
+			return dialog.querySelector(dialogContentWrapperSelector);
+		}
+		return null;
+	},
+
+	/**
+	 * Reset the dialog content wrapper.
+	 *
+	 * @function module:wc/ui/dialogFrame.resetContent
+	 * @public
+	 * @param {Boolean} [keepContent] Do we want to reset the content of the dialog?
+	 * @param {String} [id] The id to set on the content.
+	 */
+	resetContent: function (keepContent, id) {
+		const content = this.getContent();
+
+		if (content) {
+			content.removeAttribute("data-wc-get");
+			content.id = id || "";
+			content.className = CONTENT_BASE_CLASS;
+
+			if (!keepContent) {
+				i18n.translate("loading").then(loadingText => content.innerHTML = loadingText);
+			}
+		}
+	}
 };
 
 /**
@@ -116,7 +252,7 @@ function hasBusyContent() {
  *
  * @function
  * @private
- * @param {wc/ui/dialogFrame~dto} [dto] The config options for the dialog (if any).
+ * @param {module:wc/ui/dialogFrame~dto} [dto] The config options for the dialog (if any).
  * @returns {HTMLFormElement} The form element.
  */
 function getDlgForm(dto) {
@@ -161,8 +297,8 @@ function openDlgHelper(dto) {
  * Helper for `openDlg`.
  * Applies the dialog "mode" either modal or non-modal.
  *
- * @param dialog The dialog container.
- * @param isModal Indicates if this dialog is modal.
+ * @param {HTMLDialogElement} dialog The dialog container.
+ * @param {boolean} isModal Indicates if this dialog is modal.
  * @private
  * @function
  */
@@ -182,7 +318,7 @@ function setModality(dialog, isModal) {
  *
  * @private
  * @function
- * @param {HTMLElement} dialog The dialog container.
+ * @param {HTMLDialogElement} dialog The dialog container.
  * @param {module:wc/ui/dialogFrame~dto} obj The registry item that contains configuration data for this dialog.
  */
 function reinitializeDialog(dialog, obj) {
@@ -235,7 +371,6 @@ function setUpMoveResizeControls(dialog) {
  */
 function setUnsetDimensionsPosition(dialog) {
 	let animationsDisabled;
-
 	try {
 		if (canMoveResize()) {
 			resizeable.resetSize(dialog);
@@ -249,7 +384,6 @@ function setUnsetDimensionsPosition(dialog) {
 			resizeable.restoreAnimation(dialog);
 		}
 	}
-
 }
 
 /**
@@ -278,6 +412,11 @@ function initDialogDimensions(dialog, obj) {
 	setUnsetDimensionsPosition(dialog);
 }
 
+/**
+ * @param {number} width
+ * @param {number} height
+ * @return {{width: number, height: number, topOffsetPC: number}}
+ */
 function getResizeConfig(width, height) {
 	const globalConf = wcconfig.get("wc/ui/dialogFrame", {});
 	let offset = INITIAL_TOP_PROPORTION;
@@ -293,7 +432,7 @@ function getResizeConfig(width, height) {
 			offset = globalConf.offset;
 		}
 	}
-	return { width: width, height: height, topOffsetPC: offset };
+	return { width, height, topOffsetPC: offset };
 }
 
 /**
@@ -342,10 +481,11 @@ function buildDialog(formId) {
 			const done = function () {
 					const dialog = instance.getDialog();
 					if (dialog) {
-						let headerTitle;
 						event.add(dialog, "keydown", keydownEvent);
+						/** @type {HTMLElement} */
 						const dialogHeader = dialog.querySelector(`:scope > ${headerSelector}`);
-						if (dialogHeader && (headerTitle = translations[3])) {
+						const headerTitle = dialogHeader ? translations[3] : "";
+						if (headerTitle) {
 							dialogHeader.title = headerTitle;
 						}
 						const resizeHandle = dialog.querySelector(resizeSelector);
@@ -376,7 +516,7 @@ function buildDialog(formId) {
 			}
 			try {
 				const html = template(dialogProps);
-				form.insertAdjacentHTML("beforeEnd", html);
+				form.insertAdjacentHTML("beforeend", html);  // yep, beforeend, not beforeEnd
 				done();
 			} catch (ex) {
 				lose();
@@ -388,7 +528,7 @@ function buildDialog(formId) {
 /**
  * If a dialog with content is inserted via ajax we have to unshim any existing dialog before we insert the
  * new one. NOTE: the duplicate id check in processResponse will remove the dialog itself during its insert
- * phase so we do not have to do that here.
+ * phase, so we do not have to do that here.
  *
  * @function
  * @private
@@ -401,7 +541,7 @@ function preOpenSubscriber(element, docFragment) {
 		if (docFragment.querySelector("#" + DIALOG_ID)) {
 			removeShim = true;
 		}
-	} else if (docFragment.getElementById && docFragment.getElementById(DIALOG_ID)) {
+	} else if (docFragment.getElementById && instance.getDialog()) {
 		removeShim = true;
 	}
 	let dialog;
@@ -432,16 +572,15 @@ function ajaxSubscriber(element) {
 	}
 }
 
-
 /**
  * Helper for reposition. Called from a timeout to reposition the dialog frame.
  * @function
  * @private
  * @param {HTMLDialogElement} element the dialog frame to reposition.
  * @param {Object} obj a description of the dialog.
- * @param {int} [obj.width] the dialog width
- * @param {int} [obj.height] the dialog height
- * @param {int} [obj.topOffsetPC] the offset from the top of the dialog
+ * @param {number} [obj.width] the dialog width
+ * @param {number} [obj.height] the dialog height
+ * @param {number} [obj.topOffsetPC] the offset from the top of the dialog
  * @param {boolean} animate If animation should be enabled.
  */
 function setPositionBySize(element, obj, animate) {
@@ -484,12 +623,12 @@ function initDialogControls(dialog, obj) {
  *
  * @function
  * @private
- * @param {CustomEvent} $event The hide event.
+ * @param {CustomEvent & { target: HTMLElement }} $event The hide event.
  */
-function shedHideSubscriber({ target: element}) {
+function shedHideSubscriber({ target }) {
 	let clearOpener;
 	try {
-		if (element && element.id === DIALOG_ID) {
+		if (target?.id === DIALOG_ID) {
 			clearOpener = true;
 			modalShim.clearModal();
 			// remove maximise from dialog so that the next dialog does not open maximised
@@ -500,12 +639,12 @@ function shedHideSubscriber({ target: element}) {
 			 * Maybe this should be added to the regObject so we can re-maximise on open on a dialog-by-dialog
 			 * basis.
 			 */
-			let control = element.querySelector(maxbuttonSelector);
+			let control = target.querySelector(maxbuttonSelector);
 			if (control && shed.isSelected(control)) {
 				shed.deselect(control);
 			}
-
-			if (instance._openerId && (control = document.getElementById(instance._openerId))) {
+			control = instance._openerId ? document.getElementById(instance._openerId) : null;
+			if (control) {
 				focus.setFocusRequest(control);
 			}
 			if (subscriber.close) {
@@ -526,11 +665,11 @@ function shedHideSubscriber({ target: element}) {
 }
 
 /**
- * Listen for shed.show and focus the dialog.
+ * Listen for `shed.show` and focus the dialog.
  *
  * @function
  * @private
- * @param {CustomEvent} $event The show event.
+ * @param {CustomEvent & { target: HTMLElement }} $event The show event.
  */
 function shedShowSubscriber({ target: element }) {
 	if (element && element === instance.getDialog()) {
@@ -543,11 +682,11 @@ function shedShowSubscriber({ target: element }) {
  *
  * @function
  * @private
- * @param {MouseEvent} $event a click event.
+ * @param {MouseEvent & { target: HTMLElement }} $event a click event.
  */
 function clickEvent($event) {
 	if (!$event.defaultPrevented && $event.target.closest(closeSelector)) {
-		const dialog = document.getElementById(DIALOG_ID);
+		const dialog = instance.getDialog();
 		if (dialog && instance.isOpen(dialog)) {
 			instance.close();
 			$event.preventDefault();
@@ -560,8 +699,8 @@ function clickEvent($event) {
  *
  * @function
  * @private
- * @param {Node} node The Node being tested.
- * @returns {Number} the NodeFilter value for the tested node.
+ * @param {HTMLElement} node The Node being tested.
+ * @returns {number} the NodeFilter value for the tested node.
  */
 function tabstopNodeFilter(node) {
 	return focus.isTabstop(node) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
@@ -580,7 +719,7 @@ function tabstopNodeFilter(node) {
 function tabKeyHelper(element, dialog, hasShift) {
 	let result = false;
 	if (!hasShift && isModalDialog(dialog)) {
-		const tw = document.createTreeWalker(dialog, NodeFilter.SHOW_ELEMENT, tabstopNodeFilter, false);
+		const tw = document.createTreeWalker(dialog, NodeFilter.SHOW_ELEMENT, tabstopNodeFilter);
 		tw.lastChild();
 		if (element === tw.currentNode) {
 			result = true;
@@ -591,23 +730,31 @@ function tabKeyHelper(element, dialog, hasShift) {
 }
 
 /**
- * Key down listener. Inplements key patterns as per http://www.w3.org/TR/wai-aria-practices/#dialog_modal
+ * Key down listener. Implements key patterns as per http://www.w3.org/TR/wai-aria-practices/#dialog_modal
  * and http://www.w3.org/TR/wai-aria-practices/#dialog_nonmodal.
  * @function
  * @private
- * @param {KeyboardEvent} $event A keydown event.
+ * @param {KeyboardEvent & { target: HTMLElement }} $event A keydown event.
  */
 function keydownEvent($event) {
-	const element = $event.target;
-	let dialog;
-	if (!$event.defaultPrevented && (dialog = document.getElementById(DIALOG_ID)) && instance.isOpen(dialog)) {
+	const {
+		target,
+		defaultPrevented,
+		code,
+		shiftKey
+	} = $event;
+	if (defaultPrevented) {
+		return;
+	}
+	const dialog = instance.getDialog();
+	if (dialog && instance.isOpen(dialog)) {
 		let result = false;
-		switch ($event.code) {
+		switch (code) {
 			case "Escape":
 				result = instance.close();
 				break;
 			case "Tab":
-				result = tabKeyHelper(element, dialog, $event.shiftKey);
+				result = tabKeyHelper(target, dialog, shiftKey);
 				break;
 			case "F6":
 				if (!isModalDialog(dialog) && instance._openerId) {
@@ -630,7 +777,7 @@ function keydownEvent($event) {
  * @private
  */
 const resizeEventHelper = debounce(() => {
-	const dialog = document.getElementById(DIALOG_ID);
+	const dialog = instance.getDialog();
 
 	if (!dialog || !instance.isOpen(dialog)) {
 		return;
@@ -650,172 +797,6 @@ function resizeEvent({ defaultPrevented }) {
 	if (!defaultPrevented) {
 		resizeEventHelper();
 	}
-}
-
-/**
- * @constructor
- * @alias module:wc/ui/dialogFrame~DialogFrame
- * @private
- */
-function DialogFrame() {
-
-	/**
-	 * Request a dialog be opened.
-	 *
-	 * @function module:wc/ui/dialogFrame.open
-	 * @public
-	 * @param {module:wc/ui/dialogFrame~dto} dto The config options for the dialog to be opened.
-	 * @returns {Promise} The promise will be a rejection if the dialog is not able to be opened.
-	 */
-	this.open = function (dto) {
-		const dialog = instance.getDialog();
-		let form;
-
-		if (dialog) {
-			if (!this.isOpen(dialog)) {
-				return openDlgHelper(dto);
-			}
-			return Promise.reject(REJECT.ALREADY_OPEN);
-		} else if ((form = getDlgForm(dto))) {
-			const formId = form.id || (form.id = uid());
-
-			if (formId) {
-				return buildDialog(formId).then(function () {
-					return openDlgHelper(dto);
-				});
-			}
-			return Promise.reject(REJECT.NO_FORM);
-		}
-		return Promise.reject(REJECT.UNKNOWN);
-	};
-
-	/**
-	 * Determine if the dialog is already open.
-	 * @param {HTMLDialogElement} [element] Optionally provide the dialog element.
-	 * @returns {boolean} true if the dialog is open.
-	 */
-	this.isOpen = function (element) {
-		const dialog = element || instance.getDialog();
-		return (dialog && !shed.isHidden(dialog, true));
-	};
-
-	/**
-	 * Remove all inline dimension styles from the dialog.
-	 *
-	 * @function module:wc/ui/dialogFrame.unsetAllDimensions
-	 * @public
-	 * @param {HTMLDialogElement} [dlg] The dialog wrapper element if known.
-	 */
-	this.unsetAllDimensions = function (dlg) {
-		const dialog = dlg || instance.getDialog();
-		if (dialog) {
-			dialog.style.width = "";
-			dialog.style.height = "";
-			dialog.style.margin = "";
-			positionable.clear(dialog);
-		}
-	};
-
-	/**
-	 * Ask to reposition a dialog frame (usually after Ajax).
-	 *
-	 * @function module:wc/ui/dialogFrame.reposition
-	 * @public
-	 * @param {int} [width] The width of the dialog.
-	 * @param {int} [height] The height of the dialog.
-	 * @param {boolean} animate
-	 */
-	this.reposition = debounce((width, height, animate) => {
-		const dialog = instance.getDialog();
-		if (dialog && canMoveResize()) {
-			setPositionBySize(dialog, getResizeConfig(width, height), animate);
-		}
-	}, 100);
-
-	/**
-	 * Close a dialog frame.
-	 * @function module:wc/ui/dialogFrame.close
-	 * @public
-	 * @returns {boolean} true if there is a dialog to hide.
-	 */
-	this.close = function () {
-		const dialog = instance.getDialog();
-		if (dialog && this.isOpen(dialog)) {
-			shed.hide(dialog);
-			return true;
-		}
-		return false;
-	};
-
-	/**
-	 * Component initialisation.
-	 * @function module:wc/ui/dialogFrame.initialise
-	 * @public
-	 * @param {HTMLElement} element The element being initialised, usually document.body.
-	 */
-	this.initialise = function (element) {
-		event.add(element, "click", clickEvent);
-		event.add(window, "resize", resizeEvent, -1);
-		event.add(element, shed.events.SHOW, shedShowSubscriber);
-		event.add(element, shed.events.HIDE, shedHideSubscriber);
-	};
-
-	/**
-	 * Late initialisation.
-	 * @function module:wc/ui/dialogFrame.postInit
-	 * @public
-	 */
-	this.postInit = function () {
-		processResponse.subscribe(preOpenSubscriber);
-		processResponse.subscribe(ajaxSubscriber, true);
-	};
-
-	/**
-	 * Get the widget which describes a dialog frame.
-	 * @function module:wc/ui/dialogFrame.getWidget
-	 * @public
-	 * @returns {string} The selector describing a dialog frame.
-	 */
-	this.getWidget = function () {
-		return dialogSelector;
-	};
-
-	/**
-	 * Get the dialog content wrapper element.
-	 *
-	 * @function module:wc/ui/dialogFrame.getContent
-	 * @public
-	 * @returns {HTMLDialogElement} The content wrapper if present.
-	 */
-	this.getContent = function () {
-		const dialog = instance.getDialog();
-		if (dialog) {
-			return dialog.querySelector(dialogContentWrapperSelector);
-		}
-		return null;
-	};
-
-	/**
-	 * Reset the dialog content wrapper.
-	 *
-	 * @function module:wc/ui/dialogFrame.resetContent
-	 * @public
-	 * @param {Boolean} [keepContent] Do we want to reset the content of the dialog?
-	 * @param {String} [id] The id to set on the content.
-	 */
-	this.resetContent = function (keepContent, id) {
-		const content = this.getContent();
-
-		if (content) {
-			content.removeAttribute("data-wc-get");
-			content.id = id || "";
-			content.className = CONTENT_BASE_CLASS;
-
-			if (!keepContent) {
-				i18n.translate("loading").then(loadingText => content.innerHTML = loadingText);
-			}
-		}
-	};
 }
 
 /**
@@ -843,9 +824,33 @@ function DialogFrame() {
  *   },"wc/ui/dialogFrame");
  * });
  */
-instance = new DialogFrame();
 
-export default initialise.register(instance);
+initialise.register({
+	/**
+	 * Component initialisation.
+	 * @function module:wc/ui/dialogFrame.initialise
+	 * @public
+	 * @param {HTMLElement} element The element being initialised, usually document.body.
+	 */
+	initialise: function (element) {
+		event.add(element, "click", clickEvent);
+		event.add(window, "resize", resizeEvent, -1);
+		event.add(element, shed.events.SHOW, shedShowSubscriber);
+		event.add(element, shed.events.HIDE, shedHideSubscriber);
+	},
+
+	/**
+	 * Late initialisation.
+	 * @function module:wc/ui/dialogFrame.postInit
+	 * @public
+	 */
+	postInit: function () {
+		processResponse.subscribe(preOpenSubscriber);
+		processResponse.subscribe(ajaxSubscriber, true);
+	}
+});
+
+export default instance;
 
 /**
  * @typedef {Object} module:wc/ui/dialogFrame~dto An object which stores information about a dialog.
@@ -853,11 +858,12 @@ export default initialise.register(instance);
  * @property {String} [formId] The id of the form the dialog is in (more useful than you may think). If this is not set we will use the LAST
  *   form in the current view. You may not want this!
  * @property {String} openerId The ID of the control which is opening the dialog.
- * @property {int} [width] The dialog width in px.
- * @property {int} [height] The dialog height in px.
+ * @property {number} [width] The dialog width in px.
+ * @property {number} [height] The dialog height in px.
  * @property {Boolean} [resizeable] Is the dialog resizeable?
  * @property {Boolean} [modal] Is the dialog modal?
  * @property {String} [title] The WDialog title. If not set a default title is used.
+ * @property {String} [className] The WDialog additional css class.
  * @property {Boolean} [open] If true then the dialog is to be open on page load. This is passed in as part ofthe registration object but is
  *   not stored in the registry.
  * @property {Function} onclose Called when the dialog is closed.

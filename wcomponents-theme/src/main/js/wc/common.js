@@ -25,6 +25,7 @@ require(["wc/fixes", // you REALLY need this ...
 	"wc/ui/label",
 	"wc/ui/tabset",
 	"wc/ui/menu",
+	"wc/dom/messageBox",
 	"wc/ui/validation/all"], function (f) { // to apply the fixes
 	"use strict";
 	require(f);

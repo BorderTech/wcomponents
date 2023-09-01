@@ -22,7 +22,7 @@ public final class DiagnosticRenderUtil {
 	/**
 	 * The xml element name used for each message in the diagnostic output.
 	 */
-	private static final String MESSAGE_TAG_NAME = "ui:message";
+	private static final String MESSAGE_TAG_NAME = "div";
 
 	/**
 	 * Prevent instantiation.
@@ -72,7 +72,9 @@ public final class DiagnosticRenderUtil {
 		xml.appendAttribute("for", component.getId());
 		xml.appendClose();
 		for (Diagnostic diagnostic : diags) {
-			xml.appendTag(MESSAGE_TAG_NAME);
+			xml.appendTagOpen(MESSAGE_TAG_NAME);
+			xml.appendAttribute("is", "wc-message");
+			xml.appendClose();
 			xml.appendEscaped(diagnostic.getDescription());
 			xml.appendEndTag(MESSAGE_TAG_NAME);
 		}

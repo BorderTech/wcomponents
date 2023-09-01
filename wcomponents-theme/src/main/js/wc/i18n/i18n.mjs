@@ -5,7 +5,7 @@ import ajax from "wc/ajax/ajax";
 import resource from "wc/loader/resource";
 import initialise from "wc/dom/initialise";
 
-const noop = function(key, args) {
+const noop = function(key, ...args) {
 		console.warn("Calling i18n before inited ", key, args);
 		return "";
 	},
@@ -82,7 +82,7 @@ const instance = {
 	 */
 	translate: function(key, ...args) {
 		return initializer.initialize().then(() => {
-			return instance.get(key, args);
+			return instance.get(key, ...args);
 		});
 	},
 

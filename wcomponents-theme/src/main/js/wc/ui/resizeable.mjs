@@ -675,7 +675,7 @@ function Resizeable() {
 	 * @function module:wc/ui/resizeable.resetSize
 	 * @public
 	 * @param {HTMLElement} element The element we are restoring.
-	 * @param {boolean} ignoreSubscribers if {@code true} then do not notify via observer
+	 * @param {boolean} [ignoreSubscribers] if `true` then do not notify via observer
 	 */
 	this.resetSize = function (element, ignoreSubscribers) {
 		let stored = attribute.get(element, STORED_SIZE_ATTRIB);

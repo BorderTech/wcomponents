@@ -27,7 +27,7 @@ public class WMessageBoxRenderer_Test extends AbstractWebXmlRendererTestCase {
 	public void testDoPaintWhenEmpty() throws IOException, SAXException, XpathException {
 		WMessageBox messageBox = new WMessageBox(WMessageBox.SUCCESS);
 		assertSchemaMatch(messageBox);
-		assertXpathNotExists("//ui:messagebox", messageBox);
+		assertXpathNotExists("//wc-messagebox", messageBox);
 	}
 
 	@Test
@@ -42,30 +42,30 @@ public class WMessageBoxRenderer_Test extends AbstractWebXmlRendererTestCase {
 		messageBox.addMessage(message3);
 
 		assertSchemaMatch(messageBox);
-		assertXpathEvaluatesTo("success", "//ui:messagebox/@type", messageBox);
-		assertXpathEvaluatesTo(message1, "normalize-space(//ui:messagebox/ui:message[position()=1])",
+		assertXpathEvaluatesTo("success", "//wc-messagebox/@type", messageBox);
+		assertXpathEvaluatesTo(message1, "normalize-space(//wc-messagebox/wc-message[position()=1])",
 				messageBox);
-		assertXpathEvaluatesTo(message2, "normalize-space(//ui:messagebox/ui:message[position()=2])",
+		assertXpathEvaluatesTo(message2, "normalize-space(//wc-messagebox/wc-message[position()=2])",
 				messageBox);
-		assertXpathEvaluatesTo(message3, "normalize-space(//ui:messagebox/ui:message[position()=3])",
+		assertXpathEvaluatesTo(message3, "normalize-space(//wc-messagebox/wc-message[position()=3])",
 				messageBox);
 
 		messageBox.setType(WMessageBox.INFO);
 		assertSchemaMatch(messageBox);
-		assertXpathEvaluatesTo("info", "//ui:messagebox/@type", messageBox);
+		assertXpathEvaluatesTo("info", "//wc-messagebox/@type", messageBox);
 
 		messageBox.setType(WMessageBox.WARN);
 		assertSchemaMatch(messageBox);
-		assertXpathEvaluatesTo("warn", "//ui:messagebox/@type", messageBox);
+		assertXpathEvaluatesTo("warn", "//wc-messagebox/@type", messageBox);
 
 		messageBox.setType(WMessageBox.ERROR);
 		assertSchemaMatch(messageBox);
-		assertXpathEvaluatesTo("error", "//ui:messagebox/@type", messageBox);
+		assertXpathEvaluatesTo("error", "//wc-messagebox/@type", messageBox);
 
 		String title = "WMEssageBoxTitle";
 		messageBox.setTitleText(title);
 		assertSchemaMatch(messageBox);
-		assertXpathEvaluatesTo(title, "//ui:messagebox/@title", messageBox);
+		assertXpathEvaluatesTo(title, "//wc-messagebox/@title", messageBox);
 	}
 
 	@Test

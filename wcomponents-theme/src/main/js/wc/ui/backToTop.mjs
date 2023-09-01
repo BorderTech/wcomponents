@@ -23,7 +23,7 @@ let config;
  * Can be set in module configuration as property "scroll".
  *
  * @var
- * @type {int}
+ * @type {number}
  * @private
  * @default 0
  */
@@ -73,7 +73,8 @@ function showHide(show, target) {
 	let link = target || document.body.querySelector(backtotopSelector);
 	if (show) {
 		if (!link) {
-			link = document.createElement(tagName);
+
+			link = /** @type {BackToTop} */ (document.createElement(tagName));
 			link = document.body.appendChild(link);
 		}
 		shed.show(link, true);  // nothing needs to be notified that the back to top link is showing
@@ -126,10 +127,18 @@ class BackToTop extends HTMLElement {
 		this.innerHTML = template();
 	}
 
+	/**
+	 *
+	 * @return {boolean}
+	 */
 	get disabled() {
 		return this.hasAttribute("disabled");
 	}
 
+	/**
+	 *
+	 * @param {string} val
+	 */
 	set disabled(val) {
 		if (val) {
 			showHide(false, this);  // just in case the link is showing at the time it is disabled.
@@ -154,7 +163,7 @@ initialise.register({ initialise: () => {
 }});
 
 /**
-* @typedef {Object} module:wc/ui/backToTop~config Configuration for the back to top link.
-* @property {int} scroll The number of pixels to scroll before showing the back to top link. If 0 then the scroll to top link will appear
+* @typedef {Object} config Configuration for the back to top link.
+* @property {number} scroll The number of pixels to scroll before showing the back to top link. If 0 then the scroll to top link will appear
 *  when more than one viewport height of scroll has occurred.
 */
