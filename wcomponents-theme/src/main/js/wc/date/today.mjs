@@ -7,12 +7,6 @@
  */
 import copy from "wc/date/copy";
 
-/**
- * @constructor
- * @alias module:wc/date/today.Today
- * @private
- */
-
 let date = new Date();
 
 /**

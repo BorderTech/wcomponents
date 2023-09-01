@@ -1,13 +1,9 @@
+let cookies;  // cache cookies, will only reload if cookies are set through this class
 /**
  * A module for dealing with cookies. The methods that do all the work are based on
  * http://www.quirksmode.org/js/cookies.html
- * @constructor
- * @alias module:wc/dom/cookie~Cookie
- * @private
  **/
-function Cookie() {
-	let cookies;  // cache cookies, will only reload if cookies are set through this class
-
+const instance = {
 	/**
 	 * Passing anything to "days" that equates to false will create a session cookie,
 	 * otherwise you will get a persistent cookie for the duration specified.
@@ -20,7 +16,7 @@ function Cookie() {
 	 * @param {String} value The value to set in the cookie.
 	 * @param {number} [days] How long to stroe the cookie (in days).
 	 */
-	this.create = function (name, value, days) {
+	create: function (name, value, days) {
 		let expires;
 		if (days) {
 			if (days < 1001) {
@@ -28,13 +24,13 @@ function Cookie() {
 			}
 			const date = new Date();
 			date.setTime(date.getTime() + days);
-			expires = "; expires=" + date.toGMTString();
+			expires = "; expires=" + date.toUTCString();  // toGMTString is an old (kinda deprecated) alias of toUTCString
 		} else {
 			expires = "";
 		}
 		cookies = null;  // the cookie cache is no longer valid
 		document.cookie = name + "=" + value + expires + "; path=/";
-	};
+	},
 
 	/**
 	 * Gets the value associated with a given name from a cookie.
@@ -43,7 +39,7 @@ function Cookie() {
 	 * @param {String} name The key.
 	 * @returns {String} The value associated wth the key.
 	 */
-	this.read = function(name) {
+	read: function(name) {
 		const nameEQ = `${name}=`;
 		if (!cookies) {
 			cookies = document.cookie;
@@ -52,8 +48,8 @@ function Cookie() {
 			}
 		}
 		if (cookies) {
-			for (let i = 0; i < cookies.length; i++) {
-				let next = cookies[i];
+			for (const cookie of cookies) {
+				let next = cookie;
 				while (next.charAt(0) === " ") {
 					next = next.substring(1, next.length);
 				}
@@ -63,7 +59,7 @@ function Cookie() {
 			}
 		}
 		return null;
-	};
+	},
 
 	/**
 	 * Removes a key from cookies.
@@ -72,9 +68,9 @@ function Cookie() {
 	 * @public
 	 * @param {String} name The key to remove.
 	 */
-	this.erase = function(name) {
+	erase: function(name) {
 		this.create(name, "", -1);
-	};
-}
+	}
+};
 
-export default new Cookie();
+export default instance;
