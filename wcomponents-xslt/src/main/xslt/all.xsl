@@ -343,7 +343,7 @@
 				<!--
 					calendar uses dateField, dateField does not use calendar, I might fix that one day. The calendar polyfill uses number field.
 				-->
-				<xsl:text>"wc/ui/numberField","wc/ui/calendar",</xsl:text>
+				<xsl:text>"wc/ui/calendar",</xsl:text>
 			</xsl:if>
 			<xsl:if test=".//ui:dropdown[not(@readOnly)]">
 				<xsl:text>"wc/ui/dropdown","wc/ui/selectboxSearch",</xsl:text>
@@ -368,9 +368,6 @@
 				</xsl:if>
 			</xsl:if>
 
-			<xsl:if test=".//ui:numberfield[not(@readOnly)]">
-				<xsl:text>"wc/ui/numberField",</xsl:text>
-			</xsl:if>
 			<xsl:if test=".//ui:textarea[not(@readOnly)]">
 				<xsl:text>"wc/ui/textArea","wc/ui/clipboard",</xsl:text>
 			</xsl:if>

@@ -39,7 +39,7 @@ const instance = {
 	 * @function module:wc/ui/multiSelectPair.getListType
 	 * @public
 	 * @param {HTMLSelectElement} element Any select element component of a WMultiSelectPair.
-	 * @returns {int} The type of the element as defined in LISTS or null.
+	 * @returns {number} The type of the element as defined in LISTS or null.
 	 */
 	getListType: function(element) {
 		if (element.matches(selectSelector)) {
@@ -57,7 +57,7 @@ const instance = {
 	 *
 	 * @function module:wc/ui/multiSelectPair.getWidget
 	 * @public
-	 * @returns {string} the WMultiSelectPair container's {@link module:wc/dom/Widget}.
+	 * @returns {string} the WMultiSelectPair container's selector.
 	 */
 	getWidget: () => containerSelector,
 
@@ -66,7 +66,7 @@ const instance = {
 	 *
 	 * @function module:wc/ui/multiSelectPair.getInputWidget
 	 * @public
-	 * @returns {string} the WMultiSelectPair inpurs's {@link module:wc/dom/Widget}.
+	 * @returns {string} the WMultiSelectPair input's selector.
 	 */
 	getInputWidget: () => selectSelector,
 
@@ -78,12 +78,12 @@ const instance = {
 	LIST_TYPE_AVAILABLE,
 
 	/**
-	 * Gets the available, selected or oder list for a given WMultiSelectPair based on the type argument.
+	 * Gets the available, selected or order list for a given WMultiSelectPair based on the type argument.
 	 *
 	 * @function module:wc/ui/multiSelectPair.getListByType
 	 * @public
 	 * @param {HTMLElement} element Any component element of a multiSelectPair (ie any of the lists or buttons).
-	 * @param {int} type One of the types defined in LISTS.
+	 * @param {number} type One of the types defined in LISTS.
 	 * @returns {HTMLSelectElement} The list of the type represented by the type argument.
 	 */
 	getListByType: function(element, type) {
@@ -103,7 +103,7 @@ const instance = {
 	 * @function module:wc/ui/multiSelectPair.getValue
 	 * @public
 	 * @param {HTMLElement} container A multiSelectPair container.
-	 * @returns {(NodeList|Array)} The logically selected options in this multiSelectPair. Returns an empty
+	 * @returns {HTMLOptionElement[]} The logically selected options in this multiSelectPair. Returns an empty
 	 *    Array if no options are selected.
 	 */
 	getValue: function(container) {
@@ -114,7 +114,7 @@ const instance = {
 				result = selectedBucket.options;
 			}
 		}
-		return result || [];
+		return Array.from(result) || [];
 	},
 
 	/**
@@ -146,13 +146,10 @@ const instance = {
  */
 function fixWidthHeight(container) {
 	const el = container || document.body, PX = "px";
-	let components;
-	if (el.matches(containerSelector)) {
-		components = [container];
-	} else {
-		components = el.querySelectorAll(containerSelector);
-	}
-	Array.from(components).forEach( function(next) {
+	const components = el.matches(containerSelector) ?
+		[container] :
+		/** @type HTMLSelectElement[] */ (Array.from(el.querySelectorAll(containerSelector)));
+	components.forEach( function(next) {
 		const avail = instance.getListByType(next, LIST_TYPE_AVAILABLE);
 		if (avail.style.width) {
 			return;  // already set
@@ -184,7 +181,7 @@ function fixWidthHeight(container) {
  * @function
  * @private
  * @param {HTMLSelectElement} list A select list from a MultiSelectPair component.
- * @returns {int} The opposite "LIST_TYPE_" of the list. Returns null if we cannot determine.
+ * @returns {number} The opposite "LIST_TYPE_" of the list. Returns null if we cannot determine.
  */
 function getOppositeListType(list) {
 	const type = instance.getListType(list);
@@ -235,11 +232,13 @@ function addRemoveSelected(fromList) {
 		while (fromIndex >= 0) {
 			let next = fromList.options[fromIndex];
 			const parentElement = next.parentElement;
-			if (parentElement.matches(optgroupSelector)) {
+			if (parentElement instanceof HTMLOptGroupElement) {
 				let optgroupWD = `${optgroupSelector}[label='${parentElement.label}']`;
+				/** @type HTMLOptGroupElement */
 				let orderOptGroup = orderList.querySelector(optgroupWD);
 				let originalIndex = selectboxSearch.indexOf(next, orderOptGroup);
 				let fromGroupIndex = selectboxSearch.indexOf(next, parentElement);
+				/** @type HTMLOptGroupElement */
 				let optgroup = toList.querySelector(optgroupWD);
 				if (optgroup) {
 					let toIndex = calcToIndex(originalIndex, fromGroupIndex);
@@ -251,15 +250,15 @@ function addRemoveSelected(fromList) {
 					result = true;
 				} else {
 					// we need to make an optgroup in toList, but where?
-					optgroup = document.createElement("optgroup");
+					optgroup = (document.createElement("optgroup"));
 					optgroup.label = parentElement.label;
 					originalIndex = selectboxSearch.indexOf(next, orderList);
 					let toIndex = calcToIndex(originalIndex, fromIndex);
 					if (toIndex >= toList.options.length) {
 						toList.appendChild(optgroup);
 					} else {
-						// does the option we are creating the optgroup before have an optgroup parent?
-						let toOptgroup = toList.options[toIndex].parentNode;
+						// does the option we are creating the optgroup for have an optgroup parent?
+						let toOptgroup = toList.options[toIndex].parentElement;
 						if (toOptgroup.matches(optgroupSelector)) {
 							toList.insertBefore(optgroup, toOptgroup);
 						} else {
@@ -355,7 +354,7 @@ function removeSelected(element) {
  * or {@link module:wc/ui/multiSelectPair~removeSelected}).
  */
 function actionAllOptions(selectList, action) {
-	for (const element of selectList.options) {
+	for (const element of Array.from(selectList.options)) {
 		if (!shed.isSelected(element)) {
 			shed.select(element, true);  // Keep this quiet! We will publish our own shed event when done. Publishing each select would be really stupid.
 		}
@@ -399,7 +398,9 @@ function removeAll(element) {
  * @param {HTMLElement} stateContainer The container into which state is written.
  */
 function writeState(form, stateContainer) {
-	Array.from(form.querySelectorAll(containerSelector)).forEach( function (container) {
+	/** @type HTMLFieldSetElement[] */
+	const containers = Array.from(form.querySelectorAll(containerSelector));
+	containers.forEach(function (container) {
 		const selectedOptions = instance.getValue(container);
 		for (const element of selectedOptions) {
 			formUpdateManager.writeStateField(stateContainer, container.id, element.value);
@@ -413,12 +414,13 @@ function writeState(form, stateContainer) {
  *
  * @function
  * @private
- * @param {KeyboardEvent} $event The keydown event.
+ * @param {KeyboardEvent & { target: HTMLSelectElement }} $event The keydown event.
  */
 function keydownEvent($event) {
 	if ($event.defaultPrevented) {
 		return;
 	}
+	/** @type HTMLSelectElement */
 	const selectList = $event.target.closest(selectSelector);
 	if (!selectList) {
 		return;
@@ -455,9 +457,10 @@ function keydownEvent($event) {
  *
  * @function
  * @private
- * @param {FocusEvent} $event The focus/focusin event.
+ * @param {FocusEvent & { target: HTMLElement }} $event The focus/focusin event.
  */
 function focusEvent($event) {
+	/** @type HTMLFieldSetElement */
 	const container = $event.target.closest(containerSelector);
 	if (container && !container[CONTAINER_INITIALISED_KEY]) {
 		container[CONTAINER_INITIALISED_KEY] = true;
@@ -470,12 +473,13 @@ function focusEvent($event) {
  *
  * @function
  * @private
- * @param {MouseEvent} $event The click event.
+ * @param {MouseEvent & { target: HTMLButtonElement }} $event The click event.
  */
 function clickEvent({ target, defaultPrevented}) {
 	if (defaultPrevented) {
 		return;
 	}
+	/** @type HTMLButtonElement */
 	const element = target.closest(buttonSelector);
 	const action = (element && !shed.isDisabled(element)) ? getAction(element) : null;
 	if (action) {
@@ -488,15 +492,17 @@ function clickEvent({ target, defaultPrevented}) {
  *
  * @function
  * @private
- * @param {MouseEvent} $event The dblclick event.
+ * @param {MouseEvent & { target: HTMLElement }} $event The dblclick event.
  */
 function dblClickEvent({ target, defaultPrevented }) {
 	if (defaultPrevented) {
 		return;
 	}
+	/** @type HTMLSelectElement */
 	const selectList = target.matches("option,select") ? target.closest(selectSelector) : null;
 	if (selectList && !shed.isDisabled(selectList)) {
 		addRemoveSelected(selectList);
+		/** @type HTMLFieldSetElement */
 		const container = selectList.closest(containerSelector);
 		if (container && ajaxRegion.getTrigger(container, true)) {
 			ajaxRegion.requestLoad(selectList);

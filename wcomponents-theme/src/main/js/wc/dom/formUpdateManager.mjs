@@ -51,7 +51,7 @@ const formUpdateManager = {
 		}
 		if (!observer) {
 			observer = new Observer();
-			this.subscribe = _subscribe;
+			formUpdateManager.subscribe = _subscribe;
 		}
 		return _subscribe(subscriber);
 	},
@@ -94,17 +94,14 @@ const formUpdateManager = {
 		 * has already cancelled).  If a subscriber cancels continue to notify all other observers (a la submit
 		 * event) but don't allow 'uncancelling' 20090904
 		 */
-		let result = true,
-			_container = container;
-		if (!ignoreForm) {
-			_container = _container.closest("form");
-		}
+		let result = true;
+		const form = /** @type HTMLFormElement */(ignoreForm ? container.closest("form") : container);
 
-		checkEnctype(_container);
-		const stateContainer = this.getStateContainer(_container);
-		this.clean(_container);
+		checkEnctype(form);
+		const stateContainer = this.getStateContainer(form);
+		this.clean(form);
 		if (observer) {
-			observer.notify((region || _container), stateContainer);  // arg1 = "from", arg2 ="to"
+			observer.notify((region || form), stateContainer);  // arg1 = "from", arg2 ="to"
 		}
 		return result;
 	},
@@ -236,7 +233,7 @@ function addRemoveEvents(el, add) {
  * Listener for this event type
  * @function
  * @private
- * @param {SubmitEvent} $event The instance of Event currently firing
+ * @param {SubmitEvent & { target: HTMLElement }} $event The instance of Event currently firing
  */
 function submitEvent($event) {
 	const form = $event.target;

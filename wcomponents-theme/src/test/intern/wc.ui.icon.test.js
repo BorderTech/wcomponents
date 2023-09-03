@@ -24,17 +24,11 @@ define(["intern!object", "intern/chai!assert", "wc/ui/icon", "intern/resources/t
 			afterEach: function() {
 				testHolder.innerHTML = "";
 			},
-			testGetWidget: function() {
-				var widget = controller.getWidget();
-				assert.isOk(widget);
-				// rough test but don't use constructor.name because it will change when minified
-				assert.isTrue(typeof widget.isOneOfMe === "function" && typeof widget.constructor.isOneOfMe === "function");
-			},
 			testGetWidget_correctWidget: function() {
-				var widget = controller.getWidget(),
+				const widget = controller.getWidget(),
 					target = getElement(true),
 					icon = target.firstElementChild;
-				assert.isTrue(widget.isOneOfMe(icon));
+				assert.isTrue(icon.matches(widget));
 			},
 			testGet_noArg: function() {
 				try {
@@ -61,7 +55,7 @@ define(["intern!object", "intern/chai!assert", "wc/ui/icon", "intern/resources/t
 				var target = getElement();
 				assert.isNotOk(target.firstElementChild);
 				controller.add(target, newIconClass);
-				assert.isTrue(controller.getWidget().isOneOfMe(target.firstElementChild));
+				assert.isTrue(target.firstElementChild.matches(controller.getWidget()));
 			},
 			testAdd_noArgs: function() {
 				try {

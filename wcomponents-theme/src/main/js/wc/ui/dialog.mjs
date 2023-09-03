@@ -199,7 +199,7 @@ function activateClick(element) {
 	}
 	const dialog = dialogFrame.getDialog();
 	const content = !dialog || shed.isHidden(dialog, true) ? null : dialogFrame.getContent();
-	if (!(content.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_CONTAINED_BY)) {
+	if (!(content?.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_CONTAINED_BY)) {
 		// we are not inside a dialog's content.
 		return false;
 	}
@@ -240,7 +240,7 @@ function openDlg(triggerId) {
 			content.id = regObj.id;
 			const openerId = !(openThisDialog && openThisDialog === triggerId) ? regObj.openerId : "";
 			if (openerId) {
-				const opener = document.getElementById(openerId);
+				const opener = /** @type HTMLButtonElement */ (document.getElementById(openerId));
 				content.setAttribute(GET_ATTRIB, `${openerId}=${opener ? encodeURIComponent(opener.value) : "x"}`);
 			} else {
 				content.removeAttribute(GET_ATTRIB);
@@ -357,6 +357,7 @@ initialise.register({
 	}
 });
 
+export default instance;
 /**
  * @typedef {Object} module:wc/ui/dialog~regObject An object which stores information about a dialog.
  * @property {String} id The WDialog id.

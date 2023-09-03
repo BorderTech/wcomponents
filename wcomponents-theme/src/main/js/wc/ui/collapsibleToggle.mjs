@@ -81,6 +81,7 @@ function areAllInExpandedState(controller, expanded) {
  */
 function toggleThisCollapsible(collapsible, open) {
 	if (collapsible.matches(collapsibleSelector)) {
+		/** @type HTMLDetailsElement */
 		const collapser = (open !== collapsible.hasAttribute("open")) ?
 			collapsible.querySelector(triggerSelector) : null;
 		if (collapser) {
@@ -183,7 +184,7 @@ function setControlList(element) {
 		targets = document.body.querySelectorAll(collapsibleSelector);
 	}
 
-	const idArray = Array.from(targets).map(next => next.id);
+	const idArray = Array.from(targets, next => next.id);
 	if (idArray.length) {
 		const buttons = element.querySelectorAll(expandCollapseAllSelector);
 		const ids = idArray.join(" ");

@@ -191,7 +191,7 @@ const instance = {
 	 * @function
 	 * @public
 	 * @param {HTMLElement|String} element the element being diagnosed (or its id)
-	 * @param {int} [ofLevel=1] the diagnostic level, if not set get ERROR diagnostic box. Set to -1 to get one of any type.
+	 * @param {number} [ofLevel=1] the diagnostic level, if not set get ERROR diagnostic box. Set to -1 to get one of any type.
 	 * @returns {HTMLElement} the diagnostic box of the required level (if any).
 	 */
 	getBox: function (element, ofLevel) {
@@ -300,7 +300,7 @@ const instance = {
 	 * @public
 	 * @param {HTMLElement} element either an error diagnostic or an element with an error diagnostic
 	 * @param {HTMLElement} [target] an element with a diagnostic **if** element is a diagnostic, and we have already found its "owner".
-	 * @param {int} [level=1] the diagnostic level to remove if element is not a diagnostic box
+	 * @param {number} [level=1] the diagnostic level to remove if element is not a diagnostic box
 	 * @returns {boolean} `true` if a diagnostic box was found and removed.
 	 */
 	remove: function(element, target, level) {
@@ -327,7 +327,7 @@ function checkAndGetElement(element) {
 	if (!element) {
 		throw new TypeError("element must not be falsey");
 	}
-	const target = (element.constructor === String) ? document.getElementById(element) : element;
+	const target = (typeof element === "string") ? document.getElementById(element) : element;
 
 	if (!(target && target.tagName)) {
 		throw new TypeError("element does not represent an HTML Element");
@@ -391,7 +391,7 @@ function toggleValidity(target, clear) {
 
 /**
  * Get the font awesome icon name for a diagnostic box of a given level.
- * @param {int} level
+ * @param {number} level
  * @returns {String}
  */
 function getIconName(level) {
@@ -471,7 +471,7 @@ function addHelper(box, message) {
  * @param {Object} args
  * @param {HTMLElement} [args.el] The element which is the diagnostic target if not set then args.id must be set.
  * @param {String} [args.id] The base id for the diagnostic box. If not set then args.el must be an element with an id.
- * @param {int} [args.level=1] the diagnostic level, defaults to ERROR
+ * @param {number} [args.level=1] the diagnostic level, defaults to ERROR
  * @param {String|String[]|NodeList} [args.messages] If `falsy` then the diagnostic box will be empty. If a String the diagnostic will
  *   contain one message containing this String. If a NodeList then the diagnostic messages will be the innerHTML of each element node
  *   in the NodeList and the textContent of each text node in the NodeList. If something else the messages are treated as a single
@@ -488,11 +488,12 @@ function getHTML(args) {
 	if (!targetId) {
 		throw new TypeError("Cannot get error box without an id.");
 	}
+	let messageHtml;
 	if (messages) {
-		if (messages.constructor === NodeList) {
-			messages = (Array.from(messages)).map(function(next) {
+		if (messages instanceof NodeList) {
+			messages = Array.from(messages, next=> {
 				if (next.nodeType === Node.ELEMENT_NODE) {
-					return next.innerHTML;
+					return /** @type HTMLElement */ (next).innerHTML;
 				}
 				if (next.textContent) {
 					return next.textContent;
@@ -500,13 +501,9 @@ function getHTML(args) {
 				return null;
 			});
 		}
-		if (Array.isArray(messages)) {
-			messages = messages.map(getMessageHTML);
-		} else {
-			messages = [getMessageHTML(messages)];
-		}
+		messageHtml = Array.isArray(messages) ? messages.map(getMessageHTML) : [getMessageHTML(messages)];
 	}
-	return diagnostic.getBoxHtml(messages, targetId, level, getIconName(level));
+	return diagnostic.getBoxHtml(messageHtml, targetId, level, getIconName(level));
 }
 
 
@@ -517,7 +514,7 @@ function getHTML(args) {
  * @private
  * @param {String} targetId the id of the component to which the message box is added
  * @param {String|String[]} messages the message(s) to add
- * @param {int} [level=1] the diagnostic level
+ * @param {number} [level=1] the diagnostic level
  * @returns {Object} property html: The HTML which creates a complete diagnostic box, property id: the id of the box
  */
 function getBoxHTML(targetId, messages, level) {
@@ -621,7 +618,4 @@ export default instance;
  * @property {String|String[]} message The message to display.
  * @property {HTMLElement} element The element which is to be flagged with the error message.
  * @property {module:wc/dom/diagnostic.LEVEL} level The message severity.
- *
- * @typedef {Object} module:wc/ui/feedback~config Optional run-time configuration for this module.
- * @property {String} [icon=fa-times-circle] The font-awesome classname for the icon to display in the error box.
  */

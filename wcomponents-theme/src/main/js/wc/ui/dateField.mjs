@@ -10,7 +10,6 @@ import unique from "wc/array/unique";
 import Parser from "wc/date/Parser";
 import interchange from "wc/date/interchange";
 import Format from "wc/date/Format";
-import attribute from "wc/dom/attribute";
 import cancelUpdate from "wc/ui/cancelUpdate";
 import event from "wc/dom/event";
 import focus from "wc/dom/focus";
@@ -681,7 +680,7 @@ function DateInput() {
 	 * change event publication.
 	 * @function
 	 * @private
-	 * @param {Event} $event The focus/focusin event.
+	 * @param {FocusEvent & { target: HTMLElement }} $event The focus/focusin event.
 	 */
 	function focusEvent($event) {
 		const BOOTSTRAPPED = "wc.ui.dateField_bootstrapped";
@@ -690,14 +689,14 @@ function DateInput() {
 		if ($event.defaultPrevented) {
 			return;
 		}
-		if (isDateInput(element) && !attribute.get(element, BOOTSTRAPPED)) {
-			attribute.set(element, BOOTSTRAPPED, true);
+		if (isDateInput(element) && !element[BOOTSTRAPPED]) {
+			element[BOOTSTRAPPED] = true;
 			event.add(element, "change", changeEvent);
 		}
 
 		let dateField = instance.get(element);
-		if (dateField && !attribute.get(dateField, BOOTSTRAPPED)) {
-			attribute.set(dateField, BOOTSTRAPPED, true);
+		if (dateField && !dateField[BOOTSTRAPPED]) {
+			dateField[BOOTSTRAPPED] = true;
 			event.add(dateField, "keydown", keydownEvent);
 		}
 		closeDateCombo(element);

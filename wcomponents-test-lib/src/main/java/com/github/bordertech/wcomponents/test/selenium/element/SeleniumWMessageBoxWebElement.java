@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 
 /**
  * A Selenium WebElement which models the output of WMessages.
+ * TODO Update for Shadow DOM
  *
  * @author Mark Reeves
  * @since 1.4.0

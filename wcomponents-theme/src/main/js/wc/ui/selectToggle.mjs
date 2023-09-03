@@ -187,7 +187,6 @@ function getGroup(controller) {
 		// all the information to render this is available.
 		return null;
 	}
-	let candidates;
 	const targetElement = document.getElementById(targetId);
 	if (targetElement) {
 		if (targetElement.matches(checkboxSelector)) {
@@ -202,15 +201,17 @@ function getGroup(controller) {
 		// will never be here
 		if (isWSelectToggle(controller)) {
 			// get all checkboxes and surrogates inside the targetElement
-			candidates = Array.from(targetElement.querySelectorAll(allCbSelector.join()));
-			// remove any which are themselves a controller
-			return candidates.map(next => next.matches(controllerCheckboxSelector) ? null : next);
+			return Array.from(targetElement.querySelectorAll(allCbSelector.join()), next => {
+				// remove any which are themselves a controller
+				return next.matches(controllerCheckboxSelector) ? null : next;
+			});
 		}
 
 		// WTable select/deselect all
-		candidates = Array.from(targetElement.querySelectorAll(rowSelector));
-		// we only want those rows in the current table, not in nested tables.
-		return candidates.map(next => next.closest(tbodySelector) === targetElement ? next : null);
+		return Array.from(targetElement.querySelectorAll(rowSelector), next => {
+			// we only want those rows in the current table, not in nested tables.
+			return next.closest(tbodySelector) === targetElement ? next : null;
+		});
 	}
 	// No target element means a WSelectToggle with a named group
 	return getNamedGroup(targetId);

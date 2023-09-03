@@ -53,12 +53,12 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 			 * InFORMed by here: http://people.n0i.net/altblue/webbie/form-serialization/
 			 */
 			testSerialiseForm: function() {
-				var form = document.getElementById("testForm"),
-					element = document.getElementById("S5"),
-					result;
+				const form = document.getElementById("testForm");
+				let element = /** @type HTMLSelectElement */ (document.getElementById("S5"));
+				let result;
 
 				element.selectedIndex = -1;
-				element = document.getElementById("S2");
+				element = /** @type HTMLSelectElement */ (document.getElementById("S2"));
 				element.options[1].selected = true;
 				element.options[2].selected = true;
 				result = serialize.serialize(form);
@@ -66,12 +66,12 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				assert.isTrue(testutils.objectEqual(STRING_EXPECTED, result), "Form should serialise to this ");
 			},
 			testSerialiseFormAsObject: function() {
-				var form = document.getElementById("testForm"),
-					element = document.getElementById("S5"),
-					result;
+				const form = document.getElementById("testForm");
+				let element = /** @type HTMLSelectElement */ (document.getElementById("S5"));
+				let result;
 
 				element.selectedIndex = -1;
-				element = document.getElementById("S2");
+				element = /** @type HTMLSelectElement */ (document.getElementById("S2"));
 				element.options[1].selected = true;
 				element.options[2].selected = true;
 				result = serialize.serialize(form, null, true);
@@ -79,19 +79,19 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				assert.isTrue(testutils.objectEqual(SERIALIZED_OBJ_EXPECTED, result), "Form should serialise to this ");
 			},
 			testSerialiseFormAsObjectReverse: function() {
-				var prop, i, form = document.getElementById("testForm"),
-					element = document.getElementById("S5"),
-					result;
+				const form = document.getElementById("testForm");
+				let element = /** @type HTMLSelectElement */ (document.getElementById("S5"));
+				let result;
 
 				element.selectedIndex = -1;
-				element = document.getElementById("S2");
+				element = /** @type HTMLSelectElement */ (document.getElementById("S2"));
 				element.options[1].selected = true;
 				element.options[2].selected = true;
 				result = serialize.serialize(form, null, true);
 				// result = result.replace("%0D%0A", "%0A");  // replace \n\r with \n so browsers behave the same
 
-				for (prop in result) {
-					for (i = 0; i < result[prop].length; ++i) {
+				for (let prop in result) {
+					for (let i = 0; i < result[prop].length; ++i) {
 						result[prop][i] = (result[prop][i]).replace("%0D%0A", "%0A");
 					}
 				}
@@ -234,12 +234,12 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 		}
 
 		function setupDeserializer(input) {
-			var form = document.getElementById("testForm"),
-				element = document.getElementById("S5"),
+			const form = document.getElementById("testForm");
+			let element = /** @type HTMLSelectElement */ (document.getElementById("S5")),
 				expectedResult = makeHiddenFields(input),
 				result = {}, serializedForm, tempContainer;
 			element.selectedIndex = -1;
-			element = document.getElementById("S2");
+			element = /** @type HTMLSelectElement */ (document.getElementById("S2"));
 			element.options[1].selected = true;
 			element.options[2].selected = true;
 			if (input.constructor === String) {

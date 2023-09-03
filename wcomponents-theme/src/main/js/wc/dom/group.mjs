@@ -20,14 +20,14 @@ const elementGroup = {};
  */
 
 /**
- * Get a group based on an element. The element is either a member of the group (for example a check box) or
+ * Get a group based on an element. The element is either a member of the group (for example a checkbox) or
  * defines a group (for example a select).
  *
  * @function module:wc/dom/group.get
  * @param {HTMLElement} element An element which belongs to (or defines) the group. BEWARE OF AMBIGUOUS
  *    CONTAINERS. Think about it, if you pass a fieldset or a "menu" to this function what do you expect to
- *    get as the group? For example an element with role of "menu" could contain menuitems, menuitemradios
- *    or menuitemcheckboxes. Amibiguous contains will currently return as a group ALL of the possible
+ *    get as the group? For example an element with role of "menu" could contain `menuitem`, `menuitemradio`
+ *    or `menuitemcheckbox`. Ambiguous contains will currently return as a group ALL the possible
  *    matches, for example if you pass a menu the result may contain a mix of all different types mentioned
  *    above.
  * @param {Boolean} [ignoreInnerGroups] see {@link module:wc/dom/ariaGroup.getGroup}

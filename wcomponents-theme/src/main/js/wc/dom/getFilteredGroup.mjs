@@ -1,11 +1,10 @@
 import $group from "wc/dom/group";
 import shed from "wc/dom/shed";
 
-
 const
 	/** {String[]} FILTERS The properties which may be used to filter a group. @private */
 	FILTERS = ["selected", "deselected", "disabled", "enabled", "hidden", "visible", "expanded", "collapsed"],
-	/** {String[]} SHED_FILTERS {@link module:wc/dom.shed} functions which may be used to filter a group. @private */
+	/** {String[]} SHED_FILTERS {@link module:wc/dom/shed} functions which may be used to filter a group. @private */
 	SHED_FILTERS = ["isSelected", "isDisabled", "isHidden", "isExpanded"];
 
 /**

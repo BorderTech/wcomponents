@@ -136,7 +136,7 @@ const instance = {
 function convert3digitHexTo6(hex) {
 	let matches = HEX3_RE.exec(hex);
 	if (matches) {
-		let result = Array.from(matches[1]).map(n => n + n).join('');
+		let result = Array.from(matches[1], n => n + n).join('');
 		return matches[0].length === 4 ? `#${result}` : result;
 	}
 	return hex;
