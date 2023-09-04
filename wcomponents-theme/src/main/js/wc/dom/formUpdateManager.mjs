@@ -32,8 +32,8 @@ const formUpdateManager = {
 	 *
 	 * @see {@link module:wc/Observer#subscribe}
 	 * @function module:wc/dom/formUpdateManager.subscribe
-	 * @param {(Object|Function)} subscriber An object a subscriber to FormUpdateManager (an object which has a
-	 *    writeState method) OR simple the writeState method itself.
+	 * @param {Object} subscriber An object a subscriber to FormUpdateManager (an object which has a writeState method)
+	 *    OR simple the writeState method itself.
 	 * @param {Function} [subscriber.writeState] The function that will be notified by FormUpdateManager if
 	 *    subscriber is an object. The subscriber function MUST be present at "publish" time, but need not be preset
 	 *    at "subscribe" time (i.e. when subscribe() is called).
@@ -165,7 +165,7 @@ const formUpdateManager = {
 	 * previous updates). If no state container exists it will be created.
 	 *
 	 * @function module:wc/dom/formUpdateManager.getStateContainer
-	 * @param {HTMLFormElement} form The form element for which we wish to retrieve the state container.
+	 * @param {HTMLElement} form The form element for which we wish to retrieve the state container (does not strictly have to be a form).
 	 * @returns {HTMLElement} The state container.
 	 */
 	getStateContainer: function(form) {

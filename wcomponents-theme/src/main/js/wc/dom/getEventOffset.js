@@ -21,7 +21,7 @@ define(function() {
 
 	/**
 	 * @typedef {Object} module:wc/dom/getEventOffset~offsetObject Describes a mouse event offset.
-	 * @property {int} offsetX The X coordinate of the mouse event offset.
-	 * @property {int} offsetY The Y coordinate of the mouse event offset.
+	 * @property {number} offsetX The X coordinate of the mouse event offset.
+	 * @property {number} offsetY The Y coordinate of the mouse event offset.
 	 */
 });

@@ -122,7 +122,7 @@ function clearList(combo) {
  * @function
  * @private
  * @param {Element} combo A combo control to filter
- * @param {int} [delay] A timeout delay, default to 250 if not set
+ * @param {number} [delay] A timeout delay, default to 250 if not set
  */
 function filterOptions(combo, delay) {
 	let _delay = delay;

@@ -24,7 +24,7 @@ let pivotWindow = 15;
  *
  * @function
  * @alias module:wc/date/pivot.set
- * @param {int} value The value of the pivot window, must be between 0 and 101 exclusive.
+ * @param {number} value The value of the pivot window, must be between 0 and 101 exclusive.
  * @throws {RangeError} Thrown if the value is outside ofthe range 1 - 100 inclusive.
  */
 function set(value) {

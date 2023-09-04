@@ -11,7 +11,7 @@ import isLeapYear from "wc/date/isLeapYear";
  * @alias module:wc/date/daysInMonth
  * @param {number} year The 2 or 4 digit year to check.
  * @param {number} month The month - this NOT zero based, ie january = 1, december = 12
- * @returns {int} The number of days in the month if we can determine it.
+ * @returns {number} The number of days in the month if we can determine it.
  */
 function daysInMonth(year, month) {
 	let result;

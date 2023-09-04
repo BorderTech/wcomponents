@@ -222,7 +222,7 @@ function(sprintf, event, Widget, i18n, loader, shed, timers, icon, wcconfig) {
 
 	/**
 	 * @typedef {Object} module:wc/ui/timeoutWarn.config() Optional module configuration.
-	 * @property {int} min The minimum timeout (in seconds). If the requested session timeout is less than this we will not
+	 * @property {number} min The minimum timeout (in seconds). If the requested session timeout is less than this we will not
 	 * attempt to warn the user.
 	 * @default 60
 	 */

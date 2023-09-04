@@ -6,7 +6,7 @@
  * @param {Array} array The array to search
  * @param {(RegExp|String)} regexp A regular expression used to define the search criteria. If a String it is
  *    implicitly converted to a RegExp by using new RegExp(obj).
- * @returns {int} The index of the first match of regexp in array, -1 if not found.
+ * @returns {number} The index of the first match of regexp in array, -1 if not found.
  *
  * @example
  * search(["foo", "bar", "fu", "baaaa"], /[aAeEiI]{2,}/);

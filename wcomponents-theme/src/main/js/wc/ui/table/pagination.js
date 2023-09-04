@@ -62,7 +62,7 @@ function(attribute, event, focus, formUpdateManager, initialise, shed, Widget, a
 
 		/**
 		 * Helper for updateSelectOptions and setUpPageSelectOptions.
-		 * @param {int} currentPage The page currently being shown.
+		 * @param {number} currentPage The page currently being shown.
 		 * @param {type} totalPages The number of pages in the table.
 		 * @returns {Number} the start point for the page select options' values.
 		 */
@@ -262,7 +262,7 @@ function(attribute, event, focus, formUpdateManager, initialise, shed, Widget, a
 		 * @function
 		 * @private
 		 * @param {Element} button A pagination button.
-		 * @returns {int} One the constants defined in IDX_BUTTON
+		 * @returns {number} One the constants defined in IDX_BUTTON
 		 */
 		function getButtonType(button) {
 			var container = PAGINATION_CONTAINER.findAncestor(button),
@@ -373,9 +373,9 @@ function(attribute, event, focus, formUpdateManager, initialise, shed, Widget, a
 		 * @function
 		 * @private
 		 * @param {NodeList} rows The collection of row elements
-		 * @param {int} count The number of rows to show and hide (if they are different put in the bigger of the two)
-		 * @param {int} showStart The starting index of the rows to show (inclusive, ie will be shown)
-		 * @param {int} hideStart The starting index of the rows to hide (inclusive, ie will be hidden)
+		 * @param {number} count The number of rows to show and hide (if they are different put in the bigger of the two)
+		 * @param {number} showStart The starting index of the rows to show (inclusive, ie will be shown)
+		 * @param {number} hideStart The starting index of the rows to hide (inclusive, ie will be hidden)
 		 */
 		function interleavedShowHide(rows, count, showStart, hideStart) {
 			var nextHide, nextShow, i = 0;

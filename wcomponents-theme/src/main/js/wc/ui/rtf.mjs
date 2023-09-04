@@ -20,7 +20,7 @@ import tinyMCE from "tinyMCE";
 function processNow(idArr) {
 	const config = wcconfig.get("wc/ui/rtf", {
 		initObj: {
-			content_css: styleLoader.getMainCss(true),
+			content_css: styleLoader.getMainCss(),
 			menubar: false,
 			plugins: "autolink link lists advlist preview help",
 			toolbar: 'undo redo | formatselect | ' +

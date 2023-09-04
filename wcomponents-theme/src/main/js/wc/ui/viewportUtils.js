@@ -28,7 +28,7 @@ define(["wc/dom/getViewportSize", "wc/config"], function (getViewportSize, wccon
 		 *
 		 * @function
 		 * @private
-		 * @param {int} limit The limit to test
+		 * @param {number} limit The limit to test
 		 * @param {boolean} [gtr] if true then we want to know if the viewport is at least as big as limit, otherwise
 		 *   is the viewport no bigger than limit
 		 * @returns {Boolean} true if the viewport is no bigger than limit (or at least as big as limit if gtr is true).

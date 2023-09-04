@@ -27,7 +27,7 @@ const
 	 */
 	EMPTY_VALUE = "Submit Query",
 	/**
-	 * @constant {int} REQUEST_DELAY The delay, in milliseconds, before sending a request to prevent rapid fire
+	 * @constant {number} REQUEST_DELAY The delay, in milliseconds, before sending a request to prevent rapid fire
 	 * requests (double clickers).
 	 * @see {@link module:wc/ajax/Trigger~requestTimer}
 	 * @private
@@ -60,7 +60,7 @@ let
 	 */
 	requestBuffer = [],
 	/**
-	 * @var {int} requestTimer  A {@link module:wc/timers} timeout used for preventing rapid fire requests.
+	 * @var {number} requestTimer  A {@link module:wc/timers} timeout used for preventing rapid fire requests.
 	 * @see {@link module:wc/ajax/Trigger~REQUEST_DELAY}
 	 * @private
 	 */

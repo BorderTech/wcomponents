@@ -13,7 +13,7 @@ define(["wc/timers"], /** @param timers wc/timers @ignore */ function(timers) {
 	 * @function module:wc/dom/removeElement
 	 *
 	 * @param {string} id The id of the element to be removed.
-	 * @param {int} [useTimeout] If set then wrap the removal in a timeout of this many milliseconds. Probably pointless
+	 * @param {number} [useTimeout] If set then wrap the removal in a timeout of this many milliseconds. Probably pointless
 	 * especially if this is called from a finally block.
 	 */
 	function remove(id, useTimeout) {

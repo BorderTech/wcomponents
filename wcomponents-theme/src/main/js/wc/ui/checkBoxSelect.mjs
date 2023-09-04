@@ -48,7 +48,7 @@ function CheckBoxSelect() {
 	/**
 	 * The description of a group item.
 	 * @var
-	 * @type {int}
+	 * @type {number}
 	 * @protected
 	 */
 	this.exclusiveSelect = this.SELECT_MODE.MULTIPLE;

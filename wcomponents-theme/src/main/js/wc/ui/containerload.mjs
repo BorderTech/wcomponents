@@ -37,7 +37,7 @@ const instance = {
 	/**
 	 * To be called when a candidate element is made visible.
 	 *
-	 * @param {Element} element The element being made visisble.
+	 * @param {HTMLElement} element The element being made visible.
 	 */
 	onshow: function(element) {
 		return handleExpandOrShow(element);
@@ -46,10 +46,10 @@ const instance = {
 	/**
 	 * To be called when a candidate element is expanded.
 	 *
-	 * @param {Element} element The element being expanded.
+	 * @param {HTMLElement} element The element being expanded.
 	 */
 	onexpand: function(element) {
-		const _element = findFirstContainer(element, [lameContainer, magicContainer]);
+		const _element = findFirstContainer(element, [lameContainer, magicContainer].join());
 		return handleExpandOrShow(_element);
 	},
 
@@ -148,7 +148,7 @@ function requestLoad(element, eager, get) {
  * Helper for shedSubscriber.
  * Deal with an element being expanded or shown.
  *
- * @param element The element being shown or expanded.
+ * @param {HTMLElement} element The element being shown or expanded.
  * @private
  * @function
  */
@@ -177,11 +177,30 @@ function handleExpandOrShow(element) {
  * @function
  */
 function handleCollapseOrHide(element, action) {
-	const el = (action === shed.actions.COLLAPSE) ?
-		findFirstContainer(element, [lameContainer, dynamicContainer]) : element;
-	if (el) {
+	const selector = [lameContainer, dynamicContainer].join();
+	const { COLLAPSE } = shed.actions;
+	const el = (action === COLLAPSE) ? findFirstContainer(element, selector) : element;
+	if (el?.matches(selector)) {
 		convertDynamicContent(el);
 	}
+}
+
+/**
+ * @param {HTMLElement} element
+ * @param {string} selector to match
+ * @return {HTMLElement}
+ */
+function findFirstContainer(element, selector) {
+	if (element?.matches(selector)) {
+		return element;
+	}
+	/**
+	 *
+	 * @param {HTMLElement} child
+	 * @return {boolean} if the child matches
+	 */
+	const immediateChildMatcher = child => child.matches(selector);
+	return /** @type {HTMLElement} */ (Array.from(element?.children).find(immediateChildMatcher));
 }
 
 function init() {
@@ -195,25 +214,6 @@ function init() {
 }
 
 /**
- *
- * @param {Element} element
- * @param {string[]} widgets types to match
- * @return {Element}
- */
-function findFirstContainer(element, widgets) {
-	if (!element) {
-		return null;
-	}
-	const selector = widgets.join();
-	if (element.matches(selector)) {
-		return element;
-	}
-	const result = Array.from(element.children).find(child => child.matches(selector)) || element;
-	return result?.matches(selector) ? result : null;
-}
-
-
-/**
  * Request that a container's content be loaded. Deliberately does not check `matches(magicContainer)`
  * so that anything can leverage this functionality regardless of whether it possesses the right "className"
  * or not. In particular can be called by registration scripts built in XSLT phase.
@@ -224,7 +224,7 @@ function findFirstContainer(element, widgets) {
  */
 function requestEagerLoad(id) {
 	const element = document.getElementById(id);
-	if (element && !(element.innerHTML && element.innerHTML.trim())) {
+	if (!(element?.innerHTML?.trim())) {
 		console.log("Eager loading: ", id);
 		requestLoad(element, true, true);
 	}

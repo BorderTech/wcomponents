@@ -138,7 +138,7 @@ function(attribute, event, initialise, i18n, multiFormComponent, unique, sprintf
 		 * @param {Element} element The multiFormComponent which failed validation.
 		 * @param {String} flag The framework text of the message in sprintf format with placeholders for the label
 		 *                 text and selection constraint limit.
-		 * @param {int} limit The max/min number of values/selections.
+		 * @param {number} limit The max/min number of values/selections.
 		 */
 		function _flag(element, flag, limit) {
 			var message = sprintf.sprintf(flag, validationManager.getLabelText(element), limit);

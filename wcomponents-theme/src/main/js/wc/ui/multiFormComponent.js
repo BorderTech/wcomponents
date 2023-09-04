@@ -104,7 +104,7 @@ function(event, initialise, focus, shed, uid, i18n, selectLoader, timers, prompt
 		 *
 		 * @function module:wc/ui/multiFormComponent.getButtonType
 		 * @param {HTMLElement} element An add or remove button.
-		 * @returns {int} either BUTTON_TYPE.add (0) or BUTTON_TYPE.remove (1).
+		 * @returns {number} either BUTTON_TYPE.add (0) or BUTTON_TYPE.remove (1).
 		 */
 		this.getButtonType = function (element) {
 			const container = getContainer(element);

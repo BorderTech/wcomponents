@@ -79,7 +79,7 @@ export default function minMax(conf) {
 	 * @private
 	 * @param {Element} selectable the component being tested.
 	 * @param {String} flag The error message frame (sprintf formatted).
-	 * @param {int} limit The number of the constraint.
+	 * @param {number} limit The number of the constraint.
 	 * @param {String} [secondaryLabel] The text content of an inner label to add context to complex error
 	 *    messages. This is used for validation of WMultiSelectPair.
 	 */

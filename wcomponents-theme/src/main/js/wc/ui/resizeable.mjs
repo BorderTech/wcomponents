@@ -382,8 +382,8 @@ function Resizeable() {
 	 * @function
 	 * @private
 	 * @param {HTMLElement} element the resizeable DOM element
-	 * @param {int} x the x coordinate of the move event
-	 * @param {int} y the y coord of the move event
+	 * @param {number} x the x coordinate of the move event
+	 * @param {number} y the y coord of the move event
 	 */
 	function resizeHandleHelper(element, x, y) {
 		const id = element.id,

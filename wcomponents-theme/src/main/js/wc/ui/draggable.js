@@ -74,8 +74,8 @@ function(attribute, clearSelection, event, getMouseEventOffset, isAcceptableEven
 		 * Helper for the keydown event to move the "draggable" item.
 		 *
 		 * @param {Element} element The draggable element.
-		 * @param {int} x The amount to move in the x axis.
-		 * @param {int} y The amount to move in the y axis.
+		 * @param {number} x The amount to move in the x axis.
+		 * @param {number} y The amount to move in the y axis.
 		 * @returns {Boolean} true if the move is able to take place.
 		 */
 		function keydownHelper(element, x, y) {
@@ -383,7 +383,7 @@ function(attribute, clearSelection, event, getMouseEventOffset, isAcceptableEven
 	return initialise.register(new Draggable());
 	/**
 	 * @typedef {Object} module:wc/ui/draggable~config Optional module configuration
-	 * @property {int} step The number of pixels to move the draggable element per key press.
+	 * @property {number} step The number of pixels to move the draggable element per key press.
 	 * @default 8
 	 */
 });

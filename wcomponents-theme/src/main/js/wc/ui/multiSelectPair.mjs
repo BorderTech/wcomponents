@@ -70,11 +70,11 @@ const instance = {
 	 */
 	getInputWidget: () => selectSelector,
 
-	/** @var {int} module:wc/ui/multiSelectPair.LIST_TYPE_CHOSEN The descriptor for the "selected options" list. */
+	/** @var {number} module:wc/ui/multiSelectPair.LIST_TYPE_CHOSEN The descriptor for the "selected options" list. */
 	LIST_TYPE_CHOSEN,
 
 	/**
-	 * @var {int} module:wc/ui/multiSelectPair.LIST_TYPE_AVAILABLE The descriptor for the "available options" list. */
+	 * @var {number} module:wc/ui/multiSelectPair.LIST_TYPE_AVAILABLE The descriptor for the "available options" list. */
 	LIST_TYPE_AVAILABLE,
 
 	/**

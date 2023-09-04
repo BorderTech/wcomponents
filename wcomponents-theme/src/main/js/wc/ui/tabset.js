@@ -133,7 +133,7 @@ function(ariaAnalog, formUpdateManager, getFilteredGroup, initialise, shed, Widg
 		 * multi-selectable.
 		 *
 		 * @var
-		 * @type {int}
+		 * @type {number}
 		 * @default 2
 		 * @public
 		 * @override

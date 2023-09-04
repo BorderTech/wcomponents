@@ -16,7 +16,7 @@ const initializer = {
 	/**
 	 * Initialize this module.
 	 * @param {Object} [config] Configuration options, if provided FORCES initialize even if it has already run.
-	 * @returns {Promise} resolved when COMPLETELY initialised.
+	 * @returns {Promise} resolved when COMPLETELY initialized.
 	 */
 	initialize: function(config) {
 		return new Promise(function(win, lose) {
@@ -220,9 +220,9 @@ function getOptions(i18nConfig) {
  * Initialize the underlying i18next instance.
  * @function
  * @private
- * @param engine The instance of i18next to initialise.
+ * @param engine The instance of i18next to initialize.
  * @param config Configuration options.
- * @param {Function} [callback] Called when initialized, if the first arg is not falsey it's an error.
+ * @param {Function} [callback] Called when initialized, if the first arg is not falsy it's an error.
  */
 function initI18next(engine, config, callback) {
 	const options = getOptions(config);

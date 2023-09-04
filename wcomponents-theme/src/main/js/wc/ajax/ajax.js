@@ -20,7 +20,7 @@ define(["wc/Observer", "wc/xml/xmlString", "wc/timers", "wc/dom/uid", "require"]
 			 *  Exists primarily for Internet Explorer bugs, IE could not handle more than about 8 pending ajax requests.
 			 *  Firefox (15) can also be swamped (but it takes a lot more, can handle about 80). Now applied to all
 			 *  browsers for the sake of consistency.
-			 * @constant {int} limit
+			 * @constant {number} limit
 			 * @private
 			 */
 			limit = 20,

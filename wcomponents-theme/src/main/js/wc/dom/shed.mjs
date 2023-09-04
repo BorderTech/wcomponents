@@ -451,7 +451,7 @@ const instance = {
 	 * @type {Object}
 	 * @property {Boolean} SELECTED  true,
 	 * @property {Boolean} DESELECTED false,
-	 * @property {int} MIXED: 0
+	 * @property {number} MIXED: 0
 	 */
 	state: {
 		SELECTED: true,

@@ -17,7 +17,7 @@
  * **ACHTUNG! WARNING! ATTENTION! POZOR!**
  *
  * This is an "abstract class". That means it is not a complete implementation, subclasses are required to
- * implement certain properties / methods. The absolute minimum is  {@link module:wc/dom/Widget} ITEM.
+ * implement certain properties / methods. The absolute minimum is ITEM.
  *
  */
 
@@ -42,6 +42,7 @@ let getFilteredGroup,
 	keyWalkerConfig;  // we only need one keywalker for all group based walking with aria-analogs
 
 /* circular dependencies */
+// @ts-ignore
 require(["wc/dom/getFilteredGroup", "wc/dom/focus"], function($getFilteredGroup, $focus) {
 	getFilteredGroup = $getFilteredGroup;
 	focus = $focus;
@@ -164,7 +165,7 @@ function eventWrapper($event) {
  * @private
  * @param {HTMLElement} element The element in a group
  * @param {Object} analog An instance of a subclass of AriaAnalog.
- * @returns {Element[]} The group of items in the element's ARIA analog group.
+ * @returns {HTMLElement[]} The group of items in the element's ARIA analog group.
  */
 function getGroup(element, analog) {
 	let result;
@@ -181,8 +182,8 @@ function getGroup(element, analog) {
  *
  * @function
  * @private
- * @param {Element[]} _group
- * @returns {Element[]} The filtered group.
+ * @param {HTMLElement[]} _group
+ * @returns {HTMLElement[]} The filtered group.
  */
 function filterGroup(_group) {
 	return _group.filter(function(next) {
@@ -216,9 +217,9 @@ AriaAnalog.prototype.VALUE_ATTRIB = "data-wc-value";
  * @var
  * @protected
  * @type Object
- * @property {int} MULTIPLE Instance supports multiple selection.
- * @property {int} SINGLE Instance supports single selection.
- * @property {int} MIXED Instance supports either single multiple selection as determined by its aria-multiselectable property.
+ * @property {number} MULTIPLE Instance supports multiple selection.
+ * @property {number} SINGLE Instance supports single selection.
+ * @property {number} MIXED Instance supports either single multiple selection as determined by its aria-multiselectable property.
  */
 AriaAnalog.prototype.SELECT_MODE = {
 	MULTIPLE: 0,
@@ -232,10 +233,10 @@ AriaAnalog.prototype.SELECT_MODE = {
  *
  * @var
  * @type Object
- * @property {int} PREVIOUS Move to the previous item.
- * @property {int} NEXT Move to the next item.
- * @property {int} FIRST Move to the first item.
- * @property {int} LAST Move to the last item.
+ * @property {number} PREVIOUS Move to the previous item.
+ * @property {number} NEXT Move to the next item.
+ * @property {number} FIRST Move to the first item.
+ * @property {number} LAST Move to the last item.
  * @protected
  */
 AriaAnalog.prototype.KEY_DIRECTION = {
@@ -284,7 +285,7 @@ AriaAnalog.prototype.selectOnNavigate = function (element) {
  * value of AriaAnalog.prototype.SELECT_MODE.
  *
  * @var
- * @type int
+ * @type number
  * @default 0
  * @protected
  */
@@ -303,7 +304,7 @@ AriaAnalog.prototype.groupNavigation = true;
 
 /**
  * This property is used to get the start point element for SHIFT+activate and should only be initialised for
- * sub classes which support multiple selection.
+ * subclasses which support multiple selection.
  *
  * @var
  * @type {?Object}
@@ -815,9 +816,9 @@ AriaAnalog.prototype.setFocusIndex = function(element) {
 
 	if (_group && _group.length > 1) {
 		_group.forEach(function(next) {
-			next.tabIndex = "-1";
+			next.tabIndex = -1;
 		});
-		element.tabIndex = "0";
+		element.tabIndex = 0;
 	}
 };
 
@@ -826,7 +827,7 @@ AriaAnalog.prototype.setFocusIndex = function(element) {
  *
  * @function
  * @public
- * @returns {Widget|string}
+ * @returns {string}
  */
 AriaAnalog.prototype.getWidget = function() {
 	return this.ITEM;

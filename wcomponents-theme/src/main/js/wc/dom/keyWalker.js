@@ -139,7 +139,7 @@ define(function() {
 		 *
 		 * @function
 		 * @private
-		 * @param {int} currentIndex A group (array) index - where we are at the moment in the group.
+		 * @param {number} currentIndex A group (array) index - where we are at the moment in the group.
 		 * @param {Boolean} cycled Have we already cycled in this group?
 		 * @param {Boolean} useCycle Does this group support cycling at the extremities?
 		 * @param {Element[]} group The group of elements we are traversing.
@@ -202,7 +202,7 @@ define(function() {
 		 * @private
 		 * @param {Object} conf The keywalker config.
 		 * @param {Element} element The start element.
-		 * @param {int} whichWay The direction to walk.
+		 * @param {number} whichWay The direction to walk.
 		 * @returns {Element} The key walk target element if any.
 		 */
 		function groupBasedNavHelperLoopHelper(conf, element, whichWay) {

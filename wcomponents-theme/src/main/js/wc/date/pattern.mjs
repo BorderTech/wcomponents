@@ -292,7 +292,7 @@ function getPatternFor(obj) {
  * @private
  * @inner
  * @param {(Object|Array)} obj An object with key value pairs where the values are strings.
- * @param {int} minLength The minimum length of the smallest pattern.
+ * @param {number} minLength The minimum length of the smallest pattern.
  * @returns {String} corresponding regex pattern.
  *
  * @example objectToPattern({key1:'banana',key2:'bandaid'},3)

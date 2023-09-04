@@ -331,8 +331,8 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/getStyle", "wc/dom/ui
 
 		/**
 		 * @typedef {Object} module:wc/ui/positionable~setBySizeConfig
-		 * @property {int} [width] The width of the element being positioned. If not set then this is calculated.
-		 * @property {int} [height] The height of the element being positioned. If not set then this is calculated.
+		 * @property {number} [width] The width of the element being positioned. If not set then this is calculated.
+		 * @property {number} [height] The height of the element being positioned. If not set then this is calculated.
 		 * @property {float} [topOffsetPC] If set then the element is positioned such that the top of the element is below the top of the relative
 		 *   element/viewport by this much if this is less than 0 then the top of the positioned element will be above the relative element.
 		 * @property {float} [leftOffsetPC] If set then the element is positioned such that the left edge of the element is to the right of the left

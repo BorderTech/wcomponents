@@ -121,11 +121,11 @@ function setTabstop(element, instance) {
 		if (oldTabstops.length) {
 			Array.prototype.forEach.call(oldTabstops, function(next) {
 				if (element !== next) {
-					next.tabindex = "-1";
+					next.tabIndex = -1;
 				}
 			});
 		}
-		element.tabindex = "0";
+		element.tabIndex = 0;
 	}
 }
 
@@ -175,7 +175,7 @@ function doICollide(collision, isNotDefaultDirection) {
 }
 
 /**
- * Mouse over handler. Sets up hover effects when the menu is transoent and not displayed on a mobile device.
+ * Mouse over handler. Sets up hover effects when the menu is transient and not displayed on a mobile device.
  * This handler is only bound if required when a menu first receives focus and is bound directly to the menu
  * root. Note, we do not apply hover effects on mobile even though mobile devices may have keyboards and mice
  * because we restyle transient sub-menus on these devices to improve usability when NOT using a mouse. This
@@ -239,7 +239,7 @@ AbstractMenu.prototype._textMatchFilter = function(textNode) {
  * @private
  * @param {HTMLElement} element The menu node being tested.
  * @param {String} letter The letter on the key the user pressed.
- * @returns {int} A NodeFilter STATIC variable
+ * @returns {number} A NodeFilter STATIC variable
  */
 AbstractMenu.prototype.hasTextNodeMatch = function(element, letter) {
 	let result = NodeFilter.FILTER_SKIP;
@@ -999,7 +999,7 @@ function AbstractMenu() {
  * Widget descriptor of the menu root element. This <strong>must</strong> be overridden for anything to work
  * <del>properly</del><ins>at all</ins>.
  * @var
- * @type {module:wc/dom/Widget}
+ * @type {string}
  * @public
  * @abstract
  */
@@ -1710,7 +1710,7 @@ AbstractMenu.prototype.keydownEvent = function($event) {
 
 
 /**
- * Sets up the subclass specific {@link module:wc/dom/Widget}s used to describe the various parts of the menu.
+ * Sets up the subclass specific selectors used to describe the various parts of the menu.
  *
  * @function
  * @protected

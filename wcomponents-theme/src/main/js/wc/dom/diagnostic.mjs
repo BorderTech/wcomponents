@@ -27,7 +27,7 @@ const diagnostic = {
 	 * public for use in {@link module:wc/ui/feedback}.
 	 * @function
 	 * @public
-	 * @param {int} [level=1] the diagnostic box level
+	 * @param {number} [level=1] the diagnostic box level
 	 * @returns {String} an extension appropriate to the level
 	 */
 	getIdExtension: function (level) {
@@ -51,7 +51,7 @@ const diagnostic = {
 	 * Get the HTML class attribute which defines a diagnostic box.
 	 * @function
 	 * @public
-	 * @param {int} [level] the severity level, one of {@link module:wc/dom/diagnostic.LEVEL} if not set then get the basic diagnostic box class
+	 * @param {number} [level] the severity level, one of {@link module:wc/dom/diagnostic.LEVEL} if not set then get the basic diagnostic box class
 	 * @returns {String} the value of the HTML class attribute for the required diagnostic box.
 	 */
 	getBoxClass: function (level) {
@@ -113,7 +113,7 @@ const diagnostic = {
 	 * Gets the widget for an inline diagnostic box of a particular severity level.
 	 * @function
 	 * @public
-	 * @param {int} [level] the severity level, one of {@link module:wc/dom/diagnostic.LEVEL} if not set then test for any diagnostic level
+	 * @param {number} [level] the severity level, one of {@link module:wc/dom/diagnostic.LEVEL} if not set then test for any diagnostic level
 	 * @returns {string}
 	 */
 	getByType: function (level) {
