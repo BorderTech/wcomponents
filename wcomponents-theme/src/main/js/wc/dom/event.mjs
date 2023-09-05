@@ -135,7 +135,7 @@ function targetPhaseFilterFactory(type) {
  * The problem with having three optional args in a row is you get this sort of thing:
  * `event.add(element, "click", handler, null, null, true)`
  * @param {IArguments} args The arguments from a call to event.add.
- * @returns {{ type: string, listener: function, pos: int, scope: Object, capture: boolean, passive: boolean }} An eventArgs object, no matter if it was called with the new or old API.
+ * @returns {{ type: string, listener: function, pos: number, scope: Object, capture: boolean, passive: boolean }} An eventArgs object, no matter if it was called with the new or old API.
  */
 function addApi(args) {
 	const argMap = ["type", "listener", "pos", "scope", "capture", "passive"];
@@ -155,7 +155,7 @@ const instance = {
 	 * event. NOTE: we no longer support dom0 binding: get over it.
 	 *
 	 * @function module:wc/dom/event.add
-	 * @param {HTMLElement|global} element The element to which the event listener will be associated.
+	 * @param {Element|global} element The element to which the event listener will be associated.
 	 * @param {string} eventArgs.type The type of event (eg 'click', 'focus' NOT 'onclick', 'onfocus')
 	 * @param {Function} eventArgs.listener The event listener that will be called on the event
 	 * @param {number} [eventArgs.pos] positive number = runs later, negative number = runs earlier
@@ -203,7 +203,7 @@ const instance = {
 	 * eventListener() code where a static snapshot of event listeners is taken before any of them are notified.
 	 *
 	 * @function module:wc/dom/event.remove
-	 * @param {HTMLElement|Object|Object[]} element The element from which the event is removed.
+	 * @param {Element|Object|Object[]} element The element from which the event is removed.
 	 *    Alternatively simply pass the result from a call to the "add" method of this module.
 	 *    You may also pass an array of these - note the array will be modified! It will be emptied.
 	 * @param {string} [type] The type we are removing. Not used if called with return value of "add".
@@ -252,7 +252,7 @@ const instance = {
 	 * for the vast majority of legitimate cases).
 	 *
 	 * @function module:wc/dom/event.fire
-	 * @param {HTMLElement} element The element to fire the event on.
+	 * @param {Element} element The element to fire the event on.
 	 * @param {string} $event The event to fire (eg 'click')
 	 * @param {Object} [options]
 	 * @param {boolean} [options.bubbles]

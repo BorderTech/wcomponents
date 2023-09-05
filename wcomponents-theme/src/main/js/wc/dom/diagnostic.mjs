@@ -102,6 +102,20 @@ const diagnostic = {
 	getWidget: () => diagnosticSelector,
 
 	/**
+	 * Find all the contained diagnostics.
+	 * @param {Element} element Will search within the subtree of this element.
+	 * @return {HTMLElement[]}
+	 */
+	getWithin: function (element) {
+		if (!element) {
+			return [];
+		}
+		const result = /** @type {NodeListOf<HTMLSpanElement>} */(
+			element.querySelectorAll(this.getWidget()));
+		return Array.from(result);
+	},
+
+	/**
 	 * Gets the widget for an inline diagnostic's message(s).
 	 * @function
 	 * @public
@@ -139,7 +153,7 @@ const diagnostic = {
 	 * @function
 	 * @public
 	 * @param {HTMLElement} element the element to test
-	 * @param {type} [level] the severity level, one of {@link module:wc/dom/diagnostic.LEVEL} if not set then test for any diagnostic level
+	 * @param {instance.LEVEL} [level] the severity level, one of {@link module:wc/dom/diagnostic.LEVEL} if not set then test for any diagnostic level
 	 * @returns {Boolean}
 	 */
 	isOneOfMe: function (element, level) {
@@ -161,7 +175,7 @@ const diagnostic = {
 	 * @function
 	 * @public
 	 * @param {HTMLElement} element the element to test
-	 * @param {type} [level] the severity level, one of {@link module:wc/dom/diagnostic.LEVEL} if not set then test for any diagnostic level
+	 * @param {module:wc/dom/diagnostic.LEVEL} [level] the severity level, one of {@link module:wc/dom/diagnostic.LEVEL} if not set then test for any diagnostic level
 	 * @returns {Boolean}
 	 */
 	isMessage: function (element, level) {
@@ -193,7 +207,7 @@ const diagnostic = {
 	 * @public
 	 * @param {HTMLElement} diag the box to test
 	 * @throws {TypeError} if `diag` is not a diagnostic box
-	 * @returns {Number|diagnosticL#1.Diagnostic.LEVEL} the diagnostic level from module:wc/dom/diagnostic.LEVEL or -1 if not found
+	 * @returns {module:wc/dom/diagnostic.LEVEL|Number} the diagnostic level from module:wc/dom/diagnostic.LEVEL or -1 if not found
 	 */
 	getLevel: function (diag) {
 		if (!diag?.matches(diagnosticSelector)) {

@@ -31,8 +31,10 @@ function(attribute, event, initialise, shed, Widget, i18n, sprintf, required, va
 		* @returns {Boolean} true if all required WTextAreas in container are complete.
 		*/
 		function _validateRequired(container) {
-			var obj = {container: container,
-				widget: textArea.getWidget()};
+			var obj = {
+				container: container,
+				widget: textArea.getWidget()
+			};
 			return required.complexValidationHelper(obj);
 		}
 

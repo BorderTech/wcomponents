@@ -109,10 +109,9 @@ const validationManager = {
 		 * @function
 		 * @private
 		 * @param {Boolean} decision true if valid.
-		 * @returns {number} A bitmap
 		 */
 		function _callback(decision) {
-			result &= decision;  // we are only valid if all observers are valid
+			result &&= decision;  // we are only valid if all observers are valid
 		}
 
 		if (!container && document.activeElement) {
@@ -155,9 +154,15 @@ const validationManager = {
 		return observer.subscribe(subscriber, group);
 	},
 
+	/**
+	 *
+	 * @param {HTMLElement} element
+	 * @param fallbackToken
+	 * @return {string}
+	 */
 	getLabelText: function(element, fallbackToken) {
 		const token = fallbackToken || "validation_common_unlabelledfield";
-		return getFirstLabelForElement(element, true) ||
+		return /** @type {string} */(getFirstLabelForElement(element, true)) ||
 			element.getAttribute("aria-label") ||
 			element.title ||
 			i18n.get(token);

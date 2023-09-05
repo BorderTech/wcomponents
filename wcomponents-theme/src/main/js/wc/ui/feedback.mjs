@@ -13,9 +13,13 @@ const instance = {
 	 * For the convenience of consuming UI modules.
 	 */
 	LEVEL: diagnostic.LEVEL,
-	isOneOfMe: function(element, level) {
-		return diagnostic.isOneOfMe(element, level);
-	},
+	/**
+	 *
+	 * @param {HTMLElement} element
+	 * @param {module:wc/dom/diagnostic.LEVEL} level
+	 * @return {boolean}
+	 */
+	isOneOfMe: (element, level) => diagnostic.isOneOfMe(element, level),
 
 	/**
 	 * Change the diagnostic level of an existing diagnostic box.
@@ -33,7 +37,7 @@ const instance = {
 		}
 		const oldLevel = diagnostic.getLevel(box);
 		if (oldLevel === toLevel) {
-			return; // nothing to do
+			return;  // nothing to do
 		}
 		const newClass = diagnostic.getBoxClass(toLevel);
 		const oldClass = diagnostic.getBoxClass(oldLevel);
@@ -74,9 +78,7 @@ const instance = {
 		check(box, false);
 		const messages = this.getMessages(box);
 		if (messages) {
-			Array.prototype.forEach.call(messages, function(next) {
-				box.removeChild(next);
-			});
+			messages.forEach(next => box.removeChild(next));
 		}
 	},
 
@@ -211,7 +213,7 @@ const instance = {
 			transientWidget = `${diagnostic.getWidget()}[data-wc-dfor='${id}']`;
 			result = target.querySelector(transientWidget);
 			if (result) {  // fast but insufficient
-				return result;
+				return /** @type {HTMLElement} */ (result);
 			}
 			for (let lvl in this.LEVEL) {
 				result = this.getBox(element, this.LEVEL[lvl]);
@@ -232,18 +234,21 @@ const instance = {
 	 */
 	getLast: function(element) {
 		let target = checkAndGetElement(element);
-
 		if (!target.id) {
 			return null;
 		}
-
 		if (wrappedInput.isWrappedInput(target)) {
 			target = wrappedInput.getWrapper(target);
 		}
-		const candidates = target.querySelectorAll(diagnostic.getWidget());
-		return (candidates && candidates.length) ? candidates[candidates.length - 1] : null;
+		const candidates = diagnostic.getWithin(target);
+		return candidates.length ? candidates.pop() : null;
 	},
 
+	/**
+	 *
+	 * @param {module:wc/ui/feedback~flagDto} args
+	 * @return {String|null}
+	 */
 	add: function(args) {
 		const AFTER_END = "afterend";
 		const messages = args.messages;
@@ -322,14 +327,17 @@ const instance = {
 	}
 };
 
-
+/**
+ * @param {HTMLElement|string} element
+ * @return {HTMLElement}
+ */
 function checkAndGetElement(element) {
 	if (!element) {
 		throw new TypeError("element must not be falsey");
 	}
 	const target = (typeof element === "string") ? document.getElementById(element) : element;
 
-	if (!(target && target.tagName)) {
+	if (!target?.tagName) {
 		throw new TypeError("element does not represent an HTML Element");
 	}
 	return target;
@@ -352,6 +360,12 @@ function check(diag, lenient) {
 	return true;
 }
 
+/**
+ *
+ * @param {HTMLElement} diag
+ * @param {number} fromLevel
+ * @param {number} toLevel
+ */
 function changeIcon(diag, fromLevel, toLevel) {
 	const oldClass = getIconName(fromLevel),
 		newClass = getIconName(toLevel);
@@ -368,7 +382,7 @@ function changeIcon(diag, fromLevel, toLevel) {
 function toggleValidity(target, clear) {
 	const INVALID_ATTRIB = "aria-invalid",
 		DESCRIBED_ATTRIB = "aria-describedby";
-	if (!(target && target.tagName)) {
+	if (!target?.tagName) {
 		return;
 	}
 	const element =  wrappedInput.getInput(target) || target;
@@ -382,7 +396,10 @@ function toggleValidity(target, clear) {
 		if (diag) {
 			element.setAttribute(INVALID_ATTRIB, "true");
 			element.setAttribute(DESCRIBED_ATTRIB, diag.id);
-		} else if ((diag = instance.getBox(target, -1))) {
+			return;
+		}
+		diag = instance.getBox(target, -1);
+		if (diag) {
 			element.removeAttribute(INVALID_ATTRIB);
 			element.setAttribute(DESCRIBED_ATTRIB, diag.id);
 		}
@@ -395,36 +412,30 @@ function toggleValidity(target, clear) {
  * @returns {String}
  */
 function getIconName(level) {
-	let defaultIcon = "fa-times-circle";
+	/** @type { {successIcon: ?string, infoIcon: ?string, warnIcon: ?string, errorIcon: ?string} } */
 	const config = wcconfig.get("wc/ui/feedback");
+	const defaultIcon = config?.errorIcon || "fa-times-circle";
 
-	if (config && config.errorIcon) {
-		defaultIcon = config.errorIcon;
-	}
 	if (!level || level === diagnostic.LEVEL.ERROR) {
 		return defaultIcon;
 	}
 	switch (level) {
 		case diagnostic.LEVEL.WARN:
-			if (config && config.warnIcon) {
-				return config.warnIcon;
-			}
-			return "fa-exclamation-triangle";
+			return config?.warnIcon || "fa-exclamation-triangle";
 		case diagnostic.LEVEL.INFO:
-			if (config && config.infoIcon) {
-				return config.infoIcon;
-			}
-			return "fa-info-circle";
+			return config?.infoIcon || "fa-info-circle";
 		case diagnostic.LEVEL.SUCCESS:
-			if (config && config.successIcon) {
-				return config.successIcon;
-			}
-			return "fa-check-circle";
+			return config?.successIcon || "fa-check-circle";
 		default:
 			return defaultIcon;
 	}
 }
 
+/**
+ *
+ * @param {string} message
+ * @return {string}
+ */
 function getMessageHTML(message) {
 	if (!message) {
 		throw new TypeError("Message must not be falsy");
@@ -452,10 +463,10 @@ function addHelper(box, message) {
 	}
 	let current = instance.getMessages(box);
 	if (current) {
-		for (let i = 0; i < current.length; ++i) {
-			if (message.toLocaleLowerCase() === current[i].innerHTML.toLocaleLowerCase()) {
+		for (const element of current) {
+			if (message.toLocaleLowerCase() === element.innerHTML.toLocaleLowerCase()) {
 				// already have this message
-				return current[i];
+				return element;
 			}
 		}
 	}
@@ -615,7 +626,8 @@ export default instance;
 
 /**
  * @typedef {Object} module:wc/ui/feedback~flagDto The properties used to describe a custom error message.
- * @property {String|String[]} message The message to display.
- * @property {HTMLElement} element The element which is to be flagged with the error message.
- * @property {module:wc/dom/diagnostic.LEVEL} level The message severity.
+ * @property {String|String[]} messages The message to display.
+ * @property {HTMLElement} target The element which is to be flagged with the error message.
+ * @property {module:wc/dom/diagnostic.LEVEL|number} [level] The message severity.
+ * @property {InsertPosition} [position]
  */

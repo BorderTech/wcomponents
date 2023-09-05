@@ -26,7 +26,8 @@ const instance = {
  * @returns {boolean} true if the container is valid.
  */
 function validate(container) {
-	return required.complexValidationHelper({container: container,
+	return required.complexValidationHelper({
+		container: container,
 		widget: radioButtonSelect.getWidget(),
 		constraint: required.CONSTRAINTS.CLASSNAME,
 		position: "beforeEnd"

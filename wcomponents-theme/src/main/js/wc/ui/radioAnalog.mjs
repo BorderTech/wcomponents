@@ -30,7 +30,7 @@ function RadioAnalog() {
 	/**
 	 * The description of a group item. This makes this class concrete.
 	 * @var
-	 * @type {module:wc/dom/Widget}
+	 * @type {string}
 	 * @public
 	 * @override
 	 */

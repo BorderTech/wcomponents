@@ -23,7 +23,7 @@ const instance = {
 	 * it is incomplete, it gets a standard message and the flag is applied to the element "afterEnd".
 	 *
 	 * @function module:wc/ui/validation/required.doItAllForMe
-	 * @param {HTMLElement} container the container being validated.
+	 * @param {Element} container the container being validated.
 	 * @param {string} widget the descriptor of the component being tested.
 	 * @param {Boolean} [useAria] set true to use aria-required as the indicator of mandatory-ness, otherwise
 	 *    use required attribute.
@@ -34,7 +34,7 @@ const instance = {
 			result = true;
 		// just get the failures for flagging
 		elements = elements.filter(isNotComplete);
-		if (elements && elements.length) {
+		if (elements?.length) {
 			result = false;
 			flagAllThese(elements);
 		}
@@ -42,12 +42,12 @@ const instance = {
 	},
 
 	/**
-	 * A helper for doing all of the required validation but allowing individual components to set a lot of
+	 * A helper for doing all the required validation but allowing individual components to set a lot of
 	 * optional parameters.
 	 *
 	 * @function module:wc/ui/validation/required.complexValidationHelper
 	 * @param {module:wc/ui/validation/required~config} obj Configuration parameters.
-	 * @returns {Boolean} true if obj.container is valid.
+	 * @returns {Boolean} true if `obj.container` is valid.
 	 */
 	complexValidationHelper: function(obj) {
 		let result = true;
@@ -59,7 +59,7 @@ const instance = {
 
 		if (widget && container) {
 			const elements = this.getRequired(container, widget, constraint).filter(filterFunc);
-			if (elements && elements.length) {
+			if (elements?.length) {
 				result = false;
 				flagFunc(elements, obj);
 			}
@@ -71,7 +71,7 @@ const instance = {
 	 * Helper for re-validating a single control which is already in an invalid state. This is used for
 	 * changeEvent based revalidation. This function assumes that the calling function has called
 	 * <code>validationManager.isInvalid</code> for element but is not dependent on that. It is just better
-	 * practice to do so before doing any further revalidation but you could turn on in-context validation for
+	 * practice to do so before doing any further revalidation, but you could turn on in-context validation for
 	 * all change events by not doing that test.
 	 *
 	 * @function module:wc/ui/validation/required.revalidate
@@ -90,7 +90,7 @@ const instance = {
 	 * Gets all required instances of a given Widget in a container.
 	 *
 	 * @function module:wc/ui/validation/required.getRequired
-	 * @param {HTMLElement} container Where to look (we look inside, container doesn't count).
+	 * @param {Element} container Where to look (we look inside, container doesn't count).
 	 * @param {string} widget A Widget describing the type of component for which we are looking (or a query selector).
 	 * @param {module:wc/ui/validation/required.CONSTRAINTS} [requiredConstraint] Sets the required constraint if not using the required attribute.
 	 * @returns {HTMLElement[]} Will return an empty array if there are no required components in the container(including the container itself).
@@ -101,12 +101,12 @@ const instance = {
 			exObj;
 
 		/**
-		 * Array map function to extend the orignal widget to add the necessary required constraints.
+		 * Array map function to extend the original widget to add the necessary required constraints.
 		 *
 		 * @function
 		 * @private
-		 * @param {module:wc/dom/Widget} nextWidget The widget we are extending.
-		 * @return {String}
+		 * @param {string} nextWidget The widget we are extending.
+		 * @return {string}
 		 */
 		function _mapFn(nextWidget) {
 			let extendedWidget = nextWidget.toString();  // if no extension just return itself
@@ -170,7 +170,7 @@ function getRequiredMessage(element) {
 function flagAllThese(elements, config) {
 	const messageFunc = (config && config.messageFunc) ? config.messageFunc : getRequiredMessage;
 
-	Array.prototype.forEach.call(elements, function (next) {
+	Array.prototype.forEach.call(elements, next => {
 		feedback.flagError({ element: next, message: messageFunc(next)});
 	});
 }
@@ -199,11 +199,12 @@ export default instance;
  * Configuration object for several functions.
  * @typedef {Object} module:wc/ui/validation/required~config
  * @property {HTMLElement} container The container being validated.
- * @property {module:wc/dom/Widget|string} widget The description of the component we are currently testing.
- * @property {Function} [filterFunc] A function to call to test for completeness, defaults to
+ * @property {string} widget The description of the component we are currently testing.
+ * @property {Function} [filter] A function to call to test for completeness, defaults to
  *    {@link module:wc/ui/validation/required~isNotComplete}.
- * @property {Function} [flagFunc] A function to set the error message box. Defaults to
+ * @property {Function} [flag] A function to set the error message box. Defaults to
  *    {@link module:wc/ui/validation/required~flagAllThese}
  * @property {Function} [messageFunc] A function to get the error message. Defaults to
  *    {@link module:wc/ui/validation/required~getRequiredMessage}.
+ * @property {module:wc/ui/validation/required.CONSTRAINTS} constraint
  */

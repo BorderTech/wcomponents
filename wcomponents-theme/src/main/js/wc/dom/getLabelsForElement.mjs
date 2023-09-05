@@ -5,8 +5,20 @@ const fieldsetSelector = "fieldset",
 	legendSelector = "legend",
 	labelSelector = "label";
 
+/**
+ * @param {string} id
+ * @return {string} `label[for='${string}']`
+ */
 const labelForSelector = id => `${labelSelector}[for='${id}']`;
+/**
+ * @param {string} id
+ * @return {string} `[data-wc-for='${string}']`
+ */
 const labelDataForSelector = id => `[data-wc-for='${id}']`;
+/**
+ * @param {string} id
+ * @return {string} `[data-wc-rofor='${string}']`
+ */
 const labelDataRoForSelector = id => `[data-wc-rofor='${id}']`;
 
 /**
@@ -49,7 +61,7 @@ function doLabelQuery(element, labelArr, readOnly) {
 			const wrappedId = wrappedInput.getWrappedId(element);
 			query.push(labelForSelector(wrappedId));
 		}
-		const labels = document.querySelectorAll(query.join());
+		const labels = /** @type {NodeListOf<HTMLElement>} */(document.querySelectorAll(query.join()));
 		result = result.concat(Array.from(labels));
 	}
 	return result;
@@ -126,7 +138,7 @@ function getLabels(element, includeReadOnly) {
 
 			nativeLabeledElements = doLabelQuery(element, nativeLabeledElements, includeReadOnly);
 
-			if (!(nativeLabeledElements && nativeLabeledElements.length)) {
+			if (!nativeLabeledElements?.length) {
 				// try getting an ancestor label element ONLY if element is input, textarea, select or progress.
 				if (element.matches(labelable.join())) {
 					nativeLabeledElements = getAncestorLabel(element);

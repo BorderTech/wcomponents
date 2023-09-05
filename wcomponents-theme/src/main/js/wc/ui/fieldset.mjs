@@ -67,7 +67,7 @@ initialise.register({
 
 export default {
 	/**
-	 * Gets the {@link module:wc/dom/Widget} descriptor for a fieldset element.
+	 * Gets the selector for a fieldset element.
 	 *
 	 * @function module:wc/ui/fieldset.getWidget
 	 * @public

@@ -18,7 +18,8 @@ ariaGroup.getOwner = function(element) {
 	let result = null;
 	if (id) {
 		const ownerWd = `[aria-owns~='${id}']`;
-		result = document.body.querySelector(ownerWd);  // something may not be aria-owned by more than one element at a time
+		// something may not be aria-owned by more than one element at a time
+		result = /** @type {HTMLElement} */ (document.body.querySelector(ownerWd));
 	}
 	return result;
 };
@@ -97,15 +98,14 @@ ariaGroup.getGroup = function (element, role, ignoreInnerGroups) {
 
 			if (widgets.length) {
 				const selector = widgets.join();
-				const candidates = Array.from(container.querySelectorAll(selector));
+				const candidates = Array.from(/** @type {NodeListOf<HTMLElement>} */(
+					container.querySelectorAll(selector)));
 				if (candidates?.length) {
 					if (ignoreInnerGroups) {
 						result = candidates;
 					} else {
 						const containerWd = `[role='${_role}']`;
-						result = candidates.filter(function(next) {
-							return this.getContainer(next, containerWd, true) === container;
-						}, this);
+						result = candidates.filter(next => this.getContainer(next, containerWd, true) === container);
 					}
 				}
 			}
@@ -123,7 +123,7 @@ ariaGroup.getGroup = function (element, role, ignoreInnerGroups) {
  * @function module:wc/dom/ariaGroup.getContainer
  * @public
  * @param {HTMLElement} element the reference element
- * @param {module:wc/dom/Widget} [containerWd] a Widget describing the container, if any, for the
+ * @param {string} [containerWd] a Widget describing the container, if any, for the
  *    subclass of {@link module:wc/dom/AriaAnalog}
  * @param {Boolean} [ignoreOwner] If true then do not look for a WAI-ARIA owner (aria-owns) element.
  * @returns {HTMLElement} The group container element, if any.
@@ -136,23 +136,22 @@ ariaGroup.getContainer = function(element, containerWd, ignoreOwner) {
 	if (!result) {
 		let role;
 		if (containerWd) {
-			result = element.closest(containerWd.toString());
-		} else if ((role = $role.get(element, true))) {
+			return element.closest(containerWd.toString());
+		}
+		role = $role.get(element, true);
+		if (role) {
 			let scope = aria.getScope(role);
-			if (!(scope && scope.length)) {
+			if (!scope?.length) {
 				scope = aria.getScopedBy(role);
 			}
-			if (scope && scope.length) {
+			if (scope?.length) {
 				let widgets = buildWidgetArrayFromRoles(scope);
 				if (widgets.length === 0) {
 					widgets = null;
-				} else if (widgets.length === 1) {
-					widgets = widgets[0];
 				}
-
 				if (widgets) {
-					const selector = Array.isArray(widgets) ? widgets.join() : widgets;
-					result = element.closest(selector);
+					const selector = widgets.join();
+					result = /** @type {HTMLElement} */ (element.closest(selector));
 				}
 			}
 		}

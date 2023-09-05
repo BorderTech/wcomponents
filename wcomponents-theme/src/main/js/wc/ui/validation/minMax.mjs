@@ -13,8 +13,8 @@ const MIN = "data-wc-min",
  *
  * @function
  * @alias module:wc/ui/validation/minMax
- * @param {module:wc/ui/validation/minMax~config} conf Contains the validator configuration options.
- * @returns {boolean} true if the tested component meets its constraints (incuding if their are no constraints).
+ * @param {{container: Element, widget: string, selectedFunc: (function((HTMLElement|HTMLElement[]), module:wc/dom/getFilteredGroup~config=): HTMLElement[] | {filtered: HTMLElement[], unfiltered: HTMLElement[]})}} conf Contains the validator configuration options.
+ * @returns {boolean} true if the tested component meets its constraints (including if their are no constraints).
  */
 export default function minMax(conf) {
 	const container = conf.container,
@@ -34,13 +34,13 @@ export default function minMax(conf) {
 	 * Array filter function for typical selection constraint testing.
 	 * @function
 	 * @private
-	 * @param selectable an instance of the selectable component being tested
+	 * @param {HTMLElement} selectable an instance of the selectable component being tested
 	 * @returns {boolean} true if the selectable does not meet its constraints
 	 */
 	function _filter(selectable) {
-		var isInvalid = false,
-			min = selectable.getAttribute(MIN),
-			max = selectable.getAttribute(MAX),
+		let isInvalid = false,
+			min = Number(selectable.getAttribute(MIN)),
+			max = Number(selectable.getAttribute(MAX)),
 			count = 0, limit, flag, testElement = selectable, listLabel, selections;
 
 		if (selectionElementFunc) {
@@ -84,9 +84,10 @@ export default function minMax(conf) {
 	 *    messages. This is used for validation of WMultiSelectPair.
 	 */
 	function flagError(selectable, flag, limit, secondaryLabel) {
-		var message = sprintf.sprintf(flag, validationManager.getLabelText(selectable), limit, secondaryLabel);
+		const labelText = validationManager.getLabelText(selectable);
+		const message = /** @type {string} */(sprintf.sprintf(flag, labelText, limit, secondaryLabel));
 
-		feedback.flagError({element: selectable, message: message});
+		feedback.flagError({ element: selectable, message: message });
 	}
 
 	if (container.matches(widget)) {
@@ -94,7 +95,7 @@ export default function minMax(conf) {
 	} else {
 		selectables = Array.from(container.querySelectorAll(widget)).filter(filter);
 	}
-	return !(selectables && selectables.length);
+	return !selectables?.length;
 
 }
 
