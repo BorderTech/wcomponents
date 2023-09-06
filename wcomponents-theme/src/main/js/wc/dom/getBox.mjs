@@ -3,7 +3,7 @@
  * (these are most often used and are not supported in old versions of IE).
  *
  * @alias module:wc/dom/getBox
- * @param {HTMLElement} element The element of which we need the box.
+ * @param {Element} element The element of which we need the box.
  * @param {Boolean} [round] Should we round the result before returning it?
  * @returns {module:wc/dom/getBox~box} A dimension object as per getBoundingClientRect. Properties width and height
  *   are added if they are undefined. NOTE: IE8 will throw an error if you try to add width and/or height properties

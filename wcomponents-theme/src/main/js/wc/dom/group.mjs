@@ -72,8 +72,8 @@ elementGroup.get = function (element, ignoreInnerGroups) {
  * @function module:wc/dom/group.getGroup
  * @param {HTMLElement} element The container/owner itself unless containerWd is specified in which case any
  *    descendant of a container/owner.
- * @param {module:wc/dom/Widget|string} itemWd The widget that describes the items in the group
- * @param {module:wc/dom/Widget|string} [containerWd] A widget that describes a group container.
+ * @param {string} itemWd The widget that describes the items in the group
+ * @param {string} [containerWd] A widget that describes a group container.
  * @returns {HTMLElement[]} An array of elements in the group.
  * @todo This is used rather than this.get when we start at a known group container (such as a fieldset or
  * a known ARIA container) but the naming is a bit ambiguous. Maybe we should change it?
@@ -89,7 +89,7 @@ elementGroup.getGroup = function(element, itemWd, containerWd) {
 	} else {
 		result = Array.from(element.querySelectorAll(itemSelector));
 	}
-	return result;
+	return /** @type {HTMLElement[]} */(result);
 };
 
 /**
@@ -99,7 +99,7 @@ elementGroup.getGroup = function(element, itemWd, containerWd) {
  *
  * @function module:wc/dom/group.getContainer
  * @param {HTMLElement} element An element which may be a group container or a member of a group or neither.
- * @param {module:wc/dom/Widget|string} [containerWd] A container widget for a subclass of
+ * @param {string} [containerWd] A container widget for a subclass of
  *    {@link module:wc/dom/AriaAnalog}.
  * @returns {HTMLElement} The element which contains the group.
  */
