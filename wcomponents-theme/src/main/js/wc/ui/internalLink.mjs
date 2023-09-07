@@ -14,7 +14,7 @@ const LEGEND = "legend",
 
 /**
  *
- * @param {HTMLElement} element
+ * @param {Element} element
  * @return {boolean}
  */
 function actionClickEvent(element) {

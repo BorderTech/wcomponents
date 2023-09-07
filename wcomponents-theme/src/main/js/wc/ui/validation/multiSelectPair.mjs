@@ -13,12 +13,6 @@ import validationManager from "wc/ui/validation/validationManager";
 import getFirstLabelForElement from "wc/ui/getFirstLabelForElement";
 import i18n from "wc/i18n/i18n";
 
-/**
- * @constructor
- * @alias module:wc/ui/validation/multiSelectPair~ValidationMultiSelectPair
- * @private
- */
-
 const containerSelector = multiSelectPair.getWidget(),
 	selectSelector = multiSelectPair.getInputWidget();
 
@@ -27,7 +21,7 @@ const containerSelector = multiSelectPair.getWidget(),
  * inside one.
  * @function
  * @private
- * @param {HTMLElement} element Any DOM element.
+ * @param {Element} element Any DOM element.
  * @returns {HTMLElement} A WMultiSelectPair wrapper element.
  */
 function getContainer(element) {
@@ -38,7 +32,7 @@ function getContainer(element) {
  * Re-validate WMultiSelectPair when the selection changes.
  * @function
  * @private
- * @param {HTMLElement} container a WMultiSelectPair component.
+ * @param {Element} container a WMultiSelectPair component.
  */
 function revalidate(container) {
 	return validationManager.revalidationHelper(container, validate);
@@ -49,10 +43,9 @@ function revalidate(container) {
  * This is wired up on the multiSelectPair container.
  * @function
  * @private
- * @param {MouseEvent} $event A click or dblclick event.
+ * @param {MouseEvent & { target: HTMLElement, currentTarget: HTMLElement }} $event A click or dblclick event.
  */
 function clickEvent({ target, currentTarget, defaultPrevented }) {
-
 	if (defaultPrevented || shed.isDisabled(target)) {
 		return;
 	}
@@ -72,7 +65,7 @@ function clickEvent({ target, currentTarget, defaultPrevented }) {
  * Gets the "selected items" list from a WMultiSelectPair.
  * @function
  * @private
- * @param {HTMLElement} element A WMultiSelectPair.
+ * @param {Element} element A WMultiSelectPair.
  * @returns {HTMLSelectElement} The select element which holds the selected options.
  */
 function getSelectionList(element) {
@@ -85,7 +78,7 @@ function getSelectionList(element) {
  * This is wired up on the multiSelectPair container.
  * @function
  * @private
- * @param {KeyboardEvent} $event A  keydown event.
+ * @param {KeyboardEvent & { target: HTMLElement }} $event A  keydown event.
  */
 function keydownEvent({ target, key, defaultPrevented }) {
 	if (defaultPrevented) {
@@ -106,6 +99,7 @@ function keydownEvent({ target, key, defaultPrevented }) {
 			return;  // bail
 	}
 
+	/** @type {HTMLSelectElement} */
 	const selectList = target.closest(selectSelector);
 	if (!selectList) {
 		return;
@@ -135,7 +129,7 @@ function keydownEvent({ target, key, defaultPrevented }) {
  * Wire up some event listeners on first focus.
  * @function
  * @private
- * @param {FocusEvent} $event A wrapped focus/focusin event.
+ * @param {FocusEvent & { target: HTMLElement }} $event A wrapped focus/focusin event.
  */
 function focusEvent({ target, defaultPrevented }) {
 	if (defaultPrevented) {
@@ -157,7 +151,7 @@ function focusEvent({ target, defaultPrevented }) {
  * {@link module:wc/ui/validation/multiSelectPair~_isComplete}.
  * @function
  * @private
- * @param {HTMLElement} next A WMultiSelectPair.
+ * @param {Element} next A WMultiSelectPair.
  * @returns {boolean} true if the selected items list in the component has one or more options.
  */
 function amIComplete(next) {
@@ -169,7 +163,7 @@ function amIComplete(next) {
  * Test if a container is complete if it is, or contains, WMultiSelectPairs.
  * @function
  * @private
- * @param {HTMLElement} container A container element, mey be a WMultiSelectPair wrapper.
+ * @param {Element} container A container element, mey be a WMultiSelectPair wrapper.
  * @returns {boolean} true if the container is complete.
  */
 function _isComplete(container) {
@@ -195,7 +189,7 @@ function _requiredMessageFunc(element) {
  * components which are not complete.
  * @function
  * @private
- * @param {HTMLElement} element a WMultiSelectPair.
+ * @param {Element} element a WMultiSelectPair.
  * @returns {boolean} true if the component is not complete.
  */
 function _filter(element) {
@@ -207,7 +201,7 @@ function _filter(element) {
  * "selected" list. Constraint validation exists for minimum number of options and maximum number of options.
  * @function
  * @private
- * @param {HTMLElement} container A WMultiSelectPair or a container which may contain WMultiSelectPairs. Often a form.
+ * @param {Element} container A WMultiSelectPair or a container which may contain WMultiSelectPairs. Often a form.
  * @returns {boolean} true if the container is valid.
  */
 function validate(container) {
@@ -238,7 +232,7 @@ initialise.register({
 	/**
 	 * Set up initial event listeners.
 	 * @function module:wc/ui/validation/multiSelectPair.initialise
-	 * @param {HTMLElement} element the element being intialised: usually document.body
+	 * @param {Element} element the element being intialised: usually `document.body`
 	 */
 	initialise: function(element) {
 		event.add(element, { type: "focus", listener: focusEvent, capture: true });

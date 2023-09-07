@@ -42,7 +42,7 @@ function isInvalid(submitter) {
  * container is not in a valid state.
  * @function
  * @private
- * @param {MouseEvent} $event A wrapped click event.
+ * @param {MouseEvent & { target: HTMLElement }} $event A wrapped click event.
  */
 function clickEvent($event) {
 	const {
@@ -53,8 +53,8 @@ function clickEvent($event) {
 	if (defaultPrevented) {
 		return;
 	}
+	/** @type {HTMLButtonElement} */
 	const button = target.closest(submitControlSelector);
-
 	if (button && !button.matches(noValidateButtonSelector) && focus.canFocus(button) && isInvalid(button)) {
 		$event.preventDefault();
 	}
@@ -66,6 +66,6 @@ function clickEvent($event) {
  * handling it.
  *
  * @function  module:wc/ui/validation/cancelUpdate.initialise
- * @param {HTMLElement} element The HTML element being initialised, usually document.body.
+ * @param {Element} element The HTML element being initialised, usually document.body.
  */
 initialise.register({ initialise: element => event.add(element, "click", clickEvent, 1) });

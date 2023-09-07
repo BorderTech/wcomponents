@@ -20,7 +20,7 @@ const instance = {
 	/**
 	 * Indicates if a given element is a collapsible.
 	 *
-	 * @param {HTMLElement} element The element to test.
+	 * @param {Element} element The element to test.
 	 * @param {Boolean} [onlyContainer] If true then we only want to know if the element is a collapsible
 	 *    container element; if explicitly false it is the header/trigger element and if undefined whether
 	 *    it is either of these.
@@ -40,15 +40,14 @@ const instance = {
 	/**
 	 * Get the trigger element from a container element.
 	 *
-	 * @param {HTMLElement} element The start element.
+	 * @param {Element} element The start element.
 	 * @returns {HTMLElement} If the start element is a collapsible container return its header/trigger element.
 	 */
 	getActionElement: function (element) {
-		let result;
 		if (element.matches(containerSelector)) {
-			result = element.querySelector(headerSelector);
+			return element.querySelector(headerSelector);
 		}
-		return result;
+		return null;
 	}
 };
 
@@ -100,7 +99,7 @@ function toggle(element) {
  * element, so we can use it to work out if we have to prevent default on SPACEBAR
  * @function
  * @private
- * @param {MouseEvent} $event The event which initiated the toggle.
+ * @param {MouseEvent & { target: HTMLElement }} $event The event which initiated the toggle.
  * @param {HTMLElement} element A collapsible header. Element must already have been determined to match
  *    headerSelector and since we have already extracted this from $event we may as well pass it in as
  *    an arg rather than re-testing.
@@ -115,7 +114,7 @@ function toggleEventHelper($event, element) {
 		// do not toggle collapsible if the event is supposed to be for a label
 		if (isAcceptableEventTarget(element, target)) {
 			toggle(element);
-			result = element;
+			return element;
 		} else if ((focusableAncestor = focus.getFocusableAncestor(target))) {
 			if (focusableAncestor !== target) {
 				$event.preventDefault();
@@ -135,11 +134,12 @@ function toggleEventHelper($event, element) {
  *
  * @function
  * @private
- * @param {MouseEvent} $event A click event.
+ * @param {MouseEvent & { target: HTMLElement }} $event A click event.
  */
 function clickEvent($event) {
-	let element;
-	if (!$event.defaultPrevented && (element = $event.target.closest(headerSelector))) {
+	/** @type {HTMLElement} */
+	const element = $event.defaultPrevented ? null : $event.target.closest(headerSelector);
+	if (element) {
 		toggleEventHelper($event, element);
 	}
 }
@@ -156,7 +156,7 @@ function clickEvent($event) {
  *
  * @function
  * @private
- * @param {HTMLElement} element the element being selected.
+ * @param {Element} element the element being selected.
  * @param {String} action The shed action being pne of "disable", "expand" or "collapse".
  */
 function shedSubscriber(element, action) {
@@ -183,16 +183,19 @@ function shedSubscriber(element, action) {
  * Write the state of collapsible sections.
  * @function
  * @private
- * @param {HTMLElement} container The container of the components whose state we are writing.
- * @param {HTMLElement} stateContainer Where to put the state fields.
+ * @param {Element} container The container of the components whose state we are writing.
+ * @param {Element} stateContainer Where to put the state fields.
  */
 function writeState(container, stateContainer) {
+	/**
+	 * @param {Element} $element
+	 */
 	function writeStateCollapsible($element) {
 		const val = shed.isExpanded($element) ? "open" : "closed";
 		formUpdateManager.writeStateField(stateContainer, $element.id, val, false, true);
 	}
 
-	Array.prototype.forEach.call(container.querySelectorAll(containerSelector), writeStateCollapsible);
+	Array.from(container.querySelectorAll(containerSelector)).forEach(writeStateCollapsible);
 	if (container.matches(containerSelector)) {
 		writeStateCollapsible(container);
 	}
@@ -216,7 +219,7 @@ const initiliaser = {
 	/**
 	 * Helper for initialising and de-initialising this module.
 	 * @param {boolean} init true if initialising, otherwise deinitialising.
-	 * @param {HTMLElement} element The element being de/initialised, usually document.body.
+	 * @param {Element} element The element being de/initialised, usually document.body.
 	 * @function
 	 * @private
 	 */
@@ -230,9 +233,7 @@ const initiliaser = {
 	 *
 	 * @param {HTMLBodyElement} element
 	 */
-	initialise: function (element) {
-		initiliaser._initialiseHelper(true, element);
-	},
+	initialise: element => initiliaser._initialiseHelper(true, element),
 
 	/**
 	 * Late initialiser callback to set up the shed subscribers. This is required because we have to give the
@@ -240,9 +241,7 @@ const initiliaser = {
 	 * collapsible disable-able which is not a facet of a collapsible we want to encourage.
 	 *
 	 */
-	postInit: function () {
-		initiliaser._postInit(true);
-	},
+	postInit: () => initiliaser._postInit(true),
 
 	/**
 	 * Unsubscribes event listeners etc.

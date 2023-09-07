@@ -67,9 +67,9 @@ function ListboxAnalog() {
 	 *
 	 * @function
 	 * @private
-	 * @param {HTMLElement} listbox The container for the list of options, already calculated in the calling
+	 * @param {Element} listbox The container for the list of options, already calculated in the calling
 	 *     function so just passed through for convenience.
-	 * @param {HTMLElement} start The element from which we start the search. This will not return even if
+	 * @param {Element} start The element from which we start the search. This will not return even if
 	 *     it starts with the character we want.
 	 * @param {String} keyName The character we are searching for.
 	 * @returns {HTMLElement} The next available option which starts with keyName (if any), or undefined.
@@ -128,7 +128,7 @@ function ListboxAnalog() {
 	 * @function
 	 * @alias module:wc/ui/listboxAnalog.getAvailableOptions
 	 * @public
-	 * @param {HTMLElement} listbox an instance of a listbox
+	 * @param {Element} listbox an instance of a listbox
 	 * @returns {HTMLElement[]} the available options in listbox
 	 */
 	this.getAvailableOptions = function(listbox) {
@@ -146,7 +146,7 @@ function ListboxAnalog() {
 	 * @function
 	 * @alias module:wc/ui/listboxAnalog.clearAllOptions
 	 * @public
-	 * @param {HTMLElement} listbox an instance of a listbox
+	 * @param {Element} listbox an instance of a listbox
 	 */
 	this.clearAllOptions = function(listbox) {
 		const options = listbox ? getFilteredGroup(listbox, {
@@ -169,7 +169,7 @@ function ListboxAnalog() {
 	 * @function
 	 * @alias module:wc/ui/listboxAnalog.getOptionValue
 	 * @public
-	 * @param {HTMLElement} option the option in which we are interested
+	 * @param {Element} option the option in which we are interested
 	 * @param {boolean} [lowerCase] if true return a lowercase version of the value
 	 * @param {boolean} [forceText] if true get the textContent in preference to the value
 	 * @returns {String} the value of the option.

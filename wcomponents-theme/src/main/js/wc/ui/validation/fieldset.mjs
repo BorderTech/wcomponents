@@ -23,7 +23,7 @@ const INITED_KEY = "validation.fieldset.init";
  *
  * @function
  * @private
- * @param {HTMLElement} element A FIELDSET element
+ * @param {Element} element A FIELDSET element
  * @returns {boolean} true if the fieldset is not complete.
  */
 function filterFieldsets(element) {
@@ -36,7 +36,7 @@ function filterFieldsets(element) {
  *
  * @function
  * @private
- * @param {HTMLElement} container The DOM element being validated.
+ * @param {Element} container The DOM element being validated.
  * @returns {boolean} true if container is valid.
  */
 function validate(container) {
@@ -71,7 +71,7 @@ function validate(container) {
  *
  * @function
  * @private
- * @param {HTMLElement} element a control which may be inside an invalid fieldset.
+ * @param {Element} element a control which may be inside an invalid fieldset.
  */
 function revalidate(element) {
 	let result = true;
@@ -97,10 +97,10 @@ function revalidate(element) {
  *
  * @function
  * @private
- * @param {CustomEvent} element The element acted on by shed.
+ * @param {CustomEvent & { target: HTMLElement }} element The element acted on by shed.
  */
-function validationShedSubscriber({ target: element }) {
-	const targetFieldset = element ? element.closest(fieldsetSelector) : null;
+function validationShedSubscriber({ target }) {
+	const targetFieldset = target ? target.closest(fieldsetSelector) : null;
 	if (targetFieldset) {
 		if (validationManager.isValidateOnChange()) {
 			if (validationManager.isInvalid(targetFieldset)) {
@@ -114,6 +114,10 @@ function validationShedSubscriber({ target: element }) {
 	}
 }
 
+/**
+ *
+ * @param {UIEvent & { target: HTMLElement, currentTarget: HTMLElement }} $event
+ */
 function changeEvent($event) {
 	/* var element = $event.target,
 		targetFieldset;
@@ -136,7 +140,7 @@ function changeEvent($event) {
 }
 
 /**
- * @param {FocusEvent} $event
+ * @param {FocusEvent & { target: HTMLElement }} $event
  */
 function focusEvent({ target }) {
 	const targetFieldset = (target && validationManager.isValidateOnChange()) ? target.closest(fieldsetSelector) : null;
@@ -150,7 +154,7 @@ initialise.register({
 	/**
 	 * Initialise callback to set up event listeners.
 	 * @function module:wc/ui/validation/textArea.initialise
-	 * @param {HTMLElement} element The element being initialised, usually document.body.
+	 * @param {Element} element The element being initialised, usually document.body.
 	 */
 	initialise: function(element) {
 		event.add(element, { type: "focus", listener: focusEvent, pos: 1, capture: true });

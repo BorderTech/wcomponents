@@ -20,7 +20,7 @@ function TriggerManager() {
 	 *
 	 * @function
 	 * @private
-	 * @param {HTMLElement} element The element to test
+	 * @param {Element} element The element to test
 	 * @returns {Boolean} true if the element is a form control.
 	 */
 	function isFormControlOrLink(element) {

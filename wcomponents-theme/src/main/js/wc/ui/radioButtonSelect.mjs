@@ -32,7 +32,7 @@ const instance = {
 	 * Allow an external component to set selection of a radio button in a RadioButtonSelect using a value.
 	 * @function module:wc/ui/radioButtonSelect.setSelectionByValue
 	 * @public
-	 * @param {HTMLElement} element The radioButtonSelect.
+	 * @param {Element} element The radioButtonSelect.
 	 * @param {String} value the value of the radio button to select.
 	 */
 	setSelectionByValue: function(element, value) {
@@ -67,7 +67,7 @@ const instance = {
  * Listen for mandatory/optional and set the group's radio buttons.
  * @function
  * @private
- * @param {HTMLElement} element The element being acted upon.
+ * @param {Element} element The element being acted upon.
  * @param {String} action One of the {@link module:wc/dom/shed~actions}: MANDATORY or OPTIONAL
  */
 function shedSubscriber(element, action) {

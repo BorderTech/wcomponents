@@ -390,7 +390,7 @@ function Menubar() {
 	 *
 	 * @function
 	 * @private
-	 * @param {HTMLElement} element any element which may contain a bar/flyout menu separators
+	 * @param {Element} element any element which may contain a bar/flyout menu separators
 	 */
 	function setSeparatorOrientation(element) {
 		if (!separatorSelector) {

@@ -18,7 +18,7 @@ const instance = {
 	/**
 	 * Get a toolTip from an element.
 	 * @function module:wc/ui/tooltip.getTooltip
-	 * @param {HTMLElement} element An HTML element which may contain a toolTip.
+	 * @param {Element} element An HTML element which may contain a toolTip.
 	 * @returns {HTMLElement} A toolTip element.
 	 */
 	getTooltip: element => element.querySelector(tooltipsSelector)

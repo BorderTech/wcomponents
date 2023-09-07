@@ -355,7 +355,7 @@ function hideCalendar(ignoreFocusReset) {
  *
  * @function
  * @private
- * @param {HTMLElement} element The calendar's year input.
+ * @param {Element} element The calendar's year input.
  * @param {string} keyCode The keydown event's key literal.
  * @returns {Boolean} true if the event's default action is to be prevented.
  */
@@ -369,7 +369,7 @@ function keydownHelperChangeYear(element, keyCode) {
  *
  * @function
  * @private
- * @param {HTMLElement} element the target of the keydown event previously determined as a picker button.
+ * @param {Element} element the target of the keydown event previously determined as a picker button.
  * @param {KeyboardEvent} $event the keydown event.
  * @returns {Boolean} true if the event is to have its default action prevented.
  */
@@ -505,7 +505,7 @@ function getOrCreateCal(callback) {
  */
 function retrieveDate(callback) {
 	/**
-	 * @param {HTMLElement} cal
+	 * @param {Element} cal
 	 */
 	getOrCreateCal(function(cal) {
 		const millis = parseInt(cal.dataset[DATE_KEY]);
@@ -796,7 +796,7 @@ function show(element) {
  * adds a class to move it.
  * @function
  * @private
- * @param {HTMLElement} cal the calendar.
+ * @param {Element} cal the calendar.
  */
 function detectCollision(cal) {
 	let collision = viewportCollision(cal);
@@ -881,7 +881,7 @@ function changeMonth(element) {
  *
  * @function
  * @private
- * @param {HTMLElement} element The launch control button or date input.
+ * @param {Element} element The launch control button or date input.
  */
 function doLaunch(element) {
 	try {
@@ -969,7 +969,7 @@ function keydownEvent($event) {
 
 /**
  * Positions the calendar relative to its input element.
- * @param {HTMLElement} [element] The calendar element (if you already have it, otherwise we'll find it for you).
+ * @param {Element} [element] The calendar element (if you already have it, otherwise we'll find it for you).
  */
 function position(element) {
 	const cal = element || getCal();
@@ -1083,7 +1083,7 @@ const initialiser = {
 	/**
 	 * Helper for initialising and de-initialising this module.
 	 * @param {boolean} init true if initialising, otherwise deinitialising.
-	 * @param {HTMLElement} element The element being de/initialised, usually document.body.
+	 * @param {Element} element The element being de/initialised, usually document.body.
 	 * @function
 	 * @private
 	 */
@@ -1112,7 +1112,7 @@ const initialiser = {
 	 *
 	 * @function module:wc/ui/calendar.initialise
 	 * @public
-	 * @param {HTMLElement} element The element being initialised, usually document.body.
+	 * @param {Element} element The element being initialised, usually document.body.
 	 */
 	initialise: function(element) {
 		return initialiser._initialiseHelper(true, element);
@@ -1129,7 +1129,7 @@ const initialiser = {
 
 	/**
 	 * Unsubscribes event listeners etc.
-	 * @param {HTMLElement} element The element being deinitialised, usually document.body.
+	 * @param {Element} element The element being deinitialised, usually document.body.
 	 */
 	deinit: function(element) {
 		initialiser._initialiseHelper(false, element);

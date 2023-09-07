@@ -59,7 +59,7 @@ function draggingStarted(element, callback, type) {
 
 /**
  *
- * @param {HTMLElement} element
+ * @param {Element} element
  * @param {(function(string, ?FileList): void)} [callback]
  * @param {string} [type]
  * @param {FileList} [files]

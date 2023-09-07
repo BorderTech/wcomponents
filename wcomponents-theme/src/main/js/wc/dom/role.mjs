@@ -29,7 +29,7 @@ export default {
 	 * Test if an element has a WAI-ARIA role.
 	 * @function module:wc/dom/role.has
 	 * @param {Element} element The element to test.
-	 * @param {boolean} implied Should we test if the element has an implied role?
+	 * @param {boolean} [implied] Should we test if the element has an implied role?
 	 * @returns {Boolean} true if the element has a role (or implied role if implied is true.
 	 */
 	has: function(element, implied) {

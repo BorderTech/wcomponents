@@ -56,7 +56,7 @@ function Resizeable() {
 	 *
 	 * @function
 	 * @private
-	 * @param {HTMLElement} element The resizeable component.
+	 * @param {Element} element The resizeable component.
 	 * @returns {String} Values are "v" for only vertical, "h" for only horizontal or "" for both.
 	 */
 	function getAllowedDirections(element) {
@@ -114,7 +114,7 @@ function Resizeable() {
 	 * a control.
 	 * @function
 	 * @private
-	 * @param {HTMLElement} element A resize event target.
+	 * @param {Element} element A resize event target.
 	 * @returns {HTMLElement} The resizeable component.
 	 */
 	function getResizeTarget(element) {
@@ -158,7 +158,7 @@ function Resizeable() {
 	 *
 	 * @function
 	 * @private
-	 * @param {HTMLElement} element the resizeable component.
+	 * @param {Element} element the resizeable component.
 	 * @param {Boolean} [native] If true remove any inline styles before calculating the size. If a min/max
 	 *    width/height is "auto" or one of the "-content" settings (e.g. fit-content, -moz-max-content etc.) then
 	 *    we need to make a guess at the native box size in pixels. This is a bit experimental.
@@ -197,7 +197,7 @@ function Resizeable() {
 	 * Get the min-height or min-width style of an element.
 	 * @function
 	 * @private
-	 * @param {HTMLElement} element The element we are investigating for min-height/width.
+	 * @param {Element} element The element we are investigating for min-height/width.
 	 * @param {boolean} [isHeight] Indicates we should get the min-height, otherwise we get min-width.
 	 * @returns {String|Number} The style as a string or number.
 	 */
@@ -221,7 +221,7 @@ function Resizeable() {
 	 * Changes the component size.
 	 * @function
 	 * @private
-	 * @param {HTMLElement} element The resizeable component.
+	 * @param {Element} element The resizeable component.
 	 * @param {number} deltaX Change in width in pixels.
 	 * @param {number} deltaY Change in height in pixels.
 	 * @param {boolean} [notify] If true notify subscribers from here. This would usually be done in an
@@ -381,7 +381,7 @@ function Resizeable() {
 	 * Helper function for touch and mouse driven resizing of a component.
 	 * @function
 	 * @private
-	 * @param {HTMLElement} element the resizeable DOM element
+	 * @param {Element} element the resizeable DOM element
 	 * @param {number} x the x coordinate of the move event
 	 * @param {number} y the y coord of the move event
 	 */
@@ -491,7 +491,7 @@ function Resizeable() {
 	 * initialise subscriber to attach event handlers.
 	 * @function
 	 * @public
-	 * @param {HTMLElement} element The element being initialised, usually `document.body`
+	 * @param {Element} element The element being initialised, usually `document.body`
 	 */
 	this.initialise = function (element) {
 		event.add(element, "mouseup", mouseupTouchendTouchcancelEvent);
@@ -506,7 +506,7 @@ function Resizeable() {
 	 * handle is present and visible.
 	 * @function
 	 * @private
-	 * @param {HTMLElement} element A resize handle.
+	 * @param {Element} element A resize handle.
 	 */
 	function bootstrap(element) {
 		const body = document.body;
@@ -528,7 +528,7 @@ function Resizeable() {
 	 * of the actual resize handle.
 	 * @function
 	 * @private
-	 * @param {HTMLElement} element The element being shown/inserted.
+	 * @param {Element} element The element being shown/inserted.
 	 */
 	function ajaxSubscriber(element) {
 		if (element) {
@@ -544,7 +544,7 @@ function Resizeable() {
 	 * Provides the max/restore functionality by toggling a class on the resize target.
 	 * @function
 	 * @private
-	 * @param {HTMLElement} element A dom node, we are only interested in max/restore buttons.
+	 * @param {Element} element A dom node, we are only interested in max/restore buttons.
 	 * @param {String} action The shed action:  shed.actions.SELECT or shed.actions.DESELECT.
 	 */
 	function shedSelectSubscriber(element, action) {
@@ -574,7 +574,7 @@ function Resizeable() {
 	 * Makes a given element into a double click enabled maximise bar.
 	 * @function module:wc/ui/resizeable.setMaxBar
 	 * @public
-	 * @param {HTMLElement} element The element we wish to change.
+	 * @param {Element} element The element we wish to change.
 	 */
 	this.setMaxBar = function (element) {
 		element.classList.add(CLASS_MAX_CONTROL);
@@ -584,7 +584,7 @@ function Resizeable() {
 	 * Removes double-click enabled maximise bar functionality from a given element.
 	 * @function module:wc/ui/resizeable.clearMaxBar
 	 * @public
-	 * @param {HTMLElement} element The element we wish to change.
+	 * @param {Element} element The element we wish to change.
 	 */
 	this.clearMaxBar = function (element) {
 		element.classList.remove(CLASS_MAX_CONTROL);
@@ -634,7 +634,7 @@ function Resizeable() {
 	 * @function module:wc/ui/resizeable.getTarget
 	 * @alias module:wc/ui/resizeable.getTarget
 	 * @public
-	 * @param {HTMLElement} element The resize handle.
+	 * @param {Element} element The resize handle.
 	 */
 	this.getTarget = getResizeTarget;
 
@@ -644,7 +644,7 @@ function Resizeable() {
 	 * @function module:wc/ui/resizeable.clearSize
 	 * @public
 	 * @public
-	 * @param {HTMLElement} element The resize handle.
+	 * @param {Element} element The resize handle.
 	 * @param {boolean} [keep] If true store the size for later use.
 	 * @returns {Boolean} true if a resizeable target was found and reset.
 	 */
@@ -674,7 +674,7 @@ function Resizeable() {
 	 *
 	 * @function module:wc/ui/resizeable.resetSize
 	 * @public
-	 * @param {HTMLElement} element The element we are restoring.
+	 * @param {Element} element The element we are restoring.
 	 * @param {boolean} [ignoreSubscribers] if `true` then do not notify via observer
 	 */
 	this.resetSize = function (element, ignoreSubscribers) {
@@ -697,7 +697,7 @@ function Resizeable() {
 	 *
 	 * @function module:wc/ui/resizeable.makeAnimatable
 	 * @public
-	 * @param {HTMLElement} element The element to animate.
+	 * @param {Element} element The element to animate.
 	 */
 	this.makeAnimatable = function (element) {
 		element.classList.add(RESIZEABLE_HAS_ANIMATION_CLASS);
@@ -708,7 +708,7 @@ function Resizeable() {
 	 *
 	 * @function module:wc/ui/resizeable.clearAnimatable
 	 * @public
-	 * @param {HTMLElement} element The element to stop animating.
+	 * @param {Element} element The element to stop animating.
 	 */
 	this.clearAnimatable = function (element) {
 		element.classList.remove(RESIZEABLE_HAS_ANIMATION_CLASS);
@@ -719,7 +719,7 @@ function Resizeable() {
 	 *
 	 * @function module:wc/ui/resizeable.disableAnimation
 	 * @public
-	 * @param {HTMLElement} element The resizeable element to manipulate.
+	 * @param {Element} element The resizeable element to manipulate.
 	 */
 	this.disableAnimation = function (element) {
 		if (element.classList.contains(RESIZEABLE_HAS_ANIMATION_CLASS)) {
@@ -733,7 +733,7 @@ function Resizeable() {
 	 *
 	 * @function module:wc/ui/resizeable.restoreAnimation
 	 * @public
-	 * @param {HTMLElement} element The resizeable element to manipulate.
+	 * @param {Element} element The resizeable element to manipulate.
 	 */
 	this.restoreAnimation = function (element) {
 		if (element.getAttribute(CLASS_REMOVED_ATTRIB) === "true") {

@@ -16,7 +16,7 @@ const requiredSelector = "input[type='checkbox'][required]";
  * function for {@link module:wc/ui/validation/validationManager}.
  * @function
  * @private
- * @param {HTMLElement} container The DOM element being validated.
+ * @param {Element} container The DOM element being validated.
  * @returns {boolean} true if valid.
  */
 function validate(container) {

@@ -15,7 +15,7 @@ const instance = {
 	LEVEL: diagnostic.LEVEL,
 	/**
 	 *
-	 * @param {HTMLElement} element
+	 * @param {Element} element
 	 * @param {module:wc/dom/diagnostic.LEVEL} level
 	 * @return {boolean}
 	 */
@@ -25,9 +25,9 @@ const instance = {
 	 * Change the diagnostic level of an existing diagnostic box.
 	 * @function
 	 * @public
-	 * @param {HTMLElement} box the diagnostic box to change
+	 * @param {Element} box the diagnostic box to change
 	 * @param {module:wc/dom/diagnostic.LEVEL} toLevel the level to change to
-	 * @param {HTMLElement} [target] the diagnostic box's target element if already known - saves us finding it twice.
+	 * @param {Element} [target] the diagnostic box's target element if already known - saves us finding it twice.
 	 */
 	change: function(box, toLevel, target) {
 		check(box, false);
@@ -71,7 +71,7 @@ const instance = {
 	 * Remove all messages from a diagnostic box.
 	 * @function
 	 * @public
-	 * @param {HTMLElement} box the diagnostic box to change
+	 * @param {Element} box the diagnostic box to change
 	 * @throws {TypeError} if `diag` is not a diagnostic box
 	 */
 	clear: function(box) {
@@ -86,7 +86,7 @@ const instance = {
 	 * Add messages to an existing diagnostic box.
 	 * @function
 	 * @public
-	 * @param {HTMLElement} box the disgnostic box
+	 * @param {Element} box the disgnostic box
 	 * @param {String|String[]} messages the message(s) to add
 	 * @return {HTMLElement|HTMLElement[]} The message element(s) in the DOM.
 	 */
@@ -105,7 +105,7 @@ const instance = {
 	 * Gets the messages already inside a given diagnostic box.
 	 * @function
 	 * @public
-	 * @param {HTMLElement} box the diagnostic box
+	 * @param {Element} box the diagnostic box
 	 * @returns {HTMLElement[]} messages inside the diagnostic box, if any
 	 */
 	getMessages: function(box) {
@@ -119,7 +119,7 @@ const instance = {
 	 * Set the messages inside an existing message box to a new message or set of messages.
 	 * @function
 	 * @public
-	 * @param {HTMLElement} box the diagnostic box
+	 * @param {Element} box the diagnostic box
 	 * @param {String|String[]} messages
 	 */
 	set: function(box, messages) {
@@ -192,7 +192,7 @@ const instance = {
 	 * Find a diagnostic box belonging to an element.
 	 * @function
 	 * @public
-	 * @param {HTMLElement|String} element the element being diagnosed (or its id)
+	 * @param {Element|String} element the element being diagnosed (or its id)
 	 * @param {number} [ofLevel=1] the diagnostic level, if not set get ERROR diagnostic box. Set to -1 to get one of any type.
 	 * @returns {HTMLElement} the diagnostic box of the required level (if any).
 	 */
@@ -229,7 +229,7 @@ const instance = {
 
 	/**
 	 * Get the last diagnostic box WITHIN (or withing the wrapper of) a
-	 * @param {HTMLElement|String} element the element being tested or an id of an element
+	 * @param {Element|String} element the element being tested or an id of an element
 	 * @returns {HTMLElement} the last diagnostic box if any.
 	 */
 	getLast: function(element) {
@@ -303,8 +303,8 @@ const instance = {
 	 * Remove a feedback message.
 	 * @function
 	 * @public
-	 * @param {HTMLElement} element either an error diagnostic or an element with an error diagnostic
-	 * @param {HTMLElement} [target] an element with a diagnostic **if** element is a diagnostic, and we have already found its "owner".
+	 * @param {Element} element either an error diagnostic or an element with an error diagnostic
+	 * @param {Element} [target] an element with a diagnostic **if** element is a diagnostic, and we have already found its "owner".
 	 * @param {number} [level=1] the diagnostic level to remove if element is not a diagnostic box
 	 * @returns {boolean} `true` if a diagnostic box was found and removed.
 	 */
@@ -328,7 +328,7 @@ const instance = {
 };
 
 /**
- * @param {HTMLElement|string} element
+ * @param {Element|string} element
  * @return {HTMLElement}
  */
 function checkAndGetElement(element) {
@@ -345,7 +345,7 @@ function checkAndGetElement(element) {
 
 /**
  * Type check for diagnostic boxes.
- * @param {HTMLElement} diag the element to test
+ * @param {Element} diag the element to test
  * @param {Boolean} lenient if `true` do not error on a failed test, instead return false
  * @returns {Boolean} `true` if `diag` is a diagnostic box, otherwise `false` if `lenient` is `true`.
  * @throws {TypeError} if `diag` is not a diagnostic box and `lenient` is not `true`.
@@ -362,7 +362,7 @@ function check(diag, lenient) {
 
 /**
  *
- * @param {HTMLElement} diag
+ * @param {Element} diag
  * @param {number} fromLevel
  * @param {number} toLevel
  */
@@ -376,7 +376,7 @@ function changeIcon(diag, fromLevel, toLevel) {
  * Mark/unmark a component as invalid.
  * @function
  * @private
- * @param {HTMLElement} target the component to mark
+ * @param {Element} target the component to mark
  * @param {boolean} [clear] if `true` set the component to be valid **and** remove its `aria-describedby` attribute
  */
 function toggleValidity(target, clear) {
@@ -453,7 +453,7 @@ function getMessageHTML(message) {
 /**
  * Adds a message to a container.
  * If the message already exists in the container it will not be added again.
- * @param {HTMLElement} box The message container
+ * @param {Element} box The message container
  * @param {string} message The message to add
  * @return {HTMLElement} The message element in the DOM.
  */
@@ -480,7 +480,7 @@ function addHelper(box, message) {
  * @function
  * @private
  * @param {Object} args
- * @param {HTMLElement} [args.el] The element which is the diagnostic target if not set then args.id must be set.
+ * @param {Element} [args.el] The element which is the diagnostic target if not set then args.id must be set.
  * @param {String} [args.id] The base id for the diagnostic box. If not set then args.el must be an element with an id.
  * @param {number} [args.level=1] the diagnostic level, defaults to ERROR
  * @param {String|String[]|NodeList} [args.messages] If `falsy` then the diagnostic box will be empty. If a String the diagnostic will
@@ -544,8 +544,8 @@ function getBoxHTML(targetId, messages, level) {
  * Remove an existing diagnostic box.
  * @function
  * @public
- * @param {HTMLElement} [diag] the box to remove if not set then target must be set
- * @param {HTMLElement} [target] the diagnostic's target if diag is not set or if we already have it. If not set and `diag` is set we can
+ * @param {Element} [diag] the box to remove if not set then target must be set
+ * @param {Element} [target] the diagnostic's target if diag is not set or if we already have it. If not set and `diag` is set we can
  *   calculate the target element.
  */
 function removeDiagnostic(diag, target) {

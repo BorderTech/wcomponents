@@ -97,7 +97,7 @@ function _open(infoArr) {
  * on buttons so will only open the popup if the button has a URL stand-in `data-` attribute.
  * @function
  * @private
- * @param {HTMLElement} element The popup trigger which was clicked.
+ * @param {Element} element The popup trigger which was clicked.
  */
 function popupNow(element) {
 	const url = element.getAttribute("data-wc-url");
@@ -129,7 +129,7 @@ initialise.register({
 	 * Initialise for popups, add a click event handler
 	 * @function module:wc/ui/popup.initialise
 	 * @public
-	 * @param {HTMLElement} element the HTML Element being initialised (document.body in practice).
+	 * @param {Element} element the HTML Element being initialised (document.body in practice).
 	 */
 	initialise: function(element) {
 		event.add(element, "click", clickEvent);

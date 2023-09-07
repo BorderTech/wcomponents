@@ -13,7 +13,7 @@ const MIN = "data-wc-min",
  *
  * @function
  * @alias module:wc/ui/validation/minMax
- * @param {{container: Element, widget: string, selectedFunc: (function((HTMLElement|HTMLElement[]), module:wc/dom/getFilteredGroup~config=): HTMLElement[] | {filtered: HTMLElement[], unfiltered: HTMLElement[]})}} conf Contains the validator configuration options.
+ * @param {{container: Element, widget: string, selectedFunc: (function((Element|Element[]), module:wc/dom/getFilteredGroup~config=): HTMLElement[] | {filtered: HTMLElement[], unfiltered: HTMLElement[]})}} conf Contains the validator configuration options.
  * @returns {boolean} true if the tested component meets its constraints (including if their are no constraints).
  */
 export default function minMax(conf) {

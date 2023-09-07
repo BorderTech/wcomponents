@@ -14,7 +14,7 @@ const resized = {},
  *
  * @function
  * @private
- * @param {HTMLElement} element The element which was resized.
+ * @param {Element} element The element which was resized.
  */
 function resizeSubscriber(element) {
 	if (element) {

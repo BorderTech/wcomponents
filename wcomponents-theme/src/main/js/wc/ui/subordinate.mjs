@@ -124,7 +124,7 @@ function initializeActions(actions) {
  * Get the rules in which this element is a controller.
  * @function
  * @private
- * @param {HTMLElement} element The element whose rules we will retrieve (if they exist).
+ * @param {Element} element The element whose rules we will retrieve (if they exist).
  * @param {boolean} [checkAncestors] If true will search ancestors for rules if there
  * are no rules registered directly against this element
  * @returns {Array} The subordinate rules for which the element is a controller.
@@ -149,7 +149,7 @@ function getControlledRules(element, checkAncestors) {
  * subordinate actions based on the outcome of the tests.
  * @function
  * @private
- * @param {HTMLElement} element A potential subordinate trigger.
+ * @param {Element} element A potential subordinate trigger.
  */
 function activateSubordinateRules(element) {
 	const controlledRules = getControlledRules(element, true);
@@ -272,10 +272,10 @@ function isConditionTrue(id, testValue, operator) {
  * Helper for isConditionTrue.
  * Performs an equality test when there are selectable options at play.
  *
- * @param {HTMLElement} element The test subject.
+ * @param {Element} element The test subject.
  * @param {string} testValue The test value as passed to `isConditionTrue`.
  * @param {boolean} negate true if the equality test is a "not equal" type.
- * @param {HTMLElement[]} selectedItems A collection of selected items related to this element.
+ * @param {Element[]} selectedItems A collection of selected items related to this element.
  * @returns {boolean} true if the test passes.
  */
 function doEqualityTest(element, testValue, negate, selectedItems) {
@@ -330,7 +330,7 @@ function getTestType(operator) {
  * Gets the selected options from a selectable element or group.
  * @function
  * @private
- * @param {HTMLElement} element An element which might belong to or define a selectable group.
+ * @param {Element} element An element which might belong to or define a selectable group.
  * @returns {HTMLElement[]} An array (not a NodeList) of selected options in this group OR null if this element
  * is not any part of any kind of selection mechanism (for example a text input would return null, while an
  * unchecked checkbox would return an empty array).
@@ -366,7 +366,7 @@ function getSelectedOptions(element) {
  * "testVal" using the comparison type specified by "operator".
  * @function
  * @private
- * @param {HTMLElement|HTMLElement[]} elements Either a single element or an array of them.
+ * @param {Element|HTMLElement[]} elements Either a single element or an array of them.
  * @param {String} testVal The value we are testing against.
  * @param {String} operator The type of comparison to apply.
  * @returns {Boolean} true if one or more of the elements matches the comparison test.
@@ -502,7 +502,7 @@ function getNumberCompareValue(val) {
  * Get the value of the element that triggered the subordinate rule.
  * @function
  * @private
- * @param {HTMLElement} element An element which has some logical value which we want to get.
+ * @param {Element} element An element which has some logical value which we want to get.
  * @param {string} [type] The type for the element we are dealing with, i.e. "number" or "date". If not
  *    provided we will try a few things then give up.
  * @returns {string|null} The correct value of the correct type (based on the "type" arg). If the value is SOMETHING
@@ -536,7 +536,7 @@ function getTriggerValue(element, type) {
  * Get the type for value comparison.
  * @function
  * @private
- * @param {HTMLElement} element The element which will be used to determine the comparison type.
+ * @param {Element} element The element which will be used to determine the comparison type.
  * @returns {string} The type of comparison to perform based on the "type" of the element.
  */
 function getCompareType(element) {
@@ -583,7 +583,7 @@ function parseRegex(re) {
  * Listen for shed "events" that could be subordinate triggers.
  * @function
  * @private
- * @param {HTMLElement} element The element to check.
+ * @param {Element} element The element to check.
  */
 function shedObserver(element) {
 	timers.setTimeout(activateSubordinateRules, 0, element);
@@ -593,7 +593,7 @@ function shedObserver(element) {
  * Check if the element SHOULD ACTIVATE a suboridnate action.
  * @function
  * @private
- * @param {HTMLElement} element The element to check.
+ * @param {Element} element The element to check.
  */
 function triggersOnChange(element) {
 	return getControlledRules(element, false) && !shed.isSelectable(element);
@@ -623,7 +623,7 @@ const initialiser = {
 	 * Wire up the necessary event listeners once the dom has loaded.
 	 * @function module:wc/ui/subordinate.initialise
 	 * @public
-	 * @param {HTMLElement} element The body element.
+	 * @param {Element} element The body element.
 	 */
 	initialise: function(element) {
 		waitingForRules = true;

@@ -79,7 +79,7 @@ const instance = {
  *
  * @function
  * @private
- * @param {HTMLElement} element A combo or an option in the listbox.
+ * @param {Element} element A combo or an option in the listbox.
  * @returns {HTMLUListElement} The list box if it is able to be found.
  */
 function getListBox(element) {
@@ -104,7 +104,7 @@ function getListBox(element) {
  *
  * @function
  * @private
- * @param {HTMLElement} combo The combo box from which to strip selected.
+ * @param {Element} combo The combo box from which to strip selected.
  */
 function clearList(combo) {
 	const listbox = getListBox(combo);
@@ -182,7 +182,7 @@ function filterOptions(combo, delay) {
  *
  * @function
  * @private
- * @param {HTMLElement} combo the combo we are updating
+ * @param {Element} combo the combo we are updating
  * @param {HTMLInputElement} element the textbox in the combo
  */
 function load(combo, element) {
@@ -205,7 +205,7 @@ function load(combo, element) {
  *
  * @function
  * @private
- * @param {HTMLElement} combo the combo being updated
+ * @param {Element} combo the combo being updated
  * @param {HTMLInputElement} element the text field in combo
  */
 function getNewOptions(combo, element) {
@@ -264,7 +264,7 @@ function focusListbox(listbox) {
  *
  * @function
  * @private
- * @param {HTMLElement} element The start element.
+ * @param {Element} element The start element.
  * @returns {HTMLElement} The combo box wrapper element.
  */
 function getCombo(element) {
@@ -377,7 +377,7 @@ function shedSelectSubscriber($event) {
  * Handles a keypress on "listbox".
  * @function
  * @private
- * @param {HTMLElement} listbox The listbox.
+ * @param {Element} listbox The listbox.
  * @param {string} keyCode The key that was pressed.
  * @returns {boolean} true if the key event needs to be cancelled.
  */
@@ -438,7 +438,7 @@ function keydownEvent($event) {
  *
  * @function
  * @private
- * @param {HTMLElement} combo the combo control
+ * @param {Element} combo the combo control
  * @param {boolean} altKey `true` if the ALT key is pressed with the arrow
  */
 function doDownButton(combo, altKey) {
@@ -458,7 +458,7 @@ function doDownButton(combo, altKey) {
  *
  * @function
  * @private
- * @param {HTMLElement} combo the combo control
+ * @param {Element} combo the combo control
  * @param {boolean} altKey `true` if the ALT key is pressed with the arrow
  */
 function doUpKey(combo, altKey) {
@@ -475,7 +475,7 @@ function doUpKey(combo, altKey) {
  * Handles a keypress on "combobox" itself (not the listbox).
  * @function
  * @private
- * @param {HTMLElement} target The combobox
+ * @param {Element} target The combobox
  * @param {string} keyCode The key that was pressed.
  * @param {boolean} altKey
  * @returns {boolean} true if the key event needs to be cancelled.
@@ -677,7 +677,7 @@ function focusEvent({ target }) {
  *
  * @function
  * @private
- * @param {HTMLElement} element The AJAX target element in the DOM after the AJAX action.
+ * @param {Element} element The AJAX target element in the DOM after the AJAX action.
  */
 function postAjaxSubscriber(element) {
 	if (!element) {
@@ -710,7 +710,7 @@ function postAjaxSubscriber(element) {
 
 /**
  * Get the textbox for a combo.
- * @param {HTMLElement} combo
+ * @param {Element} combo
  * @return {HTMLInputElement} the textbox
  */
 function getTextbox(combo) {
@@ -726,7 +726,7 @@ function getTextbox(combo) {
  * us to force selection from a list making a broken combo or an overly complicated SELECT.
  * @function
  * @private
- * @param {HTMLElement} element A combo element.
+ * @param {Element} element A combo element.
  */
 function acceptFirstMatch(element) {
 	const textbox = getTextbox(element);
@@ -803,7 +803,7 @@ initialise.register({
 	 * Sets up initial event handlers for faux-combos.
 	 *
 	 * @public
-	 * @param {HTMLElement} element The element being initialised, usually document.body.
+	 * @param {Element} element The element being initialised, usually document.body.
 	 */
 	initialise: function(element) {
 		setUpSuggestions(element);

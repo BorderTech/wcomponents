@@ -15,7 +15,7 @@ const wCheckboxSelector = `${wrapperSelector} > ${checkboxSelector}`;
  *
  * @function
  * @private
- * @param {HTMLElement} element The reference element (element being replaced).
+ * @param {Element} element The reference element (element being replaced).
  * @param {DocumentFragment} documentFragment The document fragment which will be inserted.
  */
 function ajaxSubscriber(element, documentFragment) {
@@ -72,8 +72,8 @@ function ensureControls(myId) {
  *
  * @function
  * @private
- * @param {HTMLElement} form The form or form segment which is having its state written.
- * @param {HTMLElement} container The HTML element into which the state is written.
+ * @param {Element} form The form or form segment which is having its state written.
+ * @param {Element} container The HTML element into which the state is written.
  */
 function writeState(form, container) {
 	const checkboxes = Array.from(

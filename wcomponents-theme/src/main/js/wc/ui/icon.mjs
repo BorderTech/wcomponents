@@ -36,7 +36,7 @@ const instance = {
 	 * Remove a class from an icon.
 	 * @function
 	 * @public
-	 * @param {HTMLElement} element the element which may contain an icon
+	 * @param {Element} element the element which may contain an icon
 	 * @param {string} remove the class to remove
 	 */
 	remove: function(element, remove) {
@@ -53,7 +53,7 @@ const instance = {
 	 * Add a class to an existing icon _or_ add a new icon as the first child of an element
 	 * @function
 	 * @public
-	 * @param {HTMLElement} element the icon element or an element to which we add an icon
+	 * @param {Element} element the icon element or an element to which we add an icon
 	 * @param {string} add the icon className to add
 	 */
 	add: function(element, add) {
@@ -70,7 +70,7 @@ const instance = {
 
 	/**
 	 *
-	 * @param {HTMLElement} element
+	 * @param {Element} element
 	 * @return {HTMLElement}
 	 */
 	get: (element) => getIcon(element)

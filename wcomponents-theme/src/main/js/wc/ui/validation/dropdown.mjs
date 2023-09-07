@@ -74,7 +74,7 @@ initialise.register({
 	/**
 	 * Wire up appropriate event listeners.
 	 * @function module:wc/ui/validation/dropdown.initialise
-	 * @param {HTMLElement} element The element being initialised, usually document.body.
+	 * @param {Element} element The element being initialised, usually document.body.
 	 */
 	initialise: function(element) {
 		event.add(element, { type: "focus", listener: focusEvent, pos: 1, capture: true });

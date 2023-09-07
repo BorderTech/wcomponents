@@ -13,7 +13,7 @@ const buttons = submitInputs.concat(makeInputType("button"), "button[type='butto
  * http://www.w3.org/TR/html401/interact/forms.html#h-17.13.2
  *
  * @function module:wc/dom/isSuccessfulElement
- * @param {HTMLElement|HTMLInputElement|HTMLButtonElement|HTMLSelectElement|HTMLTextAreaElement|HTMLObjectElement} element A form control element.
+ * @param {Element|HTMLInputElement|HTMLButtonElement|HTMLSelectElement|HTMLTextAreaElement|HTMLObjectElement} element A form control element.
  * @param {boolean} [buttonsAlwaysSucceed] If true and element is a button that meets other criteria for being
  *    successful then the button will be successful.
  * @returns {boolean} true if the element is successful

@@ -51,7 +51,7 @@ const instance = {
 	 * describes their top level component and a filter/completeness test function.
 	 *
 	 * @function module:wc/ui/validation/isComplete.isCompleteHelper
-	 * @param {HTMLElement} container A DOM node, usually one containing components but could be the component.
+	 * @param {Element} container A DOM node, usually one containing components but could be the component.
 	 * @param {string} widget A Widget describing the component calling this function (or a query selector string).
 	 * @param {function} filter A function which returns true if an instance of the component is complete.
 	 * @param {object} [theOtherThis] A reference to a "this" to pass to `Array.some` if the filter func needs this.
@@ -96,7 +96,7 @@ const instance = {
 	 * <li>if result is still false after 1 we do a DOM based test of likely candidates.</li></ol>
 	 *
 	 * @function module:wc/ui/validation/isComplete.isContainerComplete
-	 * @param {HTMLElement} container That which we are testing.
+	 * @param {Element} container That which we are testing.
 	 * @returns {boolean} true if the container is "complete".
 	 */
 	isContainerComplete: function(container) {
@@ -142,7 +142,7 @@ const instance = {
 	 * This public method is a fit for most components. Only unusual or complex components would need to have
 	 * specialised methods for determining completeness.
 	 * @function module:wc/ui/validation/isComplete.isComplete
-	 * @param {HTMLElement} element the element to test.
+	 * @param {Element} element the element to test.
 	 * @returns {boolean} true if the element is complete.
 	 */
 	isComplete: function(element) {
@@ -158,7 +158,7 @@ const instance = {
  * input even if none of the actual user controls are complete.
  * @function
  * @private
- * @param {HTMLElement} candidate The element we are testing for exemption from completeness testing.
+ * @param {Element} candidate The element we are testing for exemption from completeness testing.
  * @returns {boolean} true if the element is not exempt from the completeness test.
  */
 function isNotExempt(candidate) {
@@ -180,7 +180,7 @@ function isNotExempt(candidate) {
  *
  * @function
  * @private
- * @param {HTMLElement} container The place to look for candidates.
+ * @param {Element} container The place to look for candidates.
  * @returns {HTMLElement[]} If not null an array of elements (<strong>not</strong> a node list).
  */
 function getComponents(container) {
@@ -212,7 +212,7 @@ function getComponents(container) {
  *
  * @function
  * @private
- * @param {HTMLElement} element A component with native support for the "required" attribute.
+ * @param {Element} element A component with native support for the "required" attribute.
  * @returns {boolean} true if complete.
  */
 function isNativeComplete(element) {

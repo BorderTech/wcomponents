@@ -37,7 +37,7 @@ const instance = {
 	/**
 	 * To be called when a candidate element is made visible.
 	 *
-	 * @param {HTMLElement} element The element being made visible.
+	 * @param {Element} element The element being made visible.
 	 */
 	onshow: function(element) {
 		return handleExpandOrShow(element);
@@ -46,7 +46,7 @@ const instance = {
 	/**
 	 * To be called when a candidate element is expanded.
 	 *
-	 * @param {HTMLElement} element The element being expanded.
+	 * @param {Element} element The element being expanded.
 	 */
 	onexpand: function(element) {
 		const _element = findFirstContainer(element, [lameContainer, magicContainer].join());
@@ -148,7 +148,7 @@ function requestLoad(element, eager, get) {
  * Helper for shedSubscriber.
  * Deal with an element being expanded or shown.
  *
- * @param {HTMLElement} element The element being shown or expanded.
+ * @param {Element} element The element being shown or expanded.
  * @private
  * @function
  */
@@ -171,7 +171,7 @@ function handleExpandOrShow(element) {
  * Helper for shedSubscriber.
  * Deal with an element being collapsed or hidden.
  *
- * @param {HTMLElement} element The element being collapsed or hidden.
+ * @param {Element} element The element being collapsed or hidden.
  * @param {string} action The action, COLLAPSE or HIDE.
  * @private
  * @function
@@ -186,7 +186,7 @@ function handleCollapseOrHide(element, action) {
 }
 
 /**
- * @param {HTMLElement} element
+ * @param {Element} element
  * @param {string} selector to match
  * @return {HTMLElement}
  */
@@ -196,7 +196,7 @@ function findFirstContainer(element, selector) {
 	}
 	/**
 	 *
-	 * @param {HTMLElement} child
+	 * @param {Element} child
 	 * @return {boolean} if the child matches
 	 */
 	const immediateChildMatcher = child => child.matches(selector);

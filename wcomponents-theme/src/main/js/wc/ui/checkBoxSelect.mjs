@@ -105,7 +105,7 @@ function CheckBoxSelect() {
 	 * values for those to be selected.
 	 * @function
 	 * @public
-	 * @param {HTMLElement} element The checkBoxSelect.
+	 * @param {Element} element The checkBoxSelect.
 	 * @param {String[]} selectedValArr An array of value(s) of the checkbox(es) to select.
 	 */
 	this.setSelectionByValue = function(element, selectedValArr) {
@@ -133,9 +133,9 @@ function CheckBoxSelect() {
 	 * state of element. element is the element being activated, lastActivated is the element LAST activated.
 	 * @function
 	 * @protected
-	 * @param {HTMLElement} element The element currently being de/selected.
-	 * @param {HTMLElement} [lastActivated] The last element in the group which was activated.
-	 * @param {HTMLElement} container The element which holds the checkboxes.
+	 * @param {Element} element The element currently being de/selected.
+	 * @param {Element} [lastActivated] The last element in the group which was activated.
+	 * @param {Element} container The element which holds the checkboxes.
 	 * @override
 	 */
 	this.doGroupSelect = function(element, lastActivated, container) {

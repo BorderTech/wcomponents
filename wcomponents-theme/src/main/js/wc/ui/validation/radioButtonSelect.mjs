@@ -22,7 +22,7 @@ const instance = {
  * Function to validate WRadioButtonSelects in a container.
  * @function
  * @private
- * @param {HTMLElement} container Any container element, may be a WRadioButtonSelect.
+ * @param {Element} container Any container element, may be a WRadioButtonSelect.
  * @returns {boolean} true if the container is valid.
  */
 function validate(container) {
@@ -39,7 +39,7 @@ function validate(container) {
  * most re-validation because of the single-select nature of a WRadioButtonSelect.
  * @function
  * @private
- * @param {HTMLElement} element A html element which has been selected.
+ * @param {Element} element A html element which has been selected.
  */
 function validationShedSubscriber(element) {
 	const isRadioButtonSelect = element.matches(radioButtonSelect.getInputWidget().toString());

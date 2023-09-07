@@ -182,7 +182,7 @@ function getGroup(element, analog) {
  *
  * @function
  * @private
- * @param {HTMLElement[]} _group
+ * @param {Element[]} _group
  * @returns {HTMLElement[]} The filtered group.
  */
 function filterGroup(_group) {

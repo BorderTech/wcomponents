@@ -59,7 +59,7 @@ const instance = {
 	 * Open a dialog for a given trigger.
 	 * @function module:wc/ui/dialog.open
 	 * @public
-	 * @param {HTMLElement} trigger an element which _should_ be a dialog trigger.
+	 * @param {Element} trigger an element which _should_ be a dialog trigger.
 	 * @returns {boolean} `true` if the element will trigger a dialog on change or click.
 	 */
 	open: function(trigger) {
@@ -143,7 +143,7 @@ function isInsideDialog(id) {
  *
  * @function
  * @private
- * @param {HTMLElement} element the start element
+ * @param {Element} element the start element
  * @param {boolean} [ignoreAncestor] if `true` then stop without checking ancestors for a trigger
  * @returns {HTMLElement} a dialog trigger element if found
  */
@@ -172,7 +172,7 @@ function getTrigger(element, ignoreAncestor) {
  * We need to know if an element is a submit element so that we can prevent the submit action if it opens a dialog.
  * @function
  * @private
- * @param {HTMLElement} element the element to test
+ * @param {Element} element the element to test
  * @returns {boolean} `true` if the element is a submitting element
  */
 function isSubmitElement(element) {
@@ -184,7 +184,7 @@ function isSubmitElement(element) {
  * Action click events on a dialog trigger or within a dialog.
  * @function
  * @private
- * @param {HTMLElement} element The element which was clicked.
+ * @param {Element} element The element which was clicked.
  * @returns {boolean} {@code true} if the click is activated and we _may_ want to prevent the default action
  */
 function activateClick(element) {
@@ -276,7 +276,7 @@ function openDlg(triggerId) {
  * will not continually grab it each time an ajax action occurs inside a dialog even if the target is the
  * WComponent (most commonly a WPanel) which is used as the "content" of the dialog. Tricky that.
  *
- * @param {HTMLElement} element The root element from the ajax response.
+ * @param {Element} element The root element from the ajax response.
  */
 function postOpenSubscriber(element) {
 	if (element?.id && element === dialogFrame.getContent()) {

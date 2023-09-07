@@ -63,7 +63,7 @@ function isWSelectToggleContainer(element) {
 
 /**
  *
- * @param {HTMLElement} element
+ * @param {Element} element
  * @return {boolean}
  */
 function isWSelectToggle(element) {
@@ -82,8 +82,8 @@ function isWSelectToggle(element) {
 *
 * @function
 * @private
-* @param {HTMLElement} form The form or sub-form the state of which is being written.
-* @param {HTMLElement} stateContainer The element to which to append the state inputs.
+* @param {Element} form The form or sub-form the state of which is being written.
+* @param {Element} stateContainer The element to which to append the state inputs.
 */
 function writeState(form, stateContainer) {
 
@@ -122,7 +122,7 @@ function writeState(form, stateContainer) {
 
 /**
  *
- * @param {HTMLElement} trigger
+ * @param {Element} trigger
  * @return {null|HTMLElement[]}
  */
 function getControlledElements(trigger) {
@@ -156,7 +156,7 @@ function getNamedGroup(groupName) {
 
 /**
  *
- * @param {HTMLElement} element
+ * @param {Element} element
  * @return {HTMLElement[]}
  */
 function getAllControllers(element) {
@@ -172,7 +172,7 @@ function getAllControllers(element) {
  *
  * @function
  * @private
- * @param {HTMLElement} controller The selectToggle.
+ * @param {Element} controller The selectToggle.
  * @returns {HTMLElement[]} The elements in the group as an Array not as a nodeList or null if no group found.
  */
 function getGroup(controller) {
@@ -223,7 +223,7 @@ function getGroup(controller) {
  *
  * @function
  * @private
- * @param {HTMLElement} trigger The select toggle trigger element.
+ * @param {Element} trigger The select toggle trigger element.
  * @returns {?number} The number of items affected by this activation. This is needed to prevent a double
  * activation of a SUB_CONTROLLER from erroneously setting the sub-controllers state.
  */
@@ -298,7 +298,7 @@ function activateTrigger(trigger) {
  *
  * @function
  * @private
- * @param {HTMLElement} controller A WSelectToggle.
+ * @param {Element} controller A WSelectToggle.
  * @param {String} status The status to set "all", "some" or "none".
  */
 function setControllerStatus(controller, status) {
@@ -348,7 +348,7 @@ function setControllerStatus(controller, status) {
  *
  * @function
  * @private
- * @param {HTMLElement} element The element being selected/deselected.
+ * @param {Element} element The element being selected/deselected.
  * @param {String} action shed.SELECT or shed.DESELECT.
  */
 function shedObserver(element, action) {
@@ -403,7 +403,7 @@ function controlStatusHelper(controller) {
  *
  * @function
  * @private
- * @param {HTMLElement} element a collapsible toggle wrapper
+ * @param {Element} element a collapsible toggle wrapper
  */
 function setControlList(element) {
 	const candidates = getGroup(element),

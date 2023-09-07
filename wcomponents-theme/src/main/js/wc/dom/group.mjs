@@ -31,7 +31,7 @@ const elementGroup = {};
  *    matches, for example if you pass a menu the result may contain a mix of all different types mentioned
  *    above.
  * @param {Boolean} [ignoreInnerGroups] see {@link module:wc/dom/ariaGroup.getGroup}
- * @returns {HTMLElement[]} An array containing the members of this dom group. If the element is not part of
+ * @return {HTMLElement[]} An array containing the members of this dom group. If the element is not part of
  *    any group the array is empty.
  */
 elementGroup.get = function (element, ignoreInnerGroups) {
@@ -74,7 +74,7 @@ elementGroup.get = function (element, ignoreInnerGroups) {
  *    descendant of a container/owner.
  * @param {string} itemWd The widget that describes the items in the group
  * @param {string} [containerWd] A widget that describes a group container.
- * @returns {HTMLElement[]} An array of elements in the group.
+ * @return {HTMLElement[]} An array of elements in the group.
  * @todo This is used rather than this.get when we start at a known group container (such as a fieldset or
  * a known ARIA container) but the naming is a bit ambiguous. Maybe we should change it?
  */
@@ -101,7 +101,7 @@ elementGroup.getGroup = function(element, itemWd, containerWd) {
  * @param {Element} element An element which may be a group container or a member of a group or neither.
  * @param {string} [containerWd] A container widget for a subclass of
  *    {@link module:wc/dom/AriaAnalog}.
- * @returns {HTMLElement} The element which contains the group.
+ * @return {HTMLElement} The element which contains the group.
  */
 elementGroup.getContainer = function(element, containerWd) {
 	let container;
@@ -123,7 +123,7 @@ elementGroup.getContainer = function(element, containerWd) {
 	if (!container) {
 		container = ariaGroup.getContainer(element, containerWd);
 	}
-	return container;
+	return /** @type {HTMLElement} */(container);
 };
 
 /**

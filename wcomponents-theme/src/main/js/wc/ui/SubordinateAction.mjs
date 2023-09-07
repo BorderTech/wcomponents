@@ -250,7 +250,7 @@ function initActionImplementations() {
 
 	/**
 	 *
-	 * @param {HTMLElement} element
+	 * @param {Element} element
 	 * @return {boolean} true if it's `checkable"
 	 */
 	function isCheckable(element) {
@@ -262,7 +262,7 @@ function initActionImplementations() {
 	* {@link module:wc/ui/SubordinateAction~showInGroup}.
 	* @function doInGroup
 	* @private
-	* @param {HTMLElement} element The element "in" the group - i.e. the one we are singling out.
+	* @param {Element} element The element "in" the group - i.e. the one we are singling out.
 	* @param {Function} func The function to apply to "element".
 	* @param {Function} funcToggle The function to apply to all elements in the group that are not "element".
 	* @this module:wc/ui/SubordinateAction
@@ -288,7 +288,7 @@ function initActionImplementations() {
 	 * Hide a component.
 	 * @function hideItem
 	 * @private
-	 * @param {HTMLElement} element The element to act on.
+	 * @param {Element} element The element to act on.
 	 */
 	function hideItem(element) {
 		shed.hide(element);
@@ -298,7 +298,7 @@ function initActionImplementations() {
 	 * Show a component.
 	 * @function showItem
 	 * @private
-	 * @param {HTMLElement} element The element to act on.
+	 * @param {Element} element The element to act on.
 	 */
 	function showItem(element) {
 		shed.show(element);
@@ -308,7 +308,7 @@ function initActionImplementations() {
 	 * Make a field optional.
 	 * @function makeOptional
 	 * @private
-	 * @param {HTMLElement} element The element to act on.
+	 * @param {Element} element The element to act on.
 	 */
 	function makeOptional(element) {
 		shed.optional(element);
@@ -318,7 +318,7 @@ function initActionImplementations() {
 	 * Make a field mandatory.
 	 * @function makeMandatory
 	 * @private
-	 * @param {HTMLElement} element The element to act on.
+	 * @param {Element} element The element to act on.
 	 */
 	function makeMandatory(element) {
 		shed.mandatory(element);
@@ -328,7 +328,7 @@ function initActionImplementations() {
 	 * Disable a component.
 	 * @function disableItem
 	 * @private
-	 * @param {HTMLElement} element The element to act on.
+	 * @param {Element} element The element to act on.
 	 */
 	function disableItem(element) {
 		disable(element, false);
@@ -338,7 +338,7 @@ function initActionImplementations() {
 	 * Enable a component.
 	 * @function enableItem
 	 * @private
-	 * @param {HTMLElement} element The element to act on.
+	 * @param {Element} element The element to act on.
 	 */
 	function enableItem(element) {
 		disable(element, true);
@@ -348,7 +348,7 @@ function initActionImplementations() {
 	 * Select a component.
 	 * @function selectItem
 	 * @private
-	 * @param {HTMLElement} element The element to act on.
+	 * @param {Element} element The element to act on.
 	 */
 	function selectItem(element) {
 		if (isCheckable(element)) {
@@ -360,7 +360,7 @@ function initActionImplementations() {
 	 * Deselect a component.
 	 * @function unselectItem
 	 * @private
-	 * @param {HTMLElement} element The element to act on.
+	 * @param {Element} element The element to act on.
 	 */
 	function unselectItem(element) {
 		if (isCheckable(element)) {
@@ -372,7 +372,7 @@ function initActionImplementations() {
 	 * Toggle the selected state of a component.
 	 * @function toggleSelect
 	 * @private
-	 * @param {HTMLElement} element The element to act on.
+	 * @param {Element} element The element to act on.
 	 * @todo Why not use {@link module:wc/dom/shed#toggle}?
 	 */
 	function toggleSelect(element) {
@@ -385,7 +385,7 @@ function initActionImplementations() {
 	 * Hide a component in a group (and show all others in that group).
 	 * @function hideInGroup
 	 * @private
-	 * @param {HTMLElement} element The element to act on.
+	 * @param {Element} element The element to act on.
 	 */
 	function hideInGroup(element) {
 		doInGroup.call(this, element, hideItem, showItem);
@@ -395,7 +395,7 @@ function initActionImplementations() {
 	 * Show a component in a group (and hide all others in that group).
 	 * @function showInGroup
 	 * @private
-	 * @param {HTMLElement} element The element to act on.
+	 * @param {Element} element The element to act on.
 	 */
 	function showInGroup(element) {
 		doInGroup.call(this, element, showItem, hideItem);
@@ -405,7 +405,7 @@ function initActionImplementations() {
 	 * Enable a component in a group (and disable all others in that group).
 	 * @function enableInGroup
 	 * @private
-	 * @param {HTMLElement} element The element to act on.
+	 * @param {Element} element The element to act on.
 	 */
 	function enableInGroup(element) {
 		doInGroup.call(this, element, enableItem, disableItem);
@@ -415,7 +415,7 @@ function initActionImplementations() {
 	 * Disable a component in a group (and enable all others in that group).
 	 * @function showInGroup
 	 * @private
-	 * @param {HTMLElement} element The element to act on.
+	 * @param {Element} element The element to act on.
 	 */
 	function disableInGroup(element) {
 		doInGroup.call(this, element, disableItem, enableItem);
@@ -425,7 +425,7 @@ function initActionImplementations() {
 	 * Disable OR enable the element. Will recursively enable or disable the element's descendants.
 	 * @function disable
 	 * @private
-	 * @param {HTMLElement} element The element to enable or disable
+	 * @param {Element} element The element to enable or disable
 	 * @param {Boolean} enable if true the element will be enabled, otherwise it will be disabled
 	 * @returns {Boolean} true if the element's disabled state was changed one way or the other
 	 */

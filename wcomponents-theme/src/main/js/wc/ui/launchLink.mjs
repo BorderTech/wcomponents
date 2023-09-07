@@ -25,7 +25,7 @@ const instance = {
 	 * Inline links will result in the page being entirely replaced with the content of a browser plugin.
 	 * Think PDF link that opens in the same window.
 	 * @public
-	 * @param {HTMLElement} element The element to test.
+	 * @param {Element} element The element to test.
 	 * @returns {Boolean} true if this element has an inline attachment link.
 	 */
 	isInlineLink: function(element) {
@@ -42,7 +42,7 @@ const instance = {
  * Gets the href from an element, which may be the URL 'data-' attribute of a link-like element (such as a
  * WButton with renderAs='link' or WMenuItem with a URL, both of which are button elements).
  *
- * @param {HTMLElement} element An element with href attribute OR one of our custom equivalents.
+ * @param {Element} element An element with href attribute OR one of our custom equivalents.
  * @returns {String} The href if found, otherwise falsy (actually "")
  */
 function getHref(element) {

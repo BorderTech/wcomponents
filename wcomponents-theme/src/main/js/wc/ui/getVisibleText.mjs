@@ -8,7 +8,7 @@ import label from "wc/ui/label";
  *
  * @function
  * @private
- * @param {HTMLElement} element The start element
+ * @param {Element} element The start element
  * @returns {Number} NodeFilter.FILTER_ACCEPT if the node is hidden (and can therefore be removed).
  */
 function treeWalkerFilter(element) {
@@ -25,7 +25,7 @@ function treeWalkerFilter(element) {
  *
  * @function
  * @private
- * @param {HTMLElement} clone the element from which we are removing invisible descendants
+ * @param {Element} clone the element from which we are removing invisible descendants
  */
 function removeInvisible(clone) {
 	const tw = document.createTreeWalker(document.body, NodeFilter.SHOW_ELEMENT, treeWalkerFilter);
@@ -39,7 +39,7 @@ function removeInvisible(clone) {
 
 /**
  * @function module:wc/ui/getVisibleText
- * @param {HTMLElement} element The element for which we want to find the text.
+ * @param {Element} element The element for which we want to find the text.
  * @param {Boolean} [removeHint] If truthy also remove any HINT (applies only to labels).
  * @param {Boolean} [trim] if truthy then trim the content before returning it
  * @returns {String} The text content of the element without HINT or TOOLTIP.

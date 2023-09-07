@@ -435,7 +435,7 @@ function MultiFileUploader() {
 
 	/**
 	 * Set up a file selector on first use.
-	 * @param {HTMLElement} element A file input.
+	 * @param {Element} element A file input.
 	 */
 	function initialiseFileInput(element) {
 		if (element.matches(inputElementWd)) {
@@ -526,7 +526,7 @@ function MultiFileUploader() {
 
 	/**
 	 * @param {HTMLFormElement} form
-	 * @param {HTMLElement} container
+	 * @param {Element} container
 	 */
 	function writeState(form, container) {
 		/** @type {HTMLElement[]} */
@@ -546,7 +546,7 @@ function MultiFileUploader() {
 	/**
 	 * Initialise file upload functionality by adding a focus listener.
 	 * @function module:wc/ui/multiFileUpload.initialise
-	 * @param {HTMLElement} element The element being initialised - usually document.body.
+	 * @param {Element} element The element being initialised - usually document.body.
 	 */
 	this.initialise = function (element) {
 		formUpdateManager.subscribe({ writeState });
@@ -649,7 +649,7 @@ function MultiFileUploader() {
 	/**
 	 * Creates the UI widget presented to the user while a file is uploading.
 	 * It will be created and added to the DOM.
-	 * @param {HTMLElement} container The multiFileUploader top level element.
+	 * @param {Element} container The multiFileUploader top level element.
 	 * @param {string} fileName The name of the file being uploaded.
 	 * @returns {string} The ID of the newly created UI widget.
 	 */

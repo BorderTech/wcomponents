@@ -39,7 +39,7 @@ const instance = {
 	 * Adds these elements to the "initial" state of the form.
 	 * Call this carefully - it does not replace existing elements with the same name.
 	 *
-	 * @param {HTMLElement} element  A form control or container.
+	 * @param {Element} element  A form control or container.
 	 */
 	addElements: function(element) {
 		const elements = isSuccessfulElement.getAll(element, true);
@@ -52,7 +52,7 @@ const instance = {
 	 * Adds this element to the "initial" state of the form.
 	 * Call this carefully - it does not replace existing elements with the same name.
 	 *
-	 * @param {HTMLElement} element A form control.
+	 * @param {Element} element A form control.
 	 */
 	addElement: function (element) {
 		const form = element ? element["form"] : null;
@@ -77,7 +77,7 @@ const instance = {
 	/**
 	 * Remove these elements from the "initial" state of the form.
 	 *
-	 * @param {HTMLElement} element A form control or container.
+	 * @param {Element} element A form control or container.
 	 */
 	removeElements: function(element) {
 		const elements = isSuccessfulElement.getAll(element, true);
@@ -89,7 +89,7 @@ const instance = {
 	/**
 	 * Removes this element's current state from the "initial" state of the form.
 	 *
-	 * @param {HTMLElement} element A form control.
+	 * @param {Element} element A form control.
 	 */
 	removeElement: function (element) {
 		const form = element ? element["form"] : null;
@@ -122,7 +122,7 @@ const instance = {
 	 *
 	 * @function
 	 * @alias module:wc/ui/cancelUpdate.cancelSubmission
-	 * @param {HTMLElement} container An element which is, or is within, a FORM element.
+	 * @param {Element} container An element which is, or is within, a FORM element.
 	 * @returns {boolean} true if the user wishes to cancel or if the form is not valid.
 	 */
 	cancelSubmission: function(container) {
@@ -156,7 +156,7 @@ function getCurrentState(form) {
 
 /**
  * Filters out "clean" elements from the serialization.
- * @param {HTMLElement} element A state field.
+ * @param {Element} element A state field.
  * @returns {Boolean} false if the element should be vetoed.
  */
 function isDirty(element) {
@@ -204,7 +204,7 @@ function storeFormState(form) {
  *
  * @function
  * @private
- * @param {HTMLElement} element The element to test.
+ * @param {Element} element The element to test.
  * @returns {string} The element id if the element is the kind of button that triggers a cancelUpdate check.
  */
 function isCancelUpdateButton(element) {
@@ -251,8 +251,8 @@ function clickEvent($event) {
  *
  * @function
  * @private
- * @param {HTMLElement} element Any element within a form.
- * @param {HTMLElement} submitter The element which originated the submission event.
+ * @param {Element} element Any element within a form.
+ * @param {Element} submitter The element which originated the submission event.
  * @returns {Boolean} true if the user wants to keep their unsaved changes and cancel the submission, false
  *    to continue with the submission/navigation.
  */
@@ -294,7 +294,7 @@ function cancelSubmit(element, submitter) {
  *
  * @function
  * @private
- * @param {HTMLElement} element The AJAX target element in the DOM prior to the ajax action.
+ * @param {Element} element The AJAX target element in the DOM prior to the ajax action.
  */
 function ajaxSubscriber(element/* , documentFragment, action */) {
 	const form = element ? element.closest("form") : null;
@@ -323,7 +323,7 @@ function ajaxSubscriber(element/* , documentFragment, action */) {
  *
  * @function
  * @private
- * @param {HTMLElement} element The AJAX target element in the DOM prior to the AJAX action.
+ * @param {Element} element The AJAX target element in the DOM prior to the AJAX action.
  */
 function postAjaxSubscriber(element/* , action */) {
 	const form = element ? element.closest("form") : null;
@@ -391,7 +391,7 @@ initialise.register({
 	 * Set up the cancel update controller.
 	 * @function
 	 * @alias module:wc/ui/cancelUpdate.initialise
-	 * @param {HTMLElement} element The element being initialised, usually document.body.
+	 * @param {Element} element The element being initialised, usually document.body.
 	 */
 	initialise: function(element) {
 		event.add(element, "click", clickEvent, -100);
@@ -414,7 +414,7 @@ initialise.register({
 
 	/**
 	 * Unsubscribes event listeners etc.
-	 * @param {HTMLElement} element The element being deinitialised, usually document.body.
+	 * @param {Element} element The element being deinitialised, usually document.body.
 	 */
 	deinit: function(element) {
 		event.remove(element, "click", clickEvent);

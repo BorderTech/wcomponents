@@ -14,7 +14,7 @@ import isComplete from "wc/ui/validation/isComplete";
  * Determines whether a container is valid.
  * @function
  * @private
- * @param {HTMLElement} container The container being validated, may be a WCheckBoxSelect root container or an
+ * @param {Element} container The container being validated, may be a WCheckBoxSelect root container or an
  *    element which contains WCheckBoxSelects such as a form.
  * @returns {Boolean} true if valid.
  */
@@ -38,7 +38,7 @@ function validate (container) {
  *
  * @function
  * @private
- * @param {HTMLElement} element A WCheckBoxSelect
+ * @param {Element} element A WCheckBoxSelect
  */
 const revalidate = element => validationManager.revalidationHelper(element, validate);
 

@@ -82,7 +82,7 @@ const instance = {
 	 *
 	 * @function module:wc/ui/multiSelectPair.getListByType
 	 * @public
-	 * @param {HTMLElement} element Any component element of a multiSelectPair (ie any of the lists or buttons).
+	 * @param {Element} element Any component element of a multiSelectPair (ie any of the lists or buttons).
 	 * @param {number} type One of the types defined in LISTS.
 	 * @returns {HTMLSelectElement} The list of the type represented by the type argument.
 	 */
@@ -102,7 +102,7 @@ const instance = {
 	 *
 	 * @function module:wc/ui/multiSelectPair.getValue
 	 * @public
-	 * @param {HTMLElement} container A multiSelectPair container.
+	 * @param {Element} container A multiSelectPair container.
 	 * @returns {HTMLOptionElement[]} The logically selected options in this multiSelectPair. Returns an empty
 	 *    Array if no options are selected.
 	 */
@@ -123,7 +123,7 @@ const instance = {
 	 *
 	 * @function module:wc/ui/multiSelectPair.isOneOfMe
 	 * @public
-	 * @param {HTMLElement} element The DOM element to test.
+	 * @param {Element} element The DOM element to test.
 	 * @returns {boolean} True if the passed in element is a multiSelectPair.
 	 */
 	isOneOfMe: function(element) {
@@ -142,7 +142,7 @@ const instance = {
  *
  * @function
  * @private
- * @param {HTMLElement} [container] A WMultiSelectPair or any container component.
+ * @param {Element} [container] A WMultiSelectPair or any container component.
  */
 function fixWidthHeight(container) {
 	const el = container || document.body, PX = "px";
@@ -327,7 +327,7 @@ function publishSelection(fromList, toList) {
  *
  * @function
  * @private
- * @param {HTMLElement} element A WMultiSelectPair container.
+ * @param {Element} element A WMultiSelectPair container.
  */
 function addSelected(element) {
 	addRemoveSelected(instance.getListByType(element, LIST_TYPE_AVAILABLE));
@@ -367,7 +367,7 @@ function actionAllOptions(selectList, action) {
  *
  * @function
  * @private
- * @param {HTMLElement} element A WMultiSelectPair.
+ * @param {Element} element A WMultiSelectPair.
  */
 function addAll(element) {
 	const availableBucket = instance.getListByType(element, LIST_TYPE_AVAILABLE);
@@ -379,7 +379,7 @@ function addAll(element) {
  *
  * @function
  * @private
- * @param {HTMLElement} element A WMultiSelectPair.
+ * @param {Element} element A WMultiSelectPair.
  */
 function removeAll(element) {
 	const selectedBucket = instance.getListByType(element, LIST_TYPE_CHOSEN);
@@ -394,8 +394,8 @@ function removeAll(element) {
  *
  * @function
  * @private
- * @param {HTMLElement} form The form or sub-form which is having its state written.
- * @param {HTMLElement} stateContainer The container into which state is written.
+ * @param {Element} form The form or sub-form which is having its state written.
+ * @param {Element} stateContainer The container into which state is written.
  */
 function writeState(form, stateContainer) {
 	/** @type HTMLFieldSetElement[] */
@@ -516,7 +516,7 @@ initialise.register({
 	 *
 	 * @function module:wc/ui/multiSelectPair.initialise
 	 * @public
-	 * @param {HTMLElement} element The element being initialised: usually `document.body`
+	 * @param {Element} element The element being initialised: usually `document.body`
 	 */
 	initialise: function(element) {
 		fixWidthHeight();

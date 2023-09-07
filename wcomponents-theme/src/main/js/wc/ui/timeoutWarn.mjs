@@ -74,7 +74,7 @@ const instance = {
  * Close timeout warning dialog and remove event handlers.
  * @function
  * @private
- * @param {HTMLElement} element The warning container.
+ * @param {Element} element The warning container.
  */
 function closeWarning(element) {
 	if (element && !shed.isHidden(element, true)) {
@@ -109,7 +109,7 @@ function keydownEvent($event) {
  * again.
  * @function
  * @private
- * @param {HTMLElement} container The top level container element of the warning container.
+ * @param {Element} container The top level container element of the warning container.
  */
 function showDialog(container) {
 	event.add(document.body, "keydown", keydownEvent);

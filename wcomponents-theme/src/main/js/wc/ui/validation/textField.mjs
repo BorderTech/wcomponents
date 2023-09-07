@@ -24,7 +24,7 @@ let rxString = "";
 
 /**
  * Test for an input which we are interested in.
- * @param {HTMLElement} element The component to test.
+ * @param {Element} element The component to test.
  * @returns {Boolean} true if the element is an input which we need to test.
  */
 function isValidatingInput(element) {
@@ -35,7 +35,7 @@ function isValidatingInput(element) {
  * Adds an error message to a component.
  * @function
  * @private
- * @param {HTMLElement} element The DOM element with the error.
+ * @param {Element} element The DOM element with the error.
  * @param {string} flag The framework for the error message in sprintf format.
  */
 function _flagError(element, flag) {
@@ -102,7 +102,7 @@ function isInvalid(element) {
 
 /**
  * Validates all the constrained fields we are interested in, within a given container.
- * @param {HTMLElement} container An element, preferably one containing form controls with input masks, otherwise
+ * @param {Element} container An element, preferably one containing form controls with input masks, otherwise
  *    why are we here?
  * @returns {boolean} true if the container is valid.
  */
@@ -175,7 +175,7 @@ function focusEvent({ target, defaultPrevented }) {
 initialise.register({
 	/**
 	 * Initialise callback to attach event listeners.
-	 * @param {HTMLElement} element The element being initialised, usually document.body.
+	 * @param {Element} element The element being initialised, usually document.body.
 	 */
 	initialise: function(element) {
 		event.add(element, { type: "focus", listener: focusEvent, pos: 1, capture: true });

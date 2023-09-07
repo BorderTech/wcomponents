@@ -38,7 +38,7 @@ function copyContent(element) {
 initialise.register({
 	/**
 	 *
-	 * @param {HTMLElement} element
+	 * @param {Element} element
 	 */
 	initialise: function(element) {
 		event.add(element, "click", debounce(clickEvent, 250));

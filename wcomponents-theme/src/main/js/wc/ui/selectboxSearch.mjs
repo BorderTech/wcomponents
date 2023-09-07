@@ -350,7 +350,7 @@ function closeSearch() {
 }
 
 /**
- * @param {HTMLElement} search
+ * @param {Element} search
  */
 function hideSearch(search) {
 	search.classList.remove(CLASS_NOT_FOUND);

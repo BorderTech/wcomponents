@@ -19,7 +19,7 @@ const formSelector = "form";
  * Mark the form as having unsaved changes if a flagged cancel button is inserted via ajax.
  * @function
  * @private
- * @param {HTMLElement} element The AJAX target element.
+ * @param {Element} element The AJAX target element.
  */
 function ajaxSubscriber(element) {
 	if (element) {

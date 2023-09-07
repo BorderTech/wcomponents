@@ -50,7 +50,7 @@ function buildBitMask(keys) {
  *         filter:getFilteredGroup.FILTERS.selected + getFilteredGroup.FILTERS.disabled
  *     });
  *
- * @param {HTMLElement|HTMLElement[]} element An element which belongs to (or defines) the group OR the group itself as
+ * @param {Element|Element[]} element An element which belongs to (or defines) the group OR the group itself as
  *    an array.
  * @param {module:wc/dom/getFilteredGroup~config} [config] Arguments to tweak the default behavior of this
  *    function.
@@ -62,22 +62,7 @@ function buildBitMask(keys) {
 function getFilteredGroup(element, config = {}) {
 	let result, filter,
 		shedAttributeOnly = false;
-	const mask = getFilteredGroup.FILTERS,
-		filterFunc = function(el) {
-			let _result = true;
-			for (let i = 0; (_result && i < FILTERS.length); i += 2) {
-				let positive = mask[FILTERS[i]];
-				let negative = mask[FILTERS[i | 1]];
-				let nextMask = positive + negative;  // combine flags that relate to this property
-				let flags = filter & nextMask;  // extract the relevant flags from the provided filter
-				if (flags && flags !== nextMask) {  // if one flag is set (but not BOTH flags)
-					// eslint-disable-next-line no-extra-boolean-cast
-					let reverse = !!(flags & negative) ? 1 : 0;  // do we need to reverse the results from SHED?
-					_result = !!(reverse ^ shed[SHED_FILTERS[Math.floor(i / 2)]](el, shedAttributeOnly));
-				}
-			}
-			return _result;
-		};
+	const mask = getFilteredGroup.FILTERS;
 	if (element) {
 		let group;
 		let {
@@ -89,22 +74,35 @@ function getFilteredGroup(element, config = {}) {
 		filter = config.filter || (mask.selected | mask.enabled);
 		shedAttributeOnly = !! config.shedAttributeOnly;
 		if (Array.isArray(element)) {
-			group = element;
+			group = /** @type {HTMLElement[]} */(element);
 		} else if (itemWd) {
 			group = $group.getGroup(element, itemWd, containerWd);
 		} else {
 			group = $group.get(element, ignoreInnerGroups);
 		}
-		if (asObject) {
-			result = {
-				unfiltered: group,
-				filtered: group.filter(filterFunc)
-			};
-		} else {
-			result = group.filter(filterFunc);
-		}
+		const filtered = group.filter(filterFunc);
+		result = asObject ? { unfiltered: group, filtered } : filtered;
 	} else {
 		throw new TypeError("Element can not be null");
+	}
+	/**
+	 * @param {HTMLElement} el
+	 * @return {boolean}
+	 */
+	function filterFunc(el) {
+		let _result = true;
+		for (let i = 0; (_result && i < FILTERS.length); i += 2) {
+			let positive = mask[FILTERS[i]];
+			let negative = mask[FILTERS[i | 1]];
+			let nextMask = positive + negative;  // combine flags that relate to this property
+			let flags = filter & nextMask;  // extract the relevant flags from the provided filter
+			if (flags && flags !== nextMask) {  // if one flag is set (but not BOTH flags)
+				// eslint-disable-next-line no-extra-boolean-cast
+				let reverse = !!(flags & negative) ? 1 : 0;  // do we need to reverse the results from SHED?
+				_result = !!(reverse ^ shed[SHED_FILTERS[Math.floor(i / 2)]](el, shedAttributeOnly));
+			}
+		}
+		return _result;
 	}
 	return result;
 }

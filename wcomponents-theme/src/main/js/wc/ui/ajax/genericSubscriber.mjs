@@ -15,7 +15,7 @@ import processResponse from "wc/ui/ajax/processResponse";
  *
  * @function
  * @private
- * @param {HTMLElement} element The reference element (element being replaced): not needed here.
+ * @param {Element} element The reference element (element being replaced): not needed here.
  * @param {DocumentFragment} documentFragment The document fragment which will be inserted.
  */
 function ajaxSubscriber(element, documentFragment) {

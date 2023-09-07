@@ -46,7 +46,7 @@ function getLabelForSelectors(id, inclReadOnly) {
  * @function
  * @private
  * @param {Element} element The labelled element.
- * @param {HTMLElement[]} [labelArr] Labels we have already found.
+ * @param {Element[]} [labelArr] Labels we have already found.
  * @param {Boolean} [readOnly] If true also get labels for element in its read-only state.
  * @returns {HTMLElement[]} If element has no 'labels' then an empty array is returned.
  */

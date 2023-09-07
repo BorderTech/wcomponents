@@ -43,7 +43,7 @@ function getControlled(trigger) {
  *
  * @function
  * @private
- * @param {HTMLElement} controller The WCollapsibleToggle control.
+ * @param {Element} controller The WCollapsibleToggle control.
  * @param {Boolean} [expanded] truethy if we are checking if all expanded, otherwise falsey
  */
 function areAllInExpandedState(controller, expanded) {
@@ -76,7 +76,7 @@ function areAllInExpandedState(controller, expanded) {
  *
  * @function
  * @private
- * @param {HTMLElement} collapsible A collapsible.
+ * @param {Element} collapsible A collapsible.
  * @param {boolean} [open] true means open the collapsible/expand the row.
  */
 function toggleThisCollapsible(collapsible, open) {
@@ -101,7 +101,7 @@ function toggleThisCollapsible(collapsible, open) {
  *
  * @function
  * @private
- * @param {HTMLElement} element The toggler.
+ * @param {Element} element The toggler.
  */
 function toggleGroup(element) {
 	const open = element.getAttribute("data-wc-value") === EXPAND;
@@ -122,7 +122,7 @@ function toggleGroup(element) {
  *
  * @function
  * @private
- * @param {HTMLElement} element the element being controlled
+ * @param {Element} element the element being controlled
  * @returns {Element[]} An array containing all the controllers for the collapsible.
  */
 function getControllers(element) {
@@ -156,7 +156,7 @@ function setControllerState(controller) {
  *
  * @function
  * @private
- * @param {HTMLElement} element The element being expanded/collapsed.
+ * @param {Element} element The element being expanded/collapsed.
  */
 function collapsibleObserver(element) {
 	const controllers = element ? getControllers(element) : null;
@@ -171,7 +171,7 @@ function collapsibleObserver(element) {
  *
  * @function
  * @private
- * @param {HTMLElement} element a collapsible toggle wrapper
+ * @param {Element} element a collapsible toggle wrapper
  * @returns {undefined}
  */
 function setControlList(element) {
@@ -207,7 +207,7 @@ function setControls() {
  *
  * @function
  * @private
- * @param {HTMLElement} element The element being selected.
+ * @param {Element} element The element being selected.
  */
 function shedObserver(element) {
 	if (element?.matches(expandCollapseAllSelector)) {

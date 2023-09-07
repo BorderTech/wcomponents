@@ -14,14 +14,14 @@ const UP = "up",
 
 /**
  * @param {HTMLFormElement} form
- * @param {HTMLElement} stateContainer
+ * @param {Element} stateContainer
  */
 function writeState(form, stateContainer) {
 	/**
 	 * "Clean up" the state of the dual multi select control.
 	 * I.E. ensure the correct options are selected/deselected in the submit element,
 	 * based on the selections made in the available/chosen elements.
-	 * @param {HTMLElement} container
+	 * @param {Element} container
 	 */
 	function _writeState(container) {
 		/** @type {HTMLSelectElement} */
@@ -68,7 +68,7 @@ function move(element) {
 	 *   and if so make it the parent element's last child, otherwise it is already the last
 	 *   child
 	 *
-	 * @param {HTMLElement} option the option element to move
+	 * @param {Element} option the option element to move
 	 */
 	function _moveIt(option) {
 		let reference,
@@ -139,7 +139,7 @@ function clickEvent({ target, defaultPrevented }) {
 initialise.register({
 	/**
 	 * Set up shuffle controller.
-	 * @param {HTMLElement} element The element being initialised, usually `document.body`
+	 * @param {Element} element The element being initialised, usually `document.body`
 	 */
 	initialise: function (element) {
 		event.add(element, "click", clickEvent);
@@ -147,7 +147,7 @@ initialise.register({
 	},
 	/**
 	 * Unsubscribes event listeners etc.
-	 * @param {HTMLElement} element The element being de-initialised, usually document.body.
+	 * @param {Element} element The element being de-initialised, usually document.body.
 	 */
 	deinit: function(element) {
 		event.remove(element, "click", clickEvent);

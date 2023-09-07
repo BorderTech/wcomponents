@@ -37,8 +37,8 @@ const instance = {
 	 * Allow an external module which manipulates labels to be able to set the SoC warning.
 	 * @function module:wc/ui/onchangeSubmit.warn
 	 * @public
-	 * @param {HTMLElement} el THe element which may be able to "submit on change"
-	 * @param {HTMLElement} [lbl] The element's label/legend/labelling element if it is already available - just prevents us having to do double
+	 * @param {Element} el THe element which may be able to "submit on change"
+	 * @param {Element} [lbl] The element's label/legend/labelling element if it is already available - just prevents us having to do double
 	 * look-ups.
 	 */
 	warn: function(el, lbl) {
@@ -86,7 +86,7 @@ const instance = {
  * was selected on load.
  * @function
  * @private
- * @param {HTMLElement} element The select element to store.
+ * @param {Element} element The select element to store.
  */
 function setLoadedOptionRegistry(element) {
 	optionOnLoad[element.id] = getElementValue(element);
@@ -118,7 +118,7 @@ function removeLoadedOptionRegistry(element) {
  * Get the serialized value of an element if it is a select which is loaded dynamically via a datalist.
  * @function
  * @private
- * @param {HTMLElement} element The element to serialize.
+ * @param {Element} element The element to serialize.
  * @returns {String} The serialized value of element if it is a cacheable SELECT.
  */
 function getElementValue(element) {
@@ -134,7 +134,7 @@ function getElementValue(element) {
  * form submission if we do.
  * @function
  * @private
- * @param {HTMLElement} element The element firing the submitOnChange.
+ * @param {Element} element The element firing the submitOnChange.
  */
 function fireElement(element) {
 	if (!submitting) {
@@ -198,7 +198,7 @@ function changeEvent({ target, defaultPrevented }) {
  *
  * @function
  * @private
- * @param {HTMLElement} element The element being acted upon.
+ * @param {Element} element The element being acted upon.
  */
 function shedObserver(element) {
 	if (element?.matches(triggers)) {
@@ -207,7 +207,7 @@ function shedObserver(element) {
 }
 
 /**
- * @param {HTMLElement} container
+ * @param {Element} container
  */
 function addAllWarnings(container) {
 	if (container.matches(submitterselector)) {

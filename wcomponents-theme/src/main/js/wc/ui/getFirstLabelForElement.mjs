@@ -6,7 +6,7 @@ import getVisibleText from "wc/ui/getVisibleText";
  * order). This can also return the content of the 'label' omitting access-key tooltip content.
  *
  * @function module:wc/ui/getFirstLabelForElement
- * @param {HTMLElement} element The element for which we want to find labels.
+ * @param {Element} element The element for which we want to find labels.
  * @param {Boolean} [contentOnly] Set true if you only want the text content of the label. This will omit the
  *    content in an access-key tooltip and the content of a WLabel hint.
  * @param {Boolean} [keepHint] If truthy and getting contentOnly then keep the label "hint". This is not the

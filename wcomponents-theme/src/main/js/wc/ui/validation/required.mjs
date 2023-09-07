@@ -75,7 +75,7 @@ const instance = {
 	 * all change events by not doing that test.
 	 *
 	 * @function module:wc/ui/validation/required.revalidate
-	 * @param {HTMLElement} element The element to re-validate.
+	 * @param {Element} element The element to re-validate.
 	 * @param {module:wc/ui/validation/required~config} config Configuration parameters.
 	 */
 	revalidate: function (element, config) {
@@ -153,7 +153,7 @@ const instance = {
  *
  * @function
  * @private
- * @param {HTMLElement} element The element (component) with the error.
+ * @param {Element} element The element (component) with the error.
  * @returns {String} A formatted error message.
  */
 function getRequiredMessage(element) {
@@ -164,7 +164,7 @@ function getRequiredMessage(element) {
  * Common helper to add an error message indicator to each of an array of components.
  * @function
  * @private
- * @param {HTMLElement[]} elements An array of elements in an invalid state.
+ * @param {Element[]} elements An array of elements in an invalid state.
  * @param {module:wc/ui/validation/required~config} [config] Configuration object.
  */
 function flagAllThese(elements, config) {
@@ -180,7 +180,7 @@ function flagAllThese(elements, config) {
  *
  * @function
  * @private
- * @param {HTMLElement} element A form control or aria surrogate.
+ * @param {Element} element A form control or aria surrogate.
  * @returns {Boolean} true if not complete.
  */
 function isNotComplete(element) {

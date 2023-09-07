@@ -375,7 +375,7 @@ function removeDuplicateElements(duplicates) {
  * Dynamic injection of scripts is NOT as easy as you may imagine so don't change this
  * unless you are prepared to test extensively.
  * @param {HTMLScriptElement[]} scripts Array of script elements.
- * @param {HTMLElement} relativeTo use this as the basis for finding to form into which we want to insert the scripts.
+ * @param {Element} relativeTo use this as the basis for finding to form into which we want to insert the scripts.
  */
 function insertScripts(scripts, relativeTo) {
 	const srcAttr = "src", defer = "defer";

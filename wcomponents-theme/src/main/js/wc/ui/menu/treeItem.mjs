@@ -37,8 +37,8 @@ function TreeItem() {
 	 *
 	 * @function
 	 * @private
-	 * @param {HTMLElement} element The element which is being tested.
-	 * @param {HTMLElement} target The click event target.
+	 * @param {Element} element The element which is being tested.
+	 * @param {Element} target The click event target.
 	 * @returns {Boolean} true if the element may be activated.
 	 */
 	function isAcceptable (element, target) {
@@ -71,8 +71,8 @@ function TreeItem() {
 	 *
 	 * @function
 	 * @private
-	 * @param {HTMLElement} element The element to be activated.
-	 * @param {HTMLElement} container The root node of the tree. We already calculated this so we reuse it.
+	 * @param {Element} element The element to be activated.
+	 * @param {Element} container The root node of the tree. We already calculated this so we reuse it.
 	 * @returns {Boolean} true if element is the first treeitem being activated in its level of the tree.
 	 */
 	function isFirstAtLevel(element, container) {
@@ -154,7 +154,7 @@ function TreeItem() {
 	 * @function
 	 * @public
 	 * @override
-	 * @param {HTMLElement} element The element to activate
+	 * @param {Element} element The element to activate
 	 * @param {Boolean} [SHIFT] True if the SHIFT key was pressed at the time of activation.
 	 * @param {Boolean} [CTRL] True if the CTRLor META key was pressed at the time of activation.
 	 */

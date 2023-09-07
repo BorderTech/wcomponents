@@ -28,7 +28,7 @@ function testHeading(element) {
  *
  * @function
  * @private
- * @param {HTMLElement} element The reference element (element being replaced).
+ * @param {Element} element The reference element (element being replaced).
  */
 function ajaxSubscriber(element) {
 	if (element) {

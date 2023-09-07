@@ -249,8 +249,8 @@ function DateInput() {
 	 * not update on select of the options!
 	 * @function
 	 * @private
-	 * @param {HTMLElement} dateField The dateField to update.
-	 * @param {HTMLElement} option The option which caused the update.
+	 * @param {Element} dateField The dateField to update.
+	 * @param {Element} option The option which caused the update.
 	 */
 	function setValueFromOption(dateField, option) {
 		const suggestionList = getSuggestionList(dateField, -1);
@@ -494,7 +494,7 @@ function DateInput() {
 	 * based on its initial XML value.
 	 * @function
 	 * @private
-	 * @param {HTMLElement} field The date field wrapper element.
+	 * @param {Element} field The date field wrapper element.
 	 */
 	function setInputValue(field) {
 		const value = field.getAttribute(FAKE_VALUE_ATTRIB);
@@ -980,7 +980,7 @@ function DateInput() {
 	 * Is a particular field a native date input?
 	 * Not so lame according to the feedback from users.
 	 *
-	 * @param {HTMLElement} dateField a date field container.
+	 * @param {Element} dateField a date field container.
 	 * @returns {Boolean}
 	 */
 	this.isLameDateField = function(dateField) {

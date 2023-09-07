@@ -35,7 +35,7 @@ function keyEvent($event) {
  * Determine if an element has a default submit behaviour.
  * @function
  * @private
- * @param {HTMLElement} element The 'submitting' element.
+ * @param {Element} element The 'submitting' element.
  */
 function isPotentialSubmitter(element) {
 	return element.matches("select,input:not([type='file'])");

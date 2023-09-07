@@ -130,7 +130,7 @@ function getElement(trigger) {
  *
  * @function getForm
  * @private
- * @param {HTMLElement} element the start element.
+ * @param {Element} element the start element.
  * @returns {HTMLFormElement} the ancestor form element if any or undefined.
  */
 function getForm(element) {
@@ -572,7 +572,7 @@ Trigger.prototype.getParams = function() {
  *    is only successful when it is clicked, that is what we are honoring here
  * @private
  * @function
- * @param {HTMLElement} element The trigger element.
+ * @param {Element} element The trigger element.
  * @returns {String} The serialized parameters or "".
  */
 function getSubmitButtonParams(element) {

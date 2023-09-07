@@ -95,7 +95,7 @@ const instance = {
 
 	/**
 	 * Determine the language of the document.
-	 * @param {HTMLElement} [element] Optionally provide a context element which will take precedence over the documentElement.
+	 * @param {Element} [element] Optionally provide a context element which will take precedence over the documentElement.
 	 * @returns {String} the current document language.
 	 */
 	_getLang: function(element) {

@@ -98,7 +98,7 @@ function checkMin(element, value, min) {
  * Validate all WNumberFields in a given container, which could be a WNumberFIeld itself.
  * @function
  * @private
- * @param {HTMLElement} container Any element.
+ * @param {Element} container Any element.
  * @returns {Boolean} true if the container is valid.
  */
 function validate(container) {
@@ -170,7 +170,7 @@ initialise.register({
 	/**
 	 * Initialisation callback to attach event listeners.
 	 * @function module:wc/ui/validation/numberField.initialise
-	 * @param {HTMLElement} element The element being initialised, usually document.body.
+	 * @param {Element} element The element being initialised, usually document.body.
 	 */
 	initialise: function(element) {
 		event.add(element, { type: "focus", listener: focusEvent, pos: 1, capture: true });

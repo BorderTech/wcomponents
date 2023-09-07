@@ -51,6 +51,7 @@ function validate(container) {
  * @returns {boolean} true if complete.
  */
 function amIComplete(element) {
+	/** @type {HTMLInputElement} */
 	const upload = element.querySelector(INPUT_ELEMENT);
 	return !!(upload.value || element.querySelector(FILE_ELEMENT));
 }
@@ -61,7 +62,7 @@ function amIComplete(element) {
  *
  * @function
  * @private
- * @param {HTMLElement} container The element being tested.
+ * @param {Element} container The element being tested.
  * @returns {boolean} true if complete.
  */
 function isThisComplete(container) {

@@ -18,7 +18,7 @@ import "wc/ui/radioAnalog";
 
 /**
  * Find the closest ancestor-or-self match but excludes any results at or above `stopAtSelector`.
- * @param {HTMLElement} element The reference element.
+ * @param {Element} element The reference element.
  * @param {string} selector The ancestor to find.
  * @param {string} stopAtSelector Exclude results at or above this selector.
  * @return {HTMLElement|null}
@@ -53,7 +53,7 @@ const instance = {
 	/**
 	 * Is a given table a treegrid? We cannot currently use the treegrid role because it causes a11y failure in common screenreader/browser
 	 * combos.
-	 * @param {HTMLElement} element the element to test
+	 * @param {Element} element the element to test
 	 * @returns {Boolean} {@code true} if the element is a table with row expansion.
 	 */
 	isTreeGrid: element => element.matches(table)
@@ -76,7 +76,7 @@ function getControlled(trigger) {
  *
  * @function
  * @private
- * @param {HTMLElement} element the element being controlled
+ * @param {Element} element the element being controlled
  * @returns {Element[]} An array containing all of the controllers for the row
  */
 function getControllers(element) {
@@ -92,7 +92,7 @@ function getControllers(element) {
  *
  * @function
  * @private
- * @param {HTMLElement} controller The WCollapsibleToggle control.
+ * @param {Element} controller The WCollapsibleToggle control.
  * @param {Boolean} expanded true if we are checking if all expanded, otherwise false
  */
 function areAllInExpandedState(controller, expanded) {
@@ -137,7 +137,7 @@ function isAjaxExpansion(row) {
  *
  * @function
  * @private
- * @param {HTMLElement} element The triggering element.
+ * @param {Element} element The triggering element.
  * @returns {Object} An object suitable to create a {@link module:wc/ajax/Trigger}.
  */
 function getTriggerDTO(element) {
@@ -150,8 +150,8 @@ function getTriggerDTO(element) {
  *
  * @function
  * @private
- * @param {HTMLElement} form The form or form segment the state of which is being written.
- * @param {HTMLElement} stateContainer The element into which the sate is written.
+ * @param {Element} form The form or form segment the state of which is being written.
+ * @param {Element} stateContainer The element into which the sate is written.
  */
 function writeState(form, stateContainer) {
 	Array.from(form.querySelectorAll(table)).forEach(function(next) {
@@ -171,7 +171,7 @@ function writeState(form, stateContainer) {
  *
  * @function
  * @private
- * @param {HTMLElement} row A collapsible row.
+ * @param {Element} row A collapsible row.
  * @param {String} [forceDirection] use a particular direction "true" or "false" rather than inferring from
  *    the current button state. Required when recursively closing/hiding rows.
  * @param {Boolean} [ignoreRecursion] true if we want to ignore the recursion of controllers to toggle sub
@@ -198,7 +198,7 @@ function toggleRow(row, ignoreAjax) {
  *
  * @function
  * @private
- * @param {HTMLElement} triggerRow The expandable row.
+ * @param {Element} triggerRow The expandable row.
  * @param {String} action A {@link module:wc/dom/shed} action: one of shed.actions.EXPAND or shed.actions.COLLAPSE.
  */
 function showHideContent(triggerRow, action) {
@@ -355,7 +355,7 @@ function clickEvent($event) {
  * Expand/collapse all available row controllers in a table (but not in any further nested tables).
  * @function
  * @private
- * @param {HTMLElement} element One of the expand-all/collapse-all buttons.
+ * @param {Element} element One of the expand-all/collapse-all buttons.
  * @returns {Boolean} {@code true} if there are any rows to toggle.
  */
 function toggleAll(element) {
@@ -406,7 +406,7 @@ function activateOnSelect({ target }) {
  *
  * @function
  * @private
- * @param {HTMLElement} element a collapsible toggle wrapper
+ * @param {Element} element a collapsible toggle wrapper
  * @returns {undefined}
  */
 function setControlList(element) {
@@ -447,7 +447,7 @@ initialise.register({
 	 * Set up the collapsible row controllers.
 	 * @function module:wc/ui/table/rowExpansion.initialise
 	 * @public
-	 * @param {HTMLElement} element The element being initialised, usually document.body.
+	 * @param {Element} element The element being initialised, usually document.body.
 	 */
 	initialise: function(element) {
 		event.add(element, { type: "focus", listener: focusEvent, capture: true });

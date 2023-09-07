@@ -24,7 +24,7 @@ const instance = {
 	 *
 	 * @function module:wc/ui/label.getHint
 	 * @public
-	 * @param {HTMLElement} label the label to test
+	 * @param {Element} label the label to test
 	 * @returns {HTMLElement} the label's hint, if any
 	 */
 	getHint: function (label) {
@@ -39,11 +39,11 @@ const instance = {
 	 *
 	 * @function module:wc/ui/label.setHint
 	 * @public
-	 * @param {HTMLElement} label the label to which we are modifying hint content
+	 * @param {Element} label the label to which we are modifying hint content
 	 * @param {String} [content] the hint content to add; if falsey then an existing hint (if any) is removed
 	 */
 	setHint: function(label, content) {
-		let hint = this.getHint(label);
+		const hint = this.getHint(label);
 		const BEFORE_END = "beforeend";
 		if (hint) {
 			if (content) {
@@ -55,8 +55,8 @@ const instance = {
 				hint.parentNode.removeChild(hint);
 			}
 		} else if (content) {
-			hint = `<span class='${CLASS_HINT}'>${content}</span>`;
-			label.insertAdjacentHTML(BEFORE_END, hint);
+			let html = `<span class='${CLASS_HINT}'>${content}</span>`;
+			label.insertAdjacentHTML(BEFORE_END, html);
 		}
 	},
 
@@ -81,7 +81,7 @@ const instance = {
 	 * TODO: This _should_ be done in the Java Renderers.
 	 * @function
 	 * @private
-	 * @param {HTMLElement} [element] a container element
+	 * @param {Element} [element] a container element
 	 */
 	moveLabels: function(element) {
 		const moveSelector = moveSelectors.join();
@@ -93,14 +93,13 @@ const instance = {
 			moveElements.forEach(moveLabel);
 		}
 	}
-
 };
 
 /**
  * Helper to do label manipulation.
  * @function
  * @private
- * @param {HTMLElement} label the label to manipulate
+ * @param {Element} label the label to manipulate
  * @param {string} func the function to apply to the label
  */
 function mandateLabel(label, func) {
@@ -113,7 +112,7 @@ function mandateLabel(label, func) {
  * Helper to do label manipulation.
  * @function
  * @private
- * @param {HTMLElement} label the label to manipulate
+ * @param {Element} label the label to manipulate
  * @param {string} func the function to apply to the label
  */
 function showHideLabel(label, func) {
@@ -126,17 +125,17 @@ function showHideLabel(label, func) {
  * Manipulate a label when a labelled element is made mandatory or optional.
  * @function
  * @private
- * @param {CustomEvent} $event An optional/mandatory event.
+ * @param {CustomEvent & { target: HTMLElement }} $event An optional/mandatory event.
  */
 function shedMandatorySubscriber($event) {
-	const { target: element, type: action} = $event;
-	if (!element) {
+	const { target, type: action} = $event;
+	if (!target) {
 		return;
 	}
-	const input = wrappedInput.isOneOfMe(element) ? wrappedInput.getInput(element) : element;
+	const input = wrappedInput.isOneOfMe(target) ? wrappedInput.getInput(target) : target;
 	if (input && input.type !== "radio" && (input.matches(tags.join()) || $role.has(input))) {
 		const func = action === shed.events.OPTIONAL ? "remove" : "add";
-		getLabelsForElement(element).forEach(function (next) {
+		getLabelsForElement(target).forEach(function (next) {
 			mandateLabel(next, func);
 		});
 	}
@@ -146,7 +145,7 @@ function shedMandatorySubscriber($event) {
  * Show/hide label[s] when a labelled element (even readOnly) is shown/hidden.
  * @function
  * @private
- * @param {CustomEvent} $event A show/hide event.
+ * @param {CustomEvent & { target: HTMLElement }} $event A show/hide event.
  */
 function shedHideSubscriber($event) {
 	const { target: element, type: action} = $event;
@@ -165,8 +164,8 @@ function shedHideSubscriber($event) {
  * its active and read-only states.
  * @function
  * @private
- * @param {HTMLElement} element The DOM element which is being converted to/from its read-only state via AJAX.
- * @param {HTMLElement} label a label (or read-only analogue) for element
+ * @param {Element} element The DOM element which is being converted to/from its read-only state via AJAX.
+ * @param {Element} label a label (or read-only analogue) for element
  * @param {boolean} [isRO] indicates the element is readOnly, already calculated in the caller so pass it thru.
  */
 function convertLabel(element, label, isRO) {
@@ -201,6 +200,7 @@ function convertLabel(element, label, isRO) {
 	if (!isRO) {
 		// this cannot be a module level dependency as it would cause a circular
 		// dependency. It is also not really important how long this takes.
+		// @ts-ignore
 		require(["wc/ui/onchangeSubmit"], function (soc) {
 			soc.warn(element, newLabellingElement);
 		});
@@ -212,7 +212,7 @@ function convertLabel(element, label, isRO) {
  * @function
  * @private
  * @param {HTMLInputElement} input the labelled WCheckBox
- * @param {HTMLElement|String} label the label or its HTML (single element root)
+ * @param {Element|String} label the label or its HTML (single element root)
  */
 function checkboxLabelPositionHelper(input, label) {
 	let labelElement;
@@ -228,7 +228,7 @@ function checkboxLabelPositionHelper(input, label) {
 		labelElement.innerHTML = label.trim();
 		labelElement = labelElement.firstElementChild;
 	} else {
-		labelElement = label;
+		labelElement = /** @type {HTMLElement} */(label);
 	}
 
 	if (!(labelElement?.nodeType === Node.ELEMENT_NODE)) {
@@ -256,6 +256,10 @@ function checkboxLabelPositionHelper(input, label) {
 	}
 }
 
+/**
+ * @param {Element} el
+ * @return {boolean}
+ */
 function isActiveWCheckBox(el) {
 	if (!(el?.nodeType === Node.ELEMENT_NODE)) {
 		return false;
@@ -267,7 +271,7 @@ function isActiveWCheckBox(el) {
  * Move an individual element's label if required.
  * @function
  * @private
- * @param {HTMLElement} el a WRadioButton, WCheckBox or WSelectToggle-button
+ * @param {Element} el a WRadioButton, WCheckBox or WSelectToggle-button
  */
 function moveLabel(el) {
 	const labels = getLabelsForElement(el, true);
@@ -284,7 +288,7 @@ function moveLabel(el) {
 			// label already inside the wraspper so do nothing
 			return;
 		}
-		checkboxLabelPositionHelper(el, label);
+		checkboxLabelPositionHelper(/** @type {HTMLInputElement} */(el), label);
 		return;
 	}
 
@@ -307,7 +311,7 @@ function moveLabel(el) {
  * The label for a WCheckBox has to be inside the labelled component's input wrapper to allow for error messages.
  * @function
  * @private
- * @param {HTMLElement} element the potentially unlabelled labelled WCheckBox
+ * @param {Element} element the potentially unlabelled labelled WCheckBox
  */
 function checkRestoreLabel(element) {
 	const refId = element.id,
@@ -317,7 +321,7 @@ function checkRestoreLabel(element) {
 			const notMissingLabels = getLabelsForElement(element, wrappedInput.isReadOnly(element));
 			if (!(notMissingLabels && notMissingLabels.length)) {
 				// yep, we don't have a label for this check box anymore
-				checkboxLabelPositionHelper(element, missingLabelContent);
+				checkboxLabelPositionHelper(/** @type {HTMLInputElement} */(element), missingLabelContent);
 			}
 		}
 	} finally {
@@ -329,7 +333,7 @@ function checkRestoreLabel(element) {
 
 /**
  * Store a nested label before we blow away a WCheckBox. Only needed if the WCheckBox is EXPLICITLY targeted via AJAX.
- * @param {HTMLElement} element
+ * @param {Element} element
  */
 function preInsertionAjaxSubscriber(element) {
 	if (!(element && isActiveWCheckBox(element))) {
@@ -341,7 +345,7 @@ function preInsertionAjaxSubscriber(element) {
 	}
 	const label = labels[0];
 	if (!(element.compareDocumentPosition(label) & document.DOCUMENT_POSITION_CONTAINED_BY)) {
-		// label not inside the wraspper so do nothing
+		// label not inside the wrapper so do nothing
 		return;
 	}
 	movedCbLabelReg[element.id] = label.outerHTML;
@@ -353,7 +357,7 @@ function preInsertionAjaxSubscriber(element) {
  *
  * @function
  * @private
- * @param {HTMLElement} element the new element.
+ * @param {Element} element the new element.
  */
 function ajaxSubscriber(element) {
 	if (!element) {
@@ -391,7 +395,7 @@ initialise.register({
 	preInit: () => instance.moveLabels,
 
 	/**
-	 * Initialiser callback to subscribe to {@link module:wc/dom/shed} and
+	 * Initialise callback to subscribe to {@link module:wc/dom/shed} and
 	 * {@link module:wc/ui/ajax/processResponse}.
 	 * @param {HTMLBodyElement} element
 	 * @function module:wc/ui/label.postInit

@@ -39,7 +39,7 @@ const validationManager = {
 	 * </ol>
 	 *
 	 * @function module:wc/ui/validation/validationManager.isExempt
-	 * @param {HTMLElement} element The component to test.
+	 * @param {Element} element The component to test.
 	 * @returns {Boolean} true if the component is exempt from client side validation.
 	 */
 	isExempt: function(element) {
@@ -56,7 +56,7 @@ const validationManager = {
 	 * returns whether anything has put the element into an invalid state previously.
 	 *
 	 * @function module:wc/ui/validation/validationManager.isInvalid
-	 * @param {HTMLElement} element The component to test for validity.
+	 * @param {Element} element The component to test for validity.
 	 * @returns {Boolean} true if the element is invalid.
 	 */
 	isInvalid: element => element.matches(invalidSelector),
@@ -66,7 +66,7 @@ const validationManager = {
 	 * this helper exists to take care of it.
 	 *
 	 * @function module:wc/ui/validation/validationManager.revalidationHelper
-	 * @param {HTMLElement} element The component being re-validated.
+	 * @param {Element} element The component being re-validated.
 	 * @param {Function} _validateFunc The component's validation function.
 	 * @return {Promise} When revalidation is complete.
 	 */
@@ -96,7 +96,7 @@ const validationManager = {
 	 * Tests the validity of form bound elements within a specified container.
 	 *
 	 * @function module:wc/ui/validation/validationManager.isValid
-	 * @param {HTMLElement} [container] A DOM node (preferably containing form controls). If the container is not specified finds the form
+	 * @param {Element} [container] A DOM node (preferably containing form controls). If the container is not specified finds the form
 	 *   containing the activeElement (this is for use with controls with submitOnchange).
 	 * @returns {Boolean} true if the container is in a valid state (all components in the container which support validation are valid).
 	 */
@@ -156,7 +156,7 @@ const validationManager = {
 
 	/**
 	 *
-	 * @param {HTMLElement} element
+	 * @param {Element} element
 	 * @param fallbackToken
 	 * @return {string}
 	 */
@@ -173,7 +173,7 @@ const validationManager = {
 	 *
 	 * @function
 	 * @public
-	 * @param {HTMLElement} element the HTML element which was in an error state.
+	 * @param {Element} element the HTML element which was in an error state.
 	 */
 	setOK: function(element) {
 		return feedback.flagSuccess({
@@ -213,7 +213,7 @@ const validationManager = {
  * Listen for DISABLE, HIDE or OPTIONAL actions and clear any error message for the component.
  * @function
  * @private
- * @param {HTMLElement} element The element being acted upon.
+ * @param {Element} element The element being acted upon.
  */
 function shedSubscriber(element) {
 	if (element && element.matches(invalidSelector)) {
@@ -240,7 +240,7 @@ function setValidateRules() {
  *
  * @function
  * @private
- * @param {HTMLElement} element The HTML element to test.
+ * @param {Element} element The HTML element to test.
  * @returns {boolean} `true` if the element is associated with a success message.
  */
 function isMarkedOK(element) {

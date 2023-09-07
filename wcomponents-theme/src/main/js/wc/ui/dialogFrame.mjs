@@ -532,7 +532,7 @@ function buildDialog(formId) {
  *
  * @function
  * @private
- * @param {HTMLElement} element Not used here.
+ * @param {Element} element Not used here.
  * @param {DocumentFragment} docFragment The content of the AJAX response.
  */
 function preOpenSubscriber(element, docFragment) {
@@ -555,7 +555,7 @@ function preOpenSubscriber(element, docFragment) {
  *
  * @function
  * @private
- * @param {HTMLElement} element The AJAX target element.
+ * @param {Element} element The AJAX target element.
  */
 function ajaxSubscriber(element) {
 	let content;
@@ -699,7 +699,7 @@ function clickEvent($event) {
  *
  * @function
  * @private
- * @param {HTMLElement} node The Node being tested.
+ * @param {Element} node The Node being tested.
  * @returns {number} the NodeFilter value for the tested node.
  */
 function tabstopNodeFilter(node) {
@@ -711,7 +711,7 @@ function tabstopNodeFilter(node) {
  *
  * @function
  * @private
- * @param {HTMLElement} element The target element.
+ * @param {Element} element The target element.
  * @param {HTMLDialogElement} dialog A dialog frame.
  * @param {Boolean} hasShift Was teh SHIFT key down during the event?
  * @returns {Boolean} Returns true if we are refocussing the dialog (due to trying to TAB out of it).
@@ -830,7 +830,7 @@ initialise.register({
 	 * Component initialisation.
 	 * @function module:wc/ui/dialogFrame.initialise
 	 * @public
-	 * @param {HTMLElement} element The element being initialised, usually document.body.
+	 * @param {Element} element The element being initialised, usually document.body.
 	 */
 	initialise: function (element) {
 		event.add(element, "click", clickEvent);

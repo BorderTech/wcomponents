@@ -34,7 +34,7 @@ function mapKeyToAction(keys, map, action) {
 
 /**
  * QuerySelector, considering immediate children only.
- * @param {HTMLElement} parent
+ * @param {Element} parent
  * @param {string} selector
  * @return {HTMLElement}
  */
@@ -68,7 +68,7 @@ function Tree() {
 	 * Test a tree to determine if it is a HTree.
 	 * @function module:wc/ui/menu/tree.isHTree
 	 * @public
-	 * @param {HTMLElement} root the tree's root node.
+	 * @param {Element} root the tree's root node.
 	 * @returns {Boolean} true if the tree is a htree.
 	 */
 	this.isHTree = function(root) {
@@ -82,7 +82,7 @@ function Tree() {
 	 * Test an element to determine if it is itself or a descendant of the vertical tree opening button.
 	 * @function module:wc/ui/menu/tree.isInVOpen
 	 * @public
-	 * @param {HTMLElement} element the element to test
+	 * @param {Element} element the element to test
 	 * @returns {Boolean} true if element is a vertical tree branch opener or a descendant thereof.
 	 */
 	this.isInVOpen = function(element) {
@@ -124,7 +124,7 @@ function Tree() {
 	 * A helper to do strict-ish type checking on getting a tree's root element.
 	 * @function
 	 * @private
-	 * @param {HTMLElement} element The element from which to start searching for the tree root.
+	 * @param {Element} element The element from which to start searching for the tree root.
 	 * @returns {HTMLElement} A tree root node.
 	 */
 	function getRootHelper(element) {
@@ -147,7 +147,7 @@ function Tree() {
 	 * @function module:wc/ui/menu/tree._oneOpen
 	 * @protected
 	 * @override
-	 * @param {HTMLElement} element A node of the tree to test. This is mandatory in this override.
+	 * @param {Element} element A node of the tree to test. This is mandatory in this override.
 	 * @returns {Boolean} true if only one branch may be open at a time.
 	 */
 	this._oneOpen = function(element) {
@@ -172,7 +172,7 @@ function Tree() {
 	 * @function module:wc/ui/menu/tree._treeWalkDepthFirst
 	 * @protected
 	 * @override
-	 * @param {HTMLElement} root A node of the tree to test. This is mandatory in this override.
+	 * @param {Element} root A node of the tree to test. This is mandatory in this override.
 	 * @returns {Boolean} true if treeWalker should traverse depth first.
 	 */
 	this._treeWalkDepthFirst = function(root) {
@@ -184,7 +184,7 @@ function Tree() {
 	 * @function module:wc/ui/menu/tree._openOnSelect
 	 * @protected
 	 * @override
-	 * @param {HTMLElement} root the root element of a tree.
+	 * @param {Element} root the root element of a tree.
 	 * @returns {Boolean} true if the tree opens a branch when it is selected.
 	 */
 	this._openOnSelect = function(root) {
@@ -231,7 +231,7 @@ function Tree() {
 	 * @function module:wc/ui/menu/tree._select
 	 * @protected
 	 * @override
-	 * @param {HTMLElement} item The menu item being selected
+	 * @param {Element} item The menu item being selected
 	 * @param {boolean} [silent] If true do not publish the selection.
 	 * @param {boolean} [SHIFT] Indicates the SHIFT key was pressed when the selection was made which causes the
 	 *     selection of all items between the last selection and current selection to be selected.
@@ -257,7 +257,7 @@ function Tree() {
 	 * @function module:wc/ui/menu/tree._remapKeys
 	 * @protected
 	 * @override
-	 * @param {HTMLElement} _item The item which has focus.
+	 * @param {Element} _item The item which has focus.
 	 */
 	this._remapKeys = function(_item) {
 		let isOpener,
@@ -341,7 +341,7 @@ function Tree() {
 	 *
 	 * @function module:wc/ui/menu/tree._openAllBranches
 	 * @protected
-	 * @param {HTMLElement} from the start point for opening all branches
+	 * @param {Element} from the start point for opening all branches
 	 */
 	this._openAllBranches = function(from) {
 		const root = this.getRoot(from);
@@ -363,7 +363,7 @@ function Tree() {
 	 *
 	 * @function module:wc/ui/menu/tree._getBranchExpandableElement
 	 * @override
-	 * @param {HTMLElement} item The start point for the search. This will normally be a 'branch'.
+	 * @param {Element} item The start point for the search. This will normally be a 'branch'.
 	 * @returns {HTMLElement} The "expandable" element. This is usually the branch content but is the branch in trees.
 	 */
 	this._getBranchExpandableElement = function (item) {
@@ -387,7 +387,7 @@ function Tree() {
 	 * the branch.
 	 * @function
 	 * @private
-	 * @param {HTMLElement} target theelement clicked.
+	 * @param {Element} target theelement clicked.
 	 */
 	function htreeClickHelper(target) {
 		const item = instance.getItem(target);
@@ -437,8 +437,8 @@ function Tree() {
 	 * @function module:wc/ui/menu/tree.writeMenuState
 	 * @protected
 	 * @override
-	 * @param {HTMLElement} next the WTree root element
-	 * @param {HTMLElement} toContainer the state container
+	 * @param {Element} next the WTree root element
+	 * @param {Element} toContainer the state container
 	 */
 	this.writeMenuState = function(next, toContainer) {
 
@@ -476,7 +476,7 @@ function Tree() {
 
 	/**
 	 * Listen to AJAX updates that are about to affect a tree.
-	 * @param {HTMLElement} element A candidate tree root
+	 * @param {Element} element A candidate tree root
 	 * @param {DocumentFragment} content The content that is about to be inserted into the tree
 	 * @param action a wc/ui/ajax/processResponse action
 	 */
@@ -506,8 +506,8 @@ function Tree() {
 	 *
 	 * @function
 	 * @private
-	 * @param {HTMLElement} element The element being tested.
-	 * @param {HTMLElement} root The root of the current tree.
+	 * @param {Element} element The element being tested.
+	 * @param {Element} root The root of the current tree.
 	 * @returns {Boolean} true if the element is the only selected item at its level.
 	 */
 	function isLastSelectedItemAtLevel(element, root) {
@@ -523,8 +523,8 @@ function Tree() {
 	 *
 	 * @function
 	 * @private
-	 * @param {HTMLElement} element The branch being opened.
-	 * @param {HTMLElement} root The root of the currect tree.
+	 * @param {Element} element The branch being opened.
+	 * @param {Element} root The root of the currect tree.
 	 */
 	function ajaxExpand(element, root) {
 		const mode = root.getAttribute("data-wc-mode");
@@ -552,7 +552,7 @@ function Tree() {
 	 * @function module:wc/ui/menu/tree._shedSubscriber
 	 * @protected
 	 * @override
-	 * @param {HTMLElement} element The element being acted upon.
+	 * @param {Element} element The element being acted upon.
 	 * @param {String} action The action being taken.
 	 */
 	this._shedSubscriber = function(element, action) {
@@ -655,8 +655,8 @@ function Tree() {
 	 * @function module:wc/ui/menu/tree._shedCollapseHelper
 	 * @protected
 	 * @override
-	 * @param {HTMLElement} element the branch beng collapsed.
-	 * @param {HTMLElement} [root] the tree's root
+	 * @param {Element} element the branch beng collapsed.
+	 * @param {Element} [root] the tree's root
 	 */
 	this._shedCollapseHelper = function (element, root) {
 		const _root = root || this.getRoot(element);
