@@ -29,7 +29,7 @@ const focusInstance = {
 	 * Indicates that an element is a viable tab stop: ie, may be focusable
 	 *
 	 * @function module:wc/dom/focus.isTabstop
-	 * @param {HTMLElement} element The element to test.
+	 * @param {Element} element The element to test.
 	 * @returns {Boolean} true if the element is a viable tab stop.
 	 */
 	isTabstop: function(element) {
@@ -117,7 +117,7 @@ const focusInstance = {
 	 * call them against the canFocus() public method until one passes.
 	 *
 	 * @function module:wc/dom/focus.focusFirstTabstop
-	 * @param {HTMLElement} container The element in which we want to place the focus.
+	 * @param {Element} container The element in which we want to place the focus.
 	 * @param {Function} [callback] Callback function which will be notified when we (attempt to) set
 	 *    focus on a particular element.
 	 * @param {Boolean} [reverse] If true then elements will be tried in reverse order. In other words this

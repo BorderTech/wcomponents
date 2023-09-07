@@ -18,7 +18,7 @@ const wrappedInput = {};
 
 /**
  * Am I a wrapped input?
- * @param {HTMLElement} element
+ * @param {Element} element
  * @param {boolean} [inclReadOnly]
  * @return {boolean}
  */
@@ -29,7 +29,7 @@ wrappedInput.isOneOfMe = function(element, inclReadOnly) {
 
 /**
  *
- * @param {HTMLElement} element
+ * @param {Element} element
  * @return {boolean}
  */
 wrappedInput.isReadOnly = function(element) {
@@ -38,7 +38,7 @@ wrappedInput.isReadOnly = function(element) {
 
 /**
  *
- * @param {HTMLElement} element
+ * @param {Element} element
  * @return {HTMLElement|null}
  */
 wrappedInput.getInput = function(element) {
@@ -50,7 +50,7 @@ wrappedInput.getInput = function(element) {
 
 /**
  * Determine if this is a wrappedInput.
- * @param {HTMLElement} element
+ * @param {Element} element
  * @return {boolean} true if it is a wrapped input.
  */
 wrappedInput.isWrappedInput = function(element) {
@@ -59,7 +59,7 @@ wrappedInput.isWrappedInput = function(element) {
 
 /**
  * Gets the wrapper for a wrapped input.
- * @param {HTMLElement} element
+ * @param {Element} element
  * @return {HTMLElement|null}
  */
 wrappedInput.getWrapper = function(element) {
@@ -69,7 +69,7 @@ wrappedInput.getWrapper = function(element) {
 
 /**
  * Get all the wrapped inputs in this container.
- * @param {HTMLElement} container
+ * @param {Element} container
  * @param {boolean} [inclReadOnly]
  * @return {HTMLElement[]}
  */
@@ -86,7 +86,7 @@ wrappedInput.get = function (container, inclReadOnly) {
 
 /**
  *
- * @param {HTMLElement} element
+ * @param {Element} element
  * @return {string|null}
  */
 wrappedInput.getWrappedId = function(element) {

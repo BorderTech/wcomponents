@@ -38,7 +38,7 @@ const instance = {
 	 * Get the "role" implicit in a HTML element.
 	 *
 	 * @function module:wc/dom/impliedARIA.getImpliedRole
-	 * @param {HTMLElement} element A DOM NODE but really should be an element.
+	 * @param {Element} element A DOM NODE but really should be an element.
 	 * @returns {String} The implied role for the element.
 	 */
 	getImpliedRole: function (element) {
@@ -62,7 +62,7 @@ const instance = {
 	 * I had to put it somewhere!
 	 *
 	 * @function module:wc/dom/impliedARIA.supportsNativeState
-	 * @param {HTMLElement} element The element to test.
+	 * @param {Element} element The element to test.
 	 * @param {string} state an HTML attribute representing a state: required, selected, checked or disabled.
 	 * @returns {boolean} true if element supports that attribute
 	 */
@@ -107,7 +107,7 @@ const instance = {
  *
  * @function
  * @private
- * @param {HTMLElement} element The element to test.
+ * @param {Element} element The element to test.
  * @returns {Boolean} true if the element supports the required attribute.
  */
 function supportsRequired(element) {
@@ -122,7 +122,7 @@ function supportsRequired(element) {
  *
  * @function
  * @private
- * @param {HTMLElement} element The element to test.
+ * @param {Element} element The element to test.
  * @returns {Boolean} true if the element supports the checked attribute i.e. it is an input element and its
  *    type is radio or checkbox.
  */
@@ -136,7 +136,7 @@ function supportsChecked(element) {
  *
  * @function
  * @private
- * @param {HTMLElement} element The element to test.
+ * @param {Element} element The element to test.
  * @returns {Boolean} true if the element supports the selected attribute i.e. it is an option element.
  */
 function supportsSelected(element) {

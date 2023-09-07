@@ -36,7 +36,7 @@ function isSuccessfulElement(element, buttonsAlwaysSucceed) {
 
 /**
  * Gets all "successful" elements in this DOM subtree (including "element" itself).
- * @param {HTMLElement} element A DOM element.
+ * @param {Element} element A DOM element.
  * @param {boolean} [buttonsAlwaysSucceed] If true and element is a button that meets other criteria for being
  *    successful then the button will be successful.
  * @returns {HTMLElement[]} An array of successful elements found in this DOM subtree.

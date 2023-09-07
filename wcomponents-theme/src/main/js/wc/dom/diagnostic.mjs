@@ -152,7 +152,7 @@ const diagnostic = {
 	 * Indicates if an element is an inline diagnostic message box.
 	 * @function
 	 * @public
-	 * @param {HTMLElement} element the element to test
+	 * @param {Element} element the element to test
 	 * @param {instance.LEVEL} [level] the severity level, one of {@link module:wc/dom/diagnostic.LEVEL} if not set then test for any diagnostic level
 	 * @returns {Boolean}
 	 */
@@ -174,7 +174,7 @@ const diagnostic = {
 	 * Indicates if an element is a message within an inline diagnostic message box.
 	 * @function
 	 * @public
-	 * @param {HTMLElement} element the element to test
+	 * @param {Element} element the element to test
 	 * @param {module:wc/dom/diagnostic.LEVEL} [level] the severity level, one of {@link module:wc/dom/diagnostic.LEVEL} if not set then test for any diagnostic level
 	 * @returns {Boolean}
 	 */
@@ -205,7 +205,7 @@ const diagnostic = {
 	 * Get the diagnostic level (e.g. LEVEL.ERROR) for a given diagnostic box.
 	 * @function
 	 * @public
-	 * @param {HTMLElement} diag the box to test
+	 * @param {Element} diag the box to test
 	 * @throws {TypeError} if `diag` is not a diagnostic box
 	 * @returns {module:wc/dom/diagnostic.LEVEL|Number} the diagnostic level from module:wc/dom/diagnostic.LEVEL or -1 if not found
 	 */
@@ -225,7 +225,7 @@ const diagnostic = {
 	 * Get the target element of a diagnostic message box.
 	 * @function
 	 * @public
-	 * @param {HTMLElement} diag the diagnostic box
+	 * @param {Element} diag the diagnostic box
 	 * @returns {HTMLElement} the target element of the diagnostic box
 	 */
 	getTarget: function (diag) {

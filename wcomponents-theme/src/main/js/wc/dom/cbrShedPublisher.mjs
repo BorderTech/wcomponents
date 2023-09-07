@@ -18,7 +18,7 @@ const instance = {
 	 *
 	 * @function
 	 * @alias module:wc/dom/cbrShedPublisher.initialise
-	 * @param {HTMLElement} element The element being initialised: usually document.body.
+	 * @param {Element} element The element being initialised: usually document.body.
 	 */
 	initialise: function(element) {
 		event.add(element, "change", changeEvent);

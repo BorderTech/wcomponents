@@ -24,8 +24,14 @@ import mixin from "wc/mixin";
  * Note that you can provide either a string or function that will be passed the raw XHR response
  * and is expected to return a string.
  *
- * @param {XMLHttpRequestResponseType} response An XHR response.
+ *
  * @param {Object} [messages] Optionally provide the messages object directly to this function.
+ *
+ */
+
+/**
+ *
+ * @param {XMLHttpRequestResponseType} response An XHR response.
  * @returns {string} An error message, in order of preference:
  * - A custom message specific to the status code, provided in the module configuration
  * - A custom default error message

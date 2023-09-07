@@ -105,7 +105,7 @@ const instance = {
 	 *
 	 * @function module:wc/dom/serialize.deserialize
 	 * @param {string|Object} input The thing to deserialize, either a String or a serialized object.
-	 * @param {HTMLElement} [container] The DOM element in which to create the hidden fields, if not provided then
+	 * @param {Element} [container] The DOM element in which to create the hidden fields, if not provided then
 	 *    this step will be skipped, and you probably are just deserializing a string to its object form.
 	 * @returns {Object} An object with the same form as that returned by {@link module:wc/dom/serialize#serialise}
 	 *    EXCEPT that the name/value pairs will be URI decoded.
@@ -208,7 +208,7 @@ function deserializeToObject(inStr) {
  *
  * @function
  * @private
- * @param {HTMLElement} container Where the fields are put.
+ * @param {Element} container Where the fields are put.
  * @param {String} name The decoded component name.
  * @param {String} value The decoded component values.
  */

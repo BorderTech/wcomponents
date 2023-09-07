@@ -89,15 +89,15 @@ export default {
 	 * Ensures that the file name ends with an extension that matches its mime type.
 	 * If the file name does not match the mime type then the appropriate extension will be appended.
 	 * If there are multiple possible extensions the first will be used.
-	 * @param {Blob} file The file to check.
-	 * @returns {Blob} The fixed file.
+	 * @param {File|Blob} file The file to check.
+	 * @returns {File} The fixed file.
 	 * TODO revisit this
 	 */
 	fixFileExtension: function (file) {
 		let metadata = getMimeType({
 			files: [file]
 		});
-		if (metadata && metadata.length) {
+		if (metadata?.length) {
 			metadata = metadata[0];
 
 			const expectedExtension = this.getMimeToExtMap()[metadata.mime];
@@ -108,7 +108,7 @@ export default {
 				}
 			}
 		}
-		return file;
+		return /** @type File */ (file);
 	},
 
 	/**

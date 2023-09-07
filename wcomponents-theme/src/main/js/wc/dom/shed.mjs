@@ -70,7 +70,7 @@ const instance = {
 	 * Show an element in the UI.
 	 *
 	 * @function module:wc/dom/shed.show
-	 * @param {HTMLElement} element The element to show.
+	 * @param {Element} element The element to show.
 	 * @param {Boolean} [quiet] If true then do not publish this show event.
 	 */
 	show: function (element, quiet) {
@@ -84,7 +84,7 @@ const instance = {
 	 * Hide an element in the UI.
 	 *
 	 * @function module:wc/dom/shed.hide
-	 * @param {HTMLElement} element The element to hide.
+	 * @param {Element} element The element to hide.
 	 * @param {Boolean} [quiet] If true then do not publish this hide event.
 	 */
 	hide: function (element, quiet) {
@@ -99,7 +99,7 @@ const instance = {
 	 * Enable an element in the UI.
 	 *
 	 * @function module:wc/dom/shed.enable
-	 * @param {HTMLElement} element The element to enable.
+	 * @param {Element} element The element to enable.
 	 * @param {Boolean} [quiet] If true then do not publish this enable event.
 	 */
 	enable: function (element, quiet) {
@@ -116,7 +116,7 @@ const instance = {
 	 * optionally publish this.
 	 *
 	 * @function module:wc/dom/shed.disable
-	 * @param {HTMLElement} element The element to disable.
+	 * @param {Element} element The element to disable.
 	 * @param {Boolean} [quiet] If true then do not publish this disable event.
 	 */
 	disable: function (element, quiet) {
@@ -132,7 +132,7 @@ const instance = {
 	 * natively selectable elements but that is not a requirement.
 	 *
 	 * @function module:wc/dom/shed.deselect
-	 * @param {HTMLElement} element The element to deselect.
+	 * @param {Element} element The element to deselect.
 	 * @param {Boolean} [quiet] If true then do not publish this deselect event.
 	 */
 	deselect: function (element, quiet) {
@@ -148,7 +148,7 @@ const instance = {
 	 * natively selectable elements but that is not a requirement.
 	 *
 	 * @function module:wc/dom/shed.select
-	 * @param {HTMLElement} element The element to select.
+	 * @param {Element} element The element to select.
 	 * @param {Boolean} [quiet] If true then do not publish this select event.
 	 */
 	select: function (element, quiet) {
@@ -163,7 +163,7 @@ const instance = {
 	 * Set a selectable element's selected state to indeterminate.
 	 *
 	 * @function module:wc/dom/shed.mix
-	 * @param {HTMLElement} element The element to set to indeterminate.
+	 * @param {Element} element The element to set to indeterminate.
 	 * @param {Boolean} [quiet] If true then do not publish this event.
 	 */
 	mix: function (element, quiet) {
@@ -178,7 +178,7 @@ const instance = {
 	 * Expand an element in the UI.
 	 *
 	 * @function module:wc/dom/shed.expand
-	 * @param {HTMLElement} element The element to expand.
+	 * @param {Element} element The element to expand.
 	 * @param {Boolean} [quiet] If true then do not publish this event.
 	 */
 	expand: function (element, quiet) {
@@ -197,7 +197,7 @@ const instance = {
 	 * Collapse an element in the UI.
 	 *
 	 * @function module:wc/dom/shed.collapse
-	 * @param {HTMLElement} element The element to collapse.
+	 * @param {Element} element The element to collapse.
 	 * @param {Boolean} [quiet] If true then do not publish this event.
 	 */
 	collapse: function (element, quiet) {
@@ -216,7 +216,7 @@ const instance = {
 	 * Set an element to be mandatory.
 	 *
 	 * @function module:wc/dom/shed.mandatory
-	 * @param {HTMLElement} element The element to make mandatory.
+	 * @param {Element} element The element to make mandatory.
 	 * @param {Boolean} [quiet] If true then do not publish this event.
 	 */
 	mandatory: function (element, quiet) {
@@ -231,7 +231,7 @@ const instance = {
 	 * Set an element to be optional.
 	 *
 	 * @function module:wc/dom/shed.optional
-	 * @param {HTMLElement} element The element to make optional.
+	 * @param {Element} element The element to make optional.
 	 * @param {Boolean} [quiet] If true then do not publish this event.
 	 */
 	optional: function (element, quiet) {
@@ -258,7 +258,7 @@ const instance = {
 	 * Determine if the element is disabled.
 	 *
 	 * @function module:wc/dom/shed.isDisabled
-	 * @param {HTMLElement} element The element to test.
+	 * @param {Element} element The element to test.
 	 * @returns {boolean} true if the element is disabled.
 	 */
 	isDisabled: function (element) {
@@ -273,7 +273,7 @@ const instance = {
 	 * Determine if the element is in an expanded state.
 	 *
 	 * @function module:wc/dom/shed.isExpanded
-	 * @param {HTMLElement} element The element to test.
+	 * @param {Element} element The element to test.
 	 * @returns {boolean} true if the element is expanded.
 	 */
 	isExpanded: function (element) {
@@ -290,7 +290,7 @@ const instance = {
 	 * Determine if the element is hidden in accordance with the way shed hides things.
 	 *
 	 * @function module:wc/dom/shed.isHidden
-	 * @param {HTMLElement} node The element to test.
+	 * @param {Element} node The element to test.
 	 * @param {boolean} [onlyHiddenAttribute] if true base test only on the existance of the hidden attribute.
 	 *   This should only ever be used internally by toggle or for components which can _only_ be hidden by
 	 *   attribute (e.g. dialog with open attribute).
@@ -338,7 +338,7 @@ const instance = {
 	 * Determine if the element is marked as required.
 	 *
 	 * @function module:wc/dom/shed.isMandatory
-	 * @param {HTMLElement} element The element to test.
+	 * @param {Element} element The element to test.
 	 * @returns {boolean} true if the element is required.
 	 */
 	isMandatory: function (element) {
@@ -353,7 +353,7 @@ const instance = {
 	 * Determine if the element is in a "read only" state.
 	 *
 	 * @function module:wc/dom/shed.isReadOnly
-	 * @param {HTMLElement} element The element to test.
+	 * @param {Element} element The element to test.
 	 * @returns {boolean} true if the element is read only.
 	 */
 	isReadOnly: function (element) {
@@ -365,7 +365,7 @@ const instance = {
 	 * For example a radio button returns true, a text input returns false.
 	 *
 	 * @function module:wc/dom/shed.isSelectable
-	 * @param {HTMLElement} element The element to test.
+	 * @param {Element} element The element to test.
 	 * @returns {boolean} true if the element is selectable.
 	 */
 	isSelectable: function (element) {
@@ -394,7 +394,7 @@ const instance = {
 	 *   but the element does have native support for a "selectable" attribute and that attribute is set
 	 *
 	 * @function module:wc/dom/shed.isSelected
-	 * @param {HTMLElement} element The element to test.
+	 * @param {Element} element The element to test.
 	 * @returns {(Boolean|number)} A property of {@link module:wc/dom/shed.state} being:
 	 *
 	 *    * SELECTED (which equates to true) if this element is selected; or
@@ -436,7 +436,7 @@ const instance = {
 	 * on this class.
 	 *
 	 * @function module:wc/dom/shed.publish
-	 * @param {HTMLElement} element The element to test.
+	 * @param {Element} element The element to test.
 	 * @param {string} action One of {@link module:wc/dom/shed~actions}, e.g. "show" or "hide".
 	 * @returns {Promise} when publish is complete (waits for subscribers that return a "thenable").
 	 */
@@ -478,7 +478,7 @@ const instance = {
 	 * Toggles a state of an element.
 	 *
 	 * @function module:wc/dom/shed.toggle
-	 * @param {HTMLElement} element The element to act on.
+	 * @param {Element} element The element to act on.
 	 * @param {String} action The state to toggle, any one of {@link module:wc/dom/shed~actions}.
 	 *   Note that the action passed just gives the "flavor" of the toggle. For example, it does not matter
 	 *   whether you pass SHOW or HIDE, they are equivalent for toggling. Note that tri-state checkboxes cycle
@@ -535,7 +535,7 @@ Object.keys(actions).forEach(function(key) {
 
 /**
  *
- * @param {HTMLElement} element
+ * @param {Element} element
  * @param STATE
  * @param reverse
  */
@@ -714,7 +714,7 @@ function hasAncestorInState(node, state, stopAtSelector) {
  *
  * @function
  * @private
- * @param {HTMLElement} element The element on which to set or clear the attribute.
+ * @param {Element} element The element on which to set or clear the attribute.
  * @param {string} attribute The name of the attribute to set or clear.
  * @param {string|boolean|number|null} value The value to set or any falsey value except false or zero to remove the attribute.
  * If the value is not a string .toString will be called on it when the attribute is being set.
@@ -742,7 +742,7 @@ function showWithOpen(element) {
  *
  * @function
  * @private
- * @param {HTMLElement} element The element which we will act on.
+ * @param {Element} element The element which we will act on.
  * @param {String} attribute The attribute to set on the element.
  * @param {string|boolean|number} [action] The value of the attribute to set.
  */
@@ -778,7 +778,7 @@ function shedHelper(element, attribute, action) {
  * @function
  * @private
  * @param {string|boolean|number} action A property of {@link module:wc/dom/shed.state} SELECTED, DESELECTED or MIXED.
- * @param {HTMLElement} element The element to which we apply the state.
+ * @param {Element} element The element to which we apply the state.
  */
 function selectHelper(action, element) {
 	const role = $role.get(element, true),

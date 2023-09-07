@@ -45,7 +45,7 @@ function getLabelForSelectors(id, inclReadOnly) {
  *
  * @function
  * @private
- * @param {HTMLElement} element The labelled element.
+ * @param {Element} element The labelled element.
  * @param {HTMLElement[]} [labelArr] Labels we have already found.
  * @param {Boolean} [readOnly] If true also get labels for element in its read-only state.
  * @returns {HTMLElement[]} If element has no 'labels' then an empty array is returned.
@@ -93,7 +93,7 @@ function getAncestorLabel(element) {
 
 /**
  * Get element/s defined in aria-labelledby attribute
- * @param {HTMLElement} element The element with or without aria-labelledby attribute.
+ * @param {Element} element The element with or without aria-labelledby attribute.
  * @returns {HTMLElement[]} An array of element/s. Element with 'id/s' listed in aria-labelledby attribute.
  * If either element with 'id' is not found, or aria-labelledby attribute is not found, then an empty array is returned.
  */
@@ -117,7 +117,7 @@ function getAriaLabelledElements(element) {
  * Gets labelling element/s (label, legend or pseudo-label) for a control.
  *
  * @function module:wc/dom/getLabelsForElement
- * @param {HTMLElement} element The element for which we want to find labels.
+ * @param {Element} element The element for which we want to find labels.
  * @param {Boolean} [includeReadOnly] If true then also search for "labelling" elements for read only controls.
  * @returns {HTMLElement[]} An array of elements which 'label' element. If element has no 'labels' then an empty array
  *  is returned.

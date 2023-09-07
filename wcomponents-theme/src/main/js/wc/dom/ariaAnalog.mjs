@@ -129,7 +129,7 @@ function deselect(_group, except, container, inst) {
  *
  * @function
  * @private
- * @param {HTMLElement} element The element to test.
+ * @param {Element} element The element to test.
  * @returns {Boolean} true if element has attribute aria-readonly = "true".
  */
 function isReadOnly(element) {
@@ -163,7 +163,7 @@ function eventWrapper($event) {
  *
  * @function
  * @private
- * @param {HTMLElement} element The element in a group
+ * @param {Element} element The element in a group
  * @param {Object} analog An instance of a subclass of AriaAnalog.
  * @returns {HTMLElement[]} The group of items in the element's ARIA analog group.
  */
@@ -271,7 +271,7 @@ AriaAnalog.prototype.actionable = null;
  *
  * @function
  * @protected
- * @param {HTMLElement} element The element being navigated to. Not used by default but needed in sub-classes.
+ * @param {Element} element The element being navigated to. Not used by default but needed in sub-classes.
  */
 AriaAnalog.prototype.selectOnNavigate = function (element) {
 	if (!element) {
@@ -359,7 +359,7 @@ AriaAnalog.prototype._extendedInitialisation = null;
  *
  * @function
  * @public
- * @param {HTMLElement} element The group member we are using to derive the group container
+ * @param {Element} element The group member we are using to derive the group container
  * @returns {HTMLElement} The element which defines a group by containment (such as a fieldset).
  */
 AriaAnalog.prototype.getGroupContainer = function(element) {
@@ -373,7 +373,7 @@ AriaAnalog.prototype.getGroupContainer = function(element) {
  *
  * @function
  * @public
- * @param {HTMLElement} element The element SHED is acting on.
+ * @param {Element} element The element SHED is acting on.
  * @param {String} action The select or deselect action.
  */
 AriaAnalog.prototype.shedObserver = function(element, action) {
@@ -407,7 +407,7 @@ AriaAnalog.prototype.shedObserver = function(element, action) {
  *
  * @function
  * @public
- * @param {HTMLElement} element The element being initialised. Usually document.body.
+ * @param {Element} element The element being initialised. Usually document.body.
  */
 AriaAnalog.prototype.initialise = function(element) {
 	// Do some deferred setup...
@@ -429,8 +429,8 @@ AriaAnalog.prototype.initialise = function(element) {
  *
  * @function
  * @protected
- * @param {HTMLElement} form the form or form segment whose state is being written.
- * @param {HTMLElement} container the container for writing the state fields.
+ * @param {Element} form the form or form segment whose state is being written.
+ * @param {Element} container the container for writing the state fields.
  * @todo Anonymize the inner function.
  */
 AriaAnalog.prototype.writeState = function(form, container) {
@@ -546,7 +546,7 @@ AriaAnalog.prototype.keydownEvent = function ($event) {
  *
  * @function
  * @protected
- * @param {HTMLElement} start Start element
+ * @param {Element} start Start element
  * @param {number} direction -1 to previous in group, 1 to next in group NOTE: radio button groups allow native
  *    group cycling at the extremities so we allow that here too. Only useful if one of
  *    {@link module:wc/dom/ariaAnalog~AriaAnalog#KEY_DIRECTION}
@@ -605,7 +605,7 @@ AriaAnalog.prototype.navigate = function(start, direction) {
  *
  * @function
  * @private
- * @param {HTMLElement} element The element being activated.
+ * @param {Element} element The element being activated.
  * @param {boolean} CTRL Indicates the Ctrl key was depressed during activation.
  * @param {Object} instance The current analog module.
  */
@@ -626,8 +626,8 @@ function singleSelectActivateHelper(element, CTRL, instance) {
  *
  * @function
  * @private
- * @param {HTMLElement} element The element being activated.
- * @param {HTMLElement} container The analog container.
+ * @param {Element} element The element being activated.
+ * @param {Element} container The analog container.
  * @param {boolean} CTRL Indicates the Ctrl key was depressed during activation.
  * @param {Object} instance The current analog module.
  * @returns {Boolean} true unless a group selection is undertaken.
@@ -651,7 +651,7 @@ function multiSelectWithShiftHelper(element, container, CTRL, instance) {
  *
  * @function
  * @public
- * @param {HTMLElement} element the element being directly activated. This should never be called on components
+ * @param {Element} element the element being directly activated. This should never be called on components
  *    which are natively selectable such as radios, checkboxes or options.
  * @param {Boolean} [SHIFT] Indicates the SHIFT key was held during the event which lead to activation.
  * @param {Boolean} [CTRL] The event was accompanied by ctrlKey or metaKey.
@@ -697,8 +697,8 @@ AriaAnalog.prototype.activate = function(element, SHIFT, CTRL) {
  *
  * @function
  * @protected
- * @param {HTMLElement} element The source element.
- * @param {HTMLElement} [lastActivated] The last activated element in the group.
+ * @param {Element} element The source element.
+ * @param {Element} [lastActivated] The last activated element in the group.
  * @param {boolean} [CTRL] true if the ctrl or meta key was pressed during the event which resulted in the
  *    function being called.
  */
@@ -739,8 +739,8 @@ AriaAnalog.prototype.doGroupSelect = function(element, lastActivated, CTRL) {
  *
  * @function
  * @protected
- * @param {HTMLElement} element The last activated element.
- * @param {HTMLElement} [container] The group container (if known).
+ * @param {Element} element The last activated element.
+ * @param {Element} [container] The group container (if known).
  */
 AriaAnalog.prototype.setLastActivated = function (element, container) {
 	container = container || this.getGroupContainer(element);
@@ -758,8 +758,8 @@ AriaAnalog.prototype.setLastActivated = function (element, container) {
  *
  * @function
  * @private
- * @param {HTMLElement} target The event target
- * @param {HTMLElement} item The element found using this.ITEM.
+ * @param {Element} target The event target
+ * @param {Element} item The element found using this.ITEM.
  * @returns {Boolean} true if the item is the first active analog found in the ancestor tree.
  */
 function isActiveAnalog(target, item) {
@@ -809,7 +809,7 @@ function isActiveAnalog(target, item) {
  *
  * @function
  * @protected
- * @param {HTMLElement} element The element to receive future focus.
+ * @param {Element} element The element to receive future focus.
  */
 AriaAnalog.prototype.setFocusIndex = function(element) {
 	const _group = getGroup(element, this);
@@ -839,7 +839,7 @@ AriaAnalog.prototype.getWidget = function() {
  *
  * @function
  * @public
- * @param {HTMLElement} target The element which was the target of an event.
+ * @param {Element} target The element which was the target of an event.
  * @returns {HTMLElement} The activable aria analog ancestor of target.
  */
 AriaAnalog.prototype.getActivableFromTarget = function(target) {
@@ -861,7 +861,7 @@ AriaAnalog.prototype.getActivableFromTarget = function(target) {
 /**
  * Determine if an ARIA analog control is multi-selectable. This is a helper which is only really useful for those analogs which may
  * have a mixed mode such as list options and table rows.
- * @param {HTMLElement} [element] an element which is itself a WAI-ARIA analog component. That is, it will be something which for some sub-class
+ * @param {Element} [element] an element which is itself a WAI-ARIA analog component. That is, it will be something which for some sub-class
  * of this will return `true` from `this.ITEM.isOneOfMe(element)`. This arg is mandatory for mixed mode analogs, and this function is only
  * really useful for those analogs.
  * @returns {Boolean} `true` if the current analog is multi-selectable.

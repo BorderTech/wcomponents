@@ -12,8 +12,8 @@ import focus from "wc/dom/focus";
  * summary.
  *
  * @function module:wc/dom/isAcceptableTarget
- * @param {HTMLElement} element The element we are expecting to be the ultimate target of the event.
- * @param {HTMLElement} target The actual `event.target` element.
+ * @param {Element} element The element we are expecting to be the ultimate target of the event.
+ * @param {Element} target The actual `event.target` element.
  * @returns {Boolean} true if element is target or the first focusable ancestor of target or if element has no focusable ancestors.
  */
 function isAcceptable(element, target) {

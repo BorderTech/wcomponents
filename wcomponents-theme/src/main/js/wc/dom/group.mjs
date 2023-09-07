@@ -24,7 +24,7 @@ const elementGroup = {};
  * defines a group (for example a select).
  *
  * @function module:wc/dom/group.get
- * @param {HTMLElement} element An element which belongs to (or defines) the group. BEWARE OF AMBIGUOUS
+ * @param {Element} element An element which belongs to (or defines) the group. BEWARE OF AMBIGUOUS
  *    CONTAINERS. Think about it, if you pass a fieldset or a "menu" to this function what do you expect to
  *    get as the group? For example an element with role of "menu" could contain `menuitem`, `menuitemradio`
  *    or `menuitemcheckbox`. Ambiguous contains will currently return as a group ALL the possible
@@ -70,7 +70,7 @@ elementGroup.get = function (element, ignoreInnerGroups) {
  * (by being descendants of the container) BUT NOT explicitly (using the "aria-owns" attribute).
  *
  * @function module:wc/dom/group.getGroup
- * @param {HTMLElement} element The container/owner itself unless containerWd is specified in which case any
+ * @param {Element} element The container/owner itself unless containerWd is specified in which case any
  *    descendant of a container/owner.
  * @param {string} itemWd The widget that describes the items in the group
  * @param {string} [containerWd] A widget that describes a group container.
@@ -98,7 +98,7 @@ elementGroup.getGroup = function(element, itemWd, containerWd) {
  * they could be grouped by name (which has no container) or by container. This is not a good thing!
  *
  * @function module:wc/dom/group.getContainer
- * @param {HTMLElement} element An element which may be a group container or a member of a group or neither.
+ * @param {Element} element An element which may be a group container or a member of a group or neither.
  * @param {string} [containerWd] A container widget for a subclass of
  *    {@link module:wc/dom/AriaAnalog}.
  * @returns {HTMLElement} The element which contains the group.
@@ -128,7 +128,7 @@ elementGroup.getContainer = function(element, containerWd) {
 
 /**
  * Get a "native" DOM group.
- * @param {HTMLElement} element The reference element.
+ * @param {Element} element The reference element.
  * @returns {HTMLElement[]} The group, if found.
  * @private
  * @function

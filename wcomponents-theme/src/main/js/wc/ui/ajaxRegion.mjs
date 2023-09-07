@@ -51,7 +51,7 @@ const instance = {
 	 * Get an ajax trigger associated with an element or id.
 	 * @function module:wc/ui/ajaxRegion.getTrigger
 	 * @public
-	 * @param {(String|HTMLElement)} arg The ID of the trigger to retrieve OR a DOM element which may be associated with a trigger.
+	 * @param {String|Element} arg The ID of the trigger to retrieve OR a DOM element which may be associated with a trigger.
 	 * @param {boolean} [ignoreAncestor] If true will not search in DOM ancestry for an element with a trigger.
 	 * @returns {module:wc/ajax/Trigger} The trigger, if found.
 	 * @see {@link module:wc/ajax/triggerManager#getTrigger} for full details.
@@ -65,7 +65,7 @@ const instance = {
 	 * ajaxTrigger on change or click (eg WShuffler, WMultiSelectPair) but in some other circumstance.
 	 * @function module:wc/ui/ajaxRegion.requestLoad
 	 * @public
-	 * @param {HTMLElement} element The element which is being changed.
+	 * @param {Element} element The element which is being changed.
 	 * @param {Object} [obj] A trigger definition dto.
 	 * @param {Boolean} [ignoreAncestor] Indicates to not look up the tree when trying to find a trigger.
 	 */
@@ -133,7 +133,7 @@ function fireThisTrigger(element, trigger) {
  *
  * @function
  * @private
- * @param {HTMLElement} element The element we consider a candidate for being an AJAX trigger. If the element is indeed an AJAX trigger then
+ * @param {Element} element The element we consider a candidate for being an AJAX trigger. If the element is indeed an AJAX trigger then
  * it will be fired by this function.
  */
 function checkActivateTrigger(element) {
@@ -145,17 +145,17 @@ function checkActivateTrigger(element) {
  * Is an element a form submitting element?
  * @function
  * @private
- * @param {HTMLElement} element The element to test.
+ * @param {Element} element The element to test.
  * @returns {Boolean} true if the element is a type that submits a form when clicked (ie a submit button).
  */
 function isSubmitElement(element) {
 	const selectors = ["input[type='submit']", "input[type='submit']", "button[type='submit']","button:not([type])"];
-	return element && element.matches(selectors.join());
+	return element?.matches(selectors.join());
 }
 
 /**
  *
- * @param {CustomEvent} $event
+ * @param {CustomEvent & { target: Element }} $event
  */
 function shedSubscriber($event) {
 	const selectors = ["input[type='checkbox']", "input[type='radio']"];
@@ -170,7 +170,7 @@ function shedSubscriber($event) {
  *
  * @function
  * @private
- * @param {HTMLElement} element The element to check whether it does ajax on change.
+ * @param {Element} element The element to check whether it does ajax on change.
  * @returns {Boolean} true if this element should ajax on change.
  */
 function triggersOnChange(element) {
@@ -184,7 +184,7 @@ function triggersOnChange(element) {
 }
 
 /**
- * @param {MouseEvent} $event An event
+ * @param {MouseEvent & { target: Element }} $event An event
  */
 function clickEvent($event) {
 	const { defaultPrevented, target } = $event;
@@ -213,7 +213,7 @@ function changeEvent($event) {
  *
  * @function
  * @private
- * @param {Event} $event A focus event.
+ * @param {Event & {target: Element}} $event A focus event.
  */
 function focusEvent($event) {
 	const INITED_FLAG = "wc.ui.ajaxRegion.inited";
@@ -232,12 +232,13 @@ function focusEvent($event) {
  *
  * @function
  * @private
- * @param {HTMLElement} element
+ * @param {Element} element
  * @returns {boolean} true if the element is a link which will navigate the page
  */
 function isNavLink(element) {
 	let result = false;
 	const PSEUDO_PROTOCOL_RE = /^\w+:[^/].*$/;
+	/**@type {HTMLAnchorElement} */
 	const link = element.closest("a:not([aria-haspopup='true']):not([target])");
 	if (link && !PSEUDO_PROTOCOL_RE.test(link.href)) {
 		result = true;

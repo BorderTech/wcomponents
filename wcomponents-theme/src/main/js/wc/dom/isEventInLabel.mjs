@@ -6,7 +6,7 @@ import focus from "wc/dom/focus";
  * (for example if a label is inside a selectable table row).
  *
  * @function module:wc/dom/isEventInLabel
- * @param {HTMLElement} target The target of a UI event.
+ * @param {Element} target The target of a UI event.
  * @returns {Boolean} true if the event target is (or is inside) a label and the closest focusable element (if
  *    any) is not inside the label.
  */

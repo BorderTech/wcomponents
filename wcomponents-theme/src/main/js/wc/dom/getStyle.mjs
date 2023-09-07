@@ -11,7 +11,7 @@ import color from "wc/dom/color";
  * Colors will be returned as RGB (or RGBA) objects, for example {r:255 g:255 b:255} OR {r:255 g:255 b:255, a:0}
  *
  * @alias module:wc/dom/getStyle
- * @param {HTMLElement} element The element to test.
+ * @param {Element} element The element to test.
  * @param {String} cssRule The cssRule we want to find the style of (eg, 'color', 'display', 'position')
  * @param {Boolean} [includeUnits] If true include the unit part of the CSS response (eg 2em) otherwise strip it (eg 2).
  * @param {Boolean} [notAColor] A shorthand to cut off further testing if we KNOW when calling this function that the style property we are after

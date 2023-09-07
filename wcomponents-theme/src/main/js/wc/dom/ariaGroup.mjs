@@ -10,7 +10,7 @@ const ariaGroup = {};
 * Gets the element that "aria-owns" another element.
 *
 * @function module:wc/dom/ariaGroup.getOwner
-* @param {HTMLElement} element The element to test.
+* @param {Element} element The element to test.
 * @returns {HTMLElement} The element which owns the passed in element.
 */
 ariaGroup.getOwner = function(element) {
@@ -28,7 +28,7 @@ ariaGroup.getOwner = function(element) {
  * Gets elements that are indirectly owned by a DOM element with "aria-owns".
  *
  * @function module:wc/dom/ariaGroup.getOwned
- * @param {HTMLElement} element The start element.
+ * @param {Element} element The start element.
  * @returns {HTMLElement[]} An array of elements owned by the element. If the element does not own any then the
  * array is empty.
  */
@@ -52,7 +52,7 @@ ariaGroup.getOwned = function(element) {
  *
  * @function module:wc/dom/ariaGroup.getGroup
  * @public
- * @param {HTMLElement} element The reference element.
+ * @param {Element} element The reference element.
  * @param {String} role The element role (we have already calculated before we get here).
  * @param {Boolean} [ignoreInnerGroups] If true then all members of the group will be included even if they
  *    are also members of another group nested within the current one. This is most commonly found in menus
@@ -122,7 +122,7 @@ ariaGroup.getGroup = function (element, role, ignoreInnerGroups) {
  *
  * @function module:wc/dom/ariaGroup.getContainer
  * @public
- * @param {HTMLElement} element the reference element
+ * @param {Element} element the reference element
  * @param {string} [containerWd] a Widget describing the container, if any, for the
  *    subclass of {@link module:wc/dom/AriaAnalog}
  * @param {Boolean} [ignoreOwner] If true then do not look for a WAI-ARIA owner (aria-owns) element.

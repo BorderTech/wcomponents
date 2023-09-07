@@ -9,7 +9,7 @@ import serialize from "wc/dom/serialize";
  * state fields into the dynamic region after blatting its content.
  *
  * @function module:wc/dom/convertDynamicContent
- * @param {HTMLElement} container A container element but primarily designed to work with DYNAMIC containers.
+ * @param {Element} container A container element but primarily designed to work with DYNAMIC containers.
  */
 function convert (container) {
 	const tempContainer = formUpdateManager.getStateContainer(container);

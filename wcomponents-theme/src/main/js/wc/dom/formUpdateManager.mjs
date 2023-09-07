@@ -72,9 +72,9 @@ const formUpdateManager = {
 	 * This triggers the "publish" which will ask all subscribers to write their state.
 	 *
 	 * @function  module:wc/dom/formUpdateManager.update
-	 * @param {HTMLElement} container The form (or form segment container element) to which any state will attached.
+	 * @param {Element} container The form (or form segment container element) to which any state will attached.
 	 *    Will also be passed to subscribers unless region is set.
-	 * @param {HTMLElement} [region] A dom element "region" to be passed to subscribers instead of the form. This is the
+	 * @param {Element} [region] A dom element "region" to be passed to subscribers instead of the form. This is the
 	 *    section of the view which is being written. If not provided then `container` is used.
 	 * @param {Boolean} [ignoreForm] if set then do not do a form lookup just accept the container. This arg should
 	 *    only be set if the calling class is going to clean up after itself.
@@ -122,7 +122,7 @@ const formUpdateManager = {
 	 * provided name and value.
 	 *
 	 * @function module:wc/dom/formUpdateManager.writeStateField
-	 * @param {HTMLElement} container The state container to which the state field will be added.
+	 * @param {Element} container The state container to which the state field will be added.
 	 * @param {string} name The name of the parameter when the form is serialized.
 	 * @param {string} [value] The value of the parameter when the form is serialized.
 	 * @param {boolean} [unique] If true then state field must not already exist in container.
@@ -165,7 +165,7 @@ const formUpdateManager = {
 	 * previous updates). If no state container exists it will be created.
 	 *
 	 * @function module:wc/dom/formUpdateManager.getStateContainer
-	 * @param {HTMLElement} form The form element for which we wish to retrieve the state container (does not strictly have to be a form).
+	 * @param {Element} form The form element for which we wish to retrieve the state container (does not strictly have to be a form).
 	 * @returns {HTMLElement} The state container.
 	 */
 	getStateContainer: function(form) {
@@ -184,7 +184,7 @@ const formUpdateManager = {
 	 * Get a named field from the state container
 	 *
 	 * @function module:wc/dom/formUpdateManager.getStateField
-	 * @param {HTMLElement} container The state container.
+	 * @param {Element} container The state container.
 	 * @param {String} name  The field name to find.
 	 * @returns {HTMLElement} The existing state field for this name in this container if it exists.
 	 * If more than one state field exists for this name the first one will be returned.
@@ -211,7 +211,7 @@ function genericEventCancel($event) {
  *
  * @function
  * @private
- * @param {HTMLElement} el A form element or body in good browsers.
+ * @param {Element} el A form element or body in good browsers.
  * @param {boolean} [add] Indicates if we are adding or removing the event listeners.
  */
 function addRemoveEvents(el, add) {
