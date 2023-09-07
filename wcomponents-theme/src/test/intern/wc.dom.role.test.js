@@ -23,16 +23,16 @@ define(["intern!object", "intern/chai!assert", "wc/dom/role", "intern/resources/
 				testHolder.innerHTML = "";
 			},
 			testGet_noElement: function() {
-				assert.isUndefined(controller.get());
+				assert.isNotOk(controller.get());
 			},
 			testGet_notElement: function() {
-				assert.isUndefined(controller.get({}));
+				assert.isNotOk(controller.get({}));
 			},
 			testGet_norole: function() {
 				assert.isNull(controller.get(document.getElementById(noRoleId)));
 			},
 			testGet_norole_implied: function() {
-				assert.isUndefined(controller.get(document.getElementById(noRoleId), true));
+				assert.isNotOk(controller.get(document.getElementById(noRoleId), true));
 			},
 			testGet_role: function() {
 				assert.strictEqual(controller.get(document.getElementById(roleId)), testRole);

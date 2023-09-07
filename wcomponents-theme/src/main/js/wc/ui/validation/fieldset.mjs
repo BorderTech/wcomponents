@@ -50,7 +50,7 @@ function validate(container) {
 			const message = i18n.get("validation_common_incompletegroup", validationManager.getLabelText(next));
 			feedback.flagError({
 				element: next,
-				message: message
+				message
 			});
 		});
 	}

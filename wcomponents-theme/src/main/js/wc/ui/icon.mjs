@@ -12,7 +12,7 @@ const instance = {
 	 * Swap one icon class for another. May be used to add or remove an icon class.
 	 * @function
 	 * @public
-	 * @param {HTMLElement} element The element which may contain an icon. If there is no icon then this function does nothing.
+	 * @param {Element} element The element which may contain an icon. If there is no icon then this function does nothing.
 	 * @param {String} add the icon className to add
 	 * @param {String} remove the icon className to remove
 	 */
@@ -88,7 +88,7 @@ function getHTML(icon) {
  * Type checker for public functions.
  * @function
  * @private
- * @param {HTMLElement} element the element arg to test
+ * @param {Element} element the element arg to test
  * @returns {Boolean} `true` if element is an Element
  * @throws {TypeError} if element is not an Element
  */
@@ -103,19 +103,19 @@ function testElementArg(element) {
  * Get an icon from an element which may contain one.
  * @function
  * @private
- * @param {HTMLElement} element the element to test
+ * @param {Element} element the element to test
  * @returns {HTMLElement} the icon if found
  */
 function getIcon(element) {
 	testElementArg(element);
-	return element.matches(iconQs) ? element : element.querySelector(iconQs);
+	return /** @type HTMLElement */(element.matches(iconQs) ? element : element.querySelector(iconQs));
 }
 
 /**
  * Helper to add/remove classes from an icon.
  * @function
  * @private
- * @param {HTMLElement} element the element which may be or contain an icon
+ * @param {Element} element the element which may be or contain an icon
  * @param {string} icon the class to change
  * @param {boolean} [add] if `true` add the class, otherwise remove it
  * @returns {boolean} `true` if an icon element is found, otherwise `false`

@@ -142,7 +142,7 @@ function(attribute, event, initialise, i18n, multiFormComponent, unique, sprintf
 		 */
 		function _flag(element, flag, limit) {
 			var message = sprintf.sprintf(flag, validationManager.getLabelText(element), limit);
-			feedback.flagError({element: element, message: message});
+			feedback.flagError({ element, message });
 		}
 
 		/**

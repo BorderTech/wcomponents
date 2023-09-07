@@ -67,7 +67,7 @@ function(attribute, event, initialise, shed, Widget, i18n, sprintf, required, va
 
 				if (result) {
 					message = sprintf.sprintf(flag, validationManager.getLabelText(element));
-					feedback.flagError({element: element, message: message});
+					feedback.flagError({ element, message });
 				}
 			}
 			return result;

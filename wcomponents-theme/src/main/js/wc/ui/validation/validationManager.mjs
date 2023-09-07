@@ -177,7 +177,7 @@ const validationManager = {
 	 */
 	setOK: function(element) {
 		return feedback.flagSuccess({
-			element: element,
+			element,
 			message: i18n.get("validation_ok")
 		});
 	},

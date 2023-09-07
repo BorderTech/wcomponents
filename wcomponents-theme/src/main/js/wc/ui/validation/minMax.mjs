@@ -87,7 +87,7 @@ export default function minMax(conf) {
 		const labelText = validationManager.getLabelText(selectable);
 		const message = /** @type {string} */(sprintf.sprintf(flag, labelText, limit, secondaryLabel));
 
-		feedback.flagError({ element: selectable, message: message });
+		feedback.flagError({ element: selectable, message });
 	}
 
 	if (container.matches(widget)) {

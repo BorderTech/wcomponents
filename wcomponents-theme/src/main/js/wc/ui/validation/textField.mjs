@@ -40,7 +40,7 @@ function isValidatingInput(element) {
  */
 function _flagError(element, flag) {
 	const message = sprintf.sprintf(flag, validationManager.getLabelText(element));
-	feedback.flagError({ element: element, message: message });
+	feedback.flagError({ element, message });
 }
 
 /**

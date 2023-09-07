@@ -94,7 +94,7 @@ function(interchange, getDifference, attribute, event, initialise, shed, i18n, d
 				}
 			}
 			if (invalid) {
-				feedback.flagError({element: element, message: sprintf.sprintf(flag, validationManager.getLabelText(element))});
+				feedback.flagError({element, message: sprintf.sprintf(flag, validationManager.getLabelText(element))});
 			}
 			return invalid;
 		}
@@ -164,7 +164,7 @@ function(interchange, getDifference, attribute, event, initialise, shed, i18n, d
 				complete = false;
 
 				incomplete.forEach(function(next) {
-					feedback.flagError({element: next, message: messageFunction(next)});
+					feedback.flagError({ element: next, message: messageFunction(next) });
 				});
 			}
 

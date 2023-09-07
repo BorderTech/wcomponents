@@ -144,8 +144,8 @@ function getErrorMessage(id, create) {
 		let label = labels?.length ? ` '${labels[0].textContent}'` : "";
 		label = i18n.get("loader_loaderr", label);
 		const errorResult = feedback.flagError({
-			target: element,
-			messages: label
+			element,
+			message: label
 		});
 		message = document.getElementById(errorResult);
 		if (errorResult && message) {

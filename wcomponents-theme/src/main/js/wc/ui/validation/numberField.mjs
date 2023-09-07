@@ -42,7 +42,7 @@ async function isInvalid(element) {
 		if (message) {
 			result = true;
 			message = sprintf.sprintf(message, validationManager.getLabelText(element), (min || max), max);
-			feedback.flagError({ element: element, message: message });
+			feedback.flagError({ element, message });
 		}
 	}
 	return result;

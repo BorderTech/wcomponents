@@ -251,10 +251,10 @@ const instance = {
 	 */
 	add: function(args) {
 		const AFTER_END = "afterend";
-		const messages = args.messages;
+		const messages = args.message;
 		const level = args.level || diagnostic.LEVEL.ERROR;
 		let writeWhere = args.position,
-			target = args.target;
+			target = args.element;
 
 		if (!(messages && target && target.nodeType === Node.ELEMENT_NODE)) {
 			// no messages or target for the messages
@@ -540,7 +540,6 @@ function getBoxHTML(targetId, messages, level) {
 	});
 }
 
-
 /**
  * Remove an existing diagnostic box.
  * @function
@@ -616,8 +615,8 @@ function flag(args) {
 	}
 
 	return instance.add({
-		target: target,
-		messages: messages,
+		element: target,
+		message: messages,
 		level: level
 	});
 }
@@ -626,8 +625,8 @@ export default instance;
 
 /**
  * @typedef {Object} module:wc/ui/feedback~flagDto The properties used to describe a custom error message.
- * @property {String|String[]} messages The message to display.
- * @property {HTMLElement} target The element which is to be flagged with the error message.
+ * @property {String|String[]} message The message to display.
+ * @property {HTMLElement} element The element which is to be flagged with the error message.
  * @property {module:wc/dom/diagnostic.LEVEL|number} [level] The message severity.
  * @property {InsertPosition} [position]
  */
