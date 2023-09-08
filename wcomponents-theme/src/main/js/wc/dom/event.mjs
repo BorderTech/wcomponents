@@ -165,7 +165,7 @@ const instance = {
 	 * @param {boolean} [eventArgs.capture] If true the event will listen at the capture phase. Default is false
 	 *    (listens at the bubble phase). If you set capture to true in a browser that does not support
 	 *    capture an exception will be thrown.
-	 * @returns A dto that can be used to "remove" if the listener was able to be added as an event subscriber.
+	 * @returns {Object} A dto that can be used to "remove" if the listener was able to be added as an event subscriber.
 	 * @throws {TypeError} Thrown if the capture parameter is set true and the browser is not dom2 compliant.
 	 */
 	add: function (element/* , args */) {

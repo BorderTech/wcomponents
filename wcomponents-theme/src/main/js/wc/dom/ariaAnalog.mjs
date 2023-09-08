@@ -3,8 +3,8 @@
  *
  * There are two aspects to implementing an ARIA role:
  *
- * * Managing focus (keyboard navigation - left/right/up/down etc)
- * * Activation / Selection (click, spacebar, enter etc)
+ * * Managing focus (keyboard navigation - left/right/up/down etc.)
+ * * Activation / Selection (click, spacebar, enter etc.)
  * * State writing (tell the server the state of the aria control)
  *
  * A few points to note:
@@ -21,7 +21,6 @@
  *
  */
 
-import attribute from "wc/dom/attribute";
 import clearSelection from "wc/dom/clearSelection";
 import event from "wc/dom/event";
 import group from "wc/dom/group";
@@ -287,7 +286,6 @@ AriaAnalog.prototype.selectOnNavigate = function (element) {
  * @var
  * @type number
  * @default 0
- * @protected
  */
 AriaAnalog.prototype.exclusiveSelect = AriaAnalog.prototype.SELECT_MODE.MULTIPLE;
 
@@ -298,7 +296,6 @@ AriaAnalog.prototype.exclusiveSelect = AriaAnalog.prototype.SELECT_MODE.MULTIPLE
  * @var
  * @type Boolean
  * @default true
- * @protected
  */
 AriaAnalog.prototype.groupNavigation = true;
 
@@ -309,7 +306,6 @@ AriaAnalog.prototype.groupNavigation = true;
  * @var
  * @type {?Object}
  * @default null
- * @protected
  */
 AriaAnalog.prototype.lastActivated = null;
 
@@ -320,7 +316,6 @@ AriaAnalog.prototype.lastActivated = null;
  * @var
  * @type Boolean
  * @default false
- * @protected
  */
 AriaAnalog.prototype.ctrlAllowsDeselect = false;
 
@@ -331,7 +326,6 @@ AriaAnalog.prototype.ctrlAllowsDeselect = false;
  * @var
  * @type Boolean
  * @default false
- * @protected
  */
 AriaAnalog.prototype.allowSelectSelected = false;
 
@@ -341,7 +335,6 @@ AriaAnalog.prototype.allowSelectSelected = false;
  * @var
  * @type Boolean
  * @default false
- * @protected
  */
 AriaAnalog.prototype.simpleSelection = false;
 
@@ -350,7 +343,6 @@ AriaAnalog.prototype.simpleSelection = false;
  *
  * @var
  * @type {?Function}
- * @protected
  */
 AriaAnalog.prototype._extendedInitialisation = null;
 
@@ -428,7 +420,6 @@ AriaAnalog.prototype.initialise = function(element) {
  * Write the state of the ARIA analog component into any form submission or required AJAX request.
  *
  * @function
- * @protected
  * @param {Element} form the form or form segment whose state is being written.
  * @param {Element} container the container for writing the state fields.
  * @todo Anonymize the inner function.
@@ -451,8 +442,8 @@ function bootstrap(element, instance) {
 	const container = instance.getGroupContainer(element) || element,
 		INIT_ATTRIB = "ariaAnalogKeydownInited";
 
-	if (!attribute.get(container, INIT_ATTRIB)) {
-		attribute.set(container, INIT_ATTRIB, true);
+	if (!container[INIT_ATTRIB]) {
+		container[INIT_ATTRIB] = true;
 		event.add(container, "keydown", eventWrapper.bind(instance));
 	}
 }
@@ -461,7 +452,6 @@ function bootstrap(element, instance) {
  * Focus event listener to manage tab index on simple linear groups. Note though that components which do their
  * own navigation are also responsible for maintaining their own tab indices.
  * @function
- * @protected
  * @param {Event} $event The focus event.
  */
 AriaAnalog.prototype.focusEvent = function ($event) {
@@ -482,7 +472,6 @@ AriaAnalog.prototype.focusEvent = function ($event) {
  * Click event listener to activate a group member on click (assuming it is acceptable); for example, radio
  * buttons get selected on click but not if the click is on something else with a tabStop.
  * @function
- * @protected
  * @param {MouseEvent} $event The click event.
  */
 AriaAnalog.prototype.clickEvent = function ($event) {
@@ -505,7 +494,6 @@ AriaAnalog.prototype.clickEvent = function ($event) {
  * Keydown event listener to navigate between items or activate on SPACE where supported.
  *
  * @function
- * @protected
  * @param {KeyboardEvent} $event The keydown event.
  */
 AriaAnalog.prototype.keydownEvent = function ($event) {
@@ -545,7 +533,6 @@ AriaAnalog.prototype.keydownEvent = function ($event) {
  * key navigation for simple linear groups.
  *
  * @function
- * @protected
  * @param {Element} start Start element
  * @param {number} direction -1 to previous in group, 1 to next in group NOTE: radio button groups allow native
  *    group cycling at the extremities so we allow that here too. Only useful if one of
@@ -566,6 +553,7 @@ AriaAnalog.prototype.navigate = function(start, direction) {
 				root: _group,
 				filter: function(el) {
 					/* the group filter EXCLUDES elements return true*/
+					/** @type Number */
 					let innerResult = NodeFilter.FILTER_ACCEPT;
 					if (shed.isDisabled(el) || shed.isHidden(el)) {
 						innerResult = NodeFilter.FILTER_REJECT;
@@ -604,7 +592,6 @@ AriaAnalog.prototype.navigate = function(start, direction) {
  * A helper for activate which deals with selection of single-selects.
  *
  * @function
- * @private
  * @param {Element} element The element being activated.
  * @param {boolean} CTRL Indicates the Ctrl key was depressed during activation.
  * @param {Object} instance The current analog module.
@@ -625,7 +612,6 @@ function singleSelectActivateHelper(element, CTRL, instance) {
  * A helper for activate which deals with multi-selects with the SHIFT control depressed.
  *
  * @function
- * @private
  * @param {Element} element The element being activated.
  * @param {Element} container The analog container.
  * @param {boolean} CTRL Indicates the Ctrl key was depressed during activation.
@@ -696,7 +682,6 @@ AriaAnalog.prototype.activate = function(element, SHIFT, CTRL) {
  * items outside the group.
  *
  * @function
- * @protected
  * @param {Element} element The source element.
  * @param {Element} [lastActivated] The last activated element in the group.
  * @param {boolean} [CTRL] true if the ctrl or meta key was pressed during the event which resulted in the
@@ -738,7 +723,6 @@ AriaAnalog.prototype.doGroupSelect = function(element, lastActivated, CTRL) {
  * Set the last activated element in the group.
  *
  * @function
- * @protected
  * @param {Element} element The last activated element.
  * @param {Element} [container] The group container (if known).
  */
@@ -757,7 +741,6 @@ AriaAnalog.prototype.setLastActivated = function (element, container) {
  * cannot rely on the order in which the analogs handle an event.
  *
  * @function
- * @private
  * @param {Element} target The event target
  * @param {Element} item The element found using this.ITEM.
  * @returns {Boolean} true if the item is the first active analog found in the ancestor tree.
@@ -808,8 +791,7 @@ function isActiveAnalog(target, item) {
  * possible or may result in the wrong element receiving focus.
  *
  * @function
- * @protected
- * @param {Element} element The element to receive future focus.
+ * @param {HTMLElement} element The element to receive future focus.
  */
 AriaAnalog.prototype.setFocusIndex = function(element) {
 	const _group = getGroup(element, this);
