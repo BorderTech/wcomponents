@@ -74,7 +74,7 @@ const instance = {
 	 *    If an array is provided then each item is taken to be a key. The promise will be resolved with
 	 *    an array of translations in the order they appeared in the key array.
 	 *    Each key will be passed the same arguments, it probably mainly makes sense when there are no args.
-	 * @param {...string} [args] additional arguments will be used to printf format the string before it is
+	 * @param {...any} [args] additional arguments will be used to printf format the string before it is
 	 *    returned. Note: It's up to the caller to ensure the correct args (type, number etc...) are passed to
 	 *    printf formatted messages.
 	 * @returns {Promise} resolved with {String} The message value, i.e. the value of an i18n key/value pair.
@@ -95,7 +95,7 @@ const instance = {
 
 	/**
 	 * Determine the language of the document.
-	 * @param {Element} [element] Optionally provide a context element which will take precedence over the documentElement.
+	 * @param {HTMLElement} [element] Optionally provide a context element which will take precedence over the documentElement.
 	 * @returns {String} the current document language.
 	 */
 	_getLang: function(element) {
@@ -130,7 +130,7 @@ function translatorFactory(funcTranslate) {
 	 * @function module:wc/i18n/i18n.get
 	 * @public
 	 * @param {String} key A message key, i.e. the key of an i18n key/value pair.
-	 * @param {...string} [args] additional arguments will be used to printf format the string before it is
+	 * @param {...any} [args] additional arguments will be used to printf format the string before it is
 	 *    returned. Note: It's up to the caller to ensure the correct args (type, number etc...) are passed to
 	 *    printf formatted messages.
 	 * @returns {String} The message value, i.e. the value of an i18n key/value pair. If not found will return an empty string.

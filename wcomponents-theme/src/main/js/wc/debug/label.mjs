@@ -50,7 +50,7 @@ function insertLabel(input) {
 }
 
 function isLabelMissing(input) {
-	const label = getFirstLabelForElement(input);
+	const label = /** @type {HTMLElement} */(getFirstLabelForElement(input));
 
 	if (label) {
 		if (utils.isContentEmpty(label)) {

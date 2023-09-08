@@ -53,8 +53,6 @@ function Menubar() {
 
 	/**
 	 * The descriptors for this menu type.
-	 * @var
-	 * @type {module:wc/dom/Widget}
 	 * @protected
 	 * @override
 	 */

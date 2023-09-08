@@ -22,7 +22,6 @@ let instance;
 function Column() {
 	/**
 	 * The descriptors for this menu type.
-	 * @type {module:wc/dom/Widget}
 	 * @protected
 	 * @override
 	 */

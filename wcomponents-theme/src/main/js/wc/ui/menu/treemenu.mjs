@@ -20,7 +20,6 @@ import "wc/ui/menu/menuItem";
 function TreeMenu() {
 	/**
 	 * The descriptors for this menu type.
-	 * @type {module:wc/dom/Widget}
 	 * @protected
 	 * @override
 	 */

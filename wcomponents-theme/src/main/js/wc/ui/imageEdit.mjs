@@ -308,7 +308,7 @@ function getImageCapture() {
 
 /**
  * Listens for edit requests on static images.
- * @param {MouseEvent} $event A click event.
+ * @param {MouseEvent & { target: HTMLElement }} $event A click event.
  */
 function clickEvent($event) {
 	const element = BUTTON.findAncestor($event.target);
@@ -447,8 +447,6 @@ function calcMinScale(availWidth, availHeight, imgWidth, imgHeight, fbImage) {
 	return result;
 }
 
-
-
 /**
  * Ensures that the overlay image is correctly positioned.
  * The overlay MUST be the correct aspect ratio.
@@ -509,7 +507,6 @@ function getEditorContext(config, callbacks) {
 	});
 }
 
-
 /**
  * Builds the editor DOM and displays it to the user.
  * @param {Object} config Map of configuration properties.
@@ -564,7 +561,6 @@ function getEditor(config, callbacks, file) {
 					getImageCapture().snapshotControl(actions.events, cntnr);
 				}
 
-
 				if (contentContainer && cntnr) {
 					contentContainer.innerHTML = "";
 					contentContainer.appendChild(cntnr);
@@ -613,7 +609,6 @@ function getDialogContent(context) {
 }
 
 /**
- *
  * @param context
  * @param {String[]} features
  */
@@ -677,7 +672,6 @@ function controlsTemplate(context, features) {
 	};
 	return features.map(feature => templates[feature]).join("\n");
 }
-
 
 function getTranslations(obj) {
 	const messages = ["imgedit_action_camera", "imgedit_action_cancel", "imgedit_action_redact",
