@@ -19,13 +19,13 @@ const noop = function() {
  * @private
  * @param {String} mthd The console method to apply "warn" or "error" (you could recolour on log or info but that would be silly).
  * @param {String} flag The className to add to body when this method is logged.
- * @returns {Function} A logger wrapper for console methods.
+ * @returns {function(): void} A logger wrapper for console methods.
  */
 function logFactory(mthd, flag) {
 	const func = globalThis[console][mthd] || noop;
-	return function() {
+	return function(...data) {
 		let docBody,
-			result = func.apply(this, arguments);
+			result = func(...data);
 		if (flag && (docBody = globalThis.document?.body)) {
 			/*
 			 * Check for classList without calling it because otherwise if classList logs an error

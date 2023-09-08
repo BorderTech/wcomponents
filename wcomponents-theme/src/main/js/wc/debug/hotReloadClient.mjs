@@ -8,7 +8,6 @@
 
 import io from "lib/socketio/socket.io";
 import debounce from "wc/debounce";
-import urlParser from "wc/urlParser";
 import cookie from "wc/dom/cookie";
 
 const handlers = {
@@ -18,9 +17,7 @@ const handlers = {
 		 */
 		function(payload) {
 			// @ts-ignore
-			let imgHref = require.toUrl(payload.changed);
-			imgHref = urlParser.parse(imgHref);
-			imgHref = imgHref.pathnameArray.join("/");
+			let imgHref = new URL(require.toUrl(payload.changed)).pathname;
 			const images = document.querySelectorAll("img[src*='" + imgHref + "']");
 			for (let i = 0; i < images.length; i++) {
 				bumpCacheBuster(images[i]);
@@ -99,13 +96,8 @@ function resetConsoleColor() {
 function bumpCacheBuster(element) {
 	const forceParam = "wcforce=" + Date.now(),
 		attr = element.hasAttribute("href") ? "href" : "src",
-		parsedUrl = urlParser.parse(element.getAttribute(attr));
-
-	if (parsedUrl.search) {
-		element[attr] += "&" + forceParam;
-	} else {
-		element[attr] += "?" + forceParam;
-	}
+		parsedUrl = new URL(element.getAttribute(attr));
+	element[attr] += (parsedUrl.search ? "&" : "?") + forceParam;
 }
 
 /**

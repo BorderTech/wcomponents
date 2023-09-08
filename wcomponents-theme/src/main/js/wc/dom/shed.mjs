@@ -299,7 +299,8 @@ const instance = {
 	 * @returns {boolean} true if the element is hidden.
 	 */
 	isHidden: function (node, onlyHiddenAttribute, ignoreOffset) {
-		let result, _el = node;
+		let result,
+			_el = node;
 		// troublesome stuff inside hidden stuff.
 		if (node.nodeType !== Node.ELEMENT_NODE) {
 			if (node.nodeType === Node.TEXT_NODE) {
@@ -328,7 +329,7 @@ const instance = {
 				|| getStyle(_el, "visibility", false, true) === "hidden") {
 				return true;
 			}
-		} else if ( _el.parentNode && _el.offsetWidth === 0 && _el.offsetHeight === 0) {
+		} else if (_el.parentElement && _el["offsetWidth"] === 0 && _el["offsetHeight"] === 0) {
 			return true;
 		}
 		return false;
@@ -620,9 +621,10 @@ function applyStateToChildren(element, STATE, reverse) {
 	}
 }
 
-/*
+/**
  * helper for determining if an element show be expanded using the OPEN attribute
  * rather than the HIDDEN attribute
+ * @param {Element} element
  */
 function expandWithOpen(element) {
 	return element.matches("details");
@@ -689,7 +691,6 @@ function getSetNativeSelected(element, value, mix) {
 }
 
 /**
- *
  * @param {Node} node
  * @param {string} state
  * @param {string} stopAtSelector
@@ -729,9 +730,10 @@ function setMyAttribute(element, attribute, value) {
 	}
 }
 
-/*
+/**
  * helper for determining if an element show be shown using the OPEN attribute
  * rather than the HIDDEN attribute
+ * @param {Element} element
  */
 function showWithOpen(element) {
 	return element.matches("dialog");
@@ -747,7 +749,6 @@ function showWithOpen(element) {
  * @param {string|boolean|number} [action] The value of the attribute to set.
  */
 function shedHelper(element, attribute, action) {
-
 	if (showWithOpen(element)) {
 		attribute = OPEN;
 		action = action ? null : OPEN;

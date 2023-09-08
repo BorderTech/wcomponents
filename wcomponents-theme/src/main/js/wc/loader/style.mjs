@@ -1,6 +1,5 @@
 import has from "wc/has";
 import mixin from "wc/mixin";
-import urlParser from "wc/urlParser";
 import wcconfig from "wc/config";
 
 const DOT_EX = ".css",
@@ -11,7 +10,7 @@ const DOT_EX = ".css",
  * {@link module:wc/loader/style~loadRules}.
  *
  * Note that when adding style fixes for IE one usually wants to load them in descending order of version (ie11 then ie10 for example).
- * We add the link element as the next sibling of the main CSS. SO to get the desired CSS order one ought have any IE versions in
+ * We add the link element as the next sibling of the main CSS. SO to get the desired CSS order one ought to have any IE versions in
  * ascending order (e.g. ie10 then ie11)
  *
  * The default/fallback includes fixes for IE11 and MS Edge. These will be overridden completely by a custom config `css`
@@ -76,9 +75,6 @@ let CSS_BASE_URL = null,
  * }
  *
  * @module
- * @requires module:wc/has
- * @requires module:wc/mixin
- * @requires module:wc/config
  */
 const instance = {
 	/**
@@ -166,7 +162,7 @@ const instance = {
 	 *       name extension if in debug mode) and the cache-buster.
 	 *
 	 *   Therefore, we suggest using a URL (and _I recommend_ the `//blah` form) or a simple file name if you are
-	 *   building CSS files which are not able to be implemented using the _pattern and auto-loader mechanisms
+	 *   building CSS files which are not able to be implemented using the _pattern and autoloader mechanisms
 	 *   (including the ability to override the style loadre config). So in reality this is almost always going to
 	 *   be a URL unless you are particularly odd. Being particularly odd I tested this function using the debug CSS
 	 *   and loading it from {@link module:wc/debug/a11y}.
@@ -191,18 +187,15 @@ const instance = {
 function getBaseUrlFromMainCss() {
 	const cssUrl = instance.getMainCss(),
 		SEPARATOR = "/";
-	const parsedUrl = cssUrl ? urlParser.parse(cssUrl) : "";
-	if (parsedUrl) {
-		let baseUrl = "";
-		if (parsedUrl.protocol) {  // if scheme is defined we know it is http[s] so can use two slashes.
-			baseUrl = parsedUrl.protocol + SEPARATOR + SEPARATOR;
-		}
-		baseUrl += parsedUrl.host;
-		if (parsedUrl.pathnameArray) {
+	if (cssUrl) {
+		const parsedUrl = new URL(cssUrl);
+		let baseUrl = parsedUrl.origin;
+		const pathnameArray = parsedUrl.pathname.split(SEPARATOR);
+		if (pathnameArray.length) {
+			pathnameArray.pop();
 			// do not include the last part of the pathname array: it is the filename of the main CSS file
-			for (let i = 0; i < parsedUrl.pathnameArray.length - 1; ++i) {
-				baseUrl += SEPARATOR + parsedUrl.pathnameArray[i];
-			}
+			baseUrl += pathnameArray.join(SEPARATOR);
+
 		}
 		return baseUrl + SEPARATOR;
 	}
@@ -210,19 +203,24 @@ function getBaseUrlFromMainCss() {
 }
 
 /**
- * One time function to get the default cachebuster off of the main CSS built by XSLT.
+ * One time function to get the default cache-buster off of the main CSS built by XSLT.
  * @function
  * @private
- * @returns {String} the cachebuster querystring on the main CSS link's URL.
+ * @returns {String} the cache-buster querystring on the main CSS link's URL.
  */
 function getCachebusterFromMainCss() {
 	const cssUrl = instance.getMainCss();
-	const parsedUrl = cssUrl ? urlParser.parse(cssUrl) : "";
-	const parsedSearch = parsedUrl?.search;
-	if (parsedSearch) {
-		// If parsed URL has a search queryString it is always prefixed with a ?
-		return parsedSearch.substring(1, parsedSearch.length);
+	if (cssUrl) {
+		const parsedUrl = new URL(cssUrl);
+		const parsedSearch = parsedUrl?.search;
+		if (parsedSearch) {
+			// If parsed URL has a search queryString it is always prefixed with a ?
+			return parsedSearch.substring(1);
+		}
 	}
+
+
+
 	return "";  // no cache buster
 }
 
@@ -360,7 +358,7 @@ function addByName(nameOrUrl, media) {
  * @property {String} key The file name extension used in the CSS build. This is the bit immediately after the `wc-` part and before the `.css`
  *    part of the CSS file's name (eg 'ff'). This can be anything (well, anything which is a valid object property name) if the value is a
  *    `loadRules` object and that object defines both the `test` and `name` properties.
- * @property {(String|module:wc/loader/style~loadRules)} value The rules for describing and load testing for the CSS. If this property is
+ * @property {module:wc/loader/style~loadRules|string} value The rules for describing and load testing for the CSS. If this property is
  *    a string then it is a simple has test passing in that string and using the key as the building block for the CSS file name as described
  *    above. Otherwise, see {@link module:wc/loader/style~loadRules}
  *
@@ -386,7 +384,7 @@ function addByName(nameOrUrl, media) {
  */
 
 /**
- * @typedef {Object} module:wc/loader/style~loadRules
+ * @typedef {Object} {module:wc/loader/style~loadRules}
  * @property {String} [test] The string arg passed to has to sniff user agent, eg "safari" or "ff". If falsy the style will be added without an
  *   `has` test.
  * @property {number} [version] The version of the browser to test. If set then the has test is compared to this

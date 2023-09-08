@@ -1,4 +1,3 @@
-import attribute from "wc/dom/attribute";
 import clearSelection from "wc/dom/clearSelection";
 import event from "wc/dom/event";
 import getMouseEventOffset from "wc/dom/getEventOffset";
@@ -123,7 +122,7 @@ function Resizeable() {
 		if (targetId) {
 			result = document.getElementById(targetId);
 		}
-		return result;
+		return /** @type {HTMLElement} */(result);
 	}
 
 	/**
@@ -158,7 +157,7 @@ function Resizeable() {
 	 *
 	 * @function
 	 * @private
-	 * @param {Element} element the resizeable component.
+	 * @param {HTMLElement} element the resizeable component.
 	 * @param {Boolean} [native] If true remove any inline styles before calculating the size. If a min/max
 	 *    width/height is "auto" or one of the "-content" settings (e.g. fit-content, -moz-max-content etc.) then
 	 *    we need to make a guess at the native box size in pixels. This is a bit experimental.
@@ -168,21 +167,21 @@ function Resizeable() {
 
 		let _width, _height;
 		try {
-			let {height, width} = element.style;
+			let { height, width } = element.style;
 
 			if (native) {
 				_width = width;
 				_height = height;
 				element.style.width = "";
 				element.style.height = "";
-				width = 0;
-				height = 0;
+				width = "0";
+				height = "0";
 			}
 			const box = getBox(element);
 			height = height ? parseFloat(height.replace(UNIT, "")) : box.height;
 			width = width ? parseFloat(width.replace(UNIT, "")) : box.width;
 
-			return {width: width, height: height};
+			return { width, height };
 		} finally {
 			if (_width) {
 				element.style.width = _width;
@@ -510,14 +509,14 @@ function Resizeable() {
 	 */
 	function bootstrap(element) {
 		const body = document.body;
-		if (!attribute.get(element, BS)) {
-			attribute.set(element, BS, true);
+		if (!element[BS]) {
+			element[BS] = true;
 			event.add(element, "mousedown", mousedownEvent);
 			event.add(element, "keydown", keydownEvent);
 			event.add(element, "touchstart", touchstartEvent);
 		}
-		if (!attribute.get(body, MM_EVENT)) {
-			attribute.set(body, MM_EVENT, true);
+		if (!body[MM_EVENT]) {
+			body[MM_EVENT] = true;
 			event.add(body, "mousemove", mousemoveEvent);
 			event.add(body, "touchmove", touchmoveEvent);
 		}
@@ -652,9 +651,8 @@ function Resizeable() {
 		const target = getResizeTarget(element);
 		if (target) {
 			const style = target.style;
-			if (keep && !attribute.get(element, STORED_SIZE_ATTRIB)) {
-				const storedSizeVal = [style.width, style.height, style.maxWidth, style.maxHeight].join();
-				attribute.set(element, STORED_SIZE_ATTRIB, storedSizeVal);
+			if (keep && !element[STORED_SIZE_ATTRIB]) {
+				element[STORED_SIZE_ATTRIB] = [style.width, style.height, style.maxWidth, style.maxHeight].join();
 			}
 			style.width = "";
 			style.height = "";
@@ -678,9 +676,9 @@ function Resizeable() {
 	 * @param {boolean} [ignoreSubscribers] if `true` then do not notify via observer
 	 */
 	this.resetSize = function (element, ignoreSubscribers) {
-		let stored = attribute.get(element, STORED_SIZE_ATTRIB);
+		let stored = element[STORED_SIZE_ATTRIB];
 		if (stored) {
-			attribute.remove(element, STORED_SIZE_ATTRIB);
+			delete element[STORED_SIZE_ATTRIB];
 			stored = stored.split(",");
 			element.style.width = stored[0];
 			element.style.height = stored[1];

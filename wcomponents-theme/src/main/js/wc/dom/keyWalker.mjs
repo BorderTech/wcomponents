@@ -1,14 +1,7 @@
 /**
-* Provides keyboard navigation functionality.
-* @module
-*/
-
-/**
  * An object holding property names used in keyWalker configuration.
  *
- * @constant
  * @type {module:keywalker~options}
- * @private
  */
 const OPTIONS = {
 		CYCLE: "cycle",
@@ -33,6 +26,10 @@ const OPTIONS = {
 		LAST_CHILD: 256  // the last accessible child node
 	};
 
+/**
+ * Provides keyboard navigation functionality.
+ * @module
+ */
 const instance = {
 	/** @property {String} version the module version, just in case you want to know. */
 	version: "1.0.1",
@@ -84,8 +81,6 @@ const instance = {
  * This is a simple TreeWalker filter for traversing elements and accepting **anything** unless it is disabled or hidden. You probably don't
  * want to use this, but it will be used if your configuration object does not include a filter function.
  *
- * @function
- * @private
  * @param {Element} element the element which the TreeWalker instance is investigating
  * @returns {number} a NodeFilter filter value
  */

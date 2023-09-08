@@ -12,10 +12,7 @@ registerSuite("build-util", {
 		 */
 		"testRequireAmd": function () {
 			return new Promise(function (win) {
-				buildUtil.requireAmd(["wc/debounce"], function(debounce) {
-
-					debounce(win, 0);
-				});
+				buildUtil.requireAmd(["wc/timers"], timers => timers.setTimeout(win, 0));
 			});
 		}
 	}
