@@ -251,10 +251,10 @@ const instance = {
 	 */
 	add: function(args) {
 		const AFTER_END = "afterend";
-		const messages = args.message;
+		const messages = args.message || args["messages"];  // this was a mess with both properties in use
 		const level = args.level || diagnostic.LEVEL.ERROR;
 		let writeWhere = args.position,
-			target = args.element;
+			target = args.element || args["target"];  // this was a mess with both properties in use
 
 		if (!(messages && target && target.nodeType === Node.ELEMENT_NODE)) {
 			// no messages or target for the messages
@@ -335,7 +335,7 @@ function checkAndGetElement(element) {
 	if (!element) {
 		throw new TypeError("element must not be falsey");
 	}
-	const target = (typeof element === "string") ? document.getElementById(element) : element;
+	const target = /** @type {HTMLElement} */(typeof element === "string" ? document.getElementById(element) : element);
 
 	if (!target?.tagName) {
 		throw new TypeError("element does not represent an HTML Element");

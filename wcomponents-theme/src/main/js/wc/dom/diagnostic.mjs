@@ -153,7 +153,7 @@ const diagnostic = {
 	 * @function
 	 * @public
 	 * @param {Element} element the element to test
-	 * @param {instance.LEVEL} [level] the severity level, one of {@link module:wc/dom/diagnostic.LEVEL} if not set then test for any diagnostic level
+	 * @param {module:wc/dom/diagnostic.LEVEL} [level] the severity level, one of {@link module:wc/dom/diagnostic.LEVEL} if not set then test for any diagnostic level
 	 * @returns {Boolean}
 	 */
 	isOneOfMe: function (element, level) {

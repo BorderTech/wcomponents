@@ -143,6 +143,7 @@ function filterOptions(combo, delay) {
 			return;
 		}
 
+		/** @type {HTMLInputElement} */
 		const textbox = combo.querySelector(textboxSelector);
 		if (textbox) {
 			value = textbox.value.toLocaleLowerCase();
@@ -226,7 +227,7 @@ function getNewOptions(combo, element) {
  * @param {HTMLInputElement} element The input element we are interested in.
  */
 function updateList(element) {
-	const combo = element.parentNode,
+	const combo = element.parentElement,
 		list = getListBox(combo);
 
 	if (!list) {
@@ -265,7 +266,7 @@ function focusListbox(listbox) {
  * @function
  * @private
  * @param {Element} element The start element.
- * @returns {HTMLElement} The combo box wrapper element.
+ * @returns {HTMLInputElement} The combo box wrapper element.
  */
 function getCombo(element) {
 	return element.closest(comboSelector);
@@ -292,7 +293,7 @@ function setValue(combo, option) {
  *
  * @function
  * @private
- * @param {CustomEvent} $event The shed event that fired.
+ * @param {CustomEvent & { target: HTMLInputElement }} $event The shed event that fired.
  */
 function shedSubscriber($event) {
 	const element = $event.target,
@@ -302,6 +303,7 @@ function shedSubscriber($event) {
 		return;
 	}
 
+	/** @type {HTMLInputElement} */
 	const textbox = element.querySelector(textboxSelector);
 
 	if (action === shed.events.EXPAND) {
@@ -363,13 +365,14 @@ function shedSubscriber($event) {
  *
  * @function
  * @private
- * @param {Event} $event Fired when an element is selected.
+ * @param {Event & { target: HTMLOptionElement }} $event Fired when an element is selected.
  */
 function shedSelectSubscriber($event) {
-	let listbox, combo;
-	const element = $event.target;
-	if (element?.matches(optionSelector) && (listbox = getListBox(element)) && (combo = getCombo(listbox))) {
-		setValue(combo, element);
+	const target = $event.target;
+	const listBox = target?.matches(optionSelector) ? getListBox(target) : null;
+	const combo = listBox ? getCombo(listBox) : null;
+	if (combo) {
+		setValue(combo, target);
 	}
 }
 
@@ -405,7 +408,7 @@ function handleKeyListbox(listbox, keyCode) {
  *
  * @function
  * @private
- * @param {KeyboardEvent} $event The keydown event.
+ * @param {KeyboardEvent & {target: HTMLElement}} $event The keydown event.
  */
 function keydownEvent($event) {
 	const keyCode = $event.key,
@@ -519,7 +522,7 @@ function handleKeyTextbox(target, keyCode, altKey) {
  *
  * @function
  * @private
- * @param {MouseEvent} $event The click event.
+ * @param {MouseEvent & { target: HTMLElement }} $event The click event.
  */
 function clickEvent($event) {
 	const target = $event.target;
@@ -553,12 +556,12 @@ function clickEvent($event) {
  * @private
  * @param {TouchEvent} $event The touchstart event.
  */
-function touchstartEvent($event) {
-	let target, listbox, touch;
-	if (!$event.defaultPrevented && $event.touches.length === 1 &&
-		(touch = $event.touches[0]) && (target = touch.target) &&
-		(listbox = getListBox(target)) && getCombo(listbox)) {
-		touching = target;
+function touchstartEvent({ touches, defaultPrevented }) {
+	const touch = (!defaultPrevented && touches.length === 1) ? touches[0] : null;
+	const touchTarget = /** @type {HTMLElement} */(touch?.target);
+	const listbox = touchTarget ? getListBox(touchTarget) : null;
+	if (listbox && getCombo(listbox)) {
+		touching = touchTarget;
 	}
 }
 
@@ -569,13 +572,13 @@ function touchstartEvent($event) {
  *
  * @function
  * @private
- * @param {TouchEvent} $event The touchend event.
+ * @param {TouchEvent  & { target: HTMLOptionElement }} $event The touchend event.
  */
 function touchendEvent($event) {
 	const target = $event.target;
-	let listbox, combo;
-	if (!$event.defaultPrevented && touching && target === touching &&
-		(listbox = getListBox(target)) && (combo = getCombo(listbox))) {
+	const listbox = (!$event.defaultPrevented && touching && target === touching) ? getListBox(target) : null;
+	const combo = listbox ? getCombo(listbox) : null;
+	if (listbox) {
 		// update on option click
 		setValue(combo, target);
 		focus.setFocusRequest(combo, () => shed.collapse(combo));
@@ -598,7 +601,7 @@ function touchcancelEvent(/* $event */) {
  *
  * @function
  * @private
- * @param {InputEvent} $event The input event.
+ * @param {InputEvent & { target: HTMLInputElement }} $event The input event.
  */
 function inputEvent($event) {
 	if (updateTimeout) {
@@ -618,7 +621,7 @@ function inputEvent($event) {
  *
  * @function
  * @private
- * @param {FocusEvent} $event The focus/focusin event as published by the wc event manager.
+ * @param {FocusEvent & { target: HTMLElement }} $event The focus/focusin event as published by the wc event manager.
  */
 function focusEvent({ target }) {
 	const INITED = "wc.ui.comboBox.init";
@@ -726,7 +729,7 @@ function getTextbox(combo) {
  * us to force selection from a list making a broken combo or an overly complicated SELECT.
  * @function
  * @private
- * @param {Element} element A combo element.
+ * @param {HTMLInputElement} element A combo element.
  */
 function acceptFirstMatch(element) {
 	const textbox = getTextbox(element);
@@ -773,7 +776,7 @@ function moveSuggestionList(el) {
 	if (!listId) {
 		return;
 	}
-	listBox = document.getElementById(listId);
+	listBox = /** @type {HTMLUListElement} */ (document.getElementById(listId));
 	if (listBox) {
 		el.appendChild(listBox);
 		if (listBox.getAttribute("data-wc-auto") === "list") {
@@ -835,7 +838,7 @@ export default instance;
 
 /**
  * @typedef {Object} Optional module configuration.
- * @property {?int} min The global (default) minimum number of characters which must be entered before a comboBox will
+ * @property {?number} min The global (default) minimum number of characters which must be entered before a comboBox will
  * update its dynamic datalist. This can be over-ridden per instance of WSuggestions.
  * @default 3
  * @property {?int} delay The number of milliseconds for which a user must pause before a comboBox's datalist is
