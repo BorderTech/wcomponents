@@ -1,14 +1,13 @@
 define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"], function(registerSuite, assert, testutils) {
 	"use strict";
 
-	var getFilteredGroup, Widget, urlResource = require.toUrl("intern/resources/domUsefulDom.html"),
+	var getFilteredGroup, urlResource = require.toUrl("intern/resources/domUsefulDom.html"),
 		testHolder;
 	registerSuite({
 		name: "wc/dom/getSelectedItems",
 		setup: function() {
-			var result = testutils.setupHelper(["wc/dom/getFilteredGroup", "wc/dom/Widget"]).then(function(arr) {
+			var result = testutils.setupHelper(["wc/dom/getFilteredGroup"]).then(function(arr) {
 				getFilteredGroup = arr[0];
-				Widget = arr[1];
 				testHolder = testutils.getTestHolder();
 				return testutils.setUpExternalHTML(urlResource, testHolder);
 			});
@@ -449,9 +448,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"], 
 		testGetSelectedFauxCheckboxesByFormWithFilterWd: function() {
 			var element = document.getElementById("form2"),
 				result = getFilteredGroup(element, {
-					itemWd: new Widget("", "", {
-						role: "checkbox"
-					})
+					itemWd: "[role='checkbox']"
 				});
 			assert.strictEqual(result.length, 2);
 			assert.strictEqual(result[0].id, "form2Chk2");
@@ -461,9 +458,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"], 
 		testGetSelectedFauxCheckablesByFormWithFilterWd: function() {
 			var element = document.getElementById("form2"),
 				result = getFilteredGroup(element, {
-					itemWd: new Widget("", "", {
-						role: null
-					})
+					itemWd: "[role]"
 				});
 			assert.strictEqual(result.length, 3);
 			assert.strictEqual(result[0].id, "form2rad2");
@@ -474,9 +469,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"], 
 		testGetSelectedFauxCheckablesByFormWithFilterWdAsObject: function() {
 			var element = document.getElementById("form2"),
 				result = getFilteredGroup(element, {
-					itemWd: new Widget("", "", {
-						role: null
-					}),
+					itemWd: "[role]",
 					asObject: true
 				});
 			assert.strictEqual(result.filtered.length, 3);

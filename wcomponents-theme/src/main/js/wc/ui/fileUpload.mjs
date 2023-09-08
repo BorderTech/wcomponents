@@ -92,5 +92,5 @@ initialise.register({
 		event.add(element, { type: "focus", listener: ({target}) => initialiseFileInput(target), capture: true });
 	}
 });
-0
+
 export default instance;

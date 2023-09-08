@@ -1,5 +1,5 @@
-define(["intern!object", "intern/chai!assert", "wc/dom/ariaGroup", "wc/dom/Widget", "intern/resources/test.utils!"],
-	function (registerSuite, assert, controller, Widget, testutils) {
+define(["intern!object", "intern/chai!assert", "wc/dom/ariaGroup", "intern/resources/test.utils!"],
+	function (registerSuite, assert, ariaGroup, testutils) {
 		"use strict";
 
 		var testHolder,
@@ -42,23 +42,23 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaGroup", "wc/dom/Widge
 				testHolder.innerHTML = "";
 			},
 			testGetOwner: function() {
-				var expected = "owner-1",
+				const expected = "owner-1",
 					start = document.getElementById("owned1");
-				assert.strictEqual(controller.getOwner(start).id, expected, "did not find expected aria- owner");
+				assert.strictEqual(ariaGroup.getOwner(start).id, expected, "did not find expected aria- owner");
 			},
 			testGetOwnerNotNested: function() {
 				var expected = "owner-2",
 					start = document.getElementById("owned3");
-				assert.strictEqual(controller.getOwner(start).id, expected, "did not find expected aria- owner");
+				assert.strictEqual(ariaGroup.getOwner(start).id, expected, "did not find expected aria- owner");
 			},
 			testGetOwnerNotOwned: function() {
 				var start = document.getElementById("notowned");
-				assert.isNull(controller.getOwner(start), "should not have found owner");
+				assert.isNull(ariaGroup.getOwner(start), "should not have found owner");
 			},
 			testGetOwned: function() {
 				var start = document.getElementById("owner-1"),
 					expected = ["owned1", "owned2"],
-					result = controller.getOwned(start), i;
+					result = ariaGroup.getOwned(start), i;
 				assert.strictEqual(result.length, 2);
 				for (i = 0; i < result.length; ++i) {
 					assert.strictEqual(result[i].id, expected[i], "Did not find expected owned element");
@@ -67,19 +67,19 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaGroup", "wc/dom/Widge
 			testGetOwnedNotNested: function() {
 				var start = document.getElementById("owner-2"),
 					expected = ["owned3", "owned4"],
-					result = controller.getOwned(start), i;
+					result = ariaGroup.getOwned(start), i;
 				for (i = 0; i < result.length; ++i) {
 					assert.strictEqual(result[i].id, expected[i], "Did not find expected owned element");
 				}
 			},
 			testGetOwnedNotOwner: function() {
 				var start = document.getElementById("notowned");
-				assert.strictEqual(controller.getOwned(start).length, 0);
+				assert.strictEqual(ariaGroup.getOwned(start).length, 0);
 			},
 			testGetGroupFromContainer: function() {
 				var start = document.getElementById("menu1"),
 					expected = outerItemIds,
-					group = controller.getGroup(start), i,
+					group = ariaGroup.getGroup(start), i,
 					foundIds = [];
 
 				for (i = 0; i < group.length; ++i) {
@@ -93,7 +93,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaGroup", "wc/dom/Widge
 			testGetGroupFromContainerWithRole: function() {
 				var start = document.getElementById("menu1"),
 					expected = outerItemIds,
-					group = controller.getGroup(start, "menu"), i,
+					group = ariaGroup.getGroup(start, "menu"), i,
 					foundIds = [];
 
 				for (i = 0; i < group.length; ++i) {
@@ -107,7 +107,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaGroup", "wc/dom/Widge
 			testGetGroupFromContainerWithIgnoreInner: function() {
 				var start = document.getElementById("menu1"),
 					expected = allItemIds,
-					group = controller.getGroup(start, null, true), i,
+					group = ariaGroup.getGroup(start, null, true), i,
 					foundIds = [];
 
 				for (i = 0; i < group.length; ++i) {
@@ -121,7 +121,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaGroup", "wc/dom/Widge
 			testGetGroupFromContainerWithRoleIgnoreInner: function() {
 				var start = document.getElementById("menu1"),
 					expected = allItemIds,
-					group = controller.getGroup(start, "menu", true), i,
+					group = ariaGroup.getGroup(start, "menu", true), i,
 					foundIds = [];
 
 				for (i = 0; i < group.length; ++i) {
@@ -135,7 +135,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaGroup", "wc/dom/Widge
 			testGetGroupFromMember: function() {
 				var start = document.getElementById(allItemIds[0]),
 					expected = outerItemIds,
-					group = controller.getGroup(start), i,
+					group = ariaGroup.getGroup(start), i,
 					foundIds = [];
 
 				for (i = 0; i < group.length; ++i) {
@@ -149,7 +149,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaGroup", "wc/dom/Widge
 			testGetGroupFromMemberIgnoreInner: function() {
 				var start = document.getElementById(allItemIds[0]),
 					expected = allItemIds,
-					group = controller.getGroup(start, "menuitem", true), i,
+					group = ariaGroup.getGroup(start, "menuitem", true), i,
 					foundIds = [];
 
 				for (i = 0; i < group.length; ++i) {
@@ -163,7 +163,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaGroup", "wc/dom/Widge
 			testGetInnerGroupFromMember: function() {
 				var start = document.getElementById(innerItemIds[0]),
 					expected = innerItemIds,
-					group = controller.getGroup(start), i,
+					group = ariaGroup.getGroup(start), i,
 					foundIds = [];
 
 				for (i = 0; i < group.length; ++i) {
@@ -177,46 +177,46 @@ define(["intern!object", "intern/chai!assert", "wc/dom/ariaGroup", "wc/dom/Widge
 			testGetContainer : function() {
 				var start = document.getElementById(allItemIds[0]),
 					expected = "menu1",
-					result = controller.getContainer(start);
+					result = ariaGroup.getContainer(start);
 				assert.strictEqual(result.id, expected);
 			},
 			testGetInnerContainer : function() {
 				var start = document.getElementById(innerItemIds[0]),
 					expected = "submenu",
-					result = controller.getContainer(start);
+					result = ariaGroup.getContainer(start);
 				assert.strictEqual(result.id, expected);
 			},
 			testGetContainerNestedOwned: function() {
 				var start = document.getElementById("owned5"),
 					expected = "owner-3",
-					result = controller.getContainer(start);
+					result = ariaGroup.getContainer(start);
 				assert.strictEqual(result.id, expected);
 			},
 			testGetContainerNestedIgnoreOwned: function() {
 				var start = document.getElementById("owned5"),
 					expected = "owner-1",
-					result = controller.getContainer(start, null, true);
+					result = ariaGroup.getContainer(start, null, true);
 				assert.strictEqual(result.id, expected);
 			},
 			testGetContainerWithWidget: function() {
 				var start = document.getElementById(innerItemIds[0]),
-					widget = new Widget("", "widget-menu"),
+					widget = ".widget-menu",
 					expected = "menu1",
-					result = controller.getContainer(start, widget);
+					result = ariaGroup.getContainer(start, widget);
 				assert.strictEqual(result.id, expected);
 			},
 			testGetContainerWithWidgetAndOwned: function() {
 				var start = document.getElementById("owned5"),
-					widget = new Widget("", "some-group"),
+					widget = ".some-group",
 					expected = "owner-3",
-					result = controller.getContainer(start, widget);
+					result = ariaGroup.getContainer(start, widget);
 				assert.strictEqual(result.id, expected);
 			},
 			testGetContainerWithWidgetAndIgnoreOwned: function() {
 				var start = document.getElementById("owned5"),
-					widget = new Widget("", "some-group"),
+					widget = ".some-group",
 					expected = "owner-1",
-					result = controller.getContainer(start, widget, true);
+					result = ariaGroup.getContainer(start, widget, true);
 				assert.strictEqual(result.id, expected);
 			}
 		});

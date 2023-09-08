@@ -1,26 +1,26 @@
 define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
-		var convertDynamicContent, Widget, shed, CONVERTIBLES,
-			HIDDEN_FIELDS,
+
+		var convertDynamicContent, shed,
+			CONVERTIBLES = ["[name]", "[data-wc-name]", "[data-wc-value]"].join(),
+			HIDDEN_FIELDS = "input[type='hidden']",
 			form,
 			CONVERSION_TARGET_ID = "conversionTarget",
 			testHolder,
+			// @ts-ignore
 			urlResource = require.toUrl("intern/resources/domConvertDynamicContent.html");
 
 		registerSuite({
 			name: "domConvertDynamicContent",
 			setup: function() {
-				return testutils.setupHelper(["wc/dom/convertDynamicContent", "wc/dom/Widget", "wc/dom/shed"], function(c, W, s) {
+				return testutils.setupHelper(["wc/dom/convertDynamicContent", "wc/dom/shed"], function(c, s) {
 					convertDynamicContent = c;
-					Widget = W;
 					shed = s;
-					CONVERTIBLES = [new Widget("", "", {"name": null}), new Widget("", "", {"data-wc-name": null, "data-wc-value": null })];
-					HIDDEN_FIELDS = new Widget("input", "", {"type": "hidden" });
 				});
 			},
 			beforeEach: function() {
-				var result = new Promise(function(win, lose) {
+				return new Promise(function(win, lose) {
 					testutils.loadResource(urlResource, function(response) {
 						testHolder = testHolder || testutils.getTestHolder();
 						testHolder.innerHTML = response;
@@ -28,7 +28,6 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 						win();
 					}, lose);
 				});
-				return result;
 			},
 			afterEach: function() {
 				testHolder.innerHTML = "";
@@ -49,7 +48,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				assert.isNull(form.querySelector("#" + CONVERSION_TARGET_ID));
 			},
 			testConvertAllFormNodesBecomeHiddenFields: function() {
-				var candidates = Widget.findDescendants(form, CONVERTIBLES), i, next, nextName, expected, target;
+				var candidates = form.querySelectorAll(CONVERTIBLES), i, next, nextName, expected, target;
 				convertDynamicContent(form);
 
 				for (i = 0; i < candidates.length; ++i) {
@@ -63,14 +62,14 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 			testConvertTargetNotForm: function() {
 				var expected = 0,
 					target = document.getElementById(CONVERSION_TARGET_ID) || assert.fail("Cannot find target element, check test scripts"),
-					candidates = Widget.findDescendants(target, CONVERTIBLES), i;
+					candidates = target.querySelectorAll(CONVERTIBLES), i;
 				for (i = 0; i < candidates.length; ++i) {
 					if (!shed.isDisabled(candidates[i])) {
 						expected++;
 					}
 				}
 				convertDynamicContent(target);
-				assert.strictEqual(expected, HIDDEN_FIELDS.findDescendants(target).length, "All non disabled candidates should be converted " + target.innerHTML);
+				assert.strictEqual(expected, target.querySelectorAll(HIDDEN_FIELDS).length, "All non disabled candidates should be converted " + target.innerHTML);
 			}
 		});
 	});

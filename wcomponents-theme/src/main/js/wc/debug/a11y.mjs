@@ -162,14 +162,11 @@ function defaultReporter(err, issues) {
  * @param {Node} [container=document] the container element we are testing.
  */
 function a11yTest(container) {
-	var c = window.console,
-		what = container || document;
-
-	c.log("Starting a11y check...");
-	c.time("a11y_deque");
-	axe.run(what, defaultRunConfig, defaultReporter);
-	c.timeEnd("a11y_deque");
-	c.log("Finished a11y check.");
+	console.log("Starting a11y check...");
+	console.time("a11y_deque");
+	axe.run(container || document, defaultRunConfig, defaultReporter);
+	console.timeEnd("a11y_deque");
+	console.log("Finished a11y check.");
 }
 
 function run(container) {

@@ -56,265 +56,265 @@ const instance = {
 	}
 };
 
-	/**
-	 * We usually need to move a complex component but only want a sub-component to be the move handle. This
-	 * function gets a moveable component from an event target.
-	 *
-	 * @function
-	 * @private
-	 * @param {Element} element The target of an event which causes a move.
-	 * @returns {Element} The component we actually want to move.
-	 */
-	function getMoveTarget(element) {
-		let result = element;
-		const targetId = element.getAttribute(DRAG_FOR_ATTRIB);
-		if (targetId) {
-			result = document.getElementById(targetId);
-		}
-		return result;
+/**
+ * We usually need to move a complex component but only want a sub-component to be the move handle. This
+ * function gets a moveable component from an event target.
+ *
+ * @function
+ * @private
+ * @param {Element} element The target of an event which causes a move.
+ * @returns {Element} The component we actually want to move.
+ */
+function getMoveTarget(element) {
+	let result = element;
+	const targetId = element.getAttribute(DRAG_FOR_ATTRIB);
+	if (targetId) {
+		result = document.getElementById(targetId);
+	}
+	return result;
+}
+
+/**
+ * Mousedown event listener. mousedown on a draggable target sets the start point for move.
+ *
+ * @function
+ * @private
+ * @param {MouseEvent & { target: HTMLElement}} $event The mousedown event.
+ */
+function mousedownEvent($event) {
+	const { target, defaultPrevented } = $event;
+	const element = defaultPrevented ? null : /** @type {HTMLElement}  */(target.closest(DRAGGABLE));
+	const moveTarget =  element && isAcceptableEventTarget(element, target) ? getMoveTarget(element) : null;
+	if (moveTarget) {
+		const id = moveTarget.id || (moveTarget.id = uid());
+		dragging = id;
+		const offset = getMouseEventOffset($event);
+		const position = getBox(moveTarget, true);
+		offsetX[id] = offset.X - position.left;
+		offsetY[id] = offset.Y - position.top;
+	}
+}
+
+/**
+ * Helper for the keydown event to move the "draggable" item.
+ *
+ * @param {Element} element The draggable element.
+ * @param {number} x The amount to move in the x axis.
+ * @param {number} y The amount to move in the y axis.
+ * @returns {Boolean} true if the move is able to take place.
+ */
+function keydownHelper(element, x, y) {
+	if (!(x || y)) {
+		return false;
 	}
 
-	/**
-	 * Mousedown event listener. mousedown on a draggable target sets the start point for move.
-	 *
-	 * @function
-	 * @private
-	 * @param {MouseEvent & { target: HTMLElement}} $event The mousedown event.
-	 */
-	function mousedownEvent($event) {
-		const { target, defaultPrevented } = $event;
-		const element = defaultPrevented ? null : /** @type {HTMLElement}  */(target.closest(DRAGGABLE));
-		const moveTarget =  element && isAcceptableEventTarget(element, target) ? getMoveTarget(element) : null;
-		if (moveTarget) {
-			const id = moveTarget.id || (moveTarget.id = uid());
-			dragging = id;
-			const offset = getMouseEventOffset($event);
-			const position = getBox(moveTarget, true);
-			offsetX[id] = offset.X - position.left;
-			offsetY[id] = offset.Y - position.top;
+	const moveTarget = getMoveTarget(element);
+	if (!moveTarget) {
+		return false;
+	}
+	let animationsDisabled;
+	try {
+		resizeable.disableAnimation(moveTarget); // do not animate key-bound move.
+		animationsDisabled = true;
+		x = x || 0;
+		y = y || 0;
+		const position = getBox(moveTarget, true);
+		positionable.clearZeros(moveTarget, true);
+		positionable.setPosition(moveTarget, position.left + x, position.top + y);
+		return true;
+	} finally {
+		if (animationsDisabled) {
+			resizeable.restoreAnimation(moveTarget);
 		}
 	}
+}
 
-	/**
-	 * Helper for the keydown event to move the "draggable" item.
-	 *
-	 * @param {Element} element The draggable element.
-	 * @param {number} x The amount to move in the x axis.
-	 * @param {number} y The amount to move in the y axis.
-	 * @returns {Boolean} true if the move is able to take place.
-	 */
-	function keydownHelper(element, x, y) {
-		if (!(x || y)) {
-			return false;
+/**
+ * keydown event listener which provides keyboard driven move using arrow keys when a move target (or its
+ * descendant) has focus.
+ *
+ * @function
+ * @private
+ * @param {KeyboardEvent & { target: HTMLElement }} $event The keydown event.
+ */
+function keydownEvent($event) {
+	const target = $event.target;
+	let x, y;
+	const element = $event.defaultPrevented ? null : target.querySelector(DRAGGABLE);
+	if (element) {
+		switch ($event.key) {
+			case "ArrowRight":
+				x = conf.step;
+				break;
+			case "ArrowLeft":
+				x = 0 - conf.step;
+				break;
+			case "ArrowDown":
+				y = conf.step;
+				break;
+			case "ArrowUp":
+				y = 0 - conf.step;
+				break;
 		}
+	}
+	if (keydownHelper(element, x, y)) {
+		$event.preventDefault();
+	}
+}
 
-		const moveTarget = getMoveTarget(element);
-		if (!moveTarget) {
-			return false;
+/**
+ * Sets initial position if move is initiated by a touch event.
+ *
+ * @function
+ * @private
+ * @param {TouchEvent} $event The touchstart event.
+ */
+function touchstartEvent($event) {
+	if ($event.defaultPrevented || $event.touches.length !== 1) {
+		return;
+	}
+	const touch = $event.touches[0];
+	const target = /** @type {HTMLElement} */(touch.target);
+	if (!target) {
+		return;
+	}
+	const element = /** @type {HTMLElement} */(target.querySelector(DRAGGABLE));
+	const moveTarget = (element && isAcceptableEventTarget(element, target)) ? getMoveTarget(element) : null;
+	if (moveTarget) {
+		const id = moveTarget.id || (moveTarget.id = uid());
+		dragging = id;
+		const position = getBox(moveTarget, true);
+		offsetX[id] = touch.pageX - position.left;
+		offsetY[id] = touch.pageY - position.top;
+		$event.preventDefault();
+	}
+}
+
+/**
+ * Clear move setup on mouseup, touchend or touchcancel.
+ *
+ * @function
+ * @private
+ */
+function mouseupTouchendTouchcancelEvent() {
+	dragging = null;
+}
+
+/**
+ * Moves an element as a helper for mousemove and touchmove.
+ *
+ * @function
+ * @private
+ * @param {Element} element The component to move.
+ * @param {number} x The amount to move the component on the x-axis.
+ * @param {number} y the amount to move the component on the y-axis.
+ */
+function moveTo(element, x, y) {
+	const id = element.id;
+	let animationsDisabled = false;
+	try {
+		if (!id) {
+			return;
 		}
-		let animationsDisabled;
-		try {
-			resizeable.disableAnimation(moveTarget); // do not animate key-bound move.
+		// NOTE: looks like these were being calculated then ignored. X and Y cannot be negative because
+		// that would mean the drag/touch had gone out of viewport.
+		// top = Math.max((y - offsetY[id]), 0),
+		// left = Math.max((x - offsetX[id]), 0);
+
+		const top = y - offsetY[id];
+		const left = x - offsetX[id];
+
+		if (top || left) {
+			resizeable.disableAnimation(element);
 			animationsDisabled = true;
-			x = x || 0;
-			y = y || 0;
-			const position = getBox(moveTarget, true);
-			positionable.clearZeros(moveTarget, true);
-			positionable.setPosition(moveTarget, position.left + x, position.top + y);
-			return true;
-		} finally {
-			if (animationsDisabled) {
-				resizeable.restoreAnimation(moveTarget);
-			}
+			positionable.clearZeros(element, true);
+			positionable.setPosition(element, left, top);
+		}
+	} finally {
+		clearSelection();
+		if (animationsDisabled) {
+			resizeable.restoreAnimation(element);
 		}
 	}
+}
 
-	/**
-	 * keydown event listener which provides keyboard driven move using arrow keys when a move target (or its
-	 * descendant) has focus.
-	 *
-	 * @function
-	 * @private
-	 * @param {KeyboardEvent & { target: HTMLElement }} $event The keydown event.
-	 */
-	function keydownEvent($event) {
-		const target = $event.target;
-		let x, y;
-		const element = $event.defaultPrevented ? null : target.querySelector(DRAGGABLE);
-		if (element) {
-			switch ($event.key) {
-				case "ArrowRight":
-					x = conf.step;
-					break;
-				case "ArrowLeft":
-					x = 0 - conf.step;
-					break;
-				case "ArrowDown":
-					y = conf.step;
-					break;
-				case "ArrowUp":
-					y = 0 - conf.step;
-					break;
-			}
-		}
-		if (keydownHelper(element, x, y)) {
-			$event.preventDefault();
-		}
+/**
+ * Undertake the move based on a mousemove event.
+ *
+ * @function
+ * @private
+ * @param {MouseEvent} $event The mousemove event.
+ */
+function mousemoveEvent($event) {
+	if (!dragging || $event.defaultPrevented) {
+		return;
 	}
-
-	/**
-	 * Sets initial position if move is initiated by a touch event.
-	 *
-	 * @function
-	 * @private
-	 * @param {TouchEvent} $event The touchstart event.
-	 */
-	function touchstartEvent($event) {
-		if ($event.defaultPrevented || $event.touches.length !== 1) {
-			return;
-		}
-		const touch = $event.touches[0];
-		const target = /** @type {HTMLElement} */(touch.target);
-		if (!target) {
-			return;
-		}
-		const element = /** @type {HTMLElement} */(target.querySelector(DRAGGABLE));
-		const moveTarget = (element && isAcceptableEventTarget(element, target)) ? getMoveTarget(element) : null;
-		if (moveTarget) {
-			const id = moveTarget.id || (moveTarget.id = uid());
-			dragging = id;
-			const position = getBox(moveTarget, true);
-			offsetX[id] = touch.pageX - position.left;
-			offsetY[id] = touch.pageY - position.top;
-			$event.preventDefault();
-		}
+	const element = document.getElementById(dragging);
+	if (element) {
+		const offset = getMouseEventOffset($event);
+		moveTo(element, offset.X, offset.Y);
 	}
+}
 
-	/**
-	 * Clear move setup on mouseup, touchend or touchcancel.
-	 *
-	 * @function
-	 * @private
-	 */
-	function mouseupTouchendTouchcancelEvent() {
-		dragging = null;
+/**
+ * Undertake the move based on a touchmove event.
+ *
+ * @function
+ * @private
+ * @param {TouchEvent} $event The touchmove event.
+ */
+function touchmoveEvent($event) {
+	if (!dragging || $event.defaultPrevented || $event.changedTouches.length !== 1) {
+		return;
 	}
-
-	/**
-	 * Moves an element as a helper for mousemove and touchmove.
-	 *
-	 * @function
-	 * @private
-	 * @param {Element} element The component to move.
-	 * @param {number} x The amount to move the component on the x-axis.
-	 * @param {number} y the amount to move the component on the y-axis.
-	 */
-	function moveTo(element, x, y) {
-		const id = element.id;
-		let animationsDisabled = false;
-		try {
-			if (!id) {
-				return;
-			}
-			// NOTE: looks like these were being calculated then ignored. X and Y cannot be negative because
-			// that would mean the drag/touch had gone out of viewport.
-			// top = Math.max((y - offsetY[id]), 0),
-			// left = Math.max((x - offsetX[id]), 0);
-
-			const top = y - offsetY[id];
-			const left = x - offsetX[id];
-
-			if (top || left) {
-				resizeable.disableAnimation(element);
-				animationsDisabled = true;
-				positionable.clearZeros(element, true);
-				positionable.setPosition(element, left, top);
-			}
-		} finally {
-			clearSelection();
-			if (animationsDisabled) {
-				resizeable.restoreAnimation(element);
-			}
-		}
+	const touch = $event.changedTouches[0];
+	const element = touch ? document.getElementById(dragging) : null;
+	if (element) {
+		moveTo(element, touch.pageX, touch.pageY);
+		$event.preventDefault();
 	}
+}
 
-	/**
-	 * Undertake the move based on a mousemove event.
-	 *
-	 * @function
-	 * @private
-	 * @param {MouseEvent} $event The mousemove event.
-	 */
-	function mousemoveEvent($event) {
-		if (!dragging || $event.defaultPrevented) {
-			return;
-		}
-		const element = document.getElementById(dragging)
-		if (element) {
-			const offset = getMouseEventOffset($event);
-			moveTo(element, offset.X, offset.Y);
-		}
+/**
+ * Add and remove events from a draggable element.
+ *
+ * @function
+ * @private
+ * @param {Element} element The draggable element.
+ * @param {boolean} remove If true then remove event listeners rather than adding them.
+ */
+function addRemoveEvents(element, remove) {
+	let func = remove ? "remove" : "add";
+	if (!remove && element[BS]) {
+		return; // do not add more than once
 	}
+	try {
+		event[func](element, "mousedown", mousedownEvent);
+		event[func](element, "keydown", keydownEvent);
+		event[func](element, "touchstart", touchstartEvent);
+	} finally {
+		element[BS] = !remove;
+	}
+}
 
-	/**
-	 * Undertake the move based on a touchmove event.
-	 *
-	 * @function
-	 * @private
-	 * @param {TouchEvent} $event The touchmove event.
-	 */
-	function touchmoveEvent($event) {
-		if (!dragging || $event.defaultPrevented || $event.changedTouches.length !== 1) {
-			return;
+/**
+ * Add and remove drag actions on show/hide. NOTE: we are probably
+ * showing/inserting an ancestor of the actual draggable element.
+ *
+ * @function
+ * @private
+ * @param {Element} element the element being shown.
+ * @param {String} action The shed action SHOW or HIDE.
+ */
+function shedAjaxSubscriber(element, action) {
+	if (element) {
+		if (element.matches(DRAGGABLE)) {
+			addRemoveEvents(element, false);
 		}
-		const touch = $event.changedTouches[0];
-		const element = touch ? document.getElementById(dragging) : null;
-		if (element) {
-			moveTo(element, touch.pageX, touch.pageY);
-			$event.preventDefault();
-		}
+		const draggables = element.querySelectorAll(DRAGGABLE);
+		Array.from(draggables).forEach(next => addRemoveEvents(next, action === shed.actions.HIDE));
 	}
-
-	/**
-	 * Add and remove events from a draggable element.
-	 *
-	 * @function
-	 * @private
-	 * @param {Element} element The draggable element.
-	 * @param {boolean} remove If true then remove event listeners rather than adding them.
-	 */
-	function addRemoveEvents(element, remove) {
-		let func = remove ? "remove" : "add";
-		if (!remove && element[BS]) {
-			return; // do not add more than once
-		}
-		try {
-			event[func](element, "mousedown", mousedownEvent);
-			event[func](element, "keydown", keydownEvent);
-			event[func](element, "touchstart", touchstartEvent);
-		} finally {
-			element[BS] = !remove;
-		}
-	}
-
-	/**
-	 * Add and remove drag actions on show/hide. NOTE: we are probably
-	 * showing/inserting an ancestor of the actual draggable element.
-	 *
-	 * @function
-	 * @private
-	 * @param {Element} element the element being shown.
-	 * @param {String} action The shed action SHOW or HIDE.
-	 */
-	function shedAjaxSubscriber(element, action) {
-		if (element) {
-			if (element.matches(DRAGGABLE)) {
-				addRemoveEvents(element, false);
-			}
-			const draggables = element.querySelectorAll(DRAGGABLE);
-			Array.from(draggables).forEach(next => addRemoveEvents(next, action === shed.actions.HIDE));
-		}
-	}
+}
 
 /**
  * Provides functionality used to move a component around the screen. Components may be moved using a mouse or keyboard.

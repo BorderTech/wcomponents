@@ -11,27 +11,27 @@
  * @private
  */
 const OPTIONS = {
-	CYCLE: "cycle",
-	DEPTH_FIRST: "depthFirst"
-},
-/**
- * An object holding move locations and their value for bitwise calculations.
- *
- * @constant
- * @type {module:keywalker~moveTo}
- * @private
- */
-MOVE_TO = {
-	FIRST: 1,  // first sibling
-	LAST: 2,  // last sibling
-	PREVIOUS: 4,  // previous sibling
-	NEXT: 8,  // next sibling
-	PARENT: 16,  // parent element
-	TOP: 32,  // first accessible node in hierarchy
-	END: 64,  // the very last accessible node in the hierarchy
-	CHILD: 128,  // the first accessible child node
-	LAST_CHILD: 256  // the last accessible child node
-};
+		CYCLE: "cycle",
+		DEPTH_FIRST: "depthFirst"
+	},
+	/**
+	 * An object holding move locations and their value for bitwise calculations.
+	 *
+	 * @constant
+	 * @type {module:keywalker~moveTo}
+	 * @private
+	 */
+	MOVE_TO = {
+		FIRST: 1,  // first sibling
+		LAST: 2,  // last sibling
+		PREVIOUS: 4,  // previous sibling
+		NEXT: 8,  // next sibling
+		PARENT: 16,  // parent element
+		TOP: 32,  // first accessible node in hierarchy
+		END: 64,  // the very last accessible node in the hierarchy
+		CHILD: 128,  // the first accessible child node
+		LAST_CHILD: 256  // the last accessible child node
+	};
 
 const instance = {
 	/** @property {String} version the module version, just in case you want to know. */
@@ -196,7 +196,7 @@ function groupNextPreviousHelper(currentIndex, cycled, useCycle, group, next) {
 		return {
 			target: group[idx],
 			idx
-		}
+		};
 	}
 	return { target: null, idx: currentIndex, cycled };
 }

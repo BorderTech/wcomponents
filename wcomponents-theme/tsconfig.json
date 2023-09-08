@@ -16,6 +16,7 @@
 			"wc/*": ["src/main/js/wc/*.mjs", "src/main/js/wc/*.js"],
 			"lib/sprintf": ["node_modules/sprintf-js/src/sprintf.js"],
 			"lib/socketio/socket.io": ["node_modules/socket.io-client/dist/socket.io.js"],
+			"axe": ["node_modules/axe-core/axe.js"],
 		}
 	}
 }

@@ -30,7 +30,7 @@ const imageEdit = {
 			timers.clearTimeout(timer);
 		}
 		timer = timers.setTimeout(() => {
-			const fbCanvas = imageEdit.getCanvas();
+			fbCanvas = imageEdit.getCanvas();
 			fbCanvas.renderAll();
 			if (callback) {
 				callback();
@@ -70,9 +70,8 @@ const imageEdit = {
 	 */
 	register: function(arr) {
 		let inline = arr.filter(next => {
-			const { id, inline } = next;
-			registeredIds[id] = next;  // yes, the filter has a side effect
-			return inline;
+			registeredIds[next.id] = next;  // yes, the filter has a side effect
+			return next.inline;
 		});
 		if (!inited) {
 			inited = true;
@@ -713,18 +712,16 @@ function attachEventHandlers(container) {
 	event.add(container, "mousedown", pressStart);
 	event.add(container, "touchstart", pressStart);
 	event.add(container, "mouseout", pressEnd);
-	event.add(container, "click", clickEvent);
-	event.add(document.body, "mouseup", pressEnd);
-	event.add(document.body, "touchcancel", pressEnd);
-	event.add(container, "touchend", pressEnd);
-
-	function clickEvent($event) {
+	event.add(container, "click", ($event) => {
 		let target = $event.target;
 		if (!invoke.call(this, target, "click", $event)) {
 			target = BUTTON.findAncestor(target);
 			invoke.call(this, target, "click", $event);
 		}
-	}
+	});
+	event.add(document.body, "mouseup", pressEnd);
+	event.add(document.body, "touchcancel", pressEnd);
+	event.add(container, "touchend", pressEnd);
 
 	/**
 	 * Increment the current speed.

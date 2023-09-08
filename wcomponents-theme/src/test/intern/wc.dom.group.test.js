@@ -1,7 +1,7 @@
 define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"], function(registerSuite, assert, testutils) {
 	"use strict";
 
-	var $group, Widget, urlResource = require.toUrl("intern/resources/domUsefulDom.html"),
+	var $group, urlResource = require.toUrl("intern/resources/domUsefulDom.html"),
 		testHolder;
 
 	/**
@@ -44,9 +44,8 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"], 
 	registerSuite({
 		name: "getFilteredGroup",
 		setup: function() {
-			var result = testutils.setupHelper(["wc/dom/group", "wc/dom/Widget"]).then(function(arr) {
+			var result = testutils.setupHelper(["wc/dom/group"]).then(function(arr) {
 				$group = arr[0];
-				Widget = arr[1];
 				testHolder = testutils.getTestHolder();
 				return testutils.setUpExternalHTML(urlResource, testHolder);
 			});
@@ -168,9 +167,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"], 
 				expected = 7,
 				element = document.getElementById(id),
 				result;
-			WD = new Widget("", "", {
-				"role": "option"
-			});
+			WD = "[role='option']";
 			result = $group.getGroup(element, WD);
 			assert.strictEqual(result.length, expected, "did not find expected group using getGroup");
 		}

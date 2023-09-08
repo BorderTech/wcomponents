@@ -31,7 +31,7 @@ function isConditionMet(button, condition) {
 	let otherSelected = 0,
 		currentSelected = 0,
 		totalSelected = 0;
-	const table = button.closest(ACTION_TABLE)
+	const table = button.closest(ACTION_TABLE);
 	if (table) {
 		const { min, max } = condition;
 		if (!(min || max)) {  // no condition worth testing.

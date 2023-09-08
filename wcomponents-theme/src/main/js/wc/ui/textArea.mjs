@@ -36,7 +36,7 @@ const events = [],
 	TEXTAREA_MAXLENGTH = `${TEXTAREA}[maxLength]`,
 	TEXTAREA_MAXLENGTH_FAUX = `${TEXTAREA}[data-wc-maxlength]`,
 	TEXTAREA_CONSTRAINED = [TEXTAREA_MAXLENGTH, TEXTAREA_MAXLENGTH_FAUX, `${TEXTAREA}[data-wc-min]`].join(),
-	TICKER_DELAY = 250
+	TICKER_DELAY = 250;
 
 const instance = {
 	/**
@@ -180,7 +180,7 @@ function focusEvent({ target }) {
 		if (!target[INITED_KEY]) {
 			target[INITED_KEY] = true;
 			if (target.matches(TEXTAREA_CONSTRAINED)) {
-				events.push(event.add(target, { type: "input", listener: ({ target }) => tick(target), capture: true }));
+				events.push(event.add(target, { type: "input", listener: ({ target: t }) => tick(t), capture: true }));
 				events.push(event.add(target, { type: "blur", listener: ({ currentTarget }) => hideCounter(currentTarget), capture: true }));
 				tick(target);  // tick on focusIn to set initial title attribute (not available in XSLT1)
 			}

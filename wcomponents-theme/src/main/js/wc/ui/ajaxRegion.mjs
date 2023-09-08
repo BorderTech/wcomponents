@@ -238,7 +238,7 @@ function focusEvent($event) {
 function isNavLink(element) {
 	let result = false;
 	const PSEUDO_PROTOCOL_RE = /^\w+:[^/].*$/;
-	/**@type {HTMLAnchorElement} */
+	/** @type {HTMLAnchorElement} */
 	const link = element.closest("a:not([aria-haspopup='true']):not([target])");
 	if (link && !PSEUDO_PROTOCOL_RE.test(link.href)) {
 		result = true;

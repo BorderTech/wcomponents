@@ -2,7 +2,9 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
 
-		var serialize, Widget, testHolder,
+
+		var serialize, testHolder,
+			// @ts-ignore
 			urlResource = require.toUrl("intern/resources/domSerialiseForm.html"),
 			TEMP_CONTAINER_ID = "tempContainerId",
 			STRING_EXPECTED = "T3=%C2%A9%0AZ&H1=x&H2=&PWD=&T1=&T2=YES&My%20Name=me&S1=abc&S2=abc&S2=abc&S3=YES&S4=",
@@ -31,16 +33,15 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 				S3: ["YES"],
 				S4: [""]
 			},
-			INPUTS;
+			INPUTS = "input[type='hidden']";
 
 		registerSuite({
 			name: "wc/dom/serialize",
 			setup: function() {
-				var result = testutils.setupHelper(["wc/dom/serialize", "wc/dom/Widget"]).then(function(arr) {
+				var result = testutils.setupHelper(["wc/dom/serialize"]).then(function(arr) {
 					serialize = arr[0];
-					Widget = arr[1];
 					testHolder = testutils.getTestHolder();
-					INPUTS = new Widget("INPUT", "", { type: "hidden" });
+
 					return testutils.setUpExternalHTML(urlResource, testHolder);
 				});
 				return result;
@@ -117,7 +118,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 			},
 			testDeserializeStringFoundAnExpectedResult: function() {
 				var result = setupDeserializer(STRING_EXPECTED),
-					expectedInputs = INPUTS.findDescendants(result["expected"]);
+					expectedInputs = result["expected"].querySelectorAll(INPUTS);
 
 				Array.prototype.forEach.call(expectedInputs, _compare);
 				function _compare(next) {
@@ -127,7 +128,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 			},
 			testDeserializeStringGotExpectedResults: function() {
 				var result = setupDeserializer(STRING_EXPECTED),
-					expectedInputs = INPUTS.findDescendants(result["expected"]);
+					expectedInputs = result["expected"].querySelectorAll(INPUTS);
 
 				Array.prototype.forEach.call(expectedInputs, _compare);
 
@@ -147,7 +148,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 			},
 			testDeserializeObjectFoundAnExpectedResult: function() {
 				var result = setupDeserializer(SERIALIZED_OBJ_EXPECTED),
-					expectedInputs = INPUTS.findDescendants(result["expected"]);
+					expectedInputs = result["expected"].querySelectorAll(INPUTS);
 
 				Array.prototype.forEach.call(expectedInputs, _compare);
 
@@ -158,7 +159,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 			},
 			testDeserializeObjectGotExpectedResults: function() {
 				var result = setupDeserializer(SERIALIZED_OBJ_EXPECTED),
-					expectedInputs = INPUTS.findDescendants(result["expected"]);
+					expectedInputs = result["expected"].querySelectorAll(INPUTS);
 
 				Array.prototype.forEach.call(expectedInputs, _compare);
 
@@ -171,28 +172,28 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 			testDeserializeserializeDeserialize: function() {
 				var tempContainer = makeTempContainer(), result;
 				serialize.deserialize(STRING_EXPECTED, tempContainer);
-				result = serialize.serialize(INPUTS.findDescendants(tempContainer));
+				result = serialize.serialize(tempContainer.querySelectorAll(INPUTS));
 				result = fixIESerialized(result);
 				assert.strictEqual(STRING_EXPECTED, result, "Reserializing a deserialized string should get back to the same string");
 			},
 			testDeserializeserializeDeserializeWithObject: function() {
 				var tempContainer = makeTempContainer(), result;
 				serialize.deserialize(SERIALIZED_OBJ_EXPECTED, tempContainer);
-				result = serialize.serialize(INPUTS.findDescendants(tempContainer), false, true);
+				result = serialize.serialize(tempContainer.querySelectorAll(INPUTS), false, true);
 				result = fixIESerialized(result);
 				assert.isTrue(testutils.objectEqual(SERIALIZED_OBJ_EXPECTED, result), "Reserializing a deserialized object should get back to the same object");
 			},
 			testDeserializeserializeDeserializeWithStringToObject: function() {
 				var tempContainer = makeTempContainer(), result;
 				serialize.deserialize(STRING_EXPECTED, tempContainer);
-				result = serialize.serialize(INPUTS.findDescendants(tempContainer), false, true);
+				result = serialize.serialize(tempContainer.querySelectorAll(INPUTS), false, true);
 				result = fixIESerialized(result);
 				assert.isTrue(testutils.objectEqual(SERIALIZED_OBJ_EXPECTED, result), "Reserializing a deserialized string to an object should get back to the object");
 			},
 			testDeserializeserializeDeserializeWithObjectToString: function() {
 				var tempContainer = makeTempContainer(), result;
 				serialize.deserialize(SERIALIZED_OBJ_EXPECTED, tempContainer);
-				result = serialize.serialize(INPUTS.findDescendants(tempContainer));
+				result = serialize.serialize(tempContainer.querySelectorAll(INPUTS));
 				result = fixIESerialized(result);
 				assert.strictEqual(STRING_EXPECTED, result, "Reserializing a deserialized object to a string should get back to the string");
 			},
@@ -318,7 +319,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 		}
 
 		function findInputsLikeThis(input, container) {
-			var nodes = INPUTS.findDescendants(container);
+			var nodes = container.querySelectorAll(INPUTS);
 
 			function _filter(next) {
 				return (next.name === input.name && next.value === input.value);

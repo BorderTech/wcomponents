@@ -44,7 +44,7 @@ function _validateRequired(container) {
  * @returns {Boolean} true if the field is invalid.
  */
 function doContraintValidityTest(element) {
-	let result = false
+	let result = false;
 	const value = element.value;
 	if (value && !validationManager.isExempt(element)) {
 		const size = textArea.getLength(element);

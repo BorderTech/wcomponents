@@ -526,7 +526,7 @@ function postAjaxSubscriber(element, action, triggerId) {
 	const trigger = (triggerId && triggerButtonId) ? document.getElementById(triggerId) : null;
 	if (trigger?.matches(PAGINATION_SELECTOR)) {
 		try {
-			const button = document.getElementById(triggerButtonId)
+			const button = document.getElementById(triggerButtonId);
 			if (button) {
 				const { activeElement, body } = document;
 				if (!shed.isDisabled(button) && (!activeElement || activeElement === trigger || activeElement === body)) {

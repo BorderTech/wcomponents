@@ -70,7 +70,7 @@ function callbackFactory(id) {
 		} else {
 			console.warn("Datalist malformed");
 		}
-	}
+	};
 	/**
 	 * @param {DocumentFragment} datalist
 	 */
@@ -83,8 +83,7 @@ function callbackFactory(id) {
 			}
 			try {
 				const selectList = /** @type {HTMLSelectElement} */
-					(element.matches("select") ?
-					element : element.querySelector("select"));
+					(element.matches("select") ? element : element.querySelector("select"));
 				if (!selectList) {
 					return;
 				}
