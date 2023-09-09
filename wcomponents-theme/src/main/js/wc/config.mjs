@@ -7,7 +7,6 @@
 
 import mixin from "wc/mixin";
 
-const configObject = {};
 const instance = {
 	/**
 	 * Register a configuration object for a given id or completely replace the entire registry with the given object.
@@ -18,6 +17,7 @@ const instance = {
 	 */
 	set: function(config, id) {
 		if (id) {
+			let configObject = getConfig();
 			if (!config) {
 				// reset any existing config to null
 				if (configObject[id]) {
@@ -45,6 +45,7 @@ const instance = {
 	 * @returns {Object} A configuration object.
 	 */
 	get: function(id, defaults) {
+		let configObject = getConfig();
 		let result = configObject[id];
 		if (defaults) {
 			const defaultConfig = mixin(defaults);  // make a copy of defaults;
@@ -53,5 +54,21 @@ const instance = {
 		return result;
 	}
 };
+
+let conf;
+function getConfig() {
+	if (conf) {
+		return conf;
+	}
+	const element = /** @type {HTMLScriptElement} */(document.getElementById("wc-config"));
+	if (element) {
+		try {
+			conf = JSON.parse(element.text);
+			return conf;
+		} catch (ex) {
+			console.error(ex);
+		}
+	}
+}
 
 export default instance;

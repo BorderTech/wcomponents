@@ -17,6 +17,8 @@
 			"lib/sprintf": ["node_modules/sprintf-js/src/sprintf.js"],
 			"lib/socketio/socket.io": ["node_modules/socket.io-client/dist/socket.io.js"],
 			"axe": ["node_modules/axe-core/axe.js"],
+			"lib/i18next": ["node_modules/i18next/dist/es/index.js"],
+			"lib/fabric": ["node_modules/fabric/dist/fabric.js"]
 		}
 	}
 }

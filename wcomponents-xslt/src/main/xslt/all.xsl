@@ -142,15 +142,11 @@
 	var wcconfig, timing,
 		config = {
 				paths: {
-					wc: "</xsl:text><xsl:value-of select="$wcScriptDir" /><xsl:text>",
-					lib: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>",
+					"wc": "</xsl:text><xsl:value-of select="$wcScriptDir" /><xsl:text>",
+					"lib": "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>",
 					"lib/sprintf": "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/sprintf.min",
 					"mailcheck": "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/mailcheck",
 					"tinyMCE": "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/tinymce/tinymce.min",
-					Promise: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/Promise",
-					ccv: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/ccv",
-					face: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/face",
-					getUserMedia: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/getusermedia-js/getUserMedia.min",
 					axs: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/axs_testing",
 					axe: "</xsl:text><xsl:value-of select="$libScriptDir" /><xsl:text>/axe.min"
 				},
@@ -161,9 +157,6 @@
 							this.tinyMCE.DOM.events.domLoaded = true;
 							return this.tinyMCE;
 						}},
-					ccv: {exports: "ccv"},
-					face: {exports: "cascade"},
-					getUserMedia: {exports: "getUserMedia"},
 					axs: {exports: "axs"},
 					axe: {exports: "axe"},
 					mailcheck: {exports: "Mailcheck"}
@@ -192,6 +185,12 @@
 	if(window.requirejs) window.requirejs.config(config);
 	else require = config;
 })();</xsl:text>
+				</script>
+				<script id="wc-config" type="application/json">
+					<xsl:text>{ "wc/loader/resource": {</xsl:text>
+					<xsl:value-of select="concat('&quot;resourceBaseUrl&quot;:&quot;', normalize-space($resourceRoot), 'resource/&quot;,&#10;')" />
+					<xsl:value-of select="concat('&quot;cachebuster&quot;:&quot;', $cacheBuster, '&quot;')" />
+					<xsl:text>}&#10;}&#10;</xsl:text>
 				</script>
 				<!--
 					Load requirejs

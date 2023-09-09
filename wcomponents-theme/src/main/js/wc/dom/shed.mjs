@@ -266,7 +266,7 @@ const instance = {
 			`[${DISABLED}]`,
 			`[${ARIA_STATE[DISABLED]}='true']`
 		];
-		return element.matches(selectors.join());
+		return element?.matches(selectors.join());
 	},
 
 	/**
@@ -281,7 +281,7 @@ const instance = {
 		if (expandWithOpen(element)) {
 			result = element.hasAttribute(OPEN);
 		} else {
-			result = element.getAttribute(ARIA_STATE.expanded) === "true";
+			result = element?.getAttribute(ARIA_STATE.expanded) === "true";
 		}
 		return result;
 	},
@@ -358,7 +358,7 @@ const instance = {
 	 * @returns {boolean} true if the element is read only.
 	 */
 	isReadOnly: function (element) {
-		return element.matches(`:read-only, [${ARIA_STATE.readonly}='true']`);
+		return element?.matches(`:read-only, [${ARIA_STATE.readonly}='true']`);
 	},
 
 	/**
@@ -577,7 +577,7 @@ function disabledMandatoryHelper(element, STATE, reverse) {
 			* to work out if the element is natively focusable
 			* Note: Assumes nobody else is mucking around with tabIndex
 			*/
-			if (element.hasAttribute("tabIndex")) {
+			if (element.hasAttribute("tabIndex") && element instanceof HTMLElement) {
 				if (!reverse) {
 					element.tabIndex = -1;
 				} else if ($role.get(element)) {
@@ -606,7 +606,7 @@ function disabledMandatoryHelper(element, STATE, reverse) {
  * @function
  */
 function applyStateToChildren(element, STATE, reverse) {
-	const kids = element.children;
+	const kids = element?.children;
 
 	if (kids?.length) {
 		let func;
@@ -627,7 +627,7 @@ function applyStateToChildren(element, STATE, reverse) {
  * @param {Element} element
  */
 function expandWithOpen(element) {
-	return element.matches("details");
+	return element?.matches("details");
 }
 
 /**
@@ -644,7 +644,7 @@ function expandWithOpen(element) {
  *  * element is a checkbox (or has checkbox role); and
  *  * value is false.
  *
- * @returns {(Boolean|number)} A property of {@link module:wc/dom/shed.state} or null if it does not
+ * @returns {boolean|number} A property of {@link module:wc/dom/shed.state} or null if it does not
  *     natively support a selected state. Note that that mixed (indeterminate) and checked is ignored.
  */
 function getSetNativeSelected(element, value, mix) {

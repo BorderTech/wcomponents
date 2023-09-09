@@ -143,7 +143,7 @@ function doClick(button, SHIFT) {
  * @returns {Element} The container if element is a multi form control or one of its descendent elements.
  */
 function getContainer(element) {
-	return element.closest(containerSelector);
+	return element?.closest(containerSelector);
 }
 
 /**
@@ -319,3 +319,5 @@ initialise.register({
 		return i18n.translate("mfc_remove").then(s => REMOVE_BUTTON_TITLE = s);
 	}
 });
+
+export default instance;

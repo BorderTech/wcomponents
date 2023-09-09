@@ -7,7 +7,7 @@
  * @param {string} xpath The xpath query.
  * @param {boolean} singleNode if true will return the first match.
  * @param {Element|Document} element The XML Document or Element to query.
- * @param {boolean} relative If true the query is relative to the element, otherwise the whole document will be searched.
+ * @param {boolean} [relative] If true the query is relative to the element, otherwise the whole document will be searched.
  * @returns {Element|Array} The result of the xpath query.
  */
 function query(xpath, singleNode, element, relative) {
