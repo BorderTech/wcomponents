@@ -5,16 +5,18 @@ import getBox from "wc/dom/getBox";
  *
  * @function module:wc/dom/getViewportSize
  * @param {Boolean} [withoutScrollbars] If true then attempt to account for the scroll bar width.
- * @returns {module:wc/dom/getViewportSize~result} The viewport size encapsulated in an object.
+ * @returns {{ width: number, height: number }} The viewport size, in pixels, encapsulated in an object.
  */
 export default function(withoutScrollbars) {
-	const result = {},
-		DOCUMENT_ELEMENT = document.documentElement,
+	const DOCUMENT_ELEMENT = document.documentElement,
 		SELF = globalThis.self,
 		thisViewportView = globalThis.top.visualViewport,
 		WIDTH = "width",
 		HEIGHT = "height";  // to improve compression
-
+	const result = {
+		width: 0,
+		height: 0
+	};
 	if (withoutScrollbars) {
 		result[WIDTH] = DOCUMENT_ELEMENT.clientWidth;
 		result[HEIGHT] = DOCUMENT_ELEMENT.clientHeight;
@@ -34,8 +36,3 @@ export default function(withoutScrollbars) {
 	}
 	return result;
 }
-/**
- * @typedef {Object} module:wc/dom/getViewportSize~result An object encapsulating the viewport size.
- * @property {number} width The viewport width in pixels.
- * @property {number} height The viewport height in pixels.
- */

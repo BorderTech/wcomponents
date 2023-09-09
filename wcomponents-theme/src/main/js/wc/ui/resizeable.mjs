@@ -220,7 +220,7 @@ function Resizeable() {
 	 * Changes the component size.
 	 * @function
 	 * @private
-	 * @param {Element} element The resizeable component.
+	 * @param {HTMLElement} element The resizeable component.
 	 * @param {number} deltaX Change in width in pixels.
 	 * @param {number} deltaY Change in height in pixels.
 	 * @param {boolean} [notify] If true notify subscribers from here. This would usually be done in an
@@ -229,8 +229,8 @@ function Resizeable() {
 	function resize(element, deltaX, deltaY, notify) {
 		let _notify;
 		try {
-			let box;
-			if (element && (box = getSize(element))) {
+			let box = element ? getSize(element) : null;
+			if (box) {
 				let min, minSize;
 				const conf = wcconfig.get("wc/ui/resizeable", {
 					min: DEFAULT_MIN_SIZE
@@ -271,7 +271,7 @@ function Resizeable() {
 	 * Mousedown event handler for determining start position for drag initiated resize.
 	 * @function
 	 * @private
-	 * @param {MouseEvent} $event The mousedown event.
+	 * @param {MouseEvent & { target: Element }} $event The mousedown event.
 	 */
 	function mousedownEvent($event) {
 		if ($event.defaultPrevented) {
