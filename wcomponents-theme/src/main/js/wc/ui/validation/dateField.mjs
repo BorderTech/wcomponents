@@ -31,7 +31,7 @@ function isDateInvalid(element) {
 		minAttrib = "data-wc-min",
 		maxAttrib = "data-wc-max";
 	const textbox = dateField.isReadOnly(element) ? null : dateField.getTextBox(element);
-	if (textbox || dateField.getPartialDateWidget().isOneOfMe(textbox)) {
+	if (!textbox || textbox.matches(dateField.getPartialDateWidget())) {
 		return false;  // do not apply constraint validation to read-only or partial date fields, even if the date entered is a full date.
 	}
 	let value = dateField.getValue(element);
@@ -55,26 +55,26 @@ function isDateInvalid(element) {
 		}
 
 		if (date) {
-			let comparisonDate = textbox.getAttribute(minAttrib);
-			if (comparisonDate) {
-				comparisonDate = interchange.toDate(comparisonDate);
+			let dateString = textbox.getAttribute(minAttrib);
+			if (dateString) {
+				let comparisonDate = interchange.toDate(dateString);
 				if (getDifference(date, comparisonDate) < 0) {
 					invalid = true;
-					comparisonDate = comparisonDate.toLocaleDateString();
+					dateString = comparisonDate.toLocaleDateString();
 					flag = i18n.get("validation_date_undermin");
 					// manipulate flag to replace the numbered string placeholders (so it ends up in the same format as the other flags)
-					flag = sprintf.sprintf(flag, LABEL_PLACEHOLDER, comparisonDate);
+					flag = sprintf.sprintf(flag, LABEL_PLACEHOLDER, dateString);
 				}
 			}
-			comparisonDate = textbox.getAttribute(maxAttrib);
-			if (comparisonDate) {
-				comparisonDate = interchange.toDate(comparisonDate);
+			dateString = textbox.getAttribute(maxAttrib);
+			if (dateString) {
+				let comparisonDate = interchange.toDate(dateString);
 				if (getDifference(date, comparisonDate) > 0) {
 					invalid = true;
-					comparisonDate = comparisonDate.toLocaleDateString();
+					dateString = comparisonDate.toLocaleDateString();
 					flag = i18n.get("validation_date_overmax");
 					// manipulate flag to replace the numbered string placeholders (so it ends up in the same format as the other flags)
-					flag = sprintf.sprintf(flag, LABEL_PLACEHOLDER, comparisonDate);
+					flag = sprintf.sprintf(flag, LABEL_PLACEHOLDER, dateString);
 				}
 			}
 		} else {
@@ -97,7 +97,7 @@ function isDateInvalid(element) {
  * @returns {String} The formatted validation message.
  */
 function messageFunction(element) {
-	var textbox = dateField.getTextBox(element);
+	const textbox = dateField.getTextBox(element);
 	return sprintf.sprintf(i18n.get("validation_common_incomplete"), validationManager.getLabelText(textbox));
 }
 
@@ -116,18 +116,16 @@ function messageFunction(element) {
  * @returns {boolean} true if the WDateField is valid
  */
 function validate(container) {
-	var valid = true,
-		invalid,
-		candidates,
-		incomplete = [],
+	let valid = true,
 		complete = true;
-
+	const incomplete = [];
+	let candidates;
 	if (dateField.isOneOfMe(container, true)) {
 		candidates = [container];
 	} else {
-		candidates = DATE_FIELD.findDescendants(container);
+		candidates = Array.from(container.querySelectorAll(DATE_FIELD));
 	}
-	Array.from(candidates).forEach(next => {
+	candidates.forEach(next => {
 		if (dateField.isReadOnly(next)) {
 			return;
 		}
@@ -159,7 +157,7 @@ function validate(container) {
 	if (dateField.isOneOfMe(container, true)) {
 		valid = dateField.isReadOnly(container) || !isDateInvalid(container);
 	} else {
-		invalid = Array.from(candidates).filter(isDateInvalid, this);
+		let invalid = candidates.filter(isDateInvalid, this);
 		if (invalid && invalid.length) {
 			valid = false;
 		}
@@ -172,10 +170,10 @@ function validate(container) {
  * directly to each WDateField's input element when the element is first focused otherwise.
  * @function
  * @private
- * @param {UIEvent} $event The change event
+ * @param {UIEvent & { target: HTMLElement }} $event The change event
  */
 function changeEvent($event) {
-	const element = DATE_FIELD.findAncestor($event.target);
+	const element = $event.target.closest(DATE_FIELD);
 	if (element) {
 		if (validationManager.isValidateOnChange()) {
 			if (validationManager.isInvalid(element)) {
@@ -193,7 +191,7 @@ function changeEvent($event) {
  * @param {UIEvent & { target: HTMLElement }} $event
  */
 function blurEvent($event) {
-	const element = DATE_FIELD.findAncestor($event.target);
+	const element = $event.target.closest(DATE_FIELD);
 	if (element && shed.isMandatory(element)) {
 		validate(element);
 	}

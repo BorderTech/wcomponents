@@ -188,7 +188,7 @@ function getBaseUrlFromMainCss() {
 	const cssUrl = instance.getMainCss(),
 		SEPARATOR = "/";
 	if (cssUrl) {
-		const parsedUrl = new URL(cssUrl);
+		const parsedUrl = new URL(cssUrl, location.origin);
 		let baseUrl = parsedUrl.origin;
 		const pathnameArray = parsedUrl.pathname.split(SEPARATOR);
 		if (pathnameArray.length) {

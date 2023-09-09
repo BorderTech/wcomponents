@@ -87,7 +87,7 @@ const instance = {
 	 * @public
 	 * @returns {string} The description of the calendar picker launch button.
 	 */
-	getLaunchWidget:  LAUNCHER,
+	getLaunchWidget: () => LAUNCHER,
 
 	/**
 	 * Get the partial date widget.
@@ -95,7 +95,7 @@ const instance = {
 	 * @public
 	 * @returns {string} the Partial Date Widget.
 	 */
-	getPartialDateWidget: DATE_PARTIAL,
+	getPartialDateWidget: () => DATE_PARTIAL,
 
 	/**
 	 * Get the text input element descendant of a date field.

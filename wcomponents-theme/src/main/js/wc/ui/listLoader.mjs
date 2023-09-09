@@ -26,7 +26,7 @@ const instance = {
 				if (url) {
 					let qsSeparator;
 					try {
-						const urlParsed = new URL(url);
+						const urlParsed = new URL(url, location.origin);
 						qsSeparator = (urlParsed?.search) ? "&" : "?";
 					} catch (ex) {
 						lose(ex);
