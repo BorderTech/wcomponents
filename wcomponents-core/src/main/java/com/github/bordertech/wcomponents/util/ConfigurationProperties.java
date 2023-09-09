@@ -57,7 +57,7 @@ public final class ConfigurationProperties {
 	public static final String FACTORY_PREFIX = "bordertech.wcomponents.factory.impl.";
 
 	/**
-	 * The prefix for the configuration parameter name to lookup a file's mime type by extension.
+	 * The prefix for the configuration parameter name to look up a file's mime type by extension.
 	 */
 	public static final String FILE_MIME_TYPE_PREFIX = "bordertech.wcomponents.mimeType.";
 

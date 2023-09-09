@@ -105,7 +105,7 @@ public final class ServletUtil {
 	private static final String THEME_PROJECT_TRANSLATION_RESOURCE_PATH = "/wc/theme/i18n";
 
 	/**
-	 * The parameters extracted from multi part saved on the request.
+	 * The parameters extracted from multipart saved on the request.
 	 */
 	private static final String REQUEST_PARAMETERS_KEY = "wc_req_params";
 
