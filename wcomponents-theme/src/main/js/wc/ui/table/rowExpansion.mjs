@@ -25,20 +25,21 @@ import "wc/ui/radioAnalog";
  */
 const closest = (element, selector, stopAtSelector) => {
 	const id = element.id || (element.id = uid());
+	/** @type {HTMLElement} */
 	const result = element.closest(selector);
-	if (stopAtSelector && result.querySelector(`:scope ${stopAtSelector} #${id}`)) {
+	if (stopAtSelector && result?.querySelector(`:scope ${stopAtSelector} #${CSS.escape(id)}`)) {
 		return null;
 	}
 	return result;
 };
 
 const exp_coll_all_container = ".wc-rowexpansion";
-const table_wrapper = common.WRAPPER.toString();
-const row_trigger = `${common.TD.toString()}[role='button']`;
+const table_wrapper = common.WRAPPER;
+const row_trigger = `${common.TD}[role='button']`;
 const expand_collapse_all = "button.wc_rowexpansion";
-const table = `${table_wrapper} > ${common.TABLE.toString()}.wc_tbl_expansion`;
-const tbody = `${table} > ${common.TBODY.toString()}`;
-const tbl_expandable_row = `${tbody} > ${common.TR.toString()}[aria-expanded]`;
+const table = `${table_wrapper} > ${common.TABLE}.wc_tbl_expansion`;
+const tbody = `${table} > ${common.TBODY}`;
+const tbl_expandable_row = `${tbody} > ${common.TR}[aria-expanded]`;
 
 const CONTROLS = "aria-controls",
 	BOOTSTRAPPED = "wc.ui.table.rowExpansion.bootStrapped",
@@ -57,18 +58,19 @@ const instance = {
 	 * @returns {Boolean} {@code true} if the element is a table with row expansion.
 	 */
 	isTreeGrid: element => element.matches(table)
-
 };
 
+/**
+ * @param {Element} trigger
+ * @return {HTMLElement[]}
+ */
 function getControlled(trigger) {
 	const actualTrigger = trigger.matches(exp_coll_all_container) ? trigger.querySelector(expand_collapse_all) : trigger,
 		idList = actualTrigger.getAttribute(CONTROLS);
 	if (!idList) {
-		return null;
+		return [];  // Array return functions should never return null darn it!
 	}
-	return idList.split(/\s+/).map(function (next) {
-		return document.getElementById(next);
-	});
+	return idList.split(/\s+/).map(next => document.getElementById(next));
 }
 
 /**
@@ -77,10 +79,10 @@ function getControlled(trigger) {
  * @function
  * @private
  * @param {Element} element the element being controlled
- * @returns {Element[]} An array containing all of the controllers for the row
+ * @returns {Element[]} An array containing all the controllers for the row
  */
 function getControllers(element) {
-	if (!(element && element.id)) {
+	if (!element?.id) {
 		return null;
 	}
 	const controllerWidget = `${expand_collapse_all}[aria-controls='${element.id}']`;
@@ -97,14 +99,13 @@ function getControllers(element) {
  */
 function areAllInExpandedState(controller, expanded) {
 	const candidates = getControlled(controller);
-	if (candidates && candidates.length) {
-		return candidates.every(function (next) {
-			return next && shed.isExpanded(next) === expanded;
-		});
-	}
-	return false;
+	return candidates.every(next => next && shed.isExpanded(next) === expanded);
 }
 
+/**
+ *
+ * @param {Element} controller
+ */
 function setControllerState(controller) {
 	const testVal = controller.getAttribute(VALUE);
 
@@ -115,18 +116,27 @@ function setControllerState(controller) {
 	}
 }
 
+/**
+ * @param {Element} element
+ * @return {HTMLElement}
+ */
 function getWrapper(element) {
 	return element.closest(table_wrapper);
 }
 
+/**
+ * @param {Element} row
+ * @return {string}
+ */
 function getMode(row) {
 	const wrapper = getWrapper(row);
-	if (wrapper) {
-		return wrapper.getAttribute(MODE);
-	}
-	return null;
+	return wrapper?.getAttribute(MODE) || "";
 }
 
+/**
+ * @param {Element} row
+ * @return {boolean}
+ */
 function isAjaxExpansion(row) {
 	const mode = getMode(row);
 	return mode === LAZY || mode === "dynamic";
@@ -172,12 +182,8 @@ function writeState(form, stateContainer) {
  * @function
  * @private
  * @param {Element} row A collapsible row.
- * @param {String} [forceDirection] use a particular direction "true" or "false" rather than inferring from
- *    the current button state. Required when recursively closing/hiding rows.
- * @param {Boolean} [ignoreRecursion] true if we want to ignore the recursion of controllers to toggle sub
- *    rows. This is used when invoked from collapsibleToggle.
- * @param {Boolean| [ignoreAjax] used when recursing to prevent multiple ajax calls for the same table.
- * @returns {Boolean} true if successfully expanded/collapsed.
+ * @param {boolean} [ignoreAjax] used when recursing to prevent multiple ajax calls for the same table.
+ * @return {boolean} true if a row was expanded/collapsed
  */
 function toggleRow(row, ignoreAjax) {
 	if (row) {
@@ -187,10 +193,14 @@ function toggleRow(row, ignoreAjax) {
 				row.setAttribute(NO_AJAX, "true");
 			}
 			shed.expand(row);
-		} else if (show === "false") { // We need to collapse disabled rows otherwise we have nesting vestige issues
+			return true;
+		}
+		if (show === "false") {  // We need to collapse disabled rows otherwise we have nesting vestige issues
 			shed.collapse(row);
+			return true;
 		}
 	}
+	return false;
 }
 
 /**
@@ -202,11 +212,11 @@ function toggleRow(row, ignoreAjax) {
  * @param {String} action A {@link module:wc/dom/shed} action: one of shed.actions.EXPAND or shed.actions.COLLAPSE.
  */
 function showHideContent(triggerRow, action) {
-	const shedFunc = action === shed.actions.EXPAND ? "show" : "hide",
-		controlled = getControlled(triggerRow);
+	const controlled = getControlled(triggerRow);
 
-	if (controlled) {
-		controlled.forEach(function(row) {
+	if (controlled.length) {
+		const shedFunc = action === shed.actions.EXPAND ? "show" : "hide";
+		controlled.forEach(/** @param {Element} row */ row => {
 			if (row) {
 				shed[shedFunc](row);
 			}
@@ -222,11 +232,11 @@ function showHideContent(triggerRow, action) {
  *
  * @function
  * @private
- * @param {CustomEvent} $event
+ * @param {CustomEvent & { target: HTMLElement, detail: { action: string } }} $event
  */
-function expCollapseObserver({ target: element, action }) {
-
+function expCollapseObserver({ target: element, detail }) {
 	if (element && element.matches(tbl_expandable_row)) {
+		const action = detail.action;
 		const control = Array.from(element.children).find(el => el.matches(row_trigger));
 		if (control) {
 			const add = action === shed.actions.EXPAND ? "fa-caret-down" : "fa-caret-right";
@@ -249,14 +259,14 @@ function expCollapseObserver({ target: element, action }) {
 
 /**
  * Subscriber to {@link module:wc/dom/shed} to manage collapsing an expandable row if it is hidden. This
- * allows us to manage multiply nested ex[andables and hiding rows using (for example) client pagination.
+ * allows us to manage multiply nested expandables and hiding rows using (for example) client pagination.
  *
  * @function
  * @private
- * @param {CustomEvent} $event
+ * @param {CustomEvent & { target: HTMLElement }} $event
  */
 function closeOnHide({ target }) {
-	if (target && target.matches(tbl_expandable_row) && shed.isExpanded(target)) {
+	if (target?.matches(tbl_expandable_row) && shed.isExpanded(target)) {
 		toggleRow(target, true);
 	}
 }
@@ -275,16 +285,24 @@ function ajaxSubscriber(/* element, action, triggerId */) {
  * Keydown event listener to operate collapsibles via the keyboard.
  * @function
  * @private
- * @param {KeyboardEvent} $event The keydown event.
+ * @param {KeyboardEvent & { target: HTMLElement }} $event The keydown event.
  */
 function keydownEvent($event) {
-	if (event.defaultPrevented || $event.altKey || $event.ctrlKey || $event.metaKey) {
+	const {
+		defaultPrevented,
+		altKey,
+		ctrlKey,
+		metaKey,
+		key,
+		target
+	} = $event;
+	if (defaultPrevented || altKey || ctrlKey || metaKey) {
 		return;
 	}
-	const element = closest($event.target, row_trigger, "td");
+	const element = closest(target, row_trigger, "td");
 	if (element) {
 		let row;
-		switch ($event.key) {
+		switch (key) {
 			case "Space":
 			case " ": // The control is a td with a role - some browsers do not have a default click from SPACE.
 			case "Enter":
@@ -292,7 +310,7 @@ function keydownEvent($event) {
 				$event.preventDefault();
 				break;
 			case "ArrowLeft" :
-				row = closest(element, rowAnalog.ITEM.toString(), "tr");
+				row = closest(element, rowAnalog.ITEM, "tr");
 				if (row && !shed.isDisabled(row)) {
 					rowAnalog.setFocusIndex(row);
 					focus.setFocusRequest(row);
@@ -308,7 +326,7 @@ function keydownEvent($event) {
  *
  * @function
  * @private
- * @param {FocusEvent} $event The focus event.
+ * @param {FocusEvent & { target: HTMLElement }} $event The focus event.
  */
 function focusEvent({ target, defaultPrevented }) {
 	if (!defaultPrevented) {
@@ -325,7 +343,7 @@ function focusEvent({ target, defaultPrevented }) {
  *
  * @function
  * @private
- * @param {module:wc/dom/event} $event The wrapped click event.
+ * @param {MouseEvent & { target: HTMLElement }} $event The wrapped click event.
  */
 function clickEvent($event) {
 	if ($event.defaultPrevented) {
@@ -342,11 +360,14 @@ function clickEvent($event) {
 			if (shed.isDisabled(row)) {
 				return;
 			}
-			if (toggleRow(row) && !shed.isExpanded(row)) {// if we have collapsed the row do nothing else. This stops dynamic ajax on collapse
+			if (toggleRow(row) && !shed.isExpanded(row)) {  // if we have collapsed the row do nothing else. This stops dynamic ajax on collapse
 				$event.preventDefault();
 			}
 		}
-	} else if ((element = $event.target.closest(expand_collapse_all)) && !shed.isDisabled(element)) {
+		return;
+	}
+	element = $event.target.closest(expand_collapse_all);
+	if (element && !shed.isDisabled(element)) {
 		triggerManager.removeTrigger(element.id);
 	}
 }
@@ -361,10 +382,10 @@ function clickEvent($event) {
 function toggleAll(element) {
 	const candidates = element ? getControlled(element) : null;
 
-	if (element && candidates && candidates.length) {
+	if (candidates.length) {
 		const open = element.getAttribute(VALUE) === EXPAND;
 
-		const filtered = candidates.filter(function(next) {
+		const filtered = candidates.filter(next => {
 			if (!next) {
 				return false;
 			}
@@ -377,21 +398,19 @@ function toggleAll(element) {
 		if (!open) {
 			filtered.reverse();
 		}
-		
-		filtered.forEach(next => toggleRow(next, true));
 
+		filtered.forEach(next => toggleRow(next, true));
 		return true;
 	}
-
 	return false;
 }
 
 /**
  * Toggle rows when the select/deselect all options are triggered.
- * @param {CustomEvent} $event.
+ * @param {CustomEvent & { target: HTMLElement }} $event
  */
 function activateOnSelect({ target }) {
-	if (target && target.matches(expand_collapse_all)) {
+	if (target?.matches(expand_collapse_all)) {
 		const toggled = toggleAll(target);
 		const wrapper = target.closest(exp_coll_all_container);
 		Array.from(wrapper.querySelectorAll(expand_collapse_all)).forEach(setControllerState);
@@ -410,25 +429,14 @@ function activateOnSelect({ target }) {
  * @returns {undefined}
  */
 function setControlList(element) {
-	var wrapper,
-		idArray = [],
-		ids;
-
-	wrapper = element.closest(table_wrapper);
+	const wrapper = element.closest(table_wrapper);
 	if (!wrapper) {
 		return;
 	}
 
-	Array.from(wrapper.querySelectorAll(tbl_expandable_row)).forEach(function (next) {
-		idArray.push(next.id);
-	});
-
-	if (idArray.length) {
-		ids = idArray.join(" ");
-		Array.from(element.querySelectorAll(expand_collapse_all)).forEach(function (next) {
-			next.setAttribute(CONTROLS, ids);
-		});
-	}
+	const idArray = Array.from(wrapper.querySelectorAll(tbl_expandable_row), ({ id }) => id);
+	const ids = idArray.join(" ");
+	Array.from(element.querySelectorAll(expand_collapse_all)).forEach(next => next.setAttribute(CONTROLS, ids));
 }
 
 /**
@@ -466,9 +474,8 @@ initialise.register({
 		event.add(document.body, shed.events.COLLAPSE, expCollapseObserver);
 		event.add(document.body, shed.events.HIDE, closeOnHide);
 		event.add(document.body, shed.events.SELECT, activateOnSelect);
-		formUpdateManager.subscribe(writeState);
+		formUpdateManager.subscribe({ writeState });
 	}
-
 });
 
 export default instance;

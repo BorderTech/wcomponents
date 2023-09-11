@@ -263,32 +263,35 @@ function buildConstructors() {
 
 	/**
 	 * Creates a new "class" representing an ARIA role.
-	 * @param {Array} required an array of strings representing ARIA properties/states required by this role
-	 * @param {Array} supported an array of strings representing ARIA properties/states supported by this role
-	 * @param {Array} superclassRoles an array of strings representing ARIA roles this role inherits from
+	 * @param {string[]} required an array of strings representing ARIA properties/states required by this role
+	 * @param {string[]} supported an array of strings representing ARIA properties/states supported by this role
+	 * @param {string[]} superclassRoles an array of strings representing ARIA roles this role inherits from
 	 * @ignore
 	 */
 	function constructorFactory(required, supported, superclassRoles) {
-		const result = function() {
-			applyStates(this, required, this.REQUIRED);
-			applyStates(this, supported, this.SUPPORTED);
+		/**
+		 * @constructor
+		 */
+		const AriaRole = function() {
+			applyStates(this, required, instance.REQUIRED);
+			applyStates(this, supported, instance.SUPPORTED);
 		};
 		try {
 			if (superclassRoles) {
 				for (let i = 0; i < superclassRoles.length; i++) {
 					let superClass = new constructors[superclassRoles[i]]();
 					if (i === 0) {
-						result.prototype = superClass;
+						AriaRole.prototype = superClass;
 					} else {
 						for (let prop in superClass) {
-							if (!(prop in result.prototype)) {
-								result.prototype[prop] = superClass[prop];
+							if (!(prop in AriaRole.prototype)) {
+								AriaRole.prototype[prop] = superClass[prop];
 							}
 						}
 					}
 				}
 			}
-			return result;
+			return AriaRole;
 		} finally {
 			superclassRoles = null;
 		}

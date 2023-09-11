@@ -21,7 +21,6 @@ function RowAnalog() {
 	/**
 	 * The selection mode is mixed: list boxes may be single or multiple as per select elements.
 	 * @var
-	 * @protected
 	 * @type number
 	 * @override
 	 */
@@ -47,14 +46,13 @@ function RowAnalog() {
 	 * group selection (such as with SHIFT+ Click).
 	 * @var
 	 * @type {Object}
-	 * @protected
 	 * @override
 	 */
 	this.lastActivated = {};
 
 	/**
 	 * According to the WAI-ARIA spec listbox MUST contain option and option must be contained by listbox.
-	 * However the rdf is broken on this point with regard to looking up what 'option' is contained by. So this
+	 * However, the rdf is broken on this point with regard to looking up what 'option' is contained by. So this
 	 * is a fill for that bug.
 	 *
 	 * @constant

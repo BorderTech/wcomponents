@@ -52,7 +52,6 @@ function isConditionMet(button, condition) {
 	return true;
 }
 
-
 /**
  * Test if an action button can be enabled.
  * @function
@@ -63,7 +62,7 @@ function isConditionMet(button, condition) {
 function canEnableButton(button) {
 	const conditions = registry.get(button);
 	if (conditions) {
-		return Array.prototype.every.call(conditions, condition => {
+		return Array.from(conditions).every(condition => {
 			if (condition.type === "error") {
 				return isConditionMet(button, condition);
 			}
@@ -85,6 +84,11 @@ function enableDisableButton(button) {
 	shed[func](button);
 }
 
+/**
+ *
+ * @param {Element} button
+ * @return {boolean} true if can submit
+ */
 function canSubmit (button) {
 	if (!canEnableButton(button)) {
 		return false;
@@ -122,7 +126,6 @@ function clickEvent($event) {
 		$event.preventDefault();
 	}
 }
-
 
 /**
  * Set the initial state of action buttons when a page/ajax arrives.

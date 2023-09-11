@@ -1,5 +1,5 @@
-// let id = 0;  // counter required otherwise ids will not be unique if generated in the same millisecond
-// const PREFIX = "uid";
+let id = 0;  // counter required otherwise ids will not be unique if generated in the same millisecond
+const PREFIX = "uid";
 
 /**
  * Each call to uid() returns a unique id. Unique IDs are sortable, that is each subsequent ID is greater than
@@ -15,7 +15,7 @@
  * @returns {String} A unique identifier.
  */
 function uid() {
-	return crypto.randomUUID();
-	// return `${PREFIX}${++id}${Date.now()}`;
+	// return crypto.randomUUID();
+	return `${PREFIX}${++id}${Date.now()}`;
 }
 export default uid;

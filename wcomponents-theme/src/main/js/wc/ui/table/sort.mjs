@@ -16,13 +16,13 @@ import shed from "wc/dom/shed";
 import common from "wc/ui/table/common";
 
 const TABLE_WRAPPER = common.WRAPPER.toString(),
-	SORTABLE_TABLE = `${common.TABLE.toString()}["sortable"]`,
+	SORTABLE_TABLE = `${common.TABLE.toString()}[sortable]`,
 	THEAD = `${SORTABLE_TABLE} > ${common.THEAD.toString()}`,
 	SORT_CONTROL = `${THEAD} ${common.TH.toString()}[aria-sort]`,
 	// ID_EXTENDER = "_thh",
 	SORT_ATTRIB = "sorted",
 	ARIA_SORT_ATTRIB = "aria-sort",
-	SORTED_COL = `${SORT_CONTROL}["sorted"]`;
+	SORTED_COL = `${SORT_CONTROL}[sorted]`;
 
 /**
  *

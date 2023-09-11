@@ -497,7 +497,7 @@ function clickEvent({ target, defaultPrevented }) {
 	if (!defaultPrevented) {
 		/** @type {HTMLButtonElement} */
 		const button = target.closest(PAGINATION_BUTTON);
-		if (!button?.disabled && button.getAttribute(BUSY) !== TRUE) {
+		if (button && !button.disabled && button.getAttribute(BUSY) !== TRUE) {
 			const paginationContainer = button.closest(PAGINATION_CONTAINER);
 			actionButton(target, paginationContainer);
 		}
@@ -582,7 +582,7 @@ function writeState(form, stateContainer) {
 		}
 	}
 
-	Array.from(form.querySelectorAll(PAGINATION_CONTAINER)).forEach.call(_writeStatePaginableTable);
+	Array.from(form.querySelectorAll(PAGINATION_CONTAINER)).forEach(_writeStatePaginableTable);
 }
 
 /**

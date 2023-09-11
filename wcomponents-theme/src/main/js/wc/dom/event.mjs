@@ -257,7 +257,7 @@ const instance = {
 	 * @param {Object} [options]
 	 * @param {boolean} [options.bubbles]
 	 * @param {boolean} [options.cancelable]
-	 * @param {string} [options.detail] for custom events
+	 * @param {Object} [options.detail] for custom events
 	 * @returns {Boolean} Should probably be undefined: use defaultPrevented to check if an event has ceased.
 	 */
 	fire: function (element, $event, options) {

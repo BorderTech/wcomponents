@@ -185,7 +185,7 @@ const instance = {
 		if (expandWithOpen(element)) {
 			setMyAttribute(element, OPEN, OPEN);
 		} else {
-			setMyAttribute(element, ARIA_STATE.expanded, true);
+			setMyAttribute(element, ARIA_STATE.expanded, "true");
 		}
 		if (!quiet) {
 			return instance.publish(element, actions.EXPAND);
@@ -204,7 +204,7 @@ const instance = {
 		if (expandWithOpen(element)) {
 			setMyAttribute(element, OPEN, null);
 		} else {
-			setMyAttribute(element, ARIA_STATE.expanded, false);
+			setMyAttribute(element, ARIA_STATE.expanded, "false");
 		}
 		if (!quiet) {
 			return instance.publish(element, actions.COLLAPSE);
@@ -427,7 +427,7 @@ const instance = {
 				}
 			}
 		} else {
-			result = getSetNativeSelected(element);
+			result = !!getSetNativeSelected(element);
 		}
 		return result;
 	},
@@ -635,7 +635,7 @@ function expandWithOpen(element) {
  *
  * @function
  * @private
- * @param {HTMLInputElement|HTMLSelectElement} element The element to be manipulated.
+ * @param {HTMLInputElement|HTMLSelectElement|Element} element The element to be manipulated.
  * @param {boolean} [value] true if the item is to be selected, explicitly false if it is to be deselected if
  *    neither true nor false then the selected state will not be modified at all
  * @param {boolean} [mix] If true then the checkbox will be set to "indeterminate". Only relevant when all

@@ -30,7 +30,6 @@ const WRAPPER = "div.wc-table",
 				oneShot: isOneShot ? 1 : -1
 			};
 		}
-
 	};
 
 /**
@@ -43,4 +42,4 @@ function getWrapperId(element) {
 	return wrapper?.id;
 }
 
-export default instance;
+export default Object.freeze(instance);
