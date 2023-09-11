@@ -22,7 +22,7 @@ const template = (title, iconClass, className) => `
 		}
 	</style>
 	<section class="${className}" part="${className}">
-		<h1><i aria-hidden="true" class="fa ${iconClass}"></i><span>${title}</span></h1>
+		<h1><i aria-hidden="true" class="fa ${iconClass}"></i><span>${title}</span><slot name="icon"/></h1>
 	</section>
 	<div class="wc_messages" part="wc_messages">
 		<slot/>
@@ -41,6 +41,11 @@ function yankStyles(shadow) {
 	});
 }
 
+/**
+ *
+ * @param {string} type One of: `'success'|'warn'|'info'|'error'`
+ * @return {Promise<{title: string, iconClass: string}>}
+ */
 function getHeader(type) {
 	let iconClass = "fa-fw";
 	let titleKey;
@@ -93,6 +98,10 @@ class WMessageBox extends HTMLElement {
 		}
 	}
 
+	/**
+	 * Generate the HTML for this instance
+	 * @return {Promise<string>}
+	 */
 	getHtml() {
 		const type = this.getAttribute("type") || "error";
 		const className = `${MB_CLASS} wc-messagebox-type-${type} ${this.className} ${type}`;
