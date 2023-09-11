@@ -80,7 +80,7 @@ const instance = {
 	 * @returns {String} String representation of this object for diagnostic purposes.
 	 */
 	toString: function() {
-		return window.JSON.stringify(elementToRuleMap);
+		return JSON.stringify(elementToRuleMap);
 	},
 
 	/**
@@ -212,10 +212,10 @@ function getElement(identifier) {
  * will always return false if their value (the triggerVal) is not valid "whole" OR the rule
  * value (the compareVal) is not "whole".
  * For this purpose:
- * <ul><li>Whole for a number means it is numeric and can be parsed to a number.</li>
- *     <li>Whole for a date means it contains day month and year values.</li></ul></li>
+ * <ul><li>Whole, for a number, means it is numeric and can be parsed to a number.</li>
+ *     <li>Whole, for a date, means it contains day month and year values.</li></ul></li>
  *
- * <li>In the case of regular expression matching the only supported flag is "case insensitive". This
+ * <li>In the case of regular expression matching the only supported flag is "case-insensitive". This
  * flag is off by default but can be turned on by prefixing the pattern with (?i).</li></ul>
  *
  * @function
@@ -625,9 +625,12 @@ const initialiser = {
 	 * @public
 	 * @param {Element} element The body element.
 	 */
-	initialise: function(element) {
+	initialise: element => {
 		waitingForRules = true;
 		// always require these deps, even if there are no rules, because there are other public methods that need them
+		// const deps = ["wc/dom/event", "wc/ui/dateField", "wc/ui/multiSelectPair"];
+		// return Promise.all(deps.map(dep => import(dep))).then(([$event, $dateField, $multiSelectPair]) => {
+
 		// @ts-ignore
 		require(["wc/dom/event", "wc/ui/dateField", "wc/ui/multiSelectPair"], function($event, $dateField, $multiSelectPair) {
 			event = $event;

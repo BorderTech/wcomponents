@@ -19,9 +19,20 @@ const initializer = {
 	 * @returns {Promise} resolved when COMPLETELY initialized.
 	 */
 	initialize: function(config) {
+		// return import("lib/i18next").then(engine => {  // Should we prefetch this? Does this make it load too late? Does it NEED to be in the layer?
+		// 	const useConfig = config || wcconfig.get("wc/i18n/i18n") || {};
+		// 	initI18next(engine, useConfig, (err, translate) => {
+		// 		if (translate) {
+		// 			instance.get = translatorFactory(translate);
+		// 			return translate;
+		// 		}
+		// 		if (err) {
+		// 			throw err;
+		// 		}
+		// 	});
+		// });
 		return new Promise(function(win, lose) {
 			if (config || instance.get === noop) {
-
 				// @ts-ignore
 				require(["lib/i18next"], function(engine) {  // Should we prefetch this? Does this make it load too late? Does it NEED to be in the layer?
 					const useConfig = config || wcconfig.get("wc/i18n/i18n") || {};

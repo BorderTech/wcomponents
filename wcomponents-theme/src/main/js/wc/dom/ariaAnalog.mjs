@@ -30,6 +30,8 @@ import formUpdateManager from "wc/dom/formUpdateManager";
 import keyWalker from "wc/dom/keyWalker";
 import isEventInLabel from "wc/dom/isEventInLabel";
 import isAcceptableEventTarget from "wc/dom/isAcceptableTarget";
+// import getFilteredGroup from "wc/dom/getFilteredGroup";  // circular dep
+// import focus from "wc/dom/focus";  // circular dep
 
 const genericAnalogSelector = "[role]";
 const gridSelectors = ["[role='grid']", "[role='treegrid']"];

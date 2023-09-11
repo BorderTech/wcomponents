@@ -430,11 +430,9 @@ function Ajax() {
 	 * @function
 	 * @alias module:wc/ajax/ajax.getXBrowserRequestFactory
 	 * @public
-	 * @returns {XMLHttpRequest}
+	 * @returns {function(): XMLHttpRequest}
 	 */
-	this.getXBrowserRequestFactory = function() {
-		return getW3cRequest;
-	};
+	this.getXBrowserRequestFactory = () => getW3cRequest;
 
 	/**
 	 * @var
@@ -480,7 +478,7 @@ timers.setTimeout(fetchErrorHandler, 60000);
  * Fetch the error handler module.
  * We delay fetching this module because it is only required under exceptional conditions.
  * @param {function} callback Will be called with the error handler module.
- * @param {function} errback May possibly be invoked if there is an error loading the module.
+ * @param {function(any): PromiseLike<never>} errback May possibly be invoked if there is an error loading the module.
  */
 function fetchErrorHandler(callback, errback) {
 	const cb = err => {
@@ -491,8 +489,10 @@ function fetchErrorHandler(callback, errback) {
 	if (!handleError) {
 		// @ts-ignore
 		require(["wc/ajax/handleError"], function(arg) {
+		// import("wc/ajax/handleError").then(arg => {
 			handleError = arg;
 			cb(handleError);
+		// }).catch(errback);
 		}, errback);
 	} else {
 		cb(handleError);

@@ -117,7 +117,6 @@
 					<link type="text/css" rel="stylesheet" href="{$debugCssUrl}" media="screen" data-wc-loader="style" />
 				</xsl:if>
 				<link type="text/css" rel="stylesheet" href="{concat($resourceRoot, 'resource/fontawesome/css/font-awesome.min.css')}" media="screen" />
-				<xsl:call-template name="addOldIECSS"/>
 				<!--
 					We need to set up the require config very early. This mess
 					constructs the require config which is necessary to commence

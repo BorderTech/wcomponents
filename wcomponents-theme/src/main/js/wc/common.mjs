@@ -29,5 +29,6 @@ import "wc/ui/menu";
 import "wc/dom/messageBox";
 import "wc/ui/validation/all";
 
+// Promise.all(fixes.map(fix => import(fix)));
 // @ts-ignore
 require(fixes);

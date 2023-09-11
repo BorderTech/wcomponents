@@ -22,6 +22,11 @@ let separatorSelector = "";
 let responsiveMenuSelector = "";
 let instance;
 
+/**
+ *
+ * @param {{ items: string[], closeText: string, open: string, tooltip: string, id: string, contentId: string, class: string, opener: { tooltip: string, class: string }}} context
+ * @return {string} The HTML for a bar menu
+ */
 const barTemplate = context => `
 	<div id="${context.id}" role="presentation" class="wc-submenu ${context.class}"
 		${context.tooltip ? `title=${context.tooltip}` : ""}>
@@ -53,7 +58,6 @@ function Menubar() {
 
 	/**
 	 * The descriptors for this menu type.
-	 * @protected
 	 * @override
 	 */
 	this._wd = {};
@@ -71,7 +75,6 @@ function Menubar() {
 	 * The role which is applied to the ROOT node of a BAR or FLYOUT menu.
 	 * @var
 	 * @type {String}
-	 * @protected
 	 * @override
 	 **/
 	this._role.MENU = "menubar";
@@ -140,7 +143,6 @@ function Menubar() {
 	 * any) and left to parent.
 	 *
 	 * @function
-	 * @protected
 	 * @override
 	 * @param {Element} item The item which has focus.
 	 */
@@ -228,7 +230,6 @@ function Menubar() {
 	 *
 	 * @see http://www.w3.org/TR/wai-aria-practices/#menu
 	 * @function
-	 * @protected
 	 * @override
 	 */
 	this._setupKeymap = function() {
@@ -436,7 +437,7 @@ function Menubar() {
 		processResponse.subscribe(ajaxSubscriber);
 		processResponse.subscribe(attachClosebuttons, true);
 		processResponse.subscribe(toggleIconMenus, true);
-		event.add(window, "resize", debounce(toggleIconMenus, 100), 1);
+		event.add(window, "resize", debounce(() => toggleIconMenus(document.body), 100), 1);
 	};
 }
 

@@ -93,7 +93,6 @@ function Tree() {
 	 * The descriptors for this menu type.
 	 *
 	 * @var
-	 * @protected
 	 * @override
 	 */
 	this._wd = {};
@@ -112,7 +111,6 @@ function Tree() {
 	 *
 	 * @var
 	 * @type {Object}
-	 * @protected
 	 * @override
 	 */
 	this._role = {
@@ -145,7 +143,6 @@ function Tree() {
 	 * to be open at any time. Horizontal trees do not.
 	 *
 	 * @function module:wc/ui/menu/tree._oneOpen
-	 * @protected
 	 * @override
 	 * @param {Element} element A node of the tree to test. This is mandatory in this override.
 	 * @returns {Boolean} true if only one branch may be open at a time.
@@ -160,7 +157,6 @@ function Tree() {
 	 *
 	 * @var
 	 * @type Boolean
-	 * @protected
 	 * @override
 	 */
 	this._enterOnOpen = false;
@@ -170,7 +166,6 @@ function Tree() {
 	 * level.
 	 *
 	 * @function module:wc/ui/menu/tree._treeWalkDepthFirst
-	 * @protected
 	 * @override
 	 * @param {Element} root A node of the tree to test. This is mandatory in this override.
 	 * @returns {Boolean} true if treeWalker should traverse depth first.
@@ -182,7 +177,6 @@ function Tree() {
 	/**
 	 * Does the tree open when a branch item is selected?
 	 * @function module:wc/ui/menu/tree._openOnSelect
-	 * @protected
 	 * @override
 	 * @param {Element} root the root element of a tree.
 	 * @returns {Boolean} true if the tree opens a branch when it is selected.
@@ -196,7 +190,6 @@ function Tree() {
 	 *
 	 * @var
 	 * @type {Boolean}
-	 * @protected
 	 * @override
 	 */
 	this._cycleSiblings = false;
@@ -217,7 +210,6 @@ function Tree() {
 	 * @see http://www.w3.org/TR/wai-aria-practices/#TreeView
 	 * @var
 	 * @type {Boolean}
-	 * @protected
 	 * @override
 	 * @default true
 	 */
@@ -229,7 +221,6 @@ function Tree() {
 	 *
 	 * @see http://www.w3.org/TR/wai-aria-practices/#TreeView
 	 * @function module:wc/ui/menu/tree._select
-	 * @protected
 	 * @override
 	 * @param {Element} item The menu item being selected
 	 * @param {boolean} [silent] If true do not publish the selection.
@@ -255,7 +246,6 @@ function Tree() {
 	 * and left to parent.
 	 *
 	 * @function module:wc/ui/menu/tree._remapKeys
-	 * @protected
 	 * @override
 	 * @param {Element} _item The item which has focus.
 	 */
@@ -307,7 +297,6 @@ function Tree() {
 	 *
 	 * @see http://www.w3.org/TR/wai-aria-practices/#TreeView
 	 * @function module:wc/ui/menu/tree._setupKeymap
-	 * @protected
 	 * @override
 	 */
 	this._setupKeymap = function() {
@@ -325,7 +314,6 @@ function Tree() {
 	/**
 	 * Set up the Widgets which describe a tree.
 	 * @function module:wc/ui/menu/tree._setUpWidgets
-	 * @protected
 	 * @override
 	 */
 	this._setUpWidgets = function() {
@@ -340,7 +328,6 @@ function Tree() {
 	 * exists.
 	 *
 	 * @function module:wc/ui/menu/tree._openAllBranches
-	 * @protected
 	 * @param {Element} from the start point for opening all branches
 	 */
 	this._openAllBranches = function(from) {
@@ -435,7 +422,6 @@ function Tree() {
 	 * Write the state of WTree.
 	 *
 	 * @function module:wc/ui/menu/tree.writeMenuState
-	 * @protected
 	 * @override
 	 * @param {Element} next the WTree root element
 	 * @param {Element} toContainer the state container
@@ -550,7 +536,6 @@ function Tree() {
 	 * Override {@link:module:wc/dom/shed} subscriber to add special cases for trees.
 	 *
 	 * @function module:wc/ui/menu/tree._shedSubscriber
-	 * @protected
 	 * @override
 	 * @param {Element} element The element being acted upon.
 	 * @param {String} action The action being taken.
@@ -601,7 +586,6 @@ function Tree() {
 	 * Override the default "animator" to prevent a branch from opening if any other element is selected at its level. Only applies to htree.
 	 *
 	 * @function module:wc/ui/menu/tree._animateBranch
-	 * @protected
 	 * @param {Object} item The branch being opened/closed.
 	 * @param {Object} open If true branch is being opened, otherwise its being closed.
 	 * @returns {Boolean} true if the branch is able to animate.
@@ -629,7 +613,6 @@ function Tree() {
 	/**
 	 * A TreeWalker filter to get a text node match during key-initiated tree walking.
 	 * @function module:wc/ui/menu/tree._textMatchFilter
-	 * @protected
 	 * @override
 	 * @param {Node} textNode The node being tested.
 	 * @returns {Number}
@@ -653,7 +636,6 @@ function Tree() {
 	 * the collapsing branches nearest available ancestor (depending on tree type).
 	 *
 	 * @function module:wc/ui/menu/tree._shedCollapseHelper
-	 * @protected
 	 * @override
 	 * @param {Element} element the branch beng collapsed.
 	 * @param {Element} [root] the tree's root
