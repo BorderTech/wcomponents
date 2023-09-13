@@ -9,7 +9,7 @@ import initialise from "wc/dom/initialise.mjs";
 import i18n from "wc/i18n/i18n.mjs";
 import multiFormComponent from "wc/ui/multiFormComponent.mjs";
 import unique from "wc/array/unique.mjs";
-import sprintf from "lib/sprintf";
+import sprintf from "wc/string/sprintf.mjs";
 import required from "wc/ui/validation/required.mjs";
 import validationManager from "wc/ui/validation/validationManager.mjs";
 import isComplete from "wc/ui/validation/isComplete.mjs";
@@ -138,7 +138,7 @@ function filter(next) {
  * @param {number} limit The max/min number of values/selections.
  */
 function _flag(element, flag, limit) {
-	const message = sprintf.sprintf(flag, validationManager.getLabelText(element), limit);
+	const message = sprintf(flag, validationManager.getLabelText(element), limit);
 	feedback.flagError({ element, message });
 }
 

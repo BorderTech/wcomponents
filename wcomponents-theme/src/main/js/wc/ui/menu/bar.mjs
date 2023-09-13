@@ -430,14 +430,15 @@ function Menubar() {
 	 * @param {Element} element the element being initialised
 	 */
 	this.initialise = function(element) {
-		this.constructor.prototype.initialise.call(this, element);
-		attachClosebuttons();
-		toggleIconMenus(element);
-		setSeparatorOrientation(element);
-		processResponse.subscribe(ajaxSubscriber);
-		processResponse.subscribe(attachClosebuttons, true);
-		processResponse.subscribe(toggleIconMenus, true);
-		event.add(window, "resize", debounce(() => toggleIconMenus(document.body), 100), 1);
+		return abstractMenu.initialise.call(this, element).then(() => {
+			attachClosebuttons();
+			toggleIconMenus(element);
+			setSeparatorOrientation(element);
+			processResponse.subscribe(ajaxSubscriber);
+			processResponse.subscribe(attachClosebuttons, true);
+			processResponse.subscribe(toggleIconMenus, true);
+			event.add(window, "resize", debounce(() => toggleIconMenus(document.body), 100), 1);
+		});
 	};
 }
 

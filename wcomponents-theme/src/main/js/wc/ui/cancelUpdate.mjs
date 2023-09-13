@@ -5,7 +5,7 @@ import event from "wc/dom/event.mjs";
 import initialise from "wc/dom/initialise.mjs";
 import serialize from "wc/dom/serialize.mjs";
 import isSuccessfulElement from "wc/dom/isSuccessfulElement.mjs";
-import sprintf from "lib/sprintf";
+import sprintf from "wc/string/sprintf.mjs";
 import formUpdateManager from "wc/dom/formUpdateManager.mjs";
 import focus from "wc/dom/focus.mjs";
 import processResponse from "wc/ui/ajax/processResponse.mjs";
@@ -43,8 +43,8 @@ const instance = {
 	 */
 	addElements: function(element) {
 		const elements = isSuccessfulElement.getAll(element, true);
-		for (let i = 0; i < elements.length; i++) {
-			this.addElement(elements[i]);
+		for (const element of elements) {
+			this.addElement(element);
 		}
 	},
 
@@ -56,13 +56,12 @@ const instance = {
 	 */
 	addElement: function (element) {
 		const form = element ? element["form"] : null;
-		const oldState = (form && form.id) ? registry[form.id] : null;
+		const oldState = form?.id ? registry[form.id] : null;
 		if (oldState) {
-			const elements = [element];
+			const elements = /** @type {HTMLElement[]} */([element]);
 			const newState = serialize.serialize(elements, true, true, isDirty);
 			const newKeys = Object.keys(newState);
-			for (let i = 0; i < newKeys.length; i++) {
-				let next = newKeys[i];
+			for (const next of newKeys) {
 				if (oldState.hasOwnProperty(next)) {
 					oldState[next] = oldState[next].concat(newState[next]);
 				} else {
@@ -81,8 +80,8 @@ const instance = {
 	 */
 	removeElements: function(element) {
 		const elements = isSuccessfulElement.getAll(element, true);
-		for (let i = 0; i < elements.length; i++) {
-			this.removeElement(elements[i]);
+		for (const element of elements) {
+			this.removeElement(element);
 		}
 	},
 
@@ -93,13 +92,12 @@ const instance = {
 	 */
 	removeElement: function (element) {
 		const form = element ? element["form"] : null;
-		const oldState = (form && form.id) ? registry[form.id] : null;
+		const oldState = form?.id ? registry[form.id] : null;
 		if (oldState) {
-			const nodeList = [element];
+			const nodeList = /** @type {HTMLElement[]} */([element]);
 			const delState = serialize.serialize(nodeList, true, true, isDirty);
 			const newKeys = Object.keys(delState);
-			for (let i = 0; i < newKeys.length; i++) {
-				let next = newKeys[i];
+			for (const next of newKeys) {
 				if (oldState.hasOwnProperty(next)) {
 					while (delState[next].length > 0) {
 						let nextVal = delState[next].pop();
@@ -268,7 +266,7 @@ function cancelSubmit(element, submitter) {
 			if (formTitle) {
 				title = formTitle;
 			}
-			msg = (sprintf.sprintf(CANCEL_MESSAGE, title));
+			msg = sprintf(CANCEL_MESSAGE, title);
 		}
 		keep = confirm(msg);
 	}
@@ -299,7 +297,7 @@ function cancelSubmit(element, submitter) {
 function ajaxSubscriber(element/* , documentFragment, action */) {
 	const form = element ? element.closest("form") : null;
 	// missing id not likely, but not serialized as the serialize routine will add an id to the form.
-	if (form && form.id) {
+	if (form?.id) {
 		let key = form.id;
 		if (!registry[key]) {  // not yet serialized, so no need to recalculate the initial state
 			return;
@@ -416,7 +414,7 @@ initialise.register({
 	 * Unsubscribes event listeners etc.
 	 * @param {Element} element The element being deinitialised, usually document.body.
 	 */
-	deinit: function(element) {
+	deinit: element => {
 		event.remove(element, "click", clickEvent);
 		processResponse.unsubscribe(ajaxSubscriber);
 		processResponse.unsubscribe(postAjaxSubscriber, true);

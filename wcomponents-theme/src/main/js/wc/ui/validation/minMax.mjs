@@ -1,19 +1,19 @@
 import getFirstLabelForElement from "wc/ui/getFirstLabelForElement.mjs";
 import i18n from "wc/i18n/i18n.mjs";
-import sprintf from "lib/sprintf";
+import sprintf from "wc/string/sprintf.mjs";
 import validationManager from "wc/ui/validation/validationManager.mjs";
 import feedback from "wc/ui/feedback.mjs";
 
 const MIN = "data-wc-min",
 	MAX = "data-wc-max";
 /**
- * Provides all of the min and max selection constraint validation for multi-selectable controls.
+ * Provides all the min and max selection constraint validation for multi-selectable controls.
  *
  * @todo Split this up to remove nested functions.
  *
  * @function
  * @alias module:wc/ui/validation/minMax
- * @param {{container: Element, widget: string, selectedFunc: (function((Element|Element[]), module:wc/dom/getFilteredGroup~config=): HTMLElement[] | {filtered: HTMLElement[], unfiltered: HTMLElement[]})}} conf Contains the validator configuration options.
+ * @param {module:wc/ui/validation/minMax~config} conf Contains the validator configuration options.
  * @returns {boolean} true if the tested component meets its constraints (including if their are no constraints).
  */
 export default function minMax(conf) {
@@ -85,7 +85,7 @@ export default function minMax(conf) {
 	 */
 	function flagError(selectable, flag, limit, secondaryLabel) {
 		const labelText = validationManager.getLabelText(selectable);
-		const message = /** @type {string} */(sprintf.sprintf(flag, labelText, limit, secondaryLabel));
+		const message = /** @type {string} */(sprintf(flag, labelText, limit, secondaryLabel));
 
 		feedback.flagError({ element: selectable, message });
 	}

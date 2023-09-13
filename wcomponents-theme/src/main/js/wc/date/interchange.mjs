@@ -1,5 +1,5 @@
 import $today from "wc/date/today.mjs";
-import sprintf from "lib/sprintf";
+import sprintf from "wc/string/sprintf.mjs";
 
 /**
  * Utilities for working with the wc date interchange format.
@@ -73,7 +73,7 @@ const instance = {
 	 */
 	fromDate: function(date, includeTime) {
 		const template = includeTime ? "%04d-%02d-%02dT%02d:%02d:%02d" : FULL_DATE_TEMPLATE;
-		return sprintf.sprintf(template, date.getFullYear(), (date.getMonth() + 1), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds());
+		return sprintf(template, date.getFullYear(), (date.getMonth() + 1), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds());
 	},
 
 	/**
@@ -105,7 +105,7 @@ const instance = {
 		const y = obj.year || yPlaceholder,  // there is no year zero
 			m = obj.month || dmPlaceholder,  // there is no month zero
 			d = obj.day || dmPlaceholder;  // there is no day zero
-		return sprintf.sprintf(PARTIAL_DATE_TEMPLATE, y, m, d);
+		return sprintf(PARTIAL_DATE_TEMPLATE, y, m, d);
 	},
 
 	/**

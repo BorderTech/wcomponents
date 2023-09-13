@@ -1,6 +1,6 @@
 import event from "wc/dom/event.mjs";
 import initialise from "wc/dom/initialise.mjs";
-import sprintf from "lib/sprintf";
+import sprintf from "wc/string/sprintf.mjs";
 import feedback from "wc/ui/feedback.mjs";
 import wcconfig from "wc/config.mjs";
 import mailcheck from "mailcheck";
@@ -27,7 +27,7 @@ function emailCheck({ target }) {
 				feedback.remove(target, null, feedback.LEVEL.SUCCESS);
 				feedback.flagInfo({
 					element: target,
-					message: sprintf.sprintf(message, newEmail)
+					message: sprintf(message, newEmail)
 				});
 			}
 		};

@@ -31,23 +31,23 @@ let libs = {
 	tinymce: {
 		dest: "tinymce"
 	},
-	"axe-core/axe.min.js": {
-		dest: "axe.min.js"
+	"axe-core/axe.js": {
+		dest: "axe.js"
 	},
-	"sprintf-js/dist/sprintf.min.js": {
-		dest: "sprintf.min.js"
+	"sprintf-js/src/sprintf.js": {
+		dest: "sprintf.js"
 	},
-	"i18next/dist/esm/i18next.js": {
-		dest: "i18next.js"
+	"i18next/dist/es": {
+		dest: "i18next"
 	},
 	"requirejs/require.js": {
 		dest: "require.js",
 		min: true
 	},
-	"fabric/dist/fabric.min.js": {
+	"fabric/dist/fabric.js": {
 		dest: "fabric.js"
 	},
-	"mailcheck/src/mailcheck.min.js": {
+	"mailcheck/src/mailcheck.js": {
 		dest: "mailcheck.js"
 	},
 	"socket.io-client/dist" : {

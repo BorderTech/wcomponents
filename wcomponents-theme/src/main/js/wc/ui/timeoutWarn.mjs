@@ -11,11 +11,11 @@
  * there is WRONG. It is better to warn the user too early rather than too late.
  *
  */
-import sprintf from "lib/sprintf";
-import i18n from "wc/i18n/i18n";
-import wcconfig from "wc/config";
-import debounce from "wc/debounce";
-import timers from "wc/timers";
+import sprintf from "wc/string/sprintf.mjs";
+import i18n from "wc/i18n/i18n.mjs";
+import wcconfig from "wc/config.mjs";
+import debounce from "wc/debounce.mjs";
+import timers from "wc/timers.mjs";
 
 const minimumWarnAt =  20000;  // warn user when this many milliseconds remaining, this default is the WCAG 2.0 minimum of 20 seconds
 const minimumSession = minimumWarnAt * 2;  // Never let a session be less than this
@@ -140,7 +140,7 @@ function getWarnDialog() {
 		const minsRemaining = calculateRemaining();
 		const readableMins = minsRemaining < 1 ? '< 1' : minsRemaining;
 		const readableTime = expiresAt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-		const fullBody = sprintf.sprintf(body, readableMins, readableTime);
+		const fullBody = sprintf(body, readableMins, readableTime);
 		return template(false, title, header, fullBody);
 	});
 }

@@ -214,7 +214,6 @@ function mouseoverEvent($event) {
 /**
  * A TreeWalker filter to get a text node match during key-initiated tree walking.
  * @function
- * @protected
  * @param {Node} textNode The node being tested.
  * @returns {Number}
  */
@@ -265,7 +264,6 @@ AbstractMenu.prototype.hasTextNodeMatch = function(element, letter) {
 /**
  * Indicates if a particular element is an item in a menu.
  * @function
- * @protected
  * @param {Element} element The element to test.
  * @returns {Boolean}
  */
@@ -353,7 +351,6 @@ AbstractMenu.prototype.getNavigationTreeWalkerFilter = function(ignoreClosed, le
 /**
  * Gets the keyWalker configuration for a particular menu.
  * @function
- * @protected
  * @param {Element} item An element inside a menu
  * @param {Element} [root] The menu root if we already have it.
  * @returns {Object} a keywalker configuration object.
@@ -376,7 +373,6 @@ AbstractMenu.prototype._getkeyWalkerConfig = function(item, root) {
  * WAI-ARIA guidelines for this functionality indicate the NEXT available item, so we do not cycle within the
  * menu even if the menu supports cycling on key navigation.
  * @function
- * @protected
  * @param {Element} item The menu node on which we started when the user pressed a letter key.
  * @param {String} letter The letter pressed by the user.
  * @param {Element} root The current menu root node.
@@ -427,7 +423,6 @@ function closeOpenMenu(menu, element, instance) {
 /**
  * Gets an instance of TreeWalker for a particular menu.
  * @function
- * @protected
  * @param {Element} root The root of the tree to be walked.
  * @param {Boolean} [ignoreClosed] If true we ignore closed branches.
  * @returns {TreeWalker} A treeWalker for the menu starting at root.
@@ -440,7 +435,6 @@ AbstractMenu.prototype._getTreeWalker = function(root, ignoreClosed) {
 /**
  * Gets all ancestor menu nodes between two points.
  * @function
- * @protected
  * @param {Element} item A menu node.
  * @param {Element} from The highest level ancestor in which we are interested (usually the root).
  * @returns {HTMLElement[]} An array of Elements each item in the array being a menu node on the path from the 'from'
@@ -494,7 +488,6 @@ AbstractMenu.prototype.closeAllPaths = function(from, except) {
  * Get the first item (menu item, or submenu, or submenu content) in a given menu or branch which is not disabled
  * or hidden.
  * @function
- * @protected
  * @param {Element} start Any menu node but preferably a submenu wrapper element.
  * @returns {HTMLElement} The first menu item which is not hidden or disabled or in a closed branch.
  */
@@ -522,7 +515,6 @@ AbstractMenu.prototype._getFirstAvailableItem = function(start) {
  * Disable/enable all menu items in a given branch.
  * @see {@link module:wc/ui/menu/core~_shedSubscriber}.
  * @function
- * @protected
  * @param {Element} branch The menu branch we need to manipulate.
  * @param {String} func The name of the {@link wc/dom/shed} function to invoke: either "enable" or "disable".
  */
@@ -695,7 +687,6 @@ function postAjaxSubscriber(element) {
  *  * The old tabstop is inside the branch we just disabled/hid.
  *
  * @function
- * @protected
  * @param {Element} element The menu item element being hidden or disabled.
  * @param {Element} root The menu root node.
  */
@@ -730,7 +721,6 @@ AbstractMenu.prototype._hideDisableHelper = function(element, root) {
  * then focus the first tab stop in the menu.
  *
  * @function
- * @protected
  * @param {Element} item the branch being collapsed
  * @param {Element} root the root of the menu
  */
@@ -765,7 +755,6 @@ AbstractMenu.prototype._shedCollapseHelper = function(item, root) {
  * focus the opened sub-menu.
  *
  * @function
- * @protected
  * @param {Element} branch The branch being expanded.
  * @param {Element} root The root of the current menu.
  */
@@ -785,7 +774,6 @@ AbstractMenu.prototype._expand = function(branch, root) {
 /**
  * Common shed subscriber for SELECT, DESELECT, EXPAND, COLLAPSE, ENABLE, DISABLE and HIDE.
  * @function
- * @protected
  * @see {@link module:wc/dom/shed}
  * @param {Element} element The SHED target.
  * @param {String} action The SHED action.
@@ -858,7 +846,6 @@ function expandCollapseTransientBranch(branch, action, root, instance) {
  * Helper for _shedSubscriber. This helper deals with enable/disable actions. The default implementation is for
  * transient menus and will close a submenu if a branch is disabled.
  * @function
- * @protected
  * @param {Element} element the element we are acting on
  * @param {String} action the "enable" or "disable" action
  * @param {Element} root The menu root element. We had to pre-calculate this to get this far, so we may as well
@@ -990,8 +977,7 @@ function AbstractMenu() {
 	 * @see {@link module:wc/ui/menu/core~FUNC_MAP}
 	 * @constant
 	 * @type {Object}
-	 * @protected
-	 */
+	 * 	 */
 	this._FUNC_MAP = FUNC_MAP;
 }
 
@@ -1010,7 +996,6 @@ AbstractMenu.prototype.ROOT = null;
  * for each menu type.
  * @var
  * @type {Object}
- * @protected
  * @abstract
  * @see {@link  module:wc/ui/menu/core~_keyActivator}
  */
@@ -1022,7 +1007,6 @@ AbstractMenu.prototype._keyMap = {};
  * The default is abstract.
  * @var
  * @type {Object}
- * @protected
  * @abstract
  */
 AbstractMenu.prototype._wd = {
@@ -1047,7 +1031,6 @@ AbstractMenu.prototype.isTransient = true;
  * otherwise it will look for siblings first.
  *
  * @function
- * @protected
  * @param {Element} element A node in a menu/tree. Not needed by default but mandatory for mixed-mode trees.
  * @returns {Boolean} true if treeWalker should traverse depth-first. By default, always returns false.
  */
@@ -1064,8 +1047,7 @@ AbstractMenu.prototype._treeWalkDepthFirst = function(element) {
  *
  * @var
  * @type {Boolean}
- * @protected
- */
+ **/
 AbstractMenu.prototype._cycleSiblings = true;
 
 /**
@@ -1075,7 +1057,6 @@ AbstractMenu.prototype._cycleSiblings = true;
  * which makes this a function.
  *
  * @function
- * @protected
  * @param {Element} element An element in a menu and preferably a root node. This allows us to test an
  *    individual menu/tree if required. Not needed by default but should always be included in calls for those
  *    occasions where it is needed (e.g. bi-modal trees).
@@ -1095,7 +1076,6 @@ AbstractMenu.prototype._oneOpen = function(element) {
  * menus, so we have to do the navigation here.
  * @var
  * @type {Boolean}
- * @protected
  */
 AbstractMenu.prototype._selectOnNavigate = false;
 
@@ -1103,7 +1083,6 @@ AbstractMenu.prototype._selectOnNavigate = false;
  * Does the menu type expect to open when a branch node is selected? This is the case for some trees but not
  * all.
  * @function
- * @protected
  * @param {Element} element Any element in the menu. Not used in the default implementation but required by TREEs
  * multiple modes so should always be passed to the function.
  * @returns {Boolean}
@@ -1119,7 +1098,6 @@ AbstractMenu.prototype._openOnSelect = function(element) {
  * Does the menu expect to focus the sub menu when it is opened? By default, yes.
  * @var
  * @type boolean
- * @protected
  */
 AbstractMenu.prototype._enterOnOpen = true;
 
@@ -1128,7 +1106,6 @@ AbstractMenu.prototype._enterOnOpen = true;
  * leave them all or override maybe one (BAR/FLYOUT redefine MENU)
  * @var
  * @type {Object}
- * @protected
  */
 AbstractMenu.prototype._role = {
 	MENU: "menu",
@@ -1143,7 +1120,6 @@ AbstractMenu.prototype._role = {
  * Sets up the initial keyboard interaction maps for the menu in its initial state. This key map should meet the
  * appropriate WAI-ARIA implementation guide.
  * @function
- * @protected
  * @abstract
  */
 AbstractMenu.prototype._setupKeymap = function() {};
@@ -1151,7 +1127,6 @@ AbstractMenu.prototype._setupKeymap = function() {};
 /**
  * Key re-mapping function to meet WAI-ARIA implementation guide.
  * @function
- * @protected
  * @abstract
  */
 AbstractMenu.prototype._remapKeys = function() {};
@@ -1178,7 +1153,6 @@ AbstractMenu.prototype.getRoot = function(item) {
  * Item selection is not straight forward as in some cases it is dependent on chordal keystrokes. Most menu
  * items can just be selected and let the ariaAnalog shed subscribers take care of the rest.
  * @function
- * @protected
  * @param {Element} element The menu element to select.
  */
 AbstractMenu.prototype._select = function(element) {
@@ -1188,7 +1162,6 @@ AbstractMenu.prototype._select = function(element) {
 /**
  * Get the nearest branch element in which the passed in element is enclosed.
  * @function
- * @protected
  * @param {Element} item Any HTML element
  * @returns {HTMLElement} A branch element if found.
  */
@@ -1201,7 +1174,6 @@ AbstractMenu.prototype._getBranch = function(item) {
  * is the WSubMenu itself in trees.
  *
  * @function
- * @protected
  * @param {Element} item The start point for the search. This will normally be a 'branch'.
  * @returns {HTMLElement} The "expandable" element. This is usually the branch content but is the branch in trees.
  */
@@ -1253,7 +1225,6 @@ AbstractMenu.prototype.getSubMenu = function(item, descending, all) {
  * closeBranch which by default does not invoke any animator.
  *
  * @function
- * @protected
  * @param {Element} item The branch being opened/closed.
  * @param {boolean} open If true branch is being opened, otherwise its being closed.
  * @returns {Boolean} true if any non-false-equivalent value for item is passed in.
@@ -1275,7 +1246,6 @@ AbstractMenu.prototype._animateBranch = function(item, open) {
  * This is the helper function for actioning a node in a menu. By default, it should only action (open/close)
  * branches.
  * @function
- * @protected
  * @param {Element} element The menu node being actioned.
  * @returns {Boolean} true if this element was actioned.
  */
@@ -1311,7 +1281,6 @@ AbstractMenu.prototype._actionItem = function(element) {
  * Action for ESCAPE key. Only really applies to menus with _transient true. Closes a branch and if the
  * resultant focused item is at the top level of the menu it turns off hover effects for that menu.
  * @function
- * @protected
  * @param {Element} item The HTML element which was the target of the key event which lead to this method being
  *    called.
  */
@@ -1330,7 +1299,6 @@ AbstractMenu.prototype._escape = function(item) {
 /**
  * Opens a branch.
  * @function
- * @protected
  * @param  {HTMLElement} branch The branch, opener or submenu node of the branch to open.
  * @returns {Boolean} true if the branch opened.
  */
@@ -1353,7 +1321,6 @@ AbstractMenu.prototype._openBranch = function(branch) {
 /**
  * Closes a branch: only works if called from a branch opener, submenu or branch.
  * @function
- * @protected
  * @param {Element} branch tThe branch to close (or its 'opener' button or submenu child).
  * @returns {Boolean} true if the branch closed.
  */
@@ -1369,7 +1336,6 @@ AbstractMenu.prototype._closeBranch = function(branch) {
 /**
  * Indicates if an element is a branch opener.
  * @function
- * @protected
  * @param {Element} element An element in a menu
  * @returns {Boolean} true if the element is a branch opener.
  */
@@ -1380,7 +1346,6 @@ AbstractMenu.prototype._isOpener = function(element) {
 /**
  * Indicates whether an item is either a branch or branch opener button.
  * @function
- * @protected
  * @param {Element} item The menu node to test.
  * @returns {Boolean} True if item is a branch or a branch opener button.
  */
@@ -1404,7 +1369,6 @@ AbstractMenu.prototype.isRoot = function(element) {
  * Close the branch in which an item is nested.
  * @function
  * @alias AbstractMenu._closeMyBranch
- * @protected
  * @param {Element} item A menu item in a branch.
  * @returns {HTMLElement} or undefined. If the item is in a branch that branch is returned.
  */
@@ -1431,7 +1395,6 @@ AbstractMenu.prototype._closeMyBranch = function(item) {
  * Gets the opener button of a branch node. This will be the node focussed when
  * a branch is given focus.
  * @function
- * @protected
  * @param {Element} branch a branch node.
  * @returns {HTMLElement} A button element or null if not found.
  */
@@ -1444,7 +1407,6 @@ AbstractMenu.prototype._getBranchOpener = function(branch) {
  * focus to a menu.
  *
  * @function
- * @protected
  * @param {Element} _item The menu item to focus.
  * @param {Element} _root The current menu's root node.
  * @param {function} [callback] An optional callback function.
@@ -1479,7 +1441,6 @@ AbstractMenu.prototype._focusItem = function(_item, _root, callback) {
 /**
  * determines if an item is a branch node.
  * @function
- * @protected
  * @param {Element} item The HTML element to test
  * @returns {Boolean} true if the item is a branch node
  */
@@ -1490,7 +1451,6 @@ AbstractMenu.prototype._isBranch = function(item) {
 /**
  * Determines if a given HTML element is a leaf node.
  * @function
- * @protected
  * @param {Element} element the HTML element to test
  * @returns {Boolean} true if the element is a leaf node of a menu
  */
@@ -1516,7 +1476,6 @@ AbstractMenu.prototype.isSubMenu = function(element) {
  * Use a keyWalker to get a target item/opener/branch. Pulled out of {@link _keyActivator} so that it can be
  * reused in {@link module:wc/ui/menu/bar~isFirstLastItem}.
  * @function
- * @protected
  * @param {Element} item The current menu item/opener
  * @param {String} action The keyMap action
  * @param {Element} [root] The menu root element
@@ -1544,8 +1503,6 @@ AbstractMenu.prototype._getTargetItem = function(item, action, root, forceCycle)
  * @see http://www.w3.org/TR/wai-aria-practices/#accordion
  *
  * @function
- * @protected
- *
  * @param {Element} item Where we start
  * @param {String} $key The KeyboardEvent key that was pressed
  * @param {Element} root The menu Root node
@@ -1587,7 +1544,6 @@ AbstractMenu.prototype._keyActivator = function(item, $key, root, SHIFT, CTRL) {
  * <p>If an element outside any menu receives focus and there is an open transient menu then that open menu
  * must be closed but may only be closed by the controller of the same type as the open menu.</p>
  * @function
- * @protected
  * @param {Event} $event The wrapped focus event.
  */
 AbstractMenu.prototype.focusEvent = function($event) {  // ignore the claim this function is unused - it is bound up in the event wrapper.
@@ -1628,7 +1584,6 @@ AbstractMenu.prototype.focusEvent = function($event) {  // ignore the claim this
 /**
  * Click event handler.
  * @function
- * @protected
  * @param {MouseEvent} $event the click event wrapped by {@link module:wc/dom/event}.
  */
 AbstractMenu.prototype.clickEvent = function($event) {
@@ -1678,7 +1633,6 @@ AbstractMenu.prototype.clickEvent = function($event) {
  * action for the key.
  *
  * @function
- * @protected
  * @param {KeyboardEvent} $event the keydown event.
  */
 AbstractMenu.prototype.keydownEvent = function($event) {
@@ -1713,7 +1667,6 @@ AbstractMenu.prototype.keydownEvent = function($event) {
  * Sets up the subclass specific selectors used to describe the various parts of the menu.
  *
  * @function
- * @protected
  */
 AbstractMenu.prototype._setUpWidgets = function() {
 	// NOTE: the aria-expanded attribute differentiates a sub menu from a column/tree menu's root.
@@ -1737,26 +1690,28 @@ AbstractMenu.prototype._setUpWidgets = function() {
  * @public
  */
 AbstractMenu.prototype.initialise = function() {
-	letterRe = new RegExp(i18n.get("letter"));
-	this._setUpWidgets();
-	this._setupKeymap();
+	return i18n.translate("letter").then(letterTranslated => {
+		letterRe = letterTranslated;
+		this._setUpWidgets();
+		this._setupKeymap();
 
-	event.add(window, { type: "focus", listener: eventWrapper.bind(this), capture: true });
-	event.add(window, "click", eventWrapper.bind(this));
+		event.add(window, { type: "focus", listener: eventWrapper.bind(this), capture: true });
+		event.add(window, "click", eventWrapper.bind(this));
 
-	if (this.preAjaxSubscriber) {
-		processResponse.subscribe(this.preAjaxSubscriber.bind(this));
-	}
-	processResponse.subscribe(postAjaxSubscriber.bind(this), true);
-	formUpdateManager.subscribe(this.writeState.bind(this));
+		if (this.preAjaxSubscriber) {
+			processResponse.subscribe(this.preAjaxSubscriber.bind(this));
+		}
+		processResponse.subscribe(postAjaxSubscriber.bind(this), true);
+		formUpdateManager.subscribe(this.writeState.bind(this));
 
-	shed.subscribe(shed.actions.SELECT, this._shedSubscriber.bind(this));
-	shed.subscribe(shed.actions.DESELECT, this._shedSubscriber.bind(this));
-	shed.subscribe(shed.actions.EXPAND, this._shedSubscriber.bind(this));
-	shed.subscribe(shed.actions.COLLAPSE, this._shedSubscriber.bind(this));
-	shed.subscribe(shed.actions.HIDE, this._shedSubscriber.bind(this));
-	shed.subscribe(shed.actions.ENABLE, this._shedSubscriber.bind(this));
-	shed.subscribe(shed.actions.DISABLE, this._shedSubscriber.bind(this));
+		shed.subscribe(shed.actions.SELECT, this._shedSubscriber.bind(this));
+		shed.subscribe(shed.actions.DESELECT, this._shedSubscriber.bind(this));
+		shed.subscribe(shed.actions.EXPAND, this._shedSubscriber.bind(this));
+		shed.subscribe(shed.actions.COLLAPSE, this._shedSubscriber.bind(this));
+		shed.subscribe(shed.actions.HIDE, this._shedSubscriber.bind(this));
+		shed.subscribe(shed.actions.ENABLE, this._shedSubscriber.bind(this));
+		shed.subscribe(shed.actions.DISABLE, this._shedSubscriber.bind(this));
+	});
 };
 
 /**

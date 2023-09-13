@@ -6,7 +6,7 @@ import shed from "wc/dom/shed.mjs";
 import i18n from "wc/i18n/i18n.mjs";
 import dateField from "wc/ui/dateField.mjs";
 import validationManager from "wc/ui/validation/validationManager.mjs";
-import sprintf from "lib/sprintf";
+import sprintf from "wc/string/sprintf.mjs";
 import isComplete from "wc/ui/validation/isComplete.mjs";
 import feedback from "wc/ui/feedback.mjs";
 
@@ -63,7 +63,7 @@ function isDateInvalid(element) {
 					dateString = comparisonDate.toLocaleDateString();
 					flag = i18n.get("validation_date_undermin");
 					// manipulate flag to replace the numbered string placeholders (so it ends up in the same format as the other flags)
-					flag = sprintf.sprintf(flag, LABEL_PLACEHOLDER, dateString);
+					flag = sprintf(flag, LABEL_PLACEHOLDER, dateString);
 				}
 			}
 			dateString = textbox.getAttribute(maxAttrib);
@@ -74,7 +74,7 @@ function isDateInvalid(element) {
 					dateString = comparisonDate.toLocaleDateString();
 					flag = i18n.get("validation_date_overmax");
 					// manipulate flag to replace the numbered string placeholders (so it ends up in the same format as the other flags)
-					flag = sprintf.sprintf(flag, LABEL_PLACEHOLDER, dateString);
+					flag = sprintf(flag, LABEL_PLACEHOLDER, dateString);
 				}
 			}
 		} else {
@@ -84,7 +84,7 @@ function isDateInvalid(element) {
 		}
 	}
 	if (invalid) {
-		feedback.flagError({ element, message: sprintf.sprintf(flag, validationManager.getLabelText(element)) });
+		feedback.flagError({ element, message: sprintf(flag, validationManager.getLabelText(element)) });
 	}
 	return invalid;
 }
@@ -98,7 +98,7 @@ function isDateInvalid(element) {
  */
 function messageFunction(element) {
 	const textbox = dateField.getTextBox(element);
-	return sprintf.sprintf(i18n.get("validation_common_incomplete"), validationManager.getLabelText(textbox));
+	return sprintf(i18n.get("validation_common_incomplete"), validationManager.getLabelText(textbox));
 }
 
 /**

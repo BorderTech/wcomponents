@@ -72,7 +72,7 @@ const instance = {
 
 	/**
 	 * Gets the URL to a resource in the theme resource directory.
-	 * @param {string} fileName The file name of a resource in the resource directory.
+	 * @param {string} [fileName] The file name of a resource in the resource directory.
 	 * @returns {string} The URL to the resource.
 	 */
 	getResourceUrl: function(fileName) {
@@ -97,7 +97,7 @@ const instance = {
 	 */
 	getCacheBuster: function() {
 		const config = getConfig();
-		if (config && config.cachebuster) {
+		if (config?.cachebuster) {
 			return config.cachebuster;
 		}
 		return null;

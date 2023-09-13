@@ -1,4 +1,4 @@
-import sprintf from "lib/sprintf.js";
+import sprintf from "wc/string/sprintf.mjs";
 import wcconfig from "wc/config.mjs";
 import mixin from "wc/mixin.mjs";
 import ajax from "wc/ajax/ajax.mjs";
@@ -11,7 +11,6 @@ const noop = function(key, ...args) {
 	},
 	GOOG_RE = /^(.+)-x-mtfrom-(.+)$/;
 
-
 const initializer = {
 	/**
 	 * Initialize this module.
@@ -19,15 +18,12 @@ const initializer = {
 	 * @returns {Promise} resolved when COMPLETELY initialized.
 	 */
 	initialize: function(config) {
-		return import("lib/i18next.js").then(module => {  // Should we prefetch this? Does this make it load too late? Does it NEED to be in the layer?
+		return import("lib/i18next/i18next.js").then(module => {  // Should we prefetch this? Does this make it load too late? Does it NEED to be in the layer?
 			const useConfig = config || wcconfig.get("wc/i18n/i18n") || {};
-			initI18next(module.default, useConfig, (err, translate) => {
+			return initI18next(module.default, useConfig).then(translate => {
 				if (translate) {
 					instance.get = translatorFactory(translate);
 					return translate;
-				}
-				if (err) {
-					throw err;
 				}
 			});
 		});
@@ -91,7 +87,7 @@ const instance = {
 	 */
 	_getLang: function(element) {
 		/*
-		 * Handles a special case for Google Tranlate, full details here: https://github.com/BorderTech/wcomponents/issues/994
+		 * Handles a special case for Google Translate, full details here: https://github.com/BorderTech/wcomponents/issues/994
 		 * Format is: toLang-x-mtfrom-fromLang
 		 */
 		let result;
@@ -134,7 +130,7 @@ function translatorFactory(funcTranslate) {
 			result = (key && funcTranslate) ? funcTranslate(key) : "";
 			if (result && args.length) {
 				const printfArgs = [result].concat(args);
-				result = sprintf.sprintf(...printfArgs);
+				result = sprintf(...printfArgs);
 			}
 		}
 		return result;
@@ -157,8 +153,7 @@ const backend = {
 	read: function(language, namespace, callback) {
 		let cacheBuster = this.options.cachebuster || "";
 		let url = this.services.interpolator.interpolate(this.options.loadPath, { lng: language, ns: namespace });
-		// @ts-ignore
-		url = require.toUrl(url);
+		// url = require.toUrl(url);
 		if (cacheBuster) {
 			cacheBuster = "?" + cacheBuster;
 			if (url.indexOf(cacheBuster) < 0) {  // requirejs will probably have added the cachebuster
@@ -166,7 +161,7 @@ const backend = {
 			}
 		}
 		ajax.simpleRequest({
-			url: url,
+			url,
 			cache: true,
 			callback: function(response) {
 				try {
@@ -181,6 +176,7 @@ const backend = {
 		});
 	}
 };
+
 
 /**
  * Gets i18next options taking into account defaults and overrides provided by the caller.
@@ -213,15 +209,22 @@ function getOptions(i18nConfig) {
  * @private
  * @param engine The instance of i18next to initialize.
  * @param config Configuration options.
- * @param {Function} [callback] Called when initialized, if the first arg is not falsy it's an error.
+ * @return {Promise} when initialized
  */
-function initI18next(engine, config, callback) {
-	const options = getOptions(config);
-	try {
-		engine.use(backend).init(options, callback);
-	} catch (ex) {
-		callback(ex);
-	}
+function initI18next(engine, config) {
+	return new Promise((win, lose) => {
+		const options = getOptions(config);
+		try {
+			engine.use(backend).init(options, (err, translate) => {
+				if (err) {
+					lose(err);
+				}
+				win(translate);
+			});
+		} catch (ex) {
+			lose(ex);
+		}
+	});
 }
 
 initialise.register({

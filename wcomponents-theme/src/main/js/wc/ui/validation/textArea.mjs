@@ -8,7 +8,7 @@ import event from "wc/dom/event.mjs";
 import initialise from "wc/dom/initialise.mjs";
 import shed from "wc/dom/shed.mjs";
 import i18n from "wc/i18n/i18n.mjs";
-import sprintf from "lib/sprintf";
+import sprintf from "wc/string/sprintf.mjs";
 import required from "wc/ui/validation/required.mjs";
 import validationManager from "wc/ui/validation/validationManager.mjs";
 import feedback from "wc/ui/feedback.mjs";
@@ -62,7 +62,7 @@ function doContraintValidityTest(element) {
 		}
 
 		if (result) {
-			const message = sprintf.sprintf(flag, validationManager.getLabelText(element));
+			const message = sprintf(flag, validationManager.getLabelText(element));
 			feedback.flagError({ element, message });
 		}
 	}

@@ -39,7 +39,8 @@ const FIELD_CLASS = "wc-datefield",
 	LAUNCHER = "button.wc_wdf_cal",
 	startVal = {};
 
-let parsers,  // lazy init will store the Parser instances when first used
+let dateFormatMask,  // loaded from i18n
+	parsers,  // lazy init will store the Parser instances when first used
 	formatter,  // lazy init on first use
 	filterTimer,  // timeout handle
 	openDateCombo = "";  // {string} the id of the currently open date field (if any)
@@ -53,9 +54,9 @@ const instance = {
 	 * @param {HTMLInputElement} element An input element, either full or partial date.
 	 */
 	acceptFirstMatch: function(element) {
-		let dateField;
 		const matches = getMatches(element);
-		if (matches && matches.length && (dateField = this.get(element))) {
+		const dateField = matches?.length ? this.get(element) : null;
+		if (dateField) {
 			const _matches = matches.map(function(next) {
 				return format(next.toXfer());
 			});
@@ -66,13 +67,13 @@ const instance = {
 				if (_value !== element.value) {
 					element.value = _value;
 					/*
-					 * Do not fire the change event if this update is occuring in a documentFragment.
+					 * Do not fire the change event if this update is occurring in a documentFragment.
 					 * For example when processing an AJAX response ajaxSetup will eventually call this function to set up date fields
 					 * before inserting the documentFragment into the DOM. We do not want change events fired in this scenario.
 					 * It leads to potential infinite AJAX triggering if the date field is both a trigger and a target.
 					 * See issue #1455 https://github.com/BorderTech/wcomponents/issues/1455
 					 */
-					if (document.body && document.body.contains(element)) {
+					if (document?.body.contains(element)) {
 						timers.setTimeout(event.fire, 0, element, "change");
 					}
 				}
@@ -364,7 +365,7 @@ function focusListbox(suggestionList) {
  * @returns {String} A human-readable date as a string.
  */
 function format(xfer) {
-	const myFormatter = formatter || (formatter = new Format(i18n.get("datefield_mask_format")));
+	const myFormatter = formatter || (formatter = new Format());
 	return myFormatter.format(xfer);
 }
 
@@ -560,9 +561,9 @@ function reverseFormat(element, guess) {
 function showSuggestions(matches, dateField) {
 	let lastVal = "", suggestionList;
 
-	for (let i = 0; i < matches.length; i++) {
-		lastVal = format(matches[i].toXfer());
-		matches[i].html = lastVal;
+	for (const element of matches) {
+		lastVal = format(element.toXfer());
+		element.html = lastVal;
 	}
 
 	if (matches.length && (suggestionList = getSuggestionList(dateField))) {
@@ -696,7 +697,7 @@ function ajaxSetup(_element, documentFragment) {
  */
 function shedSelectSubscriber(element) {
 	let dateField;
-	if (element && element.hasAttribute(FAKE_VALUE_ATTRIB) && getSuggestionList(element, 1) && (dateField = instance.get(element))) {
+	if (element?.hasAttribute(FAKE_VALUE_ATTRIB) && getSuggestionList(element, 1) && (dateField = instance.get(element))) {
 		setValueFromOption(dateField, element);
 	}
 }
@@ -786,8 +787,7 @@ function getFuncForAction(action) {
  */
 function writeState(form, stateContainer) {
 	const dateFields = form.querySelectorAll(DATE_FIELD), nameSuffix = "-date";
-	for (let i = 0; i < dateFields.length; i++) {
-		const next = dateFields[i];
+	for (const next of dateFields) {
 		const name = next.id + nameSuffix;
 		if (!shed.isDisabled(next)) {
 			let numVal = instance.getValue(next);
@@ -1001,10 +1001,13 @@ initialise.register({
 	 * @param {Element} element The element being initialised, usually document.body.
 	 */
 	initialise: element => {
-		event.add(element, { type: "focus", listener: focusEvent, capture: true });
-		event.add(element, "click", clickEvent);
-		formUpdateManager.subscribe({ writeState });
-		setUpDateFields();
+		return i18n.translate("datefield_mask_format").then(mask => {
+			dateFormatMask = mask;
+			event.add(element, { type: "focus", listener: focusEvent, capture: true });
+			event.add(element, "click", clickEvent);
+			formUpdateManager.subscribe({ writeState });
+			setUpDateFields();
+		});
 	},
 
 	/**

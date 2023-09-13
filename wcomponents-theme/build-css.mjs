@@ -1,12 +1,11 @@
 /* eslint-env node, es6  */
 import fs from "fs-extra";
 import path from "path";
-// const { dirs: { style: dirs } } = require("./scripts/build-util");
 import { dirs } from "./scripts/build-util.mjs";
 import sass from "sass";
 import themeLinter from "./scripts/lintfile.mjs";
-import { fileURLToPath } from 'url';
-const { images: styleDirs } = dirs;
+import { fileURLToPath } from "url";
+const { style: styleDirs } = dirs;
 const __filename = fileURLToPath(import.meta.url);
 
 const entryFile = process.argv?.[1];
@@ -39,7 +38,7 @@ function compileAllSass() {
 	let compiled = [];
 	let errors = [];
 	let files = fs.readdirSync(styleDirs.src);
-	files.forEach(function (file) {
+	files.forEach(file => {
 		if (/^[^_].+\.scss$/.test(file)) {
 			let sassFile = path.join(styleDirs.src, file);
 			let cssFile = path.basename(file, ".scss");
@@ -64,7 +63,7 @@ function compileSass(sassFile, cssFile, isDebug) {
 		file: sassFile,
 		outputStyle: isDebug ? "expanded" : "compressed"
 	});
-	if (result && result.css) {
+	if (result?.css) {
 		result = result.css.toString();
 		if (cssFile) {
 			console.log("Compiling", cssFile);

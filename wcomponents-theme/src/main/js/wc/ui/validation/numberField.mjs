@@ -5,7 +5,7 @@ import i18n from "wc/i18n/i18n.mjs";
 import validationManager from "wc/ui/validation/validationManager.mjs";
 import required from "wc/ui/validation/required.mjs";
 import feedback from "wc/ui/feedback.mjs";
-import sprintf from "lib/sprintf";
+import sprintf from "wc/string/sprintf.mjs";
 
 const NUM_FIELD = "input[type='number']",
 	MAX = "max",
@@ -41,7 +41,7 @@ async function isInvalid(element) {
 		}
 		if (message) {
 			result = true;
-			message = sprintf.sprintf(message, validationManager.getLabelText(element), (min || max), max);
+			message = sprintf(message, validationManager.getLabelText(element), (min || max), max);
 			feedback.flagError({ element, message });
 		}
 	}
