@@ -34,7 +34,7 @@
  * @author Rick Brown
  */
 
-import i18n from "wc/i18n/i18n";
+import i18n from "wc/i18n/i18n.mjs";
 
 const lookupProp = "asciimap",
 	cache = {};

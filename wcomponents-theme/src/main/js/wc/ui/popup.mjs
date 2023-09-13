@@ -10,10 +10,10 @@
  * must have its popupTrigger property set to true (using `button.setpopupTrigger(true);` in Java)</p>
  */
 
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
-import uid from "wc/dom/uid";
-import timers from "wc/timers";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import uid from "wc/dom/uid.mjs";
+import timers from "wc/timers.mjs";
 
 const processQueueDelay = 1000,
 	URL_INDEX = 0,

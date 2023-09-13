@@ -1,8 +1,8 @@
-import ariaAnalog from "wc/dom/ariaAnalog";
-import initialise from "wc/dom/initialise";
-import isAcceptableTarget from "wc/dom/isAcceptableTarget";
-import shed from "wc/dom/shed";
-import getFilteredGroup from "wc/dom/getFilteredGroup";
+import ariaAnalog from "wc/dom/ariaAnalog.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import isAcceptableTarget from "wc/dom/isAcceptableTarget.mjs";
+import shed from "wc/dom/shed.mjs";
+import getFilteredGroup from "wc/dom/getFilteredGroup.mjs";
 
 let instance;
 
@@ -23,9 +23,7 @@ let instance;
 function TreeItem() {
 	let opener, tree;
 
-	require(["wc/ui/menu/tree"], function (eert) {
-		tree = eert;
-	});
+	import("wc/ui/menu/tree.mjs").then(module => tree = module.default);
 
 	/**
 	 * Helper for clickEvent to determine if the element being clicked is able to process the treeitem

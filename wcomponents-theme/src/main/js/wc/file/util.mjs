@@ -7,9 +7,9 @@
  * @module
  */
 
-import uid from "wc/dom/uid";
-import getMimeType from "wc/file/getMimeType";
-import wcconfig from "wc/config";
+import uid from "wc/dom/uid.mjs";
+import getMimeType from "wc/file/getMimeType.mjs";
+import wcconfig from "wc/config.mjs";
 
 /**
  * Map of mimetype to extension, used when checking the newly created file is named

@@ -5,7 +5,7 @@
  * @example dayName.get()[1];  // is "Monday" in English
  */
 
-import i18n from "wc/i18n/i18n";
+import i18n from "wc/i18n/i18n.mjs";
 
 let days;
 /**

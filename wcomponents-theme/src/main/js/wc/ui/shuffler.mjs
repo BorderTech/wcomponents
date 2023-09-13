@@ -1,8 +1,8 @@
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
-import formUpdateManager from "wc/dom/formUpdateManager";
-import getFilteredGroup from "wc/dom/getFilteredGroup";
-import ajaxRegion from "wc/ui/ajaxRegion";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import formUpdateManager from "wc/dom/formUpdateManager.mjs";
+import getFilteredGroup from "wc/dom/getFilteredGroup.mjs";
+import ajaxRegion from "wc/ui/ajaxRegion.mjs";
 
 const moveButtonQs = "button.wc_sorter";
 const containerQs = ".wc-shuffler";

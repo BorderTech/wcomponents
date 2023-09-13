@@ -1,5 +1,5 @@
-import group from "wc/dom/group";
-import shed from "wc/dom/shed";
+import group from "wc/dom/group.mjs";
+import shed from "wc/dom/shed.mjs";
 
 /**
  * Provides some extra functionality on single selectable SELECT elements (WDropdown).

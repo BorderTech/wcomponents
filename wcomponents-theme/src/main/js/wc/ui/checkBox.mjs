@@ -1,8 +1,8 @@
-import initialise from "wc/dom/initialise";
-import shed from "wc/dom/shed";
-import formUpdateManager from "wc/dom/formUpdateManager";
-import processResponse from "wc/ui/ajax/processResponse";
-import cbrShedPublisher from "wc/dom/cbrShedPublisher";
+import initialise from "wc/dom/initialise.mjs";
+import shed from "wc/dom/shed.mjs";
+import formUpdateManager from "wc/dom/formUpdateManager.mjs";
+import processResponse from "wc/ui/ajax/processResponse.mjs";
+import cbrShedPublisher from "wc/dom/cbrShedPublisher.mjs";
 
 const CONTROLS = "aria-controls";
 const checkboxSelector = cbrShedPublisher.getWidget("cb").toString();

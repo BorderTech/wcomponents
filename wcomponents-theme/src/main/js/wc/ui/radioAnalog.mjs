@@ -13,8 +13,8 @@
  *
  */
 
-import ariaAnalog from "wc/dom/ariaAnalog";
-import initialise from "wc/dom/initialise";
+import ariaAnalog from "wc/dom/ariaAnalog.mjs";
+import initialise from "wc/dom/initialise.mjs";
 
 RadioAnalog.prototype = ariaAnalog;
 const instance = new RadioAnalog();

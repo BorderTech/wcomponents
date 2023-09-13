@@ -76,6 +76,7 @@ public abstract class TestServlet extends WServlet implements LdeLauncher {
 		server.addConnector(connector);
 
 		WebAppContext webapp = createWebApp(server);
+		webapp.getMimeTypes().addMimeMapping("mjs", "text/javascript");
 
 		try {
 			server.start();

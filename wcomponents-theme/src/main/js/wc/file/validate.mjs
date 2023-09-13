@@ -1,7 +1,7 @@
-import i18n from "wc/i18n/i18n";
-import size from "wc/file/size";
-import accepted from "wc/file/accepted";
-import prompt from "wc/ui/prompt";
+import i18n from "wc/i18n/i18n.mjs";
+import size from "wc/file/size.mjs";
+import accepted from "wc/file/accepted.mjs";
+import prompt from "wc/ui/prompt.mjs";
 
 /**
  * Check a file upload complies with its constraints.

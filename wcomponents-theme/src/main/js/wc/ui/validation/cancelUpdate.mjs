@@ -5,11 +5,11 @@
 * @see {@link module:wc/ui/cancelUpdate}
 */
 
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
-import focus from "wc/dom/focus";
-import validationManager from "wc/ui/validation/validationManager";
-import ajaxRegion from "wc/ui/ajaxRegion";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import focus from "wc/dom/focus.mjs";
+import validationManager from "wc/ui/validation/validationManager.mjs";
+import ajaxRegion from "wc/ui/ajaxRegion.mjs";
 
 const formSelector = "form";
 const submitControlSelector = "button[type='submit']";

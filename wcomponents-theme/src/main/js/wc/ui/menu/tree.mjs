@@ -1,13 +1,13 @@
-import abstractMenu from "wc/ui/menu/core";
-import keyWalker from "wc/dom/keyWalker";
-import shed from "wc/dom/shed";
-import treeItem from "wc/ui/menu/treeItem";
-import initialise from "wc/dom/initialise";
-import formUpdateManager from "wc/dom/formUpdateManager";
-import getFilteredGroup from "wc/dom/getFilteredGroup";
-import ajaxRegion from "wc/ui/ajaxRegion";
-import timers from "wc/timers";
-import icon from "wc/ui/icon";
+import abstractMenu from "wc/ui/menu/core.mjs";
+import keyWalker from "wc/dom/keyWalker.mjs";
+import shed from "wc/dom/shed.mjs";
+import treeItem from "wc/ui/menu/treeItem.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import formUpdateManager from "wc/dom/formUpdateManager.mjs";
+import getFilteredGroup from "wc/dom/getFilteredGroup.mjs";
+import ajaxRegion from "wc/ui/ajaxRegion.mjs";
+import timers from "wc/timers.mjs";
+import icon from "wc/ui/icon.mjs";
 
 let instance;
 

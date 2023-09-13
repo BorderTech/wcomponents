@@ -13,8 +13,9 @@
  *
  * @author Rick Brown
  */
-const fs = require("fs-extra");
-const path = require("path");
+import fs from "fs-extra";
+import path from "path";
+
 const libDir = "lib";
 let minList;  // initialised on first use
 
@@ -36,7 +37,7 @@ let libs = {
 	"sprintf-js/dist/sprintf.min.js": {
 		dest: "sprintf.min.js"
 	},
-	"i18next/i18next.min.js": {
+	"i18next/dist/esm/i18next.js": {
 		dest: "i18next.js"
 	},
 	"requirejs/require.js": {
@@ -59,7 +60,7 @@ let libs = {
  * @param {string} rootDir The path to the project root. This allows this script to be "portable".
  * @param {string} moduleDir The path to the module directory where the "lib" will be located.
  */
-function build(rootDir, moduleDir) {
+export function build(rootDir, moduleDir) {
 	console.time("buildLibs");
 	let libPaths = Object.keys(libs);
 	libPaths.forEach(nextLib => {
@@ -100,7 +101,7 @@ function ensureLib(nodeModule, libTarget) {
 /**
  * Some of the minified libs will have sourcemap entries.
  * We shouldn't need them but having them prevents errors in the dev tools.
- * @param {{string} nodeModule the path to the lib in node_modules.
+ * @param {string} nodeModule the path to the lib in node_modules.
  * @param {string} libTarget The location where the resource will be created in the lib directory.
  */
 function sourceMap(nodeModule, libTarget) {
@@ -137,14 +138,14 @@ function buildMinList() {
  *    If the module is not a library module then the result will be true.
  * @returns {boolean} true if this module needs to be minified (as far as build-libs is concerned).
  */
-function doMinify(module) {
+export function doMinify(module) {
 	if (!minList) {
 		minList = buildMinList();
 	}
 	return module.indexOf(libDir + "/") < 0 || minList.some(nextPath => module.indexOf(nextPath) === 0);
 }
 
-module.exports = {
+export default {
 	build,
 	doMinify
 };

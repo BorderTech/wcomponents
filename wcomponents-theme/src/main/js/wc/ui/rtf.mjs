@@ -5,9 +5,9 @@
  * The config member "initObj" can be set to an abject containing any tinyMCE cofiguration members **except**
  * selector. This allows customised RTF per implementation. This should be added in the template
  */
-import initialise from "wc/dom/initialise";
-import wcconfig from "wc/config";
-import styleLoader from "wc/loader/style";
+import initialise from "wc/dom/initialise.mjs";
+import wcconfig from "wc/config.mjs";
+import styleLoader from "wc/loader/style.mjs";
 import tinyMCE from "tinyMCE";
 
 /**

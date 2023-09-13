@@ -7,8 +7,8 @@
  */
 
 import io from "lib/socketio/socket.io";
-import debounce from "wc/debounce";
-import cookie from "wc/dom/cookie";
+import debounce from "wc/debounce.mjs";
+import cookie from "wc/dom/cookie.mjs";
 
 const handlers = {
 	images: /**

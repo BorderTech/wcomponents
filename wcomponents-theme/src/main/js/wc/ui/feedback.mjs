@@ -1,8 +1,8 @@
-import diagnostic from "wc/dom/diagnostic";
-import wrappedInput from "wc/dom/wrappedInput";
-import icon from "wc/ui/icon";
-import getLabelsForElement from "wc/dom/getLabelsForElement";
-import wcconfig from "wc/config";
+import diagnostic from "wc/dom/diagnostic.mjs";
+import wrappedInput from "wc/dom/wrappedInput.mjs";
+import icon from "wc/ui/icon.mjs";
+import getLabelsForElement from "wc/dom/getLabelsForElement.mjs";
+import wcconfig from "wc/config.mjs";
 
 const checkables = ["input[type='checkbox']", "input[type='radio']"].join();
 const writeOutsideThese = ["input", "select", "textarea"].join(),

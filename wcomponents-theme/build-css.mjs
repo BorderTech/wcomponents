@@ -1,11 +1,16 @@
 /* eslint-env node, es6  */
-const fs = require("fs-extra");
-const path = require("path");
-const { dirs: { style: dirs } } = require("./scripts/build-util");
-const sass = require("sass");
-const themeLinter = require("./scripts/lintfile");
+import fs from "fs-extra";
+import path from "path";
+// const { dirs: { style: dirs } } = require("./scripts/build-util");
+import { dirs } from "./scripts/build-util.mjs";
+import sass from "sass";
+import themeLinter from "./scripts/lintfile.mjs";
+import { fileURLToPath } from 'url';
+const { images: styleDirs } = dirs;
+const __filename = fileURLToPath(import.meta.url);
 
-if (require.main === module) {
+const entryFile = process.argv?.[1];
+if (entryFile === __filename) {
 	build();
 }
 
@@ -20,7 +25,7 @@ function build(singleFile) {
 			console.time("buildCss");
 			themeLinter.runSass(singleFile);
 			clean();
-			fs.mkdirpSync(dirs.target);
+			fs.mkdirpSync(styleDirs.target);
 			let result = compileAllSass();
 			console.timeEnd("buildCss");
 			win(result);
@@ -33,13 +38,13 @@ function build(singleFile) {
 function compileAllSass() {
 	let compiled = [];
 	let errors = [];
-	let files = fs.readdirSync(dirs.src);
+	let files = fs.readdirSync(styleDirs.src);
 	files.forEach(function (file) {
 		if (/^[^_].+\.scss$/.test(file)) {
-			let sassFile = path.join(dirs.src, file);
+			let sassFile = path.join(styleDirs.src, file);
 			let cssFile = path.basename(file, ".scss");
 			compiled.push(cssFile);
-			cssFile = path.join(dirs.target, cssFile + ".css");
+			cssFile = path.join(styleDirs.target, cssFile + ".css");
 			try {
 				compileSass(sassFile, cssFile, file.indexOf("debug") >= 0);
 			} catch (ex) {
@@ -75,9 +80,9 @@ function compileSass(sassFile, cssFile, isDebug) {
  * Clean the output of previous builds.
  */
 function clean() {
-	fs.removeSync(dirs.target);
+	fs.removeSync(styleDirs.target);
 }
 
-module.exports = {
+export default {
 	build
 };

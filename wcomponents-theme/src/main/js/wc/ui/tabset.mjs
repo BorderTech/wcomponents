@@ -4,18 +4,18 @@
  * @module
  */
 
-import ariaAnalog from "wc/dom/ariaAnalog";
-import formUpdateManager from "wc/dom/formUpdateManager";
-import getFilteredGroup from "wc/dom/getFilteredGroup";
-import initialise from "wc/dom/initialise";
-import shed from "wc/dom/shed";
-import containerload from "wc/ui/containerload";
-import focus from "wc/dom/focus";
-import viewportUtils from "wc/ui/viewportUtils";
-import processResponse from "wc/ui/ajax/processResponse";
-import event from "wc/dom/event";
-import debounce from "wc/debounce";
-import getStyle from "wc/dom/getStyle";
+import ariaAnalog from "wc/dom/ariaAnalog.mjs";
+import formUpdateManager from "wc/dom/formUpdateManager.mjs";
+import getFilteredGroup from "wc/dom/getFilteredGroup.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import shed from "wc/dom/shed.mjs";
+import containerload from "wc/ui/containerload.mjs";
+import focus from "wc/dom/focus.mjs";
+import viewportUtils from "wc/ui/viewportUtils.mjs";
+import processResponse from "wc/ui/ajax/processResponse.mjs";
+import event from "wc/dom/event.mjs";
+import debounce from "wc/debounce.mjs";
+import getStyle from "wc/dom/getStyle.mjs";
 
 
 let instance;

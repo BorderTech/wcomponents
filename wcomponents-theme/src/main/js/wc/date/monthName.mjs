@@ -4,8 +4,8 @@
  *
  */
 
-import i18n from "wc/i18n/i18n";
-import asciify from "wc/i18n/asciify";
+import i18n from "wc/i18n/i18n.mjs";
+import asciify from "wc/i18n/asciify.mjs";
 
 let months,
 	monthsAbbr,

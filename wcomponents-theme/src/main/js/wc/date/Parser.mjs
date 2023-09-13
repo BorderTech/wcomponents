@@ -1,7 +1,7 @@
-import $today from "wc/date/today";
-import $pattern from "wc/date/pattern";
-import interchange from "wc/date/interchange";
-import explodeMask from "wc/date/explodeMask";
+import $today from "wc/date/today.mjs";
+import $pattern from "wc/date/pattern.mjs";
+import interchange from "wc/date/interchange.mjs";
+import explodeMask from "wc/date/explodeMask.mjs";
 
 const maskCache = {};
 const SEPARATOR = "/";

@@ -1,4 +1,4 @@
-import getBox from "wc/dom/getBox";
+import getBox from "wc/dom/getBox.mjs";
 
 /**
  * Get the viewport size.

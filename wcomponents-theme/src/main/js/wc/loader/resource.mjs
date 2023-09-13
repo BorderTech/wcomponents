@@ -1,8 +1,8 @@
 // TODO delete / rewrite this module
-import ajax from "wc/ajax/ajax";
-import prefetch from "wc/loader/prefetch";
-import wcconfig from "wc/config";
-import Observer from "wc/Observer";
+import ajax from "wc/ajax/ajax.mjs";
+import prefetch from "wc/loader/prefetch.mjs";
+import wcconfig from "wc/config.mjs";
+import Observer from "wc/Observer.mjs";
 
 let baseUrl, observer;
 

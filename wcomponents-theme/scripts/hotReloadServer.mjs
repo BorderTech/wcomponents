@@ -5,7 +5,7 @@
  *
  * @author Rick Brown
  */
-const Server = require("socket.io");
+import Server from "socket.io";
 let io;
 
 /**
@@ -40,7 +40,7 @@ function notify(changed, type=null) {
 	}
 }
 
-module.exports = {
+export default {
 	listen,
 	notify
 };

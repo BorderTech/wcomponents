@@ -1,9 +1,9 @@
-import sprintf from "lib/sprintf";
-import wcconfig from "wc/config";
-import mixin from "wc/mixin";
-import ajax from "wc/ajax/ajax";
-import resource from "wc/loader/resource";
-import initialise from "wc/dom/initialise";
+import sprintf from "lib/sprintf.js";
+import wcconfig from "wc/config.mjs";
+import mixin from "wc/mixin.mjs";
+import ajax from "wc/ajax/ajax.mjs";
+import resource from "wc/loader/resource.mjs";
+import initialise from "wc/dom/initialise.mjs";
 
 const noop = function(key, ...args) {
 		console.warn("Calling i18n before inited ", key, args);
@@ -19,37 +19,17 @@ const initializer = {
 	 * @returns {Promise} resolved when COMPLETELY initialized.
 	 */
 	initialize: function(config) {
-		// return import("lib/i18next").then(engine => {  // Should we prefetch this? Does this make it load too late? Does it NEED to be in the layer?
-		// 	const useConfig = config || wcconfig.get("wc/i18n/i18n") || {};
-		// 	initI18next(engine, useConfig, (err, translate) => {
-		// 		if (translate) {
-		// 			instance.get = translatorFactory(translate);
-		// 			return translate;
-		// 		}
-		// 		if (err) {
-		// 			throw err;
-		// 		}
-		// 	});
-		// });
-		return new Promise(function(win, lose) {
-			if (config || instance.get === noop) {
-				// @ts-ignore
-				require(["lib/i18next"], function(engine) {  // Should we prefetch this? Does this make it load too late? Does it NEED to be in the layer?
-					const useConfig = config || wcconfig.get("wc/i18n/i18n") || {};
-					initI18next(engine, useConfig, function(err, translate) {
-						if (translate) {
-							instance.get = translatorFactory(translate);
-						}
-						if (err) {
-							lose(err);
-						} else {
-							win();
-						}
-					});
-				});
-			} else {
-				win();
-			}
+		return import("lib/i18next.js").then(module => {  // Should we prefetch this? Does this make it load too late? Does it NEED to be in the layer?
+			const useConfig = config || wcconfig.get("wc/i18n/i18n") || {};
+			initI18next(module.default, useConfig, (err, translate) => {
+				if (translate) {
+					instance.get = translatorFactory(translate);
+					return translate;
+				}
+				if (err) {
+					throw err;
+				}
+			});
 		});
 	}
 };

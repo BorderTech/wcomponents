@@ -5,7 +5,7 @@
  *
  * @module
  */
-import copy from "wc/date/copy";
+import copy from "wc/date/copy.mjs";
 
 let date = new Date();
 

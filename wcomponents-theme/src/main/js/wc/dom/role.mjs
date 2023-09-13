@@ -1,4 +1,4 @@
-import impliedARIA from "wc/dom/impliedARIA";
+import impliedARIA from "wc/dom/impliedARIA.mjs";
 /**
  * Utility class for dealing with WAI-ARIA role or implied role of elements.
  *

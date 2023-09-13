@@ -3,10 +3,10 @@
  * WComponent, but for most of them we have a simple test using an extension of {@link module:wc/dom/isSuccessfulElement}.
  */
 
-import Observer from "wc/Observer";
-import getFilteredGroup from "wc/dom/getFilteredGroup";
-import isSuccessfulElement from "wc/dom/isSuccessfulElement";
-import validationManager from "wc/ui/validation/validationManager";
+import Observer from "wc/Observer.mjs";
+import getFilteredGroup from "wc/dom/getFilteredGroup.mjs";
+import isSuccessfulElement from "wc/dom/isSuccessfulElement.mjs";
+import validationManager from "wc/ui/validation/validationManager.mjs";
 
 let observer;
 const controlsSelector = "[name]",

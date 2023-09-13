@@ -1,17 +1,17 @@
-import abstractMenu from "wc/ui/menu/core";
-import event from "wc/dom/event";
-import keyWalker from "wc/dom/keyWalker";
-import shed from "wc/dom/shed";
-import initialise from "wc/dom/initialise";
-import uid from "wc/dom/uid";
-import i18n from "wc/i18n/i18n";
-import debounce from "wc/debounce";
-import processResponse from "wc/ui/ajax/processResponse";
-import viewportUtils from "wc/ui/viewportUtils";
+import abstractMenu from "wc/ui/menu/core.mjs";
+import event from "wc/dom/event.mjs";
+import keyWalker from "wc/dom/keyWalker.mjs";
+import shed from "wc/dom/shed.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import uid from "wc/dom/uid.mjs";
+import i18n from "wc/i18n/i18n.mjs";
+import debounce from "wc/debounce.mjs";
+import processResponse from "wc/ui/ajax/processResponse.mjs";
+import viewportUtils from "wc/ui/viewportUtils.mjs";
 /* Unused dependencies:
  * We will need "wc/ui/menu/menuItem" if we have any selectable items so we get it just in case rather than
  * doing a convoluted XPath lookup in XSLT. */
-import "wc/ui/menu/menuItem";
+import "wc/ui/menu/menuItem.mjs";
 
 const MENU_FIXED = "wc_menu_fix",
 	BURGER_MENU_CLASS = "wc_menu_hbgr",

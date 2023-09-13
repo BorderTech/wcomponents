@@ -1,8 +1,8 @@
-import ariaAnalog from "wc/dom/ariaAnalog";
-import initialise from "wc/dom/initialise";
-import focus from "wc/dom/focus";
-import getFilteredGroup from "wc/dom/getFilteredGroup";
-import shed from "wc/dom/shed";
+import ariaAnalog from "wc/dom/ariaAnalog.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import focus from "wc/dom/focus.mjs";
+import getFilteredGroup from "wc/dom/getFilteredGroup.mjs";
+import shed from "wc/dom/shed.mjs";
 
 let instance;
 

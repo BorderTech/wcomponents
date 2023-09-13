@@ -1,7 +1,7 @@
-import ajax from "wc/ajax/ajax";
-import Observer from "wc/Observer";
-import toDocFragment from "wc/dom/toDocFragment";
-import timers from "wc/timers";
+import ajax from "wc/ajax/ajax.mjs";
+import Observer from "wc/Observer.mjs";
+import toDocFragment from "wc/dom/toDocFragment.mjs";
+import timers from "wc/timers.mjs";
 
 const LIST_ID_PARAM = "wc_data",
 	pending = {},

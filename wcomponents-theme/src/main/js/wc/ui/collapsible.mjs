@@ -1,13 +1,13 @@
-import event from "wc/dom/event";
-import focus from "wc/dom/focus";
-import formUpdateManager from "wc/dom/formUpdateManager";
-import initialise from "wc/dom/initialise";
-import shed from "wc/dom/shed";
-import timers from "wc/timers";
-import isEventInLabel from "wc/dom/isEventInLabel";
-import isAcceptableEventTarget from "wc/dom/isAcceptableTarget";
-import $role from "wc/dom/role";
-import icon from "wc/ui/icon";
+import event from "wc/dom/event.mjs";
+import focus from "wc/dom/focus.mjs";
+import formUpdateManager from "wc/dom/formUpdateManager.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import shed from "wc/dom/shed.mjs";
+import timers from "wc/timers.mjs";
+import isEventInLabel from "wc/dom/isEventInLabel.mjs";
+import isAcceptableEventTarget from "wc/dom/isAcceptableTarget.mjs";
+import $role from "wc/dom/role.mjs";
+import icon from "wc/ui/icon.mjs";
 
 const containerSelector = "details";
 const headerSelector = `${containerSelector} > summary`;

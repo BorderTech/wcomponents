@@ -1,6 +1,6 @@
-import shed from "wc/dom/shed";
-import tooltip from "wc/ui/tooltip";
-import label from "wc/ui/label";
+import shed from "wc/dom/shed.mjs";
+import tooltip from "wc/ui/tooltip.mjs";
+import label from "wc/ui/label.mjs";
 
 /**
  * Funny old TreeWalker filter: we want to get all the nodes we can remove from element, so we ACCEPT anything

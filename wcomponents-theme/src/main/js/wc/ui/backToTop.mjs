@@ -2,13 +2,13 @@
  * Provides functionality to provide a back to top link which is scroll and viewport size aware.
  */
 
-import i18n from "wc/i18n/i18n";
-import event from "wc/dom/event";
-import focus from "wc/dom/focus";
-import getViewportSize from "wc/dom/getViewportSize";
-import shed from "wc/dom/shed";
-import wcconfig from "wc/config";
-import initialise from "wc/dom/initialise";
+import i18n from "wc/i18n/i18n.mjs";
+import event from "wc/dom/event.mjs";
+import focus from "wc/dom/focus.mjs";
+import getViewportSize from "wc/dom/getViewportSize.mjs";
+import shed from "wc/dom/shed.mjs";
+import wcconfig from "wc/config.mjs";
+import initialise from "wc/dom/initialise.mjs";
 
 /**
  * Custom configuration

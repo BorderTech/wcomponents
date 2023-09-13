@@ -1,7 +1,7 @@
-import focus from "wc/dom/focus";
-import initialise from "wc/dom/initialise";
-import processResponse from "wc/ui/ajax/processResponse";
-import timers from "wc/timers";
+import focus from "wc/dom/focus.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import processResponse from "wc/ui/ajax/processResponse.mjs";
+import timers from "wc/timers.mjs";
 
 let focusId;
 

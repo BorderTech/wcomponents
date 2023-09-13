@@ -9,11 +9,11 @@
  * * cleanup (the state container will be cleaned up before each state writing event).
  *
  */
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
-import Observer from "wc/Observer";
-import uid from "wc/dom/uid";
-import shed from "wc/dom/shed";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import Observer from "wc/Observer.mjs";
+import uid from "wc/dom/uid.mjs";
+import shed from "wc/dom/shed.mjs";
 
 const STATE_CONTAINER_SUFFIX = "_state_container",
 	SUB_METHOD = "writeState",

@@ -2,9 +2,9 @@
  * Provides print button functionality. Almost completely worthless.
  */
 
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
-import shed from "wc/dom/shed";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import shed from "wc/dom/shed.mjs";
 
 /**
  * Click listener to invoke the print dialog. Kill me now!

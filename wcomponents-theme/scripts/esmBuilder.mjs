@@ -11,7 +11,7 @@
  *
  * @author Rick Brown
  */
-const { default: babel } = require('@babel/cli/lib/babel/dir');
+import babel from "@babel/cli/lib/babel/dir.js";
 
 async function transform(sourcePath, outputDir) {
 	await babel({
@@ -32,6 +32,6 @@ async function build(sourcePath, targetDir) {
 	console.timeEnd("buildEsm");
 }
 
-module.exports = {
+export default {
 	build
 };

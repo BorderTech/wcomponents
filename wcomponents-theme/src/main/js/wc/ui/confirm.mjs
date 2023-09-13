@@ -2,10 +2,10 @@
 * Provides functionality for a confirmation button.
 */
 
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
-import cancelButton from "wc/ui/cancelButton";
-import focus from "wc/dom/focus";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import cancelButton from "wc/ui/cancelButton.mjs";
+import focus from "wc/dom/focus.mjs";
 
 const confirmSelector = "button[data-wc-btnmsg]";
 const cancelButtonSelector = cancelButton.getWidget();

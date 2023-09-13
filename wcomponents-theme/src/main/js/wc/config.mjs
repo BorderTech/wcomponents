@@ -5,7 +5,7 @@
  */
 // TODO rework config after getting off AMD
 
-import mixin from "wc/mixin";
+import mixin from "wc/mixin.mjs";
 
 const instance = {
 	/**

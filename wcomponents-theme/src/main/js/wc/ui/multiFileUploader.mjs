@@ -1,24 +1,24 @@
-import prefetch from "wc/loader/prefetch";
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
-import uid from "wc/dom/uid";
-import Trigger from "wc/ajax/Trigger";
-import clearSelector from "wc/file/clearSelector";
-import validate from "wc/file/validate";
-import i18n from "wc/i18n/i18n";
-import formUpdateManager from "wc/dom/formUpdateManager";
-import filedrop from "wc/file/filedrop";
-import ajax from "wc/ajax/ajax";
-import prompt from "wc/ui/prompt";
-import focus from "wc/dom/focus";
-import isNumeric from "wc/isNumeric";
-import ajaxRegion from "wc/ui/ajaxRegion";
-import wcconfig from "wc/config";
-import debounce from "wc/debounce";
-import toDocFragment from "wc/dom/toDocFragment";
-import feedback from "wc/ui/feedback";
-import icon from "wc/ui/icon";
-import "wc/ui/fieldset";
+import prefetch from "wc/loader/prefetch.mjs";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import uid from "wc/dom/uid.mjs";
+import Trigger from "wc/ajax/Trigger.mjs";
+import clearSelector from "wc/file/clearSelector.mjs";
+import validate from "wc/file/validate.mjs";
+import i18n from "wc/i18n/i18n.mjs";
+import formUpdateManager from "wc/dom/formUpdateManager.mjs";
+import filedrop from "wc/file/filedrop.mjs";
+import ajax from "wc/ajax/ajax.mjs";
+import prompt from "wc/ui/prompt.mjs";
+import focus from "wc/dom/focus.mjs";
+import isNumeric from "wc/isNumeric.mjs";
+import ajaxRegion from "wc/ui/ajaxRegion.mjs";
+import wcconfig from "wc/config.mjs";
+import debounce from "wc/debounce.mjs";
+import toDocFragment from "wc/dom/toDocFragment.mjs";
+import feedback from "wc/ui/feedback.mjs";
+import icon from "wc/ui/icon.mjs";
+import "wc/ui/fieldset.mjs";
 // Note `wc/ui/fieldset` is implicitly required to handle various aspects of managing the wrapper element.
 // TODO rework the whole AJAX part of this
 const
@@ -139,7 +139,8 @@ function MultiFileUploader() {
 			}
 		} else if (element.matches(cameraButtonWd)) {
 			// @ts-ignore
-			require(["wc/ui/imageEdit"], function (imageEdit) {
+			import("wc/ui/imageEdit.mjs").then(function (module) {
+				const imageEdit = module.default;
 				if (imageEdit.upload !== instance.upload) {
 					imageEdit.upload = instance.upload;
 				}
@@ -248,7 +249,8 @@ function MultiFileUploader() {
 					const editorId = element.getAttribute("data-wc-editor");
 					if (!suppressEdit && editorId) {
 						// @ts-ignore
-						require(["wc/ui/imageEdit"], function (imageEdit) {
+						import("wc/ui/imageEdit.mjs").then(function (module) {
+							const imageEdit = module.default;
 							obj.editorId = editorId;
 							if (imageEdit.upload !== instance.upload) {
 								imageEdit.upload = instance.upload;

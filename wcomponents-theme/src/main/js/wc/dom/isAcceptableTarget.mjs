@@ -1,4 +1,4 @@
-import focus from "wc/dom/focus";
+import focus from "wc/dom/focus.mjs";
 
 /**
  * Determines if an element is the nearest focusable (and therefore potentially interactive) element to an event

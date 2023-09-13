@@ -1,10 +1,10 @@
-import initialise from "wc/dom/initialise";
-import event from "wc/dom/event";
-import shed from "wc/dom/shed";
-import i18n from "wc/i18n/i18n";
-import validationManager from "wc/ui/validation/validationManager";
-import required from "wc/ui/validation/required";
-import feedback from "wc/ui/feedback";
+import initialise from "wc/dom/initialise.mjs";
+import event from "wc/dom/event.mjs";
+import shed from "wc/dom/shed.mjs";
+import i18n from "wc/i18n/i18n.mjs";
+import validationManager from "wc/ui/validation/validationManager.mjs";
+import required from "wc/ui/validation/required.mjs";
+import feedback from "wc/ui/feedback.mjs";
 import sprintf from "lib/sprintf";
 
 const NUM_FIELD = "input[type='number']",

@@ -7,12 +7,12 @@
 *
 */
 
-import initialise from "wc/dom/initialise";
-import processResponse from "wc/ui/ajax/processResponse";
-import i18n from "wc/i18n/i18n";
-import getFirstLabelForElement from "wc/ui/getFirstLabelForElement";
-import timers from "wc/timers";
-import utils from "wc/debug/debugUtils";
+import initialise from "wc/dom/initialise.mjs";
+import processResponse from "wc/ui/ajax/processResponse.mjs";
+import i18n from "wc/i18n/i18n.mjs";
+import getFirstLabelForElement from "wc/ui/getFirstLabelForElement.mjs";
+import timers from "wc/timers.mjs";
+import utils from "wc/debug/debugUtils.mjs";
 
 const TAGS = ["input", "textarea", "select", "fieldset"].join(),
 	AFTER_END = "afterend";

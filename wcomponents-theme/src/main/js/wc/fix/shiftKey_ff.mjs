@@ -15,8 +15,8 @@
  * The intention is only to load this module in Firefox, but it really won't matter either way.
  */
 
-import initialise from "wc/dom/initialise";
-import eventManager from "wc/dom/event";
+import initialise from "wc/dom/initialise.mjs";
+import eventManager from "wc/dom/event.mjs";
 
 let inited = false;
 

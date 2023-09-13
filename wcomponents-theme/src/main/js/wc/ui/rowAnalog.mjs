@@ -1,8 +1,8 @@
-import ariaAnalog from "wc/dom/ariaAnalog";
-import initialise from "wc/dom/initialise";
-import shed from "wc/dom/shed";
-import table from "wc/ui/table/common";
-import icon from "wc/ui/icon";
+import ariaAnalog from "wc/dom/ariaAnalog.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import shed from "wc/dom/shed.mjs";
+import table from "wc/ui/table/common.mjs";
+import icon from "wc/ui/icon.mjs";
 
 RowAnalog.prototype = ariaAnalog;
 /**

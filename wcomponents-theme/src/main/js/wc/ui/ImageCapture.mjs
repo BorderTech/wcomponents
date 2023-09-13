@@ -1,5 +1,5 @@
-import event from "wc/dom/event";
-import wcconfig from "wc/config";
+import event from "wc/dom/event.mjs";
+import wcconfig from "wc/config.mjs";
 
 /**
  * Encapsulates the image capture functionality.

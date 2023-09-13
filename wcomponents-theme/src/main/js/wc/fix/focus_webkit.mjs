@@ -10,9 +10,9 @@
  * @private
  */
 
-import focus from "wc/dom/focus";
-import event from "wc/dom/event";
-import timers from "wc/timers";
+import focus from "wc/dom/focus.mjs";
+import event from "wc/dom/event.mjs";
+import timers from "wc/timers.mjs";
 
 console.log("Adding webkit focus fix for mouse users.");
 event.add(window, { type: "mousedown", listener: mouseDownEvent, capture: true });

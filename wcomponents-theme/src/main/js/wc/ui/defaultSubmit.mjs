@@ -1,5 +1,5 @@
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
 
 /**
  * Provide a mechanism to allow any submit button to be deemed the default button of a form or even a section of a form

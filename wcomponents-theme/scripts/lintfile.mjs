@@ -11,18 +11,21 @@
  * Or it can imported as a nodejs module via require.
  *
  */
-const path = require("path");
-const { logLintReport, dirs } = require("./build-util");
-const sassLint = require("sass-lint");
-
-const { ESLint } = require("eslint");
+import path from "path";
+import { logLintReport, dirs } from "./build-util.mjs";
+import sassLint from "sass-lint";
+import { fileURLToPath } from 'url';
+import { ESLint } from "eslint";
+const __filename = fileURLToPath(import.meta.url);
 const eslintCli = new ESLint({
 	useEslintrc: true,
 	ignore: true,
 	extensions: ['.js', '.mjs']
 });
 
-if (require.main === module) {
+
+const entryFile = process.argv?.[1];
+if (entryFile === __filename) {
 	let len = process.argv.length,
 		target = len > 2 ? process.argv[len - 1] : "";
 	runSassLint();
@@ -30,9 +33,7 @@ if (require.main === module) {
 		process.exitCode = 1;
 		console.error(error);
 	});
-
 }
-
 
 /**
  * What are we linting?
@@ -43,7 +44,12 @@ if (require.main === module) {
 function getLintTarget(target) {
 	let lintTarget = target;
 	if (!lintTarget) {
-		return [path.join(dirs.project.basedir, "*.js"), dirs.script.src, dirs.test.src, path.join(dirs.project.basedir, "scripts", "*.js")];
+		return [
+			path.join(dirs.project.basedir, "*.*js"),
+			dirs.script.src,
+			dirs.test.src,
+			path.join(dirs.project.basedir, "scripts", "*.*js")
+		];
 	} else if (!Array.isArray(lintTarget)) {
 		lintTarget = [lintTarget];
 	}
@@ -87,7 +93,7 @@ function runSassLint(sourcePath) {
 	return results;
 }
 
-module.exports = {
+export default {
 	run: runEslint,
 	runSass: runSassLint
 };

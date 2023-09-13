@@ -1,16 +1,18 @@
-/* eslint-env node, es6  */
-const pkgJson = require("../package.json");
-const path = require("path");
-const os = require("os");
-const fs = require("fs-extra");
+/* eslint-env node  */
+import path from "path";
+import os from "os";
+import fs from "fs-extra";
+import mixin from "wc/mixin.mjs";
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const pkgJson = JSON.parse(fs.readFileSync("./package.json", "utf8"));
 const projectRoot = path.normalize(path.join(__dirname, ".."));
 const srcRoot = path.join(projectRoot, pkgJson.directories.src);
 const buildRoot = path.join(projectRoot, pkgJson.directories.target);
-const targetRoot = path.join(buildRoot, "classes", "theme", pkgJson.name);
-const requirejs = require("requirejs");
-let mixin;
+const targetRoot = path.join(buildRoot, "classes", "theme", pkgJson.com_github_bordertech.name);
 
-const paths = {
+export const paths = {
 	"lib/sprintf": `lib/sprintf.min`,
 	tinyMCE: "lib/tinymce/tinymce.min",
 	mailcheck: "lib/mailcheck",
@@ -23,7 +25,7 @@ const paths = {
  * These are used all over the place.
  * It's brittle to keep calculating them everywhere, it is done once here and available for resuse.
  */
-const dirs = {
+export const dirs = {
 	project: {
 		basedir: projectRoot,
 		src: srcRoot,
@@ -66,23 +68,23 @@ const dirs = {
  * A helper for logging the output of lint tools.
  * @param reportItem A report from a lint tool.
  */
-function logLintReport(reportItem) {
+export function logLintReport(reportItem) {
 	if (reportItem.messages && reportItem.messages.length) {
 		console.log("Style issues found in ", reportItem.filePath);
-		reportItem.messages.forEach(function(message) {
-			var logString = `\t${message.message} - Ln ${message.line}, Col ${message.column}`;
+		reportItem.messages.forEach(message => {
+			const logString = `\t${message.message} - Ln ${message.line}, Col ${message.column}`;
 			console.log(logString);
 		});
 	}
 }
 
 /**
- * Creates the unoptimized, unminified verion of the build.
- * @param {Object} dirPaths One of dir.script, dir.style etc
+ * Creates the unoptimized, unminified version of the build.
+ * @param {Object} dirPaths One of `dir.script`, `dir.style` etc
  * @param {string} [singleFile] If you simply want to build a single file.
- * @param {Function} [filter] Function to filter copied files. Return true to include, false to exclude.
+ * @param {function(src, dest): boolean} [filter] Function to filter copied files. Return true to include, false to exclude.
  */
-function buildMax(dirPaths, singleFile, filter) {
+export function buildMax(dirPaths, singleFile, filter) {
 	let src = dirPaths.src,
 		dest = dirPaths.max || dirPaths.target;
 	if (singleFile) {
@@ -92,10 +94,10 @@ function buildMax(dirPaths, singleFile, filter) {
 	console.log(src, "->", dest);
 	/*
 	 * The symlink was lightning fast and meant changes in the src were instantly available with a browser reload.
-	 * It was a little annoying when I deleted the content of target directory and deleted my entire src accidentially.
+	 * It was a little annoying when I deleted the content of target directory and deleted my entire src accidentally.
 	 */
 	// fs.symlinkSync(src, dest);
-	fs.copySync(src, dest, filter);
+	fs.copySync(src, dest, { filter });
 }
 
 /**
@@ -103,13 +105,12 @@ function buildMax(dirPaths, singleFile, filter) {
  * @param {string} [prop] Optionally look up a specific property.
  * @returns {Object} Project specific configuration.
  */
-function getConfig (prop) {
+export function getConfig (prop) {
 	let result = Object.assign({}, pkgJson.com_github_bordertech);
 	let username = os.userInfo().username;
 	let userFile = path.join(projectRoot, `${username}.json`);
 	if (fs.existsSync(userFile)) {
-		mixin = mixin || requireAmd("wc/mixin");
-		let overrides = require(userFile);
+		let overrides = JSON.parse(fs.readFileSync(userFile, "utf8"));
 		mixin(overrides, result);
 	}
 	if (prop) {
@@ -118,38 +119,15 @@ function getConfig (prop) {
 	return result;
 }
 
-/**
- * This allows you to require a module from the actual wcomponents-theme source code for use in NodeJS.
- * This is crazy madness and you have to be careful what you try to use, obviously anything that needs a DOM will not work.
- * For low-level utils, however, it is pretty handy. I wrote it so I could use "wc/debounce".
- *
- * Use it jsut like you would use "require" in AMD.
- *
- * @example
-	requireAmd(["wc/debounce"], function (debounce) { var brokenLogger = debounce(console.log, 100); })
- */
-function requireAmd() {
-	if (!requireAmd._inited) {
-		requireAmd._inited = true;
-		requirejs.config({
-
-			// baseUrl: dirs.script.src,  // Can't do this with .mjs files, so either we JIT babel or we use the build dir
-			baseUrl: dirs.script.max,  // which means the build must have already run - temporary until we get rid of RequireJS
-			"paths": paths,
-			nodeRequire: require
-		});
-	}
-	return requirejs.apply(this, arguments);
-}
+export const version = pkgJson.version;
 
 // Note that `join` with `__dirname` better than `resolve` as it cwd agnostic
 
-module.exports = {
+export default {
 	dirs,
 	logLintReport,
 	buildMax,
 	getConfig,
-	requireAmd,
 	paths,
-	version: pkgJson.version
+	version
 };

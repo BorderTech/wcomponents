@@ -1,20 +1,20 @@
 /**
  * Provides controller for expanding and collapsing table rows.
  */
-import event from "wc/dom/event";
-import focus from "wc/dom/focus";
-import formUpdateManager from "wc/dom/formUpdateManager";
-import initialise from "wc/dom/initialise";
-import shed from "wc/dom/shed";
-import ajaxRegion from "wc/ui/ajaxRegion";
-import timers from "wc/timers";
-import processResponse from "wc/ui/ajax/processResponse";
-import rowAnalog from "wc/ui/rowAnalog";
-import common from "wc/ui/table/common";
-import triggerManager from "wc/ajax/triggerManager";
-import icon from "wc/ui/icon";
-import uid from "wc/dom/uid";
-import "wc/ui/radioAnalog";
+import event from "wc/dom/event.mjs.mjs";
+import focus from "wc/dom/focus.mjs.mjs";
+import formUpdateManager from "wc/dom/formUpdateManager.mjs.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import shed from "wc/dom/shed.mjs";
+import ajaxRegion from "wc/ui/ajaxRegion.mjs";
+import timers from "wc/timers.mjs";
+import processResponse from "wc/ui/ajax/processResponse.mjs";
+import rowAnalog from "wc/ui/rowAnalog.mjs";
+import common from "wc/ui/table/common.mjs";
+import triggerManager from "wc/ajax/triggerManager.mjs";
+import icon from "wc/ui/icon.mjs";
+import uid from "wc/dom/uid.mjs";
+import "wc/ui/radioAnalog.mjs";
 
 /**
  * Find the closest ancestor-or-self match but excludes any results at or above `stopAtSelector`.

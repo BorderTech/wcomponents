@@ -1,15 +1,15 @@
-import mixin from "wc/mixin";
-import wcconfig from "wc/config";
-import event from "wc/dom/event";
-import timers from "wc/timers";
-import prompt from "wc/ui/prompt";
-import i18n from "wc/i18n/i18n";
+import mixin from "wc/mixin.mjs";
+import wcconfig from "wc/config.mjs";
+import event from "wc/dom/event.mjs";
+import timers from "wc/timers.mjs";
+import prompt from "wc/ui/prompt.mjs";
+import i18n from "wc/i18n/i18n.mjs";
 import fabric from "lib/fabric";
-import dialogFrame from "wc/ui/dialogFrame";
-import ImageCapture from "wc/ui/ImageCapture";
-import ImageUndoRedo from "wc/ui/ImageUndoRedo";
-import fileSize from "wc/file/size";
-import fileUtil from "wc/file/util";
+import dialogFrame from "wc/ui/dialogFrame.mjs";
+import ImageCapture from "wc/ui/ImageCapture.mjs";
+import ImageUndoRedo from "wc/ui/ImageUndoRedo.mjs";
+import fileSize from "wc/file/size.mjs";
+import fileUtil from "wc/file/util.mjs";
 
 let timer, imageCapture;
 let inited,
@@ -75,20 +75,25 @@ const imageEdit = {
 		});
 		if (!inited) {
 			inited = true;
-			// @ts-ignore
-			require(["wc/dom/initialise", "wc/dom/formUpdateManager"], (initialise, formUpdateManager) => {
-				initialise.addCallback((element) => {
+
+			import("wc/dom/initialise.mjs").then(module => {
+				const initialise = module.default;
+				initialise.addCallback(element => {
 					event.add(element, "click", clickEvent);
 					handleInline(inline);
 					inline = null;
 				});
-				formUpdateManager.subscribe(imageEdit);
+				import("wc/dom/formUpdateManager.mjs").then(mod => {
+					const formUpdateManager = mod.default;
+					formUpdateManager.subscribe(imageEdit);
+				});
 			});
 		}
 	},
 
 	/**
 	 * Shares a method signature with multifileuploader upload (which overrides this method).
+	 * @type {function(Element, File[], boolean?): void}
 	 */
 	upload: () => {},
 
@@ -387,8 +392,8 @@ function editFile(config, file, win, lose) {
 			}
 		};
 	if (config.redact) {
-		// @ts-ignore
-		require(["wc/ui/imageRedact"], function(imageRedact) {
+		import("wc/ui/imageRedact").then(module => {
+			const imageRedact = module.default;
 			config.redactor = imageRedact;
 			getEditor(config, callbacks, file).then(function(editor) {
 				gotEditor(editor);

@@ -1,5 +1,5 @@
-import aria from "wc/dom/aria";
-import $role from "wc/dom/role";
+import aria from "wc/dom/aria.mjs";
+import $role from "wc/dom/role.mjs";
 
 /**
  * Provides a mechanism to get elements which are grouped by WAI-ARIA roles or by being aria-owned.

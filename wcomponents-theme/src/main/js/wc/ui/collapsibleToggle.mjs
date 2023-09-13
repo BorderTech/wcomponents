@@ -10,14 +10,14 @@
  * Provides functionality to toggle the expanded state of a group of WCollapsibles.
  */
 
-import event from "wc/dom/event";
-import focus from "wc/dom/focus";
-import initialise from "wc/dom/initialise";
-import shed from "wc/dom/shed";
-import timers from "wc/timers";
-import tabset from "wc/ui/tabset";
-import processResponse from "wc/ui/ajax/processResponse";
-import "wc/ui/radioAnalog";  // hmmmm
+import event from "wc/dom/event.mjs";
+import focus from "wc/dom/focus.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import shed from "wc/dom/shed.mjs";
+import timers from "wc/timers.mjs";
+import tabset from "wc/ui/tabset.mjs";
+import processResponse from "wc/ui/ajax/processResponse.mjs";
+import "wc/ui/radioAnalog.mjs";  // hmmmm
 
 const containerSelector = ".wc-collapsibletoggle",
 	expandCollapseAllSelector = "button.wc_collapsibletoggle",

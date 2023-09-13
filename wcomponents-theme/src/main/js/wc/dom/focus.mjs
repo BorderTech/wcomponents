@@ -4,12 +4,12 @@
  * If you have a module which has to set focus then it really should use this module rather than attempting to focus
  * by itself (for example by using element.focus()).
  */
-import Observer from "wc/Observer";
-import getStyle from "wc/dom/getStyle";
-import shed from "wc/dom/shed";
-import uid from "wc/dom/uid";
-import getFilteredGroup from "wc/dom/getFilteredGroup";
-import timers from "wc/timers";
+import Observer from "wc/Observer.mjs";
+import getStyle from "wc/dom/getStyle.mjs";
+import shed from "wc/dom/shed.mjs";
+import uid from "wc/dom/uid.mjs";
+import getFilteredGroup from "wc/dom/getFilteredGroup.mjs";
+import timers from "wc/timers.mjs";
 
 const PRIMARY_TABSTOPS = ["a", "area", "audio", "button", "frame", "iframe", "input", "object", "select", "textarea", "video"];
 const {

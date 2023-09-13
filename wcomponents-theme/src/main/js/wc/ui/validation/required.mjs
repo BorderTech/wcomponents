@@ -1,7 +1,7 @@
-import isComplete from "wc/ui/validation/isComplete";
-import i18n from "wc/i18n/i18n";
-import validationManager from "wc/ui/validation/validationManager";
-import feedback from "wc/ui/feedback";
+import isComplete from "wc/ui/validation/isComplete.mjs";
+import i18n from "wc/i18n/i18n.mjs";
+import validationManager from "wc/ui/validation/validationManager.mjs";
+import feedback from "wc/ui/feedback.mjs";
 
 const instance = {
 	/**

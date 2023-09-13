@@ -3,7 +3,7 @@
  *
  * @module
  */
-import isSuccessfulElement from "wc/dom/isSuccessfulElement";
+import isSuccessfulElement from "wc/dom/isSuccessfulElement.mjs";
 const NV_SEPARATOR = "=";
 
 const instance = {

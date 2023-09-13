@@ -3,10 +3,10 @@
  * the label surrogates used for various compound components.
  *
  */
-import focus from "wc/dom/focus";
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
-import shed from "wc/dom/shed";
+import focus from "wc/dom/focus.mjs";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import shed from "wc/dom/shed.mjs";
 
 const LEGEND = "legend",
 	FOR_ATTRIB = "data-wc-for",

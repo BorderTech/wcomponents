@@ -1,5 +1,5 @@
-import getLabelsForElement from "wc/dom/getLabelsForElement";
-import getVisibleText from "wc/ui/getVisibleText";
+import getLabelsForElement from "wc/dom/getLabelsForElement.mjs";
+import getVisibleText from "wc/ui/getVisibleText.mjs";
 
 /**
  * Intermediary for {@link module:wc/dom/getLabelsForElement} which gets only the first label (in source

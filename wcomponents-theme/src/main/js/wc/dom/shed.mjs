@@ -1,10 +1,10 @@
-import event from "wc/dom/event";
-import aria from "wc/dom/aria";
-import impliedAria from "wc/dom/impliedARIA";
-import getLabelsForElement from "wc/dom/getLabelsForElement";
-import $role from "wc/dom/role";
-import getStyle from "wc/dom/getStyle";
-import getForm from "wc/ui/getForm";
+import event from "wc/dom/event.mjs";
+import aria from "wc/dom/aria.mjs";
+import impliedAria from "wc/dom/impliedARIA.mjs";
+import getLabelsForElement from "wc/dom/getLabelsForElement.mjs";
+import $role from "wc/dom/role.mjs";
+import getStyle from "wc/dom/getStyle.mjs";
+import getForm from "wc/ui/getForm.mjs";
 
 const actions = {
 		SHOW: "show",

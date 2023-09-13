@@ -4,15 +4,15 @@
  * @module
  */
 
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
-import shed from "wc/dom/shed";
-import i18n from "wc/i18n/i18n";
-import getFirstLabelForElement from "wc/ui/getFirstLabelForElement";
-import isComplete from "wc/ui/validation/isComplete";
-import validationManager from "wc/ui/validation/validationManager";
-import required from "wc/ui/validation/required";
-import multiFileUploader from "wc/ui/multiFileUploader";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import shed from "wc/dom/shed.mjs";
+import i18n from "wc/i18n/i18n.mjs";
+import getFirstLabelForElement from "wc/ui/getFirstLabelForElement.mjs";
+import isComplete from "wc/ui/validation/isComplete.mjs";
+import validationManager from "wc/ui/validation/validationManager.mjs";
+import required from "wc/ui/validation/required.mjs";
+import multiFileUploader from "wc/ui/multiFileUploader.mjs";
 
 const CONTAINER = multiFileUploader.getWidget().toString(),
 	INPUT_ELEMENT = multiFileUploader.getInputWidget().toString(),

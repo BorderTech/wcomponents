@@ -6,8 +6,8 @@
  * {@link module:wc/ui/launchLink} and {@link module:wc/ui/navigationButton}.
  *
  */
-import uid from "wc/dom/uid";
-import debounce from "wc/debounce";
+import uid from "wc/dom/uid.mjs";
+import debounce from "wc/debounce.mjs";
 
 const redirectFrameId = uid(),
 	launchLinkTests = [isPseudoProtocol, isAttachmentLink],

@@ -4,9 +4,9 @@
  * faux-layer.
  */
 
-import "wc/ui/table/action";
-import "wc/ui/table/pagination";
-import "wc/ui/rowAnalog";
-import "wc/ui/table/rowExpansion";
-import "wc/ui/table/sort";
-import "wc/ui/selectToggle";
+import "wc/ui/table/action.mjs";
+import "wc/ui/table/pagination.mjs";
+import "wc/ui/rowAnalog.mjs";
+import "wc/ui/table/rowExpansion.mjs";
+import "wc/ui/table/sort.mjs";
+import "wc/ui/selectToggle.mjs";

@@ -1,14 +1,14 @@
-import event from "wc/dom/event";
-import focus from "wc/dom/focus";
-import initialise from "wc/dom/initialise";
-import shed from "wc/dom/shed";
-import key from "wc/key";
-import timers from "wc/timers";
-import ajaxRegion from "wc/ui/ajaxRegion";
-import processResponse from "wc/ui/ajax/processResponse";
-import onchangeSubmit from "wc/ui/onchangeSubmit";
-import listboxAnalog from "wc/ui/listboxAnalog";
-import wcconfig from "wc/config";
+import event from "wc/dom/event.mjs";
+import focus from "wc/dom/focus.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import shed from "wc/dom/shed.mjs";
+import key from "wc/key.mjs";
+import timers from "wc/timers.mjs";
+import ajaxRegion from "wc/ui/ajaxRegion.mjs";
+import processResponse from "wc/ui/ajax/processResponse.mjs";
+import onchangeSubmit from "wc/ui/onchangeSubmit.mjs";
+import listboxAnalog from "wc/ui/listboxAnalog.mjs";
+import wcconfig from "wc/config.mjs";
 
 const CLASS_CHATTY = "wc_combo_dyn",
 	comboSelector = ".wc-combo[role='combobox']",

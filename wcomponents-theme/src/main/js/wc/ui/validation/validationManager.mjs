@@ -1,10 +1,10 @@
-import initialise from "wc/dom/initialise";
-import shed from "wc/dom/shed";
-import Observer from "wc/Observer";
-import i18n from "wc/i18n/i18n";
-import getFirstLabelForElement from "wc/ui/getFirstLabelForElement";
-import feedback from "wc/ui/feedback";
-import wcconfig from "wc/config";
+import initialise from "wc/dom/initialise.mjs";
+import shed from "wc/dom/shed.mjs";
+import Observer from "wc/Observer.mjs";
+import i18n from "wc/i18n/i18n.mjs";
+import getFirstLabelForElement from "wc/ui/getFirstLabelForElement.mjs";
+import feedback from "wc/ui/feedback.mjs";
+import wcconfig from "wc/config.mjs";
 
 /**
  * Generic client side validation manager. This is the publisher for client side validation. Any component which

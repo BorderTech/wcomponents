@@ -1,14 +1,14 @@
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
-import focus from "wc/dom/focus";
-import shed from "wc/dom/shed";
-import uid from "wc/dom/uid";
-import i18n from "wc/i18n/i18n";
-import selectLoader from "wc/ui/selectLoader";
-import debounce from "wc/debounce";
-import prompt from "wc/ui/prompt";
-import ajaxRegion from "wc/ui/ajaxRegion";
-import icon from "wc/ui/icon";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import focus from "wc/dom/focus.mjs";
+import shed from "wc/dom/shed.mjs";
+import uid from "wc/dom/uid.mjs";
+import i18n from "wc/i18n/i18n.mjs";
+import selectLoader from "wc/ui/selectLoader.mjs";
+import debounce from "wc/debounce.mjs";
+import prompt from "wc/ui/prompt.mjs";
+import ajaxRegion from "wc/ui/ajaxRegion.mjs";
+import icon from "wc/ui/icon.mjs";
 
 const containerSelector = "fieldset.wc_mfc";
 const fieldSelector = `${containerSelector} li`;

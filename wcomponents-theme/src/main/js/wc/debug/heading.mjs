@@ -7,11 +7,11 @@
  *
  */
 
-import initialise from "wc/dom/initialise";
-import processResponse from "wc/ui/ajax/processResponse";
-import i18n from "wc/i18n/i18n";
-import utils from "wc/debug/debugUtils";
-import timers from "wc/timers";
+import initialise from "wc/dom/initialise.mjs";
+import processResponse from "wc/ui/ajax/processResponse.mjs";
+import i18n from "wc/i18n/i18n.mjs";
+import utils from "wc/debug/debugUtils.mjs";
+import timers from "wc/timers.mjs";
 
 let MISSING_HEADING;
 const TAGS = ["h1", "h2", "h3", "h4", "h5", "h6"].join();

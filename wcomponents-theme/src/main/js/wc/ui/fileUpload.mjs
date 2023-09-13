@@ -1,7 +1,7 @@
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
-import clearSelector from "wc/file/clearSelector";
-import validate from "wc/file/validate";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import clearSelector from "wc/file/clearSelector.mjs";
+import validate from "wc/file/validate.mjs";
 
 const INITED_KEY = "wc.ui.fileUpload.inited",
 	CONTAINER = ".wc-fileupload",

@@ -1,7 +1,7 @@
 /**
  * @module
  */
-import getMimeType from "wc/file/getMimeType";
+import getMimeType from "wc/file/getMimeType.mjs";
 
 /**
  * Returns true if the file selected in the file input does not conflict with the file input's "accept" attribute.

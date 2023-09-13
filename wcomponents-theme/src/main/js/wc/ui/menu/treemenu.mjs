@@ -1,9 +1,9 @@
-import abstractMenu from "wc/ui/menu/core";
-import keyWalker from "wc/dom/keyWalker";
-import shed from "wc/dom/shed";
-import initialise from "wc/dom/initialise";
-import icon from "wc/ui/icon";
-import "wc/ui/menu/menuItem";
+import abstractMenu from "wc/ui/menu/core.mjs";
+import keyWalker from "wc/dom/keyWalker.mjs";
+import shed from "wc/dom/shed.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import icon from "wc/ui/icon.mjs";
+import "wc/ui/menu/menuItem.mjs";
 
 /**
  * Menu controller extension for WMenu of type TREE. This represents a vertical menu with optional sliding submenus

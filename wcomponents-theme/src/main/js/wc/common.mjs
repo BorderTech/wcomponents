@@ -18,17 +18,15 @@
  * @ignore
  */
 
-import fixes from "wc/fixes"; // you REALLY need this ...
-import "wc/i18n/i18n"; // ALWAYS REQUIRED IN THIS LAYER
-import "wc/a8n"; // ALWAYS REQUIRED IN THIS LAYER
-import "wc/ui/backToTop";
-import "wc/ui/field";
-import "wc/ui/label";
-import "wc/ui/tabset";
-import "wc/ui/menu";
-import "wc/dom/messageBox";
-import "wc/ui/validation/all";
+import fixes from "wc/fixes.mjs"; // you REALLY need this ...
+import "wc/i18n/i18n.mjs"; // ALWAYS REQUIRED IN THIS LAYER
+import "wc/a8n.mjs"; // ALWAYS REQUIRED IN THIS LAYER
+import "wc/ui/backToTop.mjs";
+import "wc/ui/field.mjs";
+import "wc/ui/label.mjs";
+import "wc/ui/tabset.mjs";
+import "wc/ui/menu.mjs";
+import "wc/dom/messageBox.mjs";
+import "wc/ui/validation/all.mjs";
 
-// Promise.all(fixes.map(fix => import(fix)));
-// @ts-ignore
-require(fixes);
+Promise.all(fixes.map(fix => import(fix)));

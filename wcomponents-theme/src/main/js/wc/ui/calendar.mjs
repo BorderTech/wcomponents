@@ -3,25 +3,25 @@
  * and WPartialDateFields in all cases.
  */
 
-import addDays from "wc/date/addDays";
-import copy from "wc/date/copy";
-import dayName from "wc/date/dayName";
-import daysInMonth from "wc/date/daysInMonth";
-import getDifference from "wc/date/getDifference";
-import monthName from "wc/date/monthName";
-import today from "wc/date/today";
-import interchange from "wc/date/interchange";
-import event from "wc/dom/event";
-import focus from "wc/dom/focus";
-import shed from "wc/dom/shed";
-import viewportCollision from "wc/dom/viewportCollision";
-import getBox from "wc/dom/getBox";
-import i18n from "wc/i18n/i18n";
-import isNumeric from "wc/isNumeric";
-import dateField from "wc/ui/dateField";
-import initialise from "wc/dom/initialise";
-import timers from "wc/timers";
-import wcconfig from "wc/config";
+import addDays from "wc/date/addDays.mjs";
+import copy from "wc/date/copy.mjs";
+import dayName from "wc/date/dayName.mjs";
+import daysInMonth from "wc/date/daysInMonth.mjs";
+import getDifference from "wc/date/getDifference.mjs";
+import monthName from "wc/date/monthName.mjs";
+import today from "wc/date/today.mjs";
+import interchange from "wc/date/interchange.mjs";
+import event from "wc/dom/event.mjs";
+import focus from "wc/dom/focus.mjs";
+import shed from "wc/dom/shed.mjs";
+import viewportCollision from "wc/dom/viewportCollision.mjs";
+import getBox from "wc/dom/getBox.mjs";
+import i18n from "wc/i18n/i18n.mjs";
+import isNumeric from "wc/isNumeric.mjs";
+import dateField from "wc/ui/dateField.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import timers from "wc/timers.mjs";
+import wcconfig from "wc/config.mjs";
 
 const DATE_KEY = "date_key",
 	CONTAINER_ID = "wc_calbox",

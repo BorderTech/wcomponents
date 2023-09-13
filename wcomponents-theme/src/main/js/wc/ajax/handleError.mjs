@@ -3,9 +3,9 @@
  * It is in a separate module because we should not need to load many of these module dependencies under normal conditions.
  * The intention is that it is loaded lazily, on demand, with an errback to requirejs.
  */
-import wcconfig from "wc/config";
-import i18n from "wc/i18n/i18n";
-import mixin from "wc/mixin";
+import wcconfig from "wc/config.mjs";
+import i18n from "wc/i18n/i18n.mjs";
+import mixin from "wc/mixin.mjs";
 
 /**
  * Get an error message for the given response.

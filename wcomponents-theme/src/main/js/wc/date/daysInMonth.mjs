@@ -1,4 +1,4 @@
-import isLeapYear from "wc/date/isLeapYear";
+import isLeapYear from "wc/date/isLeapYear.mjs";
 
 /**
  * Get the number of days in a given month of a given year.

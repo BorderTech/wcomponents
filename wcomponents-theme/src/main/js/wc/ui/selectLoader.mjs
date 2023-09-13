@@ -1,11 +1,11 @@
-import listLoader from "wc/ui/listLoader";
-import initialise from "wc/dom/initialise";
-import selectboxSearch from "wc/ui/selectboxSearch";
-import shed from "wc/dom/shed";
-import event from "wc/dom/event";
-import i18n from "wc/i18n/i18n";
-import getLabelsForElement from "wc/dom/getLabelsForElement";
-import feedback from "wc/ui/feedback";
+import listLoader from "wc/ui/listLoader.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import selectboxSearch from "wc/ui/selectboxSearch.mjs";
+import shed from "wc/dom/shed.mjs";
+import event from "wc/dom/event.mjs";
+import i18n from "wc/i18n/i18n.mjs";
+import getLabelsForElement from "wc/dom/getLabelsForElement.mjs";
+import feedback from "wc/ui/feedback.mjs";
 
 const DISABLED_BY_ME = "data-wc-selectloader-disabled";
 

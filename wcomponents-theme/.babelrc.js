@@ -1,5 +1,5 @@
 /* eslint-env node, es2020  */
-const { dirs } = require("./scripts/build-util");
+import { dirs } from "./scripts/build-util.mjs";
 
 module.exports = function (api) {
 	api.cache(true);
@@ -8,7 +8,8 @@ module.exports = function (api) {
 		["transform-import-as-amd", {
 			"moduleName": false,
 			basePath: dirs.script.src
-		}]
+		}],
+		["transform-commonjs", {}]
 	];
 
 	return {

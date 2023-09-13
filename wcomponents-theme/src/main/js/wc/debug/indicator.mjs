@@ -3,8 +3,8 @@
  *
  * @module
  */
-import initialise from "wc/dom/initialise";
-import processResponse from "wc/ui/ajax/processResponse";
+import initialise from "wc/dom/initialise.mjs";
+import processResponse from "wc/ui/ajax/processResponse.mjs";
 
 /**
  * Count the number of Element nodes in the current document and set it as the value of an attribute on

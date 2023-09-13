@@ -1,14 +1,14 @@
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
-import shed from "wc/dom/shed";
-import triggerManager from "wc/ajax/triggerManager";
-import serialize from "wc/dom/serialize";
-import timers from "wc/timers";
-import getFirstLabelForElement from "wc/ui/getFirstLabelForElement";
-import label from "wc/ui/label";
-import i18n from "wc/i18n/i18n";
-import textContent from "wc/dom/textContent";
-import processResponse from "wc/ui/ajax/processResponse";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import shed from "wc/dom/shed.mjs";
+import triggerManager from "wc/ajax/triggerManager.mjs";
+import serialize from "wc/dom/serialize.mjs";
+import timers from "wc/timers.mjs";
+import getFirstLabelForElement from "wc/ui/getFirstLabelForElement.mjs";
+import label from "wc/ui/label.mjs";
+import i18n from "wc/i18n/i18n.mjs";
+import textContent from "wc/dom/textContent.mjs";
+import processResponse from "wc/ui/ajax/processResponse.mjs";
 
 const submitterselector = ".wc_soc",
 	load_selectselector = `${submitterselector}[data-wc-list]`,

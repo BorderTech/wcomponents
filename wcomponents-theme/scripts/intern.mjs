@@ -1,9 +1,9 @@
 /* eslint-env node, es6  */
-const path = require("path");
-const { getConfig, dirs, requireAmd } = require("./build-util");
-const scriptDir = path.relative(dirs.script.target, dirs.script[getConfig("testMinOrMax")]);  // dirs.script.min will test minifed code, dirs.script.max tests debug code
+import path from "path";
+import { getConfig, dirs } from "./build-util.mjs";
+import mixin from "wc/mixin.mjs";
+const scriptDir = path.relative(dirs.script.target, dirs.script[getConfig("testMinOrMax")]);  // dirs.script.min will test minified code, dirs.script.max tests debug code
 const targetDir = path.relative(dirs.project.basedir, dirs.project.build);
-const mixin = requireAmd("wc/mixin");
 const internOverrides = getConfig("internOverrides");
 let testRootPath = path.join(dirs.test.target, "intern");
 let srcRootPath = dirs.script.target;
@@ -37,7 +37,7 @@ let requireJsOptions = {
  * https://theintern.io/docs.html#Intern/4/docs/docs%2Fconfiguration.md/config-file
  *
  * The problem is that intern.json is static, we do not want to hard-code the directories (except in one place, the package.json).
- * Therefore this JS file provides the configuration in a way that can be manipulated.
+ * Therefore, this JS file provides the configuration in a way that can be manipulated.
  *
  * Another problem is that JSON has no comment syntax which rapidly becomes annoying when setting up arcane configuration.
  *
@@ -129,6 +129,6 @@ if (internOverrides) {
 	mixin(internOverrides, internConfig);
 }
 
-module.exports = {
+export default {
 	config: internConfig
 };

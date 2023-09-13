@@ -10,16 +10,17 @@
  *
  * Note, you will generally be running in debug mode while developing: https://github.com/BorderTech/wcomponents/wiki/Debugging-a-theme
  */
-const chokidar = require('chokidar');
-const { requireAmd, dirs } = require("./build-util");
-const themeLinter = require("./lintfile");
-const buildCss = require("../build-css");
-const buildImages = require("../build-images");
-const buildJs = require("../build-js");
-const buildResources = require("../build-resource");
-const grunt = require("grunt");
-const path = require("path");
-const hotReload = require("./hotReloadServer");
+import chokidar from 'chokidar';
+import { dirs } from "./build-util.mjs";
+import themeLinter from "./lintfile.mjs";
+import buildCss from "../build-css.mjs";
+import buildImages from "../build-images.mjs";
+import buildJs from "../build-js.mjs";
+import buildResources from "../build-resource.mjs";
+import grunt from "grunt";
+import path from "path";
+import hotReload from "./hotReloadServer.mjs";
+import debounce from "../src/main/js/wc/debounce.mjs";
 
 const handlers = {
 	images: /**
@@ -36,8 +37,7 @@ const handlers = {
 			});
 		},
 	resource: function(dir, filename) {
-		const paths = getPaths(dir, filename);
-		return buildResources.build(paths.absolute);
+		return buildResources.build();
 	},
 	script: /**
 		 * Knows how to respond when a JS source module is changed.
@@ -100,20 +100,21 @@ function getPaths(dir, filename) {
 function watchDir(type) {
 	let dir = dirs[type];
 	if (dir && dir.src) {
-		requireAmd(["wc/debounce"], function (debounce) {
-			console.log("Watching ", type, dir.src);
-			chokidar.watch(dir.src).on('all', debounce(function(event, filePath) {
-				// console.log(filePath, event);
-				if (filePath && event === "change") {
-					console.log("File Changed ", filePath);
-					handlers[type](dir.src, filePath).then(function(moduleName) {
-						if (moduleName) {
-							hotReload.notify(moduleName, type);
-						}
-					});
-				}
-			}, 200));
-		});
+		console.log("Watching ", type, dir.src);
+		const watcher = debounce(function(event, filePath) {
+			// console.log(filePath, event);
+			if (filePath && event === "change") {
+				console.log("File Changed ", filePath);
+				handlers[type](dir.src, filePath).then(function(moduleName) {
+					if (moduleName) {
+						hotReload.notify(moduleName, type);
+					}
+				});
+			}
+		}, 200);
+
+		// @ts-ignore
+		chokidar.watch(dir.src).on('all', watcher);
 	} else {
 		console.warn("Cannot find dirs, not watching", type);
 	}

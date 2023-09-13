@@ -13,9 +13,9 @@
  * the intent of the click in another way.
  */
 
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
-import redirect from "wc/ui/redirect";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import redirect from "wc/ui/redirect.mjs";
 
 const CONTENT_ATTRIB = "data-wc-attach",
 	INLINE_CONTENT_FLAG = "wc_content=inline",

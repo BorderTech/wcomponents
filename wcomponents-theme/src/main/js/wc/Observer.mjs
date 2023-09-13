@@ -1,4 +1,4 @@
-import escapeRe from "wc/string/escapeRe";
+import escapeRe from "wc/string/escapeRe.mjs";
 
 const SORT_IDX_PROP = "__sort__",
 	FUNCTION = "function";

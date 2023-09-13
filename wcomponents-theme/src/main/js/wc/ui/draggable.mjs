@@ -1,15 +1,15 @@
-import clearSelection from "wc/dom/clearSelection";
-import event from "wc/dom/event";
-import getMouseEventOffset from "wc/dom/getEventOffset";
-import isAcceptableEventTarget from "wc/dom/isAcceptableTarget";
-import getBox from "wc/dom/getBox";
-import initialise from "wc/dom/initialise";
-import shed from "wc/dom/shed";
-import uid from "wc/dom/uid";
-import processResponse from "wc/ui/ajax/processResponse";
-import positionable from "wc/ui/positionable";
-import resizeable from "wc/ui/resizeable";
-import wcconfig from "wc/config";
+import clearSelection from "wc/dom/clearSelection.mjs";
+import event from "wc/dom/event.mjs";
+import getMouseEventOffset from "wc/dom/getEventOffset.mjs";
+import isAcceptableEventTarget from "wc/dom/isAcceptableTarget.mjs";
+import getBox from "wc/dom/getBox.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import shed from "wc/dom/shed.mjs";
+import uid from "wc/dom/uid.mjs";
+import processResponse from "wc/ui/ajax/processResponse.mjs";
+import positionable from "wc/ui/positionable.mjs";
+import resizeable from "wc/ui/resizeable.mjs";
+import wcconfig from "wc/config.mjs";
 
 const TRUE = "true",
 	DRAGGABLE = "[data-wc-draggable='true']",

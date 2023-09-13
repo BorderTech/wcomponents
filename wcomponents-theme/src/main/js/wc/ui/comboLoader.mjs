@@ -1,6 +1,6 @@
-import initialise from "wc/dom/initialise";
-import listLoader from "wc/ui/listLoader";
-import comboBox from "wc/ui/comboBox";
+import initialise from "wc/dom/initialise.mjs";
+import listLoader from "wc/ui/listLoader.mjs";
+import comboBox from "wc/ui/comboBox.mjs";
 
 
 const selectSelector = "select",

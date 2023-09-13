@@ -1,14 +1,14 @@
 /*
  * Provides functionality to undertake client validation of WCheckBoxSelect. Extends {@link module:wc/validation/ariaAnalog}.
  */
-import getFilteredGroup from "wc/dom/getFilteredGroup";
-import group from "wc/dom/group";
-import shed from "wc/dom/shed";
-import validationManager from "wc/ui/validation/validationManager";
-import required from "wc/ui/validation/required";
-import minMax from "wc/ui/validation/minMax";
-import checkBoxSelect from "wc/ui/checkBoxSelect";
-import isComplete from "wc/ui/validation/isComplete";
+import getFilteredGroup from "wc/dom/getFilteredGroup.mjs";
+import group from "wc/dom/group.mjs";
+import shed from "wc/dom/shed.mjs";
+import validationManager from "wc/ui/validation/validationManager.mjs";
+import required from "wc/ui/validation/required.mjs";
+import minMax from "wc/ui/validation/minMax.mjs";
+import checkBoxSelect from "wc/ui/checkBoxSelect.mjs";
+import isComplete from "wc/ui/validation/isComplete.mjs";
 
 /**
  * Determines whether a container is valid.

@@ -2,15 +2,15 @@
  * Provides functionality to undertake client validation for WFieldSet.
  */
 
-import i18n from "wc/i18n/i18n";
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
-import shed from "wc/dom/shed";
-import isComplete from "wc/ui/validation/isComplete";
-import validationManager from "wc/ui/validation/validationManager";
-import required from "wc/ui/validation/required";
-import fieldset from "wc/ui/fieldset";
-import feedback from "wc/ui/feedback";
+import i18n from "wc/i18n/i18n.mjs";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import shed from "wc/dom/shed.mjs";
+import isComplete from "wc/ui/validation/isComplete.mjs";
+import validationManager from "wc/ui/validation/validationManager.mjs";
+import required from "wc/ui/validation/required.mjs";
+import fieldset from "wc/ui/fieldset.mjs";
+import feedback from "wc/ui/feedback.mjs";
 
 const fieldsetSelector = `${fieldset.getWidget().toString()}.wc-fieldset`;
 const invalidSelector = "wc_req[aria-invalid='true']";

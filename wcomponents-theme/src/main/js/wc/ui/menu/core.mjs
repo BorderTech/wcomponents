@@ -9,18 +9,18 @@
  * @see {@link module:wc/ui/menu/treemenu}
  */
 
-import event from "wc/dom/event";
-import focus from "wc/dom/focus";
-import formUpdateManager from "wc/dom/formUpdateManager";
-import getFilteredGroup from "wc/dom/getFilteredGroup";
-import keyWalker from "wc/dom/keyWalker";
-import shed from "wc/dom/shed";
-import viewportCollision from "wc/dom/viewportCollision";
-import processResponse from "wc/ui/ajax/processResponse";
-import timers from "wc/timers";
-import i18n from "wc/i18n/i18n";
-import getBox from "wc/dom/getBox";
-import viewportUtils from "wc/ui/viewportUtils";
+import event from "wc/dom/event.mjs";
+import focus from "wc/dom/focus.mjs";
+import formUpdateManager from "wc/dom/formUpdateManager.mjs";
+import getFilteredGroup from "wc/dom/getFilteredGroup.mjs";
+import keyWalker from "wc/dom/keyWalker.mjs";
+import shed from "wc/dom/shed.mjs";
+import viewportCollision from "wc/dom/viewportCollision.mjs";
+import processResponse from "wc/ui/ajax/processResponse.mjs";
+import timers from "wc/timers.mjs";
+import i18n from "wc/i18n/i18n.mjs";
+import getBox from "wc/dom/getBox.mjs";
+import viewportUtils from "wc/ui/viewportUtils.mjs";
 
 
 /* NOTE: Many functions in this module are private but accept an instance of a subclass as an argument. These

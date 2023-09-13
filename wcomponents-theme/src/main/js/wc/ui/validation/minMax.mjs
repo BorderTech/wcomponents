@@ -1,8 +1,8 @@
-import getFirstLabelForElement from "wc/ui/getFirstLabelForElement";
-import i18n from "wc/i18n/i18n";
+import getFirstLabelForElement from "wc/ui/getFirstLabelForElement.mjs";
+import i18n from "wc/i18n/i18n.mjs";
 import sprintf from "lib/sprintf";
-import validationManager from "wc/ui/validation/validationManager";
-import feedback from "wc/ui/feedback";
+import validationManager from "wc/ui/validation/validationManager.mjs";
+import feedback from "wc/ui/feedback.mjs";
 
 const MIN = "data-wc-min",
 	MAX = "data-wc-max";

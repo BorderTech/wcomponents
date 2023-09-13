@@ -1,8 +1,8 @@
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
 import sprintf from "lib/sprintf";
-import feedback from "wc/ui/feedback";
-import wcconfig from "wc/config";
+import feedback from "wc/ui/feedback.mjs";
+import wcconfig from "wc/config.mjs";
 import mailcheck from "mailcheck";
 
 const emailSelector = "input[type='email']";
@@ -10,7 +10,7 @@ const message = "Did you mean '%s'?";
 
 /**
  * Checks an email input and detects common typos.
- * @param {HTMLInputElement} target A form element.
+ * @param {UIEvent & {target: HTMLInputElement}} $event A form element.
  */
 function emailCheck({ target }) {
 	const options = wcconfig.get("wc/ui/email", {});

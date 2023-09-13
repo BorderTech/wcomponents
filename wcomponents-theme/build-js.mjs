@@ -4,18 +4,20 @@
  *
  * @author Rick Brown
  */
-const requirejs = require("requirejs");
-const fs = require("fs-extra");
-const path = require("path");
-const esmBuilder = require("./scripts/esmBuilder");
-const libBuilder = require("./scripts/libs");
-const { paths, getConfig, buildMax, dirs } = require("./scripts/build-util");
-const UglifyJS = require("uglify-js");
-const themeLinter = require("./scripts/lintfile");
+import fs from "fs-extra";
+import path from "path";
+// import esmBuilder from "./scripts/esmBuilder.js";
+import libBuilder from "./scripts/libs.mjs";
+import { paths, getConfig, buildMax, dirs } from "./scripts/build-util.mjs";
+import UglifyJS from "uglify-js";
+import themeLinter from "./scripts/lintfile.mjs";
+import { fileURLToPath } from "url";
 const verbose = getConfig("verbose");
+const __filename = fileURLToPath(import.meta.url);
+const entryFile = process.argv?.[1];
 
 let config = {
-	keepBuildDir: true,  // well not really but we'll manage this ourselves thank you
+	keepBuildDir: true,  // well not really, but we'll manage this ourselves thank you
 	preserveLicenseComments: false,
 	// appDir: `${pkgJson.directories.src}/js`,
 	baseUrl: dirs.script.max,
@@ -43,7 +45,7 @@ let config = {
 	paths: paths
 };
 
-if (require.main === module) {
+if (entryFile === __filename) {
 	build();
 }
 
@@ -55,9 +57,9 @@ async function build(singleFile) {
 	console.time("buildJS");
 	try {
 		if (!singleFile) {
-			themeLinter.run("", true);
+			themeLinter.run("");
 			clean();
-			await esmBuilder.build(dirs.script.src, dirs.script.max);
+			// await esmBuilder.build(dirs.script.src, dirs.script.max);
 			libBuilder.build(dirs.project.basedir, dirs.script.max);
 			buildMax(dirs.script);
 			// return optimize(config);
@@ -85,7 +87,8 @@ async function buildSingle(singleFile) {
 	conf.out = path.join(dirs.script.min, fileName);
 	if (singleFile.endsWith('.mjs')) {
 		const targetDir = path.dirname(path.join(dirs.script.max, conf.name));
-		await esmBuilder.build(singleFile, targetDir);
+		// await esmBuilder.build(singleFile, targetDir);
+		buildMax(dirs.script, fileName);
 	} else {
 		buildMax(dirs.script, fileName);
 	}
@@ -98,16 +101,6 @@ async function buildSingle(singleFile) {
  */
 function optimize(conf) {
 	noisyLog("r.js config", conf);
-	return new Promise(function(win, lose) {
-		requirejs.optimize(conf, function (buildResponse) {
-			noisyLog(buildResponse);
-			console.timeEnd("buildJS");
-			win();
-		}, function(err) {
-			console.error(err);
-			lose(err);
-		});
-	});
 }
 
 /**
@@ -138,7 +131,7 @@ function pathToModule(modulePath) {
 	return moduleName;
 }
 
-module.exports = {
+export default {
 	build,
 	pathToModule
 };

@@ -1,5 +1,5 @@
-import today from "wc/date/today";
-import $pivot from "wc/date/pivot";
+import today from "wc/date/today.mjs";
+import $pivot from "wc/date/pivot.mjs";
 
 /**
  * Convert 2 digit year to 4 digit year, expand using a sliding window. Year must be a number between 0 and 99

@@ -1,5 +1,5 @@
-import $group from "wc/dom/group";
-import shed from "wc/dom/shed";
+import $group from "wc/dom/group.mjs";
+import shed from "wc/dom/shed.mjs";
 
 const
 	/** {String[]} FILTERS The properties which may be used to filter a group. @private */

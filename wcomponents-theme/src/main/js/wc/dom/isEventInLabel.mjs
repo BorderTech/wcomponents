@@ -1,4 +1,4 @@
-import focus from "wc/dom/focus";
+import focus from "wc/dom/focus.mjs";
 
 /**
  * Provides a generic way to determine if an event is targeted on, or in, a label element. We need to prevent

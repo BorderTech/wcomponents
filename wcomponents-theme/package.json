@@ -1,44 +1,53 @@
 {
-	"name": "wcomponents-theme",
+	"name": "wc",
 	"version": "1.5.30-SNAPSHOT",
 	"description": "Client side code for WComponents UI tool kit.",
 	"private": true,
+	"type": "module",
 	"com_github_bordertech": {
 		"description": "Custom config here. JSON has no comment syntax, argh!",
-		"testMinOrMax": "max"
+		"testMinOrMax": "max",
+		"name": "wcomponents-theme"
 	},
 	"scripts": {
-		"build": "node build-images.js && node build-resource.js && node build-css.js && node build-js.js",
-		"build:css": "node build-css.js",
-		"build:img": "node build-images.js",
-		"build:js": "node build-js.js",
-		"lint": "node scripts/lintfile.js",
+		"build": "node build-images.mjs && node build-resource.mjs && node build-css.mjs && node build-js.mjs",
+		"build:css": "node build-css.mjs",
+		"build:img": "node build-images.mjs",
+		"build:js": "node build-js.mjs",
+		"lint": "node scripts/lintfile.mjs",
 		"site": "node node_modules/jsdoc/jsdoc.js -c jsdoc.config.json",
 		"test": "grunt test && grunt intern:node",
 		"test:grid": "grunt test:grid",
 		"test:local": "grunt test:local",
 		"test:node": "grunt intern:node",
 		"test:serve": "grunt test:serve",
-		"watch": "node scripts/theme-watch.js"
+		"watch": "node scripts/theme-watch.mjs"
 	},
 	"directories": {
 		"src": "src/main",
 		"test": "src/test",
 		"target": "target"
 	},
+	"exports": {
+		"./*": "./src/main/js/wc/*"
+	},
 	"dependencies": {
 		"fabric": "3.4.0",
-		"i18next": "10.6.0",
+		"i18next": "23.5.1",
 		"mailcheck": "1.1.1",
 		"requirejs": "2.3.6",
-		"sprintf-js": "1.1.2",
+		"sprintf-js": "1.1.3",
 		"tinymce": "6.3.1"
 	},
 	"devDependencies": {
 		"@babel/cli": "7.20.7",
 		"@babel/core": "7.20.12",
 		"@testing-library/dom": "9.3.1",
+		"@types/fs-extra": "11.0.1",
+		"@types/node": "20.6.0",
+		"@types/uglify-js": "3.17.2",
 		"axe-core": "3.0.0",
+		"babel-plugin-transform-commonjs": "1.1.6",
 		"babel-plugin-transform-import-as-amd": "0.0.12",
 		"chokidar": "3.5.3",
 		"clean-css-cli": "4.1.11",

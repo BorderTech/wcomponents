@@ -1,13 +1,13 @@
-import initialise from "wc/dom/initialise";
-import shed from "wc/dom/shed";
-import event from "wc/dom/event";
-import getLabelsForElement from "wc/dom/getLabelsForElement";
-import processResponse from "wc/ui/ajax/processResponse";
-import $role from "wc/dom/role";
-import textContent from "wc/dom/textContent";
-import wrappedInput from "wc/dom/wrappedInput";
-import checkBox from "wc/ui/checkBox";
-import feedback from "wc/ui/feedback";
+import initialise from "wc/dom/initialise.mjs";
+import shed from "wc/dom/shed.mjs";
+import event from "wc/dom/event.mjs";
+import getLabelsForElement from "wc/dom/getLabelsForElement.mjs";
+import processResponse from "wc/ui/ajax/processResponse.mjs";
+import $role from "wc/dom/role.mjs";
+import textContent from "wc/dom/textContent.mjs";
+import wrappedInput from "wc/dom/wrappedInput.mjs";
+import checkBox from "wc/ui/checkBox.mjs";
+import feedback from "wc/ui/feedback.mjs";
 
 const CLASS_HINT = "wc-label-hint";
 const checkboxWrapperSelector = checkBox.getWrapper().toString();
@@ -201,8 +201,8 @@ function convertLabel(element, label, isRO) {
 		// this cannot be a module level dependency as it would cause a circular
 		// dependency. It is also not really important how long this takes.
 		// @ts-ignore
-		require(["wc/ui/onchangeSubmit"], function (soc) {
-			soc.warn(element, newLabellingElement);
+		import("wc/ui/onchangeSubmit.mjs").then(function (soc) {
+			soc.default.warn(element, newLabellingElement);
 		});
 	}
 }

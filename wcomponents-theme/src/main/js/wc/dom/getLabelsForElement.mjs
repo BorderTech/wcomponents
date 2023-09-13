@@ -1,4 +1,4 @@
-import wrappedInput from "wc/dom/wrappedInput";
+import wrappedInput from "wc/dom/wrappedInput.mjs";
 
 const labelable = ["input", "select", "textarea", "progress"];
 const fieldsetSelector = "fieldset",
@@ -51,7 +51,7 @@ function getLabelForSelectors(id, inclReadOnly) {
  * @returns {HTMLElement[]} If element has no 'labels' then an empty array is returned.
  */
 function doLabelQuery(element, labelArr, readOnly) {
-	let result = labelArr || [];
+	let result = /** @type {HTMLElement[]} */(labelArr || []);
 	const { id } = element;
 	const query = getLabelForSelectors(id, readOnly);
 	if (query.length) {

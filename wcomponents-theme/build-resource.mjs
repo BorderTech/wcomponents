@@ -1,12 +1,16 @@
 /* eslint-env node, es6  */
-const { version, buildMax, dirs } = require("./scripts/build-util");
-const fs = require("fs-extra");
-const path = require("path");
-const properties = require ("properties");
+import { version, buildMax, dirs } from "./scripts/build-util.mjs";
+import fs from "fs-extra";
+import path from "path";
+import {fileURLToPath} from "url";
+const __filename = fileURLToPath(import.meta.url);
+const entryFile = process.argv?.[1];
+
+import properties from "properties";
 const defaultLocale = "en";
 const themei18n = path.join(dirs.i18n.src, "com", "github", "bordertech", "wcomponents", "theme-messages.properties");
 
-if (require.main === module) {
+if (entryFile === __filename) {
 	build();
 }
 
@@ -15,7 +19,7 @@ if (require.main === module) {
  * TODO trim whitespace from **.xml, **.rdf, **.html, **.svg, **.mustache, **.handlebars
  * Given that these resources are small, ought to be cached and are generally not in the critical page load phase
  * I do not see this as a significant performance issue and leaving it for now. Also most of these need to be revisited
- * and probaly should not exist at all, or should be "packed" into the code where needed.
+ * and probably should not exist at all, or should be "packed" into the code where needed.
  */
 function build() {
 	return new Promise(function (win, lose) {
@@ -74,6 +78,6 @@ function clean() {
 	fs.removeSync(dirs.resource.target);
 }
 
-module.exports = {
+export default {
 	build
 };

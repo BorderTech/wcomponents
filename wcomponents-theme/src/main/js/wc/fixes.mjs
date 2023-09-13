@@ -7,14 +7,14 @@
  *
  * @module
  */
-import has from "wc/has";
+import has from "wc/has.mjs";
 
 const result = [];
 
 if (has("webkit") && !has("edge")) {
-	result.push("wc/fix/focus_webkit");
+	result.push("wc/fix/focus_webkit.mjs");
 } else if (has("ff")) {
-	result.push("wc/fix/shiftKey_ff");
+	result.push("wc/fix/shiftKey_ff.mjs");
 }
 
 export default result;

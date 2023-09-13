@@ -1,4 +1,4 @@
-import getVisibleText from "wc/ui/getVisibleText";
+import getVisibleText from "wc/ui/getVisibleText.mjs";
 const IMG_QS = "img[alt]";
 
 function isContentEmpty(element) {

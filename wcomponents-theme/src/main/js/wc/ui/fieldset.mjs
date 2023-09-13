@@ -3,10 +3,10 @@
  * are correctly synchronised after AJAX transactions.
  */
 
-import initialise from "wc/dom/initialise";
-import processResponse from "wc/ui/ajax/processResponse";
-import getFirstLabelForElement from "wc/ui/getFirstLabelForElement";
-import onchangeSubmit from "wc/ui/onchangeSubmit";
+import initialise from "wc/dom/initialise.mjs";
+import processResponse from "wc/ui/ajax/processResponse.mjs";
+import getFirstLabelForElement from "wc/ui/getFirstLabelForElement.mjs";
+import onchangeSubmit from "wc/ui/onchangeSubmit.mjs";
 
 const fieldsetSelector = "fieldset";
 

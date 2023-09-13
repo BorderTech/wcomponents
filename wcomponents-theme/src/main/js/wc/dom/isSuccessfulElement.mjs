@@ -1,4 +1,4 @@
-import shed from "wc/dom/shed";
+import shed from "wc/dom/shed.mjs";
 
 const makeInputType = type => `input[type='${type}']`;
 // removed =file since this has changed and file is always successful just like text

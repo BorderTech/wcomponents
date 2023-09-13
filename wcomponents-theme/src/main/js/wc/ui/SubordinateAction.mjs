@@ -1,4 +1,4 @@
-import shed from "wc/dom/shed";
+import shed from "wc/dom/shed.mjs";
 
 const actionRegister = {},  // Map of subordinate action keywords to functions which implement the action.
 	groupRegister = {};

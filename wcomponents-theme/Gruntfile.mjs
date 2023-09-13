@@ -9,11 +9,12 @@
  *
  * Use npx, e.g.`npx grunt test`
  */
-let internConfig = require("./scripts/intern").config;
-const path = require("path");
-const { dirs } = require("./scripts/build-util");
+import intern  from "./scripts/intern.mjs";
+import path from "path";
+import { dirs } from "./scripts/build-util.mjs";
 const defaultInternArgs = "environments='{\"browserName\":\"firefox\"}'";
 const coverageDir = path.join(dirs.project.build, "coverage");
+let internConfig = intern.config;
 
 module.exports = function (grunt) {
 	var testSrc = (grunt.option("filename") || "**");
@@ -107,7 +108,7 @@ module.exports = function (grunt) {
 			internTask += ":local";
 			if (!process.env.MOZ_HEADLESS) {
 				// in "guess" mode we run headless
-				process.env.MOZ_HEADLESS = 1;
+				process.env.MOZ_HEADLESS = "1";
 			}
 		}
 

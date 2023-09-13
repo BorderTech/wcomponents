@@ -1,7 +1,7 @@
-import initialise from "wc/dom/initialise";
-import timers from "wc/timers";
+import initialise from "wc/dom/initialise.mjs";
+import timers from "wc/timers.mjs";
 import axe from "axe";
-import processResponse from "wc/ui/ajax/processResponse";
+import processResponse from "wc/ui/ajax/processResponse.mjs";
 
 
 const DEFAULT_DELAY = 3000,

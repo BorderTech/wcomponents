@@ -2,7 +2,7 @@
  * Present a message to the user.
  */
 
-import debounce from "wc/debounce";
+import debounce from "wc/debounce.mjs";
 
 const prompt = {
 	alert: debounce(message => alert(formatMessages(message)), 250),

@@ -6,24 +6,24 @@
  * @see {@link module:wc/ui/calendar} which is used as the date picker polyfill.
  *
  */
-import unique from "wc/array/unique";
-import Parser from "wc/date/Parser";
-import interchange from "wc/date/interchange";
-import Format from "wc/date/Format";
-import cancelUpdate from "wc/ui/cancelUpdate";
-import event from "wc/dom/event";
-import focus from "wc/dom/focus";
-import formUpdateManager from "wc/dom/formUpdateManager";
-import initialise from "wc/dom/initialise";
-import shed from "wc/dom/shed";
-import i18n from "wc/i18n/i18n";
-import timers from "wc/timers";
-import key from "wc/key";
-import ajaxRegion from "wc/ui/ajaxRegion";
-import processResponse from "wc/ui/ajax/processResponse";
-import onchangeSubmit from "wc/ui/onchangeSubmit";
-import feedback from "wc/ui/feedback";
-import listboxAnalog from "wc/ui/listboxAnalog";
+import unique from "wc/array/unique.mjs";
+import Parser from "wc/date/Parser.mjs";
+import interchange from "wc/date/interchange.mjs";
+import Format from "wc/date/Format.mjs";
+import cancelUpdate from "wc/ui/cancelUpdate.mjs";
+import event from "wc/dom/event.mjs";
+import focus from "wc/dom/focus.mjs";
+import formUpdateManager from "wc/dom/formUpdateManager.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import shed from "wc/dom/shed.mjs";
+import i18n from "wc/i18n/i18n.mjs";
+import timers from "wc/timers.mjs";
+import key from "wc/key.mjs";
+import ajaxRegion from "wc/ui/ajaxRegion.mjs";
+import processResponse from "wc/ui/ajax/processResponse.mjs";
+import onchangeSubmit from "wc/ui/onchangeSubmit.mjs";
+import feedback from "wc/ui/feedback.mjs";
+import listboxAnalog from "wc/ui/listboxAnalog.mjs";
 
 const FIELD_CLASS = "wc-datefield",
 	FAKE_VALUE_ATTRIB = "data-wc-value",

@@ -1,11 +1,11 @@
-import dayName from "wc/date/dayName";
-import $monthName from "wc/date/monthName";
-import search from "wc/array/search";
-import $today from "wc/date/today";
-import expandYear from "wc/date/expandYear";
-import escapeRe from "wc/string/escapeRe";
-import addDays from "wc/date/addDays";
-import asciify from "wc/i18n/asciify";
+import dayName from "wc/date/dayName.mjs";
+import $monthName from "wc/date/monthName.mjs";
+import search from "wc/array/search.mjs";
+import $today from "wc/date/today.mjs";
+import expandYear from "wc/date/expandYear.mjs";
+import escapeRe from "wc/string/escapeRe.mjs";
+import addDays from "wc/date/addDays.mjs";
+import asciify from "wc/i18n/asciify.mjs";
 
 const YEAR = "year",
 	MONTH = "month",

@@ -1,6 +1,6 @@
-import has from "wc/has";
-import mixin from "wc/mixin";
-import wcconfig from "wc/config";
+import has from "wc/has.mjs";
+import mixin from "wc/mixin.mjs";
+import wcconfig from "wc/config.mjs";
 
 const DOT_EX = ".css",
 	DEFAULT_FILE_NAME_PREFIX = "wc-";

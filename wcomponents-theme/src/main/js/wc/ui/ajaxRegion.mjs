@@ -5,16 +5,16 @@
  *
  */
 
-import event from "wc/dom/event";
-import debounce from "wc/debounce";
-import isSuccessfulElement from "wc/dom/isSuccessfulElement";
-import Trigger from "wc/ajax/Trigger";
-import triggerManager from "wc/ajax/triggerManager";
-import shed from "wc/dom/shed";
-import initialise from "wc/dom/initialise";
-import processResponse from "wc/ui/ajax/processResponse";
-import mixin from "wc/mixin";
-import timers from "wc/timers";
+import event from "wc/dom/event.mjs";
+import debounce from "wc/debounce.mjs";
+import isSuccessfulElement from "wc/dom/isSuccessfulElement.mjs";
+import Trigger from "wc/ajax/Trigger.mjs";
+import triggerManager from "wc/ajax/triggerManager.mjs";
+import shed from "wc/dom/shed.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import processResponse from "wc/ui/ajax/processResponse.mjs";
+import mixin from "wc/mixin.mjs";
+import timers from "wc/timers.mjs";
 
 let triggers = [];
 let ignoreChange = false;

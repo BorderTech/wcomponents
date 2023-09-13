@@ -1,12 +1,12 @@
-import getViewportSize from "wc/dom/getViewportSize";
-import getBox from "wc/dom/getBox";
-import getStyle from "wc/dom/getStyle";
-import uid from "wc/dom/uid";
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
-import shed from "wc/dom/shed";
-import debounce from "wc/debounce";
-import resizeable from "wc/ui/resizeable";
+import getViewportSize from "wc/dom/getViewportSize.mjs";
+import getBox from "wc/dom/getBox.mjs";
+import getStyle from "wc/dom/getStyle.mjs";
+import uid from "wc/dom/uid.mjs";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import shed from "wc/dom/shed.mjs";
+import debounce from "wc/debounce.mjs";
+import resizeable from "wc/ui/resizeable.mjs";
 
 const UNIT = "px",
 	ZERO = `0${UNIT}`,

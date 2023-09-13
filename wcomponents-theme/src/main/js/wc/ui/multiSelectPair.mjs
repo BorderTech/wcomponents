@@ -1,13 +1,13 @@
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
-import focus from "wc/dom/focus";
-import formUpdateManager from "wc/dom/formUpdateManager";
-import getBox from "wc/dom/getBox";
-import shed from "wc/dom/shed";
-import ajaxRegion from "wc/ui/ajaxRegion";
-import processResponse from "wc/ui/ajax/processResponse";
-import selectboxSearch from "wc/ui/selectboxSearch";
-import fieldset from "wc/ui/fieldset";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import focus from "wc/dom/focus.mjs";
+import formUpdateManager from "wc/dom/formUpdateManager.mjs";
+import getBox from "wc/dom/getBox.mjs";
+import shed from "wc/dom/shed.mjs";
+import ajaxRegion from "wc/ui/ajaxRegion.mjs";
+import processResponse from "wc/ui/ajax/processResponse.mjs";
+import selectboxSearch from "wc/ui/selectboxSearch.mjs";
+import fieldset from "wc/ui/fieldset.mjs";
 
 const CONTAINER_INITIALISED_KEY = "multiSelectPair.inited",
 	LIST_TYPE_AVAILABLE = 0,

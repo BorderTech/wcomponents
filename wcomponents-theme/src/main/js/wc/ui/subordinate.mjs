@@ -8,13 +8,13 @@
  * "foo" then show the div with the id of "bar".
  */
 
-import interchange from "wc/date/interchange";
-import getFilteredGroup from "wc/dom/getFilteredGroup";
-import initialise from "wc/dom/initialise";
-import Action from "wc/ui/SubordinateAction";
-import unique from "wc/array/unique";
-import shed from "wc/dom/shed";
-import timers from "wc/timers";
+import interchange from "wc/date/interchange.mjs";
+import getFilteredGroup from "wc/dom/getFilteredGroup.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import Action from "wc/ui/SubordinateAction.mjs";
+import unique from "wc/array/unique.mjs";
+import shed from "wc/dom/shed.mjs";
+import timers from "wc/timers.mjs";
 
 let event,
 	dateField,
@@ -628,14 +628,11 @@ const initialiser = {
 	initialise: element => {
 		waitingForRules = true;
 		// always require these deps, even if there are no rules, because there are other public methods that need them
-		// const deps = ["wc/dom/event", "wc/ui/dateField", "wc/ui/multiSelectPair"];
-		// return Promise.all(deps.map(dep => import(dep))).then(([$event, $dateField, $multiSelectPair]) => {
-
-		// @ts-ignore
-		require(["wc/dom/event", "wc/ui/dateField", "wc/ui/multiSelectPair"], function($event, $dateField, $multiSelectPair) {
-			event = $event;
-			dateField = $dateField;
-			multiSelectPair = $multiSelectPair;
+		const deps = ["wc/dom/event", "wc/ui/dateField", "wc/ui/multiSelectPair"];
+		return Promise.all(deps.map(dep => import(dep))).then(([$event, $dateField, $multiSelectPair]) => {
+			event = $event.default;
+			dateField = $dateField.default;
+			multiSelectPair = $multiSelectPair.default;
 			if ((Object.keys(elementToRuleMap)).length) {
 				waitingForRules = false;
 				if (!changeInited) {

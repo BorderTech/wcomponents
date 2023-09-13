@@ -1,9 +1,9 @@
-import event from "wc/dom/event";
-import getFilteredGroup from "wc/dom/getFilteredGroup";
-import initialise from "wc/dom/initialise";
-import shed from "wc/dom/shed";
-import common from "wc/ui/table/common";
-import debounce from "wc/debounce";
+import event from "wc/dom/event.mjs";
+import getFilteredGroup from "wc/dom/getFilteredGroup.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import shed from "wc/dom/shed.mjs";
+import common from "wc/ui/table/common.mjs";
+import debounce from "wc/debounce.mjs";
 
 const registry = new Conditions(enableDisableButton),
 	ACTION_CONTAINER = ".wc-actions",

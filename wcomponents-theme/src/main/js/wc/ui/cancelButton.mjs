@@ -5,10 +5,10 @@
  * any screen with such a WCancelButton.
  */
 
-import initialise from "wc/dom/initialise";
-import processResponse from "wc/ui/ajax/processResponse";
+import initialise from "wc/dom/initialise.mjs";
+import processResponse from "wc/ui/ajax/processResponse.mjs";
 /* cancelUpdate is added as a requirement because any cancel button will need it implicitly */
-import "wc/ui/cancelUpdate";
+import "wc/ui/cancelUpdate.mjs";
 
 const cancelButtonSelector = "button.wc_btn_cancel";
 const unsavedClass = "wc_unsaved";

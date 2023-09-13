@@ -2,9 +2,9 @@
  * This part of ajaxRegion is responsible for processing the AJAX response and updating the page accordingly.
  */
 
-import Observer from "wc/Observer";
-import toDocFragment from "wc/dom/toDocFragment";
-import timers from "wc/timers";
+import Observer from "wc/Observer.mjs";
+import toDocFragment from "wc/dom/toDocFragment.mjs";
+import timers from "wc/timers.mjs";
 
 let observer;
 const ACTIONS = { FILL: "replaceContent", REPLACE: "replace", APPEND: "append", IN: "in" };
@@ -151,7 +151,8 @@ function processResponseHtml(documentFragment, trigger) {
 	const onError = function() {
 
 		// @ts-ignore
-		require(["wc/ajax/handleError"], function(handleError) {
+		import("wc/ajax/handleError").then(function(module) {
+			const handleError = module.default;
 			// The AJAX response was malformed BUT reported as being successful.
 			const message = handleError.getErrorMessage({ status: 200 });
 			// This may not display perfectly, but it's better than literally nothing

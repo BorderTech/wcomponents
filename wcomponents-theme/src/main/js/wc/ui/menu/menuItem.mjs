@@ -1,6 +1,6 @@
-import ariaAnalog from "wc/dom/ariaAnalog";
-import initialise from "wc/dom/initialise";
-import isAcceptableEventTarget from "wc/dom/isAcceptableTarget";
+import ariaAnalog from "wc/dom/ariaAnalog.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import isAcceptableEventTarget from "wc/dom/isAcceptableTarget.mjs";
 
 let _menuItemCheckBox,
 	_menuItemRadio;

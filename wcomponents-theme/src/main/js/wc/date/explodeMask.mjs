@@ -1,5 +1,5 @@
-import escapeRe from "wc/string/escapeRe";
-import patterns from "wc/date/pattern";
+import escapeRe from "wc/string/escapeRe.mjs";
+import patterns from "wc/date/pattern.mjs";
 
 /**
  * Provides the ability to convert string date masks into a set of regular expressions which can be used to

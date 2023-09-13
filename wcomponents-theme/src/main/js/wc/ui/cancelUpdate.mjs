@@ -1,14 +1,14 @@
-import i18n from "wc/i18n/i18n";
-import triggerManager from "wc/ajax/triggerManager";
-import uid from "wc/dom/uid";
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
-import serialize from "wc/dom/serialize";
-import isSuccessfulElement from "wc/dom/isSuccessfulElement";
+import i18n from "wc/i18n/i18n.mjs";
+import triggerManager from "wc/ajax/triggerManager.mjs";
+import uid from "wc/dom/uid.mjs";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import serialize from "wc/dom/serialize.mjs";
+import isSuccessfulElement from "wc/dom/isSuccessfulElement.mjs";
 import sprintf from "lib/sprintf";
-import formUpdateManager from "wc/dom/formUpdateManager";
-import focus from "wc/dom/focus";
-import processResponse from "wc/ui/ajax/processResponse";
+import formUpdateManager from "wc/dom/formUpdateManager.mjs";
+import focus from "wc/dom/focus.mjs";
+import processResponse from "wc/ui/ajax/processResponse.mjs";
 
 /*
  * TODO: we have a lot of form ID testing. Obviously if the form does not have an id then the whole

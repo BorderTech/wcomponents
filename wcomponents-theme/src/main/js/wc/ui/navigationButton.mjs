@@ -4,13 +4,13 @@
  * in Gnome? KDE? Windows XP? Mac? So we need to use a real button and make it behave like a link.
  */
 
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
-import popup from "wc/ui/popup";
-import cancelUpdate from "wc/ui/cancelUpdate";
-import shed from "wc/dom/shed";
-import launchLink from "wc/ui/launchLink";
-import redirect from "wc/ui/redirect";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import popup from "wc/ui/popup.mjs";
+import cancelUpdate from "wc/ui/cancelUpdate.mjs";
+import shed from "wc/dom/shed.mjs";
+import launchLink from "wc/ui/launchLink.mjs";
+import redirect from "wc/ui/redirect.mjs";
 
 const buttonQs = "button[data-wc-url]";
 const cancelButtonQs = "button.wc_btn_cancel[data-wc-url]";

@@ -1,4 +1,4 @@
-import timers from "wc/timers";
+import timers from "wc/timers.mjs";
 
 /**
  * Returns a wrapper function which will invoke the wrapped function only

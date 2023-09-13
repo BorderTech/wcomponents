@@ -1,4 +1,4 @@
-import i18n from "wc/i18n/i18n";
+import i18n from "wc/i18n/i18n.mjs";
 
 const MB_CLASS = "wc-messagebox";
 const messageBoxTagName = "wc-messagebox";

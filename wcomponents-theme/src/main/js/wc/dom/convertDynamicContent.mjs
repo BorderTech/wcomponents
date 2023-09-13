@@ -1,5 +1,5 @@
-import formUpdateManager from "wc/dom/formUpdateManager";
-import serialize from "wc/dom/serialize";
+import formUpdateManager from "wc/dom/formUpdateManager.mjs";
+import serialize from "wc/dom/serialize.mjs";
 
 /**
  * Provides a means to remove Elements from a no-longer relevant dynamic region without losing their state information.

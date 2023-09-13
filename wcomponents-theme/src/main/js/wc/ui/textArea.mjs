@@ -24,11 +24,11 @@
  *
  */
 
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
-import i18n from "wc/i18n/i18n";
-import debounce from "wc/debounce";
-import wrappedInput from "wc/dom/wrappedInput";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import i18n from "wc/i18n/i18n.mjs";
+import debounce from "wc/debounce.mjs";
+import wrappedInput from "wc/dom/wrappedInput.mjs";
 
 const events = [],
 	INITED_KEY = "__maxlength_inited__",

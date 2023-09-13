@@ -1,5 +1,5 @@
-import ariaGroup from "wc/dom/ariaGroup";
-import $role from "wc/dom/role";
+import ariaGroup from "wc/dom/ariaGroup.mjs";
+import $role from "wc/dom/role.mjs";
 
 const elementGroup = {};
 

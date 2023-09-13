@@ -28,9 +28,9 @@
  * @todo redo event.fire
  */
 
-import Observer from "wc/Observer";
-import uid from "wc/dom/uid";
-import timers from "wc/timers";
+import Observer from "wc/Observer.mjs";
+import uid from "wc/dom/uid.mjs";
+import timers from "wc/timers.mjs";
 
 
 let atTargetEvent;  // used to prevent eventListener firing twice in the target phase if attached using bubble and capture

@@ -1,6 +1,6 @@
 import i18next from "lib/i18next";
-import arrayDiff from "wc/array/diff";
-import debounce from "wc/debounce";
+import arrayDiff from "wc/array/diff.mjs";
+import debounce from "wc/debounce.mjs";
 
 const checked = {};
 const queueCheck = debounce(languages => {

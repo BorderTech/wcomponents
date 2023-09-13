@@ -3,9 +3,9 @@
  * Basically a glorified Observer subscriber with a few smarts.
  */
 
-import Observer from "wc/Observer";
-import timers from "wc/timers";
-import eventMgr from "wc/dom/event";
+import Observer from "wc/Observer.mjs";
+import timers from "wc/timers.mjs";
+import eventMgr from "wc/dom/event.mjs";
 
 let observer,
 	queue;

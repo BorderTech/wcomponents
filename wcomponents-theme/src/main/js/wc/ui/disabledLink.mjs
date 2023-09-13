@@ -2,9 +2,9 @@
  * Provides disable-ability to HTML `a` elements.
  */
 
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
-import shed from "wc/dom/shed";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import shed from "wc/dom/shed.mjs";
 
 /**
  * Click event listener: prevent navigation if the link is "disabled".

@@ -8,8 +8,8 @@
  * is included because it is required if there are any menu items which have a url attribute, and it is also used in many
  * other locations: it should be in your common.js.
  */
-import "wc/ui/menu/bar";
-import "wc/ui/menu/column";
-import "wc/ui/menu/tree";
-import "wc/ui/menu/treemenu";
-import "wc/ui/navigationButton";
+import "wc/ui/menu/bar.mjs";
+import "wc/ui/menu/column.mjs";
+import "wc/ui/menu/tree.mjs";
+import "wc/ui/menu/treemenu.mjs";
+import "wc/ui/navigationButton.mjs";

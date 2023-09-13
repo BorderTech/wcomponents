@@ -8,13 +8,13 @@
  *
  */
 
-import serialize from "wc/dom/serialize";
-import ajax from "wc/ajax/ajax";
-import formUpdateManager from "wc/dom/formUpdateManager";
-import initialise from "wc/dom/initialise";
-import timers from "wc/timers";
-import setLoading from "wc/ajax/setLoading";
-import Observer from "wc/Observer";
+import serialize from "wc/dom/serialize.mjs";
+import ajax from "wc/ajax/ajax.mjs";
+import formUpdateManager from "wc/dom/formUpdateManager.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import timers from "wc/timers.mjs";
+import setLoading from "wc/ajax/setLoading.mjs";
+import Observer from "wc/Observer.mjs";
 
 const
 	/**

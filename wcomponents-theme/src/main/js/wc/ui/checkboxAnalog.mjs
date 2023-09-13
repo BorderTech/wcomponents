@@ -1,7 +1,7 @@
-import ariaAnalog from "wc/dom/ariaAnalog";
-import initialise from "wc/dom/initialise";
-import shed from "wc/dom/shed";
-import formUpdateManager from "wc/dom/formUpdateManager";
+import ariaAnalog from "wc/dom/ariaAnalog.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import shed from "wc/dom/shed.mjs";
+import formUpdateManager from "wc/dom/formUpdateManager.mjs";
 
 const BUTTON_VAL_ATTRIB = "value",
 	BUTTON_NAME_ATTRIB = "name";

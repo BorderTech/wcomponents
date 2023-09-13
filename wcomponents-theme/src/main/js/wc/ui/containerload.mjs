@@ -1,12 +1,12 @@
-import shed from "wc/dom/shed";
-import triggerManager from "wc/ajax/triggerManager";
-import ajaxRegion from "wc/ui/ajaxRegion";
-import initialise from "wc/dom/initialise";
-import uid from "wc/dom/uid";
-import convertDynamicContent from "wc/dom/convertDynamicContent";
-import timers from "wc/timers";
-import event from "wc/dom/event";
-import getForm from "wc/ui/getForm";
+import shed from "wc/dom/shed.mjs";
+import triggerManager from "wc/ajax/triggerManager.mjs";
+import ajaxRegion from "wc/ui/ajaxRegion.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import uid from "wc/dom/uid.mjs";
+import convertDynamicContent from "wc/dom/convertDynamicContent.mjs";
+import timers from "wc/timers.mjs";
+import event from "wc/dom/event.mjs";
+import getForm from "wc/ui/getForm.mjs";
 
 const MAGIC_CLASS = "wc_magic",
 	GET_ATTRIB = "data-wc-get";

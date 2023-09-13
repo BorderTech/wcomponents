@@ -1,5 +1,5 @@
-import interchange from "wc/date/interchange";
-import monthName from "wc/date/monthName";
+import interchange from "wc/date/interchange.mjs";
+import monthName from "wc/date/monthName.mjs";
 
 const FORMAT_RE = /y{2,4}|d+|MON|M{2,4}|H+|m+|h+|a+|s+/g,
 	NORMALIZE_WHITESPACE_RE = /\s{2,}/g;

@@ -1,5 +1,5 @@
-import getViewportSize from "wc/dom/getViewportSize";
-import wcconfig from "wc/config";
+import getViewportSize from "wc/dom/getViewportSize.mjs";
+import wcconfig from "wc/config.mjs";
 
 const defaultConf = {
 		large: 1981,  // A large screen is bigger than 1080p.

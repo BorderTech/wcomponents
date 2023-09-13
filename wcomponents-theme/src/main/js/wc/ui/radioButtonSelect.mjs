@@ -1,9 +1,9 @@
-import group from "wc/dom/group";
-import initialise from "wc/dom/initialise";
-import shed from "wc/dom/shed";
-import getFilteredGroup from "wc/dom/getFilteredGroup";
-import cbrShedPublisher from "wc/dom/cbrShedPublisher";
-import "wc/ui/fieldset";
+import group from "wc/dom/group.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import shed from "wc/dom/shed.mjs";
+import getFilteredGroup from "wc/dom/getFilteredGroup.mjs";
+import cbrShedPublisher from "wc/dom/cbrShedPublisher.mjs";
+import "wc/ui/fieldset.mjs";
 
 // Note `wc/ui/fieldset` is implicitly required to handle various aspects of managing the wrapper element.
 const radioSelector = cbrShedPublisher.getWidget("r").toString();

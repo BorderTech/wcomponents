@@ -7,10 +7,10 @@
  * TODO totally redo this module
  */
 
-import Observer from "wc/Observer";
-import xmlString from "wc/xml/xmlString";
-import timers from "wc/timers";
-import uid from "wc/dom/uid";
+import Observer from "wc/Observer.mjs";
+import xmlString from "wc/xml/xmlString.mjs";
+import timers from "wc/timers.mjs";
+import uid from "wc/dom/uid.mjs";
 
 const queue = [],
 	/**
@@ -487,13 +487,11 @@ function fetchErrorHandler(callback, errback) {
 		}
 	};
 	if (!handleError) {
-		// @ts-ignore
-		require(["wc/ajax/handleError"], function(arg) {
-		// import("wc/ajax/handleError").then(arg => {
+
+		import("wc/ajax/handleError.mjs").then(arg => {
 			handleError = arg;
 			cb(handleError);
-		// }).catch(errback);
-		}, errback);
+		}).catch(errback);
 	} else {
 		cb(handleError);
 	}

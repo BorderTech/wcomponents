@@ -1,14 +1,14 @@
-import interchange from "wc/date/interchange";
-import getDifference from "wc/date/getDifference";
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
-import shed from "wc/dom/shed";
-import i18n from "wc/i18n/i18n";
-import dateField from "wc/ui/dateField";
-import validationManager from "wc/ui/validation/validationManager";
+import interchange from "wc/date/interchange.mjs";
+import getDifference from "wc/date/getDifference.mjs";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import shed from "wc/dom/shed.mjs";
+import i18n from "wc/i18n/i18n.mjs";
+import dateField from "wc/ui/dateField.mjs";
+import validationManager from "wc/ui/validation/validationManager.mjs";
 import sprintf from "lib/sprintf";
-import isComplete from "wc/ui/validation/isComplete";
-import feedback from "wc/ui/feedback";
+import isComplete from "wc/ui/validation/isComplete.mjs";
+import feedback from "wc/ui/feedback.mjs";
 
 
 /**

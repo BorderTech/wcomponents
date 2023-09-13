@@ -4,16 +4,16 @@
  * @module
  */
 
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
-import i18n from "wc/i18n/i18n";
-import multiFormComponent from "wc/ui/multiFormComponent";
-import unique from "wc/array/unique";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import i18n from "wc/i18n/i18n.mjs";
+import multiFormComponent from "wc/ui/multiFormComponent.mjs";
+import unique from "wc/array/unique.mjs";
 import sprintf from "lib/sprintf";
-import required from "wc/ui/validation/required";
-import validationManager from "wc/ui/validation/validationManager";
-import isComplete from "wc/ui/validation/isComplete";
-import feedback from "wc/ui/feedback";
+import required from "wc/ui/validation/required.mjs";
+import validationManager from "wc/ui/validation/validationManager.mjs";
+import isComplete from "wc/ui/validation/isComplete.mjs";
+import feedback from "wc/ui/feedback.mjs";
 
 const containerSelector = multiFormComponent.getSelector();
 

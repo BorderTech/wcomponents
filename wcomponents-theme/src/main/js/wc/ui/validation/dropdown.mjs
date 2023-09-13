@@ -1,10 +1,10 @@
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
-import shed from "wc/dom/shed";
-import minMax from "wc/ui/validation/minMax";
-import validationManager from "wc/ui/validation/validationManager";
-import required from "wc/ui/validation/required";
-import getFilteredGroup from "wc/dom/getFilteredGroup";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import shed from "wc/dom/shed.mjs";
+import minMax from "wc/ui/validation/minMax.mjs";
+import validationManager from "wc/ui/validation/validationManager.mjs";
+import required from "wc/ui/validation/required.mjs";
+import getFilteredGroup from "wc/dom/getFilteredGroup.mjs";
 
 /**
  * Validation function for select elements.

@@ -1,7 +1,7 @@
 /**
  * @module
  */
-import timers from "wc/timers";
+import timers from "wc/timers.mjs";
 
 /**
  * Provides a helper to remove elements from the DOM. This helper was built especially to remove SCRIPT elements

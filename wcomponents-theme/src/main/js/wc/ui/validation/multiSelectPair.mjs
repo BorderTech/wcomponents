@@ -2,16 +2,16 @@
 * Provides functionality to undertake client validation of WMultiSelectPair.
 */
 
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
-import shed from "wc/dom/shed";
-import multiSelectPair from "wc/ui/multiSelectPair";
-import isComplete from "wc/ui/validation/isComplete";
-import minMax from "wc/ui/validation/minMax";
-import required from "wc/ui/validation/required";
-import validationManager from "wc/ui/validation/validationManager";
-import getFirstLabelForElement from "wc/ui/getFirstLabelForElement";
-import i18n from "wc/i18n/i18n";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import shed from "wc/dom/shed.mjs";
+import multiSelectPair from "wc/ui/multiSelectPair.mjs";
+import isComplete from "wc/ui/validation/isComplete.mjs";
+import minMax from "wc/ui/validation/minMax.mjs";
+import required from "wc/ui/validation/required.mjs";
+import validationManager from "wc/ui/validation/validationManager.mjs";
+import getFirstLabelForElement from "wc/ui/getFirstLabelForElement.mjs";
+import i18n from "wc/i18n/i18n.mjs";
 
 const containerSelector = multiSelectPair.getWidget(),
 	selectSelector = multiSelectPair.getInputWidget();

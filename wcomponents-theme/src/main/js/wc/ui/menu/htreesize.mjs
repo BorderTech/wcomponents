@@ -1,8 +1,8 @@
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
-import tree from "wc/ui/menu/tree";
-import resizeable from "wc/ui/resizeable";
-import processResponse from "wc/ui/ajax/processResponse";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import tree from "wc/ui/menu/tree.mjs";
+import resizeable from "wc/ui/resizeable.mjs";
+import processResponse from "wc/ui/ajax/processResponse.mjs";
 
 const handleSelector = ".wc_branch_resize_handle";
 const resized = {},

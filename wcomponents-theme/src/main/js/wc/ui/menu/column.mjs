@@ -1,12 +1,12 @@
-import abstractMenu from "wc/ui/menu/core";
-import keyWalker from "wc/dom/keyWalker";
-import shed from "wc/dom/shed";
-import initialise from "wc/dom/initialise";
+import abstractMenu from "wc/ui/menu/core.mjs";
+import keyWalker from "wc/dom/keyWalker.mjs";
+import shed from "wc/dom/shed.mjs";
+import initialise from "wc/dom/initialise.mjs";
 /* Unused dependencies:
  * We will need ["wc/ui/menu/menuItem" if we have any selectable items so we get it just in case rather than doing a
  * convoluted XPath lookup in XSLT.
  */
-import "wc/ui/menu/menuItem";
+import "wc/ui/menu/menuItem.mjs";
 
 let instance;
 

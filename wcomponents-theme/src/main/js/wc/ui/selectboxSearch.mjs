@@ -1,13 +1,13 @@
-import escapeRe from "wc/string/escapeRe";
-import uid from "wc/dom/uid";
-import initialise from "wc/dom/initialise";
-import shed from "wc/dom/shed";
-import event from "wc/dom/event";
-import group from "wc/dom/group";
-import i18n from "wc/i18n/i18n";
-import timers from "wc/timers";
-import wcconfig from "wc/config";
-import debounce from "wc/debounce";
+import escapeRe from "wc/string/escapeRe.mjs";
+import uid from "wc/dom/uid.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import shed from "wc/dom/shed.mjs";
+import event from "wc/dom/event.mjs";
+import group from "wc/dom/group.mjs";
+import i18n from "wc/i18n/i18n.mjs";
+import timers from "wc/timers.mjs";
+import wcconfig from "wc/config.mjs";
+import debounce from "wc/debounce.mjs";
 
 /**
  * Select an option in a select list by typing into it.

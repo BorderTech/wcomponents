@@ -1,9 +1,9 @@
-import uid from "wc/dom/uid";
-import event from "wc/dom/event";
-import focus from "wc/dom/focus";
-import shed from "wc/dom/shed";
-import timers from "wc/timers";
-import Observer from "wc/Observer";
+import uid from "wc/dom/uid.mjs";
+import event from "wc/dom/event.mjs";
+import focus from "wc/dom/focus.mjs";
+import shed from "wc/dom/shed.mjs";
+import timers from "wc/timers.mjs";
+import Observer from "wc/Observer.mjs";
 
 const MODAL_BACKGROUND_ID = "wc-shim";
 const UNIT = "px";

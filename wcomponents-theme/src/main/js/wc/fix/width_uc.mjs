@@ -4,11 +4,11 @@
  * problems.
  */
 
-import initialise from "wc/dom/initialise";
-import getViewportSize from "wc/dom/getViewportSize";
-import event from "wc/dom/event";
-import debounce from "wc/debounce";
-import getForm from "wc/ui/getForm";
+import initialise from "wc/dom/initialise.mjs";
+import getViewportSize from "wc/dom/getViewportSize.mjs";
+import event from "wc/dom/event.mjs";
+import debounce from "wc/debounce.mjs";
+import getForm from "wc/ui/getForm.mjs";
 
 function setWidth() {
 	const form = getForm();

@@ -1,4 +1,4 @@
-import $today from "wc/date/today";
+import $today from "wc/date/today.mjs";
 import sprintf from "lib/sprintf";
 
 /**

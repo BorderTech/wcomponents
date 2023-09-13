@@ -8,8 +8,8 @@
  * @license The core functionality of this file is a cut and paste from [this project](http://code.google.com/p/aria-toolkit/)
  */
 
-import loader from "wc/loader/resource";
-import xpath from "wc/xml/xpath";
+import loader from "wc/loader/resource.mjs";
+import xpath from "wc/xml/xpath.mjs";
 
 const ANCHOR_ONLY_RE = /^.*?#/,
 	instances = {},

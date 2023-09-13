@@ -1,4 +1,4 @@
-import initialise from "wc/dom/initialise";
+import initialise from "wc/dom/initialise.mjs";
 
 const wrapperSelector = ".wc-input-wrapper";
 const roWrapperSelector = ".wc-ro-input";

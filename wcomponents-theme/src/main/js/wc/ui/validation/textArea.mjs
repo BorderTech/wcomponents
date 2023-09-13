@@ -4,15 +4,15 @@
  * @module
  */
 
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
-import shed from "wc/dom/shed";
-import i18n from "wc/i18n/i18n";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import shed from "wc/dom/shed.mjs";
+import i18n from "wc/i18n/i18n.mjs";
 import sprintf from "lib/sprintf";
-import required from "wc/ui/validation/required";
-import validationManager from "wc/ui/validation/validationManager";
-import feedback from "wc/ui/feedback";
-import textArea from "wc/ui/textArea";
+import required from "wc/ui/validation/required.mjs";
+import validationManager from "wc/ui/validation/validationManager.mjs";
+import feedback from "wc/ui/feedback.mjs";
+import textArea from "wc/ui/textArea.mjs";
 
 const TEXTAREA = textArea.getWidget();
 

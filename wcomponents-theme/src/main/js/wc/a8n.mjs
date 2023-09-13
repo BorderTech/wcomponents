@@ -2,12 +2,12 @@
  * This module provides affordances for automated testing tools.
  */
 
-import initialise from "wc/dom/initialise";
-import ajax from "wc/ajax/ajax";
-import Trigger from "wc/ajax/Trigger";
-import timers from "wc/timers";
-import Observer from "wc/Observer";
-import fixes from "wc/fixes";
+import initialise from "wc/dom/initialise.mjs";
+import ajax from "wc/ajax/ajax.mjs";
+import Trigger from "wc/ajax/Trigger.mjs";
+import timers from "wc/timers.mjs";
+import Observer from "wc/Observer.mjs";
+import fixes from "wc/fixes.mjs";
 
 let observer,
 	timer,
@@ -30,6 +30,7 @@ const instance = {
 	};
 
 timers._subscribe(pendingTimers);
+
 /*
  * Subscriber for pending AJAX requests.
  */
@@ -60,16 +61,17 @@ function waitForFixes() {
 	if (needsFixes) {
 		pendingUpdated(true, flags.FIXES);
 		try {
-			require(fixes, fixesLoaded);
+			Promise.all(fixes.map(fix => import(fix))).then(fixesLoaded).catch(fixesLoaded);
 		} catch (ex) {
 			fixesLoaded();
 		}
-		// with native modules: Promise.all(fixes.map(fix => import(fix))).then(fixesLoaded).catch(fixesLoaded);
 	}
 }
 
-/*
+/**
  * Called by subscribers when they are notified of a possible change in state.
+ * @param {boolean} pending
+ * @param {number} flag
  */
 function pendingUpdated(pending, flag) {
 	if (timer) {
@@ -185,6 +187,7 @@ function subscribe(subscriber) {
 	}
 	return observer.subscribe(subscriber);
 }
+
 const initialiser = {
 	preInit: function() {
 		pendingUpdated(true, flags.DOM_READY);
@@ -194,6 +197,7 @@ const initialiser = {
 		pendingUpdated(false, flags.DOM_READY);
 	}
 };
+
 instance._initialiser = initialiser;  // testing only
 
 try {

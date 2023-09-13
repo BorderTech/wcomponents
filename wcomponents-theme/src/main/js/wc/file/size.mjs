@@ -1,5 +1,5 @@
-import i18n from "wc/i18n/i18n";
-import getFileSize from "wc/file/getFileSize";
+import i18n from "wc/i18n/i18n.mjs";
+import getFileSize from "wc/file/getFileSize.mjs";
 const instance = {
 		check: checkFileSize,
 		get: getFileSize,

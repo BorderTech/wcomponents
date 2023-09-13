@@ -191,24 +191,32 @@
 					<xsl:value-of select="concat('&quot;cachebuster&quot;:&quot;', $cacheBuster, '&quot;')" />
 					<xsl:text>}&#10;}&#10;</xsl:text>
 				</script>
-				<!--
-					Load requirejs
-				-->
-				<script type="text/javascript" src="{concat($resourceRoot, $scriptDir, '/lib/require.js?', $cacheBuster)}" />
-
-				<script type="text/javascript" class="registrationScripts">
-					<xsl:text>require(["wc/common"], function(){</xsl:text>
-					<xsl:if test="$registeredComponents ne ''">
-						<xsl:value-of select="$registeredComponents" />
-					</xsl:if>
-					<xsl:text>require(["wc/loader/style"],function(s){s.load();</xsl:text>
-					<xsl:apply-templates select="ui:application/ui:css" mode="inHead" />
-					<xsl:apply-templates select=".//html:link[@rel eq 'stylesheet']" mode="inHead" />
-					<xsl:text>});</xsl:text><!--
-						end style loader//-->
-					<xsl:text>});</xsl:text><!--
-						end common//-->
+				<script type="importmap">
+					<xsl:text>
+					{
+						"imports": {
+							"wc/": "</xsl:text><xsl:value-of select="concat(normalize-space($resourceRoot), $wcScriptDir)" />/<xsl:text>",
+							"lib/": "</xsl:text><xsl:value-of select="concat(normalize-space($resourceRoot), $libScriptDir)" />/<xsl:text>"
+						}
+					}
+					</xsl:text>
 				</script>
+
+				<script type="module" src="{concat($resourceRoot, $scriptDir, '/wc/common.mjs?', $cacheBuster)}" />
+
+<!--				<script type="module" class="registrationScripts">-->
+<!--					<xsl:text>require(["wc/common"], function(){</xsl:text>-->
+<!--					<xsl:if test="$registeredComponents ne ''">-->
+<!--						<xsl:value-of select="$registeredComponents" />-->
+<!--					</xsl:if>-->
+<!--					<xsl:text>require(["wc/loader/style"],function(s){s.load();</xsl:text>-->
+<!--					<xsl:apply-templates select="ui:application/ui:css" mode="inHead" />-->
+<!--					<xsl:apply-templates select=".//html:link[@rel eq 'stylesheet']" mode="inHead" />-->
+<!--					<xsl:text>});</xsl:text>&lt;!&ndash;-->
+<!--						end style loader//&ndash;&gt;-->
+<!--					<xsl:text>});</xsl:text>&lt;!&ndash;-->
+<!--						end common//&ndash;&gt;-->
+<!--				</script>-->
 
 				<!--
 					We grab all base, meta and link elements from the content

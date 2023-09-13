@@ -12,20 +12,20 @@
  * @private
  */
 
-import shed from "wc/dom/shed";
-import getFilteredGroup from "wc/dom/getFilteredGroup";
-import formUpdateManager from "wc/dom/formUpdateManager";
-import initialise from "wc/dom/initialise";
-import uid from "wc/dom/uid";
-import table from "wc/ui/table/common";
-import rowAnalog from "wc/ui/rowAnalog";
-import processResponse from "wc/ui/ajax/processResponse";
-import i18n from "wc/i18n/i18n";
-import icon from "wc/ui/icon";
-import checkBox from "wc/ui/checkBox";
-import getLabelsForElement from "wc/dom/getLabelsForElement";
-import "wc/ui/checkboxAnalog";
-import "wc/ui/radioAnalog";
+import shed from "wc/dom/shed.mjs";
+import getFilteredGroup from "wc/dom/getFilteredGroup.mjs";
+import formUpdateManager from "wc/dom/formUpdateManager.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import uid from "wc/dom/uid.mjs";
+import table from "wc/ui/table/common.mjs";
+import rowAnalog from "wc/ui/rowAnalog.mjs";
+import processResponse from "wc/ui/ajax/processResponse.mjs";
+import i18n from "wc/i18n/i18n.mjs";
+import icon from "wc/ui/icon.mjs";
+import checkBox from "wc/ui/checkBox.mjs";
+import getLabelsForElement from "wc/dom/getLabelsForElement.mjs";
+import "wc/ui/checkboxAnalog.mjs";
+import "wc/ui/radioAnalog.mjs";
 
 const CLASS_TOGGLE = "wc_seltog";
 

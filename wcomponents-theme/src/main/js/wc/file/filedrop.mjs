@@ -1,5 +1,5 @@
-import event from "wc/dom/event";
-import timers from "wc/timers";
+import event from "wc/dom/event.mjs";
+import timers from "wc/timers.mjs";
 
 let dragging = false;
 const CLASSNAME = "wc_dragging",

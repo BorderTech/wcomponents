@@ -1,13 +1,13 @@
-import event from "wc/dom/event";
-import focus from "wc/dom/focus";
-import formUpdateManager from "wc/dom/formUpdateManager";
-import initialise from "wc/dom/initialise";
-import shed from "wc/dom/shed";
-import ajaxRegion from "wc/ui/ajaxRegion";
-import processResponse from "wc/ui/ajax/processResponse";
-import timers from "wc/timers";
-import common from "wc/ui/table/common";
-import i18n from "wc/i18n/i18n";
+import event from "wc/dom/event.mjs";
+import focus from "wc/dom/focus.mjs";
+import formUpdateManager from "wc/dom/formUpdateManager.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import shed from "wc/dom/shed.mjs";
+import ajaxRegion from "wc/ui/ajaxRegion.mjs";
+import processResponse from "wc/ui/ajax/processResponse.mjs";
+import timers from "wc/timers.mjs";
+import common from "wc/ui/table/common.mjs";
+import i18n from "wc/i18n/i18n.mjs";
 
 const IDX_BUTTON = {
 		FIRST: 0,

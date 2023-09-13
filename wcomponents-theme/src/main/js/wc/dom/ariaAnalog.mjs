@@ -21,33 +21,24 @@
  *
  */
 
-import clearSelection from "wc/dom/clearSelection";
-import event from "wc/dom/event";
-import group from "wc/dom/group";
-import shed from "wc/dom/shed";
-import uid from "wc/dom/uid";
-import formUpdateManager from "wc/dom/formUpdateManager";
-import keyWalker from "wc/dom/keyWalker";
-import isEventInLabel from "wc/dom/isEventInLabel";
-import isAcceptableEventTarget from "wc/dom/isAcceptableTarget";
-// import getFilteredGroup from "wc/dom/getFilteredGroup";  // circular dep
-// import focus from "wc/dom/focus";  // circular dep
+import clearSelection from "wc/dom/clearSelection.mjs";
+import event from "wc/dom/event.mjs";
+import group from "wc/dom/group.mjs";
+import shed from "wc/dom/shed.mjs";
+import uid from "wc/dom/uid.mjs";
+import formUpdateManager from "wc/dom/formUpdateManager.mjs";
+import keyWalker from "wc/dom/keyWalker.mjs";
+import isEventInLabel from "wc/dom/isEventInLabel.mjs";
+import isAcceptableEventTarget from "wc/dom/isAcceptableTarget.mjs";
+import getFilteredGroup from "wc/dom/getFilteredGroup.mjs";  // circular dep
+import focus from "wc/dom/focus.mjs";  // circular dep
 
 const genericAnalogSelector = "[role]";
 const gridSelectors = ["[role='grid']", "[role='treegrid']"];
 const IGNORE_ROLES = ["presentation", "banner", "application", "alert",
 	"tablist", "tabpanel", "group", "heading", "rowheader", "separator"];
 let ariaAnalog;
-let getFilteredGroup,
-	focus,
-	keyWalkerConfig;  // we only need one keywalker for all group based walking with aria-analogs
-
-/* circular dependencies */
-// @ts-ignore
-require(["wc/dom/getFilteredGroup", "wc/dom/focus"], function($getFilteredGroup, $focus) {
-	getFilteredGroup = $getFilteredGroup;
-	focus = $focus;
-});
+let keyWalkerConfig;  // we only need one keywalker for all group based walking with aria-analogs
 
 /**
  * Helper for keydownEvent. Determine if the user has pressed an arrow key or similar.

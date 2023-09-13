@@ -5,15 +5,15 @@
  * @module
  */
 
-import initialise from "wc/dom/initialise";
-import event from "wc/dom/event";
-import formUpdateManager from "wc/dom/formUpdateManager";
-import group from "wc/dom/group";
-import ajaxRegion from "wc/ui/ajaxRegion";
-import isEventInLabel from "wc/dom/isEventInLabel";
-import isAcceptableEventTarget from "wc/dom/isAcceptableTarget";
-import shed from "wc/dom/shed";
-import common from "wc/ui/table/common";
+import initialise from "wc/dom/initialise.mjs";
+import event from "wc/dom/event.mjs";
+import formUpdateManager from "wc/dom/formUpdateManager.mjs";
+import group from "wc/dom/group.mjs";
+import ajaxRegion from "wc/ui/ajaxRegion.mjs";
+import isEventInLabel from "wc/dom/isEventInLabel.mjs";
+import isAcceptableEventTarget from "wc/dom/isAcceptableTarget.mjs";
+import shed from "wc/dom/shed.mjs";
+import common from "wc/ui/table/common.mjs";
 
 const TABLE_WRAPPER = common.WRAPPER.toString(),
 	SORTABLE_TABLE = `${common.TABLE.toString()}[sortable]`,

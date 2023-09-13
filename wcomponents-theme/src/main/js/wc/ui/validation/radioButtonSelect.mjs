@@ -1,8 +1,8 @@
-import initialise from "wc/dom/initialise";
-import shed from "wc/dom/shed";
-import required from "wc/ui/validation/required";
-import validationManager from "wc/ui/validation/validationManager";
-import radioButtonSelect from "wc/ui/radioButtonSelect";
+import initialise from "wc/dom/initialise.mjs";
+import shed from "wc/dom/shed.mjs";
+import required from "wc/ui/validation/required.mjs";
+import validationManager from "wc/ui/validation/validationManager.mjs";
+import radioButtonSelect from "wc/ui/radioButtonSelect.mjs";
 
 /**
  * Provides functionality to undertake client validation of WRadioButtonSelect.

@@ -1,11 +1,11 @@
-import ariaAnalog from "wc/dom/ariaAnalog";
-import initialise from "wc/dom/initialise";
-import shed from "wc/dom/shed";
-import clearSelection from "wc/dom/clearSelection";
-import group from "wc/dom/group";
-import getFilteredGroup from "wc/dom/getFilteredGroup";
-import fieldset from "wc/ui/fieldset";
-import cbrShedPublisher from "wc/dom/cbrShedPublisher";
+import ariaAnalog from "wc/dom/ariaAnalog.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import shed from "wc/dom/shed.mjs";
+import clearSelection from "wc/dom/clearSelection.mjs";
+import group from "wc/dom/group.mjs";
+import getFilteredGroup from "wc/dom/getFilteredGroup.mjs";
+import fieldset from "wc/ui/fieldset.mjs";
+import cbrShedPublisher from "wc/dom/cbrShedPublisher.mjs";
 
 /**
  * Module to provide a grouped set of check boxes with some group-like behaviour which is not inherent in HTML check

@@ -1,4 +1,4 @@
-import color from "wc/dom/color";
+import color from "wc/dom/color.mjs";
 
 /**
  * Get the current value of the named CSS rule. It is best practice to use the CSS naming convention rather

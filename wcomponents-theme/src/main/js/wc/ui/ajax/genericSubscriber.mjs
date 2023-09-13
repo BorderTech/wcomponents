@@ -1,5 +1,5 @@
-import initialise from "wc/dom/initialise";
-import processResponse from "wc/ui/ajax/processResponse";
+import initialise from "wc/dom/initialise.mjs";
+import processResponse from "wc/ui/ajax/processResponse.mjs";
 /**
  * Module provides some generic DOM manipulation on any element which is in an ajax response. This manipulation is done
  * before the element is inserted into the DOM. The module replaces some ARIA states and properties which may not be

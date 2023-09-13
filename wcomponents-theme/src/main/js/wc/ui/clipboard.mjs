@@ -1,6 +1,6 @@
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
-import debounce from "wc/debounce";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import debounce from "wc/debounce.mjs";
 
 /**
  *

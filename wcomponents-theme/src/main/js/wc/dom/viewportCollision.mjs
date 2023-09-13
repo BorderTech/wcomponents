@@ -1,5 +1,5 @@
-import getBox from "wc/dom/getBox";
-import getViewportSize from "wc/dom/getViewportSize";
+import getBox from "wc/dom/getBox.mjs";
+import getViewportSize from "wc/dom/getViewportSize.mjs";
 
 /**
  * Tests if an element is partially out of viewport.
