@@ -9,17 +9,16 @@
 		"module": "NodeNext",
 		"moduleResolution": "NodeNext",
 		"esModuleInterop": true,
-		"types": ["node"],
+		"types": ["node", "jasmine"],
+		"typeRoots": [
+			"node_modules/@types"
+		],
 		"allowSyntheticDefaultImports": true,
 		"resolveJsonModule": true,
 		"paths": {
 			"wc/dom/*": ["src/main/js/wc/dom/*"],
 			"wc/*": ["src/main/js/wc/*"],
-			"lib/sprintf.js": ["node_modules/sprintf-js/src/sprintf.js"],
-			"lib/socketio/socket.io": ["node_modules/socket.io-client/dist/socket.io.js"],
 			"axe": ["node_modules/axe-core/axe.js"],
-			"lib/i18next/*": ["node_modules/i18next/dist/es/*"],
-			"lib/fabric": ["node_modules/fabric/dist/fabric.js"],
 			"sass": ["node_modules/sass/sass.js"]
 		}
 	}

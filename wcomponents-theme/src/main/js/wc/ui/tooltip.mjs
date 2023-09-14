@@ -44,7 +44,7 @@ function scheduledCleanup(hiding) {
 }
 
 function toggleTooltips(hide) {
-	const tooltips = document.querySelectorAll(tooltipsSelector),
+	const tooltips = Array.from(document.querySelectorAll(tooltipsSelector)),
 		showHide = hide ? "hide" : "show";
 
 	isOpen = !hide;

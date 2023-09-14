@@ -43,4 +43,6 @@ function get(startOnMonday) {
 	return result;
 }
 
+setTimeout(initialise)
+
 export default { get };

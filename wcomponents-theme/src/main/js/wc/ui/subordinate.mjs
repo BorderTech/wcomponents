@@ -56,8 +56,7 @@ const instance = {
 			ruleArr.push(ruleId);
 		};
 		if (rules) {
-			for (let i = 0; i < rules.length; i++) {
-				let rule = rules[i];
+			for (const rule of rules) {
 				let ruleId = rule.id;
 				ruleStore[ruleId] = rule;
 				// initialising the actions could be deferred but then you would have to check if inited forever after
@@ -104,16 +103,16 @@ function initializeActions(actions) {
 	let result = null;
 	if (actions) {
 		result = [];
-		for (let i = 0; i < actions.length; i++) {
+		for (const element of actions) {
 			try {
-				let action = new Action(actions[i]);
+				let action = new Action(element);
 				if (action) {
 					result[result.length] = action;
 				} else {
-					console.warn("Could not parse", actions[i]);
+					console.warn("Could not parse", element);
 				}
 			} catch (ex) {
-				console.warn(ex, actions[i]);
+				console.warn(ex, element);
 			}
 		}
 	}
@@ -154,19 +153,16 @@ function getControlledRules(element, checkAncestors) {
 function activateSubordinateRules(element) {
 	const controlledRules = getControlledRules(element, true);
 	if (controlledRules) {
-		for (let i = 0; i < controlledRules.length; i++) {
-			let rule = controlledRules[i];
+		for (const rule of controlledRules) {
 			let rulePassed = rule.test(isConditionTrue);
-			let actions = rulePassed ? rule.onTrue : rule.onFalse;
-			if (actions) {
-				for (let j = 0; j < actions.length; j++) {
-					try {
-						actions[j].execute();
-					} catch (ex) {
-						console.error(ex + " executing subordinate action for rule " + rule.id);
-					}
+			let actions = (rulePassed ? rule.onTrue : rule.onFalse) || [];
+			actions.forEach(action => {
+				try {
+					action.execute();
+				} catch (ex) {
+					console.error(`${ex} executing subordinate action for rule ${rule.id}`);
 				}
-			}
+			});
 		}
 	}
 }
@@ -344,7 +340,7 @@ function getSelectedOptions(element) {
 	 * condition determinant; therefore dateField needs to be
 	 * explicitly excluded from a test of having selected options.*/
 	if (!(dateField?.isOneOfMe(element))) {
-		if (multiSelectPair && multiSelectPair.isOneOfMe(element)) {
+		if (multiSelectPair?.isOneOfMe(element)) {
 			return Array.from(multiSelectPair.getValue(element));
 		}
 		const group = gfg(element, gfgConf);
@@ -628,7 +624,7 @@ const initialiser = {
 	initialise: element => {
 		waitingForRules = true;
 		// always require these deps, even if there are no rules, because there are other public methods that need them
-		const deps = ["wc/dom/event", "wc/ui/dateField", "wc/ui/multiSelectPair"];
+		const deps = ["wc/dom/event.mjs", "wc/ui/dateField.mjs", "wc/ui/multiSelectPair.mjs"];
 		return Promise.all(deps.map(dep => import(dep))).then(([$event, $dateField, $multiSelectPair]) => {
 			event = $event.default;
 			dateField = $dateField.default;

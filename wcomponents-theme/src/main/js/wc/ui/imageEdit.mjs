@@ -4,7 +4,7 @@ import event from "wc/dom/event.mjs";
 import timers from "wc/timers.mjs";
 import prompt from "wc/ui/prompt.mjs";
 import i18n from "wc/i18n/i18n.mjs";
-import fabric from "lib/fabric";
+import fabric from "fabric/dist/fabric.js";
 import dialogFrame from "wc/ui/dialogFrame.mjs";
 import ImageCapture from "wc/ui/ImageCapture.mjs";
 import ImageUndoRedo from "wc/ui/ImageUndoRedo.mjs";

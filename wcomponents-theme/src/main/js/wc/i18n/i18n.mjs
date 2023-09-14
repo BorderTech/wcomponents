@@ -18,7 +18,7 @@ const initializer = {
 	 * @returns {Promise} resolved when COMPLETELY initialized.
 	 */
 	initialize: function(config) {
-		return import("lib/i18next/i18next.js").then(module => {  // Should we prefetch this? Does this make it load too late? Does it NEED to be in the layer?
+		return import("i18next/dist/es/i18next.js").then(module => {  // Should we prefetch this? Does this make it load too late? Does it NEED to be in the layer?
 			const useConfig = config || wcconfig.get("wc/i18n/i18n") || {};
 			return initI18next(module.default, useConfig).then(translate => {
 				if (translate) {

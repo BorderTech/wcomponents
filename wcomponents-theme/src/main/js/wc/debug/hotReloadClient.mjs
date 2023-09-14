@@ -6,7 +6,7 @@
  * @author Rick Brown
  */
 
-import io from "lib/socketio/socket.io";
+import io from "socket.io/client-dist/socket.io.js";
 import debounce from "wc/debounce.mjs";
 import cookie from "wc/dom/cookie.mjs";
 

@@ -1,4 +1,4 @@
-import i18next from "lib/i18next";
+import i18next from "i18next/dist/es/i18next.js";
 import arrayDiff from "wc/array/diff.mjs";
 import debounce from "wc/debounce.mjs";
 

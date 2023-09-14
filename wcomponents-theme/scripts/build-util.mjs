@@ -21,6 +21,8 @@ export const paths = {
 	axe: "empty:"
 };
 
+export const runtimeDeps = () => pkgJson.dependencies;
+
 /**
  * These are used all over the place.
  * It's brittle to keep calculating them everywhere, it is done once here and available for resuse.

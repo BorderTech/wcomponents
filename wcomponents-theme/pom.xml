@@ -110,8 +110,8 @@
 							<arguments>run test</arguments>
 						</configuration>
 					</execution>
-					<execution>
-						<!-- Prune the node_modules folder leaving only runtime deps -->
+					<!--<execution>
+						<!- - Prune the node_modules folder leaving only runtime deps - ->
 						<id>prune-production</id>
 						<phase>package</phase>
 						<goals>
@@ -119,9 +119,9 @@
 						</goals>
 						<configuration>
 							<skip>${theme.skip.antrun}</skip>
-							<arguments>install --production --no-optional</arguments>
+							<arguments>install - -production - -no-optional</arguments>
 						</configuration>
-					</execution>
+					</execution>-->
 				</executions>
 			</plugin>
 		</plugins>

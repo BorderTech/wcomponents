@@ -186,7 +186,7 @@ function initTargetConstructor() {
  */
 function initActionConstructor() {
 	/**
-	 * Is a particular id representative of something that is targetted by this action?
+	 * Is a particular id representative of something that is targeted by this action?
 	 * Note: will search inside groups - will not test group names themselves.
 	 * @function module:wc/ui/SubordinateTarget#isTargeted
 	 * @public

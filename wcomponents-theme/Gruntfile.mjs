@@ -17,7 +17,7 @@ const coverageDir = path.join(dirs.project.build, "coverage");
 let internConfig = intern.config;
 
 module.exports = function (grunt) {
-	var testSrc = (grunt.option("filename") || "**");
+	const testSrc = (grunt.option("filename") || "**");
 	grunt.initConfig({
 		clean: {
 			test: [dirs.test.target]

@@ -3,7 +3,7 @@
  * sprintf attaches itself to "window" if it can find nothing else.
  * It is not a native ES module.
  */
-import "lib/sprintf.js";
+import "sprintf-js/src/sprintf.js";
 
 /**
  * @param {any[]} args

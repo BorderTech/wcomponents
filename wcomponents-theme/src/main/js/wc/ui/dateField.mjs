@@ -323,7 +323,7 @@ function closeDateCombo(element) {
 	if (openDateCombo) {
 		// close any open dateFields when focusing elsewhere
 		const otherDateField = document.getElementById(openDateCombo);
-		if (otherDateField && otherDateField.matches(DATE_FIELD) && (!dateField || dateField.id !== openDateCombo) && shed.isExpanded(otherDateField)) {
+		if (otherDateField?.matches(DATE_FIELD) && (!dateField || dateField.id !== openDateCombo) && shed.isExpanded(otherDateField)) {
 			_collapseHelper(otherDateField);
 		}
 	}
@@ -346,7 +346,7 @@ function focusListbox(suggestionList) {
 		}
 	}
 
-	if (suggestionList && suggestionList.querySelector(OPTION_WD)) {
+	if (suggestionList?.querySelector(OPTION_WD)) {
 		onchangeSubmit.ignoreNextChange();
 		ajaxRegion.ignoreNextChange();
 
@@ -365,7 +365,7 @@ function focusListbox(suggestionList) {
  * @returns {String} A human-readable date as a string.
  */
 function format(xfer) {
-	const myFormatter = formatter || (formatter = new Format());
+	const myFormatter = formatter || (formatter = new Format(dateFormatMask));
 	return myFormatter.format(xfer);
 }
 
@@ -786,7 +786,7 @@ function getFuncForAction(action) {
  * @param {Element} stateContainer The element into which the state fields are written.
  */
 function writeState(form, stateContainer) {
-	const dateFields = form.querySelectorAll(DATE_FIELD), nameSuffix = "-date";
+	const dateFields = Array.from(form.querySelectorAll(DATE_FIELD)), nameSuffix = "-date";
 	for (const next of dateFields) {
 		const name = next.id + nameSuffix;
 		if (!shed.isDisabled(next)) {

@@ -1,4 +1,4 @@
-import fabric from "lib/fabric";
+import fabric from "fabric/dist/fabric.js";
 
 let redactMode = false, startX, startY, imageEdit;
 const fabricRedact = {

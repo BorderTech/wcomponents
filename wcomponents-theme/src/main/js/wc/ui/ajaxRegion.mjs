@@ -15,6 +15,7 @@ import initialise from "wc/dom/initialise.mjs";
 import processResponse from "wc/ui/ajax/processResponse.mjs";
 import mixin from "wc/mixin.mjs";
 import timers from "wc/timers.mjs";
+import "wc/ui/ajax/genericSubscriber.mjs";
 
 let triggers = [];
 let ignoreChange = false;

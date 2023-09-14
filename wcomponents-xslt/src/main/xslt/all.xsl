@@ -196,7 +196,11 @@
 					{
 						"imports": {
 							"wc/": "</xsl:text><xsl:value-of select="concat(normalize-space($resourceRoot), $wcScriptDir)" />/<xsl:text>",
-							"lib/": "</xsl:text><xsl:value-of select="concat(normalize-space($resourceRoot), $libScriptDir)" />/<xsl:text>"
+							"fabric/": "</xsl:text><xsl:value-of select="concat(normalize-space($resourceRoot), $libScriptDir, '/fabric')" />/<xsl:text>",
+							"mailcheck/": "</xsl:text><xsl:value-of select="concat(normalize-space($resourceRoot), $libScriptDir, '/mailcheck')" />/<xsl:text>",
+							"tinymce/": "</xsl:text><xsl:value-of select="concat(normalize-space($resourceRoot), $libScriptDir, '/tinymce')" />/<xsl:text>",
+							"i18next/": "</xsl:text><xsl:value-of select="concat(normalize-space($resourceRoot), $libScriptDir, '/i18next')" />/<xsl:text>",
+							"sprintf-js/": "</xsl:text><xsl:value-of select="concat(normalize-space($resourceRoot), $libScriptDir, '/sprintf-js')" />/<xsl:text>"
 						}
 					}
 					</xsl:text>
@@ -204,19 +208,19 @@
 
 				<script type="module" src="{concat($resourceRoot, $scriptDir, '/wc/common.mjs?', $cacheBuster)}" />
 
-<!--				<script type="module" class="registrationScripts">-->
-<!--					<xsl:text>require(["wc/common"], function(){</xsl:text>-->
-<!--					<xsl:if test="$registeredComponents ne ''">-->
-<!--						<xsl:value-of select="$registeredComponents" />-->
-<!--					</xsl:if>-->
-<!--					<xsl:text>require(["wc/loader/style"],function(s){s.load();</xsl:text>-->
-<!--					<xsl:apply-templates select="ui:application/ui:css" mode="inHead" />-->
-<!--					<xsl:apply-templates select=".//html:link[@rel eq 'stylesheet']" mode="inHead" />-->
-<!--					<xsl:text>});</xsl:text>&lt;!&ndash;-->
-<!--						end style loader//&ndash;&gt;-->
-<!--					<xsl:text>});</xsl:text>&lt;!&ndash;-->
-<!--						end common//&ndash;&gt;-->
-<!--				</script>-->
+				<script type="module" class="registrationScripts">
+					<xsl:text>import("wc/common.mjs").then(({ default: c }) => {</xsl:text>
+					<xsl:if test="$registeredComponents ne ''">
+						<xsl:value-of select="$registeredComponents" />
+					</xsl:if>
+					<xsl:text>import("wc/loader/style.mjs").then(({ default: s }) => {s.load();</xsl:text>
+					<xsl:apply-templates select="ui:application/ui:css" mode="inHead" />
+					<xsl:apply-templates select=".//html:link[@rel eq 'stylesheet']" mode="inHead" />
+					<xsl:text>});</xsl:text><!--
+						end style loader//-->
+					<xsl:text>});</xsl:text><!--
+						end common//-->
+				</script>
 
 				<!--
 					We grab all base, meta and link elements from the content
@@ -487,7 +491,7 @@
 			<xsl:if test=".//@unsavedChanges">
 				<xsl:text>"wc/ui/cancelUpdate",</xsl:text>
 			</xsl:if>
-			<!-- NOTE: not every mode SERVER needs this but the include is cheaper than the tests and mode server should eventually die -->
+			<!-- NOTE: not every mode SERVER needs this but the inclusion is cheaper than the tests and mode server should eventually die -->
 			<xsl:if test=".//*[@mode eq 'dynamic'] or .//*[@mode eq 'lazy']">
 				<xsl:text>"wc/ui/containerload",</xsl:text>
 			</xsl:if>
@@ -500,69 +504,69 @@
 		<xsl:variable name="normalizedLibs" select="normalize-space($libs)" />
 		<xsl:variable name="rego">
 			<xsl:if test="$componentGroups">
-				<xsl:text>require(["wc/ui/subordinate"], function(c){c.registerGroups([</xsl:text>
+				<xsl:text>import("wc/ui/subordinate.mjs").then(({ default: c }) => {c.registerGroups([</xsl:text>
 				<xsl:apply-templates select="$componentGroups" mode="JS" />
 				<xsl:text>]);});</xsl:text>
 			</xsl:if>
 			<xsl:if test="$tableActions">
-				<xsl:text>require(["wc/ui/table/action"], function(c){c.register([</xsl:text>
+				<xsl:text>import("wc/ui/table/action.mjs").then(({ default: c }) => {c.register([</xsl:text>
 				<xsl:apply-templates select="$tableActions" mode="JS" />
 				<xsl:text>]);});</xsl:text>
 			</xsl:if>
 			<xsl:if test="$editors">
-				<xsl:text>require(["wc/ui/imageEdit"], function(c){c.register([</xsl:text>
+				<xsl:text>import("wc/ui/imageEdit.mjs").then(({ default: c }) => {c.register([</xsl:text>
 				<xsl:apply-templates select="$editors" mode="JS" />
 				<xsl:text>]);});</xsl:text>
 			</xsl:if>
 			<xsl:if test="$dialogs">
-				<xsl:text>require(["wc/ui/dialog"], function(c){c.register([</xsl:text>
+				<xsl:text>import("wc/ui/dialog.mjs").then(({ default: c }) => {c.register([</xsl:text>
 				<xsl:apply-templates select="$dialogs" mode="JS" />
 				<xsl:text>]</xsl:text>
 				<xsl:text>);});</xsl:text>
 			</xsl:if>
 			<xsl:if test="$dataListCombos">
-				<xsl:text>require(["wc/ui/comboLoader"], function(c){c.register([</xsl:text>
+				<xsl:text>import("wc/ui/comboLoader.mjs").then(({ default: c }) => {c.register([</xsl:text>
 				<xsl:apply-templates select="$dataListCombos" mode="registerIds" />
 				<xsl:text>]);});</xsl:text>
 			</xsl:if>
 			<xsl:if test="$dataListComponents">
-				<xsl:text>require(["wc/ui/selectLoader"], function(c){c.register([</xsl:text>
+				<xsl:text>import("wc/ui/selectLoader.mjs").then(({ default: c }) => {c.register([</xsl:text>
 				<xsl:apply-templates select="$dataListComponents"
 					mode="registerIds" />
 				<xsl:text>]);});</xsl:text>
 			</xsl:if>
 			<xsl:if test="$filedrops">
-				<xsl:text>require(["wc/ui/multiFileUploader"], function(c){c.register([</xsl:text>
+				<xsl:text>import("wc/ui/multiFileUploader.mjs").then(({ default: c }) => {c.register([</xsl:text>
 				<xsl:apply-templates select="$filedrops" mode="registerIds" />
 				<xsl:text>]);});</xsl:text>
 			</xsl:if>
 			<xsl:if test="$multiDDData">
-				<xsl:text>require(["wc/ui/multiFormComponent"], function(c){c.register([</xsl:text>
+				<xsl:text>import("wc/ui/multiFormComponent.mjs").then(({ default: c }) => {c.register([</xsl:text>
 				<xsl:apply-templates select="$multiDDData" mode="registerIds" />
 				<xsl:text>]);});</xsl:text>
 			</xsl:if>
 			<xsl:if test="$popups">
-				<xsl:text>require(["wc/ui/popup"], function(c){c.register([</xsl:text>
+				<xsl:text>import("wc/ui/popup.mjs").then(({ default: c }) => {c.register([</xsl:text>
 				<xsl:apply-templates select="$popups" mode="JS" />
 				<xsl:text>])});</xsl:text>
 			</xsl:if>
 			<xsl:if test="$redirects">
-				<xsl:text>require(["wc/ui/redirect"], function(c){c.register(</xsl:text>
+				<xsl:text>import("wc/ui/redirect.mjs").then(({ default: c }) => {c.register(</xsl:text>
 				<xsl:apply-templates select="$redirects[1]" mode="JS" />
 				<xsl:text>);});</xsl:text>
 			</xsl:if>
 			<xsl:if test="$rtfs">
-				<xsl:text>require(["wc/ui/rtf"], function(c){c.register([</xsl:text>
+				<xsl:text>import("wc/ui/rtf.mjs").then(({ default: c }) => {c.register([</xsl:text>
 				<xsl:apply-templates select="$rtfs" mode="registerIds" />
 				<xsl:text>]);});</xsl:text>
 			</xsl:if>
 			<xsl:if test="$subordinates">
-				<xsl:text>require(["wc/ui/subordinate","wc/ui/SubordinateAction"], function(c){c.register([</xsl:text>
+				<xsl:text>import("wc/ui/subordinate.mjs").then(({ default: c }) => {c.register([</xsl:text>
 				<xsl:apply-templates select="$subordinates" mode="JS" />
 				<xsl:text>]);});</xsl:text>
 			</xsl:if>
 			<xsl:if test="$timeoutWarn">
-				<xsl:text>require(["wc/ui/timeoutWarn"], function(c){</xsl:text>
+				<xsl:text>import("wc/ui/timeoutWarn.mjs").then(({ default: c }) => {</xsl:text>
 				<xsl:text>c.initTimer(</xsl:text>
 				<xsl:value-of select="$timeoutWarn/@timeout" />
 				<xsl:if test="$timeoutWarn/@warn">
@@ -572,26 +576,26 @@
 				<xsl:text>);});</xsl:text>
 			</xsl:if>
 			<xsl:if test="$eagerness">
-				<xsl:text>require(["wc/ui/containerload"], function(c){c.register([</xsl:text>
+				<xsl:text>import("wc/ui/containerload.mjs").then(({ default: c }) => {c.register([</xsl:text>
 				<xsl:apply-templates select="$eagerness" mode="registerIds" />
 				<xsl:text>]);});</xsl:text>
 			</xsl:if>
 			<xsl:if test="$hasAjaxTriggers">
 				<!--NOTE: if we have an ajaxTrigger we have to require the generic subscriber even if it is never used -->
-				<xsl:text>require(["wc/ui/ajaxRegion","wc/ui/ajax/genericSubscriber"], function(c, s){c.register([</xsl:text>
+				<xsl:text>import("wc/ui/ajaxRegion.mjs").then(({ default: c }) => { c.register([</xsl:text>
 				<xsl:apply-templates select="$hasAjaxTriggers" mode="JS" />
 				<xsl:text>]);});</xsl:text>
 			</xsl:if>
 			<xsl:if test="//@defaultFocusId">
-				<xsl:text>require(["wc/ui/onloadFocusControl"], function(c){c.register("</xsl:text>
+				<xsl:text>import("wc/ui/onloadFocusControl.mjs").then(({ default: c }) => {c.register("</xsl:text>
 				<xsl:value-of select="//@defaultFocusId[1]" />
 				<xsl:text>");});</xsl:text>
 			</xsl:if>
 			<xsl:if test="$normalizedLibs ne ''">
-				<xsl:text>require([</xsl:text>
+				<xsl:text>[</xsl:text>
 				<xsl:value-of
 					select="substring($normalizedLibs, 1, string-length($normalizedLibs) - 1)" />
-				<xsl:text>]);</xsl:text>
+				<xsl:text>].forEach(dep => import(`${dep}.mjs`));</xsl:text>
 			</xsl:if>
 		</xsl:variable>
 		<xsl:if test="$rego ne ''">
@@ -603,9 +607,9 @@
 					<xsl:variable name="scriptId"
 						select="concat('wcscript_', generate-id())" />
 					<script type="text/javascript" class="registrationScripts" id="{$scriptId}">
-						<xsl:text>require(["wc/common"], function(){</xsl:text>
+						<xsl:text>import("wc/common.mjs").then(() => {</xsl:text>
 						<xsl:value-of select="$rego" />
-						<xsl:text>require(["wc/dom/removeElement"], function(r){ r("</xsl:text>
+						<xsl:text>import("wc/dom/removeElement.mjs").then(({ default: r }) => { r("</xsl:text>
 							<xsl:value-of select="$scriptId" />
 						<xsl:text>", true);});</xsl:text>
 						<xsl:text>});</xsl:text>
@@ -691,7 +695,7 @@
 	<!--
 		For text nodes we use value-of rather than apply-templates on text nodes
 		as this provides improved performance. This is actually redundant as it
-		is the default rule but I have seen too many variations on
+		is the default rule, but I have seen too many variations on
 		`match node(), copy, apply templates` as in the above comment to leave
 		this to chance!
 	-->
@@ -701,14 +705,14 @@
 
 
 	<!--
-		html:link can appear in a ui:ajaxtarget and in this case cannot be moved
-		to a HEAD element so we just output it in-situ.
+		html:link can appear in a `ui:ajaxtarget` and in this case cannot be moved
+		to a HEAD element, so we just output it in-situ.
 	-->
 	<xsl:template match="html:link[ancestor::ui:ajaxtarget]">
 		<xsl:choose>
 			<xsl:when test="@rel = 'stylesheet'">
 				<script type="text/javascript">
-					<xsl:text>require(["wc/loader/style"],function(s){s.add("</xsl:text>
+					<xsl:text>import("wc/loader/style.mjs").then(({ default: s }) => {s.add("</xsl:text>
 					<xsl:value-of select="@href" />
 					<xsl:text>","</xsl:text>
 					<xsl:if test="@media">

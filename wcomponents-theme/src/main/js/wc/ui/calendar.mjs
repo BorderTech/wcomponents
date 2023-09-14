@@ -37,7 +37,6 @@ const DATE_KEY = "date_key",
 		DATE_BUTTON: "wc_wdf_pick",
 		LAST: "wc_cal_last"
 	},
-	launcherSelector = dateField.getLaunchWidget().toString(),
 	pickableSelector = `button.${CLASS.DATE_BUTTON}`,
 	calbuttonSelector = "button.wc_wdf_mv",
 	closebuttonSelector = "button.wc_wdf_cls",
@@ -104,18 +103,29 @@ function calendarTemplate(context) {
 	</table>`;
 }
 
+/**
+ * @returns {HTMLSelectElement}
+ */
 function findMonthSelect() {
-	return document.getElementById(MONTH_SELECT_ID);
+	return /** @type {HTMLSelectElement} */(document.getElementById(MONTH_SELECT_ID));
 }
 
+/**
+ *
+ * @returns {HTMLInputElement}
+ */
 function findYearField() {
-	return document.getElementById(YEAR_ELEMENT_ID);
+	return /** @type {HTMLInputElement} */(document.getElementById(YEAR_ELEMENT_ID));
 }
 
+/**
+ *
+ * @param {boolean} disable
+ */
 function resetMonthPickerOptions(disable) {
 	const monthSelect = findMonthSelect();
-	if (monthSelect && monthSelect.options && monthSelect.options.length) {
-		for (const element of monthSelect.options) {
+	if (monthSelect?.options?.length) {
+		for (const element of Array.from(monthSelect.options)) {
 			if (disable) {
 				shed.disable(element, true);
 			} else {
@@ -126,21 +136,22 @@ function resetMonthPickerOptions(disable) {
 }
 
 function getMinMaxMonthDay(input, isMax, isDay) {
-	let constraint, result, defaultVal = -1;
+	let defaultVal = -1;
 	const what = (isDay ? "day" : "month"),
 		attrib = (isMax ? MAX_ATTRIB : MIN_ATTRIB);
 
 	if (isMax) {
 		defaultVal = isDay ? 32 : 12;
 	}
-	if (!(input && ((constraint = input.getAttribute(attrib))))) {
+	const constraint = input?.getAttribute(attrib);
+	if (!constraint) {
 		// nothing to do
 		return defaultVal;
 	}
 	const xfrObj = interchange.toValues(constraint);
-	result = xfrObj[what];
+	const result = Number(xfrObj[what]);
 
-	return (isDay ? (result * 1) : (result - 1));
+	return isDay ? result : result - 1;
 }
 
 /**
@@ -248,7 +259,7 @@ function setYear(date, year) {
 	return newDate;
 }
 
-/*
+/**
  * Helper for refresh.
  * @private
  * @function
@@ -312,7 +323,7 @@ function setDay(current, date, year, month, limit) {
  * Refresh the displayed month when the year field is changed.
  * @function
  * @private
- * @param {Element} yearElement The input element holding the year.
+ * @param {HTMLInputElement} yearElement The input element holding the year.
  */
 function yearChanged(yearElement) {
 	const min = yearElement.getAttribute(MIN_ATTRIB) || conf.min,
@@ -355,7 +366,7 @@ function hideCalendar(ignoreFocusReset) {
  *
  * @function
  * @private
- * @param {Element} element The calendar's year input.
+ * @param {HTMLInputElement} element The calendar's year input.
  * @param {string} keyCode The keydown event's key literal.
  * @returns {Boolean} true if the event's default action is to be prevented.
  */
@@ -393,10 +404,10 @@ function keydownHelperDateButton(element, $event) {
 
 /**
  * Key listeners in the calendar: ESC to close the calendar, ARROW and TAB key walking, SPACE & ENTER key
- * selection of pickable date, Year change handler is target is the year field.
+ * selection of 'pickable' date, Year change handler is target is the year field.
  * @function
  * @private
- * @param {KeyboardEvent} $event The keydown event.
+ * @param {KeyboardEvent & { target: HTMLElement }} $event The keydown event.
  */
 function _calendarKeydownEvent($event) {
 	if ($event.defaultPrevented) {
@@ -412,15 +423,18 @@ function _calendarKeydownEvent($event) {
 		hideCalendar();
 		handled = true;  // if the date field is in a dialog, do not close dialog
 	} else if (element.id === YEAR_ELEMENT_ID && keyCode !== "Tab" && keyCode !== "Shift") {
-		handled = keydownHelperChangeYear(element, keyCode);
+		handled = keydownHelperChangeYear(/** @type {HTMLInputElement} */(element), keyCode);
 	} else if (keyCode === "Tab" && shiftKey && element === findMonthSelect()) {  // tabbing back past month select
 		getOrCreateCal(function(cal) {
 			const buttons = cal.querySelectorAll(pickableSelector);
 			focus.setFocusRequest(buttons[buttons.length - 1]);  // move focus to last element
 		});
 		handled = true;
-	} else if ((element = element.closest(pickableSelector))) {
-		handled = keydownHelperDateButton(element, $event);
+	} else {
+		element = element.closest(pickableSelector);
+		if (element) {
+			handled = keydownHelperDateButton(element, $event);
+		}
 	}
 
 	if (handled) {
@@ -444,39 +458,48 @@ function monthChangeEvent($event) {
  * changeEvent listener for year input. Updates the displayed month in the calendar.
  * @function
  * @private
- * @param {Event} $event A change event.
+ * @param {UIEvent & { target: HTMLInputElement }} $event A change event.
  */
 function yearChangeEvent($event) {
 	yearChanged($event.target);
 }
 
-/*
+/**
  * Builds the actual HTML calendar component
+ * @returns {Promise<HTMLElement>}
  */
-function create(callback) {
+function create() {
 	const _today = today.get();
+	return i18n.translate([
+		"datefield_calendarMonthLabel",
+		"datefield_calendarYearLabel",
+		"datefield_lastMonth",
+		"datefield_today",
+		"datefield_nextMonth",
+		"datefield_close"]).then(([monthLabel, yearLabel, lastMonth, todayLabel, nextMonth, closeLabel]) => {
 
-	const calendarProps = {
-		dayName: dayName.get(true),
-		monthName: monthName.get(),
-		fullYear: _today.getFullYear(),
-		monthLabel: i18n.get("datefield_calendarMonthLabel"),
-		yearLabel: i18n.get("datefield_calendarYearLabel"),
-		lastMonth: i18n.get("datefield_lastMonth"),
-		today: i18n.get("datefield_today"),
-		nextMonth: i18n.get("datefield_nextMonth"),
-		closeLabel: i18n.get("datefield_close")
-	};
+		const calendarProps = {
+			dayName: dayName.get(true),
+			monthName: monthName.get(),
+			fullYear: _today.getFullYear(),
+			monthLabel,
+			yearLabel,
+			lastMonth,
+			today: todayLabel,
+			nextMonth,
+			closeLabel
+		};
+		const container = document.createElement("div");
+		container.id = CONTAINER_ID;
+		container.setAttribute("role", "dialog");
+		document.body.appendChild(container);
+		container.innerHTML = calendarTemplate(calendarProps);
+		event.add(container, "keydown", _calendarKeydownEvent);
+		event.add(findMonthSelect(), "change", monthChangeEvent);
+		event.add(findYearField(), "change", yearChangeEvent);
+		return container;
+	});
 
-	const container = document.createElement("div");
-	container.id = CONTAINER_ID;
-	container.setAttribute("role", "dialog");
-	document.body.appendChild(container);
-	container.innerHTML = calendarTemplate(calendarProps);
-	event.add(container, "keydown", _calendarKeydownEvent);
-	event.add(findMonthSelect(), "change", monthChangeEvent);
-	event.add(findYearField(), "change", yearChangeEvent);
-	callback(container);
 }
 
 /**
@@ -489,14 +512,14 @@ function getCal() {
 
 /**
  * Finds the calendar DOM element if it exists otherwise creates it.
- * @param {function} callback Called with the calendar DOM element.
+ * @param {function(HTMLElement): void} callback Called with the calendar DOM element.
  */
 function getOrCreateCal(callback) {
 	const cal = getCal();
 	if (cal) {
 		callback(cal);
 	} else {
-		create(callback);
+		create().then(callback);
 	}
 }
 
@@ -507,7 +530,7 @@ function retrieveDate(callback) {
 	/**
 	 * @param {Element} cal
 	 */
-	getOrCreateCal(function(cal) {
+	getOrCreateCal(cal => {
 		const millis = parseInt(cal.dataset[DATE_KEY]);
 		if (millis || millis === 0) {
 			const dateObj = new Date(millis);
@@ -518,11 +541,16 @@ function retrieveDate(callback) {
 	});
 }
 
+/**
+ *
+ * @param {Element} [$cal]
+ * @returns {HTMLInputElement}
+ */
 function getInputForCalendar($cal) {
 	const cal = ($cal || getCal());
 	let inputId, result;
 	if (cal && (inputId = cal.getAttribute(CONTROL_ATTRIBUTE))) {
-		result = document.getElementById(inputId);
+		result = /** @type {HTMLInputElement} */(document.getElementById(inputId));
 	}
 	return result;
 }
@@ -538,15 +566,18 @@ function storeDate(dateObj) {
 		}
 		const millis = dateObj.getTime();
 		console.log("storing date", new Date(millis));
-		cal.dataset[DATE_KEY] = millis;
+		cal.dataset[DATE_KEY] = String(millis);
 	});
 }
 
-/*
+/**
  * cal.dataset[DATE_KEY] is how the date is passed back and forth from the date input and the calendar
  * control. when we set the date we rebuild the calendar to show this date as the default selected @param date
  * the date object to set the calendar to @param [setFocus] true to focus after setting date @param
  * [setSelected] true to set the date as the current selection
+ * @param {Date} date
+ * @param {boolean} setFocus
+ * @param {boolean} [setSelected]
  */
 function setDate(date, setFocus, setSelected) {
 	getOrCreateCal(function(cal) {
@@ -559,7 +590,7 @@ function setDate(date, setFocus, setSelected) {
 
 		storeDate(_date);
 		monthElement.selectedIndex = monthIndex;
-		yearElement.value = year;
+		yearElement.value = String(year);
 		// getDay returns 0 = sun 6 = sat, rotate to 0 = mon, 6 = sun
 		_date.setDate(1);
 		let dayOfWeek = _date.getDay();
@@ -571,19 +602,16 @@ function setDate(date, setFocus, setSelected) {
 		const endDate = copy(_date);
 		addDays(34, endDate);
 
-		const tbody = cal.querySelector("tbody");
-		const weeks = tbody.querySelectorAll("tr");
+
 		let monthEnd = false;
 		let inMonth = false;
 
-		let maxYear = yearElement.getAttribute(MAX_ATTRIB);
-		let minYear = yearElement.getAttribute(MIN_ATTRIB);
+		let maxYear = Number(yearElement.getAttribute(MAX_ATTRIB));
+		let minYear = Number(yearElement.getAttribute(MIN_ATTRIB));
 		let input, disableEverything, maxMonth, maxDay, minMonth, minDay, lastDay, focusDay;
 
 		if (minYear || maxYear) {
-			resetMonthPickerOptions();  // make sure all months are enabled
-			minYear = minYear * 1;
-			maxYear = maxYear * 1;
+			resetMonthPickerOptions(false);  // make sure all months are enabled
 
 			input = getInputForCalendar(cal);
 
@@ -602,12 +630,12 @@ function setDate(date, setFocus, setSelected) {
 							maxDay = getMinMaxMonthDay(input, true, true);
 						}
 					} else {  // should never be here
-						resetMonthPickerOptions();
+						resetMonthPickerOptions(false);
 					}
 				}
 			}
 
-			if ((minYear && year <= minYear)) {
+			if (minYear && year <= minYear) {
 				if (year < minYear) {
 					disableEverything = true;
 				} else {
@@ -624,7 +652,7 @@ function setDate(date, setFocus, setSelected) {
 							minDay = getMinMaxMonthDay(input, false, true);
 						}
 					} else {  // should never be here
-						resetMonthPickerOptions();
+						resetMonthPickerOptions(false);
 					}
 				}
 			}
@@ -636,9 +664,11 @@ function setDate(date, setFocus, setSelected) {
 				disableEverything = true;
 			}
 		} else {
-			resetMonthPickerOptions();  // make sure all months are enabled if the date field does not have min/max limit
+			resetMonthPickerOptions(false);  // make sure all months are enabled if the date field does not have min/max limit
 		}
 
+		const tbody = cal.querySelector("tbody");
+		const weeks = Array.from(tbody.querySelectorAll("tr"));
 		// build each week
 		for (const week of weeks) {
 			if (monthEnd) {
@@ -648,7 +678,7 @@ function setDate(date, setFocus, setSelected) {
 				shed.show(week);
 			}
 
-			let days = week.querySelectorAll("td");
+			let days = Array.from(week.querySelectorAll("td"));
 
 			// build each day
 			for (const day of days) {
@@ -659,9 +689,8 @@ function setDate(date, setFocus, setSelected) {
 				// if in current month make the element pickable
 				if (monthIndex === _date.getMonth()) {
 					inMonth = true;
-					let button = "<button type='button' class='wc-nobutton wc-invite " + CLASS.DATE_BUTTON + "' value='" + text + "'>" + text + "</button>";
-					day.innerHTML = button;
-					button = day.firstChild;
+					day.innerHTML = "<button type='button' class='wc-nobutton wc-invite " + CLASS.DATE_BUTTON + "' value='" + text + "'>" + text + "</button>";
+					let button = day.firstElementChild;
 					lastDay = button;
 
 					if (disableEverything || (minDay && text < minDay) || (maxDay && text > maxDay)) {
@@ -696,7 +725,7 @@ function setDate(date, setFocus, setSelected) {
 						focusDay = button;
 					}
 				} else {
-					day.appendChild(document.createTextNode(text));
+					day.appendChild(document.createTextNode(String(text)));
 				}
 				addDays(1, _date);
 				if (inMonth && monthIndex !== _date.getMonth()) {
@@ -742,40 +771,35 @@ function setMinMaxYear(input) {
  * Show the calendar.
  * @function
  * @private
- * @param {HTMLInputElement} element The calendar launch button.
+ * @param {HTMLButtonElement} element The calendar launch button.
  */
 function show(element) {
 	getOrCreateCal(function(cal) {
-		let input = element.value,
-			selectDate = false;
-		cal.setAttribute(CONTROL_ATTRIBUTE, input);
+		const inputId = element.value;
+		cal.setAttribute(CONTROL_ATTRIBUTE, inputId);
 
 		// get the date to use as the default. If there is a date in the input we use that,
 		// otherwise we default to today.
-		input = document.getElementById(input);
+		const input = document.getElementById(inputId);
 		setMinMaxYear(input);
 
-		let date = dateField.getValue(input);
-		if (date) {
-			date = interchange.toDate(date);
-			selectDate = true;
-		}
+		const dateString = dateField.getValue(input);
+		let date = dateString ? interchange.toDate(dateString) : null;
+
 		if (!date) {
 			date = new Date();
-			let constrained;
-			if ((constrained = input.getAttribute(MIN_ATTRIB)) && (constrained = interchange.toDate(constrained))) {
-				if (getDifference(constrained, date, false) > 0) {
-					date = constrained;
-				}
+			const min = input.getAttribute(MIN_ATTRIB);
+			let  constrained = interchange.toDate(min);
+			if (constrained && getDifference(constrained, date, false) > 0) {
+				date = constrained;
 			}
-
-			if ((constrained = input.getAttribute(MAX_ATTRIB)) && (constrained = interchange.toDate(constrained))) {
-				if (getDifference(constrained, date, false) < 0) {
-					date = constrained;
-				}
+			const max = input.getAttribute(MAX_ATTRIB);
+			constrained = interchange.toDate(max);
+			if (constrained && getDifference(constrained, date, false) < 0) {
+				date = constrained;
 			}
 		}
-		setDate(date, false, selectDate);
+		setDate(date, false, !!dateString);
 
 		/*
 		 * NOTE: element is the calendar launch button. Do NOT insert the calendar into the DOM before this
@@ -796,7 +820,7 @@ function show(element) {
  * adds a class to move it.
  * @function
  * @private
- * @param {Element} cal the calendar.
+ * @param {HTMLElement} cal the calendar.
  */
 function detectCollision(cal) {
 	let collision = viewportCollision(cal);
@@ -827,51 +851,69 @@ function detectCollision(cal) {
 	}
 }
 
+/**
+ *
+ * @param {HTMLButtonElement} element
+ */
 function changeMonth(element) {
 	const _today = new Date();
 
 	if (element.value === "t") {
 		setDate(_today, true);
-	} else {
-		const monthList = findMonthSelect();
-		const numberOfMonths = monthList.options.length;  // should be 12 but who knows when this may change!!
-		const yearBox = findYearField();
-		// If we do not have a year set then default to this year before change
-		let currentYear = getYearValueAsNumber(yearBox);
-		let maxYear;
-		if (isNaN(currentYear)) {
-			yearBox.value = currentYear = _today.getFullYear();
-		}
+		return;
+	}
+
+	const monthList = findMonthSelect();
+	const numberOfMonths = monthList.options.length;  // should be 12 but who knows when this may change!!
+	const yearBox = findYearField();
+	// If we do not have a year set then default to this year before change
+	let currentYear = getYearValueAsNumber(yearBox);
+	let maxYear;
+	if (isNaN(currentYear)) {
+		currentYear = _today.getFullYear();
+		yearBox.value = String(currentYear);
+	}
+	try {
 		if (element.value === "-1") {
 			let minYear;
 			// go to previous month
 			if (monthList.selectedIndex === 0) {
 				// change the year first. If we do not have a year set then default to this year then change
-				if (!(minYear = yearBox.getAttribute(MIN_ATTRIB)) || minYear < yearBox.value) {
-					yearBox.value = currentYear - 1;
+				minYear = yearBox.getAttribute(MIN_ATTRIB);
+				if (!minYear || minYear < yearBox.value) {
+					yearBox.value = String(currentYear - 1);
 					monthList.selectedIndex = numberOfMonths - 1;
 				}
-			} else if ((minYear = yearBox.getAttribute(MIN_ATTRIB)) && minYear === yearBox.value) {
+				return;
+			}
+			minYear = yearBox.getAttribute(MIN_ATTRIB);
+			if (minYear && minYear === yearBox.value) {
 				if (getMinMaxMonthDay(getInputForCalendar()) < monthList.selectedIndex) {
 					monthList.selectedIndex = monthList.selectedIndex - 1;
 				}
 			} else {
 				monthList.selectedIndex = monthList.selectedIndex - 1;
 			}
-		} else if (monthList.selectedIndex === numberOfMonths - 1) { // go to next month
+			return;
+		}
+		if (monthList.selectedIndex === numberOfMonths - 1) {  // go to next month
 			// change the year first. If we do not have a year set then default to this year then change
 			maxYear = yearBox.getAttribute(MAX_ATTRIB);
-			if (!maxYear || parseInt(maxYear, 10) > yearBox.value) {
+			if (!maxYear || Number(maxYear) > Number(yearBox.value)) {
 				yearBox.value = currentYear + 1;
 				monthList.selectedIndex = 0;
 			}
-		} else  if ((maxYear = yearBox.getAttribute(MAX_ATTRIB)) && maxYear === yearBox.value) { // if we have a max on the year input we have a max date, so we need to get the max month if the current year is equal to the max year
+			return;
+		}
+		maxYear = yearBox.getAttribute(MAX_ATTRIB);
+		if (maxYear && maxYear === yearBox.value) {  // if we have a max on the year input we have a max date, so we need to get the max month if the current year is equal to the max year
 			if (getMinMaxMonthDay(getInputForCalendar(), true) > monthList.selectedIndex) {
 				monthList.selectedIndex = monthList.selectedIndex + 1;
 			}
 		} else {
 			monthList.selectedIndex = monthList.selectedIndex + 1;
 		}
+	} finally {
 		refresh();
 	}
 }
@@ -881,7 +923,7 @@ function changeMonth(element) {
  *
  * @function
  * @private
- * @param {Element} element The launch control button or date input.
+ * @param {HTMLInputElement|HTMLButtonElement} element The launch control button or date input.
  */
 function doLaunch(element) {
 	try {
@@ -933,21 +975,26 @@ function clearMinMaxYear() {
 
 /**
  * Calendar icon click listener.
- * @param {MouseEvent} $event
+ * @param {MouseEvent & {target: HTMLElement}} $event
  */
-function clickEvent($event) {
+function clickEvent({ defaultPrevented, target }) {
 	let element;
-	if (!$event.defaultPrevented) {
-		element = $event.target.closest(launcherSelector);
+	if (!defaultPrevented) {
+		element = /** @type {HTMLButtonElement} */(target.closest(dateField.getLaunchWidget()));
 		if (element) {
 			doLaunch(element);
 		} else if (getCal()) {  // by using getCal() we can by-pass a widget descriptor lookup if the calendar has never been opened as document.getElementById is very fast.
-			element = $event.target.closest(pickableSelector);
+			element = /** @type {HTMLButtonElement} */(target.closest(pickableSelector));
 			if (element) {
 				selectDay(element);
-			} else if ((element = $event.target.closest(calbuttonSelector))) {
+				return;
+			}
+			element = /** @type {HTMLButtonElement} */(target.closest(calbuttonSelector));
+			if (element) {
 				changeMonth(element);
-			} else if ($event.target.closest(closebuttonSelector)) {
+				return;
+			}
+			if (target.closest(closebuttonSelector)) {
 				hideCalendar();
 			}
 		}
@@ -956,12 +1003,13 @@ function clickEvent($event) {
 
 /**
  * Handle a keydown event.
- * @param {KeyboardEvent} $event
+ * @param {KeyboardEvent & { currentTarget: HTMLElement }} $event
  */
 function keydownEvent($event) {
-	const target = $event.currentTarget;
-	let launcher;
-	if ($event.key === "ArrowDown" && ($event.altKey || $event.metaKey) && (launcher = dateField.get(target).querySelector(launcherSelector))) {
+	const { currentTarget, altKey, metaKey, key } = $event;
+	/** @type {HTMLButtonElement} */
+	const launcher = (key === "ArrowDown" && (altKey || metaKey)) ? dateField.get(currentTarget).querySelector(dateField.getLaunchWidget()) : null;
+	if (launcher) {
 		doLaunch(launcher);
 		$event.preventDefault();
 	}
@@ -969,7 +1017,7 @@ function keydownEvent($event) {
 
 /**
  * Positions the calendar relative to its input element.
- * @param {Element} [element] The calendar element (if you already have it, otherwise we'll find it for you).
+ * @param {HTMLElement} [element] The calendar element (if you already have it, otherwise we'll find it for you).
  */
 function position(element) {
 	const cal = element || getCal();
@@ -988,37 +1036,46 @@ function position(element) {
 	}
 }
 
-/*
- * strip aria- attributes on hide
+/**
+ * Handle show hide on container.
+ * @param element
+ * @param action
+ */
+function containerShowHide(element, action) {
+	if (action === shed.actions.HIDE) {
+		element.removeAttribute(CONTROL_ATTRIBUTE);
+		clearMinMaxYear();
+		element.classList.remove(CLASS.WEST);
+		element.style.left = "";
+		element.style.top = "";
+		element.removeAttribute("style");  // remove any inline styles
+		// touching = null;
+		if (refocusId) {
+			const input = document.getElementById(refocusId);
+			if (input && focus.canFocus(input)) {
+				focus.setFocusRequest(input);
+			}
+			refocusId = null;
+		}
+	} else if (action === shed.actions.SHOW) {
+		position(element);
+		focus.focusFirstTabstop(element);
+	}
+}
+
+/**
+ * Handle show/hide
  */
 function shedSubscriber(element, action) {
-	let cal;
 	if (element.id === CONTAINER_ID) {
-		if (action === shed.actions.HIDE) {
-			element.removeAttribute(CONTROL_ATTRIBUTE);
-			clearMinMaxYear();
-			element.classList.remove(CLASS.WEST);
-			element.style.left = "";
-			element.style.top = "";
-			element.removeAttribute("style"); // remove any inline styles
-			// touching = null;
-			if (refocusId) {
-				const input = document.getElementById(refocusId);
-				if (input && focus.canFocus(input)) {
-					focus.setFocusRequest(input);
-				}
-				refocusId = null;
-			}
-		} else if (action === shed.actions.SHOW) {
-			position(element);
-			focus.focusFirstTabstop(element);
-		}
-	} else if (action === shed.actions.HIDE && ((cal = getCal()) && !!(element.compareDocumentPosition(cal) & Node.DOCUMENT_POSITION_CONTAINS))) {  // if we are hiding something inside the calendar it is probably a row
+		containerShowHide(element, action);
+		return;
+	}
+	const cal = action === shed.actions.HIDE ? getCal() : null;
+	if (cal && !!(element.compareDocumentPosition(cal) & Node.DOCUMENT_POSITION_CONTAINS)) {  // if we are hiding something inside the calendar it is probably a row
 		if (element.matches(rowSelector)) {
 			// we have to remove the pickable elements from any dates which are no longer in the visible calendar
-			Array.prototype.forEach.call(element.querySelectorAll(pickableSelector), function(next) {
-				next.parentNode.removeChild(next);
-			});
+			Array.from(element.querySelectorAll(pickableSelector)).forEach(next => next.parentNode.removeChild(next));
 		}
 	}
 }
@@ -1045,11 +1102,11 @@ function reposEvent() {
 }
 
 /**
- * Focus handler to close the calendar is anything outside of the current dateField is focussed.
+ * Focus handler to close the calendar is anything outside the current dateField is focused.
  *
  * @function
  * @private
- * @param {Event} $event A focus[in] event.
+ * @param {FocusEvent & {target:HTMLElement}} $event A focus[in] event.
  */
 function focusEvent($event) {
 	const target = $event.target;
@@ -1058,8 +1115,8 @@ function focusEvent($event) {
 		target[INITED_ATTRIB] = true;
 		event.add(target, "keydown", keydownEvent);
 	}
-	let cal;
-	if (target && (cal = getCal()) && !shed.isHidden(cal, true)) {
+	const cal = getCal();
+	if (target && cal && !shed.isHidden(cal, true)) {
 		const element = dateField.get(target);
 
 		if (!element || (element !== dateField.get(getCal()))) { // second: focused a different date field
@@ -1142,8 +1199,8 @@ initialise.register(initialiser);
 export default instance;
 /**
  * @typedef {Object} module:wc/ui/calendar.config() Optional module configuration.
- * @property {?int} min The minimum year to allow in the date picker.
+ * @property {?number} min The minimum year to allow in the date picker.
  * @default 1000
- * @property {?int} max The maximum year to allow in the date picker.
+ * @property {?number} max The maximum year to allow in the date picker.
  * @default 9999.
  */
