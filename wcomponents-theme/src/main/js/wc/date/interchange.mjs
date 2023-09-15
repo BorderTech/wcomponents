@@ -68,7 +68,7 @@ const instance = {
 	 * @alias module:wc/date/interchange.fromDate
 	 * @static
 	 * @param {Date} date The date to convert.
-	 * @param {boolean} includeTime If true the time part of the date will be included.
+	 * @param {boolean} [includeTime] If true the time part of the date will be included.
 	 * @returns {String} The given date converted to a transfer date string.
 	 */
 	fromDate: function(date, includeTime) {
