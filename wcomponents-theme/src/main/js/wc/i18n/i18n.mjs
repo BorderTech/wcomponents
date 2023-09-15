@@ -3,7 +3,7 @@ import wcconfig from "wc/config.mjs";
 import mixin from "wc/mixin.mjs";
 import ajax from "wc/ajax/ajax.mjs";
 import resource from "wc/loader/resource.mjs";
-import initialise from "wc/dom/initialise.mjs";
+import i18next from 'i18next';
 
 const noop = function(key, ...args) {
 		console.warn("Calling i18n before inited ", key, args);
@@ -11,24 +11,7 @@ const noop = function(key, ...args) {
 	},
 	GOOG_RE = /^(.+)-x-mtfrom-(.+)$/;
 
-const initializer = {
-	/**
-	 * Initialize this module.
-	 * @param {Object} [config] Configuration options, if provided FORCES initialize even if it has already run.
-	 * @returns {Promise} resolved when COMPLETELY initialized.
-	 */
-	initialize: function(config) {
-		return import("i18next/dist/es/i18next.js").then(module => {  // Should we prefetch this? Does this make it load too late? Does it NEED to be in the layer?
-			const useConfig = config || wcconfig.get("wc/i18n/i18n") || {};
-			return initI18next(module.default, useConfig).then(translate => {
-				if (translate) {
-					instance.get = translatorFactory(translate);
-					return translate;
-				}
-			});
-		});
-	}
-};
+let initing;
 
 /**
  * Manages the loading of i18n "messages" from the relevant i18n "resource bundle".
@@ -43,7 +26,6 @@ const initializer = {
  * Alternatively ensure you do not use i18n "too early".
  * If you register with "wc/dom/initialise" you should be fine, though if you use i18n in the "preInit" phase,
  * it may cause a race because that's where i18n does its own initialization.
- *
  */
 const instance = {
 	/**
@@ -68,8 +50,11 @@ const instance = {
 	 *     If not found will return an empty string.
 	 */
 	translate: function(key, ...args) {
-		return initializer.initialize().then(() => {
-			return instance.get(key, ...args);
+		if (this.get !== noop) {
+			return Promise.resolve(this.get(key, ...args));
+		}
+		return this.initialize().then(() => {
+			return this.get(key, ...args);
 		});
 	},
 
@@ -107,6 +92,22 @@ const instance = {
 			result = googParsed ? googParsed[1] : result;
 		}
 		return result;
+	},
+	/**
+	 * Initialize this module.
+	 * @param {Object} [config] Configuration options, if provided FORCES initialize even if it has already run.
+	 * @returns {Promise} resolved when COMPLETELY initialized.
+	 */
+	initialize: function(config) {
+		const conf = config || wcconfig.get("wc/i18n/i18n") || {};
+		initing = initI18next(i18next, conf).then(translate => {
+			if (translate) {
+				this.get = translatorFactory(translate);
+				initing = null;
+				return translate;
+			}
+		});
+		return initing;
 	}
 };
 
@@ -177,14 +178,13 @@ const backend = {
 	}
 };
 
-
 /**
  * Gets i18next options taking into account defaults and overrides provided by the caller.
  * @function
  * @private
  * @param {Object} i18nConfig Override default options by setting corresponding properties on this object.
  */
-function getOptions(i18nConfig) {
+function getOptions(i18nConfig={}) {
 	const basePath = i18nConfig.basePath || resource.getResourceUrl(),
 		currentLanguage = instance._getLang(),
 		cachebuster = resource.getCacheBuster(),
@@ -206,8 +206,8 @@ function getOptions(i18nConfig) {
 /**
  * Initialize the underlying i18next instance.
  * @function
- * @private
- * @param engine The instance of i18next to initialize.
+ *
+ * @param {typeof i18next} engine The instance of i18next to initialize.
  * @param config Configuration options.
  * @return {Promise} when initialized
  */
@@ -215,7 +215,8 @@ function initI18next(engine, config) {
 	return new Promise((win, lose) => {
 		const options = getOptions(config);
 		try {
-			engine.use(backend).init(options, (err, translate) => {
+			// `backend` is for unit testing / mocking
+			engine.use(config["backend"] || backend).init(options, (err, translate) => {
 				if (err) {
 					lose(err);
 				}
@@ -226,9 +227,5 @@ function initI18next(engine, config) {
 		}
 	});
 }
-
-initialise.register({
-	preInit: () => initializer.initialize()  // Totes important, return a promise!
-});
 
 export default instance;

@@ -1,7 +1,3 @@
-import Parser from "wc/date/Parser.mjs";
-import pivot from "wc/date/pivot.mjs";
-import today from "wc/date/today.mjs";
-
 /*
  * Note, some of these tests will break in the future, like 20 years from the time of
  * writing (2010).  If you are still using these tests in 20 years something went horribly
@@ -11,8 +7,6 @@ describe("wc/date/Parser", function() {
 	const standardMasks = ["ytm", "+-", "d M yy", "d M yyyy", "d MON yy", "d MON yyyy", "ddMMyy", "ddMMyyyy", "dMONyy", "dMONyyyy", "yyyy-MM-dd", "yyyyMMdd"],
 		partialMasks = standardMasks.concat([" M y", " MON y", "M y", "MON y", "MONy", "MMyy", "Myyyy", "y", "ddMM"]),
 		extendedPartialMasks = partialMasks.concat(["d M", "M", "d MON", "d M", "MON", "d", "dd yyyy", "ddyyyy", "ddyy", "dd yy"]),
-		pivotVal = pivot.get(),
-		realToday = today.get(),
 		getParser = (masks, past, rolling) => {
 			const parser = new Parser();
 			parser.setRolling(!!rolling);
@@ -32,10 +26,18 @@ describe("wc/date/Parser", function() {
 		},
 		containsMatch = (arr, match) => arr.some(next => next.toXfer() === match);
 
-	let now;
+	let now, pivotVal, realToday, Parser, pivot, today;
 
 	beforeEach(() => {
 		now = new Date();
+		const deps = ["wc/date/Parser.mjs", "wc/date/pivot.mjs", "wc/date/today.mjs"];
+		return Promise.all(deps.map(dep => import(dep))).then(([a, b, c]) => {
+			Parser = a.default;
+			pivot = b.default;
+			today = c.default;
+			pivotVal = pivotVal || pivot.get();
+			realToday = realToday || today.get();
+		});
 	});
 
 	afterEach(() => {

@@ -82,8 +82,9 @@ const instance = {
 			path = config.resourceBaseUrl;
 			cachebuster = config.cachebuster;
 		}
-		baseUrl = baseUrl || path || "";  // resource/";
-		if (fileName) {
+		// using ../ works for URL schemes without `origin` (e.g. `file`)
+		baseUrl = baseUrl || path || new URL("../../../resource/", import.meta.url.toString()) || "";  // resource/";
+		if (fileName && cachebuster) {
 			url = baseUrl + fileName + "?" + cachebuster;
 		} else {
 			url = baseUrl;

@@ -10,7 +10,7 @@ const FORMAT_RE = /y{2,4}|d+|MON|M{2,4}|H+|m+|h+|a+|s+/g,
  * @constructor
  * @alias module:wc/date/Format
  *
- * @param {String} mask The mask used for formatting. If the any part of the mask is not understood then the
+ * @param {String} mask The mask used for formatting. If any part of the mask is not understood then the
  * resulting formatted date will be an empty string.
  *
  * @throws {TypeError} Thrown if the mask is not provided (or is false equivalent).
@@ -47,7 +47,7 @@ function Format(mask) {
  * @example var myFormatter = new Format("dd MON yyyy");//provides a formatter to dates of the form '31 Jan 2000'
  * myFormatter.format("2015-05-03");//output '03 May 2015'
  */
-Format.prototype.format = function (xfer) {
+Format.prototype.format = function(xfer) {
 	let failFlag = false;
 	const date = interchange.toValues(xfer);
 	let result = date ? this.mask.replace(FORMAT_RE, replaceDatePart) : "";
@@ -57,11 +57,15 @@ Format.prototype.format = function (xfer) {
 	 * @function replaceDatePart
 	 * @private
 	 * @param {String} part A part of a transfer date.
-	 * @returns {(Number|String)} The number representing the part of the date or a string containing a single
+	 * @returns {String} The number representing the part of the date or a string containing a single
 	 *    space if we cannot work out how to format the part.
 	 */
 	function replaceDatePart(part) {
 		let res, shortForm = false;
+		const hour = Number(date.hour);
+		const day = Number(date.day);
+		const month = Number(date.month);
+
 		switch (part) {
 			case "MM":
 				res = date.month;
@@ -72,12 +76,12 @@ Format.prototype.format = function (xfer) {
 				/* falls through */
 			case "MMMM":
 				if (date.month) {
-					res = monthName.get(shortForm)[date.month - 1];
+					res = monthName.get(shortForm)[month - 1];
 				}
 				shortForm = false;
 				break;
 			case "d":
-				res = date.day ? date.day * 1 : null;
+				res = date.day ? day : null;
 				break;
 			case "dd":
 				res = date.day;
@@ -101,8 +105,8 @@ Format.prototype.format = function (xfer) {
 				res = date.minute;
 				break;
 			case "a":
-				if (date.hour || date.hour === 0) {
-					res = date.hour < 12 ? "AM" : "PM";
+				if (hour || hour === 0) {
+					res = hour < 12 ? "AM" : "PM";
 				}
 				break;
 			case "ss":

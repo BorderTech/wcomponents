@@ -1,4 +1,5 @@
-require(["wc/dom/event", "wc/dom/initialise"], function(event, initialise){
+
+Promise.all(["wc/dom/event", "wc/dom/initialise"].map(dep => import(dep))).then(([event, initialise]) => {
 	// This script exists _only_ as an example to show use of WButton setClientCommandOnly(boolean);
 
 	/**
@@ -9,7 +10,7 @@ require(["wc/dom/event", "wc/dom/initialise"], function(event, initialise){
 		const target = $event.target;
 
 		if (target && target.classList.contains("hellobutton")) {
-			window.alert("hello");
+			alert("hello");
 		}
 	}
 	// add an event manager subscription for the click handler

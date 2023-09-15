@@ -60,7 +60,7 @@ function getConfig() {
 	if (conf) {
 		return conf;
 	}
-	const element = /** @type {HTMLScriptElement} */(document.getElementById("wc-config"));
+	const element = /** @type {HTMLScriptElement} */(document?.getElementById("wc-config"));
 	if (element) {
 		try {
 			conf = JSON.parse(element.text);
@@ -69,6 +69,7 @@ function getConfig() {
 			console.error(ex);
 		}
 	}
+	return {};
 }
 
 export default instance;

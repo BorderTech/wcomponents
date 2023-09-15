@@ -5,16 +5,16 @@
  *
  * @author Rick Brown
  */
-import Server from "socket.io";
+import { Server } from "socket.io";
 let io;
 
 /**
  * Begin listening for hot reload clients.
  * @param config Override default configuration if you wish.
  */
-function listen(config = { port: "3002"}) {
+function listen(config = { port: 3002 }) {
 	if (!io) {
-		io = new Server(config.port, {});
+		io = new Server();
 
 		console.log("Hot reload server listening on port", config.port);
 
@@ -24,6 +24,8 @@ function listen(config = { port: "3002"}) {
 				console.log("A client disconnected");
 			});
 		});
+
+		io.listen(config.port);
 	}
 }
 

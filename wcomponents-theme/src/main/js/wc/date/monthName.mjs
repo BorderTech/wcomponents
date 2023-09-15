@@ -7,43 +7,55 @@
 import i18n from "wc/i18n/i18n.mjs";
 import asciify from "wc/i18n/asciify.mjs";
 
-let months,
-	monthsAbbr,
-	monthsAscii,
-	monthsAbbrAscii;
+const cache = {};
 
 /**
  * Set up the month arrays on first use.
  *
  * @function
  * @private
+ * @return {{ months: string[], monthsAbbr: string[], monthsAbbrAscii?: string[], monthsAscii?: string[] }}
  */
 function initialise() {
-	let needsAsciiVersion = false;
-	let monthKeys = [];  // month0, ..., monthB
-	let monthAbbrKeys = [];  // monthabbr0, ..., monthabbrB
-	for (let i = 0; i < 12; i++) {
-		let nextNum = Number(i).toString(16).toUpperCase();
-		monthKeys.push(`month${nextNum}`);
-		monthAbbrKeys.push(`monthabbr${nextNum}`);
+	const lang = i18n._getLang();
+	let result = cache[lang];
+	if (result) {
+		return result;
 	}
-	months = i18n.get(monthKeys);
-	monthsAbbr = i18n.get(monthAbbrKeys);
+	result = cache[lang] = {};
 
-	monthsAscii = new Array(months.length);
-	months.forEach(function(mnthname, idx) {
+	result.months = getMonthNames(lang, false);
+	result.monthsAbbr = getMonthNames(lang, true);
+	let needsAsciiVersion = false;
+	let monthsAscii = new Array(result.months.length);
+	result.months.forEach((mnthname, idx) => {
 		const ascii = asciify(mnthname);
-		needsAsciiVersion |= (ascii !== mnthname);
+		needsAsciiVersion ||= (ascii !== mnthname);
 		monthsAscii[idx] = ascii;
 	});
+
 	if (needsAsciiVersion) {
-		// console.log("Building ascii versions of month names");
-		monthsAbbrAscii = monthsAbbr.map(asciify);
-	} else {
-		monthsAscii = null;
-		monthsAbbrAscii = null;
+		result.monthsAbbrAscii = result.monthsAbbr.map(asciify);
+		result.monthsAscii = monthsAscii;
 	}
-	// console.log("Initialised month names on first use", months);
+	return result;
+}
+
+/**
+ * For a given locale returns the names of the months of the year;
+ * @param {string} locale
+ * @param {boolean} short If true will return abbreviated month names
+ * @return {string[]}
+ */
+function getMonthNames(locale, short) {
+	const referenceDate = new Date(Date.UTC(2000, 0, 1));  // January
+	const result = [];
+	const type = short ? "short" : "long";
+	for(let i = 0; i < 12; i++) {
+		result.push(referenceDate.toLocaleDateString(locale, { month: type }));
+		referenceDate.setMonth(referenceDate.getMonth() + 1);
+	}
+	return result;
 }
 
 /**
@@ -71,14 +83,12 @@ function initialise() {
  *    without affecting any other users of this function.
  */
 function get(abbreviated, asciified) {
+	const variants = initialise();
 	let result;
-	if (!months) {
-		initialise();
-	}
-	if (asciified && monthsAscii) {
-		result = abbreviated ? monthsAbbrAscii : monthsAscii;
+	if (asciified && variants.monthsAscii) {
+		result = abbreviated ? variants.monthsAbbrAscii : variants.monthsAscii;
 	} else {
-		result = abbreviated ? monthsAbbr : months;
+		result = abbreviated ? variants.monthsAbbr : variants.months;
 	}
 	return result.concat();
 }
@@ -92,10 +102,8 @@ function get(abbreviated, asciified) {
  * @returns {Boolean} true if there are asciified month names (i.e. the month names differ when asciified).
  */
 function hasAsciiVersion() {
-	if (!months) {
-		initialise();
-	}
-	return !!monthsAscii;
+	const variants = initialise();
+	return !!variants.monthsAscii;
 }
 
 export default {

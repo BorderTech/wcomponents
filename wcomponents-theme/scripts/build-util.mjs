@@ -71,7 +71,7 @@ export const dirs = {
  * @param reportItem A report from a lint tool.
  */
 export function logLintReport(reportItem) {
-	if (reportItem.messages && reportItem.messages.length) {
+	if (reportItem.messages?.length) {
 		console.log("Style issues found in ", reportItem.filePath);
 		reportItem.messages.forEach(message => {
 			const logString = `\t${message.message} - Ln ${message.line}, Col ${message.column}`;

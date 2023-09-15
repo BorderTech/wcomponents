@@ -174,11 +174,7 @@ function domReady(cb) {
 	if (globalThis.document && globalThis.document.readyState !== "loading") {
 		cb(globalThis.document);
 	} else {
-		try {
-			eventMgr.add(globalThis, "DOMContentLoaded", cb);
-		} catch(ex) {
-			cb(globalThis);
-		}
+		eventMgr.add(globalThis, "DOMContentLoaded", cb);
 	}
 }
 

@@ -53,9 +53,8 @@ function buildI18n() {
  */
 function readPropertiesFile(propertiesFile, jsonFile) {
 	properties.parse(propertiesFile, { path: true }, function (error, obj) {
-		var jsonString;
 		if (error) return console.error (error);
-		jsonString = JSON.stringify(obj, null, 1);
+		const jsonString = JSON.stringify(obj, null, 1);
 		fs.writeFileSync(jsonFile, jsonString);
 	});
 }

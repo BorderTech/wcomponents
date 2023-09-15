@@ -52,9 +52,8 @@ let asciiMap;
 function asciify(s) {
 	let result = "";
 	if (s) {
-		for (let i = 0; i < s.length; i++) {
+		for (const next of s) {
 			let ascii = null;
-			let next = s[i];
 			if (next.charCodeAt(0) > 128) {
 				ascii = cache[next] || (cache[next] = uniToAscii(next));
 			}
@@ -82,10 +81,10 @@ function getAsciiMap() {
 			// re-stringifying gives a view of unescaped unicode chars (it's auto-stripped in minified version).
 			console.log("Got ascii map:", window.JSON.stringify(map));
 			const unicodeChars = Object.keys(map);
-			for (let i = 0; i < unicodeChars.length; i++) {
-				let nextUni = unicodeChars[i];
+			for (const next of unicodeChars) {
 				// make sure it's not an empty string or whitespace, this is untrusted input
-				if (nextUni && (nextUni = nextUni.trim())) {
+				let nextUni = next?.trim();
+				if (nextUni) {
 					let nextAscii = map[nextUni];
 					// make sure it's not an empty string or whitespace, this is untrusted input
 					if (nextAscii && (nextAscii = nextAscii.trim())) {
@@ -118,8 +117,7 @@ function uniToAscii(character) {
 	let result = null;
 	const map = (asciiMap || (asciiMap = getAsciiMap())),
 		unichars = Object.keys(map);
-	for (let i = 0; i < unichars.length; i++) {
-		let next = unichars[i];
+	for (const next of unichars) {
 		if (next?.indexOf(character) >= 0) {
 			result = map[next];
 		}

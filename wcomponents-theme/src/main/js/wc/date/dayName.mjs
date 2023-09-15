@@ -7,14 +7,21 @@
 
 import i18n from "wc/i18n/i18n.mjs";
 
-let days;
+const cache = {};
+
 /**
- * Initialise the day name array on first use.
- * @function initialise
- * @private
+ * For a given locale returns the names of the days of the week;
+ * @param {string} locale
+ * @return {string[]}
  */
-function initialise() {
-	days = i18n.get(["day0", "day1", "day2", "day3", "day4", "day5", "day6"]);
+function getDayNames(locale) {
+	const referenceDate = new Date(Date.UTC(2000, 1, 6));  // Sunday
+	const result = [];
+	for(let i = 0; i < 7; i++) {
+		result.push(referenceDate.toLocaleDateString(locale, { weekday: "long" }));
+		referenceDate.setDate(referenceDate.getDate() + 1);
+	}
+	return result;
 }
 
 /**
@@ -28,21 +35,19 @@ function initialise() {
  * @alias module:wc/date/dayName.get
  * @public
  * @static
- * @param {boolean} startOnMonday If true the first day in the array will be Monday instead of Sunday.
+ * @param {boolean} [startOnMonday] If true the first day in the array will be Monday instead of Sunday.
  * @returns {String[]} The names of the days in order such that index zero is Sunday, index six is Saturday (if startOnMonday is true then zero is Monday, six is Sunday).
  *
  */
 function get(startOnMonday) {
-	if (!days) {
-		initialise();
-	}
-	const result = days.concat();
+	const lang = i18n._getLang();
+	// Computing instead of using bundle: i18n.get(["day0", "day1", "day2", "day3", "day4", "day5", "day6"]);
+	const days = cache[lang] || (cache[lang] = getDayNames(lang));
+	const result = [...days];
 	if (startOnMonday) {
 		result.push(result.shift());
 	}
 	return result;
 }
-
-setTimeout(initialise)
 
 export default { get };

@@ -22,7 +22,7 @@ function Match() {
 	* @returns {String} The transfer date.
 	*/
 	this.toXfer = function() {
-		return interchange.fromValues(this);
+		return interchange.fromValues(/** @type {module:wc/date/Parser#parsedDate} */(this));
 	};
 
 	/**
@@ -40,7 +40,7 @@ function Match() {
 
 /**
  * @param {Parser} parser
- * @param {Match} match
+ * @param {module:wc/date/Parser#parsedDate} match
  * @return {Date}
  */
 function doCheckDate(parser, match) {
@@ -90,7 +90,7 @@ function normaliser(parser, mask, match) {
 
 /**
  *
- * @param {wc/date/pattern[]} patterns
+ * @param {module:wc/date/pattern[]} patterns
  * @return {RegExp}
  */
 function getCompiledRegex(patterns) {
