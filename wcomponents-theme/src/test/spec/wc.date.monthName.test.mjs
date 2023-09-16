@@ -9,7 +9,6 @@ describe("wc/date/monthName", function() {
 	const lang = globalThis.document.documentElement.lang;
 
 
-
 	beforeEach(() => {
 		globalThis.document.documentElement.lang = lang;
 	});

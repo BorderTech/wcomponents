@@ -16,53 +16,34 @@ const YEAR = "year",
 /**
  * Module to provide date parsing patterns.
  * Class to generate a pattern used in date parsing.
- * @constructor
  * @private
  * @alias module:wc/date/pattern~Pattern
  * @param {String} name An identifier for the particular pattern.
- * @param {(String|Function<String>)} input The date segment pattern as a RegExp or a string which can be converted to a
+ * @param {String|RegExp} input The date segment pattern as a RegExp or a string which can be converted to a
  *    regular expression
  * @param {Function} [normalise] A function to normalise the result of applying this pattern.
- * @param {*} output Set if a particular pattern output is required.
+ * @param {function} [output] Set if a particular pattern output is required.
+ * @constructor
  */
-function Pattern(name, input, normalise, output) {
-	/**
-	 * The pattern name.
-	 * @var
-	 * @public
-	 * @type String
-	 */
-	this.name = name;
-	/**
-	 * The pattern input regular expression.
-	 * @var
-	 * @type {(RegExp|String)}
-	 */
-	this.input = input;
-
-	if (output !== undefined) {
-		this.output = output;
-	}
-	if (normalise !== undefined) {
-		this.normalise = normalise;
+class Pattern {
+	constructor(name, input, normalise, output) {
+		/**
+		 * The pattern name.
+		 * @var
+		 * @public
+		 * @type String
+		 */
+		this.name = name;
+		/**
+		 * The pattern input regular expression.
+		 * @var
+		 * @type {(RegExp|String)}
+		 */
+		this.input = input;
+		this.output = output || function() {};
+		this.normalise = normalise || function() {};
 	}
 }
-
-/**
- * The default output function is a no op. The output function for a date pattern is, if required, passed in on
- * the constructor.
- * @function
- * @public
- */
-Pattern.prototype.output = function() {};
-
-/**
- * The default normalise function is a no op. The normalise function for a date pattern is, if required, passed
- * in on the constructor.
- * @function
- * @public
- */
-Pattern.prototype.normalise = function() {};
 
 /**
  * Create the required patterns.
@@ -102,37 +83,6 @@ s     Second in minute     Number     55
 S     Millisecond     Number     978
 z     Time zone     General time zone     Pacific Standard Time; PST; GMT-08:00
 Z     Time zone     RFC 822 time zone     -0800
-
- * @function pattern
- * @private
- * @returns {module:wc/date/pattern~patterns} The patterns to be used.
- */
-function pattern() {
-	return /** @alias module:wc/date/pattern @type module:wc/date/pattern~patterns*/{
-		"G": new Pattern("era", "(BC|AD)"),
-		"y": new Pattern(YEAR, "(18[0-9]{2}|19[0-9]{2}|2[0-9]{3}|[0-9]{2}|[0-9]{2})", nYear),
-		"y?": new Pattern(YEAR, "([0-9]{2}|18[0-9]{2}|19[0-9]{2}|2[0-9]{3})", nYear),
-		"yy": new Pattern(YEAR, "([0-9]{2})", nYear),
-		"yyyy": new Pattern(YEAR, "(18[0-9]{2}|19[0-9]{2}|2[0-9]{3}|[0-9]{4})", nYear),
-		"M": new Pattern(MONTH, "(12|11|10|0[1-9]|[1-9])", nMonth),
-		"M?": new Pattern(MONTH, "([1-9]|0[1-9]|10|11|12)", nMonth),
-		"MM": new Pattern(MONTH, "(12|11|10|0[1-9])", nMonth),
-		"MON": new Pattern(MNTHNAME, monthNameRe, nMonth),
-		"w": new Pattern("weekInYear", "[wW]([0-9]{2})"),
-		"W": new Pattern("weekInMonth", "_not_defined_"),
-		"D": new Pattern("dayInYear", "(00[1-9]|0[1-9][0-9]|[1-2][0-9][0-9]|3[0-5][0-9]|3[6][0-6])"),
-		"d": new Pattern(DAY, "(31|30|[1-2][0-9]|0[1-9]|[1-9])", nDay),
-		"d?": new Pattern(DAY, "([1-9]|0[1-9]|[1-2][0-9]|30|31)", nDay),
-		"dd": new Pattern(DAY, "(31|30|[1-2][0-9]|0[1-9])", nDay),
-		"F": new Pattern("dayInWeek", "(0[1-7])"),
-		"E": new Pattern("dayInWeekName", weekdayNameRe),
-		" ": new Pattern(SEPARATOR, "([ \\\\\\/\\.-])"),
-		"/": new Pattern(SEPARATOR, "(\\/)"),
-		"-": new Pattern(SEPARATOR, "(\\-)"),
-		"+-": new Pattern("relative", "(\\+[0-9]+|\\-[0-9]+)", nRelative, null),
-		"ytm": new Pattern("shortForm", shortFormRe, nShortForm, null)
-	};
-}
 
 /**
  * Normalise a year by expanding two digit years to four using {@link module:wc/date/expandYear} then making
@@ -389,7 +339,79 @@ function toPattern(s) {
 	return result;
 }
 
-export default pattern();
+const patternCache = {};
+
+/**
+ * Getter here to defer initialisation to first use without changing the API.
+ */
+export default {
+	get G() {
+		return patternCache["G"] || (patternCache["G"] = new Pattern("era", "(BC|AD)"));
+	},
+	get y() {
+		return patternCache["y"] || (patternCache["y"] = new Pattern(YEAR, "(18[0-9]{2}|19[0-9]{2}|2[0-9]{3}|[0-9]{2}|[0-9]{2})", nYear));
+	},
+	get "y?"() {
+		return patternCache["y?"] || (patternCache["y?"] = new Pattern(YEAR, "([0-9]{2}|18[0-9]{2}|19[0-9]{2}|2[0-9]{3})", nYear));
+	},
+	get yy() {
+		return patternCache["yy"] || (patternCache["yy"] = new Pattern(YEAR, "([0-9]{2})", nYear));
+	},
+	get yyyy() {
+		return patternCache["yyyy"] || (patternCache["yyyy"] = new Pattern(YEAR, "(18[0-9]{2}|19[0-9]{2}|2[0-9]{3}|[0-9]{4})", nYear));
+	},
+	get M() {
+		return patternCache["M"] || (patternCache["M"] = new Pattern(MONTH, "(12|11|10|0[1-9]|[1-9])", nMonth));
+	},
+	get "M?"() {
+		return patternCache["M?"] || (patternCache["M?"] = new Pattern(MONTH, "([1-9]|0[1-9]|10|11|12)", nMonth));
+	},
+	get MM() {
+		return patternCache["MM"] || (patternCache["MM"] = new Pattern(MONTH, "(12|11|10|0[1-9])", nMonth));
+	},
+	get MON() {
+		return patternCache["MON"] || (patternCache["MON"] = new Pattern(MNTHNAME, monthNameRe, nMonth));
+	},
+	get w() {
+		return patternCache["w"] || (patternCache["w"] = new Pattern("weekInYear", "[wW]([0-9]{2})"));
+	},
+	get W() {
+		return patternCache["W"] || (patternCache["W"] = new Pattern("weekInMonth", "_not_defined_"));
+	},
+	get D() {
+		return patternCache["D"] || (patternCache["D"] = new Pattern("dayInYear", "(00[1-9]|0[1-9][0-9]|[1-2][0-9][0-9]|3[0-5][0-9]|3[6][0-6])"));
+	},
+	get d() {
+		return patternCache["d"] || (patternCache["d"] = new Pattern(DAY, "(31|30|[1-2][0-9]|0[1-9]|[1-9])", nDay));
+	},
+	get "d?"() {
+		return patternCache["d?"] || (patternCache["d?"] = new Pattern(DAY, "([1-9]|0[1-9]|[1-2][0-9]|30|31)", nDay));
+	},
+	get dd() {
+		return patternCache["dd"] || (patternCache["dd"] = new Pattern(DAY, "(31|30|[1-2][0-9]|0[1-9])", nDay));
+	},
+	get F() {
+		return patternCache["F"] || (patternCache["F"] = new Pattern("dayInWeek", "(0[1-7])"));
+	},
+	get E() {
+		return patternCache["E"] || (patternCache["E"] = new Pattern("dayInWeekName", weekdayNameRe));
+	},
+	get " "() {
+		return patternCache[" "] || (patternCache[" "] = new Pattern(SEPARATOR, "([ \\\\\\/\\.-])"));
+	},
+	get "/"() {
+		return patternCache["/"] || (patternCache["/"] = new Pattern(SEPARATOR, "(\\/)"));
+	},
+	get "-"() {
+		return patternCache["-"] || (patternCache["-"] = new Pattern(SEPARATOR, "(\\-)"));
+	},
+	get "+-"() {
+		return patternCache["+-"] || (patternCache["+-"] = new Pattern("relative", "(\\+[0-9]+|\\-[0-9]+)", nRelative, null));
+	},
+	get ytm() {
+		return patternCache["ytm"] || (patternCache["ytm"] = new Pattern("shortForm", shortFormRe, nShortForm, null));
+	}
+};
 
 /**
  * Date patterns, used on parsing and formatting

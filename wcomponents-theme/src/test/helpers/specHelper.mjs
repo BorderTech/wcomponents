@@ -6,9 +6,10 @@ beforeAll(() => {
 			const url = new URL(import.meta.url);
 			if (url.protocol === "file:") {
 				return import("i18next-fs-backend").then(({ default: Backend }) => {
-					i18n.initialize({
+					return i18n.initialize({
 						backend: Backend,
 						options: {
+							fallbackLng: "en",
 							backend: {
 								loadPath: 'src/test/resource/translation/{{lng}}.json'
 							}

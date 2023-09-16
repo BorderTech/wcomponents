@@ -16,7 +16,7 @@ import color from "wc/dom/color.mjs";
  * @param {Boolean} [includeUnits] If true include the unit part of the CSS response (eg 2em) otherwise strip it (eg 2).
  * @param {Boolean} [notAColor] A shorthand to cut off further testing if we KNOW when calling this function that the style property we are after
  *    is definitely NOT a color.
- * @returns {string|number|null} The value of the CSS rule if found (even if "") If the cssRule is not found or cannot be determined return null.
+ * @returns {string|{ r, g, b, a? }|null} The value of the CSS rule if found (even if "") If the cssRule is not found or cannot be determined return null.
  */
 function getStyle(element, cssRule, includeUnits, notAColor) {
 	let result = null;
@@ -30,26 +30,32 @@ function getStyle(element, cssRule, includeUnits, notAColor) {
 
 		result = document.defaultView.getComputedStyle(element, "").getPropertyValue(cssRule);
 
-		if (result?.constructor === String && isNaN(result)) {
+		if (result && isNaN(Number(result))) {
 			const testRe = /^\d+[A-Za-z]+$/;
 			let style;
 			if (testRe.test(result)) {
 				if (!includeUnits) {
 					const unitRe = /[A-Za-z]+$/g;
-					result = result.replace(unitRe, "");
+					return result.replace(unitRe, "");
 				}
 			} else if (!notAColor) {
 				if (result === "transparent" || result === "rgba(0, 0, 0, 0)") {  // chromeframe returns an rgb string for transparent
-					result = { r: 255, g: 255, b: 255, a: 0 };
-				} else if ((style = color.rgb2hex(result))) {  // is it an rgb string? eg "rgb(255,0,0)"
-					// now we have a hex value of style, eg #ff0000, convert to RGB
-					result = color.hex2rgb(style);
-				} else if (color.isHex(result)) {  // is it a hex string?
-					result = color.hex2rgb(result);  // convert hex to RGB object
-				} else if ((style = color.getLiteral(result))) {  // is it a color literal? eg "red"
-					// now we have a hex value of style, eg #ff0000, convert to RGB
-					result = color.hex2rgb(style);
+					return { r: 255, g: 255, b: 255, a: 0 };
 				}
+				style = color.rgb2hex(result);
+				if (style) {  // is it an rgb string? eg "rgb(255,0,0)"
+					// now we have a hex value of style, eg #ff0000, convert to RGB
+					return color.hex2rgb(style);
+				}
+				if (color.isHex(result)) {  // is it a hex string?
+					return color.hex2rgb(result);  // convert hex to RGB object
+				}
+				style = color.getLiteral(result);
+				if (style) {  // is it a color literal? eg "red"
+					// now we have a hex value of style, eg #ff0000, convert to RGB
+					return color.hex2rgb(style);
+				}
+
 			}
 		}
 	}
