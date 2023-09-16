@@ -34,7 +34,7 @@ const instance = {
 	 * @alias module:wc/dom/color.hex2rgb
 	 * @param {string} hex The colour as a hex string.
 	 * @throws {TypeError} Throws a type error if hex is not a string.
-	 * @returns {{r: string, g: string, b: string}} The color as an object with properties r:red, g:green and b:blue.
+	 * @returns {{r: number, g: number, b: number}} The color as an object with properties r:red, g:green and b:blue.
 	 */
 	hex2rgb: function (hex) {
 		let result;
@@ -82,7 +82,7 @@ const instance = {
 			} finally {
 				document.body.removeChild(tmp);
 			}
-			literal2hexCache[c] = result || null;  // cache result OR flag not to search again
+			literal2hexCache[c] = result || (result = null);  // cache result OR flag not to search again
 		}
 		return result;
 	},
@@ -94,7 +94,7 @@ const instance = {
 	 *
 	 * @function
 	 * @alias module:wc/dom/color.rgb2hex
-	 * @param {(string|Array<Number>|{r: string, g: string, b: string})} rgb String in the format "rgb(244,244,244)" or an array of
+	 * @param {(string|Array<Number>|{r: string|number, g: string|number, b: string|number})} rgb String in the format "rgb(244,244,244)" or an array of
 	 *    red/green/blue values, e.g. [244, 244, 244] or an object with "r", "g" and "b" properties
 	 *    corresponding to red, green and blue values, e.g. {r:244, g:244, b:244}
 	 * @todo rewrite to use red green blue
@@ -121,7 +121,6 @@ const instance = {
 		}
 		return ((hex && hex.length > 1) ? hex.join("") : null);
 	}
-
 };
 
 /**

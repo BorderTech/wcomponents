@@ -1,14 +1,11 @@
+import dayName from "wc/date/dayName.mjs";
 describe("wc/date/dayName", function() {
-	let dayName;
 	let mondayWeek,
 		defaultWeek;
 
 	beforeEach(() => {
-		return import("wc/date/dayName.mjs").then(dep => {
-			dayName = dep.default;
-			defaultWeek = dayName.get();
-			mondayWeek = dayName.get(true);
-		});
+		defaultWeek = dayName.get();
+		mondayWeek = dayName.get(true);
 	});
 
 	it("testDaySunday", function() {
