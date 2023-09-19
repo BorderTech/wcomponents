@@ -77,9 +77,9 @@ function getAsciiMap() {
 	let map = i18n.get(lookupProp);
 	try {
 		if (map) {
-			map = window.JSON.parse(map);
+			map = JSON.parse(map);
 			// re-stringifying gives a view of unescaped unicode chars (it's auto-stripped in minified version).
-			console.log("Got ascii map:", window.JSON.stringify(map));
+			// console.log("Got ascii map:", window.JSON.stringify(map));
 			const unicodeChars = Object.keys(map);
 			for (const next of unicodeChars) {
 				// make sure it's not an empty string or whitespace, this is untrusted input

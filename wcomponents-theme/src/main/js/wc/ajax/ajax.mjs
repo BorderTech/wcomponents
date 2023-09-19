@@ -92,13 +92,13 @@ function Ajax() {
 	 */
 	function endProfile(request) {
 		let markStart, markEnd, mark;
-		if (request.uid) {
-			markStart = request.uid + "_start";
-			markEnd = request.uid + "_end";
+		if (request["uid"]) {
+			markStart = request["uid"] + "_start";
+			markEnd = request["uid"] + "_end";
 			mark = globalThis.performance.getEntriesByName(markStart);
-			if (mark && mark.length) {
+			if (mark?.length) {
 				globalThis.performance.mark(markEnd);
-				globalThis.performance.measure(request.url, markStart, markEnd);
+				globalThis.performance.measure(request["url"], markStart, markEnd);
 				globalThis.performance.clearMarks(markStart);
 				globalThis.performance.clearMarks(markEnd);
 			} else {
@@ -107,17 +107,6 @@ function Ajax() {
 		} else {
 			console.warn("request has not uid", request);
 		}
-	}
-
-	/**
-	 * Get a standard XMLHTTPRequest. This one line is here as it is used in {@link getMsRequest} as well as the
-	 * proper {@link generateXBrowserRequest}.
-	 * @function
-	 * @private
-	 * @returns A XMLHTTPRequest.
-	 */
-	function getW3cRequest() {
-		return new globalThis["XMLHttpRequest"]();
 	}
 
 	/**
@@ -132,7 +121,7 @@ function Ajax() {
 	function stateChange(request, config) {
 		// request can be null in some circumstances, don't remove the null check
 		let done = false;
-		if (request && request.readyState === 4) {
+		if (request?.readyState === 4) {
 			try {
 				done = true;
 				if (request.status === 200 && config.callback) {
@@ -199,7 +188,7 @@ function Ajax() {
 			doNotify = function (errorHandler) {
 				let message;
 				try {
-					if (errorHandler && errorHandler.getErrorMessage) {
+					if (errorHandler?.getErrorMessage) {
 						message = errorHandler.getErrorMessage(request);
 					} else {
 						message = fallbackMessage;
@@ -281,7 +270,7 @@ function Ajax() {
 	 */
 	function ajaxRqst(config) {
 		let done;
-		const request = ajax.getXBrowserRequestFactory()(),
+		const request = new window.XMLHttpRequest(),
 			onStateChange = function () {
 				done = stateChange(request, config);
 			};
@@ -350,7 +339,7 @@ function Ajax() {
 	 * @param {String} uri Url to the xml document.
 	 * @param {Function} [callback] Optionally provide a callback.
 	 * @param {boolean} [asText] If true send the request with responseType.TEXT.
-	 * @param {boolean} asPromise Experimental
+	 * @param {boolean} [asPromise] Experimental
 	 * @returns {Object} an XML DOM loaded from the URI.
 	 */
 	this.loadXmlDoc = function(uri, callback, asText, asPromise) {
@@ -426,15 +415,6 @@ function Ajax() {
 	}
 
 	/**
-	 * Factory to return the appropriate function to make an XMLHTTPRequest.
-	 * @function
-	 * @alias module:wc/ajax/ajax.getXBrowserRequestFactory
-	 * @public
-	 * @returns {function(): XMLHttpRequest}
-	 */
-	this.getXBrowserRequestFactory = () => getW3cRequest;
-
-	/**
 	 * @var
 	 * @type {Object}
 	 * @public
@@ -478,7 +458,7 @@ timers.setTimeout(fetchErrorHandler, 60000);
  * Fetch the error handler module.
  * We delay fetching this module because it is only required under exceptional conditions.
  * @param {function} callback Will be called with the error handler module.
- * @param {function(any): PromiseLike<never>} errback May possibly be invoked if there is an error loading the module.
+ * @param {function} errback May possibly be invoked if there is an error loading the module.
  */
 function fetchErrorHandler(callback, errback) {
 	const cb = err => {
@@ -487,7 +467,6 @@ function fetchErrorHandler(callback, errback) {
 		}
 	};
 	if (!handleError) {
-
 		import("wc/ajax/handleError.mjs").then(arg => {
 			handleError = arg;
 			cb(handleError);

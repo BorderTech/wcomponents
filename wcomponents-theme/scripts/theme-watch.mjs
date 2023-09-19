@@ -71,8 +71,8 @@ const handlers = {
 			return new Promise(function(win) {
 				const paths = getPaths(dir, filename);
 				themeLinter.run(paths.absolute);
-				grunt.option("filename", paths.relative);
-				grunt.tasks(["copy:test"], { filename: paths.relative }, win);
+				// grunt.option("filename", paths.relative);
+				// grunt.tasks(["copy:test"], { filename: paths.relative }, win);
 			});
 		}
 };

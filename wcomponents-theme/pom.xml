@@ -22,8 +22,8 @@
 		<node.download.root>http://nodejs.org/dist/</node.download.root>
 		<npm.download.root>http://registry.npmjs.org/npm/-/</npm.download.root>
 		<yarn.download.root>https://github.com/yarnpkg/yarn/releases/download/</yarn.download.root>
-		<nodejs.version>v16.14.1</nodejs.version><!-- the version of node to be installed -->
-		<npmjs.version>8.5.0</npmjs.version><!-- the version of npm to be installed - should be the version that goes with your version of node -->
+		<nodejs.version>v18.18.0</nodejs.version><!-- the version of node to be installed -->
+		<npmjs.version>9.8.1</npmjs.version><!-- the version of npm to be installed - should be the version that goes with your version of node -->
 		<yarn.version>v1.22.19</yarn.version>
 		<dependency-check.skip>true</dependency-check.skip>
 		<spotbugs.skip>true</spotbugs.skip>

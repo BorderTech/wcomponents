@@ -88,6 +88,7 @@ describe("wc/dom/color", function() {
 	it("testGetLiteralNullArg", function() {
 		// @ts-ignore
 		const result = color.getLiteral();
+
 		expect(result).toBeNull();
 	});
 
@@ -119,7 +120,9 @@ describe("wc/dom/color", function() {
 	});
 
 	it("testRgb2HexBadString2", function() {
-		expect(color.rgb2hex("rgb()")).toBeNull();
+		const rgb = "rgb";
+		const badVal = `${rgb}()`;  // hiding this from IDE
+		expect(color.rgb2hex(badVal)).toBeNull();
 	});
 
 	it("testIsHex3", function() {
