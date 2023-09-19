@@ -84,8 +84,11 @@ const instance = {
 		}
 		// using ../ works for URL schemes without `origin` (e.g. `file`)
 		baseUrl = baseUrl || path || new URL("../../../resource/", import.meta.url.toString()) || "";  // resource/";
-		if (fileName && cachebuster) {
-			url = baseUrl + fileName + "?" + cachebuster;
+		if (fileName) {
+			url = baseUrl + fileName;
+			if (cachebuster) {
+				url += `?${cachebuster}`
+			}
 		} else {
 			url = baseUrl;
 		}

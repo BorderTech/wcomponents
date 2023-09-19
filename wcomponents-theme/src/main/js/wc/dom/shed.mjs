@@ -396,14 +396,13 @@ const instance = {
 	 *
 	 * @function module:wc/dom/shed.isSelected
 	 * @param {Element} element The element to test.
-	 * @returns {(Boolean|number)} A property of {@link module:wc/dom/shed.state} being:
+	 * @returns {boolean|number} A property of {@link module:wc/dom/shed.state} being:
 	 *
 	 *    * SELECTED (which equates to true) if this element is selected; or
 	 *    * MIXED (which equates to false) if mixed; otherwise
 	 *    * DESELECTED (which equates to false).
 	 */
 	isSelected: function (element) {
-		let result = false;
 		const role = $role.get(element, true);
 		if (role && !(impliedAria.supportsNativeState(element, ANY_SEL_STATE))) {
 			const supported = aria.getSupported(role);
@@ -413,23 +412,21 @@ const instance = {
 				if (level) {
 					if (element.hasAttribute(next)) {
 						let nextResult = element.getAttribute(next);
+						// take the first one we find - there should not be more than one
 						if (nextResult === "true") {
-							result = instance.state.SELECTED;
-						} else if (nextResult === "mixed") {
-							result = instance.state.MIXED;
-						} else {
-							result = instance.state.DESELECTED;
+							return instance.state.SELECTED;
 						}
-						break;  // take the first one we find - there should not be more than one
+						if (nextResult === "mixed") {
+							return instance.state.MIXED;
+						}
+						return instance.state.DESELECTED;
 					} else if (level === aria.REQUIRED) {
 						throw new TypeError("Required ARIA attribute not found! " + next);
 					}
 				}
 			}
-		} else {
-			result = !!getSetNativeSelected(element);
 		}
-		return result;
+		return getSetNativeSelected(element);
 	},
 
 	/**

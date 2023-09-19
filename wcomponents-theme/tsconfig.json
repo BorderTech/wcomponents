@@ -9,17 +9,14 @@
 		"module": "NodeNext",
 		"moduleResolution": "NodeNext",
 		"esModuleInterop": true,
-		"types": ["node", "jasmine", "@testing-library/jasmine-dom"],
+		"types": ["node", "jasmine", "@testing-library/jasmine-dom", "jasmine-ajax"],
 		"typeRoots": [
 			"node_modules/@types"
 		],
 		"allowSyntheticDefaultImports": true,
 		"resolveJsonModule": true,
 		"paths": {
-			"wc/dom/*": ["src/main/js/wc/dom/*"],
-			"wc/*": ["src/main/js/wc/*"],
-			"axe": ["node_modules/axe-core/axe.js"],
-			"sass": ["node_modules/sass/sass.js"]
+			"wc/*": ["src/main/js/wc/*"]
 		}
 	}
 }

@@ -53,10 +53,10 @@ ariaGroup.getOwned = function(element) {
  * @function module:wc/dom/ariaGroup.getGroup
  * @public
  * @param {Element} element The reference element.
- * @param {String} role The element role (we have already calculated before we get here).
+ * @param {String} [role] The element role (we have already calculated before we get here).
  * @param {Boolean} [ignoreInnerGroups] If true then all members of the group will be included even if they
  *    are also members of another group nested within the current one. This is most commonly found in menus
- *    where we may want all items (for example in a tree) whether or not they are also in a submenu.
+ *    where we may want all items (for example in a tree) whether they are also in a submenu or not.
  * @returns {HTMLElement[]} An array of group members.
  */
 ariaGroup.getGroup = function (element, role, ignoreInnerGroups) {

@@ -171,10 +171,10 @@ function queueGo() {
  * @param {Function} cb Called when dom is interactive / loaded.
  */
 function domReady(cb) {
-	if (globalThis.document && globalThis.document.readyState !== "loading") {
-		cb(globalThis.document);
-	} else {
-		eventMgr.add(globalThis, "DOMContentLoaded", cb);
+	if (window?.document?.readyState !== "loading") {
+		cb(window.document);
+	} else if (window?.addEventListener) {
+		eventMgr.add(window, "DOMContentLoaded", cb);
 	}
 }
 
