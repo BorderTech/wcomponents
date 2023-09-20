@@ -178,13 +178,13 @@ function getGroup(element, analog) {
  * @returns {HTMLElement[]} The filtered group.
  */
 function filterGroup(_group) {
-	return _group.filter(function(next) {
+	return /** @type HTMLElement[] */ (_group.filter(function(next) {
 		let result = true;
 		if (shed.isHidden(next) || shed.isDisabled(next)) {
 			result = false;
 		}
 		return result;
-	});
+	}));
 }
 
 /**
@@ -422,11 +422,13 @@ AriaAnalog.prototype.writeState = function(form, container) {
 
 	if (items.length) {
 		const selectedItems = getFilteredGroup(Array.from(items));
-		selectedItems.forEach(function (next) {
-			if (next.hasAttribute(this.VALUE_ATTRIB) && !shed.isDisabled(next)) {
-				formUpdateManager.writeStateField(container, next.getAttribute("data-wc-name"), next.getAttribute(this.VALUE_ATTRIB));
-			}
-		}, this);
+		if (Array.isArray(selectedItems)) {
+			selectedItems.forEach(function (next) {
+				if (next.hasAttribute(this.VALUE_ATTRIB) && !shed.isDisabled(next)) {
+					formUpdateManager.writeStateField(container, next.getAttribute("data-wc-name"), next.getAttribute(this.VALUE_ATTRIB));
+				}
+			}, this);
+		}
 	}
 };
 
@@ -614,8 +616,8 @@ function singleSelectActivateHelper(element, CTRL, instance) {
 function multiSelectWithShiftHelper(element, container, CTRL, instance) {
 	let lastActivated;
 
-	if (instance.lastActivated && instance.lastActivated[container.id]) {
-		lastActivated = document.getElementById(instance.lastActivated[container.id]);
+	if (instance?.lastActivated[container.id]) {
+		lastActivated = element.ownerDocument.getElementById(instance.lastActivated[container.id]);
 	}
 	if (lastActivated) {
 		instance.doGroupSelect(element, lastActivated, CTRL);
@@ -692,14 +694,13 @@ AriaAnalog.prototype.doGroupSelect = function(element, lastActivated, CTRL) {
 		groupAction = shed.select;
 	}
 	const filter = getFilteredGroup.FILTERS.visible | getFilteredGroup.FILTERS.enabled;
-	const filtered = getFilteredGroup(element, {filter: (filter | selectedFilter), containerWd: this.CONTAINER, itemWd: (this.CONTAINER ? this.ITEM : null)});
-	const unfiltered = getFilteredGroup(element, {filter: filter, containerWd: this.CONTAINER, itemWd: (this.CONTAINER ? this.ITEM : null)});
+	const filtered = getFilteredGroup(element, { filter: (filter | selectedFilter), containerWd: this.CONTAINER, itemWd: (this.CONTAINER ? this.ITEM : null) });
+	const unfiltered = getFilteredGroup(element, { filter: filter, containerWd: this.CONTAINER, itemWd: (this.CONTAINER ? this.ITEM : null) });
 
-	if (filtered && filtered.length) {
+	if (Array.isArray(filtered) && Array.isArray(unfiltered)) {
 		const start = Math.min(unfiltered.indexOf(element), unfiltered.indexOf(lastActivated));
 		const end = Math.max(unfiltered.indexOf(element), unfiltered.indexOf(lastActivated));
-		for (let i = 0; i < unfiltered.length; ++i) {
-			let next = unfiltered[i];
+		for (const next of unfiltered) {
 			if (start <= unfiltered.indexOf(next) && end >= unfiltered.indexOf(next)) {
 				if (~filtered.indexOf(next)) {
 					groupAction(next);
@@ -755,7 +756,7 @@ function isActiveAnalog(target, item) {
 		return true;
 	}
 
-	while (firstAnalog && firstAnalog.parentNode) {
+	while (firstAnalog?.parentElement) {
 		// A column header is active if the column is sortable.
 		// NOTE: be aware we may eventually want to do the same with row header if we ever build row based sort.
 		if (IGNORE_ROLES.indexOf(firstAnalog.getAttribute("role")) > -1 ||

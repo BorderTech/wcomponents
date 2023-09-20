@@ -23,7 +23,7 @@ let config = {
 };
 
 const selectionChanged = debounce(function(element) {
-		// programatically changing the select will not fire change so we gots to do it ourselves
+		// programmatically changing the select will not fire change so we gots to do it ourselves
 		/*
 		 * Note that we used to fire the change event only when the dropdown lost focus,
 		 * in other words, as per any traditional change event.
@@ -79,11 +79,11 @@ const instance = {
  * @returns {HTMLSelectElement} The element that requires typeahead, or null.
  */
 function needsSelectSearch(element) {
-	let result = null;
-	if (element instanceof HTMLSelectElement && element.matches("select:not([multiple])")) {
-		result = element;
+	// @ts-ignore
+	if (element.matches("select:not([multiple])")) {
+		return /** @type {HTMLSelectElement} */(element);
 	}
-	return result;
+	return null;
 }
 
 /**
@@ -234,7 +234,8 @@ const highlightSearch = debounce(/**
 			}
 		} else if (search === "") {
 			// we have previously searched and have backspaced to an empty string
-			if ((match = getMatchByValue(element, search)) && !shed.isSelected(match)) {
+			match = getMatchByValue(element, search);
+			if (match && !shed.isSelected(match)) {
 				selectMatch(element, match);
 			}
 		}
@@ -384,7 +385,7 @@ initialise.register({
 	/**
 	 * Set up select element search functionality.
 	 *
-	 * @param {HTMLBodyElement} element the element being initialised, usually document.body
+	 * @param {HTMLBodyElement} element the element being initialised, usually `document.body`
 	 */
 	initialise: function(element) {
 		i18n.translate("select_typeahead").then((val) => {

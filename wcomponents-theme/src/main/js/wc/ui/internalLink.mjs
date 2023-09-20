@@ -26,7 +26,7 @@ function actionClickEvent(element) {
 			target = document.getElementById(element.getAttribute(FOR_ATTRIB));
 		} else if (element.hasAttribute("href")) {
 			const url = element.getAttribute("href");
-			if (url.indexOf("#") === 0) {
+			if (url.startsWith("#")) {
 				target = document.getElementById(url.substring(1));
 			}
 		}
@@ -45,11 +45,11 @@ function actionClickEvent(element) {
 }
 
 /**
- * @param {MouseEvent} $event
+ * @param {MouseEvent & { target: HTMLElement }} $event
  */
 function clickEvent($event) {
 	const { defaultPrevented, target } = $event;
-	if (defaultPrevented || !(target instanceof  HTMLElement)) {
+	if (defaultPrevented || target?.nodeType !== Node.ELEMENT_NODE) {
 		return;
 	}
 	/** @type HTMLElement */

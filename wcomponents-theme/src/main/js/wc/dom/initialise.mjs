@@ -40,13 +40,13 @@ const instance = {
 	},
 
 	/**
-	 * Execute the initialisation routines (init routines, bodylisteners, callbacks) NOTE: all routines are executed
+	 * Execute the initialisation routines (init routines, 'body listeners', callbacks) NOTE: all routines are executed
 	 * ONLY ONCE and are purged after execution. It is safe for a subscriber to add new subscribers.
 	 * @todo This function is public for use by the domLoaded callback, it should not be called directly. Maybe
 	 * a rename is called for?
 	 *
 	 * @function  module:wc/dom/initialise.go
-	 * @param {HTMLBodyElement} element document.body
+	 * @param {HTMLElement} element document.body
 	 * @param {Function} [callback] Function which will be called after all the routines are executed.
 	 */
 	go: function(element, callback) {
@@ -57,7 +57,7 @@ const instance = {
 						callback();
 					}
 				} finally {
-					if (observer === null) {  // if no new subscribers were added while were were executing the existing subscribers
+					if (observer === null) {  // if no new subscribers were added while we were executing the existing subscribers
 						goingObserver.reset();  // clear all the subscribers we have just finished calling
 						observer = goingObserver;  // put the empty observer instance back ready for new subscribers
 					}
@@ -104,10 +104,10 @@ const instance = {
 };
 
 domReady(function() {
-	if (globalThis.document) {
+	if (document) {
 		timers.setTimeout(function() {
 			try {
-				instance.go(globalThis.document.body);
+				instance.go(document.body);
 			} finally {
 				instance.domLoaded = true;
 			}
@@ -121,18 +121,18 @@ domReady(function() {
  * * {@link module:wc/dom/initialise.addBodyListener}: Listeners will be called back with the body
  * element when it becomes ready.
  * * {@link module:wc/dom/initialise.addInitRoutine}: Add a function that will be executed BEFORE the
- * initialise does its nodeListener initialisation work
+ * 'initialise' does its nodeListener initialisation work
  * * {@link module:wc/dom/initialise.addCallback}: add a function that will be executed AFTER the
- * initialise does its nodeListener initialisation work
+ * 'initialise' does its nodeListener initialisation work
  *
  * @function
  * @private
  *
- * @param {module:wc/Observer#PRIORITY} priority High is init routines, medium is bodylisteners, low is
+ * @param {module:wc/Observer#PRIORITY} priority High is init routines, medium is 'body listeners', low is
  *    callbacks.
  * @param {String} [method] The name of the method to call if listener is an object rather than a function.
- * @param {(Function|Object)} listener A function or an object which implements the "initialise" interface.
- * @returns {Function} Returns listener if it was able to be subscribed to an instance of {@link module:wc/Observer}.
+ * @param {function|Object} [listener] A function or an object which implements the "initialise" interface.
+ * @returns {Function} Returns listener if it was able to subscribe to an instance of {@link module:wc/Observer}.
  */
 function add(priority, method, listener) {
 	let result;

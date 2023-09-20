@@ -574,13 +574,14 @@ function disabledMandatoryHelper(element, STATE, reverse) {
 			* to work out if the element is natively focusable
 			* Note: Assumes nobody else is mucking around with tabIndex
 			*/
-			if (element.hasAttribute("tabIndex") && element instanceof HTMLElement) {
+			if (element.hasAttribute("tabIndex") && element.nodeType === Node.ELEMENT_NODE) {
+				const htmlElement = /** @type {HTMLElement} */(element);
 				if (!reverse) {
-					element.tabIndex = -1;
+					htmlElement.tabIndex = -1;
 				} else if ($role.get(element)) {
-					element.tabIndex = 0;
+					htmlElement.tabIndex = 0;
 				} else {
-					element.removeAttribute("tabIndex");
+					htmlElement.removeAttribute("tabIndex");
 				}
 			}
 		}

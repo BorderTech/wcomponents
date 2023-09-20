@@ -14,11 +14,11 @@ const cancelButtonSelector = cancelButton.getWidget();
  * Use a "confirm" to ensure the user really want to undertake an action.
  * @function
  * @private
- * @param {MouseEvent} $event The click event.
+ * @param {MouseEvent & { target: HTMLElement }} $event The click event.
  */
 function clickEvent($event) {
 	const { target, defaultPrevented } = $event;
-	if (defaultPrevented || !(target instanceof HTMLElement)) {
+	if (defaultPrevented || target?.nodeType !== Node.ELEMENT_NODE) {
 		return;
 	}
 	/** @type HTMLButtonElement */
@@ -28,8 +28,7 @@ function clickEvent($event) {
 		if (message) {
 			const doContinue = window.confirm(message);
 			if (!doContinue) {
-				$event.preventDefault();  // $event.cancel();
-				// console.info("Cancelled event");
+				$event.preventDefault();
 				focus.setFocusRequest(element);
 			}
 		} else {

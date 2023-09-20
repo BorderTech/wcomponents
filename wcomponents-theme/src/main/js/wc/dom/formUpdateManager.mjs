@@ -133,7 +133,7 @@ const formUpdateManager = {
 		let stateField;
 		if (container && name) {
 			if (!unique || !(this.getStateField(container, name))) {
-				stateField = document.createElement("input");
+				stateField = container.ownerDocument.createElement("input");
 				stateField.type = "hidden";
 				stateField.name = name;
 				if (clean) {
@@ -171,9 +171,9 @@ const formUpdateManager = {
 	getStateContainer: function(form) {
 		const formId = form.id || (form.id = uid()),
 			stateContainerId = formId + STATE_CONTAINER_SUFFIX;
-		let stateContainer = document.getElementById(stateContainerId);
+		let stateContainer = form.ownerDocument.getElementById(stateContainerId);
 		if (!stateContainer) {
-			stateContainer = document.createElement("div");
+			stateContainer = form.ownerDocument.createElement("div");
 			shed.hide(stateContainer, true);
 			stateContainer.id = stateContainerId;
 			form.appendChild(stateContainer);

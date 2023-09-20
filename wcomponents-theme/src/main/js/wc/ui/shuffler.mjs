@@ -27,12 +27,11 @@ function writeState(form, stateContainer) {
 		/** @type {HTMLSelectElement} */
 		const list = container.querySelector(shufflerSelect);
 
-		if (list && !list.disabled) {
-			const options = list.options;
-			for (let i = 0; i < options.length; i++) {
-				let next = options[i];
+		if (!list?.disabled) {
+			Array.from(list.options).forEach(next => {
 				formUpdateManager.writeStateField(stateContainer, container.id, next.value);
-			}
+			});
+
 		}
 	}
 	Array.from(form.querySelectorAll(containerQs)).forEach(_writeState);
@@ -81,20 +80,25 @@ function move(element) {
 				}
 				break;
 			case DOWN:
-				if ((reference = option.nextElementSibling)) {
+				reference = option.nextElementSibling;
+				if (reference) {
 					reference = reference.nextElementSibling;  // we want the option after the next option (if there is one)
 				}
 				if (reference) {
 					if (selected.indexOf(option.nextElementSibling) === -1 || selected.indexOf(reference) === -1) {
 						parent.insertBefore(option, reference);
 					}
-				} else if ((reference = option.nextElementSibling) && selected.indexOf(reference) === -1) {
+					break;
+				}
+				reference = option.nextElementSibling;
+				if (reference && selected.indexOf(reference) === -1) {
 					// this will happen if we try to move the penultimate child down
 					parent.appendChild(option);
 				}
 				break;
 			case TOP:
-				if ((reference = parent.firstElementChild) && reference !== option) {
+				reference = parent.firstElementChild;
+				if (reference && reference !== option) {
 					parent.insertBefore(option, reference);
 				}
 				break;
@@ -117,7 +121,7 @@ function move(element) {
 		}
 		// If we are in a WShuffler we will have to manually fire any ajax triggers
 		const container = element.closest(containerQs);
-		if (container instanceof HTMLElement && ajaxRegion.getTrigger(container, true)) {
+		if (container?.nodeType === Node.ELEMENT_NODE && ajaxRegion.getTrigger(container, true)) {
 			ajaxRegion.requestLoad(container, null, true);
 		}
 	}
@@ -127,8 +131,9 @@ function move(element) {
  * @param {MouseEvent & { target: HTMLElement }} $event
  */
 function clickEvent({ target, defaultPrevented }) {
+	/** @type {HTMLButtonElement} */
 	const element = defaultPrevented ? null : target?.closest(moveButtonQs);
-	if (element instanceof HTMLButtonElement && !element.disabled) {
+	if (element.matches("button") && !element.disabled) {
 		move(element);
 	}
 }
@@ -143,7 +148,7 @@ initialise.register({
 	 */
 	initialise: function (element) {
 		event.add(element, "click", clickEvent);
-		formUpdateManager.subscribe(writeState);
+		formUpdateManager.subscribe({ writeState });
 	},
 	/**
 	 * Unsubscribes event listeners etc.

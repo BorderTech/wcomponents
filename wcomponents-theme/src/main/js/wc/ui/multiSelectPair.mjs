@@ -232,7 +232,8 @@ function addRemoveSelected(fromList) {
 		while (fromIndex >= 0) {
 			let next = fromList.options[fromIndex];
 			const parentElement = next.parentElement;
-			if (parentElement instanceof HTMLOptGroupElement) {
+			const elementWindow = next.ownerDocument.defaultView;
+			if (parentElement instanceof elementWindow.HTMLOptGroupElement) {
 				let optgroupWD = `${optgroupSelector}[label='${parentElement.label}']`;
 				/** @type HTMLOptGroupElement */
 				let orderOptGroup = orderList.querySelector(optgroupWD);
@@ -250,7 +251,7 @@ function addRemoveSelected(fromList) {
 					result = true;
 				} else {
 					// we need to make an optgroup in toList, but where?
-					optgroup = (document.createElement("optgroup"));
+					optgroup = (elementWindow.document.createElement("optgroup"));
 					optgroup.label = parentElement.label;
 					originalIndex = selectboxSearch.indexOf(next, orderList);
 					let toIndex = calcToIndex(originalIndex, fromIndex);
@@ -534,7 +535,7 @@ initialise.register({
 	postInit: function () {
 		shed.subscribe(shed.actions.SHOW, fixWidthHeight);
 		processResponse.subscribe(fixWidthHeight, true);
-		formUpdateManager.subscribe(writeState);
+		formUpdateManager.subscribe({writeState});
 	}
 });
 

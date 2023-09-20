@@ -195,19 +195,14 @@ function getComponents(container) {
 	if (container.matches(controlsSelector)) {
 		result = [container];
 	} else {
-		result = container.querySelectorAll(allSelector);
+		result = Array.from(container.querySelectorAll(allSelector));
 	}
-
-	if (result && result.length) {
-		result = Array.prototype.filter.call(result, isNotExempt);
-	} else {
-		result = null;
-	}
+	result = result?.length ? /** @type HTMLElement[] */(result.filter(isNotExempt)) : null;
 	return result;
 }
 
 /**
- * Tests if an element with support for the HTML required attribute is'complete' the determination of which
+ * Tests if an element with support for the HTML required attribute is 'complete' the determination of which
  * depends on the element being tested.
  *
  * @function
@@ -230,9 +225,10 @@ function isNativeComplete(element) {
 	result = isSuccessfulElement(element);
 	if (result) {
 		/* if isSuccessfulElement returns false we know the control is not complete */
-		if (element instanceof HTMLSelectElement && element.matches("select:not([multiple])")) {
-			const option = element.options[element.selectedIndex];
-			if (option && option.getAttribute(NULL_OPTION_ATTRIBUTE)) {
+		if (element.matches("select:not([multiple])")) {
+			const selectElement = /** @type {HTMLSelectElement} */(element);
+			const option = selectElement.options[selectElement.selectedIndex];
+			if (option?.getAttribute(NULL_OPTION_ATTRIBUTE)) {
 				result = false;
 			}
 			return result;
@@ -241,7 +237,8 @@ function isNativeComplete(element) {
 			return false;
 		}
 		if ((element.matches("input:not([type='checkbox'])")) || element.matches("textarea")) {
-			result = !!(element["value"]);
+			const textElement = /** @type {HTMLInputElement|HTMLTextAreaElement} */(element);
+			result = !!textElement.value;
 		}
 	}
 	return result;

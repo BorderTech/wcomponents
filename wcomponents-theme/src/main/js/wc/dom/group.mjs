@@ -13,7 +13,7 @@ const elementGroup = {};
 * <dd>Grouped natively by their "name" attribute, shining example is radio buttons. SELECT elements are a special case
 * as they DEFINE a group of OPTIONS.</dd>
 * <dt>ARIA ELEMENTS:</dt>
-* <dd>Aria defines several different roles that are grouped, for example "radio". In some cases ARIA allows for
+* <dd>Aria defines several roles that are grouped, for example "radio". In some cases ARIA allows for
 * optional subgroups (for example "tree"). For aria roles that do not have an explicitly defined grouping role we can
 * assume these will be grouped by an element with aria-role of group (for example "checkbox").</dd>
 * </dl>
@@ -115,7 +115,7 @@ elementGroup.getContainer = function(element, containerWd) {
 		}
 	}
 	// else if (element.name) {
-	//	if (document.getElementsByName(element.name).length > 1) {
+	//	if (element.ownerDocument.getElementsByName(element.name).length > 1) {
 	//		return null;  // elements grouped by name do not have a container to define the group
 	//	}
 	// }
@@ -138,9 +138,9 @@ function getNativeGroup(element) {
 	if (element.tagName) {
 		if (element.matches("input[type='radio'], input[type='checkbox']")) {
 			if (element.hasAttribute("name")) {
-				group = Array.from(document.getElementsByName(element.getAttribute("name")));
+				group = Array.from(element.ownerDocument.getElementsByName(element.getAttribute("name")));
 			}
-		} else if (element instanceof HTMLSelectElement) {
+		} else if (element instanceof element.ownerDocument.defaultView.HTMLSelectElement) {
 			group = Array.from(element.options);
 		} else if (element.matches("optgroup")) {
 			group = Array.from(element.querySelectorAll("option"));

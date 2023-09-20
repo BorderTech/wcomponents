@@ -35,7 +35,7 @@ const ROLE_MAP = {
 
 const instance = {
 	/**
-	 * Get the "role" implicit in a HTML element.
+	 * Get the "role" implicit in an HTML element.
 	 *
 	 * @function module:wc/dom/impliedARIA.getImpliedRole
 	 * @param {Element} element A DOM NODE but really should be an element.
@@ -50,8 +50,8 @@ const instance = {
 			if (element.matches("th")) {
 				return element.closest("thead") ? "columnheader" : "rowheader";
 			}
-			const useType = element instanceof HTMLInputElement || element instanceof HTMLButtonElement;
-			const roleKey = useType ? element.type : element.nodeName.toLowerCase();
+			const useType = element.matches("input, button");
+			const roleKey = useType ? element["type"] : element.nodeName.toLowerCase();
 			return ROLE_MAP[roleKey];
 		}
 		return null;
@@ -75,7 +75,7 @@ const instance = {
 		 return true;
 		 }
 		 */
-		/* NOTE: FIELDSET is natively disable-able but we choose to not allow it for pragmatic reasons.*/
+		/* NOTE: FIELDSET is natively disable-able, but we choose to not allow it for pragmatic reasons.*/
 		const disableable = ["input", "button", "select", "textarea", "optgroup", "option"].join();
 		switch (state) {
 			case "disabled":
@@ -99,7 +99,7 @@ const instance = {
 };
 
 /**
- * Determine if a HTML element supports the native required attribute. See
+ * Determine if an HTML element supports the native required attribute. See
  *
  * * https://html.spec.whatwg.org/#attr-input-required,
  * * https://html.spec.whatwg.org/#attr-select-required
@@ -117,7 +117,7 @@ function supportsRequired(element) {
 }
 
 /**
- * Determine if a HTML element supports the native checked attribute which is currently only supported by input
+ * Determine if an HTML element supports the native checked attribute which is currently only supported by input
  * of type radio or checkbox event though all input elements report "checked" as a property.
  *
  * @function
@@ -131,7 +131,7 @@ function supportsChecked(element) {
 }
 
 /**
- * Determine if a HTML element supports the native selected attribute which is currently only supported by
+ * Determine if an HTML element supports the native selected attribute which is currently only supported by
  * option elements.
  *
  * @function
@@ -140,7 +140,7 @@ function supportsChecked(element) {
  * @returns {Boolean} true if the element supports the selected attribute i.e. it is an option element.
  */
 function supportsSelected(element) {
-	return element instanceof HTMLOptionElement;
+	return element?.matches("option");
 }
 
 export default instance;

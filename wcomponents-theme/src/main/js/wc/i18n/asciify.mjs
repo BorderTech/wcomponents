@@ -57,7 +57,7 @@ function asciify(s) {
 			if (next.charCodeAt(0) > 128) {
 				ascii = cache[next] || (cache[next] = uniToAscii(next));
 			}
-			result += ascii || next;  // zero should not happen, the map should not contain numbers, it should contain strings
+			result += ascii ?? next;
 		}
 	} else {
 		result = s;

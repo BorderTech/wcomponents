@@ -148,7 +148,7 @@ function isInsideDialog(id) {
  * @returns {HTMLElement} a dialog trigger element if found
  */
 function getTrigger(element, ignoreAncestor) {
-	if (!element || element instanceof HTMLFormElement) {
+	if (!element || element.matches("form")) {
 		return null;
 	}
 	const id = element.id;
@@ -159,7 +159,7 @@ function getTrigger(element, ignoreAncestor) {
 				// Auto open on load dialogs are their own trigger
 				return null;
 			}
-			return element;
+			return /** @type {HTMLElement} */(element);
 		}
 	}
 	if (ignoreAncestor) {
@@ -169,7 +169,7 @@ function getTrigger(element, ignoreAncestor) {
 }
 
 /**
- * We need to know if an element is a submit element so that we can prevent the submit action if it opens a dialog.
+ * We need to know if an element is a `submit` element so that we can prevent the submit action if it opens a dialog.
  * @function
  * @private
  * @param {Element} element the element to test
@@ -220,7 +220,7 @@ function activateClick(element) {
 	}
 	const targets = trigger.loads;
 
-	if (targets && targets.length && !targets.some(isInsideDialog)) {
+	if (targets?.length && !targets.some(isInsideDialog)) {
 		keepContentOnClose = true;
 		dialogFrame.close();
 	}

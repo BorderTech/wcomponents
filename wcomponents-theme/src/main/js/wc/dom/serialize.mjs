@@ -62,9 +62,10 @@ const instance = {
 	 */
 	serialize: function (nodeList, includeButtons, returnAsObject, filter) {
 		const sb = [];
-		const elements = nodeList instanceof HTMLFormElement ? nodeList.elements : nodeList;
-		for (let i = 0; i < elements.length; i++) {
-			let next = elements[i];
+
+		// @ts-ignore
+		const elements = Array.from(nodeList.matches("form") ? nodeList.elements : nodeList);
+		for (const next of elements) {
 			try {
 				if (filter && filter(next) === false) {
 					continue;
@@ -72,22 +73,24 @@ const instance = {
 			} catch (ex) {
 				console.error(ex);
 			}
-			if (next instanceof HTMLElement && isSuccessfulElement(next, includeButtons)) {
+			if (next.nodeType === Node.ELEMENT_NODE && isSuccessfulElement(next, includeButtons)) {
 				let value;
-				if (next instanceof HTMLSelectElement) {
-					let items = next.selectedOptions;
-					for (let j = 0; j < items.length; ++j) {
-						value = getValue(items[j]);
+				if (next.matches("select")) {
+					const selectElement = /** @type HTMLSelectElement */ next;
+					let items = Array.from(selectElement.selectedOptions);
+					for (const element of items) {
+						value = getValue(element);
 						if (value !== null) {
 							// If a control doesn't have a stateB value when the form is submitted, user agents are not required to treat it as a successful control.
-							sb.push(encodeName(next.name) + NV_SEPARATOR + encodeURIComponent(value));
+							sb.push(encodeName(selectElement.name) + NV_SEPARATOR + encodeURIComponent(value));
 						}
 					}
 				} else {
-					value = getValue(/** @type HTMLInputElement */ (next));
+					const inputElement = /** @type HTMLInputElement */ next;
+					value = getValue(inputElement);
 					if (value !== null) {
 						// If a control doesn't have a stateB value when the form is submitted, user agents are not required to treat it as a successful control.
-						sb.push(encodeName(next["name"]) + NV_SEPARATOR + encodeURIComponent(value));
+						sb.push(encodeName(inputElement["name"]) + NV_SEPARATOR + encodeURIComponent(value));
 					}
 				}
 			}

@@ -119,7 +119,7 @@ const imageEdit = {
 			}
 			if (instanceConfig && !instanceConfig.__wcmixed) {
 				result = mixin(instanceConfig, result);  // override defaults with explicit settings
-				result.__wcmixed = true;  // flag that we have mixed in the defaults so it doesn't need to happen again
+				result.__wcmixed = true;  // flag that we have mixed in the defaults, so it doesn't need to happen again
 			}
 		}
 		return result;
@@ -205,7 +205,8 @@ const imageEdit = {
 		const width = fbCanvas.getWidth(),
 			height = fbCanvas.getHeight();
 		try {
-			if (img instanceof HTMLImageElement) {
+			// @ts-ignore
+			if (img.nodeType  === Node.ELEMENT_NODE && img.matches("img")) {
 				renderFabricImage(new fabric.Image(img));
 			} else {
 				fabric.Image.fromURL(img, renderFabricImage);
@@ -800,8 +801,13 @@ function attachEventHandlers(container) {
 		if (!action) {
 			return null;
 		}
-		const isElement = (action instanceof Element && action.matches("button,[type='checkbox']"));
-		const name = /** @type {string} */ (isElement ? action.getAttribute("name") : action);
+		let name;
+		// @ts-ignore
+		if (action.nodeType === Node.ELEMENT_NODE && action.matches("button,[type='checkbox']")) {
+			name = /** @type {Element} */(action).getAttribute("name");
+		} else {
+			name = /** @type {string} */ (action);
+		}
 
 		if (name && eventConfig[type]) {
 			return eventConfig[type][name];

@@ -658,7 +658,8 @@ function setUpDateFields(container) {
 	const _container = container || document.body;
 	let fields;
 
-	if (container instanceof Element && container.matches(DATE_WRAPPER_INCL_RO)) {
+	// @ts-ignore
+	if (container.nodeType === Node.ELEMENT_NODE && container.matches(DATE_WRAPPER_INCL_RO)) {
 		fields = [container];
 	} else {
 		fields = Array.from(_container.querySelectorAll(DATE_WRAPPER_INCL_RO));

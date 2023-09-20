@@ -1,4 +1,5 @@
 import shed from "wc/dom/shed.mjs";
+import {getSelect} from "../helpers/specUtils.mjs";
 
 describe("wc/dom.shed", () => {
 	const html = `
@@ -226,12 +227,12 @@ describe("wc/dom.shed", () => {
 	});
 
 	it("testIsSelectedWithOptionFalse", function() {
-		const selElement = /** @type {HTMLSelectElement} */ (document.getElementById("sel1"));
+		const selElement = getSelect("sel1");
 		expect(shed.isSelected(selElement.options[0])).toBeFalse();
 	});
 
 	it("testIsSelectedWithOptionTrue", function() {
-		const selElement = /** @type {HTMLSelectElement} */ (document.getElementById("sel1"));
+		const selElement = getSelect("sel1");
 		expect(shed.isSelected(selElement.options[1])).toBeTrue();
 	});
 
@@ -318,7 +319,7 @@ describe("wc/dom.shed", () => {
 	});
 
 	it("testSelectOption", function() {
-		const selElement = /** @type {HTMLSelectElement} */ (document.getElementById("sel1"));
+		const selElement = getSelect("sel1");
 		const element = selElement.options[0];
 		expect(shed.isSelected(element)).toBeFalse();
 		shed.select(element);
@@ -382,7 +383,7 @@ describe("wc/dom.shed", () => {
 	});
 
 	it("testDeselectOption", function() {
-		const selElement = /** @type {HTMLSelectElement} */ (document.getElementById("sel1"));
+		const selElement = getSelect("sel1");
 		const element = selElement.options[1];
 		if (!shed.isSelected(element)) {
 			shed.select(element, true);
@@ -669,7 +670,7 @@ describe("wc/dom.shed", () => {
 	});
 
 	it("testIsSelectableOption", function() {
-		const element = /** @type {HTMLSelectElement} */ (document.getElementById("sel1"));
+		const element = getSelect("sel1");
 		expect(shed.isSelectable(element.options[0])).toBeTrue();
 	});
 

@@ -441,11 +441,12 @@ function MultiFileUploader() {
 	 */
 	function initialiseFileInput(element) {
 		if (element.matches(inputElementWd)) {
+			const inputElement = /** @type {HTMLInputElement} */(element);
 			const inited = element[INITED_KEY];
-			if (!inited && element instanceof HTMLInputElement) {
-				console.log("Initialising on first use", element.name);
+			if (!inited && element.nodeType === Node.ELEMENT_NODE) {
+				console.log("Initialising on first use", inputElement.name);
 				element[INITED_KEY] =  true;
-				initialiseForm(element.form);
+				initialiseForm(inputElement.form);
 			}
 		}
 	}

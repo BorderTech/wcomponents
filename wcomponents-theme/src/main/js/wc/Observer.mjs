@@ -267,17 +267,15 @@ function Observer(notifyInStages) {
 	 * // `foo.bar`
 	 */
 	this.setFilter = function(arg) {
-		if (arg === null || typeof arg === "undefined") {
-			throw new TypeError("arg must not be null or undefined");
-		}
-		if (arg.constructor === String) {
+
+		if (typeof arg === "string") {
 			// default filter tests for equality
 			/**
 			 * @param {string} group
 			 * @return {boolean}
 			 */
 			filterFn = group => group === arg;
-		} else if (arg.constructor === Function) {
+		} else if (typeof arg === "function") {
 			// custom filter provided by caller
 			filterFn = arg;
 		} else {

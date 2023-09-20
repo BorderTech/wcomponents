@@ -62,11 +62,11 @@ function getHref(element) {
  *
  * @function
  * @private
- * @param {MouseEvent} $event A click event.
+ * @param {MouseEvent & {target: HTMLElement}} $event A click event.
  */
 function clickEvent($event) {
-	const target = $event.target;
-	if (!(target instanceof HTMLElement)) {
+	const { target } = $event;
+	if (target.nodeType !== Node.ELEMENT_NODE) {
 		return;
 	}
 	/** @type {HTMLElement} */

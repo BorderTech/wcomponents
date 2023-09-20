@@ -19,7 +19,7 @@ ariaGroup.getOwner = function(element) {
 	if (id) {
 		const ownerWd = `[aria-owns~='${id}']`;
 		// something may not be aria-owned by more than one element at a time
-		result = /** @type {HTMLElement} */ (document.body.querySelector(ownerWd));
+		result = /** @type {HTMLElement} */ (element.ownerDocument.body.querySelector(ownerWd));
 	}
 	return result;
 };
@@ -37,7 +37,7 @@ ariaGroup.getOwned = function(element) {
 		result = [];
 	if (ids) {
 		for (let id of ids.split(/\s+/)) {
-			let owned = document.getElementById(id);
+			let owned = element.ownerDocument.getElementById(id);
 			if (owned) {
 				result.push(owned);
 			}

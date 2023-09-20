@@ -45,8 +45,9 @@ const instance = {
 	 * @param {number} top The requested position of the top edge of the element.
 	 */
 	setPosition: function(element, left, top) {
-		const _el = element instanceof Element ? element : document.getElementById(element);
-		if (_el && _el.style) {
+		// @ts-ignore
+		const _el = handleIdOrElement(element);
+		if (_el?.style) {
 			if (left || left === 0) {
 				_el.style.left = left + UNIT;
 			}
@@ -82,7 +83,7 @@ const instance = {
 	 *    position.
 	 */
 	setBySize: function(element, conf) {
-		const _el = element instanceof Element ? element : document.getElementById(element),
+		const _el = handleIdOrElement(element),
 			id = _el.id || (_el.id = uid());
 		let topOffset = 0.5,  // may be overridden by conf.topOffsetPC
 			leftOffset = 0.5;  // may be overridden by conf.leftOffsetPC
@@ -288,6 +289,22 @@ function forceToViewPort(el) {
 	if (box.top < 0) {
 		el.style.top = ZERO;
 	}
+}
+
+
+/**
+ * Handle annoying polymorphic arg, helps with type checking.
+ * @param {HTMLElement|string} arg An element or ID
+ * @return {HTMLElement}
+ */
+function handleIdOrElement(arg) {
+	if (typeof arg === "string") {
+		return document.getElementById(arg);
+	}
+	if (arg["nodeType"] === Node.ELEMENT_NODE) {
+		return arg;
+	}
+	return null;
 }
 
 initialise.register({

@@ -93,14 +93,14 @@ function ListboxAnalog() {
 
 	/**
 	 * Handle a keyboard event.
-	 * @param {KeyboardEvent} $event
+	 * @param {KeyboardEvent & { target: HTMLElement }} $event
 	 */
 	this.keydownEvent = function($event) {
 		const PRINTABLE_RE = /[ -~]/,
 			keyCode = $event.key,
 			target = $event.target;
 		this.constructor.prototype.keydownEvent.call(this, $event);
-		if ($event.defaultPrevented || !(target instanceof HTMLElement)) {
+		if ($event.defaultPrevented || target?.nodeType !== Node.ELEMENT_NODE) {
 			return;
 		}
 
@@ -113,7 +113,7 @@ function ListboxAnalog() {
 
 			/* printable char pressed: find the next matching option */
 			const listbox = target.closest(this.CONTAINER);
-			if (listbox && listbox instanceof  HTMLElement) {
+			if (listbox?.nodeType === Node.ELEMENT_NODE) {
 				const element = getTextTarget(listbox, target, keyCode.toLocaleLowerCase());
 				if (target) {
 					focus.setFocusRequest(element);

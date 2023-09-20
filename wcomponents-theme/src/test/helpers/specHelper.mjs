@@ -1,6 +1,6 @@
 import "global-jsdom/register";
-import path from "path";
 import fs from "fs";
+import {getResoucePath} from "./specUtils.mjs";
 
 let rdf;
 function fudgeDimensions() {
@@ -31,7 +31,7 @@ function mockAriaRdf() {
 			contentType: 'text/xml;charset=UTF-8',
 			get responseText() {
 				if (!rdf) {
-					const rdfPath = path.resolve(import.meta.url.replace("file://", ""), "../../../main/resource/aria-1.rdf");
+					const rdfPath = getResoucePath("aria-1.rdf", true);
 					console.log("Mock response with:", rdfPath);
 					rdf = fs.readFileSync(rdfPath, "utf8");
 				}
