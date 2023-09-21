@@ -16,6 +16,6 @@ const PREFIX = "uid";
  */
 function uid() {
 	// return crypto.randomUUID();
-	return `${PREFIX}${++id}${Date.now()}`;
+	return `${PREFIX}${Date.now() + ++id}`;
 }
 export default uid;

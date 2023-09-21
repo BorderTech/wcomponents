@@ -9,6 +9,7 @@ const testContent = `<div>
 	<label id="l2" for="r2" data-testid="l2"><input type="radio" id="r2" name="rg1" data-testid="r2" checked/> two</label>
 	<label id="l3" for="cb1" data-testid="l3"><input type="checkbox" id="cb1" name="cbg1" data-testid="cb1"/> cb one</label>
 	<label id="l4" for="cb2" data-testid="l4"><input type="checkbox" id="cb2" name="cbg2" checked data-testid="cb2"/> cb two</label>
+	<label id="l5" for="cb3" data-testid="l5"><input type="checkbox" id="cb3" name="cbg3" data-testid="cb3"/> cb three</label>
 	</div>`;
 
 describe("wc/dom/cbrShedPublisher", () => {
@@ -87,7 +88,7 @@ describe("wc/dom/cbrShedPublisher", () => {
 	});
 
 	it("click disabled checkbox does not publish", function() {
-		const id = "cb1";
+		const id = "cb3";
 		const element = /** @type {HTMLInputElement} */(domTesting.getByTestId(testHolder, id));
 		element.disabled = true;
 		return eventIt("click", id).then(done => {

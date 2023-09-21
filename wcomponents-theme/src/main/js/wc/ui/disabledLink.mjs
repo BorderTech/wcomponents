@@ -11,7 +11,7 @@ import shed from "wc/dom/shed.mjs";
  *
  * @function
  * @private
- * @param {MouseEvent} $event A click event.
+ * @param {MouseEvent & { target: HTMLElement }} $event A click event.
  */
 function clickEvent($event) {
 	const { target, defaultPrevented } = $event;

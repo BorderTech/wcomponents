@@ -1,8 +1,11 @@
 import "global-jsdom/register";
+import jsdom from "global-jsdom";
 import fs from "fs";
 import {getResoucePath} from "./specUtils.mjs";
 
 const cache = {};
+const reset = jsdom(null, { url: "http://localhost" });
+
 function fudgeDimensions() {
 	// Allows you to set style on an element and have it report an offset dimension
 	Object.defineProperties(window.HTMLElement.prototype, {
@@ -79,6 +82,10 @@ beforeAll(() => {
 			return i18n.translate('');
 		});
 	});
+});
+
+afterAll(() => {
+	reset();
 });
 
 beforeEach(() => {

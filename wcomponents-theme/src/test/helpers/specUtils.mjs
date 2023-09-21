@@ -25,3 +25,22 @@ export const getResoucePath = (subPath, main) => {
 	const url = new URL(`../../${type}/resource/${subPath}`, import.meta.url);
 	return fileURLToPath(url);
 };
+
+/**
+ * Adds files to a file selector
+ * @param {HTMLElement} input
+ * @param {Array<{ value: string, type: string }>} fileData
+ * @return {*}
+ */
+export function addFilesToInput(input, fileData) {
+	const files = [];
+
+	fileData.forEach(({ value, type }) => {
+		files.push(new File([value], `file-${files.length}`, { type: type }));
+	});
+	Object.defineProperty(input, 'files', {
+		value: files,
+		writable: false,
+	});
+	return input;
+}

@@ -18,22 +18,21 @@
  * @example require(["wc/array/unique"], function(unique) {
  *    var myArray = [...],
  *        uniqueArray = myArray.unique();
- *    //do stuff with the unique array - for example is it the same length as the original one indicating that there are no double-ups.
  * });
  */
 export default function unique(array, compare) {
+	const comparator = compare || ((/** @type {any} */ a, /** @type {any} */ b) => a !== b);
 	const result = [];
-	for (let i = 0; i < array.length; i++) {
-		let next = array[i];
+	for (const next of array) {
 		let found = false;
-		for (let j = 0; j < result.length; j++) {
-			if ((compare && compare(next, result[j]) === 0) || (!compare && next === result[j])) {
+		for (const element of result) {
+			if (!comparator(next, element)) {
 				found = true;
 				break;
 			}
 		}
 		if (!found) {
-			result[result.length] = next;
+			result.push(next);
 		}
 	}
 	return result;
