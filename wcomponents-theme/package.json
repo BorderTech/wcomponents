@@ -65,7 +65,6 @@
 		"grunt": "1.6.1",
 		"grunt-contrib-clean": "2.0.1",
 		"grunt-contrib-copy": "1.0.0",
-		"i18next-fs-backend": "^2.1.5",
 		"intern": "4.10.1",
 		"jasmine": "^5.1.0",
 		"jasmine-ajax": "^4.0.0",

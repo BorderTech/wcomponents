@@ -5,6 +5,12 @@ import ajax from "wc/ajax/ajax.mjs";
 import resource from "wc/loader/resource.mjs";
 import i18next from 'i18next';
 
+/**
+ *
+ * @param key
+ * @param args
+ * @return {string|string[]}
+ */
 const noop = function(key, ...args) {
 		console.warn("Calling i18n before inited ", key, args);
 		return "";
@@ -46,7 +52,7 @@ const instance = {
 	 * @param {...any} [args] additional arguments will be used to printf format the string before it is
 	 *    returned. Note: It's up to the caller to ensure the correct args (type, number etc...) are passed to
 	 *    printf formatted messages.
-	 * @returns {Promise} resolved with {String} The message value, i.e. the value of an i18n key/value pair.
+	 * @returns {Promise<string|string[]>} resolved with {String} The message value, i.e. the value of an i18n key/value pair.
 	 *     If not found will return an empty string.
 	 */
 	translate: function(key, ...args) {
@@ -154,7 +160,6 @@ const backend = {
 	read: function(language, namespace, callback) {
 		let cacheBuster = this.options.cachebuster || "";
 		let url = this.services.interpolator.interpolate(this.options.loadPath, { lng: language, ns: namespace });
-		// url = require.toUrl(url);
 		if (cacheBuster) {
 			cacheBuster = "?" + cacheBuster;
 			if (url.indexOf(cacheBuster) < 0) {  // requirejs will probably have added the cachebuster

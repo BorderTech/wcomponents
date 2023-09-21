@@ -22,10 +22,9 @@
 		"no-constant-condition": 0
 	},
 	"globals": {
-		"Promise": true,
 		"DataView": true,
-		"intern": true,
-		"globalThis": true
+		"globalThis": true,
+		"global": true
 	},
 	"overrides": [{
 		"files": [ "*.mjs" ],

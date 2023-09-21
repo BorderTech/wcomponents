@@ -2,26 +2,36 @@ import "global-jsdom/register";
 import fs from "fs";
 import {getResoucePath} from "./specUtils.mjs";
 
-let rdf;
+const cache = {};
 function fudgeDimensions() {
 	// Allows you to set style on an element and have it report an offset dimension
 	Object.defineProperties(window.HTMLElement.prototype, {
 		offsetLeft: {
-			get () { return parseFloat(this.style.marginLeft) || 0 }
+			get () {
+				return parseFloat(this.style.marginLeft) || 0;
+			}
 		},
 		offsetTop: {
-			get () { return parseFloat(this.style.marginTop) || 0 }
+			get () {
+				return parseFloat(this.style.marginTop) || 0;
+			}
 		},
 		offsetHeight: {
-			get () { return parseFloat(this.style.height) || 0 }
+			get () {
+				return parseFloat(this.style.height) || 0;
+			}
 		},
 		offsetWidth: {
-			get () { return parseFloat(this.style.width) || 0 }
+			get () {
+				return parseFloat(this.style.width) || 0;
+			}
 		}
 	});
 }
 
-function mockAriaRdf() {
+function mockAjax() {
+	const translationRe = /(translation\/.+json)/;
+
 	// @ts-ignore
 	return import("jasmine-ajax").then(() => {
 		jasmine.Ajax.install();
@@ -30,44 +40,45 @@ function mockAriaRdf() {
 			statusText: 'HTTP/1.1 200 OK',
 			contentType: 'text/xml;charset=UTF-8',
 			get responseText() {
-				if (!rdf) {
+				if (!cache["rdf"]) {
 					const rdfPath = getResoucePath("aria-1.rdf", true);
 					console.log("Mock response with:", rdfPath);
-					rdf = fs.readFileSync(rdfPath, "utf8");
+					cache["rdf"] = fs.readFileSync(rdfPath, "utf8");
 				}
-				return rdf;
+				return cache["rdf"];
 			}
 		});
-	});
-}
 
-function mocki18n() {
-	return import("wc/i18n/i18n.mjs").then(mod => {
-		const i18n = mod.default;
-		const url = new URL(import.meta.url);
-		if (url.protocol === "file:") {
-			return import("i18next-fs-backend").then(({ default: Backend }) => {
-				return i18n.initialize({
-					backend: Backend,
-					options: {
-						backend: {
-							loadPath: 'src/test/resource/translation/{{lng}}.json'
-						}
+		jasmine.Ajax.stubRequest(translationRe).andReturn({
+			status: 200,
+			statusText: 'HTTP/1.1 200 OK',
+			contentType: 'text/json;charset=UTF-8',
+			get responseText() {
+				const request = jasmine.Ajax.requests.mostRecent();
+				const match = RegExp(translationRe).exec(request.url);
+				if (match) {
+					const subPath = match[1];
+					if (!cache[subPath]) {
+						const resourcePath = getResoucePath(subPath, false);
+						console.log("Mock response with:", resourcePath);
+						cache[subPath] = fs.readFileSync(resourcePath, "utf8");
 					}
-				}).then(() => {
-					return i18n.translate('');
-				});
-			});
-		}
-		return i18n.translate('');
+					return cache[subPath];
+				}
+				return "";
+			}
+		});
 	});
 }
 
 beforeAll(() => {
 	fudgeDimensions();
 	window["getJasmineRequireObj"] = global.getJasmineRequireObj = () => jasmine;  // some plugins need this, like jasmine-ajax
-	return Promise.all([mocki18n(), mockAriaRdf()]);
-
+	return mockAjax().then(() => {
+		return import("wc/i18n/i18n.mjs").then(({default: i18n}) => {
+			return i18n.translate('');
+		});
+	});
 });
 
 beforeEach(() => {
