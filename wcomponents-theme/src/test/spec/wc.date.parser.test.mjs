@@ -23,8 +23,7 @@ describe("wc/date/Parser", function() {
 			expect(result[0].day).toBe(now.getDate());
 			expect(result[0].month).toBe((now.getMonth() + 1));
 			expect(result[0].year).toBe(now.getFullYear());
-		},
-		containsMatch = (arr, match) => arr.some(next => next.toXfer() === match);
+		};
 
 	let now, pivotVal, realToday, Parser, pivot, today;
 

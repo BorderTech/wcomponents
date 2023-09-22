@@ -28,7 +28,7 @@ function treeWalkerFilter(element) {
  * @param {Element} clone the element from which we are removing invisible descendants
  */
 function removeInvisible(clone) {
-	const tw = document.createTreeWalker(document.body, NodeFilter.SHOW_ELEMENT, treeWalkerFilter);
+	const tw = clone.ownerDocument.createTreeWalker(clone.ownerDocument.body, NodeFilter.SHOW_ELEMENT, treeWalkerFilter);
 	tw.currentNode = clone;
 	let _el;
 	while ((_el = tw.nextNode())) {

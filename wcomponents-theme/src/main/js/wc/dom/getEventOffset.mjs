@@ -7,12 +7,10 @@
  * @param {MouseEvent} $event The event.
  * @returns {{ X: number, Y: number }} An object encapsulating the offset.
  */
-function getOffset($event) {
-	const result = {
-
+function getOffset({ pageX, pageY, view, clientX, clientY }) {
+	return {
+		X: pageX || (clientX + view.document.documentElement.scrollLeft),
+		Y: pageY || (clientY + view.document.documentElement.scrollTop)
 	};
-	result.X = $event.pageX ? $event.pageX : ($event.clientX + document.documentElement.scrollLeft);
-	result.Y = $event.pageY ? $event.pageY : ($event.clientY + document.documentElement.scrollTop);
-	return result;
 }
 export default getOffset;

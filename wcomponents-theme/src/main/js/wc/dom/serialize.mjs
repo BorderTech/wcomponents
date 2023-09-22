@@ -62,9 +62,14 @@ const instance = {
 	 */
 	serialize: function (nodeList, includeButtons, returnAsObject, filter) {
 		const sb = [];
-
+		let elements;
 		// @ts-ignore
-		const elements = Array.from(nodeList.matches("form") ? nodeList.elements : nodeList);
+		if (nodeList.nodeType === Node.ELEMENT_NODE && nodeList?.matches("form")) {
+			elements = /** @type HTMLFormElement */(nodeList).elements;
+		} else {
+			elements = nodeList;
+		}
+		elements = /** @type HTMLElement[] */(Array.from(elements));
 		for (const next of elements) {
 			try {
 				if (filter && filter(next) === false) {
@@ -76,7 +81,7 @@ const instance = {
 			if (next.nodeType === Node.ELEMENT_NODE && isSuccessfulElement(next, includeButtons)) {
 				let value;
 				if (next.matches("select")) {
-					const selectElement = /** @type HTMLSelectElement */ next;
+					const selectElement = /** @type HTMLSelectElement */(next);
 					let items = Array.from(selectElement.selectedOptions);
 					for (const element of items) {
 						value = getValue(element);
@@ -86,7 +91,7 @@ const instance = {
 						}
 					}
 				} else {
-					const inputElement = /** @type HTMLInputElement */ next;
+					const inputElement = /** @type HTMLInputElement */(next);
 					value = getValue(inputElement);
 					if (value !== null) {
 						// If a control doesn't have a stateB value when the form is submitted, user agents are not required to treat it as a successful control.
@@ -123,8 +128,8 @@ const instance = {
 			let value = input[n];
 			if (Array.isArray(value)) {  // should always be this
 				result[name] = [];
-				for (let i = 0; i < value.length; i++) {
-					let nextVal = decodeURIComponent(value[i]);
+				for (const next of value) {
+					let nextVal = decodeURIComponent(next);
 					result[name].push(nextVal);
 					if (container) {
 						addToDom(container, name, nextVal);
@@ -193,8 +198,8 @@ function deserializeToObject(inStr) {
 		result = {};
 
 	const nvArray = inStr.split(pairSeparator);
-	for (let i = 0; i < nvArray.length; ++i) {
-		let twoDArray = nvArray[i].split(NV_SEPARATOR);
+	for (const next of nvArray) {
+		let twoDArray = next.split(NV_SEPARATOR);
 		let tempName = twoDArray[0];
 		let tempVal = (twoDArray.length === 2) ? twoDArray[1] : null;  // if there is no = then the correct value is null
 		if (result[tempName]) {

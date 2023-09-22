@@ -26,7 +26,7 @@ function buildBitMask(keys) {
 }
 
 /**
- * Encapsulates common usages of {@link module:wc/dom/group}. By default gets selected items in a group. This is
+ * Encapsulates common usages of {@link module:wc/dom/group}. By default, gets selected items in a group. This is
  * changed by passing in an object containing a filter property to select items according to other states (
  * see {@link module:wc/dom/getFilteredGroup.FILTERS} for supported states).
  *

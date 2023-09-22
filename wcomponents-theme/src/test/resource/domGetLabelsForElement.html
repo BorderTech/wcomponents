@@ -1,0 +1,38 @@
+<form id = "form01">
+	<input type="radio" name="sex" id="male" data-testid="male" aria-labelledby="aria-label">
+	<label id="maleLabel" data-testid="maleLabel" for="male">Male</label>
+	<span data-wc-for="male">Extra information</span>
+	<br />
+	<label id="femaleLabel" data-testid="femaleLabel">Female
+		<input type="radio" name="sex" id="female" data-testid="female">
+	</label>
+	<label id="femaleLabel2" data-testid="femaleLabel2" for="female2">Female
+		<input type="radio" name="sex2" id="female2" data-testid="female2">
+	</label>
+	<br />
+	<input type="radio" name="sex" id="yes" data-testid="yes">
+	<label id="yesLabel" data-testid="yesLabel" for="yes">Yes</label>
+	<input type="radio" name="like" id="likeBatman" data-testid="likeBatman">
+	<label id="likeBatmanLabel" data-testid="likeBatmanLabel" for="likeBatman">Like Batman</label>
+	<fieldset id="fs1" data-testid="fs1"><legend id="leg1" data-testid="leg1">of Zenda</legend></fieldset>
+	<!-- fake label 'for' a component in a read-only state -->
+	<span id="rolabel" data-testid="rolabel" data-wc-rofor="rofield">read only</span><span id="rofield" data-testid="rofield">content</span>
+	<label for="wrappedinput_input" id="wrappedlabel" data-testid="wrappedlabel">label</label><span class="wc-input-wrapper" id="wrappedinput" data-testid="wrappedinput"><input type="text" id="wrappedinput_input" data-testid="wrappedinput_input"></span>
+	<span data-wc-rofor="wrappedroinput" id="wrappedrolabel" data-testid="wrappedrolabel">label</span><span class="wc-ro-input" id="wrappedroinput" data-testid="wrappedroinput">value</span>
+	<input type="text" id="unlabelled" data-testid="unlabelled">
+	<label id="aria-label" data-testid="aria-label">Name</label>
+	<input id="aria-text" data-testid="aria-text" type="text" aria-labelledby="aria-label"/>
+	<input id="aria-text2" data-testid="aria-text2" type="text" aria-labelledby="aria-label-none"/>
+	<label id="aria-label3" data-testid="aria-label3">Name</label>
+	<input id="aria-text3" data-testid="aria-text3" type="text" aria-labelledby="  aria-label3   aria-label4   "/>
+	<label id="aria-label4" data-testid="aria-label4">Name</label>
+	<div id="billing" data-testid="billing">Billing Address</div>
+	<div>
+		<div id="name" data-testid="name">Name</div>
+		<input id="aria-input" data-testid="aria-input" type="text" aria-labelledby="billing name"/>
+	</div>
+	<div id="main" data-testid="main" aria-labelledby="foo">
+		<h1 id="foo" data-testid="foo">Heading text</h1>
+		Div text
+	</div>
+</form>

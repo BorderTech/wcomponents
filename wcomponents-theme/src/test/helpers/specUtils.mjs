@@ -44,3 +44,29 @@ export function addFilesToInput(input, fileData) {
 	});
 	return input;
 }
+
+export function fudgeDimensions(view) {
+	// Allows you to set style on an element and have it report an offset dimension
+	Object.defineProperties(view.HTMLElement.prototype, {
+		offsetLeft: {
+			get () {
+				return parseFloat(this.style.marginLeft) || 0;
+			}
+		},
+		offsetTop: {
+			get () {
+				return parseFloat(this.style.marginTop) || 0;
+			}
+		},
+		offsetHeight: {
+			get () {
+				return parseFloat(this.style.height) || 0;
+			}
+		},
+		offsetWidth: {
+			get () {
+				return parseFloat(this.style.width) || 0;
+			}
+		}
+	});
+}

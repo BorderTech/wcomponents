@@ -1,36 +1,10 @@
 import "global-jsdom/register";
 import jsdom from "global-jsdom";
 import fs from "fs";
-import {getResoucePath} from "./specUtils.mjs";
+import {getResoucePath, fudgeDimensions} from "./specUtils.mjs";
 
 const cache = {};
 const reset = jsdom(null, { url: "http://localhost" });
-
-function fudgeDimensions() {
-	// Allows you to set style on an element and have it report an offset dimension
-	Object.defineProperties(window.HTMLElement.prototype, {
-		offsetLeft: {
-			get () {
-				return parseFloat(this.style.marginLeft) || 0;
-			}
-		},
-		offsetTop: {
-			get () {
-				return parseFloat(this.style.marginTop) || 0;
-			}
-		},
-		offsetHeight: {
-			get () {
-				return parseFloat(this.style.height) || 0;
-			}
-		},
-		offsetWidth: {
-			get () {
-				return parseFloat(this.style.width) || 0;
-			}
-		}
-	});
-}
 
 function mockAjax() {
 	const translationRe = /(translation\/.+json)/;
@@ -75,7 +49,7 @@ function mockAjax() {
 }
 
 beforeAll(() => {
-	fudgeDimensions();
+	fudgeDimensions(window);
 	window["getJasmineRequireObj"] = global.getJasmineRequireObj = () => jasmine;  // some plugins need this, like jasmine-ajax
 	return mockAjax().then(() => {
 		return import("wc/i18n/i18n.mjs").then(({default: i18n}) => {

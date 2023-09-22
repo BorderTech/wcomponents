@@ -172,10 +172,10 @@ function convertLabel(element, label, isRO) {
 	let newLabellingElement, input;
 	const parent = label.parentElement;
 	if (isRO) {
-		newLabellingElement = document.createElement("span");
+		newLabellingElement = element.ownerDocument.createElement("span");
 		newLabellingElement.setAttribute("data-wc-rofor", element.id);
 	} else {
-		newLabellingElement = document.createElement("label");
+		newLabellingElement = element.ownerDocument.createElement("label");
 		input = wrappedInput.getInput(element);
 		if (input) { // should always be found
 			newLabellingElement.setAttribute("for", input.id);
@@ -224,14 +224,14 @@ function checkboxLabelPositionHelper(input, label) {
 	}
 
 	if (label.constructor === String) {
-		labelElement = document.createElement("span");
+		labelElement = input.ownerDocument.createElement("span");
 		labelElement.innerHTML = label.trim();
 		labelElement = labelElement.firstElementChild;
 	} else {
 		labelElement = /** @type {HTMLElement} */(label);
 	}
 
-	if (!(labelElement?.nodeType === Node.ELEMENT_NODE)) {
+	if (labelElement?.nodeType !== Node.ELEMENT_NODE) {
 		console.error("label arg must be an Element or HTML String representing a single element");
 		// do not throw, this function is not that important
 		return;
@@ -261,7 +261,7 @@ function checkboxLabelPositionHelper(input, label) {
  * @return {boolean}
  */
 function isActiveWCheckBox(el) {
-	if (!(el?.nodeType === Node.ELEMENT_NODE)) {
+	if (el?.nodeType !== Node.ELEMENT_NODE) {
 		return false;
 	}
 	return el.matches(checkboxWrapperSelector) && !wrappedInput.isReadOnly(el);
@@ -275,7 +275,7 @@ function isActiveWCheckBox(el) {
  */
 function moveLabel(el) {
 	const labels = getLabelsForElement(el, true);
-	if (!(labels && labels.length)) {
+	if (!labels?.length) {
 		return;
 	}
 
@@ -284,7 +284,7 @@ function moveLabel(el) {
 	if (isActiveWCheckBox(el)) {
 		// We want to put the label inside the wrapper but before any diagnostics.
 		// but did we already put it there as part of the ajaxSubscriber?
-		if (el.compareDocumentPosition(label) & document.DOCUMENT_POSITION_CONTAINED_BY) {
+		if (el.compareDocumentPosition(label) & el.ownerDocument.DOCUMENT_POSITION_CONTAINED_BY) {
 			// label already inside the wraspper so do nothing
 			return;
 		}
@@ -319,7 +319,7 @@ function checkRestoreLabel(element) {
 	try {
 		if (missingLabelContent && element.matches(checkboxWrapperSelector)) {
 			const notMissingLabels = getLabelsForElement(element, wrappedInput.isReadOnly(element));
-			if (!(notMissingLabels && notMissingLabels.length)) {
+			if (!notMissingLabels?.length) {
 				// yep, we don't have a label for this check box anymore
 				checkboxLabelPositionHelper(/** @type {HTMLInputElement} */(element), missingLabelContent);
 			}
@@ -344,7 +344,7 @@ function preInsertionAjaxSubscriber(element) {
 		return;
 	}
 	const label = labels[0];
-	if (!(element.compareDocumentPosition(label) & document.DOCUMENT_POSITION_CONTAINED_BY)) {
+	if (!(element.compareDocumentPosition(label) & element.ownerDocument.DOCUMENT_POSITION_CONTAINED_BY)) {
 		// label not inside the wrapper so do nothing
 		return;
 	}

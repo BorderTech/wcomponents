@@ -57,110 +57,84 @@ describe("wc/dom/getStyle", function() {
 	});
 
 	it("testGetUnsetStyleGreen", function() {
-		var result,
-			expectedResult = {r: 255, g: 255, b: 255},
-			element;
-
-		element = document.getElementById("noStyle");
-		result = getStyle(element, "background-color");
+		const expectedResult = {r: 255, g: 255, b: 255};
+		const element = document.getElementById("noStyle");
+		const result = getStyle(element, "background-color");
 
 		expect(result["g"]).toBe(expectedResult.g);
 	});
 
 	it("testGetUnsetStyleBlue", function() {
-		var result,
-			expectedResult = {r: 255, g: 255, b: 255},
-			element;
-
-		element = document.getElementById("noStyle");
-		result = getStyle(element, "background-color");
+		const expectedResult = {r: 255, g: 255, b: 255};
+		const element = document.getElementById("noStyle");
+		const result = getStyle(element, "background-color");
 
 		expect(result["b"]).toBe(expectedResult.b);
 	});
 
 	it("testGetSetStyleRed", function() {
-		var result,
-			expectedResult = {r: 255, g: 0, b: 0},
-			element;
-
-		element = document.getElementById("InlineStyledContainer");
-		result = getStyle(element, "background-color");
+		const expectedResult = {r: 255, g: 0, b: 0};
+		const element = document.getElementById("InlineStyledContainer");
+		const result = getStyle(element, "background-color");
 
 		expect(result["r"]).toBe(expectedResult.r);
 	});
 
 	it("testGetSetStyleGreen", function() {
-		var result,
-			expectedResult = {r: 255, g: 0, b: 0},
-			element;
-
-		element = document.getElementById("InlineStyledContainer");
-		result = getStyle(element, "background-color");
+		const expectedResult = {r: 255, g: 0, b: 0};
+		const element = document.getElementById("InlineStyledContainer");
+		const result = getStyle(element, "background-color");
 
 		expect(result["g"]).toBe(expectedResult.g);
 	});
 
 	it("testGetSetStyleBlue", function() {
-		var result,
-			expectedResult = {r: 255, g: 0, b: 0},
-			element;
-
-		element = document.getElementById("InlineStyledContainer");
-		result = getStyle(element, "background-color");
-
+		const element = document.getElementById("InlineStyledContainer");
+		const result = getStyle(element, "background-color");
+		const expectedResult = {r: 255, g: 0, b: 0};
 		expect(result["b"]).toBe(expectedResult.b);
 	});
 
 	it("testGetStyleTxtboxWhite", function() {
-		var result,
-			element;
-
-		element = document.getElementById("txt1");
-		result = getStyle(element, "background-color");
+		const element = document.getElementById("txt1");
+		const result = getStyle(element, "background-color");
 		helpCompareResults({r: 255, g: 255, b: 255}, result);
 	});
 
 	it("testGetStyleTxtboxBlack", function() {
-		var result,
-			element;
-		element = document.getElementById("txt2");
-		result = getStyle(element, "background-color");
+		const element = document.getElementById("txt2");
+		const result = getStyle(element, "background-color");
 		helpCompareResults({r: 0, g: 0, b: 0}, result);
 	});
 
 	it("testGetStyleTxtboxColor", function() {
-		var result,
-			element;
-		element = document.getElementById("txt3");
-		result = getStyle(element, "background-color");
+		const element = document.getElementById("txt3");
+		const result = getStyle(element, "background-color");
 		helpCompareResults({r: 221, g: 221, b: 221}, result);
 	});
 
 	it("testGetStyle_JSForm", function() {
-		var result,
-			element;
-		element = document.getElementById("txt3");
-		result = getStyle(element, "backgroundColor");
+		const element = document.getElementById("txt3");
+		const result = getStyle(element, "backgroundColor");
 		helpCompareResults({r: 221, g: 221, b: 221}, result);
 	});
 
 	it("testGetStyle_withUnits", function() {
-		var element = getElementNotColour(),
+		const element = getElementNotColour(),
 			result = getStyle(element, "width", true);
-		expect(result).toBe(testWidthWithUnits)
+		expect(result).toBe(testWidthWithUnits);
 	});
 
 	it("testGetStyle_withoutUnits", function() {
-		var element = getElementNotColour(),
+		const element = getElementNotColour(),
 			result = getStyle(element, "width");
-		expect(result).toBe(testWidthNoUnits)
+		expect(result).toBe(testWidthNoUnits);
 	});
 
 	it("testGetStyle_NumberNotAColour", function() {
-		var element = getElementNotColour(),
-			result;
+		const element = getElementNotColour();
 		element.style.opacity = "0.9";
-		result = getStyle(element, "opacity", false, true);
+		const result = getStyle(element, "opacity", false, true);
 
 		// @ts-ignore
 		expect(Math.round(parseFloat(result) * 100)).toBe(90);

@@ -23,7 +23,7 @@ describe("wc/debounce", () => {
 			setTimeout(() => {
 				expect(testObj.testVal).toBe(total - 1);
 				win();
-				}, delay * 2);
+			}, delay * 2);
 		});
 	});
 });

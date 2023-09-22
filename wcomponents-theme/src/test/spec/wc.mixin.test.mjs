@@ -32,43 +32,43 @@ describe("wc/mixin", function() {
 
 	it("can handle a missing target", () => {
 		const source = {
-			foo: "bar",
-			num: 7,
-			sheep: {
-				species: "ovine",
-				noise: "baa",
-				flavour: "delicious"
-			}
-		},
-		actual = mixin(source);
+				foo: "bar",
+				num: 7,
+				sheep: {
+					species: "ovine",
+					noise: "baa",
+					flavour: "delicious"
+				}
+			},
+			actual = mixin(source);
 		expect(actual).toEqual(source);
 	});
 
 	it("doesn't return source when there is no target", () => {
 		const source = {
-			foo: "bar",
-			num: 7,
-			sheep: {
-				species: "ovine",
-				noise: "baa",
-				flavour: "delicious"
-			}
-		},
-		actual = mixin(source);
+				foo: "bar",
+				num: 7,
+				sheep: {
+					species: "ovine",
+					noise: "baa",
+					flavour: "delicious"
+				}
+			},
+			actual = mixin(source);
 		expect(actual).not.toBe(source);
 	});
 
 	it("returns target unharmed when there is no source", () => {
 		const target = {
-			foo: "bar",
-			num: 7,
-			sheep: {
-				species: "ovine",
-				noise: "baa",
-				flavour: "delicious"
-			}
-		},
-		actual = mixin(null, target);
+				foo: "bar",
+				num: 7,
+				sheep: {
+					species: "ovine",
+					noise: "baa",
+					flavour: "delicious"
+				}
+			},
+			actual = mixin(null, target);
 		expect(actual).toBe(target);
 	});
 
@@ -82,27 +82,27 @@ describe("wc/mixin", function() {
 
 	it("Honors the shallow mixin flag", () => {
 		const source = {
-			foo: "bar",
-			sheep: {
-				species: "ovine",
-				flavour: "delicious"
-			}
-		},
-		target = {
-			foo: "kung",
-			num: 7,
-			sheep: {
-				noise: "maaaa"
-			}
-		},
-		expected = {
-			foo: "bar",
-			sheep: {
-				species: "ovine",
-				flavour: "delicious"
+				foo: "bar",
+				sheep: {
+					species: "ovine",
+					flavour: "delicious"
+				}
 			},
-			num: 7
-		};
+			target = {
+				foo: "kung",
+				num: 7,
+				sheep: {
+					noise: "maaaa"
+				}
+			},
+			expected = {
+				foo: "bar",
+				sheep: {
+					species: "ovine",
+					flavour: "delicious"
+				},
+				num: 7
+			};
 		expect(mixin(source, target, true)).toEqual(expected);
 	});
 });

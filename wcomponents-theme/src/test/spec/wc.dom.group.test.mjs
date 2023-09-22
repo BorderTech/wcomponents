@@ -48,7 +48,7 @@ describe("getFilteredGroup", () => {
 
 
 	beforeAll(() => {
-		return JSDOM.fromFile(getResoucePath("domUsefulDom.html", false)).then((dom) => {
+		return JSDOM.fromFile(getResoucePath("domUsefulDom.html", false)).then(dom => {
 			testHolder = dom.window.document.body;
 		});
 	});

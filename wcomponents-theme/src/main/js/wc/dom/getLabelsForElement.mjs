@@ -61,7 +61,7 @@ function doLabelQuery(element, labelArr, readOnly) {
 			const wrappedId = wrappedInput.getWrappedId(element);
 			query.push(labelForSelector(wrappedId));
 		}
-		const labels = /** @type {NodeListOf<HTMLElement>} */(document.querySelectorAll(query.join()));
+		const labels = /** @type {NodeListOf<HTMLElement>} */(element.ownerDocument.querySelectorAll(query.join()));
 		result = result.concat(Array.from(labels));
 	}
 	return result;
@@ -103,7 +103,7 @@ function getAriaLabelledElements(element) {
 	if (labelIds) {
 		labelIds.split(/\s+/).forEach(function(labelId) {
 			if (labelId) {
-				const lblElement = document.getElementById(labelId);
+				const lblElement = element.ownerDocument.getElementById(labelId);
 				if (lblElement) {
 					ariaLabels.push(lblElement);
 				}

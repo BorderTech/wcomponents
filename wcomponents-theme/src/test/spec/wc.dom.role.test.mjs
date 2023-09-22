@@ -37,7 +37,7 @@ describe("wc/debounce", () => {
 	});
 
 	it("testGet_role", function() {
-		expect(controller.get(document.getElementById(roleId))).toBe(testRole)
+		expect(controller.get(document.getElementById(roleId))).toBe(testRole);
 	});
 
 	it("testGet_implied", function() {

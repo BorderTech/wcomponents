@@ -26,10 +26,13 @@ describe("wc/dom/cbrShedPublisher", () => {
 
 			element = domTesting.getByTestId(testHolder, (otherId || id));
 			expect(element).withContext("no element to click").toBeTruthy();
+
+			const timer = setTimeout(() => win(false), 50);
 			event.fire(element, type);
-			setTimeout(() => win(false), 50);
+
 
 			function subscriber() {
+				clearTimeout(timer);
 				win(true);
 			}
 		});
