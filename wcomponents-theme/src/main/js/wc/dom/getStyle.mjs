@@ -28,7 +28,7 @@ function getStyle(element, cssRule, includeUnits, notAColor) {
 			cssRule = (cssRule.replace(jsStyleNameRe, "$1-$2$3")).toLowerCase();
 		}
 
-		result = document.defaultView.getComputedStyle(element, "").getPropertyValue(cssRule);
+		result = element.ownerDocument.defaultView.getComputedStyle(element, "").getPropertyValue(cssRule);
 
 		if (result && isNaN(Number(result))) {
 			const testRe = /^\d+[A-Za-z]+$/;

@@ -78,10 +78,10 @@ wrappedInput.get = function (container, inclReadOnly) {
 	const selector = inclReadOnly ? widgetsSelector : wrapperSelector;
 	const isInput = container.matches(selector);
 	if (isInput) {
-		return [container];
+		return /** @type HTMLElement[] */([container]);
 	}
 	const result = container.querySelectorAll(selector);
-	return /** @type {HTMLElement[]} */ Array.from(result);
+	return /** @type HTMLElement[] */(Array.from(result));
 };
 
 /**

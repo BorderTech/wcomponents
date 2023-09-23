@@ -5,12 +5,13 @@ import getBox from "wc/dom/getBox.mjs";
  *
  * @function module:wc/dom/getViewportSize
  * @param {Boolean} [withoutScrollbars] If true then attempt to account for the scroll bar width.
+ * @param {Window} [view] Optionally provide the window to use
  * @returns {{ width: number, height: number }} The viewport size, in pixels, encapsulated in an object.
  */
-export default function(withoutScrollbars) {
-	const DOCUMENT_ELEMENT = document.documentElement,
-		SELF = globalThis.self,
-		thisViewportView = globalThis.top.visualViewport,
+export default function(withoutScrollbars, view=window) {
+	const DOCUMENT_ELEMENT = view.document.documentElement,
+		SELF = view.self,
+		thisViewportView = view.top.visualViewport,
 		WIDTH = "width",
 		HEIGHT = "height";  // to improve compression
 	const result = {
@@ -26,13 +27,13 @@ export default function(withoutScrollbars) {
 	} else if (typeof SELF.innerWidth !== "undefined") {
 		result[WIDTH] = SELF.innerWidth;
 		result[HEIGHT] = SELF.innerHeight;
-	} else if (document.documentElement && document.documentElement.getBoundingClientRect) {
+	} else if (DOCUMENT_ELEMENT?.getBoundingClientRect) {
 		const box = getBox(DOCUMENT_ELEMENT);
 		result[WIDTH] = box[WIDTH];
 		result[HEIGHT] = box[HEIGHT];
 	} else {
-		result[WIDTH] = DOCUMENT_ELEMENT.clientWidth || document.body.clientWidth || 0;
-		result[HEIGHT] = DOCUMENT_ELEMENT.clientHeight || document.body.clientHeight || 0;
+		result[WIDTH] = DOCUMENT_ELEMENT.clientWidth || view.document.body.clientWidth || 0;
+		result[HEIGHT] = DOCUMENT_ELEMENT.clientHeight || view.document.body.clientHeight || 0;
 	}
 	return result;
 }

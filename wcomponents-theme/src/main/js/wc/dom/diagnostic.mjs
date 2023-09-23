@@ -235,7 +235,7 @@ const diagnostic = {
 
 		const targetId = diag.getAttribute("data-wc-dfor");
 		if (targetId) {
-			return document.getElementById(targetId);
+			return diag.ownerDocument.getElementById(targetId);
 		}
 		return null;
 	}

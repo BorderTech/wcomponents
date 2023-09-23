@@ -221,7 +221,7 @@ function deserializeToObject(inStr) {
  * @param {String} value The decoded component values.
  */
 function addToDom(container, name, value) {
-	const tempField = document.createElement("input");
+	const tempField = container.ownerDocument.createElement("input");
 	tempField.name = name;
 	tempField.type = "hidden";
 	tempField.value = value;
