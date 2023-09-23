@@ -15,6 +15,15 @@ import Observer from "wc/Observer.mjs";
 import uid from "wc/dom/uid.mjs";
 import shed from "wc/dom/shed.mjs";
 
+/**
+ * @typedef {Object|function} wc/dom/formUpdateManager~subscriber
+ * An object a subscriber to FormUpdateManager (an object which has a writeState method)
+ *    OR simple the writeState method itself.
+ * @property {function} [writeState] The function that will be notified by FormUpdateManager if
+ *    subscriber is an object. The subscriber function MUST be present at "publish" time, but need not be preset
+ *    at "subscribe" time (i.e	. when subscribe() is called).
+ */
+
 const STATE_CONTAINER_SUFFIX = "_state_container",
 	SUB_METHOD = "writeState",
 	INITED_ATTR = "fuminited",
@@ -30,13 +39,8 @@ const formUpdateManager = {
 	/**
 	 * Subscribe to formUpdateManager so a module can take care of its own state writing needs.
 	 *
-	 * @see {@link module:wc/Observer#subscribe}
-	 * @function module:wc/dom/formUpdateManager.subscribe
-	 * @param {Object} subscriber An object a subscriber to FormUpdateManager (an object which has a writeState method)
-	 *    OR simple the writeState method itself.
-	 * @param {Function} [subscriber.writeState] The function that will be notified by FormUpdateManager if
-	 *    subscriber is an object. The subscriber function MUST be present at "publish" time, but need not be preset
-	 *    at "subscribe" time (i.e. when subscribe() is called).
+	 * @param {module:wc/dom/formUpdateManager~subscriber} subscriber An object a subscriber to FormUpdateManager
+	 * (an object which has a writeState method) OR simple the writeState method itself.
 	 * @returns {Function} The subscriber function is returned unchanged.
 	 */
 	subscribe: function(subscriber) {
@@ -56,11 +60,11 @@ const formUpdateManager = {
 		return _subscribe(subscriber);
 	},
 	/**
-	 * Remove a subscriber to formUpdateManager. You probably don't want to use this but it is vital for sane unit
+	 * Remove a subscriber to formUpdateManager. You probably don't want to use this, but it is vital for sane unit
 	 * testing because subscribers are global.
 	 *
 	 * @function module:wc/dom/formUpdateManager.unsubscribe
-	 * @param {Function} subscriber The subscriber function to unsubscribe.
+	 * @param {module:wc/dom/formUpdateManager~subscriber} subscriber The subscriber function to unsubscribe.
 	 */
 	unsubscribe: function(subscriber) {
 		if (observer) {

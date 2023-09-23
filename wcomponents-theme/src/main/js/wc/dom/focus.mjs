@@ -82,6 +82,7 @@ const focusInstance = {
 	 */
 	setFocusRequest: function(element, callback) {
 		if (element?.nodeType === Node.ELEMENT_NODE) {
+			const { ownerDocument } = element;
 			focusElementId = (element.id || (element.id = uid()));  // instance variable
 			if (timeout) {
 				timers.clearTimeout(timeout);
@@ -90,10 +91,10 @@ const focusInstance = {
 			timeout = timers.setTimeout(function() {
 				try {
 					if (focusElementId) {
-						const focusElement = document.getElementById(focusElementId);
+						const focusElement = ownerDocument.getElementById(focusElementId);
 						if (focusElement) {
 							setFocusCallback = callbackFactory(focusElement, callback);
-							if (document.activeElement !== focusElement) {  // do not refocus
+							if (ownerDocument.activeElement !== focusElement) {  // do not refocus
 								focusElement.focus();
 							}
 							setFocusCallback();
@@ -126,8 +127,8 @@ const focusInstance = {
 	 */
 	focusFirstTabstop: function (container, callback, reverse) {
 		let result;
-		const tw = document.createTreeWalker(container, NodeFilter.SHOW_ELEMENT, acceptNode);  // NOTE: yes passing a function rather than a NodeFilter object is non-standard but IE's treewalker is broken and others are happy with this
-		let next = reverse ? tw.lastChild() : tw.firstChild();
+		const tw = container.ownerDocument.createTreeWalker(container, NodeFilter.SHOW_ELEMENT, acceptNode);  // NOTE: yes passing a function rather than a NodeFilter object is non-standard but IE's treewalker is broken and others are happy with this
+		let next = /** @type HTMLElement */(reverse ? tw.lastChild() : tw.firstChild());
 		do {
 			try {
 				setFocusCallback = callbackFactory(next, callback);
@@ -139,7 +140,7 @@ const focusInstance = {
 				result = null;
 			}
 		}
-		while ((next = reverse ? tw.previousNode() : tw.nextNode()));
+		while ((next = /** @type HTMLElement */(reverse ? tw.previousNode() : tw.nextNode())));
 
 		return result;
 	},
@@ -178,7 +179,7 @@ const focusInstance = {
 		}
 
 		if (!ignoreSelf && this.canFocus(element)) {
-			return element;
+			return /** @type HTMLElement */ (element);
 		}
 		const filter = node => {
 			/** @type {Number} */
@@ -188,10 +189,10 @@ const focusInstance = {
 			}
 			return result;
 		};
-
-		const tw = document.createTreeWalker(document.body, NodeFilter.SHOW_ELEMENT, filter);
+		const { ownerDocument } = element;
+		const tw = ownerDocument.createTreeWalker(ownerDocument.body, NodeFilter.SHOW_ELEMENT, filter);
 		tw.currentNode = element;
-		return tw.parentNode();
+		return /** @type HTMLElement */ (tw.parentNode());
 	}
 };
 
@@ -244,7 +245,7 @@ function standardTabstopFilter(element, instance) {
 		if (shed.isDisabled(element) || shed.isHidden(element)) {
 			result = REJECT;
 		} else if (element.matches("input[type='radio']") && !shed.isSelected(element)) {
-			if (getFilteredGroup(element).length) {
+			if (/** @type HTMLElement[] */(getFilteredGroup(element)).length) {
 				result = REJECT;
 			} else {
 				result = ACCEPT;
@@ -337,14 +338,15 @@ function callbackFactory(element, callback) {
  * Treewalker filter for focusFirstTabstop.
  * @function
  * @private
- * @param {Node} node The node to test.
+ * @param {Element} node The node to test.
  * @returns {number} One of NodeFilter.FILTER_ACCEPT, NodeFilter.FILTER_REJECT or NodeFilter.FILTER_SKIP.
  */
 function acceptNode(node) {
 	/** @type {Number} */
 	let result = SKIP;
 	if (focusInstance.isTabstop(node) && focusInstance.canFocus(node)) {
-		if (node !== document.activeElement) {
+		const {ownerDocument} = node;
+		if (node !== ownerDocument.activeElement) {
 			result = ACCEPT;
 		} else {
 			result = REJECT;

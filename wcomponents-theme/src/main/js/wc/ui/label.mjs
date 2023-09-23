@@ -391,7 +391,7 @@ function ajaxSubscriber(element) {
 	});
 }
 
-initialise.register({
+export const initialiser = {
 	preInit: () => instance.moveLabels,
 
 	/**
@@ -409,7 +409,9 @@ initialise.register({
 		processResponse.subscribe(preInsertionAjaxSubscriber);
 		processResponse.subscribe(ajaxSubscriber, true);
 	}
-});
+};
+
+initialise.register(initialiser);
 
 /**
  * A module which provides functionality peculiar to control labelling elements (labels and label-surrogates). This

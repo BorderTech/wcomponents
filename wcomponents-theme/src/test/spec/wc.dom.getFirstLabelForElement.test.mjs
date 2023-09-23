@@ -1,13 +1,12 @@
 import getFirstLabelForElement from "wc/ui/getFirstLabelForElement.mjs";
-import {JSDOM} from "jsdom";
-import {getResoucePath} from "../helpers/specUtils.mjs";
+import {setUpExternalHTML} from "../helpers/specUtils.mjs";
 import domTesting from "@testing-library/dom";
 
 describe("wc/ui/getFirstLabelForElement", () => {
 	let testHolder;
 
 	beforeAll(() => {
-		return JSDOM.fromFile(getResoucePath("domTest.html", false)).then(dom => {
+		return setUpExternalHTML("domTest.html").then(dom => {
 			testHolder = dom.window.document.body;
 		});
 	});

@@ -1,6 +1,5 @@
 import $group from "wc/dom/group.mjs";
-import {JSDOM} from "jsdom";
-import {getResoucePath} from "../helpers/specUtils.mjs";
+import {setUpExternalHTML} from "../helpers/specUtils.mjs";
 
 describe("getFilteredGroup", () => {
 	let testHolder;
@@ -48,7 +47,7 @@ describe("getFilteredGroup", () => {
 
 
 	beforeAll(() => {
-		return JSDOM.fromFile(getResoucePath("domUsefulDom.html", false)).then(dom => {
+		return setUpExternalHTML("domUsefulDom.html").then(dom => {
 			testHolder = dom.window.document.body;
 		});
 	});

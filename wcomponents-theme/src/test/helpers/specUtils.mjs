@@ -1,18 +1,21 @@
 import {fileURLToPath} from "url";
+import {JSDOM} from "jsdom";
 
 /**
  * To help with type checking, get a select element from here.
  * @param {string} id
+ * @param {HTMLDocument} [doc]
  * @returns {HTMLSelectElement}
  */
-export const getSelect = (id) => /** @type {HTMLSelectElement} */(document.getElementById(id));
+export const getSelect = (id, doc = document) => /** @type {HTMLSelectElement} */(doc.getElementById(id));
 
 /**
  * To help with type checking, get an input element from here.
  * @param {string} id
+ * @param {HTMLDocument} [doc]
  * @returns {HTMLInputElement}
  */
-export const getInput = (id) => /** @type {HTMLInputElement} */(document.getElementById(id));
+export const getInput = (id, doc = document) => /** @type {HTMLInputElement} */(doc.getElementById(id));
 
 /**
  * Gets the path to src/test/resource or src/main/resource
@@ -45,6 +48,10 @@ export function addFilesToInput(input, fileData) {
 	return input;
 }
 
+/**
+ * JSDom doesn't report offset dimensions, this is a workaround.
+ * @param view A Window
+ */
 export function fudgeDimensions(view) {
 	// Allows you to set style on an element and have it report an offset dimension
 	Object.defineProperties(view.HTMLElement.prototype, {
@@ -68,5 +75,17 @@ export function fudgeDimensions(view) {
 				return parseFloat(this.style.width) || 0;
 			}
 		}
+	});
+}
+
+/**
+ *
+ * @param {string} urlResource The HTML file to load from test/resource
+ * @return {Promise} resolved with a DOM loaded from the HTML
+ */
+export function setUpExternalHTML(urlResource) {
+	return JSDOM.fromFile(getResoucePath(urlResource, false)).then(dom => {
+		fudgeDimensions(dom.window);
+		return dom;
 	});
 }

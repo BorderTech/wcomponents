@@ -1,13 +1,12 @@
 import getLabelsForElement from "wc/dom/getLabelsForElement.mjs";
-import {JSDOM} from "jsdom";
-import {getResoucePath} from "../helpers/specUtils.mjs";
+import {setUpExternalHTML} from "../helpers/specUtils.mjs";
 import domTesting from "@testing-library/dom";
 
 describe("wc/dom/getLabelsForElement", () => {
 	let testHolder;
 
 	beforeAll(() => {
-		return JSDOM.fromFile(getResoucePath("domGetLabelsForElement.html", false)).then(dom => {
+		return setUpExternalHTML("domGetLabelsForElement.html").then(dom => {
 			testHolder = dom.window.document.body;
 		});
 	});

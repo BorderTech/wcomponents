@@ -163,7 +163,7 @@ function queueGo() {
 	if (queue) {
 		timers.clearTimeout(queue);
 	}
-	queue = timers.setTimeout(instance.go, 100, globalThis.document.body);
+	queue = timers.setTimeout(instance.go, 100, document.body);
 }
 
 /**

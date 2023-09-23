@@ -1,15 +1,12 @@
 import getFilteredGroup from "wc/dom/getFilteredGroup.mjs";
-import {JSDOM} from "jsdom";
-import {getResoucePath} from "../helpers/specUtils.mjs";
+import {setUpExternalHTML} from "../helpers/specUtils.mjs";
 import domTesting from "@testing-library/dom";
-import {fudgeDimensions} from "../helpers/specUtils.mjs";
 
 describe("wc/ui/getFirstLabelForElement", () => {
 	let testHolder;
 
 	beforeAll(() => {
-		return JSDOM.fromFile(getResoucePath("domUsefulDom.html", false)).then(dom => {
-			fudgeDimensions(dom.window);
+		return setUpExternalHTML("domUsefulDom.html").then(dom => {
 			testHolder = dom.window.document.body;
 		});
 	});
