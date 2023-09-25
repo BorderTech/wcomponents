@@ -26,10 +26,25 @@ function mockAjax() {
 			}
 		});
 
+		jasmine.Ajax.stubRequest(/.*\/note.xml.*/).andReturn({
+			status: 200,
+			statusText: 'HTTP/1.1 200 OK',
+			contentType: 'text/xml',
+			get responseText() {
+				const key = "note.xml";
+				if (!cache[key]) {
+					const resourcePath = getResoucePath("note.xml", false);
+					console.log("Mock response with:", resourcePath);
+					cache[key] = fs.readFileSync(resourcePath, "utf8");
+				}
+				return cache[key];
+			}
+		});
+
 		jasmine.Ajax.stubRequest(translationRe).andReturn({
 			status: 200,
 			statusText: 'HTTP/1.1 200 OK',
-			contentType: 'text/json;charset=UTF-8',
+			contentType: 'text/json',
 			get responseText() {
 				const request = jasmine.Ajax.requests.mostRecent();
 				const match = RegExp(translationRe).exec(request.url);

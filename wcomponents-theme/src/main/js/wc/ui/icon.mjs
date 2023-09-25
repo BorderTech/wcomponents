@@ -14,7 +14,7 @@ const instance = {
 	 * @public
 	 * @param {Element} element The element which may contain an icon. If there is no icon then this function does nothing.
 	 * @param {String} add the icon className to add
-	 * @param {String} remove the icon className to remove
+	 * @param {String} [remove] the icon className to remove
 	 */
 	change: function(element, add, remove) {
 		if (!(add || remove)) {

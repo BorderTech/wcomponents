@@ -31,7 +31,7 @@ import mixin from "wc/mixin.mjs";
 
 /**
  *
- * @param {XMLHttpRequestResponseType} response An XHR response.
+ * @param {{responseText: string, statusText: string, status: number }} response An XHR response.
  * @returns {string} An error message, in order of preference:
  * - A custom message specific to the status code, provided in the module configuration
  * - A custom default error message

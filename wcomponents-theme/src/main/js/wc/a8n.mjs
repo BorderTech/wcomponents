@@ -75,7 +75,7 @@ function waitForFixes() {
  */
 function pendingUpdated(pending, flag) {
 	if (timer) {
-		globalThis.clearTimeout(timer);
+		clearTimeout(timer);
 	}
 	if (flag !== null) {
 		if (pending) {
@@ -94,14 +94,14 @@ function checkNotify() {
 		const currentState = instance.isReady();
 		if (isReady !== currentState) {
 			if (timer) {
-				globalThis.clearTimeout(timer);
+				clearTimeout(timer);
 			}
 			const notify = stateChangeFactory(element, instance.attr);
 			if (!isReady) {  // If the DOM is busy we want to notify ASAP
 				notify();
 			} else {  // If the DOM is ready notify "soon" in case another action is about to start
-				const delay = globalThis.localStorage["wc.a8n.delay"] || 251;  // String should be ok without casting...
-				timer = globalThis.setTimeout(notify, delay);
+				const delay = localStorage["wc.a8n.delay"] || 251;  // String should be ok without casting...
+				timer = setTimeout(notify, delay);
 			}
 		}
 	}
@@ -163,7 +163,7 @@ function unsubscribe(subscriber) {
 function onReady(callback) {
 	if (callback) {
 		if (instance.isReady()) {
-			globalThis.setTimeout(callback, 0);
+			setTimeout(callback, 0);
 		} else {
 			if (!observer) {
 				observer = new Observer();

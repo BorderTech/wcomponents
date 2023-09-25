@@ -141,8 +141,8 @@ function getForm(element) {
  * @constructor
  * @alias module:wc/ajax/Trigger
  * @param {module:wc/ajax/Trigger~TriggerConfig} obj The configuration object.
- * @param {Function} onsuccess The function to which the AJAX response payload will be passed.
- * @param {Function} onerror The function which will be called if there is an error communicating with the server.
+ * @param {Function} [onsuccess] The function to which the AJAX response payload will be passed.
+ * @param {Function} [onerror] The function which will be called if there is an error communicating with the server.
  */
 function Trigger(obj, onsuccess, onerror) {
 	if (obj.id) {

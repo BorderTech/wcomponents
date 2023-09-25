@@ -69,7 +69,8 @@ function getConfig() {
 			console.error(ex);
 		}
 	}
-	return {};
+	conf = {};
+	return conf;
 }
 
 export default instance;

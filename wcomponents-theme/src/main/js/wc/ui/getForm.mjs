@@ -12,8 +12,8 @@ export default function(el, forceAncestor) {
 		}
 		return null;
 	}
-	if (el.form) {
-		return el.form;
+	if (el["form"]) {
+		return el["form"];
 	}
 	return el.closest("form");
 }
