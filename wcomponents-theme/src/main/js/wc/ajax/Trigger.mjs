@@ -86,7 +86,7 @@ initialise.addInitRoutine(function() {
  * @function addToQueryString
  * @private
  * @param {String} [queryString] The existing query string ("" is OK).
- * @param {String} newArgs The String to add to the query string.
+ * @param {String} [newArgs] The String to add to the query string.
  * @returns {String} An amended queryString
  */
 function addToQueryString(queryString, newArgs) {
@@ -112,17 +112,19 @@ function addToQueryString(queryString, newArgs) {
  * @returns {Element} The element which is expected to fire the trigger.
  */
 function getElement(trigger) {
-	let result, element;
 	if (trigger.id) {
-		if ((element = document.getElementById(trigger.id))) {
-			result = element;
-		} else if (trigger.alias && (element = document.getElementById(trigger.alias))) {
-			result = element;
-		} else if (trigger.loads.length && (element = document.getElementById(trigger.loads[0]))) {
-			result = element;
+		let element = document.getElementById(trigger.id);
+		if (element) {
+			return element;
 		}
+		element = trigger.alias ? document.getElementById(trigger.alias) : null;
+		if (element) {
+			return element;
+		}
+		element = trigger.loads.length ? document.getElementById(trigger.loads[0]) : null;
+		return element;
 	}
-	return result;
+	return null;
 }
 
 /**
@@ -282,7 +284,7 @@ function notify(trigger, groupName, cbresult) {
  * @function
  * @public
  * @static
- * @param {(module:wc/ajax/Trigger|Element)} trigger The trigger instance or element to use as a reference point
+ * @param {module:wc/ajax/Trigger|Element} trigger The trigger instance or element to use as a reference point
  *	 for finding the ajax URL.
  * @returns {String} The url.
  */
@@ -300,7 +302,7 @@ Trigger.getUrl = function(trigger) {
 	 *
 	 * @function
 	 * @private
-	 * @param {(module:wc/ajax/Trigger|Element)} trig An instance of Trigger or a DOM Element.
+	 * @param {module:wc/ajax/Trigger|Element} trig An instance of Trigger or a DOM Element.
 	 * @returns {String} The AJAX URL associated with the trigger.
 	 */
 	function getUrlHtml5(trig) {
@@ -511,7 +513,7 @@ function getFirePromise(trigger) {
 
 /**
  * Returns the data that should be sent in the AJAX request. Includes the following:
- *  - Serialised form data.
+ *  - Serialized form data.
  *  - Information about the DOM element related to the trigger (if a DOM element exists)
  *  - Information about the instance of the Trigger class that fired the AJAX request.
  *
@@ -544,8 +546,8 @@ Trigger.prototype.getParams = function() {
 			result = addToQueryString(result, this.getData);
 		}
 
-		if (this._triggerParams) {
-			result = addToQueryString(result, this._triggerParams);
+		if (this["_triggerParams"]) {
+			result = addToQueryString(result, this["_triggerParams"]);
 		}
 
 		let triggerId;
@@ -576,18 +578,18 @@ Trigger.prototype.getParams = function() {
  * @returns {String} The serialized parameters or "".
  */
 function getSubmitButtonParams(element) {
-	let params = "", triggerName = element.name;
+	let params = "", triggerName = element["name"];
 	if (triggerName) {
 		triggerName = encodeURIComponent(triggerName);
 		if (element.matches("button[type='submit']")) {
 			params = triggerName + "=";
-			params += element.value;
+			params += /** @type HTMLButtonElement */(element).value;
 		} else if (element.matches("input[type='submit']") || element.matches("input[type='image']")) {
 			params = triggerName + "=";
 			if (element.hasAttribute && !element.hasAttribute("value")) {
 				params += EMPTY_VALUE;
 			} else {
-				params += element.value;
+				params += element["value"];
 			}
 		}
 	}
@@ -595,9 +597,9 @@ function getSubmitButtonParams(element) {
 }
 
 /**
- * Serialise the form (or region of the form if set).
- * If trigger is linked to a DOM element the formcwill be the one the element "belongs to";
- *    otherwise too bad, so sad, you don't get a serializedcform in the request payload.
+ * Serialize the form (or region of the form if set).
+ * If trigger is linked to a DOM element the form will be the one the element "belongs to";
+ *    otherwise too bad, so sad, you don't get a serialized form in the request payload.
  * @function
  * @private
  * @param {Element} element The trigger element.
@@ -607,6 +609,16 @@ function getSubmitButtonParams(element) {
 function getFormParams(element, instance) {
 	let result = "";
 	const form = getForm(element);
+	/**
+	 * @param {Element} context
+	 * @param {string} qs
+	 * @return {string}
+	 */
+	const serializeElements = (context, qs) => {
+		const elements = context.querySelectorAll(qs);
+		return /** @type String */(serialize.serialize(elements));
+	};
+
 	if (form) {
 		let region;
 		if (typeof instance.formRegion !== UNDEFINED) {
@@ -615,13 +627,13 @@ function getFormParams(element, instance) {
 		if (region) {
 			formUpdateManager.update(form, region);
 			const stateContainer = formUpdateManager.getStateContainer(form);
-			result = addToQueryString(result, serialize.serialize(region.querySelectorAll("input")));
-			result = addToQueryString(result, serialize.serialize(region.querySelectorAll("select")));
-			result = addToQueryString(result, serialize.serialize(region.querySelectorAll("textarea")));
-			result = addToQueryString(result, serialize.serialize(stateContainer.querySelectorAll("input")));
+			result = addToQueryString(result, serializeElements(region, "input"));
+			result = addToQueryString(result, serializeElements(region, "select"));
+			result = addToQueryString(result, serializeElements(region, "textarea"));
+			result = addToQueryString(result, serializeElements(stateContainer, "input"));
 		} else {
 			formUpdateManager.update(form);
-			result = serialize.serialize(form);
+			result = /** @type String */(serialize.serialize(form));
 		}
 	} else {
 		console.warn("Could not find form");
@@ -685,7 +697,7 @@ function Request(trigger) {
 	this.callback = function(response) {
 		// response would be null if the XML has already been transformed to HTML on the server
 		// or in the case of IE it will be an "empty" XML DOM.
-		const payload = (response?.documentElement) ? response : this.responseText;
+		const payload = (response?.documentElement) ? response : this["responseText"];
 		handleResponse($self, payload, trigger, false);
 	};
 

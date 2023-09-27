@@ -12,7 +12,7 @@ const errorUtils = {
 		ajaxAttr: "data-wc-ajaxalias",
 		replaceElement: function(element) {
 			// not all elements can contain an error message (e.g. img, iframe, input) so replace it
-			const errorElement = document.createElement("span");
+			const errorElement = element.ownerDocument.createElement("span");
 			element.parentNode.replaceChild(errorElement, element);
 			errorElement.id = element.id;
 			errorElement.className = "wc_magic";  // if this happened to be lazy, let it be so once more
@@ -144,8 +144,6 @@ const instance = {
 		}
 	}
 };
-
-
 
 function processResponseHtml(documentFragment, trigger) {
 	const onError = function() {
@@ -343,14 +341,15 @@ function replaceElement(element, content) {
 function replaceIn(element, content) {
 	let child,
 		result;
-	const wrapper = document.createElement("div");
+	const wrapper = element.ownerDocument.createElement("div");
 
-	while ((child = content.firstChild)) {
+	while ((child = content.firstElementChild)) {
 		let _element;
 		wrapper.appendChild(child);
 		let id = child.id;
 		if (id) {
-			if ((_element = document.getElementById(id))) {
+			_element = element.ownerDocument.getElementById(id);
+			if (_element) {
 				result = replaceElement(_element, wrapper);
 			} else {
 				result = appendElementContent(element, wrapper);
@@ -359,7 +358,7 @@ function replaceIn(element, content) {
 			result = appendElementContent(element, wrapper);
 		}
 
-		if (wrapper.firstChild) { // should have been removed.
+		if (wrapper.firstChild) {  // should have been removed.
 			wrapper.removeChild(wrapper.firstChild);
 		}
 	}

@@ -9,7 +9,7 @@
 		"module": "NodeNext",
 		"moduleResolution": "NodeNext",
 		"esModuleInterop": true,
-		"types": ["node", "jasmine", "@testing-library/jasmine-dom", "jasmine-ajax"],
+		"types": ["node", "jasmine", "dom", "@testing-library/jasmine-dom", "jasmine-ajax"],
 		"typeRoots": [
 			"node_modules/@types"
 		],

@@ -9,10 +9,10 @@ export default {
 	 * @returns {Boolean} true if the key is either ALT, CTRL, META or SHIFT
 	 */
 	isMeta: function(key) {
-		let keyName = key;
-		if (keyName) {
+		if (key) {
 			const metas = ["Alt", "Control", "Meta", "Shift"];
-			keyName = keyName.key || keyName.code || key;
+			/** @type string */
+			const keyName = key["key"] || key["code"] || key;
 			return metas.some(meta => keyName.startsWith(meta));
 		}
 		return false;

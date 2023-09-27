@@ -825,7 +825,7 @@ function Subscriber(subscriber, context, method) {
 			} else if (callerScope !== $self && !(callerScope instanceof Observer)) {  // if the caller has been called with "call" or "apply"
 				result = callerScope;  // pass through scope
 			} else {  // scope is not set in any way, it should be the global scope
-				result = globalThis;  // global scope
+				result = window;  // global scope
 			}
 		}
 		return result;

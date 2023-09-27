@@ -137,7 +137,7 @@ describe("wc/dom/formUpdateManager", () => {
 				}
 			};
 		try {
-			expect(result.length).withContext("Clean up not working, found remnant field with name " + name).toBe(0);
+			expect(result.length).withContext(`Clean up not working, found remnant field with name ${name}`).toBe(0);
 			formUpdateManager.subscribe(subscriber);
 			formUpdateManager.update(form);
 			result = byName(form, name);
@@ -156,7 +156,7 @@ describe("wc/dom/formUpdateManager", () => {
 				formUpdateManager.writeStateField(stateContainer, name, val, true);
 			};
 		try {
-			expect(result.length).withContext("Clean up not working, found remnant field with name " + name).toBe(0);
+			expect(result.length).withContext(`Clean up not working, found remnant field with name ${name}`).toBe(0);
 			formUpdateManager.subscribe(subscriber);
 			formUpdateManager.update(form);
 			result = byName(form, name);
@@ -176,7 +176,7 @@ describe("wc/dom/formUpdateManager", () => {
 					formUpdateManager.writeStateField(stateContainer, name, val, true);
 				}
 			};
-		expect(result.length).withContext("Clean up not working, found remnant field with name " + name).toBe(0);
+		expect(result.length).withContext(`Clean up not working, found remnant field with name ${name}`).toBe(0);
 		formUpdateManager.subscribe(subscriber);
 		formUpdateManager.unsubscribe(subscriber);
 		formUpdateManager.update(form);
@@ -191,7 +191,7 @@ describe("wc/dom/formUpdateManager", () => {
 			subscriber = function(frm, stateContainer) {
 				formUpdateManager.writeStateField(stateContainer, name, val, true);
 			};
-		expect(result.length).withContext("Clean up not working, found remnant field with name " + name).toBe(0);
+		expect(result.length).withContext(`Clean up not working, found remnant field with name ${name}`).toBe(0);
 		formUpdateManager.subscribe(subscriber);
 		formUpdateManager.unsubscribe(subscriber);
 		formUpdateManager.update(form);

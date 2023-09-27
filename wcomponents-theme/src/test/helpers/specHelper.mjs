@@ -41,6 +41,21 @@ function mockAjax() {
 			}
 		});
 
+		jasmine.Ajax.stubRequest(/.*\/icao.html.*/).andReturn({
+			status: 200,
+			statusText: 'HTTP/1.1 200 OK',
+			contentType: 'text/html',
+			get responseText() {
+				const key = "icao.html";
+				if (!cache[key]) {
+					const resourcePath = getResoucePath("icao.html", false);
+					console.log("Mock response with:", resourcePath);
+					cache[key] = fs.readFileSync(resourcePath, "utf8");
+				}
+				return cache[key];
+			}
+		});
+
 		jasmine.Ajax.stubRequest(translationRe).andReturn({
 			status: 200,
 			statusText: 'HTTP/1.1 200 OK',

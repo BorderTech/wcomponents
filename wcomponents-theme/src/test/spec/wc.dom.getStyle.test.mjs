@@ -1,5 +1,6 @@
 import getStyle from "wc/dom/getStyle.mjs";
 
+
 describe("wc/dom/getStyle", function() {
 	const testId = "testGetStyle-innerelement";
 	const testWidthNoUnits = "200",

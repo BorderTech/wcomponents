@@ -20,7 +20,6 @@ function getExtension(fileSpec) {
 * @alias module:wc/file/getMimeType
 * @param {module:wc/file/MultiFileUploader~fileInfo} fileInfo The files to check
 * @returns {module:wc/file/getMimeType~fileType[]} The MIME type and extension of each file if it can be determined.
-* @todo remove the guess this when we no longer need legacy support.
 */
 function getMimeType(fileInfo) {
 	return /** @type {module:wc/file/getMimeType~fileType[]} */ Array.from(fileInfo.files).map(

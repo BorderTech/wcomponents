@@ -1,6 +1,7 @@
 {
 	"parserOptions": {
-		"ecmaVersion": 2021
+		"ecmaVersion": 2019,
+		"sourceType": "module"
 	},
 	"env": {
 		"browser": true
@@ -22,24 +23,23 @@
 		"no-constant-condition": 0
 	},
 	"globals": {
-		"DataView": true,
 		"globalThis": true,
 		"global": true
 	},
-	"overrides": [{
-		"files": [ "*.mjs" ],
-		"parserOptions": {
-			"sourceType": "module",
-			"ecmaVersion": 2021
-		}}, {
-		"files": [ "scripts/*.js", "build-js.js" ],
-		"parserOptions": {
-			"sourceType": "module",
-			"ecmaVersion": 2021
-		}}, {
-		"files": [ "src/test/**/*" ],
-		"env": {
-			"jasmine": true
-		}}
+	"overrides": [
+		{
+			"files": [ "scripts/*.js", "build-js.js" ],
+			"env": {
+				"browser": false,
+				"node": true
+			}
+		},
+		{
+			"files": [ "src/test/**/*" ],
+			"env": {
+				"browser": true,
+				"jasmine": true
+			}
+		}
 	]
 }

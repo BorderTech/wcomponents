@@ -73,13 +73,13 @@ function eventListener(/* $event */) {
 	}
 	try {
 		let filter;
-		if (phase === globalThis.Event.BUBBLING_PHASE) {  // if both are undefined or if it actually is bubbling phase
+		if (phase === Event.BUBBLING_PHASE) {  // if both are undefined or if it actually is bubbling phase
 			filter = type + BUBBLE_SUFFIX;
 			atTargetEvent = null;
-		} else if (phase === globalThis.Event.CAPTURING_PHASE) {
+		} else if (phase === Event.CAPTURING_PHASE) {
 			filter = type + CAPTURE_SUFFIX;
 			atTargetEvent = null;
-		} else if (phase === globalThis.Event.AT_TARGET && atTargetEvent !== $event) {
+		} else if (phase === Event.AT_TARGET && atTargetEvent !== $event) {
 			filter = targetPhaseFilterFactory(type);
 			atTargetEvent = $event;  // flag that this event has already been handled in the target phase
 		}
@@ -217,7 +217,7 @@ const instance = {
 			unsub = function(elid, args) {
 				const observer = events[elid];
 				if (observer) {
-					observer.unsubscribe.apply(observer, args);
+					observer.unsubscribe(...args);
 				}
 			};
 		if (arguments.length === 1) {
@@ -265,20 +265,12 @@ const instance = {
 		const conf = options || { bubbles: true, cancelable: false };
 		if (!currentEvent[$event] || currentEvent[$event] < MAX_RECURSE) {
 			if (element && $event) {
-				if ($event !== "submit" && element[$event] &&
-					!element.matches("[type='text'], [type='password'], textarea, select")) {
+				if (typeof element[$event] === "function") {
 					element[$event]();
 				} else {
-					let evt;
-					if (conf.detail) {
-						evt = new CustomEvent($event, conf);
-						result = !element.dispatchEvent(evt);
-					} else {
-						// won't fully simulate a click (ie navigate a link)
-						evt = document.createEvent("HTMLEvents");
-						evt.initEvent($event, conf.bubbles, conf.cancelable);
-						result = !element.dispatchEvent(evt);
-					}
+					const view = element.ownerDocument?.defaultView || window;
+					const evt = conf.detail ? new view.CustomEvent($event, conf) : new view.Event($event, conf);
+					result = !element.dispatchEvent(evt);
 				}
 			} else {
 				throw new TypeError("arguments can not be null");
