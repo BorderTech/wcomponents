@@ -87,9 +87,11 @@ describe("wc/ajax/Trigger", () => {
 	beforeAll(() => {
 		testHolder = document.body;
 		testHolder.innerHTML = `
-			<div id="mrDiv0">hi</div>
-			<div id="mrDiv1">howdy</div>
-			<div id="mrDiv2">yo</div>`;
+			<form>
+				<div id="mrDiv0">hi</div>
+				<div id="mrDiv1">howdy</div>
+				<div id="mrDiv2">yo</div>
+			</form>`;
 	});
 
 	afterAll(function() {

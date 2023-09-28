@@ -9,16 +9,15 @@ let serializer;
  * Serialize an XML document.
  *
  * @function module:wc/xml/xmlString.to
- * @param {XMLDocument} node An XML DOM object
+ * @param {Document} node An XML DOM object
  * @returns {String} The serialized XML.
  */
 function to(node) {
-	let result;
 	if (node) {
-		serializer = serializer || new globalThis.XMLSerializer();
-		result = serializer.serializeToString(node);
+		serializer = serializer || new XMLSerializer();
+		return serializer.serializeToString(node);
 	}
-	return result || null;
+	return null;
 }
 
 /**
@@ -29,8 +28,8 @@ function to(node) {
  * @returns {Document} An XML document.
  */
 function from(xmlstring) {
-	const domParser = new globalThis.DOMParser();
-	return domParser.parseFromString(xmlstring, "text/xml");
+	const domParser = new DOMParser();
+	return domParser.parseFromString(xmlstring?.trim(), "text/xml");
 }
 
 export default { from, to };

@@ -7,7 +7,8 @@ import Observer from "wc/Observer.mjs";
 import timers from "wc/timers.mjs";
 import eventMgr from "wc/dom/event.mjs";
 
-let observer,
+let currentView,
+	observer,
 	queue;
 
 const instance = {
@@ -17,7 +18,9 @@ const instance = {
 	 * @var module:wc/dom/initialise.domLoaded
 	 * @type Boolean
 	 */
-	domLoaded: false,
+	get domLoaded() {
+		return currentView.document?.readyState === "complete";
+	},
 
 	/**
 	 * Register an initialise routine.
@@ -103,18 +106,6 @@ const instance = {
 	addCallback: add.bind(this, Observer.priority.LOW, null)
 };
 
-domReady(function() {
-	if (document) {
-		timers.setTimeout(function() {
-			try {
-				instance.go(document.body);
-			} finally {
-				instance.domLoaded = true;
-			}
-		}, 0);
-	}
-});
-
 /**
  * Add a subscriber to the initialise observer. Bound to one of the following public functions:
  *
@@ -163,7 +154,7 @@ function queueGo() {
 	if (queue) {
 		timers.clearTimeout(queue);
 	}
-	queue = timers.setTimeout(instance.go, 100, document.body);
+	queue = timers.setTimeout(instance.go, 100, currentView.document?.body);
 }
 
 /**
@@ -171,11 +162,25 @@ function queueGo() {
  * @param {Function} cb Called when dom is interactive / loaded.
  */
 function domReady(cb) {
-	if (window?.document?.readyState !== "loading") {
-		cb(window.document);
-	} else if (window?.addEventListener) {
-		eventMgr.add(window, "DOMContentLoaded", cb);
+	if (currentView?.document?.readyState !== "loading") {
+		cb(currentView.document);
+	} else if (currentView?.addEventListener) {
+		eventMgr.add(currentView, "DOMContentLoaded", cb);
 	}
 }
+
+export const setView = function(view) {
+	currentView = view;
+	observer = null;
+	domReady(function() {
+		if (currentView.document) {
+			timers.setTimeout(function() {
+				instance.go(currentView.document.body);
+			}, 0);
+		}
+	});
+};
+
+setView(window);
 
 export default instance;

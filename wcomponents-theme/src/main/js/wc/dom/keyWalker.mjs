@@ -162,7 +162,8 @@ function getAction(conf, current, whichWay) {
  */
 function getTreeWalker(conf) {
 	const filter = conf.filter || simpleFilter;
-	return conf.tw || (conf.tw = document.createTreeWalker(conf.root, NodeFilter.SHOW_ELEMENT, filter));
+	const ownerDocument = conf.ownerDocument || document;
+	return conf.tw || (conf.tw = ownerDocument.createTreeWalker(conf.root, NodeFilter.SHOW_ELEMENT, filter));
 }
 
 /**
@@ -323,7 +324,8 @@ export default instance;
  * @property {Boolean} [depthFirst] If truthy then treeWalker uses depth first in determining the next node, not used in group based key walking.
  * @property {Boolean} [cycle] if truthy nextSibling on last in branch/group or previousSibling on first in branch/group results in cycling to
  *  the first/last respectively.
- *  @property {TreeWalker} tw
+ * @property {TreeWalker} [tw]
+ * @property {Document} [ownerDocument] optionally provide a document to use instead of `global.document`.
  */
 
 /**

@@ -3,97 +3,97 @@ import {getSelect} from "../helpers/specUtils.mjs";
 
 describe("wc/dom.shed", () => {
 	const html = `
-	<form id="testForm" action="#" method="get">
-		<input id="inp1" disabled="disabled"/>
-		<input id="inp2" disabled/>
-		<input id="inp3"/>
-		<a id="anchor1">a1</a>
-		<a id="anchor2" aria-disabled="true">a2</a>
-		<select id="select1"><option>foo</option></select>
-		<select id="select2" disabled="disabled"><option>bar</option></select>
-		<div id="subscriberDiv1">
-			<input id="subscriberDiv1Input1"/>
+	<form data-testid="testForm" id="testForm" action="#" method="get">
+		<input data-testid="inp1" id="inp1" disabled="disabled"/>
+		<input data-testid="inp2" id="inp2" disabled/>
+		<input data-testid="inp3" id="inp3"/>
+		<a data-testid="anchor1" id="anchor1">a1</a>
+		<a data-testid="anchor2" id="anchor2" aria-disabled="true">a2</a>
+		<select data-testid="select1" id="select1"><option>foo</option></select>
+		<select data-testid="select2" id="select2" disabled="disabled"><option>bar</option></select>
+		<div data-testid="subscriberDiv1" id="subscriberDiv1">
+			<input data-testid="subscriberDiv1Input1" id="subscriberDiv1Input1"/>
 		</div>
-		<div id="selectTests">
-			<input type="button" id="togglebtn1" aria-pressed="false"/>
-			<input type="button" id="togglebtn2" aria-pressed="true"/>
-			<input type="button" id="btn1"/>
-			<input type="checkbox" name="chk1" id="chk1"/>
-			<input type="checkbox" checked="checked" name="chk2" id="chk2"/>
-			<input type="checkbox" name="chk3" id="chk3" indeterminate="true"/>
-			<input type="radio" name="rad1" id="rad1"/>
-			<input type="radio" checked="checked" name="rad1" id="rad2"/>
-			<select name="sel1" id="sel1">
+		<div data-testid="selectTests" id="selectTests">
+			<input type="button" data-testid="togglebtn1" id="togglebtn1" aria-pressed="false"/>
+			<input type="button" data-testid="togglebtn2" id="togglebtn2" aria-pressed="true"/>
+			<input type="button" data-testid="btn1" id="btn1"/>
+			<input type="checkbox" name="chk1" data-testid="chk1" id="chk1"/>
+			<input type="checkbox" checked="checked" name="chk2" data-testid="chk2" id="chk2"/>
+			<input type="checkbox" name="chk3" data-testid="chk3" id="chk3" indeterminate="true"/>
+			<input type="radio" name="rad1" data-testid="rad1" id="rad1"/>
+			<input type="radio" checked="checked" name="rad1" data-testid="rad2" id="rad2"/>
+			<select name="sel1" data-testid="sel1" id="sel1">
 				<option value="opt1">opt1</option>
 				<option selected="selected" value="opt2">opt2</option>
 			</select>
 			<ul>
-				<li id="fauxChk1" role="checkbox" aria-checked="false">0</li>
-				<li id="fauxChk2" role="checkbox" aria-checked="true">1</li>
-				<li id="presLi" role="presentation">0</li>
-				<li id="justAnLi">0</li>
-				<li id="fauxChk3" role="checkbox" aria-checked="mixed">0</li>
-				<li id="fauxChk4" role="checkbox" aria-disabled="true">0</li>
+				<li data-testid="fauxChk1" id="fauxChk1" role="checkbox" aria-checked="false">0</li>
+				<li data-testid="fauxChk2" id="fauxChk2" role="checkbox" aria-checked="true">1</li>
+				<li data-testid="presLi" id="presLi" role="presentation">0</li>
+				<li data-testid="justAnLi" id="justAnLi">0</li>
+				<li data-testid="fauxChk3" id="fauxChk3" role="checkbox" aria-checked="mixed">0</li>
+				<li data-testid="fauxChk4" id="fauxChk4" role="checkbox" aria-disabled="true">0</li>
 			</ul>
 			<ul role="radiogroup">
-				<li id="fauxRad1" role="radio" aria-checked="false">0</li>
-				<li id="fauxRad2" role="radio" aria-checked="true">1</li>
+				<li data-testid="fauxRad1" id="fauxRad1" role="radio" aria-checked="false">0</li>
+				<li data-testid="fauxRad2" id="fauxRad2" role="radio" aria-checked="true">1</li>
 			</ul>
 			<ul role="listbox" aria-multiselectable="true">
-				<li id="fauxOpt1" role="option" aria-selected="false">0</li>
-				<li id="fauxOpt2" role="option" aria-selected="true">1</li>
-				<li id="fauxOpt3" role="option" aria-checked="true">1</li>
-				<li id="fauxOpt4" role="option" aria-checked="true">1</li>
+				<li data-testid="fauxOpt1" id="fauxOpt1" role="option" aria-selected="false">0</li>
+				<li data-testid="fauxOpt2" id="fauxOpt2" role="option" aria-selected="true">1</li>
+				<li data-testid="fauxOpt3" id="fauxOpt3" role="option" aria-checked="true">1</li>
+				<li data-testid="fauxOpt4" id="fauxOpt4" role="option" aria-checked="true">1</li>
 			</ul>
 		</div>
-		<span role="button" id="fauxButton1" aria-pressed="false">FauxButton</span>
-		<div id="expandTests">
-			<button id="exp1" type="button" aria-expanded="false">Expand</button>
-			<button id="exp2" type="button" aria-expanded="true">Expand</button>
-			<details id="details1">
-				<summary id="details1a">More details</summary>
-				<div id="details1content">Content</div>
+		<span role="button" data-testid="fauxButton1" id="fauxButton1" aria-pressed="false">FauxButton</span>
+		<div data-testid="expandTests" id="expandTests">
+			<button data-testid="exp1" id="exp1" type="button" aria-expanded="false">Expand</button>
+			<button data-testid="exp2" id="exp2" type="button" aria-expanded="true">Expand</button>
+			<details data-testid="details1" id="details1">
+				<summary data-testid="details1a" id="details1a">More details</summary>
+				<div data-testid="details1content" id="details1content">Content</div>
 			</details>
-			<details id="details2" open="open">
-				<summary id="details2a">More details</summary>
-				<div id="details2content">Content</div>
+			<details data-testid="details2" id="details2" open="open">
+				<summary data-testid="details2a" id="details2a">More details</summary>
+				<div data-testid="details2content" id="details2content">Content</div>
 			</details>
 		</div>
-		<div id="hideTests">
-			<button style="width:5em" id="hide1" type="button">Hide</button>
-			<button style="width:5em" id="hide2" type="button" hidden="hidden">Show</button>
+		<div data-testid="hideTests" id="hideTests">
+			<button style="width:5em" data-testid="hide1" id="hide1" type="button">Hide</button>
+			<button style="width:5em" data-testid="hide2" id="hide2" type="button" hidden="hidden">Show</button>
 		</div>
-		<div id="mandatoryTests">
-			<input id="inp7" type="text"/>
-			<input id="inp8" type="text" required="required"/>
-			<input id="inp9" type="text" required/>
-			<fieldset role="radiogroup" class="radiobuttonselect" id="radioButtonGroup1" aria-required="true">
-				<input id="radioButtonGroup1_1" type="radio" required="required" value="0">
-				<input id="radioButtonGroup1_2" type="radio" required="required" value="1">
+		<div data-testid="mandatoryTests" id="mandatoryTests">
+			<input data-testid="inp7" id="inp7" type="text"/>
+			<input data-testid="inp8" id="inp8" type="text" required="required"/>
+			<input data-testid="inp9" id="inp9" type="text" required/>
+			<fieldset role="radiogroup" class="radiobuttonselect" data-testid="radioButtonGroup1" id="radioButtonGroup1" aria-required="true">
+				<input data-testid="radioButtonGroup1_1" id="radioButtonGroup1_1" type="radio" required="required" value="0">
+				<input data-testid="radioButtonGroup1_2" id="radioButtonGroup1_2" type="radio" required="required" value="1">
 			</fieldset>
-			<fieldset role="radiogroup" class="radiobuttonselect" id="radioButtonGroup2">
-				<input id="radioButtonGroup2_1" type="radio" value="0">
-				<input id="radioButtonGroup2_2" type="radio" value="1">
-			</fieldset>
-		</div>
-		<div id="disabledAncestorTests">
-			<fieldset role="radiogroup" class="radiobuttonselect" id="radioButtonGroup3" aria-disabled="true">
-				<input id="radioButtonGroup3_1" type="radio" value="0">
-				<input id="radioButtonGroup3_2" type="radio" value="1">
+			<fieldset role="radiogroup" class="radiobuttonselect" data-testid="radioButtonGroup2" id="radioButtonGroup2">
+				<input data-testid="radioButtonGroup2_1" id="radioButtonGroup2_1" type="radio" value="0">
+				<input data-testid="radioButtonGroup2_2" id="radioButtonGroup2_2" type="radio" value="1">
 			</fieldset>
 		</div>
-		<div id="hiddenAncestorTests" hidden="hidden">
-			<fieldset role="radiogroup" class="radiobuttonselect" id="radioButtonGroup4">
-				<input id="radioButtonGroup4_1" type="radio" value="0">
-				<input id="radioButtonGroup4_2" type="radio" value="1">
+		<div data-testid="disabledAncestorTests" id="disabledAncestorTests">
+			<fieldset role="radiogroup" class="radiobuttonselect" data-testid="radioButtonGroup3" id="radioButtonGroup3" aria-disabled="true">
+				<input data-testid="radioButtonGroup3_1" id="radioButtonGroup3_1" type="radio" value="0">
+				<input data-testid="radioButtonGroup3_2" id="radioButtonGroup3_2" type="radio" value="1">
 			</fieldset>
 		</div>
-		<div id="visibletests">
-			<span id="visibletests1">hello<span>
+		<div data-testid="hiddenAncestorTests" id="hiddenAncestorTests" hidden="hidden">
+			<fieldset role="radiogroup" class="radiobuttonselect" data-testid="radioButtonGroup4" id="radioButtonGroup4">
+				<input data-testid="radioButtonGroup4_1" id="radioButtonGroup4_1" type="radio" value="0">
+				<input data-testid="radioButtonGroup4_2" id="radioButtonGroup4_2" type="radio" value="1">
+			</fieldset>
 		</div>
-		<div id="hiddenhtmlsyntax" hidden>hello</div>
+		<div data-testid="visibletests" id="visibletests">
+			<span data-testid="visibletests1" id="visibletests1">hello<span>
+		</div>
+		<div data-testid="hiddenhtmlsyntax" id="hiddenhtmlsyntax" hidden>hello</div>
 	</form>`;
-	
+
 	function _withSubscribeHelper(id, action) {
 		const element = document.getElementById(id);
 		let actionIGot, elementIGot;
@@ -227,12 +227,12 @@ describe("wc/dom.shed", () => {
 	});
 
 	it("testIsSelectedWithOptionFalse", function() {
-		const selElement = getSelect("sel1");
+		const selElement = getSelect(document.body, "sel1");
 		expect(shed.isSelected(selElement.options[0])).toBeFalse();
 	});
 
 	it("testIsSelectedWithOptionTrue", function() {
-		const selElement = getSelect("sel1");
+		const selElement = getSelect(document.body, "sel1");
 		expect(shed.isSelected(selElement.options[1])).toBeTrue();
 	});
 
@@ -319,7 +319,7 @@ describe("wc/dom.shed", () => {
 	});
 
 	it("testSelectOption", function() {
-		const selElement = getSelect("sel1");
+		const selElement = getSelect(document.body, "sel1");
 		const element = selElement.options[0];
 		expect(shed.isSelected(element)).toBeFalse();
 		shed.select(element);
@@ -383,7 +383,7 @@ describe("wc/dom.shed", () => {
 	});
 
 	it("testDeselectOption", function() {
-		const selElement = getSelect("sel1");
+		const selElement = getSelect(document.body, "sel1");
 		const element = selElement.options[1];
 		if (!shed.isSelected(element)) {
 			shed.select(element, true);
@@ -670,7 +670,7 @@ describe("wc/dom.shed", () => {
 	});
 
 	it("testIsSelectableOption", function() {
-		const element = getSelect("sel1");
+		const element = getSelect(document.body, "sel1");
 		expect(shed.isSelectable(element.options[0])).toBeTrue();
 	});
 

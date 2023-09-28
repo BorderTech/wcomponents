@@ -1,5 +1,5 @@
 import event from "wc/dom/event.mjs";
-import {setUpExternalHTML} from "../helpers/specUtils.mjs";
+import {getInput, setUpExternalHTML} from "../helpers/specUtils.mjs";
 import domTesting from "@testing-library/dom";
 
 describe("wc/dom/event", () => {
@@ -14,13 +14,6 @@ describe("wc/dom/event", () => {
 			TXTAREA: "txtarea",
 			BUTTONINP: "btninp",
 			BUTTON: "btn"
-		},
-		/**
-		 * @param {string} testId
-		 * @return {HTMLInputElement}
-		 */
-		getInput = (testId) => {
-			return /** @type HTMLInputElement */(domTesting.getByTestId(ownerDocument, testId));
 		};
 
 	let ownerDocument, eventContainer;
@@ -168,7 +161,7 @@ describe("wc/dom/event", () => {
 
 
 	it("toggles the state of a checkbox when fire is called", function() {
-		const element = getInput(ids.CHKBOX),
+		const element = getInput(ownerDocument, ids.CHKBOX),
 			checked = !!element.checked;
 		event.fire(element, "click");
 		expect(!!element.checked).withContext("Checkbox state should be toggled").toBe(!checked);
@@ -186,8 +179,8 @@ describe("wc/dom/event", () => {
 	});
 
 	it("updates the radio button group when click is fired on a single button", function() {
-		const element = getInput(ids.RADIO1),
-			element2 = getInput(ids.RADIO2),
+		const element = getInput(ownerDocument, ids.RADIO1),
+			element2 = getInput(ownerDocument, ids.RADIO2),
 			checked = !!element2.checked;
 		event.fire(element2, "click");
 		expect(element2.checked).withContext("Two radio buttons in same group can not both be checked").not.toBe(element.checked);
@@ -204,7 +197,7 @@ describe("wc/dom/event", () => {
 	});
 
 	it("removes an event listener using the listener iteself", function() {
-		const element = getInput(ids.CHKBOX);
+		const element = getInput(ownerDocument, ids.CHKBOX);
 		const handler = jasmine.createSpy("testAddRemoveEvent");
 		let checked;
 		event.add(element, "click", handler);
@@ -218,7 +211,7 @@ describe("wc/dom/event", () => {
 	});
 
 	it("removes an event listener using the returned handle from add", function() {
-		const element = getInput(ids.CHKBOX);
+		const element = getInput(ownerDocument, ids.CHKBOX);
 		const handler = jasmine.createSpy("testAddRemoveEventWithHandle");
 		let checked, handle = event.add(element, "click", handler);
 		event.fire(element, "click");
@@ -231,7 +224,7 @@ describe("wc/dom/event", () => {
 	});
 
 	it("removes an event listener using the returned handle from add with config arg", function() {
-		const element = getInput(ids.CHKBOX);
+		const element = getInput(ownerDocument, ids.CHKBOX);
 		const handler = jasmine.createSpy();
 		let checked, handle = event.add(element, { type: "click", listener: handler });
 		event.fire(element, "click");
@@ -244,7 +237,7 @@ describe("wc/dom/event", () => {
 	});
 
 	it("removes an event listener using an array of returned handles from add", function() {
-		const element = getInput(ids.CHKBOX);
+		const element = getInput(ownerDocument, ids.CHKBOX);
 		const handler = jasmine.createSpy();
 		let checked, handle = event.add(element, "click", handler);
 		event.fire(element, "click");
@@ -257,7 +250,7 @@ describe("wc/dom/event", () => {
 	});
 
 	it("testAddRemoveEventWithCapture", function() {
-		const element = getInput(ids.CHKBOX);
+		const element = getInput(ownerDocument, ids.CHKBOX);
 		const handler = jasmine.createSpy("testAddRemoveEventWithCapture");
 		event.add(element, "click", handler, null, null, true);
 		event.fire(element, "click");
@@ -270,7 +263,7 @@ describe("wc/dom/event", () => {
 	});
 
 	it("leaves bubble listener in place when removing as capture listener", function() {
-		const element = getInput(ids.CHKBOX);
+		const element = getInput(ownerDocument, ids.CHKBOX);
 		const handler = jasmine.createSpy("testRemoveCaptureIgnoresBubble");
 		event.add(element, "click", handler);
 		event.remove(element, "click", handler, true);
@@ -279,7 +272,7 @@ describe("wc/dom/event", () => {
 	});
 
 	it("leaves capture listener in place when removing as bubble listener", function() {
-		const element = getInput(ids.CHKBOX);
+		const element = getInput(ownerDocument, ids.CHKBOX);
 		const handler = jasmine.createSpy("testRemoveBubbleIgnoresCapture");
 		event.add(element, "click", handler, null, null, true);
 		event.remove(element, "click", handler);
@@ -288,7 +281,7 @@ describe("wc/dom/event", () => {
 	});
 
 	it("leaves capture listener in place when removing as bubble listener using config API", function() {
-		const element = getInput(ids.CHKBOX);
+		const element = getInput(ownerDocument, ids.CHKBOX);
 		const handler = jasmine.createSpy("testRemoveBubbleIgnoresCaptureWithEventArgs");
 		event.add(element, { type: "click", listener: handler, capture: true });
 		//event.remove(element, "click", handler);
@@ -298,7 +291,7 @@ describe("wc/dom/event", () => {
 
 	it("will remove an event handler while it is currently firing", function() {
 		let wasCalled = false;
-		const element = getInput(ids.CHKBOX);
+		const element = getInput(ownerDocument, ids.CHKBOX);
 
 		const handler = function() {
 			wasCalled = true;

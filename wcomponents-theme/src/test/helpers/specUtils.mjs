@@ -1,21 +1,37 @@
 import {fileURLToPath} from "url";
 import {JSDOM} from "jsdom";
+import domTesting from "@testing-library/dom";
+
 
 /**
  * To help with type checking, get a select element from here.
- * @param {string} id
- * @param {HTMLDocument} [doc]
+ * @param {HTMLElement} container
+ * @param {string} testId
  * @returns {HTMLSelectElement}
  */
-export const getSelect = (id, doc = document) => /** @type {HTMLSelectElement} */(doc.getElementById(id));
+export const getSelect = (container, testId) => {
+	return /** @type {HTMLSelectElement} */(domTesting.getByTestId(container, testId));
+}
 
 /**
  * To help with type checking, get an input element from here.
- * @param {string} id
- * @param {HTMLDocument} [doc]
+ * @param {HTMLElement} container
+ * @param {string} testId
  * @returns {HTMLInputElement}
  */
-export const getInput = (id, doc = document) => /** @type {HTMLInputElement} */(doc.getElementById(id));
+export const getInput = (container, testId) => {
+	return /** @type {HTMLInputElement} */(domTesting.getByTestId(container, testId));
+}
+
+/**
+ * To help with type checking, get a button element from here.
+ * @param {HTMLElement} container
+ * @param {string} testId
+ * @returns {HTMLButtonElement}
+ */
+export const getButton = (container, testId) => {
+	return /** @type {HTMLButtonElement} */(domTesting.getByTestId(container, testId));
+}
 
 /**
  * Gets the path to src/test/resource or src/main/resource

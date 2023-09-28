@@ -46,10 +46,10 @@ describe("wc/dom/serialize", () => {
 	 */
 	it("testSerialiseForm", function() {
 		const form = ownerDocument.getElementById("testForm");
-		let element = getSelect("S5", ownerDocument);
+		let element = getSelect(ownerDocument.body, "S5");
 
 		element.selectedIndex = -1;
-		element = getSelect("S2", ownerDocument);
+		element = getSelect(ownerDocument.body, "S2");
 		element.options[1].selected = true;
 		element.options[2].selected = true;
 		let result = serialize.serialize(form);
@@ -58,10 +58,10 @@ describe("wc/dom/serialize", () => {
 
 	it("testSerialiseFormAsObject", function() {
 		const form = ownerDocument.getElementById("testForm");
-		let element = getSelect("S5", ownerDocument);
+		let element = getSelect(ownerDocument.body, "S5");
 
 		element.selectedIndex = -1;
-		element = getSelect("S2", ownerDocument);
+		element = getSelect(ownerDocument.body, "S2");
 		element.options[1].selected = true;
 		element.options[2].selected = true;
 		let result = serialize.serialize(form, null, true);
@@ -70,10 +70,10 @@ describe("wc/dom/serialize", () => {
 
 	it("testSerialiseFormAsObjectReverse", function() {
 		const form = ownerDocument.getElementById("testForm");
-		let element = getSelect("S5", ownerDocument);
+		let element = getSelect(ownerDocument.body, "S5");
 
 		element.selectedIndex = -1;
-		element = getSelect("S2", ownerDocument);
+		element = getSelect(ownerDocument.body, "S2");
 		element.options[1].selected = true;
 		element.options[2].selected = true;
 		let result = /** @type Object */(serialize.serialize(form, null, true));
@@ -223,11 +223,11 @@ describe("wc/dom/serialize", () => {
 
 	function setupDeserializer(input) {
 		const form = ownerDocument.getElementById("testForm");
-		let element = getSelect("S5", ownerDocument),
+		let element = getSelect(ownerDocument.body, "S5"),
 			expectedResult = makeHiddenFields(input),
 			result = {}, serializedForm, tempContainer;
 		element.selectedIndex = -1;
-		element = getSelect("S2", ownerDocument);
+		element = getSelect(ownerDocument.body, "S2");
 		element.options[1].selected = true;
 		element.options[2].selected = true;
 		if (input.constructor === String) {
