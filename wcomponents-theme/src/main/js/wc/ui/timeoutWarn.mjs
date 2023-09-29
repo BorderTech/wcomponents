@@ -362,7 +362,7 @@ function showAlert(container) {
  * @return {Promise<String[]>} resolved with translations in order they were found in the keys array.
  */
 function getTranslations(keys) {
-	return i18n.translate(keys);
+	return /** @type Promise<String[]>*/(i18n.translate(keys));
 }
 
 export default TimeoutWarn;

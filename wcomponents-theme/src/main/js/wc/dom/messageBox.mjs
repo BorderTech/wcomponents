@@ -4,6 +4,13 @@ const MB_CLASS = "wc-messagebox";
 const messageBoxTagName = "wc-messagebox";
 const messageTagName = "wc-message";
 
+export const iconClasses = {
+	error: "fa-minus-circle",
+	warn: "fa-exclamation-triangle",
+	info: "fa-info-circle",
+	success: "fa-check-circle"
+};
+
 /**
  * WMessageBox HTML template.
  * @param {string} title
@@ -51,20 +58,20 @@ function getHeader(type) {
 	let titleKey;
 	switch (type) {
 		case "success":
-			iconClass = `${iconClass} fa-check-circle`;
+			iconClass = `${iconClass} ${iconClasses[type]}`;
 			titleKey = "messagetitle_success";
 			break;
-		case "warn":
-			iconClass = `${iconClass} fa-exclamation-triangle`;
-			titleKey = "messagetitle_warn";
-			break;
 		case "info":
-			iconClass = `${iconClass} fa-info-circle`;
+			iconClass = `${iconClass} ${iconClasses[type]}`;
 			titleKey = "messagetitle_info";
+			break;
+		case "warn":
+			iconClass = `${iconClass} ${iconClasses[type]}`;
+			titleKey = "messagetitle_warn";
 			break;
 		case "error":  // success was the default in xslt, error in java
 		default:
-			iconClass = `${iconClass} fa-minus-circle`;
+			iconClass = `${iconClass} ${iconClasses["error"]}`;
 			titleKey = "messagetitle_error";
 			break;
 	}
@@ -72,7 +79,7 @@ function getHeader(type) {
 		return i18n.translate(titleKey).then((titleVal) => {
 			return {
 				iconClass: iconClass,
-				title: titleVal
+				title: /** @type string */(titleVal)
 			};
 		});
 	}
@@ -106,7 +113,7 @@ class WMessageBox extends HTMLElement {
 		const type = this.getAttribute("type") || "error";
 		const className = `${MB_CLASS} wc-messagebox-type-${type} ${this.className} ${type}`;
 		return getHeader(type).then(({ iconClass, title }) => {
-			return Promise.resolve(template(title || this.getAttribute("title"), iconClass, className));
+			return Promise.resolve(template(this.getAttribute("title") || title, iconClass, className));
 		});
 	}
 }

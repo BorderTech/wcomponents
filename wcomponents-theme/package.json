@@ -68,6 +68,7 @@
 		"intern": "4.10.1",
 		"jasmine": "^5.1.0",
 		"jasmine-ajax": "^4.0.0",
+		"jasmine-axe": "^1.1.0",
 		"jsdoc": "3.6.3",
 		"jsdom": "^22.1.0",
 		"properties": "1.2.1",
