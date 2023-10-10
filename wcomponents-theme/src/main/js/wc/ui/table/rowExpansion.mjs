@@ -1,9 +1,9 @@
 /**
  * Provides controller for expanding and collapsing table rows.
  */
-import event from "wc/dom/event.mjs.mjs";
-import focus from "wc/dom/focus.mjs.mjs";
-import formUpdateManager from "wc/dom/formUpdateManager.mjs.mjs";
+import event from "wc/dom/event.mjs";
+import focus from "wc/dom/focus.mjs";
+import formUpdateManager from "wc/dom/formUpdateManager.mjs";
 import initialise from "wc/dom/initialise.mjs";
 import shed from "wc/dom/shed.mjs";
 import ajaxRegion from "wc/ui/ajaxRegion.mjs";
