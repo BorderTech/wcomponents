@@ -1,11 +1,10 @@
 import uid from "wc/dom/uid.mjs";
 import event from "wc/dom/event.mjs";
 import focus from "wc/dom/focus.mjs";
-import shed from "wc/dom/shed.mjs";
 import timers from "wc/timers.mjs";
 import Observer from "wc/Observer.mjs";
 
-const MODAL_BACKGROUND_ID = "wc-shim";
+export const MODAL_BACKGROUND_ID = "wc-shim";
 const UNIT = "px";
 const accessKeySelector = "[accesskey]";
 const AKEY = "accesskey";
@@ -29,16 +28,16 @@ const instance = {
 	 * @param {String} [className] Additional class to add to the shim.
 	 */
 	setModal: function(activeRegion, className) {
-		const shimElement = document.getElementById(MODAL_BACKGROUND_ID) || create();
+		const shimElement = getShim(true);
 		shimElement.style.height = document.documentElement.scrollHeight + UNIT;
-		shed.show(shimElement, true);
+		shimElement.removeAttribute("hidden");
 		activeElement = activeRegion || shimElement;
 		addRemoveEvents(true);
 		if (className) {
 			shimElement.classList.add(className);
 		}
 
-		// remove the accesskey attribute from controls with access keys which are not in the activeRegion
+		// remove the access key attribute from controls with access keys which are not in the activeRegion
 		Array.from(document.querySelectorAll(accessKeySelector)).forEach(next => {
 			const nextId = next.id || (next.id = uid());
 			if (activeRegion && !elementContains(activeRegion, next)) {
@@ -60,8 +59,8 @@ const instance = {
 	clearModal: function() {
 		let notify;
 		try {
-			const shimElement = document.getElementById(MODAL_BACKGROUND_ID);
-			if (shimElement && !shed.isHidden(shimElement, true)) {
+			const shimElement = getShim(false);
+			if (shimElement && !shimElement.hidden) {
 				addRemoveEvents();
 				shimElement.className = "";
 				for (let key in accessKeyMap) {
@@ -70,7 +69,7 @@ const instance = {
 						aKeyElement.setAttribute(AKEY, accessKeyMap[key]);
 					}
 				}
-				shed.hide(shimElement, true);
+				shimElement.hidden = true;
 			}
 			notify = true;
 		} finally {
@@ -93,7 +92,7 @@ const instance = {
 	 * @function module:wc/ui/modalShim.subscribe
 	 * @public
 	 * @param {Function} subscriber the function to subscribe
-	 * @param {boolean} onshow if true notify when the modalShim is shown, otherwise notify when the shim is removed
+	 * @param {boolean} [onshow] if true notify when the modalShim is shown, otherwise notify when the shim is removed
 	 * @returns {Function} the subscribed function
 	 */
 	subscribe: function(subscriber, onshow) {
@@ -112,7 +111,7 @@ const instance = {
 	 * @function module:wc/ui/modalShim.unsubscribe
 	 * @public
 	 * @param {Function} subscriber the function to unsubscribe
-	 * @param {boolean} onshow if true unsubscribe from the group notified when the modalShim is shown. The 'unsubscribe' will only succeed if
+	 * @param {boolean} [onshow] if true unsubscribe from the group notified when the modalShim is shown. The 'unsubscribe' will only succeed if
 	 * the group is the same as when the subscriber was subscribed.
 	 * @returns {Function} the unsubscribed function
 	 */
@@ -178,26 +177,6 @@ function touchstartEvent($event) {
 }
 
 /**
- * create a new modalShim if required.
- * @function
- * @private
- * @returns {Element} The shim element.
- */
-function create() {
-	const d = document,
-		b = d.body,
-		result = d.createElement("div");
-	result.id = MODAL_BACKGROUND_ID;
-	shed.hide(result, true);
-	if (b.firstChild) {
-		b.insertBefore(result, b.firstChild);
-	} else {
-		b.appendChild(result);
-	}
-	return result;
-}
-
-/**
  * Attaches or detaches the events required by the modal shim.
  * @param {Boolean} [add] true to add the events, otherwise remove them.
  */
@@ -217,6 +196,38 @@ function addRemoveEvents(add) {
 			event[action](document.body, "touchstart", touchstartEvent, true);
 		}
 	}
+}
+
+/**
+ * @param {boolean} doCreate if true, will create the shim when necessary
+ * @return {HTMLElement}
+ */
+function getShim(doCreate) {
+	const result = document.getElementById(MODAL_BACKGROUND_ID);
+	if (doCreate && !result) {
+		return create();
+	}
+	return result;
+}
+
+/**
+ * create a new modalShim if required.
+ * @function
+ * @private
+ * @returns {HTMLElement} The shim element.
+ */
+function create() {
+	const d = document,
+		b = d.body,
+		result = d.createElement("div");
+	result.id = result.dataset["testid"] = MODAL_BACKGROUND_ID;
+	result.hidden = true;
+	if (b.firstChild) {
+		b.insertBefore(result, b.firstChild);
+	} else {
+		b.appendChild(result);
+	}
+	return result;
 }
 
 export default instance;

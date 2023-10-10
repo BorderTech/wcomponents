@@ -2,6 +2,7 @@ import "global-jsdom/register";
 import jsdom from "global-jsdom";
 import fs from "fs";
 import {getResoucePath, fudgeDimensions} from "./specUtils.mjs";
+import JasmineDOM from "@testing-library/jasmine-dom";
 
 const cache = {};
 const reset = jsdom(null, { url: "http://localhost" });
@@ -79,6 +80,7 @@ function mockAjax() {
 }
 
 beforeAll(() => {
+	jasmine.addMatchers(JasmineDOM);
 	fudgeDimensions(window);
 	window["getJasmineRequireObj"] = global.getJasmineRequireObj = () => jasmine;  // some plugins need this, like jasmine-ajax
 	return mockAjax().then(() => {
