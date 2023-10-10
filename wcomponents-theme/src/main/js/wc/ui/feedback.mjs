@@ -86,7 +86,7 @@ const instance = {
 	 * Add messages to an existing diagnostic box.
 	 * @function
 	 * @public
-	 * @param {Element} box the disgnostic box
+	 * @param {Element} box the diagnostic box
 	 * @param {String|String[]} messages the message(s) to add
 	 * @return {HTMLElement|HTMLElement[]} The message element(s) in the DOM.
 	 */
@@ -333,7 +333,7 @@ const instance = {
  */
 function checkAndGetElement(element) {
 	if (!element) {
-		throw new TypeError("element must not be falsey");
+		throw new TypeError("element must not be falsy");
 	}
 	const target = /** @type {HTMLElement} */(typeof element === "string" ? document.getElementById(element) : element);
 
