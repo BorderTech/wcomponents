@@ -102,7 +102,7 @@ const instance = {
 		if (!positionedBySize[id]) {
 			++positionedBySize.length;
 		}
-		positionedBySize[id] = {id: id, conf: conf};
+		positionedBySize[id] = { id, conf };
 
 		_el.style.top = "";
 		_el.style.left = "";
@@ -318,6 +318,8 @@ initialise.register({
 		resizeable.subscribe(resizeableSubscriber);
 	}
 });
+
+export default instance;
 
 /**
  * @typedef {Object} module:wc/ui/positionable~setBySizeConfig

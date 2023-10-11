@@ -63,7 +63,7 @@ const instance = {
  * @function
  * @private
  * @param {Element} element The target of an event which causes a move.
- * @returns {Element} The component we actually want to move.
+ * @returns {HTMLElement} The component we actually want to move.
  */
 function getMoveTarget(element) {
 	let result = element;
@@ -71,7 +71,7 @@ function getMoveTarget(element) {
 	if (targetId) {
 		result = document.getElementById(targetId);
 	}
-	return result;
+	return /** @type {HTMLElement}  */(result);
 }
 
 /**
@@ -99,8 +99,8 @@ function mousedownEvent($event) {
  * Helper for the keydown event to move the "draggable" item.
  *
  * @param {Element} element The draggable element.
- * @param {number} x The amount to move in the x axis.
- * @param {number} y The amount to move in the y axis.
+ * @param {number} x The amount to move in the x-axis.
+ * @param {number} y The amount to move in the y-axis.
  * @returns {Boolean} true if the move is able to take place.
  */
 function keydownHelper(element, x, y) {
@@ -205,7 +205,7 @@ function mouseupTouchendTouchcancelEvent() {
  *
  * @function
  * @private
- * @param {Element} element The component to move.
+ * @param {HTMLElement} element The component to move.
  * @param {number} x The amount to move the component on the x-axis.
  * @param {number} y the amount to move the component on the y-axis.
  */
@@ -337,7 +337,7 @@ initialise.register({
 	},
 
 	/**
-	 * A subscriber to do late setup of event listeners on individual components and shed & ajax subscribers.
+	 * A subscriber to do late set up of event listeners on individual components and shed & ajax subscribers.
 	 * @function module:wc/ui/draggable.postInit
 	 */
 	postInit: function() {

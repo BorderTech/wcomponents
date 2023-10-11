@@ -1,5 +1,5 @@
 
-Promise.all(["wc/dom/event", "wc/dom/initialise"].map(dep => import(dep))).then(([event, initialise]) => {
+Promise.all(["wc/dom/event.mjs", "wc/dom/initialise.mjs"].map(dep => import(dep))).then(([event, initialise]) => {
 	// This script exists _only_ as an example to show use of WButton setClientCommandOnly(boolean);
 
 	/**
