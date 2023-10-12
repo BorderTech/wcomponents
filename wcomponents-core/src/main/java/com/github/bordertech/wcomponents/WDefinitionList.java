@@ -2,9 +2,9 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.util.Duplet;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -15,6 +15,8 @@ import java.util.Map;
  */
 public class WDefinitionList extends AbstractNamingContextContainer implements AjaxTarget,
 		SubordinateTarget, Marginable {
+
+	private static final String TERM_ATTRIBUTE = "WDefinitionList.term";
 
 	/**
 	 * The layout options.
@@ -100,16 +102,13 @@ public class WDefinitionList extends AbstractNamingContextContainer implements A
 	 * @param data the term data.
 	 */
 	public void addTerm(final String term, final WComponent... data) {
-		for (WComponent component : data) {
-			if (component != null) {
-				content.add(component, term);
-			}
-		}
-
-		// If the term doesn't exist, we may need to add a dummy component
-		if (getComponentsForTerm(term).isEmpty()) {
-			content.add(new DefaultWComponent(), term);
-		}
+		getOrAddTermContainer(term)
+			.ifPresent(container -> {
+				for (WComponent datum : data) {
+					datum.setTag(term);
+					container.add(datum);
+				}
+			});
 	}
 
 	/**
@@ -117,7 +116,13 @@ public class WDefinitionList extends AbstractNamingContextContainer implements A
 	 */
 	@Override
 	public void remove(final WComponent child) {
-		content.remove(child);
+		getTermContainers()
+			.stream()
+			.forEach(container -> {
+				if (container.getChildren().contains(child)) {
+					container.remove(child);
+				}
+			});
 	}
 
 	/**
@@ -126,9 +131,7 @@ public class WDefinitionList extends AbstractNamingContextContainer implements A
 	 * @param term the term to remove.
 	 */
 	public void removeTerm(final String term) {
-		for (WComponent child : getComponentsForTerm(term)) {
-			content.remove(child);
-		}
+		getTermContainer(term).ifPresent(container -> content.remove(container));
 	}
 
 	/**
@@ -137,53 +140,42 @@ public class WDefinitionList extends AbstractNamingContextContainer implements A
 	 * @return a list of this definition list's children grouped by their terms.
 	 */
 	public List<Duplet<String, ArrayList<WComponent>>> getTerms() {
-		Map<String, Duplet<String, ArrayList<WComponent>>> componentsByTerm = new HashMap<>();
-		List<Duplet<String, ArrayList<WComponent>>> result = new ArrayList<>();
-
-		List<WComponent> childList = content.getComponentModel().getChildren();
-
-		if (childList != null) {
-			for (int i = 0; i < childList.size(); i++) {
-				WComponent child = childList.get(i);
-				String term = child.getTag();
-
-				Duplet<String, ArrayList<WComponent>> termComponents = componentsByTerm.get(term);
-
-				if (termComponents == null) {
-					termComponents = new Duplet<>(term,
-							new ArrayList<WComponent>());
-					componentsByTerm.put(term, termComponents);
-					result.add(termComponents);
-				}
-
-				termComponents.getSecond().add(child);
-			}
-		}
-
-		return result;
+		return getTermContainers()
+				.stream()
+				.map(container ->
+					new Duplet<>((String) container.getAttribute(TERM_ATTRIBUTE),
+						new ArrayList<>(container.getChildren())))
+				.collect(Collectors.toList());
 	}
 
-	/**
-	 * Retrieves the components for the given term.
-	 *
-	 * @param term the term of the children to be retrieved.
-	 * @return the child components for the given term, may be empty.
-	 */
-	private List<WComponent> getComponentsForTerm(final String term) {
-		List<WComponent> childList = content.getComponentModel().getChildren();
-		List<WComponent> result = new ArrayList<>();
+	private List<WContainer> getTermContainers() {
+		return content
+			.getChildren()
+			.stream()
+			.filter(child -> (child instanceof WContainer) && ((WContainer) child).getAttribute(TERM_ATTRIBUTE) != null)
+			.map(child -> (WContainer) child)
+			.collect(Collectors.toList());
+	}
 
-		if (childList != null) {
-			for (int i = 0; i < childList.size(); i++) {
-				WComponent child = childList.get(i);
+	private Optional<WContainer> getOrAddTermContainer(final String term) {
 
-				if (term.equals(child.getTag())) {
-					result.add(child);
-				}
-			}
+		final Optional<WContainer> container = getTermContainer(term);
+
+		if (term != null && !container.isPresent()) {
+			WContainer newContainer = new WContainer();
+			newContainer.setAttribute(TERM_ATTRIBUTE, term);
+			content.add(newContainer);
+			return Optional.of(newContainer);
 		}
 
-		return result;
+		return container;
+	}
+
+	private Optional<WContainer> getTermContainer(final String term) {
+		return getTermContainers()
+				.stream()
+				.filter(container -> term != null && term.equals(container.getAttribute(TERM_ATTRIBUTE)))
+				.findFirst();
 	}
 
 	/**

@@ -95,6 +95,8 @@
 ## 1.5.20
 
 ### Enhancements
+* Removed usage of deprecated APIs from the framework and examples. Including the following:
+    - Removed usage of `WComponents::getTag` and `WComponents::setTag` from `WDefinitionList`.
 
 * Removed usage of deprecated APIs from the framework and examples. Including the following:
     - Replaced usage of `WBeanContainer` with `WContainer`. #1733

@@ -46,14 +46,20 @@ public class WDefinitionList_Test extends AbstractWComponentTestCase {
 		WComponent term2data3 = new DefaultWComponent();
 
 		// Test addition of term with no component
+		Assert.assertTrue("There should not be any terms", list.getTerms().isEmpty());
+
 		list.addTerm(term1);
-		Container termContainer = (Container) list.getChildAt(0);
-		Assert.assertEquals("Term1 should have been added", 1, termContainer.getChildCount());
-		Assert.assertEquals("Incorrect value for Term1", term1, termContainer.getChildAt(0).getTag());
+		Assert.assertEquals("There should have been 1 term added", 1, list.getTerms().size());
+		Assert.assertEquals("The first term's name is incorrect", term1, list.getTerms().get(0).getFirst());
+		Assert.assertTrue("The first term should not have any components", list.getTerms().get(0).getSecond().isEmpty());
 
 		// Test addition of term with multiple components
 		list.addTerm(term2, term2data1, term2data2);
 		list.addTerm(term2, term2data3);
+
+		Assert.assertEquals("There should have been 2 terms added", 2, list.getTerms().size());
+		Assert.assertEquals("The second term's name is incorrect", term2, list.getTerms().get(1).getFirst());
+		Assert.assertEquals("The second term should have 3 components", 3, list.getTerms().get(1).getSecond().size());
 
 		Assert.assertEquals("Incorrect term for component 1", term2, term2data1.getTag());
 		Assert.assertEquals("Incorrect term for component 2", term2, term2data2.getTag());
@@ -72,12 +78,30 @@ public class WDefinitionList_Test extends AbstractWComponentTestCase {
 
 		list.addTerm(term1);
 		list.addTerm(term2, term2data1, term2data2);
-		Container termContainer = (Container) list.getChildAt(0);
-
-		Assert.assertEquals("Incorrect term data", 3, termContainer.getChildren().size());
+		Assert.assertEquals("There should have been 2 terms added", 2, list.getTerms().size());
 
 		list.removeTerm(term2);
-		Assert.assertEquals("Incorrect term data", 1, termContainer.getChildCount());
-		Assert.assertEquals("Incorrect value for Term1", term1, termContainer.getChildAt(0).getTag());
+		Assert.assertEquals("There should be only 1 term remaining", 1, list.getTerms().size());
+		
+		Assert.assertEquals("Incorrect tag for component 1", term2, term2data1.getTag());
+		Assert.assertEquals("Incorrect tag for component 2", term2, term2data2.getTag());
+	}
+
+	@Test
+	public void testRemoveComponent() {
+		WDefinitionList list = new WDefinitionList();
+
+		String term1 = "WDefinitionList_Test.testRemoveComponent.term1";
+
+		WComponent data1 = new DefaultWComponent();
+		WComponent data2 = new DefaultWComponent();
+
+		list.addTerm(term1, data1, data2);
+		Assert.assertEquals("There should have been 1 terms added", 1, list.getTerms().size());
+		Assert.assertEquals("There should have been 2 components added", 2, list.getTerms().get(0).getSecond().size());
+
+		list.remove(data2);
+		
+		Assert.assertEquals("There should be only 1 component remaining", 1, list.getTerms().get(0).getSecond().size());
 	}
 }
