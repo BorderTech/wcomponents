@@ -85,7 +85,6 @@ import com.github.bordertech.wcomponents.examples.datatable.TreeTableExample;
 import com.github.bordertech.wcomponents.examples.datatable.TreeTableHierarchyExample;
 import com.github.bordertech.wcomponents.examples.datatable.WDataTableContentExample;
 import com.github.bordertech.wcomponents.examples.datatable.WDataTableExample;
-import com.github.bordertech.wcomponents.examples.layout.BorderLayoutExample;
 import com.github.bordertech.wcomponents.examples.layout.ColumnLayoutExample;
 import com.github.bordertech.wcomponents.examples.layout.FlowLayoutExample;
 import com.github.bordertech.wcomponents.examples.layout.GridLayoutExample;
@@ -392,7 +391,6 @@ public final class ExampleData implements Serializable {
 	 * Layout examples.
 	 */
 	public static final ExampleData[] LAYOUT_EXAMPLES = new ExampleData[]{
-		new ExampleData("Border layout", BorderLayoutExample.class),
 		new ExampleData("Column layout", ColumnLayoutExample.class),
 		new ExampleData("Columns with WRow / WCol", WRowExample.class),
 		new ExampleData("Flow layout", FlowLayoutExample.class),

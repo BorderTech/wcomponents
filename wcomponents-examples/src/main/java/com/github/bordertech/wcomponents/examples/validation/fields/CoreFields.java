@@ -8,6 +8,7 @@ import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCancelButton;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WCheckBoxSelect;
+import com.github.bordertech.wcomponents.WColumn;
 import com.github.bordertech.wcomponents.WConfirmationButton;
 import com.github.bordertech.wcomponents.WDateField;
 import com.github.bordertech.wcomponents.WDropdown;
@@ -22,11 +23,11 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WPrintButton;
 import com.github.bordertech.wcomponents.WRadioButton;
 import com.github.bordertech.wcomponents.WRadioButtonSelect;
+import com.github.bordertech.wcomponents.WRow;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextArea;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.examples.common.ExampleLookupTable;
-import com.github.bordertech.wcomponents.layout.BorderLayout;
 import com.github.bordertech.wcomponents.util.DateUtilities;
 import com.github.bordertech.wcomponents.validator.DateFieldPivotValidator;
 import com.github.bordertech.wcomponents.validator.RegExFieldValidator;
@@ -208,23 +209,33 @@ public class CoreFields extends WPanel {
 		// create the buttons at the bottom.
 		WPanel buttons = new WPanel(WPanel.Type.FEATURE);
 		buttons.setMargin(new com.github.bordertech.wcomponents.Margin(Size.LARGE, null, null, null));
-		buttons.setLayout(new BorderLayout());
+
+		final WRow row = new WRow();
+		buttons.add(row);
+
+		final WColumn left = new WColumn(50);
+		final WColumn right = new WColumn(50);
+		right.setAlignment(WColumn.Alignment.RIGHT);
+
+		row.add(left);
+		row.add(right);
+
 		add(buttons);
 
 		printBtn = new WPrintButton();
-		buttons.add(printBtn, BorderLayout.EAST);
+		right.add(printBtn);
 
 		submitBtn = new WButton("Submit", 'S');
-		buttons.add(submitBtn, BorderLayout.EAST);
+		right.add(submitBtn);
 		setDefaultSubmitButton(submitBtn);
 
 		cancelBtn = new WCancelButton();
-		buttons.add(cancelBtn, BorderLayout.WEST);
+		left.add(cancelBtn);
 
 		// Same as cancel. Just testing a different component.
 		resetBtn = new WConfirmationButton("Reset");
 		resetBtn.setMessage("Are you sure you want to reset all fields?");
-		buttons.add(resetBtn, BorderLayout.WEST);
+		left.add(resetBtn);
 	}
 
 	/**

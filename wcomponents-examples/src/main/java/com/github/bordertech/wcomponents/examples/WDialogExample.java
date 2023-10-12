@@ -2,6 +2,9 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.Margin;
+import com.github.bordertech.wcomponents.WColumn;
+import com.github.bordertech.wcomponents.WRow;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.MessageContainer;
 import com.github.bordertech.wcomponents.Request;
@@ -25,9 +28,7 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
-import com.github.bordertech.wcomponents.layout.BorderLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
-import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
@@ -79,7 +80,7 @@ public class WDialogExample extends WPanel implements MessageContainer {
 	 */
 	@SuppressWarnings("serial")
 	public WDialogExample() {
-		setLayout(new FlowLayout(Alignment.VERTICAL));
+		setLayout(new FlowLayout(com.github.bordertech.wcomponents.layout.FlowLayout.Alignment.VERTICAL));
 		add(messages);
 
 		final WPanel outputPanel = new WPanel(WPanel.Type.BOX);
@@ -426,13 +427,23 @@ public class WDialogExample extends WPanel implements MessageContainer {
 			add(searchFS);
 			add(layout);
 
-			final WPanel buttonPanel = new WPanel(WPanel.Type.FEATURE);
-			buttonPanel.setLayout(new BorderLayout());
-			buttonPanel.setMargin(new com.github.bordertech.wcomponents.Margin(Size.LARGE, Size.ZERO, Size.ZERO, Size.ZERO));
+			final WPanel buttonPanel = new WPanel(Type.FEATURE);
+			buttonPanel.setMargin(new Margin(Size.LARGE, Size.ZERO, Size.ZERO, Size.ZERO));
 			add(buttonPanel);
-			buttonPanel.add(cancelButton, BorderLayout.WEST);
-			buttonPanel.add(selectButton, BorderLayout.EAST);
-			buttonPanel.add(searchButton, BorderLayout.EAST);
+
+			final WRow row = new WRow();
+			buttonPanel.add(row);
+
+			final WColumn left = new WColumn(50);
+			final WColumn right = new WColumn(50);
+			right.setAlignment(WColumn.Alignment.RIGHT);
+
+			row.add(left);
+			row.add(right);
+
+			left.add(cancelButton);
+			right.add(selectButton);
+			right.add(searchButton);
 			add(new WText(MODAL_TEXT + ": this text is for automated testing only"));
 
 			searchButton.setAjaxTarget(this);

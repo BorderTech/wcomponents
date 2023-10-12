@@ -8,6 +8,7 @@ import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCancelButton;
+import com.github.bordertech.wcomponents.WColumn;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDateField;
 import com.github.bordertech.wcomponents.WFieldLayout;
@@ -15,8 +16,8 @@ import com.github.bordertech.wcomponents.WFieldSet;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WPanel;
+import com.github.bordertech.wcomponents.WRow;
 import com.github.bordertech.wcomponents.WTextField;
-import com.github.bordertech.wcomponents.layout.BorderLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
 import com.github.bordertech.wcomponents.subordinate.Disable;
@@ -126,14 +127,23 @@ public class WDateFieldExample extends WContainer {
 		disabledDateField.setDisabled(true);
 		mainLayout.addField("Disabled (today)", disabledDateField);
 
+
 		//do the layout
 		WPanel buttonPanel = new WPanel(WPanel.Type.FEATURE);
 		buttonPanel.setMargin(new Margin(Size.LARGE, null, null, null));
-		buttonPanel.setLayout(new BorderLayout());
 
+		final WRow row = new WRow();
+		buttonPanel.add(row);
+
+		final WColumn left = new WColumn(50);
+		final WColumn right = new WColumn(50);
+		right.setAlignment(WColumn.Alignment.RIGHT);
+
+		row.add(left);
+		row.add(right);
 		WPanel innerButtonPanel = new WPanel();
 		innerButtonPanel.setLayout(new FlowLayout(Alignment.LEFT, Size.MEDIUM));
-		buttonPanel.add(innerButtonPanel, BorderLayout.CENTER);
+		left.add(innerButtonPanel);
 		innerButtonPanel.add(setTodayBtn);
 		innerButtonPanel.add(copyDateBtn);
 		innerButtonPanel.add(copyJavaDateBtn);
@@ -148,7 +158,7 @@ public class WDateFieldExample extends WContainer {
 				mainLayout.reset();
 			}
 		});
-		buttonPanel.add(cancelButton, BorderLayout.EAST);
+		right.add(cancelButton);
 
 		add(mainLayout);
 		add(buttonPanel);
