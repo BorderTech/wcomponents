@@ -430,22 +430,22 @@ public final class FilterableTableExample extends WContainer {
 			}
 
 			List<WComponent> selectedItems = new ArrayList<>();
-			List<WComponent> menuSelectedItems;
+			List<MenuItemSelectable> menuSelectedItems;
 
 			if (firstNameFilterMenu.isVisible()) {
-				menuSelectedItems = firstNameFilterMenu.getSelectedItems();
+				menuSelectedItems = firstNameFilterMenu.getSelectedMenuItems();
 				if (menuSelectedItems != null && !menuSelectedItems.isEmpty()) {
 					selectedItems.addAll(menuSelectedItems);
 				}
 			}
 			if (lastNameFilterMenu.isVisible()) {
-				menuSelectedItems = lastNameFilterMenu.getSelectedItems();
+				menuSelectedItems = lastNameFilterMenu.getSelectedMenuItems();
 				if (menuSelectedItems != null && !menuSelectedItems.isEmpty()) {
 					selectedItems.addAll(menuSelectedItems);
 				}
 			}
 			if (dobFilterMenu.isVisible()) {
-				menuSelectedItems = dobFilterMenu.getSelectedItems();
+				menuSelectedItems = dobFilterMenu.getSelectedMenuItems();
 				if (menuSelectedItems != null && !menuSelectedItems.isEmpty()) {
 					selectedItems.addAll(menuSelectedItems);
 				}
