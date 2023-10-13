@@ -19,7 +19,7 @@ const instance = {
 	 * @type Boolean
 	 */
 	get domLoaded() {
-		return currentView.document?.readyState === "complete";
+		return currentView.document?.readyState !== "loading";
 	},
 
 	/**
@@ -162,7 +162,7 @@ function queueGo() {
  * @param {Function} cb Called when dom is interactive / loaded.
  */
 function domReady(cb) {
-	if (currentView?.document?.readyState !== "loading") {
+	if (instance.domLoaded) {
 		cb(currentView.document);
 	} else if (currentView?.addEventListener) {
 		eventMgr.add(currentView, "DOMContentLoaded", cb);

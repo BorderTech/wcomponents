@@ -6,7 +6,7 @@
  * @author Rick Brown
  */
 
-import io from "socket.io/client-dist/socket.io.js";
+import "socket.io/client-dist/socket.io.js";
 import debounce from "wc/debounce.mjs";
 import cookie from "wc/dom/cookie.mjs";
 
@@ -130,7 +130,7 @@ function getConnection(force) {
 	}
 	try {
 		if (!socketHotReload) {
-			socketHotReload = io.connect("//" + window.location.hostname + ":3002", {
+			socketHotReload = window["io"].connect("//" + window.location.hostname + ":3002", {
 				reconnectionAttempts: 6,
 				reconnectionDelay: 10000
 			});

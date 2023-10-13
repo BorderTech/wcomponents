@@ -199,6 +199,7 @@
 							"fabric/": "</xsl:text><xsl:value-of select="concat(normalize-space($resourceRoot), $libScriptDir, '/fabric')" />/<xsl:text>",
 							"mailcheck/": "</xsl:text><xsl:value-of select="concat(normalize-space($resourceRoot), $libScriptDir, '/mailcheck')" />/<xsl:text>",
 							"tinymce/": "</xsl:text><xsl:value-of select="concat(normalize-space($resourceRoot), $libScriptDir, '/tinymce')" />/<xsl:text>",
+							"socket.io/": "</xsl:text><xsl:value-of select="concat(normalize-space($resourceRoot), $libScriptDir, '/socket.io')" />/<xsl:text>",
 							"i18next": "</xsl:text><xsl:value-of select="concat(normalize-space($resourceRoot), $libScriptDir, '/i18next/dist/esm/i18next.js')" /><xsl:text>",
 							"sprintf-js/": "</xsl:text><xsl:value-of select="concat(normalize-space($resourceRoot), $libScriptDir, '/sprintf-js')" />/<xsl:text>"
 						}
@@ -349,6 +350,7 @@
 		<xsl:variable name="tableActions" select=".//ui:table/ui:actions/ui:action" />
 
 		<xsl:variable name="libs">
+			<!-- .mjs extension will be added to these -->
 			<xsl:if test=".//ui:datefield">
 				<!--
 					calendar uses dateField, dateField does not use calendar, I might fix that one day. The calendar polyfill uses number field.

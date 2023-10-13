@@ -3,10 +3,31 @@ import initialise from "wc/dom/initialise.mjs";
 import sprintf from "wc/string/sprintf.mjs";
 import feedback from "wc/ui/feedback.mjs";
 import wcconfig from "wc/config.mjs";
-import mailcheck from "mailcheck";
 
 const emailSelector = "input[type='email']";
 const message = "Did you mean '%s'?";
+let mailchecker;
+
+function getMailChecker(view) {
+	if (mailchecker) {
+		return Promise.resolve(mailchecker);
+	}
+	return new Promise((win, lose) => {
+		try {
+			view.define = function(name, deps, cb) {
+				if (name === "mailcheck" && deps.length === 0) {
+					mailchecker = cb();
+					view.define = null;
+					win(mailchecker);
+				}
+			};
+			view.define.amd = true;
+		} catch (ex) {
+			lose(ex);
+		}
+		import("mailcheck/src/mailcheck.js");  // mailcheck should call fake AMD define above
+	});
+}
 
 /**
  * Checks an email input and detects common typos.
@@ -32,11 +53,12 @@ function emailCheck({ target }) {
 			}
 		};
 		options.empty = () => feedback.remove(target, null, feedback.LEVEL.INFO);
-
-		mailcheck.run(options);
+		getMailChecker(target.ownerDocument.defaultView).then(mailcheck => mailcheck.run(options));
 	}
 }
 
-export default initialise.register({
-	initialise: (element) => event.add(element, { type: "change", listener: emailCheck, capture: true })
+initialise.register({
+	initialise: element => {
+		event.add(element, { type: "change", listener: emailCheck, capture: true })
+	}
 });

@@ -121,12 +121,12 @@ describe("wc/ajax/Trigger", () => {
 	it("testSingleResponse", function() {
 		let hitCount = 0;
 		const trigger = new Trigger(simpleRequest, function(payload) {
-				expect(payload).withContext("response should contain a payload").toBeDefined();
-				expect(payload.documentElement).withContext("response should be an XML document").toBeDefined();
-				expect(payload.documentElement.nodeName).withContext("documentElement should be 'note'").toBe("note");
-				// "Fire causes only one response"
-				expect(hitCount++).withContext("response received too many times").toBe(0);
-			}, errCallback);
+			expect(payload).withContext("response should contain a payload").toBeDefined();
+			expect(payload.documentElement).withContext("response should be an XML document").toBeDefined();
+			expect(payload.documentElement.nodeName).withContext("documentElement should be 'note'").toBe("note");
+			// "Fire causes only one response"
+			expect(hitCount++).withContext("response received too many times").toBe(0);
+		}, errCallback);
 		return trigger.fire();
 	});
 
@@ -154,9 +154,9 @@ describe("wc/ajax/Trigger", () => {
 	it("testDebouncing", function() {
 		let hitCount = 0, i = 10;
 		const trigger = new Trigger(simpleRequest, function() {
-				// "Multiple fires produces single response"
-				expect(hitCount++).withContext("response received too many times").toBe(0);
-			}, errCallback);
+			// "Multiple fires produces single response"
+			expect(hitCount++).withContext("response received too many times").toBe(0);
+		}, errCallback);
 		let promise;
 		while (i--) {
 			promise = trigger.fire();  // TODO probably should Promise.All this
@@ -225,10 +225,11 @@ describe("wc/ajax/Trigger", () => {
 
 	it("testSubscribeAfterCallback", function() {
 		let callbackCalled = false;
-		const trigger = new Trigger(simpleRequest, function() {
-				callbackCalled = true;
-				return "foobar";
-			}, errCallback);
+		const callback = function() {
+			callbackCalled = true;
+			return "foobar";
+		};
+		const trigger = new Trigger(simpleRequest, callback, errCallback);
 		const promise = new Promise(function(win, lose) {
 			const subscriber = function(instance, pending) {
 				try {
