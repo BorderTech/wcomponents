@@ -14,10 +14,10 @@ function getMailChecker(view) {
 	}
 	return new Promise((win, lose) => {
 		try {
-			view.define = function(name, deps, cb) {
+			view.define = globalThis.define = function(name, deps, cb) {
 				if (name === "mailcheck" && deps.length === 0) {
 					mailchecker = cb();
-					view.define = null;
+					view.define = globalThis.define = null;
 					win(mailchecker);
 				}
 			};

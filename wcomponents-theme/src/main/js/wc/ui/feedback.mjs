@@ -49,7 +49,7 @@ const instance = {
 		const oldIdExtension = diagnostic.getIdExtension(oldLevel);
 		const testId = box.id.replace(oldIdExtension, newIdExtension);
 		// if we already have a diagnostic box at the requested level we cannot create a new one
-		if (document.getElementById(testId)) {
+		if (box.ownerDocument.getElementById(testId)) {
 			console.log("cannot create diagnostic box with duplicate id");
 			// this.remove(diag, target);
 			this.clear(box);
@@ -224,7 +224,7 @@ const instance = {
 			return null;
 		}
 		transientWidget = `${diagnostic.getByType(level)}[data-wc-dfor='${id}']`;
-		return target.querySelector(transientWidget) || document.body.querySelector(transientWidget);
+		return target.querySelector(transientWidget) || target.ownerDocument.body.querySelector(transientWidget);
 	},
 
 	/**
@@ -269,7 +269,7 @@ const instance = {
 		let flagTarget;
 		if (target.matches(checkables)) {
 			flagTarget = getLabelsForElement(target);
-			flagTarget = (flagTarget && flagTarget.length) ? flagTarget[0] : null;
+			flagTarget = flagTarget?.length ? flagTarget[0] : null;
 			if (flagTarget) {
 				writeWhere = BEFORE_END;
 			} else {

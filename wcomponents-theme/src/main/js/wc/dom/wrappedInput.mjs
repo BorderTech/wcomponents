@@ -71,7 +71,7 @@ wrappedInput.getWrapper = function(element) {
  * Get all the wrapped inputs in this container.
  * @param {Element} container
  * @param {boolean} [inclReadOnly]
- * @return {HTMLElement[]}
+ * @return { HTMLElement[]}
  */
 wrappedInput.get = function (container, inclReadOnly) {
 	const widgetsSelector = selectors.join();
