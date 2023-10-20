@@ -21,28 +21,31 @@ const NUM_FIELD = "input[type='number']",
  * @function
  * @private
  * @param {HTMLInputElement} element A WNumberField
- * @returns {Promise<boolean>} false if the field is valid
+ * @returns {boolean} false if the field is valid
  */
-async function isInvalid(element) {
+function isInvalid(element) {
 	let result = false;
 	const value = element.value;
+	let messageKey = "";
 
 	if (value !== "" && !validationManager.isExempt(element)) {
 		let message, min, max;
 		if (isNaN(Number(value))) {
-			message = await i18n.translate("validation_number_nan");
+			messageKey = "validation_number_nan";
 		} else if (element.matches(CONSTRAINED)) {
 			max = element.getAttribute(MAX);
 			min = element.getAttribute(MIN);
-			message = await checkMax(element, value, min, max);
+			messageKey = checkMax(element, value, min, max);
 			if (!message) {
-				message = await checkMin(element, value, min);
+				messageKey = checkMin(element, value, min);
 			}
 		}
-		if (message) {
+		if (messageKey) {
 			result = true;
-			message = sprintf(message, validationManager.getLabelText(element), (min || max), max);
-			feedback.flagError({ element, message });
+			getMessage(messageKey).then(message => {
+				message = sprintf(message, validationManager.getLabelText(element), (min || max), max);
+				feedback.flagError({ element, message });
+			});
 		}
 	}
 	return result;
@@ -56,7 +59,7 @@ async function isInvalid(element) {
  * @param {string} max The max constraint.
  * @private
  * @function
- * @return {Promise<string>} An error message if there is an error.
+ * @return {string} An error message key if there is an error.
  */
 function checkMax(element, value, min, max) {
 	let msgKey = "";
@@ -68,7 +71,16 @@ function checkMax(element, value, min, max) {
 			msgKey = min ? "validation_number_outofrange" : "validation_number_overmax";
 		}
 	}
-	return msgKey ? i18n.translate(msgKey) : Promise.resolve("");
+	return msgKey;
+}
+
+/**
+ * Translates a message key to a message.
+ * @param {string} key
+ * @return {Promise<string>}
+ */
+function getMessage(key) {
+	return /** @type {Promise<string>} */(i18n.translate(key));
 }
 
 /**
@@ -78,7 +90,7 @@ function checkMax(element, value, min, max) {
  * @param {string} min The min constraint.
  * @private
  * @function
- * @returns {Promise<string>} An error message if there is an error.
+ * @returns {string} An error message key if there is an error.
  */
 function checkMin(element, value, min) {
 	let msgKey = "";
@@ -91,7 +103,7 @@ function checkMin(element, value, min) {
 			msgKey = "validation_number_undermin";
 		}
 	}
-	return msgKey ? i18n.translate(msgKey) : Promise.resolve("");
+	return msgKey;
 }
 
 /**
@@ -109,7 +121,11 @@ function validate(container) {
 		const invalid = candidates.filter(isInvalid);
 		result = (invalid.length === 0);
 	}
-	return (validInputs && result);
+	result = validInputs && result;
+	if (!result) {
+		console.log(`${import.meta.url} failed validation`);
+	}
+	return result;
 }
 
 /**

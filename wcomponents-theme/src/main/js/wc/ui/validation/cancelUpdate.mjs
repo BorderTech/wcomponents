@@ -19,8 +19,8 @@ const noValidateButtonSelector = `${submitControlSelector}[formnovalidate]`;
  * Determines if a form or subsection thereof is in a 'valid' state.
  * @function
  * @private
- * @param {HTMLButtonElement} submitter The control which has instigated the data submission. This is used to determine
- *     if we need to validate a sub-form based on a property of the submitter.
+ * @param {HTMLButtonElement} submitter The control which has instigated the data submission.
+ *    This is used to determine if we need to validate a sub-form based on a property of the submitter.
  * @returns {boolean} true if the form (or sub-form) is invalid.
  */
 function isInvalid(submitter) {

@@ -151,19 +151,22 @@ function _flag(element, flag, limit) {
  * @returns {boolean} true if the container is valid.
  */
 function validate(container) {
-	let result = true,
-		controls;
+	let result = true;
 	const obj = { container: container,
 			widget: containerSelector,
 			constraint: required.CONSTRAINTS.CLASSNAME,
 			position: "beforeEnd" },
 		_required = required.complexValidationHelper(obj);
-
-	if ((controls = (container.matches(containerSelector)) ? [container] : container.querySelectorAll(containerSelector))) {
-		controls = Array.prototype.filter.call(controls, filter);
+	let controls = container.matches(containerSelector) ? [container] : Array.from(container.querySelectorAll(containerSelector));
+	if (controls) {
+		controls = controls.filter(filter);
 		result = !(controls && controls.length);
 	}
-	return result && _required;
+	result &&= _required;
+	if (!result) {
+		console.log(`${import.meta.url} failed validation`);
+	}
+	return result;
 }
 
 

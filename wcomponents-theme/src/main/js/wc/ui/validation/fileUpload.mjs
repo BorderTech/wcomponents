@@ -26,7 +26,7 @@ const CONTAINER = multiFileUploader.getWidget().toString(),
  * @returns {boolean} true if valid.
  */
 function validate(container) {
-	return required.complexValidationHelper({
+	const result = required.complexValidationHelper({
 		container,
 		widget: CONTAINER,
 		constraint: required.CONSTRAINTS.CLASSNAME,
@@ -37,9 +37,13 @@ function validate(container) {
 		 */
 		messageFunc : (element) => {
 			const legend = getFirstLabelForElement(element, true) || element.title;
-			return i18n.get("validation_multifile_incomplete", legend);
+			return /** @type {string} */(i18n.get("validation_multifile_incomplete", legend));
 		}
 	});
+	if (!result) {
+		console.log(`${import.meta.url} failed validation`);
+	}
+	return result;
 }
 
 /**

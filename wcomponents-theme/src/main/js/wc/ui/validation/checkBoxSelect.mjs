@@ -29,8 +29,11 @@ function validate (container) {
 
 	// add a selectedFunc to be able to do min/max validation
 	obj.selectedFunc = fs => getFilteredGroup(fs, { itemWd: checkBoxSelect.ITEM }) || [];
-
-	return _required && minMax(obj);
+	const result = _required && minMax(obj);
+	if (!result) {
+		console.log(`${import.meta.url} failed validation`);
+	}
+	return result;
 }
 
 /**

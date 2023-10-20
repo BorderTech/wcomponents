@@ -162,10 +162,10 @@ const validationManager = {
 	 */
 	getLabelText: function(element, fallbackToken) {
 		const token = fallbackToken || "validation_common_unlabelledfield";
-		return /** @type {string} */(getFirstLabelForElement(element, true)) ||
+		return /** @type {string} */(getFirstLabelForElement(element, true) ||
 			element.getAttribute("aria-label") ||
-			element.title ||
-			i18n.get(token);
+			element.getAttribute("title") ||
+			i18n.get(token));
 	},
 
 	/**
@@ -216,7 +216,7 @@ const validationManager = {
  * @param {Element} element The element being acted upon.
  */
 function shedSubscriber(element) {
-	if (element && element.matches(invalidSelector)) {
+	if (element?.matches(invalidSelector)) {
 		feedback.remove(element);
 	}
 }

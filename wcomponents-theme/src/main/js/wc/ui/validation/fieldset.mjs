@@ -54,6 +54,9 @@ function validate(container) {
 			});
 		});
 	}
+	if (!result) {
+		console.log(`${import.meta.url} failed validation`);
+	}
 	return result;
 }
 

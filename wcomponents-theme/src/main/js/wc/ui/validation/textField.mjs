@@ -59,7 +59,7 @@ function isInvalid(element) {
 		let mask = element.getAttribute("minlength");
 		if (mask && value.length < parseInt(mask, 10)) {
 			result = true;
-			flag = i18n.get("validation_text_belowmin", "%s", mask);
+			flag = /** @type {string} */(i18n.get("validation_text_belowmin", "%s", mask));
 		}
 		// pattern (first email)
 		if (element.matches(emailSelector)) {
@@ -71,13 +71,13 @@ function isInvalid(element) {
 			}
 
 			regexp = rxString ? new RegExp(rxString) : DEFAULT_RX;
-			patternFlag = i18n.get("validation_email_format");
+			patternFlag = /** @type {string} */(i18n.get("validation_email_format"));
 		} else {
 			mask = element.getAttribute("pattern");
 			if (mask) {
 				try {
 					regexp = new RegExp(`^(?:${mask})$`);
-					patternFlag = i18n.get("validation_common_pattern");
+					patternFlag = /** @type {string} */(i18n.get("validation_common_pattern"));
 				} catch (e) {
 					regexp = null;
 					// console.log("cannot convert input mask to regular expression, assuming valid");
@@ -127,7 +127,11 @@ function validate(container) {
 	if (candidates && candidates.length) {
 		validConstrained = ((Array.from(candidates).filter(isInvalid)).length === 0);
 	}
-	return _requiredTextFields && validConstrained;
+	const result = _requiredTextFields && validConstrained;
+	if (!result) {
+		console.log(`${import.meta.url} failed validation`);
+	}
+	return result;
 }
 
 /**

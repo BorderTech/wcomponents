@@ -64,6 +64,9 @@ const instance = {
 				flagFunc(elements, obj);
 			}
 		}
+		if (!result) {
+			console.debug(`"${obj.widget}" failed 'required' validation`);
+		}
 		return result;
 	},
 
@@ -157,7 +160,7 @@ const instance = {
  * @returns {String} A formatted error message.
  */
 function getRequiredMessage(element) {
-	return i18n.get("validation_common_incomplete", validationManager.getLabelText(element));
+	return /** @type {string} */(i18n.get("validation_common_incomplete", validationManager.getLabelText(element)));
 }
 
 /**

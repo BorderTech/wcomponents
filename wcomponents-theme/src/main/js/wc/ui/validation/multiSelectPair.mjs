@@ -225,7 +225,11 @@ function validate(container) {
 		return el.options || [];
 	};
 
-	return minMax(obj) && _required;
+	const result = minMax(obj) && _required;
+	if (!result) {
+		console.log(`${import.meta.url} failed validation`);
+	}
+	return result;
 }
 
 initialise.register({

@@ -22,7 +22,11 @@ function validate(container) {
 		// do not bother with the expensive constraint checking if we are just (re)validating a single select
 		constrained = minMax({ container, widget, selectedFunc: getFilteredGroup });
 	}
-	return _required && constrained;
+	const result = _required && constrained;
+	if (!result) {
+		console.log(`${import.meta.url} failed validation`);
+	}
+	return result;
 }
 
 /**

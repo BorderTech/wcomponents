@@ -508,7 +508,7 @@ function getNumberCompareValue(val) {
 function getTriggerValue(element, type) {
 	let result;
 	if (type === "date") {
-		if (dateField && dateField.isOneOfMe(element)) {
+		if (dateField?.isOneOfMe(element)) {
 			result = dateField.getValue(element);
 		}
 		if (result !== "" && !interchange.isComplete(result)) {
@@ -537,7 +537,7 @@ function getTriggerValue(element, type) {
  */
 function getCompareType(element) {
 	let result;
-	if ((dateField && dateField.isOneOfMe(element))) {
+	if (dateField?.isOneOfMe(element)) {
 		result = "date";
 	} else if (element.matches("input[type='number']")) {
 		result = "number";
@@ -559,9 +559,9 @@ function parseRegex(re) {
 	let result = null;
 	if (re) {
 		result = regexCache[re];
-		if (!(result && result.hasOwnProperty(re))) {
+		if (!(result?.hasOwnProperty(re))) {
 			try {
-				if (re.indexOf("(?i)") === 0) {
+				if (re.startsWith("(?i)")) {
 					result = new RegExp(re.substring(4), "i");
 				} else {
 					result = new RegExp(re);

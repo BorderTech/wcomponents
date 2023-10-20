@@ -162,7 +162,11 @@ function validate(container) {
 			valid = false;
 		}
 	}
-	return complete && valid;
+	const result = complete && valid;
+	if (!result) {
+		console.log(`${import.meta.url} failed validation`);
+	}
+	return result;
 }
 
 /**

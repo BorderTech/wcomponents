@@ -24,7 +24,11 @@ function validate(container) {
 		container: container,
 		widget: requiredSelector
 	};
-	return required.complexValidationHelper(obj);
+	const result = required.complexValidationHelper(obj);
+	if (!result) {
+		console.log(`${import.meta.url} failed validation`);
+	}
+	return result;
 }
 
 /**
@@ -35,7 +39,7 @@ function validate(container) {
  * @param {String} action The shed action.
  */
 function shedSubscriber(element, action) {
-	if (element && element.matches(requiredSelector)) {
+	if (element?.matches(requiredSelector)) {
 		if (action === shed.actions.SELECT) {
 			if (validationManager.isInvalid(element)) {
 				validationManager.setOK(element);

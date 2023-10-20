@@ -85,7 +85,11 @@ function validate(container) {
 	const _widget = textArea.getWidget(true),
 		candidates = (container.matches(_widget) ? [container] : container.querySelectorAll(_widget));
 	const invalid = Array.from(candidates).filter(doContraintValidityTest);
-	return invalid.length === 0;
+	const result = invalid.length === 0;
+	if (!result) {
+		console.log(`${import.meta.url} failed validation`);
+	}
+	return result;
 }
 
 /**
