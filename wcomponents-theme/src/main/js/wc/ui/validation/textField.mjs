@@ -9,7 +9,7 @@ import validationManager from "wc/ui/validation/validationManager.mjs";
 import feedback from "wc/ui/feedback.mjs";
 import wcconfig from "wc/config.mjs";
 
-const textSelector = "input[type='text'],input:not([type])";
+const textSelector = ["input[type='text']", "input:not([type])"];
 const emailSelector = "input[type='email']";
 // input types which are not needed for validation other than mandatory-ness.
 const passwordSelector = "input[type='password']";
@@ -18,7 +18,7 @@ const fileSelector = "input[type='file']";
 const patternSelector = "input[pattern]";
 const minSelector = "input[minlength]";
 const withPatternSelectors = [patternSelector, minSelector, emailSelector].join();
-const input_selectors = [passwordSelector, telSelector, fileSelector, emailSelector, textSelector].join();
+const input_selectors = [passwordSelector, telSelector, fileSelector, emailSelector].concat(textSelector);
 const DEFAULT_RX = /^(?:".+"|[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~]+)@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$/;
 let rxString = "";
 
@@ -28,7 +28,7 @@ let rxString = "";
  * @returns {Boolean} true if the element is an input which we need to test.
  */
 function isValidatingInput(element) {
-	return element.matches(input_selectors) || (element.matches(textSelector) && !dateField.isOneOfMe(element));
+	return element.matches(input_selectors.join()) && !dateField.isOneOfMe(element);
 }
 
 /**
