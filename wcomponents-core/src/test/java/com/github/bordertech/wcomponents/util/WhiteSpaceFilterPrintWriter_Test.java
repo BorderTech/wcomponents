@@ -165,8 +165,8 @@ public class WhiteSpaceFilterPrintWriter_Test {
 		input = "<ui:root><ui:textarea>  foo  foo  <ui:textarea></ui:root>";
 		Assert.assertEquals(ERROR_MESSAGE + input + '"', input, filter(input));
 
-		// wc-message - Whitespace should NOT be stripped
-		input = "<ui:root><wc-message>  foo  foo  <wc-message></ui:root>";
+		// ui:message - Whitespace should NOT be stripped
+		input = "<ui:root><ui:message>  foo  foo  <ui:message></ui:root>";
 		Assert.assertEquals(ERROR_MESSAGE + input + '"', input, filter(input));
 
 		// ui:error - Whitespace should NOT be stripped
@@ -210,8 +210,8 @@ public class WhiteSpaceFilterPrintWriter_Test {
 		input = "<ui:root><ui:textarea>  foo  \n \t \r \" '  foo  <ui:textarea></ui:root>";
 		Assert.assertEquals(ERROR_MESSAGE + input + '"', input, filter(input));
 
-		// wc-message - Whitespace should NOT be stripped
-		input = "<ui:root><wc-message>  foo  \n \t \r \" '  foo  <wc-message></ui:root>";
+		// ui:message - Whitespace should NOT be stripped
+		input = "<ui:root><ui:message>  foo  \n \t \r \" '  foo  <ui:message></ui:root>";
 		Assert.assertEquals(ERROR_MESSAGE + input + '"', input, filter(input));
 
 		// ui:error - Whitespace should NOT be stripped
@@ -234,8 +234,8 @@ public class WhiteSpaceFilterPrintWriter_Test {
 		input = "<ui:root><ui:text type=\"plain\" space=\"preserve\">line1\nline2</ui:text></ui:root>";
 		Assert.assertEquals(ERROR_MESSAGE + input + '"', input, filter(input));
 
-		// wc-message - Whitespace should NOT be stripped
-		input = "<ui:root><wc-message a1='1  '   a2=\"2  \" >  foo  \n \t \r \" '  foo  <other>other text \n </other>  <wc-message></ui:root>";
+		// ui:message - Whitespace should NOT be stripped
+		input = "<ui:root><ui:message a1='1  '   a2=\"2  \" >  foo  \n \t \r \" '  foo  <other>other text \n </other>  <ui:message></ui:root>";
 		Assert.assertEquals(ERROR_MESSAGE + input + '"', input, filter(input));
 
 		// ui:error - Whitespace should NOT be stripped
