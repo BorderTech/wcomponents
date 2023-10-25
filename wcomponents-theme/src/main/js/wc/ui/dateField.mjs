@@ -655,13 +655,13 @@ function setInputValue(field) {
  * @param {HTMLInputElement|DocumentFragment} [container] A HTML element which is itself or may contain date fields.
  */
 function setUpDateFields(container) {
-	const _container = container || document.body;
 	let fields;
 
 	// @ts-ignore
-	if (container.nodeType === Node.ELEMENT_NODE && container.matches(DATE_WRAPPER_INCL_RO)) {
+	if (container?.nodeType === Node.ELEMENT_NODE && container.matches(DATE_WRAPPER_INCL_RO)) {
 		fields = [container];
 	} else {
+		const _container = container || document.body;
 		fields = Array.from(_container.querySelectorAll(DATE_WRAPPER_INCL_RO));
 	}
 

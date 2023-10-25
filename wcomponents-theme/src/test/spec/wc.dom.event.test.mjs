@@ -284,7 +284,7 @@ describe("wc/dom/event", () => {
 		const element = getInput(ownerDocument, ids.CHKBOX);
 		const handler = jasmine.createSpy("testRemoveBubbleIgnoresCaptureWithEventArgs");
 		event.add(element, { type: "click", listener: handler, capture: true });
-		// event.remove(element, "click", handler);
+		// loevent.remove(element, "click", handler);
 		event.fire(element, "click");
 		expect(handler).toHaveBeenCalled();
 	});
