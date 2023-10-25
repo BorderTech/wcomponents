@@ -73,7 +73,7 @@ public class SeleniumWMessagesWebElement extends SeleniumWComponentWebElement {
 	 * @return an error box descendant of the WMessages - may be a WValidationErrors
 	 */
 	public WebElement getErrorBox() {
-		By by = By.className(SeleniumWMessageBoxWebElement.TYPE_ERROR_CLASS_NAME);
+		By by = By.xpath("//wc-messagebox[@type='" + SeleniumWMessageBoxWebElement.TYPE_ERROR + "']");
 		return findViaDriver(by);
 	}
 
@@ -81,7 +81,7 @@ public class SeleniumWMessagesWebElement extends SeleniumWComponentWebElement {
 	 * @return a warning box descendant of the WMessages
 	 */
 	public WebElement getWarningBox() {
-		By by = By.className(SeleniumWMessageBoxWebElement.TYPE_WARNING_CLASS_NAME);
+		By by = By.className(SeleniumWMessageBoxWebElement.TYPE_WARNING);
 		return findViaDriver(by);
 	}
 
@@ -89,7 +89,7 @@ public class SeleniumWMessagesWebElement extends SeleniumWComponentWebElement {
 	 * @return an info box descendant of the WMessages
 	 */
 	public WebElement getInfoBox() {
-		By by = By.className(SeleniumWMessageBoxWebElement.TYPE_INFO_CLASS_NAME);
+		By by = By.className(SeleniumWMessageBoxWebElement.TYPE_INFO);
 		return findViaDriver(by);
 	}
 
@@ -97,7 +97,7 @@ public class SeleniumWMessagesWebElement extends SeleniumWComponentWebElement {
 	 * @return a success box descendant of the WMessages
 	 */
 	public WebElement getSuccessBox() {
-		By by = By.className(SeleniumWMessageBoxWebElement.TYPE_SUCCESS_CLASS_NAME);
+		By by = By.className(SeleniumWMessageBoxWebElement.TYPE_SUCCESS);
 		return findViaDriver(by);
 	}
 

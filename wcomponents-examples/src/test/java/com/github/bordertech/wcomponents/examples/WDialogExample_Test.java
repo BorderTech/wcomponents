@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -91,7 +92,7 @@ public class WDialogExample_Test extends WComponentExamplesTestCase {
 				"Last, First")).click();
 		driver.findElement(byWComponentPath("WDialogExample$SelectPersonPanel/WButton[1]")).click();
 
-		String message = driver.findElementImmediate(byWComponentPath("WMessageBox")).getText();
+		String message = driver.findElementImmediate(byWComponentPath("WMessageBox")).findElementImmediate(By.tagName("div")).getText();
 		Assert.assertTrue("Incorrect message text", message.contains("Selected: Last, First"));
 	}
 

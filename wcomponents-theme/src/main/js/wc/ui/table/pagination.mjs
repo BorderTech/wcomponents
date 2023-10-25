@@ -499,7 +499,7 @@ function clickEvent({ target, defaultPrevented }) {
 		const button = target.closest(PAGINATION_BUTTON);
 		if (button && !button.disabled && button.getAttribute(BUSY) !== TRUE) {
 			const paginationContainer = button.closest(PAGINATION_CONTAINER);
-			actionButton(target, paginationContainer);
+			actionButton(button, paginationContainer);
 		}
 	}
 }

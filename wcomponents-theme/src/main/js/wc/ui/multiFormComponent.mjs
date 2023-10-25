@@ -103,7 +103,7 @@ function processNow(idArr) {
 function clickEvent({ target, defaultPrevented, shiftKey }) {
 	/** @type {HTMLButtonElement} */
 	let element = defaultPrevented ? null :target.closest(buttonSelector);
-	if (!element && !shed.isDisabled(element)) {
+	if (element && !shed.isDisabled(element)) {
 		doClick(element, shiftKey || event["shiftKey"]);  // event.shiftKey - see wc/fixes/shiftKey_ff
 	}
 }

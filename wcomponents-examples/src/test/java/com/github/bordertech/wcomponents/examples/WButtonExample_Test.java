@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -58,7 +59,7 @@ public class WButtonExample_Test extends WComponentExamplesTestCase {
 	 */
 	private void assertHasMessage(final String assertText, final String message) {
 		SeleniumWComponentsWebDriver driver = getDriver();
-		WebElement messageElement = driver.findElementImmediate(byWComponentPath("WMessageBox"));
+		WebElement messageElement = driver.findElementImmediate(byWComponentPath("WMessageBox")).findElementImmediate(By.tagName("div"));
 		Assert.assertTrue(assertText, messageElement.getText().contains(message));
 	}
 }

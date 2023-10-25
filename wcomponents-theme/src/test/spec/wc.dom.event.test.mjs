@@ -4,17 +4,16 @@ import domTesting from "@testing-library/dom";
 
 describe("wc/dom/event", () => {
 	const ids = {
-			TEXTFIELD: "textField",
-			TEXTFIELD2: "textField2",
-			RADIO1: "radio1",
-			RADIO2: "radio2",
-			CHKBOX: "chkbox",
-			ANCHOR: "anchor",
-			PASSWD: "passwd",
-			TXTAREA: "txtarea",
-			BUTTONINP: "btninp",
-			BUTTON: "btn"
-		};
+		TEXTFIELD: "textField",
+		TEXTFIELD2: "textField2",
+		RADIO1: "radio1",
+		RADIO2: "radio2",
+		CHKBOX: "chkbox",
+		ANCHOR: "anchor",
+		PASSWD: "passwd",
+		TXTAREA: "txtarea",
+		BUTTONINP: "btninp",
+		BUTTON: "btn" };
 
 	let ownerDocument, eventContainer;
 
@@ -32,7 +31,8 @@ describe("wc/dom/event", () => {
 		// With JSDom we need to wire up the onclick here
 		element.onclick = function() {
 			const button = /** @type HTMLElement */(this);
-			button.setAttribute("data-clicked", "true"); };
+			button.setAttribute("data-clicked", "true");
+		};
 		event.fire(element, "click");
 		expect(element.getAttribute("data-clicked")).toBe("true");
 	});
@@ -284,7 +284,7 @@ describe("wc/dom/event", () => {
 		const element = getInput(ownerDocument, ids.CHKBOX);
 		const handler = jasmine.createSpy("testRemoveBubbleIgnoresCaptureWithEventArgs");
 		event.add(element, { type: "click", listener: handler, capture: true });
-		//event.remove(element, "click", handler);
+		// event.remove(element, "click", handler);
 		event.fire(element, "click");
 		expect(handler).toHaveBeenCalled();
 	});
