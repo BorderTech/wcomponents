@@ -379,8 +379,11 @@ function testElementValue(elements, testVal, operator) {
 		if (compareVal !== null && triggerVal !== null) {
 			result = doTest(triggerVal, operator, compareVal);
 		}
+		if (!asGroup) {
+			break;
+		}
 	}
-	while (asGroup && !result && i < elements.length);
+	while (!result && i < elements.length);
 	return result;
 }
 

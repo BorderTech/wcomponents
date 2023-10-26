@@ -78,6 +78,9 @@ function translate(wrapper) {
 
 	Array.from(labels).forEach(next => {
 		if (getWrapper(next) === wrapper) {
+			const updateElement = /** @param {string} i18nString */i18nString => {
+				next.innerHTML = i18nString;
+			};
 			// we have the correct spans
 			const rows = next.getAttribute("data-wc-tablerows");
 			const rpp = next.getAttribute("data-wc-tablerpp");
@@ -88,22 +91,16 @@ function translate(wrapper) {
 			const numRpp = parseInt(rpp, 10);
 			const numCurrentPage = parseInt(currentPage, 10);  // currentPage is 0 based.
 			const startIdx = (numRpp * numCurrentPage) + 1;
-			let promise;
 			if (numRpp === 1) {
-				promise = i18n.translate("table_pagination_label_one", String(startIdx), rows);
+				i18n.translate("table_pagination_label_one", String(startIdx), rows).then(updateElement);
 			} else {
 				const numRows = parseInt(rows, 10);
 				const endIdx = Math.min(numRows, (numRpp * numCurrentPage) + numRpp);
 				if (startIdx === endIdx) {
-					promise = i18n.translate("table_pagination_label_one", String(endIdx), rows);
+					i18n.translate("table_pagination_label_one", String(endIdx), rows).then(updateElement);
 				} else {
-					promise = i18n.translate("table_pagination_label_many", String(startIdx), String(endIdx), rows);
+					i18n.translate("table_pagination_label_many", String(startIdx), String(endIdx), rows).then(updateElement);
 				}
-			}
-			if (promise) {
-				promise.then(/** @param {string} i18nString */i18nString => {
-					next.innerHTML = i18nString;
-				});
 			}
 		}
 	});

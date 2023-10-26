@@ -164,7 +164,7 @@ function getAllControllers(element) {
 		return [];
 	}
 	const controllingWidget = `${controllerAbstractSelector}[aria-controls='${element.id}']`;
-	return /** @type HTMLElement[] */ document.body.querySelectorAll(controllingWidget);
+	return /** @type HTMLElement[] */(Array.from(document.body.querySelectorAll(controllingWidget)));
 }
 
 /**
@@ -201,17 +201,17 @@ function getGroup(controller) {
 		// will never be here
 		if (isWSelectToggle(controller)) {
 			// get all checkboxes and surrogates inside the targetElement
-			return Array.from(targetElement.querySelectorAll(allCbSelector.join()), next => {
+			return /** @type HTMLElement[] */(Array.from(targetElement.querySelectorAll(allCbSelector.join()), next => {
 				// remove any which are themselves a controller
 				return next.matches(controllerCheckboxSelector) ? null : next;
-			});
+			}));
 		}
 
 		// WTable select/deselect all
-		return Array.from(targetElement.querySelectorAll(rowSelector), next => {
+		return /** @type HTMLElement[] */(Array.from(targetElement.querySelectorAll(rowSelector), next => {
 			// we only want those rows in the current table, not in nested tables.
 			return next.closest(tbodySelector) === targetElement ? next : null;
-		});
+		}));
 	}
 	// No target element means a WSelectToggle with a named group
 	return getNamedGroup(targetId);
@@ -278,13 +278,13 @@ function activateTrigger(trigger) {
 		if (state === STATE.ALL) { // we have to allow "hidden" controls to be deslected but not selected.
 			groupFilter = groupFilter | getFilteredGroup.FILTERS.visible;
 		}
-		_group = getFilteredGroup(_group, {filter: groupFilter});
+		_group = /** @type HTMLElement[] */(getFilteredGroup(_group, { filter: groupFilter }));
 
 		_group = _group.filter(function (next) {
 			return !(next.matches(controllerSelector) || next.getAttribute("aria-readonly") === "true");
 		});
 
-		_group.forEach(next => shed[(state === STATE.ALL) ? "select" : "deselect"](next));
+		_group.forEach(next => (state === STATE.ALL) ? shed.select(next) : shed.deselect(next));
 
 		return _group.length;
 	}
@@ -371,7 +371,7 @@ function shedObserver(element, action) {
 		}
 		return;
 	}
-	const allControllers = element.matches(allCbSelector.join()) ? Array.from(getAllControllers(element)) : [];
+	const allControllers = element.matches(allCbSelector.join()) ? getAllControllers(element) : [];
 	allControllers.forEach(controlStatusHelper);
 
 }
@@ -387,7 +387,7 @@ function controlStatusHelper(controller) {
 	let selected;
 	if (controlledElements.length === 0) {
 		groupState = STATE.NONE;
-	} else if ((selected = getFilteredGroup(controlledElements))) {
+	} else if ((selected = /** @type {HTMLElement[]} */(getFilteredGroup(controlledElements)))) {
 		if (selected.length === 0) {
 			groupState = STATE.NONE;
 		} else if (controlledElements.length === selected.length) {

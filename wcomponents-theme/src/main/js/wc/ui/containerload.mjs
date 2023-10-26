@@ -109,6 +109,7 @@ function registerTrigger(element, noPost, get) {
  * @param {Element} element The element to load
  * @param {Boolean} eager true for eager load (does not need to post data)
  * @param {boolean} get true to use GET rather than POST which is useful for eager panels.
+ * @return {Promise<void>}
  */
 function requestLoad(element, eager, get) {
 	let promise;
@@ -192,7 +193,7 @@ function handleCollapseOrHide(element, action) {
  */
 function findFirstContainer(element, selector) {
 	if (element?.matches(selector)) {
-		return element;
+		return /** @type {HTMLElement} */(element);
 	}
 	/**
 	 *

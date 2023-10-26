@@ -469,7 +469,7 @@ function Tree() {
 	this.preAjaxSubscriber = function(element, content, action) {
 		if (this.isRoot(element) && content && action === "in") {
 			const kids = content.childNodes;
-			for (let i = 0; kids && i < kids.length; i++) {
+			for (let i = 0; i < kids.length; i++) {
 				let newBranch = this._getBranch(kids[i]);
 				if (newBranch) {
 					let currentBranch = document.getElementById(newBranch.id);

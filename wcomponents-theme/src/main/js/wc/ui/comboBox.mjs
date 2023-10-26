@@ -649,7 +649,8 @@ function focusEvent({ target }) {
 				 * if I have focussed in the current combo's list box (or something silly like the body)
 				 * do not close the combo.*/
 				let listbox;
-				if (target !== window && target !== document.body) {
+				// target.nodeType is really a test for "window" because every DOM node has a node type but window doesn't
+				if (target.nodeType && target !== document.body) {
 					listbox = getListBox(combo);
 					if (listbox !== getListBox(openCombo)) {
 						shed.collapse(openCombo);

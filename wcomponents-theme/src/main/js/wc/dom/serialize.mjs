@@ -27,15 +27,7 @@ const instance = {
 					const stateBVal = stateB[key];
 					const stateAVal = stateA[key];
 					if (stateBVal && stateAVal && stateBVal.length === stateAVal.length) {
-						stateBVal.sort();
-						stateAVal.sort();
-						same = stateBVal.every((val, idx) => {
-							let result = stateAVal[idx] === val;
-							if (!result) {
-								console.log("Param has changed at idx", key, idx, stateAVal[idx], val);
-							}
-							return result;
-						});
+						same = stateBVal.every(item => stateAVal.includes(item));
 					} else {
 						console.log("Param has changed", key, stateAVal, stateBVal);
 					}
