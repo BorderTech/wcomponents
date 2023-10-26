@@ -95,7 +95,6 @@ public class SeleniumWDialogWebElement extends SeleniumWComponentWebElement {
 	 */
 	public void close() {
 		clickElementNoWait(getCloseButton());
-//		getCloseButton().click();
 	}
 
 	/**

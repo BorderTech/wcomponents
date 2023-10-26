@@ -1,11 +1,13 @@
 {
 	"parserOptions": {
-		"ecmaVersion": 6
+		"ecmaVersion": 2019,
+		"sourceType": "module"
 	},
 	"env": {
-		"browser": true,
-		"amd": true
+		"es6": true,
+		"browser": true
 	},
+	"plugins": ["jasmine"],
 	"extends": "eslint:recommended",
 	"rules": {
 		"vars-on-top": "warn",
@@ -22,19 +24,23 @@
 		"no-constant-condition": 0
 	},
 	"globals": {
-		"KeyEvent": true,
-		"Promise": true,
-		"DataView": true,
-		"intern": true
+		"globalThis": true,
+		"global": true
 	},
-	"overrides": [{
-		"files": [ "*.mjs" ],
-		"parserOptions": {
-			"sourceType": "module"
-		}}, {
-		"files": [ "scripts/*.js", "build-js.js" ],
-		"parserOptions": {
-			"ecmaVersion": 2020
+	"overrides": [
+		{
+			"files": [ "scripts/*.js", "build-js.js" ],
+			"env": {
+				"browser": false,
+				"node": true
+			}
+		},
+		{
+			"files": [ "src/test/**/*" ],
+			"env": {
+				"browser": true,
+				"jasmine": true
+			}
 		}
-	}]
+	]
 }

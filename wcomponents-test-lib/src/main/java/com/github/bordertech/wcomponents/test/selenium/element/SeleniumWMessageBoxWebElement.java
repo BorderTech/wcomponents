@@ -18,12 +18,8 @@ public class SeleniumWMessageBoxWebElement extends SeleniumWComponentWebElement 
 	/**
 	 * The HTML element which defines the WMessageBox.
 	 */
-	public static final String TAG_NAME = "section";
+	public static final String TAG_NAME = "wc-messagebox";
 
-	/**
-	 * the className which defines a WMessages wrapper.
-	 */
-	public static final String CLASS_NAME = "wc-messagebox";
 
 	/**
 	 * HTML class of messages in a WMessageBox.
@@ -41,24 +37,24 @@ public class SeleniumWMessageBoxWebElement extends SeleniumWComponentWebElement 
 	public static final String VALIDATION_ERRORS_CLASSNAME = "wc-validationerrors";
 
 	/**
-	 * HTML class which denotes an error box.
+	 * Denotes an error box.
 	 */
-	public static final String TYPE_ERROR_CLASS_NAME = "wc-messagebox-type-error";
+	public static final String TYPE_ERROR = "error";
 
 	/**
-	 * HTML class which denotes a warning box.
+	 * Denotes a warning box.
 	 */
-	public static final String TYPE_WARNING_CLASS_NAME = "wc-messagebox-type-warn";
+	public static final String TYPE_WARNING = "warn";
 
 	/**
-	 * HTML class which denotes an information box.
+	 * Denotes an information box.
 	 */
-	public static final String TYPE_INFO_CLASS_NAME = "wc-messagebox-type-info";
+	public static final String TYPE_INFO = "info";
 
 	/**
-	 * HTML class which denotes a success box.
+	 * Denotes a success box.
 	 */
-	public static final String TYPE_SUCCESS_CLASS_NAME = "wc-messagebox-type-success";
+	public static final String TYPE_SUCCESS = "success";
 
 	/**
 	 * Create a SeleniumWMessagesWebElement from a generic WebElement.
@@ -72,11 +68,7 @@ public class SeleniumWMessageBoxWebElement extends SeleniumWComponentWebElement 
 			throw new SystemException("Incorrect element selected for SeleniumWMessageBoxWebElement. Expected tagname to be `"
 					+ TAG_NAME + "`but  found: " + getTagName());
 		}
-		String className = element.getAttribute("class");
-		if (!(className.contains(CLASS_NAME) || className.contains(VALIDATION_ERRORS_CLASSNAME))) {
-			throw new SystemException("Incorrect element selected for SeleniumWMessageBoxWebElement. Expected className to include `"
-					+ CLASS_NAME + "` or `" + VALIDATION_ERRORS_CLASSNAME + "` found: " + className);
-		}
+
 		if (getType() == null && !isWValidationErrors()) {
 			throw new SystemException("unexpected type for WValidationErrors message box.");
 		}
@@ -86,10 +78,7 @@ public class SeleniumWMessageBoxWebElement extends SeleniumWComponentWebElement 
 	 * @return the messages in a message box
 	 */
 	public List<WebElement> getMessages() {
-		if (isWValidationErrors()) {
-			return findElementsImmediate(By.className(ERROR_CLASS_NAME));
-		}
-		return findElementsImmediate(By.className(MESSAGE_CLASS_NAME));
+		return findElementsImmediate(By.tagName("div"));
 	}
 
 	/**
@@ -122,20 +111,23 @@ public class SeleniumWMessageBoxWebElement extends SeleniumWComponentWebElement 
 	 * @return the type of the message box or null if a WValidationErrors.
 	 */
 	private WMessageBox.Type getType() {
-		String className = getElement().getAttribute("class");
-		if (className.contains(TYPE_ERROR_CLASS_NAME)) {
+		WebElement element = getElement();
+		String type = element.getAttribute("type");
+		if (TYPE_ERROR.equals(type)) {
 			if (isWValidationErrors()) {
 				return null;
 			}
 			return WMessageBox.ERROR;
 		}
-		if (className.contains(TYPE_WARNING_CLASS_NAME)) {
+
+
+		if (TYPE_WARNING.equals(type)) {
 			return WMessageBox.WARN;
 		}
-		if (className.contains(TYPE_INFO_CLASS_NAME)) {
+		if (TYPE_INFO.equals(type)) {
 			return WMessageBox.INFO;
 		}
-		if (className.contains(TYPE_SUCCESS_CLASS_NAME)) {
+		if (TYPE_SUCCESS.equals(type)) {
 			return WMessageBox.SUCCESS;
 		}
 		throw new SystemException("Unable to determine message box type.");

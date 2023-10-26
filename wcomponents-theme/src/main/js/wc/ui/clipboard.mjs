@@ -1,23 +1,23 @@
-import event from "wc/dom/event";
-import initialise from "wc/dom/initialise";
-import Widget from "wc/dom/Widget";
-import debounce from "wc/debounce";
+import event from "wc/dom/event.mjs";
+import initialise from "wc/dom/initialise.mjs";
+import debounce from "wc/debounce.mjs";
 
-const clipboardButton = new Widget("button", "wc-clipboard");
-
-const instance = {
-	initialise: function(element) {
-		event.add(element, "click", debounce(clickEvent, 250));
-	}
-};
-
+/**
+ *
+ * @param {MouseEvent & {target: HTMLElement}} $event
+ */
 function clickEvent($event) {
-	const button = clipboardButton.findAncestor($event.target);
+	/** @type {HTMLButtonElement} */
+	const button = $event.target.closest("button.wc-clipboard");
 	if (button) {
 		copyContent(button);
 	}
 }
 
+/**
+ *
+ * @param {HTMLButtonElement} element
+ */
 function copyContent(element) {
 	const targetId = element.getAttribute("aria-controls");
 	if (targetId) {
@@ -35,4 +35,12 @@ function copyContent(element) {
 	}
 }
 
-export default initialise.register(instance);
+initialise.register({
+	/**
+	 *
+	 * @param {Element} element
+	 */
+	initialise: function(element) {
+		event.add(element, "click", debounce(clickEvent, 250));
+	}
+});

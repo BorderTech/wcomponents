@@ -44,10 +44,10 @@ public class WMessagesExample_Test extends WComponentExamplesTestCase {
 		List<SeleniumWMessageBoxWebElement> messageBoxes = messages.getMessageBoxes();
 		Assert.assertEquals(4, messageBoxes.size());
 		// first one is expected to be an error box
-		Assert.assertTrue(messageBoxes.get(0).getAttribute("class").contains(SeleniumWMessageBoxWebElement.TYPE_ERROR_CLASS_NAME));
-		Assert.assertTrue(messageBoxes.get(1).getAttribute("class").contains(SeleniumWMessageBoxWebElement.TYPE_WARNING_CLASS_NAME));
-		Assert.assertTrue(messageBoxes.get(2).getAttribute("class").contains(SeleniumWMessageBoxWebElement.TYPE_INFO_CLASS_NAME));
-		Assert.assertTrue(messageBoxes.get(3).getAttribute("class").contains(SeleniumWMessageBoxWebElement.TYPE_SUCCESS_CLASS_NAME));
+		Assert.assertTrue(messageBoxes.get(0).getAttribute("type").equals(SeleniumWMessageBoxWebElement.TYPE_ERROR));
+		Assert.assertTrue(messageBoxes.get(1).getAttribute("type").equals(SeleniumWMessageBoxWebElement.TYPE_WARNING));
+		Assert.assertTrue(messageBoxes.get(2).getAttribute("type").equals(SeleniumWMessageBoxWebElement.TYPE_INFO));
+		Assert.assertTrue(messageBoxes.get(3).getAttribute("type").equals(SeleniumWMessageBoxWebElement.TYPE_SUCCESS));
 	}
 
 	@Test

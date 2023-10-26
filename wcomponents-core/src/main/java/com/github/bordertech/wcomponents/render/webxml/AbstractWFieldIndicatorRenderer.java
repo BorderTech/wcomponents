@@ -33,7 +33,7 @@ abstract class AbstractWFieldIndicatorRenderer extends AbstractWebXmlRenderer {
 		WComponent validationTarget = fieldIndicator.getTargetComponent();
 
 		// no need to render an indicator for nothing.
-		// Diagnosables takes care of thieir own  messaging.
+		// Diagnosables takes care of their own  messaging.
 		if (validationTarget == null || (validationTarget instanceof Diagnosable && !(validationTarget instanceof Input))) {
 			return;
 		}
@@ -71,9 +71,11 @@ abstract class AbstractWFieldIndicatorRenderer extends AbstractWebXmlRenderer {
 			xml.appendClose();
 
 			for (Diagnostic diag : diags) {
-				xml.appendTag("ui:message");
+				xml.appendTagOpen("div");
+				xml.appendAttribute("is", "wc-message");
+				xml.appendClose();
 				xml.appendEscaped(diag.getDescription());
-				xml.appendEndTag("ui:message");
+				xml.appendEndTag("div");
 			}
 
 			xml.appendEndTag("ui:fieldindicator");

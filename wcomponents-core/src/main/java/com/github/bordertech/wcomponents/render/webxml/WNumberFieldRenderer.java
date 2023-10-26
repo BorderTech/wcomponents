@@ -34,7 +34,7 @@ final class WNumberFieldRenderer extends AbstractWebXmlRenderer {
 		xml.appendTagOpen("ui:numberfield");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
-		xml.appendOptionalAttribute("track", component.isTracking(), "true");
+		xml.appendOptionalAttribute("track", component.isTracking(), "true");  // ???
 		xml.appendOptionalAttribute("hidden", component.isHidden(), "true");
 		if (readOnly) {
 			xml.appendAttribute("readOnly", "true");
@@ -52,7 +52,7 @@ final class WNumberFieldRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("min", min != null, String.valueOf(min));
 			xml.appendOptionalAttribute("max", max != null, String.valueOf(max));
 			xml.appendOptionalAttribute("step", step != null, String.valueOf(step));
-			xml.appendOptionalAttribute("decimals", decimals > 0, decimals);
+			xml.appendOptionalAttribute("decimals", decimals > 0, decimals);  // ???
 			xml.appendOptionalAttribute("buttonId", submitControlId);
 
 			String autocomplete = field.getAutocomplete();

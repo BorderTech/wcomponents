@@ -1,0 +1,343 @@
+<form id="testForm" data-testid="testForm" action="#" method="get">
+	<select id="select1" data-testid="select1">
+		<option id="opt1" data-testid="opt1" value="volvo">Volvo</option>
+		<option id="opt2" data-testid="opt2" value="saab">Saab</option>
+		<option id="opt3" data-testid="opt3" value="mercedes" selected="selected">Mercedes</option>
+		<option id="opt4" data-testid="opt4" value="audi">Audi</option>
+		<optgroup id="optgrp1" data-testid="optgrp1" label="grp2">
+			<option id="opt5" data-testid="opt5">foo</option>
+			<option id="opt6" data-testid="opt6">foo</option>
+			<option id="opt7" data-testid="opt7">foo</option>
+			<option id="opt8" data-testid="opt8">foo</option>
+		</optgroup>
+	</select>
+	<select id="select2" data-testid="select2" disabled="disabled" multiple="multiple">
+		<option value="volvo" selected="selected">Volvo</option>
+		<option value="saab">Saab</option>
+		<option value="mercedes" selected="selected">Mercedes</option>
+		<option value="audi">Audi</option>
+	</select>
+	<select id="select3" data-testid="select3" multiple="multiple" size="2">
+		<optgroup label="Swedish Cars">
+			<option value="volvo" selected="selected">Volvo</option>
+			<option value="saab">Saab</option>
+		</optgroup>
+		<optgroup label="German Cars">
+			<option value="mercedes">Mercedes</option>
+			<option value="audi" selected="selected">Audi</option>
+		</optgroup>
+	</select>
+	<select id="select4" data-testid="select4">
+		<option value="" selected="selected">Selected option with empty string value attr but visible text</option>
+		<option value="saab">Saab</option>
+		<option value="mercedes">Mercedes</option>
+		<option value="audi">Audi</option>
+	</select>
+	<select id="select5" data-testid="select5">
+		<option selected="selected">No Value</option>
+		<option value="saab">Saab</option>
+		<option value="mercedes">Mercedes</option>
+		<option value="audi">Audi</option>
+	</select>
+	<div align="center"><br>
+		<input id="radio1" data-testid="radio1" type="radio" name="group1" value="Milk"> Milk<br>
+		<input type="radio" name="group1" value="Butter" checked="checked"> Butter<br>
+		<input type="radio" name="group1" value="Cheese"> Cheese
+		<hr>
+		<input id="radio2" data-testid="radio2" type="radio" name="group2" value="Water"> Water<br>
+		<input type="radio" name="group2" value="Beer"> Beer<br>
+		<input type="radio" name="group2" value="Wine" checked="checked"> Wine<br>
+		<input id="radio3" data-testid="radio3" type="radio" name="group3" value="Water"> Water<br>
+		<input type="radio" name="group3" value="Beer"> Beer<br>
+		<input type="radio" name="group3" value="Wine"> Wine<br>
+		<input id="radio4" data-testid="radio4" type="radio" name="group4" value="Water"> Water<br>
+		<input type="radio" name="group4" value="Beer"> Beer<br>
+		<input disabled="disabled" type="radio" name="group4" value="Wine" checked="checked"> Wine<br>
+	</div>
+	<div>
+		I have a bike:
+		<input type="checkbox" name="vehicle" value="Bike" checked="checked"/>
+		<br />
+		I have a car:
+		<input type="checkbox" name="vehicle" value="Car" />
+		<br />
+		I have an airplane:
+		<input id="cb1" data-testid="cb1" type="checkbox" name="vehicle" value="Airplane" checked="checked"/>
+		<br />
+		I have an orange:
+		<input type="checkbox" name="fruit" value="Fruit" checked="checked"/>
+	</div>
+	<div id="selectTests" data-testid="selectTests">
+		<input type="checkbox" name="chkgrp1" id="chk1" data-testid="chk1"/>
+		<input type="checkbox" checked="checked" name="chkgrp1" id="chk2" data-testid="chk2"/>
+		<input type="checkbox" name="chkgrp1" id="chk3" data-testid="chk3"/>
+		<input type="checkbox" checked="checked" name="chkgrp2" id="chk4" data-testid="chk4"/>
+		<fieldset id="cb_fieldset" data-testid="cb_fieldset">
+			<input type="checkbox" name="kung" id="chk5" data-testid="chk5"/>
+			<input type="checkbox" checked="checked" name="fu" id="chk6" data-testid="chk6"/>
+			<input type="checkbox" name="fukung" id="chk7" data-testid="chk7"/>
+			<input type="checkbox" checked="checked" name="fukung" id="chk8" data-testid="chk8"/>
+		</fieldset>
+		<input type="radio" name="rad1" id="rad1" data-testid="rad1"/>
+		<input type="radio" checked="checked" name="rad1" id="rad2" data-testid="rad2"/>
+		<input type="radio" name="rad3" id="rad3" data-testid="rad3"/>
+		<input type="radio" checked="checked" name="rad3" id="rad4" data-testid="rad4"/>
+		<select name="sel1" id="sel1" data-testid="sel1">
+			<option value="opt1">opt1</option>
+			<option selected="selected" value="opt2">opt2</option>
+		</select>
+		<select name="sel2" id="sel2" data-testid="sel2">
+			<option value="opt3">opt3</option>
+			<option selected="selected" value="opt4">opt4</option>
+		</select>
+		<div>
+			<h4>faux checkbox</h4>
+			<ul role="group">
+				<li id="fauxChk1" data-testid="fauxChk1" role="checkbox" aria-checked="false">0</li>
+				<li id="fauxChk2" data-testid="fauxChk2" role="checkbox" aria-checked="true">1</li>
+				<li id="fauxChk3" data-testid="fauxChk3" role="checkbox" aria-checked="false">0</li>
+				<li id="fauxChk4" data-testid="fauxChk4" role="checkbox" aria-checked="true">1</li>
+				<li id="presLi" data-testid="presLi" role="presentation">0</li>
+				<li id="justAnLi" data-testid="justAnLi">0</li>
+			</ul>
+		</div>
+		<ul role="radiogroup" id="radGrp1" data-testid="radGrp1">
+			<li id="fauxRad3" data-testid="fauxRad3" role="radio" aria-checked="false">0</li>
+			<li id="fauxRad4" data-testid="fauxRad4" role="radio" aria-checked="true">1</li>
+			<li id="fauxRad5" data-testid="fauxRad5" role="radio" aria-checked="false">0</li>
+			<li>0</li>
+			<li id="fauxRad6" data-testid="fauxRad6" role="radio" aria-checked="false">0</li>
+			<li id="fauxRad7" data-testid="fauxRad7" role="radio" aria-checked="false">0</li>
+			<li id="fauxRad8" data-testid="fauxRad8" role="radio" aria-checked="false">0</li>
+		</ul>
+		<div role="radiogroup" id="radGrp2" data-testid="radGrp2" aria-owns="rO1 rO2 rO3 rO4 rO5 rO6"></div>
+		<div><span>foobar</span></div>
+		<span id="rO1" data-testid="rO1" role="radio" aria-checked="false">0</span>
+		<span id="rO2" data-testid="rO2" role="radio" aria-checked="true">1</span>
+		<span id="rO3" data-testid="rO3" role="radio" aria-checked="false">0</span>
+		<span id="rO4" data-testid="rO4" role="radio" aria-checked="false">0</span>
+		<span id="rO5" data-testid="rO5" role="radio" aria-checked="false">0</span>
+		<span id="rO6" data-testid="rO6" role="radio" aria-checked="false">0</span>
+		<ul role="radiogroup">
+			<li id="fauxRad1" data-testid="fauxRad1" role="radio" aria-checked="false">0</li>
+			<li id="fauxRad2" data-testid="fauxRad2" role="radio" aria-checked="true">1</li>
+		</ul>
+		<ul role="listbox" id="fauxSelect1" data-testid="fauxSelect1">
+			<li id="fauxOpt1" data-testid="fauxOpt1" role="option" aria-selected="false">0</li>
+			<li id="fauxOpt2" data-testid="fauxOpt2" role="option" aria-selected="false">1</li>
+			<li id="fauxOpt3" data-testid="fauxOpt3" role="option" aria-checked="false">1</li>
+			<li id="fauxOpt4" data-testid="fauxOpt4" role="option" aria-selected="false">0</li>
+			<li id="fauxOpt5" data-testid="fauxOpt5" role="option" aria-selected="true">1</li>
+			<li>0</li>
+			<li id="fauxOpt6" data-testid="fauxOpt6" role="option" aria-checked="false">1</li>
+			<li id="fauxOpt7" data-testid="fauxOpt7" role="option" aria-checked="false">1</li>
+		</ul>
+		<ul role="listbox" aria-multiselectable="true" id="fauxSelect2" data-testid="fauxSelect2">
+			<li id="fauxOpt8" data-testid="fauxOpt8" role="option" aria-selected="false">0</li>
+			<li id="fauxOpt9" data-testid="fauxOpt9" role="option" aria-selected="true">1</li>
+			<li id="fauxOpt10" data-testid="fauxOpt10" role="option" aria-checked="true">1</li>
+			<li id="fauxOpt11" data-testid="fauxOpt11" role="option" aria-selected="false">0</li>
+			<li id="fauxOpt12" data-testid="fauxOpt12" role="option" aria-selected="true">1</li>
+			<li>0</li>
+			<li id="fauxOpt13" data-testid="fauxOpt13" role="option" aria-checked="true">1</li>
+			<li id="fauxOpt14" data-testid="fauxOpt14" role="option" aria-checked="true">1</li>
+		</ul>
+		<ul role="menu" id="menu1" data-testid="menu1">
+			<li id="radItem1" data-testid="radItem1" role="menuitemradio" aria-checked="false">0</li>
+			<li id="radItem2" data-testid="radItem2" role="menuitemradio" aria-checked="true">1</li>
+			<li id="radItem3" data-testid="radItem3" role="menuitemradio" aria-checked="false">0</li>
+			<li id="radItem4" data-testid="radItem4" role="menuitemradio" aria-checked="false">0</li>
+			<li id="radItem5" data-testid="radItem5" role="menuitemradio" aria-checked="false">0</li>
+			<li id="radItem6" data-testid="radItem6" role="menuitemradio" aria-checked="false">0</li>
+		</ul>
+		<ul role="menubar" id="menubar1" data-testid="menubar1">
+			<li id="radBarItem1" data-testid="radBarItem1" role="menuitemradio" aria-checked="false">0</li>
+			<li id="radBarItem2" data-testid="radBarItem2" role="menuitemradio" aria-checked="true">1</li>
+			<li id="radBarItem3" data-testid="radBarItem3" role="menuitemradio" aria-checked="false">0</li>
+			<li id="radBarItem4" data-testid="radBarItem4" role="menuitemradio" aria-checked="false">0</li>
+			<li id="radBarItem5" data-testid="radBarItem5" role="menuitemradio" aria-checked="false">0</li>
+			<li id="radBarItem6" data-testid="radBarItem6" role="menuitemradio" aria-checked="false">0</li>
+		</ul>
+		<ul role="menu" id="menu2" data-testid="menu2">
+			<li id="chkItem1" data-testid="chkItem1" role="menuitemcheckbox" aria-checked="false" style="width:5em">0</li>
+			<li id="chkItem2" data-testid="chkItem2" role="menuitemcheckbox" aria-checked="true" aria-disabled="true" style="width:5em">1</li>
+			<li id="chkItem3" data-testid="chkItem3" role="menuitemcheckbox" aria-checked="false" hidden="hidden" style="width:5em">0</li>
+			<li id="chkItem4" data-testid="chkItem4" role="menuitemcheckbox" aria-checked="true" style="width:5em">1</li>
+			<li id="chkItem5" data-testid="chkItem5" role="menuitemcheckbox" aria-checked="false" style="width:5em">0</li>
+			<li id="chkItem6" data-testid="chkItem6" role="menuitemcheckbox" aria-checked="true" aria-disabled="true" hidden="hidden" style="width:5em">1</li>
+		</ul>
+		<ul role="menubar" id="menubar2" data-testid="menubar2">
+			<li id="chkBarItem1" data-testid="chkBarItem1" role="menuitemcheckbox" aria-checked="false">0</li>
+			<li id="chkBarItem2" data-testid="chkBarItem2" role="menuitemcheckbox" aria-checked="true">1</li>
+			<li id="chkBarItem3" data-testid="chkBarItem3" role="menuitemcheckbox" aria-checked="false">0</li>
+			<li id="chkBarItem4" data-testid="chkBarItem4" role="menuitemcheckbox" aria-checked="false">0</li>
+			<li id="chkBarItem5" data-testid="chkBarItem5" role="menuitemcheckbox" aria-checked="false">0</li>
+			<li id="chkBarItem6" data-testid="chkBarItem6" role="menuitemcheckbox" aria-checked="false">0</li>
+		</ul>
+		<ul role="menu" id="menu3" data-testid="menu3">
+			<li id="radItemGrp1" data-testid="radItemGrp1" role="menuitemradio" aria-checked="false">0</li>
+			<li id="radItemGrp2" data-testid="radItemGrp2" role="menuitemradio" aria-checked="true">1</li>
+			<li id="radItemGrp3" data-testid="radItemGrp3" role="menuitemradio" aria-checked="false">0</li>
+			<li id="radItemGrp4" data-testid="radItemGrp4" role="menuitemradio" aria-checked="false">0</li>
+			<li id="radItemGrp5" data-testid="radItemGrp5" role="menuitemradio" aria-checked="false">0</li>
+			<li id="radItemGrp6" data-testid="radItemGrp6" role="menuitemradio" aria-checked="false">0</li>
+		</ul>
+	</div>
+	<div id="tabpanel_1" data-testid="tabpanel_1" class="tabpanel">
+		<ul id="tablist_1" data-testid="tablist_1" role="tablist">
+			<li id="tab_1" data-testid="tab_1" role="tab" tabindex="0">Crust</li>
+			<li id="tab_2" data-testid="tab_2" role="tab" tabindex="-1">Veges</li>
+			<li id="tab_3" data-testid="tab_3" role="tab" tabindex="-1">Carnivore</li>
+			<li id="tab_4" data-testid="tab_4" role="tab" tabindex="-1">Delivery</li>
+		</ul>
+		<div id="panel_1" data-testid="panel_1" role="tabpanel" aria-labelledby="tab_1" >
+			<h3>Select Crust</h3>
+			<ul class="controlList">
+				<li><label><input type="radio" name="crust" value="crust1"/>Deep Dish</label></li>
+				<li><label><input type="radio" name="crust" value="crust1"/>Thick and cheesey</label></li>
+				<li><label><input type="radio" name="crust" value="crust1"/>Thick and spicey</label></li>
+				<li><label><input type="radio" name="crust" value="crust1"/>Thin</label></li>
+			</ul>
+		</div>
+		<div id="panel_2" data-testid="panel_2" role="tabpanel" aria-labelledby="tab_2" hidden="hidden" style="display: none">
+			<h3>Select Vegetables</h3>
+			<ul class="controlList">
+				<li><label><input id="vege1" data-testid="vege1" type="checkbox" name="vege1"/>Black Olives</label></li>
+				<li><label><input type="checkbox" name="vege2"/>Green Olives</label></li>
+				<li><label><input type="checkbox" name="vege3"/>Green Peppers</label></li>
+				<li><label><input type="checkbox" name="vege4" hidden="hidden"/>Mushrooms</label></li>
+				<li><label><input type="checkbox" name="vege5"/>Black Olives</label></li>
+				<li><label><input type="checkbox" name="vege6" hidden="hidden"/>Onions</label></li>
+				<li><label><input type="checkbox" name="vege7"/>Pineapple</label></li>
+			</ul>
+		</div>
+		<div id="panel_3" data-testid="panel_3" role="tabpanel" aria-labelledby="tab_3" hidden="hidden" style="display: none">
+			<h3>Select Carnivore Options</h3>
+			<ul class="controlList">
+				<li><label><input id="meat1" data-testid="meat1" type="checkbox" name="meat1"/>Hamburger</label></li>
+				<li><label><input type="checkbox" name="meat2"/>Ham</label></li>
+				<li><label><input type="checkbox" name="meat3" hidden="hidden"/>Itailian Sausage</label></li>
+				<li><label><input type="checkbox" name="meat4"/>Pepporroni</label></li>
+			</ul>
+		</div>
+		<div id="panel_4" data-testid="panel_4" role="tabpanel" aria-labelledby="tab_4" hidden="hidden">
+			<h3>Select Delivery Menthod</h3>
+			<ul class="controlList">
+				<li><label><input type="radio" name="delivery" value="delivery1"/>Eat in</label></li>
+				<li><label><input type="radio" name="delivery" value="delivery2"/>Carry out</label></li>
+				<li><label><input type="radio" name="delivery" value="delivery3"/>Delivery</label></li>
+				<li><label><input type="radio" name="delivery" value="delivery4"/>Overnight mail</label></li>
+			</ul>
+		</div>
+	</div>
+	<ul id="tree1" data-testid="tree1" class="tree root-level" role="tree" aria-labelledby="label_1">
+		<li id="fruits" data-testid="fruits" class="tree-parent" role="treeitem" tabindex="0" aria-expanded="true"><span>Fruits</span>
+			<ul id="fruit-grp" data-testid="fruit-grp" role="group">
+				<li id="oranges" data-testid="oranges" role="treeitem" tabindex="-1">Oranges</li>
+				<li id="pinapples" data-testid="pinapples" role="treeitem" tabindex="-1">Pineapples</li>
+				<li id="apples" data-testid="apples" class="tree-parent" role="treeitem" tabindex="-1" aria-expanded="false"><span>Apples</span>
+					<ul id="apple-grp" data-testid="apple-grp" role="group">
+						<li id="macintosh" data-testid="macintosh" role="treeitem" tabindex="-1">Macintosh</li>
+						<li id="granny_smith" data-testid="granny_smith" class="tree-parent" role="treeitem" tabindex="-1" aria-expanded="false"><span>Granny Smith</span>
+							<ul id="granny-grp" data-testid="granny-grp" role="group">
+								<li id="Washington" data-testid="Washington" role="treeitem" tabindex="-1">Washington State</li>
+								<li id="Michigan" data-testid="Michigan" role="treeitem" tabindex="-1">Michigan</li>
+								<li id="New_York" data-testid="New_York" role="treeitem" tabindex="-1">New York</li>
+							</ul>
+						</li>
+						<li id="fuji" data-testid="fuji" role="treeitem" tabindex="-1">Fuji</li>
+					</ul>
+				</li>
+				<li id="bananas" data-testid="bananas" role="treeitem" tabindex="-1">Bananas</li>
+				<li id="pears" data-testid="pears" role="treeitem" tabindex="-1">Pears</li>
+			</ul>
+		</li>
+		<li id="vegetables" data-testid="vegetables" class="tree-parent" role="treeitem" tabindex="-1" aria-expanded="true"><span>Vegetables</span>
+			<ul id="veg-grp" data-testid="veg-grp" role="group">
+				<li id="broccoli" data-testid="broccoli" role="treeitem" tabindex="-1">Broccoli</li>
+				<li id="carrots" data-testid="carrots" role="treeitem" tabindex="-1">Carrots</li>
+				<li id="lettuce" data-testid="lettuce" class="tree-parent" role="treeitem" tabindex="-1" aria-expanded="false"><span>Lettuce</span>
+					<ul id="lettuce-grp" data-testid="lettuce-grp" role="group">
+						<li id="lettuce1" data-testid="lettuce1" role="treeitem" tabindex="-1">Romaine</li>
+						<li id="lettuce2" data-testid="lettuce2" role="treeitem" tabindex="-1">Iceberg</li>
+						<li id="lettuce3" data-testid="lettuce3" role="treeitem" tabindex="-1">Butterhead</li>
+					</ul>
+				</li>
+				<li id="spinach" data-testid="spinach" role="treeitem" tabindex="-1">Spinach</li>
+				<li id="squash" data-testid="squash" class="tree-parent" role="treeitem" tabindex="-1" aria-expanded="true"><span>Squash</span>
+					<ul id="squash-grp" data-testid="squash-grp" role="group">
+						<li id="acorn" data-testid="acorn" role="treeitem" tabindex="-1">Acorn</li>
+						<li id="ambercup" data-testid="ambercup" role="treeitem" tabindex="-1">Ambercup</li>
+						<li id="autumn_cup" data-testid="autumn_cup" role="treeitem" tabindex="-1">Autumn Cup</li>
+						<li id="hubbard" data-testid="hubbard" role="treeitem" tabindex="-1">Hubbard</li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</form>
+<form id="form2" data-testid="form2" name="form2">
+	<fieldset id="form2Fieldset1" data-testid="form2Fieldset1">
+		<legend>Form2</legend>
+		<ul role="radiogroup" id="form2radGrp1" data-testid="form2radGrp1">
+			<li id="form2rad1" data-testid="form2rad1" role="radio" aria-checked="false">0</li>
+			<li id="form2rad2" data-testid="form2rad2" role="radio" aria-checked="true">1</li>
+			<li id="form2rad3" data-testid="form2rad3" role="radio" aria-checked="false">0</li>
+			<li>0</li>
+			<li id="form2rad4" data-testid="form2rad4" role="radio" aria-checked="false">0</li>
+			<li id="form2rad5" data-testid="form2rad5" role="radio" aria-checked="false">0</li>
+			<li id="form2rad6" data-testid="form2rad6" role="radio" aria-checked="false">0</li>
+		</ul>
+	</fieldset>
+	<fieldset id="form2Fieldset2" data-testid="form2Fieldset2">
+		<legend>faux checkbox</legend>
+		<ul>
+			<li id="form2Chk1" data-testid="form2Chk1" role="checkbox" aria-checked="false">0</li>
+			<li id="form2Chk2" data-testid="form2Chk2" role="checkbox" aria-checked="true">1</li>
+			<li id="form2Chk3" data-testid="form2Chk3" role="checkbox" aria-checked="false">0</li>
+			<li id="form2Chk4" data-testid="form2Chk4" role="checkbox" aria-checked="true">1</li>
+			<li id="presLi2" data-testid="presLi2" role="presentation">0</li>
+			<li id="justAnLi2" data-testid="justAnLi2">0</li>
+		</ul>
+	</fieldset>
+</form>
+<form id="form3" data-testid="form3" name="form3">
+	<input id="form3txt1" data-testid="form3txt1" name="form3txt1" type="text" value="AbC123"/>
+	<input id="doesNotMatchMyName" data-testid="doesNotMatchMyName" name="form3txt2" type="text" value="dEF456"/>
+	<input id="form3txtTen" data-testid="form3txtTen" name="form3txtTen" type="text" value="10"/>
+	<input id="form3NumTen" data-testid="form3NumTen" name="form3NumTen" type="number" value="10"/>
+	<input id="form3txtEmpty" data-testid="form3txtEmpty" name="form3txtEmpty" type="text" value="10"/>
+	<input id="form3NumEmpty" data-testid="form3NumEmpty" name="form3NumEmpty" type="number" value="10"/>
+</form>
+<table id="wctable1" data-testid="wctable1">
+	<thead id="wcthead1" data-testid="wcthead1">
+		<tr>
+			<th>heading1</th>
+			<th>heading2</th>
+			<th>heading3</th>
+			<th>heading4</th>
+		</tr>
+	</thead>
+	<tbody id="wctbody1" data-testid="wctbody1">
+		<tr id="wctr1" data-testid="wctr1">
+			<td>cell1</td>
+			<td>cell2</td>
+			<td>cell3</td>
+			<td>cell4</td>
+		</tr>
+		<tr id="wctr2" data-testid="wctr2">
+			<td>cell5</td>
+			<td>cell6</td>
+			<td>cell7</td>
+			<td>cell8</td>
+		</tr>
+	</tbody>
+	<tfoot id="wctfoot1" data-testid="wctfoot1">
+		<tr>
+			<td>footer1</td>
+			<td>footer2</td>
+			<td>footer3</td>
+			<td>footer4</td>
+		</tr>
+	</tfoot>
+</table>

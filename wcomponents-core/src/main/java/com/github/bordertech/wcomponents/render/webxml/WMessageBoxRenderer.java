@@ -27,7 +27,7 @@ final class WMessageBoxRenderer extends AbstractWebXmlRenderer {
 		XmlStringBuilder xml = renderContext.getWriter();
 
 		if (messageBox.hasMessages()) {
-			xml.appendTagOpen("ui:messagebox");
+			xml.appendTagOpen("wc-messagebox");
 			xml.appendAttribute("id", component.getId());
 			xml.appendOptionalAttribute("class", component.getHtmlClass());
 			xml.appendOptionalAttribute("track", component.isTracking(), "true");
@@ -56,12 +56,14 @@ final class WMessageBoxRenderer extends AbstractWebXmlRenderer {
 			xml.appendClose();
 
 			for (String message : messageBox.getMessages()) {
-				xml.appendTag("ui:message");
+				xml.appendTagOpen("div");
+				xml.appendAttribute("is", "wc-message");
+				xml.appendClose();
 				xml.print(message);
-				xml.appendEndTag("ui:message");
+				xml.appendEndTag("div");
 			}
 
-			xml.appendEndTag("ui:messagebox");
+			xml.appendEndTag("wc-messagebox");
 		}
 	}
 }

@@ -1,4 +1,4 @@
-define(["wc/compat/compat!"], function() {
+define([], function() {
 	"use strict";
 	var instance = new WcTestUtils();
 
@@ -14,13 +14,10 @@ define(["wc/compat/compat!"], function() {
 		 */
 		this.load = function (id, parentRequire, callback/* , config */) {
 			/* If you want to test IE then you must ensure compat is loaded before trying to load ajax. */
-			parentRequire(["wc/ajax/ajax", "wc/dom/event", "wc/has", "wc/fixes", "wc/i18n/i18n"], function (a, evt, has, f, i18n) {
+			parentRequire(["wc/ajax/ajax", "wc/dom/event", "wc/fixes", "wc/i18n/i18n"], function (a, evt, f, i18n) {
 				ajax = a;
 				event = evt;
-				if (has("edge") || has("trident")) {
-					setupTimeout = 1000;
-				}
-				i18n.initialize().then(function() {
+				i18n.translate().then(function() {
 					callback(instance);
 				});
 			});
@@ -41,6 +38,7 @@ define(["wc/compat/compat!"], function() {
 		this.setupHelper = function(deps, callback) {
 			var result = new Promise(function(win, lose) {
 				try {
+					// @ts-ignore
 					require(deps, function() {
 						var args = arguments;
 						if (callback) {
@@ -76,22 +74,6 @@ define(["wc/compat/compat!"], function() {
 			return testHolder;
 		};
 
-		/**
-		 * Renders a wc/dom/Widget instance recursively into a container element (or fresh testHolder if no container provided)
-		 * @param {wc/dom/Widget} widget
-		 * @param {Element} [container]
-		 * @return {Element} The newly rendered element.
-		 */
-		this.renderWidget = function(widget, container) {
-			var topElement = container || this.getTestHolder(),
-				element = widget.render({ recurse: true }),
-				parent;
-			while ((parent = element.parentNode)) {
-				element = parent;
-			}
-			topElement.appendChild(element);
-			return element;
-		};
 
 		this.loadResource = function (url, callback, onerror) {
 			var result = new Promise(function(win, lose) {

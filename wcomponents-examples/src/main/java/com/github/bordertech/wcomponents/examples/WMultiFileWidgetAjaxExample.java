@@ -50,7 +50,6 @@ public class WMultiFileWidgetAjaxExample extends WContainer {
 	private final WCheckBox mandatory = new WCheckBox();
 	private final WCheckBox readonly = new WCheckBox();
 	private final WCheckBox imageEditorShowOverlay = new WCheckBox();
-	private final WCheckBox imageEditorIsFace = new WCheckBox();
 	private final WNumberField editorWidth = new WNumberField();
 	private final WNumberField editorHeight = new WNumberField();
 	private final WFigure imageHolder;
@@ -85,7 +84,6 @@ public class WMultiFileWidgetAjaxExample extends WContainer {
 		WFieldLayout imageEditorParmsLayout = new WFieldLayout();
 		imageEditorParmsLayout.setLabelWidth(25);
 		imageEditorParmsLayout.addField("Show overlay", imageEditorShowOverlay);
-		imageEditorParmsLayout.addField("Facial Image", imageEditorIsFace);
 		imageEditorParmsLayout.addField("Width", editorWidth);
 		imageEditorParmsLayout.addField("Height", editorHeight);
 		imageEditorFieldSet.add(imageEditorParmsLayout);
@@ -170,7 +168,6 @@ public class WMultiFileWidgetAjaxExample extends WContainer {
 					setOverlayUrl("");
 				}
 
-				// setIsFace(imageEditorIsFace.isSelected());
 			}
 		};
 		editor.setUseCamera(true);
@@ -233,56 +230,6 @@ public class WMultiFileWidgetAjaxExample extends WContainer {
 		});
 
 		add(apply);
-
-		final WText hackFaceTracker = new WText();
-		hackFaceTracker.setEncodeText(false);
-		hackFaceTracker.setText("<script defer=\"defer\">(function() {\n"
-				+ "		require([\"wc/ui/facetracking\"], function(facetracking) {\n"
-				+ "			window.setTimeout(function() {			\n"
-				+ "			var container = document.getElementById(\"image_edit_parameters\"),\n"
-				+ "				interval = createRange(\"_interval\", \"Interval\"),\n"
-				+ "				minNeighbors = createRange(\"_minNeighbours\", \"Min Neighbours\"),\n"
-				+ "				confidence = createRange(\"_confidenceThreshold\", \"Confidence Threshold\", -10, 10, 0.1);\n"
-				+ "			if (container) {\n"
-				+ "				container.appendChild(interval);\n"
-				+ "				container.appendChild(minNeighbors);\n"
-				+ "				container.appendChild(confidence);\n"
-				+ "			}}, 1000);\n"
-				+ "			function createRange(prop, lbl, min, max, step) {\n"
-				+ "				var onChange = function(element) {\n"
-				+ "						if (element) {\n"
-				+ "							var val = element.value;\n"
-				+ "							facetracking[prop] = (val * 1);\n"
-				+ "							element.title = val;\n"
-				+ "						}\n"
-				+ "						label.textContent = lbl + \" (\" + facetracking[prop] + \")\";\n"
-				+ "					},\n"
-				+ "					result = document.createElement(\"div\"),\n"
-				+ "					label = result.appendChild(document.createElement(\"label\")),\n"
-				+ "					range = result.appendChild(document.createElement(\"input\"));\n"
-				+ "				range.setAttribute(\"type\", \"range\");\n"
-				+ "				range.setAttribute(\"min\", min || \"0\");\n"
-				+ "				range.setAttribute(\"max\", max || \"10\");\n"
-				+ "				range.setAttribute(\"step\", step || \"1\");\n"
-				+ "				range.setAttribute(\"value\", facetracking[prop]);\n"
-				+ "				range.addEventListener(\"change\", function($event) {\n"
-				+ "					onChange($event.target);\n"
-				+ "				}, false);\n"
-				+ "				onChange();\n"
-				+ "				return result;\n"
-				+ "			}\n"
-				+ "		});\n"
-				+ "	})();</script>");
-
-		imageEditorIsFace.setActionOnChange(new Action() {
-			@Override
-			public void execute(final ActionEvent event) {
-				editor.setIsFace(imageEditorIsFace.isSelected());
-				if (hackFaceTracker.getParent() == null && imageEditorIsFace.isSelected()) {
-					add(hackFaceTracker);
-				}
-			}
-		});
 
 		// Right
 		final WPanel contentPanel = new WPanel();

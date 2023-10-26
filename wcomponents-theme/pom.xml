@@ -22,10 +22,11 @@
 		<node.download.root>http://nodejs.org/dist/</node.download.root>
 		<npm.download.root>http://registry.npmjs.org/npm/-/</npm.download.root>
 		<yarn.download.root>https://github.com/yarnpkg/yarn/releases/download/</yarn.download.root>
-		<nodejs.version>v16.14.1</nodejs.version><!-- the version of node to be installed -->
-		<npmjs.version>8.5.0</npmjs.version><!-- the version of npm to be installed - should be the version that goes with your version of node -->
+		<nodejs.version>v18.18.0</nodejs.version><!-- the version of node to be installed -->
+		<npmjs.version>9.8.1</npmjs.version><!-- the version of npm to be installed - should be the version that goes with your version of node -->
 		<yarn.version>v1.22.19</yarn.version>
 		<dependency-check.skip>true</dependency-check.skip>
+		<spotbugs.skip>true</spotbugs.skip>
 	</properties>
 	<name>wcomponents-theme</name>
 	<build>
@@ -51,50 +52,48 @@
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
-				<version>1.8.0</version>
+				<version>1.14.0</version>
 				<configuration>
 					<workingDirectory>${basedir}</workingDirectory>
 				</configuration>
 				<executions>
 					<execution>
-						<id>install node and yarn</id>
+						<id>install node and npm</id>
 						<goals>
-							<goal>install-node-and-yarn</goal>
+							<goal>install-node-and-npm</goal>
 						</goals>
 						<phase>generate-resources</phase>
 						<configuration>
 							<skip>${theme.skip.antrun}</skip>
 							<nodeVersion>${nodejs.version}</nodeVersion>
-							<yarnVersion>${yarn.version}</yarnVersion>
-							<nodeDownloadRoot>${node.download.root}</nodeDownloadRoot>
-							<yarnDownloadRoot>${yarn.download.root}</yarnDownloadRoot>
+							<downloadRoot>${node.download.root}</downloadRoot>
 						</configuration>
 					</execution>
 					<execution>
-						<id>yarn install</id>
+						<id>npm-install</id>
 						<goals>
-							<goal>yarn</goal>
+							<goal>npm</goal>
 						</goals>
 						<configuration>
 							<skip>${theme.skip.antrun}</skip>
 						</configuration>
 					</execution>
 					<execution>
-						<id>yarn version</id>
+						<id>npm-version</id>
 						<goals>
-							<goal>yarn</goal>
+							<goal>npm</goal>
 						</goals>
 						<configuration>
 							<skip>${theme.skip.antrun}</skip>
-							<arguments>version --no-git-tag-version --new-version ${project.version}</arguments>
-							<!--<arguments>version ${project.version} - -allow-same-version true</arguments>-->
+							<!--<arguments>version - -no-git-tag-version - -new-version ${project.version}</arguments>-->
+							<arguments>version ${project.version} --allow-same-version true</arguments>
 						</configuration>
 					</execution>
 					<execution>
-						<id>yarn run build</id>
+						<id>run-build</id>
 						<phase>compile</phase>
 						<goals>
-							<goal>yarn</goal>
+							<goal>npm</goal>
 						</goals>
 						<configuration>
 							<skip>${theme.skip.antrun}</skip>
@@ -102,16 +101,28 @@
 						</configuration>
 					</execution>
 					<execution>
-						<id>yarn run test</id>
+						<id>run-test</id>
 						<phase>test</phase>
 						<goals>
-							<goal>yarn</goal>
+							<goal>npm</goal>
 						</goals>
 						<configuration>
 							<skip>${theme.skip.antrun}</skip>
 							<arguments>run test</arguments>
 						</configuration>
 					</execution>
+					<!--<execution>
+						<!- - Prune the node_modules folder leaving only runtime deps - ->
+						<id>prune-production</id>
+						<phase>package</phase>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<skip>${theme.skip.antrun}</skip>
+							<arguments>install - -production - -no-optional</arguments>
+						</configuration>
+					</execution>-->
 				</executions>
 			</plugin>
 		</plugins>

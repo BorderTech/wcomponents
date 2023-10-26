@@ -28,13 +28,13 @@ public class WSessionExample extends WPanel {
 	public WSessionExample() {
 		WMessages messages = new WMessages(true);
 		messages
-				.info("If \"ui:session\" is supported by the theme, wait 180 seconds to see a warning message and then a session expired message.");
+				.info("If \"wc-session\" is supported by the theme, wait 180 seconds to see a warning message and then a session expired message.");
 		add(messages);
 
 		WText txtSession = new WText() {
 			@Override
 			public String getText() {
-				return "<ui:session timeout=\"180\" />";
+				return "<wc-session timeout=\"180\" />";
 			}
 		};
 		txtSession.setEncodeText(false);

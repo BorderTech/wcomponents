@@ -105,17 +105,17 @@ public final class ServletUtil {
 	private static final String THEME_PROJECT_TRANSLATION_RESOURCE_PATH = "/wc/theme/i18n";
 
 	/**
-	 * The parameters extracted from multi part saved on the request.
+	 * The parameters extracted from multipart saved on the request.
 	 */
 	private static final String REQUEST_PARAMETERS_KEY = "wc_req_params";
 
 	/**
-	 * The parameters extracted from multi part saved on the request.
+	 * The parameters extracted from multipart saved on the request.
 	 */
 	private static final String REQUEST_FILES_KEY = "wc_req_files";
 
 	/**
-	 * The flag that the request has been processed allowing for multi part forms.
+	 * The flag that the request has been processed allowing for multipart forms.
 	 */
 	private static final String REQUEST_PROCESSED_KEY = "wc_req_processed";
 
@@ -127,7 +127,7 @@ public final class ServletUtil {
 	}
 
 	/**
-	 * Check if the request is for a resource (eg static, theme...).
+	 * Check if the request is for a resource (e.g. static, theme...).
 	 *
 	 * @param request the http servlet request.
 	 * @param response the http servlet response.
@@ -279,8 +279,8 @@ public final class ServletUtil {
 	}
 
 	/**
-	 * Serves up a file from the theme. In practice it is generally a bad idea to use this servlet to serve up static
-	 * resources. Instead it would make more sense to move CSS, JS, HTML resources to a CDN or similar.
+	 * Serves up a file from the theme. In practice, it is generally a bad idea to use this servlet to serve up static
+	 * resources. Instead, it would make more sense to move CSS, JS, HTML resources to a CDN or similar.
 	 *
 	 *
 	 * @param req the request with the file name in parameter "f", or following the servlet path.
@@ -387,7 +387,7 @@ public final class ServletUtil {
 	 */
 	public static InterceptorComponent createInterceptorChain(final HttpServletRequest request) {
 
-		// Allow for multi part parameters
+		// Allow for multipart parameters
 		Map<String, String[]> parameters = getRequestParameters(request);
 
 		InterceptorComponent[] chain;
@@ -454,7 +454,7 @@ public final class ServletUtil {
 	}
 
 	/**
-	 * Called if a Throwable is caught by the top-level service method. By default we display an error and terminate the
+	 * Called if a Throwable is caught by the top-level service method. By default, we display an error and terminate the
 	 * session.
 	 *
 	 * @param helper the current servlet helper
@@ -468,7 +468,7 @@ public final class ServletUtil {
 		HttpServletRequest httpServletRequest = helper.getBackingRequest();
 		HttpServletResponse httpServletResponse = helper.getBackingResponse();
 
-		// Allow for multi part requests
+		// Allow for multipart requests
 		Map<String, String[]> parameters = getRequestParameters(httpServletRequest);
 
 		// Set error code for AJAX, Content or data requests
@@ -523,7 +523,7 @@ public final class ServletUtil {
 	}
 
 	/**
-	 * Get a map of request parameters allowing for multi part form fields.
+	 * Get a map of request parameters allowing for multipart form fields.
 	 *
 	 * @param request the request being processed
 	 * @return a map of parameters on the request
@@ -536,7 +536,7 @@ public final class ServletUtil {
 	}
 
 	/**
-	 * Get a value for a request parameter allowing for multi part form fields.
+	 * Get a value for a request parameter allowing for multipart form fields.
 	 *
 	 * @param request the request being processed
 	 * @param key the parameter key to return
@@ -548,7 +548,7 @@ public final class ServletUtil {
 	}
 
 	/**
-	 * Get the values for a request parameter allowing for multi part form fields.
+	 * Get the values for a request parameter allowing for multipart form fields.
 	 *
 	 * @param request the request being processed
 	 * @param key the parameter key to return
@@ -559,7 +559,7 @@ public final class ServletUtil {
 	}
 
 	/**
-	 * Get a map of file items in the request allowing for multi part form fields.
+	 * Get a map of file items in the request allowing for multipart form fields.
 	 *
 	 * @param request the request being processed
 	 * @return a map of files on the request
@@ -572,7 +572,7 @@ public final class ServletUtil {
 	}
 
 	/**
-	 * Get a file item value from the request allowing for multi part form fields.
+	 * Get a file item value from the request allowing for multipart form fields.
 	 *
 	 * @param request the request being processed
 	 * @param key the file parameter key to return
@@ -584,7 +584,7 @@ public final class ServletUtil {
 	}
 
 	/**
-	 * Get file item values from the request allowing for multi part form fields.
+	 * Get file item values from the request allowing for multipart form fields.
 	 *
 	 * @param request the request being processed
 	 * @param key the file parameter key to return
@@ -595,7 +595,7 @@ public final class ServletUtil {
 	}
 
 	/**
-	 * Process the request parameters allowing for multi part form fields.
+	 * Process the request parameters allowing for multipart form fields.
 	 *
 	 * @param request the request being processed
 	 */
@@ -617,7 +617,7 @@ public final class ServletUtil {
 	}
 
 	/**
-	 * Extract the parameters and file items allowing for multi part form fields.
+	 * Extract the parameters and file items allowing for multipart form fields.
 	 *
 	 * @param request the request being processed
 	 * @param parameters the map to store non-file request parameters in.
@@ -668,7 +668,7 @@ public final class ServletUtil {
 
 	/**
 	 * <p>
-	 * {@link FileItem} classes (if attachements) will be kept as part of the request. The default behaviour of the file
+	 * {@link FileItem} classes (if attachments) will be kept as part of the request. The default behaviour of the file
 	 * item is to store the upload in memory until it reaches a certain size, after which the content is streamed to a
 	 * temp file.</p>
 	 *

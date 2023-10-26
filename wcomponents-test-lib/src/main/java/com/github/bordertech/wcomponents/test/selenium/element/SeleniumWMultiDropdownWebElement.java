@@ -108,7 +108,7 @@ public class SeleniumWMultiDropdownWebElement extends SeleniumGroupInputWebEleme
 		if (dropdowns.isEmpty()) { // theoretically this should never happen...
 			return new ArrayList<>(0);
 		}
-		List<WebElement> selected = new ArrayList(dropdowns.size());
+		List<WebElement> selected = new ArrayList<>(dropdowns.size());
 		Select se;
 		for (WebElement dropdown : dropdowns) {
 			se = new Select(dropdown);
@@ -288,7 +288,7 @@ public class SeleniumWMultiDropdownWebElement extends SeleniumGroupInputWebEleme
 		}
 		List<WebElement> dropdowns = getDropdowns();
 		if (dropdowns.isEmpty()) {
-			// really should not be here but tehre is nothing to do
+			// really should not be here but there is nothing to do
 			LOG.warn("Found an editable WMultiDropdown with no select elements");
 			return;
 		}

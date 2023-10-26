@@ -60,25 +60,6 @@ public class WImageEditor extends AbstractWComponent {
 	}
 
 	/**
-	 * @return true if the image editor includes face detection.
-	 */
-	public boolean getIsFace() {
-		return getComponentModel().isFace;
-	}
-
-	/**
-	 * Set to true to turn on face detection.
-	 *
-	 * @param isFace turn face detection on or off.
-	 */
-	public void setIsFace(final boolean isFace) {
-		if (isFace != getIsFace()) {
-			ImageEditModel model = getOrCreateComponentModel();
-			model.isFace = isFace;
-		}
-	}
-
-	/**
 	 * Determine if the image editor will render inline.
 	 * @return true if it will render inline, otherwise false (will render in popup)
 	 */
@@ -154,7 +135,6 @@ public class WImageEditor extends AbstractWComponent {
 		private String overlayUrl;
 		private Dimension size;
 		private boolean useCamera;
-		private boolean isFace;
 		private boolean renderInline;
 	}
 }
