@@ -289,8 +289,7 @@ function notify(trigger, groupName, cbresult) {
  * @returns {String} The url.
  */
 Trigger.getUrl = function(trigger) {
-	const ampCheckRE =	/&amp;/gi,
-		fragmentRe = /#.+$/g;
+	const ampCheckRE =	/&amp;/gi;
 	/**
 	 * <p>If the trigger is an instance of Trigger we will try to return, in order of preference:</p>
 	 * <ol><li>trigger.url;
@@ -344,7 +343,7 @@ Trigger.getUrl = function(trigger) {
 		 * The correct behaviour is for the browser to drop the anchor part of the URL. Firefox does this
 		 * correctly IE8 gets it wrong and instead encodes the hash (which will usually confuse the server).*/
 		url = url.replace(ampCheckRE, "&");
-		url = url.replace(fragmentRe, ""); // a little help for the "otherwise enabled"
+		// url = url.replace(/#.+$/g, "");  // a little help for the "otherwise enabled"
 	}
 	return url;
 };

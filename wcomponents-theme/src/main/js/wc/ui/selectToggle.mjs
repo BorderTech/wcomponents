@@ -1,4 +1,4 @@
-/**
+/*
  * Provides functionality to select/deselect all checkboxes in a group. Generally applies to {@link module:wc/ui/checkBoxSelect} but can work
  * with any check boxes in any container.
  *
@@ -284,7 +284,13 @@ function activateTrigger(trigger) {
 			return !(next.matches(controllerSelector) || next.getAttribute("aria-readonly") === "true");
 		});
 
-		_group.forEach(next => (state === STATE.ALL) ? shed.select(next) : shed.deselect(next));
+		_group.forEach(next => {
+			if (state === STATE.ALL) {
+				shed.select(next);
+			} else {
+				shed.deselect(next);
+			}
+		});
 
 		return _group.length;
 	}

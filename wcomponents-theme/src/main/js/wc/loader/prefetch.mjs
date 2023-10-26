@@ -60,16 +60,6 @@ export default {
 	 * @param moduleId The module (exactly as you would pass to the loader).
 	 */
 	jsModule: function(moduleId) {
-		try {
-			if (moduleId && window.require && window.require.toUrl) {
-				const scriptPath = /.+\.js$/.test(moduleId) ? moduleId : moduleId + ".js";  // Add ".js" to the moduleId if it is not already present.
-				const href = window.require.toUrl(scriptPath);
-				if (href) {
-					this.request(href, "script");
-				}
-			}
-		} catch (ex) {
-			console.warn(ex);  // don't die on prefetch exceptions, log 'em and move on
-		}
+		console.log("TODO revisit this entire prefetch module, ignored prefetch for", moduleId);
 	}
 };

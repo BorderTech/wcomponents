@@ -35,8 +35,7 @@ function getStyle(element, cssRule, includeUnits, notAColor) {
 			let style;
 			if (testRe.test(result)) {
 				if (!includeUnits) {
-					const unitRe = /[A-Za-z]+$/g;
-					return result.replace(unitRe, "");
+					return parseFloat(result).toString();  // strip the 'px', 'em', whatever units from the result
 				}
 			} else if (!notAColor) {
 				if (result === "transparent" || result === "rgba(0, 0, 0, 0)") {  // chromeframe returns an rgb string for transparent

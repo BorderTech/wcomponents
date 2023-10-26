@@ -8,7 +8,7 @@ const ROLE_MAP = {
 	"input": "textbox",
 	"number": "spinbox",
 	"option": "option",
-	"password": "textbox",
+	"password": "textbox",  // NOSONAR
 	"progress": "progressbar",
 	"radio": "radio",
 	"range": "slider",

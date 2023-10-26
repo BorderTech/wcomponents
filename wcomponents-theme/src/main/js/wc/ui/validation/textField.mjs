@@ -12,7 +12,7 @@ import wcconfig from "wc/config.mjs";
 const textSelector = ["input[type='text']", "input:not([type])"];
 const emailSelector = "input[type='email']";
 // input types which are not needed for validation other than mandatory-ness.
-const passwordSelector = "input[type='password']";
+const passwordSelector = "input[type='password']";  // NOSONAR
 const telSelector = "input[type='tel']";
 const fileSelector = "input[type='file']";
 const patternSelector = "input[pattern]";

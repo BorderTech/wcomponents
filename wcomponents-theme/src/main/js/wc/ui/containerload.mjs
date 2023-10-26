@@ -162,10 +162,10 @@ function handleExpandOrShow(element) {
 				timers.setTimeout(event.fire, 0, form, "submit");
 			}
 		} else if (element.matches(magicContainer)) {
-			promise = requestLoad(element, false, true);
+			return requestLoad(element, false, true);
 		}
 	}
-	return promise || Promise.resolve();
+	return Promise.resolve();
 }
 
 /**
