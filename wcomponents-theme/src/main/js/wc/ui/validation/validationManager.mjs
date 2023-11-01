@@ -188,9 +188,6 @@ const validationManager = {
 	 * @returns {boolean} `true` if we want controls to validate when their value changes, false to validate only when submitting.
 	 */
 	isValidateOnChange: function() {
-		if (allowValidateOnChange !== null) {
-			return allowValidateOnChange;
-		}
 		setValidateRules();
 		return allowValidateOnChange;
 	},
@@ -201,9 +198,6 @@ const validationManager = {
 	 * @returns {boolean} `true` if we want mandatory controls to validate when the user exits them, even if there has not been a change.
 	 */
 	isValidateOnBlur: function() {
-		if (allowValidateOnBlur !== null) {
-			return allowValidateOnBlur;
-		}
 		setValidateRules();
 		return allowValidateOnBlur;
 	}
