@@ -65,7 +65,7 @@ describe("wc/ui/validation/textField", ()=> {
 		expect(element.getAttribute("aria-invalid")).not.toBe("true");
 	});
 
-	it("Should flag a field as invalid when no value is below minlength", function() {
+	it("Should flag a field as invalid when value length is below minlength", function() {
 		const element = getInitedTextField("tf3");
 		fireChangeOnTextField(element);
 		expect(element.getAttribute("aria-invalid")).toBe("true");

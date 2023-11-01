@@ -1,4 +1,4 @@
-/**
+		/**
  * Provides functionality to undertake client validation of WTextArea.
  *
  * @module
@@ -54,7 +54,7 @@ function doContraintValidityTest(element) {
 			result = true;
 			flag = i18n.get("validation_textarea_overmax", "%s", mask, size);
 		} else {
-			mask = Number(element.getAttribute("data-wc-min"));
+			mask = textArea.getMinlength(element);
 			if (mask && size < mask) {
 				result = true;
 				flag = i18n.get("validation_text_belowmin", "%s", mask);
