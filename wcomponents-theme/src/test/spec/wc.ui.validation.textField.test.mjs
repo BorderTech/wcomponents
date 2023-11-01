@@ -19,6 +19,18 @@ describe("wc/ui/validation/textField", ()=> {
 					<span class="wc-input-wrapper" id="tf3" style="width:10em">
 						<input  minlength="5" value="1234" id="tf3_input" data-testid="tf3" name="tf3" style="width:5em" placeholder="Search"/>
 					</span>
+					<span class="wc-input-wrapper" id="tf4" style="width:10em">
+						<input type="email" value="1234" id="tf4_input" data-testid="tf4" name="tf4" style="width:5em" placeholder="Email"/>
+					</span>
+					<span class="wc-input-wrapper" id="tf5" style="width:10em">
+						<input pattern="\\d{8,8}" value="1234" id="tf5_input" data-testid="tf5" name="tf5" style="width:5em" placeholder="8 Digits"/>
+					</span>
+					<span class="wc-input-wrapper" id="tf6" style="width:10em">
+						<input type="email" value="" id="tf6_input" data-testid="tf6" name="tf6" style="width:5em" placeholder="Email"/>
+					</span>
+					<span class="wc-input-wrapper" id="tf7" style="width:10em">
+						<input pattern="\\d{8,8}" value="" id="tf7_input" data-testid="tf7" name="tf7" style="width:5em" placeholder="8 Digits"/>
+					</span>
 				</form>
 			</div>`;
 		ownerDocument = document;
@@ -58,6 +70,36 @@ describe("wc/ui/validation/textField", ()=> {
 		fireChangeOnTextField(element);
 		expect(element.getAttribute("aria-invalid")).toBe("true");
 		element.value += "12345";
+		fireChangeOnTextField(element);
+		expect(element.getAttribute("aria-invalid")).not.toBe("true");
+	});
+
+	it("Should flag an email field as invalid when the input is not an email", function() {
+		const element = getInitedTextField("tf4");
+		fireChangeOnTextField(element);
+		expect(element.getAttribute("aria-invalid")).toBe("true");
+		element.value = "foo.bar@example.com";
+		fireChangeOnTextField(element);
+		expect(element.getAttribute("aria-invalid")).not.toBe("true");
+	});
+
+	it("Should flag a field as invalid when the input does not match the pattern attr", function() {
+		const element = getInitedTextField("tf5");
+		fireChangeOnTextField(element);
+		expect(element.getAttribute("aria-invalid")).toBe("true");
+		element.value = "12345678";
+		fireChangeOnTextField(element);
+		expect(element.getAttribute("aria-invalid")).not.toBe("true");
+	});
+
+	it("Should not flag an email field as invalid when there is no value", function() {
+		const element = getInitedTextField("tf6");
+		fireChangeOnTextField(element);
+		expect(element.getAttribute("aria-invalid")).not.toBe("true");
+	});
+
+	it("Should not flag a pattern field as invalid when there is no value", function() {
+		const element = getInitedTextField("tf7");
 		fireChangeOnTextField(element);
 		expect(element.getAttribute("aria-invalid")).not.toBe("true");
 	});
