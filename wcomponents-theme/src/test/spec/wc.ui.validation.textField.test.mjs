@@ -105,8 +105,8 @@ describe("wc/ui/validation/textField", ()=> {
 	});
 
 	/**
-	 * Helper for tests, fires a change event on the dropdown.
-	 * @param element
+	 * Helper for tests, fires a change event on the field.
+	 * @param {HTMLElement} element
 	 */
 	function fireChangeOnTextField(element) {
 		const changeEvent = new window.Event("change", {
@@ -118,7 +118,7 @@ describe("wc/ui/validation/textField", ()=> {
 
 	/**
 	 * Helper for tests, gets a field from the DOM and initialises it.
-	 * @param testId The data-testid of the element you want.
+	 * @param {string} testId The data-testid of the element you want.
 	 * @return {HTMLInputElement}
 	 */
 	function getInitedTextField(testId) {

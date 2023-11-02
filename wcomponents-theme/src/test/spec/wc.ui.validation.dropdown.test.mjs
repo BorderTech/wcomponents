@@ -178,7 +178,7 @@ describe("wc/ui/validation/dropdown", ()=> {
 
 	/**
 	 * Helper for tests, fires a blur event on the dropdown.
-	 * @param dropdown
+	 * @param {HTMLElement} dropdown
 	 */
 	function fireBlurOnDropdown(dropdown) {
 		const blurEvent = new window.UIEvent("blur", {
@@ -191,7 +191,7 @@ describe("wc/ui/validation/dropdown", ()=> {
 
 	/**
 	 * Helper for tests, gets a dropdown from the DOM and initialises it.
-	 * @param testId The data-testid of the dropdown you want.
+	 * @param {string} testId The data-testid of the dropdown you want.
 	 * @return {HTMLSelectElement}
 	 */
 	function getInitedDropdown(testId) {

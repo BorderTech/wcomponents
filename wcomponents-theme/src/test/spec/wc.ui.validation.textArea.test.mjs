@@ -1,5 +1,6 @@
 import "wc/ui/validation/textArea.mjs";
 import {getInput} from "../helpers/specUtils.mjs";
+import domTesting from "@testing-library/dom";
 
 describe("wc/ui/validation/textArea", ()=> {
 	let ownerDocument;
@@ -94,8 +95,8 @@ describe("wc/ui/validation/textArea", ()=> {
 
 
 	/**
-	 * Helper for tests, fires a change event on the dropdown.
-	 * @param element
+	 * Helper for tests, fires a change event on the field.
+	 * @param {HTMLElement} element
 	 */
 	function fireChangeOnTextArea(element) {
 		const changeEvent = new window.Event("change", {
@@ -107,8 +108,8 @@ describe("wc/ui/validation/textArea", ()=> {
 
 	/**
 	 * Helper for tests, gets a field from the DOM and initialises it.
-	 * @param testId The data-testid of the element you want.
-	 * @return {HTMLInputElement}
+	 * @param {string} testId The data-testid of the element you want.
+	 * @return {HTMLTextAreaElement}
 	 */
 	function getInitedTextArea(testId) {
 		const focusEvent = new window.UIEvent("focus", {
@@ -116,7 +117,7 @@ describe("wc/ui/validation/textArea", ()=> {
 			cancelable: false,
 			view: window
 		});
-		const element = getInput(testHolder, testId);
+		const element = /** @type {HTMLTextAreaElement} */(domTesting.getByTestId(testHolder, testId));
 		element.dispatchEvent(focusEvent);
 		return element;
 	}
