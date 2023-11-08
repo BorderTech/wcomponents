@@ -118,9 +118,7 @@ function updatePending(handle, clear) {
 			} else {
 				pendingTimeouts[handle] = true;
 			}
-			let pendingCount = Object.keys(pendingTimeouts);
-			pendingCount = pendingCount.length;
-			// console.log("Pending timeouts: ", pendingCount);
+			const pendingCount = Object.keys(pendingTimeouts).length;
 			notify(!!pendingCount);
 		} catch (ignore) {  // don't let errors here break everything else - this is just a testing hook
 			console.error(ignore);
@@ -157,7 +155,7 @@ function clearTimer(handle, type) {
  * testing hook we need to use it in all browsers.
  * @function
  * @private
- * @param {Arguments} outerArgs The args that invoked the timeout request.
+ * @param {IArguments} outerArgs The args that invoked the timeout request.
  */
 function callbackWrapperFactory(outerArgs) {
 	const callbackWrapper = function() {
