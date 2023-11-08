@@ -1,13 +1,13 @@
 import TimeoutWarn from "wc/ui/timeoutWarn.mjs";
 import domTesting from "@testing-library/dom";
 import getDifference from "wc/date/getDifference.mjs";
-import timers from "wc/timers.mjs";
 
 describe("wc/ui/timeoutWarn", () => {
 	let testHolder;
 	const testId = "some-session-timer-thing";
 
 	beforeAll(() => {
+		console.log(TimeoutWarn.tagName);  // I want to import TimeoutWarn for the JSDoc comments but eslint thinks it's unused.
 		jasmine.clock().install();
 		testHolder = document.body;
 	});
@@ -77,15 +77,21 @@ describe("wc/ui/timeoutWarn", () => {
 		expect(diff).toBeLessThanOrEqual(sixMinutes);
 	});
 
-	// it("shows the warning", () => {
-	// 	const element = getSessionElement(testHolder, testId);
-	// 	element.setAttribute("warn", "20");
-	// 	element.setAttribute("timeout", "60");  // 3 minutes
-	// 	jasmine.clock().tick(40000);
-	// });
+	it("shows the warning and then the error", () => {
+		const element = getSessionElement(testHolder, testId);
+		const timeout = 60;  // seconds
+		const warn = 20;  // seconds
+		const warnAfter = timeout - warn;
+		element.setAttribute("warn", warn.toString());
+		element.setAttribute("timeout", timeout.toString());
+		jasmine.clock().tick(warnAfter * 1000);  // milliseconds
+		return domTesting.findByTitle(testHolder, "Warning").then(messageBox => {
+			return domTesting.findByText(messageBox, /Your session will be automatically ended within the next/);
+		});
+	});
 
 	/**
-	 *
+	 * Helper to aid with type checking.
 	 * @param {HTMLElement} container
 	 * @param {string} id
 	 * @return {TimeoutWarn}
