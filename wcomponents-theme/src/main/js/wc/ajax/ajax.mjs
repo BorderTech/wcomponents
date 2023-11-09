@@ -8,7 +8,6 @@
  */
 
 import Observer from "wc/Observer.mjs";
-import xmlString from "wc/xml/xmlString.mjs";
 import timers from "wc/timers.mjs";
 import uid from "wc/dom/uid.mjs";
 
@@ -318,101 +317,6 @@ function Ajax() {
 		}
 		return result;
 	};
-
-	/**
-	 * Synchronously loads an XML document.
-	 * CACHE IS ON
-	 *
-	 * Beware, IE8 has some "gotchas" which can easily catch you out, here is the scenario:
-	 * 1. foo.xsl is served up from a servlet like so: /theme?f=xslt/all.xsl
-	 * 2. The response type is text/xsl
-	 * 3. This foo.xsl servlet is first used by the browser when the page loads due to the processing instruction:
-	 * <?xml-stylesheet type="text/xsl" href="/theme?f=xslt/all.xsl"?>
-	 * 4. The foo.xsl servlet is then called via AJAX.
-	 *
-	 * Despite the fact that IE8 has already used foo.xsl to transform the whole page, when it loads the same
-	 * xsl via AJAX it does not recognise it as XML, responseXML is empty and responseText is populated.
-	 *
-	 * @function
-	 * @alias module:wc/ajax/ajax.loadXmlDoc
-	 * @public
-	 * @param {String} uri Url to the xml document.
-	 * @param {Function} [callback] Optionally provide a callback.
-	 * @param {boolean} [asText] If true send the request with responseType.TEXT.
-	 * @param {boolean} [asPromise] Experimental
-	 * @returns {Object} an XML DOM loaded from the URI.
-	 */
-	this.loadXmlDoc = function(uri, callback, asText, asPromise) {
-		const responseType = (asText ? this.responseType.TEXT : this.responseType.XML),
-			request = {
-				url: uri,
-				async: !!asPromise,
-				cache: true,  // cache should be forever, cache is broken by changing URL (querystring)
-				responseType: responseType,
-				forceMime: "text/xml"
-			};
-		if (asPromise) {
-			return loadXmlDocAsync(request, callback, asText);
-		}
-		return loadXmlDocSync(request, callback, asText);
-	};
-
-	function loadXmlDocAsync(request, callback, asText) {
-		function executor(win) {
-			request.callback = callbackWrapper;
-			function callbackWrapper(response) {
-				let innerResult = response;
-				if (!asText) {
-					if (!(innerResult && innerResult.documentElement)) {
-						/*
-						 * For older versions of Internet Explorer which don't support forcing content type
-						 * Also for older versions of MSXML which do not know that content types ending in "+xml" are xml,
-						 * for example application/rdf+xml. For example using MSXML ActiveX version 3.0.
-						 */
-						innerResult = xmlString.from(this.responseText);
-					}
-				}
-				if (callback) {
-					callback(innerResult);
-				}
-				if (win) {
-					win(innerResult);
-				}
-			}
-		}
-		const result = new Promise(executor);
-		ajax.simpleRequest(request);
-		return result;
-	}
-
-	function loadXmlDocSync(request, callback, asText) {
-		let result;
-		request.callback = callbackWrapper;
-
-		function callbackWrapper(response) {
-			result = response;
-
-			if (!asText) {
-				if (!(result && result.documentElement)) {
-					/*
-					 * For older versions of Internet Explorer which don't support forcing content type
-					 * Also for older versions of MSXML which do not know that content types ending in "+xml" are xml,
-					 * for example application/rdf+xml. For example using MSXML ActiveX version 3.0.
-					 */
-					result = xmlString.from(this.responseText);
-				}
-			}
-			if (callback) {
-				try {
-					callback.call(this, response);
-				} catch (ex) {
-					console.error("Error in callback ", ex);
-				}
-			}
-		}
-		ajax.simpleRequest(request);
-		return result;
-	}
 
 	/**
 	 * @var
