@@ -78,5 +78,4 @@ describe("wc/ajax", () => {
 
 		ajax.simpleRequest(request);
 	});
-
 });

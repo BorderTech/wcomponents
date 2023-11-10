@@ -15,26 +15,21 @@ function mockAjax() {
 	return import("jasmine-ajax").then(() => {
 		jasmine.Ajax.install();
 
-		jasmine.Ajax.stubRequest(/.*\/aria-1.rdf/).andReturn(getResponse("aria-1.rdf", true));
-		jasmine.Ajax.stubRequest(/.*\/note.xml.*/).andReturn(getResponse("note.xml"));
-		jasmine.Ajax.stubRequest(/.*\/note.txt.*/).andReturn(getResponse("note.txt"));
-		jasmine.Ajax.stubRequest(/.*\/icao.html.*/).andReturn(getResponse("icao.html"));
+		jasmine.Ajax.stubRequest(/.*\/aria-1.rdf/).andReturn(getResponse("aria-1.rdf", { srcDir: true }));
+		jasmine.Ajax.stubRequest(/.*\/note.xml.*/).andReturn(getResponse("note.xml", {}));
+		jasmine.Ajax.stubRequest(/.*\/note.txt.*/).andReturn(getResponse("note.txt", {}));
+		jasmine.Ajax.stubRequest(/.*\/icao.html.*/).andReturn(getResponse("icao.html", {}));
 
 		jasmine.Ajax.stubRequest(translationRe).andReturn({
 			status: 200,
-			statusText: "HTTP/1.1 200 OK",
+			statusText: getStatusText(200),
 			contentType: getMimeType("foo.json"),
 			get responseText() {
 				const request = jasmine.Ajax.requests.mostRecent();
 				const match = RegExp(translationRe).exec(request.url);
 				if (match) {
 					const subPath = match[1];
-					if (!cache[subPath]) {
-						const resourcePath = getResoucePath(subPath, false);
-						console.log("Mock response with:", resourcePath);
-						cache[subPath] = fs.readFileSync(resourcePath, "utf8");
-					}
-					return cache[subPath];
+					return getResponseText(subPath, false);
 				}
 				return "";
 			}
@@ -42,21 +37,40 @@ function mockAjax() {
 	});
 }
 
-function getResponse(fileName, srcDir = false) {
+function getResponse(fileName, { srcDir = false, status = 200 }) {
 	return {
-		status: 200,
-			statusText: "HTTP/1.1 200 OK",
+		status,
+		statusText: getStatusText(status),
 		contentType: getMimeType(fileName),
 		get responseText() {
-		const key = fileName;
-		if (!cache[key]) {
-			const resourcePath = getResoucePath(fileName, srcDir);
-			console.log("Mock response with:", resourcePath);
-			cache[key] = fs.readFileSync(resourcePath, "utf8");
+			return getResponseText(fileName, srcDir);
 		}
-		return cache[key];
 	}
+}
+
+function getResponseText(fileName, srcDir) {
+	const key = fileName;
+	if (!cache[key]) {
+		const resourcePath = getResoucePath(fileName, srcDir);
+		console.log("Mock response with:", resourcePath);
+		try {
+			cache[key] = fs.readFileSync(resourcePath, "utf8");
+		} catch (ex) {
+			return ex.message;
+		}
 	}
+	return cache[key];
+}
+
+function getStatusText(status) {
+	const map = {
+		200: "HTTP/1.1 200 OK",
+		404: "Not Found",
+		407: "Proxy Authentication Required",
+		418: "I'm a teapot",
+		500: "Internal Server Error"
+	};
+	return map[status];
 }
 
 function getMimeType(fileName) {
