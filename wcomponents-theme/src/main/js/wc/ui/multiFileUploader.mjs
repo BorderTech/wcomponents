@@ -780,8 +780,9 @@ function TrueAjax() {
 	 * @param {module:wc/file/MultiFileUploader~fileInfo} dto
 	 */
 	this.request = function (dto) {
-		const { name, container, files, url, element } = dto;
+		const { container, files, url, element } = dto;
 		try {
+			const name = element?.name;
 			for (let i = 0; i < files.length; i++) {
 				let file = files[i];
 				let id = instance.createFileInfo(container, file.name);

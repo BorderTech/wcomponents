@@ -393,7 +393,7 @@ function editFile(config, file, win, lose) {
 			}
 		};
 	if (config.redact) {
-		import("wc/ui/imageRedact").then(module => {
+		import("wc/ui/imageRedact.mjs").then(module => {
 			const imageRedact = module.default;
 			config.redactor = imageRedact;
 			getEditor(config, callbacks, file).then(function(editor) {

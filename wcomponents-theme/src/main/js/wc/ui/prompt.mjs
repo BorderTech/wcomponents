@@ -11,7 +11,7 @@ const prompt = {
 		if (callback) {
 			prompt.confirmAsync(message, callback);
 		} else {
-			return confirm(message);
+			return doConfirm(message);
 		}
 	}
 };
@@ -26,6 +26,10 @@ function formatMessage(obj) {
 	return obj;
 }
 
+/**
+ * @param {string} message The message to format.
+ * @return {string}
+ */
 function formatMessages(message) {
 	let msg;
 	if (Array.isArray(message)) {
@@ -37,9 +41,15 @@ function formatMessages(message) {
 	return msg;
 }
 
-function confirm(message, callback) {
+/**
+ *
+ * @param {string} message The message to present to the user.
+ * @param {function(boolean): void} [callback] Called with the user choice.
+ * @return {boolean}
+ */
+function doConfirm(message, callback) {
 	const msg = formatMessages(message),
-		result = confirm(msg);
+		result = confirm(msg);  // window.confirm
 	if (callback) {
 		try {
 			callback(result);
