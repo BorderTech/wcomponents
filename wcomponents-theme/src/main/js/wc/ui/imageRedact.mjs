@@ -1,6 +1,4 @@
-import fabric from "fabric/dist/fabric.js";
-
-let redactMode = false, startX, startY, imageEdit;
+let redactMode = false, startX, startY, imageEdit, fabric;
 const fabricRedact = {
 		drawStart: function() {
 			let shape = fabricRedact._rect;
@@ -91,9 +89,12 @@ const fabricRedact = {
 		activate: function(editor) {
 			const handlers = fabricRedact;
 			imageEdit = editor;
-			imageEdit.getCanvas().preserveObjectStacking = true;
-			wireEventListeners(handlers);
-			redactMode = false;
+			return imageEdit.getFabric().then(fab => {
+				fabric = fab;
+				imageEdit.getCanvas().preserveObjectStacking = true;
+				wireEventListeners(handlers);
+				redactMode = false;
+			});
 		},
 		getRedactions: function() {
 			const fbCanvas = imageEdit.getCanvas();

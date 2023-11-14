@@ -4,27 +4,38 @@ import event from "wc/dom/event.mjs";
 import timers from "wc/timers.mjs";
 import prompt from "wc/ui/prompt.mjs";
 import i18n from "wc/i18n/i18n.mjs";
-import fabric from "fabric/dist/fabric.js";
 import dialogFrame from "wc/ui/dialogFrame.mjs";
 import ImageCapture from "wc/ui/ImageCapture.mjs";
 import ImageUndoRedo from "wc/ui/ImageUndoRedo.mjs";
 import fileSize from "wc/file/size.mjs";
 import fileUtil from "wc/file/util.mjs";
 
-let timer, imageCapture;
+let fabric, timer, imageCapture;
 let inited,
 	overlayUrl,
 	undoRedo,
 	fbCanvas;
+
 const registeredIds = {},
 	BUTTON = { findAncestor: el => /** @type {HTMLButtonElement} */(el?.closest("button")) };
-
 
 /**
  * This provides a mechanism to allow the user to edit images during the upload process.
  * It may also be used to edit static images after they have been uploaded as long as a file uploader is configured to take the edited images.
  */
 const imageEdit = {
+
+	getFabric: function() {
+		const exports = window.exports || (window.exports = {});
+		if (fabric) {
+			return Promise.resolve(fabric);
+		}
+		return import("fabric/dist/fabric.js").then(() => {
+			fabric = exports["fabric"];
+			return fabric;
+		});
+	},
+
 	renderCanvas: function(callback) {
 		if (timer) {
 			timers.clearTimeout(timer);
@@ -73,16 +84,20 @@ const imageEdit = {
 			registeredIds[next.id] = next;  // yes, the filter has a side effect
 			return next.inline;
 		});
+
 		if (!inited) {
 			inited = true;
 
 			import("wc/dom/initialise.mjs").then(module => {
 				const initialise = module.default;
 				initialise.addCallback(element => {
-					event.add(element, "click", clickEvent);
-					handleInline(inline);
-					inline = null;
+					return imageEdit.getFabric().then(() => {
+						event.add(element, "click", clickEvent);
+						handleInline(inline);
+						inline = null;
+					});
 				});
+
 				import("wc/dom/formUpdateManager.mjs").then(mod => {
 					const formUpdateManager = mod.default;
 					formUpdateManager.subscribe(imageEdit);
