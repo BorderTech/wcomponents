@@ -394,10 +394,10 @@ function MultiFileUploader() {
 	 * @param {Element} response An HTML element which contains the content to display in the list of uploaded files.
 	 */
 	function processResponse(response) {
-		const newFiles = response.querySelectorAll(fileInfoItem);
+		const newFiles = Array.from(response.querySelectorAll(fileInfoItem));
 		if (newFiles.length > 0) {
-			for (let i = 0; i < newFiles.length; i++) {
-				updateFileInfo(newFiles[i]);
+			for (const element of newFiles) {
+				updateFileInfo(element);
 			}
 		} else {
 			throw new Error("Unexpected fileupload response");
@@ -498,7 +498,7 @@ function MultiFileUploader() {
 				filedrop.register(dropzoneId, (type, files) => {
 					const className = "wc_dragging";
 					if (type === "drop") {
-						instance.upload(element, files);
+						instance.upload(element, Array.from(files));
 						element.classList.remove(className);
 					} else if (type === "dragstart") {
 						element.classList.add(className);
@@ -535,10 +535,10 @@ function MultiFileUploader() {
 		/** @type {HTMLElement[]} */
 		const multiFileWidgets = Array.from(form.querySelectorAll(containerWd));
 		multiFileWidgets.forEach(multiFileWidget => {
-			const fileInfos = multiFileWidget.querySelectorAll(fileInfoWd);
+			const fileInfos = Array.from(multiFileWidget.querySelectorAll(fileInfoWd));
 			const value = `${multiFileWidget.id}.selected`;
-			for (let i = 0; i < fileInfos.length; i++) {
-				let { id } = fileInfos[i];
+			for (const element of fileInfos) {
+				let {id} = element;
 				let stateField = formUpdateManager.writeStateField(container, value, id);
 				// stateField.checked = true;  // WTF?
 				container.appendChild(stateField);
@@ -664,7 +664,7 @@ function MultiFileUploader() {
 		const removeButton = document.createElement("button");
 		removeButton.setAttribute("type", "button");  // .type causes issues in legacy IE
 		removeButton.className = "wc_btn_icon wc_btn_abort";
-		removeButton.value = i18n.get("file_abort", fileName);
+		removeButton.value = /** @type {string} */(i18n.get("file_abort", fileName));
 		icon.add(removeButton, "fa-ban");
 		item.appendChild(removeButton);
 		item.appendChild(document.createTextNode(fileName));
@@ -783,8 +783,7 @@ function TrueAjax() {
 		const { container, files, url, element } = dto;
 		try {
 			const name = element?.name;
-			for (let i = 0; i < files.length; i++) {
-				let file = files[i];
+			for (const file of files) {
 				let id = instance.createFileInfo(container, file.name);
 				sendFile(url, name, id, file, callbackWrapper(dto, id));
 			}
@@ -822,10 +821,8 @@ function TrueAjax() {
 		let df = toDocFragment(response.xhr.responseText);
 
 		if (df) {
-			if (df.NodeType === Node.DOCUMENT_NODE) {
-				df = df.firstElementChild;
-			}
-			container.appendChild(df);
+			const element = (df.nodeType === Node.DOCUMENT_NODE) ? df.firstElementChild : df;
+			container.appendChild(element);
 			dto.callback(container);
 			const inflight = Object.keys(inflightXhrs);
 			if (inflight.length === 0) {
