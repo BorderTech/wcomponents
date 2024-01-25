@@ -11,25 +11,32 @@ import icon from "wc/ui/icon.mjs";
 
 let instance;
 
-const mapReturnKey = mapKeyToAction.bind(this, ["Enter", "NumpadEnter"]);
-const mapSpaceKey = mapKeyToAction.bind(this, [" ", "Space"]);
-const mapLeftKey = mapKeyToAction.bind(this, ["ArrowLeft"]);
-const mapRightKey = mapKeyToAction.bind(this, ["ArrowRight"]);
-const mapUpKey = mapKeyToAction.bind(this, ["ArrowUp"]);
-const mapDownKey = mapKeyToAction.bind(this, ["ArrowDown"]);
-const mapHomeKey = mapKeyToAction.bind(this, ["Home"]);
-const mapPageDownKey = mapKeyToAction.bind(this, ["PageDown"]);
-const mapEndKey = mapKeyToAction.bind(this, ["End"]);
-const mapMultiplyKey = mapKeyToAction.bind(this, ["*", "NumpadMultiply"]);
+const mapReturnKey = mapKeyToActionFactory(["Enter", "NumpadEnter"]);
+const mapSpaceKey = mapKeyToActionFactory([" ", "Space"]);
+const mapLeftKey = mapKeyToActionFactory(["ArrowLeft"]);
+const mapRightKey = mapKeyToActionFactory(["ArrowRight"]);
+const mapUpKey = mapKeyToActionFactory(["ArrowUp"]);
+const mapDownKey = mapKeyToActionFactory(["ArrowDown"]);
+const mapHomeKey = mapKeyToActionFactory(["Home"]);
+const mapPageDownKey = mapKeyToActionFactory(["PageDown"]);
+const mapEndKey = mapKeyToActionFactory(["End"]);
+const mapMultiplyKey = mapKeyToActionFactory(["*", "NumpadMultiply"]);
 
 /**
- * Helps set up key map so it can respond to KeyBoardEvent code or key properties.
+ *
  * @param keys An array of KeyBoardEven code and or key properties.
- * @param map The key to action map to update.
- * @param action The action to map to the keys.
+ * @return {function}
  */
-function mapKeyToAction(keys, map, action) {
-	keys.forEach(nextKey => map[nextKey] = action);
+function mapKeyToActionFactory(keys) {
+	/**
+	 * Helps set up key map, so it can respond to KeyBoardEvent code or key properties.
+	 *
+	 * @param map The key to action map to update.
+	 * @param action The action to map to the keys.
+	 */
+	return (map, action) => {
+		keys.forEach(nextKey => map[nextKey] = action);
+	};
 }
 
 /**
@@ -42,7 +49,7 @@ function querySelectorImmediate(parent, selector) {
 	if (!parent && selector) {
 		return null;
 	}
-	return Array.from(parent.children).find(child => child.matches(selector));
+	return /** @type {HTMLElement} */(Array.from(parent.children).find(child => child.matches(selector)));
 }
 
 
@@ -50,7 +57,7 @@ function querySelectorImmediate(parent, selector) {
  * Menu controller extension for WTree. WTree uses the menu controller because it has the same key-walking, brancho
  * opening, selection and activation mechanisms.
  *
- * @see <a href="http://www.w3.org/TR/wai-aria-practices/#TreeView">TreeView</a>
+ * @see http://www.w3.org/TR/wai-aria-practices/#TreeView
  *
  * Extends menu functionality to provide a specific implementation of a tree.
  * @constructor
@@ -86,7 +93,7 @@ function Tree() {
 	 * @returns {Boolean} true if element is a vertical tree branch opener or a descendant thereof.
 	 */
 	this.isInVOpen = function(element) {
-		return element.closest(vopenerSelector);
+		return !!element.closest(vopenerSelector);
 	};
 
 	/**
@@ -359,7 +366,7 @@ function Tree() {
 		}
 
 		if (this._isBranch(item)) {
-			return item;
+			return /** @type {HTMLElement} */(item);
 		}
 
 		if (this.isSubMenu(item) || this._isOpener(item)) {
@@ -395,7 +402,7 @@ function Tree() {
 	 * @function module:wc/ui/menu/tree.clickEvent
 	 * @public
 	 * @override
-	 * @param {MouseEvent} $event The click event.
+	 * @param {MouseEvent & { target: HTMLElement }} $event The click event.
 	 */
 	this.clickEvent = function($event) {
 		const target = $event.target;
