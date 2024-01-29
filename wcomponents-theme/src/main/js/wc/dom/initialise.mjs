@@ -89,7 +89,7 @@ const instance = {
 	 * @param {function} listener The subscriber function.
 	 */
 	addInitRoutine: function(listener) {
-		add(Observer.priority.HIGH, null, listener);
+		return add(Observer.priority.HIGH, null, listener);
 	},
 
 	/**
@@ -100,7 +100,7 @@ const instance = {
 	 * @param {function} listener The subscriber function.
 	 */
 	addBodyListener: function(listener) {
-		add(Observer.priority.MED, "initialise", listener);
+		return add(Observer.priority.MED, "initialise", listener);
 	},
 
 	/**
@@ -111,7 +111,7 @@ const instance = {
 	 * @param {function} listener The subscriber function.
 	 */
 	addCallback: function(listener) {
-		add(Observer.priority.LOW, null, listener);
+		return add(Observer.priority.LOW, null, listener);
 	}
 };
 
