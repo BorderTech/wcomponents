@@ -128,25 +128,9 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 
 	/**
 	 * Ensure that the interceptor does nothing as long as the controlling property is disabled.
-	 *
-	 * @throws java.lang.NoSuchFieldException an exception
-	 * @throws java.lang.IllegalAccessException an exception
 	 */
 	@Test
-	public void testPaintWithCorruptCharacterAllowed() throws NoSuchFieldException, IllegalAccessException {
-		/**
-		 * Have to use reflection to swap out the log implementation as there's no way to programmatically disable
-		 * logging without coupling to a log implementation.
-		 */
-		//Override the logger temporarily.
-		Field field = TransformXMLInterceptor.class.getDeclaredField("LOG");
-		field.setAccessible(true);
-		Field modifiersField = Field.class.getDeclaredField("modifiers");
-		modifiersField.setAccessible(true);
-		modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
-		Object oldValue = field.get(null);
-		field.set(null, new NoLogLogger());
-
+	public void testPaintWithCorruptCharacterAllowed() {
 		MyComponent testUI = new MyComponent(TEST_CORRUPT_CHAR_XML);
 		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "");
 		Config.getInstance().setProperty(ConfigurationProperties.XSLT_ALLOW_CORRUPT_CHARACTER, "true");
@@ -158,12 +142,11 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 		uic.setUI(testUI);
 		setActiveContext(uic);
 
-		TestResult actual = generateOutput(testUI, null);
-
-		//Set the original value
-		Field resetValueField = TransformXMLInterceptor.class.getDeclaredField("LOG");
-		resetValueField.setAccessible(true);
-		field.set(null, oldValue);
+		try {
+			generateOutput(testUI, null);
+		} catch (Exception e) {
+			Assert.fail("Corrupt character in XML should have NOT have failed.");
+		}
 	}
 
 	/**

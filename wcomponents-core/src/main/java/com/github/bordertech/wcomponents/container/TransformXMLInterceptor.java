@@ -219,7 +219,7 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	 *
 	 * @return the XSLT Templates.
 	 */
-	private static Templates initTemplates() {
+	static Templates initTemplates() {
 		try {
 			URL xsltURL = ThemeUtil.class.getResource(RESOURCE_NAME);
 			if (xsltURL != null) {
