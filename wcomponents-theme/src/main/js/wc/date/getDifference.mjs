@@ -20,7 +20,7 @@ function getDiff(date1, date2, includeTime) {
 			date2 = new Date(date2.getFullYear(), date2.getMonth(), date2.getDate());
 			divisor = 86400000;
 		}
-		result = (date1 - date2) / divisor;
+		result = (date1.getTime() - date2.getTime()) / divisor;
 	} else {
 		throw new TypeError("Cannot compare dates which are not of the same type");
 	}

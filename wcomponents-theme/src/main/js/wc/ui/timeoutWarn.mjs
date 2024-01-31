@@ -231,7 +231,7 @@ class TimeoutWarn extends HTMLElement {
 	}
 
 	get warn() {
-		return Number(this.getAttribute("warn"));
+		return Number(this.getAttribute("warn")) || 0;
 	}
 
 	set warn(seconds) {

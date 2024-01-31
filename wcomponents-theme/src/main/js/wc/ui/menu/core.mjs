@@ -1690,8 +1690,8 @@ AbstractMenu.prototype._setUpWidgets = function() {
  * @public
  */
 AbstractMenu.prototype.initialise = function() {
-	return i18n.translate("letter").then(letterTranslated => {
-		letterRe = letterTranslated;
+	return i18n.translate("letter").then(letterInternationalized => {
+		letterRe = new RegExp(/** @type {string} */(letterInternationalized));
 		this._setUpWidgets();
 		this._setupKeymap();
 

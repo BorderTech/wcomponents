@@ -149,7 +149,7 @@ function processResponseHtml(documentFragment, trigger) {
 	const onError = function() {
 
 		// @ts-ignore
-		import("wc/ajax/handleError").then(function(module) {
+		import("wc/ajax/handleError.mjs").then(function(module) {
 			const handleError = module.default;
 			// The AJAX response was malformed BUT reported as being successful.
 			const message = handleError.getErrorMessage({ status: 200 });

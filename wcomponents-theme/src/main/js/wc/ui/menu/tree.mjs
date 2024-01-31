@@ -11,25 +11,32 @@ import icon from "wc/ui/icon.mjs";
 
 let instance;
 
-const mapReturnKey = mapKeyToAction.bind(this, ["Enter", "NumpadEnter"]);
-const mapSpaceKey = mapKeyToAction.bind(this, [" ", "Space"]);
-const mapLeftKey = mapKeyToAction.bind(this, ["ArrowLeft"]);
-const mapRightKey = mapKeyToAction.bind(this, ["ArrowRight"]);
-const mapUpKey = mapKeyToAction.bind(this, ["ArrowUp"]);
-const mapDownKey = mapKeyToAction.bind(this, ["ArrowDown"]);
-const mapHomeKey = mapKeyToAction.bind(this, ["Home"]);
-const mapPageDownKey = mapKeyToAction.bind(this, ["PageDown"]);
-const mapEndKey = mapKeyToAction.bind(this, ["End"]);
-const mapMultiplyKey = mapKeyToAction.bind(this, ["*", "NumpadMultiply"]);
+const mapReturnKey = mapKeyToActionFactory(["Enter", "NumpadEnter"]);
+const mapSpaceKey = mapKeyToActionFactory([" ", "Space"]);
+const mapLeftKey = mapKeyToActionFactory(["ArrowLeft"]);
+const mapRightKey = mapKeyToActionFactory(["ArrowRight"]);
+const mapUpKey = mapKeyToActionFactory(["ArrowUp"]);
+const mapDownKey = mapKeyToActionFactory(["ArrowDown"]);
+const mapHomeKey = mapKeyToActionFactory(["Home"]);
+const mapPageDownKey = mapKeyToActionFactory(["PageDown"]);
+const mapEndKey = mapKeyToActionFactory(["End"]);
+const mapMultiplyKey = mapKeyToActionFactory(["*", "NumpadMultiply"]);
 
 /**
- * Helps set up key map so it can respond to KeyBoardEvent code or key properties.
+ *
  * @param keys An array of KeyBoardEven code and or key properties.
- * @param map The key to action map to update.
- * @param action The action to map to the keys.
+ * @return {function}
  */
-function mapKeyToAction(keys, map, action) {
-	keys.forEach(nextKey => map[nextKey] = action);
+function mapKeyToActionFactory(keys) {
+	/**
+	 * Helps set up key map, so it can respond to KeyBoardEvent code or key properties.
+	 *
+	 * @param map The key to action map to update.
+	 * @param action The action to map to the keys.
+	 */
+	return (map, action) => {
+		keys.forEach(nextKey => map[nextKey] = action);
+	};
 }
 
 /**
@@ -42,7 +49,7 @@ function querySelectorImmediate(parent, selector) {
 	if (!parent && selector) {
 		return null;
 	}
-	return Array.from(parent.children).find(child => child.matches(selector));
+	return /** @type {HTMLElement} */(Array.from(parent.children).find(child => child.matches(selector)));
 }
 
 
@@ -50,13 +57,14 @@ function querySelectorImmediate(parent, selector) {
  * Menu controller extension for WTree. WTree uses the menu controller because it has the same key-walking, brancho
  * opening, selection and activation mechanisms.
  *
- * @see <a href="http://www.w3.org/TR/wai-aria-practices/#TreeView">TreeView</a>
+ * @see http://www.w3.org/TR/wai-aria-practices/#TreeView
  *
  * Extends menu functionality to provide a specific implementation of a tree.
  * @constructor
  * @alias module:wc/ui/menu/tree~Tree
  * @extends module:wc/ui/menu/core~AbstractMenu
  * @private
+ * @this instance
  */
 function Tree() {
 	const vopenerSelector = ".wc_leaf_vopener";
@@ -86,7 +94,7 @@ function Tree() {
 	 * @returns {Boolean} true if element is a vertical tree branch opener or a descendant thereof.
 	 */
 	this.isInVOpen = function(element) {
-		return element.closest(vopenerSelector);
+		return !!element.closest(vopenerSelector);
 	};
 
 	/**
@@ -231,7 +239,7 @@ function Tree() {
 	 */
 	this._select = function(item, silent, SHIFT, CTRL) {
 		const root = this.getRoot(item);
-		if (root && root.getAttribute("aria-multiselectable")) {
+		if (root?.getAttribute("aria-multiselectable")) {
 			if (silent) {
 				shed.select(item, silent);
 			} else {
@@ -359,7 +367,7 @@ function Tree() {
 		}
 
 		if (this._isBranch(item)) {
-			return item;
+			return /** @type {HTMLElement} */(item);
 		}
 
 		if (this.isSubMenu(item) || this._isOpener(item)) {
@@ -374,13 +382,16 @@ function Tree() {
 	 * the branch.
 	 * @function
 	 * @private
-	 * @param {Element} target theelement clicked.
+	 * @param {Element} target the element clicked.
 	 */
 	function htreeClickHelper(target) {
 		const item = instance.getItem(target);
 		if (item && instance._isBranch(item) && shed.isExpanded(item)) {
-			let parentBranch;
-			if ((parentBranch = instance.getSubMenu(item)) && (parentBranch = instance._getBranch(parentBranch))) {  // mind bending
+			let parentBranch = instance.getSubMenu(item);
+			if (parentBranch) {
+				parentBranch = instance._getBranch(parentBranch);
+			}
+			if (parentBranch) {
 				instance._select(parentBranch, false, false, true);
 				return;
 			}
@@ -395,27 +406,29 @@ function Tree() {
 	 * @function module:wc/ui/menu/tree.clickEvent
 	 * @public
 	 * @override
-	 * @param {MouseEvent} $event The click event.
+	 * @param {MouseEvent & { target: HTMLElement }} $event The click event.
 	 */
 	this.clickEvent = function($event) {
 		const target = $event.target;
-		let root;
 		// target === window is an IE thing
-		if ($event.defaultPrevented || target === document.body || target === window || !(root = this.getRoot(target))) {
+
+		if ($event.defaultPrevented || target === document.body) {
 			return;
 		}
-
-		if (this.isHTree(root)) { // htree completely driven by select.
-			if ($event.ctrlKey || $event.metaKey) {
-				htreeClickHelper(target);
+		const root = this.getRoot(target);
+		if (root) {
+			if (this.isHTree(root)) { // htree completely driven by select.
+				if ($event.ctrlKey || $event.metaKey) {
+					htreeClickHelper(target);
+				}
+				return;
 			}
-			return;
-		}
 
-		if (!this.isInVOpen(target)) {
-			return; // do nothing, do not prevent default, do not pass go.
+			if (!this.isInVOpen(target)) {
+				return; // do nothing, do not prevent default, do not pass go.
+			}
+			this.constructor.prototype.clickEvent.call(this, $event);
 		}
-		this.constructor.prototype.clickEvent.call(this, $event);
 	};
 
 	/**
@@ -454,9 +467,10 @@ function Tree() {
 		});
 
 		// selected tree items (would prefer to be devolved to tree item but that just ain't possible ...)
-		Array.from(getFilteredGroup(next, {
+		const selectedItems = /** @type {HTMLElement[]} */(getFilteredGroup(next, {
 			ignoreInnerGroups: true
-		})).forEach(nextSelectedItem => formUpdateManager.writeStateField(toContainer, rootId, nextSelectedItem.id));
+		}));
+		selectedItems.forEach(nextSelectedItem => formUpdateManager.writeStateField(toContainer, rootId, nextSelectedItem.id));
 		formUpdateManager.writeStateField(toContainer, `${rootId}-h`, "x");
 	};
 
@@ -499,9 +513,9 @@ function Tree() {
 	function isLastSelectedItemAtLevel(element, root) {
 		const level = instance.getSubMenu(element) || ((root && instance.isRoot(root)) ? root : instance.getRoot(element));
 
-		return getFilteredGroup(level, {
+		return /** @type {HTMLElement[]} */(getFilteredGroup(level, {
 			itemWd: leafSelector
-		}).length === (shed.isSelected(element) ? 1 : 0);
+		})).length === (shed.isSelected(element) ? 1 : 0);
 	}
 
 	/**
@@ -586,14 +600,14 @@ function Tree() {
 	 * Override the default "animator" to prevent a branch from opening if any other element is selected at its level. Only applies to htree.
 	 *
 	 * @function module:wc/ui/menu/tree._animateBranch
-	 * @param {Object} item The branch being opened/closed.
-	 * @param {Object} open If true branch is being opened, otherwise its being closed.
+	 * @param {Element} item The branch being opened/closed.
+	 * @param {Boolean} open If true branch is being opened, otherwise its being closed.
 	 * @returns {Boolean} true if the branch is able to animate.
 	 */
 	this._animateBranch = function(item, open) {
-		let root = this.getRoot(item);
+		const root = this.getRoot(item);
 
-		if (!(item && (root = this.getRoot(item)))) {
+		if (!(item && root)) {
 			return false;
 		}
 
@@ -618,7 +632,7 @@ function Tree() {
 	 * @returns {Number}
 	 */
 	this._textMatchFilter = function(textNode) {
-		const parent = textNode.parentNode;
+		const parent = textNode.parentElement;
 
 		if (!parent.classList.contains("wc_leaf_name")) {
 			return  NodeFilter.FILTER_SKIP;
@@ -659,9 +673,11 @@ function Tree() {
 			}
 
 			const groupContainer = this.getSubMenu(element, true);
-			let group = groupContainer ? getFilteredGroup(groupContainer, { itemWd: this._wd.leaf[0] }) : [];
+			let group = groupContainer ? /** @type {HTMLElement[]} */(getFilteredGroup(groupContainer, { itemWd: this._wd.leaf[0] })) : [];
 			if (group?.length) {
-				group.forEach((next) => shed.deselect(next));
+				group.forEach(function(next) {
+					shed.deselect(next);
+				});
 				if (!this.isHTree(_root)) {
 					shed.select(element);
 				}

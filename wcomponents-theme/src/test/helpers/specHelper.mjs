@@ -1,6 +1,7 @@
 import "global-jsdom/register";
 import jsdom from "global-jsdom";
 import fs from "fs";
+import path from "path";
 import {getResoucePath, fudgeDimensions} from "./specUtils.mjs";
 import JasmineDOM from "@testing-library/jasmine-dom";
 
@@ -13,70 +14,75 @@ function mockAjax() {
 	// @ts-ignore
 	return import("jasmine-ajax").then(() => {
 		jasmine.Ajax.install();
-		jasmine.Ajax.stubRequest(/.*\/aria-1.rdf/).andReturn({
-			status: 200,
-			statusText: 'HTTP/1.1 200 OK',
-			contentType: 'text/xml;charset=UTF-8',
-			get responseText() {
-				if (!cache["rdf"]) {
-					const rdfPath = getResoucePath("aria-1.rdf", true);
-					console.log("Mock response with:", rdfPath);
-					cache["rdf"] = fs.readFileSync(rdfPath, "utf8");
-				}
-				return cache["rdf"];
-			}
-		});
 
-		jasmine.Ajax.stubRequest(/.*\/note.xml.*/).andReturn({
-			status: 200,
-			statusText: 'HTTP/1.1 200 OK',
-			contentType: 'text/xml',
-			get responseText() {
-				const key = "note.xml";
-				if (!cache[key]) {
-					const resourcePath = getResoucePath("note.xml", false);
-					console.log("Mock response with:", resourcePath);
-					cache[key] = fs.readFileSync(resourcePath, "utf8");
-				}
-				return cache[key];
-			}
-		});
-
-		jasmine.Ajax.stubRequest(/.*\/icao.html.*/).andReturn({
-			status: 200,
-			statusText: 'HTTP/1.1 200 OK',
-			contentType: 'text/html',
-			get responseText() {
-				const key = "icao.html";
-				if (!cache[key]) {
-					const resourcePath = getResoucePath("icao.html", false);
-					console.log("Mock response with:", resourcePath);
-					cache[key] = fs.readFileSync(resourcePath, "utf8");
-				}
-				return cache[key];
-			}
-		});
+		jasmine.Ajax.stubRequest(/.*\/aria-1.rdf/).andReturn(getResponse("aria-1.rdf", { srcDir: true }));
+		jasmine.Ajax.stubRequest(/.*\/note.xml.*/).andReturn(getResponse("note.xml", {}));
+		jasmine.Ajax.stubRequest(/.*\/note.txt.*/).andReturn(getResponse("note.txt", {}));
+		jasmine.Ajax.stubRequest(/.*\/icao.html.*/).andReturn(getResponse("icao.html", {}));
 
 		jasmine.Ajax.stubRequest(translationRe).andReturn({
 			status: 200,
-			statusText: 'HTTP/1.1 200 OK',
-			contentType: 'text/json',
+			statusText: getStatusText(200),
+			contentType: getMimeType("foo.json"),
 			get responseText() {
 				const request = jasmine.Ajax.requests.mostRecent();
 				const match = RegExp(translationRe).exec(request.url);
 				if (match) {
 					const subPath = match[1];
-					if (!cache[subPath]) {
-						const resourcePath = getResoucePath(subPath, false);
-						console.log("Mock response with:", resourcePath);
-						cache[subPath] = fs.readFileSync(resourcePath, "utf8");
-					}
-					return cache[subPath];
+					return getResponseText(subPath, false);
 				}
 				return "";
 			}
 		});
 	});
+}
+
+function getResponse(fileName, { srcDir = false, status = 200 }) {
+	return {
+		status,
+		statusText: getStatusText(status),
+		contentType: getMimeType(fileName),
+		get responseText() {
+			return getResponseText(fileName, srcDir);
+		}
+	}
+}
+
+function getResponseText(fileName, srcDir) {
+	const key = fileName;
+	if (!cache[key]) {
+		const resourcePath = getResoucePath(fileName, srcDir);
+		console.log("Mock response with:", resourcePath);
+		try {
+			cache[key] = fs.readFileSync(resourcePath, "utf8");
+		} catch (ex) {
+			return ex.message;
+		}
+	}
+	return cache[key];
+}
+
+function getStatusText(status) {
+	const map = {
+		200: "HTTP/1.1 200 OK",
+		404: "Not Found",
+		407: "Proxy Authentication Required",
+		418: "I'm a teapot",
+		500: "Internal Server Error"
+	};
+	return map[status];
+}
+
+function getMimeType(fileName) {
+	const map = {
+		txt: "text/plain",
+		json: "text/json",
+		xml: "text/xml",
+		html: "text/html",
+		rdf: "text/xml;charset=UTF-8"
+	};
+	const ext = path.extname(fileName).replace(/^\./, "");
+	return map[ext];
 }
 
 beforeAll(() => {
@@ -85,7 +91,7 @@ beforeAll(() => {
 	window["getJasmineRequireObj"] = global.getJasmineRequireObj = () => jasmine;  // some plugins need this, like jasmine-ajax
 	return mockAjax().then(() => {
 		return import("wc/i18n/i18n.mjs").then(({default: i18n}) => {
-			return i18n.translate('');
+			return i18n.translate("");
 		});
 	});
 });

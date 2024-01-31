@@ -29,14 +29,14 @@ function isInvalid(element) {
 	let messageKey = "";
 
 	if (value !== "" && !validationManager.isExempt(element)) {
-		let message, min, max;
+		let min, max;
 		if (isNaN(Number(value))) {
 			messageKey = "validation_number_nan";
 		} else if (element.matches(CONSTRAINED)) {
 			max = element.getAttribute(MAX);
 			min = element.getAttribute(MIN);
 			messageKey = checkMax(element, value, min, max);
-			if (!message) {
+			if (!messageKey) {
 				messageKey = checkMin(element, value, min);
 			}
 		}
@@ -64,11 +64,14 @@ function isInvalid(element) {
 function checkMax(element, value, min, max) {
 	let msgKey = "";
 	if (value !== "" && element.matches(MAX_FIELD)) {
-		if (isNaN(Number(value))) {
-			msgKey = min ? "validation_number_nanwithrange" : "validation_number_nanwithmax";
-		} else if (Number(value) > Number(max)) {
+		const minNumeric = Number(min);
+		const maxNumeric = Number(max);
+		const valNumeric = Number(value);
+		if (isNaN(valNumeric)) {
+			msgKey = isNaN(minNumeric) ? "validation_number_nanwithmax" : "validation_number_nanwithrange";
+		} else if (valNumeric > maxNumeric) {
 			// if value < min it cannot be > max
-			msgKey = min ? "validation_number_outofrange" : "validation_number_overmax";
+			msgKey = isNaN(minNumeric) ? "validation_number_overmax" : "validation_number_outofrange";
 		}
 	}
 	return msgKey;
@@ -97,7 +100,7 @@ function checkMin(element, value, min) {
 	if (value !== "" && element.matches(MIN_FIELD)) {
 		const minNumeric = Number(min);
 		const valNumeric = Number(value);
-		if (isNaN(minNumeric)) {
+		if (isNaN(valNumeric)) {
 			msgKey = "validation_number_nanwithmin";
 		} else if (valNumeric < minNumeric) {
 			msgKey = "validation_number_undermin";
@@ -117,7 +120,7 @@ function validate(container) {
 	let result = true;
 	const validInputs = required.doItAllForMe(container, NUM_FIELD);
 	const candidates = container.matches(NUM_FIELD) ? [container] : Array.from(container.querySelectorAll(NUM_FIELD));
-	if (candidates && candidates.length) {
+	if (candidates.length) {
 		const invalid = candidates.filter(isInvalid);
 		result = (invalid.length === 0);
 	}
@@ -170,11 +173,7 @@ function focusEvent($event) {
 		target[BOOTSTRAPPED] = true;
 		event.add(target, "change", changeEvent, 1);
 		if (validationManager.isValidateOnBlur()) {
-			if (event.canCapture) {
-				event.add(target, { type: "blur", listener: blurEvent, pos: 1, capture: true });
-			} else {
-				event.add(target, "focusout", blurEvent);
-			}
+			event.add(target, { type: "blur", listener: blurEvent, pos: 1, capture: true });
 		}
 	}
 }

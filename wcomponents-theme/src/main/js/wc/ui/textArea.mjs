@@ -7,7 +7,7 @@
  * too long. The user should be allowed to do this and then work within the textarea to reduce the length before
  * submitting. If the length of the textarea is constrained then the user would be forced to open another application
  * (for example a text editor) paste the large text there, reduce the length of the text (without an immediate character
- * count) and then paste into the textarea. The HTML5 browsers have it wrong, we have it right.. (or not...)</p>
+ * count) and then paste into the textarea. The HTML5 browsers have it wrong, we have it right... (or not...)</p>
  *
  * <p>A series of TEXTAREA bugs in IE8 (not related to WComponents code) makes the characters remaining ticker
  * impossible to implement robustly in IE8, so we have removed it.</p>
@@ -33,9 +33,7 @@ import wrappedInput from "wc/dom/wrappedInput.mjs";
 const events = [],
 	INITED_KEY = "__maxlength_inited__",
 	TEXTAREA = "textarea",
-	TEXTAREA_MAXLENGTH = `${TEXTAREA}[maxLength]`,
-	TEXTAREA_MAXLENGTH_FAUX = `${TEXTAREA}[data-wc-maxlength]`,
-	TEXTAREA_CONSTRAINED = [TEXTAREA_MAXLENGTH, TEXTAREA_MAXLENGTH_FAUX, `${TEXTAREA}[data-wc-min]`].join(),
+	TEXTAREA_CONSTRAINED = [`${TEXTAREA}[maxlength]`, `${TEXTAREA}[data-wc-maxlength]`, `${TEXTAREA}[data-wc-min]`, `${TEXTAREA}[minlength]`].join(),
 	TICKER_DELAY = 250;
 
 const instance = {
@@ -61,7 +59,19 @@ const instance = {
 		}
 		return null;
 	},
-
+	/**
+	 * The minimum number of characters allowed in a textarea.
+	 * @function module:wc/ui/textarea.getMinlength
+	 * @param {Element} element A textarea.
+	 * @returns {number} The minimum character count for this textarea or 0 if it is not constrained.
+	 */
+	getMinlength: function(element) {
+		const result = element.getAttribute("minlength") || element.getAttribute("data-wc-min");
+		if (result) {
+			return parseInt(result);
+		}
+		return 0;
+	},
 	/**
 	 * The maximum number of characters allowed in a textarea.
 	 * @function module:wc/ui/textarea.getMaxlength
@@ -69,7 +79,7 @@ const instance = {
 	 * @returns {number} The maximum character count for this textarea or 0 if it is not constrained.
 	 */
 	getMaxlength: function(element) {
-		const result = element.getAttribute("maxLength") || element.getAttribute("data-wc-maxlength");
+		const result = element.getAttribute("maxlength") || element.getAttribute("data-wc-maxlength");
 		if (result) {
 			return parseInt(result);
 		}

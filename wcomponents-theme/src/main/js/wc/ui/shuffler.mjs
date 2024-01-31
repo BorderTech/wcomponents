@@ -133,7 +133,7 @@ function move(element) {
 function clickEvent({ target, defaultPrevented }) {
 	/** @type {HTMLButtonElement} */
 	const element = defaultPrevented ? null : target?.closest(moveButtonQs);
-	if (element.matches("button") && !element.disabled) {
+	if (element?.matches("button") && !element.disabled) {
 		move(element);
 	}
 }

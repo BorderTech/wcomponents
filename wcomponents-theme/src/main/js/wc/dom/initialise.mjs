@@ -86,24 +86,33 @@ const instance = {
 	 *
 	 * @function module:wc/dom/initialise.addInitRoutine
 	 * @see {@link module:wc/dom/initialise~Initialise~add} for documentation.
+	 * @param {function} listener The subscriber function.
 	 */
-	addInitRoutine: add.bind(this, Observer.priority.HIGH, null),
+	addInitRoutine: function(listener) {
+		return add(Observer.priority.HIGH, null, listener);
+	},
 
 	/**
 	 * Add a subscriber for the middle phase of initialisation.
 	 *
 	 * @function module:wc/dom/initialise.addBodyListener
 	 * @see {@link module:wc/dom/initialise~Initialise~add} for documentation.
+	 * @param {function} listener The subscriber function.
 	 */
-	addBodyListener: add.bind(this, Observer.priority.MED, "initialise"),
+	addBodyListener: function(listener) {
+		return add(Observer.priority.MED, "initialise", listener);
+	},
 
 	/**
 	 * Add a callback subscriber for the last phase of initialisation.
 	 *
 	 * @function module:wc/dom/initialise.addCallback
 	 * @see {@link module:wc/dom/initialise~Initialise~add} for documentation.
+	 * @param {function} listener The subscriber function.
 	 */
-	addCallback: add.bind(this, Observer.priority.LOW, null)
+	addCallback: function(listener) {
+		return add(Observer.priority.LOW, null, listener);
+	}
 };
 
 /**
