@@ -64,6 +64,7 @@ function querySelectorImmediate(parent, selector) {
  * @alias module:wc/ui/menu/tree~Tree
  * @extends module:wc/ui/menu/core~AbstractMenu
  * @private
+ * @this instance
  */
 function Tree() {
 	const vopenerSelector = ".wc_leaf_vopener";
@@ -238,7 +239,7 @@ function Tree() {
 	 */
 	this._select = function(item, silent, SHIFT, CTRL) {
 		const root = this.getRoot(item);
-		if (root && root.getAttribute("aria-multiselectable")) {
+		if (root?.getAttribute("aria-multiselectable")) {
 			if (silent) {
 				shed.select(item, silent);
 			} else {
@@ -381,13 +382,16 @@ function Tree() {
 	 * the branch.
 	 * @function
 	 * @private
-	 * @param {Element} target theelement clicked.
+	 * @param {Element} target the element clicked.
 	 */
 	function htreeClickHelper(target) {
 		const item = instance.getItem(target);
 		if (item && instance._isBranch(item) && shed.isExpanded(item)) {
-			let parentBranch;
-			if ((parentBranch = instance.getSubMenu(item)) && (parentBranch = instance._getBranch(parentBranch))) {  // mind bending
+			let parentBranch = instance.getSubMenu(item);
+			if (parentBranch) {
+				parentBranch = instance._getBranch(parentBranch);
+			}
+			if (parentBranch) {
 				instance._select(parentBranch, false, false, true);
 				return;
 			}
@@ -406,23 +410,25 @@ function Tree() {
 	 */
 	this.clickEvent = function($event) {
 		const target = $event.target;
-		let root;
 		// target === window is an IE thing
-		if ($event.defaultPrevented || target === document.body || target === window || !(root = this.getRoot(target))) {
+
+		if ($event.defaultPrevented || target === document.body) {
 			return;
 		}
-
-		if (this.isHTree(root)) { // htree completely driven by select.
-			if ($event.ctrlKey || $event.metaKey) {
-				htreeClickHelper(target);
+		const root = this.getRoot(target);
+		if (root) {
+			if (this.isHTree(root)) { // htree completely driven by select.
+				if ($event.ctrlKey || $event.metaKey) {
+					htreeClickHelper(target);
+				}
+				return;
 			}
-			return;
-		}
 
-		if (!this.isInVOpen(target)) {
-			return; // do nothing, do not prevent default, do not pass go.
+			if (!this.isInVOpen(target)) {
+				return; // do nothing, do not prevent default, do not pass go.
+			}
+			this.constructor.prototype.clickEvent.call(this, $event);
 		}
-		this.constructor.prototype.clickEvent.call(this, $event);
 	};
 
 	/**
@@ -461,9 +467,10 @@ function Tree() {
 		});
 
 		// selected tree items (would prefer to be devolved to tree item but that just ain't possible ...)
-		Array.from(getFilteredGroup(next, {
+		const selectedItems = /** @type {HTMLElement[]} */(getFilteredGroup(next, {
 			ignoreInnerGroups: true
-		})).forEach(nextSelectedItem => formUpdateManager.writeStateField(toContainer, rootId, nextSelectedItem.id));
+		}));
+		selectedItems.forEach(nextSelectedItem => formUpdateManager.writeStateField(toContainer, rootId, nextSelectedItem.id));
 		formUpdateManager.writeStateField(toContainer, `${rootId}-h`, "x");
 	};
 
@@ -506,9 +513,9 @@ function Tree() {
 	function isLastSelectedItemAtLevel(element, root) {
 		const level = instance.getSubMenu(element) || ((root && instance.isRoot(root)) ? root : instance.getRoot(element));
 
-		return getFilteredGroup(level, {
+		return /** @type {HTMLElement[]} */(getFilteredGroup(level, {
 			itemWd: leafSelector
-		}).length === (shed.isSelected(element) ? 1 : 0);
+		})).length === (shed.isSelected(element) ? 1 : 0);
 	}
 
 	/**
@@ -593,14 +600,14 @@ function Tree() {
 	 * Override the default "animator" to prevent a branch from opening if any other element is selected at its level. Only applies to htree.
 	 *
 	 * @function module:wc/ui/menu/tree._animateBranch
-	 * @param {Object} item The branch being opened/closed.
-	 * @param {Object} open If true branch is being opened, otherwise its being closed.
+	 * @param {Element} item The branch being opened/closed.
+	 * @param {Boolean} open If true branch is being opened, otherwise its being closed.
 	 * @returns {Boolean} true if the branch is able to animate.
 	 */
 	this._animateBranch = function(item, open) {
-		let root = this.getRoot(item);
+		const root = this.getRoot(item);
 
-		if (!(item && (root = this.getRoot(item)))) {
+		if (!(item && root)) {
 			return false;
 		}
 
@@ -625,7 +632,7 @@ function Tree() {
 	 * @returns {Number}
 	 */
 	this._textMatchFilter = function(textNode) {
-		const parent = textNode.parentNode;
+		const parent = textNode.parentElement;
 
 		if (!parent.classList.contains("wc_leaf_name")) {
 			return  NodeFilter.FILTER_SKIP;
@@ -666,7 +673,7 @@ function Tree() {
 			}
 
 			const groupContainer = this.getSubMenu(element, true);
-			let group = groupContainer ? getFilteredGroup(groupContainer, { itemWd: this._wd.leaf[0] }) : [];
+			let group = groupContainer ? /** @type {HTMLElement[]} */(getFilteredGroup(groupContainer, { itemWd: this._wd.leaf[0] })) : [];
 			if (group?.length) {
 				group.forEach((next) => shed.deselect(next));
 				if (!this.isHTree(_root)) {
