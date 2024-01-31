@@ -675,7 +675,9 @@ function Tree() {
 			const groupContainer = this.getSubMenu(element, true);
 			let group = groupContainer ? /** @type {HTMLElement[]} */(getFilteredGroup(groupContainer, { itemWd: this._wd.leaf[0] })) : [];
 			if (group?.length) {
-				group.forEach((next) => shed.deselect(next));
+				group.forEach(function(next) {
+					shed.deselect(next);
+				});
 				if (!this.isHTree(_root)) {
 					shed.select(element);
 				}
