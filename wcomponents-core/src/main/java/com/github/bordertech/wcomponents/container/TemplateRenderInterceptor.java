@@ -25,8 +25,6 @@ import java.util.UUID;
  */
 public class TemplateRenderInterceptor extends InterceptorComponent {
 
-	private static final String RESOUCRCE_BUNDLE_BASE_NAME = ConfigurationProperties.getI18nThemeResourceBundleBaseName();
-
 	private static final Map<String, ResourceBundle> RESOURCES = new HashMap<>();
 
 	/**
@@ -117,7 +115,8 @@ public class TemplateRenderInterceptor extends InterceptorComponent {
 		ResourceBundle bundle = RESOURCES.get(key);
 		if (bundle == null) {
 			try {
-				bundle = ResourceBundle.getBundle(RESOUCRCE_BUNDLE_BASE_NAME, locale);
+				String baseName = ConfigurationProperties.getI18nThemeResourceBundleBaseName();
+				bundle = ResourceBundle.getBundle(baseName, locale);
 				RESOURCES.put(key, bundle);
 			} catch (Exception e) {
 				throw new SystemException("Could not load theme resource bundle for locale [" + key + "].", e);
