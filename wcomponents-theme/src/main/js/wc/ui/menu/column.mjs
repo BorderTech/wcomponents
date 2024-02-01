@@ -1,4 +1,4 @@
-import abstractMenu from "wc/ui/menu/core.mjs";
+import AbstractMenu from "wc/ui/menu/core.mjs";
 import keyWalker from "wc/dom/keyWalker.mjs";
 import shed from "wc/dom/shed.mjs";
 import initialise from "wc/dom/initialise.mjs";
@@ -75,7 +75,7 @@ function Column() {
 		};
 	};
 }
-Column.prototype = abstractMenu;
+Column.prototype = new AbstractMenu();
 
 instance = new Column();
 instance.constructor = Column;

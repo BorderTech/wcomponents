@@ -1,4 +1,4 @@
-import abstractMenu from "wc/ui/menu/core.mjs";
+import AbstractMenu from "wc/ui/menu/core.mjs";
 import event from "wc/dom/event.mjs";
 import keyWalker from "wc/dom/keyWalker.mjs";
 import shed from "wc/dom/shed.mjs";
@@ -441,7 +441,7 @@ function Menubar() {
 		});
 	};
 }
-
+const abstractMenu = new AbstractMenu();
 Menubar.prototype = abstractMenu;
 instance = new Menubar();
 instance.constructor = Menubar;

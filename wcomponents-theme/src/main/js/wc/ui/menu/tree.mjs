@@ -1,4 +1,4 @@
-import abstractMenu from "wc/ui/menu/core.mjs";
+import AbstractMenu from "wc/ui/menu/core.mjs";
 import keyWalker from "wc/dom/keyWalker.mjs";
 import shed from "wc/dom/shed.mjs";
 import treeItem from "wc/ui/menu/treeItem.mjs";
@@ -21,6 +21,11 @@ const mapHomeKey = mapKeyToActionFactory(["Home"]);
 const mapPageDownKey = mapKeyToActionFactory(["PageDown"]);
 const mapEndKey = mapKeyToActionFactory(["End"]);
 const mapMultiplyKey = mapKeyToActionFactory(["*", "NumpadMultiply"]);
+
+const vopenerSelector = ".wc_leaf_vopener";
+const leafSelector = "[role='treeitem']";
+const imageHolderSelector = ".wc_leaf_img";
+let ajaxTimer;
 
 /**
  *
@@ -52,7 +57,6 @@ function querySelectorImmediate(parent, selector) {
 	return /** @type {HTMLElement} */(Array.from(parent.children).find(child => child.matches(selector)));
 }
 
-
 /**
  * Menu controller extension for WTree. WTree uses the menu controller because it has the same key-walking, brancho
  * opening, selection and activation mechanisms.
@@ -65,12 +69,8 @@ function querySelectorImmediate(parent, selector) {
  * @extends module:wc/ui/menu/core~AbstractMenu
  * @private
  * @this instance
- */
+ * @ts-ignore https://github.com/microsoft/TypeScript/issues/13206 */
 function Tree() {
-	const vopenerSelector = ".wc_leaf_vopener";
-	const leafSelector = "[role='treeitem']";
-	const imageHolderSelector = ".wc_leaf_img";
-	let ajaxTimer;
 
 	/**
 	 * Test a tree to determine if it is a HTree.
@@ -685,7 +685,7 @@ function Tree() {
 		}
 	};
 }
-Tree.prototype = abstractMenu;
+Tree.prototype = new AbstractMenu();
 
 instance = new Tree();
 instance.constructor = Tree;
