@@ -14,8 +14,6 @@ import com.github.bordertech.wcomponents.util.mock.MockResponse;
 import com.github.bordertech.wcomponents.util.mock.servlet.MockHttpServletRequest;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;

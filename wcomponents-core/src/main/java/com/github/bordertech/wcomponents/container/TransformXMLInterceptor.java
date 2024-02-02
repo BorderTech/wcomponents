@@ -69,7 +69,11 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	/**
 	 * The XSLT cached templates.
 	 */
-	private static final Templates TEMPLATES = initTemplates();
+	private static Templates templates;
+
+	static {
+		initTemplates();
+	}
 
 	/**
 	 * If true then server side XSLT will be ignored regardless of the configuration property. This is to account for
@@ -203,12 +207,12 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	 */
 	private static Transformer newTransformer() {
 
-		if (TEMPLATES == null) {
+		if (templates == null) {
 			throw new IllegalStateException("TransformXMLInterceptor not initialized.");
 		}
 
 		try {
-			return TEMPLATES.newTransformer();
+			return templates.newTransformer();
 		} catch (TransformerConfigurationException ex) {
 			throw new SystemException("Could not create transformer for " + RESOURCE_NAME, ex);
 		}
@@ -216,19 +220,19 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 
 	/**
 	 * Statically initialize the XSLT templates that are cached for all future transforms.
-	 *
-	 * @return the XSLT Templates.
+	 * <p>
+	 * Can be called for unit tests to reload templates.
+	 * </p>
 	 */
-	static Templates initTemplates() {
+	static void initTemplates() {
 		try {
 			URL xsltURL = ThemeUtil.class.getResource(RESOURCE_NAME);
 			if (xsltURL != null) {
 				try (InputStream inStream = xsltURL.openStream()) {
 					Source xsltSource = new StreamSource(inStream, xsltURL.toExternalForm());
 					TransformerFactory factory = new net.sf.saxon.TransformerFactoryImpl();
-					Templates templates = factory.newTemplates(xsltSource);
+					templates = factory.newTemplates(xsltSource);
 					LOG.debug("Generated XSLT templates for: " + RESOURCE_NAME);
-					return templates;
 				}
 			} else {
 				// Server-side XSLT enabled but theme resource not on classpath.
