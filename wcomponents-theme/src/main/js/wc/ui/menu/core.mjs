@@ -30,8 +30,7 @@ import viewportUtils from "wc/ui/viewportUtils.mjs";
  * protected and final as in a real language these would be protected final functions, but we don't even have a
  * JSDoc tag for final, so we go private for safety. */
 
-let abstractMenu,
-	postAjaxTimer,
+let postAjaxTimer,
 	focusTimer,
 	collisionTimer;
 
@@ -106,8 +105,8 @@ AbstractMenu.prototype.getFirstMenuAncestor = function (element) {
  * Sets the tabIndex of the current element and removes it from the previous 'tab-able' element (if different).
  * @function
  * @private
- * @param {Element} element A menu node.
- * @param {Object} instance The subclass.
+ * @param {HTMLElement} element A menu node.
+ * @param {AbstractMenu} instance The subclass.
  */
 function setTabstop(element, instance) {
 	const root = instance.getRoot(element);
@@ -965,9 +964,8 @@ AbstractMenu.prototype.writeState = function(container, toContainer) {
  * Encapsulates core menu functionality but does not implement a functioning menu. Must be extended.
  * @constructor
  * @alias module:wc/ui/menu/core~AbstractMenu
- * @private
  */
-function AbstractMenu() {
+export function AbstractMenu() {
 	/**
 	 * A function map to keep strings in sync used for changing key mappings. This uses the class var FUNC_MAP so
 	 * that we can keep some ugliness at bay. If we could make this CONST or FINAL STATIC we would!
@@ -1126,10 +1124,11 @@ AbstractMenu.prototype._setupKeymap = function() {};
 
 /**
  * Key re-mapping function to meet WAI-ARIA implementation guide.
+ * @param {Element} item The item which has focus.
  * @function
  * @abstract
  */
-AbstractMenu.prototype._remapKeys = function() {};
+AbstractMenu.prototype._remapKeys = function(item) {};
 
 /**
  * Get the menu root element for the menu in which the passed in element is enclosed. This is fundamental to the
@@ -1686,10 +1685,12 @@ AbstractMenu.prototype._setUpWidgets = function() {
  * Initialisation of menus. If you override this you are responsible for calling it from the subclass, perhaps
  * like this: `this.constructor.prototype.initialise.call(this, element);`
  *
+ * @param {Element} element
+ *
  * @function
  * @public
  */
-AbstractMenu.prototype.initialise = function() {
+AbstractMenu.prototype.initialise = function(element) {
 	return i18n.translate("letter").then(letterInternationalized => {
 		letterRe = new RegExp(/** @type {string} */(letterInternationalized));
 		this._setUpWidgets();
@@ -1724,8 +1725,5 @@ AbstractMenu.prototype._clearActivateOnHover = function() {
 	activateOnHover = null;
 };
 
-abstractMenu = new AbstractMenu();
-if (typeof Object.freeze !== "undefined") {
-	Object.freeze(abstractMenu);
-}
-export default abstractMenu;
+
+export default AbstractMenu;
