@@ -60,7 +60,6 @@ const barTemplate = context => `
  * Extends menu functionality to provide a specific implementation of a menu bar.
  * @constructor
  * @alias module:wc/ui/menu/bar~Menubar
- * @extends AbstractMenu
  */
 class Menubar extends AbstractMenu {
 
@@ -177,7 +176,7 @@ class Menubar extends AbstractMenu {
 				}
 			}
 		}
-	};
+	}
 
 
 	/**
@@ -226,7 +225,7 @@ class Menubar extends AbstractMenu {
 			ArrowUp: this._FUNC_MAP.ACTION,
 			ArrowDown: this._FUNC_MAP.ACTION
 		};
-	};
+	}
 }
 
 /**
