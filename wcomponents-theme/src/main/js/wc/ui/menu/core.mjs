@@ -1124,10 +1124,11 @@ AbstractMenu.prototype._setupKeymap = function() {};
 
 /**
  * Key re-mapping function to meet WAI-ARIA implementation guide.
+ * @param {Element} item The item which has focus.
  * @function
  * @abstract
  */
-AbstractMenu.prototype._remapKeys = function() {};
+AbstractMenu.prototype._remapKeys = function(item) {};
 
 /**
  * Get the menu root element for the menu in which the passed in element is enclosed. This is fundamental to the
@@ -1684,10 +1685,12 @@ AbstractMenu.prototype._setUpWidgets = function() {
  * Initialisation of menus. If you override this you are responsible for calling it from the subclass, perhaps
  * like this: `this.constructor.prototype.initialise.call(this, element);`
  *
+ * @param {Element} element
+ *
  * @function
  * @public
  */
-AbstractMenu.prototype.initialise = function() {
+AbstractMenu.prototype.initialise = function(element) {
 	return i18n.translate("letter").then(letterInternationalized => {
 		letterRe = new RegExp(/** @type {string} */(letterInternationalized));
 		this._setUpWidgets();
