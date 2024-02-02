@@ -14,7 +14,7 @@ const resized = {},
  *
  * @function
  * @private
- * @param {Element} element The element which was resized.
+ * @param {HTMLElement} element The element which was resized.
  */
 function resizeSubscriber(element) {
 	if (element) {
@@ -106,7 +106,7 @@ function ajaxSubscriber(element) {
  * Reset size on doubleclick on the handle.
  * @function
  * @private
- * @param {MouseEvent} $event A dblclick event.
+ * @param {MouseEvent & { target: HTMLElement }} $event A dblclick event.
  */
 function dblClickEvent($event) {
 	const { target, defaultPrevented } = $event;
@@ -134,7 +134,7 @@ function keydownEvent($event) {
 
 /**
  *
- * @param {FocusEvent} $event
+ * @param {FocusEvent & { target: HTMLElement }} $event
  */
 function focusEvent($event) {
 	const { target } = $event;
