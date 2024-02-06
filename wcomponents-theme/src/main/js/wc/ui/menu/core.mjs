@@ -400,7 +400,7 @@ AbstractMenu.prototype._getTextTarget = function(item, letter, root) {
  * @function
  * @private
  * @param {Element} menu The menu to close.
- * @param {Element|Window} [element] the element which has caused the menu to close (most commonly by receiving focus). if not set then close all
+ * @param {Element|Window} element the element which has caused the menu to close (most commonly by receiving focus). if falsy then close all
  * @param {Object} instance the singleton instance which is the actual menu controller
  * paths.
  */
@@ -408,7 +408,7 @@ function closeOpenMenu(menu, element, instance) {
 	try {
 		if (element === window) {
 			instance.closeAllPaths(menu);
-		} else if (!element || element.tabIndex >= 0) {
+		} else if (!element || element["tabIndex"] >= 0) {
 			timers.setTimeout(instance.closeAllPaths.bind(instance), 150, menu, element);
 		} else {
 			instance.closeAllPaths(menu, element);

@@ -4,7 +4,7 @@
  * There are two aspects to implementing an ARIA role:
  *
  * * Managing focus (keyboard navigation - left/right/up/down etc.)
- * * Activation / Selection (click, spacebar, enter etc.)
+ * * Activation / Selection (click, space bar, enter etc.)
  * * State writing (tell the server the state of the aria control)
  *
  * A few points to note:
@@ -12,9 +12,8 @@
  * * Event listeners are called in the scope of the object. In other words the "this" in an event listener will
  *   not reference event.currentTarget like it normally does, it will reference the "this" as if it was just a regular
  *   function, not an event listener.
- * * If you override any event handlers it's up to YOU to ensure you honor the above contract.
  *
- * **ACHTUNG! WARNING! ATTENTION! POZOR!**
+ * * If you override any event handlers it's up to YOU to ensure you honor the above contract.
  *
  * This is an "abstract class". That means it is not a complete implementation, subclasses are required to
  * implement certain properties / methods. The absolute minimum is ITEM.
@@ -37,7 +36,6 @@ const genericAnalogSelector = "[role]";
 const gridSelectors = ["[role='grid']", "[role='treegrid']"];
 const IGNORE_ROLES = ["presentation", "banner", "application", "alert",
 	"tablist", "tabpanel", "group", "heading", "rowheader", "separator"];
-let ariaAnalog;
 let keyWalkerConfig;  // we only need one keywalker for all group based walking with aria-analogs
 
 /**
@@ -59,7 +57,7 @@ function isDirectionKey($event) {
  * @private
  * @param {AriaAnalog} instance The AriaAnalog controller.
  * @param {KeyboardEvent} $event The key pressed.
- * @returns {instance.KEY_DIRECTION.NEXT|instance.KEY_DIRECTION.LAST|instance.KEY_DIRECTION.FIRST|instance.KEY_DIRECTION.PREVIOUS}
+ * @returns {number} One of `instance.KEY_DIRECTION`
  */
 function calcMoveTo(instance, $event) {
 	let moveTo;
@@ -88,16 +86,16 @@ function calcMoveTo(instance, $event) {
  *
  * @function
  * @private
- * @param {NodeList} _group The group of elements which define an instance of an ARIA-analog.
+ * @param {NodeList|HTMLElement[]} _group The group of elements which define an instance of an ARIA-analog.
  * @param {?Element} except The element we do not want to deselect: usually the just-selected element.
  * @param {?Element} container The element which contains a group.
- * @param {Object} inst The instance of a subclass of AriaAnalog.
+ * @param {AriaAnalog} inst The instance of a subclass of AriaAnalog.
  */
 function deselect(_group, except, container, inst) {
 	for (let i = _group.length - 1; i >= 0; i--) {
 		let silent = true;
 		let doneException = false;
-		let next = _group[i];
+		let next = /** @type {HTMLElement} */(_group[i]);
 		if (i === 0 || (i === 1 && !doneException)) {
 			silent = false;
 		}
@@ -190,14 +188,12 @@ function filterGroup(_group) {
 /**
  * @alias module:wc/dom/ariaAnalog~AriaAnalog
  * @constructor
- * @private
  */
 function AriaAnalog() { }
 
 /**
  * The attribute which holds the analog value.
  * @var
- * @protected
  * @type String
  */
 AriaAnalog.prototype.VALUE_ATTRIB = "data-wc-value";
@@ -207,7 +203,6 @@ AriaAnalog.prototype.VALUE_ATTRIB = "data-wc-value";
  * Keys are MULTIPLE, SINGLE and MIXED.
  *
  * @var
- * @protected
  * @type Object
  * @property {number} MULTIPLE Instance supports multiple selection.
  * @property {number} SINGLE Instance supports single selection.
@@ -229,7 +224,6 @@ AriaAnalog.prototype.SELECT_MODE = {
  * @property {number} NEXT Move to the next item.
  * @property {number} FIRST Move to the first item.
  * @property {number} LAST Move to the last item.
- * @protected
  */
 AriaAnalog.prototype.KEY_DIRECTION = {
 	PREVIOUS: 1,
@@ -242,19 +236,17 @@ AriaAnalog.prototype.KEY_DIRECTION = {
  * Indicates that keyboard navigation should cycle at the limits of a group/sibling group.
  *
  * @var
- * @protected
  * @type Boolean
  */
 AriaAnalog.prototype._cycle = false;
 
 /**
  * An array of Widgets which describe 'actionable' items which is used to prevent default action on some key
- * presses and not others depending upon the target element. This is set once per sub-class during
+ * presses and not others depending upon the target element. This is set once per subclass during
  * initialisation.
  *
  * @var
  * @type {?Array}
- * @protected
  */
 AriaAnalog.prototype.actionable = null;
 
@@ -262,8 +254,7 @@ AriaAnalog.prototype.actionable = null;
  * Indicates whether navigating with the keyboard selects items.
  *
  * @function
- * @protected
- * @param {Element} element The element being navigated to. Not used by default but needed in sub-classes.
+ * @param {Element} element The element being navigated to. Not used by default but needed in subclasses.
  */
 AriaAnalog.prototype.selectOnNavigate = function (element) {
 	if (!element) {
@@ -305,7 +296,7 @@ AriaAnalog.prototype.lastActivated = null;
 /**
  * This property indicates that a particular type of selectable thing can have its selection removed if the ctrl
  * key is held down whilst selecting. This only applies to single selection since multi-selectable items can
- * always be deselected. In particular it is currently implemented for treeitem and listbox.
+ * always be deselected. In particular, it is currently implemented for treeitem and listbox.
  * @var
  * @type Boolean
  * @default false
@@ -323,7 +314,7 @@ AriaAnalog.prototype.ctrlAllowsDeselect = false;
 AriaAnalog.prototype.allowSelectSelected = false;
 
 /**
- * This property indicates that a particular type of mixed-mode multi selectable thing works like a check box
+ * This property indicates that a particular type of mixed-mode multi selectable thing works like a checkbox
  * rather than an option. This is currently only implemented in row.
  * @var
  * @type Boolean
@@ -376,7 +367,7 @@ AriaAnalog.prototype.shedObserver = function(element, action) {
 			if (this.CONTAINER) {
 				config = {"itemWd": this.ITEM, "containerWd": this.CONTAINER};
 			}
-			const _group = getFilteredGroup(element, config);
+			const _group = /** @type {HTMLElement[]} */(getFilteredGroup(element, config));
 			if (_group?.length) {
 				deselect(_group, element, container, this);
 			}
@@ -386,7 +377,7 @@ AriaAnalog.prototype.shedObserver = function(element, action) {
 
 /**
  * Initialise the subclass. A subscriber to {@link module:wc/dom/initialise}.
- * You should not override this method. If JS allowed a way of declaring a method as final we would us that
+ * You should not override this method. If JS allowed a way of declaring a method as final we would use that
  * here. If you do override it you are responsible for calling it from the subclass, perhaps like this:
  * this.constructor.prototype.initialise.call(this, element);
  *
@@ -447,7 +438,7 @@ function bootstrap(element, instance) {
  * Focus event listener to manage tab index on simple linear groups. Note though that components which do their
  * own navigation are also responsible for maintaining their own tab indices.
  * @function
- * @param {Event} $event The focus event.
+ * @param {FocusEvent & { target: HTMLElement }} $event The focus event.
  */
 AriaAnalog.prototype.focusEvent = function ($event) {
 	// `this` is bound in this listener
@@ -467,7 +458,7 @@ AriaAnalog.prototype.focusEvent = function ($event) {
  * Click event listener to activate a group member on click (assuming it is acceptable); for example, radio
  * buttons get selected on click but not if the click is on something else with a tabStop.
  * @function
- * @param {MouseEvent} $event The click event.
+ * @param {MouseEvent& { target: HTMLElement }} $event The click event.
  */
 AriaAnalog.prototype.clickEvent = function ($event) {
 	// `this` is bound in this listener
@@ -489,7 +480,7 @@ AriaAnalog.prototype.clickEvent = function ($event) {
  * Keydown event listener to navigate between items or activate on SPACE where supported.
  *
  * @function
- * @param {KeyboardEvent} $event The keydown event.
+ * @param {KeyboardEvent& { target: HTMLElement }} $event The keydown event.
  */
 AriaAnalog.prototype.keydownEvent = function ($event) {
 	// `this` is bound in this listener
@@ -530,7 +521,7 @@ AriaAnalog.prototype.keydownEvent = function ($event) {
  * @function
  * @param {Element} start Start element
  * @param {number} direction -1 to previous in group, 1 to next in group NOTE: radio button groups allow native
- *    group cycling at the extremities so we allow that here too. Only useful if one of
+ *    group cycling at the extremities, so we allow that here too. Only useful if one of
  *    {@link module:wc/dom/ariaAnalog~AriaAnalog#KEY_DIRECTION}
  * @returns {HTMLElement} The end point of the navigation. If start is part of a navigable group but there is
  *    nowhere to go then we may return the start element.
@@ -580,7 +571,7 @@ AriaAnalog.prototype.navigate = function(start, direction) {
 			result = target;
 		}
 	}
-	return result;
+	return /** @type {HTMLElement} */(result);
 };
 
 /**
@@ -600,7 +591,7 @@ function singleSelectActivateHelper(element, CTRL, instance) {
 		shed.select(element);
 		return;
 	}
-	shed.select(element, shed.isSelected(element)); // do not publish a re-select selected / failed de-select.
+	shed.select(element, /** @type {boolean} */(shed.isSelected(element))); // do not publish a re-select selected / failed de-select.
 }
 
 /**
@@ -677,8 +668,8 @@ AriaAnalog.prototype.activate = function(element, SHIFT, CTRL) {
  * items outside the group.
  *
  * @function
- * @param {Element} element The source element.
- * @param {Element} [lastActivated] The last activated element in the group.
+ * @param {HTMLElement} element The source element.
+ * @param {HTMLElement} [lastActivated] The last activated element in the group.
  * @param {boolean} [CTRL] true if the ctrl or meta key was pressed during the event which resulted in the
  *    function being called.
  */
@@ -810,7 +801,7 @@ AriaAnalog.prototype.getWidget = function() {
 };
 
 /**
- * Determine if an event target is inside an ariaAnalog and if so if that analog is able to be activated. If
+ * Determine if an event target is inside an ariaAnalog and if so, if that analog can be activated. If
  * this is the case return the analog ITEM element.
  *
  * @function
@@ -829,7 +820,7 @@ AriaAnalog.prototype.getActivableFromTarget = function(target) {
 	}
 
 	if (!shed.isDisabled(item) && isActiveAnalog(target, item)) {
-		return item;
+		return /** @type {HTMLElement} */(item);
 	}
 	return null;
 };
@@ -837,7 +828,7 @@ AriaAnalog.prototype.getActivableFromTarget = function(target) {
 /**
  * Determine if an ARIA analog control is multi-selectable. This is a helper which is only really useful for those analogs which may
  * have a mixed mode such as list options and table rows.
- * @param {Element} [element] an element which is itself a WAI-ARIA analog component. That is, it will be something which for some sub-class
+ * @param {Element} [element] an element which is itself a WAI-ARIA analog component. That is, it will be something which for some subclass
  * of this will return `true` from `this.ITEM.isOneOfMe(element)`. This arg is mandatory for mixed mode analogs, and this function is only
  * really useful for those analogs.
  * @returns {Boolean} `true` if the current analog is multi-selectable.
@@ -857,9 +848,21 @@ AriaAnalog.prototype.isMultiSelect = function(element) {
 	return container ? (container.getAttribute("aria-multiselectable") === "true") : false;
 };
 
-ariaAnalog = new AriaAnalog();
-if (typeof Object.freeze !== "undefined") {
-	Object.freeze(ariaAnalog);  // freeze, cos this is shared as the proto for many different constructors
-}
+/**
+ * A CSS selector describing the element that implements this UI control.
+ * For example a checkbox may be something like: "[role='checkbox']"
+ * This must be overridden by subclasses.
+ * @type {string}
+ */
+AriaAnalog.prototype.ITEM = "";
 
-export default ariaAnalog;
+/**
+ * A CSS selector describing the element that represents the group containing ITEM elements.
+ * For example, it may be something like: "fieldset.foo"
+ * @type {string}
+ */
+AriaAnalog.prototype.CONTAINER = "";
+
+AriaAnalog.prototype.selectionIsImmediate = false;
+
+export default AriaAnalog;
