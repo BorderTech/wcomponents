@@ -12,9 +12,8 @@
  * * Event listeners are called in the scope of the object. In other words the "this" in an event listener will
  *   not reference event.currentTarget like it normally does, it will reference the "this" as if it was just a regular
  *   function, not an event listener.
- * * If you override any event handlers it's up to YOU to ensure you honor the above contract.
  *
- * **ACHTUNG! WARNING! ATTENTION! POZOR!**
+ * * If you override any event handlers it's up to YOU to ensure you honor the above contract.
  *
  * This is an "abstract class". That means it is not a complete implementation, subclasses are required to
  * implement certain properties / methods. The absolute minimum is ITEM.
@@ -190,14 +189,12 @@ function filterGroup(_group) {
 /**
  * @alias module:wc/dom/ariaAnalog~AriaAnalog
  * @constructor
- * @private
  */
 function AriaAnalog() { }
 
 /**
  * The attribute which holds the analog value.
  * @var
- * @protected
  * @type String
  */
 AriaAnalog.prototype.VALUE_ATTRIB = "data-wc-value";
@@ -207,7 +204,6 @@ AriaAnalog.prototype.VALUE_ATTRIB = "data-wc-value";
  * Keys are MULTIPLE, SINGLE and MIXED.
  *
  * @var
- * @protected
  * @type Object
  * @property {number} MULTIPLE Instance supports multiple selection.
  * @property {number} SINGLE Instance supports single selection.
@@ -229,7 +225,6 @@ AriaAnalog.prototype.SELECT_MODE = {
  * @property {number} NEXT Move to the next item.
  * @property {number} FIRST Move to the first item.
  * @property {number} LAST Move to the last item.
- * @protected
  */
 AriaAnalog.prototype.KEY_DIRECTION = {
 	PREVIOUS: 1,
@@ -242,7 +237,6 @@ AriaAnalog.prototype.KEY_DIRECTION = {
  * Indicates that keyboard navigation should cycle at the limits of a group/sibling group.
  *
  * @var
- * @protected
  * @type Boolean
  */
 AriaAnalog.prototype._cycle = false;
@@ -254,7 +248,6 @@ AriaAnalog.prototype._cycle = false;
  *
  * @var
  * @type {?Array}
- * @protected
  */
 AriaAnalog.prototype.actionable = null;
 
@@ -262,7 +255,6 @@ AriaAnalog.prototype.actionable = null;
  * Indicates whether navigating with the keyboard selects items.
  *
  * @function
- * @protected
  * @param {Element} element The element being navigated to. Not used by default but needed in sub-classes.
  */
 AriaAnalog.prototype.selectOnNavigate = function (element) {
@@ -857,9 +849,21 @@ AriaAnalog.prototype.isMultiSelect = function(element) {
 	return container ? (container.getAttribute("aria-multiselectable") === "true") : false;
 };
 
-ariaAnalog = new AriaAnalog();
-if (typeof Object.freeze !== "undefined") {
-	Object.freeze(ariaAnalog);  // freeze, cos this is shared as the proto for many different constructors
-}
+/**
+ * A CSS selector describing the element that implements this UI control.
+ * For example a checkbox may be something like: "[role='checkbox']"
+ * This must be overridden by subclasses.
+ * @type {string}
+ */
+AriaAnalog.prototype.ITEM = "";
 
-export default ariaAnalog;
+/**
+ * A CSS selector describing the element that represents the group containing ITEM elements.
+ * For example, it may be something like: "fieldset.foo"
+ * @type {string}
+ */
+AriaAnalog.prototype.CONTAINER = "";
+
+AriaAnalog.prototype.selectionIsImmediate = false;
+
+export default AriaAnalog;

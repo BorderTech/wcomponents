@@ -1,8 +1,10 @@
-import ariaAnalog from "wc/dom/ariaAnalog.mjs";
+import AriaAnalog from "wc/dom/ariaAnalog.mjs";
 import shed from "wc/dom/shed.mjs";
 import checkboxAnalog from "wc/ui/checkboxAnalog.mjs";
 import listboxAnalog from "wc/ui/listboxAnalog.mjs";
 import radioAnalog from "wc/ui/radioAnalog.mjs";
+
+const ariaAnalog = new AriaAnalog();
 
 const html = `
 	<div id="aria-analog-test-content">
@@ -10,7 +12,7 @@ const html = `
 		<span role="checkbox" aria-checked="true" id="cb0" style="width: 5em;">selected</span>
 		<span role="checkbox" aria-checked="false" id="cb1" style="width: 5em;">not selected</span>
 		<span role="checkbox" aria-checked="mixed" id="cb2" style="width: 5em;">mixed</span>
-	
+
 		<!-- listbox -->
 		<span id="lb0" role="listbox">
 			<span id="lb0-0" role="option" aria-selected="true" style="width: 5em;">zero</span>
@@ -19,7 +21,7 @@ const html = `
 			<span id="lb0-3" role="option" aria-selected="false" aria-disabled="true" style="width: 5em;">three</span>
 			<span id="lb0-4" role="option" aria-selected="false" style="width: 5em;">four</span>
 		</span>
-	
+
 		<!-- radio analog -->
 		<span id="rb0" role="radiogroup">
 			<span id="rb0-0" role="radio" aria-checked="true" style="width: 5em;">zero</span>
@@ -28,8 +30,8 @@ const html = `
 			<span id="rb0-3" role="radio" aria-checked="false" aria-disabled="true" style="width: 5em;">three</span>
 			<span id="rb0-4" role="radio" aria-checked="false" style="width: 5em;">four</span>
 		</span>
-	
-	
+
+
 		<div id="aria-analog-writestate-test-content">
 			<!-- for generic writestate testing, use radioAnalog as it does not override writestate -->
 			<span id="rb1" role="radiogroup">
@@ -93,12 +95,8 @@ describe("wc/dom/ariaAnalog", () => {
 		expect(ariaAnalog._extendedInitialisation).withContext("_extendedInitialisation default not as expected").toBeNull();
 	});
 
-	it("testFreeze", function() {
-		expect(Object.isFrozen(ariaAnalog)).toBeTrue();
-	});
-
 	it("testITEM", function() {
-		expect(ariaAnalog.ITEM).toBeUndefined();
+		expect(ariaAnalog.ITEM).toBeFalsy();
 	});
 
 	it("testSelectOnNavigate_noElement", function() {
