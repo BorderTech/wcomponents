@@ -101,6 +101,7 @@ describe("wc/dom/ariaAnalog", () => {
 
 	it("testSelectOnNavigate_noElement", function() {
 		try {
+			// @ts-ignore
 			ariaAnalog.selectOnNavigate();
 			expect(false).withContext("Expected an error to be thrown.").toBeTrue();
 		} catch (e) {
