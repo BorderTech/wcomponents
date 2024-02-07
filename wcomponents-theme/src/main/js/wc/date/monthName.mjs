@@ -51,7 +51,7 @@ function getMonthNames(locale, short) {
 	const referenceDate = new Date(Date.UTC(2000, 0, 1));  // January
 	const result = [];
 	const type = short ? "short" : "long";
-	for(let i = 0; i < 12; i++) {
+	for (let i = 0; i < 12; i++) {
 		result.push(referenceDate.toLocaleDateString(locale, { month: type }));
 		referenceDate.setMonth(referenceDate.getMonth() + 1);
 	}

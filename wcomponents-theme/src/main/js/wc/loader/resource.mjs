@@ -1,6 +1,6 @@
 import wcconfig from "wc/config.mjs";
 
-let baseUrl, observer;
+let baseUrl;
 
 const instance = {
 
@@ -21,7 +21,7 @@ const instance = {
 		if (fileName) {
 			url = baseUrl + fileName;
 			if (cachebuster) {
-				url += `?${cachebuster}`
+				url += `?${cachebuster}`;
 			}
 		} else {
 			url = baseUrl;

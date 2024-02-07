@@ -17,7 +17,7 @@ const cache = {};
 function getDayNames(locale) {
 	const referenceDate = new Date(Date.UTC(2000, 1, 6));  // Sunday
 	const result = [];
-	for(let i = 0; i < 7; i++) {
+	for (let i = 0; i < 7; i++) {
 		result.push(referenceDate.toLocaleDateString(locale, { weekday: "long" }));
 		referenceDate.setDate(referenceDate.getDate() + 1);
 	}

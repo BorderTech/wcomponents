@@ -12,5 +12,5 @@
  * @returns {number} The number of days in the month if we can determine it.
  */
 export default function daysInMonth(year, month) {
-	return new Date(year, month, 0).getDate()
+	return new Date(year, month, 0).getDate();
 }

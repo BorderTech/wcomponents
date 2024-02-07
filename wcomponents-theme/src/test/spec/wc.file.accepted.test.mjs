@@ -1,5 +1,4 @@
 import accepted from "wc/file/accepted.mjs";
-import domTesting from "@testing-library/dom";
 import {addFilesToInput, getInput} from "../helpers/specUtils.mjs";
 
 describe("wc/file/accepted", function() {

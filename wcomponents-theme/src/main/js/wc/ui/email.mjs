@@ -59,6 +59,6 @@ function emailCheck({ target }) {
 
 initialise.register({
 	initialise: element => {
-		event.add(element, { type: "change", listener: emailCheck, capture: true })
+		event.add(element, { type: "change", listener: emailCheck, capture: true });
 	}
 });

@@ -109,7 +109,7 @@ class TreeItem extends AriaAnalog {
 				}
 			}
 		}
-	};
+	}
 
 	/**
 	 * Over-ride of the click event handler. This is required because of the complexities of determining
@@ -129,7 +129,7 @@ class TreeItem extends AriaAnalog {
 				this.activate(element, shiftKey, (ctrlKey || metaKey));
 			}
 		}
-	};
+	}
 }
 
 import("wc/ui/menu/tree.mjs").then(module => tree = module.default);

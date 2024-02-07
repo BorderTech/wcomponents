@@ -424,7 +424,7 @@ class Tree extends AbstractMenu {
 		}));
 		selectedItems.forEach(nextSelectedItem => formUpdateManager.writeStateField(toContainer, rootId, nextSelectedItem.id));
 		formUpdateManager.writeStateField(toContainer, `${rootId}-h`, "x");
-	};
+	}
 
 	/**
 	 * Listen to AJAX updates that are about to affect a tree.
@@ -435,8 +435,8 @@ class Tree extends AbstractMenu {
 	preAjaxSubscriber(element, content, action) {
 		if (this.isRoot(element) && content && action === "in") {
 			const kids = Array.from(content.children);
-			for (const element of kids) {
-				let newBranch = this._getBranch(element);
+			for (const kid of kids) {
+				let newBranch = this._getBranch(kid);
 				if (newBranch) {
 					let currentBranch = document.getElementById(newBranch.id);
 					if (currentBranch && shed.isSelected(currentBranch)) {
@@ -451,7 +451,7 @@ class Tree extends AbstractMenu {
 				}
 			}
 		}
-	};
+	}
 
 	/**
 	 * Override {@link:module:wc/dom/shed} subscriber to add special cases for trees.
@@ -501,7 +501,7 @@ class Tree extends AbstractMenu {
 				icon.change(iconContainer, "fa-folder-open-o", "fa-folder-o");
 			}
 		}
-	};
+	}
 
 	/**
 	 * Override the default "animator" to prevent a branch from opening if any other element is selected at its level. Only applies to htree.
@@ -529,7 +529,7 @@ class Tree extends AbstractMenu {
 		shed[open ? "expand" : "collapse"](item);
 		this._remapKeys(item);
 		return true;
-	};
+	}
 
 	/**
 	 * A TreeWalker filter to get a text node match during key-initiated tree walking.
@@ -550,7 +550,7 @@ class Tree extends AbstractMenu {
 		}
 
 		return NodeFilter.FILTER_SKIP;
-	};
+	}
 
 	/**
 	 * Helper for shed collapse subscriber. This function is concerned with deselecting items in collapsing branches and possibly selecting
@@ -590,7 +590,7 @@ class Tree extends AbstractMenu {
 				}
 			}
 		}
-	};
+	}
 }
 
 /**
