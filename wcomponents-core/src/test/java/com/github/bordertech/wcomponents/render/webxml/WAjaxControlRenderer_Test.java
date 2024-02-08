@@ -43,41 +43,41 @@ public class WAjaxControlRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		// No Targets
 		assertSchemaMatch(root);
-		assertXpathEvaluatesTo("0", "count(//ui:ajaxtrigger)", root);
+		assertXpathEvaluatesTo("0", "count(//html:" + WAjaxControlRenderer.WC_AJAXTRIGGER + ")", root);
 
 		// With Targets
 		control.addTargets(new AjaxTarget[]{target1, target2, target3});
 
 		setActiveContext(createUIContext());
 		assertSchemaMatch(root);
-		assertXpathEvaluatesTo(trigger.getId(), "//ui:ajaxtrigger/@triggerId", root);
-		assertXpathNotExists("//ui:ajaxtrigger/@loadOnce", root);
-		assertXpathNotExists("//ui:ajaxtrigger/@delay", root);
-		assertXpathEvaluatesTo("3", "count(//ui:ajaxtrigger/ui:ajaxtargetid)", root);
-		assertXpathEvaluatesTo(target1.getId(), "//ui:ajaxtrigger/ui:ajaxtargetid[1]/@targetId",
+		assertXpathEvaluatesTo(trigger.getId(), "//html:" + WAjaxControlRenderer.WC_AJAXTRIGGER + "/@triggerId", root);
+		assertXpathNotExists("//html:" + WAjaxControlRenderer.WC_AJAXTRIGGER + "/@loadOnce", root);
+		assertXpathNotExists("//html:" + WAjaxControlRenderer.WC_AJAXTRIGGER + "/@delay", root);
+		assertXpathEvaluatesTo("3", "count(//html:" + WAjaxControlRenderer.WC_AJAXTRIGGER + "/html:" + WAjaxControlRenderer.WC_AJAXTARGETID + ")", root);
+		assertXpathEvaluatesTo(target1.getId(), "//html:" + WAjaxControlRenderer.WC_AJAXTRIGGER + "/html:" + WAjaxControlRenderer.WC_AJAXTARGETID + "[1]/@targetId",
 				root);
-		assertXpathEvaluatesTo(target2.getId(), "//ui:ajaxtrigger/ui:ajaxtargetid[2]/@targetId",
+		assertXpathEvaluatesTo(target2.getId(), "//html:" + WAjaxControlRenderer.WC_AJAXTRIGGER + "/html:" + WAjaxControlRenderer.WC_AJAXTARGETID + "[2]/@targetId",
 				root);
-		assertXpathEvaluatesTo(target3.getId(), "//ui:ajaxtrigger/ui:ajaxtargetid[3]/@targetId",
+		assertXpathEvaluatesTo(target3.getId(), "//html:" + WAjaxControlRenderer.WC_AJAXTRIGGER + "/html:" + WAjaxControlRenderer.WC_AJAXTARGETID + "[3]/@targetId",
 				root);
 
 		control.setLoadOnce(true);
 		assertSchemaMatch(root);
-		assertXpathEvaluatesTo("true", "//ui:ajaxtrigger/@loadOnce", root);
+		assertXpathEvaluatesTo("true", "//html:" + WAjaxControlRenderer.WC_AJAXTRIGGER + "/@loadOnce", root);
 
 		// remove loadOnce then reset it using loadCount
 		control.setLoadOnce(false);
 		assertSchemaMatch(root);
-		assertXpathNotExists("//ui:ajaxtrigger/@loadOnce", root);
+		assertXpathNotExists("//html:" + WAjaxControlRenderer.WC_AJAXTRIGGER + "/@loadOnce", root);
 
 		// With Targets and optional attributes
 		control.setLoadCount(6); // any number greateer than 0...
 		control.setDelay(1000);
 
 		assertSchemaMatch(root);
-		assertXpathEvaluatesTo(trigger.getId(), "//ui:ajaxtrigger/@triggerId", root);
-		assertXpathEvaluatesTo("true", "//ui:ajaxtrigger/@loadOnce", root);
-		assertXpathEvaluatesTo("1000", "//ui:ajaxtrigger/@delay", root);
-		assertXpathEvaluatesTo("3", "count(//ui:ajaxtrigger/ui:ajaxtargetid)", root);
+		assertXpathEvaluatesTo(trigger.getId(), "//html:" + WAjaxControlRenderer.WC_AJAXTRIGGER + "/@triggerId", root);
+		assertXpathEvaluatesTo("true", "//html:" + WAjaxControlRenderer.WC_AJAXTRIGGER + "/@loadOnce", root);
+		assertXpathEvaluatesTo("1000", "//html:" + WAjaxControlRenderer.WC_AJAXTRIGGER + "/@delay", root);
+		assertXpathEvaluatesTo("3", "count(//html:" + WAjaxControlRenderer.WC_AJAXTRIGGER + "/html:" + WAjaxControlRenderer.WC_AJAXTARGETID + ")", root);
 	}
 }

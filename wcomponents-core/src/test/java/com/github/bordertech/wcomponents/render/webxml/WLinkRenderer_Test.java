@@ -190,18 +190,18 @@ public class WLinkRenderer_Test extends AbstractWebXmlRendererTestCase {
 		// No Targets (target itself)
 		link.setAction(new TestAction());
 		assertSchemaMatch(root);
-		assertXpathEvaluatesTo(link.getId(), "//ui:ajaxtrigger/@triggerId", root);
-		assertXpathEvaluatesTo("1", "count(//ui:ajaxtrigger/ui:ajaxtargetid)", root);
-		assertXpathEvaluatesTo(link.getId(), "//ui:ajaxtrigger/ui:ajaxtargetid[1]/@targetId", root);
+		assertXpathEvaluatesTo(link.getId(), "//html:" + WAjaxControlRenderer.WC_AJAXTRIGGER + "/@triggerId", root);
+		assertXpathEvaluatesTo("1", "count(//html:" + WAjaxControlRenderer.WC_AJAXTRIGGER + "/html:" + WAjaxControlRenderer.WC_AJAXTARGETID + ")", root);
+		assertXpathEvaluatesTo(link.getId(), "//html:" + WAjaxControlRenderer.WC_AJAXTRIGGER + "/html:" + WAjaxControlRenderer.WC_AJAXTARGETID + "[1]/@targetId", root);
 
 		// With Targets
 		link.setAction(new TestAction(), target1, target2);
 		assertSchemaMatch(root);
-		assertXpathEvaluatesTo(link.getId(), "//ui:ajaxtrigger/@triggerId", root);
-		assertXpathEvaluatesTo("2", "count(//ui:ajaxtrigger/ui:ajaxtargetid)", root);
-		assertXpathEvaluatesTo(target1.getId(), "//ui:ajaxtrigger/ui:ajaxtargetid[1]/@targetId",
+		assertXpathEvaluatesTo(link.getId(), "//html:" + WAjaxControlRenderer.WC_AJAXTRIGGER + "/@triggerId", root);
+		assertXpathEvaluatesTo("2", "count(//html:" + WAjaxControlRenderer.WC_AJAXTRIGGER + "/html:" + WAjaxControlRenderer.WC_AJAXTARGETID + ")", root);
+		assertXpathEvaluatesTo(target1.getId(), "//html:" + WAjaxControlRenderer.WC_AJAXTRIGGER + "/html:" + WAjaxControlRenderer.WC_AJAXTARGETID + "[1]/@targetId",
 				root);
-		assertXpathEvaluatesTo(target2.getId(), "//ui:ajaxtrigger/ui:ajaxtargetid[2]/@targetId",
+		assertXpathEvaluatesTo(target2.getId(), "//html:" + WAjaxControlRenderer.WC_AJAXTRIGGER + "/html:" + WAjaxControlRenderer.WC_AJAXTARGETID + "[2]/@targetId",
 				root);
 	}
 
