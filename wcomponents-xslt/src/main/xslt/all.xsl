@@ -344,7 +344,6 @@
 		<xsl:variable name="rtfs" select=".//ui:textarea[ui:rtf]" />
 		<xsl:variable name="subordinates" select=".//ui:subordinate" />
 		<xsl:variable name="eagerness" select="//*[@mode eq 'eager']" />
-		<xsl:variable name="hasAjaxTriggers" select=".//ui:ajaxtrigger" />
 		<xsl:variable name="timeoutWarn" select=".//ui:session[1]" />
 		<xsl:variable name="editors" select=".//html:wc-imageedit" />
 		<xsl:variable name="tableActions" select=".//ui:table/ui:actions/ui:action" />
@@ -580,12 +579,6 @@
 			<xsl:if test="$eagerness">
 				<xsl:text>import("wc/ui/containerload.mjs").then(({ default: c }) => {c.register([</xsl:text>
 				<xsl:apply-templates select="$eagerness" mode="registerIds" />
-				<xsl:text>]);});</xsl:text>
-			</xsl:if>
-			<xsl:if test="$hasAjaxTriggers">
-				<!--NOTE: if we have an ajaxTrigger we have to require the generic subscriber even if it is never used -->
-				<xsl:text>import("wc/ui/ajaxRegion.mjs").then(({ default: c }) => { c.register([</xsl:text>
-				<xsl:apply-templates select="$hasAjaxTriggers" mode="JS" />
 				<xsl:text>]);});</xsl:text>
 			</xsl:if>
 			<xsl:if test="//@defaultFocusId">
