@@ -1556,7 +1556,9 @@ AbstractMenu.prototype.focusEvent = function($event) {  // ignore the claim this
 	if (root && (root === genericRoot)) {
 		if (!root[BOOTSTRAPPED]) {
 			root[BOOTSTRAPPED] = true;
-			event.add(root, "keydown", eventWrapper.bind(this));
+			event.add(root, "keydown", (event) => {
+				eventWrapper.call(this, event);
+			});
 		}
 		if (openMenu && (localOpenMenu = document.getElementById(openMenu)) && localOpenMenu !== root) {
 			closeOpenMenu(localOpenMenu, target, this);
@@ -1696,8 +1698,8 @@ AbstractMenu.prototype.initialise = function(element) {
 		this._setUpWidgets();
 		this._setupKeymap();
 
-		event.add(window, { type: "focus", listener: eventWrapper.bind(this), capture: true });
-		event.add(window, "click", eventWrapper.bind(this));
+		event.add(window, { type: "focus", listener: event => eventWrapper.call(this, event), capture: true });
+		event.add(window, "click", event => eventWrapper.call(this, event));
 
 		if (this.preAjaxSubscriber) {
 			processResponse.subscribe(this.preAjaxSubscriber.bind(this));

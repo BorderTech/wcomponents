@@ -101,7 +101,7 @@ class TreeItem extends AriaAnalog {
 					selectMode = this.exclusiveSelect;
 					this.exclusiveSelect = this.SELECT_MODE.SINGLE;
 				}
-				this.constructor.prototype.activate.call(this, element, SHIFT, CTRL);
+				super.activate(element, SHIFT, CTRL);
 			} finally {
 				if (selectMode) {
 					this.exclusiveSelect = selectMode;
