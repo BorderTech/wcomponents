@@ -145,7 +145,7 @@ class Tabset extends AriaAnalog {
 			return false; // single accordion all in the same state only if collapsed.
 		}
 		return Array.from(list.querySelectorAll(this.ITEM)).every(next => shed.isExpanded(next) === expanded);
-	};
+	}
 
 	/**
 	 * A subscriber to {@link module:wc/dom/shed} to react to these pseudo-events.
@@ -182,7 +182,7 @@ class Tabset extends AriaAnalog {
 				Array.from(element.querySelectorAll(this.ITEM.toString())).forEach(next => shed[action](next));
 			}
 		}
-	};
+	}
 
 	/**
 	 * Tab interaction functionality. Shows the tab's content if the tab is a regular tab. Toggles the
@@ -208,7 +208,7 @@ class Tabset extends AriaAnalog {
 				shed.select(element);
 			}
 		}
-	};
+	}
 
 	/**
 	 * A subscriber to {@link module:wc/dom/formUpdateManager} to write the state of tabsets during submission.
@@ -226,7 +226,7 @@ class Tabset extends AriaAnalog {
 		if (container.matches(this.ITEM.toString())) {
 			writeTabState(container.closest(TABLIST));
 		}
-	};
+	}
 
 	/**
 	 *
@@ -246,7 +246,7 @@ class Tabset extends AriaAnalog {
 		} else if (lastTabId) {
 			resetFocusIndex();
 		}
-	};
+	}
 
 	/**
 	 * This is the keydown extension for CTRL + PAGE_UP/PAGE_DOWN to match the WAI-ARIA key map for tabsets. It
@@ -288,7 +288,7 @@ class Tabset extends AriaAnalog {
 			$event.preventDefault();
 			focus.setFocusRequest(targetTab);
 		}
-	};
+	}
 
 	/**
 	 * Extended setup for tabsets.

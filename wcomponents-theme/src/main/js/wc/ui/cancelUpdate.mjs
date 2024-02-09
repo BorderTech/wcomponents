@@ -43,8 +43,8 @@ const instance = {
 	 */
 	addElements: function(element) {
 		const elements = isSuccessfulElement.getAll(element, true);
-		for (const element of elements) {
-			this.addElement(element);
+		for (const next of elements) {
+			this.addElement(next);
 		}
 	},
 
@@ -80,8 +80,8 @@ const instance = {
 	 */
 	removeElements: function(element) {
 		const elements = isSuccessfulElement.getAll(element, true);
-		for (const element of elements) {
-			this.removeElement(element);
+		for (const next of elements) {
+			this.removeElement(next);
 		}
 	},
 

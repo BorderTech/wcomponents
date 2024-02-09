@@ -15,6 +15,9 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
  */
 final class WAjaxControlRenderer extends AbstractWebXmlRenderer {
 
+	public static final String WC_AJAXTRIGGER = "wc-ajaxtrigger";
+	public static final String WC_AJAXTARGETID = "wc-ajaxtargetid";
+
 	/**
 	 * Paints the given AjaxControl.
 	 *
@@ -34,7 +37,7 @@ final class WAjaxControlRenderer extends AbstractWebXmlRenderer {
 		}
 
 		// Start tag
-		xml.appendTagOpen("ui:ajaxtrigger");
+		xml.appendTagOpen(WC_AJAXTRIGGER);
 		xml.appendAttribute("triggerId", trigger.getId());
 		xml.appendOptionalAttribute("loadOnce", ajaxControl.isLoadOnce(), "true");
 		xml.appendOptionalAttribute("delay", delay > 0, delay);
@@ -42,13 +45,14 @@ final class WAjaxControlRenderer extends AbstractWebXmlRenderer {
 
 		// Targets
 		for (AjaxTarget target : ajaxControl.getTargets()) {
-			xml.appendTagOpen("ui:ajaxtargetid");
+			xml.appendTagOpen(WC_AJAXTARGETID);
 			xml.appendAttribute("targetId", target.getId());
-			xml.appendEnd();
+			xml.appendClose();
+			xml.appendEndTag(WC_AJAXTARGETID);
 		}
 
 		// End tag
-		xml.appendEndTag("ui:ajaxtrigger");
+		xml.appendEndTag(WC_AJAXTRIGGER);
 	}
 
 }

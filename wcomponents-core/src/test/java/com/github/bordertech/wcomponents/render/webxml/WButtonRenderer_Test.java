@@ -96,7 +96,7 @@ public class WButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathExists("//html:button/html:span[contains(@class, 'wc_btn_imge')]", button);
 		assertXpathEvaluatesTo("true", "//html:button/@aria-haspopup", button);
 		assertXpathEvaluatesTo(validationComponent.getId(), "//html:button/@data-wc-validate", button);
-		assertXpathEvaluatesTo(button.getId(), "//ui:ajaxtrigger/@triggerId", button);
+		assertXpathEvaluatesTo(button.getId(), "//html:" + WAjaxControlRenderer.WC_AJAXTRIGGER + "/@triggerId", button);
 
 		button.setImagePosition(ImagePosition.NORTH);
 		assertXpathExists("//html:button/html:span[contains(@class, 'wc_btn_imgn')]", button);

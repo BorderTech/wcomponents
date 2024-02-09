@@ -42,7 +42,7 @@ class MenuItemCheckbox extends AriaAnalog {
 	 */
 	clickEvent($event) {
 		clickEventHelper($event, this);
-	};
+	}
 }
 
 /**

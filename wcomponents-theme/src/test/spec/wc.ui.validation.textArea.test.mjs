@@ -1,5 +1,4 @@
 import "wc/ui/validation/textArea.mjs";
-import {getInput} from "../helpers/specUtils.mjs";
 import domTesting from "@testing-library/dom";
 
 describe("wc/ui/validation/textArea", ()=> {

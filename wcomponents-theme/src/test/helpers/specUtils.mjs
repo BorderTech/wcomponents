@@ -11,7 +11,7 @@ import domTesting from "@testing-library/dom";
  */
 export const getSelect = (container, testId) => {
 	return /** @type {HTMLSelectElement} */(domTesting.getByTestId(container, testId));
-}
+};
 
 /**
  * To help with type checking, get an input element from here.
@@ -21,7 +21,7 @@ export const getSelect = (container, testId) => {
  */
 export const getInput = (container, testId) => {
 	return /** @type {HTMLInputElement} */(domTesting.getByTestId(container, testId));
-}
+};
 
 /**
  * To help with type checking, get a button element from here.
@@ -31,7 +31,7 @@ export const getInput = (container, testId) => {
  */
 export const getButton = (container, testId) => {
 	return /** @type {HTMLButtonElement} */(domTesting.getByTestId(container, testId));
-}
+};
 
 /**
  * Gets the path to src/test/resource or src/main/resource

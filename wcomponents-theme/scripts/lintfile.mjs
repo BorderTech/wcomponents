@@ -62,11 +62,11 @@ function getLintTarget(target) {
  * @returns The raw ESLint results when done.
  */
 async function runEslint(target) {
-	let lintTarget = getLintTarget(target);
-	let uglyReport =  await eslintCli.lintFiles(lintTarget);
-	let formatter = await eslintCli.loadFormatter();
-	let prettyReport = formatter.format(uglyReport);
-	const message = "THEME LINTER: Nothing to report besides the fact that you are awesome!";
+	const lintTarget = getLintTarget(target);
+	const uglyReport =  await eslintCli.lintFiles(lintTarget);
+	const formatter = await eslintCli.loadFormatter();
+	const prettyReport = formatter.format(uglyReport);
+	const message = "THEME LINTER: No fatal lint errors.";
 	if (prettyReport) {
 		console.log(prettyReport);
 		let fatalErrorResults = ESLint.getErrorResults(uglyReport).filter((result) => {

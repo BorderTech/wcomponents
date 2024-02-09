@@ -17,6 +17,9 @@ import mixin from "wc/mixin.mjs";
 import timers from "wc/timers.mjs";
 import "wc/ui/ajax/genericSubscriber.mjs";
 
+const ajaxTriggerTagName = "wc-ajaxtrigger";
+const ajaxTargetTagName = "wc-ajaxtargetid";
+
 let triggers = [];
 let ignoreChange = false;
 
@@ -39,7 +42,6 @@ const instance = {
 			if (delay) {
 				initialise.addCallback(() => timers.setTimeout(fireAfterDelay, delay, triggerId));
 			}
-			return trigger;
 		};
 		if (Array.isArray(obj)) {
 			obj.forEach(_register);
@@ -253,7 +255,7 @@ function isNavLink(element) {
  * @private
  */
 function setControlsAttribute() {
-	if (triggers && triggers.length) {
+	if (triggers?.length) {
 		try {
 			triggers.forEach(function(next) {
 				const trigger = triggerManager.getTrigger(next);
@@ -325,5 +327,43 @@ initialise.register({
 		event.add(document.body, shed.events.DESELECT, shedSubscriber);
 	},
 });
+
+/**
+ * Converts a WAjaxTrigger element to a DTO for registration.
+ * @param {WAjaxTrigger} element
+ * @return {{delay: (String|number), id: String, oneShot: boolean, loads: String[]}}
+ */
+function toDto(element) {
+	const ajaxTargets = Array.from(element.querySelectorAll(ajaxTargetTagName));
+	return {
+		id: element.getAttribute("triggerId"),
+		oneShot: element.hasAttribute("loadOnce"),
+		delay: element.getAttribute("delay") || 0,
+		loads: ajaxTargets.map(targetElement => targetElement.getAttribute("targetId"))
+	};
+}
+
+/**
+ * This element provides a way of registering an AJAX Trigger without having to call directly in to the JS API.
+ * Instead, we use the lifecycle hooks to respond to a new AJAX Trigger being added to the DOM (either when the page
+ * loads, or when a new one is added by JS (perhaps as part of rendering an AJAX response)).
+ */
+class WAjaxTrigger extends HTMLElement {
+	connectedCallback() {
+		const dto = toDto(this);
+		instance.register(dto);
+		// Once the trigger is registered we don't need this DOM element anymore
+		setTimeout(() => this.parentNode.removeChild(this), 0);
+	}
+}
+
+class WAjaxTarget extends HTMLElement {
+	// Nothing to do here
+}
+
+if (!customElements.get(ajaxTriggerTagName)) {
+	customElements.define(ajaxTriggerTagName, WAjaxTrigger);
+	customElements.define(ajaxTargetTagName, WAjaxTarget);
+}
 
 export default instance;

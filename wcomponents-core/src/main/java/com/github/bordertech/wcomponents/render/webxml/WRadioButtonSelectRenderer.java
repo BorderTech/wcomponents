@@ -132,16 +132,17 @@ final class WRadioButtonSelectRenderer extends AbstractWebXmlRenderer {
 	 */
 	private void paintAjax(final WRadioButtonSelect rbSelect, final XmlStringBuilder xml) {
 		// Start tag
-		xml.appendTagOpen("ui:ajaxtrigger");
+		xml.appendTagOpen(WAjaxControlRenderer.WC_AJAXTRIGGER);
 		xml.appendAttribute("triggerId", rbSelect.getId());
 		xml.appendClose();
 
 		// Target
-		xml.appendTagOpen("ui:ajaxtargetid");
+		xml.appendTagOpen(WAjaxControlRenderer.WC_AJAXTARGETID);
 		xml.appendAttribute("targetId", rbSelect.getAjaxTarget().getId());
-		xml.appendEnd();
+		xml.appendClose();
+		xml.appendEndTag(WAjaxControlRenderer.WC_AJAXTARGETID);
 
 		// End tag
-		xml.appendEndTag("ui:ajaxtrigger");
+		xml.appendEndTag(WAjaxControlRenderer.WC_AJAXTRIGGER);
 	}
 }

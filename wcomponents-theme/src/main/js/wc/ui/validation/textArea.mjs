@@ -1,4 +1,4 @@
-		/**
+/**
  * Provides functionality to undertake client validation of WTextArea.
  *
  * @module

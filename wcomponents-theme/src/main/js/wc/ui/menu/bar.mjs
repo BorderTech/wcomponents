@@ -289,7 +289,7 @@ function attachSubMenuCloseButton(el) {
 				if (label) {
 					label.insertAdjacentHTML("afterbegin", '<i class="fa fa-caret-left wc_dlbl_seg" aria-hidden="true"></i>');
 				}
-				Array.prototype.forEach.call(closeButton.querySelectorAll("[id]"), function(next) {
+				Array.from(closeButton.querySelectorAll("[id]")).forEach(next => {
 					next.id = uid();
 				});
 				if (el.hasChildNodes()) {

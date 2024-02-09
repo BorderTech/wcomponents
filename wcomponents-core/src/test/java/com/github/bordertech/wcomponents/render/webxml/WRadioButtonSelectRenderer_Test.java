@@ -78,7 +78,7 @@ public class WRadioButtonSelectRenderer_Test extends AbstractWebXmlRendererTestC
 		assertXpathEvaluatesTo("true", "//ui:radiobuttonselect/@frameless", group);
 		assertXpathEvaluatesTo("column", "//ui:radiobuttonselect/@layout", group);
 		assertXpathEvaluatesTo("2", "//ui:radiobuttonselect/@layoutColumnCount", group);
-		assertXpathEvaluatesTo(group.getId(), "//ui:ajaxtrigger/@triggerId", group);
+		assertXpathEvaluatesTo(group.getId(), "//html:" + WAjaxControlRenderer.WC_AJAXTRIGGER + "/@triggerId", group);
 	}
 
 	@Test(expected = SystemException.class)

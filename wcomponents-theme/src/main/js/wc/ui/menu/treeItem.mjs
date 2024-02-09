@@ -101,7 +101,7 @@ class TreeItem extends AriaAnalog {
 					selectMode = this.exclusiveSelect;
 					this.exclusiveSelect = this.SELECT_MODE.SINGLE;
 				}
-				this.constructor.prototype.activate.call(this, element, SHIFT, CTRL);
+				super.activate(element, SHIFT, CTRL);
 			} finally {
 				if (selectMode) {
 					this.exclusiveSelect = selectMode;
@@ -109,7 +109,7 @@ class TreeItem extends AriaAnalog {
 				}
 			}
 		}
-	};
+	}
 
 	/**
 	 * Over-ride of the click event handler. This is required because of the complexities of determining
@@ -129,7 +129,7 @@ class TreeItem extends AriaAnalog {
 				this.activate(element, shiftKey, (ctrlKey || metaKey));
 			}
 		}
-	};
+	}
 }
 
 import("wc/ui/menu/tree.mjs").then(module => tree = module.default);

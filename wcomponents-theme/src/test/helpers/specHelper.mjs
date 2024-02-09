@@ -45,7 +45,7 @@ function getResponse(fileName, { srcDir = false, status = 200 }) {
 		get responseText() {
 			return getResponseText(fileName, srcDir);
 		}
-	}
+	};
 }
 
 function getResponseText(fileName, srcDir) {

@@ -154,7 +154,6 @@ function requestLoad(element, eager, get) {
  * @function
  */
 function handleExpandOrShow(element) {
-	let promise;
 	if (element) {
 		if (element.matches(lameContainer)) {
 			const form = getForm(element, true);

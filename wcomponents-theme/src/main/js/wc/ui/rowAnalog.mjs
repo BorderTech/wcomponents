@@ -83,7 +83,7 @@ class RowAnalog extends AriaAnalog {
 		}
 
 		super.shedObserver(element, action);
-	};
+	}
 }
 
 export default initialise.register(new RowAnalog());
