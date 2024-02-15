@@ -16,7 +16,8 @@ import unique from "wc/array/unique.mjs";
 import shed from "wc/dom/shed.mjs";
 import timers from "wc/timers.mjs";
 
-let event,
+let view = window,
+	event,
 	dateField,
 	multiSelectPair,
 	waitingForRules = false,  // flag if we don't add event listeners when dom is loaded
@@ -69,7 +70,7 @@ const instance = {
 		if (waitingForRules) {
 			waitingForRules = false;
 			console.log("Rules registered: adding event listeners");
-			initialiser.initialise(document.body);
+			initialiser.initialise(view.document.body);
 		}
 	},
 
@@ -183,7 +184,7 @@ function activateSubordinateRules(element) {
 function getElement(identifier) {
 	const namedElements = ['input', 'select', 'textarea', 'button'];
 	const selector = namedElements.map(tn => `${tn}[name='${identifier}']`).join();
-	return document.querySelector(selector) || document.getElementById(identifier);
+	return view.document.querySelector(selector) || view.document.getElementById(identifier);
 }
 
 /**
@@ -251,7 +252,7 @@ function isConditionTrue(id, testValue, operator) {
 				 */
 				let testType = getTestType(operator);
 				if (testType.equalityTest) {
-					doEqualityTest(element, testValue, testType.negate, selectedItems);
+					result = doEqualityTest(element, testValue, testType.negate, selectedItems);
 				}
 			}
 		} else {
@@ -291,7 +292,7 @@ function doEqualityTest(element, testValue, negate, selectedItems) {
 		}
 	} else if (testValue === "true" || testValue === "false") {
 		if ((shed.isSelected(element) + "") === testValue) {
-			return  !negate;
+			return !negate;
 		}
 	}
 	return false;
@@ -398,6 +399,7 @@ function testElementValue(elements, testVal, operator) {
  */
 function doTest(triggerVal, operator, compareVal) {
 	let result, typedCompedVal;
+
 	switch (operator) {
 		case "le":
 			result = (triggerVal === compareVal);  // strict equality test
@@ -450,7 +452,7 @@ function isEmpty(val) {
  * @private
  * @param {string} val The value to convert.
  * @param {string} type The required type.
- * @returns {string} The correct value of the correct type (based on the "type" arg). If the value is SOMETHING
+ * @returns {*} The correct value of the correct type (based on the "type" arg). If the value is SOMETHING
  * (not an empty-ish string) but that something is not correctly formatted for the "type" then we return
  * null which essentially means "invalid" and no comparisons can be done.
  */
@@ -484,15 +486,13 @@ function getDateCompareValue(val) {
 /**
  * Helper for getCompareValue.
  * @param {string} val The value to convert.
- * @returns {string} The correct value when comparing numbers.
+ * @returns {number} The correct value when comparing numbers.
  */
 function getNumberCompareValue(val) {
-	let result = val;
-	if (val !== "") {
-		if (isNaN(Number(val))) {  // if the result is NaN we can't use it
-			console.warn("Can not parse to a number", val);
-			result = null;
-		}
+	let result = Number(val);
+	if (isNaN(Number(val))) {  // if the result is NaN we can't use it
+		console.warn("Can not parse to a number", val);
+		result = null;
 	}
 	return result;
 }
@@ -504,7 +504,7 @@ function getNumberCompareValue(val) {
  * @param {Element} element An element which has some logical value which we want to get.
  * @param {string} [type] The type for the element we are dealing with, i.e. "number" or "date". If not
  *    provided we will try a few things then give up.
- * @returns {string|null} The correct value of the correct type (based on the "type" arg). If the value is SOMETHING
+ * @returns {*} The correct value of the correct type (based on the "type" arg). If the value is SOMETHING
  *   (not an empty-ish string) but that something is not correctly formatted for the "type" then we return
  *   null which essentially means "invalid" and no comparisons can be done.
  */
@@ -521,9 +521,9 @@ function getTriggerValue(element, type) {
 	}
 
 	if (type === "number") {
-		result = element["value"];
-		if (isNaN(Number(result))) {  // if the result is NaN we can't use it ( btw Number("") is 0 )
-			result = null;
+		result = Number(element["value"]);
+		if (isNaN(result)) {  // if the result is NaN we can't use it ( btw Number("") is 0 )
+			return null;
 		}
 		return result;
 	}
@@ -625,6 +625,7 @@ const initialiser = {
 	 * @param {Element} element The body element.
 	 */
 	initialise: element => {
+		view = element?.ownerDocument?.defaultView || window;
 		waitingForRules = true;
 		// always require these deps, even if there are no rules, because there are other public methods that need them
 		const deps = ["wc/dom/event.mjs", "wc/ui/dateField.mjs", "wc/ui/multiSelectPair.mjs"];
