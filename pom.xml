@@ -25,6 +25,14 @@
 		<failBuildOnCVSS>11</failBuildOnCVSS>
 		<!-- Update every 168 hours (7 days) -->
 		<cveValidForHours>168</cveValidForHours>
+
+		<!-- Force latest version of spotbugs -->
+		<bt.spotbugs.plugin.version>4.8.2.0</bt.spotbugs.plugin.version>
+		<bt.spotbugs.version>4.8.3</bt.spotbugs.version>
+		<bt.sb-contrib.plugin.version>7.6.4</bt.sb-contrib.plugin.version>
+		<!-- Override threshold from Medium to High -->
+		<spotbugs.threshold>High</spotbugs.threshold>
+
 	</properties>
 
 	<licenses>
