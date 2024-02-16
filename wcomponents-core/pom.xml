@@ -85,11 +85,6 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<excludedGroups>${excludedTestGroups}</excludedGroups>
-					<includes>
-						<include>com.github.bordertech.wcomponents.WComponentsTest_Suite.java</include>
-						<!-- Included specifically in surefire plugin for java 8 testing -->
-						<include>com.github.bordertech.wcomponents.util.ObjectGraphDump_Test.java</include>
-					</includes>
 				</configuration>
 			</plugin>
 		</plugins>
