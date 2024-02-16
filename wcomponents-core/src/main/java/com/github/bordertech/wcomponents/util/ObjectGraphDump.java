@@ -166,7 +166,7 @@ public final class ObjectGraphDump {
 		ComponentModel model = (ComponentModel) node.getValue();
 		ComponentModel sharedModel = null;
 
-		List<Field> fieldList = ReflectionUtil.getAllFields(node.getValue(), true, false);
+		List<Field> fieldList = ReflectionUtil.getAllFields(node.getValue(), true, false, true);
 		Field[] fields = fieldList.toArray(new Field[fieldList.size()]);
 
 		for (int i = 0; i < fields.length; i++) {
@@ -355,7 +355,7 @@ public final class ObjectGraphDump {
 
 		if (fields == null) {
 			List<Field> fieldList = ReflectionUtil.
-					getAllFields(obj, excludeStatic, excludeTransient);
+					getAllFields(obj, excludeStatic, excludeTransient, true);
 			fields = fieldList.toArray(new Field[fieldList.size()]);
 
 			instanceFieldsByClass.put(obj.getClass(), fields);
