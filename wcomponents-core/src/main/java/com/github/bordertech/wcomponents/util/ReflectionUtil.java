@@ -6,6 +6,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * This class provides helpers for invoking objects using the java.lang.reflect package to invoke objects.
@@ -14,6 +16,11 @@ import java.util.List;
  * @since 1.0.0
  */
 public final class ReflectionUtil {
+
+	/**
+	 * The logger instance for this class.
+	 */
+	private static final Log LOG = LogFactory.getLog(ReflectionUtil.class);
 
 	/**
 	 * Don't let anyone instantiate this class.
@@ -92,6 +99,20 @@ public final class ReflectionUtil {
 	 */
 	public static List getAllFields(final Object obj, final boolean excludeStatic,
 			final boolean excludeTransient) {
+		return getAllFields(obj, excludeStatic, excludeTransient, false);
+	}
+
+	/**
+	 * Retrieves all the fields contained in the given object and its superclasses.
+	 *
+	 * @param obj the object to examine
+	 * @param excludeStatic if true, static fields will be omitted
+	 * @param excludeTransient if true, transient fields will be omitted
+	 * @param ignoreInaccessible if true, ignore fields that are not accessible
+	 * @return a list of fields for the given object
+	 */
+	public static List getAllFields(final Object obj, final boolean excludeStatic,
+			final boolean excludeTransient, final boolean ignoreInaccessible) {
 		List fieldList = new ArrayList();
 
 		for (Class clazz = obj.getClass(); clazz != null; clazz = clazz.getSuperclass()) {
@@ -102,8 +123,16 @@ public final class ReflectionUtil {
 
 				if ((!excludeStatic || !Modifier.isStatic(mods))
 						&& (!excludeTransient || !Modifier.isTransient(mods))) {
-					declaredFields[i].setAccessible(true);
-					fieldList.add(declaredFields[i]);
+					try {
+						declaredFields[i].setAccessible(true);
+						fieldList.add(declaredFields[i]);
+					} catch (Exception ex) {
+						if (ignoreInaccessible) {
+							LOG.warn("Field [" + declaredFields[i].getName() + "] on class [" + clazz.getName() + "] inaccessible but will be ignored");
+						} else {
+							throw ex;
+						}
+					}
 				}
 			}
 		}
