@@ -15,13 +15,11 @@ import Action from "wc/ui/SubordinateAction.mjs";
 import unique from "wc/array/unique.mjs";
 import shed from "wc/dom/shed.mjs";
 import timers from "wc/timers.mjs";
+import event from "wc/dom/event.mjs";
+import multiSelectPair from "wc/ui/multiSelectPair.mjs";
+import dateField from "wc/ui/dateField.mjs";
 
-let view = window,
-	event,
-	dateField,
-	multiSelectPair,
-	waitingForRules = false,  // flag if we don't add event listeners when dom is loaded
-	changeInited = false;
+let changeInited = false;
 
 const ruleStore = {},  // stores the rule objects against their rule id
 	elementToRuleMap = {},  // maps dom element ids to rule ids
@@ -46,8 +44,9 @@ const instance = {
 	 * @function module:wc/ui/subordinate.register
 	 * @param {module:wc/ui/subordinate~registerDTO[]} rules An array of Objects containing configuration
 	 *    options.
+	 * @property {WindowProxy} [defaultView] The DOM window this rule applies to (99.9% of the time, this is just window and probably only ever changes in unit tests)
 	 */
-	register: function(rules) {
+	register: function(rules, defaultView) {
 		/**
 		 * @param {string} id
 		 * @param {string} ruleId
@@ -56,21 +55,24 @@ const instance = {
 			const ruleArr = elementToRuleMap[id] || (elementToRuleMap[id] = []);
 			ruleArr.push(ruleId);
 		};
+
+		const actionBuilder = dto => {
+			dto.defaultView = defaultView || window;
+			return new Action(dto);
+		}
+
 		if (rules) {
 			for (const rule of rules) {
 				let ruleId = rule.id;
+				console.log("Registering subordinate rule", rule);
 				ruleStore[ruleId] = rule;
-				// initialising the actions could be deferred but then you would have to check if inited forever after
-				rule.onTrue = initializeActions(rule.onTrue);
-				rule.onFalse = initializeActions(rule.onFalse);
+				// initialising the actions could be deferred, but then you would have to check if inited forever after
+				["onTrue", "onFalse"].forEach(onCondition => {
+					rule[onCondition] = rule[onCondition] ? rule[onCondition].map(actionBuilder) : [];
+				});
 				rule.controllers = unique(rule.controllers);  // the provided list of controllers is not guaranteed to be unique
 				rule.controllers.forEach(id => setRule(id, ruleId));
 			}
-		}
-		if (waitingForRules) {
-			waitingForRules = false;
-			console.log("Rules registered: adding event listeners");
-			initialiser.initialise(view.document.body);
 		}
 	},
 
@@ -87,38 +89,15 @@ const instance = {
 	 * Public only for unit testing purposes. Ugly I know, but the ends justify the means.
 	 * @ignore
 	 */
-	_isConditionTrue: isConditionTrue
-};
+	_isConditionTrue: isConditionTrue,
 
-/**
- * Takes an array of uninitialized actions and returns a new array containing corresponding initialized
- * actions. This is used to convert actions from their DTO representation to the actual data structure we
- * want to use for the rest of the subordinate lifecycle.
- * @function
- * @private
- * @param {module:wc/ui/SubordinateAction~ActionDTO[]} actions The actions for this subordinate control.
- * @returns {Action[]} The initialized actions as an array. Null if no actions. An
- *    empty array if actions is an empty array or consists only on unparseable action objects.
- */
-function initializeActions(actions) {
-	let result = null;
-	if (actions) {
-		result = [];
-		for (const element of actions) {
-			try {
-				let action = new Action(element);
-				if (action) {
-					result[result.length] = action;
-				} else {
-					console.warn("Could not parse", element);
-				}
-			} catch (ex) {
-				console.warn(ex, element);
-			}
-		}
-	}
-	return result;
-}
+	/**
+	 * Sets up a different DOM context.
+	 * Mainly exists for unit tests.
+	 * @param {WindowProxy} someWindow
+	 */
+	_setView: registerElements
+};
 
 /**
  * Get the rules in which this element is a controller.
@@ -153,9 +132,12 @@ function getControlledRules(element, checkAncestors) {
  */
 function activateSubordinateRules(element) {
 	const controlledRules = getControlledRules(element, true);
+	const thisWindow = element.ownerDocument.defaultView;
 	if (controlledRules) {
 		for (const rule of controlledRules) {
-			let rulePassed = rule.test(isConditionTrue);
+			let rulePassed = rule.test((id, testValue, operator) => {
+				return isConditionTrue(id, testValue, operator, thisWindow);
+			});
 			let actions = (rulePassed ? rule.onTrue : rule.onFalse) || [];
 			actions.forEach(action => {
 				try {
@@ -171,17 +153,18 @@ function activateSubordinateRules(element) {
 /**
  * Get the element for this identifier. When the subordinate rule is created the app developer is only aware
  * that an input field has an identifier - they do not know if this identifier translates to an 'id' or a
- * 'name' attribute so we need to check both.
+ * 'name' attribute, so we need to check both.
  *
  * @function
  * @private
  * @param {String} identifier The element id or name. Note that only input fields can legally have a name.
+ * @param {WindowProxy} view
  * @returns {HTMLElement} The first element with the name identifier or the element with the id identifier.
  *   Tests name first since a grouped component (such as a WRadioButtonSelect) will have the name on each
  *   option (radio button) AND the id on the wrapper (fieldset) and in this class we are interested in the
  *   controls not the wrappers.
  */
-function getElement(identifier) {
+function getElement(identifier, view) {
 	const namedElements = ['input', 'select', 'textarea', 'button'];
 	const selector = namedElements.map(tn => `${tn}[name='${identifier}']`).join();
 	return view.document.querySelector(selector) || view.document.getElementById(identifier);
@@ -222,11 +205,13 @@ function getElement(identifier) {
  * @param {string} [operator] The type of comparison to perform to determine if the condition is true
  *    really depends on what the test subject is. For example if it is a text input then we return true if the
  *    value of the input matches the testValue.
+ * @param {WindowProxy} [view]
  * @returns {boolean} true if the condition is true otherwise false.
  */
-function isConditionTrue(id, testValue, operator) {
+function isConditionTrue(id, testValue, operator, view) {
 	let result = false;
-	const element = getElement(id);
+	const thisWindow = view || window;
+	const element = getElement(id, thisWindow);
 	if (element && !shed.isDisabled(element)) {
 		let selectedItems;
 		if (shed.isSelectable(element) || element.matches("fieldset")) {
@@ -582,14 +567,16 @@ function parseRegex(re) {
  * Listen for shed "events" that could be subordinate triggers.
  * @function
  * @private
- * @param {Element} element The element to check.
+ * @param {CustomEvent & { target: HTMLElement }} element The element to check.
  */
-function shedObserver(element) {
-	timers.setTimeout(activateSubordinateRules, 0, element);
+function shedObserver({ target }) {
+	timers.setTimeout(() => {
+		activateSubordinateRules(target);
+	}, 0);
 }
 
 /**
- * Check if the element SHOULD ACTIVATE a suboridnate action.
+ * Check if the element SHOULD ACTIVATE a subordinate action.
  * @function
  * @private
  * @param {Element} element The element to check.
@@ -616,8 +603,7 @@ function changeEvent($event) {
 	}
 }
 
-
-const initialiser = {
+export const initialiser = {
 	/**
 	 * Wire up the necessary event listeners once the dom has loaded.
 	 * @function module:wc/ui/subordinate.initialise
@@ -625,29 +611,173 @@ const initialiser = {
 	 * @param {Element} element The body element.
 	 */
 	initialise: element => {
-		view = element?.ownerDocument?.defaultView || window;
-		waitingForRules = true;
-		// always require these deps, even if there are no rules, because there are other public methods that need them
-		const deps = ["wc/dom/event.mjs", "wc/ui/dateField.mjs", "wc/ui/multiSelectPair.mjs"];
-		return Promise.all(deps.map(dep => import(dep))).then(([$event, $dateField, $multiSelectPair]) => {
-			event = $event.default;
-			dateField = $dateField.default;
-			multiSelectPair = $multiSelectPair.default;
-			if ((Object.keys(elementToRuleMap)).length) {
-				waitingForRules = false;
-				if (!changeInited) {
-					changeInited = true;
-					event.add(element, { type: "change", listener: changeEvent, capture: true });
-				}
-				shed.subscribe(shed.actions.SELECT, shedObserver);
-				shed.subscribe(shed.actions.DESELECT, shedObserver);
-				shed.subscribe(shed.actions.ENABLE, shedObserver);
-				shed.subscribe(shed.actions.DISABLE, shedObserver);
-				console.log("Subordinate rules exist: added listeners");
+		instance._setView(element?.ownerDocument?.defaultView);
+		if ((Object.keys(elementToRuleMap)).length) {
+			if (!changeInited) {
+				changeInited = true;
+				event.add(element, { type: "change", listener: changeEvent, capture: true });
 			}
-		});
+			event.add(element, shed.events.SELECT, shedObserver);
+			event.add(element, shed.events.DESELECT, shedObserver);
+			event.add(element, shed.events.ENABLE, shedObserver);
+			event.add(element, shed.events.DISABLE, shedObserver);
+			console.log("Subordinate rules exist: added listeners");
+		}
 	}
 };
+
+/**
+ * Sets up the custom elements in this DOM.
+ * @param {window} theWindow
+ */
+function registerElements(theWindow) {
+
+	const tagNames = {
+		subordinate: "wc-subordinate",
+		condition: "wc-condition",
+		component: "wc-component",
+		target: "wc-target",
+		wcnot: "wc-not",
+		wcand: "wc-and",
+		wcor: "wc-or",
+		wcontrue: "wc-ontrue",
+		wconfalse: "wc-onfalse"
+	};
+
+	class WTarget extends theWindow.HTMLElement {
+		asObject() {
+			return {
+				id: this.getAttribute("id"),
+				groupId: this.getAttribute("groupId") || ""
+			};
+		}
+	}
+
+	class WOnTrueFalse extends theWindow.HTMLElement {
+		asObject() {
+			const targets = /** @type WTarget[] */(Array.from(this.querySelectorAll(tagNames.target)));
+			return {
+				type: this.getAttribute("action"),
+				targets: targets.map(element => element.asObject())
+			};
+		}
+	}
+
+	/**
+	 *
+	 * @param {Testable} element
+	 * @param {function} test
+	 * @param {boolean} isOr true if this is an OR condition, otherwise it is an AND (i.e. true if ALL conditions are true)
+	 * @return {this is WCondition[]|boolean}
+	 */
+	function testAllImmediateConditions(element, test, isOr) {
+		const conditions = /** @type WCondition[] */(Array.from(element.querySelectorAll(`:scope > ${tagNames.condition}`)));
+		if (isOr) {
+			return conditions.some(condition => condition.doTest(test));
+		}
+		return conditions.every(condition => condition.doTest(test));
+	}
+
+	/**
+	 * Parent class for wc-and, wc-or, wc-not and wc-condition
+	 */
+	class Testable extends theWindow.HTMLElement {
+		/**
+		 *
+		 * @param {function} test
+		 * @return {boolean}
+		 */
+		doTest(test) {
+			const andOrNot = /** @type Testable[] */(Array.from(this.querySelectorAll(`:scope > ${tagNames.wcor}, :scope > ${tagNames.wcand}, :scope > ${tagNames.wcnot}`)));
+			return andOrNot.every(element => element.doTest(test));
+		}
+	}
+
+	/**
+	 * This is the element that describes the actual condition to be tested (as opposed to the logical operator elements)
+	 */
+	class WCondition extends Testable {
+		doTest(test) {
+			const args = [this.getAttribute("controller"), this.getAttribute("value")];
+			if (this.hasAttribute("operator")) {
+				args.push(this.getAttribute("operator"));
+			}
+			return test(...args);
+		}
+	}
+
+	class WOr extends Testable {
+		doTest(test) {
+			let result = testAllImmediateConditions(this, test, true);
+			return result && super.doTest(test);
+		}
+	}
+
+	class WAnd extends Testable {
+		doTest(test) {
+			let result = testAllImmediateConditions(this, test, false);
+			return result && super.doTest(test);
+		}
+	}
+
+	class WNot extends Testable {
+		doTest(test) {
+			let result = !testAllImmediateConditions(this, test, true);
+			return result && super.doTest(test);
+		}
+	}
+
+	class WSubordinate extends theWindow.HTMLElement {
+
+		connectedCallback() {
+			const doIt = () => {
+				const onTrue = /** @type WOnTrueFalse[] */(Array.from(this.querySelectorAll(tagNames.wcontrue)));
+				const onFalse = /** @type WOnTrueFalse[] */(Array.from(this.querySelectorAll(tagNames.wconfalse)));
+				const conditions = /** @type WCondition[] */(Array.from(this.querySelectorAll(tagNames.condition)));
+				const subordinateRule = {
+					id: this.id,
+					test: func => this.doTest(func),
+					onTrue: onTrue.map(element => element.asObject()),
+					onFalse: onFalse.map(element => element.asObject()),
+					controllers: conditions.map(element => element.getAttribute("controller"))
+				};
+				instance.register([subordinateRule], theWindow);
+			};
+
+			timers.setTimeout(doIt, 0);
+		}
+
+		doTest(test) {
+			let result = true;
+			for (let i = 0; i < this.children.length; i++) {
+				let next = this.children[i];
+				if (next instanceof Testable) {
+					result &&= next.doTest(test);
+				}
+			}
+			return result;
+		}
+	}
+
+	class WOnTrue extends WOnTrueFalse {
+		// do nothing
+	}
+
+	class WOnFalse extends WOnTrueFalse {
+		// do nothing
+	}
+
+	if (!theWindow.customElements.get(tagNames.subordinate)) {
+		theWindow.customElements.define(tagNames.subordinate, WSubordinate);
+		theWindow.customElements.define(tagNames.target, WTarget);
+		theWindow.customElements.define(tagNames.wcontrue, WOnTrue);
+		theWindow.customElements.define(tagNames.wconfalse, WOnFalse);
+		theWindow.customElements.define(tagNames.wcand, WAnd);
+		theWindow.customElements.define(tagNames.wcor, WOr);
+		theWindow.customElements.define(tagNames.wcnot, WNot);
+		theWindow.customElements.define(tagNames.condition, WCondition);
+	}
+}
 
 initialise.register(initialiser);
 export default instance;
@@ -661,4 +791,3 @@ export default instance;
  * @property {Object[]} [onFalse] The rule[s] to run if the condition determined by test is true. Must be present and valid if onTrue is not.
  * @property {string[]} controllers The ids of the elements which are the control triggers.
  */
-

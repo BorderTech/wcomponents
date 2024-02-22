@@ -815,7 +815,9 @@ function selectHelper(action, element) {
  */
 function eventToObserverAdapter(subscriber) {
 	/** @param {CustomEvent} $event */
-	return ($event) => subscriber($event.target, $event.detail.action);
+	return ($event) => {
+		subscriber($event.target, $event.detail.action);
+	}
 }
 
 export default instance;

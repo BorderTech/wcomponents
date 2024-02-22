@@ -29,7 +29,7 @@ function Action(dto) {
 
 	dto.targets.forEach(target => {
 		try {
-			this.targets.push(new Target(target.id, target.groupId));
+			this.targets.push(new Target(target.id, target.groupId, dto.defaultView));
 		} catch (ex) {
 			console.warn(ex);
 		}
@@ -88,12 +88,14 @@ Action.register = function(name, callback) {
  * @private
  * @param {String} [id] The id of the target. Must be truthy if groupId is not truthy.
  * @param {String} [groupId] The id of the target group.  Must be truthy if id is not truthy.
+ * @param {WindowProxy} [view] The "window" that contains this target.
  * @throws {TypeError} if id and groupId are both falsey.
  */
-function Target(id, groupId) {
+function Target(id, groupId, view) {
 	// filtering out empty string. the id will always be a string and therefore never null, undefined or zero
 	this.id = id || null;
 	this.groupId = groupId || null;
+	this.view = view || window;
 	if (!id && !groupId) {
 		throw new TypeError("Action target must have an id or a groupId");
 	}
@@ -142,7 +144,7 @@ function initTargetConstructor() {
 	 */
 	Target.prototype.getElement = function() {
 		if (this.id) {
-			const element = document.getElementById(this.id);
+			const element = this.view.document.getElementById(this.id);
 			if (element) {
 				return element;
 			}
@@ -168,7 +170,7 @@ function initTargetConstructor() {
 				return group;
 			}
 			return group.map(id => {
-				const element = document.getElementById(id);
+				const element = this.view.document.getElementById(id);
 				if (!element) {
 					console.warn("Could not find element", element);
 				}
@@ -452,8 +454,8 @@ export default Action;
  * @property {Object[]} targets An array of Target definitions
  * @property {String} [targets.id] The id of an individual target element. Must be truthy if targets.groupId is
  *    not truthy.
- * @property {String} [targets.groupId] The id of a target component group. Must be truthy if targets.id is
- *    not truthy.
+ * @property {String} [targets.groupId] The id of a target component group. Must be truthy if `targets.id` is not truthy.
+ * @property {WindowProxy} [defaultView] The DOM window this rule applies to (99.9% of the time, this is just window and probably only ever changes in unit tests)
  */
 
 /**
