@@ -2,7 +2,7 @@ import subordinate, {initialiser} from "wc/ui/subordinate.mjs";
 import {findInput, findSelect, getInput, getSelect, setUpExternalHTML} from "../helpers/specUtils.mjs";
 import shed from "wc/dom/shed.mjs";
 import timers from "wc/timers.mjs";
-import {findByTestId} from "@testing-library/dom";
+import {findByTestId, getByTestId} from "@testing-library/dom";
 
 describe("wc/ui/subordinate ye olde 'doh' tests", () => {
 	beforeAll(() => {
@@ -102,7 +102,7 @@ describe("wc/ui/subordinate ye olde 'doh' tests", () => {
 });
 
 describe("wc/ui/subordinate Rule Tests", () => {
-	const delay = 1;  // milliseconds to wait for events and stuff to be actioned
+	const delay = 50;  // milliseconds to wait for events and stuff to be actioned
 	let testHolder;
 	beforeAll(() => {
 		return setUpExternalHTML("subordinate.html").then(dom => {
@@ -129,6 +129,17 @@ describe("wc/ui/subordinate Rule Tests", () => {
 		catSelect.selectedIndex = -1;
 		const textInput = await findInput(testHolder, "enable_text");
 		textInput.disabled = true;
+		const colorpicker = await findSelect(testHolder, "colorpicker");
+		colorpicker.selectedIndex = 0;
+		const rbYesNoNo = await findInput(testHolder, "rgYesNoNo");
+		rbYesNoNo.checked = true;  // Radio button, will deselect others in group
+		const whiteElephant = await findByTestId(testHolder, "whiteElephant");
+		whiteElephant.hidden = true;
+		const greyElephant = await findByTestId(testHolder, "greyElephant");
+		greyElephant.hidden = true;
+		const brownElephant = await findByTestId(testHolder, "brownElephant");
+		brownElephant.hidden = true;
+
 	});
 
 	it("should change the hidden state when checkbox checked", () => {
@@ -154,6 +165,95 @@ describe("wc/ui/subordinate Rule Tests", () => {
 	it("should honor 'or' conditions when the last is true", () => {
 		return subordinate1TestHelper(true, "c");
 	});
+
+	it("should honor wc-and with nested wc-or and conditions nested or matches first", () => {
+		return subordinate4TestHelperColorPickerChange(true, "white");
+	});
+
+	it("should honor condition sibling to wc-or", () => {
+		return subordinate4TestHelperColorPickerChange(false, "white", "rgYesNoNo");
+	});
+
+	it("should honor last condition sibling to wc-or", () => {
+		return subordinate4TestHelperColorPickerChange(false, "white", "rgYesNoYes", true);
+	});
+
+	it("should honor wc-and with nested wc-or and conditions nested or no match", () => {
+		return subordinate4TestHelperColorPickerChange(false, "googoogoogaagaagaa");  // no match = -1
+	});
+
+	it("should honor wc-and with nested wc-or and conditions nested or second match", () => {
+		return subordinate4TestHelperColorPickerChange(true, "offwhite");
+	});
+
+	it("should honor wc-and with nested wc-or and conditions nested or second match BUT and condition false", () => {
+		return subordinate4TestHelperColorPickerChange(false, "offwhite", "rgYesNoNo");
+	});
+
+	it("should honor wc-and with nested wc-or and conditions nested or second match BUT last and condition false", () => {
+		return subordinate4TestHelperColorPickerChange(false, "offwhite", "rgYesNoYes", true);
+	});
+
+	it("should honor wc-and with nested wc-or and conditions nested or with non matching or controller", () => {
+		return subordinate4TestHelperColorPickerChange(false, "brown");  // no match = -1
+	});
+
+	it("should honor wc-and with nested wc-or and conditions nested or with non matching or controller with and condition false", () => {
+		return subordinate4TestHelperColorPickerChange(false, "brown", "rgYesNoNo");  // no match = -1
+	});
+
+
+	/**
+	 * Darn complicated test for darn complicated subordinate rules.
+	 */
+	function subordinate4TestHelperColorPickerChange(shouldChange, selectVal, triggerId = "rgYesNoYes", forceGrey = false) {
+		return findByTestId(testHolder, "whiteElephant").then(whiteElephant => {
+			const forceGreyCheckbox = getInput(testHolder, "forceGrey");
+			const greyElephant = getByTestId(testHolder, "greyElephant");
+			const brownElephant = getByTestId(testHolder, "brownElephant");
+			forceGreyCheckbox.checked = forceGrey;
+			expect(shed.isHidden(whiteElephant)).withContext("whiteElephant should start hidden").toBeTrue();
+			expect(shed.isHidden(greyElephant)).withContext("greyElephant should start hidden").toBeTrue();
+			expect(shed.isHidden(brownElephant)).withContext("brownElephant should start hidden").toBeTrue();
+			greyElephant.removeAttribute("hidden");  /// now show this element
+			brownElephant.removeAttribute("hidden");  /// now show this element
+
+			const colorpicker = getSelect(testHolder, "colorpicker");
+			colorpicker.selectedIndex = Array.from(colorpicker.options).findIndex(next => next.value === selectVal);
+			const trigger = getInput(testHolder, triggerId);
+			shed.select(trigger);
+			return new Promise(win => {
+				setTimeout(() => {
+					if (shouldChange) {
+						// tests the onTrue condition
+						expect(shed.isHidden(whiteElephant)).withContext("whiteElephant should have been shown").toBeFalse();
+						expect(shed.isHidden(greyElephant)).withContext("greyElephant should have been hidden").toBeTrue();
+						expect(shed.isHidden(brownElephant)).withContext("brownElephant should have been hidden").toBeTrue();
+					} else {
+						expect(shed.isHidden(whiteElephant)).withContext("whiteElephant should remain hidden").toBeTrue();
+						expect(shed.isHidden(greyElephant)).withContext("greyElephant should remain visible").toBeFalse();
+						expect(shed.isHidden(brownElephant)).withContext("brownElephant should remain visible").toBeFalse();
+					}
+					shed.deselect(trigger);
+					setTimeout(() => {
+						// tests the onFalse condition
+						if (shouldChange) {
+							// tests the onTrue condition
+							expect(shed.isHidden(whiteElephant)).withContext("whiteElephant should have been hidden").toBeTrue();
+							expect(shed.isHidden(greyElephant)).withContext("greyElephant should have been hidden").toBeTrue();
+							expect(shed.isHidden(brownElephant)).withContext("brownElephant should have been hidden").toBeTrue();
+						} else {
+							expect(shed.isHidden(whiteElephant)).withContext("whiteElephant should remain hidden").toBeTrue();
+							expect(shed.isHidden(greyElephant)).withContext("greyElephant should remain visible").toBeFalse();
+							expect(shed.isHidden(brownElephant)).withContext("brownElephant should remain visible").toBeFalse();
+						}
+						win();
+					}, delay);
+				}, delay);
+			});
+		});
+	}
+
 
 	/*
 		A little helper for the basic checkbox subordinate tests with a single target.
@@ -205,38 +305,7 @@ describe("wc/ui/subordinate Rule Tests", () => {
 						win();
 					}, delay);
 				}, delay);
-			})
-		});
-	}
-
-	function subordinate1TestHelper(shouldChange, selectVal) {
-		const triggerId = "enable_category";
-		const targetId = "enable_text";
-		const shedFunc = "isDisabled";
-
-		return findByTestId(testHolder, targetId).then(target => {
-			expect(shed[shedFunc](target)).toBeTrue();
-			const trigger = getSelect(testHolder, triggerId);
-			trigger.selectedIndex = Array.from(trigger.options).findIndex(next => next.value === selectVal);
-			shed.select(trigger);
-			return new Promise(win => {
-				setTimeout(() => {
-					// tests the onTrue condition
-					if (shouldChange) {
-						expect(shed[shedFunc](target)).withContext(`${triggerId} should change the state of ${targetId}`).toBeFalse();
-					} else {
-						expect(shed[shedFunc](target)).withContext(`${triggerId} should change the state of ${targetId}`).toBeTrue();
-					}
-
-					trigger.selectedIndex = -1;
-					shed.deselect(trigger);
-					setTimeout(() => {
-						// tests the onFalse condition
-						expect(shed[shedFunc](target)).withContext(`${triggerId} should change the state of ${targetId}`).toBeTrue();
-						win();
-					}, delay);
-				}, delay);
-			})
+			});
 		});
 	}
 
