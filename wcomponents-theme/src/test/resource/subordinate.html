@@ -377,32 +377,32 @@
 
 	<wc-subordinate id="cb18s" data-testid="cb18s">
 		<wc-condition controller="cb18" value="true"></wc-condition>
-		<wc-onTrue action="hide">
-			<wc-target id="cb18df1"></wc-target>
-		</wc-onTrue>
-		<wc-onFalse action="show">
-			<wc-target id="cb18df1"></wc-target>
-		</wc-onFalse>
+		<wc-ontrue action="hide">
+			<wc-target refid="cb18df1"></wc-target>
+		</wc-ontrue>
+		<wc-onfalse action="show">
+			<wc-target refid="cb18df1"></wc-target>
+		</wc-onfalse>
 	</wc-subordinate>
 
 	<wc-subordinate id="cb18s2" data-testid="cb18s2">
 		<wc-condition controller="cb18a" value="true"></wc-condition>
-		<wc-onTrue action="disable">
-			<wc-target id="cb18df1"></wc-target>
-		</wc-onTrue>
-		<wc-onFalse action="enable">
-			<wc-target id="cb18df1"></wc-target>
-		</wc-onFalse>
+		<wc-ontrue action="disable">
+			<wc-target refid="cb18df1"></wc-target>
+		</wc-ontrue>
+		<wc-onfalse action="enable">
+			<wc-target refid="cb18df1"></wc-target>
+		</wc-onfalse>
 	</wc-subordinate>
 
 	<wc-subordinate id="cb18s3" data-testid="cb18s3">
 		<wc-condition controller="cb18b" value="true"></wc-condition>
-		<wc-onTrue action="mandatory">
-			<wc-target id="cb18df1"></wc-target>
-		</wc-onTrue>
-		<wc-onFalse action="optional">
-			<wc-target id="cb18df1"></wc-target>
-		</wc-onFalse>
+		<wc-ontrue action="mandatory">
+			<wc-target refid="cb18df1"></wc-target>
+		</wc-ontrue>
+		<wc-onfalse action="optional">
+			<wc-target refid="cb18df1"></wc-target>
+		</wc-onfalse>
 	</wc-subordinate>
 
 	<!-- subordinate1 Tests -->
@@ -422,14 +422,14 @@
 			<wc-condition controller="enable_category" value="a"></wc-condition>
 			<wc-condition controller="enable_category" value="c"></wc-condition>
 		</wc-or>
-		<wc-onTrue action="enable">
-			<wc-target id="enable_category_label"></wc-target>
-			<wc-target id="enable_text"></wc-target>
-		</wc-onTrue>
-		<wc-onFalse action="disable">
-			<wc-target id="enable_category_label"></wc-target>
-			<wc-target id="enable_text"></wc-target>
-		</wc-onFalse>
+		<wc-ontrue action="enable">
+			<wc-target refid="enable_category_label"></wc-target>
+			<wc-target refid="enable_text"></wc-target>
+		</wc-ontrue>
+		<wc-onfalse action="disable">
+			<wc-target refid="enable_category_label"></wc-target>
+			<wc-target refid="enable_text"></wc-target>
+		</wc-onfalse>
 	</wc-subordinate>
 
 
@@ -485,37 +485,51 @@
 			</wc-or>
 			<wc-condition controller="forceGrey" value="false"></wc-condition>
 		</wc-and>
-		<wc-onTrue action="show">
-			<wc-target id="whiteElephant"></wc-target>
-		</wc-onTrue>
-		<wc-onTrue action="hide">
-			<wc-target id="greyElephant"></wc-target>
-			<wc-target id="brownElephant"></wc-target>
-		</wc-onTrue>
-		<wc-onFalse action="hide">
-			<wc-target id="whiteElephant"></wc-target>
-		</wc-onFalse>
+		<wc-ontrue action="show">
+			<wc-target refid="whiteElephant"></wc-target>
+		</wc-ontrue>
+		<wc-ontrue action="hide">
+			<wc-target refid="greyElephant"></wc-target>
+			<wc-target refid="brownElephant"></wc-target>
+		</wc-ontrue>
+		<wc-onfalse action="hide">
+			<wc-target refid="whiteElephant"></wc-target>
+		</wc-onfalse>
+	</wc-subordinate>
+
+
+	<!-- subordinate4a Tests -->
+	<label class="wc-option">
+		<input type="radio" name="rgYesNo4a" id="rgYesNoYes4a" data-testid="rgYesNoYes4a" value="yes"/>
+		<span class="wc-labeltext">yes</span>
+	</label>
+	<label class="wc-option">
+		<input type="radio" name="rgYesNo4a" id="rgYesNoNo4a" data-testid="rgYesNoNo4a" value="no" checked aria-controls="bargroup"/>
+		<span class="wc-labeltext">no</span>
+	</label>
+
+	<wc-componentgroup id="bargroup" data-testid="bargroup">
+		<wc-component refid="whiteElephant"></wc-component>
+		<wc-component refid="greyElephant"></wc-component>
+		<wc-component refid="brownElephant"></wc-component>
+	</wc-componentgroup>
+
+	<wc-subordinate id="subordinate4a" data-testid="subordinate4a">
+		<wc-condition controller="rgYesNo4a" value="no"></wc-condition>
+		<wc-ontrue action="hide">
+			<wc-target groupid="bargroup"></wc-target>
+		</wc-ontrue>
+		<wc-onfalse action="show">
+			<wc-target groupid="bargroup"></wc-target>
+		</wc-onfalse>
 	</wc-subordinate>
 
 	<!--
 
-	<wc-componentGroup id="foogroup" data-testid="foogroup">
-		<wc-component id="whiteElephant" />
-		<wc-component id="greyElephant" />
-	</wc-componentGroup>
-
-	<wc-componentGroup id="bargroup" data-testid="bargroup">
-		<wc-component id="whiteElephant" />
-		<wc-component id="greyElephant" />
-		<wc-component id="brownElephant" />
-	</wc-componentGroup>
-
-	<wc-subordinate id="subordinate4a" data-testid="subordinate4a">
-		<wc-condition controller="rgYesNo" value="no" />
-		<wc-onTrue action="hide">
-			<wc-target groupid="bargroup" data-testid="bargroup" />
-		</wc-onTrue>
-	</wc-subordinate>
+	<wc-componentgroup id="foogroup" data-testid="foogroup">
+		<wc-component refid="whiteElephant" />
+		<wc-component refid="greyElephant" />
+	</wc-componentgroup>
 
 	<wc-subordinate id="subordinate5" data-testid="subordinate5">
 		<wc-and>
@@ -525,13 +539,14 @@
 				<wc-condition controller="forceGrey" value="true" />
 			</wc-or>
 		</wc-and>
-		<wc-onTrue action="showIn">
+		<wc-ontrue action="showIn">
 			<wc-target groupid="bargroup" data-testid="bargroup" id="greyElephant" data-testid="greyElephant" />
-		</wc-onTrue>
-		<wc-onFalse action="hide">
-			<wc-target id="greyElephant" data-testid="greyElephant" />
-		</wc-onFalse>
+		</wc-ontrue>
+		<wc-onfalse action="hide">
+			<wc-target refid="greyElephant" data-testid="greyElephant" />
+		</wc-onfalse>
 	</wc-subordinate>
+
 
 	<wc-subordinate id="subordinate6" data-testid="subordinate6">
 		<wc-and>
@@ -539,138 +554,138 @@
 			<wc-condition controller="colorpicker" value="brown" />
 			<wc-condition controller="forceGrey" value="false" />
 		</wc-and>
-		<wc-onTrue action="hide">
+		<wc-ontrue action="hide">
 			<wc-target groupid="foogroup" data-testid="foogroup" />
-		</wc-onTrue>
-		<wc-onTrue action="show">
-			<wc-target id="brownElephant" data-testid="brownElephant" />
-		</wc-onTrue>
-		<wc-onFalse action="hide">
-			<wc-target id="brownElephant" data-testid="brownElephant" />
-		</wc-onFalse>
+		</wc-ontrue>
+		<wc-ontrue action="show">
+			<wc-target refid="brownElephant" data-testid="brownElephant" />
+		</wc-ontrue>
+		<wc-onfalse action="hide">
+			<wc-target refid="brownElephant" data-testid="brownElephant" />
+		</wc-onfalse>
 	</wc-subordinate>
 
 	<wc-subordinate id="subordinate7" data-testid="subordinate7">
 		<wc-condition controller="forceGrey" value="true" />
-		<wc-onTrue action="disable">
-			<wc-target id="elephantChooser" data-testid="elephantChooser" />
-		</wc-onTrue>
-		<wc-onTrue action="show">
-			<wc-target id="greyElephant" data-testid="greyElephant" />
-		</wc-onTrue>
-		<wc-onTrue action="hide">
-			<wc-target id="whiteElephant" data-testid="whiteElephant" />
-			<wc-target id="brownElephant" data-testid="brownElephant" />
-		</wc-onTrue>
-		<wc-onFalse action="enable">
-			<wc-target id="elephantChooser" data-testid="elephantChooser" />
-		</wc-onFalse>
+		<wc-ontrue action="disable">
+			<wc-target refid="elephantChooser" data-testid="elephantChooser" />
+		</wc-ontrue>
+		<wc-ontrue action="show">
+			<wc-target refid="greyElephant" data-testid="greyElephant" />
+		</wc-ontrue>
+		<wc-ontrue action="hide">
+			<wc-target refid="whiteElephant" data-testid="whiteElephant" />
+			<wc-target refid="brownElephant" data-testid="brownElephant" />
+		</wc-ontrue>
+		<wc-onfalse action="enable">
+			<wc-target refid="elephantChooser" data-testid="elephantChooser" />
+		</wc-onfalse>
 	</wc-subordinate>
 
 	<wc-subordinate id="cs10s" data-testid="cs10s">
 		<wc-condition controller="cb10" value="true" />
-		<wc-onTrue action="show">
-			<wc-target id="cb10container" data-testid="cb10container" />
-		</wc-onTrue>
-		<wc-onFalse action="hide">
-			<wc-target id="cb10container" data-testid="cb10container" />
-		</wc-onFalse>
+		<wc-ontrue action="show">
+			<wc-target refid="cb10container" data-testid="cb10container" />
+		</wc-ontrue>
+		<wc-onfalse action="hide">
+			<wc-target refid="cb10container" data-testid="cb10container" />
+		</wc-onfalse>
 	</wc-subordinate>
 
-	<wc-componentGroup id="cb12group" data-testid="cb12group">
-		<wc-component id="cb12c1" data-testid="cb12c1" />
-		<wc-component id="cb12c2" data-testid="cb12c2" />
-		<wc-component id="cb12c3" data-testid="cb12c3" />
-	</wc-componentGroup>
+	<wc-componentgroup id="cb12group" data-testid="cb12group">
+		<wc-component refid="cb12c1" data-testid="cb12c1" />
+		<wc-component refid="cb12c2" data-testid="cb12c2" />
+		<wc-component refid="cb12c3" data-testid="cb12c3" />
+	</wc-componentgroup>
 
 	<wc-subordinate id="cb12s" data-testid="cb12s">
 		<wc-condition controller="cb12" value="true" />
-		<wc-onTrue action="showIn">
+		<wc-ontrue action="showIn">
 			<wc-target groupid="cb12group" data-testid="cb12group" id="cb12c2" data-testid="cb12c2" />
-		</wc-onTrue>
-		<wc-onFalse action="hideIn">
+		</wc-ontrue>
+		<wc-onfalse action="hideIn">
 			<wc-target groupid="cb12group" data-testid="cb12group" id="cb12c2" data-testid="cb12c2" />
-		</wc-onFalse>
+		</wc-onfalse>
 	</wc-subordinate>
 
-	<wc-componentGroup id="cb13group" data-testid="cb13group">
-		<wc-component id="cb13c1" data-testid="cb13c1" />
-		<wc-component id="cb13c2" data-testid="cb13c2" />
-		<wc-component id="cb13c3" data-testid="cb13c3" />
-	</wc-componentGroup>
+	<wc-componentgroup id="cb13group" data-testid="cb13group">
+		<wc-component refid="cb13c1" data-testid="cb13c1" />
+		<wc-component refid="cb13c2" data-testid="cb13c2" />
+		<wc-component refid="cb13c3" data-testid="cb13c3" />
+	</wc-componentgroup>
 
 	<wc-subordinate id="cb13s" data-testid="cb13s">
 		<wc-condition controller="cb13" value="true" />
-		<wc-onTrue action="hideIn">
+		<wc-ontrue action="hideIn">
 			<wc-target groupid="cb13group" data-testid="cb13group" id="cb13c2" data-testid="cb13c2" />
-		</wc-onTrue>
-		<wc-onFalse action="showIn">
+		</wc-ontrue>
+		<wc-onfalse action="showIn">
 			<wc-target groupid="cb13group" data-testid="cb13group" id="cb13c2" data-testid="cb13c2" />
-		</wc-onFalse>
+		</wc-onfalse>
 	</wc-subordinate>
 
 	<wc-subordinate id="cb14s" data-testid="cb14s">
 		<wc-condition controller="cb14" value="true" />
-		<wc-onTrue action="enable">
-			<wc-target id="cb14f" data-testid="cb14f" />
-		</wc-onTrue>
-		<wc-onFalse action="disable">
-			<wc-target id="cb14f" data-testid="cb14f" />
-		</wc-onFalse>
+		<wc-ontrue action="enable">
+			<wc-target refid="cb14f" data-testid="cb14f" />
+		</wc-ontrue>
+		<wc-onfalse action="disable">
+			<wc-target refid="cb14f" data-testid="cb14f" />
+		</wc-onfalse>
 	</wc-subordinate>
 
 	<wc-subordinate id="cb15s" data-testid="cb15s">
 		<wc-condition controller="cb15" value="true" />
-		<wc-onTrue action="mandatory">
-			<wc-target id="cb15f" data-testid="cb15f" />
-		</wc-onTrue>
-		<wc-onFalse action="optional">
-			<wc-target id="cb15f" data-testid="cb15f" />
-		</wc-onFalse>
+		<wc-ontrue action="mandatory">
+			<wc-target refid="cb15f" data-testid="cb15f" />
+		</wc-ontrue>
+		<wc-onfalse action="optional">
+			<wc-target refid="cb15f" data-testid="cb15f" />
+		</wc-onfalse>
 	</wc-subordinate>
 
 	<wc-subordinate id="cb15as" data-testid="cb15as">
 		<wc-condition controller="cb15a" value="true" />
-		<wc-onTrue action="mandatory">
-			<wc-target id="cb15af" data-testid="cb15af" />
-		</wc-onTrue>
-		<wc-onFalse action="optional">
-			<wc-target id="cb15af" data-testid="cb15af" />
-		</wc-onFalse>
+		<wc-ontrue action="mandatory">
+			<wc-target refid="cb15af" data-testid="cb15af" />
+		</wc-ontrue>
+		<wc-onfalse action="optional">
+			<wc-target refid="cb15af" data-testid="cb15af" />
+		</wc-onfalse>
 	</wc-subordinate>
 
-	<wc-componentGroup id="cb16group" data-testid="cb16group">
-		<wc-component id="cb16f1i" data-testid="cb16f1i" />
-		<wc-component id="cb16f2i" data-testid="cb16f2i" />
-		<wc-component id="cb16f3i" data-testid="cb16f3i" />
-	</wc-componentGroup>
+	<wc-componentgroup id="cb16group" data-testid="cb16group">
+		<wc-component refid="cb16f1i" data-testid="cb16f1i" />
+		<wc-component refid="cb16f2i" data-testid="cb16f2i" />
+		<wc-component refid="cb16f3i" data-testid="cb16f3i" />
+	</wc-componentgroup>
 	<wc-subordinate id="cb16s" data-testid="cb16s">
 		<wc-condition controller="cb16" value="true" />
-		<wc-onTrue action="enableIn">
+		<wc-ontrue action="enableIn">
 			<wc-target groupid="cb16group" data-testid="cb16group" id="cb16f2i" data-testid="cb16f2i" />
-		</wc-onTrue>
+		</wc-ontrue>
 	</wc-subordinate>
 
-	<wc-componentGroup id="cb17group" data-testid="cb17group">
-		<wc-component id="cb17f1i" data-testid="cb17f1i" />
-		<wc-component id="cb17f2i" data-testid="cb17f2i" />
-		<wc-component id="cb17f3i" data-testid="cb17f3i" />
-	</wc-componentGroup>
+	<wc-componentgroup id="cb17group" data-testid="cb17group">
+		<wc-component refid="cb17f1i" data-testid="cb17f1i" />
+		<wc-component refid="cb17f2i" data-testid="cb17f2i" />
+		<wc-component refid="cb17f3i" data-testid="cb17f3i" />
+	</wc-componentgroup>
 	<wc-subordinate id="cb17s" data-testid="cb17s">
 		<wc-condition controller="cb17" value="true" />
-		<wc-onTrue action="disableIn">
+		<wc-ontrue action="disableIn">
 			<wc-target groupid="cb17group" data-testid="cb17group" id="cb17f2i" data-testid="cb17f2i" />
-		</wc-onTrue>
+		</wc-ontrue>
 	</wc-subordinate>
 
 	<wc-subordinate id="fl6_s" data-testid="fl6_s">
 		<wc-condition controller="fl6_f1_i" value="AbC123" />
-		<wc-onTrue action="show">
-			<wc-target id="fl6_f1_i2" data-testid="fl6_f1_i2" />
-		</wc-onTrue>
-		<wc-onFalse action="hide">
-			<wc-target id="fl6_f1_i2" data-testid="fl6_f1_i2" />
-		</wc-onFalse>
+		<wc-ontrue action="show">
+			<wc-target refid="fl6_f1_i2" data-testid="fl6_f1_i2" />
+		</wc-ontrue>
+		<wc-onfalse action="hide">
+			<wc-target refid="fl6_f1_i2" data-testid="fl6_f1_i2" />
+		</wc-onfalse>
 	</wc-subordinate>
 	-->
 </form>

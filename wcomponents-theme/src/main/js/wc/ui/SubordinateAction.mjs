@@ -48,6 +48,7 @@ Action.registerGroups = function(groups) {
 			let group = groups.pop();
 			let groupName = group.name;
 			if (groupName) {
+				console.log("Registering subordinate group", groupName, group);
 				groupRegister[groupName] = group;
 			} else {
 				console.warn("Can not register a group without a name", group);

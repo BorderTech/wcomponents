@@ -133,13 +133,14 @@ describe("wc/ui/subordinate Rule Tests", () => {
 		colorpicker.selectedIndex = 0;
 		const rbYesNoNo = await findInput(testHolder, "rgYesNoNo");
 		rbYesNoNo.checked = true;  // Radio button, will deselect others in group
+		const rbYesNoNo4a = await findInput(testHolder, "rgYesNoNo4a");
+		rbYesNoNo.checked = true;  // Radio button, will deselect others in group
 		const whiteElephant = await findByTestId(testHolder, "whiteElephant");
 		whiteElephant.hidden = true;
 		const greyElephant = await findByTestId(testHolder, "greyElephant");
 		greyElephant.hidden = true;
 		const brownElephant = await findByTestId(testHolder, "brownElephant");
 		brownElephant.hidden = true;
-
 	});
 
 	it("should change the hidden state when checkbox checked", () => {
@@ -195,16 +196,50 @@ describe("wc/ui/subordinate Rule Tests", () => {
 	});
 
 	it("should honor wc-and with nested wc-or and conditions nested or with non matching or controller", () => {
-		return subordinate4TestHelperColorPickerChange(false, "brown");  // no match = -1
+		return subordinate4TestHelperColorPickerChange(false, "brown");
 	});
 
 	it("should honor wc-and with nested wc-or and conditions nested or with non matching or controller with and condition false", () => {
-		return subordinate4TestHelperColorPickerChange(false, "brown", "rgYesNoNo");  // no match = -1
+		return subordinate4TestHelperColorPickerChange(false, "brown", "rgYesNoNo");
 	});
+
+	it("should act on the components in a component group", () => {
+		return simpleComponentGroupTest();
+	});
+
+	function simpleComponentGroupTest() {
+		return findInput(testHolder, "rgYesNoYes4a").then(rgYesNoYes4a => {
+			const componentGroup = getByTestId(testHolder, "bargroup");
+			const componentIds = Array.from(componentGroup.querySelectorAll("wc-component")).map(el => el.getAttribute("refid"));
+			return new Promise(win => {
+				shed.select(rgYesNoYes4a);
+				setTimeout(() => {
+					componentIds.forEach(id => {
+						expect(shed.isHidden(getByTestId(testHolder, id))).withContext(`${id} should have been shown`).toBeFalse();
+					});
+					const rgYesNoNo4a = getInput(testHolder, "rgYesNoNo4a");
+					shed.select(rgYesNoNo4a);
+					setTimeout(() => {
+						componentIds.forEach(id => {
+							expect(shed.isHidden(getByTestId(testHolder, id))).withContext(`${id} should have been hidden`).toBeTrue();
+						});
+						shed.select(rgYesNoYes4a);
+						setTimeout(() => {
+							componentIds.forEach(id => {
+								expect(shed.isHidden(getByTestId(testHolder, id))).withContext(`${id} should have been shown again`).toBeFalse();
+							});
+							win();
+						}, delay);
+					}, delay);
+				}, delay);
+			});
+		});
+	}
 
 
 	/**
 	 * Darn complicated test for darn complicated subordinate rules.
+	 * This is a test with two onTrue actions and rather complex condition logic.
 	 */
 	function subordinate4TestHelperColorPickerChange(shouldChange, selectVal, triggerId = "rgYesNoYes", forceGrey = false) {
 		return findByTestId(testHolder, "whiteElephant").then(whiteElephant => {

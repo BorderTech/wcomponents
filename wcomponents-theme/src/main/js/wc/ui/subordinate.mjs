@@ -635,6 +635,7 @@ function registerElements(theWindow) {
 	const tagNames = {
 		subordinate: "wc-subordinate",
 		condition: "wc-condition",
+		group: "wc-componentgroup",
 		component: "wc-component",
 		target: "wc-target",
 		wcnot: "wc-not",
@@ -647,8 +648,8 @@ function registerElements(theWindow) {
 	class WTarget extends theWindow.HTMLElement {
 		asObject() {
 			return {
-				id: this.getAttribute("id"),
-				groupId: this.getAttribute("groupId") || ""
+				id: this.getAttribute("refid"),
+				groupId: this.getAttribute("groupid") || ""
 			};
 		}
 	}
@@ -767,6 +768,20 @@ function registerElements(theWindow) {
 		// do nothing
 	}
 
+	class WComponentGroup extends theWindow.HTMLElement {
+		connectedCallback() {
+			const doIt = () => {
+				const components = Array.from(this.querySelectorAll(tagNames.component));
+				const groupDefinition = {
+					name: this.id,
+					identifiers: components.map(element => element.getAttribute("refid"))
+				};
+				instance.registerGroups([groupDefinition]);
+			};
+			timers.setTimeout(doIt, 0);
+		}
+	}
+
 	if (!theWindow.customElements.get(tagNames.subordinate)) {
 		theWindow.customElements.define(tagNames.subordinate, WSubordinate);
 		theWindow.customElements.define(tagNames.target, WTarget);
@@ -776,6 +791,8 @@ function registerElements(theWindow) {
 		theWindow.customElements.define(tagNames.wcor, WOr);
 		theWindow.customElements.define(tagNames.wcnot, WNot);
 		theWindow.customElements.define(tagNames.condition, WCondition);
+		theWindow.customElements.define(tagNames.group, WComponentGroup);
+		theWindow.customElements.define(tagNames.component, class extends theWindow.HTMLElement {});
 	}
 }
 
