@@ -84,4 +84,16 @@ describe("wc/file/accepted", function() {
 		addFilesToInput(element, [{ value: "foo.txt", type: "text/plain" }]);
 		expect(accepted(element)).toBeFalse();
 	});
+
+	it("accepts files given as parameter with multiple accepted types", function() {
+		const element = getInput(testHolder, "file6"),
+			fileInfo =  {files: [new File(["foo.gif"], "foo", {type: "image/gif"})]};
+		expect(accepted(element, fileInfo)).toBeTrue();
+	});
+
+	it("does nto accept files given as parameter with mismatched types", function() {
+		const element = getInput(testHolder, "file8"),
+			fileInfo = {files: [new File(["foo.gif"], "foo", {type: "image/gif"})]};
+		expect(accepted(element, fileInfo)).toBeFalse();
+	});
 });
