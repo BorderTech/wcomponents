@@ -53,10 +53,42 @@ describe("wc/ui/subordinate ye olde 'doh' tests", () => {
 
 	/**
 	 * Tests that number comparison rules are applied.
+	 * In this case 10 >= 10.
+	 */
+	it("testIsConditionTrueWithNumAndGte", () => {
+		expect(subordinate._isConditionTrue("form3NumTen", "10", "ge")).toBeTrue();
+	});
+
+	/**
+	 * Tests that number comparison rules are applied.
+	 * In this case 10 >= 11.
+	 */
+	it("testIsConditionTrueWithNumAndGteFalse", () => {
+		expect(subordinate._isConditionTrue("form3NumTen", "11", "ge")).toBeFalse();
+	});
+
+	/**
+	 * Tests that number comparison rules are applied.
 	 * In this case the number 10 is not less than 2.
 	 */
 	it("testIsConditionTrueWithTextAndLt", () => {
 		expect(subordinate._isConditionTrue("form3NumTen", "2", "lt")).toBeFalse();
+	});
+
+	/**
+	 * Tests that number comparison rules are applied.
+	 * In this case 10 <= 10.
+	 */
+	it("testIsConditionTrueWithTextAndLe", () => {
+		expect(subordinate._isConditionTrue("form3NumTen", "10", "le")).toBeTrue();
+	});
+
+	/**
+	 * Tests that number comparison rules are applied.
+	 * In this case 10 <= 9.
+	 */
+	it("testIsConditionTrueWithTextAndLeFalse", () => {
+		expect(subordinate._isConditionTrue("form3NumTen", "9", "le")).toBeFalse();
 	});
 
 
@@ -134,7 +166,7 @@ describe("wc/ui/subordinate Rule Tests", () => {
 		const rbYesNoNo = await findInput(testHolder, "rgYesNoNo");
 		rbYesNoNo.checked = true;  // Radio button, will deselect others in group
 		const rbYesNoNo4a = await findInput(testHolder, "rgYesNoNo4a");
-		rbYesNoNo.checked = true;  // Radio button, will deselect others in group
+		rbYesNoNo4a.checked = true;  // Radio button, will deselect others in group
 		const whiteElephant = await findByTestId(testHolder, "whiteElephant");
 		whiteElephant.hidden = true;
 		const greyElephant = await findByTestId(testHolder, "greyElephant");
@@ -204,26 +236,30 @@ describe("wc/ui/subordinate Rule Tests", () => {
 	});
 
 	it("should act on the components in a component group", () => {
-		return simpleComponentGroupTest();
+		return simpleComponentGroupTest("rgYesNoYes4a", "rgYesNoNo4a");
 	});
 
-	function simpleComponentGroupTest() {
-		return findInput(testHolder, "rgYesNoYes4a").then(rgYesNoYes4a => {
+	it("should honor the wc-not element", () => {
+		return simpleComponentGroupTest("rgYesNoNo4b", "rgYesNoYes4b");
+	});
+
+	function simpleComponentGroupTest(showTriggerId, hideTriggerId) {
+		return findInput(testHolder, showTriggerId).then(showTrigger => {
 			const componentGroup = getByTestId(testHolder, "bargroup");
 			const componentIds = Array.from(componentGroup.querySelectorAll("wc-component")).map(el => el.getAttribute("refid"));
 			return new Promise(win => {
-				shed.select(rgYesNoYes4a);
+				shed.select(showTrigger);
 				setTimeout(() => {
 					componentIds.forEach(id => {
 						expect(shed.isHidden(getByTestId(testHolder, id))).withContext(`${id} should have been shown`).toBeFalse();
 					});
-					const rgYesNoNo4a = getInput(testHolder, "rgYesNoNo4a");
-					shed.select(rgYesNoNo4a);
+					const hideTrigger = getInput(testHolder, hideTriggerId);
+					shed.select(hideTrigger);
 					setTimeout(() => {
 						componentIds.forEach(id => {
 							expect(shed.isHidden(getByTestId(testHolder, id))).withContext(`${id} should have been hidden`).toBeTrue();
 						});
-						shed.select(rgYesNoYes4a);
+						shed.select(showTrigger);
 						setTimeout(() => {
 							componentIds.forEach(id => {
 								expect(shed.isHidden(getByTestId(testHolder, id))).withContext(`${id} should have been shown again`).toBeFalse();

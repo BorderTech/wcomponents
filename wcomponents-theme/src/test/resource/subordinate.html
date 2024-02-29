@@ -371,8 +371,10 @@
 	<label for="cb18b">mandate date field</label>
 	<input id="cb18b" data-testid="cb18b" name="cb18b" type="checkbox" value="true">
 
-	<label for="cb18df1">A date field</label>
-	<input id="cb18df1" data-testid="cb18df1" name="cb18df1" type="date" style="width:5em"/>
+	<div class="wc-datefield">
+		<label for="cb18df1">A date field</label>
+		<input id="cb18df1" data-testid="cb18df1" name="cb18df1" type="date" style="width:5em"/>
+	</div>
 
 
 	<wc-subordinate id="cb18s" data-testid="cb18s">
@@ -478,7 +480,7 @@
 
 	<wc-subordinate id="subordinate4" data-testid="subordinate4">
 		<wc-and>
-			<wc-condition controller="rgYesNo" value="yes"></wc-condition>
+			<wc-condition controller="rgYesNo" value="yes" operator="eq"></wc-condition>
 			<wc-or>
 				<wc-condition controller="colorpicker" value="white"></wc-condition>
 				<wc-condition controller="colorpicker" value="offwhite"></wc-condition>
@@ -524,12 +526,32 @@
 		</wc-onfalse>
 	</wc-subordinate>
 
+	<!-- subordinate4b Tests -->
+	<label class="wc-option">
+		<input type="radio" name="rgYesNo4b" id="rgYesNoYes4b" data-testid="rgYesNoYes4b" value="yes"/>
+		<span class="wc-labeltext">yes</span>
+	</label>
+	<label class="wc-option">
+		<input type="radio" name="rgYesNo4b" id="rgYesNoNo4b" data-testid="rgYesNoNo4b" value="no" checked aria-controls="bargroup"/>
+		<span class="wc-labeltext">no</span>
+	</label>
+
+	<wc-subordinate id="subordinate4b" data-testid="subordinate4b">
+		<wc-not>
+			<wc-condition controller="rgYesNo4b" value="no"></wc-condition>
+		</wc-not>
+		<wc-ontrue action="hide">
+			<wc-target groupid="bargroup"></wc-target>
+		</wc-ontrue>
+		<wc-onfalse action="show">
+			<wc-target groupid="bargroup"></wc-target>
+		</wc-onfalse>
+	</wc-subordinate>
+
+
 	<!--
 
-	<wc-componentgroup id="foogroup" data-testid="foogroup">
-		<wc-component refid="whiteElephant" />
-		<wc-component refid="greyElephant" />
-	</wc-componentgroup>
+
 
 	<wc-subordinate id="subordinate5" data-testid="subordinate5">
 		<wc-and>
