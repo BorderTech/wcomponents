@@ -133,7 +133,7 @@ describe("wc/ui/subordinate ye olde 'doh' tests", () => {
 	});
 });
 
-describe("wc/ui/subordinate Rule Tests", () => {
+describe("wc/ui/subordinate Live DOM Rule Tests", () => {
 	const delay = 50;  // milliseconds to wait for events and stuff to be actioned
 	let testHolder;
 	beforeAll(() => {
@@ -243,6 +243,59 @@ describe("wc/ui/subordinate Rule Tests", () => {
 		return simpleComponentGroupTest("rgYesNoNo4b", "rgYesNoYes4b");
 	});
 
+	it("should showInGroup and hideInGroup with and/or and date fields and essentially just general complexity", () => {
+		const shouldChange = true;
+		return findByTestId(testHolder, "greyElephant").then(greyElephant => {
+			const whiteElephant = getByTestId(testHolder, "whiteElephant");
+			const brownElephant = getByTestId(testHolder, "brownElephant");
+			visibilityChecker({
+				// All start hidden
+				whiteElephant: true,
+				greyElephant: true,
+				brownElephant: true
+			});
+
+			const dateFieldContainer = getInput(testHolder, "dateFieldContainer");
+			const dateField = getInput(testHolder, "dateMate");
+			const textField = getInput(testHolder, "textMate");
+			const numberMate = getInput(testHolder, "numberMate");
+			dateFieldContainer.setAttribute("data-wc-value", "2028-10-28");
+			textField.value = "orange";
+			numberMate.value  = "0";
+			dateField.dispatchEvent(new UIEvent("change", {
+				bubbles: false,
+				cancelable: false,
+				view: window
+			}));
+			return new Promise(win => {
+				setTimeout(() => {
+					// tests the onTrue condition
+					visibilityChecker({
+						whiteElephant: shouldChange,
+						greyElephant: !shouldChange,
+						brownElephant: shouldChange
+					});
+					dateFieldContainer.setAttribute("data-wc-value", "2028-10-27");
+					dateField.dispatchEvent(new UIEvent("change", {
+						bubbles: false,
+						cancelable: false,
+						view: window
+					}));
+					setTimeout(() => {
+						// tests the onFalse condition
+						visibilityChecker({
+							whiteElephant: !shouldChange,
+							greyElephant: shouldChange,
+							brownElephant: !shouldChange
+						});
+						win();
+					}, delay);
+				}, delay);
+			});
+		});
+	});
+
+
 	function simpleComponentGroupTest(showTriggerId, hideTriggerId) {
 		return findInput(testHolder, showTriggerId).then(showTrigger => {
 			const componentGroup = getByTestId(testHolder, "bargroup");
@@ -272,6 +325,11 @@ describe("wc/ui/subordinate Rule Tests", () => {
 		});
 	}
 
+	function visibilityChecker(idStateMap) {
+		for (const [id, shouldBeHidden] of Object.entries(idStateMap)) {
+			expect(shed.isHidden(getByTestId(testHolder, id))).withContext(`${id} should be hidden = ${shouldBeHidden}`).toBe(shouldBeHidden);
+		}
+	}
 
 	/**
 	 * Darn complicated test for darn complicated subordinate rules.
@@ -283,9 +341,12 @@ describe("wc/ui/subordinate Rule Tests", () => {
 			const greyElephant = getByTestId(testHolder, "greyElephant");
 			const brownElephant = getByTestId(testHolder, "brownElephant");
 			forceGreyCheckbox.checked = forceGrey;
-			expect(shed.isHidden(whiteElephant)).withContext("whiteElephant should start hidden").toBeTrue();
-			expect(shed.isHidden(greyElephant)).withContext("greyElephant should start hidden").toBeTrue();
-			expect(shed.isHidden(brownElephant)).withContext("brownElephant should start hidden").toBeTrue();
+			visibilityChecker({
+				// All start hidden
+				whiteElephant: true,
+				greyElephant: true,
+				brownElephant: true
+			});
 			greyElephant.removeAttribute("hidden");  /// now show this element
 			brownElephant.removeAttribute("hidden");  /// now show this element
 
@@ -295,29 +356,18 @@ describe("wc/ui/subordinate Rule Tests", () => {
 			shed.select(trigger);
 			return new Promise(win => {
 				setTimeout(() => {
-					if (shouldChange) {
-						// tests the onTrue condition
-						expect(shed.isHidden(whiteElephant)).withContext("whiteElephant should have been shown").toBeFalse();
-						expect(shed.isHidden(greyElephant)).withContext("greyElephant should have been hidden").toBeTrue();
-						expect(shed.isHidden(brownElephant)).withContext("brownElephant should have been hidden").toBeTrue();
-					} else {
-						expect(shed.isHidden(whiteElephant)).withContext("whiteElephant should remain hidden").toBeTrue();
-						expect(shed.isHidden(greyElephant)).withContext("greyElephant should remain visible").toBeFalse();
-						expect(shed.isHidden(brownElephant)).withContext("brownElephant should remain visible").toBeFalse();
-					}
+					visibilityChecker({
+						whiteElephant: !shouldChange,
+						greyElephant: shouldChange,
+						brownElephant: shouldChange
+					});
 					shed.deselect(trigger);
 					setTimeout(() => {
-						// tests the onFalse condition
-						if (shouldChange) {
-							// tests the onTrue condition
-							expect(shed.isHidden(whiteElephant)).withContext("whiteElephant should have been hidden").toBeTrue();
-							expect(shed.isHidden(greyElephant)).withContext("greyElephant should have been hidden").toBeTrue();
-							expect(shed.isHidden(brownElephant)).withContext("brownElephant should have been hidden").toBeTrue();
-						} else {
-							expect(shed.isHidden(whiteElephant)).withContext("whiteElephant should remain hidden").toBeTrue();
-							expect(shed.isHidden(greyElephant)).withContext("greyElephant should remain visible").toBeFalse();
-							expect(shed.isHidden(brownElephant)).withContext("brownElephant should remain visible").toBeFalse();
-						}
+						visibilityChecker({
+							whiteElephant: true,
+							greyElephant: shouldChange,
+							brownElephant: shouldChange
+						});
 						win();
 					}, delay);
 				}, delay);
