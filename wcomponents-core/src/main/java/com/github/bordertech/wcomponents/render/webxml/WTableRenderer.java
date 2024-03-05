@@ -28,7 +28,8 @@ import java.util.Set;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-final class WTableRenderer extends AbstractWebXmlRenderer {
+final class
+WTableRenderer extends AbstractWebXmlRenderer {
 
 	/**
 	 * Paints the given WTable.

@@ -7,7 +7,7 @@ const actionRegister = {},  // Map of subordinate action keywords to functions w
  * Provides actions used by {@link module:wc/ui/subordinate}.
  *
  * This module knows how to perform a subordinate action. Has no knowledge of if and when to perform the action.
- * Instances of this class are used to populate the "onTrue" and "onFalse" properties of a subordinate rule.
+ * Instances of this class are used to populate the "ontrue" and "onfalse" properties of a subordinate rule.
  *
  * Once a subordinate condition has been evaluated to either true of false to corresponding action is executed.
  *
@@ -246,10 +246,10 @@ function initActionImplementations() {
 	Action.register("select", selectItem);
 	Action.register("unselect", unselectItem);
 	Action.register("toggleselect", toggleSelect);
-	Action.register("showIn", showInGroup);
-	Action.register("hideIn", hideInGroup);
-	Action.register("enableIn", enableInGroup);
-	Action.register("disableIn", disableInGroup);
+	Action.register("showin", showInGroup);
+	Action.register("hidein", hideInGroup);
+	Action.register("enablein", enableInGroup);
+	Action.register("disablein", disableInGroup);
 
 	/**
 	 *

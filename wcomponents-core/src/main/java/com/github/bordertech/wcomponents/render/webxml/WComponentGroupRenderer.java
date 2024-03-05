@@ -13,6 +13,8 @@ import java.util.List;
  * @since 1.0.0
  */
 final class WComponentGroupRenderer extends AbstractWebXmlRenderer {
+	public static final String TAG_GROUP = "wc-componentgroup";
+	public static final String TAG_COMPONENT = "wc-component";
 
 	/**
 	 * Paints the given WComponentGroup.
@@ -27,18 +29,19 @@ final class WComponentGroupRenderer extends AbstractWebXmlRenderer {
 		List<WComponent> components = group.getComponents();
 
 		if (components != null && !components.isEmpty()) {
-			xml.appendTagOpen("ui:componentGroup");
+			xml.appendTagOpen(TAG_GROUP);
 			xml.appendAttribute("id", component.getId());
 			xml.appendOptionalAttribute("track", component.isTracking(), "true");
 			xml.appendClose();
 
 			for (WComponent comp : components) {
-				xml.appendTagOpen("ui:component");
-				xml.appendAttribute("id", comp.getId());
-				xml.appendEnd();
+				xml.appendTagOpen(TAG_COMPONENT);
+				xml.appendAttribute("refid", comp.getId());
+				xml.appendClose();
+				xml.appendEndTag(TAG_COMPONENT);
 			}
 
-			xml.appendEndTag("ui:componentGroup");
+			xml.appendEndTag(TAG_GROUP);
 		}
 	}
 }
