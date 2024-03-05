@@ -19,7 +19,7 @@ import event from "wc/dom/event.mjs";
 import multiSelectPair from "wc/ui/multiSelectPair.mjs";
 import dateField from "wc/ui/dateField.mjs";
 
-let changeInited = false;
+let eventsInited = false;
 
 const ruleStore = {},  // stores the rule objects against their rule id
 	elementToRuleMap = {},  // maps dom element ids to rule ids
@@ -612,16 +612,13 @@ export const initialiser = {
 	 */
 	initialise: element => {
 		instance._setView(element?.ownerDocument?.defaultView);
-		if ((Object.keys(elementToRuleMap)).length) {
-			if (!changeInited) {
-				changeInited = true;
-				event.add(element, { type: "change", listener: changeEvent, capture: true });
-			}
+		if (!eventsInited) {
+			eventsInited = true;
+			event.add(element, { type: "change", listener: changeEvent, capture: true });
 			event.add(element, shed.events.SELECT, shedObserver);
 			event.add(element, shed.events.DESELECT, shedObserver);
 			event.add(element, shed.events.ENABLE, shedObserver);
 			event.add(element, shed.events.DISABLE, shedObserver);
-			console.log("Subordinate rules exist: added listeners");
 		}
 	}
 };
