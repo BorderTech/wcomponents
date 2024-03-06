@@ -25,6 +25,14 @@ import com.github.bordertech.wcomponents.util.SystemException;
  * @since 1.0.0
  */
 final class WSubordinateControlRenderer extends AbstractWebXmlRenderer {
+	public static final String TAG_SUBORDINATE = "wc-subordinate";
+	public static final String TAG_CONDITION = "wc-condition";
+	public static final String TAG_TARGET = "wc-target";
+	public static final String TAG_OR = "wc-or";
+	public static final String TAG_AND = "wc-and";
+	public static final String TAG_NOT = "wc-not";
+	public static final String TAG_ONTRUE = "wc-ontrue";
+	public static final String TAG_ONFALSE = "wc-onfalse";
 
 	/**
 	 * Paints the given SubordinateControl.
@@ -41,11 +49,11 @@ final class WSubordinateControlRenderer extends AbstractWebXmlRenderer {
 			int seq = 0;
 
 			for (Rule rule : subordinate.getRules()) {
-				xml.appendTagOpen("ui:subordinate");
+				xml.appendTagOpen(TAG_SUBORDINATE);
 				xml.appendAttribute("id", subordinate.getId() + "-c" + seq++);
 				xml.appendClose();
 				paintRule(rule, xml);
-				xml.appendEndTag("ui:subordinate");
+				xml.appendEndTag(TAG_SUBORDINATE);
 			}
 		}
 	}
@@ -64,11 +72,11 @@ final class WSubordinateControlRenderer extends AbstractWebXmlRenderer {
 		paintCondition(rule.getCondition(), xml);
 
 		for (Action action : rule.getOnTrue()) {
-			paintAction(action, "ui:onTrue", xml);
+			paintAction(action, TAG_ONTRUE, xml);
 		}
 
 		for (Action action : rule.getOnFalse()) {
-			paintAction(action, "ui:onFalse", xml);
+			paintAction(action, TAG_ONFALSE, xml);
 		}
 	}
 
@@ -80,32 +88,33 @@ final class WSubordinateControlRenderer extends AbstractWebXmlRenderer {
 	 */
 	private void paintCondition(final Condition condition, final XmlStringBuilder xml) {
 		if (condition instanceof And) {
-			xml.appendTag("ui:and");
+			xml.appendTag(TAG_AND);
 
 			for (Condition operand : ((And) condition).getConditions()) {
 				paintCondition(operand, xml);
 			}
 
-			xml.appendEndTag("ui:and");
+			xml.appendEndTag(TAG_AND);
 		} else if (condition instanceof Or) {
-			xml.appendTag("ui:or");
+			xml.appendTag(TAG_OR);
 
 			for (Condition operand : ((Or) condition).getConditions()) {
 				paintCondition(operand, xml);
 			}
 
-			xml.appendEndTag("ui:or");
+			xml.appendEndTag(TAG_OR);
 		} else if (condition instanceof Not) {
-			xml.appendTag("ui:not");
+			xml.appendTag(TAG_NOT);
 			paintCondition(((Not) condition).getCondition(), xml);
-			xml.appendEndTag("ui:not");
+			xml.appendEndTag(TAG_NOT);
 		} else if (condition instanceof AbstractCompare) {
 			AbstractCompare compare = (AbstractCompare) condition;
-			xml.appendTagOpen("ui:condition");
+			xml.appendTagOpen(TAG_CONDITION);
 			xml.appendAttribute("controller", compare.getTrigger().getId());
 			xml.appendAttribute("value", compare.getComparePaintValue());
 			xml.appendOptionalAttribute("operator", getCompareTypeName(compare.getCompareType()));
-			xml.appendEnd();
+			xml.appendClose();
+			xml.appendEndTag(TAG_CONDITION);
 		} else {
 			throw new SystemException("Unknown condition: " + condition);
 		}
@@ -115,7 +124,7 @@ final class WSubordinateControlRenderer extends AbstractWebXmlRenderer {
 	 * Paints an action.
 	 *
 	 * @param action the action to paint
-	 * @param elementName the enclosing element name ("ui:onFalse" or "ui:onTrue").
+	 * @param elementName the enclosing element name (TAG_ONFALSE or TAG_ONTRUE).
 	 * @param xml the writer to send the output to
 	 */
 	private void paintAction(final Action action, final String elementName,
@@ -146,7 +155,7 @@ final class WSubordinateControlRenderer extends AbstractWebXmlRenderer {
 	 * Paint a standard action - where a single item or single group is targeted.
 	 *
 	 * @param action the action to paint
-	 * @param elementName the enclosing element name ("ui:onFalse" or "ui:onTrue").
+	 * @param elementName the enclosing element name (TAG_ONFALSE or TAG_ONTRUE).
 	 * @param xml the output response
 	 */
 	private void paintStandardAction(final Action action, final String elementName,
@@ -154,16 +163,16 @@ final class WSubordinateControlRenderer extends AbstractWebXmlRenderer {
 		xml.appendTagOpen(elementName);
 		xml.appendAttribute("action", getActionTypeName(action.getActionType()));
 		xml.appendClose();
-		xml.appendTagOpen("ui:target");
+		xml.appendTagOpen(TAG_TARGET);
 
 		SubordinateTarget target = action.getTarget();
 		if (target instanceof WComponentGroup<?>) {
-			xml.appendAttribute("groupId", target.getId());
+			xml.appendAttribute("groupid", target.getId());
 		} else {
-			xml.appendAttribute("id", target.getId());
+			xml.appendAttribute("refid", target.getId());
 		}
-
-		xml.appendEnd();
+		xml.appendClose();
+		xml.appendEndTag(TAG_TARGET);
 		xml.appendEndTag(elementName);
 	}
 
@@ -171,7 +180,7 @@ final class WSubordinateControlRenderer extends AbstractWebXmlRenderer {
 	 * Paint an inGroup action - where a single item is being targeted out of a group of items.
 	 *
 	 * @param action the action to paint
-	 * @param elementName the enclosing element name ("ui:onFalse" or "ui:onTrue").
+	 * @param elementName the enclosing element name (TAG_ONFALSE or TAG_ONTRUE).
 	 * @param xml the output response
 	 */
 	private void paintInGroupAction(final Action action, final String elementName,
@@ -179,10 +188,11 @@ final class WSubordinateControlRenderer extends AbstractWebXmlRenderer {
 		xml.appendTagOpen(elementName);
 		xml.appendAttribute("action", getActionTypeName(action.getActionType()));
 		xml.appendClose();
-		xml.appendTagOpen("ui:target");
-		xml.appendAttribute("groupId", action.getTarget().getId());
-		xml.appendAttribute("id", ((AbstractAction) action).getTargetInGroup().getId());
-		xml.appendEnd();
+		xml.appendTagOpen(TAG_TARGET);
+		xml.appendAttribute("groupid", action.getTarget().getId());
+		xml.appendAttribute("refid", ((AbstractAction) action).getTargetInGroup().getId());
+		xml.appendClose();
+		xml.appendEndTag(TAG_TARGET);
 		xml.appendEndTag(elementName);
 	}
 
@@ -237,25 +247,25 @@ final class WSubordinateControlRenderer extends AbstractWebXmlRenderer {
 				action = "show";
 				break;
 			case SHOWIN:
-				action = "showIn";
+				action = "showin";
 				break;
 			case HIDE:
 				action = "hide";
 				break;
 			case HIDEIN:
-				action = "hideIn";
+				action = "hidein";
 				break;
 			case ENABLE:
 				action = "enable";
 				break;
 			case ENABLEIN:
-				action = "enableIn";
+				action = "enablein";
 				break;
 			case DISABLE:
 				action = "disable";
 				break;
 			case DISABLEIN:
-				action = "disableIn";
+				action = "disablein";
 				break;
 			case OPTIONAL:
 				action = "optional";

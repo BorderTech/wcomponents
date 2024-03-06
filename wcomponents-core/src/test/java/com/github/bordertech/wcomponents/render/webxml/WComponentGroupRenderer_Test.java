@@ -21,8 +21,7 @@ public class WComponentGroupRenderer_Test extends AbstractWebXmlRendererTestCase
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WComponentGroup<WComponent> group = new WComponentGroup<>();
-		Assert.assertTrue("Incorrect renderer supplied",
-				getWebXmlRenderer(group) instanceof WComponentGroupRenderer);
+		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(group) instanceof WComponentGroupRenderer);
 	}
 
 	@Test
@@ -47,15 +46,12 @@ public class WComponentGroupRenderer_Test extends AbstractWebXmlRendererTestCase
 		// Validate Schema
 		assertSchemaMatch(root);
 		// Check group
-		assertXpathEvaluatesTo("1", "count(//ui:componentGroup)", root);
-		assertXpathEvaluatesTo("3", "count(//ui:componentGroup/ui:component)", root);
-		assertXpathEvaluatesTo(group.getId(), "//ui:componentGroup/@id", root);
-		assertXpathEvaluatesTo(actionTarget1.getId(),
-				"//ui:componentGroup/ui:component[position()=1]/@id", root);
-		assertXpathEvaluatesTo(actionTarget2.getId(),
-				"//ui:componentGroup/ui:component[position()=2]/@id", root);
-		assertXpathEvaluatesTo(actionTarget3.getId(),
-				"//ui:componentGroup/ui:component[position()=3]/@id", root);
+		assertXpathEvaluatesTo("1", String.format("count(//html:%s)", WComponentGroupRenderer.TAG_GROUP), root);
+		assertXpathEvaluatesTo("3", String.format("count(//html:%s/html:%s)", WComponentGroupRenderer.TAG_GROUP, WComponentGroupRenderer.TAG_COMPONENT), root);
+		assertXpathEvaluatesTo(group.getId(), String.format("//html:%s/@id", WComponentGroupRenderer.TAG_GROUP), root);
+		assertXpathEvaluatesTo(actionTarget1.getId(), String.format("//html:%s/html:%s[position()=1]/@refid", WComponentGroupRenderer.TAG_GROUP, WComponentGroupRenderer.TAG_COMPONENT), root);
+		assertXpathEvaluatesTo(actionTarget2.getId(), String.format("//html:%s/html:%s[position()=2]/@refid", WComponentGroupRenderer.TAG_GROUP, WComponentGroupRenderer.TAG_COMPONENT), root);
+		assertXpathEvaluatesTo(actionTarget3.getId(), String.format("//html:%s/html:%s[position()=3]/@refid", WComponentGroupRenderer.TAG_GROUP, WComponentGroupRenderer.TAG_COMPONENT), root);
 	}
 
 }

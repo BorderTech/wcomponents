@@ -39,6 +39,7 @@ import org.junit.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
+import static com.github.bordertech.wcomponents.render.webxml.WSubordinateControlRenderer.*;
 
 /**
  * Junit test case for {@link WSubordinateControlRenderer}.
@@ -82,24 +83,21 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 		// Validate Schema
 		assertSchemaMatch(root);
 		// Check for basic elements
-		assertXpathEvaluatesTo("1", "count(//ui:subordinate)", root);
-		assertXpathEvaluatesTo("1", "count(//ui:subordinate/ui:condition)", root);
-		assertXpathEvaluatesTo("1", "count(//ui:subordinate/ui:onTrue)", root);
-		assertXpathEvaluatesTo("1", "count(//ui:subordinate/ui:onFalse)", root);
+		assertXpathEvaluatesTo("1", String.format("count(//html:%s)", TAG_SUBORDINATE), root);
+		assertXpathEvaluatesTo("1", String.format("count(//html:%s/html:%s)", TAG_SUBORDINATE, TAG_CONDITION), root);
+		assertXpathEvaluatesTo("1", String.format("count(//html:%s/html:%s)", TAG_SUBORDINATE, TAG_ONTRUE), root);
+		assertXpathEvaluatesTo("1", String.format("count(//html:%s/html:%s)", TAG_SUBORDINATE, TAG_ONFALSE), root);
 		// Check id
-		assertXpathEvaluatesTo(control.getId() + "-c0", "//ui:subordinate/@id", root);
+		assertXpathEvaluatesTo(control.getId() + "-c0", String.format("//html:%s/@id", TAG_SUBORDINATE), root);
 		// Check condition
-		assertXpathEvaluatesTo(condTrigger.getId(), "//ui:subordinate/ui:condition/@controller",
-				root);
-		assertXpathEvaluatesTo("true", "//ui:subordinate/ui:condition/@value", root);
+		assertXpathEvaluatesTo(condTrigger.getId(), String.format("//html:%s/html:%s/@controller", TAG_SUBORDINATE, TAG_CONDITION), root);
+		assertXpathEvaluatesTo("true", String.format("//html:%s/html:%s/@value", TAG_SUBORDINATE, TAG_CONDITION), root);
 		// Check onTrue
-		assertXpathEvaluatesTo("show", "//ui:subordinate/ui:onTrue/@action", root);
-		assertXpathEvaluatesTo(actionTarget.getId(), "//ui:subordinate/ui:onTrue/ui:target/@id",
-				root);
+		assertXpathEvaluatesTo("show", String.format("//html:%s/html:%s/@action", TAG_SUBORDINATE, TAG_ONTRUE), root);
+		assertXpathEvaluatesTo(actionTarget.getId(), String.format("//html:%s/html:%s/html:%s/@refid", TAG_SUBORDINATE, TAG_ONTRUE, TAG_TARGET), root);
 		// Check onFalse
-		assertXpathEvaluatesTo("hide", "//ui:subordinate/ui:onFalse/@action", root);
-		assertXpathEvaluatesTo(actionTarget.getId(), "//ui:subordinate/ui:onFalse/ui:target/@id",
-				root);
+		assertXpathEvaluatesTo("hide", String.format("//html:%s/html:%s/@action", TAG_SUBORDINATE, TAG_ONFALSE), root);
+		assertXpathEvaluatesTo(actionTarget.getId(), String.format("//html:%s/html:%s/html:%s/@refid", TAG_SUBORDINATE, TAG_ONFALSE, TAG_TARGET), root);
 		// Check action target
 		assertXpathEvaluatesTo("true", "//ui:textfield/@hidden", root);
 	}
@@ -140,42 +138,34 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 		// Validate Schema
 		assertSchemaMatch(root);
 		// Check for basic elements
-		assertXpathEvaluatesTo("1", "count(//ui:subordinate)", root);
-		assertXpathEvaluatesTo("1", "count(//ui:subordinate/ui:condition)", root);
-		assertXpathEvaluatesTo("1", "count(//ui:subordinate/ui:onTrue)", root);
-		assertXpathEvaluatesTo("1", "count(//ui:subordinate/ui:onFalse)", root);
-		assertXpathEvaluatesTo("1", "count(//ui:componentGroup)", root);
-		assertXpathEvaluatesTo("3", "count(//ui:componentGroup/ui:component)", root);
+		assertXpathEvaluatesTo("1", String.format("count(//html:%s)", TAG_SUBORDINATE), root);
+		assertXpathEvaluatesTo("1", String.format("count(//html:%s/html:%s)", TAG_SUBORDINATE, TAG_CONDITION), root);
+		assertXpathEvaluatesTo("1", String.format("count(//html:%s/html:%s)", TAG_SUBORDINATE, TAG_ONTRUE), root);
+		assertXpathEvaluatesTo("1", String.format("count(//html:%s/html:%s/@action)", TAG_SUBORDINATE, TAG_ONFALSE), root);
+		assertXpathEvaluatesTo("1", String.format("count(//html:%s)", WComponentGroupRenderer.TAG_GROUP), root);
+		assertXpathEvaluatesTo("3", String.format("count(//html:%s/html:%s)", WComponentGroupRenderer.TAG_GROUP, WComponentGroupRenderer.TAG_COMPONENT), root);
 		// Check id
-		assertXpathEvaluatesTo(control.getId() + "-c0", "//ui:subordinate/@id", root);
+		assertXpathEvaluatesTo(control.getId() + "-c0", String.format("//html:%s/@id", TAG_SUBORDINATE), root);
 		// Check condition
-		assertXpathEvaluatesTo(condTrigger.getId(), "//ui:subordinate/ui:condition/@controller",
-				root);
-		assertXpathEvaluatesTo("true", "//ui:subordinate/ui:condition/@value", root);
+		assertXpathEvaluatesTo(condTrigger.getId(), String.format("//html:%s/html:%s/@controller", TAG_SUBORDINATE, TAG_CONDITION), root);
+		assertXpathEvaluatesTo("true", String.format("//html:%s/html:%s/@value", TAG_SUBORDINATE, TAG_CONDITION), root);
 		// Check onTrue
-		assertXpathEvaluatesTo("show", "//ui:subordinate/ui:onTrue/@action", root);
-		assertXpathEvaluatesTo(group1.getId(), "//ui:subordinate/ui:onTrue/ui:target/@groupId", root);
-		assertXpathEvaluatesTo("", "//ui:subordinate/ui:onTrue/ui:target/@id", root);
+		assertXpathEvaluatesTo("show", String.format("//html:%s/html:%s/@action", TAG_SUBORDINATE, TAG_ONTRUE), root);
+		assertXpathEvaluatesTo(group1.getId(), String.format("//html:%s/html:%s/html:%s/@groupid", TAG_SUBORDINATE, TAG_ONTRUE, TAG_TARGET), root);
+		assertXpathEvaluatesTo("", String.format("//html:%s/html:%s/html:%s/@refid", TAG_SUBORDINATE, TAG_ONTRUE, TAG_TARGET), root);
 		// Check onFalse
-		assertXpathEvaluatesTo("hide", "//ui:subordinate/ui:onFalse/@action", root);
-		assertXpathEvaluatesTo(group1.getId(), "//ui:subordinate/ui:onFalse/ui:target/@groupId",
-				root);
-		assertXpathEvaluatesTo("", "//ui:subordinate/ui:onFalse/ui:target/@id", root);
+		assertXpathEvaluatesTo("hide", String.format("//html:%s/html:%s/@action", TAG_SUBORDINATE, TAG_ONFALSE), root);
+		assertXpathEvaluatesTo(group1.getId(), String.format("//html:%s/html:%s/html:%s/@groupid", TAG_SUBORDINATE, TAG_ONFALSE, TAG_TARGET), root);
+		assertXpathEvaluatesTo("", String.format("//html:%s/html:%s/html:%s/@refid", TAG_SUBORDINATE, TAG_ONFALSE, TAG_TARGET), root);
 		// Check group
-		assertXpathEvaluatesTo(group1.getId(), "//ui:componentGroup/@id", root);
-		assertXpathEvaluatesTo(actionTarget1.getId(),
-				"//ui:componentGroup/ui:component[position()=1]/@id", root);
-		assertXpathEvaluatesTo(actionTarget2.getId(),
-				"//ui:componentGroup/ui:component[position()=2]/@id", root);
-		assertXpathEvaluatesTo(actionTarget3.getId(),
-				"//ui:componentGroup/ui:component[position()=3]/@id", root);
+		assertXpathEvaluatesTo(group1.getId(), String.format("//html:%s/@id", WComponentGroupRenderer.TAG_GROUP), root);
+		assertXpathEvaluatesTo(actionTarget1.getId(), String.format("//html:%s/html:%s[position()=1]/@refid", WComponentGroupRenderer.TAG_GROUP, WComponentGroupRenderer.TAG_COMPONENT), root);
+		assertXpathEvaluatesTo(actionTarget2.getId(), String.format("//html:%s/html:%s[position()=2]/@refid", WComponentGroupRenderer.TAG_GROUP, WComponentGroupRenderer.TAG_COMPONENT), root);
+		assertXpathEvaluatesTo(actionTarget3.getId(), String.format("//html:%s/html:%s[position()=3]/@refid", WComponentGroupRenderer.TAG_GROUP, WComponentGroupRenderer.TAG_COMPONENT), root);
 		// Check action target
-		assertXpathEvaluatesTo("true", "//ui:textfield[@id='" + actionTarget1.getId() + "']/@hidden",
-				root);
-		assertXpathEvaluatesTo("true", "//ui:textfield[@id='" + actionTarget2.getId() + "']/@hidden",
-				root);
-		assertXpathEvaluatesTo("true", "//ui:textfield[@id='" + actionTarget3.getId() + "']/@hidden",
-				root);
+		assertXpathEvaluatesTo("true", "//ui:textfield[@id='" + actionTarget1.getId() + "']/@hidden", root);
+		assertXpathEvaluatesTo("true", "//ui:textfield[@id='" + actionTarget2.getId() + "']/@hidden", root);
+		assertXpathEvaluatesTo("true", "//ui:textfield[@id='" + actionTarget3.getId() + "']/@hidden", root);
 	}
 
 	@Test
@@ -225,16 +215,16 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 		// Validate Schema
 		assertSchemaMatch(root);
 		// Check for basic elements
-		assertXpathEvaluatesTo("2", "count(//ui:subordinate)", root);
-		assertXpathEvaluatesTo("2", "count(//ui:subordinate/ui:condition)", root);
-		assertXpathEvaluatesTo("2", "count(//ui:subordinate/ui:onTrue)", root);
-		assertXpathEvaluatesTo("2", "count(//ui:subordinate/ui:onFalse)", root);
-		assertXpathEvaluatesTo("2", "count(//ui:componentGroup)", root);
-		assertXpathEvaluatesTo("2", "count(//ui:componentGroup[position()=1]/ui:component)", root);
-		assertXpathEvaluatesTo("2", "count(//ui:componentGroup[position()=2]/ui:component)", root);
+		assertXpathEvaluatesTo("2", String.format("count(//html:%s)", TAG_SUBORDINATE), root);
+		assertXpathEvaluatesTo("2", String.format("count(//html:%s/html:%s)", TAG_SUBORDINATE, TAG_CONDITION), root);
+		assertXpathEvaluatesTo("2", String.format("count(//html:%s/html:%s)", TAG_SUBORDINATE, TAG_ONTRUE), root);
+		assertXpathEvaluatesTo("2", String.format("count(//html:%s/html:%s/@action)", TAG_SUBORDINATE, TAG_ONFALSE), root);
+		assertXpathEvaluatesTo("2", String.format("count(//html:%s)", WComponentGroupRenderer.TAG_GROUP), root);
+		assertXpathEvaluatesTo("2", String.format("count(//html:%s[position()=1]/html:%s)", WComponentGroupRenderer.TAG_GROUP, WComponentGroupRenderer.TAG_COMPONENT), root);
+		assertXpathEvaluatesTo("2", String.format("count(//html:%s[position()=2]/html:%s)", WComponentGroupRenderer.TAG_GROUP, WComponentGroupRenderer.TAG_COMPONENT), root);
 		// Check ids
-		assertXpathEvaluatesTo(control.getId() + "-c0", "//ui:subordinate[position()=1]/@id", root);
-		assertXpathEvaluatesTo(control.getId() + "-c1", "//ui:subordinate[position()=2]/@id", root);
+		assertXpathEvaluatesTo(control.getId() + "-c0", String.format("//html:%s[position()=1]/@id", TAG_SUBORDINATE), root);
+		assertXpathEvaluatesTo(control.getId() + "-c1", String.format("//html:%s[position()=2]/@id", TAG_SUBORDINATE), root);
 
 	}
 
@@ -282,42 +272,30 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 		// Validate Schema
 		assertSchemaMatch(root);
 		// Check onTrue
-		assertXpathEvaluatesTo("2", "count(//ui:subordinate/ui:onTrue)", root);
+		assertXpathEvaluatesTo("2", String.format("count(//html:%s/html:%s)", TAG_SUBORDINATE, TAG_ONTRUE), root);
 		// Check onTrue - Component
-		assertXpathEvaluatesTo("show", "//ui:subordinate/ui:onTrue[position()=1]/@action", root);
-		assertXpathEvaluatesTo(actionTarget.getId(),
-				"//ui:subordinate/ui:onTrue[position()=1]/ui:target/@id", root);
-		assertXpathEvaluatesTo("", "//ui:subordinate/ui:onTrue[position()=1]/ui:target/@groupId",
-				root);
+		assertXpathEvaluatesTo("show", String.format("//html:%s/html:%s[position()=1]/@action", TAG_SUBORDINATE, TAG_ONTRUE), root);
+		assertXpathEvaluatesTo(actionTarget.getId(), String.format("//html:%s/html:%s[position()=1]/html:%s/@refid", TAG_SUBORDINATE, TAG_ONTRUE, TAG_TARGET), root);
+		assertXpathEvaluatesTo("", String.format("//html:%s/html:%s[position()=1]/html:%s/@groupid", TAG_SUBORDINATE, TAG_ONTRUE, TAG_TARGET), root);
 		// Check onTrue - Group
-		assertXpathEvaluatesTo("show", "//ui:subordinate/ui:onTrue[position()=2]/@action", root);
-		assertXpathEvaluatesTo(group1.getId(),
-				"//ui:subordinate/ui:onTrue[position()=2]/ui:target/@groupId",
-				root);
-		assertXpathEvaluatesTo("", "//ui:subordinate/ui:onTrue[position()=2]/ui:target/@id", root);
+		assertXpathEvaluatesTo("show", String.format("//html:%s/html:%s[position()=2]/@action", TAG_SUBORDINATE, TAG_ONTRUE), root);
+		assertXpathEvaluatesTo(group1.getId(), String.format("//html:%s/html:%s[position()=2]/html:%s/@groupid", TAG_SUBORDINATE, TAG_ONTRUE, TAG_TARGET), root);
+		assertXpathEvaluatesTo("", String.format("//html:%s/html:%s[position()=2]/html:%s/@refid", TAG_SUBORDINATE, TAG_ONTRUE, TAG_TARGET), root);
 		// Check onFalse
-		assertXpathEvaluatesTo("2", "count(//ui:subordinate/ui:onFalse)", root);
+		assertXpathEvaluatesTo("2", String.format("count(//html:%s/html:%s)", TAG_SUBORDINATE, TAG_ONFALSE), root);
 		// Check onFalse - Component
-		assertXpathEvaluatesTo("hide", "//ui:subordinate/ui:onFalse[position()=1]/@action", root);
-		assertXpathEvaluatesTo(actionTarget.getId(),
-				"//ui:subordinate/ui:onFalse[position()=1]/ui:target/@id", root);
-		assertXpathEvaluatesTo("", "//ui:subordinate/ui:onFalse[position()=1]/ui:target/@groupId",
-				root);
+		assertXpathEvaluatesTo("hide", String.format("//html:%s/html:%s[position()=1]/@action", TAG_SUBORDINATE, TAG_ONFALSE), root);
+		assertXpathEvaluatesTo(actionTarget.getId(), String.format("//html:%s/html:%s[position()=1]/html:%s/@refid", TAG_SUBORDINATE, TAG_ONFALSE, TAG_TARGET), root);
+		assertXpathEvaluatesTo("", String.format("//html:%s/html:%s[position()=1]/html:%s/@groupid", TAG_SUBORDINATE, TAG_ONFALSE, TAG_TARGET), root);
 		// Check onFalse - Group
-		assertXpathEvaluatesTo("hide", "//ui:subordinate/ui:onFalse[position()=2]/@action", root);
-		assertXpathEvaluatesTo(group1.getId(),
-				"//ui:subordinate/ui:onFalse[position()=2]/ui:target/@groupId",
-				root);
-		assertXpathEvaluatesTo("", "//ui:subordinate/ui:onFalse[position()=2]/ui:target/@id", root);
+		assertXpathEvaluatesTo("hide", String.format("//html:%s/html:%s[position()=2]/@action", TAG_SUBORDINATE, TAG_ONFALSE), root);
+		assertXpathEvaluatesTo(group1.getId(), String.format("//html:%s/html:%s[position()=2]/html:%s/@groupid", TAG_SUBORDINATE, TAG_ONFALSE, TAG_TARGET), root);
+		assertXpathEvaluatesTo("", String.format("//html:%s/html:%s[position()=2]/html:%s/@refid", TAG_SUBORDINATE, TAG_ONFALSE, TAG_TARGET), root);
 		// Check action target
-		assertXpathEvaluatesTo("true", "//ui:textfield[@id='" + actionTarget.getId() + "']/@hidden",
-				root);
-		assertXpathEvaluatesTo("true", "//ui:textfield[@id='" + actionTarget1.getId() + "']/@hidden",
-				root);
-		assertXpathEvaluatesTo("true", "//ui:textfield[@id='" + actionTarget2.getId() + "']/@hidden",
-				root);
-		assertXpathEvaluatesTo("true", "//ui:textfield[@id='" + actionTarget3.getId() + "']/@hidden",
-				root);
+		assertXpathEvaluatesTo("true", "//ui:textfield[@id='" + actionTarget.getId() + "']/@hidden", root);
+		assertXpathEvaluatesTo("true", "//ui:textfield[@id='" + actionTarget1.getId() + "']/@hidden", root);
+		assertXpathEvaluatesTo("true", "//ui:textfield[@id='" + actionTarget2.getId() + "']/@hidden", root);
+		assertXpathEvaluatesTo("true", "//ui:textfield[@id='" + actionTarget3.getId() + "']/@hidden", root);
 	}
 
 	@Test
@@ -364,33 +342,33 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 		// Validate Schema
 		assertSchemaMatch(root);
 		// Check onTrue
-		assertXpathEvaluatesTo("2", "count(//ui:subordinate/ui:onTrue)", root);
+		assertXpathEvaluatesTo("2", String.format("count(//html:%s/html:%s)", TAG_SUBORDINATE, TAG_ONTRUE), root);
 		// Check onTrue - Component
-		assertXpathEvaluatesTo("enable", "//ui:subordinate/ui:onTrue[position()=1]/@action", root);
+		assertXpathEvaluatesTo("enable", String.format("//html:%s/html:%s[position()=1]/@action", TAG_SUBORDINATE, TAG_ONTRUE), root);
 		assertXpathEvaluatesTo(actionTarget.getId(),
-				"//ui:subordinate/ui:onTrue[position()=1]/ui:target/@id", root);
-		assertXpathEvaluatesTo("", "//ui:subordinate/ui:onTrue[position()=1]/ui:target/@groupId",
+				String.format("//html:%s/html:%s[position()=1]/html:%s/@refid", TAG_SUBORDINATE, TAG_ONTRUE, TAG_TARGET), root);
+		assertXpathEvaluatesTo("", String.format("//html:%s/html:%s[position()=1]/html:%s/@groupid", TAG_SUBORDINATE, TAG_ONTRUE, TAG_TARGET),
 				root);
 		// Check onTrue - Group
-		assertXpathEvaluatesTo("enable", "//ui:subordinate/ui:onTrue[position()=2]/@action", root);
+		assertXpathEvaluatesTo("enable", String.format("//html:%s/html:%s[position()=2]/@action", TAG_SUBORDINATE, TAG_ONTRUE), root);
 		assertXpathEvaluatesTo(group1.getId(),
-				"//ui:subordinate/ui:onTrue[position()=2]/ui:target/@groupId",
+				String.format("//html:%s/html:%s[position()=2]/html:%s/@groupid", TAG_SUBORDINATE, TAG_ONTRUE, TAG_TARGET),
 				root);
-		assertXpathEvaluatesTo("", "//ui:subordinate/ui:onTrue[position()=2]/ui:target/@id", root);
+		assertXpathEvaluatesTo("", String.format("//html:%s/html:%s[position()=2]/html:%s/@refid", TAG_SUBORDINATE, TAG_ONTRUE, TAG_TARGET), root);
 		// Check onFalse
-		assertXpathEvaluatesTo("2", "count(//ui:subordinate/ui:onFalse)", root);
+		assertXpathEvaluatesTo("2", String.format("count(//html:%s/html:%s)", TAG_SUBORDINATE, TAG_ONFALSE), root);
 		// Check onFalse - Component
-		assertXpathEvaluatesTo("disable", "//ui:subordinate/ui:onFalse[position()=1]/@action", root);
+		assertXpathEvaluatesTo("disable", String.format("//html:%s/html:%s[position()=1]/@action", TAG_SUBORDINATE, TAG_ONFALSE), root);
 		assertXpathEvaluatesTo(actionTarget.getId(),
-				"//ui:subordinate/ui:onFalse[position()=1]/ui:target/@id", root);
-		assertXpathEvaluatesTo("", "//ui:subordinate/ui:onFalse[position()=1]/ui:target/@groupId",
+				String.format("//html:%s/html:%s[position()=1]/html:%s/@refid", TAG_SUBORDINATE, TAG_ONFALSE, TAG_TARGET), root);
+		assertXpathEvaluatesTo("", String.format("//html:%s/html:%s[position()=1]/html:%s/@groupid", TAG_SUBORDINATE, TAG_ONFALSE, TAG_TARGET),
 				root);
 		// Check onFalse - Group
-		assertXpathEvaluatesTo("disable", "//ui:subordinate/ui:onFalse[position()=2]/@action", root);
+		assertXpathEvaluatesTo("disable", String.format("//html:%s/html:%s[position()=2]/@action", TAG_SUBORDINATE, TAG_ONFALSE), root);
 		assertXpathEvaluatesTo(group1.getId(),
-				"//ui:subordinate/ui:onFalse[position()=2]/ui:target/@groupId",
+				String.format("//html:%s/html:%s[position()=2]/html:%s/@groupid", TAG_SUBORDINATE, TAG_ONFALSE, TAG_TARGET),
 				root);
-		assertXpathEvaluatesTo("", "//ui:subordinate/ui:onFalse[position()=2]/ui:target/@id", root);
+		assertXpathEvaluatesTo("", String.format("//html:%s/html:%s[position()=2]/html:%s/@refid", TAG_SUBORDINATE, TAG_ONFALSE, TAG_TARGET), root);
 		// Check action target
 		assertXpathEvaluatesTo("true",
 				"//ui:textfield[@id='" + actionTarget.getId() + "']/@disabled", root);
@@ -447,33 +425,33 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 		// Validate Schema
 		assertSchemaMatch(root);
 		// Check onTrue
-		assertXpathEvaluatesTo("2", "count(//ui:subordinate/ui:onTrue)", root);
+		assertXpathEvaluatesTo("2", String.format("count(//html:%s/html:%s)", TAG_SUBORDINATE, TAG_ONTRUE), root);
 		// Check onTrue - Component
-		assertXpathEvaluatesTo("mandatory", "//ui:subordinate/ui:onTrue[position()=1]/@action", root);
+		assertXpathEvaluatesTo("mandatory", String.format("//html:%s/html:%s[position()=1]/@action", TAG_SUBORDINATE, TAG_ONTRUE), root);
 		assertXpathEvaluatesTo(actionTarget.getId(),
-				"//ui:subordinate/ui:onTrue[position()=1]/ui:target/@id", root);
-		assertXpathEvaluatesTo("", "//ui:subordinate/ui:onTrue[position()=1]/ui:target/@groupId",
+				String.format("//html:%s/html:%s[position()=1]/html:%s/@refid", TAG_SUBORDINATE, TAG_ONTRUE, TAG_TARGET), root);
+		assertXpathEvaluatesTo("", String.format("//html:%s/html:%s[position()=1]/html:%s/@groupid", TAG_SUBORDINATE, TAG_ONTRUE, TAG_TARGET),
 				root);
 		// Check onTrue - Group
-		assertXpathEvaluatesTo("mandatory", "//ui:subordinate/ui:onTrue[position()=2]/@action", root);
+		assertXpathEvaluatesTo("mandatory", String.format("//html:%s/html:%s[position()=2]/@action", TAG_SUBORDINATE, TAG_ONTRUE), root);
 		assertXpathEvaluatesTo(group1.getId(),
-				"//ui:subordinate/ui:onTrue[position()=2]/ui:target/@groupId",
+				String.format("//html:%s/html:%s[position()=2]/html:%s/@groupid", TAG_SUBORDINATE, TAG_ONTRUE, TAG_TARGET),
 				root);
-		assertXpathEvaluatesTo("", "//ui:subordinate/ui:onTrue[position()=2]/ui:target/@id", root);
+		assertXpathEvaluatesTo("", String.format("//html:%s/html:%s[position()=2]/html:%s/@refid", TAG_SUBORDINATE, TAG_ONTRUE, TAG_TARGET), root);
 		// Check onFalse
-		assertXpathEvaluatesTo("2", "count(//ui:subordinate/ui:onFalse)", root);
+		assertXpathEvaluatesTo("2", String.format("count(//html:%s/html:%s)", TAG_SUBORDINATE, TAG_ONFALSE), root);
 		// Check onFalse - Component
-		assertXpathEvaluatesTo("optional", "//ui:subordinate/ui:onFalse[position()=1]/@action", root);
+		assertXpathEvaluatesTo("optional", String.format("//html:%s/html:%s[position()=1]/@action", TAG_SUBORDINATE, TAG_ONFALSE), root);
 		assertXpathEvaluatesTo(actionTarget.getId(),
-				"//ui:subordinate/ui:onFalse[position()=1]/ui:target/@id", root);
-		assertXpathEvaluatesTo("", "//ui:subordinate/ui:onFalse[position()=1]/ui:target/@groupId",
+				String.format("//html:%s/html:%s[position()=1]/html:%s/@refid", TAG_SUBORDINATE, TAG_ONFALSE, TAG_TARGET), root);
+		assertXpathEvaluatesTo("", String.format("//html:%s/html:%s[position()=1]/html:%s/@groupid", TAG_SUBORDINATE, TAG_ONFALSE, TAG_TARGET),
 				root);
 		// Check onFalse - Group
-		assertXpathEvaluatesTo("optional", "//ui:subordinate/ui:onFalse[position()=2]/@action", root);
+		assertXpathEvaluatesTo("optional", String.format("//html:%s/html:%s[position()=2]/@action", TAG_SUBORDINATE, TAG_ONFALSE), root);
 		assertXpathEvaluatesTo(group1.getId(),
-				"//ui:subordinate/ui:onFalse[position()=2]/ui:target/@groupId",
+				String.format("//html:%s/html:%s[position()=2]/html:%s/@groupid", TAG_SUBORDINATE, TAG_ONFALSE, TAG_TARGET),
 				root);
-		assertXpathEvaluatesTo("", "//ui:subordinate/ui:onFalse[position()=2]/ui:target/@id", root);
+		assertXpathEvaluatesTo("", String.format("//html:%s/html:%s[position()=2]/html:%s/@refid", TAG_SUBORDINATE, TAG_ONFALSE, TAG_TARGET), root);
 		// Check action target
 		assertXpathEvaluatesTo("true",
 				"//ui:textfield[@id='" + actionTarget.getId() + "']/@required", root);
@@ -526,18 +504,18 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 		assertSchemaMatch(root);
 
 		// Check onTrue
-		assertXpathEvaluatesTo("1", "count(//ui:subordinate/ui:onTrue)", root);
-		assertXpathEvaluatesTo("showIn", "//ui:subordinate/ui:onTrue/@action", root);
-		assertXpathEvaluatesTo(group1.getId(), "//ui:subordinate/ui:onTrue/ui:target/@groupId", root);
-		assertXpathEvaluatesTo(actionTarget1.getId(), "//ui:subordinate/ui:onTrue/ui:target/@id",
+		assertXpathEvaluatesTo("1", String.format("count(//html:%s/html:%s)", TAG_SUBORDINATE, TAG_ONTRUE), root);
+		assertXpathEvaluatesTo("showin", String.format("//html:%s/html:%s/@action", TAG_SUBORDINATE, TAG_ONTRUE), root);
+		assertXpathEvaluatesTo(group1.getId(), String.format("//html:%s/html:%s/html:%s/@groupid", TAG_SUBORDINATE, TAG_ONTRUE, TAG_TARGET), root);
+		assertXpathEvaluatesTo(actionTarget1.getId(), String.format("//html:%s/html:%s/html:%s/@refid", TAG_SUBORDINATE, TAG_ONTRUE, TAG_TARGET),
 				root);
 
 		// Check onFalse
-		assertXpathEvaluatesTo("1", "count(//ui:subordinate/ui:onFalse)", root);
-		assertXpathEvaluatesTo("hideIn", "//ui:subordinate/ui:onFalse/@action", root);
-		assertXpathEvaluatesTo(group1.getId(), "//ui:subordinate/ui:onFalse/ui:target/@groupId",
+		assertXpathEvaluatesTo("1", String.format("count(//html:%s/html:%s)", TAG_SUBORDINATE, TAG_ONFALSE), root);
+		assertXpathEvaluatesTo("hidein", String.format("//html:%s/html:%s/@action", TAG_SUBORDINATE, TAG_ONFALSE), root);
+		assertXpathEvaluatesTo(group1.getId(), String.format("//html:%s/html:%s/html:%s/@groupid", TAG_SUBORDINATE, TAG_ONFALSE, TAG_TARGET),
 				root);
-		assertXpathEvaluatesTo(actionTarget1.getId(), "//ui:subordinate/ui:onFalse/ui:target/@id",
+		assertXpathEvaluatesTo(actionTarget1.getId(), String.format("//html:%s/html:%s/html:%s/@refid", TAG_SUBORDINATE, TAG_ONFALSE, TAG_TARGET),
 				root);
 
 		// Check action target (Target 1 should be hidden)
@@ -590,27 +568,22 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 		assertSchemaMatch(root);
 
 		// Check onTrue
-		assertXpathEvaluatesTo("1", "count(//ui:subordinate/ui:onTrue)", root);
-		assertXpathEvaluatesTo("enableIn", "//ui:subordinate/ui:onTrue/@action", root);
-		assertXpathEvaluatesTo(group1.getId(), "//ui:subordinate/ui:onTrue/ui:target/@groupId", root);
-		assertXpathEvaluatesTo(actionTarget1.getId(), "//ui:subordinate/ui:onTrue/ui:target/@id",
-				root);
+		assertXpathEvaluatesTo("1", String.format("count(//html:%s/html:%s)", TAG_SUBORDINATE, TAG_ONTRUE), root);
+		assertXpathEvaluatesTo("enablein", String.format("//html:%s/html:%s/@action", TAG_SUBORDINATE, TAG_ONTRUE), root);
+		assertXpathEvaluatesTo(group1.getId(), String.format("//html:%s/html:%s/html:%s/@groupid", TAG_SUBORDINATE, TAG_ONTRUE, TAG_TARGET), root);
+		assertXpathEvaluatesTo(actionTarget1.getId(), String.format("//html:%s/html:%s/html:%s/@refid", TAG_SUBORDINATE, TAG_ONTRUE, TAG_TARGET), root);
 
 		// Check onFalse
-		assertXpathEvaluatesTo("1", "count(//ui:subordinate/ui:onFalse)", root);
-		assertXpathEvaluatesTo("disableIn", "//ui:subordinate/ui:onFalse/@action", root);
-		assertXpathEvaluatesTo(group1.getId(), "//ui:subordinate/ui:onFalse/ui:target/@groupId",
-				root);
-		assertXpathEvaluatesTo(actionTarget1.getId(), "//ui:subordinate/ui:onFalse/ui:target/@id",
-				root);
+		assertXpathEvaluatesTo("1", String.format("count(//html:%s/html:%s)", TAG_SUBORDINATE, TAG_ONFALSE), root);
+		assertXpathEvaluatesTo("disablein", String.format("//html:%s/html:%s/@action", TAG_SUBORDINATE, TAG_ONFALSE), root);
+		assertXpathEvaluatesTo(group1.getId(), String.format("//html:%s/html:%s/html:%s/@groupid", TAG_SUBORDINATE, TAG_ONFALSE, TAG_TARGET), root);
+		assertXpathEvaluatesTo(actionTarget1.getId(), String.format("//html:%s/html:%s/html:%s/@refid", TAG_SUBORDINATE, TAG_ONFALSE, TAG_TARGET), root);
 
 		// Check action target (Target 1 should be disabled)
 		assertXpathEvaluatesTo("true",
 				"//ui:textfield[@id='" + actionTarget1.getId() + "']/@disabled", root);
-		assertXpathEvaluatesTo("", "//ui:textfield[@id='" + actionTarget2.getId() + "']/@disabled",
-				root);
-		assertXpathEvaluatesTo("", "//ui:textfield[@id='" + actionTarget3.getId() + "']/@disabled",
-				root);
+		assertXpathEvaluatesTo("", "//ui:textfield[@id='" + actionTarget2.getId() + "']/@disabled", root);
+		assertXpathEvaluatesTo("", "//ui:textfield[@id='" + actionTarget3.getId() + "']/@disabled", root);
 	}
 
 	@Test
@@ -648,14 +621,14 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 		// Validate Schema
 		assertSchemaMatch(root);
 		// Check AND
-		assertXpathEvaluatesTo("1", "count(//ui:subordinate/ui:and)", root);
-		assertXpathEvaluatesTo("3", "count(//ui:subordinate/ui:and/ui:condition)", root);
+		assertXpathEvaluatesTo("1", String.format("count(//html:%s/html:%s)", TAG_SUBORDINATE, TAG_AND), root);
+		assertXpathEvaluatesTo("3", String.format("count(//html:%s/html:%s/html:%s)", TAG_SUBORDINATE, TAG_AND, TAG_CONDITION), root);
 		assertXpathEvaluatesTo(condTrigger1.getId(),
-				"//ui:subordinate/ui:and/ui:condition[position()=1]/@controller", root);
+				String.format("//html:%s/html:%s/html:%s[position()=1]/@controller", TAG_SUBORDINATE, TAG_AND, TAG_CONDITION), root);
 		assertXpathEvaluatesTo(condTrigger2.getId(),
-				"//ui:subordinate/ui:and/ui:condition[position()=2]/@controller", root);
+				String.format("//html:%s/html:%s/html:%s[position()=2]/@controller", TAG_SUBORDINATE, TAG_AND, TAG_CONDITION), root);
 		assertXpathEvaluatesTo(condTrigger3.getId(),
-				"//ui:subordinate/ui:and/ui:condition[position()=3]/@controller", root);
+				String.format("//html:%s/html:%s/html:%s[position()=3]/@controller", TAG_SUBORDINATE, TAG_AND, TAG_CONDITION), root);
 		// Check action target
 		assertXpathEvaluatesTo("true", "//ui:textfield/@hidden", root);
 	}
@@ -695,16 +668,16 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 		// Validate Schema
 		assertSchemaMatch(root);
 		// Check OR
-		assertXpathEvaluatesTo("1", "count(//ui:subordinate/ui:or)", root);
-		assertXpathEvaluatesTo("3", "count(//ui:subordinate/ui:or/ui:condition)", root);
+		assertXpathEvaluatesTo("1", String.format("count(//html:%s/html:%s)", TAG_SUBORDINATE, TAG_OR), root);
+		assertXpathEvaluatesTo("3", String.format("count(//html:%s/html:%s/html:%s)", TAG_SUBORDINATE, TAG_OR, TAG_CONDITION), root);
 		assertXpathEvaluatesTo(condTrigger1.getId(),
-				"//ui:subordinate/ui:or/ui:condition[position()=1]/@controller",
+				String.format("//html:%s/html:%s/html:%s[position()=1]/@controller", TAG_SUBORDINATE, TAG_OR, TAG_CONDITION),
 				root);
 		assertXpathEvaluatesTo(condTrigger2.getId(),
-				"//ui:subordinate/ui:or/ui:condition[position()=2]/@controller",
+				String.format("//html:%s/html:%s/html:%s[position()=2]/@controller", TAG_SUBORDINATE, TAG_OR, TAG_CONDITION),
 				root);
 		assertXpathEvaluatesTo(condTrigger3.getId(),
-				"//ui:subordinate/ui:or/ui:condition[position()=3]/@controller",
+				String.format("//html:%s/html:%s/html:%s[position()=3]/@controller", TAG_SUBORDINATE, TAG_OR, TAG_CONDITION),
 				root);
 		// Check action target
 		assertXpathEvaluatesTo("true", "//ui:textfield/@hidden", root);
@@ -745,12 +718,12 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 		// Validate Schema
 		assertSchemaMatch(root);
 		// Check Nested
-		assertXpathEvaluatesTo("1", "count(//ui:subordinate/ui:and)", root);
-		assertXpathEvaluatesTo("1", "count(//ui:subordinate/ui:and/ui:condition)", root);
-		assertXpathEvaluatesTo("1", "count(//ui:subordinate/ui:and/ui:and)", root);
-		assertXpathEvaluatesTo("1", "count(//ui:subordinate/ui:and/ui:and/ui:condition)", root);
-		assertXpathEvaluatesTo("1", "count(//ui:subordinate/ui:and/ui:and/ui:or)", root);
-		assertXpathEvaluatesTo("2", "count(//ui:subordinate/ui:and/ui:and/ui:or/ui:condition)", root);
+		assertXpathEvaluatesTo("1", String.format("count(//html:%s/html:%s)", TAG_SUBORDINATE, TAG_AND), root);
+		assertXpathEvaluatesTo("1", String.format("count(//html:%s/html:%s/html:%s)", TAG_SUBORDINATE, TAG_AND, TAG_CONDITION), root);
+		assertXpathEvaluatesTo("1", String.format("count(//html:%s/html:%s/html:%s)", TAG_SUBORDINATE, TAG_AND, TAG_AND), root);
+		assertXpathEvaluatesTo("1", String.format("count(//html:%s/html:%s/html:%s/html:%s)", TAG_SUBORDINATE, TAG_AND, TAG_AND, TAG_CONDITION), root);
+		assertXpathEvaluatesTo("1", String.format("count(//html:%s/html:%s/html:%s/html:%s)", TAG_SUBORDINATE, TAG_AND, TAG_AND, TAG_OR), root);
+		assertXpathEvaluatesTo("2", String.format("count(//html:%s/html:%s/html:%s/html:%s/html:%s)", TAG_SUBORDINATE, TAG_AND, TAG_AND, TAG_OR, TAG_CONDITION), root);
 		// Check action target
 		assertXpathEvaluatesTo("true", "//ui:textfield/@hidden", root);
 	}
@@ -784,7 +757,7 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 		// Validate Schema
 		assertSchemaMatch(root);
 		// Check Condition Value is the "Code Value"
-		assertXpathEvaluatesTo("2", "//ui:subordinate/ui:condition/@value", root);
+		assertXpathEvaluatesTo("2", String.format("//html:%s/html:%s/@value", TAG_SUBORDINATE, TAG_CONDITION), root);
 		// Check action target
 		assertXpathEvaluatesTo("true", "//ui:textfield/@hidden", root);
 	}
@@ -825,7 +798,7 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 		// Validate Schema
 		assertSchemaMatch(root);
 		// Check Condition Value is the Radio Button Value
-		assertXpathEvaluatesTo(button2.getValue(), "//ui:subordinate/ui:condition/@value", root);
+		assertXpathEvaluatesTo(button2.getValue(), String.format("//html:%s/html:%s/@value", TAG_SUBORDINATE, TAG_CONDITION), root);
 		// Check action target
 		assertXpathEvaluatesTo("true", "//ui:textfield/@hidden", root);
 	}
@@ -867,13 +840,13 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 		// Validate Schema
 		assertSchemaMatch(root);
 
-		assertXpathNotExists("//ui:subordinate/ui:and/ui:condition[1]/@operator", root);
-		assertXpathEvaluatesTo("ne", "//ui:subordinate/ui:and/ui:condition[2]/@operator", root);
-		assertXpathEvaluatesTo("lt", "//ui:subordinate/ui:and/ui:condition[3]/@operator", root);
-		assertXpathEvaluatesTo("le", "//ui:subordinate/ui:and/ui:condition[4]/@operator", root);
-		assertXpathEvaluatesTo("gt", "//ui:subordinate/ui:and/ui:condition[5]/@operator", root);
-		assertXpathEvaluatesTo("ge", "//ui:subordinate/ui:and/ui:condition[6]/@operator", root);
-		assertXpathEvaluatesTo("rx", "//ui:subordinate/ui:and/ui:condition[7]/@operator", root);
+		assertXpathNotExists(String.format("//html:%s/html:%s/html:%s[1]/@operator", TAG_SUBORDINATE, TAG_AND, TAG_CONDITION), root);
+		assertXpathEvaluatesTo("ne", String.format("//html:%s/html:%s/html:%s[2]/@operator", TAG_SUBORDINATE, TAG_AND, TAG_CONDITION), root);
+		assertXpathEvaluatesTo("lt", String.format("//html:%s/html:%s/html:%s[3]/@operator", TAG_SUBORDINATE, TAG_AND, TAG_CONDITION), root);
+		assertXpathEvaluatesTo("le", String.format("//html:%s/html:%s/html:%s[4]/@operator", TAG_SUBORDINATE, TAG_AND, TAG_CONDITION), root);
+		assertXpathEvaluatesTo("gt", String.format("//html:%s/html:%s/html:%s[5]/@operator", TAG_SUBORDINATE, TAG_AND, TAG_CONDITION), root);
+		assertXpathEvaluatesTo("ge", String.format("//html:%s/html:%s/html:%s[6]/@operator", TAG_SUBORDINATE, TAG_AND, TAG_CONDITION), root);
+		assertXpathEvaluatesTo("rx", String.format("//html:%s/html:%s/html:%s[7]/@operator", TAG_SUBORDINATE, TAG_AND, TAG_CONDITION), root);
 	}
 
 }

@@ -7,7 +7,7 @@ const actionRegister = {},  // Map of subordinate action keywords to functions w
  * Provides actions used by {@link module:wc/ui/subordinate}.
  *
  * This module knows how to perform a subordinate action. Has no knowledge of if and when to perform the action.
- * Instances of this class are used to populate the "onTrue" and "onFalse" properties of a subordinate rule.
+ * Instances of this class are used to populate the "ontrue" and "onfalse" properties of a subordinate rule.
  *
  * Once a subordinate condition has been evaluated to either true of false to corresponding action is executed.
  *
@@ -29,7 +29,7 @@ function Action(dto) {
 
 	dto.targets.forEach(target => {
 		try {
-			this.targets.push(new Target(target.id, target.groupId));
+			this.targets.push(new Target(target.id, target.groupId, dto.defaultView));
 		} catch (ex) {
 			console.warn(ex);
 		}
@@ -48,6 +48,7 @@ Action.registerGroups = function(groups) {
 			let group = groups.pop();
 			let groupName = group.name;
 			if (groupName) {
+				console.log("Registering subordinate group", groupName, group);
 				groupRegister[groupName] = group;
 			} else {
 				console.warn("Can not register a group without a name", group);
@@ -88,12 +89,14 @@ Action.register = function(name, callback) {
  * @private
  * @param {String} [id] The id of the target. Must be truthy if groupId is not truthy.
  * @param {String} [groupId] The id of the target group.  Must be truthy if id is not truthy.
+ * @param {WindowProxy} [view] The "window" that contains this target.
  * @throws {TypeError} if id and groupId are both falsey.
  */
-function Target(id, groupId) {
+function Target(id, groupId, view) {
 	// filtering out empty string. the id will always be a string and therefore never null, undefined or zero
 	this.id = id || null;
 	this.groupId = groupId || null;
+	this.view = view || window;
 	if (!id && !groupId) {
 		throw new TypeError("Action target must have an id or a groupId");
 	}
@@ -142,7 +145,7 @@ function initTargetConstructor() {
 	 */
 	Target.prototype.getElement = function() {
 		if (this.id) {
-			const element = document.getElementById(this.id);
+			const element = this.view.document.getElementById(this.id);
 			if (element) {
 				return element;
 			}
@@ -168,7 +171,7 @@ function initTargetConstructor() {
 				return group;
 			}
 			return group.map(id => {
-				const element = document.getElementById(id);
+				const element = this.view.document.getElementById(id);
 				if (!element) {
 					console.warn("Could not find element", element);
 				}
@@ -243,10 +246,10 @@ function initActionImplementations() {
 	Action.register("select", selectItem);
 	Action.register("unselect", unselectItem);
 	Action.register("toggleselect", toggleSelect);
-	Action.register("showIn", showInGroup);
-	Action.register("hideIn", hideInGroup);
-	Action.register("enableIn", enableInGroup);
-	Action.register("disableIn", disableInGroup);
+	Action.register("showin", showInGroup);
+	Action.register("hidein", hideInGroup);
+	Action.register("enablein", enableInGroup);
+	Action.register("disablein", disableInGroup);
 
 	/**
 	 *
@@ -452,8 +455,8 @@ export default Action;
  * @property {Object[]} targets An array of Target definitions
  * @property {String} [targets.id] The id of an individual target element. Must be truthy if targets.groupId is
  *    not truthy.
- * @property {String} [targets.groupId] The id of a target component group. Must be truthy if targets.id is
- *    not truthy.
+ * @property {String} [targets.groupId] The id of a target component group. Must be truthy if `targets.id` is not truthy.
+ * @property {WindowProxy} [defaultView] The DOM window this rule applies to (99.9% of the time, this is just window and probably only ever changes in unit tests)
  */
 
 /**
