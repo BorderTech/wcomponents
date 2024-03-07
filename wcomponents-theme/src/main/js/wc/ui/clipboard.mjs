@@ -20,19 +20,27 @@ function clickEvent($event) {
 
 function copyContent(element) {
 	const targetId = element.getAttribute("aria-controls");
-	if (targetId) {
-		const target = document.getElementById(targetId);
-		if (target) {
-			const text = target.innerText;
-			if (text) {
-				navigator.clipboard.writeText(text).then(function() {
-					console.log("Copied to clipboard", text);
-				}).catch(function(error) {
-					console.info("Error copying to clipboard", error);
-				});
+	const doc = element.ownerDocument;
+	doc.defaultView.navigator.permissions.query({ name: "clipboard-write" }).then(permissionStatus => {
+		if (permissionStatus.state !== "denied") {
+			if (targetId) {
+				const target = doc.getElementById(targetId);
+				if (target) {
+					const text = target.innerText;
+					if (text) {
+						doc.defaultView.navigator.clipboard.writeText(text).then(function() {
+							console.log("Copied to clipboard", text);
+						}).catch(function(error) {
+							console.info("Error copying to clipboard", error);
+						});
+					}
+				}
 			}
+		} else {
+			const body = doc.body;
+			body.classList.add("noclip");
 		}
-	}
+	});
 }
 
 export default initialise.register(instance);
