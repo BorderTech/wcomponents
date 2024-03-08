@@ -14,7 +14,7 @@ const targetRoot = path.join(buildRoot, "classes", "theme", pkgJson.com_github_b
 
 export const paths = {
 	"lib/sprintf": `lib/sprintf.min`,
-	tinyMCE: "lib/tinymce/tinymce.min",
+	tinymce: "lib/tinymce/tinymce.min",
 	mailcheck: "lib/mailcheck",
 	fabric: "empty:",
 	axs: "empty:",
