@@ -342,7 +342,6 @@
 		<xsl:variable name="popups" select=".//ui:popup" />
 		<xsl:variable name="redirects" select=".//ui:redirect" />
 		<xsl:variable name="rtfs" select=".//ui:textarea[ui:rtf]" />
-		<xsl:variable name="subordinates" select=".//ui:subordinate" />
 		<xsl:variable name="eagerness" select="//*[@mode eq 'eager']" />
 		<xsl:variable name="timeoutWarn" select=".//ui:session[1]" />
 		<xsl:variable name="editors" select=".//html:wc-imageedit" />
@@ -559,11 +558,6 @@
 			<xsl:if test="$rtfs">
 				<xsl:text>import("wc/ui/rtf.mjs").then(({ default: c }) => {c.register([</xsl:text>
 				<xsl:apply-templates select="$rtfs" mode="registerIds" />
-				<xsl:text>]);});</xsl:text>
-			</xsl:if>
-			<xsl:if test="$subordinates">
-				<xsl:text>import("wc/ui/subordinate.mjs").then(({ default: c }) => {c.register([</xsl:text>
-				<xsl:apply-templates select="$subordinates" mode="JS" />
 				<xsl:text>]);});</xsl:text>
 			</xsl:if>
 			<xsl:if test="$timeoutWarn">
