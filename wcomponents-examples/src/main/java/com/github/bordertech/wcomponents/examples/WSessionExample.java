@@ -5,9 +5,9 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 
 /**
- * Demonstrate using the "ui:session" element.
+ * Demonstrate using the "wc-session" element.
  * <p>
- * If the theme has been setup to use the "ui:session" element, the theme will
+ * If the theme has been setup to use the "wc-session" element, the theme will
  * display a "warning" message to the user that their session will soon expire.
  * Once the session timeout has elapsed, an "expired" message will be displayed
  * to the user.
