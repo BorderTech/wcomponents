@@ -39,7 +39,16 @@ const instance = {
 			return config.cachebuster;
 		}
 		return null;
+	},
+
+	getUrlFromImportMap: function(name) {
+		const importMaps = /** @type {HTMLScriptElement[]} */(Array.from(document.querySelectorAll("script[type='importmap']")));
+		const importMap = importMaps.map(element => JSON.parse(element.text)).find(next => {
+			return next["imports"][name];
+		});
+		return importMap ? importMap["imports"][name] : null;
 	}
+
 };
 
 function getConfig() {

@@ -31,8 +31,8 @@ public class WTimeoutWarningRenderer_Test extends AbstractWebXmlRendererTestCase
 	@Test
 	public void testDoPaintWithBoth() throws IOException, SAXException, XpathException {
 		WTimeoutWarning warning = new WTimeoutWarning(3000, 300);
-		assertXpathEvaluatesTo("3000", "//ui:session/@timeout", warning);
-		assertXpathEvaluatesTo("300", "//ui:session/@warn", warning);
+		assertXpathEvaluatesTo("3000", String.format("//html:%s/@timeout", WTimeoutWarningRenderer.TAG_SESSION), warning);
+		assertXpathEvaluatesTo("300", String.format("//html:%s/@warn", WTimeoutWarningRenderer.TAG_SESSION), warning);
 	}
 
 	/**
@@ -48,7 +48,7 @@ public class WTimeoutWarningRenderer_Test extends AbstractWebXmlRendererTestCase
 	public void testDoPaintWithMinusOne() throws IOException, SAXException, XpathException {
 		WTimeoutWarning warning = new WTimeoutWarning(3000, 300);
 		warning.setTimeoutPeriod(-1);
-		assertXpathNotExists("//ui:session", warning);
+		assertXpathNotExists(String.format("//html:%s", WTimeoutWarningRenderer.TAG_SESSION), warning);
 	}
 
 	/**
@@ -62,8 +62,8 @@ public class WTimeoutWarningRenderer_Test extends AbstractWebXmlRendererTestCase
 	@Test
 	public void testDoPaintWithZeroWarning() throws IOException, SAXException, XpathException {
 		WTimeoutWarning warning = new WTimeoutWarning(3000, 0);
-		assertXpathExists("//ui:session", warning);
-		assertXpathNotExists("//ui:session/@warn", warning);
+		assertXpathExists(String.format("//html:%s", WTimeoutWarningRenderer.TAG_SESSION), warning);
+		assertXpathNotExists(String.format("//html:%s/@warn", WTimeoutWarningRenderer.TAG_SESSION), warning);
 	}
 
 }
