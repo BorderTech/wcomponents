@@ -200,6 +200,74 @@ function focusEvent({ target }) {
 	}
 }
 
+// TODO remove the ID from the custom element
+const template = ({ id, className, attrs, tickerId, content }) => `
+	<span id="${id}" class="${className}">
+		<textarea id="${id}_input" name="${id}" ${attrs}>${content}</textarea>${tickerId ? `
+		<output for="${id}_input" hidden="hidden" id="${tickerId}" name="${tickerId}"/>` : ""}
+	</span>`;
+
+function buildAttributes(element) {
+	// Note: "hidden" attribute behaviour comes for free from the superclass.
+	const attrMap = {
+		tooltip: "title",
+		accessibletext: "aria-label",
+		required: "",
+		disabled: "",
+		buttonid: "data-wc-submit",
+		minlength: "data-wc-min",
+		cols: "cols",
+		rows: "rows",
+		autocomplete: "autocomplete",
+		placeholder: "placeholder"
+	};
+	const attrs = [];
+	for (const [customName, htmlName] of Object.entries(attrMap)) {
+		if (element.hasAttribute(customName)) {
+			if (htmlName) {
+				const value = element.getAttribute(customName);
+				if (value) {
+					attrs.push(`${htmlName}="${value}"`);
+				}
+			} else {
+				attrs.push(customName);
+			}
+		}
+	}
+	return attrs.join(" ");
+}
+
+function getHtml(element) {
+	const propertyBag = {
+		id: element.id,
+		className: `wc-textarea wc-input-wrapper ${element.className}`,
+		attrs: buildAttributes(element),
+		tickerId: "",
+		content: element.innerHTML
+	};
+
+	if (element.hasAttribute("maxlength")) {
+		const tickerId = `${element.id}_tick`;
+		propertyBag["tickerId"] = tickerId;
+		propertyBag.attrs += ` aria-owns=${tickerId}`;
+		propertyBag.attrs += ` data-wc-maxlength=${element.getAttribute("maxlength")}`;
+	}
+
+	return template(propertyBag);
+}
+
+class WTextArea extends HTMLElement {
+	connectedCallback() {
+		const html = getHtml(this);
+		this.id += "_root";  // The input wrapper descendant will be given the original ID
+		this.innerHTML = html;
+	}
+}
+
+if (!customElements.get("wc-textarea")) {
+	customElements.define("wc-textarea", WTextArea);
+}
+
 initialise.register({
 	/**
 	 * Set up event handlers.

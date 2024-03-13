@@ -67,6 +67,7 @@
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:element name="{$element}">
+			<!--
 			<xsl:attribute name="id">
 				<xsl:value-of select="@id" />
 			</xsl:attribute>
@@ -83,8 +84,9 @@
 					<xsl:text>hidden</xsl:text>
 				</xsl:attribute>
 			</xsl:if>
-			<textarea id="{concat(@id, '_input')}" name="{@id}">
-				<xsl:if test="@toolTip">
+			-->
+			<!--<textarea id="{concat(@id, '_input')}" name="{@id}">
+				 xsl:if test="@toolTip">
 					<xsl:attribute name="title">
 						<xsl:value-of select="@toolTip"/>
 					</xsl:attribute>
@@ -108,7 +110,7 @@
 					<xsl:attribute name="data-wc-submit">
 						<xsl:value-of select="@buttonId"/>
 					</xsl:attribute>
-				</xsl:if>
+				</xsl:if -->
 				<xsl:if test="ui:fieldindicator">
 					<xsl:if test="ui:fieldindicator[@id]">
 						<xsl:attribute name="aria-describedby">
@@ -121,7 +123,7 @@
 						</xsl:attribute>
 					</xsl:if>
 				</xsl:if>
-				<xsl:if test="(@required or @placeholder) and not(text())">
+				<!-- xsl:if test="(@required or @placeholder) and not(text())">
 					<xsl:attribute name="class">
 						<xsl:text>wc-buggyie</xsl:text>
 					</xsl:attribute>
@@ -159,6 +161,7 @@
 						<xsl:value-of select="@placeholder"/>
 					</xsl:attribute>
 				</xsl:if>
+				-->
 				<xsl:value-of select="text()"/>
 				<!-- Note that a read-only RTF will actually contain nested HTML elements but that won't end up here -->
 			</textarea>
