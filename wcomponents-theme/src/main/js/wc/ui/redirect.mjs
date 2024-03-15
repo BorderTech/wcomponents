@@ -21,6 +21,7 @@ const doRedirect = debounce(/**
 	 * @param {string} url The url to redirect to.
 	 */
 	function(url) {
+
 		if (instance.isLaunchUrl(url)) {
 			const target = getRedirectFrame();
 			target.src = url;
@@ -29,7 +30,7 @@ const doRedirect = debounce(/**
 			MDC: https://developer.mozilla.org/en/window.parent
 			If a window does not have a parent, its parent property is a reference to itself.
 			*/
-			window.parent.location.href = url;
+			window.parent.location.replace(url);
 		}
 	}, 50);
 
