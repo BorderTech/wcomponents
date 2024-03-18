@@ -1,5 +1,4 @@
 import getDifference from "wc/date/getDifference.mjs";
-import Format from "wc/date/Format.mjs";
 
 describe("wc/date/getDifference", function() {
 	it("testAreSameDay", () => {
