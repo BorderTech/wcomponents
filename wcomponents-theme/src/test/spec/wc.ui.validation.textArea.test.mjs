@@ -93,6 +93,7 @@ describe("wc/ui/validation/textArea", ()=> {
 	});
 
 
+
 	/**
 	 * Helper for tests, fires a change event on the field.
 	 * @param {HTMLElement} element
