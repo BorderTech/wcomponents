@@ -40,7 +40,7 @@ jobs:
           echo "Sonar secure variables NOT available"
         else
           echo "Sonar secure variables ARE available"
-          mvn -B sonar:sonar -Dsonar.projectKey="bordertech-wcomponents" -Dsonar.organization="bordertech-github" -Dsonar.host.url="https://sonarcloud.io"
+          mvn -B org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.1.2184:sonar -Dsonar.projectKey="bordertech-wcomponents" -Dsonar.organization="bordertech-github" -Dsonar.host.url="https://sonarcloud.io"
         fi
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
