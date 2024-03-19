@@ -367,8 +367,8 @@ function check(diag, lenient) {
  * @param {number} toLevel
  */
 function changeIcon(diag, fromLevel, toLevel) {
-	const oldClass = getIconName(fromLevel),
-		newClass = getIconName(toLevel);
+	const oldClass = diagnostic.getIconName(fromLevel),
+		newClass = diagnostic.getIconName(toLevel);
 	icon.change(diag, newClass, oldClass);
 }
 
@@ -403,31 +403,6 @@ function toggleValidity(target, clear) {
 			element.removeAttribute(INVALID_ATTRIB);
 			element.setAttribute(DESCRIBED_ATTRIB, diag.id);
 		}
-	}
-}
-
-/**
- * Get the font awesome icon name for a diagnostic box of a given level.
- * @param {number} level
- * @returns {String}
- */
-function getIconName(level) {
-	/** @type { {successIcon: ?string, infoIcon: ?string, warnIcon: ?string, errorIcon: ?string} } */
-	const config = wcconfig.get("wc/ui/feedback");
-	const defaultIcon = config?.errorIcon || "fa-times-circle";
-
-	if (!level || level === diagnostic.LEVEL.ERROR) {
-		return defaultIcon;
-	}
-	switch (level) {
-		case diagnostic.LEVEL.WARN:
-			return config?.warnIcon || "fa-exclamation-triangle";
-		case diagnostic.LEVEL.INFO:
-			return config?.infoIcon || "fa-info-circle";
-		case diagnostic.LEVEL.SUCCESS:
-			return config?.successIcon || "fa-check-circle";
-		default:
-			return defaultIcon;
 	}
 }
 
@@ -514,7 +489,7 @@ function getHTML(args) {
 		}
 		messageHtml = Array.isArray(messages) ? messages.map(getMessageHTML) : [getMessageHTML(messages)];
 	}
-	return diagnostic.getBoxHtml(messageHtml, targetId, level, getIconName(level));
+	return diagnostic.getBoxHtml(messageHtml, targetId, level, diagnostic.getIconName(level));
 }
 
 
