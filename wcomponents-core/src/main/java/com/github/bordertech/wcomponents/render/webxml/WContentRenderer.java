@@ -15,6 +15,7 @@ import org.apache.commons.logging.LogFactory;
  * @since 1.0.0
  */
 final class WContentRenderer extends AbstractWebXmlRenderer {
+	public static final String TAG_REDIRECT = "wc-redirect";
 
 	/**
 	 * The logger instance for this class.
@@ -59,7 +60,8 @@ final class WContentRenderer extends AbstractWebXmlRenderer {
 			case PROMPT_TO_SAVE:
 				xml.appendTagOpen("ui:redirect");
 				xml.appendUrlAttribute("url", content.getUrl());
-				xml.appendEnd();
+				xml.appendClose();
+				xml.appendEndTag("ui:redirect");
 				break;
 
 			case OPEN_NEW_WINDOW:

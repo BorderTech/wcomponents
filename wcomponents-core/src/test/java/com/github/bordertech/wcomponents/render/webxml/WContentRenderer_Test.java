@@ -51,7 +51,7 @@ public class WContentRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathUrlEvaluatesTo(wContent.getUrl(), "//ui:popup/@url", wContent);
 		// Display again (as reset after paint)
 		wContent.display();
-		assertXpathNotExists("ui:redirect", wContent);
+		assertXpathNotExists(WContentRenderer.TAG_REDIRECT, wContent);
 
 		// Test all options
 		String width = "111";
@@ -69,7 +69,10 @@ public class WContentRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		// Display again (as reset after paint)
 		wContent.display();
-		assertXpathUrlEvaluatesTo(wContent.getUrl(), "//ui:redirect/@url", wContent);
+		assertXpathUrlEvaluatesTo(wContent.getUrl(),
+									String.format("//%s/@url", WContentRenderer.TAG_REDIRECT),
+									wContent);
+//		assertXpathUrlEvaluatesTo(wContent.getUrl(), "//wc-redirect/@url", wContent);
 
 		// Test null content
 		wContent.setContentAccess(null);

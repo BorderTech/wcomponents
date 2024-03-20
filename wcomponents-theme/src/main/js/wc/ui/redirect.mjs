@@ -21,7 +21,6 @@ const doRedirect = debounce(/**
 	 * @param {string} url The url to redirect to.
 	 */
 	function(url) {
-
 		if (instance.isLaunchUrl(url)) {
 			const target = getRedirectFrame();
 			target.src = url;
@@ -106,6 +105,17 @@ function getRedirectFrame() {
 		document.body.appendChild(result);
 	}
 	return result;
+}
+
+const redirectTag = "wc-redirect";
+class WRedirect extends HTMLElement {
+	connectedCallback() {
+		instance.register(this.getAttribute("url"));
+	}
+}
+
+if (!customElements.get(redirectTag)) {
+	customElements.define(redirectTag, WRedirect);
 }
 
 export default instance;
