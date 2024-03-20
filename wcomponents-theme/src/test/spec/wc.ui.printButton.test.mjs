@@ -3,7 +3,7 @@ import domTesting from "@testing-library/dom";
 
 describe("wc/ui/printButton", () => {
 	const linkId = "ui-printbutton-1",
-		testContent = `<button class="wc-printbutton" data-testid="${linkId}" type="button"  >Click me<button>`;
+		testContent = `<button class="wc-printbutton" data-testid="${linkId}" type="button">Click me!</button>`;
 	let testHolder;
 
 	beforeAll(() => {
@@ -11,7 +11,7 @@ describe("wc/ui/printButton", () => {
 		testHolder.innerHTML = testContent;
 	});
 
-	it("test", function() {
+	it("Set PreventDefault on click event", function() {
 		const target = domTesting.getByTestId(testHolder, linkId);
 		const event = new MouseEvent("click", {
 			bubbles: true,

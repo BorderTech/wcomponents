@@ -13,10 +13,5 @@ describe("wc/file/getFileSize", () => {
 		addFilesToInput(element, [{ value: "SixteenChars.gif", type: "image/gif" }]);
 		expect(getFileSize(element)[0]).toBe(16);
 	});
-	/*it("Throw type error", () => {
-		const element = getInput(testHolder, "image1");
-		expect( () => getFileSize(element)).toThrowError();
-	});*/
 });
-
 
