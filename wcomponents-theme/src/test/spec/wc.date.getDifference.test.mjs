@@ -1,7 +1,6 @@
 import getDifference from "wc/date/getDifference.mjs";
 
 describe("wc/date/getDifference", function() {
-
 	it("testAreSameDay", () => {
 		const date1 = new Date(),
 			date2 = new Date();
@@ -179,6 +178,12 @@ describe("wc/date/getDifference", function() {
 			}
 		}
 		expect(eMapped).toEqual(aMapped);
+	});
+	it("testTypeError", () => {
+		const date1 = new Date(23).getTime(),
+			date2 = new Date(23);
+		// @ts-ignore
+		expect( () => getDifference(date1, date2)).toThrowError();
 	});
 });
 

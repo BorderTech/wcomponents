@@ -206,5 +206,9 @@ describe("wc/date/Parser", function() {
 	it("testParserTodayMinus100Rolling", function() {
 		doPlusMinusTest(-100, true);
 	});
-	
+	it("testParserNull", function() {
+		const parser = new Parser(),
+			result = parser.getMasks();
+		expect(result).toBe(null);
+	});
 });
