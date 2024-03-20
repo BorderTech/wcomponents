@@ -342,9 +342,7 @@
 		<xsl:variable name="popups" select=".//ui:popup" />
 		<xsl:variable name="redirects" select=".//ui:redirect" />
 		<xsl:variable name="rtfs" select=".//ui:textarea[ui:rtf]" />
-		<xsl:variable name="subordinates" select=".//ui:subordinate" />
 		<xsl:variable name="eagerness" select="//*[@mode eq 'eager']" />
-		<xsl:variable name="timeoutWarn" select=".//ui:session[1]" />
 		<xsl:variable name="editors" select=".//html:wc-imageedit" />
 		<xsl:variable name="tableActions" select=".//ui:table/ui:actions/ui:action" />
 
@@ -477,9 +475,6 @@
 				<!-- htreesize requires tree and resizeable, tree requires treeitem. -->
 				<xsl:text>"wc/ui/menu/htreesize",</xsl:text>
 			</xsl:if>
-			<xsl:if test=".//ui:session">
-				<xsl:text>"wc/ui/timeoutWarn",</xsl:text>
-			</xsl:if>
 			<xsl:if test=".//*[@submitOnChange and not(@readOnly)]">
 				<xsl:text>"wc/ui/onchangeSubmit",</xsl:text>
 			</xsl:if>
@@ -560,21 +555,6 @@
 				<xsl:text>import("wc/ui/rtf.mjs").then(({ default: c }) => {c.register([</xsl:text>
 				<xsl:apply-templates select="$rtfs" mode="registerIds" />
 				<xsl:text>]);});</xsl:text>
-			</xsl:if>
-			<xsl:if test="$subordinates">
-				<xsl:text>import("wc/ui/subordinate.mjs").then(({ default: c }) => {c.register([</xsl:text>
-				<xsl:apply-templates select="$subordinates" mode="JS" />
-				<xsl:text>]);});</xsl:text>
-			</xsl:if>
-			<xsl:if test="$timeoutWarn">
-				<xsl:text>import("wc/ui/timeoutWarn.mjs").then(({ default: c }) => {</xsl:text>
-				<xsl:text>c.initTimer(</xsl:text>
-				<xsl:value-of select="$timeoutWarn/@timeout" />
-				<xsl:if test="$timeoutWarn/@warn">
-					<xsl:text>,</xsl:text>
-					<xsl:value-of select="$timeoutWarn/@warn" />
-				</xsl:if>
-				<xsl:text>);});</xsl:text>
 			</xsl:if>
 			<xsl:if test="$eagerness">
 				<xsl:text>import("wc/ui/containerload.mjs").then(({ default: c }) => {c.register([</xsl:text>

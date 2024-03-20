@@ -1,7 +1,6 @@
 import Format from "wc/date/Format.mjs";
 
 describe("wc/date/Format", function() {
-
 	it("testFormat", function() {
 		const mask = "dd MMM yyyy",
 			formatter = new Format(mask),
@@ -127,6 +126,33 @@ describe("wc/date/Format", function() {
 			formatter = new Format(mask),
 			date = "2000-02-03T12:00:01",
 			expected = "03/02/2000 12:00 PM",
+			actual = formatter.format(date);
+		expect(actual).toBe(expected);
+	});
+	it("testFormatYearyy", function() {
+		const mask = "yy",
+			formatter = new Format(mask),
+			date = "1999-12-09",
+			expected = "99",
+			actual = formatter.format(date);
+		expect(actual).toBe(expected);
+	});
+	it("testMaskError", function() {
+		expect( () => new Format(null)).toThrowError();
+	});
+	it("testFailFlag", function() {
+		const mask = "yyy",
+			formatter = new Format(mask),
+			date = "2015-05-03",
+			expected = "",
+			actual = formatter.format(date);
+		expect(actual).toBe(expected);
+	});
+	it("testFormatMonthMON", function() {
+		const mask = "MON",
+			formatter = new Format(mask),
+			date = "1999-12-09",
+			expected = "Dec",
 			actual = formatter.format(date);
 		expect(actual).toBe(expected);
 	});

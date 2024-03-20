@@ -4,7 +4,7 @@
 
 button.wc-clipboard {
   margin-left: $wc-gap-normal;
-  display: inline-block;
+  display: none;
   opacity: 50%;
   &:hover {
     opacity: 100%;
@@ -12,4 +12,8 @@ button.wc-clipboard {
   &:focus {
     opacity: 100%;
   }
+}
+
+body.wc-clipwrite button.wc-clipboard {
+  display: inline-block;
 }

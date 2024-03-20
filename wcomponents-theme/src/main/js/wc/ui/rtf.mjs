@@ -8,7 +8,9 @@
 import initialise from "wc/dom/initialise.mjs";
 import wcconfig from "wc/config.mjs";
 import styleLoader from "wc/loader/style.mjs";
-import tinyMCE from "tinyMCE";
+import resourceLoader from "wc/loader/resource.mjs";
+
+let tinyMCE;
 
 /**
  * Call when DOM is ready to initialise rich text fields.
@@ -21,7 +23,9 @@ function processNow(idArr) {
 	const config = wcconfig.get("wc/ui/rtf", {
 		initObj: {
 			content_css: styleLoader.getMainCss(),
+			cache_suffix: resourceLoader.getCacheBuster(),
 			menubar: false,
+
 			plugins: "autolink link lists advlist preview help",
 			toolbar: 'undo redo | formatselect | ' +
 				' bold italic | alignleft aligncenter ' +
@@ -51,7 +55,20 @@ export default {
 	 */
 	register: function(idArr) {
 		if (idArr?.length) {
-			initialise.addCallback(() => processNow(idArr));
+			const callback = () => processNow(idArr);
+			initialise.addCallback((element) => {
+				if (!tinyMCE) {
+					const baseUrl = resourceLoader.getUrlFromImportMap("tinymce/");
+					return import("tinymce/tinymce.js").then(() => {
+						tinyMCE = element.ownerDocument.defaultView.tinymce;
+						if (baseUrl) {
+							tinyMCE.baseURL = baseUrl;
+						}
+						callback();
+					});
+				}
+				callback();
+			});
 		}
 	}
 };

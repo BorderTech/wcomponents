@@ -28,5 +28,7 @@ import "wc/ui/tabset.mjs";
 import "wc/ui/menu.mjs";
 import "wc/dom/messageBox.mjs";
 import "wc/ui/validation/all.mjs";
+import "wc/ui/subordinate.mjs";
+import "wc/ui/timeoutWarn.mjs";
 
 Promise.all(fixes.map(fix => import(fix)));

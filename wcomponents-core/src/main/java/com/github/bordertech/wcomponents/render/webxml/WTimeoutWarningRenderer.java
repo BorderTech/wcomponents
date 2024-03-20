@@ -12,6 +12,7 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
  * @since 1.0.0
  */
 final class WTimeoutWarningRenderer extends AbstractWebXmlRenderer {
+	public static final String TAG_SESSION = "wc-session";
 
 	/**
 	 * Paints the given WTimeoutWarning if the component's timeout period is greater than 0.
@@ -26,11 +27,12 @@ final class WTimeoutWarningRenderer extends AbstractWebXmlRenderer {
 		XmlStringBuilder xml = renderContext.getWriter();
 		final int timoutPeriod = warning.getTimeoutPeriod();
 		if (timoutPeriod > 0) {
-			xml.appendTagOpen("ui:session");
+			xml.appendTagOpen(TAG_SESSION);
 			xml.appendAttribute("timeout", String.valueOf(timoutPeriod));
 			int warningPeriod = warning.getWarningPeriod();
 			xml.appendOptionalAttribute("warn", warningPeriod > 0, warningPeriod);
-			xml.appendEnd();
+			xml.appendClose();
+			xml.appendEndTag(TAG_SESSION);
 		}
 
 	}

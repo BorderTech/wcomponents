@@ -14,6 +14,17 @@ export const getSelect = (container, testId) => {
 };
 
 /**
+ * To help with type checking, get a select element from here.
+ * @param {HTMLElement} container
+ * @param {string} testId
+ * @returns {Promise<HTMLSelectElement>}
+ */
+export const findSelect = (container, testId) => {
+	return /** @type {Promise<HTMLSelectElement>} */(domTesting.findByTestId(container, testId));
+};
+
+
+/**
  * To help with type checking, get an input element from here.
  * @param {HTMLElement} container
  * @param {string} testId
@@ -21,6 +32,16 @@ export const getSelect = (container, testId) => {
  */
 export const getInput = (container, testId) => {
 	return /** @type {HTMLInputElement} */(domTesting.getByTestId(container, testId));
+};
+
+/**
+ * To help with type checking, get an input element from here.
+ * @param {HTMLElement} container
+ * @param {string} testId
+ * @returns {Promise<HTMLInputElement>}
+ */
+export const findInput = (container, testId) => {
+	return /** @type {Promise<HTMLInputElement>} */(domTesting.findByTestId(container, testId));
 };
 
 /**

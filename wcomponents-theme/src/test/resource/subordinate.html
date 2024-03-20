@@ -1,0 +1,216 @@
+<form action="/echo" method="POST" id="app1" data-testid="app1" data-wc-datalisturl="" novalidate data-wc-ajaxurl="" class="wc-application wc-loading">
+
+	<label for="cb18">hide date field</label>
+	<input id="cb18" data-testid="cb18" name="cb18" type="checkbox" value="true">
+
+	<label for="cb18a">disable date field</label>
+	<input id="cb18a" data-testid="cb18a" name="cb18a" type="checkbox" value="true"/>
+
+	<label for="cb18b">mandate date field</label>
+	<input id="cb18b" data-testid="cb18b" name="cb18b" type="checkbox" value="true">
+
+	<div class="wc-datefield">
+		<label for="cb18df1">A date field</label>
+		<input id="cb18df1" data-testid="cb18df1" name="cb18df1" type="date" style="width:5em"/>
+	</div>
+
+
+	<wc-subordinate id="cb18s" data-testid="cb18s">
+		<wc-condition controller="cb18" value="true"></wc-condition>
+		<wc-ontrue action="hide">
+			<wc-target refid="cb18df1"></wc-target>
+		</wc-ontrue>
+		<wc-onfalse action="show">
+			<wc-target refid="cb18df1"></wc-target>
+		</wc-onfalse>
+	</wc-subordinate>
+
+	<wc-subordinate id="cb18s2" data-testid="cb18s2">
+		<wc-condition controller="cb18a" value="true"></wc-condition>
+		<wc-ontrue action="disable">
+			<wc-target refid="cb18df1"></wc-target>
+		</wc-ontrue>
+		<wc-onfalse action="enable">
+			<wc-target refid="cb18df1"></wc-target>
+		</wc-onfalse>
+	</wc-subordinate>
+
+	<wc-subordinate id="cb18s3" data-testid="cb18s3">
+		<wc-condition controller="cb18b" value="true"></wc-condition>
+		<wc-ontrue action="mandatory">
+			<wc-target refid="cb18df1"></wc-target>
+		</wc-ontrue>
+		<wc-onfalse action="optional">
+			<wc-target refid="cb18df1"></wc-target>
+		</wc-onfalse>
+	</wc-subordinate>
+
+	<!-- subordinate1 Tests -->
+	<label id="enable_category_label" for="enable_category">Select Value A or Value C to enable the text input</label>
+	<select id="enable_category" data-testid="enable_category" name="enable_category">
+		<option class="wc-option" value="-1"></option>
+		<option class="wc-option" value="a">Value A</option>
+		<option class="wc-option" value="b">Value B</option>
+		<option class="wc-option" value="c">Value C</option>
+	</select>
+
+	<label for="enable_text" id="enable_text_label">Enter text</label>
+	<input id="enable_text" data-testid="enable_text" name="enable_text" type="text" disabled value="disabled"/>
+
+	<wc-subordinate id="subordinate1">
+		<wc-or>
+			<wc-condition controller="enable_category" value="a"></wc-condition>
+			<wc-condition controller="enable_category" value="c"></wc-condition>
+		</wc-or>
+		<wc-ontrue action="enable">
+			<wc-target refid="enable_category_label"></wc-target>
+			<wc-target refid="enable_text"></wc-target>
+		</wc-ontrue>
+		<wc-onfalse action="disable">
+			<wc-target refid="enable_category_label"></wc-target>
+			<wc-target refid="enable_text"></wc-target>
+		</wc-onfalse>
+	</wc-subordinate>
+
+
+	<!-- subordinate4 Tests -->
+	<label>
+		<span>I am a gray elephant!</span>
+		<input id="forceGrey" data-testid="forceGrey" name="forceGrey" type="checkbox" value="true"/>
+	</label>
+
+	<label class="wc-option">
+		<input type="radio" name="rgYesNo" id="rgYesNo" data-testid="rgYesNoYes" value="yes"/>
+		<span class="wc-labeltext">yes</span>
+	</label>
+	<label class="wc-option">
+		<input type="radio" name="rgYesNo" id="d1e153" data-testid="rgYesNoNo" value="no" checked/>
+		<span class="wc-labeltext">no</span>
+	</label>
+
+	<select id="colorpicker" data-testid="colorpicker" name="colorpicker">
+		<option class="wc-option" value="white">White</option>
+		<option class="wc-option" value="offwhite">A different kind of white</option>
+		<option class="wc-option" value="grey">Grey</option>
+		<option class="wc-option" value="OFFGREY">A different kind of grey</option>
+		<option class="wc-option" value="brown">Brown</option>
+	</select>
+
+	<div id="whiteElephant" data-testid="whiteElephant" class="wc-panel" hidden style="width:5em">
+		<div class="wc-content">
+			<h2 id="hd6a" data-testid="hd6a" class="wc-heading">You are this type of elephant</h2>
+			<p>You are a white elephant</p>
+		</div>
+	</div>
+	<div id="greyElephant" data-testid="greyElephant" class="wc-panel" hidden style="width:5em">
+		<div class="wc-content">
+			<h2 id="hd7" data-testid="hd7" class="wc-heading">You are this type of elephant</h2>
+			<p>You are a grey elephant</p>
+		</div>
+	</div>
+	<div id="brownElephant" data-testid="brownElephant" class="wc-panel" hidden style="width:5em">
+		<div class="wc-content">
+			<h2 id="hd8" data-testid="hd8" class="wc-heading">You are this type of elephant</h2>
+			<p>You are a brown elephant</p>
+		</div>
+	</div>
+	<hr>
+
+	<wc-subordinate id="subordinate4" data-testid="subordinate4">
+		<wc-and>
+			<wc-condition controller="rgYesNo" value="yes" operator="eq"></wc-condition>
+			<wc-or>
+				<wc-condition controller="colorpicker" value="white"></wc-condition>
+				<wc-condition controller="colorpicker" value="offwhite"></wc-condition>
+			</wc-or>
+			<wc-condition controller="forceGrey" value="false"></wc-condition>
+		</wc-and>
+		<wc-ontrue action="show">
+			<wc-target refid="whiteElephant"></wc-target>
+		</wc-ontrue>
+		<wc-ontrue action="hide">
+			<wc-target refid="greyElephant"></wc-target>
+			<wc-target refid="brownElephant"></wc-target>
+		</wc-ontrue>
+		<wc-onfalse action="hide">
+			<wc-target refid="whiteElephant"></wc-target>
+		</wc-onfalse>
+	</wc-subordinate>
+
+
+	<!-- subordinate4a Tests -->
+	<label class="wc-option">
+		<input type="radio" name="rgYesNo4a" id="rgYesNoYes4a" data-testid="rgYesNoYes4a" value="yes"/>
+		<span class="wc-labeltext">yes</span>
+	</label>
+	<label class="wc-option">
+		<input type="radio" name="rgYesNo4a" id="rgYesNoNo4a" data-testid="rgYesNoNo4a" value="no" checked aria-controls="bargroup"/>
+		<span class="wc-labeltext">no</span>
+	</label>
+
+	<wc-componentgroup id="bargroup" data-testid="bargroup">
+		<wc-component refid="whiteElephant"></wc-component>
+		<wc-component refid="greyElephant"></wc-component>
+		<wc-component refid="brownElephant"></wc-component>
+	</wc-componentgroup>
+
+	<wc-subordinate id="subordinate4a" data-testid="subordinate4a">
+		<wc-condition controller="rgYesNo4a" value="no"></wc-condition>
+		<wc-ontrue action="hide">
+			<wc-target groupid="bargroup"></wc-target>
+		</wc-ontrue>
+		<wc-onfalse action="show">
+			<wc-target groupid="bargroup"></wc-target>
+		</wc-onfalse>
+	</wc-subordinate>
+
+	<!-- subordinate4b Tests -->
+	<label class="wc-option">
+		<input type="radio" name="rgYesNo4b" id="rgYesNoYes4b" data-testid="rgYesNoYes4b" value="yes"/>
+		<span class="wc-labeltext">yes</span>
+	</label>
+	<label class="wc-option">
+		<input type="radio" name="rgYesNo4b" id="rgYesNoNo4b" data-testid="rgYesNoNo4b" value="no" checked aria-controls="bargroup"/>
+		<span class="wc-labeltext">no</span>
+	</label>
+
+	<wc-subordinate id="subordinate4b" data-testid="subordinate4b">
+		<wc-not>
+			<wc-condition controller="rgYesNo4b" value="no"></wc-condition>
+		</wc-not>
+		<wc-ontrue action="hide">
+			<wc-target groupid="bargroup"></wc-target>
+		</wc-ontrue>
+		<wc-onfalse action="show">
+			<wc-target groupid="bargroup"></wc-target>
+		</wc-onfalse>
+	</wc-subordinate>
+
+
+	<!-- subordinate5 Tests -->
+	<div class="wc-datefield" data-testid="dateFieldContainer">
+		<label for="dateMate">You've got a date mate</label>
+		<input id="dateMate" data-testid="dateMate" name="dateMate" type="date" style="width:5em"/>
+	</div>
+	<label for="textMate">A text field</label>
+	<input type="text" id="textMate" data-testid="textMate" name="textMate"/>
+	<label for="numberMate">A number field</label>
+	<input type="number" id="numberMate" data-testid="numberMate" name="numberMate"/>
+
+	<wc-subordinate id="subordinate5" data-testid="subordinate5">
+		<wc-and>
+			<wc-condition controller="dateMate" value="2028-10-28" operator="gte"></wc-condition>
+			<wc-or>
+				<wc-condition controller="textMate" value="apple|orange|banana|pear" operator="rx"></wc-condition>
+				<wc-condition controller="numberMate" value="0" operator="ne"></wc-condition>
+			</wc-or>
+		</wc-and>
+		<wc-ontrue action="showin">
+			<wc-target groupid="bargroup" refid="greyElephant"></wc-target>
+		</wc-ontrue>
+		<wc-onfalse action="hidein">
+			<wc-target groupid="bargroup" refid="greyElephant"></wc-target>
+		</wc-onfalse>
+	</wc-subordinate>
+
+</form>
