@@ -35,6 +35,10 @@ import org.apache.commons.logging.LogFactory;
  * @author Jonathan Austin
  */
 public class WrongStepAjaxInterceptor extends InterceptorComponent {
+
+	/**
+	 * Tag/name for redirect HTML elements.
+	 */
 	public static final String TAG_REDIRECT = "wc-redirect";
 
 	/**

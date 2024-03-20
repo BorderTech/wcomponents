@@ -15,6 +15,10 @@ import org.apache.commons.logging.LogFactory;
  * @since 1.0.0
  */
 final class WContentRenderer extends AbstractWebXmlRenderer {
+
+	/**
+	 * Tag/name for redirect HTML elements.
+	 */
 	public static final String TAG_REDIRECT = "wc-redirect";
 
 	/**
