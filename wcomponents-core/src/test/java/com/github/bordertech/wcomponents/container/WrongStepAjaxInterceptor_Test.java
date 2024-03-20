@@ -55,7 +55,9 @@ public class WrongStepAjaxInterceptor_Test extends AbstractWebXmlRendererTestCas
 		app.setLocked(true);
 
 		MockResponse response = doAjaxRequest(app, 1, 99);
-		assertXpathEvaluatesTo("http://test.test", "//ui:redirect/@url", response.getWriterOutput());
+		assertXpathEvaluatesTo("http://test.test",
+								String.format("//%s/@url", WrongStepAjaxInterceptor.TAG_REDIRECT),
+								response.getWriterOutput());
 	}
 
 	@Test
@@ -67,7 +69,9 @@ public class WrongStepAjaxInterceptor_Test extends AbstractWebXmlRendererTestCas
 
 		// Should redirect to app postpath
 		MockResponse response = doAjaxRequest(app, 1, 99);
-		assertXpathEvaluatesTo(APP_POSTPATH, "//ui:redirect/@url", response.getWriterOutput());
+		assertXpathEvaluatesTo(APP_POSTPATH,
+								String.format("//%s/@url", WrongStepAjaxInterceptor.TAG_REDIRECT),
+								response.getWriterOutput());
 	}
 
 	/**

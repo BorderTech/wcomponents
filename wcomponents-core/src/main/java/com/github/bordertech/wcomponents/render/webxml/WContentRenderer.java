@@ -58,10 +58,10 @@ final class WContentRenderer extends AbstractWebXmlRenderer {
 		switch (content.getDisplayMode()) {
 			case DISPLAY_INLINE:
 			case PROMPT_TO_SAVE:
-				xml.appendTagOpen("ui:redirect");
+				xml.appendTagOpen(TAG_REDIRECT);
 				xml.appendUrlAttribute("url", content.getUrl());
 				xml.appendClose();
-				xml.appendEndTag("ui:redirect");
+				xml.appendEndTag(TAG_REDIRECT);
 				break;
 
 			case OPEN_NEW_WINDOW:
