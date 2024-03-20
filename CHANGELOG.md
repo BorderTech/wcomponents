@@ -3,8 +3,16 @@
 ## Release in-progress
 
 ### API Changes
+
 ### Enhancements
+* Update i18next version from 10.6.0 to 23.5.1
+* Update project dependencies to current versions
+
 ### Bug Fixes
+* Make TinyMCE use a cahcebuster for its assets
+* Fix clipboard js not loading
+* Only show clipboard buttons if they are enabled
+* Load antisamy policy with ResoureStream as URI fails on websphere with latest version of Antisamy that tightened its URI rules
 
 ## 1.5.29
 

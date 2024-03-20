@@ -374,8 +374,11 @@
 			<xsl:if test=".//ui:numberfield[not(@readOnly)]">
 				<xsl:text>"wc/ui/numberField",</xsl:text>
 			</xsl:if>
-			<xsl:if test=".//ui:textarea[not(@readOnly)]">
-				<xsl:text>"wc/ui/textArea","wc/ui/clipboard",</xsl:text>
+			<xsl:if test=".//ui:textarea">
+				<xsl:text>"wc/ui/clipboard",</xsl:text>
+				<xsl:if test=".//ui:textarea[not(@readOnly)]">
+					<xsl:text>"wc/ui/textArea",</xsl:text>
+				</xsl:if>
 			</xsl:if>
 			<xsl:if test=".//ui:togglebutton[not(@readOnly)]">
 				<xsl:text>"wc/ui/checkboxAnalog",</xsl:text>

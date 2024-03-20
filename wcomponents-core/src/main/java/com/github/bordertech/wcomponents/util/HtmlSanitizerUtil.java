@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.util;
 
 import com.github.bordertech.wcomponents.WebUtilities;
-import java.net.URL;
+import java.io.InputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -53,7 +53,7 @@ public final class HtmlSanitizerUtil {
 		// Get the strict AntiSamy policy.
 		try {
 			String path = ConfigurationProperties.getAntisamyStrictConfigurationFile();
-			STRICT_POLICY = Policy.getInstance(HtmlSanitizerUtil.class.getClassLoader().getResource(path));
+			STRICT_POLICY = Policy.getInstance(HtmlSanitizerUtil.class.getClassLoader().getResourceAsStream(path));
 		} catch (PolicyException ex) {
 			throw new SystemException("Could not create strict AntiSamy Policy. " + ex.getMessage(), ex);
 		}
@@ -61,7 +61,7 @@ public final class HtmlSanitizerUtil {
 		// Get the lax AntiSamy policy.
 		try {
 			String path = ConfigurationProperties.getAntisamyLaxConfigurationFile();
-			LAX_POLICY = Policy.getInstance(HtmlSanitizerUtil.class.getClassLoader().getResource(path));
+			LAX_POLICY = Policy.getInstance(HtmlSanitizerUtil.class.getClassLoader().getResourceAsStream(path));
 		} catch (PolicyException ex) {
 			throw new SystemException("Could not create lax AntiSamy Policy. " + ex.getMessage(), ex);
 		}
@@ -151,7 +151,7 @@ public final class HtmlSanitizerUtil {
 		if (StringUtils.isBlank(resourceName)) {
 			throw new SystemException("AntiSamy Policy resourceName cannot be null ");
 		}
-		URL resource = HtmlSanitizerUtil.class.getClassLoader().getResource(resourceName);
+		InputStream resource = HtmlSanitizerUtil.class.getClassLoader().getResourceAsStream(resourceName);
 		if (resource == null) {
 			throw new SystemException("Could not find AntiSamy Policy XML resource.");
 		}

@@ -30,7 +30,7 @@
 		"dojo": "1.15.3",
 		"fabric": "3.4.0",
 		"getusermedia-js": "1.0.0",
-		"i18next": "10.6.0",
+		"i18next": "23.5.1",
 		"mailcheck": "1.1.1",
 		"mustache": "2.3.0",
 		"promise-polyfill": "8.1.3",
