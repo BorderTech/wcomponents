@@ -3,6 +3,10 @@
 ## Release in-progress
 
 ### API Changes
+### Enhancements
+### Bug Fixes
+
+## 1.5.30
 
 ### Enhancements
 * Update i18next version from 10.6.0 to 23.5.1
