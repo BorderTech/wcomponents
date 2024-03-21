@@ -1,14 +1,14 @@
 import asciify from "wc/i18n/asciify.mjs";
 
 describe("wc/i18n/asciify", function() {
-	
+
 	it("testAsciifyWithUniChar", function() {
 		const input = "\u00e9",
 			expected = "e",
 			actual = asciify(input);
 		expect(actual).toBe(expected);
 	});
-	
+
 	it("testAsciifyWithAsciiChar", function() {
 		const input = "e",
 			expected = "e",
@@ -71,4 +71,5 @@ describe("wc/i18n/asciify", function() {
 			actual = asciify(input);
 		expect(actual).toBe(expected);
 	});
+
 });

@@ -55,6 +55,7 @@
 				<version>1.14.0</version>
 				<configuration>
 					<workingDirectory>${basedir}</workingDirectory>
+					<npmInheritsProxyConfigFromMaven>false</npmInheritsProxyConfigFromMaven>
 				</configuration>
 				<executions>
 					<execution>
