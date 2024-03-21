@@ -13,7 +13,7 @@
 
 	<groupId>com.github.bordertech.wcomponents</groupId>
 	<artifactId>wcomponents-parent</artifactId>
-	<version>1.5.30-SNAPSHOT</version>
+	<version>1.5.31-SNAPSHOT</version>
 
 	<packaging>pom</packaging>
 
