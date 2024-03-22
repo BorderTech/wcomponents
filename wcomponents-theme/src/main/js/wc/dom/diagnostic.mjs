@@ -280,17 +280,13 @@ const diagnostic = {
 const tagName = "wc-fieldindicator";
 
 function checkClassName(element) {
-	const typeClass = `wc-fieldindicator-type-${element.getAttribute("data-wc-type")}`;
-	if (!element.classList.contains(typeClass)) {
-		element.classList.add(typeClass);
-	}
 	if (!element.classList.contains(tagName)) {
 		element.classList.add(tagName);
 	}
 }
 
 function checkIcon(element) {
-	let icon = Array.from(element.children()).find(el => el.matches("i"));
+	let icon = Array.from(element.children).find(el => el.matches("i"));
 	if (!icon) {
 		icon = element.ownerDocument.createElement("i");
 		icon.setAttribute("aria-hidden", "true");
@@ -302,9 +298,24 @@ function checkIcon(element) {
 }
 
 class FieldIndicator extends HTMLSpanElement {
-	connectedCallback() {
+	static observedAttributes = ["data-wc-type"];
+
+	constructor() {
+		super();
 		checkClassName(this);
-		checkIcon(this);
+	}
+
+	attributeChangedCallback(name, oldValue, newValue) {
+		const typeClass = type => `wc-fieldindicator-type-${type}`;
+		if (name === "data-wc-type") {
+			if (oldValue) {
+				this.classList.remove(typeClass(oldValue));
+			}
+			if (newValue) {
+				this.classList.add(typeClass(newValue));
+			}
+			checkIcon(this);
+		}
 	}
 }
 
