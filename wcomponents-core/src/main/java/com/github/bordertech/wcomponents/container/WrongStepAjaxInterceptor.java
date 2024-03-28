@@ -37,6 +37,11 @@ import org.apache.commons.logging.LogFactory;
 public class WrongStepAjaxInterceptor extends InterceptorComponent {
 
 	/**
+	 * Tag/name for redirect HTML elements.
+	 */
+	public static final String TAG_REDIRECT = "wc-redirect";
+
+	/**
 	 * The logger instance for this class.
 	 */
 	private static final Log LOG = LogFactory.getLog(WrongStepAjaxInterceptor.class);
@@ -170,7 +175,7 @@ public class WrongStepAjaxInterceptor extends InterceptorComponent {
 		writer.print("<ui:ajaxtarget id=\"" + triggerId + "\" action=\"replace\">");
 
 		// Redirect URL
-		writer.print("<ui:redirect url=\"" + redirectUrl + "\" />");
+		writer.print(String.format("<%s url=\"%s\"></%s>", TAG_REDIRECT, redirectUrl, TAG_REDIRECT));
 
 		writer.print("</ui:ajaxtarget>");
 		writer.print("</ui:ajaxresponse>");

@@ -340,7 +340,6 @@
 		<xsl:variable name="multiDDData"
 			select=".//ui:multidropdown[@data and not(@readOnly)]" />
 		<xsl:variable name="popups" select=".//ui:popup" />
-		<xsl:variable name="redirects" select=".//ui:redirect" />
 		<xsl:variable name="rtfs" select=".//ui:textarea[ui:rtf]" />
 		<xsl:variable name="eagerness" select="//*[@mode eq 'eager']" />
 		<xsl:variable name="editors" select=".//html:wc-imageedit" />
@@ -545,11 +544,6 @@
 				<xsl:text>import("wc/ui/popup.mjs").then(({ default: c }) => {c.register([</xsl:text>
 				<xsl:apply-templates select="$popups" mode="JS" />
 				<xsl:text>])});</xsl:text>
-			</xsl:if>
-			<xsl:if test="$redirects">
-				<xsl:text>import("wc/ui/redirect.mjs").then(({ default: c }) => {c.register(</xsl:text>
-				<xsl:apply-templates select="$redirects[1]" mode="JS" />
-				<xsl:text>);});</xsl:text>
 			</xsl:if>
 			<xsl:if test="$rtfs">
 				<xsl:text>import("wc/ui/rtf.mjs").then(({ default: c }) => {c.register([</xsl:text>

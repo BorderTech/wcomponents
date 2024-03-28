@@ -29,7 +29,7 @@ const doRedirect = debounce(/**
 			MDC: https://developer.mozilla.org/en/window.parent
 			If a window does not have a parent, its parent property is a reference to itself.
 			*/
-			window.parent.location.href = url;
+			window.parent.location.replace(url);
 		}
 	}, 50);
 
@@ -105,6 +105,17 @@ function getRedirectFrame() {
 		document.body.appendChild(result);
 	}
 	return result;
+}
+
+const redirectTag = "wc-redirect";
+class WRedirect extends HTMLElement {
+	connectedCallback() {
+		instance.register(this.getAttribute("url"));
+	}
+}
+
+if (!customElements.get(redirectTag)) {
+	customElements.define(redirectTag, WRedirect);
 }
 
 export default instance;
