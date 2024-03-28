@@ -392,7 +392,7 @@ function ajaxSubscriber(element) {
 }
 
 export const initialiser = {
-	preInit: () => instance.moveLabels,
+	preInit: instance.moveLabels,
 
 	/**
 	 * Initialise callback to subscribe to {@link module:wc/dom/shed} and

@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.Diagnosable;
-import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
@@ -14,15 +13,6 @@ import java.util.UUID;
  * @since 1.4.12
  */
 public final class DiagnosticRenderUtil {
-
-	/**
-	 * The xml element name used for diagnostic output.
-	 */
-	private static final String TAG_NAME = "ui:fieldindicator";
-	/**
-	 * The xml element name used for each message in the diagnostic output.
-	 */
-	private static final String MESSAGE_TAG_NAME = "div";
 
 	/**
 	 * Prevent instantiation.
@@ -60,25 +50,12 @@ public final class DiagnosticRenderUtil {
 			final Diagnosable component,
 			final List<Diagnostic> diags,
 			final int severity) {
-		if (diags.isEmpty()) {
-			return;
-		}
 
-		XmlStringBuilder xml = renderContext.getWriter();
+		String id = "_wc_".concat(UUID.randomUUID().toString());
+		String forId = component.getId();
+		String type = getLevel(severity);
 
-		xml.appendTagOpen(TAG_NAME);
-		xml.appendAttribute("id", "_wc_".concat(UUID.randomUUID().toString()));
-		xml.appendAttribute("type", getLevel(severity));
-		xml.appendAttribute("for", component.getId());
-		xml.appendClose();
-		for (Diagnostic diagnostic : diags) {
-			xml.appendTagOpen(MESSAGE_TAG_NAME);
-			xml.appendAttribute("is", "wc-message");
-			xml.appendClose();
-			xml.appendEscaped(diagnostic.getDescription());
-			xml.appendEndTag(MESSAGE_TAG_NAME);
-		}
-		xml.appendEndTag(TAG_NAME);
+		AbstractWFieldIndicatorRenderer.renderHelper(renderContext, id, diags, type, forId, false);
 	}
 
 	/**

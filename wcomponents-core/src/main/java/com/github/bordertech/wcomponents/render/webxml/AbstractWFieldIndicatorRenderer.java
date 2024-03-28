@@ -19,6 +19,51 @@ import java.util.List;
  */
 abstract class AbstractWFieldIndicatorRenderer extends AbstractWebXmlRenderer {
 
+	private static final String TAG_NAME = "span";
+	/**
+	 * The xml element name used for each message.
+	 */
+	private static final String MESSAGE_TAG_NAME = "div";
+
+
+	/**
+	 * Render the diagnostics.
+	 * @param renderContext the current renderContext
+	 * @param id the component being rendered
+	 * @param diags the list of Diagnostic objects
+	 * @param type the severity we are rendering (error, warn, info, success)
+	 * @param forId the ID of the component this diagnostic message refers to.
+	 * @param isTracking if true the optional "tracking" attribute will be "true"
+	 */
+	static void renderHelper(final WebXmlRenderContext renderContext,
+			final String id,
+			final List<Diagnostic> diags,
+			final String type,
+			final String forId,
+			final boolean isTracking) {
+		if (diags.isEmpty()) {
+			return;
+		}
+
+		XmlStringBuilder xml = renderContext.getWriter();
+
+		xml.appendTagOpen(TAG_NAME);
+		xml.appendAttribute("id", id);
+		xml.appendOptionalAttribute("track", isTracking, "true");
+		xml.appendAttribute("data-wc-type", type);
+		xml.appendAttribute("data-wc-dfor", forId);
+		xml.appendAttribute("is", "wc-fieldindicator");
+		xml.appendClose();
+		for (Diagnostic diagnostic : diags) {
+			xml.appendTagOpen(MESSAGE_TAG_NAME);
+			xml.appendAttribute("is", "wc-message");
+			xml.appendClose();
+			xml.appendEscaped(diagnostic.getDescription());
+			xml.appendEndTag(MESSAGE_TAG_NAME);
+		}
+		xml.appendEndTag(TAG_NAME);
+	}
+
 	/**
 	 * Paints the given AbstractWFieldIndicator.
 	 *
@@ -28,8 +73,6 @@ abstract class AbstractWFieldIndicatorRenderer extends AbstractWebXmlRenderer {
 	@Override
 	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
 		AbstractWFieldIndicator fieldIndicator = (AbstractWFieldIndicator) component;
-		XmlStringBuilder xml = renderContext.getWriter();
-
 		WComponent validationTarget = fieldIndicator.getTargetComponent();
 
 		// no need to render an indicator for nothing.
@@ -45,40 +88,29 @@ abstract class AbstractWFieldIndicatorRenderer extends AbstractWebXmlRenderer {
 		List<Diagnostic> diags = fieldIndicator.getDiagnostics();
 
 		if (diags != null && !diags.isEmpty()) {
-			xml.appendTagOpen("ui:fieldindicator");
-			xml.appendAttribute("id", component.getId());
-			xml.appendOptionalAttribute("track", component.isTracking(), "true");
+			String id = component.getId();
+			String forId = fieldIndicator.getRelatedFieldId();
+			String type = getLevel(fieldIndicator.getFieldIndicatorType());
+			renderHelper(renderContext, id, diags, type, forId, component.isTracking());
+		}
+	}
 
-			switch (fieldIndicator.getFieldIndicatorType()) {
-				case INFO:
-					xml.appendAttribute("type", "info");
-					break;
-
-				case WARN:
-					xml.appendAttribute("type", "warn");
-					break;
-
-				case ERROR:
-					xml.appendAttribute("type", "error");
-					break;
-
-				default:
-					throw new SystemException("Cannot paint field indicator due to an invalid field indicator type: "
-							+ fieldIndicator.getFieldIndicatorType());
-			}
-
-			xml.appendAttribute("for", fieldIndicator.getRelatedFieldId());
-			xml.appendClose();
-
-			for (Diagnostic diag : diags) {
-				xml.appendTagOpen("div");
-				xml.appendAttribute("is", "wc-message");
-				xml.appendClose();
-				xml.appendEscaped(diag.getDescription());
-				xml.appendEndTag("div");
-			}
-
-			xml.appendEndTag("ui:fieldindicator");
+	/**
+	 * @param severity the field indicator severity.
+	 * @return a string representation of the severity level.
+	 */
+	private static String getLevel(final AbstractWFieldIndicator.FieldIndicatorType severity) {
+		switch (severity) {
+			case ERROR:
+				return "error";
+			case WARN:
+				return "warn";
+			case INFO:
+				return "info";
+			case SUCCESS:
+				return "success";
+			default:
+				throw new SystemException("Cannot paint field indicator due to an invalid field indicator type: " + severity);
 		}
 	}
 }

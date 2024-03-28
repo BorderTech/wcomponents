@@ -15,6 +15,7 @@ import org.junit.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
+import static com.github.bordertech.wcomponents.render.webxml.WFieldErrorIndicatorRenderer_Test.TAG;
 
 /**
  * Junit test case for {@link WFieldRenderer}.
@@ -89,12 +90,13 @@ public class WFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
 	public void testWithValidationMessages() throws IOException, SAXException, XpathException {
+		String preamble = "ui:field/ui:input/ui:textfield";
 		WTextField text = new WTextField();
 		text.setText("text1");
 		WFieldLayout test = new WFieldLayout();
 		WField field = test.addField("label1", text);
 		setActiveContext(createUIContext());
-		assertXpathEvaluatesTo("text1", "//ui:field/ui:input/ui:textfield/text()", field);
+		assertXpathEvaluatesTo("text1", String.format("//%s/text()", preamble), field);
 
 		// Simulate Error Message
 		List<Diagnostic> diags = new ArrayList<>();
@@ -110,11 +112,11 @@ public class WFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		// Check Label
 		assertXpathEvaluatesTo("label1", "//ui:field/ui:label", field);
 		// Check Input
-		assertXpathEvaluatesTo("text1", "//ui:field/ui:input/ui:textfield/text()", field);
-		assertXpathExists("//ui:field/ui:input/ui:textfield/ui:fieldindicator", field);
-		assertXpathExists("//ui:field/ui:input/ui:textfield/ui:fieldindicator[@type='error']", field);
-		assertXpathExists("//ui:field/ui:input/ui:textfield/ui:fieldindicator[@type='warn']", field);
-		assertXpathEvaluatesTo("Test Error", "//ui:field/ui:input/ui:textfield/ui:fieldindicator[@type='error']/*[@is='wc-message']", field);
-		assertXpathEvaluatesTo("Test Warning", "//ui:field/ui:input/ui:textfield/ui:fieldindicator[@type='warn']/*[@is='wc-message']", field);
+		assertXpathEvaluatesTo("text1", String.format("//%s/text()", preamble), field);
+		assertXpathExists(String.format("//%s/%s", preamble, TAG), field);
+		assertXpathExists( String.format("//%s/%s[@data-wc-type='error']", preamble, TAG), field);
+		assertXpathExists( String.format("//%s/%s[@data-wc-type='warn']", preamble, TAG), field);
+		assertXpathEvaluatesTo("Test Error",  String.format("//%s/%s[@data-wc-type='error']/*[@is='wc-message']", preamble, TAG), field);
+		assertXpathEvaluatesTo("Test Warning",  String.format("//%s/%s[@data-wc-type='warn']/*[@is='wc-message']", preamble, TAG), field);
 	}
 }

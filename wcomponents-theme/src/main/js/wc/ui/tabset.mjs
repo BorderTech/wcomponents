@@ -161,7 +161,7 @@ class Tabset extends AriaAnalog {
 				switch (action) {
 					case shed.actions.SELECT:
 					case shed.actions.DESELECT:
-						onItemSelection(action, element);
+						this.onItemSelection(action, element);
 						break;
 					case shed.actions.EXPAND:
 					case shed.actions.COLLAPSE:
@@ -255,7 +255,7 @@ class Tabset extends AriaAnalog {
 	 *
 	 * @function
 	 * @override
-	 * @param {KeyboardEvent & { target: Element }} $event The wrapped keydown event.
+	 * @param {KeyboardEvent & { target: HTMLElement }} $event The wrapped keydown event.
 	*/
 	keydownEvent($event) {
 		const target = $event.target;
@@ -287,6 +287,43 @@ class Tabset extends AriaAnalog {
 		if (targetTab) {
 			$event.preventDefault();
 			focus.setFocusRequest(targetTab);
+		}
+	}
+
+	/**
+	 * Helper for shedObserver, called when there has been a SELECT or DESELECT.
+	 * @param {string} action either shed.actions.SELECT or shed.actions.DESELECT
+	 * @param {HTMLElement} element Guaranteed to pass `this.ITEM.isOneOfMe(element)`
+	 */
+	onItemSelection(action, element) {
+		let contentContainer;
+		const onShown = () => {
+			if (contentContainer) {
+				clearSize(contentContainer);
+			}
+		};
+		if (action === shed.actions.SELECT) {
+			this.setFocusIndex(element);
+			super.shedObserver(element, action);
+		}
+		const container = instance.getGroupContainer(element);
+		if (container) {
+			const content = getPanel(element);
+			if (content) {
+
+				if (!getAccordion(container)) {
+					contentContainer = content.parentElement;
+				}
+				if (action === shed.actions.SELECT) {
+					shed.show(content, true);
+					containerload.onshow(content).then(onShown).catch(onShown);
+				} else if (action === shed.actions.DESELECT) {
+					if (contentContainer) {
+						fixSize(contentContainer);  // TODO only do this if it's an AJAX tab
+					}
+					shed.hide(content);
+				}
+			}
 		}
 	}
 
@@ -474,43 +511,6 @@ function onItemExpansion(action, element) {
 					collapseOthers(element);
 				}
 			} else if (action === shed.actions.COLLAPSE) {
-				shed.hide(content);
-			}
-		}
-	}
-}
-
-/**
- * Helper for shedObserver, called when there has been a SELECT or DESELECT.
- * @param {string} action either shed.actions.SELECT or shed.actions.DESELECT
- * @param {HTMLElement} element Guaranteed to pass `this.ITEM.isOneOfMe(element)`
- */
-function onItemSelection(action, element) {
-	let contentContainer;
-	const onShown = () => {
-		if (contentContainer) {
-			clearSize(contentContainer);
-		}
-	};
-	if (action === shed.actions.SELECT) {
-		instance.setFocusIndex(element);
-		instance.constructor.prototype.shedObserver.call(instance, element, action);
-	}
-	const container = instance.getGroupContainer(element);
-	if (container) {
-		const content = getPanel(element);
-		if (content) {
-
-			if (!getAccordion(container)) {
-				contentContainer = content.parentElement;
-			}
-			if (action === shed.actions.SELECT) {
-				shed.show(content, true);
-				containerload.onshow(content).then(onShown).catch(onShown);
-			} else if (action === shed.actions.DESELECT) {
-				if (contentContainer) {
-					fixSize(contentContainer);  // TODO only do this if it's an AJAX tab
-				}
 				shed.hide(content);
 			}
 		}

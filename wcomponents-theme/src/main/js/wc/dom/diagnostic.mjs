@@ -1,3 +1,4 @@
+import wcconfig from "wc/config.mjs";
 
 const CLASS = {
 	DIAGNOSTIC: "wc-fieldindicator",
@@ -60,17 +61,52 @@ const diagnostic = {
 			return baseClass;
 		}
 		const levelClass = baseClass + CLASS.TYPE_SUFFIX;
+		const levelName = this.getLevelName(level);
+		if (levelName) {
+			return levelClass + levelName;
+		}
+		return null;
+	},
+
+	/**
+	 * Get the font awesome icon name for a diagnostic box of a given level.
+	 * @param {number} level
+	 * @param defaultLevel The ICON to pick if level not specified (e.g. LEVEL.ERROR or LEVEL.SUCCESS)
+	 * @returns {String}
+	 */
+	getIconName: function (level, defaultLevel = this.LEVEL.ERROR) {
+		const config = wcconfig.get("wc/ui/feedback");
 		switch (level) {
 			case this.LEVEL.ERROR:
-				return levelClass + "error";
+				return config?.errorIcon || "fa-times-circle";
 			case this.LEVEL.WARN:
-				return levelClass + "warn";
+				return config?.warnIcon || "fa-exclamation-triangle";
 			case this.LEVEL.INFO:
-				return levelClass + "info";
+				return config?.infoIcon || "fa-info-circle";
 			case this.LEVEL.SUCCESS:
-				return levelClass + "success";
+				return config?.successIcon || "fa-check-circle";
 			default:
-				return null;
+				return this.getIconName(defaultLevel);
+		}
+	},
+	/**
+	 * Find the "name" of the level from the numeric representation.
+	 * Note: this should match the value of the "data-wc-type" attribute.
+	 * @param {number} level
+	 * @return {string} The level name.
+	 */
+	getLevelName(level) {
+		switch (level) {
+			case this.LEVEL.ERROR:
+				return "error";
+			case this.LEVEL.WARN:
+				return "warn";
+			case this.LEVEL.INFO:
+				return "info";
+			case this.LEVEL.SUCCESS:
+				return "success";
+			default:
+				return "";
 		}
 	},
 
@@ -86,7 +122,7 @@ const diagnostic = {
 	getBoxHtml: function (messages, targetId, level, levelIcon) {
 		const id = targetId + this.getIdExtension(level);
 		const classNames = level ? [this.getBoxClass(), this.getBoxClass(level)] : [this.getBoxClass()];
-		const html = `<span id="${id}" class="${classNames.join(" ")}" role="alert" data-wc-dfor="${targetId}">${levelIcon ? 
+		const html = `<span id="${id}" class="${classNames.join(" ")}" role="alert" data-wc-dfor="${targetId}">${levelIcon ?
 			`<i aria-hidden="true" class="fa ${levelIcon}"></i>` : ''
 		}${messages.join("")}</span>`;
 		return { id, html };
@@ -240,5 +276,52 @@ const diagnostic = {
 		return null;
 	}
 };
+
+const tagName = "wc-fieldindicator";
+
+function checkClassName(element) {
+	if (!element.classList.contains(tagName)) {
+		element.classList.add(tagName);
+	}
+}
+
+function checkIcon(element) {
+	let icon = Array.from(element.children).find(el => el.matches("i"));
+	if (!icon) {
+		icon = element.ownerDocument.createElement("i");
+		icon.setAttribute("aria-hidden", "true");
+		element.insertBefore(icon, element.firstChild);
+	}
+	const level = diagnostic.getLevel(element);
+	const iconName = diagnostic.getIconName(level);
+	icon.className = `fa ${iconName}`;
+}
+
+class FieldIndicator extends HTMLSpanElement {
+	static observedAttributes = ["data-wc-type"];
+
+	constructor() {
+		super();
+		checkClassName(this);
+	}
+
+	attributeChangedCallback(name, oldValue, newValue) {
+		const typeClass = type => `wc-fieldindicator-type-${type}`;
+		if (name === "data-wc-type") {
+			if (oldValue) {
+				this.classList.remove(typeClass(oldValue));
+			}
+			if (newValue) {
+				this.classList.add(typeClass(newValue));
+			}
+			checkIcon(this);
+		}
+	}
+}
+
+if (!customElements.get("wc-fieldindicator")) {
+	customElements.define("wc-fieldindicator", FieldIndicator, { extends: "span" });
+}
+
 
 export default diagnostic;

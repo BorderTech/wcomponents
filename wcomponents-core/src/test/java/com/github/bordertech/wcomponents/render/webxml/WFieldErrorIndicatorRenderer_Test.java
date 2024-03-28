@@ -21,6 +21,7 @@ import org.xml.sax.SAXException;
  * @since 1.0.0
  */
 public class WFieldErrorIndicatorRenderer_Test extends AbstractWebXmlRendererTestCase {
+	public static final String TAG = "html:span[@is='wc-fieldindicator']";
 
 	/**
 	 * Test the Layout is correctly configured.
@@ -48,11 +49,11 @@ public class WFieldErrorIndicatorRenderer_Test extends AbstractWebXmlRendererTes
 		// Validate Schema
 		// assertSchemaMatch(root);
 		// Check Attributes
-		assertXpathEvaluatesTo(indicator.getId(), "//ui:fieldindicator/@id", root);
-		assertXpathEvaluatesTo("error", "//ui:fieldindicator/@type", root);
-		assertXpathEvaluatesTo(target.getId(), "//ui:fieldindicator/@for", root);
+		assertXpathEvaluatesTo(indicator.getId(), String.format("//%s/@id", TAG), root);
+		assertXpathEvaluatesTo("error", String.format("//%s/@data-wc-type", TAG), root);
+		assertXpathEvaluatesTo(target.getId(), String.format("//%s/@data-wc-dfor", TAG), root);
 		// Check Message
-		assertXpathEvaluatesTo("Test Error", "//ui:fieldindicator/*[@is='wc-message']", root);
+		assertXpathEvaluatesTo("Test Error", String.format("//%s/*[@is='wc-message']", TAG), root);
 	}
 
 	@Test

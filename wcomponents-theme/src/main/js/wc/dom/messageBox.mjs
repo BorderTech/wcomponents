@@ -119,7 +119,10 @@ class WMessageBox extends HTMLElement {
 }
 
 class WMessage extends HTMLDivElement {
-	// Nothing to do here for now
+	constructor() {
+		super();
+		this.classList.add(messageTagName);
+	}
 }
 
 if (!customElements.get(messageBoxTagName)) {

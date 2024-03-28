@@ -29,6 +29,10 @@
     }
   }
 
+  div.wc-message {
+    display: inline-block;
+  }
+
   @each $i in success, info, warn, error {
     $wc-clr-to-use: -1;
     @if $i == success {
