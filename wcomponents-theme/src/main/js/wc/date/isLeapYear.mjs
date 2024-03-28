@@ -9,6 +9,6 @@
  */
 function isLeapYear (year) {
 	const yearDivisibleBy4 = (year % 4 === 0);
-	return yearDivisibleBy4 && (year % 100 || (year % 400 === 0));
+	return yearDivisibleBy4 && ((year % 100 !== 0) || (year % 400 === 0));
 }
 export default isLeapYear;

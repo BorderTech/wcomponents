@@ -4,7 +4,9 @@
 import getMimeType from "wc/file/getMimeType.mjs";
 
 /**
- * Returns true if the file selected in the file input does not conflict with the file input's "accept" attribute.
+ * Returns true if the given files do not conflict with the file input's "accept" attribute.
+ * If the files are given in the second parameter, it will check only those. Otherwise, it will check the files
+ * selected in the file input.
  *
  * Based on the HTML5 "File Upload State" spec:
  *
@@ -23,45 +25,50 @@ import getMimeType from "wc/file/getMimeType.mjs";
  * @alias module:wc/file/accepted
  * @requires module:wc/file/getMimeType
  * @param {HTMLInputElement} element A "file input" element.
+ * @param fileInfo The array of files to check, inside an object under "files" property
  */
-export default function accepted(element) {
+export default function accepted(element, fileInfo) {
 	let acceptedType = element.accept;
-	if (acceptedType) {
-		let acceptedTypes = acceptedType.split(",");
-		return getMimeType(element).every((/** @type {module:wc/file/getMimeType~fileType} */fileType) => {
-			let mimeType = fileType.mime || "",
-				extension = fileType.ext ? (`.${fileType.ext}`) : "",
-				passed = (!mimeType && !extension) ||
-						(extension && acceptedType.indexOf(extension) >= 0) ||
-						(mimeType && acceptedType.indexOf(mimeType) >= 0);
-			if (!passed) {  // maybe there is a case difference OR it's a wildcard mimetype or there is some whitespace to be trimmed?
-				for (let i = 0; i < acceptedTypes.length; i++) {
-					let next = acceptedTypes[i].toLowerCase();
-					next = next.trim();
-					if (extension) {
-						extension = extension.toLowerCase();
-						if (extension === next) {
-							passed = true;
-							break;
-						}
+
+	if (!acceptedType) return true;
+
+	let acceptedTypes = acceptedType.split(",");
+
+	const checkFileArray = function (/** @type {module:wc/file/getMimeType~fileType} */fileType) {
+		let mimeType = fileType.mime || "",
+			extension = fileType.ext ? (`.${fileType.ext}`) : "",
+			passed = (!mimeType && !extension) ||
+				(extension && acceptedType.indexOf(extension) >= 0) ||
+				(mimeType && acceptedType.indexOf(mimeType) >= 0);
+		if (!passed) {  // maybe there is a case difference OR it's a wildcard mimetype or there is some whitespace to be trimmed?
+			for (let i = 0; i < acceptedTypes.length; i++) {
+				let next = acceptedTypes[i].toLowerCase();
+				next = next.trim();
+				if (extension) {
+					extension = extension.toLowerCase();
+					if (extension === next) {
+						passed = true;
+						break;
 					}
-					if (mimeType) {
-						mimeType = mimeType.toLowerCase();
-						if (mimeType === next) {
+				}
+				if (mimeType) {
+					mimeType = mimeType.toLowerCase();
+					if (mimeType === next) {
+						passed = true;
+						break;
+					} else if (next.indexOf("*") === next.length - 1) {
+						next = next.substring(0, next.length - 1);
+						if (mimeType.indexOf(next) === 0) {
 							passed = true;
 							break;
-						} else if (next.indexOf("*") === next.length - 1) {
-							next = next.substring(0, next.length - 1);
-							if (mimeType.indexOf(next) === 0) {
-								passed = true;
-								break;
-							}
 						}
 					}
 				}
 			}
-			return passed;
-		});
-	}
-	return true;
+		}
+		return passed;
+	};
+
+	if (fileInfo) return getMimeType(fileInfo).every(checkFileArray);
+	return getMimeType(element).every(checkFileArray);
 }

@@ -13,7 +13,7 @@ function check(args) {
 	try {
 		const testObj = args.files ? { files: args.files } : null;
 		if (selector) {
-			if (!accepted(selector)) {
+			if (!accepted(selector, testObj)) {
 				message = i18n.get("file_wrongtype", selector.accept);
 				result.push(message);
 			}
