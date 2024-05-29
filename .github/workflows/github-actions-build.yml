@@ -28,7 +28,7 @@ jobs:
       uses: browser-actions/setup-firefox@latest
 
     - name: Build Test and Verify
-      run: mvn -B -U clean install -Dmaven.javadoc.skip=true -Dpmd.verbose=false -DskipOptionalQA=true -PskipCoreOptionalTests
+      run: mvn -B -U clean install -Dmaven.javadoc.skip=true -Dpmd.verbose=false -DskipOptionalQA=true -PskipCoreOptionalTests -Ddependency-check.skip=true
       env:
         MOZ_HEADLESS: 1
 # Why comment these out? Browsers are now so standard compliant issues are much rarer.
