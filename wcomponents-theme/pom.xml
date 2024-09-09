@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
 		<artifactId>wcomponents-parent</artifactId>
-		<version>1.5.30-SNAPSHOT</version>
+		<version>1.5.35-SNAPSHOT</version>
 	</parent>
 
 	<packaging>jar</packaging>
@@ -25,8 +25,7 @@
 		<nodejs.version>v18.18.0</nodejs.version><!-- the version of node to be installed -->
 		<npmjs.version>9.8.1</npmjs.version><!-- the version of npm to be installed - should be the version that goes with your version of node -->
 		<yarn.version>v1.22.19</yarn.version>
-		<dependency-check.skip>true</dependency-check.skip>
-		<spotbugs.skip>true</spotbugs.skip>
+		<nodeAuditSkipDevDependencies>true</nodeAuditSkipDevDependencies>
 	</properties>
 	<name>wcomponents-theme</name>
 	<build>
