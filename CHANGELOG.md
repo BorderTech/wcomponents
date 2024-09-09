@@ -1,6 +1,7 @@
 # Change log
 
 ## Release in-progress
+* Pickup latest qa-parent 1.0.21
 
 ### API Changes
 
