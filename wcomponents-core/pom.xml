@@ -210,11 +210,12 @@
 			<version>2.10.1</version>
 		</dependency>
 
-		<!-- used only by WebUtilities.java -->
+		<!-- Used only by WebUtilities.java unit tests -->
 		<dependency>
 			<groupId>commons-httpclient</groupId>
 			<artifactId>commons-httpclient</artifactId>
 			<version>3.1</version>
+			<scope>test</scope>
 		</dependency>
 
 		<!-- Required for HTML input sanitization of WTextArea -->
