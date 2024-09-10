@@ -6,6 +6,7 @@
   percent encode URLs. However, the latest version no longer provides the URI class that provided this functionality.
   As encoding full URLs is unsafe and unreliable and should be done while constructing the URL, the encodeURL
   and percentEncodeUrl methods have been removed from WebUtilities.
+* Update project dependencies to current versions
 
 ### API Changes
 
