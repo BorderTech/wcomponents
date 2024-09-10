@@ -7,6 +7,7 @@
   As encoding full URLs is unsafe and unreliable and should be done while constructing the URL, the encodeURL
   and percentEncodeUrl methods have been removed from WebUtilities.
 * Update project dependencies to current versions
+* Update theme dependencies to current versions
 
 ### API Changes
 

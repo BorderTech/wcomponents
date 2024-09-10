@@ -32,7 +32,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>3.3.0</version>
+				<version>3.7.1</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -51,7 +51,7 @@
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
-				<version>1.14.0</version>
+				<version>1.15.0</version>
 				<configuration>
 					<workingDirectory>${basedir}</workingDirectory>
 					<npmInheritsProxyConfigFromMaven>false</npmInheritsProxyConfigFromMaven>
