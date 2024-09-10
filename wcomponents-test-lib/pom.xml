@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
 		<artifactId>wcomponents-parent</artifactId>
-		<version>1.5.30-SNAPSHOT</version>
+		<version>1.5.35-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -16,6 +16,7 @@
 
 	<properties>
 		<suppressionFiles>${project.parent.basedir}/owasp-jetty-suppression.xml,${basedir}/test-lib-owasp-suppression.xml,${project.parent.basedir}/owasp-velocity-suppression.xml</suppressionFiles>
+		<spotbugs.excludeFilterFile>${basedir}/spotbugs-exclude-filter.xml</spotbugs.excludeFilterFile>
 		<selenium.version>3.141.59</selenium.version>
 	</properties>
 
@@ -61,7 +62,7 @@
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-server</artifactId>
-			<version>8.2.0.v20160908</version>
+			<version>${jetty.version}</version>
 		</dependency>
 
 		<dependency>

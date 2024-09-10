@@ -47,7 +47,6 @@
 		<pmd.excludeFromFailureFile>${basedir}/pmd-excludes.properties</pmd.excludeFromFailureFile>
 		<!-- Turn off spotbugs until example code cleaned up (will be replaced with showcase anyway) -->
 		<spotbugs.skip>true</spotbugs.skip>
-		<suppressionFiles>${project.parent.basedir}/owasp-velocity-suppression.xml</suppressionFiles>
 	</properties>
 
 	<dependencies>
