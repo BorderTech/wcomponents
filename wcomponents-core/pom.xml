@@ -210,14 +210,6 @@
 			<version>2.10.1</version>
 		</dependency>
 
-		<!-- Used only by WebUtilities.java unit tests -->
-		<dependency>
-			<groupId>commons-httpclient</groupId>
-			<artifactId>commons-httpclient</artifactId>
-			<version>3.1</version>
-			<scope>test</scope>
-		</dependency>
-
 		<!-- Required for HTML input sanitization of WTextArea -->
 		<!-- Antisamy as of 1.7.X does not support xhtml and will remove the closing tag on "void" elements which will break the XML-->
 		<!-- https://html.spec.whatwg.org/multipage/syntax.html#void-elements -->

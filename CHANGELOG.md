@@ -2,9 +2,10 @@
 
 ## Release in-progress
 * Pickup latest qa-parent 1.0.21
-* Removed dependency commons-htttpclient:3.0 due to a criticial security issue. HttpClient was only used by WebUtilities to percent encode URLs.
-  However, the latest version no longer provides the URI class that provided this functionality.
-  To provide the legacy functinality the encoding logic was put into WebUtilities.
+* Removed dependency commons-htttpclient:3.0 due to a security issue. HttpClient was only used by WebUtilities to
+  percent encode URLs. However, the latest version no longer provides the URI class that provided this functionality.
+  As encoding full URLs is unsafe and unreliable and should be done while constructing the URL, the encodeURL
+  and percentEncodeUrl methods have been removed from WebUtilities.
 
 ### API Changes
 
