@@ -8,6 +8,9 @@
   and percentEncodeUrl methods have been removed from WebUtilities.
 * Update project dependencies to current versions
 * Update theme dependencies to current versions
+* Fixed bug in DefaultInternalConfiguration subset method that was not removing the prefix key of the matched properties
+  in the returned Configuration. The subset method now uses the SubsetConfiguration class to implement the correct
+  behaviour as described in the subset method interface javadoc.
 
 ### API Changes
 
