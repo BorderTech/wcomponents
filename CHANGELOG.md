@@ -11,6 +11,13 @@
 * Fixed bug in DefaultInternalConfiguration subset method that was not removing the prefix key of the matched properties
   in the returned Configuration. The subset method now uses the SubsetConfiguration class to implement the correct
   behaviour as described in the subset method interface javadoc.
+* Updated velocity version from 1.5 to 2.3 due to security vulnerabilities.
+  * Removed the custom VelocityLogger class as version 2.3 now uses SLF4J.
+  * Version 2.3 allows for backward compatability properties to be set for version 1.5 and 1.7. The VeloctityRenderImpl
+  and VelocityEngineFactory classes have been updated to set these properties by default. This can be disabled by setting
+  runtime property "bordertech.wcomponents.velocity.backward17.enabled=false". These backward compatability properties
+  use a prefix of "bt.velocity.backward17.*" in web.properties. Refer to https://velocity.apache.org/engine/2.3/upgrading.html.
+  * Additional velocity initilisation properties can also be set by using runtime properties with the prefix "bt.velocity.app.*".
 
 ### API Changes
 
