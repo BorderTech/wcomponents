@@ -1,16 +1,20 @@
 # Change log
 
 ## Release in-progress
+
+### API Changes
+### Enhancements
+### Bug Fixes
+* The latest version of the shade plugin used to create the examples lde dependency jar has changed how it handles
+  the reduced pom files. The reduced pom removes all the dependencies which impacts the use of the main attached jar so
+  its creation has been disabled.
+
+## 1.5.35
+
+### Enhancements
 * Pickup latest qa-parent 1.0.21
-* Removed dependency commons-htttpclient:3.0 due to a security issue. HttpClient was only used by WebUtilities to
-  percent encode URLs. However, the latest version no longer provides the URI class that provided this functionality.
-  As encoding full URLs is unsafe and unreliable and should be done while constructing the URL, the encodeURL
-  and percentEncodeUrl methods have been removed from WebUtilities.
 * Update project dependencies to current versions
 * Update theme dependencies to current versions
-* Fixed bug in DefaultInternalConfiguration subset method that was not removing the prefix key of the matched properties
-  in the returned Configuration. The subset method now uses the SubsetConfiguration class to implement the correct
-  behaviour as described in the subset method interface javadoc.
 * Updated velocity version from 1.5 to 2.3 due to security vulnerabilities.
   * Removed the custom VelocityLogger class as version 2.3 now uses SLF4J.
   * Version 2.3 allows for backward compatability properties to be set for version 1.5 and 1.7. The VeloctityRenderImpl
@@ -19,7 +23,41 @@
   use a prefix of "bt.velocity.backward17.*" in web.properties. Refer to https://velocity.apache.org/engine/2.3/upgrading.html.
   * Additional velocity initilisation properties can also be set by using runtime properties with the prefix "bt.velocity.app.*".
 
+### Bug Fixes
+* Fixed bug in DefaultInternalConfiguration subset method that was not removing the prefix key of the matched properties
+  in the returned Configuration. The subset method now uses the SubsetConfiguration class to implement the correct
+  behaviour as described in the subset method interface javadoc.
+
 ### API Changes
+* Removed dependency commons-httpclient:3.0 due to a security issue. HttpClient was only used by WebUtilities to
+  percent encode URLs. However, the latest version no longer provides the URI class that provided this functionality.
+  As encoding full URLs is unsafe and unreliable and should be done while constructing the URL, the encodeURL
+  and percentEncodeUrl methods have been removed from WebUtilities.
+
+## 1.5.34
+
+### Bug Fixes
+* Fix dayname and monthname reference dates to handle timezones
+
+## 1.5.33
+
+### Bug Fixes
+* Fix month names and day names being incorrect in some timezones at some times of the day.
+
+## 1.5.32
+
+### Bug Fixes
+* Fix month names and day names being incorrect in some timezones at some times of the day.
+* Fix calendar not closing in webkit browsers when it loses focus to a non-focusable element.
+
+## 1.5.31
+
+### Bug Fixes
+* Only allow i18n to initialise once as translating strings was unreliable
+* Move calling i18n from initialise to be later in focus event for selectBoxSearch
+* Backport dayName and monthName from future branch for better i18n initialisation
+
+## 1.5.30
 
 ### Enhancements
 * Update i18next version from 10.6.0 to 23.5.1
