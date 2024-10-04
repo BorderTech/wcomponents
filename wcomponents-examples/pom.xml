@@ -61,42 +61,51 @@
 			<groupId>commons-validator</groupId>
 			<artifactId>commons-validator</artifactId>
 			<version>1.9.0</version>
+			<!-- Fix convergence -->
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
+		<!-- Test dependencies -->
 		<dependency>
-			<scope>test</scope>
 			<groupId>com.github.bordertech.wcomponents</groupId>
 			<artifactId>wcomponents-test-lib</artifactId>
 			<version>${project.version}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
-			<scope>test</scope>
 			<groupId>com.github.bordertech.wcomponents</groupId>
 			<artifactId>wcomponents-theme</artifactId>
 			<version>${project.version}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
-			<scope>test</scope>
 			<groupId>com.github.bordertech.wcomponents</groupId>
 			<artifactId>wcomponents-xslt</artifactId>
 			<version>${project.version}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<!-- JSR107 Caching provider. -->
 		<dependency>
-			<scope>test</scope>
 			<groupId>org.ehcache</groupId>
 			<artifactId>ehcache</artifactId>
+			<scope>test</scope>
 		</dependency>
 		<!-- JAXB runtime for cache provider -->
 		<dependency>
-			<scope>test</scope>
 			<groupId>org.glassfish.jaxb</groupId>
 			<artifactId>jaxb-runtime</artifactId>
+			<scope>test</scope>
 		</dependency>
 
+		<!-- Not ideal but this needs to be after the jetty dependency in the pom so Jetty pickups its own servlet-api first in the test classpath -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>

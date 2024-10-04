@@ -69,6 +69,8 @@
 
 	<dependencyManagement>
 		<dependencies>
+
+			<!-- Junit -->
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
@@ -87,6 +89,15 @@
 						<groupId>org.glassfish.jaxb</groupId>
 						<artifactId>jaxb-runtime</artifactId>
 					</exclusion>
+					<!-- Fix convergence -->
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>javax.cache</groupId>
+						<artifactId>cache-api</artifactId>
+					</exclusion>
 				</exclusions>
 			</dependency>
 			<!-- Specific JAXB runtime for cache provider -->
@@ -95,7 +106,8 @@
 				<artifactId>jaxb-runtime</artifactId>
 				<version>4.0.5</version>
 			</dependency>
-			<!-- Libraries used by WComponents use SLF4J. WComponents uses common loggings. You will need to include
+
+			<!-- Libraries used by WComponents use SLF4J. WComponents uses common loggings which routes to SLF4J. You will need to include
 			the appropiate SLF4J library for your logging framework. -->
 			<dependency>
 				<groupId>org.slf4j</groupId>
@@ -108,111 +120,12 @@
 				<version>2.0.16</version>
 			</dependency>
 
-			<!-- Force versions to help avoid convergence errors -->
-			<dependency>
-				<groupId>commons-logging</groupId>
-				<artifactId>commons-logging</artifactId>
-				<!-- As of 1.3.X commons logging detects and routes logging to SLF4J if in the classpath -->
-				<version>1.3.4</version>
-			</dependency>
-			<dependency>
-				<groupId>commons-collections</groupId>
-				<artifactId>commons-collections</artifactId>
-				<version>3.2.2</version>
-			</dependency>
-			<dependency>
-				<groupId>commons-io</groupId>
-				<artifactId>commons-io</artifactId>
-				<version>2.17.0</version>
-			</dependency>
-			<dependency>
-				<groupId>commons-lang</groupId>
-				<artifactId>commons-lang</artifactId>
-				<version>2.6</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-lang3</artifactId>
-				<version>3.17.0</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-compress</artifactId>
-				<version>1.27.1</version>
-			</dependency>
-			<dependency>
-				<groupId>commons-codec</groupId>
-				<artifactId>commons-codec</artifactId>
-				<version>1.17.1</version>
-			</dependency>
-			<dependency>
-				<groupId>xml-apis</groupId>
-				<artifactId>xml-apis</artifactId>
-				<version>1.4.01</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.xmlgraphics</groupId>
-				<artifactId>batik-css</artifactId>
-				<version>1.17</version>
-			</dependency>
-			<dependency>
-				<groupId>xerces</groupId>
-				<artifactId>xercesImpl</artifactId>
-				<version>2.12.2</version>
-			</dependency>
-			<!-- Caching API. -->
-			<dependency>
-				<groupId>javax.cache</groupId>
-				<artifactId>cache-api</artifactId>
-				<version>1.1.1</version>
-			</dependency>
 			<!-- Servlet Interface -->
 			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>servlet-api</artifactId>
 				<version>2.5</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.apache.httpcomponents.client5</groupId>
-				<artifactId>httpclient5</artifactId>
-				<version>5.4</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.httpcomponents.core5</groupId>
-				<artifactId>httpcore5</artifactId>
-				<version>5.3</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.httpcomponents.core5</groupId>
-				<artifactId>httpcore5-h2</artifactId>
-				<version>5.3</version>
-			</dependency>
-			<dependency>
-				<groupId>com.google.guava</groupId>
-				<artifactId>guava</artifactId>
-				<version>33.3.1-jre</version>
-			</dependency>
-			<dependency>
-				<groupId>com.google.errorprone</groupId>
-				<artifactId>error_prone_annotations</artifactId>
-				<version>2.32.0</version>
-			</dependency>
-			
-			<!-- Required for HTML input sanitization of WTextArea -->
-			<!-- Antisamy as of 1.7.X does not support xhtml and will remove the closing tag on "void" elements which will break the XML-->
-			<!-- Once WComponents stops using xslt then the latest Antisamy can be used -->
-			<!-- https://html.spec.whatwg.org/multipage/syntax.html#void-elements -->
-			<dependency>
-				<groupId>org.owasp.antisamy</groupId>
-				<artifactId>antisamy</artifactId>
-				<version>1.6.8</version>
-			</dependency>
-			<!-- Neko-htmlunit had a package rename as of 3.X.X and cannot be picked up until latest Antisamy can be used -->
-			<dependency>
-				<groupId>net.sourceforge.htmlunit</groupId>
-				<artifactId>neko-htmlunit</artifactId>
-				<version>2.70.0</version>
+				<scope>provided</scope>
 			</dependency>
 
 		</dependencies>

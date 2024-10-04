@@ -52,25 +52,23 @@
 			<version>${jetty.version}</version>
 		</dependency>
 
+		<!-- Test dependencies -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
-
 		<dependency>
-			<scope>test</scope>
 			<groupId>com.github.bordertech.wcomponents</groupId>
 			<artifactId>wcomponents-theme</artifactId>
 			<version>${project.version}</version>
-		</dependency>
-
-		<dependency>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.github.bordertech.wcomponents</groupId>
 			<artifactId>wcomponents-xslt</artifactId>
 			<version>${project.version}</version>
+			<scope>test</scope>
 		</dependency>
-
 
 	</dependencies>
 

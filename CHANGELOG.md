@@ -5,6 +5,9 @@
 ### API Changes
 ### Enhancements
 * Update project dependencies to current versions
+* Fix convergent dependencies by using excludes and adding the required dependency directly. Only using
+  DependencyManagement in the parent pom is not reliable for library projects.
+
 ### Bug Fixes
 * The latest version of the shade plugin used to create the examples lde dependency jar has changed how it handles
   the reduced pom files. The reduced pom removes all the dependencies which impacts the use of the main attached jar so
