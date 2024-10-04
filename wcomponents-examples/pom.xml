@@ -61,8 +61,8 @@
 			<groupId>commons-validator</groupId>
 			<artifactId>commons-validator</artifactId>
 			<version>1.9.0</version>
-			<!-- Fix convergence -->
 			<exclusions>
+				<!-- Exclude to use jcl-over-slf4j -->
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>

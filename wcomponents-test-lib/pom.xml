@@ -88,6 +88,10 @@
 					<artifactId>slf4j-api</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>jcl-over-slf4j</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>org.apache.commons</groupId>
 					<artifactId>commons-compress</artifactId>
 				</exclusion>

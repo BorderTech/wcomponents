@@ -44,11 +44,11 @@
 			<artifactId>jaxb-runtime</artifactId>
 		</dependency>
 
-		<!-- Libraries used by WComponents use SLF4J. WComponents uses common loggings. You will need to include
-		the appropiate SLF4J library for your logging framework. -->
+		<!-- SLF4J implementation. -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
+			<version>${slf4j.version}</version>
 		</dependency>
 
 	</dependencies>

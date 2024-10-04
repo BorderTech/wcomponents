@@ -8,6 +8,12 @@
 * Fix convergent dependencies by using excludes and adding the required dependency directly. Only using
   DependencyManagement in the parent pom is not reliable for library projects.
 * Update velocity from 2.3 to 2.4. Refer to changelog below for 1.5.35 on backward compatability to version 1.5 and 1.7.
+* Use jcl-over-slf4j from SLF4J to provide the commons-logging API.
+  * Libraries used by WComponents use SLF4J and WComponents currently uses common-loggings which routes to SLF4J. SLF4J
+  recommend using their jcl-over-slf4j dependency to direct any libraries using commons-logging to SLF4J to avoid
+  classpath issues (Refer to https://www.slf4j.org/legacy.html#jclOverSLF4J).
+  * Exclude commons-logging from transitive dependencies to make sure jcl-over-slf4j is used instead to direct JCL to SLF4J.
+  * jcl-over-slf4j can be used until WComponents is refactored to use SLF4J.
 
 ### Bug Fixes
 * The latest version of the shade plugin used to create the examples lde dependency jar has changed how it handles

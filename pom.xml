@@ -13,26 +13,19 @@
 
 	<groupId>com.github.bordertech.wcomponents</groupId>
 	<artifactId>wcomponents-parent</artifactId>
-	<version>1.5.30-SNAPSHOT</version>
+	<version>1.5.36-SNAPSHOT</version>
 
 	<packaging>pom</packaging>
 
 	<properties>
 		<jetty.version>8.2.0.v20160908</jetty.version>
+		<slf4j.version>2.0.16</slf4j.version>
 		<bt.qa.skip>false</bt.qa.skip>
 		<bt.convergence.check.fail>true</bt.convergence.check.fail>
 		<!-- Report Vulnerabilities. -->
 		<failBuildOnCVSS>11</failBuildOnCVSS>
 		<!-- Update every 168 hours (7 days) -->
 		<cveValidForHours>168</cveValidForHours>
-
-		<!-- Force latest version of spotbugs -->
-		<bt.spotbugs.plugin.version>4.8.2.0</bt.spotbugs.plugin.version>
-		<bt.spotbugs.version>4.8.3</bt.spotbugs.version>
-		<bt.sb-contrib.plugin.version>7.6.4</bt.sb-contrib.plugin.version>
-		<!-- Override threshold from Medium to High -->
-		<spotbugs.threshold>High</spotbugs.threshold>
-
 	</properties>
 
 	<licenses>
@@ -105,19 +98,6 @@
 				<groupId>org.glassfish.jaxb</groupId>
 				<artifactId>jaxb-runtime</artifactId>
 				<version>4.0.5</version>
-			</dependency>
-
-			<!-- Libraries used by WComponents use SLF4J. WComponents uses common loggings which routes to SLF4J. You will need to include
-			the appropiate SLF4J library for your logging framework. -->
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>2.0.16</version>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-simple</artifactId>
-				<version>2.0.16</version>
 			</dependency>
 
 			<!-- Servlet Interface -->
