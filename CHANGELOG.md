@@ -7,6 +7,7 @@
 * Update project dependencies to current versions
 * Fix convergent dependencies by using excludes and adding the required dependency directly. Only using
   DependencyManagement in the parent pom is not reliable for library projects.
+* Update velocity from 2.3 to 2.4. Refer to changelog below for 1.5.35 on backward compatability to version 1.5 and 1.7.
 
 ### Bug Fixes
 * The latest version of the shade plugin used to create the examples lde dependency jar has changed how it handles
