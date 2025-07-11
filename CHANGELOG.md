@@ -4,6 +4,8 @@
 
 ### API Changes
 ### Enhancements
+* Revert to commons-logging instead of jcl-over-slf4j to allow projects to decide on how to handle logging.
+
 ### Bug Fixes
 
 ## 1.5.36

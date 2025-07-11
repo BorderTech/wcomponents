@@ -119,8 +119,8 @@
 			<groupId>commons-configuration</groupId>
 			<artifactId>commons-configuration</artifactId>
 			<version>1.10</version>
+			<!-- Fix convergence -->
 			<exclusions>
-				<!-- Exclude to use jcl-over-slf4j -->
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
@@ -132,8 +132,8 @@
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
 			<version>1.9.4</version>
+			<!-- Fix convergence -->
 			<exclusions>
-				<!-- Exclude to use jcl-over-slf4j -->
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
@@ -270,12 +270,11 @@
 			<artifactId>batik-css</artifactId>
 			<version>1.17</version>
 			<exclusions>
-				<!-- Exclude to use jcl-over-slf4j -->
+				<!-- Fix convergence -->
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
 				</exclusion>
-				<!-- Fix convergence -->
 				<exclusion>
 					<groupId>commons-io</groupId>
 					<artifactId>commons-io</artifactId>
@@ -320,22 +319,17 @@
 			</exclusions>
 		</dependency>
 
-		<!-- Libraries used by WComponents use SLF4J and WComponents currently uses common-loggings which routes to SLF4J.
-		SLF4J recommend using their jcl-over-slf4j dependency to direct any libraries using commons-logging to SLF4J
-		to avoid classpath issues (Refer to https://www.slf4j.org/legacy.html#jclOverSLF4J).
-		This can be used until WComponents is refactored to use SLF4J. -->
+		<!-- Force versions to fix convergence -->
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-			<version>${slf4j.version}</version>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.3.5</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
-
-		<!-- Force versions to fix convergence -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
