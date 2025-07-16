@@ -13,13 +13,13 @@
 
 	<groupId>com.github.bordertech.wcomponents</groupId>
 	<artifactId>wcomponents-parent</artifactId>
-	<version>1.5.36-SNAPSHOT</version>
+	<version>1.5.37-SNAPSHOT</version>
 
 	<packaging>pom</packaging>
 
 	<properties>
 		<jetty.version>8.1.16.v20140903</jetty.version>
-		<slf4j.version>2.0.16</slf4j.version>
+		<slf4j.version>2.0.17</slf4j.version>
 		<bt.qa.skip>false</bt.qa.skip>
 		<bt.convergence.check.fail>true</bt.convergence.check.fail>
 		<!-- Report Vulnerabilities. -->

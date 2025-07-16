@@ -1,6 +1,6 @@
 {
 	"name": "wcomponents-theme",
-	"version": "1.5.36-SNAPSHOT",
+	"version": "1.5.37-SNAPSHOT",
 	"description": "Client side code for WComponents UI tool kit.",
 	"private": true,
 	"com_github_bordertech": {

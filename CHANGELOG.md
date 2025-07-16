@@ -4,6 +4,34 @@
 
 ### API Changes
 ### Enhancements
+* Revert to commons-logging instead of jcl-over-slf4j to allow projects to decide on how to handle logging.
+* Updated the following dependencies:
+  * wcomponents-core:
+    * commons-beanutils:commons-beanutils from 1.9.4 to 1.11.0
+    * commons-fileupload:commons-fileupload from 1.5 to 1.6.0
+    * commons-io:commons-io from 2.17.0 to 2.19.0
+    * com.google.code.gson:gson from 2.11.0 to 2.13.1
+    * com.google.errorprone:error_prone_annotations from 2.33.0 to 2.39.0
+    * org.apache.commons:commons-lang3 from 3.17.0 to 3.18.0
+    * org.apache.httpcomponents.client5:httpclient5 from 5.4 to 5.5
+    * org.apache.httpcomponents.core5:httpcore5 from 5.3 to 5.3.4
+    * org.apache.tika:tika-core from 2.9.2 to 2.9.4
+    * org.apache.velocity:velocity-engine-core from 2.4 to 2.4.1
+    * org.apache.xmlgraphics:batik-css from 1.17 to 1.19
+    * org.slf4j:slf4j-api from 2.0.16 to 2.0.17
+    * xerces:xercesImpl from 2.12.2 to 2.12.1 (version 2.12.2 has critical vulnerability)
+  * wcomponents-examples:
+    * commons-validator:commons-validator from 1.9.0 to 1.10.0
+  * wcomponents-test-lib:
+    * io.github.bonigarcia:webdrivermanager from 5.9.2 to 6.1.0
+    * commons-codec:commons-codec from 1.17.1 to 1.18.0
+    * com.google.guava:guava from 33.3.1-jre to 33.4.8-jre
+
+### Bug Fixes
+
+## 1.5.36
+
+### Enhancements
 * Update project dependencies to current versions
 * Fix convergent dependencies by using excludes and adding the required dependency directly. Only using
   DependencyManagement in the parent pom is not reliable for library projects.

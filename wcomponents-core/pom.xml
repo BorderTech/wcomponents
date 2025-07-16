@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
 		<artifactId>wcomponents-parent</artifactId>
-		<version>1.5.36-SNAPSHOT</version>
+		<version>1.5.37-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -119,8 +119,8 @@
 			<groupId>commons-configuration</groupId>
 			<artifactId>commons-configuration</artifactId>
 			<version>1.10</version>
+			<!-- Fix convergence -->
 			<exclusions>
-				<!-- Exclude to use jcl-over-slf4j -->
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
@@ -131,9 +131,9 @@
 		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
-			<version>1.9.4</version>
+			<version>1.11.0</version>
+			<!-- Fix convergence -->
 			<exclusions>
-				<!-- Exclude to use jcl-over-slf4j -->
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
@@ -144,7 +144,7 @@
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
-			<version>1.5</version>
+			<version>1.6.0</version>
 			<!-- Fix convergence -->
 			<exclusions>
 				<exclusion>
@@ -190,7 +190,7 @@
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
 			<artifactId>velocity-engine-core</artifactId>
-			<version>2.4</version>
+			<version>2.4.1</version>
 			<!-- Fix convergence -->
 			<exclusions>
 				<exclusion>
@@ -214,7 +214,7 @@
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
-			<version>2.11.0</version>
+			<version>2.13.1</version>
 			<exclusions>
 				<exclusion>
 					<groupId>com.google.errorprone</groupId>
@@ -257,6 +257,10 @@
 					<groupId>net.sourceforge.htmlunit</groupId>
 					<artifactId>neko-htmlunit</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>xerces</groupId>
+					<artifactId>xercesImpl</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<!-- Neko-htmlunit had a package rename as of 3.X.X and cannot be picked up until latest Antisamy can be used -->
@@ -268,14 +272,13 @@
 		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>
 			<artifactId>batik-css</artifactId>
-			<version>1.17</version>
+			<version>1.19</version>
 			<exclusions>
-				<!-- Exclude to use jcl-over-slf4j -->
+				<!-- Fix convergence -->
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
 				</exclusion>
-				<!-- Fix convergence -->
 				<exclusion>
 					<groupId>commons-io</groupId>
 					<artifactId>commons-io</artifactId>
@@ -283,10 +286,11 @@
 			</exclusions>
 			<scope>runtime</scope>
 		</dependency>
+		<!-- Using version 2.12.1 as 2.12.2 has a critical vulnerability -->
 		<dependency>
 			<groupId>xerces</groupId>
 			<artifactId>xercesImpl</artifactId>
-			<version>2.12.2</version>
+			<version>2.12.1</version>
 			<scope>runtime</scope>
 		</dependency>
 
@@ -306,7 +310,7 @@
 		<dependency>
 			<groupId>org.apache.tika</groupId>
 			<artifactId>tika-core</artifactId>
-			<version>2.9.2</version>
+			<version>2.9.4</version>
 			<!-- Fix convergence -->
 			<exclusions>
 				<exclusion>
@@ -320,41 +324,36 @@
 			</exclusions>
 		</dependency>
 
-		<!-- Libraries used by WComponents use SLF4J and WComponents currently uses common-loggings which routes to SLF4J.
-		SLF4J recommend using their jcl-over-slf4j dependency to direct any libraries using commons-logging to SLF4J
-		to avoid classpath issues (Refer to https://www.slf4j.org/legacy.html#jclOverSLF4J).
-		This can be used until WComponents is refactored to use SLF4J. -->
+		<!-- Force versions to fix convergence -->
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-			<version>${slf4j.version}</version>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.3.5</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
-
-		<!-- Force versions to fix convergence -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.17.0</version>
+			<version>3.18.0</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.17.0</version>
+			<version>2.19.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.errorprone</groupId>
 			<artifactId>error_prone_annotations</artifactId>
-			<version>2.33.0</version>
+			<version>2.39.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents.client5</groupId>
 			<artifactId>httpclient5</artifactId>
-			<version>5.4</version>
+			<version>5.5</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.slf4j</groupId>
@@ -365,7 +364,7 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents.core5</groupId>
 			<artifactId>httpcore5</artifactId>
-			<version>5.3</version>
+			<version>5.3.4</version>
 		</dependency>
 
 		<!-- Test dependencies -->
