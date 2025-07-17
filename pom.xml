@@ -28,6 +28,7 @@
 		<cveValidForHours>168</cveValidForHours>
 
 		<dependency-check.skip>true</dependency-check.skip>
+		<stagingBaseUrl>https://ossrh-staging-api.central.sonatype.com/</stagingBaseUrl>
 
 	</properties>
 
