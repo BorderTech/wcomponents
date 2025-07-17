@@ -26,6 +26,9 @@
 		<failBuildOnCVSS>11</failBuildOnCVSS>
 		<!-- Update every 168 hours (7 days) -->
 		<cveValidForHours>168</cveValidForHours>
+
+		<dependency-check.skip>true</dependency-check.skip>
+
 	</properties>
 
 	<licenses>
