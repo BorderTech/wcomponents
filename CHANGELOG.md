@@ -4,6 +4,11 @@
 
 ### API Changes
 ### Enhancements
+### Bug Fixes
+
+## 1.5.37
+
+### Enhancements
 * Revert to commons-logging instead of jcl-over-slf4j to allow projects to decide on how to handle logging.
 * Updated the following dependencies:
   * wcomponents-core:
@@ -26,8 +31,6 @@
     * io.github.bonigarcia:webdrivermanager from 5.9.2 to 6.1.0
     * commons-codec:commons-codec from 1.17.1 to 1.18.0
     * com.google.guava:guava from 33.3.1-jre to 33.4.8-jre
-
-### Bug Fixes
 
 ## 1.5.36
 
