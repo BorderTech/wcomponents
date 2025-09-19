@@ -36,6 +36,19 @@
 		<!-- Refer to https://central.sonatype.org/publish/publish-portal-ossrh-staging-api/#ensuring-deployment-visibility-in-the-central-publisher-portal -->
 		<stagingBaseUrl>https://ossrh-staging-api.central.sonatype.com/</stagingBaseUrl>
 
+		<!-- Properties used by release plugin -->
+		<!-- Release prepare step -->
+		<!-- Include a scm:checkin goal to commit the package.json version update -->
+		<preparationGoals>clean compile scm:checkin</preparationGoals>
+		<completionGoals>clean compile scm:checkin</completionGoals>
+		<!-- Dont push changes. Manually do this when release is successful -->
+		<pushChanges>false</pushChanges>
+		<!-- scm-plugin properties to checkin package.json -->
+		<message>[maven-scm-plugin] Check in package.json</message>
+		<includes>wcomponents-theme/package.json</includes>
+		<!-- Do a local checkout in release perform step -->
+		<localCheckout>true</localCheckout>
+
 	</properties>
 
 	<licenses>
