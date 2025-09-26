@@ -7,6 +7,10 @@ describe("wc/ui/prompt.mjs",()=> {
 	let messageSpy;
 	let objectSpy;
 	let calledMessage;
+	let confirmSpy;
+
+
+
 
 
 	beforeEach(() => {
@@ -15,9 +19,14 @@ describe("wc/ui/prompt.mjs",()=> {
 		objectSpy = jasmine.createSpy('objectSpy');
 		jasmine.clock().install();
 
-		spyOn(prompt,"confirm").and.returnValue(true);
 
-		calledMessage = null;
+		global.confirm = jasmine.createSpy("confirm").and.returnValue(true);
+
+
+
+
+
+
 
 
 	});
@@ -25,6 +34,8 @@ describe("wc/ui/prompt.mjs",()=> {
 	afterEach(()=>{
 
 		jasmine.clock().uninstall();
+		delete global.confirm;
+
 
 	});
 
@@ -43,15 +54,47 @@ describe("wc/ui/prompt.mjs",()=> {
 	});
 
 	it(" callback will return message and another callback ",() =>{
-
 		callbackSpy = jasmine.createSpy('callbackSpy');
-		prompt.confirm ("please choose option", );
+		global.confirm = jasmine.createSpy("confirm").and.returnValue(true);
 
+
+		spyOn(prompt,'confirmAsync').and.callFake((message) =>{
+			callbackSpy(true);
+		});
+
+		const message = "hello";
+		prompt.confirm(message,callbackSpy);
 
 		jasmine.clock().tick(250);
 
-		expect(prompt.confirm).toHaveBeenCalledWith("please choose option");
-		
+		expect(prompt.confirmAsync).toHaveBeenCalledOnceWith(message,callbackSpy);
+		expect(callbackSpy).toHaveBeenCalledOnceWith(true);
+
+
+	});
+
+	it("if callback is not returned it will call Doconfirm",() =>{
+		callbackSpy = jasmine.createSpy('callbackSpy');
+		global.confirm = jasmine.createSpy("confirm").and.returnValue(true);
+
+		const message = "hello";
+
+		const result = prompt.confirm(message);
+
+		expect(result).toBeDefined();
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -62,5 +105,6 @@ describe("wc/ui/prompt.mjs",()=> {
 
 
 	});
+
 
 });
