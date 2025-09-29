@@ -1,8 +1,10 @@
 package com.github.bordertech.wcomponents.util;
 
 import java.text.MessageFormat;
+import java.util.Map;
 import java.util.Properties;
 import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.ConfigurationMap;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -328,6 +330,21 @@ public final class ConfigurationProperties {
 	 * The velocity macro library.
 	 */
 	public static final String VELOCITY_MACRO_LIBRARY = "bordertech.wcomponents.velocity.macroLibrary";
+
+	/**
+	 * The flag indicating whether to load backward comptability properties for velocity version 1.7.
+	 */
+	public static final String VELOCITY_BACKWARD_COMPATABILITY_17_ENABLED = "bordertech.wcomponents.velocity.backward17.enabled";
+
+	/**
+	 * The parameters prefix for backward compatability properties for velocity version 1.7.
+	 */
+	public static final String VELOCITY_BACKWARD_COMPATABILITY_17_PROPERTIES_PREFIX = "bt.velocity.backward17";
+
+	/**
+	 * The parameters prefix for custom velocity properties.
+	 */
+	public static final String VELOCITY_CUSTOM_PROPERTIES_PREFIX = "bt.velocity.app";
 
 	/**
 	 * Whether to perform server-side XSLT.
@@ -1163,6 +1180,33 @@ public final class ConfigurationProperties {
 	 */
 	public static boolean getDeveloperVelocityDebug() {
 		return get().getBoolean(DEVELOPER_VELOCITY_DEBUG, false);
+	}
+
+	/**
+	 * The flag indicating whether to load backward compatability properties for velocity version 1.7.
+	 *
+	 * @return the parameter value, or true if not set
+	 */
+	public static boolean isVelocityBackwardCompatability17Enabled() {
+		return get().getBoolean(VELOCITY_BACKWARD_COMPATABILITY_17_ENABLED, true);
+	}
+	
+	/**
+	 * The map of backward compatability properties for velocity version 1.7 prefixed with {@link #VELOCITY_BACKWARD_COMPATABILITY_17_PROPERTIES_PREFIX}.
+	 *
+	 * @return the map of backward compatability properties.
+	 */
+	public static Map<Object, Object> getVelocityBackwardCompatability17Properties() {
+		return new ConfigurationMap(get().subset(VELOCITY_BACKWARD_COMPATABILITY_17_PROPERTIES_PREFIX));
+	}
+
+	/**
+	 * The optional map of custom properties for velocity prefixed with {@link #VELOCITY_CUSTOM_PROPERTIES_PREFIX}.
+	 *
+	 * @return the map of custom properties for velocity.
+	 */
+	public static Map<Object, Object> getVelocityCustomProperties() {
+		return new ConfigurationMap(get().subset(VELOCITY_CUSTOM_PROPERTIES_PREFIX));
 	}
 
 	/* ****************************

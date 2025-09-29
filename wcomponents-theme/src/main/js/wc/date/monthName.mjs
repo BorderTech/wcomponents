@@ -60,6 +60,11 @@ function getMonthNames(locale, short) {
 	return result;
 }
 
+<<<<<<< HEAD (e69c0ba) - Merge pull request #186
+
+=======
+
+>>>>>>> 4a45e18655a7cf42d825e7be7c982ddc300e039a
 /**
  * Get the month names.
  *

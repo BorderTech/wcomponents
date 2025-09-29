@@ -319,7 +319,7 @@ public class ExampleSeleniumTest extends WComponentSeleniumTestCase {
 	/**
 	 * An extension of the text duplicator example which exposes the fields.
 	 */
-	private static class TextDuplicatorWithGetters extends TextDuplicator {
+	private static final class TextDuplicatorWithGetters extends TextDuplicator {
 
 		/**
 		 * @return the text field.

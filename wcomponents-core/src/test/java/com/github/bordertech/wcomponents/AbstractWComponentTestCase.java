@@ -3,13 +3,6 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.util.Duplet;
 import com.github.bordertech.wcomponents.util.ReflectionUtil;
 import com.github.bordertech.wcomponents.util.SystemException;
-import org.junit.Assert;
-import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.junit.After;
-
-import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
 import java.lang.reflect.Method;
@@ -19,6 +12,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.junit.After;
+import org.junit.Assert;
 
 /**
  * This class includes features useful for the testing of WComponents.
@@ -34,6 +32,12 @@ public abstract class AbstractWComponentTestCase {
 	 * The logger instance for this class.
 	 */
 	private static final Log LOG = LogFactory.getLog(AbstractWComponentTestCase.class);
+
+	/**
+	 * The number of repetitions to use for testing serialization time. This should be set to be greater than the
+	 * minimum number of invocations required to trigger JIT compilation.
+	 */
+	public static final int NUM_REPETITIONS = 2000;
 
 	/**
 	 * Creates a UI Context.
@@ -63,7 +67,7 @@ public abstract class AbstractWComponentTestCase {
 		UIContextHolder.reset();
 	}
 
-/**
+	/**
 	 * This method will test that the getter/setter methods on a component are returning the correct values in its (i)
 	 * initial state (ii) default state and (iii) user context.
 	 * <p>
@@ -81,11 +85,11 @@ public abstract class AbstractWComponentTestCase {
 	 * @param userContextValue the value to be used with a user context
 	 */
 	protected <C extends WComponent, T> void assertAccessorsCorrect(
-		final C component, 
-		final Function<C, T> getter,
-		final BiConsumer<C, T> setter,
-		final T initValue,
-		final T defaultValue, final T userContextValue) {
+			final C component,
+			final Function<C, T> getter,
+			final BiConsumer<C, T> setter,
+			final T initValue,
+			final T defaultValue, final T userContextValue) {
 		try {
 			// Check initial value
 			checkValue("", "Initial value.", initValue, getter.apply(component));
@@ -142,13 +146,13 @@ public abstract class AbstractWComponentTestCase {
 	 * @param setterArgs the value of the setter's second argument
 	 */
 	protected <C extends WComponent, T, U> void assertAccessorsCorrect(
-		final C component, 
-		final Function<C, T> getter,
-		final TriConsumer<C, T, U> setter,
-		final T initValue,
-		final T defaultValue,
-		final T userContextValue,
-		final U setterArgs) {
+			final C component,
+			final Function<C, T> getter,
+			final TriConsumer<C, T, U> setter,
+			final T initValue,
+			final T defaultValue,
+			final T userContextValue,
+			final U setterArgs) {
 		try {
 			// Check initial value
 			checkValue("", "Initial value.", initValue, getter.apply(component));
@@ -179,7 +183,7 @@ public abstract class AbstractWComponentTestCase {
 
 			// Check default value still correct
 			checkValue("", "Reset.", defaultValue, getter.apply(component));
-			
+
 		} finally {
 			resetContext();
 		}
@@ -207,7 +211,7 @@ public abstract class AbstractWComponentTestCase {
 	 * @param setterArgs array matching the variable argument type
 	 */
 	private void assertComponentModelUsesDefaultOnSameValue(AbstractWComponent wComponent, String method,
-															  Object userContextValue, Object setterArgs[]) {
+			Object userContextValue, Object setterArgs[]) {
 		wComponent.setLocked(false);
 		// Set default model
 		invokeSetMethod(wComponent, method, userContextValue, setterArgs);
@@ -234,12 +238,12 @@ public abstract class AbstractWComponentTestCase {
 	 *
 	 * @param wComponent the component the model is being created from
 	 * @param method the method used to change the model
-	 * @param userContextValue the value to be used within the user context. Must be different to the value stored in the
-	 *                         default model for this test.
+	 * @param userContextValue the value to be used within the user context. Must be different to the value stored in
+	 * the default model for this test.
 	 * @param setterArgs array matching the variable argument type
 	 */
 	private void assertComponentModelDoesNotUseDefaultOnDifferentValue(AbstractWComponent wComponent, String method,
-																	   Object userContextValue, Object setterArgs[]) {
+			Object userContextValue, Object setterArgs[]) {
 		// Create a default model using whatever values are set for the wComponent
 		wComponent.setLocked(true);
 		ComponentModel shared = wComponent.getDefaultModel();
@@ -263,7 +267,7 @@ public abstract class AbstractWComponentTestCase {
 	 * @param setterArgs array matching the variable argument type
 	 */
 	private void assertDuplicateUserModelNotCreatedOnSameValue(AbstractWComponent wComponent, String method,
-															   Object userContextValue, Object setterArgs[]) {
+			Object userContextValue, Object setterArgs[]) {
 		wComponent.setLocked(true);
 
 		// Set the UI context and set a value to the current model
@@ -300,14 +304,15 @@ public abstract class AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Overloading method for {@link AbstractWComponentTestCase#assertNoDuplicateComponentModels(AbstractWComponent, String, Object, Object[])}.
+	 * Overloading method for
+	 * {@link AbstractWComponentTestCase#assertNoDuplicateComponentModels(AbstractWComponent, String, Object, Object[])}.
 	 *
 	 * @param wComponent the component the model is being created from
 	 * @param method the method used to change the model
 	 * @param userContextValue the value to be used within the user context
 	 */
 	protected void assertNoDuplicateComponentModels(AbstractWComponent wComponent, String method,
-													Object userContextValue) {
+			Object userContextValue) {
 		assertNoDuplicateComponentModels(wComponent, method, userContextValue, null);
 	}
 
@@ -373,6 +378,17 @@ public abstract class AbstractWComponentTestCase {
 		}
 
 		return result[0];
+	}
+
+	/**
+	 * Asserts that <code>first</code> is less than <code>second</code>.
+	 *
+	 * @param text the assertion text.
+	 * @param first the first parameter to check.
+	 * @param second the second parameter to check.
+	 */
+	protected void assertLessThan(final String text, final long first, final long second) {
+		Assert.assertTrue(text + ": " + first + " < " + second, first < second);
 	}
 
 	/**

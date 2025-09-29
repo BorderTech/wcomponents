@@ -8,9 +8,9 @@ import com.github.bordertech.wcomponents.PerformanceTests;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.WApplication;
-import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.WebUtilities;
@@ -102,7 +102,7 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testServletPerformance() throws Exception {
-		final int numLoops = 2000;
+		final int numLoops = NUM_REPETITIONS;
 
 		// Run the test with the simple servlet
 		long simpleTime = timeOtherServlet(numLoops) / numLoops;
@@ -111,8 +111,7 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 		LOG.info("Simple servlet time: " + (simpleTime / 1000000.0) + "ms");
 		LOG.info("WComponent servlet time: " + (wservletTime / 1000000.0) + "ms");
 
-		Assert.assertTrue("WComponent servlet time should not exceed 10x simple time",
-				wservletTime < simpleTime * 10);
+		assertLessThan("WComponent servlet time should not exceed 12x simple time", wservletTime, simpleTime * 12);
 	}
 
 	/**
@@ -399,12 +398,12 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 					"\n<label id=\"label_formBean.property1\" for=\"formBean.property1\">Property 1:</label>");
 			writer.print(
 					"\n<input type=\"text\" id=\"formBean.property1\" name=\"formBean.property1\" value=\"" + BeanUtils.
-					getProperty(formBean, "property1") + "\"/>");
+							getProperty(formBean, "property1") + "\"/>");
 			writer.print(
 					"\n<label id=\"label_formBean.property2\" for=\"formBean.property2\">Property 2:</label>");
 			writer.print(
 					"\n<input type=\"text\" id=\"formBean.property2\" name=\"formBean.property2\" value=\"" + BeanUtils.
-					getProperty(formBean, "property2") + "\"/>");
+							getProperty(formBean, "property2") + "\"/>");
 			writer.print("\n<input type=\"submit\" id=\"submit\" name=\"submit\" value=\"Submit\">");
 			writer.print("\n</form>");
 

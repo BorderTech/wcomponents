@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
 		<artifactId>wcomponents-parent</artifactId>
-		<version>1.5.30-SNAPSHOT</version>
+		<version>1.5.38-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -47,7 +47,6 @@
 		<pmd.excludeFromFailureFile>${basedir}/pmd-excludes.properties</pmd.excludeFromFailureFile>
 		<!-- Turn off spotbugs until example code cleaned up (will be replaced with showcase anyway) -->
 		<spotbugs.skip>true</spotbugs.skip>
-		<suppressionFiles>${project.parent.basedir}/owasp-velocity-suppression.xml</suppressionFiles>
 	</properties>
 
 	<dependencies>
@@ -61,49 +60,58 @@
 		<dependency>
 			<groupId>commons-validator</groupId>
 			<artifactId>commons-validator</artifactId>
-			<version>1.7</version>
+			<version>1.10.0</version>
+			<!-- Fix convergence -->
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
+		<!-- Test dependencies -->
 		<dependency>
-			<scope>test</scope>
 			<groupId>com.github.bordertech.wcomponents</groupId>
 			<artifactId>wcomponents-test-lib</artifactId>
 			<version>${project.version}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
-			<scope>test</scope>
 			<groupId>com.github.bordertech.wcomponents</groupId>
 			<artifactId>wcomponents-theme</artifactId>
 			<version>${project.version}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
-			<scope>test</scope>
 			<groupId>com.github.bordertech.wcomponents</groupId>
 			<artifactId>wcomponents-xslt</artifactId>
 			<version>${project.version}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<!-- JSR107 Caching provider. -->
 		<dependency>
-			<scope>test</scope>
 			<groupId>org.ehcache</groupId>
 			<artifactId>ehcache</artifactId>
+			<scope>test</scope>
 		</dependency>
 		<!-- JAXB runtime for cache provider -->
 		<dependency>
-			<scope>test</scope>
 			<groupId>org.glassfish.jaxb</groupId>
 			<artifactId>jaxb-runtime</artifactId>
+			<scope>test</scope>
 		</dependency>
 
+		<!-- Not ideal but this needs to be after the jetty dependency in the pom so Jetty pickups its own servlet-api first in the test classpath -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
 			<scope>provided</scope>
 		</dependency>
+
 	</dependencies>
 
 	<build>
