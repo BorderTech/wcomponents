@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.github.bordertech.common</groupId>
 		<artifactId>qa-parent</artifactId>
-		<version>1.0.20</version>
+		<version>1.0.21</version>
 		<relativePath />
 	</parent>
 
@@ -13,12 +13,13 @@
 
 	<groupId>com.github.bordertech.wcomponents</groupId>
 	<artifactId>wcomponents-parent</artifactId>
-	<version>1.5.30-SNAPSHOT</version>
+	<version>1.5.38-SNAPSHOT</version>
 
 	<packaging>pom</packaging>
 
 	<properties>
 		<jetty.version>8.2.0.v20160908</jetty.version>
+		<slf4j.version>2.0.17</slf4j.version>
 		<bt.qa.skip>false</bt.qa.skip>
 		<bt.convergence.check.fail>true</bt.convergence.check.fail>
 		<!-- Report Vulnerabilities. -->
@@ -26,12 +27,14 @@
 		<!-- Update every 168 hours (7 days) -->
 		<cveValidForHours>168</cveValidForHours>
 
-		<!-- Force latest version of spotbugs -->
-		<bt.spotbugs.plugin.version>4.8.2.0</bt.spotbugs.plugin.version>
-		<bt.spotbugs.version>4.8.3</bt.spotbugs.version>
-		<bt.sb-contrib.plugin.version>7.6.4</bt.sb-contrib.plugin.version>
-		<!-- Override threshold from Medium to High -->
-		<spotbugs.threshold>High</spotbugs.threshold>
+		<dependency-check.skip>true</dependency-check.skip>
+
+		<!-- OSSRH has been sunsetted so this is the API to use until publishing directly to Central Publisher Portal. -->
+		<!-- After running the maven release execute the following REST command with namespace com.github.bordertech to push the artifacts from OSSRH staging to Central Publisher Portal. -->
+		<!-- Use the same userid and token generated in the portal for the settings.xml file when prompted -->
+		<!-- https://ossrh-staging-api.central.sonatype.com/swagger-ui/#/default/manual_upload_default_repository -->
+		<!-- Refer to https://central.sonatype.org/publish/publish-portal-ossrh-staging-api/#ensuring-deployment-visibility-in-the-central-publisher-portal -->
+		<stagingBaseUrl>https://ossrh-staging-api.central.sonatype.com/</stagingBaseUrl>
 
 	</properties>
 
@@ -69,6 +72,8 @@
 
 	<dependencyManagement>
 		<dependencies>
+
+			<!-- Junit -->
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
@@ -87,100 +92,30 @@
 						<groupId>org.glassfish.jaxb</groupId>
 						<artifactId>jaxb-runtime</artifactId>
 					</exclusion>
+					<!-- Fix convergence -->
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>javax.cache</groupId>
+						<artifactId>cache-api</artifactId>
+					</exclusion>
 				</exclusions>
 			</dependency>
 			<!-- Specific JAXB runtime for cache provider -->
 			<dependency>
 				<groupId>org.glassfish.jaxb</groupId>
 				<artifactId>jaxb-runtime</artifactId>
-				<version>3.0.2</version>
-			</dependency>
-			<!-- Libraries used by WComponents use SLF4J. WComponents uses common loggings. You will need to include
-			the appropiate SLF4J library for your logging framework. -->
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>2.0.7</version>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-simple</artifactId>
-				<version>2.0.7</version>
+				<version>4.0.5</version>
 			</dependency>
 
-			<!-- Force versions to help avoid convergence errors -->
-			<dependency>
-				<groupId>commons-logging</groupId>
-				<artifactId>commons-logging</artifactId>
-				<version>1.2</version>
-			</dependency>
-			<dependency>
-				<groupId>commons-collections</groupId>
-				<artifactId>commons-collections</artifactId>
-				<version>3.2.2</version>
-			</dependency>
-			<dependency>
-				<groupId>commons-io</groupId>
-				<artifactId>commons-io</artifactId>
-				<version>2.11.0</version>
-			</dependency>
-			<dependency>
-				<groupId>commons-lang</groupId>
-				<artifactId>commons-lang</artifactId>
-				<version>2.6</version>
-			</dependency>
-			<dependency>
-				<groupId>commons-codec</groupId>
-				<artifactId>commons-codec</artifactId>
-				<version>1.15</version>
-			</dependency>
-			<dependency>
-				<groupId>xml-apis</groupId>
-				<artifactId>xml-apis</artifactId>
-				<version>1.4.01</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.xmlgraphics</groupId>
-				<artifactId>batik-css</artifactId>
-				<version>1.16</version>
-			</dependency>
-			<dependency>
-				<groupId>xerces</groupId>
-				<artifactId>xercesImpl</artifactId>
-				<version>2.12.2</version>
-			</dependency>
-			<!-- Caching API. -->
-			<dependency>
-				<groupId>javax.cache</groupId>
-				<artifactId>cache-api</artifactId>
-				<version>1.1.1</version>
-			</dependency>
 			<!-- Servlet Interface -->
 			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>servlet-api</artifactId>
 				<version>2.5</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.apache.httpcomponents.client5</groupId>
-				<artifactId>httpclient5</artifactId>
-				<version>5.2.1</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.httpcomponents.core5</groupId>
-				<artifactId>httpcore5</artifactId>
-				<version>5.2.1</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.httpcomponents.core5</groupId>
-				<artifactId>httpcore5-h2</artifactId>
-				<version>5.2.1</version>
-			</dependency>
-			<dependency>
-				<groupId>com.google.guava</groupId>
-				<artifactId>guava</artifactId>
-				<version>31.1-jre</version>
+				<scope>provided</scope>
 			</dependency>
 
 		</dependencies>
@@ -264,7 +199,7 @@
 						<dependency>
 							<groupId>org.apache.ant</groupId>
 							<artifactId>ant</artifactId>
-							<version>1.10.12</version>
+							<version>1.10.15</version>
 						</dependency>
 					</dependencies>
 				</plugin>

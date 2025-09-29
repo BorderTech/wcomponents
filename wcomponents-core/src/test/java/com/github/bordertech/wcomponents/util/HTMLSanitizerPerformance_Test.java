@@ -4,12 +4,12 @@ import com.github.bordertech.wcomponents.AbstractWComponentTestCase;
 import com.github.bordertech.wcomponents.PerformanceTests;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 /**
  * Rudimentary performance test of HTML Sanitizer.
+ *
  * @author Mark Reeves
  * @since 1.2.0
  */
@@ -49,7 +49,6 @@ public class HTMLSanitizerPerformance_Test extends AbstractWComponentTestCase {
 			+ "justo sapien.</p></div><ul onclick='alert();'><li class='dot'>one</li><li class='dot'>two</li>"
 			+ "<li class='dot'>three</li><li class='dot'>for</li><li class='dot'>five</li></ul>";
 
-
 	@Test
 	public void testSanitizerPerformance2() {
 		final int fewLoops = 20;
@@ -61,20 +60,19 @@ public class HTMLSanitizerPerformance_Test extends AbstractWComponentTestCase {
 		long fewLoopTime = fewLoopTotalTime / fewLoops;
 		long manyLoopTime = manyLoopTotalTime / manyLoops;
 
-
 		LOG.info(String.valueOf(fewLoops) + " runs of sanitizer time: " + (fewLoopTotalTime / 1000000000.0) + "s");
 		LOG.info(String.valueOf(manyLoops) + " runs of sanitizer time: " + (manyLoopTotalTime / 1000000000.0) + "s");
 
 		LOG.info(String.valueOf(fewLoops) + " runs of sanitizer time: " + (fewLoopTime / 1000000.0) + "ms per run");
 		LOG.info(String.valueOf(manyLoops) + " runs of sanitizer time: " + (manyLoopTime / 1000000.0) + "ms per run");
 
-		Assert.assertTrue("Sanitizing many entries should not exceed sanitizing few",
-				manyLoopTime <= fewLoopTime);
-	}
+		assertLessThan("Sanitizing many entries should not exceed sanitizing few", manyLoopTime, fewLoopTime);
 
+	}
 
 	/**
 	 * run many sanitized getData calls.
+	 *
 	 * @param count the number of loops to run
 	 * @return the time taken to run all the runnables.
 	 */

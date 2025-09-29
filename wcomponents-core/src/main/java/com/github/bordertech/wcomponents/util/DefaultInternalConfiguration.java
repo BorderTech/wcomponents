@@ -27,8 +27,9 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.StringTokenizer;
 import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.ConfigurationMap;
 import org.apache.commons.configuration.ConversionException;
-import org.apache.commons.configuration.MapConfiguration;
+import org.apache.commons.configuration.SubsetConfiguration;
 
 /**
  * <p>
@@ -86,7 +87,7 @@ final class DefaultInternalConfiguration implements Configuration {
 	 * Parameters with this prefix will be dumped into the System parameters. This feature is for handling recalcitrant
 	 * 3rd party software only - not for general use!!!
 	 */
-	private static final String SYSTEM_PARAMETERS_PREFIX = "bordertech.wcomponents.parameters.system.";
+	private static final String SYSTEM_PARAMETERS_PREFIX = "bordertech.wcomponents.parameters.system";
 
 	// -----------------------------------------------------------------------------------------------------------------
 	// State used during loading of parameters
@@ -94,7 +95,7 @@ final class DefaultInternalConfiguration implements Configuration {
 	 * The messages logged during loading of the configuration. We can't depend on a logging framework to log errors, as
 	 * this class is typically used to configure the logging.
 	 */
-	private final StringBuffer messages = new StringBuffer();
+	private final StringBuilder messages = new StringBuilder();
 
 	/**
 	 * The resource being loaded. This is used for the relative form of resource loading.
@@ -156,9 +157,7 @@ final class DefaultInternalConfiguration implements Configuration {
 		initialiseInstanceVariables();
 		loadTop(resourceName);
 
-		// Now perform variable substitution.
-		do {
-		} while (substitute());
+		handleLoadedProperties();
 	}
 
 	/**
@@ -264,6 +263,14 @@ final class DefaultInternalConfiguration implements Configuration {
 			load(System.getProperties(), "System Properties", true);
 		}
 
+		handleLoadedProperties();
+	}
+
+	/**
+	 * Handle processing the loaded properties.
+	 */
+	private void handleLoadedProperties() {
+
 		// Now perform variable substitution.
 		do {
 			// Do nothing while loop
@@ -279,8 +286,8 @@ final class DefaultInternalConfiguration implements Configuration {
 		clearMessages();
 
 		// Now move any parameters with the system parameters prefix into the real system parameters.
-		Properties systemProperties = getSubProperties(SYSTEM_PARAMETERS_PREFIX, true);
-		System.getProperties().putAll(systemProperties);
+		Configuration subset = subset(SYSTEM_PARAMETERS_PREFIX);
+		System.getProperties().putAll(new ConfigurationMap(subset));
 	}
 
 	/**
@@ -315,7 +322,7 @@ final class DefaultInternalConfiguration implements Configuration {
 			// Okay
 		}
 
-		StringBuffer info = new StringBuffer();
+		StringBuilder info = new StringBuilder();
 
 		info.append("----Parameters start----");
 		info.append(codesourceStr);
@@ -630,7 +637,9 @@ final class DefaultInternalConfiguration implements Configuration {
 	 * @param prefix the prefix of the parameter keys which should be included.
 	 * @param truncate if true, the prefix is truncated in the returned properties.
 	 * @return the properties sub-set, may be empty.
+	 * @deprecated Use {@link #subset(java.lang.String)} instead
 	 */
+	@Deprecated
 	public Properties getSubProperties(final String prefix, final boolean truncate) {
 		String cacheKey = truncate + prefix;
 		Properties sub = subcontextCache.get(cacheKey);
@@ -1416,6 +1425,6 @@ final class DefaultInternalConfiguration implements Configuration {
 	 */
 	@Override
 	public Configuration subset(final String prefix) {
-		return new MapConfiguration(getSubProperties(prefix, false));
+		return new SubsetConfiguration(this, prefix, ".");
 	}
 }
