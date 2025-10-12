@@ -4,19 +4,14 @@ import prompt from "wc/ui/prompt.mjs";
 
 describe("wc/ui/prompt.mjs",()=> {
 	let callbackSpy;
-	let messageSpy;
-	let objectSpy;
-	let calledMessage;
-	let confirmSpy;
+	
 
 
 
 
 
 	beforeEach(() => {
-		callbackSpy = jasmine.createSpy('callbackSpy');
-		messageSpy = jasmine.createSpy('messageSpy');
-		objectSpy = jasmine.createSpy('objectSpy');
+
 		jasmine.clock().install();
 
 
