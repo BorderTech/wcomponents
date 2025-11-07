@@ -2,6 +2,7 @@
  * Note, some of these tests will break in the future, like 20 years from the time of
  * writing (2010).  If you are still using these tests in 20 years something went horribly
  * wrong with the IT revolution.
+ * test will break in the year 31/10/2045. ( and every 15 years from that point)
  */
 describe("wc/date/Parser", function() {
 	const standardMasks = ["ytm", "+-", "d M yy", "d M yyyy", "d MON yy", "d MON yyyy", "ddMMyy", "ddMMyyyy", "dMONyy", "dMONyyyy", "yyyy-MM-dd", "yyyyMMdd"],
@@ -94,19 +95,19 @@ describe("wc/date/Parser", function() {
 	});
 	it("testParserStndExpandYear", function() {
 		const parser = getParser(standardMasks, false, false),
-			result = parser.parse("281025");
+			result = parser.parse("281040");
 		expect(result.length).toBe(1);
 		expect(result[0].day).toBe(28);
 		expect(result[0].month).toBe(10);
-		expect(result[0].year).toBe(2025);
+		expect(result[0].year).toBe(2040);
 	});
 	it("testParserStndExpandYearPast", function() {
 		const parser = getParser(standardMasks, true, false),
-			result = parser.parse("281025");
+			result = parser.parse("281045");
 		expect(result.length).toBe(1);
 		expect(result[0].day).toBe(28);
 		expect(result[0].month).toBe(10);
-		expect(result[0].year).toBe(1925);
+		expect(result[0].year).toBe(1945);
 	});
 	it("testParserStndMonthAbbr", function() {
 		const parser = getParser(standardMasks, false, false),

@@ -10,6 +10,7 @@ describe("wc/ui/tabset.mjs", () => {
 	let tab2;
 	let tab3;
 	let tablist;
+	let tabs;
 	let container;
 	let currenttab;
 
@@ -37,7 +38,26 @@ describe("wc/ui/tabset.mjs", () => {
 		tab2 = document.getElementById('tab2');
 		tab3 = document.getElementById('tab3');
 		tablist = document.getElementsByName('tabpanel-id');
-		currenttab = tab1;
+		
+
+		tabs = [testHolder.querySelector('[role="tab"]')];
+		currenttab = 0;
+		tabs[currenttab].focus();
+		tabs[currenttab].setAttribute("aria-selected","true");
+
+		testHolder.addEventListener("keydown", (event) => {
+		if(!event.ctrlKey)return;
+		const direction = event.key ==="PgUp"? -1:event.key === "PgDn" ? 1: 0;
+		if(!direction) return;
+		});
+
+
+	
+	
+
+
+
+
 
 
 
@@ -51,14 +71,7 @@ describe("wc/ui/tabset.mjs", () => {
 
 
 	it("selectOnNavigate will return attributres ",() => {
-
-
 		tabset.selectOnNavigate(tab1);
-
-
-
-
-
 
 
 	});
@@ -72,14 +85,6 @@ describe("wc/ui/tabset.mjs", () => {
 
 	});
 
-
-	it(" when non acordian is expanded   ",() => {
-
-
-
-
-
-	});
 
 
 	it(" shedObserver  ",() => {
@@ -100,55 +105,17 @@ describe("wc/ui/tabset.mjs", () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	});
 
-	it(" writeState - write the state of tabsets during submission   ",() => {
-
-
-
-
-
-
-
-	});
-
-	it(" focus event    ",() => {
-
-
-
-
-
-
-
-
-
-	});
 
 	it(" control + page up/down    ",() => {
 
-		currenttab.focus();
-		currenttab.setAttribute("aria-selected",false);
+	
 
 
 		const PressKey = (key) =>{
 			const keyevent =  new KeyboardEvent("keydown", {
+				
 				key: "PageUp",
 				bubbles: true,
 				ctrlKey: true,
@@ -157,67 +124,14 @@ describe("wc/ui/tabset.mjs", () => {
 			tab1.dispatchEvent(keyevent);
 		};
 
-		document.addEventListener("keydown",(keyevent) =>{
-			if (keyevent.ctrlKey && (keyevent.key === "PgUp"||keyevent.key === "PgDn")) {
-				currenttab.setAttribute("aria-selected",true);
-			}
-
-
-		});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		
 	});
 
 
 	it(" onItemSelection ",() => {
 		tabset.onItemSelection("SELECT", tab1);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	});
-
-
-
-
-
-
-
-
-
-
-
 
 
 });
