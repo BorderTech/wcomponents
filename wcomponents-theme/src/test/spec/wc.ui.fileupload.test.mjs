@@ -18,7 +18,7 @@ beforeEach (function() {
 	testHolder.innerHTML =
 				`
 
-				<form id="myform">
+				<form id="uploadfile">
 				  		<fieldset class = "wc-fileupload" id="valgroup">
 				  		<div>
                         <input type="file" id="File1" name="uploadedFile" multiple accept=".pdf, .doc">
@@ -31,7 +31,7 @@ beforeEach (function() {
 
                 <script>
                     function clearFileInput() {
-                     document.getElementById('myform').reset();
+                     document.getElementById('uploadfile').reset();
                     }
                 </script>
 			`;
