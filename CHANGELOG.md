@@ -7,6 +7,7 @@
 
 * Modified Targetable components to use the new createTargetUrl method in WebUtilites that centralises the logic for
   creating the URLs for Targetable components.
+* Moved the adding of the hidden parameters onto the AJAX url from the XSL into the WApplicationRenderer so the session token can be excluded.
 
 ### Bug Fixes
 
