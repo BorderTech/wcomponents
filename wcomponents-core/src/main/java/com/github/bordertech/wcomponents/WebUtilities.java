@@ -498,6 +498,12 @@ public final class WebUtilities {
 	 */
 	public static String getPath(final String url, final Map<String, String> parameters,
 			final boolean javascript) {
+
+		// Check URL provided
+		if (url == null) {
+			throw new IllegalArgumentException("URL must be provided.");
+		}
+
 		// Have we already got some parameters?
 		int index = url.indexOf('?');
 		boolean hasVars = false;
