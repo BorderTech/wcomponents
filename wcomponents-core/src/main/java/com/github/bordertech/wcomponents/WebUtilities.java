@@ -429,6 +429,55 @@ public final class WebUtilities {
 	}
 
 	/**
+	 * Create the URL for a targetable component.
+	 *
+	 * @param target the targetable component
+	 * @param cacheKey the cacheKey or otherwise null
+	 * @return the URL for the content of a targetable component
+	 */
+	public static String createTargetUrl(final Targetable target, final String cacheKey) {
+		return createTargetUrl(target, cacheKey, null);
+	}
+
+	/**
+	 * Create the URL for a targetable component with additional parameters.
+	 *
+	 * @param target the targetable component
+	 * @param cacheKey the cacheKey or otherwise null
+	 * @param additionalParams the additional parameters to include on url or otherwise null
+	 * @return the URL for the content of a targetable component
+	 */
+	public static String createTargetUrl(final Targetable target, final String cacheKey, final Map<String, String> additionalParams) {
+
+		Environment env = target.getEnvironment();
+
+		Map<String, String> parameters = env.getHiddenParameters();
+		// Remove session token as this should not be exposed on GET URLs (CSRF Rules)
+		parameters.remove(Environment.SESSION_TOKEN_VARIABLE);
+
+		// Add the target id
+		parameters.put(Environment.TARGET_ID, target.getTargetId());
+
+		if (Util.empty(cacheKey)) {
+			// Add some randomness to the URL to prevent caching
+			parameters.put(Environment.UNIQUE_RANDOM_PARAM, WebUtilities.generateRandom());
+		} else {
+			// Add the cache key
+			parameters.put(Environment.CONTENT_CACHE_KEY, cacheKey);
+			// Remove step counter as not required for cached content
+			parameters.remove(Environment.STEP_VARIABLE);
+		}
+
+		// Add additional parameters
+		if (additionalParams != null) {
+			parameters.putAll(additionalParams);
+		}
+
+		// Build URL
+		return getPath(env.getWServletPath(), parameters, true);
+	}
+
+	/**
 	 * Adds GET parameters to a path.
 	 *
 	 * @param url the existing url path

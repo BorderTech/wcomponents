@@ -4,6 +4,9 @@
 
 ### API Changes
 ### Enhancements
+
+* Add new utility method createTargetUrl in WebUtilities to centralise the logic for creating the URL for Targetable components.
+
 ### Bug Fixes
 
 ## 1.5.37
