@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -810,30 +811,10 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 			return null;
 		}
 
-		Environment env = getEnvironment();
-		Map<String, String> parameters = env.getHiddenParameters();
-		parameters.put(Environment.TARGET_ID, getTargetId());
-
-		if (Util.empty(file.getFileCacheKey())) {
-			// Add some randomness to the URL to prevent caching
-			String random = WebUtilities.generateRandom();
-			parameters.put(Environment.UNIQUE_RANDOM_PARAM, random);
-		} else {
-			// Remove step counter as not required for cached content
-			parameters.remove(Environment.STEP_VARIABLE);
-			parameters.remove(Environment.SESSION_TOKEN_VARIABLE);
-			// Add the cache key
-			parameters.put(Environment.CONTENT_CACHE_KEY, file.getFileCacheKey());
-		}
-
 		// File id
+		Map<String, String> parameters = new HashMap<>();
 		parameters.put(FILE_UPLOAD_ID_KEY, fileId);
-
-		// The targetable path needs to be configured for the portal environment.
-		String url = env.getWServletPath();
-
-		// Note the last parameter. In javascript we don't want to encode "&".
-		return WebUtilities.getPath(url, parameters, true);
+		return WebUtilities.createTargetUrl(this, file.getFileCacheKey(), parameters);
 	}
 
 	/**
@@ -854,33 +835,12 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 			return ((InternalResource) thumbnail).getTargetUrl();
 		}
 
-		Environment env = getEnvironment();
-		Map<String, String> parameters = env.getHiddenParameters();
-		parameters.put(Environment.TARGET_ID, getTargetId());
-
-		if (Util.empty(file.getThumbnailCacheKey())) {
-			// Add some randomness to the URL to prevent caching
-			String random = WebUtilities.generateRandom();
-			parameters.put(Environment.UNIQUE_RANDOM_PARAM, random);
-		} else {
-			// Remove step counter as not required for cached content
-			parameters.remove(Environment.STEP_VARIABLE);
-			parameters.remove(Environment.SESSION_TOKEN_VARIABLE);
-			// Add the cache key
-			parameters.put(Environment.CONTENT_CACHE_KEY, file.getThumbnailCacheKey());
-		}
-
+		Map<String, String> parameters = new HashMap<>();
 		// File id
 		parameters.put(FILE_UPLOAD_ID_KEY, fileId);
-
 		// Thumbnail flag
 		parameters.put(FILE_UPLOAD_THUMB_NAIL_KEY, "Y");
-
-		// The targetable path needs to be configured for the portal environment.
-		String url = env.getWServletPath();
-
-		// Note the last parameter. In javascript we don't want to encode "&".
-		return WebUtilities.getPath(url, parameters, true);
+		return WebUtilities.createTargetUrl(this, file.getThumbnailCacheKey(), parameters);
 	}
 
 	/**
