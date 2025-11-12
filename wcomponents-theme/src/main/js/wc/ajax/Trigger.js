@@ -704,6 +704,9 @@ function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManag
 				result = addToQueryString(result, serialize.serialize(region.getElementsByTagName(TAG.SELECT)));
 				result = addToQueryString(result, serialize.serialize(region.getElementsByTagName(TAG.TEXTAREA)));
 				result = addToQueryString(result, serialize.serialize(stateContainer.getElementsByTagName(TAG.INPUT)));
+				if (instance.method !== instance.METHODS.GET) {
+					result = addToQueryString(result, serialize.serialize(document.getElementsByName("wc_t")));
+				}
 			} else {
 				formUpdateManager.update(form);
 				result = serialize.serialize(form);

@@ -226,7 +226,6 @@ public class SerializationPerformance_Test extends AbstractWComponentTestCase {
 		PrintWriter writer = new PrintWriter(new NullWriter());
 		uic.setEnvironment(new WServlet.WServletEnvironment("", "http://localhost", ""));
 		uic.setUI(comp);
-
 		InterceptorComponent root = ServletUtil.createInterceptorChain(new MockHttpServletRequest());
 		root.attachUI(comp);
 
@@ -235,6 +234,7 @@ public class SerializationPerformance_Test extends AbstractWComponentTestCase {
 
 		setActiveContext(uic);
 		MockRequest request = new MockRequest();
+		request.setMethod("GET");
 
 		try {
 			root.serviceRequest(request);

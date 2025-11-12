@@ -4,16 +4,9 @@ import com.github.bordertech.wcomponents.Environment;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
-import com.github.bordertech.wcomponents.WImage;
-import com.github.bordertech.wcomponents.util.StepCountUtil;
-import com.github.bordertech.wcomponents.util.Util;
 
 /**
- * This session token interceptor makes sure the content request being processed is for the correct session.
- * <p>
- * Similar to {@link SessionTokenInterceptor} but caters for setting error codes for content requests such as
- * {@link WImage} when a token error is detected.
- * </p>
+ * This session token interceptor makes sure the session token on content requests are handled correctly for CSRF.
  *
  * @author Jonathan Austin
  * @since 1.0.0
@@ -21,14 +14,14 @@ import com.github.bordertech.wcomponents.util.Util;
 public class SessionTokenContentInterceptor extends InterceptorComponent {
 
 	/**
-	 * Override to check whether the session token variable in the incoming request matches what we expect.
+	 * Override to check whether the session token is handled correctly for CSRF.
 	 *
 	 * @param request the request being serviced.
 	 */
 	@Override
 	public void serviceRequest(final Request request) {
 
-		// Get the expected session token
+		// Get the current session token
 		UIContext uic = UIContextHolder.getCurrent();
 		String expected = uic.getEnvironment().getSessionToken();
 
@@ -38,18 +31,18 @@ public class SessionTokenContentInterceptor extends InterceptorComponent {
 					+ " Can be due to the session timing out.");
 		}
 
-		// Get the session token from the content request
-		String got = request.getParameter(Environment.SESSION_TOKEN_VARIABLE);
-
-		// Check tokens match (both must be provided) or check if cached content (no session token on request)
-		if (Util.equals(expected, got) || (got == null && StepCountUtil.isCachedContentRequest(request))) {
-			// Process content request
-			getBackingComponent().serviceRequest(request);
-		} else {
-			// Invalid token on content request
-			throw new SessionTokenException("Wrong session token detected for content request. Expected token ["
-					+ expected + "] but got token [" + got + "].");
+		// Content requests should only be a GET (CSRF Rules)
+		if (!"GET".equals(request.getMethod())) {
+			throw new IllegalStateException("Content request should only be a GET");
 		}
+
+		// Check no session token on the content request (CSRF Rules)
+		String got = request.getParameter(Environment.SESSION_TOKEN_VARIABLE);
+		if (got != null) {
+			throw new IllegalStateException("A session token should not be provided on a GET");
+		}
+
+		getBackingComponent().serviceRequest(request);
 
 	}
 
