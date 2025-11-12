@@ -114,19 +114,19 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"], 
 		},
 		testParserStndExpandYear: function() {
 			var parser = getParser(standardMasks, false, false),
-				result = parser.parse("281025");
+				result = parser.parse("281040");
 			assert.strictEqual(result.length, 1);
 			assert.strictEqual(result[0].day, 28);
 			assert.strictEqual(result[0].month, 10);
-			assert.strictEqual(result[0].year, 2025);
+			assert.strictEqual(result[0].year, 2040);
 		},
 		testParserStndExpandYearPast: function() {
 			var parser = getParser(standardMasks, true, false),
-				result = parser.parse("281025");
+				result = parser.parse("281045");
 			assert.strictEqual(result.length, 1);
 			assert.strictEqual(result[0].day, 28);
 			assert.strictEqual(result[0].month, 10);
-			assert.strictEqual(result[0].year, 1925);
+			assert.strictEqual(result[0].year, 1945);
 		},
 		testParserStndMonthAbbr: function() {
 			var parser = getParser(standardMasks, false, false),
