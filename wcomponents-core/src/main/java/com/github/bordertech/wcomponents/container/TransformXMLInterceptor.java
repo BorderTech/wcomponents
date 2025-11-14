@@ -97,7 +97,7 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	public void preparePaint(final Request request) {
 		if (doTransform && request instanceof ServletRequest) {
 			HttpServletRequest httpServletRequest = ((ServletRequest) request).getBackingRequest();
-			String userAgentString = httpServletRequest.getHeader("User-Agent");
+			String userAgentString = httpServletRequest.getHeader("X-wcnoxslt");
 			/* It is possible to opt out on a case by case basis by setting a flag on the ua string.
 			 * This helps custom user agents that do not support HTML as well as facilitating debugging.
 			 */

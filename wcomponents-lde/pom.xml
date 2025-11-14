@@ -31,6 +31,8 @@
 	<properties>
 		<spotbugs.excludeFilterFile>${basedir}/spotbugs-exclude-filter.xml</spotbugs.excludeFilterFile>
 		<suppressionFiles>${project.parent.basedir}/owasp-jetty-suppression.xml,${project.parent.basedir}/owasp-velocity-suppression.xml</suppressionFiles>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
 	</properties>
 
 	<dependencies>

@@ -93,33 +93,6 @@
 		param type: The type attribute (if any) of the parent ui:text element.
 		  Defaults to 'plain' if the type attribute is not set.
 	-->
-	<xsl:template match="text()" mode="space">
-		<xsl:param name="space" select="''"/>
-		<xsl:param name="type" select="'plain'"/>
-		<xsl:param name="class" select="''"/>
-		<xsl:choose>
-			<xsl:when test="$space eq 'paragraphs'">
-				<p class="{$class}">
-					<xsl:call-template name="WStyledTextContent">
-						<xsl:with-param name="type" select="$type"/>
-					</xsl:call-template>
-				</p>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:call-template name="WStyledTextContent">
-					<xsl:with-param name="type" select="$type"/>
-				</xsl:call-template>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
-
-	<!--
-		Manipulates text nodes based on ui:text space and type attributes.
-
-		param space: The space attribute of the parent ui:text element.
-		param type: The type attribute (if any) of the parent ui:text element.
-		  Defaults to 'plain' if the type attribute is not set.
-	-->
 	<xsl:template match="text()" mode="pre">
 		<xsl:param name="type" select="'plain'"/>
 		<xsl:call-template name="WStyledTextContent">
