@@ -1,10 +1,12 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
+import com.github.bordertech.wcomponents.Environment;
 import com.github.bordertech.wcomponents.Renderer;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.TrackingUtil;
@@ -45,11 +47,20 @@ final class WApplicationRenderer extends AbstractWebXmlRenderer {
 			LOG.warn("WApplication component should be the top level component.");
 		}
 
+		// Build AJAX url (add hidden parameters that was previously added by XSL)
+		String ajaxUrl = uic.getEnvironment().getWServletPath();
+		if (ajaxUrl != null) {
+			Map<String, String> params = uic.getEnvironment().getHiddenParameters();
+			// Dont add session token on URL (CSRF Rules)
+			params.remove(Environment.SESSION_TOKEN_VARIABLE);
+			ajaxUrl = WebUtilities.getPath(ajaxUrl, params, true);
+		}
+
 		xml.appendTagOpen("ui:application");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendUrlAttribute("applicationUrl", uic.getEnvironment().getPostPath());
-		xml.appendUrlAttribute("ajaxUrl", uic.getEnvironment().getWServletPath());
+		xml.appendUrlAttribute("ajaxUrl", ajaxUrl);
 		xml.appendOptionalAttribute("unsavedChanges", application.hasUnsavedChanges(), "true");
 		xml.appendOptionalAttribute("title", application.getTitle());
 		xml.appendOptionalAttribute("defaultFocusId", uic.isFocusRequired() && !Util.empty(focusId),

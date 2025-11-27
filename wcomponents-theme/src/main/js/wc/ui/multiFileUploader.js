@@ -893,6 +893,7 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 		 */
 		function sendFile(uri, uploadName, fileId, file, callback) {
 			var request, xhr, formData = new FormData(),
+				token = document.getElementById("wc_t"),
 				onProgress = progressEventFactory(fileId),
 				onError = errorHandlerFactory(fileId),
 				onAbort = abortHandlerFactory(fileId);
@@ -905,6 +906,10 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 			 * The name, however, is a readonly property of blob and while we may appear to have overridden the value we probably haven't.
 			 */
 			formData.append(uploadName, file, file.name);
+			// Add session token
+			if (token) {
+				formData.append("wc_t", token.value);
+			}
 
 			request = {
 				url: uri,

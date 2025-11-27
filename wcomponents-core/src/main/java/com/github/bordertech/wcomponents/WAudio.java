@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.util.Util;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.logging.Log;
@@ -324,29 +325,11 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 		}
 
 		String[] urls = new String[audio.length];
-
-		Environment env = getEnvironment();
-		Map<String, String> parameters = env.getHiddenParameters();
-		parameters.put(Environment.TARGET_ID, getTargetId());
-
-		if (Util.empty(getCacheKey())) {
-			// Add some randomness to the URL to prevent caching
-			String random = WebUtilities.generateRandom();
-			parameters.put(Environment.UNIQUE_RANDOM_PARAM, random);
-		} else {
-			// Remove step counter as not required for cached content
-			parameters.remove(Environment.STEP_VARIABLE);
-			parameters.remove(Environment.SESSION_TOKEN_VARIABLE);
-			// Add the cache key
-			parameters.put(Environment.CONTENT_CACHE_KEY, getCacheKey());
-		}
-
-		// this variable needs to be set in the portlet environment.
-		String url = env.getWServletPath();
-
+		String cacheKey = getCacheKey();
+		Map<String, String> parameters = new HashMap<>();
 		for (int i = 0; i < urls.length; i++) {
 			parameters.put(AUDIO_INDEX_REQUEST_PARAM_KEY, String.valueOf(i));
-			urls[i] = WebUtilities.getPath(url, parameters, true);
+			urls[i] = WebUtilities.createTargetUrl(this, cacheKey, parameters);
 		}
 
 		return urls;
@@ -438,7 +421,6 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 	public boolean isRenderControls() {
 		return getComponentModel().renderControls;
 	}
-
 
 	/**
 	 * Sets whether the browser should render the default controls. The default is true.

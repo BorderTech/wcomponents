@@ -351,6 +351,8 @@ public class WWindow extends AbstractWComponent implements Container {
 		parameters.put(WWINDOW_REQUEST_PARAM_KEY, getId());
 		// Override the step count with WWindow step
 		parameters.put(Environment.STEP_VARIABLE, String.valueOf(getStep()));
+		// Remove session token as this should not be exposed on GET URLs (CSRF Rules)
+		parameters.remove(Environment.SESSION_TOKEN_VARIABLE);
 
 		String url = env.getWServletPath();
 

@@ -4,6 +4,15 @@
 
 ### API Changes
 ### Enhancements
+
+* To improve the robustness of the session token parameter (wc_t), which is used to prevent CSRF attacks, the following changes have been made:
+  * The session token is no longer included on any GET URLs and only posted in the body for POSTS.
+  * Modified the session token interceptors to only accept a session token on a POST and throw an exception if provided on a GET.
+  * Modified Targetable components to use the new createTargetUrl method in WebUtilites that centralises the logic for
+    creating the URLs for Targetable components and excludes the session token.
+  * Moved the adding of the hidden parameters onto the AJAX url from the XSL into the WApplicationRenderer so the session
+    token can be excluded.
+
 ### Bug Fixes
 
 ## 1.5.37

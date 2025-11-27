@@ -5,6 +5,8 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.util.Util;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * This session token interceptor makes sure the ajax request being processed is for the correct session.
@@ -16,6 +18,11 @@ import com.github.bordertech.wcomponents.util.Util;
  * @since 1.0.0
  */
 public class SessionTokenAjaxInterceptor extends InterceptorComponent {
+
+	/**
+	 * The logger instance for this class.
+	 */
+	private static final Log LOG = LogFactory.getLog(SessionTokenAjaxInterceptor.class);
 
 	/**
 	 * Override to check whether the session token variable in the incoming request matches what we expect.
@@ -38,14 +45,19 @@ public class SessionTokenAjaxInterceptor extends InterceptorComponent {
 		// Get the session token from the AJAX request
 		String got = request.getParameter(Environment.SESSION_TOKEN_VARIABLE);
 
-		// Check tokens match (both must be provided)
-		if (Util.equals(expected, got)) {
+		// Session token should not be provided on a GET URL (CSRF Rules)
+		if (got != null && "GET".equals(request.getMethod())) {
+			throw new IllegalStateException("A session token should not be provided on a GET");
+		}
+
+		// Check processing a GET or tokens must match
+		if ("GET".equals(request.getMethod()) || (got != null && Util.equals(expected, got))) {
 			// Process AJAX request
 			getBackingComponent().serviceRequest(request);
 		} else {
 			// Invalid token on AJAX request
-			throw new SessionTokenException("Wrong session token detected for AJAX request. Expected token ["
-					+ expected + "] but got token [" + got + "].");
+			LOG.debug("Wrong session token detected for AJAX request. Expected token [" + expected + "] but got token [" + got + "].");
+			throw new SessionTokenException("Wrong session token detected for AJAX request.");
 		}
 	}
 
