@@ -27,7 +27,7 @@ function getClassesFromMarginTag(marginElement: Element): string {
 	}
 }
 
-export default function WSection(props: { wcNode: WComponentNode }) {
+export default function WFieldLayout(props: { wcNode: WComponentNode }) {
 	const { wcNode } = props;
 
 	let marginClasses = "";
@@ -36,12 +36,18 @@ export default function WSection(props: { wcNode: WComponentNode }) {
 		child.tagName === "ui:margin" && (marginClasses += getClassesFromMarginTag(child));
 	});
 
+	const className = wcNode.className ? " " + wcNode.className : "";
+	const labelWidth = wcNode.attributes["labelWidth"] ? ` wc_fld_lblwth_${wcNode.attributes["labelWidth"]}` : "";
+	const ordered = wcNode.attributes["ordered"] ? " wc_ordered" : "";
+	const layout = wcNode.attributes["layout"] ? ` wc-layout-${wcNode.attributes["layout"]}` : "";
+
 	return (
-		<section
+		<div
 			id={wcNode.id}
-			className={`wc-section${wcNode.className ? " " + wcNode.className : ""}${marginClasses}`}
+			role="presentation"
+			className={`wc-fieldlayout${className}${marginClasses}${labelWidth}${ordered}${layout}`}
 		>
 			<WComponentSet xmlNodes={wcNode.children} />
-		</section>
+		</div>
 	);
 }

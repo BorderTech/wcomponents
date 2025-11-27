@@ -1,11 +1,17 @@
-import { type JSX, lazy, type LazyExoticComponent, memo, Suspense } from "react";
+import { type ElementType, type JSX, lazy, type LazyExoticComponent, memo, Suspense } from "react";
 import { getWComponentNodeFromElement, type WComponentNode } from "./data.ts";
 
 const WCOMPONENTS_META: { [key: string]: LazyExoticComponent<(props: { wcNode: WComponentNode }) => JSX.Element> } = {
+	button: lazy(() => import("./wc/WButton.tsx")),
+	script: lazy(() => import("./wc/WScript.tsx")),
 	"ui:application": lazy(() => import("./wc/WApplication.tsx")),
 	"ui:columnlayout": lazy(() => import("./wc/WColumnLayout.tsx")),
 	"ui:content": lazy(() => import("./wc/WContent.tsx")),
+	"ui:datefield": lazy(() => import("./wc/WDateField.tsx")),
 	"ui:decoratedlabel": lazy(() => import("./wc/WDecoratedLabel.tsx")),
+	"ui:definitionlist": lazy(() => import("./wc/WDefinitionList.tsx")),
+	"ui:field": lazy(() => import("./wc/WField.tsx")),
+	"ui:fieldlayout": lazy(() => import("./wc/WFieldLayout.tsx")),
 	"ui:heading": lazy(() => import("./wc/WHeading.tsx")),
 	"ui:js": lazy(() => import("./wc/WNoOp.tsx")),
 	"ui:labelbody": lazy(() => import("./wc/WLabelChild.tsx")),
@@ -29,12 +35,18 @@ const WCOMPONENTS_META: { [key: string]: LazyExoticComponent<(props: { wcNode: W
 	//"ui:text": lazy(() => import("./wc/WText.tsx")),
 };
 
-export const WComponent = memo(function WComponent(props: { wcNode: WComponentNode }) {
+export const WComponent = memo(function WComponent(props: { wcNode: WComponentNode | null }) {
 	const { wcNode } = props;
+	if (!wcNode) {
+		return <></>;
+	}
 	console.log("render wcomponent");
 	const Component = WCOMPONENTS_META[wcNode.tagName];
 	if (!Component) {
-		return <div>Component not found: {wcNode.tagName}</div>;
+		if (wcNode.tagName.includes(":") || wcNode.tagName.includes("-")) {
+			return <div>Component not found: {wcNode.tagName}</div>;
+		}
+		return <NativeHTML wcNode={wcNode} />;
 	}
 	return (
 		<Suspense fallback={<p>loading...</p>}>
@@ -43,13 +55,34 @@ export const WComponent = memo(function WComponent(props: { wcNode: WComponentNo
 	);
 });
 
-export function WComponentSet(props: { wcElements: Element[]; extraAttributes?: { [key: string]: string } }) {
-	const { wcElements, extraAttributes } = props;
+export function WComponentSet(props: { xmlNodes: ChildNode[]; extraAttributes?: { [key: string]: string } }) {
+	const { xmlNodes, extraAttributes } = props;
 	return (
 		<>
-			{wcElements.map((wcElement) => (
-				<WComponent wcNode={getWComponentNodeFromElement(wcElement, extraAttributes)} />
+			{xmlNodes.map((xmlNode) => (
+				<WComponent wcNode={getWComponentNodeFromElement(xmlNode, extraAttributes)} />
 			))}
+		</>
+	);
+}
+
+function NativeHTML(props: { wcNode: WComponentNode }) {
+	const { wcNode } = props;
+
+	if (!wcNode.tagName) {
+		return <>{wcNode.value}</>;
+	}
+
+	const NativeTag = wcNode.tagName as ElementType;
+	return (
+		<>
+			{wcNode.children.length ? (
+				<NativeTag {...wcNode.attributes}>
+					<WComponentSet xmlNodes={wcNode.children} />
+				</NativeTag>
+			) : (
+				<NativeTag {...wcNode.attributes} />
+			)}
 		</>
 	);
 }

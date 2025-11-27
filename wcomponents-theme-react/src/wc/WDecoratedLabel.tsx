@@ -10,7 +10,7 @@ export default function WDecoratedLabel(props: { wcNode: WComponentNode }) {
 
 	return (
 		<span id={wcNode.id} className={className}>
-			<WComponentSet wcElements={wcNode.children} />
+			<WComponentSet xmlNodes={wcNode.children} />
 		</span>
 	);
 }

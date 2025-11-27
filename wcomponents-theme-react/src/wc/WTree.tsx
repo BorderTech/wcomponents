@@ -13,7 +13,7 @@ function convertXMLTreeElementsToTreeViewBaseItems(wcElements: Element[]): TreeV
 export default function WTree(props: { wcNode: WComponentNode }) {
 	return (
 		<RichTreeView
-			items={convertXMLTreeElementsToTreeViewBaseItems(props.wcNode.children)}
+			items={convertXMLTreeElementsToTreeViewBaseItems(props.wcNode.children as Element[])}
 			slots={{ collapseIcon: FolderOpen, expandIcon: Folder, endIcon: InsertDriveFileOutlined }}
 		/>
 	);

@@ -6,21 +6,23 @@ import { WComponent, WComponentSet } from "../WComponent.tsx";
 
 interface WTabMeta {
 	tabNode: WComponentNode;
-	labelNode?: WComponentNode;
-	contentNodes: Element[];
+	labelNode: WComponentNode | null;
+	contentNodes: ChildNode[];
 }
 
 function getWTabMetasFromWTabSetNode(wcNode: WComponentNode): WTabMeta[] {
 	return wcNode.children.map((tab) => {
-		const tabNode = getWComponentNodeFromElement(tab);
+		const tabNode = getWComponentNodeFromElement(tab)!;
 		return {
 			tabNode,
 			labelNode:
-				tabNode.children[0]?.tagName === "ui:decoratedlabel"
+				(tabNode.children[0] as Element)?.tagName === "ui:decoratedlabel"
 					? getWComponentNodeFromElement(tabNode.children[0])
-					: undefined,
+					: null,
 			contentNodes:
-				tabNode.children[1]?.tagName === "ui:tabcontent" ? Array.from(tabNode.children[1].children) : [],
+				(tabNode.children[1] as Element)?.tagName === "ui:tabcontent"
+					? Array.from(tabNode.children[1].childNodes)
+					: [],
 		};
 	});
 }
@@ -36,12 +38,16 @@ export default function WTabSet(props: { wcNode: WComponentNode }) {
 		<TabContext value={tabIndex}>
 			<TabList onChange={(_e, newValue) => setTabIndex(newValue)}>
 				{tabMetas.map((t, i) => (
-					<Tab label={t.labelNode ? <WComponent wcNode={t.labelNode} /> : `TAB ${i}`} value={i} />
+					<Tab
+						label={t.labelNode ? <WComponent wcNode={t.labelNode} /> : `TAB ${i}`}
+						sx={{ textTransform: "none" }}
+						value={i}
+					/>
 				))}
 			</TabList>
 			{tabMetas.map((t, i) => (
 				<TabPanel value={i}>
-					<WComponentSet wcElements={t.contentNodes} />
+					<WComponentSet xmlNodes={t.contentNodes} />
 				</TabPanel>
 			))}
 		</TabContext>

@@ -54,7 +54,8 @@ export default function WColumnLayout(props: { wcNode: WComponentNode }) {
 
 	const columnMeta: ColumnMeta[] = [];
 	const cells: Element[] = [];
-	wcNode.children.forEach((child) => {
+	wcNode.children.forEach((node) => {
+		const child = node as Element;
 		if (child.tagName === "ui:column") {
 			columnMeta.push(getColumnMetaFromColumnTag(child));
 		} else if (child.tagName === "ui:cell") {
@@ -70,7 +71,7 @@ export default function WColumnLayout(props: { wcNode: WComponentNode }) {
 				<div className={rowClasses}>
 					{row.map((cell, i) => (
 						<div className={getCellClassName(columnMeta[i])}>
-							<WComponentSet wcElements={Array.from(cell.children)} />
+							<WComponentSet xmlNodes={Array.from(cell.children)} />
 						</div>
 					))}
 				</div>

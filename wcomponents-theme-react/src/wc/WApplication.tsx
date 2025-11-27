@@ -6,7 +6,7 @@ export default function WApplication(props: { wcNode: WComponentNode }) {
 
 	return (
 		<div id={wcNode.id}>
-			<WComponentSet wcElements={wcNode.children} />
+			<WComponentSet xmlNodes={wcNode.children} />
 		</div>
 	);
 }

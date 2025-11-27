@@ -1,4 +1,4 @@
-export async function getClientLayout(): Promise<WComponentNode> {
+export async function getClientLayout(): Promise<WComponentNode | null> {
 	const response = await fetch("/app", {
 		headers: {
 			"X-wcnoxslt": "wcnoxslt",
@@ -22,21 +22,35 @@ export async function getClientLayout(): Promise<WComponentNode> {
 }
 
 export function getWComponentNodeFromElement(
-	element: Element,
+	xmlNode: ChildNode,
 	extraAttributes?: { [key: string]: string },
-): WComponentNode {
-	const attributes: { [key: string]: string } = {};
-	for (const attr of element.attributes) {
-		attributes[attr.name] = attr.value;
+): WComponentNode | null {
+	if (xmlNode.nodeType === Node.ELEMENT_NODE) {
+		const element = xmlNode as Element;
+		const attributes: { [key: string]: string } = {};
+		for (const attr of element.attributes) {
+			attributes[attr.name] = attr.value;
+		}
+		return {
+			tagName: element.tagName,
+			id: element.id,
+			className: element.className,
+			attributes: { ...attributes, ...extraAttributes },
+			value: element.textContent,
+			children: Array.from(xmlNode.childNodes),
+		};
 	}
-	return {
-		tagName: element.tagName,
-		id: element.id,
-		className: element.className,
-		attributes: { ...attributes, ...extraAttributes },
-		value: element.textContent,
-		children: Array.from(element.children),
-	};
+	if (xmlNode.nodeType === Node.TEXT_NODE) {
+		return {
+			tagName: "",
+			id: "",
+			className: "",
+			attributes: {},
+			value: xmlNode.textContent ?? "",
+			children: [],
+		};
+	}
+	return null;
 }
 
 export interface WComponentNode {
@@ -45,5 +59,5 @@ export interface WComponentNode {
 	className: string;
 	attributes: { [key: string]: string };
 	value: string;
-	children: Element[];
+	children: ChildNode[];
 }

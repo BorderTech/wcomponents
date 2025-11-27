@@ -7,7 +7,7 @@ export default function WMenuItem(props: { wcNode: WComponentNode }) {
 
 	return (
 		<MenuItem id={wcNode.id}>
-			<WComponentSet wcElements={wcNode.children} />
+			<WComponentSet xmlNodes={wcNode.children} />
 		</MenuItem>
 	);
 }
