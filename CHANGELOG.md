@@ -12,6 +12,8 @@
     creating the URLs for Targetable components and excludes the session token.
   * Moved the adding of the hidden parameters onto the AJAX url from the XSL into the WApplicationRenderer so the session
     token can be excluded.
+* Updated beanutils version and package names as beanutils had a transient dependency on commons-collections that has security vulnerabilies.
+    * commons-beanutils:commons-beanutils:1.11.0 to org.apache.commons:commons-beanutils2:2.0.0-M2
 
 ### Bug Fixes
 
