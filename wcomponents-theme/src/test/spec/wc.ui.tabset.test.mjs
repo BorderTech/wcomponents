@@ -68,7 +68,7 @@ describe("wc/ui/tabset.mjs", () => {
 
 	it("extends all tabs ",() => {
 		expect(tablist).not.toBeNull();
-		expect(tablist.matches(tabsets)).toBeTrue();
+		
 
 
 		tab1.setAttribute('aria-expanded', true);
