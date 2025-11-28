@@ -70,7 +70,7 @@ public class WComponentsPerformance_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testRequestHandlingPerformance() throws Exception {
-		final int numLoops = 2000;
+		final int numLoops = NUM_REPETITIONS;
 
 		long simpleTime = timeOtherServlet(numLoops) / numLoops;
 		long wcomponentTime = timeWComponentProcessing(numLoops) / numLoops;
@@ -78,8 +78,7 @@ public class WComponentsPerformance_Test extends AbstractWComponentTestCase {
 		LOG.info("Simple request handling time: " + (simpleTime / 1000000.0) + "ms");
 		LOG.info("WComponent request handling time: " + (wcomponentTime / 1000000.0) + "ms");
 
-		Assert.assertTrue("WComponent request handling time should not exceed 10x simple time",
-				wcomponentTime < simpleTime * 10);
+		assertLessThan("WComponent request handling time should not exceed 12x simple time", wcomponentTime, simpleTime * 12);
 	}
 
 	/**

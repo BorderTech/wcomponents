@@ -30,6 +30,112 @@ Client Side API:
 ### Bug Fixes
 * SelectToggle label attribute fix, `wc-data-for` > `data-wc-for`.
 
+## 1.5.37
+
+### Enhancements
+* Revert to commons-logging instead of jcl-over-slf4j to allow projects to decide on how to handle logging.
+* Updated the following dependencies:
+  * wcomponents-core:
+    * commons-beanutils:commons-beanutils from 1.9.4 to 1.11.0
+    * commons-fileupload:commons-fileupload from 1.5 to 1.6.0
+    * commons-io:commons-io from 2.17.0 to 2.19.0
+    * com.google.code.gson:gson from 2.11.0 to 2.13.1
+    * com.google.errorprone:error_prone_annotations from 2.33.0 to 2.39.0
+    * org.apache.commons:commons-lang3 from 3.17.0 to 3.18.0
+    * org.apache.httpcomponents.client5:httpclient5 from 5.4 to 5.5
+    * org.apache.httpcomponents.core5:httpcore5 from 5.3 to 5.3.4
+    * org.apache.tika:tika-core from 2.9.2 to 2.9.4
+    * org.apache.velocity:velocity-engine-core from 2.4 to 2.4.1
+    * org.apache.xmlgraphics:batik-css from 1.17 to 1.19
+    * org.slf4j:slf4j-api from 2.0.16 to 2.0.17
+    * xerces:xercesImpl from 2.12.2 to 2.12.1 (version 2.12.2 has critical vulnerability)
+  * wcomponents-examples:
+    * commons-validator:commons-validator from 1.9.0 to 1.10.0
+  * wcomponents-test-lib:
+    * io.github.bonigarcia:webdrivermanager from 5.9.2 to 6.1.0
+    * commons-codec:commons-codec from 1.17.1 to 1.18.0
+    * com.google.guava:guava from 33.3.1-jre to 33.4.8-jre
+
+## 1.5.36
+
+### Enhancements
+* Update project dependencies to current versions
+* Fix convergent dependencies by using excludes and adding the required dependency directly. Only using
+  DependencyManagement in the parent pom is not reliable for library projects.
+* Update velocity from 2.3 to 2.4. Refer to changelog below for 1.5.35 on backward compatability to version 1.5 and 1.7.
+* Use jcl-over-slf4j from SLF4J to provide the commons-logging API.
+  * Libraries used by WComponents use SLF4J and WComponents currently uses common-loggings which routes to SLF4J. SLF4J
+  recommend using their jcl-over-slf4j dependency to direct any libraries using commons-logging to SLF4J to avoid
+  classpath issues (Refer to https://www.slf4j.org/legacy.html#jclOverSLF4J).
+  * Exclude commons-logging from transitive dependencies to make sure jcl-over-slf4j is used instead to direct JCL to SLF4J.
+  * jcl-over-slf4j can be used until WComponents is refactored to use SLF4J.
+
+### Bug Fixes
+* The latest version of the shade plugin used to create the examples lde dependency jar has changed how it handles
+  the reduced pom files. The reduced pom removes all the dependencies which impacts the use of the main attached jar so
+  its creation has been disabled.
+* Improve performance unit test messaging and increase padding factors to help avoid intermittent fails.
+
+## 1.5.35
+
+### Enhancements
+* Pickup latest qa-parent 1.0.21
+* Update project dependencies to current versions
+* Update theme dependencies to current versions
+* Updated velocity version from 1.5 to 2.3 due to security vulnerabilities.
+  * Removed the custom VelocityLogger class as version 2.3 now uses SLF4J.
+  * Version 2.3 allows for backward compatability properties to be set for version 1.5 and 1.7. The VeloctityRenderImpl
+  and VelocityEngineFactory classes have been updated to set these properties by default. This can be disabled by setting
+  runtime property "bordertech.wcomponents.velocity.backward17.enabled=false". These backward compatability properties
+  use a prefix of "bt.velocity.backward17.*" in web.properties. Refer to https://velocity.apache.org/engine/2.3/upgrading.html.
+  * Additional velocity initilisation properties can also be set by using runtime properties with the prefix "bt.velocity.app.*".
+
+### Bug Fixes
+* Fixed bug in DefaultInternalConfiguration subset method that was not removing the prefix key of the matched properties
+  in the returned Configuration. The subset method now uses the SubsetConfiguration class to implement the correct
+  behaviour as described in the subset method interface javadoc.
+
+### API Changes
+* Removed dependency commons-httpclient:3.0 due to a security issue. HttpClient was only used by WebUtilities to
+  percent encode URLs. However, the latest version no longer provides the URI class that provided this functionality.
+  As encoding full URLs is unsafe and unreliable and should be done while constructing the URL, the encodeURL
+  and percentEncodeUrl methods have been removed from WebUtilities.
+
+## 1.5.34
+
+### Bug Fixes
+* Fix dayname and monthname reference dates to handle timezones
+
+## 1.5.33
+
+### Bug Fixes
+* Fix month names and day names being incorrect in some timezones at some times of the day.
+
+## 1.5.32
+
+### Bug Fixes
+* Fix month names and day names being incorrect in some timezones at some times of the day.
+* Fix calendar not closing in webkit browsers when it loses focus to a non-focusable element.
+
+## 1.5.31
+
+### Bug Fixes
+* Only allow i18n to initialise once as translating strings was unreliable
+* Move calling i18n from initialise to be later in focus event for selectBoxSearch
+* Backport dayName and monthName from future branch for better i18n initialisation
+
+## 1.5.30
+
+### Enhancements
+* Update i18next version from 10.6.0 to 23.5.1
+* Update project dependencies to current versions
+
+### Bug Fixes
+* Make TinyMCE use a cahcebuster for its assets
+* Fix clipboard js not loading
+* Only show clipboard buttons if they are enabled
+* Load antisamy policy with ResoureStream as URI fails on websphere with latest version of Antisamy that tightened its URI rules
+
 ## 1.5.29
 
 ### Enhancements

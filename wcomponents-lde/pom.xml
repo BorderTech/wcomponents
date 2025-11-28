@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
 		<artifactId>wcomponents-parent</artifactId>
-		<version>1.5.30-SNAPSHOT</version>
+		<version>1.5.38-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -30,7 +30,6 @@
 
 	<properties>
 		<spotbugs.excludeFilterFile>${basedir}/spotbugs-exclude-filter.xml</spotbugs.excludeFilterFile>
-		<suppressionFiles>${project.parent.basedir}/owasp-jetty-suppression.xml,${project.parent.basedir}/owasp-velocity-suppression.xml</suppressionFiles>
 	</properties>
 
 	<dependencies>
@@ -53,25 +52,23 @@
 			<version>${jetty.version}</version>
 		</dependency>
 
+		<!-- Test dependencies -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
-
 		<dependency>
-			<scope>test</scope>
 			<groupId>com.github.bordertech.wcomponents</groupId>
 			<artifactId>wcomponents-theme</artifactId>
 			<version>${project.version}</version>
-		</dependency>
-
-		<dependency>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.github.bordertech.wcomponents</groupId>
 			<artifactId>wcomponents-xslt</artifactId>
 			<version>${project.version}</version>
+			<scope>test</scope>
 		</dependency>
-
 
 	</dependencies>
 

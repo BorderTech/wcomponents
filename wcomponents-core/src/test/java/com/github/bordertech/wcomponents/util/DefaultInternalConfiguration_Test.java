@@ -5,7 +5,9 @@ import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConversionException;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -65,8 +67,16 @@ public class DefaultInternalConfiguration_Test {
 
 	@Before
 	public void loadProperties() {
+		clearProperties();
 		config = new DefaultInternalConfiguration(
 				"com/github/bordertech/wcomponents/util/DefaultInternalConfiguration_Test.properties");
+	}
+
+	@After
+	public void clearProperties(){
+		// Clear test system properties
+		System.getProperties().remove("testSystem1");
+		System.getProperties().remove("testSystem2");
 	}
 
 	@Test
@@ -348,6 +358,36 @@ public class DefaultInternalConfiguration_Test {
 		assertPropertyEquals("key1", "value1", props);
 		assertPropertyEquals("key2", "value2", props);
 		assertPropertyEquals("key3", "value3", props);
+	}
+
+	@Test
+	public void testSubset() {
+
+		// Setup properties to test behaviour as described in subset javadoc
+		config.addProperty("testprefix.number", "1");
+		config.addProperty("testprefix.string", "Apache");
+		config.addProperty("testprefixed.foo", "bar");
+		config.addProperty("testprefix", "Jakarta");
+
+		// Create subset
+		Configuration subset = config.subset("testprefix");
+
+		// Check subset keys exist
+		Assert.assertTrue("Should contain number key", subset.containsKey("number"));
+		Assert.assertTrue("Should contain string key", subset.containsKey("string"));
+		Assert.assertFalse("Should not contain foo key", subset.containsKey("foo"));
+		Assert.assertTrue("Should contain empty key", subset.containsKey(""));
+		// Check values
+		Assert.assertEquals("Invalid number key value", "1", subset.getProperty("number"));
+		Assert.assertEquals("Invalid string key value", "Apache", subset.getProperty("string"));
+		Assert.assertEquals("Invalid empty key value", "Jakarta", subset.getProperty(""));
+	}
+
+	@Test
+	public void testSystemParameters(){
+		// Check system properties were loaded
+		Assert.assertEquals("Invalid value for system key testSystem1", "foo", System.getProperties().getProperty("testSystem1"));
+		Assert.assertEquals("Invalid value for system key testSystem2", "bar", System.getProperties().getProperty("testSystem2"));
 	}
 
 	/**

@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
 		<artifactId>wcomponents-parent</artifactId>
-		<version>1.5.30-SNAPSHOT</version>
+		<version>1.5.38-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -31,7 +31,6 @@
 
 	<properties>
 		<checkstyle.suppressions.location>${basedir}/checkstyle-exclude.xml</checkstyle.suppressions.location>
-		<suppressionFiles>${project.parent.basedir}/owasp-jetty-suppression.xml,${project.parent.basedir}/owasp-velocity-suppression.xml</suppressionFiles>
 	</properties>
 
 	<dependencies>
@@ -53,6 +52,14 @@
 			<artifactId>wcomponents-lde</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
+		<!-- SLF4J implementation for basic logging. -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -60,7 +67,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.2.1</version>
+				<version>3.6.0</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -70,6 +77,8 @@
 						<configuration>
 							<shadedArtifactAttached>true</shadedArtifactAttached>
 							<shadedClassifierName>jar-with-dependencies</shadedClassifierName>
+							<!-- The reduced pom impacts the use of the main attached jar as it removes all dependencies -->
+							<createDependencyReducedPom>false</createDependencyReducedPom>
 							<filters>
 								<filter>
 									<artifact>*:*</artifact>

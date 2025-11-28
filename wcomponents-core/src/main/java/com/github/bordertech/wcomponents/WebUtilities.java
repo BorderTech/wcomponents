@@ -20,8 +20,6 @@ import java.net.URLConnection;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
-import org.apache.commons.httpclient.URI;
-import org.apache.commons.httpclient.util.URIUtil;
 import org.apache.commons.lang3.text.translate.AggregateTranslator;
 import org.apache.commons.lang3.text.translate.CharSequenceTranslator;
 import org.apache.commons.lang3.text.translate.CodePointTranslator;
@@ -273,43 +271,6 @@ public final class WebUtilities {
 		}
 
 		return top;
-	}
-
-	/**
-	 * Encode URL for XML.
-	 *
-	 * @param urlStr the URL to escape
-	 * @return the URL percent encoded
-	 */
-	public static String encodeUrl(final String urlStr) {
-		if (Util.empty(urlStr)) {
-			return urlStr;
-		}
-		// Percent Encode
-		String percentEncode = percentEncodeUrl(urlStr);
-		// XML Enocde
-		return encode(percentEncode);
-	}
-
-	/**
-	 * Percent encode a URL to include in HTML.
-	 *
-	 * @param urlStr the URL to escape
-	 * @return the URL percent encoded
-	 */
-	public static String percentEncodeUrl(final String urlStr) {
-		if (Util.empty(urlStr)) {
-			return urlStr;
-		}
-
-		try {
-			// Avoid double encoding
-			String decode = URIUtil.decode(urlStr);
-			URI uri = new URI(decode, false);
-			return uri.getEscapedURIReference();
-		} catch (Exception e) {
-			return urlStr;
-		}
 	}
 
 	/**

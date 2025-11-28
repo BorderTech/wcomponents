@@ -43,6 +43,7 @@ public class TextDuplicator extends WPanel {
 
 	/**
 	 * Add the controls to the UI.
+	 *
 	 * @param labelText the text to show in the duplicator field's label.
 	 */
 	private void setupUI(final String labelText) {
@@ -63,7 +64,7 @@ public class TextDuplicator extends WPanel {
 	/**
 	 * An action implementation which duplicates the text in the text field.
 	 */
-	private class DuplicateAction implements Action {
+	private final class DuplicateAction implements Action {
 
 		/**
 		 * Executes the action which duplicates the text.
@@ -83,7 +84,7 @@ public class TextDuplicator extends WPanel {
 	/**
 	 * An action implementation which clears the text in the text field.
 	 */
-	private class ClearAction implements Action {
+	private final class ClearAction implements Action {
 
 		/**
 		 * Executes the action which clears the text.

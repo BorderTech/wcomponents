@@ -7,6 +7,7 @@ import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.SystemException;
 import java.io.Writer;
 import java.util.Map;
+import java.util.Properties;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.Template;
@@ -14,6 +15,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
 /**
  * Velocity template renderer.
@@ -119,32 +121,32 @@ public class VelocityRendererImpl implements TemplateRenderer {
 	 */
 	public static synchronized VelocityEngine getVelocityEngine() {
 		if (engine == null) {
-			VelocityEngine newEngine = new VelocityEngine();
+			Properties props = new Properties();
 
 			// Class Loader
-			newEngine.addProperty("resource.loader", "class");
-			newEngine.addProperty("class.resource.loader.class",
-					"org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+			props.setProperty("resource.loader", "class");
+			props.setProperty("class.resource.loader.class", ClasspathResourceLoader.class.getName());
 
 			// Caching
 			if (isCaching()) {
-				newEngine.addProperty("class.resource.loader.cache", "true");
-				newEngine.addProperty(RuntimeConstants.RESOURCE_MANAGER_CACHE_CLASS,
-						"com.github.bordertech.wcomponents.template.VelocityCacheImpl");
+				props.setProperty("class.resource.loader.cache", "true");
+				props.setProperty(RuntimeConstants.RESOURCE_MANAGER_CACHE_CLASS, VelocityCacheImpl.class.getName());
 			} else {
-				newEngine.addProperty("class.resource.loader.cache", "false");
+				props.setProperty("class.resource.loader.cache", "false");
 			}
 
-			// Logging
-			newEngine.addProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
-					"com.github.bordertech.wcomponents.velocity.VelocityLogger");
+			// Backwards compatability properties (if enabled)
+			if (ConfigurationProperties.isVelocityBackwardCompatability17Enabled()) {
+				props.putAll(ConfigurationProperties.getVelocityBackwardCompatability17Properties());
+			}
+			// Project custom properties (if set)
+			props.putAll(ConfigurationProperties.getVelocityCustomProperties());
 
 			try {
-				newEngine.init();
+				engine = new VelocityEngine(props);
 			} catch (Exception ex) {
 				throw new SystemException("Failed to configure VelocityEngine", ex);
 			}
-			engine = newEngine;
 		}
 
 		return engine;
