@@ -10,6 +10,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tika.Tika;
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.metadata.TikaCoreProperties;
 
 /**
  * Utility methods for {@link File}.
@@ -98,7 +100,15 @@ public final class FileUtil {
 		if (file != null) {
 			try {
 				final Tika tika = new Tika();
-				return tika.detect(file.getInputStream());
+				// Setup metatdata hints to help Tika detect the mime type
+				Metadata meta = new Metadata();
+				if (file.getName() != null) {
+					meta.set(TikaCoreProperties.RESOURCE_NAME_KEY, file.getName());
+				}
+				if (file.getMimeType() != null) {
+					meta.set(TikaCoreProperties.CONTENT_TYPE_HINT, file.getMimeType());
+				}
+				return tika.detect(file.getInputStream(), meta);
 			} catch (IOException ex) {
 				LOG.error("Invalid file, name " + file.getName(), ex);
 			}

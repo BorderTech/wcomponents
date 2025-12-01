@@ -129,14 +129,18 @@
 		</dependency>
 
 		<dependency>
-			<groupId>commons-beanutils</groupId>
-			<artifactId>commons-beanutils</artifactId>
-			<version>1.11.0</version>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-beanutils2</artifactId>
+			<version>2.0.0-M2</version>
 			<!-- Fix convergence -->
 			<exclusions>
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.commons</groupId>
+					<artifactId>commons-lang3</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -224,50 +228,27 @@
 		</dependency>
 
 		<!-- Required for HTML input sanitization of WTextArea -->
-		<!-- Antisamy as of 1.7.X does not support xhtml and will remove the closing tag on "void" elements which will break the XML-->
-		<!-- Once WComponents stops using xslt then the latest Antisamy can be used -->
+		<!-- Note - Antisamy versions 1.7.0 to 1.7.6 does not support xhtml and will remove the closing tag on "void" elements which will break the XML-->
 		<!-- https://html.spec.whatwg.org/multipage/syntax.html#void-elements -->
 		<dependency>
 			<groupId>org.owasp.antisamy</groupId>
 			<artifactId>antisamy</artifactId>
-			<version>1.6.8</version>
+			<version>1.7.8</version>
 			<!-- Fix convergence -->
 			<exclusions>
 				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>org.apache.xmlgraphics</groupId>
 					<artifactId>batik-css</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>commons-io</groupId>
-					<artifactId>commons-io</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.apache.httpcomponents.client5</groupId>
 					<artifactId>httpclient5</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.apache.httpcomponents.core5</groupId>
-					<artifactId>httpcore5</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>net.sourceforge.htmlunit</groupId>
-					<artifactId>neko-htmlunit</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>xerces</groupId>
 					<artifactId>xercesImpl</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
-		<!-- Neko-htmlunit had a package rename as of 3.X.X and cannot be picked up until latest Antisamy can be used -->
-		<dependency>
-			<groupId>net.sourceforge.htmlunit</groupId>
-			<artifactId>neko-htmlunit</artifactId>
-			<version>2.70.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>

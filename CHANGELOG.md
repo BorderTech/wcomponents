@@ -12,6 +12,11 @@
     creating the URLs for Targetable components and excludes the session token.
   * Moved the adding of the hidden parameters onto the AJAX url from the XSL into the WApplicationRenderer so the session
     token can be excluded.
+* Updated beanutils version and package names as beanutils had a transient dependency on commons-collections that has security vulnerabilies.
+  * commons-beanutils:commons-beanutils:1.11.0 to org.apache.commons:commons-beanutils2:2.0.0-M2
+* Updated antisamy to latest version 1.7.8 as it has reinstated the xHTML behaviour for tags. Versions 1.7.0 to 1.7.6 did not support xHTML and would break the XML.
+  * org.owasp.antisamy:antismay from 1.6.8 to 1.7.8
+* Updated FileUtil to include MetaData hints when calling tika to help tika identify a files content type.
 
 ### Bug Fixes
 
