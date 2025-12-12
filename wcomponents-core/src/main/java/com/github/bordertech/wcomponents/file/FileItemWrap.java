@@ -27,6 +27,13 @@ public class FileItemWrap implements File {
 	}
 
 	/**
+	 * @return the backing file item.
+	 */
+	public FileItem getBacking() {
+		return backing;
+	}
+
+	/**
 	 * The name of the file as supplied by the client. Depending on the client this may or may not include the full path
 	 * to the file.
 	 *
