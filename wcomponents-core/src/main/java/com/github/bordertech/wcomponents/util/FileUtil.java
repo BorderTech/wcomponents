@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.util;
 import com.github.bordertech.wcomponents.file.File;
 import com.github.bordertech.wcomponents.file.FileItemWrap;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,13 +34,11 @@ public final class FileUtil {
 	private static final Log LOG = LogFactory.getLog(FileUtil.class);
 
 	/**
-	 * Checks if the file item is one among the supplied file types.
-	 * This first checks against file extensions, then against file mime types
+	 * Checks if the file item is one among the supplied file types. This first checks against file extensions, then
+	 * against file mime types
 	 *
-	 * @param newFile the file to be checked, if null then return false
-	 * otherwise validate
-	 * @param fileTypes allowed file types, if null or empty return true,
-	 * otherwise validate
+	 * @param newFile the file to be checked, if null then return false otherwise validate
+	 * @param fileTypes allowed file types, if null or empty return true, otherwise validate
 	 * @return {@code true} if either extension or mime-type match is successful
 	 */
 	public static boolean validateFileType(final FileItemWrap newFile, final List<String> fileTypes) {
@@ -53,12 +52,12 @@ public final class FileUtil {
 		}
 
 		final List<String> fileExts = fileTypes.stream()
-			.filter(fileType -> fileType.startsWith("."))
-			.collect(Collectors.toList());
+				.filter(fileType -> fileType.startsWith("."))
+				.collect(Collectors.toList());
 		// filter mime types from fileTypes.
 		final List<String> fileMimes = fileTypes.stream()
-			.filter(fileType -> !fileExts.contains(fileType))
-			.collect(Collectors.toList());
+				.filter(fileType -> !fileExts.contains(fileType))
+				.collect(Collectors.toList());
 
 		// First validate newFile against fileExts list
 		// If extensions are supplied, then check if newFile has a name
@@ -67,7 +66,7 @@ public final class FileUtil {
 			String[] split = newFile.getName().split(("\\.(?=[^\\.]+$)"));
 			// If it exists, then check if it matches supplied extension(s)
 			if (split.length == 2
-				&& fileExts.stream().anyMatch(fileExt -> fileExt.equals("." + split[1]))) {
+					&& fileExts.stream().anyMatch(fileExt -> fileExt.equals("." + split[1]))) {
 				return true;
 			}
 		}
@@ -108,7 +107,9 @@ public final class FileUtil {
 				if (file.getMimeType() != null) {
 					meta.set(TikaCoreProperties.CONTENT_TYPE_HINT, file.getMimeType());
 				}
-				return tika.detect(file.getInputStream(), meta);
+				try (InputStream stream = file.getInputStream()) {
+					return tika.detect(stream, meta);
+				}
 			} catch (IOException ex) {
 				LOG.error("Invalid file, name " + file.getName(), ex);
 			}
@@ -119,10 +120,8 @@ public final class FileUtil {
 	/**
 	 * Checks if the file item size is within the supplied max file size.
 	 *
-	 * @param newFile the file to be checked, if null then return false
-	 * otherwise validate
-	 * @param maxFileSize max file size in bytes, if zero or negative return
-	 * true, otherwise validate
+	 * @param newFile the file to be checked, if null then return false otherwise validate
+	 * @param maxFileSize max file size in bytes, if zero or negative return true, otherwise validate
 	 * @return {@code true} if file size is valid.
 	 */
 	public static boolean validateFileSize(final FileItemWrap newFile, final long maxFileSize) {
@@ -164,8 +163,8 @@ public final class FileUtil {
 			return null;
 		}
 		return String.format(I18nUtilities.format(null,
-			InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_TYPE),
-			StringUtils.join(fileTypes.toArray(new Object[fileTypes.size()]), ","));
+				InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_TYPE),
+				StringUtils.join(fileTypes.toArray(new Object[fileTypes.size()]), ","));
 	}
 
 	/**
@@ -176,6 +175,6 @@ public final class FileUtil {
 	 */
 	public static String getInvalidFileSizeMessage(final long maxFileSize) {
 		return String.format(I18nUtilities.format(null, InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_SIZE),
-			FileUtil.readableFileSize(maxFileSize));
+				FileUtil.readableFileSize(maxFileSize));
 	}
 }

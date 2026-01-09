@@ -9,6 +9,7 @@ import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.util.thumbnail.ThumbnailUtil;
 import java.awt.Dimension;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -779,8 +780,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 * @param file the file to process
 	 */
 	protected void doHandleFileContentRequest(final FileWidgetUpload file) {
-		ContentEscape escape = new ContentEscape(file.getFile());
-		throw escape;
+		throw new ContentEscape(file.getFile());
 	}
 
 	/**
@@ -788,15 +788,13 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 * @return the thumbnail
 	 */
 	protected Image createThumbNail(final File file) {
-		Image image = null;
-		try {
+		try (InputStream stream = file.getInputStream()) {
 			Dimension size = getThumbnailSize();
-			image = ThumbnailUtil.createThumbnail(file.getInputStream(), file.getName(), size, file.
-					getMimeType());
+			return ThumbnailUtil.createThumbnail(stream, file.getName(), size, file.getMimeType());
 		} catch (Exception e) {
 			LOG.error("Could not generate thumbnail for file. " + e.getMessage(), e);
+			return null;
 		}
-		return image;
 	}
 
 	/**

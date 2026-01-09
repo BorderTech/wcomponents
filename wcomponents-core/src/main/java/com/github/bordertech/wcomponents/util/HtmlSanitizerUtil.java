@@ -159,6 +159,8 @@ public final class HtmlSanitizerUtil {
 			return Policy.getInstance(resource);
 		} catch (PolicyException ex) {
 			throw new SystemException("Could not create AntiSamy Policy" + ex.getMessage(), ex);
+		} finally {
+			StreamUtil.safeClose(resource);
 		}
 	}
 

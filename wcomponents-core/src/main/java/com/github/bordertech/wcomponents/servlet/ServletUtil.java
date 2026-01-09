@@ -20,7 +20,6 @@ import com.github.bordertech.wcomponents.container.ContextCleanupInterceptor;
 import com.github.bordertech.wcomponents.container.DataListInterceptor;
 import com.github.bordertech.wcomponents.container.DebugStructureInterceptor;
 import com.github.bordertech.wcomponents.container.FormInterceptor;
-import com.github.bordertech.wcomponents.container.TemplateRenderInterceptor;
 import com.github.bordertech.wcomponents.container.InterceptorComponent;
 import com.github.bordertech.wcomponents.container.PageShellInterceptor;
 import com.github.bordertech.wcomponents.container.ResponseCacheInterceptor;
@@ -31,6 +30,7 @@ import com.github.bordertech.wcomponents.container.SessionTokenInterceptor;
 import com.github.bordertech.wcomponents.container.SubordinateControlInterceptor;
 import com.github.bordertech.wcomponents.container.TargetableErrorInterceptor;
 import com.github.bordertech.wcomponents.container.TargetableInterceptor;
+import com.github.bordertech.wcomponents.container.TemplateRenderInterceptor;
 import com.github.bordertech.wcomponents.container.TransformXMLInterceptor;
 import com.github.bordertech.wcomponents.container.UIContextDumpInterceptor;
 import com.github.bordertech.wcomponents.container.ValidateXMLInterceptor;
@@ -230,37 +230,41 @@ public final class ServletUtil {
 			}
 
 			InputStream resourceStream = staticResource.getStream();
-			if (resourceStream == null) {
-				LOG.warn(
-						"Static resource [" + staticRequest + "] not found. Stream for content is null.");
-				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-				return;
-			}
+			try {
+				if (resourceStream == null) {
+					LOG.warn(
+							"Static resource [" + staticRequest + "] not found. Stream for content is null.");
+					response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+					return;
+				}
 
-			int size = resourceStream.available();
-			String fileName = WebUtilities.encodeForContentDispositionHeader(staticRequest.
-					substring(staticRequest
-							.lastIndexOf('/') + 1));
+				int size = resourceStream.available();
+				String fileName = WebUtilities.encodeForContentDispositionHeader(staticRequest.
+						substring(staticRequest
+								.lastIndexOf('/') + 1));
 
-			if (size > 0) {
-				response.setContentLength(size);
-			}
+				if (size > 0) {
+					response.setContentLength(size);
+				}
 
-			response.setContentType(WebUtilities.getContentType(staticRequest));
-			response.setHeader("Cache-Control", CacheType.CONTENT_CACHE.getSettings());
+				response.setContentType(WebUtilities.getContentType(staticRequest));
+				response.setHeader("Cache-Control", CacheType.CONTENT_CACHE.getSettings());
 
-			String param = request.getParameter(WContent.URL_CONTENT_MODE_PARAMETER_KEY);
-			if ("inline".equals(param)) {
-				response.setHeader("Content-Disposition", "inline; filename=" + fileName);
-			} else if ("attach".equals(param)) {
-				response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
-			} else {
-				// added "filename=" to comply with https://tools.ietf.org/html/rfc6266
-				response.setHeader("Content-Disposition", "filename=" + fileName);
-			}
+				String param = request.getParameter(WContent.URL_CONTENT_MODE_PARAMETER_KEY);
+				if ("inline".equals(param)) {
+					response.setHeader("Content-Disposition", "inline; filename=" + fileName);
+				} else if ("attach".equals(param)) {
+					response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+				} else {
+					// added "filename=" to comply with https://tools.ietf.org/html/rfc6266
+					response.setHeader("Content-Disposition", "filename=" + fileName);
+				}
 
-			if (!headersOnly) {
-				StreamUtil.copy(resourceStream, response.getOutputStream());
+				if (!headersOnly) {
+					StreamUtil.copy(resourceStream, response.getOutputStream());
+				}
+			} finally {
+				StreamUtil.safeClose(resourceStream);
 			}
 		} catch (IOException e) {
 			LOG.warn("Could not process static resource [" + staticRequest + "]. ", e);
@@ -650,6 +654,7 @@ public final class ServletUtil {
 
 	/**
 	 * Find the value of a cookie on the request, by name.
+	 *
 	 * @param request The request on which to check for the cookie.
 	 * @param name The name of the cookie we want the value of.
 	 * @return The value of the cookie, if present, otherwise null.
