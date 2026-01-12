@@ -229,8 +229,7 @@ public final class ServletUtil {
 				return;
 			}
 
-			InputStream resourceStream = staticResource.getStream();
-			try {
+			try (InputStream resourceStream = staticResource.getStream()) {
 				if (resourceStream == null) {
 					LOG.warn(
 							"Static resource [" + staticRequest + "] not found. Stream for content is null.");
@@ -263,8 +262,6 @@ public final class ServletUtil {
 				if (!headersOnly) {
 					StreamUtil.copy(resourceStream, response.getOutputStream());
 				}
-			} finally {
-				StreamUtil.safeClose(resourceStream);
 			}
 		} catch (IOException e) {
 			LOG.warn("Could not process static resource [" + staticRequest + "]. ", e);
@@ -316,34 +313,33 @@ public final class ServletUtil {
 			return;
 		}
 
-		InputStream resourceStream = null;
+		URL url = null;
 
-		try {
-			URL url = null;
+		// Check for project translation file
+		if (fileName.startsWith(THEME_TRANSLATION_RESOURCE_PREFIX)) {
+			String resourceFileName = fileName.substring(THEME_TRANSLATION_RESOURCE_PREFIX.length());
+			url = ServletUtil.class.getResource(THEME_PROJECT_TRANSLATION_RESOURCE_PATH + resourceFileName);
+		}
 
-			// Check for project translation file
-			if (fileName.startsWith(THEME_TRANSLATION_RESOURCE_PREFIX)) {
-				String resourceFileName = fileName.substring(THEME_TRANSLATION_RESOURCE_PREFIX.length());
-				url = ServletUtil.class.getResource(THEME_PROJECT_TRANSLATION_RESOURCE_PATH + resourceFileName);
+		// Load from the theme path
+		if (url == null) {
+			String resourceName = ThemeUtil.getThemeBase() + fileName;
+			url = ServletUtil.class.getResource(resourceName);
+		}
+
+		if (url == null) {
+			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			return;
+		}
+
+		URLConnection connection = url.openConnection();
+		try (InputStream resourceStream = connection.getInputStream()) {
+			int size = resourceStream.available();
+			if (size > 0) {
+				resp.setContentLength(size);
 			}
 
-			// Load from the theme path
-			if (url == null) {
-				String resourceName = ThemeUtil.getThemeBase() + fileName;
-				url = ServletUtil.class.getResource(resourceName);
-			}
-
-			if (url == null) {
-				resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			} else {
-				URLConnection connection = url.openConnection();
-				resourceStream = connection.getInputStream();
-				int size = resourceStream.available();
-				if (size > 0) {
-					resp.setContentLength(size);
-				}
-
-				/*
+			/*
 				I have commented out the setting of the Content-Disposition on static theme resources because, well why is it there?
 				If this needs to be reinstated please provide a thorough justification comment here so the reasons are clear.
 
@@ -353,19 +349,16 @@ public final class ServletUtil {
 						substring(fileName
 								.lastIndexOf('/') + 1));
 				resp.setHeader("Content-Disposition", "filename=" + encodedName);  // "filename=" to comply with https://tools.ietf.org/html/rfc6266
-				 */
-				resp.setContentType(WebUtilities.getContentType(fileName));
-				resp.setHeader("Cache-Control", CacheType.THEME_CACHE.getSettings());
+			 */
+			resp.setContentType(WebUtilities.getContentType(fileName));
+			resp.setHeader("Cache-Control", CacheType.THEME_CACHE.getSettings());
 
-				resp.setHeader("Expires", "31536000");
-				resp.setHeader("ETag", "\"" + WebUtilities.getProjectVersion() + "\"");
-				// resp.setHeader("Last-Modified", "Mon, 02 Jan 2015 01:00:00 GMT");
-				long modified = connection.getLastModified();
-				resp.setDateHeader("Last-Modified", modified);
-				StreamUtil.copy(resourceStream, resp.getOutputStream());
-			}
-		} finally {
-			StreamUtil.safeClose(resourceStream);
+			resp.setHeader("Expires", "31536000");
+			resp.setHeader("ETag", "\"" + WebUtilities.getProjectVersion() + "\"");
+			// resp.setHeader("Last-Modified", "Mon, 02 Jan 2015 01:00:00 GMT");
+			long modified = connection.getLastModified();
+			resp.setDateHeader("Last-Modified", modified);
+			StreamUtil.copy(resourceStream, resp.getOutputStream());
 		}
 	}
 

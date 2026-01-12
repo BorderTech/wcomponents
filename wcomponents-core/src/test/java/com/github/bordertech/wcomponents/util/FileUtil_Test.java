@@ -150,11 +150,12 @@ public class FileUtil_Test {
 				testFileContent[i] = (byte) (i & 0xff);
 			}
 		} else {
-			InputStream stream = getClass().getResourceAsStream(fileResource);
-			if (stream == null) {
-				throw new IOException("File resource not found: " + fileResource);
+			try (InputStream stream = getClass().getResourceAsStream(fileResource)) {
+				if (stream == null) {
+					throw new IOException("File resource not found: " + fileResource);
+				}
+				testFileContent = StreamUtil.getBytes(stream);
 			}
-			testFileContent = StreamUtil.getBytes(stream);
 		}
 		MockFileItem fileItem = new MockFileItem();
 		fileItem.set(testFileContent);

@@ -55,12 +55,10 @@ public final class ThemeUtil {
 		String resourceName = THEME_BASE + THEME_VERSION_FILE_NAME;
 
 		// Get theme version property file (if in classpath)
-		InputStream resourceStream = null;
 		Properties prop = new Properties();
 		String themeBuild = null;
 		String themeWcVersion = null;
-		try {
-			resourceStream = ThemeUtil.class.getResourceAsStream(resourceName);
+		try (InputStream resourceStream = ThemeUtil.class.getResourceAsStream(resourceName)) {
 			prop.load(resourceStream);
 			// Theme build property
 			themeBuild = prop.getProperty(THEME_BUILD_NUMBER_PARAM);
@@ -68,8 +66,6 @@ public final class ThemeUtil {
 			themeWcVersion = prop.getProperty(THEME_WC_BUILD_NUMBER_PARAM);
 		} catch (Exception e) {
 			LOG.warn("Could not load theme version properties file \"" + resourceName + "\"");
-		} finally {
-			StreamUtil.safeClose(resourceStream);
 		}
 
 		// If theme build not available, then use the wcomponents project version

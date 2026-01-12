@@ -204,9 +204,13 @@ public final class ThumbnailUtil {
 		boolean sameWidth = scale.width == -1 || scale.width == THUMBNAIL_DEFAULT_SIZE.width;
 		if (!sameHeight || !sameWidth) {
 			// Scale to correct size
-			ByteArrayInputStream byteIs = new ByteArrayInputStream(image.getBytes());
-			byte[] bytes = createImageThumbnail(byteIs, scale);
-			image = new BytesImage(bytes, MIMETYPE_JPEG, "Thumbnail of " + name, null);
+			try (ByteArrayInputStream byteIs = new ByteArrayInputStream(image.getBytes())) {
+				byte[] bytes = createImageThumbnail(byteIs, scale);
+				image = new BytesImage(bytes, MIMETYPE_JPEG, "Thumbnail of " + name, null);
+			} catch (IOException ex) {
+				image = null;
+				LOG.error("Error creating scaled thumbnail from image", ex);
+			}
 		}
 		return image;
 	}
@@ -223,7 +227,7 @@ public final class ThumbnailUtil {
 		// Create buffered image from input stream
 		BufferedImage image;
 		try {
-			// ImageIO closes stream
+			// ImageIO closes cache stream
 			image = ImageIO.read(new MemoryCacheImageInputStream(is));
 			if (image == null) {
 				return null;

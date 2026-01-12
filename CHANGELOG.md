@@ -4,6 +4,8 @@
 
 ### API Changes
 ### Enhancements
+* Consistent use of try-with-resources when handling streams
+
 ### Bug Fixes
 
 ## 1.5.38

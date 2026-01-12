@@ -23,8 +23,8 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 /**
- * Tests to check the performance of WComponent graph serialization. This test does not check for correct serialization
- * - see {@link Serialization_Test} instead.
+ * Tests to check the performance of WComponent graph serialization. This test does not check for correct serialization - see
+ * {@link Serialization_Test} instead.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -180,12 +180,10 @@ public class SerializationPerformance_Test extends AbstractWComponentTestCase {
 	 * @throws IOException an IO exception
 	 */
 	private static byte[] serialize(final Serializable obj) throws IOException {
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		ObjectOutputStream oos = new ObjectOutputStream(bos);
-		oos.writeObject(obj);
-		oos.close();
-
-		return bos.toByteArray();
+		try (ByteArrayOutputStream bos = new ByteArrayOutputStream(); ObjectOutputStream oos = new ObjectOutputStream(bos)) {
+			oos.writeObject(obj);
+			return bos.toByteArray();
+		}
 	}
 
 	/**
@@ -288,8 +286,7 @@ public class SerializationPerformance_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * AllComponents instantiated with 10 repetitions. This needs to be created as a subclass as the UIRegistry uses the
-	 * class name.
+	 * AllComponents instantiated with 10 repetitions. This needs to be created as a subclass as the UIRegistry uses the class name.
 	 */
 	public static final class AllComponents10 extends AllComponents {
 

@@ -26,16 +26,15 @@ public final class SerializationUtil {
 	 */
 	public static Object pipe(final Object in) {
 		try {
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			ObjectOutputStream os = new ObjectOutputStream(bos);
-			os.writeObject(in);
-			os.close();
+			byte[] bytes;
+			try (ByteArrayOutputStream bos = new ByteArrayOutputStream(); ObjectOutputStream os = new ObjectOutputStream(bos)) {
+				os.writeObject(in);
+				bytes = bos.toByteArray();
+			}
 
-			byte[] bytes = bos.toByteArray();
-			ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-			ObjectInputStream is = new ObjectInputStream(bis);
-			Object out = is.readObject();
-			return out;
+			try (ByteArrayInputStream bis = new ByteArrayInputStream(bytes); ObjectInputStream is = new ObjectInputStream(bis)) {
+				return is.readObject();
+			}
 		} catch (Exception ex) {
 			throw new SystemException("Failed to pipe " + in, ex);
 		}
