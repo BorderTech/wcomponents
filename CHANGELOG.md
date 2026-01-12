@@ -5,6 +5,7 @@
 ### API Changes
 ### Enhancements
 * Consistent use of try-with-resources when handling streams
+* Updated AbstractRequest to remove deprecated methods uploadFileItems and readBytes (were protected static). Use StreamUtils instead.
 
 ### Bug Fixes
 
