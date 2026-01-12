@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.lde;
 
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
-import com.github.bordertech.wcomponents.util.StreamUtil;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -47,16 +46,9 @@ public final class LdeSessionUtil {
 	 */
 	public static void deserializeSessionAttributes(final HttpSession session) {
 		File file = new File(SERIALIZE_SESSION_NAME);
-		FileInputStream fis = null;
-		ObjectInputStream ois = null;
-
 		if (file.canRead()) {
-			try {
-				fis = new FileInputStream(file);
-				ois = new ObjectInputStream(fis);
-
+			try (FileInputStream fis = new FileInputStream(file); ObjectInputStream ois = new ObjectInputStream(fis)) {
 				List data = (List) ois.readObject();
-
 				for (Iterator i = data.iterator(); i.hasNext();) {
 					String key = (String) i.next();
 					Object value = i.next();
@@ -64,12 +56,6 @@ public final class LdeSessionUtil {
 				}
 			} catch (Exception e) {
 				LOG.error("Failed to read serialized session from " + file, e);
-			} finally {
-				if (ois != null) {
-					StreamUtil.safeClose(ois);
-				} else {
-					StreamUtil.safeClose(fis);
-				}
 			}
 		} else {
 			LOG.warn("Unable to read serialized session from " + file);
@@ -105,22 +91,10 @@ public final class LdeSessionUtil {
 				}
 
 				// Write them to the file
-				FileOutputStream fos = null;
-				ObjectOutputStream oos = null;
-
-				try {
-					fos = new FileOutputStream(file);
-					oos = new ObjectOutputStream(fos);
-
+				try (FileOutputStream fos = new FileOutputStream(file); ObjectOutputStream oos = new ObjectOutputStream(fos)) {
 					oos.writeObject(data);
 				} catch (Exception e) {
 					LOG.error("Failed to write serialized session to " + file, e);
-				} finally {
-					if (oos != null) {
-						StreamUtil.safeClose(oos);
-					} else {
-						StreamUtil.safeClose(fos);
-					}
 				}
 			} else {
 				LOG.warn("Unable to write serialized session to " + file);
