@@ -112,12 +112,11 @@ public class TextImage implements Image {
 				// Write the image to a byte  array.
 				Iterator<ImageWriter> writers = ImageIO.getImageWritersByMIMEType(MIME_TYPE);
 				ImageWriter writer = writers.next();
-				ByteArrayOutputStream os = new ByteArrayOutputStream();
-				ImageOutputStream ios = ImageIO.createImageOutputStream(os);
-				writer.setOutput(ios);
-				writer.write(image);
-
-				imageBytes = os.toByteArray();
+				try (ByteArrayOutputStream os = new ByteArrayOutputStream(); ImageOutputStream ios = ImageIO.createImageOutputStream(os)) {
+					writer.setOutput(ios);
+					writer.write(image);
+					imageBytes = os.toByteArray();
+				}
 			} catch (IOException ex) {
 				LOG.error("Unable to generate client image.", ex);
 			}
@@ -135,8 +134,7 @@ public class TextImage implements Image {
 	}
 
 	/**
-	 * Retrieves the natural size of the image. If only one dimension is known, a negative value will be returned for
-	 * the other dimension.
+	 * Retrieves the natural size of the image. If only one dimension is known, a negative value will be returned for the other dimension.
 	 *
 	 * @return the image size, or null if unknown.
 	 */
@@ -146,8 +144,8 @@ public class TextImage implements Image {
 	}
 
 	/**
-	 * Sets the natural size of the image. If only one dimension is known, use a negative value for the other dimension.
-	 * If the image size is unknown, set the size to null.
+	 * Sets the natural size of the image. If only one dimension is known, use a negative value for the other dimension. If the image size is unknown,
+	 * set the size to null.
 	 *
 	 * @param size the image size.
 	 */
