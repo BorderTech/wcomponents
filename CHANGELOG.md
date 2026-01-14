@@ -6,6 +6,7 @@
 ### Enhancements
 * Consistent use of try-with-resources when handling streams
 * Updated AbstractRequest to remove deprecated methods uploadFileItems and readBytes (were protected static). Use StreamUtils instead.
+* Replaced org.apache.tika:tika library with org.overviewproject:mime-types in FileUtil to validate uploaded file mime types.
 
 ### Bug Fixes
 

@@ -289,20 +289,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.apache.tika</groupId>
-			<artifactId>tika-core</artifactId>
-			<version>2.9.4</version>
-			<!-- Fix convergence -->
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>commons-io</groupId>
-					<artifactId>commons-io</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>org.overviewproject</groupId>
+			<artifactId>mime-types</artifactId>
+			<version>2.0.0</version>
 		</dependency>
 
 		<!-- Force versions to fix convergence -->

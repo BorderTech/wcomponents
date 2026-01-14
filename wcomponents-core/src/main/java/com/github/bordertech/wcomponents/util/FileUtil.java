@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.util;
 
 import com.github.bordertech.wcomponents.file.File;
 import com.github.bordertech.wcomponents.file.FileItemWrap;
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
@@ -10,9 +11,8 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.tika.Tika;
-import org.apache.tika.metadata.Metadata;
-import org.apache.tika.metadata.TikaCoreProperties;
+import org.overviewproject.mime_types.GetBytesException;
+import org.overviewproject.mime_types.MimeTypeDetector;
 
 /**
  * Utility methods for {@link File}.
@@ -97,20 +97,9 @@ public final class FileUtil {
 	 */
 	public static String getFileMimeType(final File file) {
 		if (file != null) {
-			try {
-				final Tika tika = new Tika();
-				// Setup metatdata hints to help Tika detect the mime type
-				Metadata meta = new Metadata();
-				if (file.getName() != null) {
-					meta.set(TikaCoreProperties.RESOURCE_NAME_KEY, file.getName());
-				}
-				if (file.getMimeType() != null) {
-					meta.set(TikaCoreProperties.CONTENT_TYPE_HINT, file.getMimeType());
-				}
-				try (InputStream stream = file.getInputStream()) {
-					return tika.detect(stream, meta);
-				}
-			} catch (IOException ex) {
+			try (InputStream is = file.getInputStream(); BufferedInputStream buf = new BufferedInputStream(is)) {
+				return new MimeTypeDetector().detectMimeType("", buf);
+			} catch (GetBytesException | IOException ex) {
 				LOG.error("Invalid file, name " + file.getName(), ex);
 			}
 		}
