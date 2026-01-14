@@ -51,36 +51,41 @@ public final class FileUtil {
 			return true;
 		}
 
+		// Filter extensions
 		final List<String> fileExts = fileTypes.stream()
 				.filter(fileType -> fileType.startsWith("."))
 				.collect(Collectors.toList());
-		// filter mime types from fileTypes.
+		// Filter mime types
 		final List<String> fileMimes = fileTypes.stream()
 				.filter(fileType -> !fileExts.contains(fileType))
 				.collect(Collectors.toList());
 
 		// First validate newFile against fileExts list
 		// If extensions are supplied, then check if newFile has a name
-		if (fileExts.size() > 0 && newFile.getName() != null) {
+		if (!fileExts.isEmpty() && newFile.getName() != null) {
 			// Then see if newFile has an extension
 			String[] split = newFile.getName().split(("\\.(?=[^\\.]+$)"));
 			// If it exists, then check if it matches supplied extension(s)
 			if (split.length == 2
-					&& fileExts.stream().anyMatch(fileExt -> fileExt.equals("." + split[1]))) {
+					&& fileExts.stream().anyMatch(fileExt -> fileExt.equalsIgnoreCase("." + split[1]))) {
 				return true;
 			}
 		}
 		// If extension match is unsucessful, then move to fileMimes list
-		if (fileMimes.size() > 0) {
+		if (!fileMimes.isEmpty()) {
 			final String mimeType = getFileMimeType(newFile);
+			if (mimeType == null) {
+				return false;
+			}
 			LOG.debug("File mime-type is: " + mimeType);
 			for (String fileMime : fileMimes) {
-				if (StringUtils.equals(mimeType, fileMime)) {
+				if (mimeType.equalsIgnoreCase(fileMime)) {
 					return true;
 				}
 				if (fileMime.indexOf("*") == fileMime.length() - 1) {
-					fileMime = fileMime.substring(0, fileMime.length() - 1);
-					if (mimeType.indexOf(fileMime) == 0) {
+					String fileMimePrefix = fileMime.substring(0, fileMime.length() - 1).toLowerCase();
+					String lcMimeType = mimeType.toLowerCase();
+					if (lcMimeType.startsWith(fileMimePrefix)) {
 						return true;
 					}
 				}
@@ -93,7 +98,7 @@ public final class FileUtil {
 	 * Identify the mime type of a file.
 	 *
 	 * @param file the File to detect.
-	 * @return mime type as detected by Apache tika, otherwise null.
+	 * @return mime type as detected otherwise null.
 	 */
 	public static String getFileMimeType(final File file) {
 		if (file != null) {

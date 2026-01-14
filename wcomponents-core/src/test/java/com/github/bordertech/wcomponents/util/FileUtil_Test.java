@@ -133,6 +133,28 @@ public class FileUtil_Test {
 		Assert.assertEquals("Incorrect type for text file that should be detected as text with name hint", "text/plain", FileUtil.getFileMimeType(file));
 	}
 
+	@Test
+	public void testValidateFileExtensionInCaseSensitive() throws IOException {
+		MockFileItem file = new MockFileItem();
+		file.setName("test.DocX");
+		boolean validateFileType = FileUtil.validateFileType(new FileItemWrap(file), Arrays.asList(".dOCx"));
+		Assert.assertTrue(validateFileType);
+	}
+
+	@Test
+	public void testValidateFileTypeCaseInSensitive() throws IOException {
+		FileItem newFileItem = createFileItem("/content/test.pdf");
+		boolean validateFileType = FileUtil.validateFileType(new FileItemWrap(newFileItem), Arrays.asList("AppLICATION/PDF"));
+		Assert.assertTrue(validateFileType);
+	}
+
+	@Test
+	public void testValidateFileTypeCaseInSensitiveWildCard() throws IOException {
+		FileItem newFileItem = createFileItem("/content/test.pdf");
+		boolean validateFileType = FileUtil.validateFileType(new FileItemWrap(newFileItem), Arrays.asList("AppLICATION/*"));
+		Assert.assertTrue(validateFileType);
+	}
+
 	/**
 	 * Create a new fileitem.
 	 *
