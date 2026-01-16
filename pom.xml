@@ -217,6 +217,7 @@
 		<module>wcomponents-theme</module>
 		<module>wcomponents-xslt</module>
 		<module>wcomponents-bundle</module>
+		<module>code-coverage</module>
 	</modules>
 
 </project>
