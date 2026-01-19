@@ -752,8 +752,8 @@ public final class WebUtilities {
 			component.preparePaint(request);
 			try (PrintWriter writer = new PrintWriter(buffer)) {
 				component.paint(new WebXmlRenderContext(writer));
+				return buffer.toString();
 			}
-			return buffer.toString();
 		} finally {
 			if (needsContext) {
 				UIContextHolder.popContext();
@@ -807,8 +807,8 @@ public final class WebUtilities {
 			chain.preparePaint(request);
 			try (PrintWriter writer = new PrintWriter(buffer)) {
 				chain.paint(new WebXmlRenderContext(writer));
+				return buffer.toString();
 			}
-			return buffer.toString();
 		} finally {
 			if (needsContext) {
 				UIContextHolder.popContext();

@@ -126,16 +126,12 @@ public class WImageExample extends WPanel {
 		 * @param resource the path to the image file.
 		 */
 		public ExampleImage(final String resource) {
-			InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(
-					resource);
-
-			if (in != null) {
-				try {
+			try (InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(resource)) {
+				if (in != null) {
 					imageBytes = StreamUtil.getBytes(in);
-					in.close();
-				} catch (IOException ex) {
-					LOG.error("Cannot load example image.", ex);
 				}
+			} catch (IOException ex) {
+				LOG.error("Cannot load example image.", ex);
 			}
 		}
 

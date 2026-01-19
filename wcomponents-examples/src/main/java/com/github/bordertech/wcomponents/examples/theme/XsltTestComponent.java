@@ -95,33 +95,14 @@ public class XsltTestComponent extends WPanel {
 	 */
 	private void transform(final File xsltFile, final File inputFile, final File outputFile) throws
 			Exception {
-		FileReader xsltIn = null;
-		FileReader in = null;
-		FileWriter out = null;
-
-		try {
-			xsltIn = new FileReader(xsltFile);
+		try (FileReader xsltIn = new FileReader(xsltFile); FileReader in = new FileReader(inputFile); FileWriter out = new FileWriter(outputFile)) {
 			Source xsltSource = new StreamSource(xsltIn);
 			TransformerFactory factory = TransformerFactory.newInstance();
 			Transformer transformer = factory.newTransformer(xsltSource);
 			// transformer.setOutputProperty("disable-empty-element-collapsing", "true");
-
-			in = new FileReader(inputFile);
 			Source source = new StreamSource(in);
-			out = new FileWriter(outputFile);
 			StreamResult result = new StreamResult(out);
 			transformer.transform(source, result);
-		} finally {
-			if (xsltIn != null) {
-				xsltIn.close();
-			}
-			if (in != null) {
-				in.close();
-			}
-			if (out != null) {
-				out.flush();
-				out.close();
-			}
 		}
 	}
 }

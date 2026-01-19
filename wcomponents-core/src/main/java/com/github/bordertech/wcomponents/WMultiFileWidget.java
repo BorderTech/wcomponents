@@ -9,6 +9,7 @@ import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.util.thumbnail.ThumbnailUtil;
 import java.awt.Dimension;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -738,16 +739,13 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		// Wrap the file item
 		FileItemWrap wrap = new FileItemWrap(items[0]);
 
-		// if fileType is supplied then validate it
-		if (hasFileTypes() && !FileUtil.validateFileType(wrap, getFileTypes())) {
-			String invalidMessage = FileUtil.getInvalidFileTypeMessage(getFileTypes());
-			throw new SystemException(invalidMessage);
+		// Validate the file type
+		if (hasFileTypes()) {
+			doHandleUploadedFileTypeValidation(wrap);
 		}
-
-		// if fileSize is supplied then validate it
-		if (hasMaxFileSize() && !FileUtil.validateFileSize(wrap, getMaxFileSize())) {
-			String invalidMessage = FileUtil.getInvalidFileSizeMessage(getMaxFileSize());
-			throw new SystemException(invalidMessage);
+		// Validate the file size
+		if (hasMaxFileSize()) {
+			doHandleUploadedFileSizeValidation(wrap);
 		}
 
 		FileWidgetUpload file = new FileWidgetUpload(fileId, wrap);
@@ -756,6 +754,30 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		// Set the file id to be used ion the renderer
 		setFileUploadRequestId(fileId);
 		setNewUpload(true);
+	}
+
+	/**
+	 * Perform file type validation on the uploaded file.
+	 *
+	 * @param wrap the file item to validate
+	 */
+	protected void doHandleUploadedFileTypeValidation(final FileItemWrap wrap) {
+		if (!FileUtil.validateFileType(wrap, getFileTypes())) {
+			String invalidMessage = FileUtil.getInvalidFileTypeMessage(getFileTypes());
+			throw new SystemException(invalidMessage);
+		}
+	}
+
+	/**
+	 * Perform file size validation on the uploaded file.
+	 *
+	 * @param wrap the file item to validate
+	 */
+	protected void doHandleUploadedFileSizeValidation(final FileItemWrap wrap) {
+		if (!FileUtil.validateFileSize(wrap, getMaxFileSize())) {
+			String invalidMessage = FileUtil.getInvalidFileSizeMessage(getMaxFileSize());
+			throw new SystemException(invalidMessage);
+		}
 	}
 
 	/**
@@ -779,8 +801,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 * @param file the file to process
 	 */
 	protected void doHandleFileContentRequest(final FileWidgetUpload file) {
-		ContentEscape escape = new ContentEscape(file.getFile());
-		throw escape;
+		throw new ContentEscape(file.getFile());
 	}
 
 	/**
@@ -788,15 +809,13 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 * @return the thumbnail
 	 */
 	protected Image createThumbNail(final File file) {
-		Image image = null;
-		try {
+		try (InputStream stream = file.getInputStream()) {
 			Dimension size = getThumbnailSize();
-			image = ThumbnailUtil.createThumbnail(file.getInputStream(), file.getName(), size, file.
-					getMimeType());
+			return ThumbnailUtil.createThumbnail(stream, file.getName(), size, file.getMimeType());
 		} catch (Exception e) {
 			LOG.error("Could not generate thumbnail for file. " + e.getMessage(), e);
+			return null;
 		}
-		return image;
 	}
 
 	/**

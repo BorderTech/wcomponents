@@ -114,26 +114,45 @@ public class FileUtil_Test {
 
 	@Test
 	public void testGetMimeTypeForTextFileAndNoHint() throws IOException {
-		// Tika text detector by default will treat a file with less than 10% non-ascii characters as a text file
-		// Test Tika detects the file as text with no hint
+		// Test detects the file as text with no hint
 		MyMockFile file = new MyMockFile("/content/text-non-ascii-less-10-per.txt", null, null);
 		Assert.assertEquals("Incorrect type for text file that should have been detected as text with no hints", "text/plain", FileUtil.getFileMimeType(file));
 	}
 
 	@Test
 	public void testGetMimeTypeForTextFileWithAsciiAndNoHint() throws IOException {
-		// Tika text detector by default will treat a file with more than 10% non-ascii characters as not a text file
-		// Test providing no hint of the file name to Tika that it wont detect it as text
+		// Test providing no hint of the file name will detect as text
 		MyMockFile file = new MyMockFile("/content/text-non-ascii-more-10-per.txt", null, null);
-		Assert.assertEquals("Incorrect type for text file that should not be detected as text with no hints", "application/octet-stream", FileUtil.getFileMimeType(file));
+		Assert.assertEquals("Incorrect type for text file that should be detected as text with no hints", "text/plain", FileUtil.getFileMimeType(file));
 	}
 
 	@Test
 	public void testGetMimeTypeForTextFileWithAsciiAndNameHint() throws IOException {
-		// Tika text detector by default will treat a file with more than 10% non-ascii characters as not a text file
-		// Test providing a hint of the file name to Tika will detect it as text
+		// Test providing a hint of the file name will detect it as text
 		MyMockFile file = new MyMockFile("/content/text-non-ascii-more-10-per.txt", "text-non-ascii-more-10-per.txt", null);
 		Assert.assertEquals("Incorrect type for text file that should be detected as text with name hint", "text/plain", FileUtil.getFileMimeType(file));
+	}
+
+	@Test
+	public void testValidateFileExtensionInCaseSensitive() throws IOException {
+		MockFileItem file = new MockFileItem();
+		file.setName("test.DocX");
+		boolean validateFileType = FileUtil.validateFileType(new FileItemWrap(file), Arrays.asList(".dOCx"));
+		Assert.assertTrue(validateFileType);
+	}
+
+	@Test
+	public void testValidateFileTypeCaseInSensitive() throws IOException {
+		FileItem newFileItem = createFileItem("/content/test.pdf");
+		boolean validateFileType = FileUtil.validateFileType(new FileItemWrap(newFileItem), Arrays.asList("AppLICATION/PDF"));
+		Assert.assertTrue(validateFileType);
+	}
+
+	@Test
+	public void testValidateFileTypeCaseInSensitiveWildCard() throws IOException {
+		FileItem newFileItem = createFileItem("/content/test.pdf");
+		boolean validateFileType = FileUtil.validateFileType(new FileItemWrap(newFileItem), Arrays.asList("AppLICATION/*"));
+		Assert.assertTrue(validateFileType);
 	}
 
 	/**
@@ -150,11 +169,12 @@ public class FileUtil_Test {
 				testFileContent[i] = (byte) (i & 0xff);
 			}
 		} else {
-			InputStream stream = getClass().getResourceAsStream(fileResource);
-			if (stream == null) {
-				throw new IOException("File resource not found: " + fileResource);
+			try (InputStream stream = getClass().getResourceAsStream(fileResource)) {
+				if (stream == null) {
+					throw new IOException("File resource not found: " + fileResource);
+				}
+				testFileContent = StreamUtil.getBytes(stream);
 			}
-			testFileContent = StreamUtil.getBytes(stream);
 		}
 		MockFileItem fileItem = new MockFileItem();
 		fileItem.set(testFileContent);

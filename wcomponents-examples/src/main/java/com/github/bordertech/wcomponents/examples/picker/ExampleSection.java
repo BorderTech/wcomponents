@@ -215,27 +215,14 @@ final class ExampleSection extends WSection implements MessageContainer {
 	private static String getSource(final String className) {
 		String sourceName = '/' + className.replace('.', '/') + ".java";
 
-		InputStream stream = null;
-
-		try {
-			stream = ExampleSection.class.getResourceAsStream(sourceName);
-
+		try (InputStream stream = ExampleSection.class.getResourceAsStream(sourceName)) {
 			if (stream != null) {
 				byte[] sourceBytes = StreamUtil.getBytes(stream);
-
 				// we need to do some basic formatting of the source now.
 				return new String(sourceBytes, "UTF-8");
 			}
 		} catch (IOException e) {
 			LOG.warn("Unable to read source code for class " + className, e);
-		} finally {
-			if (stream != null) {
-				try {
-					stream.close();
-				} catch (IOException e) {
-					LOG.error("Error closing stream", e);
-				}
-			}
 		}
 
 		return null;

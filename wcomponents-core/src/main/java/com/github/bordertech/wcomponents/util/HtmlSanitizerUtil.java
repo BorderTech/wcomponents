@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.util;
 
 import com.github.bordertech.wcomponents.WebUtilities;
+import java.io.IOException;
 import java.io.InputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -151,13 +152,12 @@ public final class HtmlSanitizerUtil {
 		if (StringUtils.isBlank(resourceName)) {
 			throw new SystemException("AntiSamy Policy resourceName cannot be null ");
 		}
-		InputStream resource = HtmlSanitizerUtil.class.getClassLoader().getResourceAsStream(resourceName);
-		if (resource == null) {
-			throw new SystemException("Could not find AntiSamy Policy XML resource.");
-		}
-		try {
+		try (InputStream resource = HtmlSanitizerUtil.class.getClassLoader().getResourceAsStream(resourceName)) {
+			if (resource == null) {
+				throw new SystemException("Could not find AntiSamy Policy XML resource.");
+			}
 			return Policy.getInstance(resource);
-		} catch (PolicyException ex) {
+		} catch (IOException | PolicyException ex) {
 			throw new SystemException("Could not create AntiSamy Policy" + ex.getMessage(), ex);
 		}
 	}

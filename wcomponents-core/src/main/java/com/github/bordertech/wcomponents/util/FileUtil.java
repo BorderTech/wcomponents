@@ -2,16 +2,17 @@ package com.github.bordertech.wcomponents.util;
 
 import com.github.bordertech.wcomponents.file.File;
 import com.github.bordertech.wcomponents.file.FileItemWrap;
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.tika.Tika;
-import org.apache.tika.metadata.Metadata;
-import org.apache.tika.metadata.TikaCoreProperties;
+import org.overviewproject.mime_types.GetBytesException;
+import org.overviewproject.mime_types.MimeTypeDetector;
 
 /**
  * Utility methods for {@link File}.
@@ -33,13 +34,11 @@ public final class FileUtil {
 	private static final Log LOG = LogFactory.getLog(FileUtil.class);
 
 	/**
-	 * Checks if the file item is one among the supplied file types.
-	 * This first checks against file extensions, then against file mime types
+	 * Checks if the file item is one among the supplied file types. This first checks against file extensions, then
+	 * against file mime types
 	 *
-	 * @param newFile the file to be checked, if null then return false
-	 * otherwise validate
-	 * @param fileTypes allowed file types, if null or empty return true,
-	 * otherwise validate
+	 * @param newFile the file to be checked, if null then return false otherwise validate
+	 * @param fileTypes allowed file types, if null or empty return true, otherwise validate
 	 * @return {@code true} if either extension or mime-type match is successful
 	 */
 	public static boolean validateFileType(final FileItemWrap newFile, final List<String> fileTypes) {
@@ -52,36 +51,41 @@ public final class FileUtil {
 			return true;
 		}
 
+		// Filter extensions
 		final List<String> fileExts = fileTypes.stream()
-			.filter(fileType -> fileType.startsWith("."))
-			.collect(Collectors.toList());
-		// filter mime types from fileTypes.
+				.filter(fileType -> fileType.startsWith("."))
+				.collect(Collectors.toList());
+		// Filter mime types
 		final List<String> fileMimes = fileTypes.stream()
-			.filter(fileType -> !fileExts.contains(fileType))
-			.collect(Collectors.toList());
+				.filter(fileType -> !fileExts.contains(fileType))
+				.collect(Collectors.toList());
 
 		// First validate newFile against fileExts list
 		// If extensions are supplied, then check if newFile has a name
-		if (fileExts.size() > 0 && newFile.getName() != null) {
+		if (!fileExts.isEmpty() && newFile.getName() != null) {
 			// Then see if newFile has an extension
 			String[] split = newFile.getName().split(("\\.(?=[^\\.]+$)"));
 			// If it exists, then check if it matches supplied extension(s)
 			if (split.length == 2
-				&& fileExts.stream().anyMatch(fileExt -> fileExt.equals("." + split[1]))) {
+					&& fileExts.stream().anyMatch(fileExt -> fileExt.equalsIgnoreCase("." + split[1]))) {
 				return true;
 			}
 		}
 		// If extension match is unsucessful, then move to fileMimes list
-		if (fileMimes.size() > 0) {
+		if (!fileMimes.isEmpty()) {
 			final String mimeType = getFileMimeType(newFile);
+			if (mimeType == null) {
+				return false;
+			}
 			LOG.debug("File mime-type is: " + mimeType);
 			for (String fileMime : fileMimes) {
-				if (StringUtils.equals(mimeType, fileMime)) {
+				if (mimeType.equalsIgnoreCase(fileMime)) {
 					return true;
 				}
 				if (fileMime.indexOf("*") == fileMime.length() - 1) {
-					fileMime = fileMime.substring(0, fileMime.length() - 1);
-					if (mimeType.indexOf(fileMime) == 0) {
+					String fileMimePrefix = fileMime.substring(0, fileMime.length() - 1).toLowerCase();
+					String lcMimeType = mimeType.toLowerCase();
+					if (lcMimeType.startsWith(fileMimePrefix)) {
 						return true;
 					}
 				}
@@ -94,22 +98,13 @@ public final class FileUtil {
 	 * Identify the mime type of a file.
 	 *
 	 * @param file the File to detect.
-	 * @return mime type as detected by Apache tika, otherwise null.
+	 * @return mime type as detected otherwise null.
 	 */
 	public static String getFileMimeType(final File file) {
 		if (file != null) {
-			try {
-				final Tika tika = new Tika();
-				// Setup metatdata hints to help Tika detect the mime type
-				Metadata meta = new Metadata();
-				if (file.getName() != null) {
-					meta.set(TikaCoreProperties.RESOURCE_NAME_KEY, file.getName());
-				}
-				if (file.getMimeType() != null) {
-					meta.set(TikaCoreProperties.CONTENT_TYPE_HINT, file.getMimeType());
-				}
-				return tika.detect(file.getInputStream(), meta);
-			} catch (IOException ex) {
+			try (InputStream is = file.getInputStream(); BufferedInputStream buf = new BufferedInputStream(is)) {
+				return new MimeTypeDetector().detectMimeType("", buf);
+			} catch (GetBytesException | IOException ex) {
 				LOG.error("Invalid file, name " + file.getName(), ex);
 			}
 		}
@@ -119,10 +114,8 @@ public final class FileUtil {
 	/**
 	 * Checks if the file item size is within the supplied max file size.
 	 *
-	 * @param newFile the file to be checked, if null then return false
-	 * otherwise validate
-	 * @param maxFileSize max file size in bytes, if zero or negative return
-	 * true, otherwise validate
+	 * @param newFile the file to be checked, if null then return false otherwise validate
+	 * @param maxFileSize max file size in bytes, if zero or negative return true, otherwise validate
 	 * @return {@code true} if file size is valid.
 	 */
 	public static boolean validateFileSize(final FileItemWrap newFile, final long maxFileSize) {
@@ -164,8 +157,8 @@ public final class FileUtil {
 			return null;
 		}
 		return String.format(I18nUtilities.format(null,
-			InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_TYPE),
-			StringUtils.join(fileTypes.toArray(new Object[fileTypes.size()]), ","));
+				InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_TYPE),
+				StringUtils.join(fileTypes.toArray(new Object[fileTypes.size()]), ","));
 	}
 
 	/**
@@ -176,6 +169,6 @@ public final class FileUtil {
 	 */
 	public static String getInvalidFileSizeMessage(final long maxFileSize) {
 		return String.format(I18nUtilities.format(null, InternalMessages.DEFAULT_VALIDATION_ERROR_FILE_WRONG_SIZE),
-			FileUtil.readableFileSize(maxFileSize));
+				FileUtil.readableFileSize(maxFileSize));
 	}
 }
