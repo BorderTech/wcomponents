@@ -4,10 +4,15 @@
 
 ### API Changes
 ### Enhancements
-* Consistent use of try-with-resources when handling streams
+### Bug Fixes
+
+## 1.5.39
+
+### API Changes
 * Updated AbstractRequest to remove deprecated methods uploadFileItems and readBytes (were protected static). Use StreamUtils instead.
+### Enhancements
+* Consistent use of try-with-resources when handling streams
 * Replaced org.apache.tika:tika library with org.overviewproject:mime-types in FileUtil to validate uploaded file mime types.
-* Updated FileUtil to make file extension and mime type validation case insensitive.
 * Updated the following dependencies:
   * wcomponents-core:
     * com.google.code.gson:gson from 2.13.1 to 2.13.2
@@ -25,8 +30,8 @@
   * wcomponents-bundle:
     * org.ehcache:ehcahce from 3.10.8 to 3.11.1
     * org.glassfish.jaxb:jaxb-runtime from 4.0.5 to 4.0.6
-
 ### Bug Fixes
+* Updated FileUtil to make file extension and mime type validation case insensitive.
 
 ## 1.5.38
 
