@@ -17,10 +17,12 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
 import com.github.bordertech.wcomponents.validation.WValidationErrors;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.apache.commons.validator.routines.UrlValidator;
 
 /**
  * LinkOptionsExample contains a series of controls for displaying and manipulating an example link.
@@ -151,8 +153,12 @@ public class LinkOptionsExample extends WPanel {
 	 * @return true if valid
 	 */
 	private boolean isValidUrl(final String url) {
-		UrlValidator validator = new UrlValidator();
-		return validator.isValid(url);
+		try {
+			new URL(url).toURI();
+			return true;
+		} catch (MalformedURLException | URISyntaxException e) {
+			return false;
+		}
 	}
 
 	/**

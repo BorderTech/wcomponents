@@ -11,10 +11,11 @@ import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.StreamUtil;
 import com.github.bordertech.wcomponents.util.mock.servlet.MockHttpServletRequest;
+import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import org.junit.Assert;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -95,8 +96,11 @@ public class PlainLauncher_Test {
 		// Access the server and record the output
 		URL url = new URL(launcher.getUrl());
 		URLConnection conn = url.openConnection();
-		byte[] result = StreamUtil.getBytes(conn.getInputStream());
-		String content = new String(result, "UTF-8");
+		String content;
+		try (InputStream stream = conn.getInputStream()) {
+			byte[] result = StreamUtil.getBytes(stream);
+			content = new String(result, "UTF-8");
+		}
 
 		Assert.assertEquals("HandleRequest should have been called once", 1,
 				MyTestApp.handleRequestCount);

@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.util.Util;
-import java.util.Map;
 
 /**
  * <p>
@@ -176,41 +175,19 @@ public class WContent extends AbstractWComponent implements Targetable {
 
 		String mode = DisplayMode.PROMPT_TO_SAVE.equals(getDisplayMode()) ? "attach" : "inline";
 
+		String url;
 		// Check for a "static" resource
 		if (content instanceof InternalResource) {
-			String url = ((InternalResource) content).getTargetUrl();
-			// This magic parameter is a work-around to the loading indicator becoming
-			// "stuck" in certain browsers.
-			// It is also used by the static resource handler to set the correct headers
-			url = url + "&" + URL_CONTENT_MODE_PARAMETER_KEY + "=" + mode;
-			return url;
-		}
-
-		Environment env = getEnvironment();
-		Map<String, String> parameters = env.getHiddenParameters();
-		parameters.put(Environment.TARGET_ID, getTargetId());
-
-		if (Util.empty(getCacheKey())) {
-			// Add some randomness to the URL to prevent caching
-			String random = WebUtilities.generateRandom();
-			parameters.put(Environment.UNIQUE_RANDOM_PARAM, random);
+			url = ((InternalResource) content).getTargetUrl();
 		} else {
-			// Remove step counter as not required for cached content
-			parameters.remove(Environment.STEP_VARIABLE);
-			parameters.remove(Environment.SESSION_TOKEN_VARIABLE);
-			// Add the cache key
-			parameters.put(Environment.CONTENT_CACHE_KEY, getCacheKey());
+			url = WebUtilities.createTargetUrl(this, getCacheKey());
 		}
 
-		// This magic parameter is a work-around to the loading indicator becoming
-		// "stuck" in certain browsers. It is only read by the theme.
-		parameters.put(URL_CONTENT_MODE_PARAMETER_KEY, mode);
+		// This magic parameter is a work-around to the loading indicator becoming "stuck" in certain browsers.
+		// It is also used by the static resource handler to set the correct headers
+		url = url + "&" + URL_CONTENT_MODE_PARAMETER_KEY + "=" + mode;
 
-		// The targetable path needs to be configured for the portal environment.
-		String url = env.getWServletPath();
-
-		// Note the last parameter. In javascript we don't want to encode "&".
-		return WebUtilities.getPath(url, parameters, true);
+		return url;
 	}
 
 	/**

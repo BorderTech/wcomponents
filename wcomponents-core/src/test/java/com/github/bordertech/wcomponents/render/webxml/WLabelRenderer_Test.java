@@ -94,12 +94,12 @@ public class WLabelRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testSanitizedText() throws IOException, SAXException, XpathException {
 		MyInput comp = new MyInput();
-		WLabel label = new WLabel("<form>content</form><br />", comp);
+		WLabel label = new WLabel("<form>content</form><br/>", comp);
 		label.setEncodeText(false);
 		label.setSanitizeOnOutput(true);
 		assertSchemaMatch(label);
 		String xml = toXHtml(label);
-		Assert.assertTrue("Label text should contain sanitized xml", xml.contains("content<br />"));
+		Assert.assertTrue("Label text should contain sanitized xml", xml.contains("content<br/>"));
 	}
 
 	@Test

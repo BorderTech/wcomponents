@@ -114,6 +114,11 @@ public final class ThumbnailUtil {
 	private static final String IMAGE_JPEG_FORMAT = "jpeg";
 
 	/**
+	 * JPEG Mime Type.
+	 */
+	private static final String MIMETYPE_JPEG = "image/jpeg";
+
+	/**
 	 * Don't allow this utility class to be constructed.
 	 */
 	private ThumbnailUtil() {
@@ -136,19 +141,27 @@ public final class ThumbnailUtil {
 			final Dimension scaledSize, final String mimeType) {
 		final Dimension scale = scaledSize == null ? THUMBNAIL_SCALE_SIZE : scaledSize;
 
-		// Generate thumbnail for image files
-		if (is != null && mimeType != null && (mimeType.equals("image/jpeg") || mimeType.equals(
-				"image/bmp")
-				|| mimeType.equals("image/png") || mimeType.equals("image/gif"))) {
+		// Attempt to generate thumbnail for image files
+		if (is != null && isImageMimeType(mimeType)) {
 			byte[] bytes = createImageThumbnail(is, scale);
 			if (bytes != null) {
-				return new BytesImage(bytes, "image/jpeg", "Thumbnail of " + name, null);
+				return new BytesImage(bytes, MIMETYPE_JPEG, "Thumbnail of " + name, null);
 			}
 		}
 
 		// Use default thumbnail depending on mime type
-		com.github.bordertech.wcomponents.Image image = handleDefaultImage(mimeType, name, scale);
-		return image;
+		return handleDefaultImage(mimeType, name, scale);
+	}
+
+	/**
+	 * @param mimeType the mime type to check
+	 * @return true if mime type is for an image
+	 */
+	private static boolean isImageMimeType(final String mimeType) {
+		return mimeType != null && (mimeType.equals(MIMETYPE_JPEG)
+				|| mimeType.equals("image/bmp")
+				|| mimeType.equals("image/png")
+				|| mimeType.equals("image/gif"));
 	}
 
 	/**
@@ -191,9 +204,13 @@ public final class ThumbnailUtil {
 		boolean sameWidth = scale.width == -1 || scale.width == THUMBNAIL_DEFAULT_SIZE.width;
 		if (!sameHeight || !sameWidth) {
 			// Scale to correct size
-			ByteArrayInputStream byteIs = new ByteArrayInputStream(image.getBytes());
-			byte[] bytes = createImageThumbnail(byteIs, scale);
-			image = new BytesImage(bytes, "image/jpeg", "Thumbnail of " + name, null);
+			try (ByteArrayInputStream byteIs = new ByteArrayInputStream(image.getBytes())) {
+				byte[] bytes = createImageThumbnail(byteIs, scale);
+				image = new BytesImage(bytes, MIMETYPE_JPEG, "Thumbnail of " + name, null);
+			} catch (IOException ex) {
+				image = null;
+				LOG.error("Error creating scaled thumbnail from image", ex);
+			}
 		}
 		return image;
 	}
@@ -207,32 +224,28 @@ public final class ThumbnailUtil {
 	 * @return a byte[] representing the JPEG thumb nail.
 	 */
 	private static byte[] createImageThumbnail(final InputStream is, final Dimension scaledSize) {
+		// Create buffered image from input stream
 		BufferedImage image;
-		MemoryCacheImageInputStream mciis;
-
 		try {
-			mciis = new MemoryCacheImageInputStream(is);
-			image = ImageIO.read(mciis);
+			// ImageIO closes cache stream
+			image = ImageIO.read(new MemoryCacheImageInputStream(is));
+			if (image == null) {
+				return null;
+			}
 		} catch (Exception e) {
 			LOG.warn("Unable to read input image", e);
 			return null;
 		}
 
-		if (image == null) {
-			return null;
-		}
-
+		// Create scaled image
 		try {
-			byte[] jpeg = createScaledJPEG(image, scaledSize);
-			return jpeg;
+			return createScaledJPEG(image, scaledSize);
 		} catch (Exception e) {
 			LOG.error("Error creating thumbnail from image", e);
+			return null;
 		} finally {
 			image.flush();
 		}
-
-		return null;
-
 	}
 
 	/**
@@ -247,12 +260,10 @@ public final class ThumbnailUtil {
 	private static byte[] createScaledJPEG(final Image image, final Dimension scaledSize) throws
 			IOException {
 		// Scale the image.
-		Image scaledImage = image.getScaledInstance(scaledSize.width, scaledSize.height,
-				Image.SCALE_SMOOTH);
+		Image scaledImage = image.getScaledInstance(scaledSize.width, scaledSize.height, Image.SCALE_SMOOTH);
 
 		// Create a BufferedImage copy of the scaledImage.
-		BufferedImage bufferedImage = new BufferedImage(scaledImage.getWidth(null), scaledImage.
-				getHeight(null),
+		BufferedImage bufferedImage = new BufferedImage(scaledImage.getWidth(null), scaledImage.getHeight(null),
 				BufferedImage.TYPE_INT_RGB);
 		Graphics2D graphics = bufferedImage.createGraphics();
 		graphics.drawImage(scaledImage, 0, 0, null);
@@ -260,17 +271,12 @@ public final class ThumbnailUtil {
 		graphics.dispose();
 
 		// Convert the scaled image to a JPEG byte array.
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-		MemoryCacheImageOutputStream mciis = new MemoryCacheImageOutputStream(baos);
-		ImageIO.write(bufferedImage, IMAGE_JPEG_FORMAT, mciis);
-		mciis.flush();
-		bufferedImage.flush();
-
-		byte[] jpeg = baos.toByteArray();
-		mciis.close();
-
-		return jpeg;
+		try (ByteArrayOutputStream baos = new ByteArrayOutputStream(); MemoryCacheImageOutputStream mciis = new MemoryCacheImageOutputStream(baos)) {
+			ImageIO.write(bufferedImage, IMAGE_JPEG_FORMAT, mciis);
+			mciis.flush();
+			bufferedImage.flush();
+			return baos.toByteArray();
+		}
 	}
 
 }

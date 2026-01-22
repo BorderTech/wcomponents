@@ -30,6 +30,51 @@ Client Side API:
 ### Bug Fixes
 * SelectToggle label attribute fix, `wc-data-for` > `data-wc-for`.
 
+## 1.5.39
+
+### API Changes
+* Updated AbstractRequest to remove deprecated methods uploadFileItems and readBytes (were protected static). Use StreamUtils instead.
+### Enhancements
+* Consistent use of try-with-resources when handling streams
+* Replaced org.apache.tika:tika library with org.overviewproject:mime-types in FileUtil to validate uploaded file mime types.
+* Updated the following dependencies:
+  * wcomponents-core:
+    * com.google.code.gson:gson from 2.13.1 to 2.13.2
+    * org.apache.commons:commons-lang3 from 3.18.0 to 3.20.0
+    * commons-io:commons-io from 2.19.0 to 2.21.0
+    * com.google.errorprone:error_prone_annotations from 2.39.0 to 2.46.0
+    * org.apache.httpcomponents.client5:httpclient5 from 5.5 to 5.6
+    * org.apache.httpcomponents.core5:httpcore5 from 5.3.4 to 5.4
+  * wcomponents-test-lib:
+    * io.github.bonigarcia:webdrivermanager from 6.1.0 to 6.3.3
+    * org.apache.commons:commons-compress from 1.27.1 to 1.28.0
+    * commons-codec:commons-codec from 1.18.0 to 1.20.0
+    * com.google.guava:guava from 33.4.8-jre to 33.5.0-jre
+    * net.java.dev.jna:jna from 5.17.0 to 5.18.1
+  * wcomponents-bundle:
+    * org.ehcache:ehcahce from 3.10.8 to 3.11.1
+    * org.glassfish.jaxb:jaxb-runtime from 4.0.5 to 4.0.6
+### Bug Fixes
+* Updated FileUtil to make file extension and mime type validation case insensitive.
+
+## 1.5.38
+
+### Enhancements
+* To improve the robustness of the session token parameter (wc_t), which is used to prevent CSRF attacks, the following changes have been made:
+  * The session token is no longer included on any GET URLs and only posted in the body for POSTS.
+  * Modified the session token interceptors to only accept a session token on a POST and throw an exception if provided on a GET.
+  * Modified Targetable components to use the new createTargetUrl method in WebUtilites that centralises the logic for
+    creating the URLs for Targetable components and excludes the session token.
+  * Moved the adding of the hidden parameters onto the AJAX url from the XSL into the WApplicationRenderer so the session
+    token can be excluded.
+* Updated beanutils version and package names as beanutils had a transient dependency on commons-collections that has security vulnerabilies.
+  * commons-beanutils:commons-beanutils:1.11.0 to org.apache.commons:commons-beanutils2:2.0.0-M2
+* Updated antisamy to latest version 1.7.8 as it has reinstated the xHTML behaviour for tags. Versions 1.7.0 to 1.7.6 did not support xHTML and would break the XML.
+  * org.owasp.antisamy:antismay from 1.6.8 to 1.7.8
+* Updated FileUtil to include MetaData hints when calling tika to help tika identify a files content type.
+
+NOTE - The session token changes are not backwards compatable with older themes.
+
 ## 1.5.37
 
 ### Enhancements

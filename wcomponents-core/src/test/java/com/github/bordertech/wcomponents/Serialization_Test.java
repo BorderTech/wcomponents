@@ -7,8 +7,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import org.junit.Assert;
 import org.apache.commons.logging.LogFactory;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -129,22 +129,20 @@ public class Serialization_Test extends AbstractWComponentTestCase {
 	 */
 	private static Object pipe(final Object obj) {
 		try {
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(bos);
-			oos.writeObject(obj);
-			oos.close();
+			byte[] bytes;
+			try (ByteArrayOutputStream bos = new ByteArrayOutputStream(); ObjectOutputStream oos = new ObjectOutputStream(bos)) {
+				oos.writeObject(obj);
+				bytes = bos.toByteArray();
+			}
 
-			byte[] bytes = bos.toByteArray();
+			try (FileOutputStream fos = new FileOutputStream("SerializeText.txt")) {
+				fos.write(bytes);
+				fos.flush();
+			}
 
-			FileOutputStream fos = new FileOutputStream("SerializeText.txt");
-			fos.write(bytes);
-			fos.flush();
-			fos.close();
-
-			ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-			ObjectInputStream ois = new ObjectInputStream(bis);
-			Object out = ois.readObject();
-			return out;
+			try (ByteArrayInputStream bis = new ByteArrayInputStream(bytes); ObjectInputStream ois = new ObjectInputStream(bis)) {
+				return ois.readObject();
+			}
 		} catch (Exception ex) {
 			throw new SystemException("Failed to pipe " + obj, ex);
 		}

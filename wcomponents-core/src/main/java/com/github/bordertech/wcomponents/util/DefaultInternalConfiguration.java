@@ -435,11 +435,11 @@ final class DefaultInternalConfiguration implements Configuration {
 				byte[] buff = contentsList.get(i);
 				URL url = urlList.get(i);
 				recordMessage("Loading from url " + url + "...");
-				ByteArrayInputStream in = new ByteArrayInputStream(buff);
-
 				// Use the "IncludeProperties" to load properties into us one at a time....
 				IncludeProperties properties = new IncludeProperties(url.toString());
-				properties.load(in);
+				try (ByteArrayInputStream in = new ByteArrayInputStream(buff)) {
+					properties.load(in);
+				}
 			}
 
 			File file = new File(resourceName);
@@ -451,7 +451,9 @@ final class DefaultInternalConfiguration implements Configuration {
 
 				// Use the "IncludeProperties" to load properties into us, one at a time....
 				IncludeProperties properties = new IncludeProperties("file:" + filename(file));
-				properties.load(new BufferedInputStream(new FileInputStream(file)));
+				try (InputStream fileStream = new FileInputStream(file); InputStream stream = new BufferedInputStream(fileStream)) {
+					properties.load(stream);
+				}
 			}
 
 			if (!found) {

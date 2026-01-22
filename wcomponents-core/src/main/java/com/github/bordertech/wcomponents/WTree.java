@@ -454,32 +454,10 @@ public class WTree extends AbstractInput
 		}
 
 		// Build targetted url
-		Environment env = getEnvironment();
-		Map<String, String> parameters = env.getHiddenParameters();
-		parameters.put(Environment.TARGET_ID, getTargetId());
-
-		String cacheKey = item.getImageCacheKey();
-
-		if (Util.empty(cacheKey)) {
-			// Add some randomness to the URL to prevent caching
-			String random = WebUtilities.generateRandom();
-			parameters.put(Environment.UNIQUE_RANDOM_PARAM, random);
-		} else {
-			// Remove step counter as not required for cached content
-			parameters.remove(Environment.STEP_VARIABLE);
-			parameters.remove(Environment.SESSION_TOKEN_VARIABLE);
-			// Add the cache key
-			parameters.put(Environment.CONTENT_CACHE_KEY, cacheKey);
-		}
-
+		Map<String, String> parameters = new HashMap<>();
 		// Item id
 		parameters.put(ITEM_REQUEST_KEY, itemId);
-
-		// The targetable path needs to be configured for the portal environment.
-		url = env.getWServletPath();
-
-		// Note the last parameter. In javascript we don't want to encode "&".
-		return WebUtilities.getPath(url, parameters, true);
+		return WebUtilities.createTargetUrl(this, item.getImageCacheKey(), parameters);
 	}
 
 	/**
