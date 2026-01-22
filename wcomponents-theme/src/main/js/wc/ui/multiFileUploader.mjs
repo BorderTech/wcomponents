@@ -853,6 +853,7 @@ function TrueAjax() {
 	 */
 	function sendFile(uri, uploadName, fileId, file, callback) {
 		const formData = new FormData(),
+			token = document.getElementById("wc_t"),
 			onProgress = progressEventFactory(fileId),
 			onError = errorHandlerFactory(fileId),
 			onAbort = abortHandlerFactory(fileId);
@@ -865,6 +866,10 @@ function TrueAjax() {
 		 * The name, however, is a readonly property of blob and while we may appear to have overridden the value we probably haven't.
 		 */
 		formData.append(uploadName, file, file.name);
+		// Add session token
+		if (token) {
+			formData.append("wc_t", token.value);
+		}
 
 		const request = {
 			url: uri,

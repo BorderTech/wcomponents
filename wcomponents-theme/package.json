@@ -1,5 +1,5 @@
 {
-	"name": "wcomponents-theme",
+	"name": "wc",
 	"version": "1.5.40-SNAPSHOT",
 	"description": "Client side code for WComponents UI tool kit.",
 	"private": true,

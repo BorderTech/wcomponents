@@ -630,6 +630,9 @@ function getFormParams(element, instance) {
 			result = addToQueryString(result, serializeElements(region, "select"));
 			result = addToQueryString(result, serializeElements(region, "textarea"));
 			result = addToQueryString(result, serializeElements(stateContainer, "input"));
+			if (instance.method !== instance.METHODS.GET) {
+				result = addToQueryString(result, serialize.serialize(document.getElementsByName("wc_t")));
+			}
 		} else {
 			formUpdateManager.update(form);
 			result = /** @type String */(serialize.serialize(form));
