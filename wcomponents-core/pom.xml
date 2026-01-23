@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
 		<artifactId>wcomponents-parent</artifactId>
-		<version>1.5.38-SNAPSHOT</version>
+		<version>1.5.40-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -101,14 +101,18 @@
 		</dependency>
 
 		<dependency>
-			<groupId>commons-beanutils</groupId>
-			<artifactId>commons-beanutils</artifactId>
-			<version>1.11.0</version>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-beanutils2</artifactId>
+			<version>2.0.0-M2</version>
 			<!-- Fix convergence -->
 			<exclusions>
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.commons</groupId>
+					<artifactId>commons-lang3</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -186,7 +190,7 @@
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
-			<version>2.13.1</version>
+			<version>2.13.2</version>
 			<exclusions>
 				<exclusion>
 					<groupId>com.google.errorprone</groupId>
@@ -196,50 +200,35 @@
 		</dependency>
 
 		<!-- Required for HTML input sanitization of WTextArea -->
-		<!-- Antisamy as of 1.7.X does not support xhtml and will remove the closing tag on "void" elements which will break the XML-->
-		<!-- Once WComponents stops using xslt then the latest Antisamy can be used -->
+		<!-- Note - Antisamy versions 1.7.0 to 1.7.6 does not support xhtml and will remove the closing tag on "void" elements which will break the XML-->
 		<!-- https://html.spec.whatwg.org/multipage/syntax.html#void-elements -->
 		<dependency>
 			<groupId>org.owasp.antisamy</groupId>
 			<artifactId>antisamy</artifactId>
-			<version>1.6.8</version>
+			<version>1.7.8</version>
 			<!-- Fix convergence -->
 			<exclusions>
 				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>org.apache.xmlgraphics</groupId>
 					<artifactId>batik-css</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>commons-io</groupId>
-					<artifactId>commons-io</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.apache.httpcomponents.client5</groupId>
 					<artifactId>httpclient5</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.apache.httpcomponents.core5</groupId>
-					<artifactId>httpcore5</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>net.sourceforge.htmlunit</groupId>
-					<artifactId>neko-htmlunit</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>xerces</groupId>
 					<artifactId>xercesImpl</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>commons-io</groupId>
+					<artifactId>commons-io</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.httpcomponents.core5</groupId>
+					<artifactId>httpcore5</artifactId>
+				</exclusion>
 			</exclusions>
-		</dependency>
-		<!-- Neko-htmlunit had a package rename as of 3.X.X and cannot be picked up until latest Antisamy can be used -->
-		<dependency>
-			<groupId>net.sourceforge.htmlunit</groupId>
-			<artifactId>neko-htmlunit</artifactId>
-			<version>2.70.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>
@@ -280,20 +269,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.apache.tika</groupId>
-			<artifactId>tika-core</artifactId>
-			<version>2.9.4</version>
-			<!-- Fix convergence -->
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>commons-io</groupId>
-					<artifactId>commons-io</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>org.overviewproject</groupId>
+			<artifactId>mime-types</artifactId>
+			<version>2.0.0</version>
 		</dependency>
 
 		<!-- Force versions to fix convergence -->
@@ -310,22 +288,22 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.18.0</version>
+			<version>3.20.0</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.19.0</version>
+			<version>2.21.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.errorprone</groupId>
 			<artifactId>error_prone_annotations</artifactId>
-			<version>2.39.0</version>
+			<version>2.46.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents.client5</groupId>
 			<artifactId>httpclient5</artifactId>
-			<version>5.5</version>
+			<version>5.6</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.slf4j</groupId>
@@ -336,7 +314,7 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents.core5</groupId>
 			<artifactId>httpcore5</artifactId>
-			<version>5.3.4</version>
+			<version>5.4</version>
 		</dependency>
 
 		<!-- Test dependencies -->

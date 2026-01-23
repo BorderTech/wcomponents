@@ -2,7 +2,6 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.util.Util;
 import java.awt.Dimension;
-import java.util.Map;
 
 /**
  * <p>
@@ -99,26 +98,7 @@ public class WImage extends WBeanComponent implements Targetable, AjaxTarget {
 			return ((InternalResource) image).getTargetUrl();
 		}
 
-		Environment env = getEnvironment();
-		Map<String, String> parameters = env.getHiddenParameters();
-		parameters.put(Environment.TARGET_ID, getTargetId());
-
-		if (Util.empty(getCacheKey())) {
-			// Add some randomness to the URL to prevent caching
-			String random = WebUtilities.generateRandom();
-			parameters.put(Environment.UNIQUE_RANDOM_PARAM, random);
-		} else {
-			// Remove step counter as not required for cached content
-			parameters.remove(Environment.STEP_VARIABLE);
-			parameters.remove(Environment.SESSION_TOKEN_VARIABLE);
-			// Add the cache key
-			parameters.put(Environment.CONTENT_CACHE_KEY, getCacheKey());
-		}
-
-		// this variable needs to be set in the portlet environment.
-		String url = env.getWServletPath();
-
-		return WebUtilities.getPath(url, parameters, true);
+		return WebUtilities.createTargetUrl(this, getCacheKey());
 	}
 
 	/**

@@ -28,8 +28,8 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 /**
- * Tests to check the performance of WComponent XML rendering. This test does not check that the XML output is correct -
- * see the tests for each Renderer.
+ * Tests to check the performance of WComponent XML rendering. This test does not check that the XML output is correct - see the tests for each
+ * Renderer.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -236,6 +236,7 @@ public class WebXmlRenderingPerformance_Test extends AbstractWComponentTestCase 
 
 		setActiveContext(uic);
 		MockRequest request = new MockRequest();
+		request.setMethod("GET");
 
 		try {
 			root.serviceRequest(request);

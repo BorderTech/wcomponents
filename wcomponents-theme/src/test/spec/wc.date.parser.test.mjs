@@ -102,11 +102,11 @@ describe("wc/date/Parser", function() {
 	});
 	it("testParserStndExpandYearPast", function() {
 		const parser = getParser(standardMasks, true, false),
-			result = parser.parse("281025");
+			result = parser.parse("281035");
 		expect(result.length).toBe(1);
 		expect(result[0].day).toBe(28);
 		expect(result[0].month).toBe(10);
-		expect(result[0].year).toBe(1925);
+		expect(result[0].year).toBe(1935);
 	});
 	it("testParserStndMonthAbbr", function() {
 		const parser = getParser(standardMasks, false, false),

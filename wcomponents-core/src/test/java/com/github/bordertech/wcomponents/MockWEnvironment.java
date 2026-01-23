@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -14,7 +14,7 @@ public class MockWEnvironment extends AbstractEnvironment {
 	/**
 	 * The hidden parameters map.
 	 */
-	private Map<String, String> hiddenParameters = new HashMap<>();
+	private Map<String, String> hiddenParameters = new LinkedHashMap<>();
 
 	/**
 	 * Sets the post path. Overriden in order to make method public, as it's useful for unit testing.
@@ -33,7 +33,8 @@ public class MockWEnvironment extends AbstractEnvironment {
 	 */
 	@Override
 	public Map<String, String> getHiddenParameters() {
-		return hiddenParameters;
+		// Simulate behaviour to create new map each time
+		return new LinkedHashMap<>(hiddenParameters);
 	}
 
 	/**

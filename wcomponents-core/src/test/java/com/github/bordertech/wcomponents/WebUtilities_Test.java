@@ -7,11 +7,13 @@ import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.Assert;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -118,124 +120,6 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrect top component returned for top", root, WebUtilities.getTop(root));
 	}
 
-	// @Test
-	// public void testGetWComponentPath()
-	// {
-	// // Simple test, one root element.
-	// WContainer root = new WContainer();
-	// UIContext uic = new UIContextImpl();
-	// uic.setUI(root);
-	//
-	// List<WComponentPathElement> path = WebUtilities.getWComponentPath(root, root.getId(), false);
-	// List<WComponentPathElement> expected = Arrays.asList(new WComponentPathElement[]
-	// {
-	// new WComponentPathElement(root)
-	// });
-	// Assert.assertEquals("Incorrect path", expected, path);
-	//
-	// // Add a static child
-	// WContainer staticChild = new WContainer();
-	// root.add(staticChild);
-	//
-	// path = WebUtilities.getWComponentPath(root, staticChild.getId(), false);
-	// expected = Arrays.asList(new WComponentPathElement[]
-	// {
-	// new WComponentPathElement(root),
-	// new WComponentPathElement(staticChild)
-	// });
-	// Assert.assertEquals("Incorrect path", expected, path);
-	//
-	// // Add a dynamic child
-	// root.setLocked(true);
-	// setActiveContext(uic);
-	// WComponent dynamicChild = new DefaultWComponent();
-	// staticChild.add( dynamicChild);
-	//
-	// path = WebUtilities.getWComponentPath(root, dynamicChild.getId(), false);
-	// expected = Arrays.asList(new WComponentPathElement[]
-	// {
-	// new WComponentPathElement(root),
-	// new WComponentPathElement(staticChild),
-	// new WComponentPathElement(dynamicChild),
-	// });
-	// Assert.assertEquals("Incorrect path", expected, path);
-	//
-	// // Test against another context with strict - should not find dynamic child
-	// String dynamicChildId = dynamicChild.getId();
-	// UIContext otherUic = new UIContextImpl();
-	// otherUic.setUI(root);
-	// setActiveContext(otherUic);
-	//
-	// path = WebUtilities.getWComponentPath(root, dynamicChildId, false);
-	// Assert.assertNull("Path should not have been found", path);
-	//
-	// // Test against another context with tolerant - should return up to the static child
-	// path = WebUtilities.getWComponentPath(root, dynamicChildId, true);
-	// expected = Arrays.asList(new WComponentPathElement[]
-	// {
-	// new WComponentPathElement(root),
-	// new WComponentPathElement(staticChild)
-	// });
-	// Assert.assertEquals("Incorrect path", expected, path);
-	// }
-	//
-	// @Test
-	// public void testGetWComponentPathWithRepeater()
-	// {
-	// WContainer root = new WContainer();
-	// UIContext uic = new UIContextImpl();
-	// uic.setUI(root);
-	// WRepeater repeater = new WRepeater();
-	// WComponent repeatedComponent = new WText();
-	// List<String> data = new ArrayList<String>(Arrays.asList(new String[] { "a", "b", "c" }));
-	//
-	// repeater.setRepeatedComponent(repeatedComponent);
-	// root.add(repeater);
-	//
-	// setActiveContext(uic);
-	// repeater.setData(data);
-	// List<UIContext> contexts = repeater.getRowContexts();
-	//
-	// for (int i = 0; i < data.size(); i++)
-	// {
-	// UIContext rowContext = contexts.get(i);
-	// String repeatedComponentId = getComponentId(repeatedComponent, rowContext);
-	//
-	// List<WComponentPathElement> path = WebUtilities.getWComponentPath(root, repeatedComponentId, false);
-	// List<WComponentPathElement> expected = Arrays.asList(new WComponentPathElement[]
-	// {
-	// new WComponentPathElement(root),
-	// new WComponentPathElement(repeater, i),
-	// new WComponentPathElement(repeater.getRepeatRoot()),
-	// new WComponentPathElement(repeatedComponent)
-	// });
-	//
-	// Assert.assertEquals("Incorrect path for row " + i, expected, path);
-	// }
-	//
-	// // Test when a row is removed from the repeater
-	// UIContext rowContext = contexts.get(contexts.size() - 1);
-	// data.remove(data.size() - 1);
-	//
-	// // Strict should return null
-	// UIContextHolder.pushContext(rowContext);
-	// String repeatedComponentId = getComponentId(repeatedComponent, rowContext);
-	//
-	// List<WComponentPathElement> path = WebUtilities.getWComponentPath(root, repeatedComponentId, false);
-	// Assert.assertNull("Path should not have been found in strict mode after row removal", path);
-	//
-	// // Tolerant should return up to the repeater
-	// path = WebUtilities.getWComponentPath(root, repeatedComponentId, true);
-	// List<WComponentPathElement> expected = Arrays.asList(new WComponentPathElement[]
-	// {
-	// new WComponentPathElement(root),
-	// new WComponentPathElement(repeater),
-	// new WComponentPathElement(repeater.getRepeatRoot()),
-	// new WComponentPathElement(repeatedComponent)
-	// });
-	//
-	// Assert.assertEquals("Incorrect tolerant path after row removal", expected, path);
-	// }
 	@Test
 	public void testFindClosestContext() {
 		WContainer root = new WContainer();
@@ -465,36 +349,53 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 				encoded));
 	}
 
-	@Test
-	public void testGetPath() {
-		// Simple case
-		String url = "/foo";
-		String expected = "/foo";
-		Assert.assertEquals("Incorrect path returned for " + url, expected, WebUtilities.
-				getPath(url, null));
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetPathNullURL() {
+		// Should not allow null base URL
+		WebUtilities.getPath(null, Collections.emptyMap());
+	}
 
-		// Simple case with one param
+	@Test
+	public void testGetPathSimple() {
+		String baseUrl = "/foo";
+		String url = WebUtilities.getPath(baseUrl, null);
+		Assert.assertEquals("Incorrect path returned for base URL", baseUrl, url);
+	}
+
+	@Test
+	public void testGetPathWithParameter() {
+		// Simple case with adding one param
+		String baseUrl = "/foo";
 		Map<String, String> params = new HashMap<>();
 		params.put("a", "b");
+		String url = WebUtilities.getPath(baseUrl, params);
+		String expected = "/foo?a=b";
+		Assert.assertEquals("Incorrect path returned for base URL with one parameter", expected, url);
+	}
 
-		url = "/foo";
-		expected = "/foo?a=b";
-		Assert.assertEquals("Incorrect path returned for " + url + " with a=b", expected,
-				WebUtilities.getPath(url, params));
-
+	@Test
+	public void testGetPathWithExistingParameter() {
 		// Case with existing params and two in the map
-		params = new HashMap<>();
+		String baseUrl = "/foo?a=b";
+		Map<String, String> params = new LinkedHashMap<>();
 		params.put("c", "d");
 		params.put("e", "f");
+		String url = WebUtilities.getPath(baseUrl, params);
+		String expected = "/foo?a=b&amp;c=d&amp;e=f";
+		Assert.assertEquals("Incorrect path returned for base URL with existing parameters", expected, url);
+	}
 
-		url = "/foo?a=b";
-		expected = "/foo?a=b&amp;c=d&amp;e=f";
-
-		assertURLEquals(expected, WebUtilities.getPath(url, params), "&amp;");
-
+	@Test
+	public void testGetPathWithAsJavascriptURL() {
+		// Case with existing params and two in the map
+		String baseUrl = "/foo?a=b";
+		Map<String, String> params = new HashMap<>();
+		params.put("c", "d");
+		params.put("e", "f");
 		// As a javascript url
-		expected = "/foo?a=b&c=d&e=f";
-		assertURLEquals(expected, WebUtilities.getPath(url, params, true), "&");
+		String url = WebUtilities.getPath(baseUrl, params, true);
+		String expected = "/foo?a=b&c=d&e=f";
+		Assert.assertEquals("Incorrect path returned for URL for javascript", expected, url);
 	}
 
 	@Test
@@ -594,26 +495,6 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Invalid html output with XML", TransformXMLTestHelper.EXPECTED, output);
 	}
 
-//	@Test
-//	public void testContainsBrackets() {
-//		Assert.assertTrue("Contains a open bracket", WebUtilities.containsBrackets("{"));
-//		Assert.assertTrue("Contains a closed bracket", WebUtilities.containsBrackets("}"));
-//		Assert.assertFalse("Contains an encoded open bracket", WebUtilities.containsBrackets("&#123;"));
-//		Assert.assertFalse("Contains an encoded closed bracket", WebUtilities.containsBrackets("&#125;"));
-//		Assert.assertFalse("Contains a double encoded open bracket", WebUtilities.containsBrackets("&amp;#123;"));
-//		Assert.assertFalse("Contains a double encoded closed bracket", WebUtilities.containsBrackets("&amp;#125;"));
-//	}
-
-//	@Test
-//	public void testContainsEncodeBrackets() {
-//		Assert.assertTrue("Contains an encoded open bracket", WebUtilities.containsEncodedBrackets("&#123;"));
-//		Assert.assertTrue("Contains an encoded closed bracket", WebUtilities.containsEncodedBrackets("&#125;"));
-//		Assert.assertFalse("Contains a double encoded open bracket", WebUtilities.containsEncodedBrackets("&amp;#123;"));
-//		Assert.assertFalse("Contains a double encoded closed bracket", WebUtilities.containsEncodedBrackets("&amp;#125;"));
-//		Assert.assertFalse("Contains a open bracket", WebUtilities.containsEncodedBrackets("{"));
-//		Assert.assertFalse("Contains a closed bracket", WebUtilities.containsEncodedBrackets("}"));
-//	}
-
 	@Test
 	public void testEncodeBrackets() {
 		String in = "{}<{}>";
@@ -677,8 +558,110 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Double decode brackets not correct", out, WebUtilities.doubleDecodeBrackets(in));
 	}
 
+	@Test
+	public void testCreateTargetUrl() {
+
+		String baseUrl = "/path";
+
+		// Setup context
+		UIContext uic = createUIContext();
+		MockWEnvironment env = new MockWEnvironment();
+		env.setPostPath(baseUrl);
+		uic.setEnvironment(env);
+		setActiveContext(uic);
+
+		// Target URL with no hidden or additional parameters
+		Targetable target = new MyTargetable();
+		HashMap<String, String> expectedParams = new LinkedHashMap<>();
+		expectedParams.put("wc_target", "TARGET");
+		expectedParams.put("no-cache", null);
+		String url = WebUtilities.createTargetUrl(target, null);
+		assertCreatedURLCorrect("Target URL with no hidden or additional parameters. ", url, baseUrl, expectedParams, "&");
+
+		// Target URL with hidden parameters
+		// Setup hidden parameters
+		HashMap<String, String> hiddenParams = new LinkedHashMap<>();
+		hiddenParams.put(Environment.SESSION_TOKEN_VARIABLE, "session");
+		hiddenParams.put(Environment.STEP_VARIABLE, "1");
+		env.setHiddenParameters(hiddenParams);
+		uic.setEnvironment(env);
+		// Expected params
+		expectedParams = new LinkedHashMap<>();
+		expectedParams.put("wc_s", "1");
+		expectedParams.put("wc_target", "TARGET");
+		expectedParams.put("no-cache", null);
+		url = WebUtilities.createTargetUrl(target, null);
+		assertCreatedURLCorrect("Target URL with hidden parameter. ", url, baseUrl, expectedParams, "&");
+
+		// Target URL with hidden parameters and additional
+		// Setup additional params
+		HashMap<String, String> additionalParams = new LinkedHashMap<>();
+		additionalParams = new HashMap<>();
+		additionalParams.put("c", "d");
+		additionalParams.put("e", "f");
+		// Expected params
+		expectedParams = new LinkedHashMap<>();
+		expectedParams.put("wc_s", "1");
+		expectedParams.put("wc_target", "TARGET");
+		expectedParams.put("no-cache", null);
+		expectedParams.putAll(additionalParams);
+		url = WebUtilities.createTargetUrl(target, null, additionalParams);
+		assertCreatedURLCorrect("Target URL with hidden parameters and additional. ", url, baseUrl, expectedParams, "&");
+	}
+
+	@Test
+	public void testCreateTargetUrlWithCache() {
+
+		String baseUrl = "/path";
+		String cacheKey = "CACHE";
+
+		// Setup context
+		UIContext uic = createUIContext();
+		MockWEnvironment env = new MockWEnvironment();
+		env.setPostPath(baseUrl);
+		uic.setEnvironment(env);
+		setActiveContext(uic);
+
+		// Target URL with no hidden or additional parameters
+		Targetable target = new MyTargetable();
+		HashMap<String, String> expectedParams = new LinkedHashMap<>();
+		expectedParams.put("wc_target", "TARGET");
+		expectedParams.put("contentCacheKey", cacheKey);
+		String url = WebUtilities.createTargetUrl(target, cacheKey);
+		assertCreatedURLCorrect("Target URL with no hidden or additional parameters and CACHE. ", url, baseUrl, expectedParams, "&");
+
+		// Target URL with hidden parameters
+		// Setup hidden parameters
+		HashMap<String, String> hiddenParams = new LinkedHashMap<>();
+		hiddenParams.put(Environment.SESSION_TOKEN_VARIABLE, "session");
+		hiddenParams.put(Environment.STEP_VARIABLE, "1");
+		env.setHiddenParameters(hiddenParams);
+		uic.setEnvironment(env);
+		// Expected params
+		expectedParams = new LinkedHashMap<>();
+		expectedParams.put("wc_target", "TARGET");
+		expectedParams.put("contentCacheKey", cacheKey);
+		url = WebUtilities.createTargetUrl(target, cacheKey);
+		assertCreatedURLCorrect("Target URL with hidden parameter and CACHE. ", url, baseUrl, expectedParams, "&");
+
+		// Target URL with hidden parameters and additional
+		// Setup additional params
+		HashMap<String, String> additionalParams = new LinkedHashMap<>();
+		additionalParams = new HashMap<>();
+		additionalParams.put("c", "d");
+		additionalParams.put("e", "f");
+		// Expected params
+		expectedParams = new LinkedHashMap<>();
+		expectedParams.put("wc_target", "TARGET");
+		expectedParams.put("contentCacheKey", cacheKey);
+		expectedParams.putAll(additionalParams);
+		url = WebUtilities.createTargetUrl(target, cacheKey, additionalParams);
+		assertCreatedURLCorrect("Target URL with hidden parameters and additional and CACHE. ", url, baseUrl, expectedParams, "&");
+	}
+
 	/**
 	 * Generates a range of characters.
+	 *
 	 * @param from The first character in the range (must be > 0).
 	 * @param to The last character in the range (must be >= from).
 	 * @return A string containing the character range.
@@ -691,99 +674,48 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 		return result.toString();
 	}
 
-//	/**
-//	 * Set up and execute the updateBeanValue method with the given parameter.
-//	 * If the parameter is null then the default updateBeanValue(component) method will be invoked.
-//	 *
-//	 * @param visibleOnly the parameter to pass to WebUtilities.updateBeanValue(component, visibleOnly).
-//	 */
-//	private void runUpdateBeanValue(final Boolean visibleOnly) {
-//		final String directChild = "directChild";
-//		final String grandChild = "grandChild";
-//		final String invisibleGrandChild = "invisibleGrandChild";
-//		final String childOfInvisibleContainer = "childOfInvisibleContainer";
-//
-//		Map<String, String> beanMap = new HashMap<>();
-//		beanMap.put(directChild, null);
-//		beanMap.put(grandChild, null);
-//		beanMap.put(invisibleGrandChild, null);
-//		beanMap.put(childOfInvisibleContainer, null);
-//
-//		WContainer root = new WContainer();
-//		root.setBean(beanMap);
-//		WTextField childTextField = new WTextField();
-//		childTextField.setBeanProperty(directChild);
-//		root.add(childTextField);
-//
-//		WContainer childContainer = new WContainer();
-//		root.add(childContainer);
-//		WTextField grandChildTextField = new WTextField();
-//		grandChildTextField.setBeanProperty(grandChild);
-//		childContainer.add(grandChildTextField);
-//
-//		WTextField invisibleGrandChildTextField = new WTextField();
-//		invisibleGrandChildTextField.setBeanProperty(invisibleGrandChild);
-//		invisibleGrandChildTextField.setVisible(false);
-//		childContainer.add(invisibleGrandChildTextField);
-//
-//		WContainer invisibleContainer = new WContainer();
-//		invisibleContainer.setVisible(false);
-//		root.add(invisibleContainer);
-//		WTextField childOfInivisbleContainerTextField = new WTextField();
-//		childOfInivisbleContainerTextField.setBeanProperty(childOfInvisibleContainer);
-//		invisibleContainer.add(childOfInivisbleContainerTextField);
-//
-//		root.setLocked(true);
-//		setActiveContext(createUIContext());
-//
-//		childTextField.setData(directChild);
-//		grandChildTextField.setData(grandChild);
-//		invisibleGrandChildTextField.setData(invisibleGrandChild);
-//		childOfInivisbleContainerTextField.setData(childOfInvisibleContainer);
-//
-//		if (visibleOnly == null) {
-//			WebUtilities.updateBeanValue(root);
-//		} else {
-//			WebUtilities.updateBeanValue(root, visibleOnly);
-//		}
-//
-//		Assert.assertEquals("updateBeanValue failed to update directChild with visibleOnly=[" + visibleOnly + "]", directChild, beanMap.get(directChild));
-//		Assert.assertEquals("updateBeanValue failed to update grandChild with visibleOnly=[" + visibleOnly + "]", grandChild, beanMap.get(grandChild));
-//		Assert.assertEquals("updateBeanValue updated an incorrect value for invisibleGrandChild with visibleOnly=[" + visibleOnly + "]", BooleanUtils.isNotFalse(visibleOnly) ? null : invisibleGrandChild, beanMap.get(invisibleGrandChild));
-//		Assert.assertEquals("updateBeanValue updated an incorrect value for childOfInvisibleContainer with visibleOnly=[" + visibleOnly + "]", BooleanUtils.isNotFalse(visibleOnly) ? null : childOfInvisibleContainer, beanMap.get(childOfInvisibleContainer));
-//	}
 	/**
 	 * Compare the URLS. The parameters of the URL must be equal but they do not have to be in the same order.
 	 *
-	 * @param actual the actual value
-	 * @param expected the expected value
+	 * @param msgPrefix message prefix for assert messages
+	 * @param actualUrl the actual value
+	 * @param expectedBase the expected value
+	 * @param expectedParams the expected parameters
 	 * @param separator the separator
 	 */
-	private void assertURLEquals(final String actual, final String expected, final String separator) {
+	private void assertCreatedURLCorrect(final String msgPrefix, final String actualUrl, final String expectedBase, final Map<String, String> expectedParams, final String separator) {
 		// compare the path section of urls (string compare)
-		int paramStartIndex = actual.indexOf('?');
+		int paramStartIndex = actualUrl.indexOf('?');
+
+		String actualURLBase = actualUrl.substring(0, paramStartIndex);
+		String actualURLParams = actualUrl.substring(paramStartIndex + 1);
 
 		// if the path elements of the url are not equal bail out now.
-		Assert.assertTrue("The path elements of the URLs are not equal",
-				expected.startsWith(actual.substring(0, paramStartIndex)));
+		Assert.assertEquals(msgPrefix + "The path elements of the URLs are not equal", expectedBase, actualURLBase);
 
-		// now compare the parameters of each URL
-		String expectedURLParams = expected.substring(paramStartIndex + 1);
-		String actualURLParams = actual.substring(paramStartIndex + 1);
+		// Extract actual parameters
+		Map<String, String> actualParams = new LinkedHashMap<>();
+		String[] actualParamsSplit = actualURLParams.split(separator);
+		for (String actual : actualParamsSplit) {
+			String split[] = actual.split("=");
+			actualParams.put(split[0], split[1]);
+		}
 
-		String[] expectedParams = expectedURLParams.split(separator);
-		String[] actualParams = actualURLParams.split(separator);
+		// Check parameter keys
+		Assert.assertEquals(msgPrefix + "Expected parameter keys not on URL", expectedParams.keySet(), actualParams.keySet());
 
-		int params = expectedParams.length;
-
-		Assert.assertEquals("The number of parameters in URLs are not equal", params,
-				actualParams.length);
-
-		List<String> expectedParamArray = Arrays.asList(expectedParams);
-		List<String> actualParamArray = Arrays.asList(actualParams);
-
-		Assert.assertTrue("The parameters contained in the URLs are not equal",
-				actualParamArray.containsAll(expectedParamArray));
+		// Check parameter values
+		for (Map.Entry<String, String> entry : expectedParams.entrySet()) {
+			String key = entry.getKey();
+			String actualValue = actualParams.get(key);
+			String expectedValue = entry.getValue();
+			if (expectedValue == null) {
+				// Null value used to indicate value is random and cannot be checked but is at least present
+				Assert.assertNotNull(msgPrefix + "Parameter [" + key + "] has no value", actualValue);
+			} else {
+				Assert.assertEquals(msgPrefix + "Parameter [" + key + "] has incorrect value", expectedValue, actualValue);
+			}
+		}
 	}
 
 	/**
@@ -801,5 +733,14 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 		} finally {
 			UIContextHolder.popContext();
 		}
+	}
+
+	private static class MyTargetable extends AbstractWComponent implements Targetable {
+
+		@Override
+		public String getTargetId() {
+			return "TARGET";
+		}
+
 	}
 }

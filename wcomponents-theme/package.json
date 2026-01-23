@@ -1,6 +1,6 @@
 {
 	"name": "wc",
-	"version": "1.5.38-SNAPSHOT",
+	"version": "1.5.40-SNAPSHOT",
 	"description": "Client side code for WComponents UI tool kit.",
 	"private": true,
 	"type": "module",
