@@ -20,5 +20,15 @@ export default function WButton(props: { wcNode: WComponentNode }) {
 		return <IconButton>{getIconFromClassName(wcNode.className)}</IconButton>;
 	}
 
-	return <Button>{props.wcNode.value}</Button>;
+	return (
+		<Button
+			id={wcNode.id}
+			value={wcNode.attributes["value"]}
+			name={wcNode.attributes["name"]}
+			type={wcNode.attributes["type"] as "button" | "submit" | "reset" | undefined}
+			variant="outlined"
+		>
+			{wcNode.value}
+		</Button>
+	);
 }

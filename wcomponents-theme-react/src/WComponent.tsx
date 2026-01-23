@@ -4,7 +4,6 @@ import { getWComponentNodeFromElement, type WComponentNode } from "./data.ts";
 const WCOMPONENTS_META: { [key: string]: LazyExoticComponent<(props: { wcNode: WComponentNode }) => JSX.Element> } = {
 	button: lazy(() => import("./wc/WButton.tsx")),
 	script: lazy(() => import("./wc/WScript.tsx")),
-	"ui:application": lazy(() => import("./wc/WApplication.tsx")),
 	"ui:columnlayout": lazy(() => import("./wc/WColumnLayout.tsx")),
 	"ui:content": lazy(() => import("./wc/WContent.tsx")),
 	"ui:datefield": lazy(() => import("./wc/WDateField.tsx")),
@@ -12,6 +11,7 @@ const WCOMPONENTS_META: { [key: string]: LazyExoticComponent<(props: { wcNode: W
 	"ui:definitionlist": lazy(() => import("./wc/WDefinitionList.tsx")),
 	"ui:field": lazy(() => import("./wc/WField.tsx")),
 	"ui:fieldlayout": lazy(() => import("./wc/WFieldLayout.tsx")),
+	"ui:flowlayout": lazy(() => import("./wc/WFlowLayout.tsx")),
 	"ui:heading": lazy(() => import("./wc/WHeading.tsx")),
 	"ui:js": lazy(() => import("./wc/WNoOp.tsx")),
 	"ui:labelbody": lazy(() => import("./wc/WLabelChild.tsx")),
@@ -26,13 +26,9 @@ const WCOMPONENTS_META: { [key: string]: LazyExoticComponent<(props: { wcNode: W
 	"ui:skiplinks": lazy(() => import("./wc/WNoOp.tsx")),
 	"ui:tabset": lazy(() => import("./wc/WTabSet.tsx")),
 	"ui:text": lazy(() => import("./wc/WText.tsx")),
+	"ui:textfield": lazy(() => import("./wc/WTextField.tsx")),
 	"ui:tree": lazy(() => import("./wc/WTree.tsx")),
-	"wc-ajaxtrigger": lazy(() => import("./wc/WNoOp.tsx")),
-
-	//"ui:button": lazy(() => import("./wc/WButton.tsx")),
-	//"ui:checkbox": lazy(() => import("./wc/WCheckbox.tsx")),
-	//"ui:dialog": lazy(() => import("./wc/WDialog.tsx")),
-	//"ui:text": lazy(() => import("./wc/WText.tsx")),
+	"wc-ajaxtrigger": lazy(() => import("./wc/WAjaxTrigger.tsx")),
 };
 
 export const WComponent = memo(function WComponent(props: { wcNode: WComponentNode | null }) {
