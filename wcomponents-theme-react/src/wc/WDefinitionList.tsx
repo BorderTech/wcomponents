@@ -10,9 +10,9 @@ export default function WDefinitionList(props: { wcNode: WComponentNode }) {
 
 	return (
 		<dl id={wcNode.id} className={className}>
-			{wcNode.children.map((term) => {
+			{wcNode.children.map((term, i) => {
 				const wcNode = getWComponentNodeFromElement(term);
-				return wcNode && <WTerm wcNode={wcNode} />;
+				return wcNode && <WTerm key={i} wcNode={wcNode} />;
 			})}
 		</dl>
 	);
@@ -24,9 +24,9 @@ function WTerm(props: { wcNode: WComponentNode }) {
 	return (
 		<>
 			<dt>{wcNode.attributes["text"]}</dt>
-			{wcNode.children.map((data) => {
+			{wcNode.children.map((data, i) => {
 				const wcNode = getWComponentNodeFromElement(data);
-				return wcNode && <WData wcNode={wcNode} />;
+				return wcNode && <WData key={i} wcNode={wcNode} />;
 			})}
 		</>
 	);

@@ -42,11 +42,12 @@ export async function processSearchRequest(formData: FormData, appParams: { [key
 	return handleResponse(response);
 }
 
-export async function processAjaxRequest(
+export async function processCustomRequest(
 	currentApp: WComponentNode,
 	appParams: { [key: string]: string },
 	triggerId: string,
-	targetId: string,
+	triggerValue: string,
+	ajax?: boolean,
 ): Promise<WComponentNode | null> {
 	const formId = currentApp.id;
 	const form = document.getElementById(formId);
@@ -59,22 +60,53 @@ export async function processAjaxRequest(
 	for (const param in appParams) {
 		formData.append(param, appParams[param]);
 	}
-	formData.append(triggerId, "x");
-	formData.append("wc-ajax", triggerId);
+	formData.append(triggerId, triggerValue);
+	if (ajax) {
+		formData.append("wc-ajax", triggerId);
+	}
 
-	//formData.append("_1b0b", "");
-	//formData.append("main_panel_1b1", "0");
-	//formData.append("example_selector_tree-h", "x");
-	//formData.append("main_panel_0d0a.selected", "x");
-	//formData.append("main_panel_0d-h", "x");
-
-	const response = await fetch(`/app?${new URLSearchParams(appParams).toString()}`, {
+	const urlParams = ajax ? `?${new URLSearchParams(appParams).toString()}` : "";
+	const response = await fetch(`/app${urlParams}`, {
 		method: "POST",
 		headers: {
 			"X-wcnoxslt": "wcnoxslt",
 		},
 		body: formData,
 	});
+
+	return handleResponse(response);
+}
+
+export async function processTabSetRequest(
+	currentApp: WComponentNode,
+	appParams: { [key: string]: string },
+	tabSetId: string,
+	tabId: string,
+	tabIndex: number,
+): Promise<WComponentNode | null> {
+	const formId = currentApp.id;
+	const form = document.getElementById(formId);
+	if (!form) {
+		return null;
+	}
+
+	const formData = new FormData(form as HTMLFormElement);
+
+	for (const param in appParams) {
+		formData.append(param, appParams[param]);
+	}
+	formData.append(tabSetId, String(tabIndex));
+	formData.append("wc-ajax", tabId);
+
+	const response = await fetch(
+		// Trusting that FormData is just strings for now.
+		`/app?${new URLSearchParams(formData as unknown as Record<string, string>).toString()}`,
+		{
+			headers: {
+				"X-wcnoxslt": "wcnoxslt",
+			},
+		},
+	);
 
 	return handleResponse(response);
 }

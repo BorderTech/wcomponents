@@ -1,20 +1,70 @@
 import { Folder, FolderOpen, InsertDriveFileOutlined } from "@mui/icons-material";
 import type { WComponentNode } from "../data.ts";
 import { RichTreeView, type TreeViewBaseItem } from "@mui/x-tree-view";
+import { useContext, useMemo, useState } from "react";
+import { RequestContext } from "../contexts.ts";
 
-function convertXMLTreeElementsToTreeViewBaseItems(wcElements: Element[]): TreeViewBaseItem[] {
-	return wcElements.map((element) => ({
-		id: element.id,
-		label: element.getAttribute("label") ?? "",
-		children: convertXMLTreeElementsToTreeViewBaseItems(Array.from(element.children)),
-	}));
+function convertXMLTreeElementsToTreeViewBaseItems(wcElements: Element[]): {
+	tree: TreeViewBaseItem[];
+	expandedItems: string[];
+} {
+	const expandedItems: string[] = [];
+
+	const convertElements = (arr: Element[]): TreeViewBaseItem[] => {
+		return arr.map((element) => {
+			if (element.getAttribute("open") === "true") {
+				expandedItems.push(element.id);
+			}
+			return {
+				id: element.id,
+				label: element.getAttribute("label") ?? "",
+				children: convertElements(Array.from(element.children)),
+			};
+		});
+	};
+
+	return { tree: convertElements(wcElements), expandedItems };
 }
 
 export default function WTree(props: { wcNode: WComponentNode }) {
+	// Need to provide a random key to force remount/state reset when XML changes.
+	return <WTreeContent key={Math.random()} wcNode={props.wcNode} />;
+}
+
+function WTreeContent(props: { wcNode: WComponentNode }) {
+	const { wcNode } = props;
+
+	const processAjax = useContext(RequestContext);
+
+	const { tree, expandedItems: initialExpandedItems } = useMemo(
+		() => convertXMLTreeElementsToTreeViewBaseItems(wcNode.children as Element[]),
+		[wcNode.children],
+	);
+
+	const [expandedItems, setExpandedItems] = useState<string[]>(initialExpandedItems);
+
+	console.log("tree");
+
 	return (
-		<RichTreeView
-			items={convertXMLTreeElementsToTreeViewBaseItems(props.wcNode.children as Element[])}
-			slots={{ collapseIcon: FolderOpen, expandIcon: Folder, endIcon: InsertDriveFileOutlined }}
-		/>
+		<>
+			<RichTreeView
+				items={tree}
+				expandedItems={expandedItems}
+				onExpandedItemsChange={(_e, itemIds) => {
+					setExpandedItems(itemIds);
+				}}
+				isItemSelectionDisabled={(item) => !!item.children && item.children.length > 0}
+				onItemSelectionToggle={(_e, itemId, isSelected) => {
+					if (isSelected) {
+						processAjax(wcNode.id, itemId, true);
+					}
+				}}
+				slots={{ collapseIcon: FolderOpen, expandIcon: Folder, endIcon: InsertDriveFileOutlined }}
+			/>
+			{expandedItems.map((expandedItemId) => (
+				<input type="hidden" name={`${wcNode.id}.open`} value={expandedItemId} />
+			))}
+			<input type="hidden" name={`${wcNode.id}-h`} value="x" />
+		</>
 	);
 }

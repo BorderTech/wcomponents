@@ -3,7 +3,7 @@ import type { WComponentNode } from "../data.ts";
 
 export default function WTextField(props: { wcNode: WComponentNode }) {
 	const { wcNode } = props;
-	console.log("texttexttexttext");
+
 	const disabled = wcNode.attributes["disabled"] === "true" || wcNode.attributes["readOnly"] === "true";
 	const required = wcNode.attributes["required"] === "true";
 

@@ -1,3 +1,7 @@
 import { createContext } from "react";
 
-export const AjaxContext = createContext<(triggerId: string, targetId: string) => void>(() => {});
+export const RequestContext = createContext<(triggerId: string, triggerValue: string, ajax?: boolean) => void>(
+	() => {},
+);
+
+export const TabSetContext = createContext<(tabSetId: string, tabId: string, tabIndex: number) => void>(() => {});

@@ -1,8 +1,9 @@
 import { Tab } from "@mui/material";
 import { getWComponentNodeFromElement, type WComponentNode } from "../data.ts";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { WComponent, WComponentSet } from "../WComponent.tsx";
+import { TabSetContext } from "../contexts.ts";
 
 interface WTabMeta {
 	tabNode: WComponentNode;
@@ -30,13 +31,21 @@ function getWTabMetasFromWTabSetNode(wcNode: WComponentNode): WTabMeta[] {
 export default function WTabSet(props: { wcNode: WComponentNode }) {
 	const { wcNode } = props;
 
+	const processRequest = useContext(TabSetContext);
+
 	const [tabIndex, setTabIndex] = useState<number>(0);
 
 	const tabMetas = getWTabMetasFromWTabSetNode(wcNode);
 
 	return (
 		<TabContext value={tabIndex}>
-			<TabList onChange={(_e, newValue) => setTabIndex(newValue)}>
+			<TabList
+				onChange={(_e, newValue) => {
+					setTabIndex(newValue);
+					// TODO: Only fire request for lazy loaded tabs.
+					processRequest(wcNode.id, tabMetas[tabIndex].tabNode.id, newValue);
+				}}
+			>
 				{tabMetas.map((t, i) => (
 					<Tab
 						label={t.labelNode ? <WComponent wcNode={t.labelNode} /> : `TAB ${i}`}

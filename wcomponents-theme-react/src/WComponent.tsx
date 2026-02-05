@@ -1,5 +1,6 @@
 import { type ElementType, type JSX, lazy, type LazyExoticComponent, memo, Suspense } from "react";
 import { getWComponentNodeFromElement, type WComponentNode } from "./data.ts";
+import { CircularProgress } from "@mui/material";
 
 const WCOMPONENTS_META: { [key: string]: LazyExoticComponent<(props: { wcNode: WComponentNode }) => JSX.Element> } = {
 	button: lazy(() => import("./wc/WButton.tsx")),
@@ -14,12 +15,13 @@ const WCOMPONENTS_META: { [key: string]: LazyExoticComponent<(props: { wcNode: W
 	"ui:flowlayout": lazy(() => import("./wc/WFlowLayout.tsx")),
 	"ui:heading": lazy(() => import("./wc/WHeading.tsx")),
 	"ui:js": lazy(() => import("./wc/WNoOp.tsx")),
+	"ui:label": lazy(() => import("./wc/WLabel.tsx")),
 	"ui:labelbody": lazy(() => import("./wc/WLabelChild.tsx")),
 	"ui:labelhead": lazy(() => import("./wc/WLabelChild.tsx")),
 	"ui:labeltail": lazy(() => import("./wc/WLabelChild.tsx")),
+	"ui:listlayout": lazy(() => import("./wc/WListLayout.tsx")),
 	"ui:margin": lazy(() => import("./wc/WNoOp.tsx")),
 	"ui:menu": lazy(() => import("./wc/WMenu.tsx")),
-	"ui:menuitem": lazy(() => import("./wc/WMenuItem.tsx")),
 	"ui:panel": lazy(() => import("./wc/WPanel.tsx")),
 	"ui:param": lazy(() => import("./wc/WNoOp.tsx")),
 	"ui:section": lazy(() => import("./wc/WSection.tsx")),
@@ -36,7 +38,6 @@ export const WComponent = memo(function WComponent(props: { wcNode: WComponentNo
 	if (!wcNode) {
 		return <></>;
 	}
-	console.log("render wcomponent");
 	const Component = WCOMPONENTS_META[wcNode.tagName];
 	if (!Component) {
 		if (wcNode.tagName.includes(":") || wcNode.tagName.includes("-")) {
@@ -45,7 +46,7 @@ export const WComponent = memo(function WComponent(props: { wcNode: WComponentNo
 		return <NativeHTML wcNode={wcNode} />;
 	}
 	return (
-		<Suspense fallback={<p>loading...</p>}>
+		<Suspense fallback={<CircularProgress />}>
 			<Component wcNode={wcNode} />
 		</Suspense>
 	);
@@ -55,8 +56,8 @@ export function WComponentSet(props: { xmlNodes: ChildNode[]; extraAttributes?: 
 	const { xmlNodes, extraAttributes } = props;
 	return (
 		<>
-			{xmlNodes.map((xmlNode) => (
-				<WComponent wcNode={getWComponentNodeFromElement(xmlNode, extraAttributes)} />
+			{xmlNodes.map((xmlNode, i) => (
+				<WComponent key={i} wcNode={getWComponentNodeFromElement(xmlNode, extraAttributes)} />
 			))}
 		</>
 	);

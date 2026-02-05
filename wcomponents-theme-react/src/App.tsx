@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
 import { WComponentSet } from "./WComponent.tsx";
-import { getClientLayout, processAjaxRequest, processSearchRequest, type WComponentNode } from "./data.ts";
+import {
+	getClientLayout,
+	processCustomRequest,
+	processSearchRequest,
+	processTabSetRequest,
+	type WComponentNode,
+} from "./data.ts";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { AjaxContext } from "./contexts.ts";
+import { RequestContext, TabSetContext } from "./contexts.ts";
 
 function extractApplicationParams(wcNode: WComponentNode): { [key: string]: string } {
 	const params: { [key: string]: string } = {};
@@ -24,13 +30,13 @@ export default function App() {
 	const [application, setApplication] = useState<WComponentNode | null>(null);
 	const [appParams, setAppParams] = useState<{ [key: string]: string }>({});
 
-	const processAjax = (triggerId: string, targetId: string) => {
+	const processCustom = (triggerId: string, triggerValue: string, ajax?: boolean) => {
 		if (application) {
-			processAjaxRequest(application, appParams, triggerId, targetId)
+			processCustomRequest(application, appParams, triggerId, triggerValue, ajax)
 				.then((c) => {
 					setApplication(c);
 					setAppParams(c ? extractApplicationParams(c) : {});
-					console.log("completed ajax and updated UI");
+					console.log("completed request and updated UI");
 				})
 				.catch((e) => console.error(e));
 		}
@@ -43,6 +49,18 @@ export default function App() {
 				setAppParams(c ? extractApplicationParams(c) : {});
 			})
 			.catch((e) => console.error(e));
+	};
+
+	const processTabSet = (tabSetId: string, tabId: string, tabIndex: number) => {
+		if (application) {
+			processTabSetRequest(application, appParams, tabSetId, tabId, tabIndex)
+				.then((c) => {
+					setApplication(c);
+					setAppParams(c ? extractApplicationParams(c) : {});
+					console.log("completed request and updated UI");
+				})
+				.catch((e) => console.error(e));
+		}
 	};
 
 	useEffect(() => {
@@ -58,13 +76,15 @@ export default function App() {
 		<>
 			{!application && <p>No valid XML application structure</p>}
 			{application && (
-				<AjaxContext value={processAjax}>
-					<LocalizationProvider dateAdapter={AdapterDayjs}>
-						<form id={application.id} action={processSearch}>
-							<WComponentSet xmlNodes={application.children} />
-						</form>
-					</LocalizationProvider>
-				</AjaxContext>
+				<RequestContext value={processCustom}>
+					<TabSetContext value={processTabSet}>
+						<LocalizationProvider dateAdapter={AdapterDayjs}>
+							<form id={application.id} action={processSearch}>
+								<WComponentSet xmlNodes={application.children} />
+							</form>
+						</LocalizationProvider>
+					</TabSetContext>
+				</RequestContext>
 			)}
 		</>
 	);

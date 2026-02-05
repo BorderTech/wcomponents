@@ -27,6 +27,8 @@ export default function WButton(props: { wcNode: WComponentNode }) {
 			name={wcNode.attributes["name"]}
 			type={wcNode.attributes["type"] as "button" | "submit" | "reset" | undefined}
 			variant="outlined"
+			disabled={wcNode.attributes["disabled"] === "disabled"}
+			sx={{ textTransform: "none" }}
 		>
 			{wcNode.value}
 		</Button>

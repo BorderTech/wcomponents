@@ -67,10 +67,10 @@ export default function WColumnLayout(props: { wcNode: WComponentNode }) {
 
 	return (
 		<div className={layoutClasses}>
-			{rows.map((row) => (
-				<div className={rowClasses}>
+			{rows.map((row, i) => (
+				<div key={i} className={rowClasses}>
 					{row.map((cell, i) => (
-						<div className={getCellClassName(columnMeta[i])}>
+						<div key={i} className={getCellClassName(columnMeta[i])}>
 							<WComponentSet xmlNodes={Array.from(cell.children)} />
 						</div>
 					))}
