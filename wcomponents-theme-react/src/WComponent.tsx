@@ -1,7 +1,9 @@
 import { type ElementType, type JSX, lazy, type LazyExoticComponent, memo, Suspense } from "react";
 import { getWComponentNodeFromElement, type WComponentNode } from "./data.ts";
-import { CircularProgress } from "@mui/material";
+import { Alert, CircularProgress } from "@mui/material"; // Map of all supported components.
 
+// Map of all supported components.
+// After implementing a new component, it must be registered here before use.
 const WCOMPONENTS_META: { [key: string]: LazyExoticComponent<(props: { wcNode: WComponentNode }) => JSX.Element> } = {
 	button: lazy(() => import("./wc/WButton.tsx")),
 	script: lazy(() => import("./wc/WScript.tsx")),
@@ -33,6 +35,10 @@ const WCOMPONENTS_META: { [key: string]: LazyExoticComponent<(props: { wcNode: W
 	"wc-ajaxtrigger": lazy(() => import("./wc/WAjaxTrigger.tsx")),
 };
 
+// The top level WComponent serves as the first step to determining how to handle a wcNode.
+// Attempts to load and render the component based on tag name in WCOMPONENTS_META above.
+// Unsupported tags will show a warning message.
+// Native HTML will be passed through and rendered as is.
 export const WComponent = memo(function WComponent(props: { wcNode: WComponentNode | null }) {
 	const { wcNode } = props;
 	if (!wcNode) {
@@ -41,7 +47,11 @@ export const WComponent = memo(function WComponent(props: { wcNode: WComponentNo
 	const Component = WCOMPONENTS_META[wcNode.tagName];
 	if (!Component) {
 		if (wcNode.tagName.includes(":") || wcNode.tagName.includes("-")) {
-			return <div>Component not found: {wcNode.tagName}</div>;
+			return (
+				<Alert severity="info">
+					Component not implemented: <b>{wcNode.tagName}</b>
+				</Alert>
+			);
 		}
 		return <NativeHTML wcNode={wcNode} />;
 	}
@@ -52,6 +62,8 @@ export const WComponent = memo(function WComponent(props: { wcNode: WComponentNo
 	);
 });
 
+// Renders a WComponent for each XML node.
+// This should be added somewhere within every component which may have children.
 export function WComponentSet(props: { xmlNodes: ChildNode[]; extraAttributes?: { [key: string]: string } }) {
 	const { xmlNodes, extraAttributes } = props;
 	return (
@@ -63,6 +75,7 @@ export function WComponentSet(props: { xmlNodes: ChildNode[]; extraAttributes?: 
 	);
 }
 
+// Passthrough for native HTML encountered in the application XML structure.
 function NativeHTML(props: { wcNode: WComponentNode }) {
 	const { wcNode } = props;
 

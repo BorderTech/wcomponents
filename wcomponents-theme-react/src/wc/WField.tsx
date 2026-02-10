@@ -1,6 +1,9 @@
 import { WComponentSet } from "../WComponent.tsx";
 import { type WComponentNode } from "../data.ts";
 
+// The generic WComponents field container.
+// Extracts classes, label data, and attributes to pass down to the actual field implementations (which should
+// be provided as its children).
 export default function WField(props: { wcNode: WComponentNode }) {
 	const { wcNode } = props;
 

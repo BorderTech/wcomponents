@@ -4,6 +4,7 @@ import { RichTreeView, type TreeViewBaseItem } from "@mui/x-tree-view";
 import { useContext, useMemo, useState } from "react";
 import { RequestContext } from "../contexts.ts";
 
+// Converts the WComponents XML representation of a tree into the JSON expected by the MUI RichTreeView component.
 function convertXMLTreeElementsToTreeViewBaseItems(wcElements: Element[]): {
 	tree: TreeViewBaseItem[];
 	expandedItems: string[];
@@ -31,19 +32,19 @@ export default function WTree(props: { wcNode: WComponentNode }) {
 	return <WTreeContent key={Math.random()} wcNode={props.wcNode} />;
 }
 
+// Uses the MUI Tree View component (https://mui.com/x/react-tree-view/) to render WComponent tree menus.
 function WTreeContent(props: { wcNode: WComponentNode }) {
 	const { wcNode } = props;
 
 	const processAjax = useContext(RequestContext);
 
+	// Avoid regenerating the TreeView data from XML on every render.
 	const { tree, expandedItems: initialExpandedItems } = useMemo(
 		() => convertXMLTreeElementsToTreeViewBaseItems(wcNode.children as Element[]),
 		[wcNode.children],
 	);
 
 	const [expandedItems, setExpandedItems] = useState<string[]>(initialExpandedItems);
-
-	console.log("tree");
 
 	return (
 		<>

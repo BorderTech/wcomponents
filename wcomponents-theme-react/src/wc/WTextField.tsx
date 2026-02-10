@@ -1,6 +1,7 @@
 import { TextField } from "@mui/material";
 import type { WComponentNode } from "../data.ts";
 
+// Text fields implemented using MUI Text Field (https://mui.com/material-ui/react-text-field/).
 export default function WTextField(props: { wcNode: WComponentNode }) {
 	const { wcNode } = props;
 

@@ -16,7 +16,7 @@ function getTextElementTagFromType(type: string): "strong" | "em" | "ins" | "del
 	return "span";
 }
 
-// TODO: This component does not yet fully implement wc.ui.text.xsl
+// TODO: This component is a stub and does not yet fully implement wc.ui.text.xsl.
 export default function WText(props: { wcNode: WComponentNode }) {
 	const { wcNode } = props;
 

@@ -1,7 +1,7 @@
 import type { WComponentNode } from "../data.ts";
 import { WComponentSet } from "../WComponent.tsx";
 
-// TODO: This component is a stub and does not yet fully implement wc.ui.decoratedlabel.xsl
+// TODO: This component is a stub and does not yet fully implement wc.ui.decoratedlabel.xsl.
 export default function WLabelChild(props: { wcNode: WComponentNode }) {
 	const { wcNode } = props;
 	const localName = wcNode.tagName.slice(3);

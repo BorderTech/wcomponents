@@ -2,6 +2,18 @@
 
 A modern Material-UI compliant frontend for the WComponents Java UI Framework.
 
+# Setup, building, and running
+
+This step assumes you already have the wcomponents-examples-lde compiled and running.
+
+- Run ```npm install``` to download and install the project dependencies.
+- Run ```npm run dev``` to start the development server. A URL will appear in the console where you can preview the
+application. The default URL is ```localhost:5173```.
+- Run ```npm run lint``` to check the project for issues using ESLint.
+- Run ```npm run build``` to compile and bundle the optimised production assets.
+- Run ```npm run preview``` to start a local web server which serves the optimised production assets. You must run
+the build step first before running this.
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

@@ -1,6 +1,8 @@
 import { WComponentSet } from "../WComponent.tsx";
 import { type WComponentNode } from "../data.ts";
 
+// Implementation of ui:flowlayout.
+// TODO: This is a stub and does not fully implement the flow layout.
 export default function WFlowLayout(props: { wcNode: WComponentNode }) {
 	const { wcNode } = props;
 

@@ -4,6 +4,7 @@ import { WComponentSet } from "../WComponent.tsx";
 import { useContext } from "react";
 import { RequestContext } from "../contexts.ts";
 
+// Implements ui:menu using MUI MenuList (https://mui.com/material-ui/api/menu-list/).
 export default function WMenu(props: { wcNode: WComponentNode }) {
 	const { wcNode } = props;
 

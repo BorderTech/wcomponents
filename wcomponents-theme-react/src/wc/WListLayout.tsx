@@ -1,6 +1,8 @@
 import { WComponentSet } from "../WComponent.tsx";
 import { type WComponentNode } from "../data.ts";
 
+// Implements ui:listlayout.
+// TODO: This component is a stub and doesn't yet fully implement listlayout.
 export default function WListLayout(props: { wcNode: WComponentNode }) {
 	const { wcNode } = props;
 

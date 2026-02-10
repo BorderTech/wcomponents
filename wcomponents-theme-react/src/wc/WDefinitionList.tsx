@@ -1,6 +1,7 @@
 import { getWComponentNodeFromElement, type WComponentNode } from "../data.ts";
 import { WComponentSet } from "../WComponent.tsx";
 
+// Implementation of wc.ui.definitionList.xsl.
 export default function WDefinitionList(props: { wcNode: WComponentNode }) {
 	const { wcNode } = props;
 

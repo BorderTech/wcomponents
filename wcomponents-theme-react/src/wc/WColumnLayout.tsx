@@ -13,6 +13,9 @@ function getColumnMetaFromColumnTag(columnElement: Element): ColumnMeta {
 	};
 }
 
+// Breaks XML Elements into usable chunks which represent rows and columns within the column layout.
+// Returns an array of arrays where the top level array contains all the rows, and each row is represented
+// by an array of Elements (one per column). i.e. [rows][cols]
 function getChunkedArray(array: Element[], chunkSize: number): Element[][] {
 	const chunkedArray: Element[][] = [];
 	if (chunkSize > 0) {
@@ -29,6 +32,8 @@ function getCellClassName(columnMeta: ColumnMeta): string {
 	return `wc-cell wc-column wc-align-${columnMeta.align}${columnMeta.width ? " wc_col_" + columnMeta.width : ""}`;
 }
 
+// Implementation of ui:columnlayout.
+// TODO: Not all required functionality is implemented.
 export default function WColumnLayout(props: { wcNode: WComponentNode }) {
 	const { wcNode } = props;
 

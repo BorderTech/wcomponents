@@ -2,6 +2,8 @@ import { Button, IconButton } from "@mui/material";
 import type { WComponentNode } from "../data.ts";
 import { Cancel, Refresh } from "@mui/icons-material";
 
+// TODO: This is only temporary handling of some icons for testing/demo purposes.
+// Ideally this should support any icon in a more robust manner.
 function getIconFromClassName(className: string) {
 	if (className.includes("fa-refresh")) {
 		return <Refresh />;
@@ -11,9 +13,11 @@ function getIconFromClassName(className: string) {
 	}
 }
 
+// Example implementation of <button> using MUI Button (https://mui.com/material-ui/react-button/)
+// and IconButton (https://mui.com/material-ui/api/icon-button/).
 export default function WButton(props: { wcNode: WComponentNode }) {
 	const { wcNode } = props;
-	console.log("button");
+
 	const isIcon = wcNode.className.includes("wc-icon");
 
 	if (isIcon) {

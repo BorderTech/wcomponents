@@ -11,6 +11,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { RequestContext, TabSetContext } from "./contexts.ts";
 
+// Extracts the application params which are stored and sent with every request.
 function extractApplicationParams(wcNode: WComponentNode): { [key: string]: string } {
 	const params: { [key: string]: string } = {};
 	for (const xmlNode of wcNode.children) {
@@ -26,17 +27,20 @@ function extractApplicationParams(wcNode: WComponentNode): { [key: string]: stri
 	return params;
 }
 
+// This is the top level of the React application.
+// Stores application state and provides access to request handling functions
+// via React Contexts (https://react.dev/learn/passing-data-deeply-with-context).
 export default function App() {
 	const [application, setApplication] = useState<WComponentNode | null>(null);
 	const [appParams, setAppParams] = useState<{ [key: string]: string }>({});
 
+	// TODO: These functions should probably be broken out somewhere else.
 	const processCustom = (triggerId: string, triggerValue: string, ajax?: boolean) => {
 		if (application) {
 			processCustomRequest(application, appParams, triggerId, triggerValue, ajax)
 				.then((c) => {
 					setApplication(c);
 					setAppParams(c ? extractApplicationParams(c) : {});
-					console.log("completed request and updated UI");
 				})
 				.catch((e) => console.error(e));
 		}
@@ -57,7 +61,6 @@ export default function App() {
 				.then((c) => {
 					setApplication(c);
 					setAppParams(c ? extractApplicationParams(c) : {});
-					console.log("completed request and updated UI");
 				})
 				.catch((e) => console.error(e));
 		}
