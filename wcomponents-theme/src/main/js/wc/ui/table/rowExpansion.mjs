@@ -235,7 +235,7 @@ function showHideContent(triggerRow, action) {
  * @param {CustomEvent & { target: HTMLElement, detail: { action: string } }} $event
  */
 function expCollapseObserver({ target: element, detail }) {
-	if (element && element.matches(tbl_expandable_row)) {
+	if (element?.matches(tbl_expandable_row)) {
 		const action = detail.action;
 		const control = Array.from(element.children).find(el => el.matches(row_trigger));
 		if (control) {

@@ -255,7 +255,7 @@ const instance = {
 		let writeWhere = args.position,
 			target = args.element || args["target"];  // this was a mess with both properties in use
 
-		if (!(messages && target && target.nodeType === Node.ELEMENT_NODE)) {
+		if (!(messages && target?.nodeType === Node.ELEMENT_NODE)) {
 			// no messages or target for the messages
 			// don't throw: just do nothing
 			console.warn("trying to add nothing or to nothing");
@@ -308,7 +308,7 @@ const instance = {
 	 * @returns {boolean} `true` if a diagnostic box was found and removed.
 	 */
 	remove: function(element, target, level) {
-		if (!(element && element.nodeType === Node.ELEMENT_NODE)) {
+		if (element?.nodeType !== Node.ELEMENT_NODE) {
 			return false;
 		}
 		// read carefully before you try merging these two to be more 'efficient'/

@@ -184,7 +184,7 @@ function getTextTarget(options, start, keyName) {
 		for (let i = startIdx + 1; i < options.length; ++i) {
 			let next = options[i];
 			let txt = next.textContent;
-			if (txt && txt[0].toLocaleLowerCase() === keyName) {
+			if (txt?.[0].toLocaleLowerCase() === keyName) {
 				result = next;
 				break;
 			}

@@ -26,7 +26,7 @@ const instance = {
 					let same = false;
 					const stateBVal = stateB[key];
 					const stateAVal = stateA[key];
-					if (stateBVal && stateAVal && stateBVal.length === stateAVal.length) {
+					if (stateAVal?.length > 0 && stateBVal?.length === stateAVal.length) {
 						same = stateBVal.every(item => stateAVal.includes(item));
 					} else {
 						console.log("Param has changed", key, stateAVal, stateBVal);

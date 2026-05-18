@@ -1022,7 +1022,7 @@ function keydownEvent($event) {
 function position(element) {
 	const cal = element || getCal();
 	if (cal && !shed.isHidden(cal, true)) {
-		const fixed = (window.getComputedStyle && window.getComputedStyle(cal).position === "fixed");
+		const fixed = (window?.getComputedStyle(cal).position === "fixed");
 		if (fixed) {
 			const input = getInputForCalendar(cal);
 			if (input) {

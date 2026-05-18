@@ -133,7 +133,7 @@ function shedMandatorySubscriber($event) {
 		return;
 	}
 	const input = wrappedInput.isOneOfMe(target) ? wrappedInput.getInput(target) : target;
-	if (input && input.type !== "radio" && (input.matches(tags.join()) || $role.has(input))) {
+	if (input?.type !== "radio" && (input.matches(tags.join()) || $role.has(input))) {
 		const func = action === shed.events.OPTIONAL ? "remove" : "add";
 		getLabelsForElement(target).forEach(function (next) {
 			mandateLabel(next, func);

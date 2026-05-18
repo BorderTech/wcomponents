@@ -42,7 +42,7 @@ wrappedInput.isReadOnly = function(element) {
  * @return {HTMLElement|null}
  */
 wrappedInput.getInput = function(element) {
-	if (!(element && element.matches(wrapperSelector))) {
+	if (!(element?.matches(wrapperSelector))) {
 		return null;
 	}
 	return element.querySelector(wrappedSelectors);

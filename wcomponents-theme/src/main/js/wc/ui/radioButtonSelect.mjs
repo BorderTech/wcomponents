@@ -71,7 +71,7 @@ const instance = {
  * @param {String} action One of the {@link module:wc/dom/shed~actions}: MANDATORY or OPTIONAL
  */
 function shedSubscriber(element, action) {
-	if (element && element.matches(radioButtonSelectSelector)) {
+	if (element?.matches(radioButtonSelectSelector)) {
 		group.getGroup(element, radioSelector).forEach(next => shed[action](next));
 	}
 }

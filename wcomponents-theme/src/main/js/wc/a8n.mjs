@@ -9,6 +9,7 @@ import timers from "wc/timers.mjs";
 import Observer from "wc/Observer.mjs";
 import fixes from "wc/fixes.mjs";
 
+
 let observer,
 	timer,
 	globalPending = 0;
@@ -90,7 +91,7 @@ function pendingUpdated(pending, flag) {
 function checkNotify() {
 	const element = document.body;
 	if (element) {
-		const isReady = !globalPending;  // When nothing is pwnding it will be zero
+		const isReady = !globalPending;  // When nothing is pending it will be zero
 		const currentState = instance.isReady();
 		if (isReady !== currentState) {
 			if (timer) {
@@ -131,7 +132,7 @@ function stateChangeFactory(element, attr) {
  */
 function isFlaggedReady() {
 	const element = document.body;
-	return (element && element.getAttribute(instance.attr) === "true");
+	return (element?.getAttribute(instance.attr) === "true");
 }
 
 /**

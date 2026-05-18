@@ -248,7 +248,7 @@ AbstractMenu.prototype.hasTextNodeMatch = function(element, letter) {
 		tw.nextNode();
 		const node = tw.currentNode;
 
-		if (node && node.nodeType === Node.TEXT_NODE) {
+		if (node?.nodeType === Node.TEXT_NODE) {
 			const textNodeContent = node.nodeValue;
 			if (textNodeContent.toLocaleUpperCase().startsWith(letter.toLocaleUpperCase())) {
 				result = NodeFilter.FILTER_ACCEPT;

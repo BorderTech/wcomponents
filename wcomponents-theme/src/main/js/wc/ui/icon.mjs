@@ -93,7 +93,7 @@ function getHTML(icon) {
  * @throws {TypeError} if element is not an Element
  */
 function testElementArg(element) {
-	if (!(element && element.nodeType === Node.ELEMENT_NODE)) {
+	if (element?.nodeType !== Node.ELEMENT_NODE) {
 		throw new TypeError("element must be an HTML element");
 	}
 	return true;

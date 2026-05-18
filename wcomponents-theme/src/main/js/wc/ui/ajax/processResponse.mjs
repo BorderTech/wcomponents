@@ -381,7 +381,7 @@ function insertScripts(scripts, relativeTo) {
 	const srcAttr = "src", defer = "defer";
 	let ownerElement = document.body;
 
-	if (relativeTo && relativeTo.nodeType === Node.ELEMENT_NODE) {
+	if (relativeTo?.nodeType === Node.ELEMENT_NODE) {
 		ownerElement = relativeTo.closest("form") || document.body;
 	}
 
