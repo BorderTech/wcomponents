@@ -77,7 +77,15 @@ async function build(singleFile) {
  */
 async function buildSingle(singleFile) {
 	let fileName = singleFile;
-	themeLinter.run(singleFile);
+	try {
+		await themeLinter.run(singleFile);
+	} catch (ignore) {
+		/*
+			We do not break the build when processing a single file, as this only happens during active development.
+			When the full build is run, the build will break.
+		*/
+		console.error(ignore);
+	}
 	fileName = fileName.replace(dirs.script.src, "");
 	let conf = config;
 	Object.assign({}, conf);
