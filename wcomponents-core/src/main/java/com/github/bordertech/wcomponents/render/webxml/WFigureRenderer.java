@@ -3,8 +3,8 @@ package com.github.bordertech.wcomponents.render.webxml;
 import com.github.bordertech.wcomponents.AjaxHelper;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WFigure;
-import com.github.bordertech.wcomponents.WFigure.FigureMode;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
+import com.github.bordertech.wcomponents.WFigure.FigureMode;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.SystemException;
 
@@ -68,6 +68,14 @@ final class WFigureRenderer extends AbstractWebXmlRenderer {
 			xml.appendClose();
 			figure.getContent().paint(renderContext);
 			xml.appendEndTag("ui:content");
+		} else {
+			// Add eager marker element if content rendering is to be done later
+			if (mode != null && mode.equals(FigureMode.EAGER)) {
+				xml.appendTagOpen("wc-ajax-eager");
+				xml.appendAttribute("container-id", figure.getId());
+				xml.appendClose();
+				xml.appendEndTag("wc-ajax-eager");
+			}
 		}
 
 		xml.appendEndTag("ui:figure");

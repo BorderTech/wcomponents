@@ -63,6 +63,14 @@ final class WSectionRenderer extends AbstractWebXmlRenderer {
 			section.getDecoratedLabel().paint(renderContext);
 			// Content
 			section.getContent().paint(renderContext);
+		} else {
+			// Add eager marker element if content rendering is to be done later
+			if (mode != null && mode.equals(SectionMode.EAGER)) {
+				xml.appendTagOpen("wc-ajax-eager");
+				xml.appendAttribute("container-id", section.getId());
+				xml.appendClose();
+				xml.appendEndTag("wc-ajax-eager");
+			}
 		}
 
 		xml.appendEndTag("ui:section");

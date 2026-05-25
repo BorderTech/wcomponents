@@ -335,7 +335,6 @@
 		<xsl:variable name="filedrops" select=".//ui:multifileupload[@ajax or @dropzone]" />
 		<xsl:variable name="multiDDData" select=".//ui:multidropdown[@data and not(@readOnly)]" />
 		<xsl:variable name="rtfs" select=".//ui:textarea[ui:rtf]" />
-		<xsl:variable name="eagerness" select="//*[@mode eq 'eager']" />
 		<xsl:variable name="editors" select=".//html:wc-imageedit" />
 		<xsl:variable name="tableActions" select=".//ui:table/ui:actions/ui:action" />
 
@@ -390,11 +389,6 @@
 			<xsl:if test="$rtfs">
 				<xsl:text>import("wc/ui/rtf.mjs").then(({ default: c }) => {c.register([</xsl:text>
 				<xsl:apply-templates select="$rtfs" mode="registerIds" />
-				<xsl:text>]);});</xsl:text>
-			</xsl:if>
-			<xsl:if test="$eagerness">
-				<xsl:text>import("wc/ui/containerload.mjs").then(({ default: c }) => {c.register([</xsl:text>
-				<xsl:apply-templates select="$eagerness" mode="registerIds" />
 				<xsl:text>]);});</xsl:text>
 			</xsl:if>
 			<xsl:if test="//@defaultFocusId">

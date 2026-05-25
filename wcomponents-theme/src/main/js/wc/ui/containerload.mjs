@@ -224,10 +224,24 @@ function init() {
  */
 function requestEagerLoad(id) {
 	const element = document.getElementById(id);
-	if (!(element?.innerHTML?.trim())) {
-		console.log("Eager loading: ", id);
-		requestLoad(element, true, true);
+
+	if (!element) {
+		return;
 	}
+
+	if (element.getElementsByTagName(eagerMarkerTag).length === 0) {
+		// no need to load if the content is already there
+		if ((element.innerHTML?.trim())) {
+			return;
+		}
+	} else {
+		for (const eagerMarker of element.getElementsByTagName(eagerMarkerTag)) {
+			eagerMarker.remove();
+		}
+	}
+
+	console.log("Eager loading: ", id);
+	requestLoad(element, true, true);
 }
 
 function processNow(idArr) {
@@ -241,5 +255,17 @@ function processNow(idArr) {
 // we have to register the initialise because we have components which rely on the shed subscribers to
 //    load containers (collapsible, tab etc.)
 initialise.addCallback(init);
+
+const eagerMarkerTag = "wc-ajax-eager";  // (hopefully temporary) way of spotting eager components
+class WEager extends HTMLElement {
+
+	connectedCallback() {
+		instance.register([this.getAttribute("container-id")]);
+	}
+}
+
+if (!customElements.get(eagerMarkerTag)) {
+	customElements.define(eagerMarkerTag, WEager);
+}
 
 export default instance;

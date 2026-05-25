@@ -60,6 +60,13 @@ final class WPanelRenderer extends AbstractWebXmlRenderer {
 		} else {
 			// Content will be loaded via AJAX
 			xml.append("<ui:content/>");
+
+			if (PanelMode.EAGER.equals(panel.getMode())) {
+				xml.appendTagOpen("wc-ajax-eager");
+				xml.appendAttribute("container-id", panel.getId());
+				xml.appendClose();
+				xml.appendEndTag("wc-ajax-eager");
+			}
 		}
 
 		xml.appendEndTag("ui:panel");

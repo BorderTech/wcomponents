@@ -25,6 +25,10 @@
 					<xsl:with-param name="type" select="''"/>
 				</xsl:apply-templates>
 			</xsl:if>
+			<!-- Render the html custom element that marks eager containers -->
+			<xsl:if test="$mode eq 'eager'">
+				<xsl:apply-templates select="html:wc-ajax-eager" />
+			</xsl:if>
 		</section>
 	</xsl:template>
 

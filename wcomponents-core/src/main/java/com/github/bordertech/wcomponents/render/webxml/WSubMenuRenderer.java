@@ -4,9 +4,9 @@ import com.github.bordertech.wcomponents.AjaxHelper;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WSubMenu;
-import com.github.bordertech.wcomponents.WSubMenu.MenuMode;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
+import com.github.bordertech.wcomponents.WSubMenu.MenuMode;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.SystemException;
 
@@ -125,6 +125,12 @@ final class WSubMenuRenderer extends AbstractWebXmlRenderer {
 		if (mode != MenuMode.EAGER || AjaxHelper.isCurrentAjaxTrigger(menu)) {
 			// Visibility of content set in prepare paint
 			menu.paintMenuItems(renderContext);
+		} else {
+			// Add eager marker element if content rendering is to be done later
+			xml.appendTagOpen("wc-ajax-eager");
+			xml.appendAttribute("container-id", menu.getId() + "-content");
+			xml.appendClose();
+			xml.appendEndTag("wc-ajax-eager");
 		}
 
 		xml.appendEndTag("ui:content");

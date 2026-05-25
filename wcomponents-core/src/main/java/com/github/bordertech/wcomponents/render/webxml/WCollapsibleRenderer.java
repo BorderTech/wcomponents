@@ -3,9 +3,9 @@ package com.github.bordertech.wcomponents.render.webxml;
 import com.github.bordertech.wcomponents.AjaxHelper;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.WCollapsible;
-import com.github.bordertech.wcomponents.WCollapsible.CollapsibleMode;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
+import com.github.bordertech.wcomponents.WCollapsible.CollapsibleMode;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.SystemException;
 
@@ -81,6 +81,11 @@ final class WCollapsibleRenderer extends AbstractWebXmlRenderer {
 				collapsible)) {
 			// Visibility of content set in prepare paint
 			content.paint(renderContext);
+		} else {
+			xml.appendTagOpen("wc-ajax-eager");
+			xml.appendAttribute("container-id", collapsible.getId() + "-content");
+			xml.appendClose();
+			xml.appendEndTag("wc-ajax-eager");
 		}
 
 		xml.appendEndTag("ui:content");

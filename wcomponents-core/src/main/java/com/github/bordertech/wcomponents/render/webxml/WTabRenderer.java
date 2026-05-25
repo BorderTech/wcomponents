@@ -4,8 +4,8 @@ import com.github.bordertech.wcomponents.AjaxHelper;
 import com.github.bordertech.wcomponents.Renderer;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WTab;
-import com.github.bordertech.wcomponents.WTabSet.TabMode;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
+import com.github.bordertech.wcomponents.WTabSet.TabMode;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.SystemException;
 
@@ -76,6 +76,14 @@ final class WTabRenderer extends AbstractWebXmlRenderer {
 				tab))) {
 			// Visibility of content set in prepare paint
 			content.paint(renderContext);
+		} else {
+			// Add eager marker element if content rendering is to be done later
+			if (tab.getMode().equals(TabMode.EAGER)) {
+				xml.appendTagOpen("wc-ajax-eager");
+				xml.appendAttribute("container-id", tab.getId() + "-content");
+				xml.appendClose();
+				xml.appendEndTag("wc-ajax-eager");
+			}
 		}
 
 		xml.appendEndTag("ui:tabcontent");
