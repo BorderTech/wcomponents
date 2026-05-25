@@ -45,7 +45,7 @@ function makeLegend(el) {
 }
 
 function labelToLegend(element) {
-	if (element && element.matches(fieldsetSelector)) {
+	if (element?.matches(fieldsetSelector)) {
 		makeLegend(element);
 	} else {
 		Array.from(document.body?.querySelectorAll(fieldsetSelector)).forEach(makeLegend);

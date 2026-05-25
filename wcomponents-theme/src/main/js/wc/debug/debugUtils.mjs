@@ -36,7 +36,7 @@ function flagBad(tags, testFunc, container) {
 	}
 
 	if (candidates && candidates.length) {
-		candidates.forEach(testFunc);
+		candidates.forEach(element => testFunc(element));
 	}
 }
 

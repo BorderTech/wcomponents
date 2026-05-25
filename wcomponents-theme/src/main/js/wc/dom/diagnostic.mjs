@@ -215,7 +215,7 @@ const diagnostic = {
 	 * @returns {Boolean}
 	 */
 	isMessage: function (element, level) {
-		if (!(element && element.nodeType === Node.ELEMENT_NODE)) {
+		if (element?.nodeType !== Node.ELEMENT_NODE) {
 			return false;
 		}
 		// firstly, do we even have a message?
@@ -265,7 +265,7 @@ const diagnostic = {
 	 * @returns {HTMLElement} the target element of the diagnostic box
 	 */
 	getTarget: function (diag) {
-		if (!(diag && diag.nodeType === Node.ELEMENT_NODE && diag.matches(diagnosticSelector))) {
+		if (!(diag?.nodeType === Node.ELEMENT_NODE && diag.matches(diagnosticSelector))) {
 			return null;
 		}
 

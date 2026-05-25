@@ -74,5 +74,10 @@
 		"sass": "1.5.1",
 		"sass-lint": "1.12.1",
 		"uglify-js": "3.17.4"
+	},
+	"overrides": {
+		"babel-plugin-transform-commonjs": {
+			"globals": "17.6.0"
+		}
 	}
 }

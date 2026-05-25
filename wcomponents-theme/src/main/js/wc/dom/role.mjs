@@ -16,7 +16,7 @@ export default {
 	 */
 	get: function(element, implied) {
 		let role = "";
-		if (element && element.nodeType === Node.ELEMENT_NODE) {
+		if (element?.nodeType === Node.ELEMENT_NODE) {
 			role = element.getAttribute("role");
 			if (implied && !role) {
 				role = impliedARIA.getImpliedRole(/** @type {HTMLElement} */(element));
@@ -34,7 +34,7 @@ export default {
 	 */
 	has: function(element, implied) {
 		let result = false;
-		if (element && element.nodeType === Node.ELEMENT_NODE) {
+		if (element?.nodeType === Node.ELEMENT_NODE) {
 			result = element.hasAttribute("role");
 			if (implied && !result) {
 				result = !!impliedARIA.getImpliedRole(/** @type {HTMLElement} */(element));
