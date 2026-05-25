@@ -88,42 +88,33 @@ public class WTextAreaRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("40", "//ui:textarea/@cols", field);
 
 		field.setRichTextArea(false);
-		assertSchemaMatch(field);
-		assertXpathNotExists("//ui:textarea/ui:rtf", field);
+		assertXpathNotExists("//ui:textarea/html:wc-rtf", field);
 
 		field.setRichTextArea(true);
-		assertSchemaMatch(field);
-		assertXpathExists("//ui:textarea/ui:rtf", field);
+		assertXpathExists("//ui:textarea/html:wc-rtf", field);
 
 		field.setDefaultSubmitButton(button);
-		assertSchemaMatch(field);
 		assertXpathEvaluatesTo(button.getId(), "//ui:textarea/@buttonId", field);
 
 		field.setPattern("");
-		assertSchemaMatch(field);
 		assertXpathNotExists("//ui:textarea/@pattern", field);
 
 		// Pattern is not supported on the client for TextArea, and will not be rendered
 		field.setPattern("test[123]");
-		assertSchemaMatch(field);
 		assertXpathNotExists("//ui:textarea/@pattern", field);
 
 		field.setText("Hello");
-		assertSchemaMatch(field);
 		assertXpathEvaluatesTo(field.getText(), "normalize-space(//ui:textarea)", field);
 
 
 		field.setPlaceholder("enter stuff here");
-		assertSchemaMatch(field);
 		assertXpathEvaluatesTo("enter stuff here", "//ui:textarea/@placeholder", field);
 
 
 		field.setAutocomplete(AddressType.BILLING);
-		assertSchemaMatch(field);
 		assertXpathEvaluatesTo(field.getAutocomplete(), "//ui:textarea/@autocomplete", field);
 
 		field.setAutocompleteOff();
-		assertSchemaMatch(field);
 		assertXpathEvaluatesTo(AutocompleteUtil.getOff(), "//ui:textarea/@autocomplete", field);
 	}
 

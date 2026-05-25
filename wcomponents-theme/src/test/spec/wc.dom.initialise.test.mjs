@@ -2,6 +2,15 @@ import initialise, {setView} from "wc/dom/initialise.mjs";
 import {setUpExternalHTML} from "../helpers/specUtils.mjs";
 
 describe("wc/dom/initialise", () => {
+	let origWindow;
+
+	beforeAll(() => {
+		origWindow = window;
+	});
+
+	afterAll(() => {
+		setView(origWindow);
+	});
 
 	beforeEach(() => {
 		return setUpExternalHTML("domUsefulDom.html").then(dom => {

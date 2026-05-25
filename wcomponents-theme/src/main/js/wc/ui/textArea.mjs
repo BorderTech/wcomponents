@@ -215,3 +215,17 @@ initialise.register({
 });
 
 export default instance;
+
+// Handle registration of rich text areas
+const rtfTag = "wc-rtf";
+class WRichTextField extends HTMLElement {
+	connectedCallback() {
+		import("wc/ui/rtf.mjs").then(({ default: c }) => {
+			c.register([this.parentElement.getAttribute("id")]);
+		});
+	}
+}
+
+if (!customElements.get(rtfTag)) {
+	customElements.define(rtfTag, WRichTextField);
+}

@@ -16,6 +16,8 @@ import com.github.bordertech.wcomponents.util.Util;
  */
 class WTextAreaRenderer extends AbstractWebXmlRenderer {
 
+	private static final String TAG_RTF = "wc-rtf";
+
 	/**
 	 * Paints the given WTextArea.
 	 *
@@ -66,7 +68,7 @@ class WTextAreaRenderer extends AbstractWebXmlRenderer {
 			 * such as turning rich text features on or off, or specifying JSON config either as
 			 * a URL attribute or a nested CDATA section.
 			 */
-			xml.append("<ui:rtf />");
+			xml.append(String.format("<%s></%1$s>", TAG_RTF));
 		}
 
 		String textString = textArea.getText();
