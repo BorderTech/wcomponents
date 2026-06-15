@@ -940,7 +940,6 @@ AbstractMenu.prototype.writeMenuState = function(next, toContainer) {
  * @param {Element} toContainer the container into which state fields are written
  */
 AbstractMenu.prototype.writeState = function(container, toContainer) {
-
 	try {
 		// menus inside the container
 		const menus = container.querySelectorAll(this.ROOT.toString());
@@ -1177,7 +1176,6 @@ AbstractMenu.prototype._getBranch = function(item) {
  * @returns {HTMLElement} The "expandable" element. This is usually the branch content but is the branch in trees.
  */
 AbstractMenu.prototype._getBranchExpandableElement = function (item) {
-
 	if (!item) {
 		throw new TypeError("Item must not be undefined.");
 	}
@@ -1652,7 +1650,6 @@ AbstractMenu.prototype.keydownEvent = function($event) {
 		const root = this.getRoot(target);
 		const element = root ? this.getItem(target) : null;
 		if (root && element) {
-
 			result = this._keyActivator(element, key, root, shiftKey, (ctrlKey || metaKey));
 
 			if (result && keysToCancel.includes(code)) {

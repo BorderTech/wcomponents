@@ -127,5 +127,4 @@ describe("wc/dom/getLabelsForElement", () => {
 
 		expect(labels).toBeFalsy();
 	});
-
 });

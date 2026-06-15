@@ -126,8 +126,6 @@ define([], function() {
 				}, lose);
 			});
 			return result;
-
-
 		};
 
 		/*
@@ -162,7 +160,6 @@ define([], function() {
 				throw err;
 			}
 		}
-
 	}
 
 	return instance;

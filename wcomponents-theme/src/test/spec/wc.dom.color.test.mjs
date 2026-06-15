@@ -3,7 +3,6 @@ import color from "wc/dom/color.mjs";
 const { describe, expect, it } = globalThis;
 
 describe("wc/dom/color", function() {
-
 	it("testHex2rgb3", function() {
 		const start = "#000",
 			expected = { r: 0, g: 0, b: 0 },
@@ -157,6 +156,5 @@ describe("wc/dom/color", function() {
 		// @ts-ignore
 		expect(color.isHex(0x0)).toBeFalse();
 	});
-
 });
 

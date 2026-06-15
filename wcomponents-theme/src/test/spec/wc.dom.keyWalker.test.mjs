@@ -6,7 +6,6 @@ import { setUpExternalHTML } from "../helpers/specUtils.mjs";
 const { afterAll, beforeAll, beforeEach, describe, expect, NodeFilter, it } = globalThis;
 
 describe("wc/dom/keyWalker", () => {
-
 	let testHolder,
 		groupedElements,
 		treeRoot;

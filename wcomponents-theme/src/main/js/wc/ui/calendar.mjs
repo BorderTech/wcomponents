@@ -481,7 +481,6 @@ function create() {
 		"datefield_today",
 		"datefield_nextMonth",
 		"datefield_close"]).then(([monthLabel, yearLabel, lastMonth, todayLabel, nextMonth, closeLabel]) => {
-
 		const calendarProps = {
 			dayName: dayName.get(true),
 			monthName: monthName.get(),
@@ -503,7 +502,6 @@ function create() {
 		event.add(findYearField(), "change", yearChangeEvent);
 		return container;
 	});
-
 }
 
 /**
@@ -717,7 +715,6 @@ function setDate(date, setFocus, setSelected) {
 									shed.select(button, true);
 								}
 							}
-
 						}
 					}
 

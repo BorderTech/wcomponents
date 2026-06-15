@@ -16,7 +16,6 @@ const testContent = `
 let testHolder;
 
 describe("wc/dom/diagnostic", () => {
-
 	beforeAll(() => {
 		testHolder = document.body;
 	});

@@ -511,7 +511,6 @@ AriaAnalog.prototype.keydownEvent = function ($event) {
 	const actionableSelector = this.actionable.map(next => next.toString()).join();
 	if ((keyCode === "Space" || keyCode === "Enter") &&
 		!element.matches(actionableSelector) && isAcceptableEventTarget(element, target)) {
-
 		this.activate(element, $event.shiftKey, ($event.ctrlKey || $event.metaKey));
 		$event.preventDefault();  // preventDefault here otherwise you get a page scroll
 	}
@@ -733,7 +732,6 @@ AriaAnalog.prototype.setLastActivated = function (element, container) {
  * @returns {Boolean} true if the item is the first active analog found in the ancestor tree.
  */
 function isActiveAnalog(target, item) {
-
 	// NOTE: We should not use focus.getFocusableAncestor or isAcceptableTarget here because we are only
 	// interested in whether the analog is the nearest analog. To see a case where isAcceptableTarget here would
 	// break something look at wc/ui/menu/MenuItem~clickEventHelper which gets an alternative activable element

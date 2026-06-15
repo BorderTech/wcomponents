@@ -50,5 +50,4 @@ describe("wc/ui/dialog", () => {
 			expect(shed.isHidden(dialogWrapper)).withContext("Escape key in dialog should close it").toBeTruthy();
 		});
 	});
-
 });

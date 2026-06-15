@@ -63,7 +63,6 @@ const barTemplate = context => `
  * @alias module:wc/ui/menu/bar~Menubar
  */
 class Menubar extends AbstractMenu {
-
 	/**
 	 * The descriptors for this menu type.
 	 * @override
@@ -259,7 +258,6 @@ function removeIconified(nextMenu) {
 			}
 		}
 		burger.parentNode.removeChild(burger);
-
 	} finally {
 		nextMenu.classList.remove(MENU_FIXED);
 	}

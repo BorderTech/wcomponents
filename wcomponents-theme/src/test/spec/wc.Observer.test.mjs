@@ -269,7 +269,6 @@ describe("wc/Observer", () => {
 
 		function setImportanceParameter(foo) {
 			return typeof foo === "string";
-
 		}
 		observer.subscribe(iAmNotImportant, { priority: setImportanceParameter({ p1: "empty" }) });
 		observer.subscribe(iAmImportant, { priority: setImportanceParameter("anything") });
@@ -767,7 +766,6 @@ describe("wc/Observer", () => {
 	});
 
 	it("testObserverFilterWildcard", function() {
-
 		var wasNotified = 0,
 			otherNs = "ui.some.other.namespace",
 			wildNs = "ui.*.namespace",

@@ -12,7 +12,6 @@ const EXPANDER = "td.wc_table_sel_wrapper";
  * @alias module:wc/ui/RowAnalog~RowAnalog
  */
 class RowAnalog extends AriaAnalog {
-
 	/**
 	 * The selection mode is mixed: list boxes may be single or multiple as per select elements.
 	 * @var

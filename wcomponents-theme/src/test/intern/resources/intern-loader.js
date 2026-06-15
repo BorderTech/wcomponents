@@ -8,7 +8,6 @@ const { intern, window } = globalThis;
  */
 intern.registerLoader(function (options) {
 	function initLoader(requirejs) {
-
 		/**
 		 * Configure requireJS
 		 * Options are from intern.json config

@@ -69,7 +69,6 @@ describe("wc/dom/convertDynamicContent", () => {
 
 			expect(target["value"]).toBe(expected);
 		}
-
 	});
 
 	it("testConvertTargetNotForm", function() {

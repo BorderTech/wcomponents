@@ -13,7 +13,6 @@ class SelectableGroup extends HTMLElement {
 }
 
 export default class WCheckBoxSelect extends SelectableGroup {
-
 	//  TODO make this tagname wc-cbselect or wc-checkboxselect or something else without dashes
 	static tagName = 'wc-check-box-select';
 
@@ -149,7 +148,6 @@ export default class WCheckBoxSelect extends SelectableGroup {
 }
 
 export class WOption extends HTMLElement {
-
 	static tagName = 'wc-option';
 
 	/** @type {boolean} */
@@ -284,7 +282,6 @@ export class WOption extends HTMLElement {
 }
 
 export class WRadioButtonSelect extends SelectableGroup {
-
 	static tagName = 'wc-radio-button-select';
 
 	/** @type {boolean} */

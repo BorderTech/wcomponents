@@ -150,7 +150,6 @@ const instance = {
 
 function processResponseHtml(documentFragment, trigger) {
 	const onError = function() {
-
 		// @ts-ignore
 		import("wc/ajax/handleError.mjs").then(function(module) {
 			const handleError = module.default;

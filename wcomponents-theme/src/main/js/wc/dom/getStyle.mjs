@@ -54,7 +54,6 @@ function getStyle(element, cssRule, includeUnits, notAColor) {
 					// now we have a hex value of style, eg #ff0000, convert to RGB
 					return color.hex2rgb(style);
 				}
-
 			}
 		}
 	}

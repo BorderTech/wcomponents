@@ -15,7 +15,6 @@ const testContent = `<div>
 	</div>`;
 
 describe("wc/dom/cbrShedPublisher", () => {
-
 	let testHolder;
 
 	function eventIt(type, id, otherId) {

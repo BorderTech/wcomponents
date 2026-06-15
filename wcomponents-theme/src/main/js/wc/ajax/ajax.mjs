@@ -166,7 +166,6 @@ function Ajax() {
 			console.error("request.readyState", request.readyState);
 			console.error("response headers", request.getAllResponseHeaders());
 			console.error("config", JSON.stringify(config));
-
 		} catch (ignore) {
 			// don't die if logging fails
 			console.warn(ignore);

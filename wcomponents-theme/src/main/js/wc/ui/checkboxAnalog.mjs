@@ -12,7 +12,6 @@ const BUTTON_VAL_ATTRIB = "value",
  * Strictly speaking checkbox should not get arrow key navigation.
  */
 class CheckboxAnalog extends AriaAnalog {
-
 	/**
 	 * The description of a group item. This makes this class concrete.
 	 * @var

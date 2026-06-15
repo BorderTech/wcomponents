@@ -4,7 +4,6 @@ import { setUpExternalHTML } from "../helpers/specUtils.mjs";
 const { beforeEach, console, describe, expect, it } = globalThis;
 
 describe("wc/dom/initialise", () => {
-
 	beforeEach(() => {
 		return setUpExternalHTML("domUsefulDom.html").then(dom => {
 			setView(dom.window);

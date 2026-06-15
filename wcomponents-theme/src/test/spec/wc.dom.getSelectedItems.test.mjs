@@ -179,7 +179,6 @@ describe("wc/ui/getSelectedItems", () => {
 	 * Get the selected radio elements in a checkbox group
 	 */
 	it("testGetSelectedCheckboxValue", function() {
-
 		const element = domTesting.getByTestId(testHolder, "cb1"),
 			result = getFilteredGroup(element);
 		if (result[0].value === "Bike") {
@@ -195,7 +194,6 @@ describe("wc/ui/getSelectedItems", () => {
 	 * Get the selected options in a select
 	 */
 	it("testGetSelectedSelect", function() {
-
 		const element = domTesting.getByTestId(testHolder, "select1"),
 			result = /** @type HTMLElement[] */(getFilteredGroup(element));
 
@@ -203,7 +201,6 @@ describe("wc/ui/getSelectedItems", () => {
 	});
 
 	it("testGetSelectedSelectValue", function() {
-
 		const element = domTesting.getByTestId(testHolder, "select1"),
 			result = /** @type HTMLInputElement[] */(getFilteredGroup(element));
 
@@ -214,7 +211,6 @@ describe("wc/ui/getSelectedItems", () => {
 	 * Get the selected options in a multi select
 	 */
 	it("testGetSelectedSelectMulti", function() {
-
 		const element = domTesting.getByTestId(testHolder, "select2"),
 			result = /** @type HTMLElement[] */(getFilteredGroup(element));
 
@@ -225,7 +221,6 @@ describe("wc/ui/getSelectedItems", () => {
 	 * Get the selected options in a multi select
 	 */
 	it("testGetSelectedSelectMultiValue", function() {
-
 		const element = domTesting.getByTestId(testHolder, "select2"),
 			result = getFilteredGroup(element);
 		if (result[0].value === "volvo") {
@@ -241,7 +236,6 @@ describe("wc/ui/getSelectedItems", () => {
 	 * Get the selected options in a multi select which has optgroups
 	 */
 	it("testGetSelectedSelectMultiOptgroup", function() {
-
 		const element = domTesting.getByTestId(testHolder, "select3"),
 			result = /** @type HTMLElement[] */(getFilteredGroup(element));
 
@@ -249,7 +243,6 @@ describe("wc/ui/getSelectedItems", () => {
 	});
 
 	it("testGetSelectedSelectMultiOptgroupValue", function() {
-
 		const element = domTesting.getByTestId(testHolder, "select3"),
 			result = getFilteredGroup(element);
 		if (result[0].value === "volvo") {
@@ -347,7 +340,6 @@ describe("wc/ui/getSelectedItems", () => {
 	 * Get the selected options in an aria select
 	 */
 	it("testGetSelectedAriaSelect", function() {
-
 		const element = domTesting.getByTestId(testHolder, "fauxSelect1"),
 			result = /** @type HTMLElement[] */(getFilteredGroup(element));
 
@@ -358,7 +350,6 @@ describe("wc/ui/getSelectedItems", () => {
 	 * Get the selected options in an aria multi select
 	 */
 	it("testGetSelectedAriaSelectMulti", function() {
-
 		const element = domTesting.getByTestId(testHolder, "fauxSelect2"),
 			result = /** @type HTMLElement[] */(getFilteredGroup(element));
 
@@ -370,7 +361,6 @@ describe("wc/ui/getSelectedItems", () => {
 	 * Get the unselected options in an aria multi select
 	 */
 	it("testGetUnselectedItemsAriaSelectMulti", function() {
-
 		const element = domTesting.getByTestId(testHolder, "fauxSelect2"),
 			result = /** @type HTMLElement[] */(getFilteredGroup(element, {
 				filter: getFilteredGroup.FILTERS.deselected

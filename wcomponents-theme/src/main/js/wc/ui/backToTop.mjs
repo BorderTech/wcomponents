@@ -75,7 +75,6 @@ function showHide(show, target) {
 	let link = target || document.body.querySelector(backtotopSelector);
 	if (show) {
 		if (!link) {
-
 			link = /** @type {BackToTop} */ (document.createElement(tagName));
 			link = document.body.appendChild(link);
 		}

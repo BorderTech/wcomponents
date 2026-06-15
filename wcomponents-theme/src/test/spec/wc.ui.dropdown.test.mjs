@@ -59,5 +59,4 @@ describe("wc/ui/dropdown", () => {
 
 		expect(element.selectedIndex).toBe(-1);
 	});
-
 });

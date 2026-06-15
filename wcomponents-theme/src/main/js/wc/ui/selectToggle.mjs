@@ -88,7 +88,6 @@ function isWSelectToggle(element) {
 * @param {Element} stateContainer The element to which to append the state inputs.
 */
 function writeState(form, stateContainer) {
-
 	// CHECKBOX type controllers
 	Array.from(form.querySelectorAll(controllerCheckboxSelector)).forEach(next => {
 		let state = STATE.UNKNOWN;
@@ -178,7 +177,6 @@ function getAllControllers(element) {
  * @returns {HTMLElement[]} The elements in the group as an Array not as a nodeList or null if no group found.
  */
 function getGroup(controller) {
-
 	if (!controller) {
 		return null;
 	}
@@ -381,7 +379,6 @@ function shedObserver(element, action) {
 	}
 	const allControllers = element.matches(allCbSelector.join()) ? getAllControllers(element) : [];
 	allControllers.forEach(controlStatusHelper);
-
 }
 
 function controlStatusHelper(controller) {

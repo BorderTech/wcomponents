@@ -3,7 +3,6 @@ import asciify from "wc/i18n/asciify.mjs";
 const { describe, expect, it } = globalThis;
 
 describe("wc/i18n/asciify", function() {
-
 	it("testAsciifyWithUniChar", function() {
 		const input = "\u00e9",
 			expected = "e",
@@ -83,5 +82,4 @@ describe("wc/i18n/asciify", function() {
 
 		expect(actual).toBe(expected);
 	});
-
 });

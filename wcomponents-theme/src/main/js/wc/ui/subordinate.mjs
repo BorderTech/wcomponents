@@ -624,7 +624,6 @@ export const initialiser = {
  * @param {window} theWindow
  */
 function registerElements(theWindow) {
-
 	const tagNames = {
 		subordinate: "wc-subordinate",
 		condition: "wc-condition",
@@ -722,7 +721,6 @@ function registerElements(theWindow) {
 	}
 
 	class WSubordinate extends theWindow.HTMLElement {
-
 		connectedCallback() {
 			const doIt = () => {
 				const onTrue = /** @type WOnTrueFalse[] */(Array.from(this.querySelectorAll(tagNames.wcontrue)));

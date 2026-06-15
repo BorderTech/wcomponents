@@ -136,7 +136,6 @@ function toDto(element) {
 		if (value) {
 			const feature = `${next}=${value}px`;
 			return accumulator ? `${accumulator},${feature}` : feature;
-
 		}
 		return accumulator;
 	}, "");

@@ -3,7 +3,6 @@ import diff from "wc/array/diff.mjs";
 const { describe, expect, it } = globalThis;
 
 describe("wc/array/diff", function() {
-
 	it("testDiff", function() {
 		const expected = [1, 2],
 			actual = diff([1, 2, 3], [3, 4, 5]);

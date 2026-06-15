@@ -192,7 +192,6 @@ function Observer(notifyInStages) {
 			}
 			// notify in parallel
 			return Promise.all(promiseFactories.map(promiseFactory => promiseFactory()));
-
 		} finally {
 			// reset instance variables
 			filterFn = null;
@@ -268,7 +267,6 @@ function Observer(notifyInStages) {
 	 * // `foo.bar`
 	 */
 	this.setFilter = function(arg) {
-
 		if (typeof arg === "string") {
 			// default filter tests for equality
 			/**
@@ -391,7 +389,6 @@ Observer.prototype.priority = Observer.priority = {
  * @private
  */
 function SubscriberRegistry() {
-
 	/**
 	 * The group to which all subscribers belong unless otherwise added to an explicit group as part of
 	 * subscribing.

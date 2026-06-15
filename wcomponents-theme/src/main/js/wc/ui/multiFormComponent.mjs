@@ -269,7 +269,6 @@ function addNewField(element) {
 		} else {
 			prompt.alert(i18n.get("mfc_max"));
 		}
-
 	}
 }
 

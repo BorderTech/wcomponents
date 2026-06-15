@@ -100,7 +100,6 @@ class ListboxAnalog extends AriaAnalog {
 			We could simply use the length = 1 check in to handle unicode characters too.
 		 */
 		if (keyCode.length === 1 && PRINTABLE_RE.test(keyCode)) {
-
 			/* printable char pressed: find the next matching option */
 			const listbox = target.closest(this.CONTAINER);
 			if (listbox?.nodeType === Node.ELEMENT_NODE) {
@@ -137,6 +136,7 @@ class ListboxAnalog extends AriaAnalog {
 	 * @param {Element} listbox an instance of a listbox
 	 */
 	clearAllOptions(listbox) {
+		// eslint-disable-next-line @stylistic/multiline-ternary
 		const options = listbox ? /** @type {HTMLElement[]} */(getFilteredGroup(listbox, {
 			containerWd: this.CONTAINER,
 			itemWd: this.ITEM,
@@ -160,7 +160,8 @@ class ListboxAnalog extends AriaAnalog {
 	 * @returns {String} the value of the option.
 	 */
 	getOptionValue(option, lowerCase, forceText) {
-		const txt = forceText ? option.textContent :
+		const txt = forceText
+			? option.textContent :
 			(option.hasAttribute(this.VALUE_ATTRIB) ? option.getAttribute(this.VALUE_ATTRIB) : option.textContent);
 		return lowerCase ? txt.toLocaleLowerCase() : txt;
 	}

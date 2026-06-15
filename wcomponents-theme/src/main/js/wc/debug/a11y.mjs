@@ -36,7 +36,6 @@ function filterIssues(inArr) {
 	}
 
 	return !(ignoreExperimentalIssues && inArr.tags.includes("experimental"));
-
 }
 
 function addData(value, isUrl) {

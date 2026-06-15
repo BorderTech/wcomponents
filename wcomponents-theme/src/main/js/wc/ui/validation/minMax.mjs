@@ -96,7 +96,6 @@ export default function minMax(conf) {
 		selectables = Array.from(container.querySelectorAll(widget)).filter(filter);
 	}
 	return !selectables?.length;
-
 }
 
 /**

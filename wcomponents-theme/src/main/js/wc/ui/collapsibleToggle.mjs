@@ -86,7 +86,8 @@ function toggleThisCollapsible(collapsible, open) {
 	if (collapsible.matches(collapsibleSelector)) {
 		/** @type HTMLDetailsElement */
 		const collapser = (open !== collapsible.hasAttribute("open")) ?
-			collapsible.querySelector(triggerSelector) : null;
+			collapsible.querySelector(triggerSelector)
+			: null;
 		if (collapser) {
 			event.fire(collapser, "click");
 		}

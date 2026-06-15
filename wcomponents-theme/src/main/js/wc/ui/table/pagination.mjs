@@ -226,7 +226,8 @@ function getOtherSelector(selector) {
 	const wrapper = getWrapper(selector),
 		/** @type NodeListOf<HTMLSelectElement> */
 		selectors = (selector.matches(PAGINATION_SELECTOR) ?
-			wrapper.querySelectorAll(PAGINATION_SELECTOR) : wrapper.querySelectorAll(RPP_SELECTOR));  // this could include selectors in nested tables
+			wrapper.querySelectorAll(PAGINATION_SELECTOR)
+			: wrapper.querySelectorAll(RPP_SELECTOR));  // this could include selectors in nested tables
 	if (selectors && selectors.length > 1) {
 		for (const _selector of selectors) {
 			if (_selector === selector) {

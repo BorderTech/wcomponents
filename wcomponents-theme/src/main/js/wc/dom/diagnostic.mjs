@@ -127,7 +127,8 @@ const diagnostic = {
 		const id = targetId + this.getIdExtension(level);
 		const classNames = level ? [this.getBoxClass(), this.getBoxClass(level)] : [this.getBoxClass()];
 		const html = `<span id="${id}" class="${classNames.join(" ")}" role="alert" data-wc-dfor="${targetId}">${levelIcon ?
-			`<i aria-hidden="true" class="fa ${levelIcon}"></i>` : ''
+			`<i aria-hidden="true" class="fa ${levelIcon}"></i>`
+			: ''
 		}${messages.join("")}</span>`;
 		return { id, html };
 	},

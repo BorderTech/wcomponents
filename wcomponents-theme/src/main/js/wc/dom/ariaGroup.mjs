@@ -86,7 +86,6 @@ ariaGroup.getGroup = function (element, role, ignoreInnerGroups) {
 	}
 
 	if (container) {
-
 		if (rescope) {
 			_role = $role.get(container, true);
 			scopedRoles = aria.getMustContain(_role);

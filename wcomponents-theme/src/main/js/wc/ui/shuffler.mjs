@@ -33,7 +33,6 @@ function writeState(form, stateContainer) {
 			Array.from(list.options).forEach(next => {
 				formUpdateManager.writeStateField(stateContainer, container.id, next.value);
 			});
-
 		}
 	}
 	Array.from(form.querySelectorAll(containerQs)).forEach(_writeState);

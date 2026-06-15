@@ -1170,7 +1170,6 @@ function checkThenSave(callbacks) {
 				} else {
 					callbacks.saveFunc(imageToSave);
 				}
-
 			}, function() {
 				callbacks.lose();
 			});

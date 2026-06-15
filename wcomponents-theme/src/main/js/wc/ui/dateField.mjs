@@ -172,7 +172,6 @@ const instance = {
 			return element.matches(INPUT);
 		}
 		return element.matches([INPUT, DATE_WRAPPER_INCL_RO].join());
-
 	},
 
 	isReadOnly: element => element.matches(DATE_RO),
@@ -214,7 +213,6 @@ const instance = {
  * @returns {HTMLElement} The SUGGESTION_LIST sub-component element of the dateField.
  */
 function getSuggestionList(element, force) {
-
 	if (force === -1 || (!force && element.matches(DATE_FIELD))) {
 		return element.querySelector(SUGGESTION_LIST);
 	}

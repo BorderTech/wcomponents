@@ -3,7 +3,6 @@ import i18n from "wc/i18n/i18n.mjs";
 const { afterAll, afterEach, beforeAll, describe, document, expect, it } = globalThis;
 
 describe("wc/i18n", function() {
-
 	beforeAll(function() {
 		const docEl = document.documentElement;
 		if (docEl) {
@@ -210,7 +209,6 @@ describe("wc/i18n", function() {
 						win();
 					}, lose);
 				});
-
 			} catch (ex) {
 				lose(ex);
 			}
@@ -322,5 +320,4 @@ describe("wc/i18n", function() {
 		expect(actual).toEqual(expected);
 		expect(i18n._DEFAULT_LANG).withContext("This test should not test the fallback language").not.toEqual(expected);
 	});
-
 });

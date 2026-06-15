@@ -238,7 +238,6 @@ function initActionConstructor() {
  * is to be performed. The scope (the "this" keyword) will be the instance of action currently executing.
  */
 function initActionImplementations() {
-
 	Action.register("hide", hideItem);
 	Action.register("show", showItem);
 	Action.register("mandatory", makeMandatory);

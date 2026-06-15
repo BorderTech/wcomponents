@@ -360,7 +360,6 @@ function setUpMoveResizeControls(dialog) {
 			draggable.clearDraggable(control);
 			resizeable.clearMaxBar(control);
 		}
-
 	}
 }
 

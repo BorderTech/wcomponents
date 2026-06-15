@@ -2,7 +2,6 @@
 const { document, HTMLElement, window } = globalThis;
 
 export default class WFieldIndicator extends HTMLElement {
-
 	static tagName = 'wc-field-indicator';
 
 	/** @type {boolean} */

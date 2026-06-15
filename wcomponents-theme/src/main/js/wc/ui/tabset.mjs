@@ -74,7 +74,6 @@ let lastTabId;
  * @alias module:wc/ui/tabset~Tabset
  */
 class Tabset extends AriaAnalog {
-
 	/**
 	 * The description of a tab control.
 	 * @public
@@ -312,7 +311,6 @@ class Tabset extends AriaAnalog {
 		if (container) {
 			const content = getPanel(element);
 			if (content) {
-
 				if (!getAccordion(container)) {
 					contentContainer = content.parentElement;
 				}

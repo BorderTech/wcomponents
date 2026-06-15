@@ -44,7 +44,6 @@ describe("wc/ajax/Trigger", () => {
 			} else {
 				expect(next.getAttribute("aria-busy")).withContext("busy state not cleared on " + ids[i]).not.toBe("true");
 			}
-
 		}
 	}
 

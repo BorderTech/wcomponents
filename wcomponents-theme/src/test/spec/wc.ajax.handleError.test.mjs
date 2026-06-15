@@ -5,7 +5,6 @@ import handleError from "wc/ajax/handleError.mjs";
 const { beforeAll, describe, expect, it } = globalThis;
 
 describe("wc/ajax/handleError", () => {
-
 	/**
 	 *
 	 * @param {number} status
@@ -107,7 +106,6 @@ describe("wc/ajax/handleError", () => {
 			actual = handleError.getErrorMessage(response);
 
 			expect(actual).toBe(expected);
-
 		} finally {
 			wcconfig.set(null, "wc/ui/xhr");
 		}

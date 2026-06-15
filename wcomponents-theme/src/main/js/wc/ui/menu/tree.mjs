@@ -69,7 +69,6 @@ function querySelectorImmediate(parent, selector) {
  * @alias module:wc/ui/menu/tree~Tree
  **/
 class Tree extends AbstractMenu {
-
 	/**
 	 * Test a tree to determine if it is a HTree.
 	 * @function module:wc/ui/menu/tree.isHTree
@@ -394,7 +393,6 @@ class Tree extends AbstractMenu {
 	 * @param {Element} toContainer the state container
 	 */
 	writeMenuState(next, toContainer) {
-
 		if (!next) {
 			return; // called from the wrong menu type maybe?
 		}
@@ -671,7 +669,6 @@ function ajaxExpand(element, root) {
  * @returns {HTMLElement} A tree root node.
  */
 function getRootHelper(element) {
-
 	if (!element) {
 		throw new ReferenceError("Argument 'element' is required.");
 	}

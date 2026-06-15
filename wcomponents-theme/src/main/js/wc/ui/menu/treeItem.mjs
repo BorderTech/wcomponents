@@ -18,7 +18,6 @@ let opener, tree;
  * @see http://www.w3.org/TR/wai-aria-practices/#treeitem
  */
 class TreeItem extends AriaAnalog {
-
 	/**
 	 * The definition of a tree item.
 	 * @var

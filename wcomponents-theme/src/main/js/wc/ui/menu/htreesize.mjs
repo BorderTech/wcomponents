@@ -48,7 +48,6 @@ function resizeSubscriber(element) {
 function doReapplySize(id, obj) {
 	const element = document.getElementById(id);
 	if (element && tree.isHTree(tree.getRoot(element))) {
-
 		const { width, height } = obj;
 
 		if (width) {
@@ -77,7 +76,6 @@ function reapplySizeOnTreeGroup(element, stored) {
 	if (obj) {
 		doReapplySize(id, obj);
 	}
-
 }
 
 /**

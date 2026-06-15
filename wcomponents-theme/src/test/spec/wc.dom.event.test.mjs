@@ -288,7 +288,6 @@ describe("wc/dom/event", () => {
 
 		expect(handler).withContext("Event was removed and should not have fired again").toHaveBeenCalledTimes(1);
 		expect(!!element.checked).withContext("Checkbox state should be toggled").toBe(!checked);
-
 	});
 
 	it("leaves bubble listener in place when removing as capture listener", function() {

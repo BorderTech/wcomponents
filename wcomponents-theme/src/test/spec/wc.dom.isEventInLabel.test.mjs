@@ -4,7 +4,6 @@ import { fudgeDimensions } from "../helpers/specUtils.mjs";
 const { afterEach, beforeAll, beforeEach, describe, document, expect, it, window } = globalThis;
 
 describe("wc/dom/isEventInLabel", () => {
-
 	const noLabelId = "iseventinlabeltest-nolabel",
 		inlabelNoFocusId = "iseventinlabeltest-nofocus",
 		inLabelWithFocusId = "iseventinlabeltest-focusable",

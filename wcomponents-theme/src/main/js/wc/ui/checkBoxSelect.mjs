@@ -19,8 +19,6 @@ let inGroupMode;
  * @alias module:wc/ui/checkBoxSelect~CheckBoxSelect
  */
 class CheckBoxSelect extends AriaAnalog {
-
-
 	/**
 	 * The description of a group item. This makes this class concrete.
 	 * @var
@@ -96,7 +94,6 @@ class CheckBoxSelect extends AriaAnalog {
 	 * @override
 	 */
 	doGroupSelect(element, lastActivated, container) {
-
 		try {
 			inGroupMode = true;
 

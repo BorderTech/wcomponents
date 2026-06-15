@@ -27,7 +27,6 @@ class FabricUndoRedo {
 		this.hasChanges = function () {
 			const currentState = state[modPointer];
 			return !!(currentState && theVeryFirstState && (currentState !== theVeryFirstState));
-
 		};
 
 		/**

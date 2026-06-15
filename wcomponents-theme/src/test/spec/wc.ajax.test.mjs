@@ -3,7 +3,6 @@ import ajax from "wc/ajax/ajax.mjs";
 const { describe, expect, it, jasmine } = globalThis;
 
 describe("wc/ajax", () => {
-
 	it("makes a synchronous request for XML", function(done) {
 		const callback = jasmine.createSpy().and.callFake(function (response) {
 			expect(response.documentElement.nodeName).toBe("note");
@@ -21,7 +20,6 @@ describe("wc/ajax", () => {
 			};
 
 		ajax.simpleRequest(request);
-
 	});
 
 	it("makes a synchronous request for text", function(done) {

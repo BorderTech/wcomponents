@@ -81,7 +81,6 @@ describe("wc/key", function() {
 				} catch (ex) {
 					lose(ex.message);
 				}
-
 			});
 			const element = domTesting.getByTestId(container, testId);
 			domTesting.fireEvent.keyDown(element, {

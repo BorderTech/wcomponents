@@ -197,7 +197,6 @@ function getBaseUrlFromMainCss() {
 			pathnameArray.pop();
 			// do not include the last part of the pathname array: it is the filename of the main CSS file
 			baseUrl += pathnameArray.join(SEPARATOR);
-
 		}
 		return baseUrl + SEPARATOR;
 	}
