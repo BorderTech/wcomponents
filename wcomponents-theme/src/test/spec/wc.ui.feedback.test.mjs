@@ -1,6 +1,8 @@
 import feedback from "wc/ui/feedback.mjs";
 import diagnostic from "wc/dom/diagnostic.mjs";
 
+const { afterEach, beforeAll, beforeEach, describe, document, expect, Node, it } = globalThis;
+
 const targetId = "wrapper",
 	inputId = "wrappedinput",
 	testBoxId = "wcdiagnostictest1_err",
@@ -32,11 +34,13 @@ describe("wc/ui/feedback", () => {
 	it("testAdd_noTarget", function() {
 		const dto = getSimpleAddDTO("hello!");
 		dto.target = null;
+
 		expect(feedback.add(dto)).toBeNull();
 	});
 
 	it("testAdd_targetNotElement", function() {
 		const dto = getSimpleAddDTO("hello!", "I am not a target");
+
 		expect(feedback.add(dto)).toBeNull();
 	});
 
@@ -44,6 +48,7 @@ describe("wc/ui/feedback", () => {
 		const dto = getSimpleAddDTO("message"),
 			expected = targetId + "_err",
 			actual = feedback.add(dto);
+
 		expect(actual).toBe(expected);
 	});
 
@@ -51,6 +56,7 @@ describe("wc/ui/feedback", () => {
 		const dto = getSimpleAddDTO("message");
 		feedback.add(dto);
 		const box = document.getElementById(targetId + "_err");
+
 		expect(box).toBeTruthy();
 		expect(box.nodeType).toBe(Node.ELEMENT_NODE);
 	});
@@ -60,6 +66,7 @@ describe("wc/ui/feedback", () => {
 		dto.level = feedback.LEVEL.ERROR;
 		feedback.add(dto);
 		const box = document.getElementById(targetId + "_err");
+
 		expect(box).toBeTruthy();
 		expect(box.nodeType).toBe(Node.ELEMENT_NODE);
 	});
@@ -69,6 +76,7 @@ describe("wc/ui/feedback", () => {
 		dto.level = feedback.LEVEL.WARN;
 		feedback.add(dto);
 		const box = document.getElementById(targetId + "_wrn");
+
 		expect(box).toBeTruthy();
 		expect(box.nodeType).toBe(Node.ELEMENT_NODE);
 	});
@@ -78,6 +86,7 @@ describe("wc/ui/feedback", () => {
 		dto.level = feedback.LEVEL.INFO;
 		feedback.add(dto);
 		const box = document.getElementById(targetId + "_nfo");
+
 		expect(box).toBeTruthy();
 		expect(box.nodeType).toBe(Node.ELEMENT_NODE);
 	});
@@ -87,6 +96,7 @@ describe("wc/ui/feedback", () => {
 		dto.level = feedback.LEVEL.SUCCESS;
 		feedback.add(dto);
 		const box = document.getElementById(targetId + "_scc");
+
 		expect(box).toBeTruthy();
 		expect(box.nodeType).toBe(Node.ELEMENT_NODE);
 	});
@@ -94,6 +104,7 @@ describe("wc/ui/feedback", () => {
 	it("testAdd_toWrappedTarget", function() {
 		const target = getTestInput(),
 			dto = getSimpleAddDTO("hello", target);
+
 		expect(feedback.add(dto)).toBe(targetId + "_err");
 	});
 
@@ -103,6 +114,7 @@ describe("wc/ui/feedback", () => {
 		testHolder.insertAdjacentHTML("beforeend", cb);
 		const target = document.getElementById(testId);
 		const dto = getSimpleAddDTO("message", target);
+
 		expect(feedback.add(dto)).toBe(testId + "_err");
 		// message box should follow target in this case
 		expect(feedback.isOneOfMe(target.nextElementSibling)).toBeTrue();
@@ -114,6 +126,7 @@ describe("wc/ui/feedback", () => {
 		testHolder.insertAdjacentHTML("beforeend", cb);
 		const target = document.getElementById(testId);
 		const dto = getSimpleAddDTO("message", target);
+
 		expect(feedback.add(dto)).toBe(testId + "_err");
 		// message box should follow target in this case
 		expect(feedback.isOneOfMe(target.nextElementSibling)).toBeTrue();
@@ -129,6 +142,7 @@ describe("wc/ui/feedback", () => {
 		feedback.add(dto);
 		// message box should be within the label
 		const label = document.getElementById(labelId);
+
 		expect(feedback.isOneOfMe(label.lastElementChild)).toBeTrue();
 	});
 
@@ -142,6 +156,7 @@ describe("wc/ui/feedback", () => {
 		feedback.add(dto);
 		// message box should be within the label
 		const label = document.getElementById(labelId);
+
 		expect(feedback.isOneOfMe(label.lastElementChild)).toBeTrue();
 	});
 
@@ -150,14 +165,17 @@ describe("wc/ui/feedback", () => {
 		const target = getTestTarget();
 		target.id = ""; // this is the thing to test: we have a target but it doesn't have an id
 		const dto = getSimpleAddDTO("message", target);
+
 		expect(feedback.add(dto)).toBeNull();
 	});
 
 	it("testAddMakesInvalid", function() {
 		const input = getTestInput();
+
 		expect(input.hasAttribute("aria-invalid")).withContext("should not be invalid").toBeFalse();
 		expect(input.hasAttribute("aria-describedBy")).withContext("should not have described-by").toBeFalse();
 		feedback.add(getSimpleAddDTO("error message"));
+
 		expect(input.hasAttribute("aria-invalid")).withContext("should be invalid").toBeTrue();
 		expect(input.hasAttribute("aria-describedBy")).withContext("should have described-by").toBeTrue();
 	});
@@ -176,13 +194,16 @@ describe("wc/ui/feedback", () => {
 
 	it("testRemoveDiagnosticNoArgs", function() {
 		const doBadThing = () => feedback._removeDiagnostic();
+
 		expect(doBadThing).toThrowError("You forgot the args");
 	});
 
 	it("testRemoveDiagnostic", function() {
 		const box = document.getElementById(testBoxId);
+
 		expect(box).toBeTruthy();
 		feedback._removeDiagnostic(box);
+
 		expect(document.getElementById(testBoxId)).toBeFalsy();
 	});
 
@@ -190,9 +211,11 @@ describe("wc/ui/feedback", () => {
 		const input = getTestInput(),
 			boxId = feedback.add(getSimpleAddDTO("error message")),
 			box = document.getElementById(boxId);
+
 		expect(input.hasAttribute("aria-invalid")).withContext("should have invalid").toBeTrue();
 		expect(input.hasAttribute("aria-describedBy")).withContext("should have described-by").toBeTrue();
 		feedback._removeDiagnostic(box);
+
 		expect(input.hasAttribute("aria-invalid")).withContext("should not be invalid").toBeFalse();
 		expect(input.hasAttribute("aria-describedBy")).withContext("should not have described-by").toBeFalse();
 	});
@@ -203,8 +226,10 @@ describe("wc/ui/feedback", () => {
 			testId = target.id + "_err";
 		// this is the set-up
 		feedback.add(dto);
+
 		expect(document.getElementById(testId)).toBeTruthy();
 		feedback._removeDiagnostic(null, target);
+
 		expect(document.getElementById(testId)).toBeFalsy();
 	});
 
@@ -216,39 +241,46 @@ describe("wc/ui/feedback", () => {
 		// this is the set-up
 		expect(document.getElementById(testId)).toBeTruthy();
 		feedback._removeDiagnostic(document.getElementById(boxId), target);
+
 		expect(document.getElementById(testId)).toBeFalsy();
 	});
 
 	it("testGetBox_noElement", function() {
 		// @ts-ignore
 		const doBadThing = () => feedback.getBox();
+
 		expect(doBadThing).toThrowError("element must not be falsy");
 	});
 
 	it("testGetBox_stringNotId", function() {
 		const doBadThing = () => feedback.getBox("_____hello_____");
+
 		expect(doBadThing).toThrowError("element does not represent an HTML Element");
 	});
 
 	it("testGetBox_targetNotElement", function() {
 		// @ts-ignore
 		const doBadThing = () => feedback.getBox({});
+
 		expect(doBadThing).toThrowError("element does not represent an HTML Element");
 	});
 
 	it("testGetBox_noLevel_created_ERROR", function() {
 		prepareDiagnosticBoxInTestTarget();
 		const box = feedback.getBox(getTestTarget());
+
 		expect(box.id).toBe(targetId + "_err");
 	});
 
 	it("testGetBox_noLevel_createdOther", function() {
 		prepareDiagnosticBoxInTestTarget(feedback.LEVEL.WARN);
+
 		expect(feedback.getBox(getTestTarget())).toBeNull();
 	});
 
 	it("testGetBox_negOne", function() {
 		prepareDiagnosticBoxInTestTarget();
+
 		expect(feedback.getBox(getTestTarget(), -1)).toBeTruthy();
 	});
 
@@ -261,6 +293,7 @@ describe("wc/ui/feedback", () => {
 		const dto = getSimpleAddDTO("message", target);
 		feedback.add(dto);
 		const box = feedback.getBox(target, -1);
+
 		expect(box).toBeTruthy();
 		expect(box.id).toBe(testId + "_err");
 	});
@@ -285,6 +318,7 @@ describe("wc/ui/feedback", () => {
 		prepareDiagnosticBoxInTestTarget();
 		const start = getTestInput();
 		const box = feedback.getBox(start);
+
 		expect(box.id).toBe(targetId + "_err");
 	});
 
@@ -301,6 +335,7 @@ describe("wc/ui/feedback", () => {
 	it("testGetMessages", function() {
 		const box = getTestBox(),
 			expected = box.querySelectorAll("span.wc-message").length;
+
 		expect(feedback.getMessages(box).length).toBe(expected);
 	});
 
@@ -308,6 +343,7 @@ describe("wc/ui/feedback", () => {
 		const box = getTestBox(),
 			start = box.querySelectorAll("span.wc-message").length;
 		feedback.clear(box);
+
 		expect(box.querySelectorAll("span.wc-message").length).not.toBe(start);
 	});
 
@@ -315,50 +351,62 @@ describe("wc/ui/feedback", () => {
 		// this is a test of the private function `check(diag, lenient)` with diag and lenient false
 		// @ts-ignore
 		const doBadThing = () => feedback.change();
+
 		expect(doBadThing).toThrowError("Argument must be a feedback box");
 	});
 
 	it("testDiagnosticCheckerSecondHand_failNotCorrectElement", function() {
 		// this is a test of the private function `check(diag, lenient)` with lenient false
 		const doBadThing = () => feedback.change(getTestTarget());
+
 		expect(doBadThing).toThrowError("Argument must be a feedback box");
 	});
 
 	it("testChange_noLevel", function() {
 		// calling change with no level just falls out. Nothing should change
 		const box = getTestBox();
+
 		expect(diagnostic.getLevel(box)).toBe(feedback.LEVEL.ERROR);
 		feedback.change(box);
+
 		expect(diagnostic.getLevel(box)).toBe(feedback.LEVEL.ERROR);
 	});
 
 	it("testChange_stupidLevel", function() {
 		// calling change with level < 1 just falls out. Nothing should change
 		const box = getTestBox();
+
 		expect(diagnostic.getLevel(box)).toBe(feedback.LEVEL.ERROR);
 		feedback.change(box, -1);
+
 		expect(diagnostic.getLevel(box)).toBe(feedback.LEVEL.ERROR);
 	});
 
 	it("testChange_sameLevel", function() {
 		const box = getTestBox();
+
 		expect(diagnostic.getLevel(box)).toBe(feedback.LEVEL.ERROR);
 		feedback.change(box, feedback.LEVEL.ERROR); // change nothing
+
 		expect(diagnostic.getLevel(box)).toBe(feedback.LEVEL.ERROR);
 	});
 
 	it("testChange_nonExistentLevel", function() {
 		// calling change with level < 1 just falls out. Nothing should change
 		const box = getTestBox();
+
 		expect(diagnostic.getLevel(box)).toBe(feedback.LEVEL.ERROR);
 		feedback.change(box, 10);
+
 		expect(diagnostic.getLevel(box)).toBe(feedback.LEVEL.ERROR);
 	});
 
 	it("testChange", function() {
 		const box = getTestBox();
+
 		expect(diagnostic.getLevel(box)).toBe(feedback.LEVEL.ERROR);
 		feedback.change(box, feedback.LEVEL.WARN);
+
 		expect(diagnostic.getLevel(box)).toBe(feedback.LEVEL.WARN);
 	});
 
@@ -366,13 +414,16 @@ describe("wc/ui/feedback", () => {
 		const box = getTestBox(),
 			id = box.id;
 		feedback.change(box, feedback.LEVEL.WARN);
+
 		expect(box.id).not.toBe(id);
 	});
 
 	it("testChangeClears", function() {
 		const box = getTestBox();
+
 		expect(feedback.getMessages(box).length).toBe(3);
 		feedback.change(box, feedback.LEVEL.WARN);
+
 		expect(feedback.getMessages(box).length).toBe(0);
 	});
 
@@ -382,8 +433,10 @@ describe("wc/ui/feedback", () => {
 			boxId = feedback.add(dto),
 			box = document.getElementById(boxId),
 			input = getTestInput();
+
 		expect(input.hasAttribute("aria-invalid")).toBeTrue();
 		feedback.change(box, feedback.LEVEL.SUCCESS);
+
 		expect(input.hasAttribute("aria-invalid")).toBeFalse();
 	});
 
@@ -394,14 +447,17 @@ describe("wc/ui/feedback", () => {
 		const boxId = feedback.add(dto);
 		const box = document.getElementById(boxId);
 		const input = getTestInput();
+
 		expect(input.hasAttribute("aria-invalid")).toBeFalse();
 		feedback.change(box, feedback.LEVEL.ERROR);
+
 		expect(input.hasAttribute("aria-invalid")).toBeTrue();
 	});
 
 	it("testAddMessages_noBox", function() {
 		// @ts-ignore
 		const doBadThing = () => feedback.addMessages();
+
 		expect(doBadThing).toThrowError("Argument must be a feedback box");
 	});
 
@@ -409,21 +465,25 @@ describe("wc/ui/feedback", () => {
 		const box = getTestBox();
 		// @ts-ignore
 		const doBadThing = () => feedback.addMessages(box);
+
 		expect(doBadThing).toThrowError("Message must be a string");
 	});
 
 	it("testAddMessages_emptyStringMessageArray", function() {
 		const box = getTestBox();
 		const doBadThing = () => feedback.addMessages(box, [""]);
+
 		expect(doBadThing).toThrowError("Message must be a string");
 	});
 
 	it("testAddMessages_string", function() {
 		const box = getTestBox(),
 			msg = "Hello message from testAddMessages_string";
+
 		expect(feedback.getMessages(box).length).toBe(3);
 		feedback.addMessages(box, msg);
 		const messages = feedback.getMessages(box);
+
 		expect(messages.length).toBe(4);
 		expect(messages[messages.length - 1].innerHTML).toBe(msg);
 	});
@@ -437,6 +497,7 @@ describe("wc/ui/feedback", () => {
 		const expected = start + msgs.length;
 		feedback.addMessages(box, msgs);
 		const messages = feedback.getMessages(box);
+
 		expect(messages.length).toBe(expected);
 		expect(messages[messages.length - 1].innerHTML).toBe(msgs[2]);
 		expect(messages[messages.length - 2].innerHTML).toBe(msgs[1]);
@@ -449,6 +510,7 @@ describe("wc/ui/feedback", () => {
 		Array.prototype.forEach.call(original, function(next) {
 			feedback.addMessages(box, next.innerHTML);
 		});
+
 		expect(feedback.getMessages(box).length).toBe(original.length);
 	});
 
@@ -460,14 +522,17 @@ describe("wc/ui/feedback", () => {
 			msgs.push(next.innerHTML);
 		});
 		feedback.addMessages(box, msgs);
+
 		expect(feedback.getMessages(box).length).toBe(original.length);
 	});
 
 	it("testAddMessages_emptyMessageArray", function() {
 		// should do nothing
 		const box = getTestBox();
+
 		expect(feedback.getMessages(box).length).toBe(3);
 		feedback.addMessages(box, []);
+
 		expect(feedback.getMessages(box).length).toBe(3);
 	});
 
@@ -475,6 +540,7 @@ describe("wc/ui/feedback", () => {
 		const box = getTestBox();
 		// @ts-ignore
 		feedback.set(box);
+
 		expect(feedback.getMessages(box).length).toBe(0);
 	});
 
@@ -482,6 +548,7 @@ describe("wc/ui/feedback", () => {
 		const box = getTestBox();
 		feedback.set(box, "foo");
 		const messages = feedback.getMessages(box);
+
 		expect(messages.length).toBe(1);
 		expect(messages[0].innerHTML).toBe("foo");
 	});
@@ -490,6 +557,7 @@ describe("wc/ui/feedback", () => {
 		const box = getTestBox();
 		feedback.set(box, ["foo", "bar"]);
 		const messages = feedback.getMessages(box);
+
 		expect(messages.length).toBe(2);
 		expect(messages[0].innerHTML).toBe("foo");
 		expect(messages[1].innerHTML).toBe("bar");
@@ -508,6 +576,7 @@ describe("wc/ui/feedback", () => {
 		const box = getTestBox(),
 			id = box.id;
 		feedback.remove(box);
+
 		expect(document.getElementById(id)).toBeFalsy();
 	});
 
@@ -516,6 +585,7 @@ describe("wc/ui/feedback", () => {
 			dto = getSimpleAddDTO("error", target),
 			id = feedback.add(dto);
 		feedback.remove(target);
+
 		expect(document.getElementById(id)).toBeFalsy();
 	});
 
@@ -524,6 +594,7 @@ describe("wc/ui/feedback", () => {
 			dto = getSimpleAddDTO("error", target),
 			id = feedback.add(dto);
 		feedback.remove(target, null, feedback.LEVEL.ERROR);
+
 		expect(document.getElementById(id)).toBeFalsy();
 	});
 
@@ -532,6 +603,7 @@ describe("wc/ui/feedback", () => {
 			dto = getSimpleAddDTO("error", target),
 			id = feedback.add(dto);
 		feedback.remove(target, null, feedback.LEVEL.SUCCESS);
+
 		expect(document.getElementById(id)).toBeTruthy();
 	});
 
@@ -574,6 +646,7 @@ describe("wc/ui/feedback", () => {
 		const box = document.getElementById(boxId);
 		const messageCount = feedback.getMessages(box).length;
 		const insertedMessageBoxId = feedback._flag(getFlagDto(target, message2, level));
+
 		expect(insertedMessageBoxId).not.toBeNull();
 		expect(insertedMessageBoxId).toBe(boxId);
 		expect(feedback.getMessages(box).length).toBe(messageCount + 1);
@@ -586,8 +659,10 @@ describe("wc/ui/feedback", () => {
 			dto = getSimpleAddDTO(message1, target);
 		dto.level = feedback.LEVEL.SUCCESS;
 		const boxId = feedback.add(dto);
+
 		expect(document.getElementById(boxId)).toBeTruthy();
 		const insertedMessageBoxId = feedback._flag(getFlagDto(target, message2, feedback.LEVEL.ERROR));
+
 		expect(insertedMessageBoxId).not.toBeNull();
 		expect(insertedMessageBoxId).not.toBe(boxId);
 		expect(document.getElementById(boxId)).toBeFalsy();
@@ -601,8 +676,10 @@ describe("wc/ui/feedback", () => {
 			dto = getSimpleAddDTO(message1, target);
 		dto.level = feedback.LEVEL.ERROR;
 		const boxId = feedback.add(dto);
+
 		expect(document.getElementById(boxId)).toBeTruthy();
 		const insertedMessageBoxId = feedback._flag(getFlagDto(target, message2, feedback.LEVEL.SUCCESS));
+
 		expect(insertedMessageBoxId).not.toBeNull();
 		expect(insertedMessageBoxId).not.toBe(boxId);
 		expect(document.getElementById(boxId)).toBeFalsy();
@@ -614,32 +691,40 @@ describe("wc/ui/feedback", () => {
 	it("testFlagError", function() {
 		const expected = feedback.LEVEL.ERROR,
 			boxId = feedback.flagError(getFlagDto(getTestTarget(), "message"));
+
 		expect(boxId).toBeTruthy();
 		const box = document.getElementById(boxId);
+
 		expect(diagnostic.getLevel(box)).toBe(expected);
 	});
 
 	it("testFlagWarning", function() {
 		const expected = feedback.LEVEL.WARN,
 			boxId = feedback.flagWarning(getFlagDto(getTestTarget(), "message"));
+
 		expect(boxId).toBeTruthy();
 		const box = document.getElementById(boxId);
+
 		expect(diagnostic.getLevel(box)).toBe(expected);
 	});
 
 	it("testFlagInfo", function() {
 		const expected = feedback.LEVEL.INFO,
 			boxId = feedback.flagInfo(getFlagDto(getTestTarget(), "message"));
+
 		expect(boxId).toBeTruthy();
 		const box = document.getElementById(boxId);
+
 		expect(diagnostic.getLevel(box)).toBe(expected);
 	});
 
 	it("testFlagSuccess", function() {
 		const expected = feedback.LEVEL.SUCCESS,
 			boxId = feedback.flagSuccess(getFlagDto(getTestTarget(), "message"));
+
 		expect(boxId).toBeTruthy();
 		const box = document.getElementById(boxId);
+
 		expect(diagnostic.getLevel(box)).toBe(expected);
 	});
 
@@ -670,9 +755,11 @@ describe("wc/ui/feedback", () => {
 		const input = getTestInput(),
 			dto = getSimpleAddDTO("error message");
 		dto.level = level;
+
 		expect(input.hasAttribute("aria-invalid")).withContext("should not be invalid").toBeFalse();
 		expect(input.hasAttribute("aria-describedBy")).withContext("should not have described-by").toBeFalse();
 		feedback.add(dto);
+
 		expect(input.hasAttribute("aria-invalid")).withContext("should still not be invalid").toBeFalse();
 		expect(input.hasAttribute("aria-describedBy")).withContext("should have described-by").toBeTrue();
 	}
@@ -687,6 +774,7 @@ describe("wc/ui/feedback", () => {
 
 	function doGetBoxWithLevelTest(level) {
 		prepareDiagnosticBoxInTestTarget(level);
+
 		expect(feedback.getBox(getTestTarget(), level)).toBeTruthy();
 		for (let lvl in feedback.LEVEL) {
 			if (feedback.LEVEL.hasOwnProperty(lvl) && feedback.LEVEL[lvl] !== level) {

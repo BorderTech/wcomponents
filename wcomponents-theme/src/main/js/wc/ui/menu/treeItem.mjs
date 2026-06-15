@@ -119,7 +119,7 @@ class TreeItem extends AriaAnalog {
 	 * @param {MouseEvent & { target: HTMLElement }} $event The click event.
 	 */
 	clickEvent($event) {
-		const { defaultPrevented, target, shiftKey, ctrlKey, metaKey} = $event;
+		const { defaultPrevented, target, shiftKey, ctrlKey, metaKey } = $event;
 		if (defaultPrevented) {
 			return;
 		}

@@ -1,9 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-
-	<name>wcomponents-core</name>
-	<artifactId>wcomponents-core</artifactId>
 
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
@@ -12,11 +11,10 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
+	<name>wcomponents-core</name>
+	<artifactId>wcomponents-core</artifactId>
+	<description>Core server-side WComponents</description>
 	<packaging>jar</packaging>
-
-	<description>
-		Core server-side WComponents.
-	</description>
 
 	<properties>
 		<spotbugs.excludeFilterFile>${basedir}/spotbugs-exclude-filter.xml</spotbugs.excludeFilterFile>
@@ -64,11 +62,9 @@
 				</configuration>
 			</plugin>
 		</plugins>
-
 	</build>
 
 	<dependencies>
-
 		<dependency>
 			<groupId>com.github.bordertech.wcomponents</groupId>
 			<artifactId>wcomponents-i18n</artifactId>
@@ -84,13 +80,14 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
+			<version>${version.javax.servlet.servlet-api}</version>
 			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>commons-configuration</groupId>
 			<artifactId>commons-configuration</artifactId>
-			<version>1.10</version>
+			<version>${version.commons-configuration.commons-configuration}</version>
 			<!-- Fix convergence -->
 			<exclusions>
 				<exclusion>
@@ -152,7 +149,7 @@
 			<groupId>com.github.jknack</groupId>
 			<artifactId>handlebars</artifactId>
 			<!-- Above 4.4.X requires java 17 -->
-			<version>4.3.1</version>
+			<version>${version.com.github.jknack.handlebars}</version>
 			<!-- Fix convergence -->
 			<exclusions>
 				<exclusion>
@@ -230,6 +227,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
 		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>
 			<artifactId>batik-css</artifactId>
@@ -247,11 +245,12 @@
 			</exclusions>
 			<scope>runtime</scope>
 		</dependency>
+
 		<!-- Using version 2.12.1 as 2.12.2 has a critical vulnerability -->
 		<dependency>
 			<groupId>xerces</groupId>
 			<artifactId>xercesImpl</artifactId>
-			<version>2.12.1</version>
+			<version>${version.xerces.xercesImpl}</version>
 			<scope>runtime</scope>
 		</dependency>
 
@@ -280,26 +279,38 @@
 			<artifactId>commons-logging</artifactId>
 			<version>1.3.5</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
+			<version>${version.org.slf4j.slf4j-api}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>${version.org.slf4j.slf4j-simple}</version>
+			<scope>test</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.20.0</version>
 		</dependency>
+
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.21.0</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.google.errorprone</groupId>
 			<artifactId>error_prone_annotations</artifactId>
 			<version>2.46.0</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.apache.httpcomponents.client5</groupId>
 			<artifactId>httpclient5</artifactId>
@@ -311,6 +322,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
 		<dependency>
 			<groupId>org.apache.httpcomponents.core5</groupId>
 			<artifactId>httpcore5</artifactId>
@@ -322,37 +334,34 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>xmlunit</groupId>
 			<artifactId>xmlunit</artifactId>
 			<version>1.6</version>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>junitperf</groupId>
 			<artifactId>junitperf</artifactId>
 			<version>1.8</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- Performance unit tests fail when SLF4J doesnot have a backing provider -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>${slf4j.version}</version>
-			<scope>test</scope>
-		</dependency>
+
 		<!-- JSR107 Caching provider. -->
 		<dependency>
 			<groupId>org.ehcache</groupId>
 			<artifactId>ehcache</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 		<!-- JAXB runtime for cache provider -->
 		<dependency>
 			<groupId>org.glassfish.jaxb</groupId>
 			<artifactId>jaxb-runtime</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
+
 </project>

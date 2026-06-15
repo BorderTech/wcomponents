@@ -1,6 +1,9 @@
-import {iconClasses} from "wc/dom/messageBox.mjs";
-import i18n from "wc/i18n/i18n.mjs";
 import domTesting from "@testing-library/dom";
+
+import { iconClasses } from "wc/dom/messageBox.mjs";
+import i18n from "wc/i18n/i18n.mjs";
+
+const { afterEach, beforeAll, beforeEach, describe, document, expect, it } = globalThis;
 
 /*
  * Unit tests for wc/dom/messageBox
@@ -9,7 +12,7 @@ describe("wc/dom/messageBox", () => {
 	const testBoxId = "messageboxtest-box1";
 	/**
 	 * @param {Element|ShadowRoot} element
-	 * @return {HTMLSlotElement}
+	 * @returns {HTMLSlotElement} ?
 	 */
 	const getMessageSlot = (element) => {
 		return /** @type HTMLSlotElement */(element.querySelector(".wc_messages slot"));
@@ -17,7 +20,7 @@ describe("wc/dom/messageBox", () => {
 
 	/**
 	 * @param {Element|ShadowRoot} element
-	 * @return {HTMLSlotElement}
+	 * @returns {HTMLSlotElement} ?
 	 */
 	const getIconSlot = (element) => {
 		return /** @type HTMLSlotElement */(element.querySelector("slot[name='icon']"));
@@ -26,6 +29,7 @@ describe("wc/dom/messageBox", () => {
 	const checkIcon = (heading, type) => {
 		const iconName = iconClasses[type];
 		const iconElement = heading.querySelector(`i.${iconName}`);
+
 		expect(iconElement).toBeTruthy();
 	};
 
@@ -55,6 +59,7 @@ describe("wc/dom/messageBox", () => {
 	it("should default to an error box", () => {
 		fixture.innerHTML = `<wc-messagebox data-testid="${testBoxId}"></wc-messagebox>`;
 		const element = domTesting.getByTestId(fixture, testBoxId);
+
 		expect(element.getAttribute("type")).toBe("error");
 	});
 
@@ -102,7 +107,7 @@ describe("wc/dom/messageBox", () => {
 		});
 	});
 
-	it("should provide a default warn heading", () => {
+	it("should provide a default warn heading - 2", () => {
 		fixture.innerHTML = `<wc-messagebox type="success" data-testid="${testBoxId}"></wc-messagebox>`;
 		const element = domTesting.getByTestId(fixture, testBoxId);
 		// @ts-ignore
@@ -125,6 +130,7 @@ describe("wc/dom/messageBox", () => {
 		// @ts-ignore
 		return domTesting.findByRole(element.shadowRoot, "heading").then(heading => {
 			const iconSlot = getIconSlot(heading);
+
 			expect(iconSlot.assignedElements().length).toBe(1);
 			expect(iconSlot.assignedElements()[0].className).toBe(iconClass);
 			checkIcon(heading, element.getAttribute("type"));
@@ -143,9 +149,11 @@ describe("wc/dom/messageBox", () => {
 		return domTesting.findByRole(element.shadowRoot, "heading").then(heading => {
 			checkIcon(heading, element.getAttribute("type"));
 			const messageSlot = getMessageSlot(element.shadowRoot);
+
 			expect(messageSlot.assignedElements().length).toBe(2);
 			for (let i = 0; i < messageSlot.assignedNodes.length; i++) {
 				let messageElement = messageSlot[i];
+
 				expect(messageElement.textContent).toBe(`Message ${i}`);
 			}
 		});

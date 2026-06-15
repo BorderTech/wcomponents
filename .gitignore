@@ -1,3 +1,7 @@
+### Apache NetBeans ###
+nbactions.xml
+nb-configuration.xml
+
 ### WComponents ###
 wcomponents-theme/node/
 wcomponents-theme/package-lock.json
@@ -17,10 +21,12 @@ local_app.properties
 ### Maven ###
 # Created by https://www.gitignore.io/api/maven
 target/
-pom.xml.tag
-pom.xml.releaseBackup
-pom.xml.versionsBackup
+pom.xml.backup
+pom.xml.branch
 pom.xml.next
+pom.xml.releaseBackup
+pom.xml.tag
+pom.xml.versionsBackup
 release.properties
 dependency-reduced-pom.xml
 buildNumber.properties

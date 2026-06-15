@@ -13,6 +13,8 @@ import debounce from "wc/debounce.mjs";
 import icon from "wc/ui/icon.mjs";
 import wcconfig from "wc/config.mjs";
 
+const { document } = globalThis;
+
 const CLASS_MAX_CONTROL = "wc_maxcont";
 const resizeSelector = ".wc_resize";
 const maxSelector = `button.${CLASS_MAX_CONTROL}`;
@@ -34,7 +36,7 @@ const DEFAULT_MIN_SIZE = 0,  // set this to any sensible size but will cause err
 	DEFAULT_NOTIFY_TIMEOUT = 100,
 	STORED_SIZE_ATTRIB = "data-wc-storedsize";
 
-const instance= new Resizeable();
+const instance = new Resizeable();
 
 /**
  * Provides functionality to implement a resizeable component.
@@ -96,6 +98,7 @@ function Resizeable() {
 				return _s;
 			} else if (size.indexOf("%")) {
 				// IE8 will return the style rule e.g. 75% or 0.75em or even 12pt if you are silly.
+				// eslint-disable-next-line @stylistic/no-mixed-operators
 				return (16 * _s / 100);
 			} else if (size.indexOf("em")) {
 				return (16 * _s);
@@ -322,7 +325,7 @@ function Resizeable() {
 	 * @param {KeyboardEvent} $event A keydown event
 	 */
 	function keydownEvent($event) {
-		const {target, key, defaultPrevented} = $event;
+		const { target, key, defaultPrevented } = $event;
 		if (defaultPrevented) {
 			return;
 		}
@@ -441,7 +444,7 @@ function Resizeable() {
 	 * @param {MouseEvent} $event A  click event.
 	 */
 	function clickEvent($event) {
-		const {target, defaultPrevented} = $event;
+		const { target, defaultPrevented } = $event;
 		if (defaultPrevented) {
 			return;
 		}
@@ -459,7 +462,7 @@ function Resizeable() {
 	 * @param {MouseEvent} $event A double-click event.
 	 */
 	function doubleClickEvent($event) {
-		const {target, defaultPrevented} = $event;
+		const { target, defaultPrevented } = $event;
 		if (defaultPrevented) {
 			return;
 		}
@@ -566,7 +569,7 @@ function Resizeable() {
 	 * @returns {Object} A POJO with {string} "handle" and {string} "maximise" selectors
 	 */
 	this.getWidget = function () {
-		return {"handle": resizeSelector, "maximise": maxSelector};
+		return { "handle": resizeSelector, "maximise": maxSelector };
 	};
 
 	/**
@@ -641,7 +644,6 @@ function Resizeable() {
 	 * Remove size from the target of a resize control and optionally store the old size for later re-use.
 	 *
 	 * @function module:wc/ui/resizeable.clearSize
-	 * @public
 	 * @public
 	 * @param {Element} element The resize handle.
 	 * @param {boolean} [keep] If true store the size for later use.

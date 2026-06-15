@@ -19,7 +19,7 @@ export default function debounce(func, delay) {
 			try {
 				func.apply($this, args);
 			} catch (ex) {
-				console.error("Error in debounced function", ex);
+				globalThis.console.error("Error in debounced function", ex);
 			}
 		}, delay);
 	};

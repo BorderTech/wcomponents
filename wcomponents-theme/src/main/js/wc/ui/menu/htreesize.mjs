@@ -4,6 +4,8 @@ import tree from "wc/ui/menu/tree.mjs";
 import resizeable from "wc/ui/resizeable.mjs";
 import processResponse from "wc/ui/ajax/processResponse.mjs";
 
+const { document } = globalThis;
+
 const handleSelector = ".wc_branch_resize_handle";
 const resized = {},
 	STORE_KEY = "wc-treesize";
@@ -19,10 +21,10 @@ const resized = {},
 function resizeSubscriber(element) {
 	if (element) {
 		let store;
-		const { id, style} = element;
+		const { id, style } = element;
 
 		if (style.width || style.height) {
-			resized[id] = { width: style.width, height: style.height} ;
+			resized[id] = { width: style.width, height: style.height };
 			store = true;
 		} else if (resized[id]) {
 			delete resized[id];

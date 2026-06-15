@@ -1,9 +1,14 @@
 import "global-jsdom/register";
-import jsdom from "global-jsdom";
-import fs from "fs";
-import path from "path";
-import {getResoucePath, fudgeDimensions} from "./specUtils.mjs";
+
+import fs from "node:fs";
+import path from "node:path";
+
 import JasmineDOM from "@testing-library/jasmine-dom";
+import jsdom from "global-jsdom";
+
+import { getResoucePath, fudgeDimensions } from "./specUtils.mjs";
+
+const { afterAll, beforeAll, beforeEach, console, document, global, jasmine, window } = globalThis;
 
 const cache = {};
 const reset = jsdom(null, { url: "http://localhost" });
@@ -91,7 +96,7 @@ beforeAll(() => {
 	fudgeDimensions(window);
 	window["getJasmineRequireObj"] = global.getJasmineRequireObj = () => jasmine;  // some plugins need this, like jasmine-ajax
 	return mockAjax().then(() => {
-		return import("wc/i18n/i18n.mjs").then(({default: i18n}) => {
+		return import("wc/i18n/i18n.mjs").then(({ default: i18n }) => {
 			return i18n.translate("");
 		});
 	});
@@ -102,5 +107,5 @@ afterAll(() => {
 });
 
 beforeEach(() => {
-	globalThis.document.documentElement.lang = "en";
+	document.documentElement.lang = "en";
 });

@@ -1,4 +1,7 @@
 import xmlString from "wc/xml/xmlString.mjs";
+
+const { beforeAll, describe, expect, it } = globalThis;
+
 describe("wc/xml/xmlString", () => {
 	let testXmlString;
 
@@ -17,6 +20,7 @@ describe("wc/xml/xmlString", () => {
 		/* Convert a String to an XML DOM object with DOM methods etc */
 		const result = xmlString.from(testXmlString),
 			from = result.getElementsByTagName("from")[0];
+
 		expect(result.documentElement.tagName).toBe("note");
 		expect(from.tagName).toBe("from");
 	});
@@ -31,6 +35,7 @@ describe("wc/xml/xmlString", () => {
 			expected = testXmlString.replace(whitespaceRe, "").replace(xmlHeaderRe, "");
 		let xmlDom = xmlString.from(testXmlString);
 		let result = xmlString.to(xmlDom).replace(whitespaceRe, "").replace(xmlHeaderRe, "");
+
 		expect(result).toBe(expected);
 	});
 

@@ -30,12 +30,12 @@ function getStyle(element, cssRule, includeUnits, notAColor) {
 
 		result = element.ownerDocument.defaultView.getComputedStyle(element, "").getPropertyValue(cssRule);
 
-		if (result && isNaN(Number(result))) {
+		if (result && Number.isNaN(Number(result))) {
 			const testRe = /^\d+[A-Za-z]+$/;
 			let style;
 			if (testRe.test(result)) {
 				if (!includeUnits) {
-					return parseFloat(result).toString();  // strip the 'px', 'em', whatever units from the result
+					return Number.parseFloat(result).toString();  // strip the 'px', 'em', whatever units from the result
 				}
 			} else if (!notAColor) {
 				if (result === "transparent" || result === "rgba(0, 0, 0, 0)") {  // chromeframe returns an rgb string for transparent

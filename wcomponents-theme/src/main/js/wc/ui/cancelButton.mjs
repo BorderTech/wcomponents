@@ -10,6 +10,8 @@ import processResponse from "wc/ui/ajax/processResponse.mjs";
 /* cancelUpdate is added as a requirement because any cancel button will need it implicitly */
 import "wc/ui/cancelUpdate.mjs";
 
+const { document } = globalThis;
+
 const cancelButtonSelector = "button.wc_btn_cancel";
 const unsavedClass = "wc_unsaved";
 const unsavedButtonSelector = `${cancelButtonSelector}.${unsavedClass}`;
@@ -47,6 +49,7 @@ initialise.register({
 	},
 	/**
 	 * Unsubscribes event listeners etc.
+	 * @returns {() => void} ?
 	 */
 	deinit: () => processResponse.unsubscribe(ajaxSubscriber, true)
 });
@@ -56,7 +59,7 @@ export default {
 	 * Get the description of a cancel button.
 	 * @function module:wc/ui/cancelButton.getWidget
 	 * @public
-	 * @returns {string}
+	 * @returns {string} ?
 	 */
 	getWidget: () => cancelButtonSelector
 };

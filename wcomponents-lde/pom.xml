@@ -1,9 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-
-	<name>wcomponents-lde</name>
-	<artifactId>wcomponents-lde</artifactId>
 
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
@@ -12,7 +11,14 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
+	<name>wcomponents-lde</name>
+	<artifactId>wcomponents-lde</artifactId>
 	<packaging>jar</packaging>
+
+	<properties>
+		<spotbugs.excludeFilterFile>${basedir}/spotbugs-exclude-filter.xml</spotbugs.excludeFilterFile>
+	</properties>
+
 	<profiles>
 		<profile>
 			<id>skipLdeOptionalQA</id>
@@ -28,12 +34,7 @@
 		</profile>
 	</profiles>
 
-	<properties>
-		<spotbugs.excludeFilterFile>${basedir}/spotbugs-exclude-filter.xml</spotbugs.excludeFilterFile>
-	</properties>
-
 	<dependencies>
-
 		<dependency>
 			<groupId>com.github.bordertech.wcomponents</groupId>
 			<artifactId>wcomponents-core</artifactId>
@@ -43,13 +44,13 @@
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-server</artifactId>
-			<version>${jetty.version}</version>
+			<version>${version.org.eclipse.jetty.jetty-server}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-webapp</artifactId>
-			<version>${jetty.version}</version>
+			<version>${version.org.eclipse.jetty.jetty-webapp}</version>
 		</dependency>
 
 		<!-- Test dependencies -->
@@ -57,19 +58,20 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>com.github.bordertech.wcomponents</groupId>
 			<artifactId>wcomponents-theme</artifactId>
 			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>com.github.bordertech.wcomponents</groupId>
 			<artifactId>wcomponents-xslt</artifactId>
 			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -89,7 +91,6 @@
 				</excludes>
 			</resource>
 		</resources>
-
 	</build>
 
 </project>

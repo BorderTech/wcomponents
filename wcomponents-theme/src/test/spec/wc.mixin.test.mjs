@@ -1,5 +1,7 @@
 import mixin from "wc/mixin.mjs";
 
+const { describe, expect, it } = globalThis;
+
 describe("wc/mixin", function() {
 	it("mixes in a simple object", () => {
 		const source = {
@@ -27,6 +29,7 @@ describe("wc/mixin", function() {
 				}
 			},
 			actual = mixin(source, target);
+
 		expect(actual).toEqual(expected);
 	});
 
@@ -41,6 +44,7 @@ describe("wc/mixin", function() {
 				}
 			},
 			actual = mixin(source);
+
 		expect(actual).toEqual(source);
 	});
 
@@ -55,6 +59,7 @@ describe("wc/mixin", function() {
 				}
 			},
 			actual = mixin(source);
+
 		expect(actual).not.toBe(source);
 	});
 
@@ -69,6 +74,7 @@ describe("wc/mixin", function() {
 				}
 			},
 			actual = mixin(null, target);
+
 		expect(actual).toBe(target);
 	});
 
@@ -103,6 +109,7 @@ describe("wc/mixin", function() {
 				},
 				num: 7
 			};
+
 		expect(mixin(source, target, true)).toEqual(expected);
 	});
 });

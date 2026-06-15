@@ -1,6 +1,8 @@
 import controller from "wc/dom/role.mjs";
 
-describe("wc/debounce", () => {
+const { afterEach, beforeEach, describe, document, expect, it } = globalThis;
+
+describe("wc/dom/role", () => {
 	const roleId = "roletest-hasrole",
 		testRole = "button",
 		noRoleId = "roletest-norole",

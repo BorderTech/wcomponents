@@ -2,6 +2,8 @@ import shed from "wc/dom/shed.mjs";
 import tooltip from "wc/ui/tooltip.mjs";
 import label from "wc/ui/label.mjs";
 
+const { NodeFilter } = globalThis;
+
 /**
  * Funny old TreeWalker filter: we want to get all the nodes we can remove from element, so we ACCEPT anything
  * which is disabled or hidden.

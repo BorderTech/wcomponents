@@ -16,6 +16,8 @@ import icon from "wc/ui/icon.mjs";
 import uid from "wc/dom/uid.mjs";
 import "wc/ui/radioAnalog.mjs";
 
+const { CSS, document } = globalThis;
+
 /**
  * Find the closest ancestor-or-self match but excludes any results at or above `stopAtSelector`.
  * @param {Element} element The reference element.
@@ -390,7 +392,7 @@ function toggleAll(element) {
 				return false;
 			}
 			if (open) {
-				return !(shed.isExpanded(next)|| shed.isHidden(next));
+				return !(shed.isExpanded(next) || shed.isHidden(next));
 			}
 			return shed.isExpanded(next);
 		});

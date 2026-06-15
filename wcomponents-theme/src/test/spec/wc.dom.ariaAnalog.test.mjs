@@ -4,6 +4,8 @@ import checkboxAnalog from "wc/ui/checkboxAnalog.mjs";
 import listboxAnalog from "wc/ui/listboxAnalog.mjs";
 import radioAnalog from "wc/ui/radioAnalog.mjs";
 
+const { afterEach, beforeEach, describe, document, expect, it } = globalThis;
+
 const ariaAnalog = new AriaAnalog();
 
 const html = `
@@ -103,6 +105,7 @@ describe("wc/dom/ariaAnalog", () => {
 		try {
 			// @ts-ignore
 			ariaAnalog.selectOnNavigate();
+
 			expect(false).withContext("Expected an error to be thrown.").toBeTrue();
 		} catch (e) {
 			expect(e.message).toBe("Argument must not be null");
@@ -129,6 +132,7 @@ describe("wc/dom/ariaAnalog", () => {
 		// use an analog with a defined container scoped by the ARAI rdf - in this case radioAnalog
 		const start = testHolder.ownerDocument.getElementById("rb0-0"),
 			expected = "rb0";
+
 		expect(radioAnalog.getGroupContainer(start).id).withContext("did not find expected container using ariaAnalog").toBe(expected);
 	});
 
@@ -136,30 +140,37 @@ describe("wc/dom/ariaAnalog", () => {
 		// use an analog with a container not defined container scoped by the ARAI rdf - in this case listboxAnalog
 		const start = testHolder.ownerDocument.getElementById("lb0-0"),
 			expected = "lb0";
+
 		expect(listboxAnalog.getGroupContainer(start).id).withContext("did not find expected container using ariaAnalog").toBe(expected);
 	});
 
 	it("testShedObserver_cb", function() {
 		const start = testHolder.ownerDocument.getElementById("cb1"),
 			initialSelection = testHolder.ownerDocument.getElementById("cb0");
+
 		expect(shed.isSelected(initialSelection)).withContext("initial selection should be selected").toBeTrue();
 		checkboxAnalog.shedObserver(start, shed.actions.SELECT);
+
 		expect(shed.isSelected(initialSelection)).withContext("initial selection should still be selected").toBeTrue();
 	});
 
 	it("testShedObserver_rb", function() {
 		const start = testHolder.ownerDocument.getElementById("rb0-1"),
 			initialSelection = testHolder.ownerDocument.getElementById("rb0-0");
+
 		expect(shed.isSelected(initialSelection)).withContext("initial selection should be selected").toBeTrue();
 		radioAnalog.shedObserver(start, shed.actions.SELECT);
+
 		expect(shed.isSelected(initialSelection)).withContext("initial selection should not be selected").toBeFalse();
 	});
 
 	it("testShedObserver_listSingle", function() {
 		const start = testHolder.ownerDocument.getElementById("lb0-1"),
 			initialSelection = testHolder.ownerDocument.getElementById("lb0-0");
+
 		expect(shed.isSelected(initialSelection)).withContext("initial selection should be selected").toBeTrue();
 		listboxAnalog.shedObserver(start, shed.actions.SELECT);
+
 		expect(shed.isSelected(initialSelection)).withContext("initial selection should not be selected").toBeFalse();
 	});
 
@@ -168,8 +179,10 @@ describe("wc/dom/ariaAnalog", () => {
 			initialSelection = testHolder.ownerDocument.getElementById("lb0-0"),
 			container = testHolder.ownerDocument.getElementById("lb0");
 		container.setAttribute("aria-multiselectable", "false");
+
 		expect(shed.isSelected(initialSelection)).withContext("initial selection should be selected").toBeTrue();
 		listboxAnalog.shedObserver(start, shed.actions.SELECT);
+
 		expect(shed.isSelected(initialSelection)).withContext("initial selection should not be selected").toBeFalse();
 	});
 
@@ -178,8 +191,10 @@ describe("wc/dom/ariaAnalog", () => {
 			initialSelection = testHolder.ownerDocument.getElementById("lb0-0"),
 			container = testHolder.ownerDocument.getElementById("lb0");
 		container.setAttribute("aria-multiselectable", "true");
+
 		expect(shed.isSelected(initialSelection)).withContext("initial selection should be selected").toBeTrue();
 		listboxAnalog.shedObserver(start, shed.actions.SELECT);
+
 		expect(shed.isSelected(initialSelection)).withContext("initial selection should still be selected").toBeTrue();
 	});
 
@@ -188,12 +203,15 @@ describe("wc/dom/ariaAnalog", () => {
 			testForm = testHolder.ownerDocument.getElementById("aria-analog-writestate-test-content");
 		stateContainer.id = "ariaanalogtest-statecontainer";
 		testHolder.appendChild(stateContainer);
+
 		expect(stateContainer.firstElementChild).withContext("state container should not have child nodes before writing state").toBeFalsy();
 		radioAnalog.writeState(testForm, stateContainer);
+
 		expect(stateContainer.firstElementChild).withContext("state container should have child nodes after writing state").toBeTruthy();
 		// expect only one statefield written
 		expect(stateContainer.childNodes.length).toBe(1);
 		const stateField = stateContainer.firstElementChild;
+
 		expect(stateField).toBeTruthy();
 		expect(stateField.name).toBe("rb1name");
 		expect(stateField.value).toBe("0");
@@ -205,13 +223,16 @@ describe("wc/dom/ariaAnalog", () => {
 			testForm = testHolder.ownerDocument.getElementById("aria-analog-writestate-test-content");
 		stateContainer.id = "ariaanalogtest-statecontainer";
 		testHolder.appendChild(stateContainer);
+
 		expect(stateContainer.firstElementChild).withContext("state container should not have child element(s) before writing state").toBeFalsy();
 		shed.select(testHolder.ownerDocument.getElementById("rb1-1"));
 		radioAnalog.writeState(testForm, stateContainer);
+
 		expect(stateContainer.firstElementChild).withContext("state container should have child element(s) after writing state").toBeTruthy();
 		// expect only one statefield written
 		expect(stateContainer.childNodes.length).toBe(1);
 		const stateField = stateContainer.firstElementChild;
+
 		expect(stateField).toBeTruthy();
 		expect(stateField.name).toBe("rb1name");
 		expect(stateField.value).toBe("1");
@@ -220,58 +241,72 @@ describe("wc/dom/ariaAnalog", () => {
 	it("testFocusEvent", function() {
 		const testTarget = testHolder.ownerDocument.getElementById("lb0-1"),
 			focusTarget = testHolder.ownerDocument.getElementById("lb0-0"),
-			fakeEvent = {defaultPrevented: false, target: focusTarget};
+			fakeEvent = { defaultPrevented: false, target: focusTarget };
+
 		expect(testTarget.hasAttribute("tabindex")).withContext("expect tabindex not set").toBeFalse();
 		listboxAnalog.focusEvent(fakeEvent);
+
 		expect(testTarget.hasAttribute("tabindex")).withContext("tabindex should now be set").toBeTrue();
 	});
 
 	it("testFocusEvent_differentController", function() {
 		const testTarget = testHolder.ownerDocument.getElementById("lb0-1"),
 			focusTarget = testHolder.ownerDocument.getElementById("lb0-0"),
-			fakeEvent = {defaultPrevented: false, target: focusTarget};
+			fakeEvent = { defaultPrevented: false, target: focusTarget };
+
 		expect(testTarget.hasAttribute("tabindex")).withContext("expect tabindex not set").toBeFalse();
 		radioAnalog.focusEvent(fakeEvent);
+
 		expect(testTarget.hasAttribute("tabindex")).withContext("tabindex should still not be set").toBeFalse();
 	});
 
 	it("testClickEvent", function() {
 		const target = testHolder.ownerDocument.getElementById("cb0"),
-			fakeEvent = {defaultPrevented: false, target: target};
+			fakeEvent = { defaultPrevented: false, target: target };
+
 		expect(shed.isSelected(target)).withContext("target should be initially selected").toBeTrue();
 		checkboxAnalog.clickEvent(fakeEvent);
+
 		expect(shed.isSelected(target)).withContext("target should not be selected").toBeFalse();
 	});
 
 	it("testClickEvent_defaultPrevented", function() {
 		const target = testHolder.ownerDocument.getElementById("cb0"),
-			fakeEvent = {defaultPrevented: true, target: target};
+			fakeEvent = { defaultPrevented: true, target: target };
+
 		expect(shed.isSelected(target)).withContext("target should be initially selected").toBeTrue();
 		checkboxAnalog.clickEvent(fakeEvent);
+
 		expect(shed.isSelected(target)).withContext("target should still be selected").toBeTrue();
 	});
 
 	it("testClickEvent_differentController", function() {
 		const target = testHolder.ownerDocument.getElementById("cb0"),
-			fakeEvent = {defaultPrevented: false, target: target};
+			fakeEvent = { defaultPrevented: false, target: target };
+
 		expect(shed.isSelected(target)).withContext("target should be initially selected").toBeTrue();
 		listboxAnalog.clickEvent(fakeEvent);
+
 		expect(shed.isSelected(target)).withContext("target should still be selected").toBeTrue();
 	});
 
 	it("testKeydownEvent", function() {
 		const start = testHolder.ownerDocument.getElementById("rb0-0"),
 			evt = getDummyKeydownEvent(start, "ArrowDown", "ArrowDown");
+
 		expect(evt.defaultPrevented).withContext("evt.defaultPrevented not as expected").toBeFalse();
 		radioAnalog.keydownEvent(evt);
+
 		expect(evt.defaultPrevented).withContext("evt.defaultPrevented should be true").toBeTrue();
 	});
 
 	it("testKeydownEvent_alt", function() {
 		const start = testHolder.ownerDocument.getElementById("rb0-0"),
 			evt = getDummyKeydownEvent(start, "ArrowDown", "ArrowDown", true);
+
 		expect(evt.defaultPrevented).withContext("evt.defaultPrevented not as expected").toBeFalse();
 		radioAnalog.keydownEvent(evt);
+
 		expect(evt.defaultPrevented).withContext("evt.defaultPrevented should still not be true").toBeFalse();
 	});
 
@@ -282,15 +317,18 @@ describe("wc/dom/ariaAnalog", () => {
 
 		expect(shed.isSelected(expectedEnd)).toBeFalse();
 		radioAnalog.keydownEvent(evt);
+
 		expect(shed.isSelected(expectedEnd)).toBeTrue();
 	});
 
 	it("testKeydownEvent_SPACE", function() {
 		const target = testHolder.ownerDocument.getElementById("rb0-1"),
 			evt = getDummyKeydownEvent(target, "Space", " ");
+
 		expect(evt.defaultPrevented).withContext("evt.defaultPrevented not as expected").toBeFalse();
 		expect(shed.isSelected(target)).toBeFalse();
 		radioAnalog.keydownEvent(evt);
+
 		expect(evt.defaultPrevented).withContext("evt.defaultPrevented should be true").toBeTrue();
 		expect(shed.isSelected(target)).withContext("target should now be selected").toBeTrue();
 	});
@@ -298,9 +336,11 @@ describe("wc/dom/ariaAnalog", () => {
 	it("testKeydownEvent_RETURN", function() {
 		const target = testHolder.ownerDocument.getElementById("rb0-1"),
 			evt = getDummyKeydownEvent(target, "Enter", "Enter");
+
 		expect(evt.defaultPrevented).withContext("evt.defaultPrevented not as expected").toBeFalse();
 		expect(shed.isSelected(target)).toBeFalse();
 		radioAnalog.keydownEvent(evt);
+
 		expect(evt.defaultPrevented).withContext("evt.defaultPrevented should be true").toBeTrue();
 		expect(shed.isSelected(target)).withContext("target should now be selected").toBeTrue();
 	});
@@ -312,6 +352,7 @@ describe("wc/dom/ariaAnalog", () => {
 
 		expect(shed.isSelected(expectedEnd)).toBeFalse();
 		radioAnalog.keydownEvent(evt);
+
 		expect(shed.isSelected(expectedEnd)).toBeTrue();
 	});
 
@@ -321,8 +362,10 @@ describe("wc/dom/ariaAnalog", () => {
 			evt = getDummyKeydownEvent(start, "Home", "Home");
 
 		shed.select(start); // changes radio selection
+
 		expect(shed.isSelected(expectedEnd)).toBeFalse();
 		radioAnalog.keydownEvent(evt);
+
 		expect(shed.isSelected(expectedEnd)).toBeTrue();
 	});
 
@@ -330,9 +373,11 @@ describe("wc/dom/ariaAnalog", () => {
 		const start = testHolder.ownerDocument.getElementById("rb0-0"),
 			expectedEnd = testHolder.ownerDocument.getElementById("rb0-1"),
 			evt = getDummyKeydownEvent(start, "ArrowDown", "ArrowDown", false, false, true);
+
 		expect(evt.defaultPrevented).withContext("evt.defaultPrevented not as expected").toBeFalse();
 		expect(shed.isSelected(expectedEnd)).toBeFalse();
 		radioAnalog.keydownEvent(evt);
+
 		expect(shed.isSelected(expectedEnd)).withContext("Should not select if ctrl key pressed").toBeFalse();
 		expect(evt.defaultPrevented).withContext("evt.defaultPrevented should be true").toBeTrue();
 	});
@@ -343,8 +388,10 @@ describe("wc/dom/ariaAnalog", () => {
 			evt = getDummyKeydownEvent(start, "ArrowUp", "ArrowUp");
 
 		shed.select(start); // changes radio selection
+
 		expect(shed.isSelected(expectedEnd)).toBeFalse();
 		radioAnalog.keydownEvent(evt);
+
 		expect(shed.isSelected(expectedEnd)).toBeTrue();
 	});
 
@@ -354,8 +401,10 @@ describe("wc/dom/ariaAnalog", () => {
 			evt = getDummyKeydownEvent(start, "ArrowLeft", "ArrowLeft");
 
 		shed.select(start); // changes radio selection
+
 		expect(shed.isSelected(expectedEnd)).toBeFalse();
 		radioAnalog.keydownEvent(evt);
+
 		expect(shed.isSelected(expectedEnd)).toBeTrue();
 	});
 
@@ -366,6 +415,7 @@ describe("wc/dom/ariaAnalog", () => {
 
 		expect(shed.isSelected(expectedEnd)).toBeFalse();
 		radioAnalog.keydownEvent(evt);
+
 		expect(shed.isSelected(expectedEnd)).toBeTrue();
 	});
 	// tests of multi selection based on chordal strokes need a multi-selectable grouped analog, listAnalog calls ariaAnalog#keydownEvent
@@ -375,10 +425,12 @@ describe("wc/dom/ariaAnalog", () => {
 			container = testHolder.ownerDocument.getElementById("lb0"),
 			evt = getDummyKeydownEvent(start, "ArrowDown", "ArrowDown", false, true);
 		container.setAttribute("aria-multiselectable", "true");
+
 		expect(evt.defaultPrevented).withContext("evt.defaultPrevented not as expected").toBeFalse();
 		expect(shed.isSelected(start)).withContext("start element not in expected selected state").toBeTrue();
 		expect(shed.isSelected(expectedEnd)).withContext("end element not in expected selected state").toBeFalse();
 		listboxAnalog.keydownEvent(evt);
+
 		expect(shed.isSelected(expectedEnd)).withContext("Should select if shift key pressed").toBeTrue();
 		expect(shed.isSelected(start)).withContext("start element should still be selected").toBeTrue();
 		expect(evt.defaultPrevented).withContext("evt.defaultPrevented should be true").toBeTrue();
@@ -390,10 +442,12 @@ describe("wc/dom/ariaAnalog", () => {
 			container = testHolder.ownerDocument.getElementById("lb0"),
 			evt = getDummyKeydownEvent(start, "ArrowDown", "ArrowDown", false, true);
 		container.removeAttribute("aria-multiselectable"); // just in case
+
 		expect(evt.defaultPrevented).withContext("evt.defaultPrevented not as expected").toBeFalse();
 		expect(shed.isSelected(start)).withContext("start element not in expected selected state").toBeTrue();
 		expect(shed.isSelected(expectedEnd)).withContext("end element not in expected selected state").toBeFalse();
 		listboxAnalog.keydownEvent(evt);
+
 		expect(shed.isSelected(expectedEnd)).withContext("Should select if shift key pressed").toBeTrue();
 		expect(shed.isSelected(start)).withContext("start element should no longer be selected as not multi-selectable").toBeFalse();
 		expect(evt.defaultPrevented).withContext("evt.defaultPrevented should be true").toBeTrue();
@@ -405,10 +459,12 @@ describe("wc/dom/ariaAnalog", () => {
 			container = testHolder.ownerDocument.getElementById("lb0"),
 			evt = getDummyKeydownEvent(start, "ArrowDown", "ArrowDown", false, true, true);
 		container.setAttribute("aria-multiselectable", "true");
+
 		expect(evt.defaultPrevented).withContext("evt.defaultPrevented not as expected").toBeFalse();
 		expect(shed.isSelected(start)).withContext("start element not in expected selected state").toBeTrue();
 		expect(shed.isSelected(expectedEnd)).withContext("end element not in expected selected state").toBeFalse();
 		listboxAnalog.keydownEvent(evt);
+
 		expect(shed.isSelected(expectedEnd)).withContext("Should not select if ctrl key pressed with shift").toBeFalse();
 		expect(shed.isSelected(start)).withContext("start element should still be selected").toBeTrue();
 		expect(evt.defaultPrevented).withContext("evt.defaultPrevented should be true").toBeTrue();

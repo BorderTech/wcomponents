@@ -1,3 +1,6 @@
+
+const { document, window } = globalThis;
+
 /**
  * Utility for executing XPath queries in JavaScript.
  *

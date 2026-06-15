@@ -15,6 +15,8 @@ import Observer from "wc/Observer.mjs";
 import uid from "wc/dom/uid.mjs";
 import shed from "wc/dom/shed.mjs";
 
+const { console } = globalThis;
+
 /**
  * @typedef {Object|function} wc/dom/formUpdateManager~subscriber
  * An object a subscriber to FormUpdateManager (an object which has a writeState method)
@@ -84,9 +86,9 @@ const formUpdateManager = {
 	 *    only be set if the calling class is going to clean up after itself.
 	 * @returns {Boolean} true if not cancelled by the user.
 	 *
-	 * @todo The observer test here means that the encType check will fail if nothing has subscribed. This is
-	 * actually very unlikely in reality but is possible.
-	 * @todo I know why I rewrote form to container and allow the ambiguity with region (mainly for cancelUpdate
+	 * @todo:
+	 * - The observer test here means that the encType check will fail if nothing has subscribed. This is actually very unlikely in reality but is possible.
+	 * - I know why I rewrote form to container and allow the ambiguity with region (mainly for cancelUpdate
 	 * tests and small segment AJAX state writing) but this is not necessarily a good thing so we may want to
 	 * revisit it and just make sure it is sane. Ambiguity is bad. The ignoreForm arg adds to this ambiguity and
 	 * is used by {@link module:wc/dom/convertDynamicContent}.

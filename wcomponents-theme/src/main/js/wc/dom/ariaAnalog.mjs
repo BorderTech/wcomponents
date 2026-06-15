@@ -32,6 +32,8 @@ import isAcceptableEventTarget from "wc/dom/isAcceptableTarget.mjs";
 import getFilteredGroup from "wc/dom/getFilteredGroup.mjs";  // circular dep
 import focus from "wc/dom/focus.mjs";  // circular dep
 
+const { NodeFilter } = globalThis;
+
 const genericAnalogSelector = "[role]";
 const gridSelectors = ["[role='grid']", "[role='treegrid']"];
 const IGNORE_ROLES = ["presentation", "banner", "application", "alert",
@@ -365,7 +367,7 @@ AriaAnalog.prototype.shedObserver = function(element, action) {
 		}
 		if (deselectOthers) {
 			if (this.CONTAINER) {
-				config = {"itemWd": this.ITEM, "containerWd": this.CONTAINER};
+				config = { "itemWd": this.ITEM, "containerWd": this.CONTAINER };
 			}
 			const _group = /** @type {HTMLElement[]} */(getFilteredGroup(element, config));
 			if (_group?.length) {
@@ -466,7 +468,7 @@ AriaAnalog.prototype.clickEvent = function ($event) {
 		defaultPrevented,
 		shiftKey,
 		metaKey,
-		ctrlKey} = $event;
+		ctrlKey } = $event;
 	if (defaultPrevented) {
 		return;
 	}
@@ -538,7 +540,7 @@ AriaAnalog.prototype.navigate = function(start, direction) {
 			keyWalkerConfig = {
 				root: _group,
 				filter: function(el) {
-					/* the group filter EXCLUDES elements return true*/
+					/* the group filter EXCLUDES elements return true */
 					/** @type Number */
 					let innerResult = NodeFilter.FILTER_ACCEPT;
 					if (shed.isDisabled(el) || shed.isHidden(el)) {
@@ -750,7 +752,7 @@ function isActiveAnalog(target, item) {
 	while (firstAnalog?.parentElement) {
 		// A column header is active if the column is sortable.
 		// NOTE: be aware we may eventually want to do the same with row header if we ever build row based sort.
-		if (IGNORE_ROLES.indexOf(firstAnalog.getAttribute("role")) > -1 ||
+		if (IGNORE_ROLES.includes(firstAnalog.getAttribute("role")) ||
 				isReadOnly(firstAnalog) ||
 				shed.isDisabled(firstAnalog) ||
 				(firstAnalog.getAttribute("role") === "columnheader" && !firstAnalog.getAttribute("aria-sort"))) {
@@ -794,7 +796,7 @@ AriaAnalog.prototype.setFocusIndex = function(element) {
  *
  * @function
  * @public
- * @returns {string}
+ * @returns {string} ?
  */
 AriaAnalog.prototype.getWidget = function() {
 	return this.ITEM;

@@ -7,6 +7,8 @@ import Observer from "wc/Observer.mjs";
 import timers from "wc/timers.mjs";
 import eventMgr from "wc/dom/event.mjs";
 
+const { console, window } = globalThis;
+
 let currentView,
 	observer,
 	queue;
@@ -77,7 +79,7 @@ const instance = {
 	 *
 	 * @function module:wc/dom/initialise.toString
 	 * @public
-	 * @returns {String}
+	 * @returns {String} ?
 	 */
 	toString: () => observer?.toString() || "no subscribers",
 

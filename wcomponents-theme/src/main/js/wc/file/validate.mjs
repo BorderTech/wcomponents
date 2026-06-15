@@ -29,7 +29,7 @@ function check(args) {
 		}
 	} catch (ex) {
 		// If validation results in an error it's best to let it go to the server (where it will be validated anyway)
-		console.error(ex);
+		globalThis.console.error(ex);
 	}
 	if (result.length) {
 		if (args.errback) {

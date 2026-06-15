@@ -8,6 +8,8 @@ import processResponse from "wc/ui/ajax/processResponse.mjs";
 import getFirstLabelForElement from "wc/ui/getFirstLabelForElement.mjs";
 import onchangeSubmit from "wc/ui/onchangeSubmit.mjs";
 
+const { document } = globalThis;
+
 const fieldsetSelector = "fieldset";
 
 function makeLegend(el) {
@@ -36,6 +38,7 @@ function makeLegend(el) {
 		labelClass += label.className;
 		accesskey = label.getAttribute("data-wc-accesskey");
 	}
+	// eslint-disable-next-line sonarjs/no-nested-template-literals
 	const html = `<legend class='${labelClass}'${accesskey ? ` accesskey='${accesskey}'` : ""}>${labelContent}</legend>`;
 	el.insertAdjacentHTML("afterbegin", html);
 	// label is now the first child of el.

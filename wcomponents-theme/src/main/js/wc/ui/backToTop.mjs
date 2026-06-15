@@ -10,6 +10,8 @@ import shed from "wc/dom/shed.mjs";
 import wcconfig from "wc/config.mjs";
 import initialise from "wc/dom/initialise.mjs";
 
+const { customElements, document, HTMLElement } = globalThis;
+
 /**
  * Custom configuration
  * @type Object
@@ -128,8 +130,8 @@ class BackToTop extends HTMLElement {
 	}
 
 	/**
-	 *
-	 * @return {boolean}
+	 * ?
+	 * @returns {boolean} ?
 	 */
 	get disabled() {
 		return this.hasAttribute("disabled");
@@ -160,7 +162,7 @@ initialise.register({ initialise: () => {
 		event.add(globalThis, { type: "resize", listener: genericEvent, passive: true });
 		customElements.define(tagName, BackToTop);
 	}
-}});
+} });
 
 /**
 * @typedef {Object} config Configuration for the back to top link.

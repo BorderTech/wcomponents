@@ -1,5 +1,7 @@
 import debounce from "wc/debounce.mjs";
 
+const { beforeEach, describe, expect, it, setTimeout } = globalThis;
+
 describe("wc/debounce", () => {
 	let testObj;
 	const delay = 5;

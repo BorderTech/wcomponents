@@ -86,7 +86,7 @@ const instance = {
 		let result;
 		const parts = splitXferDate(xfr, true);
 		if (parts) {
-			const numbers = parts.map(s => parseInt(s));
+			const numbers = parts.map(s => Number.parseInt(s));
 			result = new Date(numbers[0], numbers[1] - 1, numbers[2], numbers[3], numbers[4]);
 		}
 		return result;
@@ -144,7 +144,7 @@ const instance = {
 function splitXferDate(xfr, defaults) {
 	let result;
 	const today = $today.get(),  // the use of wc/date/today is to make this unit testable on boundary dates
-		parsed = RegExp(XFER_DATE_RE).exec(xfr),
+		parsed = (new RegExp(XFER_DATE_RE)).exec(xfr),
 		defaultValues = {
 			1: today.getFullYear().toString(),
 			2: "1",
@@ -160,7 +160,7 @@ function splitXferDate(xfr, defaults) {
 
 	const getVal = (idx) => {
 		const next = parsed[idx];
-		if (next && next.indexOf(PLACEHOLDER) < 0) {
+		if (next && !next.includes(PLACEHOLDER)) {
 			return next;
 		}
 		return defaults ? defaultValues[idx] : null;

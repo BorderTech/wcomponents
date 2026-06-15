@@ -25,6 +25,8 @@ import onchangeSubmit from "wc/ui/onchangeSubmit.mjs";
 import feedback from "wc/ui/feedback.mjs";
 import listboxAnalog from "wc/ui/listboxAnalog.mjs";
 
+const { document, Node } = globalThis;
+
 const FIELD_CLASS = "wc-datefield",
 	FAKE_VALUE_ATTRIB = "data-wc-value",
 	DATE_FIELD = `div.${FIELD_CLASS}`,
@@ -148,7 +150,7 @@ const instance = {
 	 * Not so lame according to the feedback from users.
 	 *
 	 * @param {Element} dateField a date field container.
-	 * @returns {Boolean}
+	 * @returns {Boolean} ?
 	 */
 	isLameDateField: dateField => !!dateField.querySelector(DATE_WC),
 
@@ -177,7 +179,7 @@ const instance = {
 
 	/**
 	 * @param {Element} element
-	 * @returns {HTMLElement}
+	 * @returns {HTMLElement} ?
 	 */
 	get: element => element.closest(DATE_FIELD),
 
@@ -228,7 +230,7 @@ function getSuggestionList(element, force) {
 
 /**
  * @param {Element} dateField
- * @returns {boolean}
+ * @returns {boolean} ?
  */
 function isPartial(dateField) {
 	return dateField.matches(DATE_FIELD_PARTIAL);
@@ -976,7 +978,7 @@ function handleTabKey(element, target) {
  * Helper for keydownEvent.
  * @param {Element} element
  * @param {Element} target
- * @returns {boolean}
+ * @returns {boolean} ?
  */
 function handleEscapeKey(element, target) {
 	if (shed.isExpanded(element)) {
@@ -999,7 +1001,8 @@ initialise.register({
 	 * custom partial date field.
 	 * @function module:wc/ui/dateField.initialise
 	 * @public
-	 * @param {Element} element The element being initialised, usually document.body.
+	 * @param {Element} element - The element being initialised, usually document.body.
+	 * @returns {Promise<void>} ?
 	 */
 	initialise: element => {
 		return i18n.translate("datefield_mask_format").then(mask => {

@@ -164,7 +164,7 @@ function validate(container) {
 	}
 	const result = complete && valid;
 	if (!result) {
-		console.log(`${import.meta.url} failed validation`);
+		globalThis.console.log(`${import.meta.url} failed validation`);
 	}
 	return result;
 }

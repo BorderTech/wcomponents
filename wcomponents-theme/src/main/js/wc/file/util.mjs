@@ -11,6 +11,8 @@ import uid from "wc/dom/uid.mjs";
 import getMimeType from "wc/file/getMimeType.mjs";
 import wcconfig from "wc/config.mjs";
 
+const { atob, window } = globalThis;
+
 /**
  * Map of mimetype to extension, used when checking the newly created file is named
  * with the correct extension.
@@ -102,7 +104,7 @@ export default {
 
 			const expectedExtension = this.getMimeToExtMap()[metadata.mime];
 			if (metadata.mime && expectedExtension) {
-				if (expectedExtension.indexOf(metadata.ext) < 0) {
+				if (!expectedExtension.includes(metadata.ext)) {
 					// @ts-ignore
 					file.name += "." + expectedExtension[0];
 				}
@@ -135,7 +137,7 @@ export default {
 	dataURItoBlob: function (dataURI) {
 		// convert base64/URLEncoded data component to raw binary data held in a string
 		let byteString;
-		if (dataURI.split(",")[0].indexOf("base64") >= 0) {
+		if (dataURI.split(",")[0].includes("base64")) {
 			byteString = atob(dataURI.split(",")[1]);
 		} else {
 			byteString = unescape(dataURI.split(",")[1]);  // TODO unescape deprecated

@@ -19,6 +19,8 @@ import tabset from "wc/ui/tabset.mjs";
 import processResponse from "wc/ui/ajax/processResponse.mjs";
 import "wc/ui/radioAnalog.mjs";  // hmmmm
 
+const { document } = globalThis;
+
 const containerSelector = ".wc-collapsibletoggle",
 	expandCollapseAllSelector = "button.wc_collapsibletoggle",
 	collapsibleSelector = "details",
@@ -44,7 +46,8 @@ function getControlled(trigger) {
  * @function
  * @private
  * @param {Element} controller The WCollapsibleToggle control.
- * @param {Boolean} [expanded] truethy if we are checking if all expanded, otherwise falsey
+ * @param {boolean} [expanded] truethy if we are checking if all expanded, otherwise falsey
+ * @returns {boolean} ?
  */
 function areAllInExpandedState(controller, expanded) {
 	let result = false;

@@ -1,5 +1,7 @@
 import ariaGroup from "wc/dom/ariaGroup.mjs";
 
+const { afterEach, beforeEach, describe, document, expect, it } = globalThis;
+
 describe("wc/dom/ariaGroup", () => {
 	const testContent = `
 		<span role='radiogroup' id='owner-1' aria-owns='owned1 owned2' class='some-group'>owner
@@ -32,25 +34,28 @@ describe("wc/dom/ariaGroup", () => {
 	beforeEach(function() {
 		document.body.innerHTML = testContent;
 	});
-	
+
 	afterEach(function() {
 		document.body.innerHTML = "";
 	});
-	
+
 	it("testGetOwner", function() {
 		const expected = "owner-1",
 			start = document.getElementById("owned1");
+
 		expect(ariaGroup.getOwner(start).id).withContext("did not find expected aria- owner").toBe(expected);
 	});
 
 	it("testGetOwnerNotNested", function() {
 		const expected = "owner-2",
 			start = document.getElementById("owned3");
+
 		expect(ariaGroup.getOwner(start).id).withContext("did not find expected aria- owner").toBe(expected);
 	});
 
 	it("testGetOwnerNotOwned", function() {
 		const start = document.getElementById("notowned");
+
 		expect(ariaGroup.getOwner(start)).withContext("should not have found owner").toBeNull();
 	});
 
@@ -58,6 +63,7 @@ describe("wc/dom/ariaGroup", () => {
 		const start = document.getElementById("owner-1"),
 			expected = ["owned1", "owned2"],
 			result = ariaGroup.getOwned(start);
+
 		expect(result.length).toBe(2);
 		for (let i = 0; i < result.length; ++i) {
 			expect(result[i].id).withContext("Did not find expected owned element").toBe(expected[i]);
@@ -75,6 +81,7 @@ describe("wc/dom/ariaGroup", () => {
 
 	it("testGetOwnedNotOwner", function() {
 		const start = document.getElementById("notowned");
+
 		expect(ariaGroup.getOwned(start).length).toBe(0);
 	});
 
@@ -87,6 +94,7 @@ describe("wc/dom/ariaGroup", () => {
 		for (let i = 0; i < group.length; ++i) {
 			foundIds.push(group[i].id);
 		}
+
 		expect(group.length).withContext(foundIds.join(" ")).toBe(expected.length);
 		for (let i = 0; i < group.length; ++i) {
 			expect(group[i].id).toBe(expected[i]);
@@ -102,6 +110,7 @@ describe("wc/dom/ariaGroup", () => {
 		for (let i = 0; i < group.length; ++i) {
 			foundIds.push(group[i].id);
 		}
+
 		expect(group.length).withContext(foundIds.join(" ")).toBe(expected.length);
 		for (let i = 0; i < group.length; ++i) {
 			expect(group[i].id).toBe(expected[i]);
@@ -117,6 +126,7 @@ describe("wc/dom/ariaGroup", () => {
 		for (let i = 0; i < group.length; ++i) {
 			foundIds.push(group[i].id);
 		}
+
 		expect(group.length).withContext(foundIds.join(" ")).toBe(expected.length);
 		for (let i = 0; i < group.length; ++i) {
 			expect(group[i].id).toBe(expected[i]);
@@ -132,6 +142,7 @@ describe("wc/dom/ariaGroup", () => {
 		for (let i = 0; i < group.length; ++i) {
 			foundIds.push(group[i].id);
 		}
+
 		expect(group.length).withContext(foundIds.join(" ")).toBe(expected.length);
 		for (let i = 0; i < group.length; ++i) {
 			expect(group[i].id).toBe(expected[i]);
@@ -147,6 +158,7 @@ describe("wc/dom/ariaGroup", () => {
 		for (let i = 0; i < group.length; ++i) {
 			foundIds.push(group[i].id);
 		}
+
 		expect(group.length).withContext(foundIds.join(" ")).toBe(expected.length);
 		for (let i = 0; i < group.length; ++i) {
 			expect(group[i].id).toBe(expected[i]);
@@ -162,6 +174,7 @@ describe("wc/dom/ariaGroup", () => {
 		for (let i = 0; i < group.length; ++i) {
 			foundIds.push(group[i].id);
 		}
+
 		expect(group.length).withContext(foundIds.join(" ")).toBe(expected.length);
 		for (let i = 0; i < group.length; ++i) {
 			expect(group[i].id).toBe(expected[i]);
@@ -177,6 +190,7 @@ describe("wc/dom/ariaGroup", () => {
 		for (let i = 0; i < group.length; ++i) {
 			foundIds.push(group[i].id);
 		}
+
 		expect(group.length).withContext(foundIds.join(" ")).toBe(expected.length);
 		for (let i = 0; i < group.length; ++i) {
 			expect(group[i].id).toBe(expected[i]);
@@ -187,6 +201,7 @@ describe("wc/dom/ariaGroup", () => {
 		const start = document.getElementById(allItemIds[0]),
 			expected = "menu1",
 			result = ariaGroup.getContainer(start);
+
 		expect(result.id).toBe(expected);
 	});
 
@@ -194,6 +209,7 @@ describe("wc/dom/ariaGroup", () => {
 		const start = document.getElementById(innerItemIds[0]),
 			expected = "submenu",
 			result = ariaGroup.getContainer(start);
+
 		expect(result.id).toBe(expected);
 	});
 
@@ -201,6 +217,7 @@ describe("wc/dom/ariaGroup", () => {
 		const start = document.getElementById("owned5"),
 			expected = "owner-3",
 			result = ariaGroup.getContainer(start);
+
 		expect(result.id).toBe(expected);
 	});
 
@@ -208,6 +225,7 @@ describe("wc/dom/ariaGroup", () => {
 		const start = document.getElementById("owned5"),
 			expected = "owner-1",
 			result = ariaGroup.getContainer(start, null, true);
+
 		expect(result.id).toBe(expected);
 	});
 
@@ -216,6 +234,7 @@ describe("wc/dom/ariaGroup", () => {
 			widget = ".widget-menu",
 			expected = "menu1",
 			result = ariaGroup.getContainer(start, widget);
+
 		expect(result.id).toBe(expected);
 	});
 
@@ -224,6 +243,7 @@ describe("wc/dom/ariaGroup", () => {
 			widget = ".some-group",
 			expected = "owner-3",
 			result = ariaGroup.getContainer(start, widget);
+
 		expect(result.id).toBe(expected);
 	});
 
@@ -232,6 +252,7 @@ describe("wc/dom/ariaGroup", () => {
 			widget = ".some-group",
 			expected = "owner-1",
 			result = ariaGroup.getContainer(start, widget, true);
+
 		expect(result.id).toBe(expected);
 	});
 });

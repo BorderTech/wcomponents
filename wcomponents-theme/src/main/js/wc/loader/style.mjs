@@ -2,6 +2,8 @@ import has from "wc/has.mjs";
 import mixin from "wc/mixin.mjs";
 import wcconfig from "wc/config.mjs";
 
+const { document, location, URL } = globalThis;
+
 const DOT_EX = ".css",
 	DEFAULT_FILE_NAME_PREFIX = "wc-";
 /**
@@ -122,7 +124,7 @@ const instance = {
 			checkIsStringOrFalsy(name, "name");
 
 			value = obj.version;
-			if (value && isNaN(value)) {
+			if (value && Number.isNaN(value)) {
 				throw new TypeError("Invalid version");
 			}
 
@@ -283,7 +285,7 @@ function addLinkElement(url, media) {
 /**
 * @param {string} arg
 * @param {string} msg
-* @return {boolean} true if the arg is falsy or a string
+* @returns {boolean} True if the arg is falsy or a string
 */
 function checkIsStringOrFalsy(arg, msg) {
 	if (!arg || typeof arg === "string") {
@@ -313,14 +315,14 @@ function getLastCssLink() {
  * @param {String} [media] a CSS media query
  */
 function addByName(nameOrUrl, media) {
-	const isUrl = nameOrUrl.indexOf("/") === 0 || nameOrUrl.indexOf("http") === 0 || nameOrUrl.indexOf(".") === 0;
+	const isUrl = nameOrUrl.startsWith("/") || nameOrUrl.startsWith("http") || nameOrUrl.startsWith(".");
 
 	if (isUrl) {
 		addLinkElement(nameOrUrl, media);
 		return;
 	}
 	let fullUrl = CSS_BASE_URL + nameOrUrl;
-	if (nameOrUrl.indexOf(DOT_EX) < 0) {
+	if (!nameOrUrl.includes(DOT_EX)) {
 		fullUrl += DOT_EX;
 	}
 	if (CACHEBUSTER) {

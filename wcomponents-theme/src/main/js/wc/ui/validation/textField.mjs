@@ -9,6 +9,8 @@ import validationManager from "wc/ui/validation/validationManager.mjs";
 import feedback from "wc/ui/feedback.mjs";
 import wcconfig from "wc/config.mjs";
 
+const { console } = globalThis;
+
 const textSelector = ["input[type='text']", "input:not([type])"];
 const emailSelector = "input[type='email']";
 // input types which are not needed for validation other than mandatory-ness.
@@ -78,6 +80,7 @@ function isInvalid(element) {
 				try {
 					regexp = new RegExp(`^(?:${mask})$`);
 					patternFlag = /** @type {string} */(i18n.get("validation_common_pattern"));
+				// eslint-disable-next-line no-unused-vars
 				} catch (e) {
 					regexp = null;
 					// console.log("cannot convert input mask to regular expression, assuming valid");

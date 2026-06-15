@@ -1,3 +1,8 @@
+
+import require from 'requirejs';
+
+const { intern, window } = globalThis;
+
 /**
  * This is a custom loader for intern which provides AMD support using requirejs.
  */

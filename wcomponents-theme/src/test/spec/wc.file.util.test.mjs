@@ -1,6 +1,8 @@
 import fileUtil from "wc/file/util.mjs";
 import wcconfig from "wc/config.mjs";
 
+const { beforeAll, btoa, describe, expect, it, window } = globalThis;
+
 describe("wc/file/util", () => {
 	let view;
 
@@ -16,6 +18,7 @@ describe("wc/file/util", () => {
 			file = fileUtil.blobToFile(blob, {
 				name: expectedFile
 			});
+
 		expect(file.name).toBe(expectedFile);
 		expect(file.type).toBe(expectedMime);
 		expect(file.size).toBe(content.length);
@@ -39,8 +42,9 @@ describe("wc/file/util", () => {
 	it("testBlobToFileOptionalConfig", function() {
 		const expectedMime = "text/csv",
 			content = "This, is, my, blob, content",
-			blob = new view.Blob([content], {type: expectedMime}),
+			blob = new view.Blob([content], { type: expectedMime }),
 			file = fileUtil.blobToFile(blob);
+
 		expect(file.name).toMatch(/.+\.csv$/);
 	});
 
@@ -60,6 +64,7 @@ describe("wc/file/util", () => {
 				}));
 		}
 		const blob = fileUtil.dataURItoBlob(dataurl);
+
 		expect(blob.type).toBe(expectedMime);
 		// each char maybe more than 1 byte in length, so blob size in bytes could be greater than or equal to it's content
 		expect(blob.size).toBeGreaterThanOrEqual(expectedText.length);
@@ -82,7 +87,7 @@ describe("wc/file/util", () => {
 
 	it("testFixFileExtensionCustomMime", function() {
 		const expectMime = "application/json",
-			blob = {hello: "world"},
+			blob = { hello: "world" },
 			expectedFile = "jsonfile",
 			expectedExt = "json";
 		try {
@@ -92,9 +97,10 @@ describe("wc/file/util", () => {
 			}, "wc/file/customMimeToExt");
 			// verify default overridden
 			expect(fileUtil.getMimeToExtMap()["text/plain"]).toBeUndefined();
-			const file = new view.Blob([JSON.stringify(blob)], {type: expectMime});
+			const file = new view.Blob([JSON.stringify(blob)], { type: expectMime });
 			file.name = expectedFile;
 			fileUtil.fixFileExtension(file);
+
 			expect(file.name).toBe(expectedFile + "." + expectedExt);
 		} finally {
 			// reset to mimetypes to default
@@ -104,49 +110,54 @@ describe("wc/file/util", () => {
 
 	it("testFixFileExtensionMultipleExt", function() {
 		const expectMime = "text/plain",
-			file = new view.Blob(["Text file content"], {type: expectMime}),
+			file = new view.Blob(["Text file content"], { type: expectMime }),
 			expectedExt = fileUtil.getMimeToExtMap()[expectMime][0];
 		file.name = "testfile.jpg";
 		// verify default exists
 		expect(fileUtil.getMimeToExtMap()["text/plain"]).toBeDefined();
 		fileUtil.fixFileExtension(file);
 		const actualExt = file.name.split(".");
+
 		expect(actualExt[2]).toBe(expectedExt);
 	});
 
 	it("testFixFileExtensionCorrectName", function() {
 		const expectMime = "text/plain",
-			file = new view.Blob(["Text file correct extenstion"], {type: expectMime});
+			file = new view.Blob(["Text file correct extenstion"], { type: expectMime });
 		let expectedExt = fileUtil.getMimeToExtMap()[expectMime][0];
 		file.name = "testfile." + expectedExt;
 		fileUtil.fixFileExtension(file);
 		let actualExt = file.name.split(".");
+
 		expect(actualExt[1]).toBe(expectedExt);
 
 		expectedExt = fileUtil.getMimeToExtMap()[expectMime][4];
 		file.name = "testfile." + expectedExt;
 		fileUtil.fixFileExtension(file);
 		actualExt = file.name.split(".");
+
 		expect(actualExt[1]).toBe(expectedExt);
 	});
 
 	it("testFixFileExtensionUnknownMime", function() {
 		const expectMime = "application/x-csh",
-			file = new view.Blob(["Unknown mime type in mime map"], {type: expectMime}),
+			file = new view.Blob(["Unknown mime type in mime map"], { type: expectMime }),
 			expectedExt = "csh";
 		file.name = "testfile." + expectedExt;
 		fileUtil.fixFileExtension(file);
 		const actualExt = file.name.split(".");
+
 		expect(actualExt[1]).toBe(expectedExt);
 	});
 
 	it("testFixFileExtensionUnknownMimeReturnVal", function() {
 		const expectMime = "application/x-csh",
-			file = new view.Blob(["Unknown mime type in mime map"], {type: expectMime}),
+			file = new view.Blob(["Unknown mime type in mime map"], { type: expectMime }),
 			expectedExt = "csh";
 		file.name = "testfile." + expectedExt;
 		fileUtil.fixFileExtension(file);
 		const actualExt = file.name.split(".");
+
 		expect(actualExt[1]).toBe(expectedExt);
 	});
 });

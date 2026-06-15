@@ -30,8 +30,8 @@ function checkFileSize(args) {
 		},
 		fileSizes = instance.get(args.testObj || element);
 	if (maxFileSize && fileSizes.length > 0 && fileSizes.some(fileIsToBig)) {
-		for (let i = 0; i < fileSizes.length; i++) {
-			if (fileIsToBig(fileSizes[i])) {
+		for (const fileSize of fileSizes) {
+			if (fileIsToBig(fileSize)) {
 				/* make the units human-readable */
 				let roundTo, units, maxFileSizeHR, fileSizeHR;
 				if (maxFileSize >= GB) {
@@ -47,10 +47,10 @@ function checkFileSize(args) {
 
 				if (roundTo) {
 					maxFileSizeHR = round(maxFileSize / roundTo);
-					fileSizeHR = round(fileSizes[i] / roundTo);
+					fileSizeHR = round(fileSize / roundTo);
 				} else {
 					maxFileSizeHR = maxFileSize;
-					fileSizeHR = fileSizes[i];
+					fileSizeHR = fileSize;
 					units = i18n.get("file_size_");
 				}
 				let nextMessage = i18n.get(msgId, fileSizeHR, maxFileSizeHR, units);
@@ -69,7 +69,7 @@ function checkFileSize(args) {
  */
 function getMax(element) {
 	if (element) {
-		return parseInt(element.getAttribute("data-wc-maxfilesize")) || 0;
+		return Number.parseInt(element.getAttribute("data-wc-maxfilesize")) || 0;
 	}
 	return 0;
 }
@@ -80,7 +80,7 @@ function getMax(element) {
  * @returns {Number} The rounded version of the value.
  */
 function round(value) {
-	const intPart = typeof value === "string" ? parseInt(value, 10) : value;
+	const intPart = typeof value === "string" ? Number.parseInt(value, 10) : value;
 	if (intPart === value) {
 		return value;
 	}

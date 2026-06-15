@@ -1,4 +1,3 @@
-/* eslint-env node, es6  */
 /**
  * You can use this when working on theme JS to speed up development.
  * After running the initial complete build once you may then run this file:
@@ -10,16 +9,20 @@
  *
  * Note, you will generally be running in debug mode while developing: https://github.com/BorderTech/wcomponents/wiki/Debugging-a-theme
  */
+
+import console from 'node:console';
+import path from "node:path";
+
 import chokidar from 'chokidar';
-import { dirs } from "./build-util.mjs";
-import themeLinter from "./lintfile.mjs";
+
+import debounce from "../src/main/js/wc/debounce.mjs";
 import buildCss from "../build-css.mjs";
 import buildImages from "../build-images.mjs";
 import buildJs from "../build-js.mjs";
 import buildResources from "../build-resource.mjs";
-import path from "path";
+import { dirs } from "./build-util.mjs";
 import hotReload from "./hotReloadServer.mjs";
-import debounce from "../src/main/js/wc/debounce.mjs";
+import themeLinter from "./lintfile.mjs";
 
 const handlers = {
 	images: /**
@@ -89,7 +92,7 @@ function getPaths(dir, filename) {
 		relative = filename;
 		absolute = path.join(dir, filename);
 	}
-	return { relative: relative, absolute: absolute};
+	return { relative: relative, absolute: absolute };
 }
 
 /**

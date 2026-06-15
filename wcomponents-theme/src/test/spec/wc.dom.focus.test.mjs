@@ -1,6 +1,9 @@
-import domFocus from "wc/dom/focus.mjs";
 import domTesting from "@testing-library/dom";
-import {fudgeDimensions} from "../helpers/specUtils.mjs";
+
+import domFocus from "wc/dom/focus.mjs";
+import { fudgeDimensions } from "../helpers/specUtils.mjs";
+
+const { afterAll, beforeAll, beforeEach, describe, document, expect, it } = globalThis;
 
 describe("wc/dom/focus", () => {
 	let testHolder, ownerDocument;
@@ -38,12 +41,14 @@ describe("wc/dom/focus", () => {
 	it("testIsTabstopNative", () => {
 		const id = "button1";
 		testHolder.innerHTML = NATIVE_TRUE;
+
 		expect(domFocus.isTabstop(domTesting.getByTestId(testHolder, id))).toBeTrue();
 	});
 
 	it("testIsTabstopNotNative", () => {
 		const id = "div1";
 		testHolder.innerHTML = NATIVE_FALSE;
+
 		expect(domFocus.isTabstop(domTesting.getByTestId(testHolder, id))).toBeFalse();
 	});
 
@@ -52,12 +57,14 @@ describe("wc/dom/focus", () => {
 		testHolder.innerHTML = NATIVE_TRUE;
 		const element = /** @type HTMLButtonElement */(domTesting.getByTestId(testHolder, id));
 		element.disabled = true;
+
 		expect(domFocus.isTabstop(element)).toBeFalse();
 	});
 
 	it("testIsTabstopNativeLink", () => {
 		const id = "a1";
 		testHolder.innerHTML = NATIVE_LINK;
+
 		expect(domFocus.isTabstop(domTesting.getByTestId(testHolder, id))).toBeTrue();
 	});
 
@@ -66,6 +73,7 @@ describe("wc/dom/focus", () => {
 		testHolder.innerHTML = NATIVE_LINK;
 		const element = domTesting.getByTestId(testHolder, id);
 		element.setAttribute("aria-disabled", "true");
+
 		expect(domFocus.isTabstop(element)).toBeFalse();
 	});
 
@@ -74,6 +82,7 @@ describe("wc/dom/focus", () => {
 		testHolder.innerHTML = NATIVE_FALSE;
 		const element = domTesting.getByTestId(testHolder, id);
 		element.tabIndex = 0;
+
 		expect(domFocus.isTabstop(element)).toBeTrue();
 	});
 
@@ -82,6 +91,7 @@ describe("wc/dom/focus", () => {
 		testHolder.innerHTML = NATIVE_TRUE;
 		const element = domTesting.getByTestId(testHolder, id);
 		element.tabIndex = -1;
+
 		expect(domFocus.isTabstop(domTesting.getByTestId(testHolder, id))).toBeFalse();
 	});
 
@@ -90,6 +100,7 @@ describe("wc/dom/focus", () => {
 		testHolder.innerHTML = NATIVE_TRUE;
 		const element = domTesting.getByTestId(testHolder, id);
 		element.hidden = true;
+
 		expect(domFocus.isTabstop(domTesting.getByTestId(testHolder, id))).toBeFalse();
 	});
 
@@ -99,17 +110,20 @@ describe("wc/dom/focus", () => {
 		const element = domTesting.getByTestId(testHolder, id);
 		element.tabIndex = 0;
 		element.hidden = true;
+
 		expect(domFocus.isTabstop(domTesting.getByTestId(testHolder, id))).toBeFalse();
 	});
 
 	it("testIsTabstopRadiosNoSelection", () => {
 		testHolder.innerHTML = RADIOS_NO_SELECTION;
+
 		expect(domFocus.isTabstop(domTesting.getByTestId(testHolder, "r1"))).toBeTrue();
 		expect(domFocus.isTabstop(domTesting.getByTestId(testHolder, "r2"))).toBeTrue();
 	});
 
 	it("testIsTabstopRadiosWithSelection", () => {
 		testHolder.innerHTML = RADIOS_WITH_SELECTION;
+
 		expect(domFocus.isTabstop(domTesting.getByTestId(testHolder, "r3"))).toBeFalse();
 		expect(domFocus.isTabstop(domTesting.getByTestId(testHolder, "r4"))).toBeTrue();
 	});
@@ -142,6 +156,7 @@ describe("wc/dom/focus", () => {
 	it("testCanFocusNativeYes", () => {
 		const id = "button1";
 		testHolder.innerHTML = NATIVE_TRUE;
+
 		expect(domFocus.canFocus(domTesting.getByTestId(testHolder, id))).toBeTrue();
 	});
 
@@ -150,6 +165,7 @@ describe("wc/dom/focus", () => {
 		testHolder.innerHTML = NATIVE_TRUE;
 		const element = domTesting.getByTestId(testHolder, id);
 		element.hidden = true;
+
 		expect(domFocus.canFocus(element)).toBeFalse();
 	});
 
@@ -158,6 +174,7 @@ describe("wc/dom/focus", () => {
 		testHolder.innerHTML = NATIVE_TRUE;
 		const element = /** @type HTMLButtonElement */(domTesting.getByTestId(testHolder, id));
 		element.disabled = true;
+
 		expect(domFocus.canFocus(element)).toBeFalse();
 	});
 
@@ -166,6 +183,7 @@ describe("wc/dom/focus", () => {
 		testHolder.innerHTML = NATIVE_TRUE;
 		const element = domTesting.getByTestId(testHolder, id);
 		element.style.visibility = "hidden";
+
 		expect(domFocus.canFocus(element)).toBeFalse();
 	});
 
@@ -174,6 +192,7 @@ describe("wc/dom/focus", () => {
 		testHolder.innerHTML = NATIVE_TRUE;
 		const element = domTesting.getByTestId(testHolder, id);
 		element.style.display = "none";
+
 		expect(domFocus.canFocus(element)).toBeFalse();
 	});
 
@@ -187,6 +206,7 @@ describe("wc/dom/focus", () => {
 		// don't forget buttons have borders and padding which give them dimension!
 		element.style.border = "0 none";
 		element.style.padding = "0";
+
 		expect(domFocus.canFocus(element)).withContext("expected zero dimension element to not be focusable , offsetWidth: " + element.offsetWidth + ", offsetHeight: " + element.offsetHeight).toBeFalse();
 	});
 
@@ -195,6 +215,7 @@ describe("wc/dom/focus", () => {
 		const expected = "hf1";
 		testHolder.innerHTML = FOCUSABLE_CONTAINER;
 		const target = domFocus.focusFirstTabstop(domTesting.getByTestId(testHolder, "hasfocusable"));
+
 		expect(target.dataset["testid"]).toBe(expected);
 	});
 
@@ -202,6 +223,7 @@ describe("wc/dom/focus", () => {
 		const expected = "hf2";
 		testHolder.innerHTML = FOCUSABLE_CONTAINER;
 		const target = domFocus.focusFirstTabstop(domTesting.getByTestId(testHolder, "hasfocusable"), null, true);
+
 		expect(target.dataset["testid"]).toBe(expected);
 	});
 
@@ -212,6 +234,7 @@ describe("wc/dom/focus", () => {
 		}
 		testHolder.innerHTML = FOCUSABLE_CONTAINER;
 		domFocus.focusFirstTabstop(domTesting.getByTestId(testHolder, "hasfocusable"), callback);
+
 		expect(result).toBeTrue();
 	});
 
@@ -219,16 +242,19 @@ describe("wc/dom/focus", () => {
 		let result = false;
 		testHolder.innerHTML = FOCUSABLE_CONTAINER;
 		domFocus.focusFirstTabstop(domTesting.getByTestId(testHolder, "hasfocusable"), () => result = true, true);
+
 		expect(result).toBeTrue();
 	});
 
 	it("testFocusFirstTabstopNoFocus", () => {
 		testHolder.innerHTML = NOT_FOCUSABLE_CONTAINER;
+
 		expect(domFocus.focusFirstTabstop(domTesting.getByTestId(testHolder, "nofocus"))).toBeNull();
 	});
 
 	it("testFocusFirstTabstopNoFocusReverse", () => {
 		testHolder.innerHTML = NOT_FOCUSABLE_CONTAINER;
+
 		expect(domFocus.focusFirstTabstop(domTesting.getByTestId(testHolder, "nofocus"), null, true)).toBeNull();
 	});
 
@@ -239,6 +265,7 @@ describe("wc/dom/focus", () => {
 			result = true;
 		}
 		domFocus.focusFirstTabstop(domTesting.getByTestId(testHolder, "nofocus"), callback);
+
 		expect(result).toBeFalse();
 	});
 
@@ -249,36 +276,43 @@ describe("wc/dom/focus", () => {
 			result = true;
 		}
 		domFocus.focusFirstTabstop(domTesting.getByTestId(testHolder, "nofocus"), callback, true);
+
 		expect(result).toBeFalse();
 	});
 
 	it("testCanFocusInside", () => {
 		testHolder.innerHTML = FOCUSABLE_CONTAINER;
+
 		expect(domFocus.canFocusInside(domTesting.getByTestId(testHolder, "hasfocusable"))).toBeTrue();
 	});
 
 	it("testCanFocusInsideFalse", () => {
 		testHolder.innerHTML = NOT_FOCUSABLE_CONTAINER;
+
 		expect(domFocus.canFocusInside(domTesting.getByTestId(testHolder, "nofocus"))).toBeFalse();
 	});
 
 	it("testGetFocusableAncestorSelf", () => {
 		testHolder.innerHTML = NATIVE_TRUE;
+
 		expect(domFocus.getFocusableAncestor(domTesting.getByTestId(testHolder, "button1"))).toBe(domTesting.getByTestId(testHolder, "button1"));
 	});
 
 	it("testGetFocusableAncestorNotSelfIsNull", () => {
 		testHolder.innerHTML = NATIVE_TRUE;
+
 		expect(domFocus.getFocusableAncestor(domTesting.getByTestId(testHolder, "button1"), true)).toBeNull();
 	});
 
 	it("testGetFocusableAncestor", () => {
 		testHolder.innerHTML = FOCUSABLE_ANCESTOR;
+
 		expect(domFocus.getFocusableAncestor(domTesting.getByTestId(testHolder, "span1"))).toBe(domTesting.getByTestId(testHolder, "button1"));
 	});
 
 	it("testGetFocusableAncestorNotFocusable", () => {
 		testHolder.innerHTML = NOT_FOCUSABLE_CONTAINER;
+
 		expect(domFocus.getFocusableAncestor(domTesting.getByTestId(testHolder, "nf1"))).toBeNull();
 	});
 

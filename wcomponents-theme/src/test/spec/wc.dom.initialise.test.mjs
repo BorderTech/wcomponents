@@ -1,5 +1,7 @@
-import initialise, {setView} from "wc/dom/initialise.mjs";
-import {setUpExternalHTML} from "../helpers/specUtils.mjs";
+import initialise, { setView } from "wc/dom/initialise.mjs";
+import { setUpExternalHTML } from "../helpers/specUtils.mjs";
+
+const { beforeEach, console, describe, expect, it } = globalThis;
 
 describe("wc/dom/initialise", () => {
 
@@ -20,6 +22,7 @@ describe("wc/dom/initialise", () => {
 
 	it("should return the registered object", function() {
 		const obj = {};
+
 		expect(initialise.register(obj)).toBe(obj);
 	});
 
@@ -35,6 +38,7 @@ describe("wc/dom/initialise", () => {
 		const before = initialise.toString();
 		initialise.addBodyListener(function() {});  // adding a listener should change the toString
 		const after = initialise.toString();
+
 		expect(after).withContext("toString not good enough").not.toEqual(before);
 	});
 
@@ -73,7 +77,7 @@ describe("wc/dom/initialise", () => {
 		/**
 		 * @param {number} expectedOrder
 		 * @param {string} name
-		 * @return {function(): void}
+		 * @returns {function(): void} ?
 		 */
 		function callbackFactory(expectedOrder, name) {
 			return function() {
@@ -109,7 +113,7 @@ describe("wc/dom/initialise", () => {
 		 * @param {number} expectedOrder
 		 * @param {string} name
 		 * @param {function} [func]
-		 * @return {function(): void}
+		 * @returns {function(): void} ?
 		 */
 		function callbackFactory(expectedOrder, name, func) {
 			return function() {

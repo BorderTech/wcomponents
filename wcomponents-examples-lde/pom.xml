@@ -1,9 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-
-	<name>wcomponents-examples-lde</name>
-	<artifactId>wcomponents-examples-lde</artifactId>
 
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
@@ -12,7 +11,13 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
+	<name>wcomponents-examples-lde</name>
+	<artifactId>wcomponents-examples-lde</artifactId>
 	<packaging>jar</packaging>
+
+	<properties>
+		<checkstyle.suppressions.location>${basedir}/checkstyle-exclude.xml</checkstyle.suppressions.location>
+	</properties>
 
 	<profiles>
 		<profile>
@@ -29,12 +34,7 @@
 		</profile>
 	</profiles>
 
-	<properties>
-		<checkstyle.suppressions.location>${basedir}/checkstyle-exclude.xml</checkstyle.suppressions.location>
-	</properties>
-
 	<dependencies>
-
 		<dependency>
 			<groupId>com.github.bordertech.wcomponents</groupId>
 			<artifactId>wcomponents-bundle</artifactId>
@@ -53,13 +53,11 @@
 			<version>${project.version}</version>
 		</dependency>
 
-		<!-- SLF4J implementation for basic logging. -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
-			<version>${slf4j.version}</version>
+			<version>${version.org.slf4j.slf4j-simple}</version>
 		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -95,7 +93,8 @@
 								<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
 									<resource>wcomponents-app.properties</resource>
 								</transformer>
-								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>com.github.bordertech.wcomponents.examples.lde.StandaloneLauncherProxy</mainClass>
 								</transformer>
 							</transformers>

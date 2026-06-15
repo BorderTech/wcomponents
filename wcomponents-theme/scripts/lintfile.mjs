@@ -1,4 +1,3 @@
-/* eslint-env node, es2020  */
 /*
  * Runs eslint on the theme js.
  * This can be used directly from commandline:
@@ -11,18 +10,21 @@
  * Or it can be imported as a module.
  *
  */
-import path from "path";
-import { logLintReport, dirs } from "./build-util.mjs";
-import sassLint from "sass-lint";
-import { fileURLToPath } from 'url';
-import { ESLint } from "eslint";
-const __filename = fileURLToPath(import.meta.url);
-const eslintCli = new ESLint({
-	useEslintrc: true,
-	ignore: true,
-	extensions: ['.js', '.mjs']
-});
 
+import console from 'node:console';
+import path from "node:path";
+import process from "node:process";
+import { fileURLToPath } from "node:url";
+
+import { ESLint, loadESLint } from "eslint";
+import sassLint from "sass-lint";
+
+import { logLintReport, dirs } from "./build-util.mjs";
+
+const __filename = fileURLToPath(import.meta.url);
+const eslintCli = new (await loadESLint())({
+	overrideConfigFile: path.resolve("eslint.config.mjs")
+});
 
 const entryFile = process.argv?.[1];
 if (entryFile === __filename) {
@@ -38,7 +40,7 @@ if (entryFile === __filename) {
 /**
  * What are we linting?
  * If no target is provided will fall back to linting the entire theme.
- * *@param {target} target The path to the file or dir to lint.
+ * @param {target} target - The path to the file or dir to lint.
  * @returns {String[]} Paths to lint.
  */
 function getLintTarget(target) {
@@ -58,19 +60,21 @@ function getLintTarget(target) {
 
 /**
  * Runs ESLint rules on the file in question and logs any warnings or errors discovered.
- * @param {string} target The path to the file to lint
- * @returns The raw ESLint results when done.
+ * @param {string} target - The path to the file to lint
+ * @returns {Promise<ESLint.LintResult[]>} The raw ESLint results when done.
  */
 async function runEslint(target) {
 	const lintTarget = getLintTarget(target);
-	const uglyReport =  await eslintCli.lintFiles(lintTarget);
+	const uglyReport = await eslintCli.lintFiles(lintTarget);
 	const formatter = await eslintCli.loadFormatter();
 	const prettyReport = formatter.format(uglyReport);
 	if (prettyReport) {
 		console.log(prettyReport);
-		let errorResults = ESLint.getErrorResults(uglyReport).filter((result) => {
-			return result.fatalErrorCount > 0 || result.errorCount > 0;
-		});
+		let errorResults = ESLint.getErrorResults(uglyReport).filter(
+			(result) => {
+				return result.fatalErrorCount > 0 || result.errorCount > 0;
+			}
+		);
 		if (errorResults.length) {
 			throw new Error("THEME LINTER: There are lint errors, fix them.");
 		}
@@ -81,12 +85,16 @@ async function runEslint(target) {
 
 /**
  * Runs sass lint.
- * @param {string} [sourcePath] The path to a single sass file, if not provided the entire sass directory will be linted.
- * @returns The raw lint report.
+ * @param {string} [sourcePath] - The path to a single sass file, if not provided the entire sass directory will be linted.
+ * @returns {object} The raw lint report.
  */
 function runSassLint(sourcePath) {
 	let glob = sourcePath || path.join(dirs.project.basedir, "**/!(fa)/*.scss");
-	let results = sassLint.lintFiles(glob, { formatter: "stylish" }, path.join(dirs.project.basedir, ".sass-lint.yml"));
+	let results = sassLint.lintFiles(
+		glob,
+		{ formatter: "stylish" },
+		path.join(dirs.project.basedir, ".sass-lint.yml")
+	);
 	if (results) {
 		results.forEach(logLintReport);
 	}

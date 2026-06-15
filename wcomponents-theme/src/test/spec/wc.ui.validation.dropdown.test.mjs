@@ -1,8 +1,10 @@
 import "wc/ui/validation/dropdown.mjs";
-import {getSelect} from "../helpers/specUtils.mjs";
 import wcconfig from "wc/config.mjs";
+import { getSelect } from "../helpers/specUtils.mjs";
 
-describe("wc/ui/validation/dropdown", ()=> {
+const { afterAll, afterEach, beforeAll, describe, document, expect, it, window } = globalThis;
+
+describe("wc/ui/validation/dropdown", () => {
 	let ownerDocument;
 	let testHolder;
 
@@ -103,9 +105,11 @@ describe("wc/ui/validation/dropdown", ()=> {
 		const dropdown = getInitedDropdown("dd1");
 		dropdown.selectedIndex = -1;
 		fireChangeOnDropdown(dropdown);
+
 		expect(dropdown.getAttribute("aria-invalid")).toBe("true");
 		dropdown.options[dropdown.options.length - 1].selected = true;
 		fireChangeOnDropdown(dropdown);
+
 		expect(dropdown.getAttribute("aria-invalid")).not.toBe("true");
 	});
 
@@ -113,36 +117,43 @@ describe("wc/ui/validation/dropdown", ()=> {
 		const dropdown = getInitedDropdown("dd3");
 		dropdown.selectedIndex = -1;
 		fireChangeOnDropdown(dropdown);
+
 		expect(dropdown.getAttribute("aria-invalid")).not.toBe("true");
 	});
 
 	it("Should not flag a required dropdown as invalid when something is selected", function() {
 		const dropdown = getInitedDropdown("dd2");
 		fireChangeOnDropdown(dropdown);
+
 		expect(dropdown.getAttribute("aria-invalid")).not.toBe("true");
 	});
 
 	it("Should flag a constrained dropdown as invalid when less than 'min' items are selected", function() {
 		const dropdown = getInitedDropdown("dd4");
 		fireChangeOnDropdown(dropdown);
+
 		expect(dropdown.getAttribute("aria-invalid")).toBe("true");
 		dropdown.options[dropdown.options.length - 1].selected = true;
 		fireChangeOnDropdown(dropdown);
+
 		expect(dropdown.getAttribute("aria-invalid")).not.toBe("true");
 	});
 
 	it("Should flag a constrained dropdown as invalid when more than 'max' items are selected", function() {
 		const dropdown = getInitedDropdown("dd5");
 		fireChangeOnDropdown(dropdown);
+
 		expect(dropdown.getAttribute("aria-invalid")).toBe("true");
 		dropdown.selectedOptions[dropdown.selectedOptions.length - 1].selected = false;
 		fireChangeOnDropdown(dropdown);
+
 		expect(dropdown.getAttribute("aria-invalid")).not.toBe("true");
 	});
 
 	it("Should not flag a constrained dropdown as invalid when 'min' and 'max' constraints aren't violated", function() {
 		const dropdown = getInitedDropdown("dd6");
 		fireChangeOnDropdown(dropdown);
+
 		expect(dropdown.getAttribute("aria-invalid")).not.toBe("true");
 	});
 
@@ -154,6 +165,7 @@ describe("wc/ui/validation/dropdown", ()=> {
 		const dropdown = getInitedDropdown("dd7");
 		dropdown.selectedIndex = -1;
 		fireBlurOnDropdown(dropdown);
+
 		expect(dropdown.getAttribute("aria-invalid")).toBe("true");
 	});
 
@@ -161,12 +173,13 @@ describe("wc/ui/validation/dropdown", ()=> {
 		const dropdown = getInitedDropdown("dd8");
 		dropdown.selectedIndex = -1;
 		fireBlurOnDropdown(dropdown);
+
 		expect(dropdown.getAttribute("aria-invalid")).not.toBe("true");
 	});
 
 	/**
 	 * Helper for tests, fires a change event on the dropdown.
-	 * @param dropdown
+	 * @param {any} dropdown
 	 */
 	function fireChangeOnDropdown(dropdown) {
 		const changeEvent = new window.Event("change", {
@@ -192,7 +205,7 @@ describe("wc/ui/validation/dropdown", ()=> {
 	/**
 	 * Helper for tests, gets a dropdown from the DOM and initialises it.
 	 * @param {string} testId The data-testid of the dropdown you want.
-	 * @return {HTMLSelectElement}
+	 * @returns {HTMLSelectElement} ?
 	 */
 	function getInitedDropdown(testId) {
 		const focusEvent = new window.UIEvent("focus", {

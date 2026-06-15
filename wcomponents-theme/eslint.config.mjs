@@ -1,0 +1,95 @@
+import eslintJs from '@eslint/js';
+import stylistic from '@stylistic/eslint-plugin';
+import { defineConfig } from 'eslint/config';
+// @ts-ignore
+import jasmine from 'eslint-plugin-jasmine';
+import jsdoc from 'eslint-plugin-jsdoc';
+import sonarjs, { configs as sonarJsConfigs } from 'eslint-plugin-sonarjs';
+
+export default defineConfig(
+	{
+		ignores: [
+			'build',
+			'coverage',
+			'dist',
+			'doc',
+			'node_modules',
+			'reports',
+			'target'
+		]
+	},
+	{
+		languageOptions: { ecmaVersion: 2022 },
+		linterOptions: { reportUnusedDisableDirectives: 'error' },
+		plugins: { '@stylistic': stylistic, jasmine: jasmine, jsdoc: jsdoc, sonarjs: sonarjs }
+	},
+	eslintJs.configs.recommended,
+	stylistic.configs.recommended,
+	jasmine.configs.recommended,
+	jsdoc.configs['flat/recommended-error'],
+	{
+		files: ['**/*.js', '**/*.cjs', '**/*.mjs', '**/*.cjsx', '**/*.mjsx'],
+		rules: {
+			...sonarJsConfigs.recommended.rules,
+
+			'@stylistic/arrow-parens': 'off',
+			'@stylistic/arrow-spacing': ['error', { after: true, before: true }],
+			'@stylistic/brace-style': ['error', '1tbs', { allowSingleLine: true }],
+			'@stylistic/comma-dangle': ['error', 'never'],
+			'@stylistic/indent': ['error', 'tab', { SwitchCase: 1 }],
+			'@stylistic/indent-binary-ops': 'off',
+			'@stylistic/keyword-spacing': 'error',
+			'@stylistic/linebreak-style': ['error', 'unix'],
+			'@stylistic/multiline-ternary': 'off',
+			'@stylistic/no-extra-semi': 'off',
+			'@stylistic/no-mixed-operators': ['error', { allowSamePrecedence: false }],
+			'@stylistic/no-multi-spaces': 'off',
+			'@stylistic/no-multiple-empty-lines': ['error', { max: 5 }],
+			'@stylistic/no-tabs': 'off',
+			'@stylistic/operator-linebreak': 'off',
+			'@stylistic/object-curly-spacing': ['error', 'always'],
+			'@stylistic/padded-blocks': 'off',
+			'@stylistic/semi': ['error', 'always'],
+			'@stylistic/semi-spacing': 'error',
+			'@stylistic/space-before-blocks': 'error',
+			'@stylistic/space-before-function-paren': 'off',
+			'@stylistic/spaced-comment': 'error',
+			'@stylistic/quote-props': 'off',
+			'@stylistic/quotes': 'off',
+			'jsdoc/check-alignment': 'off',
+			'jsdoc/check-tag-names': 'off',
+			'jsdoc/check-types': 'off',
+			'jsdoc/no-multi-asterisks': 'off',
+			'jsdoc/no-undefined-types': 'off',
+			'jsdoc/reject-any-type': 'off',
+			'jsdoc/reject-function-type': 'off',
+			'jsdoc/require-jsdoc': 'off',
+			'jsdoc/require-param-description': 'off',
+			'jsdoc/require-param-type': 'off',
+			'jsdoc/require-returns': 'off',
+			'jsdoc/tag-lines': 'off',
+			'jsdoc/valid-types': 'off',
+			'sonarjs/bitwise-operators': 'off',
+			'sonarjs/cognitive-complexity': 'off',
+			'sonarjs/deprecation': 'warn',
+			'sonarjs/no-all-duplicated-branches': 'off',
+			'sonarjs/no-dead-store': 'off',
+			'sonarjs/no-empty-test-file': 'off',
+			'sonarjs/no-identical-functions': 'off',
+			'sonarjs/no-ignored-exceptions': 'off',
+			'sonarjs/no-nested-assignment': 'off',
+			'sonarjs/no-nested-conditional': 'off',
+			'sonarjs/no-nested-functions': 'off',
+			'sonarjs/no-primitive-wrappers': 'off',
+			'sonarjs/pseudo-random': 'off',
+			'sonarjs/regex-complexity': 'off',
+			'sonarjs/slow-regex': 'off',
+			'sonarjs/todo-tag': 'off',
+			'no-console': 'error',
+			'no-extra-semi': 'off',
+			'no-prototype-builtins': 'off',
+			'no-shadow': 'error',
+			quotes: 'off'
+		}
+	}
+);

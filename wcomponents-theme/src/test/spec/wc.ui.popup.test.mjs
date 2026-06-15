@@ -1,5 +1,8 @@
 import domTesting from "@testing-library/dom";
+
 import popup from "wc/ui/popup.mjs";
+
+const { afterAll, beforeAll, describe, document, expect, MouseEvent, it, spyOn, window } = globalThis;
 
 const URL = "http://www.example.com/";
 const popperId = "eg_0c11b0a";
@@ -79,11 +82,12 @@ describe("wc/ui/popup", () => {
 			expect(specs).toEqual(specString);
 			done();
 		});
+
 		expect(popup.isOneOfMe(button)).withContext("The test button is not correct").toBeTruthy();
 		button.dispatchEvent(event);
 	});
 
-	function checkSpecs(specs, overrides={}) {
+	function checkSpecs(specs, overrides = {}) {
 		const defaults = {
 			resizable: "yes",
 			scrollbars: "yes",
@@ -92,9 +96,10 @@ describe("wc/ui/popup", () => {
 			location: "no",
 			status: "no"
 		};
-		const merged = {...defaults, ...overrides};
+		const merged = { ...defaults, ...overrides };
 		const expected = Object.keys(merged).map(key => `${key}=${merged[key]}`);
 		const specArray = specs.split(",");
+
 		expect(specArray.length).withContext(specs).toEqual(expected.length);
 		for (const feature of expected) {
 			expect(specArray).toContain(feature);

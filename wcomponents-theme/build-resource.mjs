@@ -1,12 +1,17 @@
-/* eslint-env node, es6  */
-import { version, buildMax, dirs } from "./scripts/build-util.mjs";
+
+import console from 'node:console';
+import path from "node:path";
+import process from "node:process";
+import { fileURLToPath } from "node:url";
+
 import fs from "fs-extra";
-import path from "path";
-import {fileURLToPath} from "url";
+import properties from "properties";
+
+import { version, buildMax, dirs } from "./scripts/build-util.mjs";
+
 const __filename = fileURLToPath(import.meta.url);
 const entryFile = process.argv?.[1];
 
-import properties from "properties";
 const defaultLocale = "en";
 const themei18n = path.join(dirs.i18n.src, "com", "github", "bordertech", "wcomponents", "theme-messages.properties");
 
@@ -50,6 +55,8 @@ function buildI18n() {
 
 /**
  * This is used to transform a java properties file to its JSON equivalent.
+ * @param propertiesFile - ?
+ * @param jsonFile - ?
  */
 function readPropertiesFile(propertiesFile, jsonFile) {
 	properties.parse(propertiesFile, { path: true }, function (error, obj) {

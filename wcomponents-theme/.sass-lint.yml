@@ -40,3 +40,5 @@ rules:
   force-pseudo-nesting: 0
   force-attribute-nesting: 0
   force-element-nesting: 0
+
+  no-qualifying-elements: 0

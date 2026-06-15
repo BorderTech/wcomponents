@@ -1,5 +1,7 @@
 import daysInMonth from "wc/date/daysInMonth.mjs";
 
+const { describe, expect, it } = globalThis;
+
 describe("wc/date/daysInMonth", function() {
 	it("knows the days in the month in a regular year", function() {
 		expect(daysInMonth(1969, 1)).toBe(31);
@@ -15,6 +17,7 @@ describe("wc/date/daysInMonth", function() {
 		expect(daysInMonth(1969, 11)).toBe(30);
 		expect(daysInMonth(1969, 12)).toBe(31);
 	});
+
 	it("knows the days in the month in a leap year", function() {
 		expect(daysInMonth(1968, 1)).toBe(31);
 		expect(daysInMonth(1968, 2)).toBe(29);

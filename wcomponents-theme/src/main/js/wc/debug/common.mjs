@@ -5,5 +5,5 @@ import "wc/debug/i18n.mjs";
 import "wc/debug/label.mjs";
 import "wc/debug/heading.mjs";
 
-console.log("Loaded debug modules");
+globalThis.console.log("Loaded debug modules");
 hotReloadClient.getConnection();

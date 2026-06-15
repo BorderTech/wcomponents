@@ -1,7 +1,10 @@
-import "wc/ui/validation/textArea.mjs";
 import domTesting from "@testing-library/dom";
 
-describe("wc/ui/validation/textArea", ()=> {
+import "wc/ui/validation/textArea.mjs";
+
+const { afterAll, beforeAll, describe, document, expect, it, window } = globalThis;
+
+describe("wc/ui/validation/textArea", () => {
 	let ownerDocument;
 	let testHolder;
 
@@ -43,9 +46,11 @@ describe("wc/ui/validation/textArea", ()=> {
 		const element = getInitedTextArea("ta1");
 		element.value = "";
 		fireChangeOnTextArea(element);
+
 		expect(element.getAttribute("aria-invalid")).toBe("true");
 		element.value = "Alpha\nBravo\nCharlie\nDelta";
 		fireChangeOnTextArea(element);
+
 		expect(element.getAttribute("aria-invalid")).not.toBe("true");
 	});
 
@@ -53,50 +58,57 @@ describe("wc/ui/validation/textArea", ()=> {
 		const element = getInitedTextArea("ta2");
 		element.value = "";
 		fireChangeOnTextArea(element);
+
 		expect(element.getAttribute("aria-invalid")).not.toBe("true");
 	});
 
 	it("Should flag a field as invalid when value is below minlength", function() {
 		const element = getInitedTextArea("ta3");
 		fireChangeOnTextArea(element);
+
 		expect(element.getAttribute("aria-invalid")).toBe("true");
 		element.value += "4";
 		fireChangeOnTextArea(element);
+
 		expect(element.getAttribute("aria-invalid")).not.toBe("true");
 	});
 
 	it("Should flag a field as invalid when value is above maxlength", function() {
 		const element = getInitedTextArea("ta4");
 		fireChangeOnTextArea(element);
+
 		expect(element.getAttribute("aria-invalid")).toBe("true");
 		element.value = "123456";
 		fireChangeOnTextArea(element);
+
 		expect(element.getAttribute("aria-invalid")).not.toBe("true");
 	});
 
 	it("Should flag a field as invalid when value is below custom minlength", function() {
 		const element = getInitedTextArea("ta5");
 		fireChangeOnTextArea(element);
+
 		expect(element.getAttribute("aria-invalid")).toBe("true");
 		element.value += "4";
 		fireChangeOnTextArea(element);
+
 		expect(element.getAttribute("aria-invalid")).not.toBe("true");
 	});
 
 	it("Should flag a field as invalid when value is above custom maxlength", function() {
 		const element = getInitedTextArea("ta6");
 		fireChangeOnTextArea(element);
+
 		expect(element.getAttribute("aria-invalid")).toBe("true");
 		element.value = "123456";
 		fireChangeOnTextArea(element);
+
 		expect(element.getAttribute("aria-invalid")).not.toBe("true");
 	});
 
-
-
 	/**
 	 * Helper for tests, fires a change event on the field.
-	 * @param {HTMLElement} element
+	 * @param {HTMLElement} element - ?
 	 */
 	function fireChangeOnTextArea(element) {
 		const changeEvent = new window.Event("change", {
@@ -109,7 +121,7 @@ describe("wc/ui/validation/textArea", ()=> {
 	/**
 	 * Helper for tests, gets a field from the DOM and initialises it.
 	 * @param {string} testId The data-testid of the element you want.
-	 * @return {HTMLTextAreaElement}
+	 * @returns {HTMLTextAreaElement} ?
 	 */
 	function getInitedTextArea(testId) {
 		const focusEvent = new window.UIEvent("focus", {

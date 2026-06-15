@@ -42,8 +42,9 @@ function Format(mask) {
  * @param {String} xfer The date to format as a wc "interchange" formatted date string.
  * @returns {String} The formatted date string or an empty string if the date could not be formatted.
  *
- * @todo Could this tie in with some of the existing date classes better (e.g. date.pattern, date.parser, date.explodeMask)?
- * @todo Add support for more format options in the mask.
+ * @todo:
+ * - Could this tie in with some of the existing date classes better (e.g. date.pattern, date.parser, date.explodeMask)?
+ * - Add support for more format options in the mask.
  * @example var myFormatter = new Format("dd MON yyyy");//provides a formatter to dates of the form '31 Jan 2000'
  * myFormatter.format("2015-05-03");//output '03 May 2015'
  */

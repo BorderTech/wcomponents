@@ -6,9 +6,9 @@ function isContentEmpty(element) {
 	if (!content) {
 		// is there an image with an alt attribute?
 		const images = element.querySelectorAll(IMG_QS);
-		for (let i = 0; i < images.length; ++i) {
-			content = images[i].getAttribute("alt");
-			if (content && content.trim()) {
+		for (const image of images) {
+			content = image.getAttribute("alt");
+			if (content?.trim()) {
 				return false;
 			}
 		}
@@ -18,7 +18,7 @@ function isContentEmpty(element) {
 }
 
 function flagBad(tags, testFunc, container) {
-	const inside = container || document;
+	const inside = container || globalThis.document;
 
 	if (!inside.querySelectorAll) {
 		// nothing gets in here.

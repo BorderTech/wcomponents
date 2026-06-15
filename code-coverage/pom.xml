@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -11,7 +13,6 @@
 
 	<name>code-coverage</name>
 	<artifactId>code-coverage</artifactId>
-
 	<packaging>jar</packaging>
 
 	<dependencies>
@@ -20,16 +21,19 @@
 			<artifactId>wcomponents-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.github.bordertech.wcomponents</groupId>
 			<artifactId>wcomponents-examples</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.github.bordertech.wcomponents</groupId>
 			<artifactId>wcomponents-test-lib</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.github.bordertech.wcomponents</groupId>
 			<artifactId>wcomponents-lde</artifactId>
@@ -38,7 +42,6 @@
 	</dependencies>
 
 	<build>
-
 		<plugins>
 			<!-- Generate aggreated coverage report -->
 			<plugin>
@@ -54,6 +57,7 @@
 					</execution>
 				</executions>
 			</plugin>
+
 			<!-- This coverage module should never de deployed -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -64,7 +68,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
-
 	</build>
 
 </project>

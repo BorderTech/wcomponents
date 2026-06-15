@@ -1,5 +1,7 @@
 import getVisibleText from "wc/ui/getVisibleText.mjs";
 
+const { afterAll, beforeAll, beforeEach, describe, document, expect, it } = globalThis;
+
 describe("wc/ui/getVisibleText", () => {
 	let ownerDocument;
 	let testHolder,
@@ -11,7 +13,7 @@ describe("wc/ui/getVisibleText", () => {
 			<label id='withhint'>maincontent<span class='wc-label-hint'>hint</span></label>
 			<button id='withtooltip'><span role='tooltip'>H</span>hello</button>
 			<label id='withhinttooltip'><span role='tooltip'>M</span>maincontent<span class='wc-label-hint'>hint</span></label>`;
-	
+
 	beforeAll(function() {
 		ownerDocument = document;
 		testHolder = ownerDocument.getElementById("testholder");
@@ -33,6 +35,7 @@ describe("wc/ui/getVisibleText", () => {
 		const testId = "div1",
 			element = ownerDocument.getElementById(testId),
 			expected = "text";
+
 		expect(getVisibleText(element)).withContext("Did not get correct text").toBe(expected);
 	});
 
@@ -40,6 +43,7 @@ describe("wc/ui/getVisibleText", () => {
 		const testId = "div2",
 			element = ownerDocument.getElementById(testId),
 			expected = "yesyes";
+
 		expect(getVisibleText(element)).withContext("Did not get correct text").toBe(expected);
 	});
 
@@ -47,6 +51,7 @@ describe("wc/ui/getVisibleText", () => {
 		const testId = "div3",
 			element = ownerDocument.getElementById(testId),
 			expected = "yes";
+
 		expect(getVisibleText(element)).withContext("Did not get correct text").toBe(expected);
 	});
 
@@ -54,6 +59,7 @@ describe("wc/ui/getVisibleText", () => {
 		const testId = "div4",
 			element = ownerDocument.getElementById(testId),
 			expected = "yes";
+
 		expect(getVisibleText(element)).withContext("Did not get correct text").toBe(expected);
 	});
 
@@ -61,6 +67,7 @@ describe("wc/ui/getVisibleText", () => {
 		const testId = "withhint",
 			element = ownerDocument.getElementById(testId),
 			expected = "maincontenthint";
+
 		expect(getVisibleText(element)).withContext("Did not get correct text").toBe(expected);
 	});
 
@@ -68,6 +75,7 @@ describe("wc/ui/getVisibleText", () => {
 		const testId = "withhint",
 			element = ownerDocument.getElementById(testId),
 			expected = "maincontent";
+
 		expect(getVisibleText(element, true)).withContext("Did not get correct text").toBe(expected);
 	});
 
@@ -75,6 +83,7 @@ describe("wc/ui/getVisibleText", () => {
 		const testId = "withtooltip",
 			element = ownerDocument.getElementById(testId),
 			expected = "hello";
+
 		expect(getVisibleText(element)).withContext("Did not get correct text").toBe(expected);
 	});
 
@@ -82,6 +91,7 @@ describe("wc/ui/getVisibleText", () => {
 		const testId = "withhinttooltip",
 			element = ownerDocument.getElementById(testId),
 			expected = "maincontenthint";
+
 		expect(getVisibleText(element)).withContext("Did not get correct text").toBe(expected);
 	});
 
@@ -89,6 +99,7 @@ describe("wc/ui/getVisibleText", () => {
 		const testId = "withhinttooltip",
 			element = ownerDocument.getElementById(testId, true),
 			expected = "maincontent";
+
 		expect(getVisibleText(element, true)).withContext("Did not get correct text").toBe(expected);
 	});
 });

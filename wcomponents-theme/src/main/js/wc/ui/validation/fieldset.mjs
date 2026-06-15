@@ -12,6 +12,8 @@ import required from "wc/ui/validation/required.mjs";
 import fieldset from "wc/ui/fieldset.mjs";
 import feedback from "wc/ui/feedback.mjs";
 
+const { console, document } = globalThis;
+
 const fieldsetSelector = `${fieldset.getWidget().toString()}.wc-fieldset`;
 const invalidSelector = "wc_req[aria-invalid='true']";
 const INITED_KEY = "validation.fieldset.init";

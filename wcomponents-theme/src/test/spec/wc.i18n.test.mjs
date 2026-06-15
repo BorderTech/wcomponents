@@ -1,5 +1,7 @@
 import i18n from "wc/i18n/i18n.mjs";
 
+const { afterAll, afterEach, beforeAll, describe, document, expect, it } = globalThis;
+
 describe("wc/i18n", function() {
 
 	beforeAll(function() {
@@ -37,6 +39,7 @@ describe("wc/i18n", function() {
 		 */
 		const key = "chars_remaining",
 			result = i18n.get(key);
+
 		expect(result.length > 0).toBeTrue();
 	});
 
@@ -48,8 +51,10 @@ describe("wc/i18n", function() {
 		const arg = "3",
 			key = "chars_remaining";
 		let result = i18n.get(key);
+
 		expect(result).not.toContain(arg);
 		result = i18n.get(key, arg);
+
 		expect(result).toContain(arg);
 	});
 
@@ -61,8 +66,10 @@ describe("wc/i18n", function() {
 		const arg = "3",
 			key = "day4";
 		let result = i18n.get(key);
+
 		expect(result).not.toContain(arg);
 		result = i18n.get(key, arg);
+
 		expect(result).not.toContain(arg);
 	});
 
@@ -73,6 +80,7 @@ describe("wc/i18n", function() {
 		 */
 		const key = "fukung_kungfu",
 			result = i18n.get(key);
+
 		expect(result === key).toBeTrue();
 	});
 
@@ -84,8 +92,10 @@ describe("wc/i18n", function() {
 		const arg = 0,
 			key = "chars_remaining";
 		let result = i18n.get(key);
+
 		expect(result).not.toContain(`${arg}`);
 		result = i18n.get(key, arg);
+
 		expect(result).toContain(`${arg}`);
 	});
 
@@ -276,6 +286,7 @@ describe("wc/i18n", function() {
 		const expected = "de", element = document.createElement("span");
 		element.setAttribute("lang", expected);
 		const actual = i18n._getLang(element);
+
 		expect(actual).toEqual(expected);
 		expect(i18n._DEFAULT_LANG).withContext("This test should not test the fallback language").not.toEqual(expected);
 	});
@@ -283,6 +294,7 @@ describe("wc/i18n", function() {
 	it("testGetLangDefaultFallback", function() {
 		const expected = i18n._DEFAULT_LANG, element = document.createElement("span");
 		const actual = i18n._getLang(element);
+
 		expect(actual).toEqual(expected);
 	});
 
@@ -290,6 +302,7 @@ describe("wc/i18n", function() {
 		const expected = "wc", element = document.createElement("span");
 		document.documentElement.setAttribute("lang", expected);
 		const actual = i18n._getLang(element);
+
 		expect(actual).toEqual(expected);
 	});
 
@@ -297,6 +310,7 @@ describe("wc/i18n", function() {
 		const expected = "wc";
 		document.documentElement.setAttribute("lang", expected);
 		const actual = i18n._getLang();
+
 		expect(actual).toEqual(expected);
 	});
 
@@ -304,6 +318,7 @@ describe("wc/i18n", function() {
 		const expected = "it", element = document.createElement("span");
 		element.setAttribute("lang", "it-x-mtfrom-en");  // see https://github.com/BorderTech/wcomponents/issues/994
 		const actual = i18n._getLang(element);
+
 		expect(actual).toEqual(expected);
 		expect(i18n._DEFAULT_LANG).withContext("This test should not test the fallback language").not.toEqual(expected);
 	});

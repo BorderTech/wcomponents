@@ -1,5 +1,7 @@
 import aria from "wc/dom/aria.mjs";
 
+const { describe, expect, it } = globalThis;
+
 /**
  * These tests are taken from aria-toolkit, they were conveniently written for Jasmine way back in 2014.
  * I have reformatted them somewhat to fit our code style.
@@ -45,7 +47,7 @@ describe("aria", function() {
 	function getSupportedHelper(role, expected) {
 		const actual = aria.getSupported(role),
 			message = " for '" + role + "' role should be ";
-		it("all roles should support global attributes", function() {
+		it("all roles should support global attributes: " + role, function() {
 			globalStates.forEach(function(next) {
 				expect(actual[next]).withContext(`${role}.${next}`).toEqual(aria.SUPPORTED);
 			});
@@ -63,13 +65,14 @@ describe("aria", function() {
 	function getScopeHelper(role, expected, funcName) {
 		const method = funcName || "getScope",
 			isArray = Array.isArray(role);
-		let message = method + " for '" + (isArray? role.join(): role) + "' role should return ";
+		let message = method + " for '" + (isArray ? role.join() : role) + "' role should return ";
 		if (expected) {
 			expected.sort();
 			message += expected.length ? expected.join() : "an empty array";
 		}
 		it (message, function() {
-			const actual = isArray? aria[method].apply(aria, role) : aria[method](role);
+			const actual = isArray ? aria[method].apply(aria, role) : aria[method](role);
+
 			expect(actual.sort()).toEqual(expected);
 		});
 	}

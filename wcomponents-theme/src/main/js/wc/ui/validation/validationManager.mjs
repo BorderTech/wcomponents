@@ -6,6 +6,8 @@ import getFirstLabelForElement from "wc/ui/getFirstLabelForElement.mjs";
 import feedback from "wc/ui/feedback.mjs";
 import wcconfig from "wc/config.mjs";
 
+const { document } = globalThis;
+
 /**
  * Generic client side validation manager. This is the publisher for client side validation. Any component which
  * requires custom validation subscribes to this using validationManager.subscribe.
@@ -157,7 +159,7 @@ const validationManager = {
 	/**
 	 *
 	 * @param {Element} element
-	 * @param fallbackToken
+	 * @param {any} fallbackToken
 	 * @return {string}
 	 */
 	getLabelText: function(element, fallbackToken) {

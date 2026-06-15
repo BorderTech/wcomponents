@@ -1,22 +1,23 @@
 {
 	"compilerOptions": {
 		"allowJs": true,
-		"checkJs": true,
-		"noEmit": true,
-		"baseUrl": ".",
-		"lib": ["es2019", "dom"],
-		"target": "ES2020",
-		"module": "NodeNext",
-		"moduleResolution": "NodeNext",
-		"esModuleInterop": true,
-		"types": ["node", "jasmine", "dom", "@testing-library/jasmine-dom", "jasmine-ajax"],
-		"typeRoots": [
-			"node_modules/@types"
-		],
 		"allowSyntheticDefaultImports": true,
-		"resolveJsonModule": true,
+		"checkJs": true,
+		"declaration": true,
+		"declarationMap": true,
+		"esModuleInterop": true,
+		"lib": ["dom"],
+		"module": "nodenext",
+		"moduleResolution": "nodenext",
+		"noEmit": true,
 		"paths": {
-			"wc/*": ["src/main/js/wc/*"]
-		}
+			"wc/*": ["./src/main/js/wc/*"]
+		},
+		"removeComments": false,
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"strict": true,
+		"strictNullChecks": true,
+		"target": "es2022"
 	}
 }

@@ -9,6 +9,8 @@ import timers from "wc/timers.mjs";
 import wcconfig from "wc/config.mjs";
 import debounce from "wc/debounce.mjs";
 
+const { console, document } = globalThis;
+
 /**
  * Select an option in a select list by typing into it.
  */

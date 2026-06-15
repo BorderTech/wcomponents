@@ -243,6 +243,7 @@ public class WRadioButtonSelectExample_Test extends WComponentExamplesTestCase {
 	@Test
 	public void testClick() {
 		SeleniumWRadioButtonSelectWebElement rbs = getExampleNoSelection();
+
 		// idx
 		Assert.assertFalse(rbs.isSelected(0));
 		rbs.clickNoWait(0);

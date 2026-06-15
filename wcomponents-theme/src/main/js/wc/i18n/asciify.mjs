@@ -36,6 +36,8 @@
 
 import i18n from "wc/i18n/i18n.mjs";
 
+const { console } = globalThis;
+
 const lookupProp = "asciimap",
 	cache = {};
 
@@ -54,7 +56,7 @@ function asciify(s) {
 	if (s) {
 		for (const next of s) {
 			let ascii = null;
-			if (next.charCodeAt(0) > 128) {
+			if (next.codePointAt(0) > 128) {
 				ascii = cache[next] || (cache[next] = uniToAscii(next));
 			}
 			result += ascii ?? next;

@@ -38,7 +38,7 @@ function clickEvent($event) {
 			$event.preventDefault();  // since we have prevented the link action we're going to have to do it ourselves
 			redirect.register(url);  // redirect (poorly named) knows how to "do stuff" with URLs.
 		} else {
-			window.location.href = url;
+			globalThis.window.location.href = url;
 			$event.preventDefault();
 		}
 	}

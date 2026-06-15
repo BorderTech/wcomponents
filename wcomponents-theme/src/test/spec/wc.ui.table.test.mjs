@@ -1,9 +1,13 @@
-import fs from "fs";
-import "wc/ui/table.mjs";
-import {getButton, getResoucePath} from "../helpers/specUtils.mjs";
-import {getAllByRole, findByText} from "@testing-library/dom";
+import fs from "node:fs";
 
-describe("wc/ui/table", ()=> {
+import { getAllByRole, findByText } from "@testing-library/dom";
+
+import "wc/ui/table.mjs";
+import { getButton, getResoucePath } from "../helpers/specUtils.mjs";
+
+const { afterAll, beforeAll, describe, document, expect, it, MouseEvent, setTimeout } = globalThis;
+
+describe("wc/ui/table", () => {
 	const selectId = "eg-_3a3a";
 	const deleteId = "eg-_3a3b";
 	const editId = "eg-_3a3c";
@@ -46,14 +50,15 @@ describe("wc/ui/table", ()=> {
 						selectButton = getButton(testHolder, selectId);
 						deleteButton = getButton(testHolder, deleteId);
 						editButton = getButton(testHolder, editId);
+
 						expect(selectButton.hasAttribute("disabled")).withContext(`button ${selectId} should be enabled`).toBeFalsy();
 						expect(deleteButton.hasAttribute("disabled")).withContext(`button ${deleteId} should be enabled`).toBeFalsy();
 						expect(editButton.hasAttribute("disabled")).withContext(`button ${editId} should be disabled`).toBeTruthy();
 						setTimeout(done, 250);
-					});
-				});
-			});
-		});
+					}).catch(done.fail);
+				}).catch(done.fail);
+			}).catch(done.fail);
+		}).catch(done.fail);
 	});
 
 	function clickAndWait(element) {

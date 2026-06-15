@@ -3,6 +3,8 @@ import Observer from "wc/Observer.mjs";
 import toDocFragment from "wc/dom/toDocFragment.mjs";
 import timers from "wc/timers.mjs";
 
+const { console, location, URL } = globalThis;
+
 const LIST_ID_PARAM = "wc_data",
 	pending = {},
 	prefetched = {};
@@ -18,6 +20,7 @@ const instance = {
 	 * @param {String} id The id of the datalist to load
 	 * @param {Element} element Provide an element which will serve as the reference point for finding the URL.
 	 * @param {boolean} [prefetch] If true treat this request as a prefetch for performance optimization rather than a genuine load.
+	 * @returns {Promise<any>} ?
 	 */
 	load: function(id, element, prefetch) {
 		return new Promise(function(win, lose) {

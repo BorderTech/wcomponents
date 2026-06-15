@@ -1,3 +1,6 @@
+
+const { Node } = globalThis;
+
 /**
  * The descriptor of the icon element.
  * @type {string}
@@ -64,7 +67,7 @@ const instance = {
 
 	/**
 	 * Get the selector that describes an icon.
-	 * @returns {string}
+	 * @returns {string} ?
 	 */
 	getWidget: () => iconQs,
 

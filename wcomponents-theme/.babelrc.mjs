@@ -1,6 +1,9 @@
-/* eslint-env node, es2020  */
-import { dirs } from "./scripts/build-util.mjs";
 
+/**
+ * Babel configuration
+ * @param {import('@babel/core').ConfigAPI} api - API
+ * @returns {import('@babel/core').ConfigFunction} Config function
+ */
 export default function (api) {
 	api.cache(true);
 	const presets = [];
@@ -8,8 +11,5 @@ export default function (api) {
 		["transform-commonjs", {}]
 	];
 
-	return {
-		presets,
-		plugins
-	};
+	return { presets, plugins };
 }

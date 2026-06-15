@@ -8,7 +8,7 @@ function setup() {
 	const ARIA_HIDDEN = "aria-hidden";
 	const containerSelector = ".wc-skiplinks";
 	const panelOfInterestSelector = "[data-wc-title][accesskey]";
-	const b = document.body;
+	const b = globalThis.document.body;
 
 	const skipLinkContainer = b.querySelector(containerSelector);
 	if (skipLinkContainer) {

@@ -1,13 +1,15 @@
 import isSuccessfulElement from "wc/dom/isSuccessfulElement.mjs";
-import {getButton, getInput, getSelect} from "../helpers/specUtils.mjs";
+import { getButton, getInput, getSelect } from "../helpers/specUtils.mjs";
+
+const { afterEach, beforeEach, describe, document, expect, it } = globalThis;
 
 describe("wc/dom/isSuccessfulElement", function() {
 	let testHolder;
 
 	/**
 	 * Wraps some HTML in a form
-	 * @param {string} content HTML to wrap in a form
-	 * @return {string} The content wrapped in a form
+	 * @param {string} content - HTML to wrap in a form
+	 * @returns {string} The content wrapped in a form
 	 */
 	const formBuilder = (content) => `<form method='get' action='#' id='form1' data-testid='form1'>${content}</form>`;
 	const INPUT = formBuilder("<input data-testid='input1' name='i1' type='text'>"),
@@ -43,6 +45,7 @@ describe("wc/dom/isSuccessfulElement", function() {
 	it("testInputNoValue", function() {
 		testHolder.innerHTML = INPUT;
 		const element = getInput(testHolder, "input1");
+
 		expect(isSuccessfulElement(element)).toBeTrue();
 	});
 
@@ -50,6 +53,7 @@ describe("wc/dom/isSuccessfulElement", function() {
 		testHolder.innerHTML = INPUT;
 		const element = getInput(testHolder, "input1");
 		element.value = "x";
+
 		expect(isSuccessfulElement(element)).toBeTrue();
 	});
 
@@ -58,6 +62,7 @@ describe("wc/dom/isSuccessfulElement", function() {
 		const element = getInput(testHolder, "input1");
 		element.value = "x";
 		element.disabled = true;
+
 		expect(isSuccessfulElement(element)).toBeFalse();
 	});
 
@@ -66,12 +71,14 @@ describe("wc/dom/isSuccessfulElement", function() {
 		const element = getInput(testHolder, "input1");
 		element.value = "x";
 		element.name = "";
+
 		expect(isSuccessfulElement(element)).toBeFalse();
 	});
 
 	it("testWithSingleSelect", function() {
 		testHolder.innerHTML = SELECT;
 		const element = getSelect(testHolder, "sel1");
+
 		expect(isSuccessfulElement(element)).toBeTrue();
 	});
 
@@ -79,6 +86,7 @@ describe("wc/dom/isSuccessfulElement", function() {
 		testHolder.innerHTML = SELECT;
 		const element = getSelect(testHolder, "sel1");
 		element.selectedIndex = 0;
+
 		expect(isSuccessfulElement(element)).toBeTrue();
 	});
 
@@ -86,6 +94,7 @@ describe("wc/dom/isSuccessfulElement", function() {
 		testHolder.innerHTML = SELECT;
 		const element = getSelect(testHolder, "sel1");
 		element.selectedIndex = -1;
+
 		expect(isSuccessfulElement(element)).toBeFalse();
 	});
 
@@ -96,6 +105,7 @@ describe("wc/dom/isSuccessfulElement", function() {
 		for (let i = 0; i < element.options.length; ++i) {
 			element.options[i].selected = false;
 		}
+
 		expect(isSuccessfulElement(element)).toBeFalse();
 	});
 
@@ -104,78 +114,91 @@ describe("wc/dom/isSuccessfulElement", function() {
 		const element = getSelect(testHolder, "sel1");
 		element.multiple = true;
 		element.options[0].selected = true;
+
 		expect(isSuccessfulElement(element)).toBeTrue();
 	});
 
 	it("testWithButtonNotAlwaysSuccessful", function() {
 		testHolder.innerHTML = BUTTON;
 		const element = getButton(testHolder, "button1");
+
 		expect(isSuccessfulElement(element)).toBeFalse();
 	});
 
 	it("testWithButtonAlwaysSuccessful", function() {
 		testHolder.innerHTML = BUTTON;
 		const element = getButton(testHolder, "button1");
+
 		expect(isSuccessfulElement(element, true)).toBeTrue();
 	});
 
 	it("testWithButtonSubmitNotAlwaysSuccessful", function() {
 		testHolder.innerHTML = BUTTON_SUBMIT;
 		const element = getButton(testHolder, "button1");
+
 		expect(isSuccessfulElement(element)).toBeFalse();
 	});
 
 	it("testWithButtonSubmitAlwaysSuccessful", function() {
 		testHolder.innerHTML = BUTTON_SUBMIT;
 		const element = getButton(testHolder, "button1");
+
 		expect(isSuccessfulElement(element, true)).toBeFalse(); // submit never succeeds.
 	});
 
 	it("testInputButtonNotSuccessful", function() {
 		testHolder.innerHTML = INPUT_BUTTON;
 		const element = getInput(testHolder, "input1");
+
 		expect(isSuccessfulElement(element)).toBeFalse();
 	});
 
 	it("testInputButtonAlwaysSuccessful", function() {
 		testHolder.innerHTML = INPUT_BUTTON;
 		const element = getInput(testHolder, "input1");
+
 		expect(isSuccessfulElement(element, true)).toBeTrue();
 	});
 
 	it("testInputSubmitNotSuccessful", function() {
 		testHolder.innerHTML = INPUT_SUBMIT;
 		const element = getInput(testHolder, "input1");
+
 		expect(isSuccessfulElement(element)).toBeFalse();
 	});
 
 	it("testInputSubmitAlwaysSuccessful", function() {
 		testHolder.innerHTML = INPUT_SUBMIT;
 		const element = getInput(testHolder, "input1");
+
 		expect(isSuccessfulElement(element, true)).toBeFalse();
 	});
 
 	it("testInputResetButtonsNotSuccessful", function() {
 		testHolder.innerHTML = INPUT_RESET;
 		const element = getInput(testHolder, "input1");
+
 		expect(isSuccessfulElement(element)).toBeFalse();
 	});
 
 	it("testInputResetButtonsAlwaysSuccessful", function() {
 		testHolder.innerHTML = INPUT_RESET;
 		const element = getInput(testHolder, "input1");
+
 		expect(isSuccessfulElement(element, true)).toBeFalse();
 	});
 
 	it("testInputImageButtonsNotSuccessful", function() {
 		testHolder.innerHTML = INPUT_IMAGE;
 		const element = getInput(testHolder, "input1");
+
 		expect(isSuccessfulElement(element)).toBeFalse();
 	});
 
 	it("testInputImageButtonsAlwaysSuccessful", function() {
 		testHolder.innerHTML = INPUT_IMAGE;
 		const element = getInput(testHolder, "input1");
+
 		expect(isSuccessfulElement(element, true)).toBeFalse();
 	});
 
@@ -183,6 +206,7 @@ describe("wc/dom/isSuccessfulElement", function() {
 	it("testGetAllSimple", function() {
 		testHolder.innerHTML = BUTTON;
 		const start = testHolder.ownerDocument.getElementById("form1");
+
 		expect(Array.isArray(isSuccessfulElement.getAll(start))).toBeTrue();
 	});
 
@@ -190,6 +214,7 @@ describe("wc/dom/isSuccessfulElement", function() {
 		const expected = 0;
 		testHolder.innerHTML = BUTTON;
 		const start = testHolder.ownerDocument.getElementById("form1");
+
 		expect(isSuccessfulElement.getAll(start).length).toBe(expected);
 	});
 
@@ -197,6 +222,7 @@ describe("wc/dom/isSuccessfulElement", function() {
 		const expected = 1;
 		testHolder.innerHTML = BUTTON;
 		const start = testHolder.ownerDocument.getElementById("form1");
+
 		expect(isSuccessfulElement.getAll(start, true).length).toBe(expected);
 	});
 
@@ -204,6 +230,7 @@ describe("wc/dom/isSuccessfulElement", function() {
 		const expected = 6;
 		testHolder.innerHTML = HTML;
 		const start = testHolder.ownerDocument.getElementById("form1");
+
 		expect(isSuccessfulElement.getAll(start).length).toBe(expected);
 	});
 
@@ -211,6 +238,7 @@ describe("wc/dom/isSuccessfulElement", function() {
 		const expected = 7;
 		testHolder.innerHTML = HTML;
 		const start = testHolder.ownerDocument.getElementById("form1");
+
 		expect(isSuccessfulElement.getAll(start, true).length).toBe(expected);
 	});
 });

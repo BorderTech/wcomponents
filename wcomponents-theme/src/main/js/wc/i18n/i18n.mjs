@@ -5,6 +5,8 @@ import ajax from "wc/ajax/ajax.mjs";
 import resource from "wc/loader/resource.mjs";
 import i18next from 'i18next';
 
+const { console } = globalThis;
+
 /**
  *
  * @param key
@@ -166,7 +168,7 @@ const backend = {
 		let url = this.services.interpolator.interpolate(this.options.loadPath, { lng: language, ns: namespace });
 		if (cacheBuster) {
 			cacheBuster = "?" + cacheBuster;
-			if (url.indexOf(cacheBuster) < 0) {  // requirejs will probably have added the cachebuster
+			if (!url.includes(cacheBuster)) {  // requirejs will probably have added the cachebuster
 				url += cacheBuster;
 			}
 		}
@@ -193,7 +195,7 @@ const backend = {
  * @private
  * @param {Object} i18nConfig Override default options by setting corresponding properties on this object.
  */
-function getOptions(i18nConfig={}) {
+function getOptions(i18nConfig = {}) {
 	const basePath = i18nConfig.basePath || resource.getResourceUrl(),
 		currentLanguage = instance._getLang(),
 		cachebuster = resource.getCacheBuster(),

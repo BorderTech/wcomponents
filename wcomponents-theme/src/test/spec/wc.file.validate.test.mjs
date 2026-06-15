@@ -1,5 +1,8 @@
 import validate from "wc/file/validate.mjs";
-import {addFilesToInput, getInput} from "../helpers/specUtils.mjs";
+import { addFilesToInput, getInput } from "../helpers/specUtils.mjs";
+
+const { beforeEach, describe, document, expect, File, it, jasmine } = globalThis;
+
 describe("wc/file/validate", () => {
 	let testHolder;
 
@@ -76,21 +79,21 @@ describe("wc/file/validate", () => {
 	});
 
 	it("calls the given error callback when there are size issues only and stopAtFirst is set", function() {
-		runWithEmptyCallbacks({stopAtFirst: true}, "file4", false);
+		runWithEmptyCallbacks({ stopAtFirst: true }, "file4", false);
 	});
 
 	it("accepts files when valid files are given as an argument", function() {
-		runWithFilesArg([new File(["SixteenChars.gif"], "SixteenChars", {type: "image/gif"})],
+		runWithFilesArg([new File(["SixteenChars.gif"], "SixteenChars", { type: "image/gif" })],
 			"file1", true);
 	});
 
 	it("rejects files when files are too large and given as an argument", function() {
-		runWithFilesArg([new File(["SixteenChars.gif"], "SixteenChars", {type: "image/gif"})],
+		runWithFilesArg([new File(["SixteenChars.gif"], "SixteenChars", { type: "image/gif" })],
 			"file4", false);
 	});
 
 	it("rejects files when files are not accepted and given as an argument", function() {
-		runWithFilesArg([new File(["SixteenChars.gif"], "SixteenChars", {type: "image/gif"})],
+		runWithFilesArg([new File(["SixteenChars.gif"], "SixteenChars", { type: "image/gif" })],
 			"file3", false);
 	});
 });

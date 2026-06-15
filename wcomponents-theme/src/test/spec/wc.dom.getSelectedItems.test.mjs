@@ -1,8 +1,11 @@
-import getFilteredGroup from "wc/dom/getFilteredGroup.mjs";
-import {setUpExternalHTML} from "../helpers/specUtils.mjs";
 import domTesting from "@testing-library/dom";
 
-describe("wc/ui/getFirstLabelForElement", () => {
+import getFilteredGroup from "wc/dom/getFilteredGroup.mjs";
+import { setUpExternalHTML } from "../helpers/specUtils.mjs";
+
+const { beforeAll, describe, expect, fail, it } = globalThis;
+
+describe("wc/ui/getSelectedItems", () => {
 	let testHolder;
 
 	beforeAll(() => {
@@ -17,6 +20,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 	it("testGetSelectedRadio", function() {
 		const element = domTesting.getByTestId(testHolder, "radio1"),
 			result = /** @type HTMLElement[] */(getFilteredGroup(element));
+
 		expect(result.length).toBe(1);
 	});
 
@@ -24,6 +28,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 	it("testGetSelectedRadioValue", function() {
 		const element = domTesting.getByTestId(testHolder, "radio1"),
 			result = getFilteredGroup(element);
+
 		expect(result[0].value).toBe("Butter");
 	});
 
@@ -32,6 +37,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 			getFilteredGroup(domTesting.getByTestId(testHolder, "radio1"), {
 				filter: getFilteredGroup.FILTERS.deselected
 			}));
+
 		expect(result.length).toBe(2);
 		expect(result[0].value).toBe("Milk");
 		expect(result[1].value).toBe("Cheese");
@@ -44,6 +50,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 	it("testGetSelectedRadioNoneSelected", function() {
 		const element = domTesting.getByTestId(testHolder, "radio3"),
 			result = /** @type HTMLElement[] */(getFilteredGroup(element));
+
 		expect(result.length).toBe(0);
 	});
 
@@ -54,6 +61,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 	it("testGetSelectedRadioDisabled", function() {
 		const element = domTesting.getByTestId(testHolder, "radio4"),
 			result = /** @type HTMLElement[] */(getFilteredGroup(element));
+
 		expect(result.length).toBe(0);
 	});
 
@@ -62,6 +70,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 			result = /** @type HTMLElement[] */(getFilteredGroup(element, {
 				filter: getFilteredGroup.FILTERS.disabled
 			}));
+
 		expect(result.length).toBe(1);
 	});
 
@@ -70,6 +79,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 			result = /** @type HTMLElement[] */(getFilteredGroup(element, {
 				filter: getFilteredGroup.FILTERS.enabled
 			}));
+
 		expect(result.length).toBe(2);
 	});
 
@@ -78,6 +88,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 			result = /** @type HTMLElement[] */(getFilteredGroup(element, {
 				filter: getFilteredGroup.FILTERS.hidden
 			}));
+
 		expect(result.length).toBe(2);
 		expect(result[0].id).toBe("chkItem3");
 		expect(result[1].id).toBe("chkItem6");
@@ -88,6 +99,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 			result = /** @type HTMLElement[] */(getFilteredGroup(element, {
 				filter: getFilteredGroup.FILTERS.visible
 			}));
+
 		expect(result.length).toBe(4);
 	});
 
@@ -96,6 +108,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 			result = /** @type HTMLElement[] */(getFilteredGroup(element, {
 				filter: getFilteredGroup.FILTERS.selected
 			}));
+
 		expect(result[0].id).toBe("chkItem2");
 		expect(result[1].id).toBe("chkItem4");
 		expect(result[2].id).toBe("chkItem6");
@@ -107,6 +120,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 			result = /** @type HTMLElement[] */(getFilteredGroup(element, {
 				filter: getFilteredGroup.FILTERS.selected + getFilteredGroup.FILTERS.disabled
 			}));
+
 		expect(result[0].id).toBe("chkItem2");
 		expect(result[1].id).toBe("chkItem6");
 		expect(result.length).toBe(2);
@@ -117,6 +131,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 			result = /** @type HTMLElement[] */(getFilteredGroup(element, {
 				filter: getFilteredGroup.FILTERS.selected + getFilteredGroup.FILTERS.hidden + getFilteredGroup.FILTERS.disabled
 			}));
+
 		expect(result[0].id).toBe("chkItem6");
 		expect(result.length).toBe(1);
 	});
@@ -126,6 +141,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 			result = /** @type HTMLElement[] */(getFilteredGroup(element, {
 				filter: getFilteredGroup.FILTERS.hidden + getFilteredGroup.FILTERS.disabled + getFilteredGroup.FILTERS.deselected
 			}));
+
 		expect(result.length).toBe(0);
 	});
 
@@ -134,6 +150,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 			result = /** @type HTMLElement[] */(getFilteredGroup(element, {
 				filter: getFilteredGroup.FILTERS.hidden + getFilteredGroup.FILTERS.disabled
 			}));
+
 		expect(result[0].id).toBe("chkItem6");
 		expect(result.length).toBe(1);
 	});
@@ -143,6 +160,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 			result = /** @type HTMLElement[] */(getFilteredGroup(element, {
 				filter: getFilteredGroup.FILTERS.hidden + getFilteredGroup.FILTERS.deselected
 			}));
+
 		expect(result[0].id).toBe("chkItem3");
 		expect(result.length).toBe(1);
 	});
@@ -153,6 +171,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 	it("testGetSelectedCheckbox", function() {
 		const element = domTesting.getByTestId(testHolder, "cb1"),
 			result = /** @type HTMLElement[] */(getFilteredGroup(element));
+
 		expect(result.length).toBe(2);
 	});
 
@@ -179,6 +198,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 
 		const element = domTesting.getByTestId(testHolder, "select1"),
 			result = /** @type HTMLElement[] */(getFilteredGroup(element));
+
 		expect(result.length).toBe(1);
 	});
 
@@ -186,6 +206,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 
 		const element = domTesting.getByTestId(testHolder, "select1"),
 			result = /** @type HTMLInputElement[] */(getFilteredGroup(element));
+
 		expect(result[0].value).toBe("mercedes");
 	});
 
@@ -196,6 +217,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 
 		const element = domTesting.getByTestId(testHolder, "select2"),
 			result = /** @type HTMLElement[] */(getFilteredGroup(element));
+
 		expect(result.length).toBe(2);
 	});
 
@@ -222,6 +244,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 
 		const element = domTesting.getByTestId(testHolder, "select3"),
 			result = /** @type HTMLElement[] */(getFilteredGroup(element));
+
 		expect(result.length).toBe(2);
 	});
 
@@ -244,18 +267,21 @@ describe("wc/ui/getFirstLabelForElement", () => {
 	it("testGetSelectedOption", function() {
 		const element = /** @type HTMLSelectElement */(domTesting.getByTestId(testHolder, "select1")),
 			result = /** @type HTMLElement[] */(getFilteredGroup(element.options[0]));
+
 		expect(result.length).toBe(1);
 	});
 
 	it("testGetSelectedOptionValue", function() {
 		const element = /** @type HTMLSelectElement */(domTesting.getByTestId(testHolder, "select1")),
 			result = getFilteredGroup(element.options[0]);
+
 		expect(result[0].value).toBe("mercedes");
 	});
 
 	it("testGetSelectedOptionInOptgroup", function() {
 		const element = domTesting.getByTestId(testHolder, "opt5"),
 			result = /** @type HTMLElement[] */(getFilteredGroup(element));
+
 		expect(result.length).toBe(0);
 	});
 
@@ -265,6 +291,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 	it("testGetSelectedOptionMulti", function() {
 		const element = /** @type HTMLSelectElement */(domTesting.getByTestId(testHolder, "select2")),
 			result = /** @type HTMLElement[] */(getFilteredGroup(element.options[0]));
+
 		expect(result.length).toBe(2);
 	});
 
@@ -287,12 +314,14 @@ describe("wc/ui/getFirstLabelForElement", () => {
 	it("testGetSelectedOptionMultiOptgroup", function() {
 		const element = /** @type HTMLSelectElement */(domTesting.getByTestId(testHolder, "select3")),
 			result = /** @type HTMLElement[] */(getFilteredGroup(element.options[0]));
+
 		expect(result.length).toBe(1);
 	});
 
 	it("testGetSelectedOptionMultiOptgroupValue", function() {
 		const element = /** @type HTMLSelectElement */(domTesting.getByTestId(testHolder, "select3")),
 			result = /** @type HTMLOptionElement[] */(getFilteredGroup(element.options[0]));
+
 		expect(result[0].value).toBe("volvo");
 	});
 
@@ -303,12 +332,14 @@ describe("wc/ui/getFirstLabelForElement", () => {
 	it("testGetSelectedOptgroupMulti", function() {
 		const element = domTesting.getByTestId(testHolder, "select3"),
 			result = /** @type HTMLElement[] */(getFilteredGroup(element.getElementsByTagName("optgroup")[1]));
+
 		expect(result.length).toBe(1);
 	});
 
 	it("testGetSelectedOptgroupMultiValue", function() {
 		const element = domTesting.getByTestId(testHolder, "select3"),
 			result = /** @type HTMLOptionElement[] */(getFilteredGroup(element.getElementsByTagName("optgroup")[1]));
+
 		expect(result[0].value).toBe("audi");
 	});
 
@@ -319,6 +350,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 
 		const element = domTesting.getByTestId(testHolder, "fauxSelect1"),
 			result = /** @type HTMLElement[] */(getFilteredGroup(element));
+
 		expect(result.length).toBe(1);
 	});
 
@@ -329,6 +361,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 
 		const element = domTesting.getByTestId(testHolder, "fauxSelect2"),
 			result = /** @type HTMLElement[] */(getFilteredGroup(element));
+
 		expect(result.length).toBe(5);
 	});
 
@@ -342,6 +375,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 			result = /** @type HTMLElement[] */(getFilteredGroup(element, {
 				filter: getFilteredGroup.FILTERS.deselected
 			}));
+
 		expect(result.length).toBe(2);
 	});
 
@@ -351,6 +385,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 	it("testGetSelectedRadioByContainer", function() {
 		const element = domTesting.getByTestId(testHolder, "radGrp1"),
 			result = /** @type HTMLElement[] */(getFilteredGroup(element));
+
 		expect(result[0].id).toBe("fauxRad4");
 	});
 
@@ -360,6 +395,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 	it("testGetSelectedAriaRadio", function() {
 		const element = domTesting.getByTestId(testHolder, "fauxRad5"),
 			result = /** @type HTMLElement[] */(getFilteredGroup(element));
+
 		expect(result[0].id).toBe("fauxRad4");
 	});
 
@@ -368,6 +404,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 			result = /** @type { { filtered: HTMLElement[], unfiltered: HTMLElement[] }} */(getFilteredGroup(element, {
 				asObject: true
 			}));
+
 		expect(result.filtered[0].id).toBe("fauxRad4");
 		expect(result.unfiltered.length).toBe(6);
 	});
@@ -378,6 +415,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 	it("testGetSelectedRadioByContainerWithAriaOwns", function() {
 		const element = domTesting.getByTestId(testHolder, "radGrp2"),
 			result = /** @type HTMLElement[] */(getFilteredGroup(element));
+
 		expect(result[0].id).toBe("rO2");
 	});
 
@@ -388,6 +426,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 	it("testGetSelectedRadioWithAriaOwns", function() {
 		const element = domTesting.getByTestId(testHolder, "rO3"),
 			result = /** @type HTMLElement[] */(getFilteredGroup(element));
+
 		expect(result[0].id).toBe("rO2");
 	});
 
@@ -395,6 +434,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 	it("testGetSelectedAriaRadioItemByContainer", function() {
 		const element = domTesting.getByTestId(testHolder, "menu1"),
 			result = /** @type HTMLElement[] */(getFilteredGroup(element));
+
 		expect(result[0].id).toBe("radItem2");
 		expect(result.length).toBe(1);
 	});
@@ -406,6 +446,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 			group.push(testHolder.ownerDocument.getElementById("radBarItem" + i));
 		}
 		const result = /** @type HTMLElement[] */(getFilteredGroup(group));
+
 		expect(result.length).toBe(2);
 	});
 
@@ -418,12 +459,14 @@ describe("wc/ui/getFirstLabelForElement", () => {
 		const result = /** @type HTMLElement[] */(getFilteredGroup(group, {
 			filter: getFilteredGroup.FILTERS.disabled
 		}));
+
 		expect(result.length).toBe(0);
 	});
 
 	it("testGetSelectedAriaRadioItem", function() {
 		const element = domTesting.getByTestId(testHolder, "radItem4"),
 			result = /** @type HTMLElement[] */(getFilteredGroup(element));
+
 		expect(result[0].id).toBe("radItem2");
 		expect(result.length).toBe(1);
 	});
@@ -431,6 +474,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 	it("testGetSelectedAriaCheckboxItemByContainer", function() {
 		const element = domTesting.getByTestId(testHolder, "menubar2"),
 			result = /** @type HTMLElement[] */(getFilteredGroup(element));
+
 		expect(result[0].id).toBe("chkBarItem2");
 		expect(result.length).toBe(1);
 	});
@@ -438,6 +482,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 	it("testGetSelectedAriaCheckboxItem", function() {
 		const element = domTesting.getByTestId(testHolder, "chkBarItem1"),
 			result = /** @type HTMLElement[] */(getFilteredGroup(element));
+
 		expect(result[0].id).toBe("chkBarItem2");
 		expect(result.length).toBe(1);
 	});
@@ -447,6 +492,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 			result = /** @type HTMLElement[] */(getFilteredGroup(element, {
 				itemWd: "[role='checkbox']"
 			}));
+
 		expect(result.length).toBe(2);
 		expect(result[0].id).toBe("form2Chk2");
 		expect(result[1].id).toBe("form2Chk4");
@@ -457,6 +503,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 			result = /** @type HTMLElement[] */(getFilteredGroup(element, {
 				itemWd: "[role]"
 			}));
+
 		expect(result.length).toBe(3);
 		expect(result[0].id).toBe("form2rad2");
 		expect(result[1].id).toBe("form2Chk2");
@@ -469,6 +516,7 @@ describe("wc/ui/getFirstLabelForElement", () => {
 				itemWd: "[role]",
 				asObject: true
 			}));
+
 		expect(result.filtered.length).toBe(3);
 		expect(result.unfiltered.length).toBe(12);
 	});

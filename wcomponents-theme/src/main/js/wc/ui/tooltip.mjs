@@ -3,6 +3,8 @@ import initialise from "wc/dom/initialise.mjs";
 import shed from "wc/dom/shed.mjs";
 import timers from "wc/timers.mjs";
 
+const { document } = globalThis;
+
 const events = [],
 	tooltipsSelector = "span[role='tooltip']",
 	TOOLTIP_TTL = 5000;
@@ -96,6 +98,7 @@ initialise.register({
 
 	/**
 	 * Unsubscribes event listeners etc.
+	 * @returns {void} ?
 	 */
 	deinit: () => event.remove(events)
 });

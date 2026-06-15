@@ -4,6 +4,8 @@
 
 import debounce from "wc/debounce.mjs";
 
+const { alert, confirm, console } = globalThis;
+
 const prompt = {
 	alert: debounce(message => alert(formatMessages(message)), 250),
 	confirmAsync: debounce(confirm, 250),

@@ -1,5 +1,7 @@
 import wcconfig from "wc/config.mjs";
 
+const { HTMLSpanElement, Node, window } = globalThis;
+
 const CLASS = {
 	DIAGNOSTIC: "wc-fieldindicator",
 	TYPE_SUFFIX: "-type-",
@@ -23,6 +25,7 @@ const diagnostic = {
 		"SUCCESS": 8
 	},
 
+	/* eslint-disable jsdoc/no-defaults */
 	/**
 	 * Gets the string extension applied to the id of an element when creating its diagnostic box. This should not be widely used but must be
 	 * public for use in {@link module:wc/ui/feedback}.
@@ -47,6 +50,7 @@ const diagnostic = {
 				return baseExtension;
 		}
 	},
+	/* eslint-enable jsdoc/no-defaults */
 
 	/**
 	 * Get the HTML class attribute which defines a diagnostic box.
@@ -72,7 +76,7 @@ const diagnostic = {
 	 * Get the font awesome icon name for a diagnostic box of a given level.
 	 * @param {number} level
 	 * @param defaultLevel The ICON to pick if level not specified (e.g. LEVEL.ERROR or LEVEL.SUCCESS)
-	 * @returns {String}
+	 * @returns {string} ?
 	 */
 	getIconName: function (level, defaultLevel = this.LEVEL.ERROR) {
 		const config = wcconfig.get("wc/ui/feedback");
@@ -117,7 +121,7 @@ const diagnostic = {
 	 * @param targetId What is the diagnostic for
 	 * @param level The diagnostic level
 	 * @param levelIcon
-	 * @return {{html: string, id: string}}
+	 * @returns {{html: string, id: string}} ?
 	 */
 	getBoxHtml: function (messages, targetId, level, levelIcon) {
 		const id = targetId + this.getIdExtension(level);
@@ -133,7 +137,7 @@ const diagnostic = {
 	 * Gets the widget for a generic inline diagnostic box.
 	 * @function
 	 * @public
-	 * @returns {string}
+	 * @returns {string} ?
 	 */
 	getWidget: () => diagnosticSelector,
 
@@ -155,7 +159,7 @@ const diagnostic = {
 	 * Gets the widget for an inline diagnostic's message(s).
 	 * @function
 	 * @public
-	 * @returns {string}
+	 * @returns {string} ?
 	 */
 	getMessage: () => messageSelector,
 
@@ -164,7 +168,7 @@ const diagnostic = {
 	 * @function
 	 * @public
 	 * @param {number} [level] the severity level, one of {@link module:wc/dom/diagnostic.LEVEL} if not set then test for any diagnostic level
-	 * @returns {string}
+	 * @returns {string} ?
 	 */
 	getByType: function (level) {
 		if (!level) {
@@ -190,7 +194,7 @@ const diagnostic = {
 	 * @public
 	 * @param {Element} element the element to test
 	 * @param {module:wc/dom/diagnostic.LEVEL} [level] the severity level, one of {@link module:wc/dom/diagnostic.LEVEL} if not set then test for any diagnostic level
-	 * @returns {Boolean}
+	 * @returns {Boolean} ?
 	 */
 	isOneOfMe: function (element, level) {
 		if (!element) {
@@ -212,7 +216,7 @@ const diagnostic = {
 	 * @public
 	 * @param {Element} element the element to test
 	 * @param {module:wc/dom/diagnostic.LEVEL} [level] the severity level, one of {@link module:wc/dom/diagnostic.LEVEL} if not set then test for any diagnostic level
-	 * @returns {Boolean}
+	 * @returns {Boolean} ?
 	 */
 	isMessage: function (element, level) {
 		if (element?.nodeType !== Node.ELEMENT_NODE) {
@@ -319,8 +323,8 @@ class FieldIndicator extends HTMLSpanElement {
 	}
 }
 
-if (!customElements.get("wc-fieldindicator")) {
-	customElements.define("wc-fieldindicator", FieldIndicator, { extends: "span" });
+if (!window.customElements.get("wc-fieldindicator")) {
+	window.customElements.define("wc-fieldindicator", FieldIndicator, { extends: "span" });
 }
 
 

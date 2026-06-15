@@ -1,4 +1,3 @@
-/* eslint-env node, es2020  */
 /*
  * This module is responsible for transpiling ES6 modules to AMD.
 
@@ -11,6 +10,9 @@
  *
  * @author Rick Brown
  */
+
+import console from 'node:console';
+
 import babel from "@babel/cli/lib/babel/dir.js";
 
 async function transform(sourcePath, outputDir) {
@@ -22,7 +24,7 @@ async function transform(sourcePath, outputDir) {
 			outDir: outputDir,
 			copyFiles: true,
 			copyIgnored: false
-		},
+		}
 	});
 }
 

@@ -27,7 +27,7 @@ function makeEditButton(element) {
 }
 
 function makeEditButtons(element) {
-	const el = element || document.body;
+	const el = element || globalThis.document.body;
 	if (element?.matches(imageSelector)) {
 		makeEditButton(element);
 	} else {

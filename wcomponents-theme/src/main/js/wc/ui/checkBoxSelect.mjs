@@ -6,6 +6,8 @@ import getFilteredGroup from "wc/dom/getFilteredGroup.mjs";
 import fieldset from "wc/ui/fieldset.mjs";
 import cbrShedPublisher from "wc/dom/cbrShedPublisher.mjs";
 
+const { document } = globalThis;
+
 let inGroupMode;
 
 /**
@@ -98,6 +100,7 @@ class CheckBoxSelect extends AriaAnalog {
 		try {
 			inGroupMode = true;
 
+			// eslint-disable-next-line @stylistic/no-mixed-operators
 			if (element && lastActivated && container && !shed.isDisabled(element) && !(shed.isHidden(container)) || shed.isDisabled(container)) {
 				const isSelected = shed.isSelected(element);
 				const selectedFilter = isSelected ? getFilteredGroup.FILTERS.deselected : getFilteredGroup.FILTERS.selected;

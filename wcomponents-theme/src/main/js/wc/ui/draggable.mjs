@@ -11,6 +11,8 @@ import positionable from "wc/ui/positionable.mjs";
 import resizeable from "wc/ui/resizeable.mjs";
 import wcconfig from "wc/config.mjs";
 
+const { document } = globalThis;
+
 const TRUE = "true",
 	DRAGGABLE = "[data-wc-draggable='true']",
 	ns = "wc.ui.draggable",

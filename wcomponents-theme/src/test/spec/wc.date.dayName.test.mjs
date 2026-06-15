@@ -1,4 +1,9 @@
+import process from "node:process";
+
 import dayName from "wc/date/dayName.mjs";
+
+const { afterAll, beforeAll, beforeEach, console, describe, expect, it } = globalThis;
+
 describe("wc/date/dayName", function() {
 	let mondayWeek,
 		defaultWeek;

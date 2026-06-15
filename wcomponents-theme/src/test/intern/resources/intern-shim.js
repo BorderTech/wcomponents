@@ -1,3 +1,6 @@
+
+const { define, intern } = globalThis;
+
 /**
  * This module exists to provide AMD compatibility when moving from intern 3 to 4.
  */
@@ -17,8 +20,8 @@ define(function() {
 
 	/**
 	 * Adapts intern 3 register suite calls to intern 4.
-	 * @param suite An intern 3 test suite.
-	 * @returns Whatever registerSuite returns.
+	 * @param {any} suite An intern 3 test suite.
+	 * @returns {any} Whatever registerSuite returns.
 	 */
 	function registerSuiteIntern3to4(suite) {
 		var renameMap = {

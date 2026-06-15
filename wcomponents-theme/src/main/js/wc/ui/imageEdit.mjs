@@ -10,6 +10,8 @@ import ImageUndoRedo from "wc/ui/ImageUndoRedo.mjs";
 import fileSize from "wc/file/size.mjs";
 import fileUtil from "wc/file/util.mjs";
 
+const { console, document, FileReader, Node, window } = globalThis;
+
 let fabric, timer, imageCapture;
 let inited,
 	overlayUrl,
@@ -542,7 +544,7 @@ function getEditor(config, callbacks, file) {
 
 	/**
 	 * @param {Element} contentContainer
-	 * @returns {Promise<Element>}
+	 * @returns {Promise<Element>} ?
 	 */
 	function renderEditor(contentContainer) {
 		const container = document.body.appendChild(document.createElement("div")),
@@ -817,7 +819,7 @@ function attachEventHandlers(container) {
 	 * Gets the configuration for a particular event.
 	 * @param {Element|String} action Either an element which should trigger an action (e.g. a save button) or the name of the action (e.g. "save")
 	 * @param {String} type The type of event, e.g. "click" or "press"
-	 * @returns A config object which knows how to action an event.
+	 * @returns {any} A config object which knows how to action an event.
 	 */
 	function getEventConfig(action, type) {
 		if (!action) {
@@ -1053,7 +1055,7 @@ function resetControl(eventConfig) {
  */
 function cancelControl(eventConfig, editor, callbacks/* , file */) {
 	const click = eventConfig.click,
-		cancelFunc = () =>{
+		cancelFunc = () => {
 			try {
 				saveImage({
 					editor: editor,
@@ -1287,7 +1289,7 @@ function getCanvasAsDataUrl(editor) {
 /**
  *
  * @param {Element} editor
- * @returns {HTMLInputElement}
+ * @returns {HTMLInputElement} ?
  */
 function getFileSelector(editor) {
 	// TODO this doesn't seem right
@@ -1301,7 +1303,7 @@ function getFileSelector(editor) {
  * @param {Element} editor The file input associated with the image we are editing.
  * @param {Blob} originalImage The source image file which the user loaded into the editor.
  * @param {Function} [renderer] The function to use to convert the image on the canvas to the desired save format.
- * @returns The image (including any edits) in the format configured for saving.
+ * @returns {any} The image (including any edits) in the format configured for saving.
  */
 function getImageToSave(editor, originalImage, renderer) {
 	const config = imageEdit.getConfig(editor), renderFunc = renderer || getCanvasAsFile;

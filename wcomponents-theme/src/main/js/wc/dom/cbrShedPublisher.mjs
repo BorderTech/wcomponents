@@ -30,7 +30,7 @@ const instance = {
 	 *    "cb" will fetch the CHECKBOX widget;
 	 *    "r" will fetch the RADIO widget;
 	 *    anything else will fetch an array containing both.
-	 * @returns {string|string[]}
+	 * @returns {string|string[]} ?
 	 */
 	getWidget: function(whichOne) {
 		switch (whichOne) {

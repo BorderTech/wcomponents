@@ -7,6 +7,8 @@ import i18n from "wc/i18n/i18n.mjs";
 import getLabelsForElement from "wc/dom/getLabelsForElement.mjs";
 import feedback from "wc/ui/feedback.mjs";
 
+const { console, document } = globalThis;
+
 const DISABLED_BY_ME = "data-wc-selectloader-disabled";
 
 const instance = {

@@ -1,5 +1,7 @@
 import getStyle from "wc/dom/getStyle.mjs";
 
+const { afterEach, beforeEach, describe, document, expect, it } = globalThis;
+
 
 describe("wc/dom/getStyle", function() {
 	const testId = "testGetStyle-innerelement";
@@ -46,6 +48,7 @@ describe("wc/dom/getStyle", function() {
 	beforeEach(function() {
 		document.body.innerHTML = html;
 	});
+
 	afterEach(function() {
 		document.body.innerHTML = "";
 	});
@@ -54,11 +57,12 @@ describe("wc/dom/getStyle", function() {
 		const expectedResult = { r: 255, g: 255, b: 255 };
 		const element = document.getElementById("noStyle");
 		const result = getStyle(element, "background-color");
+
 		expect(result["r"]).toBe(expectedResult.r);
 	});
 
 	it("testGetUnsetStyleGreen", function() {
-		const expectedResult = {r: 255, g: 255, b: 255};
+		const expectedResult = { r: 255, g: 255, b: 255 };
 		const element = document.getElementById("noStyle");
 		const result = getStyle(element, "background-color");
 
@@ -66,7 +70,7 @@ describe("wc/dom/getStyle", function() {
 	});
 
 	it("testGetUnsetStyleBlue", function() {
-		const expectedResult = {r: 255, g: 255, b: 255};
+		const expectedResult = { r: 255, g: 255, b: 255 };
 		const element = document.getElementById("noStyle");
 		const result = getStyle(element, "background-color");
 
@@ -74,7 +78,7 @@ describe("wc/dom/getStyle", function() {
 	});
 
 	it("testGetSetStyleRed", function() {
-		const expectedResult = {r: 255, g: 0, b: 0};
+		const expectedResult = { r: 255, g: 0, b: 0 };
 		const element = document.getElementById("InlineStyledContainer");
 		const result = getStyle(element, "background-color");
 
@@ -82,7 +86,7 @@ describe("wc/dom/getStyle", function() {
 	});
 
 	it("testGetSetStyleGreen", function() {
-		const expectedResult = {r: 255, g: 0, b: 0};
+		const expectedResult = { r: 255, g: 0, b: 0 };
 		const element = document.getElementById("InlineStyledContainer");
 		const result = getStyle(element, "background-color");
 
@@ -92,43 +96,46 @@ describe("wc/dom/getStyle", function() {
 	it("testGetSetStyleBlue", function() {
 		const element = document.getElementById("InlineStyledContainer");
 		const result = getStyle(element, "background-color");
-		const expectedResult = {r: 255, g: 0, b: 0};
+		const expectedResult = { r: 255, g: 0, b: 0 };
+
 		expect(result["b"]).toBe(expectedResult.b);
 	});
 
 	it("testGetStyleTxtboxWhite", function() {
 		const element = document.getElementById("txt1");
 		const result = getStyle(element, "background-color");
-		helpCompareResults({r: 255, g: 255, b: 255}, result);
+		helpCompareResults({ r: 255, g: 255, b: 255 }, result);
 	});
 
 	it("testGetStyleTxtboxBlack", function() {
 		const element = document.getElementById("txt2");
 		const result = getStyle(element, "background-color");
-		helpCompareResults({r: 0, g: 0, b: 0}, result);
+		helpCompareResults({ r: 0, g: 0, b: 0 }, result);
 	});
 
 	it("testGetStyleTxtboxColor", function() {
 		const element = document.getElementById("txt3");
 		const result = getStyle(element, "background-color");
-		helpCompareResults({r: 221, g: 221, b: 221}, result);
+		helpCompareResults({ r: 221, g: 221, b: 221 }, result);
 	});
 
 	it("testGetStyle_JSForm", function() {
 		const element = document.getElementById("txt3");
 		const result = getStyle(element, "backgroundColor");
-		helpCompareResults({r: 221, g: 221, b: 221}, result);
+		helpCompareResults({ r: 221, g: 221, b: 221 }, result);
 	});
 
 	it("testGetStyle_withUnits", function() {
 		const element = getElementNotColour(),
 			result = getStyle(element, "width", true);
+
 		expect(result).toBe(testWidthWithUnits);
 	});
 
 	it("testGetStyle_withoutUnits", function() {
 		const element = getElementNotColour(),
 			result = getStyle(element, "width");
+
 		expect(result).toBe(testWidthNoUnits);
 	});
 

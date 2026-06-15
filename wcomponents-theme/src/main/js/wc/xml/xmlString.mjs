@@ -3,6 +3,8 @@
  * @private
  */
 
+const { DOMParser, XMLSerializer } = globalThis;
+
 let serializer;
 
 /**

@@ -1,5 +1,7 @@
 import addDays from "wc/date/addDays.mjs";
 
+const { beforeEach, describe, expect, it } = globalThis;
+
 describe("wc/date/addDays", function() {
 	const FEBRUARY = 1,
 		HOURS = 3,
@@ -17,6 +19,7 @@ describe("wc/date/addDays", function() {
 	it("testAddDays", function () {
 		expect(testDate.getDate()).toBe(12);
 		addDays(12, testDate);
+
 		expect(testDate.getDate()).toBe(24);
 		expect(testDate.getHours()).toBe(HOURS);
 		expect(testDate.getMinutes()).toBe(MINS);
@@ -27,6 +30,7 @@ describe("wc/date/addDays", function() {
 	it("testAddDaysLeapYear", function () {
 		expect(testDate.getDate()).toBe(12);
 		addDays(17, testDate);
+
 		expect(testDate.getDate()).toBe(29);
 		expect(testDate.getMonth()).toBe(FEBRUARY);
 		expect(testDate.getHours()).toBe(HOURS);
@@ -37,8 +41,10 @@ describe("wc/date/addDays", function() {
 
 	it("testAddDaysNonLeapYear", function () {
 		testDate.setFullYear(1969);
+
 		expect(testDate.getDate()).toBe(12);
 		addDays(17, testDate);
+
 		expect(testDate.getDate()).toBe(1);
 		expect(testDate.getMonth()).toBe(FEBRUARY + 1);
 		expect(testDate.getHours()).toBe(HOURS);

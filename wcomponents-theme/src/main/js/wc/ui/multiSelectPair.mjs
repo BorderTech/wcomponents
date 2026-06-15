@@ -9,14 +9,16 @@ import processResponse from "wc/ui/ajax/processResponse.mjs";
 import selectboxSearch from "wc/ui/selectboxSearch.mjs";
 import fieldset from "wc/ui/fieldset.mjs";
 
+const { document } = globalThis;
+
 const CONTAINER_INITIALISED_KEY = "multiSelectPair.inited",
 	LIST_TYPE_AVAILABLE = 0,
 	LIST_TYPE_CHOSEN = 1,
 	LIST_TYPE_ORDER = 2,
-	ACTION_MAP = {"aall": addAll,
+	ACTION_MAP = { "aall": addAll,
 		"add": addSelected,
 		"rall": removeAll,
-		"rem": removeSelected};
+		"rem": removeSelected };
 
 const containerSelector = `${fieldset.getWidget().toString()}.wc-multiselectpair`;
 const selectSelector = `${containerSelector} select`;
@@ -74,7 +76,8 @@ const instance = {
 	LIST_TYPE_CHOSEN,
 
 	/**
-	 * @var {number} module:wc/ui/multiSelectPair.LIST_TYPE_AVAILABLE The descriptor for the "available options" list. */
+	 * @var {number} module:wc/ui/multiSelectPair.LIST_TYPE_AVAILABLE The descriptor for the "available options" list.
+	 */
 	LIST_TYPE_AVAILABLE,
 
 	/**
@@ -130,7 +133,10 @@ const instance = {
 		return element.matches(containerSelector);
 	},
 
-	/** Public for testing  @ignore */
+	/**
+	 * Public for testing
+	 * @ignore
+	 */
 	_keydownEvent: keydownEvent
 };
 
@@ -149,7 +155,7 @@ function fixWidthHeight(container) {
 	const components = el.matches(containerSelector) ?
 		[container] :
 		/** @type HTMLSelectElement[] */ (Array.from(el.querySelectorAll(containerSelector)));
-	components.forEach( function(next) {
+	components.forEach(function(next) {
 		const avail = instance.getListByType(next, LIST_TYPE_AVAILABLE);
 		if (avail.style.width) {
 			return;  // already set
@@ -446,6 +452,7 @@ function keydownEvent($event) {
 			selectList.selectedIndex = -1;
 			try {
 				focus.setFocusRequest(opposite);
+			// eslint-disable-next-line no-unused-vars
 			} catch (ignore) {
 				// Do nothing
 			}
@@ -476,7 +483,7 @@ function focusEvent($event) {
  * @private
  * @param {MouseEvent & { target: HTMLButtonElement }} $event The click event.
  */
-function clickEvent({ target, defaultPrevented}) {
+function clickEvent({ target, defaultPrevented }) {
 	if (defaultPrevented) {
 		return;
 	}
@@ -535,7 +542,7 @@ initialise.register({
 	postInit: function () {
 		shed.subscribe(shed.actions.SHOW, fixWidthHeight);
 		processResponse.subscribe(fixWidthHeight, true);
-		formUpdateManager.subscribe({writeState});
+		formUpdateManager.subscribe({ writeState });
 	}
 });
 

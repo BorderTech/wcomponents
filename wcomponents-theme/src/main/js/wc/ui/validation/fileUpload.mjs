@@ -14,6 +14,8 @@ import validationManager from "wc/ui/validation/validationManager.mjs";
 import required from "wc/ui/validation/required.mjs";
 import multiFileUploader from "wc/ui/multiFileUploader.mjs";
 
+const { console } = globalThis;
+
 const CONTAINER = multiFileUploader.getWidget().toString(),
 	INPUT_ELEMENT = multiFileUploader.getInputWidget().toString(),
 	FILE_ELEMENT = ".wc-file";
@@ -33,9 +35,9 @@ function validate(container) {
 		position: "beforeend",
 		/**
 		 * @param {HTMLElement} element
-		 * @return {string}
+		 * @returns {string} ?
 		 */
-		messageFunc : (element) => {
+		messageFunc: (element) => {
 			const legend = getFirstLabelForElement(element, true) || element.title;
 			return /** @type {string} */(i18n.get("validation_multifile_incomplete", legend));
 		}

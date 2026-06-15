@@ -1,14 +1,13 @@
 /**
  * Finds the form for this element.
- * @param {Element|HTMLInputElement} [el] Will find the form that contains this element.
- *    If null, the first form in the DOM.
+ * @param {Element|HTMLInputElement} [el] Will find the form that contains this element. If null, the first form in the DOM.
  * @param {boolean} [forceAncestor] Weird arg - if true, el is mandatory.
- * @return {HTMLFormElement|null}
+ * @returns {HTMLFormElement|null} ?
  */
 export default function(el, forceAncestor) {
 	if (!el) {
 		if (!forceAncestor) {
-			return document.querySelector("form");
+			return globalThis.document.querySelector("form");
 		}
 		return null;
 	}

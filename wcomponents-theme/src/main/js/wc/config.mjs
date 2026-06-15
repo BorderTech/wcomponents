@@ -7,6 +7,8 @@
 
 import mixin from "wc/mixin.mjs";
 
+const { console, document } = globalThis;
+
 const instance = {
 	/**
 	 * Register a configuration object for a given id or completely replace the entire registry with the given object.

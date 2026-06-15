@@ -2,13 +2,15 @@ import i18next from "i18next";
 import arrayDiff from "wc/array/diff.mjs";
 import debounce from "wc/debounce.mjs";
 
+const { console } = globalThis;
+
 const checked = {};
 const onload = debounce(languages => {
 	try {
 		const langs = languages ? Object.keys(languages) : i18next.languages;
 		if (langs) {
-			for (let i = 0; i < langs.length; i++) {
-				let nextLang = langs[i];
+			for (const lang of langs) {
+				let nextLang = lang;
 				if (nextLang && !checked.hasOwnProperty(nextLang)) {
 					checked[nextLang] = true;
 					checkMissing(nextLang);

@@ -4,6 +4,8 @@ import focus from "wc/dom/focus.mjs";
 import getFilteredGroup from "wc/dom/getFilteredGroup.mjs";
 import shed from "wc/dom/shed.mjs";
 
+const { Node } = globalThis;
+
 /**
  * Provides ARIA based listbox functionality (lists of selectable options - cf a select element).
  *
@@ -120,7 +122,7 @@ class ListboxAnalog extends AriaAnalog {
 	 */
 	getAvailableOptions(listbox) {
 		return /** @type {HTMLElement[]} */(getFilteredGroup(listbox, {
-			filter: (getFilteredGroup.FILTERS.visible|getFilteredGroup.FILTERS.enabled),
+			filter: (getFilteredGroup.FILTERS.visible | getFilteredGroup.FILTERS.enabled),
 			containerWd: this.CONTAINER,
 			itemWd: this.ITEM,
 			shedAttributeOnly: true

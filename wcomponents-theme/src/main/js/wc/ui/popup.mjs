@@ -15,6 +15,8 @@ import initialise from "wc/dom/initialise.mjs";
 import uid from "wc/dom/uid.mjs";
 import timers from "wc/timers.mjs";
 
+const { console, customElements, HTMLElement, window } = globalThis;
+
 const processQueueDelay = 1000,
 	TAG_NAME = "wc-popup",
 	URL_INDEX = 0,
@@ -123,6 +125,7 @@ function clickEvent($event) {
 /**
  * Converts a WPopup element to a DTO for registration.
  * @param {WPopup} element
+ * @returns {(string | null)[]} ?
  */
 function toDto(element) {
 	const result = [element.getAttribute("url")];

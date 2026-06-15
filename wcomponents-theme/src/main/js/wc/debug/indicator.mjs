@@ -6,6 +6,8 @@
 import initialise from "wc/dom/initialise.mjs";
 import processResponse from "wc/ui/ajax/processResponse.mjs";
 
+const { document } = globalThis;
+
 /**
  * Count the number of Element nodes in the current document and set it as the value of an attribute on
  * document.body.

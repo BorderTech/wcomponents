@@ -14,9 +14,9 @@ import $pivot from "wc/date/pivot.mjs";
 function expand(year) {
 	const current = today.get().getFullYear();
 	let	century = current.toString().substring(0, 2),
-		pivot = $pivot.get() + parseFloat(current.toString().substring(2, 4));
+		pivot = $pivot.get() + Number.parseFloat(current.toString().substring(2, 4));
 
-	year = parseInt(year, 10);
+	year = Number.parseInt(year, 10);
 	year %= 100;  // 3456 becomes 56
 
 	if (pivot >= 100) {
@@ -26,6 +26,7 @@ function expand(year) {
 	if (year > pivot) {
 		--century;
 	}
+	// eslint-disable-next-line @stylistic/no-mixed-operators
 	return century * 100 + year;
 }
 

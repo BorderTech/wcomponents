@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -10,16 +12,12 @@
 	</parent>
 
 	<name>wcomponents-parent</name>
-
 	<groupId>com.github.bordertech.wcomponents</groupId>
 	<artifactId>wcomponents-parent</artifactId>
 	<version>1.5.40-SNAPSHOT</version>
-
 	<packaging>pom</packaging>
 
 	<properties>
-		<jetty.version>8.2.0.v20160908</jetty.version>
-		<slf4j.version>2.0.17</slf4j.version>
 		<bt.qa.skip>false</bt.qa.skip>
 		<bt.convergence.check.fail>true</bt.convergence.check.fail>
 		<!-- Report Vulnerabilities. -->
@@ -36,6 +34,19 @@
 		<!-- Refer to https://central.sonatype.org/publish/publish-portal-ossrh-staging-api/#ensuring-deployment-visibility-in-the-central-publisher-portal -->
 		<stagingBaseUrl>https://ossrh-staging-api.central.sonatype.com/</stagingBaseUrl>
 
+		<!-- Versions -->
+		<version.com.github.eirslett.frontend-maven-plugin>1.15.4</version.com.github.eirslett.frontend-maven-plugin>
+		<version.com.github.jknack.handlebars>4.3.1</version.com.github.jknack.handlebars>
+		<version.commons-configuration.commons-configuration>1.10</version.commons-configuration.commons-configuration>
+		<version.javax.servlet.servlet-api>2.5</version.javax.servlet.servlet-api>
+		<version.org.apache.maven.plugins.maven-assembly-plugin>3.8.0</version.org.apache.maven.plugins.maven-assembly-plugin>
+		<version.org.apache.maven.plugins.maven-clean-plugin>3.5.0</version.org.apache.maven.plugins.maven-clean-plugin>
+		<version.org.eclipse.jetty.jetty-server>8.2.0.v20160908</version.org.eclipse.jetty.jetty-server>
+		<version.org.eclipse.jetty.jetty-webapp>8.2.0.v20160908</version.org.eclipse.jetty.jetty-webapp>
+		<version.org.honton.chas.readfiles-maven-plugin>0.0.1</version.org.honton.chas.readfiles-maven-plugin>
+		<version.org.slf4j.slf4j-api>2.0.17</version.org.slf4j.slf4j-api>
+		<version.org.slf4j.slf4j-simple>2.0.17</version.org.slf4j.slf4j-simple>
+		<version.xerces.xercesImpl>2.12.1</version.xerces.xercesImpl>
 	</properties>
 
 	<licenses>
@@ -114,7 +125,7 @@
 			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>servlet-api</artifactId>
-				<version>2.5</version>
+				<version>${version.javax.servlet.servlet-api}</version>
 				<scope>provided</scope>
 			</dependency>
 
@@ -139,7 +150,6 @@
 
 	<build>
 		<plugins>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-enforcer-plugin</artifactId>
@@ -170,7 +180,6 @@
 										<dependency>org.apache.maven</dependency>
 									</dependencies>
 								</requireSameVersions>
-
 							</rules>
 						</configuration>
 					</execution>
@@ -182,6 +191,7 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-antrun-plugin</artifactId>
 					<version>1.8</version>
 					<dependencies>

@@ -1,3 +1,5 @@
+const { console, document } = globalThis;
+
 /**
  * Provides a mechanism to set and unset an ajax aria-live region as busy. Moved out of {@link module:wc/ajax/Trigger}
  * to improve encapsulation.

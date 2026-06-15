@@ -14,6 +14,8 @@ import focus from "wc/dom/focus.mjs";
 import event from "wc/dom/event.mjs";
 import timers from "wc/timers.mjs";
 
+const { console, document, window } = globalThis;
+
 console.log("Adding webkit focus fix for mouse users.");
 event.add(window, { type: "mousedown", listener: mouseDownEvent, capture: true });
 event.add(window, { type: "click", listener: clickEvent /* , capture: true */ });

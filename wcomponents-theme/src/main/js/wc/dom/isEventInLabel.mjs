@@ -1,5 +1,7 @@
 import focus from "wc/dom/focus.mjs";
 
+const { Node } = globalThis;
+
 /**
  * Provides a generic way to determine if an event is targeted on, or in, a label element. We need to prevent
  * some events if the event originates inside a label  element when that label is inside an interested component

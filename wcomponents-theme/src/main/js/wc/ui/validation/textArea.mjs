@@ -87,7 +87,7 @@ function validate(container) {
 	const invalid = Array.from(candidates).filter(doContraintValidityTest);
 	const result = invalid.length === 0;
 	if (!result) {
-		console.log(`${import.meta.url} failed validation`);
+		globalThis.console.log(`${import.meta.url} failed validation`);
 	}
 	return result;
 }

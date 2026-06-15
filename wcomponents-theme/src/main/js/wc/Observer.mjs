@@ -1,6 +1,7 @@
 import escapeRe from "wc/string/escapeRe.mjs";
 
-const SORT_IDX_PROP = "__sort__",
+const { console, window } = globalThis,
+	SORT_IDX_PROP = "__sort__",
 	FUNCTION = "function";
 
 /**
@@ -206,7 +207,7 @@ function Observer(notifyInStages) {
 	 * @param {Subscriber[]} subscribers
 	 * @param {Object} scope The "this" to pass through to the subscriber.
 	 * @param {any[]} args Any array-like which contains the arguments to pass to the subscriber.
-	 * @returns {Promise}
+	 * @returns {Promise} ?
 	 */
 	function notify(subscribers, scope, args) {
 		const promises = [];
@@ -214,8 +215,8 @@ function Observer(notifyInStages) {
 		// if a callback is set we will notify the callback after each subscriber
 		// the callback can short-circuit the process by returning true
 		if (subscribers?.length) {
-			for (let i = 0; i < subscribers.length; i++) {
-				let next = subscribers[i];
+			for (const subscriber of subscribers) {
+				let next = subscriber;
 				let nextResult = next.notify.call(scope, args);  // "call" so caller can pass thru scope
 				try {
 					if (typeof callback === FUNCTION) {
@@ -327,7 +328,7 @@ function Observer(notifyInStages) {
 	 *
 	 * @function
 	 * @public
-	 * @param {string} filter The filter to match, honoring any wildcards in group names.
+	 * @param {string} filter - The filter to match, honoring any wildcards in group names.
 	 * @returns {function} A filter function.
 	 * @example var observer = new Observer();
 	 * observer.subscribe(function() {console.log("foo.*.bar");}, {group:"foo.*.bar"});
@@ -351,8 +352,7 @@ function Observer(notifyInStages) {
 		return (group) => {
 			// escape all regexp characters except *. Replace * with .* to give it wildcard behaviour
 			const groupAsWildcardRe = compiledGroups[group] ||
-				(compiledGroups[group] = new RegExp(`^${escapeRe(group, true)}$`)) ;
-			// return filter.match(groupAsWildcardRe) ? true : false;
+				(compiledGroups[group] = new RegExp(`^${escapeRe(group, true)}$`));
 			return groupAsWildcardRe.test(filter);
 		};
 	};
@@ -597,7 +597,7 @@ function GroupStore() {
 	this.add = function(subscriber, priority) {
 		if (subscriber instanceof Subscriber) {
 			let arr;
-			if (!priority || isNaN(priority)) {  // zero or null or false or undefined or a non-numeric string
+			if (!priority || Number.isNaN(priority)) {  // zero or null or false or undefined or a non-numeric string
 				arr = this[MED];
 			} else if (priority < 0) {  // negative number is low priority
 				arr = this[LOW];
@@ -791,6 +791,7 @@ function Subscriber(subscriber, context, method) {
 	 */
 	const $self = this;
 
+	// eslint-disable-next-line jsdoc/require-returns-check
 	/**
 	 * Notify all subscribers (i.e. publish).
 	 * @function Subscriber#notify

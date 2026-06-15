@@ -1,9 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-
-	<name>wcomponents-bundle</name>
-	<artifactId>wcomponents-bundle</artifactId>
 
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
@@ -12,6 +11,8 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
+	<name>wcomponents-bundle</name>
+	<artifactId>wcomponents-bundle</artifactId>
 	<packaging>jar</packaging>
 
 	<description>
@@ -28,22 +29,24 @@
 			<artifactId>wcomponents-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.github.bordertech.wcomponents</groupId>
 			<artifactId>wcomponents-theme</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
 		<!-- JSR107 Caching provider. -->
 		<dependency>
 			<groupId>org.ehcache</groupId>
 			<artifactId>ehcache</artifactId>
 		</dependency>
+
 		<!-- JAXB runtime for cache provider -->
 		<dependency>
 			<groupId>org.glassfish.jaxb</groupId>
 			<artifactId>jaxb-runtime</artifactId>
 		</dependency>
-
 	</dependencies>
 
 </project>

@@ -1,6 +1,9 @@
-import keyWalker from "wc/dom/keyWalker.mjs";
-import {setUpExternalHTML} from "../helpers/specUtils.mjs";
 import domTesting from "@testing-library/dom";
+
+import keyWalker from "wc/dom/keyWalker.mjs";
+import { setUpExternalHTML } from "../helpers/specUtils.mjs";
+
+const { afterAll, beforeAll, beforeEach, describe, expect, NodeFilter, it } = globalThis;
 
 describe("wc/dom/keyWalker", () => {
 
@@ -15,7 +18,7 @@ describe("wc/dom/keyWalker", () => {
 
 	/**
 	 * @param {Element} el
-	 * @return {number}
+	 * @returns {number} ?
 	 */
 	function enabledFilter (el) {
 		if (el.getAttribute("aria-disabled") === "true" || el.hasAttribute("disabled")) {
@@ -26,7 +29,7 @@ describe("wc/dom/keyWalker", () => {
 
 	/**
 	 * @param {Element} el
-	 * @return {number}
+	 * @returns {number} ?
 	 */
 	function hiddenFilter(el) {
 		if (el.hasAttribute("hidden")) {
@@ -37,7 +40,7 @@ describe("wc/dom/keyWalker", () => {
 
 	/**
 	 * @param {Element} el
-	 * @return {number}
+	 * @returns {number} ?
 	 */
 	function treeFilter (el) {
 		let result = enabledFilter(el);
@@ -77,7 +80,7 @@ describe("wc/dom/keyWalker", () => {
 
 	/**
 	 * @param {Element} el
-	 * @return {number}
+	 * @returns {number} ?
 	 */
 	function mockClosedBranchNodesFilter(el) {
 		const result = treeFilter(el);
@@ -100,6 +103,7 @@ describe("wc/dom/keyWalker", () => {
 			let container = domTesting.getByTestId(testHolder, "domKeyWalkerGroup");
 			groupedElements = container.getElementsByTagName("span");
 		}
+
 		expect(groupedElements.length).withContext("Could not get group to traverse").toBeGreaterThan(0);
 		if (!treeRoot) {
 			treeRoot = domTesting.getByTestId(testHolder, "domKeyWalkerTree");
@@ -117,6 +121,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = groupedElements[1],
 			expected = groupedElements[0],
 			actual = keyWalker.getTarget(makeGroupConfig(), start, keyWalker.MOVE_TO.FIRST);
+
 		expect(actual).withContext("getTarget should return the first member of the group").toBe(expected);
 	});
 
@@ -124,6 +129,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = groupedElements[0],
 			expected = groupedElements[0],
 			actual = keyWalker.getTarget(makeGroupConfig(), start, keyWalker.MOVE_TO.FIRST);
+
 		expect(actual).withContext("getTarget should return the first member of the group").toBe(expected);
 	});
 
@@ -131,6 +137,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = groupedElements[1],
 			expected = groupedElements[groupedElements.length - 1],
 			actual = keyWalker.getTarget(makeGroupConfig(), start, keyWalker.MOVE_TO.LAST);
+
 		expect(actual).withContext("getTarget should return the last member of the group").toBe(expected);
 	});
 
@@ -138,6 +145,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = groupedElements[groupedElements.length - 1],
 			expected = groupedElements[groupedElements.length - 1],
 			actual = keyWalker.getTarget(makeGroupConfig(), start, keyWalker.MOVE_TO.LAST);
+
 		expect(actual).withContext("getTarget should return the last member of the group").toBe(expected);
 	});
 
@@ -145,12 +153,14 @@ describe("wc/dom/keyWalker", () => {
 		const start = groupedElements[0],
 			expected = groupedElements[1],
 			actual = keyWalker.getTarget(makeGroupConfig(), start, keyWalker.MOVE_TO.NEXT);
+
 		expect(actual).withContext("getTarget should return the next member of the group").toBe(expected);
 	});
 
 	it("testGetNextFromLastNoCycle", function() {
 		const start = groupedElements[groupedElements.length - 1],
 			actual = keyWalker.getTarget(makeGroupConfig(false), start, keyWalker.MOVE_TO.NEXT);
+
 		expect(actual).withContext("getTarget NEXT from last should return null").toBeNull();
 	});
 
@@ -158,6 +168,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = groupedElements[groupedElements.length - 1],
 			expected = groupedElements[0],
 			actual = keyWalker.getTarget(makeGroupConfig(true), start, keyWalker.MOVE_TO.NEXT);
+
 		expect(actual).withContext("getTarget should return the first member of the group").toBe(expected);
 	});
 
@@ -165,12 +176,14 @@ describe("wc/dom/keyWalker", () => {
 		const start = groupedElements[1],
 			expected = groupedElements[0],
 			actual = keyWalker.getTarget(makeGroupConfig(), start, keyWalker.MOVE_TO.PREVIOUS);
+
 		expect(actual).withContext("getTarget should return the previous member of the group").toBe(expected);
 	});
 
 	it("testGetPreviousFromFirstNoCycle", function() {
 		const start = groupedElements[0],
 			actual = keyWalker.getTarget(makeGroupConfig(false), start, keyWalker.MOVE_TO.PREVIOUS);
+
 		expect(actual).withContext("getTarget PREVIOUS from first should return null").toBeNull();
 	});
 
@@ -178,6 +191,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = groupedElements[0],
 			expected = groupedElements[groupedElements.length - 1],
 			actual = keyWalker.getTarget(makeGroupConfig(true), start, keyWalker.MOVE_TO.PREVIOUS);
+
 		expect(actual).withContext("getTarget should return the last member of the group").toBe(expected);
 	});
 
@@ -185,6 +199,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "beforeDisabled"),
 			expected = domTesting.queryByTestId(testHolder, "afterDisabled"),
 			actual = keyWalker.getTarget(makeGroupConfig(false, enabledFilter), start, keyWalker.MOVE_TO.NEXT);
+
 		expect(actual).withContext("getTarget NEXT with filter should skip the disabled item.").toBe(expected);
 	});
 
@@ -192,6 +207,7 @@ describe("wc/dom/keyWalker", () => {
 		const expected = domTesting.queryByTestId(testHolder, "beforeDisabled"),
 			start = domTesting.queryByTestId(testHolder, "afterDisabled"),
 			actual = keyWalker.getTarget(makeGroupConfig(false, enabledFilter), start, keyWalker.MOVE_TO.PREVIOUS);
+
 		expect(actual).withContext("getTarget PREVIOUS with filter should skip the disabled item.").toBe(expected);
 	});
 
@@ -205,6 +221,7 @@ describe("wc/dom/keyWalker", () => {
 				return NodeFilter.FILTER_ACCEPT;
 			},
 			actual = keyWalker.getTarget(makeGroupConfig(false, _filter), start, keyWalker.MOVE_TO.LAST);
+
 		expect(actual).withContext("getTarget LAST with filter should skip the filtered items.").toBe(expected);
 	});
 
@@ -218,6 +235,7 @@ describe("wc/dom/keyWalker", () => {
 				return NodeFilter.FILTER_ACCEPT;
 			},
 			actual = keyWalker.getTarget(makeGroupConfig(false, _filter), start, keyWalker.MOVE_TO.FIRST);
+
 		expect(actual).withContext("getTarget LAST with filter should skip the filtered items.").toBe(expected);
 	});
 
@@ -227,15 +245,17 @@ describe("wc/dom/keyWalker", () => {
 			config = makeGroupConfig();
 		config.filter = null;
 		const actual = keyWalker.getTarget(config, start, keyWalker.MOVE_TO.FIRST);
+
 		expect(actual).toBe(expected);
 	});
 
 	it("testGetTargetNextFallbackFilter", function() {
 		const start = groupedElements[1],
-			expected =groupedElements[2],
+			expected = groupedElements[2],
 			config = makeGroupConfig();
 		config.filter = null;
 		const actual = keyWalker.getTarget(config, start, keyWalker.MOVE_TO.NEXT);
+
 		expect(actual).toBe(expected);
 	});
 
@@ -244,6 +264,7 @@ describe("wc/dom/keyWalker", () => {
 			config = makeGroupConfig();
 		config.filter = null;
 		const actual = keyWalker.getTarget(config, start, keyWalker.MOVE_TO.NEXT);
+
 		expect(actual).toBeNull();
 	});
 
@@ -253,6 +274,7 @@ describe("wc/dom/keyWalker", () => {
 			config = makeGroupConfig(true);
 		config.filter = null;
 		const actual = keyWalker.getTarget(config, start, keyWalker.MOVE_TO.NEXT);
+
 		expect(actual).toBe(expected);
 	});
 
@@ -267,6 +289,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree4"),
 			expected = domTesting.queryByTestId(testHolder, "tree1"),
 			actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.FIRST);
+
 		expect(actual).withContext("FIRST FAILED with Tree").toBe(expected);
 	});
 
@@ -274,6 +297,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree1"),
 			expected = domTesting.queryByTestId(testHolder, "tree1"),
 			actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.FIRST);
+
 		expect(actual).withContext("FIRST from FIRST FAILED with Tree").toBe(expected);
 	});
 
@@ -281,6 +305,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree4"),
 			expected = domTesting.queryByTestId(testHolder, "tree7"),
 			actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.LAST);
+
 		expect(actual).withContext("LAST FAILED with Tree").toBe(expected);
 	});
 
@@ -288,6 +313,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree7"),
 			expected = domTesting.queryByTestId(testHolder, "tree7"),
 			actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.LAST);
+
 		expect(actual).withContext("LAST from LAST FAILED with Tree").toBe(expected);
 	});
 
@@ -295,6 +321,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree32"),
 			expected = domTesting.queryByTestId(testHolder, "tree31"),
 			actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.FIRST);
+
 		expect(actual).withContext("FIRST in sub branch FAILED with Tree").toBe(expected);
 	});
 
@@ -302,6 +329,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree31"),
 			expected = domTesting.queryByTestId(testHolder, "tree31"),
 			actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.FIRST);
+
 		expect(actual).withContext("FIRST from FIRST in sub branch FAILED with Tree").toBe(expected);
 	});
 
@@ -309,6 +337,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree32"),
 			expected = domTesting.queryByTestId(testHolder, "tree33"),
 			actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.LAST);
+
 		expect(actual).withContext("LAST in sub brnanch FAILED with Tree").toBe(expected);
 	});
 
@@ -316,6 +345,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree33"),
 			expected = domTesting.queryByTestId(testHolder, "tree33"),
 			actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.LAST);
+
 		expect(actual).withContext("LAST from LAST in sub branch FAILED with Tree").toBe(expected);
 	});
 
@@ -323,6 +353,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree6"),
 			expected = domTesting.queryByTestId(testHolder, "tree5"),
 			actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.PREVIOUS);
+
 		expect(actual).withContext("simple PREVIOUS FAILED with Tree").toBe(expected);
 	});
 
@@ -330,6 +361,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree4"),
 			expected = domTesting.queryByTestId(testHolder, "tree3"),
 			actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.PREVIOUS);
+
 		expect(actual).withContext("Branch PREVIOUS no depth first failed").toBe(expected);
 	});
 
@@ -337,6 +369,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree4"),
 			expected = domTesting.queryByTestId(testHolder, "tree33"),
 			actual = keyWalker.getTarget(makeTreeConfig(false, true), start, keyWalker.MOVE_TO.PREVIOUS);
+
 		expect(actual).withContext("Branch PREVIOUS with depth first failed").toBe(expected);
 	});
 
@@ -344,6 +377,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree5"),
 			expected = domTesting.queryByTestId(testHolder, "tree6"),
 			actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.NEXT);
+
 		expect(actual).withContext("simple NEXT FAILED with Tree").toBe(expected);
 	});
 
@@ -351,6 +385,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree3"),
 			expected = domTesting.queryByTestId(testHolder, "tree4"),
 			actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.NEXT);
+
 		expect(actual).withContext("Branch next no depth first failed").toBe(expected);
 	});
 
@@ -358,18 +393,21 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree3"),
 			expected = domTesting.queryByTestId(testHolder, "tree31"),
 			actual = keyWalker.getTarget(makeTreeConfig(false, true), start, keyWalker.MOVE_TO.NEXT);
+
 		expect(actual).withContext("Branch next with depth first failed").toBe(expected);
 	});
 
 	it("testPreviousInTreeFirstNode", function() {
 		const start = domTesting.queryByTestId(testHolder, "tree1"),
 			actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.PREVIOUS);
+
 		expect(actual).withContext("PREVIOUS from first in Tree should be null").toBeNull();
 	});
 
 	it("testNextInTreeLastNode", function() {
 		const start = domTesting.queryByTestId(testHolder, "tree7"),
 			actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.NEXT);
+
 		expect(actual).withContext("NEXT from last in Tree should be null").toBeNull();
 	});
 
@@ -377,6 +415,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree1"),
 			expected = domTesting.queryByTestId(testHolder, "tree7"),
 			actual = keyWalker.getTarget(makeTreeConfig(true), start, keyWalker.MOVE_TO.PREVIOUS);
+
 		expect(actual).withContext("PREVIOUS from first in Tree with cycle FAILED").toBe(expected);
 	});
 
@@ -384,18 +423,21 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree7"),
 			expected = domTesting.queryByTestId(testHolder, "tree1"),
 			actual = keyWalker.getTarget(makeTreeConfig(true), start, keyWalker.MOVE_TO.NEXT);
+
 		expect(actual).withContext("NEXT from first in Tree with cycle FAILED").toBe(expected);
 	});
 
 	it("testPreviousInTreeFirstNodeSubBranch", function() {
 		const start = domTesting.queryByTestId(testHolder, "tree31"),
 			actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.PREVIOUS);
+
 		expect(actual).withContext("PREVIOUS from first in Tree sub branch should be null").toBeNull();
 	});
 
 	it("testNextInTreeLastNodeSubBranch", function() {
 		const start = domTesting.queryByTestId(testHolder, "tree33"),
 			actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.NEXT);
+
 		expect(actual).withContext("NEXT from last in Tree sub branch should be null").toBeNull();
 	});
 
@@ -403,6 +445,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree31"),
 			expected = domTesting.queryByTestId(testHolder, "tree33"),
 			actual = keyWalker.getTarget(makeTreeConfig(true), start, keyWalker.MOVE_TO.PREVIOUS);
+
 		expect(actual).withContext("PREVIOUS from first in Tree sub branch with cycle FAILED").toBe(expected);
 	});
 
@@ -410,6 +453,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree33"),
 			expected = domTesting.queryByTestId(testHolder, "tree31"),
 			actual = keyWalker.getTarget(makeTreeConfig(true), start, keyWalker.MOVE_TO.NEXT);
+
 		expect(actual).withContext("NEXT from first in Tree sub branch with cycle FAILED").toBe(expected);
 	});
 
@@ -417,6 +461,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree31"),
 			expected = domTesting.queryByTestId(testHolder, "tree3"),
 			actual = keyWalker.getTarget(makeTreeConfig(false, true), start, keyWalker.MOVE_TO.PREVIOUS);
+
 		expect(actual).withContext("NEXT from first in Tree sub branch with depth first FAILED").toBe(expected);
 	});
 
@@ -424,6 +469,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree33"),
 			expected = domTesting.queryByTestId(testHolder, "tree4"),
 			actual = keyWalker.getTarget(makeTreeConfig(false, true), start, keyWalker.MOVE_TO.NEXT);
+
 		expect(actual).withContext("NEXT from first in Tree sub branch with depth first FAILED").toBe(expected);
 	});
 
@@ -431,6 +477,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree33"),
 			expected = domTesting.queryByTestId(testHolder, "tree3"),
 			actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.PARENT);
+
 		expect(actual).withContext("Simple PARENT failed").toBe(expected);
 	});
 
@@ -438,6 +485,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree3"),
 			expected = domTesting.queryByTestId(testHolder, "tree31"),
 			actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.CHILD);
+
 		expect(actual).withContext("Simple CHILD failed").toBe(expected);
 	});
 
@@ -445,6 +493,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree3"),
 			expected = domTesting.queryByTestId(testHolder, "tree33"),
 			actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.LAST_CHILD);
+
 		expect(actual).withContext("Simple LAST_CHILD failed").toBe(expected);
 	});
 
@@ -452,6 +501,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree3"),
 			expected = domTesting.queryByTestId(testHolder, "tree1"),
 			actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.TOP);
+
 		expect(actual).withContext("Simple TOP failed").toBe(expected);
 	});
 
@@ -459,6 +509,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree33"),
 			expected = domTesting.queryByTestId(testHolder, "tree1"),
 			actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.TOP);
+
 		expect(actual).withContext("Simple TOP from sub branch failed").toBe(expected);
 	});
 
@@ -466,6 +517,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree3"),
 			expected = domTesting.queryByTestId(testHolder, "tree7"),
 			actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.END);
+
 		expect(actual).withContext("Simple END failed").toBe(expected);
 	});
 
@@ -473,6 +525,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree33"),
 			expected = domTesting.queryByTestId(testHolder, "tree7"),
 			actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.END);
+
 		expect(actual).withContext("Simple END from sub branch failed").toBe(expected);
 	});
 
@@ -480,6 +533,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree4"),
 			expected = domTesting.queryByTestId(testHolder, "tree33"),
 			actual = keyWalker.getTarget(makeTreeConfig(false, true), start, keyWalker.MOVE_TO.PREVIOUS);
+
 		expect(actual).toBe(expected);
 	});
 
@@ -487,6 +541,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree2"),
 			expected = domTesting.queryByTestId(testHolder, "tree4"),
 			actual = keyWalker.getTarget(makeTreeConfig(false, false, mockClosedBranchNodesFilter), start, keyWalker.MOVE_TO.NEXT);
+
 		expect(actual).toBe(expected);
 	});
 
@@ -494,6 +549,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree2"),
 			expected = domTesting.queryByTestId(testHolder, "tree4"),
 			actual = keyWalker.getTarget(makeTreeConfig(false, true, mockClosedBranchNodesFilter), start, keyWalker.MOVE_TO.NEXT);
+
 		expect(actual).toBe(expected);
 	});
 
@@ -501,6 +557,7 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree4"),
 			expected = domTesting.queryByTestId(testHolder, "tree2"),
 			actual = keyWalker.getTarget(makeTreeConfig(false, false, mockClosedBranchNodesFilter), start, keyWalker.MOVE_TO.PREVIOUS);
+
 		expect(actual).toBe(expected);
 	});
 
@@ -508,24 +565,28 @@ describe("wc/dom/keyWalker", () => {
 		const start = domTesting.queryByTestId(testHolder, "tree4"),
 			expected = domTesting.queryByTestId(testHolder, "tree2"),
 			actual = keyWalker.getTarget(makeTreeConfig(false, true, mockClosedBranchNodesFilter), start, keyWalker.MOVE_TO.PREVIOUS);
+
 		expect(actual).toBe(expected);
 	});
 
 	it("testGetTargetChildNoChildren", function() {
 		const start = domTesting.queryByTestId(testHolder, "tree1"),
 			actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.CHILD);
+
 		expect(actual).withContext("CHILD without children should be null").toBeNull();
 	});
 
 	it("testGetTargetlastChildNoChildren", function() {
 		const start = domTesting.queryByTestId(testHolder, "tree1"),
 			actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.LAST_CHILD);
+
 		expect(actual).withContext("LAST_CHILD without children should be null").toBeNull();
 	});
 
 	it("testGetTargetParentTopLevel", function() {
 		const start = domTesting.queryByTestId(testHolder, "domKeyWalkerTree"),
 			actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.PARENT);
+
 		expect(actual).withContext("PARENT from top should be null").toBeNull();
 	});
 
@@ -537,6 +598,7 @@ describe("wc/dom/keyWalker", () => {
 		try {
 			disabled.setAttribute("aria-disabled", "true");
 			const actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.NEXT);
+
 			expect(actual).toBe(expected);
 		} finally {
 			disabled.removeAttribute("aria-disabled");
@@ -550,6 +612,7 @@ describe("wc/dom/keyWalker", () => {
 		try {
 			hidden.setAttribute("hidden", "hidden");
 			const actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.NEXT);
+
 			expect(actual).toBe(expected);
 		} finally {
 			hidden.removeAttribute("hidden");
@@ -563,6 +626,7 @@ describe("wc/dom/keyWalker", () => {
 		try {
 			disabled.setAttribute("aria-disabled", "true");
 			const actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.PREVIOUS);
+
 			expect(actual).toBe(expected);
 		} finally {
 			disabled.removeAttribute("aria-disabled");
@@ -576,6 +640,7 @@ describe("wc/dom/keyWalker", () => {
 		try {
 			hidden.setAttribute("hidden", "hidden");
 			const actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.PREVIOUS);
+
 			expect(actual).toBe(expected);
 		} finally {
 			hidden.removeAttribute("hidden");
@@ -589,6 +654,7 @@ describe("wc/dom/keyWalker", () => {
 		try {
 			disabled.setAttribute("aria-disabled", "true");
 			const actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.FIRST);
+
 			expect(actual).toBe(expected);
 		} finally {
 			disabled.removeAttribute("aria-disabled");
@@ -602,6 +668,7 @@ describe("wc/dom/keyWalker", () => {
 		try {
 			hidden.setAttribute("hidden", "hidden");
 			const actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.FIRST);
+
 			expect(actual).toBe(expected);
 		} finally {
 			hidden.removeAttribute("hidden");
@@ -615,6 +682,7 @@ describe("wc/dom/keyWalker", () => {
 		try {
 			disabled.setAttribute("aria-disabled", "true");
 			const actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.LAST);
+
 			expect(actual).toBe(expected);
 		} finally {
 			disabled.removeAttribute("aria-disabled");
@@ -628,6 +696,7 @@ describe("wc/dom/keyWalker", () => {
 		try {
 			hidden.setAttribute("hidden", "hidden");
 			const actual = keyWalker.getTarget(makeTreeConfig(), start, keyWalker.MOVE_TO.LAST);
+
 			expect(actual).toBe(expected);
 		} finally {
 			hidden.removeAttribute("hidden");
@@ -641,6 +710,7 @@ describe("wc/dom/keyWalker", () => {
 		try {
 			disabled.setAttribute("aria-disabled", "true");
 			const actual = keyWalker.getTarget(makeTreeConfig(true), start, keyWalker.MOVE_TO.PREVIOUS);
+
 			expect(actual).toBe(expected);
 		} finally {
 			disabled.removeAttribute("aria-disabled");
@@ -654,6 +724,7 @@ describe("wc/dom/keyWalker", () => {
 		try {
 			hidden.setAttribute("hidden", "hidden");
 			const actual = keyWalker.getTarget(makeTreeConfig(true), start, keyWalker.MOVE_TO.PREVIOUS);
+
 			expect(actual).toBe(expected);
 		} finally {
 			hidden.removeAttribute("hidden");
@@ -667,6 +738,7 @@ describe("wc/dom/keyWalker", () => {
 		try {
 			disabled.setAttribute("aria-disabled", "true");
 			const actual = keyWalker.getTarget(makeTreeConfig(true), start, keyWalker.MOVE_TO.NEXT);
+
 			expect(actual).toBe(expected);
 		} finally {
 			disabled.removeAttribute("aria-disabled");
@@ -680,6 +752,7 @@ describe("wc/dom/keyWalker", () => {
 		try {
 			hidden.setAttribute("hidden", "hidden");
 			const actual = keyWalker.getTarget(makeTreeConfig(true), start, keyWalker.MOVE_TO.NEXT);
+
 			expect(actual).toBe(expected);
 		} finally {
 			hidden.removeAttribute("hidden");
@@ -701,36 +774,42 @@ describe("wc/dom/keyWalker", () => {
 	it("testGetTargetParentThrowsException", function() {
 		const start = groupedElements[1];
 		const doBadThing = () => keyWalker.getTarget(makeGroupConfig(), start, keyWalker.MOVE_TO.PARENT);
+
 		expect(doBadThing).withContext("controller.MOVE_TO.PARENT should throw a ReferenceError").toThrowError();
 	});
 
 	it("testGetTargetChildThrowsException", function() {
 		const start = groupedElements[1];
 		const doBadThing = () => keyWalker.getTarget(makeGroupConfig(), start, keyWalker.MOVE_TO.CHILD);
+
 		expect(doBadThing).withContext("controller.MOVE_TO.CHILD should throw a ReferenceError").toThrowError();
 	});
 
 	it("testGetTargetLastChildThrowsException", function() {
 		const start = groupedElements[1];
 		const doBadThing = () => keyWalker.getTarget(makeGroupConfig(), start, keyWalker.MOVE_TO.LAST_CHILD);
+
 		expect(doBadThing).withContext("controller.MOVE_TO.LAST_CHILD should throw a ReferenceError").toThrowError();
 	});
 
 	it("testGetTargetTreeNonsenseDirectionThrowsError", function () {
 		const start = domTesting.getByTestId(testHolder, "tree1");
 		const doBadThing = () => keyWalker.getTarget(makeTreeConfig(), start, -1);
+
 		expect(doBadThing).withContext("direction -1 should throw a ReferenceError").toThrowError();
 	});
 
 	it("testGetTargetNoConf", function () {
 		// @ts-ignore
 		const doBadThing = () => keyWalker.getTarget();
+
 		expect(doBadThing).withContext("Expected a TypeError").toThrowError();
 	});
 
 	it("testGetTargetNoConfRoot", function () {
 		// @ts-ignore
 		const doBadThing = () => keyWalker.getTarget({});
+
 		expect(doBadThing).withContext("Expected a TypeError").toThrowError();
 	});
 
@@ -738,6 +817,7 @@ describe("wc/dom/keyWalker", () => {
 		const conf = { root: { nodeType: 8 } };
 		// @ts-ignore
 		const doBadThing = () => keyWalker.getTarget(conf);
+
 		expect(doBadThing).withContext("Expected a TypeError").toThrowError();
 	});
 });

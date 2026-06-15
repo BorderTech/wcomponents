@@ -1,9 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-
-	<name>wcomponents-test-lib</name>
-	<artifactId>wcomponents-test-lib</artifactId>
 
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
@@ -12,6 +11,8 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
+	<name>wcomponents-test-lib</name>
+	<artifactId>wcomponents-test-lib</artifactId>
 	<packaging>jar</packaging>
 
 	<properties>
@@ -28,6 +29,7 @@
 					<include>wcomponents-test-lib-version.properties</include>
 				</includes>
 			</resource>
+
 			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>false</filtering>
@@ -36,11 +38,9 @@
 				</excludes>
 			</resource>
 		</resources>
-
 	</build>
 
 	<dependencies>
-
 		<dependency>
 			<groupId>com.github.bordertech.wcomponents</groupId>
 			<artifactId>wcomponents-core</artifactId>
@@ -73,7 +73,7 @@
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-server</artifactId>
-			<version>${jetty.version}</version>
+			<version>${version.org.eclipse.jetty.jetty-server}</version>
 		</dependency>
 
 		<dependency>
@@ -148,11 +148,13 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
 			<version>1.20.0</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
@@ -164,6 +166,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
 		<dependency>
 			<groupId>net.java.dev.jna</groupId>
 			<artifactId>jna</artifactId>
@@ -175,7 +178,6 @@
 			<artifactId>junit</artifactId>
 			<scope>compile</scope>
 		</dependency>
-
 	</dependencies>
 
 </project>

@@ -1,6 +1,12 @@
 // TODO total rewrite / deletion of this
+
+const { console, document } = globalThis;
+
 /**
  * Helper for public request method.
+ * @param href - ?
+ * @param as - ?
+ * @param rel - ?
  */
 function addLink(href, as, rel) {
 	if (href && document && document.head) {

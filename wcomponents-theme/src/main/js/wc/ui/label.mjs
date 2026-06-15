@@ -9,6 +9,8 @@ import wrappedInput from "wc/dom/wrappedInput.mjs";
 import checkBox from "wc/ui/checkBox.mjs";
 import feedback from "wc/ui/feedback.mjs";
 
+const { console, document, Node } = globalThis;
+
 const CLASS_HINT = "wc-label-hint";
 const checkboxWrapperSelector = checkBox.getWrapper().toString();
 const moveSelectors = [checkboxWrapperSelector, ".wc-radiobutton", "button.wc-selecttoggle"];
@@ -128,7 +130,7 @@ function showHideLabel(label, func) {
  * @param {CustomEvent & { target: HTMLElement }} $event An optional/mandatory event.
  */
 function shedMandatorySubscriber($event) {
-	const { target, type: action} = $event;
+	const { target, type: action } = $event;
 	if (!target) {
 		return;
 	}
@@ -148,7 +150,7 @@ function shedMandatorySubscriber($event) {
  * @param {CustomEvent & { target: HTMLElement }} $event A show/hide event.
  */
 function shedHideSubscriber($event) {
-	const { target: element, type: action} = $event;
+	const { target: element, type: action } = $event;
 	if (element) {
 		const func = action === shed.events.SHOW ? "show" : "hide";
 		// anything, even read-only, can be hidden/shown
@@ -258,7 +260,7 @@ function checkboxLabelPositionHelper(input, label) {
 
 /**
  * @param {Element} el
- * @return {boolean}
+ * @returns {boolean} ?
  */
 function isActiveWCheckBox(el) {
 	if (el?.nodeType !== Node.ELEMENT_NODE) {
@@ -373,6 +375,7 @@ function ajaxSubscriber(element) {
 		labels.forEach(function (label) {
 			const isLabel = label.matches("label");
 			// if the new element is readOnly and the old one
+			// eslint-disable-next-line @stylistic/no-mixed-operators
 			if (isRO && isLabel || !(isRO || isLabel)) {
 				convertLabel(next, label, isRO);
 				return;

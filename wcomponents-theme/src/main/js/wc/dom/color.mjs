@@ -2,6 +2,8 @@
  * NOTE: this is only used in wc/dom/getStyle and could potentially be merged with that module.
  */
 
+const { document, getComputedStyle } = globalThis;
+
 const hex2rgbCache = {},
 	literal2hexCache = {},
 	HEX_HASH_RE = /^#/,
@@ -47,9 +49,9 @@ const instance = {
 				if (hex.length < 6) {
 					hex = convert3digitHexTo6(hex);
 				}
-				result["r"] = parseInt(hex.substring(0, 2), 16);
-				result["g"] = parseInt(hex.substring(2, 4), 16);
-				result["b"] = parseInt(hex.substring(4, 6), 16);
+				result["r"] = Number.parseInt(hex.substring(0, 2), 16);
+				result["g"] = Number.parseInt(hex.substring(2, 4), 16);
+				result["b"] = Number.parseInt(hex.substring(4, 6), 16);
 			}
 		} else {
 			throw new TypeError("hex can not be null / must be an instance of String");
@@ -80,7 +82,7 @@ const instance = {
 					result = this.rgb2hex(color);
 				}
 			} finally {
-				document.body.removeChild(tmp);
+				tmp.remove();
 			}
 			literal2hexCache[c] = result || (result = null);  // cache result OR flag not to search again
 		}
@@ -114,7 +116,7 @@ const instance = {
 			}
 			if (arrRgb) {
 				for (const num of arrRgb) {
-					const hexNo = parseInt(num).toString(16);
+					const hexNo = Number.parseInt(num).toString(16);
 					hex[hex.length] = (hexNo.length === 1) ? (hexNo + hexNo) : hexNo;
 				}
 			}

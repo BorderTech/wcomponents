@@ -1,7 +1,9 @@
 import dropdown from "wc/ui/dropdown.mjs";
-import {getSelect} from "../helpers/specUtils.mjs";
+import { getSelect } from "../helpers/specUtils.mjs";
 
-describe("wc/ui/dropdown", ()=> {
+const { afterAll, beforeAll, describe, document, expect, it } = globalThis;
+
+describe("wc/ui/dropdown", () => {
 	let ownerDocument;
 	let testHolder;
 
@@ -31,24 +33,30 @@ describe("wc/ui/dropdown", ()=> {
 	it("Should select an option by value", function() {
 		const element = getSelect(testHolder, "dd1");
 		element.selectedIndex = -1;
+
 		expect(element.selectedOptions.length).toBe(0);
 		dropdown.setSelectionByValue(element, "b");
+
 		expect(element.selectedIndex).toBe(1);
 	});
 
 	it("Should select an option by text", function() {
 		const element = getSelect(testHolder, "dd1");
 		element.selectedIndex = -1;
+
 		expect(element.selectedOptions.length).toBe(0);
 		dropdown.setSelectionByValue(element, "banana");
+
 		expect(element.selectedIndex).toBe(2);
 	});
 
 	it("Should do nothing if no option found", function() {
 		const element = getSelect(testHolder, "dd1");
 		element.selectedIndex = -1;
+
 		expect(element.selectedOptions.length).toBe(0);
 		dropdown.setSelectionByValue(element, "apricot");
+
 		expect(element.selectedIndex).toBe(-1);
 	});
 

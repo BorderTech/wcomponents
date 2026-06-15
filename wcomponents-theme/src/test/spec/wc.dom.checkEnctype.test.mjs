@@ -1,6 +1,8 @@
 import formUpdateManager from "wc/dom/formUpdateManager.mjs";
 
-describe("wc/dom/formUpdateManager", function() {
+const { afterEach, beforeEach, describe, document, expect, it } = globalThis;
+
+describe("wc/dom/checkEnctype & formUpdateManager", function() {
 	/**
 	 * There is a requirement to ensure that the enctype of the form is set correctly if there is a file selector
 	 * in the form. We don't care how it happens or where the code is located, all we care about is that when we
@@ -8,7 +10,7 @@ describe("wc/dom/formUpdateManager", function() {
 	 *
 	 * Not that we care but the code used to be wc/dom/checkEnctype and is now in wc/dom/formUpdateManager.
 	 */
-	
+
 	const html = `
 		<form name="checkEnctype1">
 			<label id="maleLabel" for="male">Male</label>
@@ -33,7 +35,7 @@ describe("wc/dom/formUpdateManager", function() {
 			<input type="radio" name="sex" id="yesX" />
 			<input type="file"/>
 		</form>`;
-	
+
 	const multipartEncType = "multipart/form-data",
 		testHolder = document.body;
 
@@ -48,18 +50,22 @@ describe("wc/dom/formUpdateManager", function() {
 	it("testCheckEnctypeNoRewrite", function() {
 		const form = document.forms["checkEnctype1"];
 		let enctype = form.enctype;
+
 		expect(enctype).not.toBe(multipartEncType);
 		formUpdateManager.update(form);
 		enctype = form.enctype;
+
 		expect(enctype).not.toBe(multipartEncType);
 	});
 
 	it("testCheckEnctypeYesRewrite", function() {
 		const form = document.forms["checkEnctype2"];
 		let enctype = form.enctype;
+
 		expect(enctype).not.toBe(multipartEncType);
 		formUpdateManager.update(form);
 		enctype = form.enctype;
+
 		expect(enctype).toBe(multipartEncType);
 		// assert.strictEqual(multipartEncType, enctype);
 		// This was originally strictEqual. Check with Rick

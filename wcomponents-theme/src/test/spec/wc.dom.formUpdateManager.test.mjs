@@ -1,5 +1,7 @@
 import formUpdateManager from "wc/dom/formUpdateManager.mjs";
 
+const { afterEach, beforeEach, describe, document, expect, it } = globalThis;
+
 describe("wc/dom/formUpdateManager", () => {
 	const ownerDocument = document,
 		testHolder = ownerDocument.body,
@@ -12,7 +14,7 @@ describe("wc/dom/formUpdateManager", () => {
 	};
 
 	/**
-	 * @return {HTMLFormElement}
+	 * @returns {HTMLFormElement} ?
 	 */
 	const getForm = () => /** @type HTMLFormElement */(ownerDocument.getElementById(formId));
 
@@ -35,8 +37,10 @@ describe("wc/dom/formUpdateManager", () => {
 			const sContainer = formUpdateManager.getStateContainer(form);
 			formUpdateManager.subscribe(subscriber);
 			sContainer.appendChild(markerElement);
+
 			expect(markerElement.parentNode).toBe(sContainer);
 			formUpdateManager.update(form);
+
 			expect(markerElement.parentNode).toBeNull();
 		} finally {
 			formUpdateManager.unsubscribe(subscriber);
@@ -51,8 +55,10 @@ describe("wc/dom/formUpdateManager", () => {
 			sContainer = formUpdateManager.getStateContainer(form),
 			markerElement = ownerDocument.createElement("input");
 		sContainer.appendChild(markerElement);
+
 		expect(markerElement.parentNode).toBe(sContainer);
 		formUpdateManager.clean(form);
+
 		expect(markerElement.parentNode).toBeNull();
 	});
 
@@ -62,6 +68,7 @@ describe("wc/dom/formUpdateManager", () => {
 			name = testName,
 			state = formUpdateManager.writeStateField(sContainer, name),
 			result = formUpdateManager.getStateField(sContainer, name);
+
 		expect(result).toBe(state);
 		expect(byName(form, name)[0]).toBe(result);
 	});
@@ -71,9 +78,11 @@ describe("wc/dom/formUpdateManager", () => {
 			sContainer = formUpdateManager.getStateContainer(form),
 			name = testName, val = testVal;
 		let result = byName(form, name);
+
 		expect(result.length).toBe(0);
 		formUpdateManager.writeStateField(sContainer, name, val);
 		result = formUpdateManager.getStateField(sContainer, name);
+
 		expect(result.value).toBe(val);
 	});
 
@@ -82,9 +91,11 @@ describe("wc/dom/formUpdateManager", () => {
 			sContainer = formUpdateManager.getStateContainer(form),
 			name = testName, val = "";
 		let result = byName(form, name);
+
 		expect(result.length).toBe(0);
 		formUpdateManager.writeStateField(sContainer, name);
 		result = formUpdateManager.getStateField(sContainer, name);
+
 		expect(result.value).toBe(val);
 	});
 
@@ -93,12 +104,15 @@ describe("wc/dom/formUpdateManager", () => {
 			sContainer = formUpdateManager.getStateContainer(form),
 			name = testName, val = testVal;
 		let result = byName(form, name);
+
 		expect(result.length).toBe(0);
 		formUpdateManager.writeStateField(sContainer, name, val);
 		result = byName(form, name);
+
 		expect(result.length).toBe(1);
 		formUpdateManager.writeStateField(sContainer, name, val);
 		result = byName(form, name);
+
 		expect(result.length).toBe(2);
 	});
 
@@ -107,9 +121,11 @@ describe("wc/dom/formUpdateManager", () => {
 			sContainer = formUpdateManager.getStateContainer(form),
 			name = testName, val = testVal;
 		let result = byName(form, name);
+
 		expect(result.length).toBe(0);
 		formUpdateManager.writeStateField(sContainer, name, val, true);
 		result = formUpdateManager.getStateField(sContainer, name);
+
 		expect(result.value).toBe(val);
 	});
 
@@ -118,12 +134,15 @@ describe("wc/dom/formUpdateManager", () => {
 			sContainer = formUpdateManager.getStateContainer(form),
 			name = testName, val = testVal;
 		let result = byName(form, name);
+
 		expect(result.length).toBe(0);
 		formUpdateManager.writeStateField(sContainer, name, val, true);
 		result = byName(form, name);
+
 		expect(result.length).toBe(1);
 		formUpdateManager.writeStateField(sContainer, name, val, true);
 		result = byName(form, name);
+
 		expect(result.length).toBe(1);
 	});
 
@@ -141,6 +160,7 @@ describe("wc/dom/formUpdateManager", () => {
 			formUpdateManager.subscribe(subscriber);
 			formUpdateManager.update(form);
 			result = byName(form, name);
+
 			expect(result.length).toBe(1);
 			expect(result[0].value).toBe(val);
 		} finally {
@@ -160,6 +180,7 @@ describe("wc/dom/formUpdateManager", () => {
 			formUpdateManager.subscribe(subscriber);
 			formUpdateManager.update(form);
 			result = byName(form, name);
+
 			expect(result.length).toBe(1);
 			expect(result[0].value).toBe(val);
 		} finally {
@@ -176,11 +197,13 @@ describe("wc/dom/formUpdateManager", () => {
 					formUpdateManager.writeStateField(stateContainer, name, val, true);
 				}
 			};
+
 		expect(result.length).withContext(`Clean up not working, found remnant field with name ${name}`).toBe(0);
 		formUpdateManager.subscribe(subscriber);
 		formUpdateManager.unsubscribe(subscriber);
 		formUpdateManager.update(form);
 		result = byName(form, name);
+
 		expect(result.length).withContext("Unsubscribe should have prevented field state being written").toBe(0);
 	});
 
@@ -191,11 +214,13 @@ describe("wc/dom/formUpdateManager", () => {
 			subscriber = function(frm, stateContainer) {
 				formUpdateManager.writeStateField(stateContainer, name, val, true);
 			};
+
 		expect(result.length).withContext(`Clean up not working, found remnant field with name ${name}`).toBe(0);
 		formUpdateManager.subscribe(subscriber);
 		formUpdateManager.unsubscribe(subscriber);
 		formUpdateManager.update(form);
 		result = byName(form, name);
+
 		expect(result.length).withContext("Unsubscribe should have prevented field state being written").toBe(0);
 	});
 });

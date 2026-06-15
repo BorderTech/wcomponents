@@ -1,4 +1,10 @@
+
+import process from "node:process";
+
 import monthName from "wc/date/monthName.mjs";
+
+const { afterAll, beforeAll, beforeEach, console, describe, document, expect, it } = globalThis;
+
 describe("wc/date/monthName", function() {
 	const expectedEn = ["January", "February", "March", "April", "May", "June", "July",
 		"August", "September", "October", "November", "December"];
@@ -15,7 +21,7 @@ describe("wc/date/monthName", function() {
 	const expectedFrAbbrAscii = ["janv", "fevr", "mars", "avr", "mai", "juin", "juil",
 		"aout", "sept", "oct", "nov", "dec"];
 
-	const lang = globalThis.document.documentElement.lang;
+	const lang = document.documentElement.lang;
 	const tz = process.env.TZ;
 
 	beforeAll(() => {
@@ -28,39 +34,49 @@ describe("wc/date/monthName", function() {
 	});
 
 	beforeEach(() => {
-		globalThis.document.documentElement.lang = lang;
+		document.documentElement.lang = lang;
 	});
 
 	it("testmonthNameEn", function() {
-		globalThis.document.documentElement.lang = "en";
+		document.documentElement.lang = "en";
 		const actual = monthName.get();
+
 		expect(actual).toEqual(expectedEn);
 	});
 
 	it("testmonthNameFr", function() {
-		globalThis.document.documentElement.lang = "fr";
+		document.documentElement.lang = "fr";
 		const actual = monthName.get();
+
 		expect(actual).toEqual(expectedFr);
 	});
+
 	it("testmonthNameEnAbbr", function() {
-		globalThis.document.documentElement.lang = "en";
+		document.documentElement.lang = "en";
 		const actual = monthName.get(true);
+
 		expect(actual).toEqual(expectedEnAbbr);
 	});
+
 	it("testmonthNameFrAscii", function() {
-		globalThis.document.documentElement.lang = "fr";
+		document.documentElement.lang = "fr";
 		const actual = monthName.get(false, true);
+
 		expect(actual).toEqual(expectedFrAscii);
 	});
+
 	it("testmonthNameFrAbbrAscii", function() {
-		globalThis.document.documentElement.lang = "fr";
+		document.documentElement.lang = "fr";
 		const actual = monthName.get(true, true);
+
 		expect(actual).toEqual(expectedFrAbbrAscii);
 	});
+
 	it("testhasAscii", function() {
-		globalThis.document.documentElement.lang = "fr";
+		document.documentElement.lang = "fr";
 		monthName.get(false, true);
 		const actual = monthName.hasAsciiVersion();
+
 		expect(actual).toEqual(true);
 	});
 });

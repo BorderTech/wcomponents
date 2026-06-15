@@ -4,6 +4,8 @@
  *
  */
 
+const { console } = globalThis;
+
 export default new TriggerManager();
 /**
  * Provides a manager for collections of Ajax Triggers.

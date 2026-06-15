@@ -1,5 +1,6 @@
 import diagnostic from "wc/dom/diagnostic.mjs";
 
+const { afterEach, beforeAll, beforeEach, describe, document, expect, it } = globalThis;
 
 const testBoxId = "wcdiagnostictest1";
 const dummyElementId = "wcdiagnostictest_notdiagnostic";
@@ -78,29 +79,34 @@ describe("wc/dom/diagnostic", () => {
 
 	it("testGetWidget", function() {
 		const widget = diagnostic.getWidget();
+
 		expect(widget).toBeTruthy();
 	});
 
 	it("testGetWidgetIsCorrectWidget", function() {
 		const widget = diagnostic.getWidget(),
 			element = getTestBox();
+
 		expect(element.matches(widget.toString())).toBeTrue();
 	});
 
 	it("testGetMessage", function() {
 		const widget = diagnostic.getMessage();
+
 		expect(widget).toBeTruthy();
 	});
 
 	it("testGetMessageIsCorrectWidget", function() {
 		const widget = diagnostic.getMessage(),
 			element = getMessageElement();
+
 		expect(element.matches(widget.toString())).toBeTrue();
 	});
 
 	it("testGetByTypeNoType", function() {
 		const expected = diagnostic.getWidget(),
 			actual = diagnostic.getByType();
+
 		expect(actual).toBe(expected);
 	});
 
@@ -122,11 +128,13 @@ describe("wc/dom/diagnostic", () => {
 
 	it("testIsOneOfMeNoLevel_withBox", function() {
 		const box = getTestBox();
+
 		expect(diagnostic.isOneOfMe(box)).toBeTrue();
 	});
 
 	it("testIsOneOfMeNoLevel_notDiagnostic", function() {
 		const box = getDummyElement();
+
 		expect(diagnostic.isOneOfMe(box)).toBeFalse();
 	});
 
@@ -135,6 +143,7 @@ describe("wc/dom/diagnostic", () => {
 		for (let lvl in diagnostic.LEVEL) {
 			if (diagnostic.LEVEL.hasOwnProperty(lvl)) {
 				let msg = `Unexpected match ${box.className}" should not match "${diagnostic.getBoxClass(diagnostic.LEVEL[lvl])}"`;
+
 				expect(diagnostic.isOneOfMe(box, diagnostic.LEVEL[lvl])).withContext(msg).toBeFalse();
 			}
 		}
@@ -159,6 +168,7 @@ describe("wc/dom/diagnostic", () => {
 
 	it("testIsMessage_noLevel_notAMessage", function() {
 		const msg = getFakeMessage();
+
 		expect(diagnostic.isMessage(msg)).toBeFalse();
 	});
 
@@ -173,6 +183,7 @@ describe("wc/dom/diagnostic", () => {
 
 	it("testIsMessage_noLevel_message", function() {
 		const msg = getMessageElement();
+
 		expect(diagnostic.isMessage(msg)).toBeTrue();
 	});
 
@@ -195,17 +206,20 @@ describe("wc/dom/diagnostic", () => {
 
 	it("testIsMessage_badLevel", function() {
 		const msg = getMessageElement();
+
 		expect(diagnostic.isMessage(msg, -1)).toBeFalse();
 	});
 
 	it("testGetLevel_noArg", function() {
 		// @ts-ignore
 		const doBadThing = () => diagnostic.getLevel();
+
 		expect(doBadThing).toThrowError("Argument must be a diagnostic box");
 	});
 
 	it("testGetLevel_badArg", function() {
 		const doBadThing = () => diagnostic.getLevel(getDummyElement());
+
 		expect(doBadThing).toThrowError("Argument must be a diagnostic box");
 	});
 
@@ -237,6 +251,7 @@ describe("wc/dom/diagnostic", () => {
 	it("testGetTarget_diagnosticNoId", function() {
 		const box = getTestBox();
 		box.removeAttribute("data-wc-dfor");
+
 		expect(diagnostic.getTarget(box)).withContext("well that was unexpected").toBeNull();
 	});
 
@@ -259,18 +274,21 @@ describe("wc/dom/diagnostic", () => {
 
 	it("testGetTarget_noTarget", function() {
 		const box = getTestBox();
+
 		expect(diagnostic.getTarget(box)).toBeNull();
 	});
 
 	it("testGetBoxNoTarget", function() {
 		const box = getTestBox();
 		box.id = box.id + "_err"; // make a real diagnostic box with no target element.
+
 		expect(diagnostic.getTarget(box)).toBeNull();
 	});
 
 	it("testStupidMadeUpTestForGetTargetBranchConverage", function() {
 		const box = getTestBox();
 		box.id = "_err"; // the silly default which should not be a default
+
 		expect(diagnostic.getTarget(box)).toBeNull();
 	});
 
@@ -304,6 +322,7 @@ describe("wc/dom/diagnostic", () => {
 			qs = widget.toString(),
 			expected = qs + "." + diagnostic.getBoxClass(level),
 			actual = diagnostic.getByType(level);
+
 		expect(actual.toString()).toBe(expected);
 	}
 
@@ -329,6 +348,7 @@ describe("wc/dom/diagnostic", () => {
 					if (diagnostic.LEVEL[lvl] === level) {
 						continue;
 					}
+
 					expect(diagnostic.isOneOfMe(box, diagnostic.LEVEL[lvl])).withContext("A diagnostic at one level should not be a diagnostic at other levels").toBeFalse();
 				}
 			}
@@ -356,6 +376,7 @@ describe("wc/dom/diagnostic", () => {
 					if (diagnostic.LEVEL[lvl] === level) {
 						continue;
 					}
+
 					expect(diagnostic.isMessage(msg, diagnostic.LEVEL[lvl])).withContext("A message at one level should not be a message at other levels").toBeFalse();
 				}
 			}
@@ -369,6 +390,7 @@ describe("wc/dom/diagnostic", () => {
 			className = diagnostic.getBoxClass(level);
 		try {
 			box.classList.add(className);
+
 			expect(diagnostic.getLevel(box)).withContext("Level class should be sufficient").toBe(level);
 			// a diagnostic box at any one level is NOT a box at other levels
 			for (let lvl in diagnostic.LEVEL) {
@@ -376,6 +398,7 @@ describe("wc/dom/diagnostic", () => {
 					if (diagnostic.LEVEL[lvl] === level) {
 						continue;
 					}
+
 					expect(diagnostic.getLevel(box)).withContext("Unexpected level match").not.toBe(diagnostic.LEVEL[lvl]);
 				}
 			}
@@ -394,6 +417,7 @@ describe("wc/dom/diagnostic", () => {
 		testHolder.appendChild(target);
 		box.setAttribute("data-wc-dfor", expected);
 		box.classList.add(className);
+
 		expect(diagnostic.getTarget(box).id).toBe(expected);
 	}
 });

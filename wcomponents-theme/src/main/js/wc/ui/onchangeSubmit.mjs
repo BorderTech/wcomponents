@@ -10,6 +10,8 @@ import i18n from "wc/i18n/i18n.mjs";
 import textContent from "wc/dom/textContent.mjs";
 import processResponse from "wc/ui/ajax/processResponse.mjs";
 
+const { console } = globalThis;
+
 const submitterselector = ".wc_soc",
 	load_selectselector = `${submitterselector}[data-wc-list]`,
 	triggers = [
@@ -78,7 +80,7 @@ const instance = {
 	 * @function module:wc/ui/onchangeSubmit.clearIgnoreChange
 	 * @public
 	 */
-	clearIgnoreChange: () => ignoreChange = false,
+	clearIgnoreChange: () => ignoreChange = false
 };
 
 /**

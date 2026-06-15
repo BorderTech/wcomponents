@@ -4,6 +4,8 @@
  * It is split up for the sake of maintenance sanity.
  */
 
+const { window } = globalThis;
+
 const SAVE_INTERVAL = 1000,
 	MAX_HISTORY = 30;
 

@@ -38,8 +38,8 @@ export default function accepted(element, fileInfo) {
 
 	const checkFileBasic = function (mimeType, extension) {
 		return (!mimeType && !extension) ||
-			(extension && acceptedType.indexOf(extension) >= 0) ||
-			(mimeType && acceptedType.indexOf(mimeType) >= 0);
+			(extension && acceptedType.includes(extension)) ||
+			(mimeType && acceptedType.includes(mimeType));
 	};
 
 	const compareMime = function (actual, reference) {
@@ -63,8 +63,8 @@ export default function accepted(element, fileInfo) {
 		}
 
 		// maybe there is a case difference OR it's a wildcard mimetype or there is some whitespace to be trimmed?
-		for (let i = 0; i < acceptedTypes.length; i++) {
-			let next = acceptedTypes[i].toLowerCase();
+		for (const at of acceptedTypes) {
+			let next = at.toLowerCase();
 			next = next.trim();
 			if (extension) {
 				extension = extension.toLowerCase();

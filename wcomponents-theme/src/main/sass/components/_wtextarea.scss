@@ -27,11 +27,11 @@ textarea + output {
 // to textarea-like settings.
 // sass-lint:disable no-qualifying-elements
 pre.wc-textarea {
+  display: inline-flex;
   font-family: inherit;
   margin: 0;
   white-space: pre-wrap;
   word-break: normal;
-  display: inline-flex;
 }
 
 div.wc-textarea {

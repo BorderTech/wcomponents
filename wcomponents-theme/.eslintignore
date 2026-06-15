@@ -1,4 +1,0 @@
-# Only ignore third-party scripts
-**/lib/**
-# We are no longer using the intern tests, so ignore them until they are all dealt with
-src/test/intern/

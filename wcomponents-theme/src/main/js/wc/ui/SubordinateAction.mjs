@@ -1,5 +1,7 @@
 import shed from "wc/dom/shed.mjs";
 
+const { console, window } = globalThis;
+
 const actionRegister = {},  // Map of subordinate action keywords to functions which implement the action.
 	groupRegister = {};
 
@@ -16,7 +18,7 @@ const actionRegister = {},  // Map of subordinate action keywords to functions w
  * @constructor
  * @alias module:wc/ui/SubordinateAction
  * @param {module:wc/ui/SubordinateAction~ActionDTO} dto The object defining the action.
- * @throws TypeError if the dto is the wrong "duck type"
+ * @throws {TypeError} TypeError if the dto is the wrong "duck type"
  */
 function Action(dto) {
 	if (actionRegister.hasOwnProperty(dto.type)) {
@@ -127,7 +129,7 @@ function initTargetConstructor() {
 			} else {
 				const group = this.getGroup();
 				if (group) {
-					result = group.indexOf(id) >= 0;
+					result = group.includes(id);
 				}
 			}
 		} finally {
@@ -209,8 +211,8 @@ function initActionConstructor() {
 	 */
 	Action.prototype.execute = function() {
 		const targets = this.targets;
-		for (let i = 0; i < targets.length; i++) {
-			let next = targets[i];
+		for (const target of targets) {
+			let next = target;
 			try {
 				let element = next.getElement();
 				if (element) {
@@ -252,9 +254,9 @@ function initActionImplementations() {
 	Action.register("disablein", disableInGroup);
 
 	/**
-	 *
+	 * ?
 	 * @param {Element} element
-	 * @return {boolean} true if it's `checkable"
+	 * @returns {boolean} If it's "checkable"
 	 */
 	function isCheckable(element) {
 		return element?.matches("input[type='checkbox'],input[type='radio']");
@@ -274,11 +276,11 @@ function initActionImplementations() {
 		const targets = this.targets;
 
 		func(element);  // apply the "special treatment" to the "in" element
-		for (let i = 0; i < targets.length; i++) {  // toggle the rest
-			let group = targets[i].getGroup();
-			if (group) {
-				for (let j = 0; j < group.length; j++) {
-					let next = group[j];
+		for (const target of targets) {
+			let groups = target.getGroup();
+			if (groups) {
+				for (const group of groups) {
+					let next = group;
 					if (element !== next) {  // don't toggle the "in" element
 						funcToggle.call(this, next);
 					}

@@ -1,6 +1,8 @@
 import aria from "wc/dom/aria.mjs";
 import $role from "wc/dom/role.mjs";
 
+const { console } = globalThis;
+
 /**
  * Provides a mechanism to get elements which are grouped by WAI-ARIA roles or by being aria-owned.
  */

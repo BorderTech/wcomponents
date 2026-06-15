@@ -1,6 +1,8 @@
 import Observer from "wc/Observer.mjs";
 import timers from "wc/timers.mjs";
 
+const { afterEach, beforeAll, describe, document, expect, fail, it, window } = globalThis;
+
 describe("wc/Observer", () => {
 	var ns = "An_observed_nameSpace",
 		ownerDocument,
@@ -37,6 +39,7 @@ describe("wc/Observer", () => {
 
 		observer.subscribe(subscriber);
 		observer.notify();
+
 		expect(wasNotified).withContext("The subscriber should be notified if it was correctly subscribed.").toBeTrue();
 	});
 
@@ -78,6 +81,7 @@ describe("wc/Observer", () => {
 		}
 		observer.subscribe(subscriber);
 		observer.notify("foo", "bar");
+
 		expect(wasNotified).withContext("Subscribe with args should honour notified args.").toBeTrue();
 	});
 
@@ -91,17 +95,20 @@ describe("wc/Observer", () => {
 		observer.subscribe(subscriber);
 		observer.subscribe(subscriber);
 		observer.notify();
+
 		expect(count).withContext("Should not be able to subscribe more than once.").toBe(1);
 	});
 
 	it("testObserverSubscribeNoParams", function() {
 		const doBadThing = () => observer.subscribe();
+
 		expect(doBadThing).withContext("Expected exception: Subscribing without a subscriber should have failed.").toThrowError();
 	});
 
 	/* Subscriber groups are really an issue for notify(). This just tests that  the subscriber gets subscribed (by returning itself) and does not throw an exception. */
 	it("testObserverSubscribeWithGroup", function() {
 		function subscriber() { }
+
 		expect(observer.subscribe(subscriber, { group: ns })).withContext("Subscribe with a group should return something.").not.toBeNull();
 	});
 
@@ -115,6 +122,7 @@ describe("wc/Observer", () => {
 		}
 		observer.subscribe(subscriber, { context: expectedContext });
 		observer.notify();
+
 		expect(actualContext).withContext("Notify should have reset actualContext.").toBe(expectedContext);
 	});
 
@@ -149,6 +157,7 @@ describe("wc/Observer", () => {
 		}
 		observer.subscribe(subscriber, { context: null });  // pass nothing and we should get global context
 		observer.notify();
+
 		expect(actualContext).withContext("Notify should have reset actualContext.").toBe(expectedContext);
 	});
 
@@ -162,6 +171,7 @@ describe("wc/Observer", () => {
 
 		observer.subscribe(subscriber);  // if using "call" or "apply" and no context specified context should pass through
 		observer.notify.call(expectedContext);
+
 		expect(actualContext).withContext("Notify should have reset actualContext.").toBe(expectedContext);
 	});
 
@@ -177,6 +187,7 @@ describe("wc/Observer", () => {
 		const expectedContext = new Subscriber();
 		observer.subscribe(expectedContext, { method: "myMethod" }); // calling a method the context should be the object to which the method belongs
 		observer.notify();
+
 		expect(actualContext).withContext("Notify should have reset actualContext.").toBe(expectedContext);
 	});
 
@@ -191,6 +202,7 @@ describe("wc/Observer", () => {
 		}
 		observer.subscribe(new Subscriber(), { context: expectedContext, method: "myMethod" });
 		observer.notify();
+
 		expect(actualContext).withContext("Notify should have reset actualContext").toBe(expectedContext);
 	});
 
@@ -209,6 +221,7 @@ describe("wc/Observer", () => {
 		observer.subscribe(iAmNotImportant, { priority: Observer.priority.MED });
 		observer.subscribe(iAmImportant, { priority: Observer.priority.HIGH });
 		observer.notify();
+
 		expect(amIImportant).withContext("The important subscriber should be notified first, therefore amIImportant should be reset by the first subscriber").toBeFalse();
 	});
 
@@ -222,6 +235,7 @@ describe("wc/Observer", () => {
 			lastcaller = 3;
 		});
 		observer.notify();
+
 		expect(lastcaller).withContext("The low priority subscriber should be called last.").toBe(2);
 	});
 
@@ -238,6 +252,7 @@ describe("wc/Observer", () => {
 			firstcaller = firstcaller || 3;
 		});
 		observer.notify();
+
 		expect(firstcaller).withContext("The High priority subscriber should be called first.").toBe(2);
 	});
 
@@ -259,6 +274,7 @@ describe("wc/Observer", () => {
 		observer.subscribe(iAmNotImportant, { priority: setImportanceParameter({ p1: "empty" }) });
 		observer.subscribe(iAmImportant, { priority: setImportanceParameter("anything") });
 		observer.notify();
+
 		expect(amIImportant).withContext("The important subscriber should be notified first, therefore amIImportant should be reset by the first subscriber").toBeFalse();
 	});
 
@@ -446,6 +462,7 @@ describe("wc/Observer", () => {
 		objectSubscriber = new ObjectSubscriber();
 		observer.subscribe(objectSubscriber, { method: "doSubscribe" });
 		observer.notify();
+
 		expect(calledIn).withContext("Subscribed method should have been called.").not.toBeNull();
 	});
 
@@ -462,11 +479,12 @@ describe("wc/Observer", () => {
 		objectSubscriber = new ObjectSubscriber();
 		observer.subscribe(objectSubscriber, { method: "doSubscribe" });
 		observer.notify();
+
 		expect(calledIn).withContext("Context should have been kept when using a subscriber Object with method name.").toBe(objectSubscriber);
 	});
 
 	/* subscribe()'s method param does not come into play until notify() is called so it may contain pretty much
-	 * anything but the various exceptions should be tested in notify() tests.*/
+	 * anything but the various exceptions should be tested in notify() tests. */
 	it("testObserverSubscribeMethodUndefinedFunction", function() {
 		var iHaveBeenCalled = false,
 			hasSubscribed = false,
@@ -481,8 +499,10 @@ describe("wc/Observer", () => {
 
 		objectSubscriber = new ObjectSubscriber();
 		observer.subscribe(objectSubscriber, { method: "listSubscribe" });
+
 		expect(iHaveBeenCalled).withContext("Subscribe should have instantiated a subscriber object").toBeTrue();
 		observer.notify();
+
 		expect(hasSubscribed).withContext("I should not have been subscribed").toBeFalse();
 	});
 
@@ -531,6 +551,7 @@ describe("wc/Observer", () => {
 
 		// if we now call notify having unsubscribed then wasSubscribed should not be changed
 		observer.notify();
+
 		expect(isSubscribed).withContext("notify called after unsubscribe should not change value of isSubscribed").toBeFalse();
 	});
 
@@ -546,6 +567,7 @@ describe("wc/Observer", () => {
 
 		// if we now call notify having unsubscribed then wasSubscribed should not be changed
 		observer.notify();
+
 		expect(isSubscribed).withContext("notify called after unsubscribe should not change value of isSubscribed").toBeFalse();
 	});
 
@@ -561,6 +583,7 @@ describe("wc/Observer", () => {
 		observer.unsubscribe(subscriber); // should be nothing
 		observer.setFilter(ns);
 		observer.notify();
+
 		expect(isSubscribed).withContext("Subscriber should have been notified since have not unsubscribed with the correct group.").toBeTrue();
 	});
 
@@ -578,9 +601,11 @@ describe("wc/Observer", () => {
 
 		rval = observer.subscribe(subscriber);
 		observer.notify("foo", "bar");
+
 		expect(wasNotified).toBeTrue();
 		wasNotified = false;
 		observer.unsubscribe(rval);
+
 		expect(wasNotified).withContext("Should not be notified after unsubscribe").toBeFalse();
 	});
 
@@ -610,8 +635,10 @@ describe("wc/Observer", () => {
 
 		result = {};
 		observer.unsubscribe(rval);
+
 		expect(0).withContext("Array should be emptied for me").toBe(rval.length);
 		observer.notify();
+
 		expect({}).withContext("Should be able to unsubscribe with array of rvals").toEqual(result);
 	});
 
@@ -714,6 +741,7 @@ describe("wc/Observer", () => {
 
 		observer.subscribe(someObject);
 		observer.notify();
+
 		expect(aBoolean).withContext("Notifying an object subscriber should not trigger the functions of that object.").toBeFalse();
 	});
 
@@ -734,6 +762,7 @@ describe("wc/Observer", () => {
 
 		observer.setFilter(ns);
 		observer.notify();
+
 		expect(wasNotified).withContext("wasNotified should not have been set by subscriber not matching filter.").toBeTrue();
 	});
 
@@ -873,6 +902,7 @@ describe("wc/Observer", () => {
 
 		try {
 			observer.setFilter();  // try to call observer.setFilter with no filter defined should throw an error
+		// eslint-disable-next-line no-unused-vars
 		} catch (e) {
 			observer.notify();
 		} finally {
@@ -896,6 +926,7 @@ describe("wc/Observer", () => {
 
 		try {
 			observer.setFilter(null);
+		// eslint-disable-next-line no-unused-vars
 		} catch (e) {
 			observer.notify();
 		} finally {
@@ -906,6 +937,7 @@ describe("wc/Observer", () => {
 
 	it("testSetFilterNotFalsyStringOrFunctionThrowsError", function() {
 		const doBadthing = () => observer.setFilter({});
+
 		expect(doBadthing).toThrowError("arg must be a String or Function");
 	});
 
@@ -927,6 +959,7 @@ describe("wc/Observer", () => {
 		// attempting to use a null filter throws an error
 		try {
 			observer.getGroupAsWildcardFilter(null);
+		// eslint-disable-next-line no-unused-vars
 		} catch (error) {
 			hadError = true;
 		} finally {
@@ -942,6 +975,7 @@ describe("wc/Observer", () => {
 
 		try {
 			observer.getGroupAsWildcardFilter(filter);  // nonsense filter, even if of the correct "type", will throw an error
+		// eslint-disable-next-line no-unused-vars
 		} catch (error) {
 			hadError = true;
 		} finally {
@@ -963,6 +997,7 @@ describe("wc/Observer", () => {
 		observer.subscribe(mySubscriber);
 		observer.setCallback(callback);
 		observer.notify();
+
 		expect(someCounter).withContext("The return value of the subscriber should be the value passed to callback.").toBe(2);
 	});
 
@@ -987,11 +1022,13 @@ describe("wc/Observer", () => {
 		observer.subscribe(mySubscriber2);
 		observer.setCallback(callback);
 		observer.notify();
+
 		expect(notified).withContext("Callback return true should prevent notify from continuing.").toBeTrue();
 	});
 
 	it("testObserverCallbackNoFunction", function() {
 		const doBadThing = () => observer.setCallback();
+
 		expect(doBadThing).toThrowError();
 	});
 
@@ -1022,6 +1059,7 @@ describe("wc/Observer", () => {
 		try {
 			observer.subscribe(subscriber);
 			observer.setCallback(null);  // throws an error
+		// eslint-disable-next-line no-unused-vars
 		} catch (e) {
 			observer.notify();
 		} finally {
@@ -1038,7 +1076,7 @@ describe("wc/Observer", () => {
 		}
 
 		function callback() {
-			/* set up a callback function with no formal params then use arguments to get params actually passed*/
+			/* set up a callback function with no formal params then use arguments to get params actually passed */
 			if (arguments[0] !== undefined) {
 				wasNotified += 2;
 			}
@@ -1057,6 +1095,7 @@ describe("wc/Observer", () => {
 		// context, subscriber, result
 		observer.setCallback(callback);
 		observer.notify();
+
 		expect(wasNotified > 1).withContext("wasNotified should be changed if any params were passed to callback.").toBeTrue();
 	});
 
@@ -1074,6 +1113,7 @@ describe("wc/Observer", () => {
 
 		observer.reset();
 		observer.notify("foo", "bar");
+
 		expect(wasNotified).toBeFalse();
 	});
 
@@ -1088,6 +1128,7 @@ describe("wc/Observer", () => {
 		observer.reset(ns);
 		observer.setFilter(ns);
 		observer.notify();
+
 		expect(wasNotified).toBeFalse();
 	});
 
@@ -1107,6 +1148,7 @@ describe("wc/Observer", () => {
 		observer.notify();  // no filter so notify global
 		observer.setFilter(ns);
 		observer.notify();  // group not resert
+
 		expect(wasNotified).toEqual(1);
 	});
 
@@ -1126,6 +1168,7 @@ describe("wc/Observer", () => {
 		observer.notify();  // no filter so notify global
 		observer.setFilter(ns);
 		observer.notify();
+
 		expect(wasNotified).toEqual(2);
 	});
 });

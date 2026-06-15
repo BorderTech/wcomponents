@@ -8,6 +8,8 @@ import timers from "wc/timers.mjs";
 import event from "wc/dom/event.mjs";
 import getForm from "wc/ui/getForm.mjs";
 
+const { console, document } = globalThis;
+
 const MAGIC_CLASS = "wc_magic",
 	GET_ATTRIB = "data-wc-get";
 let inited;

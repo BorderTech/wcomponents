@@ -9,7 +9,7 @@ function isNum(n) {
 	let result = false;
 	if (n !== null) {
 		n *= 1;
-		result = !isNaN(n);
+		result = !Number.isNaN(n);
 	}
 	return result;
 }

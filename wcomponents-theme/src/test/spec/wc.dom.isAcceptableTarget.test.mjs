@@ -1,6 +1,8 @@
 import  isAcceptableTarget from "wc/dom/isAcceptableTarget.mjs";
 import domTesting from "@testing-library/dom";
 
+const { afterEach, beforeAll, beforeEach, describe, document, expect, it } = globalThis;
+
 describe("wc/dom/isAcceptableTarget", () => {
 	const sameElementTestId = "isacceptabletargettest-button",
 		buttonHolderId = "isacceptabletargettest-buttonholder",
@@ -22,47 +24,51 @@ describe("wc/dom/isAcceptableTarget", () => {
 					<span data-testid="${target2id}" tabindex="0" role="button">event target</span><
 				</span>
 			</div>`;
-	
+
 	const getElement = function (id) {
 		const result = /** @type HTMLElement */(domTesting.getByTestId(testHolder, id));
 		result.style.width = "5em";
 		return result;
 	};
-	
+
 	let testHolder;
 
 	beforeAll(function() {
 		testHolder = document.body;
 	});
-	
+
 	beforeEach(function() {
 		testHolder.innerHTML = testContent;
 	});
-	
+
 	afterEach(function() {
 		testHolder.innerHTML = "";
 	});
-	
+
 	it("testIsAcceptableTarget_same", function() {
 		const element = getElement(sameElementTestId);
+
 		expect(isAcceptableTarget(element, element)).toBeTrue();
 	});
 
 	it("testIsAcceptableTarget_notActiveTarget", function() {
 		const testElement = getElement(element1id),
 			testEventTarget = getElement(target1id);
+
 		expect(isAcceptableTarget(testElement, testEventTarget)).toBeTrue();
 	});
 
 	it("testIsAcceptableTarget_activeTarget", function() {
 		const testElement = getElement(element2id),
 			testEventTarget = getElement(target2id);
+
 		expect(isAcceptableTarget(testElement, testEventTarget)).toBeFalse();
 	});
 
 	it("testIsAcceptableTarget_SelfFirstFocusableElement", function() {
 		const testElement = getElement(sameElementTestId),
 			testEventTarget = getElement(buttonHolderId);
+
 		expect(isAcceptableTarget(testElement, testEventTarget)).toBeTrue();
 	});
 });

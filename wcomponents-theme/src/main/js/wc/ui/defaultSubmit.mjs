@@ -1,6 +1,8 @@
 import event from "wc/dom/event.mjs";
 import initialise from "wc/dom/initialise.mjs";
 
+const { document } = globalThis;
+
 /**
  * Provide a mechanism to allow any submit button to be deemed the default button of a form or even a section of a form
  * or even a specific input element. The default button is the submitting control of a form which is invoked when the
@@ -35,7 +37,8 @@ function keyEvent($event) {
  * Determine if an element has a default submit behaviour.
  * @function
  * @private
- * @param {Element} element The 'submitting' element.
+ * @param {Element} element - The 'submitting' element.
+ * @returns {boolean} ?
  */
 function isPotentialSubmitter(element) {
 	return element.matches("select,input:not([type='file'])");

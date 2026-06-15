@@ -54,8 +54,7 @@ export default {
 	reset: function() {
 		let docBody = globalThis.document?.body;
 		if (docBody && ("classList" in docBody)) {
-			docBody.classList.remove("wc_loggedwarn");
-			docBody.classList.remove("wc_loggedwarn");
+			docBody.classList.remove("wc_loggedwarn", "wc_loggedwarn");
 		}
 	}
 };

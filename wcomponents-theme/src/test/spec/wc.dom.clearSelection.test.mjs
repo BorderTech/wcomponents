@@ -1,4 +1,7 @@
 import clearSelection from "wc/dom/clearSelection.mjs";
+
+const { afterAll, beforeEach, describe, document, expect, fail, it } = globalThis;
+
 describe("wc/dom/clearSelection", function() {
 
 	const TEXT = "This is some known text",
@@ -33,6 +36,7 @@ describe("wc/dom/clearSelection", function() {
 	it("doClearSelectionTest", function() {
 		expect(getSelectedText()).toBe(TEXT);
 		clearSelection();
+
 		expect(getSelectedText()).toBe("");
 	});
 });

@@ -3,13 +3,14 @@
  *
  * @module
  *
- * @todo Document private members
- * TODO totally redo this module
+ * @todo Document private members and totally redo this module
  */
 
 import Observer from "wc/Observer.mjs";
 import timers from "wc/timers.mjs";
 import uid from "wc/dom/uid.mjs";
+
+const { console, window } = globalThis;
 
 const queue = [],
 	/**
@@ -255,10 +256,10 @@ function Ajax() {
 		if (typeof config.postData === "string") {
 			// we do not want to be here if postData is an instance of FormData
 			request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			// request.setRequestHeader("Connection", "close");  // removed by RB
 		}
 	}
 
+	// eslint-disable-next-line jsdoc/require-returns-check
 	/**
 	 * Executes AJAX requests.
 	 *

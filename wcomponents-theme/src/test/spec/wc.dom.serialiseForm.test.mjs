@@ -1,5 +1,7 @@
 import serialize from "wc/dom/serialize.mjs";
-import {getSelect, setUpExternalHTML} from "../helpers/specUtils.mjs";
+import { getSelect, setUpExternalHTML } from "../helpers/specUtils.mjs";
+
+const { beforeAll, describe, expect, it } = globalThis;
 
 describe("wc/dom/serialize", () => {
 	let ownerDocument;
@@ -53,6 +55,7 @@ describe("wc/dom/serialize", () => {
 		element.options[1].selected = true;
 		element.options[2].selected = true;
 		let result = serialize.serialize(form);
+
 		expect(result).withContext("Form should serialise to this ").toEqual(STRING_EXPECTED);  // objectEqual
 	});
 
@@ -65,6 +68,7 @@ describe("wc/dom/serialize", () => {
 		element.options[1].selected = true;
 		element.options[2].selected = true;
 		let result = serialize.serialize(form, null, true);
+
 		expect(result).withContext("Form should serialise to this ").toEqual(SERIALIZED_OBJ_EXPECTED);  // objectEqual
 	});
 
@@ -86,26 +90,31 @@ describe("wc/dom/serialize", () => {
 		}
 
 		result = serializedObjectToString(result);
+
 		expect(result).withContext("Form should serialise to this ").toEqual(STRING_EXPECTED);  // objectEqual
 	});
 
 	it("testDeserializeStringGotResults", function() {
 		const result = setupDeserializer(STRING_EXPECTED);
+
 		expect(result["actual"].childNodes.length).withContext("deserialize should have got some childNodes in the actual result container").toBeGreaterThan(0);
 	});
 
 	it("testDeserializeReturnValueWithObject", function() {
 		const result = serialize.deserialize(SERIALIZED_OBJ_EXPECTED);
+
 		expect(DESERIALIZED_OBJ_EXPECTED).withContext("Deserialize return value should equal this object ").toEqual(result);
 	});
 
 	it("testDeserializeReturnValueWithPriorDeserializedObject", function() {
 		const result = serialize.deserialize(DESERIALIZED_OBJ_EXPECTED);
+
 		expect(DESERIALIZED_OBJ_EXPECTED).withContext("Deserialize return value should equal this object ").toEqual(result);
 	});
 
 	it("testDeserializeStringGotExpectedNumberOfResults", function() {
 		const result = setupDeserializer(STRING_EXPECTED);
+
 		expect(result["actual"].childNodes.length).withContext("Number of expected results should match number of actual results").toBe(result["expected"].childNodes.length);
 	});
 
@@ -116,6 +125,7 @@ describe("wc/dom/serialize", () => {
 		Array.prototype.forEach.call(expectedInputs, _compare);
 		function _compare(next) {
 			const inpArray = findInputsLikeThis(next, result["actual"]);
+
 			expect(inpArray.length).withContext("Should have found a hidden input with name " + next.name + " and value " + next.value).toBeGreaterThan(0);
 		}
 	});
@@ -129,17 +139,20 @@ describe("wc/dom/serialize", () => {
 		function _compare(next) {
 			const expectedArray = findInputsLikeThis(next, result["expected"]),
 				inpArray = findInputsLikeThis(next, result["actual"]);
+
 			expect(inpArray.length).withContext("Should have found same number of hidden inputs with name " + next.name + " and value " + next.value).toBe(expectedArray.length);
 		}
 	});
 
 	it("testDeserializeObjectgGotResults", function() {
 		const result = setupDeserializer(SERIALIZED_OBJ_EXPECTED);
+
 		expect(result["actual"].childNodes.length).withContext("deserialize object should have got some childNodes in the actual result container").toBeGreaterThan(0);
 	});
 
 	it("testDeserializeObjectGotExpectedNumberOfResults", function() {
 		const result = setupDeserializer(SERIALIZED_OBJ_EXPECTED);
+
 		expect(result["actual"].childNodes.length).withContext("Number of expected results should match number of actual results").toBe(result["expected"].childNodes.length);
 	});
 
@@ -151,6 +164,7 @@ describe("wc/dom/serialize", () => {
 
 		function _compare(next) {
 			const inpArray = findInputsLikeThis(next, result["actual"]);
+
 			expect(inpArray.length).withContext("Should have found a hidden input with name " + next.name + " and value " + next.value).toBeGreaterThan(0);
 		}
 	});
@@ -164,6 +178,7 @@ describe("wc/dom/serialize", () => {
 		function _compare(next) {
 			const expectedArray = findInputsLikeThis(next, result["expected"]),
 				inpArray = findInputsLikeThis(next, result["actual"]);
+
 			expect(inpArray.length).withContext("Should have found same number of hidden inputs with name " + next.name + " and value " + next.value).toBe(expectedArray.length);
 		}
 	});
@@ -172,6 +187,7 @@ describe("wc/dom/serialize", () => {
 		const tempContainer = makeTempContainer();
 		serialize.deserialize(STRING_EXPECTED, tempContainer);
 		let result = serialize.serialize(tempContainer.querySelectorAll(INPUTS));
+
 		expect(result).withContext("Reserializing a deserialized string should get back to the same string").toBe(STRING_EXPECTED);
 	});
 
@@ -179,6 +195,7 @@ describe("wc/dom/serialize", () => {
 		const tempContainer = makeTempContainer();
 		serialize.deserialize(SERIALIZED_OBJ_EXPECTED, tempContainer);
 		const result = /** @type Object */(serialize.serialize(tempContainer.querySelectorAll(INPUTS), false, true));
+
 		expect(SERIALIZED_OBJ_EXPECTED).withContext("Reserializing a deserialized object should get back to the same object").toEqual(result);
 	});
 
@@ -187,6 +204,7 @@ describe("wc/dom/serialize", () => {
 		serialize.deserialize(STRING_EXPECTED, tempContainer);
 		const result = /** @type Object */(
 			serialize.serialize(tempContainer.querySelectorAll(INPUTS), false, true));
+
 		expect(SERIALIZED_OBJ_EXPECTED).withContext("Reserializing a deserialized string to an object should get back to the object").toEqual(result);
 	});
 
@@ -194,30 +212,35 @@ describe("wc/dom/serialize", () => {
 		const tempContainer = makeTempContainer();
 		serialize.deserialize(SERIALIZED_OBJ_EXPECTED, tempContainer);
 		const result = serialize.serialize(tempContainer.querySelectorAll(INPUTS));
+
 		expect(result).withContext("Reserializing a deserialized object to a string should get back to the string").toBe(STRING_EXPECTED);
 	});
 
 	it("testAreDifferent", function() {
 		const obj1 = { abc: ["1", "2", "3"] },
 			obj2 = { abc: ["1", "2", "3"] };
+
 		expect(serialize.areDifferent(obj1, obj2)).toBeFalse();
 	});
 
 	it("testAreDifferentWithOrderDifference", function() {
-		const obj1 = {abc: ["1", "2", "3"]},
-			obj2 = {abc: ["3", "2", "1"]};
+		const obj1 = { abc: ["1", "2", "3"] },
+			obj2 = { abc: ["3", "2", "1"] };
+
 		expect(serialize.areDifferent(obj1, obj2)).toBeFalse();
 	});
 
 	it("testAreDifferentWithDifference", function() {
-		const obj1 = {abc: ["1", "2", "3"]},
-			obj2 = {abc: ["1", "2", "4"]};
+		const obj1 = { abc: ["1", "2", "3"] },
+			obj2 = { abc: ["1", "2", "4"] };
+
 		expect(serialize.areDifferent(obj1, obj2)).toBeTrue();
 	});
 
 	it("testAreDifferentWithAdditionalField", function() {
-		const obj1 = {abc: ["1", "2", "3"]},
-			obj2 = {abc: ["1", "2", "3"], def: ["1", "2", "3"]};
+		const obj1 = { abc: ["1", "2", "3"] },
+			obj2 = { abc: ["1", "2", "3"], def: ["1", "2", "3"] };
+
 		expect(serialize.areDifferent(obj1, obj2)).toBeTrue();
 	});
 

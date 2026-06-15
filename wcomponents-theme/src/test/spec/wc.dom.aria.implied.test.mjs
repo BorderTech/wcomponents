@@ -1,5 +1,7 @@
 import impliedARIA from "wc/dom/impliedARIA.mjs";
 
+const { afterAll, beforeAll, describe, document, expect, it } = globalThis;
+
 describe("impliedARIA", function() {
 	const ANY_SEL_STATE = "any";
 	// language=HTML
@@ -170,6 +172,7 @@ describe("impliedARIA", function() {
 		for (let i = 0; i < elements.length; ++i) {
 			let next = elements[i];
 			let result = impliedARIA.getImpliedRole(next);
+
 			expect(result).withContext(`element ${next.id} should not have an implied role, got ${result}`).toBeFalsy();
 		}
 	});

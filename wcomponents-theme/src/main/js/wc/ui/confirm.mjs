@@ -7,6 +7,8 @@ import initialise from "wc/dom/initialise.mjs";
 import cancelButton from "wc/ui/cancelButton.mjs";
 import focus from "wc/dom/focus.mjs";
 
+const { console, Node, window } = globalThis;
+
 const confirmSelector = "button[data-wc-btnmsg]";
 const cancelButtonSelector = cancelButton.getWidget();
 

@@ -1,5 +1,7 @@
 import listLoader from "wc/ui/listLoader.mjs";
 
+const { afterAll, beforeAll, describe, document, expect, fail, it } = globalThis;
+
 describe("wc/ui/listLoader", () => {
 	const responseHtmlUrl = "src/test/resource/icao.html",
 		elementId = "txt1";
@@ -15,6 +17,7 @@ describe("wc/ui/listLoader", () => {
 			} else {
 				fail("CBF");  // i don't think any browser will end up here...
 			}
+
 			expect(options.length).toEqual(262);
 		} else {
 			fail("Did not load datalist");

@@ -1,5 +1,7 @@
 import accepted from "wc/file/accepted.mjs";
-import {addFilesToInput, getInput} from "../helpers/specUtils.mjs";
+import { addFilesToInput, getInput } from "../helpers/specUtils.mjs";
+
+const { afterAll, afterEach, beforeEach, describe, document, expect, File, it } = globalThis;
 
 describe("wc/file/accepted", function() {
 	/** @type {HTMLElement} */
@@ -30,70 +32,82 @@ describe("wc/file/accepted", function() {
 
 	it("testAcceptedWithNoValueNoAccept", function() {
 		const element = getInput(testHolder, "file1");
+
 		expect(accepted(element)).toBeTrue();
 	});
 
 	/* NOTE for next three if no value in the file input then they must be "accepted" as the test array is empty */
 	it("testAcceptedWithNoValueSingleMimeType", function() {
 		const element = getInput(testHolder, "file2");
+
 		expect(accepted(element)).toBeTrue();
 	});
 
 	it("testAcceptedWithNoValueWildCardMimeType", function() {
 		const element = getInput(testHolder, "file3");
+
 		expect(accepted(element)).toBeTrue();
 	});
 
 	it("testAcceptedWithNoValueMultipleMimeTypes", function() {
 		const element = getInput(testHolder, "file4");
+
 		expect(accepted(element)).toBeTrue();
 	});
 
 	it("testAcceptedWithNoAccept", function() {
 		const element = getInput(testHolder, "file1");
 		addFilesToInput(element, [{ value: "foo.gif", type: "image/gif" }]);
+
 		expect(accepted(element)).toBeTrue();
 	});
 
 	it("testAccepted", function() {
 		const element = getInput(testHolder, "file5");
 		addFilesToInput(element, [{ value: "foo.gif", type: "image/gif" }]);
+
 		expect(accepted(element)).toBeTrue();
 	});
 
 	it("testAcceptedWithMultiple", function() {
 		const element = getInput(testHolder, "file6");
 		addFilesToInput(element, [{ value: "foo.gif", type: "image/gif" }]);
+
 		expect(accepted(element)).toBeTrue();
 	});
 
 	it("testAcceptedWithWildcard", function() {
 		const element = getInput(testHolder, "file7");
 		addFilesToInput(element, [{ value: "foo.gif", type: "image/gif" }]);
+
 		expect(accepted(element)).toBeTrue();
 	});
 
 	it("testAcceptedWithMismatch", function() {
 		const element = getInput(testHolder, "file8");
 		addFilesToInput(element, [{ value: "foo.gif", type: "image/gif" }]);
+
 		expect(accepted(element)).toBeFalse();
 	});
 
 	it("testAcceptedWithMismatchAndWildcard", function() {
 		const element = getInput(testHolder, "file9");
 		addFilesToInput(element, [{ value: "foo.txt", type: "text/plain" }]);
+
 		expect(accepted(element)).toBeFalse();
 	});
 
 	it("accepts files given as parameter with multiple accepted types", function() {
 		const element = getInput(testHolder, "file6"),
-			fileInfo =  {files: [new File(["foo.gif"], "foo", {type: "image/gif"})]};
+			fileInfo =  { files: [new File(["foo.gif"], "foo", { type: "image/gif" })] };
+
 		expect(accepted(element, fileInfo)).toBeTrue();
 	});
 
 	it("does not accept files given as parameter with mismatched types", function() {
 		const element = getInput(testHolder, "file8"),
-			fileInfo = {files: [new File(["foo.gif"], "foo", {type: "image/gif"})]};
+			fileInfo = { files: [new File(["foo.gif"], "foo", { type: "image/gif" })] };
+
 		expect(accepted(element, fileInfo)).toBeFalse();
 	});
 });

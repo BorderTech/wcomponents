@@ -6,6 +6,8 @@ import Observer from "wc/Observer.mjs";
 import toDocFragment from "wc/dom/toDocFragment.mjs";
 import timers from "wc/timers.mjs";
 
+const { console, document, Node } = globalThis;
+
 let observer;
 const ACTIONS = { FILL: "replaceContent", REPLACE: "replace", APPEND: "append", IN: "in" };
 const errorUtils = {
@@ -99,6 +101,7 @@ const instance = {
 	 * @public
 	 * @param {Document} response The ajax response.
 	 * @param {module:wc/ajax/Trigger} trigger The trigger which triggered the ajax request.
+	 * @returns {Promise<any>} ?
 	 */
 	processResponseXml: function(response, trigger) {
 		let promise;
@@ -207,7 +210,7 @@ function processResponseHtml(documentFragment, trigger) {
  */
 function mergeAttributes(source, dest) {
 	for (const next of source.attributes) {
-		if (next.name.indexOf("xmlns:") < 0) {
+		if (!next.name.includes("xmlns:")) {
 			// no point copying over boring old xmlns attributes
 			dest.setAttribute(next.name, next.value);
 		}
@@ -232,7 +235,7 @@ function insertPayloadIntoDom(element, content, action, trigger, doNotPublish) {
 			actionMethod = appendElementContent;
 			break;
 		case ACTIONS.IN:
-			actionMethod=replaceIn;
+			actionMethod = replaceIn;
 			break;
 		default:
 			console.warn("Unknown action", action);
@@ -336,7 +339,7 @@ function replaceElement(element, content) {
  * @private
  * @param {Element} element The containing element in the original document.
  * @param {DocumentFragment} content The document fragment containing the replacement(s).
- * @returns {Element}
+ * @returns {Element} ?
  */
 function replaceIn(element, content) {
 	let child,

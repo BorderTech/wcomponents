@@ -1,3 +1,6 @@
+
+const { define, document } = globalThis;
+
 define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
@@ -83,11 +86,11 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 			testNoCollideAbsolutelyPositioned: function() {
 				var element,
 					collision,
-					expected = {"n": 0, "e": 0, "s": 0, "w": 0},
+					expected = { "n": 0, "e": 0, "s": 0, "w": 0 },
 					o,
 					vps;
 
-				element = document.getElementById("collide")|| assert.isTrue(false, "where did my element go?");
+				element = document.getElementById("collide") || assert.isTrue(false, "where did my element go?");
 
 
 				// calculate the viewport size as late as possible

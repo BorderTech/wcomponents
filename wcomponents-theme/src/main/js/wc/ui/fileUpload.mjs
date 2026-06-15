@@ -89,7 +89,7 @@ initialise.register({
 	 * @param {Element} element The element being initialised - usually document.body.
 	 */
 	initialise: function(element) {
-		event.add(element, { type: "focus", listener: ({target}) => initialiseFileInput(target), capture: true });
+		event.add(element, { type: "focus", listener: ({ target }) => initialiseFileInput(target), capture: true });
 	}
 });
 

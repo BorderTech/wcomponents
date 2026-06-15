@@ -30,6 +30,8 @@ import i18n from "wc/i18n/i18n.mjs";
 import debounce from "wc/debounce.mjs";
 import wrappedInput from "wc/dom/wrappedInput.mjs";
 
+const { document } = globalThis;
+
 const events = [],
 	INITED_KEY = "__maxlength_inited__",
 	TEXTAREA = "textarea",
@@ -42,7 +44,7 @@ const instance = {
 	 * @function module:wc/ui/textarea.getWidget
 	 * @param {Boolean} [withConstraints] true to only get constrained text areas (with max-length and/or
 	 *    min-length constraints).
-	 * @returns {string}
+	 * @returns {string} ?
 	 */
 	getWidget: withConstraints => withConstraints ? TEXTAREA_CONSTRAINED : TEXTAREA,
 
@@ -161,7 +163,7 @@ const tick = debounce(element => {
 				/* NOTE: this is not part of revalidation since we just want to
 				 * set a visual flag on the ticker, not insert a visible error message
 				 * since maxLength violation is an allowed transient state until
-				 * such time as the control is part of a form submission.*/
+				 * such time as the control is part of a form submission. */
 				counter.classList.add(ERR);
 			} else {
 				counter.classList.remove(ERR);

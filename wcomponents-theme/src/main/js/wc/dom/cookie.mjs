@@ -1,3 +1,6 @@
+
+const { document } = globalThis;
+
 let cookies;  // cache cookies, will only reload if cookies are set through this class
 /**
  * A module for dealing with cookies. The methods that do all the work are based on

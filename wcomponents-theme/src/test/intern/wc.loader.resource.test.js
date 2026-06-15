@@ -1,3 +1,6 @@
+
+const { define, window } = globalThis;
+
 define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";

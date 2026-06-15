@@ -30,7 +30,7 @@ function insertLegend(fieldset) {
 function insertLabel(input) {
 	const id = input.id,
 		endLabel = "</label>",
-		isCheckRadio = input.type === "checkbox" || input.type ==="radio";
+		isCheckRadio = input.type === "checkbox" || input.type === "radio";
 	let youHaveBeenNaughty = "<label class='wc-label wc-err'";
 	if (id) {
 		youHaveBeenNaughty += " for='" + input.id + "'";

@@ -15,7 +15,6 @@ const PREFIX = "uid";
  * @returns {String} A unique identifier.
  */
 function uid() {
-	// return crypto.randomUUID();
 	return `${PREFIX}${Date.now() + ++id}`;
 }
 export default uid;

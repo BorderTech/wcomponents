@@ -1,6 +1,8 @@
 import event from "wc/dom/event.mjs";
 import timers from "wc/timers.mjs";
 
+const { console, document } = globalThis;
+
 let dragging = false;
 const CLASSNAME = "wc_dragging",
 	timer = {},

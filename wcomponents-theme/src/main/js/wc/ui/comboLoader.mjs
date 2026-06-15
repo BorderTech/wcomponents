@@ -2,6 +2,7 @@ import initialise from "wc/dom/initialise.mjs";
 import listLoader from "wc/ui/listLoader.mjs";
 import comboBox from "wc/ui/comboBox.mjs";
 
+const { document } = globalThis;
 
 const selectSelector = "select",
 	suggestionListSelector = comboBox.getListWidget().toString(),  // can handle a selector or a Widget

@@ -10,6 +10,8 @@ import formUpdateManager from "wc/dom/formUpdateManager.mjs";
 import focus from "wc/dom/focus.mjs";
 import processResponse from "wc/ui/ajax/processResponse.mjs";
 
+const { confirm, console, document } = globalThis;
+
 /*
  * TODO: we have a lot of form ID testing. Obviously if the form does not have an id then the whole
  * unsaved changes registry malarkey will fail. All forms created by WApplication have an id, so maybe we do not

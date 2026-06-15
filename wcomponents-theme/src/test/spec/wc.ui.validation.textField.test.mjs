@@ -1,8 +1,10 @@
 import "wc/ui/validation/textField.mjs";
-import {getInput} from "../helpers/specUtils.mjs";
 import wcconfig from "wc/config.mjs";
+import { getInput } from "../helpers/specUtils.mjs";
 
-describe("wc/ui/validation/textField", ()=> {
+const { afterAll, afterEach, beforeAll, describe, document, expect, it, window } = globalThis;
+
+describe("wc/ui/validation/textField", () => {
 	let ownerDocument;
 	let testHolder;
 
@@ -52,9 +54,11 @@ describe("wc/ui/validation/textField", ()=> {
 		const element = getInitedTextField("tf1");
 		element.value = "";
 		fireChangeOnTextField(element);
+
 		expect(element.getAttribute("aria-invalid")).toBe("true");
 		element.value = "NJNN";
 		fireChangeOnTextField(element);
+
 		expect(element.getAttribute("aria-invalid")).not.toBe("true");
 	});
 
@@ -62,51 +66,60 @@ describe("wc/ui/validation/textField", ()=> {
 		const element = getInitedTextField("tf2");
 		element.value = "";
 		fireChangeOnTextField(element);
+
 		expect(element.getAttribute("aria-invalid")).not.toBe("true");
 	});
 
 	it("Should flag a field as invalid when value length is below minlength", function() {
 		const element = getInitedTextField("tf3");
 		fireChangeOnTextField(element);
+
 		expect(element.getAttribute("aria-invalid")).toBe("true");
 		element.value += "12345";
 		fireChangeOnTextField(element);
+
 		expect(element.getAttribute("aria-invalid")).not.toBe("true");
 	});
 
 	it("Should flag an email field as invalid when the input is not an email", function() {
 		const element = getInitedTextField("tf4");
 		fireChangeOnTextField(element);
+
 		expect(element.getAttribute("aria-invalid")).toBe("true");
 		element.value = "foo.bar@example.com";
 		fireChangeOnTextField(element);
+
 		expect(element.getAttribute("aria-invalid")).not.toBe("true");
 	});
 
 	it("Should flag a field as invalid when the input does not match the pattern attr", function() {
 		const element = getInitedTextField("tf5");
 		fireChangeOnTextField(element);
+
 		expect(element.getAttribute("aria-invalid")).toBe("true");
 		element.value = "12345678";
 		fireChangeOnTextField(element);
+
 		expect(element.getAttribute("aria-invalid")).not.toBe("true");
 	});
 
 	it("Should not flag an email field as invalid when there is no value", function() {
 		const element = getInitedTextField("tf6");
 		fireChangeOnTextField(element);
+
 		expect(element.getAttribute("aria-invalid")).not.toBe("true");
 	});
 
 	it("Should not flag a pattern field as invalid when there is no value", function() {
 		const element = getInitedTextField("tf7");
 		fireChangeOnTextField(element);
+
 		expect(element.getAttribute("aria-invalid")).not.toBe("true");
 	});
 
 	/**
 	 * Helper for tests, fires a change event on the field.
-	 * @param {HTMLElement} element
+	 * @param {HTMLElement} element - ?
 	 */
 	function fireChangeOnTextField(element) {
 		const changeEvent = new window.Event("change", {
@@ -119,7 +132,7 @@ describe("wc/ui/validation/textField", ()=> {
 	/**
 	 * Helper for tests, gets a field from the DOM and initialises it.
 	 * @param {string} testId The data-testid of the element you want.
-	 * @return {HTMLInputElement}
+	 * @returns {HTMLInputElement} ?
 	 */
 	function getInitedTextField(testId) {
 		const focusEvent = new window.UIEvent("focus", {

@@ -1,6 +1,9 @@
-import event from "wc/dom/event.mjs";
-import {getInput, setUpExternalHTML} from "../helpers/specUtils.mjs";
 import domTesting from "@testing-library/dom";
+
+import event from "wc/dom/event.mjs";
+import { getInput, setUpExternalHTML } from "../helpers/specUtils.mjs";
+
+const { beforeEach, describe, expect, it, jasmine } = globalThis;
 
 describe("wc/dom/event", () => {
 	const ids = {
@@ -27,6 +30,7 @@ describe("wc/dom/event", () => {
 
 	it("will fire a DOM Level 1 click handler", function() {
 		const element = domTesting.getByTestId(ownerDocument, ids.TEXTFIELD);
+
 		expect(element.getAttribute("data-clicked")).not.toBe("true");
 		// With JSDom we need to wire up the onclick here
 		element.onclick = function() {
@@ -34,6 +38,7 @@ describe("wc/dom/event", () => {
 			button.setAttribute("data-clicked", "true");
 		};
 		event.fire(element, "click");
+
 		expect(element.getAttribute("data-clicked")).toBe("true");
 	});
 
@@ -42,6 +47,7 @@ describe("wc/dom/event", () => {
 		const element = domTesting.getByTestId(ownerDocument, ids.TEXTFIELD2);
 		event.add(element, "click", handler);
 		event.fire(element, "click");
+
 		expect(handler).toHaveBeenCalled();
 	});
 
@@ -50,6 +56,7 @@ describe("wc/dom/event", () => {
 		const element = domTesting.getByTestId(ownerDocument, ids.TEXTFIELD2);
 		event.add(element, { type: "click", listener: handler });
 		event.fire(element, "click");
+
 		expect(handler).toHaveBeenCalled();
 	});
 
@@ -58,6 +65,7 @@ describe("wc/dom/event", () => {
 		const element = domTesting.getByTestId(ownerDocument, ids.TXTAREA);
 		event.add(element, "click", handler);
 		event.fire(element, "click");
+
 		expect(handler).toHaveBeenCalled();
 	});
 
@@ -74,6 +82,7 @@ describe("wc/dom/event", () => {
 				event.fire($event.target, "click");
 			}));
 			event.fire(element, "kungfu", { detail: "foo" });
+
 			expect(wasCalled).toBeTrue();
 		} finally {
 			event.remove(handles);
@@ -94,6 +103,7 @@ describe("wc/dom/event", () => {
 				event.fire($event.target, "kungfu", { detail: "bar" });
 			}));
 			event.fire(element, "kungfu", { detail: "foo" });
+
 			expect(wasCalled).toBeTrue();
 		} finally {
 			event.remove(handles);
@@ -108,6 +118,7 @@ describe("wc/dom/event", () => {
 			kungActual = $event.detail.kung;
 		});
 		event.fire(element, "kungfu", { detail: dataExpected });
+
 		expect(kungActual).toBe(dataExpected.kung);
 	});
 
@@ -119,10 +130,12 @@ describe("wc/dom/event", () => {
 			kungActual = $event.detail.kung;
 		});
 		event.fire(element, "kungfu", { detail: dataExpected });
+
 		expect(kungActual).toBe(dataExpected.kung);
 		kungActual = null;
 		event.remove(handle);
 		event.fire(element, "kungfu", { detail: dataExpected });
+
 		expect(kungActual).toBeNull();
 	});
 
@@ -131,6 +144,7 @@ describe("wc/dom/event", () => {
 		const element = domTesting.getByTestId(ownerDocument, ids.BUTTONINP);
 		event.add(element, "click", handler);
 		event.fire(element, "click");
+
 		expect(handler).toHaveBeenCalled();
 	});
 
@@ -139,8 +153,8 @@ describe("wc/dom/event", () => {
 		const element = domTesting.getByTestId(ownerDocument, ids.BUTTON);
 		event.add(element, "click", handler);
 		event.fire(element, "click");
-		expect(handler).toHaveBeenCalled();
 
+		expect(handler).toHaveBeenCalled();
 	});
 
 	it("fires an event on a button element using capture", function() {
@@ -148,6 +162,7 @@ describe("wc/dom/event", () => {
 		const element = domTesting.getByTestId(ownerDocument, ids.BUTTON);
 		event.add(element, "click", handler, null, null, true);
 		event.fire(element, "click");
+
 		expect(handler).toHaveBeenCalled();
 	});
 
@@ -156,6 +171,7 @@ describe("wc/dom/event", () => {
 		const element = domTesting.getByTestId(ownerDocument, ids.PASSWD);
 		event.add(element, "click", handler);
 		event.fire(element, "click");
+
 		expect(handler).toHaveBeenCalled();
 	});
 
@@ -164,6 +180,7 @@ describe("wc/dom/event", () => {
 		const element = getInput(ownerDocument, ids.CHKBOX),
 			checked = !!element.checked;
 		event.fire(element, "click");
+
 		expect(!!element.checked).withContext("Checkbox state should be toggled").toBe(!checked);
 	});
 
@@ -175,6 +192,7 @@ describe("wc/dom/event", () => {
 		event.fire(element, "click");
 		event.remove(element, "click", handler);
 		event.fire(element, "click");
+
 		expect(handler).withContext("Event should be fired once and only once").toHaveBeenCalledTimes(1);
 	});
 
@@ -183,6 +201,7 @@ describe("wc/dom/event", () => {
 			element2 = getInput(ownerDocument, ids.RADIO2),
 			checked = !!element2.checked;
 		event.fire(element2, "click");
+
 		expect(element2.checked).withContext("Two radio buttons in same group can not both be checked").not.toBe(element.checked);
 		expect(!!element2.checked).withContext("Radio state should be toggled").toBe(!checked);
 	});
@@ -193,6 +212,7 @@ describe("wc/dom/event", () => {
 		const handler = jasmine.createSpy("testAddFireEventAnchor");
 		event.add(element, "click", handler);
 		event.fire(element, "click");
+
 		expect(handler).toHaveBeenCalledTimes(1);
 	});
 
@@ -202,10 +222,12 @@ describe("wc/dom/event", () => {
 		let checked;
 		event.add(element, "click", handler);
 		event.fire(element, "click");
+
 		expect(handler).toHaveBeenCalled();
 		event.remove(element, "click", handler);
 		checked = !!element.checked;
 		event.fire(element, "click");
+
 		expect(handler).withContext("Event was removed and should not have fired again").toHaveBeenCalledTimes(1);
 		expect(!!element.checked).withContext("Checkbox state should be toggled").toBe(!checked);
 	});
@@ -215,10 +237,12 @@ describe("wc/dom/event", () => {
 		const handler = jasmine.createSpy("testAddRemoveEventWithHandle");
 		let checked, handle = event.add(element, "click", handler);
 		event.fire(element, "click");
+
 		expect(handler).toHaveBeenCalled();
 		event.remove(handle);
 		checked = !!element.checked;
 		event.fire(element, "click");
+
 		expect(handler).withContext("Event was removed and should not have fired again").toHaveBeenCalledTimes(1);
 		expect(!!element.checked).withContext("Checkbox state should be toggled").toBe(!checked);
 	});
@@ -228,10 +252,12 @@ describe("wc/dom/event", () => {
 		const handler = jasmine.createSpy();
 		let checked, handle = event.add(element, { type: "click", listener: handler });
 		event.fire(element, "click");
+
 		expect(handler).toHaveBeenCalled();
 		event.remove(handle);
 		checked = !!element.checked;
 		event.fire(element, "click");
+
 		expect(handler).withContext("Event was removed and should not have fired again").toHaveBeenCalledTimes(1);
 		expect(!!element.checked).withContext("Checkbox state should be toggled").toBe(!checked);
 	});
@@ -241,10 +267,12 @@ describe("wc/dom/event", () => {
 		const handler = jasmine.createSpy();
 		let checked, handle = event.add(element, "click", handler);
 		event.fire(element, "click");
+
 		expect(handler).toHaveBeenCalled();
 		event.remove([handle]);
 		checked = !!element.checked;
 		event.fire(element, "click");
+
 		expect(handler).withContext("Event was removed and should not have fired again").toHaveBeenCalledTimes(1);
 		expect(!!element.checked).withContext("Checkbox state should be toggled").toBe(!checked);
 	});
@@ -257,6 +285,7 @@ describe("wc/dom/event", () => {
 		event.remove(element, "click", handler, true);
 		let checked = !!element.checked;
 		event.fire(element, "click");
+
 		expect(handler).withContext("Event was removed and should not have fired again").toHaveBeenCalledTimes(1);
 		expect(!!element.checked).withContext("Checkbox state should be toggled").toBe(!checked);
 
@@ -268,6 +297,7 @@ describe("wc/dom/event", () => {
 		event.add(element, "click", handler);
 		event.remove(element, "click", handler, true);
 		event.fire(element, "click");
+
 		expect(handler).toHaveBeenCalled();
 	});
 
@@ -277,6 +307,7 @@ describe("wc/dom/event", () => {
 		event.add(element, "click", handler, null, null, true);
 		event.remove(element, "click", handler);
 		event.fire(element, "click");
+
 		expect(handler).toHaveBeenCalled();
 	});
 
@@ -286,6 +317,7 @@ describe("wc/dom/event", () => {
 		event.add(element, { type: "click", listener: handler, capture: true });
 		// loevent.remove(element, "click", handler);
 		event.fire(element, "click");
+
 		expect(handler).toHaveBeenCalled();
 	});
 
@@ -301,9 +333,11 @@ describe("wc/dom/event", () => {
 		event.add(element, "click", handler);
 		event.fire(element, "click");
 		let checked = !!element.checked;
+
 		expect(wasCalled).toBeTrue();
 		wasCalled = false;
 		event.fire(element, "click");
+
 		expect(wasCalled).withContext("Event was removed and should not have fired").toBeFalse();
 		expect((!!element.checked)).withContext("Checkbox state should be toggled").toBe(!checked);
 	});
@@ -320,9 +354,8 @@ describe("wc/dom/event", () => {
 		});
 		event.add(eventContainer, "click", handler);
 		event.fire(element, "click");
+
 		expect(handler).toHaveBeenCalled();
-
-
 	});
 
 	it("testEventPropertiesAndCaptureAndEventArgs", function() {
@@ -338,6 +371,7 @@ describe("wc/dom/event", () => {
 
 		event.add(eventContainer, { type: "click", listener: handler, capture: true });
 		event.fire(element, "click");
+
 		expect(handler).toHaveBeenCalled();
 	});
 
@@ -354,6 +388,7 @@ describe("wc/dom/event", () => {
 
 		event.add(element, "click", handler, null, null, true);
 		event.fire(element, "click");
+
 		expect(handler).toHaveBeenCalled();
 	});
 
@@ -369,7 +404,6 @@ describe("wc/dom/event", () => {
 		expect(first).toBe(0);
 		expect(second).toBe(1);
 		expect(third).toBe(2);
-
 
 		function clickEventCheckFirst() {
 			first = count++;
@@ -396,7 +430,6 @@ describe("wc/dom/event", () => {
 		expect(first).toBe(0);
 		expect(second).toBe(1);
 		expect(third).toBe(2);
-
 
 		function clickEventCheckFirst() {
 			first = count++;
@@ -428,7 +461,6 @@ describe("wc/dom/event", () => {
 		expect(third).toBe(2);
 		expect(fourth).toBe(3);
 
-
 		function clickEventCheckFirst() {
 			first = count++;
 		}
@@ -454,6 +486,7 @@ describe("wc/dom/event", () => {
 			$event.preventDefault();
 		});
 		event.fire(element, "click");
+
 		expect(clickEventCheckCancel).withContext("event should have been cancelled").toHaveBeenCalledWith(jasmine.objectContaining({ defaultPrevented: true }));
 	});
 
@@ -463,6 +496,7 @@ describe("wc/dom/event", () => {
 		event.add(eventContainer, "click", outerListener, 50);  // fire AFTER (without the 50 this test will likely fail, but we make no guarantee on order unless it is specified)
 		event.add(eventContainer, "click", () => false);
 		event.fire(element, "click");
+
 		expect(outerListener).withContext("event should have been cancelled").toHaveBeenCalledWith(jasmine.objectContaining({ defaultPrevented: true }));
 	});
 
@@ -487,6 +521,7 @@ describe("wc/dom/event", () => {
 			innerCalled = true;
 		});
 		event.fire(element, "click");
+
 		expect(outerListener).withContext("event should have been stopped").not.toHaveBeenCalled();
 		expect(innerCalled).withContext("event should have been called").toBe(true);
 	});
@@ -505,6 +540,7 @@ describe("wc/dom/event", () => {
 
 		event.add(element, "click", clickEventScopeCheck, null, scope);
 		event.fire(element, "click");
+
 		expect(scopeChecked).toBeTrue();
 	});
 
@@ -522,6 +558,7 @@ describe("wc/dom/event", () => {
 		try {
 			event.add(element, { type: "click", listener: clickEventScopeCheck, scope: scope });
 			event.fire(element, "click");
+
 			expect(scopeChecked).toBeTrue();
 		} finally {
 			event.remove(element, "click", clickEventScopeCheck);
@@ -534,6 +571,7 @@ describe("wc/dom/event", () => {
 	it("testAddEventReturnValue", function() {
 		const element = domTesting.getByTestId(ownerDocument, ids.BUTTONINP);
 		const handler = () => {};
+
 		expect(event.add(element, "click", handler)).withContext("Should return true(ish) when event add succeeds").toBeTruthy();
 		expect(event.add(element, "click", handler)).withContext("Should return false(ish) when event add fails").toBeFalsy();
 	});
@@ -556,6 +594,7 @@ describe("wc/dom/event", () => {
 			event.add(element, "click", handler);
 			clone = /** @type HTMLElement */(element.cloneNode(true));
 			element.parentNode.replaceChild(clone, element);
+
 			expect(event.add(clone, "click", handler)).withContext("The cloned node should not have any events attached").toBeTruthy();
 		} finally {
 			event.remove(element, "click", handler);
@@ -571,6 +610,7 @@ describe("wc/dom/event", () => {
 		const before = event.toString();
 		event.add(ownerDocument.body, "click", function() {}, null, null, false);
 		const after = event.toString();
+
 		expect(before).withContext("adding an event should be reflected in 'toString'").not.toBe(after);
 	});
 
@@ -581,6 +621,7 @@ describe("wc/dom/event", () => {
 		const before = event.toString();
 		event.add(ownerDocument.body, { type: "click", listener: function() {}, capture: false });
 		const after = event.toString();
+
 		expect(before).withContext("adding an event should be reflected in 'toString'").not.toBe(after);
 	});
 });

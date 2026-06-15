@@ -4,6 +4,9 @@
  * @module
  */
 import isSuccessfulElement from "wc/dom/isSuccessfulElement.mjs";
+
+const { console, Node } = globalThis;
+
 const NV_SEPARATOR = "=";
 
 const instance = {
@@ -50,7 +53,7 @@ const instance = {
 	 *    represents name/value pair. The name/value pairs will be URI encoded.
 	 * @param {function} [filter] A function that will be passed an element and can veto inclusion in the serialization if it
 	 *    returns false.
-	 * @returns {string|Object.<string, string[]>}
+	 * @returns {string|Object.<string, string[]>} ?
 	 */
 	serialize: function (nodeList, includeButtons, returnAsObject, filter) {
 		const sb = [];
@@ -183,7 +186,7 @@ function getValue(element) {
  * @function
  * @private
  * @param {string} inStr the serialised form (format name=value&name-val2&name3&name4=&name5=val5)
- * @returns {Object}
+ * @returns {Object} ?
  */
 function deserializeToObject(inStr) {
 	const pairSeparator = "&",

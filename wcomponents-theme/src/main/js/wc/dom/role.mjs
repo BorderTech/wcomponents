@@ -1,4 +1,7 @@
 import impliedARIA from "wc/dom/impliedARIA.mjs";
+
+const { Node } = globalThis;
+
 /**
  * Utility class for dealing with WAI-ARIA role or implied role of elements.
  *

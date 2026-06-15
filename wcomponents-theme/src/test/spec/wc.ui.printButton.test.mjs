@@ -1,5 +1,8 @@
-import "wc/ui/printButton.mjs";
 import domTesting from "@testing-library/dom";
+
+import "wc/ui/printButton.mjs";
+
+const { beforeAll, describe, document, expect, it, jasmine, MouseEvent, window } = globalThis;
 
 describe("wc/ui/printButton", () => {
 	const linkId = "ui-printbutton-1",

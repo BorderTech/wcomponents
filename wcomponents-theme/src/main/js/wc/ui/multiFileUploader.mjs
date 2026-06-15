@@ -19,6 +19,9 @@ import toDocFragment from "wc/dom/toDocFragment.mjs";
 import feedback from "wc/ui/feedback.mjs";
 import icon from "wc/ui/icon.mjs";
 import "wc/ui/fieldset.mjs";
+
+const { console, document, FormData, Node, setTimeout } = globalThis;
+
 // Note `wc/ui/fieldset` is implicitly required to handle various aspects of managing the wrapper element.
 // TODO rework the whole AJAX part of this
 const
@@ -271,7 +274,7 @@ function MultiFileUploader() {
 					}
 				};
 			if (element.value || useFilesArg) {
-				const testObj = useFilesArg ? {files: files, name: element.name, value: element.value, accept: element.accept} : element;
+				const testObj = useFilesArg ? { files: files, name: element.name, value: element.value, accept: element.accept } : element;
 				const filesToAdd = (testObj.files ? testObj.files.length : 1);
 				const maxFileInfo = checkMaxFiles(element, filesToAdd);
 				if (maxFileInfo.valid) {
@@ -547,7 +550,7 @@ function MultiFileUploader() {
 			const fileInfos = Array.from(multiFileWidget.querySelectorAll(fileInfoWd));
 			const value = `${multiFileWidget.id}.selected`;
 			for (const element of fileInfos) {
-				let {id} = element;
+				let { id } = element;
 				let stateField = formUpdateManager.writeStateField(container, value, id);
 				// stateField.checked = true;  // WTF?
 				container.appendChild(stateField);

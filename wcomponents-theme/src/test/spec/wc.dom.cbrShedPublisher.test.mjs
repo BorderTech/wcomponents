@@ -1,8 +1,10 @@
+import domTesting from "@testing-library/dom";
+
 import cbrShedPublisher from "wc/dom/cbrShedPublisher.mjs";
 import shed from "wc/dom/shed.mjs";
 import event from "wc/dom/event.mjs";
-import domTesting from "@testing-library/dom";
 
+const { afterEach, beforeEach, clearTimeout, describe, document, expect, it, setTimeout } = globalThis;
 
 const testContent = `<div>
 	<label id="l1" for="r1" data-testid="l1"><input type="radio" id="r1" name="rg1" data-testid="r1"/> one</label>
@@ -22,9 +24,11 @@ describe("wc/dom/cbrShedPublisher", () => {
 			shed.subscribe("deselect", subscriber);
 
 			let element = domTesting.getByTestId(testHolder, id);
+
 			expect(element).withContext("no element to focus").toBeTruthy();
 
 			element = domTesting.getByTestId(testHolder, (otherId || id));
+
 			expect(element).withContext("no element to click").toBeTruthy();
 
 			const timer = setTimeout(() => win(false), 50);
@@ -125,6 +129,7 @@ describe("wc/dom/cbrShedPublisher", () => {
 	it("get radio widget", function() {
 		const w = cbrShedPublisher.getWidget("r"),
 			element = domTesting.getByTestId(testHolder, "r1");
+
 		expect(w).toBeTruthy();
 		expect(element.matches(w)).toBeTrue();
 	});
@@ -132,6 +137,7 @@ describe("wc/dom/cbrShedPublisher", () => {
 	it("get checkbox widget", function() {
 		const w = cbrShedPublisher.getWidget("cb"),
 			element = domTesting.getByTestId(testHolder, "cb1");
+
 		expect(w).toBeTruthy();
 		expect(element.matches(w)).toBeTrue();
 	});
@@ -139,9 +145,12 @@ describe("wc/dom/cbrShedPublisher", () => {
 	it("get widgets", function() {
 		const w = cbrShedPublisher.getWidget();
 		let element = domTesting.getByTestId(testHolder, "cb1");
+
 		expect(Array.isArray(w)).toBeTrue();
 		expect(element.matches(w.join())).withContext("Expected a check box to be a match for the Widget array").toBeTrue();
+
 		element = domTesting.getByTestId(testHolder, "r1");
+
 		expect(element.matches(w.join())).withContext("Expected a radio button to be a match for the Widget array").toBeTrue();
 	});
 });

@@ -6,6 +6,8 @@ import common from "wc/ui/table/common.mjs";
 import pagination from "wc/ui/table/pagination.mjs";
 import debounce from "wc/debounce.mjs";
 
+const { confirm, console, customElements, HTMLElement, window } = globalThis;
+
 const registry = new Conditions(enableDisableButton),
 	TAG_ACTION = "wc-tblaction",
 	TAG_CONDITION = "wc-tblcondition",
@@ -90,9 +92,8 @@ function enableDisableButton(button) {
 }
 
 /**
- *
  * @param {Element} button
- * @return {boolean} true if can submit
+ * @returns {boolean} If can submit
  */
 function canSubmit (button) {
 	if (!canEnableButton(button)) {

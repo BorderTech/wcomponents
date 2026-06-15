@@ -1,6 +1,9 @@
-import getLabelsForElement from "wc/dom/getLabelsForElement.mjs";
-import {setUpExternalHTML} from "../helpers/specUtils.mjs";
 import domTesting from "@testing-library/dom";
+
+import getLabelsForElement from "wc/dom/getLabelsForElement.mjs";
+import { setUpExternalHTML } from "../helpers/specUtils.mjs";
+
+const { beforeAll, describe, expect, it } = globalThis;
 
 describe("wc/dom/getLabelsForElement", () => {
 	let testHolder;
@@ -10,11 +13,12 @@ describe("wc/dom/getLabelsForElement", () => {
 			testHolder = dom.window.document.body;
 		});
 	});
-	
+
 	it("testGetLabel", function() {
 		const element = domTesting.getByTestId(testHolder, "male"),
 			labels = getLabelsForElement(element),
 			expected = domTesting.getByTestId(testHolder, "maleLabel");
+
 		expect(labels[0]).toBe(expected);
 	});
 
@@ -22,6 +26,7 @@ describe("wc/dom/getLabelsForElement", () => {
 		const element = domTesting.getByTestId(testHolder, "female"),
 			labels = getLabelsForElement(element),
 			expected = domTesting.getByTestId(testHolder, "femaleLabel");
+
 		expect(labels[0]).toBe(expected);
 	});
 
@@ -29,6 +34,7 @@ describe("wc/dom/getLabelsForElement", () => {
 		const element = domTesting.getByTestId(testHolder, "wrappedinput"),
 			labels = getLabelsForElement(element),
 			expected = domTesting.getByTestId(testHolder, "wrappedlabel");
+
 		expect(labels[0]).toBe(expected);
 	});
 
@@ -36,6 +42,7 @@ describe("wc/dom/getLabelsForElement", () => {
 		const element = domTesting.getByTestId(testHolder, "fs1"),
 			labels = getLabelsForElement(element),
 			expected = domTesting.getByTestId(testHolder, "leg1");
+
 		expect(labels[0]).toBe(expected);
 	});
 
@@ -65,6 +72,7 @@ describe("wc/dom/getLabelsForElement", () => {
 
 	it("testUnlabelled", function() {
 		const result = getLabelsForElement(domTesting.getByTestId(testHolder, "unlabelled"));
+
 		expect(Array.isArray(result)).toBeTrue();
 		expect(result.length).toBe(0);
 	});
@@ -73,12 +81,14 @@ describe("wc/dom/getLabelsForElement", () => {
 		const element = domTesting.getByTestId(testHolder, "aria-text"),
 			labels = getLabelsForElement(element),
 			expected = domTesting.getByTestId(testHolder, "aria-label");
+
 		expect(labels[0]).toBe(expected);
 	});
 
 	it("testAriaLabelUnavailable", function() {
 		const element = domTesting.getByTestId(testHolder, "aria-text2"),
 			labels = getLabelsForElement(element);
+
 		expect(labels.length).toBe(0);
 	});
 
@@ -87,6 +97,7 @@ describe("wc/dom/getLabelsForElement", () => {
 			labels = getLabelsForElement(element),
 			expected1 = domTesting.getByTestId(testHolder, "aria-label3"),
 			expected2 = domTesting.getByTestId(testHolder, "aria-label4");
+
 		expect(labels.length).toBe(2);
 		expect(labels[0]).toBe(expected1);
 		expect(labels[1]).toBe(expected2);
@@ -97,6 +108,7 @@ describe("wc/dom/getLabelsForElement", () => {
 			labels = getLabelsForElement(element),
 			expected1 = domTesting.getByTestId(testHolder, "billing"),
 			expected2 = domTesting.getByTestId(testHolder, "name");
+
 		expect(labels.length).toBe(2);
 		expect(labels[0]).toBe(expected1);
 		expect(labels[1]).toBe(expected2);
@@ -106,11 +118,13 @@ describe("wc/dom/getLabelsForElement", () => {
 		const element = domTesting.getByTestId(testHolder, "main"),
 			labels = getLabelsForElement(element),
 			expected = domTesting.getByTestId(testHolder, "foo");
+
 		expect(labels[0]).toBe(expected);
 	});
 
 	it("testNullElement", function() {
 		const labels = getLabelsForElement(null);
+
 		expect(labels).toBeFalsy();
 	});
 

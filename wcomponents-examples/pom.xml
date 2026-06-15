@@ -1,9 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-
-	<name>wcomponents-examples</name>
-	<artifactId>wcomponents-examples</artifactId>
 
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
@@ -12,7 +11,17 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
+	<name>wcomponents-examples</name>
+	<artifactId>wcomponents-examples</artifactId>
 	<packaging>jar</packaging>
+
+	<properties>
+		<!-- Reduce noise in build logs -->
+		<minimumPriority>3</minimumPriority>
+		<pmd.excludeFromFailureFile>${basedir}/pmd-excludes.properties</pmd.excludeFromFailureFile>
+		<!-- Turn off spotbugs until example code cleaned up (will be replaced with showcase anyway) -->
+		<spotbugs.skip>true</spotbugs.skip>
+	</properties>
 
 	<profiles>
 		<profile>
@@ -27,6 +36,7 @@
 				<excludedTestGroups>com.github.bordertech.wcomponents.examples.SeleniumTests</excludedTestGroups>
 			</properties>
 		</profile>
+
 		<profile>
 			<id>skipExamplesOptionalQA</id>
 			<activation>
@@ -41,16 +51,7 @@
 		</profile>
 	</profiles>
 
-	<properties>
-		<!-- Reduce noise in build logs -->
-		<minimumPriority>3</minimumPriority>
-		<pmd.excludeFromFailureFile>${basedir}/pmd-excludes.properties</pmd.excludeFromFailureFile>
-		<!-- Turn off spotbugs until example code cleaned up (will be replaced with showcase anyway) -->
-		<spotbugs.skip>true</spotbugs.skip>
-	</properties>
-
 	<dependencies>
-
 		<dependency>
 			<groupId>com.github.bordertech.wcomponents</groupId>
 			<artifactId>wcomponents-core</artifactId>
@@ -85,6 +86,7 @@
 			<artifactId>ehcache</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 		<!-- JAXB runtime for cache provider -->
 		<dependency>
 			<groupId>org.glassfish.jaxb</groupId>
@@ -96,9 +98,9 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
+			<version>${version.javax.servlet.servlet-api}</version>
 			<scope>provided</scope>
 		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -146,7 +148,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
-
 	</build>
 
 </project>

@@ -1,5 +1,7 @@
 import $group from "wc/dom/group.mjs";
-import {setUpExternalHTML} from "../helpers/specUtils.mjs";
+import { setUpExternalHTML } from "../helpers/specUtils.mjs";
+
+const { beforeAll, describe, expect, it } = globalThis;
 
 describe("getFilteredGroup", () => {
 	let testHolder;
@@ -7,11 +9,11 @@ describe("getFilteredGroup", () => {
 	/**
 	 * @param {string} id the ID of the element to use as the reference element (to pass to group.get)
 	 * @param {string|null} prefix the prefix of ids (if there is a naming convention) or null
-	 * @param {number|array} offset if the expected ids do not start at 0 give the offset here
-	 * OR an array of IDs we expect to find.
+	 * @param {number|array} offset if the expected ids do not start at 0 give the offset here OR an array of IDs we expect to find.
 	 * @param {number} [expected] The number of items we expect to find in this group
+	 * @returns {HTMLElement[]} ?
 	 */
-	function helper(id, prefix, offset, expected=0) {
+	function helper(id, prefix, offset, expected = 0) {
 		const element = testHolder.ownerDocument.getElementById(id),
 			usePrefix = !!prefix,
 			group = $group.get(element);
@@ -25,13 +27,16 @@ describe("getFilteredGroup", () => {
 			$expected = expected;
 			offsetNum = /** @type {number} */(offset);
 		}
+
 		expect(group.length).withContext("did not find expected group length").toBe($expected);
 		for (let i = 0; i < group.length; i++) {
 			if (usePrefix) {
 				let innerExpected = prefix + (i + offsetNum);
+
 				expect(group[i].id).withContext("Did not get expected element id: " + innerExpected).toBe(innerExpected);
 			} else {
 				let innerExpected = group[i].id;
+
 				expect(offset).withContext("Did not find element id (" + innerExpected + ") in group.").toContain(innerExpected);
 			}
 		}
@@ -42,6 +47,7 @@ describe("getFilteredGroup", () => {
 		const htmlElement = testHolder.ownerDocument.getElementById(id),
 			container = $group.getContainer(htmlElement) || null,
 			result = container ? container.id : null;
+
 		expect(result).withContext("Did not find expectedContainer").toBe(expected);
 	}
 
@@ -166,6 +172,7 @@ describe("getFilteredGroup", () => {
 			element = testHolder.ownerDocument.getElementById(id),
 			WD = "[role='option']",
 			result = $group.getGroup(element, WD);
+
 		expect(result.length).withContext("did not find expected group using getGroup").toBe(expected);
 	});
 });

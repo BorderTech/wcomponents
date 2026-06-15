@@ -1,5 +1,7 @@
 import i18n from "wc/i18n/i18n.mjs";
 
+const { customElements, document, HTMLDivElement, HTMLElement } = globalThis;
+
 const MB_CLASS = "wc-messagebox";
 const messageBoxTagName = "wc-messagebox";
 const messageTagName = "wc-message";

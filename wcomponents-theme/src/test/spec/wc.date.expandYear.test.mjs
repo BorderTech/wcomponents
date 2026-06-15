@@ -2,6 +2,7 @@ import expandYear from "wc/date/expandYear.mjs";
 import pivot from "wc/date/pivot.mjs";
 import today from "wc/date/today.mjs";
 
+const { afterAll, beforeAll, beforeEach, describe, expect, it } = globalThis;
 
 /*
  * Tests expandYear
@@ -38,6 +39,7 @@ describe("wc/date/expandYear", function() {
 
 	it("testExpandYearPivotOne", function() {
 		pivot.set(1);
+
 		expect(expandYear("18")).toBe(1818);
 		expect(expandYear("02")).toBe(1902);
 		expect(expandYear("99")).toBe(1899);
@@ -48,6 +50,7 @@ describe("wc/date/expandYear", function() {
 
 	it("testExpandYearPivotOneHundred", function() {
 		pivot.set(100);
+
 		expect(expandYear("18")).toBe(1918);
 		expect(expandYear("02")).toBe(2002);
 		expect(expandYear("99")).toBe(1999);

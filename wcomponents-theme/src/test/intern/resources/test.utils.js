@@ -1,3 +1,8 @@
+
+import require from 'requirejs';
+
+const { define, document, window } = globalThis;
+
 define([], function() {
 	"use strict";
 	var instance = new WcTestUtils();
@@ -138,7 +143,7 @@ define([], function() {
 			}
 			if (useHtml5FileSelectors()) {
 				// Mock file selector using HTML5 features
-				this.files = [{name: value, type: mimeType, size: (size || 0)}];
+				this.files = [{ name: value, type: mimeType, size: (size || 0) }];
 				this.files.item = function(i) {
 					return this[i];
 				};

@@ -1,11 +1,14 @@
 import color from "wc/dom/color.mjs";
 
+const { describe, expect, it } = globalThis;
+
 describe("wc/dom/color", function() {
 
 	it("testHex2rgb3", function() {
 		const start = "#000",
 			expected = { r: 0, g: 0, b: 0 },
 			result = color.hex2rgb(start);
+
 		expect(result.r).toBe(expected.r);
 		expect(result.g).toBe(expected.g);
 		expect(result.b).toBe(expected.b);
@@ -13,8 +16,9 @@ describe("wc/dom/color", function() {
 
 	it("testHex2rgb6", function() {
 		const start = "#00ff00",
-			expected = {r: 0, g: 255, b: 0},
+			expected = { r: 0, g: 255, b: 0 },
 			result = color.hex2rgb(start);
+
 		expect(result.r).toBe(expected.r);
 		expect(result.g).toBe(expected.g);
 		expect(result.b).toBe(expected.b);
@@ -22,8 +26,9 @@ describe("wc/dom/color", function() {
 
 	it("testHex2rgb3NoHash", function() {
 		const start = "000",
-			expected = {r: 0, g: 0, b: 0},
+			expected = { r: 0, g: 0, b: 0 },
 			result = color.hex2rgb(start);
+
 		expect(result.r).toBe(expected.r);
 		expect(result.g).toBe(expected.g);
 		expect(result.b).toBe(expected.b);
@@ -31,8 +36,9 @@ describe("wc/dom/color", function() {
 
 	it("testHex2rgb6NoHash", function() {
 		const start = "00ff00",
-			expected = {r: 0, g: 255, b: 0},
+			expected = { r: 0, g: 255, b: 0 },
 			result = color.hex2rgb(start);
+
 		expect(result.r).toBe(expected.r);
 		expect(result.g).toBe(expected.g);
 		expect(result.b).toBe(expected.b);
@@ -81,6 +87,7 @@ describe("wc/dom/color", function() {
 
 	it("testGetLiteralNotAColor", function() {
 		const result = color.getLiteral("not-a-color");
+
 		expect(result).toBeNull();
 	});
 
@@ -95,18 +102,21 @@ describe("wc/dom/color", function() {
 	it("testRgb2HexString", function() {
 		const start = "rgb(0,0,0)",
 			expected = "#000000";
+
 		expect(color.rgb2hex(start)).toBe(expected);
 	});
 
 	it("testRgb2HexArray", function() {
 		const start = [0, 0, 0],
 			expected = "#000000";
+
 		expect(color.rgb2hex(start)).toBe(expected);
 	});
 
 	it("testRgb2HexObj", function() {
 		const start = { r: 0, g: 0, b: 0 },
 			expected = "#000000";
+
 		expect(color.rgb2hex(start)).toBe(expected);
 	});
 
@@ -122,6 +132,7 @@ describe("wc/dom/color", function() {
 	it("testRgb2HexBadString2", function() {
 		const rgb = "rgb";
 		const badVal = `${rgb}()`;  // hiding this from IDE
+
 		expect(color.rgb2hex(badVal)).toBeNull();
 	});
 

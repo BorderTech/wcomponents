@@ -27,6 +27,8 @@ import getLabelsForElement from "wc/dom/getLabelsForElement.mjs";
 import "wc/ui/checkboxAnalog.mjs";
 import "wc/ui/radioAnalog.mjs";
 
+const { document } = globalThis;
+
 const CLASS_TOGGLE = "wc_seltog";
 
 const controllerSelector = `.${CLASS_TOGGLE}`;
@@ -49,10 +51,10 @@ const registry = {},
 	WSELECTTOGGLE_CLASS = "wc-selecttoggle",
 	ARIA_CONTROLS = "aria-controls",
 	TARGET_ATTRIB = "data-wc-target",
-	STATE = {ALL: "all",
+	STATE = { ALL: "all",
 		NONE: "none",
 		MIXED: "some",
-		UNKOWN: "unknown"};
+		UNKOWN: "unknown" };
 
 let STAND_IN_LABEL,
 	STAND_IN_TEXT_EQUIV;

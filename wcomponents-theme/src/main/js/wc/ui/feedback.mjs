@@ -3,6 +3,8 @@ import wrappedInput from "wc/dom/wrappedInput.mjs";
 import icon from "wc/ui/icon.mjs";
 import getLabelsForElement from "wc/dom/getLabelsForElement.mjs";
 
+const { console, document, Node, NodeList } = globalThis;
+
 const checkables = ["input[type='checkbox']", "input[type='radio']"].join();
 const writeOutsideThese = ["input", "select", "textarea"].join(),
 	BEFORE_END = "beforeend";
@@ -187,6 +189,7 @@ const instance = {
 		return flag(dto);
 	},
 
+	/* eslint-disable jsdoc/no-defaults */
 	/**
 	 * Find a diagnostic box belonging to an element.
 	 * @function
@@ -225,6 +228,7 @@ const instance = {
 		transientWidget = `${diagnostic.getByType(level)}[data-wc-dfor='${id}']`;
 		return target.querySelector(transientWidget) || target.ownerDocument.body.querySelector(transientWidget);
 	},
+	/* eslint-enable jsdoc/no-defaults */
 
 	/**
 	 * Get the last diagnostic box WITHIN (or withing the wrapper of) a
@@ -298,6 +302,7 @@ const instance = {
 	 */
 	_removeDiagnostic: removeDiagnostic,
 
+	/* eslint-disable jsdoc/no-defaults */
 	/**
 	 * Remove a feedback message.
 	 * @function
@@ -324,6 +329,7 @@ const instance = {
 		}
 		return false;
 	}
+	/* eslint-enable jsdoc/no-defaults */
 };
 
 /**
@@ -449,6 +455,7 @@ function addHelper(box, message) {
 	return current[current.length - 1];
 }
 
+/* eslint-disable jsdoc/no-defaults */
 /**
  * Generate the HTML to create a diagnostic box.
  * @function
@@ -464,7 +471,6 @@ function addHelper(box, message) {
  * @returns {{html: string, id: string}} property html: The HTML which creates a complete diagnostic box, property id: the id of the added box
  */
 function getHTML(args) {
-
 	const el = args.el,
 		level = args.level || diagnostic.LEVEL.ERROR;
 	let messages = args.messages;
@@ -476,7 +482,7 @@ function getHTML(args) {
 	let messageHtml;
 	if (messages) {
 		if (messages instanceof NodeList) {
-			messages = Array.from(messages, next=> {
+			messages = Array.from(messages, next => {
 				if (next.nodeType === Node.ELEMENT_NODE) {
 					return /** @type HTMLElement */ (next).innerHTML;
 				}
@@ -490,9 +496,9 @@ function getHTML(args) {
 	}
 	return diagnostic.getBoxHtml(messageHtml, targetId, level, diagnostic.getIconName(level));
 }
+/* eslint-enable jsdoc/no-defaults */
 
-
-
+/* eslint-disable jsdoc/no-defaults */
 /**
  * Get the HTML which creates a diagnostic box.
  * @function
@@ -513,6 +519,7 @@ function getBoxHTML(targetId, messages, level) {
 		level: level
 	});
 }
+/* eslint-enable jsdoc/no-defaults */
 
 /**
  * Remove an existing diagnostic box.
@@ -602,5 +609,5 @@ export default instance;
  * @property {String|String[]} message The message to display.
  * @property {HTMLElement} element The element which is to be flagged with the error message.
  * @property {module:wc/dom/diagnostic.LEVEL|number} [level] The message severity.
- * @property {InsertPosition} [position]
+ * @property {InsertPosition} [position] - ?
  */

@@ -19,6 +19,8 @@ import event from "wc/dom/event.mjs";
 import multiSelectPair from "wc/ui/multiSelectPair.mjs";
 import dateField from "wc/ui/dateField.mjs";
 
+const { console, window } = globalThis;
+
 const ruleStore = {},  // stores the rule objects against their rule id
 	elementToRuleMap = {},  // maps dom element ids to rule ids
 	regexCache = {};  // cache any dynamically created RegExp instances we may need repeatedly
@@ -40,9 +42,8 @@ const instance = {
 	/**
 	 * Register an array of subordinate rules.
 	 * @function module:wc/ui/subordinate.register
-	 * @param {module:wc/ui/subordinate~registerDTO[]} rules An array of Objects containing configuration
-	 *    options.
-	 * @property {WindowProxy} [defaultView] The DOM window this rule applies to (99.9% of the time, this is just window and probably only ever changes in unit tests)
+	 * @param {module:wc/ui/subordinate~registerDTO[]} rules - An array of Objects containing configuration options.
+	 * @param {WindowProxy} defaultView - The DOM window this rule applies to (99.9% of the time, this is just window and probably only ever changes in unit tests)
 	 */
 	register: function(rules, defaultView) {
 		/**
@@ -322,7 +323,7 @@ function getSelectedOptions(element) {
 	/* date field contains one selectable option: the calendar launch
 	 * button. But this selectable option cannot be the subordinate
 	 * condition determinant; therefore dateField needs to be
-	 * explicitly excluded from a test of having selected options.*/
+	 * explicitly excluded from a test of having selected options. */
 	if (!(dateField?.isOneOfMe(element))) {
 		if (multiSelectPair?.isOneOfMe(element)) {
 			return Array.from(multiSelectPair.getValue(element));

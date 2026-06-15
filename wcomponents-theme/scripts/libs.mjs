@@ -1,12 +1,15 @@
-/* eslint-env node, es6  */
 /*
  * This module is responsible for third party library code in the build.
  * This is essentially a straight copy of run-time node modules.
  *
  * @author Rick Brown
  */
+
+import console from 'node:console';
+import path from "node:path";
+
 import fs from "fs-extra";
-import path from "path";
+
 import { runtimeDeps } from "./build-util.mjs";
 
 const libDir = "lib";

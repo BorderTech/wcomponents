@@ -1,6 +1,9 @@
+import domTesting from "@testing-library/dom";
+
 import convertDynamicContent from "wc/dom/convertDynamicContent.mjs";
 import shed from "wc/dom/shed.mjs";
-import domTesting from "@testing-library/dom";
+
+const { afterEach, beforeEach, describe, document, expect, fail, it } = globalThis;
 
 describe("wc/dom/convertDynamicContent", () => {
 	const formId = "abc123";
@@ -30,12 +33,14 @@ describe("wc/dom/convertDynamicContent", () => {
 
 	it("testBeforeConvert", function() {
 		const form = domTesting.getByTestId(testHolder, formId);
+
 		expect(form.querySelector("#notAField")).not.toBeNull();
 	});
 
 	it("testConvertRemovesNoneFormNodes", function() {
 		const form = domTesting.getByTestId(testHolder, formId);
 		convertDynamicContent(form);
+
 		expect(form.querySelector("#notAField")).toBeNull();
 	});
 
@@ -47,6 +52,7 @@ describe("wc/dom/convertDynamicContent", () => {
 	it("testConvertRemovesNoneFormNodesContainingFormNodes", function() {
 		const form = domTesting.getByTestId(testHolder, formId);
 		convertDynamicContent(form);
+
 		expect(domTesting.queryByTestId(form, CONVERSION_TARGET_ID)).toBeNull();  // queryBy returns null if none match
 	});
 
@@ -60,6 +66,7 @@ describe("wc/dom/convertDynamicContent", () => {
 			let nextName = next["name"] || next.getAttribute("data-wc-name");
 			let expected = next["value"] || next.getAttribute("data-wc-value");
 			let target = form.querySelector("input[type = 'hidden'][name = '" + nextName + "']") || fail("Did not find target with name " + nextName);
+
 			expect(target["value"]).toBe(expected);
 		}
 
@@ -76,6 +83,7 @@ describe("wc/dom/convertDynamicContent", () => {
 		}
 
 		convertDynamicContent(target);
+
 		expect(target.querySelectorAll(HIDDEN_FIELDS).length).withContext("All non disabled candidates should be converted " + target.innerHTML).toBe(expected);
 	});
 });

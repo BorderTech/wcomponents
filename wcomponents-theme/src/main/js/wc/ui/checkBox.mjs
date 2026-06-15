@@ -4,6 +4,8 @@ import formUpdateManager from "wc/dom/formUpdateManager.mjs";
 import processResponse from "wc/ui/ajax/processResponse.mjs";
 import cbrShedPublisher from "wc/dom/cbrShedPublisher.mjs";
 
+const { document } = globalThis;
+
 const CONTROLS = "aria-controls";
 const checkboxSelector = cbrShedPublisher.getWidget("cb").toString();
 const wrapperSelector = ".wc-checkbox";
@@ -47,14 +49,14 @@ function ajaxSubscriber(element, documentFragment) {
 /**
  * Returns a curried helper function for `ajaxSubscriber`.
  * @param myId
- * @return {(function(HTMLElement): void)|*}
+ * @returns {(function(HTMLElement): void)|*} ?
  */
 function ensureControls(myId) {
 	return next => {
 		let controlled = next.getAttribute(CONTROLS);
 		if (controlled) {
 			controlled = controlled.split(/\s+/);
-			if (controlled.indexOf(myId) === -1) {
+			if (!controlled.includes(myId)) {
 				controlled.push(myId);
 				controlled = controlled.join(" ");
 				next.setAttribute(CONTROLS, controlled);
@@ -100,7 +102,7 @@ const instance = {
 	 * Provides the description of a WCheckBox wrapper element
 	 * @function module:wc/ui/checkbox.getWrapper
 	 * @public
-	 * @returns {string}
+	 * @returns {string} ?
 	 */
 	getWrapper: () => wrapperSelector
 };

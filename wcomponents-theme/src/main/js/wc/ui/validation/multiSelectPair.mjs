@@ -13,6 +13,8 @@ import validationManager from "wc/ui/validation/validationManager.mjs";
 import getFirstLabelForElement from "wc/ui/getFirstLabelForElement.mjs";
 import i18n from "wc/i18n/i18n.mjs";
 
+const { console } = globalThis;
+
 const containerSelector = multiSelectPair.getWidget(),
 	selectSelector = multiSelectPair.getInputWidget();
 
@@ -33,6 +35,7 @@ function getContainer(element) {
  * @function
  * @private
  * @param {Element} container a WMultiSelectPair component.
+ * @returns {any} ?
  */
 function revalidate(container) {
 	return validationManager.revalidationHelper(container, validate);

@@ -1,5 +1,8 @@
-import key from "wc/key.mjs";
 import domTesting from "@testing-library/dom";
+
+import key from "wc/key.mjs";
+
+const { afterEach, beforeEach, describe, document, expect, it } = globalThis;
 
 describe("wc/key", function() {
 	let testId = "test-element";

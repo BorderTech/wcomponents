@@ -126,7 +126,7 @@ function validate(container) {
 	}
 	result = validInputs && result;
 	if (!result) {
-		console.log(`${import.meta.url} failed validation`);
+		globalThis.console.log(`${import.meta.url} failed validation`);
 	}
 	return result;
 }

@@ -128,7 +128,6 @@ function nMonth(result) {
 		}
 		result.month = value;
 	}
-	//    value = parseInt(value, 10);
 }
 
 /**
@@ -178,7 +177,7 @@ function nShortForm(result) {
 function nRelative(result) {
 	// +-days short form
 	const today = $today.get();
-	addDays(parseInt(result.relative, 10), today);
+	addDays(Number.parseInt(result.relative, 10), today);
 	result.day = today.getDate();
 	result.month = today.getMonth() + 1;
 	result.year = today.getFullYear();
@@ -215,7 +214,6 @@ function weekdayNameRe() {
 function shortFormRe() {
 	// y t m yesterday today tomorrow
 	return objectToPattern(["T", "Y", "M"], 1);
-	// return '([tT][oO][dD][aA][yY]|[yY][eE][sS][tT][eE][rR][dD][aA][yY]|[tT][oO][mM][oO][rR][rR][oO][wW]|[tT]|[yY]|[mM])';
 }
 
 /**
@@ -331,6 +329,7 @@ function toPattern(s) {
 			if (asciified && asciified !== next) {
 				next += asciified;
 			}
+		// eslint-disable-next-line no-unused-vars
 		} catch (ex) {
 			result += character;
 		}

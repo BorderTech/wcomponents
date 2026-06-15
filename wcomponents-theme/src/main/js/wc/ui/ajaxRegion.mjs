@@ -17,6 +17,8 @@ import mixin from "wc/mixin.mjs";
 import timers from "wc/timers.mjs";
 import "wc/ui/ajax/genericSubscriber.mjs";
 
+const { console, customElements, document, HTMLElement, setTimeout } = globalThis;
+
 const ajaxTriggerTagName = "wc-ajaxtrigger";
 const ajaxTargetTagName = "wc-ajaxtargetid";
 
@@ -152,7 +154,7 @@ function checkActivateTrigger(element) {
  * @returns {Boolean} true if the element is a type that submits a form when clicked (ie a submit button).
  */
 function isSubmitElement(element) {
-	const selectors = ["input[type='submit']", "input[type='submit']", "button[type='submit']","button:not([type])"];
+	const selectors = ["input[type='submit']", "input[type='submit']", "button[type='submit']", "button:not([type])"];
 	return element?.matches(selectors.join());
 }
 
@@ -325,7 +327,7 @@ initialise.register({
 		processResponse.subscribe(setControlsAttribute, true);
 		event.add(document.body, shed.events.SELECT, shedSubscriber);
 		event.add(document.body, shed.events.DESELECT, shedSubscriber);
-	},
+	}
 });
 
 /**

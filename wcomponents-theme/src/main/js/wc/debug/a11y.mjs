@@ -1,10 +1,11 @@
+import axe from "axe";
+
 import initialise from "wc/dom/initialise.mjs";
 import timers from "wc/timers.mjs";
-import axe from "axe";
 import processResponse from "wc/ui/ajax/processResponse.mjs";
 
-
-const DEFAULT_DELAY = 3000,
+const { console, document, window } = globalThis,
+	DEFAULT_DELAY = 3000,
 	defaultAxeConfig = {
 		reporter: "v2",
 		resultTypes: ["violations"],
@@ -29,12 +30,12 @@ function filterIssues(inArr) {
 		return false;
 	}
 
-	if (ignoreBestPracticeIssues && inArr.tags.indexOf("best-practice") > -1) {
+	if (ignoreBestPracticeIssues && inArr.tags.includes("best-practice")) {
 		// ignore this issue
 		return false;
 	}
 
-	return !(ignoreExperimentalIssues && inArr.tags.indexOf("experimental") > -1);
+	return !(ignoreExperimentalIssues && inArr.tags.includes("experimental"));
 
 }
 
@@ -98,7 +99,7 @@ function visibleReporter(err, issues) {
 		throw err;
 	}
 
-	if (!(issues?.violations && issues.violations.length)) {
+	if (!(issues?.violations?.length)) {
 		return;
 	}
 
@@ -141,7 +142,7 @@ function defaultReporter(err, issues) {
 		return visibleReporter(err, issues);
 	}
 
-	if (!(issues && issues.violations && issues.violations.length)) {
+	if (!(issues?.violations?.length)) {
 		c.log("No violations found");
 		return;
 	}
@@ -157,6 +158,7 @@ function defaultReporter(err, issues) {
 	});
 }
 
+/* eslint-disable jsdoc/no-defaults */
 /**
  * Run the accessibility test on the current container (or page).
  * @param {Node} [container=document] the container element we are testing.
@@ -168,6 +170,7 @@ function a11yTest(container) {
 	console.timeEnd("a11y_deque");
 	console.log("Finished a11y check.");
 }
+/* eslint-enable jsdoc/no-defaults */
 
 function run(container) {
 	timers.setTimeout(a11yTest, DEFAULT_DELAY, container);

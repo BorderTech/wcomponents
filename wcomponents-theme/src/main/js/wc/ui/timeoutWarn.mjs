@@ -17,6 +17,8 @@ import wcconfig from "wc/config.mjs";
 import debounce from "wc/debounce.mjs";
 import timers from "wc/timers.mjs";
 
+const { console, customElements, document, HTMLElement, window } = globalThis;
+
 const minimumWarnAt =  20000;  // warn user when this many milliseconds remaining, this default is the WCAG 2.0 minimum of 20 seconds
 const minimumSession = minimumWarnAt * 2;  // Never let a session be less than this
 const pendingTimers = [];
@@ -68,7 +70,7 @@ const resetTimers = debounce(/** @param {Number} warnBeforeMillis */ warnBeforeM
 		console.log(`Warning will be shown in ${millisToWarn / 1000} seconds`);
 	}
 	pendingTimers.push(timers.setTimeout(findAndShowAlert, remainingMillis));
-	console.log(`Expired will be shown in ${remainingMillis / 1000 } seconds`);
+	console.log(`Expired will be shown in ${remainingMillis / 1000} seconds`);
 }, 500);
 
 function cancelAllTimers() {
@@ -362,7 +364,7 @@ function showAlert(container) {
  * @return {Promise<String[]>} resolved with translations in order they were found in the keys array.
  */
 function getTranslations(keys) {
-	return /** @type Promise<String[]>*/(i18n.translate(keys));
+	return /** @type Promise<String[]> */(i18n.translate(keys));
 }
 
 export default TimeoutWarn;

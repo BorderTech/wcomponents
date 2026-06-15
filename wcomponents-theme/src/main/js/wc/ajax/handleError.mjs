@@ -7,6 +7,8 @@ import wcconfig from "wc/config.mjs";
 import i18n from "wc/i18n/i18n.mjs";
 import mixin from "wc/mixin.mjs";
 
+const { console } = globalThis;
+
 /**
  * Get an error message for the given response.
  * Allows for customized error messages based on HTTP status code by setting a config object like so:

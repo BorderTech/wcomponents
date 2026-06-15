@@ -10,6 +10,8 @@ import onchangeSubmit from "wc/ui/onchangeSubmit.mjs";
 import listboxAnalog from "wc/ui/listboxAnalog.mjs";
 import wcconfig from "wc/config.mjs";
 
+const { document, window } = globalThis;
+
 const CLASS_CHATTY = "wc_combo_dyn",
 	comboSelector = ".wc-combo[role='combobox']",
 	chattyComboSelector = `${comboSelector}.${CLASS_CHATTY}`,
@@ -197,7 +199,7 @@ function load(combo, element) {
 			loads: [id],
 			getData: getData,
 			serialiseForm: false,
-			method: "get"}, true);
+			method: "get" }, true);
 	}
 }
 
@@ -647,7 +649,7 @@ function focusEvent({ target }) {
 			if (openCombo) {
 				/* close any open combos when focusing elsewhere but
 				 * if I have focussed in the current combo's list box (or something silly like the body)
-				 * do not close the combo.*/
+				 * do not close the combo. */
 				let listbox;
 				// target.nodeType is really a test for "window" because every DOM node has a node type but window doesn't
 				if (target.nodeType && target !== document.body) {
@@ -715,13 +717,13 @@ function postAjaxSubscriber(element) {
 /**
  * Get the textbox for a combo.
  * @param {Element} combo
- * @return {HTMLInputElement} the textbox
+ * @returns {HTMLInputElement} The textbox
  */
 function getTextbox(combo) {
 	if (!combo) {
 		return null;
 	}
-	const {find} = Array.prototype;
+	const { find } = Array.prototype;
 	return find.call(combo.children, child => child.matches(textboxSelector));
 }
 

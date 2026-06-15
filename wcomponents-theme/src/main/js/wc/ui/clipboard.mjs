@@ -2,6 +2,8 @@ import event from "wc/dom/event.mjs";
 import initialise from "wc/dom/initialise.mjs";
 import debounce from "wc/debounce.mjs";
 
+const { console } = globalThis;
+
 /**
  *
  * @param {MouseEvent & {target: HTMLElement}} $event

@@ -11,6 +11,8 @@ import event from "wc/dom/event.mjs";
 import debounce from "wc/debounce.mjs";
 import getStyle from "wc/dom/getStyle.mjs";
 
+const { console, document, window } = globalThis;
+
 const
 	/**
 	 * The description of a tab list.
@@ -132,7 +134,7 @@ class Tabset extends AriaAnalog {
 	 * Are all tabs in a tabset inthe same expanded state?
 	 * @param {Element} tabset The tabset to test
 	 * @param {boolean} expanded true is testing for
-	 * @returns {Boolean}
+	 * @returns {boolean} ?
 	 */
 	areAllInExpandedState(tabset, expanded) {
 		const list = tabset.querySelector(TABLIST);
@@ -410,7 +412,7 @@ function clearSize (element) {
 /**
  *
  * @param {HTMLElement} element
- * @returns {boolean}
+ * @returns {boolean} ?
  */
 function fixSize (element) {
 	let result = false;
@@ -602,9 +604,12 @@ function onItemEnabled(element) {
 	element.tabIndex = 0;
 }
 
-/** NOTE:
+/**
+ * NOTE:
  * next is a tablist. The tabset container element is the tablist's parent element.
  * If the tabset is disabled, the parent element has the aria-disabled="true" flag.
+ * @param stateContainer - ?
+ * @param next - ?
  */
 function writeTabStateHelper(stateContainer, next) {
 	const config = {
@@ -739,7 +744,7 @@ function accordionToTabset(accordion) {
  * @param {HTMLElement} tabset the tabset to convert.
  */
 function tabsetToAccordion(tabset) {
-	if (!tabset.matches(TABSET.toString()) ) {
+	if (!tabset.matches(TABSET.toString())) {
 		return;
 	}
 	const tablist = Array.from(tabset.children).find(kid => kid.matches(TABLIST));

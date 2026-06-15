@@ -1,5 +1,7 @@
 import wrappedInput from "wc/dom/wrappedInput.mjs";
 
+const { afterEach, beforeEach, describe, document, expect, it } = globalThis;
+
 describe("wc/dom/wrappedInput", () => {
 	/*
 	 * Unit tests for wc/dom/wrappedInput
@@ -21,7 +23,7 @@ describe("wc/dom/wrappedInput", () => {
 		testHolder = ownerDocument.body.appendChild(ownerDocument.createElement("div"));
 		testHolder.innerHTML = testContent;
 	});
-	
+
 	afterEach(function() {
 		testHolder.innerHTML = "";
 	});
@@ -57,6 +59,7 @@ describe("wc/dom/wrappedInput", () => {
 	it("testGetInput", function() {
 		const expected = ownerDocument.getElementById("wrapper_input"),
 			actual = wrappedInput.getInput(ownerDocument.getElementById("wrapper"));
+
 		expect(actual).toEqual(expected);
 	});
 
@@ -71,6 +74,7 @@ describe("wc/dom/wrappedInput", () => {
 	it("testGetWrapper", function() {
 		const expected = ownerDocument.getElementById("wrapper"),
 			actual = wrappedInput.getWrapper(ownerDocument.getElementById("wrapper_input"));
+
 		expect(actual).toEqual(expected);
 	});
 
@@ -110,18 +114,21 @@ describe("wc/dom/wrappedInput", () => {
 	it("testGetWrappedId", function() {
 		const expected = "wrapper_input",
 			actual = wrappedInput.getWrappedId(ownerDocument.getElementById("wrapper"));
+
 		expect(actual).toEqual(expected);
 	});
 
 	it("testGetWrappedIdFromInput", function() {
 		const expected = "wrapper_input",
 			actual = wrappedInput.getWrappedId(ownerDocument.getElementById("wrapper_input"));
+
 		expect(actual).toEqual(expected);
 	});
 
 	it("testGetWrappedIdRO", function() {
 		const expected = "rowrapper_input",
 			actual = wrappedInput.getWrappedId(ownerDocument.getElementById("rowrapper"));
+
 		expect(actual).toEqual(expected);
 	});
 

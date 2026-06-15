@@ -1,5 +1,7 @@
 import Trigger from "wc/ajax/Trigger.mjs";
 
+const { afterAll, afterEach, beforeAll, describe, document, expect, fail, it, window } = globalThis;
+
 describe("wc/ajax/Trigger", () => {
 	const subscribers = [],
 		xmlUrl = "test/resource/note.xml",
@@ -142,7 +144,7 @@ describe("wc/ajax/Trigger", () => {
 				id: "foobar",
 				url: xmlUrl,
 				loads: ["mrDiv1", "mrDiv2"],
-				formRegion:"mrDiv1",
+				formRegion: "mrDiv1",
 				method: "get"
 			},
 			trigger = new Trigger(_request, dummyCallback, errCallback);
@@ -170,7 +172,7 @@ describe("wc/ajax/Trigger", () => {
 				id: "foobar",
 				url: xmlUrl,
 				method: "get",
-				loads: ["mrDiv0", "mrDiv2"]},
+				loads: ["mrDiv0", "mrDiv2"] },
 			trigger = new Trigger(request, dummyCallback);
 		return new Promise(function (win, lose) {
 			trigger.fire().then(function () {
@@ -194,6 +196,7 @@ describe("wc/ajax/Trigger", () => {
 					expect(pending).withContext("when firing a Trigger pending must be true").toBeTrue();
 					Trigger.unsubscribe(subscriber, -1);
 					win();
+				// eslint-disable-next-line no-unused-vars
 				} catch (ex) {
 					lose();
 				}
@@ -214,6 +217,7 @@ describe("wc/ajax/Trigger", () => {
 					expect(pending).withContext("when the last Trigger has fired pending must be false").toBeFalse();
 					Trigger.unsubscribe(subscriber);
 					win();
+				// eslint-disable-next-line no-unused-vars
 				} catch (ex) {
 					lose();
 				}
@@ -240,6 +244,7 @@ describe("wc/ajax/Trigger", () => {
 					expect(pending).withContext("when the last Trigger has fired pending must be false").toBeFalse();
 					Trigger.unsubscribe(subscriber, 1);
 					win();
+				// eslint-disable-next-line no-unused-vars
 				} catch (ex) {
 					lose();
 				}

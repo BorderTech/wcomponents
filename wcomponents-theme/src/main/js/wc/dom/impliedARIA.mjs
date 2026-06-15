@@ -1,3 +1,6 @@
+
+const { Node } = globalThis;
+
 const ROLE_MAP = {
 	"a": "link",
 	"button": "button",
@@ -75,7 +78,7 @@ const instance = {
 		 return true;
 		 }
 		 */
-		/* NOTE: FIELDSET is natively disable-able, but we choose to not allow it for pragmatic reasons.*/
+		/* NOTE: FIELDSET is natively disable-able, but we choose to not allow it for pragmatic reasons. */
 		const disableable = ["input", "button", "select", "textarea", "optgroup", "option"].join();
 		switch (state) {
 			case "disabled":

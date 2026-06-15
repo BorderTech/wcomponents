@@ -9,6 +9,8 @@ import timers from "wc/timers.mjs";
 import common from "wc/ui/table/common.mjs";
 import i18n from "wc/i18n/i18n.mjs";
 
+const { document, window } = globalThis;
+
 const IDX_BUTTON = {
 		FIRST: 0,
 		PREV: 1,
@@ -31,6 +33,7 @@ const IDX_BUTTON = {
 	PAGE_ATTRIB = "data-wc-pages",
 	TRUE = "true",
 	NUM_BEFORE_AFTER_CURRENT_PAGE_OPTIONS = 4,  // this is the number of selections to show around the current page option.
+	// eslint-disable-next-line @stylistic/no-mixed-operators
 	NUM_PAGE_OPTIONS = 2 * NUM_BEFORE_AFTER_CURRENT_PAGE_OPTIONS + 3;  // This weird number gives us FIRST (4 before selected) SELECTED (4 after selected) LAST.
 
 let updateQueue,
@@ -56,14 +59,15 @@ function isAjax(element) {
 /**
  * Helper for updateSelectOptions and setUpPageSelectOptions.
  * @param {number} currentPage The page currently being shown.
- * @param {Number} totalPages The number of pages in the table.
- * @returns {Number} the start point for the page select options' values.
+ * @param {number} totalPages The number of pages in the table.
+ * @returns {number} the start point for the page select options' values.
  */
 function getStartValue(currentPage, totalPages) {
 	if (currentPage <= NUM_BEFORE_AFTER_CURRENT_PAGE_OPTIONS) {
 		return 1;
 	}
 	if (totalPages - currentPage <= NUM_BEFORE_AFTER_CURRENT_PAGE_OPTIONS) {
+		// eslint-disable-next-line @stylistic/no-mixed-operators
 		return Math.max(totalPages - NUM_PAGE_OPTIONS + 2, 1);
 	}
 	return currentPage - NUM_BEFORE_AFTER_CURRENT_PAGE_OPTIONS;
@@ -470,7 +474,7 @@ function changeEvent({ target, defaultPrevented }) {
 
 	// if the table has two pagination/rows per page selectors they have to be kept in sync but do not fire
 	// change events on the alternate.
-	const alternateSelector = target.matches(SELECTOR) ? getOtherSelector(target): null;
+	const alternateSelector = target.matches(SELECTOR) ? getOtherSelector(target) : null;
 	if (alternateSelector) {
 		alternateSelector.selectedIndex = target.selectedIndex;
 	}
@@ -545,7 +549,7 @@ function postAjaxSubscriber(element, action, triggerId) {
 					/* onLoadFocusControl may have already set the focus to the ajax trigger
 					 * so we cannot use it to refocus to the button, but we can determine that
 					 * we do not need to re-test for other focus since onloadFocusControl will
-					 * have done that before focussing the select.*/
+					 * have done that before focussing the select. */
 					focus.setFocusRequest(button);
 				}
 			}
@@ -553,7 +557,7 @@ function postAjaxSubscriber(element, action, triggerId) {
 			/* NOTE: only set triggerButtonId to null when we are sure we are
 			 * processing the pagination ajax response as there may be many
 			 * responses betwixt setting the triggerButtonId and the one we
-			 * want (unlikely, but definitely possible).*/
+			 * want (unlikely, but definitely possible). */
 			triggerButtonId = null;
 		}
 	}

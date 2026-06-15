@@ -19,7 +19,7 @@ function clickEvent($event) {
 	const element = $event.target.closest("button.wc-printbutton");
 	if (element && !shed.isDisabled(element)) {
 		$event.preventDefault();
-		print();
+		globalThis.print();
 	}
 }
 
@@ -27,6 +27,7 @@ initialise.register({
 	/**
 	 * Initialise print button functionality.
 	 * @param {HTMLBodyElement} element The element being initialised: document.body.
+	 * @returns {Object} ?
 	 */
 	initialise: (element) => event.add(element, "click", clickEvent)
 });

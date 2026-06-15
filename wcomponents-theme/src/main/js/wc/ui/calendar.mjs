@@ -23,6 +23,8 @@ import initialise from "wc/dom/initialise.mjs";
 import timers from "wc/timers.mjs";
 import wcconfig from "wc/config.mjs";
 
+const { console, document, Node, window } = globalThis;
+
 const DATE_KEY = "date_key",
 	CONTAINER_ID = "wc_calbox",
 	DAY_CONTAINER_ID = "wc_caldaybox",
@@ -104,7 +106,7 @@ function calendarTemplate(context) {
 }
 
 /**
- * @returns {HTMLSelectElement}
+ * @returns {HTMLSelectElement} ?
  */
 function findMonthSelect() {
 	return /** @type {HTMLSelectElement} */(document.getElementById(MONTH_SELECT_ID));
@@ -112,7 +114,7 @@ function findMonthSelect() {
 
 /**
  *
- * @returns {HTMLInputElement}
+ * @returns {HTMLInputElement} ?
  */
 function findYearField() {
 	return /** @type {HTMLInputElement} */(document.getElementById(YEAR_ELEMENT_ID));
@@ -198,14 +200,14 @@ function navigateDayLeftRightUpDown(currentElement, direction) {
  * @function
  * @private
  * @param element the input holding the year value
- * @returns number or NaN if the input is not numeric
+ * @returns {any} number or NaN if the input is not numeric
  */
 function getYearValueAsNumber(element) {
 	let result = element.value.trim();
 	if (result && isNumeric(result)) {
-		result = parseInt(result, 10);
+		result = Number.parseInt(result, 10);
 	} else {
-		result = NaN;
+		result = Number.NaN;
 	}
 	return result;
 }
@@ -220,7 +222,7 @@ function refresh() {
 		year = getYearValueAsNumber(yearField);
 
 	// ignore invalid years
-	if (!isNaN(year)) {
+	if (!Number.isNaN(year)) {
 		retrieveDate(function(current) {
 			const newDate = setYear(current, year);  // YEAR
 			const month = setMonth(newDate, year, limit);  // MONTH
@@ -261,6 +263,9 @@ function setYear(date, year) {
 
 /**
  * Helper for refresh.
+ * @param date - ?
+ * @param year - ?
+ * @param limit - ?
  * @private
  * @function
  */
@@ -331,7 +336,7 @@ function yearChanged(yearElement) {
 	timers.clearTimeout(yearChangedTimeout);
 	yearChangedTimeout = timers.setTimeout(function() {
 		const value = getYearValueAsNumber(yearElement);
-		if (!isNaN(value) && value >= min && value <= max) {
+		if (!Number.isNaN(value) && value >= min && value <= max) {
 			yearElement.value = value;
 			refresh();
 		}
@@ -348,7 +353,6 @@ function yearChanged(yearElement) {
 function hideCalendar(ignoreFocusReset) {
 	const cal = getCal();
 
-	// touching = null;
 	if (cal && !shed.isHidden(cal, true)) {
 		// focus the dateField if required
 		let input;
@@ -466,7 +470,7 @@ function yearChangeEvent($event) {
 
 /**
  * Builds the actual HTML calendar component
- * @returns {Promise<HTMLElement>}
+ * @returns {Promise<HTMLElement>} ?
  */
 function create() {
 	const _today = today.get();
@@ -531,7 +535,7 @@ function retrieveDate(callback) {
 	 * @param {Element} cal
 	 */
 	getOrCreateCal(cal => {
-		const millis = parseInt(cal.dataset[DATE_KEY]);
+		const millis = Number.parseInt(cal.dataset[DATE_KEY]);
 		if (millis || millis === 0) {
 			const dateObj = new Date(millis);
 			callback(dateObj);
@@ -544,7 +548,7 @@ function retrieveDate(callback) {
 /**
  *
  * @param {Element} [$cal]
- * @returns {HTMLInputElement}
+ * @returns {HTMLInputElement} ?
  */
 function getInputForCalendar($cal) {
 	const cal = ($cal || getCal());
@@ -572,12 +576,12 @@ function storeDate(dateObj) {
 
 /**
  * cal.dataset[DATE_KEY] is how the date is passed back and forth from the date input and the calendar
- * control. when we set the date we rebuild the calendar to show this date as the default selected @param date
- * the date object to set the calendar to @param [setFocus] true to focus after setting date @param
+ * control. when we set the date we rebuild the calendar to show this date as the default selected parameter date
+ * the date object to set the calendar to parameter [setFocus] true to focus after setting date parameter
  * [setSelected] true to set the date as the current selection
- * @param {Date} date
- * @param {boolean} setFocus
- * @param {boolean} [setSelected]
+ * @param {Date} date - ?
+ * @param {boolean} setFocus - ?
+ * @param {boolean} [setSelected] - ?
  */
 function setDate(date, setFocus, setSelected) {
 	getOrCreateCal(function(cal) {
@@ -834,7 +838,7 @@ function detectCollision(cal) {
 	 */
 	if (initiallyCollideSouth) {
 		const top = cal.offsetTop;
-		if (!isNaN(top)) {
+		if (!Number.isNaN(top)) {
 			cal.style.top = (top - collision.s) + "px";
 		}
 	}
@@ -869,7 +873,7 @@ function changeMonth(element) {
 	// If we do not have a year set then default to this year before change
 	let currentYear = getYearValueAsNumber(yearBox);
 	let maxYear;
-	if (isNaN(currentYear)) {
+	if (Number.isNaN(currentYear)) {
 		currentYear = _today.getFullYear();
 		yearBox.value = String(currentYear);
 	}
@@ -1065,6 +1069,8 @@ function containerShowHide(element, action) {
 
 /**
  * Handle show/hide
+ * @param element - ?
+ * @param action - ?
  */
 function shedSubscriber(element, action) {
 	if (element.id === CONTAINER_ID) {

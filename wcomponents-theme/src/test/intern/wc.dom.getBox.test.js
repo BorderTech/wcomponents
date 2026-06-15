@@ -1,3 +1,6 @@
+
+const { define, document } = globalThis;
+
 define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"], function(registerSuite, assert, testutils) {
 	"use strict";
 	var controller, testHolder, TOP = 150,

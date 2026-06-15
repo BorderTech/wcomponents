@@ -6,6 +6,8 @@ import $role from "wc/dom/role.mjs";
 import getStyle from "wc/dom/getStyle.mjs";
 import getForm from "wc/ui/getForm.mjs";
 
+const { document, Node } = globalThis;
+
 const actions = {
 		SHOW: "show",
 		HIDE: "hide",
@@ -17,9 +19,9 @@ const actions = {
 		EXPAND: "expand",
 		COLLAPSE: "collapse",
 		MANDATORY: "mandatory",
-		OPTIONAL: "optional"},
-	ARIA_STATE = {"expanded": "aria-expanded",
-		"readonly": "aria-readonly"},
+		OPTIONAL: "optional" },
+	ARIA_STATE = { "expanded": "aria-expanded",
+		"readonly": "aria-readonly" },
 	NATIVE_STATE = {},
 	ANY_SEL_STATE = "any",
 	DISABLED = "disabled",
@@ -675,7 +677,6 @@ function getSetNativeSelected(element, value, mix) {
 				} else if (attribute === CHECKED) {  // this appears to be fixed in IE8, so I moved it to the second test
 					element["checked"] = false;
 					element[attribute] = false;
-					// delete element[attribute];  // don't do this, it breaks webkit
 				}
 			}
 		}

@@ -1,5 +1,7 @@
 import shed from "wc/dom/shed.mjs";
-import {getSelect} from "../helpers/specUtils.mjs";
+import { getSelect } from "../helpers/specUtils.mjs";
+
+const { afterEach, beforeEach, describe, document, expect, it } = globalThis;
 
 describe("wc/dom.shed", () => {
 	const html = `
@@ -104,6 +106,7 @@ describe("wc/dom.shed", () => {
 		try {
 			shed.subscribe(action, subscriber);
 			shed[action](element);
+
 			expect(elementIGot).toBe(element);
 			expect(actionIGot).toBe(action);
 		} finally {
@@ -125,6 +128,7 @@ describe("wc/dom.shed", () => {
 
 	it("testIsDisabledInputNotXML", function() {
 		document.body.insertAdjacentHTML("afterbegin", "<input id='inp2' disabled>");
+
 		expect(shed.isDisabled(document.getElementById("inp2"))).toBeTrue();
 	});
 
@@ -158,43 +162,55 @@ describe("wc/dom.shed", () => {
 
 	it("testDisableInput", function() {
 		const element = document.getElementById("inp3");
+
 		expect(shed.isDisabled(element)).toBeFalse();
 		shed.disable(element);
+
 		expect(shed.isDisabled(element)).toBeTrue();
 	});
 
 	it("testDisableSelect", function() {
 		const element = document.getElementById("select1");
+
 		expect(shed.isDisabled(element)).toBeFalse();
 		shed.disable(element);
+
 		expect(shed.isDisabled(element)).toBeTrue();
 	});
 
 	it("testDisableElementNotDisableable", function() {
 		const element = document.getElementById("subscriberDiv1");
+
 		expect(shed.isDisabled(element)).toBeFalse();
 		shed.disable(element);
+
 		expect(shed.isDisabled(element)).toBeFalse();
 	});
 
 	it("testDisableElementNotNativelyDisableableWithRole", function() {
 		const element = document.getElementById("fauxChk1");
+
 		expect(shed.isDisabled(element)).toBeFalse();
 		shed.disable(element);
+
 		expect(shed.isDisabled(element)).toBeTrue();
 	});
 
 	it("testEnableInput", function() {
 		const element = document.getElementById("inp1");
+
 		expect(shed.isDisabled(element)).toBeTrue();
 		shed.enable(element);
+
 		expect(shed.isDisabled(element)).toBeFalse();
 	});
 
 	it("testEnableElementNotNativelyDisableableWithRole", function() {
 		const element = document.getElementById("fauxChk4");
+
 		expect(shed.isDisabled(element)).toBeTrue();
 		shed.enable(element);
+
 		expect(shed.isDisabled(element)).toBeFalse();
 	});
 
@@ -228,16 +244,19 @@ describe("wc/dom.shed", () => {
 
 	it("testIsSelectedWithOptionFalse", function() {
 		const selElement = getSelect(document.body, "sel1");
+
 		expect(shed.isSelected(selElement.options[0])).toBeFalse();
 	});
 
 	it("testIsSelectedWithOptionTrue", function() {
 		const selElement = getSelect(document.body, "sel1");
+
 		expect(shed.isSelected(selElement.options[1])).toBeTrue();
 	});
 
 	it("testIsSelectedWithFauxChkBoxFalse", function() {
 		const element = document.getElementById("fauxChk1");
+
 		expect(shed.isSelected(element)).toBeFalse();
 		expect(shed.isSelected(element)).toBe(shed.state.DESELECTED);
 	});
@@ -248,6 +267,7 @@ describe("wc/dom.shed", () => {
 
 	it("testIsSelectedWithFauxChkBoxMixed", function() {
 		const element = document.getElementById("fauxChk3");
+
 		expect(!!shed.isSelected(element)).toBeFalse();
 	});
 
@@ -266,6 +286,7 @@ describe("wc/dom.shed", () => {
 	it("testIsSelectedWithFauxRadioFalse", function() {
 		expect(shed.isSelected(document.getElementById("fauxRad1"))).toBeFalse();
 	});
+
 	it("testIsSelectedWithFauxRadioTrue", function() {
 		expect(shed.isSelected(document.getElementById("fauxRad2"))).toBeTrue();
 	});
@@ -292,44 +313,56 @@ describe("wc/dom.shed", () => {
 
 	it("testSelectToggleButton", function() {
 		const element = document.getElementById("togglebtn1");
+
 		expect(shed.isSelected(element)).toBeFalse();
 		shed.select(element);
+
 		expect(shed.isSelected(element)).toBeTrue();
 	});
 
 	it("testSelectNativeButton", function() {
 		const element = document.getElementById("btn1");
+
 		expect(shed.isSelected(element)).toBeFalse();
 		shed.select(element);
+
 		expect(shed.isSelected(element)).toBeTrue();
 	});
 
 	it("testSelectChkBox", function() {
 		const element = document.getElementById("chk1");
+
 		expect(shed.isSelected(element)).toBeFalse();
 		shed.select(element);
+
 		expect(shed.isSelected(element)).toBeTrue();
 	});
 
 	it("testSelectRadio", function() {
 		const element = document.getElementById("rad1");
+
 		expect(shed.isSelected(element)).toBeFalse();
 		shed.select(element);
+
 		expect(shed.isSelected(element)).toBeTrue();
 	});
 
 	it("testSelectOption", function() {
 		const selElement = getSelect(document.body, "sel1");
 		const element = selElement.options[0];
+
 		expect(shed.isSelected(element)).toBeFalse();
 		shed.select(element);
+
 		expect(shed.isSelected(element)).toBeTrue();
 	});
 
 	it("testSelectFauxChkBox", function() {
 		const element = document.getElementById("fauxChk1");
+
 		expect(shed.isSelected(element)).toBeFalse();
 		shed.select(element);
+
 		expect(shed.isSelected(element)).toBeTrue();
 	});
 
@@ -339,29 +372,37 @@ describe("wc/dom.shed", () => {
 			// order of tests should not be important
 			shed.deselect(element);
 		}
+
 		expect(shed.isSelected(element)).toBeFalse();
 		shed.select(element);
+
 		expect(shed.isSelected(element)).toBeTrue();
 	});
 
 	it("testSelectFauxOption", function() {
 		const element = document.getElementById("fauxOpt1");
+
 		expect(shed.isSelected(element)).toBeFalse();
 		shed.select(element);
+
 		expect(shed.isSelected(element)).toBeTrue();
 	});
 
 	it("testDeselectToggleButton", function() {
 		const element = document.getElementById("togglebtn2");
+
 		expect(shed.isSelected(element)).toBeTrue();
 		shed.deselect(element);
+
 		expect(shed.isSelected(element)).toBeFalse();
 	});
 
 	it("testDeselectChkBox", function() {
 		const element = document.getElementById("chk2");
+
 		expect(shed.isSelected(element)).toBeTrue();
 		shed.deselect(element);
+
 		expect(shed.isSelected(element)).toBeFalse();
 	});
 
@@ -370,15 +411,19 @@ describe("wc/dom.shed", () => {
 		if (!shed.isSelected(element)) {
 			shed.select(element, true);
 		}
+
 		expect(shed.isSelected(element)).toBeTrue();
 		shed.deselect(element);
+
 		expect(shed.isSelected(element)).toBeFalse();
 	});
 
 	it("testDeselectUnpreferredFauxOption", function() {
 		const element = document.getElementById("fauxOpt4");
+
 		expect(shed.isSelected(element)).toBeTrue();
 		shed.deselect(element);
+
 		expect(shed.isSelected(element)).toBeFalse();
 	});
 
@@ -388,15 +433,19 @@ describe("wc/dom.shed", () => {
 		if (!shed.isSelected(element)) {
 			shed.select(element, true);
 		}
+
 		expect(shed.isSelected(element)).toBeTrue();
 		shed.deselect(element);
+
 		expect(shed.isSelected(element)).toBeFalse();
 	});
 
 	it("testDeselectFauxChkBox", function() {
 		const element = document.getElementById("fauxChk2");
+
 		expect(shed.isSelected(element)).toBeTrue();
 		shed.deselect(element);
+
 		expect(shed.isSelected(element)).toBeFalse();
 	});
 
@@ -408,34 +457,43 @@ describe("wc/dom.shed", () => {
 			shed.select(element);
 		}
 		shed.deselect(element);
+
 		expect(shed.isSelected(element)).toBeFalse();
 	});
 
 	it("testDeselectFauxOption", function() {
 		const element = document.getElementById("fauxOpt2");
+
 		expect(shed.isSelected(element)).toBeTrue();
 		shed.deselect(element);
+
 		expect(shed.isSelected(element)).toBeFalse();
 	});
 
 	it("testMixChkBox", function() {
 		const element = document.getElementById("chk1");
+
 		expect(shed.isSelected(element)).not.toBe(shed.state.MIXED);
 		shed.mix(element);
+
 		expect(shed.isSelected(element)).toBe(shed.state.MIXED);
 	});
 
 	it("testMixFauxChkBox", function() {
 		const element = document.getElementById("fauxChk1");
+
 		expect(shed.isSelected(element)).not.toBe(shed.state.MIXED);
 		shed.mix(element);
+
 		expect(shed.isSelected(element)).toBe(shed.state.MIXED);
 	});
 
 	it("testMixFauxChkBoxWasSelected", function() {
 		const element = document.getElementById("fauxChk2");
+
 		expect(shed.isSelected(element)).not.toBe(shed.state.MIXED);
 		shed.mix(element);
+
 		expect(shed.isSelected(element)).toBe(shed.state.MIXED);
 	});
 
@@ -443,6 +501,7 @@ describe("wc/dom.shed", () => {
 		const element = document.getElementById("togglebtn1"),
 			selected = shed.isSelected(element);
 		shed.toggle(element, shed.actions.SELECT);
+
 		expect(shed.isSelected(element)).not.toBe(selected);
 	});
 
@@ -450,6 +509,7 @@ describe("wc/dom.shed", () => {
 		const element = document.getElementById("togglebtn1"),
 			disabled = shed.isDisabled(element);
 		shed.toggle(element, shed.actions.DISABLE);
+
 		expect(shed.isDisabled(element)).not.toBe(disabled);
 	});
 
@@ -458,6 +518,7 @@ describe("wc/dom.shed", () => {
 		element.style.width = "100px";  // JSDom cannot calculate offsetWidth
 		const hidden = shed.isHidden(element);
 		shed.toggle(element, shed.actions.HIDE);
+
 		expect(shed.isHidden(element)).not.toBe(hidden);
 	});
 
@@ -471,15 +532,19 @@ describe("wc/dom.shed", () => {
 
 	it("testHide", function() {
 		const element = document.getElementById("hide1");
+
 		expect(shed.isHidden(element)).toBeFalse();
 		shed.hide(element);
+
 		expect(shed.isHidden(element)).toBeTrue();
 	});
 
 	it("testShow", function() {
 		const element = document.getElementById("hide2");
+
 		expect(shed.isHidden(element)).toBeTrue();
 		shed.show(element);
+
 		expect(shed.isHidden(element)).toBeFalse();
 	});
 
@@ -502,6 +567,7 @@ describe("wc/dom.shed", () => {
 				shed[action](element);
 				i++;
 			}
+
 			expect(called).toBe(repeat);
 		} finally {  // clean up subscribers
 			shed.unsubscribe(shed.actions.HIDE, subscriberHideRval);
@@ -533,6 +599,7 @@ describe("wc/dom.shed", () => {
 			shed[action](element);
 			i++;
 		}
+
 		expect(called).withContext("unsubscribed shed subscribers should not have been called").toBe(repeat);
 	});
 
@@ -579,29 +646,37 @@ describe("wc/dom.shed", () => {
 
 	it("testExpand", function() {
 		const element = document.getElementById("exp1");
+
 		expect(shed.isExpanded(element)).toBeFalse();
 		shed.expand(element);
+
 		expect(shed.isExpanded(element)).toBeTrue();
 	});
 
 	it("testExpandWithOpen", function() {
 		const element = document.getElementById("details1");
+
 		expect(shed.isExpanded(element)).toBeFalse();
 		shed.expand(element);
+
 		expect(shed.isExpanded(element)).toBeTrue();
 	});
 
 	it("testCollapse", function() {
 		const element = document.getElementById("exp2");
+
 		expect(shed.isExpanded(element)).toBeTrue();
 		shed.collapse(element);
+
 		expect(shed.isExpanded(element)).toBeFalse();
 	});
 
 	it("testCollapseWithOpen", function() {
 		const element = document.getElementById("details2");
+
 		expect(shed.isExpanded(element)).toBeTrue();
 		shed.collapse(element);
+
 		expect(shed.isExpanded(element)).toBeFalse();
 	});
 
@@ -627,29 +702,37 @@ describe("wc/dom.shed", () => {
 
 	it("testMandatory", function() {
 		const element = document.getElementById("inp7");
+
 		expect(shed.isMandatory(element)).toBeFalse();
 		shed.mandatory(element);
+
 		expect(shed.isMandatory(element)).toBeTrue();
 	});
 
 	it("testMandatoryOnNonInput", function() {
 		const element = document.getElementById("radioButtonGroup2");
+
 		expect(shed.isMandatory(element)).toBeFalse();
 		shed.mandatory(element);
+
 		expect(shed.isMandatory(element)).toBeTrue();
 	});
 
 	it("testOptional", function() {
 		const element = document.getElementById("inp8");
+
 		expect(shed.isMandatory(element)).toBeTrue();
 		shed.optional(element);
+
 		expect(shed.isMandatory(element)).toBeFalse();
 	});
 
 	it("testOptionalOnNonInput", function() {
 		const element = document.getElementById("radioButtonGroup1");
+
 		expect(shed.isMandatory(element)).toBeTrue();
 		shed.optional(element);
+
 		expect(shed.isMandatory(element)).toBeFalse();
 	});
 
@@ -671,6 +754,7 @@ describe("wc/dom.shed", () => {
 
 	it("testIsSelectableOption", function() {
 		const element = getSelect(document.body, "sel1");
+
 		expect(shed.isSelectable(element.options[0])).toBeTrue();
 	});
 
@@ -688,6 +772,7 @@ describe("wc/dom.shed", () => {
 
 	it("testIsSelectableButton", function() {
 		const element = document.body.getElementsByTagName("button");
+
 		expect(element?.length).withContext("Could not find a button to test").toBeGreaterThan(0);
 		expect(shed.isSelectable(element[0])).toBeTrue();
 	});
@@ -720,16 +805,19 @@ describe("wc/dom.shed", () => {
 	it("testIsHiddenByAncestor", function() {
 		const test = document.getElementById("visibletests1");
 		test.style.width = "3em";
+
 		expect(shed.isHidden(test)).toBeFalse();
 	});
 
 	it("testIsHiddenTextNodeChildOfElement", function() {
 		const parent = document.createElement("span");
 		const child = parent.appendChild(document.createTextNode("tn"));
+
 		expect(shed.isHidden(parent)).toBeFalse();
 		// @ts-ignore
 		expect(shed.isHidden(child)).toBeFalse();
 		shed.hide(parent);
+
 		expect(shed.isHidden(parent)).toBeTrue();
 		// @ts-ignore
 		expect(shed.isHidden(child)).toBeTrue();
@@ -758,6 +846,7 @@ describe("wc/dom.shed", () => {
 			test = document.getElementById("visibletests1");
 		try {
 			parent.style.display = "none";
+
 			expect(shed.isHidden(test)).toBeTrue();
 		} finally {
 			parent.style.display = "";
@@ -769,6 +858,7 @@ describe("wc/dom.shed", () => {
 			test = document.getElementById("visibletests1");
 		try {
 			parent.style.visibility = "hidden";
+
 			expect(shed.isHidden(test)).toBeTrue();
 		} finally {
 			parent.style.visibility = "";
@@ -780,6 +870,7 @@ describe("wc/dom.shed", () => {
 			test = document.getElementById("visibletests1");
 		try {
 			parent.setAttribute("hidden", "hidden");
+
 			expect(shed.isHidden(test)).toBeTrue();
 		} finally {
 			parent.removeAttribute("hidden");
@@ -791,6 +882,7 @@ describe("wc/dom.shed", () => {
 			test = document.getElementById("visibletests1");
 		try {
 			shed.hide(parent);
+
 			expect(shed.isHidden(test)).toBeTrue();
 		} finally {
 			shed.show(parent);
@@ -799,6 +891,7 @@ describe("wc/dom.shed", () => {
 
 	it("testIsHiddenHTMLSyntax", function() {
 		const element = document.getElementById("hiddenhtmlsyntax");
+
 		expect(shed.isHidden(element)).toBeTrue();
 	});
 });

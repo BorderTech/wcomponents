@@ -9,6 +9,8 @@ import ajaxRegion from "wc/ui/ajaxRegion.mjs";
 import timers from "wc/timers.mjs";
 import icon from "wc/ui/icon.mjs";
 
+const { document, NodeFilter } = globalThis;
+
 let instance;
 
 const mapReturnKey = mapKeyToActionFactory(["Enter", "NumpadEnter"]);
@@ -119,7 +121,7 @@ class Tree extends AbstractMenu {
 	 */
 	_role = {
 		MENU: "tree",
-		LEAF: {noSelection: "treeitem"}
+		LEAF: { noSelection: "treeitem" }
 	};
 
 	/**
@@ -536,7 +538,7 @@ class Tree extends AbstractMenu {
 	 * @function module:wc/ui/menu/tree._textMatchFilter
 	 * @override
 	 * @param {Node} textNode The node being tested.
-	 * @returns {Number}
+	 * @returns {Number} ?
 	 */
 	_textMatchFilter(textNode) {
 		const parent = textNode.parentElement;

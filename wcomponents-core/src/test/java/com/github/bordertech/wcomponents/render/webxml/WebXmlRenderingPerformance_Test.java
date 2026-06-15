@@ -159,7 +159,6 @@ public class WebXmlRenderingPerformance_Test extends AbstractWComponentTestCase 
 
 		// Should be a factor of x10 for O(n) but use x12 as a padding factor to avoid intermittent fails
 		assertLessThan("Render time scaling should be O(n)", renderTime10, renderTime1 * 12);
-
 	}
 
 	@Test

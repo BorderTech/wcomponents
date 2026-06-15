@@ -4,6 +4,8 @@ import formUpdateManager from "wc/dom/formUpdateManager.mjs";
 import getFilteredGroup from "wc/dom/getFilteredGroup.mjs";
 import ajaxRegion from "wc/ui/ajaxRegion.mjs";
 
+const { document, Node } = globalThis;
+
 const moveButtonQs = "button.wc_sorter";
 const containerQs = ".wc-shuffler";
 const shufflerSelect = "select.wc_shuffler";

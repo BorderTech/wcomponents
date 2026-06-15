@@ -9,6 +9,8 @@
  * @module
  */
 
+const { console, window } = globalThis;
+
 /**
  * Clears the current selection.
  * @todo investigate other browser means to achieve this, and if there is a w3c standard.

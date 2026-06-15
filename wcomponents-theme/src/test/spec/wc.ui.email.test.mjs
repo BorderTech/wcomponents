@@ -1,7 +1,9 @@
-import "wc/ui/email.mjs";
 import domTesting from "@testing-library/dom";
-import {getInput} from "../helpers/specUtils.mjs";
+import "wc/ui/email.mjs";
 import feedback from "wc/ui/feedback.mjs";
+import { getInput } from "../helpers/specUtils.mjs";
+
+const { afterEach, beforeAll, beforeEach, describe, document, expect, it, setTimeout, UIEvent, window } = globalThis;
 
 describe("wc/ui/email", () => {
 	const emailFieldId = "my-email-field",
@@ -35,6 +37,7 @@ describe("wc/ui/email", () => {
 		field.dispatchEvent(event);
 		setTimeout(function() {
 			const message = feedback.getBox(emailFieldId, -1);
+
 			expect(message).withContext("There should be an email suggestion").toBeTruthy();
 			done();
 		}, 100);
@@ -51,6 +54,7 @@ describe("wc/ui/email", () => {
 		field.dispatchEvent(event);
 		setTimeout(function() {
 			const message = feedback.getBox(emailFieldId, -1);
+
 			expect(message).withContext("There should be no email suggestion").toBeFalsy();
 			done();
 		}, 100);

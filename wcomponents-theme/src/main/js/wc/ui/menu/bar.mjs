@@ -13,6 +13,8 @@ import viewportUtils from "wc/ui/viewportUtils.mjs";
  * doing a convoluted XPath lookup in XSLT. */
 import "wc/ui/menu/menuItem.mjs";
 
+const { document, window } = globalThis;
+
 const MENU_FIXED = "wc_menu_fix",
 	BURGER_MENU_CLASS = "wc_menu_hbgr",
 	hamburgerSelector = `div.${BURGER_MENU_CLASS}`,
@@ -25,16 +27,15 @@ let instance;
 /**
  * @typedef {Object} module:wc/ui/menu/bar~context bar menu template properties.
  * @property {{tooltip: *, class: string}} opener Properties for the menu opener
- * @property {String} id
+ * @property {String} id - ?
  * @property {String} closeText The label for the close control
- * @property {String} [tooltip]
+ * @property {String} [tooltip] - ?
  * @property {String} items The innerHTML of the menu.
  * @property {String} contentId id of the menu content.
  * @property {String} class Additional css class (will be appended to base class).
  * @property {Boolean} open If true then the menu is open.
-
  * @param {module:wc/ui/menu/bar~context} context
- * @return {string} The HTML for a bar menu
+ * @returns {string} The HTML for a bar menu
  */
 const barTemplate = context => `
 	<div id="${context.id}" role="presentation" class="wc-submenu ${context.class}"
@@ -422,7 +423,7 @@ function isFirstLastItem(element, root, isLast) {
 
 	/* get the element which would be focussed if we were to use findFn without
 	 * allowing cycling and forcing depthFirstNavigation false. If we don't get anything then
-	 * the element passed in is the first/last*/
+	 * the element passed in is the first/last */
 	const target = instance._getTargetItem(element, direction, root, false);
 	if (target) {
 		return element === target;  // if the target is the same as target then element is first &/or last

@@ -1,13 +1,14 @@
-import {fileURLToPath} from "url";
-import {JSDOM} from "jsdom";
+import { fileURLToPath } from "node:url";
+import { JSDOM } from "jsdom";
 import domTesting from "@testing-library/dom";
 
+const { File, URL } = globalThis;
 
 /**
  * To help with type checking, get a select element from here.
  * @param {HTMLElement} container
  * @param {string} testId
- * @returns {HTMLSelectElement}
+ * @returns {HTMLSelectElement} ?
  */
 export const getSelect = (container, testId) => {
 	return /** @type {HTMLSelectElement} */(domTesting.getByTestId(container, testId));
@@ -17,7 +18,7 @@ export const getSelect = (container, testId) => {
  * To help with type checking, get a select element from here.
  * @param {HTMLElement} container
  * @param {string} testId
- * @returns {Promise<HTMLSelectElement>}
+ * @returns {Promise<HTMLSelectElement>} ?
  */
 export const findSelect = (container, testId) => {
 	return /** @type {Promise<HTMLSelectElement>} */(domTesting.findByTestId(container, testId));
@@ -28,7 +29,7 @@ export const findSelect = (container, testId) => {
  * To help with type checking, get an input element from here.
  * @param {HTMLElement} container
  * @param {string} testId
- * @returns {HTMLInputElement}
+ * @returns {HTMLInputElement} ?
  */
 export const getInput = (container, testId) => {
 	return /** @type {HTMLInputElement} */(domTesting.getByTestId(container, testId));
@@ -38,7 +39,7 @@ export const getInput = (container, testId) => {
  * To help with type checking, get an input element from here.
  * @param {HTMLElement} container
  * @param {string} testId
- * @returns {Promise<HTMLInputElement>}
+ * @returns {Promise<HTMLInputElement>} ?
  */
 export const findInput = (container, testId) => {
 	return /** @type {Promise<HTMLInputElement>} */(domTesting.findByTestId(container, testId));
@@ -48,7 +49,7 @@ export const findInput = (container, testId) => {
  * To help with type checking, get a button element from here.
  * @param {HTMLElement} container
  * @param {string} testId
- * @returns {HTMLButtonElement}
+ * @returns {HTMLButtonElement} ?
  */
 export const getButton = (container, testId) => {
 	return /** @type {HTMLButtonElement} */(domTesting.getByTestId(container, testId));
@@ -80,14 +81,14 @@ export function addFilesToInput(input, fileData) {
 	});
 	Object.defineProperty(input, 'files', {
 		value: files,
-		writable: false,
+		writable: false
 	});
 	return input;
 }
 
 /**
  * JSDom doesn't report offset dimensions, this is a workaround.
- * @param view A Window
+ * @param {any} view A Window
  */
 export function fudgeDimensions(view) {
 	// Allows you to set style on an element and have it report an offset dimension

@@ -1,10 +1,11 @@
-/* eslint-env node, es6  */
-
 /*
  * This module is responsible for hot module reloading on the server side.
  *
  * @author Rick Brown
  */
+
+import console from 'node:console';
+
 import { Server } from "socket.io";
 let io;
 
@@ -34,7 +35,7 @@ function listen(config = { port: 3002 }) {
  * @param {string|string[]} changed The name of the module or modules that have changed.
  * @param {string} [type] The type of change.
  */
-function notify(changed, type=null) {
+function notify(changed, type = null) {
 	if (io && io.engine.clientsCount > 0) {
 		let payload = { changed, type };
 		console.log("Hot reloading", payload);

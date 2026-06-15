@@ -1,5 +1,8 @@
 import getFileSize from "wc/file/getFileSize.mjs";
-import {addFilesToInput, getInput} from "../helpers/specUtils.mjs";
+import { addFilesToInput, getInput } from "../helpers/specUtils.mjs";
+
+const { beforeEach, describe, document, expect, it } = globalThis;
+
 describe("wc/file/getFileSize", () => {
 	let testHolder;
 
@@ -11,6 +14,7 @@ describe("wc/file/getFileSize", () => {
 	it("can get the file size", function() {
 		const element = getInput(testHolder, "file1");
 		addFilesToInput(element, [{ value: "SixteenChars.gif", type: "image/gif" }]);
+
 		expect(getFileSize(element)[0]).toBe(16);
 	});
 });

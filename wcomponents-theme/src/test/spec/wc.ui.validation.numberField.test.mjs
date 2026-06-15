@@ -1,7 +1,9 @@
 import "wc/ui/validation/numberField.mjs";
-import {getInput} from "../helpers/specUtils.mjs";
+import { getInput } from "../helpers/specUtils.mjs";
 
-describe("wc/ui/validation/numberField", ()=> {
+const { afterAll, beforeAll, describe, document, expect, it, setTimeout, window } = globalThis;
+
+describe("wc/ui/validation/numberField", () => {
 	let ownerDocument;
 	let testHolder;
 	const waitForI18n = 50;
@@ -45,6 +47,7 @@ describe("wc/ui/validation/numberField", ()=> {
 		setTimeout(() => {
 			element.value = "";
 			fireChangeOnNumberField(element);
+
 			expect(element.getAttribute("aria-invalid")).toBe("true");
 			element.value = "6";
 			fireChangeOnNumberField(element);
@@ -61,6 +64,7 @@ describe("wc/ui/validation/numberField", ()=> {
 		setTimeout(() => {
 			element.value = "";
 			fireChangeOnNumberField(element);
+
 			expect(element.getAttribute("aria-invalid")).not.toBe("true");
 			done();
 		}, waitForI18n);
@@ -117,7 +121,7 @@ describe("wc/ui/validation/numberField", ()=> {
 
 	/**
 	 * Helper for tests, fires a change event on the field.
-	 * @param {HTMLElement} element
+	 * @param {HTMLElement} element - ?
 	 */
 	function fireChangeOnNumberField(element) {
 		const changeEvent = new window.Event("change", {
@@ -130,7 +134,7 @@ describe("wc/ui/validation/numberField", ()=> {
 	/**
 	 * Helper for tests, gets a field from the DOM and initialises it.
 	 * @param  {string} testId The data-testid of the element you want.
-	 * @return {HTMLInputElement}
+	 * @returns {HTMLInputElement} ?
 	 */
 	function getInitedNumberField(testId) {
 		const focusEvent = new window.UIEvent("focus", {

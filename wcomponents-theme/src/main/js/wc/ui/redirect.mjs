@@ -9,6 +9,8 @@
 import uid from "wc/dom/uid.mjs";
 import debounce from "wc/debounce.mjs";
 
+const { console, customElements, document, HTMLElement, window } = globalThis;
+
 const redirectFrameId = uid(),
 	launchLinkTests = [isPseudoProtocol, isAttachmentLink],
 	ATTACHMENT_FLAG = "wc_content=attach",

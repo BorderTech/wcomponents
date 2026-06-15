@@ -1,10 +1,15 @@
-/* eslint-env node, es6  */
+
+import console from 'node:console';
+import path from "node:path";
+import process from "node:process";
+import { fileURLToPath } from "node:url";
+
 import fs from "fs-extra";
-import path from "path";
-import { dirs } from "./scripts/build-util.mjs";
 import sass from "sass";
+
+import { dirs } from "./scripts/build-util.mjs";
 import themeLinter from "./scripts/lintfile.mjs";
-import { fileURLToPath } from "url";
+
 const { style: styleDirs } = dirs;
 const __filename = fileURLToPath(import.meta.url);
 
@@ -17,6 +22,7 @@ if (entryFile === __filename) {
  * The entry point to kick off the entire build.
  * @param {string} [singleFile] If you want to build a single file.
  *    Note: this currently only affects the linting.
+ * @returns {Promise<any>} ?
  */
 function build(singleFile) {
 	return new Promise(function (win, lose) {

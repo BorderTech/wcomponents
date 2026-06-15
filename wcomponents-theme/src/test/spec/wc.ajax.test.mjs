@@ -1,5 +1,7 @@
 import ajax from "wc/ajax/ajax.mjs";
 
+const { describe, expect, it, jasmine } = globalThis;
+
 describe("wc/ajax", () => {
 
 	it("makes a synchronous request for XML", function(done) {

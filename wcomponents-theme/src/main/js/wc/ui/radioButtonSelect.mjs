@@ -17,14 +17,14 @@ const instance = {
 	 * Get the widget which describes a radioButtonSelect.
 	 * @function
 	 * @public
-	 * @returns {string}
+	 * @returns {string} ?
 	 */
 	getWidget: () => radioButtonSelectSelector,
 
 	/**
 	 * Get the widget which describes a single control in a radioButtonSelect.
 	 * @function module:wc/ui/radioButtonSelect.getInputWidget
-	 * @returns {string}
+	 * @returns {string} ?
 	 */
 	getInputWidget: () => radioSelector,
 

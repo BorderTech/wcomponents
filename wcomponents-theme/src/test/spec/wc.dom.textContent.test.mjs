@@ -1,5 +1,7 @@
 import textContent from "wc/dom/textContent.mjs";
 
+const { afterEach, beforeEach, describe, document, expect, it } = globalThis;
+
 describe("wc/dom/textContent", () => {
 	const CONTENT = "this is the content",
 		html = `<p id="p1">${CONTENT}</p>`;
@@ -15,6 +17,7 @@ describe("wc/dom/textContent", () => {
 
 	it("testGet", function() {
 		testHolder.innerHTML = html;
+
 		expect(textContent.get(testHolder.ownerDocument.getElementById("p1"))).toBe(CONTENT);
 	});
 
@@ -24,6 +27,7 @@ describe("wc/dom/textContent", () => {
 			inner = testHolder.ownerDocument.createElement("p");
 		outer.appendChild(inner);
 		textContent.set(inner, CONTENT);
+
 		expect(outer.innerHTML.toLowerCase()).toBe(expected);
 	});
 });

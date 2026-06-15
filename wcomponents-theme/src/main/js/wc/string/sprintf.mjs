@@ -5,9 +5,11 @@
  */
 import "sprintf-js/src/sprintf.js";
 
+const { window } = globalThis;
+
 /**
  * @param {any[]} args
- * @returns {string}
+ * @returns {string} ?
  */
 export default function(...args) {
 	// @ts-ignore

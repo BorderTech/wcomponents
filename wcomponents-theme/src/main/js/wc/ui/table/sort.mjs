@@ -27,7 +27,7 @@ const TABLE_WRAPPER = common.WRAPPER.toString(),
 /**
  *
  * @param {Element} element
- * @returns {HTMLElement}
+ * @returns {HTMLElement} ?
  */
 function getWrapper(element) {
 	return element.closest(TABLE_WRAPPER);

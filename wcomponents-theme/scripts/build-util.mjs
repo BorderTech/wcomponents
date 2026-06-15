@@ -1,9 +1,11 @@
-/* eslint-env node  */
-import path from "path";
-import os from "os";
+import console from 'node:console';
+import os from "node:os";
+import path from "node:path";
+import { fileURLToPath } from 'node:url';
+
 import fs from "fs-extra";
 import mixin from "wc/mixin.mjs";
-import { fileURLToPath } from 'url';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const pkgJson = JSON.parse(fs.readFileSync("./package.json", "utf8"));

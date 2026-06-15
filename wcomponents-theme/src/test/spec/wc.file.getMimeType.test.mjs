@@ -1,6 +1,9 @@
-import getMimeType from "wc/file/getMimeType.mjs";
 import domTesting from "@testing-library/dom";
-import {addFilesToInput} from "../helpers/specUtils.mjs";
+
+import getMimeType from "wc/file/getMimeType.mjs";
+import { addFilesToInput } from "../helpers/specUtils.mjs";
+
+const { beforeEach, describe, document, expect, it } = globalThis;
 
 describe("wc/file/getMimeType", () => {
 	const testId = "mary1";
@@ -15,6 +18,7 @@ describe("wc/file/getMimeType", () => {
 		const file = { value: "@HERE@\\resources\\note.txt", type };
 		const element = addFilesToInput(domTesting.getByTestId(document.body, testId), [file]);
 		const result = getMimeType(element)[0];
+
 		expect(result.mime).toBe(type);
 	});
 });

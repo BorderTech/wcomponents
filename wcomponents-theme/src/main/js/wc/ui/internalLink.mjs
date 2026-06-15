@@ -8,6 +8,8 @@ import event from "wc/dom/event.mjs";
 import initialise from "wc/dom/initialise.mjs";
 import shed from "wc/dom/shed.mjs";
 
+const { document, Node } = globalThis;
+
 const LEGEND = "legend",
 	FOR_ATTRIB = "data-wc-for",
 	WIDGETS = [LEGEND, "a", `[${FOR_ATTRIB}]`].join();

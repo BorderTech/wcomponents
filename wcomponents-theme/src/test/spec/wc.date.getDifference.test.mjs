@@ -1,62 +1,77 @@
 import getDifference from "wc/date/getDifference.mjs";
 
+const { describe, expect, it } = globalThis;
+
 describe("wc/date/getDifference", function() {
 	it("testAreSameDay", () => {
 		const date1 = new Date(),
 			date2 = new Date();
+
 		expect(getDifference(date1, date2)).toBe(0);
 	});
+
 	it("testAreSameDaySameInstance", () => {
 		const date1 = new Date();
 
 		expect(getDifference(date1, date1)).toBe(0);
 	});
+
 	it("testAreSameDayWithDifferentTime", () => {
 		const date1 = new Date(79, 5, 24, 0, 0, 0),
 			date2 = new Date(79, 5, 24, 23, 59, 59);
 
 		expect(getDifference(date1, date2)).toBe(0);
 	});
+
 	it("testAreSameDayWithDifferentYear", () => {
 		const date1 = new Date(78, 5, 24),
 			date2 = new Date(79, 5, 24);
 
 		expect(getDifference(date1, date2)).not.toBe(0);
 	});
+
 	it("testAreSameDayWithDifferentMonth", () => {
 		const date1 = new Date(79, 5, 24),
 			date2 = new Date(79, 6, 24);
 
 		expect(getDifference(date1, date2)).not.toBe(0);
 	});
+
 	it("testAreSameDayWithDifferentDay", () => {
 		const date1 = new Date(79, 5, 25),
 			date2 = new Date(79, 5, 24);
 
 		expect(getDifference(date1, date2)).not.toBe(0);
 	});
+
 	it("testDateDifferencePast", () => {
 		const date1 = new Date(79, 5, 25),
 			date2 = new Date(79, 5, 24);
 
 		expect(getDifference(date1, date2)).toBeGreaterThan(0);
 	});
+
 	it("testDateDifferenceFuture", () => {
 		const date1 = new Date(79, 5, 25),
 			date2 = new Date(79, 5, 26);
+
 		expect(getDifference(date1, date2)).toBeLessThan(0);
 	});
+
 	it("testNumericDateDifferencePast", () => {
 		const date1 = new Date(1979, 5, 25),
 			date2 = new Date(1978, 5, 25);
+
 		expect(getDifference(date1, date2)).toBe(365);
 	});
+
 	it("testNumericDateDifferenceFuture", () => {
 		const date1 = new Date(1978, 5, 25),
 			date2 = new Date(1979, 5, 25);
 
 		expect(getDifference(date1, date2)).toBe(-365);
 	});
+
 	/**
 		 * this test uses the dateDiff function as an arg in Array.sort(). As a
 		 * comparison it creates an identical array then converts the Date objects
@@ -83,6 +98,7 @@ describe("wc/date/getDifference", function() {
 		// make a copy of a converted to numbers, sort the numbers, then convert them back to dates
 		const e = a.map(next => next.valueOf()).sort((x, y) => x - y).map(next => new Date(next));
 		a.sort(getDifference);
+
 		expect(e).toEqual(a);
 	});
 
@@ -118,6 +134,7 @@ describe("wc/date/getDifference", function() {
 				eMapped.push((e[i] - e[i + 1]) / MC);
 			}
 		}
+
 		expect(eMapped).toEqual(aMapped);
 	});
 
@@ -151,6 +168,7 @@ describe("wc/date/getDifference", function() {
 		// make a copy of a converted to numbers, sort the numbers, then convert them back to dates
 		const e = a.map(next => next.valueOf()).sort((x, y) => x - y).map(next => new Date(next));
 		a.sort(sorter);
+
 		expect(e).toEqual(a);
 	});
 
@@ -158,7 +176,7 @@ describe("wc/date/getDifference", function() {
 	 * getDifference returns a number. for any pair of dates this number should be the
 	 * same as the difference between their values.
 	 */
-	it("numeric arrays should have identical values", () => {
+	it("numeric arrays should have identical values - 2", () => {
 		const a = [];
 		// add a few randoms for fun (dates between 19750101 and 20253112)
 		let i = 0;
@@ -177,13 +195,15 @@ describe("wc/date/getDifference", function() {
 				eMapped.push(e[i] - e[i + 1]);
 			}
 		}
+
 		expect(eMapped).toEqual(aMapped);
 	});
+
 	it("testTypeError", () => {
 		const date1 = new Date(23).getTime(),
 			date2 = new Date(23);
 		// @ts-ignore
-		expect( () => getDifference(date1, date2)).toThrowError();
+		expect(() => getDifference(date1, date2)).toThrowError();
 	});
 });
 

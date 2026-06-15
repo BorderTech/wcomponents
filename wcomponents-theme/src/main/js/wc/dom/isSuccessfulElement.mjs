@@ -1,5 +1,7 @@
 import shed from "wc/dom/shed.mjs";
 
+const { Node } = globalThis;
+
 const makeInputType = type => `input[type='${type}']`;
 // removed =file since this has changed and file is always successful just like text
 const submitInputs = ["submit", "image", "reset"].map(makeInputType);
@@ -47,8 +49,8 @@ isSuccessfulElement.getAll = function(element, buttonsAlwaysSucceed) {
 		if (!element.matches("form") && isSuccessfulElement(element, buttonsAlwaysSucceed)) {
 			result.push(element);
 		} else if (element.children) {
-			for (let i = 0; i < element.children.length; i++) {
-				let next = element.children[i];
+			for (const child of element.children) {
+				let next = child;
 				let nextResult = isSuccessfulElement.getAll(/** @type {HTMLElement} */ (next), buttonsAlwaysSucceed);
 				if (nextResult.length) {
 					result = result.concat(nextResult);

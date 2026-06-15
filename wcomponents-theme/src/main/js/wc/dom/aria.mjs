@@ -1,3 +1,4 @@
+/* eslint-disable jsdoc/check-values */
 /**
  * This module wraps the underlying ARIA class (from http://code.google.com/p/aria-toolkit/)
  * which allows us to cut and paste updated ARIA code without losing any of our own  customizations.
@@ -7,6 +8,7 @@
  *
  * @license The core functionality of this file is a cut and paste from [this project](http://code.google.com/p/aria-toolkit/)
  */
+/* eslint-enable jsdoc/check-values */
 const cache = { scopedTo: {}, scopedBy: {} };
 const aria = {
 	"alert": {
@@ -462,7 +464,7 @@ const aria = {
 	"window": {
 		"subClassOf": ["roletype"],
 		"supportedState": ["aria-expanded"]
-	}};
+	} };
 
 function getAriaRole(role) {
 	const _role = role || "widget";
@@ -581,7 +583,7 @@ let instance = {
 			ariaRole.supportedState.forEach(next => result[next] = this.SUPPORTED);
 			ariaRole.requiredState?.forEach(next => result[next] = this.REQUIRED);
 		}
-		return {...result};
+		return { ...result };
 	}
 };
 

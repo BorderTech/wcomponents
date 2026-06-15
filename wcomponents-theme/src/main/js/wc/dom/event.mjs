@@ -24,14 +24,14 @@
  * loosely based on [this](http://therealcrisp.xs4all.nl/upload/addEvent_dean.html) but has since been reworked
  * and rewritten to the point that it is completely unique.
  *
- * @todo Fix the public member mechanism - add and remove should pretty much match addEventListener and should take the same args as each other.
- * @todo redo event.fire
+ * @todo Fix the public member mechanism - add and remove should pretty much match addEventListener and should take the same args as each other. AND redo event.fire
  */
 
 import Observer from "wc/Observer.mjs";
 import uid from "wc/dom/uid.mjs";
 import timers from "wc/timers.mjs";
 
+const { console, Event, window } = globalThis;
 
 let atTargetEvent;  // used to prevent eventListener firing twice in the target phase if attached using bubble and capture
 const MAX_RECURSE = 3,
@@ -105,7 +105,6 @@ function eventListener(/* $event */) {
 		 * When you are testing this note that some versions of IE are MUCH worse than others when it comes to
 		 * displaying this annoying confirmation dialog. IE9 seems to be particularly annoying in this regard.
 		 */
-		// return !($event.defaultPrevented);
 	} finally {
 		currentEvent[type]--;
 	}
@@ -150,6 +149,7 @@ function addApi(args) {
 }
 
 const instance = {
+	/* eslint-disable jsdoc/check-param-names */
 	/**
 	 * Add an event listener and subscribes a function to {@link module:wc/Observer} instance to handle the
 	 * event. NOTE: we no longer support dom0 binding: get over it.
@@ -194,7 +194,8 @@ const instance = {
 		}
 		return result;
 	},
-	
+	/* eslint-enable jsdoc/check-param-names */
+
 	/**
 	 * Remove an event subscription from a particular element.
 	 *
@@ -287,7 +288,7 @@ const instance = {
 	 *
 	 * @function module:wc/dom/event.toString
 	 * @public
-	 * @returns {String}
+	 * @returns {String} ?
 	 */
 	toString: () => Object.keys(events).map(elid => `${elid}: ${events[elid].toString()}`).join("\n"),
 	canCapture: true  // Legacy API

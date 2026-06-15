@@ -18,7 +18,7 @@ const WRAPPER = "div.wc-table",
 		 *
 		 * @param {Element} element
 		 * @param {boolean|number} isOneShot
-		 * @returns {{formRegion: string, loads: string[], alias: string, id: string, oneShot: (number)}}
+		 * @returns {{formRegion: string, loads: string[], alias: string, id: string, oneShot: (number)}} ?
 		 */
 		getAjaxDTO: function (element, isOneShot) {
 			const alias = getWrapperId(element);
@@ -35,7 +35,7 @@ const WRAPPER = "div.wc-table",
 /**
  *
  * @param {Element} element
- * @returns {string}
+ * @returns {string} ?
  */
 function getWrapperId(element) {
 	const wrapper = element?.closest(WRAPPER);

@@ -4,6 +4,8 @@ import focus from "wc/dom/focus.mjs";
 import timers from "wc/timers.mjs";
 import Observer from "wc/Observer.mjs";
 
+const { document, Node } = globalThis;
+
 export const MODAL_BACKGROUND_ID = "wc-shim";
 const UNIT = "px";
 const accessKeySelector = "[accesskey]";
@@ -141,7 +143,7 @@ function keyEvent($event) {
  * Returns truthy if the container contains, or is identical to, the element.
  * @param container The candidate for container.
  * @param element The candidate for contained.
- * @returns truthy if container contains, or is, element.
+ * @returns {number | true} Truthy if container contains, or is, element.
  */
 function elementContains(container, element) {
 	let result = container === element;
@@ -200,7 +202,7 @@ function addRemoveEvents(add) {
 
 /**
  * @param {boolean} doCreate if true, will create the shim when necessary
- * @return {HTMLElement}
+ * @returns {HTMLElement} ?
  */
 function getShim(doCreate) {
 	const result = document.getElementById(MODAL_BACKGROUND_ID);

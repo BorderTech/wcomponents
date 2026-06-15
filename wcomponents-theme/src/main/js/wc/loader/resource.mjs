@@ -1,5 +1,7 @@
 import wcconfig from "wc/config.mjs";
 
+const { document, URL } = globalThis;
+
 let baseUrl;
 
 const instance = {

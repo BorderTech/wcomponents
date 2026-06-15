@@ -1,3 +1,7 @@
+
+
+const { define, intern } = globalThis;
+
 /**
  * This module exists to provide AMD compatibility when moving from intern 3 to 4.
  */

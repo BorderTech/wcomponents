@@ -1,3 +1,6 @@
+
+const { document, Node, NodeFilter } = globalThis;
+
 /**
  * An object holding property names used in keyWalker configuration.
  *
@@ -106,7 +109,7 @@ function simpleFilter (element) {
  * @param {module:keywalker~config} conf the configuration object for this navigation
  * @param {Element} current the element being tested
  * @param {number} whichWay the direction we are going
- * @returns {{ func: string, node: Element }}
+ * @returns {{ func: string, node: Element }} ?
  */
 function getAction(conf, current, whichWay) {
 	const result = {
@@ -289,7 +292,7 @@ function groupBasedNavHelper(conf, element, whichWay) {
 		throw new ReferenceError("Direction not supported for grouped elements.");
 	}
 
-	if (whichWay && conf.root && conf.root.length) { // the group we are traversing is defined in conf.root
+	if (whichWay && conf.root?.length) { // the group we are traversing is defined in conf.root
 		return groupBasedNavHelperLoopHelper(conf, element, whichWay);
 	}
 	return null;
@@ -324,7 +327,7 @@ export default instance;
  * @property {Boolean} [depthFirst] If truthy then treeWalker uses depth first in determining the next node, not used in group based key walking.
  * @property {Boolean} [cycle] if truthy nextSibling on last in branch/group or previousSibling on first in branch/group results in cycling to
  *  the first/last respectively.
- * @property {TreeWalker} [tw]
+ * @property {TreeWalker} [tw] - ?
  * @property {Document} [ownerDocument] optionally provide a document to use instead of `global.document`.
  */
 

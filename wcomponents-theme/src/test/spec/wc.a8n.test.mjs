@@ -3,6 +3,8 @@ import ajax from "wc/ajax/ajax.mjs";
 import Trigger from "wc/ajax/Trigger.mjs";
 import timers from "wc/timers.mjs";
 
+const { afterAll, afterEach, beforeAll, beforeEach, console, describe, document, expect, it, setTimeout } = globalThis;
+
 describe("wc/a8n", () => {
 	let testHolder;
 	const xmlUrl = "test/resource/note.xml",
@@ -26,6 +28,7 @@ describe("wc/a8n", () => {
 				}
 			},
 			ready = document.body.getAttribute(a8n.attr) === "true";
+
 		expect(a8n.isReady()).withContext("The dom attribute and the isReady method should agree").toBe(ready);
 		if (onReady) {
 			if (ready) {

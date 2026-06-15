@@ -1,5 +1,8 @@
-import "wc/ui/disabledLink.mjs";
 import domTesting from "@testing-library/dom";
+
+import "wc/ui/disabledLink.mjs";
+
+const { beforeAll, describe, document, expect, it, jasmine, MouseEvent, window } = globalThis;
 
 describe("wc/ui/disabledLink", () => {
 	const linkId = "ui-disabledlink-1",

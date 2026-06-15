@@ -184,7 +184,7 @@ function Parser() {
 		string = string.toString().trim();
 		// 'normalise' each date related value
 		for (let mask of myMasks) {
-			let match = RegExp(mask.compiled).exec(string);
+			let match = (new RegExp(mask.compiled)).exec(string);
 			if (match === null) {
 				continue;
 			}
@@ -291,7 +291,7 @@ function Parser() {
 	 * cannot be in the future 1907 will be returned instead.
 	 *
 	 * @function
-	 * @param {Boolean} arg Set true to always roll back two digit years.
+	 * @param {boolean} arg Set true to always roll back two digit years.
 	 */
 	this.setExpandYearIntoPast = function(arg) {
 		expandYearIntoPast = arg;
@@ -301,7 +301,7 @@ function Parser() {
 	 * Should two digit years always be rolled to the past?
 	 *
 	 * @function
-	 * @returns {Boolean}
+	 * @returns {boolean} ?
 	 */
 	this.isExpandYearIntoPast = function () {
 		return expandYearIntoPast;

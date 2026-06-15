@@ -8,6 +8,8 @@ import shed from "wc/dom/shed.mjs";
 import debounce from "wc/debounce.mjs";
 import resizeable from "wc/ui/resizeable.mjs";
 
+const { document, Node } = globalThis;
+
 const UNIT = "px",
 	ZERO = `0${UNIT}`,
 	positionedBySize = { length: 0 },
@@ -295,7 +297,7 @@ function forceToViewPort(el) {
 /**
  * Handle annoying polymorphic arg, helps with type checking.
  * @param {HTMLElement|string} arg An element or ID
- * @return {HTMLElement}
+ * @returns {HTMLElement} ?
  */
 function handleIdOrElement(arg) {
 	if (typeof arg === "string") {

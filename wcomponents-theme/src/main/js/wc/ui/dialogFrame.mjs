@@ -15,6 +15,8 @@ import viewportUtils from "wc/ui/viewportUtils.mjs";
 import getForm from "wc/ui/getForm.mjs";
 import wcconfig from "wc/config.mjs";
 
+const { console, document, Node, NodeFilter, window } = globalThis;
+
 const subscriber = {
 		close: null
 	},
@@ -518,6 +520,7 @@ function buildDialog(formId) {
 				const html = template(dialogProps);
 				form.insertAdjacentHTML("beforeend", html);  // yep, beforeend, not beforeEnd
 				done();
+			// eslint-disable-next-line no-unused-vars
 			} catch (ex) {
 				lose();
 			}

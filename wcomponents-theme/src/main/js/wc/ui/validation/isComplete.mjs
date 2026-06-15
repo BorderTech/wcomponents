@@ -32,10 +32,10 @@ const instance = {
 	subscribe: function(subscriber) {
 		/**
 		 * @param {Function} _subscriber
-		 * @return {Function}
+		 * @returns {Function} ?
 		 */
 		function _subscribe(_subscriber) {
-			return observer.subscribe(_subscriber, {group: OBSERVER_GROUP});
+			return observer.subscribe(_subscriber, { group: OBSERVER_GROUP });
 		}
 
 		if (!observer) {

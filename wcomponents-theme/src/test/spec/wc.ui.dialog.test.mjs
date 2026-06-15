@@ -1,7 +1,10 @@
 import domTesting from "@testing-library/dom";
+
 import shed from "wc/dom/shed.mjs";
 import dialogFrame from "wc/ui/dialogFrame.mjs";
 import "wc/ui/dialog.mjs";
+
+const { afterAll, beforeAll, describe, document, expect, it, KeyboardEvent, MouseEvent, window } = globalThis;
 
 const dialogId = "eg-_3i1";
 
@@ -34,6 +37,7 @@ describe("wc/ui/dialog", () => {
 		button.dispatchEvent(clickEvent);
 		return domTesting.findByText(testHolder, "View list with time").then(dialogElement => {
 			const dialogWrapper = dialogFrame.getDialog();
+
 			expect(shed.isHidden(dialogWrapper)).withContext("Dialog should now be open").toBeFalsy();
 			const keyEvent = new KeyboardEvent("keydown", {
 				bubbles: true,
@@ -42,6 +46,7 @@ describe("wc/ui/dialog", () => {
 				view: window
 			});
 			dialogElement.dispatchEvent(keyEvent);
+
 			expect(shed.isHidden(dialogWrapper)).withContext("Escape key in dialog should close it").toBeTruthy();
 		});
 	});

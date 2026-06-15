@@ -9,6 +9,7 @@ import timers from "wc/timers.mjs";
 import Observer from "wc/Observer.mjs";
 import fixes from "wc/fixes.mjs";
 
+const { clearTimeout, console, document, localStorage, setTimeout } = globalThis;
 
 let observer,
 	timer,
@@ -44,7 +45,6 @@ Trigger.subscribe(pendingAjaxTrigger, -1);
  * Subscriber for pending AJAX requests that will update the DOM.
  */
 function pendingAjaxTrigger(trigger, pending) {
-	// console.log("TRIGGER ", pending);
 	pendingUpdated(pending, flags.AJAX_TRIGGER);
 }
 
@@ -52,7 +52,6 @@ function pendingAjaxTrigger(trigger, pending) {
  * Subscriber for pending timeouts.
  */
 function pendingTimers(pending) {
-	// console.log("TIMER ", pending);
 	pendingUpdated(pending, flags.TIMERS);
 }
 
@@ -63,6 +62,7 @@ function waitForFixes() {
 		pendingUpdated(true, flags.FIXES);
 		try {
 			Promise.all(fixes.map(fix => import(fix))).then(fixesLoaded).catch(fixesLoaded);
+		// eslint-disable-next-line no-unused-vars
 		} catch (ex) {
 			fixesLoaded();
 		}
@@ -169,7 +169,7 @@ function onReady(callback) {
 			if (!observer) {
 				observer = new Observer();
 			}
-			observer.subscribe(callback, {group: "onready"});
+			observer.subscribe(callback, { group: "onready" });
 		}
 	}
 }

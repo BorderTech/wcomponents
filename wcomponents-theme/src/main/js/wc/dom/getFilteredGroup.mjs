@@ -2,9 +2,15 @@ import $group from "wc/dom/group.mjs";
 import shed from "wc/dom/shed.mjs";
 
 const
-	/** {String[]} FILTERS The properties which may be used to filter a group. @private */
+	/**
+	 * @private
+	 * @type {String[]} FILTERS The properties which may be used to filter a group.
+	 */
 	FILTERS = ["selected", "deselected", "disabled", "enabled", "hidden", "visible", "expanded", "collapsed"],
-	/** {String[]} SHED_FILTERS {@link module:wc/dom/shed} functions which may be used to filter a group. @private */
+	/**
+	 * @private
+	 * @type {String[]} SHED_FILTERS {@link module:wc/dom/shed} functions which may be used to filter a group.
+	 */
 	SHED_FILTERS = ["isSelected", "isDisabled", "isHidden", "isExpanded"];
 
 /**
@@ -72,7 +78,7 @@ function getFilteredGroup(element, config = {}) {
 			ignoreInnerGroups
 		} = config;
 		filter = config.filter || (mask.selected | mask.enabled);
-		shedAttributeOnly = !! config.shedAttributeOnly;
+		shedAttributeOnly = !!config.shedAttributeOnly;
 		if (Array.isArray(element)) {
 			group = /** @type {HTMLElement[]} */(element);
 		} else if (itemWd) {

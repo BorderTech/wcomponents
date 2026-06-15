@@ -66,7 +66,7 @@ function getHref(element) {
  */
 function clickEvent($event) {
 	const { target } = $event;
-	if (target.nodeType !== Node.ELEMENT_NODE) {
+	if (target.nodeType !== globalThis.Node.ELEMENT_NODE) {
 		return;
 	}
 	/** @type {HTMLElement} */

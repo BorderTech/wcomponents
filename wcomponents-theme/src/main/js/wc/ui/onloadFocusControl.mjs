@@ -3,6 +3,8 @@ import initialise from "wc/dom/initialise.mjs";
 import processResponse from "wc/ui/ajax/processResponse.mjs";
 import timers from "wc/timers.mjs";
 
+const { document } = globalThis;
+
 let focusId;
 
 const instance = {

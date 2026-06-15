@@ -11,6 +11,8 @@ import uid from "wc/dom/uid.mjs";
 import getFilteredGroup from "wc/dom/getFilteredGroup.mjs";
 import timers from "wc/timers.mjs";
 
+const { console, Node, NodeFilter } = globalThis;
+
 const PRIMARY_TABSTOPS = ["a", "area", "audio", "button", "frame", "iframe", "input", "object", "select", "textarea", "video"];
 const {
 	FILTER_ACCEPT: ACCEPT,
@@ -75,9 +77,10 @@ const focusInstance = {
 	 * Don't ever restore that behaviour.
 	 *
 	 * @function module:wc/dom/focus.setFocusRequest
-	 * @throws TypeError if element is not an Element node
+	 * @throws {TypeError} TypeError if element is not an Element node
 	 * @param {Element} element the element to focus
 	 * @param {Function} [callback] a function to call when the element has focus.
+	 * @returns {void} ?
 	 * @todo Make this return a promise.
 	 */
 	setFocusRequest: function(element, callback) {
@@ -136,6 +139,7 @@ const focusInstance = {
 				setFocusCallback();
 				result = next;
 				break;
+			// eslint-disable-next-line no-unused-vars
 			} catch (e) {
 				result = null;
 			}
@@ -345,7 +349,7 @@ function acceptNode(node) {
 	/** @type {Number} */
 	let result = SKIP;
 	if (focusInstance.isTabstop(node) && focusInstance.canFocus(node)) {
-		const {ownerDocument} = node;
+		const { ownerDocument } = node;
 		if (node !== ownerDocument.activeElement) {
 			result = ACCEPT;
 		} else {
@@ -369,7 +373,7 @@ function focusTabHelper(element, instance) {
 	 * is 0 for an element with native focusabilty.
 	 */
 	if (tabIndex || tabIndex === "0") {
-		tabIndex = parseInt(tabIndex, 10);
+		tabIndex = Number.parseInt(tabIndex, 10);
 	} else if (instance.isNativelyFocusable(element.tagName)) {
 		tabIndex = 0;
 	}

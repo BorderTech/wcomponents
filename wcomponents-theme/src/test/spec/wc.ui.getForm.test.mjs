@@ -1,6 +1,8 @@
 import getForm from "wc/ui/getForm.mjs";
 
-describe("wc/ui/getForm", ()=> {
+const { afterAll, beforeAll, describe, document, expect, it } = globalThis;
+
+describe("wc/ui/getForm", () => {
 	let ownerDocument;
 	let testHolder;
 
@@ -28,33 +30,39 @@ describe("wc/ui/getForm", ()=> {
 	it("testGetWithForm", function() {
 		const start = ownerDocument.getElementById("form1"),
 			expected = ownerDocument.getElementById("form1");
+
 		expect(getForm(start)).withContext("Did not find correct form").toBe(expected);
 	});
 
 	it("testGetWithInputInForm", function() {
 		const start = ownerDocument.getElementById("input1"),
 			expected = ownerDocument.getElementById("form1");
+
 		expect(getForm(start)).withContext("Did not find correct form").toBe(expected);
 	});
 
 	it("testGetWithSpanInForm", function() {
 		const start = ownerDocument.getElementById("spaninform"),
 			expected = ownerDocument.getElementById("form1");
+
 		expect(getForm(start)).withContext("Did not find correct form").toBe(expected);
 	});
 
 	it("testGetWithInputOutsideForm", function() {
 		const start = ownerDocument.getElementById("input2");
+
 		expect(getForm(start)).withContext("Did not find correct form").toBeNull();
 	});
 
 	it("testGetWithSpanOutsideForm", function() {
 		const start = ownerDocument.getElementById("spanoutform");
+
 		expect(getForm(start)).withContext("Did not find correct form").toBeNull();
 	});
 
 	it("testgetWithNothing", function() {
 		const expected = ownerDocument.getElementById("form1");
+
 		expect(getForm()).withContext("Did not find correct form").toBe(expected);
 	});
 
@@ -62,5 +70,4 @@ describe("wc/ui/getForm", ()=> {
 		// @ts-ignore
 		expect(getForm("", true)).withContext("Did not find correct form").toBeNull();
 	});
-
 });

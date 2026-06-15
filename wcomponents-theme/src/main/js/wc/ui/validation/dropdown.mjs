@@ -6,6 +6,8 @@ import validationManager from "wc/ui/validation/validationManager.mjs";
 import required from "wc/ui/validation/required.mjs";
 import getFilteredGroup from "wc/dom/getFilteredGroup.mjs";
 
+const { console } = globalThis;
+
 /**
  * Validation function for select elements.
  * @function
@@ -86,6 +88,7 @@ initialise.register({
 	/**
 	 * Wire up subscribers in late initialisation.
 	 * @function module:wc/ui/validation/dropdown.postInit
+	 * @returns {any} ?
 	 */
 	postInit: () => validationManager.subscribe(validate)
 });

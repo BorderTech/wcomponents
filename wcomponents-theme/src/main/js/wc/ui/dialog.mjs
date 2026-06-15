@@ -10,6 +10,8 @@ import debounce from "wc/debounce.mjs";
 import dialogFrame from "wc/ui/dialogFrame.mjs";
 import getForm from "wc/ui/getForm.mjs";
 
+const { console, customElements, document, HTMLElement, Node } = globalThis;
+
 const buttonSelector = "button";
 const anchorSelector = "a";
 const // OPENER = BUTTON.extend("", {"data-wc-dialogconf": null}),

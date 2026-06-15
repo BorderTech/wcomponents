@@ -1,3 +1,6 @@
+
+const { console } = globalThis;
+
 let redactMode = false, startX, startY, imageEdit, fabric;
 const fabricRedact = {
 		drawStart: function() {
@@ -7,11 +10,11 @@ const fabricRedact = {
 				imageEdit.getCanvas().remove(shape);
 			}
 			shape = fabricRedact._rect = new fabric.Rect({
-				top : startY,
-				left : startX,
-				width : 0,
-				height : 0,
-				fill : "black",
+				top: startY,
+				left: startX,
+				width: 0,
+				height: 0,
+				fill: "black",
 				stroke: "black",
 				selectable: true,
 				strokewidth: 4
@@ -146,7 +149,7 @@ function wireEventListeners(handlers) {
 	 *
 	 * @param {{ e: MouseEvent }} option
 	 */
-	function mousedownEvent({e: event}) {
+	function mousedownEvent({ e: event }) {
 		if (redactMode && event.button === 0) {
 			startX = event.offsetX || 0;  // offsetX
 			startY = event.offsetY || 0;  // offsetY

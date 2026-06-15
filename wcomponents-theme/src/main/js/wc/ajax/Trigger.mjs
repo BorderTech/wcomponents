@@ -16,6 +16,8 @@ import timers from "wc/timers.mjs";
 import setLoading from "wc/ajax/setLoading.mjs";
 import Observer from "wc/Observer.mjs";
 
+const { console, document } = globalThis;
+
 const
 	/**
 	 * @constant {String} EMPTY_VALUE A Default value for INPUT elements in the submit button state or image
@@ -341,9 +343,8 @@ Trigger.getUrl = function(trigger) {
 		/* Note that XMLHttpRequest can not send the anchor part of a URL (ie the hash and anything following)
 		 * See: http://www.w3.org/TR/XMLHttpRequest/#the-open-method
 		 * The correct behaviour is for the browser to drop the anchor part of the URL. Firefox does this
-		 * correctly IE8 gets it wrong and instead encodes the hash (which will usually confuse the server).*/
+		 * correctly IE8 gets it wrong and instead encodes the hash (which will usually confuse the server). */
 		url = url.replace(ampCheckRE, "&");
-		// url = url.replace(/#.+$/g, "");  // a little help for the "otherwise enabled"
 	}
 	return url;
 };
@@ -364,7 +365,7 @@ Trigger.prototype.getTriggersFor = function(id, requests, stopAtFirstMatch) {
 		len = requests.length;
 	for (let i = 0; i < len; i++) {
 		const trigger = requests[i].trigger;
-		if (trigger.loads.indexOf(id) >= 0) {
+		if (trigger.loads.includes(id)) {
 			result[result.length] = requests[i];
 			if (stopAtFirstMatch) {
 				break;
@@ -379,7 +380,7 @@ Trigger.prototype.getTriggersFor = function(id, requests, stopAtFirstMatch) {
  *
  * @function
  * @public
- * @returns {Array}
+ * @returns {Array} ?
  */
 Trigger.prototype.getRequestBuffer = function() {
 	return requestBuffer;
@@ -400,7 +401,7 @@ Trigger.prototype.scheduleQueueProcessing = function() {
 	 * unlikely the impact could be severe.It would also be virtually impossible to replicate
 	 * and debug.
 	 * @param {module:wc/ajax/Trigger~Request} request The request we wish to send
-	 * @returns {Boolean} true If the request may be sent.*/
+	 * @returns {Boolean} true If the request may be sent. */
 	function canSendRequest(request) {
 		const trigger = request.trigger,
 			ids = trigger.loads,
@@ -431,7 +432,7 @@ Trigger.prototype.scheduleQueueProcessing = function() {
 		/* When invoked will attempt to remove the oldest item from the queue and send its AJAX request.
 		 * If the oldest item can not be removed from the queue then no other items will be removed from
 		 * the queue even though they themselves may not be blocked.
-		 * In other words, if the front of the queue is blocked then nothing can come off the queue.*/
+		 * In other words, if the front of the queue is blocked then nothing can come off the queue. */
 		console.log("Processing AJAX trigger queue");
 		while (requestBuffer.length) {
 			if (canSendRequest(requestBuffer[0])) {
@@ -472,7 +473,7 @@ Trigger.prototype.fire = function() {
 		if (trigger.oneShot > 0) {
 			trigger.oneShot--;
 		}
-		// queueRequest();
+
 		const endOfQueue = (requestBuffer.length - 1);
 		trigger.profile.fired = Date.now();
 		const request = new Request(trigger);

@@ -1,8 +1,11 @@
-import subordinate, {initialiser} from "wc/ui/subordinate.mjs";
-import {findInput, findSelect, getInput, getSelect, setUpExternalHTML} from "../helpers/specUtils.mjs";
+import { findByTestId, getByTestId } from "@testing-library/dom";
+
+import subordinate, { initialiser } from "wc/ui/subordinate.mjs";
 import shed from "wc/dom/shed.mjs";
 import timers from "wc/timers.mjs";
-import {findByTestId, getByTestId} from "@testing-library/dom";
+import { findInput, findSelect, getInput, getSelect, setUpExternalHTML } from "../helpers/specUtils.mjs";
+
+const { beforeAll, beforeEach, describe, expect, it, setTimeout, UIEvent, window } = globalThis;
 
 describe("wc/ui/subordinate ye olde 'doh' tests", () => {
 	beforeAll(() => {
@@ -71,7 +74,7 @@ describe("wc/ui/subordinate ye olde 'doh' tests", () => {
 	 * Tests that number comparison rules are applied.
 	 * In this case the number 10 is not less than 2.
 	 */
-	it("testIsConditionTrueWithTextAndLt", () => {
+	it("testIsConditionTrueWithTextAndLt - 2", () => {
 		expect(subordinate._isConditionTrue("form3NumTen", "2", "lt")).toBeFalse();
 	});
 
@@ -146,6 +149,7 @@ describe("wc/ui/subordinate Live DOM Rule Tests", () => {
 					if (!pending) {
 						const query = "wc-subordinate",
 							sourceElement = testHolder.querySelector(query);
+
 						expect(sourceElement).withContext("Nothing to test").toBeTruthy();
 						initialiser.initialise(testHolder);
 						setTimeout(win, delay);
@@ -332,6 +336,11 @@ describe("wc/ui/subordinate Live DOM Rule Tests", () => {
 	/**
 	 * Darn complicated test for darn complicated subordinate rules.
 	 * This is a test with two onTrue actions and rather complex condition logic.
+	 * @param {any} shouldChange - ?
+	 * @param {any} selectVal - ?
+	 * @param {string} triggerId - ?
+	 * @param {boolean} forceGrey - ?
+	 * @returns {Promise<any>} ?
 	 */
 	function subordinate4TestHelperColorPickerChange(shouldChange, selectVal, triggerId = "rgYesNoYes", forceGrey = false) {
 		return findByTestId(testHolder, "whiteElephant").then(() => {
@@ -427,5 +436,4 @@ describe("wc/ui/subordinate Live DOM Rule Tests", () => {
 			});
 		});
 	}
-
 });

@@ -1,6 +1,9 @@
+import domTesting from "@testing-library/dom";
+
 import modalShim, { MODAL_BACKGROUND_ID } from "wc/ui/modalShim.mjs";
 import shed from "wc/dom/shed.mjs";
-import domTesting from "@testing-library/dom";
+
+const { afterAll, beforeAll, beforeEach, describe, document, expect, it, jasmine } = globalThis;
 
 /*
  * Unit tests for wc/ui/modalShim
@@ -43,12 +46,14 @@ describe("wc/ui/modalShim", () => {
 
 	it("testClearModal", function() {
 		const shim = getShim(true);
+
 		expect(shed.isHidden(shim)).withContext("modal shim should be hidden.").toBeTrue();
 	});
 
 	it("testSetModal", function() {
 		modalShim.setModal();
 		const shim = getShim(true);
+
 		expect(shed.isHidden(shim)).withContext("modal shim should not be hidden.").toBeFalse();
 	});
 
@@ -57,6 +62,7 @@ describe("wc/ui/modalShim", () => {
 		if (shim) {
 			shim.parentNode.removeChild(shim);
 		}
+
 		expect(getShim(false)).toBeNull();
 		modalShim.setModal();
 		getShim(true);
@@ -66,6 +72,7 @@ describe("wc/ui/modalShim", () => {
 		const className = "shimclass";
 		modalShim.setModal(null, className);
 		const shim = getShim(true);
+
 		expect(shim).toHaveClass(className);
 	});
 
@@ -104,8 +111,10 @@ describe("wc/ui/modalShim", () => {
 		try {
 			modalShim.subscribe(subscriber);
 			modalShim.setModal();
+
 			expect(subscriber).not.toHaveBeenCalled();
 			modalShim.clearModal();
+
 			expect(subscriber).toHaveBeenCalled();
 		} finally {
 			modalShim.unsubscribe(subscriber);
@@ -117,6 +126,7 @@ describe("wc/ui/modalShim", () => {
 		try {
 			modalShim.subscribe(subscriber, true);
 			modalShim.setModal();
+
 			expect(subscriber).toHaveBeenCalled();
 		} finally {
 			modalShim.unsubscribe(subscriber);
@@ -129,6 +139,7 @@ describe("wc/ui/modalShim", () => {
 		modalShim.setModal();
 		modalShim.unsubscribe(subscriber);
 		modalShim.clearModal();
+
 		expect(subscriber).not.toHaveBeenCalled();
 	});
 
@@ -137,6 +148,7 @@ describe("wc/ui/modalShim", () => {
 		modalShim.subscribe(subscriber, true);
 		modalShim.unsubscribe(subscriber, true);
 		modalShim.setModal();
+
 		expect(subscriber).not.toHaveBeenCalled();
 	});
 
@@ -147,6 +159,7 @@ describe("wc/ui/modalShim", () => {
 			modalShim.subscribe(subscriber);
 			modalShim.unsubscribe(subscriber, true);
 			modalShim.clearModal();
+
 			expect(subscriber).toHaveBeenCalled();
 		} finally {
 			modalShim.unsubscribe(subscriber);
@@ -159,6 +172,7 @@ describe("wc/ui/modalShim", () => {
 			modalShim.subscribe(subscriber, true);
 			modalShim.unsubscribe(subscriber);
 			modalShim.setModal();
+
 			expect(subscriber).toHaveBeenCalled();
 		} finally {
 			modalShim.unsubscribe(subscriber, true);
@@ -171,6 +185,7 @@ describe("wc/ui/modalShim", () => {
 		try {
 			modalShim.subscribe(localSubscriber, true);
 			modalShim.setModal();
+
 			expect(localSubscriber).withContext("Expected to be notified with an arg").toHaveBeenCalledWith(jasmine.anything());
 		} finally {
 			modalShim.unsubscribe(localSubscriber, true);
@@ -183,6 +198,7 @@ describe("wc/ui/modalShim", () => {
 		try {
 			modalShim.subscribe(localSubscriber, true);
 			modalShim.setModal();
+
 			expect(localSubscriber).withContext("Expected subscriber to notify with shim element").toHaveBeenCalledWith(shim);
 		} finally {
 			modalShim.unsubscribe(localSubscriber, true);
@@ -195,6 +211,7 @@ describe("wc/ui/modalShim", () => {
 		try {
 			modalShim.subscribe(localSubscriber, true);
 			modalShim.setModal(activeRegion);
+
 			expect(localSubscriber).withContext("Expected to be notified with an arg").toHaveBeenCalledWith(jasmine.anything());
 		} finally {
 			modalShim.unsubscribe(localSubscriber, true);
@@ -207,6 +224,7 @@ describe("wc/ui/modalShim", () => {
 		try {
 			modalShim.subscribe(localSubscriber, true);
 			modalShim.setModal(activeRegion);
+
 			expect(localSubscriber).withContext("Expected subscriber to notify with active region").toHaveBeenCalledWith(activeRegion);
 		} finally {
 			modalShim.unsubscribe(localSubscriber, true);

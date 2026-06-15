@@ -17,6 +17,7 @@
 //		hasNativeVarargSupport = !!varargs;
 //	}, 0, true);
 
+const { console } = globalThis;
 
 /*
  * PENDING_TIMEOUT_FLAG will be present and "true" if there are pending timeouts
@@ -55,9 +56,6 @@ const instance = {
 	/**
 	 * Schedule a callback.
 	 *
-	 * @param {Function} handler Your callback.
-	 * @param {number} timeout The number of milliseconds before the handler is called.
-	 * @param {...*} [args] arguments to be passed to handler when it is called.
 	 * @returns {number} A handle by which this schedule can be identified.
 	 */
 	setTimeout: function(/* handler, timeout */) {
@@ -71,9 +69,6 @@ const instance = {
 	/**
 	 * Schedule a callback to run repeatedly at an interval specific by the value passed to timeout.
 	 * @function module:wc/timers.setInterval
-	 * @param {Function} handler Your callback.
-	 * @param {number} timeout The number of milliseconds before the handler is called.
-	 * @param {...*} [args] arguments to be passed to handler when it is called.
 	 * @returns {number} A handle by which this schedule can be identified.
 	 */
 	setInterval: function(/* handler, timeout */) {
@@ -156,6 +151,7 @@ function clearTimer(handle, type) {
  * @function
  * @private
  * @param {IArguments} outerArgs The args that invoked the timeout request.
+ * @returns {() => void} ?
  */
 function callbackWrapperFactory(outerArgs) {
 	const callbackWrapper = function() {

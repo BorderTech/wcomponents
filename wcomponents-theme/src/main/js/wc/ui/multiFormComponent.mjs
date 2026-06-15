@@ -53,7 +53,7 @@ const instance = {
 
 	/**
 	 * Get the description of a multiFormControl container.
-	 * @returns {string}
+	 * @returns {string} ?
 	 */
 	getSelector: () => containerSelector,
 
@@ -62,7 +62,7 @@ const instance = {
 	 * @returns {string} The selector which describes the individual dropdowns (in a WMultiDropdown) or
 	 *    text inputs (in a WMultiTextField).
 	 */
-	getInputSelector: () => controlsSelectors.join(),
+	getInputSelector: () => controlsSelectors.join()
 };
 
 /**
@@ -74,7 +74,7 @@ const instance = {
  * @param {String} id The id of a multiDropdown.
  */
 function load(id) {
-	const element = document.getElementById(id);
+	const element = globalThis.document.getElementById(id);
 	if (element) {
 		const selects = Array.from(element.querySelectorAll(selectSelector));
 		selects.forEach(next => {
@@ -102,7 +102,7 @@ function processNow(idArr) {
  */
 function clickEvent({ target, defaultPrevented, shiftKey }) {
 	/** @type {HTMLButtonElement} */
-	let element = defaultPrevented ? null :target.closest(buttonSelector);
+	let element = defaultPrevented ? null : target.closest(buttonSelector);
 	if (element && !shed.isDisabled(element)) {
 		doClick(element, shiftKey || event["shiftKey"]);  // event.shiftKey - see wc/fixes/shiftKey_ff
 	}
@@ -195,7 +195,7 @@ function resetField(field) {
 		if (nextButton) {
 			nextButton.setAttribute("aria-controls", nextId);
 			nextButton.title = REMOVE_BUTTON_TITLE;
-			icon.change(nextButton,"fa-minus-square", "fa-plus-square");
+			icon.change(nextButton, "fa-minus-square", "fa-plus-square");
 		}
 		next.id = nextId;
 	}
@@ -313,6 +313,7 @@ initialise.register({
 	/**
 	 * initialisation: set up internationalised strings and event handlers.
 	 * @param {Element} element a DOM element: in practice BODY
+	 * @returns {Promise<string | string[]>} ?
 	 */
 	initialise: element => {
 		event.add(element, "click", clickEvent);

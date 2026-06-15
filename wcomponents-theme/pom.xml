@@ -1,20 +1,20 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-
-	<artifactId>wcomponents-theme</artifactId>
 
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
 		<artifactId>wcomponents-parent</artifactId>
 		<version>1.5.40-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
+	<name>wcomponents-theme</name>
+	<artifactId>wcomponents-theme</artifactId>
+	<description>Core client-side WComponents</description>
 	<packaging>jar</packaging>
-
-	<description>
-		Core client-side WComponents.
-	</description>
 
 	<properties>
 		<theme.skip.antrun>false</theme.skip.antrun>
@@ -22,19 +22,66 @@
 		<node.download.root>http://nodejs.org/dist/</node.download.root>
 		<npm.download.root>http://registry.npmjs.org/npm/-/</npm.download.root>
 		<yarn.download.root>https://github.com/yarnpkg/yarn/releases/download/</yarn.download.root>
-		<nodejs.version>v18.18.0</nodejs.version><!-- the version of node to be installed -->
-		<npmjs.version>9.8.1</npmjs.version><!-- the version of npm to be installed - should be the version that goes with your version of node -->
-		<yarn.version>v1.22.19</yarn.version>
+		<npmjs.version>10.9.3</npmjs.version>
+		<yarn.version>v2.4.3</yarn.version>
 		<dependency-check.skip>true</dependency-check.skip>
 		<spotbugs.skip>true</spotbugs.skip>
 		<nodeAuditSkipDevDependencies>true</nodeAuditSkipDevDependencies>
 	</properties>
-	<name>wcomponents-theme</name>
+
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>${version.org.apache.maven.plugins.maven-clean-plugin}</version>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>${project.basedir}</directory>
+							<includes>
+								<include>package-lock.json</include>
+							</includes>
+						</fileset>
+						<fileset>
+							<directory>${project.basedir}${file.separator}node_modules</directory>
+						</fileset>
+						<fileset>
+							<directory>${project.basedir}${file.separator}node</directory>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.honton.chas</groupId>
+				<artifactId>readfiles-maven-plugin</artifactId>
+				<version>${version.org.honton.chas.readfiles-maven-plugin}</version>
+				<executions>
+					<execution>
+						<phase>initialize</phase>
+						<configuration>
+							<files>
+								<file>${project.basedir}${file.separator}.nvmrc</file>
+							</files>
+						</configuration>
+						<goals>
+							<goal>readfiles</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>3.7.1</version>
+				<version>${version.org.apache.maven.plugins.maven-assembly-plugin}</version>
+				<configuration>
+					<ignoreMissingDescriptor>true</ignoreMissingDescriptor>
+					<descriptors>
+						<descriptor>sources.xml</descriptor>
+					</descriptors>
+				</configuration>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -43,19 +90,14 @@
 						</goals>
 					</execution>
 				</executions>
-				<configuration>
-					<ignoreMissingDescriptor>true</ignoreMissingDescriptor>
-					<descriptors>
-						<descriptor>sources.xml</descriptor>
-					</descriptors>
-				</configuration>
 			</plugin>
+
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
-				<version>1.15.0</version>
+				<version>${version.com.github.eirslett.frontend-maven-plugin}</version>
 				<configuration>
-					<workingDirectory>${basedir}</workingDirectory>
+					<workingDirectory>${project.basedir}</workingDirectory>
 					<npmInheritsProxyConfigFromMaven>false</npmInheritsProxyConfigFromMaven>
 				</configuration>
 				<executions>
@@ -67,10 +109,11 @@
 						<phase>generate-resources</phase>
 						<configuration>
 							<skip>${theme.skip.antrun}</skip>
-							<nodeVersion>${nodejs.version}</nodeVersion>
+							<nodeVersion>v${.nvmrc}</nodeVersion>
 							<downloadRoot>${node.download.root}</downloadRoot>
 						</configuration>
 					</execution>
+
 					<execution>
 						<id>npm-install</id>
 						<goals>
@@ -80,6 +123,7 @@
 							<skip>${theme.skip.antrun}</skip>
 						</configuration>
 					</execution>
+
 					<execution>
 						<id>npm-version</id>
 						<goals>
@@ -88,9 +132,10 @@
 						<configuration>
 							<skip>${theme.skip.antrun}</skip>
 							<!--<arguments>version - -no-git-tag-version - -new-version ${project.version}</arguments>-->
-							<arguments>version ${project.version} --allow-same-version true</arguments>
+							<arguments>version ${project.version} --allow-same-version</arguments>
 						</configuration>
 					</execution>
+
 					<execution>
 						<id>run-build</id>
 						<phase>compile</phase>
@@ -102,6 +147,7 @@
 							<arguments>run build</arguments>
 						</configuration>
 					</execution>
+
 					<execution>
 						<id>run-test</id>
 						<phase>test</phase>
@@ -113,7 +159,9 @@
 							<arguments>run test</arguments>
 						</configuration>
 					</execution>
-					<!--<execution>
+
+					<!--
+					<execution>
 						<!- - Prune the node_modules folder leaving only runtime deps - ->
 						<id>prune-production</id>
 						<phase>package</phase>
@@ -124,7 +172,8 @@
 							<skip>${theme.skip.antrun}</skip>
 							<arguments>install - -production - -no-optional</arguments>
 						</configuration>
-					</execution>-->
+					</execution>
+					-->
 				</executions>
 			</plugin>
 		</plugins>

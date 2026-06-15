@@ -41,8 +41,10 @@ function getMimeType(fileInfo) {
  */
 export default getMimeType;
 
+/* eslint-disable jsdoc/require-property */
 /**
  * @typedef {Object} module:wc/file/getMimeType~fileType
  * @param {string} mime The MIME type of the file, if it can be determined.
  * @param {string} ext The file extension (without the dot), if it has one.
  */
+/* eslint-enable jsdoc/require-property */

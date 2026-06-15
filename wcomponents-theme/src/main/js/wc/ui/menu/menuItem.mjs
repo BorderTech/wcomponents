@@ -109,13 +109,13 @@ function clickEventHelper($event, instance) {
 		ctrlKey,
 		shiftKey,
 		metaKey,
-		defaultPrevented} = $event;
+		defaultPrevented } = $event;
 	if (!defaultPrevented) {
 		const element = instance.getActivableFromTarget(target);
 		if (element) {
 			/* a menu item (checkbox|radio) can be toggled if it is itself an acceptable element OR
 			 * if the click event is on a branch opener button, which would normally render the menu
-			 * item unacceptable as an event target*/
+			 * item unacceptable as an event target */
 			if (isAcceptableEventTarget(element, target) || target.closest(openerSelector)) {
 				instance.activate(element, shiftKey, (ctrlKey || metaKey));
 			}

@@ -36,7 +36,6 @@ function explodeMask (mask, strictSequence) {
 	let result = [];
 
 	// loop matching all regular expressions and keeping the earliest longest match
-	// eslint-disable-next-line no-constant-condition
 	while (true) {
 		let next = null;
 		let best = null;
@@ -57,6 +56,7 @@ function explodeMask (mask, strictSequence) {
 			// keep the first, earliest longest match
 			if (next) {
 				// accept: no values to compete with || accept: earlier || accept: matches a longer part of the mask
+				// eslint-disable-next-line @stylistic/no-mixed-operators
 				if (!best || next.index < best.index || next.index === best.index && next[0].length > best[0].length) {
 					best = next;
 					best.pattern = pattern;

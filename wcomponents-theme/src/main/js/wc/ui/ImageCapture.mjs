@@ -1,6 +1,8 @@
 import event from "wc/dom/event.mjs";
 import wcconfig from "wc/config.mjs";
 
+const { console, document, Image, navigator, window } = globalThis;
+
 /**
  * Encapsulates the image capture functionality.
  * This is not a truly reusable module, it is part of imageEdit.js but has been split out for ease of maintenance.
@@ -102,7 +104,7 @@ function ImageCapture(imageEdit) {
 				height = video.videoHeight / (video.videoWidth / currentOptions.width);
 
 				// Firefox currently has a bug where the height can't be read from the video
-				if (isNaN(height)) {
+				if (Number.isNaN(height)) {
 					height = currentOptions.width / (currentOptions.width / currentOptions.height);
 				}
 
@@ -116,11 +118,11 @@ function ImageCapture(imageEdit) {
 
 	function errCb(err) {
 		console.log("An error occured! " + err);
-		// dialogFrame.close();
 	}
 
 	/**
 	 * Close the web camera video stream.
+	 * @param pause - ?
 	 */
 	this.stop = function(pause) {
 		const video = getVideo();
@@ -156,6 +158,7 @@ function ImageCapture(imageEdit) {
 	 * 3. Option defaults will be used if not set in any other way.
 	 *
 	 * To understand the options take a look at: https://github.com/addyosmani/getUserMedia.js and/or https://github.com/infusion/jQuery-webcam
+	 * @param options - ?
 	 */
 	this.play = function(options) {
 		const globalConf = wcconfig.get("wc/ui/imageEdit", {

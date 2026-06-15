@@ -4,8 +4,8 @@
  * TODO doubt we need this any more, deleted half of it already (also could use HTML templates)
  */
 export default function toDocFragment(html) {
-	const result = document.createDocumentFragment();
-	const tmpDF = document.createDocumentFragment();
+	const result = globalThis.document.createDocumentFragment();
+	const tmpDF = globalThis.document.createDocumentFragment();
 	const tmpElement = tmpDF.ownerDocument.createElement("div");
 	const tmpContainer = tmpDF.appendChild(tmpElement);
 	tmpContainer.innerHTML = html;

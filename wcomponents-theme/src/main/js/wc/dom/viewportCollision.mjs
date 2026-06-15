@@ -12,7 +12,7 @@ import getViewportSize from "wc/dom/getViewportSize.mjs";
  *    s & e > 0 when colliding
  */
 function viewportCollision(element) {
-	const result = {n: 0, e: 0, s: 0, w: 0},
+	const result = { n: 0, e: 0, s: 0, w: 0 },
 		box = getBox(element),
 		viewportSize = getViewportSize(true);  // get the size minus scroll-bar size
 

@@ -3,6 +3,8 @@ import i18n from "wc/i18n/i18n.mjs";
 import validationManager from "wc/ui/validation/validationManager.mjs";
 import feedback from "wc/ui/feedback.mjs";
 
+const { console } = globalThis;
+
 const instance = {
 	/**
 	 * @constant {object}  module:wc/ui/validation/required.CONSTRAINTS Indicates how mandatory-ness
@@ -174,7 +176,7 @@ function flagAllThese(elements, config) {
 	const messageFunc = (config && config.messageFunc) ? config.messageFunc : getRequiredMessage;
 
 	Array.prototype.forEach.call(elements, next => {
-		feedback.flagError({ element: next, message: messageFunc(next)});
+		feedback.flagError({ element: next, message: messageFunc(next) });
 	});
 }
 
@@ -209,5 +211,5 @@ export default instance;
  *    {@link module:wc/ui/validation/required~flagAllThese}
  * @property {Function} [messageFunc] A function to get the error message. Defaults to
  *    {@link module:wc/ui/validation/required~getRequiredMessage}.
- * @property {module:wc/ui/validation/required.CONSTRAINTS} constraint
+ * @property {module:wc/ui/validation/required.CONSTRAINTS} constraint - ?
  */

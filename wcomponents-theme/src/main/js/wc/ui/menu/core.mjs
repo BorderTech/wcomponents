@@ -22,6 +22,7 @@ import i18n from "wc/i18n/i18n.mjs";
 import getBox from "wc/dom/getBox.mjs";
 import viewportUtils from "wc/ui/viewportUtils.mjs";
 
+const { console, document, Node, NodeFilter, window } = globalThis;
 
 /* NOTE: Many functions in this module are private but accept an instance of a subclass as an argument. These
  * private functions are ones which either do not need to be overridden in a subclass because they are generic
@@ -214,7 +215,7 @@ function mouseoverEvent($event) {
  * A TreeWalker filter to get a text node match during key-initiated tree walking.
  * @function
  * @param {Node} textNode The node being tested.
- * @returns {Number}
+ * @returns {Number} ?
  */
 AbstractMenu.prototype._textMatchFilter = function(textNode) {
 	const parent = textNode.parentElement;
@@ -264,7 +265,7 @@ AbstractMenu.prototype.hasTextNodeMatch = function(element, letter) {
  * Indicates if a particular element is an item in a menu.
  * @function
  * @param {Element} element The element to test.
- * @returns {Boolean}
+ * @returns {Boolean} ?
  */
 AbstractMenu.prototype._isItem = function(element) {
 	if (this._isBranch(element)) {
@@ -644,7 +645,7 @@ function postAjaxSubscriber(element) {
 		 * we have opened a branch if the submenu content was the ajax target.
 		 * as it is not directly target-able by a generic WAjaxControl. We
 		 * should do this AFTER making sure we have set all disabled and
-		 * selected states as required.*/
+		 * selected states as required. */
 		if (this.isSubMenu(element)) {
 			if (this.isTransient) {
 				doCollisionDetection(element, this);
@@ -703,7 +704,7 @@ AbstractMenu.prototype._hideDisableHelper = function(element, root) {
 			newTabStopItem = path[(path.length - 2)];  // second last item
 		}
 	}
-	const { activeElement, body, documentElement} = document;
+	const { activeElement, body, documentElement } = document;
 	// where was focus?
 	if (!activeElement || activeElement === element || activeElement === body /* ie */ ||
 		activeElement === documentElement /* ie sometimes does this too */ ||
@@ -910,7 +911,7 @@ AbstractMenu.prototype.writeMenuState = function(next, toContainer) {
 		filter: (getFilteredGroup.FILTERS.expanded | getFilteredGroup.FILTERS.enabled),
 		ignoreInnerGroups: true
 	}),
-	writeExpandedState, this);*/
+	writeExpandedState, this); */
 	const branches = Array.from(next.querySelectorAll(this._wd.branch.toString()));
 	const filteredBranches = branches.filter(function(nextBranch) {
 		const expandable = this._getBranchExpandableElement(nextBranch);
@@ -1083,7 +1084,7 @@ AbstractMenu.prototype._selectOnNavigate = false;
  * @function
  * @param {Element} element Any element in the menu. Not used in the default implementation but required by TREEs
  * multiple modes so should always be passed to the function.
- * @returns {Boolean}
+ * @returns {Boolean} ?
  */
 AbstractMenu.prototype._openOnSelect = function(element) {
 	if (!element) {
@@ -1688,6 +1689,7 @@ AbstractMenu.prototype._setUpWidgets = function() {
  * like this: `this.constructor.prototype.initialise.call(this, element);`
  *
  * @param {Element} element
+ * @returns {Promise<void>} ?
  *
  * @function
  * @public

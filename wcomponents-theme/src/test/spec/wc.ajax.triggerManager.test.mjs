@@ -1,6 +1,8 @@
 import triggerManager from "wc/ajax/triggerManager.mjs";
 import Trigger from "wc/ajax/Trigger.mjs";
 
+const { afterAll, beforeAll, describe, document, expect, it } = globalThis;
+
 describe("wc/ajax/triggerManager", () => {
 	const testContent = `
 		<form id = "fred">
@@ -22,14 +24,15 @@ describe("wc/ajax/triggerManager", () => {
 		trig3 = new Trigger({ id: "adam", loads: ["fred"] });
 		trig4 = new Trigger({ id: "gamma", loads: ["fred"] });
 	});
-	
+
 	afterAll(function() {
 		testHolder.innerHTML = "";
 	});
-			
+
 	it("testTriggerManagerAddTrigger", function() {
 		triggerManager.addTrigger(trig);
 		const actual = triggerManager.getTrigger("foo");
+
 		expect(actual).toBe(trig);
 	});
 
@@ -38,23 +41,26 @@ describe("wc/ajax/triggerManager", () => {
 		triggerManager.addTrigger(trig);
 		triggerManager.removeTrigger(trig.id);
 		const actual = !!(triggerManager.getTrigger(trig.id));
+
 		expect(actual).toBeFalse();
 	});
-	
+
 	// This test fails. Returns "undefined" instead.
 	it("testTriggerManagerAddTwoSameTriggers", function() {
 		triggerManager.addTrigger(trig);
 		triggerManager.addTrigger(trig);
 		triggerManager.removeTrigger(trig.id);
 		const actual = !!(triggerManager.getTrigger(trig.id));
+
 		expect(actual).toBeFalse();
 	});
-	
+
 	it("testTriggerManagerAddManyGetOne", function() {
 		triggerManager.addTrigger(trig);
 		triggerManager.addTrigger(trig2);
 		triggerManager.addTrigger(trig3);
 		const actual = triggerManager.getTrigger(trig2.id);
+
 		expect(actual).toBe(trig2);
 	});
 
@@ -62,20 +68,23 @@ describe("wc/ajax/triggerManager", () => {
 		triggerManager.addTrigger(trig);
 		const element = document.getElementById("foo");
 		const actual = triggerManager.getTrigger(element);
+
 		expect(actual).toBe(trig);
 	});
-	
+
 	it("testTriggerManagerElementNameTrigger", function() {
 		triggerManager.addTrigger(trig4);
 		const element = document.getElementById("swan");
 		const actual = triggerManager.getTrigger(element);
+
 		expect(actual).toBe(trig4);
 	});
-	
+
 	it("testTriggerManagerNestedTrigger", function() {
 		triggerManager.addTrigger(trig3);
 		const element = document.getElementById("jim");
 		const actual = triggerManager.getTrigger(element);
+
 		expect(actual).toBe(trig3);
 	});
 });

@@ -21,6 +21,6 @@ function setWidth() {
 initialise.register({
 	preInit: function() {
 		setWidth();
-		event.add(window, "resize", debounce(setWidth, 100), 1);
+		event.add(globalThis.window, "resize", debounce(setWidth, 100), 1);
 	}
 });

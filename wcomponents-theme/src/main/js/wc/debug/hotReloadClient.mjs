@@ -1,5 +1,4 @@
 // Temporarily downgrade this eslint rule until the file is rewritten.
-/* eslint no-undef: 1 */
 
 /*
  * This module handles hot module reloading for fast development.
@@ -8,9 +7,13 @@
  *
  * @author Rick Brown
  */
+
 import "socket.io/client-dist/socket.io.js";
+
 import debounce from "wc/debounce.mjs";
 import cookie from "wc/dom/cookie.mjs";
+
+const { console, document, navigator, require, URL, window } = globalThis;
 
 const handlers = {
 	images: /**
@@ -21,8 +24,8 @@ const handlers = {
 			// @ts-ignore
 			let imgHref = new URL(require.toUrl(payload.changed)).pathname;
 			const images = document.querySelectorAll("img[src*='" + imgHref + "']");
-			for (let i = 0; i < images.length; i++) {
-				bumpCacheBuster(images[i]);
+			for (const image of images) {
+				bumpCacheBuster(image);
 			}
 		},
 	script: /**
@@ -68,8 +71,8 @@ const handlers = {
 		 */
 		debounce(function() {
 			const myLinks = document.querySelectorAll("link[data-wc-loader]");
-			for (let i = 0; i < myLinks.length; i++) {
-				bumpCacheBuster(myLinks[i]);
+			for (const myLink of myLinks) {
+				bumpCacheBuster(myLink);
 			}
 		}, 333)
 };
@@ -124,7 +127,7 @@ let socketHotReload;
 /**
  * Establish a socket connection with the hot reload server.
  * @param {boolean} [force] If true will bypass regular checks and try to give you a connection.
- * @returns The socket connection.
+ * @returns {any} The socket connection.
  */
 function getConnection(force) {
 	if (!shouldConnect(force)) {

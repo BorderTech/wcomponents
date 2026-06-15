@@ -10,6 +10,8 @@ import minMax from "wc/ui/validation/minMax.mjs";
 import checkBoxSelect from "wc/ui/checkBoxSelect.mjs";
 import isComplete from "wc/ui/validation/isComplete.mjs";
 
+const { console } = globalThis;
+
 /**
  * Determines whether a container is valid.
  * @function
@@ -42,6 +44,7 @@ function validate (container) {
  * @function
  * @private
  * @param {Element} element A WCheckBoxSelect
+ * @returns {any} ?
  */
 const revalidate = element => validationManager.revalidationHelper(element, validate);
 

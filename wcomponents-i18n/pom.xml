@@ -1,9 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-
-	<name>wcomponents-i18n</name>
-	<artifactId>wcomponents-i18n</artifactId>
 
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
@@ -12,12 +11,9 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
+	<name>wcomponents-i18n</name>
+	<artifactId>wcomponents-i18n</artifactId>
 	<packaging>jar</packaging>
-
-	<properties>
-		<bundle.sourcedir>${basedir}/src/main/resources/com/github/bordertech/wcomponents</bundle.sourcedir>
-		<generated.targetdir>${basedir}/dist/pot</generated.targetdir>
-	</properties>
 
 	<description>
 		This module contains server-side and client-side default internationalization bundles.
@@ -25,9 +21,15 @@
 		It is suggested that projects with translations watch this project for updates to the messages.
 	</description>
 
+	<properties>
+		<bundle.sourcedir>${basedir}/src/main/resources/com/github/bordertech/wcomponents</bundle.sourcedir>
+		<generated.targetdir>${basedir}/dist/pot</generated.targetdir>
+	</properties>
+
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>
 					<execution>
@@ -36,7 +38,7 @@
 						<configuration>
 							<target>
 								<ant antfile="${basedir}/build.xml">
-									<target name="build" />
+									<target name="build"/>
 								</ant>
 							</target>
 						</configuration>
@@ -55,4 +57,5 @@
 			</plugin>
 		</plugins>
 	</build>
+
 </project>

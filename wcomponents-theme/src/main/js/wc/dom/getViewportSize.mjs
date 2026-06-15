@@ -1,5 +1,7 @@
 import getBox from "wc/dom/getBox.mjs";
 
+const { window } = globalThis;
+
 /**
  * Get the viewport size.
  *
@@ -8,7 +10,7 @@ import getBox from "wc/dom/getBox.mjs";
  * @param {Window} [view] Optionally provide the window to use
  * @returns {{ width: number, height: number }} The viewport size, in pixels, encapsulated in an object.
  */
-export default function(withoutScrollbars, view=window) {
+export default function(withoutScrollbars, view = window) {
 	const DOCUMENT_ELEMENT = view.document.documentElement,
 		SELF = view.self,
 		thisViewportView = view.top.visualViewport,

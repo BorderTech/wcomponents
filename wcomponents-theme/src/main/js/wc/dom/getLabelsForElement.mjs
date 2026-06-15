@@ -113,14 +113,14 @@ function getAriaLabelledElements(element) {
 	return ariaLabels;
 }
 
+// eslint-disable-next-line jsdoc/require-returns-check
 /**
  * Gets labelling element/s (label, legend or pseudo-label) for a control.
  *
  * @function module:wc/dom/getLabelsForElement
- * @param {Element} element The element for which we want to find labels.
- * @param {Boolean} [includeReadOnly] If true then also search for "labelling" elements for read only controls.
- * @returns {HTMLElement[]} An array of elements which 'label' element. If element has no 'labels' then an empty array
- *  is returned.
+ * @param {Element} element - The element for which we want to find labels.
+ * @param {Boolean} includeReadOnly - If true then also search for "labelling" elements for read only controls.
+ * @returns {HTMLElement[]} An array of elements which 'label' element. If element has no 'labels' then an empty array is returned.
  */
 function getLabels(element, includeReadOnly) {
 	if (element) {

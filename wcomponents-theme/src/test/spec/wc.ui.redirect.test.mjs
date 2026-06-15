@@ -1,5 +1,7 @@
 import redirect from "wc/ui/redirect.mjs";
 
+const { afterAll, beforeEach, describe, document, expect, it, spyOn, spyOnProperty, window } = globalThis;
+
 describe("wc/ui/redirect", () => {
 	const origWindow = window.parent;
 

@@ -26,7 +26,7 @@ function validate(container) {
 	};
 	const result = required.complexValidationHelper(obj);
 	if (!result) {
-		console.log(`${import.meta.url} failed validation`);
+		globalThis.console.log(`${import.meta.url} failed validation`);
 	}
 	return result;
 }
