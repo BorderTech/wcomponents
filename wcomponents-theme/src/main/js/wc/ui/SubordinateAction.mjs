@@ -81,7 +81,7 @@ Action.getGroup = function (id) {
  * @param {Function} callback The function that implements this action. Will be passed the Element to perform the action on.
  */
 Action.register = function(name, callback) {
-	actionRegister[name] = callback;  // TODO should we check if the name is already used?
+	actionRegister[name] = callback;  // TO-DO: Should we check if the name is already used?
 };
 
 /**
@@ -377,7 +377,7 @@ function initActionImplementations() {
 	 * @function toggleSelect
 	 * @private
 	 * @param {Element} element The element to act on.
-	 * @todo Why not use {@link module:wc/dom/shed#toggle}?
+	 * TO-DO: Why not use {@link module:wc/dom/shed#toggle}?
 	 */
 	function toggleSelect(element) {
 		if (isCheckable(element)) {

@@ -115,8 +115,8 @@ function updatePending(handle, clear) {
 			}
 			const pendingCount = Object.keys(pendingTimeouts).length;
 			notify(!!pendingCount);
-		} catch (ignore) {  // don't let errors here break everything else - this is just a testing hook
-			console.error(ignore);
+		} catch (error_) {  // don't let errors here break everything else - this is just a testing hook
+			console.error(error_);
 		}
 	}
 }

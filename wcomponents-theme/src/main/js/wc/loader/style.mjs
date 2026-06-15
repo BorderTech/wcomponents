@@ -238,14 +238,14 @@ function configure(obj) {
 		CSS_BASE_URL = getBaseUrlFromMainCss();
 	}
 	if (config) {
-		if (typeof config.css !== "undefined") {
+		if (config.css !== undefined) {
 			if (config.inherit && (typeof config.css === "object")) {
 				result = mixin(config.css, result);
 			} else {
 				result = config.css;
 			}
 		}
-		if (typeof config.cachebuster !== "undefined") {
+		if (config.cachebuster !== undefined) {
 			CACHEBUSTER = config.cachebuster;
 		}
 	}

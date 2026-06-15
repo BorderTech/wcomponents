@@ -115,10 +115,10 @@ function queueRequest(config) {
 	}
 	observer.subscribe(config, { group: groupWin, method: "callback" });  // add this callback to the list of subscribers for this URL
 	observer.subscribe(config, { group: groupLose, method: "onerror" });  // add this callback to the list of subscribers for this URL
-	if (!pending.hasOwnProperty(config.url)) {
-		sendRequest();
-	} else {
+	if (pending.hasOwnProperty(config.url)) {
 		console.log("Queuing request while pending: ", config.url);
+	} else {
+		sendRequest();
 	}
 }
 

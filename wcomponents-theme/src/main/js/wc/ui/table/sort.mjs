@@ -118,7 +118,7 @@ function writeState(container, stateContainer) {
 			sortedColumn = next.querySelector(SORTED_COL);
 
 		// we need to do the reverse look-up to allow for the possibility of nested tables.
-		if (sortedColumn && next === sortedColumn.closest(SORTABLE_TABLE)) {
+		if (next === sortedColumn?.closest(SORTABLE_TABLE)) {
 			formUpdateManager.writeStateField(stateContainer, tableId + ".sort", sortedColumn.getAttribute("data-wc-columnidx"));
 			if (sortedColumn.getAttribute("sorted").includes("reversed")) {
 				formUpdateManager.writeStateField(stateContainer, tableId + ".sortDesc", "true");

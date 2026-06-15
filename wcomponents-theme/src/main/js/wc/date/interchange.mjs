@@ -18,7 +18,7 @@ import sprintf from "wc/string/sprintf.mjs";
  * Note: for the sake of interoperability with ISO_8601 it's probably a good idea to support the alternate
  * format without separators (YYYYMMDD) at least when consuming dates (perhaps not producing them).
  *
- * @todo port all of our date utils to work with xfer date strings unless they exclusively work with full dates only.
+ * TO-DO port all of our date utils to work with xfer date strings unless they exclusively work with full dates only.
  */
 
 const PLACEHOLDER = "?",

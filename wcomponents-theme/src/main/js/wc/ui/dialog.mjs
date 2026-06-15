@@ -237,7 +237,7 @@ function openDlg(triggerId) {
 		const content = dialogFrame.getContent();
 		if (content) {
 			content.id = regObj.id;
-			const openerId = !(openThisDialog && openThisDialog === triggerId) ? regObj.openerId : "";
+			const openerId = (openThisDialog && openThisDialog === triggerId) ? "" : regObj.openerId;
 			if (openerId) {
 				const opener = /** @type HTMLButtonElement */ (document.getElementById(openerId));
 				content.setAttribute(GET_ATTRIB, `${openerId}=${opener ? encodeURIComponent(opener.value) : "x"}`);

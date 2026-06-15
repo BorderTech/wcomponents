@@ -258,7 +258,7 @@ initialise.register({
 	},
 	/**
 	 * Late initialisation function to set up dateField validation.
-	 * TODO: move initialisation here, do we need the change listeners so early?
+	 * TO-DO: Move initialisation here, do we need the change listeners so early?
 	 * @function module:wc/ui/validation/dateField.postInit
 	 * @public
 	 */

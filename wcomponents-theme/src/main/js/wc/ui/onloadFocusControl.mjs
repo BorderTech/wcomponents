@@ -129,7 +129,7 @@ function ajaxSubscriber(element, action, triggerId) {
  *   This should make IE behave more like other browsers. Yes there is still some bootstrapping overhead but only: in IE, when page refreshed,
  *    when interactive control focused AND nothing will actually want to bootstrap the body itself, so should be fast.
  *
- * @todo Integrate this with autofocus attribute (note: autofocus does not fire focus events yet - at least not in FF).
+ * TO-DO: Integrate this with autofocus attribute (note: autofocus does not fire focus events yet - at least not in FF).
  */
 
 initialise.register({

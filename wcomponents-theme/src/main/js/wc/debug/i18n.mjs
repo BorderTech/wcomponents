@@ -50,7 +50,7 @@ function checkMissing(lang) {
 }
 
 /**
- * TODO display this in a more prominent manner.
+ * TO-DO display this in a more prominent manner.
  * We need a debug manager utility where I can just call something like debugManager.displayWarning("Foo is bar");
  * @param {string[]} missingKeys
  * @param {string} lang

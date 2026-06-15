@@ -152,7 +152,7 @@ function updateSelectOptions(element, ignoreOther) {
 		nextOption.value = value;
 		nextOption.innerHTML = value;
 	}
-	let otherSelect = (!ignoreOther ? getOtherSelector(element) : null);
+	let otherSelect = (ignoreOther ? null : getOtherSelector(element));
 	if (otherSelect) {
 		updateSelectOptions(otherSelect, true);
 	}

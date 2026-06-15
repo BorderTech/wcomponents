@@ -25,7 +25,7 @@ let showOnScreen = false;
 
 // exclude does not appear to be working properly
 function filterIssues(inArr) {
-	if (!(inArr.impact && inArr.tags && inArr.tags.length)) {
+	if (!(inArr.impact && inArr.tags?.length)) {
 		// nothing to report: probably an error
 		return false;
 	}
@@ -42,7 +42,7 @@ function addData(value, isUrl) {
 	if (value === null) {
 		return;
 	}
-	if (typeof value === "undefined") {
+	if (value === undefined) {
 		return;
 	}
 	if (isUrl) {
@@ -63,7 +63,7 @@ function addTerm(key, value) {
 	}
 
 	let result = "<dt>" + key + "</dt>";
-	if (value === null || typeof value === "undefined") {
+	if (value === null || value === undefined) {
 		return result;
 	}
 

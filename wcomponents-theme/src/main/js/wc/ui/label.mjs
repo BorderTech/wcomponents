@@ -80,7 +80,7 @@ const instance = {
 	_checkboxLabelPositionHelper: checkboxLabelPositionHelper,
 	/**
 	 * Move labels to their correct position.
-	 * TODO: This _should_ be done in the Java Renderers.
+	 * TO-DO: This _should_ be done in the Java Renderers.
 	 * @function
 	 * @private
 	 * @param {Element} [element] a container element

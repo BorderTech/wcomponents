@@ -86,7 +86,7 @@ const formUpdateManager = {
 	 *    only be set if the calling class is going to clean up after itself.
 	 * @returns {Boolean} true if not cancelled by the user.
 	 *
-	 * @todo:
+	 * TO-DO:
 	 * - The observer test here means that the encType check will fail if nothing has subscribed. This is actually very unlikely in reality but is possible.
 	 * - I know why I rewrote form to container and allow the ambiguity with region (mainly for cancelUpdate
 	 * tests and small segment AJAX state writing) but this is not necessarily a good thing so we may want to
@@ -243,7 +243,9 @@ function addRemoveEvents(el, add) {
  */
 function submitEvent($event) {
 	const form = $event.target;
-	if (!$event.defaultPrevented) {
+	if ($event.defaultPrevented) {
+		console.log("Submit event cancelled. Subscribers not notified.");
+	} else {
 		const inited = form[INITED_ATTR];
 		try {
 			/*
@@ -265,8 +267,6 @@ function submitEvent($event) {
 			form[INITED_ATTR] = false;
 			console.error("error in subscriber", ex);
 		}
-	} else {
-		console.log("Submit event cancelled. Subscribers not notified.");
 	}
 }
 

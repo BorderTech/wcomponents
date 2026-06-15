@@ -35,7 +35,7 @@ function flagBad(tags, testFunc, container) {
 		candidates = Array.from(inside.querySelectorAll(tags));
 	}
 
-	if (candidates && candidates.length) {
+	if (candidates?.length) {
 		candidates.forEach(element => testFunc(element));
 	}
 }

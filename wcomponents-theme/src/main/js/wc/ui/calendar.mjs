@@ -563,7 +563,7 @@ function getInputForCalendar($cal) {
  */
 function storeDate(dateObj) {
 	getOrCreateCal(function(cal) {
-		if (!dateObj || dateObj.constructor !== Date) {
+		if (dateObj?.constructor !== Date) {
 			throw new TypeError("storeDate expects a date object");
 		}
 		const millis = dateObj.getTime();

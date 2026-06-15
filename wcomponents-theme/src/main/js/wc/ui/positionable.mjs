@@ -95,9 +95,9 @@ const instance = {
 			width = conf.width;
 			height = conf.height;
 			// if the top offset is not specified then position the element so that it is at the top of the relative component
-			topOffset = (conf.topOffsetPC !== undefined) ? conf.topOffsetPC : topOffset;
+			topOffset = (conf.topOffsetPC === undefined) ? topOffset : conf.topOffsetPC;
 			// if the left offset is not specified then position the element so that it is in the middle of the relative component
-			leftOffset = (conf.leftOffsetPC !== undefined) ? conf.leftOffsetPC : leftOffset;
+			leftOffset = (conf.leftOffsetPC === undefined) ? leftOffset : conf.leftOffsetPC;
 		}
 
 		const relSize = getViewportSize(true);

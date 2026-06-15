@@ -49,17 +49,16 @@ const instance = {
 		}
 		const myLabel = lbl || /** @type {HTMLElement} */(getFirstLabelForElement(el));
 		if (myLabel) {
-			i18n.translate("submitOnChange").then(/** @param {string} submitOnChangeHint */(submitOnChangeHint) => {
+			i18n.translate("submitOnChange").then(/** @param {string | string[]} submitOnChangeHint */(submitOnChangeHint = "Changing the value of this field will cause immediate save.") => {
 				// do not allow an application to override i18n in order to make this warning empty
-				const realSoCHint = submitOnChangeHint || "Changing the value of this field will cause immediate save.",
-					hint = label.getHint(myLabel);
+				const hint = label.getHint(myLabel);
 				if (hint) {
 					const hintContent = textContent.get(hint);
-					if (!hintContent.includes(realSoCHint)) {
-						label.setHint(myLabel, realSoCHint);
+					if (!hintContent.includes(submitOnChangeHint)) {
+						label.setHint(myLabel, submitOnChangeHint);
 					}
 				} else {
-					label.setHint(myLabel, realSoCHint);
+					label.setHint(myLabel, submitOnChangeHint);
 				}
 				// if the label is off-screen force it back on.
 				myLabel.classList.remove("wc-off");
@@ -139,28 +138,26 @@ function getElementValue(element) {
  * @param {Element} element The element firing the submitOnChange.
  */
 function fireElement(element) {
-	if (!submitting) {
-		if (!triggerManager?.getTrigger(element)) {
-			const form = element.matches(submitterselector) ? element.closest("form") : null;
-			if (form) {
-				if (element.matches(load_selectselector)) {
-					const loadedOption = getLoadedOptionRegistry(element);
-					const testValue = getElementValue(element);
+	if (submitting) {
+		console.warn("onchange submit fired twice");  // this is going to be hard to spot when the page is submitting
+	} else if (!triggerManager?.getTrigger(element)) {
+		const form = element.matches(submitterselector) ? element.closest("form") : null;
+		if (form) {
+			if (element.matches(load_selectselector)) {
+				const loadedOption = getLoadedOptionRegistry(element);
+				const testValue = getElementValue(element);
 
-					if (loadedOption !== testValue) {
-						console.warn(DEP_WARNING);
-						timers.setTimeout(event.fire, 0, form, "submit");
-					}
-					removeLoadedOptionRegistry(element);
-				} else {
-					submitting = true;
+				if (loadedOption !== testValue) {
 					console.warn(DEP_WARNING);
 					timers.setTimeout(event.fire, 0, form, "submit");
 				}
+				removeLoadedOptionRegistry(element);
+			} else {
+				submitting = true;
+				console.warn(DEP_WARNING);
+				timers.setTimeout(event.fire, 0, form, "submit");
 			}
 		}
-	} else {
-		console.warn("onchange submit fired twice");  // this is going to be hard to spot when the page is submitting
 	}
 }
 

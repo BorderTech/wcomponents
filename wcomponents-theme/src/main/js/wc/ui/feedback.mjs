@@ -52,7 +52,6 @@ const instance = {
 		// if we already have a diagnostic box at the requested level we cannot create a new one
 		if (box.ownerDocument.getElementById(testId)) {
 			console.log("cannot create diagnostic box with duplicate id");
-			// this.remove(diag, target);
 			this.clear(box);
 			return;
 		}
@@ -438,7 +437,7 @@ function getMessageHTML(message) {
  * @return {HTMLElement} The message element in the DOM.
  */
 function addHelper(box, message) {
-	if (!(message && message.constructor === String)) {
+	if (message?.constructor !== String) {
 		throw new TypeError("Message must be a string");
 	}
 	let current = instance.getMessages(box);

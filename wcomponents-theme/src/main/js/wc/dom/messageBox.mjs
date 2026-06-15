@@ -115,7 +115,7 @@ class WMessageBox extends HTMLElement {
 		const type = this.getAttribute("type") || "error";
 		const className = `${MB_CLASS} wc-messagebox-type-${type} ${this.className} ${type}`;
 		return getHeader(type).then(({ iconClass, title }) => {
-			return Promise.resolve(template(this.getAttribute("title") || title, iconClass, className));
+			return template(this.getAttribute("title") || title, iconClass, className);
 		});
 	}
 }

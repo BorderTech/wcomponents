@@ -29,7 +29,7 @@ function checkFileSize(args) {
 			return maxFileSize < size;
 		},
 		fileSizes = instance.get(args.testObj || element);
-	if (maxFileSize && fileSizes.length > 0 && fileSizes.some(fileIsToBig)) {
+	if (maxFileSize && fileSizes.some(fileIsToBig)) {
 		for (const fileSize of fileSizes) {
 			if (fileIsToBig(fileSize)) {
 				/* make the units human-readable */

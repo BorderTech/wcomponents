@@ -112,11 +112,11 @@ const instance = {
 					processResponseHtml(doc, trigger);
 					resolve();
 				} else {
-					reject("Unknown response type");
+					reject(new Error("Unknown response type"));
 				}
 			});
 		} else {
-			promise = Promise.reject("Response is empty");
+			promise = Promise.reject(new Error("Response is empty"));
 		}
 		return promise;
 	},
@@ -218,13 +218,13 @@ function mergeAttributes(source, dest) {
 
 function insertPayloadIntoDom(element, content, action, trigger, doNotPublish) {
 	let actionMethod;
-	const triggerId = (trigger && trigger.id) ? trigger.id : null;
+	const triggerId = (trigger?.id) ? trigger.id : null;
 	switch (action) {
 		case ACTIONS.REPLACE:
-			if (!element.matches("body")) {
-				actionMethod = replaceElement;
-			} else {
+			if (element.matches("body")) {
 				console.warn("Refuse to replace BODY element, use action", ACTIONS.FILL);
+			} else {
+				actionMethod = replaceElement;
 			}
 			break;
 		case ACTIONS.FILL:
@@ -420,10 +420,10 @@ function extractScriptsFromContent(content) {
 	try {
 		const scriptSelector = "script";
 		let scripts;
-		if (typeof content.querySelectorAll !== "undefined") {
-			scripts = content.querySelectorAll(scriptSelector);
-		} else {
+		if (content.querySelectorAll === undefined) {
 			scripts = content.getElementsByTagName(scriptSelector);
+		} else {
+			scripts = content.querySelectorAll(scriptSelector);
 		}
 
 		for (const element of scripts) {
@@ -449,7 +449,7 @@ function checkDuplicateIds(content) {
 	const result = [];
 
 	if (content) {
-		if (typeof content.querySelectorAll !== "undefined") {
+		if (content.querySelectorAll !== undefined) {
 			checkDuplicateIdsElement(content);
 		} else if (content.constructor === String) {
 			checkDuplicateIdsHtml(content);

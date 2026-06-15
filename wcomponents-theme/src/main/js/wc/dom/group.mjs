@@ -75,8 +75,7 @@ elementGroup.get = function (element, ignoreInnerGroups) {
  * @param {string} itemWd The widget that describes the items in the group
  * @param {string} [containerWd] A widget that describes a group container.
  * @return {HTMLElement[]} An array of elements in the group.
- * @todo This is used rather than this.get when we start at a known group container (such as a fieldset or
- * a known ARIA container) but the naming is a bit ambiguous. Maybe we should change it?
+ * TO-DO: This is used rather than this.get when we start at a known group container (such as a fieldset or a known ARIA container) but the naming is a bit ambiguous. Maybe we should change it?
  */
 elementGroup.getGroup = function(element, itemWd, containerWd) {
 	let result;

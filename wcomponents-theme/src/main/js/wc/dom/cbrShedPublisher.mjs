@@ -53,7 +53,7 @@ const instance = {
  */
 function changeEvent($event) {
 	const target = $event.target;
-	if (target && target.matches(selectors.join())) {
+	if (target?.matches(selectors.join())) {
 		const action = shed.isSelected(target) ? shed.actions.SELECT : shed.actions.DESELECT;
 		shed.publish(target, action);
 	}

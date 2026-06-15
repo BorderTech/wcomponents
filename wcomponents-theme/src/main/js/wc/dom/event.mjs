@@ -24,7 +24,7 @@
  * loosely based on [this](http://therealcrisp.xs4all.nl/upload/addEvent_dean.html) but has since been reworked
  * and rewritten to the point that it is completely unique.
  *
- * @todo Fix the public member mechanism - add and remove should pretty much match addEventListener and should take the same args as each other. AND redo event.fire
+ * TO-DO: Fix the public member mechanism - add and remove should pretty much match addEventListener and should take the same args as each other. AND redo event.fire
  */
 
 import Observer from "wc/Observer.mjs";

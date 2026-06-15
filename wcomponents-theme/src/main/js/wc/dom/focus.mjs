@@ -59,8 +59,7 @@ const focusInstance = {
 	 * @function module:wc/dom/focus.canFocus
 	 * @param {Element} element The element node to test.
 	 * @returns {Boolean} true if the element can receive focus
-	 * @todo does not work back through its ancestors to determine if one of them excludes the element from
-	 *    receiving focus this could be implemented as a filter.
+	 * TO-DO does not work back through its ancestors to determine if one of them excludes the element from receiving focus this could be implemented as a filter.
 	 */
 	canFocus: function(element) {
 		const observer = getFocusObserver();
@@ -81,7 +80,7 @@ const focusInstance = {
 	 * @param {Element} element the element to focus
 	 * @param {Function} [callback] a function to call when the element has focus.
 	 * @returns {void} ?
-	 * @todo Make this return a promise.
+	 * TO-DO Make this return a promise.
 	 */
 	setFocusRequest: function(element, callback) {
 		if (element?.nodeType === Node.ELEMENT_NODE) {
@@ -139,8 +138,7 @@ const focusInstance = {
 				setFocusCallback();
 				result = next;
 				break;
-			// eslint-disable-next-line no-unused-vars
-			} catch (e) {
+			} catch {
 				result = null;
 			}
 		}
@@ -350,10 +348,10 @@ function acceptNode(node) {
 	let result = SKIP;
 	if (focusInstance.isTabstop(node) && focusInstance.canFocus(node)) {
 		const { ownerDocument } = node;
-		if (node !== ownerDocument.activeElement) {
-			result = ACCEPT;
-		} else {
+		if (node === ownerDocument.activeElement) {
 			result = REJECT;
+		} else {
+			result = ACCEPT;
 		}
 	}
 	return result;

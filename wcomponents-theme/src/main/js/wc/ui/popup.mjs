@@ -55,7 +55,7 @@ const instance = {
 		 * @function
 		 * @private
 		 * @param {Array} popupQueue An array of popup definition arrays.
-		 * @todo This should now be anonymized into the register timout.
+		 * TO-DO: This should now be anonymized into the register timout.
 		 */
 		function processQueue(popupQueue) {
 			while (popupQueue.length) {
@@ -75,7 +75,7 @@ const instance = {
  *
  * @param {String[]} infoArr the popup info as an array where the array elements are in the order as defined
  *    in the class variables above.
- * @todo This array in a particular order is a bit fragile, consider using an object instead.
+ * TO-DO: This array in a particular order is a bit fragile, consider using an object instead.
  */
 function _open(infoArr) {
 	let name = infoArr[NAME_INDEX] || uid();  // we MUST have a name so generate one if it was set to ""

@@ -19,7 +19,7 @@ const instance = {
 	 * @param {String[]} idArr Array of element ID values.
 	 */
 	register: function(idArr) {
-		if (idArr && idArr.length) {
+		if (idArr?.length) {
 			initialise.addCallback(function() {
 				processNow(idArr);
 			});

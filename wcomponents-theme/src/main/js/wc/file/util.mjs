@@ -16,7 +16,7 @@ const { atob, window } = globalThis;
 /**
  * Map of mimetype to extension, used when checking the newly created file is named
  * with the correct extension.
- * TODO replace with 3rd-party util
+ * TO-DO: Replace with 3rd-party util
  **/
 const mimeToExt = {
 	"image/jpeg": ["jpeg", "jpg"],
@@ -52,7 +52,7 @@ export default {
 	 * @param {Blob} blob The binary blob.
 	 * @param {Object} [config] Attempt to set some of the file properties such as "type", "name".
 	 * @returns {File} The File blob.
-	 * TODO revisit this
+	 * TO-DO: Revisit this
 	 */
 	blobToFile: function (blob, config) {
 		const filePropertyBag = {
@@ -74,14 +74,14 @@ export default {
 		}
 		blob["lastModifiedDate"] = filePropertyBag.lastModified;
 		blob["lastModified"] = filePropertyBag.lastModified.getTime();
-		if (!name) {
+		if (name) {
+			// @ts-ignore
+			blob.name = name;
+		} else {
 			name = uid();
 			// @ts-ignore
 			blob.name = name;
 			this.fixFileExtension(blob);
-		} else {
-			// @ts-ignore
-			blob.name = name;
 		}
 		// @ts-ignore
 		return blob;
@@ -93,7 +93,7 @@ export default {
 	 * If there are multiple possible extensions the first will be used.
 	 * @param {File|Blob} file The file to check.
 	 * @returns {File} The fixed file.
-	 * TODO revisit this
+	 * TO-DO: Revisit this
 	 */
 	fixFileExtension: function (file) {
 		let metadata = getMimeType({
@@ -140,7 +140,7 @@ export default {
 		if (dataURI.split(",")[0].includes("base64")) {
 			byteString = atob(dataURI.split(",")[1]);
 		} else {
-			byteString = unescape(dataURI.split(",")[1]);  // TODO unescape deprecated
+			byteString = unescape(dataURI.split(",")[1]);  // TO-DO: Unescape deprecated
 		}
 
 		// separate out the mime component

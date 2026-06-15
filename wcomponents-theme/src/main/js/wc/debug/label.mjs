@@ -19,7 +19,7 @@ const TAGS = ["input", "textarea", "select", "fieldset"].join(),
 
 function nonEmptyAttribute(element, attr) {
 	const content = element.getAttribute(attr);
-	return content && content.trim();
+	return content?.trim();
 }
 
 function insertLegend(fieldset) {

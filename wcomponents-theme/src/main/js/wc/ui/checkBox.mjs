@@ -70,7 +70,7 @@ function ensureControls(myId) {
 /**
  * This is a writeState for standalone WCheckBox elements (not part of a WCheckBoxSelect) which are not
  * checked.
- * TODO: get rid of this one way or another it should never have been written.
+ * TO-DO: Get rid of this one way or another it should never have been written.
  *
  * @function
  * @private
@@ -86,7 +86,7 @@ function writeState(form, container) {
 
 /**
  * Provides Ajax and state writing functionality for check boxes.
- * @todo Get rid of the state writing: it is nuts!
+ * TO-DO: Get rid of the state writing: it is nuts!
  */
 const instance = {
 	/**

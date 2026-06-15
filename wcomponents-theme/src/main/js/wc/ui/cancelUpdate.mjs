@@ -13,7 +13,7 @@ import processResponse from "wc/ui/ajax/processResponse.mjs";
 const { confirm, console, document } = globalThis;
 
 /*
- * TODO: we have a lot of form ID testing. Obviously if the form does not have an id then the whole
+ * TO-DO: We have a lot of form ID testing. Obviously if the form does not have an id then the whole
  * unsaved changes registry malarkey will fail. All forms created by WApplication have an id, so maybe we do not
  * need these tests?
  */
@@ -383,7 +383,7 @@ function storeInitialFormState(form) {
  * used to seeing the warning message and ignoring it because it is wrong. The user needs to know that if we show that dialog we really mean
  * it.
  *
- * @todo to a large extent we could probably use Element.defaultValue instead.
+ * TO-DO: To a large extent we could probably use Element.defaultValue instead.
  */
 
 initialise.register({

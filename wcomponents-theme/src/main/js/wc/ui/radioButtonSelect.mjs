@@ -37,10 +37,7 @@ const instance = {
 	 */
 	setSelectionByValue: function(element, value) {
 		if (element.matches(radioButtonSelectSelector)) {
-			if (!value) {
-				// deselectAll
-				getFilteredGroup(element).forEach((next) => shed.deselect(next));  // should be only one
-			} else {
+			if (value) {
 				const _groups = group.getGroup(element, radioSelector);
 				for (const _group of _groups) {
 					let option = _group;
@@ -49,6 +46,9 @@ const instance = {
 						break;
 					}
 				}
+			} else {
+				// deselectAll
+				getFilteredGroup(element).forEach((next) => shed.deselect(next));  // should be only one
 			}
 		}
 	},

@@ -63,7 +63,7 @@ const instance = {
 	 * @param {String[]} idArr An array of ids of elements which need to have this functionality.
 	 */
 	register: function(idArr) {
-		if (idArr && idArr.length) {
+		if (idArr?.length) {
 			initialise.addCallback(() => processNow(idArr));
 		}
 	}
@@ -138,7 +138,7 @@ function requestLoad(element, eager, get) {
 				// Fire in a timeout to ensure controls have set state for form serialisation
 				timers.setTimeout(() => trigger.fire().then(resolve, reject), 0);
 			} else {
-				reject();
+				reject(new Error('Error'));
 			}
 		});
 	} else {

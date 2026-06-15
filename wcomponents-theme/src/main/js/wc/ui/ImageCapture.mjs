@@ -7,7 +7,7 @@ const { console, document, Image, navigator, window } = globalThis;
  * Encapsulates the image capture functionality.
  * This is not a truly reusable module, it is part of imageEdit.js but has been split out for ease of maintenance.
  *
- * TODO allow user to select video source or rely on platform to provide this?
+ * TO-DO: Allow user to select video source or rely on platform to provide this?
  * @param {import('wc/ui/ImageEdit')} imageEdit The instance of ImageEdit this is really part of (yes we're bypassing requirejs going this way)
  * @constructor
  */
@@ -33,12 +33,11 @@ function ImageCapture(imageEdit) {
 	 * Wires up the "take photo" feature.
 	 */
 	this.snapshotControl = function (eventConfig, container) {
-		const imageCapture = this,
-			click = eventConfig.click,
+		const click = eventConfig.click,
 			done = function(_video) {
 				const video = _video || getVideo();
 				container.classList.remove("wc_showcam");
-				imageCapture.stop();
+				this.stop();
 				video.parentNode.removeChild(video);
 			};
 		activateCameraControl.call(this, eventConfig, container);
@@ -56,12 +55,11 @@ function ImageCapture(imageEdit) {
 	};
 
 	function activateCameraControl(eventConfig, container) {
-		const imageCapture = this,
-			click = eventConfig.click;
+		const click = eventConfig.click;
 		click.camera = {
 			func: function() {
 				const fbCanvas = imageEdit.getCanvas();
-				imageCapture.play({
+				this.play({
 					width: fbCanvas.getWidth(),
 					height: fbCanvas.getHeight()
 				});
@@ -170,9 +168,8 @@ function ImageCapture(imageEdit) {
 		gumWithFallback(currentOptions, playCb, errCb);
 	};
 
-	function videoToDataUrl(video, scale) {
-		const scaleFactor = scale || 1,
-			onCanvas = document.createElement("canvas");
+	function videoToDataUrl(video, scaleFactor = 1) {
+		const onCanvas = document.createElement("canvas");
 		onCanvas.width = video.videoWidth * scaleFactor;
 		onCanvas.height = video.videoHeight * scaleFactor;
 		onCanvas.getContext("2d").drawImage(video, 0, 0, onCanvas.width, onCanvas.height);

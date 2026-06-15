@@ -46,7 +46,7 @@ const handlers = {
 			if (require.defined(moduleName)) {
 				try {
 					const component = require(moduleName);
-					if (component && component.deinit) {
+					if (component?.deinit) {
 						console.log("deinitialising", moduleName);
 						component.deinit(document.body);
 					}
@@ -87,7 +87,7 @@ function resetConsoleColor() {
 		// @ts-ignore
 		mod = require(mod);
 		// @ts-ignore
-		if (mod && mod.reset) {
+		if (mod?.reset) {
 			// @ts-ignore
 			mod.reset();
 		}

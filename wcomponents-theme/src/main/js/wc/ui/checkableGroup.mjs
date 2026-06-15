@@ -13,7 +13,7 @@ class SelectableGroup extends HTMLElement {
 }
 
 export default class WCheckBoxSelect extends SelectableGroup {
-	//  TODO make this tagname wc-cbselect or wc-checkboxselect or something else without dashes
+	//  TO-DO: Make this tagname wc-cbselect or wc-checkboxselect or something else without dashes
 	static tagName = 'wc-check-box-select';
 
 	/** @type {boolean} */
@@ -24,7 +24,7 @@ export default class WCheckBoxSelect extends SelectableGroup {
 		this.#render();
 	}
 
-	// TODO:
+	// TO-DO:
 	// - reduce complexity of functions
 	// - move shared code to superclass
 	// - make template literals more readable by moving conditional logic to helpers, accessors or local vars
@@ -55,7 +55,7 @@ export default class WCheckBoxSelect extends SelectableGroup {
 				}"
 				data-wc-component="checkboxselect"
 				${
-					// TODO: Need to fix the type of `hidden`
+					// TO-DO: Need to fix the type of `hidden`
 					this.hasAttribute('hidden') ? 'hidden="hidden"' : ''
 				}
 			>${
@@ -217,13 +217,13 @@ export class WOption extends HTMLElement {
 					${name ? `name="${name}"` : ''}
 					${value ? `value="${value}"` : ''}
 					${
-						// TODO: Need to fix the type of `checked`
+						// TO-DO: Need to fix the type of `checked`
 						this.hasAttribute('selected') ? 'checked="checked"' : ''
 					}
 					${parentElement?.hasAttribute('disabled') ? 'disabled="disabled"' : ''}
 					${parentElement?.hasAttribute('submitOnChange') ? 'class="wc_soc"' : ''}
 					${
-						// TODO: Need to fix the type of `required`
+						// TO-DO: Need to fix the type of `required`
 						parentIsRadioButtonSelect && parentElement.hasAttribute('required') ? 'required="required"' : ''
 					}
 					${parentIsRadioButtonSelect && this.hasAttribute('isNull') ? 'data-wc-null="1"' : ''}
@@ -311,7 +311,7 @@ export class WRadioButtonSelect extends SelectableGroup {
 					this.hasAttribute('layout') ? `wc-layout-${this.getAttribute('layout')}` : ''
 				].filter(Boolean).join(' ')}"
 				${
-					// TODO: Need to fix the type of `hidden`
+					// TO-DO: Need to fix the type of `hidden`
 					this.hasAttribute('hidden') ? 'hidden="hidden"' : ''
 				}
 				data-wc-component="radiobuttonselect"
@@ -359,7 +359,7 @@ export class WRadioButtonSelect extends SelectableGroup {
 					this.hasAttribute('layout') ? `wc-layout-${this.getAttribute('layout')}` : ''
 				].filter(Boolean).join(' ')}"
 				${
-					// TODO: Need to fix the type of `hidden`
+					// TO-DO: Need to fix the type of `hidden`
 					this.hasAttribute('hidden') ? 'hidden="hidden"' : ''
 				}
 				${this.hasAttribute('toolTip') ? `title="${this.getAttribute('toolTip')}"` : ''}
@@ -373,7 +373,7 @@ export class WRadioButtonSelect extends SelectableGroup {
 					name="${id}-h"
 					value="x"
 					${
-						// TODO: Need to fix the type of `disabled`
+						// TO-DO: Need to fix the type of `disabled`
 						this.hasAttribute('disabled') ? 'disabled="disabled"' : ''
 					}
 				/>

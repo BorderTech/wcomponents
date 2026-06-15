@@ -1,7 +1,7 @@
 import initialise from "wc/dom/initialise.mjs";
 import processResponse from "wc/ui/ajax/processResponse.mjs";
 
-// TODO make this a custom element
+// TO-DO: Make this a custom element
 const template = (id, title) => `<a class='wc-skiplink' href='#${id}'>${title}</a>`;
 
 function setup() {

@@ -24,7 +24,11 @@ function makeLegend(el) {
 		return;
 	}
 	label = getFirstLabelForElement(el);
-	if (!label) {
+	if (label) {
+		labelContent = label.innerHTML;
+		labelClass += label.className;
+		accesskey = label.getAttribute("data-wc-accesskey");
+	} else {
 		labelContent = el.getAttribute("aria-label");
 		if (labelContent) {
 			el.removeAttribute("aria-label");
@@ -33,10 +37,6 @@ function makeLegend(el) {
 			el.removeAttribute("title");
 		}
 		labelClass += "wc-off";
-	} else {
-		labelContent = label.innerHTML;
-		labelClass += label.className;
-		accesskey = label.getAttribute("data-wc-accesskey");
 	}
 	// eslint-disable-next-line sonarjs/no-nested-template-literals
 	const html = `<legend class='${labelClass}'${accesskey ? ` accesskey='${accesskey}'` : ""}>${labelContent}</legend>`;

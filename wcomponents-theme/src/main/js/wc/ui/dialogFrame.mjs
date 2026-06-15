@@ -87,7 +87,7 @@ const instance = {
 			if (!this.isOpen(dialog)) {
 				return openDlgHelper(dto);
 			}
-			return Promise.reject(REJECT.ALREADY_OPEN);
+			return Promise.reject(new Error(REJECT.ALREADY_OPEN));
 		} else if ((form = getDlgForm(dto))) {
 			const formId = form.id || (form.id = uid());
 
@@ -96,9 +96,9 @@ const instance = {
 					return openDlgHelper(dto);
 				});
 			}
-			return Promise.reject(REJECT.NO_FORM);
+			return Promise.reject(new Error(REJECT.NO_FORM));
 		}
-		return Promise.reject(REJECT.UNKNOWN);
+		return Promise.reject(new Error(REJECT.UNKNOWN));
 	},
 
 	/**
@@ -335,7 +335,7 @@ function reinitializeDialog(dialog, obj) {
 	subscriber.close = obj.onclose;
 	initDialogControls(dialog, obj);
 	initDialogDimensions(dialog, obj);
-	const isModal = (typeof obj.modal !== "undefined") ? obj.modal : true;
+	const isModal = (obj.modal === undefined) ? true : obj.modal;
 	setModality(dialog, isModal);
 }
 
@@ -519,8 +519,7 @@ function buildDialog(formId) {
 				const html = template(dialogProps);
 				form.insertAdjacentHTML("beforeend", html);  // yep, beforeend, not beforeEnd
 				done();
-			// eslint-disable-next-line no-unused-vars
-			} catch (ex) {
+			} catch {
 				lose();
 			}
 		});

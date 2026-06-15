@@ -13,12 +13,12 @@ const { console, window } = globalThis;
 
 /**
  * Clears the current selection.
- * @todo investigate other browser means to achieve this, and if there is a w3c standard.
+ * TO-DO investigate other browser means to achieve this, and if there is a w3c standard.
  * @alias module:wc/dom/clearSelection
  */
 export default function() {
 	let selection = window.getSelection();
-	if (selection && selection.removeAllRanges) {
+	if (selection?.removeAllRanges) {
 		selection.removeAllRanges();
 	}
 	try {

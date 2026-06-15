@@ -1,7 +1,7 @@
 /**
  * "Safe" conversion of HTML to DocumentFragment.
  * @param {String} html the HTML to convert to a document fragment
- * TODO doubt we need this any more, deleted half of it already (also could use HTML templates)
+ * TO-DO: Doubt we need this any more, deleted half of it already (also could use HTML templates)
  */
 export default function toDocFragment(html) {
 	const result = globalThis.document.createDocumentFragment();

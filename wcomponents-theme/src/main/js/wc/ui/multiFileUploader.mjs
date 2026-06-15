@@ -23,7 +23,7 @@ import "wc/ui/fieldset.mjs";
 const { console, document, FormData, Node, setTimeout } = globalThis;
 
 // Note `wc/ui/fieldset` is implicitly required to handle various aspects of managing the wrapper element.
-// TODO rework the whole AJAX part of this
+// TO-DO: Rework the whole AJAX part of this
 const
 	/**
 	 * Provides functionality associated with uploading multiple files using a WMultiFileWidget.
@@ -389,10 +389,10 @@ function MultiFileUploader() {
 	}
 
 	function getUploader(callback) {
-		if (!uploader) {
-			uploader = new TrueAjax();
+		if (uploader) {
 			callback(uploader);
 		} else {
+			uploader = new TrueAjax();
 			callback(uploader);
 		}
 	}

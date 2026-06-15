@@ -1,4 +1,4 @@
-// TODO total rewrite / deletion of this
+// TO-DO: Total rewrite / deletion of this
 
 const { console, document } = globalThis;
 

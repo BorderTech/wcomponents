@@ -47,8 +47,7 @@ const instance = {
 	/**
 	 * Execute the initialisation routines (init routines, 'body listeners', callbacks) NOTE: all routines are executed
 	 * ONLY ONCE and are purged after execution. It is safe for a subscriber to add new subscribers.
-	 * @todo This function is public for use by the domLoaded callback, it should not be called directly. Maybe
-	 * a rename is called for?
+	 * TO-DO: This function is public for use by the domLoaded callback, it should not be called directly. Maybe a rename is called for?
 	 *
 	 * @function  module:wc/dom/initialise.go
 	 * @param {HTMLElement} element document.body

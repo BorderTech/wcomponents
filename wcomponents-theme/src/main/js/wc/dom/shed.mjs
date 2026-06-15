@@ -498,7 +498,7 @@ const instance = {
 				break;
 			case actions.DESELECT:
 			case actions.SELECT:
-				func = instance.isSelected(element) !== instance.state.DESELECTED ? instance.deselect : instance.select;
+				func = instance.isSelected(element) === instance.state.DESELECTED ? instance.select : instance.deselect;
 				break;
 			case actions.EXPAND:
 			case actions.COLLAPSE:
@@ -548,7 +548,7 @@ function disabledMandatoryHelper(element, STATE, reverse) {
 	let ariaSupported;
 	if (role && role !== "presentation") {
 		const supported = aria.getSupported(role);
-		ariaSupported = (supported && supported[_ariaState]);
+		ariaSupported = (supported?.[_ariaState]);
 	}
 
 	if (ariaSupported || nativeSupported) {
@@ -695,11 +695,10 @@ function getSetNativeSelected(element, value, mix) {
  * @param {string} stopAtSelector
  * @return {boolean}
  */
-function hasAncestorInState(node, state, stopAtSelector) {
+function hasAncestorInState(node, state, stopAtSelector = "body") {
 	let result = false;
 	let parent = node.parentElement;
-	const _stopAt = stopAtSelector || "body";
-	while (parent && !parent.matches(_stopAt)) {
+	while (parent && !parent.matches(stopAtSelector)) {
 		if (instance[state](parent)) {
 			result = true;
 			break;

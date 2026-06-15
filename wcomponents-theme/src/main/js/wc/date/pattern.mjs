@@ -329,8 +329,7 @@ function toPattern(s) {
 			if (asciified && asciified !== next) {
 				next += asciified;
 			}
-		// eslint-disable-next-line no-unused-vars
-		} catch (ex) {
+		} catch {
 			result += character;
 		}
 		result += (`[${next}]`);
@@ -396,16 +395,16 @@ export default {
 		return patternCache["E"] || (patternCache["E"] = new Pattern("dayInWeekName", weekdayNameRe));
 	},
 	get " "() {
-		return patternCache[" "] || (patternCache[" "] = new Pattern(SEPARATOR, "([ \\\\\\/\\.-])"));
+		return patternCache[" "] || (patternCache[" "] = new Pattern(SEPARATOR, String.raw`([ \\\/\.-])`));
 	},
 	get "/"() {
-		return patternCache["/"] || (patternCache["/"] = new Pattern(SEPARATOR, "(\\/)"));
+		return patternCache["/"] || (patternCache["/"] = new Pattern(SEPARATOR, String.raw`(\/)`));
 	},
 	get "-"() {
-		return patternCache["-"] || (patternCache["-"] = new Pattern(SEPARATOR, "(\\-)"));
+		return patternCache["-"] || (patternCache["-"] = new Pattern(SEPARATOR, String.raw`(\-)`));
 	},
 	get "+-"() {
-		return patternCache["+-"] || (patternCache["+-"] = new Pattern("relative", "(\\+[0-9]+|\\-[0-9]+)", nRelative, null));
+		return patternCache["+-"] || (patternCache["+-"] = new Pattern("relative", String.raw`(\+[0-9]+|\-[0-9]+)`, nRelative, null));
 	},
 	get ytm() {
 		return patternCache["ytm"] || (patternCache["ytm"] = new Pattern("shortForm", shortFormRe, nShortForm, null));

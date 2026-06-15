@@ -122,15 +122,11 @@ const instance = {
 				let candidates = getComponents(container);
 				if (candidates === null) {  // nothing of interest in the container
 					result = true;  // nothing in the container, must be complete
-				} else if (!candidates.length) {  // empty array, so we had candidates, but they are all exempt.
-					if (result === undefined) {  // no subscribers, so we have only exempt candidates
-						result = true;
-					}
-					/* else result was explicitly false from all interested subscribers, so we can assume notComplete
-					 * otherwise there would have been at least one true amongst them. */
-				} else {
+				} else if (candidates.length) {
 					candidates = Array.from(candidates);
 					result = candidates.some(next => this.isComplete(next));
+				} else if (result === undefined) {
+					result = true;
 				}
 			}
 		}

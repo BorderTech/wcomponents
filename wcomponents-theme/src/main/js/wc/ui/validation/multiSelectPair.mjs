@@ -114,17 +114,16 @@ function keydownEvent({ target, key, defaultPrevented }) {
 
 	// Less than zero if key was Enter, otherwise it was an arrow key, check the list
 	if (expectedType >= 0 && selectType === expectedType) {
-		const container = this;
 		if (validationManager.isValidateOnChange()) {
-			if (validationManager.isInvalid(container)) {
-				revalidate(container);
+			if (validationManager.isInvalid(this)) {
+				revalidate(this);
 			} else {
-				validate(container);
+				validate(this);
 			}
 			return;
 		}
 
-		revalidate(container);
+		revalidate(this);
 	}
 }
 

@@ -102,13 +102,13 @@ function wireEventListeners(handlers) {
 	let fbCanvas = imageEdit.getCanvas();
 
 	try {
-		if (!fbCanvas[initedKey]) {
+		if (fbCanvas[initedKey]) {
+			console.warn("redact shouldn't double init");
+		} else {
 			fbCanvas[initedKey] = true;
 			fbCanvas.on("mouse:down", mousedownEvent);
 			fbCanvas.on("mouse:up", mouseupEvent);
 			fbCanvas.on("mouse:move", mousemoveEvent);
-		} else {
-			console.warn("redact shouldn't double init");
 		}
 	} finally {
 		fbCanvas =  null;

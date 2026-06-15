@@ -323,7 +323,7 @@ function closeDateCombo(element) {
 	if (openDateCombo) {
 		// close any open dateFields when focusing elsewhere
 		const otherDateField = document.getElementById(openDateCombo);
-		if (otherDateField?.matches(DATE_FIELD) && (!dateField || dateField.id !== openDateCombo) && shed.isExpanded(otherDateField)) {
+		if (otherDateField?.matches(DATE_FIELD) && (dateField?.id !== openDateCombo) && shed.isExpanded(otherDateField)) {
 			_collapseHelper(otherDateField);
 		}
 	}
@@ -867,7 +867,6 @@ function clickEvent($event) {
 
 function focusAndSetValue(element/* , option */) {
 	const textbox = instance.getTextBox(element);
-	// setValueFromOption(element, option);
 	if (textbox) {
 		focus.setFocusRequest(textbox, () => shed.collapse(element));
 	} else {
@@ -887,8 +886,6 @@ function keydownEvent($event) {
 	const dateField = $event.currentTarget,
 		keyCode = $event.key,
 		target = $event.target;
-
-	// dateField = instance.get(target);
 
 	if (!dateField || shed.isDisabled(dateField)) {
 		return;
@@ -916,13 +913,6 @@ function keydownEvent($event) {
 		}
 		return;
 	}
-
-	//			if (keyCode === KeyEvent.DOM_VK_SPACE && target.hasAttribute(FAKE_VALUE_ATTRIB) && getSuggestionList(target, 1)) {
-	//				// SPACE on an option should update the dateField
-	//				focusAndSetValue(dateField, target);
-	//				$event.preventDefault(); // so we don't cause a page scroll
-	//				return;
-	//			}
 
 	if (keyCode === "Tab") {
 		handleTabKey(dateField, target);

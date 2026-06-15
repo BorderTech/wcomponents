@@ -55,7 +55,7 @@ const instance = {
  * Toggles the expanded/collapsed state of a collapsible. If native then publishes shed.actions.EXPAND or
  * shed.actions.COLLAPSE as required to ensure AJAX is invoked.
  *
- * @todo Use a state change to publish rather than having to wire up click etc here.
+ * TO-DO: Use a state change to publish rather than having to wire up click etc here.
  *
  * @function
  * @private
@@ -79,10 +79,10 @@ function toggle(element) {
 			} else {
 				shed.publish(container, shed.actions.COLLAPSE);
 			}
-		} else if (!isStillOpen) {
-			shed.expand(container);
-		} else {
+		} else if (isStillOpen) {
 			shed.publish(container, shed.actions.EXPAND);
+		} else {
+			shed.expand(container);
 		}
 	}
 
@@ -116,11 +116,11 @@ function toggleEventHelper($event, element) {
 			toggle(element);
 			return element;
 		} else if ((focusableAncestor = focus.getFocusableAncestor(target))) {
-			if (focusableAncestor !== target) {
+			if (focusableAncestor === target) {
+				result = focusableAncestor;
+			} else {
 				$event.preventDefault();
 				timers.setTimeout(event.fire, 0, focusableAncestor, "click");
-			} else {
-				result = focusableAncestor;
 			}
 		}
 	}

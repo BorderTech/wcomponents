@@ -197,17 +197,17 @@ function Parser() {
 				let check = doCheckDate(this, next);
 
 				// check for date rolling
-				if (!this.isRolling()) {
+				if (this.isRolling()) {
+					// if we are rolling we return the 'rolled' date
+					next.day = check.getDate();
+					next.month = check.getMonth() + 1;
+					next.year = check.getFullYear();
+				} else {
 					let rolled = next.day !== check.getDate() || next.month !== (check.getMonth() + 1) || next.year !== check.getFullYear();
 					// don't add this to the list of successful matches
 					if (rolled) {
 						continue;
 					}
-				} else {
-					// if we are rolling we return the 'rolled' date
-					next.day = check.getDate();
-					next.month = check.getMonth() + 1;
-					next.year = check.getFullYear();
 				}
 				next.date = check;
 			}

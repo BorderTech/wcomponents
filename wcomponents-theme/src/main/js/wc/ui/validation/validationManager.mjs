@@ -162,12 +162,11 @@ const validationManager = {
 	 * @param {any} fallbackToken
 	 * @return {string}
 	 */
-	getLabelText: function(element, fallbackToken) {
-		const token = fallbackToken || "validation_common_unlabelledfield";
+	getLabelText: function(element, fallbackToken = "validation_common_unlabelledfield") {
 		return /** @type {string} */(getFirstLabelForElement(element, true) ||
 			element.getAttribute("aria-label") ||
 			element.getAttribute("title") ||
-			i18n.get(token));
+			i18n.get(fallbackToken));
 	},
 
 	/**

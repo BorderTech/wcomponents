@@ -474,7 +474,7 @@ AbstractMenu.prototype.closeAllPaths = function(from, except) {
 	}
 	const tw = this._getTreeWalker(from, true);
 	while ((next = tw.nextNode())) {
-		if (exceptPath && next === exceptPath[exceptPath.length - 1]) {
+		if (next === exceptPath?.[exceptPath.length - 1]) {
 			exceptPath.pop();
 			continue;
 		}
@@ -547,8 +547,7 @@ function isParentSubmenuColliding(submenu, instance) {
 
 /**
  * Collision detection which supports rtl and ltr opening submenus.
- * @todo this is now so cumbersome we may be better off just calculating offsets and position the submenu
- * directly.
+ * TO-DO: This is now so cumbersome we may be better off just calculating offsets and position the submenu directly.
  * @function
  * @private
  * @param {Element} submenu The submenu content which may be colliding with the edge of the viewport.
@@ -831,8 +830,7 @@ function expandCollapseTransientBranch(branch, action, root, instance) {
 		instance._expand(branch, root);
 	} else if (action === shed.actions.COLLAPSE && (content = instance.getSubMenu(branch, true))) {
 		if (CLASS.DEFAULT_DIRECTION) {
-			content.classList.remove(CLASS.DEFAULT_DIRECTION);
-			content.classList.remove(CLASS.AGAINST_DEFAULT);
+			content.classList.remove(CLASS.DEFAULT_DIRECTION, CLASS.AGAINST_DEFAULT);
 		}
 		content.classList.remove(CLASS.COLLIDE_SOUTH);
 		content.style.bottom = "";
@@ -1301,7 +1299,7 @@ AbstractMenu.prototype._escape = function(item) {
  */
 AbstractMenu.prototype._openBranch = function(branch) {
 	const root = this.getRoot(branch);
-	if (root) { // usual test for "am i in the correct menu module". TODO: Maybe make this a helper...
+	if (root) { // usual test for "am i in the correct menu module". TO-DO: Maybe make this a helper...
 		let _expandable;
 		// Open branch may be called from an opener button (pretty common actually) so first we need the real branch.
 		const _branch = this._getBranch(branch);

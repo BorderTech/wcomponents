@@ -498,7 +498,7 @@ function getAriaRole(role) {
  * @param {Object} config An object that provides helpers / data for this class
  * @ignore
  */
-let instance = {
+const instance = {
 	SUPPORTED: 1,
 	REQUIRED: 2,
 

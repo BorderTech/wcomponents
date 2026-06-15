@@ -1278,7 +1278,7 @@ function getCanvasAsDataUrl(editor) {
  * @returns {HTMLInputElement} ?
  */
 function getFileSelector(editor) {
-	// TODO this doesn't seem right
+	// TO-DO: This doesn't seem right
 	const editorId = editor.getAttribute("data-wc-editor");
 	return /** @type {HTMLInputElement} */(document.querySelector(`input[type=file][data-wc-editor='${editorId}']`));
 }

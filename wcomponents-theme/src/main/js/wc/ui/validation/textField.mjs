@@ -80,8 +80,7 @@ function isInvalid(element) {
 				try {
 					regexp = new RegExp(`^(?:${mask})$`);
 					patternFlag = /** @type {string} */(i18n.get("validation_common_pattern"));
-				// eslint-disable-next-line no-unused-vars
-				} catch (e) {
+				} catch {
 					regexp = null;
 				}
 			}

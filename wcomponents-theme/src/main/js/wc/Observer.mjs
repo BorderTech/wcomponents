@@ -220,7 +220,7 @@ function Observer(notifyInStages) {
 				try {
 					if (typeof callback === FUNCTION) {
 						if (callback(nextResult) === true) {
-							promises[promises.length] = Promise.reject("Subscriber aborted notify chain");
+							promises[promises.length] = Promise.reject(new Error("Subscriber aborted notify chain"));
 							break;
 						}
 					}

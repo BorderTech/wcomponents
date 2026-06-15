@@ -43,10 +43,10 @@ class Column extends AbstractMenu {
 		}
 		if (this._isBranchOrOpener(item)) {
 			const element = this._getBranchExpandableElement(item);
-			if (!shed.isExpanded(element)) {
-				this._keyMap["ArrowRight"] = this._FUNC_MAP.ACTION;
-			} else {
+			if (shed.isExpanded(element)) {
 				this._keyMap["ArrowRight"] = keyWalker.MOVE_TO.CHILD;
+			} else {
+				this._keyMap["ArrowRight"] = this._FUNC_MAP.ACTION;
 			}
 		}
 	}

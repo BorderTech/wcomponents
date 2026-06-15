@@ -92,14 +92,15 @@ const instance = {
 	/**
 	 * Convert a rbg colour string (CSS format) to a hex string.
 	 *
-	 * @todo rewrite to use red green blue (use getPropertyCSSValue().getRGBColorValue() instead of getPropertyValue in getStyle)
+	 * TO-DO:
+	 * - Rewrite to use red green blue (use getPropertyCSSValue().getRGBColorValue() instead of getPropertyValue in getStyle)
+	 * - Rewrite to use red green blue
 	 *
 	 * @function
 	 * @alias module:wc/dom/color.rgb2hex
 	 * @param {(string|Array<Number>|{r: string|number, g: string|number, b: string|number})} rgb String in the format "rgb(244,244,244)" or an array of
 	 *    red/green/blue values, e.g. [244, 244, 244] or an object with "r", "g" and "b" properties
 	 *    corresponding to red, green and blue values, e.g. {r:244, g:244, b:244}
-	 * @todo rewrite to use red green blue
 	 * @returns {string} The colour as a hex string.
 	 */
 	rgb2hex: function (rgb) {

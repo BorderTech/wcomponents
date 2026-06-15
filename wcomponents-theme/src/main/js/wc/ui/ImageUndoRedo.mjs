@@ -87,7 +87,7 @@ class FabricUndoRedo {
 		}
 		function objectAdded($event) {
 			const object = $event.target;
-			if (object && object.width && object.height) {  // e.g. when a redact rect is added it has zero dimensions
+			if (object?.width && object.height) {  // e.g. when a redact rect is added it has zero dimensions
 				debounceSave();
 			}
 		}

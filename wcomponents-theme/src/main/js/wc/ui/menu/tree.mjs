@@ -491,7 +491,7 @@ class Tree extends AbstractMenu {
 		if (action === shed.actions.EXPAND) {
 			ajaxExpand(element, root);
 
-			let iconContainer = !this.isHTree(root) ? querySelectorImmediate(element, vopenerSelector) : null;
+			let iconContainer = this.isHTree(root) ? null : querySelectorImmediate(element, vopenerSelector);
 			if (iconContainer) {
 				icon.change(iconContainer, "fa-caret-down", "fa-caret-right");
 			}
@@ -569,7 +569,7 @@ class Tree extends AbstractMenu {
 		}
 
 		if (element && this._isBranch(element)) {
-			let iconContainer = !this.isHTree(root) ? querySelectorImmediate(element, vopenerSelector) : null;
+			let iconContainer = this.isHTree(root) ? null : querySelectorImmediate(element, vopenerSelector);
 			if (iconContainer) {
 				icon.change(iconContainer, "fa-caret-right", "fa-caret-down");
 			}

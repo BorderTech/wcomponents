@@ -644,7 +644,7 @@ function focusEvent({ target }) {
 	if (openSelect) {
 		const combo = getCombo(target);
 		// check openSelect before trying to collapse element in case we have gone straight from an open combo to another combo
-		if (!(combo && combo.id === openSelect)) {
+		if (combo?.id !== openSelect) {
 			const openCombo = document.getElementById(openSelect);
 			if (openCombo) {
 				/* close any open combos when focusing elsewhere but

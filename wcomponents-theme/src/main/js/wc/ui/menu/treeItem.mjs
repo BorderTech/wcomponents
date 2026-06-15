@@ -153,7 +153,7 @@ export default initialise.register(instance);
 function isAcceptable (element, target) {
 	let result = isAcceptableTarget(element, target);
 
-	if (tree && tree.getRoot(target)) {
+	if (tree?.getRoot(target)) {
 		if (tree.isInVOpen(target) || tree.isSubMenu(target) || tree.isRoot(target)) {
 			return false;
 		}

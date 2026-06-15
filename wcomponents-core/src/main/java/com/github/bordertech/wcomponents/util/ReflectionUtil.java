@@ -45,13 +45,7 @@ public final class ReflectionUtil {
 			Class cls = obj.getClass();
 			Method method = cls.getMethod(methodName, paramTypes);
 			res = method.invoke(obj, params);
-		} catch (SecurityException e) {
-			throw new SystemException(e);
-		} catch (NoSuchMethodException e) {
-			throw new SystemException(e);
-		} catch (IllegalAccessException e) {
-			throw new SystemException(e);
-		} catch (InvocationTargetException e) {
+		} catch (SecurityException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
 			throw new SystemException(e);
 		}
 
@@ -74,15 +68,7 @@ public final class ReflectionUtil {
 		try {
 			Method method = cls.getMethod(staticMethod, paramTypes);
 			res = method.invoke(null, params);
-		} catch (SecurityException e) {
-			throw new SystemException(e);
-		} catch (NoSuchMethodException e) {
-			throw new SystemException(e);
-		} catch (IllegalArgumentException e) {
-			throw new SystemException(e);
-		} catch (IllegalAccessException e) {
-			throw new SystemException(e);
-		} catch (InvocationTargetException e) {
+		} catch (SecurityException | NoSuchMethodException | IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
 			throw new SystemException(e);
 		}
 
@@ -111,9 +97,9 @@ public final class ReflectionUtil {
 	 * @param ignoreInaccessible if true, ignore fields that are not accessible
 	 * @return a list of fields for the given object
 	 */
-	public static List getAllFields(final Object obj, final boolean excludeStatic,
+	public static List<Field> getAllFields(final Object obj, final boolean excludeStatic,
 			final boolean excludeTransient, final boolean ignoreInaccessible) {
-		List fieldList = new ArrayList();
+		List<Field> fieldList = new ArrayList<>();
 
 		for (Class clazz = obj.getClass(); clazz != null; clazz = clazz.getSuperclass()) {
 			Field[] declaredFields = clazz.getDeclaredFields();

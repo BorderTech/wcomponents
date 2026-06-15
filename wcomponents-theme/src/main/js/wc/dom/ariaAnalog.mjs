@@ -110,8 +110,6 @@ function deselect(_group, except, container, inst) {
 			} else {
 				shed.deselect(next, silent);
 			}
-		} else {
-			doneException = true;
 		}
 	}
 }
@@ -191,7 +189,7 @@ function filterGroup(_group) {
  * @alias module:wc/dom/ariaAnalog~AriaAnalog
  * @constructor
  */
-function AriaAnalog() { }
+function AriaAnalog() { /* TO-DO document why this function 'AriaAnalog' is empty */  }
 
 /**
  * The attribute which holds the analog value.
@@ -408,7 +406,7 @@ AriaAnalog.prototype.initialise = function(element) {
  * @function
  * @param {Element} form the form or form segment whose state is being written.
  * @param {Element} container the container for writing the state fields.
- * @todo Anonymize the inner function.
+ * TO-DO Anonymize the inner function.
  */
 AriaAnalog.prototype.writeState = function(form, container) {
 	const items = form.querySelectorAll(this.ITEM.toString());

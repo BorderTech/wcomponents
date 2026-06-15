@@ -2,8 +2,8 @@
  * Passing module configuration around is surprisingly complex at the moment.
  * Do you use a global object? A loader specific mechanism like RequireJS configuration?
  * The aim of this module is to encapsulate the underlying mechanism and present a simple configuration API to other modules.
+ * TO-DO rework config after getting off AMD
  */
-// TODO rework config after getting off AMD
 
 import mixin from "wc/mixin.mjs";
 

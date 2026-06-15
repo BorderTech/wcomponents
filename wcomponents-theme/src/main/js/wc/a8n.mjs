@@ -62,8 +62,7 @@ function waitForFixes() {
 		pendingUpdated(true, flags.FIXES);
 		try {
 			Promise.all(fixes.map(fix => import(fix))).then(fixesLoaded).catch(fixesLoaded);
-		// eslint-disable-next-line no-unused-vars
-		} catch (ex) {
+		} catch {
 			fixesLoaded();
 		}
 	}
@@ -98,11 +97,11 @@ function checkNotify() {
 				clearTimeout(timer);
 			}
 			const notify = stateChangeFactory(element, instance.attr);
-			if (!isReady) {  // If the DOM is busy we want to notify ASAP
-				notify();
-			} else {  // If the DOM is ready notify "soon" in case another action is about to start
+			if (isReady) {  // If the DOM is ready notify "soon" in case another action is about to start
 				const delay = localStorage["wc.a8n.delay"] || 251;  // String should be ok without casting...
 				timer = setTimeout(notify, delay);
+			} else {  // If the DOM is busy we want to notify ASAP
+				notify();
 			}
 		}
 	}

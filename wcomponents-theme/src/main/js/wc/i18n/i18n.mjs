@@ -93,11 +93,11 @@ const instance = {
 				result = docElement.lang;  // should we consider xml:lang (which takes precedence over lang)?
 			}
 		}
-		if (!result) {
-			result = this._DEFAULT_LANG;
-		} else {
+		if (result) {
 			const googParsed = GOOG_RE.exec(result);
 			result = googParsed ? googParsed[1] : result;
+		} else {
+			result = this._DEFAULT_LANG;
 		}
 		return result;
 	},

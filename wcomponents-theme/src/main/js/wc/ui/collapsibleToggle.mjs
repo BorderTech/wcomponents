@@ -85,9 +85,9 @@ function areAllInExpandedState(controller, expanded) {
 function toggleThisCollapsible(collapsible, open) {
 	if (collapsible.matches(collapsibleSelector)) {
 		/** @type HTMLDetailsElement */
-		const collapser = (open !== collapsible.hasAttribute("open")) ?
-			collapsible.querySelector(triggerSelector)
-			: null;
+		const collapser = (open === collapsible.hasAttribute("open")) ?
+			null
+			: collapsible.querySelector(triggerSelector);
 		if (collapser) {
 			event.fire(collapser, "click");
 		}

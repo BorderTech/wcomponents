@@ -117,7 +117,7 @@ class Tabset extends AriaAnalog {
 	 * Get the descriptor of the list component. This is required by some custom implementations but is not
 	 * currently used in WComponents core.
 	 *
-	 * TODO: remove this functionality and set up the TABLIST Widget independently where required.
+	 * TO-DO: Remove this functionality and set up the TABLIST Widget independently where required.
 	 *
 	 * @function module:wc/ui/tabset.getList
 	 * @public
@@ -319,7 +319,7 @@ class Tabset extends AriaAnalog {
 					containerload.onshow(content).then(onShown).catch(onShown);
 				} else if (action === shed.actions.DESELECT) {
 					if (contentContainer) {
-						fixSize(contentContainer);  // TODO only do this if it's an AJAX tab
+						fixSize(contentContainer);  // TO-DO: Only do this if it's an AJAX tab
 					}
 					shed.hide(content);
 				}
@@ -625,14 +625,14 @@ function writeTabStateHelper(stateContainer, next) {
 		if (tabs) {
 			const selected = tabs.filtered;
 			const all = tabs.unfiltered;
-			if (!selected.length) {
-				// no open tabs (or all individually disabled)
-				formUpdateManager.writeStateField(stateContainer, tabsetName, "", false, true);
-			} else {
+			if (selected.length) {
 				selected.forEach(theTab => {
 					const position = String(all.indexOf(theTab));
 					formUpdateManager.writeStateField(stateContainer, tabsetName, position, false, true);
 				});
+			} else {
+				// no open tabs (or all individually disabled)
+				formUpdateManager.writeStateField(stateContainer, tabsetName, "", false, true);
 			}
 		}
 	}

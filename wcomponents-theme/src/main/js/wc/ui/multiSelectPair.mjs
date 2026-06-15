@@ -452,8 +452,7 @@ function keydownEvent($event) {
 			selectList.selectedIndex = -1;
 			try {
 				focus.setFocusRequest(opposite);
-			// eslint-disable-next-line no-unused-vars
-			} catch (ignore) {
+			} catch {
 				// Do nothing
 			}
 		}

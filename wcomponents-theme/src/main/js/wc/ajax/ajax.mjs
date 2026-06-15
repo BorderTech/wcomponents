@@ -3,7 +3,7 @@
  *
  * @module
  *
- * @todo Document private members and totally redo this module
+ * TO-DO Document private members and totally redo this module
  */
 
 import Observer from "wc/Observer.mjs";
@@ -166,9 +166,9 @@ function Ajax() {
 			console.error("request.readyState", request.readyState);
 			console.error("response headers", request.getAllResponseHeaders());
 			console.error("config", JSON.stringify(config));
-		} catch (ignore) {
+		} catch (error_) {
 			// don't die if logging fails
-			console.warn(ignore);
+			console.warn(error_);
 		} finally {
 			console.groupEnd();
 		}
@@ -370,13 +370,13 @@ function fetchErrorHandler(callback, errback) {
 			callback(err);
 		}
 	};
-	if (!handleError) {
+	if (handleError) {
+		cb(handleError);
+	} else {
 		import("wc/ajax/handleError.mjs").then(arg => {
 			handleError = arg;
 			cb(handleError);
 		}).catch(errback);
-	} else {
-		cb(handleError);
 	}
 }
 export default ajax;

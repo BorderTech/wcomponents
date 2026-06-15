@@ -159,7 +159,7 @@ function Trigger(obj, onsuccess, onerror) {
 			let cbresult;
 			try {
 				if (onsuccess) {
-					cbresult = onsuccess.apply(scope, arguments);
+					cbresult = onsuccess.apply(this, arguments);
 				}
 			} finally {
 				// The purpose of the Promise.resolve here is to WAIT for the callback to complete, ESPECIALLY if the callback returns a promise itself
@@ -169,13 +169,12 @@ function Trigger(obj, onsuccess, onerror) {
 			}
 		};
 		this.onerror = function(err) {
-			const trigger = this;
 			try {
 				if (onerror) {
-					onerror.apply(trigger, arguments);
+					onerror.apply(this, arguments);
 				}
 			} finally {
-				notify(trigger, "after", { error: err });
+				notify(this, "after", { error: err });
 			}
 		};
 		this.urlFromForm = (typeof obj.urlFromForm === UNDEFINED) ? null : obj.urlFromForm;
@@ -465,29 +464,28 @@ Trigger.prototype.scheduleQueueProcessing = function() {
  * @public
  */
 Trigger.prototype.fire = function() {
-	const trigger = this;
 	let promise;
 
-	if (trigger.oneShot) {  // will be a negative number if it is not oneshot, therefore will equate to true
-		notify(trigger, "before");
-		if (trigger.oneShot > 0) {
-			trigger.oneShot--;
+	if (this.oneShot) {  // will be a negative number if it is not oneshot, therefore will equate to true
+		notify(this, "before");
+		if (this.oneShot > 0) {
+			this.oneShot--;
 		}
 
 		const endOfQueue = (requestBuffer.length - 1);
-		trigger.profile.fired = Date.now();
-		const request = new Request(trigger);
-		if (!requestBuffer[endOfQueue] || requestBuffer[endOfQueue].trigger.id !== trigger.id) {  // yes, use id for equality
+		this.profile.fired = Date.now();
+		const request = new Request(this);
+		if (!requestBuffer[endOfQueue] || requestBuffer[endOfQueue].trigger.id !== this.id) {  // yes, use id for equality
 			requestBuffer.push(request);
 			setLoading(request);  // do this AFTER the form has been serialized (because it will disable stuff)
 		} else {
 			requestBuffer[endOfQueue] = request;
-			console.log("Cancelling consecutive request for ", trigger.id);
+			console.log("Cancelling consecutive request for ", this.id);
 		}
-		trigger.scheduleQueueProcessing();
-		promise = getFirePromise(trigger);
+		this.scheduleQueueProcessing();
+		promise = getFirePromise(this);
 	} else {
-		promise = Promise.reject("Trigger has no more shots left: " + trigger.id);
+		promise = Promise.reject(new Error("Trigger has no more shots left: " + this.id));
 	}
 	return promise;
 };
