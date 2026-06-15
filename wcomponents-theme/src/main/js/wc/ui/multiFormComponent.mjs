@@ -235,7 +235,6 @@ function setSelectValues(newField, prototypeField) {
 function resetPrototypeField(field) {
 	Array.from(field.querySelectorAll(inputSelector)).forEach(processCandidateField);
 	Array.from(field.querySelectorAll(selectSelector)).forEach(processCandidateField);
-	// Array.prototype.forEach.call(TEXTAREA_WD.findDescendants(field), processCandidateField);
 
 	/**
 	 * @param {HTMLSelectElement} $element

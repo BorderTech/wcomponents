@@ -9,7 +9,7 @@ const { console, document } = globalThis;
  * @param rel - ?
  */
 function addLink(href, as, rel) {
-	if (href && document && document.head) {
+	if (href && document?.head) {
 		const link = document.createElement("link");
 		if (rel) {
 			link.rel = rel;  // allow for proprietary mechanisms
@@ -46,7 +46,6 @@ export default {
 	request: function(href, as) {
 		try {
 			addLink(href, as);
-			// addLink(href, as, "subresource");  // This should not be necessary anymore - use standard method or nothing
 		} catch (ex) {
 			console.warn(ex);  // don't die on prefetch exceptions, log 'em and move on
 		}

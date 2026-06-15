@@ -153,7 +153,7 @@ function filterOptions(combo, delay) {
 
 		Array.prototype.forEach.call(options, function (next, idx) {
 			const optval = listboxAnalog.getOptionValue(next, true, true);
-			if (!value || optval.indexOf(value) >= 0) {
+			if (!value || optval.includes(value)) {
 				shed.show(next, true);
 				if (setTabIndexOn === -1) {
 					setTabIndexOn = idx;
@@ -760,7 +760,7 @@ function acceptFirstMatch(element) {
 		// there is a chance, though it would be unusual, that the textbox value was updated and the ajax suggestion mechanism did not take.
 		// in this case we may have not reset the filtered suggestions for the new input. I can force this to occur if I am very sneaky.
 		const txtMatch = listboxAnalog.getOptionValue(match, true);
-		if (txtMatch.indexOf(value) === -1) {
+		if (!txtMatch.includes(value)) {
 			textbox.value = "";  // If I am very sneaky I deserve to suffer.
 			return;
 		}

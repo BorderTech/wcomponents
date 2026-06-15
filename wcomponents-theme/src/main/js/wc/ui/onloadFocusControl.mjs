@@ -85,7 +85,7 @@ function doRequestFocus(targetId, ignoreMessages) {
  */
 function canPolitelyChangeFocus(ignoreMessages) {
 	const element = document.activeElement;
-	let result = !element || !element.tagName || element === document.body || element === document.documentElement;
+	let result = !element?.tagName || element === document.body || element === document.documentElement;
 	if (!result) {
 		// ok, something has focus, but let's REALLY make sure it's something sensible because some browsers allow invisible elements to retain focus
 		/*

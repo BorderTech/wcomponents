@@ -24,7 +24,7 @@ const instance = {
 	 */
 	load: function(id, element, prefetch) {
 		return new Promise(function(win, lose) {
-			if (id && id.constructor === String) {
+			if (id?.constructor === String) {
 				let url = getUrl(element);
 				if (url) {
 					let qsSeparator;

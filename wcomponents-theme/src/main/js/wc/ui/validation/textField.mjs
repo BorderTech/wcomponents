@@ -59,7 +59,7 @@ function isInvalid(element) {
 		const concatenator = i18n.get("validation_concatenator");
 		// min length
 		let mask = element.getAttribute("minlength");
-		if (mask && value.length < parseInt(mask, 10)) {
+		if (mask && value.length < Number.parseInt(mask, 10)) {
 			result = true;
 			flag = /** @type {string} */(i18n.get("validation_text_belowmin", "%s", mask));
 		}
@@ -83,7 +83,6 @@ function isInvalid(element) {
 				// eslint-disable-next-line no-unused-vars
 				} catch (e) {
 					regexp = null;
-					// console.log("cannot convert input mask to regular expression, assuming valid");
 				}
 			}
 		}
@@ -127,7 +126,7 @@ function validate(container) {
 
 	// do the constraint tests
 	const candidates = container.matches(withPatternSelectors) ? [container] : container.querySelectorAll(withPatternSelectors);
-	if (candidates && candidates.length) {
+	if (candidates?.length) {
 		validConstrained = ((Array.from(candidates).filter(isInvalid)).length === 0);
 	}
 	const result = _requiredTextFields && validConstrained;

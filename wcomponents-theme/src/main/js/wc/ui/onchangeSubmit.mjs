@@ -55,7 +55,7 @@ const instance = {
 					hint = label.getHint(myLabel);
 				if (hint) {
 					const hintContent = textContent.get(hint);
-					if (hintContent.indexOf(realSoCHint) === -1) {
+					if (!hintContent.includes(realSoCHint)) {
 						label.setHint(myLabel, realSoCHint);
 					}
 				} else {

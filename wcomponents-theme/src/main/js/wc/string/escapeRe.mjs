@@ -3,7 +3,7 @@
 const RE_RE = /([.*+?^{}$()|[\]/\\])/g,
 	NO_WILDCARD_RE = /([.+?^{}$()|[\]/\\])/g,
 	WILDCARD_RE = /\*/g,
-	REPLACER = "\\$1";
+	REPLACER = String.raw`\$1`;
 
 /**
  * Escapes any characters in this string that have a special meaning in regular expression syntax.

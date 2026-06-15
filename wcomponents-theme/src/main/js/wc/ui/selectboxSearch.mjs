@@ -176,7 +176,6 @@ function keypressEvent(evt) {
 		 * rather type "C" 20 times than type "CZ".  That's because some legacy systems
 		 * work this way.
 		 */
-		// evt.preventDefault();
 	}
 }
 

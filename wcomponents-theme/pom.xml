@@ -22,7 +22,7 @@
 		<node.download.root>http://nodejs.org/dist/</node.download.root>
 		<npm.download.root>http://registry.npmjs.org/npm/-/</npm.download.root>
 		<yarn.download.root>https://github.com/yarnpkg/yarn/releases/download/</yarn.download.root>
-		<npmjs.version>10.9.3</npmjs.version>
+		<npm.version>10.9.3</npm.version>
 		<yarn.version>v2.4.3</yarn.version>
 		<dependency-check.skip>true</dependency-check.skip>
 		<spotbugs.skip>true</spotbugs.skip>
@@ -108,9 +108,11 @@
 						</goals>
 						<phase>generate-resources</phase>
 						<configuration>
-							<skip>${theme.skip.antrun}</skip>
+							<nodeDownloadRoot>${node.download.root}</nodeDownloadRoot>
 							<nodeVersion>v${.nvmrc}</nodeVersion>
-							<downloadRoot>${node.download.root}</downloadRoot>
+							<npmDownloadRoot>${npm.download.root}</npmDownloadRoot>
+							<npmVersion>${npm.version}</npmVersion>
+							<skip>${theme.skip.antrun}</skip>
 						</configuration>
 					</execution>
 

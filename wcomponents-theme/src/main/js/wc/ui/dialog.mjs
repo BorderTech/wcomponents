@@ -39,7 +39,7 @@ const instance = {
 	 * @param {module:wc/ui/dialog~regObject[]} array An array of dialog definition objects.
 	 */
 	register: function(array) {
-		if (array && array.length) {
+		if (array?.length) {
 			array.forEach(_register);
 			initialise.addCallback(function() {
 				for (let o in registry) {
@@ -244,8 +244,7 @@ function openDlg(triggerId) {
 			} else {
 				content.removeAttribute(GET_ATTRIB);
 			}
-			content.classList.add("wc_magic");
-			content.classList.add("wc_dynamic");
+			content.classList.add("wc_magic", "wc_dynamic");
 			eagerLoader.load(content, false, false);
 		} else {
 			console.warn("Could not find dialog content wrapper.");

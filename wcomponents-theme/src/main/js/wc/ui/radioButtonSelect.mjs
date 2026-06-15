@@ -41,9 +41,9 @@ const instance = {
 				// deselectAll
 				getFilteredGroup(element).forEach((next) => shed.deselect(next));  // should be only one
 			} else {
-				const _group = group.getGroup(element, radioSelector);
-				for (let i = 0; i < _group.length; ++i) {
-					let option = _group[i];
+				const _groups = group.getGroup(element, radioSelector);
+				for (const _group of _groups) {
+					let option = _group;
 					if (option.value === value) {
 						shed.select(option);
 						break;

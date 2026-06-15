@@ -54,8 +54,8 @@ const instance = {
 	 */
 	isLaunchUrl: function(url) {
 		let result;
-		for (let i = 0; i < launchLinkTests.length; i++) {
-			let next = launchLinkTests[i];
+		for (const launchLinkTest of launchLinkTests) {
+			let next = launchLinkTest;
 			try {
 				result = next(url);
 				if (result) {

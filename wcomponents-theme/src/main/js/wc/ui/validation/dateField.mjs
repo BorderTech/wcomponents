@@ -158,7 +158,7 @@ function validate(container) {
 		valid = dateField.isReadOnly(container) || !isDateInvalid(container);
 	} else {
 		let invalid = candidates.filter(isDateInvalid, this);
-		if (invalid && invalid.length) {
+		if (invalid?.length) {
 			valid = false;
 		}
 	}

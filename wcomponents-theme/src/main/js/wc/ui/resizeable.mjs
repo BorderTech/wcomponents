@@ -69,7 +69,7 @@ function Resizeable() {
 		const conf = wcconfig.get("wc/ui/resizeable", {
 			delay: DEFAULT_NOTIFY_TIMEOUT
 		});
-		if (!isNaN(conf.delay) && conf.delay >= 0) {
+		if (!Number.isNaN(conf.delay) && conf.delay >= 0) {
 			result = conf.delay;
 		} else {
 			result = DEFAULT_NOTIFY_TIMEOUT;
@@ -92,8 +92,8 @@ function Resizeable() {
 			needUnits = !(document.defaultView?.getComputedStyle),
 			size = getStyle(document.body, css, needUnits, true) || 0;
 
-		if (isNaN(size)) {
-			const _s = parseFloat(size);
+		if (Number.isNaN(size)) {
+			const _s = Number.parseFloat(size);
 			if (size.indexOf(UNIT)) {
 				return _s;
 			} else if (size.indexOf("%")) {
@@ -139,14 +139,14 @@ function Resizeable() {
 		let _size = size;
 		FONT_SIZE = FONT_SIZE || getFontSize();
 
-		if (_size && isNaN(_size)) {
-			if (_size.indexOf(UNIT) > -1) {
-				return parseInt(_size, 10);
+		if (_size && Number.isNaN(_size)) {
+			if (_size.includes(UNIT)) {
+				return Number.parseInt(_size, 10);
 			}
 			// someone specified the size in ems or maybe even points, but we will guess ems and getStyle() returned that style
-			_size = Math.round(parseFloat(_size) * FONT_SIZE);
+			_size = Math.round(Number.parseFloat(_size) * FONT_SIZE);
 		}
-		if (isNaN(_size)) {
+		if (Number.isNaN(_size)) {
 			return 0;
 		}
 		return _size;
@@ -167,7 +167,6 @@ function Resizeable() {
 	 * @returns {Object} a POJO with properties {float} width and {float} height.
 	 */
 	function getSize(element, native) {
-
 		let _width, _height;
 		try {
 			let { height, width } = element.style;
@@ -181,8 +180,8 @@ function Resizeable() {
 				height = "0";
 			}
 			const box = getBox(element);
-			height = height ? parseFloat(height.replace(UNIT, "")) : box.height;
-			width = width ? parseFloat(width.replace(UNIT, "")) : box.width;
+			height = height ? Number.parseFloat(height.replace(UNIT, "")) : box.height;
+			width = width ? Number.parseFloat(width.replace(UNIT, "")) : box.width;
 
 			return { width, height };
 		} finally {
@@ -208,11 +207,11 @@ function Resizeable() {
 			needUnits = !(document.defaultView?.getComputedStyle),
 			result = getStyle(element, css, needUnits, true) || 0;
 
-		if (isNaN(result)) {
+		if (Number.isNaN(result)) {
 			// we have something like auto or fit-content.
 			if (result === "auto" || result.indexOf("-content")) {
 				const box = getSize(element, true);
-				return isHeight ? parseFloat(box.height) : parseFloat(box.width);
+				return isHeight ? Number.parseFloat(box.height) : Number.parseFloat(box.width);
 			}
 			return 0;
 		}
@@ -238,7 +237,7 @@ function Resizeable() {
 				const conf = wcconfig.get("wc/ui/resizeable", {
 					min: DEFAULT_MIN_SIZE
 				});
-				if (conf.min && !isNaN(conf.min) && conf.min > 0) {
+				if (conf.min && !Number.isNaN(conf.min) && conf.min > 0) {
 					minSize = conf.min;
 				} else {
 					minSize = DEFAULT_MIN_SIZE;
@@ -247,7 +246,7 @@ function Resizeable() {
 					min = getSizeConstraint(element);
 					min = min ? styleToPx(min) : minSize;
 					const width = Math.round(Math.max(box.width + deltaX, min));
-					if (width > min && width !== parseInt(element.style.width)) {
+					if (width > min && width !== Number.parseInt(element.style.width)) {
 						element.style.width = width + UNIT;
 						_notify = true;
 					}
@@ -256,7 +255,7 @@ function Resizeable() {
 					min = getSizeConstraint(element, true);
 					min = min ? styleToPx(min) : minSize;
 					const height = Math.round(Math.max(box.height + deltaY, min));
-					if (height > min && height !== parseInt(element.style.height)) {
+					if (height > min && height !== Number.parseInt(element.style.height)) {
 						element.style.height = height + UNIT;
 						_notify = true;
 					}
@@ -343,7 +342,7 @@ function Resizeable() {
 			step: DEFAULT_KEY_RESIZE
 		});
 
-		const step = (conf.step && !isNaN(conf.step) && conf.step > 0) ? conf.step : DEFAULT_KEY_RESIZE;
+		const step = (conf.step && !Number.isNaN(conf.step) && conf.step > 0) ? conf.step : DEFAULT_KEY_RESIZE;
 		const allowed = getAllowedDirections(resizeTarget);
 		let x = 0,
 			y = 0;

@@ -244,10 +244,8 @@ const imageEdit = {
 			const imageWidth = fabricImage.getScaledWidth();
 			const imageHeight = fabricImage.getScaledHeight();
 			if (imageWidth > imageHeight) {
-				// fbCanvas.setZoom(width / imageWidth);
 				fabricImage.scaleToWidth(width).setCoords();
 			} else {
-				// fbCanvas.setZoom(height / imageHeight);
 				fabricImage.scaleToHeight(height).setCoords();
 			}
 			fabricImage.width = imageWidth;
@@ -298,13 +296,6 @@ const imageEdit = {
 			if (objects?.length) {
 				return objects[0];
 			}
-			// for (i = 0; i < objects.length; i++) {
-			//	next = objects[i];
-			//	result = imageEdit.getFbImage(next);
-			//	if (result) {
-			//		return result;
-			//	}
-			// }
 		}
 		return null;
 	}
@@ -579,8 +570,7 @@ function getEditor(config, callbacks, file) {
 				}
 
 				if (!file) {
-					cntnr.classList.add("wc_camenable");
-					cntnr.classList.add("wc_showcam");
+					cntnr.classList.add("wc_camenable", "wc_showcam");
 					getImageCapture().snapshotControl(actions.events, cntnr);
 				}
 
@@ -920,7 +910,6 @@ function numericProp(config, speed) {
 				undoRedo.save();
 			}
 		});
-		// fbCanvas.calcOffset();
 	}
 }
 
@@ -1164,7 +1153,6 @@ function checkThenSave(callbacks) {
 					imageToSave = validationResult.validated;
 				}
 				if (error) {
-					// showHideOverlay(fbCanvas, true);  // Unhide the overlay post validation (save will have to hide it again).
 					if (validationResult.ignorable) {
 						prompt.confirm(error, ignoreValidationError => {
 							if (ignoreValidationError) {
@@ -1225,7 +1213,6 @@ function saveImage(args) {
 			callbacks.win(result);
 		}
 	} finally {
-		// dialogFrame.close();
 		dialogFrame.resetContent();
 	}
 }
@@ -1362,8 +1349,6 @@ function canvasToDataUrl() {
 		// Add params such as format, quality, multiplier etc
 		toDataUrlParams = mixin(toDataUrlParams, config);
 
-		// canvasElement = fbCanvas.getElement();
-		// result = canvasElement.toDataURL();
 		result = fbCanvas.toDataURL(toDataUrlParams);
 	}
 	return result;

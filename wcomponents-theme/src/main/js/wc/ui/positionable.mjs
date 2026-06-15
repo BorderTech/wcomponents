@@ -114,10 +114,10 @@ const instance = {
 			height = box.height || height;
 		}
 		if (!width && _el.style.width) {
-			width = parseFloat(_el.style.width.replace(UNIT, ""));
+			width = Number.parseFloat(_el.style.width.replace(UNIT, ""));
 		}
 		if (!height && _el.style.height) {
-			height = parseFloat(_el.style.height.replace(UNIT, ""));
+			height = Number.parseFloat(_el.style.height.replace(UNIT, ""));
 		}
 
 		width = width || 0;
@@ -243,11 +243,11 @@ function resizeableSubscriber(element) {
 function forceToViewPort(el) {
 	const vpSize = getViewportSize(true);
 
-	if (el.style.top && parseFloat(el.style.top) < 0) {
+	if (el.style.top && Number.parseFloat(el.style.top) < 0) {
 		el.style.top = ZERO;
 	}
 
-	if (el.style.left && parseFloat(el.style.left) < 0) {
+	if (el.style.left && Number.parseFloat(el.style.left) < 0) {
 		el.style.left = ZERO;
 	}
 

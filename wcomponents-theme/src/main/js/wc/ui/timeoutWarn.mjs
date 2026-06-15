@@ -64,8 +64,7 @@ const resetTimers = debounce(/** @param {Number} warnBeforeMillis */ warnBeforeM
 	const preloadMillis = millisToWarn / 2;
 	console.log("Session will expire at", expiresAt);
 	if (millisToWarn >= 0) {
-		pendingTimers.push(timers.setTimeout(findAndShowAlert, millisToWarn));
-		pendingTimers.push(timers.setTimeout(getWarnDialog, preloadMillis));  // To prefetch any translations, images etc
+		pendingTimers.push(timers.setTimeout(findAndShowAlert, millisToWarn), timers.setTimeout(getWarnDialog, preloadMillis));  // To prefetch any translations, images etc
 		console.log(`Preload will be in ${(preloadMillis) / 1000} seconds`);
 		console.log(`Warning will be shown in ${millisToWarn / 1000} seconds`);
 	}
@@ -258,13 +257,13 @@ class TimeoutWarn extends HTMLElement {
  */
 TimeoutWarn.initTimer = function(seconds, warnAt) {
 	const element = document.querySelector(TimeoutWarn.tagName);  // Find the first one, there's only meant to be one
-	if (isNaN(seconds)) {
+	if (Number.isNaN(seconds)) {
 		throw new TypeError("seconds must be a number");
 	}
 	if (element) {
 		element.setAttribute("timeout", `${seconds}`);
 		if (warnAt) {
-			if (isNaN(warnAt)) {
+			if (Number.isNaN(warnAt)) {
 				throw new TypeError("warnAt must be a number");
 			}
 			element.setAttribute("warn", `${warnAt}`);

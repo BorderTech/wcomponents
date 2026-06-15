@@ -70,7 +70,7 @@ const instance = {
 	getMinlength: function(element) {
 		const result = element.getAttribute("minlength") || element.getAttribute("data-wc-min");
 		if (result) {
-			return parseInt(result);
+			return Number.parseInt(result);
 		}
 		return 0;
 	},
@@ -83,7 +83,7 @@ const instance = {
 	getMaxlength: function(element) {
 		const result = element.getAttribute("maxlength") || element.getAttribute("data-wc-maxlength");
 		if (result) {
-			return parseInt(result);
+			return Number.parseInt(result);
 		}
 		return 0;
 	},
@@ -138,7 +138,7 @@ function hideCounter(element) {
  */
 function showCounter(element) {
 	const counter = instance.getCounter(element);
-	if (counter && counter.hidden) {
+	if (counter?.hidden) {
 		counter.hidden = false;
 	}
 }
@@ -192,8 +192,10 @@ function focusEvent({ target }) {
 		if (!target[INITED_KEY]) {
 			target[INITED_KEY] = true;
 			if (target.matches(TEXTAREA_CONSTRAINED)) {
-				events.push(event.add(target, { type: "input", listener: ({ target: t }) => tick(t), capture: true }));
-				events.push(event.add(target, { type: "blur", listener: ({ currentTarget }) => hideCounter(currentTarget), capture: true }));
+				events.push(
+					event.add(target, { type: "input", listener: ({ target: t }) => tick(t), capture: true }),
+					event.add(target, { type: "blur", listener: ({ currentTarget }) => hideCounter(currentTarget), capture: true })
+				);
 				tick(target);  // tick on focusIn to set initial title attribute (not available in XSLT1)
 			}
 		}

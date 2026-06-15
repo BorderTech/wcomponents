@@ -49,7 +49,7 @@ function toggleEventHelper({ target }, element) {
 	if ((element === target || (!isEventInLabel(target) && isAcceptableEventTarget(element, target))) && !shed.isDisabled(element)) {
 		const sorted = element.getAttribute(SORT_ATTRIB);
 
-		if (!sorted || sorted.indexOf("reversed") > -1) {
+		if (!sorted || sorted.includes("reversed")) {
 			if (!sorted) { // remove current sort col if any
 				const controlGroup = group.getGroup(element, SORTED_COL, THEAD);  // there should be only one
 				if (controlGroup?.length) {
@@ -120,7 +120,7 @@ function writeState(container, stateContainer) {
 		// we need to do the reverse look-up to allow for the possibility of nested tables.
 		if (sortedColumn && next === sortedColumn.closest(SORTABLE_TABLE)) {
 			formUpdateManager.writeStateField(stateContainer, tableId + ".sort", sortedColumn.getAttribute("data-wc-columnidx"));
-			if (sortedColumn.getAttribute("sorted").indexOf("reversed") > -1) {
+			if (sortedColumn.getAttribute("sorted").includes("reversed")) {
 				formUpdateManager.writeStateField(stateContainer, tableId + ".sortDesc", "true");
 			}
 		}

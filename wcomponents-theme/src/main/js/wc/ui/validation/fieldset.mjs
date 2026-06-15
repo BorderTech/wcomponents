@@ -124,15 +124,6 @@ function validationShedSubscriber({ target }) {
  * @param {UIEvent & { target: HTMLElement, currentTarget: HTMLElement }} $event
  */
 function changeEvent($event) {
-	/* var element = $event.target,
-		targetFieldset;
-	if (element && validationManager.isValidateOnChange() && (targetFieldset = element.closest(fieldsetSelector))) {
-		if (validationManager.isInvalid(targetFieldset)) {
-			revalidate(targetFieldset);
-		} else {
-			validate(targetFieldset);
-		}
-	} */
 	const element = $event.currentTarget;
 	if (!(element && validationManager.isValidateOnChange())) {
 		return;

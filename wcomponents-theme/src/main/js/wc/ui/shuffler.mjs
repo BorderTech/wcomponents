@@ -77,7 +77,7 @@ function move(element) {
 		switch (position) {
 			case UP:
 				reference = option.previousElementSibling;
-				if (reference && selected.indexOf(reference) === -1) {  // the test on selected is to prevent a group of consecutive options at the top or bottom fighting each other
+				if (reference && !selected.includes(reference)) {  // the test on selected is to prevent a group of consecutive options at the top or bottom fighting each other
 					parent.insertBefore(option, reference);
 				}
 				break;
@@ -87,13 +87,13 @@ function move(element) {
 					reference = reference.nextElementSibling;  // we want the option after the next option (if there is one)
 				}
 				if (reference) {
-					if (selected.indexOf(option.nextElementSibling) === -1 || selected.indexOf(reference) === -1) {
+					if (!selected.includes(option.nextElementSibling) || !selected.includes(reference)) {
 						parent.insertBefore(option, reference);
 					}
 					break;
 				}
 				reference = option.nextElementSibling;
-				if (reference && selected.indexOf(reference) === -1) {
+				if (reference && !selected.includes(reference)) {
 					// this will happen if we try to move the penultimate child down
 					parent.appendChild(option);
 				}

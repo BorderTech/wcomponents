@@ -474,7 +474,7 @@ function getDateCompareValue(val) {
  */
 function getNumberCompareValue(val) {
 	let result = Number(val);
-	if (isNaN(Number(val))) {  // if the result is NaN we can't use it
+	if (Number.isNaN(Number(val))) {  // if the result is NaN we can't use it
 		console.warn("Can not parse to a number", val);
 		result = null;
 	}
@@ -506,7 +506,7 @@ function getTriggerValue(element, type) {
 
 	if (type === "number") {
 		result = Number(element["value"]);
-		if (isNaN(result)) {  // if the result is NaN we can't use it ( btw Number("") is 0 )
+		if (Number.isNaN(result)) {  // if the result is NaN we can't use it ( btw Number("") is 0 )
 			return null;
 		}
 		return result;
@@ -743,8 +743,8 @@ function registerElements(theWindow) {
 
 		doTest(test) {
 			let result = true;
-			for (let i = 0; i < this.children.length; i++) {
-				let next = this.children[i];
+			for (const child of this.children) {
+				let next = child;
 				if (next instanceof Testable) {
 					result &&= next.doTest(test);
 				}

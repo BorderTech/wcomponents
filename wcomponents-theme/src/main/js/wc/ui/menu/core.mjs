@@ -573,8 +573,7 @@ function _doCollisionDetection(submenu, instance) {
 		 * so it is possible. Also, predetermining if we have both collisions helps later.
 		 */
 		if (iCollideInDefaultDirection && iCollideAgainstDefaultDirection) {
-			_submenu.classList.add(CLASS.DEFAULT_DIRECTION);
-			_submenu.classList.add(CLASS.AGAINST_DEFAULT);
+			_submenu.classList.add(CLASS.DEFAULT_DIRECTION, CLASS.AGAINST_DEFAULT);
 			console.warn("There is something seriously wrong with this menu design, it overflows both edges of the screen");
 		} else {
 			/* If my parent menu is colliding in the default direction I am deemed
@@ -1519,7 +1518,7 @@ AbstractMenu.prototype._keyActivator = function(item, $key, root, SHIFT, CTRL) {
 			return this[action](item);
 		}
 		target = this._getTargetItem(item, action, root);
-	} else if ($key && $key.length === 1 && letterRe.test($key)) {
+	} else if ($key?.length === 1 && letterRe.test($key)) {
 		target = this._getTextTarget(item, $key, root);
 	}
 	if (target) {
@@ -1656,7 +1655,7 @@ AbstractMenu.prototype.keydownEvent = function($event) {
 
 			result = this._keyActivator(element, key, root, shiftKey, (ctrlKey || metaKey));
 
-			if (result && keysToCancel.indexOf(code) >= 0) {
+			if (result && keysToCancel.includes(code)) {
 				$event.preventDefault();
 			}
 		}

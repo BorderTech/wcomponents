@@ -149,7 +149,7 @@ export default {
 		// write the bytes of the string to a typed array
 		const ia = new window.Uint8Array(byteString.length);
 		for (let i = 0; i < byteString.length; i++) {
-			ia[i] = byteString.charCodeAt(i);
+			ia[i] = byteString.codePointAt(i);
 		}
 		// Must use window here to not get the NodeJS Blob in tests
 		return new window.Blob([ia], { type: mimeString });

@@ -135,7 +135,6 @@ function MultiFileUploader() {
 			if (container?.classList.contains(CLASS_AJAX_UPLOADER)) {
 				const trigger = element.closest(itemActivationWd);
 				if (trigger) {
-					// trigger.removeAttribute("target");
 					trigger.setAttribute("data-wc-params", `wc_fileid=${encodeURIComponent(fileInfo.id)}`);
 					console.log("wc_fileid", fileInfo.id);
 				}
@@ -426,7 +425,6 @@ function MultiFileUploader() {
 		delete inflightXhrs[fileId];
 		if (oldFile) {
 			oldFile.innerHTML = newFile.innerHTML;
-			// oldFile.parentNode.replaceChild(newFile, oldFile);  // Problems with importing node
 			return;
 		}
 		const containerId = newFile.getAttribute("data-wc-containerid");
@@ -552,7 +550,6 @@ function MultiFileUploader() {
 			for (const element of fileInfos) {
 				let { id } = element;
 				let stateField = formUpdateManager.writeStateField(container, value, id);
-				// stateField.checked = true;  // WTF?
 				container.appendChild(stateField);
 			}
 		});

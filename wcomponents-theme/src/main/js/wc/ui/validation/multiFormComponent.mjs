@@ -85,8 +85,8 @@ function _isComplete(container) {
  */
 function filter(next) {
 	// added parseInt because for a while these values were being compared to non-numeric objects
-	let min = parseInt(next.getAttribute("data-wc-min")),
-		max = parseInt(next.getAttribute("data-wc-max")),
+	let min = Number.parseInt(next.getAttribute("data-wc-min")),
+		max = Number.parseInt(next.getAttribute("data-wc-max")),
 		underFlag = "validation_common_undermin",
 		overFlag = "validation_common_overmax",
 		isInvalid = false,
@@ -160,7 +160,7 @@ function validate(container) {
 	let controls = container.matches(containerSelector) ? [container] : Array.from(container.querySelectorAll(containerSelector));
 	if (controls) {
 		controls = controls.filter(filter);
-		result = !(controls && controls.length);
+		result = !(controls?.length);
 	}
 	result &&= _required;
 	if (!result) {

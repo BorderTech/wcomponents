@@ -92,13 +92,13 @@ function translate(wrapper) {
 			if (!(rows && rpp)) {
 				return;
 			}
-			const numRpp = parseInt(rpp, 10);
-			const numCurrentPage = parseInt(currentPage, 10);  // currentPage is 0 based.
+			const numRpp = Number.parseInt(rpp, 10);
+			const numCurrentPage = Number.parseInt(currentPage, 10);  // currentPage is 0 based.
 			const startIdx = (numRpp * numCurrentPage) + 1;
 			if (numRpp === 1) {
 				i18n.translate("table_pagination_label_one", String(startIdx), rows).then(updateElement);
 			} else {
-				const numRows = parseInt(rows, 10);
+				const numRows = Number.parseInt(rows, 10);
 				const endIdx = Math.min(numRows, (numRpp * numCurrentPage) + numRpp);
 				if (startIdx === endIdx) {
 					i18n.translate("table_pagination_label_one", String(endIdx), rows).then(updateElement);
@@ -128,14 +128,14 @@ function ajaxSubscriber(element, fragment) {
  * @param {boolean} [ignoreOther] If true then do not reset the "other" page select (when the table has two).
  */
 function updateSelectOptions(element, ignoreOther) {
-	const totalPages = parseInt(element.getAttribute(PAGE_ATTRIB), 10) - 1; // the data-* attribute is one based.
+	const totalPages = Number.parseInt(element.getAttribute(PAGE_ATTRIB), 10) - 1; // the data-* attribute is one based.
 
 	if (totalPages < NUM_PAGE_OPTIONS) {
 		// If the total number of options is such that we never re-arrange them then there is nothing to do.
 		return;
 	}
 
-	const currentPage = parseInt(element.value, 10);
+	const currentPage = Number.parseInt(element.value, 10);
 	const options = element.options;
 
 	element.setAttribute(BUSY, TRUE);
@@ -172,14 +172,14 @@ function setUpPageSelectOptions(element) {
 		selectors = container.querySelectorAll(PAGINATION_SELECTOR);
 
 	Array.from(selectors).forEach(next => {
-		let totalPages = parseInt(next.getAttribute(PAGE_ATTRIB), 10);
+		let totalPages = Number.parseInt(next.getAttribute(PAGE_ATTRIB), 10);
 		if (next.options.length > 1 || totalPages === 1) {
 			return; // we have already processed this. Should never happen but hey!
 		}
 
 		totalPages--;  // the data-* attribute is one based.
 
-		const currentPage = parseInt(next.value, 10);
+		const currentPage = Number.parseInt(next.value, 10);
 		let startVal = getStartValue(currentPage, totalPages);
 
 		let isSelected = currentPage === 0;
@@ -228,12 +228,12 @@ function getOtherSelector(selector) {
 		selectors = (selector.matches(PAGINATION_SELECTOR) ?
 			wrapper.querySelectorAll(PAGINATION_SELECTOR) : wrapper.querySelectorAll(RPP_SELECTOR));  // this could include selectors in nested tables
 	if (selectors && selectors.length > 1) {
-		for (let i = 0; i < selectors.length; ++i) {
-			if (selectors[i] === selector) {
+		for (const _selector of selectors) {
+			if (_selector === selector) {
 				continue;
 			}
-			if (wrapper === getWrapper(selectors[i])) {
-				return selectors[i];
+			if (wrapper === getWrapper(_selector)) {
+				return _selector;
 			}
 		}
 	}
@@ -628,7 +628,6 @@ initialise.register({
 	 * @param {Element} element The element being initialised, usually document.body.
 	 */
 	initialise: element => {
-		// event.add(element, { type: "focus", listener: focusEvent, capture: true });
 		event.add(element, "change", changeEvent, 1);
 		event.add(element, "click", clickEvent);
 	},

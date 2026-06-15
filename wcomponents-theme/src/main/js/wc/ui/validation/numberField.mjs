@@ -30,7 +30,7 @@ function isInvalid(element) {
 
 	if (value !== "" && !validationManager.isExempt(element)) {
 		let min, max;
-		if (isNaN(Number(value))) {
+		if (Number.isNaN(Number(value))) {
 			messageKey = "validation_number_nan";
 		} else if (element.matches(CONSTRAINED)) {
 			max = element.getAttribute(MAX);
@@ -67,11 +67,11 @@ function checkMax(element, value, min, max) {
 		const minNumeric = Number(min);
 		const maxNumeric = Number(max);
 		const valNumeric = Number(value);
-		if (isNaN(valNumeric)) {
-			msgKey = isNaN(minNumeric) ? "validation_number_nanwithmax" : "validation_number_nanwithrange";
+		if (Number.isNaN(valNumeric)) {
+			msgKey = Number.isNaN(minNumeric) ? "validation_number_nanwithmax" : "validation_number_nanwithrange";
 		} else if (valNumeric > maxNumeric) {
 			// if value < min it cannot be > max
-			msgKey = isNaN(minNumeric) ? "validation_number_overmax" : "validation_number_outofrange";
+			msgKey = Number.isNaN(minNumeric) ? "validation_number_overmax" : "validation_number_outofrange";
 		}
 	}
 	return msgKey;
@@ -100,7 +100,7 @@ function checkMin(element, value, min) {
 	if (value !== "" && element.matches(MIN_FIELD)) {
 		const minNumeric = Number(min);
 		const valNumeric = Number(value);
-		if (isNaN(valNumeric)) {
+		if (Number.isNaN(valNumeric)) {
 			msgKey = "validation_number_nanwithmin";
 		} else if (valNumeric < minNumeric) {
 			msgKey = "validation_number_undermin";

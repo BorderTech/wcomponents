@@ -221,7 +221,7 @@ function checkboxLabelPositionHelper(input, label) {
 	if (!(input && label)) {
 		throw new TypeError("Input and label must be defined.");
 	}
-	if (!(input && input.nodeType === Node.ELEMENT_NODE && label)) {
+	if (!(input?.nodeType === Node.ELEMENT_NODE && label)) {
 		throw new TypeError("Input must be an element.");
 	}
 
@@ -251,7 +251,7 @@ function checkboxLabelPositionHelper(input, label) {
 	}
 
 	const refElement = feedback.getBox(input, -1);
-	if (refElement && refElement.parentElement === input) {
+	if (refElement?.parentElement === input) {
 		input.insertBefore(labelElement, refElement);
 	} else {
 		input.appendChild(labelElement);

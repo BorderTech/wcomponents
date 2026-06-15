@@ -173,7 +173,7 @@ function getRequiredMessage(element) {
  * @param {module:wc/ui/validation/required~config} [config] Configuration object.
  */
 function flagAllThese(elements, config) {
-	const messageFunc = (config && config.messageFunc) ? config.messageFunc : getRequiredMessage;
+	const messageFunc = (config?.messageFunc) ? config.messageFunc : getRequiredMessage;
 
 	Array.prototype.forEach.call(elements, next => {
 		feedback.flagError({ element: next, message: messageFunc(next) });

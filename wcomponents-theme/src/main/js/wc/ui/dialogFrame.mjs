@@ -424,7 +424,7 @@ function getResizeConfig(width, height) {
 	let offset = INITIAL_TOP_PROPORTION;
 
 	if (globalConf.offset) {
-		if (isNaN(globalConf.offset)) {
+		if (Number.isNaN(globalConf.offset)) {
 			console.log("Offset must be a number, what are you playing at?");
 		} else if (globalConf.offset <= 0) {
 			console.log("Offset must be greater than zero otherwise dialogs will be above the top of the screen.");

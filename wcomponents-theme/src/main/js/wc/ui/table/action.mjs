@@ -134,20 +134,6 @@ function clickEvent($event) {
 }
 
 /**
- * Set the initial state of action buttons when a page/ajax arrives.
- * @function
- * @private
- * @param {Element} container the page or ajax response.
- */
-//		function setUp(container) {
-//			const _container = container || document.body;
-//			Array.from(_container.querySelectorAll(ACTION_BUTTON)).forEach(function(next) {
-//				next.setAttribute("formnovalidate", "formnovalidate");
-//				enableDisableButton(next);
-//			});
-//		}
-
-/**
  * Subscriber to row select/deselect which is the trigger for changing the button's disabled state.
  * @function
  * @private
@@ -281,8 +267,6 @@ initialise.register({
 	 * @public
 	 */
 	postInit: () => {
-		// setUp();
-		// processResponse.subscribe(setUp, true);  // Re-evaluation will be triggered when the register method is called by AJAX scripts
 		registry.update();  // Probably not strictly necessary but just in case...
 		shed.subscribe(shed.actions.SELECT, shedSubscriber);
 		shed.subscribe(shed.actions.DESELECT, shedSubscriber);

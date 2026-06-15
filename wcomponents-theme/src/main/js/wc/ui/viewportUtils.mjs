@@ -120,7 +120,7 @@ const instance = {
 function getConfig() {
 	const conf = wcconfig.get("wc/ui/viewportUtils", defaultConf);
 	Object.keys(defaultConf).forEach(prop => {
-		if (!conf[prop] || isNaN(conf[prop])) {
+		if (!conf[prop] || Number.isNaN(conf[prop])) {
 			conf[prop] = defaultConf[prop];
 		}
 	});

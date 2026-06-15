@@ -48,7 +48,7 @@ function clickEvent($event) {
 function needsFocusFix(element) {
 	let result = false;
 	const inputTypesNeedFix = ["button", "file", "submit", "radio", "checkbox", "range"];
-	if (inputTypesNeedFix.indexOf(element.type) >= 0 || element.matches("a")) {
+	if (inputTypesNeedFix.includes(element.type) || element.matches("a")) {
 		result = true;
 	} else if (!focus.isNativelyFocusable(element.tagName)) {
 		result = element.tabIndex > -1;

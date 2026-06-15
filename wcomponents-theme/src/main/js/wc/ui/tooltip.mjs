@@ -92,8 +92,7 @@ initialise.register({
 	 * @param {Element} element The element being initialised, usually document.body.
 	 */
 	initialise: element => {
-		events.push(event.add(element, "keydown", keydownEvent));
-		events.push(event.add(element, "keyup", keyupEvent));
+		events.push(event.add(element, "keydown", keydownEvent), event.add(element, "keyup", keyupEvent));
 	},
 
 	/**

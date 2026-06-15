@@ -595,7 +595,7 @@ function onItemEnabled(element) {
 		containerWd: TABLIST,
 		itemWd: instance.ITEM
 	}));
-	if (group && group.length) {  // yes, we have an open tab so set this tabInde to -1 and exit.
+	if (group?.length) {  // yes, we have an open tab so set this tabInde to -1 and exit.
 		element.tabIndex = -1;
 		return;
 	}
@@ -677,7 +677,7 @@ function isInAccordion(element) {
 	let tablist = element.closest(TABPANEL.toString());
 	tablist = tablist?.parentElement;
 	tablist = tablist?.parentElement;
-	if (tablist && tablist.matches(TABLIST.toString())) {
+	if (tablist?.matches(TABLIST.toString())) {
 		return !!getAccordion(tablist);
 	}
 	return false;

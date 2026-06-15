@@ -123,14 +123,12 @@ class Menubar extends AbstractMenu {
 				this._keyMap[VK_UP] = keyWalker.MOVE_TO.PREVIOUS;
 				this._keyMap[VK_DOWN] = keyWalker.MOVE_TO.NEXT;
 			} else {
-				// this._keyMap[VK_LEFT] = "openPreviousTopLevelSibling";
 				this._keyMap[VK_LEFT] = null;
 			}
 
 			if (this._isBranchOrOpener(_item)) {
 				this._keyMap[VK_RIGHT] = this._FUNC_MAP.ACTION;
 			} else {
-				// this._keyMap[VK_RIGHT] = "openNextTopLevelSibling";
 				this._keyMap[VK_RIGHT] = null;
 			}
 			/* Up and down is  a bit more convoluted.
@@ -430,32 +428,6 @@ function isFirstLastItem(element, root, isLast) {
 	}
 	return true;
 }
-
-
-//		function openTopLevelSibling(element, next) {
-//			var branch = element,
-//				result, target;
-
-//			if (instance._isBranch(branch)) {
-//				result =  branch;
-//				branch = branch.parentNode;
-//			}
-
-//			while (branch) {
-//				if ((branch = instance._getBranch(branch))) {
-//					result =  branch;
-//					branch = branch.parentNode;
-//				}
-//			}
-
-//			if (result) {
-//				target = instance._getTargetItem(result, (next ? keyWalker.MOVE_TO.PREVIOUS : keyWalker.MOVE_TO.NEXT), instance.getRoot(result), true);
-//			}
-
-//			if(target) {
-//				instance[instance._FUNC_MAP.ACTION](target);
-//			}
-//		}
 
 instance = new Menubar();
 
