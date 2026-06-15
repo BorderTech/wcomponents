@@ -71,7 +71,6 @@ class Pattern {
    -    Separator                                   -
    ytm  today, yesterday, tomorrow short forms
    +-   +- days from today's date<
-
  * Reserved for future compatability with Java patterns
 a      Am/pm marker     Text      PM
 H     Hour in day (0-23)     Number     0
@@ -83,7 +82,6 @@ s     Second in minute     Number     55
 S     Millisecond     Number     978
 z     Time zone     General time zone     Pacific Standard Time; PST; GMT-08:00
 Z     Time zone     RFC 822 time zone     -0800
-
 /**
  * Normalise a year by expanding two digit years to four using {@link module:wc/date/expandYear} then making
  * sure it is numeric. Modifies the arg by resetting its year property.

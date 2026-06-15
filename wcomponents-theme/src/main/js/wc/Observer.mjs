@@ -455,24 +455,24 @@ function SubscriberRegistry() {
 	};
 
 	/**
-	* Determine if the given subscriber is already subscribed to this group.
-	* @function
-	* @public
-	* @param {Function|Object} subscriber The subscriber (as passed to the subscribe method).
-	* @param {String} [group] The group in which to search (otherwise defaults will be used).
-	* @returns {Boolean} true if the subscriber is already subscribed to this group.
-	*/
+	 * Determine if the given subscriber is already subscribed to this group.
+	 * @function
+	 * @public
+	 * @param {Function|Object} subscriber The subscriber (as passed to the subscribe method).
+	 * @param {String} [group] The group in which to search (otherwise defaults will be used).
+	 * @returns {Boolean} true if the subscriber is already subscribed to this group.
+	 */
 	this.isRegistered = function(subscriber, group) {
 		const groupStore = getGroupStore(group);
 		return groupStore?.contains(subscriber);
 	};
 
 	/**
-	* Completely purge all subscribers from this observer group.
-	* @function
-	* @public
-	* @param {String} [group] The name of the group to reset. Defaults to the DEFAULT_GROUP group.
-	*/
+	 * Completely purge all subscribers from this observer group.
+	 * @function
+	 * @public
+	 * @param {String} [group] The name of the group to reset. Defaults to the DEFAULT_GROUP group.
+	 */
 	this.reset = function(group) {
 		const groupStore = getGroupStore(group);
 		groupStore?.reset();

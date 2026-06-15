@@ -1,14 +1,14 @@
 /**
  * @module
  *
-* Get the size of a file in bytes.
-*
-* @function
-* @alias module:wc/file/getFileSize
-* @param {module:wc/file/MultiFileUploader~fileInfo} fileInfo Information about the file or files to check.
-* @returns {number[]} An array where each item is the file size on bytes of the file at the corresponding index in the files collection.
-* If the file size cou/d not be determined the size will be -1.
-*/
+ * Get the size of a file in bytes.
+ *
+ * @function
+ * @alias module:wc/file/getFileSize
+ * @param {module:wc/file/MultiFileUploader~fileInfo} fileInfo Information about the file or files to check.
+ * @returns {number[]} An array where each item is the file size on bytes of the file at the corresponding index in the files collection.
+ * If the file size cou/d not be determined the size will be -1.
+ */
 function getFileSize(fileInfo) {
 	const result = [];
 	if (fileInfo) {

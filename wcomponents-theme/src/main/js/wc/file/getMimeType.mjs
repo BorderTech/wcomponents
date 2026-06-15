@@ -14,13 +14,13 @@ function getExtension(fileSpec) {
 }
 
 /**
-* Returns the mime type of the selected file.
-*
-* @function
-* @alias module:wc/file/getMimeType
-* @param {module:wc/file/MultiFileUploader~fileInfo} fileInfo The files to check
-* @returns {module:wc/file/getMimeType~fileType[]} The MIME type and extension of each file if it can be determined.
-*/
+ * Returns the mime type of the selected file.
+ *
+ * @function
+ * @alias module:wc/file/getMimeType
+ * @param {module:wc/file/MultiFileUploader~fileInfo} fileInfo The files to check
+ * @returns {module:wc/file/getMimeType~fileType[]} The MIME type and extension of each file if it can be determined.
+ */
 function getMimeType(fileInfo) {
 	return /** @type {module:wc/file/getMimeType~fileType[]} */ Array.from(fileInfo.files).map(
 		/**

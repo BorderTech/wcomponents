@@ -16,7 +16,8 @@ const redirectFrameId = uid(),
 	ATTACHMENT_FLAG = "wc_content=attach",
 	PSEUDO_PROTOCOL_RE = /^\w+:[^/].*$/;
 
-const doRedirect = debounce(/**
+const doRedirect = debounce(
+	/**
 	 * Do the redirect.
 	 * @function
 	 * @private

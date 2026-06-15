@@ -18,13 +18,13 @@ const TEXTAREA = textArea.getWidget();
 
 
 /**
-* Undertake required validation for WTextArea.
-*
-* @function
-* @private
-* @param {Element} container The element being validated.
-* @returns {Boolean} true if all required WTextAreas in container are complete.
-*/
+ * Undertake required validation for WTextArea.
+ *
+ * @function
+ * @private
+ * @param {Element} container The element being validated.
+ * @returns {Boolean} true if all required WTextAreas in container are complete.
+ */
 function _validateRequired(container) {
 	const obj = {
 		container,

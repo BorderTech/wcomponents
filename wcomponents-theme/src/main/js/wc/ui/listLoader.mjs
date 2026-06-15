@@ -142,7 +142,6 @@ function getUrl(element) {
  * Loads named datalists, allowing other classes to reuse the same datalists. The purpose of this functionality is a
  * performance enhancement. It allows for significantly reduced page sizes (compared to embedding datalists in
  * non-cacheable pages).
-
  * Could store a checksum of the datalist against the full url (including querystring) so we can make sure applications
  * are correctly assigning identifiers to lists. This could be done in a timeout, so it does not slow down the actual
  * user interaction.

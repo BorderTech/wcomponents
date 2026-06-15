@@ -257,7 +257,7 @@ class Tabset extends AriaAnalog {
 	 * @function
 	 * @override
 	 * @param {KeyboardEvent & { target: HTMLElement }} $event The wrapped keydown event.
-	*/
+	 */
 	keydownEvent($event) {
 		const target = $event.target;
 

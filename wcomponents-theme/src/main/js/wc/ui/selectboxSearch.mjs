@@ -212,7 +212,8 @@ function getSearchElement() {
 }
 
 
-const highlightSearch = debounce(/**
+const highlightSearch = debounce(
+	/**
 	 * Searches for an option in a select element which matches the given string.
 	 *
 	 * @param {HTMLSelectElement} element The select element to search

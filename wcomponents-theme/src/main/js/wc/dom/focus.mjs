@@ -260,23 +260,23 @@ function standardTabstopFilter(element, instance) {
 }
 
 /**
-* Whenever an element is being tested by canFocus
-* focus filters are called to determine if the element is eligible for focusing
-* Thi method allows adding custom filters to that process.
-* The filter function must return one of the following constants:
-*  - ACCEPT
-*  - REJECT
-*  - SKIP
-* SKIP means you are unsure if the element should not receive focus. This should be used
-* in preference to ACCEPT/REJECT, which is for cases when
-* you KNOW WITHOUT A DOUBT that the element may/not receive focus.
-* In cases where both ACCEPT and REJECT are returned by different filter functions,
-* ACCEPT takes precedence.
-*
-* @function
-* @private
-* @param {Function} fn The function which is subscribed.
-*/
+ * Whenever an element is being tested by canFocus
+ * focus filters are called to determine if the element is eligible for focusing
+ * Thi method allows adding custom filters to that process.
+ * The filter function must return one of the following constants:
+ *  - ACCEPT
+ *  - REJECT
+ *  - SKIP
+ * SKIP means you are unsure if the element should not receive focus. This should be used
+ * in preference to ACCEPT/REJECT, which is for cases when
+ * you KNOW WITHOUT A DOUBT that the element may/not receive focus.
+ * In cases where both ACCEPT and REJECT are returned by different filter functions,
+ * ACCEPT takes precedence.
+ *
+ * @function
+ * @private
+ * @param {Function} fn The function which is subscribed.
+ */
 function addFocusFilter(fn) {
 	const observer = getFocusObserver();
 	return  observer.subscribe(fn);

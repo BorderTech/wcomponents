@@ -9,12 +9,12 @@ const { console } = globalThis;
 const ariaGroup = {};
 
 /**
-* Gets the element that "aria-owns" another element.
-*
-* @function module:wc/dom/ariaGroup.getOwner
-* @param {Element} element The element to test.
-* @returns {HTMLElement} The element which owns the passed in element.
-*/
+ * Gets the element that "aria-owns" another element.
+ *
+ * @function module:wc/dom/ariaGroup.getOwner
+ * @param {Element} element The element to test.
+ * @returns {HTMLElement} The element which owns the passed in element.
+ */
 ariaGroup.getOwner = function(element) {
 	const { id } = element;
 	let result = null;

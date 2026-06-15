@@ -25,13 +25,14 @@ import hotReload from "./hotReloadServer.mjs";
 import themeLinter from "./lintfile.mjs";
 
 const handlers = {
-	images: /**
+	images:
+		/**
 		 * Knows how to respond when an image is changed - this is possibly only useful when editing SVGs
 		 * and showing off how cool our dev environment is.
 		 * @param {string} dir The path to the directory being watched.
-		* @param {string} filename The relative path to the file that changed.
-		* @returns {Promise} resolved when the change has been handled.
-		*/
+		 * @param {string} filename The relative path to the file that changed.
+		 * @returns {Promise} resolved when the change has been handled.
+		 */
 		function(dir, filename) {
 			const paths = getPaths(path.basename(dir), filename);
 			return buildImages.build(paths.relative).then(() => {
@@ -41,19 +42,21 @@ const handlers = {
 	resource: function() {
 		return buildResources.build();
 	},
-	script: /**
+	script:
+		/**
 		 * Knows how to respond when a JS source module is changed.
 		 * @param {string} dir The path to the directory being watched.
-		* @param {string} filename The relative path to the file that changed.
-		* @returns {Promise} resolved when the change has been handled.
-		*/
+		 * @param {string} filename The relative path to the file that changed.
+		 * @returns {Promise} resolved when the change has been handled.
+		 */
 		function(dir, filename) {
 			const paths = getPaths(dir, filename);
 			return buildJs.build(paths.absolute).then(function() {
 				return buildJs.pathToModule(paths.relative);
 			});
 		},
-	style: /**
+	style:
+		/**
 		 * Knows how to respond when a sass source file is changed.
 		 * @param {string} dir The path to the directory being watched.
 		 * @param {string} filename The relative path to the file that changed.
@@ -63,7 +66,8 @@ const handlers = {
 			const paths = getPaths(dir, filename);
 			return buildCss.build(paths.absolute);
 		},
-	test: /**
+	test:
+		/**
 		 * Knows how to respond when a test suite is changed.
 		 * @param {string} dir The path to the directory being watched.
 		 * @param {string} filename The relative path to the file that changed.

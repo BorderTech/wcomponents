@@ -6,7 +6,6 @@
  *
  * Well actually what it still gives us into the 2020s is a way to easily unsubscribe events.
  * It is handy to have an event manager, everything still does - how often do you write "addEventListener" in React and Angular?
-
  * Features implemented:
  *
  * * this keyword applies correctly in listener functions (it is the element the event is attached to);

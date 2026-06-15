@@ -4,19 +4,19 @@ import $role from "wc/dom/role.mjs";
 const elementGroup = {};
 
 /**
-* A module that knows how different DOM elements are grouped.
-*
-* How are DOM elements grouped?
-*
-* <dl>
-* <dt>FORM CONTROLS:</dt>
-* <dd>Grouped natively by their "name" attribute, shining example is radio buttons. SELECT elements are a special case
-* as they DEFINE a group of OPTIONS.</dd>
-* <dt>ARIA ELEMENTS:</dt>
-* <dd>Aria defines several roles that are grouped, for example "radio". In some cases ARIA allows for
-* optional subgroups (for example "tree"). For aria roles that do not have an explicitly defined grouping role we can
-* assume these will be grouped by an element with aria-role of group (for example "checkbox").</dd>
-* </dl>
+ * A module that knows how different DOM elements are grouped.
+ *
+ * How are DOM elements grouped?
+ *
+ * <dl>
+ * <dt>FORM CONTROLS:</dt>
+ * <dd>Grouped natively by their "name" attribute, shining example is radio buttons. SELECT elements are a special case
+ * as they DEFINE a group of OPTIONS.</dd>
+ * <dt>ARIA ELEMENTS:</dt>
+ * <dd>Aria defines several roles that are grouped, for example "radio". In some cases ARIA allows for
+ * optional subgroups (for example "tree"). For aria roles that do not have an explicitly defined grouping role we can
+ * assume these will be grouped by an element with aria-role of group (for example "checkbox").</dd>
+ * </dl>
  */
 
 /**

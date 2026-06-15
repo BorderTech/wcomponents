@@ -16,7 +16,8 @@ import cookie from "wc/dom/cookie.mjs";
 const { console, document, navigator, require, URL, window } = globalThis;
 
 const handlers = {
-	images: /**
+	images:
+		/**
 		 * Force an image to reload.
 		 * @param {object} payload The data received from the update event.
 		 */
@@ -28,7 +29,8 @@ const handlers = {
 				bumpCacheBuster(image);
 			}
 		},
-	script: /**
+	script:
+		/**
 		 * Force requirejs to reload a module.
 		 * @param {object} payload The data received from the update event.
 		 */
@@ -64,7 +66,8 @@ const handlers = {
 				console.log("Module not loaded, skipping hot reload", moduleName);
 			}
 		},
-	style: /**
+	style:
+		/**
 		 * Force style loader to reload CSS.
 		 * Note that all loaded CSS is forced to reload regardless, hence the debounce, it could be called heaps.
 		 * It is not feasible to detect what actually needs to be updated when Sass source is modified.

@@ -73,12 +73,12 @@ describe("wc/date/getDifference", function() {
 	});
 
 	/**
-		 * this test uses the dateDiff function as an arg in Array.sort(). As a
-		 * comparison it creates an identical array then converts the Date objects
-		 * to numbers. The sort on number (a - b) should then be the same as the
-		 * sort on Dates and when the numbers are converted back to Dates the
-		 * two arrays should be identical.
-		 */
+	 * this test uses the dateDiff function as an arg in Array.sort(). As a
+	 * comparison it creates an identical array then converts the Date objects
+	 * to numbers. The sort on number (a - b) should then be the same as the
+	 * sort on Dates and when the numbers are converted back to Dates the
+	 * two arrays should be identical.
+	 */
 	it("Sorted arrays should have identical dates", function () {
 		const a = [
 			new Date(78, 5, 25),
@@ -139,12 +139,12 @@ describe("wc/date/getDifference", function() {
 	});
 
 	/**
-		 * this test uses getDifference function as an arg in Array.sort(). As a
-		 * comparison it creates an identical array then converts the Date objects
-		 * to numbers. The sort on number (a - b) should then be the same as the
-		 * sort on Dates and when the numbers are converted back to Dates the
-		 * two arrays should be identical.
-		 */
+	 * this test uses getDifference function as an arg in Array.sort(). As a
+	 * comparison it creates an identical array then converts the Date objects
+	 * to numbers. The sort on number (a - b) should then be the same as the
+	 * sort on Dates and when the numbers are converted back to Dates the
+	 * two arrays should be identical.
+	 */
 	it("Sorted arrays should have identical dates with times", () => {
 		const a = [
 			new Date(78, 5, 25, 18, 30, 29),

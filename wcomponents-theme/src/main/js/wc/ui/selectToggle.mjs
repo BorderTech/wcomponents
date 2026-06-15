@@ -80,13 +80,13 @@ function isWSelectToggle(element) {
 }
 
 /**
-* Write the state of the select toggles when a form submission takes place.
-*
-* @function
-* @private
-* @param {Element} form The form or sub-form the state of which is being written.
-* @param {Element} stateContainer The element to which to append the state inputs.
-*/
+ * Write the state of the select toggles when a form submission takes place.
+ *
+ * @function
+ * @private
+ * @param {Element} form The form or sub-form the state of which is being written.
+ * @param {Element} stateContainer The element to which to append the state inputs.
+ */
 function writeState(form, stateContainer) {
 	// CHECKBOX type controllers
 	Array.from(form.querySelectorAll(controllerCheckboxSelector)).forEach(next => {

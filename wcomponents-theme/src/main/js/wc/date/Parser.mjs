@@ -15,23 +15,23 @@ const SEPARATOR = "/";
  */
 function Match() {
 	/**
-	* Get a transfer date formatted string representing this match.
-	*
-	* @function
-	* @public
-	* @returns {String} The transfer date.
-	*/
+	 * Get a transfer date formatted string representing this match.
+	 *
+	 * @function
+	 * @public
+	 * @returns {String} The transfer date.
+	 */
 	this.toXfer = function() {
 		return interchange.fromValues(/** @type {module:wc/date/Parser#parsedDate} */(this));
 	};
 
 	/**
-	* Get a Javascript Date instance representing this match. Any missing values are populated with default values.
-	*
-	* @function
-	* @public
-	* @returns {Date} The date represented by the match.
-	*/
+	 * Get a Javascript Date instance representing this match. Any missing values are populated with default values.
+	 *
+	 * @function
+	 * @public
+	 * @returns {Date} The date represented by the match.
+	 */
 	this.toDate = function() {
 		const xfer = this.toString();
 		return interchange.toDate(xfer);

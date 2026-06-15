@@ -282,10 +282,10 @@ function addLinkElement(url, media) {
 }
 
 /**
-* @param {string} arg
-* @param {string} msg
-* @returns {boolean} True if the arg is falsy or a string
-*/
+ * @param {string} arg
+ * @param {string} msg
+ * @returns {boolean} True if the arg is falsy or a string
+ */
 function checkIsStringOrFalsy(arg, msg) {
 	if (!arg || typeof arg === "string") {
 		return true;

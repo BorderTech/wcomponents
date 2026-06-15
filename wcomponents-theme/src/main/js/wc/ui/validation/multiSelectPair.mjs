@@ -1,6 +1,6 @@
 /**
-* Provides functionality to undertake client validation of WMultiSelectPair.
-*/
+ * Provides functionality to undertake client validation of WMultiSelectPair.
+ */
 
 import event from "wc/dom/event.mjs";
 import initialise from "wc/dom/initialise.mjs";

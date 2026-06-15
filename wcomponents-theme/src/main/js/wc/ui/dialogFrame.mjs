@@ -128,7 +128,8 @@ const instance = {
 		}
 	},
 
-	reposition: debounce(/**
+	reposition: debounce(
+		/**
 		 * Ask to reposition a dialog frame (usually after Ajax).
 		 *
 		 * @function module:wc/ui/dialogFrame.reposition

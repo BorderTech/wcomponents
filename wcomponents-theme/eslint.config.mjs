@@ -54,7 +54,6 @@ export default defineConfig(
 			'@stylistic/spaced-comment': 'error',
 			'@stylistic/quote-props': 'off',
 			'@stylistic/quotes': 'off',
-			'jsdoc/check-alignment': 'off',
 			'jsdoc/check-tag-names': 'off',
 			'jsdoc/check-types': 'off',
 			'jsdoc/no-multi-asterisks': 'off',

@@ -1,6 +1,6 @@
 /**
-* Provides functionality for a confirmation button.
-*/
+ * Provides functionality for a confirmation button.
+ */
 
 import event from "wc/dom/event.mjs";
 import initialise from "wc/dom/initialise.mjs";
@@ -23,7 +23,7 @@ function clickEvent($event) {
 	if (defaultPrevented || target?.nodeType !== Node.ELEMENT_NODE) {
 		return;
 	}
-	/** @type HTMLButtonElement */
+	/** @type {HTMLButtonElement} */
 	const element = target.closest(confirmSelector);
 	if (element && !element.matches(cancelButtonSelector) && focus.canFocus(element)) {
 		const message = element.getAttribute("data-wc-btnmsg");

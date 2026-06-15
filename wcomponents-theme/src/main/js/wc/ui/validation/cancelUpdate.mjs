@@ -1,9 +1,9 @@
 /**
-* Provides functionality which interrupts clicks on form submitting and validating buttons if the validation
-* area is not in a valid state.
-*
-* @see {@link module:wc/ui/cancelUpdate}
-*/
+ * Provides functionality which interrupts clicks on form submitting and validating buttons if the validation
+ * area is not in a valid state.
+ *
+ * @see {@link module:wc/ui/cancelUpdate}
+ */
 
 import event from "wc/dom/event.mjs";
 import initialise from "wc/dom/initialise.mjs";

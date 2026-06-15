@@ -1,11 +1,11 @@
 /**
-* Highlight any labellable elements which are not adequately labelled. This means:
-*
-* 1. no label (or legend for a fieldset); and
-* 2. no aria-label or aria-describedby attribute; and
-* 3. no title
-*
-*/
+ * Highlight any labellable elements which are not adequately labelled. This means:
+ *
+ * 1. no label (or legend for a fieldset); and
+ * 2. no aria-label or aria-describedby attribute; and
+ * 3. no title
+ *
+ */
 
 import initialise from "wc/dom/initialise.mjs";
 import processResponse from "wc/ui/ajax/processResponse.mjs";

@@ -262,15 +262,15 @@ function initActionImplementations() {
 	}
 
 	/**
-	* doInGroup is a helper for {@link module:wc/ui/SubordinateAction~hideInGroup} and
-	* {@link module:wc/ui/SubordinateAction~showInGroup}.
-	* @function doInGroup
-	* @private
-	* @param {Element} element The element "in" the group - i.e. the one we are singling out.
-	* @param {Function} func The function to apply to "element".
-	* @param {Function} funcToggle The function to apply to all elements in the group that are not "element".
-	* @this module:wc/ui/SubordinateAction
-	*/
+	 * doInGroup is a helper for {@link module:wc/ui/SubordinateAction~hideInGroup} and
+	 * {@link module:wc/ui/SubordinateAction~showInGroup}.
+	 * @function doInGroup
+	 * @private
+	 * @param {Element} element The element "in" the group - i.e. the one we are singling out.
+	 * @param {Function} func The function to apply to "element".
+	 * @param {Function} funcToggle The function to apply to all elements in the group that are not "element".
+	 * @this module:wc/ui/SubordinateAction
+	 */
 	function doInGroup(element, func, funcToggle) {
 		const targets = this.targets;
 

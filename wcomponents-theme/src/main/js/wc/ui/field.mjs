@@ -1,11 +1,11 @@
 import processResponse from "wc/ui/ajax/processResponse.mjs";
 import initialise from "wc/dom/initialise.mjs";
 /**
-* A more or less annoyingly pointless module to provide some support for the limited XSLT options when content arrives
-* in an ajax response with no context. In this case a WField may be an AJAX target so has to transform without knowing
-* its WFieldLayout context. Who thought this stuff up?
-*
-*/
+ * A more or less annoyingly pointless module to provide some support for the limited XSLT options when content arrives
+ * in an ajax response with no context. In this case a WField may be an AJAX target so has to transform without knowing
+ * its WFieldLayout context. Who thought this stuff up?
+ *
+ */
 
 
 const fieldSelector = ".wc-field",

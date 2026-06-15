@@ -10,7 +10,6 @@ import "wc/ui/menu/menuItem.mjs";
  * which may be indented. See WTree which produces a WAI-ARIA tree widget which is a selection tool.
  *
  * @see http://www.w3.org/TR/wai-aria-practices/#menu
-
  * Extends menu functionality to provide a tree-like menu.
  * @alias module:wc/ui/menu/treemenu~TreeMenu
  */
