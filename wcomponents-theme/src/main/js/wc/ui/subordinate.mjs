@@ -512,7 +512,7 @@ function getTriggerValue(element, type) {
 		return result;
 	}
 	// don't check element.text, it is not necessary on option elements from IE8 up and is actually harmful because it will bypass a legit value attribute that equates to false (empty string)
-	return (element["value"] || element.getAttribute("data-wc-value") || "");
+	return (element["value"] || element.dataset.wcValue || "");
 }
 
 /**

@@ -291,7 +291,7 @@ function removeField(element, removeAll) {
 	const field = element.closest(fieldSelector);
 	if (field) {
 		container = field.parentElement;
-		container.removeChild(field);
+		field.remove();
 		queueFocus(container);
 	}
 }

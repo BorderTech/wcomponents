@@ -35,7 +35,7 @@ function removeInvisible(clone) {
 	let _el;
 	while ((_el = tw.nextNode())) {
 		tw.currentNode = _el.parentNode;
-		_el.parentNode.removeChild(_el);
+		_el.remove();
 	}
 }
 
@@ -53,12 +53,12 @@ function getVisibleText(element, removeHint, trim) {
 	// ToolTip is not necessarily invisible at the time of calling (may have ALT/META key pressed).
 	let removableChild = tooltip.getTooltip(clone);
 	if (removableChild) {
-		clone.removeChild(removableChild);
+		removableChild.remove();
 	}
 
 	if (removeHint) {  // HINT is never "invisible"
 		while ((removableChild = label.getHint(clone))) {
-			removableChild.parentNode.removeChild(removableChild);
+			removableChild.remove();
 		}
 	}
 

@@ -39,7 +39,7 @@ function getContainer(element) {
 function selectValidOptionFilter(select) {
 	let result = select.selectedIndex > -1;
 	if (result) {
-		result = !select.options[select.selectedIndex].hasAttribute("data-wc-null");
+		result = !Object.hasOwn(select.options[select.selectedIndex].dataset, "wcNull");
 	}
 	return result;
 }
@@ -85,8 +85,8 @@ function _isComplete(container) {
  */
 function filter(next) {
 	// added parseInt because for a while these values were being compared to non-numeric objects
-	let min = Number.parseInt(next.getAttribute("data-wc-min")),
-		max = Number.parseInt(next.getAttribute("data-wc-max")),
+	let min = Number.parseInt(next.dataset.wcMin),
+		max = Number.parseInt(next.dataset.wcMax),
 		underFlag = "validation_common_undermin",
 		overFlag = "validation_common_overmax",
 		isInvalid = false,

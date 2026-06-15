@@ -133,7 +133,7 @@ function getUrl(element) {
 	let result;
 	const form = element.closest("form");
 	if (form) {
-		result = form.getAttribute("data-wc-datalisturl");
+		result = form.dataset.wcDatalisturl;
 	}
 	return result;
 }

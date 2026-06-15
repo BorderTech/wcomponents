@@ -160,7 +160,7 @@ const focusInstance = {
 			const widgetMap = ["[tabindex]"].concat(PRIMARY_TABSTOPS).join();  // note: tabIndex 0 could be OK here as it is the only non-negative tabIndex we support
 			const candidates = element.querySelectorAll(widgetMap);
 			if (candidates.length) {
-				result = Array.from(candidates).some(this.canFocus, this);
+				result = Array.from(candidates).some(this.canFocus.bind(this));
 			}
 		}
 		return result;

@@ -344,7 +344,7 @@ function clickEvent($event) {
  */
 function toDto(element) {
 	return {
-		id: element.getAttribute("data-id"),
+		id: element.dataset.id,
 		triggerid: element.getAttribute("triggerid"),
 		className: element.getAttribute("class"),
 		track: element.getAttribute("track") === "true",

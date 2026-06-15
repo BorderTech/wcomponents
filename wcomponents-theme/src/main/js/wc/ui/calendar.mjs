@@ -1078,7 +1078,7 @@ function shedSubscriber(element, action) {
 	if (cal && !!(element.compareDocumentPosition(cal) & Node.DOCUMENT_POSITION_CONTAINS)) {  // if we are hiding something inside the calendar it is probably a row
 		if (element.matches(rowSelector)) {
 			// we have to remove the pickable elements from any dates which are no longer in the visible calendar
-			Array.from(element.querySelectorAll(pickableSelector)).forEach(next => next.parentNode.removeChild(next));
+			Array.from(element.querySelectorAll(pickableSelector)).forEach(next => next.remove());
 		}
 	}
 }

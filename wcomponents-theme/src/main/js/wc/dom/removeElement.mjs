@@ -26,7 +26,7 @@ function remove(id, useTimeout) {
 		const el = document.getElementById(id);
 		const parent = el?.parentElement;
 		if (parent) {
-			parent.removeChild(el);
+			el.remove();
 		}
 	}
 

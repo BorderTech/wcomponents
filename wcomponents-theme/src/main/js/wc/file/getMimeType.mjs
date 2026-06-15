@@ -6,7 +6,7 @@
  */
 function getExtension(fileSpec) {
 	const EXTENSION_RE = /\.([a-z0-9]+)$/i;
-	const extension = fileSpec?.match(EXTENSION_RE);
+	const extension = (new RegExp(EXTENSION_RE)).exec(fileSpec);
 	if (extension?.length) {
 		return extension[1].toLowerCase();
 	}

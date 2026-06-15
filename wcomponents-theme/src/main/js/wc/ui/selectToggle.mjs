@@ -100,7 +100,7 @@ function writeState(form, stateContainer) {
 				state = STATE.NONE;
 			}
 			if (state !== STATE.UNKNOWN) {
-				formUpdateManager.writeStateField(stateContainer, next.getAttribute("data-wc-name"), state);
+				formUpdateManager.writeStateField(stateContainer, next.dataset.wcName, state);
 			}
 		}
 	});
@@ -114,7 +114,7 @@ function writeState(form, stateContainer) {
 		if (!shed.isDisabled(next) && isWSelectToggle(next)) {
 			if (!next.querySelector(activeControllerSelector.join())) {
 				const reportValue = "some";
-				const reportName = next.querySelector(radioSubControllerSelector).getAttribute("data-wc-name"); // note: all buttons in the selectToggle group have the same name
+				const reportName = next.querySelector(radioSubControllerSelector).dataset.wcName; // note: all buttons in the selectToggle group have the same name
 				formUpdateManager.writeStateField(stateContainer, reportName, reportValue);
 			}
 		}
@@ -190,7 +190,7 @@ function getGroup(controller) {
 	const targetElement = document.getElementById(targetId);
 	if (targetElement) {
 		if (targetElement.matches(checkboxSelector)) {
-			const groupName = targetElement.getAttribute("data-wc-group");
+			const groupName = targetElement.dataset.wcGroup;
 			if (!groupName) {
 				return [targetElement];
 			}
@@ -230,8 +230,8 @@ function getGroup(controller) {
 function activateTrigger(trigger) {
 	let _group = getControlledElements(trigger);
 	if (_group?.length) {
-		let state;
-		if (trigger.matches(controllerCheckboxSelector) || !(state = trigger.getAttribute("data-wc-value"))) {
+		let state = trigger.dataset.wcValue;
+		if (trigger.matches(controllerCheckboxSelector) || !state) {
 			state = shed.isSelected(trigger) === shed.state.DESELECTED ? STATE.NONE : STATE.ALL;
 		}
 
@@ -342,7 +342,7 @@ function setControllerStatus(controller, status) {
 		return;
 	}
 
-	if (status === STATE.MIXED || controller.getAttribute("data-wc-value") !== status) {
+	if (status === STATE.MIXED || controller.dataset.wcValue !== status) {
 		shed.deselect(controller, true);
 		return;
 	}
@@ -389,10 +389,10 @@ function controlStatusHelper(controller) {
 		return;
 	}
 	/** @type {HTMLElement[]} */
-	let selected;
+	const selected = /** @type {HTMLElement[]} */(getFilteredGroup(controlledElements));
 	if (controlledElements.length === 0) {
 		groupState = STATE.NONE;
-	} else if ((selected = /** @type {HTMLElement[]} */(getFilteredGroup(controlledElements)))) {
+	} else if (selected) {
 		if (selected.length === 0) {
 			groupState = STATE.NONE;
 		} else if (controlledElements.length === selected.length) {

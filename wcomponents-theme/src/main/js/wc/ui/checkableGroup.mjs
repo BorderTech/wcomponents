@@ -255,7 +255,7 @@ export class WOption extends HTMLElement {
 			value = this.getAttribute('value');
 
 		if (value) {
-			this.setAttribute('data-value', value);
+			this.dataset.value = value;
 			this.removeAttribute('value');
 		}
 

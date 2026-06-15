@@ -46,7 +46,7 @@ const instance = {
  * @returns {String} The href if found, otherwise falsy (actually "")
  */
 function getHref(element) {
-	return element?.getAttribute("href") || element?.getAttribute("data-wc-url") || "";
+	return element?.getAttribute("href") || element?.dataset.wcUrl || "";
 }
 
 /**

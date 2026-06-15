@@ -4,7 +4,7 @@
  * @param {boolean} [forceAncestor] Weird arg - if true, el is mandatory.
  * @returns {HTMLFormElement|null} ?
  */
-export default function(el, forceAncestor) {
+export default function getForm (el, forceAncestor) {
 	if (!el) {
 		if (!forceAncestor) {
 			return globalThis.document.querySelector("form");

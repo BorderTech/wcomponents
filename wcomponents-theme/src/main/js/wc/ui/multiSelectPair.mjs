@@ -267,7 +267,7 @@ function addRemoveSelected(fromList) {
 						// does the option we are creating the optgroup for have an optgroup parent?
 						let toOptgroup = toList.options[toIndex].parentElement;
 						if (toOptgroup.matches(optgroupSelector)) {
-							toList.insertBefore(optgroup, toOptgroup);
+							toOptgroup.before(optgroup);
 						} else {
 							toList.insertBefore(optgroup, toList.options[toIndex]);
 						}
@@ -277,7 +277,7 @@ function addRemoveSelected(fromList) {
 				}
 
 				if (parentElement.children.length === 0) {
-					fromList.removeChild(parentElement);
+					parentElement.remove();
 				}
 			} else {
 				let originalIndex = selectboxSearch.indexOf(next, orderList);
@@ -288,7 +288,7 @@ function addRemoveSelected(fromList) {
 				} else {
 					let toOptgroup = toList.options[toIndex].parentElement;
 					if (toOptgroup.matches(optgroupSelector)) {
-						toList.insertBefore(next, toOptgroup);
+						toOptgroup.before(next);
 					} else {
 						toList.insertBefore(next, toList.options[toIndex]);
 					}

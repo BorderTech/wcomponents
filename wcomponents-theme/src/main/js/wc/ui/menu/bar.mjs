@@ -252,12 +252,12 @@ function removeIconified(nextMenu) {
 		let current;
 		while ((current = submenuContent.firstChild)) {
 			if (current.classList.contains("wc_closesubmenu")) {
-				submenuContent.removeChild(current);
+				current.remove();
 			} else {
 				nextMenu.appendChild(current);
 			}
 		}
-		burger.parentNode.removeChild(burger);
+		burger.remove();
 	} finally {
 		nextMenu.classList.remove(MENU_FIXED);
 	}

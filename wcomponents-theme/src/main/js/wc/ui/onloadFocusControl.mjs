@@ -61,8 +61,8 @@ const instance = {
  * @param {boolean} [ignoreMessages] if `true` then allow focus request even if there are message boxes in the view
  */
 function doRequestFocus(targetId, ignoreMessages) {
-	var element;
-	if ((element = document.getElementById(targetId)) && canPolitelyChangeFocus(ignoreMessages)) {
+	let element = document.getElementById(targetId);
+	if (element && canPolitelyChangeFocus(ignoreMessages)) {
 		if (focus.canFocus(element)) {
 			focus.setFocusRequest(element);
 		} else if (focus.canFocusInside(element)) { // try focusing inside the target

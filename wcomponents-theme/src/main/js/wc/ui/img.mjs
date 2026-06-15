@@ -12,13 +12,13 @@ const template = (context) => `<button type="button" data-wc-editor="${context.e
 function makeEditButton(element) {
 	const id = element.id,
 		sibling = element.nextSibling;
-	if (sibling && sibling.getAttribute("data-wc-img") === id) {
+	if (sibling && sibling.dataset.wcImg === id) {
 		return;
 	}
 	i18n.translate("imgedit_edit").then(function(editButtonText) {
 		const props = {
 			id: id,
-			editor: element.getAttribute("data-wc-editor"),
+			editor: element.dataset.wcEditor,
 			text: editButtonText
 		};
 		const html = template(props);

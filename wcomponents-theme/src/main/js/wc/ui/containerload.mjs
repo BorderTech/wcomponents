@@ -85,7 +85,7 @@ function registerTrigger(element, noPost, get) {
 		method = get ? "get" : "post",
 		serialiseForm = !noPost;
 
-	const alias = element.getAttribute("data-wc-ajaxalias") || id;
+	const alias = element.dataset.wcAjaxalias || id;
 	const getData = element.getAttribute(GET_ATTRIB) || null;
 
 	ajaxRegion.register({

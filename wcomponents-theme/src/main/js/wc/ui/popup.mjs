@@ -98,9 +98,9 @@ function _open(infoArr) {
  * @param {Element} element The popup trigger which was clicked.
  */
 function popupNow(element) {
-	const url = element.getAttribute("data-wc-url");
+	const url = element.dataset.wcUrl;
 	if (url) {
-		_open([url, element.getAttribute("data-wc-window"), element.getAttribute("data-wc-specs")]);
+		_open([url, element.dataset.wcWindow, element.dataset.wcSpecs]);
 	}
 }
 

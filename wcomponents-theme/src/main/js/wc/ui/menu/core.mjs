@@ -917,16 +917,16 @@ AbstractMenu.prototype.writeMenuState = function(next, toContainer) {
 			return false;
 		}
 		return !shed.isDisabled(nextBranch) && shed.isExpanded(expandable);
-	}, this);
+	}.bind(this));
 	filteredBranches.forEach(function(nextSubMenu) {
 		writeExpandedState.call(this, nextSubMenu, toContainer);
-	}, this);
+	}.bind(this));
 
 	Array.from(getFilteredGroup(next, {
 		ignoreInnerGroups: true
 	})).forEach(function(NextItem) {
 		writeSelectedState.call(this, NextItem, toContainer);
-	}, this);
+	}.bind(this));
 	formUpdateManager.writeStateField(toContainer, `${next.id}-h`, "x");
 };
 
@@ -942,11 +942,11 @@ AbstractMenu.prototype.writeState = function(container, toContainer) {
 		// menus inside the container
 		const menus = container.querySelectorAll(this.ROOT.toString());
 		Array.from(menus).forEach((next) => this.writeMenuState(next, toContainer));
-		let root;
+		const root = this.getRoot(container);
 		// if the container is a menu
 		if (this.isRoot(container)) {
 			this.writeMenuState(container, toContainer);
-		} else if ((root = this.getRoot(container))) { // if the container is a menu item of some kind.
+		} else if (root) { // if the container is a menu item of some kind.
 			if (this._isBranch(container) || this._isLeaf(container) || this.isSubMenu(container)) {
 				this.writeMenuState(root, toContainer);
 			}

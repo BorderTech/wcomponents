@@ -323,7 +323,7 @@ class Tree extends AbstractMenu {
 		const allBranchOpeners = Array.from(root.querySelectorAll(this._wd.opener.toString()));
 		if (allBranchOpeners.length) {
 			allBranchOpeners.reverse();
-			allBranchOpeners.forEach(this[this._FUNC_MAP.OPEN], this);
+			allBranchOpeners.forEach(this[this._FUNC_MAP.OPEN].bind(this));
 		}
 	}
 
@@ -411,7 +411,7 @@ class Tree extends AbstractMenu {
 				return false;
 			}
 			return !shed.isDisabled(nextBranch) && shed.isExpanded(expandable);
-		}, this).forEach((nextBranch) => {
+		}.bind(this)).forEach((nextBranch) => {
 			const name = this._isBranch(nextBranch) ? nextBranch.id : "";
 			if (name) {  // tree
 				formUpdateManager.writeStateField(toContainer, `${rootId}.open`, name);
@@ -642,7 +642,7 @@ function isLastSelectedItemAtLevel(element, root) {
  * @param {Element} root The root of the currect tree.
  */
 function ajaxExpand(element, root) {
-	const mode = root.getAttribute("data-wc-mode");
+	const mode = root.dataset.wcMode;
 
 	if (mode && mode !== "client") {
 		const elId = element.id;

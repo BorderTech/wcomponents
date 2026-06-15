@@ -82,7 +82,7 @@ const instance = {
 				this.register(obj);
 			} else {
 				const id = element.id;
-				const alias = element.getAttribute("data-wc-ajaxalias");
+				const alias = element.dataset.wcAjaxalias;
 				const controls = element.getAttribute("aria-controls");
 				const loads = controls ? controls.split(" ") : [id];
 				this.register({ id, loads, alias });
@@ -355,7 +355,7 @@ class WAjaxTrigger extends HTMLElement {
 		const dto = toDto(this);
 		instance.register(dto);
 		// Once the trigger is registered we don't need this DOM element anymore
-		setTimeout(() => this.parentNode.removeChild(this), 0);
+		setTimeout(() => this.remove(), 0);
 	}
 }
 

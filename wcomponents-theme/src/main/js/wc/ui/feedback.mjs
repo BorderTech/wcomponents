@@ -78,7 +78,7 @@ const instance = {
 		check(box, false);
 		const messages = this.getMessages(box);
 		if (messages) {
-			messages.forEach(next => box.removeChild(next));
+			messages.forEach(next => next.remove());
 		}
 	},
 
@@ -545,7 +545,7 @@ function removeDiagnostic(diag, target) {
 	if (realDiag) {
 		const parent = realDiag.parentElement;
 		if (parent) {
-			parent.removeChild(realDiag);
+			realDiag.remove();
 		}
 		if (realTarget) {
 			toggleValidity(realTarget, true);

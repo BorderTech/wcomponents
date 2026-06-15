@@ -27,7 +27,7 @@ function makeLegend(el) {
 	if (label) {
 		labelContent = label.innerHTML;
 		labelClass += label.className;
-		accesskey = label.getAttribute("data-wc-accesskey");
+		accesskey = label.dataset.wcAccesskey;
 	} else {
 		labelContent = el.getAttribute("aria-label");
 		if (labelContent) {

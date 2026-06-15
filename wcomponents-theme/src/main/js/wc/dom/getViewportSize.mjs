@@ -10,7 +10,7 @@ const { window } = globalThis;
  * @param {Window} [view] Optionally provide the window to use
  * @returns {{ width: number, height: number }} The viewport size, in pixels, encapsulated in an object.
  */
-export default function(withoutScrollbars, view = window) {
+export default function getViewportSize (withoutScrollbars, view = window) {
 	const DOCUMENT_ELEMENT = view.document.documentElement,
 		SELF = view.self,
 		thisViewportView = view.top.visualViewport,

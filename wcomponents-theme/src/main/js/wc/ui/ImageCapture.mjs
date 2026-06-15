@@ -38,7 +38,7 @@ function ImageCapture(imageEdit) {
 				const video = _video || getVideo();
 				container.classList.remove("wc_showcam");
 				this.stop();
-				video.parentNode.removeChild(video);
+				video.remove();
 			};
 		activateCameraControl.call(this, eventConfig, container);
 		click.snap = {
@@ -162,7 +162,7 @@ function ImageCapture(imageEdit) {
 		const globalConf = wcconfig.get("wc/ui/imageEdit", {
 			options: {}
 		});
-		currentOptions = Object.assign({}, defaultOptions, globalConf.options, options);
+		currentOptions = { ...defaultOptions, ...globalConf.options, ...options };
 		currentOptions.width *= 1;
 		currentOptions.height *= 1;
 		gumWithFallback(currentOptions, playCb, errCb);

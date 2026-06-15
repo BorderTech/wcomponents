@@ -102,9 +102,9 @@ const instance = {
 	isContainerComplete: function(container) {
 		let result;  // start by assuming that nothing is complete but undefined is needed too
 
-		if (container.getAttribute("data-wc-name") && container.hasAttribute("data-wc-value")) {
+		if (container.dataset.wcName && Object.hasOwn(container.dataset, "wcValue")) {
 			// a control may have a name analog but no value analog and still not be incomplete, weird eh? (see selectToggle)
-			result = !!container.getAttribute("data-wc-value");
+			result = !!container.dataset.wcValue;
 		} else {
 			if (observer) {
 				observer.setFilter(OBSERVER_GROUP);

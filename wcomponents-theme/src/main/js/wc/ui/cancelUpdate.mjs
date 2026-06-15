@@ -160,7 +160,7 @@ function getCurrentState(form) {
  * @returns {Boolean} false if the element should be vetoed.
  */
 function isDirty(element) {
-	return !element.hasAttribute("data-wc-clean");
+	return !Object.hasOwn(element.dataset, "wcClean");
 }
 
 /**
@@ -261,7 +261,7 @@ function cancelSubmit(element, submitter) {
 		keep = true,
 		result;
 	if (!loading) {
-		let msg = (submitter ? submitter.getAttribute("data-wc-btnmsg") : "");
+		let msg = (submitter ? submitter.dataset.wcBtnmsg : "");
 		if (!msg) {
 			const form = element["form"] || submitter["form"] || element.closest("form");
 			const formTitle = form?.getAttribute("title");

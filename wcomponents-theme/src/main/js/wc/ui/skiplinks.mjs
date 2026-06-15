@@ -15,7 +15,7 @@ function setup() {
 		skipLinkContainer.innerHTML = "";
 
 		Array.from(b.querySelectorAll(panelOfInterestSelector)).forEach(function (next) {
-			const id = next.id, title = next.getAttribute("data-wc-title");
+			const id = next.id, title = next.dataset.wcTitle;
 			if (id && title) {
 				skipLinkContainer.insertAdjacentHTML("beforeend", template(id, title));
 			}

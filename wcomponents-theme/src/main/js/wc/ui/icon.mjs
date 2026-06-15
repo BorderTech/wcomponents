@@ -47,7 +47,7 @@ const instance = {
 			const icon = getIcon(element);
 			if (icon.classList.length === 1) {
 				// only `fa` left
-				icon.parentNode.removeChild(icon);
+				icon.remove();
 			}
 		}
 	},

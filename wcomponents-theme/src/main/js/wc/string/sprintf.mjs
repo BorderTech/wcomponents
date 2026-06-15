@@ -11,7 +11,7 @@ const { window } = globalThis;
  * @param {any[]} args
  * @returns {string} ?
  */
-export default function(...args) {
+export default function sprintf (...args) {
 	// @ts-ignore
 	return window.sprintf(...args);
 }

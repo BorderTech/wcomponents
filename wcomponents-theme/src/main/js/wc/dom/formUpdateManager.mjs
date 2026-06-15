@@ -143,7 +143,7 @@ const formUpdateManager = {
 				stateField.type = "hidden";
 				stateField.name = name;
 				if (clean) {
-					stateField.setAttribute("data-wc-clean", clean.toString());
+					stateField.dataset.wcClean = clean.toString();
 				}
 				if (value !== undefined && value !== null) {  // don't write null or undefined, really, don't
 					stateField.value = value;

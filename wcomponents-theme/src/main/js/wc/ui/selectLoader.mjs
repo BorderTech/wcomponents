@@ -34,7 +34,7 @@ const instance = {
 			lose = errorCallbackFactory(id);
 		if (element) {
 			element.setAttribute("aria-busy", "true");
-			listLoader.load(element.getAttribute("data-wc-list"), element, false).then(win, lose);
+			listLoader.load(element.dataset.wcList, element, false).then(win, lose);
 		}
 	}
 };

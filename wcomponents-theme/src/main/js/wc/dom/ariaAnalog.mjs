@@ -416,9 +416,9 @@ AriaAnalog.prototype.writeState = function(form, container) {
 		if (Array.isArray(selectedItems)) {
 			selectedItems.forEach(function (next) {
 				if (next.hasAttribute(this.VALUE_ATTRIB) && !shed.isDisabled(next)) {
-					formUpdateManager.writeStateField(container, next.getAttribute("data-wc-name"), next.getAttribute(this.VALUE_ATTRIB));
+					formUpdateManager.writeStateField(container, next.dataset.wcName, next.getAttribute(this.VALUE_ATTRIB));
 				}
-			}, this);
+			}.bind(this));
 		}
 	}
 };

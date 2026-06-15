@@ -274,7 +274,7 @@ const diagnostic = {
 			return null;
 		}
 
-		const targetId = diag.getAttribute("data-wc-dfor");
+		const targetId = diag.dataset.wcDfor;
 		if (targetId) {
 			return diag.ownerDocument.getElementById(targetId);
 		}

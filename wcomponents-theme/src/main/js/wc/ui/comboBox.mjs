@@ -236,7 +236,7 @@ function updateList(element) {
 		return;
 	}
 
-	const min = list.getAttribute("data-wc-minchars") || conf.min;
+	const min = list.dataset.wcMinchars || conf.min;
 	if (element.value.length >= min) {
 		if (!shed.isExpanded(combo)) {
 			shed.expand(combo);
@@ -326,7 +326,7 @@ function shedSubscriber($event) {
 			onchangeSubmit.clearIgnoreChange();
 			ajaxRegion.clearIgnoreChange();
 
-			if (element.getAttribute("data-wc-listcomplete") === "true") {
+			if (element.dataset.wcListcomplete === "true") {
 				acceptFirstMatch(element);
 			}
 			openSelect = "";
@@ -775,15 +775,15 @@ function moveSuggestionList(el) {
 	if (listBox) {
 		return;
 	}
-	let listId = el.getAttribute("data-wc-suggest");
+	let listId = el.dataset.wcSuggest;
 	if (!listId) {
 		return;
 	}
 	listBox = /** @type {HTMLUListElement} */ (document.getElementById(listId));
 	if (listBox) {
 		el.appendChild(listBox);
-		if (listBox.getAttribute("data-wc-auto") === "list") {
-			el.setAttribute("data-wc-listcomplete", "true");
+		if (listBox.dataset.wcAuto === "list") {
+			el.dataset.wcListcomplete = "true";
 		}
 	} else {
 		el.insertAdjacentHTML("beforeend", `<span role="listbox" aria-busy="true" id="${listId}"></span>`);

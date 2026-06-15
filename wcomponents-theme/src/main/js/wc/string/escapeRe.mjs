@@ -20,7 +20,7 @@ const RE_RE = /([.*+?^{}$()|[\]/\\])/g,
 function escapeRe(string, allowWildcard) {
 	let result;
 	if (allowWildcard) {
-		result = string.replace(NO_WILDCARD_RE, REPLACER).replace(WILDCARD_RE, ".*");
+		result = string.replace(NO_WILDCARD_RE, REPLACER).replaceAll(WILDCARD_RE, ".*");
 	} else {
 		result = string.replace(RE_RE, REPLACER);
 	}

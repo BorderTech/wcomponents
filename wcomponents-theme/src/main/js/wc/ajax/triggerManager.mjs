@@ -118,7 +118,7 @@ function TriggerManager() {
 		}
 		if (result) {
 			let triggerParams;
-			if (ref.getAttribute && (triggerParams = ref.getAttribute("data-wc-params"))) {
+			if (ref.getAttribute && (triggerParams = ref.dataset.wcParams)) {
 				result._triggerParams = triggerParams;
 			} else {
 				delete result._triggerParams;

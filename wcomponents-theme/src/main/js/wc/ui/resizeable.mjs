@@ -61,7 +61,7 @@ function Resizeable() {
 	 * @returns {String} Values are "v" for only vertical, "h" for only horizontal or "" for both.
 	 */
 	function getAllowedDirections(element) {
-		return element.getAttribute("data-wc-resizedirection");
+		return element.dataset.wcResizedirection;
 	}
 
 	function getNotifyTimeout() {
@@ -121,7 +121,7 @@ function Resizeable() {
 	 */
 	function getResizeTarget(element) {
 		let result = element;
-		const targetId = element.getAttribute("data-wc-resize");
+		const targetId = element.dataset.wcResize;
 		if (targetId) {
 			result = document.getElementById(targetId);
 		}

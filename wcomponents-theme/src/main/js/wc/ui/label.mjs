@@ -54,7 +54,7 @@ const instance = {
 				}
 				hint.insertAdjacentHTML(BEFORE_END, content);
 			} else {
-				hint.parentNode.removeChild(hint);
+				hint.remove();
 			}
 		} else if (content) {
 			let html = `<span class='${CLASS_HINT}'>${content}</span>`;
@@ -172,10 +172,9 @@ function shedHideSubscriber($event) {
  */
 function convertLabel(element, label, isRO) {
 	let newLabellingElement, input;
-	const parent = label.parentElement;
 	if (isRO) {
 		newLabellingElement = element.ownerDocument.createElement("span");
-		newLabellingElement.setAttribute("data-wc-rofor", element.id);
+		newLabellingElement.dataset.wcRofor = element.id;
 	} else {
 		newLabellingElement = element.ownerDocument.createElement("label");
 		input = wrappedInput.getInput(element);
@@ -196,8 +195,8 @@ function convertLabel(element, label, isRO) {
 	}
 	newLabellingElement.id = label.id;
 	label.id = "";
-	parent.insertBefore(newLabellingElement, label);
-	parent.removeChild(label);
+	label.before(newLabellingElement);
+	label.remove();
 	// Add submitOnChange warnings.
 	if (!isRO) {
 		// this cannot be a module level dependency as it would cause a circular
@@ -243,7 +242,7 @@ function checkboxLabelPositionHelper(input, label) {
 		const parent = input.parentElement;
 		const refElement = input.nextSibling;
 		if (refElement) {
-			parent.insertBefore(labelElement, refElement);
+			refElement.before(labelElement);
 		} else {
 			parent.appendChild(labelElement);
 		}
@@ -252,7 +251,7 @@ function checkboxLabelPositionHelper(input, label) {
 
 	const refElement = feedback.getBox(input, -1);
 	if (refElement?.parentElement === input) {
-		input.insertBefore(labelElement, refElement);
+		refElement.before(labelElement);
 	} else {
 		input.appendChild(labelElement);
 	}
@@ -302,7 +301,7 @@ function moveLabel(el) {
 	const parent = el.parentElement;
 	const refElement = el.nextSibling;
 	if (refElement) {
-		parent.insertBefore(label, refElement);
+		refElement.before(label);
 	} else {
 		parent.appendChild(label);
 	}

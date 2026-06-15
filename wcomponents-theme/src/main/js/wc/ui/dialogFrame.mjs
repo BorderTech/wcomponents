@@ -77,18 +77,18 @@ const instance = {
 	 * @function module:wc/ui/dialogFrame.open
 	 * @public
 	 * @param {module:wc/ui/dialogFrame~dto} dto The config options for the dialog to be opened.
-	 * @returns {Promise} The promise will be a rejection if the dialog is not able to be opened.
+	 * @returns {Promise<any>} The promise will be a rejection if the dialog is not able to be opened.
 	 */
 	open: function (dto) {
 		const dialog = instance.getDialog();
-		let form;
+		const form = getDlgForm(dto);
 
 		if (dialog) {
 			if (!this.isOpen(dialog)) {
 				return openDlgHelper(dto);
 			}
 			return Promise.reject(new Error(REJECT.ALREADY_OPEN));
-		} else if ((form = getDlgForm(dto))) {
+		} else if (form) {
 			const formId = form.id || (form.id = uid());
 
 			if (formId) {
@@ -197,7 +197,7 @@ const instance = {
 		const content = this.getContent();
 
 		if (content) {
-			content.removeAttribute("data-wc-get");
+			delete content.dataset.wcGet;
 			content.id = id || "";
 			content.className = CONTENT_BASE_CLASS;
 

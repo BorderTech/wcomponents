@@ -135,7 +135,7 @@ function MultiFileUploader() {
 			if (container?.classList.contains(CLASS_AJAX_UPLOADER)) {
 				const trigger = element.closest(itemActivationWd);
 				if (trigger) {
-					trigger.setAttribute("data-wc-params", `wc_fileid=${encodeURIComponent(fileInfo.id)}`);
+					trigger.dataset.wcParams = `wc_fileid=${encodeURIComponent(fileInfo.id)}`;
 					console.log("wc_fileid", fileInfo.id);
 				}
 			}
@@ -156,7 +156,7 @@ function MultiFileUploader() {
 	function removeFileItem(fileInfo) {
 		const container = fileInfo.closest(containerWd);
 		if (container) {
-			fileInfo.parentNode.removeChild(fileInfo);
+			fileInfo.remove();
 			let xhr;
 			if (inflightXhrs.hasOwnProperty(fileInfo.id) && (xhr = inflightXhrs[fileInfo.id])) {
 				if (xhr.abort) {
@@ -257,7 +257,7 @@ function MultiFileUploader() {
 					});
 				},
 				upload = function(obj) {
-					const editorId = element.getAttribute("data-wc-editor");
+					const editorId = element.dataset.wcEditor;
 					if (!suppressEdit && editorId) {
 						// @ts-ignore
 						import("wc/ui/imageEdit.mjs").then(function (module) {
@@ -427,7 +427,7 @@ function MultiFileUploader() {
 			oldFile.innerHTML = newFile.innerHTML;
 			return;
 		}
-		const containerId = newFile.getAttribute("data-wc-containerid");
+		const containerId = newFile.dataset.wcContainerid;
 		const container = document.getElementById(containerId);
 		if (container) {
 			// This is an extreme edge case - if the fileWidget UI has been replaced during upload attempt to recover
@@ -502,7 +502,7 @@ function MultiFileUploader() {
 		let input;
 		const element = document.getElementById(id);
 		if (element && (input = element.querySelector(inputElementWd))) {
-			const dropzoneId = input.getAttribute("data-dropzone");
+			const dropzoneId = input.dataset.dropzone;
 			if (dropzoneId) {
 				input = null;
 				filedrop.register(dropzoneId, (type, files) => {

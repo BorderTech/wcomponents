@@ -172,7 +172,7 @@ function writeState(form, stateContainer) {
 				return shed.isExpanded(row);
 			});
 		rows.forEach(function(row) {
-			const rowIndex = row.getAttribute("data-wc-rowindex");
+			const rowIndex = row.dataset.wcRowindex;
 			formUpdateManager.writeStateField(stateContainer, id + ".expanded", rowIndex, false, true);
 		});
 	});

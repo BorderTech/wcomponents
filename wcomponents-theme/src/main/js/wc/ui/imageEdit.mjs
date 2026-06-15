@@ -129,7 +129,7 @@ const imageEdit = {
 		if (obj) {
 			let instanceConfig = registeredIds[obj.id] || registeredIds[obj.name];
 			if (!instanceConfig) {
-				let editorId = ("getAttribute" in obj) ? obj.getAttribute("data-wc-editor") : obj.editorId;
+				let editorId = ("getAttribute" in obj) ? obj.dataset.wcEditor : obj.editorId;
 				if (editorId) {
 					instanceConfig = registeredIds[editorId];
 				}
@@ -326,11 +326,11 @@ function getImageCapture() {
 function clickEvent($event) {
 	const element = BUTTON.findAncestor($event.target);
 	if (element) {
-		const id = element.getAttribute("data-wc-selector");
+		const id = element.dataset.wcSelector;
 		if (id && element.localName === "button") {
 			const uploader = document.getElementById(id);
 			if (uploader) {
-				const img = /** @type {HTMLImageElement} */(document.getElementById(element.getAttribute("data-wc-img")));
+				const img = /** @type {HTMLImageElement} */(document.getElementById(element.dataset.wcImg));
 				if (img) {
 					const file = imgToFile(img);
 					imageEdit.upload(uploader, [file]);
@@ -339,7 +339,7 @@ function clickEvent($event) {
 					const lose = message => message ? prompt.alert(message) : '';
 					imageEdit.editFiles({
 						id: id,
-						name: element.getAttribute("data-wc-editor")
+						name: element.dataset.wcEditor
 					}, win, lose);
 				}
 			}
@@ -585,7 +585,7 @@ function getEditor(config, callbacks, file) {
 			};
 		return getTranslations(editorProps).then(() => {
 			container.className = "wc_img_editor";
-			container.setAttribute("data-wc-editor", config.id);
+			container.dataset.wcEditor = config.id;
 			return new Promise((win, lose) => {
 				timers.setTimeout(() => {
 					try {
@@ -1200,7 +1200,7 @@ function saveImage(args) {
 		done = function() {
 			fbCanvas = null;  // = canvasElement
 			getImageCapture().stop();
-			editor.parentNode.removeChild(editor);
+			editor.remove();
 		};
 	try {
 		if (args.cancel) {
@@ -1279,7 +1279,7 @@ function getCanvasAsDataUrl(editor) {
  */
 function getFileSelector(editor) {
 	// TO-DO: This doesn't seem right
-	const editorId = editor.getAttribute("data-wc-editor");
+	const editorId = editor.dataset.wcEditor;
 	return /** @type {HTMLInputElement} */(document.querySelector(`input[type=file][data-wc-editor='${editorId}']`));
 }
 

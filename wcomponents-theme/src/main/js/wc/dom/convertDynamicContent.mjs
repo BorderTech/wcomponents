@@ -25,6 +25,6 @@ function convert (container) {
 	while (tempContainer.firstChild) {
 		container.appendChild(tempContainer.firstChild);
 	}
-	tempContainer.parentNode.removeChild(tempContainer);
+	tempContainer.remove();
 }
 export default convert;

@@ -119,7 +119,7 @@ function writeState(container, stateContainer) {
 
 		// we need to do the reverse look-up to allow for the possibility of nested tables.
 		if (next === sortedColumn?.closest(SORTABLE_TABLE)) {
-			formUpdateManager.writeStateField(stateContainer, tableId + ".sort", sortedColumn.getAttribute("data-wc-columnidx"));
+			formUpdateManager.writeStateField(stateContainer, tableId + ".sort", sortedColumn.dataset.wcColumnidx);
 			if (sortedColumn.getAttribute("sorted").includes("reversed")) {
 				formUpdateManager.writeStateField(stateContainer, tableId + ".sortDesc", "true");
 			}

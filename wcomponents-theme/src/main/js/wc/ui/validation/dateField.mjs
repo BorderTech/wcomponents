@@ -157,7 +157,7 @@ function validate(container) {
 	if (dateField.isOneOfMe(container, true)) {
 		valid = dateField.isReadOnly(container) || !isDateInvalid(container);
 	} else {
-		let invalid = candidates.filter(isDateInvalid, this);
+		let invalid = candidates.filter(isDateInvalid.bind(this));
 		if (invalid?.length) {
 			valid = false;
 		}

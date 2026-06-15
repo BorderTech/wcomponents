@@ -16,7 +16,7 @@ const { console, window } = globalThis;
  * TO-DO investigate other browser means to achieve this, and if there is a w3c standard.
  * @alias module:wc/dom/clearSelection
  */
-export default function() {
+export default function clearSelection () {
 	let selection = window.getSelection();
 	if (selection?.removeAllRanges) {
 		selection.removeAllRanges();

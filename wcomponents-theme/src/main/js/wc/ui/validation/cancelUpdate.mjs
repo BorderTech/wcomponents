@@ -24,7 +24,7 @@ const noValidateButtonSelector = `${submitControlSelector}[formnovalidate]`;
  * @returns {boolean} true if the form (or sub-form) is invalid.
  */
 function isInvalid(submitter) {
-	const validationId = submitter.getAttribute("data-wc-validate");
+	const validationId = submitter.dataset.wcValidate;
 	let validationContainer;
 	if (validationId) {
 		validationContainer = globalThis.document.getElementById(validationId);

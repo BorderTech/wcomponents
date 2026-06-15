@@ -69,7 +69,7 @@ function checkFileSize(args) {
  */
 function getMax(element) {
 	if (element) {
-		return Number.parseInt(element.getAttribute("data-wc-maxfilesize")) || 0;
+		return Number.parseInt(element.dataset.wcMaxfilesize) || 0;
 	}
 	return 0;
 }

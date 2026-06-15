@@ -53,7 +53,7 @@ function getWrapper(element) {
  */
 function isAjax(element) {
 	const wrapper = getWrapper(element);
-	return wrapper?.getAttribute("data-wc-pagemode") === "dynamic";
+	return wrapper?.dataset.wcPagemode === "dynamic";
 }
 
 /**
@@ -86,9 +86,9 @@ function translate(wrapper) {
 				next.innerHTML = i18nString;
 			};
 			// we have the correct spans
-			const rows = next.getAttribute("data-wc-tablerows");
-			const rpp = next.getAttribute("data-wc-tablerpp");
-			const currentPage = next.getAttribute("data-wc-tablepage");
+			const rows = next.dataset.wcTablerows;
+			const rpp = next.dataset.wcTablerpp;
+			const currentPage = next.dataset.wcTablepage;
 			if (!(rows && rpp)) {
 				return;
 			}
@@ -427,7 +427,7 @@ function changePage(element, button) {
 	const page = findChild(paginatedTable, PAGE);
 	if (wrapper && paginatedTable && page) {
 		const rows = Array.from(page.children).filter(kid => kid.matches(ROW));
-		const rowsPerPage = Number(paginatedTable.getAttribute("data-wc-rpp"));
+		const rowsPerPage = Number(paginatedTable.dataset.wcRpp);
 		let i;
 		for (i = 0; i < rows.length; i++) {  // don't "let i" here
 			if (!shed.isHidden(rows[i])) {

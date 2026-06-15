@@ -45,7 +45,7 @@ function selectToOptions(dataList, optionList) {
 	for (const element of options) {
 		let next = element;
 		let item = document.createElement("span");
-		item.setAttribute("data-wc-value", next.innerHTML);
+		item.dataset.wcValue = next.innerHTML;
 		item.setAttribute("role", "option");
 		item.className = "wc-invite";
 		item.innerHTML = next.innerHTML;

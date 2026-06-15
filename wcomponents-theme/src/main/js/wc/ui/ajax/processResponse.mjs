@@ -169,15 +169,15 @@ function processResponseHtml(documentFragment, trigger) {
 		if (doc) {
 			const targets = doc.querySelectorAll(".wc-ajaxtarget");
 			for (const next of targets) {
-				next.parentNode.removeChild(next);  // remove the target wrapper
+				next.remove();  // remove the target wrapper
 				if (next.nodeType === Node.ELEMENT_NODE) {
-					let targetId = next.getAttribute("data-id");
+					let targetId = next.dataset.id;
 					let element = document.getElementById(targetId);
 					if (element) {
 						/* Since the ui:ajaxresponse is essentially thrown away we need to move any of its interesting attributes to the target element.
 						 * In reality this is to catch the onLoadFocusId attribute, but we'll try to pretend it's generic. */
 						mergeAttributes(doc, next);
-						let action = next.getAttribute("data-action");
+						let action = next.dataset.action;
 						let content = document.createDocumentFragment();
 						while (next.firstChild) {
 							content.appendChild(next.firstChild);
@@ -314,7 +314,7 @@ function replaceElement(element, content) {
 		if (child.nodeType === Node.ELEMENT_NODE) {
 			result[result.length] = parent.insertBefore(child, element);
 		} else {
-			_content.removeChild(child);
+			child.remove();
 		}
 	}
 
@@ -361,7 +361,7 @@ function replaceIn(element, content) {
 		}
 
 		if (wrapper.firstChild) {  // should have been removed.
-			wrapper.removeChild(wrapper.firstChild);
+			wrapper.firstChild.remove();
 		}
 	}
 	return result;
@@ -369,7 +369,7 @@ function replaceIn(element, content) {
 
 function removeDuplicateElements(duplicates) {
 	duplicates.forEach(function(next) {
-		next.parentNode.removeChild(next);
+		next.remove();
 	});
 }
 
@@ -427,7 +427,7 @@ function extractScriptsFromContent(content) {
 		}
 
 		for (const element of scripts) {
-			result[result.length] = element.parentNode.removeChild(element);
+			result[result.length] = element.remove();
 		}
 	} catch (ex) {
 		console.error("Could not extract scripts from content ", ex.message);

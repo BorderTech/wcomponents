@@ -28,7 +28,7 @@ function clickEvent($event) {
 	}
 	/** @type {HTMLButtonElement} */
 	const element = target.closest(buttonQs);
-	const url = element?.getAttribute("data-wc-url");
+	const url = element?.dataset.wcUrl;
 
 	if (url && !shed.isDisabled(element) && !popup.isOneOfMe(element) && !launchLink.isInlineLink(element)) {
 		const form = element.matches(cancelButtonQs) ? element.closest("form") : null;

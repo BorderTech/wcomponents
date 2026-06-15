@@ -77,7 +77,7 @@ function move(element) {
 			case UP:
 				reference = option.previousElementSibling;
 				if (reference && !selected.includes(reference)) {  // the test on selected is to prevent a group of consecutive options at the top or bottom fighting each other
-					parent.insertBefore(option, reference);
+					reference.before(option);
 				}
 				break;
 			case DOWN:
@@ -87,7 +87,7 @@ function move(element) {
 				}
 				if (reference) {
 					if (!selected.includes(option.nextElementSibling) || !selected.includes(reference)) {
-						parent.insertBefore(option, reference);
+						reference.before(option);
 					}
 					break;
 				}
@@ -100,7 +100,7 @@ function move(element) {
 			case TOP:
 				reference = parent.firstElementChild;
 				if (reference && reference !== option) {
-					parent.insertBefore(option, reference);
+					reference.before(option);
 				}
 				break;
 			case BOTTOM:

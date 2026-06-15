@@ -51,7 +51,7 @@ function ajaxSubscriber(element, documentFragment) {
 		if (layout.classList.contains("stacked")) {
 			const pl = fieldElement.querySelector(placeholderSelector);
 			if (pl) {
-				pl.parentElement.removeChild(pl);
+				pl.remove();
 			}
 		}
 	}

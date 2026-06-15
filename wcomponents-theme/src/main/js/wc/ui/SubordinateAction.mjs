@@ -201,7 +201,7 @@ function initActionConstructor() {
 	Action.prototype.isTargeted = function(id) {
 		return this.targets.some(function(target) {
 			return target.isTargeted(id);
-		}, this);
+		});
 	};
 
 	/**

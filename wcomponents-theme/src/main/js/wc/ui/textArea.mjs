@@ -68,7 +68,7 @@ const instance = {
 	 * @returns {number} The minimum character count for this textarea or 0 if it is not constrained.
 	 */
 	getMinlength: function(element) {
-		const result = element.getAttribute("minlength") || element.getAttribute("data-wc-min");
+		const result = element.getAttribute("minlength") || element.dataset.wcMin;
 		if (result) {
 			return Number.parseInt(result);
 		}
@@ -81,7 +81,7 @@ const instance = {
 	 * @returns {number} The maximum character count for this textarea or 0 if it is not constrained.
 	 */
 	getMaxlength: function(element) {
-		const result = element.getAttribute("maxlength") || element.getAttribute("data-wc-maxlength");
+		const result = element.getAttribute("maxlength") || element.dataset.wcMaxlength;
 		if (result) {
 			return Number.parseInt(result);
 		}

@@ -108,7 +108,7 @@ function toggleThisCollapsible(collapsible, open) {
  * @param {Element} element The toggler.
  */
 function toggleGroup(element) {
-	const open = element.getAttribute("data-wc-value") === EXPAND;
+	const open = element.dataset.wcValue === EXPAND;
 	const collapsibles = getControlled(element);
 	if (collapsibles) {
 		collapsibles.forEach(function(next) {
@@ -146,7 +146,7 @@ function getControllers(element) {
 }
 
 function setControllerState(controller) {
-	const testVal = controller.getAttribute("data-wc-value");
+	const testVal = controller.dataset.wcValue;
 
 	if (areAllInExpandedState(controller, testVal === "expand")) {
 		shed.select(controller, true);  // no need to publish
@@ -179,7 +179,7 @@ function collapsibleObserver(element) {
  * @returns {undefined}
  */
 function setControlList(element) {
-	const groupName = element.getAttribute("data-wc-group");
+	const groupName = element.dataset.wcGroup;
 	const groupSelector = `[data-wc-group='${groupName}']`;
 	const targetSelectors = [`${collapsibleSelector}${groupSelector}`, `${tabsetSelector}${groupSelector}`];
 	let targets = document.body.querySelectorAll(targetSelectors.join());
