@@ -15,7 +15,6 @@ const
 
 /**
  * Build an object defining states as bit masks from a string array.
- *
  * @function buildBitMask
  * @private
  * @param {Array<string>} keys An array of strings that will become the keys of the bitmask.
@@ -39,23 +38,18 @@ function buildBitMask(keys) {
  * Note: subgroups are honored, for example if you pass an option element the result set will be confined to
  * sibling options within the same optgroup (if the option is in an optgroup). If not contained in an optgroup
  * then the entire select list will be searched.
- *
  * @function module:wc/dom/getFilteredGroup
- *
  * @example  // the simplest usage, gets selected items
  * var radio = document.getElementById("radioId"),
  *     selectedItems = getFilteredGroup(radio);
- *
  * @example  // get disabled items in a radio group
  * var radio = document.getElementById("radioId"),
  *     disabledItems = getFilteredGroup(radio, {filter:getFilteredGroup.FILTERS.disabled});
- *
  * @example  // get items which are both selected and disabled in a radio group (silly I know)
  * var radio = document.getElementById("radioId"),
  *     disabledSelectedItems = getFilteredGroup(radio, {
  *         filter:getFilteredGroup.FILTERS.selected + getFilteredGroup.FILTERS.disabled
  *     });
- *
  * @param {Element|Element[]} element An element which belongs to (or defines) the group OR the group itself as
  *    an array.
  * @param {module:wc/dom/getFilteredGroup~config} [config] Arguments to tweak the default behavior of this
@@ -116,7 +110,6 @@ function getFilteredGroup(element, config = {}) {
 /**
  * An object each property of which is a bitmask representing one of the available filters. These are then used
  * to build a filter property to pass in the configuration object {@link module:wc/dom/getFilteredGroup~config}.
- *
  * @public
  * @static
  * @typedef {Object} getFilteredGroup.FILTERS

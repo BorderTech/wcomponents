@@ -131,7 +131,6 @@ function errorCallbackFactory(id) {
  * @param {string} id
  * @param {boolean} create
  * @return {HTMLElement|null}
- *
  */
 function getErrorMessage(id, create) {
 	const element = document.getElementById(id),
@@ -188,7 +187,6 @@ function processNow(idArr) {
  * Even with the above concession to IE, using a select instead of a documentFragment IE8 still has further issues in
  *   that you can't say sel1.innerHTML = sel2.innerHTML.  So we are forced to loop through each option and add then one
  *   by one for IE8 (tested on IE9, still can't do it).
- *
  * @module
  */
 

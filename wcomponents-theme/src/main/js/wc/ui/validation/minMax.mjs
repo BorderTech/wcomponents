@@ -10,7 +10,6 @@ const MIN = "data-wc-min",
  * Provides all the min and max selection constraint validation for multi-selectable controls.
  *
  * TO-DO: Split this up to remove nested functions.
- *
  * @function
  * @alias module:wc/ui/validation/minMax
  * @param {module:wc/ui/validation/minMax~config} conf Contains the validator configuration options.

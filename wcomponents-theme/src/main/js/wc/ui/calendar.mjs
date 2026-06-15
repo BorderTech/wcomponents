@@ -345,7 +345,6 @@ function yearChanged(yearElement) {
 
 /**
  * Hide the calendar.
- *
  * @param {Boolean} [ignoreFocusReset] If true do not attempt to re-focus the calendar icon this is required by
  * {@link module:wc/ui/calendar~selectDay} which needs to focus the dateField not the calendar icon
  * in order to bootstrap the field.
@@ -367,7 +366,6 @@ function hideCalendar(ignoreFocusReset) {
 
 /**
  * Helper for keydown event listener which handles key presses on year input.
- *
  * @function
  * @private
  * @param {HTMLInputElement} element The calendar's year input.
@@ -381,7 +379,6 @@ function keydownHelperChangeYear(element, keyCode) {
 
 /**
  * Helper for keydown event listener which handles key presses on date pick buttons.
- *
  * @function
  * @private
  * @param {Element} element the target of the keydown event previously determined as a picker button.
@@ -921,7 +918,6 @@ function changeMonth(element) {
 
 /**
  * Actually does the work of activating a calendar launch button. Shows the calendar if it is possible to do so.
- *
  * @function
  * @private
  * @param {HTMLInputElement|HTMLButtonElement} element The launch control button or date input.
@@ -1106,7 +1102,6 @@ function reposEvent() {
 
 /**
  * Focus handler to close the calendar is anything outside the current dateField is focused.
- *
  * @function
  * @private
  * @param {FocusEvent & {target:HTMLElement}} $event A focus[in] event.
@@ -1131,7 +1126,6 @@ function focusEvent($event) {
 const instance = {
 	/**
 	 * Public for testing.
-	 *
 	 * @function module:wc/ui/calendar._keydownEventHandler
 	 * @public
 	 * @ignore
@@ -1169,7 +1163,6 @@ const initialiser = {
 
 	/**
 	 * Event wire up on initialise.
-	 *
 	 * @function module:wc/ui/calendar.initialise
 	 * @public
 	 * @param {Element} element The element being initialised, usually document.body.

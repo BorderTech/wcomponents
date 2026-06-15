@@ -3,10 +3,8 @@ import getViewportSize from "wc/dom/getViewportSize.mjs";
 
 /**
  * Tests if an element is partially out of viewport.
- *
  * @function
  * @alias module:wc/dom/viewportCollision
- *
  * @param {Element} element The element to test for viewport collision.
  * @returns {{ n: number, s: number, e: number, w: number}} with amount of collision (if any) where n & w < 0 when colliding and
  *    s & e > 0 when colliding

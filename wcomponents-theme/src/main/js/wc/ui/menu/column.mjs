@@ -30,7 +30,6 @@ class Column extends AbstractMenu {
 
 	/**
 	 * Reset the key map based on the type and/or state of the menu item passed in.
-	 *
 	 * @function
 	 * @override
 	 * @param {Element} item The menu item which has focus.
@@ -53,7 +52,6 @@ class Column extends AbstractMenu {
 
 	/**
 	 * Sets up the initial keymap for column menus as per http://www.w3.org/TR/wai-aria-practices/#menu.
-	 *
 	 * @function
 	 * @override
 	 */

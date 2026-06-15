@@ -23,7 +23,6 @@ const instance = {
 	/**
 	 * the majority of components required validation is all the same: a component is required or aria-required,
 	 * it is incomplete, it gets a standard message and the flag is applied to the element "afterEnd".
-	 *
 	 * @function module:wc/ui/validation/required.doItAllForMe
 	 * @param {Element} container the container being validated.
 	 * @param {string} widget the descriptor of the component being tested.
@@ -46,7 +45,6 @@ const instance = {
 	/**
 	 * A helper for doing all the required validation but allowing individual components to set a lot of
 	 * optional parameters.
-	 *
 	 * @function module:wc/ui/validation/required.complexValidationHelper
 	 * @param {module:wc/ui/validation/required~config} obj Configuration parameters.
 	 * @returns {Boolean} true if `obj.container` is valid.
@@ -78,7 +76,6 @@ const instance = {
 	 * <code>validationManager.isInvalid</code> for element but is not dependent on that. It is just better
 	 * practice to do so before doing any further revalidation, but you could turn on in-context validation for
 	 * all change events by not doing that test.
-	 *
 	 * @function module:wc/ui/validation/required.revalidate
 	 * @param {Element} element The element to re-validate.
 	 * @param {module:wc/ui/validation/required~config} config Configuration parameters.
@@ -93,7 +90,6 @@ const instance = {
 
 	/**
 	 * Gets all required instances of a given Widget in a container.
-	 *
 	 * @function module:wc/ui/validation/required.getRequired
 	 * @param {Element} container Where to look (we look inside, container doesn't count).
 	 * @param {string} widget A Widget describing the type of component for which we are looking (or a query selector).
@@ -107,7 +103,6 @@ const instance = {
 
 		/**
 		 * Array map function to extend the original widget to add the necessary required constraints.
-		 *
 		 * @function
 		 * @private
 		 * @param {string} nextWidget The widget we are extending.
@@ -155,7 +150,6 @@ const instance = {
 
 /**
  * Get the required field message for flagging a required field in an error state.
- *
  * @function
  * @private
  * @param {Element} element The element (component) with the error.
@@ -182,7 +176,6 @@ function flagAllThese(elements, config) {
 
 /**
  * Determines if a given element is not 'complete' and therefore fails a mandatory test.
- *
  * @function
  * @private
  * @param {Element} element A form control or aria surrogate.

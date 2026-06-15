@@ -2,7 +2,6 @@
  * @module
  *
  * Get the size of a file in bytes.
- *
  * @function
  * @alias module:wc/file/getFileSize
  * @param {module:wc/file/MultiFileUploader~fileInfo} fileInfo Information about the file or files to check.

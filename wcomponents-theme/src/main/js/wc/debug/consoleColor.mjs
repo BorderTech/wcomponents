@@ -1,8 +1,6 @@
 /**
  * A debug mode only fake module to provide DRAMATIC recolouring of the document body when the console logs a warning or
  * error. The actual style applied is determined by the CSS, this module just adds a new className to the body.
- *
- *
  * @module
  */
 

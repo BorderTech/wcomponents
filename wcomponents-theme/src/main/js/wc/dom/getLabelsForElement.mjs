@@ -42,7 +42,6 @@ function getLabelForSelectors(id, inclReadOnly) {
 
 /**
  * Get labels and/or stand-ins using querySelector.
- *
  * @function
  * @private
  * @param {Element} element The labelled element.
@@ -116,7 +115,6 @@ function getAriaLabelledElements(element) {
 // eslint-disable-next-line jsdoc/require-returns-check
 /**
  * Gets labelling element/s (label, legend or pseudo-label) for a control.
- *
  * @function module:wc/dom/getLabelsForElement
  * @param {Element} element - The element for which we want to find labels.
  * @param {Boolean} includeReadOnly - If true then also search for "labelling" elements for read only controls.

@@ -15,7 +15,6 @@ const selectors = [radioSelector, checkboxSelector];
 const instance = {
 	/**
 	 * Set up event listeners in initialisation.
-	 *
 	 * @function
 	 * @alias module:wc/dom/cbrShedPublisher.initialise
 	 * @param {Element} element The element being initialised: usually document.body.

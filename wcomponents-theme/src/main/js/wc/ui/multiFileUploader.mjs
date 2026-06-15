@@ -27,7 +27,6 @@ const { console, document, FormData, Node, setTimeout } = globalThis;
 const
 	/**
 	 * Provides functionality associated with uploading multiple files using a WMultiFileWidget.
-	 *
 	 * @module
 	 */
 	instance = new MultiFileUploader(),
@@ -577,7 +576,6 @@ function MultiFileUploader() {
 	/**
 	 * Get the descriptor of the file input element associated with a file upload.
 	 * Note WMultiFileWidget may also output a load of checkbox elements - one for each file currently uploaded.
-	 *
 	 * @function module:wc/ui/multiFileUpload.getInputWidget
 	 * @returns {string} The widget descriptor.
 	 */

@@ -25,7 +25,6 @@ const UNIT = "px",
 /**
  * Resize event helper to reposition any component which is positioned relative to viewport when the
  * viewport dimensions change.
- *
  * @function
  * @private
  */
@@ -34,7 +33,6 @@ const resizeEventHelper = debounce(() => Object.keys(positionedBySize).forEach(r
 /**
  * Provides functionality used to absolutely position a component. Components may be positioned relative to the viewport
  * or another component.
- *
  * @module
  */
 const instance = {
@@ -61,7 +59,6 @@ const instance = {
 	},
 	/**
 	 * Allow an external module to set a component as positioned by size without actually positioning it yet.
-	 *
 	 * @function module:wc/ui/positionable.storePosBySize
 	 * @public
 	 * @param {Element} element The element which will be positioned.
@@ -77,7 +74,6 @@ const instance = {
 	/**
 	 * Position an element relative to another element or the viewport where the size of the element being
 	 * positioned determines the location relative to the target.
-	 *
 	 * @function module:wc/ui/positionable.setBySize
 	 * @public
 	 * @param {HTMLElement} element The element to position.
@@ -151,7 +147,6 @@ const instance = {
 	},
 	/**
 	 * Clear inline positions.
-	 *
 	 * @function
 	 * @public
 	 * @param {HTMLElement} element the element being cleared
@@ -166,7 +161,6 @@ const instance = {
 /**
  * An iterator function which will loop through all known elements which are positioned by size and
  * reposition them if they are visible.
- *
  * @function
  * @private
  * @param {String} key An object key from positionedBySize.
@@ -197,7 +191,6 @@ function resizeIteratorFunc(key) {
 
 /**
  * Elements which are positioned relative to the viewport should be repositioned if the viewport resizes.
- *
  * @function
  * @private
  */
@@ -209,7 +202,6 @@ function resizeEvent() {
 
 /**
  * Subscribe to {@link module:wc/ui/resizeable} to reposition components when they are resized.
- *
  * @function
  * @private
  * @param {HTMLElement} element The element being resized.

@@ -15,7 +15,6 @@ const instance = {
 	/**
 	 * Load a data list for a particular element.
 	 * The promise will be resolved with the datalist specified by the id.
-	 *
 	 * @function module:wc/ui/listLoader.load
 	 * @param {String} id The id of the datalist to load
 	 * @param {Element} element Provide an element which will serve as the reference point for finding the URL.
@@ -66,7 +65,6 @@ const instance = {
  * a request is pending. Once the response is received all queued callbacks will then
  * be notified (for performance reasons we don't bother to make actual requests for the
  * blocked requests, we just call them as if the request had been made).
- *
  * @function
  * @private
  * @param {Object} config
@@ -148,7 +146,6 @@ function getUrl(element) {
  *
  * Could store datalists in memory once they have been fetched so that if the same list is fetched again on the page
  * it would not even need to hit browser cache.
- *
  * @module
  */
 

@@ -40,7 +40,6 @@ function validate (container) {
 
 /**
  * Re-validate a previously invalid WCheckBoxSelect when the component's selection is changed.
- *
  * @function
  * @private
  * @param {Element} element A WCheckBoxSelect

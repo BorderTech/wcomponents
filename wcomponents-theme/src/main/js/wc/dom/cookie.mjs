@@ -13,7 +13,6 @@ const instance = {
 	 *
 	 * Passing anything greater than 1000 to days will be interpreted as milliseconds
 	 * instead of "days".  Passing milliseconds will make this function execute significantly faster.
-	 *
 	 * @function module:wc/dom/cookie.create
 	 * @param {String} name The key to set in the cookie
 	 * @param {String} value The value to set in the cookie.
@@ -37,7 +36,6 @@ const instance = {
 
 	/**
 	 * Gets the value associated with a given name from a cookie.
-	 *
 	 * @function module:wc/dom/cookie.read
 	 * @param {String} name The key.
 	 * @returns {String} The value associated wth the key.
@@ -66,7 +64,6 @@ const instance = {
 
 	/**
 	 * Removes a key from cookies.
-	 *
 	 * @function module:wc/dom/cookie.erase
 	 * @public
 	 * @param {String} name The key to remove.

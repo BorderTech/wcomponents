@@ -20,7 +20,6 @@ import getMimeType from "wc/file/getMimeType.mjs";
  * If "accept" is empty then returns true.
  * If no file is selected then returns true.
  * If the mimeType AND extension can not be determined then returns true.
- *
  * @function
  * @alias module:wc/file/accepted
  * @requires module:wc/file/getMimeType

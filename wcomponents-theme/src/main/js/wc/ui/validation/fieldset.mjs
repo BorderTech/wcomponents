@@ -22,7 +22,6 @@ const INITED_KEY = "validation.fieldset.init";
  * This is an Array filter function which should return true only if the fieldset is NOT in a
  * successful state. A fieldset is successful if at least one interactive control within the fieldset is
  * complete. Therefor it is not successful only if EVERY interactive control is not complete.
- *
  * @function
  * @private
  * @param {Element} element A FIELDSET element
@@ -35,7 +34,6 @@ function filterFieldsets(element) {
 /**
  * Fieldset required state validation a fieldset is successful if at least one interactive control within
  * the fieldset is complete.
- *
  * @function
  * @private
  * @param {Element} container The DOM element being validated.
@@ -73,7 +71,6 @@ function validate(container) {
  *
  * If something changes inside an invalid fieldset we also need to revalidate the fieldset. This is done by having this module subscribe
  * to validationManager.
- *
  * @function
  * @private
  * @param {Element} element a control which may be inside an invalid fieldset.
@@ -99,7 +96,6 @@ function revalidate(element) {
 
 /**
  * Subscriber for {@link module:wc/dom/shed} functions which affect the validity of fieldsets.
- *
  * @function
  * @private
  * @param {CustomEvent & { target: HTMLElement }} element The element acted on by shed.
@@ -158,7 +154,6 @@ initialise.register({
 
 	/**
 	 * Initialise callback.
-	 *
 	 * @function module:wc/ui/validation/fieldset.postInit
 	 */
 	postInit: function() {

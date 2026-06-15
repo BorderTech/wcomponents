@@ -12,7 +12,6 @@ import processResponse from "wc/ui/ajax/processResponse.mjs";
  * available to the XSLT. We do not add a controller attribute if the element already has one as it has
  * either already been wired up by an ajaxTrigger in the XML or it controls something else (eg calendar date
  * picker) and is not an eligible ajax trigger.
- *
  * @function
  * @private
  * @param {Element} element The reference element (element being replaced): not needed here.

@@ -23,7 +23,6 @@ let config;
  * viewport height of scroll has occurred.
  *
  * Can be set in module configuration as property "scroll".
- *
  * @var
  * @type {number}
  * @private
@@ -47,7 +46,6 @@ const template = () => `<a href="#" class="${className}"><i class='fa fa-chevron
 
 /**
  * Event listener to show or hide the back to top link after scroll or resize events.
- *
  * @function
  * @private
  */
@@ -65,7 +63,6 @@ function genericEvent() {
 
 /**
  * Toggles the visibility of the back to top link based on the argument show.
- *
  * @function
  * @private
  * @param {boolean} show If true the back to top link is shown, otherwise it is hidden.
@@ -90,7 +87,6 @@ class BackToTop extends HTMLElement {
 
 		/**
 		 * Click event handler to scroll the page when the back to top link is clicked.
-		 *
 		 * @function
 		 * @private
 		 * @param {MouseEvent} $event The click event.
@@ -112,7 +108,6 @@ class BackToTop extends HTMLElement {
 
 		/**
 		 * Hide the back to top link when the ESCAPE key is pressed.
-		 *
 		 * @function
 		 * @private
 		 * @param {KeyboardEvent} $event The wrapped keydown event.

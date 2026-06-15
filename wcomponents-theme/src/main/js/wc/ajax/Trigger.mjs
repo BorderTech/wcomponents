@@ -84,7 +84,6 @@ initialise.addInitRoutine(function() {
 
 /**
  * Joins strings with the "&" character.
- *
  * @function addToQueryString
  * @private
  * @param {String} [queryString] The existing query string ("" is OK).
@@ -107,7 +106,6 @@ function addToQueryString(queryString, newArgs) {
 /**
  * Given an ajax trigger gets the trigger element or other element which is in the form so we can get the URL
  * and serialize the form.
- *
  * @function getElement
  * @private
  * @param {module:wc/ajax/Trigger} trigger An AJAX Trigger.
@@ -131,7 +129,6 @@ function getElement(trigger) {
 
 /**
  * Find the form ancestor (or self) of any element.
- *
  * @function getForm
  * @private
  * @param {Element} element the start element.
@@ -281,7 +278,6 @@ function notify(trigger, groupName, cbresult) {
 /**
  * Find the url this trigger should use when sending ajax requests. This will remove the HASH for browsers with
  * special needs.
- *
  * @function
  * @public
  * @static
@@ -299,7 +295,6 @@ Trigger.getUrl = function(trigger) {
 	 * <li>URL directly associated with the DOM element referred to by trigger.alias;
 	 * <li>URL directly associated with the form element containing the DOM element referred to by trigger.alias.
 	 * </ol>
-	 *
 	 * @function
 	 * @private
 	 * @param {module:wc/ajax/Trigger|Element} trig An instance of Trigger or a DOM Element.
@@ -350,7 +345,6 @@ Trigger.getUrl = function(trigger) {
 
 /**
  * Find any triggers in the array which directly update a given id.
- *
  * @function
  * @public
  * @param {string} id An element ID
@@ -376,7 +370,6 @@ Trigger.prototype.getTriggersFor = function(id, requests, stopAtFirstMatch) {
 
 /**
  * Get the current request buffer.
- *
  * @function
  * @public
  * @returns {Array} ?
@@ -387,7 +380,6 @@ Trigger.prototype.getRequestBuffer = function() {
 
 /**
  * (re)schedule queue processing occur.
- *
  * @function
  * @public
  */
@@ -459,7 +451,6 @@ Trigger.prototype.scheduleQueueProcessing = function() {
  * button we will need to include that button in the request as the server will be expecting it.  If a trigger
  * is associated by ID with a submit button but the trigger was fired programmatically (i.e. not by clicking the
  * button) then we will not include the button in the request (tracked using this._submitTriggerElement).
- *
  * @function
  * @public
  */
@@ -523,7 +514,6 @@ function getFirePromise(trigger) {
  *  issues.
  *  This means that the server may receive requests that indicate the form is in a state it does
  *  not expect, however the server must deal with this reality.
- *
  * @function
  * @public
  * @returns {String} The serialized parameters or "".
@@ -746,7 +736,6 @@ function handleResponse($self, response, trigger, isError) {
 /**
  * Send the AJAX request NOW.
  * No second guessing, no buffering, no delays, call this when you are ready to go.
- *
  * @function
  */
 Request.prototype.send = function () {

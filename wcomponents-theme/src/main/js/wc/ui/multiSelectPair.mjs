@@ -37,7 +37,6 @@ const instance = {
 
 	/**
 	 * Get the list type for a given select list.
-	 *
 	 * @function module:wc/ui/multiSelectPair.getListType
 	 * @public
 	 * @param {HTMLSelectElement} element Any select element component of a WMultiSelectPair.
@@ -56,7 +55,6 @@ const instance = {
 
 	/**
 	 * Get the descriptor for a WMultiSelectPair.
-	 *
 	 * @function module:wc/ui/multiSelectPair.getWidget
 	 * @public
 	 * @returns {string} the WMultiSelectPair container's selector.
@@ -65,7 +63,6 @@ const instance = {
 
 	/**
 	 * Get the descriptor for a WMultiSelectPair's input component.
-	 *
 	 * @function module:wc/ui/multiSelectPair.getInputWidget
 	 * @public
 	 * @returns {string} the WMultiSelectPair input's selector.
@@ -82,7 +79,6 @@ const instance = {
 
 	/**
 	 * Gets the available, selected or order list for a given WMultiSelectPair based on the type argument.
-	 *
 	 * @function module:wc/ui/multiSelectPair.getListByType
 	 * @public
 	 * @param {Element} element Any component element of a multiSelectPair (ie any of the lists or buttons).
@@ -102,7 +98,6 @@ const instance = {
 	/**
 	 * Get the selected options - these may not actually be marked as selected in the DOM, but they are in the
 	 * selected bucket, so they are logically selected.
-	 *
 	 * @function module:wc/ui/multiSelectPair.getValue
 	 * @public
 	 * @param {Element} container A multiSelectPair container.
@@ -123,7 +118,6 @@ const instance = {
 	/**
 	 * Indicates that the element is a multiSelectPair (which, for the purposes of this call is the top level
 	 * container)
-	 *
 	 * @function module:wc/ui/multiSelectPair.isOneOfMe
 	 * @public
 	 * @param {Element} element The DOM element to test.
@@ -145,7 +139,6 @@ const instance = {
  * reintroduced (with the addition of a height fix) because some very common browsers will render a
  * select Element with a size attribute at a different height if it has no options. Since I had to fix
  * height I reintroduced fix width.
- *
  * @function
  * @private
  * @param {Element} [container] A WMultiSelectPair or any container component.
@@ -183,7 +176,6 @@ function fixWidthHeight(container) {
 /**
  * Get the "other" list's type when we have a list already. That is, if we have the "selected" list get the
  * "available" list type and vice-versa.
- *
  * @function
  * @private
  * @param {HTMLSelectElement} list A select list from a MultiSelectPair component.
@@ -199,7 +191,6 @@ function getOppositeListType(list) {
 
 /**
  * Get the action pertinent to a given button.
- *
  * @function
  * @private
  * @param {HTMLButtonElement} element A button element.
@@ -222,7 +213,6 @@ function getAction(element) {
  * <li>Find index of option in "submitList" (the hidden select element) = originalIndex.</li>
  * <li>target index = (originalIndex - fromIndex)</li>
  * </ol>
- *
  * @function
  * @private
  * @param {HTMLSelectElement} fromList The select from which the selected options are removed.
@@ -331,7 +321,6 @@ function publishSelection(fromList, toList) {
 
 /**
  * Move selected options in the "available" list to the "selected" list.
- *
  * @function
  * @private
  * @param {Element} element A WMultiSelectPair container.
@@ -342,7 +331,6 @@ function addSelected(element) {
 
 /**
  * Move selected options in the "selected" list to the "available" list.
- *
  * @function
  * @private
  * @param {HTMLSelectElement} element A WMultiSelectPair container.
@@ -353,7 +341,6 @@ function removeSelected(element) {
 
 /**
  * Helper for {@link addAll} and {@link removeAll} which actual does the option move.
- *
  * @function
  * @private
  * @param {HTMLSelectElement} selectList The list from which we are moving options.
@@ -371,7 +358,6 @@ function actionAllOptions(selectList, action) {
 
 /**
  * Add all options to the "selected" list.
- *
  * @function
  * @private
  * @param {Element} element A WMultiSelectPair.
@@ -383,7 +369,6 @@ function addAll(element) {
 
 /**
  * Remove all options from the "selected" list.
- *
  * @function
  * @private
  * @param {Element} element A WMultiSelectPair.
@@ -398,7 +383,6 @@ function removeAll(element) {
  * Writes the state of the MultiSelectPair. All options in the "selected" list are deemed to be selected
  * even when they are not selected in the DOM. Equally, no options in the "available" list are selected
  * irrespective of their actual selected state.
- *
  * @function
  * @private
  * @param {Element} form The form or sub-form which is having its state written.
@@ -418,7 +402,6 @@ function writeState(form, stateContainer) {
 /**
  * Keydown listener. Enter key adds/removes options and Left and Right Arrow keys switch between from and to
  * selects.
- *
  * @function
  * @private
  * @param {KeyboardEvent & { target: HTMLSelectElement }} $event The keydown event.
@@ -461,7 +444,6 @@ function keydownEvent($event) {
 
 /**
  * Focus listener to set up events on individual components.
- *
  * @function
  * @private
  * @param {FocusEvent & { target: HTMLElement }} $event The focus/focusin event.
@@ -477,7 +459,6 @@ function focusEvent($event) {
 
 /**
  * Click listener to move options from one list to the other.
- *
  * @function
  * @private
  * @param {MouseEvent & { target: HTMLButtonElement }} $event The click event.
@@ -496,7 +477,6 @@ function clickEvent({ target, defaultPrevented }) {
 
 /**
  * Double-click listener to move options from one list to the other.
- *
  * @function
  * @private
  * @param {MouseEvent & { target: HTMLElement }} $event The dblclick event.
@@ -520,7 +500,6 @@ function dblClickEvent({ target, defaultPrevented }) {
 initialise.register({
 	/**
 	 * Set up initial event handlers.
-	 *
 	 * @function module:wc/ui/multiSelectPair.initialise
 	 * @public
 	 * @param {Element} element The element being initialised: usually `document.body`
@@ -534,7 +513,6 @@ initialise.register({
 
 	/**
 	 * Late set up to wire up subscribers after initialisation.
-	 *
 	 * @function module:wc/ui/multiSelectPair.postInit
 	 * @public
 	 */

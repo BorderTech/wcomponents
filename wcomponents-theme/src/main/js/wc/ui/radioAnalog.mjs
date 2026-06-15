@@ -13,7 +13,6 @@ import AriaAnalog from "wc/dom/ariaAnalog.mjs";
  *<li>Up Arrow at top should wrap to bottom.</li>
  *<li>Space selects the radio button with focus and de-selects other radio buttons in the group.</li>
  *<li>Ctrl/Meta+Arrow moves through the options without updating content or selecting the button.</li></ul>
- *
  * @alias module:wc/ui/radioAnalog~RadioAnalog
  */
 class RadioAnalog extends AriaAnalog {

@@ -44,7 +44,6 @@ const instance = {
 
 	/**
 	 * Gets an internationalized string/message from the resource bundle.
-	 *
 	 * @function module:wc/i18n/i18n.get
 	 * @public
 	 * @param {String|String[]} key A message key, i.e. the key of an i18n key/value pair.
@@ -126,7 +125,6 @@ const instance = {
 function translatorFactory(funcTranslate) {
 	/**
 	 * Gets an internationalized string/message from the resource bundle.
-	 *
 	 * @function module:wc/i18n/i18n.get
 	 * @public
 	 * @param {String} key A message key, i.e. the key of an i18n key/value pair.
@@ -217,7 +215,6 @@ function getOptions(i18nConfig = {}) {
 /**
  * Initialize the underlying i18next instance.
  * @function
- *
  * @param {typeof i18next} engine The instance of i18next to initialize.
  * @param config Configuration options.
  * @return {Promise} when initialized

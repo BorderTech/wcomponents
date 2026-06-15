@@ -15,7 +15,6 @@ let inGroupMode;
  * boxes, though whether this should be implemented or not is another matter since according to
  * http://www.w3.org/TR/wai-aria-practices/#checkbox strictly speaking checkbox should not get arrow key
  * navigation nor SHIFT+CLICK range toggle support!
- *
  * @alias module:wc/ui/checkBoxSelect~CheckBoxSelect
  */
 class CheckBoxSelect extends AriaAnalog {
@@ -64,7 +63,6 @@ class CheckBoxSelect extends AriaAnalog {
 	 * Activation action which occurs when a checkbox is selected/deselected.
 	 * This includes group selection and revalidation of elements and containers.
 	 * This over-ride is to remove the call to toggle the selection in aria-analog.
-	 *
 	 * @function
 	 * @param {Element} element The element being activated.
 	 * @param {Boolean} [SHIFT] If defined event.shiftKey.

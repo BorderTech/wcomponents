@@ -52,7 +52,6 @@ const instance = {
 	/**
 	 * Find the index of the matching option in the select element. Does not need to be strictly equal.
 	 * The option need not belong to the given select list, just the value and text will be matched.
-	 *
 	 * @param {HTMLOptionElement} option An object with properties: text, value
 	 * @param {HTMLSelectElement|HTMLOptGroupElement|HTMLOptionElement[]} optContainer A dom element containing options (ie a select or an optgroup)
 	 *    OR an array of options.
@@ -215,7 +214,6 @@ function getSearchElement() {
 const highlightSearch = debounce(
 	/**
 	 * Searches for an option in a select element which matches the given string.
-	 *
 	 * @param {HTMLSelectElement} element The select element to search
 	 * @param {string} search The string to search for
 	 */
@@ -268,7 +266,6 @@ function getOptions(element) {
 /**
  * Search for first option with a matching 'text' property text match can be a partial
  * match (case-insensitive) if it is at least config.minLenSubstring characters long
- *
  * @param {HTMLSelectElement} element The select element to search
  * @param {string} search The string to search for
  * @returns {HTMLOptionElement} The matching option element if found
@@ -311,7 +308,6 @@ function getMatchByText(element, search) {
 /**
  * Search for first option with a matching 'value' property value match must be an exact
  * match (case-insensitive) and must be at least config.minLenVal characters long
- *
  * @param {HTMLSelectElement} element The select element to search
  * @param {string} search The string to search for
  * @returns {HTMLOptionElement} The matching option element if found
@@ -386,7 +382,6 @@ function initConfig() {
 initialise.register({
 	/**
 	 * Set up select element search functionality.
-	 *
 	 * @param {HTMLBodyElement} element the element being initialised, usually `document.body`
 	 */
 	initialise: function(element) {

@@ -42,7 +42,6 @@ function getControlled(trigger) {
 
 /**
  * Are all collapsibles in a group in a particular expanded or collapsed state?
- *
  * @function
  * @private
  * @param {Element} controller The WCollapsibleToggle control.
@@ -76,7 +75,6 @@ function areAllInExpandedState(controller, expanded) {
 
 /**
  * Helper to toggle the state of a collapsible.
- *
  * @function
  * @private
  * @param {Element} collapsible A collapsible.
@@ -102,7 +100,6 @@ function toggleThisCollapsible(collapsible, open) {
 
 /**
  * Toggle a group of collapsible sections.
- *
  * @function
  * @private
  * @param {Element} element The toggler.
@@ -123,7 +120,6 @@ function toggleGroup(element) {
 
 /**
  * Get all WCollapsibleToggles which control a particular collapsible.
- *
  * @function
  * @private
  * @param {Element} element the element being controlled
@@ -157,7 +153,6 @@ function setControllerState(controller) {
 
 /**
  * Listen for expand/collapse and act on any controller.
- *
  * @function
  * @private
  * @param {Element} element The element being expanded/collapsed.
@@ -172,7 +167,6 @@ function collapsibleObserver(element) {
 
 /**
  * Set the aria-controls attribute on the buttons of a collapsibleToggle.
- *
  * @function
  * @private
  * @param {Element} element a collapsible toggle wrapper
@@ -198,7 +192,6 @@ function setControlList(element) {
 
 /**
  * Set aria-controls for each collapsible toggle.
- *
  * @function
  * @private
  */
@@ -208,7 +201,6 @@ function setControls() {
 
 /**
  * Listen for select and act on any controller.
- *
  * @function
  * @private
  * @param {Element} element The element being selected.

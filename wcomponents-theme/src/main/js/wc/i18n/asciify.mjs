@@ -24,12 +24,9 @@
  * <p>It is strongly suggested that you escape all unicode characters in the character map to ensure portability. The
  * example above then becomes:<br>
  * <code>{"\\u00e0\\u00e2\\u00e4": "a","\\u00e8\\u00e9\\u00ea\\u00eb": "e","\\u00ee\\u00ef": "i","\\u00f4": "o","\\u00f9\\u00fb\\u00fc": "u","\\u00e7": "c","\\u00e6": "ae","\\u0153": "oe"}</code></p>
- *
- *
  * @example asciify("août");  // returns "aout"
  * asciify("März");  // returns "Maerz"
  * asciify("Latin1");  // returns "Latin1" so why would you bother?
- *
  * @module
  * @author Rick Brown
  */

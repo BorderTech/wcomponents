@@ -1,6 +1,5 @@
 /**
  * Provides functionality to undertake client validation of WTextArea.
- *
  * @module
  */
 
@@ -19,7 +18,6 @@ const TEXTAREA = textArea.getWidget();
 
 /**
  * Undertake required validation for WTextArea.
- *
  * @function
  * @private
  * @param {Element} container The element being validated.
@@ -37,7 +35,6 @@ function _validateRequired(container) {
 /**
  * Tests an individual WTextArea to see if it meets constraints of minLength and maxLength.
  * This is an array filter so returns false if the field is valid.
- *
  * @function
  * @private
  * @param {HTMLTextAreaElement} element a WTextArea
@@ -71,7 +68,6 @@ function doContraintValidityTest(element) {
 
 /**
  * Validate all WTextAreas in a given container.
- *
  * @function
  * @private
  * @param {Element} container A DOM node, preferably one containing constrained text areas.
@@ -94,7 +90,6 @@ function validate(container) {
 
 /**
  * Regular (non-constrained) text areas get a change event listener to revalidate mandatory and ancestor fieldsets.
- *
  * @function
  * @private
  * @param {UIEvent & { target: HTMLTextAreaElement }} $event A change event.
@@ -122,7 +117,6 @@ function blurEvent({ target }) {
 
 /**
  * Use first focus to attach other event listeners.
- *
  * @function
  * @private
  * @param {UIEvent & { target: HTMLElement }} $event A change event.
@@ -148,7 +142,6 @@ initialise.register({
 
 	/**
 	 * Late initialisation to attach validation manager subscriber.
-	 *
 	 * @function module:wc/ui/validation/textArea.postInit
 	 */
 	postInit: () => validationManager.subscribe(validate)

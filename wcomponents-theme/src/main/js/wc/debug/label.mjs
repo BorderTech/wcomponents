@@ -85,7 +85,6 @@ function testLabel(element) {
 
 /**
  * AJAX subscriber to test for missing labels after ajax has happened.
- *
  * @function
  * @private
  * @param {Element} element The reference element (element being replaced).

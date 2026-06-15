@@ -56,7 +56,6 @@ const instance = {
 	/**
 	 * Subscribers can chose to be notified before the DOM is updated with new content
 	 * loaded via AJAX.
-	 *
 	 * @function module:wc/ui/ajax/processResponse.subscribe
 	 * @param {Function} subscriber A callback function, will be passed the args: (element, content, action).
 	 * @param {Boolean} [after] Indicates that the subscriber is to the post-insertion publisher.
@@ -96,7 +95,6 @@ const instance = {
 	 * in IE8 this would fail to return a result: `doc.getElementsByTagName(doc.firstChild.tagName);`
 	 *
 	 * Continue to use xpath!
-	 *
 	 * @function module:wc/ui/ajax/processResponse.processResponseXml
 	 * @public
 	 * @param {Document} response The ajax response.
@@ -333,7 +331,6 @@ function replaceElement(element, content) {
  * Replace specified elements within a given element in the originating document with the contents of the
  * ajax response. If the elements which are immediate children of content are not in the originating
  * document's version of element then they are appended to element.
- *
  * @function
  * @private
  * @param {Element} element The containing element in the original document.

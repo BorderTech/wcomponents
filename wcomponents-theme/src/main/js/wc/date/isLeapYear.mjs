@@ -1,6 +1,5 @@
 /**
  * Provides a means to determine if a particular year is a leap year.
- *
  * @function
  * @alias module:wc/date/isLeapYear
  * @param {Number} year The <strong>4 digit</strong> year to check. To convert a 2 digit year into a 4 digit one see

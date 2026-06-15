@@ -10,7 +10,6 @@ const ariaGroup = {};
 
 /**
  * Gets the element that "aria-owns" another element.
- *
  * @function module:wc/dom/ariaGroup.getOwner
  * @param {Element} element The element to test.
  * @returns {HTMLElement} The element which owns the passed in element.
@@ -28,7 +27,6 @@ ariaGroup.getOwner = function(element) {
 
 /**
  * Gets elements that are indirectly owned by a DOM element with "aria-owns".
- *
  * @function module:wc/dom/ariaGroup.getOwned
  * @param {Element} element The start element.
  * @returns {HTMLElement[]} An array of elements owned by the element. If the element does not own any then the
@@ -51,7 +49,6 @@ ariaGroup.getOwned = function(element) {
 /**
  * Get all elements in the group which contains or is defined by a particular element. If you are using
  * owned groups then this should be called *after* testing for owned groups.
- *
  * @function module:wc/dom/ariaGroup.getGroup
  * @public
  * @param {Element} element The reference element.
@@ -120,7 +117,6 @@ ariaGroup.getGroup = function (element, role, ignoreInnerGroups) {
 
 /**
  * Get the element which has the role which defines/contains the group in which the current element is in.
- *
  * @function module:wc/dom/ariaGroup.getContainer
  * @public
  * @param {Element} element the reference element
@@ -162,7 +158,6 @@ ariaGroup.getContainer = function(element, containerWd, ignoreOwner) {
 
 /**
  * Helper function to build an array of widget descriptors from an array of roles.
- *
  * @function
  * @private
  * @param {String[]} roles An array of role strings.

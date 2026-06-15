@@ -10,7 +10,6 @@ import focus from "wc/dom/focus.mjs";
  * for an element 'closer' to the target. For example preventing a table row selection from being invoked by
  * clicking a button in a selectable row or a collapsible being toggled if the click is on a button in its
  * summary.
- *
  * @function module:wc/dom/isAcceptableTarget
  * @param {Element} element The element we are expecting to be the ultimate target of the event.
  * @param {Element} target The actual `event.target` element.

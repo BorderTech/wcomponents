@@ -14,7 +14,6 @@ let opener, tree;
  * According to the WAI-ARIA implementation guide, tree items should select on navigate. Tree items in WComponents are a
  * type of WMenuItem and menu items are supposed to do stuff. For this reason we have decided to not try to make them
  * select on navigate. This will need to change.
- *
  * @see http://www.w3.org/TR/wai-aria-practices/#treeitem
  */
 class TreeItem extends AriaAnalog {
@@ -113,7 +112,6 @@ class TreeItem extends AriaAnalog {
 	/**
 	 * Over-ride of the click event handler. This is required because of the complexities of determining
 	 * whether we can accept the click to activate the treeitem.
-	 *
 	 * @function
 	 * @param {MouseEvent & { target: HTMLElement }} $event The click event.
 	 */
@@ -143,7 +141,6 @@ export default initialise.register(instance);
  * not if it is on the part of the opener reserved for toggling the open state.
  *
  * In the old (WMenu) form of tree we do not make this distinction. This _should_ change.
- *
  * @function
  * @private
  * @param {Element} element The element which is being tested.
@@ -177,7 +174,6 @@ function isAcceptable (element, target) {
  *
  * It is insufficient to rely on only one branch being open at a time because this will not take into
  * account the case where a tree has selected item(s) in an ancestor branch.
- *
  * @function
  * @private
  * @param {Element} element The element to be activated.

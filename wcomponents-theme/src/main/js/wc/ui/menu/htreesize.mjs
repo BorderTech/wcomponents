@@ -13,7 +13,6 @@ const resized = {},
 /**
  * When a tree component is resized store the preferred size for later use.  A subscriber for
  * {@link module:wc/ui/resizeable}.
- *
  * @function
  * @private
  * @param {HTMLElement} element The element which was resized.
@@ -39,7 +38,6 @@ function resizeSubscriber(element) {
 
 /**
  * Set height and width on segments of a htree if these were stored previously.
- *
  * @function
  * @private
  * @param {String} id The id of the component to be sized.
@@ -148,7 +146,6 @@ function focusEvent($event) {
 initialise.register({
 	/**
 	 * initialise htrees by setting any stored sizes and registering subscribers.
-	 *
 	 * @function module:wc/ui/menu/htreesize.initialise
 	 * @public
 	 * @param {HTMLBodyElement} element The element being initialised.

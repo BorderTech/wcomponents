@@ -1,6 +1,5 @@
 /**
  * Provides functionality to undertake client validation of WMultiDropdown and WMultiTextField.
- *
  * @module
  */
 
@@ -146,7 +145,6 @@ function _flag(element, flag, limit) {
  * Validation for multiFormComponent.
  * @function
  * @private
- *
  * @param {Element} container DOM element, the container being validated (usually form).
  * @returns {boolean} true if the container is valid.
  */

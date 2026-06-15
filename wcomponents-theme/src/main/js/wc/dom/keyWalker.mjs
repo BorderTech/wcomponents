@@ -3,7 +3,6 @@ const { document, Node, NodeFilter } = globalThis;
 
 /**
  * An object holding property names used in keyWalker configuration.
- *
  * @type {module:keywalker~options}
  */
 const OPTIONS = {
@@ -12,7 +11,6 @@ const OPTIONS = {
 	},
 	/**
 	 * An object holding move locations and their value for bitwise calculations.
-	 *
 	 * @constant
 	 * @type {module:keywalker~moveTo}
 	 * @private
@@ -54,7 +52,6 @@ const instance = {
 	/**
 	 * Get the destination. This function will only find the required target element (if any). What you do with
 	 * that knowledge is up to you!
-	 *
 	 * @function module:keywalker.getTarget
 	 * @param {module:keywalker~config} conf the configuration for this particular walk.
 	 * @param {Element} element The element we are on at the start of the navigation.
@@ -83,7 +80,6 @@ const instance = {
 /**
  * This is a simple TreeWalker filter for traversing elements and accepting **anything** unless it is disabled or hidden. You probably don't
  * want to use this, but it will be used if your configuration object does not include a filter function.
- *
  * @param {Element} element the element which the TreeWalker instance is investigating
  * @returns {number} a NodeFilter filter value
  */
@@ -103,7 +99,6 @@ function simpleFilter (element) {
  *   2. a node to pass to a recursion of treeWalkerNavHelper if the walk cycles.
  *
  * This is a helper for treeWalkerNavHelper.
- *
  * @function
  * @private
  * @param {module:keywalker~config} conf the configuration object for this navigation
@@ -157,7 +152,6 @@ function getAction(conf, current, whichWay) {
 
 /**
  * Get a TreeWalker instance based on a particular configuration. Helper for treeWalkerNavHelper.
- *
  * @function
  * @private
  * @param {module:keywalker~config} conf the configuration object for this navigation
@@ -172,7 +166,6 @@ function getTreeWalker(conf) {
 /**
  * Helper for groupBasedNavHelperLoopHelper (so a helper's helper's helper). This is to abstract cycling and reduce the paths though what are
  * otherwise extremely complex functions.
- *
  * @function
  * @private
  * @param {number} currentIndex A group (array) index - where we are at the moment in the group.
@@ -203,7 +196,6 @@ function groupNextPreviousHelper(currentIndex, cycled, useCycle, group, next) {
 /**
  * Helper for navigating between elements in a tree structure (for example a menu). This function will only find the required target element
  * (if any). What you do with that knowledge is up to you!
- *
  * @function
  * @private
  * @param {module:keywalker~config} conf the configuration object for this navigation.
@@ -231,7 +223,6 @@ function treeWalkerNavHelper(conf, element, whichWay) {
 
 /**
  * Helper for groupBasedNavHelper to bring the do loop into a _slightly_ more readable form.
- *
  * @function
  * @private
  * @param {Object} conf The keyWalker config.
@@ -278,7 +269,6 @@ function groupBasedNavHelperLoopHelper(conf, element, whichWay) {
  * Simple walking of linear grouped components such as aria radio groups (see single selectable table rows
  * for an example). KeyWalker.MOVE_TO is limited to a single dimension: FIRST, LAST, PREVIOUS, NEXT, TOP,
  * END
- *
  * @function
  * @private
  * @param {module:keywalker~config} conf the configuration object for this navigation.
@@ -304,7 +294,6 @@ export default instance;
 
 /**
  * An object holding move locations and their value for bitwise calculations.
- *
  * @typedef {Object} module:keywalker~moveTo
  * @property {number} FIRST Move to the first item in the group.
  * @property {number} LAST Move to the last item in the group.
@@ -319,7 +308,6 @@ export default instance;
 
 /**
  * Configuration object.
- *
  * @typedef {Object} module:keywalker~config
  * @property {Element|NodeList|Array<Element>} root The key walker root; if this is a single element we assume a tree walk otherwise it is
  * deemed to be a group.
@@ -333,7 +321,6 @@ export default instance;
 
 /**
  * An object holding property names used in keyWalker configuration. This is publicised as an aide-mémoire to consuming modules.
- *
  * @typedef {Object} module:keywalker~options
  * @property {String} CYCLE "cycle" used to set the `config.cycle` Boolean property.
  * @property {String} DEPTH_FIRST "depthFirst" used to set the config.depthFirst Boolean property.

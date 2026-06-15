@@ -8,7 +8,6 @@ const RE_RE = /([.*+?^{}$()|[\]/\\])/g,
 /**
  * Escapes any characters in this string that have a special meaning in regular expression syntax.
  * Regular expression characters include: . (period)
- *
  * @function module:wc/string/escapeRe
  * @param {String} string The string in which we wish to escape regex characters.
  * @param {Boolean} [allowWildcard] If true asterisk will not be escaped, it will be replaced with ".*" meaning it

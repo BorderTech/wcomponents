@@ -19,7 +19,6 @@ const headerSelector = `${containerSelector} > summary`;
 const instance = {
 	/**
 	 * Indicates if a given element is a collapsible.
-	 *
 	 * @param {Element} element The element to test.
 	 * @param {Boolean} [onlyContainer] If true then we only want to know if the element is a collapsible
 	 *    container element; if explicitly false it is the header/trigger element and if undefined whether
@@ -39,7 +38,6 @@ const instance = {
 	},
 	/**
 	 * Get the trigger element from a container element.
-	 *
 	 * @param {Element} element The start element.
 	 * @returns {HTMLElement} If the start element is a collapsible container return its header/trigger element.
 	 */
@@ -56,7 +54,6 @@ const instance = {
  * shed.actions.COLLAPSE as required to ensure AJAX is invoked.
  *
  * TO-DO: Use a state change to publish rather than having to wire up click etc here.
- *
  * @function
  * @private
  * @param {Element} element A collapsible trigger element.
@@ -131,7 +128,6 @@ function toggleEventHelper($event, element) {
  * Click event handler to toggle the state of a collapsible if the SUMMARY is clicked. NOTE: this is
  * required when native support is available as our toggle method is also responsible for triggering AJAX on
  * open.
- *
  * @function
  * @private
  * @param {MouseEvent & { target: HTMLElement }} $event A click event.
@@ -153,7 +149,6 @@ function clickEvent($event) {
  *
  * When the action is "expand" or "collapse" and the SUMMARY has a role then update the aria-expanded
  * attribute.
- *
  * @function
  * @private
  * @param {Element} element the element being selected.
@@ -230,7 +225,6 @@ const initiliaser = {
 
 	/**
 	 * Initialisation: wire up focus and click listeners on the BODY.
-	 *
 	 * @param {HTMLBodyElement} element
 	 */
 	initialise: element => initiliaser._initialiseHelper(true, element),

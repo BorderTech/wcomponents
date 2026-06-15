@@ -2,7 +2,6 @@ const WRAPPER = "div.wc-table",
 	/**
 	 * Common items required for table functionality.
 	 * @module
-	 *
 	 */
 
 	instance = {

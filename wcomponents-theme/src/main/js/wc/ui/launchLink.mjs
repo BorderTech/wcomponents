@@ -41,7 +41,6 @@ const instance = {
 /**
  * Gets the href from an element, which may be the URL 'data-' attribute of a link-like element (such as a
  * WButton with renderAs='link' or WMenuItem with a URL, both of which are button elements).
- *
  * @param {Element} element An element with href attribute OR one of our custom equivalents.
  * @returns {String} The href if found, otherwise falsy (actually "")
  */
@@ -59,7 +58,6 @@ function getHref(element) {
  * For example if we have a link that points to a "gif" image, and in the response the HTTP
  * Content-Disposition header is set to "attachment" IE still fires the beforeUnloadEvent.
  * This would result in the loading indicator being displayed when a file is downloaded.
- *
  * @function
  * @private
  * @param {MouseEvent & {target: HTMLElement}} $event A click event.

@@ -54,7 +54,6 @@ function Resizeable() {
 
 	/**
 	 * In which direction can the element be resized?
-	 *
 	 * @function
 	 * @private
 	 * @param {Element} element The resizeable component.
@@ -157,7 +156,6 @@ function Resizeable() {
 	 *
 	 * If we are getting the "native" size it is without inline styles. This is usually because we need to work
 	 * out how big "auto" or "fit-content" is.
-	 *
 	 * @function
 	 * @private
 	 * @param {HTMLElement} element the resizeable component.
@@ -612,7 +610,6 @@ function Resizeable() {
 	/**
 	 * Allows a component to subscribe to resizing.
 	 * @see {@link module:wc/Observer#subscribe}
-	 *
 	 * @param {Function} subscriber The function that will be notified. This function MUST be present at
 	 *    "publish" time, but need not be preset at "subscribe" time.
 	 * @returns {Function} A reference to the subscriber.
@@ -641,7 +638,6 @@ function Resizeable() {
 
 	/**
 	 * Remove size from the target of a resize control and optionally store the old size for later re-use.
-	 *
 	 * @function module:wc/ui/resizeable.clearSize
 	 * @public
 	 * @param {Element} element The resize handle.
@@ -670,7 +666,6 @@ function Resizeable() {
 
 	/**
 	 * Reset size to a previously stored set of values.
-	 *
 	 * @function module:wc/ui/resizeable.resetSize
 	 * @public
 	 * @param {Element} element The element we are restoring.
@@ -693,7 +688,6 @@ function Resizeable() {
 
 	/**
 	 * Allow an element to display resize animations.
-	 *
 	 * @function module:wc/ui/resizeable.makeAnimatable
 	 * @public
 	 * @param {Element} element The element to animate.
@@ -704,7 +698,6 @@ function Resizeable() {
 
 	/**
 	 * Prevent an element from displaying resize animations.
-	 *
 	 * @function module:wc/ui/resizeable.clearAnimatable
 	 * @public
 	 * @param {Element} element The element to stop animating.
@@ -715,7 +708,6 @@ function Resizeable() {
 
 	/**
 	 * Prevent resize animations but store the fact that they used to be allowed, so they can be turned back on.
-	 *
 	 * @function module:wc/ui/resizeable.disableAnimation
 	 * @public
 	 * @param {Element} element The resizeable element to manipulate.
@@ -729,7 +721,6 @@ function Resizeable() {
 
 	/**
 	 * Restore resize animations previously disabled.
-	 *
 	 * @function module:wc/ui/resizeable.restoreAnimation
 	 * @public
 	 * @param {Element} element The resizeable element to manipulate.

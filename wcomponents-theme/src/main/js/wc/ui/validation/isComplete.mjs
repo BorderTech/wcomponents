@@ -19,7 +19,6 @@ const instance = {
 	/**
 	 * Allow components to subscribe to this module so that they can look after their own notions of
 	 * completeness.
-	 *
 	 * @see {@link module:wc/Observer#subscribe}
 	 * @function module:wc/ui/validation/isComplete.subscribe
 	 * @public
@@ -49,7 +48,6 @@ const instance = {
 	 * A function to determine if a particular complex component is complete.  Most WAI-ARIA based and compound
 	 * controls can use this helper to determine their completeness just by passing in the Widget which
 	 * describes their top level component and a filter/completeness test function.
-	 *
 	 * @function module:wc/ui/validation/isComplete.isCompleteHelper
 	 * @param {Element} container A DOM node, usually one containing components but could be the component.
 	 * @param {string} widget A Widget describing the component calling this function (or a query selector string).
@@ -94,7 +92,6 @@ const instance = {
 	 * <ol>
 	 * <li>we do `observer.notify` for any subscribers so that WAI-ARIA role based widgets can do their thing;</li>
 	 * <li>if result is still false after 1 we do a DOM based test of likely candidates.</li></ol>
-	 *
 	 * @function module:wc/ui/validation/isComplete.isContainerComplete
 	 * @param {Element} container That which we are testing.
 	 * @returns {boolean} true if the container is "complete".
@@ -173,7 +170,6 @@ function isNotExempt(candidate) {
  * Gets potential candidates for a completeness test after running a test of all completeness subscribers.
  * Anything which extends ariaAnalog is a completeness subscriber, so what we are left with really are
  * serializable form controls.
- *
  * @function
  * @private
  * @param {Element} container The place to look for candidates.
@@ -200,7 +196,6 @@ function getComponents(container) {
 /**
  * Tests if an element with support for the HTML required attribute is 'complete' the determination of which
  * depends on the element being tested.
- *
  * @function
  * @private
  * @param {Element} element A component with native support for the "required" attribute.

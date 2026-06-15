@@ -37,7 +37,6 @@ let ajaxTimer;
 function mapKeyToActionFactory(keys) {
 	/**
 	 * Helps set up key map, so it can respond to KeyBoardEvent code or key properties.
-	 *
 	 * @param {string} map The key to action map to update.
 	 * @param {function} action The action to map to the keys.
 	 */
@@ -62,7 +61,6 @@ function querySelectorImmediate(parent, selector) {
 /**
  * Menu controller extension for WTree. WTree uses the menu controller because it has the same key-walking, brancho
  * opening, selection and activation mechanisms.
- *
  * @see http://www.w3.org/TR/wai-aria-practices/#TreeView
  *
  * Extends menu functionality to provide a specific implementation of a tree.
@@ -96,7 +94,6 @@ class Tree extends AbstractMenu {
 
 	/**
 	 * The descriptors for this menu type.
-	 *
 	 * @var
 	 * @override
 	 */
@@ -113,7 +110,6 @@ class Tree extends AbstractMenu {
 
 	/**
 	 * Roles for the parts of the tree.
-	 *
 	 * @var
 	 * @type {Object}
 	 * @override
@@ -126,7 +122,6 @@ class Tree extends AbstractMenu {
 	/**
 	 * Indicates if  a particular tree supports multiple open branches. Vertical trees allow multiple branches
 	 * to be open at any time. Horizontal trees do not.
-	 *
 	 * @function module:wc/ui/menu/tree._oneOpen
 	 * @override
 	 * @param {Element} element A node of the tree to test. This is mandatory in this override.
@@ -139,7 +134,6 @@ class Tree extends AbstractMenu {
 
 	/**
 	 * Trees do not require a branch item to be selected when a branch is opened.
-	 *
 	 * @var
 	 * @type Boolean
 	 * @override
@@ -149,7 +143,6 @@ class Tree extends AbstractMenu {
 	/**
 	 * When keyboard navigating a tree we go into open submenus before going to the next option at the current
 	 * level.
-	 *
 	 * @function module:wc/ui/menu/tree._treeWalkDepthFirst
 	 * @override
 	 * @param {Element} root A node of the tree to test. This is mandatory in this override.
@@ -172,7 +165,6 @@ class Tree extends AbstractMenu {
 
 	/**
 	 * Trees do not cycle siblings.
-	 *
 	 * @var
 	 * @type {Boolean}
 	 * @override
@@ -181,7 +173,6 @@ class Tree extends AbstractMenu {
 
 	/**
 	 * Trees are not transient.
-	 *
 	 * @var
 	 * @type boolean
 	 * @override
@@ -191,7 +182,6 @@ class Tree extends AbstractMenu {
 
 	/**
 	 * Trees automatically select selectable treeitems on navigation.
-	 *
 	 * @see http://www.w3.org/TR/wai-aria-practices/#TreeView
 	 * @var
 	 * @type {Boolean}
@@ -203,7 +193,6 @@ class Tree extends AbstractMenu {
 	/**
 	 * Selection in trees is complicated as it depends on the presence of absence of chordal key strokes during
 	 * selection.
-	 *
 	 * @see http://www.w3.org/TR/wai-aria-practices/#TreeView
 	 * @function module:wc/ui/menu/tree._select
 	 * @override
@@ -229,7 +218,6 @@ class Tree extends AbstractMenu {
 	 * Resets this._keyMap based on the type and/or state of the menu item passed in. In the top level the left
 	 * and right go to siblings and down goes to child in sub menus up and down go to siblings, right to child
 	 * and left to parent.
-	 *
 	 * @function module:wc/ui/menu/tree._remapKeys
 	 * @override
 	 * @param {Element} _item The item which has focus.
@@ -279,7 +267,6 @@ class Tree extends AbstractMenu {
 
 	/**
 	 * Sets up the initial keymap for tree menus.
-	 *
 	 * @see http://www.w3.org/TR/wai-aria-practices/#TreeView
 	 * @function module:wc/ui/menu/tree._setupKeymap
 	 * @override
@@ -311,7 +298,6 @@ class Tree extends AbstractMenu {
 	/**
 	 * Opens all branches in a menu. Note: this has to be public because super._keyActivator() needs to know it
 	 * exists.
-	 *
 	 * @function module:wc/ui/menu/tree._openAllBranches
 	 * @param {Element} from the start point for opening all branches
 	 */
@@ -330,7 +316,6 @@ class Tree extends AbstractMenu {
 	/**
 	 * Get the menu element which is able to be "aria-expanded". This is the WSubMenu's content in most menus but is the WSubMenu itself in
 	 * trees.
-	 *
 	 * @function module:wc/ui/menu/tree._getBranchExpandableElement
 	 * @override
 	 * @param {Element} item The start point for the search. This will normally be a 'branch'.
@@ -355,7 +340,6 @@ class Tree extends AbstractMenu {
 
 	/**
 	 * Click handler override. Do not allow click to toggle tree branch unless it is a htree or on the 'vertical' opener.
-	 *
 	 * @function module:wc/ui/menu/tree.clickEvent
 	 * @public
 	 * @override
@@ -386,7 +370,6 @@ class Tree extends AbstractMenu {
 
 	/**
 	 * Write the state of WTree.
-	 *
 	 * @function module:wc/ui/menu/tree.writeMenuState
 	 * @override
 	 * @param {Element} next the WTree root element
@@ -455,7 +438,6 @@ class Tree extends AbstractMenu {
 
 	/**
 	 * Override {@link:module:wc/dom/shed} subscriber to add special cases for trees.
-	 *
 	 * @function module:wc/ui/menu/tree._shedSubscriber
 	 * @override
 	 * @param {Element} element The element being acted upon.
@@ -505,7 +487,6 @@ class Tree extends AbstractMenu {
 
 	/**
 	 * Override the default "animator" to prevent a branch from opening if any other element is selected at its level. Only applies to htree.
-	 *
 	 * @function module:wc/ui/menu/tree._animateBranch
 	 * @param {Element} item The branch being opened/closed.
 	 * @param {Boolean} open If true branch is being opened, otherwise its being closed.
@@ -555,7 +536,6 @@ class Tree extends AbstractMenu {
 	/**
 	 * Helper for shed collapse subscriber. This function is concerned with deselecting items in collapsing branches and possibly selecting
 	 * the collapsing branches nearest available ancestor (depending on tree type).
-	 *
 	 * @function module:wc/ui/menu/tree._shedCollapseHelper
 	 * @override
 	 * @param {Element} element the branch beng collapsed.
@@ -618,7 +598,6 @@ function htreeClickHelper(target) {
 
 /**
  * Determines if a given element is the last selected item at its level of the tree.
- *
  * @function
  * @private
  * @param {Element} element The element being tested.
@@ -635,7 +614,6 @@ function isLastSelectedItemAtLevel(element, root) {
 
 /**
  * Helper for _shedSubscriber which undertakes an ajax load when a branch is opened if required.
- *
  * @function
  * @private
  * @param {Element} element The branch being opened.

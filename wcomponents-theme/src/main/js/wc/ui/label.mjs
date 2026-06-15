@@ -23,7 +23,6 @@ const movedCbLabelReg = {};
 const instance = {
 	/**
 	 * Get the hint from a given label.
-	 *
 	 * @function module:wc/ui/label.getHint
 	 * @public
 	 * @param {Element} label the label to test
@@ -38,7 +37,6 @@ const instance = {
 
 	/**
 	 * Set (add to or remove) a hint on a label.
-	 *
 	 * @function module:wc/ui/label.setHint
 	 * @public
 	 * @param {Element} label the label to which we are modifying hint content
@@ -355,7 +353,6 @@ function preInsertionAjaxSubscriber(element) {
 /**
  * Post-insertion AJAX subscriber to convert labels from a HTML label element to its read-only analogue and vice-versa when
  * a labelled element is replaced via AJAX.
- *
  * @function
  * @private
  * @param {Element} element the new element.

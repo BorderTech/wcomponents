@@ -17,7 +17,6 @@ const defaultConf = {
 
 /**
  * Determine if the current viewport is smaller or larger than a given limit.
- *
  * @function
  * @private
  * @param {number} limit The limit to test
@@ -39,7 +38,6 @@ function testViewportSize(limit, gtr) {
 const instance = {
 	/**
 	 * Is the width of the current viewport similar to that of a mobile phone?
-	 *
 	 * @function
 	 * @public
 	 * @alias module:wc/ui/viewportUtils.isPhoneLike
@@ -52,7 +50,6 @@ const instance = {
 
 	/**
 	 * Is the width of the current viewport "small"?
-	 *
 	 * @function
 	 * @public
 	 * @alias module:wc/ui/viewportUtils.isSmallScreen
@@ -65,7 +62,6 @@ const instance = {
 
 	/**
 	 * Is the width of the current viewport at least that of a large monitor?
-	 *
 	 * @function
 	 * @public
 	 * @alias module:wc/ui/viewportUtils.isLargeScreen
@@ -78,7 +74,6 @@ const instance = {
 
 	/**
 	 * Is the current screen a high definition screen?
-	 *
 	 * @function
 	 * @public
 	 * @alias module:wc/ui/viewportUtils.isHighDef
@@ -88,7 +83,6 @@ const instance = {
 
 	/**
 	 * Is the current screen a moderate definition screen? For example Samsung Galaxy 5, 6.
-	 *
 	 * @function
 	 * @public
 	 * @alias module:wc/ui/viewportUtils.isModerateDefinition
@@ -98,7 +92,6 @@ const instance = {
 
 	/**
 	 * Is the current screen definition medium def or better?
-	 *
 	 * @function
 	 * @public
 	 * @alias module:wc/ui/viewportUtils.isHigherDefinition
@@ -108,7 +101,6 @@ const instance = {
 
 	/**
 	 * Is the current screen definition "normal" i.e. 1 or not able to be determined.
-	 *
 	 * @function
 	 * @public
 	 * @alias module:wc/ui/viewportUtils.isStandardDefinition
@@ -134,8 +126,6 @@ function getConfig() {
  * ### Configuration
  *
  * This midule may be configured using an object {@link module:wc/ui/viewportUtils~config}.
- *
- *
  * @module wc/ui/viewportUtils
  * @requires module:wc/dom/getViewportSize
  * @requires module:wc/config

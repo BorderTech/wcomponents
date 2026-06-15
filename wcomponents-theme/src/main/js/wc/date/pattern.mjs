@@ -240,7 +240,6 @@ function getPatternFor(obj) {
  * @param {(Object|Array)} obj An object with key value pairs where the values are strings.
  * @param {number} minLength The minimum length of the smallest pattern.
  * @returns {String} corresponding regex pattern.
- *
  * @example objectToPattern({key1:'banana',key2:'bandaid'},3)
  * would produce this:
  * [bB][aA][nN]|[bB][aA][nN][aA]|[bB][aA][nN][aA][nN]|[bB][aA][nN][aA][nN][aA]|[bB][aA][nN][dD]|[bB][aA][nN][dD][aA]|[bB][aA][nN][dD][aA][iI]|[bB][aA][nN][dD][aA][iI][dD]
@@ -312,7 +311,6 @@ PatternMap.prototype.join = function () {
  * @function toPattern
  * @private
  * @example input/output: <code>toPattern("banana")</code> will return [bB][aA][nN][aA][nN][aA].
- *
  * @param {string} s A string containing only alphabet characters.
  */
 function toPattern(s) {

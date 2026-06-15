@@ -19,9 +19,7 @@
  * <q cite="http://www.w3.org/TR/wai-aria-practices/#focus_change">
  * the dynamic content (the character count) must be owned by the textarea as a live region
  * </q></p>
- *
  * @module
- *
  */
 
 import event from "wc/dom/event.mjs";
@@ -89,7 +87,6 @@ const instance = {
 	},
 	/**
 	 * Get the 'real' length of the string in a textarea including double chars for new lines.
-	 *
 	 * @function
 	 * @public
 	 * @param {HTMLTextAreaElement} element The textarea to test
@@ -145,7 +142,6 @@ function showCounter(element) {
 
 /**
  * There has been a change to the field's content, recalculate the maxlength counter.
- *
  * @function
  * @private
  * @param {Element} element The field in question.
@@ -182,7 +178,6 @@ const tick = debounce(element => {
  * trigger a cursor reset bug if the textarea element has content which
  * includes a soft wrap, a hard break and has enough lines of text to
  * cause a scroll (this is more common than it sounds).
- *
  * @function
  * @private
  * @param {FocusEvent & { target: HTMLTextAreaElement }} $event The current event.

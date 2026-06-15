@@ -63,7 +63,6 @@ export default defineConfig(
 			'jsdoc/require-param-description': 'off',
 			'jsdoc/require-param-type': 'off',
 			'jsdoc/require-returns': 'off',
-			'jsdoc/tag-lines': 'off',
 			'jsdoc/valid-types': 'off',
 			'sonarjs/bitwise-operators': 'off',
 			'sonarjs/cognitive-complexity': 'off',

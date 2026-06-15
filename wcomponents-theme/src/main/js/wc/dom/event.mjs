@@ -52,7 +52,6 @@ const MAX_RECURSE = 3,
  * event listeners must be called in the order they were added regardless of whether they were added using
  * capture or bubble - in the target phase they effectively ignore capture and bubble and must be treated as
  * one whole group.
- *
  * @function
  * @private
  * @throws {Error} Throws a generic error if there is too much recursion which looks like an event calling itself
@@ -114,7 +113,6 @@ function eventListener(/* $event */) {
  * notify listeners attached with and without capture.
  * Two choices here: cache these filter functions (and use more memory) or leave them
  * uncached (and use more CPU). There is no one true correct answer here.
- *
  * @function
  * @private
  * @param {String} type The event type.
@@ -152,7 +150,6 @@ const instance = {
 	/**
 	 * Add an event listener and subscribes a function to {@link module:wc/Observer} instance to handle the
 	 * event. NOTE: we no longer support dom0 binding: get over it.
-	 *
 	 * @function module:wc/dom/event.add
 	 * @param {Element|global} element The element to which the event listener will be associated.
 	 * @param {string} eventArgs.type The type of event (eg 'click', 'focus' NOT 'onclick', 'onfocus')
@@ -201,7 +198,6 @@ const instance = {
 	 * Note, I removed the constraint which prevented you from removing an event listener that was currently
 	 * being fired (ie it removed itself) as I think the problem being 'solved' here is already solved in the
 	 * eventListener() code where a static snapshot of event listeners is taken before any of them are notified.
-	 *
 	 * @function module:wc/dom/event.remove
 	 * @param {Element|Object|Object[]} element The element from which the event is removed.
 	 *    Alternatively simply pass the result from a call to the "add" method of this module.
@@ -250,7 +246,6 @@ const instance = {
 	 * I still think it's over-protective - I NEARLY removed the currentEvent check completely but🐔chickened out.
 	 * Now it has a recursion counter, and it will allow the first few through (simply setting it to 2 would cater
 	 * for the vast majority of legitimate cases).
-	 *
 	 * @function module:wc/dom/event.fire
 	 * @param {Element} element The element to fire the event on.
 	 * @param {string} $event The event to fire (eg 'click')
@@ -284,7 +279,6 @@ const instance = {
 
 	/**
 	 * Get a string that represents the state of this object for diagnostic purposes.
-	 *
 	 * @function module:wc/dom/event.toString
 	 * @public
 	 * @returns {String} ?

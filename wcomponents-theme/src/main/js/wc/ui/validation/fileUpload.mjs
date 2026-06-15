@@ -1,6 +1,5 @@
 /**
  * Provides functionality to undertake client validation of WFileWidget and WMultiFileWidget.
- *
  * @module
  */
 
@@ -65,7 +64,6 @@ function amIComplete(element) {
 /**
  * Subscriber to {@link ./isComplete} used to indicate that the file uploads within a particular
  * container are complete.
- *
  * @function
  * @private
  * @param {Element} container The element being tested.

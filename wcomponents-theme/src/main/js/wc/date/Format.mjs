@@ -9,12 +9,9 @@ const FORMAT_RE = /y{2,4}|d+|MON|M{2,4}|H+|m+|h+|a+|s+/g,
  * transfer date format (should be the unambiguous yyyy-mm-dd) and the output is determined by a mask.
  * @constructor
  * @alias module:wc/date/Format
- *
  * @param {String} mask The mask used for formatting. If any part of the mask is not understood then the
  * resulting formatted date will be an empty string.
- *
  * @throws {TypeError} Thrown if the mask is not provided (or is false equivalent).
- *
  * @example myFormatter = new Format("dd MON yyyy");//provides a formatter to dates of the form '31 Jan 2000'
  */
 function Format(mask) {
@@ -36,7 +33,6 @@ function Format(mask) {
  * result will be an empty string. If the date does not contain all the necessary parts required by the mask
  * then an attempt will be made to format the parts that are present. It is up to you and your mask to ensure
  * this is not ambiguous.
- *
  * @function
  * @public
  * @param {String} xfer The date to format as a wc "interchange" formatted date string.

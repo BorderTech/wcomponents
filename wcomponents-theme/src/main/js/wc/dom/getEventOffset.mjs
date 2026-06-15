@@ -1,7 +1,6 @@
 
 /**
  * Determine the left and top coordinates of a mouse event (click, mousedown etc.).
- *
  * @function
  * @alias module:wc/dom/getEventOffset
  * @param {MouseEvent} $event The event.

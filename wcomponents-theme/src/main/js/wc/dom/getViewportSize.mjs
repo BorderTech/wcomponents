@@ -4,7 +4,6 @@ const { window } = globalThis;
 
 /**
  * Get the viewport size.
- *
  * @function module:wc/dom/getViewportSize
  * @param {Boolean} [withoutScrollbars] If true then attempt to account for the scroll bar width.
  * @param {Window} [view] Optionally provide the window to use

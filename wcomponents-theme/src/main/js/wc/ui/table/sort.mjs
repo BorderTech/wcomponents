@@ -1,7 +1,6 @@
 /**
  * Provides table sort controls. A column is sorted by an algorithm controlled by the server application. There is no
  * client side sorting.
- *
  * @module
  */
 

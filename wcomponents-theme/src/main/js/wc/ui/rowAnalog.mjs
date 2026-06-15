@@ -8,7 +8,6 @@ const EXPANDER = "td.wc_table_sel_wrapper";
 
 /**
  * Provides ARIA based row in tree grid functionality (lists of selectable options - cf a select element).
- *
  * @alias module:wc/ui/RowAnalog~RowAnalog
  */
 class RowAnalog extends AriaAnalog {
@@ -48,7 +47,6 @@ class RowAnalog extends AriaAnalog {
 	 * According to the WAI-ARIA spec listbox MUST contain option and option must be contained by listbox.
 	 * However, the rdf is broken on this point with regard to looking up what 'option' is contained by. So this
 	 * is a fill for that bug.
-	 *
 	 * @constant
 	 * @public
 	 * @type {string}

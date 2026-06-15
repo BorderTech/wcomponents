@@ -22,7 +22,6 @@ const elementGroup = {};
 /**
  * Get a group based on an element. The element is either a member of the group (for example a checkbox) or
  * defines a group (for example a select).
- *
  * @function module:wc/dom/group.get
  * @param {Element} element An element which belongs to (or defines) the group. BEWARE OF AMBIGUOUS
  *    CONTAINERS. Think about it, if you pass a fieldset or a "menu" to this function what do you expect to
@@ -68,7 +67,6 @@ elementGroup.get = function (element, ignoreInnerGroups) {
  * For groups that are defined by ownership in a "container" (such as aria options in an aria listbox) this
  * function will return the members of the group. This function will find elements that are owned implicitly
  * (by being descendants of the container) BUT NOT explicitly (using the "aria-owns" attribute).
- *
  * @function module:wc/dom/group.getGroup
  * @param {Element} element The container/owner itself unless containerWd is specified in which case any
  *    descendant of a container/owner.
@@ -95,7 +93,6 @@ elementGroup.getGroup = function(element, itemWd, containerWd) {
  * Get the grouping container, if any, for a particular element. A group element could be an ARIA grouping
  * or an aria owner, both of these are covered by ariaGroup. For native DOM elements which are not owned
  * they could be grouped by name (which has no container) or by container. This is not a good thing!
- *
  * @function module:wc/dom/group.getContainer
  * @param {Element} element An element which may be a group container or a member of a group or neither.
  * @param {string} [containerWd] A container widget for a subclass of

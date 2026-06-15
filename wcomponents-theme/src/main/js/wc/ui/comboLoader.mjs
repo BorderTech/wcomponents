@@ -30,7 +30,6 @@ const instance = {
 /**
  * Converts a select element to listbox options and replaces the optionList
  * options with the new ones
- *
  * @function
  * @private
  * @param {(HTMLSelectElement|Object)} dataList a select element or object with an 'options' array

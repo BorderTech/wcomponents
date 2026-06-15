@@ -1,7 +1,6 @@
 /**
  * Provides functionality which interrupts clicks on form submitting and validating buttons if the validation
  * area is not in a valid state.
- *
  * @see {@link module:wc/ui/cancelUpdate}
  */
 
@@ -64,7 +63,6 @@ function clickEvent($event) {
  * Initialisation function to add a click handler. The handler is added as a late handler as we want other
  * handlers to do any state changes and have the opportunity to cancel the event before we bother with
  * handling it.
- *
  * @function  module:wc/ui/validation/cancelUpdate.initialise
  * @param {Element} element The HTML element being initialised, usually document.body.
  */

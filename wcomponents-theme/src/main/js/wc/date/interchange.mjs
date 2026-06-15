@@ -31,7 +31,6 @@ const PLACEHOLDER = "?",
 const instance = {
 	/**
 	 * Determines if the date string contains all year month and day values.
-	 *
 	 * @function
 	 * @alias module:wc/date/interchange.isComplete
 	 * @static
@@ -63,7 +62,6 @@ const instance = {
 
 	/**
 	 * Converts a date object to transfer format.
-	 *
 	 * @function
 	 * @alias module:wc/date/interchange.fromDate
 	 * @static
@@ -94,7 +92,6 @@ const instance = {
 
 	/**
 	 * Get a transfer date string representation of this object.
-	 *
 	 * @param {dateFromValuesObject} obj The object containing values to be
 	 *    converted to a transfer format date.
 	 * @returns {string} The given object's values converted to a transfer date string.
@@ -135,7 +132,6 @@ const instance = {
 /**
  * Split the transfer format into its constituent parts. Any missing parts of the date will be replaced with
  * default values.
- *
  * @param {string} xfr A transfer date string.
  * @param  {boolean} defaults If true default values will  be used to fill missing date parts (otherwise
  *    they will be null).

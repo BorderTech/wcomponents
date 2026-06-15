@@ -14,7 +14,6 @@ const wCheckboxSelector = `${wrapperSelector} > ${checkboxSelector}`;
 /**
  * when a checkBox is added using AJAX it may need to find out if it is controlled and if so add its ID to
  * the controllers' aria-controls attribute.
- *
  * @function
  * @private
  * @param {Element} element The reference element (element being replaced).
@@ -71,7 +70,6 @@ function ensureControls(myId) {
  * This is a writeState for standalone WCheckBox elements (not part of a WCheckBoxSelect) which are not
  * checked.
  * TO-DO: Get rid of this one way or another it should never have been written.
- *
  * @function
  * @private
  * @param {Element} form The form or form segment which is having its state written.

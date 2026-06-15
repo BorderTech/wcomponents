@@ -40,7 +40,6 @@ let observer;
 const formUpdateManager = {
 	/**
 	 * Subscribe to formUpdateManager so a module can take care of its own state writing needs.
-	 *
 	 * @param {module:wc/dom/formUpdateManager~subscriber} subscriber An object a subscriber to FormUpdateManager
 	 * (an object which has a writeState method) OR simple the writeState method itself.
 	 * @returns {Function} The subscriber function is returned unchanged.
@@ -64,7 +63,6 @@ const formUpdateManager = {
 	/**
 	 * Remove a subscriber to formUpdateManager. You probably don't want to use this, but it is vital for sane unit
 	 * testing because subscribers are global.
-	 *
 	 * @function module:wc/dom/formUpdateManager.unsubscribe
 	 * @param {module:wc/dom/formUpdateManager~subscriber} subscriber The subscriber function to unsubscribe.
 	 */
@@ -76,7 +74,6 @@ const formUpdateManager = {
 
 	/**
 	 * This triggers the "publish" which will ask all subscribers to write their state.
-	 *
 	 * @function  module:wc/dom/formUpdateManager.update
 	 * @param {Element} container The form (or form segment container element) to which any state will attached.
 	 *    Will also be passed to subscribers unless region is set.
@@ -115,7 +112,6 @@ const formUpdateManager = {
 	/**
 	 * Function to be called when the DOM is ready. Adds the submitEvent handler used to initiate state writing of
 	 * custom controls.
-	 *
 	 * @function module:wc/dom/formUpdateManager.initialise
 	 * @param {HTMLBodyElement} element The body element of the document.
 	 */
@@ -126,7 +122,6 @@ const formUpdateManager = {
 	/**
 	 * A helper for other classes when writing state fields. Adds a new hidden input field to the container with the
 	 * provided name and value.
-	 *
 	 * @function module:wc/dom/formUpdateManager.writeStateField
 	 * @param {Element} container The state container to which the state field will be added.
 	 * @param {string} name The name of the parameter when the form is serialized.
@@ -169,7 +164,6 @@ const formUpdateManager = {
 	 * Finds the "state container" for this form. The state container is the container element descendant of the form
 	 * which contains state fields (where state fields are generally hidden input elements written by subscribers on
 	 * previous updates). If no state container exists it will be created.
-	 *
 	 * @function module:wc/dom/formUpdateManager.getStateContainer
 	 * @param {Element} form The form element for which we wish to retrieve the state container (does not strictly have to be a form).
 	 * @returns {HTMLElement} The state container.
@@ -188,7 +182,6 @@ const formUpdateManager = {
 	},
 	/**
 	 * Get a named field from the state container
-	 *
 	 * @function module:wc/dom/formUpdateManager.getStateField
 	 * @param {Element} container The state container.
 	 * @param {String} name  The field name to find.
@@ -202,7 +195,6 @@ const formUpdateManager = {
 
 /**
  * An event listener to cancel events. Needs to be wired up VERY early.
- *
  * @see {@link module:wc/dom/formUpdateManager~addRemoveEvents}
  * @function
  * @private
@@ -214,7 +206,6 @@ function genericEventCancel($event) {
 
 /**
  * Adds and removes event listeners to prevent multiple submits.
- *
  * @function
  * @private
  * @param {Element} el A form element or body in good browsers.
@@ -274,7 +265,6 @@ function submitEvent($event) {
  * Ensure that if there is a file selector in the form then the form enctype is set correctly.
  * While the XSLT can build the form correctly this does not help if a file selector is added
  * to the page at a later stage (e.g. via AJAX).
- *
  * @function
  * @private
  * @param {HTMLFormElement} form A HTML form.

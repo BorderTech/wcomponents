@@ -27,7 +27,6 @@ function Observer(notifyInStages) {
 
 	/**
 	 * Unsubscribe from this Observer instance.
-	 *
 	 * @function
 	 * @public
 	 * @param {{ ref: Subscriber, grp: string } | Array<{ ref: Subscriber, grp: string }>} subscriber The subscriber (as passed to the subscribe method).
@@ -85,7 +84,6 @@ function Observer(notifyInStages) {
 	 *
 	 * Note that duplicate instances of a subscriber cannot be added to the same "group"
 	 * (see the `config.group` argument below).
-	 *
 	 * @function
 	 * @public
 	 * @param {function|Object} subscriber A callback which will be called when the notify method is called or
@@ -154,7 +152,6 @@ function Observer(notifyInStages) {
 	 *
 	 * Any filter set by setFilter will be cleared.
 	 * Any callback set by setCallback will be cleared.
-	 *
 	 * @function
 	 * @public
 	 * @param {...*} [args] 0...n additional arguments to supply to the subscriber.
@@ -241,7 +238,6 @@ function Observer(notifyInStages) {
 	 * filter.
 	 *
 	 * Filters allow you to have control over which subscriber groups are to be notified.
-	 *
 	 * @function
 	 * @public
 	 * @param {String|function} arg A filter function will be called during notify, once for each subscriber group.
@@ -289,7 +285,6 @@ function Observer(notifyInStages) {
 	 * The callback may return true to short-circuit (stop) the notification process.
 	 *
 	 * The callback function will be cleared after each call to notify and therefore must be set again as required.
-	 *
 	 * @function
 	 * @public
 	 * @param {function} fn This function will be called after each subscriber has been notified.
@@ -323,7 +318,6 @@ function Observer(notifyInStages) {
 	/**
 	 * Get a filter function that can be provided to setFilter to match group names which contain wildcards
 	 * (asterisks).
-	 *
 	 * @function
 	 * @public
 	 * @param {string} filter - The filter to match, honoring any wildcards in group names.
@@ -383,7 +377,6 @@ Observer.prototype.priority = Observer.priority = {
 /**
  * Manages registering and de-registering subscribers in different groups and
  * at different priorities. Knows about all the groups in this Observer instance.
- *
  * @alias SubscriberRegistry
  * @constructor
  * @private
@@ -417,7 +410,6 @@ function SubscriberRegistry() {
 
 	/**
 	 * Unsubscribe from this Observer instance.
-	 *
 	 * @function
 	 * @public
 	 * @param {Function|Object} subscriber The subscriber (as passed to the subscribe method).
@@ -484,7 +476,6 @@ function SubscriberRegistry() {
 	 * @public
 	 * @param {String} [group] The group in question. If not provided the default group will be used.
 	 * @returns {number} The count of subscribers in the group, or -1 if the group does not exist.
-	 *
 	 * @example var observer = new Observer();
 	 * observer.subscribe(function() {}, {group:"cows"});
 	 * observer.subscribe(function() {}, {group:"cows"});
@@ -550,7 +541,6 @@ function SubscriberRegistry() {
  * what priority they are registered in within this group.
  *
  * Note: does not know its own name.
- *
  * @alias GroupStore
  * @constructor
  * @private
@@ -668,7 +658,6 @@ function GroupStore() {
 	 * [0][0] is the first high priority subscriber added
 	 * [1][0] is the first medium priority subscriber added
 	 * [2][0] is the first low priority subscriber added
-	 *
 	 */
 	this.getSubscribers = function() {
 		if (unsorted & HIGH) {

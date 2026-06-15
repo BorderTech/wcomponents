@@ -5,7 +5,6 @@ const { document, window } = globalThis;
  * Utility for executing XPath queries in JavaScript.
  *
  * Executes an XPath query and returns the result.
- *
  * @function  module:wc/xml/xpath.query
  * @param {string} xpath The xpath query.
  * @param {boolean} singleNode if true will return the first match.

@@ -12,7 +12,6 @@
 
 /**
  * The pivot window. Defaults to 15.
- *
  * @var {number}
  * @private
  * @type {number}
@@ -21,7 +20,6 @@ let pivotWindow = 15;
 
 /**
  * Set the pivot window to something other than the 15-year default.
- *
  * @function
  * @alias module:wc/date/pivot.set
  * @param {number} value The value of the pivot window, must be between 0 and 101 exclusive.
@@ -37,7 +35,6 @@ function set(value) {
 
 /**
  * Get the current value of the pivot window.
- *
  * @function
  * @alias module:wc/date/pivot.get
  * @returns {number} The current pivot window.

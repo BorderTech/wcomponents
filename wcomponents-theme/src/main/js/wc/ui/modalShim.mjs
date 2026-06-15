@@ -90,7 +90,6 @@ const instance = {
 	 * `showModal` or the shim element if `showModal` is called without an `activeRegion` arg.
 	 *
 	 * If subscribing to `clear` (the default) then the notification will have no arguments.
-	 *
 	 * @function module:wc/ui/modalShim.subscribe
 	 * @public
 	 * @param {Function} subscriber the function to subscribe
@@ -130,7 +129,6 @@ const instance = {
  * If the user is shift-tabbing their way back through the dialog we want to wrap focus around to the last
  * tabstop, not the first. To do this we need to track the state of the shift key because focus event does
  * not report shift key flag.
- *
  * @function
  * @private
  * @param {KeyboardEvent} $event The keydown event.

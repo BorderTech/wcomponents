@@ -25,10 +25,7 @@ const { console } = globalThis;
  });
  * Note that you can provide either a string or function that will be passed the raw XHR response
  * and is expected to return a string.
- *
- *
  * @param {Object} [messages] Optionally provide the messages object directly to this function.
- *
  */
 
 /**

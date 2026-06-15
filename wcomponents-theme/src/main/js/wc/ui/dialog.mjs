@@ -73,7 +73,6 @@ const instance = {
 
 /**
  * Ensure a dialog trigger element has the aria-haspopup attribute.
- *
  * @param {string} id the id of the element to manipulate
  */
 function setHasPopup(id) {
@@ -139,7 +138,6 @@ function isInsideDialog(id) {
 
 /**
  * Find a dialog opener from a given start point.
- *
  * @function
  * @private
  * @param {Element} element the start element
@@ -273,7 +271,6 @@ function openDlg(triggerId) {
  * component which is an unnamed wrapper in the Java side so will ONLY grab focus when a dialog is opened and
  * will not continually grab it each time an ajax action occurs inside a dialog even if the target is the
  * WComponent (most commonly a WPanel) which is used as the "content" of the dialog. Tricky that.
- *
  * @param {Element} element The root element from the ajax response.
  */
 function postOpenSubscriber(element) {
@@ -303,7 +300,6 @@ function getRegistryObjectByDialogId(id) {
 
 /**
  * Listen for shed.hide and clear out the transient aspects of the dialog.
- *
  * @function
  * @private
  * @param {CustomEvent} $event A shed hide event.

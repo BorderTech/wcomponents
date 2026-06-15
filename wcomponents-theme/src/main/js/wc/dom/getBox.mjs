@@ -1,7 +1,6 @@
 /**
  * Gets the boundingClientRect for an element and returns an object containing the box along with width and height
  * (these are most often used and are not supported in old versions of IE).
- *
  * @alias module:wc/dom/getBox
  * @param {Element} element The element of which we need the box.
  * @param {Boolean} [round] Should we round the result before returning it?

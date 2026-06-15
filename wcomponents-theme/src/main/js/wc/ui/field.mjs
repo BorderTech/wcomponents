@@ -16,7 +16,6 @@ const fieldSelector = ".wc-field",
  * Before inserting a container into the DOM we may need to manipulate some properties which are not
  * available to the XSLT as they are ancestor dependent. This will only be the case if the element being
  * acted upon is the output of ui:field without a ui:fieldlayout parent.
- *
  * @function
  * @private
  * @param {Element} element The reference element (element being replaced).

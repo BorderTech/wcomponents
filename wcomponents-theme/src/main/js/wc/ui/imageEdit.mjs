@@ -78,7 +78,6 @@ const imageEdit = {
 
 	/**
 	 * Registers a configuration object against a unique ID to specify variables such as overlay image URL, width, height etc.
-	 *
 	 * @param {Object[]} arr Configuration objects.
 	 */
 	register: function(arr) {
@@ -148,8 +147,6 @@ const imageEdit = {
 	 * If other (non-image) files are present they will be passed through unchanged.
 	 * If more than one image file is present the editor will be displayed for each image file one after the other.
 	 * If the edit operation is aborted at any point for any file then the entire edit process is aborted (the promise will reject).
-	 *
-	 *
 	 * @param {Object} obj An object with a "files" property that references an array of File blobs to be edited and a registered "id" or "name".
 	 * @param {Function} onSuccess Called with an array of File blobs that have potentially been edited by the user.
 	 * @param {Function} onError called if something goes wrong.

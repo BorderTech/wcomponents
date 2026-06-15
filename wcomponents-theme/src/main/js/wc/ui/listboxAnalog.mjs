@@ -31,10 +31,7 @@ const { Node } = globalThis;
  *    - Ctrl/Meta+Space selects non-contiguous items and adds the current selected item to all previously selected items;
  *    - Ctrl/Meta+A - It is recommended a checkbox, link or other method be used to select all. The Ctrl/Meta+A key
  *      could be used to provide the shortcut key.
- *
- *
  * @see http://www.w3.org/TR/wai-aria-practices/#Listbox
- *
  * @alias module:wc/ui/listboxAnalog~ListboxAnalog
  */
 class ListboxAnalog extends AriaAnalog {
@@ -74,7 +71,6 @@ class ListboxAnalog extends AriaAnalog {
 	 * According to the WAI-ARIA spec listbox MUST contain option and option must be contained by listbox.
 	 * However, the rdf is broken on this point with regard to looking up what 'option' is contained by. So this
 	 * is a fill for that bug.
-	 *
 	 * @constant
 	 * @type {string}
 	 * @override
@@ -113,7 +109,6 @@ class ListboxAnalog extends AriaAnalog {
 
 	/**
 	 * Get visible, enabled options in a listbox.
-	 *
 	 * @function
 	 * @alias module:wc/ui/listboxAnalog.getAvailableOptions
 	 * @param {Element} listbox an instance of a listbox
@@ -130,7 +125,6 @@ class ListboxAnalog extends AriaAnalog {
 
 	/**
 	 * Deselect all options in a listbox.
-	 *
 	 * @function
 	 * @alias module:wc/ui/listboxAnalog.clearAllOptions
 	 * @param {Element} listbox an instance of a listbox
@@ -151,7 +145,6 @@ class ListboxAnalog extends AriaAnalog {
 
 	/**
 	 * Get the value of an option in a listbox analog.
-	 *
 	 * @function
 	 * @alias module:wc/ui/listboxAnalog.getOptionValue
 	 * @param {Element} option the option in which we are interested
@@ -170,7 +163,6 @@ class ListboxAnalog extends AriaAnalog {
 /**
  * Given an option in a listbox and a printable character, find the next option (if any) which starts
  * with that character.
- *
  * @function
  * @private
  * @param {HTMLElement[]} options The container for the list of options, already calculated in the calling

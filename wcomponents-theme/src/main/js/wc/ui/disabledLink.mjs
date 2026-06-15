@@ -8,7 +8,6 @@ import shed from "wc/dom/shed.mjs";
 
 /**
  * Click event listener: prevent navigation if the link is "disabled".
- *
  * @function
  * @private
  * @param {MouseEvent & { target: HTMLElement }} $event A click event.

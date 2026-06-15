@@ -1,6 +1,5 @@
 /**
  * Provides an indicator that debug mode is on.
- *
  * @module
  */
 import initialise from "wc/dom/initialise.mjs";

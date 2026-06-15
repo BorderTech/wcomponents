@@ -31,7 +31,6 @@ let submitting = false,  // this is a safety net to prevent double submits if bo
  *
  * **NOTE:** this has certain negative accessibility implications around unexpectedly changing context. As a consequence
  * we recommend submitOnChange not be used, and it may be removed from future releases.
- *
  * @module
  */
 const instance = {
@@ -194,7 +193,6 @@ function changeEvent({ target, defaultPrevented }) {
 
 /**
  * Listens to select, deselect, collapse state changes to fire submit on change as required.
- *
  * @function
  * @private
  * @param {Element} element The element being acted upon.

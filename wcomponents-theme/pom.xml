@@ -23,7 +23,7 @@
 		<npm.download.root>http://registry.npmjs.org/npm/-/</npm.download.root>
 		<yarn.download.root>https://github.com/yarnpkg/yarn/releases/download/</yarn.download.root>
 		<npm.version>10.9.3</npm.version>
-		<yarn.version>v2.4.3</yarn.version>
+		<yarn.version>2.4.3</yarn.version>
 		<dependency-check.skip>true</dependency-check.skip>
 		<spotbugs.skip>true</spotbugs.skip>
 		<nodeAuditSkipDevDependencies>true</nodeAuditSkipDevDependencies>

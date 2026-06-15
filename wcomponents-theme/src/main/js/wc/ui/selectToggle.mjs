@@ -81,7 +81,6 @@ function isWSelectToggle(element) {
 
 /**
  * Write the state of the select toggles when a form submission takes place.
- *
  * @function
  * @private
  * @param {Element} form The form or sub-form the state of which is being written.
@@ -170,7 +169,6 @@ function getAllControllers(element) {
 
 /**
  * Get all the components which are controlled by a selectToggle.
- *
  * @function
  * @private
  * @param {Element} controller The selectToggle.
@@ -220,7 +218,6 @@ function getGroup(controller) {
 /**
  * Undertake the "click" of selectable components controlled by a select toggle. A helper for
  * {@link module:wc/ui/selectToggle~shedSubscriber}.
- *
  * @function
  * @private
  * @param {Element} trigger The select toggle trigger element.
@@ -301,7 +298,6 @@ function activateTrigger(trigger) {
 
 /**
  * Set the controller based on status. A helper for {@link module:wc/ui/selectToggle~shedSubscriber}.
- *
  * @function
  * @private
  * @param {Element} controller A WSelectToggle.
@@ -351,7 +347,6 @@ function setControllerStatus(controller, status) {
 
 /**
  * Listen for select/deselect and act on any controller.
- *
  * @function
  * @private
  * @param {Element} element The element being selected/deselected.
@@ -405,7 +400,6 @@ function controlStatusHelper(controller) {
 
 /**
  * Set the aria-controls attribute on the buttons of a selectToggle.
- *
  * @function
  * @private
  * @param {Element} element a collapsible toggle wrapper
@@ -437,7 +431,6 @@ function setControlList(element) {
 
 /**
  * Set aria-controls for each collapsible toggle
- *
  * @function
  * @private
  */
@@ -495,7 +488,6 @@ const instance = {
 	/**
 	 * Late initialisation to add {@link module:wc/dom/shed} and {@link module:wc/dom/formUpdateManager}
 	 * subscribers.
-	 *
 	 * @function module:wc/ui/selectToggle.postInit
 	 * @public
 	 */
@@ -512,7 +504,6 @@ const instance = {
 
 	/**
 	 * Set up a registry of all select togglers and their group keyed on id.
-	 *
 	 * @function
 	 * @public
 	 * @param {Object[]} objArr an array of selectToggle dtos.

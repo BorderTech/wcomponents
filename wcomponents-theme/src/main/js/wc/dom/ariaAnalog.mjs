@@ -85,7 +85,6 @@ function calcMoveTo(instance, $event) {
 
 /**
  * Deselect all elements in a group except any defined by the arg except.
- *
  * @function
  * @private
  * @param {NodeList|HTMLElement[]} _group The group of elements which define an instance of an ARIA-analog.
@@ -116,7 +115,6 @@ function deselect(_group, except, container, inst) {
 
 /**
  * Is an analog in a read-only state?
- *
  * @function
  * @private
  * @param {Element} element The element to test.
@@ -130,7 +128,6 @@ function isReadOnly(element) {
  * The eventWrapper allows late binding of event listeners to events so that subclasses can override event
  * listeners if they really want to. If we didn't use this mechanism then the superclass events would always be
  * called even if they were overridden.
- *
  * @function
  * @private
  * @param {Event} $event The event to be wrapped.
@@ -150,7 +147,6 @@ function eventWrapper($event) {
 /**
  * Get the group which a particular element belongs to. A wrapper for {@link module:wc/dom/group#getGroup} and
  * {@link module:wc/dom/group#get}.
- *
  * @function
  * @private
  * @param {Element} element The element in a group
@@ -169,7 +165,6 @@ function getGroup(element, analog) {
 
 /**
  * Filter a group of elements to exclude all those which are disabled or hidden.
- *
  * @function
  * @private
  * @param {Element[]} _group
@@ -201,7 +196,6 @@ AriaAnalog.prototype.VALUE_ATTRIB = "data-wc-value";
 /**
  * Provides all possible selection modes: multiple, single, mixed.
  * Keys are MULTIPLE, SINGLE and MIXED.
- *
  * @var
  * @type Object
  * @property {number} MULTIPLE Instance supports multiple selection.
@@ -217,7 +211,6 @@ AriaAnalog.prototype.SELECT_MODE = {
 /**
  * Provides all possible directions for group-based key navigation. This navigation paradigm is only suitable
  * for simple linear navigation. Keys are PREVIOUS, NEXT, FIRST and LAST.
- *
  * @var
  * @type Object
  * @property {number} PREVIOUS Move to the previous item.
@@ -234,7 +227,6 @@ AriaAnalog.prototype.KEY_DIRECTION = {
 
 /**
  * Indicates that keyboard navigation should cycle at the limits of a group/sibling group.
- *
  * @var
  * @type Boolean
  */
@@ -244,7 +236,6 @@ AriaAnalog.prototype._cycle = false;
  * An array of Widgets which describe 'actionable' items which is used to prevent default action on some key
  * presses and not others depending upon the target element. This is set once per subclass during
  * initialisation.
- *
  * @var
  * @type {?Array}
  */
@@ -252,7 +243,6 @@ AriaAnalog.prototype.actionable = null;
 
 /**
  * Indicates whether navigating with the keyboard selects items.
- *
  * @function
  * @param {Element} element The element being navigated to. Not used by default but needed in subclasses.
  */
@@ -266,7 +256,6 @@ AriaAnalog.prototype.selectOnNavigate = function (element) {
 /**
  * Indicates whether  only one item can be selected at a time. Must be a
  * value of AriaAnalog.prototype.SELECT_MODE.
- *
  * @var
  * @type number
  * @default 0
@@ -276,7 +265,6 @@ AriaAnalog.prototype.exclusiveSelect = AriaAnalog.prototype.SELECT_MODE.MULTIPLE
 /**
  * Indicates that the key navigation method uses a DOM grouping. Group navigation is efficient but insufficient
  * for some complex groups (such as menu items).
- *
  * @var
  * @type Boolean
  * @default true
@@ -286,7 +274,6 @@ AriaAnalog.prototype.groupNavigation = true;
 /**
  * This property is used to get the start point element for SHIFT+activate and should only be initialised for
  * subclasses which support multiple selection.
- *
  * @var
  * @type {?Object}
  * @default null
@@ -324,7 +311,6 @@ AriaAnalog.prototype.simpleSelection = false;
 
 /**
  * Allow subclasses to add extended initialisation.
- *
  * @var
  * @type {?Function}
  */
@@ -332,7 +318,6 @@ AriaAnalog.prototype._extendedInitialisation = null;
 
 /**
  * Helper for getting a group container from a member of a group.
- *
  * @function
  * @public
  * @param {Element} element The group member we are using to derive the group container
@@ -346,7 +331,6 @@ AriaAnalog.prototype.getGroupContainer = function(element) {
  * Subscriber to module:wc/dom/shed to act on shed events SELECT and DESELECT. This will selectively deselect other items in the group if the
  * group selection mode ({@link module:wc/dom/ariaAnalog#exclusiveSelect}) is single or mixed a container element and that element does not
  * have attribute aria-multiselectable = "true".
- *
  * @function
  * @public
  * @param {Element} element The element SHED is acting on.
@@ -380,7 +364,6 @@ AriaAnalog.prototype.shedObserver = function(element, action) {
  * You should not override this method. If JS allowed a way of declaring a method as final we would use that
  * here. If you do override it you are responsible for calling it from the subclass, perhaps like this:
  * this.constructor.prototype.initialise.call(this, element);
- *
  * @function
  * @public
  * @param {Element} element The element being initialised. Usually document.body.
@@ -402,7 +385,6 @@ AriaAnalog.prototype.initialise = function(element) {
 
 /**
  * Write the state of the ARIA analog component into any form submission or required AJAX request.
- *
  * @function
  * @param {Element} form the form or form segment whose state is being written.
  * @param {Element} container the container for writing the state fields.
@@ -478,7 +460,6 @@ AriaAnalog.prototype.clickEvent = function ($event) {
 
 /**
  * Keydown event listener to navigate between items or activate on SPACE where supported.
- *
  * @function
  * @param {KeyboardEvent& { target: HTMLElement }} $event The keydown event.
  */
@@ -516,7 +497,6 @@ AriaAnalog.prototype.keydownEvent = function ($event) {
 
 /**
  * key navigation for simple linear groups.
- *
  * @function
  * @param {Element} start Start element
  * @param {number} direction -1 to previous in group, 1 to next in group NOTE: radio button groups allow native
@@ -575,7 +555,6 @@ AriaAnalog.prototype.navigate = function(start, direction) {
 
 /**
  * A helper for activate which deals with selection of single-selects.
- *
  * @function
  * @param {Element} element The element being activated.
  * @param {boolean} CTRL Indicates the Ctrl key was depressed during activation.
@@ -595,7 +574,6 @@ function singleSelectActivateHelper(element, CTRL, instance) {
 
 /**
  * A helper for activate which deals with multi-selects with the SHIFT control depressed.
- *
  * @function
  * @param {Element} element The element being activated.
  * @param {Element} container The analog container.
@@ -619,7 +597,6 @@ function multiSelectWithShiftHelper(element, container, CTRL, instance) {
 
 /**
  * Activate the element, that is SELECT or DESELECT it.
- *
  * @function
  * @public
  * @param {Element} element the element being directly activated. This should never be called on components
@@ -665,7 +642,6 @@ AriaAnalog.prototype.activate = function(element, SHIFT, CTRL) {
  * SHIFT + ACTIVATE helper: gets the group the element is in and selected/deselects all items between it and the
  * last activated item. Then, if the CTRL key was not in play and items are being selected it will deselect
  * items outside the group.
- *
  * @function
  * @param {HTMLElement} element The source element.
  * @param {HTMLElement} [lastActivated] The last activated element in the group.
@@ -705,7 +681,6 @@ AriaAnalog.prototype.doGroupSelect = function(element, lastActivated, CTRL) {
 
 /**
  * Set the last activated element in the group.
- *
  * @function
  * @param {Element} element The last activated element.
  * @param {Element} [container] The group container (if known).
@@ -723,7 +698,6 @@ AriaAnalog.prototype.setLastActivated = function (element, container) {
  * on capture for all events). This is to overcome the issue of all aria analogs listening for the same events with an ancestor lookup to
  * determine if they are the target. This results in multiple analogs responding if nested as we cannot rely on preventDefault() because we
  * cannot rely on the order in which the analogs handle an event.
- *
  * @function
  * @param {Element} target The event target
  * @param {Element} item The element found using this.ITEM.
@@ -772,7 +746,6 @@ function isActiveAnalog(target, item) {
 /**
  * When we change the selected item in a group we set the tabIndex otherwise tabbing into the group may not be
  * possible or may result in the wrong element receiving focus.
- *
  * @function
  * @param {HTMLElement} element The element to receive future focus.
  */
@@ -789,7 +762,6 @@ AriaAnalog.prototype.setFocusIndex = function(element) {
 
 /**
  * Gets the Widget which describes the active component.
- *
  * @function
  * @public
  * @returns {string} ?
@@ -801,7 +773,6 @@ AriaAnalog.prototype.getWidget = function() {
 /**
  * Determine if an event target is inside an ariaAnalog and if so, if that analog can be activated. If
  * this is the case return the analog ITEM element.
- *
  * @function
  * @public
  * @param {Element} target The element which was the target of an event.

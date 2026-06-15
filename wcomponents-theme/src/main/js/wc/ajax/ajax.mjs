@@ -1,6 +1,5 @@
 /**
  * Provides non-implementation specific ajax functionality. Beef it up as you need to.
- *
  * @module
  *
  * TO-DO Document private members and totally redo this module
@@ -53,7 +52,6 @@ function Ajax() {
 	 *
 	 * Also provides an automation testing hook so tools can programatically determine if there are pending
 	 * ajax requests or not.
-	 *
 	 * @function
 	 * @private
 	 * @param {boolean} [decrement] If true decrement the count, otherwise will be incremented.
@@ -111,7 +109,6 @@ function Ajax() {
 
 	/**
 	 * Called when the readystate of the request changes.
-	 *
 	 * @param request The XHR created by ajaxRqst
 	 * @param config The config object as passed to ajaxRqst
 	 * @function
@@ -201,7 +198,6 @@ function Ajax() {
 
 	/**
 	 * Configure the request before the XHR is 'open'.
-	 *
 	 * @param request The XHR created vy ajaxRqst
 	 * @param config The config object as passed to ajaxRqst
 	 * @function
@@ -241,7 +237,6 @@ function Ajax() {
 
 	/**
 	 * Configure the request after the XHR is 'open'.
-	 *
 	 * @param request The XHR created vy ajaxRqst
 	 * @param config The config object as passed to ajaxRqst
 	 * @function
@@ -261,7 +256,6 @@ function Ajax() {
 	// eslint-disable-next-line jsdoc/require-returns-check
 	/**
 	 * Executes AJAX requests.
-	 *
 	 * @private
 	 * @alias module:wc/ajax/ajax~ajaxRqst
 	 * @param {module:wc/ajax/ajax~Request} config Holds the details of the request to be sent.
@@ -294,7 +288,6 @@ function Ajax() {
 
 	/**
 	 * Make an AJAX request.
-	 *
 	 * @function
 	 * @alias module:wc/ajax/ajax.simpleRequest
 	 * @public

@@ -9,7 +9,6 @@ const PREFIX = "uid";
  * direct pointers why may cause memory leaks in some browsers). This uses date to make the ID unique in time,
  * so that if for example a page source is viewed and copied (along with its uids) they would not clash with any
  * later generated values.
- *
  * @function
  * @alias module:wc/dom/uid
  * @returns {String} A unique identifier.

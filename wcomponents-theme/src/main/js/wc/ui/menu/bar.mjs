@@ -55,7 +55,6 @@ const barTemplate = context => `
 /**
  * Menu controller extension for WMenu of type BAR and type FLYOUT. These are menus which are horizontal at the top
  * level and if they have submenus they are transient fly-out artifacts.
- *
  * @see http://www.w3.org/TR/wai-aria-practices/#menu
  *
  * Extends menu functionality to provide a specific implementation of a menu bar.
@@ -93,7 +92,6 @@ class Menubar extends AbstractMenu {
 	 * Reset the key map according to the currently focused item. In the top level the  left and right go to
 	 * siblings and down goes to children (if any) in sub-menus up and down go to siblings, right to child (if
 	 * any) and left to parent.
-	 *
 	 * @function
 	 * @override
 	 * @param {Element} item The item which has focus.
@@ -179,7 +177,6 @@ class Menubar extends AbstractMenu {
 
 	/**
 	 * Extended initialisation for bar/flyout menus. Should not be called manually.
-	 *
 	 * @function
 	 * @public
 	 * @param {Element} element the element being initialised
@@ -208,7 +205,6 @@ class Menubar extends AbstractMenu {
 
 	/**
 	 * Set the initial key map for a bar menu.
-	 *
 	 * @see http://www.w3.org/TR/wai-aria-practices/#menu
 	 * @function
 	 * @override
@@ -228,7 +224,6 @@ class Menubar extends AbstractMenu {
 
 /**
  * Clear the iconified state of any menu.
- *
  * @function
  * @private
  * @param {Element} nextMenu the menu to manipulate
@@ -265,7 +260,6 @@ function removeIconified(nextMenu) {
 
 /**
  * Attach a close button to a submenu if required.
- *
  * @function
  * @private
  * @param {Element} el the element to test and (possibly) manipulate.
@@ -302,7 +296,6 @@ function attachSubMenuCloseButton(el) {
  * menu found and manipulates it for improved display and usability on mobile devices. Each sub-menu has a
  * close button added to the top and when the BAR menu is in the HEADER panel (role "banner") we collapse
  * the entire menu into a sub-menu and add a launcher to where the top-level items used to be.
- *
  * @function
  * @private
  * @param {Element} nextMenu The menu to be processed.
@@ -332,7 +325,6 @@ function makeIconified(nextMenu) {
 /**
  * Determine if the iconification of any menus has to be toggled and call the appropriate manipulation
  * function if required.
- *
  * @function
  * @private
  * @param {Element} el the element to test which may be a menu, submenu or something containing a menu.
@@ -367,7 +359,6 @@ function toggleIconMenus(el) {
 
 /**
  * Set the orientation on vertical separators.
- *
  * @function
  * @private
  * @param {Element|DocumentFragment} element any element which may contain a bar/flyout menu separators
@@ -384,7 +375,6 @@ function setSeparatorOrientation(element) {
 
 /**
  * Pre-insertion ajax subscriber function to set the orientation of vertical separators in an ajax response.
- *
  * @function
  * @private
  * @param {Element} element the target element, not used
@@ -405,7 +395,6 @@ function attachClosebuttons(container) {
 
 /**
  * Determines if the current element/item is the first or last item in a menu/submenu.
- *
  * @function
  * @private
  * @param {Element} element The menu item/opener to test.

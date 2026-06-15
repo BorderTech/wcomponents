@@ -8,7 +8,6 @@ const SEPARATOR = "/";
 
 /**
  * Represents a single match.
- *
  * @constructor
  * @private
  * @alias module:wc/date/Parser~Match
@@ -16,7 +15,6 @@ const SEPARATOR = "/";
 function Match() {
 	/**
 	 * Get a transfer date formatted string representing this match.
-	 *
 	 * @function
 	 * @public
 	 * @returns {String} The transfer date.
@@ -27,7 +25,6 @@ function Match() {
 
 	/**
 	 * Get a Javascript Date instance representing this match. Any missing values are populated with default values.
-	 *
 	 * @function
 	 * @public
 	 * @returns {Date} The date represented by the match.
@@ -112,7 +109,6 @@ function getCompiledRegex(patterns) {
  *
  * The Parser class is used to extend the capabilities of the standard JavaScript Parser. It allows more control
  * over what may be interpreted as a date.
- *
  * @constructor
  * @alias module:wc/date/Parser
  */
@@ -132,7 +128,6 @@ function Parser() {
 	 *
 	 * For performance, we store the result in the variable maskCache so that when the same mask is later used it
 	 * will be retrieved from the cache not recalculated.
-	 *
 	 * @function
 	 * @private
 	 * @returns {Array} The patterns represented by the compiled masks.
@@ -221,7 +216,6 @@ function Parser() {
 	 * Date Rolling:
 	 * If a date is parsed as 40/02/2000 Rolling determines if it is to be rejected as a match, or 'rolled'
 	 * forward to a valid date (in this case 11/03/2000).
-	 *
 	 * @function
 	 * @param {Boolean} arg Indicates if dates should be rolled forwards.
 	 */
@@ -231,7 +225,6 @@ function Parser() {
 
 	/**
 	 * Is the date allowed to roll?
-	 *
 	 * @function
 	 * @returns {Boolean} true is rolling is enabled.
 	 */
@@ -264,7 +257,6 @@ function Parser() {
 	 * <p><strong>Important!</strong><br>
 	 * by default no masks are set, no not any. This is to FORCE those parsing dates to at least think about
 	 * what masks are relevant to their users: exploding masks is expensive and i18n matters!</p>
-	 *
 	 * @function
 	 * @param {Array} arg The masks we want this parser to use.
 	 */
@@ -274,7 +266,6 @@ function Parser() {
 
 	/**
 	 * Get the current parser instance's masks.
-	 *
 	 * @function
 	 * @returns {Array} The masks in use.
 	 */
@@ -289,7 +280,6 @@ function Parser() {
 	 * the normal pivot rules, the 4 digit year would put the date in the future, then the century is rolled
 	 * back to ensure the date is in the past. E.g. 07 might be converted to 2007, however since a birthdate
 	 * cannot be in the future 1907 will be returned instead.
-	 *
 	 * @function
 	 * @param {boolean} arg Set true to always roll back two digit years.
 	 */
@@ -299,7 +289,6 @@ function Parser() {
 
 	/**
 	 * Should two digit years always be rolled to the past?
-	 *
 	 * @function
 	 * @returns {boolean} ?
 	 */

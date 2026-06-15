@@ -58,7 +58,6 @@ function labelToLegend(element) {
 initialise.register({
 	/**
 	 * Initialiser callback. For internal use only.
-	 *
 	 * @function module:wc/ui/fieldset.preInit
 	 * @public
 	 */
@@ -71,7 +70,6 @@ initialise.register({
 export default {
 	/**
 	 * Gets the selector for a fieldset element.
-	 *
 	 * @function module:wc/ui/fieldset.getWidget
 	 * @public
 	 * @returns {string} The description of a fieldset.

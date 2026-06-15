@@ -1,6 +1,5 @@
 /**
  * Provides a mechanism to serialize and deserialize a HTML element or NodeList.
- *
  * @module
  */
 import isSuccessfulElement from "wc/dom/isSuccessfulElement.mjs";
@@ -45,7 +44,6 @@ const instance = {
 
 	/**
 	 * Serialize an HTML Form or NodeList to the format used in a HTTP GET request queryString.
-	 *
 	 * @function  module:wc/dom/serialize.serialize
 	 * @param {NodeList|HTMLElement[]|HTMLFormElement} nodeList The nodes to serialize or an HTML Form.
 	 * @param {Boolean} [includeButtons] If true all button name:value pairs are included.
@@ -105,7 +103,6 @@ const instance = {
 	/**
 	 * Deserialize to hidden input fields in the DOM (or simply to an object).
 	 * Useful for compressing chunks of non-viewable content such as the content of a dynamic tab.
-	 *
 	 * @function module:wc/dom/serialize.deserialize
 	 * @param {string|Object} input The thing to deserialize, either a String or a serialized object.
 	 * @param {Element} [container] The DOM element in which to create the hidden fields, if not provided then
@@ -182,7 +179,6 @@ function getValue(element) {
 /**
  * Convert a serialised form to an object with properties `name:[values]` the value is always an array even
  * if there is only one value for that name.
- *
  * @function
  * @private
  * @param {string} inStr the serialised form (format name=value&name-val2&name3&name4=&name5=val5)
@@ -208,7 +204,6 @@ function deserializeToObject(inStr) {
 
 /**
  * helper for deserializing.
- *
  * @function
  * @private
  * @param {Element} container Where the fields are put.

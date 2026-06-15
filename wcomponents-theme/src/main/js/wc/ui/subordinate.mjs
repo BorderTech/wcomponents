@@ -153,7 +153,6 @@ function activateSubordinateRules(element) {
  * Get the element for this identifier. When the subordinate rule is created the app developer is only aware
  * that an input field has an identifier - they do not know if this identifier translates to an 'id' or a
  * 'name' attribute, so we need to check both.
- *
  * @function
  * @private
  * @param {String} identifier The element id or name. Note that only input fields can legally have a name.
@@ -196,7 +195,6 @@ function getElement(identifier, view) {
  *
  * <li>In the case of regular expression matching the only supported flag is "case-insensitive". This
  * flag is off by default but can be turned on by prefixing the pattern with (?i).</li></ul>
- *
  * @function
  * @private
  * @param {String} id The identifier of the test subject - could be: an element id, or an element name
@@ -252,7 +250,6 @@ function isConditionTrue(id, testValue, operator, view) {
 /**
  * Helper for isConditionTrue.
  * Performs an equality test when there are selectable options at play.
- *
  * @param {Element} element The test subject.
  * @param {string} testValue The test value as passed to `isConditionTrue`.
  * @param {boolean} negate true if the equality test is a "not equal" type.

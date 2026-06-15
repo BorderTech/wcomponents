@@ -30,7 +30,6 @@ let dragging;
 const instance = {
 	/**
 	 * Make an element a drag control
-	 *
 	 * @function module:wc/ui/draggable.makeDraggable
 	 * @public
 	 * @param {Element} element The element which will be draggable.
@@ -46,7 +45,6 @@ const instance = {
 
 	/**
 	 * Make an element no longer draggable.
-	 *
 	 * @function module:wc/ui/draggable.clearDraggable
 	 * @public
 	 * @param {Element} element The element to change.
@@ -61,7 +59,6 @@ const instance = {
 /**
  * We usually need to move a complex component but only want a sub-component to be the move handle. This
  * function gets a moveable component from an event target.
- *
  * @function
  * @private
  * @param {Element} element The target of an event which causes a move.
@@ -78,7 +75,6 @@ function getMoveTarget(element) {
 
 /**
  * Mousedown event listener. mousedown on a draggable target sets the start point for move.
- *
  * @function
  * @private
  * @param {MouseEvent & { target: HTMLElement}} $event The mousedown event.
@@ -99,7 +95,6 @@ function mousedownEvent($event) {
 
 /**
  * Helper for the keydown event to move the "draggable" item.
- *
  * @param {Element} element The draggable element.
  * @param {number} x The amount to move in the x-axis.
  * @param {number} y The amount to move in the y-axis.
@@ -134,7 +129,6 @@ function keydownHelper(element, x, y) {
 /**
  * keydown event listener which provides keyboard driven move using arrow keys when a move target (or its
  * descendant) has focus.
- *
  * @function
  * @private
  * @param {KeyboardEvent & { target: HTMLElement }} $event The keydown event.
@@ -166,7 +160,6 @@ function keydownEvent($event) {
 
 /**
  * Sets initial position if move is initiated by a touch event.
- *
  * @function
  * @private
  * @param {TouchEvent} $event The touchstart event.
@@ -194,7 +187,6 @@ function touchstartEvent($event) {
 
 /**
  * Clear move setup on mouseup, touchend or touchcancel.
- *
  * @function
  * @private
  */
@@ -204,7 +196,6 @@ function mouseupTouchendTouchcancelEvent() {
 
 /**
  * Moves an element as a helper for mousemove and touchmove.
- *
  * @function
  * @private
  * @param {HTMLElement} element The component to move.
@@ -242,7 +233,6 @@ function moveTo(element, x, y) {
 
 /**
  * Undertake the move based on a mousemove event.
- *
  * @function
  * @private
  * @param {MouseEvent} $event The mousemove event.
@@ -260,7 +250,6 @@ function mousemoveEvent($event) {
 
 /**
  * Undertake the move based on a touchmove event.
- *
  * @function
  * @private
  * @param {TouchEvent} $event The touchmove event.
@@ -279,7 +268,6 @@ function touchmoveEvent($event) {
 
 /**
  * Add and remove events from a draggable element.
- *
  * @function
  * @private
  * @param {Element} element The draggable element.
@@ -302,7 +290,6 @@ function addRemoveEvents(element, remove) {
 /**
  * Add and remove drag actions on show/hide. NOTE: we are probably
  * showing/inserting an ancestor of the actual draggable element.
- *
  * @function
  * @private
  * @param {Element} element the element being shown.
@@ -320,13 +307,11 @@ function shedAjaxSubscriber(element, action) {
 
 /**
  * Provides functionality used to move a component around the screen. Components may be moved using a mouse or keyboard.
- *
  * @module
  */
 initialise.register({
 	/**
 	 * A subscriber to set up early event listeners.
-	 *
 	 * @function module:wc/ui/draggable.initialise
 	 * @param {Element} element The element being initialised, usually document.body.
 	 */

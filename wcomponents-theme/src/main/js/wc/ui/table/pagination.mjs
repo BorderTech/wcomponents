@@ -121,7 +121,6 @@ function ajaxSubscriber(element, fragment) {
 
 /**
  * Update the options in the page selector after we change page (client mode only).
- *
  * @function
  * @private
  * @param {HTMLSelectElement} element The page selector.
@@ -161,7 +160,6 @@ function updateSelectOptions(element, ignoreOther) {
 
 /**
  * Add the required options to the pagination control's page selector.
- *
  * @function
  * @private
  * @param {Element} [element] Any element defaults to document.body.
@@ -216,7 +214,6 @@ function setUpPageSelectOptions(element) {
 
 /**
  * Given one 'page selection dropdown' find the other (if the table has two).
- *
  * @function
  * @private
  * @param {HTMLSelectElement} selector a page selection dropdown.
@@ -243,7 +240,6 @@ function getOtherSelector(selector) {
 
 /**
  * Gets the `TYPE` of a given button.
- *
  * @function
  * @private
  * @param {Element} button A pagination button.
@@ -258,7 +254,6 @@ function getButtonType(button) {
 /**
  * Undertake the action of a page change button .This will result in the pagination controller select
  * being updated if the page change is able to go ahead.
- *
  * @function
  * @private
  * @param {Element} button The button to action.
@@ -296,7 +291,6 @@ function actionButton(button, paginationContainer) {
 
 /**
  * Helper to make an ajax request when a dynamic pagination select or rows per page select is changed.
- *
  * @function
  * @private
  * @param {Element} element The control which was updated leading to the ajax request becoming necessary.
@@ -308,7 +302,6 @@ function requestAjaxLoad(element) {
 /**
  * Enables and disabled pagination buttons based on the page currently shown. Do not publish these changes,
  * nothing should care.
- *
  * @function
  * @private
  * @param {HTMLSelectElement} element The pagination select controller.
@@ -347,7 +340,6 @@ function setPaginationButtonState(element) {
 /**
  * Interleaves the showing and hiding of rows to prevent page jumping around in slow browsers (like IE8).
  * This is not necessary in Chrome and FF but IE needs it.
- *
  * @function
  * @private
  * @param {Element[]} rows The collection of row elements
@@ -409,7 +401,6 @@ const findChild = (el, qs) => {
 /**
  * Change the visible page to reflect a change in the selector list. Assumes a change has actually been
  * made, it's up to the caller to ensure that an update is actually necessary.
- *
  * @function
  * @private
  * @param {HTMLSelectElement} element The page change selector (dropdown list)
@@ -446,7 +437,6 @@ function changePage(element, button) {
 /**
  * This function simply calls pageChange but queues requests and only actions the last request when there
  * have been no further requests for a given number of milliseconds.
- *
  * @see {changePage}
  * @function
  * @private
@@ -463,7 +453,6 @@ function requestPageChange(element, button) {
 /**
  * change event listener to handle a change event on a pagination dropdown list.
  * This is the 'main event' that drives the page change.
- *
  * @function
  * @private
  * @param {Event & { target: HTMLSelectElement }} $event The change event.
@@ -490,7 +479,6 @@ function changeEvent({ target, defaultPrevented }) {
 
 /**
  * Handles a click on any of the pagination buttons.
- *
  * @function
  * @private
  * @param {MouseEvent & { target: HTMLElement }} $event The click event.
@@ -523,7 +511,6 @@ export default {
  * Subscriber to {@link module:wc/ui/ajax/processReponse}. If the ajax trigger is a dropdown select
  * control, and we have previously stored a button ID we have to refocus to the buttonId. The
  * {@link module:wc/dom/onloadFocusControl} cannot do this for us.
- *
  * @function
  * @private
  * @param {Element} element The AJAX target element.
@@ -567,7 +554,6 @@ function postAjaxSubscriber(element, action, triggerId) {
 /**
  * Write the state of pagination select and rows per page selector. We do not use native name:value semantics
  * here because to do so causes an unnecessary unsaved changes warning.
- *
  * @function
  * @private
  * @param {Element} form The form or form segment the state of which is being written.
@@ -617,13 +603,11 @@ function writeState(form, stateContainer) {
  *    <li>Change event not fired when value change programmatically, meaning we have to fire the change event manually
  *    in some cases.</li>
  * </ol>
- *
  * @module
  */
 initialise.register({
 	/**
 	 * Setup and initialise functionality.
-	 *
 	 * @function
 	 * @public
 	 * @param {Element} element The element being initialised, usually document.body.
@@ -635,7 +619,6 @@ initialise.register({
 
 	/**
 	 * Late setup: the post-insertion ajax subscriber and formUpdateManager subscriber.
-	 *
 	 * @function module:wc/ui/table/pagination.postInit
 	 * @public
 	 */

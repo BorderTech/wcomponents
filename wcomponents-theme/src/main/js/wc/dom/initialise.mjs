@@ -16,7 +16,6 @@ let currentView,
 const instance = {
 	/**
 	 * Has the DOM been loaded yet?
-	 *
 	 * @var module:wc/dom/initialise.domLoaded
 	 * @type Boolean
 	 */
@@ -26,7 +25,6 @@ const instance = {
 
 	/**
 	 * Register an initialise routine.
-	 *
 	 * @function  module:wc/dom/initialise.register
 	 * @param {Object} control An instance of a component which is being initialised.
 	 * @returns {Object} The control that was passed in.
@@ -48,7 +46,6 @@ const instance = {
 	 * Execute the initialisation routines (init routines, 'body listeners', callbacks) NOTE: all routines are executed
 	 * ONLY ONCE and are purged after execution. It is safe for a subscriber to add new subscribers.
 	 * TO-DO: This function is public for use by the domLoaded callback, it should not be called directly. Maybe a rename is called for?
-	 *
 	 * @function  module:wc/dom/initialise.go
 	 * @param {HTMLElement} element document.body
 	 * @param {Function} [callback] Function which will be called after all the routines are executed.
@@ -75,7 +72,6 @@ const instance = {
 
 	/**
 	 * Get a meaningful String representation of the subscribers.
-	 *
 	 * @function module:wc/dom/initialise.toString
 	 * @public
 	 * @returns {String} ?
@@ -84,7 +80,6 @@ const instance = {
 
 	/**
 	 * Add a subscriber for the earliest phase of initialisation.
-	 *
 	 * @function module:wc/dom/initialise.addInitRoutine
 	 * @see {@link module:wc/dom/initialise~Initialise~add} for documentation.
 	 * @param {function} listener The subscriber function.
@@ -95,7 +90,6 @@ const instance = {
 
 	/**
 	 * Add a subscriber for the middle phase of initialisation.
-	 *
 	 * @function module:wc/dom/initialise.addBodyListener
 	 * @see {@link module:wc/dom/initialise~Initialise~add} for documentation.
 	 * @param {function} listener The subscriber function.
@@ -106,7 +100,6 @@ const instance = {
 
 	/**
 	 * Add a callback subscriber for the last phase of initialisation.
-	 *
 	 * @function module:wc/dom/initialise.addCallback
 	 * @see {@link module:wc/dom/initialise~Initialise~add} for documentation.
 	 * @param {function} listener The subscriber function.
@@ -125,10 +118,8 @@ const instance = {
  * 'initialise' does its nodeListener initialisation work
  * {@link module:wc/dom/initialise.addCallback}: add a function that will be executed AFTER the
  * 'initialise' does its nodeListener initialisation work
- *
  * @function
  * @private
- *
  * @param {module:wc/Observer#PRIORITY} priority High is init routines, medium is 'body listeners', low is
  *    callbacks.
  * @param {String} [method] The name of the method to call if listener is an object rather than a function.
@@ -156,7 +147,6 @@ function add(priority, method, listener) {
 /**
  * Call this instead of "go" directly when a short delay is not critical
  * (e.g. any time after page load - i.e. handling ajax responses)
- *
  * @function
  * @private
  */

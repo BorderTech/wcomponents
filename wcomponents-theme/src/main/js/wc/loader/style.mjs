@@ -17,7 +17,6 @@ const DOT_EX = ".css",
  *
  * The default/fallback includes fixes for IE11 and MS Edge. These will be overridden completely by a custom config `css`
  * object unless `config.inherit` is `true`.
- *
  * @var
  * @type {module:wc/loader/style~cssConfig}
  * @private
@@ -53,7 +52,6 @@ let CSS_BASE_URL = null,
  * ```
  *
  * Go take a look at {@link module:wc/loader/style~cssConfig} and {@link module:wc/loader/style~loadRules}.
- *
  * @example
  * // The module config object is like this if we support Custom CSS
  * //  only for ie10, ie11, Firefox, and Safari 8:
@@ -75,7 +73,6 @@ let CSS_BASE_URL = null,
  *        }
  *    }
  * }
- *
  * @module
  */
 const instance = {
@@ -91,7 +88,6 @@ const instance = {
 	/**
 	 * Write link elements for all required CSS files. Should only be called from ui:root XSLT. To add CSS from a
 	 * module use {@link module:wc/loader/style.add}.
-	 *
 	 * @function module:wc/loader/style.load
 	 * @public
 	 * @param {module:wc/loader/style~config} [config] a dto describing the CSS to load. If not defined use module config
@@ -151,7 +147,6 @@ const instance = {
 
 	/**
 	 * Allow any module to load a CSS file. If your module wants to add custom CSS use this function.
-	 *
 	 * @function module:wc/loader/style.add
 	 * @public
 	 * @param {String} nameOrUrl The file name (with or without extension) or URL to a CSS file.
@@ -168,7 +163,6 @@ const instance = {
 	 *   (including the ability to override the style loadre config). So in reality this is almost always going to
 	 *   be a URL unless you are particularly odd. Being particularly odd I tested this function using the debug CSS
 	 *   and loading it from {@link module:wc/debug/a11y}.
-	 *
 	 * @param {String} [media] A CSS media query appropriate to the link element.
 	 * @param {module:wc/loader/style~config} [config] a dto describing the CSS to load. If not defined use module config
 	 */
@@ -257,7 +251,6 @@ function configure(obj) {
 
 /**
  * Create a link element for a CSS file in the head element unless we already have one for this URL.
- *
  * @function
  * @private
  * @param {String} url The CSS url to add.
@@ -335,7 +328,6 @@ function addByName(nameOrUrl, media) {
  * @property {String} [cachebuster] The cache key for the loaded CSS, generally generated from the XSLT and not overridden.
  * @property {module:wc/loader/style~cssConfig} [css] An object describing other CSS patches to load based on optional `has` and/or media queries.
  * @property {boolean} [inherit] if `true` then inherit the default CSS include object as a mixin target. Only used if `css` is an object.
- *
  * @example
  * // add configuration to inherit the default CSS and add support for small screen CSS `wc-phone.css` in all browsers and CSS file `wc-ff.css`
  * // in all versions of Firefox:
@@ -362,7 +354,6 @@ function addByName(nameOrUrl, media) {
  * @property {module:wc/loader/style~loadRules|string} value The rules for describing and load testing for the CSS. If this property is
  *    a string then it is a simple has test passing in that string and using the key as the building block for the CSS file name as described
  *    above. Otherwise, see {@link module:wc/loader/style~loadRules}
- *
  * @example
  * // the following includes Firefox of any version, Safari version 6, print styles for any mac and styles for safari version 8 including a media
  * // selector for large screens:
@@ -393,7 +384,6 @@ function addByName(nameOrUrl, media) {
  * @property {String} [media] A CSS media selector. If set then the CSS link will include this media selector
  * @property {String} [name] the CSS file URL/name (with or without path) to load. If not set then the file to load will be based on the key
  *   {@see module:wc/loader/style~cssConfig) in the form of CSS_BASE_URL + "wc-" + key + ".css? + CACHEBUSTER
- *
  * @example
  * // To test for Safari 8 or below and a screen with a lot of horizontal pixels:
  * saf8big: { // will load file "wc-saf8big.css" from the theme style directory.
@@ -408,7 +398,6 @@ function addByName(nameOrUrl, media) {
  *   "name": "s8big.css",
  *   "media": "@media only screen and (min-device-width:2560px)"
  * }
- *
  * @example
  * // TO load a print stylesheet from URL "https://example.com/css/print.css" in Firefox:
  * ffPrint: {
@@ -416,14 +405,12 @@ function addByName(nameOrUrl, media) {
  *   "media": "print"
  *   "name": "https://example.com/css/print.css"
  * }
- *
  * @example
  * // TO load a stylesheet called "foo.css" from the theme style directory in Firefox:
  * foo: {
  *   "test": "ff",
  *   "name": "foo.css" // note: "name": "foo" will also work and will add the cachebuster
  * }
- *
  * @example
  * // TO load a print stylesheet called "print.css" from the theme style directory in all browsers and use the standard cache buster:
  * printCss: {
@@ -432,7 +419,6 @@ function addByName(nameOrUrl, media) {
  *   "media": "print"
  * }
  * // NOTE that any falsy value for property `test` will have the same result as `null`.
- *
  * @example
  * // To load the `wc-phone.css` fle built during theme build in _any_ small screen
  * "phone": {

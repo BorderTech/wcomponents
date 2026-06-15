@@ -135,7 +135,6 @@ function fireThisTrigger(element, trigger) {
 
 /**
  * Checks if an element is an ajax trigger and if so fires it.
- *
  * @function
  * @private
  * @param {Element} element The element we consider a candidate for being an AJAX trigger. If the element is indeed an AJAX trigger then
@@ -172,7 +171,6 @@ function shedSubscriber($event) {
 /**
  * Does an element trigger an ajax request when it changes? Some elements should not do ajax stuff on click,
  * instead it makes sense for them to use the change event.
- *
  * @function
  * @private
  * @param {Element} element The element to check whether it does ajax on change.
@@ -215,7 +213,6 @@ function changeEvent($event) {
 
 /**
  * Focus event listener adds a change event to triggers which trigger on change.
- *
  * @function
  * @private
  * @param {Event & {target: Element}} $event A focus event.
@@ -234,7 +231,6 @@ function focusEvent($event) {
  * Only returns true if the link will navigate the page. If it is a link that will target another frame
  * or window, or will launch an external app (via a custom protocol e.g. mailto:) then it will return
  * false.
- *
  * @function
  * @private
  * @param {Element} element

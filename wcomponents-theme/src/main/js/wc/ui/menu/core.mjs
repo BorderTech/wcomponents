@@ -1,8 +1,6 @@
 /**
  * A module representing an abstract menu without any specific implementation.
  * An instance of this class will do nothing.
- *
- *
  * @see {@link module:wc/ui/menu/bar}
  * @see {@link module:wc/ui/menu/column}
  * @see {@link module:wc/ui/menu/tree}
@@ -92,7 +90,6 @@ let activateOnHover,  // used to track the currently open menu to determine whet
 
 /**
  * Get the nearest ancestor menu from a given element.
- *
  * @function
  * @public
  * @param {Element} element The start point
@@ -132,7 +129,6 @@ function setTabstop(element, instance) {
 /**
  * Allows late binding of event listeners to events so that subclasses can override event listeners if they **really** need to. If we didn't
  * use this mechanism then the superclass events would always be called even if they were overridden.
- *
  * @function
  * @private
  * @param {Event} $event The event wrapped by {@link module:wc/dom/event}.
@@ -180,7 +176,6 @@ function doICollide(collision, isNotDefaultDirection) {
  * root. Note, we do not apply hover effects on mobile even though mobile devices may have keyboards and mice
  * because we restyle transient sub-menus on these devices to improve usability when NOT using a mouse. This
  * "restyle" melds better with most mobile OS native menu systems which are full-page per menu level.
- *
  * @function
  * @private
  * @param {MouseEvent} $event the mouseover event wrapped by {@link module:wc/dom/event}.
@@ -233,7 +228,6 @@ AbstractMenu.prototype._textMatchFilter = function(textNode) {
  * This is a tree walker which is used to test an elements text node descendants. It is used as part of another
  * tree walker filter. precondition: element has been tested as a potential element match, now we want to know if
  * its first visible text node starts with a particular letter.
- *
  * @function
  * @private
  * @param {Element} element The menu node being tested.
@@ -285,7 +279,6 @@ AbstractMenu.prototype._isItem = function(element) {
 
 /**
  * Get the menu leaf ancestor of a given element.
- *
  * @function
  * @public
  * @param {Element} element The element we are testing.
@@ -309,7 +302,6 @@ AbstractMenu.prototype.getItem = function(element) {
  * Curry for creating a tree walker filter. This has been split out of _getTreeWalker because we use the same
  * filter in the keyActivator helper function, but it is passed to the instance of
  * {@link modeule:wc/dom/keyWalker} as part of the config.
- *
  * @function
  * @public
  * @param {Boolean} ignoreClosed If true we ignore closed branches.
@@ -397,7 +389,6 @@ AbstractMenu.prototype._getTextTarget = function(item, letter, root) {
  * because the menu will close before the click event fires and the button will not actually receive the click
  * (since it is now hidden). So in those cases we wrap the call to closeAllPaths in a timeout to allow the
  * webkit focus fix to kick in and refocus the original button.
- *
  * @function
  * @private
  * @param {Element} menu The menu to close.
@@ -683,7 +674,6 @@ function postAjaxSubscriber(element) {
  *  the old tabstop is the element (which means this is running before the SHED disabled helper: **very**
  *   unlikely); or
  *  The old tabstop is inside the branch we just disabled/hid.
- *
  * @function
  * @param {Element} element The menu item element being hidden or disabled.
  * @param {Element} root The menu root node.
@@ -717,7 +707,6 @@ AbstractMenu.prototype._hideDisableHelper = function(element, root) {
 /**
  * Helper for collapsing branches: focuses the branch opener if possible. If the branch opener cannot be focussed
  * then focus the first tab stop in the menu.
- *
  * @function
  * @param {Element} item the branch being collapsed
  * @param {Element} root the root of the menu
@@ -751,7 +740,6 @@ AbstractMenu.prototype._shedCollapseHelper = function(item, root) {
 /**
  * Helper for shed EXPAND action. The default implementation does collision detection and then attempts to
  * focus the opened sub-menu.
- *
  * @function
  * @param {Element} branch The branch being expanded.
  * @param {Element} root The root of the current menu.
@@ -968,7 +956,6 @@ export function AbstractMenu() {
 	 * that we can keep some ugliness at bay. If we could make this CONST or FINAL STATIC we would!
 	 * If your subclass overrides this._FUNC_MAP you can expect things to break.
 	 * This is why it is here in the constructor of an object which will ultimately be frozen!
-	 *
 	 * @see {@link module:wc/ui/menu/core~FUNC_MAP}
 	 * @constant
 	 * @type {Object}
@@ -1013,7 +1000,6 @@ AbstractMenu.prototype._wd = {
  * If set to true the menu will have transient effects: that is, close when it loses focus or activate on hover
  * and invoke viewport collision. These are all facets of menus which do not have sticky open-ness. Defaults to
  * true.
- *
  * @var
  * @type boolean
  * @public
@@ -1024,7 +1010,6 @@ AbstractMenu.prototype.isTransient = true;
  * Indicates the method for finding "next" and "previous" when tree walking.
  * If set to true, the tree walker for the menu will look for children before siblings
  * otherwise it will look for siblings first.
- *
  * @function
  * @param {Element} element - A node in a menu/tree. Not needed by default but mandatory for mixed-mode trees.
  * @returns {Boolean} true if treeWalker should traverse depth-first. By default, always returns false.
@@ -1039,7 +1024,6 @@ AbstractMenu.prototype._treeWalkDepthFirst = function(element) {
 /**
  * Used when keyboard walking through a menu/submenu. If set to false do not cycle around ends of sibling groups
  * (going from last to first and vice-versa).
- *
  * @var
  * @type {Boolean}
  */
@@ -1050,7 +1034,6 @@ AbstractMenu.prototype._cycleSiblings = true;
  * automatically when opening a branch. This is not quite the same as transient as a single opening tree is
  * possible (think of a horizontal tree like the OS X finder in tree view). It is this bi-modal model for trees
  * which makes this a function.
- *
  * @function
  * @param {Element} element - An element in a menu and preferably a root node. This allows us to test an
  *    individual menu/tree if required. Not needed by default but should always be included in calls for those
@@ -1130,7 +1113,6 @@ AbstractMenu.prototype._remapKeys = function(item) {};  // eslint-disable-line n
 /**
  * Get the menu root element for the menu in which the passed in element is enclosed. This is fundamental to the
  * menu abstraction as usually the only way to tell what kind of menu an element is in is to inspect the root.
- *
  * @function
  * @public
  * @param {Element} item Any HTML element
@@ -1168,7 +1150,6 @@ AbstractMenu.prototype._getBranch = function(item) {
 /**
  * Get the menu element which is able to be "aria-expanded". This is the WSubMenu's content in most menus but
  * is the WSubMenu itself in trees.
- *
  * @function
  * @param {Element} item The start point for the search. This will normally be a 'branch'.
  * @returns {HTMLElement} The "expandable" element. This is usually the branch content but is the branch in trees.
@@ -1218,7 +1199,6 @@ AbstractMenu.prototype.getSubMenu = function(item, descending, all) {
 /**
  * 'Animate' the opening or closing of a branch. This is actually an easily overridden helper for openBranch and
  * closeBranch which by default does not invoke any animator.
- *
  * @function
  * @param {Element} item The branch being opened/closed.
  * @param {boolean} open If true branch is being opened, otherwise its being closed.
@@ -1400,7 +1380,6 @@ AbstractMenu.prototype._getBranchOpener = function(branch) {
 /**
  * Set focus to a menu item after undertaking any necessary menu manipulation. This is the preferred way to set
  * focus to a menu.
- *
  * @function
  * @param {Element} _item The menu item to focus.
  * @param {Element} _root The current menu's root node.
@@ -1492,11 +1471,9 @@ AbstractMenu.prototype._getTargetItem = function(item, action, root, forceCycle)
  * <p><strong>NOTE:</strong> the direction of travel is determined by the nearest menu/menubar/tree role as per
  *  WAI-ARIA guidelines.</p>
  * <p>NOTE: this is actually public but just for testing as it is difficult to test implicitly.</p>
- *
  * @see	http://www.w3.org/TR/wai-aria-practices/#menu
  * @see http://www.w3.org/TR/wai-aria-practices/#TreeView
  * @see http://www.w3.org/TR/wai-aria-practices/#accordion
- *
  * @function
  * @param {Element} item Where we start
  * @param {String} $key The KeyboardEvent key that was pressed
@@ -1628,7 +1605,6 @@ AbstractMenu.prototype.clickEvent = function($event) {
 /**
  * Keydown event handler. If the keydown event is of interest calls a helper function to undertake the correct
  * action for the key.
- *
  * @function
  * @param {KeyboardEvent} $event the keydown event.
  */
@@ -1661,7 +1637,6 @@ AbstractMenu.prototype.keydownEvent = function($event) {
 
 /**
  * Sets up the subclass specific selectors used to describe the various parts of the menu.
- *
  * @function
  */
 AbstractMenu.prototype._setUpWidgets = function() {
@@ -1681,10 +1656,8 @@ AbstractMenu.prototype._setUpWidgets = function() {
 /**
  * Initialisation of menus. If you override this you are responsible for calling it from the subclass, perhaps
  * like this: `this.constructor.prototype.initialise.call(this, element);`
- *
  * @param {Element} element
  * @returns {Promise<void>} ?
- *
  * @function
  * @public
  */

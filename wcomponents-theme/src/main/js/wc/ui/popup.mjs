@@ -29,7 +29,6 @@ const instance = {
 	/**
 	 * Indicates if an element is a pop-up trigger. This is required by {@link module:wc/ui/navigationButton}
 	 * (amongst others) to prevent navigation if the navigation button is also a pop-up creator.
-	 *
 	 * @function module:wc/ui/popup.isOneOfMe
 	 * @public
 	 * @param {Element} element the element to test if it is a popup trigger.
@@ -72,7 +71,6 @@ const instance = {
  * too clever and conflate to two.
  * @function
  * @private
- *
  * @param {String[]} infoArr the popup info as an array where the array elements are in the order as defined
  *    in the class variables above.
  * TO-DO: This array in a particular order is a bit fragile, consider using an object instead.

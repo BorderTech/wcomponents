@@ -19,7 +19,6 @@ function TriggerManager() {
 
 	/**
 	 * Is an element a HTML form control or an A element?
-	 *
 	 * @function
 	 * @private
 	 * @param {Element} element The element to test
@@ -42,7 +41,6 @@ function TriggerManager() {
 	 *
 	 * NOTE: Do not be fooled into iterating over parent nodes to find an AJAX trigger. This *will* give
 	 * you false positives.
-	 *
 	 * @function
 	 * @private
 	 * @param {Element} element The element which we thought was a trigger but wasn't.

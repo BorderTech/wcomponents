@@ -9,7 +9,6 @@ import color from "wc/dom/color.mjs";
  * measurement then set includeUnits to true.
  *
  * Colors will be returned as RGB (or RGBA) objects, for example {r:255 g:255 b:255} OR {r:255 g:255 b:255, a:0}
- *
  * @alias module:wc/dom/getStyle
  * @param {Element} element The element to test.
  * @param {String} cssRule The cssRule we want to find the style of (eg, 'color', 'display', 'position')

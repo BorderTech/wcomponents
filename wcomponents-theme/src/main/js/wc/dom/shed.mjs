@@ -70,7 +70,6 @@ const instance = {
 	actions,
 	/**
 	 * Show an element in the UI.
-	 *
 	 * @function module:wc/dom/shed.show
 	 * @param {Element} element The element to show.
 	 * @param {Boolean} [quiet] If true then do not publish this show event.
@@ -84,7 +83,6 @@ const instance = {
 
 	/**
 	 * Hide an element in the UI.
-	 *
 	 * @function module:wc/dom/shed.hide
 	 * @param {Element} element The element to hide.
 	 * @param {Boolean} [quiet] If true then do not publish this hide event.
@@ -99,7 +97,6 @@ const instance = {
 
 	/**
 	 * Enable an element in the UI.
-	 *
 	 * @function module:wc/dom/shed.enable
 	 * @param {Element} element The element to enable.
 	 * @param {Boolean} [quiet] If true then do not publish this enable event.
@@ -116,7 +113,6 @@ const instance = {
 	 * Attempt to disable an element using either its native disabled attribute if this is supported or, if it
 	 * has a role (or implied role) the aria-disabled attribute. If disabled is able to be set then we
 	 * optionally publish this.
-	 *
 	 * @function module:wc/dom/shed.disable
 	 * @param {Element} element The element to disable.
 	 * @param {Boolean} [quiet] If true then do not publish this disable event.
@@ -132,7 +128,6 @@ const instance = {
 	/**
 	 * Deselect a selectable element in the UI. This is generally done on WAI-ARIA roled widgets rather than
 	 * natively selectable elements but that is not a requirement.
-	 *
 	 * @function module:wc/dom/shed.deselect
 	 * @param {Element} element The element to deselect.
 	 * @param {Boolean} [quiet] If true then do not publish this deselect event.
@@ -148,7 +143,6 @@ const instance = {
 	/**
 	 * Select a selectable element in the UI. This is generally done on WAI-ARIA roled widgets rather than
 	 * natively selectable elements but that is not a requirement.
-	 *
 	 * @function module:wc/dom/shed.select
 	 * @param {Element} element The element to select.
 	 * @param {Boolean} [quiet] If true then do not publish this select event.
@@ -163,7 +157,6 @@ const instance = {
 
 	/**
 	 * Set a selectable element's selected state to indeterminate.
-	 *
 	 * @function module:wc/dom/shed.mix
 	 * @param {Element} element The element to set to indeterminate.
 	 * @param {Boolean} [quiet] If true then do not publish this event.
@@ -178,7 +171,6 @@ const instance = {
 
 	/**
 	 * Expand an element in the UI.
-	 *
 	 * @function module:wc/dom/shed.expand
 	 * @param {Element} element The element to expand.
 	 * @param {Boolean} [quiet] If true then do not publish this event.
@@ -197,7 +189,6 @@ const instance = {
 
 	/**
 	 * Collapse an element in the UI.
-	 *
 	 * @function module:wc/dom/shed.collapse
 	 * @param {Element} element The element to collapse.
 	 * @param {Boolean} [quiet] If true then do not publish this event.
@@ -216,7 +207,6 @@ const instance = {
 
 	/**
 	 * Set an element to be mandatory.
-	 *
 	 * @function module:wc/dom/shed.mandatory
 	 * @param {Element} element The element to make mandatory.
 	 * @param {Boolean} [quiet] If true then do not publish this event.
@@ -231,7 +221,6 @@ const instance = {
 
 	/**
 	 * Set an element to be optional.
-	 *
 	 * @function module:wc/dom/shed.optional
 	 * @param {Element} element The element to make optional.
 	 * @param {Boolean} [quiet] If true then do not publish this event.
@@ -246,7 +235,6 @@ const instance = {
 
 	/**
 	 * Determine if an element has an ancestor which is disabled.
-	 *
 	 * @function module:wc/dom/shed.hasDisabledAncestor
 	 * @param {Node} node The element to test
 	 * @param {string} [stopAtSelector] defines where we stop looking. If not defined we stop at BODY.
@@ -258,7 +246,6 @@ const instance = {
 
 	/**
 	 * Determine if the element is disabled.
-	 *
 	 * @function module:wc/dom/shed.isDisabled
 	 * @param {Element} element The element to test.
 	 * @returns {boolean} true if the element is disabled.
@@ -273,7 +260,6 @@ const instance = {
 
 	/**
 	 * Determine if the element is in an expanded state.
-	 *
 	 * @function module:wc/dom/shed.isExpanded
 	 * @param {Element} element The element to test.
 	 * @returns {boolean} true if the element is expanded.
@@ -290,7 +276,6 @@ const instance = {
 
 	/**
 	 * Determine if the element is hidden in accordance with the way shed hides things.
-	 *
 	 * @function module:wc/dom/shed.isHidden
 	 * @param {Element} node The element to test.
 	 * @param {boolean} [onlyHiddenAttribute] if true base test only on the existance of the hidden attribute.
@@ -339,7 +324,6 @@ const instance = {
 
 	/**
 	 * Determine if the element is marked as required.
-	 *
 	 * @function module:wc/dom/shed.isMandatory
 	 * @param {Element} element The element to test.
 	 * @returns {boolean} true if the element is required.
@@ -354,7 +338,6 @@ const instance = {
 
 	/**
 	 * Determine if the element is in a "read only" state.
-	 *
 	 * @function module:wc/dom/shed.isReadOnly
 	 * @param {Element} element The element to test.
 	 * @returns {boolean} true if the element is read only.
@@ -366,7 +349,6 @@ const instance = {
 	/**
 	 * Determine if an element supports selection either natively or via aria role.
 	 * For example a radio button returns true, a text input returns false.
-	 *
 	 * @function module:wc/dom/shed.isSelectable
 	 * @param {Element} element The element to test.
 	 * @returns {boolean} true if the element is selectable.
@@ -395,7 +377,6 @@ const instance = {
 	 *   state attribute for that role is set to true.; OR
 	 * the element does not have an aria role which supports any of the states in ARIA_STATE[SELECTED]
 	 *   but the element does have native support for a "selectable" attribute and that attribute is set
-	 *
 	 * @function module:wc/dom/shed.isSelected
 	 * @param {Element} element The element to test.
 	 * @returns {boolean|number} A property of {@link module:wc/dom/shed.state} being:
@@ -434,7 +415,6 @@ const instance = {
 	/**
 	 * Notify all subscribers that an action was performed. Action will be the name of the public method called
 	 * on this class.
-	 *
 	 * @function module:wc/dom/shed.publish
 	 * @param {Element} element The element to test.
 	 * @param {string} action One of {@link module:wc/dom/shed~actions}, e.g. "show" or "hide".
@@ -476,7 +456,6 @@ const instance = {
 
 	/**
 	 * Toggles a state of an element.
-	 *
 	 * @function module:wc/dom/shed.toggle
 	 * @param {Element} element The element to act on.
 	 * @param {String} action The state to toggle, any one of {@link module:wc/dom/shed~actions}.
@@ -512,7 +491,6 @@ const instance = {
 
 	/**
 	 * Unsubscribe from a SHED action.
-	 *
 	 * @function module:wc/dom/shed.unsubscribe
 	 * @param {String} type The action you want to unsubscribe from (one of shed.actions)
 	 * @param {Function} subscriber The subscriber to unsubscribe.
@@ -632,7 +610,6 @@ function expandWithOpen(element) {
 
 /**
  * Allows you to query and or set the native "selected state" of a DOM element.
- *
  * @function
  * @private
  * @param {HTMLInputElement|HTMLSelectElement|Element} element The element to be manipulated.
@@ -643,7 +620,6 @@ function expandWithOpen(element) {
  *
  *  element is a checkbox (or has checkbox role); and
  *  value is false.
- *
  * @returns {boolean|number} A property of {@link module:wc/dom/shed.state} or null if it does not
  *     natively support a selected state. Note that that mixed (indeterminate) and checked is ignored.
  */
@@ -710,7 +686,6 @@ function hasAncestorInState(node, state, stopAtSelector = "body") {
 
 /**
  * Sets or clears an attribute on an element.
- *
  * @function
  * @private
  * @param {Element} element The element on which to set or clear the attribute.
@@ -739,7 +714,6 @@ function showWithOpen(element) {
 
 /**
  * Helper to set various states.
- *
  * @function
  * @private
  * @param {Element} element The element which we will act on.
@@ -773,7 +747,6 @@ function shedHelper(element, attribute, action) {
  *    <li>Native checkboxes have two mixed states: "mixed + checked" and "mixed + unchecked". In this case mixed
  *    does not tell us anything about the state of the checkbox as it will be reported to the server. For
  *    the purpose of this class we ignore "mixed + checked", this is simply interpreted as "checked".</li></ul>
- *
  * @function
  * @private
  * @param {string|boolean|number} action A property of {@link module:wc/dom/shed.state} SELECTED, DESELECTED or MIXED.

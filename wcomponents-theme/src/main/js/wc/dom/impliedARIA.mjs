@@ -39,7 +39,6 @@ const ROLE_MAP = {
 const instance = {
 	/**
 	 * Get the "role" implicit in an HTML element.
-	 *
 	 * @function module:wc/dom/impliedARIA.getImpliedRole
 	 * @param {Element} element A DOM NODE but really should be an element.
 	 * @returns {String} The implied role for the element.
@@ -63,7 +62,6 @@ const instance = {
 	/**
 	 * Does element X natively support state Y? What's native stuff doing in an implied ARIA helper? Good question:
 	 * I had to put it somewhere!
-	 *
 	 * @function module:wc/dom/impliedARIA.supportsNativeState
 	 * @param {Element} element The element to test.
 	 * @param {string} state an HTML attribute representing a state: required, selected, checked or disabled.
@@ -107,7 +105,6 @@ const instance = {
  * https://html.spec.whatwg.org/#attr-input-required,
  * https://html.spec.whatwg.org/#attr-select-required
  * https://html.spec.whatwg.org/#attr-textarea-required
- *
  * @function
  * @private
  * @param {Element} element The element to test.
@@ -122,7 +119,6 @@ function supportsRequired(element) {
 /**
  * Determine if an HTML element supports the native checked attribute which is currently only supported by input
  * of type radio or checkbox event though all input elements report "checked" as a property.
- *
  * @function
  * @private
  * @param {Element} element The element to test.
@@ -136,7 +132,6 @@ function supportsChecked(element) {
 /**
  * Determine if an HTML element supports the native selected attribute which is currently only supported by
  * option elements.
- *
  * @function
  * @private
  * @param {Element} element The element to test.

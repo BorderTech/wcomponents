@@ -69,7 +69,6 @@ let lastTabId;
 
 /**
  * Provides tab and tabset functionality.
- *
  * @constructor
  * @alias module:wc/ui/tabset~Tabset
  */
@@ -96,7 +95,6 @@ class Tabset extends AriaAnalog {
 	/**
 	 * The selection mode for the group of tabs context. The select mode is mixed as accordions may be
 	 * multi-selectable.
-	 *
 	 * @var
 	 * @type {number}
 	 * @default 2
@@ -118,7 +116,6 @@ class Tabset extends AriaAnalog {
 	 * currently used in WComponents core.
 	 *
 	 * TO-DO: Remove this functionality and set up the TABLIST Widget independently where required.
-	 *
 	 * @function module:wc/ui/tabset.getList
 	 * @public
 	 * @returns {string} The TABLIST selector.
@@ -150,7 +147,6 @@ class Tabset extends AriaAnalog {
 
 	/**
 	 * A subscriber to {@link module:wc/dom/shed} to react to these pseudo-events.
-	 *
 	 * @function module:wc/ui/tabset.shedObserver
 	 * @override
 	 * @param {HTMLElement} element The element on which the shed action acted.
@@ -188,7 +184,6 @@ class Tabset extends AriaAnalog {
 	/**
 	 * Tab interaction functionality. Shows the tab's content if the tab is a regular tab. Toggles the
 	 * visibility. of the tab's content if the tab is an accordion tab.
-	 *
 	 * @function module:wc/ui/tabset.activate
 	 * @override
 	 * @param {Element} element the tab being opened or closed.
@@ -213,7 +208,6 @@ class Tabset extends AriaAnalog {
 
 	/**
 	 * A subscriber to {@link module:wc/dom/formUpdateManager} to write the state of tabsets during submission.
-	 *
 	 * @function
 	 * @public
 	 * @override
@@ -253,7 +247,6 @@ class Tabset extends AriaAnalog {
 	 * This is the keydown extension for CTRL + PAGE_UP/PAGE_DOWN to match the WAI-ARIA key map for tabsets. It
 	 * does not work in webkit but is fine in other browsers. The webkit issue is due to it not triggering a
 	 * key event for the CTRL+ PAGE_[UP|DOWN] combo - it is always used to navigate between the browser tabs.
-	 *
 	 * @function
 	 * @override
 	 * @param {KeyboardEvent & { target: HTMLElement }} $event The wrapped keydown event.
@@ -345,7 +338,6 @@ class Tabset extends AriaAnalog {
 
 /**
  * Gets the value of the attribute which makes a tab set into an accordion.
- *
  * @function
  * @private
  * @param {Element} tablist The tablist to test.
@@ -360,7 +352,6 @@ function getAccordion(tablist) {
  * Collapse single-select accordion tabs when a particular tab is opened. NOTE: this is required because
  * {@link module:wc/dom/ariaAnalog#shedObserver} works on select but not on expand. Accordion tabs are
  * expanded whereas regular tabs are selected.
- *
  * @function
  * @private
  * @param {Element} element The tab being opened.
@@ -384,7 +375,6 @@ function collapseOthers(element) {
 
 /**
  * Removes the custom size set when making an ajax region busy.
- *
  * @function
  * @private
  * @param {HTMLElement} element The element being made no longer busy.
@@ -640,7 +630,6 @@ function writeTabStateHelper(stateContainer, next) {
 
 /**
  * Gets the tab control which is the controller of the tab panel in which a given element exists.
- *
  * @function
  * @private
  * @param {Element} element An element.
@@ -665,7 +654,6 @@ function getTabFor(element) {
 
 /**
  * Is an element in an accordion tabset?
- *
  * @function
  * @private
  * @param {Element} element the element we are testing

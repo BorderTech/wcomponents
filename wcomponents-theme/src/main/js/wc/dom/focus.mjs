@@ -29,7 +29,6 @@ let focusObserver,
 const focusInstance = {
 	/**
 	 * Indicates that an element is a viable tab stop: ie, may be focusable
-	 *
 	 * @function module:wc/dom/focus.isTabstop
 	 * @param {Element} element The element to test.
 	 * @returns {Boolean} true if the element is a viable tab stop.
@@ -44,7 +43,6 @@ const focusInstance = {
 	/**
 	 * Indicates that an element natively focusable in a browser. This is based on the HTML5 spec but explicitly
 	 * excludes IMG.
-	 *
 	 * @function module:wc/dom/focus.isNativelyFocusable
 	 * @param {String} tagName The name of the element to test.
 	 * @returns {Boolean} true if the element is natively focusable.
@@ -55,7 +53,6 @@ const focusInstance = {
 
 	/**
 	 * Determine if an element could receive focus via the keyboard.
-	 *
 	 * @function module:wc/dom/focus.canFocus
 	 * @param {Element} element The element node to test.
 	 * @returns {Boolean} true if the element can receive focus
@@ -74,7 +71,6 @@ const focusInstance = {
 	 * Callbacks are cancelled if the call is cancelled. We used to queue them up
 	 * but this caused horrendous performance issues, even in extremely fast browsers.
 	 * Don't ever restore that behaviour.
-	 *
 	 * @function module:wc/dom/focus.setFocusRequest
 	 * @throws {TypeError} TypeError if element is not an Element node
 	 * @param {Element} element the element to focus
@@ -118,7 +114,6 @@ const focusInstance = {
 	 * form as focussing it also checks it
 	 * Once the list of tabstop eligible elements has been determined, we proceed to
 	 * call them against the canFocus() public method until one passes.
-	 *
 	 * @function module:wc/dom/focus.focusFirstTabstop
 	 * @param {Element} container The element in which we want to place the focus.
 	 * @param {Function} [callback] Callback function which will be notified when we (attempt to) set
@@ -149,7 +144,6 @@ const focusInstance = {
 
 	/**
 	 * Determine if an element's descendant elements contain at least one focusable element.
-	 *
 	 * @function module:wc/dom/focus.canFocusInside
 	 * @param {Element} element The element node to test.
 	 * @returns {Boolean} true if the element has at least one child which can receive focus.
@@ -168,7 +162,6 @@ const focusInstance = {
 
 	/**
 	 * Get the first ancestor element which can accept focus.
-	 *
 	 * @function module:wc/dom/focus.getFocusableAncestor
 	 * @param {Element} element The element from which to start the focusable hunt.
 	 * @param {Boolean} [ignoreSelf] set true if we want to explicitly ignore the current element otherwise will
@@ -272,7 +265,6 @@ function standardTabstopFilter(element, instance) {
  * you KNOW WITHOUT A DOUBT that the element may/not receive focus.
  * In cases where both ACCEPT and REJECT are returned by different filter functions,
  * ACCEPT takes precedence.
- *
  * @function
  * @private
  * @param {Function} fn The function which is subscribed.

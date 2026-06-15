@@ -251,7 +251,6 @@ class TimeoutWarn extends HTMLElement {
  * @static
  * @param {number} seconds The number of seconds until the HTTPSession expires. Using seconds because that
  *    is what Java HttpSession.getMaxInactiveInterval() uses.
- *
  * @param {number} [warnAt] Set the number of seconds before the warning is shown. If not set then a
  *    default (20) is used. This can also NEVER be less than 20 (WCAG 2.0 requirement).
  */

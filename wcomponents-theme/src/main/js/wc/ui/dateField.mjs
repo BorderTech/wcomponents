@@ -2,9 +2,7 @@
  * Provides functionality for implementing a date input control. Allows for native support of full date input and
  * provides both a polyfill for date input and an implementation of a control which can accept and parse parts of a
  * date.
- *
  * @see {@link module:wc/ui/calendar} which is used as the date picker polyfill.
- *
  */
 import unique from "wc/array/unique.mjs";
 import Parser from "wc/date/Parser.mjs";
@@ -148,7 +146,6 @@ const instance = {
 	/**
 	 * Is a particular field a native date input?
 	 * Not so lame according to the feedback from users.
-	 *
 	 * @param {Element} dateField a date field container.
 	 * @returns {Boolean} ?
 	 */
@@ -691,7 +688,6 @@ function ajaxSetup(_element, documentFragment) {
 
 /**
  * Update the text box when an option is selected.
- *
  * @function
  * @private
  * @param {Element} element The element being selected.

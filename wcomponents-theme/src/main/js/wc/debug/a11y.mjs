@@ -86,7 +86,6 @@ function addTerm(key, value) {
 /**
  * Simple reporter to show issues on screen. Used if module configuration object has `visible` == `true` and does not includ a custom callback
  * function.
- *
  * @param {Error} err null unless the attempt to run axe failed.
  * @param {{ violations: Array<{ impact: string, tags: string[] }> }} issues the issues found (if any)
  */
@@ -127,7 +126,6 @@ function visibleReporter(err, issues) {
 
 /**
  * Simple axe callback. Used if module configuration object does not include a custom callback function.
- *
  * @param {Error} err null unless the attempt to run axe failed.
  * @param {{ violations: Array<{ impact: string, tags: string[] }> }} issues the issues found (if any)
  */

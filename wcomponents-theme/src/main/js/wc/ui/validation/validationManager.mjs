@@ -16,7 +16,6 @@ const { document } = globalThis;
 /**
  * At its heart validationManager is just an observer surrogate and this is the instance of
  * {@link module:wc/Observer} used to subscribe and publish.
- *
  * @var
  * @type {module:wc/Observer}
  * @private
@@ -39,7 +38,6 @@ const validationManager = {
 	 * <li>the element is disabled; or</li>
 	 * <li>the element is not 'visible' (do shed test first - it is quicker).</li>
 	 * </ol>
-	 *
 	 * @function module:wc/ui/validation/validationManager.isExempt
 	 * @param {Element} element The component to test.
 	 * @returns {Boolean} true if the component is exempt from client side validation.
@@ -56,7 +54,6 @@ const validationManager = {
 	 * Is an element currently in an invalid state? This is used to indicate that revalidation may be needed
 	 * (commonly for a change event listener). NOTE: this does not test the validity of the element, merely
 	 * returns whether anything has put the element into an invalid state previously.
-	 *
 	 * @function module:wc/ui/validation/validationManager.isInvalid
 	 * @param {Element} element The component to test for validity.
 	 * @returns {Boolean} true if the element is invalid.
@@ -66,7 +63,6 @@ const validationManager = {
 	/**
 	 * Most validating components have a pretty similar mechanism to revalidate when their input changes so
 	 * this helper exists to take care of it.
-	 *
 	 * @function module:wc/ui/validation/validationManager.revalidationHelper
 	 * @param {Element} element The component being re-validated.
 	 * @param {Function} _validateFunc The component's validation function.
@@ -96,7 +92,6 @@ const validationManager = {
 
 	/**
 	 * Tests the validity of form bound elements within a specified container.
-	 *
 	 * @function module:wc/ui/validation/validationManager.isValid
 	 * @param {Element} [container] A DOM node (preferably containing form controls). If the container is not specified finds the form
 	 *   containing the activeElement (this is for use with controls with submitOnchange).
@@ -144,7 +139,6 @@ const validationManager = {
 	 * Allows a component to subscribe to client side validation.
 	 * @function module:wc/ui/validation/validationManager.subscribe
 	 * @see {@link module:wc/Observer#subscribe}
-	 *
 	 * @param {Function} subscriber The function that will be notified by validationManager. This function MUST be present at "publish" time,
 	 *   but need not be present at "subscribe" time.
 	 * @param {boolean} [revalidate] if truthy subscribe to revalidation rather than validation.
@@ -171,7 +165,6 @@ const validationManager = {
 
 	/**
 	 * Updates an error box to a success box and its error box once an error is corrected.
-	 *
 	 * @function
 	 * @public
 	 * @param {Element} element the HTML element which was in an error state.
@@ -232,7 +225,6 @@ function setValidateRules() {
 
 /**
  * Indicates whether a component is associated with a message indicating that an error has been resolved.
- *
  * @function
  * @private
  * @param {Element} element The HTML element to test.

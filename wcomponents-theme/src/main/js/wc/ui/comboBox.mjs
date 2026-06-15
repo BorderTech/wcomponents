@@ -38,7 +38,6 @@ let filterTimer,
 const instance = {
 	/**
 	 * gets the selector which describes the combo box.
-	 *
 	 * @public
 	 * @returns {string} the COMBO box selector.
 	 */
@@ -46,7 +45,6 @@ const instance = {
 
 	/**
 	 * gets the Widget which describes the listbox part of a combo.
-	 *
 	 * @public
 	 * @returns {string} the LISTBOX selector.
 	 */
@@ -78,7 +76,6 @@ const instance = {
 
 /**
  * Get the listbox part of a combo.
- *
  * @function
  * @private
  * @param {Element} element A combo or an option in the listbox.
@@ -103,7 +100,6 @@ function getListBox(element) {
 
 /**
  * Find all selected options in the _LISTBOX and deselect them.
- *
  * @function
  * @private
  * @param {Element} combo The combo box from which to strip selected.
@@ -120,7 +116,6 @@ function clearList(combo) {
  * particular the partial string matching is a Firefox feature, all the other browsers I looked at only match the start of each option.
  * Obviously there are performance implications on doing partial matches. If this turns out to be a problem it would be possible to retain
  * the behaviour but speed it up by building a lookup cache so that each search is only performed once.
- *
  * @function
  * @private
  * @param {Element} combo A combo control to filter
@@ -182,7 +177,6 @@ function filterOptions(combo, delay) {
 
 /**
  * Load new options using ajax.
- *
  * @function
  * @private
  * @param {Element} combo the combo we are updating
@@ -205,7 +199,6 @@ function load(combo, element) {
 
 /**
  * Gets a datalist of suggestions for a particular input element.
- *
  * @function
  * @private
  * @param {Element} combo the combo being updated
@@ -247,7 +240,6 @@ function updateList(element) {
 
 /**
  * Focus the listbox part of a combo if it has any options.
- *
  * @function
  * @private
  * @param {HTMLUListElement} listbox the LISTBOX subcomponent to focus.
@@ -264,7 +256,6 @@ function focusListbox(listbox) {
 
 /**
  * Find the combo for any element.
- *
  * @function
  * @private
  * @param {Element} element The start element.
@@ -277,7 +268,6 @@ function getCombo(element) {
 /**
  * Update the value of the combo based on interaction with an option. NOTE: native combos in HTML5 do
  * not update on select of the options! This is why we do not have a shed.SELECT subscriber to do this.
- *
  * @function
  * @private
  * @param {HTMLInputElement} combo The combo to update.
@@ -292,7 +282,6 @@ function setValue(combo, option) {
 
 /**
  * Event listener for shed custom events.
- *
  * @function
  * @private
  * @param {CustomEvent & { target: HTMLInputElement }} $event The shed event that fired.
@@ -364,7 +353,6 @@ function shedSubscriber($event) {
 
 /**
  * Update the combo when an option is selected.
- *
  * @function
  * @private
  * @param {Event & { target: HTMLOptionElement }} $event Fired when an element is selected.
@@ -407,7 +395,6 @@ function handleKeyListbox(listbox, keyCode) {
  *
  * **NOTES:** the LEFT ARROW and RIGHT ARROW are native in input elements in the text state; we have not implemented list pagination so
  * PAGE_UP and PAGE_DOWN are not mapped (this may be needed in future)
- *
  * @function
  * @private
  * @param {KeyboardEvent & {target: HTMLElement}} $event The keydown event.
@@ -440,7 +427,6 @@ function keydownEvent($event) {
 
 /**
  * Helper for handleKeyTextbox to handle pressing the DOWN ARROW when in a combo's textbox.
- *
  * @function
  * @private
  * @param {Element} combo the combo control
@@ -460,7 +446,6 @@ function doDownButton(combo, altKey) {
 
 /**
  * Helper for handleKeyTextbox to handle pressing the UP ARROW when in a combo's textbox.
- *
  * @function
  * @private
  * @param {Element} combo the combo control
@@ -521,7 +506,6 @@ function handleKeyTextbox(target, keyCode, altKey) {
 /**
  * Click event handler. If a click is in a combo then toggle its expanded state. If the click is in
  * the combo listbox then set the combo's value.
- *
  * @function
  * @private
  * @param {MouseEvent & { target: HTMLElement }} $event The click event.
@@ -553,7 +537,6 @@ function clickEvent($event) {
  * Touchstart event handler. Flags a combo as in a touching state if the touchstart event is in the
  * combo's listbox. Required as some touch device browsers do not propagate touch-instigated clicks
  * on elements which are not natively clickable.
- *
  * @function
  * @private
  * @param {TouchEvent} $event The touchstart event.
@@ -571,7 +554,6 @@ function touchstartEvent({ touches, defaultPrevented }) {
  * Touchend event handler. Sets the combo value if the touchend was in a combo in the touch state and
  * the event was in the list of such a combo. Required as some touch device browsers do not propagate
  * touch-instigated clicks on elements which are not natively clickable.
- *
  * @function
  * @private
  * @param {TouchEvent  & { target: HTMLOptionElement }} $event The touchend event.
@@ -600,7 +582,6 @@ function touchcancelEvent(/* $event */) {
 
 /**
  * Handles input events in a chatty combo: updates the datalist. NOTE: input cannot be cancelled.
- *
  * @function
  * @private
  * @param {InputEvent & { target: HTMLInputElement }} $event The input event.
@@ -620,7 +601,6 @@ function inputEvent($event) {
  * - something preposterous like the "body" element
  *
  * Note that this behaviour is important to work around an IE11 bug where clicking the scrollbar of the listbox will set focus to the body.
- *
  * @function
  * @private
  * @param {FocusEvent & { target: HTMLElement }} $event The focus/focusin event as published by the wc event manager.
@@ -680,7 +660,6 @@ function focusEvent({ target }) {
  * This AJAX subscriber fires after the AJAX action has added components to the DOM. It is used to show
  * the listBox of a chatty combo after new suggestions are inserted. If the list comes back empty
  * then we hide the suggestion list and set the nothing left to find flag for this combo.
- *
  * @function
  * @private
  * @param {Element} element The AJAX target element in the DOM after the AJAX action.
@@ -807,7 +786,6 @@ function setUpSuggestions(element) {
 initialise.register({
 	/**
 	 * Sets up initial event handlers for faux-combos.
-	 *
 	 * @public
 	 * @param {Element} element The element being initialised, usually document.body.
 	 */
@@ -823,7 +801,6 @@ initialise.register({
 
 	/**
 	 * Undertakes late setup, including setting up faux datalist elements.
-	 *
 	 * @public
 	 */
 	postInit: function() {

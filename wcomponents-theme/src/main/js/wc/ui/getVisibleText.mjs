@@ -7,7 +7,6 @@ const { NodeFilter } = globalThis;
 /**
  * Funny old TreeWalker filter: we want to get all the nodes we can remove from element, so we ACCEPT anything
  * which is disabled or hidden.
- *
  * @function
  * @private
  * @param {Element} element The start element
@@ -24,7 +23,6 @@ function treeWalkerFilter(element) {
 /**
  * Remove "invisible" descendants from an element.
  * These are element nodes which will not appear in the UI.
- *
  * @function
  * @private
  * @param {Element} clone the element from which we are removing invisible descendants

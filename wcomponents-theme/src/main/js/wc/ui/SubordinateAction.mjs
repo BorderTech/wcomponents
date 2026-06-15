@@ -12,7 +12,6 @@ const actionRegister = {},  // Map of subordinate action keywords to functions w
  * Instances of this class are used to populate the "ontrue" and "onfalse" properties of a subordinate rule.
  *
  * Once a subordinate condition has been evaluated to either true of false to corresponding action is executed.
- *
  * @module
  * @requires module:wc/dom/shed
  * @constructor

@@ -67,7 +67,6 @@ function move(element) {
 	 * If we are moving the option to the bottom of the list we check if it has a next sibling
 	 *   and if so make it the parent element's last child, otherwise it is already the last
 	 *   child
-	 *
 	 * @param {Element} option the option element to move
 	 */
 	function _moveIt(option) {

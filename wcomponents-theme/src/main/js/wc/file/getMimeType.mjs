@@ -15,7 +15,6 @@ function getExtension(fileSpec) {
 
 /**
  * Returns the mime type of the selected file.
- *
  * @function
  * @alias module:wc/file/getMimeType
  * @param {module:wc/file/MultiFileUploader~fileInfo} fileInfo The files to check

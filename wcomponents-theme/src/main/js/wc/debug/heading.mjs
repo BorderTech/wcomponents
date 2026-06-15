@@ -25,7 +25,6 @@ function testHeading(element) {
 
 /**
  * AJAX subscriber to test for empty headings after ajax has happened.
- *
  * @function
  * @private
  * @param {Element} element The reference element (element being replaced).

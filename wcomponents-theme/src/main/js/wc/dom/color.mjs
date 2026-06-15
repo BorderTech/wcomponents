@@ -16,7 +16,6 @@ const hex2rgbCache = {},
 const instance = {
 	/**
 	 * Is this a hex string? Includes 3 digit and 6 digit hex strings with or without a hash.
-	 *
 	 * @function
 	 * @alias module:wc/dom/color.isHex
 	 * @param {string} s The arg to test.
@@ -30,7 +29,6 @@ const instance = {
 	 * Converts a HEX color representation to RGB format. This conversion routine caches its results on the (so
 	 * far accurate) assumption that only a small number of colors are in use and therefore the same hex colors
 	 * will be passed to this function over and over.
-	 *
 	 * @example hex2rgb("#FFFFFF") returns {r:255 g:255 b:255}
 	 * @function
 	 * @alias module:wc/dom/color.hex2rgb
@@ -62,7 +60,6 @@ const instance = {
 	/**
 	 * Get a String hex colour definition of a colour literal. This method is for browsers that support
 	 * getComputedStyle (e.g. not Internet Explorer 8)
-	 *
 	 * @function
 	 * @alias module:wc/dom/color.getLiteral
 	 * @param {string} c color literal.
@@ -95,7 +92,6 @@ const instance = {
 	 * TO-DO:
 	 * - Rewrite to use red green blue (use getPropertyCSSValue().getRGBColorValue() instead of getPropertyValue in getStyle)
 	 * - Rewrite to use red green blue
-	 *
 	 * @function
 	 * @alias module:wc/dom/color.rgb2hex
 	 * @param {(string|Array<Number>|{r: string|number, g: string|number, b: string|number})} rgb String in the format "rgb(244,244,244)" or an array of
@@ -129,7 +125,6 @@ const instance = {
 /**
  * Convert a three digit hex string to a 6 digit hex string.
  * The return string has a HASH if the input has a HASH.
- *
  * @function
  * @private
  * @param {string} hex 3 digit hex string.

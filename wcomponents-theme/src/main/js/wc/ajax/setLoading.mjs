@@ -14,7 +14,6 @@ const { console, document } = globalThis;
  * serialized as part of the form either in AJAX requests or form submissions. This region of the form
  * is in an unknown state until the last AJAX response which updates it is processed. The server may get
  * confused but it must deal with the realities of asynchronous interactions.
- *
  * @function
  * @alias module:wc/ajax/setLoading
  * @param {module:wc/ajax/Trigger~Request} request The request which is being queued (set loading) or serviced

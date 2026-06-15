@@ -27,7 +27,6 @@ const instance = {
 	/**
 	 * Get the button 'type' (add or remove) for a particular button in a multiFormControl. Only one of them is
 	 * an add, the others are all remove.
-	 *
 	 * @param {Element} element An add or remove button.
 	 * @returns {number} either BUTTON_TYPE.add (0) or BUTTON_TYPE.remove (1).
 	 */
@@ -42,7 +41,6 @@ const instance = {
 
 	/**
 	 * Register a multiFormControl on load.
-	 *
 	 * @param {String[]} idArr An array of ids of WMultiDropdowns and WMultiTextFields.
 	 */
 	register: function(idArr) {
@@ -67,7 +65,6 @@ const instance = {
 
 /**
  * Load data list for cacheable WMultiDropdown.
- *
  * @see {@link module:wc/ui/selectLoader.load}
  * @function
  * @private
@@ -136,7 +133,6 @@ function doClick(button, SHIFT) {
 /**
  * The container is the top level element which contains all the sub-elements
  * ie it contains all the fields.
- *
  * @function
  * @private
  * @param {Element} element Any child of the container.
@@ -148,7 +144,6 @@ function getContainer(element) {
 
 /**
  * Get the field(s) containing each of the interactive controls in a multiFormControl.
- *
  * @param {Element} container A multiFormControl.
  * @param {Boolean} [firstOnly] If true only the first field will be returned.
  * @returns {NodeListOf<Element>|Element} A collection of fields OR a single field if firstOnly is true.
@@ -303,7 +298,6 @@ function removeField(element, removeAll) {
  *   tool;
  * WMultiTextField provides a control which has single SELECT elements which can be used to create a set of single
  *   line text input controls.
- *
  * @module
  */
 

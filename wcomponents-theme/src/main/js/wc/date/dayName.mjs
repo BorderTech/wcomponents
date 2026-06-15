@@ -1,7 +1,6 @@
 /**
  * Module to provide the internationalised "name" for the days of the week for the locale in use. NOTE: we assume there
  * are seven days in a week. This may be a little bold for an i18n helper!
- *
  * @example dayName.get()[1];  // is "Monday" in English
  */
 
@@ -30,14 +29,12 @@ function getDayNames(locale) {
  * output a week but can be manipulated on an as-needs basis, and we need to have the same i18n property name
  * match a particular day in all locales. The returned Array is your very own special instance which you can
  * play with to your heart's content without affecting any other users of this function.
- *
  * @function
  * @alias module:wc/date/dayName.get
  * @public
  * @static
  * @param {boolean} [startOnMonday] If true the first day in the array will be Monday instead of Sunday.
  * @returns {String[]} The names of the days in order such that index zero is Sunday, index six is Saturday (if startOnMonday is true then zero is Monday, six is Sunday).
- *
  */
 function get(startOnMonday) {
 	const lang = i18n._getLang();

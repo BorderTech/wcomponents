@@ -14,7 +14,6 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 		 * element which is known to be outside of viewport.
 		 *
 		 * It is important that the viewport is "neutralized" by resetting its scroll before calculating the collision
-		 *
 		 * @function
 		 * @private
 		 * @param {String} position The CSS dimension in which we are colliding.

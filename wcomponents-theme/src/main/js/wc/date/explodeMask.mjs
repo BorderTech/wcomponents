@@ -24,7 +24,6 @@ import patterns from "wc/date/pattern.mjs";
  * **NOTE WELL**<br />
  * This function modifies the {@link module:wc/date/pattern} object by adding a compiled form of the key object
  * as the property patternAsRe. For example: pattern["yyyy"].patternAsRe is the regular expression /yyyy/.
- *
  * @function
  * @alias module:wc/date/explodeMask
  * @param {String} mask The date format mask to explode.

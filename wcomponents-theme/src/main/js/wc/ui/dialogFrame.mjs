@@ -73,7 +73,6 @@ const instance = {
 
 	/**
 	 * Request a dialog be opened.
-	 *
 	 * @function module:wc/ui/dialogFrame.open
 	 * @public
 	 * @param {module:wc/ui/dialogFrame~dto} dto The config options for the dialog to be opened.
@@ -113,7 +112,6 @@ const instance = {
 
 	/**
 	 * Remove all inline dimension styles from the dialog.
-	 *
 	 * @function module:wc/ui/dialogFrame.unsetAllDimensions
 	 * @public
 	 * @param {HTMLDialogElement} [dlg] The dialog wrapper element if known.
@@ -131,7 +129,6 @@ const instance = {
 	reposition: debounce(
 		/**
 		 * Ask to reposition a dialog frame (usually after Ajax).
-		 *
 		 * @function module:wc/ui/dialogFrame.reposition
 		 * @public
 		 * @param {number} [width] The width of the dialog.
@@ -172,7 +169,6 @@ const instance = {
 
 	/**
 	 * Get the dialog content wrapper element.
-	 *
 	 * @function module:wc/ui/dialogFrame.getContent
 	 * @public
 	 * @returns {HTMLDialogElement} The content wrapper if present.
@@ -187,7 +183,6 @@ const instance = {
 
 	/**
 	 * Reset the dialog content wrapper.
-	 *
 	 * @function module:wc/ui/dialogFrame.resetContent
 	 * @public
 	 * @param {Boolean} [keepContent] Do we want to reset the content of the dialog?
@@ -221,7 +216,6 @@ function isModalDialog(dialog) {
 
 /**
  * Indicates if the dialogFrame may support move and resize based on viewport size.
- *
  * @function
  * @private
  * @returns {Boolean} true is move/resize are supportable.
@@ -252,7 +246,6 @@ function hasBusyContent() {
 
 /**
  * Get the form into which we want to place the dialog.
- *
  * @function
  * @private
  * @param {module:wc/ui/dialogFrame~dto} [dto] The config options for the dialog (if any).
@@ -267,7 +260,6 @@ function getDlgForm(dto) {
 /**
  * Helper for `openDlg`.
  * This does the actual heavy lifting of opening a dialog.
- *
  * @param dto The configuration data for this dialog.
  * @private
  * @function
@@ -299,7 +291,6 @@ function openDlgHelper(dto) {
 /**
  * Helper for `openDlg`.
  * Applies the dialog "mode" either modal or non-modal.
- *
  * @param {HTMLDialogElement} dialog The dialog container.
  * @param {boolean} isModal Indicates if this dialog is modal.
  * @private
@@ -318,7 +309,6 @@ function setModality(dialog, isModal) {
  * Helper for `openDlg`.
  * Once the dialog has been built it needs to be configured each time it is opened.
  * For example the correct title must be displayed for this specific dialog. CSS classes may need to be set, removed etc.
- *
  * @private
  * @function
  * @param {HTMLDialogElement} dialog The dialog container.
@@ -343,7 +333,6 @@ function reinitializeDialog(dialog, obj) {
 /**
  * Show and hide resizeable and draggable controls based on the dialogFrame's properties and the current
  * viewport size.
- *
  * @function
  * @private
  * @param {HTMLDialogElement} dialog The dialogFrame being manipulated.
@@ -366,7 +355,6 @@ function setUpMoveResizeControls(dialog) {
 
 /**
  * Manipulate positionable and resizeable attributes based on viewport size.
- *
  * @function
  * @private
  * @param {HTMLDialogElement} dialog The dialogFrame being manipulated.
@@ -391,7 +379,6 @@ function setUnsetDimensionsPosition(dialog) {
 /**
  * Helper for `openDlg`.
  * Sets the dialog's width and height ready for opening.
- *
  * @private
  * @function
  * @param {HTMLDialogElement} dialog The dialog container.
@@ -440,7 +427,6 @@ function getResizeConfig(width, height) {
 /**
  * Helper for `openDlg`.
  * Positions the dialog immediately after it has been opened.
- *
  * @private
  * @function
  * @param {HTMLDialogElement} dialog The dialog container.
@@ -531,7 +517,6 @@ function buildDialog(formId) {
  * If a dialog with content is inserted via ajax we have to unshim any existing dialog before we insert the
  * new one. NOTE: the duplicate id check in processResponse will remove the dialog itself during its insert
  * phase, so we do not have to do that here.
- *
  * @function
  * @private
  * @param {Element} element Not used here.
@@ -554,7 +539,6 @@ function preOpenSubscriber(element, docFragment) {
 
 /**
  * If there is an AJAX replace inside a dialog we may need to reposition the dialog.
- *
  * @function
  * @private
  * @param {Element} element The AJAX target element.
@@ -622,7 +606,6 @@ function initDialogControls(dialog, obj) {
 /**
  * Listen for hide and clear out the transient aspects of the dialog. Do not remove any attributes or
  * settings which may be needed by a consuming module (such as dimensions).
- *
  * @function
  * @private
  * @param {CustomEvent & { target: HTMLElement }} $event The hide event.
@@ -668,7 +651,6 @@ function shedHideSubscriber({ target }) {
 
 /**
  * Listen for `shed.show` and focus the dialog.
- *
  * @function
  * @private
  * @param {CustomEvent & { target: HTMLElement }} $event The show event.
@@ -681,7 +663,6 @@ function shedShowSubscriber({ target: element }) {
 
 /**
  * Click listener for dialog opening buttons and controls within a dialog.
- *
  * @function
  * @private
  * @param {MouseEvent & { target: HTMLElement }} $event a click event.
@@ -698,7 +679,6 @@ function clickEvent($event) {
 
 /**
  * A focus filter helper for tabKeyHelper.
- *
  * @function
  * @private
  * @param {Element} node The Node being tested.
@@ -710,7 +690,6 @@ function tabstopNodeFilter(node) {
 
 /**
  * Helper for keydown on TAB.
- *
  * @function
  * @private
  * @param {Element} element The target element.
@@ -774,7 +753,6 @@ function keydownEvent($event) {
 /**
  * Do the heavy lifting of the resize event. Called in a timeout so we do not do constant updates as a
  * window frame is dragged.
- *
  * @function
  * @private
  */
@@ -790,7 +768,6 @@ const resizeEventHelper = debounce(() => {
 
 /**
  * Adjust dialog to the screen.
- *
  * @function
  * @private
  * @param {UIEvent} $event The resize event.
@@ -817,7 +794,6 @@ function resizeEvent({ defaultPrevented }) {
  *
  * Some aspects of WDialog may be set in a configuration object {@link module:wc/ui/dialogFrame~config}. See
  * [the WComponents wiki](https://github.com/BorderTech/wcomponents/wiki/WDialog#client-configuration) for more information.
- *
  * @example
  * require(["wc/config"], function(wcconfig) {
  *   wcconfig.set({
@@ -869,7 +845,6 @@ export default instance;
  * @property {Boolean} [open] If true then the dialog is to be open on page load. This is passed in as part ofthe registration object but is
  *   not stored in the registry.
  * @property {Function} onclose Called when the dialog is closed.
- *
  * @typedef {Object} wc/ui/dialogFrame~config An object which allows override of aspects of the dialogFrame
  * @property {String} [vpUtil="isPhonelike"] A name of a public member of {@link module:wc/ui/viewportUtils. This should only be set if a Sass
  * override is used to change the point at which dialogs become full screen.

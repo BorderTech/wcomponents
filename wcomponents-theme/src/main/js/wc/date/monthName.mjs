@@ -11,7 +11,6 @@ const cache = {};
 
 /**
  * Set up the month arrays on first use.
- *
  * @function
  * @private
  * @return {{ months: string[], monthsAbbr: string[], monthsAbbrAscii?: string[], monthsAscii?: string[] }}
@@ -62,7 +61,6 @@ function getMonthNames(locale, short) {
 
 /**
  * Get the month names.
- *
  * @function
  * @alias module:wc/date/monthName.get
  * @static
@@ -77,9 +75,7 @@ function getMonthNames(locale, short) {
  *
  * <p>For example in French août and avril are not abbreviated to three letters even though this
  * would meet the criteria above.</p>
- *
  * @param {Boolean} [asciified] If true will return asciified versions of the month names.
- *
  * @returns {String[]} The names of the months in order where index zero is January, index 11 is December.
  *    The returned Array is your very own special instance which you can play with to your heart's content
  *    without affecting any other users of this function.
@@ -97,7 +93,6 @@ function get(abbreviated, asciified) {
 
 /**
  * Determine if there are asciified month names.
- *
  * @function
  * @alias module:wc/date/monthName.hasAsciiVersion
  * @static

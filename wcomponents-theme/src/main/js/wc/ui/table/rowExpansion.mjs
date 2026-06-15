@@ -77,7 +77,6 @@ function getControlled(trigger) {
 
 /**
  * Get all controllers for a given row.
- *
  * @function
  * @private
  * @param {Element} element the element being controlled
@@ -93,7 +92,6 @@ function getControllers(element) {
 
 /**
  * Are all rows in a particular state?
- *
  * @function
  * @private
  * @param {Element} controller The WCollapsibleToggle control.
@@ -146,7 +144,6 @@ function isAjaxExpansion(row) {
 
 /**
  * Get a DTO suitable for registering an AJAX trigger for an expandable row or expand/collapse all control.
- *
  * @function
  * @private
  * @param {Element} element The triggering element.
@@ -159,7 +156,6 @@ function getTriggerDTO(element) {
 /**
  * Write the state of collapsible rows. As usual this function expects state fields from previous calls to
  * be cleaned up elsewhere (most commonly in {@link module:wc/dom/formUpdateManager}).
- *
  * @function
  * @private
  * @param {Element} form The form or form segment the state of which is being written.
@@ -180,7 +176,6 @@ function writeState(form, stateContainer) {
 
 /**
  * Toggles the expanded/collapsed state of a single collapsible row.
- *
  * @function
  * @private
  * @param {Element} row A collapsible row.
@@ -207,7 +202,6 @@ function toggleRow(row, ignoreAjax) {
 
 /**
  * Helper to show and hide rows controlled by an expandable row.
- *
  * @function
  * @private
  * @param {Element} triggerRow The expandable row.
@@ -231,7 +225,6 @@ function showHideContent(triggerRow, action) {
 /**
  * Subscriber to {@link module:wc/dom/shed} to manage showing and hiding content when a row is expanded or
  * collapsed.
- *
  * @function
  * @private
  * @param {CustomEvent & { target: HTMLElement, detail: { action: string } }} $event
@@ -262,7 +255,6 @@ function expCollapseObserver({ target: element, detail }) {
 /**
  * Subscriber to {@link module:wc/dom/shed} to manage collapsing an expandable row if it is hidden. This
  * allows us to manage multiply nested expandables and hiding rows using (for example) client pagination.
- *
  * @function
  * @private
  * @param {CustomEvent & { target: HTMLElement }} $event
@@ -275,7 +267,6 @@ function closeOnHide({ target }) {
 
 /**
  * Reset focus to a row expander after dynamic/lazy expansion.
- *
  * @function
  * @private
  */
@@ -325,7 +316,6 @@ function keydownEvent($event) {
 
 /**
  * Focus bootstrapper to wire up keydown event listener.
- *
  * @function
  * @private
  * @param {FocusEvent & { target: HTMLElement }} $event The focus event.
@@ -342,7 +332,6 @@ function focusEvent({ target, defaultPrevented }) {
 
 /**
  * Click on table row expander control or expand/collapse all control.
- *
  * @function
  * @private
  * @param {MouseEvent & { target: HTMLElement }} $event The wrapped click event.
@@ -424,7 +413,6 @@ function activateOnSelect({ target }) {
 
 /**
  * Set the aria-controls attribute on the buttons of a collapsibleToggle.
- *
  * @function
  * @private
  * @param {Element} element a collapsible toggle wrapper
@@ -443,7 +431,6 @@ function setControlList(element) {
 
 /**
  * Set aria-controls for each collapsible toggle.
- *
  * @function
  * @private
  */

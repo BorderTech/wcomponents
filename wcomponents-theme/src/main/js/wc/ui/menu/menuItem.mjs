@@ -133,7 +133,6 @@ initialise.register(menuItem.menuItemRadio);
 
 /**
  * This module provides ARIA role based functionality for selectable menu items.
- *
  * @alias module:wc/ui/menu/menuItem~MenuItem
  */
 export default menuItem;

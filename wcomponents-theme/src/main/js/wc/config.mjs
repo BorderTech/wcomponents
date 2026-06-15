@@ -12,7 +12,6 @@ const { console, document } = globalThis;
 const instance = {
 	/**
 	 * Register a configuration object for a given id or completely replace the entire registry with the given object.
-	 *
 	 * @param {Object} config The configuration object to set.
 	 * @param {string} [id] The ID against which to register this configuration. If falsy will replace the entire registry with the
 	 *    configuration (did this ever seem like a good idea?).

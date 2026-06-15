@@ -1,11 +1,9 @@
 /**
  * Provides a mechanism to clear any selection. Useful when SHIFT + CLICKing (for example) to select multiple
  * check box analog components or dragging to move stuff...
- *
  * @example require(["wc/dom/clearSelection"], function(clearSelection){
  *    clearSelection();  // pretty easy eh?
  * });
- *
  * @module
  */
 

@@ -4,14 +4,12 @@ const { Node } = globalThis;
 
 /**
  * Utility class for dealing with WAI-ARIA role or implied role of elements.
- *
  * @module wc/dom/role
  * @requires module:wc/dom/impliedARIA
  */
 export default {
 	/**
 	 * Get the role (or implied role) of an element.
-	 *
 	 * @function module:wc/dom/role.get
 	 * @param {Element} element The element to test.
 	 * @param {boolean} [implied] Include getting implied role if true.

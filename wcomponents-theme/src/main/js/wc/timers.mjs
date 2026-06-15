@@ -55,7 +55,6 @@ const instance = {
 
 	/**
 	 * Schedule a callback.
-	 *
 	 * @returns {number} A handle by which this schedule can be identified.
 	 */
 	setTimeout: function(/* handler, timeout */) {
@@ -77,7 +76,6 @@ const instance = {
 
 	/**
 	 * Cancel a scheduled callback.
-	 *
 	 * @param {number} handle The timeout handle for the scheduled function we want to clear.
 	 */
 	clearTimeout: function(handle) {
@@ -87,7 +85,6 @@ const instance = {
 
 	/**
 	 * Cancel a recurring scheduled callback.
-	 *
 	 * @param {number} handle The timeout handle for the scheduled function we want to clear.
 	 */
 	clearInterval: function(handle) {

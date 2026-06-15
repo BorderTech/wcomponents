@@ -4,7 +4,6 @@ import getVisibleText from "wc/ui/getVisibleText.mjs";
 /**
  * Intermediary for {@link module:wc/dom/getLabelsForElement} which gets only the first label (in source
  * order). This can also return the content of the 'label' omitting access-key tooltip content.
- *
  * @function module:wc/ui/getFirstLabelForElement
  * @param {Element} element The element for which we want to find labels.
  * @param {Boolean} [contentOnly] Set true if you only want the text content of the label. This will omit the

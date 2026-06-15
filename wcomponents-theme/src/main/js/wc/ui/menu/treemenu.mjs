@@ -8,7 +8,6 @@ import "wc/ui/menu/menuItem.mjs";
 /**
  * Menu controller extension for WMenu of type TREE. This represents a vertical menu with optional sliding submenus
  * which may be indented. See WTree which produces a WAI-ARIA tree widget which is a selection tool.
- *
  * @see http://www.w3.org/TR/wai-aria-practices/#menu
  * Extends menu functionality to provide a tree-like menu.
  * @alias module:wc/ui/menu/treemenu~TreeMenu
@@ -30,7 +29,6 @@ class TreeMenu extends AbstractMenu {
 
 	/**
 	 * Trees do not cycle siblings.
-	 *
 	 * @var
 	 * @type {Boolean}
 	 * @override
@@ -39,7 +37,6 @@ class TreeMenu extends AbstractMenu {
 
 	/**
 	 * Trees do not enter on open.
-	 *
 	 * @var
 	 * @type {Boolean}
 	 * @override
@@ -48,7 +45,6 @@ class TreeMenu extends AbstractMenu {
 
 	/**
 	 * Trees are not transient.
-	 *
 	 * @var
 	 * @type boolean
 	 * @public
@@ -57,7 +53,6 @@ class TreeMenu extends AbstractMenu {
 
 	/**
 	 * Tree menu allows multiple submenus to be open.
-	 *
 	 * @function
 	 * @override
 	 * @returns {Boolean} true if only one branch may be open at a time.
@@ -68,7 +63,6 @@ class TreeMenu extends AbstractMenu {
 
 	/**
 	 * Keyboard walking of the tree.
-	 *
 	 * @function
 	 * @override
 	 * @returns {Boolean} true.
@@ -79,7 +73,6 @@ class TreeMenu extends AbstractMenu {
 
 	/**
 	 * Reset the key map based on the type and/or state of the menu item passed in.
-	 *
 	 * @function
 	 * @override
 	 * @param {Element} item The menu item which has focus.
@@ -102,7 +95,6 @@ class TreeMenu extends AbstractMenu {
 
 	/**
 	 * Sets up the initial keymap for tree-ish menus as per http://www.w3.org/TR/wai-aria-practices/#menu.
-	 *
 	 * @function
 	 * @override
 	 */

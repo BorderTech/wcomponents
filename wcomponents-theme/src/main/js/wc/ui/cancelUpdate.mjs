@@ -31,7 +31,6 @@ const instance = {
 	 * Allow any other class to do a forced reset of the initial form state. This is required if the initialise
 	 * or post-init functions of a class cause an update to the form state before the user interacts with the
 	 * form. See {@link module:wc/ui/dateField~processNow}.
-	 *
 	 * @function
 	 * @alias module:wc/ui/cancelUpdate.resetAllFormState
 	 */
@@ -40,7 +39,6 @@ const instance = {
 	/**
 	 * Adds these elements to the "initial" state of the form.
 	 * Call this carefully - it does not replace existing elements with the same name.
-	 *
 	 * @param {Element} element  A form control or container.
 	 */
 	addElements: function(element) {
@@ -53,7 +51,6 @@ const instance = {
 	/**
 	 * Adds this element to the "initial" state of the form.
 	 * Call this carefully - it does not replace existing elements with the same name.
-	 *
 	 * @param {Element} element A form control.
 	 */
 	addElement: function (element) {
@@ -77,7 +74,6 @@ const instance = {
 
 	/**
 	 * Remove these elements from the "initial" state of the form.
-	 *
 	 * @param {Element} element A form control or container.
 	 */
 	removeElements: function(element) {
@@ -89,7 +85,6 @@ const instance = {
 
 	/**
 	 * Removes this element's current state from the "initial" state of the form.
-	 *
 	 * @param {Element} element A form control.
 	 */
 	removeElement: function (element) {
@@ -119,7 +114,6 @@ const instance = {
 	 * Determines if we should cancel a form submission (not a submit event). If a cancelUpdateButton has been
 	 * clicked this function checks to see if the form has been changed and if so it will confirm with the user
 	 * that they wish to continue.
-	 *
 	 * @function
 	 * @alias module:wc/ui/cancelUpdate.cancelSubmission
 	 * @param {Element} container An element which is, or is within, a FORM element.
@@ -144,7 +138,6 @@ const instance = {
 
 /**
  * Get the current (not stored) state of a form.
- *
  * @function
  * @private
  * @param {HTMLFormElement} form The form whose state we want.
@@ -165,7 +158,6 @@ function isDirty(element) {
 
 /**
  * Determines if the form has unsaved changes.
- *
  * @function
  * @private
  * @param {HTMLFormElement} form The form we are going to test for unsaved changes.
@@ -187,7 +179,6 @@ function hasUnsavedChanges(form) {
 
 /**
  * Stores the state of a form for later comparison. This is called after AJAX.
- *
  * @function
  * @private
  * @param {HTMLFormElement} form The form of which we are going to save state.
@@ -201,7 +192,6 @@ function storeFormState(form) {
 
 /**
  * Determines if an element is a cancel button.
- *
  * @function
  * @private
  * @param {Element} element The element to test.
@@ -224,7 +214,6 @@ function isCancelUpdateButton(element) {
 /**
  * Click event listener to store the last clicked element in case we need to use it to determine if we have
  * a cancel button when we are inside a submit event or other function which calls cancelSubmission.
- *
  * @function
  * @private
  * @param {MouseEvent & {target: HTMLButtonElement}} $event
@@ -248,7 +237,6 @@ function clickEvent($event) {
 
 /**
  * Cancels a form submission based on user response to an unsaved changes warning.
- *
  * @function
  * @private
  * @param {Element} element Any element within a form.
@@ -291,7 +279,6 @@ function cancelSubmit(element, submitter) {
  * because the serialization is different, even if the user does not actually
  * change anything. This will occur, for example, if a WCancelButton is
  * triggered in a WDialog before the user makes any changes.
- *
  * @function
  * @private
  * @param {Element} element The AJAX target element in the DOM prior to the ajax action.
@@ -320,7 +307,6 @@ function ajaxSubscriber(element/* , documentFragment, action */) {
  * This AJAX subscriber fires after the AJAX action has added components to
  * the DOM. If a RECALC flag has been set for a form then recalculate the
  * 'initial' state to allow for the changes made by the AJAX action.
- *
  * @function
  * @private
  * @param {Element} element The AJAX target element in the DOM prior to the AJAX action.
@@ -362,7 +348,6 @@ function _resetForm(form) {
  * been stored already before storing. This test will prevent the form state
  * being updated on AJAX initiated postInit without the necessary tests
  * incorporated in the AJAX subscribers.
- *
  * @function
  * @private
  * @param {HTMLFormElement} form The form (or form segment) we need to store.

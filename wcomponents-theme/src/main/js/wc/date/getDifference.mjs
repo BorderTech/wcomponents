@@ -3,7 +3,6 @@
  *
  * NOTE:
  * diff(1,3) == 1-3 == -2; therefore diff(today, tomorrow) = -1 and diff(today, yesterday) = 1
- *
  * @function
  * @alias module:wc/date/getDifference
  * @param {Date} date1 A Date.

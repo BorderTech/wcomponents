@@ -4,7 +4,6 @@ import $pivot from "wc/date/pivot.mjs";
 /**
  * Convert 2 digit year to 4 digit year, expand using a sliding window. Year must be a number between 0 and 99
  * (inclusive).
- *
  * @function
  * @alias module:wc/date/expandYear
  * @param {(String|number)} year 2 digit year. If you pass in a larger number then the last two digits of that

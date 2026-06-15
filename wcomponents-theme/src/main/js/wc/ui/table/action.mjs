@@ -27,7 +27,6 @@ const instance = {
 
 /**
  * Determines if an action condition is met.
- *
  * @function
  * @private
  * @param {Element} button The table action invoking button.
@@ -118,7 +117,6 @@ function canSubmit (button) {
 /**
  * Click listener for table actions. Invokes the test of conditions before allowing the submit button's
  * normal action.
- *
  * @function
  * @private
  * @param {MouseEvent & { target: HTMLElement }} $event The click event.
@@ -153,7 +151,6 @@ function shedSubscriber(element) {
 
 /**
  * A special registry to handle button conditions.
- *
  * @param {Function} buttonChangeFunc The function to call when a button's conditions have been changed.
  * @constructor
  */
@@ -203,7 +200,6 @@ function Conditions(buttonChangeFunc) {
 
 	/**
 	 * Get registered conditions for a given table action button.
-	 *
 	 * @function
 	 * @param {Element} button The table action invoking button.
 	 * @returns {Object} The action conditions.
@@ -262,7 +258,6 @@ if (!customElements.get(TAG_CONDITION)) {
 initialise.register({
 	/**
 	 * Initial set up for table action.
-	 *
 	 * @function module:wc/ui/table/action.postInit
 	 * @public
 	 */
@@ -273,7 +268,6 @@ initialise.register({
 	},
 	/**
 	 * Initial set up for table action.
-	 *
 	 * @function module:wc/action.initialise
 	 * @public
 	 * @param {Element} element The element being initialised, usually document.body.

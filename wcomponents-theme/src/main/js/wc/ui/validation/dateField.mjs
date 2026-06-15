@@ -244,7 +244,6 @@ function isCompleteSubscriber(container) {
 
 /**
  * Provides functionality to undertake client validation of WDateField.
- *
  * @module
  */
 initialise.register({

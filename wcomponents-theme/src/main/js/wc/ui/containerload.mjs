@@ -38,7 +38,6 @@ const instance = {
 
 	/**
 	 * To be called when a candidate element is made visible.
-	 *
 	 * @param {Element} element The element being made visible.
 	 */
 	onshow: function(element) {
@@ -47,7 +46,6 @@ const instance = {
 
 	/**
 	 * To be called when a candidate element is expanded.
-	 *
 	 * @param {Element} element The element being expanded.
 	 */
 	onexpand: function(element) {
@@ -72,7 +70,6 @@ const instance = {
 /**
  * register an ajaxTrigger for the container when it is required.
  * NOTE: ajax containers are self loading, so the "loads" property is itself.
- *
  * @function
  * @private
  * @param {Element} element The container for which we are registering a trigger.
@@ -105,7 +102,6 @@ function registerTrigger(element, noPost, get) {
  *
  * The element will be automatically ajax enabled and set up its own trigger.
  * It is up to the caller to ensure that it makes sense to load this element via AJAX.
- *
  * @function
  * @private
  * @param {Element} element The element to load
@@ -150,7 +146,6 @@ function requestLoad(element, eager, get) {
 /**
  * Helper for shedSubscriber.
  * Deal with an element being expanded or shown.
- *
  * @param {Element} element The element being shown or expanded.
  * @private
  * @function
@@ -172,7 +167,6 @@ function handleExpandOrShow(element) {
 /**
  * Helper for shedSubscriber.
  * Deal with an element being collapsed or hidden.
- *
  * @param {Element} element The element being collapsed or hidden.
  * @param {string} action The action, COLLAPSE or HIDE.
  * @private
@@ -219,7 +213,6 @@ function init() {
  * Request that a container's content be loaded. Deliberately does not check `matches(magicContainer)`
  * so that anything can leverage this functionality regardless of whether it possesses the right "className"
  * or not. In particular can be called by registration scripts built in XSLT phase.
- *
  * @function
  * @private
  * @param {String} id The id of the container to load.

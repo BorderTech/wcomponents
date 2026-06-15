@@ -39,7 +39,6 @@ export default {
 	 * It's up to the user to:
 	 *   - Use a browser that supports prefetching
 	 *   - Configure their browser to disable prefetching if they do not desire this behavior
-	 *
 	 * @param {string} href The URL to the cacheable resource to prefetch
 	 * @param {string} [as] Optionally provide a request type: https://fetch.spec.whatwg.org/#concept-request-type
 	 */
@@ -61,7 +60,6 @@ export default {
 	 * - Require will actually execute the script.
 	 * - Require will also fetch the script's dependencies.
 	 * Most of the time you want `require`.
-	 *
 	 * @param moduleId The module (exactly as you would pass to the loader).
 	 */
 	jsModule: function(moduleId) {

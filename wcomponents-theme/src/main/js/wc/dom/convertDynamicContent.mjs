@@ -7,7 +7,6 @@ import serialize from "wc/dom/serialize.mjs";
  * and attaching the state fields to the container (which is why we use the container as a form stand in not just a
  * region). By getting the stateContainer before calling update we can place it outside the dynamic region then move the
  * state fields into the dynamic region after blatting its content.
- *
  * @function module:wc/dom/convertDynamicContent
  * @param {Element} container A container element but primarily designed to work with DYNAMIC containers.
  */

@@ -2,10 +2,7 @@
 /**
  * This module wraps the underlying ARIA class (from http://code.google.com/p/aria-toolkit/)
  * which allows us to cut and paste updated ARIA code without losing any of our own  customizations.
- *
- *
  * @module
- *
  * @license The core functionality of this file is a cut and paste from [this project](http://code.google.com/p/aria-toolkit/)
  */
 /* eslint-enable jsdoc/check-values */
@@ -493,7 +490,6 @@ function getAriaRole(role) {
 /**
  * Creating more than one instance of this class is pointless and is considered an error. We are going to
  * ignore this class as it is just an include.
- *
  * @see http://code.google.com/p/aria-toolkit/ for documentation.
  * @param {Object} config An object that provides helpers / data for this class
  * @ignore
@@ -566,7 +562,6 @@ const instance = {
 	 * Note that if role is anything other than a known ARIA role then the supported
 	 * attributes will be the global ARIA attributes.
 	 * @see http://www.w3.org/TR/wai-aria/states_and_properties#global_states
-	 *
 	 * @function module:wc/dom/aria~Aria.getSupported
 	 * @public
 	 * @param {String} role An ARIA role or a DOM element.

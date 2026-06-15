@@ -3,7 +3,6 @@ import timers from "wc/timers.mjs";
 /**
  * Returns a wrapper function which will invoke the wrapped function only
  * when it has not been called for `delay` milliseconds.
- *
  * @param func The function to debounce.
  * @param delay The period between last call and invocation.
  * @returns {Function} Essentially a debounced version of the function passed in as `func`.

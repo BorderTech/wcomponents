@@ -2,7 +2,6 @@
  * A module to wrap getting "today"  so that testing can occur on days other than the date the users computer is set to.
  * Whilst this module was designed to aid testing it is the preferred way to get "today" as a Date because it is able to
  * reliably deal with fake "todays".
- *
  * @module
  */
 import copy from "wc/date/copy.mjs";
