@@ -17,6 +17,9 @@ import java.util.List;
  */
 final class WRadioButtonSelectRenderer extends AbstractWebXmlRenderer {
 
+	private static final String TAG_RADIO_BUTTON_SELECT = "wc-radio-button-select";
+	private static final String TAG_OPTION = "wc-option";
+
 	/**
 	 * Paints the given WRadioButtonSelect.
 	 *
@@ -30,7 +33,7 @@ final class WRadioButtonSelectRenderer extends AbstractWebXmlRenderer {
 		int cols = rbSelect.getButtonColumns();
 		boolean readOnly = rbSelect.isReadOnly();
 
-		xml.appendTagOpen("ui:radiobuttonselect");
+		xml.appendTagOpen("html:" + TAG_RADIO_BUTTON_SELECT);
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
@@ -83,7 +86,7 @@ final class WRadioButtonSelectRenderer extends AbstractWebXmlRenderer {
 		if (!readOnly) {
 			DiagnosticRenderUtil.renderDiagnostics(rbSelect, renderContext);
 		}
-		xml.appendEndTag("ui:radiobuttonselect");
+		xml.appendEndTag("html:" + TAG_RADIO_BUTTON_SELECT);
 
 		if (rbSelect.isAjax()) {
 			paintAjax(rbSelect, xml);
@@ -114,13 +117,13 @@ final class WRadioButtonSelectRenderer extends AbstractWebXmlRenderer {
 			boolean isNull = option == null ? true : (option.toString().length() == 0);
 
 			// Render Option
-			html.appendTagOpen("ui:option");
+			html.appendTagOpen("html:" + TAG_OPTION);
 			html.appendAttribute("value", code);
 			html.appendOptionalAttribute("selected", selected, "true");
 			html.appendOptionalAttribute("isNull", isNull, "true");
 			html.appendClose();
 			html.appendEscaped(desc);
-			html.appendEndTag("ui:option");
+			html.appendEndTag("html:" + TAG_OPTION);
 		}
 	}
 

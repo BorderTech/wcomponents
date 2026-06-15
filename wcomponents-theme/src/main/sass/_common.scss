@@ -40,6 +40,10 @@ body {
 @import 'common/space';
 @import 'common/tooltip';
 
+// UI
+@import 'ui/checkableGroup';
+@import 'ui/fieldIndicator';
+
 // #############################################################################
 // [hidden] hides content and removes it from the a11y tree. Applying this to
 // [hidden] is redundant but needed because of irregular hidden support. It is

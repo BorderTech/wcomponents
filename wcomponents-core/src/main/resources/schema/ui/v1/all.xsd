@@ -16,7 +16,6 @@
 	<xs:include schemaLocation="comment.xsd" />
 	<xs:include schemaLocation="componentGroup.xsd" />
 	<xs:include schemaLocation="checkBox.xsd" />
-	<xs:include schemaLocation="checkBoxSelect.xsd" />
 	<xs:include schemaLocation="dateField.xsd" />
 	<xs:include schemaLocation="debug.xsd" />
 	<xs:include schemaLocation="decoratedLabel.xsd" />

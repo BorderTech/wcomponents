@@ -19,6 +19,9 @@ import org.xml.sax.SAXException;
  */
 public class WCheckBoxSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 
+	private static final String TAG_CHECK_BOX_SELECT = "wc-check-box-select";
+	private static final String TAG_OPTION = "wc-option";
+
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WCheckBoxSelect component = new WCheckBoxSelect();
@@ -30,26 +33,26 @@ public class WCheckBoxSelectRenderer_Test extends AbstractWebXmlRendererTestCase
 	public void testDoPaint() throws IOException, SAXException, XpathException {
 		WCheckBoxSelect wcbTest = new WCheckBoxSelect(new String[]{"a", "b", "c"});
 		assertSchemaMatch(wcbTest);
-		assertXpathEvaluatesTo("3", "count(//ui:checkboxselect/ui:option)", wcbTest);
+		assertXpathEvaluatesTo("3", String.format("count(//html:%s/html:%s)", TAG_CHECK_BOX_SELECT, TAG_OPTION), wcbTest);
 
 		// Check selected
-		assertXpathNotExists("//ui:checkboxselect/ui:option[@selected='true']", wcbTest);
+		assertXpathNotExists(String.format("//html:%s/html:%s[@selected='true']", TAG_CHECK_BOX_SELECT, TAG_OPTION), wcbTest);
 
 		setActiveContext(createUIContext());
 		wcbTest.setSelected(Arrays.asList(new String[]{"b"}));
 		assertSchemaMatch(wcbTest);
-		assertXpathEvaluatesTo("1", "count(//ui:checkboxselect/ui:option[@selected='true'])",
+		assertXpathEvaluatesTo("1", String.format("count(//html:%s/html:%s[@selected='true'])", TAG_CHECK_BOX_SELECT, TAG_OPTION),
 				wcbTest);
-		assertXpathEvaluatesTo("b", "//ui:checkboxselect/ui:option[@selected='true']", wcbTest);
+		assertXpathEvaluatesTo("b", String.format("//html:%s/html:%s[@selected='true']", TAG_CHECK_BOX_SELECT, TAG_OPTION), wcbTest);
 
 		// Check Readonly - only render selected option
 		wcbTest.setReadOnly(true);
 		assertSchemaMatch(wcbTest);
-		assertXpathEvaluatesTo("true", "//ui:checkboxselect/@readOnly", wcbTest);
-		assertXpathEvaluatesTo("1", "count(//ui:checkboxselect/ui:option)", wcbTest);
-		assertXpathEvaluatesTo("1", "count(//ui:checkboxselect/ui:option[@selected='true'])",
+		assertXpathEvaluatesTo("true", String.format("//html:%s/@readOnly", TAG_CHECK_BOX_SELECT), wcbTest);
+		assertXpathEvaluatesTo("1", String.format("count(//html:%s/html:%s)", TAG_CHECK_BOX_SELECT, TAG_OPTION), wcbTest);
+		assertXpathEvaluatesTo("1", String.format("count(//html:%s/html:%s[@selected='true'])", TAG_CHECK_BOX_SELECT, TAG_OPTION),
 				wcbTest);
-		assertXpathEvaluatesTo("b", "//ui:checkboxselect/ui:option[@selected='true']", wcbTest);
+		assertXpathEvaluatesTo("b", String.format("//html:%s/html:%s[@selected='true']", TAG_CHECK_BOX_SELECT, TAG_OPTION), wcbTest);
 	}
 
 
@@ -63,11 +66,11 @@ public class WCheckBoxSelectRenderer_Test extends AbstractWebXmlRendererTestCase
 		wcbTest.setSelected(Arrays.asList(new String[]{"b"}));
 
 		assertSchemaMatch(wcbTest);
-		assertXpathEvaluatesTo("true", "//ui:checkboxselect/@readOnly", wcbTest);
-		assertXpathEvaluatesTo("1", "count(//ui:checkboxselect/ui:option)", wcbTest);
-		assertXpathEvaluatesTo("1", "count(//ui:checkboxselect/ui:option[@selected='true'])",
+		assertXpathEvaluatesTo("true", String.format("//html:%s/@readOnly", TAG_CHECK_BOX_SELECT), wcbTest);
+		assertXpathEvaluatesTo("1", String.format("count(//html:%s/html:%s)", TAG_CHECK_BOX_SELECT, TAG_OPTION), wcbTest);
+		assertXpathEvaluatesTo("1", String.format("count(//html:%s/html:%s[@selected='true'])", TAG_CHECK_BOX_SELECT, TAG_OPTION),
 				wcbTest);
-		assertXpathEvaluatesTo("b", "//ui:checkboxselect/ui:option[@selected='true']", wcbTest);
+		assertXpathEvaluatesTo("b", String.format("//html:%s/html:%s[@selected='true']", TAG_CHECK_BOX_SELECT, TAG_OPTION), wcbTest);
 	}
 
 
@@ -88,30 +91,30 @@ public class WCheckBoxSelectRenderer_Test extends AbstractWebXmlRendererTestCase
 
 		assertSchemaMatch(wcbTest);
 
-		assertXpathEvaluatesTo(wcbTest.getId(), "//ui:checkboxselect/@id", wcbTest);
-		assertXpathEvaluatesTo("true", "//ui:checkboxselect/@disabled", wcbTest);
-		assertXpathEvaluatesTo("true", "//ui:checkboxselect/@hidden", wcbTest);
-		assertXpathEvaluatesTo("true", "//ui:checkboxselect/@required", wcbTest);
-		assertXpathEvaluatesTo("true", "//ui:checkboxselect/@submitOnChange", wcbTest);
-		assertXpathEvaluatesTo("tool tip", "//ui:checkboxselect/@toolTip", wcbTest);
-		assertXpathEvaluatesTo("accessible text", "//ui:checkboxselect/@accessibleText", wcbTest);
-		assertXpathEvaluatesTo("true", "//ui:checkboxselect/@frameless", wcbTest);
-		assertXpathEvaluatesTo("1", "//ui:checkboxselect/@min", wcbTest);
-		assertXpathEvaluatesTo("2", "//ui:checkboxselect/@max", wcbTest);
+		assertXpathEvaluatesTo(wcbTest.getId(), String.format("//html:%s/@id", TAG_CHECK_BOX_SELECT), wcbTest);
+		assertXpathEvaluatesTo("true", String.format("//html:%s/@disabled", TAG_CHECK_BOX_SELECT), wcbTest);
+		assertXpathEvaluatesTo("true", String.format("//html:%s/@hidden", TAG_CHECK_BOX_SELECT), wcbTest);
+		assertXpathEvaluatesTo("true", String.format("//html:%s/@required", TAG_CHECK_BOX_SELECT), wcbTest);
+		assertXpathEvaluatesTo("true", String.format("//html:%s/@submitOnChange", TAG_CHECK_BOX_SELECT), wcbTest);
+		assertXpathEvaluatesTo("tool tip", String.format("//html:%s/@toolTip", TAG_CHECK_BOX_SELECT), wcbTest);
+		assertXpathEvaluatesTo("accessible text", String.format("//html:%s/@accessibleText", TAG_CHECK_BOX_SELECT), wcbTest);
+		assertXpathEvaluatesTo("true", String.format("//html:%s/@frameless", TAG_CHECK_BOX_SELECT), wcbTest);
+		assertXpathEvaluatesTo("1", String.format("//html:%s/@min", TAG_CHECK_BOX_SELECT), wcbTest);
+		assertXpathEvaluatesTo("2", String.format("//html:%s/@max", TAG_CHECK_BOX_SELECT), wcbTest);
 
 		// Button Layouts
 		wcbTest.setButtonLayout(WCheckBoxSelect.LAYOUT_COLUMNS);
 		wcbTest.setButtonColumns(3);
-		assertXpathEvaluatesTo("column", "//ui:checkboxselect/@layout", wcbTest);
-		assertXpathEvaluatesTo("3", "//ui:checkboxselect/@layoutColumnCount", wcbTest);
+		assertXpathEvaluatesTo("column", String.format("//html:%s/@layout", TAG_CHECK_BOX_SELECT), wcbTest);
+		assertXpathEvaluatesTo("3", String.format("//html:%s/@layoutColumnCount", TAG_CHECK_BOX_SELECT), wcbTest);
 
 		wcbTest.setButtonLayout(WCheckBoxSelect.LAYOUT_FLAT);
-		assertXpathEvaluatesTo("flat", "//ui:checkboxselect/@layout", wcbTest);
-		assertXpathNotExists("//ui:checkboxselect/@layoutColumnCount", wcbTest);
+		assertXpathEvaluatesTo("flat", String.format("//html:%s/@layout", TAG_CHECK_BOX_SELECT), wcbTest);
+		assertXpathNotExists(String.format("//html:%s/@layoutColumnCount", TAG_CHECK_BOX_SELECT), wcbTest);
 
 		wcbTest.setButtonLayout(WCheckBoxSelect.LAYOUT_STACKED);
-		assertXpathEvaluatesTo("stacked", "//ui:checkboxselect/@layout", wcbTest);
-		assertXpathNotExists("//ui:checkboxselect/@layoutColumnCount", wcbTest);
+		assertXpathEvaluatesTo("stacked", String.format("//html:%s/@layout", TAG_CHECK_BOX_SELECT), wcbTest);
+		assertXpathNotExists(String.format("//html:%s/@layoutColumnCount", TAG_CHECK_BOX_SELECT), wcbTest);
 	}
 
 	@Test(expected = SystemException.class)
@@ -129,10 +132,10 @@ public class WCheckBoxSelectRenderer_Test extends AbstractWebXmlRendererTestCase
 
 		assertSafeContent(wcb);
 
-		wcb.setToolTip(getMaliciousAttribute("ui:checkboxselect"));
+		wcb.setToolTip(getMaliciousAttribute("html:" + TAG_CHECK_BOX_SELECT));
 		assertSafeContent(wcb);
 
-		wcb.setAccessibleText(getMaliciousAttribute("ui:checkboxselect"));
+		wcb.setAccessibleText(getMaliciousAttribute("html:" + TAG_CHECK_BOX_SELECT));
 		assertSafeContent(wcb);
 	}
 }

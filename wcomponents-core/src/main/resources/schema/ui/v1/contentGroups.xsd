@@ -23,7 +23,6 @@ The XML schema for a WComponent page.
 			<xs:element ref="ui:application" />
 			<xs:element ref="ui:ajaxtrigger" />
 			<xs:element ref="ui:checkbox" />
-			<xs:element ref="ui:checkboxselect" />
 			<xs:element ref="ui:collapsible" />
 			<xs:element ref="ui:comment" />
 			<xs:element ref="ui:componentGroup" />

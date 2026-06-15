@@ -17,6 +17,10 @@ import java.util.List;
  */
 final class WCheckBoxSelectRenderer extends AbstractWebXmlRenderer {
 
+	private static final String TAG_CHECK_BOX_SELECT = "wc-check-box-select";
+	private static final String TAG_OPTION = "wc-option";
+	private static final String TAG_HTML = "html";
+
 	/**
 	 * Paints the given WCheckBoxSelect.
 	 *
@@ -30,7 +34,7 @@ final class WCheckBoxSelectRenderer extends AbstractWebXmlRenderer {
 		int cols = select.getButtonColumns();
 		boolean readOnly = select.isReadOnly();
 
-		xml.appendTagOpen("ui:checkboxselect");
+		xml.appendTagOpen(TAG_HTML + ":" + TAG_CHECK_BOX_SELECT);
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
@@ -88,7 +92,7 @@ final class WCheckBoxSelectRenderer extends AbstractWebXmlRenderer {
 		if (!readOnly) {
 			DiagnosticRenderUtil.renderDiagnostics(select, renderContext);
 		}
-		xml.appendEndTag("ui:checkboxselect");
+		xml.appendEndTag(TAG_HTML + ":" + TAG_CHECK_BOX_SELECT);
 	}
 
 	/**
@@ -113,12 +117,12 @@ final class WCheckBoxSelectRenderer extends AbstractWebXmlRenderer {
 			String desc = select.getDesc(option, optionIndex);
 
 			// Render Option
-			html.appendTagOpen("ui:option");
+			html.appendTagOpen(TAG_HTML + ":" + TAG_OPTION);
 			html.appendAttribute("value", code);
 			html.appendOptionalAttribute("selected", selected, "true");
 			html.appendClose();
 			html.appendEscaped(desc);
-			html.appendEndTag("ui:option");
+			html.appendEndTag(TAG_HTML + ":" + TAG_OPTION);
 		}
 	}
 }
