@@ -119,13 +119,13 @@ function ajaxSubscriber(element, action, triggerId) {
  *
  * NOTE there is a separate issue also being handled in this module:
  *
- * * IE will "remember" focus when you refresh a page.  That means it is possible for a page to load and for a field to have focus but never
+ * IE will "remember" focus when you refresh a page.  That means it is possible for a page to load and for a field to have focus but never
  *   have fired a focus event.  In this scenario there will probably be a whole lot of bootstrapping that should have been fired but wasn't.
  *   Have not observed the same behaviour in FF3.6 or Chrome 6.
- * * We used to solve this by refocusing the activeElement if there is one, however this stopped working in IE8, I guess MS worked out that
+ * We used to solve this by refocusing the activeElement if there is one, however this stopped working in IE8, I guess MS worked out that
  *   setting focus to an element that already has focus is a noop.
- * * This solution was not ideal as it effectively adds all the bootstrapping overhead to the page load.
- * * Now what we do is shift the focus to the BODY if any type of interactive element has focus on page load (to which we did not set focus).
+ * This solution was not ideal as it effectively adds all the bootstrapping overhead to the page load.
+ * Now what we do is shift the focus to the BODY if any type of interactive element has focus on page load (to which we did not set focus).
  *   This should make IE behave more like other browsers. Yes there is still some bootstrapping overhead but only: in IE, when page refreshed,
  *    when interactive control focused AND nothing will actually want to bootstrap the body itself, so should be fast.
  *

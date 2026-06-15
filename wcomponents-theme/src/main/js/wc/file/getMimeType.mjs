@@ -26,7 +26,7 @@ function getMimeType(fileInfo) {
 		/**
 		 * @param {File} file
 		 * @return {{ ext: string, mime: string }}
-		 * */
+		 */
 		file => {
 			return {
 				ext: getExtension(file.name),

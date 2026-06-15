@@ -8,16 +8,16 @@
  * It is handy to have an event manager, everything still does - how often do you write "addEventListener" in React and Angular?
  * Features implemented:
  *
- * * this keyword applies correctly in listener functions (it is the element the event is attached to);
- * * this keyword can be overridden when adding event listener (only somewhat useful, the scope of the listener could
+ * this keyword applies correctly in listener functions (it is the element the event is attached to);
+ * this keyword can be overridden when adding event listener (only somewhat useful, the scope of the listener could
  * be bound anyway using currying or bind. The minor disadvantage to these methods is:
  * ** a small memory hit because you are creating new instances of those listeners each time;
  * ** the event manager can not tell if a listener is attached twice.
- * * implemented numerous polyfills to ensure events have standard properties in all browsers;
- * * event order is guaranteed, events will be fired in the order they are added except you can add an event at **different
+ * implemented numerous polyfills to ensure events have standard properties in all browsers;
+ * event order is guaranteed, events will be fired in the order they are added except you can add an event at **different
  *   priorities**: HIGH, MED, LOW (see {@link module:wc/dom/event.add} for more detail);
- * * a listener is prevented from being attached to the same element for than particular event type more than once;
- * * can programmatically fire an event on an element even if that is a custom event.
+ * a listener is prevented from being attached to the same element for than particular event type more than once;
+ * can programmatically fire an event on an element even if that is a custom event.
  *
  * Historically this class had some other concerns, such as helping prevent memory leaks in IE. It was originally
  * loosely based on [this](http://therealcrisp.xs4all.nl/upload/addEvent_dean.html) but has since been reworked

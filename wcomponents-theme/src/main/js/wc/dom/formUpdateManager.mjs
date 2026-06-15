@@ -4,9 +4,9 @@
  * FormUpdateManager.
  *
  * FormUpdateManager is responsible for:
- * * when to write state (subscribers will be notified at the relevant times);
- * * where to write state (subscribers will be passed a container element in which to write state fields); and
- * * cleanup (the state container will be cleaned up before each state writing event).
+ * when to write state (subscribers will be notified at the relevant times);
+ * where to write state (subscribers will be passed a container element in which to write state fields); and
+ * cleanup (the state container will be cleaned up before each state writing event).
  *
  */
 import event from "wc/dom/event.mjs";

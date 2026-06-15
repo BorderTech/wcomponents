@@ -17,7 +17,7 @@ const { atob, window } = globalThis;
  * Map of mimetype to extension, used when checking the newly created file is named
  * with the correct extension.
  * TO-DO: Replace with 3rd-party util
- **/
+ */
 const mimeToExt = {
 	"image/jpeg": ["jpeg", "jpg"],
 	"image/bmp": ["bmp"],

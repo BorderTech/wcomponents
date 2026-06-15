@@ -10,16 +10,16 @@ import getMimeType from "wc/file/getMimeType.mjs";
  *
  * Based on the HTML5 "File Upload State" spec:
  *
- * * File type matches are case-insensitive.
- * * File types must be either:
- *    * a valid MIME type with no parameters;
- *    * the string audio/*;
- *    * the string video/*; or
- *    * the string image/*,
- *    * A string whose first character is a "." (U+002E) character (Indicates that files with the specified file extension are accepted).
- * * If "accept" is empty then returns true.
- * * If no file is selected then returns true.
- * * If the mimeType AND extension can not be determined then returns true.
+ * File type matches are case-insensitive.
+ * File types must be either:
+ *    a valid MIME type with no parameters;
+ *    the string audio/*;
+ *    the string video/*; or
+ *    the string image/*,
+ *    A string whose first character is a "." (U+002E) character (Indicates that files with the specified file extension are accepted).
+ * If "accept" is empty then returns true.
+ * If no file is selected then returns true.
+ * If the mimeType AND extension can not be determined then returns true.
  *
  * @function
  * @alias module:wc/file/accepted

@@ -3,17 +3,17 @@
  *
  * There are two aspects to implementing an ARIA role:
  *
- * * Managing focus (keyboard navigation - left/right/up/down etc.)
- * * Activation / Selection (click, space bar, enter etc.)
- * * State writing (tell the server the state of the aria control)
+ * Managing focus (keyboard navigation - left/right/up/down etc.)
+ * Activation / Selection (click, space bar, enter etc.)
+ * State writing (tell the server the state of the aria control)
  *
  * A few points to note:
  *
- * * Event listeners are called in the scope of the object. In other words the "this" in an event listener will
+ * Event listeners are called in the scope of the object. In other words the "this" in an event listener will
  *   not reference event.currentTarget like it normally does, it will reference the "this" as if it was just a regular
  *   function, not an event listener.
  *
- * * If you override any event handlers it's up to YOU to ensure you honor the above contract.
+ * If you override any event handlers it's up to YOU to ensure you honor the above contract.
  *
  * This is an "abstract class". That means it is not a complete implementation, subclasses are required to
  * implement certain properties / methods. The absolute minimum is ITEM.

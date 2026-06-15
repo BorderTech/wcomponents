@@ -155,13 +155,13 @@ function Trigger(obj, onsuccess, onerror) {
 		this.successful = (typeof obj.successful === UNDEFINED) ? null : obj.successful;
 		this.formRegion = obj.formRegion;
 		this.callback = function() {
-			const scope = this;
 			let cbresult;
 			try {
 				if (onsuccess) {
 					cbresult = onsuccess.apply(this, arguments);
 				}
 			} finally {
+				const scope = this;
 				// The purpose of the Promise.resolve here is to WAIT for the callback to complete, ESPECIALLY if the callback returns a promise itself
 				Promise.resolve(cbresult).then(function(result) {
 					notify(scope, "after", { success: result });
@@ -485,7 +485,7 @@ Trigger.prototype.fire = function() {
 		this.scheduleQueueProcessing();
 		promise = getFirePromise(this);
 	} else {
-		promise = Promise.reject(new Error("Trigger has no more shots left: " + this.id));
+		promise = Promise.reject("Trigger has no more shots left: " + this.id);
 	}
 	return promise;
 };

@@ -12,24 +12,24 @@ const { Node } = globalThis;
  * Note that ARIA practices are not very precise but the information is there between the lines. The implications are
  * that arrow keys drive selection in listboxes, otherwise there would be no point for Ctrl+Arrow.
  *
- * * Tab: When a list is tabbed to, select the first item if nothing else is already selected. A second tab will take
+ * Tab: When a list is tabbed to, select the first item if nothing else is already selected. A second tab will take
  *   the user out of the widget to the next tab stop on the page.
- * * Up/down arrows navigate up and down the list.
- * * Shift+Up Arrow and Shift+Down Arrow move and extend the selection if the list allows multiple selection.
- * * Typing letter or several letters to navigate (same letter goes to each item starting with that, different letters
+ * Up/down arrows navigate up and down the list.
+ * Shift+Up Arrow and Shift+Down Arrow move and extend the selection if the list allows multiple selection.
+ * Typing letter or several letters to navigate (same letter goes to each item starting with that, different letters
  *   go to first item starting with that entire string).
- * * Shift+F10: If the current item has an associated context menu, then this key combination will launch that menu.
+ * Shift+F10: If the current item has an associated context menu, then this key combination will launch that menu.
  *
  * Selection:
  *
- * * Checkbox - Space toggles checkboxes, if the list items are checkable
- * * Selectable List Items:
- *    * Space acts as a toggle to select and deselect the current item. If previous items have been selected, it also
+ * Checkbox - Space toggles checkboxes, if the list items are checkable
+ * Selectable List Items:
+ *    Space acts as a toggle to select and deselect the current item. If previous items have been selected, it also
  *      deselects them and selects the current item;
- *    * Shift+Space selects contiguous items from the last selected item to the current item;
- *    * Ctrl/Meta+Arrow moves without selecting;
- *    * Ctrl/Meta+Space selects non-contiguous items and adds the current selected item to all previously selected items;
- *    * Ctrl/Meta+A - It is recommended a checkbox, link or other method be used to select all. The Ctrl/Meta+A key
+ *    Shift+Space selects contiguous items from the last selected item to the current item;
+ *    Ctrl/Meta+Arrow moves without selecting;
+ *    - Ctrl/Meta+Space selects non-contiguous items and adds the current selected item to all previously selected items;
+ *    - Ctrl/Meta+A - It is recommended a checkbox, link or other method be used to select all. The Ctrl/Meta+A key
  *      could be used to provide the shortcut key.
  *
  *

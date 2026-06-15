@@ -437,7 +437,7 @@ function getMessageHTML(message) {
  * @return {HTMLElement} The message element in the DOM.
  */
 function addHelper(box, message) {
-	if (message?.constructor !== String) {
+	if (!message || message.constructor !== String) {
 		throw new TypeError("Message must be a string");
 	}
 	let current = instance.getMessages(box);

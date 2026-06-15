@@ -152,8 +152,8 @@ function Observer(notifyInStages) {
 	 *
 	 * After calling notify:
 	 *
-	 * * Any filter set by setFilter will be cleared.
-	 * * Any callback set by setCallback will be cleared.
+	 * Any filter set by setFilter will be cleared.
+	 * Any callback set by setCallback will be cleared.
 	 *
 	 * @function
 	 * @public

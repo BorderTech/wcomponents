@@ -3,8 +3,8 @@
  *
  * Things to consider:
  *
- * * What renews the session? An AJAX request? Loading an image?
- * * Can we be sure that those actions will always renew the session? What if the resource is loaded from cache
+ * What renews the session? An AJAX request? Loading an image?
+ * Can we be sure that those actions will always renew the session? What if the resource is loaded from cache
  *   instead of hitting the server...
  *
  * There will always be a chance of getting the session timeout wrong, but there is wrong and then

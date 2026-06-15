@@ -5,7 +5,7 @@ let cookies;  // cache cookies, will only reload if cookies are set through this
 /**
  * A module for dealing with cookies. The methods that do all the work are based on
  * http://www.quirksmode.org/js/cookies.html
- **/
+ */
 const instance = {
 	/**
 	 * Passing anything to "days" that equates to false will create a session cookie,

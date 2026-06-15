@@ -299,9 +299,9 @@ function removeField(element, removeAll) {
 /**
  * Provides client side multiple controls:
  *
- * * WMultiDropdown provides a control which has single SELECT elements which can be used to create a multiple selection
+ * WMultiDropdown provides a control which has single SELECT elements which can be used to create a multiple selection
  *   tool;
- * * WMultiTextField provides a control which has single SELECT elements which can be used to create a set of single
+ * WMultiTextField provides a control which has single SELECT elements which can be used to create a set of single
  *   line text input controls.
  *
  * @module

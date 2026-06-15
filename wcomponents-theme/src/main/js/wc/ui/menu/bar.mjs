@@ -85,7 +85,7 @@ class Menubar extends AbstractMenu {
 		 * @var
 		 * @type {String}
 		 * @override
-		 **/
+		 */
 		this._role.MENU = "menubar";
 	}
 

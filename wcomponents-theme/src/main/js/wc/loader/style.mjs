@@ -17,7 +17,7 @@ const DOT_EX = ".css",
  *
  * The default/fallback includes fixes for IE11 and MS Edge. These will be overridden completely by a custom config `css`
  * object unless `config.inherit` is `true`.
- *			 *
+ *
  * @var
  * @type {module:wc/loader/style~cssConfig}
  * @private

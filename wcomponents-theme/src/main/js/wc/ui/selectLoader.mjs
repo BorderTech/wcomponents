@@ -181,11 +181,11 @@ function processNow(idArr) {
  *
  * Note that IE8 ruins this in a few ways:
  *
- * * Ideally we would simply transform the options into a documentFragment and then append that documentFragment to the
+ * Ideally we would simply transform the options into a documentFragment and then append that documentFragment to the
  *   existing select. However, IE8 can simply not cope with options that are not inside a select. This creates a heavier
  *   routine for adding options the select.  Optgroup is not good as a container as it requires a label and alters
  *   formatting.
- * * Even with the above concession to IE, using a select instead of a documentFragment IE8 still has further issues in
+ * Even with the above concession to IE, using a select instead of a documentFragment IE8 still has further issues in
  *   that you can't say sel1.innerHTML = sel2.innerHTML.  So we are forced to loop through each option and add then one
  *   by one for IE8 (tested on IE9, still can't do it).
  *

@@ -804,12 +804,12 @@ function resizeEvent({ defaultPrevented }) {
 /**
  * Provides a re-usable frame for floating dialog-like controls.
  *
- * * Implements WAI-ARIA practices for:
- *   * [Modal dialogs](http://www.w3.org/TR/wai-aria-practices/#dialog_modal)
- *   * [Non-modal dialogs](http://www.w3.org/TR/wai-aria-practices/#dialog_nonmodal)
- * * Implements WAI-ARIA roles
- *   * [dialog](http://www.w3.org/TR/wai-aria/roles#dialog) and
- *   * [alertdialog](http://www.w3.org/TR/wai-aria/roles#alertdialog)
+ * Implements WAI-ARIA practices for:
+ *   [Modal dialogs](http://www.w3.org/TR/wai-aria-practices/#dialog_modal)
+ *   [Non-modal dialogs](http://www.w3.org/TR/wai-aria-practices/#dialog_nonmodal)
+ * Implements WAI-ARIA roles
+ *   [dialog](http://www.w3.org/TR/wai-aria/roles#dialog) and
+ *   [alertdialog](http://www.w3.org/TR/wai-aria/roles#alertdialog)
  *
  * Dialogs are positionable, resizeable and draggable (including keyboard driven facilities for each).
  *

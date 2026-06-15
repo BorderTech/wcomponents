@@ -104,9 +104,9 @@ const instance = {
 /**
  * Determine if an HTML element supports the native required attribute. See
  *
- * * https://html.spec.whatwg.org/#attr-input-required,
- * * https://html.spec.whatwg.org/#attr-select-required
- * * https://html.spec.whatwg.org/#attr-textarea-required
+ * https://html.spec.whatwg.org/#attr-input-required,
+ * https://html.spec.whatwg.org/#attr-select-required
+ * https://html.spec.whatwg.org/#attr-textarea-required
  *
  * @function
  * @private

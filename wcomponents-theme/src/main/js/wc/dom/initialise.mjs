@@ -119,11 +119,11 @@ const instance = {
 /**
  * Add a subscriber to the initialise observer. Bound to one of the following public functions:
  *
- * * {@link module:wc/dom/initialise.addBodyListener}: Listeners will be called back with the body
+ * {@link module:wc/dom/initialise.addBodyListener}: Listeners will be called back with the body
  * element when it becomes ready.
- * * {@link module:wc/dom/initialise.addInitRoutine}: Add a function that will be executed BEFORE the
+ * {@link module:wc/dom/initialise.addInitRoutine}: Add a function that will be executed BEFORE the
  * 'initialise' does its nodeListener initialisation work
- * * {@link module:wc/dom/initialise.addCallback}: add a function that will be executed AFTER the
+ * {@link module:wc/dom/initialise.addCallback}: add a function that will be executed AFTER the
  * 'initialise' does its nodeListener initialisation work
  *
  * @function

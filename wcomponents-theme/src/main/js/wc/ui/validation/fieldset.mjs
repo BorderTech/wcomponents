@@ -66,8 +66,8 @@ function validate(container) {
  * This function determines if a fieldset needs to be revalidated and if it does then it resets the
  * validation. *NOTE:* WFieldSet only needs validation if "required".
  *
- * * If something is shown or enabled inside an invalid fieldset it may be populated, making the fieldset valid;
- * * if something is hidden or disabled inside an invalid fieldset it may make the fieldset 'empty' thereby making the fieldset valid.
+ * If something is shown or enabled inside an invalid fieldset it may be populated, making the fieldset valid;
+ * if something is hidden or disabled inside an invalid fieldset it may make the fieldset 'empty' thereby making the fieldset valid.
  *
  * In both cases we need to revalidate to make sure.
  *

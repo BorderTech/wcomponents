@@ -1,16 +1,16 @@
 /**
  * This module wraps the functionality of native timers for the following main reasons:
  *
- * * Automated testing (selenium) - helps tools determine if the page is "ready" THIS IS REALLY IMPORTANT!
- * * Cross browser compatibility - in particular support for varargs to be passed to the callback/handler.
- * * Unit testing - we can mess with our timers without affecting those used by other libraries or the unit
+ * Automated testing (selenium) - helps tools determine if the page is "ready" THIS IS REALLY IMPORTANT!
+ * Cross browser compatibility - in particular support for varargs to be passed to the callback/handler.
+ * Unit testing - we can mess with our timers without affecting those used by other libraries or the unit
  *   testing framework itself.
  *
  * Note that we **do NOT** accept a string as a callback/handler.
  *
  * By native timers we mean http:// www.whatwg.org/specs/web-apps/current-work/multipage/timers.html#timers
  *
- **/
+ */
 
 //	,hasNativeVarargSupport = false;
 //	global.setTimeout(function(varargs) {

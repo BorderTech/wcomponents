@@ -67,7 +67,7 @@ function querySelectorImmediate(parent, selector) {
  *
  * Extends menu functionality to provide a specific implementation of a tree.
  * @alias module:wc/ui/menu/tree~Tree
- **/
+ */
 class Tree extends AbstractMenu {
 	/**
 	 * Test a tree to determine if it is a HTree.

@@ -677,12 +677,12 @@ function postAjaxSubscriber(element) {
  * Sets tabstops when a menu item is hidden or disabled.
  * When we disable or hide any item we may have to move the default tabstop. This will be the case if:
  *
- *  * the former default tabstop was the branch opener for the disabled branch and therefore no longer exist as
+ *  the former default tabstop was the branch opener for the disabled branch and therefore no longer exist as
  *    we can assume that if the menu does not have a default tabstop that we just disabled it;
- *  * the former default tabstop the element we just hid;
- *  * the old tabstop is the element (which means this is running before the SHED disabled helper: **very**
+ *  the former default tabstop the element we just hid;
+ *  the old tabstop is the element (which means this is running before the SHED disabled helper: **very**
  *   unlikely); or
- *  * The old tabstop is inside the branch we just disabled/hid.
+ *  The old tabstop is inside the branch we just disabled/hid.
  *
  * @function
  * @param {Element} element The menu item element being hidden or disabled.
@@ -972,7 +972,7 @@ export function AbstractMenu() {
 	 * @see {@link module:wc/ui/menu/core~FUNC_MAP}
 	 * @constant
 	 * @type {Object}
-	 * 	 */
+	 */
 	this._FUNC_MAP = FUNC_MAP;
 }
 
@@ -1026,7 +1026,7 @@ AbstractMenu.prototype.isTransient = true;
  * otherwise it will look for siblings first.
  *
  * @function
- * @param {Element} element A node in a menu/tree. Not needed by default but mandatory for mixed-mode trees.
+ * @param {Element} element - A node in a menu/tree. Not needed by default but mandatory for mixed-mode trees.
  * @returns {Boolean} true if treeWalker should traverse depth-first. By default, always returns false.
  */
 AbstractMenu.prototype._treeWalkDepthFirst = function(element) {
@@ -1042,7 +1042,7 @@ AbstractMenu.prototype._treeWalkDepthFirst = function(element) {
  *
  * @var
  * @type {Boolean}
- **/
+ */
 AbstractMenu.prototype._cycleSiblings = true;
 
 /**
@@ -1052,7 +1052,7 @@ AbstractMenu.prototype._cycleSiblings = true;
  * which makes this a function.
  *
  * @function
- * @param {Element} element An element in a menu and preferably a root node. This allows us to test an
+ * @param {Element} element - An element in a menu and preferably a root node. This allows us to test an
  *    individual menu/tree if required. Not needed by default but should always be included in calls for those
  *    occasions where it is needed (e.g. bi-modal trees).
  * @returns {Boolean} true if only one branch may be open at a time.

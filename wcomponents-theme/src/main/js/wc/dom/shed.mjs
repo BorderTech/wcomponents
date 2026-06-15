@@ -391,18 +391,18 @@ const instance = {
 	/**
 	 * Determine if an element is currently selected. Selected means either:
 	 *
-	 * * the element has an aria role which supports any of the states in ARIA_STATE[SELECTED] and the correct
+	 * the element has an aria role which supports any of the states in ARIA_STATE[SELECTED] and the correct
 	 *   state attribute for that role is set to true.; OR
-	 * * the element does not have an aria role which supports any of the states in ARIA_STATE[SELECTED]
+	 * the element does not have an aria role which supports any of the states in ARIA_STATE[SELECTED]
 	 *   but the element does have native support for a "selectable" attribute and that attribute is set
 	 *
 	 * @function module:wc/dom/shed.isSelected
 	 * @param {Element} element The element to test.
 	 * @returns {boolean|number} A property of {@link module:wc/dom/shed.state} being:
 	 *
-	 *    * SELECTED (which equates to true) if this element is selected; or
-	 *    * MIXED (which equates to false) if mixed; otherwise
-	 *    * DESELECTED (which equates to false).
+	 *    SELECTED (which equates to true) if this element is selected; or
+	 *    MIXED (which equates to false) if mixed; otherwise
+	 *    DESELECTED (which equates to false).
 	 */
 	isSelected: function (element) {
 		const role = $role.get(element, true);
@@ -641,8 +641,8 @@ function expandWithOpen(element) {
  * @param {boolean} [mix] If true then the checkbox will be set to "indeterminate". Only relevant when all
  * the following are true:
  *
- *  * element is a checkbox (or has checkbox role); and
- *  * value is false.
+ *  element is a checkbox (or has checkbox role); and
+ *  value is false.
  *
  * @returns {boolean|number} A property of {@link module:wc/dom/shed.state} or null if it does not
  *     natively support a selected state. Note that that mixed (indeterminate) and checked is ignored.
