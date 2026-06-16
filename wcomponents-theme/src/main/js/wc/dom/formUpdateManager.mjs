@@ -140,7 +140,7 @@ const formUpdateManager = {
 				if (clean) {
 					stateField.dataset.wcClean = clean.toString();
 				}
-				if (value !== undefined && value !== null) {  // don't write null or undefined, really, don't
+				if (value !== undefined && value != null) {  // don't write null or undefined, really, don't
 					stateField.value = value;
 				}
 				container.appendChild(stateField);

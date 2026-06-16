@@ -195,8 +195,7 @@ describe("wc/ajax/Trigger", () => {
 					expect(pending).withContext("when firing a Trigger pending must be true").toBeTrue();
 					Trigger.unsubscribe(subscriber, -1);
 					win();
-				// eslint-disable-next-line no-unused-vars
-				} catch (ex) {
+				} catch {
 					lose();
 				}
 			};
@@ -216,8 +215,7 @@ describe("wc/ajax/Trigger", () => {
 					expect(pending).withContext("when the last Trigger has fired pending must be false").toBeFalse();
 					Trigger.unsubscribe(subscriber);
 					win();
-				// eslint-disable-next-line no-unused-vars
-				} catch (ex) {
+				} catch {
 					lose();
 				}
 			};
@@ -243,8 +241,7 @@ describe("wc/ajax/Trigger", () => {
 					expect(pending).withContext("when the last Trigger has fired pending must be false").toBeFalse();
 					Trigger.unsubscribe(subscriber, 1);
 					win();
-				// eslint-disable-next-line no-unused-vars
-				} catch (ex) {
+				} catch {
 					lose();
 				}
 			};

@@ -79,7 +79,7 @@ const instance = {
 				// filter candidates to remove exempt
 				candidates = candidates.filter(isNotExempt);
 				// @ts-ignore
-				return candidates.some(filter, theOtherThis);
+				return candidates.some((element) => filter(element), theOtherThis);
 			}
 		}
 		return false;
@@ -117,7 +117,7 @@ const instance = {
 			 */
 			if (!result) {
 				let candidates = getComponents(container);
-				if (candidates === null) {  // nothing of interest in the container
+				if (candidates == null) {  // nothing of interest in the container
 					result = true;  // nothing in the container, must be complete
 				} else if (candidates.length) {
 					candidates = Array.from(candidates);

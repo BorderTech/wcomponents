@@ -58,7 +58,7 @@ const instance = {
 			flagFunc = obj.flag || flagAllThese;
 
 		if (widget && container) {
-			const elements = this.getRequired(container, widget, constraint).filter(filterFunc);
+			const elements = this.getRequired(container, widget, constraint).filter((element) => filterFunc(element));
 			if (elements?.length) {
 				result = false;
 				flagFunc(elements, obj);

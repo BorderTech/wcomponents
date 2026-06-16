@@ -153,9 +153,8 @@ class ListboxAnalog extends AriaAnalog {
 	 * @returns {String} the value of the option.
 	 */
 	getOptionValue(option, lowerCase, forceText) {
-		const txt = forceText
-			? option.textContent :
-			(option.hasAttribute(this.VALUE_ATTRIB) ? option.getAttribute(this.VALUE_ATTRIB) : option.textContent);
+		let txt = option.textContent;
+		if (!forceText && option.hasAttribute(this.VALUE_ATTRIB)) txt = option.getAttribute(this.VALUE_ATTRIB);
 		return lowerCase ? txt.toLocaleLowerCase() : txt;
 	}
 }

@@ -93,6 +93,7 @@ async function buildSingle(singleFile) {
 	conf.dir = "";
 	conf.name = pathToModule(fileName.replace(/.mjs$/, '.js'));
 	conf.out = path.join(dirs.script.min, fileName);
+	// eslint-disable-next-line sonarjs/no-all-duplicated-branches
 	if (singleFile.endsWith('.mjs')) {
 		// const targetDir = path.dirname(path.join(dirs.script.max, conf.name));
 		// await esmBuilder.build(singleFile, targetDir);

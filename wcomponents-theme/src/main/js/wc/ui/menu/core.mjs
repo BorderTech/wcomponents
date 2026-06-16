@@ -161,7 +161,7 @@ function doICollide(collision, isNotDefaultDirection) {
 	let result = false;
 
 	if (collision) {
-		if (CLASS.DEFAULT_DIRECTION === CLASS.COLLIDE_EAST) {
+		if (CLASS.DEFAULT_DIRECTION == CLASS.COLLIDE_EAST) {
 			result = isNotDefaultDirection ? (collision.w < 0) : (collision.e > 0);
 		} else {
 			result = isNotDefaultDirection ? (collision.e > 0) : (collision.w < 0);
@@ -437,6 +437,7 @@ AbstractMenu.prototype._getPathToItem = function(item, from) {
 	const tw = this._getTreeWalker(from, false);
 	tw.currentNode = item;
 	let parent;
+	// eslint-disable-next-line sonarjs/no-nested-assignment
 	while ((parent = tw.parentNode()) && parent !== from) {
 		result[result.length] = parent;
 	}
@@ -465,7 +466,7 @@ AbstractMenu.prototype.closeAllPaths = function(from, except) {
 	}
 	const tw = this._getTreeWalker(from, true);
 	while ((next = tw.nextNode())) {
-		if (next === exceptPath?.[exceptPath.length - 1]) {
+		if (next == exceptPath?.[exceptPath.length - 1]) {
 			exceptPath.pop();
 			continue;
 		}
@@ -1189,7 +1190,8 @@ AbstractMenu.prototype.getSubMenu = function(item, descending, all) {
 		if (this.isSubMenu(item) && !(descending && all)) {
 			return item;
 		}
-		const func = descending ? ("querySelector" + (all ? "All" : "")) : "closest";
+		const s = all ? "All" : "",
+			func = descending ? ("querySelector" + s) : "closest";
 
 		return item[func](this._wd.submenu);
 	}
@@ -1354,10 +1356,12 @@ AbstractMenu.prototype._closeMyBranch = function(item) {
 	// if we simply called closeMyBranch from a 'closed' opener we would end up doing nothing because the
 	// opener's parent branch is the branch it is in. So we need to get the branches parent.
 	if (this._isBranchOrOpener(_item)) {
+		// eslint-disable-next-line sonarjs/no-nested-assignment
 		if ((branch = this._getBranch(_item)) && (expandable = this._getBranchExpandableElement(branch)) && !shed.isExpanded(expandable)) {
 			_item = branch.parentNode;
 		}
 	}
+	// eslint-disable-next-line sonarjs/no-nested-assignment
 	if ((branch = this._getBranch(_item)) && branch !== this.getRoot(_item)) { // do not try to close root!!
 		this[FUNC_MAP.CLOSE](branch);
 		this._remapKeys(branch);
@@ -1582,7 +1586,7 @@ AbstractMenu.prototype.clickEvent = function($event) {
 				if (this.isTransient) {
 					if (this._isBranch(item)) {
 						const expandable = this._getBranchExpandableElement(item);
-						activateOnHover = expandable ? (shed.isExpanded(expandable) ? root.id : null) : null;
+						activateOnHover = expandable && shed.isExpanded(expandable) ? root.id : null;
 					} else if (this._isLeaf(item)) {
 						closeOpenMenu(root, null, this);
 					}

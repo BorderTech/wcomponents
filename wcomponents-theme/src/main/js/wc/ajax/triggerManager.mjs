@@ -93,6 +93,7 @@ function TriggerManager() {
 				}
 			} else {  // it must be a DOM element
 				let id;
+				// eslint-disable-next-line sonarjs/no-nested-assignment
 				if ((id = ref.id)) {  // try id
 					console.log("Found trigger by element (id match)");
 					result = this.getTrigger(id);

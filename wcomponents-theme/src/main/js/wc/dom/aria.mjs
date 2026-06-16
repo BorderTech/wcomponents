@@ -483,6 +483,7 @@ function getAriaRole(role) {
 			}
 		});
 	}
+	// eslint-disable-next-line sonarjs/no-nested-assignment
 	return cache[role] = ariaRole;
 }
 
@@ -542,6 +543,7 @@ const instance = {
 				result.push(nextRole);
 			}
 		}
+		// eslint-disable-next-line sonarjs/no-nested-assignment
 		return (cache.scopedTo[role] = result);
 	},
 	getScopedBy: function (role) {
@@ -554,6 +556,7 @@ const instance = {
 				result.push(nextRole);
 			}
 		}
+		// eslint-disable-next-line sonarjs/no-nested-assignment
 		return (cache.scopedBy[role] = result);
 	},
 

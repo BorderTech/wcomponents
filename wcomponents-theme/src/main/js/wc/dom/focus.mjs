@@ -205,7 +205,7 @@ function filterHelper(element, observer, instance) {
 
 	// make result a boolean decision
 	//    if the element was accepted explicitly (ACCEPT)
-	return (result === ACCEPT);
+	return (result == ACCEPT);
 }
 
 function addTabstopFilter(fn) {

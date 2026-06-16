@@ -546,6 +546,7 @@ function preOpenSubscriber(element, docFragment) {
 function ajaxSubscriber(element) {
 	let content;
 
+	// eslint-disable-next-line sonarjs/bitwise-operators
 	if (element && (content = instance.getContent()) && content.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_CONTAINED_BY) {
 		const dialog = instance.getDialog();
 		// if we are refreshing inside the dialog we may need to reposition

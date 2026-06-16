@@ -66,8 +66,7 @@ describe("wc/ajax/handleError", () => {
 					try {
 						data = JSON.parse(resp.responseText);
 						data = data.message;
-					// eslint-disable-next-line no-unused-vars
-					} catch (ex) {
+					} catch {
 						data = resp.responseText;
 					}
 					return data + " " + resp.status;

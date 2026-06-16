@@ -112,6 +112,7 @@ function toggleEventHelper($event, element) {
 		if (isAcceptableEventTarget(element, target)) {
 			toggle(element);
 			return element;
+		// eslint-disable-next-line sonarjs/no-nested-assignment
 		} else if ((focusableAncestor = focus.getFocusableAncestor(target))) {
 			if (focusableAncestor === target) {
 				result = focusableAncestor;

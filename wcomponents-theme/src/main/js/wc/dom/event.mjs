@@ -167,7 +167,8 @@ const instance = {
 	add: function (element/* , args */) {
 		let result;
 		const args = addApi(arguments),
-			priority = args.pos ? ((args.pos > 0) ? PRI.LOW : PRI.HIGH) : PRI.MED;
+			p = args.pos && args.pos > 0 ? PRI.LOW : PRI.HIGH,
+			priority = args.pos ? p : PRI.MED;
 		const elementElid = element[ELID_ATTR] || (element[ELID_ATTR] = uid());
 		const capture = !!args.capture;
 		const passive = !!args.passive;

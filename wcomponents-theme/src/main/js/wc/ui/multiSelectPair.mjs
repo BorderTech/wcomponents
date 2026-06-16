@@ -183,7 +183,7 @@ function fixWidthHeight(container) {
  */
 function getOppositeListType(list) {
 	const type = instance.getListType(list);
-	if (type !== null) {
+	if (type != null) {
 		return ((type + 1) % 2);
 	}
 	return null;

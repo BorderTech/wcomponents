@@ -25,7 +25,7 @@ export default function getViewportSize (withoutScrollbars, view = window) {
 	} else if (thisViewportView) {
 		result[WIDTH] = thisViewportView.width;
 		result[HEIGHT] = thisViewportView.height;
-	} else if (SELF.innerWidth !== undefined) {
+	} else if (SELF.innerWidth != undefined) {
 		result[WIDTH] = SELF.innerWidth;
 		result[HEIGHT] = SELF.innerHeight;
 	} else if (DOCUMENT_ELEMENT?.getBoundingClientRect) {

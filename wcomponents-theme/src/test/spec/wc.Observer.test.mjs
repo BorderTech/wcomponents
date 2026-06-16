@@ -900,8 +900,7 @@ describe("wc/Observer", () => {
 
 		try {
 			observer.setFilter();  // try to call observer.setFilter with no filter defined should throw an error
-		// eslint-disable-next-line no-unused-vars
-		} catch (e) {
+		} catch {
 			observer.notify();
 		} finally {
 			expect(wasNotified).withContext("Call to notify should call subscribers in GLOBAL group since no filter was set").toBe(1);
@@ -924,8 +923,7 @@ describe("wc/Observer", () => {
 
 		try {
 			observer.setFilter(null);
-		// eslint-disable-next-line no-unused-vars
-		} catch (e) {
+		} catch {
 			observer.notify();
 		} finally {
 			expect(wasNotified).withContext("Call to notify should call subscribers in GLOBAL group since no filter was set").toBe(1);
@@ -957,8 +955,7 @@ describe("wc/Observer", () => {
 		// attempting to use a null filter throws an error
 		try {
 			observer.getGroupAsWildcardFilter(null);
-		// eslint-disable-next-line no-unused-vars
-		} catch (error) {
+		} catch {
 			hadError = true;
 		} finally {
 			expect(hadError).withContext("Calling getGroupAsWildcardFilter without a filter should throw an error.").toBeTrue();
@@ -973,8 +970,7 @@ describe("wc/Observer", () => {
 
 		try {
 			observer.getGroupAsWildcardFilter(filter);  // nonsense filter, even if of the correct "type", will throw an error
-		// eslint-disable-next-line no-unused-vars
-		} catch (error) {
+		} catch {
 			hadError = true;
 		} finally {
 			expect(hadError).withContext("calling getGroupAsWildcardFilter without a valid filter should throw an error").toBeTrue();
@@ -1057,8 +1053,7 @@ describe("wc/Observer", () => {
 		try {
 			observer.subscribe(subscriber);
 			observer.setCallback(null);  // throws an error
-		// eslint-disable-next-line no-unused-vars
-		} catch (e) {
+		} catch {
 			observer.notify();
 		} finally {
 			expect(wasNotified).withContext("setCallback with a null callback function does not break notify.").toBeTrue();

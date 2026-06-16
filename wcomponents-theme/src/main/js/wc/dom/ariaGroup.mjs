@@ -167,6 +167,7 @@ function buildWidgetArrayFromRoles(roles) {
 	const uselessRole = "group";  // this role is not used to build a group as it is a
 	let uselessIndex;
 	let widgets;
+	// eslint-disable-next-line sonarjs/no-nested-assignment
 	if (roles.length > 1 && ~(uselessIndex = roles.indexOf(uselessRole))) {
 		roles.splice(uselessIndex, 1);
 	}

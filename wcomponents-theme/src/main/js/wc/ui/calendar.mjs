@@ -1071,6 +1071,7 @@ function shedSubscriber(element, action) {
 		return;
 	}
 	const cal = action === shed.actions.HIDE ? getCal() : null;
+	// eslint-disable-next-line sonarjs/bitwise-operators
 	if (cal && !!(element.compareDocumentPosition(cal) & Node.DOCUMENT_POSITION_CONTAINS)) {  // if we are hiding something inside the calendar it is probably a row
 		if (element.matches(rowSelector)) {
 			// we have to remove the pickable elements from any dates which are no longer in the visible calendar

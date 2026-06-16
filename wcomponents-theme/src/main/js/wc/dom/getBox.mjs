@@ -14,10 +14,10 @@ export default function getBox(element, round) {
 	for (let o in box) {
 		result[o] = box[o];
 	}
-	if (box.height === undefined) {
+	if (box.height == undefined) {
 		result.height = box.bottom - box.top;
 	}
-	if (box.width === undefined) {
+	if (box.width == undefined) {
 		result.width = box.right - box.left;
 	}
 

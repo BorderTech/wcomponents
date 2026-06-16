@@ -90,9 +90,9 @@ export default function minMax(conf) {
 	}
 
 	if (container.matches(widget)) {
-		selectables = [container].filter(filter);
+		selectables = [container].filter((element) => filter(element));
 	} else {
-		selectables = Array.from(container.querySelectorAll(widget)).filter(filter);
+		selectables = Array.from(container.querySelectorAll(widget)).filter((element) => filter(element));
 	}
 	return !selectables?.length;
 }
