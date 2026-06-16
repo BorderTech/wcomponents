@@ -305,11 +305,13 @@ describe("wc/ui/subordinate Live DOM Rule Tests", () => {
 			return new Promise(win => {
 				shed.select(showTrigger);
 				setTimeout(() => {
+					// eslint-disable-next-line sonarjs/no-nested-functions
 					componentIds.forEach(id => {
 						expect(shed.isHidden(getByTestId(testHolder, id))).withContext(`${id} should have been shown`).toBeFalse();
 					});
 					const hideTrigger = getInput(testHolder, hideTriggerId);
 					shed.select(hideTrigger);
+					// eslint-disable-next-line sonarjs/no-nested-functions
 					setTimeout(() => {
 						componentIds.forEach(id => {
 							expect(shed.isHidden(getByTestId(testHolder, id))).withContext(`${id} should have been hidden`).toBeTrue();
@@ -369,6 +371,7 @@ describe("wc/ui/subordinate Live DOM Rule Tests", () => {
 						brownElephant: shouldChange
 					});
 					shed.deselect(trigger);
+					// eslint-disable-next-line sonarjs/no-nested-functions
 					setTimeout(() => {
 						visibilityChecker({
 							whiteElephant: true,
@@ -396,6 +399,7 @@ describe("wc/ui/subordinate Live DOM Rule Tests", () => {
 					// tests the onTrue condition
 					expect(shed[shedFunc](target)).withContext(`${triggerId} should change the state of ${targetId}`).toBeTrue();
 					shed.deselect(trigger);
+					// eslint-disable-next-line sonarjs/no-nested-functions
 					setTimeout(() => {
 						// tests the onFalse condition
 						expect(shed.isHidden(target)).withContext(`${triggerId} should change the state of ${targetId}`).toBeFalse();
@@ -427,6 +431,7 @@ describe("wc/ui/subordinate Live DOM Rule Tests", () => {
 
 					trigger.selectedIndex = -1;
 					shed.deselect(trigger);
+					// eslint-disable-next-line sonarjs/no-nested-functions
 					setTimeout(() => {
 						// tests the onFalse condition
 						expect(shed[shedFunc](target)).withContext(`${triggerId} should change the state of ${targetId}`).toBeTrue();

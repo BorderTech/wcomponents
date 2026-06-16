@@ -22,6 +22,7 @@ define([], function() {
 			parentRequire(["wc/ajax/ajax", "wc/dom/event", "wc/fixes", "wc/i18n/i18n"], function (a, evt, f, i18n) {
 				ajax = a;
 				event = evt;
+				// eslint-disable-next-line sonarjs/no-nested-functions
 				i18n.translate().then(function() {
 					callback(instance);
 				});
@@ -43,7 +44,7 @@ define([], function() {
 		this.setupHelper = function(deps, callback) {
 			var result = new Promise(function(win, lose) {
 				try {
-					// @ts-ignore
+					// eslint-disable-next-line sonarjs/no-nested-functions
 					require(deps, function() {
 						var args = arguments;
 						if (callback) {
@@ -117,6 +118,7 @@ define([], function() {
 		this.setUpExternalHTML = function(urlResource, testHolder) {
 			var utils = this;
 			var result = new Promise(function(win, lose) {
+				// eslint-disable-next-line sonarjs/no-nested-functions
 				utils.loadResource(urlResource, function(response) {
 					testHolder = testHolder || utils.getTestHolder();
 					testHolder.innerHTML = response;

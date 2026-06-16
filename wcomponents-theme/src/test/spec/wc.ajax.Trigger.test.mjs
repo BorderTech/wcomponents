@@ -160,7 +160,7 @@ describe("wc/ajax/Trigger", () => {
 		}, errCallback);
 		let promise;
 		while (i--) {
-			promise = trigger.fire();  // TODO probably should Promise.All this
+			promise = trigger.fire();  // TO-DO: Probably should Promise.All this
 		}
 		return promise;
 	});

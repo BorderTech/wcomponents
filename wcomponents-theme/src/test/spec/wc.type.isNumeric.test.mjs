@@ -11,14 +11,14 @@ describe("wc/isNumeric", function() {
 	});
 
 	it("testisNumericFloatStringObject", function() {
-		const arg = new String("666.666"),
+		const arg = String("666.666"),
 			result = isNumeric(arg);
 
 		expect(result).toBe(true);
 	});
 
 	it("testisNumericFloatStringObjectNoMutation", function() {
-		const arg = new String("666.666"),
+		const arg = String("666.666"),
 			result = isNumeric(arg);
 
 		expect(result).toBe(true);
@@ -67,14 +67,14 @@ describe("wc/isNumeric", function() {
 	});
 
 	it("testisNumericNumber", function() {
-		const arg = new Number(-666),
+		const arg = Number(-666),
 			result = isNumeric(arg);
 
 		expect(result).toBe(true);
 	});
 
 	it("testisNumericNumberNoMutation", function() {
-		const arg = new Number(-666),
+		const arg = Number(-666),
 			result = isNumeric(arg);
 
 		expect(result).toBe(true);
@@ -82,14 +82,14 @@ describe("wc/isNumeric", function() {
 	});
 
 	it("testisNumericNumber2", function() {
-		const arg = new Number(666),
+		const arg = Number(666),
 			result = isNumeric(arg);
 
 		expect(result).toBe(true);
 	});
 
 	it("testisNumericNumber2NoMutation", function() {
-		const arg = new Number(666),
+		const arg = Number(666),
 			result = isNumeric(arg);
 
 		expect(result).toBe(true);

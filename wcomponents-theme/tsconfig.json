@@ -18,6 +18,7 @@
 		"skipLibCheck": true,
 		"strict": true,
 		"strictNullChecks": true,
-		"target": "es2022"
+		"target": "es2022",
+		"types": ["dom", "jasmine", "jasmine-ajax"]
 	}
 }

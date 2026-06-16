@@ -370,6 +370,7 @@ function editFile(config, file, win, lose) {
 				fileReader.onload = function ($event) {
 					// @ts-ignore
 					imageEdit.renderImage($event.target.result, function() {
+						// eslint-disable-next-line sonarjs/no-nested-functions
 						validateImage(file, editor).then(function(message) {
 							if (message) {
 								prompt.alert(message);
@@ -584,6 +585,7 @@ function getEditor(config, callbacks, file) {
 			container.className = "wc_img_editor";
 			container.dataset.wcEditor = config.id;
 			return new Promise((win, lose) => {
+				// eslint-disable-next-line sonarjs/no-nested-functions
 				timers.setTimeout(() => {
 					try {
 						container.innerHTML = getDialogContent(editorProps);

@@ -239,6 +239,7 @@ function MultiFileUploader() {
 						selector: element,
 						files: useTheseFiles,
 						notify: true,
+						// eslint-disable-next-line sonarjs/no-nested-functions
 						callback: selector => {
 							try {
 								if (selector.matches(inputElementWd)) {
@@ -258,7 +259,7 @@ function MultiFileUploader() {
 				upload = function(obj) {
 					const editorId = element.dataset.wcEditor;
 					if (!suppressEdit && editorId) {
-						// @ts-ignore
+						// eslint-disable-next-line sonarjs/no-nested-functions
 						import("wc/ui/imageEdit.mjs").then(function (module) {
 							const imageEdit = module.default;
 							obj.editorId = editorId;

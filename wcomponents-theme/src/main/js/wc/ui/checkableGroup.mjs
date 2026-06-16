@@ -152,6 +152,7 @@ export class WOption extends HTMLElement {
 
 	/** @type {boolean} */
 	#connectedCallbackOnce = false;
+	// eslint-disable-next-line sonarjs/no-identical-functions
 	connectedCallback() {
 		if (this.#connectedCallbackOnce) return;
 		this.#connectedCallbackOnce = true;
@@ -286,6 +287,7 @@ export class WRadioButtonSelect extends SelectableGroup {
 
 	/** @type {boolean} */
 	#connectedCallbackOnce = false;
+	// eslint-disable-next-line sonarjs/no-identical-functions
 	connectedCallback() {
 		if (this.#connectedCallbackOnce) return;
 		this.#connectedCallbackOnce = true;

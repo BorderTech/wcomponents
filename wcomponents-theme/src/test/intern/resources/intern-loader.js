@@ -17,9 +17,10 @@ intern.registerLoader(function (options) {
 		/**
 		 * This is the function intern will actually call to load modules
 		 * @param {String[]} modules The dependencies to load.
-		 * @returns {Promise} resolved when done.
+		 * @returns {Promise<any>} resolved when done.
 		 */
 		return function (modules) {
+			// eslint-disable-next-line sonarjs/slow-regex
 			var testFileRe = /.+\/intern\/(.+).js$/;
 			modules = modules.map(function(nextModule) {
 				if (testFileRe.test(nextModule)) {

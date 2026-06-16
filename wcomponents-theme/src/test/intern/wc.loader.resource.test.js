@@ -39,6 +39,7 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 					}
 					fetchCount[simpleName]++;
 					return new Promise(function(win) {
+						// eslint-disable-next-line sonarjs/no-nested-functions
 						resolvers.push(function() {
 							win(simpleName);
 						});

@@ -63,7 +63,7 @@ async function build(singleFile) {
 			libBuilder.build(dirs.project.basedir, dirs.script.max);
 			buildMax(dirs.script);
 			// return optimize(config);
-			return fs.copy(config.baseUrl, config.dir); // TODO rewrite optimisation without r.js
+			return fs.copy(config.baseUrl, config.dir); // TO-DO: Rewrite optimisation without r.js
 		}
 		return await buildSingle(singleFile);
 	} finally {
@@ -101,7 +101,7 @@ async function buildSingle(singleFile) {
 	} else {
 		buildMax(dirs.script, fileName);
 	}
-	// return optimize(conf);  // TODO rewrite optimisation without r.js
+	// return optimize(conf);  // TO-DO: Rewrite optimisation without r.js
 }
 
 /**

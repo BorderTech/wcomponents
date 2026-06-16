@@ -45,6 +45,7 @@ describe("wc/file/util", () => {
 			blob = new view.Blob([content], { type: expectedMime }),
 			file = fileUtil.blobToFile(blob);
 
+		// eslint-disable-next-line sonarjs/slow-regex
 		expect(file.name).toMatch(/.+\.csv$/);
 	});
 

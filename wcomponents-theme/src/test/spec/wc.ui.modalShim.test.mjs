@@ -7,7 +7,7 @@ const { afterAll, beforeAll, beforeEach, describe, document, expect, it, jasmine
 
 /*
  * Unit tests for wc/ui/modalShim
- * TODO: Add functional tests to test event handlers.
+ * TO-DO: Add functional tests to test event handlers.
  */
 
 const testContent = `

@@ -20,10 +20,15 @@ function mockAjax() {
 	return import("jasmine-ajax").then(() => {
 		jasmine.Ajax.install();
 
+		// eslint-disable-next-line sonarjs/slow-regex
 		jasmine.Ajax.stubRequest(/.*\/aria-1.rdf/).andReturn(getResponse("aria-1.rdf", { srcDir: true }));
+		// eslint-disable-next-line sonarjs/slow-regex
 		jasmine.Ajax.stubRequest(/.*\/note.xml.*/).andReturn(getResponse("note.xml", {}));
+		// eslint-disable-next-line sonarjs/slow-regex
 		jasmine.Ajax.stubRequest(/.*\/note.txt.*/).andReturn(getResponse("note.txt", {}));
+		// eslint-disable-next-line sonarjs/slow-regex
 		jasmine.Ajax.stubRequest(/.*\/icao.html.*/).andReturn(getResponse("icao.html", {}));
+		// eslint-disable-next-line sonarjs/slow-regex
 		jasmine.Ajax.stubRequest(/.*\/uiTablePage1.html.*/).andReturn(getResponse("uiTablePage1.html", {}));
 
 		jasmine.Ajax.stubRequest(translationRe).andReturn({

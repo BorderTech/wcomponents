@@ -21,7 +21,7 @@ if (entryFile === __filename) {
 
 /**
  * The entry point to kick off the build.
- * TODO trim whitespace from **.xml, **.rdf, **.html, **.svg, **.mustache, **.handlebars
+ * TO-DO: Trim whitespace from **.xml, **.rdf, **.html, **.svg, **.mustache, **.handlebars
  * Given that these resources are small, ought to be cached and are generally not in the critical page load phase
  * I do not see this as a significant performance issue and leaving it for now. Also most of these need to be revisited
  * and probably should not exist at all, or should be "packed" into the code where needed.

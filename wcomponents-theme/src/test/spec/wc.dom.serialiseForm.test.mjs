@@ -162,6 +162,7 @@ describe("wc/dom/serialize", () => {
 
 		Array.prototype.forEach.call(expectedInputs, _compare);
 
+		// eslint-disable-next-line sonarjs/no-identical-functions
 		function _compare(next) {
 			const inpArray = findInputsLikeThis(next, result["actual"]);
 
@@ -175,6 +176,7 @@ describe("wc/dom/serialize", () => {
 
 		Array.prototype.forEach.call(expectedInputs, _compare);
 
+		// eslint-disable-next-line sonarjs/no-identical-functions
 		function _compare(next) {
 			const expectedArray = findInputsLikeThis(next, result["expected"]),
 				inpArray = findInputsLikeThis(next, result["actual"]);

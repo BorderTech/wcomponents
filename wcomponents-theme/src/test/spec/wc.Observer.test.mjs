@@ -13,6 +13,7 @@ describe("wc/Observer", () => {
 	function getRandomInt(min, max) {
 		min = Math.ceil(min);
 		max = Math.floor(max);
+		// eslint-disable-next-line sonarjs/pseudo-random
 		return Math.floor(Math.random() * (max - min)) + min;
 	}
 
@@ -195,6 +196,7 @@ describe("wc/Observer", () => {
 		let actualContext;
 		const expectedContext = ownerDocument.getElementById(containerId);
 
+		// eslint-disable-next-line sonarjs/no-identical-functions
 		function Subscriber() {
 			this.myMethod = function() {
 				actualContext = this;
@@ -469,6 +471,7 @@ describe("wc/Observer", () => {
 		var calledIn,
 			objectSubscriber;
 
+		// eslint-disable-next-line sonarjs/no-identical-functions
 		function ObjectSubscriber() {
 			this.doSubscribe = function() {
 				calledIn = this;
@@ -592,6 +595,7 @@ describe("wc/Observer", () => {
 		// this is same test as testObserverSubscribeSubscriberNeedsArgs() and is here for completeness.
 		var rval, wasNotified = false;
 
+		// eslint-disable-next-line sonarjs/no-identical-functions
 		function subscriber(arg1, arg2) {
 			if (arg1 === "foo" && arg2 === "bar") {
 				wasNotified = true;
@@ -655,6 +659,7 @@ describe("wc/Observer", () => {
 				2: 3,
 				3: 5 };
 
+		// eslint-disable-next-line sonarjs/no-identical-functions
 		function curriedSubscriber(sauce) {
 			return function () {
 				result[idx++] = sauce;
@@ -702,6 +707,7 @@ describe("wc/Observer", () => {
 				4: 0,
 				5: 5 };
 
+		// eslint-disable-next-line sonarjs/no-identical-functions
 		function curriedSubscriber(sauce) {
 			return function () {
 				result[idx++] = sauce;
@@ -1097,6 +1103,7 @@ describe("wc/Observer", () => {
 		/* this is a modification of two tests we have already seen. We know from above that wasNotified will change if reset does not work as expected */
 		let wasNotified = false;
 
+		// eslint-disable-next-line sonarjs/no-identical-functions
 		function subscriber(arg1, arg2) {
 			if (arg1 === "foo" && arg2 === "bar") {
 				wasNotified = true;

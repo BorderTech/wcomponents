@@ -93,6 +93,7 @@ describe("wc/date/getDifference", function() {
 		let i = 0;
 		// add a few randoms for fun (dates between 19750101 and 20253112)
 		while (i++ < 20) {
+			// eslint-disable-next-line sonarjs/pseudo-random
 			a.push(new Date(Math.floor(Math.random() * 51) + 1975, Math.floor(Math.random() * 12), Math.floor(Math.random() * 29)));
 		}
 		// make a copy of a converted to numbers, sort the numbers, then convert them back to dates
@@ -119,6 +120,7 @@ describe("wc/date/getDifference", function() {
 		let i = 0;
 		// add a few randoms for fun (dates between 19750101 and 20253112)
 		while (i++ < 20) {
+			// eslint-disable-next-line sonarjs/pseudo-random
 			a.push(new Date(Math.floor(Math.random() * 51) + 1975, Math.floor(Math.random() * 12), Math.floor(Math.random() * 29)));
 		}
 		// make a copy of a converted to numbers
@@ -163,6 +165,7 @@ describe("wc/date/getDifference", function() {
 		let i = 0;
 		// add a few randoms for fun (dates between 19750101 and 20253112)
 		while (i++ < 20) {
+			// eslint-disable-next-line sonarjs/pseudo-random
 			a.push(new Date(Math.floor(Math.random() * 51) + 1975, Math.floor(Math.random() * 12), Math.floor(Math.random() * 29), Math.floor(Math.random() * 24), Math.floor(Math.random() * 60), Math.floor(Math.random() * 60), Math.floor(Math.random() * 1000)));
 		}
 		// make a copy of a converted to numbers, sort the numbers, then convert them back to dates
@@ -181,6 +184,7 @@ describe("wc/date/getDifference", function() {
 		// add a few randoms for fun (dates between 19750101 and 20253112)
 		let i = 0;
 		while (i++ < 20) {
+			// eslint-disable-next-line sonarjs/pseudo-random
 			a.push(new Date(Math.floor(Math.random() * 51) + 1975, Math.floor(Math.random() * 12), Math.floor(Math.random() * 29)));
 		}
 		// make a copy of a converted to numbers
