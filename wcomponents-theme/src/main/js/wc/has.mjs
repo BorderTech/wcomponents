@@ -10,5 +10,4 @@ const features = {
 	edge: /Edg.*\/(\S+)/.test(dua),
 	webkit: /AppleWebKit\/(\S+)/.test(dua)
 };
-
 export default feature => features[feature];

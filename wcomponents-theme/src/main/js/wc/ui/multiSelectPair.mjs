@@ -267,7 +267,7 @@ function addRemoveSelected(fromList) {
 				}
 
 				if (parentElement.children.length === 0) {
-					parentElement.remove();
+					fromList.removeChild(parentElement);
 				}
 			} else {
 				let originalIndex = selectboxSearch.indexOf(next, orderList);

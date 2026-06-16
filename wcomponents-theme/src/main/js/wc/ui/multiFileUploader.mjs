@@ -155,7 +155,7 @@ function MultiFileUploader() {
 	function removeFileItem(fileInfo) {
 		const container = fileInfo.closest(containerWd);
 		if (container) {
-			fileInfo.remove();
+			fileInfo.parentNode.removeChild(fileInfo);
 			let xhr;
 			if (inflightXhrs.hasOwnProperty(fileInfo.id) && (xhr = inflightXhrs[fileInfo.id])) {
 				if (xhr.abort) {

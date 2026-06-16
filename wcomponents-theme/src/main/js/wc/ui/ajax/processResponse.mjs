@@ -167,7 +167,7 @@ function processResponseHtml(documentFragment, trigger) {
 		if (doc) {
 			const targets = doc.querySelectorAll(".wc-ajaxtarget");
 			for (const next of targets) {
-				next.remove();  // remove the target wrapper
+				next.parentNode.removeChild(next);  // remove the target wrapper
 				if (next.nodeType === Node.ELEMENT_NODE) {
 					let targetId = next.dataset.id;
 					let element = document.getElementById(targetId);
@@ -312,7 +312,7 @@ function replaceElement(element, content) {
 		if (child.nodeType === Node.ELEMENT_NODE) {
 			result[result.length] = parent.insertBefore(child, element);
 		} else {
-			child.remove();
+			_content.removeChild(child);
 		}
 	}
 
@@ -358,7 +358,7 @@ function replaceIn(element, content) {
 		}
 
 		if (wrapper.firstChild) {  // should have been removed.
-			wrapper.firstChild.remove();
+			wrapper.removeChild(wrapper.firstChild);
 		}
 	}
 	return result;
@@ -366,7 +366,7 @@ function replaceIn(element, content) {
 
 function removeDuplicateElements(duplicates) {
 	duplicates.forEach(function(next) {
-		next.remove();
+		next.parentNode.removeChild(next);
 	});
 }
 
@@ -424,7 +424,7 @@ function extractScriptsFromContent(content) {
 		}
 
 		for (const element of scripts) {
-			result[result.length] = element.remove();
+			result[result.length] = element.parentNode.removeChild(element);
 		}
 	} catch (ex) {
 		console.error("Could not extract scripts from content ", ex.message);
