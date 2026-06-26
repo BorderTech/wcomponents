@@ -60,7 +60,7 @@ describe("wc/ui/modalShim", () => {
 	it("testSetModalWithCreate", function() {
 		const shim = getShim(false);
 		if (shim) {
-			shim.parentNode.removeChild(shim);
+			shim.remove();
 		}
 
 		expect(getShim(false)).toBeNull();
@@ -115,7 +115,7 @@ describe("wc/ui/modalShim", () => {
 			expect(subscriber).not.toHaveBeenCalled();
 			modalShim.clearModal();
 
-			expect(subscriber).toHaveBeenCalled();
+			expect(subscriber).toHaveBeenCalledWith();
 		} finally {
 			modalShim.unsubscribe(subscriber);
 		}
@@ -160,7 +160,7 @@ describe("wc/ui/modalShim", () => {
 			modalShim.unsubscribe(subscriber, true);
 			modalShim.clearModal();
 
-			expect(subscriber).toHaveBeenCalled();
+			expect(subscriber).toHaveBeenCalledWith();
 		} finally {
 			modalShim.unsubscribe(subscriber);
 		}

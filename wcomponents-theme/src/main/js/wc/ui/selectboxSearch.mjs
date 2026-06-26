@@ -88,8 +88,9 @@ function needsSelectSearch(element) {
 }
 
 /**
- *
- * @param {FocusEvent} evt
+ * ?
+ * @param {FocusEvent} evt - ?
+ * @returns {void} ?
  */
 function focusEvent({ target }) {
 	const element = needsSelectSearch(target);
@@ -102,7 +103,8 @@ function focusEvent({ target }) {
 
 /**
  * Handle a keydown event
- * @param {KeyboardEvent} evt
+ * @param {KeyboardEvent} evt - ?
+ * @returns {void} ?
  */
 function keydownEvent(evt) {
 	const element = evt.target,
@@ -149,8 +151,9 @@ function keydownEvent(evt) {
  * in Chrome. Probably other webkit browsers affected too.
  */
 /**
- *
- * @param {KeyboardEvent} evt
+ *?
+ * @param {KeyboardEvent} evt - ?
+ * @returns {void} ?
  */
 function keypressEvent(evt) {
 	// shiftkey lets user enter, for example <shift> + <5> to get
@@ -179,8 +182,9 @@ function keypressEvent(evt) {
 }
 
 /**
- *
- * @param {HTMLSelectElement} element
+ * ?
+ * @param {HTMLSelectElement} element - ?
+ * @returns {void} ?
  */
 function initSelect(element) {
 	if (!element[ns]) {
@@ -242,9 +246,10 @@ const highlightSearch = debounce(
 	}, config.debounceDelay);
 
 /**
- * select the matching element or first option if empty match string
- * @param {HTMLSelectElement} element
- * @param {HTMLOptionElement} match
+ * Select the matching element or first option if empty match string
+ * @param {HTMLSelectElement} element - ?
+ * @param {HTMLOptionElement} match - ?
+ * @returns {void} ?
  */
 function selectMatch(element, match) {
 	timers.setTimeout(function() {
@@ -349,7 +354,9 @@ function closeSearch() {
 }
 
 /**
- * @param {Element} search
+ * ?
+ * @param {Element} search - ?
+ * @returns {void} ?
  */
 function hideSearch(search) {
 	search.classList.remove(CLASS_NOT_FOUND);

@@ -8,7 +8,7 @@ const { Node } = globalThis;
  * (for example if a label is inside a selectable table row).
  * @function module:wc/dom/isEventInLabel
  * @param {Element} target The target of a UI event.
- * @returns {Boolean} true if the event target is (or is inside) a label and the closest focusable element (if
+ * @returns {boolean} true if the event target is (or is inside) a label and the closest focusable element (if
  *    any) is not inside the label.
  */
 function isInLabel(target) {

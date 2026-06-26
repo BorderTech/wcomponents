@@ -11,8 +11,8 @@ const NV_SEPARATOR = "=";
 const instance = {
 	/**
 	 * Compares serialized form objects to determine if they are different.
-	 * @param {Object.<string, string[]>} stateA The first form state.
-	 * @param {Object.<string, string[]>} stateB The second form state.
+	 * @param {{[key: string]: string[]}} stateA The first form state.
+	 * @param {{[key: string]: string[]}} stateB The second form state.
 	 * @returns {boolean} true if the serialized form objects are different.
 	 */
 	areDifferent: function(stateA, stateB) {
@@ -46,13 +46,14 @@ const instance = {
 	 * Serialize an HTML Form or NodeList to the format used in a HTTP GET request queryString.
 	 * @function  module:wc/dom/serialize.serialize
 	 * @param {NodeList|HTMLElement[]|HTMLFormElement} nodeList The nodes to serialize or an HTML Form.
-	 * @param {Boolean} [includeButtons] If true all button name:value pairs are included.
-	 * @param {Boolean} [returnAsObject] If true return an object not a string. Each property of the object
+	 * @param {boolean} [includeButtons] If true all button name:value pairs are included.
+	 * @param {boolean} [returnAsObject] If true return an object not a string. Each property of the object
 	 *    represents name/value pair. The name/value pairs will be URI encoded.
 	 * @param {function} [filter] A function that will be passed an element and can veto inclusion in the serialization if it
 	 *    returns false.
-	 * @returns {string|Object.<string, string[]>} ?
+	 * @returns {string | {[key: string]: string[]}} ?
 	 */
+	// eslint-disable-next-line sonarjs/cognitive-complexity
 	serialize: function (nodeList, includeButtons, returnAsObject, filter) {
 		const sb = [];
 		let elements;
@@ -104,10 +105,10 @@ const instance = {
 	 * Deserialize to hidden input fields in the DOM (or simply to an object).
 	 * Useful for compressing chunks of non-viewable content such as the content of a dynamic tab.
 	 * @function module:wc/dom/serialize.deserialize
-	 * @param {string|Object} input The thing to deserialize, either a String or a serialized object.
+	 * @param {string | object} input The thing to deserialize, either a String or a serialized object.
 	 * @param {Element} [container] The DOM element in which to create the hidden fields, if not provided then
 	 *    this step will be skipped, and you probably are just deserializing a string to its object form.
-	 * @returns {Object} An object with the same form as that returned by {@link module:wc/dom/serialize#serialise}
+	 * @returns {object} An object with the same form as that returned by {@link module:wc/dom/serialize#serialise}
 	 *    EXCEPT that the name/value pairs will be URI decoded.
 	 */
 	deserialize: function(input, container) {
@@ -140,7 +141,7 @@ const instance = {
 
 /**
  *
- * @param {string} name
+ * @param {string} name - ?
  * @return {string}
  */
 function encodeName(name) {
@@ -150,7 +151,7 @@ function encodeName(name) {
 }
 
 /**
- * @param {string} name
+ * @param {string} name - ?
  * @return {string}
  */
 function decodeName(name) {
@@ -160,7 +161,7 @@ function decodeName(name) {
 }
 
 /**
- * @param {HTMLInputElement|HTMLOptionElement|HTMLTextAreaElement} element
+ * @param {HTMLInputElement|HTMLOptionElement|HTMLTextAreaElement} element - ?
  * @return {string|null}
  */
 function getValue(element) {
@@ -182,7 +183,7 @@ function getValue(element) {
  * @function
  * @private
  * @param {string} inStr the serialised form (format name=value&name-val2&name3&name4=&name5=val5)
- * @returns {Object} ?
+ * @returns {object} ?
  */
 function deserializeToObject(inStr) {
 	const pairSeparator = "&",
@@ -207,8 +208,8 @@ function deserializeToObject(inStr) {
  * @function
  * @private
  * @param {Element} container Where the fields are put.
- * @param {String} name The decoded component name.
- * @param {String} value The decoded component values.
+ * @param {string} name The decoded component name.
+ * @param {string} value The decoded component values.
  */
 function addToDom(container, name, value) {
 	const tempField = container.ownerDocument.createElement("input");

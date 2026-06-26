@@ -46,10 +46,10 @@ const errorUtils = {
 
 const instance = {
 	/**
-	 * @var {Object} module:wc/ui/ajax/processResponse.actions The ajax action types : FILL, REPLACE or APPEND.
-	 * @property {String} FILL Indicates the action will replace the content of the target.
-	 * @property {String} REPLACE Indicates the action will replace the target.
-	 * @property {String} APPEND Indicates the action will append its payload to the content of the target.
+	 * @var {object} module:wc/ui/ajax/processResponse.actions The ajax action types : FILL, REPLACE or APPEND.
+	 * @property {string} FILL Indicates the action will replace the content of the target.
+	 * @property {string} REPLACE Indicates the action will replace the target.
+	 * @property {string} APPEND Indicates the action will append its payload to the content of the target.
 	 */
 	actions: ACTIONS,
 
@@ -58,7 +58,7 @@ const instance = {
 	 * loaded via AJAX.
 	 * @function module:wc/ui/ajax/processResponse.subscribe
 	 * @param {Function} subscriber A callback function, will be passed the args: (element, content, action).
-	 * @param {Boolean} [after] Indicates that the subscriber is to the post-insertion publisher.
+	 * @param {boolean} [after] Indicates that the subscriber is to the post-insertion publisher.
 	 * @returns {Function} The result of observer.subscribe
 	 */
 	subscribe: function(subscriber, after) {
@@ -74,7 +74,7 @@ const instance = {
 	 * Removes a subscriber. Not usually used outside of testing (where it is indispensable).
 	 * @function module:wc/ui/ajax/processResponse.unsubscribe
 	 * @param {Function} subscriber the subscriber to remove
-	 * @param {Boolean} [after] remove from the post-insertion subscribers.
+	 * @param {boolean} [after] remove from the post-insertion subscribers.
 	 */
 	unsubscribe: function(subscriber, after) {
 		if (observer) {
@@ -123,7 +123,7 @@ const instance = {
 	 * If there was an error attempt to inform the user of this.
 	 * @function module:wc/ui/ajax/processResponse.processError
 	 * @public
-	 * @param {String} response An error message.
+	 * @param {string} response An error message.
 	 * @param {module:wc/ajax/Trigger} trigger The trigger which triggered the ajax request.
 	 */
 	processError: function(response, trigger) {
@@ -146,6 +146,7 @@ const instance = {
 	}
 };
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function processResponseHtml(documentFragment, trigger) {
 	const onError = function() {
 		// @ts-ignore
@@ -214,6 +215,7 @@ function mergeAttributes(source, dest) {
 	}
 }
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function insertPayloadIntoDom(element, content, action, trigger, doNotPublish) {
 	let actionMethod;
 	const triggerId = (trigger?.id) ? trigger.id : null;
@@ -468,7 +470,7 @@ function checkDuplicateIds(content) {
 
 	/**
 	 * Remove elements from DOM with duplicate IDs in the documentFragment.
-	 * @param {DocumentFragment} documentFragment
+	 * @param {DocumentFragment} documentFragment - ?
 	 */
 	function checkDuplicateIdsElement(documentFragment) {
 		const candidates = Array.from(documentFragment.querySelectorAll("[id]"));

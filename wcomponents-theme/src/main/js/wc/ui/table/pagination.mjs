@@ -40,16 +40,18 @@ let updateQueue,
 	triggerButtonId;
 
 /**
- * @param {Element} element
- * @return {HTMLElement}
+ * ?
+ * @param {Element} element - ?
+ * @returns {HTMLElement} ?
  */
 function getWrapper(element) {
 	return element.closest(TABLE_WRAPPER);
 }
 
 /**
- * @param {Element} element
- * @return {boolean}
+ * ?
+ * @param {Element} element - ?
+ * @returns {boolean} ?
  */
 function isAjax(element) {
 	const wrapper = getWrapper(element);
@@ -82,7 +84,7 @@ function translate(wrapper) {
 
 	Array.from(labels).forEach(next => {
 		if (getWrapper(next) === wrapper) {
-			const updateElement = /** @param {string} i18nString */i18nString => {
+			const updateElement = /** @param {string} i18nString - ? */ (i18nString) => {
 				next.innerHTML = i18nString;
 			};
 			// we have the correct spans
@@ -259,6 +261,7 @@ function getButtonType(button) {
  * @param {Element} button The button to action.
  * @param {Element} paginationContainer The container that holds the button.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function actionButton(button, paginationContainer) {
 	const activeQs = `${PAGINATION_SELECTOR}:not([disabled]):not([${BUSY}='${TRUE}'])`;
 	/** @type {HTMLSelectElement} */
@@ -369,13 +372,15 @@ function interleavedShowHide(rows, count, showStart, hideStart) {
 /**
  * Updates the record X of Y displays on client-mode page change.
  * @param {Element} wrapper The table wrapper.
- * @param {String} startHTML The content for the start span.
- * @param {String} endHTML The content for the end span.
+ * @param {string} startHTML The content for the start span.
+ * @param {string} endHTML The content for the end span.
  */
 function updateRecordDisplays(wrapper, startHTML, endHTML) {
 	let html;
 	/**
-	 * @param {Element} next
+	 * ?
+	 * @param {Element} next - ?
+	 * @returns {void} ?
 	 */
 	const updater = next => {
 		if (getWrapper(next) === wrapper) {
@@ -389,9 +394,10 @@ function updateRecordDisplays(wrapper, startHTML, endHTML) {
 }
 
 /**
- * @param {Element} el
- * @param {string} qs
- * @return {Element}
+ * ?
+ * @param {Element} el - ?
+ * @param {string} qs - ?
+ * @returns {Element} ?
  */
 const findChild = (el, qs) => {
 	const kids = el?.children || [];
@@ -497,8 +503,8 @@ function clickEvent({ target, defaultPrevented }) {
 export default {
 	/**
 	 * Does this table have pagination?
-	 * @param {HTMLElement} element
-	 * @return {boolean}
+	 * @param {HTMLElement} element - ?
+	 * @returns {boolean} ?
 	 */
 	hasPagination: function (element) {
 		const wrapper = getWrapper(element);
@@ -514,8 +520,8 @@ export default {
  * @function
  * @private
  * @param {Element} element The AJAX target element.
- * @param {String} action Not required for this function.
- * @param {String} triggerId The id of the ajax trigger element.
+ * @param {string} action Not required for this function.
+ * @param {string} triggerId The id of the ajax trigger element.
  */
 function postAjaxSubscriber(element, action, triggerId) {
 	let view = window;
@@ -561,9 +567,10 @@ function postAjaxSubscriber(element, action, triggerId) {
  */
 function writeState(form, stateContainer) {
 	/**
-	 *
-	 * @param {Element} element
+	 * ?
 	 * @private
+	 * @param {Element} element - ?
+	 * @returns {void} ?
 	 */
 	function _writeStatePaginableTable(element) {
 		const container = getWrapper(element);

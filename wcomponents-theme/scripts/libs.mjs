@@ -29,5 +29,10 @@ export function build(rootDir, moduleDir) {
 
 export default {
 	build,
+	/**
+	 * ?
+	 * @param {any} s - ?
+	 * @returns {void} ?
+	 */
 	doMinify: (s) => console.log(`Not implemented ${s}`)
 };

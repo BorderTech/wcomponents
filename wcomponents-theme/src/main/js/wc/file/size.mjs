@@ -14,12 +14,13 @@ const instance = {
  * Check the file size and return an error message if there is a problem.
  * @function
  * @private
- * @param {Object} args File size args, as shown below:
+ * @param {object} args File size args, as shown below:
  * @param {Element} args.element A file input element.
- * @param {Object} [args.testObj] The pseudo-file element to pass to test functions.
+ * @param {object} [args.testObj] The pseudo-file element to pass to test functions.
  *@param {string} [args.msgId] The i18n message ID, if not provided the default "file_toolarge" is used.
  * @returns {?string} An error message if there is a problem otherwise falsy.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function checkFileSize(args) {
 	const message = [];
 	const element = args.element,
@@ -76,8 +77,8 @@ function getMax(element) {
 
 /**
  * Rounds a numerical filesize value to something acceptable to display to the user.
- * @param {Number} value The number to round.
- * @returns {Number} The rounded version of the value.
+ * @param {number} value The number to round.
+ * @returns {number} The rounded version of the value.
  */
 function round(value) {
 	const intPart = typeof value === "string" ? Number.parseInt(value, 10) : value;

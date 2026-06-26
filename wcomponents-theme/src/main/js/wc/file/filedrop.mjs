@@ -8,8 +8,8 @@ const CLASSNAME = "wc_dragging",
 	timer = {},
 	handlers = {
 		/**
-		 * @param {DragEvent & { currentTarget: HTMLElement}} $event
-		 * @param {(function(DragEvent): void)} callback
+		 * @param {DragEvent & { currentTarget: HTMLElement}} $event - ?
+		 * @param {(function(DragEvent): void)} callback - ?
 		 */
 		dragenter: function($event, callback) {
 			if (!dragging) {
@@ -18,8 +18,8 @@ const CLASSNAME = "wc_dragging",
 			$event.stopPropagation();
 		},
 		/**
-		 * @param {DragEvent & { currentTarget: HTMLElement}} $event
-		 * @param {(function(DragEvent): void)} callback
+		 * @param {DragEvent & { currentTarget: HTMLElement}} $event - ?
+		 * @param {(function(DragEvent): void)} callback - ?
 		 */
 		dragover: function($event, callback) {
 			if (!dragging) {
@@ -28,8 +28,8 @@ const CLASSNAME = "wc_dragging",
 			$event.stopPropagation();
 		},
 		/**
-		 * @param {DragEvent & { currentTarget: HTMLElement}} $event
-		 * @param {(function(DragEvent): void)} callback
+		 * @param {DragEvent & { currentTarget: HTMLElement}} $event - ?
+		 * @param {(function(DragEvent): void)} callback - ?
 		 */
 		dragleave: function($event, callback) {
 			const element = $event.currentTarget;
@@ -37,8 +37,8 @@ const CLASSNAME = "wc_dragging",
 			timer[element.id] = timers.setTimeout(draggingStopped, 500, element, callback, "dragstop", null);
 		},
 		/**
-		 * @param {DragEvent & { currentTarget: HTMLElement}} $event
-		 * @param {(function(DragEvent): void)} callback
+		 * @param {DragEvent & { currentTarget: HTMLElement}} $event - ?
+		 * @param {(function(DragEvent): void)} callback - ?
 		 */
 		drop: function ($event, callback) {
 			const element = $event.currentTarget,
@@ -61,10 +61,10 @@ function draggingStarted(element, callback, type) {
 
 /**
  *
- * @param {Element} element
- * @param {(function(string, ?FileList): void)} [callback]
- * @param {string} [type]
- * @param {FileList} [files]
+ * @param {Element} element - ?
+ * @param {(function(string, ?FileList): void)} [callback] - ?
+ * @param {string} [type] - ?
+ * @param {FileList} [files] - ?
  */
 function draggingStopped(element, callback, type, files) {
 	dragging = false;
@@ -79,7 +79,7 @@ function draggingStopped(element, callback, type, files) {
 
 /**
  * An event handler that will call the callback on various drag events.
- * @param {(function(string, ?FileList): void)} callback
+ * @param {(function(string, ?FileList): void)} callback - ?
  * @return {(function(DragEvent): void)}
  */
 function callbackWrapper(callback) {
@@ -94,8 +94,8 @@ function callbackWrapper(callback) {
 
 /**
  * Registers a drop-zone.
- * @param {string} id
- * @param {(function(string, ?FileList): void)} callback
+ * @param {string} id - ?
+ * @param {(function(string, ?FileList): void)} callback - ?
  */
 function register(id, callback) {
 	const element = document.getElementById(id);
@@ -110,6 +110,4 @@ function register(id, callback) {
 	}
 }
 
-export default {
-	register
-};
+export default { register };

@@ -122,7 +122,7 @@ function findYearField() {
 
 /**
  *
- * @param {boolean} disable
+ * @param {boolean} disable - ?
  */
 function resetMonthPickerOptions(disable) {
 	const monthSelect = findMonthSelect();
@@ -199,7 +199,7 @@ function navigateDayLeftRightUpDown(currentElement, direction) {
  * Gets an integer value from an input element for those UAs which do not correctly implement input type="number".
  * @function
  * @private
- * @param element the input holding the year value
+ * @param {any} element the input holding the year value
  * @returns {any} number or NaN if the input is not numeric
  */
 function getYearValueAsNumber(element) {
@@ -263,12 +263,13 @@ function setYear(date, year) {
 
 /**
  * Helper for refresh.
- * @param date - ?
- * @param year - ?
- * @param limit - ?
+ * @param {any} date - ?
+ * @param {any} year - ?
+ * @param {any} limit - ?
  * @private
  * @function
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function setMonth(date, year, limit) {
 	const monthSelect = findMonthSelect(),
 		month = monthSelect.selectedIndex;
@@ -345,7 +346,7 @@ function yearChanged(yearElement) {
 
 /**
  * Hide the calendar.
- * @param {Boolean} [ignoreFocusReset] If true do not attempt to re-focus the calendar icon this is required by
+ * @param {boolean} [ignoreFocusReset] If true do not attempt to re-focus the calendar icon this is required by
  * {@link module:wc/ui/calendar~selectDay} which needs to focus the dateField not the calendar icon
  * in order to bootstrap the field.
  */
@@ -370,7 +371,7 @@ function hideCalendar(ignoreFocusReset) {
  * @private
  * @param {HTMLInputElement} element The calendar's year input.
  * @param {string} keyCode The keydown event's key literal.
- * @returns {Boolean} true if the event's default action is to be prevented.
+ * @returns {boolean} true if the event's default action is to be prevented.
  */
 function keydownHelperChangeYear(element, keyCode) {
 	yearChanged(element);
@@ -383,7 +384,7 @@ function keydownHelperChangeYear(element, keyCode) {
  * @private
  * @param {Element} element the target of the keydown event previously determined as a picker button.
  * @param {KeyboardEvent} $event the keydown event.
- * @returns {Boolean} true if the event is to have its default action prevented.
+ * @returns {boolean} true if the event is to have its default action prevented.
  */
 function keydownHelperDateButton(element, $event) {
 	const keyCode = $event.code;
@@ -542,7 +543,7 @@ function retrieveDate(callback) {
 
 /**
  *
- * @param {Element} [$cal]
+ * @param {Element} [$cal] - ?
  * @returns {HTMLInputElement} ?
  */
 function getInputForCalendar($cal) {
@@ -579,6 +580,7 @@ function storeDate(dateObj) {
  * @param {boolean} [setSelected] - ?
  */
 function setDate(date, setFocus, setSelected) {
+	// eslint-disable-next-line sonarjs/cognitive-complexity
 	getOrCreateCal(function(cal) {
 		const _date = copy(date),  // do not change date
 			_today = new Date(),
@@ -851,8 +853,9 @@ function detectCollision(cal) {
 
 /**
  *
- * @param {HTMLButtonElement} element
+ * @param {HTMLButtonElement} element - ?
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function changeMonth(element) {
 	const _today = new Date();
 
@@ -972,7 +975,7 @@ function clearMinMaxYear() {
 
 /**
  * Calendar icon click listener.
- * @param {MouseEvent & {target: HTMLElement}} $event
+ * @param {MouseEvent & {target: HTMLElement}} $event - ?
  */
 function clickEvent({ defaultPrevented, target }) {
 	let element;
@@ -1000,7 +1003,7 @@ function clickEvent({ defaultPrevented, target }) {
 
 /**
  * Handle a keydown event.
- * @param {KeyboardEvent & { currentTarget: HTMLElement }} $event
+ * @param {KeyboardEvent & { currentTarget: HTMLElement }} $event - ?
  */
 function keydownEvent($event) {
 	const { currentTarget, altKey, metaKey, key } = $event;
@@ -1035,8 +1038,9 @@ function position(element) {
 
 /**
  * Handle show hide on container.
- * @param element
- * @param action
+ * @param {HTMLElement} element - ?
+ * @param {any} action - ?
+ * @returns {void} ?
  */
 function containerShowHide(element, action) {
 	if (action === shed.actions.HIDE) {
@@ -1062,8 +1066,9 @@ function containerShowHide(element, action) {
 
 /**
  * Handle show/hide
- * @param element - ?
- * @param action - ?
+ * @param {HTMLElement} element - ?
+ * @param {any} action - ?
+ * @returns {void} ?
  */
 function shedSubscriber(element, action) {
 	if (element.id === CONTAINER_ID) {
@@ -1195,7 +1200,7 @@ initialise.register(initialiser);
 
 export default instance;
 /**
- * @typedef {Object} module:wc/ui/calendar.config() Optional module configuration.
+ * @typedef {object} module:wc/ui/calendar.config() Optional module configuration.
  * @property {?number} min The minimum year to allow in the date picker.
  * @default 1000
  * @property {?number} max The maximum year to allow in the date picker.

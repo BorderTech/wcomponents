@@ -118,7 +118,7 @@ function deselect(_group, except, container, inst) {
  * @function
  * @private
  * @param {Element} element The element to test.
- * @returns {Boolean} true if element has attribute aria-readonly = "true".
+ * @returns {boolean} true if element has attribute aria-readonly = "true".
  */
 function isReadOnly(element) {
 	return element.getAttribute("aria-readonly") === "true";
@@ -150,7 +150,7 @@ function eventWrapper($event) {
  * @function
  * @private
  * @param {Element} element The element in a group
- * @param {Object} analog An instance of a subclass of AriaAnalog.
+ * @param {object} analog An instance of a subclass of AriaAnalog.
  * @returns {HTMLElement[]} The group of items in the element's ARIA analog group.
  */
 function getGroup(element, analog) {
@@ -167,7 +167,7 @@ function getGroup(element, analog) {
  * Filter a group of elements to exclude all those which are disabled or hidden.
  * @function
  * @private
- * @param {Element[]} _group
+ * @param {Element[]} _group - ?
  * @returns {HTMLElement[]} The filtered group.
  */
 function filterGroup(_group) {
@@ -275,7 +275,7 @@ AriaAnalog.prototype.groupNavigation = true;
  * This property is used to get the start point element for SHIFT+activate and should only be initialised for
  * subclasses which support multiple selection.
  * @var
- * @type {?Object}
+ * @type {?object}
  * @default null
  */
 AriaAnalog.prototype.lastActivated = null;
@@ -334,8 +334,9 @@ AriaAnalog.prototype.getGroupContainer = function(element) {
  * @function
  * @public
  * @param {Element} element The element SHED is acting on.
- * @param {String} action The select or deselect action.
+ * @param {string} action The select or deselect action.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 AriaAnalog.prototype.shedObserver = function(element, action) {
 	let container, deselectOthers = false, config;
 	if (action === shed.actions.SELECT && element.matches(this.ITEM.toString())) {
@@ -558,7 +559,7 @@ AriaAnalog.prototype.navigate = function(start, direction) {
  * @function
  * @param {Element} element The element being activated.
  * @param {boolean} CTRL Indicates the Ctrl key was depressed during activation.
- * @param {Object} instance The current analog module.
+ * @param {object} instance The current analog module.
  */
 function singleSelectActivateHelper(element, CTRL, instance) {
 	if (instance.simpleSelection || (CTRL && instance.ctrlAllowsDeselect)) {
@@ -578,8 +579,8 @@ function singleSelectActivateHelper(element, CTRL, instance) {
  * @param {Element} element The element being activated.
  * @param {Element} container The analog container.
  * @param {boolean} CTRL Indicates the Ctrl key was depressed during activation.
- * @param {Object} instance The current analog module.
- * @returns {Boolean} true unless a group selection is undertaken.
+ * @param {object} instance The current analog module.
+ * @returns {boolean} true unless a group selection is undertaken.
  */
 function multiSelectWithShiftHelper(element, container, CTRL, instance) {
 	let lastActivated;
@@ -601,8 +602,8 @@ function multiSelectWithShiftHelper(element, container, CTRL, instance) {
  * @public
  * @param {Element} element the element being directly activated. This should never be called on components
  *    which are natively selectable such as radios, checkboxes or options.
- * @param {Boolean} [SHIFT] Indicates the SHIFT key was held during the event which lead to activation.
- * @param {Boolean} [CTRL] The event was accompanied by ctrlKey or metaKey.
+ * @param {boolean} [SHIFT] Indicates the SHIFT key was held during the event which lead to activation.
+ * @param {boolean} [CTRL] The event was accompanied by ctrlKey or metaKey.
  */
 AriaAnalog.prototype.activate = function(element, SHIFT, CTRL) {
 	let selectMode;
@@ -648,6 +649,7 @@ AriaAnalog.prototype.activate = function(element, SHIFT, CTRL) {
  * @param {boolean} [CTRL] true if the ctrl or meta key was pressed during the event which resulted in the
  *    function being called.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 AriaAnalog.prototype.doGroupSelect = function(element, lastActivated, CTRL) {
 	let selectedFilter,
 		groupAction;
@@ -701,7 +703,7 @@ AriaAnalog.prototype.setLastActivated = function (element, container) {
  * @function
  * @param {Element} target The event target
  * @param {Element} item The element found using this.ITEM.
- * @returns {Boolean} true if the item is the first active analog found in the ancestor tree.
+ * @returns {boolean} true if the item is the first active analog found in the ancestor tree.
  */
 function isActiveAnalog(target, item) {
 	// NOTE: We should not use focus.getFocusableAncestor or isAcceptableTarget here because we are only
@@ -800,7 +802,7 @@ AriaAnalog.prototype.getActivableFromTarget = function(target) {
  * @param {Element} [element] an element which is itself a WAI-ARIA analog component. That is, it will be something which for some subclass
  * of this will return `true` from `this.ITEM.isOneOfMe(element)`. This arg is mandatory for mixed mode analogs, and this function is only
  * really useful for those analogs.
- * @returns {Boolean} `true` if the current analog is multi-selectable.
+ * @returns {boolean} `true` if the current analog is multi-selectable.
  * @throws {TypeError} if the selection mode is mixed and no element is provided as a reference.
  */
 AriaAnalog.prototype.isMultiSelect = function(element) {

@@ -78,7 +78,7 @@ const imageEdit = {
 
 	/**
 	 * Registers a configuration object against a unique ID to specify variables such as overlay image URL, width, height etc.
-	 * @param {Object[]} arr Configuration objects.
+	 * @param {object[]} arr Configuration objects.
 	 */
 	register: function(arr) {
 		let inline = arr.filter(next => {
@@ -120,8 +120,8 @@ const imageEdit = {
 
 	/**
 	 * Retrieve a configuration object.
-	 * @param {Object} obj Get the configuration registered for the "id" or "name" property of this object (in that order).
-	 * @returns {Object} configuration
+	 * @param {object} obj Get the configuration registered for the "id" or "name" property of this object (in that order).
+	 * @returns {object} configuration
 	 */
 	getConfig: function(obj) {
 		let result = wcconfig.get("wc/ui/imageEdit", this.defaults);
@@ -147,7 +147,7 @@ const imageEdit = {
 	 * If other (non-image) files are present they will be passed through unchanged.
 	 * If more than one image file is present the editor will be displayed for each image file one after the other.
 	 * If the edit operation is aborted at any point for any file then the entire edit process is aborted (the promise will reject).
-	 * @param {Object} obj An object with a "files" property that references an array of File blobs to be edited and a registered "id" or "name".
+	 * @param {object} obj An object with a "files" property that references an array of File blobs to be edited and a registered "id" or "name".
 	 * @param {Function} onSuccess Called with an array of File blobs that have potentially been edited by the user.
 	 * @param {Function} onError called if something goes wrong.
 	 */
@@ -213,7 +213,7 @@ const imageEdit = {
 	/**
 	 * Displays an img element in the image editor.
 	 * @param {Element|string} img An image element or a dataURL.
-	 * @param {function} [callback]
+	 * @param {function} [callback] - ?
 	 */
 	renderImage: function(img, callback) {
 		const width = fbCanvas.getWidth(),
@@ -346,7 +346,7 @@ function clickEvent($event) {
 
 /**
  * Callback is called with the edited image when editing completed.
- * @param {Object} config Options for the image editor
+ * @param {object} config Options for the image editor
  * @param {File|string} file The image to edit.
  * @param {function} win callback on success (passed a File)
  * @param {function} lose callback on error
@@ -417,7 +417,8 @@ function editFile(config, file, win, lose) {
 /**
  * Displays the editor inline if requested by the user.
  * This probably only makes sense with a single inline editor, but it's written to handle an array so as not to be limited by my imagination.
- * @param inline An array of editors that are configured to be inline.
+ * @param {any} inline - An array of editors that are configured to be inline.
+ * @returns {void} ?
  */
 function handleInline(inline) {
 	const count = inline.length;
@@ -441,7 +442,7 @@ function handleInline(inline) {
  * @param {number} availHeight The height of the canvas.
  * @param {number} imgWidth The raw image width.
  * @param {number} imgHeight The raw image height.
- * @param fbImage The fabric.Image we are limiting
+ * @param {any} fbImage The fabric.Image we are limiting
  * @returns {number} The minimum scale to keep this image from getting too small.
  */
 function calcMinScale(availWidth, availHeight, imgWidth, imgHeight, fbImage) {
@@ -476,8 +477,9 @@ function positionOverlay() {
 
 /**
  * Show or hide the overlay image.
- * @param fabricCanvas The FabricJS canvas.
- * @param show If truthy unhides (shows) the overlay.
+ * @param {any} fabricCanvas The FabricJS canvas.
+ * @param {any} show If truthy unhides (shows) the overlay.
+ * @returns {void} ?
  */
 function showHideOverlay(fabricCanvas, show) {
 	const overlay = fabricCanvas.overlayImage;
@@ -521,8 +523,8 @@ function getEditorContext(config, callbacks) {
 
 /**
  * Builds the editor DOM and displays it to the user.
- * @param {Object} config Map of configuration properties.
- * @param {Object} callbacks An object with two callbacks: "win" and "lose".
+ * @param {object} config Map of configuration properties.
+ * @param {object} callbacks An object with two callbacks: "win" and "lose".
  * @param {File|string} file The file being edited.
  * @returns {Promise<Element>} Resolved with the top level editor DOM element when it is ready.
  * @function
@@ -532,7 +534,7 @@ function getEditor(config, callbacks, file) {
 	callbacks.render = renderEditor;
 
 	/**
-	 * @param {Element} contentContainer
+	 * @param {Element} contentContainer - ?
 	 * @returns {Promise<Element>} ?
 	 */
 	function renderEditor(contentContainer) {
@@ -627,8 +629,10 @@ function getDialogContent(context) {
 }
 
 /**
- * @param context
- * @param {String[]} features
+ * ?
+ * @param {any} context - ?
+ * @param {string[]} features - ?
+ * @returns {string} ?
  */
 function controlsTemplate(context, features) {
 	const templates = {
@@ -715,7 +719,7 @@ function getTranslations(obj) {
 /**
  * Wire up event listeners for the editor.
  * @param {Element} container The top level editor DOM element.
- * @returns {Object} An object used to map events to actions.
+ * @returns {object} An object used to map events to actions.
  * @function
  * @private`
  */
@@ -806,8 +810,8 @@ function attachEventHandlers(container) {
 
 	/**
 	 * Gets the configuration for a particular event.
-	 * @param {Element|String} action Either an element which should trigger an action (e.g. a save button) or the name of the action (e.g. "save")
-	 * @param {String} type The type of event, e.g. "click" or "press"
+	 * @param {Element | string} action Either an element which should trigger an action (e.g. a save button) or the name of the action (e.g. "save")
+	 * @param {string} type The type of event, e.g. "click" or "press"
 	 * @returns {any} A config object which knows how to action an event.
 	 */
 	function getEventConfig(action, type) {
@@ -830,10 +834,10 @@ function attachEventHandlers(container) {
 
 	/**
 	 * Used to invoke an action on this editor.
-	 * @param {Element|String} action Either an element which should trigger an action (e.g. a save button) or the name of the action (e.g. "save")
-	 * @param {String} type The type of event, e.g. "click" or "press"
-	 * @param payload Optionally provide a payload to be passed to the handler.
-	 * @returns {Boolean} true if a matching action was found and (queued to be) invoked.
+	 * @param {Element | string} action Either an element which should trigger an action (e.g. a save button) or the name of the action (e.g. "save")
+	 * @param {string} type The type of event, e.g. "click" or "press"
+	 * @param {any} payload Optionally provide a payload to be passed to the handler.
+	 * @returns {boolean} true if a matching action was found and (queued to be) invoked.
 	 */
 	function invoke(action, type, payload) {
 		let result = false;
@@ -1065,7 +1069,7 @@ function saveControl(eventConfig, editor, callbacks, file) {
 	const click = eventConfig.click;
 	/**
 	 * The call into the save "internals" with the args specific to this closure.
-	 * @param [imageToSave] The image formatted for saving. This is a performance optimization: if the image
+	 * @param {any} [imageToSave] The image formatted for saving. This is a performance optimization: if the image
 	 *    has already been formatted for saving during validation etc then it can be passed thru here to save having to format again.
 	 */
 	callbacks.saveFunc = (imageToSave) => {
@@ -1139,7 +1143,7 @@ function validateImage(imageBlob, editor) {
 
 /**
  * One step before the exit point (which is "saveImage") do some checks before actually saving.
- * @param callbacks
+ * @param {any} callbacks - ?
  */
 function checkThenSave(callbacks) {
 	if (imageEdit.getFbImage()) {
@@ -1185,7 +1189,7 @@ function checkThenSave(callbacks) {
 
 /**
  * The exit point of the editor, either save or cancel the edit.
- * @param args Args required for the save, see below.
+ * @param {any} args Args required for the save, see below.
  *	param {Element} args.editor The top level container element of the editor component.
  *	param {Object} args.callbacks "win" and "lose".
  *	param {boolean} args.cancel Cease all editing, the user wishes to cancel.
@@ -1218,7 +1222,8 @@ function saveImage(args) {
 /**
  * Before saving the image we may wish to discard any scaling the user has performed.
  * This function removes scaling on the image and preserves relative ratios with other objects on the canvas.
- * @param fbImage The fabric.Image to un-scale.
+ * @param {any} fbImage The fabric.Image to un-scale.
+ * @returns {any} ?
  */
 function unscale(fbImage) {
 	// Original size of image
@@ -1273,7 +1278,7 @@ function getCanvasAsDataUrl(editor) {
 
 /**
  *
- * @param {Element} editor
+ * @param {Element} editor - ?
  * @returns {HTMLInputElement} ?
  */
 function getFileSelector(editor) {
@@ -1354,7 +1359,7 @@ function canvasToDataUrl() {
 
 /**
  * Determine if there are changes to the image in the editor.
- * @param {Object} config Map of configuration properties.
+ * @param {object} config Map of configuration properties.
  * @returns {boolean} true if there are changes to be saved.
  */
 function hasChanged(config) {

@@ -22,7 +22,7 @@ function TriggerManager() {
 	 * @function
 	 * @private
 	 * @param {Element} element The element to test
-	 * @returns {Boolean} true if the element is a form control.
+	 * @returns {boolean} true if the element is a form control.
 	 */
 	function isFormControlOrLink(element) {
 		return element.matches(["input", "button", "select", "textarea", "a"].join());
@@ -74,14 +74,15 @@ function TriggerManager() {
 
 	/**
 	 * Get an AJAX Trigger for a particular element, identified by itself or its ID.
-	 * @param {(String|Element)} ref The ID of the trigger to retrieve OR a DOM element which may be associated
+	 * @param {(string | Element)} ref The ID of the trigger to retrieve OR a DOM element which may be associated
 	 *    with a trigger. The way an element and a trigger are associated is abstracted away in this black box.
 	 *    Note, passing the ID as a string bypasses checks for AJAX triggers related in the DOM, think of it as
 	 *    totally "DOM unaware" - this gives you a higher performance option but with less power. You need to
 	 *    pass an element for "DOM awareness".
-	 * @param {Boolean} [ignoreAncestor] If true will not check to see if DOM ancestor is a trigger.
+	 * @param {boolean} [ignoreAncestor] If true will not check to see if DOM ancestor is a trigger.
 	 * @returns {module:wc/ajax/Trigger} The trigger, if any.
 	 */
+	// eslint-disable-next-line sonarjs/cognitive-complexity
 	this.getTrigger = function(ref, ignoreAncestor) {
 		let result;
 		if (ref) {
@@ -128,7 +129,7 @@ function TriggerManager() {
 
 	/**
 	 * Remove an ajax trigger from the trigger registry.
-	 * @param {String} id The id of the element associated with the trigger.
+	 * @param {string} id The id of the element associated with the trigger.
 	 */
 	this.removeTrigger = function(id) {
 		delete triggerRegister[id];

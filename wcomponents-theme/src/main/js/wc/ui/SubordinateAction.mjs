@@ -62,8 +62,8 @@ Action.registerGroups = function(groups) {
 /**
  * Get a registered component group.
  * @function
- * @param {String} id The group identifier.
- * @returns {String[]} An array of ids belonging to this group if the group exists otherwise returns null.
+ * @param {string} id The group identifier.
+ * @returns {string[]} An array of ids belonging to this group if the group exists otherwise returns null.
  */
 Action.getGroup = function (id) {
 	let result = groupRegister[id] || null;
@@ -88,8 +88,8 @@ Action.register = function(name, callback) {
  * Each action can have multiple targets.
  * @constructor module:wc/ui/SubordinateAction~Target
  * @private
- * @param {String} [id] The id of the target. Must be truthy if groupId is not truthy.
- * @param {String} [groupId] The id of the target group.  Must be truthy if id is not truthy.
+ * @param {string} [id] The id of the target. Must be truthy if groupId is not truthy.
+ * @param {string} [groupId] The id of the target group.  Must be truthy if id is not truthy.
  * @param {WindowProxy} [view] The "window" that contains this target.
  * @throws {TypeError} if id and groupId are both falsey.
  */
@@ -115,8 +115,8 @@ function initTargetConstructor() {
 	 * Is a particular id a target?
 	 * @function module:wc/ui/SubordinateAction~Target#isTargeted
 	 * @public
-	 * @param {String} id The id we want to test.
-	 * @returns {Boolean} true if the id is targeted by this target instance.
+	 * @param {string} id The id we want to test.
+	 * @returns {boolean} true if the id is targeted by this target instance.
 	 * Note: will search inside groups - will not test the group name itself.
 	 */
 	Target.prototype.isTargeted = function(id) {
@@ -194,8 +194,8 @@ function initActionConstructor() {
 	 * Note: will search inside groups - will not test group names themselves.
 	 * @function module:wc/ui/SubordinateTarget#isTargeted
 	 * @public
-	 * @param {String} id The id we want to test.
-	 * @returns {Boolean} true if the id is targeted by this action instance.
+	 * @param {string} id The id we want to test.
+	 * @returns {boolean} true if the id is targeted by this action instance.
 	 */
 	Action.prototype.isTargeted = function(id) {
 		return this.targets.some(function(target) {
@@ -253,7 +253,7 @@ function initActionImplementations() {
 
 	/**
 	 * ?
-	 * @param {Element} element
+	 * @param {Element} element - ?
 	 * @returns {boolean} If it's "checkable"
 	 */
 	function isCheckable(element) {
@@ -429,8 +429,8 @@ function initActionImplementations() {
 	 * @function disable
 	 * @private
 	 * @param {Element} element The element to enable or disable
-	 * @param {Boolean} enable if true the element will be enabled, otherwise it will be disabled
-	 * @returns {Boolean} true if the element's disabled state was changed one way or the other
+	 * @param {boolean} enable if true the element will be enabled, otherwise it will be disabled
+	 * @returns {boolean} true if the element's disabled state was changed one way or the other
 	 */
 	function disable(element, enable) {
 		const originalState = shed.isDisabled(element);
@@ -449,19 +449,19 @@ initActionImplementations();  // Map the named subordinate actions to functions
 export default Action;
 
 /**
- * @typedef {Object} module:wc/ui/SubordinateAction~ActionDTO
- * @property {String} type The action type. Must be one of the property names in
+ * @typedef {object} module:wc/ui/SubordinateAction~ActionDTO
+ * @property {string} type The action type. Must be one of the property names in
  *    {@link module:wc/ui/SubordinateAction~actionRegister}
- * @property {Object[]} targets An array of Target definitions
- * @property {String} [targets.id] The id of an individual target element. Must be truthy if targets.groupId is
+ * @property {object[]} targets An array of Target definitions
+ * @property {string} [targets.id] The id of an individual target element. Must be truthy if targets.groupId is
  *    not truthy.
- * @property {String} [targets.groupId] The id of a target component group. Must be truthy if `targets.id` is not truthy.
+ * @property {string} [targets.groupId] The id of a target component group. Must be truthy if `targets.id` is not truthy.
  * @property {WindowProxy} [defaultView] The DOM window this rule applies to (99.9% of the time, this is just window and probably only ever changes in unit tests)
  */
 
 /**
- * @typedef {Object} module:wc/ui/SubordinateAction~groupDTO
- * @property {String} name The group unique identifier.
- * @property {String[]} identifiers An array of component IDs.
+ * @typedef {object} module:wc/ui/SubordinateAction~groupDTO
+ * @property {string} name The group unique identifier.
+ * @property {string[]} identifiers An array of component IDs.
  */
 

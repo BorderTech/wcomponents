@@ -16,7 +16,7 @@ const instance = {
 	 * Load a data list for a particular element.
 	 * The promise will be resolved with the datalist specified by the id.
 	 * @function module:wc/ui/listLoader.load
-	 * @param {String} id The id of the datalist to load
+	 * @param {string} id The id of the datalist to load
 	 * @param {Element} element Provide an element which will serve as the reference point for finding the URL.
 	 * @param {boolean} [prefetch] If true treat this request as a prefetch for performance optimization rather than a genuine load.
 	 * @returns {Promise<any>} ?
@@ -67,8 +67,8 @@ const instance = {
  * blocked requests, we just call them as if the request had been made).
  * @function
  * @private
- * @param {Object} config
- * @param {String} config.url The URL of the datalist.
+ * @param {object} config - ?
+ * @param {string} config.url The URL of the datalist.
  * @param {Function} config.callback The callback to call with the datalist once it has been fetched
  * @param {Function} config.onerror The callback to call if an error occurs
  */
@@ -125,7 +125,7 @@ function queueRequest(config) {
  * @function
  * @private
  * @param {Element} element Provide an element which will serve as the reference point for finding the URL.
- * @returns {String} The base URL used to fetch the datalist.
+ * @returns {string} The base URL used to fetch the datalist.
  */
 function getUrl(element) {
 	let result;

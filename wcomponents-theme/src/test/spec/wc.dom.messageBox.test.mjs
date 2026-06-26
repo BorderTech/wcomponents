@@ -11,19 +11,19 @@ const { afterEach, beforeAll, beforeEach, describe, document, expect, it } = glo
 describe("wc/dom/messageBox", () => {
 	const testBoxId = "messageboxtest-box1";
 	/**
-	 * @param {Element|ShadowRoot} element
+	 * @param {Element|ShadowRoot} element - ?
 	 * @returns {HTMLSlotElement} ?
 	 */
 	const getMessageSlot = (element) => {
-		return /** @type HTMLSlotElement */(element.querySelector(".wc_messages slot"));
+		return /** @type {HTMLSlotElement} */(element.querySelector(".wc_messages slot"));
 	};
 
 	/**
-	 * @param {Element|ShadowRoot} element
+	 * @param {Element|ShadowRoot} element - ?
 	 * @returns {HTMLSlotElement} ?
 	 */
 	const getIconSlot = (element) => {
-		return /** @type HTMLSlotElement */(element.querySelector("slot[name='icon']"));
+		return /** @type {HTMLSlotElement} */(element.querySelector("slot[name='icon']"));
 	};
 
 	const checkIcon = (heading, type) => {

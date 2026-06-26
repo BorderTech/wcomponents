@@ -16,9 +16,9 @@ const instance = {
 	LEVEL: diagnostic.LEVEL,
 	/**
 	 *
-	 * @param {Element} element
-	 * @param {module:wc/dom/diagnostic.LEVEL} level
-	 * @return {boolean}
+	 * @param {Element} element - ?
+	 * @param {module:wc/dom/diagnostic.LEVEL} level - ?
+	 * @return {boolean} ?
 	 */
 	isOneOfMe: (element, level) => diagnostic.isOneOfMe(element, level),
 
@@ -87,7 +87,7 @@ const instance = {
 	 * @function
 	 * @public
 	 * @param {Element} box the diagnostic box
-	 * @param {String|String[]} messages the message(s) to add
+	 * @param {string | string[]} messages the message(s) to add
 	 * @return {HTMLElement|HTMLElement[]} The message element(s) in the DOM.
 	 */
 	addMessages: function(box, messages) {
@@ -120,7 +120,7 @@ const instance = {
 	 * @function
 	 * @public
 	 * @param {Element} box the diagnostic box
-	 * @param {String|String[]} messages
+	 * @param {string | string[]} messages - ?
 	 */
 	set: function(box, messages) {
 		check(box, false);
@@ -141,7 +141,7 @@ const instance = {
 	 * @function
 	 * @public
 	 * @param {module:wc/ui/feedback~flagDto} args a config dto
-	 * @returns {String} the id of the error container (if one is present/created)
+	 * @returns {string} the id of the error container (if one is present/created)
 	 */
 	flagError: function(args) {
 		const dto = args;
@@ -154,7 +154,7 @@ const instance = {
 	 * @function
 	 * @public
 	 * @param {module:wc/ui/feedback~flagDto} args a config dto
-	 * @returns {String} the id of the message container (if one is present/created)
+	 * @returns {string} the id of the message container (if one is present/created)
 	 */
 	flagWarning: function (args) {
 		const dto = args;
@@ -167,7 +167,7 @@ const instance = {
 	 * @function
 	 * @public
 	 * @param {module:wc/ui/feedback~flagDto} args a config dto
-	 * @returns {String} the id of the message container (if one is present/created)
+	 * @returns {string} the id of the message container (if one is present/created)
 	 */
 	flagInfo: function (args) {
 		const dto = args;
@@ -180,7 +180,7 @@ const instance = {
 	 * @function
 	 * @public
 	 * @param {module:wc/ui/feedback~flagDto} args a config dto
-	 * @returns {String} the id of the message container (if one is present/created)
+	 * @returns {string} the id of the message container (if one is present/created)
 	 */
 	flagSuccess: function (args) {
 		const dto = args;
@@ -193,7 +193,7 @@ const instance = {
 	 * Find a diagnostic box belonging to an element.
 	 * @function
 	 * @public
-	 * @param {Element|String} element the element being diagnosed (or its id)
+	 * @param {Element | string} element the element being diagnosed (or its id)
 	 * @param {number} [ofLevel=1] the diagnostic level, if not set get ERROR diagnostic box. Set to -1 to get one of any type.
 	 * @returns {HTMLElement} the diagnostic box of the required level (if any).
 	 */
@@ -231,7 +231,7 @@ const instance = {
 
 	/**
 	 * Get the last diagnostic box WITHIN (or withing the wrapper of) a
-	 * @param {Element|String} element the element being tested or an id of an element
+	 * @param {Element | string} element the element being tested or an id of an element
 	 * @returns {HTMLElement} the last diagnostic box if any.
 	 */
 	getLast: function(element) {
@@ -248,8 +248,8 @@ const instance = {
 
 	/**
 	 *
-	 * @param {module:wc/ui/feedback~flagDto} args
-	 * @return {String|null}
+	 * @param {module:wc/ui/feedback~flagDto} args - ?
+	 * @return {string | null} ?
 	 */
 	add: function(args) {
 		const AFTER_END = "afterend";
@@ -332,8 +332,8 @@ const instance = {
 };
 
 /**
- * @param {Element|string} element
- * @return {HTMLElement}
+ * @param {Element|string} element - ?
+ * @return {HTMLElement} ?
  */
 function checkAndGetElement(element) {
 	if (!element) {
@@ -350,8 +350,8 @@ function checkAndGetElement(element) {
 /**
  * Type check for diagnostic boxes.
  * @param {Element} diag the element to test
- * @param {Boolean} lenient if `true` do not error on a failed test, instead return false
- * @returns {Boolean} `true` if `diag` is a diagnostic box, otherwise `false` if `lenient` is `true`.
+ * @param {boolean} lenient if `true` do not error on a failed test, instead return false
+ * @returns {boolean} `true` if `diag` is a diagnostic box, otherwise `false` if `lenient` is `true`.
  * @throws {TypeError} if `diag` is not a diagnostic box and `lenient` is not `true`.
  */
 function check(diag, lenient) {
@@ -366,9 +366,9 @@ function check(diag, lenient) {
 
 /**
  *
- * @param {Element} diag
- * @param {number} fromLevel
- * @param {number} toLevel
+ * @param {Element} diag - ?
+ * @param {number} fromLevel - ?
+ * @param {number} toLevel - ?
  */
 function changeIcon(diag, fromLevel, toLevel) {
 	const oldClass = diagnostic.getIconName(fromLevel),
@@ -412,8 +412,8 @@ function toggleValidity(target, clear) {
 
 /**
  *
- * @param {string} message
- * @return {string}
+ * @param {string} message - ?
+ * @return {string} ?
  */
 function getMessageHTML(message) {
 	if (!message) {
@@ -459,11 +459,11 @@ function addHelper(box, message) {
  * Generate the HTML to create a diagnostic box.
  * @function
  * @private
- * @param {Object} args
+ * @param {object} args - ?
  * @param {Element} [args.el] The element which is the diagnostic target if not set then args.id must be set.
- * @param {String} [args.id] The base id for the diagnostic box. If not set then args.el must be an element with an id.
+ * @param {string} [args.id] The base id for the diagnostic box. If not set then args.el must be an element with an id.
  * @param {number} [args.level=1] the diagnostic level, defaults to ERROR
- * @param {String|String[]|NodeList} [args.messages] If `falsy` then the diagnostic box will be empty. If a String the diagnostic will
+ * @param {string | string[] | NodeList} [args.messages] If `falsy` then the diagnostic box will be empty. If a String the diagnostic will
  *   contain one message containing this String. If a NodeList then the diagnostic messages will be the innerHTML of each element node
  *   in the NodeList and the textContent of each text node in the NodeList. If something else the messages are treated as a single
  *   "thing" and the diagnostic box will attempt to call toString() on it.
@@ -502,10 +502,10 @@ function getHTML(args) {
  * Get the HTML which creates a diagnostic box.
  * @function
  * @private
- * @param {String} targetId the id of the component to which the message box is added
- * @param {String|String[]} messages the message(s) to add
+ * @param {string} targetId the id of the component to which the message box is added
+ * @param {string | string[]} messages the message(s) to add
  * @param {number} [level=1] the diagnostic level
- * @returns {Object} property html: The HTML which creates a complete diagnostic box, property id: the id of the box
+ * @returns {object} property html: The HTML which creates a complete diagnostic box, property id: the id of the box
  */
 function getBoxHTML(targetId, messages, level) {
 	if (!(targetId && messages)) {
@@ -558,7 +558,7 @@ function removeDiagnostic(diag, target) {
  * @function
  * @private
  * @param {module:wc/ui/feedback~flagDto} args a config dto
- * @returns {String} the id of the message container (if one is present/created)
+ * @returns {string} the id of the message container (if one is present/created)
  */
 function flag(args) {
 	if (!args) {
@@ -604,8 +604,8 @@ function flag(args) {
 export default instance;
 
 /**
- * @typedef {Object} module:wc/ui/feedback~flagDto The properties used to describe a custom error message.
- * @property {String|String[]} message The message to display.
+ * @typedef {object} module:wc/ui/feedback~flagDto The properties used to describe a custom error message.
+ * @property {string | string[]} message The message to display.
  * @property {HTMLElement} element The element which is to be flagged with the error message.
  * @property {module:wc/dom/diagnostic.LEVEL|number} [level] The message severity.
  * @property {InsertPosition} [position] - ?

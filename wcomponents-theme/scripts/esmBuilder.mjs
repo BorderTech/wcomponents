@@ -15,6 +15,11 @@ import console from 'node:console';
 
 import babel from "@babel/cli/lib/babel/dir.js";
 
+/**
+ * ?
+ * @param {any} sourcePath - ?
+ * @param {any} outputDir - ?
+ */
 async function transform(sourcePath, outputDir) {
 	await babel({
 		babelOptions: {},
@@ -28,12 +33,15 @@ async function transform(sourcePath, outputDir) {
 	});
 }
 
+/**
+ * ?
+ * @param {any} sourcePath - ?
+ * @param {any} targetDir - ?
+ */
 async function build(sourcePath, targetDir) {
 	console.time("buildEsm");
 	await transform(sourcePath, targetDir);
 	console.timeEnd("buildEsm");
 }
 
-export default {
-	build
-};
+export default { build };

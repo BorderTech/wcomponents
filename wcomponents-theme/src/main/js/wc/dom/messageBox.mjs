@@ -15,9 +15,9 @@ export const iconClasses = {
 
 /**
  * WMessageBox HTML template.
- * @param {string} title
- * @param {string} iconClass
- * @param {string} className
+ * @param {string} title - ?
+ * @param {string} iconClass - ?
+ * @param {string} className - ?
  * @return {string}
  */
 const template = (title, iconClass, className) => `
@@ -39,7 +39,7 @@ const template = (title, iconClass, className) => `
 
 /**
  * Pull CSS styles into this Shadow DOM.
- * @param {ShadowRoot} shadow
+ * @param {ShadowRoot} shadow - ?
  */
 function yankStyles(shadow) {
 	if (shadow.querySelector("link")) {

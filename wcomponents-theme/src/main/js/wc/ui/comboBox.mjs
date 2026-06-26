@@ -286,6 +286,7 @@ function setValue(combo, option) {
  * @private
  * @param {CustomEvent & { target: HTMLInputElement }} $event The shed event that fired.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function shedSubscriber($event) {
 	const element = $event.target,
 		action = $event.type;
@@ -467,7 +468,7 @@ function doUpKey(combo, altKey) {
  * @private
  * @param {Element} target The combobox
  * @param {string} keyCode The key that was pressed.
- * @param {boolean} altKey
+ * @param {boolean} altKey - ?
  * @returns {boolean} true if the key event needs to be cancelled.
  */
 function handleKeyTextbox(target, keyCode, altKey) {
@@ -605,6 +606,7 @@ function inputEvent($event) {
  * @private
  * @param {FocusEvent & { target: HTMLElement }} $event The focus/focusin event as published by the wc event manager.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function focusEvent({ target }) {
 	const INITED = "wc.ui.comboBox.init";
 	if (target.matches(textboxSelector)) {
@@ -695,7 +697,7 @@ function postAjaxSubscriber(element) {
 
 /**
  * Get the textbox for a combo.
- * @param {Element} combo
+ * @param {Element} combo - ?
  * @returns {HTMLInputElement} The textbox
  */
 function getTextbox(combo) {
@@ -817,7 +819,7 @@ initialise.register({
 export default instance;
 
 /**
- * @typedef {Object} Optional module configuration.
+ * @typedef {object} Optional module configuration.
  * @property {?number} min The global (default) minimum number of characters which must be entered before a comboBox will
  * update its dynamic datalist. This can be over-ridden per instance of WSuggestions.
  * @default 3

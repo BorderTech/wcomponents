@@ -492,7 +492,7 @@ function getAriaRole(role) {
  * Creating more than one instance of this class is pointless and is considered an error. We are going to
  * ignore this class as it is just an include.
  * @see http://code.google.com/p/aria-toolkit/ for documentation.
- * @param {Object} config An object that provides helpers / data for this class
+ * @param {object} config An object that provides helpers / data for this class
  * @ignore
  */
 const instance = {
@@ -567,8 +567,8 @@ const instance = {
 	 * @see http://www.w3.org/TR/wai-aria/states_and_properties#global_states
 	 * @function module:wc/dom/aria~Aria.getSupported
 	 * @public
-	 * @param {String} role An ARIA role or a DOM element.
-	 * @returns {Object} an object whose properties are the supported attributes. The values of these properties
+	 * @param {string} role An ARIA role or a DOM element.
+	 * @returns {object} an object whose properties are the supported attributes. The values of these properties
 	 * will be either SUPPORTED or REQUIRED
 	 * @example getSupported("checkbox");
 	 * @ignore

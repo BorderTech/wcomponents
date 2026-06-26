@@ -1,6 +1,7 @@
 import interchange from "wc/date/interchange.mjs";
 import monthName from "wc/date/monthName.mjs";
 
+// eslint-disable-next-line sonarjs/regex-complexity
 const FORMAT_RE = /y{2,4}|d+|MON|M{2,4}|H+|m+|h+|a+|s+/g,
 	NORMALIZE_WHITESPACE_RE = /\s{2,}/g;
 
@@ -9,7 +10,7 @@ const FORMAT_RE = /y{2,4}|d+|MON|M{2,4}|H+|m+|h+|a+|s+/g,
  * transfer date format (should be the unambiguous yyyy-mm-dd) and the output is determined by a mask.
  * @constructor
  * @alias module:wc/date/Format
- * @param {String} mask The mask used for formatting. If any part of the mask is not understood then the
+ * @param {string} mask The mask used for formatting. If any part of the mask is not understood then the
  * resulting formatted date will be an empty string.
  * @throws {TypeError} Thrown if the mask is not provided (or is false equivalent).
  * @example myFormatter = new Format("dd MON yyyy");//provides a formatter to dates of the form '31 Jan 2000'
@@ -35,8 +36,8 @@ function Format(mask) {
  * this is not ambiguous.
  * @function
  * @public
- * @param {String} xfer The date to format as a wc "interchange" formatted date string.
- * @returns {String} The formatted date string or an empty string if the date could not be formatted.
+ * @param {string} xfer The date to format as a wc "interchange" formatted date string.
+ * @returns {string} The formatted date string or an empty string if the date could not be formatted.
  *
  * TO-DO:
  * - Could this tie in with some of the existing date classes better (e.g. date.pattern, date.parser, date.explodeMask)?
@@ -53,8 +54,8 @@ Format.prototype.format = function(xfer) {
 	 * String replace function for use in date formatting.
 	 * @function replaceDatePart
 	 * @private
-	 * @param {String} part A part of a transfer date.
-	 * @returns {String} The number representing the part of the date or a string containing a single
+	 * @param {string} part A part of a transfer date.
+	 * @returns {string} The number representing the part of the date or a string containing a single
 	 *    space if we cannot work out how to format the part.
 	 */
 	function replaceDatePart(part) {
@@ -124,6 +125,7 @@ Format.prototype.format = function(xfer) {
 	return result;
 };
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function getHour(date, twelve, pad) {
 	let result = date.hour;
 	if (result && (twelve || pad)) {

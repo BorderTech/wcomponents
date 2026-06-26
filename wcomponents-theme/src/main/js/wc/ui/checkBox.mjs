@@ -47,7 +47,7 @@ function ajaxSubscriber(element, documentFragment) {
 
 /**
  * Returns a curried helper function for `ajaxSubscriber`.
- * @param myId
+ * @param {string} myId - ?
  * @returns {(function(HTMLElement): void)|*} ?
  */
 function ensureControls(myId) {

@@ -79,7 +79,7 @@ function checkMax(element, value, min, max) {
 
 /**
  * Translates a message key to a message.
- * @param {string} key
+ * @param {string} key - ?
  * @return {Promise<string>}
  */
 function getMessage(key) {
@@ -114,7 +114,7 @@ function checkMin(element, value, min) {
  * @function
  * @private
  * @param {Element} container Any element.
- * @returns {Boolean} true if the container is valid.
+ * @returns {boolean} true if the container is valid.
  */
 function validate(container) {
 	let result = true;

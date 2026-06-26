@@ -30,7 +30,7 @@ class TreeMenu extends AbstractMenu {
 	/**
 	 * Trees do not cycle siblings.
 	 * @var
-	 * @type {Boolean}
+	 * @type {boolean}
 	 * @override
 	 */
 	_cycleSiblings = false;
@@ -38,7 +38,7 @@ class TreeMenu extends AbstractMenu {
 	/**
 	 * Trees do not enter on open.
 	 * @var
-	 * @type {Boolean}
+	 * @type {boolean}
 	 * @override
 	 */
 	_enterOnOpen = false;
@@ -55,7 +55,7 @@ class TreeMenu extends AbstractMenu {
 	 * Tree menu allows multiple submenus to be open.
 	 * @function
 	 * @override
-	 * @returns {Boolean} true if only one branch may be open at a time.
+	 * @returns {boolean} true if only one branch may be open at a time.
 	 */
 	_oneOpen() {
 		return false;
@@ -65,7 +65,7 @@ class TreeMenu extends AbstractMenu {
 	 * Keyboard walking of the tree.
 	 * @function
 	 * @override
-	 * @returns {Boolean} true.
+	 * @returns {boolean} true.
 	 */
 	_treeWalkDepthFirst() {
 		return true;

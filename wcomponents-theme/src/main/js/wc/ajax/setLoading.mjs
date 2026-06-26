@@ -18,7 +18,7 @@ const { console, document } = globalThis;
  * @alias module:wc/ajax/setLoading
  * @param {module:wc/ajax/Trigger~Request} request The request which is being queued (set loading) or serviced
  *    (clear loading).
- * @param {Boolean} [unset] If true we are clearing the loading state, otherwise we are setting it.
+ * @param {boolean} [unset] If true we are clearing the loading state, otherwise we are setting it.
  */
 function setLoading(request, unset) {
 	const trigger = request.trigger,

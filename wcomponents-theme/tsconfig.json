@@ -6,7 +6,6 @@
 		"declaration": true,
 		"declarationMap": true,
 		"esModuleInterop": true,
-		"lib": ["dom"],
 		"module": "nodenext",
 		"moduleResolution": "nodenext",
 		"noEmit": true,
@@ -19,6 +18,6 @@
 		"strict": true,
 		"strictNullChecks": true,
 		"target": "es2022",
-		"types": ["dom", "jasmine", "jasmine-ajax"]
+		"types": ["jasmine", "jasmine-ajax"]
 	}
 }

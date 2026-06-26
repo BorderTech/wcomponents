@@ -6,8 +6,8 @@ const { File, URL } = globalThis;
 
 /**
  * To help with type checking, get a select element from here.
- * @param {HTMLElement} container
- * @param {string} testId
+ * @param {HTMLElement} container - ?
+ * @param {string} testId - ?
  * @returns {HTMLSelectElement} ?
  */
 export const getSelect = (container, testId) => {
@@ -16,8 +16,8 @@ export const getSelect = (container, testId) => {
 
 /**
  * To help with type checking, get a select element from here.
- * @param {HTMLElement} container
- * @param {string} testId
+ * @param {HTMLElement} container - ?
+ * @param {string} testId - ?
  * @returns {Promise<HTMLSelectElement>} ?
  */
 export const findSelect = (container, testId) => {
@@ -27,8 +27,8 @@ export const findSelect = (container, testId) => {
 
 /**
  * To help with type checking, get an input element from here.
- * @param {HTMLElement} container
- * @param {string} testId
+ * @param {HTMLElement} container - ?
+ * @param {string} testId - ?
  * @returns {HTMLInputElement} ?
  */
 export const getInput = (container, testId) => {
@@ -37,8 +37,8 @@ export const getInput = (container, testId) => {
 
 /**
  * To help with type checking, get an input element from here.
- * @param {HTMLElement} container
- * @param {string} testId
+ * @param {HTMLElement} container - ?
+ * @param {string} testId - ?
  * @returns {Promise<HTMLInputElement>} ?
  */
 export const findInput = (container, testId) => {
@@ -47,8 +47,8 @@ export const findInput = (container, testId) => {
 
 /**
  * To help with type checking, get a button element from here.
- * @param {HTMLElement} container
- * @param {string} testId
+ * @param {HTMLElement} container - ?
+ * @param {string} testId - ?
  * @returns {HTMLButtonElement} ?
  */
 export const getButton = (container, testId) => {
@@ -69,9 +69,9 @@ export const getResoucePath = (subPath, main) => {
 
 /**
  * Adds files to a file selector
- * @param {HTMLElement} input
- * @param {Array<{ value: string, type: string }>} fileData
- * @return {*}
+ * @param {HTMLElement} input - ?
+ * @param {Array<{ value: string, type: string }>} fileData - ?
+ * @returns {HTMLElement} ?
  */
 export function addFilesToInput(input, fileData) {
 	const files = [];
@@ -88,38 +88,39 @@ export function addFilesToInput(input, fileData) {
 
 /**
  * JSDom doesn't report offset dimensions, this is a workaround.
- * @param {any} view A Window
+ * @param {any} view - A Window
+ * @returns {void} ?
  */
 export function fudgeDimensions(view) {
 	// Allows you to set style on an element and have it report an offset dimension
 	Object.defineProperties(view.HTMLElement.prototype, {
 		offsetLeft: {
 			get () {
-				return parseFloat(this.style.marginLeft) || 0;
+				return Number.parseFloat(this.style.marginLeft) || 0;
 			}
 		},
 		offsetTop: {
 			get () {
-				return parseFloat(this.style.marginTop) || 0;
+				return Number.parseFloat(this.style.marginTop) || 0;
 			}
 		},
 		offsetHeight: {
 			get () {
-				return parseFloat(this.style.height) || 0;
+				return Number.parseFloat(this.style.height) || 0;
 			}
 		},
 		offsetWidth: {
 			get () {
-				return parseFloat(this.style.width) || 0;
+				return Number.parseFloat(this.style.width) || 0;
 			}
 		}
 	});
 }
 
 /**
- *
- * @param {string} urlResource The HTML file to load from test/resource
- * @return {Promise} resolved with a DOM loaded from the HTML
+ * ?
+ * @param {string} urlResource - The HTML file to load from test/resource
+ * @returns {Promise<any>} Resolved with a DOM loaded from the HTML
  */
 export function setUpExternalHTML(urlResource) {
 	return JSDOM.fromFile(getResoucePath(urlResource, false)).then(dom => {

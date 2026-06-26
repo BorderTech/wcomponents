@@ -24,8 +24,8 @@ const TABLE_WRAPPER = common.WRAPPER.toString(),
 	SORTED_COL = `${SORT_CONTROL}[sorted]`;
 
 /**
- *
- * @param {Element} element
+ * ?
+ * @param {Element} element - ?
  * @returns {HTMLElement} ?
  */
 function getWrapper(element) {
@@ -70,8 +70,9 @@ function toggleEventHelper({ target }, element) {
 }
 
 /**
- *
- * @param {MouseEvent & {target: HTMLElement}} $event
+ * ?
+ * @param {MouseEvent & {target: HTMLElement}} $event - ?
+ * @returns {void} ?
  */
 function clickEvent($event) {
 	const element = $event.defaultPrevented ? null : $event.target.closest(SORT_CONTROL);
@@ -81,8 +82,9 @@ function clickEvent($event) {
 }
 
 /**
- *
- * @param {KeyboardEvent & {target: HTMLElement}} $event
+ * ?
+ * @param {KeyboardEvent & {target: HTMLElement}} $event - ?
+ * @returns {void} ?
  */
 function keydownEvent($event) {
 	if ($event.defaultPrevented) {
@@ -94,8 +96,9 @@ function keydownEvent($event) {
 }
 
 /**
- *
- * @param {FocusEvent & {target: HTMLElement}} $event
+ * ?
+ * @param {FocusEvent & {target: HTMLElement}} $event - ?
+ * @returns {void} ?
  */
 function focusEvent({ defaultPrevented, target }) {
 	const BOOTSTRAPPED = "wc.ui.table.sort.BS";
@@ -106,8 +109,10 @@ function focusEvent({ defaultPrevented, target }) {
 }
 
 /**
- * @param {Element} container
- * @param {Element} stateContainer
+ * ?
+ * @param {Element} container - ?
+ * @param {Element} stateContainer - ?
+ * @returns {void} ?
  */
 function writeState(container, stateContainer) {
 	const sortableTables = container.querySelectorAll(SORTABLE_TABLE);

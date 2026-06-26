@@ -15,15 +15,18 @@ const UP = "up",
 	BOTTOM = "bottom";
 
 /**
- * @param {HTMLFormElement} form
- * @param {Element} stateContainer
+ * ?
+ * @param {HTMLFormElement} form - ?
+ * @param {Element} stateContainer - ?
+ * @returns {void} ?
  */
 function writeState(form, stateContainer) {
 	/**
 	 * "Clean up" the state of the dual multi select control.
 	 * I.E. ensure the correct options are selected/deselected in the submit element,
 	 * based on the selections made in the available/chosen elements.
-	 * @param {Element} container
+	 * @param {Element} container - ?
+	 * @returns {void} ?
 	 */
 	function _writeState(container) {
 		/** @type {HTMLSelectElement} */
@@ -69,6 +72,7 @@ function move(element) {
 	 *   child
 	 * @param {Element} option the option element to move
 	 */
+	// eslint-disable-next-line sonarjs/cognitive-complexity
 	function _moveIt(option) {
 		let reference,
 			parent = option.parentElement;
@@ -128,7 +132,9 @@ function move(element) {
 }
 
 /**
- * @param {MouseEvent & { target: HTMLElement }} $event
+ * ?
+ * @param {MouseEvent & { target: HTMLElement }} $event - ?
+ * @returns {void} ?
  */
 function clickEvent({ target, defaultPrevented }) {
 	/** @type {HTMLButtonElement} */

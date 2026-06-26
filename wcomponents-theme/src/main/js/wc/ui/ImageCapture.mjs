@@ -82,7 +82,7 @@ function ImageCapture(imageEdit) {
 
 	/**
 	 *
-	 * @param {MediaStream} stream
+	 * @param {MediaStream} stream - ?
 	 */
 	function playCb(stream) {
 		_stream = stream;
@@ -120,7 +120,7 @@ function ImageCapture(imageEdit) {
 
 	/**
 	 * Close the web camera video stream.
-	 * @param pause - ?
+	 * @param {any} pause - ?
 	 */
 	this.stop = function(pause) {
 		const video = getVideo();
@@ -156,7 +156,7 @@ function ImageCapture(imageEdit) {
 	 * 3. Option defaults will be used if not set in any other way.
 	 *
 	 * To understand the options take a look at: https://github.com/addyosmani/getUserMedia.js and/or https://github.com/infusion/jQuery-webcam
-	 * @param options - ?
+	 * @param {any} options - ?
 	 */
 	this.play = function(options) {
 		const globalConf = wcconfig.get("wc/ui/imageEdit", {
@@ -168,10 +168,10 @@ function ImageCapture(imageEdit) {
 		gumWithFallback(currentOptions, playCb, errCb);
 	};
 
-	function videoToDataUrl(video, scaleFactor = 1) {
+	function videoToDataUrl(video, scale = 1) {
 		const onCanvas = document.createElement("canvas");
-		onCanvas.width = video.videoWidth * scaleFactor;
-		onCanvas.height = video.videoHeight * scaleFactor;
+		onCanvas.width = video.videoWidth * scale;
+		onCanvas.height = video.videoHeight * scale;
 		onCanvas.getContext("2d").drawImage(video, 0, 0, onCanvas.width, onCanvas.height);
 		return onCanvas.toDataURL();
 	}

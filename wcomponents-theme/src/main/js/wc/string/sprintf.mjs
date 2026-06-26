@@ -8,7 +8,7 @@ import "sprintf-js/src/sprintf.js";
 const { window } = globalThis;
 
 /**
- * @param {any[]} args
+ * @param {any[]} args - ?
  * @returns {string} ?
  */
 export default function sprintf (...args) {

@@ -15,8 +15,8 @@ const noop = function() {
  * Override a console method to add a flagging facility to it.
  * @function logFactory
  * @private
- * @param {String} mthd The console method to apply "warn" or "error" (you could recolour on log or info but that would be silly).
- * @param {String} flag The className to add to body when this method is logged.
+ * @param {string} mthd The console method to apply "warn" or "error" (you could recolour on log or info but that would be silly).
+ * @param {string} flag The className to add to body when this method is logged.
  * @returns {function(): void} A logger wrapper for console methods.
  */
 function logFactory(mthd, flag) {

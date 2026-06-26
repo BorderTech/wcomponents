@@ -70,21 +70,26 @@ export const dirs = {
 
 /**
  * A helper for logging the output of lint tools.
- * @param reportItem A report from a lint tool.
+ * @param {any} reportItem A report from a lint tool.
  */
 export function logLintReport(reportItem) {
 	if (reportItem.messages?.length) {
 		console.log("Style issues found in ", reportItem.filePath);
-		reportItem.messages.forEach(message => {
-			const logString = `\t${message.message} - Ln ${message.line}, Col ${message.column}`;
-			console.log(logString);
-		});
+		reportItem.messages.forEach(
+			/**
+			 * @param {any} message - ?
+			 */
+			(message) => {
+				const logString = `\t${message.message} - Ln ${message.line}, Col ${message.column}`;
+				console.log(logString);
+			}
+		);
 	}
 }
 
 /**
  * Creates the unoptimized, unminified version of the build.
- * @param {Object} dirPaths One of `dir.script`, `dir.style` etc
+ * @param {any} dirPaths One of `dir.script`, `dir.style` etc
  * @param {string} [singleFile] If you simply want to build a single file.
  * @param {function(src, dest): boolean} [filter] Function to filter copied files. Return true to include, false to exclude.
  */
@@ -100,17 +105,16 @@ export function buildMax(dirPaths, singleFile, filter) {
 	 * The symlink was lightning fast and meant changes in the src were instantly available with a browser reload.
 	 * It was a little annoying when I deleted the content of target directory and deleted my entire src accidentally.
 	 */
-	// fs.symlinkSync(src, dest);
 	fs.copySync(src, dest, { filter });
 }
 
 /**
  * Returns the project configuration, this is the section in the package.json under "com_github_bordertech".
  * @param {string} [prop] Optionally look up a specific property.
- * @returns {Object} Project specific configuration.
+ * @returns {object} Project specific configuration.
  */
 export function getConfig (prop) {
-	let result = Object.assign({}, pkgJson.com_github_bordertech);
+	let result = { ...pkgJson.com_github_bordertech };
 	let username = os.userInfo().username;
 	let userFile = path.join(projectRoot, `${username}.json`);
 	if (fs.existsSync(userFile)) {

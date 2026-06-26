@@ -18,8 +18,8 @@ const YEAR = "year",
  * Class to generate a pattern used in date parsing.
  * @private
  * @alias module:wc/date/pattern~Pattern
- * @param {String} name An identifier for the particular pattern.
- * @param {String|RegExp} input The date segment pattern as a RegExp or a string which can be converted to a
+ * @param {string} name An identifier for the particular pattern.
+ * @param {string | RegExp} input The date segment pattern as a RegExp or a string which can be converted to a
  *    regular expression
  * @param {Function} [normalise] A function to normalise the result of applying this pattern.
  * @param {function} [output] Set if a particular pattern output is required.
@@ -37,7 +37,7 @@ class Pattern {
 		/**
 		 * The pattern input regular expression.
 		 * @var
-		 * @type {(RegExp|String)}
+		 * @type {(RegExp | string)}
 		 */
 		this.input = input;
 		this.output = output || function() {};
@@ -87,7 +87,7 @@ Z     Time zone     RFC 822 time zone     -0800
  * sure it is numeric. Modifies the arg by resetting its year property.
  * @function nYear
  * @private
- * @param {Object} result The result of applying a pattern to a date string.
+ * @param {object} result The result of applying a pattern to a date string.
  */
 function nYear(result) {
 	let value = result.year;
@@ -107,7 +107,7 @@ function nYear(result) {
  * arg.
  * @function nMonth
  * @private
- * @param {Object} result The result of applying a pattern to a date string.
+ * @param {object} result The result of applying a pattern to a date string.
  */
 function nMonth(result) {
 	let value;
@@ -133,7 +133,7 @@ function nMonth(result) {
  * Modifies the arg by resetting its day property.
  * @function nDay
  * @private
- * @param {Object} result The result of applying a pattern to a date string.
+ * @param {object} result The result of applying a pattern to a date string.
  */
 function nDay(result) {
 	// normalise the day
@@ -147,7 +147,7 @@ function nDay(result) {
  * a date based on "today". Modifies the arg by setting is day, month and year properties.
  * @function nShortForm
  * @private
- * @param {Object} result The result of applying a pattern to a date string.
+ * @param {object} result The result of applying a pattern to a date string.
  */
 function nShortForm(result) {
 	const value = result.shortForm,
@@ -170,7 +170,7 @@ function nShortForm(result) {
  * setting is day, month and year properties.
  * @function nRelative
  * @private
- * @param {Object} result The result of applying a pattern to a date string.
+ * @param {object} result The result of applying a pattern to a date string.
  */
 function nRelative(result) {
 	// +-days short form
@@ -219,7 +219,7 @@ function shortFormRe() {
  * Note, the pattern is only generated once for each object. Subsequent calls will return  a saved pattern.
  * @function getPatternFor
  * @private
- * @param {Object} obj The thing for which we need to generate a pattern.
+ * @param {object} obj The thing for which we need to generate a pattern.
  * @returns {module:wc/date/pattern~Pattern} The pattern.
  */
 function getPatternFor(obj) {
@@ -237,9 +237,9 @@ function getPatternFor(obj) {
  * @function objectToPattern
  * @private
  * @inner
- * @param {(Object|Array)} obj An object with key value pairs where the values are strings.
+ * @param {(object | Array)} obj An object with key value pairs where the values are strings.
  * @param {number} minLength The minimum length of the smallest pattern.
- * @returns {String} corresponding regex pattern.
+ * @returns {string} corresponding regex pattern.
  * @example objectToPattern({key1:'banana',key2:'bandaid'},3)
  * would produce this:
  * [bB][aA][nN]|[bB][aA][nN][aA]|[bB][aA][nN][aA][nN]|[bB][aA][nN][aA][nN][aA]|[bB][aA][nN][dD]|[bB][aA][nN][dD][aA]|[bB][aA][nN][dD][aA][iI]|[bB][aA][nN][dD][aA][iI][dD]
@@ -269,7 +269,7 @@ function objectToPattern(obj, minLength) {
 function PatternMap() {
 	/**
 	 * @var
-	 * @type {Object}
+	 * @type {object}
 	 * @public
 	 */
 	this.store = {};
@@ -279,7 +279,7 @@ function PatternMap() {
  * Add the pattern (string) to the map (duplicates will not change the state of the map)
  * @function
  * @public
- * @param {Object} s A pattern to be added to the map
+ * @param {object} s A pattern to be added to the map
  */
 PatternMap.prototype.add = function (s) {
 	this.store[s] = s;
@@ -289,7 +289,7 @@ PatternMap.prototype.add = function (s) {
  * Join all the patterns stored in the map joined with the | character.
  * @function
  * @public
- * @returns {String} The joined patterns.
+ * @returns {string} The joined patterns.
  */
 PatternMap.prototype.join = function () {
 	let result = "";
@@ -409,7 +409,7 @@ export default {
 
 /**
  * Date patterns, used on parsing and formatting
- * @typedef {Object} module:wc/date/pattern~patterns
+ * @typedef {object} module:wc/date/pattern~patterns
  * @property {module:wc/date/pattern~Pattern} G Era BC or AD
  * @property {module:wc/date/pattern~Pattern} y Year - matches yyyy then tries yy 1800-2999 or 00-99
  * @property {module:wc/date/pattern~Pattern} y? Year - non-greedy: match yy first then yyyy 00-99 or 1800-2999

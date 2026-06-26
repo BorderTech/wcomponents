@@ -20,10 +20,10 @@ const instance = {
 	/**
 	 * Indicates if a given element is a collapsible.
 	 * @param {Element} element The element to test.
-	 * @param {Boolean} [onlyContainer] If true then we only want to know if the element is a collapsible
+	 * @param {boolean} [onlyContainer] If true then we only want to know if the element is a collapsible
 	 *    container element; if explicitly false it is the header/trigger element and if undefined whether
 	 *    it is either of these.
-	 * @returns {Boolean} true if element matches the required type.
+	 * @returns {boolean} true if element matches the required type.
 	 */
 	isOneOfMe: function (element, onlyContainer) {
 		let result;
@@ -153,7 +153,7 @@ function clickEvent($event) {
  * @function
  * @private
  * @param {Element} element the element being selected.
- * @param {String} action The shed action being pne of "disable", "expand" or "collapse".
+ * @param {string} action The shed action being pne of "disable", "expand" or "collapse".
  */
 function shedSubscriber(element, action) {
 	let header;
@@ -184,7 +184,7 @@ function shedSubscriber(element, action) {
  */
 function writeState(container, stateContainer) {
 	/**
-	 * @param {Element} $element
+	 * @param {Element} $element - ?
 	 */
 	function writeStateCollapsible($element) {
 		const val = shed.isExpanded($element) ? "open" : "closed";
@@ -226,7 +226,7 @@ const initiliaser = {
 
 	/**
 	 * Initialisation: wire up focus and click listeners on the BODY.
-	 * @param {HTMLBodyElement} element
+	 * @param {HTMLBodyElement} element - ?
 	 */
 	initialise: element => initiliaser._initialiseHelper(true, element),
 

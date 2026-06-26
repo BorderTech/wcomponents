@@ -32,7 +32,7 @@ const OPTIONS = {
  * @module
  */
 const instance = {
-	/** @property {String} version the module version, just in case you want to know. */
+	/** @property {string} version the module version, just in case you want to know. */
 	version: "1.0.1",
 
 	/**
@@ -55,7 +55,7 @@ const instance = {
 	 * @function module:keywalker.getTarget
 	 * @param {module:keywalker~config} conf the configuration for this particular walk.
 	 * @param {Element} element The element we are on at the start of the navigation.
-	 * @param {Number} direction The direction to hunt in as a property of {@link module:keywalker.MOVE_TO}.
+	 * @param {number} direction The direction to hunt in as a property of {@link module:keywalker.MOVE_TO}.
 	 * @returns {Element} The end point of navigation (though we do not actually do the navigation here).
 	 */
 	getTarget: function (conf, element, direction) {
@@ -169,11 +169,11 @@ function getTreeWalker(conf) {
  * @function
  * @private
  * @param {number} currentIndex A group (array) index - where we are at the moment in the group.
- * @param {Boolean} cycled Have we already cycled in this group?
- * @param {Boolean} useCycle Does this group support cycling at the extremities?
+ * @param {boolean} cycled Have we already cycled in this group?
+ * @param {boolean} useCycle Does this group support cycling at the extremities?
  * @param {Element[]} group The group of elements we are traversing.
- * @param {Boolean} next Are we going forwards (true) or backwards?
- * @returns {Object} A DTO to transfer info back to the calling function has target, idx and cycled properties.
+ * @param {boolean} next Are we going forwards (true) or backwards?
+ * @returns {object} A DTO to transfer info back to the calling function has target, idx and cycled properties.
  */
 function groupNextPreviousHelper(currentIndex, cycled, useCycle, group, next) {
 	let idx = currentIndex;
@@ -225,7 +225,7 @@ function treeWalkerNavHelper(conf, element, whichWay) {
  * Helper for groupBasedNavHelper to bring the do loop into a _slightly_ more readable form.
  * @function
  * @private
- * @param {Object} conf The keyWalker config.
+ * @param {object} conf The keyWalker config.
  * @param {Element} element The start element.
  * @param {number} whichWay The direction to walk.
  * @returns {Element} The key walk target element if any.
@@ -294,7 +294,7 @@ export default instance;
 
 /**
  * An object holding move locations and their value for bitwise calculations.
- * @typedef {Object} module:keywalker~moveTo
+ * @typedef {object} module:keywalker~moveTo
  * @property {number} FIRST Move to the first item in the group.
  * @property {number} LAST Move to the last item in the group.
  * @property {number} PREVIOUS Move to the previous item in the group.
@@ -308,12 +308,12 @@ export default instance;
 
 /**
  * Configuration object.
- * @typedef {Object} module:keywalker~config
+ * @typedef {object} module:keywalker~config
  * @property {Element|NodeList|Array<Element>} root The key walker root; if this is a single element we assume a tree walk otherwise it is
  * deemed to be a group.
  * @property {Function} filter a TreeWalker filter function used to determine a valid target match.
- * @property {Boolean} [depthFirst] If truthy then treeWalker uses depth first in determining the next node, not used in group based key walking.
- * @property {Boolean} [cycle] if truthy nextSibling on last in branch/group or previousSibling on first in branch/group results in cycling to
+ * @property {boolean} [depthFirst] If truthy then treeWalker uses depth first in determining the next node, not used in group based key walking.
+ * @property {boolean} [cycle] if truthy nextSibling on last in branch/group or previousSibling on first in branch/group results in cycling to
  *  the first/last respectively.
  * @property {TreeWalker} [tw] - ?
  * @property {Document} [ownerDocument] optionally provide a document to use instead of `global.document`.
@@ -321,8 +321,8 @@ export default instance;
 
 /**
  * An object holding property names used in keyWalker configuration. This is publicised as an aide-mémoire to consuming modules.
- * @typedef {Object} module:keywalker~options
- * @property {String} CYCLE "cycle" used to set the `config.cycle` Boolean property.
- * @property {String} DEPTH_FIRST "depthFirst" used to set the config.depthFirst Boolean property.
+ * @typedef {object} module:keywalker~options
+ * @property {string} CYCLE "cycle" used to set the `config.cycle` Boolean property.
+ * @property {string} DEPTH_FIRST "depthFirst" used to set the config.depthFirst Boolean property.
  * @see {@link module:keywalker~config}
  */

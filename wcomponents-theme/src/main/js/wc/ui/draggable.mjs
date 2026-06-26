@@ -33,7 +33,7 @@ const instance = {
 	 * @function module:wc/ui/draggable.makeDraggable
 	 * @public
 	 * @param {Element} element The element which will be draggable.
-	 * @param {String} [forId] The id of the element which is actually being controlled if it is not `element`.
+	 * @param {string} [forId] The id of the element which is actually being controlled if it is not `element`.
 	 */
 	makeDraggable: function(element, forId) {
 		element.setAttribute(DRAGGABLE_ATTRIB, TRUE);
@@ -98,7 +98,7 @@ function mousedownEvent($event) {
  * @param {Element} element The draggable element.
  * @param {number} x The amount to move in the x-axis.
  * @param {number} y The amount to move in the y-axis.
- * @returns {Boolean} true if the move is able to take place.
+ * @returns {boolean} true if the move is able to take place.
  */
 function keydownHelper(element, x, y) {
 	if (!(x || y)) {
@@ -293,7 +293,7 @@ function addRemoveEvents(element, remove) {
  * @function
  * @private
  * @param {Element} element the element being shown.
- * @param {String} action The shed action SHOW or HIDE.
+ * @param {string} action The shed action SHOW or HIDE.
  */
 function shedAjaxSubscriber(element, action) {
 	if (element) {
@@ -337,7 +337,7 @@ initialise.register({
 });
 
 /**
- * @typedef {Object} module:wc/ui/draggable~config Optional module configuration
+ * @typedef {object} module:wc/ui/draggable~config Optional module configuration
  * @property {number} step The number of pixels to move the draggable element per key press.
  * @default 8
  */

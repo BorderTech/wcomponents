@@ -5,7 +5,7 @@ const { window } = globalThis;
 /**
  * Get the viewport size.
  * @function module:wc/dom/getViewportSize
- * @param {Boolean} [withoutScrollbars] If true then attempt to account for the scroll bar width.
+ * @param {boolean} [withoutScrollbars] If true then attempt to account for the scroll bar width.
  * @param {Window} [view] Optionally provide the window to use
  * @returns {{ width: number, height: number }} The viewport size, in pixels, encapsulated in an object.
  */

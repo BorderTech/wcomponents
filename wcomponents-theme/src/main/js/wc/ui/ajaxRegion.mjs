@@ -32,7 +32,7 @@ const instance = {
 	 * @see {@link module:wc/ajax/triggerManager}
 	 * @function module:wc/ui/ajaxRegion.register
 	 * @public
-	 * @param {Object} obj The registration object
+	 * @param {object} obj The registration object
 	 */
 	register: function (obj) {
 		const _register = (next) => {
@@ -56,7 +56,7 @@ const instance = {
 	 * Get an ajax trigger associated with an element or id.
 	 * @function module:wc/ui/ajaxRegion.getTrigger
 	 * @public
-	 * @param {String|Element} arg The ID of the trigger to retrieve OR a DOM element which may be associated with a trigger.
+	 * @param {string | Element} arg The ID of the trigger to retrieve OR a DOM element which may be associated with a trigger.
 	 * @param {boolean} [ignoreAncestor] If true will not search in DOM ancestry for an element with a trigger.
 	 * @returns {module:wc/ajax/Trigger} The trigger, if found.
 	 * @see {@link module:wc/ajax/triggerManager#getTrigger} for full details.
@@ -71,8 +71,8 @@ const instance = {
 	 * @function module:wc/ui/ajaxRegion.requestLoad
 	 * @public
 	 * @param {Element} element The element which is being changed.
-	 * @param {Object} [obj] A trigger definition dto.
-	 * @param {Boolean} [ignoreAncestor] Indicates to not look up the tree when trying to find a trigger.
+	 * @param {object} [obj] A trigger definition dto.
+	 * @param {boolean} [ignoreAncestor] Indicates to not look up the tree when trying to find a trigger.
 	 */
 	requestLoad: function(element, obj, ignoreAncestor) {
 		let trigger = triggerManager.getTrigger(element, ignoreAncestor);
@@ -150,7 +150,7 @@ function checkActivateTrigger(element) {
  * @function
  * @private
  * @param {Element} element The element to test.
- * @returns {Boolean} true if the element is a type that submits a form when clicked (ie a submit button).
+ * @returns {boolean} true if the element is a type that submits a form when clicked (ie a submit button).
  */
 function isSubmitElement(element) {
 	const selectors = ["input[type='submit']", "input[type='submit']", "button[type='submit']", "button:not([type])"];
@@ -159,7 +159,7 @@ function isSubmitElement(element) {
 
 /**
  *
- * @param {CustomEvent & { target: Element }} $event
+ * @param {CustomEvent & { target: Element }} $event - ?
  */
 function shedSubscriber($event) {
 	const selectors = ["input[type='checkbox']", "input[type='radio']"];
@@ -174,7 +174,7 @@ function shedSubscriber($event) {
  * @function
  * @private
  * @param {Element} element The element to check whether it does ajax on change.
- * @returns {Boolean} true if this element should ajax on change.
+ * @returns {boolean} true if this element should ajax on change.
  */
 function triggersOnChange(element) {
 	const triggersOnChangeSelectors = ["select", "textarea", "input:not([type='file'])"];
@@ -233,7 +233,7 @@ function focusEvent($event) {
  * false.
  * @function
  * @private
- * @param {Element} element
+ * @param {Element} element - ?
  * @returns {boolean} true if the element is a link which will navigate the page
  */
 function isNavLink(element) {
@@ -280,7 +280,7 @@ function setControlsAttribute() {
  * Fire a delayed trigger.
  * @function
  * @private
- * @param {String} triggerId the ID of the trigger to fire
+ * @param {string} triggerId the ID of the trigger to fire
  */
 function fireAfterDelay(triggerId) {
 	const trigger = triggerManager.getTrigger(triggerId);
@@ -328,8 +328,8 @@ initialise.register({
 
 /**
  * Converts a WAjaxTrigger element to a DTO for registration.
- * @param {WAjaxTrigger} element
- * @return {{delay: (String|number), id: String, oneShot: boolean, loads: String[]}}
+ * @param {WAjaxTrigger} element - ?
+ * @return {{delay: (string | number), id: string, oneShot: boolean, loads: string[]}}
  */
 function toDto(element) {
 	const ajaxTargets = Array.from(element.querySelectorAll(ajaxTargetTagName));

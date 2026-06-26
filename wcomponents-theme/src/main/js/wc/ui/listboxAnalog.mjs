@@ -38,7 +38,7 @@ class ListboxAnalog extends AriaAnalog {
 	/**
 	 * Select items immediately on navigation.
 	 * @function
-	 * @returns {Boolean} always true for this analog.
+	 * @returns {boolean} always true for this analog.
 	 * @override
 	 */
 	selectOnNavigate = () => true;
@@ -62,7 +62,7 @@ class ListboxAnalog extends AriaAnalog {
 	 * id with the property value being the id of the last activated item. Needed for correct implementation of
 	 * group selection (such as with SHIFT+ Click).
 	 * @var
-	 * @type {Object}
+	 * @type {object}
 	 * @override
 	 */
 	lastActivated = {};
@@ -79,7 +79,7 @@ class ListboxAnalog extends AriaAnalog {
 
 	/**
 	 * Handle a keyboard event.
-	 * @param {KeyboardEvent & { target: HTMLElement }} $event
+	 * @param {KeyboardEvent & { target: HTMLElement }} $event - ?
 	 */
 	keydownEvent($event) {
 		const PRINTABLE_RE = /[ -~]/,
@@ -150,7 +150,7 @@ class ListboxAnalog extends AriaAnalog {
 	 * @param {Element} option the option in which we are interested
 	 * @param {boolean} [lowerCase] if true return a lowercase version of the value
 	 * @param {boolean} [forceText] if true get the textContent in preference to the value
-	 * @returns {String} the value of the option.
+	 * @returns {string} the value of the option.
 	 */
 	getOptionValue(option, lowerCase, forceText) {
 		let txt = option.textContent;
@@ -168,7 +168,7 @@ class ListboxAnalog extends AriaAnalog {
  *     function so just passed through for convenience.
  * @param {HTMLElement} start The element from which we start the search. This will not return even if
  *     it starts with the character we want.
- * @param {String} keyName The character we are searching for.
+ * @param {string} keyName The character we are searching for.
  * @returns {HTMLElement} The next available option which starts with keyName (if any), or undefined.
  */
 function getTextTarget(options, start, keyName) {

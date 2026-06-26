@@ -79,9 +79,9 @@ const formUpdateManager = {
 	 *    Will also be passed to subscribers unless region is set.
 	 * @param {Element} [region] A dom element "region" to be passed to subscribers instead of the form. This is the
 	 *    section of the view which is being written. If not provided then `container` is used.
-	 * @param {Boolean} [ignoreForm] if set then do not do a form lookup just accept the container. This arg should
+	 * @param {boolean} [ignoreForm] if set then do not do a form lookup just accept the container. This arg should
 	 *    only be set if the calling class is going to clean up after itself.
-	 * @returns {Boolean} true if not cancelled by the user.
+	 * @returns {boolean} true if not cancelled by the user.
 	 *
 	 * TO-DO:
 	 * - The observer test here means that the encType check will fail if nothing has subscribed. This is actually very unlikely in reality but is possible.
@@ -184,7 +184,7 @@ const formUpdateManager = {
 	 * Get a named field from the state container
 	 * @function module:wc/dom/formUpdateManager.getStateField
 	 * @param {Element} container The state container.
-	 * @param {String} name  The field name to find.
+	 * @param {string} name  The field name to find.
 	 * @returns {HTMLElement} The existing state field for this name in this container if it exists.
 	 * If more than one state field exists for this name the first one will be returned.
 	 */

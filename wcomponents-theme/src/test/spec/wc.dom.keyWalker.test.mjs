@@ -16,7 +16,7 @@ describe("wc/dom/keyWalker", () => {
 	}
 
 	/**
-	 * @param {Element} el
+	 * @param {Element} el - ?
 	 * @returns {number} ?
 	 */
 	function enabledFilter (el) {
@@ -27,7 +27,7 @@ describe("wc/dom/keyWalker", () => {
 	}
 
 	/**
-	 * @param {Element} el
+	 * @param {Element} el - ?
 	 * @returns {number} ?
 	 */
 	function hiddenFilter(el) {
@@ -38,7 +38,7 @@ describe("wc/dom/keyWalker", () => {
 	}
 
 	/**
-	 * @param {Element} el
+	 * @param {Element} el - ?
 	 * @returns {number} ?
 	 */
 	function treeFilter (el) {
@@ -78,7 +78,7 @@ describe("wc/dom/keyWalker", () => {
 	}
 
 	/**
-	 * @param {Element} el
+	 * @param {Element} el - ?
 	 * @returns {number} ?
 	 */
 	function mockClosedBranchNodesFilter(el) {

@@ -77,9 +77,9 @@ export default function minMax(conf) {
 	 * @function
 	 * @private
 	 * @param {Element} selectable the component being tested.
-	 * @param {String} flag The error message frame (sprintf formatted).
+	 * @param {string} flag The error message frame (sprintf formatted).
 	 * @param {number} limit The number of the constraint.
-	 * @param {String} [secondaryLabel] The text content of an inner label to add context to complex error
+	 * @param {string} [secondaryLabel] The text content of an inner label to add context to complex error
 	 *    messages. This is used for validation of WMultiSelectPair.
 	 */
 	function flagError(selectable, flag, limit, secondaryLabel) {
@@ -99,7 +99,7 @@ export default function minMax(conf) {
 
 /**
  * The configuration object for the module's return function.
- * @typedef {Object} module:wc/ui/validation/minMax~config
+ * @typedef {object} module:wc/ui/validation/minMax~config
  * @property {HTMLElement} container That which is being validated. Usually a FORM element.
  * @property {string} widget Description of the component being tested.
  * @property {Function} selectedFunc Function to get the list of selections from the test element.
@@ -108,6 +108,6 @@ export default function minMax(conf) {
  *    not the output of widget.findDescendants(container).
  * @property {Function} [flagFunc] Function used to flag the error message if not this functions' inbuilt
  *    flag function.
- * @property {String} [minText] The i18n argument for errors where fewer than min options are selected.
- * @property {String} [maxText] The i18n argument for errors where more than max options are selected.
+ * @property {string} [minText] The i18n argument for errors where fewer than min options are selected.
+ * @property {string} [maxText] The i18n argument for errors where more than max options are selected.
  */

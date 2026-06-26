@@ -116,7 +116,7 @@ function wireEventListeners(handlers) {
 
 	/**
 	 *
-	 * @param {{ e: MouseEvent }} option
+	 * @param {{ e: MouseEvent }} option - ?
 	 */
 	function mousedownEvent({ e: event }) {
 		if (redactMode && event.button === 0) {
@@ -140,7 +140,7 @@ function wireEventListeners(handlers) {
 	}
 
 	/**
-	 * @param {{e: MouseEvent}} option
+	 * @param {{e: MouseEvent}} option - ?
 	 */
 	function mousemoveEvent({ e: event }) {
 		if (redactMode && isMouseDown && handlers.drawing) {

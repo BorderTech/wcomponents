@@ -10,8 +10,8 @@ const cache = {};
 
 /**
  * For a given locale returns the names of the days of the week;
- * @param {string} locale
- * @return {string[]}
+ * @param {string} locale - ?
+ * @returns {string[]} ?
  */
 function getDayNames(locale) {
 	const referenceDate = new Date(2024, 5, 9);  // Sunday
@@ -34,7 +34,7 @@ function getDayNames(locale) {
  * @public
  * @static
  * @param {boolean} [startOnMonday] If true the first day in the array will be Monday instead of Sunday.
- * @returns {String[]} The names of the days in order such that index zero is Sunday, index six is Saturday (if startOnMonday is true then zero is Monday, six is Sunday).
+ * @returns {string[]} The names of the days in order such that index zero is Sunday, index six is Saturday (if startOnMonday is true then zero is Monday, six is Sunday).
  */
 function get(startOnMonday) {
 	const lang = i18n._getLang();

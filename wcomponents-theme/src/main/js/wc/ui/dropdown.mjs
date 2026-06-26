@@ -7,7 +7,7 @@ const instance = {
 	 * @function module:wc/ui/dropdown.setSelectionByValue
 	 * @public
 	 * @param {HTMLSelectElement} element The dropdown.
-	 * @param {String} value the value of the option to select.
+	 * @param {string} value the value of the option to select.
 	 */
 	setSelectionByValue: function(element, value) {
 		if (element?.matches("select")) {

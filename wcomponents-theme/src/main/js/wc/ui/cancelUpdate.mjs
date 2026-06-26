@@ -87,6 +87,7 @@ const instance = {
 	 * Removes this element's current state from the "initial" state of the form.
 	 * @param {Element} element A form control.
 	 */
+	// eslint-disable-next-line sonarjs/cognitive-complexity
 	removeElement: function (element) {
 		const form = element ? element["form"] : null;
 		const oldState = form?.id ? registry[form.id] : null;
@@ -141,16 +142,16 @@ const instance = {
  * @function
  * @private
  * @param {HTMLFormElement} form The form whose state we want.
- * @returns {Object.<string, string[]>}} The serialized state of the form.
+ * @returns {{[key: string]: string[]}}} The serialized state of the form.
  */
 function getCurrentState(form) {
-	return /** @type {Object.<string, string[]>} */ (serialize.serialize(form, true, true, isDirty));
+	return /** @type {{[key: string]: string[]}} */ (serialize.serialize(form, true, true, isDirty));
 }
 
 /**
  * Filters out "clean" elements from the serialization.
  * @param {Element} element A state field.
- * @returns {Boolean} false if the element should be vetoed.
+ * @returns {boolean} false if the element should be vetoed.
  */
 function isDirty(element) {
 	return !Object.hasOwn(element.dataset, "wcClean");
@@ -216,7 +217,7 @@ function isCancelUpdateButton(element) {
  * a cancel button when we are inside a submit event or other function which calls cancelSubmission.
  * @function
  * @private
- * @param {MouseEvent & {target: HTMLButtonElement}} $event
+ * @param {MouseEvent & {target: HTMLButtonElement}} $event - ?
  */
 function clickEvent($event) {
 	const target = $event.target;
@@ -241,7 +242,7 @@ function clickEvent($event) {
  * @private
  * @param {Element} element Any element within a form.
  * @param {Element} submitter The element which originated the submission event.
- * @returns {Boolean} true if the user wants to keep their unsaved changes and cancel the submission, false
+ * @returns {boolean} true if the user wants to keep their unsaved changes and cancel the submission, false
  *    to continue with the submission/navigation.
  */
 function cancelSubmit(element, submitter) {

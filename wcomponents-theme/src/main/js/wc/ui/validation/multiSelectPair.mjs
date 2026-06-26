@@ -177,7 +177,7 @@ function _isComplete(container) {
  * @function
  * @private
  * @param {HTMLElement} element A WMultiSelectPair.
- * @returns {String} a formatted error message used by the validation flag function.
+ * @returns {string} a formatted error message used by the validation flag function.
  */
 function _requiredMessageFunc(element) {
 	const label = getFirstLabelForElement(element, true) || element.title,

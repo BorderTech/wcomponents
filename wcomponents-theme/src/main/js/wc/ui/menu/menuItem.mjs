@@ -29,7 +29,7 @@ class MenuItemCheckbox extends AriaAnalog {
 	 * Menus have complex two-dimensinal keyboard navigation, therefore the menu items themselves do not
 	 * implement navigation.
 	 * @var
-	 * @type {Boolean}
+	 * @type {boolean}
 	 * @override
 	 */
 	groupNavigation = false;
@@ -70,7 +70,7 @@ class MenuItemRadio extends AriaAnalog {
 	 * Menus have complex two-dimensinal keyboard navigation, therefore the menu items themselves do not
 	 * implement navigation.
 	 * @var
-	 * @type {Boolean}
+	 * @type {boolean}
 	 * @override
 	 */
 	groupNavigation = false;
@@ -101,7 +101,7 @@ class MenuItemRadio extends AriaAnalog {
  * @function
  * @private
  * @param {MouseEvent & { target: HTMLElement }} $event The click event
- * @param {Object} instance An instance of the module's singleton of MenuItemCheckbox or MenuItemRadio.
+ * @param {object} instance An instance of the module's singleton of MenuItemCheckbox or MenuItemRadio.
  */
 function clickEventHelper($event, instance) {
 	const {

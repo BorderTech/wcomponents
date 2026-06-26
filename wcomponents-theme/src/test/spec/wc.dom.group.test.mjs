@@ -9,7 +9,7 @@ describe("getFilteredGroup", () => {
 	/**
 	 * @param {string} id the ID of the element to use as the reference element (to pass to group.get)
 	 * @param {string|null} prefix the prefix of ids (if there is a naming convention) or null
-	 * @param {number|array} offset if the expected ids do not start at 0 give the offset here OR an array of IDs we expect to find.
+	 * @param {number | Array} offset if the expected ids do not start at 0 give the offset here OR an array of IDs we expect to find.
 	 * @param {number} [expected] The number of items we expect to find in this group
 	 * @returns {HTMLElement[]} ?
 	 */

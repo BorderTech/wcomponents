@@ -47,8 +47,10 @@ const instance = {
 	 */
 	register: function(rules, defaultView) {
 		/**
-		 * @param {string} id
-		 * @param {string} ruleId
+		 * ?
+		 * @param {string} id - ?
+		 * @param {string} ruleId - ?
+		 * @returns {void} ?
 		 */
 		const setRule = (id, ruleId) => {
 			const ruleArr = elementToRuleMap[id] || (elementToRuleMap[id] = []);
@@ -78,7 +80,7 @@ const instance = {
 	/**
 	 * Get a string representation of the instance.
 	 * @function module:wc/ui/subordinate.toString
-	 * @returns {String} String representation of this object for diagnostic purposes.
+	 * @returns {string} String representation of this object for diagnostic purposes.
 	 */
 	toString: function() {
 		return JSON.stringify(elementToRuleMap);
@@ -113,7 +115,7 @@ function getControlledRules(element, checkAncestors) {
 		ruleIds = elementToRuleMap[element.getAttribute("name")];
 	}
 	if (ruleIds) {
-		return  ruleIds.map(/** @param {string} ruleId */ ruleId => ruleStore[ruleId]);
+		return  ruleIds.map(/** @param {string} ruleId - ? */ (ruleId) => ruleStore[ruleId]);
 	} else if (checkAncestors && (element = element.parentElement)) {
 		return  getControlledRules(element, checkAncestors);
 	}
@@ -155,8 +157,8 @@ function activateSubordinateRules(element) {
  * 'name' attribute, so we need to check both.
  * @function
  * @private
- * @param {String} identifier The element id or name. Note that only input fields can legally have a name.
- * @param {WindowProxy} view
+ * @param {string} identifier - The element id or name. Note that only input fields can legally have a name.
+ * @param {WindowProxy} view - ?
  * @returns {HTMLElement} The first element with the name identifier or the element with the id identifier.
  *   Tests name first since a grouped component (such as a WRadioButtonSelect) will have the name on each
  *   option (radio button) AND the id on the wrapper (fieldset) and in this class we are interested in the
@@ -197,14 +199,15 @@ function getElement(identifier, view) {
  * flag is off by default but can be turned on by prefixing the pattern with (?i).</li></ul>
  * @function
  * @private
- * @param {String} id The identifier of the test subject - could be: an element id, or an element name
- * @param {string} testValue If the test subject matches this value we return true. What "matches this value" means
- * @param {string} [operator] The type of comparison to perform to determine if the condition is true
+ * @param {string} id - The identifier of the test subject - could be: an element id, or an element name
+ * @param {string} testValue - If the test subject matches this value we return true. What "matches this value" means
+ * @param {string} [operator] - The type of comparison to perform to determine if the condition is true
  *    really depends on what the test subject is. For example if it is a text input then we return true if the
  *    value of the input matches the testValue.
- * @param {WindowProxy} [view]
- * @returns {boolean} true if the condition is true otherwise false.
+ * @param {WindowProxy} [view] - ?
+ * @returns {boolean} True if the condition is true otherwise false.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function isConditionTrue(id, testValue, operator, view) {
 	let result = false;
 	const thisWindow = view || window;
@@ -283,8 +286,8 @@ function doEqualityTest(element, testValue, negate, selectedItems) {
  * Helper for isConditionTrue.
  * Determines if this operator is an equality test and if the result should be negated.
  * The result object will have a `negate` property and an `equalityTest` property.
- * @param {string} operator
- * @return {{negate: boolean, equalityTest: boolean}}
+ * @param {string} operator - ?
+ * @returns {{negate: boolean, equalityTest: boolean}} ?
  */
 function getTestType(operator) {
 	let result = {
@@ -345,9 +348,9 @@ function getSelectedOptions(element) {
  * @function
  * @private
  * @param {Element|HTMLElement[]} elements Either a single element or an array of them.
- * @param {String} testVal The value we are testing against.
- * @param {String} operator The type of comparison to apply.
- * @returns {Boolean} true if one or more of the elements matches the comparison test.
+ * @param {string} testVal The value we are testing against.
+ * @param {string} operator The type of comparison to apply.
+ * @returns {boolean} true if one or more of the elements matches the comparison test.
  */
 function testElementValue(elements, testVal, operator) {
 	let result = false,
@@ -376,7 +379,7 @@ function testElementValue(elements, testVal, operator) {
  * @param {string} triggerVal The value of the subordinate trigger.
  * @param {string} operator The type of test to perform.
  * @param {string} compareVal The value to compare against.
- * @returns {Boolean} the result of the test.
+ * @returns {boolean} the result of the test.
  */
 function doTest(triggerVal, operator, compareVal) {
 	let result, typedCompedVal;
@@ -416,8 +419,8 @@ function doTest(triggerVal, operator, compareVal) {
  * Is an element's value "empty"?
  * @function
  * @private
- * @param {String} val The value to check.
- * @returns {Boolean} true if val is an empty string (zero length or just whitespace).
+ * @param {string} val The value to check.
+ * @returns {boolean} true if val is an empty string (zero length or just whitespace).
  */
 function isEmpty(val) {
 	let result = !!val?.length;
@@ -431,9 +434,9 @@ function isEmpty(val) {
  * Gets a value of the 'correct' type based on a component value.
  * @function
  * @private
- * @param {string} val The value to convert.
- * @param {string} type The required type.
- * @returns {*} The correct value of the correct type (based on the "type" arg). If the value is SOMETHING
+ * @param {string} val - The value to convert.
+ * @param {string} type - The required type.
+ * @returns {string | number | null} The correct value of the correct type (based on the "type" arg). If the value is SOMETHING
  * (not an empty-ish string) but that something is not correctly formatted for the "type" then we return
  * null which essentially means "invalid" and no comparisons can be done.
  */
@@ -482,10 +485,10 @@ function getNumberCompareValue(val) {
  * Get the value of the element that triggered the subordinate rule.
  * @function
  * @private
- * @param {Element} element An element which has some logical value which we want to get.
- * @param {string} [type] The type for the element we are dealing with, i.e. "number" or "date". If not
+ * @param {Element} element - An element which has some logical value which we want to get.
+ * @param {string} [type] - The type for the element we are dealing with, i.e. "number" or "date". If not
  *    provided we will try a few things then give up.
- * @returns {*} The correct value of the correct type (based on the "type" arg). If the value is SOMETHING
+ * @returns {any} The correct value of the correct type (based on the "type" arg). If the value is SOMETHING
  *   (not an empty-ish string) but that something is not correctly formatted for the "type" then we return
  *   null which essentially means "invalid" and no comparisons can be done.
  */
@@ -618,7 +621,8 @@ export const initialiser = {
 
 /**
  * Sets up the custom elements in this DOM.
- * @param {window} theWindow
+ * @param {window} theWindow - ?
+ * @returns {void} ?
  */
 function registerElements(theWindow) {
 	const tagNames = {
@@ -654,11 +658,11 @@ function registerElements(theWindow) {
 	}
 
 	/**
-	 *
-	 * @param {Testable} element
-	 * @param {function} test
-	 * @param {boolean} isOr true if this is an OR condition, otherwise it is an AND (i.e. true if ALL conditions are true)
-	 * @return {this is WCondition[]|boolean}
+	 * ?
+	 * @param {Testable} element - ?
+	 * @param {function} test - ?
+	 * @param {boolean} isOr - True if this is an OR condition, otherwise it is an AND (i.e. true if ALL conditions are true)
+	 * @returns {this is WCondition[]|boolean} ?
 	 */
 	function testAllImmediateConditions(element, test, isOr) {
 		const conditions = /** @type WCondition[] */(Array.from(element.querySelectorAll(`:scope > ${tagNames.condition}`)));
@@ -673,12 +677,12 @@ function registerElements(theWindow) {
 	 */
 	class Testable extends theWindow.HTMLElement {
 		/**
-		 *
-		 * @param {function} test
-		 * @return {boolean}
+		 * ?
+		 * @param {function} test - ?
+		 * @returns {boolean} ?
 		 */
 		doTest(test) {
-			const andOrNot = /** @type Testable[] */(Array.from(this.querySelectorAll(`:scope > ${tagNames.wcor}, :scope > ${tagNames.wcand}, :scope > ${tagNames.wcnot}`)));
+			const andOrNot = /** @type {Testable[]} */ (Array.from(this.querySelectorAll(`:scope > ${tagNames.wcor}, :scope > ${tagNames.wcand}, :scope > ${tagNames.wcnot}`)));
 			return andOrNot.every(element => element.doTest(test));
 		}
 	}
@@ -788,11 +792,11 @@ initialise.register(initialiser);
 export default instance;
 
 /**
- * @typedef {Object} module:wc/ui/subordinate~registerDTO
+ * @typedef {object} module:wc/ui/subordinate~registerDTO
  * @property {string} id A unique identifier for the control.
  * @property {Function} test The test function to determine if a rule is true or false. Should return a
  *    boolean (true if true kinda makes sense). See {@link module:wc/ui/subordinate~isConditionTrue}.
- * @property {Object[]} [onTrue] The rule[s] to run if the condition determined by test is true. Must be present and valid if onFalse is not.
- * @property {Object[]} [onFalse] The rule[s] to run if the condition determined by test is true. Must be present and valid if onTrue is not.
+ * @property {object[]} [onTrue] The rule[s] to run if the condition determined by test is true. Must be present and valid if onFalse is not.
+ * @property {object[]} [onFalse] The rule[s] to run if the condition determined by test is true. Must be present and valid if onTrue is not.
  * @property {string[]} controllers The ids of the elements which are the control triggers.
  */

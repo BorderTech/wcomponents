@@ -30,7 +30,7 @@ const instance = {
 	 */
 	subscribe: function(subscriber) {
 		/**
-		 * @param {Function} _subscriber
+		 * @param {Function} _subscriber - ?
 		 * @returns {Function} ?
 		 */
 		function _subscribe(_subscriber) {

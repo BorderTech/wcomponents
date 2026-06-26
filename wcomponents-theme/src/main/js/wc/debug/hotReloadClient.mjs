@@ -161,7 +161,7 @@ function getConnection(force) {
 
 /**
  * Called when a module needs to be hot reloaded.
- * @param payload The event payload including module names to reload.
+ * @param {any} payload The event payload including module names to reload.
  */
 function handleModuleChange(payload) {
 	if (payload.type && typeof handlers[payload.type] === "function") {

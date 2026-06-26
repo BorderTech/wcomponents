@@ -26,12 +26,12 @@ const expiresAttribute = "data-expires";  // Expose the expiry time as a conveni
 let expiresAt;
 
 /**
- *
- * @param {boolean} isExpired
- * @param {string} title
- * @param {string} header
- * @param {string} body The message itself, can contain HTML
- * @return {string} The HTML for a timeout warning
+ * ?
+ * @param {boolean} isExpired - ?
+ * @param {string} title - ?
+ * @param {string} header - ?
+ * @param {string} body - The message itself, can contain HTML
+ * @returns {string} The HTML for a timeout warning
  */
 const template = (isExpired, title, header, body) => {
 	const type = isExpired ? "error" : "warn";
@@ -55,9 +55,9 @@ const template = (isExpired, title, header, body) => {
 /**
  * Sets or resets all the timers using the value stored in `expiresAt`.
  * This is a debounced function, rapid-fire calls will be ignored, only the last will be honored.
- * @param {Number} warnBeforeMillis How long before expiresAt should the warning be shown.
+ * @param {number} warnBeforeMillis - How long before expiresAt should the warning be shown.
  */
-const resetTimers = debounce(/** @param {Number} warnBeforeMillis */ warnBeforeMillis => {
+const resetTimers = debounce(/** @param {number} warnBeforeMillis - ? */ (warnBeforeMillis) => {
 	cancelAllTimers();
 	const remainingMillis = calculateRemaining(true);
 	const millisToWarn = remainingMillis - warnBeforeMillis;
@@ -121,7 +121,7 @@ function initTimer(element) {
 
 /**
  * Get dialog HTML to warn the user about an imminent session expiry.
- * @return {Promise<String>} resolved with the error dialog HTML.
+ * @return {Promise<string>} resolved with the error dialog HTML.
  */
 function getExpiredDialog() {
 	const messageKeys = ["messagetitle_error", "timeout_expired_header", "timeout_expired_body"];
@@ -133,7 +133,7 @@ function getExpiredDialog() {
 /**
  * Get dialog HTML to warn the user about an imminent session expiry.
  * The dialog content will "react" to being shown.
- * @return {Promise<String>} resolved with the warning dialog HTML.
+ * @return {Promise<string>} resolved with the warning dialog HTML.
  */
 function getWarnDialog() {
 	const messageKeys = ["messagetitle_warn", "timeout_warn_header", "timeout_warn_body"];
@@ -148,7 +148,7 @@ function getWarnDialog() {
 
 /**
  * Gets the appropriate dialog content based on how much session time is remaining..
- * @return {Promise<String>} resolved with the dialog HTML.
+ * @return {Promise<string>} resolved with the dialog HTML.
  */
 function getDialog() {
 	const minsRemaining = calculateRemaining();
@@ -205,7 +205,9 @@ class TimeoutWarn extends HTMLElement {
 	}
 
 	/**
-	 * @param {string} attrName
+	 * ?
+	 * @param {string} attrName - ?
+	 * @returns {void} ?
 	 */
 	attributeChangedCallback(attrName /* , oldVal, newVal */) {
 		if (attrName === "timeout" || attrName === "warn") {
@@ -359,7 +361,7 @@ function showAlert(container) {
 /**
  * Helper for warn and expire.
  * @param {string[]} keys The i18n keys to look up
- * @return {Promise<String[]>} resolved with translations in order they were found in the keys array.
+ * @return {Promise<string[]>} resolved with translations in order they were found in the keys array.
  */
 function getTranslations(keys) {
 	return /** @type Promise<String[]> */(i18n.translate(keys));

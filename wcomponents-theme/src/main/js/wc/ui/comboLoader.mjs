@@ -16,7 +16,7 @@ const instance = {
 	 * This sets up a registry of ids for eager loading data lists and adds an initialise callback to
 	 * process the registry.
 	 * @public
-	 * @param {String[]} idArr Array of element ID values.
+	 * @param {string[]} idArr Array of element ID values.
 	 */
 	register: function(idArr) {
 		if (idArr?.length) {
@@ -32,7 +32,7 @@ const instance = {
  * options with the new ones
  * @function
  * @private
- * @param {(HTMLSelectElement|Object)} dataList a select element or object with an 'options' array
+ * @param {(HTMLSelectElement | object)} dataList a select element or object with an 'options' array
  * @param {HTMLUListElement} optionList the optionList to populate (a UL element).
  */
 function selectToOptions(dataList, optionList) {
@@ -68,6 +68,7 @@ function callbackFactory(optionList, element) {
 /*
  * Registry processor for data list driven combos.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function processNow(idArr) {
 	let id;
 	const DATA_LIST_ATTRIB = "data-wc-list";

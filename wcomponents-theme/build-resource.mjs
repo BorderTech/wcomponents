@@ -55,8 +55,8 @@ function buildI18n() {
 
 /**
  * This is used to transform a java properties file to its JSON equivalent.
- * @param propertiesFile - ?
- * @param jsonFile - ?
+ * @param {any} propertiesFile - ?
+ * @param {fs.PathOrFileDescriptor} jsonFile - ?
  */
 function readPropertiesFile(propertiesFile, jsonFile) {
 	properties.parse(propertiesFile, { path: true }, function (error, obj) {
@@ -84,6 +84,4 @@ function clean() {
 	fs.removeSync(dirs.resource.target);
 }
 
-export default {
-	build
-};
+export default { build };

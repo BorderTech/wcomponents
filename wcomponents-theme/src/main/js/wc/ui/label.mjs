@@ -40,7 +40,7 @@ const instance = {
 	 * @function module:wc/ui/label.setHint
 	 * @public
 	 * @param {Element} label the label to which we are modifying hint content
-	 * @param {String} [content] the hint content to add; if falsey then an existing hint (if any) is removed
+	 * @param {string} [content] the hint content to add; if falsey then an existing hint (if any) is removed
 	 */
 	setHint: function(label, content) {
 		const hint = this.getHint(label);
@@ -211,7 +211,7 @@ function convertLabel(element, label, isRO) {
  * @function
  * @private
  * @param {HTMLInputElement} input the labelled WCheckBox
- * @param {Element|String} label the label or its HTML (single element root)
+ * @param {Element | string} label the label or its HTML (single element root)
  */
 function checkboxLabelPositionHelper(input, label) {
 	let labelElement;
@@ -256,7 +256,7 @@ function checkboxLabelPositionHelper(input, label) {
 }
 
 /**
- * @param {Element} el
+ * @param {Element} el - ?
  * @returns {boolean} ?
  */
 function isActiveWCheckBox(el) {
@@ -332,7 +332,7 @@ function checkRestoreLabel(element) {
 
 /**
  * Store a nested label before we blow away a WCheckBox. Only needed if the WCheckBox is EXPLICITLY targeted via AJAX.
- * @param {Element} element
+ * @param {Element} element - ?
  */
 function preInsertionAjaxSubscriber(element) {
 	if (!(element && isActiveWCheckBox(element))) {
@@ -396,7 +396,7 @@ export const initialiser = {
 	/**
 	 * Initialise callback to subscribe to {@link module:wc/dom/shed} and
 	 * {@link module:wc/ui/ajax/processResponse}.
-	 * @param {HTMLBodyElement} element
+	 * @param {HTMLBodyElement} element - ?
 	 * @function module:wc/ui/label.postInit
 	 * @public
 	 */

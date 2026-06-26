@@ -44,7 +44,7 @@ class CheckBoxSelect extends AriaAnalog {
 	 * processing. The Object has properties keyed on the container id and value is the id of the last activated
 	 * check box.
 	 * @var
-	 * @type {Object}
+	 * @type {object}
 	 */
 	lastActivated = {};
 
@@ -65,7 +65,7 @@ class CheckBoxSelect extends AriaAnalog {
 	 * This over-ride is to remove the call to toggle the selection in aria-analog.
 	 * @function
 	 * @param {Element} element The element being activated.
-	 * @param {Boolean} [SHIFT] If defined event.shiftKey.
+	 * @param {boolean} [SHIFT] If defined event.shiftKey.
 	 * @override
 	 */
 	activate(element, SHIFT) {
@@ -88,9 +88,11 @@ class CheckBoxSelect extends AriaAnalog {
 	 * @function
 	 * @param {Element} element The element currently being de/selected.
 	 * @param {Element} [lastActivated] The last element in the group which was activated.
-	 * @param [container] The element which holds the checkboxes.
+	 * @param {boolean} [container] The element which holds the checkboxes.
+	 * @returns {void} ?
 	 * @override
 	 */
+	// eslint-disable-next-line sonarjs/cognitive-complexity
 	doGroupSelect(element, lastActivated, container) {
 		try {
 			inGroupMode = true;

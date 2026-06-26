@@ -133,7 +133,7 @@ class BackToTop extends HTMLElement {
 
 	/**
 	 *
-	 * @param {string} val
+	 * @param {string} val - ?
 	 */
 	set disabled(val) {
 		if (val) {
@@ -159,7 +159,7 @@ initialise.register({ initialise: () => {
 } });
 
 /**
- * @typedef {Object} config Configuration for the back to top link.
+ * @typedef {object} config Configuration for the back to top link.
  * @property {number} scroll The number of pixels to scroll before showing the back to top link. If 0 then the scroll to top link will appear
  *  when more than one viewport height of scroll has occurred.
  */

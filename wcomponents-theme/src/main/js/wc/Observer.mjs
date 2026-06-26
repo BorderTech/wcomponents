@@ -32,7 +32,7 @@ function Observer(notifyInStages) {
 	 * @param {{ ref: Subscriber, grp: string } | Array<{ ref: Subscriber, grp: string }>} subscriber The subscriber (as passed to the subscribe method).
 	 *    Alternatively simply pass the result from the subscribe method.
 	 *    You may also pass an array of results from the subscribe method, it will be emptied which is likely what you want.
-	 * @param {String} [group] The group from which to unsubscribe (otherwise defaults will be used). There is
+	 * @param {string} [group] The group from which to unsubscribe (otherwise defaults will be used). There is
 	 *    currently no way to remove a subscriber from all groups without multiple calls.
 	 */
 	this.unsubscribe = function(subscriber, group) {
@@ -88,8 +88,8 @@ function Observer(notifyInStages) {
 	 * @public
 	 * @param {function|Object} subscriber A callback which will be called when the notify method is called or
 	 *    an object which provides a public method with the name specified in config.method.
-	 * @param {Object} [config] An object containing configuration option.
-	 * @param {String} [config.group] Associate the subscriber with the given group. When notify is called the
+	 * @param {object} [config] An object containing configuration option.
+	 * @param {string} [config.group] Associate the subscriber with the given group. When notify is called the
 	 *    subscribers to be notified can be filtered based on their group. Default value is DEFAULT_GROUP. See
 	 *    {@link module:wc/Observer#setFilter} and {@link module:wc/Observer#notify} for more info.
 	 * @param {Object|function} [config.context] When the subscriber is called its "this" reference will be the
@@ -103,7 +103,7 @@ function Observer(notifyInStages) {
 	 *        <li>observer.priority.MED</li>
 	 *        <li>observer.priority.LOW</li>
 	 *    </ul>
-	 * @param {String} [config.method] Name of public method to call on this subscriber (e.g. if this is set to "bar" will
+	 * @param {string} [config.method] Name of public method to call on this subscriber (e.g. if this is set to "bar" will
 	 *    call subscriber.bar()). This allows you to subscribe "dynamic" listeners where the function called can
 	 *    change from that you originally registered (or it need not even exist at the time you registered). As long
 	 *    as the correct interface is present at the time it is called then all's good. Note this is especially
@@ -155,7 +155,7 @@ function Observer(notifyInStages) {
 	 * @function
 	 * @public
 	 * @param {...*} [args] 0...n additional arguments to supply to the subscriber.
-	 * @returns {Promise} resolved when all subscribers are resolved (if they returned a "thenable").
+	 * @returns {Promise<any>} resolved when all subscribers are resolved (if they returned a "thenable").
 	 * @example
 	 *
 	 * var observer = new Observer();
@@ -200,11 +200,12 @@ function Observer(notifyInStages) {
 	 * Helper for notify, takes an array of subscribers and calls them with the correct scope and arguments.
 	 * Ensures that all subscribers are called, ignoring accidental issues (such as exceptions) but honoring
 	 * callbacks.
-	 * @param {Subscriber[]} subscribers
-	 * @param {Object} scope The "this" to pass through to the subscriber.
+	 * @param {Subscriber[]} subscribers - ?
+	 * @param {object} scope The "this" to pass through to the subscriber.
 	 * @param {any[]} args Any array-like which contains the arguments to pass to the subscriber.
-	 * @returns {Promise} ?
+	 * @returns {Promise<any>} ?
 	 */
+	// eslint-disable-next-line sonarjs/cognitive-complexity
 	function notify(subscribers, scope, args) {
 		const promises = [];
 		// notify each subscriber
@@ -266,7 +267,7 @@ function Observer(notifyInStages) {
 		if (typeof arg === "string") {
 			// default filter tests for equality
 			/**
-			 * @param {string} group
+			 * @param {string} group - ?
 			 * @return {boolean}
 			 */
 			filterFn = group => group === arg;
@@ -339,7 +340,7 @@ function Observer(notifyInStages) {
 		 * BEWARE: This is by far and away the most called function in the codebase!
 		 * Optimisation here is critical. An extra millisecond here could amount to 10 seconds
 		 * on page load!  Average execution time is currently 0.003ms in FF3.5.
-		 * @param {string} group
+		 * @param {string} group - ?
 		 */
 		return (group) => {
 			// escape all regexp characters except *. Replace * with .* to give it wildcard behaviour
@@ -354,7 +355,7 @@ function Observer(notifyInStages) {
  * Observer.priority (and/or `observer.priority`) contains the preferred values
  * to be passed to {@link module:wc/Observer#subscribe} in the "config.priority" argument.
  * @var Observer.priority
- * @type {Object}
+ * @type {object}
  * @property {number} HIGH Run first (value is 1)
  * @property {number} MED Run after all HIGHs (value is 0)
  * @property {number} LOW Run last (value is -1)
@@ -399,7 +400,7 @@ function SubscriberRegistry() {
 	 * @function
 	 * @public
 	 * @param {Subscriber} subscriber An instance of Subscriber.
-	 * @param {String} [group] The name of the group in which this subscriber is to be stored.
+	 * @param {string} [group] The name of the group in which this subscriber is to be stored.
 	 * @param {number} [priority] The `Observer.priority` of this subscriber.
 	 */
 	this.register = function(subscriber, group, priority) {
@@ -412,10 +413,10 @@ function SubscriberRegistry() {
 	 * Unsubscribe from this Observer instance.
 	 * @function
 	 * @public
-	 * @param {Function|Object} subscriber The subscriber (as passed to the subscribe method).
-	 * @param {String} group The group from which to unsubscribe (otherwise defaults will be used). There is
+	 * @param {Function | object} subscriber The subscriber (as passed to the subscribe method).
+	 * @param {string} group The group from which to unsubscribe (otherwise defaults will be used). There is
 	 *    currently no way to remove a subscriber from all groups without multiple calls.
-	 * @returns {!Function|Object} A reference to the removed subscriber if found and unsubscribed, otherwise null.
+	 * @returns {!Function | object} A reference to the removed subscriber if found and unsubscribed, otherwise null.
 	 */
 	this.deregister = function(subscriber, group) {
 		const fromStore = getGroupStore(group);
@@ -450,9 +451,9 @@ function SubscriberRegistry() {
 	 * Determine if the given subscriber is already subscribed to this group.
 	 * @function
 	 * @public
-	 * @param {Function|Object} subscriber The subscriber (as passed to the subscribe method).
-	 * @param {String} [group] The group in which to search (otherwise defaults will be used).
-	 * @returns {Boolean} true if the subscriber is already subscribed to this group.
+	 * @param {Function | object} subscriber The subscriber (as passed to the subscribe method).
+	 * @param {string} [group] The group in which to search (otherwise defaults will be used).
+	 * @returns {boolean} true if the subscriber is already subscribed to this group.
 	 */
 	this.isRegistered = function(subscriber, group) {
 		const groupStore = getGroupStore(group);
@@ -463,7 +464,7 @@ function SubscriberRegistry() {
 	 * Completely purge all subscribers from this observer group.
 	 * @function
 	 * @public
-	 * @param {String} [group] The name of the group to reset. Defaults to the DEFAULT_GROUP group.
+	 * @param {string} [group] The name of the group to reset. Defaults to the DEFAULT_GROUP group.
 	 */
 	this.reset = function(group) {
 		const groupStore = getGroupStore(group);
@@ -474,7 +475,7 @@ function SubscriberRegistry() {
 	 * Determine the number of subscribers in any given group.
 	 * @function
 	 * @public
-	 * @param {String} [group] The group in question. If not provided the default group will be used.
+	 * @param {string} [group] The group in question. If not provided the default group will be used.
 	 * @returns {number} The count of subscribers in the group, or -1 if the group does not exist.
 	 * @example var observer = new Observer();
 	 * observer.subscribe(function() {}, {group:"cows"});
@@ -493,7 +494,7 @@ function SubscriberRegistry() {
 	 * Create a string representation of this instance.
 	 * @function
 	 * @public
-	 * @returns {String} A string representation of this instance.
+	 * @returns {string} A string representation of this instance.
 	 */
 	this.toString = function() {
 		return Object.keys(store).map(function(group) {
@@ -505,8 +506,8 @@ function SubscriberRegistry() {
 	 * Get the group store for a given group.
 	 * @function
 	 * @private
-	 * @param {String} [group] The group to get, defaults to the DEFAULT_GROUP group.
-	 * @param {Boolean} [createNew] If true then will create and return new group store if one is not found.
+	 * @param {string} [group] The group to get, defaults to the DEFAULT_GROUP group.
+	 * @param {boolean} [createNew] If true then will create and return new group store if one is not found.
 	 * @returns {GroupStore} The existing group store or null or a newly created one instead of null if createNew is true.
 	 */
 	function getGroupStore(group, createNew) {
@@ -603,12 +604,12 @@ function GroupStore() {
 	 * @public
 	 * @param {function} subscriber The function subscribed to this group. We expect that the function will not be
 	 *    subscribed to a group more than once.
-	 * @returns {!function[]} The subscriber being removed. An array as it is the output of Array.filter.
+	 * @returns {!Function[]} The subscriber being removed. An array as it is the output of Array.filter.
 	 */
 	this.remove = function(subscriber) {
 		let result = null;
 		/**
-		 * @param {Subscriber} next
+		 * @param {Subscriber} next - ?
 		 * @return {boolean}
 		 */
 		const filter = next => {
@@ -635,11 +636,11 @@ function GroupStore() {
 	 * @function
 	 * @public
 	 * @param {function} subscriber the function we are looking for in this group.
-	 * @returns {Boolean} true if the subscriber is found in this group.
+	 * @returns {boolean} true if the subscriber is found in this group.
 	 */
 	this.contains = function(subscriber) {
 		/**
-		 * @param {Subscriber} next
+		 * @param {Subscriber} next - ?
 		 * @return {boolean}
 		 */
 		const matcher = next => next.equals(subscriber);
@@ -748,8 +749,8 @@ function GroupStore() {
 	 * An array sort function for subscribers.
 	 * @function
 	 * @private
-	 * @param {Subscriber} a
-	 * @param {Subscriber} b
+	 * @param {Subscriber} a - ?
+	 * @param {Subscriber} b - ?
 	 * @returns {number} The difference of the sort index property of the subscribers.
 	 */
 	function sortSubscribers(a, b) {
@@ -761,7 +762,7 @@ function GroupStore() {
  * Knows about a single subscriber to the observer class, and how to notify it (what
  * function to call, what context to call it in).
  * @param {function|Object} subscriber The subscriber, as passed to {@link module:wc/Observer#subscribe}.
- * @param {Object} [context] The context in which to call the subscriber (see `config.context` in
+ * @param {object} [context] The context in which to call the subscriber (see `config.context` in
  *    {@link module:wc/Observer#subscribe}).
  * @param {string} [method] The name of the method to call if subscriber is an object.
  * @constructor
@@ -801,8 +802,8 @@ function Subscriber(subscriber, context, method) {
 	/**
 	 * Get the scope in which to call the subscriber.
 	 * @private
-	 * @param {Object} callerScope The caller's current scope.
-	 * @returns {!Object} The context for the caller.
+	 * @param {object} callerScope The caller's current scope.
+	 * @returns {!object} The context for the caller.
 	 */
 	function getContext(callerScope) {
 		let result = context;  // explicitly overridden scope - trumps all
@@ -829,7 +830,7 @@ function Subscriber(subscriber, context, method) {
 
 	/**
 	 * Get a string representation of theSubscriber instance.
-	 * @returns {String} Aa string that provides a useful/meaningful representation of this instance.
+	 * @returns {string} Aa string that provides a useful/meaningful representation of this instance.
 	 */
 	this.toString = function() {
 		const func = getListener();
@@ -838,7 +839,7 @@ function Subscriber(subscriber, context, method) {
 
 	/**
 	 * A logical equivalence test.
-	 * @param {Object} obj The object to test for equality.
+	 * @param {object} obj The object to test for equality.
 	 * @returns {boolean} true if obj is logically equivalent to this instance of Subscriber.
 	 */
 	this.equals = function(obj) {

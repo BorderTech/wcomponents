@@ -16,7 +16,7 @@ describe("wc/dom/formUpdateManager", () => {
 	/**
 	 * @returns {HTMLFormElement} ?
 	 */
-	const getForm = () => /** @type HTMLFormElement */(ownerDocument.getElementById(formId));
+	const getForm = () => /** @type {HTMLFormElement} */(ownerDocument.getElementById(formId));
 
 	beforeEach(() => {
 		testHolder.innerHTML = `<form id="${formId}" name="aFormByAnyOtherName"></form>`;

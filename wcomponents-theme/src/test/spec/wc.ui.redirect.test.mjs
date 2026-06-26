@@ -59,7 +59,7 @@ describe("wc/ui/redirect", () => {
 				expect(isLaunchUrl).toBeFalse();
 				resolve();
 			});
-			// @ts-ignore
+
 			spyOn(document, "getElementById").and.callFake(() => {
 				expect(isLaunchUrl).toBeTrue();
 				resolve();

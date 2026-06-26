@@ -30,8 +30,8 @@ const instance = {
  * @function
  * @private
  * @param {Element} button The table action invoking button.
- * @param {Object} condition The action condition.
- * @returns {Boolean} true if the condition is met, or the button is not a table action.
+ * @param {object} condition The action condition.
+ * @returns {boolean} true if the condition is met, or the button is not a table action.
  */
 function isConditionMet(button, condition) {
 	let otherSelected = 0,
@@ -62,8 +62,8 @@ function isConditionMet(button, condition) {
  * Test if an action button can be enabled.
  * @function
  * @private
- * @param {Element} button
- * @returns {Boolean} true if the conditions of the button are met.
+ * @param {Element} button - ?
+ * @returns {boolean} true if the conditions of the button are met.
  */
 function canEnableButton(button) {
 	const conditions = registry.get(button);
@@ -91,7 +91,8 @@ function enableDisableButton(button) {
 }
 
 /**
- * @param {Element} button
+ * ?
+ * @param {Element} button - ?
  * @returns {boolean} If can submit
  */
 function canSubmit (button) {
@@ -187,7 +188,7 @@ function Conditions(buttonChangeFunc) {
 
 	/**
 	 * Register a button condition.
-	 * @param {Object} action The table action which holds the conditions.
+	 * @param {object} action The table action which holds the conditions.
 	 */
 	this.set = function(action) {
 		const id = action ? action.trigger : null;
@@ -202,7 +203,7 @@ function Conditions(buttonChangeFunc) {
 	 * Get registered conditions for a given table action button.
 	 * @function
 	 * @param {Element} button The table action invoking button.
-	 * @returns {Object} The action conditions.
+	 * @returns {object} The action conditions.
 	 */
 	this.get = function(button) {
 		if (!button) {

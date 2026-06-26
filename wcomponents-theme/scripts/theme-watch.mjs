@@ -29,9 +29,9 @@ const handlers = {
 		/**
 		 * Knows how to respond when an image is changed - this is possibly only useful when editing SVGs
 		 * and showing off how cool our dev environment is.
-		 * @param {string} dir The path to the directory being watched.
-		 * @param {string} filename The relative path to the file that changed.
-		 * @returns {Promise} resolved when the change has been handled.
+		 * @param {string} dir - The path to the directory being watched.
+		 * @param {string} filename - The relative path to the file that changed.
+		 * @returns {Promise<any>} Resolved when the change has been handled.
 		 */
 		function(dir, filename) {
 			const paths = getPaths(path.basename(dir), filename);
@@ -45,9 +45,9 @@ const handlers = {
 	script:
 		/**
 		 * Knows how to respond when a JS source module is changed.
-		 * @param {string} dir The path to the directory being watched.
-		 * @param {string} filename The relative path to the file that changed.
-		 * @returns {Promise} resolved when the change has been handled.
+		 * @param {string} dir - The path to the directory being watched.
+		 * @param {string} filename - The relative path to the file that changed.
+		 * @returns {Promise<any>} Resolved when the change has been handled.
 		 */
 		function(dir, filename) {
 			const paths = getPaths(dir, filename);
@@ -58,9 +58,9 @@ const handlers = {
 	style:
 		/**
 		 * Knows how to respond when a sass source file is changed.
-		 * @param {string} dir The path to the directory being watched.
-		 * @param {string} filename The relative path to the file that changed.
-		 * @returns {Promise} resolved when the change has been handled.
+		 * @param {string} dir - The path to the directory being watched.
+		 * @param {string} filename - The relative path to the file that changed.
+		 * @returns {Promise<any>} Resolved when the change has been handled.
 		 */
 		function(dir, filename) {
 			const paths = getPaths(dir, filename);
@@ -69,16 +69,14 @@ const handlers = {
 	test:
 		/**
 		 * Knows how to respond when a test suite is changed.
-		 * @param {string} dir The path to the directory being watched.
-		 * @param {string} filename The relative path to the file that changed.
-		 * @returns {Promise} resolved when the change has been handled.
+		 * @param {string} dir - The path to the directory being watched.
+		 * @param {string} filename - The relative path to the file that changed.
+		 * @returns {Promise<any>} Resolved when the change has been handled.
 		 */
 		function(dir, filename) {
 			return new Promise(function() {
 				const paths = getPaths(dir, filename);
 				themeLinter.run(paths.absolute);
-				// grunt.option("filename", paths.relative);
-				// grunt.tasks(["copy:test"], { filename: paths.relative }, win);
 			});
 		}
 };
@@ -86,6 +84,12 @@ const handlers = {
 hotReload.listen();
 Object.keys(handlers).forEach(watchDir);
 
+/**
+ * ?
+ * @param {string} dir - ?
+ * @param {string} filename - ?
+ * @returns {any} ?
+ */
 function getPaths(dir, filename) {
 	// We don't know if it will be absolute because it has different behaviour on different platforms.
 	let relative, absolute;
@@ -105,10 +109,9 @@ function getPaths(dir, filename) {
  */
 function watchDir(type) {
 	let dir = dirs[type];
-	if (dir && dir.src) {
+	if (dir?.src) {
 		console.log("Watching ", type, dir.src);
 		const watcher = debounce(function(event, filePath) {
-			// console.log(filePath, event);
 			if (filePath && event === "change") {
 				console.log("File Changed ", filePath);
 				handlers[type](dir.src, filePath).then(function(moduleName) {

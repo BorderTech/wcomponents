@@ -27,7 +27,7 @@ let rxString = "";
 /**
  * Test for an input which we are interested in.
  * @param {Element} element The component to test.
- * @returns {Boolean} true if the element is an input which we need to test.
+ * @returns {boolean} true if the element is an input which we need to test.
  */
 function isValidatingInput(element) {
 	return element.matches(input_selectors.join()) && !dateField.isOneOfMe(element);
@@ -48,8 +48,9 @@ function _flagError(element, flag) {
 /**
  * Array filter function which tests an individual field to see if it meets constraints (min and pattern).
  * @param {HTMLInputElement} element A constrained field.
- * @returns {Boolean} true if the field is invalid.
+ * @returns {boolean} true if the field is invalid.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function isInvalid(element) {
 	let result = false;
 	const value = element.value;
@@ -113,8 +114,9 @@ function validate(container) {
 		container: container,
 		widget: input_selectors,
 		/**
-		 * @param {HTMLInputElement} next
-		 * @return {boolean}
+		 * ?
+		 * @param {HTMLInputElement} next - ?
+		 * @return {boolean} ?
 		 */
 		filter: next => !(next.value || dateField.isOneOfMe(next))
 	};
@@ -153,7 +155,8 @@ function changeEvent({ target }) {
 
 /**
  * Blur event listener to revalidate.
- * @param {UIEvent & { target: HTMLInputElement }} $event
+ * @param {UIEvent & { target: HTMLInputElement }} $event - ?
+ * @returns {void} ?
  */
 function blurEvent({ target }) {
 	if (!target.value && shed.isMandatory(target)) {
@@ -192,6 +195,6 @@ initialise.register({
 	postInit: () => validationManager.subscribe(validate)
 });
 /**
- * @typedef {Object} module:wc/ui/validation/textField.config Optional module configuration.
- * @property {String} rx The email regular expression as a string.
+ * @typedef {object} module:wc/ui/validation/textField.config Optional module configuration.
+ * @property {string} rx The email regular expression as a string.
  */

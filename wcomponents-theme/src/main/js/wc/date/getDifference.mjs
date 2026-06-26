@@ -7,8 +7,8 @@
  * @alias module:wc/date/getDifference
  * @param {Date} date1 A Date.
  * @param {Date} date2 Another Date.
- * @param {Boolean} [includeTime] If true then we also want the time difference and return millis.
- * @returns {Number} The difference (0 if same day and !includeTime or if the Dates are absolutely identical).
+ * @param {boolean} [includeTime] If true then we also want the time difference and return millis.
+ * @returns {number} The difference (0 if same day and !includeTime or if the Dates are absolutely identical).
  */
 function getDiff(date1, date2, includeTime) {
 	let result = null,

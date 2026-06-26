@@ -1,8 +1,8 @@
 /**
  * @function
  * @private
- * @param {String} fileSpec The name/path of the file to be tested.
- * @returns {String} The extension of the file or ""
+ * @param {string} fileSpec The name/path of the file to be tested.
+ * @returns {string} The extension of the file or ""
  */
 function getExtension(fileSpec) {
 	const EXTENSION_RE = /\.([a-z0-9]+)$/i;
@@ -23,7 +23,7 @@ function getExtension(fileSpec) {
 function getMimeType(fileInfo) {
 	return /** @type {module:wc/file/getMimeType~fileType[]} */ Array.from(fileInfo.files).map(
 		/**
-		 * @param {File} file
+		 * @param {File} file - ?
 		 * @return {{ ext: string, mime: string }}
 		 */
 		file => {
@@ -42,7 +42,7 @@ export default getMimeType;
 
 /* eslint-disable jsdoc/require-property */
 /**
- * @typedef {Object} module:wc/file/getMimeType~fileType
+ * @typedef {object} module:wc/file/getMimeType~fileType
  * @param {string} mime The MIME type of the file, if it can be determined.
  * @param {string} ext The file extension (without the dot), if it has one.
  */

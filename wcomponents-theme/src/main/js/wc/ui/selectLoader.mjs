@@ -16,7 +16,7 @@ const instance = {
 	 * Load data list SELECT elements.
 	 * @function
 	 * @public
-	 * @param {String[]} idArr An array of element ids.
+	 * @param {string[]} idArr An array of element ids.
 	 */
 	register: function(idArr) {
 		if (idArr?.length) {
@@ -26,7 +26,7 @@ const instance = {
 	/**
 	 * Populates the select with options.
 	 * Select lists will call this public method directly on page load.
-	 * @param {String} id The id of the select element we are loading.
+	 * @param {string} id The id of the select element we are loading.
 	 */
 	load: function (id) {
 		const element = document.getElementById(id),
@@ -43,13 +43,14 @@ const instance = {
  * Generates new callback functions curried with the id of the element we want the callback to operate on.
  * @function
  * @private
- * @param {String} id The id of a select element.
+ * @param {string} id The id of a select element.
  */
 function callbackFactory(id) {
 	/**
 	 * Split this out to keep cyclomatic complexity down.
-	 * @param {HTMLSelectElement} selectList
-	 * @param {DocumentFragment} datalist
+	 * @param {HTMLSelectElement} selectList - ?
+	 * @param {DocumentFragment} datalist - ?
+	 * @returns {void} ?
 	 */
 	const process = (selectList, datalist) => {
 		const currentOptions = Array.from(selectList.selectedOptions);
@@ -74,7 +75,9 @@ function callbackFactory(id) {
 		}
 	};
 	/**
-	 * @param {DocumentFragment} datalist
+	 * ?
+	 * @param {DocumentFragment} datalist - ?
+	 * @returns {void} ?
 	 */
 	return function (datalist) {
 		const element = document.getElementById(id);
@@ -107,7 +110,7 @@ function callbackFactory(id) {
  * Generates new callback functions curried with the id of the element we want the callback to operate on.
  * @function
  * @private
- * @param {String} id The id of a select element.
+ * @param {string} id The id of a select element.
  */
 function errorCallbackFactory(id) {
 	return function () {
@@ -128,9 +131,9 @@ function errorCallbackFactory(id) {
 /**
  * Present the user with a message if the list cannot be loaded.
  * To a large extent this probably belongs in listLoader, so it can be reused.
- * @param {string} id
- * @param {boolean} create
- * @return {HTMLElement|null}
+ * @param {string} id - ?
+ * @param {boolean} create - ?
+ * @returns {HTMLElement|null} ?
  */
 function getErrorMessage(id, create) {
 	const element = document.getElementById(id),
@@ -153,7 +156,7 @@ function getErrorMessage(id, create) {
 			const button = document.createElement("button");
 			button.type = "button";
 			button.innerHTML = i18n.get("loader_retry", label);
-			event.add(button, "click", /** @param {MouseEvent} $event */ $event => {
+			event.add(button, "click", /** @param {MouseEvent} $event - ? */ ($event) => {
 				$event.preventDefault();  // important! stop any other listeners responding to this button
 				instance.load(id);
 			}, false);
@@ -166,7 +169,7 @@ function getErrorMessage(id, create) {
 
 /**
  * Registration processor
- * @param {String[]} idArr An array of element ids.
+ * @param {string[]} idArr An array of element ids.
  */
 function processNow(idArr) {
 	let id;

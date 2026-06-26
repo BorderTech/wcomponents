@@ -16,8 +16,8 @@ const instance = {
 	 * @function
 	 * @public
 	 * @param {Element} element The element which may contain an icon. If there is no icon then this function does nothing.
-	 * @param {String} add the icon className to add
-	 * @param {String} [remove] the icon className to remove
+	 * @param {string} add the icon className to add
+	 * @param {string} [remove] the icon className to remove
 	 */
 	change: function(element, add, remove) {
 		if (!(add || remove)) {
@@ -73,15 +73,15 @@ const instance = {
 
 	/**
 	 *
-	 * @param {Element} element
-	 * @return {HTMLElement}
+	 * @param {Element} element - ?
+	 * @return {HTMLElement} ?
 	 */
 	get: (element) => getIcon(element)
 };
 
 /**
- * @param {string} icon
- * @return {string}
+ * @param {string} icon - ?
+ * @return {string} ?
  */
 function getHTML(icon) {
 	return `<i class='fa ${icon}' aria-hidden='true'></i>`;
@@ -92,7 +92,7 @@ function getHTML(icon) {
  * @function
  * @private
  * @param {Element} element the element arg to test
- * @returns {Boolean} `true` if element is an Element
+ * @returns {boolean} `true` if element is an Element
  * @throws {TypeError} if element is not an Element
  */
 function testElementArg(element) {

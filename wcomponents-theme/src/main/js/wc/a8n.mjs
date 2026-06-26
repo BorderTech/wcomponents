@@ -70,8 +70,8 @@ function waitForFixes() {
 
 /**
  * Called by subscribers when they are notified of a possible change in state.
- * @param {boolean} pending
- * @param {number} flag
+ * @param {boolean} pending - ?
+ * @param {number} flag - ?
  */
 function pendingUpdated(pending, flag) {
 	if (timer) {
@@ -127,7 +127,7 @@ function stateChangeFactory(element, attr) {
 
 /**
  * Determine if the page is "ready"
- * @returns {Boolean} true if the page is ready
+ * @returns {boolean} true if the page is ready
  */
 function isFlaggedReady() {
 	const element = document.body;
@@ -146,7 +146,7 @@ function clearSubscribers() {
 
 /**
  * Remove this specific subscriber.
- * @param {Function} subscriber
+ * @param {Function} subscriber - ?
  */
 function unsubscribe(subscriber) {
 	if (!subscriber || !observer) {
@@ -176,7 +176,7 @@ function onReady(callback) {
 /**
  * Subscribers will be called any time the global ready state changes.
  * They will be passed a boolean, true means ready, false means not ready.
- * @param {Function} subscriber
+ * @param {Function} subscriber - ?
  */
 function subscribe(subscriber) {
 	if (!subscriber) {

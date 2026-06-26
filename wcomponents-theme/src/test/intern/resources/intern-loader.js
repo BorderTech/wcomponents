@@ -16,7 +16,7 @@ intern.registerLoader(function (options) {
 
 		/**
 		 * This is the function intern will actually call to load modules
-		 * @param {String[]} modules The dependencies to load.
+		 * @param {string[]} modules The dependencies to load.
 		 * @returns {Promise<any>} resolved when done.
 		 */
 		return function (modules) {
@@ -40,7 +40,7 @@ intern.registerLoader(function (options) {
 		};
 	}
 
-	if (typeof window !== "undefined") {
+	if (window !== undefined) {
 		return intern.loadScript("node_modules/requirejs/require.js").then(function () {
 			return initLoader(window.requirejs);
 		});

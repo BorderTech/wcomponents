@@ -32,7 +32,7 @@ const instance = {
 	 * @function module:wc/ui/popup.isOneOfMe
 	 * @public
 	 * @param {Element} element the element to test if it is a popup trigger.
-	 * @returns {Boolean} true if element is a popup trigger.
+	 * @returns {boolean} true if element is a popup trigger.
 	 */
 	isOneOfMe: function(element) {
 		return element.matches(popperQs);
@@ -71,7 +71,7 @@ const instance = {
  * too clever and conflate to two.
  * @function
  * @private
- * @param {String[]} infoArr the popup info as an array where the array elements are in the order as defined
+ * @param {string[]} infoArr the popup info as an array where the array elements are in the order as defined
  *    in the class variables above.
  * TO-DO: This array in a particular order is a bit fragile, consider using an object instead.
  */
@@ -122,7 +122,7 @@ function clickEvent($event) {
 
 /**
  * Converts a WPopup element to a DTO for registration.
- * @param {WPopup} element
+ * @param {WPopup} element - ?
  * @returns {(string | null)[]} ?
  */
 function toDto(element) {

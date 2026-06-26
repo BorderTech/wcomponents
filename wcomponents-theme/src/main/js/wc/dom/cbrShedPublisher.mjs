@@ -25,7 +25,7 @@ const instance = {
 
 	/**
 	 * Get the Widget(s) to describe a checkbox, radio button or both.
-	 * @param {String} [whichOne] which widget to get:
+	 * @param {string} [whichOne] which widget to get:
 	 *    "cb" will fetch the CHECKBOX widget;
 	 *    "r" will fetch the RADIO widget;
 	 *    anything else will fetch an array containing both.

@@ -26,7 +26,7 @@ describe("wc/dom/isAcceptableTarget", () => {
 			</div>`;
 
 	const getElement = function (id) {
-		const result = /** @type HTMLElement */(domTesting.getByTestId(testHolder, id));
+		const result = /** @type {HTMLElement} */(domTesting.getByTestId(testHolder, id));
 		result.style.width = "5em";
 		return result;
 	};

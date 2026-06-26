@@ -38,21 +38,21 @@ const
 	FALSE = "false",
 	ACCORDION_CLASS = "wc-tabset-type-accordion",
 	/**
-	 * @constant {String} OLD_HEIGHT The name of the attribute used to hold the pre-ajax height of a target
+	 * @constant {string} OLD_HEIGHT The name of the attribute used to hold the pre-ajax height of a target
 	 * container if it was specified in a style attribute. Used to reset the height of the container to its
 	 * initial (fixed) height after it stops being busy.
 	 * @private
 	 */
 	OLD_HEIGHT = "data-wc-height",
 	/**
-	 * @constant {String} OLD_WIDTH The name of the attribute used to hold the pre-ajax width of a target
+	 * @constant {string} OLD_WIDTH The name of the attribute used to hold the pre-ajax width of a target
 	 * container if it was specified in a style attribute. Used to reset the width of the container to its
 	 * initial (fixed) width after it stops being busy.
 	 * @private
 	 */
 	OLD_WIDTH = "data-wc-width",
 	/**
-	 * @constant {String} UPDATE_SIZE The attribute name used to indicate that the busy region has had its
+	 * @constant {string} UPDATE_SIZE The attribute name used to indicate that the busy region has had its
 	 * pre-update size calculated and set so that a region which has its contents removed does not collapse.
 	 * @private
 	 */
@@ -84,7 +84,7 @@ class Tabset extends AriaAnalog {
 	 * Select items immediately on navigation.
 	 * @function
 	 * @param {Element} element the tab being navigated to
-	 * @returns {Boolean} true unless the tab is in an accordion.
+	 * @returns {boolean} true unless the tab is in an accordion.
 	 * @override
 	 */
 	selectOnNavigate(element) {
@@ -105,7 +105,7 @@ class Tabset extends AriaAnalog {
 	/**
 	 * Indicates is keyboard navigation should cycle between the end points of the tablist.
 	 * @constant
-	 * @type {Boolean}
+	 * @type {boolean}
 	 * @default true
 	 * @override
 	 */
@@ -150,7 +150,7 @@ class Tabset extends AriaAnalog {
 	 * @function module:wc/ui/tabset.shedObserver
 	 * @override
 	 * @param {HTMLElement} element The element on which the shed action acted.
-	 * @param {String} action The type of shed event. One of EXPAND, COLLAPSE, SELECT or DESELECT.
+	 * @param {string} action The type of shed event. One of EXPAND, COLLAPSE, SELECT or DESELECT.
 	 */
 	shedObserver (element, action) {
 		if (element) {
@@ -224,8 +224,9 @@ class Tabset extends AriaAnalog {
 	}
 
 	/**
-	 *
-	 * @param {FocusEvent & { target: HTMLElement }} $event
+	 * ?
+	 * @param {FocusEvent & { target: HTMLElement }} $event - ?
+	 * @returns {void} ?
 	 */
 	focusEvent($event) {
 		const target = $event.target;
@@ -341,7 +342,7 @@ class Tabset extends AriaAnalog {
  * @function
  * @private
  * @param {Element} tablist The tablist to test.
- * @returns {String} The value of the aria-multiselectable attribute "true" or "false" (or undefined if not
+ * @returns {string} The value of the aria-multiselectable attribute "true" or "false" (or undefined if not
  *    an accordion).
  */
 function getAccordion(tablist) {
@@ -398,8 +399,8 @@ function clearSize (element) {
 }
 
 /**
- *
- * @param {HTMLElement} element
+ * ?
+ * @param {HTMLElement} element - ?
  * @returns {boolean} ?
  */
 function fixSize (element) {
@@ -430,9 +431,10 @@ function fixSize (element) {
 }
 
 /**
- *
- * @param {Element} tabset
- * @param expand
+ * ?
+ * @param {Element} tabset - ?
+ * @param {boolean} expand - ?
+ * @returns {void} ?
  */
 function expandCollapseAll(tabset, expand) {
 	const list = tabset.querySelector(TABLIST);
@@ -596,8 +598,8 @@ function onItemEnabled(element) {
  * NOTE:
  * next is a tablist. The tabset container element is the tablist's parent element.
  * If the tabset is disabled, the parent element has the aria-disabled="true" flag.
- * @param stateContainer - ?
- * @param next - ?
+ * @param {Element} stateContainer - ?
+ * @param {Element | Element[]} next - ?
  */
 function writeTabStateHelper(stateContainer, next) {
 	const config = {
@@ -657,7 +659,7 @@ function getTabFor(element) {
  * @function
  * @private
  * @param {Element} element the element we are testing
- * @returns {Boolean} true if element is inside an accordion tabset.
+ * @returns {boolean} true if element is inside an accordion tabset.
  */
 function isInAccordion(element) {
 	let tablist = element.closest(TABPANEL.toString());
@@ -673,8 +675,8 @@ function isInAccordion(element) {
  * Get the tabPanel for a tab.
  * @function
  * @private
- * @param {Element} tab
- * @returns {HTMLElement} the tab panel for the tab.
+ * @param {Element} tab - ?
+ * @returns {HTMLElement} The tab panel for the tab.
  */
 function getPanel(tab) {
 	const panelId = tab.getAttribute("aria-controls");
@@ -770,7 +772,8 @@ function tabsetToAccordion(tabset) {
  * Find tabset in a container and convert them if necessary.
  * @function
  * @private
- * @param {Element} [container]
+ * @param {Element} [container] - ?
+ * @returns {void} ?
  */
 function toggleToFromAccordions(container) {
 	const element = container || document.body;

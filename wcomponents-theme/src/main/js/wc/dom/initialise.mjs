@@ -26,8 +26,8 @@ const instance = {
 	/**
 	 * Register an initialise routine.
 	 * @function  module:wc/dom/initialise.register
-	 * @param {Object} control An instance of a component which is being initialised.
-	 * @returns {Object} The control that was passed in.
+	 * @param {object} control An instance of a component which is being initialised.
+	 * @returns {object} The control that was passed in.
 	 */
 	register: function(control) {
 		if (control.initialise) {
@@ -74,7 +74,7 @@ const instance = {
 	 * Get a meaningful String representation of the subscribers.
 	 * @function module:wc/dom/initialise.toString
 	 * @public
-	 * @returns {String} ?
+	 * @returns {string} ?
 	 */
 	toString: () => observer?.toString() || "no subscribers",
 
@@ -122,7 +122,7 @@ const instance = {
  * @private
  * @param {module:wc/Observer#PRIORITY} priority High is init routines, medium is 'body listeners', low is
  *    callbacks.
- * @param {String} [method] The name of the method to call if listener is an object rather than a function.
+ * @param {string} [method] The name of the method to call if listener is an object rather than a function.
  * @param {function|Object} [listener] A function or an object which implements the "initialise" interface.
  * @returns {Function} Returns listener if it was able to subscribe to an instance of {@link module:wc/Observer}.
  */

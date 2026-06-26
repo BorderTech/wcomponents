@@ -24,7 +24,8 @@ import getMimeType from "wc/file/getMimeType.mjs";
  * @alias module:wc/file/accepted
  * @requires module:wc/file/getMimeType
  * @param {HTMLInputElement} element A "file input" element.
- * @param [fileInfo] The array of files to check, inside an object under "files" property
+ * @param {any} [fileInfo] The array of files to check, inside an object under "files" property
+ * @returns {any} ?
  */
 export default function accepted(element, fileInfo) {
 	let acceptedType = element.accept;

@@ -27,7 +27,7 @@ const instance = {
 	 * @function module:wc/ui/modalShim.setModal
 	 * @param {Element} [activeRegion] The region the user is allowed to interact with. Defaults to the shim
 	 *    (i.e. no interaction allowed).
-	 * @param {String} [className] Additional class to add to the shim.
+	 * @param {string} [className] Additional class to add to the shim.
 	 */
 	setModal: function(activeRegion, className) {
 		const shimElement = getShim(true);
@@ -139,8 +139,8 @@ function keyEvent($event) {
 
 /**
  * Returns truthy if the container contains, or is identical to, the element.
- * @param container The candidate for container.
- * @param element The candidate for contained.
+ * @param {any} container The candidate for container.
+ * @param {any} element The candidate for contained.
  * @returns {number | true} Truthy if container contains, or is, element.
  */
 function elementContains(container, element) {
@@ -178,7 +178,7 @@ function touchstartEvent($event) {
 
 /**
  * Attaches or detaches the events required by the modal shim.
- * @param {Boolean} [add] true to add the events, otherwise remove them.
+ * @param {boolean} [add] true to add the events, otherwise remove them.
  */
 function addRemoveEvents(add) {
 	const HAS_EVENTS = "wc/ui/modalShim.wired";

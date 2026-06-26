@@ -50,7 +50,7 @@ export default {
 	/**
 	 * Converts a generic binary blob to a File blob.
 	 * @param {Blob} blob The binary blob.
-	 * @param {Object} [config] Attempt to set some of the file properties such as "type", "name".
+	 * @param {object} [config] Attempt to set some of the file properties such as "type", "name".
 	 * @returns {File} The File blob.
 	 * TO-DO: Revisit this
 	 */

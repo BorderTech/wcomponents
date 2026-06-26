@@ -25,6 +25,7 @@ const DATE_FIELD = dateField.getWidget();
  * @param {Element} element A WDateField
  * @returns {boolean} true if constraint not met; false if constraints met, no constraints or date field is empty
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function isDateInvalid(element) {
 	const LABEL_PLACEHOLDER = "%s";
 	let flag, invalid = false,
@@ -94,7 +95,7 @@ function isDateInvalid(element) {
  * @function
  * @private
  * @param {Element} element The element in an invalid state.
- * @returns {String} The formatted validation message.
+ * @returns {string} The formatted validation message.
  */
 function messageFunction(element) {
 	const textbox = dateField.getTextBox(element);
@@ -192,7 +193,7 @@ function changeEvent($event) {
 }
 
 /**
- * @param {UIEvent & { target: HTMLElement }} $event
+ * @param {UIEvent & { target: HTMLElement }} $event - ?
  */
 function blurEvent($event) {
 	const element = $event.target.closest(DATE_FIELD);

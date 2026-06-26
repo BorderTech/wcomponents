@@ -72,7 +72,7 @@ const instance = {
 	 * Show an element in the UI.
 	 * @function module:wc/dom/shed.show
 	 * @param {Element} element The element to show.
-	 * @param {Boolean} [quiet] If true then do not publish this show event.
+	 * @param {boolean} [quiet] If true then do not publish this show event.
 	 */
 	show: function (element, quiet) {
 		shedHelper(element, HIDDEN, null);
@@ -85,7 +85,7 @@ const instance = {
 	 * Hide an element in the UI.
 	 * @function module:wc/dom/shed.hide
 	 * @param {Element} element The element to hide.
-	 * @param {Boolean} [quiet] If true then do not publish this hide event.
+	 * @param {boolean} [quiet] If true then do not publish this hide event.
 	 */
 	hide: function (element, quiet) {
 		shedHelper(element, HIDDEN, HIDDEN);
@@ -99,7 +99,7 @@ const instance = {
 	 * Enable an element in the UI.
 	 * @function module:wc/dom/shed.enable
 	 * @param {Element} element The element to enable.
-	 * @param {Boolean} [quiet] If true then do not publish this enable event.
+	 * @param {boolean} [quiet] If true then do not publish this enable event.
 	 */
 	enable: function (element, quiet) {
 		disabledMandatoryHelper(element, NATIVE_STATE[DISABLED], true);
@@ -115,7 +115,7 @@ const instance = {
 	 * optionally publish this.
 	 * @function module:wc/dom/shed.disable
 	 * @param {Element} element The element to disable.
-	 * @param {Boolean} [quiet] If true then do not publish this disable event.
+	 * @param {boolean} [quiet] If true then do not publish this disable event.
 	 */
 	disable: function (element, quiet) {
 		disabledMandatoryHelper(element, NATIVE_STATE[DISABLED], false);
@@ -130,7 +130,7 @@ const instance = {
 	 * natively selectable elements but that is not a requirement.
 	 * @function module:wc/dom/shed.deselect
 	 * @param {Element} element The element to deselect.
-	 * @param {Boolean} [quiet] If true then do not publish this deselect event.
+	 * @param {boolean} [quiet] If true then do not publish this deselect event.
 	 */
 	deselect: function (element, quiet) {
 		selectHelper(instance.state.DESELECTED, element);
@@ -145,7 +145,7 @@ const instance = {
 	 * natively selectable elements but that is not a requirement.
 	 * @function module:wc/dom/shed.select
 	 * @param {Element} element The element to select.
-	 * @param {Boolean} [quiet] If true then do not publish this select event.
+	 * @param {boolean} [quiet] If true then do not publish this select event.
 	 */
 	select: function (element, quiet) {
 		selectHelper(instance.state.SELECTED, element);
@@ -159,7 +159,7 @@ const instance = {
 	 * Set a selectable element's selected state to indeterminate.
 	 * @function module:wc/dom/shed.mix
 	 * @param {Element} element The element to set to indeterminate.
-	 * @param {Boolean} [quiet] If true then do not publish this event.
+	 * @param {boolean} [quiet] If true then do not publish this event.
 	 */
 	mix: function (element, quiet) {
 		selectHelper(instance.state.MIXED, element);
@@ -173,7 +173,7 @@ const instance = {
 	 * Expand an element in the UI.
 	 * @function module:wc/dom/shed.expand
 	 * @param {Element} element The element to expand.
-	 * @param {Boolean} [quiet] If true then do not publish this event.
+	 * @param {boolean} [quiet] If true then do not publish this event.
 	 */
 	expand: function (element, quiet) {
 		if (expandWithOpen(element)) {
@@ -191,7 +191,7 @@ const instance = {
 	 * Collapse an element in the UI.
 	 * @function module:wc/dom/shed.collapse
 	 * @param {Element} element The element to collapse.
-	 * @param {Boolean} [quiet] If true then do not publish this event.
+	 * @param {boolean} [quiet] If true then do not publish this event.
 	 */
 	collapse: function (element, quiet) {
 		if (expandWithOpen(element)) {
@@ -209,7 +209,7 @@ const instance = {
 	 * Set an element to be mandatory.
 	 * @function module:wc/dom/shed.mandatory
 	 * @param {Element} element The element to make mandatory.
-	 * @param {Boolean} [quiet] If true then do not publish this event.
+	 * @param {boolean} [quiet] If true then do not publish this event.
 	 */
 	mandatory: function (element, quiet) {
 		disabledMandatoryHelper(element, REQUIRED, false);
@@ -223,7 +223,7 @@ const instance = {
 	 * Set an element to be optional.
 	 * @function module:wc/dom/shed.optional
 	 * @param {Element} element The element to make optional.
-	 * @param {Boolean} [quiet] If true then do not publish this event.
+	 * @param {boolean} [quiet] If true then do not publish this event.
 	 */
 	optional: function (element, quiet) {
 		disabledMandatoryHelper(element, REQUIRED, true);
@@ -238,7 +238,7 @@ const instance = {
 	 * @function module:wc/dom/shed.hasDisabledAncestor
 	 * @param {Node} node The element to test
 	 * @param {string} [stopAtSelector] defines where we stop looking. If not defined we stop at BODY.
-	 * @returns {Boolean} true if the element has a disabled ancestor.
+	 * @returns {boolean} true if the element has a disabled ancestor.
 	 */
 	hasDisabledAncestor: function(node, stopAtSelector) {
 		return hasAncestorInState(node, "isDisabled", stopAtSelector);
@@ -285,6 +285,7 @@ const instance = {
 	 *   for example, the element being tested is not in the DOM.
 	 * @returns {boolean} true if the element is hidden.
 	 */
+	// eslint-disable-next-line sonarjs/cognitive-complexity
 	isHidden: function (node, onlyHiddenAttribute, ignoreOffset) {
 		let result,
 			_el = node;
@@ -385,6 +386,7 @@ const instance = {
 	 *    MIXED (which equates to false) if mixed; otherwise
 	 *    DESELECTED (which equates to false).
 	 */
+	// eslint-disable-next-line sonarjs/cognitive-complexity
 	isSelected: function (element) {
 		const role = $role.get(element, true);
 		if (role && !(impliedAria.supportsNativeState(element, ANY_SEL_STATE))) {
@@ -428,9 +430,9 @@ const instance = {
 	/**
 	 * Holds a map for indicating/getting the selected state of a component.
 	 * @constant module:wc/dom/shed.state
-	 * @type {Object}
-	 * @property {Boolean} SELECTED  true,
-	 * @property {Boolean} DESELECTED false,
+	 * @type {object}
+	 * @property {boolean} SELECTED  true,
+	 * @property {boolean} DESELECTED false,
 	 * @property {number} MIXED: 0
 	 */
 	state: {
@@ -458,11 +460,11 @@ const instance = {
 	 * Toggles a state of an element.
 	 * @function module:wc/dom/shed.toggle
 	 * @param {Element} element The element to act on.
-	 * @param {String} action The state to toggle, any one of {@link module:wc/dom/shed~actions}.
+	 * @param {string} action The state to toggle, any one of {@link module:wc/dom/shed~actions}.
 	 *   Note that the action passed just gives the "flavor" of the toggle. For example, it does not matter
 	 *   whether you pass SHOW or HIDE, they are equivalent for toggling. Note that tri-state checkboxes cycle
 	 *   from mixed to UNCHECKED. This is specified here: http://www.w3.org/TR/wai-aria-practices/#checkbox
-	 * @param {Boolean} [quiet] If true then do not publish.
+	 * @param {boolean} [quiet] If true then do not publish.
 	 */
 	toggle: function (element, action, quiet) {
 		let func;
@@ -492,7 +494,7 @@ const instance = {
 	/**
 	 * Unsubscribe from a SHED action.
 	 * @function module:wc/dom/shed.unsubscribe
-	 * @param {String} type The action you want to unsubscribe from (one of shed.actions)
+	 * @param {string} type The action you want to unsubscribe from (one of shed.actions)
 	 * @param {Function} subscriber The subscriber to unsubscribe.
 	 */
 	unsubscribe: function (type, subscriber) {
@@ -512,11 +514,13 @@ Object.keys(actions).forEach(function(key) {
 });
 
 /**
- *
- * @param {Element} element
- * @param STATE
- * @param reverse
+ * ?
+ * @param {Element} element - ?
+ * @param {string} STATE - ?
+ * @param {any} reverse - ?
+ * @returns {void} ?
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function disabledMandatoryHelper(element, STATE, reverse) {
 	const _nativeState = NATIVE_STATE[STATE],
 		_ariaState = ARIA_STATE[STATE],
@@ -602,7 +606,7 @@ function applyStateToChildren(element, STATE, reverse) {
 /**
  * helper for determining if an element show be expanded using the OPEN attribute
  * rather than the HIDDEN attribute
- * @param {Element} element
+ * @param {Element} element - ?
  */
 function expandWithOpen(element) {
 	return element?.matches("details");
@@ -623,6 +627,7 @@ function expandWithOpen(element) {
  * @returns {boolean|number} A property of {@link module:wc/dom/shed.state} or null if it does not
  *     natively support a selected state. Note that that mixed (indeterminate) and checked is ignored.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function getSetNativeSelected(element, value, mix) {
 	let result = false;
 	let attribute;
@@ -666,9 +671,9 @@ function getSetNativeSelected(element, value, mix) {
 }
 
 /**
- * @param {Node} node
- * @param {string} state
- * @param {string} stopAtSelector
+ * @param {Node} node - ?
+ * @param {string} state - ?
+ * @param {string} stopAtSelector - ?
  * @return {boolean}
  */
 function hasAncestorInState(node, state, stopAtSelector = "body") {
@@ -706,7 +711,7 @@ function setMyAttribute(element, attribute, value) {
 /**
  * helper for determining if an element show be shown using the OPEN attribute
  * rather than the HIDDEN attribute
- * @param {Element} element
+ * @param {Element} element - ?
  */
 function showWithOpen(element) {
 	return element.matches("dialog");
@@ -717,7 +722,7 @@ function showWithOpen(element) {
  * @function
  * @private
  * @param {Element} element The element which we will act on.
- * @param {String} attribute The attribute to set on the element.
+ * @param {string} attribute The attribute to set on the element.
  * @param {string|boolean|number} [action] The value of the attribute to set.
  */
 function shedHelper(element, attribute, action) {
@@ -783,11 +788,11 @@ function selectHelper(action, element) {
  * Event to observer API adapter factory.
  * This returns event handler wrappers that adapt from the new custom event API to the old pub/sub API.
  * We should delete this when all subscribers are listening to custom events (i.e. you delete shed.subscribe).
- * @param {function} subscriber
+ * @param {function} subscriber - ?
  * @returns {function} Intercepts custom events and calls the subscriber in the old way.
  */
 function eventToObserverAdapter(subscriber) {
-	/** @param {CustomEvent} $event */
+	/** @param {CustomEvent} $event - ? */
 	return ($event) => {
 		subscriber($event.target, $event.detail.action);
 	};
@@ -797,16 +802,16 @@ export default instance;
 
 /**
  * The actions supported by the module.
- * @typedef {Object} module:wc/dom/shed~actions
- * @property {String} SHOW "show"
- * @property {String} HIDE "hide"
- * @property {String} ENABLE "enable"
- * @property {String} DISABLE "disable"
- * @property {String} DESELECT "deselect"
- * @property {String} SELECT "select"
- * @property {String} MIX "mix"
- * @property {String} EXPAND "expand"
- * @property {String} COLLAPSE "collapse"
- * @property {String} MANDATORY "mandatory"
- * @property {String} OPTIONAL "optional"
+ * @typedef {object} module:wc/dom/shed~actions
+ * @property {string} SHOW "show"
+ * @property {string} HIDE "hide"
+ * @property {string} ENABLE "enable"
+ * @property {string} DISABLE "disable"
+ * @property {string} DESELECT "deselect"
+ * @property {string} SELECT "select"
+ * @property {string} MIX "mix"
+ * @property {string} EXPAND "expand"
+ * @property {string} COLLAPSE "collapse"
+ * @property {string} MANDATORY "mandatory"
+ * @property {string} OPTIONAL "optional"
  */

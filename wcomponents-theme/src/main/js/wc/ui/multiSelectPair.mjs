@@ -217,6 +217,7 @@ function getAction(element) {
  * @private
  * @param {HTMLSelectElement} fromList The select from which the selected options are removed.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function addRemoveSelected(fromList) {
 	const oppositeType = getOppositeListType(fromList),
 		toList = instance.getListByType(fromList, oppositeType),
@@ -343,8 +344,8 @@ function removeSelected(element) {
  * Helper for {@link addAll} and {@link removeAll} which actual does the option move.
  * @function
  * @private
- * @param {HTMLSelectElement} selectList The list from which we are moving options.
- * @param {Function} action The function to apply to the options ({@link module:wc/ui/multiSelectPair~addSelected}
+ * @param {HTMLSelectElement} selectList - The list from which we are moving options.
+ * @param {Function} action - The function to apply to the options ({@link module:wc/ui/multiSelectPair~addSelected}
  * or {@link module:wc/ui/multiSelectPair~removeSelected}).
  */
 function actionAllOptions(selectList, action) {

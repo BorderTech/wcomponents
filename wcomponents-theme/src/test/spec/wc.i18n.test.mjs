@@ -39,7 +39,7 @@ describe("wc/i18n", function() {
 		const key = "chars_remaining",
 			result = i18n.get(key);
 
-		expect(result.length > 0).toBeTrue();
+		expect(result.length).toBeGreaterThan(0);
 	});
 
 	it("testGetWithFormattingArgs", function() {
@@ -80,7 +80,7 @@ describe("wc/i18n", function() {
 		const key = "fukung_kungfu",
 			result = i18n.get(key);
 
-		expect(result === key).toBeTrue();
+		expect(result).toBe(key);
 	});
 
 	it("testGetWithFormattingArgsAndZero", function() {
@@ -133,7 +133,7 @@ describe("wc/i18n", function() {
 				 * for one that we know exists.
 				 */
 				i18n.translate(key).then(function(result) {
-					expect(result.length > 0).toBeTrue();
+					expect(result.length).toBeGreaterThan(0);
 					win();
 				}, lose);
 			} catch (ex) {
@@ -247,7 +247,7 @@ describe("wc/i18n", function() {
 				 * ask for a message that does not exist.
 				 */
 				i18n.translate(key).then(function(result) {
-					expect(result === key).toBeTrue();
+					expect(result).toBe(key);
 					win();
 				}, lose);
 			} catch (ex) {

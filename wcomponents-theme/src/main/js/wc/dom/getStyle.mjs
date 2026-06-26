@@ -11,12 +11,13 @@ import color from "wc/dom/color.mjs";
  * Colors will be returned as RGB (or RGBA) objects, for example {r:255 g:255 b:255} OR {r:255 g:255 b:255, a:0}
  * @alias module:wc/dom/getStyle
  * @param {Element} element The element to test.
- * @param {String} cssRule The cssRule we want to find the style of (eg, 'color', 'display', 'position')
- * @param {Boolean} [includeUnits] If true include the unit part of the CSS response (eg 2em) otherwise strip it (eg 2).
- * @param {Boolean} [notAColor] A shorthand to cut off further testing if we KNOW when calling this function that the style property we are after
+ * @param {string} cssRule The cssRule we want to find the style of (eg, 'color', 'display', 'position')
+ * @param {boolean} [includeUnits] If true include the unit part of the CSS response (eg 2em) otherwise strip it (eg 2).
+ * @param {boolean} [notAColor] A shorthand to cut off further testing if we KNOW when calling this function that the style property we are after
  *    is definitely NOT a color.
  * @returns {string|{ r, g, b, a? }|null} The value of the CSS rule if found (even if "") If the cssRule is not found or cannot be determined return null.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function getStyle(element, cssRule, includeUnits, notAColor) {
 	let result = null;
 

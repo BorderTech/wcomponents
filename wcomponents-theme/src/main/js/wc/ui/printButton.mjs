@@ -27,7 +27,7 @@ initialise.register({
 	/**
 	 * Initialise print button functionality.
 	 * @param {HTMLBodyElement} element The element being initialised: document.body.
-	 * @returns {Object} ?
+	 * @returns {object} ?
 	 */
 	initialise: (element) => event.add(element, "click", clickEvent)
 });

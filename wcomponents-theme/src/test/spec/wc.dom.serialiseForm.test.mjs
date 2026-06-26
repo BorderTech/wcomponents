@@ -80,7 +80,7 @@ describe("wc/dom/serialize", () => {
 		element = getSelect(ownerDocument.body, "S2");
 		element.options[1].selected = true;
 		element.options[2].selected = true;
-		let result = /** @type Object */(serialize.serialize(form, null, true));
+		let result = /** @type {object} */(serialize.serialize(form, null, true));
 		// result = result.replace("%0D%0A", "%0A");  // replace \n\r with \n so browsers behave the same
 
 		for (let prop in result) {
@@ -196,7 +196,7 @@ describe("wc/dom/serialize", () => {
 	it("testDeserializeserializeDeserializeWithObject", function() {
 		const tempContainer = makeTempContainer();
 		serialize.deserialize(SERIALIZED_OBJ_EXPECTED, tempContainer);
-		const result = /** @type Object */(serialize.serialize(tempContainer.querySelectorAll(INPUTS), false, true));
+		const result = /** @type {object} */(serialize.serialize(tempContainer.querySelectorAll(INPUTS), false, true));
 
 		expect(SERIALIZED_OBJ_EXPECTED).withContext("Reserializing a deserialized object should get back to the same object").toEqual(result);
 	});
@@ -204,7 +204,7 @@ describe("wc/dom/serialize", () => {
 	it("testDeserializeserializeDeserializeWithStringToObject", function() {
 		const tempContainer = makeTempContainer();
 		serialize.deserialize(STRING_EXPECTED, tempContainer);
-		const result = /** @type Object */(
+		const result = /** @type {object} */(
 			serialize.serialize(tempContainer.querySelectorAll(INPUTS), false, true));
 
 		expect(SERIALIZED_OBJ_EXPECTED).withContext("Reserializing a deserialized string to an object should get back to the object").toEqual(result);

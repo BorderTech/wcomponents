@@ -25,7 +25,7 @@ const { console } = globalThis;
  });
  * Note that you can provide either a string or function that will be passed the raw XHR response
  * and is expected to return a string.
- * @param {Object} [messages] Optionally provide the messages object directly to this function.
+ * @param {object} [messages] Optionally provide the messages object directly to this function.
  */
 
 /**
@@ -71,7 +71,7 @@ function getErrorMessage(response) {
 
 /**
  * Gets application specific message overrides, if configured.
- * @returns {Object} Message overrides for specific status codes, if set.
+ * @returns {object} Message overrides for specific status codes, if set.
  * If there is a conflict then the message set in the messages argument takes precedence over those in module config.
  */
 function getMessageOverrides() {

@@ -4,9 +4,10 @@ const { console, document } = globalThis;
 
 /**
  * Helper for public request method.
- * @param href - ?
- * @param as - ?
- * @param rel - ?
+ * @param {string} href - ?
+ * @param {string} as - ?
+ * @param {string} rel - ?
+ * @returns {void} ?
  */
 function addLink(href, as, rel) {
 	if (href && document?.head) {
@@ -60,7 +61,7 @@ export default {
 	 * - Require will actually execute the script.
 	 * - Require will also fetch the script's dependencies.
 	 * Most of the time you want `require`.
-	 * @param moduleId The module (exactly as you would pass to the loader).
+	 * @param {string} moduleId The module (exactly as you would pass to the loader).
 	 */
 	jsModule: function(moduleId) {
 		console.log("TODO revisit this entire prefetch module, ignored prefetch for", moduleId);

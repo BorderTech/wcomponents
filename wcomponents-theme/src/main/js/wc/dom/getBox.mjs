@@ -3,7 +3,7 @@
  * (these are most often used and are not supported in old versions of IE).
  * @alias module:wc/dom/getBox
  * @param {Element} element The element of which we need the box.
- * @param {Boolean} [round] Should we round the result before returning it?
+ * @param {boolean} [round] Should we round the result before returning it?
  * @returns {module:wc/dom/getBox~box} A dimension object as per getBoundingClientRect. Properties width and height
  *   are added if they are undefined. NOTE: IE8 will throw an error if you try to add width and/or height properties
  *   directly to the result of getBoundingClientRect, this is why we return another object.
@@ -30,7 +30,7 @@ export default function getBox(element, round) {
 }
 
 /**
- * @typedef {Object} module:wc/dom/getBox~box
+ * @typedef {object} module:wc/dom/getBox~box
  * @property {number} left The left edge of the box.
  * @property {number} right The right edge of the box.
  * @property {number} top The top edge of the box.

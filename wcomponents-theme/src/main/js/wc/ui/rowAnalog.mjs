@@ -38,7 +38,7 @@ class RowAnalog extends AriaAnalog {
 	 * id with the property value being the id of the last activated item. Needed for correct implementation of
 	 * group selection (such as with SHIFT+ Click).
 	 * @var
-	 * @type {Object}
+	 * @type {object}
 	 * @override
 	 */
 	lastActivated = {};
@@ -59,8 +59,9 @@ class RowAnalog extends AriaAnalog {
 	 * @function
 	 * @override
 	 * @param {Element} element the element being acted upon
-	 * @param {String} action the shed action
+	 * @param {string} action the shed action
 	 */
+	// eslint-disable-next-line sonarjs/cognitive-complexity
 	shedObserver(element, action) {
 		const { SELECT, DESELECT } = shed.actions;
 		if (element && (action === SELECT || action === DESELECT) && element.matches(this.ITEM)) {

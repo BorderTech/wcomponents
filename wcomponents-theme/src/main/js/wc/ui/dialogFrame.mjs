@@ -133,7 +133,7 @@ const instance = {
 		 * @public
 		 * @param {number} [width] The width of the dialog.
 		 * @param {number} [height] The height of the dialog.
-		 * @param {boolean} [animate]
+		 * @param {boolean} [animate] - ?
 		 */
 		(width, height, animate) => {
 			const dialog = instance.getDialog();
@@ -185,8 +185,8 @@ const instance = {
 	 * Reset the dialog content wrapper.
 	 * @function module:wc/ui/dialogFrame.resetContent
 	 * @public
-	 * @param {Boolean} [keepContent] Do we want to reset the content of the dialog?
-	 * @param {String} [id] The id to set on the content.
+	 * @param {boolean} [keepContent] Do we want to reset the content of the dialog?
+	 * @param {string} [id] The id to set on the content.
 	 */
 	resetContent: function (keepContent, id) {
 		const content = this.getContent();
@@ -208,7 +208,7 @@ const instance = {
  * @function
  * @private
  * @param {HTMLDialogElement} dialog the dialog element to test
- * @returns {Boolean} true if the dialog is modal.
+ * @returns {boolean} true if the dialog is modal.
  */
 function isModalDialog(dialog) {
 	return $role.get(dialog) === "alertdialog";
@@ -218,7 +218,7 @@ function isModalDialog(dialog) {
  * Indicates if the dialogFrame may support move and resize based on viewport size.
  * @function
  * @private
- * @returns {Boolean} true is move/resize are supportable.
+ * @returns {boolean} true is move/resize are supportable.
  */
 function canMoveResize() {
 	const conf = wcconfig.get("wc/ui/dialogFrame", {
@@ -234,7 +234,7 @@ function canMoveResize() {
 /**
  * @function
  * @private
- * @returns {Boolean} true if the dialog has any content in an aria-busy state.
+ * @returns {boolean} true if the dialog has any content in an aria-busy state.
  */
 function hasBusyContent() {
 	const content = instance.getContent();
@@ -260,7 +260,7 @@ function getDlgForm(dto) {
 /**
  * Helper for `openDlg`.
  * This does the actual heavy lifting of opening a dialog.
- * @param dto The configuration data for this dialog.
+ * @param {any} dto The configuration data for this dialog.
  * @private
  * @function
  */
@@ -402,9 +402,9 @@ function initDialogDimensions(dialog, obj) {
 }
 
 /**
- * @param {number} width
- * @param {number} height
- * @return {{width: number, height: number, topOffsetPC: number}}
+ * @param {number} width - ?
+ * @param {number} height - ?
+ * @return {{width: number, height: number, topOffsetPC: number}} ?
  */
 function getResizeConfig(width, height) {
 	const globalConf = wcconfig.get("wc/ui/dialogFrame", {});
@@ -460,7 +460,7 @@ function initDialogPosition(dialog, obj) {
  * Builds the dialog shell when required. This is only called once when the first dialog is first opened.
  * @function
  * @private
- * @param {String} [formId] The id of the WApplication (HTML FORM) to which the dialog belongs.
+ * @param {string} [formId] The id of the WApplication (HTML FORM) to which the dialog belongs.
  * @returns {Promise<HTMLDialogElement>} resolved with the dialog element.
  */
 function buildDialog(formId) {
@@ -564,7 +564,7 @@ function ajaxSubscriber(element) {
  * @function
  * @private
  * @param {HTMLDialogElement} element the dialog frame to reposition.
- * @param {Object} obj a description of the dialog.
+ * @param {object} obj a description of the dialog.
  * @param {number} [obj.width] the dialog width
  * @param {number} [obj.height] the dialog height
  * @param {number} [obj.topOffsetPC] the offset from the top of the dialog
@@ -591,7 +591,7 @@ function setPositionBySize(element, obj, animate) {
  * Helper for `openDlg`.
  * Initializes the dialog's control buttons.
  * @param {HTMLDialogElement} dialog The dialog container.
- * @param obj The registry item that contains configuration data for this dialog.
+ * @param {any} obj The registry item that contains configuration data for this dialog.
  * @private
  * @function
  */
@@ -695,8 +695,8 @@ function tabstopNodeFilter(node) {
  * @private
  * @param {Element} element The target element.
  * @param {HTMLDialogElement} dialog A dialog frame.
- * @param {Boolean} hasShift Was teh SHIFT key down during the event?
- * @returns {Boolean} Returns true if we are refocussing the dialog (due to trying to TAB out of it).
+ * @param {boolean} hasShift Was teh SHIFT key down during the event?
+ * @returns {boolean} Returns true if we are refocussing the dialog (due to trying to TAB out of it).
  */
 function tabKeyHelper(element, dialog, hasShift) {
 	let result = false;
@@ -832,22 +832,22 @@ initialise.register({
 export default instance;
 
 /**
- * @typedef {Object} module:wc/ui/dialogFrame~dto An object which stores information about a dialog.
- * @property {String} id The content id. If this is not set everything will fail.
- * @property {String} [formId] The id of the form the dialog is in (more useful than you may think). If this is not set we will use the LAST
+ * @typedef {object} module:wc/ui/dialogFrame~dto An object which stores information about a dialog.
+ * @property {string} id The content id. If this is not set everything will fail.
+ * @property {string} [formId] The id of the form the dialog is in (more useful than you may think). If this is not set we will use the LAST
  *   form in the current view. You may not want this!
- * @property {String} openerId The ID of the control which is opening the dialog.
+ * @property {string} openerId The ID of the control which is opening the dialog.
  * @property {number} [width] The dialog width in px.
  * @property {number} [height] The dialog height in px.
- * @property {Boolean} [resizeable] Is the dialog resizeable?
- * @property {Boolean} [modal] Is the dialog modal?
- * @property {String} [title] The WDialog title. If not set a default title is used.
- * @property {String} [className] The WDialog additional css class.
- * @property {Boolean} [open] If true then the dialog is to be open on page load. This is passed in as part ofthe registration object but is
+ * @property {boolean} [resizeable] Is the dialog resizeable?
+ * @property {boolean} [modal] Is the dialog modal?
+ * @property {string} [title] The WDialog title. If not set a default title is used.
+ * @property {string} [className] The WDialog additional css class.
+ * @property {boolean} [open] If true then the dialog is to be open on page load. This is passed in as part ofthe registration object but is
  *   not stored in the registry.
  * @property {Function} onclose Called when the dialog is closed.
- * @typedef {Object} wc/ui/dialogFrame~config An object which allows override of aspects of the dialogFrame
- * @property {String} [vpUtil="isPhonelike"] A name of a public member of {@link module:wc/ui/viewportUtils. This should only be set if a Sass
+ * @typedef {object} wc/ui/dialogFrame~config An object which allows override of aspects of the dialogFrame
+ * @property {string} [vpUtil="isPhonelike"] A name of a public member of {@link module:wc/ui/viewportUtils. This should only be set if a Sass
  * override is used to change the point at which dialogs become full screen.
  * @property {number} [offset=0.33] the vertical offset to apply when opening a dialog. This must be between 0 and 1 and should be between 0.1
  * and 0.5.

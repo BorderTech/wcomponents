@@ -1,7 +1,7 @@
 /**
  * Returns the difference between two arrays.
- * @param arr1 The array to compare against.
- * @param arr2 The array to compare.
+ * @param {any} arr1 The array to compare against.
+ * @param {any} arr2 The array to compare.
  * @returns {Array} The items found in arr1 but not in arr2.
  */
 export default function diff(arr1, arr2) {

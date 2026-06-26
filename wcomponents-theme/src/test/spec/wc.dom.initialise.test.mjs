@@ -74,8 +74,8 @@ describe("wc/dom/initialise", () => {
 		const expected = 3;
 
 		/**
-		 * @param {number} expectedOrder
-		 * @param {string} name
+		 * @param {number} expectedOrder - ?
+		 * @param {string} name - ?
 		 * @returns {function(): void} ?
 		 */
 		function callbackFactory(expectedOrder, name) {
@@ -109,9 +109,9 @@ describe("wc/dom/initialise", () => {
 		const expected = 4;
 
 		/**
-		 * @param {number} expectedOrder
-		 * @param {string} name
-		 * @param {function} [func]
+		 * @param {number} expectedOrder - ?
+		 * @param {string} name - ?
+		 * @param {function} [func] - ?
 		 * @returns {function(): void} ?
 		 */
 		function callbackFactory(expectedOrder, name, func) {

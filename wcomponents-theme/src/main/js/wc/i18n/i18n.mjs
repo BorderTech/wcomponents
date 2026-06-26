@@ -9,8 +9,8 @@ const { console } = globalThis;
 
 /**
  *
- * @param key
- * @param args
+ * @param {any} key - ?
+ * @param {any} args - ?
  * @return {string|string[]}
  */
 const noop = function(key, ...args) {
@@ -46,7 +46,7 @@ const instance = {
 	 * Gets an internationalized string/message from the resource bundle.
 	 * @function module:wc/i18n/i18n.get
 	 * @public
-	 * @param {String|String[]} key A message key, i.e. the key of an i18n key/value pair.
+	 * @param {string | string[]} key A message key, i.e. the key of an i18n key/value pair.
 	 *    If an array is provided then each item is taken to be a key. The promise will be resolved with
 	 *    an array of translations in the order they appeared in the key array.
 	 *    Each key will be passed the same arguments, it probably mainly makes sense when there are no args.
@@ -75,7 +75,7 @@ const instance = {
 	/**
 	 * Determine the language of the document.
 	 * @param {HTMLElement} [element] Optionally provide a context element which will take precedence over the documentElement.
-	 * @returns {String} the current document language.
+	 * @returns {string} the current document language.
 	 */
 	_getLang: function(element) {
 		/*
@@ -102,7 +102,7 @@ const instance = {
 	},
 	/**
 	 * Initialize this module.
-	 * @param {Object} [config] Configuration options, if provided FORCES initialize even if it has already run.
+	 * @param {object} [config] Configuration options, if provided FORCES initialize even if it has already run.
 	 * @returns {Promise} resolved when COMPLETELY initialized.
 	 */
 	initialize: function(config) {
@@ -127,11 +127,11 @@ function translatorFactory(funcTranslate) {
 	 * Gets an internationalized string/message from the resource bundle.
 	 * @function module:wc/i18n/i18n.get
 	 * @public
-	 * @param {String} key A message key, i.e. the key of an i18n key/value pair.
+	 * @param {string} key A message key, i.e. the key of an i18n key/value pair.
 	 * @param {...any} [args] additional arguments will be used to printf format the string before it is
 	 *    returned. Note: It's up to the caller to ensure the correct args (type, number etc...) are passed to
 	 *    printf formatted messages.
-	 * @returns {String} The message value, i.e. the value of an i18n key/value pair. If not found will return an empty string.
+	 * @returns {string} The message value, i.e. the value of an i18n key/value pair. If not found will return an empty string.
 	 */
 	function translator(key, ...args) {
 		let result;
@@ -191,7 +191,7 @@ const backend = {
  * Gets i18next options taking into account defaults and overrides provided by the caller.
  * @function
  * @private
- * @param {Object} i18nConfig Override default options by setting corresponding properties on this object.
+ * @param {object} i18nConfig Override default options by setting corresponding properties on this object.
  */
 function getOptions(i18nConfig = {}) {
 	const basePath = i18nConfig.basePath || resource.getResourceUrl(),
@@ -216,7 +216,7 @@ function getOptions(i18nConfig = {}) {
  * Initialize the underlying i18next instance.
  * @function
  * @param {typeof i18next} engine The instance of i18next to initialize.
- * @param config Configuration options.
+ * @param {object} config Configuration options.
  * @return {Promise} when initialized
  */
 function initI18next(engine, config) {

@@ -10,7 +10,7 @@ const { NodeFilter } = globalThis;
  * @function
  * @private
  * @param {Element} element The start element
- * @returns {Number} NodeFilter.FILTER_ACCEPT if the node is hidden (and can therefore be removed).
+ * @returns {number} NodeFilter.FILTER_ACCEPT if the node is hidden (and can therefore be removed).
  */
 function treeWalkerFilter(element) {
 	if (shed.isHidden(element, false, true)) {
@@ -40,9 +40,9 @@ function removeInvisible(clone) {
 /**
  * @function module:wc/ui/getVisibleText
  * @param {Element} element The element for which we want to find the text.
- * @param {Boolean} [removeHint] If truthy also remove any HINT (applies only to labels).
- * @param {Boolean} [trim] if truthy then trim the content before returning it
- * @returns {String} The text content of the element without HINT or TOOLTIP.
+ * @param {boolean} [removeHint] If truthy also remove any HINT (applies only to labels).
+ * @param {boolean} [trim] if truthy then trim the content before returning it
+ * @returns {string} The text content of the element without HINT or TOOLTIP.
  */
 function getVisibleText(element, removeHint, trim) {
 	/** @type {HTMLElement} */

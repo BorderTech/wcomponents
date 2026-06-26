@@ -15,7 +15,7 @@ const diagnostic = {
 	/**
 	 * Describes the types of diagnostic widget available.
 	 * @constant
-	 * @type {Object}
+	 * @type {object}
 	 * @public
 	 */
 	LEVEL: {
@@ -32,7 +32,7 @@ const diagnostic = {
 	 * @function
 	 * @public
 	 * @param {number} [level=1] the diagnostic box level
-	 * @returns {String} an extension appropriate to the level
+	 * @returns {string} an extension appropriate to the level
 	 */
 	getIdExtension: function (level) {
 		const baseExtension = "_err";
@@ -57,7 +57,7 @@ const diagnostic = {
 	 * @function
 	 * @public
 	 * @param {number} [level] the severity level, one of {@link module:wc/dom/diagnostic.LEVEL} if not set then get the basic diagnostic box class
-	 * @returns {String} the value of the HTML class attribute for the required diagnostic box.
+	 * @returns {string} the value of the HTML class attribute for the required diagnostic box.
 	 */
 	getBoxClass: function (level) {
 		const baseClass = CLASS.DIAGNOSTIC;
@@ -74,8 +74,8 @@ const diagnostic = {
 
 	/**
 	 * Get the font awesome icon name for a diagnostic box of a given level.
-	 * @param {number} level
-	 * @param defaultLevel The ICON to pick if level not specified (e.g. LEVEL.ERROR or LEVEL.SUCCESS)
+	 * @param {number} level - ?
+	 * @param {number} defaultLevel The ICON to pick if level not specified (e.g. LEVEL.ERROR or LEVEL.SUCCESS)
 	 * @returns {string} ?
 	 */
 	getIconName: function (level, defaultLevel = this.LEVEL.ERROR) {
@@ -96,7 +96,7 @@ const diagnostic = {
 	/**
 	 * Find the "name" of the level from the numeric representation.
 	 * Note: this should match the value of the "data-wc-type" attribute.
-	 * @param {number} level
+	 * @param {number} level - ?
 	 * @return {string} The level name.
 	 */
 	getLevelName(level) {
@@ -118,9 +118,9 @@ const diagnostic = {
 	/**
 	 *
 	 * @param {string[]} messages The messages, marked up as you wish (probably with getMessageHtml).
-	 * @param targetId What is the diagnostic for
-	 * @param level The diagnostic level
-	 * @param levelIcon
+	 * @param {string} targetId What is the diagnostic for
+	 * @param {number | undefined} level The diagnostic level
+	 * @param {string} levelIcon - ?
 	 * @returns {{html: string, id: string}} ?
 	 */
 	getBoxHtml: function (messages, targetId, level, levelIcon) {
@@ -195,7 +195,7 @@ const diagnostic = {
 	 * @public
 	 * @param {Element} element the element to test
 	 * @param {module:wc/dom/diagnostic.LEVEL} [level] the severity level, one of {@link module:wc/dom/diagnostic.LEVEL} if not set then test for any diagnostic level
-	 * @returns {Boolean} ?
+	 * @returns {boolean} ?
 	 */
 	isOneOfMe: function (element, level) {
 		if (!element) {
@@ -217,7 +217,7 @@ const diagnostic = {
 	 * @public
 	 * @param {Element} element the element to test
 	 * @param {module:wc/dom/diagnostic.LEVEL} [level] the severity level, one of {@link module:wc/dom/diagnostic.LEVEL} if not set then test for any diagnostic level
-	 * @returns {Boolean} ?
+	 * @returns {boolean} ?
 	 */
 	isMessage: function (element, level) {
 		if (element?.nodeType !== Node.ELEMENT_NODE) {
@@ -248,7 +248,7 @@ const diagnostic = {
 	 * @public
 	 * @param {Element} diag the box to test
 	 * @throws {TypeError} if `diag` is not a diagnostic box
-	 * @returns {module:wc/dom/diagnostic.LEVEL|Number} the diagnostic level from module:wc/dom/diagnostic.LEVEL or -1 if not found
+	 * @returns {module:wc/dom/diagnostic.LEVEL | number} the diagnostic level from module:wc/dom/diagnostic.LEVEL or -1 if not found
 	 */
 	getLevel: function (diag) {
 		if (!diag?.matches(diagnosticSelector)) {

@@ -1,6 +1,6 @@
 /**
  * "Safe" conversion of HTML to DocumentFragment.
- * @param {String} html the HTML to convert to a document fragment
+ * @param {string} html the HTML to convert to a document fragment
  * TO-DO: Doubt we need this any more, deleted half of it already (also could use HTML templates)
  */
 export default function toDocFragment(html) {

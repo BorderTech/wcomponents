@@ -29,7 +29,7 @@ if (i18next.languages.length) {
 
 /**
  * Check for missing translations in this language's resource bundle.
- * @param {string} lang
+ * @param {string} lang - ?
  */
 function checkMissing(lang) {
 	const bundle = i18next.getResourceBundle(lang);
@@ -52,8 +52,8 @@ function checkMissing(lang) {
 /**
  * TO-DO display this in a more prominent manner.
  * We need a debug manager utility where I can just call something like debugManager.displayWarning("Foo is bar");
- * @param {string[]} missingKeys
- * @param {string} lang
+ * @param {string[]} missingKeys - ?
+ * @param {string} lang - ?
  */
 function handleMissing(missingKeys, lang) {
 	console.warn("Missing translations ", lang, missingKeys.join());

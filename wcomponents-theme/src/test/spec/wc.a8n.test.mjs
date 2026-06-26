@@ -15,7 +15,7 @@ describe("wc/a8n", () => {
 	/**
 	 * Checks that the DOM attribute is flagged as ready and that the module agrees.
 	 * @param {Function} [onReady] Will be called when ready is true
-	 * @returns {Boolean} true if a8n says DOM is ready.
+	 * @returns {boolean} true if a8n says DOM is ready.
 	 */
 	function isReady(onReady) {
 		const notify = function() {

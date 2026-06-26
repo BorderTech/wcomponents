@@ -161,7 +161,7 @@ public final class I18nUtilities {
 			}
 
 			try {
-				// TODO: This is slow
+				// TO-DO: This is slow
 				ResourceBundle bundle = ResourceBundle.getBundle(resourceBundleBaseName, effectiveLocale);
 				message = bundle.getString(text);
 			} catch (MissingResourceException e) {

@@ -109,8 +109,8 @@ function Ajax() {
 
 	/**
 	 * Called when the readystate of the request changes.
-	 * @param request The XHR created by ajaxRqst
-	 * @param config The config object as passed to ajaxRqst
+	 * @param {any} request The XHR created by ajaxRqst
+	 * @param {any} config The config object as passed to ajaxRqst
 	 * @function
 	 * @private
 	 * @returns {boolean} true when the request has been received.
@@ -149,9 +149,10 @@ function Ajax() {
 	/**
 	 * Handles errors by notifying errbacks and logging helpful diagnostics.
 	 * Note that XMLHTTPRequest provides no way of accessing the request headers.
-	 * @param request The XHR created by ajaxRqst
-	 * @param config The config object as passed to ajaxRqst
-	 * @param [ex] The original exception (if available)
+	 * @param {any} request The XHR created by ajaxRqst
+	 * @param {any} config The config object as passed to ajaxRqst
+	 * @param {any} [ex] The original exception (if available)
+	 * @returns {void} ?
 	 */
 	function logErrorAndNotify(request, config, ex) {
 		try {
@@ -176,8 +177,9 @@ function Ajax() {
 
 	/**
 	 * Invokes the error callback (possibly asynchronously) with a (hopefully) meaningful, internationalized message.
-	 * @param request The XHR created by ajaxRqst
+	 * @param {any} request The XHR created by ajaxRqst
 	 * @param {function} onError The error callback
+	 * @returns {void} ?
 	 */
 	function notifyError(request, onError) {
 		const fallbackMessage = "ERROR! Unable to communicate with server",
@@ -198,8 +200,9 @@ function Ajax() {
 
 	/**
 	 * Configure the request before the XHR is 'open'.
-	 * @param request The XHR created vy ajaxRqst
-	 * @param config The config object as passed to ajaxRqst
+	 * @param {any} request The XHR created vy ajaxRqst
+	 * @param {any} config The config object as passed to ajaxRqst
+	 * @returns {any} ?
 	 * @function
 	 * @private
 	 */
@@ -237,8 +240,9 @@ function Ajax() {
 
 	/**
 	 * Configure the request after the XHR is 'open'.
-	 * @param request The XHR created vy ajaxRqst
-	 * @param config The config object as passed to ajaxRqst
+	 * @param {any} request The XHR created vy ajaxRqst
+	 * @param {any} config The config object as passed to ajaxRqst
+	 * @returns {void} ?
 	 * @function
 	 * @private
 	 */
@@ -313,10 +317,10 @@ function Ajax() {
 
 	/**
 	 * @var
-	 * @type {Object}
+	 * @type {object}
 	 * @public
-	 * @property {String} XML Response type "responseXML"
-	 * @property {String} TEXT Response type "responseText"
+	 * @property {string} XML Response type "responseXML"
+	 * @property {string} TEXT Response type "responseText"
 	 */
 	this.responseType = {
 		XML: "responseXML",
@@ -328,7 +332,7 @@ function Ajax() {
 	 * @function
 	 * @public
 	 * @alias module:wc/ajax/ajax.toString
-	 * @returns {String} The string representation of the object
+	 * @returns {string} The string representation of the object
 	 */
 	this.toString = function () {
 		let s = "AJAX Limit: ";
@@ -375,16 +379,16 @@ function fetchErrorHandler(callback, errback) {
 export default ajax;
 
 /**
- * @typedef {Object} module:wc/ajax/ajax~Request
- * @property {String} url The URL to request
+ * @typedef {object} module:wc/ajax/ajax~Request
+ * @property {string} url The URL to request
  * @property {Function} [callback] The callback function on success (callback scope will be the XMLHTTPRequest)
  * @property {Function} [onProgress] The callback function on progress events.
  * @property {Function} [onError] The callback function on error (callback scope will be the XMLHTTPRequest)
- * @property {Boolean} [cache] Should the result be cached?
- * @property {String} [postData] The encoded data to post.
- * @property {String} [responseType] One of {@link module:wc/ajax/ajax#responseType} XML or {@link module:wc/ajax/ajax#responseType} TEXT.
- * @property {Boolean} [async] Set false to make a synchronous request.
- * @property {Boolean} [forceMime] If true ignore content type header, use this instead (only on supported
+ * @property {boolean} [cache] Should the result be cached?
+ * @property {string} [postData] The encoded data to post.
+ * @property {string} [responseType] One of {@link module:wc/ajax/ajax#responseType} XML or {@link module:wc/ajax/ajax#responseType} TEXT.
+ * @property {boolean} [async] Set false to make a synchronous request.
+ * @property {boolean} [forceMime] If true ignore content type header, use this instead (only on supported
  *    browsers, don't rely on this, get it right on the server).
  */
 

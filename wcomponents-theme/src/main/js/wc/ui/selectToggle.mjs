@@ -64,9 +64,9 @@ function isWSelectToggleContainer(element) {
 }
 
 /**
- *
- * @param {Element} element
- * @return {boolean}
+ * ?
+ * @param {Element} element - ?
+ * @returns {boolean} ?
  */
 function isWSelectToggle(element) {
 	if (isWSelectToggleContainer(element)) {
@@ -121,9 +121,9 @@ function writeState(form, stateContainer) {
 }
 
 /**
- *
- * @param {Element} trigger
- * @return {null|HTMLElement[]}
+ * ?
+ * @param {Element} trigger - ?
+ * @returns {null|HTMLElement[]} ?
  */
 function getControlledElements(trigger) {
 	let actualTrigger = trigger;
@@ -142,9 +142,9 @@ function getControlledElements(trigger) {
 }
 
 /**
- *
- * @param {string} groupName
- * @return {HTMLElement[]}
+ * ?
+ * @param {string} groupName - ?
+ * @returns {HTMLElement[]} ?
  */
 function getNamedGroup(groupName) {
 	const namedGroupWd = [
@@ -155,9 +155,9 @@ function getNamedGroup(groupName) {
 }
 
 /**
- *
- * @param {Element} element
- * @return {HTMLElement[]}
+ * ?
+ * @param {Element} element - ?
+ * @returns {HTMLElement[]} ?
  */
 function getAllControllers(element) {
 	if (!element?.id) {
@@ -301,7 +301,7 @@ function activateTrigger(trigger) {
  * @function
  * @private
  * @param {Element} controller A WSelectToggle.
- * @param {String} status The status to set "all", "some" or "none".
+ * @param {string} status The status to set "all", "some" or "none".
  */
 function setControllerStatus(controller, status) {
 	const ICON_ALL = "fa-check-square-o",
@@ -350,7 +350,7 @@ function setControllerStatus(controller, status) {
  * @function
  * @private
  * @param {Element} element The element being selected/deselected.
- * @param {String} action shed.SELECT or shed.DESELECT.
+ * @param {string} action shed.SELECT or shed.DESELECT.
  */
 function shedObserver(element, action) {
 	if (!element) {
@@ -506,7 +506,7 @@ const instance = {
 	 * Set up a registry of all select togglers and their group keyed on id.
 	 * @function
 	 * @public
-	 * @param {Object[]} objArr an array of selectToggle dtos.
+	 * @param {object[]} objArr an array of selectToggle dtos.
 	 */
 	register: function(objArr) {
 		objArr.forEach(next => registry[next.identifier] = next);

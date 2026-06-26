@@ -14,8 +14,8 @@ const instance = {
 	 * Passing anything greater than 1000 to days will be interpreted as milliseconds
 	 * instead of "days".  Passing milliseconds will make this function execute significantly faster.
 	 * @function module:wc/dom/cookie.create
-	 * @param {String} name The key to set in the cookie
-	 * @param {String} value The value to set in the cookie.
+	 * @param {string} name The key to set in the cookie
+	 * @param {string} value The value to set in the cookie.
 	 * @param {number} [days] How long to stroe the cookie (in days).
 	 */
 	create: function (name, value, days) {
@@ -37,8 +37,8 @@ const instance = {
 	/**
 	 * Gets the value associated with a given name from a cookie.
 	 * @function module:wc/dom/cookie.read
-	 * @param {String} name The key.
-	 * @returns {String} The value associated wth the key.
+	 * @param {string} name The key.
+	 * @returns {string} The value associated wth the key.
 	 */
 	read: function(name) {
 		const nameEQ = `${name}=`;
@@ -66,7 +66,7 @@ const instance = {
 	 * Removes a key from cookies.
 	 * @function module:wc/dom/cookie.erase
 	 * @public
-	 * @param {String} name The key to remove.
+	 * @param {string} name The key to remove.
 	 */
 	erase: function(name) {
 		this.create(name, "", -1);

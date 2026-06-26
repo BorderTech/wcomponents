@@ -1095,7 +1095,7 @@ describe("wc/Observer", () => {
 		observer.setCallback(callback);
 		observer.notify();
 
-		expect(wasNotified > 1).withContext("wasNotified should be changed if any params were passed to callback.").toBeTrue();
+		expect(wasNotified).withContext("wasNotified should be changed if any params were passed to callback.").toBeGreaterThan(1);
 	});
 
 	/* Reset tests */

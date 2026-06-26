@@ -82,6 +82,7 @@ function _isComplete(container) {
  * @param {Element} next A multi form control.
  * @returns {boolean} true if 'next' is invalid.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function filter(next) {
 	// added parseInt because for a while these values were being compared to non-numeric objects
 	let min = Number.parseInt(next.dataset.wcMin),
@@ -132,7 +133,7 @@ function filter(next) {
  * @function
  * @private
  * @param {Element} element The multiFormComponent which failed validation.
- * @param {String} flag The framework text of the message in sprintf format with placeholders for the label
+ * @param {string} flag The framework text of the message in sprintf format with placeholders for the label
  *                 text and selection constraint limit.
  * @param {number} limit The max/min number of values/selections.
  */
@@ -203,7 +204,7 @@ function changeEvent($event) {
 
 /**
  *
- * @param {UIEvent & { target: Element }} $event
+ * @param {UIEvent & { target: Element }} $event - ?
  */
 function blurEvent($event) {
 	const element = $event.target,

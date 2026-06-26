@@ -92,7 +92,7 @@ function _register(dialogObj) {
 	const triggerId = dialogObj.triggerid || dialogObj.id;
 
 	/**
-	 * @param {string} title
+	 * @param {string} title - ?
 	 */
 	const add = function(title) {
 		registry[triggerId] = {
@@ -235,9 +235,9 @@ function openDlg(triggerId) {
 		const content = dialogFrame.getContent();
 		if (content) {
 			content.id = regObj.id;
-			const openerId = (openThisDialog && openThisDialog === triggerId) ? "" : regObj.openerId;
+			const openerId = (openThisDialog === triggerId) ? "" : regObj.openerId;
 			if (openerId) {
-				const opener = /** @type HTMLButtonElement */ (document.getElementById(openerId));
+				const opener = /** @type {HTMLButtonElement} */ (document.getElementById(openerId));
 				content.setAttribute(GET_ATTRIB, `${openerId}=${opener ? encodeURIComponent(opener.value) : "x"}`);
 			} else {
 				content.removeAttribute(GET_ATTRIB);
@@ -287,7 +287,7 @@ function postOpenSubscriber(element) {
 
 /**
  * Get a registry object based on a WDialog id attribute.
- * @param {String} id the ID of the WDialog to get.
+ * @param {string} id the ID of the WDialog to get.
  * @returns {module:wc/ui/dialog~regObject} the registry object if found.
  */
 function getRegistryObjectByDialogId(id) {
@@ -335,8 +335,8 @@ function clickEvent($event) {
 
 /**
  * Converts a WDialog element to a DTO for registration.
- * @param {WDialog} element
- * @return module:wc/ui/dialog~regObject
+ * @param {WDialog} element - ?
+ * @return {module:wc/ui/dialog~regObject} ?
  */
 function toDto(element) {
 	return {
@@ -385,16 +385,16 @@ initialise.register({
 
 export default instance;
 /**
- * @typedef {Object} module:wc/ui/dialog~regObject An object which stores information about a dialog.
- * @property {String} id The WDialog id.
- * @property {String} [triggerid] The id of the control that opens the dialog.
+ * @typedef {object} module:wc/ui/dialog~regObject An object which stores information about a dialog.
+ * @property {string} id The WDialog id.
+ * @property {string} [triggerid] The id of the control that opens the dialog.
  * @property {number} [width] The dialog width in px.
  * @property {number} [height] The dialog height in px.
  * @property {number} [top] The dialog top position.
  * @property {number} [left] The dialog left position.
- * @property {Boolean} [modal] Is the dialog modal?
- * @property {String} [title] The WDialog title. If not set a default title is used.
- * @property {String} [className] Additional WDialog css class (will be appended to base class).
- * @property {Boolean} [open] If true then the dialog is to be open on page load. This is passed in as part of
+ * @property {boolean} [modal] Is the dialog modal?
+ * @property {string} [title] The WDialog title. If not set a default title is used.
+ * @property {string} [className] Additional WDialog css class (will be appended to base class).
+ * @property {boolean} [open] If true then the dialog is to be open on page load. This is passed in as part of
  *    the registration object but is not stored in the registry.
  */

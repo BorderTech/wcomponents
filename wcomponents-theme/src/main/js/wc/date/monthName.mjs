@@ -42,8 +42,8 @@ function initialise() {
 
 /**
  * For a given locale returns the names of the months of the year;
- * @param {string} locale
- * @param {boolean} short If true will return abbreviated month names
+ * @param {string} locale - ?
+ * @param {boolean} short - If true will return abbreviated month names
  * @return {string[]}
  */
 function getMonthNames(locale, short) {
@@ -64,7 +64,7 @@ function getMonthNames(locale, short) {
  * @function
  * @alias module:wc/date/monthName.get
  * @static
- * @param {Boolean} [abbreviated] If true will return the standard abbreviated form of the  month name. This
+ * @param {boolean} [abbreviated] If true will return the standard abbreviated form of the  month name. This
  * is generally the shortest form of the month name which:
  * <ol><li>Is the shortest form of the month name without being ambiguous with other month names.</li>
  * <li>Is not so short that it is no longer obviously a month name</li></ol>
@@ -75,8 +75,8 @@ function getMonthNames(locale, short) {
  *
  * <p>For example in French août and avril are not abbreviated to three letters even though this
  * would meet the criteria above.</p>
- * @param {Boolean} [asciified] If true will return asciified versions of the month names.
- * @returns {String[]} The names of the months in order where index zero is January, index 11 is December.
+ * @param {boolean} [asciified] If true will return asciified versions of the month names.
+ * @returns {string[]} The names of the months in order where index zero is January, index 11 is December.
  *    The returned Array is your very own special instance which you can play with to your heart's content
  *    without affecting any other users of this function.
  */
@@ -96,7 +96,7 @@ function get(abbreviated, asciified) {
  * @function
  * @alias module:wc/date/monthName.hasAsciiVersion
  * @static
- * @returns {Boolean} true if there are asciified month names (i.e. the month names differ when asciified).
+ * @returns {boolean} true if there are asciified month names (i.e. the month names differ when asciified).
  */
 function hasAsciiVersion() {
 	const variants = initialise();

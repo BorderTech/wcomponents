@@ -11,7 +11,7 @@
  * //thisTimeLastWeek is now seven days before now.
  * @function
  * @alias module:wc/date/addDays
- * @param {Number} days The number of days to add or subtract.
+ * @param {number} days The number of days to add or subtract.
  * @param {Date} date The date object on which the operation will be performed.
  */
 function add(days, date) {

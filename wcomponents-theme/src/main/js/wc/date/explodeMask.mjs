@@ -26,11 +26,12 @@ import patterns from "wc/date/pattern.mjs";
  * as the property patternAsRe. For example: pattern["yyyy"].patternAsRe is the regular expression /yyyy/.
  * @function
  * @alias module:wc/date/explodeMask
- * @param {String} mask The date format mask to explode.
- * @param {Boolean} [strictSequence] If false non-matching characters are allowed in between patterns. General
+ * @param {string} mask The date format mask to explode.
+ * @param {boolean} [strictSequence] If false non-matching characters are allowed in between patterns. General
  *    rule of thumb is: true for parsing, false for formatting.
  * @returns {module:wc/module:wc/date/pattern[]} An array of the 'best' patterns for the mask.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function explodeMask (mask, strictSequence) {
 	let result = [];
 

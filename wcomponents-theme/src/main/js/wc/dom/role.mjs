@@ -13,7 +13,7 @@ export default {
 	 * @function module:wc/dom/role.get
 	 * @param {Element} element The element to test.
 	 * @param {boolean} [implied] Include getting implied role if true.
-	 * @returns {String} The WAI-ARIA role of the element, including its implied role if required.
+	 * @returns {string} The WAI-ARIA role of the element, including its implied role if required.
 	 */
 	get: function(element, implied) {
 		let role = "";
@@ -31,7 +31,7 @@ export default {
 	 * @function module:wc/dom/role.has
 	 * @param {Element} element The element to test.
 	 * @param {boolean} [implied] Should we test if the element has an implied role?
-	 * @returns {Boolean} true if the element has a role (or implied role if implied is true.
+	 * @returns {boolean} true if the element has a role (or implied role if implied is true.
 	 */
 	has: function(element, implied) {
 		let result = false;

@@ -11,7 +11,7 @@ const { describe, expect, it } = globalThis;
 describe("aria", function() {
 	/**
 	 * These expected arrays are obtained by me manually extracting them from the RDF using xpath queries in OxygenXML.
-	 * @type Array
+	 * @type {string[]}
 	 */
 	const globalStates = ["aria-atomic", "aria-busy", "aria-controls", "aria-describedby",
 		"aria-disabled", "aria-dropeffect", "aria-flowto", "aria-grabbed",

@@ -33,7 +33,7 @@ const instance = {
 	 * @function module:wc/ui/radioButtonSelect.setSelectionByValue
 	 * @public
 	 * @param {Element} element The radioButtonSelect.
-	 * @param {String} value the value of the radio button to select.
+	 * @param {string} value the value of the radio button to select.
 	 */
 	setSelectionByValue: function(element, value) {
 		if (element.matches(radioButtonSelectSelector)) {
@@ -68,7 +68,7 @@ const instance = {
  * @function
  * @private
  * @param {Element} element The element being acted upon.
- * @param {String} action One of the {@link module:wc/dom/shed~actions}: MANDATORY or OPTIONAL
+ * @param {string} action One of the {@link module:wc/dom/shed~actions}: MANDATORY or OPTIONAL
  */
 function shedSubscriber(element, action) {
 	if (element?.matches(radioButtonSelectSelector)) {

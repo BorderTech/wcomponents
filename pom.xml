@@ -46,6 +46,7 @@
 		<version.org.honton.chas.readfiles-maven-plugin>0.0.1</version.org.honton.chas.readfiles-maven-plugin>
 		<version.org.slf4j.slf4j-api>2.0.17</version.org.slf4j.slf4j-api>
 		<version.org.slf4j.slf4j-simple>2.0.17</version.org.slf4j.slf4j-simple>
+		<version.org.sonarsource.scanner.maven.sonar-maven-plugin>5.7.0.6970</version.org.sonarsource.scanner.maven.sonar-maven-plugin>
 		<version.xerces.xercesImpl>2.12.1</version.xerces.xercesImpl>
 	</properties>
 
@@ -83,8 +84,6 @@
 
 	<dependencyManagement>
 		<dependencies>
-
-			<!-- Junit -->
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
@@ -114,6 +113,7 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
+
 			<!-- Specific JAXB runtime for cache provider -->
 			<dependency>
 				<groupId>org.glassfish.jaxb</groupId>
@@ -128,7 +128,6 @@
 				<version>${version.javax.servlet.servlet-api}</version>
 				<scope>provided</scope>
 			</dependency>
-
 		</dependencies>
 	</dependencyManagement>
 
@@ -185,7 +184,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 		</plugins>
 
 		<pluginManagement>
@@ -206,12 +204,19 @@
 								</exclusion>
 							</exclusions>
 						</dependency>
+
 						<dependency>
 							<groupId>org.apache.ant</groupId>
 							<artifactId>ant</artifactId>
 							<version>1.10.15</version>
 						</dependency>
 					</dependencies>
+				</plugin>
+
+				<plugin>
+					<groupId>org.sonarsource.scanner.maven</groupId>
+					<artifactId>sonar-maven-plugin</artifactId>
+					<version>${version.org.sonarsource.scanner.maven.sonar-maven-plugin}</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>

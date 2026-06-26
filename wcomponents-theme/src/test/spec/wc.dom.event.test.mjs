@@ -34,7 +34,7 @@ describe("wc/dom/event", () => {
 		expect(element.getAttribute("data-clicked")).not.toBe("true");
 		// With JSDom we need to wire up the onclick here
 		element.onclick = function() {
-			const button = /** @type HTMLElement */(this);
+			const button = /** @type {HTMLElement} */(this);
 			button.setAttribute("data-clicked", "true");
 		};
 		event.fire(element, "click");
@@ -314,7 +314,6 @@ describe("wc/dom/event", () => {
 		const element = getInput(ownerDocument, ids.CHKBOX);
 		const handler = jasmine.createSpy("testRemoveBubbleIgnoresCaptureWithEventArgs");
 		event.add(element, { type: "click", listener: handler, capture: true });
-		// loevent.remove(element, "click", handler);
 		event.fire(element, "click");
 
 		expect(handler).toHaveBeenCalled();
@@ -521,7 +520,7 @@ describe("wc/dom/event", () => {
 		});
 		event.fire(element, "click");
 
-		expect(outerListener).withContext("event should have been stopped").not.toHaveBeenCalled();
+		expect(outerListener).withContext("event should have been stopped").not.toHaveBeenCalledWith();
 		expect(innerCalled).withContext("event should have been called").toBe(true);
 	});
 
@@ -591,7 +590,7 @@ describe("wc/dom/event", () => {
 		let clone;
 		try {
 			event.add(element, "click", handler);
-			clone = /** @type HTMLElement */(element.cloneNode(true));
+			clone = /** @type {HTMLElement} */(element.cloneNode(true));
 			element.parentNode.replaceChild(clone, element);
 
 			expect(event.add(clone, "click", handler)).withContext("The cloned node should not have any events attached").toBeTruthy();

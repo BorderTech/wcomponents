@@ -22,7 +22,7 @@ class FabricUndoRedo {
 
 		/**
 		 * Does the current state differ from the initial state?
-		 * @returns {Boolean} true if the current state is different (i.e. the user has made some changes).
+		 * @returns {boolean} true if the current state is different (i.e. the user has made some changes).
 		 */
 		this.hasChanges = function () {
 			const currentState = state[modPointer];

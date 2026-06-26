@@ -7,6 +7,7 @@ import prompt from "wc/ui/prompt.mjs";
  * Check a file upload complies with its constraints.
  * @param {module:wc/file/validate~args} args The DTO containing the file input to test and configuration.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function check(args) {
 	let message, result = [],
 		selector = args.selector;
@@ -47,7 +48,7 @@ function check(args) {
 export default { check };
 
 /**
- * @typedef {Object} module:wc/file/validate~args
+ * @typedef {object} module:wc/file/validate~args
  * @property {Element} selector The file input to validate.
  * @property {File[]} [files] Alternatively validate these files.
  * @property {boolean} notify If truthy then the user will be notified with validation messages.

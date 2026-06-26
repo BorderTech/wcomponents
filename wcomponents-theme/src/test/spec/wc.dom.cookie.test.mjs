@@ -3,13 +3,12 @@ import cookie from "wc/dom/cookie.mjs";
 const { beforeEach, describe, expect, it } = globalThis;
 
 describe("wc/dom/cookie", function() {
-	const testProp = "foobar" + (new Date()).getTime(),
+	const testProp = "foobar" + Date.now(),
 		testVal = "barFoo";
 
 	beforeEach(function() {
 		cookie.erase(testProp);
-
-		expect(cookie.read(testProp)).toBeFalsy();  // Tests should start in clean state
+		if (cookie.read(testProp)) throw new Error("Something wrong");
 	});
 
 	it("testPutGet", function() {

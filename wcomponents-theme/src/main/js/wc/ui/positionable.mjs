@@ -127,7 +127,7 @@ const instance = {
 	 * @function module:wc/ui/positionable.clearZeros
 	 * @public
 	 * @param {HTMLElement} element The element to reset.
-	 * @param {Boolean} [ignoreTopLeft] If true then do not reset top or left, just bottom and right. Why? because we sometimes need to keep
+	 * @param {boolean} [ignoreTopLeft] If true then do not reset top or left, just bottom and right. Why? because we sometimes need to keep
 	 * these as they are used rather a lot elsewhere. Why not bottom and right? Because they are only set during collision detection or
 	 * explicit pinning and are never part of the underlying component's default position model.
 	 */
@@ -163,7 +163,7 @@ const instance = {
  * reposition them if they are visible.
  * @function
  * @private
- * @param {String} key An object key from positionedBySize.
+ * @param {string} key An object key from positionedBySize.
  */
 function resizeIteratorFunc(key) {
 	if (key === "length") {
@@ -232,6 +232,7 @@ function resizeableSubscriber(element) {
  * @private
  * @param {HTMLElement} el the positionable element we want inside the viewport.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function forceToViewPort(el) {
 	const vpSize = getViewportSize(true);
 
@@ -316,7 +317,7 @@ initialise.register({
 export default instance;
 
 /**
- * @typedef {Object} module:wc/ui/positionable~setBySizeConfig
+ * @typedef {object} module:wc/ui/positionable~setBySizeConfig
  * @property {number} [width] The width of the element being positioned. If not set then this is calculated.
  * @property {number} [height] The height of the element being positioned. If not set then this is calculated.
  * @property {number} [topOffsetPC] If set then the element is positioned such that the top of the element is below the top of the relative

@@ -115,7 +115,7 @@ function eventListener(/* $event */) {
  * uncached (and use more CPU). There is no one true correct answer here.
  * @function
  * @private
- * @param {String} type The event type.
+ * @param {string} type The event type.
  * @returns {Function} A function which is used to filter based on target phase.
  */
 function targetPhaseFilterFactory(type) {
@@ -131,7 +131,7 @@ function targetPhaseFilterFactory(type) {
  * The problem with having three optional args in a row is you get this sort of thing:
  * `event.add(element, "click", handler, null, null, true)`
  * @param {IArguments} args The arguments from a call to event.add.
- * @returns {{ type: string, listener: function, pos: number, scope: Object, capture: boolean, passive: boolean }} An eventArgs object, no matter if it was called with the new or old API.
+ * @returns {{type: string, listener: Function, pos: number, scope: object, capture: boolean, passive: boolean}} An eventArgs object, no matter if it was called with the new or old API.
  */
 function addApi(args) {
 	const argMap = ["type", "listener", "pos", "scope", "capture", "passive"];
@@ -161,7 +161,7 @@ const instance = {
 	 * @param {boolean} [eventArgs.capture] If true the event will listen at the capture phase. Default is false
 	 *    (listens at the bubble phase). If you set capture to true in a browser that does not support
 	 *    capture an exception will be thrown.
-	 * @returns {Object} A dto that can be used to "remove" if the listener was able to be added as an event subscriber.
+	 * @returns {object} A dto that can be used to "remove" if the listener was able to be added as an event subscriber.
 	 * @throws {TypeError} Thrown if the capture parameter is set true and the browser is not dom2 compliant.
 	 */
 	add: function (element/* , args */) {
@@ -200,7 +200,7 @@ const instance = {
 	 * being fired (ie it removed itself) as I think the problem being 'solved' here is already solved in the
 	 * eventListener() code where a static snapshot of event listeners is taken before any of them are notified.
 	 * @function module:wc/dom/event.remove
-	 * @param {Element|Object|Object[]} element The element from which the event is removed.
+	 * @param {Element | object | object[]} element The element from which the event is removed.
 	 *    Alternatively simply pass the result from a call to the "add" method of this module.
 	 *    You may also pass an array of these - note the array will be modified! It will be emptied.
 	 * @param {string} [type] The type we are removing. Not used if called with return value of "add".
@@ -250,11 +250,11 @@ const instance = {
 	 * @function module:wc/dom/event.fire
 	 * @param {Element} element The element to fire the event on.
 	 * @param {string} $event The event to fire (eg 'click')
-	 * @param {Object} [options]
-	 * @param {boolean} [options.bubbles]
-	 * @param {boolean} [options.cancelable]
-	 * @param {Object} [options.detail] for custom events
-	 * @returns {Boolean} Should probably be undefined: use defaultPrevented to check if an event has ceased.
+	 * @param {object} [options] - ?
+	 * @param {boolean} [options.bubbles] - ?
+	 * @param {boolean} [options.cancelable] - ?
+	 * @param {object} [options.detail] for custom events
+	 * @returns {boolean} Should probably be undefined: use defaultPrevented to check if an event has ceased.
 	 */
 	fire: function (element, $event, options) {
 		let result;
@@ -282,7 +282,7 @@ const instance = {
 	 * Get a string that represents the state of this object for diagnostic purposes.
 	 * @function module:wc/dom/event.toString
 	 * @public
-	 * @returns {String} ?
+	 * @returns {string} ?
 	 */
 	toString: () => Object.keys(events).map(elid => `${elid}: ${events[elid].toString()}`).join("\n"),
 	canCapture: true  // Legacy API

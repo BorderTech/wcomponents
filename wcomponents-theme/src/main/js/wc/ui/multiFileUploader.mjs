@@ -52,7 +52,7 @@ const
 	progressWd = `${fileInfoWd} progress`;
 
 /**
- * @typedef {Object} module:wc/file/MultiFileUploader~fileInfo
+ * @typedef {object} module:wc/file/MultiFileUploader~fileInfo
  * @property {string} url The URL to upload the file to.
  * @property {Element} element The name of the file input.
  * @property {Element} container The multiFileWidget wrapper element.
@@ -150,7 +150,7 @@ function MultiFileUploader() {
 	}
 
 	/**
-	 * @param {Element} fileInfo
+	 * @param {Element} fileInfo - ?
 	 */
 	function removeFileItem(fileInfo) {
 		const container = fileInfo.closest(containerWd);
@@ -162,7 +162,7 @@ function MultiFileUploader() {
 					xhr.abort();
 				}
 			}
-			changed[container.id] = changed[container.id] || debounce(/** @param {string} id */id => {
+			changed[container.id] = changed[container.id] || debounce(/** @param {string} id - ? */(id) => {
 				filesChanged(id);
 				reflowFileItemsAfterRemove(id);
 				delete changed[id];
@@ -172,7 +172,7 @@ function MultiFileUploader() {
 	}
 
 	/**
-	 * @param {string} id
+	 * @param {string} id - ?
 	 */
 	function reflowFileItemsAfterRemove(id) {
 		const container = document.getElementById(id);
@@ -289,9 +289,10 @@ function MultiFileUploader() {
 	/**
 	 * Checks if the maxFiles count will be exceeded if we proceed with the upload
 	 * @param {HTMLInputElement} element The DOM element responsible for the upload
-	 * @param {Number} newFileCount The number of files being added
-	 * @returns {Object} the property 'valid' will be false if the maxFiles count will be exceeded
+	 * @param {number} newFileCount The number of files being added
+	 * @returns {object} the property 'valid' will be false if the maxFiles count will be exceeded
 	 */
+	// eslint-disable-next-line sonarjs/cognitive-complexity
 	function checkMaxFiles(element, newFileCount) {
 		let currentFiles;
 		const config = wcconfig.get("wc/ui/multiFileUploader", {
@@ -347,7 +348,7 @@ function MultiFileUploader() {
 	 * Gets the "max files" constraint for this file input.
 	 * Sets a limit for the number of files this file selector should allow.
 	 * @param {HTMLInputElement} element A file input.
-	 * @returns {Number} The max files constraint if set, otherwise 0.
+	 * @returns {number} The max files constraint if set, otherwise 0.
 	 */
 	function getMaxFiles(element) {
 		if (element) {
@@ -365,7 +366,7 @@ function MultiFileUploader() {
 	 * Upload the file asynchronously now.
 	 * @function
 	 * @private
-	 * @param {Object} config an object with the following properties:
+	 * @param {object} config an object with the following properties:
 	 *    {HTMLInputElement} element A file input element.
 	 *    {Function} callback A function that will be called if and when all of the files are uploaded correctly
 	 *    {File[]} [files] A collection of File items to use instead of element.files.
@@ -416,8 +417,8 @@ function MultiFileUploader() {
 	}
 
 	/**
-	 *
-	 * @param {Element} newFile
+	 * ?
+	 * @param {Element} newFile - ?
 	 */
 	function updateFileInfo(newFile) {
 		const fileId = newFile.getAttribute("id"),
@@ -524,7 +525,7 @@ function MultiFileUploader() {
 	 * Register file widgets - dropzones cannot be lazily initialized.
 	 * @function
 	 * @public
-	 * @param {String[]} idArr An array of mutliFileWidget ids.
+	 * @param {string[]} idArr An array of mutliFileWidget ids.
 	 */
 	this.register = function (idArr) {
 		if (idArr?.length) {
@@ -538,8 +539,10 @@ function MultiFileUploader() {
 	};
 
 	/**
-	 * @param {HTMLFormElement} form
-	 * @param {Element} container
+	 * ?
+	 * @param {HTMLFormElement} form - ?
+	 * @param {Element} container - ?
+	 * @returns {void} ?
 	 */
 	function writeState(form, container) {
 		/** @type {HTMLElement[]} */
@@ -583,9 +586,9 @@ function MultiFileUploader() {
 	this.getInputWidget = () => inputElementWd;
 
 	/**
-	 *
-	 * @param {Element} container
-	 * @return {HTMLUListElement[]}
+	 * ?
+	 * @param {Element} container - ?
+	 * @return {HTMLUListElement[]} ?
 	 */
 	function getFileInfoContainers(container) {
 		/** @type {HTMLUListElement} */
@@ -593,9 +596,9 @@ function MultiFileUploader() {
 	}
 
 	/**
-	 *
-	 * @param {Element} container
-	 * @return {HTMLUListElement[]}
+	 * ?
+	 * @param {Element} container - ?
+	 * @return {HTMLUListElement[]} ?
 	 */
 	function getColumns(container) {
 		const cols = Number(container.getAttribute(COL_ATTR)) || 1;
@@ -633,9 +636,9 @@ function MultiFileUploader() {
 	}
 
 	/**
-	 *
-	 * @param {Element} container
-	 * @return {HTMLUListElement}
+	 * ?
+	 * @param {Element} container - ?
+	 * @return {HTMLUListElement} ?
 	 */
 	function getNextColumn(container) {
 		const smallest = {
@@ -689,8 +692,8 @@ function MultiFileUploader() {
 	 * Tests if an element is a file upload.
 	 * @function module:wc/ui/multiFileUpload.isOneOfMe
 	 * @param {Element} element The DOM element to test
-	 * @param {Boolean} input If true test the input element, not the container
-	 * @returns {Boolean} true if element is the Widget type requested
+	 * @param {boolean} input If true test the input element, not the container
+	 * @returns {boolean} true if element is the Widget type requested
 	 */
 	this.isOneOfMe = (element, input) => element?.matches(input ? inputElementWd : containerWd);
 
@@ -725,10 +728,13 @@ function getUploadUrl(element) {
 /**
  * Handles progress events and updates the DOM accordingly.
  * @param {string} fileInfoId The ID of the widget tracking the upload in the DOM.
+ * @returns {void} ?
  */
 function progressEventFactory(fileInfoId) {
 	/**
-	 * @param {ProgressEvent} e
+	 * ?
+	 * @param {ProgressEvent} e - ?
+	 * @returns {void} ?
 	 */
 	return function (e) {
 		const fileInfo = document.getElementById(fileInfoId);
@@ -745,9 +751,10 @@ function progressEventFactory(fileInfoId) {
 /**
  * If something goes wrong with the upload then tell the user about it and do some cleanup.
  * @param {string} fileInfoId The ID of the widget tracking the upload in the DOM.
+ * @returns {(errorMessage: string) => void} ?
  */
 function errorHandlerFactory(fileInfoId) {
-	return /** @param {string} errorMessage */(errorMessage) => {
+	return /** @param {string} errorMessage - ? */(errorMessage) => {
 		const fileInfo = document.getElementById(fileInfoId);
 		delete inflightXhrs[fileInfoId];
 		if (fileInfo) {
@@ -779,13 +786,13 @@ function abortHandlerFactory(fileInfoId) {
  */
 function TrueAjax() {
 	/**
-	 * @returns {Number} The total number of uploads in progress.
+	 * @returns {number} The total number of uploads in progress.
 	 */
 	this.getUploading = () => document.body.querySelectorAll(progressWd).length;
 
 	/**
 	 * Upload the files reference in the dto.
-	 * @param {module:wc/file/MultiFileUploader~fileInfo} dto
+	 * @param {module:wc/file/MultiFileUploader~fileInfo} dto - ?
 	 */
 	this.request = function (dto) {
 		const { container, files, url, element } = dto;
@@ -802,7 +809,7 @@ function TrueAjax() {
 
 	/**
 	 * Returns a callback for sendFile.
-	 * @param {module:wc/file/MultiFileUploader~fileInfo} dto
+	 * @param {module:wc/file/MultiFileUploader~fileInfo} dto - ?
 	 * @param {string} fileId A unique ID by which to track this particular file upload.
 	 * @returns {Function} The callback wrapper.
 	 */
@@ -817,8 +824,10 @@ function TrueAjax() {
 	}
 
 	/**
-	 * @param response
-	 * @param {string} fileId
+	 * ?
+	 * @param {any} response - ?
+	 * @param {string} fileId - ?
+	 * @returns {void} ?
 	 */
 	function processResponse(response, fileId) {
 		const onError = function () {
@@ -886,4 +895,5 @@ function TrueAjax() {
 }
 
 initialise.register(instance);
+
 export default instance;

@@ -44,8 +44,8 @@ let asciiMap;
  * @function
  * @public
  * @alias module:wc/i18n/asciify
- * @param {String} s The string to asciify.
- * @returns {String} The asciified version.
+ * @param {string} s The string to asciify.
+ * @returns {string} The asciified version.
  * @example asciify("café dude"); // returns "cafe dude" using the default character map
  */
 function asciify(s) {
@@ -69,7 +69,7 @@ function asciify(s) {
  * initialise it ready for use.
  * @function getAsciiMap
  * @private
- * @returns {Object} The ascii map.
+ * @returns {object} The ascii map.
  */
 function getAsciiMap() {
 	const result = {};
@@ -109,8 +109,8 @@ function getAsciiMap() {
  * Convert a unicode character to an asciified version, if possible.
  * @funtion uniToAscii
  * @private
- * @param {String} character A non-ascii character.
- * @returns {String} The asciified version or null if not found.
+ * @param {string} character A non-ascii character.
+ * @returns {string} The asciified version or null if not found.
  */
 function uniToAscii(character) {
 	let result = null;

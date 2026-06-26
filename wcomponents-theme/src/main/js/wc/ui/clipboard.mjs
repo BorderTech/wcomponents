@@ -6,7 +6,7 @@ const { console } = globalThis;
 
 /**
  *
- * @param {MouseEvent & {target: HTMLElement}} $event
+ * @param {MouseEvent & {target: HTMLElement}} $event - ?
  */
 function clickEvent($event) {
 	/** @type {HTMLButtonElement} */
@@ -18,7 +18,7 @@ function clickEvent($event) {
 
 /**
  *
- * @param {HTMLButtonElement} element
+ * @param {HTMLButtonElement} element - ?
  */
 function copyContent(element) {
 	const targetId = element.getAttribute("aria-controls");
@@ -42,7 +42,7 @@ function copyContent(element) {
 initialise.register({
 	/**
 	 *
-	 * @param {Element} element
+	 * @param {Element} element - ?
 	 */
 	initialise: function(element) {
 		const doc = element.ownerDocument;

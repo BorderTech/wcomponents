@@ -57,14 +57,15 @@ const instance = {
 	 * Is a given table a treegrid? We cannot currently use the treegrid role because it causes a11y failure in common screenreader/browser
 	 * combos.
 	 * @param {Element} element the element to test
-	 * @returns {Boolean} {@code true} if the element is a table with row expansion.
+	 * @returns {boolean} {@code true} if the element is a table with row expansion.
 	 */
 	isTreeGrid: element => element.matches(table)
 };
 
 /**
- * @param {Element} trigger
- * @return {HTMLElement[]}
+ * ?
+ * @param {Element} trigger - ?
+ * @returns {HTMLElement[]} ?
  */
 function getControlled(trigger) {
 	const actualTrigger = trigger.matches(exp_coll_all_container) ? trigger.querySelector(expand_collapse_all) : trigger,
@@ -95,7 +96,7 @@ function getControllers(element) {
  * @function
  * @private
  * @param {Element} controller The WCollapsibleToggle control.
- * @param {Boolean} expanded true if we are checking if all expanded, otherwise false
+ * @param {boolean} expanded true if we are checking if all expanded, otherwise false
  */
 function areAllInExpandedState(controller, expanded) {
 	const candidates = getControlled(controller);
@@ -103,8 +104,9 @@ function areAllInExpandedState(controller, expanded) {
 }
 
 /**
- *
- * @param {Element} controller
+ * ?
+ * @param {Element} controller - ?
+ * @returns {void} ?
  */
 function setControllerState(controller) {
 	const testVal = controller.getAttribute(VALUE);
@@ -117,16 +119,18 @@ function setControllerState(controller) {
 }
 
 /**
- * @param {Element} element
- * @return {HTMLElement}
+ * ?
+ * @param {Element} element - ?
+ * @returns {HTMLElement} ?
  */
 function getWrapper(element) {
 	return element.closest(table_wrapper);
 }
 
 /**
- * @param {Element} row
- * @return {string}
+ * ?
+ * @param {Element} row - ?
+ * @returns {string} ?
  */
 function getMode(row) {
 	const wrapper = getWrapper(row);
@@ -134,8 +138,9 @@ function getMode(row) {
 }
 
 /**
- * @param {Element} row
- * @return {boolean}
+ * ?
+ * @param {Element} row - ?
+ * @returns {boolean} ?
  */
 function isAjaxExpansion(row) {
 	const mode = getMode(row);
@@ -147,7 +152,7 @@ function isAjaxExpansion(row) {
  * @function
  * @private
  * @param {Element} element The triggering element.
- * @returns {Object} An object suitable to create a {@link module:wc/ajax/Trigger}.
+ * @returns {object} An object suitable to create a {@link module:wc/ajax/Trigger}.
  */
 function getTriggerDTO(element) {
 	return common.getAjaxDTO(element, element.getAttribute(MODE) === LAZY);
@@ -204,15 +209,16 @@ function toggleRow(row, ignoreAjax) {
  * Helper to show and hide rows controlled by an expandable row.
  * @function
  * @private
- * @param {Element} triggerRow The expandable row.
- * @param {String} action A {@link module:wc/dom/shed} action: one of shed.actions.EXPAND or shed.actions.COLLAPSE.
+ * @param {Element} triggerRow - The expandable row.
+ * @param {string} action A {@link module:wc/dom/shed} action: one of shed.actions.EXPAND or shed.actions.COLLAPSE.
+ * @returns {void} ?
  */
 function showHideContent(triggerRow, action) {
 	const controlled = getControlled(triggerRow);
 
 	if (controlled.length) {
 		const shedFunc = action === shed.actions.EXPAND ? "show" : "hide";
-		controlled.forEach(/** @param {Element} row */ row => {
+		controlled.forEach(/** @param {Element} row - ? */ (row) => {
 			if (row) {
 				shed[shedFunc](row);
 			}
@@ -223,12 +229,13 @@ function showHideContent(triggerRow, action) {
 }
 
 /**
- * Subscriber to {@link module:wc/dom/shed} to manage showing and hiding content when a row is expanded or
- * collapsed.
+ * Subscriber to {@link module:wc/dom/shed} to manage showing and hiding content when a row is expanded or collapsed.
  * @function
  * @private
- * @param {CustomEvent & { target: HTMLElement, detail: { action: string } }} $event
+ * @param {CustomEvent & { target: HTMLElement, detail: { action: string } }} $event - ?
+ * @returns {void} ?
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function expCollapseObserver({ target: element, detail }) {
 	if (element?.matches(tbl_expandable_row)) {
 		const action = detail.action;
@@ -257,7 +264,8 @@ function expCollapseObserver({ target: element, detail }) {
  * allows us to manage multiply nested expandables and hiding rows using (for example) client pagination.
  * @function
  * @private
- * @param {CustomEvent & { target: HTMLElement }} $event
+ * @param {CustomEvent & { target: HTMLElement }} $event - ?
+ * @returns {void} ?
  */
 function closeOnHide({ target }) {
 	if (target?.matches(tbl_expandable_row) && shed.isExpanded(target)) {
@@ -368,7 +376,7 @@ function clickEvent($event) {
  * @function
  * @private
  * @param {Element} element One of the expand-all/collapse-all buttons.
- * @returns {Boolean} {@code true} if there are any rows to toggle.
+ * @returns {boolean} {@code true} if there are any rows to toggle.
  */
 function toggleAll(element) {
 	const candidates = element ? getControlled(element) : null;
@@ -398,7 +406,8 @@ function toggleAll(element) {
 
 /**
  * Toggle rows when the select/deselect all options are triggered.
- * @param {CustomEvent & { target: HTMLElement }} $event
+ * @param {CustomEvent & { target: HTMLElement }} $event - ?
+ * @returns {void} ?
  */
 function activateOnSelect({ target }) {
 	if (target?.matches(expand_collapse_all)) {

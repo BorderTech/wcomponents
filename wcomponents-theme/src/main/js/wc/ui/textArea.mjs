@@ -40,7 +40,7 @@ const instance = {
 	/**
 	 * Get the description of a textarea component.
 	 * @function module:wc/ui/textarea.getWidget
-	 * @param {Boolean} [withConstraints] true to only get constrained text areas (with max-length and/or
+	 * @param {boolean} [withConstraints] true to only get constrained text areas (with max-length and/or
 	 *    min-length constraints).
 	 * @returns {string} ?
 	 */
@@ -90,7 +90,7 @@ const instance = {
 	 * @function
 	 * @public
 	 * @param {HTMLTextAreaElement} element The textarea to test
-	 * @returns {Number} The 'length' of the value string amended for new lines.
+	 * @returns {number} The 'length' of the value string amended for new lines.
 	 */
 	getLength: function(element) {
 		const raw = element.value;
@@ -121,7 +121,9 @@ const instance = {
 };
 
 /**
- * @param {Element} element
+ * ?
+ * @param {Element} element - ?
+ * @returns {void} ?
  */
 function hideCounter(element) {
 	const counter = instance.getCounter(element);
@@ -131,7 +133,9 @@ function hideCounter(element) {
 }
 
 /**
- * @param {Element} element
+ * ?
+ * @param {Element} element - ?
+ * @returns {void} ?
  */
 function showCounter(element) {
 	const counter = instance.getCounter(element);
@@ -151,7 +155,7 @@ const tick = debounce(element => {
 	if (counter) {
 		const maxLength = instance.getMaxlength(element);
 		const count = (maxLength - instance.getLength(element));
-		i18n.translate("chars_remaining", count).then(/** @param {string} title */title => {
+		i18n.translate("chars_remaining", count).then(/** @param {string} title - ? */ (title) => {
 			counter.setAttribute("value", String(count));
 			counter.setAttribute("title", title);
 			const ERR = "wc-err";

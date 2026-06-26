@@ -40,8 +40,8 @@ if (entryFile === __filename) {
 /**
  * What are we linting?
  * If no target is provided will fall back to linting the entire theme.
- * @param {target} target - The path to the file or dir to lint.
- * @returns {String[]} Paths to lint.
+ * @param {any} target - The path to the file or dir to lint.
+ * @returns {string[]} Paths to lint.
  */
 function getLintTarget(target) {
 	let lintTarget = target;
@@ -71,6 +71,11 @@ async function runEslint(target) {
 	if (prettyReport) {
 		console.log(prettyReport);
 		let errorResults = ESLint.getErrorResults(uglyReport).filter(
+			/**
+			 * ?
+			 * @param {ESLint.LintResult} result - ?
+			 * @returns {boolean} ?
+			 */
 			(result) => {
 				return result.fatalErrorCount > 0 || result.errorCount > 0;
 			}
@@ -101,7 +106,4 @@ function runSassLint(sourcePath) {
 	return results;
 }
 
-export default {
-	run: runEslint,
-	runSass: runSassLint
-};
+export default { run: runEslint, runSass: runSassLint };

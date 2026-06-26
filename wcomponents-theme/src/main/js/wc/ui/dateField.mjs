@@ -112,9 +112,9 @@ const instance = {
 	 * @function  module:wc/ui/dateField.getValue
 	 * @public
 	 * @param {Element} element The date field we want to get the value from.
-	 * @param {Boolean} [guess] If true then try a best guess at the transfer format when formatting it. For
+	 * @param {boolean} [guess] If true then try a best guess at the transfer format when formatting it. For
 	 *    more info see {@link module:wc/dom/dateField~reverseFormat}
-	 * @returns {String} The date in transfer format or an empty string if the field has no value.
+	 * @returns {string} The date in transfer format or an empty string if the field has no value.
 	 */
 	getValue: function(element, guess) {
 		let result;
@@ -147,7 +147,7 @@ const instance = {
 	 * Is a particular field a native date input?
 	 * Not so lame according to the feedback from users.
 	 * @param {Element} dateField a date field container.
-	 * @returns {Boolean} ?
+	 * @returns {boolean} ?
 	 */
 	isLameDateField: dateField => !!dateField.querySelector(DATE_WC),
 
@@ -156,9 +156,9 @@ const instance = {
 	 * @function module:wc/ui/dateField.isOneOfMe
 	 * @public
 	 * @param {Element} element The DOM element to test
-	 * @param {Boolean} [onlyContainer] Set `true` to test if the element is exactly the dateField, explicitly
+	 * @param {boolean} [onlyContainer] Set `true` to test if the element is exactly the dateField, explicitly
 	 *    `false` to test if only the input element.
-	 * @returns {Boolean} true if the passed in element is a dateField or date input textbox subcomponent of a
+	 * @returns {boolean} true if the passed in element is a dateField or date input textbox subcomponent of a
 	 *    dateField
 	 */
 	isOneOfMe: function (element, onlyContainer) {
@@ -174,7 +174,7 @@ const instance = {
 	isReadOnly: element => element.matches(DATE_RO),
 
 	/**
-	 * @param {Element} element
+	 * @param {Element} element - ?
 	 * @returns {HTMLElement} ?
 	 */
 	get: element => element.closest(DATE_FIELD),
@@ -195,7 +195,7 @@ const instance = {
  * @function
  * @private
  * @param {Element} element A dateField or an option in the list.
- * @param {Number} [force] Use a specific direction rather than doing a component lookup:
+ * @param {number} [force] Use a specific direction rather than doing a component lookup:
  *    <ul>
  *    <li>-1 look down (findDescendant)</li>
  *    <li>1 look up (findAncestor)</li>
@@ -224,7 +224,7 @@ function getSuggestionList(element, force) {
 }
 
 /**
- * @param {Element} dateField
+ * @param {Element} dateField - ?
  * @returns {boolean} ?
  */
 function isPartial(dateField) {
@@ -358,8 +358,8 @@ function focusListbox(suggestionList) {
  * Formats a transfer date to the display date to be presented to the user.
  * @function
  * @private
- * @param {String} xfer The transfer date to be formatted.
- * @returns {String} A human-readable date as a string.
+ * @param {string} xfer The transfer date to be formatted.
+ * @returns {string} A human-readable date as a string.
  */
 function format(xfer) {
 	const myFormatter = formatter || (formatter = new Format(dateFormatMask));
@@ -371,7 +371,7 @@ function format(xfer) {
  * @function
  * @private
  * @param {Element} element Any dom node.
- * @returns {Boolean} true if the element is a date field's input element.
+ * @returns {boolean} true if the element is a date field's input element.
  */
 function isDateInput(element) {
 	return element.matches(INPUT);
@@ -411,7 +411,7 @@ function setValueFromOption(dateField, option) {
  * @private
  * @param {string} valA A formatted date string.
  * @param {string} valB A formatted date string.
- * @returns {Boolean} true if they are the same for display purposes.
+ * @returns {boolean} true if they are the same for display purposes.
  */
 function formattedDatesSame(valA, valB) {
 	let result = false;
@@ -426,8 +426,8 @@ function formattedDatesSame(valA, valB) {
  * Takes an array of strings and builds them into HTML.
  * @function
  * @private
- * @param suggestions The date suggestions.
- * @returns {String} The suggestion elements as a single string.
+ * @param {any} suggestions The date suggestions.
+ * @returns {string} The suggestion elements as a single string.
  */
 function getSuggestions(suggestions) {
 	const baseAttrs = "role='option' class='wc-invite'";
@@ -496,7 +496,7 @@ function getParser(element) {
  * @function
  * @private
  * @param {HTMLInputElement} element The input element of the date field.
- * @param {String} [overrideVal] Use this as the value to match, instead of the element's value.
+ * @param {string} [overrideVal] Use this as the value to match, instead of the element's value.
  * @returns {module:wc/date/Parser#parsedDate[]} Potential dates as strings.
  */
 function getMatches(element, overrideVal) {
@@ -521,9 +521,9 @@ function getMatches(element, overrideVal) {
  * @function
  * @private
  * @param {HTMLInputElement} element A dateField input element
- * @param {Boolean} [guess] If true then in the case that we can not precisely reverse format the
+ * @param {boolean} [guess] If true then in the case that we can not precisely reverse format the
  * dateField's value we will return a "guess" which will be the first match (if there are possible matches).
- * @returns {String} A transfer date string if possible.
+ * @returns {string} A transfer date string if possible.
  */
 function reverseFormat(element, guess) {
 	let result, matches;
@@ -552,7 +552,7 @@ function reverseFormat(element, guess) {
  * and expand the parent dateField.
  * @function
  * @private
- * @param matches The content for the suggestions.
+ * @param {any} matches The content for the suggestions.
  * @param {Element} dateField The date field to which the matches belong.
  */
 function showSuggestions(matches, dateField) {
@@ -584,7 +584,7 @@ function showSuggestions(matches, dateField) {
  * @function
  * @private
  * @param {Element} dateField a date field
- * @param {Number} [delay] a timeout delay, default to 250 if not set. Set explicitly to 0 to have no delay.
+ * @param {number} [delay] a timeout delay, default to 250 if not set. Set explicitly to 0 to have no delay.
  */
 function filterOptions(dateField, delay) {
 	let _delay = delay;
@@ -706,8 +706,9 @@ function shedSelectSubscriber(element) {
  * @function
  * @private
  * @param {Element} element The element SHED has acted upon.
- * @param {String} action The SHED action.
+ * @param {string} action The SHED action.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function shedSubscriber(element, action) {
 	if (element) {
 		if (element.matches(DATE_FIELD)) {
@@ -878,6 +879,7 @@ function focusAndSetValue(element/* , option */) {
  * @private
  * @param {KeyboardEvent & { target: HTMLElement, currentTarget: HTMLElement }} $event The keydown event.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function keydownEvent($event) {
 	const dateField = $event.currentTarget,
 		keyCode = $event.key,
@@ -960,8 +962,8 @@ function handleTabKey(element, target) {
 
 /**
  * Helper for keydownEvent.
- * @param {Element} element
- * @param {Element} target
+ * @param {Element} element - ?
+ * @param {Element} target - ?
  * @returns {boolean} ?
  */
 function handleEscapeKey(element, target) {

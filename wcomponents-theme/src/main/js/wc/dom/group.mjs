@@ -29,7 +29,7 @@ const elementGroup = {};
  *    or `menuitemcheckbox`. Ambiguous contains will currently return as a group ALL the possible
  *    matches, for example if you pass a menu the result may contain a mix of all different types mentioned
  *    above.
- * @param {Boolean} [ignoreInnerGroups] see {@link module:wc/dom/ariaGroup.getGroup}
+ * @param {boolean} [ignoreInnerGroups] see {@link module:wc/dom/ariaGroup.getGroup}
  * @return {HTMLElement[]} An array containing the members of this dom group. If the element is not part of
  *    any group the array is empty.
  */

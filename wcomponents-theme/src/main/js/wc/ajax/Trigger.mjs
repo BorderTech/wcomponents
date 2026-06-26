@@ -20,7 +20,7 @@ const { console, document } = globalThis;
 
 const
 	/**
-	 * @constant {String} EMPTY_VALUE A Default value for INPUT elements in the submit button state or image
+	 * @constant {string} EMPTY_VALUE A Default value for INPUT elements in the submit button state or image
 	 * button state which do not have a value set. The default value is that commonly set for such controls.
 	 * This is a bit moot as we do not use inputs in these states so cannot fire AJAX requests based on them. It
 	 * is here for completeness.
@@ -37,7 +37,7 @@ const
 	 */
 	REQUEST_DELAY = 500,
 	/**
-	 * @constant {String} UNDEFINED  Undefined. Here to improve compression.
+	 * @constant {string} UNDEFINED  Undefined. Here to improve compression.
 	 * @private
 	 * @default "undefined"
 	 * @ignore
@@ -52,7 +52,7 @@ let
 	 */
 	pendingList = [],
 	/**
-	 * @var {Boolean} queueBlocked Indicates that the request queue is currently blocked by a pending UI update.
+	 * @var {boolean} queueBlocked Indicates that the request queue is currently blocked by a pending UI update.
 	 * @private
 	 */
 	queueBlocked = false,
@@ -86,9 +86,9 @@ initialise.addInitRoutine(function() {
  * Joins strings with the "&" character.
  * @function addToQueryString
  * @private
- * @param {String} [queryString] The existing query string ("" is OK).
- * @param {String} [newArgs] The String to add to the query string.
- * @returns {String} An amended queryString
+ * @param {string} [queryString] The existing query string ("" is OK).
+ * @param {string} [newArgs] The String to add to the query string.
+ * @returns {string} An amended queryString
  */
 function addToQueryString(queryString, newArgs) {
 	let result = queryString;
@@ -145,6 +145,7 @@ function getForm(element) {
  * @param {Function} [onsuccess] The function to which the AJAX response payload will be passed.
  * @param {Function} [onerror] The function which will be called if there is an error communicating with the server.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function Trigger(obj, onsuccess, onerror) {
 	if (obj.id) {
 		this.id = obj.id;
@@ -210,8 +211,8 @@ function Trigger(obj, onsuccess, onerror) {
  * Subscribe to profile information.
  * The first argument to the subscriber will be the firing trigger, do not modify it or its properties unless you know what you are doing.
  * The second will be a boolean, true if there are pending triggers, false if there are none.
- * @param {Function} subscriber
- * @param {number} [phase] Subscriber will be called:
+ * @param {Function} subscriber - ?
+ * @param {number} [phase] - Subscriber will be called:
  *	if phase is a negative number when a trigger is fired
  *	if phase is falsy then after the response is received
  *	if positive number, then after the response callback has been called
@@ -234,8 +235,8 @@ Trigger.subscribe = function(subscriber, phase) {
 /**
  * Unsubscribe from profile information.
  * This is for use by testing / monitoring tools and does not form a core part of the functionality of this module.
- * @param {Function} subscriber
- * @param {number} [phase] If a negative number is provided the subscriber will be removed from the "before" phase.
+ * @param {Function} subscriber - ?
+ * @param {number} [phase] - If a negative number is provided the subscriber will be removed from the "before" phase.
  */
 Trigger.unsubscribe = function(subscriber, phase) {
 	let group;
@@ -283,7 +284,7 @@ function notify(trigger, groupName, cbresult) {
  * @static
  * @param {module:wc/ajax/Trigger|Element} trigger The trigger instance or element to use as a reference point
  *	 for finding the ajax URL.
- * @returns {String} The url.
+ * @returns {string} The url.
  */
 Trigger.getUrl = function(trigger) {
 	const ampCheckRE =	/&amp;/gi;
@@ -298,8 +299,9 @@ Trigger.getUrl = function(trigger) {
 	 * @function
 	 * @private
 	 * @param {module:wc/ajax/Trigger|Element} trig An instance of Trigger or a DOM Element.
-	 * @returns {String} The AJAX URL associated with the trigger.
+	 * @returns {string} The AJAX URL associated with the trigger.
 	 */
+	// eslint-disable-next-line sonarjs/cognitive-complexity
 	function getUrlHtml5(trig) {
 		const URL_DATA_ATTRIBUTE = "data-wc-ajaxurl";
 		let result;
@@ -349,7 +351,7 @@ Trigger.getUrl = function(trigger) {
  * @public
  * @param {string} id An element ID
  * @param {module:wc/ajax/Trigger~Request[]} requests An array of Request instances.
- * @param {Boolean} [stopAtFirstMatch] If true will only return the first trigger found which updates the id.
+ * @param {boolean} [stopAtFirstMatch] If true will only return the first trigger found which updates the id.
  * @returns {module:wc/ajax/Trigger~Request[]} An array of requests which update the id. If none found will
  *	 return an empty array.
  */
@@ -516,7 +518,7 @@ function getFirePromise(trigger) {
  *  not expect, however the server must deal with this reality.
  * @function
  * @public
- * @returns {String} The serialized parameters or "".
+ * @returns {string} The serialized parameters or "".
  */
 Trigger.prototype.getParams = function() {
 	const element = getElement(this);
@@ -563,7 +565,7 @@ Trigger.prototype.getParams = function() {
  * @private
  * @function
  * @param {Element} element The trigger element.
- * @returns {String} The serialized parameters or "".
+ * @returns {string} The serialized parameters or "".
  */
 function getSubmitButtonParams(element) {
 	let params = "", triggerName = element["name"];
@@ -592,14 +594,14 @@ function getSubmitButtonParams(element) {
  * @private
  * @param {Element} element The trigger element.
  * @param {Trigger} instance The trigger instance being fired.
- * @returns {String} The serialized parameters or "".
+ * @returns {string} The serialized parameters or "".
  */
 function getFormParams(element, instance) {
 	let result = "";
 	const form = getForm(element);
 	/**
-	 * @param {Element} context
-	 * @param {string} qs
+	 * @param {Element} context - ?
+	 * @param {string} qs - ?
 	 * @return {string}
 	 */
 	const serializeElements = (context, qs) => {
@@ -635,9 +637,9 @@ function getFormParams(element, instance) {
 
 /**
  * Map of form methods.
- * @constant {Object}
- * @property {String} GET "get"
- * @property {String} POST "post"
+ * @constant {object}
+ * @property {string} GET "get"
+ * @property {string} POST "post"
  */
 Trigger.prototype.METHODS = {
 	GET: "get",
@@ -658,13 +660,13 @@ function Request(trigger) {
 	const $self = this;
 	/**
 	 * Cache responses to this request?
-	 * @var {Boolean}
+	 * @var {boolean}
 	 */
 	this.cache = false;
 
 	/**
 	 * The form data posted as part of the ajax request.
-	 * @var {?String}
+	 * @var {?string}
 	 */
 	this.postData = trigger.getParams();
 
@@ -676,14 +678,14 @@ function Request(trigger) {
 
 	/**
 	 * The responsetype of an AJAX request.
-	 * @var {String}
+	 * @var {string}
 	 * @default "responseXML"
 	 */
 	this.responseType = ajax.responseType.XML;
 	/**
 	 * The callback to call when the AJAX request has returned.
 	 * @function
-	 * @param {Object} response The ajax response.
+	 * @param {object} response The ajax response.
 	 */
 	this.callback = function(response) {
 		// response would be null if the XML has already been transformed to HTML on the server
@@ -767,18 +769,18 @@ Request.prototype.send = function () {
 export default Trigger;
 
 /**
- * @typedef {Object} module:wc/ajax/Trigger~TriggerConfig The format of the object passed into the contructor.
- * @property {String} id A unique identifier for this trigger.
- * @property {Boolean} [oneShot] Trigger can only fire once.
- * @property {String} [alias] Report this ID to the server instead of the real ID.
- * @property {Boolean} [successful] Trigger fires if control is (un)successful.
- * @property {String} [formRegion] Id of the region of the form to submit.
- * @property {String[]} loads REQUIRED ids of elements in the page to mark as "busy" when trigger is fired, eg ["id1", "id2"].
- * @property {Boolean} [urlFromForm] If true then the URL for this trigger will ALWAYS be the ancestor form action.
- * @property {String} [url] The ajax url to override the normal get from form.
+ * @typedef {object} module:wc/ajax/Trigger~TriggerConfig The format of the object passed into the contructor.
+ * @property {string} id A unique identifier for this trigger.
+ * @property {boolean} [oneShot] Trigger can only fire once.
+ * @property {string} [alias] Report this ID to the server instead of the real ID.
+ * @property {boolean} [successful] Trigger fires if control is (un)successful.
+ * @property {string} [formRegion] Id of the region of the form to submit.
+ * @property {string[]} loads REQUIRED ids of elements in the page to mark as "busy" when trigger is fired, eg ["id1", "id2"].
+ * @property {boolean} [urlFromForm] If true then the URL for this trigger will ALWAYS be the ancestor form action.
+ * @property {string} [url] The ajax url to override the normal get from form.
  * @property {Function} [getData] Function to get extra data for this particular trigger - used for dataList requests.
- * @property {String} [method] "post" or "get" defaults to post if not set.
- * @property {Boolean} [serialiseForm] Indicates that the form should be serialized as part of the request, defaults to true.
- * @property {Boolean} [_submitTriggerElement] If true the element that fired the trigger will be serialised in the form data
+ * @property {string} [method] "post" or "get" defaults to post if not set.
+ * @property {boolean} [serialiseForm] Indicates that the form should be serialized as part of the request, defaults to true.
+ * @property {boolean} [_submitTriggerElement] If true the element that fired the trigger will be serialised in the form data
  */
 

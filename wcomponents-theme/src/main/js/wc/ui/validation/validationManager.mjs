@@ -40,7 +40,7 @@ const validationManager = {
 	 * </ol>
 	 * @function module:wc/ui/validation/validationManager.isExempt
 	 * @param {Element} element The component to test.
-	 * @returns {Boolean} true if the component is exempt from client side validation.
+	 * @returns {boolean} true if the component is exempt from client side validation.
 	 */
 	isExempt: function(element) {
 		let result = false;
@@ -56,7 +56,7 @@ const validationManager = {
 	 * returns whether anything has put the element into an invalid state previously.
 	 * @function module:wc/ui/validation/validationManager.isInvalid
 	 * @param {Element} element The component to test for validity.
-	 * @returns {Boolean} true if the element is invalid.
+	 * @returns {boolean} true if the element is invalid.
 	 */
 	isInvalid: element => element.matches(invalidSelector),
 
@@ -95,7 +95,7 @@ const validationManager = {
 	 * @function module:wc/ui/validation/validationManager.isValid
 	 * @param {Element} [container] A DOM node (preferably containing form controls). If the container is not specified finds the form
 	 *   containing the activeElement (this is for use with controls with submitOnchange).
-	 * @returns {Boolean} true if the container is in a valid state (all components in the container which support validation are valid).
+	 * @returns {boolean} true if the container is in a valid state (all components in the container which support validation are valid).
 	 */
 	isValid: function (container) {
 		let result = true;
@@ -105,7 +105,7 @@ const validationManager = {
 		 * if all of its subscribers return true.
 		 * @function
 		 * @private
-		 * @param {Boolean} decision true if valid.
+		 * @param {boolean} decision true if valid.
 		 */
 		function _callback(decision) {
 			result &&= decision;  // we are only valid if all observers are valid
@@ -151,10 +151,10 @@ const validationManager = {
 	},
 
 	/**
-	 *
-	 * @param {Element} element
-	 * @param {any} fallbackToken
-	 * @return {string}
+	 * ?
+	 * @param {Element} element - ?
+	 * @param {any} fallbackToken - ?
+	 * @return {string} ?
 	 */
 	getLabelText: function(element, fallbackToken = "validation_common_unlabelledfield") {
 		return /** @type {string} */(getFirstLabelForElement(element, true) ||

@@ -36,7 +36,7 @@ function validate(container) {
  * @function
  * @private
  * @param {HTMLInputElement} element The DOM element being selected.
- * @param {String} action The shed action.
+ * @param {string} action The shed action.
  */
 function shedSubscriber(element, action) {
 	if (element?.matches(requiredSelector)) {

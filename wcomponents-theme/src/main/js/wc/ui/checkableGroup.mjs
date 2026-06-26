@@ -5,7 +5,7 @@ const { crypto, document, HTMLElement, window } = globalThis;
 
 class SelectableGroup extends HTMLElement {
 	/**
-	 * @returns {Number} the number of layout columns
+	 * @returns {number} the number of layout columns
 	 */
 	get layoutColumnCount() {
 		return Number(this.getAttribute('layoutColumnCount')) || 0;
@@ -82,6 +82,7 @@ export default class WCheckBoxSelect extends SelectableGroup {
 	 * Main renderer
 	 * @returns {void} ?
 	 */
+	// eslint-disable-next-line sonarjs/cognitive-complexity
 	#render() {
 		if (this.hasAttribute('readOnly')) {
 			this.#renderReadOnly();
@@ -331,6 +332,7 @@ export class WRadioButtonSelect extends SelectableGroup {
 	 * Main renderer
 	 * @returns {void} ?
 	 */
+	// eslint-disable-next-line sonarjs/cognitive-complexity
 	#render() {
 		if (this.hasAttribute('readOnly')) {
 			this.#renderReadOnly();

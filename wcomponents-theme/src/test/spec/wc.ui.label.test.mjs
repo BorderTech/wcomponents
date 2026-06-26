@@ -1,5 +1,6 @@
 import uiLabel, { initialiser } from "wc/ui/label.mjs";
 import shed from "wc/dom/shed.mjs";
+
 import { setUpExternalHTML } from "../helpers/specUtils.mjs";
 
 const { afterEach, beforeEach, describe, expect, it } = globalThis;
@@ -14,7 +15,7 @@ describe("wc/ui/label", () => {
 			ownerDocument = dom.window.document;
 			ownerDocument._getElementById = ownerDocument.getElementById;
 			/**
-			 * @param {any} id
+			 * @param {string} id - ?
 			 * @returns {HTMLElement} ?
 			 */
 			ownerDocument.getElementById = function (id) {
@@ -115,7 +116,7 @@ describe("wc/ui/label", () => {
 		labelHint = uiLabel.getHint(label);
 
 		expect(labelHint).toBeTruthy();
-		expect(labelHint.innerHTML.indexOf(hint) === 0).toBeTrue();
+		expect(labelHint.innerHTML.startsWith(hint)).toBeTrue();
 	});
 
 	it("testSetHint_existingHint", function() {

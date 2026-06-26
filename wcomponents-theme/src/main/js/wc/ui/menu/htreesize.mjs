@@ -40,7 +40,7 @@ function resizeSubscriber(element) {
  * Set height and width on segments of a htree if these were stored previously.
  * @function
  * @private
- * @param {String} id The id of the component to be sized.
+ * @param {string} id The id of the component to be sized.
  * @param {module:wc/ui/menu/htreesize~dto} obj A dto containing height and/or width.
  */
 function doReapplySize(id, obj) {
@@ -66,7 +66,7 @@ function doReapplySize(id, obj) {
  * @function
  * @private
  * @param {Element} element The tree or group being adjusted.
- * @param {Object} stored The object version of the stored size info.
+ * @param {object} stored The object version of the stored size info.
  */
 function reapplySizeOnTreeGroup(element, stored) {
 	const id = element.id;
@@ -120,7 +120,7 @@ function dblClickEvent($event) {
 
 /**
  * Handle key down.
- * @param {KeyboardEvent} $event
+ * @param {KeyboardEvent} $event - ?
  */
 function keydownEvent($event) {
 	if (!$event.defaultPrevented && $event.key === "Enter") {
@@ -132,7 +132,7 @@ function keydownEvent($event) {
 
 /**
  *
- * @param {FocusEvent & { target: HTMLElement }} $event
+ * @param {FocusEvent & { target: HTMLElement }} $event - ?
  */
 function focusEvent($event) {
 	const { target } = $event;
@@ -168,9 +168,9 @@ initialise.register({
 });
 
 /**
- * @typedef {Object} module:wc/ui/menu/htreesize~dto An object which stores information about a htree or a htree
+ * @typedef {object} module:wc/ui/menu/htreesize~dto An object which stores information about a htree or a htree
  * submenu.
- * @property {String} [height] The CSS height of the item including units.
- * @property {String} [width] The CSS width of the item including units.
+ * @property {string} [height] The CSS height of the item including units.
+ * @property {string} [width] The CSS width of the item including units.
  */
 

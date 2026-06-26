@@ -13,7 +13,7 @@ const instance = {
 	 * honoured iff the current active element is null or document.body.
 	 * @function module:wc/ui/onloadFocusControl.requestFocus
 	 * @public
-	 * @param {String} targetId the id of the element to focus
+	 * @param {string} targetId the id of the element to focus
 	 * @param {number} [timeout] A timeout for the focus call. Explicit 0 is acceptable. If not set (falsy other
 	 *    than explicit 0) then {@link module:wc/ui/onloadFocusControl~doRequestFocus} is called immediately
 	 *    which may have implications so think carefully.
@@ -32,7 +32,7 @@ const instance = {
 	 * Set the element id to be focussed once the page has finished doing its business.
 	 * @function module:wc/ui/onloadFocusControl.register
 	 * @public
-	 * @param {String} id THe id of the component to focus.
+	 * @param {string} id THe id of the component to focus.
 	 */
 	register: function(id) {
 		if (id && !focusId) {
@@ -57,7 +57,7 @@ const instance = {
  * Makes the attempt to focus an element
  * @function
  * @private
- * @param {String} targetId The id of the element to focus (or focus in).
+ * @param {string} targetId The id of the element to focus (or focus in).
  * @param {boolean} [ignoreMessages] if `true` then allow focus request even if there are message boxes in the view
  */
 function doRequestFocus(targetId, ignoreMessages) {
@@ -80,7 +80,7 @@ function doRequestFocus(targetId, ignoreMessages) {
  * interfere with the user.
  * @function
  * @private
- * @returns {Boolean} true if it is ok to change focus from whereever it happens to be at the moment.
+ * @returns {boolean} true if it is ok to change focus from whereever it happens to be at the moment.
  * @param {boolean} [ignoreMessages] if `true` then allow focus request even if there are message boxes in the view
  */
 function canPolitelyChangeFocus(ignoreMessages) {

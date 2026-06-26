@@ -6,17 +6,17 @@ const fieldsetSelector = "fieldset",
 	labelSelector = "label";
 
 /**
- * @param {string} id
+ * @param {string} id - ?
  * @return {string} `label[for='${string}']`
  */
 const labelForSelector = id => `${labelSelector}[for='${id}']`;
 /**
- * @param {string} id
+ * @param {string} id - ?
  * @return {string} `[data-wc-for='${string}']`
  */
 const labelDataForSelector = id => `[data-wc-for='${id}']`;
 /**
- * @param {string} id
+ * @param {string} id - ?
  * @return {string} `[data-wc-rofor='${string}']`
  */
 const labelDataRoForSelector = id => `[data-wc-rofor='${id}']`;
@@ -25,8 +25,8 @@ const labelDataRoForSelector = id => `[data-wc-rofor='${id}']`;
  * Gets the selectors that will find labels for this id.
  * Example, if you pass "myId" and include readonly you will get:
  *    [ "label[for='myId']", "[data-wc-for='myId']" , "[data-wc-rofor='myId']" ]
- * @param {string} id
- * @param {boolean} [inclReadOnly]
+ * @param {string} id - ?
+ * @param {boolean} [inclReadOnly] - ?
  * @return {string[]} An array of selectors.
  */
 function getLabelForSelectors(id, inclReadOnly) {
@@ -46,7 +46,7 @@ function getLabelForSelectors(id, inclReadOnly) {
  * @private
  * @param {Element} element The labelled element.
  * @param {Element[]} [labelArr] Labels we have already found.
- * @param {Boolean} [readOnly] If true also get labels for element in its read-only state.
+ * @param {boolean} [readOnly] If true also get labels for element in its read-only state.
  * @returns {HTMLElement[]} If element has no 'labels' then an empty array is returned.
  */
 function doLabelQuery(element, labelArr, readOnly) {
@@ -117,9 +117,10 @@ function getAriaLabelledElements(element) {
  * Gets labelling element/s (label, legend or pseudo-label) for a control.
  * @function module:wc/dom/getLabelsForElement
  * @param {Element} element - The element for which we want to find labels.
- * @param {Boolean} includeReadOnly - If true then also search for "labelling" elements for read only controls.
+ * @param {boolean} includeReadOnly - If true then also search for "labelling" elements for read only controls.
  * @returns {HTMLElement[]} An array of elements which 'label' element. If element has no 'labels' then an empty array is returned.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function getLabels(element, includeReadOnly) {
 	if (element) {
 		const ariaLabelledElements = getAriaLabelledElements(element);

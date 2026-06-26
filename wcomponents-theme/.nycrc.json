@@ -1,11 +1,16 @@
 {
 	"all": true,
+	"branches": 80,
+	"check-coverage": true,
 	"exclude": [
 		"src/test/**/"
 	],
+	"functions": 75,
 	"include": [
 		"src/main/**/"
 	],
-	"reporter": ["lcov"],
-	"report-dir": "./target/coverage"
+	"lines": 54,
+	"reporter": ["cobertura", "lcov", "text"],
+	"report-dir": "./target/coverage",
+	"statements": 54
 }

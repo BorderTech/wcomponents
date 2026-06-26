@@ -47,7 +47,7 @@ class TreeItem extends AriaAnalog {
 	 * Menus have complex two-dimensinal keyboard navigation, therefore the tree items themselves do not
 	 * implement navigation.
 	 * @var
-	 * @type {Boolean}
+	 * @type {boolean}
 	 * @override
 	 */
 	groupNavigation = false;
@@ -56,7 +56,7 @@ class TreeItem extends AriaAnalog {
 	 * We need to keep a record of the last activated item in a tree to allow for chordal selection
 	 * being either CTRL or SHIFT accompanying a click or navigation event. The Object is keyed on the tree id.
 	 * @var
-	 * @type {Object}
+	 * @type {object}
 	 * @override
 	 */
 	lastActivated = {};
@@ -80,8 +80,8 @@ class TreeItem extends AriaAnalog {
 	 * @function
 	 * @override
 	 * @param {Element} element The element to activate
-	 * @param {Boolean} [SHIFT] True if the SHIFT key was pressed at the time of activation.
-	 * @param {Boolean} [CTRL] True if the CTRLor META key was pressed at the time of activation.
+	 * @param {boolean} [SHIFT] True if the SHIFT key was pressed at the time of activation.
+	 * @param {boolean} [CTRL] True if the CTRLor META key was pressed at the time of activation.
 	 */
 	activate(element, SHIFT, CTRL) {
 		const container = element.closest(this.CONTAINER.toString());
@@ -145,7 +145,7 @@ export default initialise.register(instance);
  * @private
  * @param {Element} element The element which is being tested.
  * @param {Element} target The click event target.
- * @returns {Boolean} true if the element may be activated.
+ * @returns {boolean} true if the element may be activated.
  */
 function isAcceptable (element, target) {
 	let result = isAcceptableTarget(element, target);
@@ -177,7 +177,7 @@ function isAcceptable (element, target) {
  * @function
  * @private
  * @param {Element} element The element to be activated.
- * @returns {Boolean} true if element is the first treeitem being activated in its level of the tree.
+ * @returns {boolean} true if element is the first treeitem being activated in its level of the tree.
  */
 function isFirstAtLevel(element) {
 	const subMenu = tree.getSubMenu(element);

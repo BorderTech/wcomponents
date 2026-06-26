@@ -41,7 +41,7 @@ const instance = {
 	 * Get the "role" implicit in an HTML element.
 	 * @function module:wc/dom/impliedARIA.getImpliedRole
 	 * @param {Element} element A DOM NODE but really should be an element.
-	 * @returns {String} The implied role for the element.
+	 * @returns {string} The implied role for the element.
 	 */
 	getImpliedRole: function (element) {
 		// if something has an explicit role then implied roles should not be considered.
@@ -108,7 +108,7 @@ const instance = {
  * @function
  * @private
  * @param {Element} element The element to test.
- * @returns {Boolean} true if the element supports the required attribute.
+ * @returns {boolean} true if the element supports the required attribute.
  */
 function supportsRequired(element) {
 	const notRequired = ["hidden", "range", "color", "submit", "image", "reset", "button"].map(type => `not([type='${type}'])`);
@@ -122,7 +122,7 @@ function supportsRequired(element) {
  * @function
  * @private
  * @param {Element} element The element to test.
- * @returns {Boolean} true if the element supports the checked attribute i.e. it is an input element and its
+ * @returns {boolean} true if the element supports the checked attribute i.e. it is an input element and its
  *    type is radio or checkbox.
  */
 function supportsChecked(element) {
@@ -135,7 +135,7 @@ function supportsChecked(element) {
  * @function
  * @private
  * @param {Element} element The element to test.
- * @returns {Boolean} true if the element supports the selected attribute i.e. it is an option element.
+ * @returns {boolean} true if the element supports the selected attribute i.e. it is an option element.
  */
 function supportsSelected(element) {
 	return element?.matches("option");

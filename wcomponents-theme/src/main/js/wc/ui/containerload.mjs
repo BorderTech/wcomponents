@@ -58,7 +58,7 @@ const instance = {
 	 * setup (XSLT).
 	 * @function module:wc/ui/containerload.register
 	 * @public
-	 * @param {String[]} idArr An array of ids of elements which need to have this functionality.
+	 * @param {string[]} idArr An array of ids of elements which need to have this functionality.
 	 */
 	register: function(idArr) {
 		if (idArr?.length) {
@@ -73,8 +73,8 @@ const instance = {
  * @function
  * @private
  * @param {Element} element The container for which we are registering a trigger.
- * @param {Boolean} noPost Indicates the trigger does not need to post data (for eager load).
- * @param {Boolean} get Use GET rather than POST.
+ * @param {boolean} noPost Indicates the trigger does not need to post data (for eager load).
+ * @param {boolean} get Use GET rather than POST.
  */
 function registerTrigger(element, noPost, get) {
 	const id = element.id || (element.id = uid()),
@@ -105,7 +105,7 @@ function registerTrigger(element, noPost, get) {
  * @function
  * @private
  * @param {Element} element The element to load
- * @param {Boolean} eager true for eager load (does not need to post data)
+ * @param {boolean} eager true for eager load (does not need to post data)
  * @param {boolean} get true to use GET rather than POST which is useful for eager panels.
  * @return {Promise<void>}
  */
@@ -182,7 +182,7 @@ function handleCollapseOrHide(element, action) {
 }
 
 /**
- * @param {Element} element
+ * @param {Element} element - ?
  * @param {string} selector to match
  * @return {HTMLElement}
  */
@@ -192,7 +192,7 @@ function findFirstContainer(element, selector) {
 	}
 	/**
 	 *
-	 * @param {Element} child
+	 * @param {Element} child - ?
 	 * @return {boolean} if the child matches
 	 */
 	const immediateChildMatcher = child => child.matches(selector);
@@ -215,7 +215,7 @@ function init() {
  * or not. In particular can be called by registration scripts built in XSLT phase.
  * @function
  * @private
- * @param {String} id The id of the container to load.
+ * @param {string} id The id of the container to load.
  */
 function requestEagerLoad(id) {
 	const element = document.getElementById(id);

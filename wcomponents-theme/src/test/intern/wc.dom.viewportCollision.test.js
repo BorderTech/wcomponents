@@ -16,8 +16,8 @@ define(["intern!object", "intern/chai!assert", "intern/resources/test.utils!"],
 		 * It is important that the viewport is "neutralized" by resetting its scroll before calculating the collision
 		 * @function
 		 * @private
-		 * @param {String} position The CSS dimension in which we are colliding.
-		 * @param {String} collDirection the viewportCollision object's property we want to investigate for a particular collision.
+		 * @param {string} position The CSS dimension in which we are colliding.
+		 * @param {string} collDirection the viewportCollision object's property we want to investigate for a particular collision.
 		 * @param {boolean} expectGreater Indicates if we expect the collision value to be greater or less than 0.
 		 */
 		function doCollisionTest (position, collDirection, expectGreater) {

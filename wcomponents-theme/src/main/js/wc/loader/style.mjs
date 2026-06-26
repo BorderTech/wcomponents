@@ -78,7 +78,7 @@ let CSS_BASE_URL = null,
 const instance = {
 	/**
 	 * Get the main CSS link element produced in the XSLT. The browser specific CSS is added after this.
-	 * @returns {String} The URL of the main CSS.
+	 * @returns {string} The URL of the main CSS.
 	 */
 	getMainCss: function () {
 		const mainCss = /** @type HTMLLinkElement */ (document.getElementById("wc_css_screen"));
@@ -92,6 +92,7 @@ const instance = {
 	 * @public
 	 * @param {module:wc/loader/style~config} [config] a dto describing the CSS to load. If not defined use module config
 	 */
+	// eslint-disable-next-line sonarjs/cognitive-complexity
 	load: function (config) {
 		const what = configure(config);
 
@@ -149,7 +150,7 @@ const instance = {
 	 * Allow any module to load a CSS file. If your module wants to add custom CSS use this function.
 	 * @function module:wc/loader/style.add
 	 * @public
-	 * @param {String} nameOrUrl The file name (with or without extension) or URL to a CSS file.
+	 * @param {string} nameOrUrl The file name (with or without extension) or URL to a CSS file.
 	 *
 	 *   1. Supported URLs are of the form "//blah", "/blah", "http[s]://blah" or ".[.]/blah".
 	 *   2. If the String is not in one of the URL patterns we assume you are getting a CSS file built from your
@@ -163,7 +164,7 @@ const instance = {
 	 *   (including the ability to override the style loadre config). So in reality this is almost always going to
 	 *   be a URL unless you are particularly odd. Being particularly odd I tested this function using the debug CSS
 	 *   and loading it from {@link module:wc/debug/a11y}.
-	 * @param {String} [media] A CSS media query appropriate to the link element.
+	 * @param {string} [media] A CSS media query appropriate to the link element.
 	 * @param {module:wc/loader/style~config} [config] a dto describing the CSS to load. If not defined use module config
 	 */
 	add: function (nameOrUrl, media, config) {
@@ -178,7 +179,7 @@ const instance = {
  * 1. it has a hostname
  * 2. it has a pathArray
  * 3. the last item in the pathArray is the file name, which we do not want.
- * @returns {String} the URL to the main CSS file excluding the file name and query string with the terminal SLASH.
+ * @returns {string} the URL to the main CSS file excluding the file name and query string with the terminal SLASH.
  */
 function getBaseUrlFromMainCss() {
 	const cssUrl = instance.getMainCss(),
@@ -201,7 +202,7 @@ function getBaseUrlFromMainCss() {
  * One time function to get the default cache-buster off of the main CSS built by XSLT.
  * @function
  * @private
- * @returns {String} the cache-buster querystring on the main CSS link's URL.
+ * @returns {string} the cache-buster querystring on the main CSS link's URL.
  */
 function getCachebusterFromMainCss() {
 	const cssUrl = instance.getMainCss();
@@ -253,8 +254,8 @@ function configure(obj) {
  * Create a link element for a CSS file in the head element unless we already have one for this URL.
  * @function
  * @private
- * @param {String} url The CSS url to add.
- * @param {String} [media] A CSS media query for the link element.
+ * @param {string} url The CSS url to add.
+ * @param {string} [media] A CSS media query for the link element.
  */
 function addLinkElement(url, media) {
 	if (document.querySelector(`link[href='${url}']`)) {  // Do not add the same link URL twice.
@@ -275,8 +276,8 @@ function addLinkElement(url, media) {
 }
 
 /**
- * @param {string} arg
- * @param {string} msg
+ * @param {string} arg - ?
+ * @param {string} msg - ?
  * @returns {boolean} True if the arg is falsy or a string
  */
 function checkIsStringOrFalsy(arg, msg) {
@@ -303,8 +304,8 @@ function getLastCssLink() {
  * Creates a link element from a string input which could be a simple CSS file name in a WComponents theme or a URL to any CSS file.
  * @function
  * @private
- * @param {String} nameOrUrl the basis of the CSS url, or a complete URL
- * @param {String} [media] a CSS media query
+ * @param {string} nameOrUrl the basis of the CSS url, or a complete URL
+ * @param {string} [media] a CSS media query
  */
 function addByName(nameOrUrl, media) {
 	const isUrl = nameOrUrl.startsWith("/") || nameOrUrl.startsWith("http") || nameOrUrl.startsWith(".");
@@ -324,8 +325,8 @@ function addByName(nameOrUrl, media) {
 }
 
 /**
- * @typedef {Object} module:wc/loader/style~config
- * @property {String} [cachebuster] The cache key for the loaded CSS, generally generated from the XSLT and not overridden.
+ * @typedef {object} module:wc/loader/style~config
+ * @property {string} [cachebuster] The cache key for the loaded CSS, generally generated from the XSLT and not overridden.
  * @property {module:wc/loader/style~cssConfig} [css] An object describing other CSS patches to load based on optional `has` and/or media queries.
  * @property {boolean} [inherit] if `true` then inherit the default CSS include object as a mixin target. Only used if `css` is an object.
  * @example
@@ -347,8 +348,8 @@ function addByName(nameOrUrl, media) {
  */
 
 /**
- * @typedef {Object} module:wc/loader/style~cssConfig
- * @property {String} key The file name extension used in the CSS build. This is the bit immediately after the `wc-` part and before the `.css`
+ * @typedef {object} module:wc/loader/style~cssConfig
+ * @property {string} key The file name extension used in the CSS build. This is the bit immediately after the `wc-` part and before the `.css`
  *    part of the CSS file's name (eg 'ff'). This can be anything (well, anything which is a valid object property name) if the value is a
  *    `loadRules` object and that object defines both the `test` and `name` properties.
  * @property {module:wc/loader/style~loadRules|string} value The rules for describing and load testing for the CSS. If this property is
@@ -376,13 +377,13 @@ function addByName(nameOrUrl, media) {
  */
 
 /**
- * @typedef {Object} {module:wc/loader/style~loadRules}
- * @property {String} [test] The string arg passed to has to sniff user agent, eg "safari" or "ff". If falsy the style will be added without an
+ * @typedef {object} {module:wc/loader/style~loadRules}
+ * @property {string} [test] The string arg passed to has to sniff user agent, eg "safari" or "ff". If falsy the style will be added without an
  *   `has` test.
  * @property {number} [version] The version of the browser to test. If set then the has test is compared to this
  *   and is deemed successful if the browser version is <= version.
- * @property {String} [media] A CSS media selector. If set then the CSS link will include this media selector
- * @property {String} [name] the CSS file URL/name (with or without path) to load. If not set then the file to load will be based on the key
+ * @property {string} [media] A CSS media selector. If set then the CSS link will include this media selector
+ * @property {string} [name] the CSS file URL/name (with or without path) to load. If not set then the file to load will be based on the key
  *   {@see module:wc/loader/style~cssConfig) in the form of CSS_BASE_URL + "wc-" + key + ".css? + CACHEBUSTER
  * @example
  * // To test for Safari 8 or below and a screen with a lot of horizontal pixels:

@@ -179,7 +179,7 @@ describe("wc/ui/validation/dropdown", () => {
 
 	/**
 	 * Helper for tests, fires a change event on the dropdown.
-	 * @param {any} dropdown
+	 * @param {EventTarget} dropdown - ?
 	 */
 	function fireChangeOnDropdown(dropdown) {
 		const changeEvent = new window.Event("change", {
@@ -191,7 +191,7 @@ describe("wc/ui/validation/dropdown", () => {
 
 	/**
 	 * Helper for tests, fires a blur event on the dropdown.
-	 * @param {HTMLElement} dropdown
+	 * @param {HTMLElement} dropdown - ?
 	 */
 	function fireBlurOnDropdown(dropdown) {
 		const blurEvent = new window.UIEvent("blur", {

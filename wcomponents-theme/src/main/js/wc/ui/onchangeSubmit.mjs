@@ -48,7 +48,7 @@ const instance = {
 		}
 		const myLabel = lbl || /** @type {HTMLElement} */(getFirstLabelForElement(el));
 		if (myLabel) {
-			i18n.translate("submitOnChange").then(/** @param {string | string[]} submitOnChangeHint */(submitOnChangeHint = "Changing the value of this field will cause immediate save.") => {
+			i18n.translate("submitOnChange").then(/** @param {string | string[]} submitOnChangeHint - ? */ (submitOnChangeHint = "Changing the value of this field will cause immediate save.") => {
 				// do not allow an application to override i18n in order to make this warning empty
 				const hint = label.getHint(myLabel);
 				if (hint) {
@@ -119,7 +119,7 @@ function removeLoadedOptionRegistry(element) {
  * @function
  * @private
  * @param {Element} element The element to serialize.
- * @returns {String} The serialized value of element if it is a cacheable SELECT.
+ * @returns {string} The serialized value of element if it is a cacheable SELECT.
  */
 function getElementValue(element) {
 	if (element.matches(load_selectselector)) {
@@ -204,7 +204,9 @@ function shedObserver(element) {
 }
 
 /**
- * @param {Element} container
+ * ?
+ * @param {Element} container - ?
+ * @returns {void} ?
  */
 function addAllWarnings(container) {
 	if (container.matches(submitterselector)) {

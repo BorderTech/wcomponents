@@ -11,7 +11,7 @@ const PREFIX = "uid";
  * later generated values.
  * @function
  * @alias module:wc/dom/uid
- * @returns {String} A unique identifier.
+ * @returns {string} A unique identifier.
  */
 function uid() {
 	return `${PREFIX}${Date.now() + ++id}`;

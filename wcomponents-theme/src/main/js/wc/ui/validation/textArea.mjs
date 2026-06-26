@@ -21,7 +21,7 @@ const TEXTAREA = textArea.getWidget();
  * @function
  * @private
  * @param {Element} container The element being validated.
- * @returns {Boolean} true if all required WTextAreas in container are complete.
+ * @returns {boolean} true if all required WTextAreas in container are complete.
  */
 function _validateRequired(container) {
 	const obj = {
@@ -38,7 +38,7 @@ function _validateRequired(container) {
  * @function
  * @private
  * @param {HTMLTextAreaElement} element a WTextArea
- * @returns {Boolean} true if the field is invalid.
+ * @returns {boolean} true if the field is invalid.
  */
 function doContraintValidityTest(element) {
 	let result = false;
@@ -107,7 +107,7 @@ function changeEvent({ target }) {
 }
 
 /**
- * @param {UIEvent & { target: HTMLTextAreaElement }} $event
+ * @param {UIEvent & { target: HTMLTextAreaElement }} $event - ?
  */
 function blurEvent({ target }) {
 	if (!target.value && shed.isMandatory(target)) {

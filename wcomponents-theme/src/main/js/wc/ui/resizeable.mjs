@@ -57,7 +57,7 @@ function Resizeable() {
 	 * @function
 	 * @private
 	 * @param {Element} element The resizeable component.
-	 * @returns {String} Values are "v" for only vertical, "h" for only horizontal or "" for both.
+	 * @returns {string} Values are "v" for only vertical, "h" for only horizontal or "" for both.
 	 */
 	function getAllowedDirections(element) {
 		return element.dataset.wcResizedirection;
@@ -131,7 +131,7 @@ function Resizeable() {
 	 * Convert a (size related) CSS style rule to pixels.
 	 * @function
 	 * @private
-	 * @param {String} size The rule to convert.
+	 * @param {string} size The rule to convert.
 	 * @returns {number} the number value of the CSS rule.
 	 */
 	function styleToPx(size) {
@@ -159,10 +159,10 @@ function Resizeable() {
 	 * @function
 	 * @private
 	 * @param {HTMLElement} element the resizeable component.
-	 * @param {Boolean} [native] If true remove any inline styles before calculating the size. If a min/max
+	 * @param {boolean} [native] If true remove any inline styles before calculating the size. If a min/max
 	 *    width/height is "auto" or one of the "-content" settings (e.g. fit-content, -moz-max-content etc.) then
 	 *    we need to make a guess at the native box size in pixels. This is a bit experimental.
-	 * @returns {Object} a POJO with properties {float} width and {float} height.
+	 * @returns {object} a POJO with properties {float} width and {float} height.
 	 */
 	function getSize(element, native) {
 		let _width, _height;
@@ -198,7 +198,7 @@ function Resizeable() {
 	 * @private
 	 * @param {Element} element The element we are investigating for min-height/width.
 	 * @param {boolean} [isHeight] Indicates we should get the min-height, otherwise we get min-width.
-	 * @returns {String|Number} The style as a string or number.
+	 * @returns {string | number} The style as a string or number.
 	 */
 	function getSizeConstraint(element, isHeight) {
 		const css = "min-" + (isHeight ? "height" : "width"),
@@ -226,6 +226,7 @@ function Resizeable() {
 	 * @param {boolean} [notify] If true notify subscribers from here. This would usually be done in an
 	 * `end-of-event` handler like mouseup or touchend.
 	 */
+	// eslint-disable-next-line sonarjs/cognitive-complexity
 	function resize(element, deltaX, deltaY, notify) {
 		let _notify;
 		try {
@@ -544,7 +545,7 @@ function Resizeable() {
 	 * @function
 	 * @private
 	 * @param {Element} element A dom node, we are only interested in max/restore buttons.
-	 * @param {String} action The shed action:  shed.actions.SELECT or shed.actions.DESELECT.
+	 * @param {string} action The shed action:  shed.actions.SELECT or shed.actions.DESELECT.
 	 */
 	function shedSelectSubscriber(element, action) {
 		const target = element?.matches(maxSelector) ? getResizeTarget(element) : null;
@@ -563,7 +564,7 @@ function Resizeable() {
 	 * Get the selectors which describe the component.
 	 * @function module:wc/ui/resizeable.getWidget
 	 * @public
-	 * @returns {Object} A POJO with {string} "handle" and {string} "maximise" selectors
+	 * @returns {object} A POJO with {string} "handle" and {string} "maximise" selectors
 	 */
 	this.getWidget = function () {
 		return { "handle": resizeSelector, "maximise": maxSelector };
@@ -642,7 +643,7 @@ function Resizeable() {
 	 * @public
 	 * @param {Element} element The resize handle.
 	 * @param {boolean} [keep] If true store the size for later use.
-	 * @returns {Boolean} true if a resizeable target was found and reset.
+	 * @returns {boolean} true if a resizeable target was found and reset.
 	 */
 	this.clearSize = function (element, keep) {
 		const target = getResizeTarget(element);
@@ -735,7 +736,7 @@ function Resizeable() {
 export default initialise.register(instance);
 
 /**
- * @typedef {Object} module:wc/ui/resizeable.config() Optional module configuration.
+ * @typedef {object} module:wc/ui/resizeable.config() Optional module configuration.
  * @property {?int} min The minimum size, in px, any element is allowed to be.
  * @default 0
  * @property {?int} step The number of pixels to increase/decrease per keypress when resizing with the arrow keys.

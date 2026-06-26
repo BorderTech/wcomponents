@@ -605,8 +605,7 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 		append(dateString, day, DAY_DIGITS, padding);
 
 		// TRIM trailing spaces (will only "trim" if the padding character is a space)
-		String trimmed = Util.rightTrim(dateString.toString());
-		return trimmed;
+		return Util.rightTrim(dateString.toString());
 	}
 
 	/**

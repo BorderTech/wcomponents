@@ -55,7 +55,7 @@ describe("wc/dom/focus", () => {
 	it("testIsTabstopNativeDisabled", () => {
 		const id = "button1";
 		testHolder.innerHTML = NATIVE_TRUE;
-		const element = /** @type HTMLButtonElement */(domTesting.getByTestId(testHolder, id));
+		const element = /** @type {HTMLButtonElement} */(domTesting.getByTestId(testHolder, id));
 		element.disabled = true;
 
 		expect(domFocus.isTabstop(element)).toBeFalse();
@@ -172,7 +172,7 @@ describe("wc/dom/focus", () => {
 	it("testCanFocusDisabledNo", () => {
 		const id = "button1";
 		testHolder.innerHTML = NATIVE_TRUE;
-		const element = /** @type HTMLButtonElement */(domTesting.getByTestId(testHolder, id));
+		const element = /** @type {HTMLButtonElement} */(domTesting.getByTestId(testHolder, id));
 		element.disabled = true;
 
 		expect(domFocus.canFocus(element)).toBeFalse();

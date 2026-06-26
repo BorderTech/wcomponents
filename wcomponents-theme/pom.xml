@@ -158,7 +158,7 @@
 						</goals>
 						<configuration>
 							<skip>${theme.skip.antrun}</skip>
-							<arguments>run test</arguments>
+							<arguments>run test:coverage</arguments>
 						</configuration>
 					</execution>
 

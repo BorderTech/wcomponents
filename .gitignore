@@ -3,9 +3,6 @@ nbactions.xml
 nb-configuration.xml
 
 ### WComponents ###
-wcomponents-theme/node/
-wcomponents-theme/package-lock.json
-wcomponents-theme/yarn.lock
 wcomponents-theme/intern.json
 wcomponents-theme/bower.json
 wcomponents-theme/jsdoc.json
@@ -35,7 +32,13 @@ buildNumber.properties
 !/.mvn/wrapper/maven-wrapper.jar
 # End of https://www.gitignore.io/api/maven
 
-### Node ###
+### Node.js ###
+jspm_packages/
+node_modules/
+wcomponents-theme/node/
+package-lock.json
+yarn.lock
+
 # Created by https://www.gitignore.io/api/node
 # Logs
 logs
@@ -62,9 +65,6 @@ bower_components
 .lock-wscript
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build/Release
-# Dependency directories
-node_modules/
-jspm_packages/
 # Typescript v1 declaration files
 typings/
 # Optional npm cache directory

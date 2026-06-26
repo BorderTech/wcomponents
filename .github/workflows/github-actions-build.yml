@@ -28,13 +28,21 @@ jobs:
       uses: browser-actions/setup-firefox@latest
 
     - name: Build Test and Verify
-      run: mvn -B -U clean install -Dmaven.javadoc.skip=true -Dpmd.verbose=false -DskipOptionalQA=true -PskipCoreOptionalTests -Ddependency-check.skip=true
+      run: mvn -B -Ddependency-check.skip=true -Dmaven.javadoc.skip=true -Dpmd.verbose=false -PskipCoreOptionalTests -DskipOptionalQA=true -e -U clean install
       env:
         MOZ_HEADLESS: 1
 # Why comment these out? Browsers are now so standard compliant issues are much rarer.
 # The saucelabs tests are relatively slow and flaky.
 #        SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
 #        SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+
+    - name: Code Coverage Publish
+      uses: actions/upload-code-coverage@v1
+      if: failure() || success()
+      with:
+        file: ./wcomponents-theme/target/coverage/cobertura-coverage.xml
+        label: code-coverage/jacoco
+        language: JavaScript
 
     - name: Set up JDK 17
       uses: actions/setup-java@v2
@@ -48,8 +56,16 @@ jobs:
           echo "Sonar secure variables NOT available"
         else
           echo "Sonar secure variables ARE available"
-          mvn -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey="bordertech-wcomponents" -Dsonar.organization="bordertech-github" -Dsonar.host.url="https://sonarcloud.io" -Dsonar.qualitygate.wait=true
+          mvn -B -Dsonar.host.url="https://sonarcloud.io" -Dsonar.organization="bordertech-github" -Dsonar.projectKey="bordertech-wcomponents" -Dsonar.qualitygate.wait=true -e -U org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
         fi
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+    - name: SonarQube Quality Gate check
+      uses: sonarsource/sonarqube-quality-gate-action@master
+      with:
+        scanMetadataReportFile: ./target/sonar/report-task.txt
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

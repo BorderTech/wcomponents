@@ -20,7 +20,7 @@ define(function() {
 
 	/**
 	 * Adapts intern 3 register suite calls to intern 4.
-	 * @param {any} suite An intern 3 test suite.
+	 * @param {any} suite - An intern 3 test suite.
 	 * @returns {any} Whatever registerSuite returns.
 	 */
 	function registerSuiteIntern3to4(suite) {

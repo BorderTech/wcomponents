@@ -16,7 +16,7 @@ let tinyMCE;
  * Call when DOM is ready to initialise rich text fields.
  * @function
  * @private
- * @param {String[]} idArr An array of RTF ids.
+ * @param {string[]} idArr An array of RTF ids.
  */
 function processNow(idArr) {
 	const config = wcconfig.get("wc/ui/rtf", {
@@ -49,7 +49,7 @@ export default {
 	 * Register Rich Text Fields that need to be initialised.
 	 * @function
 	 * @public
-	 * @param {String[]} idArr An array of element ids.
+	 * @param {string[]} idArr An array of element ids.
 	 */
 	register: function(idArr) {
 		if (idArr?.length) {

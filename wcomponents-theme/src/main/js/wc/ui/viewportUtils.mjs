@@ -22,7 +22,7 @@ const defaultConf = {
  * @param {number} limit The limit to test
  * @param {boolean} [gtr] if true then we want to know if the viewport is at least as big as limit, otherwise
  *   is the viewport no bigger than limit
- * @returns {Boolean} true if the viewport is no bigger than limit (or at least as big as limit if gtr is true).
+ * @returns {boolean} true if the viewport is no bigger than limit (or at least as big as limit if gtr is true).
  */
 function testViewportSize(limit, gtr) {
 	const vps = getViewportSize();
@@ -41,7 +41,7 @@ const instance = {
 	 * @function
 	 * @public
 	 * @alias module:wc/ui/viewportUtils.isPhoneLike
-	 * @returns {Boolean} true if the viewport width is no bigger than the configured limit for a phone.
+	 * @returns {boolean} true if the viewport width is no bigger than the configured limit for a phone.
 	 */
 	isPhoneLike: function() {
 		const conf = getConfig();
@@ -53,7 +53,7 @@ const instance = {
 	 * @function
 	 * @public
 	 * @alias module:wc/ui/viewportUtils.isSmallScreen
-	 * @returns {Boolean} true if the viewport width is no bigger than the configured limit for a small screen.
+	 * @returns {boolean} true if the viewport width is no bigger than the configured limit for a small screen.
 	 */
 	isSmallScreen: function() {
 		const conf = getConfig();
@@ -65,7 +65,7 @@ const instance = {
 	 * @function
 	 * @public
 	 * @alias module:wc/ui/viewportUtils.isLargeScreen
-	 * @returns {Boolean} true if the viewport width is at least that of the configured limit for a big screen.
+	 * @returns {boolean} true if the viewport width is at least that of the configured limit for a big screen.
 	 */
 	isLargeScreen: function() {
 		const conf = getConfig();
@@ -77,7 +77,7 @@ const instance = {
 	 * @function
 	 * @public
 	 * @alias module:wc/ui/viewportUtils.isHighDef
-	 * @returns {Boolean} true if the current screen device is a high definition screen.
+	 * @returns {boolean} true if the current screen device is a high definition screen.
 	 */
 	isHighDef: () => pixelRatio >= highDefinition,
 
@@ -86,7 +86,7 @@ const instance = {
 	 * @function
 	 * @public
 	 * @alias module:wc/ui/viewportUtils.isModerateDefinition
-	 * @returns {Boolean} true if the current screen device is a medium definition screen.
+	 * @returns {boolean} true if the current screen device is a medium definition screen.
 	 */
 	isModerateDefinition: () => pixelRatio >= medDefinition && pixelRatio < highDefinition,
 
@@ -95,7 +95,7 @@ const instance = {
 	 * @function
 	 * @public
 	 * @alias module:wc/ui/viewportUtils.isHigherDefinition
-	 * @returns {Boolean} true if the current screen device is a medium definition screen or better.
+	 * @returns {boolean} true if the current screen device is a medium definition screen or better.
 	 */
 	isHigherDefinition: () => pixelRatio >= medDefinition,
 
@@ -104,7 +104,7 @@ const instance = {
 	 * @function
 	 * @public
 	 * @alias module:wc/ui/viewportUtils.isStandardDefinition
-	 * @returns {Boolean} true if the current screen device is standard definition.
+	 * @returns {boolean} true if the current screen device is standard definition.
 	 */
 	isStandardDefinition: () => !pixelRatio || pixelRatio === 1
 };
@@ -133,7 +133,7 @@ function getConfig() {
 export default instance;
 
 /**
- * @typedef {Object} module:wc/ui/viewportUtils~config Optional configuration for vpUtils.
+ * @typedef {object} module:wc/ui/viewportUtils~config Optional configuration for vpUtils.
  * @property {number} [phone=773] the pixel number representing the CSS pixel width of the largest viewport considered "phone-like"
  * @property {number} [small=1000] the pixel number representing the CSS pixel width of the largest viewport considered "small-screen"
  * @property {number} [large=1981] the pixel number representing the CSS pixel width of the smallest viewport considered "large-like"

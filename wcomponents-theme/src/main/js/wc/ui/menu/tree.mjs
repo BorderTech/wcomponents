@@ -47,9 +47,9 @@ function mapKeyToActionFactory(keys) {
 
 /**
  * QuerySelector, considering immediate children only.
- * @param {Element} parent
- * @param {string} selector
- * @return {HTMLElement}
+ * @param {Element} parent - ?
+ * @param {string} selector - ?
+ * @return {HTMLElement} ?
  */
 function querySelectorImmediate(parent, selector) {
 	if (!parent && selector) {
@@ -72,7 +72,7 @@ class Tree extends AbstractMenu {
 	 * @function module:wc/ui/menu/tree.isHTree
 	 * @public
 	 * @param {Element} root the tree's root node.
-	 * @returns {Boolean} true if the tree is a htree.
+	 * @returns {boolean} true if the tree is a htree.
 	 */
 	isHTree(root) {
 		if (!root) {
@@ -86,7 +86,7 @@ class Tree extends AbstractMenu {
 	 * @function module:wc/ui/menu/tree.isInVOpen
 	 * @public
 	 * @param {Element} element the element to test
-	 * @returns {Boolean} true if element is a vertical tree branch opener or a descendant thereof.
+	 * @returns {boolean} true if element is a vertical tree branch opener or a descendant thereof.
 	 */
 	isInVOpen(element) {
 		return !!element.closest(vopenerSelector);
@@ -111,7 +111,7 @@ class Tree extends AbstractMenu {
 	/**
 	 * Roles for the parts of the tree.
 	 * @var
-	 * @type {Object}
+	 * @type {object}
 	 * @override
 	 */
 	_role = {
@@ -125,7 +125,7 @@ class Tree extends AbstractMenu {
 	 * @function module:wc/ui/menu/tree._oneOpen
 	 * @override
 	 * @param {Element} element A node of the tree to test. This is mandatory in this override.
-	 * @returns {Boolean} true if only one branch may be open at a time.
+	 * @returns {boolean} true if only one branch may be open at a time.
 	 */
 	_oneOpen(element) {
 		const _root = getRootHelper(element);
@@ -146,7 +146,7 @@ class Tree extends AbstractMenu {
 	 * @function module:wc/ui/menu/tree._treeWalkDepthFirst
 	 * @override
 	 * @param {Element} root A node of the tree to test. This is mandatory in this override.
-	 * @returns {Boolean} true if treeWalker should traverse depth first.
+	 * @returns {boolean} true if treeWalker should traverse depth first.
 	 */
 	_treeWalkDepthFirst(root) {
 		return !this.isHTree(root); // horizontal trees are never depth-first.
@@ -157,7 +157,7 @@ class Tree extends AbstractMenu {
 	 * @function module:wc/ui/menu/tree._openOnSelect
 	 * @override
 	 * @param {Element} root the root element of a tree.
-	 * @returns {Boolean} true if the tree opens a branch when it is selected.
+	 * @returns {boolean} true if the tree opens a branch when it is selected.
 	 */
 	_openOnSelect(root) {
 		return this.isHTree(root);
@@ -166,7 +166,7 @@ class Tree extends AbstractMenu {
 	/**
 	 * Trees do not cycle siblings.
 	 * @var
-	 * @type {Boolean}
+	 * @type {boolean}
 	 * @override
 	 */
 	_cycleSiblings = false;
@@ -184,7 +184,7 @@ class Tree extends AbstractMenu {
 	 * Trees automatically select selectable treeitems on navigation.
 	 * @see http://www.w3.org/TR/wai-aria-practices/#TreeView
 	 * @var
-	 * @type {Boolean}
+	 * @type {boolean}
 	 * @override
 	 * @default true
 	 */
@@ -222,6 +222,7 @@ class Tree extends AbstractMenu {
 	 * @override
 	 * @param {Element} _item The item which has focus.
 	 */
+	// eslint-disable-next-line sonarjs/cognitive-complexity
 	_remapKeys(_item) {
 		let isOpener,
 			item = _item,
@@ -413,7 +414,8 @@ class Tree extends AbstractMenu {
 	 * Listen to AJAX updates that are about to affect a tree.
 	 * @param {Element} element A candidate tree root
 	 * @param {DocumentFragment} content The content that is about to be inserted into the tree
-	 * @param action a wc/ui/ajax/processResponse action
+	 * @param {any} action a wc/ui/ajax/processResponse action
+	 * @returns {void} ?
 	 */
 	preAjaxSubscriber(element, content, action) {
 		if (this.isRoot(element) && content && action === "in") {
@@ -441,8 +443,9 @@ class Tree extends AbstractMenu {
 	 * @function module:wc/ui/menu/tree._shedSubscriber
 	 * @override
 	 * @param {Element} element The element being acted upon.
-	 * @param {String} action The action being taken.
+	 * @param {string} action The action being taken.
 	 */
+	// eslint-disable-next-line sonarjs/cognitive-complexity
 	_shedSubscriber(element, action) {
 		const root = element ? this.getRoot(element) : null;
 
@@ -489,8 +492,8 @@ class Tree extends AbstractMenu {
 	 * Override the default "animator" to prevent a branch from opening if any other element is selected at its level. Only applies to htree.
 	 * @function module:wc/ui/menu/tree._animateBranch
 	 * @param {Element} item The branch being opened/closed.
-	 * @param {Boolean} open If true branch is being opened, otherwise its being closed.
-	 * @returns {Boolean} true if the branch is able to animate.
+	 * @param {boolean} open If true branch is being opened, otherwise its being closed.
+	 * @returns {boolean} true if the branch is able to animate.
 	 */
 	_animateBranch(item, open) {
 		const root = this.getRoot(item);
@@ -517,7 +520,7 @@ class Tree extends AbstractMenu {
 	 * @function module:wc/ui/menu/tree._textMatchFilter
 	 * @override
 	 * @param {Node} textNode The node being tested.
-	 * @returns {Number} ?
+	 * @returns {number} ?
 	 */
 	_textMatchFilter(textNode) {
 		const parent = textNode.parentElement;
@@ -541,6 +544,7 @@ class Tree extends AbstractMenu {
 	 * @param {Element} element the branch beng collapsed.
 	 * @param {Element} [root] the tree's root
 	 */
+	// eslint-disable-next-line sonarjs/cognitive-complexity
 	_shedCollapseHelper (element, root) {
 		const _root = root || this.getRoot(element);
 
@@ -602,7 +606,7 @@ function htreeClickHelper(target) {
  * @private
  * @param {Element} element The element being tested.
  * @param {Element} root The root of the current tree.
- * @returns {Boolean} true if the element is the only selected item at its level.
+ * @returns {boolean} true if the element is the only selected item at its level.
  */
 function isLastSelectedItemAtLevel(element, root) {
 	const level = instance.getSubMenu(element) || ((root && instance.isRoot(root)) ? root : instance.getRoot(element));

@@ -51,7 +51,7 @@ function changeEvent({ target }) {
 
 /**
  *
- * @param {UIEvent & { target: HTMLElement }} $event
+ * @param {UIEvent & { target: HTMLElement }} $event - ?
  */
 function blurEvent({ target }) {
 	if (shed.isMandatory(target) && !validationManager.isInvalid(target)) {

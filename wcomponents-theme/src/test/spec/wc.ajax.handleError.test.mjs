@@ -7,9 +7,9 @@ const { beforeAll, describe, expect, it } = globalThis;
 describe("wc/ajax/handleError", () => {
 	/**
 	 *
-	 * @param {number} status
-	 * @param {string} responseText
-	 * @param {string} [statusText]
+	 * @param {number} status - ?
+	 * @param {string} responseText - ?
+	 * @param {string} [statusText] - ?
 	 * @returns {{responseText: string, statusText: string, status: number }} ?
 	 */
 	function getMockResponse(status, responseText, statusText) {

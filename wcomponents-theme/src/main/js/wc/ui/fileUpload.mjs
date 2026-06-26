@@ -19,7 +19,7 @@ const instance = {
 	 * Tests if an element is a file upload.
 	 * @function module:wc/ui/fileUpload.isOneOfMe
 	 * @param {Element} element The DOM element to test
-	 * @returns {Boolean} true if element is the Widget type requested
+	 * @returns {boolean} true if element is the Widget type requested
 	 */
 	isOneOfMe: element => element?.matches(inputElementWd),
 

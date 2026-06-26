@@ -19,7 +19,7 @@ const instance = {
 	 * @function
 	 * @alias module:wc/dom/color.isHex
 	 * @param {string} s The arg to test.
-	 * @returns {Boolean} true if the arg is a hex string, otherwise false.
+	 * @returns {boolean} true if the arg is a hex string, otherwise false.
 	 */
 	isHex: function (s) {
 		return (typeof s === "string" && (HEX6_RE.test(s) || HEX3_RE.test(s)));
@@ -94,11 +94,12 @@ const instance = {
 	 * - Rewrite to use red green blue
 	 * @function
 	 * @alias module:wc/dom/color.rgb2hex
-	 * @param {(string|Array<Number>|{r: string|number, g: string|number, b: string|number})} rgb String in the format "rgb(244,244,244)" or an array of
+	 * @param {(string | Array<number> | {r: string | number, g: string | number, b: string | number})} rgb String in the format "rgb(244,244,244)" or an array of
 	 *    red/green/blue values, e.g. [244, 244, 244] or an object with "r", "g" and "b" properties
 	 *    corresponding to red, green and blue values, e.g. {r:244, g:244, b:244}
 	 * @returns {string} The colour as a hex string.
 	 */
+	// eslint-disable-next-line sonarjs/cognitive-complexity
 	rgb2hex: function (rgb) {
 		let hex;
 		if (rgb) {

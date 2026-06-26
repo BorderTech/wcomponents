@@ -18,7 +18,7 @@ const inputSelector = `${fieldSelector} input`;
 const controlsSelectors = [selectSelector, inputSelector];
 const BUTTON_TYPE = { add: 0, remove: 1 };
 const MAX = "data-wc-max";
-const queueFocus = debounce(/** @param {Element} container */container => {
+const queueFocus = debounce(/** @param {Element} container - ? */ (container) => {
 	focus.focusFirstTabstop(container);
 }, 100);
 let REMOVE_BUTTON_TITLE;
@@ -41,7 +41,7 @@ const instance = {
 
 	/**
 	 * Register a multiFormControl on load.
-	 * @param {String[]} idArr An array of ids of WMultiDropdowns and WMultiTextFields.
+	 * @param {string[]} idArr An array of ids of WMultiDropdowns and WMultiTextFields.
 	 */
 	register: function(idArr) {
 		if (idArr?.length) {
@@ -68,7 +68,7 @@ const instance = {
  * @see {@link module:wc/ui/selectLoader.load}
  * @function
  * @private
- * @param {String} id The id of a multiDropdown.
+ * @param {string} id The id of a multiDropdown.
  */
 function load(id) {
 	const element = globalThis.document.getElementById(id);
@@ -95,7 +95,8 @@ function processNow(idArr) {
  * 3. Am I an add button?
  * 	- Yes: add a new field
  *  - No: remove field
- *  @param {MouseEvent & { target: Element }} $event
+ * @param {MouseEvent & { target: Element }} $event - ?
+ * @returns {void} ?
  */
 function clickEvent({ target, defaultPrevented, shiftKey }) {
 	/** @type {HTMLButtonElement} */
@@ -145,7 +146,7 @@ function getContainer(element) {
 /**
  * Get the field(s) containing each of the interactive controls in a multiFormControl.
  * @param {Element} container A multiFormControl.
- * @param {Boolean} [firstOnly] If true only the first field will be returned.
+ * @param {boolean} [firstOnly] If true only the first field will be returned.
  * @returns {NodeListOf<Element>|Element} A collection of fields OR a single field if firstOnly is true.
  */
 function getFields(container, firstOnly) {
@@ -209,8 +210,9 @@ function resetField(field) {
  *
  * Note that the selectedIndex is again reset in some browsers when you insert the
  * select into the DOM so call this function AFTER insertion.
- * @param {Element} newField
- * @param {Element} prototypeField
+ * @param {Element} newField - ?
+ * @param {Element} prototypeField - ?
+ * @returns {void} ?
  */
 function setSelectValues(newField, prototypeField) {
 	/** @type {HTMLSelectElement[]} */
@@ -225,14 +227,17 @@ function setSelectValues(newField, prototypeField) {
 /**
  * Prototype field has passed on its data (values) to the new field,
  * therefore we should clear the values from the prototype field.
- * @param {Element} field
+ * @param {Element} field - ?
+ * @returns {void} ?
  */
 function resetPrototypeField(field) {
 	Array.from(field.querySelectorAll(inputSelector)).forEach(processCandidateField);
 	Array.from(field.querySelectorAll(selectSelector)).forEach(processCandidateField);
 
 	/**
-	 * @param {HTMLSelectElement} $element
+	 * ?
+	 * @param {HTMLSelectElement} $element - ?
+	 * @returns {void} ?
 	 */
 	function processCandidateField($element) {
 		if ($element.matches(selectSelector)) {

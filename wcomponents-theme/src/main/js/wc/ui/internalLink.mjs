@@ -16,9 +16,10 @@ const LEGEND = "legend",
 
 /**
  *
- * @param {Element} element
- * @return {boolean}
+ * @param {Element} element - ?
+ * @return {boolean} ?
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function actionClickEvent(element) {
 	if (!shed.isDisabled(element)) {
 		let target;
@@ -47,14 +48,14 @@ function actionClickEvent(element) {
 }
 
 /**
- * @param {MouseEvent & { target: HTMLElement }} $event
+ * @param {MouseEvent & { target: HTMLElement }} $event - ?
  */
 function clickEvent($event) {
 	const { defaultPrevented, target } = $event;
 	if (defaultPrevented || target?.nodeType !== Node.ELEMENT_NODE) {
 		return;
 	}
-	/** @type HTMLElement */
+	/** @type {HTMLElement} */
 	const element = target.closest(WIDGETS);
 	if (element && !shed.isDisabled(element)) {
 		if (actionClickEvent(element)) {

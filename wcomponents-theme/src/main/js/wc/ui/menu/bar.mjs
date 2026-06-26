@@ -25,16 +25,16 @@ let responsiveMenuSelector = "";
 let instance;
 
 /**
- * @typedef {Object} module:wc/ui/menu/bar~context bar menu template properties.
+ * @typedef {object} module:wc/ui/menu/bar~context bar menu template properties.
  * @property {{tooltip: *, class: string}} opener Properties for the menu opener
- * @property {String} id - ?
- * @property {String} closeText The label for the close control
- * @property {String} [tooltip] - ?
- * @property {String} items The innerHTML of the menu.
- * @property {String} contentId id of the menu content.
- * @property {String} class Additional css class (will be appended to base class).
- * @property {Boolean} open If true then the menu is open.
- * @param {module:wc/ui/menu/bar~context} context
+ * @property {string} id - ?
+ * @property {string} closeText The label for the close control
+ * @property {string} [tooltip] - ?
+ * @property {string} items The innerHTML of the menu.
+ * @property {string} contentId id of the menu content.
+ * @property {string} class Additional css class (will be appended to base class).
+ * @property {boolean} open If true then the menu is open.
+ * @param {module:wc/ui/menu/bar~context} context - ?
  * @returns {string} The HTML for a bar menu
  */
 const barTemplate = context => `
@@ -82,7 +82,7 @@ class Menubar extends AbstractMenu {
 		/**
 		 * The role which is applied to the ROOT node of a BAR or FLYOUT menu.
 		 * @var
-		 * @type {String}
+		 * @type {string}
 		 * @override
 		 */
 		this._role.MENU = "menubar";
@@ -96,6 +96,7 @@ class Menubar extends AbstractMenu {
 	 * @override
 	 * @param {Element} item The item which has focus.
 	 */
+	// eslint-disable-next-line sonarjs/cognitive-complexity
 	_remapKeys(item) {
 		let _item = item;
 		const VK_UP = "ArrowUp",
@@ -264,6 +265,7 @@ function removeIconified(nextMenu) {
  * @private
  * @param {Element} el the element to test and (possibly) manipulate.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function attachSubMenuCloseButton(el) {
 	if (el && instance.isSubMenu(el)) {
 		const branch = instance._getBranch(el);
@@ -399,9 +401,9 @@ function attachClosebuttons(container) {
  * @private
  * @param {Element} element The menu item/opener to test.
  * @param {Element} root The root element of the current menu.
- * @param {Boolean} [isLast] true if we want to know if the element is the last in the menu, otherwise we
+ * @param {boolean} [isLast] true if we want to know if the element is the last in the menu, otherwise we
  *     want to know if it is first.
- * @returns {Boolean} true if first/last item.
+ * @returns {boolean} true if first/last item.
  */
 function isFirstLastItem(element, root, isLast) {
 	const direction = isLast ? keyWalker.MOVE_TO.NEXT : keyWalker.MOVE_TO.PREVIOUS;

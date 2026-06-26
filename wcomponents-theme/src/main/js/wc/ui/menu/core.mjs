@@ -153,9 +153,9 @@ function eventWrapper($event) {
  * @function
  * @private
  * @param {module:wc/dom/viewportCollision} collision The calculated 'collision'.
- * @param {Boolean} [isNotDefaultDirection] Indicates the collision direction to test. If true we test against the
+ * @param {boolean} [isNotDefaultDirection] Indicates the collision direction to test. If true we test against the
  *    side deemed to be the DEFAULT direction of reading.
- * @returns {Boolean} true if the collision shows the colliding element hits the relevant viewport edge.
+ * @returns {boolean} true if the collision shows the colliding element hits the relevant viewport edge.
  */
 function doICollide(collision, isNotDefaultDirection) {
 	let result = false;
@@ -210,7 +210,7 @@ function mouseoverEvent($event) {
  * A TreeWalker filter to get a text node match during key-initiated tree walking.
  * @function
  * @param {Node} textNode The node being tested.
- * @returns {Number} ?
+ * @returns {number} ?
  */
 AbstractMenu.prototype._textMatchFilter = function(textNode) {
 	const parent = textNode.parentElement;
@@ -231,7 +231,7 @@ AbstractMenu.prototype._textMatchFilter = function(textNode) {
  * @function
  * @private
  * @param {Element} element The menu node being tested.
- * @param {String} letter The letter on the key the user pressed.
+ * @param {string} letter The letter on the key the user pressed.
  * @returns {number} A NodeFilter STATIC variable
  */
 AbstractMenu.prototype.hasTextNodeMatch = function(element, letter) {
@@ -259,7 +259,7 @@ AbstractMenu.prototype.hasTextNodeMatch = function(element, letter) {
  * Indicates if a particular element is an item in a menu.
  * @function
  * @param {Element} element The element to test.
- * @returns {Boolean} ?
+ * @returns {boolean} ?
  */
 AbstractMenu.prototype._isItem = function(element) {
 	if (this._isBranch(element)) {
@@ -304,8 +304,8 @@ AbstractMenu.prototype.getItem = function(element) {
  * {@link modeule:wc/dom/keyWalker} as part of the config.
  * @function
  * @public
- * @param {Boolean} ignoreClosed If true we ignore closed branches.
- * @param {String} [letter] The key literal of a letter key used for jump navigation.
+ * @param {boolean} ignoreClosed If true we ignore closed branches.
+ * @param {string} [letter] The key literal of a letter key used for jump navigation.
  * @returns {Function} A TreeWalker filter function.
  */
 AbstractMenu.prototype.getNavigationTreeWalkerFilter = function(ignoreClosed, letter) {
@@ -345,7 +345,7 @@ AbstractMenu.prototype.getNavigationTreeWalkerFilter = function(ignoreClosed, le
  * @function
  * @param {Element} item An element inside a menu
  * @param {Element} [root] The menu root if we already have it.
- * @returns {Object} a keywalker configuration object.
+ * @returns {object} a keywalker configuration object.
  */
 AbstractMenu.prototype._getkeyWalkerConfig = function(item, root) {
 	const _root = root || this.getRoot(item);
@@ -366,7 +366,7 @@ AbstractMenu.prototype._getkeyWalkerConfig = function(item, root) {
  * menu even if the menu supports cycling on key navigation.
  * @function
  * @param {Element} item The menu node on which we started when the user pressed a letter key.
- * @param {String} letter The letter pressed by the user.
+ * @param {string} letter The letter pressed by the user.
  * @param {Element} root The current menu root node.
  * @returns {HTMLElement} The next available menu item with visible text which starts with keyName or null if not
  *    found.
@@ -393,7 +393,7 @@ AbstractMenu.prototype._getTextTarget = function(item, letter, root) {
  * @private
  * @param {Element} menu The menu to close.
  * @param {Element|Window} element the element which has caused the menu to close (most commonly by receiving focus). if falsy then close all
- * @param {Object} instance the singleton instance which is the actual menu controller
+ * @param {object} instance the singleton instance which is the actual menu controller
  * paths.
  */
 function closeOpenMenu(menu, element, instance) {
@@ -415,7 +415,7 @@ function closeOpenMenu(menu, element, instance) {
  * Gets an instance of TreeWalker for a particular menu.
  * @function
  * @param {Element} root The root of the tree to be walked.
- * @param {Boolean} [ignoreClosed] If true we ignore closed branches.
+ * @param {boolean} [ignoreClosed] If true we ignore closed branches.
  * @returns {TreeWalker} A treeWalker for the menu starting at root.
  */
 AbstractMenu.prototype._getTreeWalker = function(root, ignoreClosed) {
@@ -508,7 +508,7 @@ AbstractMenu.prototype._getFirstAvailableItem = function(start) {
  * @see {@link module:wc/ui/menu/core~_shedSubscriber}.
  * @function
  * @param {Element} branch The menu branch we need to manipulate.
- * @param {String} func The name of the {@link wc/dom/shed} function to invoke: either "enable" or "disable".
+ * @param {string} func The name of the {@link wc/dom/shed} function to invoke: either "enable" or "disable".
  */
 AbstractMenu.prototype._disableInBranch = function(branch, func) {
 	const content = this.getSubMenu(branch, true);
@@ -524,7 +524,7 @@ AbstractMenu.prototype._disableInBranch = function(branch, func) {
  * @private
  * @param {Element} submenu The submenu currently undergoing collision detection
  * @param {AbstractMenu} instance The subclass.
- * @returns {Boolean} true if the parent is also colliding.
+ * @returns {boolean} true if the parent is also colliding.
  */
 function isParentSubmenuColliding(submenu, instance) {
 	const parent = submenu.parentElement,
@@ -545,6 +545,7 @@ function isParentSubmenuColliding(submenu, instance) {
  * @param {Element} submenu The submenu content which may be colliding with the edge of the viewport.
  * @param {AbstractMenu} instance An instance of a subclass.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function _doCollisionDetection(submenu, instance) {
 	const _submenu = document.getElementById(submenu.id);  // required for IE8 because of the timeout, we could be dealing with a different HTML element
 
@@ -624,6 +625,7 @@ function doCollisionDetection(submenu, instance) {
  * @private
  * @param {Element} element The element inserted via AJAX.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function postAjaxSubscriber(element) {
 	const root = element ? this.getRoot(element) : null;
 	if (root && root === this.getFirstMenuAncestor(element)) {
@@ -763,8 +765,9 @@ AbstractMenu.prototype._expand = function(branch, root) {
  * @function
  * @see {@link module:wc/dom/shed}
  * @param {Element} element The SHED target.
- * @param {String} action The SHED action.
+ * @param {string} action The SHED action.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 AbstractMenu.prototype._shedSubscriber = function(element, action) {
 	const root = element ? this.getRoot(element) : null;
 	if (!root) {
@@ -807,9 +810,9 @@ AbstractMenu.prototype._shedSubscriber = function(element, action) {
  * @function
  * @private
  * @param {Element} branch The branch being actioned.
- * @param {String} action The SHED action.
+ * @param {string} action The SHED action.
  * @param {Element} root The root of the current menu.
- * @param {AbstractMenu} instance
+ * @param {AbstractMenu} instance - ?
  */
 function expandCollapseTransientBranch(branch, action, root, instance) {
 	let content;
@@ -833,7 +836,7 @@ function expandCollapseTransientBranch(branch, action, root, instance) {
  * transient menus and will close a submenu if a branch is disabled.
  * @function
  * @param {Element} element the element we are acting on
- * @param {String} action the "enable" or "disable" action
+ * @param {string} action the "enable" or "disable" action
  * @param {Element} root The menu root element. We had to pre-calculate this to get this far, so we may as well
  *  pass it in rather than recalculate it.
  */
@@ -959,7 +962,7 @@ export function AbstractMenu() {
 	 * This is why it is here in the constructor of an object which will ultimately be frozen!
 	 * @see {@link module:wc/ui/menu/core~FUNC_MAP}
 	 * @constant
-	 * @type {Object}
+	 * @type {object}
 	 */
 	this._FUNC_MAP = FUNC_MAP;
 }
@@ -978,7 +981,7 @@ AbstractMenu.prototype.ROOT = null;
  * The map of key to action. <strong>ABSTRACT</strong>: must be overridden
  * for each menu type.
  * @var
- * @type {Object}
+ * @type {object}
  * @abstract
  * @see {@link  module:wc/ui/menu/core~_keyActivator}
  */
@@ -989,7 +992,7 @@ AbstractMenu.prototype._keyMap = {};
  * complete _wd will have at least submenu and leaf. If they are not selectors they may as well not exist.
  * The default is abstract.
  * @var
- * @type {Object}
+ * @type {object}
  * @abstract
  */
 AbstractMenu.prototype._wd = {
@@ -1013,7 +1016,7 @@ AbstractMenu.prototype.isTransient = true;
  * otherwise it will look for siblings first.
  * @function
  * @param {Element} element - A node in a menu/tree. Not needed by default but mandatory for mixed-mode trees.
- * @returns {Boolean} true if treeWalker should traverse depth-first. By default, always returns false.
+ * @returns {boolean} true if treeWalker should traverse depth-first. By default, always returns false.
  */
 AbstractMenu.prototype._treeWalkDepthFirst = function(element) {
 	if (!element) {
@@ -1026,7 +1029,7 @@ AbstractMenu.prototype._treeWalkDepthFirst = function(element) {
  * Used when keyboard walking through a menu/submenu. If set to false do not cycle around ends of sibling groups
  * (going from last to first and vice-versa).
  * @var
- * @type {Boolean}
+ * @type {boolean}
  */
 AbstractMenu.prototype._cycleSiblings = true;
 
@@ -1039,7 +1042,7 @@ AbstractMenu.prototype._cycleSiblings = true;
  * @param {Element} element - An element in a menu and preferably a root node. This allows us to test an
  *    individual menu/tree if required. Not needed by default but should always be included in calls for those
  *    occasions where it is needed (e.g. bi-modal trees).
- * @returns {Boolean} true if only one branch may be open at a time.
+ * @returns {boolean} true if only one branch may be open at a time.
  */
 AbstractMenu.prototype._oneOpen = function(element) {
 	if (!element) {
@@ -1054,7 +1057,7 @@ AbstractMenu.prototype._oneOpen = function(element) {
  * This cannot be deferred to the item aria helpers since ariaAnalog knows nothing about the tree structure of
  * menus, so we have to do the navigation here.
  * @var
- * @type {Boolean}
+ * @type {boolean}
  */
 AbstractMenu.prototype._selectOnNavigate = false;
 
@@ -1064,7 +1067,7 @@ AbstractMenu.prototype._selectOnNavigate = false;
  * @function
  * @param {Element} element Any element in the menu. Not used in the default implementation but required by TREEs
  * multiple modes so should always be passed to the function.
- * @returns {Boolean} ?
+ * @returns {boolean} ?
  */
 AbstractMenu.prototype._openOnSelect = function(element) {
 	if (!element) {
@@ -1084,7 +1087,7 @@ AbstractMenu.prototype._enterOnOpen = true;
  * Roles for the parts of the menu which change. Tree menu will over-ride all of these, all other menus will
  * leave them all or override maybe one (BAR/FLYOUT redefine MENU)
  * @var
- * @type {Object}
+ * @type {object}
  */
 AbstractMenu.prototype._role = {
 	MENU: "menu",
@@ -1180,9 +1183,9 @@ AbstractMenu.prototype._getBranchExpandableElement = function (item) {
  * @function
  * @public
  * @param {Element} item Any HTML element.
- * @param {Boolean} [descending] true to look for a descendant submenu (usually only set when called from a
+ * @param {boolean} [descending] true to look for a descendant submenu (usually only set when called from a
  *    branch item)
- * @param {Boolean} [all] Find all descendants. Not used if descending != true.
+ * @param {boolean} [all] Find all descendants. Not used if descending != true.
  * @returns {HTMLElement} A submenu element if found.
  */
 AbstractMenu.prototype.getSubMenu = function(item, descending, all) {
@@ -1204,7 +1207,7 @@ AbstractMenu.prototype.getSubMenu = function(item, descending, all) {
  * @function
  * @param {Element} item The branch being opened/closed.
  * @param {boolean} open If true branch is being opened, otherwise its being closed.
- * @returns {Boolean} true if any non-false-equivalent value for item is passed in.
+ * @returns {boolean} true if any non-false-equivalent value for item is passed in.
  */
 AbstractMenu.prototype._animateBranch = function(item, open) {
 	if (item) {
@@ -1224,7 +1227,7 @@ AbstractMenu.prototype._animateBranch = function(item, open) {
  * branches.
  * @function
  * @param {Element} element The menu node being actioned.
- * @returns {Boolean} true if this element was actioned.
+ * @returns {boolean} true if this element was actioned.
  */
 AbstractMenu.prototype._actionItem = function(element) {
 	const root = this.getRoot(element);
@@ -1277,7 +1280,7 @@ AbstractMenu.prototype._escape = function(item) {
  * Opens a branch.
  * @function
  * @param  {HTMLElement} branch The branch, opener or submenu node of the branch to open.
- * @returns {Boolean} true if the branch opened.
+ * @returns {boolean} true if the branch opened.
  */
 AbstractMenu.prototype._openBranch = function(branch) {
 	const root = this.getRoot(branch);
@@ -1299,7 +1302,7 @@ AbstractMenu.prototype._openBranch = function(branch) {
  * Closes a branch: only works if called from a branch opener, submenu or branch.
  * @function
  * @param {Element} branch tThe branch to close (or its 'opener' button or submenu child).
- * @returns {Boolean} true if the branch closed.
+ * @returns {boolean} true if the branch closed.
  */
 AbstractMenu.prototype._closeBranch = function(branch) {
 	const _expandable = this._getBranchExpandableElement(branch);
@@ -1314,7 +1317,7 @@ AbstractMenu.prototype._closeBranch = function(branch) {
  * Indicates if an element is a branch opener.
  * @function
  * @param {Element} element An element in a menu
- * @returns {Boolean} true if the element is a branch opener.
+ * @returns {boolean} true if the element is a branch opener.
  */
 AbstractMenu.prototype._isOpener = function(element) {
 	return !!element.closest(this._wd.opener.toString());
@@ -1324,7 +1327,7 @@ AbstractMenu.prototype._isOpener = function(element) {
  * Indicates whether an item is either a branch or branch opener button.
  * @function
  * @param {Element} item The menu node to test.
- * @returns {Boolean} True if item is a branch or a branch opener button.
+ * @returns {boolean} True if item is a branch or a branch opener button.
  */
 AbstractMenu.prototype._isBranchOrOpener = function(item) {
 	return this._isBranch(item) || this._isOpener(item);
@@ -1336,7 +1339,7 @@ AbstractMenu.prototype._isBranchOrOpener = function(item) {
  * @function
  * @public
  * @param {Element} element The element to test.
- * @returns {Boolean} true if the element is a menu root for the current subclass.
+ * @returns {boolean} true if the element is a menu root for the current subclass.
  */
 AbstractMenu.prototype.isRoot = function(element) {
 	return element.matches(this.ROOT.toString());
@@ -1420,7 +1423,7 @@ AbstractMenu.prototype._focusItem = function(_item, _root, callback) {
  * determines if an item is a branch node.
  * @function
  * @param {Element} item The HTML element to test
- * @returns {Boolean} true if the item is a branch node
+ * @returns {boolean} true if the item is a branch node
  */
 AbstractMenu.prototype._isBranch = function(item) {
 	return item.matches(this._wd.branch.toString());
@@ -1430,7 +1433,7 @@ AbstractMenu.prototype._isBranch = function(item) {
  * Determines if a given HTML element is a leaf node.
  * @function
  * @param {Element} element the HTML element to test
- * @returns {Boolean} true if the element is a leaf node of a menu
+ * @returns {boolean} true if the element is a leaf node of a menu
  */
 AbstractMenu.prototype._isLeaf = function(element) {
 	return (this._isItem(element) && !this._isBranch(element));
@@ -1441,7 +1444,7 @@ AbstractMenu.prototype._isLeaf = function(element) {
  * @function
  * @public
  * @param {Element} element The element to test
- * @returns {Boolean} true if element is a submenu and not the root.
+ * @returns {boolean} true if element is a submenu and not the root.
  */
 AbstractMenu.prototype.isSubMenu = function(element) {
 	if (!element) {
@@ -1455,9 +1458,9 @@ AbstractMenu.prototype.isSubMenu = function(element) {
  * reused in {@link module:wc/ui/menu/bar~isFirstLastItem}.
  * @function
  * @param {Element} item The current menu item/opener
- * @param {String} action The keyMap action
+ * @param {string} action The keyMap action
  * @param {Element} [root] The menu root element
- * @param {Boolean} [forceCycle] Allows sibling cycling to be forced true or false independent of the menu's
+ * @param {boolean} [forceCycle] Allows sibling cycling to be forced true or false independent of the menu's
  *    default setting
  * @returns {HTMLElement} Element if a target appropriate to action is found otherwise null.
  */
@@ -1480,11 +1483,11 @@ AbstractMenu.prototype._getTargetItem = function(item, action, root, forceCycle)
  * @see http://www.w3.org/TR/wai-aria-practices/#accordion
  * @function
  * @param {Element} item Where we start
- * @param {String} $key The KeyboardEvent key that was pressed
+ * @param {string} $key The KeyboardEvent key that was pressed
  * @param {Element} root The menu Root node
- * @param {Boolean} [SHIFT] was the SHIFT key down during the event?
- * @param {Boolean} [CTRL] was the CTRL key down during the event?
- * @returns {Boolean} true if the event has been fully handled and we can prevent default
+ * @param {boolean} [SHIFT] was the SHIFT key down during the event?
+ * @param {boolean} [CTRL] was the CTRL key down during the event?
+ * @returns {boolean} true if the event has been fully handled and we can prevent default
  */
 AbstractMenu.prototype._keyActivator = function(item, $key, root, SHIFT, CTRL) {
 	let target;
@@ -1522,6 +1525,7 @@ AbstractMenu.prototype._keyActivator = function(item, $key, root, SHIFT, CTRL) {
  * @function
  * @param {Event} $event The wrapped focus event.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 AbstractMenu.prototype.focusEvent = function($event) {  // ignore the claim this function is unused - it is bound up in the event wrapper.
 	let localOpenMenu;
 	const target = $event.target;
@@ -1564,6 +1568,7 @@ AbstractMenu.prototype.focusEvent = function($event) {  // ignore the claim this
  * @function
  * @param {MouseEvent} $event the click event wrapped by {@link module:wc/dom/event}.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 AbstractMenu.prototype.clickEvent = function($event) {
 	const {
 		target,
@@ -1660,7 +1665,7 @@ AbstractMenu.prototype._setUpWidgets = function() {
 /**
  * Initialisation of menus. If you override this you are responsible for calling it from the subclass, perhaps
  * like this: `this.constructor.prototype.initialise.call(this, element);`
- * @param {Element} element
+ * @param {Element} element - ?
  * @returns {Promise<void>} ?
  * @function
  * @public

@@ -33,7 +33,8 @@ function validate(container) {
 		constraint: required.CONSTRAINTS.CLASSNAME,
 		position: "beforeend",
 		/**
-		 * @param {HTMLElement} element
+		 * ?
+		 * @param {HTMLElement} element - ?
 		 * @returns {string} ?
 		 */
 		messageFunc: (element) => {
@@ -92,7 +93,9 @@ function changeEvent({ target }) {
 }
 
 /**
- * @param { UIEvent & { target: HTMLInputElement }} $event
+ * ?
+ * @param { UIEvent & { target: HTMLInputElement }} $event - ?
+ * @returns {void} ?
  */
 function blurEvent($event) {
 	const element = $event.target;

@@ -35,7 +35,7 @@ const instance = {
 	 * @alias module:wc/date/interchange.isComplete
 	 * @static
 	 * @param {string} xfr A transfer date string.
-	 * @returns {Boolean} true if this is a complete date string.
+	 * @returns {boolean} true if this is a complete date string.
 	 */
 	isComplete: function(xfr) {
 		let result = false;
@@ -53,8 +53,8 @@ const instance = {
 	 * @function
 	 * @alias module:wc/date/interchange.isValid
 	 * @static
-	 * @param {String} xfr A transfer date string.
-	 * @returns {Boolean} true if this is a valid transfer date string.
+	 * @param {string} xfr A transfer date string.
+	 * @returns {boolean} true if this is a valid transfer date string.
 	 */
 	isValid: function(xfr) {
 		return !!(xfr && XFER_DATE_RE.test(xfr));
@@ -67,7 +67,7 @@ const instance = {
 	 * @static
 	 * @param {Date} date The date to convert.
 	 * @param {boolean} [includeTime] If true the time part of the date will be included.
-	 * @returns {String} The given date converted to a transfer date string.
+	 * @returns {string} The given date converted to a transfer date string.
 	 */
 	fromDate: function(date, includeTime) {
 		const template = includeTime ? "%04d-%02d-%02dT%02d:%02d:%02d" : FULL_DATE_TEMPLATE;
@@ -177,19 +177,19 @@ function splitXferDate(xfr, defaults) {
 export default instance;
 
 /**
- * @typedef {Object} dateFromValuesObject
+ * @typedef {object} dateFromValuesObject
  * @property {number|string} [year] The full (four? digit) year (possibly as a String).
  * @property {number|string} [month] The month number (possibly as a String), 1 indexed.
  * @property {number|string} [day] The day number (possibly as a String), 1 indexed.
  */
 
 /**
- * @typedef {Object} toValuesReturnObject
- * @property {?String} year The full year as a String. Years between 0 and 999 are padded to four characters
+ * @typedef {object} toValuesReturnObject
+ * @property {?string} year The full year as a String. Years between 0 and 999 are padded to four characters
  *    with leading zeros
- * @property {?String} month The month number as a String (note 1 indexed).
- * @property {?String} day The day number as a String (note 1 indexed).
+ * @property {?string} month The month number as a String (note 1 indexed).
+ * @property {?string} day The day number as a String (note 1 indexed).
  * @property {?string} hour (zero indexed)
- * @property {?String} minute (zero indexed)
- * @property {?String} second (zero indexed)
+ * @property {?string} minute (zero indexed)
+ * @property {?string} second (zero indexed)
  */

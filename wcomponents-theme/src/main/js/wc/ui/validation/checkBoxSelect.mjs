@@ -18,7 +18,7 @@ const { console } = globalThis;
  * @private
  * @param {Element} container The container being validated, may be a WCheckBoxSelect root container or an
  *    element which contains WCheckBoxSelects such as a form.
- * @returns {Boolean} true if valid.
+ * @returns {boolean} true if valid.
  */
 function validate (container) {
 	const obj = {
@@ -42,7 +42,7 @@ function validate (container) {
  * Re-validate a previously invalid WCheckBoxSelect when the component's selection is changed.
  * @function
  * @private
- * @param {Element} element A WCheckBoxSelect
+ * @param {Element} element - A WCheckBoxSelect
  * @returns {any} ?
  */
 const revalidate = element => validationManager.revalidationHelper(element, validate);

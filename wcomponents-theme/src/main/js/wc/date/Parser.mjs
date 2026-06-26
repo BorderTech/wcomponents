@@ -17,7 +17,7 @@ function Match() {
 	 * Get a transfer date formatted string representing this match.
 	 * @function
 	 * @public
-	 * @returns {String} The transfer date.
+	 * @returns {string} The transfer date.
 	 */
 	this.toXfer = function() {
 		return interchange.fromValues(/** @type {module:wc/date/Parser#parsedDate} */(this));
@@ -36,8 +36,8 @@ function Match() {
 }
 
 /**
- * @param {Parser} parser
- * @param {module:wc/date/Parser#parsedDate} match
+ * @param {Parser} parser - ?
+ * @param {module:wc/date/Parser#parsedDate} match - ?
  * @return {Date}
  */
 function doCheckDate(parser, match) {
@@ -58,10 +58,10 @@ function doCheckDate(parser, match) {
 
 /**
  *
- * @param {Parser} parser
- * @param mask
- * @param {RegExpExecArray} match
- * @return {module:wc/date/Parser~Match|module:wc/date/Parser.Match}
+ * @param {Parser} parser - ?
+ * @param {any} mask - ?
+ * @param {RegExpExecArray} match - ?
+ * @returns {module:wc/date/Parser~Match|module:wc/date/Parser.Match} ?
  */
 function normaliser(parser, mask, match) {
 	let result = new Match();
@@ -87,7 +87,7 @@ function normaliser(parser, mask, match) {
 
 /**
  *
- * @param {module:wc/date/pattern[]} patterns
+ * @param {module:wc/date/pattern[]} patterns - ?
  * @return {RegExp}
  */
 function getCompiledRegex(patterns) {
@@ -161,7 +161,7 @@ function Parser() {
 	/**
 	 * Parse a string representing user input of a date-like piece of data to a list of possible matches.
 	 * @function
-	 * @param {String} string The date-like (or partial date-like) input string.
+	 * @param {string} string The date-like (or partial date-like) input string.
 	 * @returns {module:wc/date/Parser#parsedDate[]} List of possible matches like so:
 	 * <pre>
 	 * [
@@ -217,7 +217,7 @@ function Parser() {
 	 * If a date is parsed as 40/02/2000 Rolling determines if it is to be rejected as a match, or 'rolled'
 	 * forward to a valid date (in this case 11/03/2000).
 	 * @function
-	 * @param {Boolean} arg Indicates if dates should be rolled forwards.
+	 * @param {boolean} arg Indicates if dates should be rolled forwards.
 	 */
 	this.setRolling = function (arg) {
 		rolling = arg;
@@ -226,7 +226,7 @@ function Parser() {
 	/**
 	 * Is the date allowed to roll?
 	 * @function
-	 * @returns {Boolean} true is rolling is enabled.
+	 * @returns {boolean} true is rolling is enabled.
 	 */
 	this.isRolling = function () {
 		return rolling;
@@ -300,9 +300,9 @@ function Parser() {
 export default Parser;
 
 /**
- * @typedef {Object} module:wc/date/Parser#parsedDate
- * @property {Number} day The day
- * @property {Number} month The month (NOTE: 1 based!!!!)
- * @property {Number} year The year
+ * @typedef {object} module:wc/date/Parser#parsedDate
+ * @property {number} day The day
+ * @property {number} month The month (NOTE: 1 based!!!!)
+ * @property {number} year The year
  * @property {?Date} date The Date object representing the match's date.
  */

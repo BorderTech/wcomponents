@@ -27,7 +27,7 @@ class RadioAnalog extends AriaAnalog {
 	/**
 	 * Select items immediately on navigation.
 	 * @function
-	 * @returns {Boolean} always true for this analog.
+	 * @returns {boolean} always true for this analog.
 	 * @override
 	 */
 	selectOnNavigate() {

@@ -26,7 +26,7 @@ const instance = {
 	 * Think PDF link that opens in the same window.
 	 * @public
 	 * @param {Element} element The element to test.
-	 * @returns {Boolean} true if this element has an inline attachment link.
+	 * @returns {boolean} true if this element has an inline attachment link.
 	 */
 	isInlineLink: function(element) {
 		let result = false;
@@ -42,7 +42,7 @@ const instance = {
  * Gets the href from an element, which may be the URL 'data-' attribute of a link-like element (such as a
  * WButton with renderAs='link' or WMenuItem with a URL, both of which are button elements).
  * @param {Element} element An element with href attribute OR one of our custom equivalents.
- * @returns {String} The href if found, otherwise falsy (actually "")
+ * @returns {string} The href if found, otherwise falsy (actually "")
  */
 function getHref(element) {
 	return element?.getAttribute("href") || element?.dataset.wcUrl || "";
@@ -86,7 +86,7 @@ function clickEvent($event) {
 initialise.register({
 	/**
 	 * Initialise the functionality by wiring up a click event listener.
-	 * @param {HTMLBodyElement} element
+	 * @param {HTMLBodyElement} element - ?
 	 */
 	initialise: function(element) {
 		event.add(element, "click", clickEvent, 100);

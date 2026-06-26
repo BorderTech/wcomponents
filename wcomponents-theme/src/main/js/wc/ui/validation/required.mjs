@@ -26,9 +26,9 @@ const instance = {
 	 * @function module:wc/ui/validation/required.doItAllForMe
 	 * @param {Element} container the container being validated.
 	 * @param {string} widget the descriptor of the component being tested.
-	 * @param {Boolean} [useAria] set true to use aria-required as the indicator of mandatory-ness, otherwise
+	 * @param {boolean} [useAria] set true to use aria-required as the indicator of mandatory-ness, otherwise
 	 *    use required attribute.
-	 * @returns {Boolean} true if the container is valid.
+	 * @returns {boolean} true if the container is valid.
 	 */
 	doItAllForMe: function(container, widget, useAria) {
 		let elements = this.getRequired(container, widget, useAria),
@@ -47,7 +47,7 @@ const instance = {
 	 * optional parameters.
 	 * @function module:wc/ui/validation/required.complexValidationHelper
 	 * @param {module:wc/ui/validation/required~config} obj Configuration parameters.
-	 * @returns {Boolean} true if `obj.container` is valid.
+	 * @returns {boolean} true if `obj.container` is valid.
 	 */
 	complexValidationHelper: function(obj) {
 		let result = true;
@@ -153,7 +153,7 @@ const instance = {
  * @function
  * @private
  * @param {Element} element The element (component) with the error.
- * @returns {String} A formatted error message.
+ * @returns {string} A formatted error message.
  */
 function getRequiredMessage(element) {
 	return /** @type {string} */(i18n.get("validation_common_incomplete", validationManager.getLabelText(element)));
@@ -179,7 +179,7 @@ function flagAllThese(elements, config) {
  * @function
  * @private
  * @param {Element} element A form control or aria surrogate.
- * @returns {Boolean} true if not complete.
+ * @returns {boolean} true if not complete.
  */
 function isNotComplete(element) {
 	return !isComplete.isComplete(element);
@@ -195,7 +195,7 @@ export default instance;
 
 /**
  * Configuration object for several functions.
- * @typedef {Object} module:wc/ui/validation/required~config
+ * @typedef {object} module:wc/ui/validation/required~config
  * @property {HTMLElement} container The container being validated.
  * @property {string} widget The description of the component we are currently testing.
  * @property {Function} [filter] A function to call to test for completeness, defaults to

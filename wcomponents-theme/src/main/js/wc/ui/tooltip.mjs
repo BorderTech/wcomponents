@@ -62,7 +62,8 @@ function toggleTooltips(hide) {
 
 /**
  * Handles a key down.
- * @param {KeyboardEvent} $event
+ * @param {KeyboardEvent} $event - ?
+ * @returns {void} ?
  */
 function keydownEvent($event) {
 	if (!$event.defaultPrevented && !isOpen && $event.key === "Alt" && !($event.repeat)) {
@@ -76,7 +77,8 @@ function keydownEvent($event) {
  */
 /**
  * Handles a key up.
- * @param {KeyboardEvent} $event
+ * @param {KeyboardEvent} $event - ?
+ * @returns {void} ?
  */
 function keyupEvent($event) {
 	if (isOpen && !$event.defaultPrevented) {

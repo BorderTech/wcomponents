@@ -339,7 +339,7 @@ describe("wc/ui/subordinate Live DOM Rule Tests", () => {
 	 * Darn complicated test for darn complicated subordinate rules.
 	 * This is a test with two onTrue actions and rather complex condition logic.
 	 * @param {any} shouldChange - ?
-	 * @param {any} selectVal - ?
+	 * @param {string} selectVal - ?
 	 * @param {string} triggerId - ?
 	 * @param {boolean} forceGrey - ?
 	 * @returns {Promise<any>} ?

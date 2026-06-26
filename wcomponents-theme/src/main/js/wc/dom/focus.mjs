@@ -31,7 +31,7 @@ const focusInstance = {
 	 * Indicates that an element is a viable tab stop: ie, may be focusable
 	 * @function module:wc/dom/focus.isTabstop
 	 * @param {Element} element The element to test.
-	 * @returns {Boolean} true if the element is a viable tab stop.
+	 * @returns {boolean} true if the element is a viable tab stop.
 	 */
 	isTabstop: function(element) {
 		if (!element?.nodeType) {
@@ -44,8 +44,8 @@ const focusInstance = {
 	 * Indicates that an element natively focusable in a browser. This is based on the HTML5 spec but explicitly
 	 * excludes IMG.
 	 * @function module:wc/dom/focus.isNativelyFocusable
-	 * @param {String} tagName The name of the element to test.
-	 * @returns {Boolean} true if the element is natively focusable.
+	 * @param {string} tagName The name of the element to test.
+	 * @returns {boolean} true if the element is natively focusable.
 	 */
 	isNativelyFocusable: function(tagName) {
 		return !!(tagName && ~PRIMARY_TABSTOPS.indexOf(tagName.toLowerCase()));
@@ -55,7 +55,7 @@ const focusInstance = {
 	 * Determine if an element could receive focus via the keyboard.
 	 * @function module:wc/dom/focus.canFocus
 	 * @param {Element} element The element node to test.
-	 * @returns {Boolean} true if the element can receive focus
+	 * @returns {boolean} true if the element can receive focus
 	 * TO-DO does not work back through its ancestors to determine if one of them excludes the element from receiving focus this could be implemented as a filter.
 	 */
 	canFocus: function(element) {
@@ -118,7 +118,7 @@ const focusInstance = {
 	 * @param {Element} container The element in which we want to place the focus.
 	 * @param {Function} [callback] Callback function which will be notified when we (attempt to) set
 	 *    focus on a particular element.
-	 * @param {Boolean} [reverse] If true then elements will be tried in reverse order. In other words this
+	 * @param {boolean} [reverse] If true then elements will be tried in reverse order. In other words this
 	 *    function becomes "focusLastTabstop".
 	 * @returns {HTMLElement} The element that received focus.
 	 */
@@ -146,7 +146,7 @@ const focusInstance = {
 	 * Determine if an element's descendant elements contain at least one focusable element.
 	 * @function module:wc/dom/focus.canFocusInside
 	 * @param {Element} element The element node to test.
-	 * @returns {Boolean} true if the element has at least one child which can receive focus.
+	 * @returns {boolean} true if the element has at least one child which can receive focus.
 	 */
 	canFocusInside: function(element) {
 		let result = false;
@@ -164,7 +164,7 @@ const focusInstance = {
 	 * Get the first ancestor element which can accept focus.
 	 * @function module:wc/dom/focus.getFocusableAncestor
 	 * @param {Element} element The element from which to start the focusable hunt.
-	 * @param {Boolean} [ignoreSelf] set true if we want to explicitly ignore the current element otherwise will
+	 * @param {boolean} [ignoreSelf] set true if we want to explicitly ignore the current element otherwise will
 	 *    return element if it is itself focusable.
 	 * @returns {HTMLElement} the first ancestor element which can receive focus (if any).
 	 */
@@ -177,7 +177,7 @@ const focusInstance = {
 			return /** @type HTMLElement */ (element);
 		}
 		const filter = node => {
-			/** @type {Number} */
+			/** @type {number} */
 			let result = SKIP;
 			if (focusInstance.isTabstop(node) && focusInstance.canFocus(node)) {
 				result = ACCEPT;
@@ -229,7 +229,7 @@ function getTabstopObserver() {
 
 // accepts primary and secondary tabstops for IE
 function standardTabstopFilter(element, instance) {
-	/** @type {Number} */
+	/** @type {number} */
 	let result = SKIP;
 	if (element) {
 		/*
@@ -289,7 +289,7 @@ function getFocusObserver() {
 //   - elements with a disabled attribute
 //   - elements that are invisible or hidden via CSS
 function standardFocusFilter(element, instance) {
-	/** @type {Number} */
+	/** @type {number} */
 	let result = SKIP;
 	if (element) {
 		if ((element.type === "hidden") ||
@@ -336,7 +336,7 @@ function callbackFactory(element, callback) {
  * @returns {number} One of NodeFilter.FILTER_ACCEPT, NodeFilter.FILTER_REJECT or NodeFilter.FILTER_SKIP.
  */
 function acceptNode(node) {
-	/** @type {Number} */
+	/** @type {number} */
 	let result = SKIP;
 	if (focusInstance.isTabstop(node) && focusInstance.canFocus(node)) {
 		const { ownerDocument } = node;
@@ -351,7 +351,7 @@ function acceptNode(node) {
 
 function focusTabHelper(element, instance) {
 	let tabIndex = element.getAttribute("tabindex");
-	/** @type {Number} */
+	/** @type {number} */
 	let result = SKIP;
 	/*
 	 * NOTE! Read the comments below before you consider changing this code.

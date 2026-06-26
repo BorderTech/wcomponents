@@ -39,7 +39,7 @@ const doRedirect = debounce(
 const instance = {
 	/**
 	 * Do the redirect. The intended use case is to launch custom protocols or attachments on page load.
-	 * @param {String} url The url to redirect to.
+	 * @param {string} url The url to redirect to.
 	 */
 	register: url => {
 		if (url) {
@@ -50,8 +50,8 @@ const instance = {
 	/**
 	 * Tries to determine if this URL will launch another application (attachment or pseudo protocol) or
 	 * navigate the page itself. "Launch" is a pretty loose term here, it pretty much means anything beside navigate.
-	 * @param {String} url A URL.
-	 * @returns {Boolean} true if the URL seems to be a "launch" URL rather than a navigate URL.
+	 * @param {string} url A URL.
+	 * @returns {boolean} true if the URL seems to be a "launch" URL rather than a navigate URL.
 	 */
 	isLaunchUrl: function(url) {
 		let result;

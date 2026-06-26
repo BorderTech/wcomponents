@@ -6,7 +6,7 @@ import $pivot from "wc/date/pivot.mjs";
  * (inclusive).
  * @function
  * @alias module:wc/date/expandYear
- * @param {(String|number)} year 2 digit year. If you pass in a larger number then the last two digits of that
+ * @param {(string | number)} year 2 digit year. If you pass in a larger number then the last two digits of that
  *    number will be used.
  * @returns {number} 4 digit year
  */

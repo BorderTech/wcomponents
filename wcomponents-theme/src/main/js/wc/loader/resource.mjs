@@ -33,7 +33,7 @@ const instance = {
 
 	/**
 	 * Allows other modules to get the cachebuster used by the resource loader.
-	 * @returns {String} the cachebuster if present.
+	 * @returns {string} the cachebuster if present.
 	 */
 	getCacheBuster: function() {
 		const config = getConfig();

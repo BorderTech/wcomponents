@@ -4,12 +4,12 @@ import shed from "wc/dom/shed.mjs";
 const
 	/**
 	 * @private
-	 * @type {String[]} FILTERS The properties which may be used to filter a group.
+	 * @type {string[]} FILTERS The properties which may be used to filter a group.
 	 */
 	FILTERS = ["selected", "deselected", "disabled", "enabled", "hidden", "visible", "expanded", "collapsed"],
 	/**
 	 * @private
-	 * @type {String[]} SHED_FILTERS {@link module:wc/dom/shed} functions which may be used to filter a group.
+	 * @type {string[]} SHED_FILTERS {@link module:wc/dom/shed} functions which may be used to filter a group.
 	 */
 	SHED_FILTERS = ["isSelected", "isDisabled", "isHidden", "isExpanded"];
 
@@ -18,7 +18,7 @@ const
  * @function buildBitMask
  * @private
  * @param {Array<string>} keys An array of strings that will become the keys of the bitmask.
- * @returns {Object} An object where the strings in the array form the properties and each property has a value
+ * @returns {object} An object where the strings in the array form the properties and each property has a value
  *    which is a bitmask.
  * @see {@link module:wc/dom/getFilteredGroup.FILTERS} for the supported options.
  */
@@ -86,7 +86,7 @@ function getFilteredGroup(element, config = {}) {
 		throw new TypeError("Element can not be null");
 	}
 	/**
-	 * @param {HTMLElement} el
+	 * @param {HTMLElement} el - ?
 	 * @return {boolean}
 	 */
 	function filterFunc(el) {
@@ -112,7 +112,7 @@ function getFilteredGroup(element, config = {}) {
  * to build a filter property to pass in the configuration object {@link module:wc/dom/getFilteredGroup~config}.
  * @public
  * @static
- * @typedef {Object} getFilteredGroup.FILTERS
+ * @typedef {object} getFilteredGroup.FILTERS
  * @property {number} selected Used to filter for members of the group in any selected state.
  * @property {number} deselected Used to filter for members of the group in any deselected state.
  * @property {number} disabled Used to filter for members of the group in a disabled state.
@@ -127,7 +127,7 @@ getFilteredGroup.FILTERS = buildBitMask(FILTERS);
 export default getFilteredGroup;
 
 /**
- * @typedef {Object} module:wc/dom/getFilteredGroup~config
+ * @typedef {object} module:wc/dom/getFilteredGroup~config
  * @property {boolean} [asObject] If true return an Object: {{ filtered: HTMLElement[], unfiltered: HTMLElement[] }}.
  * @property {string} [itemWd] Describes the type of item you are looking for. This
  *    only works if the "element" parameter is a container (not an item itself and not an array). It is useful

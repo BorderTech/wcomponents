@@ -1,4 +1,3 @@
-// const { buildMax, dirs: { images: dirs } } = require("./scripts/build-util");
 import console from 'node:console';
 import process from "node:process";
 import { fileURLToPath } from "node:url";
@@ -42,6 +41,4 @@ function clean() {
 	fs.removeSync(imageDirs.target);
 }
 
-export default {
-	build
-};
+export default { build };

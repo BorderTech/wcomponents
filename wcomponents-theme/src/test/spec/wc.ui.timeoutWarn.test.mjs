@@ -102,8 +102,8 @@ describe("wc/ui/timeoutWarn", () => {
 
 	/**
 	 * Helper to aid with type checking.
-	 * @param {HTMLElement} container
-	 * @param {string} id
+	 * @param {HTMLElement} container - ?
+	 * @param {string} id - ?
 	 * @returns {TimeoutWarn} ?
 	 */
 	function getSessionElement(container, id) {

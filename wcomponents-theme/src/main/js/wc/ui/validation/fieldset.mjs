@@ -116,8 +116,9 @@ function validationShedSubscriber({ target }) {
 }
 
 /**
- *
- * @param {UIEvent & { target: HTMLElement, currentTarget: HTMLElement }} $event
+ * ?
+ * @param {UIEvent & { target: HTMLElement, currentTarget: HTMLElement }} $event - ?
+ * @returns {void} ?
  */
 function changeEvent($event) {
 	const element = $event.currentTarget;
@@ -132,7 +133,9 @@ function changeEvent($event) {
 }
 
 /**
- * @param {FocusEvent & { target: HTMLElement }} $event
+ * ?
+ * @param {FocusEvent & { target: HTMLElement }} $event - ?
+ * @returns {void} ?
  */
 function focusEvent({ target }) {
 	const targetFieldset = (target && validationManager.isValidateOnChange()) ? target.closest(fieldsetSelector) : null;
@@ -167,4 +170,3 @@ initialise.register({
 		event.add(document.body, shed.actions.HIDE, validationShedSubscriber);
 	}
 });
-

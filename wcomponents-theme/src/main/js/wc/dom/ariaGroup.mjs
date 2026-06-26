@@ -52,12 +52,13 @@ ariaGroup.getOwned = function(element) {
  * @function module:wc/dom/ariaGroup.getGroup
  * @public
  * @param {Element} element The reference element.
- * @param {String} [role] The element role (we have already calculated before we get here).
- * @param {Boolean} [ignoreInnerGroups] If true then all members of the group will be included even if they
+ * @param {string} [role] The element role (we have already calculated before we get here).
+ * @param {boolean} [ignoreInnerGroups] If true then all members of the group will be included even if they
  *    are also members of another group nested within the current one. This is most commonly found in menus
  *    where we may want all items (for example in a tree) whether they are also in a submenu or not.
  * @returns {HTMLElement[]} An array of group members.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 ariaGroup.getGroup = function (element, role, ignoreInnerGroups) {
 	let _role = role || $role.get(element, true);
 	let scopedRoles;
@@ -122,9 +123,10 @@ ariaGroup.getGroup = function (element, role, ignoreInnerGroups) {
  * @param {Element} element the reference element
  * @param {string} [containerWd] a Widget describing the container, if any, for the
  *    subclass of {@link module:wc/dom/AriaAnalog}
- * @param {Boolean} [ignoreOwner] If true then do not look for a WAI-ARIA owner (aria-owns) element.
+ * @param {boolean} [ignoreOwner] If true then do not look for a WAI-ARIA owner (aria-owns) element.
  * @returns {HTMLElement} The group container element, if any.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 ariaGroup.getContainer = function(element, containerWd, ignoreOwner) {
 	let result;
 	if (!ignoreOwner) {
@@ -160,7 +162,7 @@ ariaGroup.getContainer = function(element, containerWd, ignoreOwner) {
  * Helper function to build an array of widget descriptors from an array of roles.
  * @function
  * @private
- * @param {String[]} roles An array of role strings.
+ * @param {string[]} roles An array of role strings.
  * @returns {string[]} An array of selectors or an empty array if none are constructed.
  */
 function buildWidgetArrayFromRoles(roles) {
