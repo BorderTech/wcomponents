@@ -124,6 +124,15 @@ let internConfig = {
 			{ "name": "chrome" }
 		]
 	},
+	"environments": [
+		{
+			"browserName": "firefox",
+			"moz:firefoxOptions": {
+				"binary": "/Applications/Firefox.app/Contents/MacOS/firefox",
+				"args": ["-headless"]
+			}
+		}
+	],
 	"defaultTimeout": 240000
 };
 
