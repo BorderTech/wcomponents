@@ -75,7 +75,7 @@ public class WCollapsibleExample extends WPanel {
 		collapsible6.setCollapsed(true);
 		collapsible6.setHeadingLevel(HeadingLevel.H2);
 		add(collapsible6);
-
+        
 		// WCollapsible with WDecoratedLabel
 
 		WStyledText iconText = new WStyledText("\u200b");

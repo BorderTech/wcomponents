@@ -1,3 +1,4 @@
+@use "sass:math";
 // #############################################################################
 // WToggleButton
 // toggle button styles based on https://codepen.io/mallendeo/pen/eLIiG
@@ -18,7 +19,7 @@ $wc-togglebutton-border-width: 1px !default;
 // calculated vars - do not change these
 
 $wc-togglebutton-double-border-width: 2 * $wc-togglebutton-border-width;
-$wc-togglebutton-slider-width: $wc-togglebutton-width / 2;
+$wc-togglebutton-slider-width:  math.div($wc-togglebutton-width, 2);
 // #############################################################################
 
 .wc-togglebutton {

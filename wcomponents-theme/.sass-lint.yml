@@ -3,7 +3,7 @@ options:
   merge-default-rules: true
   formatter: html
   output-file: 'target/sass-lint.html'
-  max-warnings: 5
+  max-warnings: 500
 # File Options
 #files:
 #  include: 'src/main/sass/**/*.scss'

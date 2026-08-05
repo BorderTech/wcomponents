@@ -2,13 +2,16 @@
 // clipboard
 // #############################################################################
 
+//sass-lint:disable no-qualifying-elements
 button.wc-clipboard {
-  margin-left: $wc-gap-normal;
   display: none;
+  margin-left: $wc-gap-normal;
   opacity: 50%;
+
   &:hover {
     opacity: 100%;
   }
+
   &:focus {
     opacity: 100%;
   }
@@ -17,3 +20,4 @@ button.wc-clipboard {
 body.wc-clipwrite button.wc-clipboard {
   display: inline-block;
 }
+//sass-lint:enable no-qualifying-elements

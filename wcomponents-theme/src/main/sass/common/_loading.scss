@@ -1,10 +1,11 @@
+@use "sass:math";
 // styling for the loading indicator that appears for page reloads and AJAX
 // regions
 // #############################################################################
 // The size to reserve for the aria-busy indicator
 $wc-common-busy-size: $wc-icon-size !default;
 // How far to offset the busy indicator from the center of the busy element.
-$wc-common-busy-offset: $wc-common-busy-size / 2;
+$wc-common-busy-offset:  math.div($wc-common-busy-size, 2);
 // The loading indicator icon. If you change this you will eant to change the
 // gif equivalent used in input, select and textarea elements.
 $wc-loading-icon: $fa-var-spinner !default;

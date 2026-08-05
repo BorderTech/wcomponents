@@ -120,6 +120,12 @@ public class WDropdownOptionsExample extends WContainer {
 	 * disabled control.
 	 */
 	private final WCheckBox cbDisabled = new WCheckBox();
+    
+    /**
+     * read-only control
+     */
+	private final WCheckBox cbReadOnly = new WCheckBox();
+    
 	/**
 	 * action on change on/off checkbox.
 	 */
@@ -190,6 +196,7 @@ public class WDropdownOptionsExample extends WContainer {
 		layout.addField("Submit on change", cbSubmitOnChange);
 		layout.addField("Visible", cbVisible);
 		layout.addField("Disabled", cbDisabled);
+        layout.addField("ReadOnly", cbReadOnly);
 
 		// Apply Button
 		WButton apply = new WButton("Apply");
@@ -268,6 +275,7 @@ public class WDropdownOptionsExample extends WContainer {
 		// set misc options.
 		dropdown.setVisible(cbVisible.isSelected());
 		dropdown.setDisabled(cbDisabled.isSelected());
+        dropdown.setReadOnly(cbReadOnly.isSelected());
 
 		// add the action for action on change, ajax and subordinate.
 		if (cbActionOnChange.isSelected() || cbAjax.isSelected() || cbSubmitOnChange.isSelected()) {

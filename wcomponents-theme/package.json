@@ -39,23 +39,23 @@
 		"tinymce": "6.8.4"
 	},
 	"devDependencies": {
-		"@babel/cli": "7.20.7",
-		"@babel/core": "7.20.12",
-		"axe-core": "3.0.0",
+		"@babel/cli": "7.29.7",
+		"@babel/core": "7.29.0",
+		"axe-core": "4.12.1",
 		"babel-plugin-transform-import-as-amd": "0.0.12",
-		"chokidar": "3.5.3",
-		"clean-css-cli": "4.1.11",
-		"eslint": "8.31.0",
-		"fs-extra": "8.1.0",
-		"grunt": "1.5.3",
+		"chokidar": "5.0.0",
+		"clean-css-cli": "5.6.3",
+		"eslint": "8.57.1",
+		"fs-extra": "11.4.0",
+		"grunt": "1.6.3",
 		"grunt-contrib-clean": "2.0.1",
 		"grunt-contrib-copy": "1.0.0",
 		"intern": "4.10.1",
-		"jsdoc": "3.6.3",
+		"jsdoc": "3.6.11",
 		"properties": "1.2.1",
-		"sass": "1.5.1",
-		"sass-lint": "1.12.1",
-		"socket.io": "2.4.1",
-		"uglify-js": "3.17.4"
+		"sass": "1.102.0",
+		"sass-lint": "1.13.1",
+		"socket.io": "2.5.1",
+		"uglify-js": "3.19.3"
 	}
 }

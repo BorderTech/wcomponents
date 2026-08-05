@@ -1,4 +1,4 @@
-
+@use "sass:math";
 // #############################################################################
 // WPanel Layouts and common layouts such as row/column (as it is ColunLayout).
 // You really don't want to be here - that is partially why it is all in the
@@ -152,7 +152,7 @@ $wc-list-layout-bar-width-offset: 2 * $wc-gap-normal !default;
 // Width of grid cells for various numbers of columns.
 @for $i from 1 through 12 {
   .wc-gridlayout-col-#{$i} > .wc_gl_row > .wc-cell {
-    width: percentage(1 / $i);
+    width: math.percentage(1 / $i);
   }
 }
 
@@ -280,7 +280,7 @@ ol.wc-listlayout {
   // Probably not but if one need's to here is the Sass: all turned on by a variable value.
   @for $i from 1 through 100 {
     .wc_col_#{$i} {
-      width: percentage($i / 100);
+      width: math.percentage($i / 100);
     }
   }
 } @else {
@@ -290,7 +290,7 @@ ol.wc-listlayout {
       $w: $i * 5;
 
       .wc_col_#{$w} {
-        width: percentage($w / 100);
+        width: math.percentage($w / 100);
       }
     }
   }
@@ -298,7 +298,7 @@ ol.wc-listlayout {
   @if $wc-column-list != 0 {
     @each $w in $wc-column-list {
       .wc_col_#{$w} {
-        width: percentage($w / 100);
+        width: math.percentage($w / 100);
       }
     }
   }

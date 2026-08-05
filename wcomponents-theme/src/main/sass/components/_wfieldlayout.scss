@@ -1,3 +1,4 @@
+@use "sass:math";
 // #############################################################################
 // WFieldLayout
 // #############################################################################
@@ -17,8 +18,8 @@ $wc-label-width-slug: wc_fld_lblwth; // DO NOT CHANGE
 $wc-input-width-slug: wc_fld_inpw; // DO NOT CHANGE
 
 @mixin wc-fld-layout($lwdth) {
-  $lw: $lwdth * 1%;
-  $iw: 100% - $lw;
+  $lw: calc($lwdth * 1%);
+  $iw: calc(100% - $lw);
 
   // sass-lint gets confused by the use of vars to build the class name
   // in combination with a egexp format.
@@ -112,7 +113,7 @@ $wc-input-width-slug: wc_fld_inpw; // DO NOT CHANGE
     .wc_fld_inpw_#{$i} > .wc-input {
       > .wc-input-wrapper,
       > fieldset {
-        max-width: percentage($i / 100);
+        max-width: math.percentage($i / 100);
       }
     }
   }
@@ -121,7 +122,7 @@ $wc-input-width-slug: wc_fld_inpw; // DO NOT CHANGE
     .wc_fld_inpw_#{$i} > .wc-input {
       > .wc-input-wrapper,
       > fieldset {
-        max-width: percentage($i / 100);
+        max-width: math.percentage($i / 100);
       }
     }
   }
@@ -176,6 +177,7 @@ $wc-input-width-slug: wc_fld_inpw; // DO NOT CHANGE
     > label,
     > span,
     > div {
+      @include border-box;
       display: inline-block;
       vertical-align: text-top;
 
@@ -205,13 +207,13 @@ $wc-input-width-slug: wc_fld_inpw; // DO NOT CHANGE
     // $wc-fieldlayout-labelwidth-list to be the single value -1.
     @if $wc-fieldlayout-labelwidth-list == -1 {
       @for $i from 1 through 100 {
-        $wc-fld-lblw: $i * 1%;
+        $wc-fld-lblw: calc($i * 1%);
         @include wc-fld-layout($i);
       }
     } @else {
       @if $wc-fieldlayout-labelwidth-include-fives == true {
         @for $i from 1 through 20 {
-          $j: $i * 5;
+          $j: calc($i * 5);
           @include wc-fld-layout($j);
         }
       }
