@@ -20,7 +20,6 @@ import com.github.bordertech.wcomponents.container.ContextCleanupInterceptor;
 import com.github.bordertech.wcomponents.container.DataListInterceptor;
 import com.github.bordertech.wcomponents.container.DebugStructureInterceptor;
 import com.github.bordertech.wcomponents.container.FormInterceptor;
-import com.github.bordertech.wcomponents.container.TemplateRenderInterceptor;
 import com.github.bordertech.wcomponents.container.InterceptorComponent;
 import com.github.bordertech.wcomponents.container.PageShellInterceptor;
 import com.github.bordertech.wcomponents.container.ResponseCacheInterceptor;
@@ -31,6 +30,7 @@ import com.github.bordertech.wcomponents.container.SessionTokenInterceptor;
 import com.github.bordertech.wcomponents.container.SubordinateControlInterceptor;
 import com.github.bordertech.wcomponents.container.TargetableErrorInterceptor;
 import com.github.bordertech.wcomponents.container.TargetableInterceptor;
+import com.github.bordertech.wcomponents.container.TemplateRenderInterceptor;
 import com.github.bordertech.wcomponents.container.TransformXMLInterceptor;
 import com.github.bordertech.wcomponents.container.UIContextDumpInterceptor;
 import com.github.bordertech.wcomponents.container.ValidateXMLInterceptor;
@@ -229,38 +229,39 @@ public final class ServletUtil {
 				return;
 			}
 
-			InputStream resourceStream = staticResource.getStream();
-			if (resourceStream == null) {
-				LOG.warn(
-						"Static resource [" + staticRequest + "] not found. Stream for content is null.");
-				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-				return;
-			}
+			try (InputStream resourceStream = staticResource.getStream()) {
+				if (resourceStream == null) {
+					LOG.warn(
+							"Static resource [" + staticRequest + "] not found. Stream for content is null.");
+					response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+					return;
+				}
 
-			int size = resourceStream.available();
-			String fileName = WebUtilities.encodeForContentDispositionHeader(staticRequest.
-					substring(staticRequest
-							.lastIndexOf('/') + 1));
+				int size = resourceStream.available();
+				String fileName = WebUtilities.encodeForContentDispositionHeader(staticRequest.
+						substring(staticRequest
+								.lastIndexOf('/') + 1));
 
-			if (size > 0) {
-				response.setContentLength(size);
-			}
+				if (size > 0) {
+					response.setContentLength(size);
+				}
 
-			response.setContentType(WebUtilities.getContentType(staticRequest));
-			response.setHeader("Cache-Control", CacheType.CONTENT_CACHE.getSettings());
+				response.setContentType(WebUtilities.getContentType(staticRequest));
+				response.setHeader("Cache-Control", CacheType.CONTENT_CACHE.getSettings());
 
-			String param = request.getParameter(WContent.URL_CONTENT_MODE_PARAMETER_KEY);
-			if ("inline".equals(param)) {
-				response.setHeader("Content-Disposition", "inline; filename=" + fileName);
-			} else if ("attach".equals(param)) {
-				response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
-			} else {
-				// added "filename=" to comply with https://tools.ietf.org/html/rfc6266
-				response.setHeader("Content-Disposition", "filename=" + fileName);
-			}
+				String param = request.getParameter(WContent.URL_CONTENT_MODE_PARAMETER_KEY);
+				if ("inline".equals(param)) {
+					response.setHeader("Content-Disposition", "inline; filename=" + fileName);
+				} else if ("attach".equals(param)) {
+					response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+				} else {
+					// added "filename=" to comply with https://tools.ietf.org/html/rfc6266
+					response.setHeader("Content-Disposition", "filename=" + fileName);
+				}
 
-			if (!headersOnly) {
-				StreamUtil.copy(resourceStream, response.getOutputStream());
+				if (!headersOnly) {
+					StreamUtil.copy(resourceStream, response.getOutputStream());
+				}
 			}
 		} catch (IOException e) {
 			LOG.warn("Could not process static resource [" + staticRequest + "]. ", e);
@@ -312,34 +313,33 @@ public final class ServletUtil {
 			return;
 		}
 
-		InputStream resourceStream = null;
+		URL url = null;
 
-		try {
-			URL url = null;
+		// Check for project translation file
+		if (fileName.startsWith(THEME_TRANSLATION_RESOURCE_PREFIX)) {
+			String resourceFileName = fileName.substring(THEME_TRANSLATION_RESOURCE_PREFIX.length());
+			url = ServletUtil.class.getResource(THEME_PROJECT_TRANSLATION_RESOURCE_PATH + resourceFileName);
+		}
 
-			// Check for project translation file
-			if (fileName.startsWith(THEME_TRANSLATION_RESOURCE_PREFIX)) {
-				String resourceFileName = fileName.substring(THEME_TRANSLATION_RESOURCE_PREFIX.length());
-				url = ServletUtil.class.getResource(THEME_PROJECT_TRANSLATION_RESOURCE_PATH + resourceFileName);
+		// Load from the theme path
+		if (url == null) {
+			String resourceName = ThemeUtil.getThemeBase() + fileName;
+			url = ServletUtil.class.getResource(resourceName);
+		}
+
+		if (url == null) {
+			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			return;
+		}
+
+		URLConnection connection = url.openConnection();
+		try (InputStream resourceStream = connection.getInputStream()) {
+			int size = resourceStream.available();
+			if (size > 0) {
+				resp.setContentLength(size);
 			}
 
-			// Load from the theme path
-			if (url == null) {
-				String resourceName = ThemeUtil.getThemeBase() + fileName;
-				url = ServletUtil.class.getResource(resourceName);
-			}
-
-			if (url == null) {
-				resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			} else {
-				URLConnection connection = url.openConnection();
-				resourceStream = connection.getInputStream();
-				int size = resourceStream.available();
-				if (size > 0) {
-					resp.setContentLength(size);
-				}
-
-				/*
+			/*
 				I have commented out the setting of the Content-Disposition on static theme resources because, well why is it there?
 				If this needs to be reinstated please provide a thorough justification comment here so the reasons are clear.
 
@@ -349,19 +349,16 @@ public final class ServletUtil {
 						substring(fileName
 								.lastIndexOf('/') + 1));
 				resp.setHeader("Content-Disposition", "filename=" + encodedName);  // "filename=" to comply with https://tools.ietf.org/html/rfc6266
-				 */
-				resp.setContentType(WebUtilities.getContentType(fileName));
-				resp.setHeader("Cache-Control", CacheType.THEME_CACHE.getSettings());
+			 */
+			resp.setContentType(WebUtilities.getContentType(fileName));
+			resp.setHeader("Cache-Control", CacheType.THEME_CACHE.getSettings());
 
-				resp.setHeader("Expires", "31536000");
-				resp.setHeader("ETag", "\"" + WebUtilities.getProjectVersion() + "\"");
-				// resp.setHeader("Last-Modified", "Mon, 02 Jan 2015 01:00:00 GMT");
-				long modified = connection.getLastModified();
-				resp.setDateHeader("Last-Modified", modified);
-				StreamUtil.copy(resourceStream, resp.getOutputStream());
-			}
-		} finally {
-			StreamUtil.safeClose(resourceStream);
+			resp.setHeader("Expires", "31536000");
+			resp.setHeader("ETag", "\"" + WebUtilities.getProjectVersion() + "\"");
+			// resp.setHeader("Last-Modified", "Mon, 02 Jan 2015 01:00:00 GMT");
+			long modified = connection.getLastModified();
+			resp.setDateHeader("Last-Modified", modified);
+			StreamUtil.copy(resourceStream, resp.getOutputStream());
 		}
 	}
 
@@ -650,6 +647,7 @@ public final class ServletUtil {
 
 	/**
 	 * Find the value of a cookie on the request, by name.
+	 *
 	 * @param request The request on which to check for the cookie.
 	 * @param name The name of the cookie we want the value of.
 	 * @return The value of the cookie, if present, otherwise null.

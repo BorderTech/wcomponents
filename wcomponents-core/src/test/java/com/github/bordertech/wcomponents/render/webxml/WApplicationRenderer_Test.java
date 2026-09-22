@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
+import com.github.bordertech.wcomponents.Environment;
 import com.github.bordertech.wcomponents.MockWEnvironment;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.WApplication;
@@ -12,10 +13,11 @@ import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import org.junit.Assert;
 import org.apache.commons.configuration.Configuration;
 import org.custommonkey.xmlunit.exceptions.XpathException;
+import org.junit.Assert;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -104,6 +106,30 @@ public class WApplicationRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
+	public void testAjaxUrlWithParameters() throws XpathException, IOException, SAXException {
+		// Basic component (no optional fields)
+		MockWEnvironment environment = new MockWEnvironment();
+		WApplication application = new WApplication();
+		environment.setPostPath("WApplicationRendererTest.postPath");
+		HashMap<String, String> hiddenParams = new LinkedHashMap<>();
+		hiddenParams.put("A", "B");
+		hiddenParams.put("X", "Y");
+		// This should be ignored and not added to the AJAX url
+		hiddenParams.put(Environment.SESSION_TOKEN_VARIABLE, "SESSION");
+		environment.setHiddenParameters(hiddenParams);
+
+		String expectedUrl = "WApplicationRendererTest.postPath?A=B&X=Y";
+
+		UIContext uic = createUIContext();
+		uic.setEnvironment(environment);
+		uic.setUI(application);
+		setActiveContext(uic);
+
+		assertSchemaMatch(application);
+		assertXpathEvaluatesTo(expectedUrl, "//ui:application/@ajaxUrl", application);
+	}
+
+	@Test
 	public void testRenderedFormatWithFocussedComponent() throws XpathException, IOException,
 			SAXException {
 		MockWEnvironment environment = new MockWEnvironment();
@@ -180,8 +206,10 @@ public class WApplicationRenderer_Test extends AbstractWebXmlRendererTestCase {
 		application.setTitle(getMaliciousAttribute("ui:application"));
 		assertSafeContent(application);
 
-		uic.getEnvironment().getHiddenParameters().put(getMaliciousAttribute("ui:param"), "dummy");
-		uic.getEnvironment().getHiddenParameters().put("dummy", getMaliciousAttribute("ui:param"));
+		HashMap<String, String> hiddenParams = new LinkedHashMap<>();
+		hiddenParams.put(getMaliciousAttribute("ui:param"), "dummy");
+		hiddenParams.put("dummy", getMaliciousAttribute("ui:param"));
+		environment.setHiddenParameters(hiddenParams);
 		assertSafeContent(application);
 	}
 

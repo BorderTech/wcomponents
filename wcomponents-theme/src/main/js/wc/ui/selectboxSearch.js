@@ -44,8 +44,6 @@ function(escapeRe, tag, uid, initialise, attribute, shed, event, group, i18n, ti
 			}, 0),
 			debouncedSearch,
 			NO_ENDS_WITH_STRING_RE = /[^ ]$/,
-			/* NOTE: moved the initialisation of ALLOWED to initialise because
-			 * parts of AJAX which i18n depend upon are not yet available in IE */
 			ALLOWED,  // "abcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:'\",<.>/? ",
 			CLASS_NOT_FOUND = "wc_selsch_notfound",
 			CLASS_FEEDBACK = "wc_selsch",
@@ -373,6 +371,7 @@ function(escapeRe, tag, uid, initialise, attribute, shed, event, group, i18n, ti
 				return;
 			}
 			try {
+				ALLOWED = i18n.get("select_typeahead");
 				config = wcconfig.get("wc/ui/selectboxSearch", config);
 			} finally {
 				config.inited = true;
@@ -418,7 +417,6 @@ function(escapeRe, tag, uid, initialise, attribute, shed, event, group, i18n, ti
 		 * @param {Element} element the element being initialised, usually document.body
 		 */
 		this.initialise = function(element) {
-			ALLOWED = i18n.get("select_typeahead");
 			if (event.canCapture) {
 				event.add(element, { type: "focus", listener: focusEvent, capture: true });
 			} else {

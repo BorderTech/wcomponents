@@ -204,9 +204,7 @@ public class WMultiFileWidgetExample extends WContainer {
 			for (FileWidgetUpload file : files) {
 				String streamedSize;
 
-				try {
-					InputStream in = file.getFile().getInputStream();
-
+				try (InputStream in = file.getFile().getInputStream()) {
 					int size = 0;
 					while (in.read() >= 0) {
 						size++;

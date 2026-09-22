@@ -71,8 +71,6 @@ public class PlainTextRendererImpl implements TemplateRenderer {
 		boolean xmlEncode = options.containsKey(XML_ENCODE);
 
 		String cacheKey = templateName + "-" + xmlEncode;
-		InputStream stream = null;
-
 		// Caching
 		Object value = options.get(USE_CACHE);
 		boolean cache = (isCaching() && value == null) || (value != null && "true".equalsIgnoreCase(value.toString()));
@@ -83,11 +81,12 @@ public class PlainTextRendererImpl implements TemplateRenderer {
 				output = getCache().get(cacheKey);
 			}
 			if (output == null) {
-				stream = getClass().getResourceAsStream(name);
-				if (stream == null) {
-					throw new SystemException("Could not find plain text template [" + templateName + "].");
+				try (InputStream stream = getClass().getResourceAsStream(name)) {
+					if (stream == null) {
+						throw new SystemException("Could not find plain text template [" + templateName + "].");
+					}
+					output = new String(StreamUtil.getBytes(stream), StandardCharsets.UTF_8);
 				}
-				output = new String(StreamUtil.getBytes(stream), StandardCharsets.UTF_8);
 				if (xmlEncode) {
 					output = WebUtilities.encode(output);
 				}
@@ -100,8 +99,6 @@ public class PlainTextRendererImpl implements TemplateRenderer {
 			throw e;
 		} catch (Exception e) {
 			throw new SystemException("Problems with plain text template [" + templateName + "]. " + e.getMessage(), e);
-		} finally {
-			StreamUtil.safeClose(stream);
 		}
 
 	}

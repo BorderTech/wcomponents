@@ -56,17 +56,11 @@ public class InternalResource implements ContentStreamAccess {
 	 */
 	@Override
 	public byte[] getBytes() {
-		InputStream stream = null;
-
-		try {
-			stream = getClass().getResourceAsStream(resourceName);
+		try (InputStream stream = getClass().getResourceAsStream(resourceName)) {
 			return StreamUtil.getBytes(stream);
 		} catch (Exception e) {
 			LOG.error("Failed to read resource: " + resourceName, e);
-		} finally {
-			StreamUtil.safeClose(stream);
 		}
-
 		return EMPTY;
 	}
 

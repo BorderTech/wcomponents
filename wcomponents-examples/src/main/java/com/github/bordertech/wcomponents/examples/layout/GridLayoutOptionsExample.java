@@ -213,7 +213,7 @@ public class GridLayoutOptionsExample extends WContainer {
 	 *
 	 * @author Steve Harney
 	 */
-	private class ControlFieldLayout extends WFieldLayout {
+	private final class ControlFieldLayout extends WFieldLayout {
 
 		/**
 		 * {@inheritDoc}

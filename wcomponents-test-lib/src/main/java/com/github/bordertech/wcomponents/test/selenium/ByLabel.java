@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWComponen
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWComponentWebProperties;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;

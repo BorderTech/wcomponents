@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.fileupload.FileItem;
 import org.junit.Assert;
 import org.junit.Test;
@@ -124,8 +124,6 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("File2 should be returned for index 1", TEST_FILE_ITEM_WRAP2, widget.
 				getFile("2"));
 	}
-	
-	
 
 	@Test
 	public void testGetMimeType() {
@@ -323,18 +321,18 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testMaxFileSizeAccessors() {
 		assertAccessorsCorrect(new WMultiFileWidget(), WMultiFileWidget::getMaxFileSize, WMultiFileWidget::setMaxFileSize,
-			10240000L, 1L, 2L);
+				10240000L, 1L, 2L);
 	}
 
 	@Test
 	public void testDuplicateComponentModels() {
 		WMultiFileWidget multiFileWidget = new WMultiFileWidget();
-		assertNoDuplicateComponentModels(multiFileWidget,"maxFileSize", 2012312312);
+		assertNoDuplicateComponentModels(multiFileWidget, "maxFileSize", 2012312312);
 		assertNoDuplicateComponentModels(multiFileWidget, "maxFiles", 123);
 		assertNoDuplicateComponentModels(multiFileWidget, "newUpload", true);
 		assertNoDuplicateComponentModels(multiFileWidget, "useThumbnails", true);
 		assertNoDuplicateComponentModels(multiFileWidget, "thumbnailPosition", WLink.ImagePosition.SOUTH);
-		assertNoDuplicateComponentModels(multiFileWidget, "thumbnailSize", new Dimension(22,33));
+		assertNoDuplicateComponentModels(multiFileWidget, "thumbnailSize", new Dimension(22, 33));
 		// TODO: See issue #1574 https://github.com/BorderTech/wcomponents/issues/1574
 //		assertNoDuplicateComponentModels(multiFileWidget, "fileUploadRequestId", "testId"); // No such method exception as it's a private method
 	}

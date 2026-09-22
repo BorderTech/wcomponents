@@ -34,6 +34,7 @@ function(sprintf, toArray, wcconfig, mixin, ajax, resource, has, initialise) {
 	 * @private
 	 */
 	function I18n() {
+		var initingPromise;
 
 		var noop = function(key) {
 				console.warn("Calling i18n before inited ", key);
@@ -84,7 +85,13 @@ function(sprintf, toArray, wcconfig, mixin, ajax, resource, has, initialise) {
 		 * @returns {Promise} resolved when COMPLETELY initialised.
 		 */
 		this.initialize = function(config) {
-			return new Promise(function(win, lose) {
+			function done() {
+				initingPromise = null;
+			}
+			if (initingPromise) {
+				return initingPromise;
+			}
+			initingPromise = new Promise(function(win, lose) {
 				// If we're not in an old version of Internet Explorer
 				if (!has("ie") || has("ie") > 9) {
 					if (config || instance.get === noop) {
@@ -109,6 +116,8 @@ function(sprintf, toArray, wcconfig, mixin, ajax, resource, has, initialise) {
 					win();
 				}
 			});
+			initingPromise.catch(done);
+			return initingPromise.then(done);
 		};
 
 		/**

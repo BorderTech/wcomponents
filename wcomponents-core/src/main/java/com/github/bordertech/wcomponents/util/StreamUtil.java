@@ -72,10 +72,10 @@ public final class StreamUtil {
 	 * @throws IOException if there is an error reading from the stream.
 	 */
 	public static byte[] getBytes(final InputStream in) throws IOException {
-		ByteArrayOutputStream result = new ByteArrayOutputStream();
-		copy(in, result);
-		result.close();
-		return result.toByteArray();
+		try (ByteArrayOutputStream result = new ByteArrayOutputStream()) {
+			copy(in, result);
+			return result.toByteArray();
+		}
 	}
 
 	/**
@@ -101,9 +101,9 @@ public final class StreamUtil {
 	 * @throws IOException If there is an error reading from the <em>is</em>.
 	 */
 	public static byte[] streamToByteArray(final InputStream is) throws IOException {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		copy(is, baos);
-		byte[] bytes = baos.toByteArray();
-		return bytes;
+		try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+			copy(is, baos);
+			return baos.toByteArray();
+		}
 	}
 }

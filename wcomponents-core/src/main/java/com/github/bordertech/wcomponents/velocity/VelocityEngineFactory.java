@@ -10,6 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
 /**
  * A wrapper for the creation of a (singleton) VelocityEngine, using runtime {@link Config configuration} parameters for
@@ -53,7 +54,6 @@ public final class VelocityEngineFactory {
 			String fileTemplates = ConfigurationProperties.getVelocityFileTemplates();
 			boolean cacheTemplates = ConfigurationProperties.getVelocityCacheTemplates();
 
-			VelocityEngine newEngine = new VelocityEngine();
 			Properties props = new Properties();
 
 			// Configure the velocity template differently according to whether we are in
@@ -61,31 +61,29 @@ public final class VelocityEngineFactory {
 			if (fileTemplates != null && !"".equals(fileTemplates)) {
 				// Source mode
 				LOG.info("Velocity engine running in source mode from " + fileTemplates);
-
 				props.setProperty("resource.loader", "file,class");
 				props.setProperty("file.resource.loader.path", fileTemplates);
 				props.setProperty("file.resource.loader.cache", "false");
 				props.setProperty("file.resource.loader.modificationCheckInterval", "2");
-
 				props.setProperty("class.resource.loader.cache", "false");
 				props.setProperty("class.resource.loader.modificationCheckInterval", "2");
-
-				props.setProperty("class.resource.loader.class",
-						"org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+				props.setProperty("class.resource.loader.class", ClasspathResourceLoader.class.getName());
 			} else {
 				String cache = String.valueOf(cacheTemplates);
-				props.setProperty("class.resource.loader.cache", cache);
 				props.setProperty("resource.loader", "class");
-				props.setProperty("class.resource.loader.class",
-						"org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+				props.setProperty("class.resource.loader.cache", cache);
+				props.setProperty("class.resource.loader.class", ClasspathResourceLoader.class.getName());
 			}
-
-			// Setup commons logging for velocity
-			props.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
-					"com.github.bordertech.wcomponents.velocity.VelocityLogger");
 
 			// Set up access to the common velocity macros.
 			props.setProperty(RuntimeConstants.VM_LIBRARY, ConfigurationProperties.getVelocityMacroLibrary());
+
+			// Backwards compatability properties
+			if (ConfigurationProperties.isVelocityBackwardCompatability17Enabled()) {
+				props.putAll(ConfigurationProperties.getVelocityBackwardCompatability17Properties());
+			}
+			// Project properties (if set)
+			props.putAll(ConfigurationProperties.getVelocityCustomProperties());
 
 			try {
 				if (LOG.isInfoEnabled()) {
@@ -94,13 +92,10 @@ public final class VelocityEngineFactory {
 					props.list(new PrintWriter(writer));
 					LOG.info("Configuring velocity with the following properties...\n" + writer);
 				}
-
-				newEngine.init(props);
+				engine = new VelocityEngine(props);
 			} catch (Exception ex) {
 				throw new SystemException("Failed to configure VelocityEngine", ex);
 			}
-
-			engine = newEngine;
 		}
 
 		return engine;

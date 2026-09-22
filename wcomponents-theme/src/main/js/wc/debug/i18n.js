@@ -1,20 +1,15 @@
-require(["lib/i18next", "wc/array/diff", "wc/timers"], function(i18next, arrayDiff, timers) {
+require(["lib/i18next", "wc/array/diff", "wc/debounce"], function(i18next, arrayDiff, debounce) {
 
-	var timer, checked = {};
+	var checked = {};
+	var onload = debounce(checkLoaded, 3000);
 
 	i18next.on("loaded", onload);
-	queueCheck();
-
-	function onload() {
-		queueCheck();
-	}
-
 
 	function checkLoaded(languages) {
 		var i, nextLang, langs;
 		try {
-			langs = languages || i18next.languages;
-			if (langs) {
+			if (languages) {
+				langs = Object.keys(languages);
 				for (i = 0; i < langs.length; i++) {
 					nextLang = langs[i];
 					if (nextLang && !checked.hasOwnProperty(nextLang)) {
@@ -26,13 +21,6 @@ require(["lib/i18next", "wc/array/diff", "wc/timers"], function(i18next, arrayDi
 		} catch (ex) {
 			console.warn(ex);  // don't die checking missing translations and other debug fluff
 		}
-	}
-
-	function queueCheck() {
-		if (timer) {
-			timers.clearTimeout(timer);
-		}
-		timer = timers.setTimeout(checkLoaded, 1337);  // this does not need to happen in a hurry
 	}
 
 	/**

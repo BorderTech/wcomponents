@@ -86,8 +86,7 @@ public class UicStats {
 	}
 
 	/**
-	 * Retrieves the map wchich contains all the WComponent instances that make up the WComponent tree starting from the
-	 * given root component.
+	 * Retrieves the map wchich contains all the WComponent instances that make up the WComponent tree starting from the given root component.
 	 *
 	 * @param root the root component.
 	 * @return the map of Stats for the components under the given root component.
@@ -205,12 +204,8 @@ public class UicStats {
 	 * @return the serialized size of the given object, or -1 on error.
 	 */
 	private int getSerializationSize(final Object obj) {
-		try {
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(bos);
+		try (ByteArrayOutputStream bos = new ByteArrayOutputStream(); ObjectOutputStream oos = new ObjectOutputStream(bos)) {
 			oos.writeObject(obj);
-			oos.close();
-
 			byte[] bytes = bos.toByteArray();
 			return bytes.length;
 		} catch (IOException ex) {
@@ -225,17 +220,18 @@ public class UicStats {
 	 */
 	private void addSerializationStat(final ComponentModel model, final Stat stat) {
 		try {
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(bos);
-			oos.writeObject(model);
-			oos.close();
-
-			byte[] bytes = bos.toByteArray();
+			// Calc size
+			byte[] bytes;
+			try (ByteArrayOutputStream bos = new ByteArrayOutputStream(); ObjectOutputStream oos = new ObjectOutputStream(bos)) {
+				oos.writeObject(model);
+				bytes = bos.toByteArray();
+			}
 			stat.setSerializedSize(bytes.length);
 
-			ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-			ObjectInputStream ois = new ObjectInputStream(bis);
-			ois.readObject();
+			// Check serializable
+			try (ByteArrayInputStream bis = new ByteArrayInputStream(bytes); ObjectInputStream ois = new ObjectInputStream(bis)) {
+				ois.readObject();
+			}
 
 			stat.setModelState(Stat.MDL_SERIALIZABLE);
 		} catch (Exception ex) {

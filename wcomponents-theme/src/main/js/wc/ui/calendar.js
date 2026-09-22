@@ -19,11 +19,12 @@ define(["wc/dom/attribute",
 	"wc/ui/dateField",
 	"wc/dom/initialise",
 	"wc/timers",
+	"wc/debounce",
 	"wc/template",
 	"wc/config"],
 function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthName, today, interchange, event,
 	focus, shed, tag, viewportCollision, getBox, Widget, i18n, isNumeric, dateField, initialise,
-	timers, template, wcconfig) {
+	timers, debounce, template, wcconfig) {
 	"use strict";
 
 	/**
@@ -456,6 +457,9 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				callback: function() {
 					document.getElementById(MONTH_SELECT_ID).selectedIndex = _today.getMonth();
 					event.add(container, "keydown", _calendarKeydownEvent);
+					event.add(container, "blur", debounce(() => {
+						checkHideCal(document.activeElement);
+					}, 1000), null, null, true);
 					event.add(findMonthSelect(), "change", monthChangeEvent);
 					event.add(findYearField(), "change", yearChangeEvent);
 					callback(container);
@@ -633,7 +637,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 					if (disableEverything) {
 						resetMonthPickerOptions(true);
 					} else if ((minMonth && minMonth > monthIndex) || ((maxMonth || maxMonth === 0) && maxMonth < monthIndex)) {
-						// if we did not disableEverything because we were in the wrng year we may still have to disable all days if we are in the wrong month
+						// if we did not disableEverything because we were in the wrong year we may still have to disable all days if we are in the wrong month
 						disableEverything = true;
 					}
 				} else {
@@ -1049,18 +1053,26 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @param {Event} $event A focus[in] event.
 		 */
 		function focusEvent($event) {
-			var target = $event.target,
-				element, cal;
+			var target = $event.target;
 
 			if (dateField.isOneOfMe(target, false) && !attribute.get(target, INITED_ATTRIB)) {
 				attribute.set(target, INITED_ATTRIB, true);
 				event.add(target, "keydown", keydownEvent);
 			}
 
-			if (target && (cal = getCal()) && !shed.isHidden(cal, true)) {
-				element = dateField.get(target);
+			if (target) {
+				checkHideCal(target);
+			}
+		}
 
-				if (!element || (element !== dateField.get(getCal()))) { // second: focused a different date field
+		function checkHideCal(element) {
+			if (!element) {
+				hideCalendar(true);
+			}
+			const cal = getCal();
+			if (cal && !shed.isHidden(cal, true)) {
+				const dateInput = dateField.get(element);
+				if (!dateInput || (dateInput !== dateField.get(getCal()))) {  // second: focused a different date field
 					hideCalendar(true);
 				}
 			}

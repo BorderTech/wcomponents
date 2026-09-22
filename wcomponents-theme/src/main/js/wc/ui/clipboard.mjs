@@ -7,7 +7,15 @@ const clipboardButton = new Widget("button", "wc-clipboard");
 
 const instance = {
 	initialise: function(element) {
+		const doc = element.ownerDocument;
 		event.add(element, "click", debounce(clickEvent, 250));
+		// @ts-ignore
+		doc.defaultView.navigator.permissions.query({ name: "clipboard-write" }).then(permissionStatus => {
+			if (permissionStatus.state !== "denied") {
+				const body = doc.body;
+				body.classList.add("wc-clipwrite");
+			}
+		});
 	}
 };
 
@@ -18,14 +26,20 @@ function clickEvent($event) {
 	}
 }
 
+/**
+ *
+ * @param {HTMLButtonElement} element
+ */
 function copyContent(element) {
 	const targetId = element.getAttribute("aria-controls");
+	const doc = element.ownerDocument;
+	// @ts-ignore
 	if (targetId) {
-		const target = document.getElementById(targetId);
+		const target = doc.getElementById(targetId);
 		if (target) {
 			const text = target.innerText;
 			if (text) {
-				navigator.clipboard.writeText(text).then(function() {
+				doc.defaultView.navigator.clipboard.writeText(text).then(function() {
 					console.log("Copied to clipboard", text);
 				}).catch(function(error) {
 					console.info("Error copying to clipboard", error);

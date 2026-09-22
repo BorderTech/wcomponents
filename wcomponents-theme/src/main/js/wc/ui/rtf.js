@@ -12,8 +12,8 @@
  * @requires module:wc/mixin
  * @requires external:tinyMCE
  */
-define(["wc/dom/initialise", "wc/config", "wc/loader/style", "tinyMCE"],
-	function(initialise, wcconfig, styleLoader, tinyMCE) {
+define(["wc/dom/initialise", "wc/config", "wc/loader/style", "wc/loader/resource", "tinyMCE"],
+	function(initialise, wcconfig, styleLoader, resourceLoader, tinyMCE) {
 		"use strict";
 
 		/**
@@ -28,6 +28,7 @@ define(["wc/dom/initialise", "wc/config", "wc/loader/style", "tinyMCE"],
 				config = wcconfig.get("wc/ui/rtf", {
 					initObj: {
 						content_css: styleLoader.getMainCss(true),
+						cache_suffix: resourceLoader.getCacheBuster(),
 						menubar: false,
 						plugins: "autolink link lists advlist preview help",
 						toolbar: 'undo redo | formatselect | ' +

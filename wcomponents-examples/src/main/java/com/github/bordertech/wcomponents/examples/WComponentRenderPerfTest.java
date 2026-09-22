@@ -109,16 +109,15 @@ public final class WComponentRenderPerfTest {
 			testName
 		});
 
-		InputStream stdout = process.getInputStream();
-		BufferedReader reader = new BufferedReader(new InputStreamReader(stdout));
+		try (InputStream stdout = process.getInputStream(); BufferedReader reader = new BufferedReader(new InputStreamReader(stdout))) {
+			// Pipe the input from the process to the logger
+			for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+				int index = line.indexOf(LINE_PREFIX);
 
-		// Pipe the input from the process to the logger
-		for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-			int index = line.indexOf(LINE_PREFIX);
-
-			if (index != -1) {
-				line = line.substring(index + LINE_PREFIX.length());
-				LOG.info(line);
+				if (index != -1) {
+					line = line.substring(index + LINE_PREFIX.length());
+					LOG.info(line);
+				}
 			}
 		}
 	}

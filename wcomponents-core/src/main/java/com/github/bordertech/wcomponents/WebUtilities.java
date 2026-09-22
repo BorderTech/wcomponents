@@ -20,8 +20,6 @@ import java.net.URLConnection;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
-import org.apache.commons.httpclient.URI;
-import org.apache.commons.httpclient.util.URIUtil;
 import org.apache.commons.lang3.text.translate.AggregateTranslator;
 import org.apache.commons.lang3.text.translate.CharSequenceTranslator;
 import org.apache.commons.lang3.text.translate.CodePointTranslator;
@@ -276,43 +274,6 @@ public final class WebUtilities {
 	}
 
 	/**
-	 * Encode URL for XML.
-	 *
-	 * @param urlStr the URL to escape
-	 * @return the URL percent encoded
-	 */
-	public static String encodeUrl(final String urlStr) {
-		if (Util.empty(urlStr)) {
-			return urlStr;
-		}
-		// Percent Encode
-		String percentEncode = percentEncodeUrl(urlStr);
-		// XML Enocde
-		return encode(percentEncode);
-	}
-
-	/**
-	 * Percent encode a URL to include in HTML.
-	 *
-	 * @param urlStr the URL to escape
-	 * @return the URL percent encoded
-	 */
-	public static String percentEncodeUrl(final String urlStr) {
-		if (Util.empty(urlStr)) {
-			return urlStr;
-		}
-
-		try {
-			// Avoid double encoding
-			String decode = URIUtil.decode(urlStr);
-			URI uri = new URI(decode, false);
-			return uri.getEscapedURIReference();
-		} catch (Exception e) {
-			return urlStr;
-		}
-	}
-
-	/**
 	 * Escapes the given string to make it presentable in a URL. This follows RFC 3986, with some extensions for UTF-8.
 	 *
 	 * @param input the String to escape.
@@ -468,6 +429,55 @@ public final class WebUtilities {
 	}
 
 	/**
+	 * Create the URL for a targetable component.
+	 *
+	 * @param target the targetable component
+	 * @param cacheKey the cacheKey or otherwise null
+	 * @return the URL for the content of a targetable component
+	 */
+	public static String createTargetUrl(final Targetable target, final String cacheKey) {
+		return createTargetUrl(target, cacheKey, null);
+	}
+
+	/**
+	 * Create the URL for a targetable component with additional parameters.
+	 *
+	 * @param target the targetable component
+	 * @param cacheKey the cacheKey or otherwise null
+	 * @param additionalParams the additional parameters to include on url or otherwise null
+	 * @return the URL for the content of a targetable component
+	 */
+	public static String createTargetUrl(final Targetable target, final String cacheKey, final Map<String, String> additionalParams) {
+
+		Environment env = target.getEnvironment();
+
+		Map<String, String> parameters = env.getHiddenParameters();
+		// Remove session token as this should not be exposed on GET URLs (CSRF Rules)
+		parameters.remove(Environment.SESSION_TOKEN_VARIABLE);
+
+		// Add the target id
+		parameters.put(Environment.TARGET_ID, target.getTargetId());
+
+		if (Util.empty(cacheKey)) {
+			// Add some randomness to the URL to prevent caching
+			parameters.put(Environment.UNIQUE_RANDOM_PARAM, WebUtilities.generateRandom());
+		} else {
+			// Add the cache key
+			parameters.put(Environment.CONTENT_CACHE_KEY, cacheKey);
+			// Remove step counter as not required for cached content
+			parameters.remove(Environment.STEP_VARIABLE);
+		}
+
+		// Add additional parameters
+		if (additionalParams != null) {
+			parameters.putAll(additionalParams);
+		}
+
+		// Build URL
+		return getPath(env.getWServletPath(), parameters, true);
+	}
+
+	/**
 	 * Adds GET parameters to a path.
 	 *
 	 * @param url the existing url path
@@ -488,6 +498,12 @@ public final class WebUtilities {
 	 */
 	public static String getPath(final String url, final Map<String, String> parameters,
 			final boolean javascript) {
+
+		// Check URL provided
+		if (url == null) {
+			throw new IllegalArgumentException("URL must be provided.");
+		}
+
 		// Have we already got some parameters?
 		int index = url.indexOf('?');
 		boolean hasVars = false;
@@ -736,8 +752,8 @@ public final class WebUtilities {
 			component.preparePaint(request);
 			try (PrintWriter writer = new PrintWriter(buffer)) {
 				component.paint(new WebXmlRenderContext(writer));
+				return buffer.toString();
 			}
-			return buffer.toString();
 		} finally {
 			if (needsContext) {
 				UIContextHolder.popContext();
@@ -791,8 +807,8 @@ public final class WebUtilities {
 			chain.preparePaint(request);
 			try (PrintWriter writer = new PrintWriter(buffer)) {
 				chain.paint(new WebXmlRenderContext(writer));
+				return buffer.toString();
 			}
-			return buffer.toString();
 		} finally {
 			if (needsContext) {
 				UIContextHolder.popContext();

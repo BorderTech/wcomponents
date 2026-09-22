@@ -65,10 +65,9 @@ public class SimpleFileUpload_Test extends WComponentExamplesTestCase {
 		File tempFile = File.createTempFile("SimpleFileUpload_Test", "tmp");
 		tempFile.deleteOnExit();
 
-		OutputStream out = new FileOutputStream(tempFile);
-		out.write(content.getBytes());
-		out.close();
-
+		try (OutputStream out = new FileOutputStream(tempFile)) {
+			out.write(content.getBytes());
+		}
 		return tempFile;
 	}
 }

@@ -9,7 +9,7 @@ const fs = require("fs-extra");
 const path = require("path");
 const esmBuilder = require("./scripts/esmBuilder");
 const libBuilder = require("./scripts/libs");
-const { getConfig, buildMax, dirs } = require("./scripts/build-util");
+const { paths, getConfig, buildMax, dirs } = require("./scripts/build-util");
 const UglifyJS = require("uglify-js");
 const themeLinter = require("./scripts/lintfile");
 const verbose = getConfig("verbose");
@@ -40,14 +40,7 @@ let config = {
 	modules: [{
 		name: "wc/common"
 	}],
-	paths: {
-		"lib/sprintf": `lib/sprintf.min`,
-		tinyMCE: "lib/tinymce/tinymce.min",
-		mailcheck: "lib/mailcheck",
-		fabric: "empty:",
-		axs: "empty:",
-		axe: "empty:"
-	}
+	paths: paths
 };
 
 if (require.main === module) {
@@ -68,14 +61,14 @@ async function build(singleFile) {
 		buildMax(dirs.script);
 		return optimize(config);
 	}
-	return buildSingle(singleFile);
+	return await buildSingle(singleFile);
 }
 
 /*
  * Entry point for building a single file.
  * @param {string} singleFile If you want to build a single JS file.
  */
-function buildSingle(singleFile) {
+async function buildSingle(singleFile) {
 	let fileName = singleFile;
 	themeLinter.run(singleFile);
 	fileName = fileName.replace(dirs.script.src, "");
@@ -83,9 +76,14 @@ function buildSingle(singleFile) {
 	Object.assign({}, conf);
 	delete conf.modules;
 	conf.dir = "";
-	conf.name = pathToModule(fileName);
+	conf.name = pathToModule(fileName.replace(/.mjs$/, '.js'));
 	conf.out = path.join(dirs.script.min, fileName);
-	buildMax(dirs.script, fileName);
+	if (singleFile.endsWith('.mjs')) {
+		const targetDir = path.dirname(path.join(dirs.script.max, conf.name));
+		await esmBuilder.build(singleFile, targetDir);
+	} else {
+		buildMax(dirs.script, fileName);
+	}
 	return optimize(conf);
 }
 
@@ -131,12 +129,11 @@ function noisyLog() {
  */
 function pathToModule(modulePath) {
 	let moduleName = modulePath.replace(dirs.script.target, "");
-	moduleName = moduleName.replace(/\\/g, "/").replace(/^\/|\.js$/g, "");
+	moduleName = moduleName.replace(/\\/g, "/").replace(/^\/|\.m?js$/g, "");
 	return moduleName;
 }
 
 module.exports = {
 	build,
-	buildSingle,
 	pathToModule
 };

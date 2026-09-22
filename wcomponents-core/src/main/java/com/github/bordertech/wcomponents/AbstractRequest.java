@@ -1,16 +1,11 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.servlet.ServletUtil;
 import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.Enumerator;
-import com.github.bordertech.wcomponents.util.StreamUtil;
 import com.github.bordertech.wcomponents.util.Util;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.apache.commons.fileupload.FileItem;
 
@@ -69,7 +64,7 @@ public abstract class AbstractRequest implements Request {
 				result = deserialized.toArray(new FileItem[]{});
 			}
 		}
-		*/
+		 */
 		return result;
 	}
 
@@ -126,41 +121,6 @@ public abstract class AbstractRequest implements Request {
 	@Override
 	public boolean isLogout() {
 		return logout;
-	}
-
-	/**
-	 * <p>
-	 * {@link FileItem} classes (if attachements) will be kept as part of the request. The default behaviour of the file
-	 * item is to store the upload in memory until it reaches a certain size, after which the content is streamed to a
-	 * temp file.</p>
-	 *
-	 * <p>
-	 * If, in the future, performance of uploads becomes a focus we can instead look into using the Jakarta Commons
-	 * Streaming API. In this case, the content of the upload isn't stored anywhere. It will be up to the user to
-	 * read/store the content of the stream.</p>
-	 *
-	 * @param fileItems a list of {@link FileItem}s corresponding to POSTed form data.
-	 * @param parameters the map to store non-file request parameters in.
-	 * @param files the map to store the uploaded file parameters in.
-	 * @deprecated Use {@link ServletUtil#uploadFileItems(java.util.List, java.util.Map, java.util.Map)} instead.
-	 */
-	@Deprecated
-	protected static void uploadFileItems(final List fileItems, final Map<String, String[]> parameters,
-			final Map<String, FileItem[]> files) {
-		ServletUtil.uploadFileItems(fileItems, parameters, files);
-	}
-
-	/**
-	 * Returns a byte array containing all the information contained in the given input stream.
-	 *
-	 * @param stream the input stream to read from.
-	 * @return the stream contents as a byte array.
-	 * @throws IOException if there is an error reading from the stream.
-	 * @deprecated Use {@link StreamUtil#getBytes(java.io.InputStream)} instead.
-	 */
-	@Deprecated
-	protected static byte[] readBytes(final InputStream stream) throws IOException {
-		return StreamUtil.getBytes(stream);
 	}
 
 	/**

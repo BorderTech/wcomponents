@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
 		<artifactId>wcomponents-parent</artifactId>
-		<version>1.5.30-SNAPSHOT</version>
+		<version>1.5.40-SNAPSHOT</version>
 	</parent>
 
 	<packaging>jar</packaging>
@@ -22,17 +22,17 @@
 		<node.download.root>http://nodejs.org/dist/</node.download.root>
 		<npm.download.root>http://registry.npmjs.org/npm/-/</npm.download.root>
 		<yarn.download.root>https://github.com/yarnpkg/yarn/releases/download/</yarn.download.root>
-		<nodejs.version>v16.14.1</nodejs.version><!-- the version of node to be installed -->
-		<npmjs.version>8.5.0</npmjs.version><!-- the version of npm to be installed - should be the version that goes with your version of node -->
+		<nodejs.version>v22.17.1</nodejs.version><!-- the version of node to be installed -->
+		<npmjs.version>11.4.2</npmjs.version><!-- the version of npm to be installed - should be the version that goes with your version of node -->
 		<yarn.version>v1.22.19</yarn.version>
-		<dependency-check.skip>true</dependency-check.skip>
+		<nodeAuditSkipDevDependencies>true</nodeAuditSkipDevDependencies>
 	</properties>
 	<name>wcomponents-theme</name>
 	<build>
 		<plugins>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>3.3.0</version>
+				<version>3.7.1</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -51,7 +51,7 @@
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
-				<version>1.8.0</version>
+				<version>1.15.0</version>
 				<configuration>
 					<workingDirectory>${basedir}</workingDirectory>
 				</configuration>

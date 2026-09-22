@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import org.apache.commons.beanutils.BeanComparator;
+import org.apache.commons.beanutils2.BeanComparator;
 
 /**
  * This class demonstrates the options available on a {@link WDataTable}.

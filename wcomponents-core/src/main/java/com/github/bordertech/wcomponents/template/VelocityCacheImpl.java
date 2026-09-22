@@ -25,42 +25,32 @@ public class VelocityCacheImpl implements ResourceCache {
 	 */
 	private static final String CACHE_NAME = "wc-velocity-templates";
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void initialize(final RuntimeServices rs) {
 		// Do nothing
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Override
+	public void clear() {
+		getCache().clear();
+	}
+
 	@Override
 	public Resource get(final Object resourceKey) {
 		return getCache().get(resourceKey);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Resource put(final Object resourceKey, final Resource resource) {
 		getCache().put(resourceKey, resource);
 		return resource;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Resource remove(final Object resourceKey) {
 		return getCache().getAndRemove(resourceKey);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Iterator enumerateKeys() {
 		return getCache().iterator();

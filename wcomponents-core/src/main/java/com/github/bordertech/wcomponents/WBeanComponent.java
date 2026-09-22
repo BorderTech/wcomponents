@@ -6,7 +6,7 @@ import com.github.bordertech.wcomponents.util.Util;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
-import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.beanutils2.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

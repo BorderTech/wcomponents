@@ -182,15 +182,14 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	private void transform(final String xml, final UIContext uic, final PrintWriter writer) {
 
 		Transformer transformer = newTransformer();
-		Source inputXml;
-		try {
-			inputXml = new StreamSource(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+		try (InputStream inStream = new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8))) {
+			Source inputXml = new StreamSource(inStream);
 			StreamResult result = new StreamResult(writer);
 			if (debugRequested) {
 				transformer.setParameter("isDebug", 1);
 			}
 			transformer.transform(inputXml, result);
-		} catch (TransformerException ex) {
+		} catch (TransformerException | IOException ex) {
 			throw new SystemException("Could not transform xml", ex);
 		}
 	}

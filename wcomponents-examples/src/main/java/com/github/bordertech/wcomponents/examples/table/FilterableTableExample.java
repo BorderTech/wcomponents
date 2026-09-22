@@ -320,7 +320,7 @@ public final class FilterableTableExample extends WContainer {
 	 * @author Mark Reeves
 	 */
 	@SuppressWarnings("serial")
-	private class FilterAction implements Action {
+	private final class FilterAction implements Action {
 
 		/**
 		 * {@inheritDoc}
@@ -338,7 +338,7 @@ public final class FilterableTableExample extends WContainer {
 	 * @author Mark Reeves
 	 */
 	@SuppressWarnings("serial")
-	private class ClearFilterAction implements Action {
+	private final class ClearFilterAction implements Action {
 
 		/**
 		 * {@inheritDoc}

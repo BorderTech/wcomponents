@@ -11,7 +11,7 @@ let srcRootPath = dirs.script.target;
 testRootPath = path.relative(dirs.project.basedir, testRootPath);
 srcRootPath = path.relative(dirs.project.basedir, srcRootPath);
 
-console.log("Testing", scriptDir);
+console.log("Testing", srcRootPath, scriptDir);
 
 let requireJsOptions = {
 	baseUrl: `/${srcRootPath}/`,
@@ -62,7 +62,7 @@ let internConfig = {
 	},
 	"configs": {
 		"local": {
-			"description": "Run tests on local system, automatically starting chromedriver"
+			"description": "Run tests on local system, automatically starting webdriver"
 		},
 		"local-headless": {
 			"environments": [
@@ -78,7 +78,6 @@ let internConfig = {
 			"description": "Run tests on SauceLabs",
 			"environments": [
 				{ "browserName": "firefox" },
-				{ "browserName": "internet explorer", "version": "11.0", "platform": "Windows 10" },
 				{ "browserName": "chrome" }
 			],
 			"proxyPort": 9000,
@@ -113,19 +112,22 @@ let internConfig = {
 		"writeHtml": false
 	},
 	"coverage": [
-		"test-classes/**",
+		`${srcRootPath}/${requireJsOptions.paths.wc}/**/*.js`,
+		`${srcRootPath}/${requireJsOptions.paths.wc}/*.js`,
+		"!test-classes/**",
 		"!node_modules/**",
 		"!lib/**"
 	],
 	"tunnelOptions": {
 		"drivers": [
 			{ "name": "firefox" },
-			{ "name": "internet explorer" },
-			{ "name": "chrome", "version": "76.0.3809.12" }
+			{ "name": "chrome" }
 		]
 	},
 	"defaultTimeout": 240000
 };
+
+console.log("Intern coverage", internConfig.coverage);
 
 if (internOverrides) {
 	console.log("Got internOverrides from config", internOverrides);

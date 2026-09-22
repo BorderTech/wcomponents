@@ -55,8 +55,7 @@ public class DynamicImage implements Image {
 	}
 
 	/**
-	 * Retrieves the natural size of the image. If only one dimension is known, a negative value will be returned for
-	 * the other dimension.
+	 * Retrieves the natural size of the image. If only one dimension is known, a negative value will be returned for the other dimension.
 	 *
 	 * @return the image size, or null if unknown.
 	 */
@@ -98,12 +97,11 @@ public class DynamicImage implements Image {
 				// Write the image to a byte array.
 				Iterator<ImageWriter> writers = ImageIO.getImageWritersByMIMEType(getMimeType());
 				ImageWriter writer = writers.next();
-				ByteArrayOutputStream os = new ByteArrayOutputStream();
-				ImageOutputStream ios = ImageIO.createImageOutputStream(os);
-				writer.setOutput(ios);
-				writer.write(image);
-
-				return os.toByteArray();
+				try (ByteArrayOutputStream os = new ByteArrayOutputStream(); ImageOutputStream ios = ImageIO.createImageOutputStream(os)) {
+					writer.setOutput(ios);
+					writer.write(image);
+					return os.toByteArray();
+				}
 			} catch (IOException ex) {
 				LOG.error("Unable to generate client image.", ex);
 			}
