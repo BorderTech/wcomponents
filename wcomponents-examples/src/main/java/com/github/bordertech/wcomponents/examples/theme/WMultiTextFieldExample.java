@@ -39,7 +39,7 @@ public final class WMultiTextFieldExample extends WContainer {
 		WMultiTextField inputs2 = new WMultiTextField();
 		inputs2.setColumns(30);
 		inputs2.setMaxLength(30);
-		layout.addField("Dynamic mult-input " + ++i, inputs2);
+		layout.addField("Dynamic multi-input " + ++i, inputs2);
 
 		//Size 30, maxlength 30 and maximum inputs 5
 		WMultiTextField inputs3 = new WMultiTextField();
@@ -48,18 +48,18 @@ public final class WMultiTextFieldExample extends WContainer {
 		inputs3.setMaxInputs(5);
 		inputs3.setPlaceholder("Maximum of 5 inputs");
 
-		layout.addField("Dynamic mult-input " + ++i, inputs3);
+		layout.addField("Dynamic multi-input " + ++i, inputs3);
 
 		//Size 30, maxlength 30 and disabled
 		WMultiTextField inputs4 = new WMultiTextField();
 		inputs4.setColumns(30);
 		inputs4.setMaxLength(30);
 		inputs4.setDisabled(true);
-		layout.addField("Dynamic mult-input " + ++i, inputs4);
+		layout.addField("Dynamic multi-input " + ++i, inputs4);
 		//Readonly - no data
 		WMultiTextField inputs4a = new WMultiTextField();
 		inputs4a.setReadOnly(true);
-		layout.addField("Dynamic mult-input " + ++i, inputs4a);
+		layout.addField("Dynamic multi-input " + ++i, inputs4a);
 
 		WMultiTextField mtfMandatory = new WMultiTextField();
 		mtfMandatory.setMandatory(true);
@@ -99,6 +99,16 @@ public final class WMultiTextFieldExample extends WContainer {
 		inputs7.setMaxLength(40);
 		inputs7.setDisabled(true);
 		layout2.addField("Dynamic mult-input " + ++i, inputs7);
+
+		WMultiTextField inputs8 = new WMultiTextField(new String[]{"a", "b", "c", "d", "e"});
+		inputs8.setColumns(50);
+		inputs8.setMaxLength(40);
+		inputs8.setReadOnly(true);
+		layout2.addField("Read-only multi text field " + ++i, inputs8);
+
+		WMultiTextField inputs9 = new WMultiTextField();
+		inputs9.setReadOnly(true);
+		layout2.addField("Read-only multi text field no values" + ++i, inputs9);
 
 		add(layout2);
 

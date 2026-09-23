@@ -19,7 +19,7 @@ public class WMultiDropdownExample extends WContainer {
 	/**
 	 * Simple data used by the example.
 	 */
-	private static final String[] DATA = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"};
+	private static final String[] DATA = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", ""};
 
 	/**
 	 * The field layout used to display the example dropdowns.
@@ -58,6 +58,21 @@ public class WMultiDropdownExample extends WContainer {
 		dropdown.setDisabled(true);
 		dropdown.setMaxSelect(5);
 		layout.addField("Dynamic multi-dropdown 6", dropdown);
+
+		dropdown = new WMultiDropdown(DATA);
+		dropdown.setSelected(Arrays.
+				asList(new String[]{DATA[10]}));
+		dropdown.setMaxSelect(5);
+		layout.addField("Dynamic multi-dropdown with empty selected option", dropdown);
+
+		dropdown = new WMultiDropdown(DATA);
+		dropdown.setSelected(Arrays.
+				asList(new String[]{DATA[0], DATA[1], DATA[2], DATA[3], DATA[4]}));
+		dropdown.setReadOnly(true);
+		layout.addField("Read-only", dropdown);
+		dropdown = new WMultiDropdown(DATA);
+		dropdown.setReadOnly(true);
+		layout.addField("Read-only no selected option", dropdown);
 
 
 		String[] longOptions = {"a long option has some content which should be longer than the with of a mobile viewport",

@@ -80,7 +80,7 @@ public class BorderLayoutExample extends WContainer {
 		add(new WHeading(HeadingLevel.H2, "Border layout - large amount of content"));
 		// All - large amount of text content
 		borderLayoutPanel = new WPanel();
-		borderLayoutPanel.setLayout(new BorderLayout());
+		borderLayoutPanel.setLayout(new BorderLayout(GAP, BIG_GAP));
 		add(borderLayoutPanel);
 		borderLayoutPanel.add(createPanelWithText("North", DUMMY_TEXT), BorderLayout.NORTH);
 		borderLayoutPanel.add(createPanelWithText("South", DUMMY_TEXT), BorderLayout.SOUTH);

@@ -75,6 +75,16 @@ public class WFieldLayoutExample extends WPanel {
 		layout.addField("WTextField 2", new WTextField());
 		layout.addField("WCheckBox", new WCheckBox());
 		add(layout);
+
+		heading = new WHeading(HeadingLevel.H2, "\'Ordered\' WFieldLayout with LAYOUT_STACKED");
+		add(heading);
+
+		layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
+		layout.setOrdered(true);
+		layout.addField("WTextField 1", new WTextField());
+		layout.addField("WTextField 2", new WTextField());
+		layout.addField("WCheckBox", new WCheckBox());
+		add(layout);
 //
 //		add(new WHorizontalRule());
 //		add(new WHeading(HeadingLevel.H2, "Using labelWidth"));

@@ -215,6 +215,7 @@ public class WPanelTypeExample extends WContainer {
 		buildConfigOptions();
 		add(new WHorizontalRule());
 		add(panel);
+        add(menu);
 		add(new WHorizontalRule());
 
 		// We need this reflection of the selected menu item just so we can reuse the menu from the
@@ -254,7 +255,7 @@ public class WPanelTypeExample extends WContainer {
 		panel.add(utilBar);
 		panel.add(heading);
 		panel.add(panelContentRO);
-		panel.add(menu);
+		// panel.add(menu);
 	}
 
 	/**
