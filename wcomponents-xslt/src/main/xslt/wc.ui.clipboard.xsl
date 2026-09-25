@@ -10,7 +10,7 @@
 				aria-controls="{$target}"
 				id="{@id}-clipboard"
 				title="Copy to clipboard">
-			<i aria-hidden="true" class="fa fa-clipboard"></i>
+			<i aria-hidden="true" class="wc-fa fa-solid fa-clipboard"></i>
 		</button>
 	</xsl:template>
 

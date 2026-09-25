@@ -13,21 +13,21 @@
 			<xsl:variable name="iconclass">
 				<xsl:choose>
 				  <xsl:when test="@type='error'">
-				    <xsl:text>fa-times-circle</xsl:text>
+				    <xsl:text>fa-circle-xmark</xsl:text>
 				  </xsl:when>
 				  <xsl:when test="@type='warn'">
-				    <xsl:text>fa-exclamation-triangle</xsl:text>
+				    <xsl:text>fa-triangle-exclamation</xsl:text>
 				  </xsl:when>
 				  <!-- NOTE: type info and type success should also be available -->
 				  <xsl:when test="@type='info'">
-				    <xsl:text>fa-info-circle</xsl:text>
+				    <xsl:text>fa-circle-info</xsl:text>
 				  </xsl:when>
 				  <xsl:otherwise>
-				    <xsl:text>fa-check-circle</xsl:text>
+				    <xsl:text>fa-circle-check</xsl:text>
 				  </xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
-			<i aria-hidden="true" class="fa {$iconclass}"></i>
+			<i aria-hidden="true" class="wc-fa fa-solid {$iconclass}"></i>
 			<xsl:apply-templates select="ui:message" mode="fieldindicator" />
 		</span>
 	</xsl:template>

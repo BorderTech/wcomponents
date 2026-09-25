@@ -53,7 +53,7 @@
 					</span>
 				</xsl:if>
 				<xsl:apply-templates select="ui:decoratedlabel"/>
-				<i aria-hidden="true" class="fa fa-asterisk"></i>
+				<i aria-hidden="true" class="wc-fa fa-solid fa-asterisk"></i>
 			</legend>
 			<xsl:apply-templates select="ui:content" mode="passthru"/>
 			<xsl:apply-templates select="ui:fieldindicator"/>

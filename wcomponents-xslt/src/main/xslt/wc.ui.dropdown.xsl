@@ -222,7 +222,7 @@
 						<xsl:text>disabled</xsl:text>
 					</xsl:attribute>
 				</xsl:if>
-				<i aria-hidden="true" class="fa fa-caret-down"/>
+				<i aria-hidden="true" class="wc-fa fa-solid fa-caret-down"/>
 			</button>
 			<span aria-controls="{@id}" id="{concat(@id, '_l')}" role="listbox">
 				<xsl:if test="not(*)">

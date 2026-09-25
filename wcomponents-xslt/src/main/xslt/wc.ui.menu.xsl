@@ -92,7 +92,7 @@
 				<xsl:otherwise>fa-caret-down</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<i aria-hidden="true" class="fa {$class}"></i>
+		<i aria-hidden="true" class="wc-fa fa-solid {$class}"></i>
 	</xsl:template>
 
 	<!-- Transform for WSubMenu. -->

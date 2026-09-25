@@ -310,7 +310,7 @@
 			<xsl:if test="@camera">
 				<button class="wc_btn_camera wc_btn_icon wc-invite" data-wc-editor="{@editor}" data-wc-selector="{@id}" type="button">
 					<span class="wc-off">Camera<!-- TODO i18n --></span>
-					<i aria-hidden="true" class="fa fa-video-camera"/>
+					<i aria-hidden="true" class="wc-fa fa-solid fa-video"/>
 				</button>
 			</xsl:if>
 			<xsl:if test="ui:file">
@@ -400,7 +400,7 @@
 			</xsl:choose>
 			<xsl:if test="not(../@readOnly)">
 				<button class="wc_btn_icon wc-invite" title="{concat('Delete attachment: ', @name)}" type="button">
-					<i aria-hidden="true" class="fa fa-trash"/>
+					<i aria-hidden="true" class="wc-fa fa-solid fa-trash-can"/>
 				</button>
 			</xsl:if>
 		</li>

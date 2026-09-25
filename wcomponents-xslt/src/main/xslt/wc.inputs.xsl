@@ -243,7 +243,7 @@
 							<xsl:text>disabled</xsl:text>
 						</xsl:attribute>
 					</xsl:if>
-					<i aria-hidden="true" class="fa fa-caret-down"/>
+					<i aria-hidden="true" class="wc-fa fa-solid fa-caret-down"/>
 				</button>
 			</xsl:if>
 			<xsl:apply-templates select="ui:fieldindicator"/>
@@ -417,13 +417,13 @@
 			</xsl:if>
 			<xsl:variable name="iconclass">
 				<xsl:choose>
-					<xsl:when test="self::ui:checkbox and @selected">fa-check-square-o</xsl:when>
-					<xsl:when test="self::ui:checkbox">fa-square-o</xsl:when>
-					<xsl:when test="@selected">fa-dot-circle-o</xsl:when>
-					<xsl:otherwise>fa-circle-o</xsl:otherwise>
+					<xsl:when test="self::ui:checkbox and @selected">fa-square-check</xsl:when>
+					<xsl:when test="self::ui:checkbox">fa-square</xsl:when>
+					<xsl:when test="@selected">fa-circle-dot</xsl:when>
+					<xsl:otherwise>fa-circle</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
-			<i aria-hidden="true" class="fa {$iconclass}"/>
+			<i aria-hidden="true" class="wc-fa fa-regular {$iconclass}"/>
 		</span>
 	</xsl:template>
 

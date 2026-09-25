@@ -11,20 +11,20 @@
 					<xsl:text>fa-fw </xsl:text>
 					<xsl:choose>
 						<xsl:when test="@type eq 'error'">
-							<xsl:text>fa-minus-circle</xsl:text>
+							<xsl:text>fa-circle-minus</xsl:text>
 						</xsl:when>
 						<xsl:when test="@type eq 'warn'">
-							<xsl:text>fa-exclamation-triangle</xsl:text>
+							<xsl:text>fa-triangle-exclamation</xsl:text>
 						</xsl:when>
 						<xsl:when test="@type eq 'info'">
-							<xsl:text>fa-info-circle</xsl:text>
+							<xsl:text>fa-circle-info</xsl:text>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:text>fa-check-circle</xsl:text>
+							<xsl:text>fa-circle-check</xsl:text>
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:variable>
-				<i aria-hidden="true" class="fa {$iconclass}"></i>
+				<i aria-hidden="true" class="wc-fa fa-solid {$iconclass}"></i>
 				<span>
 					<xsl:choose>
 						<xsl:when test="@title">

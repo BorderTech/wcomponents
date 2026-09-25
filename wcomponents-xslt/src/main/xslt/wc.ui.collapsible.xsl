@@ -32,7 +32,7 @@
 						<xsl:otherwise>down</xsl:otherwise>
 					</xsl:choose>
 				</xsl:variable>
-				<i aria-hidden="true" class="fa {$iconclass}"/>
+				<i aria-hidden="true" class="wc-fa fa-solid {$iconclass}"/>
 				<xsl:choose>
 					<xsl:when test="@level">
 						<xsl:element name="h{@level}">

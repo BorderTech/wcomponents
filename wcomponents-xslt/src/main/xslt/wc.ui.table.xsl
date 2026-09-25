@@ -338,16 +338,15 @@
 			<xsl:if test="number($sortable) eq 1 and $sortControl">
 				<i aria-hidden="true">
 					<xsl:attribute name="class">
-						<xsl:text>fa fa-caret-</xsl:text>
 						<xsl:choose>
 							<xsl:when test="number($isSorted) eq 0">
-								<xsl:text>down</xsl:text>
+								<xsl:text>wc-fa fa-solid fa-caret-down</xsl:text>
 							</xsl:when>
 							<xsl:when test="$sortDesc eq 'true'">
-								<xsl:text>square-o-down</xsl:text>
+								<xsl:text>wc-fa fa-regular fa-square-caret-down</xsl:text>
 							</xsl:when>
 							<xsl:otherwise>
-								<xsl:text>square-o-up</xsl:text>
+								<xsl:text>wc-fa fa-regular fa-square-caret-up</xsl:text>
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:attribute>
@@ -612,7 +611,7 @@
 											<span class="wc-decoratedlabel">
 												<span class="wc-off wc-labelbody">{{#i18n}}table_rowSelection_toggleAll{{/i18n}}</span>
 											</span>
-											<i aria-hidden="true" class="fa fa-caret-down"/>
+											<i aria-hidden="true" class="wc-fa fa-solid fa-caret-down"/>
 										</button>
 										<div aria-expanded="false" aria-labelledby="{$subRowToggleControlButtonId}"
 											 class="wc_submenucontent wc_seltog" id="{$subRowToggleControlContentId}" role="menu">
@@ -632,7 +631,7 @@
 														</xsl:otherwise>
 													</xsl:choose>
 												</xsl:attribute>
-												<i aria-hidden="true" class="fa fa-check-square-o"/>
+												<i aria-hidden="true" class="wc-fa fa-regular fa-square-check"/>
 												<span class="wc-off">{{#i18n}}toggle_all_label{{/i18n}}</span>
 											</button>
 											<button aria-controls="{$subRowControlList}" class="wc-menuitem wc_seltog wc-nobutton wc-invite"
@@ -647,7 +646,7 @@
 														</xsl:otherwise>
 													</xsl:choose>
 												</xsl:attribute>
-												<i aria-hidden="true" class="fa fa-square-o"/>
+												<i aria-hidden="true" class="wc-fa fa-regular fa-square"/>
 												<span class="wc-off">{{#i18n}}toggle_none_label{{/i18n}}</span>
 											</button>
 										</div>
@@ -696,7 +695,7 @@
 								</xsl:otherwise>
 							</xsl:choose>
 						</xsl:variable>
-						<i aria-hidden="true" class="fa {$iconclass}"/>
+						<i aria-hidden="true" class="wc-fa fa-solid {$iconclass}"/>
 					</xsl:if>
 				</td>
 			</xsl:if>
@@ -1146,13 +1145,13 @@
 			<xsl:variable name="iconclass">
 				<xsl:text>fa-fw </xsl:text>
 				<xsl:choose>
-					<xsl:when test="$name eq 'f'">fa-angle-double-left</xsl:when>
+					<xsl:when test="$name eq 'f'">fa-angles-left</xsl:when>
 					<xsl:when test="$name eq 'p'">fa-angle-left</xsl:when>
 					<xsl:when test="$name eq 'n'">fa-angle-right</xsl:when>
-					<xsl:otherwise>fa-angle-double-right</xsl:otherwise>
+					<xsl:otherwise>fa-angles-right</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
-			<i aria-hidden="true" class="fa {$iconclass}"></i>
+			<i aria-hidden="true" class="wc-fa fa-solid {$iconclass}"></i>
 		</button>
 	</xsl:template>
 
@@ -1208,16 +1207,16 @@
 			<xsl:text>fa-fw fa-</xsl:text>
 			<xsl:choose>
 				<xsl:when test="$myTable/ui:rowselection/@multiple">
-					<xsl:if test="@selected">check-</xsl:if>
-					<xsl:text>square-o</xsl:text>
+					<xsl:text>square</xsl:text>
+					<xsl:if test="@selected">-check</xsl:if>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:if test="@selected">dot-</xsl:if>
-					<xsl:text>circle-o</xsl:text>
+					<xsl:text>circle</xsl:text>
+					<xsl:if test="@selected">-dot</xsl:if>
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<i aria-hidden="true" class="fa {$iconclass}"></i>
+		<i aria-hidden="true" class="wc-fa fa-regular {$iconclass}"></i>
 	</xsl:template>
 
 

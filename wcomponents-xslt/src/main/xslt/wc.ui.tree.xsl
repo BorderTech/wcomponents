@@ -161,7 +161,7 @@
 								<xsl:otherwise>fa-caret-right</xsl:otherwise>
 							</xsl:choose>
 						</xsl:variable>
-						<i aria-hidden="true" class="fa {$iconclass}"></i>
+						<i aria-hidden="true" class="wc-fa fa-solid {$iconclass}"></i>
 						<span class="wc-off">{{#i18n}}tree_toggle_branch{{/i18n}}</span>
 					</button>
 					<!-- leave tabindex="0" on this button, it is used as a short-hand to find focusable controls in the core menu JavaScript. -->
@@ -208,12 +208,12 @@
 				<xsl:otherwise>
 					<xsl:variable name="iconclass">
 						<xsl:choose>
-							<xsl:when test="$isButton = 0">fa-file-o</xsl:when>
-							<xsl:when test="@open">fa-folder-open-o</xsl:when>
-							<xsl:otherwise>fa-folder-o</xsl:otherwise>
+							<xsl:when test="$isButton = 0">fa-file</xsl:when>
+							<xsl:when test="@open">fa-folder-open</xsl:when>
+							<xsl:otherwise>fa-folder</xsl:otherwise>
 						</xsl:choose>
 					</xsl:variable>
-					<i aria-hidden="true" class="fa {$iconclass}"></i>
+					<i aria-hidden="true" class="wc-fa fa-regular {$iconclass}"></i>
 				</xsl:otherwise>
 			</xsl:choose>
 		</span>
@@ -221,7 +221,7 @@
 			<xsl:value-of select="@label"/>
 		</span>
 		<span class="wc_leaf_hopener" aria-hidden="true">
-			<i aria-hidden="true" class="fa fa-caret-right"></i>
+			<i aria-hidden="true" class="wc-fa fa-solid fa-caret-right"></i>
 		</span>
 	</xsl:template>
 

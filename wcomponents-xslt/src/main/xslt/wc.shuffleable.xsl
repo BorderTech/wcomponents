@@ -21,7 +21,7 @@
 						<xsl:text>disabled</xsl:text>
 					</xsl:attribute>
 				</xsl:if>
-				<i aria-hidden="true" class="fa fa-fw fa-angle-double-up"/>
+				<i aria-hidden="true" class="wc-fa fa-solid fa-fw fa-angles-up"/>
 			</button>
 			<button aria-controls="{$id}" class="wc_sorter wc_btn_icon wc-invite" type="button" value="up">
 				<xsl:attribute name="title">
@@ -32,7 +32,7 @@
 						<xsl:text>disabled</xsl:text>
 					</xsl:attribute>
 				</xsl:if>
-				<i aria-hidden="true" class="fa fa-fw fa-angle-up"/>
+				<i aria-hidden="true" class="wc-fa fa-solid fa-fw fa-angle-up"/>
 			</button>
 			<button aria-controls="{$id}" class="wc_sorter wc_btn_icon wc-invite" type="button" value="down">
 				<xsl:attribute name="title">
@@ -43,7 +43,7 @@
 						<xsl:text>disabled</xsl:text>
 					</xsl:attribute>
 				</xsl:if>
-				<i aria-hidden="true" class="fa fa-fw fa-angle-down"/>
+				<i aria-hidden="true" class="wc-fa fa-solid fa-fw fa-angle-down"/>
 			</button>
 			<button aria-controls="{$id}" class="wc_sorter wc_btn_icon wc-invite" type="button" value="bottom">
 				<xsl:attribute name="title">
@@ -54,7 +54,7 @@
 						<xsl:text>disabled</xsl:text>
 					</xsl:attribute>
 				</xsl:if>
-				<i aria-hidden="true" class="fa fa-fw fa-angle-double-down"/>
+				<i aria-hidden="true" class="wc-fa fa-solid fa-fw fa-angles-down"/>
 			</button>
 		</span>
 	</xsl:template>
@@ -229,7 +229,7 @@
 							<xsl:text>disabled</xsl:text>
 						</xsl:attribute>
 					</xsl:if>
-					<i aria-hidden="true" class="fa fa-fw fa-angle-right"/>
+					<i aria-hidden="true" class="wc-fa fa-solid fa-fw fa-angle-right"/>
 				</button>
 				<button aria-controls="{concat(@id, '_a',' ',@id, '_s')}" class="wc_btn_icon wc-invite" type="button" value="aall">
 					<xsl:attribute name="title">
@@ -240,7 +240,7 @@
 							<xsl:text>disabled</xsl:text>
 						</xsl:attribute>
 					</xsl:if>
-					<i aria-hidden="true" class="fa fa-fw fa-angle-double-right"/>
+					<i aria-hidden="true" class="wc-fa fa-solid fa-fw fa-angles-right"/>
 				</button>
 				<button aria-controls="{concat(@id, '_a',' ',@id, '_s')}" class="wc_btn_icon wc-invite" type="button" value="rem">
 					<xsl:attribute name="title">
@@ -251,7 +251,7 @@
 							<xsl:text>disabled</xsl:text>
 						</xsl:attribute>
 					</xsl:if>
-					<i aria-hidden="true" class="fa fa-fw fa-angle-left"/>
+					<i aria-hidden="true" class="wc-fa fa-solid fa-fw fa-angle-left"/>
 				</button>
 				<button aria-controls="{concat(@id, '_a',' ',@id, '_s')}" class="wc_btn_icon wc-invite" type="button" value="rall">
 					<xsl:attribute name="title">
@@ -262,7 +262,7 @@
 							<xsl:text>disabled</xsl:text>
 						</xsl:attribute>
 					</xsl:if>
-					<i aria-hidden="true" class="fa fa-fw fa-angle-double-left"/>
+					<i aria-hidden="true" class="wc-fa fa-solid fa-fw fa-angles-left"/>
 				</button>
 			</span>
 			<xsl:variable name="toId" select="concat(@id, '_s')"/>

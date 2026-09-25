@@ -121,20 +121,19 @@
 						<xsl:if test="@disabled"><xsl:attribute name="disabled"><xsl:text>disabled</xsl:text></xsl:attribute></xsl:if>
 					</xsl:if>
 					<xsl:variable name="iconclass">
-						<xsl:text>fa-</xsl:text>
 						<xsl:choose>
 							<xsl:when test="$selected eq 'all'">
-								<xsl:text>check-square-o</xsl:text>
+								<xsl:text>fa-regular fa-square-check</xsl:text>
 							</xsl:when>
 							<xsl:when test="$selected eq 'some'">
-								<xsl:text>square</xsl:text>
+								<xsl:text>fa-solid fa-square</xsl:text>
 							</xsl:when>
 							<xsl:otherwise>
-								<xsl:text>square-o</xsl:text>
+								<xsl:text>fa-regular fa-square</xsl:text>
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:variable>
-					<i aria-hidden="true" class="fa {$iconclass}"></i>
+					<i aria-hidden="true" class="wc-fa {$iconclass}"></i>
 				</button>
 			</xsl:otherwise>
 		</xsl:choose>
@@ -178,14 +177,14 @@
 					<xsl:variable name="iconclass">
 						<xsl:choose>
 							<xsl:when test="$value eq 'expand'">
-								<xsl:text>fa-plus-square-o</xsl:text>
+								<xsl:text>fa-regular fa-square-plus</xsl:text>
 							</xsl:when>
 							<xsl:otherwise>
-								<xsl:text>fa-minus-square-o</xsl:text>
+								<xsl:text>fa-regular fa-square-minus</xsl:text>
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:variable>
-					<i aria-hidden="true" class="fa {$iconclass}"></i>
+					<i aria-hidden="true" class="wc-fa {$iconclass}"></i>
 				</xsl:when>
 			</xsl:choose>
 			<xsl:value-of select="$text"/>

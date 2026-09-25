@@ -135,7 +135,7 @@
 						<xsl:text>disabled</xsl:text>
 					</xsl:attribute>
 				</xsl:if>
-				<i aria-hidden="true" class="fa fa-calendar"/>
+				<i aria-hidden="true" class="wc-fa fa-solid fa-calendar-days"/>
 			</button>
 			<span aria-busy="true" role="listbox"/>
 			<xsl:apply-templates select="ui:fieldindicator"/>

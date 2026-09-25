@@ -123,7 +123,7 @@
 										<xsl:text>disabled</xsl:text>
 									</xsl:attribute>
 								</xsl:if>
-								<i aria-hidden="true" class="fa fa-plus-square"/>
+								<i aria-hidden="true" class="wc-fa fa-solid fa-square-plus"/>
 							</button>
 						</li>
 					</xsl:otherwise>
@@ -214,14 +214,13 @@
 					</xsl:attribute>
 				</xsl:if>
 				<xsl:variable name="iconclass">
-					<xsl:text>fa-</xsl:text>
+					<xsl:text>fa-square-</xsl:text>
 					<xsl:choose>
 						<xsl:when test="position() = 1">plus</xsl:when>
 						<xsl:otherwise>minus</xsl:otherwise>
 					</xsl:choose>
-					<xsl:text>-square</xsl:text>
 				</xsl:variable>
-				<i aria-hidden="true" class="fa {$iconclass}"/>
+				<i aria-hidden="true" class="wc-fa fa-solid {$iconclass}"/>
 			</button>
 		</li>
 	</xsl:template>

@@ -73,7 +73,7 @@
 					</xsl:if>
 					<xsl:apply-templates/>
 					<xsl:if test="@what eq 'group'">
-						<i aria-hidden="true" class="fa fa-asterisk"/>
+						<i aria-hidden="true" class="wc-fa fa-solid fa-asterisk"/>
 						<xsl:if test="@hint">
 							<span class="wc-label-hint">
 								<xsl:value-of select="@hint"/>
@@ -107,7 +107,7 @@
 						</span>
 					</xsl:if>
 					<xsl:apply-templates/>
-					<i aria-hidden="true" class="fa fa-asterisk"/>
+					<i aria-hidden="true" class="wc-fa fa-solid fa-asterisk"/>
 					<xsl:if test="@hint">
 						<span class="wc-label-hint">
 							<xsl:value-of select="@hint"/>
