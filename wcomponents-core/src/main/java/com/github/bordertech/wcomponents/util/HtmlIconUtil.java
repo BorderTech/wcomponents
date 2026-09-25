@@ -9,6 +9,16 @@ package com.github.bordertech.wcomponents.util;
 public final class HtmlIconUtil {
 
 	/**
+	 * Zero width space character.
+	 */
+	public static final char ZERO_WIDTH_SPACE_CHAR = '\u200b';
+
+	/**
+	 * Zero width space string.
+	 */
+	public static final String ZERO_WIDTH_SPACE_STR = "\u200b";
+
+	/**
 	 * Expose the HTML className to set an icon.
 	 */
 	public static final String CLASS_ICON = HtmlClassProperties.ICON.toString();
