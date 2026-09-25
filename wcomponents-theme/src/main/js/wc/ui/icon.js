@@ -5,10 +5,10 @@ define(["wc/dom/Widget"], function (Widget) {
 	 * The descriptor of the icon element.
 	 * @type module:wc/dom/Widget
 	 */
-	var ICON = new Widget("", "fa", {"aria-hidden": "true"});
+	var ICON = new Widget("", "wc-fa", {"aria-hidden": "true"});
 
 	function getHTML(icon) {
-		return "<i class='fa " + icon + "' aria-hidden='true'></i>";
+		return "<i class='wc-fa " + icon + "' aria-hidden='true'></i>";
 	}
 
 	/**
@@ -43,8 +43,8 @@ define(["wc/dom/Widget"], function (Widget) {
 	 * @function
 	 * @private
 	 * @param {Element} element the element which may be or contain an icon
-	 * @param {String} icon the class to change
-	 * @param {boolean} [add] if `true` add the class, otherwise remove it
+	 * @param {String} icon the classes to change
+	 * @param {boolean} [add] if `true` add the classes, otherwise remove them
 	 * @returns {boolean} `true` if an icon element is found, otherwise `false`
 	 * @throws {TypeError} if element is not a HTML element
 	 * @throws {TypeError} if icon is not a non-empty String
@@ -61,7 +61,8 @@ define(["wc/dom/Widget"], function (Widget) {
 		iconElement = getIcon(element);
 		if (iconElement) {
 			func = add ? "add" : "remove";
-			iconElement.classList[func](icon);
+			const classes = icon.split(" ").filter(Boolean);
+			iconElement.classList[func](...classes);
 			return true;
 		}
 		return false;
@@ -76,12 +77,12 @@ define(["wc/dom/Widget"], function (Widget) {
 	}
 
 	/**
-	 * Swap one icon class for another. May be used to add or remove an icon class.
+	 * Swap icon classes for another. May be used to add or remove icon classes.
 	 * @function
 	 * @public
 	 * @param {Element} element The element which may contain an icon. If there is no icon then this function does nothing.
-	 * @param {String} add the icon className to add
-	 * @param {String} remove the icon className to remove
+	 * @param {String} add the icon classNames to add
+	 * @param {String} remove the icon classNames to remove
 	 */
 	Icon.prototype.change = function(element, add, remove) {
 		var icon;
@@ -92,37 +93,38 @@ define(["wc/dom/Widget"], function (Widget) {
 			return;
 		}
 		if (remove) {
-			icon.classList.remove(remove);
+			const classes = remove.split(" ").filter(Boolean);
+			icon.classList.remove(...classes);
 		}
 		if (add) {
-			icon.classList.add(add);
+			const classes = add.split(" ").filter(Boolean);
+			icon.classList.add(...classes);
 		}
 	};
 
 	/**
-	 * Remove a class from an icon.
+	 * Remove classes from an icon.
 	 * @function
 	 * @public
 	 * @param {Element} element the element which may contain an icon
-	 * @param {String} remove the class to remove
+	 * @param {String} remove the classes to remove
 	 */
 	Icon.prototype.remove = function(element, remove) {
 		var icon;
 		if (addRemoveIcon(element, remove)) {
 			icon = getIcon(element);
 			if (icon.classList.length === 1) {
-				// only `fa` left
 				icon.parentNode.removeChild(icon);
 			}
 		}
 	};
 
 	/**
-	 * Add a class to an existing icon _or_ add a new icon as the first child of an element
+	 * Add classes to an existing icon _or_ add a new icon as the first child of an element
 	 * @function
 	 * @public
 	 * @param {Element} element the icon element or an element to which we add an icon
-	 * @param {String} add the icon className to add
+	 * @param {String} add the icon classNames to add
 	 */
 	Icon.prototype.add = function(element, add) {
 		if (!addRemoveIcon(element, add, true)) {

@@ -7,7 +7,7 @@ define(["intern!object", "intern/chai!assert", "wc/ui/icon", "intern/resources/t
 			withIconId = "uiicontest2",
 			startIconClass = "fa-bars", // any non-empty String will work for these tests
 			newIconClass = "fa-circle", // any non-empty String will work for these tests so long as it is different from startIconClass
-			testContent = "<span id='" + noIconId + "'>content</span><span id='" + withIconId + "'><i class='fa " + startIconClass + "' aria-hidden='true'></i>content</span>";
+			testContent = "<span id='" + noIconId + "'>content</span><span id='" + withIconId + "'><i class='wc-fa " + startIconClass + "' aria-hidden='true'></i>content</span>";
 
 		function getElement(withIcon) {
 			return document.getElementById(withIcon ? withIconId : noIconId);
@@ -117,7 +117,7 @@ define(["intern!object", "intern/chai!assert", "wc/ui/icon", "intern/resources/t
 				icon = target.firstElementChild;
 				assert.isOk(icon);
 				assert.isTrue(icon.classList.contains(newIconClass));
-				assert.isTrue(icon.classList.contains("fa"));
+				assert.isTrue(icon.classList.contains("wc-fa"));
 			},
 			testRemove_noArgs: function() {
 				try {
