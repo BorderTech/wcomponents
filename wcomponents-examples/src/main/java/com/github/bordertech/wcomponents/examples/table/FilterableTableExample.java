@@ -264,9 +264,9 @@ public final class FilterableTableExample extends WContainer {
 
 		final List<String> found = new ArrayList<>();
 
-		final WDecoratedLabel filterSubMenuLabel = new WDecoratedLabel(new WText("\u200b"));
+		final WDecoratedLabel filterSubMenuLabel = new WDecoratedLabel(new WText(HtmlIconUtil.ZERO_WIDTH_SPACE_STR));
 		filterSubMenuLabel.setToolTip("Filter this column");
-		filterSubMenuLabel.setHtmlClass(HtmlIconUtil.getIconClasses("fa-filter"));
+		filterSubMenuLabel.setHtmlClass(HtmlIconUtil.getIconClasses("wc-fa fa-solid fa-filter"));
 		final WSubMenu submenu = new WSubMenu(filterSubMenuLabel);
 		submenu.setSelectionMode(SELECTION_MODE);
 		menu.add(submenu);

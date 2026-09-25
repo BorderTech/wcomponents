@@ -13,6 +13,7 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
+import com.github.bordertech.wcomponents.util.HtmlIconUtil;
 import java.util.Date;
 
 /**
@@ -78,7 +79,7 @@ public class WCollapsibleExample extends WPanel {
 
 		// WCollapsible with WDecoratedLabel
 
-		WStyledText iconText = new WStyledText("\u200b");
+		WStyledText iconText = new WStyledText(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
 		iconText.setHtmlClass(HtmlClassProperties.ICON_EDIT);
 		WDecoratedLabel collLabel = new WDecoratedLabel(iconText, new WText("Edit inside this collapsible"), new WImage("/image/tick.png", "Checked"));
 		WCollapsible collWithWDL = new WCollapsible(new WText("Placeholder"), collLabel);

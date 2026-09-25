@@ -30,30 +30,30 @@ public class WStyledTextFontAwesomeExample extends WPanel {
 		add(new WHeading(HeadingLevel.H2, "A simple icon"));
 		WStyledText text = new WStyledText("Fort Awesome");
 		add(text);
-		text.setHtmlClass("fa fa-fort-awesome");
+		text.setHtmlClass("wc-fa fa-brands fa-fort-awesome");
 
 
 		add(new WHeading(HeadingLevel.H2, "Icons at various sizes"));
 
 		text = new WStyledText("Large");
 		add(text);
-		text.setHtmlClass("fa fa-fort-awesome fa-lg");
+		text.setHtmlClass("wc-fa fa-brands fa-fort-awesome fa-lg");
 
 		text = new WStyledText("2x");
 		add(text);
-		text.setHtmlClass("fa fa-fort-awesome fa-2x");
+		text.setHtmlClass("wc-fa fa-brands fa-fort-awesome fa-2x");
 
 		text = new WStyledText("3x");
 		add(text);
-		text.setHtmlClass("fa fa-fort-awesome fa-3x");
+		text.setHtmlClass("wc-fa fa-brands fa-fort-awesome fa-3x");
 
 		text = new WStyledText("4x");
 		add(text);
-		text.setHtmlClass("fa fa-fort-awesome fa-4x");
+		text.setHtmlClass("wc-fa fa-brands fa-fort-awesome fa-4x");
 
 		text = new WStyledText("5x");
 		add(text);
-		text.setHtmlClass("fa fa-fort-awesome fa-500px fa-5x");
+		text.setHtmlClass("wc-fa fa-brands fa-fort-awesome fa-500px fa-5x");
 
 		add(new WHeading(HeadingLevel.H2, "Animated icon"));
 
@@ -61,14 +61,14 @@ public class WStyledTextFontAwesomeExample extends WPanel {
 		add(wrapper);
 		text = new WStyledText(" ");
 		wrapper.add(text);
-		text.setHtmlClass("fa fa-cog fa-spin");
+		text.setHtmlClass("wc-fa fa-solid fa-gear fa-spin");
 		wrapper.add(new WText("Spin"));
 
 		wrapper = new WContainer();
 		add(wrapper);
 		text = new WStyledText(" ");
 		wrapper.add(text);
-		text.setHtmlClass("fa fa-cog fa-pulse");
+		text.setHtmlClass("wc-fa fa-solid fa-gear fa-spin-pulse");
 		wrapper.add(new WText("Pulse"));
 
 
@@ -78,42 +78,42 @@ public class WStyledTextFontAwesomeExample extends WPanel {
 		add(wrapper);
 		text = new WStyledText(" ");
 		wrapper.add(text);
-		text.setHtmlClass("fa fa-comment-o fa-2x");
+		text.setHtmlClass("wc-fa fa-regular fa-comment fa-2x");
 		wrapper.add(new WText("Normal"));
 
 		wrapper = new WContainer();
 		add(wrapper);
 		text = new WStyledText(" ");
 		wrapper.add(text);
-		text.setHtmlClass("fa fa-comment-o fa-2x fa-rotate-90");
+		text.setHtmlClass("wc-fa fa-regular fa-comment fa-2x fa-rotate-90");
 		wrapper.add(new WText("Rotate 90º"));
 
 		wrapper = new WContainer();
 		add(wrapper);
 		text = new WStyledText(" ");
 		wrapper.add(text);
-		text.setHtmlClass("fa fa-comment-o fa-2x fa-rotate-180");
+		text.setHtmlClass("wc-fa fa-regular fa-comment fa-2x fa-rotate-180");
 		wrapper.add(new WText("Rotate 180º"));
 
 		wrapper = new WContainer();
 		add(wrapper);
 		text = new WStyledText(" ");
 		wrapper.add(text);
-		text.setHtmlClass("fa fa-comment-o fa-2x fa-rotate-270");
+		text.setHtmlClass("wc-fa fa-regular fa-comment fa-2x fa-rotate-270");
 		wrapper.add(new WText("Rotate 270º"));
 
 		wrapper = new WContainer();
 		add(wrapper);
 		text = new WStyledText(" ");
 		wrapper.add(text);
-		text.setHtmlClass("fa fa-comment-o fa-2x fa-flip-horizontal");
+		text.setHtmlClass("wc-fa fa-regular fa-comment fa-2x fa-flip-horizontal");
 		wrapper.add(new WText("Flip horizontal"));
 
 		wrapper = new WContainer();
 		add(wrapper);
 		text = new WStyledText(" ");
 		wrapper.add(text);
-		text.setHtmlClass("fa fa-comment-o fa-2x fa-flip-vertical");
+		text.setHtmlClass("wc-fa fa-regular fa-comment fa-2x fa-flip-vertical");
 		wrapper.add(new WText("Flip vertical"));
 
 
@@ -121,10 +121,10 @@ public class WStyledTextFontAwesomeExample extends WPanel {
 		WTemplate template = new WTemplate("/com/github/bordertech/wcomponents/examples/iconStack.moustache", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
 		add(template);
 		text = new WStyledText(" ");
-		text.setHtmlClass("fa fa-camera fa-stack-1x");
+		text.setHtmlClass("wc-fa fa-solid fa-camera fa-stack-1x");
 		template.addTaggedComponent("lower", text);
 		text = new WStyledText(" ");
-		text.setHtmlClass("fa fa-ban fa-stack-2x text-ban");
+		text.setHtmlClass("wc-fa fa-solid fa-ban fa-stack-2x text-ban");
 		template.addTaggedComponent("upper", text);
 
 		add(new WHeading(HeadingLevel.H2, "Coloured icons"));

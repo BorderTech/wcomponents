@@ -87,9 +87,9 @@ final class ExampleSection extends WSection implements MessageContainer {
 		tabset.addTab(source, new WDecoratedLabel(srcImage), WTabSet.TAB_MODE_LAZY).setToolTip("View Source");
 
 		// The refresh current view button.
-		WButton refreshButton = new WButton("\u200b");
+		WButton refreshButton = new WButton(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
 		refreshButton.setToolTip("Refresh");
-		refreshButton.setHtmlClass(HtmlIconUtil.getIconClasses("fa-refresh"));
+		refreshButton.setHtmlClass(HtmlIconUtil.getIconClasses("wc-fa fa-solid fa-rotate"));
 		//refreshButton.setImage("/image/refresh-w.png");
 		refreshButton.setRenderAsLink(true);
 		refreshButton.setAction(new ValidatingAction(messages.getValidationErrors(), refreshButton) {
@@ -100,9 +100,9 @@ final class ExampleSection extends WSection implements MessageContainer {
 		});
 
 		// The reset example button.
-		final WButton resetButton = new WButton("\u200b");
+		final WButton resetButton = new WButton(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
 		resetButton.setToolTip("Reset");
-		resetButton.setHtmlClass(HtmlIconUtil.getIconClasses("fa-times-circle"));
+		resetButton.setHtmlClass(HtmlIconUtil.getIconClasses("wc-fa fa-solid fa-circle-xmark"));
 		//resetButton.setImage("/image/cancel-w.png");
 		resetButton.setRenderAsLink(true);
 		resetButton.setAction(new ValidatingAction(messages.getValidationErrors(), resetButton) {

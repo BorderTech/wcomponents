@@ -16,6 +16,7 @@ import com.github.bordertech.wcomponents.WStyledText;
 import com.github.bordertech.wcomponents.WSubMenu;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
+import com.github.bordertech.wcomponents.util.HtmlIconUtil;
 import java.util.Date;
 
 /**
@@ -86,6 +87,20 @@ public class MenuBarExample extends WContainer {
 		colourMenu.add(new WMenuItem("Disable colour menu", new ToggleDisabledAction(colourMenu)));
 		menu.add(colourMenu);
 
+		// The Fonts menu shows fonts and text
+		WSubMenu fontMenu = new WSubMenu("Fonts");
+		fontMenu.getDecoratedLabel().setHtmlClass(HtmlIconUtil.getIconClasses("wc-fa fa-solid fa-bars"));
+		fontMenu.setMode(WSubMenu.MenuMode.LAZY);
+		fontMenu.setAccessKey('N');
+		addMenuItem(fontMenu, "Print", selectedMenuText, HtmlClassProperties.ICON_PRINT.toString());
+		addMenuItem(fontMenu, "Add", selectedMenuText, HtmlClassProperties.ICON_ADD.toString());
+		addMenuItem(fontMenu, "Disk", selectedMenuText, HtmlClassProperties.ICON_SAVE.toString());
+		addMenuItem(fontMenu, HtmlIconUtil.ZERO_WIDTH_SPACE_STR, selectedMenuText, HtmlClassProperties.ICON_SEARCH.toString());
+
+		fontMenu.addSeparator();
+		fontMenu.add(new WMenuItem("Disable font menu", new ToggleDisabledAction(fontMenu)));
+		menu.add(fontMenu);
+		
 		// The Shapes menu shows grouping of items
 		WSubMenu shapeMenu = new WSubMenu("Shapes");
 		shapeMenu.setAccessKey('S');
@@ -169,12 +184,28 @@ public class MenuBarExample extends WContainer {
 	 */
 	private void addMenuItem(final WComponent parent, final String text,
 			final WText selectedMenuText) {
+		addMenuItem(parent, text, selectedMenuText, null);
+	}
+
+	/**
+	 * Adds an example menu item with the given text and an example action to the a parent component.
+	 *
+	 * @param parent the component to add the menu item to.
+	 * @param text the text to display on the menu item.
+	 * @param selectedMenuText the WText to display the selected menu item.
+	 * @param iconClasses optional icon classes to add
+	 */
+	private void addMenuItem(final WComponent parent, final String text,
+			final WText selectedMenuText, final String iconClasses) {
 		WMenuItem menuItem = new WMenuItem(text, new ExampleMenuAction(selectedMenuText));
 		menuItem.setActionObject(text);
 		if (parent instanceof WSubMenu) {
 			((WSubMenu) parent).add(menuItem);
 		} else {
 			((WMenuItemGroup) parent).add(menuItem);
+		}
+		if (iconClasses != null) {
+			menuItem.getDecoratedLabel().setHtmlClass(HtmlIconUtil.getIconClasses(iconClasses));
 		}
 	}
 

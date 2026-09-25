@@ -175,7 +175,7 @@ public class WButtonExample extends WPanel implements MessageContainer {
 
 		add(new ExplanatoryText("These examples show ways to add an icon to a button using 'HtmlClassUtil'."));
 
-		WButton iconButton = new WButton("\u200b"); // \u200b is a zero-width space.
+		WButton iconButton = new WButton(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
 		iconButton.setToolTip("Edit");
 		iconButton.setHtmlClass(HtmlClassProperties.ICON_EDIT);
 		add(iconButton);
@@ -189,17 +189,17 @@ public class WButtonExample extends WPanel implements MessageContainer {
 		add(iconButton);
 
 		add(new ExplanatoryText("These examples show ways to add a Font-Awesome icon to a button using 'setHtmlClass'."));
-		iconButton = new WButton("\u200b"); // \u200b is a zero-width space.
+		iconButton = new WButton(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
 		iconButton.setToolTip("Open Menu");
-		iconButton.setHtmlClass(HtmlIconUtil.getIconClasses("fa-bars"));
+		iconButton.setHtmlClass(HtmlIconUtil.getIconClasses("wc-fa fa-solid fa-bars"));
 		add(iconButton);
 
 		iconButton = new WButton("With text content");
-		iconButton.setHtmlClass(HtmlIconUtil.getIconClasses("fa-hand-o-left", HtmlIconUtil.IconPosition.BEFORE));
+		iconButton.setHtmlClass(HtmlIconUtil.getIconClasses("wc-fa fa-regular fa-hand-point-left", HtmlIconUtil.IconPosition.BEFORE));
 		add(iconButton);
 
 		iconButton = new WButton("Right icon with text content");
-		iconButton.setHtmlClass(HtmlIconUtil.getIconClasses("fa-hand-o-right", HtmlIconUtil.IconPosition.AFTER));
+		iconButton.setHtmlClass(HtmlIconUtil.getIconClasses("wc-fa fa-regular fa-hand-point-right", HtmlIconUtil.IconPosition.AFTER));
 		add(iconButton);
 	}
 

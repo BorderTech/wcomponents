@@ -75,7 +75,7 @@ public class HtmlClassPropertiesExample extends WPanel {
 
 		add(new WHeading(HeadingLevel.H2, "included icons"));
 		add(new WHeading(HeadingLevel.H3, "Help icons"));
-		WButton button = new WButton("\u200b"); // \u200b is a zero-width space.
+		WButton button = new WButton(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
 		button.setToolTip("Help");
 		button.setHtmlClass(HtmlClassProperties.ICON_HELP);
 		add(button);
@@ -87,7 +87,7 @@ public class HtmlClassPropertiesExample extends WPanel {
 		add(button);
 
 		add(new WHeading(HeadingLevel.H3, "Info icons"));
-		button = new WButton("\u200b"); // \u200b is a zero-width space.
+		button = new WButton(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
 		button.setToolTip("Information");
 		button.setHtmlClass(HtmlClassProperties.ICON_INFO);
 		add(button);
@@ -99,7 +99,7 @@ public class HtmlClassPropertiesExample extends WPanel {
 		add(button);
 
 		add(new WHeading(HeadingLevel.H3, "Warning icons"));
-		button = new WButton("\u200b"); // \u200b is a zero-width space.
+		button = new WButton(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
 		button.setToolTip("Warning");
 		button.setHtmlClass(HtmlClassProperties.ICON_WARN);
 		add(button);
@@ -111,7 +111,7 @@ public class HtmlClassPropertiesExample extends WPanel {
 		add(button);
 
 		add(new WHeading(HeadingLevel.H3, "Error icons"));
-		button = new WButton("\u200b"); // \u200b is a zero-width space.
+		button = new WButton(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
 		button.setToolTip("Error");
 		button.setHtmlClass(HtmlClassProperties.ICON_ERROR);
 		add(button);
@@ -123,7 +123,7 @@ public class HtmlClassPropertiesExample extends WPanel {
 		add(button);
 
 		add(new WHeading(HeadingLevel.H3, "Success icons"));
-		button = new WButton("\u200b"); // \u200b is a zero-width space.
+		button = new WButton(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
 		button.setToolTip("Success");
 		button.setHtmlClass(HtmlClassProperties.ICON_SUCCESS);
 		add(button);
@@ -135,7 +135,7 @@ public class HtmlClassPropertiesExample extends WPanel {
 		add(button);
 
 		add(new WHeading(HeadingLevel.H3, "Add icons"));
-		button = new WButton("\u200b"); // \u200b is a zero-width space.
+		button = new WButton(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
 		button.setToolTip("Add");
 		button.setHtmlClass(HtmlClassProperties.ICON_ADD);
 		add(button);
@@ -147,7 +147,7 @@ public class HtmlClassPropertiesExample extends WPanel {
 		add(button);
 
 		add(new WHeading(HeadingLevel.H3, "Delete icons"));
-		button = new WButton("\u200b"); // \u200b is a zero-width space.
+		button = new WButton(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
 		button.setToolTip("Delete");
 		button.setHtmlClass(HtmlClassProperties.ICON_DELETE);
 		add(button);
@@ -159,7 +159,7 @@ public class HtmlClassPropertiesExample extends WPanel {
 		add(button);
 
 		add(new WHeading(HeadingLevel.H3, "Edit icons"));
-		button = new WButton("\u200b"); // \u200b is a zero-width space.
+		button = new WButton(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
 		button.setToolTip("Edit");
 		button.setHtmlClass(HtmlClassProperties.ICON_EDIT);
 		add(button);
@@ -171,7 +171,7 @@ public class HtmlClassPropertiesExample extends WPanel {
 		add(button);
 
 		add(new WHeading(HeadingLevel.H3, "Save icons"));
-		button = new WButton("\u200b"); // \u200b is a zero-width space.
+		button = new WButton(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
 		button.setToolTip("Save");
 		button.setHtmlClass(HtmlClassProperties.ICON_SAVE);
 		add(button);
@@ -183,7 +183,7 @@ public class HtmlClassPropertiesExample extends WPanel {
 		add(button);
 
 		add(new WHeading(HeadingLevel.H3, "Search icons"));
-		button = new WButton("\u200b"); // \u200b is a zero-width space.
+		button = new WButton(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
 		button.setToolTip("Search");
 		button.setHtmlClass(HtmlClassProperties.ICON_SEARCH);
 		add(button);
@@ -195,7 +195,7 @@ public class HtmlClassPropertiesExample extends WPanel {
 		add(button);
 
 		add(new WHeading(HeadingLevel.H3, "Cancel icons"));
-		button = new WButton("\u200b"); // \u200b is a zero-width space.
+		button = new WButton(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
 		button.setToolTip("Cancel");
 		button.setHtmlClass(HtmlClassProperties.ICON_CANCEL);
 		add(button);
@@ -207,7 +207,7 @@ public class HtmlClassPropertiesExample extends WPanel {
 		add(button);
 
 		add(new WHeading(HeadingLevel.H3, "Menu icons"));
-		button = new WButton("\u200b"); // \u200b is a zero-width space.
+		button = new WButton(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
 		button.setToolTip("Menu");
 		button.setHtmlClass(HtmlClassProperties.ICON_MENU);
 		add(button);
@@ -221,8 +221,8 @@ public class HtmlClassPropertiesExample extends WPanel {
 		add(new WHeading(HeadingLevel.H2, "Non-standard icons"));
 		add(new ExplanatoryText("This example shows how to add a Font Awesome icon not in the set exposed by HtmlClassProperties."));
 		// using the icon helpers
-		String cogIcon = "fa-cog";
-		button = new WButton("\u200b"); // \u200b is a zero-width space.
+		String cogIcon = "wc-fa fa-solid fa-gear";
+		button = new WButton(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
 		button.setToolTip("Settings");
 		button.setHtmlClass(HtmlIconUtil.getIconClasses(cogIcon));
 		add(button);

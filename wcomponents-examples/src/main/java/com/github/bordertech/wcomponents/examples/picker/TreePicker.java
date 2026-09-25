@@ -201,10 +201,10 @@ public class TreePicker extends WContainer {
 			setLayout(new ListLayout(ListLayout.Type.FLAT, ListLayout.Alignment.RIGHT, ListLayout.Separator.NONE,
 					false));
 			// The select another example button.
-			final WButton selectOtherButton = new WButton("\u200b");
+			final WButton selectOtherButton = new WButton(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
 			selectOtherButton.setToolTip("Select");
 			//selectOtherButton.setImage("/image/open-in-browser-w.png");
-			selectOtherButton.setHtmlClass(HtmlIconUtil.getIconClasses("fa-file-code-o"));
+			selectOtherButton.setHtmlClass(HtmlIconUtil.getIconClasses("wc-fa fa-regular fa-file-code"));
 			selectOtherButton.setRenderAsLink(true);
 			selectOtherButton.setAction(new ValidatingAction(exampleSection.getMessages().getValidationErrors(), selectOtherButton) {
 				@Override
