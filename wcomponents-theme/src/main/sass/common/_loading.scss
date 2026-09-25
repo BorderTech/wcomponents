@@ -7,7 +7,8 @@ $wc-common-busy-size: $wc-icon-size !default;
 $wc-common-busy-offset: $wc-common-busy-size / 2;
 // The loading indicator icon. If you change this you will eant to change the
 // gif equivalent used in input, select and textarea elements.
-$wc-loading-icon: $var-spinner !default;
+// $wc-loading-icon: $var-spinner !default;
+$wc-loading-icon: "\f110" !default;
 // Should the loading indicate spin? Set to anything other than 1 to turn off.
 $wc-loading-animate: 1 !default;
 

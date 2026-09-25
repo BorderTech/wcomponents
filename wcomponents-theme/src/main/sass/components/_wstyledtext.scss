@@ -9,7 +9,8 @@
 // be completed. Not terribly good use-cases but use-cases non-the-less.
 .wc-text-type-mandatoryIndicator::after {
   @include fa-solid;
-  content: $var-asterisk;
+//  content: $var-asterisk;
+  content: "\2a";
   margin-left: $wc-gap-small;
 }
 
