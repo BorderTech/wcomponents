@@ -8,7 +8,7 @@
   display: block;
   margin-top: $wc-gap-small;
 
-  > .fa {
+  > .wc-fa {
     text-align: left;
     vertical-align: top;
     width: $wc-icon-size;
@@ -43,7 +43,7 @@
 
     @if $wc-clr-to-use != -1 {
       &.wc-fieldindicator-type-#{$i} {
-        .fa {
+        .wc-fa {
           color: $wc-clr-to-use;
         }
       }

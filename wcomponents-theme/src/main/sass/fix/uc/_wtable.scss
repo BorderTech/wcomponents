@@ -17,7 +17,7 @@
   }
 
   @if $wc-use-respond-table == true {
-    [sortable] > thead th > .fa {
+    [sortable] > thead th > .wc-fa {
       float: right;
     }
   }

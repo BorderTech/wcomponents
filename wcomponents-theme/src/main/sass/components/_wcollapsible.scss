@@ -20,13 +20,14 @@ details {
   &[open] > div {
     display: block;
   }
+
 }
 
 summary {
   // display: block; TODO check in IE11
   // padding: $wc-gap-normal 0; // TODO: check in themes
 
-  > .fa {
+  > .wc-fa {
     text-align: left;
     width: $wc-collapsible-icon-width;
   }
@@ -42,6 +43,8 @@ summary {
     display: inline-block;
     width: calc(100% - #{$wc-collapsible-icon-width});
   }
+
+  list-style: none; // remove the default summary marker
 }
 
 // remove the default summary marker from webkit browsers

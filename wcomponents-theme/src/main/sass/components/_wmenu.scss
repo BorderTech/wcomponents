@@ -60,7 +60,7 @@ $wc-menu-icon-space: $wc-menu-iconwidth + $wc-gap-small;
     width: calc(100% - #{$wc-menu-icon-space});
   }
 
-  > .fa {
+  > .wc-fa {
     margin-left: $wc-gap-small;
     text-align: left;
     width: $wc-menu-iconwidth;
@@ -246,7 +246,7 @@ $wc-menu-icon-space: $wc-menu-iconwidth + $wc-gap-small;
   .wc-submenu-o {
     padding: $wc-menu-tree-item-pad;
 
-    > .fa {
+    > .wc-fa {
       margin-left: 0;
     }
   }

@@ -44,7 +44,7 @@ $wc-tree-item-pad: $wc-gap-small !default;
   display: inline-block;
   padding: $wc-tree-item-pad 0;
 
-  > .fa::before {
+  > .wc-fa::before {
     text-align: left;
     width: $wc-icon-size; // equalise open & close icon width
   }

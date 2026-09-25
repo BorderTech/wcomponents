@@ -12,7 +12,7 @@
     }
   }
 
-  button > .fa::before {
+  button > .wc-fa::before {
     @include margin($pos: right);
   }
 }

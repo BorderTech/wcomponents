@@ -129,7 +129,7 @@ caption {
     }
   }
 
-  > .fa + .wc-menu-type-flyout {
+  > .wc-fa + .wc-menu-type-flyout {
     margin-left: $wc-gap-small;
   }
 }
@@ -194,7 +194,7 @@ th {
       word-wrap: break-word;
     }
 
-    > .fa {
+    > .wc-fa {
       display: inline-block;
       width: $wc-icon-size;
 
