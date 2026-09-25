@@ -230,8 +230,8 @@ function(toArray, attribute, event, focus, formUpdateManager, initialise, shed, 
 			var control, add, remove;
 			if (element && TBL_EXPANDABLE_ROW.isOneOfMe(element)) {
 				if ((control = ROW_TRIGGER.findDescendant(element, true))) {
-					add = action === shed.actions.EXPAND ? "fa-caret-down" : "fa-caret-right";
-					remove = action === shed.actions.EXPAND ? "fa-caret-right" : "fa-caret-down";
+					add = action === shed.actions.EXPAND ? "fa-solid fa-caret-down" : "fa-solid fa-caret-right";
+					remove = action === shed.actions.EXPAND ? "fa-solid fa-caret-right" : "fa-solid fa-caret-down";
 					icon.change(control, add, remove);
 				}
 				if (action === shed.actions.EXPAND && isAjaxExpansion(element)) {

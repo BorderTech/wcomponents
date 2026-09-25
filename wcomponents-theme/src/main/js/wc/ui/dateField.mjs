@@ -131,7 +131,7 @@ function DateInput() {
 			if (shed.isDisabled(childEl)) {
 				launcherHtml += " disabled='disabled'";
 			}
-			launcherHtml += "><i class='fa fa-calendar' aria-hidden='true'></i></button>";
+			launcherHtml += "><i class='wc-fa fa-solid fa-calendar' aria-hidden='true'></i></button>";
 			if (diagnostic) {
 				diagnostic.insertAdjacentHTML(BEFORE_BEGIN, launcherHtml);
 			} else {

@@ -703,7 +703,7 @@ function (attribute, prefetch, event, initialise, uid, Trigger, has, clearSelect
 			removeButton.setAttribute("type", "button");  // .type causes issues in legacy IE
 			removeButton.className = "wc_btn_icon wc_btn_abort";
 			removeButton.value = i18n.get("file_abort", fileName);
-			icon.add(removeButton, "fa-ban");
+			icon.add(removeButton, "fa-solid fa-ban");
 			item.appendChild(removeButton);
 			item.appendChild(document.createTextNode(fileName));
 			progress = item.appendChild(document.createElement("progress"));

@@ -193,9 +193,9 @@ function(event, attribute, focus, formUpdateManager, has, initialise, Widget, sh
 				}
 
 				if (action === shed.actions.EXPAND) {
-					icon.change(header, "fa-caret-down", "fa-caret-right");
+					icon.change(header, "fa-solid fa-caret-down", "fa-solid fa-caret-right");
 				} else if (action === shed.actions.COLLAPSE) {
-					icon.change(header, "fa-caret-right", "fa-caret-down");
+					icon.change(header, "fa-solid fa-caret-right", "fa-solid fa-caret-down");
 				}
 			}
 		}

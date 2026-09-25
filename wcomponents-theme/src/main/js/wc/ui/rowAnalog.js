@@ -77,11 +77,11 @@ function(ariaAnalog, initialise, shed, Widget, table, icon) {
 				if ((cell = EXPANDER.findDescendant(element, true))) {
 					isMultiSelect = this.isMultiSelect(element);
 					if (action === shed.actions.SELECT) {
-						add = isMultiSelect ? "fa-check-square-o" : "fa-dot-circle-o";
-						remove = isMultiSelect ? "fa-square-o" : "fa-circle-o";
+						add = isMultiSelect ? "fa-regular fa-square-check" : "fa-regular fa-circle-dot";
+						remove = isMultiSelect ? "fa-regular fa-square" : "fa-regular fa-circle";
 					} else {
-						add = isMultiSelect ? "fa-square-o" : "fa-circle-o";
-						remove = isMultiSelect ? "fa-check-square-o" : "fa-dot-circle-o";
+						add = isMultiSelect ? "fa-regular fa-square" : "fa-regular fa-circle";
+						remove = isMultiSelect ? "fa-regular fa-square-check" : "fa-regular fa-circle-dot";
 					}
 					icon.change(cell, add, remove);
 				}

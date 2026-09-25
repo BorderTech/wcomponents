@@ -334,9 +334,9 @@ function(shed, getFilteredGroup, toArray, formUpdateManager, Widget, initialise,
 		 */
 		function setControllerStatus(controller, status) {
 			var initialState, from = [], to,
-				ICON_ALL = "fa-check-square-o",
-				ICON_SOME = "fa-square",
-				ICON_NONE = "fa-square-o";
+				ICON_ALL = "fa-regular fa-square-check",
+				ICON_SOME = "fa-solid fa-square",
+				ICON_NONE = "fa-regular fa-square";
 			if (!controller) {
 				return;
 			}
@@ -361,8 +361,8 @@ function(shed, getFilteredGroup, toArray, formUpdateManager, Widget, initialise,
 					from = [ICON_SOME, ICON_ALL];
 				}
 				if (to) {
-					icon.change(controller, to, from[0]);
-					icon.remove(controller, from[1]);
+					const classes = from.join(" ");
+					icon.change(controller, to, classes);
 				}
 				return;
 			}

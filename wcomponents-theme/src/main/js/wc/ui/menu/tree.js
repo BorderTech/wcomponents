@@ -571,11 +571,11 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, f
 			if (action === shed.actions.EXPAND) {
 				ajaxExpand(element, root);
 				if (!this.isHTree(root) && (iconContainer = VOPENER.findDescendant(element, true))) {
-					icon.change(iconContainer, "fa-caret-down", "fa-caret-right");
+					icon.change(iconContainer, "fa-solid fa-caret-down", "fa-solid fa-caret-right");
 				}
 				if ((iconContainer = this._getBranchOpener(element)) &&
 					(iconContainer = IMAGE_HOLDER_WD.findDescendant(iconContainer, true))) {
-					icon.change(iconContainer, "fa-folder-open-o", "fa-folder-o");
+					icon.change(iconContainer, "fa-regular fa-folder-open", "fa-regular fa-folder");
 				}
 				return;
 			}
@@ -656,12 +656,12 @@ function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, f
 				VOPENER = VOPENER || new Widget ("", "wc_leaf_vopener");
 				IMAGE_HOLDER_WD = IMAGE_HOLDER_WD || new Widget("", "wc_leaf_img");
 				if (!this.isHTree(root) && (iconContainer = VOPENER.findDescendant(element, true))) {
-					icon.change(iconContainer, "fa-caret-right", "fa-caret-down");
+					icon.change(iconContainer, "fa-solid fa-caret-right", "fa-solid fa-caret-down");
 				}
 
 				if ((iconContainer = this._getBranchOpener(element)) &&
 					(iconContainer = IMAGE_HOLDER_WD.findDescendant(iconContainer, true))) {
-					icon.change(iconContainer, "fa-folder-o", "fa-folder-open-o");
+					icon.change(iconContainer, "fa-regular fa-folder", "fa-regular fa-folder-open");
 				}
 
 				groupContainer = this.getSubMenu(element, true);

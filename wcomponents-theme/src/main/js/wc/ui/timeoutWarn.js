@@ -130,7 +130,7 @@ function(sprintf, event, Widget, i18n, loader, shed, timers, icon, wcconfig) {
 						if ((section = container.firstChild)) {
 							section.classList.remove("wc-messagebox-type-warn");
 							section.classList.add("wc-messagebox-type-error");
-							icon.change(section, "fa-times-circle", "fa-exclamation-triangle");
+							icon.change(section, "fa-solid fa-circle-xmark", "fa-solid fa-triangle-exclamation");
 						}
 						if (shed.isHidden(container, true)) {
 							showDialog(container);  // re-show it if the warning was closed by the user

@@ -131,9 +131,9 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 				if (action === shed.actions.EXPAND || action === shed.actions.COLLAPSE) {
 					if ((opener = this._getBranch(element)) && (opener = this._getBranchOpener(opener))) {
 						if (action === shed.actions.EXPAND) {
-							icon.change(opener, "fa-caret-down", "fa-caret-right");
+							icon.change(opener, "fa-solid fa-caret-down", "fa-solid fa-caret-right");
 						} else if (action === shed.actions.COLLAPSE) {
-							icon.change(opener, "fa-caret-right", "fa-caret-down");
+							icon.change(opener, "fa-solid fa-caret-right", "fa-solid fa-caret-down");
 						}
 					}
 				}

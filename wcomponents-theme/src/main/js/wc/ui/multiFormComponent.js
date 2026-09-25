@@ -183,7 +183,7 @@ function(event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers
 				if (nextButton) {
 					nextButton.setAttribute("aria-controls", nextId);
 					nextButton.title = REMOVE_BUTTON_TITLE;
-					icon.change(nextButton,"fa-minus-square", "fa-plus-square");
+					icon.change(nextButton,"fa-solid fa-square-minus", "fa-solid fa-square-plus");
 				}
 				next.id = nextId;
 			}

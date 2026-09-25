@@ -23,19 +23,19 @@ define(["intern!object", "intern/chai!assert", "wc/dom/messageBox", "wc/ui/icon"
 				box.classList.add(type);
 				switch (type) {
 					case "wc-messagebox-type-error" :
-						iconName = "fa-minus-circle";
+						iconName = "fa-solid fa-circle-minus";
 						title = i18n.get("messagetitle_error");
 						break;
 					case "wc-messagebox-type-warn" :
-						iconName = "fa-exclamation-triangle";
+						iconName = "fa-solid fa-triangle-exclamation";
 						title = i18n.get("messagetitle_warn");
 						break;
 					case "wc-messagebox-type-info" :
-						iconName = "fa-info-circle";
+						iconName = "fa-solid fa-circle-info";
 						title = i18n.get("messagetitle_info");
 						break;
 					case "wc-messagebox-type-success" :
-						iconName = "fa-check-circle";
+						iconName = "fa-solid fa-circle-check";
 						title = i18n.get("messagetitle_success");
 						break;
 				}

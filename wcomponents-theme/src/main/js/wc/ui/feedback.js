@@ -95,7 +95,7 @@ function(toArray, diagnostic, tag, wrappedInput, icon, getLabelsForElement, wcco
 		 * @returns {String}
 		 */
 		function getIconName(level) {
-			var defaultIcon = "fa-times-circle",
+			var defaultIcon = "fa-solid fa-circle-xmark",
 				config = wcconfig.get("wc/ui/feedback");
 
 			if (config && config.errorIcon) {
@@ -109,17 +109,17 @@ function(toArray, diagnostic, tag, wrappedInput, icon, getLabelsForElement, wcco
 					if (config && config.warnIcon) {
 						return config.warnIcon;
 					}
-					return "fa-exclamation-triangle";
+					return "fa-solid fa-triangle-exclamation";
 				case diagnostic.LEVEL.INFO:
 					if (config && config.infoIcon) {
 						return config.infoIcon;
 					}
-					return "fa-info-circle";
+					return "fa-solid fa-circle-info";
 				case diagnostic.LEVEL.SUCCESS:
 					if (config && config.successIcon) {
 						return config.successIcon;
 					}
-					return "fa-check-circle";
+					return "fa-solid fa-circle-check";
 				default:
 					return defaultIcon;
 			}
@@ -222,7 +222,7 @@ function(toArray, diagnostic, tag, wrappedInput, icon, getLabelsForElement, wcco
 			classAttrib += className + "'";
 			html = tag.toTag(tagName, false, [idAttrib, classAttrib, roleAttrib, forAttrib].join(" "));
 			if ((levelIcon = getIconName(level))) {
-				html += "<i aria-hidden='true' class='fa " + levelIcon + "'></i>";
+				html += "<i aria-hidden='true' class='wc-fa " + levelIcon + "'></i>";
 			}
 			if (messages) {
 				if (messages.constructor === NodeList) {

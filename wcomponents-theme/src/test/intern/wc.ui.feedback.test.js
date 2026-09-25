@@ -8,7 +8,7 @@ define(["intern!object", "intern/chai!assert", "wc/ui/feedback", "wc/dom/diagnos
 			testBoxId = "wcdiagnostictest1_err",
 			testTargetHTML = "<span class='wc-input-wrapper' id='" + targetId + "'><input id='" + inputId + "' type='text'></span>",
 			testContent = "<span id='" + testBoxId + "' class='wc-fieldindicator wc-fieldindicator-type-error'>\n\
-<i aria-hidden='true' class='fa fa-times-circle'></i>\n\
+<i aria-hidden='true' class='wc-fa fa-solid fa-circle-xmark'></i>\n\
 <span class='wc-message'>Message one</span>\n\
 <span class='wc-message'>Message two</span>\n\
 <span class='wc-message'>Message three</span></span>" + testTargetHTML;

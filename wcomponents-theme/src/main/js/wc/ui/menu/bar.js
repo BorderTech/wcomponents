@@ -297,7 +297,7 @@ function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid,
 							tempWrapper.insertAdjacentHTML("afterbegin", closeButtonHTML);
 							closeButton = tempWrapper.firstChild;
 							if ((label = DECORATED_LABEL.findDescendant(closeButton))) {
-								label.insertAdjacentHTML("afterbegin", "<i class=\"fa fa-caret-left wc_dlbl_seg\" aria-hidden=\"true\"></i>");
+								label.insertAdjacentHTML("afterbegin", "<i class=\"wc-fa fa-solid fa-caret-left wc_dlbl_seg\" aria-hidden=\"true\"></i>");
 							}
 							Array.prototype.forEach.call(closeButton.querySelectorAll("[id]"), function(next) {
 								next.id = uid();
@@ -332,7 +332,7 @@ function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid,
 					id: uid(),
 					class: " " + BURGER_MENU_CLASS,
 					opener: {
-						class: " wc_hbgr fa fa-bars",
+						class: " wc_hbgr wc-fa fa-solid fa-bars",
 						tooltip: strings[0]
 					},
 					contentId: uid(),

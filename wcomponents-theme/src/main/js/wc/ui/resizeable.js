@@ -559,9 +559,9 @@ function(attribute, clearSelection, event, getMouseEventOffset, isAcceptableTarg
 			if (element && MAX.isOneOfMe(element) && (target = getResizeTarget(element))) {
 				target.classList[(action === shed.actions.SELECT ? "add" : "remove")](CLASS_MAX);
 				if (action === shed.actions.SELECT) {
-					icon.change(element, "fa-minus", "fa-plus");
+					icon.change(element, "fa-solid fa-minus", "fa-solid fa-plus");
 				} else {
-					icon.change(element, "fa-plus", "fa-minus");
+					icon.change(element, "fa-solid fa-plus", "fa-solid fa-minus");
 				}
 			}
 		}
