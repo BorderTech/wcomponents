@@ -672,64 +672,64 @@ public final class ConfigurationProperties {
 	/**
 	 * Get the Html Icon class for the help icon.
 	 *
-	 * @return the parameter value, or "fa-question-circle" if not set.
+	 * @return the parameter value, or "wc-fa fa-solid fa-circle-question" if not set.
 	 */
 	public static String getHtmlIconClassHelp() {
-		return get().getString(HTML_ICON_CLASS_HELP, "fa-question-circle");
+		return get().getString(HTML_ICON_CLASS_HELP, "wc-fa fa-solid fa-circle-question");
 	}
 
 	/**
 	 * Get the Html Icon class for the info icon.
 	 *
-	 * @return the parameter value, or "fa-info-circle" if not set.
+	 * @return the parameter value, or "wc-fa fa-solid fa-circle-info" if not set.
 	 */
 	public static String getHtmlIconClassInfo() {
-		return get().getString(HTML_ICON_CLASS_INFO, "fa-info-circle");
+		return get().getString(HTML_ICON_CLASS_INFO, "wc-fa fa-solid fa-circle-info");
 	}
 
 	/**
 	 * Get the Html Icon class for the warn icon.
 	 *
-	 * @return the parameter value, or "fa-exclamation-triangle" if not set.
+	 * @return the parameter value, or "wc-fa fa-solid fa-triangle-exclamation" if not set.
 	 */
 	public static String getHtmlIconClassWarn() {
-		return get().getString(HTML_ICON_CLASS_WARN, "fa-exclamation-triangle");
+		return get().getString(HTML_ICON_CLASS_WARN, "wc-fa fa-solid fa-triangle-exclamation");
 	}
 
 	/**
 	 * Get the Html Icon class for the error icon.
 	 *
-	 * @return the parameter value, or "fa-minus-circle" if not set.
+	 * @return the parameter value, or "wc-fa fa-solid fa-circle-minus" if not set.
 	 */
 	public static String getHtmlIconClassError() {
-		return get().getString(HTML_ICON_CLASS_ERROR, "fa-minus-circle");
+		return get().getString(HTML_ICON_CLASS_ERROR, "wc-fa fa-solid fa-circle-minus");
 	}
 
 	/**
 	 * Get the Html Icon class for the success icon.
 	 *
-	 * @return the parameter value, or "fa-check-circle" if not set.
+	 * @return the parameter value, or "wc-fa fa-solid fa-circle-check" if not set.
 	 */
 	public static String getHtmlIconClassSuccess() {
-		return get().getString(HTML_ICON_CLASS_SUCCESS, "fa-check-circle");
+		return get().getString(HTML_ICON_CLASS_SUCCESS, "wc-fa fa-solid fa-circle-check");
 	}
 
 	/**
 	 * Get the Html Icon class for the add icon.
 	 *
-	 * @return the parameter value, or "fa-plus-square" if not set.
+	 * @return the parameter value, or "wc-fa fa-solid fa-square-plus" if not set.
 	 */
 	public static String getHtmlIconClassAdd() {
-		return get().getString(HTML_ICON_CLASS_ADD, "fa-plus-square");
+		return get().getString(HTML_ICON_CLASS_ADD, "wc-fa fa-solid fa-square-plus");
 	}
 
 	/**
 	 * Get the Html Icon class for the delete icon.
 	 *
-	 * @return the parameter value, or "fa-minus-square" if not set.
+	 * @return the parameter value, or "wc-fa fa-solid fa-square-minus" if not set.
 	 */
 	public static String getHtmlIconClassDelete() {
-		return get().getString(HTML_ICON_CLASS_DELETE, "fa-minus-square");
+		return get().getString(HTML_ICON_CLASS_DELETE, "wc-fa fa-solid fa-square-minus");
 	}
 
 	/**
@@ -738,52 +738,52 @@ public final class ConfigurationProperties {
 	 * @return the parameter value, or "fa-pencil" if not set.
 	 */
 	public static String getHtmlIconClassEdit() {
-		return get().getString(HTML_ICON_CLASS_EDIT, "fa-pencil");
+		return get().getString(HTML_ICON_CLASS_EDIT, "wc-fa fa-solid fa-pencil");
 	}
 
 	/**
 	 * Get the Html Icon class for the save icon.
 	 *
-	 * @return the parameter value, or "fa-floppy-o" if not set.
+	 * @return the parameter value, or "wc-fa fa-regular fa-floppy-disk" if not set.
 	 */
 	public static String getHtmlIconClassSave() {
-		return get().getString(HTML_ICON_CLASS_SAVE, "fa-floppy-o");
+		return get().getString(HTML_ICON_CLASS_SAVE, "wc-fa fa-regular fa-floppy-disk");
 	}
 
 	/**
 	 * Get the Html Icon class for the search icon.
 	 *
-	 * @return the parameter value, or "fa-search" if not set.
+	 * @return the parameter value, or "wc-fa fa-solid fa-magnifying-glass" if not set.
 	 */
 	public static String getHtmlIconClassSearch() {
-		return get().getString(HTML_ICON_CLASS_SEARCH, "fa-search");
+		return get().getString(HTML_ICON_CLASS_SEARCH, "wc-fa fa-solid fa-magnifying-glass");
 	}
 
 	/**
 	 * Get the Html Icon class for the cancel icon.
 	 *
-	 * @return the parameter value, or "fa-ban" if not set.
+	 * @return the parameter value, or "wc-fa fa-solid fa-ban" if not set.
 	 */
 	public static String getHtmlIconClassCancel() {
-		return get().getString(HTML_ICON_CLASS_CANCEL, "fa-ban");
+		return get().getString(HTML_ICON_CLASS_CANCEL, "wc-fa fa-solid fa-ban");
 	}
 
 	/**
 	 * Get the Html Icon class for the menu icon.
 	 *
-	 * @return the parameter value, or "fa-bars" if not set.
+	 * @return the parameter value, or "wc-fa fa-solid fa-bars" if not set.
 	 */
 	public static String getHtmlIconClassMenu() {
-		return get().getString(HTML_ICON_CLASS_MENU, "fa-bars");
+		return get().getString(HTML_ICON_CLASS_MENU, "wc-fa fa-solid fa-bars");
 	}
 
 	/**
 	 * Get the HTML Icon class for the print icon.
 	 *
-	 * @return the parameter value, or "fa-print" if not set.
+	 * @return the parameter value, or "wc-fa fa-solid fa-print" if not set.
 	 */
 	public static String getHtmlIconClassPrint() {
-		return get().getString(HTML_ICON_CLASS_PRINT, "fa-print");
+		return get().getString(HTML_ICON_CLASS_PRINT, "wc-fa fa-solid fa-print");
 	}
 
 	/**
