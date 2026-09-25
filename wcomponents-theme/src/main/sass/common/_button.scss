@@ -43,7 +43,7 @@
   // class wc_nti (no text image) is applied to buttons and links which hold
   //  an image but no visible text.
   &[disabled] ,
-  &.wc-icon::before,
+  &.wc-icon,
   > .fa,
   .wc_nti {
     text-decoration: none;

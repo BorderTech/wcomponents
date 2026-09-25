@@ -4,9 +4,11 @@
 // The following class is to allow an icon to be placed directly into a compoent
 // without an element wrapper.
 // com.github.bordertech.wcomponents.util.HtmlClassProperties.ICON
-.wc-icon::before {
-  @include fa-icon;
-}
+
+// Fontawesome V7 now requires to add fa-solid or fa-regular and can no longer just use fa
+//.wc-icon::before {
+//  @include fa-icon;
+//}
 
 // ICON POSITIONING CLASSES.
 // com.github.bordertech.wcomponents.util.HtmlClassProperties.ICON_BEFORE
