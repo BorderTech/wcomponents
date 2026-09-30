@@ -150,6 +150,7 @@ import org.junit.runners.Suite;
 	WSelectToggle_Test.class,
 	WShuffler_Test.class,
 	WSingleSelect_Test.class,
+	WSpan_Test.class,
 	WStyledText_Test.class,
 	WSubMenu_Test.class,
 	WSuggestions_Test.class,

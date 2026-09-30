@@ -81,6 +81,7 @@ import org.junit.runners.Suite;
 	WShufflerRenderer_Test.class,
 	WSingleSelectRenderer_Test.class,
 	WSkipLinksRenderer_Test.class,
+	WSpanRenderer_Test.class,
 	WStyledTextRenderer_Test.class,
 	WSubMenuRenderer_Test.class,
 	WSubordinateControlRenderer_Test.class,

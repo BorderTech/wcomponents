@@ -13,7 +13,7 @@ import com.github.bordertech.wcomponents.util.HtmlToXMLUtil;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-final class WTextRenderer extends AbstractWebXmlRenderer {
+class WTextRenderer extends AbstractWebXmlRenderer {
 
 	/**
 	 * Paints the given WText.
