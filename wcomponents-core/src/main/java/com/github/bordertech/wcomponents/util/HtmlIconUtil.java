@@ -1,5 +1,7 @@
 package com.github.bordertech.wcomponents.util;
 
+import com.github.bordertech.wcomponents.WSpan;
+
 /**
  * Provides helpers to attach icons to components.
  *
@@ -93,5 +95,28 @@ public final class HtmlIconUtil {
 			builder.append(icon);
 		}
 		return builder.toString();
+	}
+
+	/**
+	 * Create a span component configured for font icons.
+	 * 
+	 * @param iconClass the font icon class to add to span component
+	 * @return a span component configured with font icon classes
+	 */
+	public static WSpan createSpanIcon(final HtmlClassProperties iconClass) {
+		return createSpanIcon(iconClass == null ? (String) null : iconClass.toString());
+	}
+	
+	/**
+	 * Create a span component configured for font icons.
+	 * 
+	 * @param iconClass the font icon classes to add to span component
+	 * @return a span component configured with font icon classes
+	 */
+	public static WSpan createSpanIcon(final String iconClass) {
+		WSpan span = new WSpan();
+		span.setHtmlClass(iconClass);
+		span.setAriaHidden(true);
+		return span;
 	}
 }

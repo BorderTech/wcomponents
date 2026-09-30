@@ -22,6 +22,7 @@ import org.junit.runners.Suite;
 	HTMLSanitizerPerformance_Test.class,
 	HTMLToXMLUtil_Test.class,
 	HtmlIconClassUtil_Test.class,
+	HtmlIconUtil_Test.class,
 	HtmlSanitizerUtil_Test.class,
 	I18nUtilities_Test.class,
 	LookupTableHelper_Test.class,
