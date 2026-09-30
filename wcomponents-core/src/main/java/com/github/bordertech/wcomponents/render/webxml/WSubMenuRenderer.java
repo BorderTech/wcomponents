@@ -89,6 +89,7 @@ final class WSubMenuRenderer extends AbstractWebXmlRenderer {
 			xml.appendAttribute("nested", "true");
 		}
 		xml.appendOptionalAttribute("type", getMenuType(menu));
+		xml.appendOptionalAttribute("toolTip", menu.getToolTip());
 
 		switch (menu.getMode()) {
 			case CLIENT:

@@ -6,8 +6,8 @@ import com.github.bordertech.wcomponents.WMenu.SelectMode;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WSubMenu;
 import java.io.IOException;
-import org.junit.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -57,6 +57,7 @@ public class WSubMenuRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathExists("//ui:submenu/ui:content/ui:menuitem", menu);
 		assertXpathNotExists("//ui:submenu/ui:content/ui:separator", menu);
 		assertXpathNotExists("//ui:submenu/@accessKey", menu);
+		assertXpathNotExists("//ui:submenu/@toolTip", menu);
 		assertXpathEvaluatesTo("client", "//ui:submenu/@mode", menu);
 
 		subMenu.addSeparator();
@@ -172,6 +173,13 @@ public class WSubMenuRenderer_Test extends AbstractWebXmlRendererTestCase {
 		nestedSubmenu.setAccessKey('A');
 		assertSchemaMatch(menu);
 		assertXpathNotExists("//ui:submenu/@accessKey", menu);
+	}
+
+	@Test
+	public void testToolTip() throws IOException, SAXException, XpathException {
+		subMenu.setToolTip("tip");
+		assertSchemaMatch(menu);
+		assertXpathEvaluatesTo("tip", "//ui:submenu/@toolTip", menu);
 	}
 
 	@Test
