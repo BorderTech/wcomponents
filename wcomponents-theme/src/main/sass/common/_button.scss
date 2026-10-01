@@ -38,14 +38,11 @@
 }
 
 .wc-linkbutton {
-  text-decoration: underline;
+  .wc_btn_text {
+      text-decoration: underline;
+  }
 
-  // class wc_nti (no text image) is applied to buttons and links which hold
-  //  an image but no visible text.
-  &[disabled] ,
-  &.wc-icon,
-  > .wc-fa,
-  .wc_nti {
+  &[disabled] .wc_btn_text {
     text-decoration: none;
   }
 }
@@ -57,12 +54,6 @@
     color: $wc-clr-disabled-fg;
   }
 }
-
-// A common class for buttons which only contain icons.
-// This is for framework use only so _may_ be changed without notice!
-// .wc_btn_icon {
-//   @include border;
-// }
 
 // #############################################################################
 // WButton and WLink (when it outputs a button element - see above) may also
@@ -84,7 +75,7 @@
 .wc_btn_imgn {
   @include flex-direction(column-reverse);
 
-  > img {
+  > img, > i {
     @include margin(bottom);
   }
 }
@@ -92,7 +83,7 @@
 .wc_btn_imgs {
   @include flex-direction(column);
 
-  > img {
+  > img, > i {
     @include margin(top);
   }
 }
@@ -100,7 +91,7 @@
 .wc_btn_imge {
   @include flex-direction(row);
 
-  > img {
+  > img, > i {
     @include margin(left);
   }
 }
@@ -108,7 +99,7 @@
 .wc_btn_imgw {
   @include flex-direction(row-reverse);
 
-  > img {
+  > img, > i {
     @include margin(right);
   }
 }

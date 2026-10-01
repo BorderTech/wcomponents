@@ -51,6 +51,7 @@ public class WButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//html:button[@hidden]", button);
 		assertXpathNotExists("//html:button[@title]", button);
 		assertXpathNotExists("//html:button[//html:img]", button);
+		assertXpathNotExists("//html:button[//html:i]", button);
 		assertXpathNotExists("//html:button[@accessKey]", button);
 		assertXpathNotExists("//html:button[following-sibling::ui:ajaxcontrol]", button);
 		assertXpathNotExists("//html:button[@data-wc-validate]", button);
@@ -67,8 +68,6 @@ public class WButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 		button.setDisabled(true);
 		setFlag(button, ComponentModel.HIDE_FLAG, true);
 		button.setToolTip("Title");
-		button.setImageUrl("http://localhost/image.png");
-		button.setImagePosition(ImagePosition.EAST);
 		button.setRenderAsLink(true);
 		button.setAjaxTarget(new WTextField());
 		button.setPopupTrigger(true);
@@ -88,24 +87,46 @@ public class WButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertXpathExists("//html:button[@id]", button);
 		assertXpathExists("//html:button[contains(@class, 'wc-linkbutton')]", button);
-		assertXpathEvaluatesTo(button.getText(), "//html:button", button);
 		assertXpathEvaluatesTo("disabled", "//html:button/@disabled", button);
 		assertXpathEvaluatesTo("hidden", "//html:button/@hidden", button);
 		assertXpathEvaluatesTo(button.getToolTip(), "//html:button/@title", button);
-		assertXpathUrlEvaluatesTo(button.getImageUrl(), "//html:button//html:img/@src", button);
-		assertXpathExists("//html:button/html:span[contains(@class, 'wc_btn_imge')]", button);
 		assertXpathEvaluatesTo("true", "//html:button/@aria-haspopup", button);
 		assertXpathEvaluatesTo(validationComponent.getId(), "//html:button/@data-wc-validate", button);
 		assertXpathEvaluatesTo(button.getId(), "//ui:ajaxtrigger/@triggerId", button);
 
+		assertXpathEvaluatesTo(button.getText(), "//html:button/html:span[@class='wc_btn_text']", button);
+
+		// Test image
+		button.setImageUrl("http://localhost/image.png");
+		assertXpathUrlEvaluatesTo(button.getImageUrl(), "//html:button//html:img/@src", button);
+		assertXpathNotExists("//html:button[//html:i]", button);
+
+		// Test icon class
+		button.setImageUrl(null);
+		button.setImageIconClass("ICON");
+		assertXpathUrlEvaluatesTo(button.getImageIconClass(), "//html:button//html:i/@class", button);
+		assertXpathNotExists("//html:button[//html:img]", button);
+
+		// No location (text not rendered)
+		assertXpathExists("//html:button/html:span[contains(@class, 'wc_nti')]", button);
+		assertXpathNotExists("//html:button/html:span/html:span[@class='wc_btn_text']", button);
+
+		// Test locations (text rendered)
+		button.setImagePosition(ImagePosition.EAST);
+		assertXpathExists("//html:button/html:span[contains(@class, 'wc_btn_imge')]", button);
+		assertXpathEvaluatesTo(button.getText(), "//html:button/html:span/html:span[@class='wc_btn_text']", button);
+
 		button.setImagePosition(ImagePosition.NORTH);
 		assertXpathExists("//html:button/html:span[contains(@class, 'wc_btn_imgn')]", button);
+		assertXpathEvaluatesTo(button.getText(), "//html:button/html:span/html:span[@class='wc_btn_text']", button);
 
 		button.setImagePosition(ImagePosition.SOUTH);
 		assertXpathExists("//html:button/html:span[contains(@class, 'wc_btn_imgs')]", button);
+		assertXpathEvaluatesTo(button.getText(), "//html:button/html:span/html:span[@class='wc_btn_text']", button);
 
 		button.setImagePosition(ImagePosition.WEST);
 		assertXpathExists("//html:button/html:span[contains(@class, 'wc_btn_imgw')]", button);
+		assertXpathEvaluatesTo(button.getText(), "//html:button/html:span/html:span[@class='wc_btn_text']", button);
 
 		button.setClientCommandOnly(true);
 		assertXpathEvaluatesTo("button", "//html:button/@type", button);
@@ -138,6 +159,7 @@ public class WButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
 	public void testButtonImageToolTipRender() throws IOException, SAXException, XpathException {
+		// Button with no text will use the alt text of the image as tooltip
 		WButton button = new WButton();
 		String expected = "alt text";
 		WImage buttonImage = new WImage("http://localhost/image.png", expected);

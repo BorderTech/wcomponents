@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import java.io.Serializable;
 import java.text.MessageFormat;
@@ -396,6 +397,43 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	}
 
 	/**
+	 * Set a predefined image icon class to display on the button.
+	 * 
+	 * @param imageIconClass the image icon class to display on the button
+	 * 
+	 * @see #setImageIconClass(java.lang.String)
+	 */
+	public void setImageIconClass(final HtmlClassProperties imageIconClass) {
+		setImageIconClass(imageIconClass == null ? (String) null : imageIconClass.toString());
+	}
+
+	/**
+	 * Set an image icon class to display on the button.
+	 * <p>
+	 * Setting icon classes creates a separate element in the button element for the icon classes to be applied to. This
+	 * helps avoid the CSS classes from libraries like fontawesome overriding the font style of the button text. If the
+	 * button is not displaying the text then the usual setHtmlClass method could still be used.
+	 * </p>
+	 * <p>
+	 * Avoid using the predefined before and after icon classes. The icon location can be set via
+	 * {@link #setImagePosition(com.github.bordertech.wcomponents.WButton.ImagePosition)}. An image icon class with no
+	 * position provided will not display the text and use it as the toolTip.
+	 * </p>
+	 *
+	 * @param imageIconClass the image icon class to display on the button
+	 */
+	public void setImageIconClass(final String imageIconClass) {
+		getOrCreateComponentModel().imageIconClass = imageIconClass;
+	}
+
+	/**
+	 * @return the image icon class to display on the button, otherwise null
+	 */
+	public String getImageIconClass() {
+		return getComponentModel().imageIconClass;
+	}
+
+	/**
 	 * Return the image to display on the button.
 	 *
 	 * @return the image
@@ -468,8 +506,9 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	}
 
 	/**
-	 * The position of the image on the button relative to the button text. If the button has an image and this is not
-	 * set then the button text is used as the text alternative for the image and is not displayed on the button.
+	 * The position of the image or icon class on the button relative to the button text. If the button has an image or
+	 * icon class and this is not set then the button text is not displayed and used as the text alternative for images
+	 * or the button toolTip for icon classes.
 	 *
 	 * @param imagePosition the position of the image
 	 */
@@ -754,6 +793,11 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 		 * The target component to repaint (via AJAX) when the button is pressed.
 		 */
 		private AjaxTarget ajaxTarget;
+
+		/**
+		 * If not null, the classes for an image icon on the button.
+		 */
+		private String imageIconClass;
 
 		/**
 		 * If not null, it will be taken as a URL to use as image.

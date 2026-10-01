@@ -34,23 +34,28 @@ class WButtonRenderer extends AbstractWebXmlRenderer {
 		String imageUrl = button.getImageUrl();
 		String accessibleText = button.getAccessibleText();
 		String toolTip = button.getToolTip();
-
-		if (Util.empty(text) && imageUrl == null && Util.empty(accessibleText) && Util.empty(toolTip)) {
-			throw new SystemException("WButton text or imageUrl must be specified");
-		}
-
-		xml.appendTagOpen(getTagName(button));
-
+		String iconClass = button.getImageIconClass();
 		String buttonId = button.getId();
 		ImagePosition pos = button.getImagePosition();
-		if (Util.empty(text) && Util.empty(toolTip) && Util.empty(accessibleText)) {
-			// If the button has an imageUrl but no text equivalent get the text equivalent off of the image
+
+		// If no text provided at least an imageUrl must be provided
+		if (Util.empty(text) && Util.empty(accessibleText) && Util.empty(toolTip)) {
+			if (imageUrl == null) {
+				throw new SystemException("WButton text or tooltip or accessibleText or imageUrl must be specified");
+			}
+			// Set the tooltip from the image holder
 			WImage imgHolder = button.getImageHolder();
 			if (null != imgHolder) {
 				toolTip = imgHolder.getAlternativeText();
 			}
 		}
 
+		// If using an Icon class with no position make sure at least the tooltip has a value as the text is not rendered
+		if (iconClass != null && pos == null && Util.empty(toolTip)) {
+			toolTip = Util.empty(text) ? accessibleText : text;
+		}
+
+		xml.appendTagOpen(getTagName(button));
 		xml.appendAttribute("id", buttonId);
 		xml.appendAttribute("name", buttonId);
 		xml.appendAttribute("value", "x");
@@ -77,46 +82,41 @@ class WButtonRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendClose();
 
-		if (imageUrl != null) {
-			xml.appendTagOpen("span");
-			String imageHolderClass = "wc_nti";
-			if (pos != null) {
-				StringBuffer imageHolderClassBuffer = new StringBuffer("wc_btn_img wc_btn_img");
-				switch (pos) {
-					case NORTH:
-						imageHolderClassBuffer.append("n");
-						break;
-					case EAST:
-						imageHolderClassBuffer.append("e");
-						break;
-					case SOUTH:
-						imageHolderClassBuffer.append("s");
-						break;
-					case WEST:
-						imageHolderClassBuffer.append("w");
-						break;
-					default:
-						throw new SystemException("Unknown image position: " + pos);
-				}
-				imageHolderClass = imageHolderClassBuffer.toString();
+		if (imageUrl != null || iconClass != null) {
+			String imageHolderClass;
+			if (pos == null) {
+				// Images or Icons with no postion will not render the button text
+				// Images will use the text as the image alt and Icons will rely on the toolTip
+				imageHolderClass = "wc_nti";
+			} else {
+				imageHolderClass = getImageHolderPositionClass(pos);
 			}
+			// Holder span
+			xml.appendTagOpen("span");
 			xml.appendAttribute("class", imageHolderClass);
 			xml.appendClose();
-
+			// Text span
 			if (pos != null && text != null) {
-				xml.appendTag("span");
-				xml.appendEscaped(text);
-				xml.appendEndTag("span");
+				paintTextSpan(text, xml);
 			}
-
-			xml.appendTagOpen("img");
-			xml.appendUrlAttribute("src", imageUrl);
-			String alternateText = pos == null ? text : "";
-			xml.appendAttribute("alt", alternateText);
-			xml.appendEnd();
+			// Image or Icon
+			if (imageUrl != null) {
+				xml.appendTagOpen("img");
+				xml.appendUrlAttribute("src", imageUrl);
+				String alternateText = pos == null ? text : "";
+				xml.appendAttribute("alt", alternateText);
+				xml.appendEnd();
+			} else {
+				xml.appendTagOpen("i");
+				xml.appendAttribute("class", iconClass);
+				xml.appendAttribute("aria-hidden", "true");
+				xml.appendClose();
+				xml.appendEndTag("i");
+			}
+			// Close holder span
 			xml.appendEndTag("span");
 		} else if (text != null) {
-			xml.appendEscaped(text);
+			paintTextSpan(text, xml);
 		}
 
 		// Optional Access Key Label
@@ -127,6 +127,20 @@ class WButtonRenderer extends AbstractWebXmlRenderer {
 		if (button.isAjax()) {
 			paintAjax(button, xml);
 		}
+	}
+
+	/**
+	 * Paints the button text span.
+	 *
+	 * @param text the button text
+	 * @param xml the XmlStringBuilder to paint to.
+	 */
+	protected void paintTextSpan(final String text, final XmlStringBuilder xml) {
+		xml.appendTagOpen("span");
+		xml.appendAttribute("class", "wc_btn_text");
+		xml.appendClose();
+		xml.appendEscaped(text);
+		xml.appendEndTag("span");
 	}
 
 	/**
@@ -165,7 +179,7 @@ class WButtonRenderer extends AbstractWebXmlRenderer {
 	 * @return the HTML class attribute value for this button
 	 */
 	protected String geHtmlClassName(final WButton button) {
-		StringBuffer htmlClassName = new StringBuffer("wc-button");
+		StringBuilder htmlClassName = new StringBuilder("wc-button");
 
 		if (button.isRenderAsLink()) {
 			htmlClassName.append(" wc-linkbutton");
@@ -191,4 +205,30 @@ class WButtonRenderer extends AbstractWebXmlRenderer {
 	protected String getButtonType(final WButton button) {
 		return button.isClientCommandOnly() ? "button" : "submit";
 	}
+
+	/**
+	 * @param pos the image position to translate to CSS
+	 * @return the CSS class for image holder position
+	 */
+	protected String getImageHolderPositionClass(final ImagePosition pos) {
+		StringBuilder imageHolderClassBuffer = new StringBuilder("wc_btn_img wc_btn_img");
+		switch (pos) {
+			case NORTH:
+				imageHolderClassBuffer.append("n");
+				break;
+			case EAST:
+				imageHolderClassBuffer.append("e");
+				break;
+			case SOUTH:
+				imageHolderClassBuffer.append("s");
+				break;
+			case WEST:
+				imageHolderClassBuffer.append("w");
+				break;
+			default:
+				throw new SystemException("Unknown image position: " + pos);
+		}
+		return imageHolderClassBuffer.toString();
+	}
+
 }

@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.WButton.ImagePosition;
+import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.io.Serializable;
 import org.junit.Assert;
@@ -126,6 +127,20 @@ public class WButton_Test extends AbstractWComponentTestCase {
 
 		resetContext();
 		Assert.assertNull("Action object should be null by default", button.getActionObject());
+	}
+
+	@Test
+	public void testImageIconClassStringAccessors() {
+		assertAccessorsCorrect(new WButton(), WButton::getImageIconClass, WButton::setImageIconClass, null, "A", "B");
+	}
+
+	@Test
+	public void testImageIconClassPredefinedAccessor() {
+		WButton button = new WButton();
+		button.setImageIconClass(HtmlClassProperties.ICON_WARN);
+		Assert.assertEquals("Invalid icon class returned", HtmlClassProperties.ICON_WARN.toString(), button.getImageIconClass());
+		button.setImageIconClass((HtmlClassProperties) null);
+		Assert.assertNull("Icon class should be null", button.getImageIconClass());
 	}
 
 	@Test
