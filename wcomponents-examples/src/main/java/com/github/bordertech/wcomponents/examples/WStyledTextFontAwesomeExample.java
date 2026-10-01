@@ -11,6 +11,7 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
+import com.github.bordertech.wcomponents.util.HtmlIconUtil;
 
 /**
  * An example showing how to use {@link WStyledText} to create icons using
@@ -59,14 +60,14 @@ public class WStyledTextFontAwesomeExample extends WPanel {
 
 		WContainer wrapper = new WContainer();
 		add(wrapper);
-		text = new WStyledText(" ");
+		text = new WStyledText(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
 		wrapper.add(text);
 		text.setHtmlClass("wc-fa fa-solid fa-gear fa-spin");
 		wrapper.add(new WText("Spin"));
 
 		wrapper = new WContainer();
 		add(wrapper);
-		text = new WStyledText(" ");
+		text = new WStyledText(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
 		wrapper.add(text);
 		text.setHtmlClass("wc-fa fa-solid fa-gear fa-spin-pulse");
 		wrapper.add(new WText("Pulse"));
@@ -76,42 +77,42 @@ public class WStyledTextFontAwesomeExample extends WPanel {
 
 		wrapper = new WContainer();
 		add(wrapper);
-		text = new WStyledText(" ");
+		text = new WStyledText(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
 		wrapper.add(text);
 		text.setHtmlClass("wc-fa fa-regular fa-comment fa-2x");
 		wrapper.add(new WText("Normal"));
 
 		wrapper = new WContainer();
 		add(wrapper);
-		text = new WStyledText(" ");
+		text = new WStyledText(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
 		wrapper.add(text);
 		text.setHtmlClass("wc-fa fa-regular fa-comment fa-2x fa-rotate-90");
 		wrapper.add(new WText("Rotate 90º"));
 
 		wrapper = new WContainer();
 		add(wrapper);
-		text = new WStyledText(" ");
+		text = new WStyledText(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
 		wrapper.add(text);
 		text.setHtmlClass("wc-fa fa-regular fa-comment fa-2x fa-rotate-180");
 		wrapper.add(new WText("Rotate 180º"));
 
 		wrapper = new WContainer();
 		add(wrapper);
-		text = new WStyledText(" ");
+		text = new WStyledText(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
 		wrapper.add(text);
 		text.setHtmlClass("wc-fa fa-regular fa-comment fa-2x fa-rotate-270");
 		wrapper.add(new WText("Rotate 270º"));
 
 		wrapper = new WContainer();
 		add(wrapper);
-		text = new WStyledText(" ");
+		text = new WStyledText(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
 		wrapper.add(text);
 		text.setHtmlClass("wc-fa fa-regular fa-comment fa-2x fa-flip-horizontal");
 		wrapper.add(new WText("Flip horizontal"));
 
 		wrapper = new WContainer();
 		add(wrapper);
-		text = new WStyledText(" ");
+		text = new WStyledText(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
 		wrapper.add(text);
 		text.setHtmlClass("wc-fa fa-regular fa-comment fa-2x fa-flip-vertical");
 		wrapper.add(new WText("Flip vertical"));
@@ -120,10 +121,10 @@ public class WStyledTextFontAwesomeExample extends WPanel {
 		add(new WHeading(HeadingLevel.H2, "Stacked icons"));
 		WTemplate template = new WTemplate("/com/github/bordertech/wcomponents/examples/iconStack.moustache", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
 		add(template);
-		text = new WStyledText(" ");
+		text = new WStyledText(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
 		text.setHtmlClass("wc-fa fa-solid fa-camera fa-stack-1x");
 		template.addTaggedComponent("lower", text);
-		text = new WStyledText(" ");
+		text = new WStyledText(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
 		text.setHtmlClass("wc-fa fa-solid fa-ban fa-stack-2x text-ban");
 		template.addTaggedComponent("upper", text);
 
