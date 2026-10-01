@@ -9,12 +9,14 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WPanel;
+import com.github.bordertech.wcomponents.WSpan;
 import com.github.bordertech.wcomponents.WStyledText;
 import com.github.bordertech.wcomponents.WSubMenu;
 import com.github.bordertech.wcomponents.WSubMenu.MenuMode;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
+import com.github.bordertech.wcomponents.util.HtmlIconUtil;
 import com.github.bordertech.wcomponents.util.TreeNode;
 import java.util.Iterator;
 
@@ -70,7 +72,8 @@ public class ColumnMenuExample extends WPanel {
 				// do something
 			}
 		});
-		itemWithIcon.setHtmlClass(HtmlClassProperties.ICON_HELP_BEFORE);
+		WSpan icon = HtmlIconUtil.createSpanIcon(HtmlClassProperties.ICON_HELP);
+		itemWithIcon.getDecoratedLabel().setHead(icon);
 		menu.add(itemWithIcon);
 
 		return menu;

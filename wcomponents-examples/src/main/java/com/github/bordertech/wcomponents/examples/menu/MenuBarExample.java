@@ -12,6 +12,7 @@ import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WMenuItemGroup;
 import com.github.bordertech.wcomponents.WPanel;
+import com.github.bordertech.wcomponents.WSpan;
 import com.github.bordertech.wcomponents.WStyledText;
 import com.github.bordertech.wcomponents.WSubMenu;
 import com.github.bordertech.wcomponents.WText;
@@ -89,13 +90,15 @@ public class MenuBarExample extends WContainer {
 
 		// The Fonts menu shows fonts and text
 		WSubMenu fontMenu = new WSubMenu("Fonts");
-		fontMenu.getDecoratedLabel().setHtmlClass(HtmlIconUtil.getIconClasses("wc-fa fa-solid fa-bars"));
+		WSpan icon = HtmlIconUtil.createSpanIcon(HtmlClassProperties.ICON_MENU_BEFORE);
+		fontMenu.getDecoratedLabel().setHead(icon);
 		fontMenu.setMode(WSubMenu.MenuMode.LAZY);
 		fontMenu.setAccessKey('N');
-		addMenuItem(fontMenu, "Print", selectedMenuText, HtmlClassProperties.ICON_PRINT.toString());
-		addMenuItem(fontMenu, "Add", selectedMenuText, HtmlClassProperties.ICON_ADD.toString());
-		addMenuItem(fontMenu, "Disk", selectedMenuText, HtmlClassProperties.ICON_SAVE.toString());
-		addMenuItem(fontMenu, HtmlIconUtil.ZERO_WIDTH_SPACE_STR, selectedMenuText, HtmlClassProperties.ICON_SEARCH.toString());
+		addMenuItem(fontMenu, "Print", selectedMenuText, HtmlClassProperties.ICON_PRINT);
+		addMenuItem(fontMenu, "Add", selectedMenuText, HtmlClassProperties.ICON_ADD);
+		addMenuItem(fontMenu, "Disk", selectedMenuText, HtmlClassProperties.ICON_SAVE);
+		WMenuItem searchItem = addMenuItem(fontMenu, HtmlIconUtil.ZERO_WIDTH_SPACE_STR, selectedMenuText, HtmlClassProperties.ICON_SEARCH);
+		searchItem.setToolTip("Search");
 
 		fontMenu.addSeparator();
 		fontMenu.add(new WMenuItem("Disable font menu", new ToggleDisabledAction(fontMenu)));
@@ -163,7 +166,8 @@ public class MenuBarExample extends WContainer {
 				// do something
 			}
 		});
-		itemWithIcon.setHtmlClass(HtmlClassProperties.ICON_HELP_BEFORE);
+		icon = HtmlIconUtil.createSpanIcon(HtmlClassProperties.ICON_HELP);
+		itemWithIcon.getDecoratedLabel().setHead(icon);
 		menu.add(itemWithIcon);
 
 		WMenuItem itemWithImage = new WMenuItem(new WDecoratedLabel(new WImage("/image/home.png", "home"), new WText("Home"), null));
@@ -181,10 +185,12 @@ public class MenuBarExample extends WContainer {
 	 * @param parent the component to add the menu item to.
 	 * @param text the text to display on the menu item.
 	 * @param selectedMenuText the WText to display the selected menu item.
+	 * 
+	 * @return the menu item instance
 	 */
-	private void addMenuItem(final WComponent parent, final String text,
+	private WMenuItem addMenuItem(final WComponent parent, final String text,
 			final WText selectedMenuText) {
-		addMenuItem(parent, text, selectedMenuText, null);
+		return addMenuItem(parent, text, selectedMenuText, null);
 	}
 
 	/**
@@ -194,9 +200,11 @@ public class MenuBarExample extends WContainer {
 	 * @param text the text to display on the menu item.
 	 * @param selectedMenuText the WText to display the selected menu item.
 	 * @param iconClasses optional icon classes to add
+	 * 
+	 * @return the menu item instance
 	 */
-	private void addMenuItem(final WComponent parent, final String text,
-			final WText selectedMenuText, final String iconClasses) {
+	private WMenuItem addMenuItem(final WComponent parent, final String text,
+			final WText selectedMenuText, final HtmlClassProperties iconClasses) {
 		WMenuItem menuItem = new WMenuItem(text, new ExampleMenuAction(selectedMenuText));
 		menuItem.setActionObject(text);
 		if (parent instanceof WSubMenu) {
@@ -205,8 +213,11 @@ public class MenuBarExample extends WContainer {
 			((WMenuItemGroup) parent).add(menuItem);
 		}
 		if (iconClasses != null) {
-			menuItem.getDecoratedLabel().setHtmlClass(HtmlIconUtil.getIconClasses(iconClasses));
+			// Setup span with icon classes and make aria hidden
+			WSpan icon = HtmlIconUtil.createSpanIcon(iconClasses);
+			menuItem.getDecoratedLabel().setHead(icon);
 		}
+		return menuItem;
 	}
 
 	/**

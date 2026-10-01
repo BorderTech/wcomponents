@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.WCollapsibleToggle;
 import com.github.bordertech.wcomponents.WDecoratedLabel;
 import com.github.bordertech.wcomponents.WImage;
 import com.github.bordertech.wcomponents.WPanel;
-import com.github.bordertech.wcomponents.WStyledText;
+import com.github.bordertech.wcomponents.WSpan;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
@@ -79,9 +79,8 @@ public class WCollapsibleExample extends WPanel {
 
 		// WCollapsible with WDecoratedLabel
 
-		WStyledText iconText = new WStyledText(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
-		iconText.setHtmlClass(HtmlClassProperties.ICON_EDIT);
-		WDecoratedLabel collLabel = new WDecoratedLabel(iconText, new WText("Edit inside this collapsible"), new WImage("/image/tick.png", "Checked"));
+		WSpan icon = HtmlIconUtil.createSpanIcon(HtmlClassProperties.ICON_EDIT);
+		WDecoratedLabel collLabel = new WDecoratedLabel(icon, new WText("Edit inside this collapsible"), new WImage("/image/tick.png", "Checked"));
 		WCollapsible collWithWDL = new WCollapsible(new WText("Placeholder"), collLabel);
 		add(collWithWDL);
 	}

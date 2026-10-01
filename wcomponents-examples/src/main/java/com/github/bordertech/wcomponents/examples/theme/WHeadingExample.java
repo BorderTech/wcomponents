@@ -8,10 +8,12 @@ import com.github.bordertech.wcomponents.WDecoratedLabel;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WImage;
+import com.github.bordertech.wcomponents.WSpan;
 import com.github.bordertech.wcomponents.WStyledText;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
+import com.github.bordertech.wcomponents.util.HtmlIconUtil;
 
 /**
  * This component demonstrates the {@link WHeading} component.
@@ -82,12 +84,17 @@ public class WHeadingExample extends WContainer {
 		unescapedHeading.setEncodeText(false);
 		add(unescapedHeading);
 		add(new WHeading(HeadingLevel.H2, "Examples with Icons"));
-		WHeading iconHeading = new WHeading(HeadingLevel.H3, "Headline with icon before");
-		iconHeading.setHtmlClass(HtmlClassProperties.ICON_INFO_BEFORE);
+
+		WSpan icon = HtmlIconUtil.createSpanIcon(HtmlClassProperties.ICON_INFO);
+		WDecoratedLabel label = new WDecoratedLabel(icon, new WText("Headline with icon before"), null);
+
+		WHeading iconHeading = new WHeading(HeadingLevel.H3, label);
 		add(iconHeading);
 
-		iconHeading = new WHeading(HeadingLevel.H3, "Headline with icon after");
-		iconHeading.setHtmlClass(HtmlClassProperties.ICON_INFO_AFTER);
+		icon = HtmlIconUtil.createSpanIcon(HtmlClassProperties.ICON_INFO);
+		label = new WDecoratedLabel(null, new WText("Headline with icon after"), icon);
+
+		iconHeading = new WHeading(HeadingLevel.H3, label);
 		add(iconHeading);
 
 		WHeading marginHeading = new WHeading(HeadingLevel.H1, "H1 with extra large margin");
