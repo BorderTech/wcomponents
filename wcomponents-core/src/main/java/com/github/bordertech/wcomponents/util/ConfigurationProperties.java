@@ -54,6 +54,11 @@ public final class ConfigurationProperties {
 	public static final String DEFAULT_MIME_TYPE = "bordertech.wcomponents.mimeType.defaultMimeType";
 
 	/**
+	 * The flag indicating whether dialogs when closed should focus the trigger that originally opened it.
+	 */
+	public static final String DIALOG_FOCUS_TRIGGER_ON_CLOSE_ENABLED = "bordertech.wcomponents.dialog.focus.trigger.on.close.enabled";
+
+	/**
 	 * The prefix for factory class lookups.
 	 */
 	public static final String FACTORY_PREFIX = "bordertech.wcomponents.factory.impl.";
@@ -1190,7 +1195,16 @@ public final class ConfigurationProperties {
 	public static boolean isVelocityBackwardCompatability17Enabled() {
 		return get().getBoolean(VELOCITY_BACKWARD_COMPATABILITY_17_ENABLED, true);
 	}
-	
+
+	/**
+	 * The flag indicating whether dialogs when closed should focus the trigger that originally opened it.
+	 *
+	 * @return true if dialogs when closed focus the trigger that opened it
+	 */
+	public static boolean isDialogFocusTriggerOnCloseEnabled() {
+		return get().getBoolean(DIALOG_FOCUS_TRIGGER_ON_CLOSE_ENABLED, false);
+	}
+
 	/**
 	 * The map of backward compatability properties for velocity version 1.7 prefixed with {@link #VELOCITY_BACKWARD_COMPATABILITY_17_PROPERTIES_PREFIX}.
 	 *

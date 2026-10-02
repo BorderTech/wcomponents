@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import java.io.Serializable;
 import java.text.MessageFormat;
@@ -325,6 +326,9 @@ public class WDialog extends AbstractWComponent implements Container {
 			}
 			getOrCreateComponentModel().state = ACTIVE_STATE;
 		} else if (getState() != INACTIVE_STATE) {
+			if (getState() == ACTIVE_STATE) {
+				handleFocusTriggerOnClose();
+			}
 			getOrCreateComponentModel().state = INACTIVE_STATE;
 		}
 	}
@@ -344,6 +348,45 @@ public class WDialog extends AbstractWComponent implements Container {
 	}
 
 	/**
+	 * When a dialog is closed the trigger that opened the dialog should get focus.
+	 */
+	protected void handleFocusTriggerOnClose() {
+
+		// Check focus trigger is enabled
+		if (!ConfigurationProperties.isDialogFocusTriggerOnCloseEnabled()) {
+			return;
+		}
+
+		DialogOpenTrigger trigger = getTrigger();
+		if (trigger != null) {
+			UIContext triggerContext = WebUtilities.getContextForComponent(trigger);
+			if (triggerContext != null && triggerContext.getFocussed() == null) {
+				triggerContext.setFocussed(trigger);
+			}
+		}
+	}
+
+	/**
+	 * If dialog was closed and then manually opened again dont focus the trigger.
+	 */
+	protected void handleCancelFocusTriggerOnReOpen() {
+
+		// Check focus trigger is enabled
+		if (!ConfigurationProperties.isDialogFocusTriggerOnCloseEnabled()) {
+			return;
+		}
+
+		DialogOpenTrigger trigger = getTrigger();
+		if (trigger != null) {
+			UIContext triggerContext = WebUtilities.getContextForComponent(trigger);
+			if (triggerContext != null && triggerContext.getFocussed() == trigger) {
+				// Clear focus
+				triggerContext.setFocussed(null);
+			}
+		}
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -355,6 +398,7 @@ public class WDialog extends AbstractWComponent implements Container {
 				getOrCreateComponentModel().state = INACTIVE_STATE;
 			}
 		} else if (getState() == MANUAL_OPEN_STATE) {
+			handleCancelFocusTriggerOnReOpen();
 			getOrCreateComponentModel().state = ACTIVE_STATE;
 		}
 		if (getContent() != null) {
