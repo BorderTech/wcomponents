@@ -159,6 +159,13 @@ public abstract class TestServlet extends WServlet implements LdeLauncher {
 	}
 
 	/**
+	 * @return the list of resources used to create the web app
+	 */
+	protected List<Resource> getUnion() {
+		return union;
+	}
+
+	/**
 	 * Creates the Web app context to use in the LDE. The context will be registered with the given server.
 	 *
 	 * @param srv the Jetty server.
