@@ -70,7 +70,7 @@ public class WButtonExample extends WPanel implements MessageContainer {
 		add(new WHeading(HeadingLevel.H2, "Link button"));
 		add(new ExplanatoryText(
 				"It is a mere design artifact to make a button look like a link but it is strongly recommended "
-						+ "that you do not do this as it can cause issues for users."));
+				+ "that you do not do this as it can cause issues for users."));
 
 		linkBtn.setRenderAsLink(true);
 		add(linkBtn);
@@ -172,35 +172,99 @@ public class WButtonExample extends WPanel implements MessageContainer {
 				true));
 
 		add(new WHeading(HeadingLevel.H4, "Using theme icons"));
-
 		add(new ExplanatoryText("These examples show ways to add an icon to a button using 'HtmlClassUtil'."));
+		buttonLayoutPanel = new WPanel(WPanel.Type.BOX);
+		buttonLayoutPanel.setLayout(new FlowLayout(FlowLayout.LEFT, Size.MEDIUM, FlowLayout.ContentAlignment.BOTTOM));
+		add(buttonLayoutPanel);
 
-		WButton iconButton = new WButton(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
-		iconButton.setToolTip("Edit");
-		iconButton.setHtmlClass(HtmlClassProperties.ICON_EDIT);
-		add(iconButton);
+		button = new WButton("Edit");
+		button.setImageIconClass(HtmlClassProperties.ICON_EDIT);
+		buttonLayoutPanel.add(button);
 
-		iconButton = new WButton("Save");
-		iconButton.setHtmlClass(HtmlClassProperties.ICON_SAVE_BEFORE);
-		add(iconButton);
+		button = new WButton("Save");
+		button.setImageIconClass(HtmlClassProperties.ICON_SAVE);
+		button.setImagePosition(ImagePosition.WEST);
+		buttonLayoutPanel.add(button);
 
-		iconButton = new WButton("Search");
-		iconButton.setHtmlClass(HtmlClassProperties.ICON_SEARCH_AFTER);
-		add(iconButton);
+		button = new WButton("Search");
+		button.setImageIconClass(HtmlClassProperties.ICON_SEARCH);
+		button.setImagePosition(ImagePosition.EAST);
+		buttonLayoutPanel.add(button);
 
-		add(new ExplanatoryText("These examples show ways to add a Font-Awesome icon to a button using 'setHtmlClass'."));
-		iconButton = new WButton(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
-		iconButton.setToolTip("Open Menu");
-		iconButton.setHtmlClass(HtmlIconUtil.getIconClasses("wc-fa fa-solid fa-bars"));
-		add(iconButton);
+		add(new ExplanatoryText("These examples show ways to add a Font-Awesome icon to a button using 'setImageIconClass'."));
+		buttonLayoutPanel = new WPanel(WPanel.Type.BOX);
+		buttonLayoutPanel.setLayout(new FlowLayout(FlowLayout.LEFT, Size.MEDIUM, FlowLayout.ContentAlignment.BOTTOM));
+		add(buttonLayoutPanel);
 
-		iconButton = new WButton("With text content");
-		iconButton.setHtmlClass(HtmlIconUtil.getIconClasses("wc-fa fa-regular fa-hand-point-left", HtmlIconUtil.IconPosition.BEFORE));
-		add(iconButton);
+		button = new WButton("Open settings");
+		button.setImageIconClass(HtmlIconUtil.getIconClasses("wc-fa fa-solid fa-bars"));
+		buttonLayoutPanel.add(button);
 
-		iconButton = new WButton("Right icon with text content");
-		iconButton.setHtmlClass(HtmlIconUtil.getIconClasses("wc-fa fa-regular fa-hand-point-right", HtmlIconUtil.IconPosition.AFTER));
-		add(iconButton);
+		button = new WButton("With text content");
+		button.setImageIconClass(HtmlIconUtil.getIconClasses("wc-fa fa-regular fa-hand-point-left"));
+		button.setImagePosition(ImagePosition.WEST);
+		buttonLayoutPanel.add(button);
+
+		button = new WButton("Right icon with text content");
+		button.setImageIconClass(HtmlIconUtil.getIconClasses("wc-fa fa-regular fa-hand-point-right"));
+		button.setImagePosition(ImagePosition.EAST);
+		buttonLayoutPanel.add(button);
+
+		add(new WHeading(HeadingLevel.H4, "Icon rendered as button"));
+		buttonLayoutPanel = new WPanel(WPanel.Type.BOX);
+		buttonLayoutPanel.setLayout(new FlowLayout(FlowLayout.LEFT, Size.MEDIUM, FlowLayout.ContentAlignment.BOTTOM));
+		add(buttonLayoutPanel);
+
+		button = new WButton("Help");
+		button.setImageIconClass(HtmlClassProperties.ICON_HELP);
+		buttonLayoutPanel.add(button);
+		button = new WButton("Help");
+		button.setImageIconClass(HtmlClassProperties.ICON_HELP);
+		button.setImagePosition(WButton.ImagePosition.NORTH);
+		buttonLayoutPanel.add(button);
+		button = new WButton("Help");
+		button.setImageIconClass(HtmlClassProperties.ICON_HELP);
+		button.setImagePosition(WButton.ImagePosition.EAST);
+		buttonLayoutPanel.add(button);
+		button = new WButton("Help");
+		button.setImageIconClass(HtmlClassProperties.ICON_HELP);
+		button.setImagePosition(WButton.ImagePosition.SOUTH);
+		buttonLayoutPanel.add(button);
+		button = new WButton("Help");
+		button.setImageIconClass(HtmlClassProperties.ICON_HELP);
+		button.setImagePosition(WButton.ImagePosition.WEST);
+		buttonLayoutPanel.add(button);
+
+		add(new WHeading(HeadingLevel.H4, "Icon rendered as link"));
+		buttonLayoutPanel = new WPanel(WPanel.Type.BOX);
+		buttonLayoutPanel.setLayout(new FlowLayout(FlowLayout.LEFT, Size.MEDIUM, FlowLayout.ContentAlignment.BOTTOM));
+		add(buttonLayoutPanel);
+
+		button = new WButton("Help");
+		button.setImageIconClass(HtmlClassProperties.ICON_HELP);
+		button.setRenderAsLink(true);
+		buttonLayoutPanel.add(button);
+		button = new WButton("Help");
+		button.setImageIconClass(HtmlClassProperties.ICON_HELP);
+		button.setImagePosition(WButton.ImagePosition.NORTH);
+		button.setRenderAsLink(true);
+		buttonLayoutPanel.add(button);
+		button = new WButton("Help");
+		button.setImageIconClass(HtmlClassProperties.ICON_HELP);
+		button.setImagePosition(WButton.ImagePosition.EAST);
+		button.setRenderAsLink(true);
+		buttonLayoutPanel.add(button);
+		button = new WButton("Help");
+		button.setImageIconClass(HtmlClassProperties.ICON_HELP);
+		button.setImagePosition(WButton.ImagePosition.SOUTH);
+		button.setRenderAsLink(true);
+		buttonLayoutPanel.add(button);
+		button = new WButton("Help");
+		button.setImageIconClass(HtmlClassProperties.ICON_HELP);
+		button.setImagePosition(WButton.ImagePosition.WEST);
+		button.setRenderAsLink(true);
+		buttonLayoutPanel.add(button);
+
 	}
 
 	/**
@@ -211,22 +275,25 @@ public class WButtonExample extends WPanel implements MessageContainer {
 
 		add(new WHeading(HeadingLevel.H2, "Client command buttons"));
 		add(new ExplanatoryText("These examples show buttons which do not submit the form"));
+		WPanel buttonLayoutPanel = new WPanel(WPanel.Type.BOX);
+		buttonLayoutPanel.setLayout(new FlowLayout(FlowLayout.LEFT, Size.MEDIUM, FlowLayout.ContentAlignment.BOTTOM));
+		add(buttonLayoutPanel);
 
 		//client command buttons witho a command
 		WButton nothingButton = new WButton("Do nothing");
-		add(nothingButton);
+		buttonLayoutPanel.add(nothingButton);
 		nothingButton.setClientCommandOnly(true);
 		nothingButton = new WButton("Do nothing link");
-		add(nothingButton);
+		buttonLayoutPanel.add(nothingButton);
 		nothingButton.setRenderAsLink(true);
 		nothingButton.setClientCommandOnly(true);
 
 		// client command buttons with command.
 		HelloButton helloButton = new HelloButton("Hello");
-		add(helloButton);
+		buttonLayoutPanel.add(helloButton);
 		helloButton = new HelloButton("Hello link");
 		helloButton.setRenderAsLink(true);
-		add(helloButton);
+		buttonLayoutPanel.add(helloButton);
 	}
 
 	/**
@@ -391,9 +458,6 @@ public class WButtonExample extends WPanel implements MessageContainer {
 
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public WMessages getMessages() {
 		return messages;
@@ -441,13 +505,15 @@ public class WButtonExample extends WPanel implements MessageContainer {
 	}
 
 	/**
-	 * Simple extension of WButton to set as a client only button and add a class used in the example's alert script. We then add the script in the
-	 * first use.
+	 * Simple extension of WButton to set as a client only button and add a class used in the example's alert script. We
+	 * then add the script in the first use.
 	 *
 	 */
 	private final class HelloButton extends WButton {
+
 		/**
 		 * Create a HelloButton with a particlar text label.
+		 *
 		 * @param text the text to show on the button
 		 */
 		public HelloButton(final String text) {
@@ -456,9 +522,6 @@ public class WButtonExample extends WPanel implements MessageContainer {
 			setHtmlClass("hellobutton");
 		}
 
-		/**
-		 * @inheritDoc
-		 */
 		@Override
 		protected void preparePaintComponent(final Request request) {
 			if (!isInitialised()) {
@@ -467,7 +530,6 @@ public class WButtonExample extends WPanel implements MessageContainer {
 			}
 			super.preparePaintComponent(request);
 		}
-
 
 	}
 }

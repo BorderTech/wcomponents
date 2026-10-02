@@ -87,7 +87,7 @@ final class ExampleSection extends WSection implements MessageContainer {
 		tabset.addTab(source, new WDecoratedLabel(srcImage), WTabSet.TAB_MODE_LAZY).setToolTip("View Source");
 
 		// The refresh current view button.
-		WButton refreshButton = new WButton(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
+		WButton refreshButton = new WButton();
 		refreshButton.setToolTip("Refresh");
 		refreshButton.setHtmlClass(HtmlIconUtil.getIconClasses("wc-fa fa-solid fa-rotate"));
 		//refreshButton.setImage("/image/refresh-w.png");
@@ -100,7 +100,7 @@ final class ExampleSection extends WSection implements MessageContainer {
 		});
 
 		// The reset example button.
-		final WButton resetButton = new WButton(HtmlIconUtil.ZERO_WIDTH_SPACE_STR);
+		final WButton resetButton = new WButton();
 		resetButton.setToolTip("Reset");
 		resetButton.setHtmlClass(HtmlIconUtil.getIconClasses("wc-fa fa-solid fa-circle-xmark"));
 		//resetButton.setImage("/image/cancel-w.png");
