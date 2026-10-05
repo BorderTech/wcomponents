@@ -34,12 +34,12 @@ public class TextDuplicatorHandleRequestImpl_Test extends WComponentExamplesTest
 		// Enter some text and use the duplicate button
 		String inputFieldName = ((Container) getUi()).getChildAt(1).getId();
 		driver.findElement(By.name(inputFieldName)).sendKeys("dummy");
-		driver.findElement(By.xpath("//button[text()='Duplicate']")).click();
+		driver.findElement(By.xpath("//button[normalize-space(.)='Duplicate']")).click();
 		Assert.assertEquals("Incorrect text field text after duplicate", "dummydummy",
 				driver.findElement(By.xpath("//input[@type='text']")).getAttribute("value"));
 
 		// Clear the text
-		driver.findElement(By.xpath("//button[text()='Clear']")).click();
+		driver.findElement(By.xpath("//button[normalize-space(.)='Clear']")).click();
 		Assert.assertEquals("Incorrect text field text after clear", "",
 				driver.findElement(By.xpath("//input[@type='text']")).getAttribute("value"));
 	}
