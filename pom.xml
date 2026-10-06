@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.github.bordertech.common</groupId>
 		<artifactId>qa-parent</artifactId>
-		<version>1.0.21</version>
+		<version>1.0.22</version>
 		<relativePath />
 	</parent>
 
@@ -22,20 +22,13 @@
 		<slf4j.version>2.0.17</slf4j.version>
 		<bt.qa.skip>false</bt.qa.skip>
 		<bt.convergence.check.fail>true</bt.convergence.check.fail>
+		<!-- Check dependencies is now in its own profile in qa-parent -->
 		<!-- Report Vulnerabilities. -->
 		<failBuildOnCVSS>11</failBuildOnCVSS>
 		<!-- Update every 168 hours (7 days) -->
 		<cveValidForHours>168</cveValidForHours>
-
-		<dependency-check.skip>true</dependency-check.skip>
-
-		<!-- OSSRH has been sunsetted so this is the API to use until publishing directly to Central Publisher Portal. -->
-		<!-- After running the maven release execute the following REST command with namespace com.github.bordertech to push the artifacts from OSSRH staging to Central Publisher Portal. -->
-		<!-- Use the same userid and token generated in the portal for the settings.xml file when prompted -->
-		<!-- https://ossrh-staging-api.central.sonatype.com/swagger-ui/#/default/manual_upload_default_repository -->
-		<!-- Refer to https://central.sonatype.org/publish/publish-portal-ossrh-staging-api/#ensuring-deployment-visibility-in-the-central-publisher-portal -->
-		<stagingBaseUrl>https://ossrh-staging-api.central.sonatype.com/</stagingBaseUrl>
-
+		<!-- Reduce noise from PMD -->
+		<pmd.verbose>false</pmd.verbose>
 	</properties>
 
 	<licenses>
