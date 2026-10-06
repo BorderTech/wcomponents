@@ -7,10 +7,12 @@
 // legend to show a mandatory field indicator. Why? To present a "key" if
 // required or to mark a table column header as containing fields which must
 // be completed. Not terribly good use-cases but use-cases non-the-less.
+
+@use '../lib/fa/fa' as fa;
+
 .wc-text-type-mandatoryIndicator::after {
   @include fa-solid;
-//  content: $var-asterisk;
-  content: "\2a";
+  content: fa.fa-content(fa.$var-asterisk);
   margin-left: $wc-gap-small;
 }
 
