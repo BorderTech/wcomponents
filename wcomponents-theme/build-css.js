@@ -25,6 +25,9 @@ function build(singleFile) {
 			console.timeEnd("buildCss");
 			win(result);
 		} catch (ex) {
+			console.error("\n ----- CSS BUILD FAILED -----");
+			console.error(ex.formatted || ex.message || ex);
+			console.error("---------\n");
 			lose(ex);
 		}
 	});
@@ -43,6 +46,9 @@ function compileAllSass() {
 			try {
 				compileSass(sassFile, cssFile, file.indexOf("debug") >= 0);
 			} catch (ex) {
+				console.error("\n ----- SASS COMPILATION FAILED -----");
+				console.error(ex.formatted || ex.message || ex);
+				console.error("---------\n");
 				errors.push(ex);
 			}
 		}
@@ -54,6 +60,9 @@ function compileAllSass() {
 }
 
 function compileSass(sassFile, cssFile, isDebug) {
+	if (cssFile) {
+		console.log("Compiling CSS", cssFile);
+	}
 	let result = sass.renderSync({
 		sourceMap: false,
 		file: sassFile,
@@ -62,7 +71,7 @@ function compileSass(sassFile, cssFile, isDebug) {
 	if (result && result.css) {
 		result = result.css.toString();
 		if (cssFile) {
-			console.log("Compiling", cssFile);
+			console.log("Compile CSS Success", cssFile);
 			fs.writeFileSync(cssFile, result, "utf8");
 		}
 	} else {
