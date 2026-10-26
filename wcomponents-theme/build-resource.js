@@ -28,6 +28,9 @@ function build() {
 			buildProps();
 			win();
 		} catch (ex) {
+			console.error("\n ----- RESOURCE BUILD FAILED -----");
+			console.error(ex);
+			console.error("---------\n");
 			lose(ex);
 		}
 	});

@@ -21,6 +21,9 @@ function build(singleFile) {
 			console.timeEnd("buildImages");
 			win(singleFile);
 		} catch (ex) {
+			console.error("\n ----- IMAGE BUILD FAILED -----");
+			console.error(ex);
+			console.error("---------\n");
 			lose(ex);
 		}
 	});

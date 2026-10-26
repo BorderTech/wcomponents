@@ -26,7 +26,7 @@ function build(singleFile) {
 			win(result);
 		} catch (ex) {
 			console.error("\n ----- CSS BUILD FAILED -----");
-			console.error(ex.formatted || ex.message || ex);
+			console.error(ex);
 			console.error("---------\n");
 			lose(ex);
 		}
@@ -47,7 +47,7 @@ function compileAllSass() {
 				compileSass(sassFile, cssFile, file.indexOf("debug") >= 0);
 			} catch (ex) {
 				console.error("\n ----- SASS COMPILATION FAILED -----");
-				console.error(ex.formatted || ex.message || ex);
+				console.error(ex);
 				console.error("---------\n");
 				errors.push(ex);
 			}
