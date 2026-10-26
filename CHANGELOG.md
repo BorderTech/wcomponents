@@ -3,8 +3,26 @@
 ## Release in-progress
 
 ### API Changes
+* Added new `WSpan` component that can be used for styling fonts.
+* Added new helper method `createSpanIcon` to `HtmlIconUtil` to help configure a `WSpan` with font styles.
+* Added new zero width space constants `ZERO_WIDTH_SPACE_CHAR` and `ZERO_WIDTH_SPACE_STR` to `HtmlIconUtil`. 
+* Added `setImageIconClass` methods on `WButton` that allow font icons to be added to a button similar to an image url.
 ### Enhancements
+* Updated FontAwesome library from 4.7.0 to 7.3.1. Changes required:
+  * In 7.3.1 the `fa` class is dead. You can no longer use `fa fa-icon-name`. You must specify the exact weight style (eg `fa-solid fa-icon-name`).
+    As `fa` was previously used by the theme to indentify fonts a new class `wc-fa` must be used in combination with the fontawesome names (eg `wc-fa fa-solid fa-icon-name`).
+  * In 7.3.1 the `-o` suffix is dead. All older outline icons ending in `-o` (like `fa-folder-o`) have been renamed. You now use the standard name but switch the style prefix to `fa-regular`.
+  * Updated `icon.js` to use `wc-fa` to identify icon elements and allow multiple classes to be added and removed.
+  * Updated all `scss`, `xsl`, `js`, `HTML Icon properties` and `renderers` to new v7 font names and use of `wc-fa`.
+  * Theme build changes:
+    * Brought in fontawesome standard `scss` files to make variables and content function available.
+    * Updated `sass` compiler from 1.5.1 to 1.23.0 to support @use for fontawesome
+    * Added logging for SASS compile errors and JS and Resource build errors.
+* Implemented optional POC dialog focus trigger on close action feature. Can be enabled with runtime property `bordertech.wcomponents.dialog.focus.trigger.on.close.enabled=true`.
+* Updated to latest qa-parent 1.0.22 that includes the new release to central plugin.
+* Updated examples to use new font names and WSpan.
 ### Bug Fixes
+* Fixed `WSubMenuRenderer` to render the toolTip
 
 ## 1.5.39
 
