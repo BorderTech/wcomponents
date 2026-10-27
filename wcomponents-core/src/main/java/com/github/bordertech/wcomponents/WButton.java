@@ -223,6 +223,8 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 					afterActionExecute(request);
 				});
 			}
+			// Check if button was in an active dialog and closed it
+			handleButtonClosedDialog();
 		}
 	}
 
@@ -246,6 +248,16 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 		// Only do focus if button is AJAX trigger
 		if (AjaxHelper.isCurrentAjaxTrigger(this)) {
 			focusMe();
+		}
+	}
+
+	/**
+	 * Handle a pressed cancel button that closed a dialog.
+	 */
+	protected void handleButtonClosedDialog() {
+		if (isCancel()) {
+			// Focus the trigger that originally opened the dialog
+			WDialog.handleButtonClosedDialog(this);
 		}
 	}
 

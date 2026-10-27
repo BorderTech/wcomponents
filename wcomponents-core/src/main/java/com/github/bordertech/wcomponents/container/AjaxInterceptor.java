@@ -9,6 +9,7 @@ import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WDialog;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WServlet;
@@ -81,6 +82,13 @@ public class AjaxInterceptor extends InterceptorComponent {
 			// service the request
 			super.serviceRequest(request);
 		}
+	}
+
+	@Override
+	public void preparePaint(final Request request) {
+		// Clear active dialog (An active dialog will reset this flag in its own preparePaint)
+		WDialog.clearRegisteredActiveDialog();
+		super.preparePaint(request);
 	}
 
 	/**

@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.WDialog;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 
 /**
@@ -41,6 +42,9 @@ public class FormInterceptor extends InterceptorComponent {
 		// Reset the form encoding type before painting the content.
 		UIContext uic = UIContextHolder.getCurrent();
 		uic.getEnvironment().setFormEncType(null);
+
+		// Clear active dialog (An active dialog will reset this flag in its own preparePaint)
+		WDialog.clearRegisteredActiveDialog();
 
 		super.preparePaint(request);
 	}

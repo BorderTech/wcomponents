@@ -55,6 +55,11 @@ public class WDialog extends AbstractWComponent implements Container {
 	public static final String OPEN_DIALOG_ACTION = "opendialogajax";
 
 	/**
+	 * The key we use to store the active dialog id in the user's session.
+	 */
+	private static final String DIALOG_ACTIVE_KEY = "dialog.active.id";
+
+	/**
 	 * The content holder exists to keep the content hidden from normal requests, yet still have the content attached to
 	 * the wcomponent tree. Being part of the tree enables embedded targetables and other components to be found.
 	 * <p>
@@ -326,9 +331,6 @@ public class WDialog extends AbstractWComponent implements Container {
 			}
 			getOrCreateComponentModel().state = ACTIVE_STATE;
 		} else if (getState() != INACTIVE_STATE) {
-			if (getState() == ACTIVE_STATE) {
-				handleFocusTriggerOnClose();
-			}
 			getOrCreateComponentModel().state = INACTIVE_STATE;
 		}
 	}
@@ -347,48 +349,6 @@ public class WDialog extends AbstractWComponent implements Container {
 		}
 	}
 
-	/**
-	 * When a dialog is closed the trigger that opened the dialog should get focus.
-	 */
-	protected void handleFocusTriggerOnClose() {
-
-		// Check focus trigger is enabled
-		if (!ConfigurationProperties.isDialogFocusTriggerOnCloseEnabled()) {
-			return;
-		}
-
-		DialogOpenTrigger trigger = getTrigger();
-		if (trigger != null) {
-			UIContext triggerContext = WebUtilities.getContextForComponent(trigger);
-			if (triggerContext != null && triggerContext.getFocussed() == null) {
-				triggerContext.setFocussed(trigger);
-			}
-		}
-	}
-
-	/**
-	 * If dialog was closed and then manually opened again dont focus the trigger.
-	 */
-	protected void handleCancelFocusTriggerOnReOpen() {
-
-		// Check focus trigger is enabled
-		if (!ConfigurationProperties.isDialogFocusTriggerOnCloseEnabled()) {
-			return;
-		}
-
-		DialogOpenTrigger trigger = getTrigger();
-		if (trigger != null) {
-			UIContext triggerContext = WebUtilities.getContextForComponent(trigger);
-			if (triggerContext != null && triggerContext.getFocussed() == trigger) {
-				// Clear focus
-				triggerContext.setFocussed(null);
-			}
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void preparePaintComponent(final Request request) {
 		super.preparePaintComponent(request);
@@ -398,8 +358,10 @@ public class WDialog extends AbstractWComponent implements Container {
 				getOrCreateComponentModel().state = INACTIVE_STATE;
 			}
 		} else if (getState() == MANUAL_OPEN_STATE) {
-			handleCancelFocusTriggerOnReOpen();
 			getOrCreateComponentModel().state = ACTIVE_STATE;
+		}
+		if (getState() == ACTIVE_STATE) {
+			registerActiveDialog();
 		}
 		if (getContent() != null) {
 			AjaxHelper.registerContainer(getId(), getId(), getContent().getId());
@@ -445,25 +407,16 @@ public class WDialog extends AbstractWComponent implements Container {
 		return getComponentModel().state;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // to make public
 	public int getChildCount() {
 		return super.getChildCount();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // to make public
 	public WComponent getChildAt(final int index) {
 		return super.getChildAt(index);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override // to make public
 	public int getIndexOfChild(final WComponent childComponent) {
 		return super.getIndexOfChild(childComponent);
@@ -472,6 +425,103 @@ public class WDialog extends AbstractWComponent implements Container {
 	@Override
 	public List<WComponent> getChildren() {
 		return super.getChildren();
+	}
+
+	/**
+	 * Handle a button pressed in an active dialog.
+	 * <p>
+	 * If a button in the active dialog closes the dialog then focus the trigger that originally opened the dialog.
+	 * </p>
+	 *
+	 * @param button the button to check was in an active dialog
+	 */
+	public static void handleButtonClosedDialog(final WButton button) {
+		// Check focus trigger feature is enabled
+		if (!isFocusTriggerOnCloseEnabled()) {
+			return;
+		}
+		// Dont need to handle button if processing AJAX
+		if (AjaxHelper.getCurrentOperation() != null) {
+			return;
+		}
+		// If the button was in an active dialog then assume the button has closed the dialog and focus the trigger
+		if (isActiveDialogContent(button)) {
+			handleFocusDialogTrigger(button);
+		}
+	}
+
+	/**
+	 * Check if a component is in the content of an active dialog.
+	 *
+	 * @param component the component to check is in the dialog content
+	 * @return true if component is in an active dialog
+	 */
+	public static boolean isActiveDialogContent(final WComponent component) {
+		// Check if there was an active dialog registered
+		String dialogId = getRegisteredActiveDialog();
+		if (dialogId == null) {
+			return false;
+		}
+		// Check if this component was in the dialog content (ie ID starts with dialog id)
+		return component.getId().startsWith(dialogId);
+	}
+
+	/**
+	 * Find the parent dialog and focus the trigger that opened the dialog.
+	 *
+	 * @param component the component in the active dialog content
+	 */
+	public static void handleFocusDialogTrigger(final WComponent component) {
+		// Find the dialog
+		WDialog dialog = WebUtilities.getAncestorOfClass(WDialog.class, component);
+		if (dialog == null) {
+			return;
+		}
+		// If the dialog had a trigger then focus it
+		DialogOpenTrigger trigger = dialog.getTrigger();
+		if (trigger != null) {
+			trigger.setFocussed();
+		}
+	}
+
+	/**
+	 * @return true if focus trigger on close is enabled
+	 */
+	public static boolean isFocusTriggerOnCloseEnabled() {
+		return ConfigurationProperties.isDialogFocusTriggerOnCloseEnabled();
+	}
+
+	/**
+	 * Retrieve the ID of the current active dialog.
+	 * <p>
+	 * As dialogs can be closed on the client this ID is just a guide that this was the last active dialog rendered.
+	 * </p>
+	 *
+	 * @return the current active dialog ID or null
+	 */
+	public static String getRegisteredActiveDialog() {
+		UIContext uic = UIContextHolder.getCurrentPrimaryUIContext();
+		return uic == null ? null : (String) uic.getFwkAttribute(DIALOG_ACTIVE_KEY);
+	}
+
+	/**
+	 * Clear the registered active dialog.
+	 */
+	public static void clearRegisteredActiveDialog() {
+		UIContext uic = UIContextHolder.getCurrentPrimaryUIContext();
+		if (uic != null) {
+			uic.setFwkAttribute(DIALOG_ACTIVE_KEY, null);
+		}
+	}
+
+	/**
+	 * Register the current dialog as active.
+	 */
+	protected void registerActiveDialog() {
+		UIContext uic = UIContextHolder.getCurrentPrimaryUIContext();
+		if (uic != null) {
+			uic.setFwkAttribute(DIALOG_ACTIVE_KEY, getId());
+		}
 	}
 
 	/**
@@ -494,17 +544,11 @@ public class WDialog extends AbstractWComponent implements Container {
 		return new DialogModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected DialogModel getComponentModel() {
 		return (DialogModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected DialogModel getOrCreateComponentModel() {
 		return (DialogModel) super.getOrCreateComponentModel();
